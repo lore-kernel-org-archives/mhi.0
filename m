@@ -1,79 +1,82 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtprelay.hostedemail.com (smtprelay0238.hostedemail.com [216.40.44.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CC529CA
-	for <mhi@lists.linux.dev>; Sun, 17 Oct 2021 07:07:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 55AEC60F23;
-	Sun, 17 Oct 2021 07:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634454446;
-	bh=uYrWYaNw+y04uyy1r1WLDgEiohtXcV0xRVaH9SH36H8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pd+b7WPWC6Eiej0nXxGyYVBEice/PLIcKYMLjtynosoywSbXMLRsWbl6HWNHiNwi2
-	 NpLiqzPolVambyF+cY9V9DMKZKtDfwhS/s8ySxAOkou1wEQv8z/LbvqkZ/O5oYYVD7
-	 255x+RRnHJIf84i4E9yRr6vOOoCN0tVbHaRbbQ+0=
-Date: Sun, 17 Oct 2021 09:07:18 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	hemantk@codeaurora.org, bbhatt@codeaurora.org,
-	loic.poulain@linaro.org, wangqing@vivo.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH 2/3] bus: mhi: Add inbound buffers allocation flag
-Message-ID: <YWvLptVv4+sAWA6H@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BAA2C80
+	for <mhi@lists.linux.dev>; Sun, 17 Oct 2021 07:39:00 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id EA50E1801A83C
+	for <mhi@lists.linux.dev>; Sat, 16 Oct 2021 15:13:12 +0000 (UTC)
+Received: from omf14.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay01.hostedemail.com (Postfix) with ESMTP id E02D01018D5AF;
+	Sat, 16 Oct 2021 15:13:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id 2F15D268E46;
+	Sat, 16 Oct 2021 15:13:04 +0000 (UTC)
+Message-ID: <400d3fe720e336d5dba6e9b95c75baadf22a6a58.camel@perches.com>
+Subject: Re: [PATCH 3/3] bus: mhi: replace snprintf in show functions with
+ sysfs_emit
+From: Joe Perches <joe@perches.com>
+To: Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds
+	 <torvalds@linux-foundation.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	hemantk@codeaurora.org, bbhatt@codeaurora.org, loic.poulain@linaro.org, 
+	wangqing@vivo.com, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+Date: Sat, 16 Oct 2021 08:13:03 -0700
+In-Reply-To: <YWrqmiT1pC+SbecM@kroah.com>
 References: <20211016065734.28802-1-manivannan.sadhasivam@linaro.org>
- <20211016065734.28802-3-manivannan.sadhasivam@linaro.org>
- <YWqByX6rdfuA1h1F@kroah.com>
- <20211016163128.GC4048@thinkpad>
+	 <20211016065734.28802-4-manivannan.sadhasivam@linaro.org>
+	 <YWqBTj4slHq7HexS@kroah.com>
+	 <6ddc01b24b1c72f7e92174a037043b5cfffa3431.camel@perches.com>
+	 <YWrqmiT1pC+SbecM@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211016163128.GC4048@thinkpad>
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.89
+X-Stat-Signature: 9uhebz6odwgnyap79pzfzw94x7mhn8a1
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 2F15D268E46
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/lF+a3yNodCoxdxWj3to9HFbSG6J4S2Fs=
+X-HE-Tag: 1634397184-28310
 
-On Sat, Oct 16, 2021 at 10:01:28PM +0530, Manivannan Sadhasivam wrote:
-> On Sat, Oct 16, 2021 at 09:39:53AM +0200, Greg KH wrote:
-> > On Sat, Oct 16, 2021 at 12:27:33PM +0530, Manivannan Sadhasivam wrote:
-> > > From: Loic Poulain <loic.poulain@linaro.org>
+On Sat, 2021-10-16 at 17:07 +0200, Greg KH wrote:
+> On Sat, Oct 16, 2021 at 03:24:17AM -0700, Joe Perches wrote:
+> > On Sat, 2021-10-16 at 09:37 +0200, Greg KH wrote:
+> > > On Sat, Oct 16, 2021 at 12:27:34PM +0530, Manivannan Sadhasivam wrote:
+> > > > From: Qing Wang <wangqing@vivo.com>
+> > > > coccicheck complains about the use of snprintf() in sysfs show functions.
+> > []
+> > > > diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+> > []
+> > > > @@ -94,7 +94,7 @@ static ssize_t serial_number_show(struct device *dev,
+> > > >  	struct mhi_device *mhi_dev = to_mhi_device(dev);
+> > > >  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+> > > >  
+> > > > -	return snprintf(buf, PAGE_SIZE, "Serial Number: %u\n",
+> > > > +	return sysfs_emit(buf, "Serial Number: %u\n",
+> > > >  			mhi_cntrl->serial_number);
 > > > 
-> > > Currently, the MHI controller driver defines which channels should
-> > > have their inbound buffers allocated and queued. But ideally, this is
-> > > something that should be decided by the MHI device driver instead,
-> > > which actually deals with that buffers.
-> > > 
-> > > Add a flag parameter to mhi_prepare_for_transfer allowing to specify
-> > > if buffers have to be allocated and queued by the MHI stack.
+> > > The text "Serial Number: " should not be in here, right?  It's obvious
+> > > this is a serial number, that's what the documentation and file name
+> > > says.  Userspace should not have to parse sysfs files.
 > > 
-> > This is a horrible api.  Now one has to go and look up why "0" was added
-> > to a function as a parameter.
-> > 
-> > If you don't want to allocate the buffer, then make a function of that
-> > name and call that.  As you only have one "flag", don't try to make
-> > something generic here that is obviously not generic at all.
-> > 
+> > sysfs is ABI right?  Parsing or not, it's what's already there.
 > 
-> This is the only API that can be used by the client drivers to pass the
-> configurations to the MHI stack. So we wanted to have a flags parameter that
-> could be extended in the future also.
+> If no tools rely on this, and we can change it, we should at least try.
+> 
+> We can not change ABI if something breaks.  If nothing relies on it,
+> then it is fine to do so.
 
-Worry about future issues then, in the future :)
+That's a quite bad way to think of an ABI.
 
-> Regarding "0", the default behaviour is to not pre allocate the buffer at all.
-> So it made less sense to add a separate flag or an API for that.
+All that does is tempt fate as you don't know if something already
+uses it until someone complains and by that time something else may
+be written to depend on the new behavior.
 
-But again, this is now hard to understand and if you run across a '0' in
-the call, you have to go and look it up, breaking your reading flow.
 
-Please just create a new function for this new option, and then have
-both of them call the common function with a boolean for this "allocate
-or not" type of thing.  We do this all the time in the kernel to make it
-easier to read and understand over time.
-
-thanks,
-
-greg k-h
