@@ -1,115 +1,102 @@
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DDB2C89
-	for <mhi@lists.linux.dev>; Thu,  7 Oct 2021 09:56:17 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633600579; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=JPSPpsHMPoMb0VA37Z4j/oJJWZ6PIItI66wnYCMe2qo=; b=mre5OSOouzM8akxcxl1yF6YLBPhV4QWVfGk8j1GHRVyAkY/lxzcipKpzd9jbvK9s6lqDGOJv
- MwA5QhEVcyQ4RHdrgQFLKBdXJ5oCWLxFqE6/M1FIkuxeeobadgPIzIsGgTuLTv0LiLhQcI7t
- pQUxNegqHkBUX7JSJGTWwM4EpjI=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 615ec430a45ca7530793b8b6 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Oct 2021 09:56:00
- GMT
-Sender: kvalo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id ADF31C43460; Thu,  7 Oct 2021 09:55:59 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
-	autolearn=no autolearn_force=no version=3.4.0
-Received: from tykki (tynnyri.adurom.net [51.15.11.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 399CBC4338F;
-	Thu,  7 Oct 2021 09:55:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 399CBC4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-From: Kalle Valo <kvalo@codeaurora.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Carl Huang <cjhuang@codeaurora.org>,  Loic Poulain <loic.poulain@linaro.org>,  ath11k@lists.infradead.org,  linux-arm-msm <linux-arm-msm@vger.kernel.org>,  linux-wireless@vger.kernel.org,  regressions@lists.linux.dev,
-    mhi <mhi@lists.linux.dev>
-Subject: Re: [regression] mhi: ath11k resume fails on some devices
-References: <871r5p0x2u.fsf@codeaurora.org>
-	<CAMZdPi8UJLvBFQd8-nf-iHAQh8cEuihq97PUFfZ7Q=rxRQoPsg@mail.gmail.com>
-	<20210916111218.GA12918@thinkpad>
-	<CAMZdPi94607mZorp+Zmkw3seWXak6p9Jr05CQ5hhfgKQoG8n7Q@mail.gmail.com>
-	<20210916163529.GA9027@thinkpad> <87k0jgxyjp.fsf@codeaurora.org>
-	<20210916171927.GB9027@thinkpad>
-	<b7c0906041dcafb43be215bd4f55326a@codeaurora.org>
-	<20210923085926.GD6083@thinkpad> <8735putk82.fsf@codeaurora.org>
-	<20210924095755.GB19050@workstation>
-Date: Thu, 07 Oct 2021 12:55:52 +0300
-In-Reply-To: <20210924095755.GB19050@workstation> (Manivannan Sadhasivam's
-	message of "Fri, 24 Sep 2021 15:27:55 +0530")
-Message-ID: <874k9t9n13.fsf@codeaurora.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAF02C82
+	for <mhi@lists.linux.dev>; Sat, 16 Oct 2021 06:57:53 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id q5so10638036pgr.7
+        for <mhi@lists.linux.dev>; Fri, 15 Oct 2021 23:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yo4Wqb6VoTR0Zqbgv4qNbxaNAKZMu5PTucXP4Fkz5Xw=;
+        b=wiCWwrstEMOa3ky455f7bzsx96QVi6p+Sxiq2WJJp4DnqG0sYM7q3/ZFz5/2nOXRAY
+         139PNuKWpqNrkk0kie2xsWImiszGYp+QSWgwLINbWdbrNAczDd5gQ6bstpMC2pp5Axzd
+         kJFTBTWY/fn6r96zFMeyJhyUR/BZLMOF2HDvul24hE5T9UBXhGfcD/v1imYT0wGAjh5v
+         M/i8GyPZ1cNGSj2toAHidia8W2yfsFylHGNsrdwq35E5qNNTatFB05hVQLpakTGS+hRT
+         I7Ll5fqPGvheWbsHIqB18wltDjdjis2WFj6oNHy31/hWG358e+aE96JifGJ++EIflkON
+         KItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yo4Wqb6VoTR0Zqbgv4qNbxaNAKZMu5PTucXP4Fkz5Xw=;
+        b=e7JAo0aZ3hREWV+IeYByeyeavSRFrZmtz1nhAuETOmnznHDAY3EAW4xcP4+D7NcO3Y
+         8QMmeq20xKZEsvUr43WFIgFBYd9zXP7FVR9PpVxk6cA1O6L5XSVKE/Ud5iY9BuhQ9alC
+         OoGmOIEYd9ZDpQudE6VNrTflW9buQaf96gS/bPXgqWwUZLYnxpVRTMWjK/5gfpviFpO0
+         0Kv9zelDlGYGYOSFTisjHlZmJriehh9Zu5osn4L7VGyvOrhShNZNFWHee9DlUL3SlBLb
+         x9J7R1QrgTcSEVJmlRDcV/6765OnoWJMd0gyu6MYSbq/keNsh2siW7OqQOi8KioErF69
+         lqfA==
+X-Gm-Message-State: AOAM531brR1Z5z43ma7MISP1stfWPN8Azj4FeDOelvra54aOGQtgJP8M
+	88dELrGEGYREL4w3hNgUHAxC
+X-Google-Smtp-Source: ABdhPJwF6CIMG/7f/lK6ddQqBMRLsEU5RdJkeWvzgnlwhyyqyrgkvog5VeZ1p2Of/iKPVLAex10l5g==
+X-Received: by 2002:a05:6a00:1354:b0:44c:eb65:8570 with SMTP id k20-20020a056a00135400b0044ceb658570mr16208917pfu.34.1634367472448;
+        Fri, 15 Oct 2021 23:57:52 -0700 (PDT)
+Received: from localhost.localdomain ([117.202.185.237])
+        by smtp.gmail.com with ESMTPSA id a17sm7024253pfd.54.2021.10.15.23.57.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 23:57:51 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: hemantk@codeaurora.org,
+	bbhatt@codeaurora.org,
+	loic.poulain@linaro.org,
+	wangqing@vivo.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 0/3] MHI patches for v5.16
+Date: Sat, 16 Oct 2021 12:27:31 +0530
+Message-Id: <20211016065734.28802-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-(adding also mhi list)
+Hi Greg,
 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> writes:
+Here is the small series of MHI patches for v5.16 with summary below:
 
-> On Fri, Sep 24, 2021 at 12:07:41PM +0300, Kalle Valo wrote:
->> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> writes:
->> 
->> > For aid debugging, please see the state the device is in during mhi_pm_resume().
->> > You can use below diff:
->> >
->> > diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
->> > index fb99e3727155..482d55dd209e 100644
->> > --- a/drivers/bus/mhi/core/pm.c
->> > +++ b/drivers/bus/mhi/core/pm.c
->> > @@ -898,6 +898,9 @@ int mhi_pm_resume(struct mhi_controller *mhi_cntrl)
->> >         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state))
->> >                 return -EIO;
->> >  
->> > +       dev_info(dev, "Device state: %s\n",
->> > +                TO_MHI_STATE_STR(mhi_get_mhi_state(mhi_cntrl)));
->> > +
->> >         if (mhi_get_mhi_state(mhi_cntrl) != MHI_STATE_M3)
->> >                 return -EINVAL;
->> 
->> This is what I get with my NUC testbox:
->> 
->> [  970.488202] ACPI: EC: event unblocked
->> [  970.492484] hpet: Lost 1587 RTC interrupts
->> [  970.492749] mhi mhi0: Device state: RESET
->
-> Looks like the MHI device went into RESET state! It also looks to be a
-> firmware thing. But let's nail this down before adding any workaround in
-> the MHI stack.
->
-> Can you also rebuild the kernel with MHI debug enabled and capture the
-> logs in faliure case?
+1. MHI got a dedicated mailing list in subspace server. Hence, updated the
+MAINTAINERS entry adding it as the primary list.
 
-So what I should exactly do to enable debug messages?
+2. A leftover patch from 5.15 PR that adds a dedicated flag to the MHI client
+transfer APIs for inbound buffer allocation by the MHI stack. This is required
+for some downlink channels like QRTR that depends on pre-allocated buffers.
+Since the patch modifies the MHI client drivers under "net/", Ack has been
+collected from the netdev maintainer.
 
-I have this in my Kconfig:
+3. Fixed up the coccicheck warning by using sysfs_emit instead of snprintf.
 
-CONFIG_MHI_BUS=m
-# CONFIG_MHI_BUS_DEBUG is not set
-# CONFIG_MHI_BUS_PCI_GENERIC is not set
+Please consider merging!
 
-And AFAICS CONFIG_MHI_BUS_DEBUG only enables the debugfs interface, I
-doubt you meant that.
+Thanks,
+Mani
+
+Loic Poulain (1):
+  bus: mhi: Add inbound buffers allocation flag
+
+Manivannan Sadhasivam (1):
+  MAINTAINERS: Update the entry for MHI bus
+
+Qing Wang (1):
+  bus: mhi: replace snprintf in show functions with sysfs_emit
+
+ MAINTAINERS                      | 3 ++-
+ drivers/bus/mhi/core/init.c      | 2 +-
+ drivers/bus/mhi/core/internal.h  | 2 +-
+ drivers/bus/mhi/core/main.c      | 9 ++++++---
+ drivers/net/mhi_net.c            | 2 +-
+ drivers/net/wwan/mhi_wwan_ctrl.c | 2 +-
+ include/linux/mhi.h              | 7 ++++++-
+ net/qrtr/mhi.c                   | 2 +-
+ 8 files changed, 19 insertions(+), 10 deletions(-)
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.25.1
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
