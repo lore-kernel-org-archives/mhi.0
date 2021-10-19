@@ -1,82 +1,74 @@
-Received: from smtprelay.hostedemail.com (smtprelay0238.hostedemail.com [216.40.44.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BAA2C80
-	for <mhi@lists.linux.dev>; Sun, 17 Oct 2021 07:39:00 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id EA50E1801A83C
-	for <mhi@lists.linux.dev>; Sat, 16 Oct 2021 15:13:12 +0000 (UTC)
-Received: from omf14.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay01.hostedemail.com (Postfix) with ESMTP id E02D01018D5AF;
-	Sat, 16 Oct 2021 15:13:05 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id 2F15D268E46;
-	Sat, 16 Oct 2021 15:13:04 +0000 (UTC)
-Message-ID: <400d3fe720e336d5dba6e9b95c75baadf22a6a58.camel@perches.com>
-Subject: Re: [PATCH 3/3] bus: mhi: replace snprintf in show functions with
- sysfs_emit
-From: Joe Perches <joe@perches.com>
-To: Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds
-	 <torvalds@linux-foundation.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	hemantk@codeaurora.org, bbhatt@codeaurora.org, loic.poulain@linaro.org, 
-	wangqing@vivo.com, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
-Date: Sat, 16 Oct 2021 08:13:03 -0700
-In-Reply-To: <YWrqmiT1pC+SbecM@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E790B2C81
+	for <mhi@lists.linux.dev>; Tue, 19 Oct 2021 04:19:27 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1634617170; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=1fA38Q6GgVTaXaJQYBszohqpLiMupFtBKld+K5PtB3M=; b=XAmg+0gypcPlPOXAgbc3nCBklYVVyI6fp8vqLMJ3U+MN8BmaBpRZtrKfe+TUNKQLvlzrmolU
+ 735pksNwt1ysUgRS2dfQPuLTnWFoThRM2Uf4ek+gmxBsgs88/nLDE/UQWUH1NdBmp9XKgr5u
+ twD+Oas2mNNa3j9Q6RrX6ctiESo=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 616e47475baa84c77b171c8b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 19 Oct 2021 04:19:19
+ GMT
+Sender: hemantk=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 02A81C43618; Tue, 19 Oct 2021 04:19:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.8 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.5] (cpe-76-176-73-171.san.res.rr.com [76.176.73.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: hemantk)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id AB284C4338F;
+	Tue, 19 Oct 2021 04:19:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org AB284C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Subject: Re: [PATCH 1/3] MAINTAINERS: Update the entry for MHI bus
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ gregkh@linuxfoundation.org
+Cc: bbhatt@codeaurora.org, loic.poulain@linaro.org, wangqing@vivo.com,
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20211016065734.28802-1-manivannan.sadhasivam@linaro.org>
-	 <20211016065734.28802-4-manivannan.sadhasivam@linaro.org>
-	 <YWqBTj4slHq7HexS@kroah.com>
-	 <6ddc01b24b1c72f7e92174a037043b5cfffa3431.camel@perches.com>
-	 <YWrqmiT1pC+SbecM@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+ <20211016065734.28802-2-manivannan.sadhasivam@linaro.org>
+From: Hemant Kumar <hemantk@codeaurora.org>
+Message-ID: <661c564c-e6cd-cbd4-0b17-a7c230d911b2@codeaurora.org>
+Date: Mon, 18 Oct 2021 21:19:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20211016065734.28802-2-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.89
-X-Stat-Signature: 9uhebz6odwgnyap79pzfzw94x7mhn8a1
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 2F15D268E46
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/lF+a3yNodCoxdxWj3to9HFbSG6J4S2Fs=
-X-HE-Tag: 1634397184-28310
 
-On Sat, 2021-10-16 at 17:07 +0200, Greg KH wrote:
-> On Sat, Oct 16, 2021 at 03:24:17AM -0700, Joe Perches wrote:
-> > On Sat, 2021-10-16 at 09:37 +0200, Greg KH wrote:
-> > > On Sat, Oct 16, 2021 at 12:27:34PM +0530, Manivannan Sadhasivam wrote:
-> > > > From: Qing Wang <wangqing@vivo.com>
-> > > > coccicheck complains about the use of snprintf() in sysfs show functions.
-> > []
-> > > > diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
-> > []
-> > > > @@ -94,7 +94,7 @@ static ssize_t serial_number_show(struct device *dev,
-> > > >  	struct mhi_device *mhi_dev = to_mhi_device(dev);
-> > > >  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> > > >  
-> > > > -	return snprintf(buf, PAGE_SIZE, "Serial Number: %u\n",
-> > > > +	return sysfs_emit(buf, "Serial Number: %u\n",
-> > > >  			mhi_cntrl->serial_number);
-> > > 
-> > > The text "Serial Number: " should not be in here, right?  It's obvious
-> > > this is a serial number, that's what the documentation and file name
-> > > says.  Userspace should not have to parse sysfs files.
-> > 
-> > sysfs is ABI right?  Parsing or not, it's what's already there.
+
+
+On 10/15/2021 11:57 PM, Manivannan Sadhasivam wrote:
+> Since Hemant is not carrying out any maintainership duties let's make
+> him as a dedicated reviewer. Also add the new mailing lists dedicated
+> for MHI in subspace mailing list server.
 > 
-> If no tools rely on this, and we can change it, we should at least try.
-> 
-> We can not change ABI if something breaks.  If nothing relies on it,
-> then it is fine to do so.
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-That's a quite bad way to think of an ABI.
+Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
 
-All that does is tempt fate as you don't know if something already
-uses it until someone complains and by that time something else may
-be written to depend on the new behavior.
-
-
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+Forum, a Linux Foundation Collaborative Project
