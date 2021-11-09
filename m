@@ -1,92 +1,134 @@
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4557D2C85
-	for <mhi@lists.linux.dev>; Mon,  8 Nov 2021 19:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50712C83
+	for <mhi@lists.linux.dev>; Tue,  9 Nov 2021 05:04:00 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1636398407; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=mhqhxv5MGQurDk2nsC7vVwXTpNWQPiWw5H+3ShhUyII=; b=XBstGom7nEqhLElnti0fRwXczJoGvqNwR/3GlNf67FD9K3P7uP4HxLkfXqLWqQEuTk+g8Ork
- 5lkAip7ZP9kaWEzvQ8QNUe9+Sd8MOV949EdSuc9hPLtsZQONXgRmHCsbjNCfOyhzk/YpbuPu
- /ki3ZaZfYfsqWD6xX8+/fbqvnOo=
+ s=smtp; t=1636434240; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=EktT4GpDSMg7u7QNcUdJTd4WqshYz7T+uzhoJXta5LM=;
+ b=XqgrqsY6WLitACtVJlaTKFzKMuRelswTCndA3pEFRqepHK/O4/tCezLeHBxkbHgGPoW/j9oN
+ MKc4fYuLSDtGI7VkjXvO0iew4djRCTzlDLCAN2L4nKBlK0ubViCfxhMt9JflSwgXGrVrxJeC
+ MuPqdyz9w35kCUo2480m5kI3fUg=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 6189753efacd20d795aac1f0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 08 Nov 2021 19:06:38
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 618a013f6b778b5a19ff7d7a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 09 Nov 2021 05:03:59
  GMT
-Sender: hemantk=codeaurora.org@mg.codeaurora.org
+Sender: akolli=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 34502C43460; Mon,  8 Nov 2021 19:06:38 +0000 (UTC)
+	id 6E0C2C4360D; Tue,  9 Nov 2021 05:03:59 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.5] (cpe-76-176-73-171.san.res.rr.com [76.176.73.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: hemantk)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 1D540C4338F;
-	Mon,  8 Nov 2021 19:06:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 1D540C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-Subject: Re: [PATCH v2] bus: mhi: Fix race while handling SYS_ERR at power up
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- mhi@lists.linux.dev
-Cc: aleksander@aleksander.es, loic.poulain@linaro.org,
- thomas.perrot@bootlin.com, bbhatt@codeaurora.org, quic_jhugo@quicinc.com,
- linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
-References: <20211108174954.60569-1-manivannan.sadhasivam@linaro.org>
-From: Hemant Kumar <hemantk@codeaurora.org>
-Message-ID: <51338f3b-4c85-17b6-971b-44a50d59a262@codeaurora.org>
-Date: Mon, 8 Nov 2021 11:06:35 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	(Authenticated sender: akolli)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id A80D4C4338F;
+	Tue,  9 Nov 2021 05:03:58 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211108174954.60569-1-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date: Tue, 09 Nov 2021 10:33:58 +0530
+From: Anilkumar Kolli <akolli@codeaurora.org>
+To: Rob Herring <robh@kernel.org>, manivannan.sadhasivam@linaro.org
+Cc: ath11k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ devicetree@vger.kernel.org, mhi@lists.linux.dev
+Subject: Re: [PATCH 1/2] dt: bindings: add new DT entry for ath11k PCI device
+ support
+In-Reply-To: <YYBPd+Z/dA/pTReo@robh.at.kernel.org>
+References: <1635175648-23491-1-git-send-email-akolli@codeaurora.org>
+ <YYBPd+Z/dA/pTReo@robh.at.kernel.org>
+Message-ID: <b142a4850d9cbc3bb451a78b488688cc@codeaurora.org>
+X-Sender: akolli@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 
-Adding same comment in v2
-On 11/8/2021 9:49 AM, Manivannan Sadhasivam wrote:
-> Some devices tend to trigger SYS_ERR interrupt while the host handling
-> SYS_ERR state of the device during power up. This creates a race
-> condition and causes a failure in booting up the device.
+On 2021-11-02 02:05, Rob Herring wrote:
+> On Mon, Oct 25, 2021 at 08:57:27PM +0530, Anilkumar Kolli wrote:
+>> Ath11k driver supports PCI devices such as QCN9074/QCA6390.
+>> Ath11k firmware uses host DDR memory, DT entry is used to reserve
+>> these host DDR memory regions, send these memory base
+>> addresses using DT entries.
+>> 
+>> Signed-off-by: Anilkumar Kolli <akolli@codeaurora.org>
+>> ---
+>>  .../bindings/net/wireless/qcom,ath11k.yaml         | 38 
+>> ++++++++++++++++++++++
+>>  1 file changed, 38 insertions(+)
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml 
+>> b/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
+>> index 5ac9616c9239..c7e6612e949c 100644
+>> --- a/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
+>> +++ b/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
+>> @@ -19,6 +19,10 @@ description: |
+>>    These devices use HOST DDR memory, HOST DDR memory can be reserved
+>>    and send to ath11k driver from DT.
+>> 
+>> +  ATH11K supports PCI devices like QCA6390,QCN9074.
+>> +  These devices use host DDR memory, host DDR memory can be reserved
+>> +  and send to ath11k driver from DT.
+>> +
+>>  properties:
+>>    compatible:
+>>      enum:
+>> @@ -177,6 +181,29 @@ properties:
+>>      description:
+>>        HOST DDR end address.
+>> 
+>> +  qcom,base-addr:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Host DDR base address for firmware. QCN9074 firmware uses 45 MB 
+>> of host
+>> +      DDR memory in mode-0 and 15 MB of host DDR memory in mode-2.
+>> +
+>> +  qcom,caldb-addr:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Host DDR address to store CALDB. CALDB is calibration data base
+>> +      for WLAN channel and tx power.
+>> +
 > 
-> The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
-> handling in mhi_async_power_up(). Once the host detects that the device
-> is in SYS_ERR state, it issues MHI_RESET and waits for the device to
-> process the reset request. During this time, the device triggers SYS_ERR
-Device is not triggering the SYS_ERR interrupt, interrupt was triggered 
-due to MHI RESET was getting cleared by device.
-> interrupt to the host and host starts handling SYS_ERR execution.
-"As interrupts are setup, MHI reset results in device clearing the reset 
-and it sends incoming BHI interrupt with state still seen as SYS_ERROR 
-instead of READY."
+> Use /reserved-memory entries for these.
+> 
 
+Sure.
+
+>> +  qcom,start-addr:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Host DDR start address. For example on x86 it is 0x0,
+>> +      on IPQ8074 it is 0x41000000.
+>> +
+>> +  qcom,end-addr:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Host DDR end address.
 > 
-> So by the time the device has completed reset, host starts SYS_ERR
-> handling. This causes the race condition and the modem fails to boot.
+> Nak. I don't know what you are doing with these 2, but it's wrong.
 > 
-> Hence, register the IRQ handler only after handling the SYS_ERR check
-> to avoid getting spurious IRQs from the device.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
-> Reported-by: Aleksander Morgado <aleksander@aleksander.es>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
-[..]
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
-Forum, a Linux Foundation Collaborative Project
+
+The DDR start address and end address are sent to MHI control bus,
+For x86 platform code snip in ath11k/mhi.c
+
+         mhi_ctrl->iova_start = 0;
+         mhi_ctrl->iova_stop = 0xffffffff;
+
+Similarly for ARM platfroms, send DDR addresses from DT entry.
+
+Thanks
+Anil
