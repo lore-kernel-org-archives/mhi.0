@@ -1,145 +1,110 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC422C83
-	for <mhi@lists.linux.dev>; Tue,  9 Nov 2021 06:09:47 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id t21so19017636plr.6
-        for <mhi@lists.linux.dev>; Mon, 08 Nov 2021 22:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3UMQ+IMa+soVBoyYN64G/6OyoEqBBdIjr60HkQKpNx8=;
-        b=KZaPR85qHnb2yKJr4Zb3HksFeFbhp9G5ogo/MdQMtO2WH0hekoook0Vt4487LMv3DI
-         EZ0IKoPmpz97Jb1XZ4sLl3X7/CAkjjsXH2vl5hzq6NE9fJDEPnlKhvOa7B3kiDVm6oxW
-         EBstH3kSpqCyMwchR7NYBfno3q91DaVpBmKgc9HrHV8U9liDb+9Sz8Nvg/etv3fB0J82
-         J62zQAeQDIJuNE/w/tCzN41cPMRJGyxZGWn6tp4GSsf3Zs/fa33GTpD4LdPiEnwVbgzR
-         1PnxMKpiC510UXvkja82txpR8AqL0dO2xA1tZ/jotq5gaVtCGLxD0jKI7sv+7lc0W0EY
-         suzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3UMQ+IMa+soVBoyYN64G/6OyoEqBBdIjr60HkQKpNx8=;
-        b=qP0m/C92bKef3FIm3srXN7U5EfDK5qtYPeLvN0OR6uU5SVwRRsI5LAtSE+w8ilcCO6
-         iWfsyMi0WM0ctX7lfz6r2+8JiIfaNDCNVqGJIVi4IUymCmnISocrX1FIW/FCPGlQFp5R
-         twfP7qWJNkNIwqhEhd5jJMJGO8J3moyeUPslkMjjS6sPGRHcLuMWcZ/VBy/oB9XUPIWL
-         tASin10dc7xZJHaOZGJiG4ISUVVnNMMc9fne4HS7eA/As5aSTQEiU6sVLn37pSjy4J7B
-         IggVYUrFzP0YtTRVIRg2eVaMs4GdBynGZ2DtUj6jtRra5TdHiBKCLwD/CI2GXTbtrcti
-         OrXg==
-X-Gm-Message-State: AOAM532bYfeX6Hv4QBMNBqEcmPTIB63t14n6N6eheYKlMxPJhg5aiUfO
-	8An0d6YhCBoxTEicD56XDn/8y4kg/DXH6Ks=
-X-Google-Smtp-Source: ABdhPJwNKVQwXClKhZuDD23mjW/GMmAAsVvWIADqtgxcYdFWepoXh4uyRFP3LuTv+g5FdbftBBcsaw==
-X-Received: by 2002:a17:903:2093:b0:142:7dff:f7de with SMTP id d19-20020a170903209300b001427dfff7demr4995953plc.75.1636438186599;
-        Mon, 08 Nov 2021 22:09:46 -0800 (PST)
-Received: from thinkpad ([117.217.177.76])
-        by smtp.gmail.com with ESMTPSA id l11sm18755948pfu.129.2021.11.08.22.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 22:09:46 -0800 (PST)
-Date: Tue, 9 Nov 2021 11:39:38 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Anilkumar Kolli <akolli@codeaurora.org>
-Cc: Rob Herring <robh@kernel.org>, ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH 1/2] dt: bindings: add new DT entry for ath11k PCI device
- support
-Message-ID: <20211109060938.GA5235@thinkpad>
-References: <1635175648-23491-1-git-send-email-akolli@codeaurora.org>
- <YYBPd+Z/dA/pTReo@robh.at.kernel.org>
- <b142a4850d9cbc3bb451a78b488688cc@codeaurora.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5A12C82;
+	Fri, 12 Nov 2021 11:36:28 +0000 (UTC)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1mlUqw-0005bg-KI; Fri, 12 Nov 2021 12:36:18 +0100
+Message-ID: <be20e91d-9285-b044-e415-c3728c399c1b@leemhuis.info>
+Date: Fri, 12 Nov 2021 12:36:17 +0100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b142a4850d9cbc3bb451a78b488688cc@codeaurora.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-BS
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Kalle Valo <kvalo@codeaurora.org>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ath11k@lists.infradead.org,
+ linux-wireless@vger.kernel.org, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, regressions@lists.linux.dev,
+ mhi <mhi@lists.linux.dev>
+References: <871r5p0x2u.fsf@codeaurora.org>
+ <CAMZdPi8UJLvBFQd8-nf-iHAQh8cEuihq97PUFfZ7Q=rxRQoPsg@mail.gmail.com>
+ <877df6tlnq.fsf@codeaurora.org>
+ <CAMZdPi8P7YZPhPir+WfS3cY_a7He1m2Pq2uqBhczPdEeoNRb0Q@mail.gmail.com>
+ <87a6jl9ndo.fsf@codeaurora.org> <87ee8hgqni.fsf@codeaurora.org>
+ <20211021100305.GD7580@workstation>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: Re: [regression] mhi: ath11k resume fails on some devices
+In-Reply-To: <20211021100305.GD7580@workstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1636716988;995205b6;
+X-HE-SMSGID: 1mlUqw-0005bg-KI
 
-On Tue, Nov 09, 2021 at 10:33:58AM +0530, Anilkumar Kolli wrote:
-> On 2021-11-02 02:05, Rob Herring wrote:
-> > On Mon, Oct 25, 2021 at 08:57:27PM +0530, Anilkumar Kolli wrote:
-> > > Ath11k driver supports PCI devices such as QCN9074/QCA6390.
-> > > Ath11k firmware uses host DDR memory, DT entry is used to reserve
-> > > these host DDR memory regions, send these memory base
-> > > addresses using DT entries.
-> > > 
-> > > Signed-off-by: Anilkumar Kolli <akolli@codeaurora.org>
-> > > ---
-> > >  .../bindings/net/wireless/qcom,ath11k.yaml         | 38
-> > > ++++++++++++++++++++++
-> > >  1 file changed, 38 insertions(+)
-> > > 
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
-> > > b/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
-> > > index 5ac9616c9239..c7e6612e949c 100644
-> > > --- a/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
-> > > +++ b/Documentation/devicetree/bindings/net/wireless/qcom,ath11k.yaml
-> > > @@ -19,6 +19,10 @@ description: |
-> > >    These devices use HOST DDR memory, HOST DDR memory can be reserved
-> > >    and send to ath11k driver from DT.
-> > > 
-> > > +  ATH11K supports PCI devices like QCA6390,QCN9074.
-> > > +  These devices use host DDR memory, host DDR memory can be reserved
-> > > +  and send to ath11k driver from DT.
-> > > +
-> > >  properties:
-> > >    compatible:
-> > >      enum:
-> > > @@ -177,6 +181,29 @@ properties:
-> > >      description:
-> > >        HOST DDR end address.
-> > > 
-> > > +  qcom,base-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description:
-> > > +      Host DDR base address for firmware. QCN9074 firmware uses 45
-> > > MB of host
-> > > +      DDR memory in mode-0 and 15 MB of host DDR memory in mode-2.
-> > > +
-> > > +  qcom,caldb-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description:
-> > > +      Host DDR address to store CALDB. CALDB is calibration data base
-> > > +      for WLAN channel and tx power.
-> > > +
-> > 
-> > Use /reserved-memory entries for these.
-> > 
+On 21.10.21 12:03, Manivannan Sadhasivam wrote:
+> On Tue, Oct 19, 2021 at 03:12:01PM +0300, Kalle Valo wrote:
+>> Kalle Valo <kvalo@codeaurora.org> writes:
+>>> (adding the new mhi list, yay)
+>>> Loic Poulain <loic.poulain@linaro.org> writes:
+>>>>> Loic Poulain <loic.poulain@linaro.org> writes:
+>>>>>> On Thu, 16 Sept 2021 at 10:00, Kalle Valo <kvalo@codeaurora.org> wrote:
+>>>>>>> At the moment I'm running my tests with commit 020d3b26c07a reverted and
+>>>>>>> everything works without problems. Is there a simple way to fix this? Or
+>>>>>>> maybe we should just revert the commit? Commit log and kernel logs from
+>>>>>>> a failing case below.
+>>>>>>
+>>>>>> Do you have log of success case?
+>>>>>
+>>>>> A log from a successful case in the end of email, using v5.15-rc1 plus
+>>>>> revert of commit 020d3b26c07abe27.
+>>>>>
+>>>>>> To me, the device loses power, that is why MHI resuming is failing.
+>>>>>> Normally the device should be properly recovered/reinitialized. Before
+>>>>>> that patch the power loss was simply not detected (or handled at
+>>>>>> higher stack level).
+>>>>>
+>>>>> Currently in ath11k we always keep the firmware running when in suspend,
+>>>>> this is a workaround due to problems between mac80211 and MHI stack.
+>>>>> IIRC the problem was something related MHI creating struct device during
+>>>>> resume or something like that.
+>>>>
+>>>> Could you give a try with the attached patch? It should solve your
+>>>> issue without breaking modem support.
+>>>
+>>> Sorry for taking so long, but I now tested your patch on top of
+>>> v5.15-rc3 and, as expected, everything works as before with QCA6390 on
+>>> NUC x86 testbox.
+>>>
+>>> Tested-by: Kalle Valo <kvalo@codeaurora.org>
+>>
+>> I doubt we will find enough time to fully debug this mhi issue anytime
+>> soon. Can we commit Loic's patch so that this regression is resolved?
 > 
-> Sure.
-> 
-> > > +  qcom,start-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description:
-> > > +      Host DDR start address. For example on x86 it is 0x0,
-> > > +      on IPQ8074 it is 0x41000000.
-> > > +
-> > > +  qcom,end-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    description:
-> > > +      Host DDR end address.
-> > 
-> > Nak. I don't know what you are doing with these 2, but it's wrong.
-> > 
-> 
-> The DDR start address and end address are sent to MHI control bus,
-> For x86 platform code snip in ath11k/mhi.c
-> 
->         mhi_ctrl->iova_start = 0;
->         mhi_ctrl->iova_stop = 0xffffffff;
-> 
-> Similarly for ARM platfroms, send DDR addresses from DT entry.
-> 
+> Sorry no :( Eventhough Loic's patch is working, I want to understand the
+> issue properly so that we could add a proper fix or patch the firmware
+> if possible.
 
-You can use the reserved memory node for ddr address also. In the ath11k driver,
-use devicetree APIs for fetching the start and end addresses.
+Lo, this is your Linux kernel regression tracker speaking!
 
-Thanks,
-Mani
+> Let's try to get the debug logs as I requested.
 
-> Thanks
-> Anil
+That was 3 weeks ago. Afaics nothing happened since then (except the
+other mail about this on the same day in this thread). Or did I miss
+anything? And if not: How can we get the ball rolling somehow again to
+get this regression finally fixed?
+
+Ciao, Thorsten (carrying his Linux kernel regression tracker hat)
+
+P.S.: I have no personal interest in this issue and watch it using
+regzbot. Hence feel free to exclude me on further messages in this
+thread, as I'm only posting this mail to hopefully get a status update
+and things rolling again.
+
+#regzbot poke
+
+>> At the moment I'm doing all my regression testing with commit
+>> 020d3b26c07abe27 reverted. That's a risk, I would prefer to do my
+>> testing without any hacks.
+>>
+>> -- 
+>> https://patchwork.kernel.org/project/linux-wireless/list/
+>>
+>> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> 
+> 
