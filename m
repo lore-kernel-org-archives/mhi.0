@@ -1,200 +1,135 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE102C80
-	for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 09:56:03 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id y12so24345160eda.12
-        for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 01:56:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCD42C83
+	for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 17:41:50 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id y8so5900571plg.1
+        for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 09:41:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=aleksander-es.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xu5C790ZoAg97VGCg1XhQWVDBmDf+6a36FlNr4a3o/M=;
-        b=ynBCFY5uD4ULQ9b/5BK8N5p8NyESaZmBpT5PNxk9FhOvrN3r77IYXiXYuYim4xVME1
-         t+k0rV7mkqae5K8ojii4uRFtclgDlvxj2m/q6OQtwh9V7kLhaQeNRR/mKHZMEI3yHjpq
-         Qui0gTFLBC2a4WbUyVM/Ynu/v/Rdy1S6fQfBiTQH1i1Zq3kXiLfWK0yVDUvJMQAGR6yC
-         WM3MiQelyyFak9ymmcYM7VmH7UUFjmZcU6tVzLsjRuVrDFkqDFNE5aV2TmNPAW9gaRzx
-         aWrehN6NKuXCR46SvqdaWBpVox7ECBeKRLfU1yT2EpNiO4FX6//lYQMq64iKutnhWqvN
-         Yo4A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8ciIRwy+yxvWn2LwEQWDIz+C3VSCgM6erWfnwc1pCQE=;
+        b=Po2980MK3nArAg5kgUQyTvOoghzp/so1mpxQqFmgkHfEuiVm8w/dsmqAfsmBEK0PsS
+         t8cSYt5UI3z/+ZqDacYoUWritLHHkVDbZ9H8o9dp/O9FE2zwEefIwO2aYxWPBOIDi0K+
+         Q6hRyiEXWNyugSaBdzEw/qLSH/sOZJ2SYBgfg+OKWsSQamHGH9lENraxerysU0vcMk+Q
+         gndcskSMDwvdRTBfqcZ/DzJsMtzISsqSBCwYI5CaincTsqedpUpjUlPSNAVWCz32JR6l
+         sapZEjrhakrT/HOKweuJvuRS6yVR6zqLJ7XwBGb7SQS30043DmQ13cwyhGCRWf9lL4m9
+         Y6mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xu5C790ZoAg97VGCg1XhQWVDBmDf+6a36FlNr4a3o/M=;
-        b=1NK3QsLHaJ1Mkm5fB8HY00Ine4EkbPwRmWnSCc8Ncu9BrJBcVkINoMGFHoRZZHlvKC
-         zKxNObEwP1G0JKl6BE7NLy/z6ej6VsQNT4VhT0+Y2PS7iFlEFAqunMaRK0igg+SCHl71
-         SLpXDEeIzZCFYT4XQow/UsRChpbEYTzzGAl/DYJIBvJTtRkBt7Boo+d7Oz/5Sx0lY81c
-         mfl/7CHVfqNjWd4eISsUkPwhpF8lK3GJQXV8c8mlOxu0QYfa3ym8DYB/+qUxqxXtkBMW
-         TG7sDXXCWvCjfdXTgIoP/7PCikX8/xvOj2CNSBEfji4mmjmkTV1iF4qRbLP0rY6x8n21
-         kclQ==
-X-Gm-Message-State: AOAM532HrDlfDrLEXd3VPyLESBU4gGQ9dsbyygMBYVaBuah0fIY+GLvn
-	M7kBakLKTj9Cle5Bf1ZTCJO+3B+LHI8K1QgpaPem0g==
-X-Google-Smtp-Source: ABdhPJytdcmXOpm+1R0BZ5kIZ7mJHWmMMAKGNTUwWOBwbaIAUJQfq3/Rmp56rV4+ydwCFBd0unEvoNAfl2QvdEnvDrw=
-X-Received: by 2002:a17:907:720d:: with SMTP id dr13mr32411152ejc.153.1637229362213;
- Thu, 18 Nov 2021 01:56:02 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8ciIRwy+yxvWn2LwEQWDIz+C3VSCgM6erWfnwc1pCQE=;
+        b=O8T+Fylm7jrR2lEKNExuK7fqZwVZl4QggDVdj8L40S86M4jqwjHGh7cMe3p7L1E78G
+         uyGkQzNqnO9CzkZV0OSTy/3/c/Bz1kzIqJtTs09kQmTklxFduMbsbiE3lAmtVDItRbcN
+         iALxfNxhFL1wl/p5AcogClhPgicAzKcTSw55Wx7Cr6TAsU0bc0rzIlqIUA7XHFX7qVY4
+         WL85848dz81brfDGaPRk8onai3rKIr+TY2KiQbDYob3AijlIeDM6QSufCuTfJZ2PZSOK
+         KFimOeENZh4Sf91Olhsr0qfdq8u1Qd4qVHNDNOjsA/809+wZAt+zXuwZVsfupWU5Yfcc
+         tnSA==
+X-Gm-Message-State: AOAM530JIpYP2PfhPFIwO4mf9+LUxZ1SSWvPal3VRwib736EABScSuuU
+	jusVRKizriCj4uI06O0ogOiS
+X-Google-Smtp-Source: ABdhPJz4ckUHzppPNRFH93bqoC4QHvF8HTUl6iWPtRcLKk0HfikDz9RyuU6wf05bW3QmHIX+Gogc6A==
+X-Received: by 2002:a17:90a:a396:: with SMTP id x22mr12624056pjp.14.1637257310302;
+        Thu, 18 Nov 2021 09:41:50 -0800 (PST)
+Received: from thinkpad ([117.202.188.63])
+        by smtp.gmail.com with ESMTPSA id h6sm271494pfh.82.2021.11.18.09.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Nov 2021 09:41:49 -0800 (PST)
+Date: Thu, 18 Nov 2021 23:11:45 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Kalle Valo <kvalo@codeaurora.org>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+	regressions@lists.linux.dev, mhi <mhi@lists.linux.dev>
+Subject: Re: [regression] mhi: ath11k resume fails on some devices
+Message-ID: <20211118174145.GA31300@thinkpad>
+References: <871r5p0x2u.fsf@codeaurora.org>
+ <CAMZdPi8UJLvBFQd8-nf-iHAQh8cEuihq97PUFfZ7Q=rxRQoPsg@mail.gmail.com>
+ <877df6tlnq.fsf@codeaurora.org>
+ <CAMZdPi8P7YZPhPir+WfS3cY_a7He1m2Pq2uqBhczPdEeoNRb0Q@mail.gmail.com>
+ <87a6jl9ndo.fsf@codeaurora.org>
+ <87ee8hgqni.fsf@codeaurora.org>
+ <20211021100305.GD7580@workstation>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211118055726.13107-1-manivannan.sadhasivam@linaro.org>
-In-Reply-To: <20211118055726.13107-1-manivannan.sadhasivam@linaro.org>
-From: Aleksander Morgado <aleksander@aleksander.es>
-Date: Thu, 18 Nov 2021 10:55:51 +0100
-Message-ID: <CAAP7ucJoOTOqFnNpJcQmxF=A0TOB8TtCCng-2q9pNkddRTbpuw@mail.gmail.com>
-Subject: Re: [PATCH v3] bus: mhi: Fix race while handling SYS_ERR at power up
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>, 
-	Thomas Perrot <thomas.perrot@bootlin.com>, Hemant Kumar <hemantk@codeaurora.org>, 
-	Bhaumik Bhatt <bbhatt@codeaurora.org>, quic_jhugo@quicinc.com, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211021100305.GD7580@workstation>
 
-Hey Mani,
+On Thu, Oct 21, 2021 at 03:33:05PM +0530, Manivannan Sadhasivam wrote:
+> On Tue, Oct 19, 2021 at 03:12:01PM +0300, Kalle Valo wrote:
+> > Kalle Valo <kvalo@codeaurora.org> writes:
+> > 
+> > > (adding the new mhi list, yay)
+> > >
+> > > Hi Loic,
+> > >
+> > > Loic Poulain <loic.poulain@linaro.org> writes:
+> > >
+> > >>> Loic Poulain <loic.poulain@linaro.org> writes:
+> > >>>
+> > >>> > On Thu, 16 Sept 2021 at 10:00, Kalle Valo <kvalo@codeaurora.org> wrote:
+> > >>>
+> > >>> >> At the moment I'm running my tests with commit 020d3b26c07a reverted and
+> > >>> >> everything works without problems. Is there a simple way to fix this? Or
+> > >>> >> maybe we should just revert the commit? Commit log and kernel logs from
+> > >>> >> a failing case below.
+> > >>> >
+> > >>> > Do you have log of success case?
+> > >>>
+> > >>> A log from a successful case in the end of email, using v5.15-rc1 plus
+> > >>> revert of commit 020d3b26c07abe27.
+> > >>>
+> > >>> > To me, the device loses power, that is why MHI resuming is failing.
+> > >>> > Normally the device should be properly recovered/reinitialized. Before
+> > >>> > that patch the power loss was simply not detected (or handled at
+> > >>> > higher stack level).
+> > >>>
+> > >>> Currently in ath11k we always keep the firmware running when in suspend,
+> > >>> this is a workaround due to problems between mac80211 and MHI stack.
+> > >>> IIRC the problem was something related MHI creating struct device during
+> > >>> resume or something like that.
+> > >>
+> > >> Could you give a try with the attached patch? It should solve your
+> > >> issue without breaking modem support.
+> > >
+> > > Sorry for taking so long, but I now tested your patch on top of
+> > > v5.15-rc3 and, as expected, everything works as before with QCA6390 on
+> > > NUC x86 testbox.
+> > >
+> > > Tested-by: Kalle Valo <kvalo@codeaurora.org>
+> > 
+> > I doubt we will find enough time to fully debug this mhi issue anytime
+> > soon. Can we commit Loic's patch so that this regression is resolved?
+> > 
+> 
+> Sorry no :( Eventhough Loic's patch is working, I want to understand the
+> issue properly so that we could add a proper fix or patch the firmware
+> if possible.
+> 
+> Let's try to get the debug logs as I requested.
+> 
 
-On Thu, Nov 18, 2021 at 6:57 AM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
->
-> Some devices tend to trigger SYS_ERR interrupt while the host handling
-> SYS_ERR state of the device during power up. This creates a race
-> condition and causes a failure in booting up the device.
->
-> The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
-> handling in mhi_async_power_up(). Once the host detects that the device
-> is in SYS_ERR state, it issues MHI_RESET and waits for the device to
-> process the reset request. During this time, the device triggers SYS_ERR
-> interrupt to the host and host starts handling SYS_ERR execution.
->
-> So by the time the device has completed reset, host starts SYS_ERR
-> handling. This causes the race condition and the modem fails to boot.
->
-> Hence, register the IRQ handler only after handling the SYS_ERR check
-> to avoid getting spurious IRQs from the device.
->
-> Cc: stable@vger.kernel.org
-> Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
-> Reported-by: Aleksander Morgado <aleksander@aleksander.es>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->
-> Changes in v3:
->
-> * Moved BHI_INTVEC setup after irq setup
-> * Used interval_us as the delay for the polling API
->
-> Changes in v2:
->
-> * Switched to "mhi_poll_reg_field" for detecting MHI reset in device.
->
+I'm able to reproduce the issue on my NUC. I'm still investigating on how to
+properly fix this issue. Expect a patch soon.
 
-I tried this v3 patch and I'm not sure if it's working properly in my
-setup; not all boots are successfully bringing the modem up.
+Thanks,
+Mani 
 
-Once I installed it, I kept having this kind of logs on every boot:
-[    7.030407] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
-0x600000000-0x600000fff 64bit]
-[    7.038984] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
-[    7.045814] mhi-pci-generic 0000:01:00.0: using shared MSI
-[    7.052191] mhi mhi0: Requested to power ON
-[    7.168042] mhi mhi0: Power on setup success
-[    7.168141] mhi mhi0: Wait for device to enter SBL or Mission mode
-[   15.687938] mhi-pci-generic 0000:01:00.0: failed to suspend device: -16
-
-I didn't have debug logs enabled in that build, so I created a new one
-with them enabled, and... these are the logs I'm getting now (not the
-same ones as above, not sure why):
-
-// Cold boots fail (tried several times)
-[    7.033370] mhi-pci-generic 0000:01:00.0: MHI PCI device found: sierra-em919x
-[    7.040558] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
-0x600000000-0x600000fff 64bit]
-[    7.049105] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
-[    7.055923] mhi-pci-generic 0000:01:00.0: using shared MSI
-[    7.062130] mhi mhi0: Requested to power ON
-[    7.066351] mhi mhi0: Attempting power on with EE: PASS THROUGH,
-state: SYS ERROR
-[   20.572010] mhi mhi0: Power on setup success
-[   20.576412] mhi mhi0: Handling state transition: PBL
-[   55.139820] mhi mhi0: Device failed to enter MHI Ready
-[   55.144978] mhi mhi0: MHI did not enter READY state
-[   55.149876] mhi mhi0: Handling state transition: DISABLE
-[   55.155203] mhi mhi0: Processing disable transition with PM state:
-Firmware Download Error
-[   55.163482] mhi mhi0: Triggering MHI Reset in device
-[   89.727820] mhi mhi0: Device failed to clear MHI Reset
-[   89.732975] mhi mhi0: Waiting for all pending event ring processing
-to complete
-[   89.740316] mhi mhi0: Waiting for all pending threads to complete
-[   89.746422] mhi mhi0: Reset all active channels and remove MHI devices
-[   89.752963] mhi mhi0: Resetting EV CTXT and CMD CTXT
-[   89.757940] mhi mhi0: Error moving from PM state: Firmware Download
-Error to: DISABLE
-[   89.765785] mhi mhi0: Exiting with PM state: Firmware Download
-Error, MHI state: RESET
-[   89.773793] mhi-pci-generic 0000:01:00.0: failed to power up MHI controller
-[   89.781067] mhi-pci-generic: probe of 0000:01:00.0 failed with error -110
-
-// Warm reboots afterwards seem to go ok (tried several times)
-[    7.072762] mhi-pci-generic 0000:01:00.0: MHI PCI device found: sierra-em919x
-[    7.079942] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
-0x600000000-0x600000fff 64bit]
-[    7.088505] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
-[    7.095331] mhi-pci-generic 0000:01:00.0: using shared MSI
-[    7.101628] mhi mhi0: Requested to power ON
-[    7.105859] mhi mhi0: Attempting power on with EE: PASS THROUGH,
-state: SYS ERROR
-[    7.224053] mhi mhi0: Power on setup success
-[    7.228373] mhi mhi0: local ee: INVALID_EE state: RESET device ee:
-MISSION MODE state: READY
-[    7.236878] mhi mhi0: Handling state transition: PBL
-[    7.241871] mhi mhi0: Device in READY State
-[    7.246118] mhi mhi0: Initializing MHI registers
-[    7.250775] mhi mhi0: Wait for device to enter SBL or Mission mode
-[   15.418147] mhi mhi0: local ee: MISSION MODE state: READY device
-ee: MISSION MODE state: READY
-[   16.025027] mhi mhi0: State change event to state: M0
-[   16.025041] mhi mhi0: local ee: MISSION MODE state: READY device
-ee: MISSION MODE state: M0
-[   16.038500] mhi mhi0: Received EE event: MISSION MODE
-[   16.038505] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
-MISSION MODE state: M0
-[   16.051671] mhi mhi0: Handling state transition: MISSION MODE
-[   16.057434] mhi mhi0: Processing Mission Mode transition
-[   16.063780] mhi_net mhi0_IP_HW0: 100: Updating channel state to: START
-[   16.197073] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
-MISSION MODE state: M0
-[   16.201196] mhi_net mhi0_IP_HW0: 100: Channel state change to START
-successful
-[   16.212565] mhi_net mhi0_IP_HW0: 101: Updating channel state to: START
-[   16.362262] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
-MISSION MODE state: M0
-[   16.362268] mhi_net mhi0_IP_HW0: 101: Channel state change to START
-successful
-[   18.860081] mhi mhi0: Allowing M3 transition
-[   18.864380] mhi mhi0: Waiting for M3 completion
-[   19.080218] mhi mhi0: State change event to state: M3
-[   19.080228] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
-MISSION MODE state: M3
-[   21.899049] mhi_wwan_ctrl mhi0_DUN: 32: Updating channel state to: START
-[   21.924031] mhi mhi0: Entered with PM state: M3, MHI state: M3
-[   21.952174] mhi mhi0: State change event to state: M0
-[   21.952193] mhi mhi0: local ee: MISSION MODE state: M3 device ee:
-MISSION MODE state: M0
-[   21.967549] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
-MISSION MODE state: M0
-[   21.967553] mhi_wwan_ctrl mhi0_DUN: 32: Channel state change to
-START successful
-
-I didn't try the v1 or v2 patches (sorry!), so not sure if the issues
-come in this last iteration or in an earlier one. Do you want me to
-try with v1 and v2 as well?
-
-The patch that was working very reliably (100%) for me was the "bus:
-mhi: Register IRQ handler after SYS_ERR check during power up" one,
-which you attached here:
-https://www.spinics.net/lists/linux-arm-msm/msg97646.html
-
--- 
-Aleksander
-https://aleksander.es
+> Thanks,
+> Mani
+> 
+> > At the moment I'm doing all my regression testing with commit
+> > 020d3b26c07abe27 reverted. That's a risk, I would prefer to do my
+> > testing without any hacks.
+> > 
+> > -- 
+> > https://patchwork.kernel.org/project/linux-wireless/list/
+> > 
+> > https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
