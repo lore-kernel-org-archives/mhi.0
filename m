@@ -1,184 +1,200 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB5668
-	for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 05:57:40 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id c4so4912878pfj.2
-        for <mhi@lists.linux.dev>; Wed, 17 Nov 2021 21:57:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE102C80
+	for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 09:56:03 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id y12so24345160eda.12
+        for <mhi@lists.linux.dev>; Thu, 18 Nov 2021 01:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=we6xpES6wXLQZjtkHiuApqYOiFHYdZTHHDycpUVaqDo=;
-        b=vwvR6k5C26Y/Tjw+yEQEDrhTtEXfr72d8/A+QbH8zM1NEG0KunTKPqdATHTPDYYJTx
-         yHv8nxKYcsEZKYkh/C8iGvKOy7ffobDqcoCvszUKTd/SQ/tBsqjkph9bq2KTtbG12Psl
-         ouZHtFnSwHhDPzeCaxorFxWg+jvoVp2o/0VuVn3RvHZMswDBMtnjVqJzohm7n1d8LK3/
-         oxy1k2STpEQxWMu4aNRvME02inWx5MnpF/0CrLWju4hrrku43ApFFz+jYm+UbavfQpXJ
-         xOf/yhJciOV82NlGlS5+h3rWTu49rU9Zt9WS2D1EYXL+X5HvOYS/qE92HHpAuYbO/z25
-         dLQA==
+        d=aleksander-es.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xu5C790ZoAg97VGCg1XhQWVDBmDf+6a36FlNr4a3o/M=;
+        b=ynBCFY5uD4ULQ9b/5BK8N5p8NyESaZmBpT5PNxk9FhOvrN3r77IYXiXYuYim4xVME1
+         t+k0rV7mkqae5K8ojii4uRFtclgDlvxj2m/q6OQtwh9V7kLhaQeNRR/mKHZMEI3yHjpq
+         Qui0gTFLBC2a4WbUyVM/Ynu/v/Rdy1S6fQfBiTQH1i1Zq3kXiLfWK0yVDUvJMQAGR6yC
+         WM3MiQelyyFak9ymmcYM7VmH7UUFjmZcU6tVzLsjRuVrDFkqDFNE5aV2TmNPAW9gaRzx
+         aWrehN6NKuXCR46SvqdaWBpVox7ECBeKRLfU1yT2EpNiO4FX6//lYQMq64iKutnhWqvN
+         Yo4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=we6xpES6wXLQZjtkHiuApqYOiFHYdZTHHDycpUVaqDo=;
-        b=uPtLE+zKfdQYdQj+yYnxWaz+QP426KO/Y1M+csQ7PLlIHlrIXmclSISBuWi4RJklh8
-         w5bn4/Zp4q0mpoqQMcUcVp9YEfDE7ZiBRPGQnvNTbCdT6BJx5BAriNLtiMY7WjRm6tQd
-         WsAMhLQnPhCBq766DeqtiQlSp40ZVo8punJJKhVZRPFTD/MrQXfqR5ktdfBE4q2rvjfB
-         wlJcltvyi4dAgYUQrrEyks0LWRol57UTOVTOebq4JWnhlpTSjg8ZwAtG5ob/M/j68ocn
-         D7Tyu3ahZofagVO8AJjeS+fHUQb4F/P0cM6034/8JFZl/+WWULZzWJuhkPd/Gw+A3lJX
-         JFzg==
-X-Gm-Message-State: AOAM5327EyppQiIvJsXAH0BvRvHLSYQ4Jg3yV1sTGSvWeT7l8jJAoZMf
-	5jj39N2R9h9xdnhDijMSWkAAoW2/tRVZ
-X-Google-Smtp-Source: ABdhPJxk6ka9vlClZPxm/4znf/QZJ9EWVLu3wj0hRNdIiz+z9EU27HJZbc4FkYddzLd/eX8anMIieg==
-X-Received: by 2002:a63:b25d:: with SMTP id t29mr9640529pgo.79.1637215059562;
-        Wed, 17 Nov 2021 21:57:39 -0800 (PST)
-Received: from localhost.localdomain ([117.202.188.63])
-        by smtp.gmail.com with ESMTPSA id d9sm1261934pgd.40.2021.11.17.21.57.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 21:57:38 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: aleksander@aleksander.es,
-	loic.poulain@linaro.org,
-	thomas.perrot@bootlin.com,
-	hemantk@codeaurora.org,
-	bbhatt@codeaurora.org,
-	quic_jhugo@quicinc.com,
-	linux-arm-msm@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] bus: mhi: Fix race while handling SYS_ERR at power up
-Date: Thu, 18 Nov 2021 11:27:26 +0530
-Message-Id: <20211118055726.13107-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xu5C790ZoAg97VGCg1XhQWVDBmDf+6a36FlNr4a3o/M=;
+        b=1NK3QsLHaJ1Mkm5fB8HY00Ine4EkbPwRmWnSCc8Ncu9BrJBcVkINoMGFHoRZZHlvKC
+         zKxNObEwP1G0JKl6BE7NLy/z6ej6VsQNT4VhT0+Y2PS7iFlEFAqunMaRK0igg+SCHl71
+         SLpXDEeIzZCFYT4XQow/UsRChpbEYTzzGAl/DYJIBvJTtRkBt7Boo+d7Oz/5Sx0lY81c
+         mfl/7CHVfqNjWd4eISsUkPwhpF8lK3GJQXV8c8mlOxu0QYfa3ym8DYB/+qUxqxXtkBMW
+         TG7sDXXCWvCjfdXTgIoP/7PCikX8/xvOj2CNSBEfji4mmjmkTV1iF4qRbLP0rY6x8n21
+         kclQ==
+X-Gm-Message-State: AOAM532HrDlfDrLEXd3VPyLESBU4gGQ9dsbyygMBYVaBuah0fIY+GLvn
+	M7kBakLKTj9Cle5Bf1ZTCJO+3B+LHI8K1QgpaPem0g==
+X-Google-Smtp-Source: ABdhPJytdcmXOpm+1R0BZ5kIZ7mJHWmMMAKGNTUwWOBwbaIAUJQfq3/Rmp56rV4+ydwCFBd0unEvoNAfl2QvdEnvDrw=
+X-Received: by 2002:a17:907:720d:: with SMTP id dr13mr32411152ejc.153.1637229362213;
+ Thu, 18 Nov 2021 01:56:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211118055726.13107-1-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20211118055726.13107-1-manivannan.sadhasivam@linaro.org>
+From: Aleksander Morgado <aleksander@aleksander.es>
+Date: Thu, 18 Nov 2021 10:55:51 +0100
+Message-ID: <CAAP7ucJoOTOqFnNpJcQmxF=A0TOB8TtCCng-2q9pNkddRTbpuw@mail.gmail.com>
+Subject: Re: [PATCH v3] bus: mhi: Fix race while handling SYS_ERR at power up
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>, 
+	Thomas Perrot <thomas.perrot@bootlin.com>, Hemant Kumar <hemantk@codeaurora.org>, 
+	Bhaumik Bhatt <bbhatt@codeaurora.org>, quic_jhugo@quicinc.com, 
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>, stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Some devices tend to trigger SYS_ERR interrupt while the host handling
-SYS_ERR state of the device during power up. This creates a race
-condition and causes a failure in booting up the device.
+Hey Mani,
 
-The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
-handling in mhi_async_power_up(). Once the host detects that the device
-is in SYS_ERR state, it issues MHI_RESET and waits for the device to
-process the reset request. During this time, the device triggers SYS_ERR
-interrupt to the host and host starts handling SYS_ERR execution.
+On Thu, Nov 18, 2021 at 6:57 AM Manivannan Sadhasivam
+<manivannan.sadhasivam@linaro.org> wrote:
+>
+> Some devices tend to trigger SYS_ERR interrupt while the host handling
+> SYS_ERR state of the device during power up. This creates a race
+> condition and causes a failure in booting up the device.
+>
+> The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
+> handling in mhi_async_power_up(). Once the host detects that the device
+> is in SYS_ERR state, it issues MHI_RESET and waits for the device to
+> process the reset request. During this time, the device triggers SYS_ERR
+> interrupt to the host and host starts handling SYS_ERR execution.
+>
+> So by the time the device has completed reset, host starts SYS_ERR
+> handling. This causes the race condition and the modem fails to boot.
+>
+> Hence, register the IRQ handler only after handling the SYS_ERR check
+> to avoid getting spurious IRQs from the device.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
+> Reported-by: Aleksander Morgado <aleksander@aleksander.es>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>
+> Changes in v3:
+>
+> * Moved BHI_INTVEC setup after irq setup
+> * Used interval_us as the delay for the polling API
+>
+> Changes in v2:
+>
+> * Switched to "mhi_poll_reg_field" for detecting MHI reset in device.
+>
 
-So by the time the device has completed reset, host starts SYS_ERR
-handling. This causes the race condition and the modem fails to boot.
+I tried this v3 patch and I'm not sure if it's working properly in my
+setup; not all boots are successfully bringing the modem up.
 
-Hence, register the IRQ handler only after handling the SYS_ERR check
-to avoid getting spurious IRQs from the device.
+Once I installed it, I kept having this kind of logs on every boot:
+[    7.030407] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
+0x600000000-0x600000fff 64bit]
+[    7.038984] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
+[    7.045814] mhi-pci-generic 0000:01:00.0: using shared MSI
+[    7.052191] mhi mhi0: Requested to power ON
+[    7.168042] mhi mhi0: Power on setup success
+[    7.168141] mhi mhi0: Wait for device to enter SBL or Mission mode
+[   15.687938] mhi-pci-generic 0000:01:00.0: failed to suspend device: -16
 
-Cc: stable@vger.kernel.org
-Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
-Reported-by: Aleksander Morgado <aleksander@aleksander.es>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
+I didn't have debug logs enabled in that build, so I created a new one
+with them enabled, and... these are the logs I'm getting now (not the
+same ones as above, not sure why):
 
-Changes in v3:
+// Cold boots fail (tried several times)
+[    7.033370] mhi-pci-generic 0000:01:00.0: MHI PCI device found: sierra-em919x
+[    7.040558] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
+0x600000000-0x600000fff 64bit]
+[    7.049105] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
+[    7.055923] mhi-pci-generic 0000:01:00.0: using shared MSI
+[    7.062130] mhi mhi0: Requested to power ON
+[    7.066351] mhi mhi0: Attempting power on with EE: PASS THROUGH,
+state: SYS ERROR
+[   20.572010] mhi mhi0: Power on setup success
+[   20.576412] mhi mhi0: Handling state transition: PBL
+[   55.139820] mhi mhi0: Device failed to enter MHI Ready
+[   55.144978] mhi mhi0: MHI did not enter READY state
+[   55.149876] mhi mhi0: Handling state transition: DISABLE
+[   55.155203] mhi mhi0: Processing disable transition with PM state:
+Firmware Download Error
+[   55.163482] mhi mhi0: Triggering MHI Reset in device
+[   89.727820] mhi mhi0: Device failed to clear MHI Reset
+[   89.732975] mhi mhi0: Waiting for all pending event ring processing
+to complete
+[   89.740316] mhi mhi0: Waiting for all pending threads to complete
+[   89.746422] mhi mhi0: Reset all active channels and remove MHI devices
+[   89.752963] mhi mhi0: Resetting EV CTXT and CMD CTXT
+[   89.757940] mhi mhi0: Error moving from PM state: Firmware Download
+Error to: DISABLE
+[   89.765785] mhi mhi0: Exiting with PM state: Firmware Download
+Error, MHI state: RESET
+[   89.773793] mhi-pci-generic 0000:01:00.0: failed to power up MHI controller
+[   89.781067] mhi-pci-generic: probe of 0000:01:00.0 failed with error -110
 
-* Moved BHI_INTVEC setup after irq setup
-* Used interval_us as the delay for the polling API
+// Warm reboots afterwards seem to go ok (tried several times)
+[    7.072762] mhi-pci-generic 0000:01:00.0: MHI PCI device found: sierra-em919x
+[    7.079942] mhi-pci-generic 0000:01:00.0: BAR 0: assigned [mem
+0x600000000-0x600000fff 64bit]
+[    7.088505] mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
+[    7.095331] mhi-pci-generic 0000:01:00.0: using shared MSI
+[    7.101628] mhi mhi0: Requested to power ON
+[    7.105859] mhi mhi0: Attempting power on with EE: PASS THROUGH,
+state: SYS ERROR
+[    7.224053] mhi mhi0: Power on setup success
+[    7.228373] mhi mhi0: local ee: INVALID_EE state: RESET device ee:
+MISSION MODE state: READY
+[    7.236878] mhi mhi0: Handling state transition: PBL
+[    7.241871] mhi mhi0: Device in READY State
+[    7.246118] mhi mhi0: Initializing MHI registers
+[    7.250775] mhi mhi0: Wait for device to enter SBL or Mission mode
+[   15.418147] mhi mhi0: local ee: MISSION MODE state: READY device
+ee: MISSION MODE state: READY
+[   16.025027] mhi mhi0: State change event to state: M0
+[   16.025041] mhi mhi0: local ee: MISSION MODE state: READY device
+ee: MISSION MODE state: M0
+[   16.038500] mhi mhi0: Received EE event: MISSION MODE
+[   16.038505] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
+MISSION MODE state: M0
+[   16.051671] mhi mhi0: Handling state transition: MISSION MODE
+[   16.057434] mhi mhi0: Processing Mission Mode transition
+[   16.063780] mhi_net mhi0_IP_HW0: 100: Updating channel state to: START
+[   16.197073] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
+MISSION MODE state: M0
+[   16.201196] mhi_net mhi0_IP_HW0: 100: Channel state change to START
+successful
+[   16.212565] mhi_net mhi0_IP_HW0: 101: Updating channel state to: START
+[   16.362262] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
+MISSION MODE state: M0
+[   16.362268] mhi_net mhi0_IP_HW0: 101: Channel state change to START
+successful
+[   18.860081] mhi mhi0: Allowing M3 transition
+[   18.864380] mhi mhi0: Waiting for M3 completion
+[   19.080218] mhi mhi0: State change event to state: M3
+[   19.080228] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
+MISSION MODE state: M3
+[   21.899049] mhi_wwan_ctrl mhi0_DUN: 32: Updating channel state to: START
+[   21.924031] mhi mhi0: Entered with PM state: M3, MHI state: M3
+[   21.952174] mhi mhi0: State change event to state: M0
+[   21.952193] mhi mhi0: local ee: MISSION MODE state: M3 device ee:
+MISSION MODE state: M0
+[   21.967549] mhi mhi0: local ee: MISSION MODE state: M0 device ee:
+MISSION MODE state: M0
+[   21.967553] mhi_wwan_ctrl mhi0_DUN: 32: Channel state change to
+START successful
 
-Changes in v2:
+I didn't try the v1 or v2 patches (sorry!), so not sure if the issues
+come in this last iteration or in an earlier one. Do you want me to
+try with v1 and v2 as well?
 
-* Switched to "mhi_poll_reg_field" for detecting MHI reset in device.
+The patch that was working very reliably (100%) for me was the "bus:
+mhi: Register IRQ handler after SYS_ERR check during power up" one,
+which you attached here:
+https://www.spinics.net/lists/linux-arm-msm/msg97646.html
 
- drivers/bus/mhi/core/pm.c | 38 ++++++++++++++------------------------
- 1 file changed, 14 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
-index fb99e3727155..ee0515a25e46 100644
---- a/drivers/bus/mhi/core/pm.c
-+++ b/drivers/bus/mhi/core/pm.c
-@@ -1038,7 +1038,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 	enum mhi_ee_type current_ee;
- 	enum dev_st_transition next_state;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
--	u32 val;
-+	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
- 	int ret;
- 
- 	dev_info(dev, "Requested to power ON\n");
-@@ -1055,13 +1055,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 	mutex_lock(&mhi_cntrl->pm_mutex);
- 	mhi_cntrl->pm_state = MHI_PM_DISABLE;
- 
--	ret = mhi_init_irq_setup(mhi_cntrl);
--	if (ret)
--		goto error_setup_irq;
--
--	/* Setup BHI INTVEC */
- 	write_lock_irq(&mhi_cntrl->pm_lock);
--	mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
- 	mhi_cntrl->pm_state = MHI_PM_POR;
- 	mhi_cntrl->ee = MHI_EE_MAX;
- 	current_ee = mhi_get_exec_env(mhi_cntrl);
-@@ -1072,7 +1066,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 		dev_err(dev, "%s is not a valid EE for power on\n",
- 			TO_MHI_EXEC_STR(current_ee));
- 		ret = -EIO;
--		goto error_async_power_up;
-+		goto error_setup_irq;
- 	}
- 
- 	state = mhi_get_mhi_state(mhi_cntrl);
-@@ -1081,20 +1075,12 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 
- 	if (state == MHI_STATE_SYS_ERR) {
- 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
--		ret = wait_event_timeout(mhi_cntrl->state_event,
--				MHI_PM_IN_FATAL_STATE(mhi_cntrl->pm_state) ||
--					mhi_read_reg_field(mhi_cntrl,
--							   mhi_cntrl->regs,
--							   MHICTRL,
--							   MHICTRL_RESET_MASK,
--							   MHICTRL_RESET_SHIFT,
--							   &val) ||
--					!val,
--				msecs_to_jiffies(mhi_cntrl->timeout_ms));
--		if (!ret) {
--			ret = -EIO;
-+		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
-+				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
-+				 interval_us);
-+		if (ret) {
- 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
--			goto error_async_power_up;
-+			goto error_setup_irq;
- 		}
- 
- 		/*
-@@ -1104,6 +1090,13 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
- 	}
- 
-+	ret = mhi_init_irq_setup(mhi_cntrl);
-+	if (ret)
-+		goto error_setup_irq;
-+
-+	/* Setup BHI INTVEC */
-+	mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
-+
- 	/* Transition to next state */
- 	next_state = MHI_IN_PBL(current_ee) ?
- 		DEV_ST_TRANSITION_PBL : DEV_ST_TRANSITION_READY;
-@@ -1116,9 +1109,6 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 
- 	return 0;
- 
--error_async_power_up:
--	mhi_deinit_free_irq(mhi_cntrl);
--
- error_setup_irq:
- 	mhi_cntrl->pm_state = MHI_PM_DISABLE;
- 	mutex_unlock(&mhi_cntrl->pm_mutex);
 -- 
-2.25.1
-
+Aleksander
+https://aleksander.es
