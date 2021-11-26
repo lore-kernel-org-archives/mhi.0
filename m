@@ -1,50 +1,51 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1672C80
-	for <mhi@lists.linux.dev>; Fri, 26 Nov 2021 03:14:15 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id h24so6317866pjq.2
-        for <mhi@lists.linux.dev>; Thu, 25 Nov 2021 19:14:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF6C68
+	for <mhi@lists.linux.dev>; Fri, 26 Nov 2021 10:50:15 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id m24so6428747pls.10
+        for <mhi@lists.linux.dev>; Fri, 26 Nov 2021 02:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jOPkYIC9MBDg3QKppD+I6WeSKkJEENVHD/2UOgJbqlQ=;
-        b=tDvaWOQvxAj8Tv3TOTfo5fteGwqmptg8AXIPZDzS45YiZpkeI7XtI7L5lMAc6RybKp
-         Z72N23jpJii27T1pKbfneBQ4a/NepSAodtk02sl1wsn9CCEw2ihGCEeNZJROEXUNXvO3
-         a8yDURi4Qdn843DWmFReXRnyBRgvuMd3pYOTOsy/6hzZsoLTArWcYA5Dz2S1BeiRoJSo
-         2VdCtNV4TFLkeERdrGOEssdfCilaOiXd9Aq+JBo1Hg1b2SfoLlnhmJJZuqXGGhlLvN8I
-         3DhvCec2gd9ME0QnaiclJx2ervfJfASJJWdPK0fyiShjo8PsOkQvVhLvJ/rwyJ1X+zSJ
-         zXGg==
+        bh=IYO6p8Ym3f2IeVVBn3iVr/FscUdiGm+cfP8ZhmD9kTA=;
+        b=TyeOJQCkZ4i872PO6edTvTypMVE4mJ3hI70Wq8sVdT2+CiRgXEGZWCkjfwQPVEoO4T
+         EHu47NvnI/1/G6uZZDkUQbEFJzdL7na/NZEOfJ/pUwQrgTZua/gKOhWTSULaXs6OuLfK
+         YXfEUXy4RJ+da1+7NG2yCSMs9vgNO8yEsIUyu/OJRydsc5yEtR9OboTuMTwO/G6rV712
+         k+gqUkjM1okV35PL8wLQ39hbcVm9vvUElQFmx2jL2nKrlZLUOf0TkPhMM1e+cxNiK+gh
+         Z3F4IY2tsyxIEC5mTtexzewzcxnTklp5FU0M51lckDYSZYBF9tk4+fDa/YN4nfPn8DcQ
+         Y6Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jOPkYIC9MBDg3QKppD+I6WeSKkJEENVHD/2UOgJbqlQ=;
-        b=SLwA1FLVocAtNYqc77BgsqF4oDZv/dv4pDn0i65ki9o7zejEALIRT171zLXpBCkO33
-         xP7e1aNIBYUkdvc6cL9+Ech47q7gbu5z4XBBHO3xBIaLa9w6y3UtA0iJwZWgjTVzmvxQ
-         1alUD075FiWYwTNrPwU2gD921R4Zl+Aoc0DKzG1EDoj++NYQsFdJIG6G4quGmKY4tQ0l
-         phIzIejEtCkmi9cCsCVxgPJMYC3i8qqJlX3KsfTYrve+h32mezos78drdMEndXx/+fuq
-         AU1RXQlhA6ZTun/lEus3sN+Gej/PmKR5LlRRpax8o9eX+Orvvc9Kh7iFyVIJeMXGfm6S
-         S3dA==
-X-Gm-Message-State: AOAM533Twu0lY+6mFkfXAibWHCKIspmRIMJPSc+YN6G5IJCQVBzEY9WI
-	o3v5TYfNqdHsSr0Y04a2FXr2N6QD8m4E
-X-Google-Smtp-Source: ABdhPJxyt+KG/J5PtzOvFTRPMYQ+OP3jqecdQQvsfzNjIyfefphthNeYkRwRrF7jcJg8QqPt4gfHOg==
-X-Received: by 2002:a17:902:e806:b0:141:fd0a:2201 with SMTP id u6-20020a170902e80600b00141fd0a2201mr34512574plg.48.1637896454782;
-        Thu, 25 Nov 2021 19:14:14 -0800 (PST)
+        bh=IYO6p8Ym3f2IeVVBn3iVr/FscUdiGm+cfP8ZhmD9kTA=;
+        b=DhYlHYH3RxcUdy6EI4DINPCVbz5NVLbzBJMhIfYmJslzcemBBEs/xJU55HzijhwmLg
+         du4FDO1jdtHjMUDyh4uBPm+/6kH36mWC8M/fy28CmgvLOEb4VW71qad6PhxfasKpzf9/
+         JsIWHLGQh2v6cGLa9Asg6AT0eGHhjCk3VfY8fsJzUy/JzV3ZvDwvXjiFLAuLndPDmjmm
+         2s7dXLqpKY5pqasgn+31/U+n36jB+EgjI6KX4d65EnR2ihOYX0wn4NpjfBnxkYZTFfSH
+         5CLu0uQD5s8KaWsHXASasD1eG8yWXj9AFBX5cIzYEYvwMwPBbkjsNOQfkWfNhrk3RAT7
+         msfg==
+X-Gm-Message-State: AOAM530d28eCONb4g3j5ygTz/4x5AoGtvk5w59AngUve9BuQdNGIDn2p
+	x04vV7B7ZVurhV2TTzjxIfJRFCqOEBPq
+X-Google-Smtp-Source: ABdhPJxLfqswKQnt0W5ILuWZXp5OFhCazDu8Z1JO8uPVhvpQcq8kMmias595kKwl5/xR+psE29/GlA==
+X-Received: by 2002:a17:90b:1e49:: with SMTP id pi9mr14607601pjb.220.1637923815369;
+        Fri, 26 Nov 2021 02:50:15 -0800 (PST)
 Received: from localhost.localdomain ([117.215.117.247])
-        by smtp.gmail.com with ESMTPSA id o9sm3815088pgu.12.2021.11.25.19.14.12
+        by smtp.gmail.com with ESMTPSA id 95sm5277452pjo.2.2021.11.26.02.50.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 19:14:14 -0800 (PST)
+        Fri, 26 Nov 2021 02:50:14 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: hemantk@codeaurora.org,
-	bbhatt@codeaurora.org,
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev,
+	slark_xiao@163.com,
 	linux-arm-msm@vger.kernel.org,
+	hemantk@codeaurora.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] bus: mhi: Minor style and comment fixes
-Date: Fri, 26 Nov 2021 08:44:03 +0530
-Message-Id: <20211126031403.8075-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 0/1] MHI fixes for v5.16
+Date: Fri, 26 Nov 2021 16:19:50 +0530
+Message-Id: <20211126104951.35685-1-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -54,58 +55,23 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes the below checkpatch warnings in MHI bus:
+Hi Greg,
 
-WARNING: Possible repeated word: 'events'
-+	/* Process ctrl events events */
+Here is a single MHI fix patch for 5.16 release. This patch fixes reset issue
+with Foxconn T99W175 modems due to very short recovery time in pci_generic MHI
+controller driver.
 
-WARNING: Missing a blank line after declarations
-+			struct mhi_buf_info info = { };
-+			buf = kmalloc(len, GFP_KERNEL);
+Please consider applying!
 
-WARNING: Move const after static - use 'static const struct mhi_pm_transitions'
-+static struct mhi_pm_transitions const dev_state_transitions[] = {
+Thanks,
+Mani
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/core/main.c | 3 ++-
- drivers/bus/mhi/core/pm.c   | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Slark Xiao (1):
+  bus: mhi: pci_generic: Fix device recovery failed issue
 
-diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/core/main.c
-index b15c5bc37dd4..930aba666b67 100644
---- a/drivers/bus/mhi/core/main.c
-+++ b/drivers/bus/mhi/core/main.c
-@@ -1065,7 +1065,7 @@ void mhi_ctrl_ev_task(unsigned long data)
- 		return;
- 	}
- 
--	/* Process ctrl events events */
-+	/* Process ctrl events */
- 	ret = mhi_event->process_event(mhi_cntrl, mhi_event, U32_MAX);
- 
- 	/*
-@@ -1464,6 +1464,7 @@ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
- 		while (nr_el--) {
- 			void *buf;
- 			struct mhi_buf_info info = { };
-+
- 			buf = kmalloc(len, GFP_KERNEL);
- 			if (!buf) {
- 				ret = -ENOMEM;
-diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
-index 0bb8d77515e3..7464f5d09973 100644
---- a/drivers/bus/mhi/core/pm.c
-+++ b/drivers/bus/mhi/core/pm.c
-@@ -42,7 +42,7 @@
-  * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
-  *     LD_ERR_FATAL_DETECT -> DISABLE
-  */
--static struct mhi_pm_transitions const dev_state_transitions[] = {
-+static const struct mhi_pm_transitions dev_state_transitions[] = {
- 	/* L0 States */
- 	{
- 		MHI_PM_DISABLE,
+ drivers/bus/mhi/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
 2.25.1
 
