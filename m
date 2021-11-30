@@ -1,131 +1,218 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984B468
-	for <mhi@lists.linux.dev>; Fri, 26 Nov 2021 10:50:19 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id q16so7793549pgq.10
-        for <mhi@lists.linux.dev>; Fri, 26 Nov 2021 02:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CCHFJxxsdX+DmEApgNw9BkhjpFB9zppcHHtRUaYVLaQ=;
-        b=TksuyglKyZG6tsHN7PLqWMKDh+fiB7/PZFu7q98MqJ1AqcTbl5rOeRIRmzuU9fkL2r
-         3jeLsHUjBHn6Oj2Q2bmHsVPKUNeXr6pdPzcgbaxnqjtrPunmdruGkustO/oPzjW57tbN
-         R6GoOMH1xn0EN5D2WHzJ+asHRmWxXJhKRPHcrmVMA2EWpX7lEqDiAlmddXBp6eUAMSP4
-         QWJaY1AZeZSJLoGG0785APc6ZQH/21pRd1k1jfc+mq1+wuMhiM8V0BGFRMysZ1X7pXw9
-         ZmzpQO+r3io5CTHpy2Ys1DRO+hjcBoKthsjr5OesnMthTUmcqGUCecIPVkEC9BClVj/I
-         z45w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CCHFJxxsdX+DmEApgNw9BkhjpFB9zppcHHtRUaYVLaQ=;
-        b=gtBWCS2kOypHl5TqQyiMFUsU4Yi0MzBJt2/Ec+RaAJo6U4rFIaJbr4jNVpBLDNd0nq
-         CjeOBztn0i/nzGs3vleigyztlGrikZZ8yzAQZgvHlvpS++sun+j+fMw4biQj9mtm6tbM
-         elJX1MwLCmH0EWczCoyclBORJordaIzKCw90A59zYwXRAj1thvrA0dmvxyX6r9ZVNqff
-         dfkgwSXbSzGJ5nGqDTutqWZuGELs3ypuf4RVaGrl1he+af6qjngrVTAwF95kXCbUuRv+
-         CeeKRCCKi0CVI4NEaiUDRGEG9uHGqZHbSTqg0KRBR6nJiRS+s1FppHwB7EyGXqJ4ursZ
-         2h7g==
-X-Gm-Message-State: AOAM533kmc1NNSRP/XQmG9DmDNgD16I3RpnUI9cWHO1KZmpaiO5mV139
-	kxYBORrGZqZg3H080sowGN9p
-X-Google-Smtp-Source: ABdhPJz0N+2woirIzl2W9de+xjq8Ufw5l0Ic8eqq7+4NVf9XiphAYqFIaD5HMM42E0tsdGhPBinWJA==
-X-Received: by 2002:aa7:8394:0:b0:4a7:e88c:284b with SMTP id u20-20020aa78394000000b004a7e88c284bmr15115851pfm.10.1637923819097;
-        Fri, 26 Nov 2021 02:50:19 -0800 (PST)
-Received: from localhost.localdomain ([117.215.117.247])
-        by smtp.gmail.com with ESMTPSA id 95sm5277452pjo.2.2021.11.26.02.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Nov 2021 02:50:18 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev,
-	slark_xiao@163.com,
-	linux-arm-msm@vger.kernel.org,
-	hemantk@codeaurora.org,
-	stable@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 1/1] bus: mhi: pci_generic: Fix device recovery failed issue
-Date: Fri, 26 Nov 2021 16:19:51 +0530
-Message-Id: <20211126104951.35685-2-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211126104951.35685-1-manivannan.sadhasivam@linaro.org>
-References: <20211126104951.35685-1-manivannan.sadhasivam@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CC02C82
+	for <mhi@lists.linux.dev>; Tue, 30 Nov 2021 00:55:02 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1638233702; h=Message-ID: References: In-Reply-To: Reply-To:
+ Subject: Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Si6o8utt9hx7y8YzH3OhVdkira7dpL45F1uP7ReREDA=;
+ b=aeWaiO/O+4hkYfnjGom/JKsyVRM1IpkolUeFhaNzBrwd5blWpAkM0MxnLisQ5CbdA9N7Yuxn
+ sH/n4j3IQm+Zyc96hQiMBWc1VKqcK6zv0IjchpNVkuYl2J8YkJsDcN341fiQo4nR9093yoaV
+ Wk2q01iUG+lzIn42sAesZTmz/2Y=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 61a576656bacc185a53d8548 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 30 Nov 2021 00:55:01
+ GMT
+Sender: quic_bbhatt=quicinc.com@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 44377C43617; Tue, 30 Nov 2021 00:55:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: bbhatt)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 35796C4338F;
+	Tue, 30 Nov 2021 00:54:59 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 29 Nov 2021 16:54:59 -0800
+From: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, quic_jhugo@quicinc.com, hemantk@codeaurora.org,
+ bbhatt@codeaurora.org, aleksander@aleksander.es, loic.poulain@linaro.org,
+ thomas.perrot@bootlin.com, linux-arm-msm@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v4] bus: mhi: Fix race while handling SYS_ERR at power up
+Organization: Qualcomm Innovation Center, Inc.
+Reply-To: quic_bbhatt@quicinc.com
+Mail-Reply-To: quic_bbhatt@quicinc.com
+In-Reply-To: <20211126030144.GC5859@thinkpad>
+References: <20211124132221.44915-1-manivannan.sadhasivam@linaro.org>
+ <20211126030144.GC5859@thinkpad>
+Message-ID: <020937096d9039a295b97d71994a6d5a@quicinc.com>
+X-Sender: quic_bbhatt@quicinc.com
+User-Agent: Roundcube Webmail/1.3.9
 
-From: Slark Xiao <slark_xiao@163.com>
+On 2021-11-25 07:01 PM, Manivannan Sadhasivam wrote:
+> On Wed, Nov 24, 2021 at 06:52:21PM +0530, Manivannan Sadhasivam wrote:
+>> Some devices tend to trigger SYS_ERR interrupt while the host handling
+>> SYS_ERR state of the device during power up. This creates a race
+>> condition and causes a failure in booting up the device.
+>> 
+>> The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
+>> handling in mhi_async_power_up(). Once the host detects that the 
+>> device
+>> is in SYS_ERR state, it issues MHI_RESET and waits for the device to
+>> process the reset request. During this time, the device triggers 
+>> SYS_ERR
+>> interrupt to the host and host starts handling SYS_ERR execution.
+Since device does not actually trigger a SYS_ERR interrupt, we could say 
+"device
+triggers BHI interrupt acknowledging the MHI RESET sent by host but does 
+not clear
+the MHI state to reset or ready and leaves it as SYS_ERR" or any such 
+wording.
+>> 
+>> So by the time the device has completed reset, host starts SYS_ERR
+>> handling. This causes the race condition and the modem fails to boot.
+>> 
+>> Hence, register the IRQ handler only after handling the SYS_ERR check
+>> to avoid getting spurious IRQs from the device.
+>> 
+>> Cc: stable@vger.kernel.org
+>> Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
+>> Reported-by: Aleksander Morgado <aleksander@aleksander.es>
+>> Signed-off-by: Manivannan Sadhasivam 
+>> <manivannan.sadhasivam@linaro.org>
+> 
+> Hemant, Bhaumik, Jeff: Can you please do the review again?
+> 
+> Thanks,
+> Mani
+> 
+>> ---
+>> 
+>> Changes in v4:
+>> 
+>> * Reverted the change that moved BHI_INTVEC as that was causing issue 
+>> as
+>>   reported by Aleksander.
+>> 
+>> Changes in v3:
+>> 
+>> * Moved BHI_INTVEC setup after irq setup
+>> * Used interval_us as the delay for the polling API
+>> 
+>> Changes in v2:
+>> 
+>> * Switched to "mhi_poll_reg_field" for detecting MHI reset in device.
+>> 
+>>  drivers/bus/mhi/core/pm.c | 33 +++++++++++----------------------
+>>  1 file changed, 11 insertions(+), 22 deletions(-)
+>> 
+>> diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
+>> index fb99e3727155..21484a61bbed 100644
+>> --- a/drivers/bus/mhi/core/pm.c
+>> +++ b/drivers/bus/mhi/core/pm.c
+>> @@ -1038,7 +1038,7 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>>  	enum mhi_ee_type current_ee;
+>>  	enum dev_st_transition next_state;
+>>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>> -	u32 val;
+>> +	u32 interval_us = 25000; /* poll register field every 25 
+>> milliseconds */
+>>  	int ret;
+>> 
+>>  	dev_info(dev, "Requested to power ON\n");
+>> @@ -1055,10 +1055,6 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>>  	mutex_lock(&mhi_cntrl->pm_mutex);
+>>  	mhi_cntrl->pm_state = MHI_PM_DISABLE;
+>> 
+>> -	ret = mhi_init_irq_setup(mhi_cntrl);
+>> -	if (ret)
+>> -		goto error_setup_irq;
+>> -
+>>  	/* Setup BHI INTVEC */
+>>  	write_lock_irq(&mhi_cntrl->pm_lock);
+>>  	mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
+>> @@ -1072,7 +1068,7 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>>  		dev_err(dev, "%s is not a valid EE for power on\n",
+>>  			TO_MHI_EXEC_STR(current_ee));
+>>  		ret = -EIO;
+>> -		goto error_async_power_up;
+>> +		goto error_setup_irq;
+We're using the label "error_setup_irq" even though there has not been 
+any prior IRQ
+setup done. Can we use the label "error_async_power_up" instead?
+>>  	}
+>> 
+>>  	state = mhi_get_mhi_state(mhi_cntrl);
+>> @@ -1081,20 +1077,12 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>> 
+>>  	if (state == MHI_STATE_SYS_ERR) {
+>>  		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+>> -		ret = wait_event_timeout(mhi_cntrl->state_event,
+>> -				MHI_PM_IN_FATAL_STATE(mhi_cntrl->pm_state) ||
+>> -					mhi_read_reg_field(mhi_cntrl,
+>> -							   mhi_cntrl->regs,
+>> -							   MHICTRL,
+>> -							   MHICTRL_RESET_MASK,
+>> -							   MHICTRL_RESET_SHIFT,
+>> -							   &val) ||
+>> -					!val,
+>> -				msecs_to_jiffies(mhi_cntrl->timeout_ms));
+>> -		if (!ret) {
+>> -			ret = -EIO;
+>> +		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+>> +				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
+>> +				 interval_us);
+>> +		if (ret) {
+>>  			dev_info(dev, "Failed to reset MHI due to syserr state\n");
+>> -			goto error_async_power_up;
+>> +			goto error_setup_irq;
+Same here
+>>  		}
+>> 
+>>  		/*
+>> @@ -1104,6 +1092,10 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>>  		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
+>>  	}
+>> 
+>> +	ret = mhi_init_irq_setup(mhi_cntrl);
+>> +	if (ret)
+>> +		goto error_setup_irq;
+And here
+>> +
+>>  	/* Transition to next state */
+>>  	next_state = MHI_IN_PBL(current_ee) ?
+>>  		DEV_ST_TRANSITION_PBL : DEV_ST_TRANSITION_READY;
+>> @@ -1116,9 +1108,6 @@ int mhi_async_power_up(struct mhi_controller 
+>> *mhi_cntrl)
+>> 
+>>  	return 0;
+>> 
+>> -error_async_power_up:
+>> -	mhi_deinit_free_irq(mhi_cntrl);
+>> -
+>>  error_setup_irq:
+s/error_setup_irq/error_async_power_up
+>>  	mhi_cntrl->pm_state = MHI_PM_DISABLE;
+>>  	mutex_unlock(&mhi_cntrl->pm_mutex);
+>> --
+>> 2.25.1
+>> 
 
-For Foxconn T99W175 device(sdx55 platform) in some host platform,
-it would be unavailable once the host execute the err handler.
-
-After checking, it's caused by the delay time too short to
-get a successful reset.
-
-Please see my test evidence as bewlow(BTW, I add some extra test logs
-in function mhi_pci_reset_prepare and mhi_pci_reset_done):
-  When MHI_POST_RESET_DELAY_MS equals to 500ms:
-   Nov  4 14:30:03 jbd-ThinkEdge kernel: [  146.222477] mhi mhi0: Device MHI is not in valid state
-   Nov  4 14:30:03 jbd-ThinkEdge kernel: [  146.222628] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare reset
-   Nov  4 14:30:03 jbd-ThinkEdge kernel: [  146.222631] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare mhi_soc_reset
-   Nov  4 14:30:03 jbd-ThinkEdge kernel: [  146.222632] mhi mhi0:  mhi_soc_reset write soc to reset
-   Nov  4 14:30:05 jbd-ThinkEdge kernel: [  147.839993] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_done
-   Nov  4 14:30:05 jbd-ThinkEdge kernel: [  147.902063] mhi-pci-generic 0000:2d:00.0: reset failed
-
-  When MHI_POST_RESET_DELAY_MS equals to 1000ms or 1500ms:
-   Nov  4 19:07:26 jbd-ThinkEdge kernel: [  157.067857] mhi mhi0: Device MHI is not in valid state
-   Nov  4 19:07:26 jbd-ThinkEdge kernel: [  157.068029] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare reset
-   Nov  4 19:07:26 jbd-ThinkEdge kernel: [  157.068032] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare mhi_soc_reset
-   Nov  4 19:07:26 jbd-ThinkEdge kernel: [  157.068034] mhi mhi0:  mhi_soc_reset write soc to reset
-   Nov  4 19:07:29 jbd-ThinkEdge kernel: [  159.607006] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_done
-   Nov  4 19:07:29 jbd-ThinkEdge kernel: [  159.607152] mhi mhi0: Requested to power ON
-   Nov  4 19:07:51 jbd-ThinkEdge kernel: [  181.302872] mhi mhi0: Failed to reset MHI due to syserr state
-   Nov  4 19:07:51 jbd-ThinkEdge kernel: [  181.303011] mhi-pci-generic 0000:2d:00.0: failed to power up MHI controller
-
-  When MHI_POST_RESET_DELAY_MS equals to 2000ms:
-   Nov  4 17:51:08 jbd-ThinkEdge kernel: [  147.180527] mhi mhi0: Failed to transition from PM state: Linkdown or Error Fatal Detect to: SYS ERROR Process
-   Nov  4 17:51:08 jbd-ThinkEdge kernel: [  147.180535] mhi mhi0: Device MHI is not in valid state
-   Nov  4 17:51:08 jbd-ThinkEdge kernel: [  147.180722] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare reset
-   Nov  4 17:51:08 jbd-ThinkEdge kernel: [  147.180725] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_prepare mhi_soc_reset
-   Nov  4 17:51:08 jbd-ThinkEdge kernel: [  147.180727] mhi mhi0:  mhi_soc_reset write soc to reset
-   Nov  4 17:51:11 jbd-ThinkEdge kernel: [  150.230787] mhi-pci-generic 0000:2d:00.0: mhi_pci_reset_done
-   Nov  4 17:51:11 jbd-ThinkEdge kernel: [  150.230928] mhi mhi0: Requested to power ON
-   Nov  4 17:51:11 jbd-ThinkEdge kernel: [  150.231173] mhi mhi0: Power on setup success
-   Nov  4 17:51:14 jbd-ThinkEdge kernel: [  153.254747] mhi mhi0: Wait for device to enter SBL or Mission mode
-
-I also tried big data like 3000, and it worked as well. 500ms may not be
-enough for all support mhi device. We shall increase it to 2000ms
-at least.
-
-Cc: stable@vger.kernel.org
-Fixes: 8ccc3279fcad ("mhi: pci_generic: Add support for reset")
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-Link: https://lore.kernel.org/r/20211108113127.3938-1-slark_xiao@163.com
-[mani: massaged commit message little bit, added Fixes tag and CCed stable]
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/pci_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
-index 59a4896a8030..4c577a731709 100644
---- a/drivers/bus/mhi/pci_generic.c
-+++ b/drivers/bus/mhi/pci_generic.c
-@@ -20,7 +20,7 @@
- 
- #define MHI_PCI_DEFAULT_BAR_NUM 0
- 
--#define MHI_POST_RESET_DELAY_MS 500
-+#define MHI_POST_RESET_DELAY_MS 2000
- 
- #define HEALTH_CHECK_PERIOD (HZ * 2)
- 
 -- 
-2.25.1
-
+Thanks,
+Bhaumik
