@@ -1,80 +1,133 @@
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9942CA0
-	for <mhi@lists.linux.dev>; Wed,  1 Dec 2021 01:01:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1638320505; x=1669856505;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=Tmns+pSWd50vLS9F74F2TuYEdYx1lfAxUZZYVCRGMt8=;
-  b=GLZf/A5HXUsU43d8TG7GvaaGEGoYkSwfzhvCfmWQElXoNAIDvvI6JLyt
-   fGUibAlP+2N7lLeGg/DZlddJsb79eO0+EveeyTwo3ZZZDYPB0x2uaNqyn
-   8WIXe1gS2sTNowJPi5L2UjfvBTO5Fh5H0J/HNew3EgEuqEjNZzDUySFn2
-   U=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Nov 2021 17:01:39 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 17:01:39 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 30 Nov 2021 17:01:39 -0800
-Received: from vivace-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 30 Nov 2021 17:01:38 -0800
-From: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
-To: <manivannan.sadhasivam@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <quic_hemantk@quicinc.com>,
-	<quic_jhugo@quicinc.com>, <linux-kernel@vger.kernel.org>,
-	<mhi@lists.linux.dev>, <stable@vger.kernel.org>, <quic_olgak@quicinc.com>,
-	<loic.poulain@linaro.org>, Bhaumik Bhatt <quic_bbhatt@quicinc.com>
-Subject: [PATCH v2] bus: mhi: core: Fix reading wake_capable channel configuration
-Date: Tue, 30 Nov 2021 17:01:31 -0800
-Message-ID: <1638320491-13382-1-git-send-email-quic_bbhatt@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D220468;
+	Wed,  1 Dec 2021 07:34:19 +0000 (UTC)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1msK83-0000cS-8F; Wed, 01 Dec 2021 08:34:11 +0100
+Message-ID: <915c3760-181e-bbac-aec4-1e20d0dab2a9@leemhuis.info>
+Date: Wed, 1 Dec 2021 08:34:09 +0100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-BS
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Kalle Valo <kvalo@codeaurora.org>
+Cc: Loic Poulain <loic.poulain@linaro.org>, ath11k@lists.infradead.org,
+ linux-wireless@vger.kernel.org, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, regressions@lists.linux.dev,
+ mhi <mhi@lists.linux.dev>
+References: <871r5p0x2u.fsf@codeaurora.org>
+ <CAMZdPi8UJLvBFQd8-nf-iHAQh8cEuihq97PUFfZ7Q=rxRQoPsg@mail.gmail.com>
+ <877df6tlnq.fsf@codeaurora.org>
+ <CAMZdPi8P7YZPhPir+WfS3cY_a7He1m2Pq2uqBhczPdEeoNRb0Q@mail.gmail.com>
+ <87a6jl9ndo.fsf@codeaurora.org> <87ee8hgqni.fsf@codeaurora.org>
+ <20211021100305.GD7580@workstation> <20211118174145.GA31300@thinkpad>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: Re: [regression] mhi: ath11k resume fails on some devices
+In-Reply-To: <20211118174145.GA31300@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1638344059;003ecd7e;
+X-HE-SMSGID: 1msK83-0000cS-8F
 
-The 'wake-capable' entry in channel configuration is not set when
-parsing the configuration specified by the controller driver. Add
-the missing entry to ensure channel is correctly specified as a
-'wake-capable' channel.
+Hi, this is your Linux kernel regression tracker speaking, this time
+looking for a status update.
 
-Cc: stable@vger.kernel.org
-Fixes: 0cbf260820fa ("bus: mhi: core: Add support for registering MHI controllers")
-Signed-off-by: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/bus/mhi/core/init.c | 1 +
- 1 file changed, 1 insertion(+)
+On 18.11.21 18:41, Manivannan Sadhasivam wrote:
+> On Thu, Oct 21, 2021 at 03:33:05PM +0530, Manivannan Sadhasivam wrote:
+>> On Tue, Oct 19, 2021 at 03:12:01PM +0300, Kalle Valo wrote:
+>>> Kalle Valo <kvalo@codeaurora.org> writes:
+>>>
+>>>> (adding the new mhi list, yay)
+>>>>
+>>>> Hi Loic,
+>>>>
+>>>> Loic Poulain <loic.poulain@linaro.org> writes:
+>>>>
+>>>>>> Loic Poulain <loic.poulain@linaro.org> writes:
+>>>>>>
+>>>>>>> On Thu, 16 Sept 2021 at 10:00, Kalle Valo <kvalo@codeaurora.org> wrote:
+>>>>>>
+>>>>>>>> At the moment I'm running my tests with commit 020d3b26c07a reverted and
+>>>>>>>> everything works without problems. Is there a simple way to fix this? Or
+>>>>>>>> maybe we should just revert the commit? Commit log and kernel logs from
+>>>>>>>> a failing case below.
+>>>>>>>
+>>>>>>> Do you have log of success case?
+>>>>>>
+>>>>>> A log from a successful case in the end of email, using v5.15-rc1 plus
+>>>>>> revert of commit 020d3b26c07abe27.
+>>>>>>
+>>>>>>> To me, the device loses power, that is why MHI resuming is failing.
+>>>>>>> Normally the device should be properly recovered/reinitialized. Before
+>>>>>>> that patch the power loss was simply not detected (or handled at
+>>>>>>> higher stack level).
+>>>>>>
+>>>>>> Currently in ath11k we always keep the firmware running when in suspend,
+>>>>>> this is a workaround due to problems between mac80211 and MHI stack.
+>>>>>> IIRC the problem was something related MHI creating struct device during
+>>>>>> resume or something like that.
+>>>>>
+>>>>> Could you give a try with the attached patch? It should solve your
+>>>>> issue without breaking modem support.
+>>>>
+>>>> Sorry for taking so long, but I now tested your patch on top of
+>>>> v5.15-rc3 and, as expected, everything works as before with QCA6390 on
+>>>> NUC x86 testbox.
+>>>>
+>>>> Tested-by: Kalle Valo <kvalo@codeaurora.org>
+>>>
+>>> I doubt we will find enough time to fully debug this mhi issue anytime
+>>> soon. Can we commit Loic's patch so that this regression is resolved?
+>>>
+>>
+>> Sorry no :( Eventhough Loic's patch is working, I want to understand the
+>> issue properly so that we could add a proper fix or patch the firmware
+>> if possible.
+>>
+>> Let's try to get the debug logs as I requested.
+> 
+> I'm able to reproduce the issue on my NUC. I'm still investigating on how to
+> properly fix this issue. Expect a patch soon.
 
-v2:
--Update subject as per comments
--Add fixes tag and CC stable
+Was there some progress? This issue was reported 75 days ago and still
+is not fixed. From the point of the Linux kernel regression tracker I'd
+say: it should not take this long. Looking back at it I wonder if
+'reverted the culprit and reapply later together with a proper fix'
+would have been the better strategy. I wonder if that still would be the
+best way forward if no patch is forthcoming soon.
 
-diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
-index 5aaca6d..f1ec3441 100644
---- a/drivers/bus/mhi/core/init.c
-+++ b/drivers/bus/mhi/core/init.c
-@@ -788,6 +788,7 @@ static int parse_ch_cfg(struct mhi_controller *mhi_cntrl,
- 		mhi_chan->offload_ch = ch_cfg->offload_channel;
- 		mhi_chan->db_cfg.reset_req = ch_cfg->doorbell_mode_switch;
- 		mhi_chan->pre_alloc = ch_cfg->auto_queue;
-+		mhi_chan->wake_capable = ch_cfg->wake_capable;
- 
- 		/*
- 		 * If MHI host allocates buffers, then the channel direction
--- 
-2.7.4
+Ciao, Thorsten
 
+#regzbot poke
+
+>>> At the moment I'm doing all my regression testing with commit
+>>> 020d3b26c07abe27 reverted. That's a risk, I would prefer to do my
+>>> testing without any hacks.
+>>>
+>>> -- 
+>>> https://patchwork.kernel.org/project/linux-wireless/list/
+>>>
+>>> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
+P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
+on my table. I can only look briefly into most of them. Unfortunately
+therefore I sometimes will get things wrong or miss something important.
+I hope that's not the case here; if you think it is, don't hesitate to
+tell me about it in a public reply. That's in everyone's interest, as
+what I wrote above might be misleading to everyone reading this; any
+suggestion I gave they thus might sent someone reading this down the
+wrong rabbit hole, which none of us wants.
+
+BTW, I have no personal interest in this issue, which is tracked using
+regzbot, my Linux kernel regression tracking bot
+(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
+this mail to get things rolling again and hence don't need to be CC on
+all further activities wrt to this regression.
