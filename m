@@ -1,118 +1,80 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B68068
-	for <mhi@lists.linux.dev>; Tue, 30 Nov 2021 06:09:00 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id u11so14086953plf.3
-        for <mhi@lists.linux.dev>; Mon, 29 Nov 2021 22:09:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9942CA0
+	for <mhi@lists.linux.dev>; Wed,  1 Dec 2021 01:01:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=N08U9q6AK1ucdiwypJ7HnJcj+bssdS5xiXKSKF3b9gI=;
-        b=P8/yJ2dGo6QliJRyJuJak7f/PoVmx1F4Y4ZHx/NCjhNF77D5MAp3V8AongYDMDR2k7
-         lMVOYyig+ptpOvNM6ThBgpWdZPtgHdg1ItSwynJEiol8xZRweDCiPGMZ7qk3xNeO0pnW
-         3ZqKMY7e0MzUUFuHBq4q3w5fXybyCJE7hn4V9GTSHf5MEcuIlAxsi7oYvNR/aI27Kryc
-         xDtgFXn5qtND5Ya8XNS33oBew3dpyQzyh2M2TErl4scTEfhdQR/hxNVC0wQdFV9viXAj
-         bRxJa0oI3ONTmyLfwN2/A5XZhB65gnthR4Uj67wYwouhnGYg2zRUJRmIDphnlxWVeBfR
-         zrUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=N08U9q6AK1ucdiwypJ7HnJcj+bssdS5xiXKSKF3b9gI=;
-        b=jaZBqMZetmQ3YpgLrfDDr+jHJBM817qPSz308hSDh3v2bCFLaX8IqjINVFEsPwi7JW
-         leROK/Qig/x4wOd6uGZDVh8mYoAJt+CJZGgfFq0QT/dtLTZtEI6Mvru41yl6KRLzQ7Ks
-         oGBgXmN0JPGt62/ySloe2UtIYSyQoCzrxe4Iilol4sZvrY35S4uHIGOwE0zqKxe5PBen
-         qFdEITbJ5cl1xdrWiQvP5NoXJTKXO1pLHKHgnvJha7cQhfkICKtkrJI0UgcSWsuDxtEk
-         zFixBfSEf8YYVVhulYBuY3oHzv6ecfXIyQjbklph6TF2o7X8kHuwXrQIKQuHI2Lb2FZU
-         rhZg==
-X-Gm-Message-State: AOAM531wYvyNOP8K9qE34QAH8AEzW337hsO0qVLOofGLLXqVDIx0GdW8
-	FQFwaDXpUjVKZe48q3VBngxicySlkNjZ
-X-Google-Smtp-Source: ABdhPJyDJeDA8Qt/fhMY0xIMbX/S0EIp6j462zpZWe00ok7e22uauk7Qm2/sW8vfMQuJU027CZCljQ==
-X-Received: by 2002:a17:903:41cb:b0:142:62a:4d86 with SMTP id u11-20020a17090341cb00b00142062a4d86mr66083571ple.43.1638252539519;
-        Mon, 29 Nov 2021 22:08:59 -0800 (PST)
-Received: from thinkpad ([202.21.42.3])
-        by smtp.gmail.com with ESMTPSA id mg12sm1188257pjb.10.2021.11.29.22.08.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 22:08:58 -0800 (PST)
-Date: Tue, 30 Nov 2021 11:38:54 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: Minor style and comment fixes
-Message-ID: <20211130060854.GC205712@thinkpad>
-References: <20211126031403.8075-1-manivannan.sadhasivam@linaro.org>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1638320505; x=1669856505;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=Tmns+pSWd50vLS9F74F2TuYEdYx1lfAxUZZYVCRGMt8=;
+  b=GLZf/A5HXUsU43d8TG7GvaaGEGoYkSwfzhvCfmWQElXoNAIDvvI6JLyt
+   fGUibAlP+2N7lLeGg/DZlddJsb79eO0+EveeyTwo3ZZZDYPB0x2uaNqyn
+   8WIXe1gS2sTNowJPi5L2UjfvBTO5Fh5H0J/HNew3EgEuqEjNZzDUySFn2
+   U=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Nov 2021 17:01:39 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 17:01:39 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 30 Nov 2021 17:01:39 -0800
+Received: from vivace-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 30 Nov 2021 17:01:38 -0800
+From: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+To: <manivannan.sadhasivam@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <quic_hemantk@quicinc.com>,
+	<quic_jhugo@quicinc.com>, <linux-kernel@vger.kernel.org>,
+	<mhi@lists.linux.dev>, <stable@vger.kernel.org>, <quic_olgak@quicinc.com>,
+	<loic.poulain@linaro.org>, Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+Subject: [PATCH v2] bus: mhi: core: Fix reading wake_capable channel configuration
+Date: Tue, 30 Nov 2021 17:01:31 -0800
+Message-ID: <1638320491-13382-1-git-send-email-quic_bbhatt@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211126031403.8075-1-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-On Fri, Nov 26, 2021 at 08:44:03AM +0530, Manivannan Sadhasivam wrote:
-> This patch fixes the below checkpatch warnings in MHI bus:
-> 
-> WARNING: Possible repeated word: 'events'
-> +	/* Process ctrl events events */
-> 
-> WARNING: Missing a blank line after declarations
-> +			struct mhi_buf_info info = { };
-> +			buf = kmalloc(len, GFP_KERNEL);
-> 
-> WARNING: Move const after static - use 'static const struct mhi_pm_transitions'
-> +static struct mhi_pm_transitions const dev_state_transitions[] = {
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+The 'wake-capable' entry in channel configuration is not set when
+parsing the configuration specified by the controller driver. Add
+the missing entry to ensure channel is correctly specified as a
+'wake-capable' channel.
 
-Applied to mhi-next!
+Cc: stable@vger.kernel.org
+Fixes: 0cbf260820fa ("bus: mhi: core: Add support for registering MHI controllers")
+Signed-off-by: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+---
+ drivers/bus/mhi/core/init.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Mani
+v2:
+-Update subject as per comments
+-Add fixes tag and CC stable
 
-> ---
->  drivers/bus/mhi/core/main.c | 3 ++-
->  drivers/bus/mhi/core/pm.c   | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/core/main.c
-> index b15c5bc37dd4..930aba666b67 100644
-> --- a/drivers/bus/mhi/core/main.c
-> +++ b/drivers/bus/mhi/core/main.c
-> @@ -1065,7 +1065,7 @@ void mhi_ctrl_ev_task(unsigned long data)
->  		return;
->  	}
->  
-> -	/* Process ctrl events events */
-> +	/* Process ctrl events */
->  	ret = mhi_event->process_event(mhi_cntrl, mhi_event, U32_MAX);
->  
->  	/*
-> @@ -1464,6 +1464,7 @@ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
->  		while (nr_el--) {
->  			void *buf;
->  			struct mhi_buf_info info = { };
-> +
->  			buf = kmalloc(len, GFP_KERNEL);
->  			if (!buf) {
->  				ret = -ENOMEM;
-> diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
-> index 0bb8d77515e3..7464f5d09973 100644
-> --- a/drivers/bus/mhi/core/pm.c
-> +++ b/drivers/bus/mhi/core/pm.c
-> @@ -42,7 +42,7 @@
->   * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
->   *     LD_ERR_FATAL_DETECT -> DISABLE
->   */
-> -static struct mhi_pm_transitions const dev_state_transitions[] = {
-> +static const struct mhi_pm_transitions dev_state_transitions[] = {
->  	/* L0 States */
->  	{
->  		MHI_PM_DISABLE,
-> -- 
-> 2.25.1
-> 
+diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+index 5aaca6d..f1ec3441 100644
+--- a/drivers/bus/mhi/core/init.c
++++ b/drivers/bus/mhi/core/init.c
+@@ -788,6 +788,7 @@ static int parse_ch_cfg(struct mhi_controller *mhi_cntrl,
+ 		mhi_chan->offload_ch = ch_cfg->offload_channel;
+ 		mhi_chan->db_cfg.reset_req = ch_cfg->doorbell_mode_switch;
+ 		mhi_chan->pre_alloc = ch_cfg->auto_queue;
++		mhi_chan->wake_capable = ch_cfg->wake_capable;
+ 
+ 		/*
+ 		 * If MHI host allocates buffers, then the channel direction
+-- 
+2.7.4
+
