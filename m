@@ -1,133 +1,203 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D220468;
-	Wed,  1 Dec 2021 07:34:19 +0000 (UTC)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1msK83-0000cS-8F; Wed, 01 Dec 2021 08:34:11 +0100
-Message-ID: <915c3760-181e-bbac-aec4-1e20d0dab2a9@leemhuis.info>
-Date: Wed, 1 Dec 2021 08:34:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9193B2C82
+	for <mhi@lists.linux.dev>; Thu,  2 Dec 2021 11:37:01 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id y14-20020a17090a2b4e00b001a5824f4918so2193391pjc.4
+        for <mhi@lists.linux.dev>; Thu, 02 Dec 2021 03:37:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SIMj35mEWO+wOa2JAV2FSBiJWvqdeYjn+C6j99cMUwA=;
+        b=ODbgq4DT3+FpiLJMLcZUy7tM6hNCNhupWr/6pDcDcHJYdTdQcHvK+KrcHxN2SEt9Bq
+         EGtuhfyBa9YT8EssQb/uTVf045C4fYYvM2X3J4J9jkz36YzGYdlByg8zVqicQEPcM5Ul
+         LIUpWYe5rW8vhDJz0GlvaYVWvJ8UX0ihuYCYgWEnU6z5UbPk6+It43qsaOPlO4s6SYPQ
+         DcQK5CpR1whoY/eza7+C0RJB5DKDaUgKm8ESPhhPmKDolBsmoBdWu+hMsfHErWDW5oPI
+         0ujZ9ujxMSzHdXC7SsTmVCS7U0wyKHf+bRIMsom2WXXkyYheE/CT6WdbKQvNqKtyHkuC
+         akfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SIMj35mEWO+wOa2JAV2FSBiJWvqdeYjn+C6j99cMUwA=;
+        b=4+hldbtCMXRY4H+cC58VxTJTglYOTReK4kZs5DEnH5PtT72+PVaBcoDH62Dro4/WTs
+         SNmyuv3I3uTG8bOl16mvspDC6wg9Krdc3T1gaAOKdLmqTGd5s/25xXE/EU6NV41Ustnh
+         FYxAz9/iJoNuuBCcPWzfgjsa4jqKrFMpiKubnDhogvQf+v3c9fuxnHRF49LvGKNolXH8
+         QYNZiHp9kgmOmVMA4Pbq/F3+6VbFzKJykW5cR5X8P8P77NGBTtKJYlyXybwiHSZoSkbZ
+         qJNgx7pZrz6rafjko2LXvj5ZIpHSf8mFsnpTkJ3KarKxhQUlBSlwSL61RU23XyTcy184
+         Zjkw==
+X-Gm-Message-State: AOAM530/sRywZFiH4o5L3Vu8J6RWnikFQiLHyn1Ex39gtBltUoFb1f4n
+	AbrP92G7WLHkbhtvUsw4Ehn4ZZAkLJfR
+X-Google-Smtp-Source: ABdhPJwJu+G43NQKUCMzIjjZs9DXBHyWTuwZQzFOBAXtqVyrDTeyEpn25tt4B2ScX3xzQQUMruCrDA==
+X-Received: by 2002:a17:90a:af94:: with SMTP id w20mr5225019pjq.223.1638445020603;
+        Thu, 02 Dec 2021 03:37:00 -0800 (PST)
+Received: from localhost.localdomain ([117.202.184.5])
+        by smtp.gmail.com with ESMTPSA id h5sm3602552pfi.46.2021.12.02.03.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 03:36:59 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: hemantk@codeaurora.org,
+	bbhatt@codeaurora.org,
+	quic_jhugo@quicinc.com,
+	vinod.koul@linaro.org,
+	bjorn.andersson@linaro.org,
+	dmitry.baryshkov@linaro.org,
+	skananth@codeaurora.org,
+	vpernami@codeaurora.org,
+	vbadigan@codeaurora.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 00/20] Add initial support for MHI endpoint stack
+Date: Thu,  2 Dec 2021 17:05:32 +0530
+Message-Id: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-BS
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Kalle Valo <kvalo@codeaurora.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>, ath11k@lists.infradead.org,
- linux-wireless@vger.kernel.org, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, regressions@lists.linux.dev,
- mhi <mhi@lists.linux.dev>
-References: <871r5p0x2u.fsf@codeaurora.org>
- <CAMZdPi8UJLvBFQd8-nf-iHAQh8cEuihq97PUFfZ7Q=rxRQoPsg@mail.gmail.com>
- <877df6tlnq.fsf@codeaurora.org>
- <CAMZdPi8P7YZPhPir+WfS3cY_a7He1m2Pq2uqBhczPdEeoNRb0Q@mail.gmail.com>
- <87a6jl9ndo.fsf@codeaurora.org> <87ee8hgqni.fsf@codeaurora.org>
- <20211021100305.GD7580@workstation> <20211118174145.GA31300@thinkpad>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Subject: Re: [regression] mhi: ath11k resume fails on some devices
-In-Reply-To: <20211118174145.GA31300@thinkpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1638344059;003ecd7e;
-X-HE-SMSGID: 1msK83-0000cS-8F
+Content-Transfer-Encoding: 8bit
 
-Hi, this is your Linux kernel regression tracker speaking, this time
-looking for a status update.
+Hello,
 
-On 18.11.21 18:41, Manivannan Sadhasivam wrote:
-> On Thu, Oct 21, 2021 at 03:33:05PM +0530, Manivannan Sadhasivam wrote:
->> On Tue, Oct 19, 2021 at 03:12:01PM +0300, Kalle Valo wrote:
->>> Kalle Valo <kvalo@codeaurora.org> writes:
->>>
->>>> (adding the new mhi list, yay)
->>>>
->>>> Hi Loic,
->>>>
->>>> Loic Poulain <loic.poulain@linaro.org> writes:
->>>>
->>>>>> Loic Poulain <loic.poulain@linaro.org> writes:
->>>>>>
->>>>>>> On Thu, 16 Sept 2021 at 10:00, Kalle Valo <kvalo@codeaurora.org> wrote:
->>>>>>
->>>>>>>> At the moment I'm running my tests with commit 020d3b26c07a reverted and
->>>>>>>> everything works without problems. Is there a simple way to fix this? Or
->>>>>>>> maybe we should just revert the commit? Commit log and kernel logs from
->>>>>>>> a failing case below.
->>>>>>>
->>>>>>> Do you have log of success case?
->>>>>>
->>>>>> A log from a successful case in the end of email, using v5.15-rc1 plus
->>>>>> revert of commit 020d3b26c07abe27.
->>>>>>
->>>>>>> To me, the device loses power, that is why MHI resuming is failing.
->>>>>>> Normally the device should be properly recovered/reinitialized. Before
->>>>>>> that patch the power loss was simply not detected (or handled at
->>>>>>> higher stack level).
->>>>>>
->>>>>> Currently in ath11k we always keep the firmware running when in suspend,
->>>>>> this is a workaround due to problems between mac80211 and MHI stack.
->>>>>> IIRC the problem was something related MHI creating struct device during
->>>>>> resume or something like that.
->>>>>
->>>>> Could you give a try with the attached patch? It should solve your
->>>>> issue without breaking modem support.
->>>>
->>>> Sorry for taking so long, but I now tested your patch on top of
->>>> v5.15-rc3 and, as expected, everything works as before with QCA6390 on
->>>> NUC x86 testbox.
->>>>
->>>> Tested-by: Kalle Valo <kvalo@codeaurora.org>
->>>
->>> I doubt we will find enough time to fully debug this mhi issue anytime
->>> soon. Can we commit Loic's patch so that this regression is resolved?
->>>
->>
->> Sorry no :( Eventhough Loic's patch is working, I want to understand the
->> issue properly so that we could add a proper fix or patch the firmware
->> if possible.
->>
->> Let's try to get the debug logs as I requested.
-> 
-> I'm able to reproduce the issue on my NUC. I'm still investigating on how to
-> properly fix this issue. Expect a patch soon.
+This series adds initial support for the Qualcomm specific Modem Host Interface
+(MHI) bus in endpoint devices like SDX55 modems. The MHI bus in endpoint devices
+communicates with the MHI bus in host machines like x86 over any physical bus
+like PCIe for data connectivity. The MHI host support is already in mainline [1]
+and been used by PCIe based modems and WLAN devices running vendor code
+(downstream).
 
-Was there some progress? This issue was reported 75 days ago and still
-is not fixed. From the point of the Linux kernel regression tracker I'd
-say: it should not take this long. Looking back at it I wonder if
-'reverted the culprit and reapply later together with a proper fix'
-would have been the better strategy. I wonder if that still would be the
-best way forward if no patch is forthcoming soon.
+Overview
+========
 
-Ciao, Thorsten
+This series aims at adding the MHI support in the endpoint devices with the goal
+of getting data connectivity using the mainline kernel running on the modems.
+Modems here refer to the combination of an APPS processor (Cortex A grade) and
+a baseband processor (DSP). The MHI bus is located in the APPS processor and it
+transfers data packets from the baseband processor to the host machine.
 
-#regzbot poke
+The MHI Endpoint (MHI EP) stack proposed here is inspired by the downstream
+code written by Qualcomm. But the complete stack is mostly re-written to adapt
+to the "bus" framework and made it modular so that it can work with the upstream
+subsystems like "PCI Endpoint". The code structure of the MHI endpoint stack
+follows the MHI host stack to maintain uniformity.
 
->>> At the moment I'm doing all my regression testing with commit
->>> 020d3b26c07abe27 reverted. That's a risk, I would prefer to do my
->>> testing without any hacks.
->>>
->>> -- 
->>> https://patchwork.kernel.org/project/linux-wireless/list/
->>>
->>> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+With this initial MHI EP stack (along with few other drivers), we can establish
+the network interface between host and endpoint over the MHI software channels
+(IP_SW0) and can do things like IP forwarding, SSH, etc...
 
-P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
-on my table. I can only look briefly into most of them. Unfortunately
-therefore I sometimes will get things wrong or miss something important.
-I hope that's not the case here; if you think it is, don't hesitate to
-tell me about it in a public reply. That's in everyone's interest, as
-what I wrote above might be misleading to everyone reading this; any
-suggestion I gave they thus might sent someone reading this down the
-wrong rabbit hole, which none of us wants.
+Stack Organization
+==================
 
-BTW, I have no personal interest in this issue, which is tracked using
-regzbot, my Linux kernel regression tracking bot
-(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
-this mail to get things rolling again and hence don't need to be CC on
-all further activities wrt to this regression.
+The MHI EP stack has the concept of controller and device drivers as like the
+MHI host stack. The MHI EP controller driver can be a PCI Endpoint Function
+driver and the MHI device driver can be a MHI EP Networking driver or QRTR
+driver. The MHI EP controller driver is tied to the PCI Endpoint subsystem and
+handles all bus related activities like mapping the host memory, raising IRQ,
+passing link specific events etc... The MHI EP networking driver is tied to the
+Networking stack and handles all networking related activities like
+sending/receiving the SKBs from netdev, statistics collection etc...
+
+This series only contains the MHI EP code, whereas the PCIe EPF driver and MHI
+EP Networking drivers are not yet submitted and can be found here [2]. Though
+the MHI EP stack doesn't have the build time dependency, it cannot function
+without them.
+
+Test setup
+==========
+
+This series has been tested on Telit FN980 TLB board powered by Qualcomm SDX55
+(a.k.a X55 modem) interfaced to the 96Boards Poplar board (ARM64 host) over
+PCIe.
+
+Limitations
+===========
+
+We are not _yet_ there to get the data packets from the modem as that involves
+the Qualcomm IP Accelerator (IPA) integration with MHI endpoint stack. But we
+are planning to add support for it in the coming days.
+
+References
+==========
+
+MHI bus: https://www.kernel.org/doc/html/latest/mhi/mhi.html
+Linaro connect presentation around this topic: https://connect.linaro.org/resources/lvc21f/lvc21f-222/
+
+Thanks,
+Mani
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi
+[2] https://git.linaro.org/landing-teams/working/qualcomm/kernel.git/log/?h=tracking-qcomlt-sdx55-drivers
+
+Manivannan Sadhasivam (20):
+  bus: mhi: Move host MHI code to "host" directory
+  bus: mhi: Move common MHI definitions out of host directory
+  bus: mhi: Make mhi_state_str[] array static const and move to common.h
+  bus: mhi: Cleanup the register definitions used in headers
+  bus: mhi: ep: Add support for registering MHI endpoint controllers
+  bus: mhi: ep: Add support for registering MHI endpoint client drivers
+  bus: mhi: ep: Add support for creating and destroying MHI EP devices
+  bus: mhi: ep: Add support for managing MMIO registers
+  bus: mhi: ep: Add support for ring management
+  bus: mhi: ep: Add support for sending events to the host
+  bus: mhi: ep: Add support for managing MHI state machine
+  bus: mhi: ep: Add support for processing MHI endpoint interrupts
+  bus: mhi: ep: Add support for powering up the MHI endpoint stack
+  bus: mhi: ep: Add support for powering down the MHI endpoint stack
+  bus: mhi: ep: Add support for handling MHI_RESET
+  bus: mhi: ep: Add support for handling SYS_ERR condition
+  bus: mhi: ep: Add support for processing command and TRE rings
+  bus: mhi: ep: Add support for queueing SKBs over MHI bus
+  bus: mhi: ep: Add support for suspending and resuming channels
+  bus: mhi: ep: Add uevent support for module autoloading
+
+ drivers/bus/Makefile                      |    2 +-
+ drivers/bus/mhi/Kconfig                   |   28 +-
+ drivers/bus/mhi/Makefile                  |    9 +-
+ drivers/bus/mhi/common.h                  |  284 ++++
+ drivers/bus/mhi/ep/Kconfig                |   10 +
+ drivers/bus/mhi/ep/Makefile               |    2 +
+ drivers/bus/mhi/ep/internal.h             |  237 +++
+ drivers/bus/mhi/ep/main.c                 | 1674 +++++++++++++++++++++
+ drivers/bus/mhi/ep/mmio.c                 |  303 ++++
+ drivers/bus/mhi/ep/ring.c                 |  316 ++++
+ drivers/bus/mhi/ep/sm.c                   |  181 +++
+ drivers/bus/mhi/host/Kconfig              |   31 +
+ drivers/bus/mhi/{core => host}/Makefile   |    4 +-
+ drivers/bus/mhi/{core => host}/boot.c     |    0
+ drivers/bus/mhi/{core => host}/debugfs.c  |    0
+ drivers/bus/mhi/{core => host}/init.c     |   12 -
+ drivers/bus/mhi/{core => host}/internal.h |  436 ++----
+ drivers/bus/mhi/{core => host}/main.c     |    0
+ drivers/bus/mhi/{ => host}/pci_generic.c  |    0
+ drivers/bus/mhi/{core => host}/pm.c       |    0
+ include/linux/mhi_ep.h                    |  289 ++++
+ include/linux/mod_devicetable.h           |    2 +
+ scripts/mod/file2alias.c                  |   10 +
+ 23 files changed, 3448 insertions(+), 382 deletions(-)
+ create mode 100644 drivers/bus/mhi/common.h
+ create mode 100644 drivers/bus/mhi/ep/Kconfig
+ create mode 100644 drivers/bus/mhi/ep/Makefile
+ create mode 100644 drivers/bus/mhi/ep/internal.h
+ create mode 100644 drivers/bus/mhi/ep/main.c
+ create mode 100644 drivers/bus/mhi/ep/mmio.c
+ create mode 100644 drivers/bus/mhi/ep/ring.c
+ create mode 100644 drivers/bus/mhi/ep/sm.c
+ create mode 100644 drivers/bus/mhi/host/Kconfig
+ rename drivers/bus/mhi/{core => host}/Makefile (54%)
+ rename drivers/bus/mhi/{core => host}/boot.c (100%)
+ rename drivers/bus/mhi/{core => host}/debugfs.c (100%)
+ rename drivers/bus/mhi/{core => host}/init.c (99%)
+ rename drivers/bus/mhi/{core => host}/internal.h (51%)
+ rename drivers/bus/mhi/{core => host}/main.c (100%)
+ rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
+ rename drivers/bus/mhi/{core => host}/pm.c (100%)
+ create mode 100644 include/linux/mhi_ep.h
+
+-- 
+2.25.1
+
