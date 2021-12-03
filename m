@@ -1,151 +1,98 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686412C82
-	for <mhi@lists.linux.dev>; Thu,  2 Dec 2021 11:38:38 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id s137so26770566pgs.5
-        for <mhi@lists.linux.dev>; Thu, 02 Dec 2021 03:38:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8390068
+	for <mhi@lists.linux.dev>; Fri,  3 Dec 2021 08:43:09 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id y7so1663673plp.0
+        for <mhi@lists.linux.dev>; Fri, 03 Dec 2021 00:43:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=e4KnceHWSyh2zZH+Q5Ra1eL2F8m4VYDX4eTKiilrqSA=;
-        b=do+Hl0B42RklfGnUs2hZSYbOmsjKoJnjw1NOQsA9pQQPd1/2iFfcp322ICIT1YyoU0
-         6xOGXB5NWZdW9siiWHjkMWIhmmEcD1dFfUOVO4WK3xh5jeSfO2JSm7YmyM3vrr+Jv+8H
-         DTYPw9WuVfggJyAhasdKI3exFpguGq5+r92l+lWh2+ZICAHAcA5pAERGqvRZQZ2zLIyC
-         EeGLURxApmv81TG2T2JCGuRwpVuOha9pbVPmIw8YieWrASs1LPiuaoMFXkrWTPZlcfNx
-         AjXMCJhaOnR4RCSaVyP1gs4+uyG5pM9DYkNV8xo+xVpkqajvGNjiUlUNAe21JEjJrm/O
-         oHUw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KCOdy3fLrIckFFP2lKLlpo99jfWSPyEX2EKLwlFJXHw=;
+        b=YrjvB9g87wSHTK9Mpg7nHVtai4Wo1DQCQazzwpBlOmFmjdfdsMknpZEzX18EjDqxCt
+         RYEhAX6yVLcwKjpd0dJp1ZUWPXu0+mYsSgmBrx/SXlKEwHVa6daFi3hy6EcRCJQj+j4p
+         y90EfmmqRu77AHo/7g0abIkplntukPE5/or/L+Fn8JCo58RUc2Z0ngyf2l/KrtK/zBlI
+         N5YZKOKm7TSlViU/o+8mFc4tQ3+SWNf3hH/A0hQ+s/VyAL6fUaGLM7Vfe9wyZIoBtzam
+         uWu7WIGYKY6ATs2ocamX/VGmZgJDqPBQPHWeGzWEa2ZNbKJyBo9K4NhhPac5TcOhJkWS
+         O1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=e4KnceHWSyh2zZH+Q5Ra1eL2F8m4VYDX4eTKiilrqSA=;
-        b=MEUDgBPPtnWy089Dcb/+e/Fepl8+EvXqSG8h8DeeSBCnuoxYVFb4OCGzRS/5CijH45
-         4lc5e8ZJ8V422JFA8yNEq40Z1QdzI2vLqpoVQDIUG4W9Cv7CCWCY4C7jsYqoC9GAmMsB
-         HKrf+7+cRtX7ds4OgH+boef5BDGmej5rMJNWCjXrLtsD/AuFY1rIFtrTy08OA1gx/qnl
-         sVoZk9qUW4bbueuXg5e0KpT58TFIPliB+kySr82NYVVAKGT4HybGHK4GKHFO1B+8oUu8
-         t4h2B1ChlMsvRCLlDff12wscKcRzC3l4rgs2kN4hogt/d48eD60d5G5dlf/v4qhQzrmf
-         uPtA==
-X-Gm-Message-State: AOAM532pZT5F0eZMqYo7MtUS4+6DnQWQJQQuqRUaXt5tpyKcsq6V6zKw
-	rRYaXu90xAOCbmROvxObWAEk74fHayfV
-X-Google-Smtp-Source: ABdhPJx8BaztlDTuFsvAgCYst3hLcJqR7wBfJuRxnIHZsnq/AHZ+DFbUb7+SAk/kFqPhZANMhxXdBA==
-X-Received: by 2002:a65:4381:: with SMTP id m1mr9340248pgp.248.1638445117743;
-        Thu, 02 Dec 2021 03:38:37 -0800 (PST)
-Received: from localhost.localdomain ([117.202.184.5])
-        by smtp.gmail.com with ESMTPSA id h5sm3602552pfi.46.2021.12.02.03.38.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KCOdy3fLrIckFFP2lKLlpo99jfWSPyEX2EKLwlFJXHw=;
+        b=o8kYyf39iu7hbqxsQ6WEPfiCwhLsBYVSQfqTicbMi0jByCUlfVrfwSHF4PU6V3812D
+         nYl2kGg7Bx3MoXM6uCccQXFbCCtCorPM/u1xMyZZCyxNK8iZxfXj0I+BY/XxAFWwPyTS
+         f2Fanpk6FyEkJbZILPZmv7jLQNwX7Km+V8L/eTvTDwIta4RXsA9RkA2gjo88Zs6n0SNw
+         XhD3skuat34TUaY04GBpEyKbI9X0ar318xgTJlHrBJywpDd0GCi2r2o+PYI0dXAO1Pc2
+         yoc3ptw5R0d3DKl02Ymtauhl0EbxolIEeg72yUSZz5O9apYe7t0Gl/tDQOtU4y/ZBuLA
+         yNvg==
+X-Gm-Message-State: AOAM530719Q5rODQouYwOeS8VCSP5sQHbysy2abdsok9Zzvc1/73JUyP
+	ijms4/X56AI2qTGrNWURweBp
+X-Google-Smtp-Source: ABdhPJxs7GG70chTt6hGwV8bD8adqdSCvTb07/634kDWLqsHtkwFyEvymQiBuqjImQU+fSX0eEHDSg==
+X-Received: by 2002:a17:90a:fe0b:: with SMTP id ck11mr12221312pjb.15.1638520988875;
+        Fri, 03 Dec 2021 00:43:08 -0800 (PST)
+Received: from thinkpad ([117.202.184.5])
+        by smtp.gmail.com with ESMTPSA id k18sm1706240pgb.70.2021.12.03.00.43.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 03:38:37 -0800 (PST)
+        Fri, 03 Dec 2021 00:43:08 -0800 (PST)
+Date: Fri, 3 Dec 2021 14:13:01 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: hemantk@codeaurora.org,
-	bbhatt@codeaurora.org,
-	quic_jhugo@quicinc.com,
-	vinod.koul@linaro.org,
-	bjorn.andersson@linaro.org,
-	dmitry.baryshkov@linaro.org,
-	skananth@codeaurora.org,
-	vpernami@codeaurora.org,
-	vbadigan@codeaurora.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 20/20] bus: mhi: ep: Add uevent support for module autoloading
-Date: Thu,  2 Dec 2021 17:05:52 +0530
-Message-Id: <20211202113553.238011-21-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
-References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
+To: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, quic_hemantk@quicinc.com,
+	quic_jhugo@quicinc.com, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, stable@vger.kernel.org, quic_olgak@quicinc.com,
+	loic.poulain@linaro.org
+Subject: Re: [PATCH v2] bus: mhi: core: Fix reading wake_capable channel
+ configuration
+Message-ID: <20211203084301.GA18809@thinkpad>
+References: <1638320491-13382-1-git-send-email-quic_bbhatt@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1638320491-13382-1-git-send-email-quic_bbhatt@quicinc.com>
 
-Add uevent support to MHI endpoint bus so that the client drivers can be
-autoloaded by udev when the MHI endpoint devices gets created. The client
-drivers are expected to provide MODULE_DEVICE_TABLE with the MHI id_table
-struct so that the alias can be exported.
+On Tue, Nov 30, 2021 at 05:01:31PM -0800, Bhaumik Bhatt wrote:
+> The 'wake-capable' entry in channel configuration is not set when
+> parsing the configuration specified by the controller driver. Add
+> the missing entry to ensure channel is correctly specified as a
+> 'wake-capable' channel.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 0cbf260820fa ("bus: mhi: core: Add support for registering MHI controllers")
+> Signed-off-by: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-The MHI endpoint reused the mhi_device_id structure of the MHI bus.
+Applied to mhi-next!
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/ep/main.c       |  9 +++++++++
- include/linux/mod_devicetable.h |  2 ++
- scripts/mod/file2alias.c        | 10 ++++++++++
- 3 files changed, 21 insertions(+)
+Thanks,
+Mani
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 930b5c2005d0..42470d2a82b8 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1619,6 +1619,14 @@ void mhi_ep_driver_unregister(struct mhi_ep_driver *mhi_drv)
- }
- EXPORT_SYMBOL_GPL(mhi_ep_driver_unregister);
- 
-+static int mhi_ep_uevent(struct device *dev, struct kobj_uevent_env *env)
-+{
-+	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-+
-+	return add_uevent_var(env, "MODALIAS=" MHI_EP_DEVICE_MODALIAS_FMT,
-+					mhi_dev->name);
-+}
-+
- static int mhi_ep_match(struct device *dev, struct device_driver *drv)
- {
- 	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-@@ -1645,6 +1653,7 @@ struct bus_type mhi_ep_bus_type = {
- 	.name = "mhi_ep",
- 	.dev_name = "mhi_ep",
- 	.match = mhi_ep_match,
-+	.uevent = mhi_ep_uevent,
- };
- 
- static int __init mhi_ep_init(void)
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index ae2e75d15b21..a85d453ebf67 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -835,6 +835,8 @@ struct wmi_device_id {
- #define MHI_DEVICE_MODALIAS_FMT "mhi:%s"
- #define MHI_NAME_SIZE 32
- 
-+#define MHI_EP_DEVICE_MODALIAS_FMT "mhi_ep:%s"
-+
- /**
-  * struct mhi_device_id - MHI device identification
-  * @chan: MHI channel name
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 49aba862073e..90cda36f3159 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -1380,6 +1380,15 @@ static int do_mhi_entry(const char *filename, void *symval, char *alias)
- 	return 1;
- }
- 
-+/* Looks like: mhi_ep:S */
-+static int do_mhi_ep_entry(const char *filename, void *symval, char *alias)
-+{
-+	DEF_FIELD_ADDR(symval, mhi_device_id, chan);
-+	sprintf(alias, MHI_EP_DEVICE_MODALIAS_FMT, *chan);
-+
-+	return 1;
-+}
-+
- static int do_auxiliary_entry(const char *filename, void *symval, char *alias)
- {
- 	DEF_FIELD_ADDR(symval, auxiliary_device_id, name);
-@@ -1496,6 +1505,7 @@ static const struct devtable devtable[] = {
- 	{"tee", SIZE_tee_client_device_id, do_tee_entry},
- 	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
- 	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
-+	{"mhi_ep", SIZE_mhi_device_id, do_mhi_ep_entry},
- 	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
- 	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
- 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
--- 
-2.25.1
-
+> ---
+>  drivers/bus/mhi/core/init.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> v2:
+> -Update subject as per comments
+> -Add fixes tag and CC stable
+> 
+> diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+> index 5aaca6d..f1ec3441 100644
+> --- a/drivers/bus/mhi/core/init.c
+> +++ b/drivers/bus/mhi/core/init.c
+> @@ -788,6 +788,7 @@ static int parse_ch_cfg(struct mhi_controller *mhi_cntrl,
+>  		mhi_chan->offload_ch = ch_cfg->offload_channel;
+>  		mhi_chan->db_cfg.reset_req = ch_cfg->doorbell_mode_switch;
+>  		mhi_chan->pre_alloc = ch_cfg->auto_queue;
+> +		mhi_chan->wake_capable = ch_cfg->wake_capable;
+>  
+>  		/*
+>  		 * If MHI host allocates buffers, then the channel direction
+> -- 
+> 2.7.4
+> 
