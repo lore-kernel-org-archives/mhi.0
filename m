@@ -1,55 +1,55 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A011D2C9D
-	for <mhi@lists.linux.dev>; Tue,  7 Dec 2021 07:00:31 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id q17so8755481plr.11
-        for <mhi@lists.linux.dev>; Mon, 06 Dec 2021 23:00:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B2E2C9D
+	for <mhi@lists.linux.dev>; Tue,  7 Dec 2021 07:13:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id m24so8769647pls.10
+        for <mhi@lists.linux.dev>; Mon, 06 Dec 2021 23:13:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=v2KD/Dfq+rnasKB8lmx/9vy0d1bpdTQ6pdlpbDm2cNY=;
-        b=eWk/izWrJiBMpzVzdMAdYwo/6UxhY/+bJYF5qccMSL8poHIFm3PiGWUsyomrJ1lCFi
-         7Ps6GZDPf0UTI/AykAQltm4aV9ukzLw5NBJyy0Y5LDhBBTIOQYuNIFYJoy49SlvhmzMB
-         TdLOSFyDbnKFXpkGTDK8F94WJRXPNqA7WbEcCkC0rethFXdUpNil1y2aPDTHmiPiR3p0
-         cBeqfiycNJvys+XfCzZd2zHyF2uRyyDZ8IEBoH0JlgPJhDhaIeAm7Zg3LmwVbusa6M1K
-         NoDYFXELniTyaNNuHEYHD/182M8ZeV6ew/IrB70sooXIM/gdLSiSJ7SXfkRiuJB/3ll9
-         vj1g==
+        bh=Gh0bIBYEknjZWoJzfPB30eALpGXNfS3V5MODHrOaj/Y=;
+        b=pbADojfbEFojNiJLRCgMRi8ZWDiXyDVNmQDKkzKcUqSaKQkwUPuSTpXoyqWG6tKxpQ
+         osoJqZU6x9xP4L3V5FFlvo8wrzeAdq572bXTZiDra541ZtSZ0b/cAKiIf1mcTj6+sn3m
+         gQ5ur+5RN0Bq2929jrr7HFkiLE9cZTHPftTtG1NEh18ANOH4dJvKqyZF07YwuUn+zOj+
+         zg7PwOD0xkDRR4vusPjb5MzRWPW3PMr2gfRcfehGODjYgiyCPRHekJSqP2nXCvbhUSG6
+         TNe8OmOxJ4EGVBo1h7rpLsyFbSKZp63vNXhKZWjNXoVxR2tyYvuFyEL7LAPjH2HhDZP4
+         hzvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=v2KD/Dfq+rnasKB8lmx/9vy0d1bpdTQ6pdlpbDm2cNY=;
-        b=u5NXJPn09R/zFdxUstwsDKkeRXzHBLd3sXdz050lNu5FNU9DpsTBqQ5EByRhxT4P4A
-         bzFzj8+m9kvFDbqrqyXMZICDOUX3VAyTBm5NQxUz+kFsmJCRvT1XbKz1ULlcgJdScul7
-         aem2npTFVMzZrgX9OKRbMGWZcjPhouF0Hdxa3hmlGjy1nYJ4LSNCOdUhPNns0mqHYCR3
-         3wVymbQ8+7NCa+LXmfu9ZUJR6D+4oiU3tqztb0LXTFAuwj+huSmmL4l7y1gN8H3/it7S
-         jiN9JHfHhZIa0oBA1364p1A4YfdsvhD3HQgnhPgjJTYDS9QZYfBzl36I6WI5gkPN4qOT
-         c4zw==
-X-Gm-Message-State: AOAM530jTrKACRYi533P8jIuoCA8EMcANsy9gPSHx5WF8/kBDO7bbzQZ
-	ivLfaqvTy5FPmvhwvtMvxUNeFgjSiNPR
-X-Google-Smtp-Source: ABdhPJwkH2+F982zkzFbH3pqOLJ9QtawrtTVzIPRPRDf5DaQaZMX9AZVzN3QtPe9mTr5KSKs4UZL1A==
-X-Received: by 2002:a17:902:ab47:b0:141:95b2:7eaf with SMTP id ij7-20020a170902ab4700b0014195b27eafmr48733066plb.40.1638860430704;
-        Mon, 06 Dec 2021 23:00:30 -0800 (PST)
+        bh=Gh0bIBYEknjZWoJzfPB30eALpGXNfS3V5MODHrOaj/Y=;
+        b=7md3y7w5BKBulUFsLFhy6MFaMo8xwXfmJjZCaTijhxC4VKjOhQyno3mcRZjVGTk1K2
+         liSdN+hRd+OMv0Wd3GynW5z4oYLThNHY19BRm44p8H/VpHtD/Rbirc35B+hH2cuRSk59
+         r/wX6KfdAjQxgU00WDgEUmS8NiFVnFALr0ln2CSPjYkK6CkrnOv/ny5fOJdB5O1IskmX
+         3hHzQRYSAcWlSIFGQzTXrfax5T9FXpUSaV8WUwFwR/+caEHJhSE/UDHv4fHYh+3BzbXe
+         E5QIwSnBux78kkfbLzA0RUzJnU4ya5IQLJdpNTrAZPn03JtOkHcIOg5+J1F8+o3Ss0QQ
+         Uidw==
+X-Gm-Message-State: AOAM531rn+PSuO1JrWMXS6v5DDpM3dq/tJovrU+8Bsg6Xpr5uFeOwII9
+	AvrZmCQZaI2nWFPWVGo4+NOAuf53TSZR
+X-Google-Smtp-Source: ABdhPJxlgq7ZnVzkmbivH/UUfkg9A4GN8FW54h09KcIl3UHtj79A5yttj0ypzj8+gxDWI6OTx+Dehw==
+X-Received: by 2002:a17:90b:180d:: with SMTP id lw13mr4483939pjb.225.1638861227415;
+        Mon, 06 Dec 2021 23:13:47 -0800 (PST)
 Received: from localhost.localdomain ([117.217.176.38])
-        by smtp.gmail.com with ESMTPSA id d6sm11825211pgv.48.2021.12.06.23.00.26
+        by smtp.gmail.com with ESMTPSA id g7sm14796243pfv.159.2021.12.06.23.13.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 23:00:30 -0800 (PST)
+        Mon, 06 Dec 2021 23:13:46 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
-Cc: aleksander@aleksander.es,
-	loic.poulain@linaro.org,
-	thomas.perrot@bootlin.com,
+Cc: loic.poulain@linaro.org,
 	hemantk@codeaurora.org,
 	bbhatt@codeaurora.org,
-	quic_jhugo@quicinc.com,
 	linux-arm-msm@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v5] bus: mhi: Fix race while handling SYS_ERR at power up
-Date: Tue,  7 Dec 2021 12:30:18 +0530
-Message-Id: <20211207070018.115219-1-manivannan.sadhasivam@linaro.org>
+	netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] bus: mhi: core: Add an API for auto queueing buffers for DL channel
+Date: Tue,  7 Dec 2021 12:43:39 +0530
+Message-Id: <20211207071339.123794-1-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -59,132 +59,164 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During SYS_ERR condition, as a response to the MHI_RESET from host, some
-devices tend to issue BHI interrupt without clearing the SYS_ERR state in
-the device. This creates a race condition and causes a failure in booting
-up the device.
+Add a new API "mhi_prepare_for_transfer_autoqueue" for using with client
+drivers like QRTR to request MHI core to autoqueue buffers for the DL
+channel along with starting both UL and DL channels.
 
-The issue is seen on the Sierra Wireless EM9191 modem during SYS_ERR
-handling in mhi_async_power_up(). Once the host detects that the device
-is in SYS_ERR state, it issues MHI_RESET and waits for the device to
-process the reset request. During this time, the device triggers the BHI
-interrupt to the host without clearing SYS_ERR condition. So the host
-starts handling the SYS_ERR condition again.
+So far, the "auto_queue" flag specified by the controller drivers in
+channel definition served this purpose but this will be removed at some
+point in future.
 
-To fix this issue, let's register the IRQ handler only after handling the
-SYS_ERR check to avoid getting spurious IRQs from the device.
-
-Cc: stable@vger.kernel.org
-Fixes: e18d4e9fa79b ("bus: mhi: core: Handle syserr during power_up")
-Reported-by: Aleksander Morgado <aleksander@aleksander.es>
-Tested-by: Aleksander Morgado <aleksander@aleksander.es>
-Tested-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Cc: netdev@vger.kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Co-developed-by: Loic Poulain <loic.poulain@linaro.org>
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
 
-Changes in v5:
-
-* Rewored the commit message and used "error_exit" goto label for error
-  path
-
-Changes in v4:
-
-* Reverted the change that moved BHI_INTVEC as that was causing issue as
-  reported by Aleksander.
-
-Changes in v3:
-
-* Moved BHI_INTVEC setup after irq setup
-* Used interval_us as the delay for the polling API
-
 Changes in v2:
 
-* Switched to "mhi_poll_reg_field" for detecting MHI reset in device.
+* Rebased on top of 5.16-rc1
+* Fixed an issue reported by kernel test bot
+* CCed netdev folks and Greg
+* Slight change to the commit subject for reflecting "core" sub-directory
 
- drivers/bus/mhi/core/pm.c | 35 ++++++++++++-----------------------
- 1 file changed, 12 insertions(+), 23 deletions(-)
+ drivers/bus/mhi/core/internal.h |  6 +++++-
+ drivers/bus/mhi/core/main.c     | 21 +++++++++++++++++----
+ include/linux/mhi.h             | 21 ++++++++++++++++-----
+ net/qrtr/mhi.c                  |  2 +-
+ 4 files changed, 39 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
-index 7464f5d09973..9ae8532df5a3 100644
---- a/drivers/bus/mhi/core/pm.c
-+++ b/drivers/bus/mhi/core/pm.c
-@@ -1038,7 +1038,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 	enum mhi_ee_type current_ee;
- 	enum dev_st_transition next_state;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
--	u32 val;
-+	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
- 	int ret;
- 
- 	dev_info(dev, "Requested to power ON\n");
-@@ -1055,10 +1055,6 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 	mutex_lock(&mhi_cntrl->pm_mutex);
- 	mhi_cntrl->pm_state = MHI_PM_DISABLE;
- 
--	ret = mhi_init_irq_setup(mhi_cntrl);
--	if (ret)
--		goto error_setup_irq;
--
- 	/* Setup BHI INTVEC */
- 	write_lock_irq(&mhi_cntrl->pm_lock);
- 	mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
-@@ -1072,7 +1068,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 		dev_err(dev, "%s is not a valid EE for power on\n",
- 			TO_MHI_EXEC_STR(current_ee));
- 		ret = -EIO;
--		goto error_async_power_up;
-+		goto error_exit;
- 	}
- 
- 	state = mhi_get_mhi_state(mhi_cntrl);
-@@ -1081,20 +1077,12 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 
- 	if (state == MHI_STATE_SYS_ERR) {
- 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
--		ret = wait_event_timeout(mhi_cntrl->state_event,
--				MHI_PM_IN_FATAL_STATE(mhi_cntrl->pm_state) ||
--					mhi_read_reg_field(mhi_cntrl,
--							   mhi_cntrl->regs,
--							   MHICTRL,
--							   MHICTRL_RESET_MASK,
--							   MHICTRL_RESET_SHIFT,
--							   &val) ||
--					!val,
--				msecs_to_jiffies(mhi_cntrl->timeout_ms));
--		if (!ret) {
--			ret = -EIO;
-+		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
-+				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
-+				 interval_us);
-+		if (ret) {
- 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
--			goto error_async_power_up;
-+			goto error_exit;
- 		}
- 
- 		/*
-@@ -1104,6 +1092,10 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
- 	}
- 
-+	ret = mhi_init_irq_setup(mhi_cntrl);
-+	if (ret)
-+		goto error_exit;
+diff --git a/drivers/bus/mhi/core/internal.h b/drivers/bus/mhi/core/internal.h
+index 9d72b1d1e986..e2e10474a9d9 100644
+--- a/drivers/bus/mhi/core/internal.h
++++ b/drivers/bus/mhi/core/internal.h
+@@ -682,8 +682,12 @@ void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl);
+ void mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
+ 		      struct image_info *img_info);
+ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl);
 +
- 	/* Transition to next state */
- 	next_state = MHI_IN_PBL(current_ee) ?
- 		DEV_ST_TRANSITION_PBL : DEV_ST_TRANSITION_READY;
-@@ -1116,10 +1108,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
++/* Automatically allocate and queue inbound buffers */
++#define MHI_CH_INBOUND_ALLOC_BUFS BIT(0)
+ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
+-			struct mhi_chan *mhi_chan);
++			struct mhi_chan *mhi_chan, unsigned int flags);
++
+ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
+ 		       struct mhi_chan *mhi_chan);
+ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
+diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/core/main.c
+index 930aba666b67..ffde617f93a3 100644
+--- a/drivers/bus/mhi/core/main.c
++++ b/drivers/bus/mhi/core/main.c
+@@ -1430,7 +1430,7 @@ static void mhi_unprepare_channel(struct mhi_controller *mhi_cntrl,
+ }
  
- 	return 0;
+ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
+-			struct mhi_chan *mhi_chan)
++			struct mhi_chan *mhi_chan, unsigned int flags)
+ {
+ 	int ret = 0;
+ 	struct device *dev = &mhi_chan->mhi_dev->dev;
+@@ -1455,6 +1455,9 @@ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
+ 	if (ret)
+ 		goto error_pm_state;
  
--error_async_power_up:
--	mhi_deinit_free_irq(mhi_cntrl);
--
--error_setup_irq:
-+error_exit:
- 	mhi_cntrl->pm_state = MHI_PM_DISABLE;
- 	mutex_unlock(&mhi_cntrl->pm_mutex);
++	if (mhi_chan->dir == DMA_FROM_DEVICE)
++		mhi_chan->pre_alloc = !!(flags & MHI_CH_INBOUND_ALLOC_BUFS);
++
+ 	/* Pre-allocate buffer for xfer ring */
+ 	if (mhi_chan->pre_alloc) {
+ 		int nr_el = get_nr_avail_ring_elements(mhi_cntrl,
+@@ -1610,8 +1613,7 @@ void mhi_reset_chan(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan)
+ 	read_unlock_bh(&mhi_cntrl->pm_lock);
+ }
+ 
+-/* Move channel to start state */
+-int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
++static int __mhi_prepare_for_transfer(struct mhi_device *mhi_dev, unsigned int flags)
+ {
+ 	int ret, dir;
+ 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+@@ -1622,7 +1624,7 @@ int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
+ 		if (!mhi_chan)
+ 			continue;
+ 
+-		ret = mhi_prepare_channel(mhi_cntrl, mhi_chan);
++		ret = mhi_prepare_channel(mhi_cntrl, mhi_chan, flags);
+ 		if (ret)
+ 			goto error_open_chan;
+ 	}
+@@ -1640,8 +1642,19 @@ int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
+ 
+ 	return ret;
+ }
++
++int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
++{
++	return __mhi_prepare_for_transfer(mhi_dev, 0);
++}
+ EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer);
+ 
++int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
++{
++	return __mhi_prepare_for_transfer(mhi_dev, MHI_CH_INBOUND_ALLOC_BUFS);
++}
++EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
++
+ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+ {
+ 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 723985879035..271db1d6da85 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -717,15 +717,26 @@ void mhi_device_put(struct mhi_device *mhi_dev);
+ 
+ /**
+  * mhi_prepare_for_transfer - Setup UL and DL channels for data transfer.
+- *                            Allocate and initialize the channel context and
+- *                            also issue the START channel command to both
+- *                            channels. Channels can be started only if both
+- *                            host and device execution environments match and
+- *                            channels are in a DISABLED state.
+  * @mhi_dev: Device associated with the channels
++ *
++ * Allocate and initialize the channel context and also issue the START channel
++ * command to both channels. Channels can be started only if both host and
++ * device execution environments match and channels are in a DISABLED state.
+  */
+ int mhi_prepare_for_transfer(struct mhi_device *mhi_dev);
+ 
++/**
++ * mhi_prepare_for_transfer_autoqueue - Setup UL and DL channels with auto queue
++ *                                      buffers for DL traffic
++ * @mhi_dev: Device associated with the channels
++ *
++ * Allocate and initialize the channel context and also issue the START channel
++ * command to both channels. Channels can be started only if both host and
++ * device execution environments match and channels are in a DISABLED state.
++ * The MHI core will automatically allocate and queue buffers for the DL traffic.
++ */
++int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
++
+ /**
+  * mhi_unprepare_from_transfer - Reset UL and DL channels for data transfer.
+  *                               Issue the RESET channel command and let the
+diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
+index fa611678af05..18196e1c8c2f 100644
+--- a/net/qrtr/mhi.c
++++ b/net/qrtr/mhi.c
+@@ -79,7 +79,7 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
+ 	int rc;
+ 
+ 	/* start channels */
+-	rc = mhi_prepare_for_transfer(mhi_dev);
++	rc = mhi_prepare_for_transfer_autoqueue(mhi_dev);
+ 	if (rc)
+ 		return rc;
  
 -- 
 2.25.1
