@@ -1,115 +1,78 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CA468
-	for <mhi@lists.linux.dev>; Mon,  6 Dec 2021 17:39:23 +0000 (UTC)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1muHxR-0004bW-B6; Mon, 06 Dec 2021 18:39:21 +0100
-Message-ID: <2a181fd4-9248-d68d-7eee-43b19db96461@leemhuis.info>
-Date: Mon, 6 Dec 2021 18:39:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38692CA6
+	for <mhi@lists.linux.dev>; Tue,  7 Dec 2021 01:52:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1638841927; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=o/E0WPb3DgfSNjgnfDH6dTjCGZn7mfElYZOu6xLSZiA=; b=WqBcQHQjJ7hykR9+PlwCome+5/FZMT7mrTLkHpixAYbK2ZtWm02lMuSmXWFWRVP7EebtdRb1
+ DqGVQaMZM26MJvO8EQzbTU83E6VLT6Sqv3ZpfgwAkv/eeLRSncAHOhW/UW18P0YvU0LJy1P+
+ kQLSSgGgFFQN3dKkazkWdmVqB24=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 61aebe46903341b2e44fa310 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 07 Dec 2021 01:52:06
+ GMT
+Sender: hemantk=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id DE12DC43618; Tue,  7 Dec 2021 01:52:05 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
+Received: from [10.110.103.130] (i-global254.qualcomm.com [199.106.103.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: hemantk)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id A0E1FC4338F;
+	Tue,  7 Dec 2021 01:52:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org A0E1FC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Subject: Re: [PATCH 01/20] bus: mhi: Move host MHI code to "host" directory
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ mhi@lists.linux.dev
+Cc: bbhatt@codeaurora.org, quic_jhugo@quicinc.com, vinod.koul@linaro.org,
+ bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
+ skananth@codeaurora.org, vpernami@codeaurora.org, vbadigan@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
+ <20211202113553.238011-2-manivannan.sadhasivam@linaro.org>
+From: Hemant Kumar <hemantk@codeaurora.org>
+Message-ID: <1701ade0-4f75-1407-2741-cd792d3e78fe@codeaurora.org>
+Date: Mon, 6 Dec 2021 17:52:02 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] bus: mhi: core: Add support for forced PM resume
-Content-Language: en-BS
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- mhi@lists.linux.dev
-Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org, loic.poulain@linaro.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- ath11k@lists.infradead.org, linux-wireless@vger.kernel.org,
- kvalo@codeaurora.org, stable@vger.kernel.org, Pengyu Ma <mapengyu@gmail.com>
-References: <20211206161059.107007-1-manivannan.sadhasivam@linaro.org>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <20211206161059.107007-1-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1638812363;34fe6703;
-X-HE-SMSGID: 1muHxR-0004bW-B6
+In-Reply-To: <20211202113553.238011-2-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
-Hi, this is your Linux kernel regression tracker speaking.
 
-On 06.12.21 17:10, Manivannan Sadhasivam wrote:
-> From: Loic Poulain <loic.poulain@linaro.org>
+On 12/2/2021 3:35 AM, Manivannan Sadhasivam wrote:
+> In preparation of the endpoint MHI support, let's move the host MHI code
+> to its own "host" directory and adjust the toplevel MHI Kconfig & Makefile.
 > 
-> For whatever reason, some devices like QCA6390, WCN6855 using ath11k
-> are not in M3 state during PM resume, but still functional. The
-> mhi_pm_resume should then not fail in those cases, and let the higher
-> level device specific stack continue resuming process.
+> While at it, let's also move the "pci_generic" driver to "host" directory
+> as it is a host MHI controller driver.
 > 
-> Add a new parameter to mhi_pm_resume, to force resuming, whatever the
-> current MHI state is. This fixes a regression with non functional
-> ath11k WiFi after suspend/resume cycle on some machines.
-> 
-> Bug report: https://bugzilla.kernel.org/show_bug.cgi?id=214179
-> 
-> Cc: stable@vger.kernel.org #5.13
-> Fixes: 020d3b26c07a ("bus: mhi: Early MHI resume failure in non M3 state")
-> Reported-by: Kalle Valo <kvalo@codeaurora.org>
-> Reported-by: Pengyu Ma <mapengyu@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-FWIW: In case you need to send an improved patch, could you please add
-this before the 'Reported-by:' (see (¹) below for the reasoning):
+Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
 
-Link: https://lore.kernel.org/regressions/871r5p0x2u.fsf@codeaurora.org/
-
-And if the patch is already good to go: could the subsystem maintainer
-please add it when applying? See(¹) for the reasoning.
-
-Thx.
-
-Ciao, Thorsten, your Linux kernel regression tracker.
-
-(¹) Long story: The commit message would benefit from a link to the
-regression report on the mailing list, for reasons explained in
-Documentation/process/submitting-patches.rst. To quote:
-
-```
-If related discussions or any other background information behind the
-change can be found on the web, add 'Link:' tags pointing to it. In case
-your patch fixes a bug, for example, add a tag with a URL referencing
-the report in the mailing list archives or a bug tracker;
-```
-
-This concept is old, but the text was reworked recently to make this use
-case for the Link: tag clearer. For details see:
-https://git.kernel.org/linus/1f57bd42b77c
-
-Yes, that "Link:" is not really crucial; but it's good to have if
-someone needs to look into the backstory of this change sometime in the
-future. But I care for a different reason. I'm tracking this regression
-(and others) with regzbot, my Linux kernel regression tracking bot. This
-bot will notice if a patch with a Link: tag to a tracked regression gets
-posted and record that, which allowed anyone looking into the regression
-to quickly gasp the current status from regzbot's webui
-(https://linux-regtracking.leemhuis.info/regzbot ) or its reports. The
-bot will also notice if a commit with a Link: tag to a regression report
-is applied by Linus and then automatically mark the regression as
-resolved then.
-
-IOW: this tag makes my life a regression tracker a lot easier, as I
-otherwise have to tell regzbot manually when the fix lands. :-/
-
-P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
-on my table. I can only look briefly into most of them. Unfortunately
-therefore I sometimes will get things wrong or miss something important.
-I hope that's not the case here; if you think it is, don't hesitate to
-tell me about it in a public reply. That's in everyone's interest, as
-what I wrote above might be misleading to everyone reading this; any
-suggestion I gave they thus might sent someone reading this down the
-wrong rabbit hole, which none of us wants.
-
-BTW, I have no personal interest in this issue, which is tracked using
-regzbot, my Linux kernel regression tracking bot
-(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
-this mail to get things rolling again and hence don't need to be CC on
-all further activities wrt to this regression.
-
-#regzbot ^backmonitor:
-https://lore.kernel.org/regressions/871r5p0x2u.fsf@codeaurora.org/
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+Forum, a Linux Foundation Collaborative Project
