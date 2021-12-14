@@ -1,122 +1,134 @@
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7806B2CA4
-	for <mhi@lists.linux.dev>; Tue, 14 Dec 2021 22:55:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1639522520; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=j5mv+bwGF9Jb+6wwuoo79SpCjZvRHCfajqRMmmEmvBk=; b=r/dmdXlQyP3r4YEEgEnIKCzJoSpBdA4Pr025HaBJvJ9bUllJ+tiWTAIPvonEpenhMa0QHBz0
- 2FhlXTyDiKlzHkdrNrv39zN/GPrTIdqu5qTLHhbeMfP6HH++viHxvfh/jNivXtLEMngBc2Fl
- fB8BD5Pz6ZlG9msUiep14eLVrV8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 61b920d75daaeec7972d487f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 14 Dec 2021 22:55:19
- GMT
-Sender: hemantk=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 18170C4360C; Tue, 14 Dec 2021 22:55:19 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [10.110.114.105] (i-global254.qualcomm.com [199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: hemantk)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 1BF48C4338F;
-	Tue, 14 Dec 2021 22:55:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 1BF48C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-Subject: Re: [RFC] bus: mhi: core: Load firmware asynchronous
-To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E292CA4
+	for <mhi@lists.linux.dev>; Tue, 14 Dec 2021 23:28:15 +0000 (UTC)
+Date: Wed, 15 Dec 2021 00:28:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+	s=mail; t=1639524493;
+	bh=px2nFIrkc6EXmcu4jcTAUXb6pMFO2r05xDq53egOoME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EAU4pwjLaQmMoR5/v19+wcHmzW5KAqg+VzG1JV6RhGhb/EdwkqG9RxJ9cYhnakaPU
+	 D2r0VayD3Vbkmif7SYS2UZOXOQ3DgGQyVn6dJj++QnGo1QnLnOyJWP644ug67CPu1s
+	 Kxsq8wQ9+CtibJ6iwR3FUNh29X0l54fpD/rY4uYY=
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Hemant Kumar <hemantk@codeaurora.org>
 Cc: Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- Mario Limonciello <Mario.Limonciello@amd.com>,
- Richard Hughes <hughsient@gmail.com>
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	Mario Limonciello <Mario.Limonciello@amd.com>,
+	Richard Hughes <hughsient@gmail.com>,
+	Ivan Mikhanchuk <ivan.mikhanchuk@quectel.com>,
+	Aleksander Morgado <aleksander@aleksander.es>
+Subject: Re: [RFC] bus: mhi: core: Load firmware asynchronous
+Message-ID: <ee87c8a5-e95b-4a32-ac9d-c68b64348f6e@t-8ch.de>
 References: <20211210161645.10925-1-linux@weissschuh.net>
  <403e93df-5b3c-acb3-2b65-df9a7834a9c5@codeaurora.org>
  <02e32c9d-79d2-4237-bb6b-8bd27029e7a9@t-8ch.de>
-From: Hemant Kumar <hemantk@codeaurora.org>
-Message-ID: <6c805ecd-4542-5533-7852-ecd9cea27955@codeaurora.org>
-Date: Tue, 14 Dec 2021 14:55:16 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <6c805ecd-4542-5533-7852-ecd9cea27955@codeaurora.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <02e32c9d-79d2-4237-bb6b-8bd27029e7a9@t-8ch.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c805ecd-4542-5533-7852-ecd9cea27955@codeaurora.org>
+Jabber-ID: thomas@t-8ch.de
+X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
+X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
 
-
-
-On 12/13/2021 10:32 PM, Thomas Weißschuh wrote:
-> On 2021-12-13 16:07-0800, Hemant Kumar wrote:
->> On 12/10/2021 8:16 AM, Thomas Weißschuh wrote:
->>> This gives userspace the possibility to provide the firehose bootloader
->>> via the sysfs-firmware-API instead of having to modify the global
->>> firmware loadpath.
->>>
->>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
->>>
->>> ---
->>>
->>> Please note that this is not tested yet, as I don't have access to a matching
->>> firmware file.
->>> This submission is to gather general feedback from the maintainers and then
->>> Richard will do the actual testing, while I'll do the development.
->>>
->>> This patch is should not have any impact beyond moving from request_firmware()
->>> to request_firmware_nowait() and the involved code reshuffle.
->> what are we achieving by moving to async ver of the firmware load ? MHI boot
->> flow can not do anything until BHI load is over. Is the intention eventually
->> to enable firmware fallback mechanism  and manually load the firmware ?
+On 2021-12-14 14:55-0800, Hemant Kumar wrote:
+> On 12/13/2021 10:32 PM, Thomas Weißschuh wrote:
+> > On 2021-12-13 16:07-0800, Hemant Kumar wrote:
+> > > On 12/10/2021 8:16 AM, Thomas Weißschuh wrote:
+> > > > This gives userspace the possibility to provide the firehose bootloader
+> > > > via the sysfs-firmware-API instead of having to modify the global
+> > > > firmware loadpath.
+> > > > 
+> > > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > > > 
+> > > > ---
+> > > > 
+> > > > Please note that this is not tested yet, as I don't have access to a matching
+> > > > firmware file.
+> > > > This submission is to gather general feedback from the maintainers and then
+> > > > Richard will do the actual testing, while I'll do the development.
+> > > > 
+> > > > This patch is should not have any impact beyond moving from request_firmware()
+> > > > to request_firmware_nowait() and the involved code reshuffle.
+> > > what are we achieving by moving to async ver of the firmware load ? MHI boot
+> > > flow can not do anything until BHI load is over. Is the intention eventually
+> > > to enable firmware fallback mechanism  and manually load the firmware ?
+> > 
+> > The goal is to provide the firehose bootloader (qcom/prog_firehose_sdx24.mbn)
+> > via the firmware fallback mechanism when upgrading the firmware on the device
+> > via the firehose protocol.
+> > 
+> > This bootloader firmware is not part of linux-firmware but provided as part of
+> > each firmware update package, so it is not installed statically on the system.
+> > 
+> > I will extend the commit message with this information.
 > 
-> The goal is to provide the firehose bootloader (qcom/prog_firehose_sdx24.mbn)
-> via the firmware fallback mechanism when upgrading the firmware on the device
-> via the firehose protocol.
+> For my understanding i have follow up question. As per the kernel doc
+> https://www.kernel.org/doc/html/latest/driver-api/firmware/fallback-mechanisms.html
+
+I'll try to answer, but please be aware that I have no previous experience with
+the firmware fallback mechanism and can not test this patch.
+
+At this point in time I'm also hoping more for a general confirmation about
+using *some* fallback mechanism for MHI, so Richard and Ivan can test the patch
+(before it is committed) and then we can figure out exactly which of the
+fallback mechanisms fits best with feedback from them.
+
+> If CONFIG_FW_LOADER_USER_HELPER enabled but
+> CONFIG_FW_LOADER_USER_HELPER_FALLBACK is disabled, only the custom fallback
+> mechanism is available and for the request_firmware_nowait() call.
 > 
-> This bootloader firmware is not part of linux-firmware but provided as part of
-> each firmware update package, so it is not installed statically on the system.
+> Custom fall back mechanism says
+> Users of the request_firmware_nowait() call have yet another option
+> available at their disposal: rely on the sysfs fallback mechanism but
+> request that no kobject uevents be issued to userspace. Original logic
+> behind this was that utilities other than udev might be required to lookup
+> firmware in non-traditional paths
 > 
-> I will extend the commit message with this information.
+> Your patch is passing uevent flag as true which means you are relying on
+> uevent to be issued to userspace. How do you plan to update the firmware
+> path ? Alternatively firmware class provides a module param to specify the
+> firmware path /sys/module/firmware_class/parameters/path.
 
-For my understanding i have follow up question. As per the kernel doc
-https://www.kernel.org/doc/html/latest/driver-api/firmware/fallback-mechanisms.html
+Emitting the uevent would allow the firmware update tool
+(fwupd, https://github.com/fwupd/fwupd) to monitor uevents and recognize when
+the device is ready to receive the firmware and then trigger the upload.
+If I see it correctly uevent=0 and uevent=1 do the same things except uevent=1
+also publishes the uevent.
 
-If CONFIG_FW_LOADER_USER_HELPER enabled but 
-CONFIG_FW_LOADER_USER_HELPER_FALLBACK is disabled, only the custom 
-fallback mechanism is available and for the request_firmware_nowait() call.
+Modifying /sys/module/firmware_class/parameters/path is what currently is being
+done.
+But modifying the global firmware load path has the potential for the following
+issues:
 
-Custom fall back mechanism says
-Users of the request_firmware_nowait() call have yet another option 
-available at their disposal: rely on the sysfs fallback mechanism but 
-request that no kobject uevents be issued to userspace. Original logic 
-behind this was that utilities other than udev might be required to 
-lookup firmware in non-traditional paths
+* While the global firmware load path is modified to a custom location any
+  load_firmware() call from other devices will fail because the new path does
+  not have the normal linux-firmware.
+* If the tool modifying crashes while before restoring the original load path
+  all further load_firmware()-calls will also fail.
 
-Your patch is passing uevent flag as true which means you are relying on 
-uevent to be issued to userspace. How do you plan to update the firmware 
-path ? Alternatively firmware class provides a module param to specify 
-the firmware path /sys/module/firmware_class/parameters/path.
-> 
-> PS: The current patch is missing 'return' after calls to
-> 'mhi_fw_load_finish()', this will be corrected in v2.
-> 
+> > 
+> > PS: The current patch is missing 'return' after calls to
+> > 'mhi_fw_load_finish()', this will be corrected in v2.
 
-Thanks,
-Hemant
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
-Forum, a Linux Foundation Collaborative Project
+Another point:
+
+For sdx55 and sdx65 there is not only an edl firmware specified but also a
+firmware for normal operation.
+This firmware is not part of linux-firmware.
+Currently the firmware load would fail and put the modem into an error
+condition (I think?).
+With this patch there would be a timeout before that error state is reached.
+
+I know that some people have the SDX55 running with Linux but I'm now wondering
+where they are getting the firmware "qcom/sdx55m/sbl1.mbn" from.
+
+Thomas
