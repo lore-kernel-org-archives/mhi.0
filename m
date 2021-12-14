@@ -1,286 +1,86 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456C1173
-	for <mhi@lists.linux.dev>; Fri, 10 Dec 2021 16:21:08 +0000 (UTC)
-From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-	s=mail; t=1639153012;
-	bh=6N0R6c6LwC+AWv0lWKTKcB5B1ixiC/Tv3M/4jyRgeuU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WLsG75n4hXuFHBHv3PhO3mhgU/7o9hXHWtrT6qDXA5hrkl3DTOQ3WrxKCiny+5QSv
-	 iXjmjXbD6h8WbQ0KhKBRHsV931dEfOKvHJdsKlNdevwP/HXE5WCh9WOxot0gWqjpTR
-	 ko94KIS7gJELFV5kpMY/Q35iDjQWIUVlAVUgqmS4=
-To: Hemant Kumar <hemantk@codeaurora.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	Richard Hughes <hughsient@gmail.com>
-Subject: [RFC] bus: mhi: core: Load firmware asynchronous
-Date: Fri, 10 Dec 2021 17:16:45 +0100
-Message-Id: <20211210161645.10925-1-linux@weissschuh.net>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D0E168
+	for <mhi@lists.linux.dev>; Tue, 14 Dec 2021 00:07:39 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1639440461; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=HrkidRgCOdsW30/DkJv35RJ0R+GZ61VAFBn0ww2cif0=; b=YtbagnxetZbQvij8L539X68JG8eqL/0uycQN23LZp0OqCcaysDJAHeMARG7WEdCAgkhzOL38
+ BKPj33MqEsjRUSK4EFPfcfqSQjL+4E55zhOMoIPOBJZtmesJ+87yslE2a2hvZqhsEcg9Af04
+ 4syT3PU//7cqmp9uZQIkFg2SgwM=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIyZTBmZSIsICJtaGlAbGlzdHMubGludXguZGV2IiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 61b7e048642caac318d2926f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 14 Dec 2021 00:07:36
+ GMT
+Sender: hemantk=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id A2A97C4360C; Tue, 14 Dec 2021 00:07:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-7.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [10.110.114.105] (i-global254.qualcomm.com [199.106.103.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: hemantk)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id B793CC4338F;
+	Tue, 14 Dec 2021 00:07:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org B793CC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Subject: Re: [RFC] bus: mhi: core: Load firmware asynchronous
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, Mario Limonciello
+ <Mario.Limonciello@amd.com>, Richard Hughes <hughsient@gmail.com>
+References: <20211210161645.10925-1-linux@weissschuh.net>
+From: Hemant Kumar <hemantk@codeaurora.org>
+Message-ID: <403e93df-5b3c-acb3-2b65-df9a7834a9c5@codeaurora.org>
+Date: Mon, 13 Dec 2021 16:07:29 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1639153004; l=7911; s=20211113; h=from:subject; bh=6N0R6c6LwC+AWv0lWKTKcB5B1ixiC/Tv3M/4jyRgeuU=; b=nptClPiq3GvLpkwP8BeCSza3cWCueEFBy5VQWkc95v39AZVZkzCPN5uWYRKd+PQheJpveD00C/Xx TLZeLYOmCUw+PGRWz8wMlCwqZnOYUIdzIYGCRtCFeSndEZmHBJ9w
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519; pk=9LP6KM4vD/8CwHW7nouRBhWLyQLcK1MkP6aTZbzUlj4=
+In-Reply-To: <20211210161645.10925-1-linux@weissschuh.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-This gives userspace the possibility to provide the firehose bootloader
-via the sysfs-firmware-API instead of having to modify the global
-firmware loadpath.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+On 12/10/2021 8:16 AM, Thomas Weißschuh wrote:
+> This gives userspace the possibility to provide the firehose bootloader
+> via the sysfs-firmware-API instead of having to modify the global
+> firmware loadpath.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> 
+> ---
+> 
+> Please note that this is not tested yet, as I don't have access to a matching
+> firmware file.
+> This submission is to gather general feedback from the maintainers and then
+> Richard will do the actual testing, while I'll do the development.
+> 
+> This patch is should not have any impact beyond moving from request_firmware()
+> to request_firmware_nowait() and the involved code reshuffle.
+what are we achieving by moving to async ver of the firmware load ? MHI 
+boot flow can not do anything until BHI load is over. Is the intention 
+eventually to enable firmware fallback mechanism  and manually load the 
+firmware ?
 
----
+[..]
 
-Please note that this is not tested yet, as I don't have access to a matching
-firmware file.
-This submission is to gather general feedback from the maintainers and then
-Richard will do the actual testing, while I'll do the development.
-
-This patch is should not have any impact beyond moving from request_firmware()
-to request_firmware_nowait() and the involved code reshuffle.
-
----
- drivers/bus/mhi/core/boot.c | 159 +++++++++++++++++++++++-------------
- 1 file changed, 101 insertions(+), 58 deletions(-)
-
-diff --git a/drivers/bus/mhi/core/boot.c b/drivers/bus/mhi/core/boot.c
-index 74295d3cc662..b0576ffc69c6 100644
---- a/drivers/bus/mhi/core/boot.c
-+++ b/drivers/bus/mhi/core/boot.c
-@@ -18,6 +18,17 @@
- #include <linux/wait.h>
- #include "internal.h"
- 
-+struct mhi_fw_load_callback_ctx {
-+	const char *fw_name;
-+	struct mhi_controller *mhi_cntrl;
-+};
-+
-+enum mhi_fw_load_status {
-+	MHI_FW_LOAD_READY_STATE,
-+	MHI_FW_ERROR_READY_STATE,
-+	MHI_FW_ERROR_FW_LOAD,
-+};
-+
- /* Setup RDDM vector table for RDDM transfer and program RXVEC */
- void mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
- 		      struct image_info *img_info)
-@@ -386,55 +397,53 @@ static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
- 	}
- }
- 
--void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
-+static void mhi_fw_load_finish(struct mhi_controller *mhi_cntrl, enum mhi_fw_load_status status)
- {
--	const struct firmware *firmware = NULL;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
--	const char *fw_name;
--	void *buf;
--	dma_addr_t dma_addr;
--	size_t size;
--	int i, ret;
-+	int ret;
- 
--	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
--		dev_err(dev, "Device MHI is not in valid state\n");
--		return;
-+	switch (status) {
-+	case MHI_FW_LOAD_READY_STATE:
-+		break;
-+	case MHI_FW_ERROR_READY_STATE:
-+		goto error_ready_state;
-+	case MHI_FW_ERROR_FW_LOAD:
-+		goto error_fw_load;
- 	}
- 
--	/* save hardware info from BHI */
--	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_SERIALNU,
--			   &mhi_cntrl->serial_number);
--	if (ret)
--		dev_err(dev, "Could not capture serial number via BHI\n");
--
--	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++) {
--		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i),
--				   &mhi_cntrl->oem_pk_hash[i]);
--		if (ret) {
--			dev_err(dev, "Could not capture OEM PK HASH via BHI\n");
--			break;
--		}
-+	/* Transitioning into MHI RESET->READY state */
-+	ret = mhi_ready_state_transition(mhi_cntrl);
-+	if (ret) {
-+		dev_err(dev, "MHI did not enter READY state\n");
-+		goto error_ready_state;
- 	}
- 
--	/* wait for ready on pass through or any other execution environment */
--	if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
--		goto fw_load_ready_state;
--
--	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
--		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
-+	dev_info(dev, "Wait for device to enter SBL or Mission mode\n");
-+	return;
- 
--	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
--						     !mhi_cntrl->seg_len))) {
--		dev_err(dev,
--			"No firmware image defined or !sbl_size || !seg_len\n");
--		goto error_fw_load;
-+error_ready_state:
-+	if (mhi_cntrl->fbc_download) {
-+		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
-+		mhi_cntrl->fbc_image = NULL;
- 	}
- 
--	ret = request_firmware(&firmware, fw_name, dev);
--	if (ret) {
--		dev_err(dev, "Error loading firmware: %d\n", ret);
--		goto error_fw_load;
--	}
-+error_fw_load:
-+	mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
-+	wake_up_all(&mhi_cntrl->state_event);
-+}
-+
-+static void mhi_fw_load_callback(const struct firmware *firmware, void *context)
-+{
-+	struct mhi_fw_load_callback_ctx *ctx = context;
-+	const char *fw_name = ctx->fw_name;
-+	struct mhi_controller *mhi_cntrl = ctx->mhi_cntrl;
-+	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	dma_addr_t dma_addr;
-+	size_t size;
-+	void *buf;
-+	int ret;
-+
-+	kfree(context);
- 
- 	size = (mhi_cntrl->fbc_download) ? mhi_cntrl->sbl_size : firmware->size;
- 
-@@ -446,7 +455,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 				 GFP_KERNEL);
- 	if (!buf) {
- 		release_firmware(firmware);
--		goto error_fw_load;
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_ERROR_FW_LOAD);
- 	}
- 
- 	/* Download image using BHI */
-@@ -458,13 +467,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 	if (ret) {
- 		dev_err(dev, "MHI did not load image over BHI, ret: %d\n", ret);
- 		release_firmware(firmware);
--		goto error_fw_load;
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_ERROR_FW_LOAD);
- 	}
- 
- 	/* Wait for ready since EDL image was loaded */
- 	if (fw_name == mhi_cntrl->edl_image) {
- 		release_firmware(firmware);
--		goto fw_load_ready_state;
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_LOAD_READY_STATE);
- 	}
- 
- 	write_lock_irq(&mhi_cntrl->pm_lock);
-@@ -480,7 +489,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 					   firmware->size);
- 		if (ret) {
- 			release_firmware(firmware);
--			goto error_fw_load;
-+			mhi_fw_load_finish(mhi_cntrl, MHI_FW_ERROR_FW_LOAD);
- 		}
- 
- 		/* Load the firmware into BHIE vec table */
-@@ -489,26 +498,60 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 
- 	release_firmware(firmware);
- 
--fw_load_ready_state:
--	/* Transitioning into MHI RESET->READY state */
--	ret = mhi_ready_state_transition(mhi_cntrl);
--	if (ret) {
--		dev_err(dev, "MHI did not enter READY state\n");
--		goto error_ready_state;
-+	mhi_fw_load_finish(mhi_cntrl, MHI_FW_LOAD_READY_STATE);
-+}
-+
-+void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
-+{
-+	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	struct mhi_fw_load_callback_ctx *cb_ctx;
-+	const char *fw_name;
-+	int i, ret;
-+
-+	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-+		dev_err(dev, "Device MHI is not in valid state\n");
-+		return;
- 	}
- 
--	dev_info(dev, "Wait for device to enter SBL or Mission mode\n");
--	return;
-+	/* save hardware info from BHI */
-+	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_SERIALNU,
-+			   &mhi_cntrl->serial_number);
-+	if (ret)
-+		dev_err(dev, "Could not capture serial number via BHI\n");
- 
--error_ready_state:
--	if (mhi_cntrl->fbc_download) {
--		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
--		mhi_cntrl->fbc_image = NULL;
-+	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++) {
-+		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i),
-+				   &mhi_cntrl->oem_pk_hash[i]);
-+		if (ret) {
-+			dev_err(dev, "Could not capture OEM PK HASH via BHI\n");
-+			break;
-+		}
- 	}
- 
--error_fw_load:
--	mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
--	wake_up_all(&mhi_cntrl->state_event);
-+	/* wait for ready on pass through or any other execution environment */
-+	if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_LOAD_READY_STATE);
-+
-+	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
-+		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
-+
-+	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
-+						     !mhi_cntrl->seg_len))) {
-+		dev_err(dev,
-+			"No firmware image defined or !sbl_size || !seg_len\n");
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_ERROR_FW_LOAD);
-+	}
-+
-+	cb_ctx = kzalloc(sizeof(*cb_ctx), GFP_KERNEL);
-+	if (!cb_ctx)
-+		return;
-+
-+	ret = request_firmware_nowait(THIS_MODULE, true, fw_name, dev, GFP_KERNEL, cb_ctx,
-+				      mhi_fw_load_callback);
-+	if (ret) {
-+		dev_err(dev, "Error loading firmware: %d\n", ret);
-+		mhi_fw_load_finish(mhi_cntrl, MHI_FW_ERROR_FW_LOAD);
-+	}
- }
- 
- int mhi_download_amss_image(struct mhi_controller *mhi_cntrl)
-
-base-commit: 622e96fb58d63985b028abc2cb9a873124bdac1e
 -- 
-2.34.1
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+Forum, a Linux Foundation Collaborative Project
