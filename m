@@ -1,134 +1,114 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E292CA4
-	for <mhi@lists.linux.dev>; Tue, 14 Dec 2021 23:28:15 +0000 (UTC)
-Date: Wed, 15 Dec 2021 00:28:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-	s=mail; t=1639524493;
-	bh=px2nFIrkc6EXmcu4jcTAUXb6pMFO2r05xDq53egOoME=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EAU4pwjLaQmMoR5/v19+wcHmzW5KAqg+VzG1JV6RhGhb/EdwkqG9RxJ9cYhnakaPU
-	 D2r0VayD3Vbkmif7SYS2UZOXOQ3DgGQyVn6dJj++QnGo1QnLnOyJWP644ug67CPu1s
-	 Kxsq8wQ9+CtibJ6iwR3FUNh29X0l54fpD/rY4uYY=
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Hemant Kumar <hemantk@codeaurora.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	Richard Hughes <hughsient@gmail.com>,
-	Ivan Mikhanchuk <ivan.mikhanchuk@quectel.com>,
-	Aleksander Morgado <aleksander@aleksander.es>
-Subject: Re: [RFC] bus: mhi: core: Load firmware asynchronous
-Message-ID: <ee87c8a5-e95b-4a32-ac9d-c68b64348f6e@t-8ch.de>
-References: <20211210161645.10925-1-linux@weissschuh.net>
- <403e93df-5b3c-acb3-2b65-df9a7834a9c5@codeaurora.org>
- <02e32c9d-79d2-4237-bb6b-8bd27029e7a9@t-8ch.de>
- <6c805ecd-4542-5533-7852-ecd9cea27955@codeaurora.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8772CA4
+	for <mhi@lists.linux.dev>; Wed, 15 Dec 2021 23:24:49 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id 133so21368427pgc.12
+        for <mhi@lists.linux.dev>; Wed, 15 Dec 2021 15:24:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+wKtXeTQxQFOQCh8iyar/PDd0xAj+8Ua39SmoAmPwN0=;
+        b=e93vtoDwd7onN/Fo3H65oql7xosjLseC1YGapBrQmDK8jys1N9X2tePXxtX6QEq0nI
+         iDk6bk2DjcbExvPfmz/6+6BGWestI5jcC4InWhbLSXwwL53ZzItr2OyIyb7zESJ1u4Uq
+         Uria1ieOHKqTNLG4TJ8pf/MQSl/1RONlDvHVw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+wKtXeTQxQFOQCh8iyar/PDd0xAj+8Ua39SmoAmPwN0=;
+        b=KXPKFv3Zr/Yt20XNSXQBZBrUCwxxZz1ai/Qh7lV+hDfS2sfdeXnE5p0++ZEGVTGGqB
+         gen/dyQgLaS4ED7058CsHhoatmJfTCobo246bVureijF+hyBPRXwcVCQOl1WKNGr0sPx
+         LE5Q65eqS6nzJ7c4QNcJ8HC5KChSaoql8pRgvhmXSTKJUhN9Qh1rQO0zuw2EFAYFYR3Y
+         pgblt9HDdWXu6zTOGTZkogYlYEvXl7k9zQjnggoEA6/FdbtLS1Wq7foPal/FN/p8nTwR
+         3XiLfjC7Kdf74U7AVQV6E/Y0IOTMEGQ6k6aGlDlpsmF32vAA5+iklzYBfb3qAmDk8Xa2
+         oZIg==
+X-Gm-Message-State: AOAM533M4IQ4w4gWzN4dbkTO89eIlvCwQvSJTpSz8iqJGMaCCBv9CWYg
+	SAZ6D5Y1n6zpjboJidw6OSG54FEllyAdEw==
+X-Google-Smtp-Source: ABdhPJzPaE3TIAcoa2YxlOC2PEjMxZUiaqVdjcPVu4fLhU5i65rsqtA1qnZU6a6ixNYs/HcqJpfTSw==
+X-Received: by 2002:aa7:9990:0:b0:4a1:57ff:3369 with SMTP id k16-20020aa79990000000b004a157ff3369mr11043448pfh.31.1639610688626;
+        Wed, 15 Dec 2021 15:24:48 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c17sm3819536pfc.163.2021.12.15.15.24.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Dec 2021 15:24:48 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Hemant Kumar <hemantk@codeaurora.org>,
+	Bhaumik Bhatt <quic_bbhatt@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Yury Norov <yury.norov@gmail.com>,
+	Carl Huang <cjhuang@codeaurora.org>,
+	Carl Yin <carl.yin@quectel.com>,
+	linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] bus: mhi: core: Use correctly sized arguments for bit field
+Date: Wed, 15 Dec 2021 15:24:46 -0800
+Message-Id: <20211215232446.2069794-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2373; h=from:subject; bh=5LBWuQcow5y4kUPEfLAt34GEYiaqhrm63wbxhk+W1ig=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhunk+I6cQX+iJm8LamClVJjxV5guF1cKeTHIPdL2O qM1yHtyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYbp5PgAKCRCJcvTf3G3AJsjfD/ 9q5kWvVOIY0URvI4tj+mBje1t9tKvfuWMgGjtOXSEkCwt9eJuF6pjzV0I4cbdUmSgim7Nmqpyw8Pg0 2GqtVDK+rttKDmj3c7nA/bBDK89QLy2ddXtThguHJmEyyQyDBEtDXF921DwPMSO3WcIsfDdO3OhPIH Lu1Q6KPnBCnR4x7JE3/S26qSrLxFWuAt/rx2dGkNSF9TwCfeNB/sjxEJgA3cgdHrTtf/nna6jq1iDo r/DFhSPVhPJvVZF090UyNXl9D/cjecCHFnry7rfYNIh4J3jsiLwuEuyhp0vWvTE3BtVErokZyPuNpC 1mLoIfEmURAaIpIgixc+CBWHerMTijTuuC74n03XRWGFweixnFUXHD1Q6+CWubPkImDvRgfz29CwyR yBGzlF6HGzStLuGjoijkx8NBFB6TrRkwDFAWF5B0zw5qp3UrY+tSNO/YblwCNDvTq0462OfdG9cmVO pddc24rF+fnPL2/w9oTILc2Zri0z/gG5INmovaxelLQZXicWKq+xqPzW1tRtxhjEcIGaiLfRI0dZiO DK4/dMZ6bkYZ5RTeVJXNq0Gss3mT0AAXx14TKmm5JxoKuF4ZimvKbUTZ6n6ThtW6ak4tp4lC5EpzI6 FJrzw3xgxM7vAvncRiuDTMExcJ67HX5QgLfa35S+FkRjeRs5PI3Ev81oCCoA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c805ecd-4542-5533-7852-ecd9cea27955@codeaurora.org>
-Jabber-ID: thomas@t-8ch.de
-X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
-X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
 
-On 2021-12-14 14:55-0800, Hemant Kumar wrote:
-> On 12/13/2021 10:32 PM, Thomas Weißschuh wrote:
-> > On 2021-12-13 16:07-0800, Hemant Kumar wrote:
-> > > On 12/10/2021 8:16 AM, Thomas Weißschuh wrote:
-> > > > This gives userspace the possibility to provide the firehose bootloader
-> > > > via the sysfs-firmware-API instead of having to modify the global
-> > > > firmware loadpath.
-> > > > 
-> > > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > > > 
-> > > > ---
-> > > > 
-> > > > Please note that this is not tested yet, as I don't have access to a matching
-> > > > firmware file.
-> > > > This submission is to gather general feedback from the maintainers and then
-> > > > Richard will do the actual testing, while I'll do the development.
-> > > > 
-> > > > This patch is should not have any impact beyond moving from request_firmware()
-> > > > to request_firmware_nowait() and the involved code reshuffle.
-> > > what are we achieving by moving to async ver of the firmware load ? MHI boot
-> > > flow can not do anything until BHI load is over. Is the intention eventually
-> > > to enable firmware fallback mechanism  and manually load the firmware ?
-> > 
-> > The goal is to provide the firehose bootloader (qcom/prog_firehose_sdx24.mbn)
-> > via the firmware fallback mechanism when upgrading the firmware on the device
-> > via the firehose protocol.
-> > 
-> > This bootloader firmware is not part of linux-firmware but provided as part of
-> > each firmware update package, so it is not installed statically on the system.
-> > 
-> > I will extend the commit message with this information.
-> 
-> For my understanding i have follow up question. As per the kernel doc
-> https://www.kernel.org/doc/html/latest/driver-api/firmware/fallback-mechanisms.html
+The find.h APIs are designed to be used only on unsigned long arguments.
+This can technically result in a over-read, but it is harmless in this
+case. Regardless, fix it to avoid the warning seen under -Warray-bounds,
+which we'd like to enable globally:
 
-I'll try to answer, but please be aware that I have no previous experience with
-the firmware fallback mechanism and can not test this patch.
+In file included from ./include/linux/bitmap.h:9,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/cpumask.h:5,
+                 from ./arch/x86/include/asm/msr.h:11,
+                 from ./arch/x86/include/asm/processor.h:22,
+                 from ./arch/x86/include/asm/cpufeature.h:5,
+                 from ./arch/x86/include/asm/thread_info.h:53,
+                 from ./include/linux/thread_info.h:60,
+                 from ./arch/x86/include/asm/preempt.h:7,
+                 from ./include/linux/preempt.h:78,
+                 from ./include/linux/spinlock.h:55,
+                 from ./include/linux/wait.h:9,
+                 from ./include/linux/wait_bit.h:8,
+                 from ./include/linux/fs.h:6,
+                 from ./include/linux/debugfs.h:15,
+                 from drivers/bus/mhi/core/init.c:7:
+drivers/bus/mhi/core/init.c: In function 'to_mhi_pm_state_str':
+./include/linux/find.h:187:37: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'enum mhi_pm_state[1]' [-Warray-bounds]
+  187 |                 unsigned long val = *addr & GENMASK(size - 1, 0);
+      |                                     ^~~~~
+drivers/bus/mhi/core/init.c:80:51: note: while referencing 'state'
+   80 | const char *to_mhi_pm_state_str(enum mhi_pm_state state)
+      |                                 ~~~~~~~~~~~~~~~~~~^~~~~
 
-At this point in time I'm also hoping more for a general confirmation about
-using *some* fallback mechanism for MHI, so Richard and Ivan can test the patch
-(before it is committed) and then we can figure out exactly which of the
-fallback mechanisms fits best with feedback from them.
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/bus/mhi/core/init.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> If CONFIG_FW_LOADER_USER_HELPER enabled but
-> CONFIG_FW_LOADER_USER_HELPER_FALLBACK is disabled, only the custom fallback
-> mechanism is available and for the request_firmware_nowait() call.
-> 
-> Custom fall back mechanism says
-> Users of the request_firmware_nowait() call have yet another option
-> available at their disposal: rely on the sysfs fallback mechanism but
-> request that no kobject uevents be issued to userspace. Original logic
-> behind this was that utilities other than udev might be required to lookup
-> firmware in non-traditional paths
-> 
-> Your patch is passing uevent flag as true which means you are relying on
-> uevent to be issued to userspace. How do you plan to update the firmware
-> path ? Alternatively firmware class provides a module param to specify the
-> firmware path /sys/module/firmware_class/parameters/path.
+diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+index f1ec34417592..b91f75fff962 100644
+--- a/drivers/bus/mhi/core/init.c
++++ b/drivers/bus/mhi/core/init.c
+@@ -79,7 +79,8 @@ static const char * const mhi_pm_state_str[] = {
+ 
+ const char *to_mhi_pm_state_str(enum mhi_pm_state state)
+ {
+-	int index = find_last_bit((unsigned long *)&state, 32);
++	unsigned long bits = state;
++	int index = find_last_bit(&bits, 32);
+ 
+ 	if (index >= ARRAY_SIZE(mhi_pm_state_str))
+ 		return "Invalid State";
+-- 
+2.30.2
 
-Emitting the uevent would allow the firmware update tool
-(fwupd, https://github.com/fwupd/fwupd) to monitor uevents and recognize when
-the device is ready to receive the firmware and then trigger the upload.
-If I see it correctly uevent=0 and uevent=1 do the same things except uevent=1
-also publishes the uevent.
-
-Modifying /sys/module/firmware_class/parameters/path is what currently is being
-done.
-But modifying the global firmware load path has the potential for the following
-issues:
-
-* While the global firmware load path is modified to a custom location any
-  load_firmware() call from other devices will fail because the new path does
-  not have the normal linux-firmware.
-* If the tool modifying crashes while before restoring the original load path
-  all further load_firmware()-calls will also fail.
-
-> > 
-> > PS: The current patch is missing 'return' after calls to
-> > 'mhi_fw_load_finish()', this will be corrected in v2.
-
-Another point:
-
-For sdx55 and sdx65 there is not only an edl firmware specified but also a
-firmware for normal operation.
-This firmware is not part of linux-firmware.
-Currently the firmware load would fail and put the modem into an error
-condition (I think?).
-With this patch there would be a timeout before that error state is reached.
-
-I know that some people have the SDX55 running with Linux but I'm now wondering
-where they are getting the firmware "qcom/sdx55m/sbl1.mbn" from.
-
-Thomas
