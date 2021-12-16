@@ -1,229 +1,143 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948932C82
-	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 05:35:19 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id l18so17355757pgj.9
-        for <mhi@lists.linux.dev>; Wed, 15 Dec 2021 21:35:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DF8168
+	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 08:12:48 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id u11so18848290plf.3
+        for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 00:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xAUPKtHZ/cqip3q5aKQfZCHMrNxXrdQ/AfUvWj8BXC0=;
-        b=wHwXQzzywBprb31FoxwkrxpnFsD39NHv77EUAfDiIV60T5VCq4gdjm9nr7ux3gM66T
-         CC5QgxYPgbNaQV7JbJX5V1L105hE4Qqm5XFqT9R8y7sLxIpcxscRkZv02CBVFfEjplcM
-         AirvFnTDiTy/fmHej5+AZ0PCE7Pu3a7aH0vsQVL12GgfTy38zWOEqVPZNaD9pIBOoRF8
-         bDCaK9LUDVHpg5TUy8qj9CkiMO5AByL61fo9ljgdQpa6fSAL9zXhax94jyKN2M8ROLnt
-         nY5BFpRNBsx11pG1pr2Hh1mTaMyXfn5+JNQSdgO9yN/ohEAzZIs3VZmq4I3mopIBldcK
-         iKWA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J4t2sTur9cdYHU8TKnZYEXhAtiC9kU7TYZgtM8sv6Rw=;
+        b=kbZ8GxDI9i+HZI9ASpifM7l0aRUElJris8YuH+giRnwSq6EDfXGUkagqhxuZEsCH6X
+         9r4pTp7vs3bU2MES3TRlFxZOWXPB+O4rQxK3qq32ajle6uCPktn9ltWFfLFLJVTVIu6D
+         f9x0cCeTMJT7jpWx1ML6xikojKG9M7saPnhud9MXrv4G8VSBGJVVjsCvxplc1wcB3R9c
+         GrUJxGa+kdcDSocgtljrUWP0sYdh8P8eBlFe8s536hFG6W7zTEdMage+gWmHUqlrsuTU
+         N47LoYjuMEIl95oUW9GCWg+ihbVWzCDJjMrAzrV3d1ub/rsXWNV7RYRD40UdG8Ik9mXW
+         V8bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xAUPKtHZ/cqip3q5aKQfZCHMrNxXrdQ/AfUvWj8BXC0=;
-        b=qLAl8VyYoU6oz25bPD+D0XnIaZUo2wyyHMJz4+oNwwQlNU/Wf3Drb9RK3o7SSIel8w
-         vSgo3n9PsjEdSB1NpvWTREtYWMwGUeVDQCiJIx/S6d1y7pn2Me1K5h8VmXQtnSjjXtUC
-         95GDKLUkziUK7mA85oeP0lyvpbZqD2OzMyZbtYyFVfynEkWNoMaPLSw0F9VCpwlYtKZ7
-         hpzKBsEsPmYH9wWGLPsowWtaX5cDbW1EvJ3fWQCOS0Tg/P5ep7GWo7qBwmBzPpMOONFz
-         jQtyn9aS0K7ppEMyoCEhihnTBwniQVVnKTdkH0CtIoghsZh53Ms4Y/17IGE5eutr5cnm
-         Qqtg==
-X-Gm-Message-State: AOAM532hoj00AgbdgpqhM+J794aTakpYTkOlX2Fof/3FWyLjOEmRWsEL
-	qE+HkhjDKQZrIgfddWxqmRInhucHO8Uj
-X-Google-Smtp-Source: ABdhPJwWgwWqnJqfrk7zPIVSoeCZxW3qcEmBoSg8LL687Mj2sffFemKpbMHq7tQO0c4v26/A/eIjwA==
-X-Received: by 2002:a05:6a00:1903:b0:47c:34c1:c6b6 with SMTP id y3-20020a056a00190300b0047c34c1c6b6mr12422821pfi.17.1639632918869;
-        Wed, 15 Dec 2021 21:35:18 -0800 (PST)
-Received: from thinkpad ([117.193.209.65])
-        by smtp.gmail.com with ESMTPSA id me7sm8589866pjb.9.2021.12.15.21.35.15
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J4t2sTur9cdYHU8TKnZYEXhAtiC9kU7TYZgtM8sv6Rw=;
+        b=Jw3VJNyVCE1pqOEzGOaeP9ZJRnAWBDyicrSh4XfQAzGB43IQivAijLWmMC22GZCgnh
+         nRbwV6gJF6NJsojmgK+kwRChPD5SmUmU8Gy+2s3A+jNOUCOHPAiloauVhmYl+LFP+tK4
+         afFHgCi6nQEo+rMEjWkyACgN8DiZBlh9n6E+U+CRZZ63WGWF+jIZJ2HdM45hlGPlj/yS
+         7MOuSqIaiyqJ49vjmL8HUwRMIswQ5fVrXaGzFs5zsnQJsWCMGnEMR+2QOTCfBFqtZY3b
+         iOnggS+D1ltzktgu7JFZcEvL+zZKho/nW7ulUlDA7FyarA/98VnQp/l9emhn6a1aKSy1
+         6qIQ==
+X-Gm-Message-State: AOAM533XgRKAxfugEkIbq338/FxVJsbCYmkp8uYvnTw8WVDChTjby8DF
+	gztRDtV2Y3eIp01wpvgArXsU
+X-Google-Smtp-Source: ABdhPJyHWdGgvQkASnf5ZsiqmTjN/rK+5bFAS+5TkzGnUj9Dcl3B4b/FmP8XAbwTm0cQ0zTVsSFXYQ==
+X-Received: by 2002:a17:903:1247:b0:143:b9b9:52a2 with SMTP id u7-20020a170903124700b00143b9b952a2mr15367789plh.35.1639642367470;
+        Thu, 16 Dec 2021 00:12:47 -0800 (PST)
+Received: from localhost.localdomain ([117.193.208.121])
+        by smtp.gmail.com with ESMTPSA id u38sm326835pfg.4.2021.12.16.00.12.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Dec 2021 21:35:18 -0800 (PST)
-Date: Thu, 16 Dec 2021 11:05:13 +0530
+        Thu, 16 Dec 2021 00:12:47 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: loic.poulain@linaro.org, hemantk@codeaurora.org, bbhatt@codeaurora.org,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2] bus: mhi: core: Add an API for auto queueing buffers
- for DL channel
-Message-ID: <20211216053513.GC42608@thinkpad>
-References: <20211207071339.123794-1-manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev,
+	hemantk@codeaurora.org,
+	bbhatt@codeaurora.org,
+	loic.poulain@linaro.org,
+	thomas.perrot@bootlin.com,
+	aleksander@aleksander.es,
+	slark_xiao@163.com,
+	christophe.jaillet@wanadoo.fr,
+	keescook@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 00/10] MHI patches for v5.17
+Date: Thu, 16 Dec 2021 13:42:17 +0530
+Message-Id: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211207071339.123794-1-manivannan.sadhasivam@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 07, 2021 at 12:43:39PM +0530, Manivannan Sadhasivam wrote:
-> Add a new API "mhi_prepare_for_transfer_autoqueue" for using with client
-> drivers like QRTR to request MHI core to autoqueue buffers for the DL
-> channel along with starting both UL and DL channels.
-> 
-> So far, the "auto_queue" flag specified by the controller drivers in
-> channel definition served this purpose but this will be removed at some
-> point in future.
-> 
-> Cc: netdev@vger.kernel.org
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Co-developed-by: Loic Poulain <loic.poulain@linaro.org>
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Hi Greg,
 
-Applied to mhi-next with Ack from Jakub!
+Here are the MHI patches for v5.17 cycle.
+
+Patchset summary:
+
+1. Added support for a new PCI Foxconn modem based on Qualcomm SDX55 chipset.
+This device is named as "T99W175" which was already supported but this one
+seems to be using a new modem build and Foxconn is selling it as a new product
+with a different PID.
+
+2. MHI PCI generic driver now gracefully shutsdown the modem during system
+freeze.
+
+3. Used macros to identify the MHI Execution Environment (EE).
+
+4. Fixed the comment and style issues detected by checkpatch.
+
+5. Used dma_set_mask_and_coherent() API to simplify the code in MHI PCI generic
+driver.
+
+6. Fixed reading the "wake-capable" entry while parsing the channel
+configuration structure from controller drivers.
+
+7. Fixed the SYS_ERR handling while powering up the device. This fixes the
+bootup issue with Sierra Wireless EM919X modems based on SDX55.
+
+8. Introduced a new API for automatically queueing the buffers for the DL
+channel. This patch touches QRTR driver that's under networking subsystem.
+Hence, collected Ack from Jakub.
+
+9. Used the "unsigned long" argument for find_last_bit() API. This is done to
+avoid the warning with "-Warray-bounds" GCC flag.
+
+10. Finally, added support for the Sierra Wireless EM919X modems based on
+Qualcomm SDX55 chipset.
 
 Thanks,
 Mani
 
-> ---
-> 
-> Changes in v2:
-> 
-> * Rebased on top of 5.16-rc1
-> * Fixed an issue reported by kernel test bot
-> * CCed netdev folks and Greg
-> * Slight change to the commit subject for reflecting "core" sub-directory
-> 
->  drivers/bus/mhi/core/internal.h |  6 +++++-
->  drivers/bus/mhi/core/main.c     | 21 +++++++++++++++++----
->  include/linux/mhi.h             | 21 ++++++++++++++++-----
->  net/qrtr/mhi.c                  |  2 +-
->  4 files changed, 39 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/core/internal.h b/drivers/bus/mhi/core/internal.h
-> index 9d72b1d1e986..e2e10474a9d9 100644
-> --- a/drivers/bus/mhi/core/internal.h
-> +++ b/drivers/bus/mhi/core/internal.h
-> @@ -682,8 +682,12 @@ void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl);
->  void mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
->  		      struct image_info *img_info);
->  void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl);
-> +
-> +/* Automatically allocate and queue inbound buffers */
-> +#define MHI_CH_INBOUND_ALLOC_BUFS BIT(0)
->  int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
-> -			struct mhi_chan *mhi_chan);
-> +			struct mhi_chan *mhi_chan, unsigned int flags);
-> +
->  int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
->  		       struct mhi_chan *mhi_chan);
->  void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
-> diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/core/main.c
-> index 930aba666b67..ffde617f93a3 100644
-> --- a/drivers/bus/mhi/core/main.c
-> +++ b/drivers/bus/mhi/core/main.c
-> @@ -1430,7 +1430,7 @@ static void mhi_unprepare_channel(struct mhi_controller *mhi_cntrl,
->  }
->  
->  int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
-> -			struct mhi_chan *mhi_chan)
-> +			struct mhi_chan *mhi_chan, unsigned int flags)
->  {
->  	int ret = 0;
->  	struct device *dev = &mhi_chan->mhi_dev->dev;
-> @@ -1455,6 +1455,9 @@ int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
->  	if (ret)
->  		goto error_pm_state;
->  
-> +	if (mhi_chan->dir == DMA_FROM_DEVICE)
-> +		mhi_chan->pre_alloc = !!(flags & MHI_CH_INBOUND_ALLOC_BUFS);
-> +
->  	/* Pre-allocate buffer for xfer ring */
->  	if (mhi_chan->pre_alloc) {
->  		int nr_el = get_nr_avail_ring_elements(mhi_cntrl,
-> @@ -1610,8 +1613,7 @@ void mhi_reset_chan(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan)
->  	read_unlock_bh(&mhi_cntrl->pm_lock);
->  }
->  
-> -/* Move channel to start state */
-> -int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
-> +static int __mhi_prepare_for_transfer(struct mhi_device *mhi_dev, unsigned int flags)
->  {
->  	int ret, dir;
->  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> @@ -1622,7 +1624,7 @@ int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
->  		if (!mhi_chan)
->  			continue;
->  
-> -		ret = mhi_prepare_channel(mhi_cntrl, mhi_chan);
-> +		ret = mhi_prepare_channel(mhi_cntrl, mhi_chan, flags);
->  		if (ret)
->  			goto error_open_chan;
->  	}
-> @@ -1640,8 +1642,19 @@ int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
->  
->  	return ret;
->  }
-> +
-> +int mhi_prepare_for_transfer(struct mhi_device *mhi_dev)
-> +{
-> +	return __mhi_prepare_for_transfer(mhi_dev, 0);
-> +}
->  EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer);
->  
-> +int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
-> +{
-> +	return __mhi_prepare_for_transfer(mhi_dev, MHI_CH_INBOUND_ALLOC_BUFS);
-> +}
-> +EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
-> +
->  void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
->  {
->  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index 723985879035..271db1d6da85 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -717,15 +717,26 @@ void mhi_device_put(struct mhi_device *mhi_dev);
->  
->  /**
->   * mhi_prepare_for_transfer - Setup UL and DL channels for data transfer.
-> - *                            Allocate and initialize the channel context and
-> - *                            also issue the START channel command to both
-> - *                            channels. Channels can be started only if both
-> - *                            host and device execution environments match and
-> - *                            channels are in a DISABLED state.
->   * @mhi_dev: Device associated with the channels
-> + *
-> + * Allocate and initialize the channel context and also issue the START channel
-> + * command to both channels. Channels can be started only if both host and
-> + * device execution environments match and channels are in a DISABLED state.
->   */
->  int mhi_prepare_for_transfer(struct mhi_device *mhi_dev);
->  
-> +/**
-> + * mhi_prepare_for_transfer_autoqueue - Setup UL and DL channels with auto queue
-> + *                                      buffers for DL traffic
-> + * @mhi_dev: Device associated with the channels
-> + *
-> + * Allocate and initialize the channel context and also issue the START channel
-> + * command to both channels. Channels can be started only if both host and
-> + * device execution environments match and channels are in a DISABLED state.
-> + * The MHI core will automatically allocate and queue buffers for the DL traffic.
-> + */
-> +int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
-> +
->  /**
->   * mhi_unprepare_from_transfer - Reset UL and DL channels for data transfer.
->   *                               Issue the RESET channel command and let the
-> diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
-> index fa611678af05..18196e1c8c2f 100644
-> --- a/net/qrtr/mhi.c
-> +++ b/net/qrtr/mhi.c
-> @@ -79,7 +79,7 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
->  	int rc;
->  
->  	/* start channels */
-> -	rc = mhi_prepare_for_transfer(mhi_dev);
-> +	rc = mhi_prepare_for_transfer_autoqueue(mhi_dev);
->  	if (rc)
->  		return rc;
->  
-> -- 
-> 2.25.1
-> 
+Bhaumik Bhatt (2):
+  bus: mhi: core: Use macros for execution environment features
+  bus: mhi: core: Fix reading wake_capable channel configuration
+
+Christophe JAILLET (1):
+  bus: mhi: pci_generic: Simplify code and axe the use of a deprecated
+    API
+
+Kees Cook (1):
+  bus: mhi: core: Use correctly sized arguments for bit field
+
+Loic Poulain (1):
+  bus: mhi: pci_generic: Graceful shutdown on freeze
+
+Manivannan Sadhasivam (3):
+  bus: mhi: core: Minor style and comment fixes
+  bus: mhi: core: Fix race while handling SYS_ERR at power up
+  bus: mhi: core: Add an API for auto queueing buffers for DL channel
+
+Slark Xiao (1):
+  bus: mhi: pci_generic: Add new device ID support for T99W175
+
+Thomas Perrot (1):
+  bus: mhi: pci_generic: Introduce Sierra EM919X support
+
+ drivers/bus/mhi/core/boot.c     |  2 +-
+ drivers/bus/mhi/core/init.c     |  4 ++-
+ drivers/bus/mhi/core/internal.h |  9 ++++--
+ drivers/bus/mhi/core/main.c     | 24 +++++++++++---
+ drivers/bus/mhi/core/pm.c       | 39 +++++++++--------------
+ drivers/bus/mhi/pci_generic.c   | 56 ++++++++++++++++++++++++++++-----
+ include/linux/mhi.h             | 21 ++++++++++---
+ net/qrtr/mhi.c                  |  2 +-
+ 8 files changed, 109 insertions(+), 48 deletions(-)
+
+-- 
+2.25.1
+
