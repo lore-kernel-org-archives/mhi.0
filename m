@@ -1,41 +1,41 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DF8168
-	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 08:12:48 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id u11so18848290plf.3
-        for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 00:12:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E289A2CA4
+	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 08:12:53 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id r138so22369125pgr.13
+        for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 00:12:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=J4t2sTur9cdYHU8TKnZYEXhAtiC9kU7TYZgtM8sv6Rw=;
-        b=kbZ8GxDI9i+HZI9ASpifM7l0aRUElJris8YuH+giRnwSq6EDfXGUkagqhxuZEsCH6X
-         9r4pTp7vs3bU2MES3TRlFxZOWXPB+O4rQxK3qq32ajle6uCPktn9ltWFfLFLJVTVIu6D
-         f9x0cCeTMJT7jpWx1ML6xikojKG9M7saPnhud9MXrv4G8VSBGJVVjsCvxplc1wcB3R9c
-         GrUJxGa+kdcDSocgtljrUWP0sYdh8P8eBlFe8s536hFG6W7zTEdMage+gWmHUqlrsuTU
-         N47LoYjuMEIl95oUW9GCWg+ihbVWzCDJjMrAzrV3d1ub/rsXWNV7RYRD40UdG8Ik9mXW
-         V8bQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=yWUSbQkUZgDm9ckwYIe35qZ3PIrJiDFyNemu6s/fd2E=;
+        b=FRXhyJuBoTMxVd5LAWqdvfUzkDyN+7jzR/O+GywEVib83JRPY8vjpaiNycyhx6wHA1
+         ot+4hMRW2qzeG2dpe+T6fapQdm1Js1mBEVshNj5dVqbjpiQawDLGHZLTGT9NRpmJvVrZ
+         RhAQREdlIarlL01nCA3gJ0ClMJbIxQ+RjEtiKtwNe9m86E0cItzs0h1h1WDgTbRo1Toh
+         zHteh9kVymtEuXP/Nz+21YmjIREHqj+CCMIA9rMNhaHNWVQ976A+0o1bBQqAQjkEVaId
+         3x3X9h4d86z+pHrfaELJwyMMxH32/k2T4hWEc+7M3EY7563b/+oh+jfAkJL3m0jd8rka
+         62zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=J4t2sTur9cdYHU8TKnZYEXhAtiC9kU7TYZgtM8sv6Rw=;
-        b=Jw3VJNyVCE1pqOEzGOaeP9ZJRnAWBDyicrSh4XfQAzGB43IQivAijLWmMC22GZCgnh
-         nRbwV6gJF6NJsojmgK+kwRChPD5SmUmU8Gy+2s3A+jNOUCOHPAiloauVhmYl+LFP+tK4
-         afFHgCi6nQEo+rMEjWkyACgN8DiZBlh9n6E+U+CRZZ63WGWF+jIZJ2HdM45hlGPlj/yS
-         7MOuSqIaiyqJ49vjmL8HUwRMIswQ5fVrXaGzFs5zsnQJsWCMGnEMR+2QOTCfBFqtZY3b
-         iOnggS+D1ltzktgu7JFZcEvL+zZKho/nW7ulUlDA7FyarA/98VnQp/l9emhn6a1aKSy1
-         6qIQ==
-X-Gm-Message-State: AOAM533XgRKAxfugEkIbq338/FxVJsbCYmkp8uYvnTw8WVDChTjby8DF
-	gztRDtV2Y3eIp01wpvgArXsU
-X-Google-Smtp-Source: ABdhPJyHWdGgvQkASnf5ZsiqmTjN/rK+5bFAS+5TkzGnUj9Dcl3B4b/FmP8XAbwTm0cQ0zTVsSFXYQ==
-X-Received: by 2002:a17:903:1247:b0:143:b9b9:52a2 with SMTP id u7-20020a170903124700b00143b9b952a2mr15367789plh.35.1639642367470;
-        Thu, 16 Dec 2021 00:12:47 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yWUSbQkUZgDm9ckwYIe35qZ3PIrJiDFyNemu6s/fd2E=;
+        b=z2y+f9loWfYJtrG9PTrM4Y/jmV+bOz27AGjhjc/2gSsnADR3X3uYjcBnfMhUAu0Pxm
+         Qd631XIo165NoVMLI/Y/F4/Itprju1G9B6j1Pjt57P84J7VMxPQBHezAZk9J8aDZLiql
+         H/5giSNw//2IFa9pj+VJZEJ4zqWpB5tRz2L7wt+evvirvZY4VnP44jvOtbu97k3c6Ni/
+         tFp2ezg6H32O9KlAJY4xilfyIUMSCAKdQiYo1yJAfLS191mN1ZRqVm3TlsIAuCF9QIcI
+         QR0qHarFcyWCwjRLkz9Pps9MBLo9EGHPVR57/PNf6OUrJYCSCamQGFQstWBqo4maXsaY
+         j7RQ==
+X-Gm-Message-State: AOAM532TGRODgvdIwS1+dlWVoJl1swHc+R8/Jr7PcQC6+3X8Kt+ntWn4
+	39oxTUsKGh65ghE7x3MFvBH4
+X-Google-Smtp-Source: ABdhPJxRZZowfM5tExkh5SMVDVfPFBEzU7WF1rUQGWy6g6uuTEUjLFGt3HKVAme2I4cnunfcbAECLw==
+X-Received: by 2002:a05:6a00:2405:b0:4a8:3294:743e with SMTP id z5-20020a056a00240500b004a83294743emr12772894pfh.61.1639642373351;
+        Thu, 16 Dec 2021 00:12:53 -0800 (PST)
 Received: from localhost.localdomain ([117.193.208.121])
-        by smtp.gmail.com with ESMTPSA id u38sm326835pfg.4.2021.12.16.00.12.42
+        by smtp.gmail.com with ESMTPSA id u38sm326835pfg.4.2021.12.16.00.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 00:12:47 -0800 (PST)
+        Thu, 16 Dec 2021 00:12:52 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev,
@@ -50,11 +50,14 @@ Cc: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 00/10] MHI patches for v5.17
-Date: Thu, 16 Dec 2021 13:42:17 +0530
-Message-Id: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 01/10] bus: mhi: pci_generic: Add new device ID support for T99W175
+Date: Thu, 16 Dec 2021 13:42:18 +0530
+Message-Id: <20211216081227.237749-2-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
+References: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -63,81 +66,47 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+From: Slark Xiao <slark_xiao@163.com>
 
-Here are the MHI patches for v5.17 cycle.
+Add new device ID 0xe0bf for T99W175.
+This device ID is created because it is using Qualcomm SDX55 new base line.
 
-Patchset summary:
+Test evidence as below:
+root@jbd-ThinkPad-P1-Gen-4:/dev# lspci -nn | grep Foxconn
+0000:08:00.0 Wireless controller [0d40]: Foxconn International, Inc. Device [105b:e0bf]
+root@jbd-ThinkPad-P1-Gen-4:/dev# cat wwan0at0 & echo -ne "ati\r" > wwan0at0
+[2] 2977
+root@jbd-ThinkPad-P1-Gen-4:/dev# ati
+Manufacturer: Qualcomm
+Model: T99W175
+Revision: T99W175.F0.6.0.0.6.CC.005  1  [Oct 21 2021 10:00:00]
+IMEI:
++GCAP: +CGSM
 
-1. Added support for a new PCI Foxconn modem based on Qualcomm SDX55 chipset.
-This device is named as "T99W175" which was already supported but this one
-seems to be using a new modem build and Foxconn is selling it as a new product
-with a different PID.
+OK
 
-2. MHI PCI generic driver now gracefully shutsdown the modem during system
-freeze.
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Link: https://lore.kernel.org/r/20211029104918.3976-1-slark_xiao@163.com
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-3. Used macros to identify the MHI Execution Environment (EE).
-
-4. Fixed the comment and style issues detected by checkpatch.
-
-5. Used dma_set_mask_and_coherent() API to simplify the code in MHI PCI generic
-driver.
-
-6. Fixed reading the "wake-capable" entry while parsing the channel
-configuration structure from controller drivers.
-
-7. Fixed the SYS_ERR handling while powering up the device. This fixes the
-bootup issue with Sierra Wireless EM919X modems based on SDX55.
-
-8. Introduced a new API for automatically queueing the buffers for the DL
-channel. This patch touches QRTR driver that's under networking subsystem.
-Hence, collected Ack from Jakub.
-
-9. Used the "unsigned long" argument for find_last_bit() API. This is done to
-avoid the warning with "-Warray-bounds" GCC flag.
-
-10. Finally, added support for the Sierra Wireless EM919X modems based on
-Qualcomm SDX55 chipset.
-
-Thanks,
-Mani
-
-Bhaumik Bhatt (2):
-  bus: mhi: core: Use macros for execution environment features
-  bus: mhi: core: Fix reading wake_capable channel configuration
-
-Christophe JAILLET (1):
-  bus: mhi: pci_generic: Simplify code and axe the use of a deprecated
-    API
-
-Kees Cook (1):
-  bus: mhi: core: Use correctly sized arguments for bit field
-
-Loic Poulain (1):
-  bus: mhi: pci_generic: Graceful shutdown on freeze
-
-Manivannan Sadhasivam (3):
-  bus: mhi: core: Minor style and comment fixes
-  bus: mhi: core: Fix race while handling SYS_ERR at power up
-  bus: mhi: core: Add an API for auto queueing buffers for DL channel
-
-Slark Xiao (1):
-  bus: mhi: pci_generic: Add new device ID support for T99W175
-
-Thomas Perrot (1):
-  bus: mhi: pci_generic: Introduce Sierra EM919X support
-
- drivers/bus/mhi/core/boot.c     |  2 +-
- drivers/bus/mhi/core/init.c     |  4 ++-
- drivers/bus/mhi/core/internal.h |  9 ++++--
- drivers/bus/mhi/core/main.c     | 24 +++++++++++---
- drivers/bus/mhi/core/pm.c       | 39 +++++++++--------------
- drivers/bus/mhi/pci_generic.c   | 56 ++++++++++++++++++++++++++++-----
- include/linux/mhi.h             | 21 ++++++++++---
- net/qrtr/mhi.c                  |  2 +-
- 8 files changed, 109 insertions(+), 48 deletions(-)
-
+diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
+index 59a4896a8030..94d8aa9c2eae 100644
+--- a/drivers/bus/mhi/pci_generic.c
++++ b/drivers/bus/mhi/pci_generic.c
+@@ -423,6 +423,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* DW5930e (sdx55), Non-eSIM, It's also T99W175 */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0b1),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
++	/* T99W175 (sdx55), Based on Qualcomm new baseline */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(0x1269, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
 -- 
 2.25.1
 
