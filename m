@@ -1,41 +1,41 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E289A2CA4
-	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 08:12:53 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id r138so22369125pgr.13
-        for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 00:12:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E602CA4
+	for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 08:12:59 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id oa5-20020a17090b1bc500b001b0f8a5e6b7so6377130pjb.0
+        for <mhi@lists.linux.dev>; Thu, 16 Dec 2021 00:12:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yWUSbQkUZgDm9ckwYIe35qZ3PIrJiDFyNemu6s/fd2E=;
-        b=FRXhyJuBoTMxVd5LAWqdvfUzkDyN+7jzR/O+GywEVib83JRPY8vjpaiNycyhx6wHA1
-         ot+4hMRW2qzeG2dpe+T6fapQdm1Js1mBEVshNj5dVqbjpiQawDLGHZLTGT9NRpmJvVrZ
-         RhAQREdlIarlL01nCA3gJ0ClMJbIxQ+RjEtiKtwNe9m86E0cItzs0h1h1WDgTbRo1Toh
-         zHteh9kVymtEuXP/Nz+21YmjIREHqj+CCMIA9rMNhaHNWVQ976A+0o1bBQqAQjkEVaId
-         3x3X9h4d86z+pHrfaELJwyMMxH32/k2T4hWEc+7M3EY7563b/+oh+jfAkJL3m0jd8rka
-         62zg==
+        bh=mt6qH9wg2HiNJp3oZFCB8NuLQwRDayptPKArDcWgPjQ=;
+        b=XxvU683CzxpeCViTlb+8YUPdNVyjUhP2ATrxWO5RVkK+ReVlW5oDZy2uIXwloIoiki
+         L90QqWViEiXk+3ypfAk7fHjjzqMFuWlrzwnDgC/79dwxp9NigIqX+tIyTufl4mN19mrw
+         RXz7M4gr447nO3pugOGCYtZGkM6bCpJBtwVW263NICMGrhAhPb7F193yHLRu5Dh48QT8
+         eBk44QKiI1FJ6gs7qbYQGZbA/g2iIedxWXJxPOAQPoIl7vWIDVHx5gY3GHn797LzPCU5
+         6GGiy9XhWZYmtMYBv98jetUjjIXYumySF0wr2Y8VQdOPSM5V8qMViGLuiEUZ7O8rMNuL
+         cF5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yWUSbQkUZgDm9ckwYIe35qZ3PIrJiDFyNemu6s/fd2E=;
-        b=z2y+f9loWfYJtrG9PTrM4Y/jmV+bOz27AGjhjc/2gSsnADR3X3uYjcBnfMhUAu0Pxm
-         Qd631XIo165NoVMLI/Y/F4/Itprju1G9B6j1Pjt57P84J7VMxPQBHezAZk9J8aDZLiql
-         H/5giSNw//2IFa9pj+VJZEJ4zqWpB5tRz2L7wt+evvirvZY4VnP44jvOtbu97k3c6Ni/
-         tFp2ezg6H32O9KlAJY4xilfyIUMSCAKdQiYo1yJAfLS191mN1ZRqVm3TlsIAuCF9QIcI
-         QR0qHarFcyWCwjRLkz9Pps9MBLo9EGHPVR57/PNf6OUrJYCSCamQGFQstWBqo4maXsaY
-         j7RQ==
-X-Gm-Message-State: AOAM532TGRODgvdIwS1+dlWVoJl1swHc+R8/Jr7PcQC6+3X8Kt+ntWn4
-	39oxTUsKGh65ghE7x3MFvBH4
-X-Google-Smtp-Source: ABdhPJxRZZowfM5tExkh5SMVDVfPFBEzU7WF1rUQGWy6g6uuTEUjLFGt3HKVAme2I4cnunfcbAECLw==
-X-Received: by 2002:a05:6a00:2405:b0:4a8:3294:743e with SMTP id z5-20020a056a00240500b004a83294743emr12772894pfh.61.1639642373351;
-        Thu, 16 Dec 2021 00:12:53 -0800 (PST)
+        bh=mt6qH9wg2HiNJp3oZFCB8NuLQwRDayptPKArDcWgPjQ=;
+        b=o/Tggf0s/aRsq6U+NCdKvUfhRRjPSNq5lyP2CnJoMN5R8KbiwLY4us3R8rXx73awSn
+         kas098vwOu2BpBCOMHBHSukxtDJla9IvGwSrBTjTtalMRsnM9WY/dq5dIhR8KWqzoZpB
+         cp6FOTz7wdeYITcLg/uuOXa87ZZURosx74Cb1L4P6NUGHvjGmUT43tLtruP18XlsuTWS
+         mFzo3TRU1Jlxp20KDoJdgOPOcev4QyhGqVKkYIhEZRla97d+pn6/MaTgiZ9m4cpRc4iV
+         AoHUqdCIeHpm88ommXW6BTB+6xZns5NwZ9UCZyf+gk7fxSj5B6ahtXs8XIs1Wcrkcrmd
+         V/pA==
+X-Gm-Message-State: AOAM530HJyHnnarB+lhuMiLcdoHO0Re1VKQVxYuVbVA4OawofPxDNort
+	4VvEDoeEzfYEWmVbsE3hps+R
+X-Google-Smtp-Source: ABdhPJxBbjQVhIe6Oqwp4R18GBDQ/XJwTfPGwhPzRT792+Gr8WDNRLDD4vO/3L0WMGMErUs+IrQ5pw==
+X-Received: by 2002:a17:90a:7e10:: with SMTP id i16mr4623303pjl.185.1639642379034;
+        Thu, 16 Dec 2021 00:12:59 -0800 (PST)
 Received: from localhost.localdomain ([117.193.208.121])
-        by smtp.gmail.com with ESMTPSA id u38sm326835pfg.4.2021.12.16.00.12.47
+        by smtp.gmail.com with ESMTPSA id u38sm326835pfg.4.2021.12.16.00.12.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 00:12:52 -0800 (PST)
+        Thu, 16 Dec 2021 00:12:58 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev,
@@ -51,10 +51,11 @@ Cc: mhi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
 	Manivannan Sadhasivam <mani@kernel.org>,
+	stable@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 01/10] bus: mhi: pci_generic: Add new device ID support for T99W175
-Date: Thu, 16 Dec 2021 13:42:18 +0530
-Message-Id: <20211216081227.237749-2-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 02/10] bus: mhi: pci_generic: Graceful shutdown on freeze
+Date: Thu, 16 Dec 2021 13:42:19 +0530
+Message-Id: <20211216081227.237749-3-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
 References: <20211216081227.237749-1-manivannan.sadhasivam@linaro.org>
@@ -66,47 +67,39 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Slark Xiao <slark_xiao@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
 
-Add new device ID 0xe0bf for T99W175.
-This device ID is created because it is using Qualcomm SDX55 new base line.
+There is no reason for shutting down MHI ungracefully on freeze,
+this causes the MHI host stack & device stack to not be aligned
+anymore since the proper MHI reset sequence is not performed for
+ungraceful shutdown.
 
-Test evidence as below:
-root@jbd-ThinkPad-P1-Gen-4:/dev# lspci -nn | grep Foxconn
-0000:08:00.0 Wireless controller [0d40]: Foxconn International, Inc. Device [105b:e0bf]
-root@jbd-ThinkPad-P1-Gen-4:/dev# cat wwan0at0 & echo -ne "ati\r" > wwan0at0
-[2] 2977
-root@jbd-ThinkPad-P1-Gen-4:/dev# ati
-Manufacturer: Qualcomm
-Model: T99W175
-Revision: T99W175.F0.6.0.0.6.CC.005  1  [Oct 21 2021 10:00:00]
-IMEI:
-+GCAP: +CGSM
-
-OK
-
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Fixes: 5f0c2ee1fe8d ("bus: mhi: pci-generic: Fix hibernation")
+Suggested-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+Reviewed-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
+Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
 Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-Link: https://lore.kernel.org/r/20211029104918.3976-1-slark_xiao@163.com
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/r/1635268180-13699-1-git-send-email-loic.poulain@linaro.org
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/pci_generic.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/bus/mhi/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
-index 59a4896a8030..94d8aa9c2eae 100644
+index 94d8aa9c2eae..4f72bbcc53c9 100644
 --- a/drivers/bus/mhi/pci_generic.c
 +++ b/drivers/bus/mhi/pci_generic.c
-@@ -423,6 +423,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* DW5930e (sdx55), Non-eSIM, It's also T99W175 */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0b1),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-+	/* T99W175 (sdx55), Based on Qualcomm new baseline */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(0x1269, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+@@ -1021,7 +1021,7 @@ static int __maybe_unused mhi_pci_freeze(struct device *dev)
+ 	 * context.
+ 	 */
+ 	if (test_and_clear_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status)) {
+-		mhi_power_down(mhi_cntrl, false);
++		mhi_power_down(mhi_cntrl, true);
+ 		mhi_unprepare_after_power_down(mhi_cntrl);
+ 	}
+ 
 -- 
 2.25.1
 
