@@ -1,41 +1,41 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80735168
-	for <mhi@lists.linux.dev>; Thu,  6 Jan 2022 00:20:45 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id e128so1178646iof.1
-        for <mhi@lists.linux.dev>; Wed, 05 Jan 2022 16:20:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FDA168
+	for <mhi@lists.linux.dev>; Thu,  6 Jan 2022 00:22:27 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id q5so1146991ioj.7
+        for <mhi@lists.linux.dev>; Wed, 05 Jan 2022 16:22:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ieee.org; s=google;
         h=message-id:date:mime-version:user-agent:from:subject:to:cc
          :references:content-language:in-reply-to:content-transfer-encoding;
-        bh=ZWZNAaMYuUOkfqGJtxgdMDo0PTZ6C2mdFW9/wSPlfYQ=;
-        b=CfJtSGujrA2TNT3Xw23jHcs2FegGt+FambbYo6Kh4lXBVJoqtncGvPPsxXJ37I3jz8
-         XuF5Z1KJSRApnNjlNOxqAY838U4eOk/giezI7HYdQ0URH5HbanXMDX39Psb5Jr1cRWeV
-         rRI9f0xbQCmrckIHPrecfiikk28np48jqqQuo=
+        bh=Rox93wEnNMf5nANlOWyQ8Wb69Q5gjXkzmo9qfquSj4s=;
+        b=XZm0H9Vbf/ELvSy3+ZDXXMvhlkeVfUDxUn+DnfU3Ei2kdeazgqU45nK8m3W8hku8k3
+         uJwEcRMG2lxwDsuucd3Z6IWwcOLofh4c0CbSb2zZnZhkGWNAeY0pVRaYTc22J4naiu/E
+         a0YyLEzvTPMuqfj+xmcrhpjNoOaNDm6O1M1iY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:from
          :subject:to:cc:references:content-language:in-reply-to
          :content-transfer-encoding;
-        bh=ZWZNAaMYuUOkfqGJtxgdMDo0PTZ6C2mdFW9/wSPlfYQ=;
-        b=aXUY8Z46jpuAeM2AlnQBWiisf3i6zAOqE/bSco6AZTxJOaLsExm1aBWkZLR5jWDqa8
-         hMrXuxn81KJqvhTe/mjcxE9l8HKl2EX3GtDGgZV4R9gVtjyPbIqgD8/tN5HWK1TsNI3Z
-         hTGlysXz9Gkb7wHWgOq8x2rKGgjmJExFBL+5L53zGD09CeDcaNUx1nY6gTJTVHAxM3aw
-         OKCToInIMuxoI8AKo0dLdGyqeaITHmj6Hxci2lU8dgMqBkXKGxz6dyDKnffiKpLCTnly
-         A593xBnlgmmYKXxLYaBLlcnqIIspmpBmqeMqGGVfpJDxUDmyD9dNaD11TcO9vP+4mzO8
-         iEXw==
-X-Gm-Message-State: AOAM531tyfEpE7ZYrD+mDN/JyMweB7EewVVGSXw9IIZMeWyuESvcI39f
-	biikR/1IZeVIUVkTLZp2P1zmCQ==
-X-Google-Smtp-Source: ABdhPJwEAohfzRiEkVBc6VvCbYmtedQJjXtSdczgudU+olr903/NAPGyTJmeU4GOe2w/wWuUIV9jng==
-X-Received: by 2002:a05:6602:214a:: with SMTP id y10mr25647617ioy.121.1641428444736;
-        Wed, 05 Jan 2022 16:20:44 -0800 (PST)
+        bh=Rox93wEnNMf5nANlOWyQ8Wb69Q5gjXkzmo9qfquSj4s=;
+        b=gUxjYjeoPm1yy8B0RJ0qx3dkDoFLwEYt8nQX0IjlKlkqqqb2uoR46AoVJq6QEK8iyd
+         SzFEvqn5rDcZ5k2Cv1KAFv6mTCiCKP8yuOT4E5Q6jDPFtmybvXt7UH8GhOdXeCpB0CD/
+         o6EVqlgZBMp6t4oc9/9Kh2pVU4dZUkOKBpUApx1SPqTcNelpDqCYWHX2+qaXXDXE4RJB
+         bQUQ9nKh2qsJwo3ExdKu2EXq4FVdT8HS2aMNarsGYXeVBrZtrOgAdgCjnszRF19CtAJV
+         R61KBjQAFw4EWvzzl82WvtHuKYDwxdQqZdUCorZ2JIUS2HJeKUGf+pK2urrTOksd/SIC
+         EFMQ==
+X-Gm-Message-State: AOAM533QS1Ww/WfyRi4onrmoTUfh+AZiAXjFCJrDmS042BKDO+tBTc3I
+	B92dTo10Y3D+YJa1qdxub+VyZA==
+X-Google-Smtp-Source: ABdhPJxG7pXJKlc4Ea+pVPrtOs4FGggqMLAvX8O4aYdkHg+DyQDbj0eti1uBdOwLLe8xek1pVW5g/Q==
+X-Received: by 2002:a02:a517:: with SMTP id e23mr25687956jam.35.1641428546547;
+        Wed, 05 Jan 2022 16:22:26 -0800 (PST)
 Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id m14sm284397iow.54.2022.01.05.16.20.44
+        by smtp.googlemail.com with ESMTPSA id x5sm319881iov.32.2022.01.05.16.22.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jan 2022 16:20:44 -0800 (PST)
-Message-ID: <dcc9e2c6-c4ce-9a0b-9448-622e9546790d@ieee.org>
-Date: Wed, 5 Jan 2022 18:20:43 -0600
+        Wed, 05 Jan 2022 16:22:26 -0800 (PST)
+Message-ID: <cf56733b-7c5d-e5f9-70c4-6f262fa2853b@ieee.org>
+Date: Wed, 5 Jan 2022 18:22:25 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -45,7 +45,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.1
 From: Alex Elder <elder@ieee.org>
-Subject: Re: [PATCH 01/20] bus: mhi: Move host MHI code to "host" directory
+Subject: Re: [PATCH 02/20] bus: mhi: Move common MHI definitions out of host
+ directory
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
  mhi@lists.linux.dev
 Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org, quic_jhugo@quicinc.com,
@@ -54,47 +55,495 @@ Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org, quic_jhugo@quicinc.com,
  vpernami@codeaurora.org, vbadigan@codeaurora.org,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
- <20211202113553.238011-2-manivannan.sadhasivam@linaro.org>
+ <20211202113553.238011-3-manivannan.sadhasivam@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20211202113553.238011-2-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20211202113553.238011-3-manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 12/2/21 5:35 AM, Manivannan Sadhasivam wrote:
-> In preparation of the endpoint MHI support, let's move the host MHI code
-> to its own "host" directory and adjust the toplevel MHI Kconfig & Makefile.
+> Move the common MHI definitions in host "internal.h" to "common.h" so
+> that the endpoint code can make use of them. This also avoids
+> duplicating the definitions in the endpoint stack.
 > 
-> While at it, let's also move the "pci_generic" driver to "host" directory
-> as it is a host MHI controller driver.
+> Still, the MHI register definitions are not moved since the offsets
+> vary between host and endpoint.
 > 
 > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>   drivers/bus/mhi/common.h        | 182 ++++++++++++++++++++++++++++++++
+>   drivers/bus/mhi/host/internal.h | 154 +--------------------------
+>   2 files changed, 183 insertions(+), 153 deletions(-)
+>   create mode 100644 drivers/bus/mhi/common.h
+> 
+> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+> new file mode 100644
+> index 000000000000..0f4f3b9f3027
+> --- /dev/null
+> +++ b/drivers/bus/mhi/common.h
+> @@ -0,0 +1,182 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2021, Linaro Ltd.
+> + *
+> + */
+> +
+> +#ifndef _MHI_COMMON_H
+> +#define _MHI_COMMON_H
+> +
+> +#include <linux/mhi.h>
+> +
+> +/* Command Ring Element macros */
 
-This is a fairly trivial movement of code, so I have no real feedback.
+I know that the "new" code here is basically moved here as-is.  But
+I'll take this opportunity to mention some things.
+
+Command ring elements have a pretty well-defined structure.  I think
+the code could be more readable if you defined it that way.
+
+/* MHI commands only use the last two bytes of the structure */
+struct mhi_cmd_tre {
+     __le64	reserved0;	/* reserved fields must be zero */
+     __le32	reserved1;
+     __le16	reserved2;
+     u8		channel_id;
+     u8		command;
+};
+
+This isn't as good an example as is the TRE and event ring element
+definitions though.
+
+> +/* No operation command */
+
+No need for parentheses for (0).
+
+> +#define MHI_TRE_CMD_NOOP_PTR (0)
+> +#define MHI_TRE_CMD_NOOP_DWORD0 (0)
+> +#define MHI_TRE_CMD_NOOP_DWORD1 (MHI_CMD_NOP << 16)
+> +
+> +/* Channel reset command */
+> +#define MHI_TRE_CMD_RESET_PTR (0)
+> +#define MHI_TRE_CMD_RESET_DWORD0 (0)
+> +#define MHI_TRE_CMD_RESET_DWORD1(chid) ((chid << 24) | \
+> +					(MHI_CMD_RESET_CHAN << 16))
+> +
+> +/* Channel stop command */
+> +#define MHI_TRE_CMD_STOP_PTR (0)
+> +#define MHI_TRE_CMD_STOP_DWORD0 (0)
+> +#define MHI_TRE_CMD_STOP_DWORD1(chid) ((chid << 24) | \
+> +				       (MHI_CMD_STOP_CHAN << 16))
+> +
+> +/* Channel start command */
+> +#define MHI_TRE_CMD_START_PTR (0)
+> +#define MHI_TRE_CMD_START_DWORD0 (0)
+> +#define MHI_TRE_CMD_START_DWORD1(chid) ((chid << 24) | \
+> +					(MHI_CMD_START_CHAN << 16))
+> +
+> +#define MHI_TRE_GET_CMD_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_CMD_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> +
+> +/* Event descriptor macros */
+> +/* Transfer completion event */
+> +#define MHI_TRE_EV_PTR(ptr) (ptr)
+> +#define MHI_TRE_EV_DWORD0(code, len) ((code << 24) | len)
+> +#define MHI_TRE_EV_DWORD1(chid, type) ((chid << 24) | (type << 16))
+
+An event ring element could look like a bit like this:
+
+struct mhi_event {
+     __le64	tre_pointer;		/* refers to channel entry */
+     u8		completion_code;	/* enum mhi_ev_ccs */
+     u8		reserved0;
+     u8		channel_id;
+     u8		event_type;		/* enum mhi_pkt_type (?) */
+     __le16	reserved1;
+};
+
+But different events have slightly different format (EE
+events use byte in the "completion_code" position to hold
+the EE number, for example).  So it could be a union of
+structs.  You get the idea though.
+
+The following macros operate on events, not TREs, so their names
+and argument names should reflecvt that.
+
+> +#define MHI_TRE_GET_EV_PTR(tre) ((tre)->ptr)
+> +#define MHI_TRE_GET_EV_CODE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_EV_LEN(tre) ((tre)->dword[0] & 0xFFFF)
+> +#define MHI_TRE_GET_EV_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_EV_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> +#define MHI_TRE_GET_EV_STATE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_EV_EXECENV(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_EV_SEQ(tre) ((tre)->dword[0])
+> +#define MHI_TRE_GET_EV_TIME(tre) ((tre)->ptr)
+> +#define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits((tre)->ptr)
+> +#define MHI_TRE_GET_EV_VEID(tre) (((tre)->dword[0] >> 16) & 0xFF)
+> +#define MHI_TRE_GET_EV_LINKSPEED(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> +#define MHI_TRE_GET_EV_LINKWIDTH(tre) ((tre)->dword[0] & 0xFF)
+> +
+> +/* State change event */
+> +#define MHI_SC_EV_PTR 0
+> +#define MHI_SC_EV_DWORD0(state) (state << 24)
+> +#define MHI_SC_EV_DWORD1(type) (type << 16)
+> +
+> +/* EE event */
+> +#define MHI_EE_EV_PTR 0
+> +#define MHI_EE_EV_DWORD0(ee) (ee << 24)
+> +#define MHI_EE_EV_DWORD1(type) (type << 16)
+> +
+> +/* Command Completion event */
+> +#define MHI_CC_EV_PTR(ptr) (ptr)
+> +#define MHI_CC_EV_DWORD0(code) (code << 24)
+> +#define MHI_CC_EV_DWORD1(type) (type << 16)
+> +
+> +/* Transfer descriptor macros */
+> +#define MHI_TRE_DATA_PTR(ptr) (ptr)
+
+The following macro assumes MHI_MAX_MTU is a mask (2^x - 1).
+
+> +#define MHI_TRE_DATA_DWORD0(len) (len & MHI_MAX_MTU)
+
+It's not obvious the four parameters must be 0 or 1.
+What does the (2 << 16) term here represent?
+
+> +#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) ((2 << 16) | (bei << 10) \
+> +	| (ieot << 9) | (ieob << 8) | chain)
+
+A TRE could look like this:
+
+struct mhi_tre {
+     __le64	transfer_pointer;	/* dma_addr_t */
+     __le16	len;
+     __le16	reserved;
+     __le32	flags;
+};
+#define MHI_TRE_FLAGS_CHAIN	cpu_to_le32(BIT(0))
+#define MHI_TRE_FLAGS_IEOB	cpu_to_le32(BIT(8))
+#define MHI_TRE_FLAGS_IEOT	cpu_to_le32(BIT(9))
+#define MHI_TRE_FLAGS_BEI	cpu_to_le32(BIT(10))
+
+
+> +
+> +/* RSC transfer descriptor macros */
+> +#define MHI_RSCTRE_DATA_PTR(ptr, len) (((u64)len << 48) | ptr)
+> +#define MHI_RSCTRE_DATA_DWORD0(cookie) (cookie)
+> +#define MHI_RSCTRE_DATA_DWORD1 (MHI_PKT_TYPE_COALESCING << 16)
+> +
+> +enum mhi_pkt_type {
+> +	MHI_PKT_TYPE_INVALID = 0x0,
+
+This is personal choice, but I like aligning the numeric
+values assigned to symbols, by aligning the "=" in a
+column.  Maybe use 0x01, 0x02 for single-digits too.
+
+> +	MHI_PKT_TYPE_NOOP_CMD = 0x1,
+> +	MHI_PKT_TYPE_TRANSFER = 0x2,
+> +	MHI_PKT_TYPE_COALESCING = 0x8,
+> +	MHI_PKT_TYPE_RESET_CHAN_CMD = 0x10,
+> +	MHI_PKT_TYPE_STOP_CHAN_CMD = 0x11,
+> +	MHI_PKT_TYPE_START_CHAN_CMD = 0x12,
+> +	MHI_PKT_TYPE_STATE_CHANGE_EVENT = 0x20,
+> +	MHI_PKT_TYPE_CMD_COMPLETION_EVENT = 0x21,
+> +	MHI_PKT_TYPE_TX_EVENT = 0x22,
+> +	MHI_PKT_TYPE_RSC_TX_EVENT = 0x28,
+> +	MHI_PKT_TYPE_EE_EVENT = 0x40,
+> +	MHI_PKT_TYPE_TSYNC_EVENT = 0x48,
+> +	MHI_PKT_TYPE_BW_REQ_EVENT = 0x50,
+> +	MHI_PKT_TYPE_STALE_EVENT, /* internal event */
+> +};
+> +
+> +/* MHI transfer completion events */
+> +enum mhi_ev_ccs {
+> +	MHI_EV_CC_INVALID = 0x0,
+> +	MHI_EV_CC_SUCCESS = 0x1,
+> +	MHI_EV_CC_EOT = 0x2, /* End of transfer event */
+> +	MHI_EV_CC_OVERFLOW = 0x3,
+> +	MHI_EV_CC_EOB = 0x4, /* End of block event */
+> +	MHI_EV_CC_OOB = 0x5, /* Out of block event */
+> +	MHI_EV_CC_DB_MODE = 0x6,
+> +	MHI_EV_CC_UNDEFINED_ERR = 0x10,
+> +	MHI_EV_CC_BAD_TRE = 0x11,
+> +};
+> +
+> +/* Channel state */
+> +enum mhi_ch_state {
+> +	MHI_CH_STATE_DISABLED,
+> +	MHI_CH_STATE_ENABLED,
+> +	MHI_CH_STATE_RUNNING,
+> +	MHI_CH_STATE_SUSPENDED,
+> +	MHI_CH_STATE_STOP,
+> +	MHI_CH_STATE_ERROR,
+> +};
+> +
+> +enum mhi_cmd_type {
+> +	MHI_CMD_NOP = 1,
+> +	MHI_CMD_RESET_CHAN = 16,
+> +	MHI_CMD_STOP_CHAN = 17,
+> +	MHI_CMD_START_CHAN = 18,
+> +};
+> +
+> +#define EV_CTX_RESERVED_MASK GENMASK(7, 0)
+> +#define EV_CTX_INTMODC_MASK GENMASK(15, 8)
+> +#define EV_CTX_INTMODC_SHIFT 8
+> +#define EV_CTX_INTMODT_MASK GENMASK(31, 16)
+> +#define EV_CTX_INTMODT_SHIFT 16
+> +struct mhi_event_ctxt {
+
+These fields should all be explicitly marked as little endian.
+It so happens Intel and ARM use that, but defining them as
+simple unsigned values is not correct for an external interface.
+
+This comment applies to the command and channel context structures
+also.
+
+> +	__u32 intmod;
+> +	__u32 ertype;
+> +	__u32 msivec;
+> +
+
+I think you can just define the entire struct as __packed
+and __aligned(4) rather than defining all of these fields
+with those attributes.
+
+> +	__u64 rbase __packed __aligned(4);
+> +	__u64 rlen __packed __aligned(4);
+> +	__u64 rp __packed __aligned(4);
+> +	__u64 wp __packed __aligned(4);
+> +};
+> +
+> +#define CHAN_CTX_CHSTATE_MASK GENMASK(7, 0)
+> +#define CHAN_CTX_CHSTATE_SHIFT 0
+
+Please eliminate all the _SHIFT definitions like this,
+where you are already defining the corresponding _MASK.
+The _SHIFT is redundant (and could lead to error, and
+takes up extra space).
+
+You are using bitfield operations (like FIELD_GET()) in
+at least some places already.  Use them consistently
+throughout the driver.  Those macros simplify the code
+and obviate the need for any shift definitions.
 
 					-Alex
 
-> ---
->   drivers/bus/Makefile                      |  2 +-
->   drivers/bus/mhi/Kconfig                   | 27 ++------------------
->   drivers/bus/mhi/Makefile                  |  8 ++----
->   drivers/bus/mhi/host/Kconfig              | 31 +++++++++++++++++++++++
->   drivers/bus/mhi/{core => host}/Makefile   |  4 ++-
->   drivers/bus/mhi/{core => host}/boot.c     |  0
->   drivers/bus/mhi/{core => host}/debugfs.c  |  0
->   drivers/bus/mhi/{core => host}/init.c     |  0
->   drivers/bus/mhi/{core => host}/internal.h |  0
->   drivers/bus/mhi/{core => host}/main.c     |  0
->   drivers/bus/mhi/{ => host}/pci_generic.c  |  0
->   drivers/bus/mhi/{core => host}/pm.c       |  0
->   12 files changed, 39 insertions(+), 33 deletions(-)
->   create mode 100644 drivers/bus/mhi/host/Kconfig
->   rename drivers/bus/mhi/{core => host}/Makefile (54%)
->   rename drivers/bus/mhi/{core => host}/boot.c (100%)
->   rename drivers/bus/mhi/{core => host}/debugfs.c (100%)
->   rename drivers/bus/mhi/{core => host}/init.c (100%)
->   rename drivers/bus/mhi/{core => host}/internal.h (100%)
->   rename drivers/bus/mhi/{core => host}/main.c (100%)
->   rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
->   rename drivers/bus/mhi/{core => host}/pm.c (100%)
+> +#define CHAN_CTX_BRSTMODE_MASK GENMASK(9, 8)
+> +#define CHAN_CTX_BRSTMODE_SHIFT 8
+> +#define CHAN_CTX_POLLCFG_MASK GENMASK(15, 10)
+> +#define CHAN_CTX_POLLCFG_SHIFT 10
+> +#define CHAN_CTX_RESERVED_MASK GENMASK(31, 16)
+> +struct mhi_chan_ctxt {
+> +	__u32 chcfg;
+> +	__u32 chtype;
+> +	__u32 erindex;
+> +
+> +	__u64 rbase __packed __aligned(4);
+> +	__u64 rlen __packed __aligned(4);
+> +	__u64 rp __packed __aligned(4);
+> +	__u64 wp __packed __aligned(4);
+> +};
+> +
+> +struct mhi_cmd_ctxt {
+> +	__u32 reserved0;
+> +	__u32 reserved1;
+> +	__u32 reserved2;
+> +
+> +	__u64 rbase __packed __aligned(4);
+> +	__u64 rlen __packed __aligned(4);
+> +	__u64 rp __packed __aligned(4);
+> +	__u64 wp __packed __aligned(4);
+> +};
+> +
+> +extern const char * const mhi_state_str[MHI_STATE_MAX];
+> +#define TO_MHI_STATE_STR(state) ((state >= MHI_STATE_MAX || \
+> +				  !mhi_state_str[state]) ? \
+> +				"INVALID_STATE" : mhi_state_str[state])
+> +
+> +#endif /* _MHI_COMMON_H */
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 3a732afaf73e..a324a76684d0 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -7,7 +7,7 @@
+>   #ifndef _MHI_INT_H
+>   #define _MHI_INT_H
+>   
+> -#include <linux/mhi.h>
+> +#include "../common.h"
+>   
+>   extern struct bus_type mhi_bus_type;
+>   
+> @@ -203,51 +203,6 @@ extern struct bus_type mhi_bus_type;
+>   #define SOC_HW_VERSION_MINOR_VER_BMSK (0x000000FF)
+>   #define SOC_HW_VERSION_MINOR_VER_SHFT (0)
+>   
+> -#define EV_CTX_RESERVED_MASK GENMASK(7, 0)
+> -#define EV_CTX_INTMODC_MASK GENMASK(15, 8)
+> -#define EV_CTX_INTMODC_SHIFT 8
+> -#define EV_CTX_INTMODT_MASK GENMASK(31, 16)
+> -#define EV_CTX_INTMODT_SHIFT 16
+> -struct mhi_event_ctxt {
+> -	__u32 intmod;
+> -	__u32 ertype;
+> -	__u32 msivec;
+> -
+> -	__u64 rbase __packed __aligned(4);
+> -	__u64 rlen __packed __aligned(4);
+> -	__u64 rp __packed __aligned(4);
+> -	__u64 wp __packed __aligned(4);
+> -};
+> -
+> -#define CHAN_CTX_CHSTATE_MASK GENMASK(7, 0)
+> -#define CHAN_CTX_CHSTATE_SHIFT 0
+> -#define CHAN_CTX_BRSTMODE_MASK GENMASK(9, 8)
+> -#define CHAN_CTX_BRSTMODE_SHIFT 8
+> -#define CHAN_CTX_POLLCFG_MASK GENMASK(15, 10)
+> -#define CHAN_CTX_POLLCFG_SHIFT 10
+> -#define CHAN_CTX_RESERVED_MASK GENMASK(31, 16)
+> -struct mhi_chan_ctxt {
+> -	__u32 chcfg;
+> -	__u32 chtype;
+> -	__u32 erindex;
+> -
+> -	__u64 rbase __packed __aligned(4);
+> -	__u64 rlen __packed __aligned(4);
+> -	__u64 rp __packed __aligned(4);
+> -	__u64 wp __packed __aligned(4);
+> -};
+> -
+> -struct mhi_cmd_ctxt {
+> -	__u32 reserved0;
+> -	__u32 reserved1;
+> -	__u32 reserved2;
+> -
+> -	__u64 rbase __packed __aligned(4);
+> -	__u64 rlen __packed __aligned(4);
+> -	__u64 rp __packed __aligned(4);
+> -	__u64 wp __packed __aligned(4);
+> -};
+> -
+>   struct mhi_ctxt {
+>   	struct mhi_event_ctxt *er_ctxt;
+>   	struct mhi_chan_ctxt *chan_ctxt;
+> @@ -267,108 +222,6 @@ struct bhi_vec_entry {
+>   	u64 size;
+>   };
+>   
+> -enum mhi_cmd_type {
+> -	MHI_CMD_NOP = 1,
+> -	MHI_CMD_RESET_CHAN = 16,
+> -	MHI_CMD_STOP_CHAN = 17,
+> -	MHI_CMD_START_CHAN = 18,
+> -};
+> -
+> -/* No operation command */
+> -#define MHI_TRE_CMD_NOOP_PTR (0)
+> -#define MHI_TRE_CMD_NOOP_DWORD0 (0)
+> -#define MHI_TRE_CMD_NOOP_DWORD1 (MHI_CMD_NOP << 16)
+> -
+> -/* Channel reset command */
+> -#define MHI_TRE_CMD_RESET_PTR (0)
+> -#define MHI_TRE_CMD_RESET_DWORD0 (0)
+> -#define MHI_TRE_CMD_RESET_DWORD1(chid) ((chid << 24) | \
+> -					(MHI_CMD_RESET_CHAN << 16))
+> -
+> -/* Channel stop command */
+> -#define MHI_TRE_CMD_STOP_PTR (0)
+> -#define MHI_TRE_CMD_STOP_DWORD0 (0)
+> -#define MHI_TRE_CMD_STOP_DWORD1(chid) ((chid << 24) | \
+> -				       (MHI_CMD_STOP_CHAN << 16))
+> -
+> -/* Channel start command */
+> -#define MHI_TRE_CMD_START_PTR (0)
+> -#define MHI_TRE_CMD_START_DWORD0 (0)
+> -#define MHI_TRE_CMD_START_DWORD1(chid) ((chid << 24) | \
+> -					(MHI_CMD_START_CHAN << 16))
+> -
+> -#define MHI_TRE_GET_CMD_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_CMD_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> -
+> -/* Event descriptor macros */
+> -#define MHI_TRE_EV_PTR(ptr) (ptr)
+> -#define MHI_TRE_EV_DWORD0(code, len) ((code << 24) | len)
+> -#define MHI_TRE_EV_DWORD1(chid, type) ((chid << 24) | (type << 16))
+> -#define MHI_TRE_GET_EV_PTR(tre) ((tre)->ptr)
+> -#define MHI_TRE_GET_EV_CODE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_EV_LEN(tre) ((tre)->dword[0] & 0xFFFF)
+> -#define MHI_TRE_GET_EV_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_EV_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> -#define MHI_TRE_GET_EV_STATE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_EV_EXECENV(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_EV_SEQ(tre) ((tre)->dword[0])
+> -#define MHI_TRE_GET_EV_TIME(tre) ((tre)->ptr)
+> -#define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits((tre)->ptr)
+> -#define MHI_TRE_GET_EV_VEID(tre) (((tre)->dword[0] >> 16) & 0xFF)
+> -#define MHI_TRE_GET_EV_LINKSPEED(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> -#define MHI_TRE_GET_EV_LINKWIDTH(tre) ((tre)->dword[0] & 0xFF)
+> -
+> -/* Transfer descriptor macros */
+> -#define MHI_TRE_DATA_PTR(ptr) (ptr)
+> -#define MHI_TRE_DATA_DWORD0(len) (len & MHI_MAX_MTU)
+> -#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) ((2 << 16) | (bei << 10) \
+> -	| (ieot << 9) | (ieob << 8) | chain)
+> -
+> -/* RSC transfer descriptor macros */
+> -#define MHI_RSCTRE_DATA_PTR(ptr, len) (((u64)len << 48) | ptr)
+> -#define MHI_RSCTRE_DATA_DWORD0(cookie) (cookie)
+> -#define MHI_RSCTRE_DATA_DWORD1 (MHI_PKT_TYPE_COALESCING << 16)
+> -
+> -enum mhi_pkt_type {
+> -	MHI_PKT_TYPE_INVALID = 0x0,
+> -	MHI_PKT_TYPE_NOOP_CMD = 0x1,
+> -	MHI_PKT_TYPE_TRANSFER = 0x2,
+> -	MHI_PKT_TYPE_COALESCING = 0x8,
+> -	MHI_PKT_TYPE_RESET_CHAN_CMD = 0x10,
+> -	MHI_PKT_TYPE_STOP_CHAN_CMD = 0x11,
+> -	MHI_PKT_TYPE_START_CHAN_CMD = 0x12,
+> -	MHI_PKT_TYPE_STATE_CHANGE_EVENT = 0x20,
+> -	MHI_PKT_TYPE_CMD_COMPLETION_EVENT = 0x21,
+> -	MHI_PKT_TYPE_TX_EVENT = 0x22,
+> -	MHI_PKT_TYPE_RSC_TX_EVENT = 0x28,
+> -	MHI_PKT_TYPE_EE_EVENT = 0x40,
+> -	MHI_PKT_TYPE_TSYNC_EVENT = 0x48,
+> -	MHI_PKT_TYPE_BW_REQ_EVENT = 0x50,
+> -	MHI_PKT_TYPE_STALE_EVENT, /* internal event */
+> -};
+> -
+> -/* MHI transfer completion events */
+> -enum mhi_ev_ccs {
+> -	MHI_EV_CC_INVALID = 0x0,
+> -	MHI_EV_CC_SUCCESS = 0x1,
+> -	MHI_EV_CC_EOT = 0x2, /* End of transfer event */
+> -	MHI_EV_CC_OVERFLOW = 0x3,
+> -	MHI_EV_CC_EOB = 0x4, /* End of block event */
+> -	MHI_EV_CC_OOB = 0x5, /* Out of block event */
+> -	MHI_EV_CC_DB_MODE = 0x6,
+> -	MHI_EV_CC_UNDEFINED_ERR = 0x10,
+> -	MHI_EV_CC_BAD_TRE = 0x11,
+> -};
+> -
+> -enum mhi_ch_state {
+> -	MHI_CH_STATE_DISABLED = 0x0,
+> -	MHI_CH_STATE_ENABLED = 0x1,
+> -	MHI_CH_STATE_RUNNING = 0x2,
+> -	MHI_CH_STATE_SUSPENDED = 0x3,
+> -	MHI_CH_STATE_STOP = 0x4,
+> -	MHI_CH_STATE_ERROR = 0x5,
+> -};
+> -
+>   enum mhi_ch_state_type {
+>   	MHI_CH_STATE_TYPE_RESET,
+>   	MHI_CH_STATE_TYPE_STOP,
+> @@ -409,11 +262,6 @@ extern const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX];
+>   #define TO_DEV_STATE_TRANS_STR(state) (((state) >= DEV_ST_TRANSITION_MAX) ? \
+>   				"INVALID_STATE" : dev_state_tran_str[state])
+>   
+> -extern const char * const mhi_state_str[MHI_STATE_MAX];
+> -#define TO_MHI_STATE_STR(state) ((state >= MHI_STATE_MAX || \
+> -				  !mhi_state_str[state]) ? \
+> -				"INVALID_STATE" : mhi_state_str[state])
+> -
+>   /* internal power states */
+>   enum mhi_pm_state {
+>   	MHI_PM_STATE_DISABLE,
 > 
-. . .
+
