@@ -1,79 +1,100 @@
-Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8979168
-	for <mhi@lists.linux.dev>; Mon, 17 Jan 2022 10:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=yFV6Y
-	NSi4Vb9QBZh0XwgcOfZ3owMie3kscsPISoVnHo=; b=m5i0JBosUPiN6c7QA3WQi
-	a0iMo9B98P18WhvQCXanKYn+nkH3/nPFK58q1dOq0DKYMd8LgrarJ25Td5OkeT1I
-	Cw9bb4PAu85f1Ci1hlm91bCeUbFvp42Y/2dKhh1MdlJhJvrFLaaM/27nW1s3uU2j
-	ieVVXQqoqMtVkL3cbIBc1A=
-Received: from localhost.localdomain (unknown [112.97.53.17])
-	by smtp4 (Coremail) with SMTP id HNxpCgAnPPyYR+VhcIvZAQ--.302S2;
-	Mon, 17 Jan 2022 18:40:26 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	hemantk@codeaurora.org,
-	jarvis.w.jiang@gmail.com,
-	loic.poulain@linaro.org,
-	thomas.ulrich@thalesgroup.com,
-	gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH net] bus: mhi: Add mru_default for Foxconn SDX55 and Cinterion MV31-W
-Date: Mon, 17 Jan 2022 18:40:16 +0800
-Message-Id: <20220117104016.23046-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492552C82
+	for <mhi@lists.linux.dev>; Mon, 17 Jan 2022 16:07:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD6EC36AE3;
+	Mon, 17 Jan 2022 16:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1642435631;
+	bh=savEbw0Fq5jjf0eRzSMg5CUeza/UcrBnw+kG0Zx0SQA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qAGiC9WQQQRyt4g9rn98cyXAzcF1q1Xg9AGoWlQE+ukoM49QGVXM/MCvPNt+T6Ily
+	 AIBHiC9Ft8zm7rNCfuWmXK5ND4/YGdCCe2GM6UvCXPt+0ff3xwvAjffpyWOAc1P2px
+	 5nmcNhoKVfAZo7+Kn1P5LLY8mFjvcoNNvSFHSAyHtWz4RC79cNerjR/msPFwQw6lWB
+	 1RRRkzo8waubeN9xphJUEJ75CodbF7hIrSZ9lyYVkuxEXoMf0vOMpt1cZqA/i0EdpU
+	 3W48TMw8uO54uuaCEfwkRK3yrJWIN3jQtzjN3k6dYU83CH6pLAWhgruEpWuYtJk5ib
+	 CJhcQP/xSYUeg==
+Date: Mon, 17 Jan 2022 21:37:05 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: hemantk@codeaurora.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH net v2] For default mechanism, product would use
+ default MRU 3500 if they didn't define it. But for Foxconn SDX55, there is a
+ known issue which MRU 3500 would lead to data connection lost. So we align
+ it with Qualcomm default MRU settings.
+Message-ID: <20220117160705.GC4209@thinkpad>
+References: <20220117081644.21121-1-slark_xiao@163.com>
+ <20220117084432.GB4209@thinkpad>
+ <50e92997.386b.17e6775c20b.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HNxpCgAnPPyYR+VhcIvZAQ--.302S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFWUJw47Wr1UJF4UCr13XFb_yoW8Gr48pF
-	40vrWIyr4vqrWYqF4vk34kWFn5WanxGFy7KFZrK342yrn8Aa4qvFyqgw1SgF12qrWxXFWa
-	yrn0gFZrXF1DXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UUKs8UUUUU=
-X-Originating-IP: [112.97.53.17]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBrRqLZF75dU7ZwQAAsc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50e92997.386b.17e6775c20b.Coremail.slark_xiao@163.com>
 
-For default mechanism, product would use default MRU 3500 if
-they didn't define it. But for Foxconn SDX55, there is a known
-issue which MRU 3500 would lead to data connection lost.
-So we align it with Qualcomm default MRU settings.
-We also validate it with Cinterion product and find it also
-works.
+On Mon, Jan 17, 2022 at 05:54:37PM +0800, Slark Xiao wrote:
+> 
+> 
+> 
+> 
+> 
+> 
+> At 2022-01-17 16:44:32, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
+> >On Mon, Jan 17, 2022 at 04:16:44PM +0800, Slark Xiao wrote:
+> >> Fixes: 5c2c85315948 ("bus: mhi: pci-generic: configurable network interface MRU")
+> >
+> >You have messed up the patch subject, please fix it. Also, the correct fixes tag
+> >should be the one added the Foxconn modem support, precisely "aac426562f56".
+> >
+> Yes, sorry for this mistake. 
+> >One more thing, please make sure this MRU value works well for other Foxconn
+> >modems supported by this config.
+> >
+> I am sure this would work for all  our device. BTW, I want to add this mru_default to 
+> cinterion-mv31 PRODUCT. Shall I use v3 or create a new version for that? It's confirmed 
+> that this change could help fix issue on that product.
 
-Fixes: aac426562f56 ("bus: mhi: pci_generic: Introduce Foxconn T99W175 support")
-Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
- drivers/bus/mhi/pci_generic.c | 2 ++
- 1 file changed, 2 insertions(+)
+Please submit individual patches with Fixes tag each.
 
-diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
-index 3a258a677df8..b79895810c52 100644
---- a/drivers/bus/mhi/pci_generic.c
-+++ b/drivers/bus/mhi/pci_generic.c
-@@ -366,6 +366,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-+	.mru_default = 32768,
- 	.sideband_wake = false,
- };
- 
-@@ -401,6 +402,7 @@ static const struct mhi_pci_dev_info mhi_mv31_info = {
- 	.config = &modem_mv31_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-+	.mru_default = 32768,
- };
- 
- static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
--- 
-2.25.1
+> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >
+> >You should have added my Reviewed-by tag too...
+> Shall I add reviewd-by tag if I add changes on MV31 product?
+> >
 
+No, only to this patch since I haven't reviewed the MV31 patch.
+
+Thanks,
+Mani
+
+> >Thanks,
+> >Mani
+> >
+> >> 
+> >> ---
+> >> v2: Add Fixes tag
+> >> ---
+> >>  drivers/bus/mhi/pci_generic.c | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >> 
+> >> diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
+> >> index 3a258a677df8..74e8fc342cfd 100644
+> >> --- a/drivers/bus/mhi/pci_generic.c
+> >> +++ b/drivers/bus/mhi/pci_generic.c
+> >> @@ -366,6 +366,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+> >>  	.config = &modem_foxconn_sdx55_config,
+> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >>  	.dma_data_width = 32,
+> >> +	.mru_default = 32768,
+> >>  	.sideband_wake = false,
+> >>  };
+> >>  
+> >> -- 
+> >> 2.25.1
+> >> 
