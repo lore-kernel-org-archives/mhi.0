@@ -1,27 +1,27 @@
 Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4689C2CA5
-	for <mhi@lists.linux.dev>; Wed, 19 Jan 2022 10:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6044F173
+	for <mhi@lists.linux.dev>; Wed, 19 Jan 2022 10:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=MyVyh
-	UzHDpS+tQkN7XqEyXNW73XLWBRPypfXZLk+yDs=; b=QHgj9xcB3jb1h2aGKGgP4
-	6c3+5hgRfaIkJt+tme80I2GFXRRYL1e0Sz32Vpy1GFQjxJ+QZJ4REe2pWzQnLEPP
-	U+ZbnddH8VFaKXnWCCxZSY0qN0z5ppXv0yH8zhB7pnSmFunzOeBQgNzoh/pAomIw
-	oQZbsZ6XyU3AvjG0Bd6SIM=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Ggh+j
+	BUxPZigS6LulYn3qU9duz7ejB5F3vOjxnkFcnM=; b=XG+fovDDxuMf+QBe22rXp
+	enUNaRD5RQH6ET9DfO1BINiHo86WoM1gJ/iLvgqMh4Tl3PeZbbMZNjHwclLdV8cB
+	PMnqWu+5KJrWBxXTCT7tZ+ZxHmWfeFjdAQdl83gskpvp51BtTdDiC059pLaBJ4iC
+	ikx6m7gKePYsd2cvX+u9pg=
 Received: from localhost.localdomain (unknown [112.97.57.111])
-	by smtp2 (Coremail) with SMTP id GtxpCgDnaK0b5+dhP3MFAw--.8215S2;
-	Wed, 19 Jan 2022 18:25:32 +0800 (CST)
+	by smtp2 (Coremail) with SMTP id GtxpCgDXTrP_4+dh2FkEAw--.8202S2;
+	Wed, 19 Jan 2022 18:12:17 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: mani@kernel.org,
 	hemantk@codeaurora.org,
-	thomas.ulrich@thalesgroup.com,
-	gregkh@linuxfoundation.org
+	jarvis.w.jiang@gmail.com,
+	loic.poulain@linaro.org
 Cc: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH net] bus: mhi: Add mru_default for Cinterion MV31-W
-Date: Wed, 19 Jan 2022 18:25:19 +0800
-Message-Id: <20220119102519.5342-1-slark_xiao@163.com>
+Subject: [PATCH net v3] bus: mhi: Add mru_default for Foxconn SDX55
+Date: Wed, 19 Jan 2022 18:12:13 +0800
+Message-Id: <20220119101213.5008-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -30,39 +30,38 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GtxpCgDnaK0b5+dhP3MFAw--.8215S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtw4xuw1rAFyxtF4xtr4rGrg_yoWDWrX_uw
-	sxWFsruwsxWr90kwn2va1rA3yFy3WxuF1kA3WktFn8t347ZwnFvwnYqFZYyFn5uF43uF9r
-	J3s5uFy5Zw1avjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUVMNUUUUUU==
+X-CM-TRANSID:GtxpCgDXTrP_4+dh2FkEAw--.8202S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtw4xuw1rAFyxtF4xZFyfXrb_yoWDJFb_Cr
+	ZIgF4xuws8WrZ5Gwn2qan5Z3yrK3W7ZF1kZF10qrn8J34aqw1qqwn5trZ5AFn0gFW5AF9r
+	J34rWr1rAw1a9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjSoGtUUUUU==
 X-Originating-IP: [112.97.57.111]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJRyNZGAJmFxP5wAAsV
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwKNZFc7Vmlq1gAAsD
 
 For default mechanism, product would use default MRU 3500 if
 they didn't define it. But for Foxconn SDX55, there is a known
 issue which MRU 3500 would lead to data connection lost.
 So we align it with Qualcomm default MRU settings.
-We also validate it with Cinterion product and find it also
-works.
 
-Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
+Fixes: aac426562f56 ("bus: mhi: pci_generic: Introduce Foxconn T99W175 support")
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 ---
  drivers/bus/mhi/pci_generic.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
-index 3a258a677df8..79c16b2a52c7 100644
+index 3a258a677df8..74e8fc342cfd 100644
 --- a/drivers/bus/mhi/pci_generic.c
 +++ b/drivers/bus/mhi/pci_generic.c
-@@ -401,6 +401,7 @@ static const struct mhi_pci_dev_info mhi_mv31_info = {
- 	.config = &modem_mv31_config,
+@@ -366,6 +366,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+ 	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
  	.dma_data_width = 32,
 +	.mru_default = 32768,
+ 	.sideband_wake = false,
  };
  
- static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
 -- 
 2.25.1
 
