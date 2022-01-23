@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48F92C80
-	for <mhi@lists.linux.dev>; Sun, 23 Jan 2022 15:05:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 884E9C340E2;
-	Sun, 23 Jan 2022 15:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33637173
+	for <mhi@lists.linux.dev>; Sun, 23 Jan 2022 17:52:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6371C340E2;
+	Sun, 23 Jan 2022 17:52:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642950343;
-	bh=+I+wjm3eWa095440ujT7Z/tq8L5DuQQBmbFwtEQL3kM=;
+	s=k20201202; t=1642960327;
+	bh=pmR1E/ePn4BEVhHc+x+IV9K7vuhU4+WXd+Lt77YSfFo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bSAhxcW5CnUopJFRWWxRe0BaTij0DiVt523067SOP8opyX4eiFioxS6TatRAhTAu7
-	 VVSKJe9d/ztaQ2NvOZIMPjUZi1LeliCqjrkVuCW/vBC3jAGakPnKKBB3HKl01Cv54s
-	 z8aqEwlmAf9O/VlDpMdEfgHRhY4PDpyUrzBlJjFJ5F45q3CnKpuqIteEB1gm1k13CU
-	 z72/+2pF6i2hTnno58m7tFCwDV8bOQ9AAPn6VsS4qLE4fi9aokYH4O87AqQ3eea404
-	 WSm5a+IetzWe8GQkZAtK5d/aGGhhDM61XmaV8blIpfK2KHVZluean+CoyIv8wKZdPx
-	 CMR1eK8iC3+jA==
-Date: Sun, 23 Jan 2022 20:35:35 +0530
+	b=uDd4GrIxttG5OGwgSVQ5v1zxRFwC1n66oJiZOkWVka6HGC6MV4nrrRXDgO44bpfJO
+	 +KtzUBxHuuaBZ3G/hugbmxVaM4dGrQiP6qCi3/w79CqaEHq9x/04drAfhgyWFI+5Iu
+	 A9sQwuU4I+wrJjU1M6WmbuC0qV/WtVrO40ce1f7PJtg8/wU7dU98rNRYLuUEnh5J1y
+	 1grIenoEQSnw0pHfCAiz4bWVkWbpsVGE2kjDvBF+Kz57UHAMuIzDwMprkZDd0r+cWq
+	 Zt96+u1wJDlytRACf784XS147vG36aN7s1EILi8w5Osgka/YlSUOn+QWtaty44LgbV
+	 pWmAYAHIzUP9g==
+Date: Sun, 23 Jan 2022 23:22:00 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: hemantk@codeaurora.org, thomas.ulrich@thalesgroup.com,
 	gregkh@linuxfoundation.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net] bus: mhi: Add mru_default for Cinterion MV31-W
-Message-ID: <20220123150535.GB11636@thinkpad>
+Message-ID: <20220123175200.GC11636@thinkpad>
 References: <20220119102519.5342-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -37,11 +37,6 @@ In-Reply-To: <20220119102519.5342-1-slark_xiao@163.com>
 On Wed, Jan 19, 2022 at 06:25:19PM +0800, Slark Xiao wrote:
 > For default mechanism, product would use default MRU 3500 if
 > they didn't define it. But for Foxconn SDX55, there is a known
-
-s/"Foxconn SDX55"/"MV31-W (Cinterion)"/g
-
-Will fix it while applying.
-
 > issue which MRU 3500 would lead to data connection lost.
 > So we align it with Qualcomm default MRU settings.
 > We also validate it with Cinterion product and find it also
@@ -50,7 +45,7 @@ Will fix it while applying.
 > Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next with slight commit message change.
 
 Thanks,
 Mani
