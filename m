@@ -1,42 +1,42 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BA62F24
-	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 10:34:51 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id 133so1984107pgb.0
-        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 02:34:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC52F24
+	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 11:26:43 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id o16-20020a17090aac1000b001b62f629953so9716970pjq.3
+        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 03:26:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=YUz06pZnKz52lqRpYNAE/X72JjI+Vf6k4/BCrzBH3FU=;
-        b=UiyejmSz8yF32Lluhet7PwBZMrAziRCNepEXHIRQlOebPKYaQ8xt4lol4zyxxQHa/Q
-         CNWjJSte15D181ytzgj3PLcj5+ELoliMZD89UtGx38yFcahG0MiDDJA1doOLInEAr8ah
-         LsRKIOE+IfpQfIHa+RxnrPufXugbm5olIQbixPUcEQX7WZtpSoYxj73GznqwAW+gNCdc
-         Dd2IVudc1Nzg56St5hqWcSKMmDMGlEyuZgxCHwqAeA+4sxNcuS+sftySZMFJraqZCuOC
-         8ruvRCgfz9JW22ScJNYrirO4KHyEi988ltI9VsZdp6UdpD62mZ9QRBjiHNawA3Gh65Uf
-         xQBA==
+        bh=Uq5/DMTs8fRuPax4HLgbapGYZfeXxnRQmS9fqIxNgqs=;
+        b=Ef91hNFrpIdlJ9TU0MkJmzlt1Zgbgwl0/NWE6lzlyoS8mLYyBLu9rrWC6zZugLDtpH
+         NYa64tCW30GSiQilZSVPNaRDwCnXiaqw3I+uypHDA21Xiip5epi0WrRUnHRVL6l+qsGZ
+         1KaYJIBA7EbTvrX6viExwyBhEs3mPjAgruBtlhD7xa1ptDByDQE58TUGs+yht2rFIaeh
+         rshLI1i7gZQ4oL4L+rjWj3CJF7v262rHz4Uls8q0zvOcOUmmw6ODxtcuFWyrkZTMmH6D
+         YGbHTZ9RoOK/bBaFYK5K4Lnl2Ejgt2Ofg+gbJjTE3nH1DmYEnsaXxA2jZJpJV/EtakD6
+         vPbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=YUz06pZnKz52lqRpYNAE/X72JjI+Vf6k4/BCrzBH3FU=;
-        b=xA5taPOzfujHzZ43vu/5izkLsJkO1f6KJthGYw9uD/xCt8G2JLaM3nob1CdntpSjSV
-         91bFZGmPC4LT7lEnaClQ7WCuexjUKZnLEH1CecC4Tlop9XVeentQy5MjDc3ew34e8sWK
-         7B3iJS377kyHMT3sdGOgiRSZEJeRcpmpuF8mUZBkWnddYGOjEqsstS+8hRBe73ctX4+x
-         r3iqBP6kDc3Wmp5HeNba7ooFymTVi7sKNg03Lw4lKFzVY9a/UmN8DyhjJW7SHZ3wO54l
-         nWpcwxCrtRtDJmw7U0jAIUg13miIbnyBGLmJFzQKYFV1izIpCYo/6J8Or3FNgOzJeezF
-         V2sQ==
-X-Gm-Message-State: AOAM530gXz2hTcxpd/d+hVKyU1YRY/xmPy4kQNdXi8aHkls+4iVkWaJ2
-	zsX13UCq9OLXK9j+DLuyTzhE
-X-Google-Smtp-Source: ABdhPJzrwgJPFeeQitXNGNkm/WAGb5B3nYHnSFQ8Z1cdKI47rjuG824pm5t6p2DPKTjVrvwLezE0Fw==
-X-Received: by 2002:a63:5460:: with SMTP id e32mr27756006pgm.330.1643884490874;
-        Thu, 03 Feb 2022 02:34:50 -0800 (PST)
+        bh=Uq5/DMTs8fRuPax4HLgbapGYZfeXxnRQmS9fqIxNgqs=;
+        b=2hO/TM6fBxfmW9rkOIQnJxo6k8HVSkdIrwgsgGVjwM16E+8vGalMDGF9V436xCNBnP
+         9sc/A20HE6JBAcpxUSEs9lLDHFPy/sdD2mZiljxmWvCzMJ5vITBG4Zh2FPQyOwG5Voqy
+         +qb5JFtgOa3p1PWUiw2bj04iTdCLGToDMA/msfoMdI2qpQJRcFXELtrPPQgL0HFDRwgB
+         S/apM/vYglOY7kK5LSa54LNPCn/pJ3f27v7HK9e+54Enu+Eh2Gx2JrDs3LFGZ+/StSnT
+         nxcLS1l/ceG+kfENcInioB5RmevdBqXZXyPjut8yeP5cWJFpgD4w7P3LhRKBr0Rb2pe3
+         k3qQ==
+X-Gm-Message-State: AOAM5323814HwBePTh/7PnNO57yAGigTUoTe7ho8x0yWg89HBl4ZLMuQ
+	XFYx95BvTzAv4uM4cwX55pm+
+X-Google-Smtp-Source: ABdhPJwyRxdNOAL4umMYNtLN8ekSjgR3NXL/TlOD9cxPIqKiO4jKklp3k+QnPCfNT5qbiC7TGZ9CPQ==
+X-Received: by 2002:a17:902:ecc2:: with SMTP id a2mr34308793plh.12.1643887603427;
+        Thu, 03 Feb 2022 03:26:43 -0800 (PST)
 Received: from thinkpad ([117.217.179.179])
-        by smtp.gmail.com with ESMTPSA id m21sm29694312pfk.26.2022.02.03.02.34.46
+        by smtp.gmail.com with ESMTPSA id gb5sm9984464pjb.16.2022.02.03.03.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 02:34:50 -0800 (PST)
-Date: Thu, 3 Feb 2022 16:04:44 +0530
+        Thu, 03 Feb 2022 03:26:43 -0800 (PST)
+Date: Thu, 3 Feb 2022 16:56:35 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@ieee.org>
 Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
@@ -45,12 +45,12 @@ Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
 	skananth@codeaurora.org, vpernami@codeaurora.org,
 	vbadigan@codeaurora.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/20] bus: mhi: Make mhi_state_str[] array static const
- and move to common.h
-Message-ID: <20220203103444.GB6298@thinkpad>
+Subject: Re: [PATCH 04/20] bus: mhi: Cleanup the register definitions used in
+ headers
+Message-ID: <20220203112635.GC6298@thinkpad>
 References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
- <20211202113553.238011-4-manivannan.sadhasivam@linaro.org>
- <0d850b27-5684-2ecf-fc96-3258c0462d3d@ieee.org>
+ <20211202113553.238011-5-manivannan.sadhasivam@linaro.org>
+ <c6b60b30-5a9f-134b-b1fb-b84704a3ccb2@ieee.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -59,134 +59,82 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d850b27-5684-2ecf-fc96-3258c0462d3d@ieee.org>
+In-Reply-To: <c6b60b30-5a9f-134b-b1fb-b84704a3ccb2@ieee.org>
 
-On Wed, Jan 05, 2022 at 06:22:59PM -0600, Alex Elder wrote:
+On Wed, Jan 05, 2022 at 06:23:52PM -0600, Alex Elder wrote:
 > On 12/2/21 5:35 AM, Manivannan Sadhasivam wrote:
-> > mhi_state_str[] array could be used by MHI endpoint stack also. So let's
-> > make the array as "static const" and move it inside the "common.h" header
-> > so that the endpoint stack could also make use of it. Otherwise, the
-> > structure definition should be present in both host and endpoint stack and
-> > that'll result in duplication.
+> > Cleanup includes:
 > > 
+> > 1. Moving the MHI register bit definitions to common.h header (only the
+> >     register offsets differ between host and ep not the bit definitions)
+> 
+> The register offsets do differ, but the group of registers for the host
+> differs from the group of registers for the endpoint by a fixed amount.
+> (MHIREGLEN = 0x0000 for host, or 0x100 for endpoint; CRCBAP_LOWER is
+> 0x0068 for host, 0x0168 for endpoint.)
+> 
+> In other words, can you instead use the same symbolic offsets, but
+> have the endpoint add 0x0100 to them all?  It would make the fact
+> that they're both referencing the same basic in-memory structure
+> more obvious.
+> 
+
+Okay. I've used REG_ prefix for the register defines in common.h and used it on
+host and ep internal.h.
+
+> > 2. Using the GENMASK macro for masks
+> > 3. Removing brackets for single values
+> > 4. Using lowercase for hex values
+> 
+> Yay!!! For all three of the above.
+> 
+> More below.
+> 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> 
-> This result in common source code (which is good), but it will be
-> duplicated in everything that includes this file.
-> 
-> Do you have no common code, available to both the endpoint and host?
-> You could (in drivers/bus/mhi/common.c, for example).
-> 
-> If you don't, I have a different suggestion, below.  It does
-> basically the same thing you're doing here, but I much prefer
-> duplicating an inline function than a data structure.
-> 
 > > ---
-> >   drivers/bus/mhi/common.h    | 13 ++++++++++++-
-> >   drivers/bus/mhi/host/init.c | 12 ------------
-> >   2 files changed, 12 insertions(+), 13 deletions(-)
+> >   drivers/bus/mhi/common.h        | 129 ++++++++++++---
+> >   drivers/bus/mhi/host/internal.h | 282 +++++++++++---------------------
+> >   2 files changed, 207 insertions(+), 204 deletions(-)
 > > 
 > > diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> > index 0f4f3b9f3027..2ea438205617 100644
+> > index 2ea438205617..c1272d61e54e 100644
 > > --- a/drivers/bus/mhi/common.h
 > > +++ b/drivers/bus/mhi/common.h
-> > @@ -174,7 +174,18 @@ struct mhi_cmd_ctxt {
-> >   	__u64 wp __packed __aligned(4);
-> >   };
-> > -extern const char * const mhi_state_str[MHI_STATE_MAX];
-> > +static const char * const mhi_state_str[MHI_STATE_MAX] = {
-> > +	[MHI_STATE_RESET] = "RESET",
-> > +	[MHI_STATE_READY] = "READY",
-> > +	[MHI_STATE_M0] = "M0",
-> > +	[MHI_STATE_M1] = "M1",
-> > +	[MHI_STATE_M2] = "M2",
-> > +	[MHI_STATE_M3] = "M3",
-> > +	[MHI_STATE_M3_FAST] = "M3 FAST",
-> > +	[MHI_STATE_BHI] = "BHI",
-> > +	[MHI_STATE_SYS_ERR] = "SYS ERROR",
-> > +};
-> > +
-> >   #define TO_MHI_STATE_STR(state) ((state >= MHI_STATE_MAX || \
-> >   				  !mhi_state_str[state]) ? \
-> >   				"INVALID_STATE" : mhi_state_str[state])
+> > @@ -9,32 +9,123 @@
+> >   #include <linux/mhi.h>
+> > +/* MHI register bits */
+> > +#define MHIREGLEN_MHIREGLEN_MASK		GENMASK(31, 0)
+> > +#define MHIREGLEN_MHIREGLEN_SHIFT		0
 > 
-> You could easily and safely define this as an inline function instead.
+> Again, please eliminate all _SHIFT definitions where they define
+> the low bit position of a mask.
+> 
+> Maybe you can add some underscores for readability?
+> 
+> Even if you don't do that, you could add a comment here or there to
+> explain what certain abbreviations stand for, to make it easier to
+> understand.  E.g., CHDB = channel doorbell, CCA = channel context
+> array, BAP = base address pointer.
 > 
 
-Sounds good!
-
-> #define MHI_STATE_CASE(x)	case MHI_STATE_ ## x: return #x
-> static inline const char *mhi_state_string(enum mhi_state state)
-> {
-> 	switch(state) {
-> 	MHI_STATE_CASE(RESET);
-> 	MHI_STATE_CASE(READY);
-> 	MHI_STATE_CASE(M0);
-> 	MHI_STATE_CASE(M1);
-> 	MHI_STATE_CASE(M2);
-> 	MHI_STATE_CASE(M3_FAST);
-> 	MHI_STATE_CASE(BHI);
-> 	MHI_STATE_CASE(SYS_ERR);
-> 	default: return "(unrecognized MHI state)";
-> 	}
-> }
-> #undef MHI_STATE_CASE
-
-I've used the below one:
-
-static inline const char * const mhi_state_str(enum mhi_state state)
-{
-        switch(state) {
-        case MHI_STATE_RESET:
-                return "RESET";
-        case MHI_STATE_READY:
-                return "READY";
-        case MHI_STATE_M0:
-                return "M0";
-        case MHI_STATE_M1:
-                return "M1";
-        case MHI_STATE_M2:
-                return"M2";
-        case MHI_STATE_M3:
-                return"M3";
-        case MHI_STATE_M3_FAST:
-                return"M3 FAST";
-        case MHI_STATE_BHI:
-                return"BHI";
-        case MHI_STATE_SYS_ERR:
-                return "SYS ERROR";
-        default:
-                return "Unknown state";
-        }
-};
+I'll check on this.
 
 Thanks,
 Mani
 
-> 
 > 					-Alex
 > 
-> > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> > index 5aaca6d0f52b..fa904e7468d8 100644
-> > --- a/drivers/bus/mhi/host/init.c
-> > +++ b/drivers/bus/mhi/host/init.c
-> > @@ -44,18 +44,6 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
-> >   	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
-> >   };
-> > -const char * const mhi_state_str[MHI_STATE_MAX] = {
-> > -	[MHI_STATE_RESET] = "RESET",
-> > -	[MHI_STATE_READY] = "READY",
-> > -	[MHI_STATE_M0] = "M0",
-> > -	[MHI_STATE_M1] = "M1",
-> > -	[MHI_STATE_M2] = "M2",
-> > -	[MHI_STATE_M3] = "M3",
-> > -	[MHI_STATE_M3_FAST] = "M3 FAST",
-> > -	[MHI_STATE_BHI] = "BHI",
-> > -	[MHI_STATE_SYS_ERR] = "SYS ERROR",
-> > -};
-> > -
-> >   const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
-> >   	[MHI_CH_STATE_TYPE_RESET] = "RESET",
-> >   	[MHI_CH_STATE_TYPE_STOP] = "STOP",
-> > 
 > 
+> > +#define MHIVER_MHIVER_MASK			GENMASK(31, 0)
+> > +#define MHIVER_MHIVER_SHIFT			0
+> > +
+> > +#define MHICFG_NHWER_MASK			GENMASK(31, 24)
+> > +#define MHICFG_NHWER_SHIFT			24
+> > +#define MHICFG_NER_MASK				GENMASK(23, 16)
+> > +#define MHICFG_NER_SHIFT			16
+> > +#define MHICFG_NHWCH_MASK			GENMASK(15, 8)
+> > +#define MHICFG_NHWCH_SHIFT			8
+> > +#define MHICFG_NCH_MASK				GENMASK(7, 0)
+> > +#define MHICFG_NCH_SHIFT			0
+> 
+> . . .
