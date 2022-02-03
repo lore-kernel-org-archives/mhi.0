@@ -1,42 +1,42 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC52F24
-	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 11:26:43 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id o16-20020a17090aac1000b001b62f629953so9716970pjq.3
-        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 03:26:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C853B2F21
+	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 14:50:46 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id j16so2339755plx.4
+        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 06:50:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Uq5/DMTs8fRuPax4HLgbapGYZfeXxnRQmS9fqIxNgqs=;
-        b=Ef91hNFrpIdlJ9TU0MkJmzlt1Zgbgwl0/NWE6lzlyoS8mLYyBLu9rrWC6zZugLDtpH
-         NYa64tCW30GSiQilZSVPNaRDwCnXiaqw3I+uypHDA21Xiip5epi0WrRUnHRVL6l+qsGZ
-         1KaYJIBA7EbTvrX6viExwyBhEs3mPjAgruBtlhD7xa1ptDByDQE58TUGs+yht2rFIaeh
-         rshLI1i7gZQ4oL4L+rjWj3CJF7v262rHz4Uls8q0zvOcOUmmw6ODxtcuFWyrkZTMmH6D
-         YGbHTZ9RoOK/bBaFYK5K4Lnl2Ejgt2Ofg+gbJjTE3nH1DmYEnsaXxA2jZJpJV/EtakD6
-         vPbQ==
+        bh=aNrP5HMmu87g74sdJo7YqVy+2Qcae9OtdN44K0i5/Hc=;
+        b=mmPxdObEGo8KvDyASVPj53AiiWFGGjekW55fQ+LQTvC2Fm3vsvgABC8ltbL6U2uMTo
+         CiD8vhwjkb2DuGncdr7BMN24opkf4dzOvY9IvNC+p+SMArYG14ALpGvCNICrt6/HxH5a
+         7rTw3lYEsI5a90G2b6tMplv4ynzwObD96HbZNaB6lOwNITKB1fvfSGUBWOXbh9hKxmwS
+         D5LNl0Lf3lsfTDc9p7Y7sO8jsLbAFEJEb1SWvZWzjC2bva3zbWo8fP4oDe9o1cBuDgCB
+         2+3pFrlNn66LKDLxYUazHCFPiwkq29oWOmP+CQshlkpjGe6ANpwKnZU5aLPA6dmwV+MV
+         NrBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Uq5/DMTs8fRuPax4HLgbapGYZfeXxnRQmS9fqIxNgqs=;
-        b=2hO/TM6fBxfmW9rkOIQnJxo6k8HVSkdIrwgsgGVjwM16E+8vGalMDGF9V436xCNBnP
-         9sc/A20HE6JBAcpxUSEs9lLDHFPy/sdD2mZiljxmWvCzMJ5vITBG4Zh2FPQyOwG5Voqy
-         +qb5JFtgOa3p1PWUiw2bj04iTdCLGToDMA/msfoMdI2qpQJRcFXELtrPPQgL0HFDRwgB
-         S/apM/vYglOY7kK5LSa54LNPCn/pJ3f27v7HK9e+54Enu+Eh2Gx2JrDs3LFGZ+/StSnT
-         nxcLS1l/ceG+kfENcInioB5RmevdBqXZXyPjut8yeP5cWJFpgD4w7P3LhRKBr0Rb2pe3
-         k3qQ==
-X-Gm-Message-State: AOAM5323814HwBePTh/7PnNO57yAGigTUoTe7ho8x0yWg89HBl4ZLMuQ
-	XFYx95BvTzAv4uM4cwX55pm+
-X-Google-Smtp-Source: ABdhPJwyRxdNOAL4umMYNtLN8ekSjgR3NXL/TlOD9cxPIqKiO4jKklp3k+QnPCfNT5qbiC7TGZ9CPQ==
-X-Received: by 2002:a17:902:ecc2:: with SMTP id a2mr34308793plh.12.1643887603427;
-        Thu, 03 Feb 2022 03:26:43 -0800 (PST)
+        bh=aNrP5HMmu87g74sdJo7YqVy+2Qcae9OtdN44K0i5/Hc=;
+        b=yLizWiGzKvXzUGgezvBk/NDDTnMekRBIwyRYXTDm3KRRrvN7wpX21LJX/HEqHOe2O7
+         zNzoQYf0puRiheS3i0h5HzVuCfBF1ojTmENraMf5GDMp7uaKD2UJv7TKwNj+S0NilFkA
+         BWYEL2+Iplg2NkIOJhwuMnnxqI9rEL6gDIJ4pDQOsjetdd9UgE14EFfV2oXDkquX2D3j
+         cdppU+hOtJCBNOrPd+x0vGCdKCzpfxBrBPvpkAoFfhOzurPw7v2bbiRtVy71baBudAs2
+         FwIj2bam05gV9E7W9yLgtfCIMgGzXYAirDM8rKBgDIjo2tZ0ie8Jmc9/oy4nQKhx3nyv
+         MuFg==
+X-Gm-Message-State: AOAM532woKKJEzZNOyq5KgQh5dqVHUzRCdkzE+DK3icqvrHGVPYnkmpI
+	fHfqjc6YizBySYtYWuehKpHe
+X-Google-Smtp-Source: ABdhPJzKib6axrTBdUQf5O+ncbRh+sDkmMgQfI4HcwkV/zLo7YvpYI4SHepDKd1AFLVJ5MTADZ0kVg==
+X-Received: by 2002:a17:902:d4c6:: with SMTP id o6mr31385330plg.83.1643899846022;
+        Thu, 03 Feb 2022 06:50:46 -0800 (PST)
 Received: from thinkpad ([117.217.179.179])
-        by smtp.gmail.com with ESMTPSA id gb5sm9984464pjb.16.2022.02.03.03.26.38
+        by smtp.gmail.com with ESMTPSA id 38sm37432068pgm.37.2022.02.03.06.50.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 03:26:43 -0800 (PST)
-Date: Thu, 3 Feb 2022 16:56:35 +0530
+        Thu, 03 Feb 2022 06:50:44 -0800 (PST)
+Date: Thu, 3 Feb 2022 20:20:36 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@ieee.org>
 Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
@@ -45,12 +45,12 @@ Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
 	skananth@codeaurora.org, vpernami@codeaurora.org,
 	vbadigan@codeaurora.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/20] bus: mhi: Cleanup the register definitions used in
- headers
-Message-ID: <20220203112635.GC6298@thinkpad>
+Subject: Re: [PATCH 05/20] bus: mhi: ep: Add support for registering MHI
+ endpoint controllers
+Message-ID: <20220203145036.GD6298@thinkpad>
 References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
- <20211202113553.238011-5-manivannan.sadhasivam@linaro.org>
- <c6b60b30-5a9f-134b-b1fb-b84704a3ccb2@ieee.org>
+ <20211202113553.238011-6-manivannan.sadhasivam@linaro.org>
+ <dc338eb3-0c11-450f-bce0-9b515a969390@ieee.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -59,82 +59,483 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c6b60b30-5a9f-134b-b1fb-b84704a3ccb2@ieee.org>
+In-Reply-To: <dc338eb3-0c11-450f-bce0-9b515a969390@ieee.org>
 
-On Wed, Jan 05, 2022 at 06:23:52PM -0600, Alex Elder wrote:
+On Wed, Jan 05, 2022 at 06:26:51PM -0600, Alex Elder wrote:
 > On 12/2/21 5:35 AM, Manivannan Sadhasivam wrote:
-> > Cleanup includes:
+> > This commit adds support for registering MHI endpoint controller drivers
+> > with the MHI endpoint stack. MHI endpoint controller drivers manages
+> > the interaction with the host machines such as x86. They are also the
+> > MHI endpoint bus master in charge of managing the physical link between the
+> > host and endpoint device.
 > > 
-> > 1. Moving the MHI register bit definitions to common.h header (only the
-> >     register offsets differ between host and ep not the bit definitions)
-> 
-> The register offsets do differ, but the group of registers for the host
-> differs from the group of registers for the endpoint by a fixed amount.
-> (MHIREGLEN = 0x0000 for host, or 0x100 for endpoint; CRCBAP_LOWER is
-> 0x0068 for host, 0x0168 for endpoint.)
-> 
-> In other words, can you instead use the same symbolic offsets, but
-> have the endpoint add 0x0100 to them all?  It would make the fact
-> that they're both referencing the same basic in-memory structure
-> more obvious.
-> 
-
-Okay. I've used REG_ prefix for the register defines in common.h and used it on
-host and ep internal.h.
-
-> > 2. Using the GENMASK macro for masks
-> > 3. Removing brackets for single values
-> > 4. Using lowercase for hex values
-> 
-> Yay!!! For all three of the above.
-> 
-> More below.
-> 
+> > The endpoint controller driver encloses all information about the
+> > underlying physical bus like PCIe. The registration process involves
+> > parsing the channel configuration and allocating an MHI EP device.
+> > 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> See below.  Lots of little things, some I've said before.
+> 
 > > ---
-> >   drivers/bus/mhi/common.h        | 129 ++++++++++++---
-> >   drivers/bus/mhi/host/internal.h | 282 +++++++++++---------------------
-> >   2 files changed, 207 insertions(+), 204 deletions(-)
+> >   drivers/bus/mhi/Kconfig       |   1 +
+> >   drivers/bus/mhi/Makefile      |   3 +
+> >   drivers/bus/mhi/ep/Kconfig    |  10 ++
+> >   drivers/bus/mhi/ep/Makefile   |   2 +
+> >   drivers/bus/mhi/ep/internal.h | 158 +++++++++++++++++++++++
+> >   drivers/bus/mhi/ep/main.c     | 231 ++++++++++++++++++++++++++++++++++
+> >   include/linux/mhi_ep.h        | 140 +++++++++++++++++++++
+> >   7 files changed, 545 insertions(+)
+> >   create mode 100644 drivers/bus/mhi/ep/Kconfig
+> >   create mode 100644 drivers/bus/mhi/ep/Makefile
+> >   create mode 100644 drivers/bus/mhi/ep/internal.h
+> >   create mode 100644 drivers/bus/mhi/ep/main.c
+> >   create mode 100644 include/linux/mhi_ep.h
 > > 
-> > diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> > index 2ea438205617..c1272d61e54e 100644
-> > --- a/drivers/bus/mhi/common.h
-> > +++ b/drivers/bus/mhi/common.h
-> > @@ -9,32 +9,123 @@
-> >   #include <linux/mhi.h>
-> > +/* MHI register bits */
-> > +#define MHIREGLEN_MHIREGLEN_MASK		GENMASK(31, 0)
-> > +#define MHIREGLEN_MHIREGLEN_SHIFT		0
+
+[...]
+
+> > +/* MHI register definitions */
+> > +#define MHIREGLEN				0x100
 > 
-> Again, please eliminate all _SHIFT definitions where they define
-> the low bit position of a mask.
-> 
-> Maybe you can add some underscores for readability?
-> 
-> Even if you don't do that, you could add a comment here or there to
-> explain what certain abbreviations stand for, to make it easier to
-> understand.  E.g., CHDB = channel doorbell, CCA = channel context
-> array, BAP = base address pointer.
+> I really think it would be nice if these could be common between the
+> host and endpoint.
 > 
 
-I'll check on this.
+done
+
+> > +#define MHIVER					0x108
+> > +#define MHICFG					0x110
+> > +#define CHDBOFF					0x118
+> > +#define ERDBOFF					0x120
+> > +#define BHIOFF					0x128
+> > +#define DEBUGOFF				0x130
+> > +#define MHICTRL					0x138
+> > +#define MHISTATUS				0x148
+> > +#define CCABAP_LOWER				0x158
+> > +#define CCABAP_HIGHER				0x15c
+> > +#define ECABAP_LOWER				0x160
+> > +#define ECABAP_HIGHER				0x164
+> > +#define CRCBAP_LOWER				0x168
+> > +#define CRCBAP_HIGHER				0x16c
+> > +#define CRDB_LOWER				0x170
+> > +#define CRDB_HIGHER				0x174
+> > +#define MHICTRLBASE_LOWER			0x180
+> > +#define MHICTRLBASE_HIGHER			0x184
+> > +#define MHICTRLLIMIT_LOWER			0x188
+> > +#define MHICTRLLIMIT_HIGHER			0x18c
+> > +#define MHIDATABASE_LOWER			0x198
+> > +#define MHIDATABASE_HIGHER			0x19c
+> > +#define MHIDATALIMIT_LOWER			0x1a0
+> > +#define MHIDATALIMIT_HIGHER			0x1a4
+> 
+> It wouldn't hurt to have a one or two line comment explaining how
+> these compute the offset for a given channel or event ring's
+> doorbell register.
+> 
+> I think you could use decimal for the multiplier (8 rather than 0x8),
+> but maybe you prefer not mixing that with a hex base offset.
+> 
+> Overall though, take a look at the macros you define like this.
+> See if you can decide on whether you can settle on a consistent
+> form.  Some places you use decimal, others hex.  It's not a
+> big deal, but consistency always helps.
+> 
+
+Will look.
+
+> > +#define CHDB_LOWER_n(n)				(0x400 + 0x8 * (n))
+> > +#define CHDB_HIGHER_n(n)			(0x404 + 0x8 * (n))
+> > +#define ERDB_LOWER_n(n)				(0x800 + 0x8 * (n))
+> > +#define ERDB_HIGHER_n(n)			(0x804 + 0x8 * (n))
+> > +#define BHI_INTVEC				0x220
+> > +#define BHI_EXECENV				0x228
+> > +#define BHI_IMGTXDB				0x218
+> > +
+> 
+> Will the AP always be an "A7"?
+> 
+
+That's the register defined in the register manual. So I'd like to keep it for
+now.
+
+> > +#define MHI_CTRL_INT_STATUS_A7			0x4
+> > +#define MHI_CTRL_INT_STATUS_A7_MSK		BIT(0)
+> > +#define MHI_CTRL_INT_STATUS_CRDB_MSK		BIT(1)
+> > +#define MHI_CHDB_INT_STATUS_A7_n(n)		(0x28 + 0x4 * (n))
+> > +#define MHI_ERDB_INT_STATUS_A7_n(n)		(0x38 + 0x4 * (n))
+> > +
+> > +#define MHI_CTRL_INT_CLEAR_A7			0x4c
+> > +#define MHI_CTRL_INT_MMIO_WR_CLEAR		BIT(2)
+> > +#define MHI_CTRL_INT_CRDB_CLEAR			BIT(1)
+> > +#define MHI_CTRL_INT_CRDB_MHICTRL_CLEAR		BIT(0)
+> > +
+> > +#define MHI_CHDB_INT_CLEAR_A7_n(n)		(0x70 + 0x4 * (n))
+> > +#define MHI_CHDB_INT_CLEAR_A7_n_CLEAR_ALL	GENMASK(31, 0)
+> > +#define MHI_ERDB_INT_CLEAR_A7_n(n)		(0x80 + 0x4 * (n))
+> > +#define MHI_ERDB_INT_CLEAR_A7_n_CLEAR_ALL	GENMASK(31, 0)
+> > +
+> 
+> The term "MASK" here might be confusing.  Does a bit set in
+> this mask register indicate an interrupt is enabled, or
+> disabled (masked)?  A comment (here or where used) could
+> clear it up without renaming the symbol.
+> 
+
+I agree that it is confusing but that's how the platform defines it. Will add a
+comment though.
+
+> > +#define MHI_CTRL_INT_MASK_A7			0x94
+> > +#define MHI_CTRL_INT_MASK_A7_MASK_MASK		GENMASK(1, 0)
+> > +#define MHI_CTRL_MHICTRL_MASK			BIT(0)
+> > +#define MHI_CTRL_MHICTRL_SHFT			0
+> > +#define MHI_CTRL_CRDB_MASK			BIT(1)
+> > +#define MHI_CTRL_CRDB_SHFT			1
+> 
+> Use SHIFT or SHFT (not both), consistently.  (But get rid of
+> this shift definition, and others like it...)
+> 
+
+Done
+
+> > +#define MHI_CHDB_INT_MASK_A7_n(n)		(0xb8 + 0x4 * (n))
+> > +#define MHI_CHDB_INT_MASK_A7_n_EN_ALL		GENMASK(31, 0)
+> > +#define MHI_ERDB_INT_MASK_A7_n(n)		(0xc8 + 0x4 * (n))
+> > +#define MHI_ERDB_INT_MASK_A7_n_EN_ALL		GENMASK(31, 0)
+> > +
+> > +#define NR_OF_CMD_RINGS				1
+> 
+> Is there ever any reason to believe there will be more than one
+> command ring for a given MHI instance?  I kept seeing loops over
+> NR_OF_CMD_RINGS, and it just seemed silly.
+> 
+
+It was added for future compatibility and the spec doesn't mention that there is
+only one command ring.
+
+> > +#define MHI_MASK_ROWS_CH_EV_DB			4
+> > +#define MHI_MASK_CH_EV_LEN			32
+> > +
+> > +/* Generic context */
+> 
+> Maybe define the entire structure as packed and aligned.
+> 
+
+Justified in previous patch.
+
+> > +struct mhi_generic_ctx {
+> > +	__u32 reserved0;
+> > +	__u32 reserved1;
+> > +	__u32 reserved2;
+> > +
+> > +	__u64 rbase __packed __aligned(4);
+> > +	__u64 rlen __packed __aligned(4);
+> > +	__u64 rp __packed __aligned(4);
+> > +	__u64 wp __packed __aligned(4);
+> > +};
+> 
+> Are these structures defined separately for host and endpoint?
+> (I've lost track...  If they are, it would be better to define
+> them in common.)
+> 
+
+Channel, Event and command contexts are common and they are already defined in
+common.h. This one is specific to endpoint.
+
+> > +
+> > +enum mhi_ep_ring_state {
+> > +	RING_STATE_UINT = 0,
+> 
+> I think "UINT" is a *terrible* abbreviation to represent
+> "uninitialized".
+> 
+> > +	RING_STATE_IDLE,
+> 
+> Since there are only two states, uninitialized or idle, maybe
+> you can get rid of this enum definition and just define the
+> ring state with "bool initialized".
+> 
+
+okay
+
+> > +};
+> > +
+> > +enum mhi_ep_ring_type {
+> 
+> Is the value 0 significant to hardware?  If not, there's no need
+> to define the numeric value on this first symbol.
+> 
+> > +	RING_TYPE_CMD = 0,
+> > +	RING_TYPE_ER,
+> > +	RING_TYPE_CH,
+> 
+> I don't think you ever use RING_TYPE_INVALID, so it does
+> not need to be defined.
+> 
+
+ack
+
+> > +	RING_TYPE_INVALID,
+> > +};
+> > +
+> 
+> I prefer a more meaningful structure definition than this (as
+> mentioned in I think the first patch).
+> 
+> > +struct mhi_ep_ring_element {
+> > +	u64 ptr;
+> > +	u32 dword[2];
+> > +};
+> > +
+> > +/* Transfer ring element type */
+> 
+> Not transfer ring, just ring.  Command, transfer, and event
+> ring descriptors are different things.
+> 
+
+ack
+
+> > +union mhi_ep_ring_ctx {
+> > +	struct mhi_cmd_ctxt cmd;
+> > +	struct mhi_event_ctxt ev;
+> > +	struct mhi_chan_ctxt ch;
+> > +	struct mhi_generic_ctx generic;
+> > +};
+> > +
+
+[...]
+
+> > +static void mhi_ep_release_device(struct device *dev)
+> > +{
+> > +	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
+> > +
+> > +	/*
+> > +	 * We need to set the mhi_chan->mhi_dev to NULL here since the MHI
+> > +	 * devices for the channels will only get created if the mhi_dev
+> > +	 * associated with it is NULL.
+> 
+> Maybe say where in the code what the comment above says happens.
+> 
+
+okay
+
+> > +	 */
+> > +	if (mhi_dev->ul_chan)
+> > +		mhi_dev->ul_chan->mhi_dev = NULL;
+> > +
+> > +	if (mhi_dev->dl_chan)
+> > +		mhi_dev->dl_chan->mhi_dev = NULL;
+> > +
+> > +	kfree(mhi_dev);
+> > +}
+> > +
+> > +static struct mhi_ep_device *mhi_ep_alloc_device(struct mhi_ep_cntrl *mhi_cntrl)
+> > +{
+> > +	struct mhi_ep_device *mhi_dev;
+> > +	struct device *dev;
+> > +
+> > +	mhi_dev = kzalloc(sizeof(*mhi_dev), GFP_KERNEL);
+> > +	if (!mhi_dev)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	dev = &mhi_dev->dev;
+> > +	device_initialize(dev);
+> > +	dev->bus = &mhi_ep_bus_type;
+> > +	dev->release = mhi_ep_release_device;
+> > +
+> 
+> I think you should pass the MHI device type as argument here, and
+> set it within this function.  Then use it in the test below, rather
+> than assuming the mhi_dev pointer will be NULL for the controller
+> only.  Maybe you should set the mhi_dev pointer here as well.
+> 
+
+Makes sense.
+
+I was trying to align with host MHI stack that does the same way.
+But I'll change it in ep and will do the same on host later.
+
+> > +	if (mhi_cntrl->mhi_dev) {
+> > +		/* for MHI client devices, parent is the MHI controller device */
+> > +		dev->parent = &mhi_cntrl->mhi_dev->dev;
+> > +	} else {
+> > +		/* for MHI controller device, parent is the bus device (e.g. PCI EPF) */
+> > +		dev->parent = mhi_cntrl->cntrl_dev;
+> > +	}
+> > +
+> > +	mhi_dev->mhi_cntrl = mhi_cntrl;
+> > +
+> > +	return mhi_dev;
+> > +}
+> > +
+> > +static int parse_ch_cfg(struct mhi_ep_cntrl *mhi_cntrl,
+> > +			const struct mhi_ep_cntrl_config *config)
+> > +{
+> > +	const struct mhi_ep_channel_config *ch_cfg;
+> > +	struct device *dev = mhi_cntrl->cntrl_dev;
+> > +	u32 chan, i;
+> > +	int ret = -EINVAL;
+> > +
+> > +	mhi_cntrl->max_chan = config->max_channels;
+> > +
+> > +	/*
+> > +	 * Allocate max_channels supported by the MHI endpoint and populate
+> > +	 * only the defined channels
+> > +	 */
+> > +	mhi_cntrl->mhi_chan = kcalloc(mhi_cntrl->max_chan, sizeof(*mhi_cntrl->mhi_chan),
+> > +				      GFP_KERNEL);
+> > +	if (!mhi_cntrl->mhi_chan)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i = 0; i < config->num_channels; i++) {
+> > +		struct mhi_ep_chan *mhi_chan;
+> > +
+> > +		ch_cfg = &config->ch_cfg[i];
+> > +
+> > +		chan = ch_cfg->num;
+> > +		if (chan >= mhi_cntrl->max_chan) {
+> > +			dev_err(dev, "Channel %d not available\n", chan);
+> > +			goto error_chan_cfg;
+> > +		}
+> > +
+> > +		mhi_chan = &mhi_cntrl->mhi_chan[chan];
+> > +		mhi_chan->name = ch_cfg->name;
+> > +		mhi_chan->chan = chan;
+> > +		mhi_chan->dir = ch_cfg->dir;
+> > +		mutex_init(&mhi_chan->lock);
+> 
+> Move the error check below earlier, before assigning other values.
+> 
+
+ack
+
+> > +		/* Bi-directional and direction less channels are not supported */
+> > +		if (mhi_chan->dir == DMA_BIDIRECTIONAL || mhi_chan->dir == DMA_NONE) {
+> > +			dev_err(dev, "Invalid channel configuration\n");
+> > +			goto error_chan_cfg;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +error_chan_cfg:
+> > +	kfree(mhi_cntrl->mhi_chan);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/*
+> > + * Allocate channel and command rings here. Event rings will be allocated
+> > + * in mhi_ep_power_up() as the config comes from the host.
+> > + */
+> > +int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> > +				const struct mhi_ep_cntrl_config *config)
+> > +{
+> > +	struct mhi_ep_device *mhi_dev;
+> 
+> Perhaps you could use a convention like "ep_dev" (and later, "ep_drv")
+> to represent an mhi_ep_device, different from "mhi_dev" representing
+> an mhi_device.
+> 
+
+This is done to align with the host MHI stack, so that it'll be easy to spot
+the MHI device pointer.
+
+> > +	int ret;
+> > +
+> > +	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev)
+> > +		return -EINVAL;
+> > +
+> > +	ret = parse_ch_cfg(mhi_cntrl, config);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> 
+> NR_OF_CMD_RINGS is 1, and I think always will be, right?  This and
+> elsewhere could be simplified if we just accept that.
+> 
+
+For now yes, but it could be changed in future.
+
+> > +	mhi_cntrl->mhi_cmd = kcalloc(NR_OF_CMD_RINGS, sizeof(*mhi_cntrl->mhi_cmd), GFP_KERNEL);
+> > +	if (!mhi_cntrl->mhi_cmd) {
+> > +		ret = -ENOMEM;
+> > +		goto err_free_ch;
+> > +	}
+> > +
+> > +	/* Set controller index */
+> > +	mhi_cntrl->index = ida_alloc(&mhi_ep_cntrl_ida, GFP_KERNEL);
+> > +	if (mhi_cntrl->index < 0) {
+> > +		ret = mhi_cntrl->index;
+> > +		goto err_free_cmd;
+> > +	}
+> > +
+> > +	/* Allocate the controller device */
+> > +	mhi_dev = mhi_ep_alloc_device(mhi_cntrl);
+> > +	if (IS_ERR(mhi_dev)) {
+> > +		dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate controller device\n");
+> > +		ret = PTR_ERR(mhi_dev);
+> > +		goto err_ida_free;
+> > +	}
+> > +
+> > +	mhi_dev->dev_type = MHI_DEVICE_CONTROLLER;
+> > +	dev_set_name(&mhi_dev->dev, "mhi_ep%d", mhi_cntrl->index);
+> > +	mhi_dev->name = dev_name(&mhi_dev->dev);
+> > +
+> > +	ret = device_add(&mhi_dev->dev);
+> > +	if (ret)
+> > +		goto err_release_dev;
+> 
+> goto err_put_device?
+> 
+
+okay
+
+> > +
+> > +	mhi_cntrl->mhi_dev = mhi_dev;
+> > +
+> > +	dev_dbg(&mhi_dev->dev, "MHI EP Controller registered\n");
+> > +
+> > +	return 0;
+> > +
+> > +err_release_dev:
+> > +	put_device(&mhi_dev->dev);
+> > +err_ida_free:
+> > +	ida_free(&mhi_ep_cntrl_ida, mhi_cntrl->index);
+> > +err_free_cmd:
+> > +	kfree(mhi_cntrl->mhi_cmd);
+> > +err_free_ch:
+> > +	kfree(mhi_cntrl->mhi_chan);
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(mhi_ep_register_controller);
+> > +
+
+[...]
+
+> > +struct mhi_ep_device {
+> > +	struct device dev;
+> > +	struct mhi_ep_cntrl *mhi_cntrl;
+> > +	const struct mhi_device_id *id;
+> > +	const char *name;
+> > +	struct mhi_ep_chan *ul_chan;
+> > +	struct mhi_ep_chan *dl_chan;
+> 
+> Could the dev_type just be:    bool controller?
+> 
+
+Again, this is done the same way as host. Will change it later if needed.
+
+> > +	enum mhi_device_type dev_type;
+> > +	int ul_chan_id;
+> 
+> Can't you ust use ul_chan->chan and dl_chan->chan?
+> 
+> In any case, I think the channel ids should be u32.
+> 
+
+This is not used for now as well. I'll just remove it.
 
 Thanks,
 Mani
-
-> 					-Alex
-> 
-> 
-> > +#define MHIVER_MHIVER_MASK			GENMASK(31, 0)
-> > +#define MHIVER_MHIVER_SHIFT			0
-> > +
-> > +#define MHICFG_NHWER_MASK			GENMASK(31, 24)
-> > +#define MHICFG_NHWER_SHIFT			24
-> > +#define MHICFG_NER_MASK				GENMASK(23, 16)
-> > +#define MHICFG_NER_SHIFT			16
-> > +#define MHICFG_NHWCH_MASK			GENMASK(15, 8)
-> > +#define MHICFG_NHWCH_SHIFT			8
-> > +#define MHICFG_NCH_MASK				GENMASK(7, 0)
-> > +#define MHICFG_NCH_SHIFT			0
-> 
-> . . .
