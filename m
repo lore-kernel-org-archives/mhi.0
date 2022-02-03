@@ -1,42 +1,42 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB14D2F21
-	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 14:53:17 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id m7so2673953pjk.0
-        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 06:53:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E772F21
+	for <mhi@lists.linux.dev>; Thu,  3 Feb 2022 15:13:40 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id p12-20020a17090a2d8c00b001b833dec394so3321768pjd.0
+        for <mhi@lists.linux.dev>; Thu, 03 Feb 2022 07:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=8qnnOceM2maKM4v0lSRw1xHTuBRgkTs7X+4u4TyFAGI=;
-        b=mT8FyMffjwgFEfqNqfaAAgc08iUgWtx+YD3f3kKE2K+Upcs7PoWqjbbpFft36lFMot
-         LkFLa9Q3+EEppuvpEzQzm6EOG5tB09kXhqabBoTbN9RYqUlMDPBTYB86QbLXjRW8gssh
-         eiVinT+twyHtBQEfeRpzhYD/VG8mJaKn/SDmoQDOpBUCmJ7UzoLi+h/czKtdzhrmnS2r
-         FhpLXur1gQk1lhyINuKNA3lAGDiReE7ADi3PR3erNA2jkrfbRNx6zORBU+fCfW7e/slj
-         HhAFIK24SRSEPmXPRGB9/wMmivMzSk+RmUYzx2suoMZXfQGwHiEa3lr87W8xP7uN5QEM
-         6Hkg==
+        bh=ODbvf1Ryrte+WtyXtkFy4143hA54VvL0jc79zCOMbQM=;
+        b=Xpqy2kEoGwLDC0mCgToEY8c8KliIw3idiUMi1ofIlZm5VtTFRQykgcvaq58u/9/z7/
+         1z2D6Pp5D4I3IjQXPC/4BU85LhwCCtr5h6P2EJTBhuojlrnkbPrcIOCnrwvMVnEK8QWZ
+         G8WJlEEbag51npuNt4EwyeGaK9XiT6KIRL8qAMe8b4huksbwm0YZrdZwzGsjJ+RQtADu
+         xZZX2L5v7wcTW4lGB5OKkFiYuaXhl7UVzbm3bTcd9CjoGe8m7TWvcT9dsyvigIYwLcts
+         TdGJgdL4BRdIL7pi0KsjfRBLAj/t2wCNaB11EVMQCYyr5/7Q94lCs2Zq1+wnesiQ8XUZ
+         rOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8qnnOceM2maKM4v0lSRw1xHTuBRgkTs7X+4u4TyFAGI=;
-        b=lpLD1V5wpH0JiMsNimrs3O8kCBInYUjUUCKXsrkHTF+e2mdjva5AGi7TWXheWc/n76
-         hIRnkAs4NbN+6Bx/v0x6HvaERObm3VRFF7IjoRAoIJx2hkEUmO1Zo6ygWmjOqs1xUkxu
-         picgsz+0+RL4q9DvMNp2hQ3dMbD+3E5u6llOpFKJ7fwTIHThhpVNi62y4hOIgp7IibTH
-         NS9paNRpT3wRo44i0pHiDqxtZbrGHmF19nb0gWUJsDZFuEv2aPbapmOLApFWjQSHXY49
-         2Hm8zbwWQfuynkMZ7q5aBpRx7/oNG9PHyge3KlzjNjsPAb+IE3ZHkOXgyv4MrADDAB+k
-         BXUA==
-X-Gm-Message-State: AOAM532uPWuCUvkVCsEJeFbRySpzkrLXOhZNUkGrZyi5fl2HKkaDPrO2
-	LBNDnwCPDw3MQoy55deMyKlG
-X-Google-Smtp-Source: ABdhPJxH+6KG3W9j50KVO7amcvvAvn/n7C/+nUlj7xSU1j/h/OoVhmEVNEidAm5IlJgkUZLD+ImB0g==
-X-Received: by 2002:a17:902:bb83:: with SMTP id m3mr35765124pls.114.1643899997166;
-        Thu, 03 Feb 2022 06:53:17 -0800 (PST)
+        bh=ODbvf1Ryrte+WtyXtkFy4143hA54VvL0jc79zCOMbQM=;
+        b=8LgId/ah7uNr7FKMSc6L3g/bmrZ2+Hum/wsO2Xk0DickeVdO6myNok26MvQuhx7vgV
+         8oHimkRVxYuK84iND/PgboRrVDF7aU1AiMiTuVF1FIEJk5K/yvgtJTAWixpgYVR3WIYN
+         s7e2BS71I2nw6rA7Hzfpi66ZB8+yngEGL9IGVFmlAUS6T3jFSILaXY5CXGoH6mYBzFdP
+         x5B7Q/NGbnkxWLPOFOI0p4+pajc+wzAz1acz+vc073VNxuP2x0lZgdFWskQbK4wzApnD
+         xjhfV7e7JMhapHxoKMH3OtMWZU8fOM3wRfsMy/NoMaeQDeVte8C+tqDHmySUcgwIS+3o
+         jb3g==
+X-Gm-Message-State: AOAM533hT+3D7UVG2MWNMvyCvAZffs5Eab3cXRFRH0m7veb7Rca6iMTi
+	ucEodOVJNaNRIFNUfcQ6EvyS
+X-Google-Smtp-Source: ABdhPJxXaBOJ7l5/8YGUfcYE3/XIkm967Wz6CW1H6z+lH490LRb4Td71zcb83YXBKH2gRBpFTXy6lg==
+X-Received: by 2002:a17:902:ced2:: with SMTP id d18mr36412629plg.21.1643901219339;
+        Thu, 03 Feb 2022 07:13:39 -0800 (PST)
 Received: from thinkpad ([117.217.179.179])
-        by smtp.gmail.com with ESMTPSA id g17sm11817434pfj.148.2022.02.03.06.53.12
+        by smtp.gmail.com with ESMTPSA id n42sm28977548pfv.29.2022.02.03.07.13.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 06:53:16 -0800 (PST)
-Date: Thu, 3 Feb 2022 20:23:09 +0530
+        Thu, 03 Feb 2022 07:13:38 -0800 (PST)
+Date: Thu, 3 Feb 2022 20:43:31 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@ieee.org>
 Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
@@ -45,12 +45,12 @@ Cc: mhi@lists.linux.dev, hemantk@codeaurora.org, bbhatt@codeaurora.org,
 	skananth@codeaurora.org, vpernami@codeaurora.org,
 	vbadigan@codeaurora.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/20] bus: mhi: ep: Add support for registering MHI
- endpoint client drivers
-Message-ID: <20220203145309.GE6298@thinkpad>
+Subject: Re: [PATCH 07/20] bus: mhi: ep: Add support for creating and
+ destroying MHI EP devices
+Message-ID: <20220203151331.GF6298@thinkpad>
 References: <20211202113553.238011-1-manivannan.sadhasivam@linaro.org>
- <20211202113553.238011-7-manivannan.sadhasivam@linaro.org>
- <06628c19-7839-2719-3263-7ab2b4410502@ieee.org>
+ <20211202113553.238011-8-manivannan.sadhasivam@linaro.org>
+ <08a3b725-d211-b363-a3b4-2a325367b976@ieee.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -59,52 +59,93 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <06628c19-7839-2719-3263-7ab2b4410502@ieee.org>
+In-Reply-To: <08a3b725-d211-b363-a3b4-2a325367b976@ieee.org>
 
-On Wed, Jan 05, 2022 at 06:27:33PM -0600, Alex Elder wrote:
+On Wed, Jan 05, 2022 at 06:28:08PM -0600, Alex Elder wrote:
 > On 12/2/21 5:35 AM, Manivannan Sadhasivam wrote:
-> > This commit adds support for registering MHI endpoint client drivers
-> > with the MHI endpoint stack. MHI endpoint client drivers binds to one
-> > or more MHI endpoint devices inorder to send and receive the upper-layer
-> > protocol packets like IP packets, modem control messages, and diagnostics
-> > messages over MHI bus.
+> > This commit adds support for creating and destroying MHI endpoint devices.
+> > The MHI endpoint devices binds to the MHI endpoint channels and are used
+> > to transfer data between MHI host and endpoint device.
+> > 
+> > There is a single MHI EP device for each channel pair. The devices will be
+> > created when the corresponding channels has been started by the host and
+> > will be destroyed during MHI EP power down and reset.
 > > 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > > ---
 > >   drivers/bus/mhi/ep/main.c | 85 +++++++++++++++++++++++++++++++++++++++
-> >   include/linux/mhi_ep.h    | 53 ++++++++++++++++++++++++
-> >   2 files changed, 138 insertions(+)
+> >   1 file changed, 85 insertions(+)
 > > 
 > > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> > index db664360c8ab..ce0f99f22058 100644
+> > index ce0f99f22058..f0b5f49db95a 100644
 > > --- a/drivers/bus/mhi/ep/main.c
 > > +++ b/drivers/bus/mhi/ep/main.c
-> > @@ -193,9 +193,88 @@ void mhi_ep_unregister_controller(struct mhi_ep_cntrl *mhi_cntrl)
+> > @@ -63,6 +63,91 @@ static struct mhi_ep_device *mhi_ep_alloc_device(struct mhi_ep_cntrl *mhi_cntrl)
+> >   	return mhi_dev;
 > >   }
-> >   EXPORT_SYMBOL_GPL(mhi_ep_unregister_controller);
-> > +static int mhi_ep_driver_probe(struct device *dev)
+> > +static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id)
 > > +{
-> > +	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-> > +	struct mhi_ep_driver *mhi_drv = to_mhi_ep_driver(dev->driver);
-> > +	struct mhi_ep_chan *ul_chan = mhi_dev->ul_chan;
-> > +	struct mhi_ep_chan *dl_chan = mhi_dev->dl_chan;
+> > +	struct mhi_ep_device *mhi_dev;
+> > +	struct mhi_ep_chan *mhi_chan = &mhi_cntrl->mhi_chan[ch_id];
+> > +	int ret;
 > > +
+> > +	mhi_dev = mhi_ep_alloc_device(mhi_cntrl);
+> > +	if (IS_ERR(mhi_dev))
+> > +		return PTR_ERR(mhi_dev);
+> > +
+> > +	mhi_dev->dev_type = MHI_DEVICE_XFER;
 > 
-> Either ul_chan or dl_chan must be set, right?  Check this.
-> Otherwise I think this looks OK.
+> Elsewhere (at least in mhi_ep_process_tre_ring()) in your code
+> you assume that the even-numbered channel is UL.
+> 
+> I would say, either use that assumption throughout, or do
+> not use that assumption at all.  (I prefer the latter.)
+> 
+> I don't really like how this assumes that the channels
+> are defined in adjacent pairs.  It assumes one is
+> upload and the next one is download, but doesn't
+> specify the order in which they're defined.  If
+> you're going to assume they are defined in pairs, you
+> should be able to assume which one is defined first,
+> and then simplify this code (and even verify that
+> they are defined UL before DL, perhaps).
 > 
 
-done
+Yes, the UL channel is always even numbered and DL is odd.
+I've removed the checks.
 
-> 					-Alex
-> 
-> > +	if (ul_chan)
-> > +		ul_chan->xfer_cb = mhi_drv->ul_xfer_cb;
+> > +	/* Configure primary channel */
+> > +	if (mhi_chan->dir == DMA_TO_DEVICE) {
+> > +		mhi_dev->ul_chan = mhi_chan;
+> > +		mhi_dev->ul_chan_id = mhi_chan->chan;
+> > +	} else {
+> > +		mhi_dev->dl_chan = mhi_chan;
+> > +		mhi_dev->dl_chan_id = mhi_chan->chan;
+> > +	}
 > > +
-> > +	if (dl_chan)
-> > +		dl_chan->xfer_cb = mhi_drv->dl_xfer_cb;
+> > +	get_device(&mhi_dev->dev);
+> > +	mhi_chan->mhi_dev = mhi_dev;
 > > +
-> > +	return mhi_drv->probe(mhi_dev, mhi_dev->id);
-> > +}
+> > +	/* Configure secondary channel as well */
+> > +	mhi_chan++;
+> > +	if (mhi_chan->dir == DMA_TO_DEVICE) {
+> > +		mhi_dev->ul_chan = mhi_chan;
+> > +		mhi_dev->ul_chan_id = mhi_chan->chan;
+> > +	} else {
+> > +		mhi_dev->dl_chan = mhi_chan;
+> > +		mhi_dev->dl_chan_id = mhi_chan->chan;
+> > +	}
+> > +
+> > +	get_device(&mhi_dev->dev);
+> > +	mhi_chan->mhi_dev = mhi_dev;
+> > +
+> > +	/* Channel name is same for both UL and DL */
 > 
-> . . .
+> You could verify the two channels indeed have the
+> same name.
+> 
+
+done.
+
+Thanks,
+Mani
