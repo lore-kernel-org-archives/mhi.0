@@ -1,94 +1,73 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6562C80
-	for <mhi@lists.linux.dev>; Sat,  5 Feb 2022 13:57:44 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id oa14-20020a17090b1bce00b001b61aed4a03so8837874pjb.5
-        for <mhi@lists.linux.dev>; Sat, 05 Feb 2022 05:57:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0+gDcwKFt260uCvDNcXKUjFFsl38YOMRKAZVrvcRdwE=;
-        b=XlJ5yMs426ODFx+xgWqfUcLqFmH4PL2v8lpt6L59iacJBmvu9Ngw0SiwPOBMqMsTDL
-         xt/lgG6904HeSdebFAtVTpHP03tBQnY/oRTg/+qp8vwAPOaj4oqSmt4+/3M8qD6mbujh
-         Z87DCD256gmoB8zo64VldVSX9tyhiuyAcHY6HP/8+yXPWWirDzQmUS29ZOGerFwgBcdq
-         qKUhDOZhBLnl0U9FHyc0QD1LsQi2UIZwjRQu1lREbQSAdhizuXqvJZJC9Ysvde+X6TJo
-         n/iWyXXcIN7+Mm8dqttMLJw233iQb6ium4e3/68UJHvHoieuPkYEtD9JvXZZ5jPfOEho
-         dWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0+gDcwKFt260uCvDNcXKUjFFsl38YOMRKAZVrvcRdwE=;
-        b=bcNzHTai/OJNMmdyu3SyN/KgOS07yqfWIXgzPD9PQIAagT3GgHd9tpLxkXE/eKY9wZ
-         zht8xzlPwN2WzhQMmCAwuDLB2lYKLbRg/e5tVNrJLc+kb5ZmucBlhkIZHA1OATsCxfKA
-         GjhcgDJ6Ow6TAb+Soyz43dmDJl6H179bHSGyPMRTa+9OynijTefq+rwEyZ11C6O2KncG
-         aZu4AwOrk1TjY3aLVppOoOkGQdJPu/msk0e/LoC0EA4y0o6wkYOTP48VJyNvNMKua/o3
-         GfmT+MXnk/x2XjNR233EDuchLMK/Bp/R2xj4w6uFafLxYQiO0KLZuIif4HMiazBBq75k
-         H/og==
-X-Gm-Message-State: AOAM531EBr+KQsiIPucaMTOxbz586Lr3iQ4FM8wTyUW9wAeBwWsDD1WB
-	EsYmg1R0yhvaXau6d0kMkU7J
-X-Google-Smtp-Source: ABdhPJwFGqmH4T3wyyAlgOBztWunQqSqTZ7RAMNcABX8QqwkGCpTVL0Ji9MYBQtqWT5fGGbf5WptxA==
-X-Received: by 2002:a17:902:e0cd:: with SMTP id e13mr1591531pla.15.1644069463788;
-        Sat, 05 Feb 2022 05:57:43 -0800 (PST)
-Received: from localhost.localdomain ([220.158.158.32])
-        by smtp.gmail.com with ESMTPSA id z13sm6355533pfe.20.2022.02.05.05.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Feb 2022 05:57:43 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev,
-	hemantk@codeaurora.org,
-	bbhatt@codeaurora.org,
-	Slark Xiao <slark_xiao@163.com>,
-	stable@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 2/2] bus: mhi: pci_generic: Add mru_default for Cinterion MV31-W
-Date: Sat,  5 Feb 2022 19:27:31 +0530
-Message-Id: <20220205135731.157871-3-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220205135731.157871-1-manivannan.sadhasivam@linaro.org>
-References: <20220205135731.157871-1-manivannan.sadhasivam@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643DE2F25
+	for <mhi@lists.linux.dev>; Mon,  7 Feb 2022 08:40:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3CDEC004E1;
+	Mon,  7 Feb 2022 08:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1644223214;
+	bh=OXu4ePF9KnYMXzbzhryuJjA+Qn2NlR5TcqjF8HO8C1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XOKg1tHXXyriKEFLh5p1wdnUqD8okrg/yiG277ztoueOy+HUbu3BTM7esXttteLqc
+	 /xEpc3ZVmxG3JaAk0YypUx3Pae73MsXwEcPVrMTXmf8KaXTmg8DvrgufdWwbPI0/6d
+	 kmdEPaM+CvRH3dwveMFzmYwKmqiGsmhHK/rq+fqqKM2X0iZ7PMOVxP5h8A2q0DGp5W
+	 vtMqrcgzYMs9vzmmdInh/Ql7ogC56Upl9kbg8UN7v2pNcozbJnLmi+L4aVHlSxb6sI
+	 maSOv4KaBsdo32ETV936V5isjB1Kr7SIMN+XH6gKwLyPAf4dCs/tYI3xiTpeH+xME1
+	 qrTu2tpCBCZkw==
+Date: Mon, 7 Feb 2022 14:10:07 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yonglin Tan <yonglin.tan@outlook.com>
+Cc: hemantk@codeaurora.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: Add mru_default for Quectel EM1xx series
+ modules.
+Message-ID: <20220207084007.GE1905@thinkpad>
+References: <MEYP282MB2374C10BC162393B39D78294FD229@MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MEYP282MB2374C10BC162393B39D78294FD229@MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM>
 
-From: Slark Xiao <slark_xiao@163.com>
+On Fri, Jan 28, 2022 at 01:24:04PM +0800, Yonglin Tan wrote:
+> For default mechanism, the driver uses default MRU 3500 if mru_default
+> is not initialized. The Qualcomm configured the MRU size to 32768 in the
+> WWAN device FW. So, we align the driver setting with Qualcomm FW setting.
+> 
+> Signed-off-by: Yonglin Tan <yonglin.tan@outlook.com>
 
-For default mechanism, product would use default MRU 3500 if
-they didn't define it. But for Cinterion MV31-W, there is a known
-issue which MRU 3500 would lead to data connection lost.
-So we align it with Qualcomm default MRU settings.
+Please add the Fixes tag for commit ac4bf60bbaa0 and CC stable list.
 
-Cc: stable@vger.kernel.org # v5.14 +
-Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Also the subject should be:
+"bus: mhi: pci_generic: Add mru_default for Quectel EM1xx series"
+
+With that,
 Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-Link: https://lore.kernel.org/r/20220119102519.5342-1-slark_xiao@163.com
-[mani: Modified the commit message to reflect Cinterion MV31-W and CCed stable]
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/pci_generic.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
-index 74e8fc342cfd..b79895810c52 100644
---- a/drivers/bus/mhi/pci_generic.c
-+++ b/drivers/bus/mhi/pci_generic.c
-@@ -402,6 +402,7 @@ static const struct mhi_pci_dev_info mhi_mv31_info = {
- 	.config = &modem_mv31_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-+	.mru_default = 32768,
- };
- 
- static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
--- 
-2.25.1
+Thanks,
+Mani
 
+> ---
+>  drivers/bus/mhi/pci_generic.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/pci_generic.c
+> index b798958..9527b7d 100644
+> --- a/drivers/bus/mhi/pci_generic.c
+> +++ b/drivers/bus/mhi/pci_generic.c
+> @@ -327,6 +327,7 @@ static const struct mhi_pci_dev_info mhi_quectel_em1xx_info = {
+>  	.config = &modem_quectel_em1xx_config,
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+> +	.mru_default = 32768,
+>  	.sideband_wake = true,
+>  };
+>  
+> -- 
+> 2.7.4
+> 
