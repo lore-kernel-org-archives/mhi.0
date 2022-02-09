@@ -1,152 +1,233 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C616C2F39
-	for <mhi@lists.linux.dev>; Wed,  9 Feb 2022 10:07:22 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id t14-20020a17090a3e4e00b001b8f6032d96so1764214pjm.2
-        for <mhi@lists.linux.dev>; Wed, 09 Feb 2022 02:07:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084702F28
+	for <mhi@lists.linux.dev>; Wed,  9 Feb 2022 12:59:56 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id j4so2114672plj.8
+        for <mhi@lists.linux.dev>; Wed, 09 Feb 2022 04:59:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pmDkqthjssoHKJ9bLjod6j2IDm4LIWLx3+MkrpaPVXo=;
-        b=BEiHMRnQ3d0uqlb0Y/CzgsGVZBB2yLJyXVGsAOrFWnfyYqANuKd6t5lz7go8EsGuky
-         xK3B0ZBG4FSwqjzyq6DYa8w6jn59DWThbCY5cpojaE9ipy0eGuNaYs0Oo2bQaH2d6019
-         bqsJ3YIVS8YdfQ3akS2Yev/WgX6GbrqYgitYIQCCoVo9sws0XBYLhsCm3KJanX/9rIED
-         DB9JFBTIptea75yQNd4zR6KzavAzDVnoaRLpGFOSYAu9IlXR6TtfxA/TQAPUnBwMlIPp
-         ozMDVBu++TO0jPtE2k8rtqu0zPGM7y9I/E3BTm+aI5XNtqbbd57V+Cg44HiCJAr+sUKL
-         e8Ng==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=w3Ln6Ucnpi92OfXLrf4hwooYop/MioxN2/8qo7NAJ0Y=;
+        b=HwyVuYtnz3dS0pvXs6lcx6WUzK8pL3MCFQYbm3W04SVFtMV3smXsCp3+F627iDxYoA
+         xTDBnIvNpSmFVz0GGGdpGFM3WJxOLtddnSkZ2NCj+Mb8+LZ/mJDDtYC8hMyxlh/83L/L
+         UjZkkrfKk15gXzC8Fkv4Npu0MUNg1xIr4Nhsds5idqxFGZE01x87sgMv+JBFocsOoj83
+         OJNre6CI8ka4QFBGsqYzMuvoXd+CM+SQkLhjpDMFKgzLADbHMRurZWCOH4PTAOu17CSM
+         bdn4544FAi6Wavq4gCsFHYpCKIXfIN1rylXgj+a8JI+LvRzdIF++0qI8jZVKWqFH+YH7
+         Fl3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pmDkqthjssoHKJ9bLjod6j2IDm4LIWLx3+MkrpaPVXo=;
-        b=h1n8TRM1LZ7IghGVckKxFfBFZL1hri8PZCRubPLnJCpnmbtpbrvriMI6qEJsMRidHX
-         d/I6uvJOZYeLJj8M7GS9A343exNtdH3UcJG8+1cG2loqtlNqxLOsvaHHcHcZXhTh5f+f
-         lqykEAtS0UusD+OjVMpJGDrl9xe3+y8fgLBvNHGnOeRGd6dOCXYAfmNJgYkTTex5rlt4
-         qcliuzvItsOlBY0Z2J16HMdhn+BEx0VF2yIN4K0+F758q5w4yHd31SPY8lK11vm0iMh8
-         BUO18dszCzYRkgRLuck392owWD3UWwv4Duq+JTKuLXn6IP6IDPb7lpz+h1TjnrLZTIQP
-         uf0w==
-X-Gm-Message-State: AOAM530Xh1CE1+L2QKlFLM1X467KBdJ4zto3VpGf7sL9daT9P8ogXccn
-	atH0rVLvi59xyU70nN6RnRR5V4qS/XjKB14=
-X-Google-Smtp-Source: ABdhPJzS+FgYIm8PZLlg8rh64dLRyOt2elhMgWkhYPdGcwQ+ro/gZGH0+GRW613NtZNUMyjPQW3PgA==
-X-Received: by 2002:a17:902:bf06:: with SMTP id bi6mr1380824plb.24.1644401242187;
-        Wed, 09 Feb 2022 02:07:22 -0800 (PST)
-Received: from localhost.localdomain ([117.217.179.178])
-        by smtp.gmail.com with ESMTPSA id p2sm6722024pfo.125.2022.02.09.02.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 02:07:21 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=w3Ln6Ucnpi92OfXLrf4hwooYop/MioxN2/8qo7NAJ0Y=;
+        b=v5mF9b9JCYPXFYBsEsuIE+yyrp2sIbEJUO9xVmF7pKS4w2UzzAXjY5XlpwvDfAd64p
+         XBG04br+wlNjriHdBiNAYRyVdbqky3J5GJCv52aVPDP9QEadVHZJRiSRh9A3Rryq47uV
+         SQG2VPvvyimfC+PgHyOxXnMVvF2ki2FfSv0OTwhOV8GtG1gvzYU8Y/dfdXROeRj2sYLe
+         9MX+9wEFlJSIPuGPB/0NGMUsSg5B4+P/F0AaNeo/LacK5pSz4LDtC06vFAyNEN3kyGPq
+         wlqiD4H8vjlNHiKxG6DrMP80yLzrNcDTVQYBpNqsv5FKQmA7RCVTY3I1lGeERXgjdPIu
+         H7iA==
+X-Gm-Message-State: AOAM5312Bq72azfsuDhsFnmAg13AkuRc9FfvP9UYvivVuUniuonm5OoY
+	3KXW9zNogW8h9e/DcmajC2cK/3Odgpj2weE=
+X-Google-Smtp-Source: ABdhPJw9Dn4Pq9tPyNXXG/X3Hw4PfWtyX7Ozck5q9fVIrx8mBtrx68UtJwn9Os+8qsVObhkW1+A2Fg==
+X-Received: by 2002:a17:902:ef49:: with SMTP id e9mr1985988plx.56.1644411595891;
+        Wed, 09 Feb 2022 04:59:55 -0800 (PST)
+Received: from workstation ([117.202.188.219])
+        by smtp.gmail.com with ESMTPSA id 16sm20314839pfl.99.2022.02.09.04.59.51
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 09 Feb 2022 04:59:55 -0800 (PST)
+Date: Wed, 9 Feb 2022 18:29:50 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
-Cc: quic_hemantk@quicinc.com,
-	quic_bbhatt@quicinc.com,
-	quic_jhugo@quicinc.com,
-	vinod.koul@linaro.org,
-	bjorn.andersson@linaro.org,
-	dmitry.baryshkov@linaro.org,
-	vbadigan@codeaurora.org,
-	quic_cang@quicinc.com,
-	quic_skananth@quicinc.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	elder@linaro.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v2 23/23] bus: mhi: ep: Add uevent support for module autoloading
-Date: Wed,  9 Feb 2022 15:26:24 +0530
-Message-Id: <20220209095624.26389-24-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220209095624.26389-1-manivannan.sadhasivam@linaro.org>
-References: <20220209095624.26389-1-manivannan.sadhasivam@linaro.org>
+Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
+	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
+	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
+	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, elder@linaro.org
+Subject: Re: [PATCH 00/23] Add initial support for MHI endpoint stack
+Message-ID: <20220209125950.GB10700@workstation>
+References: <20220209094601.26131-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209094601.26131-1-manivannan.sadhasivam@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Add uevent support to MHI endpoint bus so that the client drivers can be
-autoloaded by udev when the MHI endpoint devices gets created. The client
-drivers are expected to provide MODULE_DEVICE_TABLE with the MHI id_table
-struct so that the alias can be exported.
+On Wed, Feb 09, 2022 at 03:15:38PM +0530, Manivannan Sadhasivam wrote:
+> Hello,
+> 
+> This series adds initial support for the Qualcomm specific Modem Host Interface
+> (MHI) bus in endpoint devices like SDX55 modems. The MHI bus in endpoint devices
+> communicates with the MHI bus in host machines like x86 over any physical bus
+> like PCIe. The MHI host support is already in mainline [1] and been used by PCIe
+> based modems and WLAN devices running vendor code (downstream).
+> 
+> Overview
+> ========
+> 
+> This series aims at adding the MHI support in the endpoint devices with the goal
+> of getting data connectivity using the mainline kernel running on the modems.
+> Modems here refer to the combination of an APPS processor (Cortex A grade) and
+> a baseband processor (DSP). The MHI bus is located in the APPS processor and it
+> transfers data packets from the baseband processor to the host machine.
+> 
+> The MHI Endpoint (MHI EP) stack proposed here is inspired by the downstream
+> code written by Qualcomm. But the complete stack is mostly re-written to adapt
+> to the "bus" framework and made it modular so that it can work with the upstream
+> subsystems like "PCI Endpoint". The code structure of the MHI endpoint stack
+> follows the MHI host stack to maintain uniformity.
+> 
+> With this initial MHI EP stack (along with few other drivers), we can establish
+> the network interface between host and endpoint over the MHI software channels
+> (IP_SW0) and can do things like IP forwarding, SSH, etc...
+> 
+> Stack Organization
+> ==================
+> 
+> The MHI EP stack has the concept of controller and device drivers as like the
+> MHI host stack. The MHI EP controller driver can be a PCI Endpoint Function
+> driver and the MHI device driver can be a MHI EP Networking driver or QRTR
+> driver. The MHI EP controller driver is tied to the PCI Endpoint subsystem and
+> handles all bus related activities like mapping the host memory, raising IRQ,
+> passing link specific events etc... The MHI EP networking driver is tied to the
+> Networking stack and handles all networking related activities like
+> sending/receiving the SKBs from netdev, statistics collection etc...
+> 
+> This series only contains the MHI EP code, whereas the PCIe EPF driver and MHI
+> EP Networking drivers are not yet submitted and can be found here [2]. Though
+> the MHI EP stack doesn't have the build time dependency, it cannot function
+> without them.
+> 
+> Test setup
+> ==========
+> 
+> This series has been tested on Telit FN980 TLB board powered by Qualcomm SDX55
+> (a.k.a X55 modem) and Qualcomm SM8450 based dev board.
+> 
+> For testing the stability and performance, networking tools such as iperf, ssh
+> and ping are used.
+> 
+> Limitations
+> ===========
+> 
+> We are not _yet_ there to get the data packets from the modem as that involves
+> the Qualcomm IP Accelerator (IPA) integration with MHI endpoint stack. But we
+> are planning to add support for it in the coming days.
+> 
+> References
+> ==========
+> 
+> MHI bus: https://www.kernel.org/doc/html/latest/mhi/mhi.html
+> Linaro connect presentation around this topic: https://connect.linaro.org/resources/lvc21f/lvc21f-222/
+> 
+> Thanks,
+> Mani
+> 
 
-The MHI endpoint reused the mhi_device_id structure of the MHI bus.
+Please ignore this patch. It is missing the v2 prefix.
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/ep/main.c       |  9 +++++++++
- include/linux/mod_devicetable.h |  2 ++
- scripts/mod/file2alias.c        | 10 ++++++++++
- 3 files changed, 21 insertions(+)
+Thanks,
+Mani
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index ed3dbca170d3..c70062f92c03 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1547,6 +1547,14 @@ void mhi_ep_driver_unregister(struct mhi_ep_driver *mhi_drv)
- }
- EXPORT_SYMBOL_GPL(mhi_ep_driver_unregister);
- 
-+static int mhi_ep_uevent(struct device *dev, struct kobj_uevent_env *env)
-+{
-+	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-+
-+	return add_uevent_var(env, "MODALIAS=" MHI_EP_DEVICE_MODALIAS_FMT,
-+					mhi_dev->name);
-+}
-+
- static int mhi_ep_match(struct device *dev, struct device_driver *drv)
- {
- 	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-@@ -1573,6 +1581,7 @@ struct bus_type mhi_ep_bus_type = {
- 	.name = "mhi_ep",
- 	.dev_name = "mhi_ep",
- 	.match = mhi_ep_match,
-+	.uevent = mhi_ep_uevent,
- };
- 
- static int __init mhi_ep_init(void)
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 4bb71979a8fd..0cff19bd72bf 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -835,6 +835,8 @@ struct wmi_device_id {
- #define MHI_DEVICE_MODALIAS_FMT "mhi:%s"
- #define MHI_NAME_SIZE 32
- 
-+#define MHI_EP_DEVICE_MODALIAS_FMT "mhi_ep:%s"
-+
- /**
-  * struct mhi_device_id - MHI device identification
-  * @chan: MHI channel name
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 5258247d78ac..d9d6a31446ea 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -1391,6 +1391,15 @@ static int do_mhi_entry(const char *filename, void *symval, char *alias)
- 	return 1;
- }
- 
-+/* Looks like: mhi_ep:S */
-+static int do_mhi_ep_entry(const char *filename, void *symval, char *alias)
-+{
-+	DEF_FIELD_ADDR(symval, mhi_device_id, chan);
-+	sprintf(alias, MHI_EP_DEVICE_MODALIAS_FMT, *chan);
-+
-+	return 1;
-+}
-+
- /* Looks like: ishtp:{guid} */
- static int do_ishtp_entry(const char *filename, void *symval, char *alias)
- {
-@@ -1519,6 +1528,7 @@ static const struct devtable devtable[] = {
- 	{"tee", SIZE_tee_client_device_id, do_tee_entry},
- 	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
- 	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
-+	{"mhi_ep", SIZE_mhi_device_id, do_mhi_ep_entry},
- 	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
- 	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
- 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
--- 
-2.25.1
-
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi
+> [2] https://git.linaro.org/landing-teams/working/qualcomm/kernel.git/log/?h=tracking-qcomlt-sdx55-drivers
+> 
+> Changes in v2:
+> 
+> v2 mostly addresses the issues seen while testing the stack on SM8450 that is a
+> SMP platform and also incorporates the review comments from Alex.
+> 
+> Major changes are:
+> 
+> * Added a cleanup patch for getting rid of SHIFT macros and used the bitfield
+>   operations.
+> * Added the endianess patches that were submitted to MHI list and used the
+>   endianess conversion in EP patches also.
+> * Added support for multiple event rings.
+> * Fixed the MSI generation based on the event ring index.
+> * Fixed the doorbell list handling by making use of list splice and not locking
+>   the entire list manipulation.
+> * Added new APIs for wrapping the reading and writing to host memory (Dmitry).
+> * Optimized the read_channel and queue_skb function logics.
+> * Added Hemant's R-o-b tag.
+> 
+> Manivannan Sadhasivam (21):
+>   bus: mhi: Move host MHI code to "host" directory
+>   bus: mhi: Move common MHI definitions out of host directory
+>   bus: mhi: Make mhi_state_str[] array static inline and move to
+>     common.h
+>   bus: mhi: Cleanup the register definitions used in headers
+>   bus: mhi: Get rid of SHIFT macros and use bitfield operations
+>   bus: mhi: ep: Add support for registering MHI endpoint controllers
+>   bus: mhi: ep: Add support for registering MHI endpoint client drivers
+>   bus: mhi: ep: Add support for creating and destroying MHI EP devices
+>   bus: mhi: ep: Add support for managing MMIO registers
+>   bus: mhi: ep: Add support for ring management
+>   bus: mhi: ep: Add support for sending events to the host
+>   bus: mhi: ep: Add support for managing MHI state machine
+>   bus: mhi: ep: Add support for processing MHI endpoint interrupts
+>   bus: mhi: ep: Add support for powering up the MHI endpoint stack
+>   bus: mhi: ep: Add support for powering down the MHI endpoint stack
+>   bus: mhi: ep: Add support for handling MHI_RESET
+>   bus: mhi: ep: Add support for handling SYS_ERR condition
+>   bus: mhi: ep: Add support for processing command and TRE rings
+>   bus: mhi: ep: Add support for queueing SKBs over MHI bus
+>   bus: mhi: ep: Add support for suspending and resuming channels
+>   bus: mhi: ep: Add uevent support for module autoloading
+> 
+> Paul Davey (2):
+>   bus: mhi: Fix pm_state conversion to string
+>   bus: mhi: Fix MHI DMA structure endianness
+> 
+>  drivers/bus/Makefile                      |    2 +-
+>  drivers/bus/mhi/Kconfig                   |   28 +-
+>  drivers/bus/mhi/Makefile                  |    9 +-
+>  drivers/bus/mhi/common.h                  |  319 ++++
+>  drivers/bus/mhi/ep/Kconfig                |   10 +
+>  drivers/bus/mhi/ep/Makefile               |    2 +
+>  drivers/bus/mhi/ep/internal.h             |  254 ++++
+>  drivers/bus/mhi/ep/main.c                 | 1602 +++++++++++++++++++++
+>  drivers/bus/mhi/ep/mmio.c                 |  274 ++++
+>  drivers/bus/mhi/ep/ring.c                 |  267 ++++
+>  drivers/bus/mhi/ep/sm.c                   |  174 +++
+>  drivers/bus/mhi/host/Kconfig              |   31 +
+>  drivers/bus/mhi/{core => host}/Makefile   |    4 +-
+>  drivers/bus/mhi/{core => host}/boot.c     |   17 +-
+>  drivers/bus/mhi/{core => host}/debugfs.c  |   40 +-
+>  drivers/bus/mhi/{core => host}/init.c     |  124 +-
+>  drivers/bus/mhi/{core => host}/internal.h |  427 +-----
+>  drivers/bus/mhi/{core => host}/main.c     |   46 +-
+>  drivers/bus/mhi/{ => host}/pci_generic.c  |    0
+>  drivers/bus/mhi/{core => host}/pm.c       |   36 +-
+>  include/linux/mhi_ep.h                    |  293 ++++
+>  include/linux/mod_devicetable.h           |    2 +
+>  scripts/mod/file2alias.c                  |   10 +
+>  23 files changed, 3443 insertions(+), 528 deletions(-)
+>  create mode 100644 drivers/bus/mhi/common.h
+>  create mode 100644 drivers/bus/mhi/ep/Kconfig
+>  create mode 100644 drivers/bus/mhi/ep/Makefile
+>  create mode 100644 drivers/bus/mhi/ep/internal.h
+>  create mode 100644 drivers/bus/mhi/ep/main.c
+>  create mode 100644 drivers/bus/mhi/ep/mmio.c
+>  create mode 100644 drivers/bus/mhi/ep/ring.c
+>  create mode 100644 drivers/bus/mhi/ep/sm.c
+>  create mode 100644 drivers/bus/mhi/host/Kconfig
+>  rename drivers/bus/mhi/{core => host}/Makefile (54%)
+>  rename drivers/bus/mhi/{core => host}/boot.c (96%)
+>  rename drivers/bus/mhi/{core => host}/debugfs.c (90%)
+>  rename drivers/bus/mhi/{core => host}/init.c (93%)
+>  rename drivers/bus/mhi/{core => host}/internal.h (50%)
+>  rename drivers/bus/mhi/{core => host}/main.c (98%)
+>  rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
+>  rename drivers/bus/mhi/{core => host}/pm.c (97%)
+>  create mode 100644 include/linux/mhi_ep.h
+> 
+> -- 
+> 2.25.1
+> 
