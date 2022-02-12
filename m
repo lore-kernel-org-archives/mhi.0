@@ -1,41 +1,41 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C153C7C
-	for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 18:23:11 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id i30so21933719pfk.8
-        for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 10:23:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6407C
+	for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 18:23:16 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id l8so1254806pls.7
+        for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 10:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ng+FJmRFoQc89QlNXGEu6Nz+DsWMowqD6JzTm0cBnHI=;
-        b=VPJI5RfGfxcBSf0QCISXQcbfstewq+3Xs+C4gL6WufagubJPmyHN1LYFaXIqL+YlHz
-         uIAzpSjT5zk7jpumLD3QfrKQhj3xn5kGYFV5jNqIDx/rtokTPd8Ha7wvaJKeUwAM8bum
-         HP2OhF0laEajy6uQVBDTxSssHFmyF1ZI1JEXWoszjyLyJD0nJWiKT8Hw8ObO/FNuJ1Qq
-         R4bTaty9M3qIo/tQ9N0Z4g5Ei9uEFtTn4eyArgXPkIHKAz+fIn6CXjS3+JoQplEsxgbA
-         Bbo5M/ycAM8KLD+TR7m17FbqyfP53rA/ojJd8EcCnmU9nsnO3RnU5NoqBskCILFHmIXL
-         T+HQ==
+        bh=nOeAtH9KqQy90Wc3/INZFeCi473Iwk1s2/Fhz+I9C3k=;
+        b=QVyTtzeYWyHPclKxH4SZFHtF3XCzqOxoFhFxXy2EYmqZBAs4qu7xculGq8C+XBIAQ6
+         mnNoxhoezaVExurBfqUDBoG3+QukjV1xsSgsJlIjJlO4sV87QeTciq+pweb+NPWSneBR
+         C44eWQfK50ltPyKIiD3qTuO3qum1GxmwW1cyNx2oPma5DknsnycP2tuaKg0k5GAqKJth
+         cGarVlOqQcCCVWh1BuSIgqN4LpBclde/55vIUNGLj4jA9IZafiqXmx+yLG7dL9UbQ1ov
+         AgAP9+h1euN1dD2TQP2QT2et4qNLNxru/nSDrpDxYGV0ko9UG+GcGfi9BiKBR3fFxRIc
+         JqlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ng+FJmRFoQc89QlNXGEu6Nz+DsWMowqD6JzTm0cBnHI=;
-        b=jHY9Zpj4RuLqFQMkfFYzdxyfWbGACBje9+B6lum5L75q+FefxfenLCjpg7ua7TJ6BR
-         RzzHZOAAZE+OJMjQAy1efNKM+YcGtby97/mFotQkVZ5Rth9MQMkDnGgVi7pd38BSHzEq
-         Ke8lPd3mtcQPghw8vxNyZNVKUPgjTHAC627ynwsi5yvJ7uzMWjI+AQblb1nqSAGTlXm+
-         4XSIkN1i9wpDblJREnE/tTqfKEus/njsexDTEXGnn61zto03SK58rDIWfsKievZHMELQ
-         OQ1j6r0RE3VkI7raxd0xOFbIlcgw2nzHmRT9GmM1dJsq8/NM0LqBa/cfYnQ7RVdkBNoE
-         Z7KQ==
-X-Gm-Message-State: AOAM533C9c0v45Nha8W2f7vyqQpOeyojGERiY9a5K32VufYZPIGqYLHY
-	GiGhvestJEkZ5dfnNpUW8aDWhVmH124j3EE=
-X-Google-Smtp-Source: ABdhPJxzQw7S9tasrOjpKXFp+CMbejZJTVo1V7X6T1PPGnxNyTmSRhp1q/FXC/uKEFOs432QgWAE4A==
-X-Received: by 2002:a65:458f:: with SMTP id o15mr4100193pgq.92.1644690191159;
-        Sat, 12 Feb 2022 10:23:11 -0800 (PST)
+        bh=nOeAtH9KqQy90Wc3/INZFeCi473Iwk1s2/Fhz+I9C3k=;
+        b=W7ABh3Z2j3qe6UIxnLrXTEv2f8kR5v6UiRtmPZidmGEdS1iauEOKi0BlpjHUZT73nI
+         ehwLGwAnkR5L/jAClxYW2uu5i2e0DTTOhXZtA5UQRKuEyBJnZQMD6h1dW/mMSiB4D2ZS
+         gP0j+TXw46kNE5VKDuARXltk2zyOn/vrX4juy7FgE6lFWBvvkqAXmEkNyGfXtspwgsjy
+         Q/LosVJMvqh0vAHu/nOXZL8FJiHT5CQ1l2QbVZeXHWkBhpH8+tPvbap0Vux3LYIShblA
+         27rfsiF1/7RgjTVJA7jvQ0akf4W/LwzDlc/P+NUhR8gBvEc1Rd7kjOA7G5TfGqckbrlf
+         x1YQ==
+X-Gm-Message-State: AOAM530NUd7Ztr7/CyidG3Eg52GhJZx5Yj/0HMuoUQnPE6NbZ+hiYYOf
+	lrYtjgN4qZBjjHFv2zvoEqiOX5+5hYbUEog=
+X-Google-Smtp-Source: ABdhPJx6sakHNoUbIv6WLbXVv5/bnUcjzl4CHpRshFMWafwsldLiP14yjSqXEdQQorWGmy1gsOxkKA==
+X-Received: by 2002:a17:90b:4c0d:: with SMTP id na13mr6274373pjb.96.1644690195423;
+        Sat, 12 Feb 2022 10:23:15 -0800 (PST)
 Received: from localhost.localdomain ([27.111.75.57])
-        by smtp.gmail.com with ESMTPSA id g12sm14961987pfj.148.2022.02.12.10.23.06
+        by smtp.gmail.com with ESMTPSA id g12sm14961987pfj.148.2022.02.12.10.23.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Feb 2022 10:23:10 -0800 (PST)
+        Sat, 12 Feb 2022 10:23:15 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: quic_hemantk@quicinc.com,
@@ -51,9 +51,9 @@ Cc: quic_hemantk@quicinc.com,
 	linux-kernel@vger.kernel.org,
 	elder@linaro.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v3 18/25] bus: mhi: ep: Add support for handling MHI_RESET
-Date: Sat, 12 Feb 2022 23:51:10 +0530
-Message-Id: <20220212182117.49438-19-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v3 19/25] bus: mhi: ep: Add support for handling SYS_ERR condition
+Date: Sat, 12 Feb 2022 23:51:11 +0530
+Message-Id: <20220212182117.49438-20-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
 References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
@@ -65,126 +65,85 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for handling MHI_RESET in MHI endpoint stack. MHI_RESET will
-be issued by the host during shutdown and during error scenario so that
-it can recover the endpoint device without restarting the whole device.
-
-MHI_RESET handling involves resetting the internal MHI registers, data
-structures, state machines, resetting all channels/rings and setting
-MHICTRL.RESET bit to 0. Additionally the device will also move to READY
-state if the reset was due to SYS_ERR.
+Add support for handling SYS_ERR (System Error) condition in the MHI
+endpoint stack. The SYS_ERR flag will be asserted by the endpoint device
+when it detects an internal error. The host will then issue reset and
+reinitializes MHI to recover from the error state.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/ep/main.c | 53 +++++++++++++++++++++++++++++++++++++++
- include/linux/mhi_ep.h    |  2 ++
- 2 files changed, 55 insertions(+)
+ drivers/bus/mhi/ep/internal.h |  1 +
+ drivers/bus/mhi/ep/main.c     | 24 ++++++++++++++++++++++++
+ drivers/bus/mhi/ep/sm.c       |  2 ++
+ 3 files changed, 27 insertions(+)
 
+diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
+index ee8c5974f0c0..8654af7caf40 100644
+--- a/drivers/bus/mhi/ep/internal.h
++++ b/drivers/bus/mhi/ep/internal.h
+@@ -241,6 +241,7 @@ int mhi_ep_set_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state mhi_stat
+ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
+ int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
+ int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
++void mhi_ep_handle_syserr(struct mhi_ep_cntrl *mhi_cntrl);
+ 
+ /* MHI EP memory management functions */
+ int mhi_ep_alloc_map(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, size_t size,
 diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 14cb08de4263..ddedd0fb19aa 100644
+index ddedd0fb19aa..6378ac5c7e37 100644
 --- a/drivers/bus/mhi/ep/main.c
 +++ b/drivers/bus/mhi/ep/main.c
-@@ -471,6 +471,7 @@ static irqreturn_t mhi_ep_irq(int irq, void *data)
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
- 	enum mhi_state state;
- 	u32 int_value;
-+	bool mhi_reset;
- 
- 	/* Acknowledge the interrupts */
- 	int_value = mhi_ep_mmio_read(mhi_cntrl, MHI_CTRL_INT_STATUS_A7);
-@@ -479,6 +480,14 @@ static irqreturn_t mhi_ep_irq(int irq, void *data)
- 	/* Check for ctrl interrupt */
- 	if (FIELD_GET(MHI_CTRL_INT_STATUS_A7_MSK, int_value)) {
- 		dev_dbg(dev, "Processing ctrl interrupt\n");
-+		mhi_ep_mmio_get_mhi_state(mhi_cntrl, &state, &mhi_reset);
-+		if (mhi_reset) {
-+			dev_info(dev, "Host triggered MHI reset!\n");
-+			disable_irq_nosync(mhi_cntrl->irq);
-+			schedule_work(&mhi_cntrl->reset_work);
-+			return IRQ_HANDLED;
-+		}
-+
- 		mhi_ep_process_ctrl_interrupt(mhi_cntrl, state);
+@@ -611,6 +611,30 @@ static void mhi_ep_reset_worker(struct work_struct *work)
  	}
- 
-@@ -559,6 +568,49 @@ static void mhi_ep_abort_transfer(struct mhi_ep_cntrl *mhi_cntrl)
- 	mhi_cntrl->is_enabled = false;
  }
  
-+static void mhi_ep_reset_worker(struct work_struct *work)
++/*
++ * We don't need to do anything special other than setting the MHI SYS_ERR
++ * state. The host issue will reset all contexts and issue MHI RESET so that we
++ * could also recover from error state.
++ */
++void mhi_ep_handle_syserr(struct mhi_ep_cntrl *mhi_cntrl)
 +{
-+	struct mhi_ep_cntrl *mhi_cntrl = container_of(work, struct mhi_ep_cntrl, reset_work);
 +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	enum mhi_state cur_state;
 +	int ret;
 +
-+	mhi_ep_abort_transfer(mhi_cntrl);
++	/* If MHI EP is not enabled, nothing to do */
++	if (!mhi_cntrl->is_enabled)
++		return;
 +
-+	spin_lock_bh(&mhi_cntrl->state_lock);
-+	/* Reset MMIO to signal host that the MHI_RESET is completed in endpoint */
-+	mhi_ep_mmio_reset(mhi_cntrl);
-+	cur_state = mhi_cntrl->mhi_state;
-+	spin_unlock_bh(&mhi_cntrl->state_lock);
++	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_SYS_ERR);
++	if (ret)
++		return;
 +
-+	/*
-+	 * Only proceed further if the reset is due to SYS_ERR. The host will
-+	 * issue reset during shutdown also and we don't need to do re-init in
-+	 * that case.
-+	 */
-+	if (cur_state == MHI_STATE_SYS_ERR) {
-+		mhi_ep_mmio_init(mhi_cntrl);
-+
-+		/* Set AMSS EE before signaling ready state */
-+		mhi_ep_mmio_set_env(mhi_cntrl, MHI_EP_AMSS_EE);
-+
-+		/* All set, notify the host that we are ready */
-+		ret = mhi_ep_set_ready_state(mhi_cntrl);
-+		if (ret)
-+			return;
-+
-+		dev_dbg(dev, "READY state notification sent to the host\n");
-+
-+		ret = mhi_ep_enable(mhi_cntrl);
-+		if (ret) {
-+			dev_err(dev, "Failed to enable MHI endpoint: %d\n", ret);
-+			return;
-+		}
-+
-+		enable_irq(mhi_cntrl->irq);
-+	}
++	/* Signal host that the device went to SYS_ERR state */
++	ret = mhi_ep_send_state_change_event(mhi_cntrl, MHI_STATE_SYS_ERR);
++	if (ret)
++		dev_err(dev, "Failed sending SYS_ERR state change event: %d\n", ret);
 +}
 +
  int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
  {
  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-@@ -827,6 +879,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+diff --git a/drivers/bus/mhi/ep/sm.c b/drivers/bus/mhi/ep/sm.c
+index 68e7f99b9137..9a75ecfe1adf 100644
+--- a/drivers/bus/mhi/ep/sm.c
++++ b/drivers/bus/mhi/ep/sm.c
+@@ -93,6 +93,7 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl)
  
- 	INIT_WORK(&mhi_cntrl->ring_work, mhi_ep_ring_worker);
- 	INIT_WORK(&mhi_cntrl->state_work, mhi_ep_state_worker);
-+	INIT_WORK(&mhi_cntrl->reset_work, mhi_ep_reset_worker);
- 
- 	mhi_cntrl->ring_wq = alloc_workqueue("mhi_ep_ring_wq", 0, 0);
- 	if (!mhi_cntrl->ring_wq) {
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index 4f86e7986c93..276d29fef465 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -75,6 +75,7 @@ struct mhi_ep_db_info {
-  * @ring_wq: Dedicated workqueue for processing MHI rings
-  * @state_work: State transition worker
-  * @ring_work: Ring worker
-+ * @reset_work: Worker for MHI Endpoint reset
-  * @ch_db_list: List of queued channel doorbells
-  * @st_transition_list: List of state transitions
-  * @list_lock: Lock for protecting state transition and channel doorbell lists
-@@ -126,6 +127,7 @@ struct mhi_ep_cntrl {
- 	struct workqueue_struct	*ring_wq;
- 	struct work_struct state_work;
- 	struct work_struct ring_work;
-+	struct work_struct reset_work;
- 
- 	struct list_head ch_db_list;
- 	struct list_head st_transition_list;
+ 	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_M0);
+ 	if (ret) {
++		mhi_ep_handle_syserr(mhi_cntrl);
+ 		spin_unlock_bh(&mhi_cntrl->state_lock);
+ 		return ret;
+ 	}
+@@ -128,6 +129,7 @@ int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl)
+ 	spin_lock_bh(&mhi_cntrl->state_lock);
+ 	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_M3);
+ 	if (ret) {
++		mhi_ep_handle_syserr(mhi_cntrl);
+ 		spin_unlock_bh(&mhi_cntrl->state_lock);
+ 		return ret;
+ 	}
 -- 
 2.25.1
 
