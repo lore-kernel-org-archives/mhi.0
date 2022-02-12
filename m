@@ -1,41 +1,41 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAF27C
-	for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 18:21:42 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id y9so10863951pjf.1
-        for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 10:21:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB9D7C
+	for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 18:21:48 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id v13-20020a17090ac90d00b001b87bc106bdso14968834pjt.4
+        for <mhi@lists.linux.dev>; Sat, 12 Feb 2022 10:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sNJouDFC9SDFBdiALXK3vF3U2LCfEq9tgM00VfZjezI=;
-        b=qlS3W6Yfd1EKX+tTPjscR96Uge7Cd2o+tv+0w7wn8IO6AyAly1qvv61AMsnjTKvHgk
-         FFjkuasTcBV8g9ZpoMUT2W4rEQCJN0MfGobrTCwUc38Zm6oBSZBq9U3m329XJWfdzgQo
-         P9wEYk7OQfnNJ4QNlTDmHHBfLU2lmiVGW/l7SICINPln5KS2wnEYyNklxycf0y621i9V
-         OObEC2dSI5cnz2cW4InWJ/nbjbh5MQqA1UhsIjdzHAuYd4cv9vxSZHJc7NDSDEl4Udwf
-         K7bmIwD/CDZvZTxuce92cn2+dgAbetknocHJ3oWhDnQolmeLHpImhJkexAsZjUAANUYY
-         T+Sw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=x7DQ/ZJ2gQOCs8afpwgV3IUsPGlYg0pNNMCW2zNhUO8=;
+        b=WYLrcsL4z93Z79+6TZmR1sVn94tNgubl+JfaCtqejObohJL+hcAyUh2RWSDzlpwEr+
+         1lsptBo9XrX0q94C9ENxJCybs2WAo4k5EOvR2VFZV6JhrIxtDcaX6hlxryb1/gWwI5c9
+         3JyBQDEXfL5LwEbsdEbQj1/4nfsSZ3/ZEEEtdOaZhYjrLXIEkCGc8l2X3KYPqgAgR2re
+         piR+uv8ZxFo9C1Z9rN07f1KomwTl/RO2BMuQZI3tvXo1XOg8+GVlyCxfbP0kEYpBk8L5
+         1tjo/7gSqaywFI9hP8JPaAgTNsNA8v7gZC2cRTgu5CweLwyer/c1iy2df/nq9sJ9W0q1
+         zPKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sNJouDFC9SDFBdiALXK3vF3U2LCfEq9tgM00VfZjezI=;
-        b=CDJK2YWK8r0fpraMkQ9F/SjiNok/PnOFUZLH8nxXNyLa3OtqzHMEDtFeFxqv5+Ato6
-         YJm1pUOlQ25Jo2gRoPUTXkZg0910xvHObHGOabA2qDdrS3KL+gC3mk+l4bkD9A7cDJPX
-         QyxEC+3KjZ0LaJiM7cgNJ2yjTDy88S+iNt0N030JtwevVzUDodiv22PqaXQgUpEJrg9l
-         A6r/2ABxYHGS5tgY/DxxzvBXsbv26GCH33CU7t9iqgB8YssXC32rBKCFfC7M0u7SV+sh
-         DIknbwLjw9vKmQ7VovV1rv0KXBeYQDfyr4FgCV5eWIO/6jBYyHCRXJqxfuaDEXV2R1cN
-         Ym3A==
-X-Gm-Message-State: AOAM533+OYgT9amfcPcp+tzTjMYfYGmhNTC5I+devF5us8noHAFc7HZ+
-	s/QUe9NAmaex947abzXVA8h1TYP8ezBZuqA=
-X-Google-Smtp-Source: ABdhPJxsr/pGGmSiWyM7KxkHsvgEXr4O05DL13LtmYjGc6YvZF/8LDBlImtlCCOOdp1XZN0hqCu4qA==
-X-Received: by 2002:a17:902:eb8c:: with SMTP id q12mr7008607plg.131.1644690101772;
-        Sat, 12 Feb 2022 10:21:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=x7DQ/ZJ2gQOCs8afpwgV3IUsPGlYg0pNNMCW2zNhUO8=;
+        b=e+DwbmVwUKbYSd/RSq08l1J2f23ckZusMYNCscr0YaxTK/Cub0+YSllQRFn+I1Z4uJ
+         lBsYUJNGUJ0fyZ1c6RqZxkFAlOVDCNIuhDCo2g2nShp7p5zRLWtJCl+JPy2zabOtTbKB
+         dAYC28Q3/Nbsyb0ztr2PVtgfAw35le15lhH3XllmDGNebNYa56zC1fnMDn6a12/Wl9vT
+         lHy7AS7XX6jTxDs1wIItPSrpJmYMQ4Wgsjt8j8/7o9bBE7q/s2t2ccTamvtU91sYx8Ci
+         x5XEVhZL/oDehX/y42pOQ9h5a5HzVKk7EgzmlAvx5xisfnCR6eWReeZ34wxQnNIDny/Z
+         49fQ==
+X-Gm-Message-State: AOAM531R/zZp9CRGjNH6nC+mIO8zrWKsiVKjAL8Ohji3IcYXQk0YZcBx
+	EUUWPyJA5E2Q6AsO5dMRHhYU12dIgAjKpDE=
+X-Google-Smtp-Source: ABdhPJwjJuEzA3rG6VR1TZ2r3vKn3OMJXR3L5Y4wVNt3Gz785c7ZEDqOc9RN+ePb0Lq/fNq4vW0iPw==
+X-Received: by 2002:a17:902:bcca:: with SMTP id o10mr6894783pls.147.1644690107434;
+        Sat, 12 Feb 2022 10:21:47 -0800 (PST)
 Received: from localhost.localdomain ([27.111.75.57])
-        by smtp.gmail.com with ESMTPSA id g12sm14961987pfj.148.2022.02.12.10.21.37
+        by smtp.gmail.com with ESMTPSA id g12sm14961987pfj.148.2022.02.12.10.21.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Feb 2022 10:21:41 -0800 (PST)
+        Sat, 12 Feb 2022 10:21:47 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: quic_hemantk@quicinc.com,
@@ -50,11 +50,17 @@ Cc: quic_hemantk@quicinc.com,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	elder@linaro.org,
+	Paul Davey <paul.davey@alliedtelesis.co.nz>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Hemant Kumar <hemantk@codeaurora.org>,
+	stable@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v3 00/25] Add initial support for MHI endpoint stack
-Date: Sat, 12 Feb 2022 23:50:52 +0530
-Message-Id: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v3 01/25] bus: mhi: Fix pm_state conversion to string
+Date: Sat, 12 Feb 2022 23:50:53 +0530
+Message-Id: <20220212182117.49438-2-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -63,177 +69,45 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Paul Davey <paul.davey@alliedtelesis.co.nz>
 
-This series adds initial support for the Qualcomm specific Modem Host Interface
-(MHI) bus in endpoint devices like SDX55 modems. The MHI bus in endpoint devices
-communicates with the MHI bus in host machines like x86 over any physical bus
-like PCIe. The MHI host support is already in mainline [1] and been used by PCIe
-based modems and WLAN devices running vendor code (downstream).
+On big endian architectures the mhi debugfs files which report pm state
+give "Invalid State" for all states.  This is caused by using
+find_last_bit which takes an unsigned long* while the state is passed in
+as an enum mhi_pm_state which will be of int size.
 
-Overview
-========
+Fix by using __fls to pass the value of state instead of find_last_bit.
 
-This series aims at adding the MHI support in the endpoint devices with the goal
-of getting data connectivity using the mainline kernel running on the modems.
-Modems here refer to the combination of an APPS processor (Cortex A grade) and
-a baseband processor (DSP). The MHI bus is located in the APPS processor and it
-transfers data packets from the baseband processor to the host machine.
+Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
+Signed-off-by: Paul Davey <paul.davey@alliedtelesis.co.nz>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
+Cc: stable@vger.kernel.org
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/core/init.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-The MHI Endpoint (MHI EP) stack proposed here is inspired by the downstream
-code written by Qualcomm. But the complete stack is mostly re-written to adapt
-to the "bus" framework and made it modular so that it can work with the upstream
-subsystems like "PCI Endpoint". The code structure of the MHI endpoint stack
-follows the MHI host stack to maintain uniformity.
-
-With this initial MHI EP stack (along with few other drivers), we can establish
-the network interface between host and endpoint over the MHI software channels
-(IP_SW0) and can do things like IP forwarding, SSH, etc...
-
-Stack Organization
-==================
-
-The MHI EP stack has the concept of controller and device drivers as like the
-MHI host stack. The MHI EP controller driver can be a PCI Endpoint Function
-driver and the MHI device driver can be a MHI EP Networking driver or QRTR
-driver. The MHI EP controller driver is tied to the PCI Endpoint subsystem and
-handles all bus related activities like mapping the host memory, raising IRQ,
-passing link specific events etc... The MHI EP networking driver is tied to the
-Networking stack and handles all networking related activities like
-sending/receiving the SKBs from netdev, statistics collection etc...
-
-This series only contains the MHI EP code, whereas the PCIe EPF driver and MHI
-EP Networking drivers are not yet submitted and can be found here [2]. Though
-the MHI EP stack doesn't have the build time dependency, it cannot function
-without them.
-
-Test setup
-==========
-
-This series has been tested on Telit FN980 TLB board powered by Qualcomm SDX55
-(a.k.a X55 modem) and Qualcomm SM8450 based dev board.
-
-For testing the stability and performance, networking tools such as iperf, ssh
-and ping are used.
-
-Limitations
-===========
-
-We are not _yet_ there to get the data packets from the modem as that involves
-the Qualcomm IP Accelerator (IPA) integration with MHI endpoint stack. But we
-are planning to add support for it in the coming days.
-
-References
-==========
-
-MHI bus: https://www.kernel.org/doc/html/latest/mhi/mhi.html
-Linaro connect presentation around this topic: https://connect.linaro.org/resources/lvc21f/lvc21f-222/
-
-Thanks,
-Mani
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi
-[2] https://git.linaro.org/landing-teams/working/qualcomm/kernel.git/log/?h=tracking-qcomlt-sdx55-drivers
-
-Changes in v3:
-
-* Splitted the patch 20/23 into two.
-* Fixed the error handling in patch 21/23.
-* Removed spurious change in patch 01/23.
-* Added check for xfer callbacks in client driver probe.
-
-Changes in v2:
-
-v2 mostly addresses the issues seen while testing the stack on SM8450 that is a
-SMP platform and also incorporates the review comments from Alex.
-
-Major changes are:
-
-* Added a cleanup patch for getting rid of SHIFT macros and used the bitfield
-  operations.
-* Added the endianess patches that were submitted to MHI list and used the
-  endianess conversion in EP patches also.
-* Added support for multiple event rings.
-* Fixed the MSI generation based on the event ring index.
-* Fixed the doorbell list handling by making use of list splice and not locking
-  the entire list manipulation.
-* Added new APIs for wrapping the reading and writing to host memory (Dmitry).
-* Optimized the read_channel and queue_skb function logics.
-* Added Hemant's R-o-b tag.
-
-Manivannan Sadhasivam (23):
-  bus: mhi: Move host MHI code to "host" directory
-  bus: mhi: Move common MHI definitions out of host directory
-  bus: mhi: Make mhi_state_str[] array static inline and move to
-    common.h
-  bus: mhi: Cleanup the register definitions used in headers
-  bus: mhi: Get rid of SHIFT macros and use bitfield operations
-  bus: mhi: ep: Add support for registering MHI endpoint controllers
-  bus: mhi: ep: Add support for registering MHI endpoint client drivers
-  bus: mhi: ep: Add support for creating and destroying MHI EP devices
-  bus: mhi: ep: Add support for managing MMIO registers
-  bus: mhi: ep: Add support for ring management
-  bus: mhi: ep: Add support for sending events to the host
-  bus: mhi: ep: Add support for managing MHI state machine
-  bus: mhi: ep: Add support for processing MHI endpoint interrupts
-  bus: mhi: ep: Add support for powering up the MHI endpoint stack
-  bus: mhi: ep: Add support for powering down the MHI endpoint stack
-  bus: mhi: ep: Add support for handling MHI_RESET
-  bus: mhi: ep: Add support for handling SYS_ERR condition
-  bus: mhi: ep: Add support for processing command ring
-  bus: mhi: ep: Add support for reading from the host
-  bus: mhi: ep: Add support for processing transfer ring
-  bus: mhi: ep: Add support for queueing SKBs to the host
-  bus: mhi: ep: Add support for suspending and resuming channels
-  bus: mhi: ep: Add uevent support for module autoloading
-
-Paul Davey (2):
-  bus: mhi: Fix pm_state conversion to string
-  bus: mhi: Fix MHI DMA structure endianness
-
- drivers/bus/Makefile                      |    2 +-
- drivers/bus/mhi/Kconfig                   |   28 +-
- drivers/bus/mhi/Makefile                  |    9 +-
- drivers/bus/mhi/common.h                  |  319 ++++
- drivers/bus/mhi/ep/Kconfig                |   10 +
- drivers/bus/mhi/ep/Makefile               |    2 +
- drivers/bus/mhi/ep/internal.h             |  254 ++++
- drivers/bus/mhi/ep/main.c                 | 1601 +++++++++++++++++++++
- drivers/bus/mhi/ep/mmio.c                 |  274 ++++
- drivers/bus/mhi/ep/ring.c                 |  267 ++++
- drivers/bus/mhi/ep/sm.c                   |  174 +++
- drivers/bus/mhi/host/Kconfig              |   31 +
- drivers/bus/mhi/{core => host}/Makefile   |    4 +-
- drivers/bus/mhi/{core => host}/boot.c     |   17 +-
- drivers/bus/mhi/{core => host}/debugfs.c  |   40 +-
- drivers/bus/mhi/{core => host}/init.c     |  123 +-
- drivers/bus/mhi/{core => host}/internal.h |  427 +-----
- drivers/bus/mhi/{core => host}/main.c     |   46 +-
- drivers/bus/mhi/{ => host}/pci_generic.c  |    0
- drivers/bus/mhi/{core => host}/pm.c       |   36 +-
- include/linux/mhi_ep.h                    |  293 ++++
- include/linux/mod_devicetable.h           |    2 +
- scripts/mod/file2alias.c                  |   10 +
- 23 files changed, 3442 insertions(+), 527 deletions(-)
- create mode 100644 drivers/bus/mhi/common.h
- create mode 100644 drivers/bus/mhi/ep/Kconfig
- create mode 100644 drivers/bus/mhi/ep/Makefile
- create mode 100644 drivers/bus/mhi/ep/internal.h
- create mode 100644 drivers/bus/mhi/ep/main.c
- create mode 100644 drivers/bus/mhi/ep/mmio.c
- create mode 100644 drivers/bus/mhi/ep/ring.c
- create mode 100644 drivers/bus/mhi/ep/sm.c
- create mode 100644 drivers/bus/mhi/host/Kconfig
- rename drivers/bus/mhi/{core => host}/Makefile (54%)
- rename drivers/bus/mhi/{core => host}/boot.c (96%)
- rename drivers/bus/mhi/{core => host}/debugfs.c (90%)
- rename drivers/bus/mhi/{core => host}/init.c (93%)
- rename drivers/bus/mhi/{core => host}/internal.h (50%)
- rename drivers/bus/mhi/{core => host}/main.c (98%)
- rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
- rename drivers/bus/mhi/{core => host}/pm.c (97%)
- create mode 100644 include/linux/mhi_ep.h
-
+diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+index 046f407dc5d6..af484b03558a 100644
+--- a/drivers/bus/mhi/core/init.c
++++ b/drivers/bus/mhi/core/init.c
+@@ -79,10 +79,12 @@ static const char * const mhi_pm_state_str[] = {
+ 
+ const char *to_mhi_pm_state_str(enum mhi_pm_state state)
+ {
+-	unsigned long pm_state = state;
+-	int index = find_last_bit(&pm_state, 32);
++	int index;
+ 
+-	if (index >= ARRAY_SIZE(mhi_pm_state_str))
++	if (state)
++		index = __fls(state);
++
++	if (!state || index >= ARRAY_SIZE(mhi_pm_state_str))
+ 		return "Invalid State";
+ 
+ 	return mhi_pm_state_str[index];
 -- 
 2.25.1
 
