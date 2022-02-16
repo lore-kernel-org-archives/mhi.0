@@ -1,260 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886AE7C
-	for <mhi@lists.linux.dev>; Wed, 16 Feb 2022 11:39:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C576C004E1;
-	Wed, 16 Feb 2022 11:39:45 +0000 (UTC)
-Date: Wed, 16 Feb 2022 17:09:42 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Alex Elder <elder@linaro.org>
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
-	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
-	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
-	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
-	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/25] bus: mhi: Make mhi_state_str[] array static
- inline and move to common.h
-Message-ID: <20220216113942.GC6225@workstation>
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-6-manivannan.sadhasivam@linaro.org>
- <f5222344-b74f-083c-d0f6-48fb3f034542@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9941728F8
+	for <mhi@lists.linux.dev>; Wed, 16 Feb 2022 13:42:00 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id r78so1141680qka.4
+        for <mhi@lists.linux.dev>; Wed, 16 Feb 2022 05:42:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=6j4YO9EeLP9xv8Xofu+6ziA8nbjvJoJDR5KXEsjK89o=;
+        b=yf6JAkflOueXZXjKL+iAIQxIwZIGxKZ7CY258oto5DyyFf5IthKzMVJM2DeQRRhOqk
+         l8ueu39PfduoZtUvNjM9OphHk4pJBh+GyvNFLoGJIMSCyg9q9JxYTE2hoaVuu5iiU+On
+         dbEUrxVOsGwKNq2e8Y5n82fxvVXjPG85mn9ZmvyCiU+ZTG2FgeHe+3gGx0uNeIel9kXv
+         U05clhL49ren8zZ23jryW+YpeFtqO4F7BgH7LO01ddgi+a0kfUFHUTujF/CGFYH1IvC1
+         q9SNuZXU7wBDt2nsjtk5yj1vaXdMK9au30VeEvSihkUlrWXbu21EL0MQl1fjOXovJh1l
+         SPPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=6j4YO9EeLP9xv8Xofu+6ziA8nbjvJoJDR5KXEsjK89o=;
+        b=OgnlMy/gycbZyO9Sq/xb9+7g3g/h+LasDggT0tQ0y0ZDvkK/rbGQVbOV0AKrwdAZKc
+         D7seIXnV9V6/l0yKCW44lzBTcTtGiGotMlN5oZboVy3UV0NwEihb7ET2qAdr8n4eQK2l
+         d+Yn/Dg8Y/y4wCmtfOSjmiFWHMOjkQ9eQMr/FASPPOLy4ISJ/8y1oNcWAm6UH7FRnj/5
+         0H/KfYkGbAy0Kerh9HDz5Xc3yKdZvHCHARyKmyuWQezIRj54wO7H91hnAGGFBgi1EtL2
+         TwokK49uP8dQIprvPWqjCm0lEQ67a3u2hkN+PwaV/eD1/kn9DAWqOjX+w3TQpQLnq6Jd
+         fygw==
+X-Gm-Message-State: AOAM530BB+Eu86a673a1aLGoRoCxTs1+yt/IRYieeZgsRKZWIEUPf+Mv
+	ixuLzO1q/GIu55E1UTBz437qWg==
+X-Google-Smtp-Source: ABdhPJzFphhQVJqA67KCg9ZUhVDEZdpxfr6kz8Rh2VHfiSVWGlE0XV5lyzkM4ska8HCF3TAoDvKWlQ==
+X-Received: by 2002:a05:620a:991:b0:508:18c1:e4d with SMTP id x17-20020a05620a099100b0050818c10e4dmr1183003qkx.479.1645018919368;
+        Wed, 16 Feb 2022 05:41:59 -0800 (PST)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id t11sm13670938qkp.82.2022.02.16.05.41.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Feb 2022 05:41:58 -0800 (PST)
+Message-ID: <8481b845-31c2-a830-4fe1-27798618fc2e@linaro.org>
+Date: Wed, 16 Feb 2022 07:41:56 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5222344-b74f-083c-d0f6-48fb3f034542@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 01/25] bus: mhi: Fix pm_state conversion to string
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+ quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
+ dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
+ quic_cang@quicinc.com, quic_skananth@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Paul Davey <paul.davey@alliedtelesis.co.nz>,
+ Hemant Kumar <hemantk@codeaurora.org>, stable@vger.kernel.org
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+ <20220212182117.49438-2-manivannan.sadhasivam@linaro.org>
+ <0c95c9a5-cf66-dcec-bfde-0ca201206c8b@linaro.org>
+ <20220216113353.GB6225@workstation>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <20220216113353.GB6225@workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 15, 2022 at 02:02:21PM -0600, Alex Elder wrote:
-> On 2/12/22 12:20 PM, Manivannan Sadhasivam wrote:
-> > mhi_state_str[] array could be used by MHI endpoint stack also. So let's
-> > make the array as "static inline function" and move it inside the
-> > "common.h" header so that the endpoint stack could also make use of it.
-> > 
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On 2/16/22 5:33 AM, Manivannan Sadhasivam wrote:
+> On Tue, Feb 15, 2022 at 02:01:54PM -0600, Alex Elder wrote:
+>> On 2/12/22 12:20 PM, Manivannan Sadhasivam wrote:
+>>> From: Paul Davey <paul.davey@alliedtelesis.co.nz>
+>>>
+>>> On big endian architectures the mhi debugfs files which report pm state
+>>> give "Invalid State" for all states.  This is caused by using
+>>> find_last_bit which takes an unsigned long* while the state is passed in
+>>> as an enum mhi_pm_state which will be of int size.
+>>
+>> I think this would have fixed it too, but your fix is better.
+>>
+>> 	int index = find_last_bit(&(unsigned long)state, 32);
+>>
+>>> Fix by using __fls to pass the value of state instead of find_last_bit.
+>>>
+>>> Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
+>>> Signed-off-by: Paul Davey <paul.davey@alliedtelesis.co.nz>
+>>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+>>> Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+>>> ---
+>>>    drivers/bus/mhi/core/init.c | 8 +++++---
+>>>    1 file changed, 5 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/core/init.c
+>>> index 046f407dc5d6..af484b03558a 100644
+>>> --- a/drivers/bus/mhi/core/init.c
+>>> +++ b/drivers/bus/mhi/core/init.c
+>>> @@ -79,10 +79,12 @@ static const char * const mhi_pm_state_str[] = {
+>>>    const char *to_mhi_pm_state_str(enum mhi_pm_state state)
+>>
+>> The mhi_pm_state enumerated type is an enumerated sequence, not
+>> a bit mask.  So knowing what the last (most significant) set bit
+>> is not meaningful.  Or normally it shouldn't be.
+>>
+>> If mhi_pm_state really were a bit mask, then its values should
+>> be defined that way, i.e.,
+>>
+>> 	MHI_PM_STATE_DISABLE	= 1 << 0,
+>> 	MHI_PM_STATE_DISABLE	= 1 << 1,
+>> 	. . .
+>>
+>> What's really going on is that the state value passed here
+>> *is* a bitmask, whose bit positions are those mhi_pm_state
+>> values.  So the state argument should have type u32.
+>>
 > 
-> I like the use of a function to encapsulate this rather than
-> using the array as before.
+> I agree with you. It should be u32.
 > 
-> But I still don't like declaring this much static data in a static inline
-> function in a header file.  Define it as a "real" function
-> somewhere common and declare it here instead.
+>> This is a *separate* bug/issue.  It could be fixed separately
+>> (before this patch), but I'd be OK with just explaining why
+>> this change would occur as part of this modified patch.
+>>
 > 
+> It makes sense to do it in the same patch itself as the change is
+> minimal and moreover this patch will also get backported to stable.
 
-The problem is we don't have a common c file to define this as a
-function. Even if we add one, then it would be an overkill.
+Sounds good to me.	-Alex
 
-This pattern is more commonly used throughout the kernel source.
+>>>    {
+>>> -	unsigned long pm_state = state;
+>>> -	int index = find_last_bit(&pm_state, 32);
+>>> +	int index;
+>>> -	if (index >= ARRAY_SIZE(mhi_pm_state_str))
+>>> +	if (state)
+>>> +		index = __fls(state);
+>>> +
+>>> +	if (!state || index >= ARRAY_SIZE(mhi_pm_state_str))
+>>>    		return "Invalid State";
+>>
+>> Do this test and return first, and skip the additional
+>> check for "if (state)".
+>>
+> 
+> We need to calculate index for the second check, so I guess the current
+> code is fine.
+> 
+> Thanks,
+> Mani
+> 
+>> 					-Alex
+>>
+>>>    	return mhi_pm_state_str[index];
+>>
 
-> One more minor comment below.
-> 
-> 					-Alex
-> 
-> > ---
-> >   drivers/bus/mhi/common.h       | 29 +++++++++++++++++++++++++----
-> >   drivers/bus/mhi/host/boot.c    |  2 +-
-> >   drivers/bus/mhi/host/debugfs.c |  6 +++---
-> >   drivers/bus/mhi/host/init.c    | 12 ------------
-> >   drivers/bus/mhi/host/main.c    |  8 ++++----
-> >   drivers/bus/mhi/host/pm.c      | 14 +++++++-------
-> >   6 files changed, 40 insertions(+), 31 deletions(-)
-> > 
-> > diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> > index 0d13a202d334..288e47168649 100644
-> > --- a/drivers/bus/mhi/common.h
-> > +++ b/drivers/bus/mhi/common.h
-> > @@ -159,9 +159,30 @@ struct mhi_cmd_ctxt {
-> >   	__le64 wp __packed __aligned(4);
-> >   };
-> > -extern const char * const mhi_state_str[MHI_STATE_MAX];
-> > -#define TO_MHI_STATE_STR(state) ((state >= MHI_STATE_MAX || \
-> > -				  !mhi_state_str[state]) ? \
-> > -				"INVALID_STATE" : mhi_state_str[state])
-> > +static inline const char * const mhi_state_str(enum mhi_state state)
-> > +{
-> > +	switch (state) {
-> > +	case MHI_STATE_RESET:
-> > +		return "RESET";
-> > +	case MHI_STATE_READY:
-> > +		return "READY";
-> > +	case MHI_STATE_M0:
-> > +		return "M0";
-> > +	case MHI_STATE_M1:
-> > +		return "M1";
-> > +	case MHI_STATE_M2:
-> > +		return"M2";
-> 
-> Add space after "return" here and in a few places below.
-> 
-
-Ack.
-
-Thanks,
-Mani
-
-> > +	case MHI_STATE_M3:
-> > +		return"M3";
-> > +	case MHI_STATE_M3_FAST:
-> > +		return"M3 FAST";
-> > +	case MHI_STATE_BHI:
-> > +		return"BHI";
-> > +	case MHI_STATE_SYS_ERR:
-> > +		return "SYS ERROR";
-> > +	default:
-> > +		return "Unknown state";
-> > +	}
-> > +};
-> >   #endif /* _MHI_COMMON_H */
-> > diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> > index 74295d3cc662..93cb705614c6 100644
-> > --- a/drivers/bus/mhi/host/boot.c
-> > +++ b/drivers/bus/mhi/host/boot.c
-> > @@ -68,7 +68,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
-> >   	dev_dbg(dev, "Entered with pm_state:%s dev_state:%s ee:%s\n",
-> >   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> > -		TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > +		mhi_state_str(mhi_cntrl->dev_state),
-> >   		TO_MHI_EXEC_STR(mhi_cntrl->ee));
-> >   	/*
-> > diff --git a/drivers/bus/mhi/host/debugfs.c b/drivers/bus/mhi/host/debugfs.c
-> > index d818586c229d..399d0db1f1eb 100644
-> > --- a/drivers/bus/mhi/host/debugfs.c
-> > +++ b/drivers/bus/mhi/host/debugfs.c
-> > @@ -20,7 +20,7 @@ static int mhi_debugfs_states_show(struct seq_file *m, void *d)
-> >   	seq_printf(m, "PM state: %s Device: %s MHI state: %s EE: %s wake: %s\n",
-> >   		   to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> >   		   mhi_is_active(mhi_cntrl) ? "Active" : "Inactive",
-> > -		   TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > +		   mhi_state_str(mhi_cntrl->dev_state),
-> >   		   TO_MHI_EXEC_STR(mhi_cntrl->ee),
-> >   		   mhi_cntrl->wake_set ? "true" : "false");
-> > @@ -206,13 +206,13 @@ static int mhi_debugfs_regdump_show(struct seq_file *m, void *d)
-> >   	seq_printf(m, "Host PM state: %s Device state: %s EE: %s\n",
-> >   		   to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> > -		   TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > +		   mhi_state_str(mhi_cntrl->dev_state),
-> >   		   TO_MHI_EXEC_STR(mhi_cntrl->ee));
-> >   	state = mhi_get_mhi_state(mhi_cntrl);
-> >   	ee = mhi_get_exec_env(mhi_cntrl);
-> >   	seq_printf(m, "Device EE: %s state: %s\n", TO_MHI_EXEC_STR(ee),
-> > -		   TO_MHI_STATE_STR(state));
-> > +		   mhi_state_str(state));
-> >   	for (i = 0; regs[i].name; i++) {
-> >   		if (!regs[i].base)
-> > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> > index 4bd62f32695d..0e301f3f305e 100644
-> > --- a/drivers/bus/mhi/host/init.c
-> > +++ b/drivers/bus/mhi/host/init.c
-> > @@ -44,18 +44,6 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
-> >   	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
-> >   };
-> > -const char * const mhi_state_str[MHI_STATE_MAX] = {
-> > -	[MHI_STATE_RESET] = "RESET",
-> > -	[MHI_STATE_READY] = "READY",
-> > -	[MHI_STATE_M0] = "M0",
-> > -	[MHI_STATE_M1] = "M1",
-> > -	[MHI_STATE_M2] = "M2",
-> > -	[MHI_STATE_M3] = "M3",
-> > -	[MHI_STATE_M3_FAST] = "M3 FAST",
-> > -	[MHI_STATE_BHI] = "BHI",
-> > -	[MHI_STATE_SYS_ERR] = "SYS ERROR",
-> > -};
-> > -
-> >   const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
-> >   	[MHI_CH_STATE_TYPE_RESET] = "RESET",
-> >   	[MHI_CH_STATE_TYPE_STOP] = "STOP",
-> > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> > index 85f4f7c8d7c6..e436c2993d97 100644
-> > --- a/drivers/bus/mhi/host/main.c
-> > +++ b/drivers/bus/mhi/host/main.c
-> > @@ -479,8 +479,8 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
-> >   	ee = mhi_get_exec_env(mhi_cntrl);
-> >   	dev_dbg(dev, "local ee: %s state: %s device ee: %s state: %s\n",
-> >   		TO_MHI_EXEC_STR(mhi_cntrl->ee),
-> > -		TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > -		TO_MHI_EXEC_STR(ee), TO_MHI_STATE_STR(state));
-> > +		mhi_state_str(mhi_cntrl->dev_state),
-> > +		TO_MHI_EXEC_STR(ee), mhi_state_str(state));
-> >   	if (state == MHI_STATE_SYS_ERR) {
-> >   		dev_dbg(dev, "System error detected\n");
-> > @@ -846,7 +846,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
-> >   			new_state = MHI_TRE_GET_EV_STATE(local_rp);
-> >   			dev_dbg(dev, "State change event to state: %s\n",
-> > -				TO_MHI_STATE_STR(new_state));
-> > +				mhi_state_str(new_state));
-> >   			switch (new_state) {
-> >   			case MHI_STATE_M0:
-> > @@ -873,7 +873,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
-> >   			}
-> >   			default:
-> >   				dev_err(dev, "Invalid state: %s\n",
-> > -					TO_MHI_STATE_STR(new_state));
-> > +					mhi_state_str(new_state));
-> >   			}
-> >   			break;
-> > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> > index c35c5ddc7220..088ade0f3e0b 100644
-> > --- a/drivers/bus/mhi/host/pm.c
-> > +++ b/drivers/bus/mhi/host/pm.c
-> > @@ -545,7 +545,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
-> >   	dev_dbg(dev, "Exiting with PM state: %s, MHI state: %s\n",
-> >   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> > -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
-> > +		mhi_state_str(mhi_cntrl->dev_state));
-> >   	mutex_unlock(&mhi_cntrl->pm_mutex);
-> >   }
-> > @@ -689,7 +689,7 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
-> >   exit_sys_error_transition:
-> >   	dev_dbg(dev, "Exiting with PM state: %s, MHI state: %s\n",
-> >   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> > -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
-> > +		mhi_state_str(mhi_cntrl->dev_state));
-> >   	mutex_unlock(&mhi_cntrl->pm_mutex);
-> >   }
-> > @@ -864,7 +864,7 @@ int mhi_pm_suspend(struct mhi_controller *mhi_cntrl)
-> >   	if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-> >   		dev_err(dev,
-> >   			"Did not enter M3 state, MHI state: %s, PM state: %s\n",
-> > -			TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > +			mhi_state_str(mhi_cntrl->dev_state),
-> >   			to_mhi_pm_state_str(mhi_cntrl->pm_state));
-> >   		return -EIO;
-> >   	}
-> > @@ -890,7 +890,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
-> >   	dev_dbg(dev, "Entered with PM state: %s, MHI state: %s\n",
-> >   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
-> > -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
-> > +		mhi_state_str(mhi_cntrl->dev_state));
-> >   	if (mhi_cntrl->pm_state == MHI_PM_DISABLE)
-> >   		return 0;
-> > @@ -900,7 +900,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
-> >   	if (mhi_get_mhi_state(mhi_cntrl) != MHI_STATE_M3) {
-> >   		dev_warn(dev, "Resuming from non M3 state (%s)\n",
-> > -			 TO_MHI_STATE_STR(mhi_get_mhi_state(mhi_cntrl)));
-> > +			 mhi_state_str(mhi_get_mhi_state(mhi_cntrl)));
-> >   		if (!force)
-> >   			return -EINVAL;
-> >   	}
-> > @@ -937,7 +937,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
-> >   	if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-> >   		dev_err(dev,
-> >   			"Did not enter M0 state, MHI state: %s, PM state: %s\n",
-> > -			TO_MHI_STATE_STR(mhi_cntrl->dev_state),
-> > +			mhi_state_str(mhi_cntrl->dev_state),
-> >   			to_mhi_pm_state_str(mhi_cntrl->pm_state));
-> >   		return -EIO;
-> >   	}
-> > @@ -1088,7 +1088,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
-> >   	state = mhi_get_mhi_state(mhi_cntrl);
-> >   	dev_dbg(dev, "Attempting power on with EE: %s, state: %s\n",
-> > -		TO_MHI_EXEC_STR(current_ee), TO_MHI_STATE_STR(state));
-> > +		TO_MHI_EXEC_STR(current_ee), mhi_state_str(state));
-> >   	if (state == MHI_STATE_SYS_ERR) {
-> >   		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
-> 
