@@ -1,163 +1,355 @@
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E401360
-	for <mhi@lists.linux.dev>; Tue, 15 Feb 2022 22:40:45 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id h5so248631ioj.3
-        for <mhi@lists.linux.dev>; Tue, 15 Feb 2022 14:40:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF971B69
+	for <mhi@lists.linux.dev>; Wed, 16 Feb 2022 07:04:31 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id i10so1327924plr.2
+        for <mhi@lists.linux.dev>; Tue, 15 Feb 2022 23:04:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=NAChw+hiqySRtT5lFZamqaOkHF7+UdMed1yWTO7hPco=;
-        b=QmgtFDdnWbSOynDL7bHicQtuY2xqel/5AmiOvaB2ij/8eG5S76lOzRQLKT0AiS/sEV
-         SynZqxVKdDr9Lfj4N05mArX0f+sZ+lQc88rPXIytVLT4gQ92aC/M2DPsuJyVatE6bLlY
-         cAwFoOWh2GIY9O2egGbYY2fwUIsDC+HzyrxqUMKZ1GQ2414ZTTlN02Kfrb2lWT2F35I+
-         QQDf1IS51zgB5nnVKZXNdigWt7sfyrcixT/nq8zjTpbolldB4KSvzgpll+o6bQl2DjJn
-         NVRtRro8+v+zHSxOEfoz35Fv4gVizeC2riFgbnwFwnkHTNm5bFndDhvCHozn2QcZ+zFe
-         HluA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1gUe7cNWWp5jPSyyMpftZXbqEu5b63DOSsVxveCq2ps=;
+        b=YhhVuKCFyI88R7IDLGbF3CCuBuXJHPwiMtygUFF2fAj5ktD8iBNf8Pf8twO3WsUvH6
+         +DjNim9Fqz6pmCZnL8/ffg2aP8Cgol13mFhdBMS0Unj5MZeDcwWGMfNNwIZ/1Tw/t8xb
+         CqxLPXowrcghODk5fAovPVXGa+Vga4RpdpBrBy0EyH0U12t/iwT853h8V/U8RlVHpnOO
+         dHvnoBc0x6HxLaGsaTa4IVwe4+nyrMs81AhDfERVVqz4NcVGDolX1J4ryaKnSe0AuCa0
+         WOZM11ujyL5xNAPUtTA8xViyLYHEKX7ZrYmZ/HFrfwhlPH1jf/oQ6azrGh8BwuIColne
+         Y0ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=NAChw+hiqySRtT5lFZamqaOkHF7+UdMed1yWTO7hPco=;
-        b=5aV0phG9cLZnBg7FNwtvs5aWMkPz4cjG0NmGTjbG89JBNbpge2yeCE8MG1ComYonmv
-         3YfEhKHHb5lCwnrqAsLj/1eMb+woj1u2cKtEl2t7OLEXzk0CZVWTuc0z8S114XXsKbJg
-         unGQF81QgTCCg/eX7YTmcTAScJl2OOsj1EX11p4uAO1i0+OsfVd3g+r/kjl1x4ZR9GZn
-         M2YH5O4vKsuaS78rUtCgwgrB90HgOHgZopZsYk6A5Er229uA8oVztmHyuFgTkx4plbKk
-         8PoRQDEvsmuYs8dX6lzI1TvNXpYbHrEmJRSUcNwV0SymKj5ZtzZU0RdqLjzp0RWgzuhy
-         lbtw==
-X-Gm-Message-State: AOAM532lo6hhQM219eYIJ3e/PI8SgsoARQBUO5GLnwcTWtYLsoTDQkIg
-	4hY/hmFPcKP+A7O31NC7gxZQEA==
-X-Google-Smtp-Source: ABdhPJy97qIXRtee/cwA9QDvGDMMcW7NHPaAf9UoOi2hJJBivCxjR9bSAF5tFasPd6q8M4GpauUocQ==
-X-Received: by 2002:a05:6602:490:b0:638:c8ed:1e38 with SMTP id y16-20020a056602049000b00638c8ed1e38mr13085iov.202.1644964845019;
-        Tue, 15 Feb 2022 14:40:45 -0800 (PST)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id f15sm8851041ila.86.2022.02.15.14.40.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Feb 2022 14:40:44 -0800 (PST)
-Message-ID: <971f1cfc-b74d-8fdb-e5ff-89af27331be1@linaro.org>
-Date: Tue, 15 Feb 2022 16:40:43 -0600
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1gUe7cNWWp5jPSyyMpftZXbqEu5b63DOSsVxveCq2ps=;
+        b=GdTGby3K7bu28rqbqJ5OWeXIbA0iKJuvTL9jX9JiCHJKcd20e+fj5tdxOxPgLSnYJy
+         woLZArC62AYACzD0Yj5M7EXmxVaS3kuHQdkjxnpOIhfDEwYp0KrWpSQQHCcllPbkVhrh
+         hUsIYTNlkMKFenTzKPgjBsJUyFj63Xy5xYvNOb/XlTvKnma9cvuJ8e/4DWL4zGxcggJ3
+         WdDmU6SMj87/sUjz+J2lsykhboBYd7IJYkUUn6LJrOYGXn3E8hEI06VstEJomeNKHMMU
+         ksM7LDaDMkTRg6VwQYv50f2bUuEDYPGC0z6pXIjH3tayVaAhwWIMzgcksDI5lLDgFAc1
+         dolA==
+X-Gm-Message-State: AOAM532oT9vqYWVg4UZA/qop2Z0T3VejfFrND08bOPewaqdcR4+3zERh
+	nOwzEN+lsoEs10MXyknFz8cl
+X-Google-Smtp-Source: ABdhPJyd2T4i7KV4O+k8PTpsysusmBElWwsfEQJ8CzBHSFSmMz8TmlqmEnn9P+3VQ1x+bunGMW6qbQ==
+X-Received: by 2002:a17:90b:f0c:b0:1b9:c6b7:7cd6 with SMTP id br12-20020a17090b0f0c00b001b9c6b77cd6mr187155pjb.231.1644995070475;
+        Tue, 15 Feb 2022 23:04:30 -0800 (PST)
+Received: from workstation ([117.193.208.189])
+        by smtp.gmail.com with ESMTPSA id c14sm40572968pfm.169.2022.02.15.23.04.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Feb 2022 23:04:29 -0800 (PST)
+Date: Wed, 16 Feb 2022 12:34:24 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Alex Elder <elder@linaro.org>
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
+	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
+	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
+	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Paul Davey <paul.davey@alliedtelesis.co.nz>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 02/25] bus: mhi: Fix MHI DMA structure endianness
+Message-ID: <20220216070424.GA6225@workstation>
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+ <20220212182117.49438-3-manivannan.sadhasivam@linaro.org>
+ <2ddfa2c9-0e03-e4f7-e0e5-78230bef43fe@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 25/25] bus: mhi: ep: Add uevent support for module
- autoloading
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- mhi@lists.linux.dev
-Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
- quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
- dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
- quic_cang@quicinc.com, quic_skananth@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-26-manivannan.sadhasivam@linaro.org>
-From: Alex Elder <elder@linaro.org>
-In-Reply-To: <20220212182117.49438-26-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ddfa2c9-0e03-e4f7-e0e5-78230bef43fe@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
-> Add uevent support to MHI endpoint bus so that the client drivers can be
-> autoloaded by udev when the MHI endpoint devices gets created. The client
-> drivers are expected to provide MODULE_DEVICE_TABLE with the MHI id_table
-> struct so that the alias can be exported.
+On Tue, Feb 15, 2022 at 02:02:01PM -0600, Alex Elder wrote:
+> On 2/12/22 12:20 PM, Manivannan Sadhasivam wrote:
+> > From: Paul Davey <paul.davey@alliedtelesis.co.nz>
+> > 
+> > The MHI driver does not work on big endian architectures.  The
+> > controller never transitions into mission mode.  This appears to be due
+> > to the modem device expecting the various contexts and transfer rings to
+> > have fields in little endian order in memory, but the driver constructs
+> > them in native endianness.
 > 
-> The MHI endpoint reused the mhi_device_id structure of the MHI bus.
+> Yes, this is true.
 > 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-
-Looks OK to me.
-
-Reviewed-by: Alex Elder <elder@linaro.org>
-
-
-Next time I review this, I think I'll review the code
-in its entirety (i.e., with the entire series applied
-rather than in steps).  At that point I'm sure it will
-be nearly perfect.
-
-					-Alex
-
-> ---
->   drivers/bus/mhi/ep/main.c       |  9 +++++++++
->   include/linux/mod_devicetable.h |  2 ++
->   scripts/mod/file2alias.c        | 10 ++++++++++
->   3 files changed, 21 insertions(+)
+> > Fix MHI event, channel and command contexts and TRE handling macros to
+> > use explicit conversion to little endian.  Mark fields in relevant
+> > structures as little endian to document this requirement.
 > 
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index 315409705b91..8889382ee8d0 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -1546,6 +1546,14 @@ void mhi_ep_driver_unregister(struct mhi_ep_driver *mhi_drv)
->   }
->   EXPORT_SYMBOL_GPL(mhi_ep_driver_unregister);
->   
-> +static int mhi_ep_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +{
-> +	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-> +
-> +	return add_uevent_var(env, "MODALIAS=" MHI_EP_DEVICE_MODALIAS_FMT,
-> +					mhi_dev->name);
-> +}
-> +
->   static int mhi_ep_match(struct device *dev, struct device_driver *drv)
->   {
->   	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-> @@ -1572,6 +1580,7 @@ struct bus_type mhi_ep_bus_type = {
->   	.name = "mhi_ep",
->   	.dev_name = "mhi_ep",
->   	.match = mhi_ep_match,
-> +	.uevent = mhi_ep_uevent,
->   };
->   
->   static int __init mhi_ep_init(void)
-> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> index 4bb71979a8fd..0cff19bd72bf 100644
-> --- a/include/linux/mod_devicetable.h
-> +++ b/include/linux/mod_devicetable.h
-> @@ -835,6 +835,8 @@ struct wmi_device_id {
->   #define MHI_DEVICE_MODALIAS_FMT "mhi:%s"
->   #define MHI_NAME_SIZE 32
->   
-> +#define MHI_EP_DEVICE_MODALIAS_FMT "mhi_ep:%s"
-> +
->   /**
->    * struct mhi_device_id - MHI device identification
->    * @chan: MHI channel name
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 5258247d78ac..d9d6a31446ea 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -1391,6 +1391,15 @@ static int do_mhi_entry(const char *filename, void *symval, char *alias)
->   	return 1;
->   }
->   
-> +/* Looks like: mhi_ep:S */
-> +static int do_mhi_ep_entry(const char *filename, void *symval, char *alias)
-> +{
-> +	DEF_FIELD_ADDR(symval, mhi_device_id, chan);
-> +	sprintf(alias, MHI_EP_DEVICE_MODALIAS_FMT, *chan);
-> +
-> +	return 1;
-> +}
-> +
->   /* Looks like: ishtp:{guid} */
->   static int do_ishtp_entry(const char *filename, void *symval, char *alias)
->   {
-> @@ -1519,6 +1528,7 @@ static const struct devtable devtable[] = {
->   	{"tee", SIZE_tee_client_device_id, do_tee_entry},
->   	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
->   	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
-> +	{"mhi_ep", SIZE_mhi_device_id, do_mhi_ep_entry},
->   	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
->   	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
->   	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
+> Basically every field in the external interface whose size
+> is greater than one byte must have its endianness noted.
+> From what I can tell, you did that for all of the exposed
+> structures defined in "drivers/bus/mhi/core/internal.h",
+> which is good.
+> 
+> *However* some of the *constants* were defined the wrong way.
+> 
+> Basically, all of the constant values should be expressed
+> in host byte order.  And any needed byte swapping should be
+> done at the time the value is read from memory--immediately.
+> That way, we isolate that activity to the one place we
+> interface with the possibly "foreign" format, and from then
+> on, everything may be assumed to be in natural (CPU) byte order.
+> 
 
+Well, I did think about it but I convinced myself that doing the
+conversion in code rather in defines make the code look messy.
+Also in some places it just makes it look complicated. More below:
+
+> I will point out what I mean, below.
+> 
+> > Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
+> > Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
+> > Signed-off-by: Paul Davey <paul.davey@alliedtelesis.co.nz>
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >   drivers/bus/mhi/core/debugfs.c  |  26 +++----
+> >   drivers/bus/mhi/core/init.c     |  36 +++++-----
+> >   drivers/bus/mhi/core/internal.h | 119 ++++++++++++++++----------------
+> >   drivers/bus/mhi/core/main.c     |  22 +++---
+> >   drivers/bus/mhi/core/pm.c       |   4 +-
+> >   5 files changed, 104 insertions(+), 103 deletions(-)
+> > 
+
+[...]
+
+> > @@ -277,57 +277,58 @@ enum mhi_cmd_type {
+> >   /* No operation command */
+> >   #define MHI_TRE_CMD_NOOP_PTR (0)
+> >   #define MHI_TRE_CMD_NOOP_DWORD0 (0)
+> > -#define MHI_TRE_CMD_NOOP_DWORD1 (MHI_CMD_NOP << 16)
+> > +#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(MHI_CMD_NOP << 16))
+> 
+> This just looks wrong to me.  The original definition
+> should be fine, but then where it's *used* it should
+> be passed to cpu_to_le32().  I realize this might be
+> a special case, where these "DWORD" values are getting
+> written out to command ring elements, but even so, the
+> byte swapping that's happening is important and should
+> be made obvious in the code using these symbols.
+> 
+> This comment applies to many more similar definitions
+> below.  I don't know; maybe it looks cumbersome if
+> it's done in the code, but I still think it's better to
+> consistenly define symbols like this in CPU byte order
+> and do the conversions explicitly only when the values
+> are read/written to "foreign" (external interface)
+> memory.
+> 
+
+Defines like MHI_TRE_GET_CMD_CHID are making the conversion look messy
+to me. In this we first extract the DWORD from TRE and then doing
+shifting + masking to get the CHID.
+
+So without splitting the DWORD extraction and GET_CHID macros
+separately, we can't just do the conversion in code. And we may end up
+doing the conversion in defines just for these special cases but that
+will break the uniformity.
+
+So IMO it looks better if we trust the defines to do the conversion itself.
+
+Please let me know if you think the other way.
+
+Thanks,
+Mani
+
+> Outside of this issue, the remainder of the patch looks
+> OK to me.
+> 
+> 					-Alex
+> 
+> >   /* Channel reset command */
+> >   #define MHI_TRE_CMD_RESET_PTR (0)
+> >   #define MHI_TRE_CMD_RESET_DWORD0 (0)
+> > -#define MHI_TRE_CMD_RESET_DWORD1(chid) ((chid << 24) | \
+> > -					(MHI_CMD_RESET_CHAN << 16))
+> > +#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+> > +					(MHI_CMD_RESET_CHAN << 16)))
+> >   /* Channel stop command */
+> >   #define MHI_TRE_CMD_STOP_PTR (0)
+> >   #define MHI_TRE_CMD_STOP_DWORD0 (0)
+> > -#define MHI_TRE_CMD_STOP_DWORD1(chid) ((chid << 24) | \
+> > -				       (MHI_CMD_STOP_CHAN << 16))
+> > +#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+> > +				       (MHI_CMD_STOP_CHAN << 16)))
+> >   /* Channel start command */
+> >   #define MHI_TRE_CMD_START_PTR (0)
+> >   #define MHI_TRE_CMD_START_DWORD0 (0)
+> > -#define MHI_TRE_CMD_START_DWORD1(chid) ((chid << 24) | \
+> > -					(MHI_CMD_START_CHAN << 16))
+> > +#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+> > +					(MHI_CMD_START_CHAN << 16)))
+> > -#define MHI_TRE_GET_CMD_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_CMD_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> > +#define MHI_TRE_GET_DWORD(tre, word) (le32_to_cpu((tre)->dword[(word)]))
+> > +#define MHI_TRE_GET_CMD_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
+> >   /* Event descriptor macros */
+> > -#define MHI_TRE_EV_PTR(ptr) (ptr)
+> > -#define MHI_TRE_EV_DWORD0(code, len) ((code << 24) | len)
+> > -#define MHI_TRE_EV_DWORD1(chid, type) ((chid << 24) | (type << 16))
+> > -#define MHI_TRE_GET_EV_PTR(tre) ((tre)->ptr)
+> > -#define MHI_TRE_GET_EV_CODE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_EV_LEN(tre) ((tre)->dword[0] & 0xFFFF)
+> > -#define MHI_TRE_GET_EV_CHID(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_EV_TYPE(tre) (((tre)->dword[1] >> 16) & 0xFF)
+> > -#define MHI_TRE_GET_EV_STATE(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_EV_EXECENV(tre) (((tre)->dword[0] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_EV_SEQ(tre) ((tre)->dword[0])
+> > -#define MHI_TRE_GET_EV_TIME(tre) ((tre)->ptr)
+> > -#define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits((tre)->ptr)
+> > -#define MHI_TRE_GET_EV_VEID(tre) (((tre)->dword[0] >> 16) & 0xFF)
+> > -#define MHI_TRE_GET_EV_LINKSPEED(tre) (((tre)->dword[1] >> 24) & 0xFF)
+> > -#define MHI_TRE_GET_EV_LINKWIDTH(tre) ((tre)->dword[0] & 0xFF)
+> > +#define MHI_TRE_EV_PTR(ptr) (cpu_to_le64(ptr))
+> > +#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32((code << 24) | len))
+> > +#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32((chid << 24) | (type << 16)))
+> > +#define MHI_TRE_GET_EV_PTR(tre) (le64_to_cpu((tre)->ptr))
+> > +#define MHI_TRE_GET_EV_CODE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_EV_LEN(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
+> > +#define MHI_TRE_GET_EV_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_EV_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
+> > +#define MHI_TRE_GET_EV_STATE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_EV_EXECENV(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_EV_SEQ(tre) MHI_TRE_GET_DWORD(tre, 0)
+> > +#define MHI_TRE_GET_EV_TIME(tre) (MHI_TRE_GET_EV_PTR(tre))
+> > +#define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
+> > +#define MHI_TRE_GET_EV_VEID(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
+> > +#define MHI_TRE_GET_EV_LINKSPEED(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+> > +#define MHI_TRE_GET_EV_LINKWIDTH(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
+> >   /* Transfer descriptor macros */
+> > -#define MHI_TRE_DATA_PTR(ptr) (ptr)
+> > -#define MHI_TRE_DATA_DWORD0(len) (len & MHI_MAX_MTU)
+> > -#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) ((2 << 16) | (bei << 10) \
+> > -	| (ieot << 9) | (ieob << 8) | chain)
+> > +#define MHI_TRE_DATA_PTR(ptr) (cpu_to_le64(ptr))
+> > +#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(len & MHI_MAX_MTU))
+> > +#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32((2 << 16) | (bei << 10) \
+> > +	| (ieot << 9) | (ieob << 8) | chain))
+> >   /* RSC transfer descriptor macros */
+> > -#define MHI_RSCTRE_DATA_PTR(ptr, len) (((u64)len << 48) | ptr)
+> > -#define MHI_RSCTRE_DATA_DWORD0(cookie) (cookie)
+> > -#define MHI_RSCTRE_DATA_DWORD1 (MHI_PKT_TYPE_COALESCING << 16)
+> > +#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(((u64)len << 48) | ptr))
+> > +#define MHI_RSCTRE_DATA_DWORD0(cookie) (cpu_to_le32(cookie))
+> > +#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16))
+> >   enum mhi_pkt_type {
+> >   	MHI_PKT_TYPE_INVALID = 0x0,
+> > @@ -500,7 +501,7 @@ struct state_transition {
+> >   struct mhi_ring {
+> >   	dma_addr_t dma_handle;
+> >   	dma_addr_t iommu_base;
+> > -	u64 *ctxt_wp; /* point to ctxt wp */
+> > +	__le64 *ctxt_wp; /* point to ctxt wp */
+> >   	void *pre_aligned;
+> >   	void *base;
+> >   	void *rp;
+> > diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/core/main.c
+> > index ffde617f93a3..85f4f7c8d7c6 100644
+> > --- a/drivers/bus/mhi/core/main.c
+> > +++ b/drivers/bus/mhi/core/main.c
+> > @@ -114,7 +114,7 @@ void mhi_ring_er_db(struct mhi_event *mhi_event)
+> >   	struct mhi_ring *ring = &mhi_event->ring;
+> >   	mhi_event->db_cfg.process_db(mhi_event->mhi_cntrl, &mhi_event->db_cfg,
+> > -				     ring->db_addr, *ring->ctxt_wp);
+> > +				     ring->db_addr, le64_to_cpu(*ring->ctxt_wp));
+> >   }
+> >   void mhi_ring_cmd_db(struct mhi_controller *mhi_cntrl, struct mhi_cmd *mhi_cmd)
+> > @@ -123,7 +123,7 @@ void mhi_ring_cmd_db(struct mhi_controller *mhi_cntrl, struct mhi_cmd *mhi_cmd)
+> >   	struct mhi_ring *ring = &mhi_cmd->ring;
+> >   	db = ring->iommu_base + (ring->wp - ring->base);
+> > -	*ring->ctxt_wp = db;
+> > +	*ring->ctxt_wp = cpu_to_le64(db);
+> >   	mhi_write_db(mhi_cntrl, ring->db_addr, db);
+> >   }
+> > @@ -140,7 +140,7 @@ void mhi_ring_chan_db(struct mhi_controller *mhi_cntrl,
+> >   	 * before letting h/w know there is new element to fetch.
+> >   	 */
+> >   	dma_wmb();
+> > -	*ring->ctxt_wp = db;
+> > +	*ring->ctxt_wp = cpu_to_le64(db);
+> >   	mhi_chan->db_cfg.process_db(mhi_cntrl, &mhi_chan->db_cfg,
+> >   				    ring->db_addr, db);
+> > @@ -432,7 +432,7 @@ irqreturn_t mhi_irq_handler(int irq_number, void *dev)
+> >   	struct mhi_event_ctxt *er_ctxt =
+> >   		&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
+> >   	struct mhi_ring *ev_ring = &mhi_event->ring;
+> > -	dma_addr_t ptr = er_ctxt->rp;
+> > +	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
+> >   	void *dev_rp;
+> >   	if (!is_valid_ring_ptr(ev_ring, ptr)) {
+> > @@ -537,14 +537,14 @@ static void mhi_recycle_ev_ring_element(struct mhi_controller *mhi_cntrl,
+> >   	/* Update the WP */
+> >   	ring->wp += ring->el_size;
+> > -	ctxt_wp = *ring->ctxt_wp + ring->el_size;
+> > +	ctxt_wp = le64_to_cpu(*ring->ctxt_wp) + ring->el_size;
+> >   	if (ring->wp >= (ring->base + ring->len)) {
+> >   		ring->wp = ring->base;
+> >   		ctxt_wp = ring->iommu_base;
+> >   	}
+> > -	*ring->ctxt_wp = ctxt_wp;
+> > +	*ring->ctxt_wp = cpu_to_le64(ctxt_wp);
+> >   	/* Update the RP */
+> >   	ring->rp += ring->el_size;
+> > @@ -801,7 +801,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+> >   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> >   	u32 chan;
+> >   	int count = 0;
+> > -	dma_addr_t ptr = er_ctxt->rp;
+> > +	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
+> >   	/*
+> >   	 * This is a quick check to avoid unnecessary event processing
+> > @@ -940,7 +940,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+> >   		mhi_recycle_ev_ring_element(mhi_cntrl, ev_ring);
+> >   		local_rp = ev_ring->rp;
+> > -		ptr = er_ctxt->rp;
+> > +		ptr = le64_to_cpu(er_ctxt->rp);
+> >   		if (!is_valid_ring_ptr(ev_ring, ptr)) {
+> >   			dev_err(&mhi_cntrl->mhi_dev->dev,
+> >   				"Event ring rp points outside of the event ring\n");
+> > @@ -970,7 +970,7 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
+> >   	int count = 0;
+> >   	u32 chan;
+> >   	struct mhi_chan *mhi_chan;
+> > -	dma_addr_t ptr = er_ctxt->rp;
+> > +	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
+> >   	if (unlikely(MHI_EVENT_ACCESS_INVALID(mhi_cntrl->pm_state)))
+> >   		return -EIO;
+> > @@ -1011,7 +1011,7 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
+> >   		mhi_recycle_ev_ring_element(mhi_cntrl, ev_ring);
+> >   		local_rp = ev_ring->rp;
+> > -		ptr = er_ctxt->rp;
+> > +		ptr = le64_to_cpu(er_ctxt->rp);
+> >   		if (!is_valid_ring_ptr(ev_ring, ptr)) {
+> >   			dev_err(&mhi_cntrl->mhi_dev->dev,
+> >   				"Event ring rp points outside of the event ring\n");
+> > @@ -1533,7 +1533,7 @@ static void mhi_mark_stale_events(struct mhi_controller *mhi_cntrl,
+> >   	/* mark all stale events related to channel as STALE event */
+> >   	spin_lock_irqsave(&mhi_event->lock, flags);
+> > -	ptr = er_ctxt->rp;
+> > +	ptr = le64_to_cpu(er_ctxt->rp);
+> >   	if (!is_valid_ring_ptr(ev_ring, ptr)) {
+> >   		dev_err(&mhi_cntrl->mhi_dev->dev,
+> >   			"Event ring rp points outside of the event ring\n");
+> > diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/core/pm.c
+> > index 4aae0baea008..c35c5ddc7220 100644
+> > --- a/drivers/bus/mhi/core/pm.c
+> > +++ b/drivers/bus/mhi/core/pm.c
+> > @@ -218,7 +218,7 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+> >   			continue;
+> >   		ring->wp = ring->base + ring->len - ring->el_size;
+> > -		*ring->ctxt_wp = ring->iommu_base + ring->len - ring->el_size;
+> > +		*ring->ctxt_wp = cpu_to_le64(ring->iommu_base + ring->len - ring->el_size);
+> >   		/* Update all cores */
+> >   		smp_wmb();
+> > @@ -420,7 +420,7 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+> >   			continue;
+> >   		ring->wp = ring->base + ring->len - ring->el_size;
+> > -		*ring->ctxt_wp = ring->iommu_base + ring->len - ring->el_size;
+> > +		*ring->ctxt_wp = cpu_to_le64(ring->iommu_base + ring->len - ring->el_size);
+> >   		/* Update to all cores */
+> >   		smp_wmb();
+> 
