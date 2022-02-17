@@ -1,11 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DFA3665
-	for <mhi@lists.linux.dev>; Wed, 16 Feb 2022 17:43:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A235CC004E1;
-	Wed, 16 Feb 2022 17:43:17 +0000 (UTC)
-Date: Wed, 16 Feb 2022 23:13:14 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993CB38DA
+	for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 09:53:25 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id a11-20020a17090a740b00b001b8b506c42fso8998705pjg.0
+        for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 01:53:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=lmIsIBblKAW0X/CfLZXrJaii643DzdyL4PqmGD4lPJc=;
+        b=yxDmCYsLkl6a4NEL4s2RIdKDrqOpfQBwC2DORfc0svGXRIgSZXUh8iVhtaTforc2cu
+         9EeNcoBxKqLcKD/9VhOhyXigiid7j6uXuLGkdC7V1/cq3HjGZeaGpMHHCnze6WXFAGth
+         2YlE7DvVwNzS0M1yQ7h3Z9JN4DXw/TtRSGuXN2UxbXwArJI6D0jZpsLsEs/HLjnFmyKn
+         z7c9mCZJCWUY9V/ORzJKFrCBfHBL8AyxcahvlvE8SqWnNadznOJxYafsSA9A96yc97zz
+         yqZVAVp9kq/aY34iV9n/Z0Ve3py1XN7YQYLAgn5nmgga+YkcMJ27qtCMwZZM0R7nxiLB
+         MTlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lmIsIBblKAW0X/CfLZXrJaii643DzdyL4PqmGD4lPJc=;
+        b=6fVx/IE92VOYV3Q+6cW37JG6OWmpZ05eXGNISwl6xDwOdXldjnh67zuK+7Bgsi7OOc
+         ts9G+d07hjzeJ7SVBc1PwXdwVzXh/uNADzGEWVsGaOWIC8uBylxvl1+cr4jl4cIpifdz
+         u4rhC/fldyFl6rfJGLEQnER+Xr0u4hzwndcDNrWDU9WiUoApUh22Wd2thH01Jqn1bPIU
+         6Gglcig8DWMtYKy70iqjFxe1yDky3uTNu0JQq3WDRwirnAewhStY7zti8UiCy4DMcX8f
+         HrnIESLPTrBZ+yF3dtVFGL2JbcndsbCynBIzFTkFyllIGbykDJ30uBPSGrTWbY8M/25W
+         QqOg==
+X-Gm-Message-State: AOAM533Dp7Kg/WymDvGTGxsASOlZLdMlPloA27vgcD1ZAPWRbKGIYMRh
+	+khxZrT3x/flonkVjJ23+Kvj
+X-Google-Smtp-Source: ABdhPJxG7lKpGFzqlOJWBLCdpuGI46+qOePrLiXQ3VPvSGslAtVIr37Bl6iFtmNg/z4O0O6WLk9hMg==
+X-Received: by 2002:a17:902:f605:b0:14f:5d75:4fb0 with SMTP id n5-20020a170902f60500b0014f5d754fb0mr2068752plg.101.1645091604859;
+        Thu, 17 Feb 2022 01:53:24 -0800 (PST)
+Received: from workstation ([117.193.211.41])
+        by smtp.gmail.com with ESMTPSA id f16sm2160620pfe.52.2022.02.17.01.53.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 17 Feb 2022 01:53:24 -0800 (PST)
+Date: Thu, 17 Feb 2022 15:23:19 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
@@ -14,13 +45,12 @@ Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
 	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
 	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 06/25] bus: mhi: Cleanup the register definitions used
- in headers
-Message-ID: <20220216174314.GG6225@workstation>
+Subject: Re: [PATCH v3 08/25] bus: mhi: ep: Add support for registering MHI
+ endpoint controllers
+Message-ID: <20220217095319.GA11964@workstation>
 References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-7-manivannan.sadhasivam@linaro.org>
- <058a6e9f-8feb-8e66-dcc3-ffbea6ca4a4d@linaro.org>
- <20220216172145.GE6225@workstation>
+ <20220212182117.49438-9-manivannan.sadhasivam@linaro.org>
+ <4cc78936-b419-4738-b5b2-65c53be06f33@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -29,637 +59,248 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220216172145.GE6225@workstation>
+In-Reply-To: <4cc78936-b419-4738-b5b2-65c53be06f33@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Wed, Feb 16, 2022 at 10:51:45PM +0530, Manivannan Sadhasivam wrote:
-> On Tue, Feb 15, 2022 at 02:02:28PM -0600, Alex Elder wrote:
-> > On 2/12/22 12:20 PM, Manivannan Sadhasivam wrote:
-> > > Cleanup includes:
-> > > 
-> > > 1. Moving the MHI register definitions to common.h header with REG_ prefix
-> > >     and using them in the host/internal.h file as an alias. This makes it
-> > >     possible to reuse the register definitions in EP stack that differs by
-> > >     a fixed offset.
-> > 
-> > I like that you're doing this.  But I don't see the point of this
-> > kind of definition, made in "drivers/bus/mhi/host/internal.h
-> > ":
-> > 
-> >   #define MHIREGLEN	REG_MHIREGLEN
-> > 
-> > Just use REG_MHIREGLEN in the host code too.  (Or use MHIREGLEN in
-> > both places, whichever you prefer.)
-> > 
+On Tue, Feb 15, 2022 at 02:02:41PM -0600, Alex Elder wrote:
+
+[...]
+
+> > +#define MHI_REG_OFFSET				0x100
+> > +#define BHI_REG_OFFSET				0x200
 > 
-> My intention is to use the original MHI register definitions in both
-> host and endpoint. So REG_ prefix acts like an overlay here. Earlier I
-> was defining the MHI registers in both host and endpoint separately.
+> Rather than defining the REG_OFFSET values here and adding
+> them to every definition below, why not have the base
+> address used (e.g., in mhi_write_reg_field()) be adjusted
+> by the constant amount?
 > 
-> But I came up with this after your v2 review.
+> I'm just looking at mhi_init_mmio() (in the existing code)
+> as an example, but for example, the base address used
+> comes from mhi_cntrl->regs.  Can you instead just define
+> a pointer somewhere that is the base of the MHI register
+> range, which is already offset by the appropriate amount?
 > 
 
-Hmm, I got your suggestion now. Just looked at patch 08/25. Please
-ignore my above comment.
+I've defined two set of APIs for MHI and BHI read/write. They will add the
+respective offsets.
+
+> > +
+
+[...]
+
+> > +/* Generic context */
+> > +struct mhi_generic_ctx {
+> > +	__u32 reserved0;
+> > +	__u32 reserved1;
+> > +	__u32 reserved2;
+> > +
+> > +	__u64 rbase __packed __aligned(4);
+> > +	__u64 rlen __packed __aligned(4);
+> > +	__u64 rp __packed __aligned(4);
+> > +	__u64 wp __packed __aligned(4);
+> > +};
+> 
+> I'm pretty sure this constitutes an external interface, so
+> every field should have its endianness annotated.
+> 
+> Mentioned elsewhere, I think you can define the structure
+> with those attributes rather than the multiple fields.
+> 
+
+As I said before, this was suggested by Arnd during MHI host review. He
+suggested adding the alignment and packed to only members that require
+them.
+
+But I think I should change it now...
+
+> > +
+> > +enum mhi_ep_ring_type {
+> > +	RING_TYPE_CMD = 0,
+> > +	RING_TYPE_ER,
+> > +	RING_TYPE_CH,
+> > +};
+> > +
+> > +struct mhi_ep_ring_element {
+> > +	u64 ptr;
+> > +	u32 dword[2];
+> > +};
+> 
+> Are these host resident rings?  Even if not, this is an external
+> interface, so this should be defined with explicit endianness.
+> The cpu_to_le64() call will be a no-op so there is no cost
+> to correcting this.
+> 
+
+Ah, this should be reusing the "struct mhi_tre" defined in host. Will do.
+
+> > +
+> > +/* Ring element */
+> > +union mhi_ep_ring_ctx {
+> > +	struct mhi_cmd_ctxt cmd;
+> > +	struct mhi_event_ctxt ev;
+> > +	struct mhi_chan_ctxt ch;
+> > +	struct mhi_generic_ctx generic;
+> > +};
+> > +
+> > +struct mhi_ep_ring {
+> > +	struct mhi_ep_cntrl *mhi_cntrl;
+> > +	int (*ring_cb)(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *el);
+> > +	union mhi_ep_ring_ctx *ring_ctx;
+> > +	struct mhi_ep_ring_element *ring_cache;
+> > +	enum mhi_ep_ring_type type;
+> > +	size_t rd_offset;
+> > +	size_t wr_offset;
+> > +	size_t ring_size;
+> > +	u32 db_offset_h;
+> > +	u32 db_offset_l;
+> > +	u32 ch_id;
+> > +};
+> 
+> Not sure about the db_offset fields, etc. here, but it's possible
+> they need endianness annotations.  I'm going to stop making this
+> comment; please make sure anything that's exposed to the host
+> specifies that it's little endian.  (The host and endpoint should
+> have a common definition of these shared structures anyway; maybe
+> I'm misreading this or assuming something incorrectly.)
+> 
+
+db_offset_* just holds the register offsets so they don't require
+endianness annotation. All MMIO read/write are using readl/writel APIs
+and they handle the endianness conversion implicitly.
+
+Rest of the host memory accesses are annotated properly.
+
+> > +
+
+[...]
+
+> > +	/*
+> > +	 * Allocate max_channels supported by the MHI endpoint and populate
+> > +	 * only the defined channels
+> > +	 */
+> > +	mhi_cntrl->mhi_chan = kcalloc(mhi_cntrl->max_chan, sizeof(*mhi_cntrl->mhi_chan),
+> > +				      GFP_KERNEL);
+> > +	if (!mhi_cntrl->mhi_chan)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i = 0; i < config->num_channels; i++) {
+> > +		struct mhi_ep_chan *mhi_chan;
+> 
+> This entire block could be encapsulated in mhi_channel_add()
+> or something,
+
+Wrapping up in a function is useful if the same code is used in
+different places. But I don't think it adds any value here.
+
+> 
+> > +		ch_cfg = &config->ch_cfg[i];
+> 
+> Move the above assignment down a few lines, to just before
+> where it's used.
+> 
+
+No, ch_cfg is used just below this.
+
+> > +
+> > +		chan = ch_cfg->num;
+> > +		if (chan >= mhi_cntrl->max_chan) {
+> > +			dev_err(dev, "Channel %d not available\n", chan);
+> 
+> Maybe report the maximum channel so it's obvious why it's
+> not available.
+> 
+> > +			goto error_chan_cfg;
+> > +		}
+> > +
+> > +		/* Bi-directional and direction less channels are not supported */
+> > +		if (ch_cfg->dir == DMA_BIDIRECTIONAL || ch_cfg->dir == DMA_NONE) {
+> > +			dev_err(dev, "Invalid channel configuration\n");
+> 
+> Maybe be more specific in your message about what's wrong here.
+> 
+> > +			goto error_chan_cfg;
+> > +		}
+> > +
+> > +		mhi_chan = &mhi_cntrl->mhi_chan[chan];
+> > +		mhi_chan->name = ch_cfg->name;
+> > +		mhi_chan->chan = chan;
+> > +		mhi_chan->dir = ch_cfg->dir;
+> > +		mutex_init(&mhi_chan->lock);
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +error_chan_cfg:
+> > +	kfree(mhi_cntrl->mhi_chan);
+> 
+> I'm not sure what the caller does, but maybe null this
+> after it's freed, or don't assign mhi_cntrll->mhi_chan
+> until the initialization is successful.
+> 
+
+This is not required here as there will be no access to the pointer
+after failing.
+
+> 
+> > +	return ret;
+> > +}
+> > +
+> > +/*
+> > + * Allocate channel and command rings here. Event rings will be allocated
+> > + * in mhi_ep_power_up() as the config comes from the host.
+> > + */
+> > +int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> > +				const struct mhi_ep_cntrl_config *config)
+> > +{
+> > +	struct mhi_ep_device *mhi_dev;
+> > +	int ret;
+> > +
+> > +	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev)
+> > +		return -EINVAL;
+> > +
+> > +	ret = parse_ch_cfg(mhi_cntrl, config);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	mhi_cntrl->mhi_cmd = kcalloc(NR_OF_CMD_RINGS, sizeof(*mhi_cntrl->mhi_cmd), GFP_KERNEL);
+> 
+> I said before I thought it was silly to even define NR_OF_CMD_RINGS.
+> Does the MHI specification actually allow more than one command
+> ring for a given MHI controller?  Ever?
+> 
+
+MHI spec doesn't limit the number of command rings. Eventhough I don't
+envision adding more command rings in the future, I'm going to keep this
+macro for now as the MHI host does the same.
+
+[...]
+
+> > diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+> > new file mode 100644
+> > index 000000000000..20238e9df1b3
+> > --- /dev/null
+> > +++ b/include/linux/mhi_ep.h
+
+[...]
+
+> > +struct mhi_ep_device {
+> > +	struct device dev;
+> > +	struct mhi_ep_cntrl *mhi_cntrl;
+> > +	const struct mhi_device_id *id;
+> > +	const char *name;
+> > +	struct mhi_ep_chan *ul_chan;
+> > +	struct mhi_ep_chan *dl_chan;
+> > +	enum mhi_device_type dev_type;
+> 
+> There are two device types, controller and transfer.  Unless
+> there is ever going to be anything more than that, I think
+> the distinction is better represented as a Boolean, such as:
+> 
+> 	bool controller;
+
+Again, this is how it is done in MHI host also. Since I'm going to
+maintain both stacks, it makes it easier for me if similarities are
+maintained. But I'll keep this suggestion and the one above for later.
 
 Thanks,
 Mani
-
-> > 
-> > > 2. Using the GENMASK macro for masks
-> > 
-> > Great!
-> > 
-> > > 3. Removing brackets for single values
-> > 
-> > They're normally called "parentheses."  Brackets more typically []
-> > (and {} is "braces", though that's not always the case).
-> > 
-> 
-> Ah, sorry for that. I used to call them "round brackets", so that came in ;)
-> 
-> > > 4. Using lowercase for hex values
-> > 
-> > I think I saw a few upper case hex values in another patch.
-> > Not a big deal, just FYI.
-> > 
-> 
-> Will change them.
-> 
-> > > 5. Using two digits for hex values where applicable
-> > 
-> > I think I suggested most of these things, so of course
-> > they look awesome to me.
-> > 
-> > You could use bitfield accessor macros in a few more places.
-> > For example, this:
-> > 
-> > #define MHI_TRE_CMD_RESET_DWORD1(chid)  (cpu_to_le32((chid << 24) | \
-> > 					    (MHI_CMD_RESET_CHAN << 16)))
-> > 
-> > Could use something more like this:
-> > 
-> > #define MHI_CMD_CHANNEL_MASK	GENMASK(31, 24)
-> > #define MHI_CMD_COMMAND_MASK	GENMASK(23, 16)
-> > 
-> > #define MHI_TRE_CMD_RESET_DWORD1(chid) \
-> > 	(le32_encode_bits(chid, MHI_CMD_CHANNEL_MASK) | \	
-> > 	 le32_encode_bits(MHI_CMD_RESET_CHAN, MHI_CMD_CMD_MASK))
-> > 
-> 
-> This adds more code and also makes the reading a bit complicated. I'd
-> prefer to stick with open coding for these.
-> 
-> Thanks,
-> Mani
-> 
-> > (But of course I already said I preferred CPU byte order on
-> > these values...)
-> > 
-> > I would like to see you get rid of one-to-one definitions
-> > I mentioned at the top.  I haven't done an exhaustive check
-> > of all the symbols, but this looks good generally, so:
-> > 
-> > Reviewed-by: Alex Elder <elder@linaro.org>
-> > 
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > ---
-> > >   drivers/bus/mhi/common.h        | 243 ++++++++++++++++++++++++-----
-> > >   drivers/bus/mhi/host/internal.h | 265 +++++++++-----------------------
-> > >   2 files changed, 278 insertions(+), 230 deletions(-)
-> > > 
-> > > diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> > > index 288e47168649..f226f06d4ff9 100644
-> > > --- a/drivers/bus/mhi/common.h
-> > > +++ b/drivers/bus/mhi/common.h
-> > > @@ -9,62 +9,223 @@
-> > >   #include <linux/mhi.h>
-> > > +/* MHI registers */
-> > > +#define REG_MHIREGLEN					0x00
-> > > +#define REG_MHIVER					0x08
-> > > +#define REG_MHICFG					0x10
-> > > +#define REG_CHDBOFF					0x18
-> > > +#define REG_ERDBOFF					0x20
-> > > +#define REG_BHIOFF					0x28
-> > > +#define REG_BHIEOFF					0x2c
-> > > +#define REG_DEBUGOFF					0x30
-> > > +#define REG_MHICTRL					0x38
-> > > +#define REG_MHISTATUS					0x48
-> > > +#define REG_CCABAP_LOWER				0x58
-> > > +#define REG_CCABAP_HIGHER				0x5c
-> > > +#define REG_ECABAP_LOWER				0x60
-> > > +#define REG_ECABAP_HIGHER				0x64
-> > > +#define REG_CRCBAP_LOWER				0x68
-> > > +#define REG_CRCBAP_HIGHER				0x6c
-> > > +#define REG_CRDB_LOWER					0x70
-> > > +#define REG_CRDB_HIGHER					0x74
-> > > +#define REG_MHICTRLBASE_LOWER				0x80
-> > > +#define REG_MHICTRLBASE_HIGHER				0x84
-> > > +#define REG_MHICTRLLIMIT_LOWER				0x88
-> > > +#define REG_MHICTRLLIMIT_HIGHER				0x8c
-> > > +#define REG_MHIDATABASE_LOWER				0x98
-> > > +#define REG_MHIDATABASE_HIGHER				0x9c
-> > > +#define REG_MHIDATALIMIT_LOWER				0xa0
-> > > +#define REG_MHIDATALIMIT_HIGHER				0xa4
-> > > +
-> > > +/* MHI BHI registers */
-> > > +#define REG_BHI_BHIVERSION_MINOR			0x00
-> > > +#define REG_BHI_BHIVERSION_MAJOR			0x04
-> > > +#define REG_BHI_IMGADDR_LOW				0x08
-> > > +#define REG_BHI_IMGADDR_HIGH				0x0c
-> > > +#define REG_BHI_IMGSIZE					0x10
-> > > +#define REG_BHI_RSVD1					0x14
-> > > +#define REG_BHI_IMGTXDB					0x18
-> > > +#define REG_BHI_RSVD2					0x1c
-> > > +#define REG_BHI_INTVEC					0x20
-> > > +#define REG_BHI_RSVD3					0x24
-> > > +#define REG_BHI_EXECENV					0x28
-> > > +#define REG_BHI_STATUS					0x2c
-> > > +#define REG_BHI_ERRCODE					0x30
-> > > +#define REG_BHI_ERRDBG1					0x34
-> > > +#define REG_BHI_ERRDBG2					0x38
-> > > +#define REG_BHI_ERRDBG3					0x3c
-> > > +#define REG_BHI_SERIALNU				0x40
-> > > +#define REG_BHI_SBLANTIROLLVER				0x44
-> > > +#define REG_BHI_NUMSEG					0x48
-> > > +#define REG_BHI_MSMHWID(n)				(0x4c + (0x4 * (n)))
-> > > +#define REG_BHI_OEMPKHASH(n)				(0x64 + (0x4 * (n)))
-> > > +#define REG_BHI_RSVD5					0xc4
-> > > +
-> > > +/* BHI register bits */
-> > > +#define BHI_TXDB_SEQNUM_BMSK				GENMASK(29, 0)
-> > > +#define BHI_TXDB_SEQNUM_SHFT				0
-> > > +#define BHI_STATUS_MASK					GENMASK(31, 30)
-> > > +#define BHI_STATUS_SHIFT				30
-> > > +#define BHI_STATUS_ERROR				0x03
-> > > +#define BHI_STATUS_SUCCESS				0x02
-> > > +#define BHI_STATUS_RESET				0x00
-> > > +
-> > > +/* MHI BHIE registers */
-> > > +#define REG_BHIE_MSMSOCID_OFFS				0x00
-> > > +#define REG_BHIE_TXVECADDR_LOW_OFFS			0x2c
-> > > +#define REG_BHIE_TXVECADDR_HIGH_OFFS			0x30
-> > > +#define REG_BHIE_TXVECSIZE_OFFS				0x34
-> > > +#define REG_BHIE_TXVECDB_OFFS				0x3c
-> > > +#define REG_BHIE_TXVECSTATUS_OFFS			0x44
-> > > +#define REG_BHIE_RXVECADDR_LOW_OFFS			0x60
-> > > +#define REG_BHIE_RXVECADDR_HIGH_OFFS			0x64
-> > > +#define REG_BHIE_RXVECSIZE_OFFS				0x68
-> > > +#define REG_BHIE_RXVECDB_OFFS				0x70
-> > > +#define REG_BHIE_RXVECSTATUS_OFFS			0x78
-> > > +
-> > > +/* BHIE register bits */
-> > > +#define BHIE_TXVECDB_SEQNUM_BMSK			GENMASK(29, 0)
-> > > +#define BHIE_TXVECDB_SEQNUM_SHFT			0
-> > > +#define BHIE_TXVECSTATUS_SEQNUM_BMSK			GENMASK(29, 0)
-> > > +#define BHIE_TXVECSTATUS_SEQNUM_SHFT			0
-> > > +#define BHIE_TXVECSTATUS_STATUS_BMSK			GENMASK(31, 30)
-> > > +#define BHIE_TXVECSTATUS_STATUS_SHFT			30
-> > > +#define BHIE_TXVECSTATUS_STATUS_RESET			0x00
-> > > +#define BHIE_TXVECSTATUS_STATUS_XFER_COMPL		0x02
-> > > +#define BHIE_TXVECSTATUS_STATUS_ERROR			0x03
-> > > +#define BHIE_RXVECDB_SEQNUM_BMSK			GENMASK(29, 0)
-> > > +#define BHIE_RXVECDB_SEQNUM_SHFT			0
-> > > +#define BHIE_RXVECSTATUS_SEQNUM_BMSK			GENMASK(29, 0)
-> > > +#define BHIE_RXVECSTATUS_SEQNUM_SHFT			0
-> > > +#define BHIE_RXVECSTATUS_STATUS_BMSK			GENMASK(31, 30)
-> > > +#define BHIE_RXVECSTATUS_STATUS_SHFT			30
-> > > +#define BHIE_RXVECSTATUS_STATUS_RESET			0x00
-> > > +#define BHIE_RXVECSTATUS_STATUS_XFER_COMPL		0x02
-> > > +#define BHIE_RXVECSTATUS_STATUS_ERROR			0x03
-> > > +
-> > > +/* MHI register bits */
-> > > +#define MHIREGLEN_MHIREGLEN_MASK			GENMASK(31, 0)
-> > > +#define MHIREGLEN_MHIREGLEN_SHIFT			0
-> > > +#define MHIVER_MHIVER_MASK				GENMASK(31, 0)
-> > > +#define MHIVER_MHIVER_SHIFT				0
-> > > +#define MHICFG_NHWER_MASK				GENMASK(31, 24)
-> > > +#define MHICFG_NHWER_SHIFT				24
-> > > +#define MHICFG_NER_MASK					GENMASK(23, 16)
-> > > +#define MHICFG_NER_SHIFT				16
-> > > +#define MHICFG_NHWCH_MASK				GENMASK(15, 8)
-> > > +#define MHICFG_NHWCH_SHIFT				8
-> > > +#define MHICFG_NCH_MASK					GENMASK(7, 0)
-> > > +#define MHICFG_NCH_SHIFT				0
-> > > +#define CHDBOFF_CHDBOFF_MASK				GENMASK(31, 0)
-> > > +#define CHDBOFF_CHDBOFF_SHIFT				0
-> > > +#define ERDBOFF_ERDBOFF_MASK				GENMASK(31, 0)
-> > > +#define ERDBOFF_ERDBOFF_SHIFT				0
-> > > +#define BHIOFF_BHIOFF_MASK				GENMASK(31, 0)
-> > > +#define BHIOFF_BHIOFF_SHIFT				0
-> > > +#define BHIEOFF_BHIEOFF_MASK				GENMASK(31, 0)
-> > > +#define BHIEOFF_BHIEOFF_SHIFT				0
-> > > +#define DEBUGOFF_DEBUGOFF_MASK				GENMASK(31, 0)
-> > > +#define DEBUGOFF_DEBUGOFF_SHIFT				0
-> > > +#define MHICTRL_MHISTATE_MASK				GENMASK(15, 8)
-> > > +#define MHICTRL_MHISTATE_SHIFT				8
-> > > +#define MHICTRL_RESET_MASK				BIT(1)
-> > > +#define MHICTRL_RESET_SHIFT				1
-> > > +#define MHISTATUS_MHISTATE_MASK				GENMASK(15, 8)
-> > > +#define MHISTATUS_MHISTATE_SHIFT			8
-> > > +#define MHISTATUS_SYSERR_MASK				BIT(2)
-> > > +#define MHISTATUS_SYSERR_SHIFT				2
-> > > +#define MHISTATUS_READY_MASK				BIT(0)
-> > > +#define MHISTATUS_READY_SHIFT				0
-> > > +#define CCABAP_LOWER_CCABAP_LOWER_MASK			GENMASK(31, 0)
-> > > +#define CCABAP_LOWER_CCABAP_LOWER_SHIFT			0
-> > > +#define CCABAP_HIGHER_CCABAP_HIGHER_MASK		GENMASK(31, 0)
-> > > +#define CCABAP_HIGHER_CCABAP_HIGHER_SHIFT		0
-> > > +#define ECABAP_LOWER_ECABAP_LOWER_MASK			GENMASK(31, 0)
-> > > +#define ECABAP_LOWER_ECABAP_LOWER_SHIFT			0
-> > > +#define ECABAP_HIGHER_ECABAP_HIGHER_MASK		GENMASK(31, 0)
-> > > +#define ECABAP_HIGHER_ECABAP_HIGHER_SHIFT		0
-> > > +#define CRCBAP_LOWER_CRCBAP_LOWER_MASK			GENMASK(31, 0)
-> > > +#define CRCBAP_LOWER_CRCBAP_LOWER_SHIFT			0
-> > > +#define CRCBAP_HIGHER_CRCBAP_HIGHER_MASK		GENMASK(31, 0)
-> > > +#define CRCBAP_HIGHER_CRCBAP_HIGHER_SHIFT		0
-> > > +#define CRDB_LOWER_CRDB_LOWER_MASK			GENMASK(31, 0)
-> > > +#define CRDB_LOWER_CRDB_LOWER_SHIFT			0
-> > > +#define CRDB_HIGHER_CRDB_HIGHER_MASK			GENMASK(31, 0)
-> > > +#define CRDB_HIGHER_CRDB_HIGHER_SHIFT			0
-> > > +#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_MASK	GENMASK(31, 0)
-> > > +#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_SHIFT	0
-> > > +#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_MASK	GENMASK(31, 0)
-> > > +#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_SHIFT	0
-> > > +#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_MASK	GENMASK(31, 0)
-> > > +#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_SHIFT	0
-> > > +#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_MASK	GENMASK(31, 0)
-> > > +#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_SHIFT	0
-> > > +#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_MASK	GENMASK(31, 0)
-> > > +#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_SHIFT	0
-> > > +#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_MASK	GENMASK(31, 0)
-> > > +#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_SHIFT	0
-> > > +#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_MASK	GENMASK(31, 0)
-> > > +#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_SHIFT	0
-> > > +#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_MASK	GENMASK(31, 0)
-> > > +#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_SHIFT	0
-> > > +
-> > >   /* Command Ring Element macros */
-> > >   /* No operation command */
-> > > -#define MHI_TRE_CMD_NOOP_PTR (0)
-> > > -#define MHI_TRE_CMD_NOOP_DWORD0 (0)
-> > > -#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(MHI_CMD_NOP << 16))
-> > > +#define MHI_TRE_CMD_NOOP_PTR				0
-> > > +#define MHI_TRE_CMD_NOOP_DWORD0				0
-> > > +#define MHI_TRE_CMD_NOOP_DWORD1				cpu_to_le32(MHI_CMD_NOP << 16)
-> > >   /* Channel reset command */
-> > > -#define MHI_TRE_CMD_RESET_PTR (0)
-> > > -#define MHI_TRE_CMD_RESET_DWORD0 (0)
-> > > -#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > > -					(MHI_CMD_RESET_CHAN << 16)))
-> > > +#define MHI_TRE_CMD_RESET_PTR				0
-> > > +#define MHI_TRE_CMD_RESET_DWORD0			0
-> > > +#define MHI_TRE_CMD_RESET_DWORD1(chid)			(cpu_to_le32((chid << 24) | \
-> > > +							(MHI_CMD_RESET_CHAN << 16)))
-> > >   /* Channel stop command */
-> > > -#define MHI_TRE_CMD_STOP_PTR (0)
-> > > -#define MHI_TRE_CMD_STOP_DWORD0 (0)
-> > > -#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > > -				       (MHI_CMD_STOP_CHAN << 16)))
-> > > +#define MHI_TRE_CMD_STOP_PTR				0
-> > > +#define MHI_TRE_CMD_STOP_DWORD0				0
-> > > +#define MHI_TRE_CMD_STOP_DWORD1(chid)			(cpu_to_le32((chid << 24) | \
-> > > +							(MHI_CMD_STOP_CHAN << 16)))
-> > >   /* Channel start command */
-> > > -#define MHI_TRE_CMD_START_PTR (0)
-> > > -#define MHI_TRE_CMD_START_DWORD0 (0)
-> > > -#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > > -					(MHI_CMD_START_CHAN << 16)))
-> > > +#define MHI_TRE_CMD_START_PTR				0
-> > > +#define MHI_TRE_CMD_START_DWORD0			0
-> > > +#define MHI_TRE_CMD_START_DWORD1(chid)			(cpu_to_le32((chid << 24) | \
-> > > +							(MHI_CMD_START_CHAN << 16)))
-> > > -#define MHI_TRE_GET_DWORD(tre, word) (le32_to_cpu((tre)->dword[(word)]))
-> > > -#define MHI_TRE_GET_CMD_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > > +#define MHI_TRE_GET_DWORD(tre, word)			le32_to_cpu((tre)->dword[(word)])
-> > > +#define MHI_TRE_GET_CMD_CHID(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_CMD_TYPE(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > >   /* Event descriptor macros */
-> > > -#define MHI_TRE_EV_PTR(ptr) (cpu_to_le64(ptr))
-> > > -#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32((code << 24) | len))
-> > > -#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32((chid << 24) | (type << 16)))
-> > > -#define MHI_TRE_GET_EV_PTR(tre) (le64_to_cpu((tre)->ptr))
-> > > -#define MHI_TRE_GET_EV_CODE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_LEN(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
-> > > -#define MHI_TRE_GET_EV_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_STATE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_EXECENV(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_SEQ(tre) MHI_TRE_GET_DWORD(tre, 0)
-> > > -#define MHI_TRE_GET_EV_TIME(tre) (MHI_TRE_GET_EV_PTR(tre))
-> > > -#define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
-> > > -#define MHI_TRE_GET_EV_VEID(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_LINKSPEED(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > -#define MHI_TRE_GET_EV_LINKWIDTH(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
-> > > +/* Transfer completion event */
-> > > +#define MHI_TRE_EV_PTR(ptr)				cpu_to_le64(ptr)
-> > > +#define MHI_TRE_EV_DWORD0(code, len)			cpu_to_le32((code << 24) | len)
-> > > +#define MHI_TRE_EV_DWORD1(chid, type)			cpu_to_le32((chid << 24) | (type << 16))
-> > > +#define MHI_TRE_GET_EV_PTR(tre)				le64_to_cpu((tre)->ptr)
-> > > +#define MHI_TRE_GET_EV_CODE(tre)			((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_LEN(tre)				(MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
-> > > +#define MHI_TRE_GET_EV_CHID(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_TYPE(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_STATE(tre)			((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_EXECENV(tre)			((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_SEQ(tre)				MHI_TRE_GET_DWORD(tre, 0)
-> > > +#define MHI_TRE_GET_EV_TIME(tre)			MHI_TRE_GET_EV_PTR(tre)
-> > > +#define MHI_TRE_GET_EV_COOKIE(tre)			lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
-> > > +#define MHI_TRE_GET_EV_VEID(tre)			((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_LINKSPEED(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > > +#define MHI_TRE_GET_EV_LINKWIDTH(tre)			(MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
-> > >   /* Transfer descriptor macros */
-> > > -#define MHI_TRE_DATA_PTR(ptr) (cpu_to_le64(ptr))
-> > > -#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(len & MHI_MAX_MTU))
-> > > -#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32((2 << 16) | (bei << 10) \
-> > > -	| (ieot << 9) | (ieob << 8) | chain))
-> > > +#define MHI_TRE_DATA_PTR(ptr)				cpu_to_le64(ptr)
-> > > +#define MHI_TRE_DATA_DWORD0(len)			cpu_to_le32(len & MHI_MAX_MTU)
-> > > +#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain)	(cpu_to_le32((2 << 16) | (bei << 10) \
-> > > +							| (ieot << 9) | (ieob << 8) | chain))
-> > >   /* RSC transfer descriptor macros */
-> > > -#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(((u64)len << 48) | ptr))
-> > > -#define MHI_RSCTRE_DATA_DWORD0(cookie) (cpu_to_le32(cookie))
-> > > -#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16))
-> > > +#define MHI_RSCTRE_DATA_PTR(ptr, len)			cpu_to_le64(((u64)len << 48) | ptr)
-> > > +#define MHI_RSCTRE_DATA_DWORD0(cookie)			cpu_to_le32(cookie)
-> > > +#define MHI_RSCTRE_DATA_DWORD1				cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16)
-> > >   enum mhi_pkt_type {
-> > >   	MHI_PKT_TYPE_INVALID = 0x0,
-> > > diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> > > index 622de6ba1a0b..762055a6ec9f 100644
-> > > --- a/drivers/bus/mhi/host/internal.h
-> > > +++ b/drivers/bus/mhi/host/internal.h
-> > > @@ -11,197 +11,84 @@
-> > >   extern struct bus_type mhi_bus_type;
-> > > -#define MHIREGLEN (0x0)
-> > > -#define MHIREGLEN_MHIREGLEN_MASK (0xFFFFFFFF)
-> > > -#define MHIREGLEN_MHIREGLEN_SHIFT (0)
-> > > -
-> > > -#define MHIVER (0x8)
-> > > -#define MHIVER_MHIVER_MASK (0xFFFFFFFF)
-> > > -#define MHIVER_MHIVER_SHIFT (0)
-> > > -
-> > > -#define MHICFG (0x10)
-> > > -#define MHICFG_NHWER_MASK (0xFF000000)
-> > > -#define MHICFG_NHWER_SHIFT (24)
-> > > -#define MHICFG_NER_MASK (0xFF0000)
-> > > -#define MHICFG_NER_SHIFT (16)
-> > > -#define MHICFG_NHWCH_MASK (0xFF00)
-> > > -#define MHICFG_NHWCH_SHIFT (8)
-> > > -#define MHICFG_NCH_MASK (0xFF)
-> > > -#define MHICFG_NCH_SHIFT (0)
-> > > -
-> > > -#define CHDBOFF (0x18)
-> > > -#define CHDBOFF_CHDBOFF_MASK (0xFFFFFFFF)
-> > > -#define CHDBOFF_CHDBOFF_SHIFT (0)
-> > > -
-> > > -#define ERDBOFF (0x20)
-> > > -#define ERDBOFF_ERDBOFF_MASK (0xFFFFFFFF)
-> > > -#define ERDBOFF_ERDBOFF_SHIFT (0)
-> > > -
-> > > -#define BHIOFF (0x28)
-> > > -#define BHIOFF_BHIOFF_MASK (0xFFFFFFFF)
-> > > -#define BHIOFF_BHIOFF_SHIFT (0)
-> > > -
-> > > -#define BHIEOFF (0x2C)
-> > > -#define BHIEOFF_BHIEOFF_MASK (0xFFFFFFFF)
-> > > -#define BHIEOFF_BHIEOFF_SHIFT (0)
-> > > -
-> > > -#define DEBUGOFF (0x30)
-> > > -#define DEBUGOFF_DEBUGOFF_MASK (0xFFFFFFFF)
-> > > -#define DEBUGOFF_DEBUGOFF_SHIFT (0)
-> > > -
-> > > -#define MHICTRL (0x38)
-> > > -#define MHICTRL_MHISTATE_MASK (0x0000FF00)
-> > > -#define MHICTRL_MHISTATE_SHIFT (8)
-> > > -#define MHICTRL_RESET_MASK (0x2)
-> > > -#define MHICTRL_RESET_SHIFT (1)
-> > > -
-> > > -#define MHISTATUS (0x48)
-> > > -#define MHISTATUS_MHISTATE_MASK (0x0000FF00)
-> > > -#define MHISTATUS_MHISTATE_SHIFT (8)
-> > > -#define MHISTATUS_SYSERR_MASK (0x4)
-> > > -#define MHISTATUS_SYSERR_SHIFT (2)
-> > > -#define MHISTATUS_READY_MASK (0x1)
-> > > -#define MHISTATUS_READY_SHIFT (0)
-> > > -
-> > > -#define CCABAP_LOWER (0x58)
-> > > -#define CCABAP_LOWER_CCABAP_LOWER_MASK (0xFFFFFFFF)
-> > > -#define CCABAP_LOWER_CCABAP_LOWER_SHIFT (0)
-> > > -
-> > > -#define CCABAP_HIGHER (0x5C)
-> > > -#define CCABAP_HIGHER_CCABAP_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define CCABAP_HIGHER_CCABAP_HIGHER_SHIFT (0)
-> > > -
-> > > -#define ECABAP_LOWER (0x60)
-> > > -#define ECABAP_LOWER_ECABAP_LOWER_MASK (0xFFFFFFFF)
-> > > -#define ECABAP_LOWER_ECABAP_LOWER_SHIFT (0)
-> > > -
-> > > -#define ECABAP_HIGHER (0x64)
-> > > -#define ECABAP_HIGHER_ECABAP_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define ECABAP_HIGHER_ECABAP_HIGHER_SHIFT (0)
-> > > -
-> > > -#define CRCBAP_LOWER (0x68)
-> > > -#define CRCBAP_LOWER_CRCBAP_LOWER_MASK (0xFFFFFFFF)
-> > > -#define CRCBAP_LOWER_CRCBAP_LOWER_SHIFT (0)
-> > > -
-> > > -#define CRCBAP_HIGHER (0x6C)
-> > > -#define CRCBAP_HIGHER_CRCBAP_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define CRCBAP_HIGHER_CRCBAP_HIGHER_SHIFT (0)
-> > > -
-> > > -#define CRDB_LOWER (0x70)
-> > > -#define CRDB_LOWER_CRDB_LOWER_MASK (0xFFFFFFFF)
-> > > -#define CRDB_LOWER_CRDB_LOWER_SHIFT (0)
-> > > -
-> > > -#define CRDB_HIGHER (0x74)
-> > > -#define CRDB_HIGHER_CRDB_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define CRDB_HIGHER_CRDB_HIGHER_SHIFT (0)
-> > > -
-> > > -#define MHICTRLBASE_LOWER (0x80)
-> > > -#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_MASK (0xFFFFFFFF)
-> > > -#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_SHIFT (0)
-> > > -
-> > > -#define MHICTRLBASE_HIGHER (0x84)
-> > > -#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_SHIFT (0)
-> > > -
-> > > -#define MHICTRLLIMIT_LOWER (0x88)
-> > > -#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_MASK (0xFFFFFFFF)
-> > > -#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_SHIFT (0)
-> > > -
-> > > -#define MHICTRLLIMIT_HIGHER (0x8C)
-> > > -#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_SHIFT (0)
-> > > -
-> > > -#define MHIDATABASE_LOWER (0x98)
-> > > -#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_MASK (0xFFFFFFFF)
-> > > -#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_SHIFT (0)
-> > > -
-> > > -#define MHIDATABASE_HIGHER (0x9C)
-> > > -#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_SHIFT (0)
-> > > -
-> > > -#define MHIDATALIMIT_LOWER (0xA0)
-> > > -#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_MASK (0xFFFFFFFF)
-> > > -#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_SHIFT (0)
-> > > -
-> > > -#define MHIDATALIMIT_HIGHER (0xA4)
-> > > -#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_MASK (0xFFFFFFFF)
-> > > -#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_SHIFT (0)
-> > > +/* MHI registers */
-> > > +#define MHIREGLEN			REG_MHIREGLEN
-> > > +#define MHIVER				REG_MHIVER
-> > > +#define MHICFG				REG_MHICFG
-> > > +#define CHDBOFF				REG_CHDBOFF
-> > > +#define ERDBOFF				REG_ERDBOFF
-> > > +#define BHIOFF				REG_BHIOFF
-> > > +#define BHIEOFF				REG_BHIEOFF
-> > > +#define DEBUGOFF			REG_DEBUGOFF
-> > > +#define MHICTRL				REG_MHICTRL
-> > > +#define MHISTATUS			REG_MHISTATUS
-> > > +#define CCABAP_LOWER			REG_CCABAP_LOWER
-> > > +#define CCABAP_HIGHER			REG_CCABAP_HIGHER
-> > > +#define ECABAP_LOWER			REG_ECABAP_LOWER
-> > > +#define ECABAP_HIGHER			REG_ECABAP_HIGHER
-> > > +#define CRCBAP_LOWER			REG_CRCBAP_LOWER
-> > > +#define CRCBAP_HIGHER			REG_CRCBAP_HIGHER
-> > > +#define CRDB_LOWER			REG_CRDB_LOWER
-> > > +#define CRDB_HIGHER			REG_CRDB_HIGHER
-> > > +#define MHICTRLBASE_LOWER		REG_MHICTRLBASE_LOWER
-> > > +#define MHICTRLBASE_HIGHER		REG_MHICTRLBASE_HIGHER
-> > > +#define MHICTRLLIMIT_LOWER		REG_MHICTRLLIMIT_LOWER
-> > > +#define MHICTRLLIMIT_HIGHER		REG_MHICTRLLIMIT_HIGHER
-> > > +#define MHIDATABASE_LOWER		REG_MHIDATABASE_LOWER
-> > > +#define MHIDATABASE_HIGHER		REG_MHIDATABASE_HIGHER
-> > > +#define MHIDATALIMIT_LOWER		REG_MHIDATALIMIT_LOWER
-> > > +#define MHIDATALIMIT_HIGHER		REG_MHIDATALIMIT_HIGHER
-> > >   /* Host request register */
-> > > -#define MHI_SOC_RESET_REQ_OFFSET (0xB0)
-> > > -#define MHI_SOC_RESET_REQ BIT(0)
-> > > -
-> > > -/* MHI BHI offfsets */
-> > > -#define BHI_BHIVERSION_MINOR (0x00)
-> > > -#define BHI_BHIVERSION_MAJOR (0x04)
-> > > -#define BHI_IMGADDR_LOW (0x08)
-> > > -#define BHI_IMGADDR_HIGH (0x0C)
-> > > -#define BHI_IMGSIZE (0x10)
-> > > -#define BHI_RSVD1 (0x14)
-> > > -#define BHI_IMGTXDB (0x18)
-> > > -#define BHI_TXDB_SEQNUM_BMSK (0x3FFFFFFF)
-> > > -#define BHI_TXDB_SEQNUM_SHFT (0)
-> > > -#define BHI_RSVD2 (0x1C)
-> > > -#define BHI_INTVEC (0x20)
-> > > -#define BHI_RSVD3 (0x24)
-> > > -#define BHI_EXECENV (0x28)
-> > > -#define BHI_STATUS (0x2C)
-> > > -#define BHI_ERRCODE (0x30)
-> > > -#define BHI_ERRDBG1 (0x34)
-> > > -#define BHI_ERRDBG2 (0x38)
-> > > -#define BHI_ERRDBG3 (0x3C)
-> > > -#define BHI_SERIALNU (0x40)
-> > > -#define BHI_SBLANTIROLLVER (0x44)
-> > > -#define BHI_NUMSEG (0x48)
-> > > -#define BHI_MSMHWID(n) (0x4C + (0x4 * (n)))
-> > > -#define BHI_OEMPKHASH(n) (0x64 + (0x4 * (n)))
-> > > -#define BHI_RSVD5 (0xC4)
-> > > -#define BHI_STATUS_MASK (0xC0000000)
-> > > -#define BHI_STATUS_SHIFT (30)
-> > > -#define BHI_STATUS_ERROR (3)
-> > > -#define BHI_STATUS_SUCCESS (2)
-> > > -#define BHI_STATUS_RESET (0)
-> > > -
-> > > -/* MHI BHIE offsets */
-> > > -#define BHIE_MSMSOCID_OFFS (0x0000)
-> > > -#define BHIE_TXVECADDR_LOW_OFFS (0x002C)
-> > > -#define BHIE_TXVECADDR_HIGH_OFFS (0x0030)
-> > > -#define BHIE_TXVECSIZE_OFFS (0x0034)
-> > > -#define BHIE_TXVECDB_OFFS (0x003C)
-> > > -#define BHIE_TXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
-> > > -#define BHIE_TXVECDB_SEQNUM_SHFT (0)
-> > > -#define BHIE_TXVECSTATUS_OFFS (0x0044)
-> > > -#define BHIE_TXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
-> > > -#define BHIE_TXVECSTATUS_SEQNUM_SHFT (0)
-> > > -#define BHIE_TXVECSTATUS_STATUS_BMSK (0xC0000000)
-> > > -#define BHIE_TXVECSTATUS_STATUS_SHFT (30)
-> > > -#define BHIE_TXVECSTATUS_STATUS_RESET (0x00)
-> > > -#define BHIE_TXVECSTATUS_STATUS_XFER_COMPL (0x02)
-> > > -#define BHIE_TXVECSTATUS_STATUS_ERROR (0x03)
-> > > -#define BHIE_RXVECADDR_LOW_OFFS (0x0060)
-> > > -#define BHIE_RXVECADDR_HIGH_OFFS (0x0064)
-> > > -#define BHIE_RXVECSIZE_OFFS (0x0068)
-> > > -#define BHIE_RXVECDB_OFFS (0x0070)
-> > > -#define BHIE_RXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
-> > > -#define BHIE_RXVECDB_SEQNUM_SHFT (0)
-> > > -#define BHIE_RXVECSTATUS_OFFS (0x0078)
-> > > -#define BHIE_RXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
-> > > -#define BHIE_RXVECSTATUS_SEQNUM_SHFT (0)
-> > > -#define BHIE_RXVECSTATUS_STATUS_BMSK (0xC0000000)
-> > > -#define BHIE_RXVECSTATUS_STATUS_SHFT (30)
-> > > -#define BHIE_RXVECSTATUS_STATUS_RESET (0x00)
-> > > -#define BHIE_RXVECSTATUS_STATUS_XFER_COMPL (0x02)
-> > > -#define BHIE_RXVECSTATUS_STATUS_ERROR (0x03)
-> > > -
-> > > -#define SOC_HW_VERSION_OFFS (0x224)
-> > > -#define SOC_HW_VERSION_FAM_NUM_BMSK (0xF0000000)
-> > > -#define SOC_HW_VERSION_FAM_NUM_SHFT (28)
-> > > -#define SOC_HW_VERSION_DEV_NUM_BMSK (0x0FFF0000)
-> > > -#define SOC_HW_VERSION_DEV_NUM_SHFT (16)
-> > > -#define SOC_HW_VERSION_MAJOR_VER_BMSK (0x0000FF00)
-> > > -#define SOC_HW_VERSION_MAJOR_VER_SHFT (8)
-> > > -#define SOC_HW_VERSION_MINOR_VER_BMSK (0x000000FF)
-> > > -#define SOC_HW_VERSION_MINOR_VER_SHFT (0)
-> > > +#define MHI_SOC_RESET_REQ_OFFSET	0xb0
-> > > +#define MHI_SOC_RESET_REQ		BIT(0)
-> > > +
-> > > +/* MHI BHI registers */
-> > > +#define BHI_BHIVERSION_MINOR		REG_BHI_BHIVERSION_MINOR
-> > > +#define BHI_BHIVERSION_MAJOR		REG_BHI_BHIVERSION_MAJOR
-> > > +#define BHI_IMGADDR_LOW			REG_BHI_IMGADDR_LOW
-> > > +#define BHI_IMGADDR_HIGH		REG_BHI_IMGADDR_HIGH
-> > > +#define BHI_IMGSIZE			REG_BHI_IMGSIZE
-> > > +#define BHI_RSVD1			REG_BHI_RSVD1
-> > > +#define BHI_IMGTXDB			REG_BHI_IMGTXDB
-> > > +#define BHI_RSVD2			REG_BHI_RSVD2
-> > > +#define BHI_INTVEC			REG_BHI_INTVEC
-> > > +#define BHI_RSVD3			REG_BHI_RSVD3
-> > > +#define BHI_EXECENV			REG_BHI_EXECENV
-> > > +#define BHI_STATUS			REG_BHI_STATUS
-> > > +#define BHI_ERRCODE			REG_BHI_ERRCODE
-> > > +#define BHI_ERRDBG1			REG_BHI_ERRDBG1
-> > > +#define BHI_ERRDBG2			REG_BHI_ERRDBG2
-> > > +#define BHI_ERRDBG3			REG_BHI_ERRDBG3
-> > > +#define BHI_SERIALNU			REG_BHI_SERIALNU
-> > > +#define BHI_SBLANTIROLLVER		REG_BHI_SBLANTIROLLVER
-> > > +#define BHI_NUMSEG			REG_BHI_NUMSEG
-> > > +#define BHI_MSMHWID(n)			REG_BHI_MSMHWID(n)
-> > > +#define BHI_OEMPKHASH(n)		REG_BHI_OEMPKHASH(n)
-> > > +#define BHI_RSVD5			REG_BHI_RSVD5
-> > > +
-> > > +/* MHI BHIE registers */
-> > > +#define BHIE_MSMSOCID_OFFS		REG_BHIE_MSMSOCID_OFFS
-> > > +#define BHIE_TXVECADDR_LOW_OFFS		REG_BHIE_TXVECADDR_LOW_OFFS
-> > > +#define BHIE_TXVECADDR_HIGH_OFFS	REG_BHIE_TXVECADDR_HIGH_OFFS
-> > > +#define BHIE_TXVECSIZE_OFFS		REG_BHIE_TXVECSIZE_OFFS
-> > > +#define BHIE_TXVECDB_OFFS		REG_BHIE_TXVECDB_OFFS
-> > > +#define BHIE_TXVECSTATUS_OFFS		REG_BHIE_TXVECSTATUS_OFFS
-> > > +#define BHIE_RXVECADDR_LOW_OFFS		REG_BHIE_RXVECADDR_LOW_OFFS
-> > > +#define BHIE_RXVECADDR_HIGH_OFFS	REG_BHIE_RXVECADDR_HIGH_OFFS
-> > > +#define BHIE_RXVECSIZE_OFFS		REG_BHIE_RXVECSIZE_OFFS
-> > > +#define BHIE_RXVECDB_OFFS		REG_BHIE_RXVECDB_OFFS
-> > > +#define BHIE_RXVECSTATUS_OFFS		REG_BHIE_RXVECSTATUS_OFFS
-> > > +
-> > > +#define SOC_HW_VERSION_OFFS		0x224
-> > > +#define SOC_HW_VERSION_FAM_NUM_BMSK	GENMASK(31, 28)
-> > > +#define SOC_HW_VERSION_FAM_NUM_SHFT	28
-> > > +#define SOC_HW_VERSION_DEV_NUM_BMSK	GENMASK(27, 16)
-> > > +#define SOC_HW_VERSION_DEV_NUM_SHFT	16
-> > > +#define SOC_HW_VERSION_MAJOR_VER_BMSK	GENMASK(15, 8)
-> > > +#define SOC_HW_VERSION_MAJOR_VER_SHFT	8
-> > > +#define SOC_HW_VERSION_MINOR_VER_BMSK	GENMASK(7, 0)
-> > > +#define SOC_HW_VERSION_MINOR_VER_SHFT	0
-> > >   struct mhi_ctxt {
-> > >   	struct mhi_event_ctxt *er_ctxt;
-> > 
-> 
