@@ -1,135 +1,314 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122933D7D
-	for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 12:04:45 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id ki18-20020a17090ae91200b001b8be87e9abso5921302pjb.1
-        for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 04:04:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45883B29
+	for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 14:47:40 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id q20so1612655ioi.0
+        for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 06:47:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mpkGaHYhzDT/ywTqBANboh+oafdc1Ua2ViLPT/QoCeg=;
-        b=eaq+/s/imLxDnW1yvcbqmJSkDOtbiRD9g5qyu4gLTnTKG6y22OTiQ5PEVi8uJ/iPZi
-         nKNJbuG5j2sqnSldTwlrbJv1XSXNIjvx8dOydio2AYa21EvypE5oNSDqQtT4r5PkaYLd
-         jpQojSfKwHlR5BwPE0G65igiyIzUXwBTsV/ky9f1opwVe17pTyqGj6gYWExRQ2b2+SVL
-         kg4AZ22HB4ZLnbozYKCCI+xzdPTTmHMQiM0KOTOll8DnTNYMv/avIw4E533gOYTGLlnK
-         BkFADZzt/uHWqkIkKBwIWWijHfTLpTHs0GLOjP0/GJ/5Nqu4nhKMgkV3zaGMMoy/+MHv
-         2gqA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0LwNHxMLBqWHq5UdmZcwyo12hCqKdpdE8z/NMC5mOnQ=;
+        b=f4gEnGMI525rjiUi4DZX0djNgTslPdt5e+8rG9KofRiRGAgxnzNRhi8FA0jqVgs9no
+         glP06rtX6XMFdFbCoVpMQq471WApvxcZ/Q13zENAzWIseHrjbf22QFegTofArtcU5Y8q
+         Md7iTAGHviOkLuYkslG8Z4KxjfhyxWry6UKBaStc656ax4DYLXObmsn7Q322tZ70rZuQ
+         CJ/qcqVSGFbHBZiG37Lbn5VFMj9VJtcLvnDRV934gLI08G4F8WQ7rwZhQw0UmO69AA5O
+         v4MZBYlUMjqRVKTZgvoOcB38K5PlBJu7dlKMZM7J5gn1/nLHYaCUsp24QNxcZCIHbTye
+         KRcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mpkGaHYhzDT/ywTqBANboh+oafdc1Ua2ViLPT/QoCeg=;
-        b=FFybPGVhDXp7J6m+x3x0Ujf3hd5uYK9HF0RfcRRhtD2LzkEEkJ2tlX0I5okiHREZTx
-         hr2cWu4mN2NgI0FGdebZgyAliUg+PDu9yMDLCtV0XI0HDBg+WizD9e9cW69EMGfsVdzq
-         5RHPig8dD8OlZutwAheYT253iEzP3rv8ytMksv3pi5Es8d8dIU1qn7CaM7XKMlIgJXQL
-         mSG1NdPgNRdUyoeFHx1x0Vttm4ZU9eGlyg6P2qvObW5z8zBwNy3eIFy5l6RQ3uje+WM1
-         YPtIlIqvowISo6NKhKGE5fxqG19eP2htGYXQE6B24xkYDGvuWzlAhQNFnZtoqc8Al4iu
-         yRjw==
-X-Gm-Message-State: AOAM533iZGTRjwyLw0/Q7Wsjs9vnxCin7Vdss6DuYE2IRskTnZEaNWFD
-	fvaxtlA3KZ0n2w3gggLDTC3S
-X-Google-Smtp-Source: ABdhPJzcVHEw66R2MLVUG9O9nL5wzGMkOiCICyWXg/OIVTdHnj+ROhHdrr2oeqInTOgJxE2iDmBbdQ==
-X-Received: by 2002:a17:902:bb89:b0:14d:85a7:6eea with SMTP id m9-20020a170902bb8900b0014d85a76eeamr2506343pls.158.1645099485450;
-        Thu, 17 Feb 2022 04:04:45 -0800 (PST)
-Received: from workstation ([117.193.211.41])
-        by smtp.gmail.com with ESMTPSA id mv17sm1336990pjb.14.2022.02.17.04.04.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 17 Feb 2022 04:04:44 -0800 (PST)
-Date: Thu, 17 Feb 2022 17:34:39 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Alex Elder <elder@linaro.org>
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
-	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
-	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
-	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
-	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/25] bus: mhi: ep: Add support for creating and
- destroying MHI EP devices
-Message-ID: <20220217120439.GC11964@workstation>
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-11-manivannan.sadhasivam@linaro.org>
- <1cdd8e0c-85d7-dd91-a6f1-1390e7854350@linaro.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0LwNHxMLBqWHq5UdmZcwyo12hCqKdpdE8z/NMC5mOnQ=;
+        b=lyp7aIa6Ucoib+hCeY4cBT3ezCwhcT1Ty4j41g8BAGAiuwhYM5Va0fail5vx+mn8mW
+         FKTYEFYBTTn+3IsCLOuQtSKq7V2SCPw5sJYUtF3KHU31kpTyAjw3GnprFJ+sxrqAIVpY
+         iLF2xV6N+rRdXwg1P2z1pUU0BZRPhqG+ZW5EzbdZ++4oa17nNPR5y//MS155i91jjgIH
+         Bbk9RMHRNib1jZnUxOBzVsPl7y4PnxlL/93XTasp/gERFCQI20EYRSo4rhmleqZ74EKm
+         pl3Ch+1ChtDvOvcerZBgGRMgamfYRUpTyOZi/D639phlcYVeKbEvwZ+n1qhTKDg5Q7UB
+         Bf0g==
+X-Gm-Message-State: AOAM533DIBimEDWHxw1L1JuIKu0m32O2cnFYOncmCKJThfvMSDspUQjS
+	RPrT9EMyfuAJfT8x25N7bQemFQ==
+X-Google-Smtp-Source: ABdhPJwYbU2SBo3j8jg7jYBmG36dJ69vqpIRCj4Pc+VDCa653h1SKlhGTiJW48GmhuJt6nMp6zLIyw==
+X-Received: by 2002:a05:6638:1409:b0:30f:843:f953 with SMTP id k9-20020a056638140900b0030f0843f953mr2212765jad.22.1645109259664;
+        Thu, 17 Feb 2022 06:47:39 -0800 (PST)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id f16sm2043929ioz.49.2022.02.17.06.47.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Feb 2022 06:47:38 -0800 (PST)
+Message-ID: <95007a30-cf83-992c-79bd-80e332a7b6cf@linaro.org>
+Date: Thu, 17 Feb 2022 08:47:37 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1cdd8e0c-85d7-dd91-a6f1-1390e7854350@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 08/25] bus: mhi: ep: Add support for registering MHI
+ endpoint controllers
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+ quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
+ dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
+ quic_cang@quicinc.com, quic_skananth@quicinc.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+ <20220212182117.49438-9-manivannan.sadhasivam@linaro.org>
+ <4cc78936-b419-4738-b5b2-65c53be06f33@linaro.org>
+ <20220217095319.GA11964@workstation>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <20220217095319.GA11964@workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 15, 2022 at 02:02:57PM -0600, Alex Elder wrote:
-
-[...]
-
-> > +
-> > +	mhi_dev = mhi_ep_alloc_device(mhi_cntrl, MHI_DEVICE_XFER);
-> > +	if (IS_ERR(mhi_dev))
-> > +		return PTR_ERR(mhi_dev);
+On 2/17/22 3:53 AM, Manivannan Sadhasivam wrote:
+> On Tue, Feb 15, 2022 at 02:02:41PM -0600, Alex Elder wrote:
 > 
-> It looks like the only possible error is no memory, so you could
-> just have mhi_ep_alloc_device() return NULL.
+> [...]
 > 
+>>> +#define MHI_REG_OFFSET				0x100
+>>> +#define BHI_REG_OFFSET				0x200
 
-I think returning the actual error is more safe as we may end up adding more
-stuff into this function in the future.
+. . .
 
-> > +
-> > +	/* Configure primary channel */
-> > +	mhi_dev->ul_chan = mhi_chan;
-> > +	get_device(&mhi_dev->dev);
-> > +	mhi_chan->mhi_dev = mhi_dev;
-> > +
-> > +	/* Configure secondary channel as well */
-> > +	mhi_chan++;
-> > +	mhi_dev->dl_chan = mhi_chan;
-> > +	get_device(&mhi_dev->dev);
-> > +	mhi_chan->mhi_dev = mhi_dev;
-> > +
-> > +	/* Channel name is same for both UL and DL */
-> > +	mhi_dev->name = mhi_chan->name;
-> > +	dev_set_name(&mhi_dev->dev, "%s_%s",
-> > +		     dev_name(&mhi_cntrl->mhi_dev->dev),
-> > +		     mhi_dev->name);
-> > +
-> > +	ret = device_add(&mhi_dev->dev);
-> > +	if (ret)
-> > +		put_device(&mhi_dev->dev);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int mhi_ep_destroy_device(struct device *dev, void *data)
-> > +{
-> > +	struct mhi_ep_device *mhi_dev;
-> > +	struct mhi_ep_cntrl *mhi_cntrl;
-> > +	struct mhi_ep_chan *ul_chan, *dl_chan;
-> > +
-> > +	if (dev->bus != &mhi_ep_bus_type)
-> > +		return 0;
-> > +
-> > +	mhi_dev = to_mhi_ep_device(dev);
-> > +	mhi_cntrl = mhi_dev->mhi_cntrl;
-> > +
-> > +	/* Only destroy devices created for channels */
-> > +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
-> > +		return 0;
-> > +
-> > +	ul_chan = mhi_dev->ul_chan;
-> > +	dl_chan = mhi_dev->dl_chan;
+> [...]
 > 
-> Aren't they required to supply *both* channels?  Or maybe
-> it's just required that there are transfer callback functions
-> for both channels.  Anyway, no need to check for null, because
-> the creation function guarantees they're both non-null I think.
+>>> +/* Generic context */
+>>> +struct mhi_generic_ctx {
+>>> +	__u32 reserved0;
+>>> +	__u32 reserved1;
+>>> +	__u32 reserved2;
+>>> +
+>>> +	__u64 rbase __packed __aligned(4);
+>>> +	__u64 rlen __packed __aligned(4);
+>>> +	__u64 rp __packed __aligned(4);
+>>> +	__u64 wp __packed __aligned(4);
+>>> +};
+>>
+>> I'm pretty sure this constitutes an external interface, so
+>> every field should have its endianness annotated.
+>>
+>> Mentioned elsewhere, I think you can define the structure
+>> with those attributes rather than the multiple fields.
+>>
 > 
+> As I said before, this was suggested by Arnd during MHI host review. He
+> suggested adding the alignment and packed to only members that require
+> them.
+> 
+> But I think I should change it now...
 
-mhi_ep_destroy_device() will be called for each device separately. So we
-must check for NULL.
+Despite suggesting this more than once, I'm not 100% sure it's
+even a correct suggestion.  I trust Arnd's judgement, and I
+can see the value of being explicit about *which* fields have
+the alignment requirement.  So I'll leave it up to you to
+decide...  If you make my suggested change, be sure to test
+it.  But I'm fine if you leave these as-is.
 
-Thanks,
-Mani
+>>> +enum mhi_ep_ring_type {
+>>> +	RING_TYPE_CMD = 0,
+>>> +	RING_TYPE_ER,
+>>> +	RING_TYPE_CH,
+>>> +};
+>>> +
+>>> +struct mhi_ep_ring_element {
+>>> +	u64 ptr;
+>>> +	u32 dword[2];
+>>> +};
+>>
+>> Are these host resident rings?  Even if not, this is an external
+>> interface, so this should be defined with explicit endianness.
+>> The cpu_to_le64() call will be a no-op so there is no cost
+>> to correcting this.
+>>
+> 
+> Ah, this should be reusing the "struct mhi_tre" defined in host. Will do.
+> 
+>>> +
+>>> +/* Ring element */
+>>> +union mhi_ep_ring_ctx {
+>>> +	struct mhi_cmd_ctxt cmd;
+>>> +	struct mhi_event_ctxt ev;
+>>> +	struct mhi_chan_ctxt ch;
+>>> +	struct mhi_generic_ctx generic;
+>>> +};
+>>> +
+>>> +struct mhi_ep_ring {
+>>> +	struct mhi_ep_cntrl *mhi_cntrl;
+>>> +	int (*ring_cb)(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *el);
+>>> +	union mhi_ep_ring_ctx *ring_ctx;
+>>> +	struct mhi_ep_ring_element *ring_cache;
+>>> +	enum mhi_ep_ring_type type;
+>>> +	size_t rd_offset;
+>>> +	size_t wr_offset;
+>>> +	size_t ring_size;
+>>> +	u32 db_offset_h;
+>>> +	u32 db_offset_l;
+>>> +	u32 ch_id;
+>>> +};
+>>
+>> Not sure about the db_offset fields, etc. here, but it's possible
+>> they need endianness annotations.  I'm going to stop making this
+>> comment; please make sure anything that's exposed to the host
+>> specifies that it's little endian.  (The host and endpoint should
+>> have a common definition of these shared structures anyway; maybe
+>> I'm misreading this or assuming something incorrectly.)
+>>
+> 
+> db_offset_* just holds the register offsets so they don't require
+> endianness annotation. All MMIO read/write are using readl/writel APIs
+> and they handle the endianness conversion implicitly.
+> 
+> Rest of the host memory accesses are annotated properly.
+
+OK, good.
+
+> 
+>>> +
+> 
+> [...]
+> 
+>>> +	/*
+>>> +	 * Allocate max_channels supported by the MHI endpoint and populate
+>>> +	 * only the defined channels
+>>> +	 */
+>>> +	mhi_cntrl->mhi_chan = kcalloc(mhi_cntrl->max_chan, sizeof(*mhi_cntrl->mhi_chan),
+>>> +				      GFP_KERNEL);
+>>> +	if (!mhi_cntrl->mhi_chan)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	for (i = 0; i < config->num_channels; i++) {
+>>> +		struct mhi_ep_chan *mhi_chan;
+>>
+>> This entire block could be encapsulated in mhi_channel_add()
+>> or something,
+> 
+> Wrapping up in a function is useful if the same code is used in
+> different places. But I don't think it adds any value here.
+> 
+>>
+>>> +		ch_cfg = &config->ch_cfg[i];
+>>
+>> Move the above assignment down a few lines, to just before
+>> where it's used.
+>>
+> 
+> No, ch_cfg is used just below this.
+
+Yes you're right, I missed that.
+
+>>> +
+>>> +		chan = ch_cfg->num;
+>>> +		if (chan >= mhi_cntrl->max_chan) {
+>>> +			dev_err(dev, "Channel %d not available\n", chan);
+>>
+>> Maybe report the maximum channel so it's obvious why it's
+>> not available.
+>>
+>>> +			goto error_chan_cfg;
+>>> +		}
+>>> +
+>>> +		/* Bi-directional and direction less channels are not supported */
+>>> +		if (ch_cfg->dir == DMA_BIDIRECTIONAL || ch_cfg->dir == DMA_NONE) {
+>>> +			dev_err(dev, "Invalid channel configuration\n");
+>>
+>> Maybe be more specific in your message about what's wrong here.
+>>
+>>> +			goto error_chan_cfg;
+>>> +		}
+>>> +
+>>> +		mhi_chan = &mhi_cntrl->mhi_chan[chan];
+>>> +		mhi_chan->name = ch_cfg->name;
+>>> +		mhi_chan->chan = chan;
+>>> +		mhi_chan->dir = ch_cfg->dir;
+>>> +		mutex_init(&mhi_chan->lock);
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +
+>>> +error_chan_cfg:
+>>> +	kfree(mhi_cntrl->mhi_chan);
+>>
+>> I'm not sure what the caller does, but maybe null this
+>> after it's freed, or don't assign mhi_cntrll->mhi_chan
+>> until the initialization is successful.
+>>
+> 
+> This is not required here as there will be no access to the pointer
+> after failing.
+
+OK.
+
+>>> +	return ret;
+>>> +}
+>>> +
+>>> +/*
+>>> + * Allocate channel and command rings here. Event rings will be allocated
+>>> + * in mhi_ep_power_up() as the config comes from the host.
+>>> + */
+>>> +int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>>> +				const struct mhi_ep_cntrl_config *config)
+>>> +{
+>>> +	struct mhi_ep_device *mhi_dev;
+>>> +	int ret;
+>>> +
+>>> +	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev)
+>>> +		return -EINVAL;
+>>> +
+>>> +	ret = parse_ch_cfg(mhi_cntrl, config);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	mhi_cntrl->mhi_cmd = kcalloc(NR_OF_CMD_RINGS, sizeof(*mhi_cntrl->mhi_cmd), GFP_KERNEL);
+>>
+>> I said before I thought it was silly to even define NR_OF_CMD_RINGS.
+>> Does the MHI specification actually allow more than one command
+>> ring for a given MHI controller?  Ever?
+>>
+> 
+> MHI spec doesn't limit the number of command rings. Eventhough I don't
+> envision adding more command rings in the future, I'm going to keep this
+> macro for now as the MHI host does the same.
+
+OK.
+
+> [...]
+> 
+>>> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+>>> new file mode 100644
+>>> index 000000000000..20238e9df1b3
+>>> --- /dev/null
+>>> +++ b/include/linux/mhi_ep.h
+> 
+> [...]
+> 
+>>> +struct mhi_ep_device {
+>>> +	struct device dev;
+>>> +	struct mhi_ep_cntrl *mhi_cntrl;
+>>> +	const struct mhi_device_id *id;
+>>> +	const char *name;
+>>> +	struct mhi_ep_chan *ul_chan;
+>>> +	struct mhi_ep_chan *dl_chan;
+>>> +	enum mhi_device_type dev_type;
+>>
+>> There are two device types, controller and transfer.  Unless
+>> there is ever going to be anything more than that, I think
+>> the distinction is better represented as a Boolean, such as:
+>>
+>> 	bool controller;
+> 
+> Again, this is how it is done in MHI host also. Since I'm going to
+> maintain both stacks, it makes it easier for me if similarities are
+> maintained. But I'll keep this suggestion and the one above for later.
+
+Sounds good.  Thanks.
+
+					-Alex
+
+> Thanks,
+> Mani
+
