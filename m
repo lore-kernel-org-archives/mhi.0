@@ -1,166 +1,274 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B7D3B29
-	for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 14:50:09 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id y20so3943819iod.1
-        for <mhi@lists.linux.dev>; Thu, 17 Feb 2022 06:50:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CE0323F
+	for <mhi@lists.linux.dev>; Fri, 18 Feb 2022 08:07:22 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id j4so6571891plj.8
+        for <mhi@lists.linux.dev>; Fri, 18 Feb 2022 00:07:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=BB2sDvKYuJ4OLXpcVUGPxnotzFekLMPB3gl02E+RGsM=;
-        b=YiEwitx6YvoB2nLcFD8bvXs7jZb3EykcXZmD7fGnXJ62QfN2Yn6CVFt4RdwWssx2KC
-         dYoKA5BRbuFUaYUc0lWFTViyLS/tKHsiTwvaJTXxoqhp+UbIFWgR3DsuLjYujvXsK4+L
-         iYKOsW6iphIC3oCHcdqoTdJSeHmYt2TXAdZfJA3N8jEbmY4ngcKM1DtFQnGcQKbz/FTN
-         1SysA6Dqjq6au3OA26TkTt981TV/iENjZKyVxNnYikqzBDKKME3POcalIrzUemOIuP+F
-         wgLo0vnfYDHl2Dsd8ty/kO0axIPJ2hGoCIB8R6C0Bkjbn3xx7FuZfBEk149pUrr6YNyd
-         Nw1A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HI27mhq2FiYwdb0a3fb/GzOsUviZG63dcvmByba1DqA=;
+        b=KFv/tqlJDhpHBWSQ0eLyNwcKHAsktIwz7+pijVrFEDNM1aokzWJiuTmzwJV/L6p32M
+         906lO2Uol9u/VG88P96+sJdYmY4HJskWgf6j/SwMfC3UWCjb3s/f4ok+QD3qZJi56M+s
+         IIsXXF44aHvWjKSpVP7Y5PEpi5v6oo99BOBDR0rEQumjZVojdcS0jHXxtKTY+SZMUf55
+         ZgF2Udu6+rQnC80Pj/WtqnK/+prehmjzZoGvBX+WilnmVkOwf5Avd9K0cbsy6UJzeRF8
+         yZhfN/BdR5EMIu+S1CA80UbhmWH5G41ciZ+QVLfrWVAiua371j4XVnSmLcQpoBmfGCmw
+         9p2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=BB2sDvKYuJ4OLXpcVUGPxnotzFekLMPB3gl02E+RGsM=;
-        b=3833+KgcTda0dJOqrDunHhCRDfAJLFZdpc7lA8l/EyKSW+Fkn92ebaSquVuycVSbsB
-         eWYbFdnRKnV/M7QPzueZTgzmBsDj8W9lmTbtCPKZX8KFHic4bUPWGEz328TZgsU9f81j
-         F681HEfiPy/APwOZH8XlHe1Z8ooXKQeJIoP5D9fu4Jw8lYsjDZ6JlXEWyA6Am6VLpiw+
-         z3Pz38kuPdpo11sHEnMsXmUkMrWvorxkxdWaBEgYTfxS+0bxfv+ZlFDUjeE12BWmO/u5
-         tdkNE31NqqtU2kKVaLdHrjGb4+yqxDgKNQw+yLoHsAQFGKdI4T+gJhPYIATYpNRAw5JD
-         d36Q==
-X-Gm-Message-State: AOAM53086dFeW5hMc76Jj3McIDAAcFlb/Y3dd76k42OKpLgSEBc4zlo4
-	3bOwWU1eMEjkAsRAw9tw7WAUNg==
-X-Google-Smtp-Source: ABdhPJyMLeE45HvinoisFgWKSjp6PKe7sDpN4NNHmMEA8u9XTMVU1hPsnC7IB6GtHV9pPqbHeyxaCA==
-X-Received: by 2002:a05:6602:1485:b0:635:213f:abd2 with SMTP id a5-20020a056602148500b00635213fabd2mr2158395iow.8.1645109408688;
-        Thu, 17 Feb 2022 06:50:08 -0800 (PST)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id z23sm2016397iol.11.2022.02.17.06.50.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 06:50:08 -0800 (PST)
-Message-ID: <c0b89a9e-156c-c56a-c387-5d9ee2c83871@linaro.org>
-Date: Thu, 17 Feb 2022 08:50:07 -0600
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HI27mhq2FiYwdb0a3fb/GzOsUviZG63dcvmByba1DqA=;
+        b=drHeh5f8VvoyKpY1qM0Lz/7QAIyl7lroj9/cWLaxulhmKXk/9zr+7ChHjbvUkt7cpI
+         LDHMc/2jZbOIESEPg6xsWFhEgpxMFGs7gGB6VWHCpIIGMLeWYnlPalb/D+korXtWwsoK
+         kt1dnITY77+D/gRR9Uj9/n2Fw9q3LJwlMbSFTSb8hOwoAGN26yLJBvAXApbgtoFsrFzF
+         UWZYTAG1zfJHcgjgX/FN1WE4DvXEfeKX72mV9q40yuZr17ilTBsleSatYnyJsj/4GKWS
+         oXFq2HZ5rCWEVpcoRQ1rWOeYHTcBYm5zrDlMzJBRCJqSH7znY8VlOJ5w2BG+3nr6u2VF
+         ZfgA==
+X-Gm-Message-State: AOAM531UOhoQWJbmJ66gRfw1knTCTHm+SQkkyghwg1QtSIYLvJRM3TwB
+	jLCHz6iqPTmUvthqNJPUbK6O
+X-Google-Smtp-Source: ABdhPJwauleXGAxPNOxx8Z6xBCaOI3hHsiqKIMB1t5UWNw/G3Zg3vTdxFtbpuE8x7Cmz2dKMIzW3hQ==
+X-Received: by 2002:a17:902:f650:b0:14f:139e:aef2 with SMTP id m16-20020a170902f65000b0014f139eaef2mr6202331plg.151.1645171641582;
+        Fri, 18 Feb 2022 00:07:21 -0800 (PST)
+Received: from workstation ([2409:4072:91e:1543:e8a5:1db5:dc8b:4a8e])
+        by smtp.gmail.com with ESMTPSA id k24sm1962679pfi.174.2022.02.18.00.07.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 18 Feb 2022 00:07:21 -0800 (PST)
+Date: Fri, 18 Feb 2022 13:37:04 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Alex Elder <elder@linaro.org>
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
+	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
+	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
+	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 12/25] bus: mhi: ep: Add support for ring management
+Message-ID: <20220218080704.GD11964@workstation>
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+ <20220212182117.49438-13-manivannan.sadhasivam@linaro.org>
+ <20504c14-6df5-83d1-53e9-85c682a5a3c7@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 09/25] bus: mhi: ep: Add support for registering MHI
- endpoint client drivers
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
- quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
- dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
- quic_cang@quicinc.com, quic_skananth@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-10-manivannan.sadhasivam@linaro.org>
- <94abdf83-5749-14b1-7a57-ceceb1b27167@linaro.org>
- <20220217102038.GB11964@workstation>
-From: Alex Elder <elder@linaro.org>
-In-Reply-To: <20220217102038.GB11964@workstation>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20504c14-6df5-83d1-53e9-85c682a5a3c7@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On 2/17/22 4:20 AM, Manivannan Sadhasivam wrote:
-> On Tue, Feb 15, 2022 at 02:02:50PM -0600, Alex Elder wrote:
+On Tue, Feb 15, 2022 at 02:03:13PM -0600, Alex Elder wrote:
+> On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
+> > Add support for managing the MHI ring. The MHI ring is a circular queue
+> > of data structures used to pass the information between host and the
+> > endpoint.
+> > 
+> > MHI support 3 types of rings:
+> > 
+> > 1. Transfer ring
+> > 2. Event ring
+> > 3. Command ring
+> > 
+> > All rings reside inside the host memory and the MHI EP device maps it to
+> > the device memory using blocks like PCIe iATU. The mapping is handled in
+> > the MHI EP controller driver itself.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> [...]
+> Great explanation.  One more thing to add, is that the command
+> and transfer rings are directed from the host to the MHI EP device,
+> while the event rings are directed from the EP device toward the
+> host.
 > 
->>> +static int mhi_ep_driver_remove(struct device *dev)
->>> +{
->>> +	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
->>> +	struct mhi_ep_driver *mhi_drv = to_mhi_ep_driver(dev->driver);
->>> +	struct mhi_result result = {};
->>> +	struct mhi_ep_chan *mhi_chan;
->>> +	int dir;
->>> +
->>> +	/* Skip if it is a controller device */
->>> +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
->>> +		return 0;
->>> +
->>
->> It would be my preference to encapsulate the body of the
->> following loop into a called function, then call that once
->> for the UL channel and once for the DL channel.
->>
+
+That's correct, will add.
+
+> I notice that you've improved a few things I had notes about,
+> and I don't recall suggesting them.  I'm very happy about that.
 > 
-> This follows the host stack, so I'd like to keep it the same.
-
-I think you should change both, but I'll leave that up to you.
-
->>> +	/* Disconnect the channels associated with the driver */
->>> +	for (dir = 0; dir < 2; dir++) {
->>> +		mhi_chan = dir ? mhi_dev->ul_chan : mhi_dev->dl_chan;
->>> +
->>> +		if (!mhi_chan)
->>> +			continue;
->>> +
->>> +		mutex_lock(&mhi_chan->lock);
->>> +		/* Send channel disconnect status to the client driver */
->>> +		if (mhi_chan->xfer_cb) {
->>> +			result.transaction_status = -ENOTCONN;
->>> +			result.bytes_xferd = 0;
->>> +			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
->>
->> It appears the result is ignored here.  If so, can we
->> define the xfer_cb() function so that a NULL pointer may
->> be supplied by the caller in cases like this?
->>
+> I have a few more comments here, some worth thinking about
+> at least.
 > 
-> result is not ignored, only the bytes_xfered. "transaction_status" will
-> be used by the client drivers for error handling.
-
-Sorry, I was looking at the code *after* the call, and was
-ignoring that it was information being passed in...  My
-mistake.
-
->>> +		}
->>> +
->>> +		/* Set channel state to DISABLED */
->>
->> That comment is a little tautological.  Just omit it.
->>
->>> +		mhi_chan->state = MHI_CH_STATE_DISABLED;
->>> +		mhi_chan->xfer_cb = NULL;
->>> +		mutex_unlock(&mhi_chan->lock);
->>> +	}
->>> +
->>> +	/* Remove the client driver now */
->>> +	mhi_drv->remove(mhi_dev);
->>> +
->>> +	return 0;
->>> +}
+> 					-Alex
 > 
-> [...]
+> > ---
+> >   drivers/bus/mhi/ep/Makefile   |   2 +-
+> >   drivers/bus/mhi/ep/internal.h |  33 +++++
+> >   drivers/bus/mhi/ep/main.c     |  59 +++++++-
+> >   drivers/bus/mhi/ep/ring.c     | 267 ++++++++++++++++++++++++++++++++++
+> >   include/linux/mhi_ep.h        |  11 ++
+> >   5 files changed, 370 insertions(+), 2 deletions(-)
+> >   create mode 100644 drivers/bus/mhi/ep/ring.c
+> > 
+> > diff --git a/drivers/bus/mhi/ep/Makefile b/drivers/bus/mhi/ep/Makefile
+> > index a1555ae287ad..7ba0e04801eb 100644
+> > --- a/drivers/bus/mhi/ep/Makefile
+> > +++ b/drivers/bus/mhi/ep/Makefile
+> > @@ -1,2 +1,2 @@
+> >   obj-$(CONFIG_MHI_BUS_EP) += mhi_ep.o
+> > -mhi_ep-y := main.o mmio.o
+> > +mhi_ep-y := main.o mmio.o ring.o
+> > diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
+> > index 2c756a90774c..48d6e9667d55 100644
+> > --- a/drivers/bus/mhi/ep/internal.h
+> > +++ b/drivers/bus/mhi/ep/internal.h
+> > @@ -112,6 +112,18 @@ enum mhi_ep_execenv {
+> >   	MHI_EP_UNRESERVED
+> >   };
+> > +/* Transfer Ring Element macros */
+> > +#define MHI_EP_TRE_PTR(ptr) (ptr)
+> > +#define MHI_EP_TRE_DWORD0(len) (len & MHI_MAX_MTU)
 > 
->>> +struct mhi_ep_driver {
->>> +	const struct mhi_device_id *id_table;
->>> +	struct device_driver driver;
->>> +	int (*probe)(struct mhi_ep_device *mhi_ep,
->>> +		     const struct mhi_device_id *id);
->>> +	void (*remove)(struct mhi_ep_device *mhi_ep);
->>
->> I get confused by the "ul" versus "dl" naming scheme here.
->> Is "ul" from the perspective of the host, meaning upload
->> is from the host toward the WWAN network (and therefore
->> toward the SDX AP), and download is from the WWAN toward
->> the host?  Somewhere this should be stated clearly in
->> comments; maybe I just missed it.
->>
+> The above looks funny.  This assumes MHI_MAX_MTU is
+> a mask value (likely one less than a power-of-2).
+> That doesn't seem obvious to me; use modulo if you
+> must, but better, just ensure len is in range rather
+> than silently truncating it if it's not.
 > 
-> Yes UL and DL are as per host context. I didn't state this explicitly
-> since this is the MHI host stack behaviour but I'll add a comment for
-> clarity
+> > +#define MHI_EP_TRE_DWORD1(bei, ieot, ieob, chain) ((2 << 16) | (bei << 10) \
+> > +	| (ieot << 9) | (ieob << 8) | chain)
+> 
+> You should probably use FIELD_PREP() to compute the value
+> here, since you're using FIELD_GET() to extract the field
+> values below.
+> 
+> > +#define MHI_EP_TRE_GET_PTR(tre) ((tre)->ptr)
+> > +#define MHI_EP_TRE_GET_LEN(tre) ((tre)->dword[0] & 0xffff)
+> > +#define MHI_EP_TRE_GET_CHAIN(tre) FIELD_GET(BIT(0), (tre)->dword[1])
+> 
+> #define	TRE_FLAG_CHAIN	BIT(0)
+> 
+> Then just call
+> 	bei = FIELD_GET(TRE_FLAG_CHAIN, tre->dword[1]);
+> 
+> But I haven't looked at the code where this is used yet.
+> 
+> > +#define MHI_EP_TRE_GET_IEOB(tre) FIELD_GET(BIT(8), (tre)->dword[1])
+> > +#define MHI_EP_TRE_GET_IEOT(tre) FIELD_GET(BIT(9), (tre)->dword[1])
+> > +#define MHI_EP_TRE_GET_BEI(tre) FIELD_GET(BIT(10), (tre)->dword[1])
+> > +
+> 
+> These macros should be shared/shareable between the host and endpoint.
+> They operate on external interfaces and so should be byte swapped
+> (where used) when updating actual memory.  Unlike the patches from
+> Paul Davey early in this series, this does *not* byte swap the
+> values in the right hand side of these definitions, which is good.
+> 
+> I'm pretty sure I mentioned this before...  I don't really like these
+> "DWORD" macros that simply write compute register values to write
+> out to the TREs.  A TRE is a structure, not a set of registers.  And
+> a whole TRE can be written or read in a single ARM instruction in
+> some cases--but most likely you need to define it as a structure
+> for that to happen.
+> 
+> struct mhi_tre {
+> 	__le64 addr;
+> 	__le16 len_opcode
+> 	__le16 reserved;
+> 	__le32 flags;
+> };
 
-Sounds good, thanks.
+Changing the TRE structure requires changes to both host and endpoint
+stack. So I'll tackle this as an improvement later.
 
-					-Alex
+Added to TODO list.
 
 > 
-> Thanks,
-> Mani
+> Which reminds me, this shared memory area should probably be mapped
+> using memremap() rather than ioremap().  I haven't checked whether
+> it is...
+> 
+> >   enum mhi_ep_ring_type {
+> >   	RING_TYPE_CMD = 0,
+> >   	RING_TYPE_ER,
+> > @@ -131,6 +143,11 @@ union mhi_ep_ring_ctx {
+> >   	struct mhi_generic_ctx generic;
+> >   };
+> > +struct mhi_ep_ring_item {
+> > +	struct list_head node;
+> > +	struct mhi_ep_ring *ring;
+> > +};
+> > +
+> >   struct mhi_ep_ring {
+> >   	struct mhi_ep_cntrl *mhi_cntrl;
+> >   	int (*ring_cb)(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *el);
+> > @@ -143,6 +160,9 @@ struct mhi_ep_ring {
+> >   	u32 db_offset_h;
+> >   	u32 db_offset_l;
+> >   	u32 ch_id;
+> > +	u32 er_index;
+> > +	u32 irq_vector;
+> > +	bool started;
+> >   };
+> >   struct mhi_ep_cmd {
+> > @@ -168,6 +188,19 @@ struct mhi_ep_chan {
+> >   	bool skip_td;
+> >   };
+> > +/* MHI Ring related functions */
+> > +void mhi_ep_ring_init(struct mhi_ep_ring *ring, enum mhi_ep_ring_type type, u32 id);
+> > +void mhi_ep_ring_reset(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring);
+> > +int mhi_ep_ring_start(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
+> > +		      union mhi_ep_ring_ctx *ctx);
+> > +size_t mhi_ep_ring_addr2offset(struct mhi_ep_ring *ring, u64 ptr);
+> > +int mhi_ep_process_ring(struct mhi_ep_ring *ring);
+> > +int mhi_ep_ring_add_element(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *element);
+> > +void mhi_ep_ring_inc_index(struct mhi_ep_ring *ring);
+> > +int mhi_ep_process_cmd_ring(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *el);
+> > +int mhi_ep_process_tre_ring(struct mhi_ep_ring *ring, struct mhi_ep_ring_element *el);
+> > +int mhi_ep_update_wr_offset(struct mhi_ep_ring *ring);
+> > +
+> >   /* MMIO related functions */
+> >   u32 mhi_ep_mmio_read(struct mhi_ep_cntrl *mhi_cntrl, u32 offset);
+> >   void mhi_ep_mmio_write(struct mhi_ep_cntrl *mhi_cntrl, u32 offset, u32 val);
+> > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> > index 950b5bcabe18..2c8045766292 100644
+> > --- a/drivers/bus/mhi/ep/main.c
+> > +++ b/drivers/bus/mhi/ep/main.c
+> > @@ -18,6 +18,48 @@
+> >   static DEFINE_IDA(mhi_ep_cntrl_ida);
+> 
+> The following function handles command or channel interrupt work.
+> 
 
+Both
+
+> > +static void mhi_ep_ring_worker(struct work_struct *work)
+> > +{
+> > +	struct mhi_ep_cntrl *mhi_cntrl = container_of(work,
+> > +				struct mhi_ep_cntrl, ring_work);
+> > +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> > +	struct mhi_ep_ring_item *itr, *tmp;
+> > +	struct mhi_ep_ring *ring;
+> > +	struct mhi_ep_chan *chan;
+> > +	unsigned long flags;
+> > +	LIST_HEAD(head);
+> > +	int ret;
+> > +
+> > +	/* Process the command ring first */
+> > +	ret = mhi_ep_process_ring(&mhi_cntrl->mhi_cmd->ring);
+> > +	if (ret) {
+> 
+> At the moment I'm not sure where this work gets scheduled.
+> But what if there is no command to process?  It looks
+> like you go update the cached pointer no matter what
+> to see if there's anything new.  But it seems like you
+> ought to be able to do this when interrupted for a
+> command rather than all the time.
+> 
+
+No, ring cache is not getting updated all the time. If you look into
+process_ring(), first the write pointer is read from MMIO and there is a
+check to see if there are elements in the ring or not. Only if that
+check passes, the ring cache will get updated.
+
+Since the same work item is used for both cmd and transfer rings, this
+check is necessary. The other option would be to use different work items
+for command and transfer rings. This is something I want to try once
+this initial version gets merged.
+
+Thanks,
+Mani
