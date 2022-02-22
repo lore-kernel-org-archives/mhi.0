@@ -1,44 +1,44 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCFA2F4E
-	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 13:41:54 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id 195so9921396iou.0
-        for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 05:41:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CADD2F4E
+	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 14:09:01 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id x3so42220763qvd.8
+        for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 06:09:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=rqvvnvokXkoku3Es5PfYdus6e0X0eMIUBESKSyd+1kg=;
-        b=smwgEOHrMzHvWEqQZpCYnR1qnmPv0h05cUoWdwwjXgT8rgeVVQ0m07fclL3Ojk0j0d
-         ES/mFVmFimqCDzAMrxJcnV1gIuCyNHkLDqZro3f27LIQOYbDJyUBhc7kUHQkNsQTCaBG
-         B4hDSNeoz2GWyDQ5FzWLlWjAk0/ubs0J4wHZqifWx5nyn15pIwbmfk71PqwwkmbV9MYv
-         KnRpviNhcntmnIl6lzorZ+jJPw5lHSvpkWQdGb7h/J4EER4SvGwFPVOFFAO2LVqE9x/U
-         u3GrAVFPjbtTJoXSFaev58sEjOgsydjikhcw52U9KgagY+bTrFLSOXUt3e/dHLHeyTMq
-         Xehw==
+        bh=Xqy5QKYZUVik+xQ3v/BV4Q233CuzTNH+f5Hje8r4UrI=;
+        b=aGIIG0timJUg6GqBs7BQEga6tkXr3leN8qS/gdipqyzpUFCqQkhRhM7UZe2pVyLcgm
+         NOb3dsFsdJciYIMXJuNhQY2WUhYIwifHoKXAxGkcT+WEJUP6rAWREQ8BsToWjyfTPIrv
+         1Gia/lwpYFtICvwKofZOdKvajWAV0p2Yj6N4JVAbKmVeu1/iV0LKcPwccNE71C6LFLrI
+         1UL2sV6UmJqsZt9jsrcCgwaKVMRq3o3rBAMI85FQ/PZRZZ3ywz5wKyIOOlqhsHSRTe/y
+         b20BwfwS8h8HFx5aY6uAhL/6Ug/B65sontRAmVB2YUKzm9kzcsNjicDtP4SeQiYeumNs
+         VAzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=rqvvnvokXkoku3Es5PfYdus6e0X0eMIUBESKSyd+1kg=;
-        b=NesQ8Ryj2LeSTsle95zOvvroAnuY1Z0hTy8Gv3C2/xskQLPytTdqOELrkTs7DALvOI
-         TVx3AJRjjW3Io6IWJI44O2mrtvmQty+OTbNExRbjI4H31zeBI55NCSKLKGooGpA7gGmn
-         pnr/KBhCVMdVa5V4ljHKxiN7uQySXXZYSNfu1dJ0WGRBie9qrU1zs1hHGD49/1eOmNKz
-         +gkvUTZ5mrLZNxKLw566shetCiK7q+60eBeFGwu1Em0DY6RFpoj+tDYTMTL/0yHmmqjJ
-         0n47R8/s9KKEwLRKkAAP4FW7sq1zwW1no1ulWAzZ2BYsABvIuzvhbu2XFG9iGXSlgBPB
-         IKxA==
-X-Gm-Message-State: AOAM530rYLFx2FjaaqVSVdVPEHj8k8RQYgZMYP/J9AxTuzBAQIHhB6PV
-	YQAgTuFlpXHnOWPMBntguSafJA==
-X-Google-Smtp-Source: ABdhPJyS8s+X/O86KU0cqJ9e+X8mtTTAvSrkzsQ/nrfb2OMCon5y8J/eGZGek/ghBTVNvPlWuUzRfQ==
-X-Received: by 2002:a02:c551:0:b0:314:ac09:428d with SMTP id g17-20020a02c551000000b00314ac09428dmr16309457jaj.0.1645537313552;
-        Tue, 22 Feb 2022 05:41:53 -0800 (PST)
+        bh=Xqy5QKYZUVik+xQ3v/BV4Q233CuzTNH+f5Hje8r4UrI=;
+        b=DbKgut1JuS+OKDzRzKoapR67gbLaWEBiqxm1kM5PzHXegbC8keN6PNGMxc5XDH/tV2
+         1N20+qdWJ/G9X2P5eon9bU7uApPRQTHjcAuDX+DmLGG80HNHK/R81JPnmL75Wc/HTSV/
+         R+YkT/cf6TEhSSgR+zD45eU7FD0apTuZNFz0h5asbo2jup5yMXxZvi8iflaw8jToWQSO
+         sIemfWARafm24b9KQ9pJl4sF5URC3eLDt1i1SqgI1gfrmKuqgcKPmkwaP8VUh8P72urY
+         9qvcCTuTP5RzhaXEIIpqY6bQRnUMJs8gQqTbuDpQ8RgvL6jivBhTKqz3PZzp/WbkwmbK
+         k7Ag==
+X-Gm-Message-State: AOAM5311k61523GcurCRs/V5IudHCS7W/jUBi5HsFz85N9ZcdTHvc/El
+	gTbcJzJBl6c2qZG1cR7cSL36+g==
+X-Google-Smtp-Source: ABdhPJyu9Jgp+cBMPis6i+EmxSqRp8Qurp/ec9d0f6KFWdqDr/xI0wAEwk7qjS45pCIqzW1QSNPz9Q==
+X-Received: by 2002:a05:622a:607:b0:2d7:35db:81e4 with SMTP id z7-20020a05622a060700b002d735db81e4mr21875783qta.281.1645538939986;
+        Tue, 22 Feb 2022 06:08:59 -0800 (PST)
 Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id x11sm840461ilg.22.2022.02.22.05.41.52
+        by smtp.googlemail.com with ESMTPSA id m5sm6184543qkd.36.2022.02.22.06.08.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Feb 2022 05:41:52 -0800 (PST)
-Message-ID: <0fa2922e-ad3c-6ca3-f6c2-b8838d0cafcf@linaro.org>
-Date: Tue, 22 Feb 2022 07:41:51 -0600
+        Tue, 22 Feb 2022 06:08:59 -0800 (PST)
+Message-ID: <72118049-0ae0-69a9-97de-2c132e5f3b6c@linaro.org>
+Date: Tue, 22 Feb 2022 08:08:57 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -47,8 +47,8 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 13/25] bus: mhi: ep: Add support for sending events to
- the host
+Subject: Re: [PATCH v3 15/25] bus: mhi: ep: Add support for processing MHI
+ endpoint interrupts
 Content-Language: en-US
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
@@ -57,124 +57,78 @@ Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
  quic_cang@quicinc.com, quic_skananth@quicinc.com,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-14-manivannan.sadhasivam@linaro.org>
- <3396cc98-8640-8f5a-fad3-c7a913faaa58@linaro.org>
- <20220222060623.GA5029@thinkpad>
+ <20220212182117.49438-16-manivannan.sadhasivam@linaro.org>
+ <d5bf8b66-e9ec-4750-9d9d-deb55cbcee94@linaro.org>
+ <20220222081859.GC5029@thinkpad>
 From: Alex Elder <elder@linaro.org>
-In-Reply-To: <20220222060623.GA5029@thinkpad>
+In-Reply-To: <20220222081859.GC5029@thinkpad>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/22/22 12:06 AM, Manivannan Sadhasivam wrote:
-> On Tue, Feb 15, 2022 at 04:39:17PM -0600, Alex Elder wrote:
+On 2/22/22 2:18 AM, Manivannan Sadhasivam wrote:
+> On Tue, Feb 15, 2022 at 04:39:30PM -0600, Alex Elder wrote:
 >> On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
->>> Add support for sending the events to the host over MHI bus from the
->>> endpoint. Following events are supported:
+>>> Add support for processing MHI endpoint interrupts such as control
+>>> interrupt, command interrupt and channel interrupt from the host.
 >>>
->>> 1. Transfer completion event
->>> 2. Command completion event
->>> 3. State change event
->>> 4. Execution Environment (EE) change event
->>>
->>> An event is sent whenever an operation has been completed in the MHI EP
->>> device. Event is sent using the MHI event ring and additionally the host
->>> is notified using an IRQ if required.
+>>> The interrupts will be generated in the endpoint device whenever host
+>>> writes to the corresponding doorbell registers. The doorbell logic
+>>> is handled inside the hardware internally.
 >>>
 >>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 >>
->> A few things can be simplified here.
+>> Unless I'm mistaken, you have some bugs here.
 >>
+>> Beyond that, I question whether you should be using workqueues
+>> for handling all interrupts.  For now, it's fine, but there
+>> might be room for improvement after this is accepted upstream
+>> (using threaded interrupt handlers, for example).
+>>
+> 
+> Only reason I didn't use bottom halves is that the memory for TRE buffers need
+> to be allocated each time, so essentially the caller should not sleep.
+
+Threaded interrupt handlers can sleep.  If scheduled, they run
+immediately after hard interrupt handlers.  For receive buffers,
+yes, replacing a receive buffer just consumed would require an
+allocation, but for transmit I think it might be possible to
+avoid the need to do a memory allocation.  (Things to think
+about at some future date.)
+
+> This is currently a limitation of iATU where there are only 8 windows for
+> mapping the host memory and each memory region size is also limited.
+
+Those are hard limitations, and probably what constrains you the most.
+
+					-Alex
+> 
 >> 					-Alex
 >>
 >>> ---
->>>    drivers/bus/mhi/common.h      |  15 ++++
->>>    drivers/bus/mhi/ep/internal.h |   8 ++-
->>>    drivers/bus/mhi/ep/main.c     | 126 ++++++++++++++++++++++++++++++++++
->>>    include/linux/mhi_ep.h        |   8 +++
->>>    4 files changed, 155 insertions(+), 2 deletions(-)
+>>>    drivers/bus/mhi/ep/main.c | 113 +++++++++++++++++++++++++++++++++++++-
+>>>    include/linux/mhi_ep.h    |   2 +
+>>>    2 files changed, 113 insertions(+), 2 deletions(-)
 >>>
->>> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
->>> index 728c82928d8d..26d94ed52b34 100644
->>> --- a/drivers/bus/mhi/common.h
->>> +++ b/drivers/bus/mhi/common.h
->>> @@ -176,6 +176,21 @@
->>>    #define MHI_TRE_GET_EV_LINKSPEED(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
->>>    #define MHI_TRE_GET_EV_LINKWIDTH(tre)			(MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
->>> +/* State change event */
->>> +#define MHI_SC_EV_PTR					0
->>> +#define MHI_SC_EV_DWORD0(state)				cpu_to_le32(state << 24)
->>> +#define MHI_SC_EV_DWORD1(type)				cpu_to_le32(type << 16)
->>> +
->>> +/* EE event */
->>> +#define MHI_EE_EV_PTR					0
->>> +#define MHI_EE_EV_DWORD0(ee)				cpu_to_le32(ee << 24)
->>> +#define MHI_EE_EV_DWORD1(type)				cpu_to_le32(type << 16)
->>> +
->>> +/* Command Completion event */
->>> +#define MHI_CC_EV_PTR(ptr)				cpu_to_le64(ptr)
->>> +#define MHI_CC_EV_DWORD0(code)				cpu_to_le32(code << 24)
->>> +#define MHI_CC_EV_DWORD1(type)				cpu_to_le32(type << 16)
->>> +
->>>    /* Transfer descriptor macros */
->>>    #define MHI_TRE_DATA_PTR(ptr)				cpu_to_le64(ptr)
->>>    #define MHI_TRE_DATA_DWORD0(len)			cpu_to_le32(len & MHI_MAX_MTU)
->>> diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
->>> index 48d6e9667d55..fd63f79c6aec 100644
->>> --- a/drivers/bus/mhi/ep/internal.h
->>> +++ b/drivers/bus/mhi/ep/internal.h
->>> @@ -131,8 +131,8 @@ enum mhi_ep_ring_type {
->>>    };
->>>    struct mhi_ep_ring_element {
->>> -	u64 ptr;
->>> -	u32 dword[2];
->>> +	__le64 ptr;
->>> +	__le32 dword[2];
->>
->> Yay!
->>
->>>    };
->>>    /* Ring element */
->>> @@ -227,4 +227,8 @@ void mhi_ep_mmio_get_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state *s
->>>    void mhi_ep_mmio_init(struct mhi_ep_cntrl *mhi_cntrl);
->>>    void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl);
->>> +/* MHI EP core functions */
->>> +int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state);
->>> +int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ep_execenv exec_env);
->>> +
->>>    #endif
 >>> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
->>> index 2c8045766292..61f066c6286b 100644
+>>> index ccb3c2795041..072b872e735b 100644
 >>> --- a/drivers/bus/mhi/ep/main.c
 >>> +++ b/drivers/bus/mhi/ep/main.c
-> 
-> [...]
-> 
->>> +static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl,
->>> +					struct mhi_ep_ring *ring, u32 len,
->>> +					enum mhi_ev_ccs code)
+>>> @@ -185,6 +185,56 @@ static void mhi_ep_ring_worker(struct work_struct *work)
+>>>    	}
+>>>    }
+>>> +static void mhi_ep_queue_channel_db(struct mhi_ep_cntrl *mhi_cntrl,
+>>> +				    unsigned long ch_int, u32 ch_idx)
 >>> +{
->>> +	struct mhi_ep_ring_element event = {};
->>> +	__le32 tmp;
->>> +
->>> +	event.ptr = le64_to_cpu(ring->ring_ctx->generic.rbase) +
->>> +			ring->rd_offset * sizeof(struct mhi_ep_ring_element);
+>>> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>>> +	struct mhi_ep_ring_item *item;
+>>> +	struct mhi_ep_ring *ring;
+>>> +	unsigned int i;
 >>
->> I'm not sure at the moment where this will be called.  But
->> it might be easier to pass in the transfer channel pointer
->> rather than compute its address here.
-
-As I recall, I made this comment thinking that in the context of
-the caller, the ring element address might be known; but I didn't
-look at those calling locations to see.
-
-In any case, what you do here looks correct, so that's fine.
-
-					-Alex
-
-> Passing the ring element to these functions won't help. Because, the ring
-> element only has the address of the buffer it points to. But what we need here
-> is the address of the ring element itself and that can only be found in ring
-> context.
+>> Why not u32 i?  And why is the ch_int argument unsigned long?  The value
+>> passed in is a u32.
+>>
+> 
+> for_each_set_bit() expects the 2nd argument to be of type "unsigned long".
 > 
 > Thanks,
 > Mani
