@@ -1,121 +1,188 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B272F4E
-	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 14:10:04 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id e22so42282254qvf.9
-        for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 06:10:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6CD634
+	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 14:38:32 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id v4so18705596pjh.2
+        for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 06:38:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XR5FZFGaIIKTzVrtc+qtDeldPYFhK+vnor66vP4A6qE=;
-        b=d2PXqmoJdsG3+AVpuPryy+/yq70x6q2BsCW0wo1sZ2XTr6NKseHqDZJFWBX5EdjBaj
-         lUh2Q62sr7Z6VEHYqQZ9bZeQLO5HNGcAldRPjVodDIoO/jUnZXQIWaH9KqdlHqqZN5bZ
-         m6CsUUE5mShjmYVas/8ImoZiaDWRUg0Sbl4UKOLiIDFkFGxD4reVTeEP0U9l8D5TTemm
-         apZVoAWDK42QHzKM9M2M8FtvZl2CIxrF516twZ+oet52mrU3UEJZ6a0iIdT1O+lVPX1L
-         1ealdeBBMSt62qEBjdRqwPJNYxRyqGgEcRpfAgNobS7zu2sqEY0jNdK+VvnbDrwOyAu2
-         WgKA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GdNESGAYnggKJpJiijh4S9vzX+uCdLNrQ6NluL3JdoA=;
+        b=IEon9R3z+ocvwbvLWf0JV8sifD88RrbTiR6iamfDR8lButPGg9lzCX5nlgsN2kFu/p
+         PRhcLkBR04Z6nAyOHwecnCGkiXOQxovkuow5vY/JPwdoJAt1wU9jF5B6xiTlGAD7Y1f5
+         BRZZyEIZN+ckJVqkQtsQL9sJKOGa4xC61omEHyyAZeQW+FFhYNbqMHmdu2VXwUpIZv/a
+         FV7iQe6sSFsdq/UT5f8cyPfYyT1SI787HV+SSeCtoznlk7GXhkfFe+6f9sUoJKgp5lcT
+         1SNvnJSPFPmrgjhCpD/klGlveW/Ml8dlujlCrwAi1R88pfBG6O5rdR54xzFPrKB4prBC
+         Mgaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XR5FZFGaIIKTzVrtc+qtDeldPYFhK+vnor66vP4A6qE=;
-        b=8QXECZ3nEP1dY90PzZp2rHJaB2ogbRXfvDTN/M+5EaQ8Foy7noyC4DxP/kuvG+lm+9
-         6WOc6pKqh0DXd6rl5g/W6DRwRKy5EjeuxOq0eZu72h4Yns20/qP24qFeoegeAxPIHv1y
-         XvIjYW3aDO3vDJWXuX2GcrrR4zs3r0n6WbHUebH9C7zzYzuBW/o61sfTITUPhXVldWYh
-         SuZGX/9DFC8ZPakHo+sw99WhP6ocbTBakmcHT6COEg7SOjNR0MndTpXciPkJ6iNNEqHu
-         Uo/BHn2AIP/eNts+i7S1sKb0qo+awj0ke0nTdFswTIGxzW2855B/oBu3sGc+fuy3elrU
-         D8fg==
-X-Gm-Message-State: AOAM532izTMI9Y10rOApK260vMhWQx55oZ/Mfap5bQT+9B2oyxQAgPBl
-	bk5ExEL98w3VU/aKVJK68elcIg==
-X-Google-Smtp-Source: ABdhPJwWqciVne655CNWHtCM8/p9iRCfk7DpJuRiXA0dp7NT/73hA5DeKFBPUvXQ25aZwkNYKL2lVA==
-X-Received: by 2002:a05:622a:206:b0:2dd:dbdb:f598 with SMTP id b6-20020a05622a020600b002dddbdbf598mr13521885qtx.138.1645539002901;
-        Tue, 22 Feb 2022 06:10:02 -0800 (PST)
-Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id e9sm306676qkm.27.2022.02.22.06.10.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Feb 2022 06:10:02 -0800 (PST)
-Message-ID: <a1e26159-f27e-e55f-d376-e43a13294246@linaro.org>
-Date: Tue, 22 Feb 2022 08:10:00 -0600
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GdNESGAYnggKJpJiijh4S9vzX+uCdLNrQ6NluL3JdoA=;
+        b=HnyEk7di0wslYO3Dv6mG38zunXoqaeLMA0hCSXYXBpTumGRs8Od0yWolAZCkaQqOAk
+         A0HIOQiudA2i14pcVWtmDAwRbADXNI2VaG+vq8SJiqtRlXNIPnIT5NVMuOlIOp+uBGh2
+         Ug4eYEBV7ig6QLs7l8biGwd6vc9/Jjib4mZwnoxY4kfzje5UZayDyLBhWcjIReP9OzPA
+         BIJ6vsGTUWzFsg4ogbmRLg0HupLsI/GyBMTBOs+qC3VQBqmcVN3RBAY9lk8vr4MeDhEv
+         QCXIrzrSsuuhnBMgk/EcEhzVoSlkY5fzJ6EZyJkzR5qG+wlr3pIi7eX6IhrU62+rouzy
+         caPA==
+X-Gm-Message-State: AOAM530g+3bVXv05UYzmmSwtICu+smd1wow3QSI0/ajZQReHVMmOeX4L
+	3+sJUuQ63NH9Z8UjytggCHX/
+X-Google-Smtp-Source: ABdhPJxVL1yJ+jHsMKViEQIZWuX+YqfYVcdCnfbo+s68aK+kiS6owg/rfxJ+w7tDrAPpKNoLpZ8/PA==
+X-Received: by 2002:a17:903:2451:b0:14f:b91:fe3c with SMTP id l17-20020a170903245100b0014f0b91fe3cmr24146090pls.120.1645540712069;
+        Tue, 22 Feb 2022 06:38:32 -0800 (PST)
+Received: from thinkpad ([117.217.186.202])
+        by smtp.gmail.com with ESMTPSA id l8sm21942913pgt.77.2022.02.22.06.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 06:38:31 -0800 (PST)
+Date: Tue, 22 Feb 2022 20:08:25 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Alex Elder <elder@linaro.org>
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	quic_jhugo@quicinc.com, vinod.koul@linaro.org,
+	bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org,
+	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
+	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 23/25] bus: mhi: ep: Add support for queueing SKBs to
+ the host
+Message-ID: <20220222143825.GH5029@thinkpad>
+References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
+ <20220212182117.49438-24-manivannan.sadhasivam@linaro.org>
+ <766e6568-0b80-c745-dd8f-7f401fb0422d@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 16/25] bus: mhi: ep: Add support for powering up the
- MHI endpoint stack
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
- quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
- dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
- quic_cang@quicinc.com, quic_skananth@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-17-manivannan.sadhasivam@linaro.org>
- <10240bc5-ef9f-7555-402e-57ca2b0b0a14@linaro.org>
- <20220222090816.GD5029@thinkpad>
-From: Alex Elder <elder@linaro.org>
-In-Reply-To: <20220222090816.GD5029@thinkpad>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <766e6568-0b80-c745-dd8f-7f401fb0422d@linaro.org>
 
-On 2/22/22 3:08 AM, Manivannan Sadhasivam wrote:
-> On Tue, Feb 15, 2022 at 04:39:37PM -0600, Alex Elder wrote:
->> On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
->>> Add support for MHI endpoint power_up that includes initializing the MMIO
->>> and rings, caching the host MHI registers, and setting the MHI state to M0.
->>> After registering the MHI EP controller, the stack has to be powered up
->>> for usage.
->>>
->>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->>
->> Very little to say on this one.		-Alex
->>
->>> ---
->>>    drivers/bus/mhi/ep/internal.h |   6 +
->>>    drivers/bus/mhi/ep/main.c     | 229 ++++++++++++++++++++++++++++++++++
->>>    include/linux/mhi_ep.h        |  22 ++++
->>>    3 files changed, 257 insertions(+)
->>>
->>> diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
->>> index e4e8f06c2898..ee8c5974f0c0 100644
->>> --- a/drivers/bus/mhi/ep/internal.h
->>> +++ b/drivers/bus/mhi/ep/internal.h
->>> @@ -242,4 +242,10 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
->>>    int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
->>>    int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
->>> +/* MHI EP memory management functions */
->>> +int mhi_ep_alloc_map(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, size_t size,
->>> +		     phys_addr_t *phys_ptr, void __iomem **virt);
->>> +void mhi_ep_unmap_free(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, phys_addr_t phys,
->>> +		       void __iomem *virt, size_t size);
->>> +
->>>    #endif
->>> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+On Tue, Feb 15, 2022 at 04:40:29PM -0600, Alex Elder wrote:
+> On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
+> > Add support for queueing SKBs to the host over the transfer ring of the
+> > relevant channel. The mhi_ep_queue_skb() API will be used by the client
+> > networking drivers to queue the SKBs to the host over MHI bus.
+> > 
+> > The host will add ring elements to the transfer ring periodically for
+> > the device and the device will write SKBs to the ring elements. If a
+> > single SKB doesn't fit in a ring element (TRE), it will be placed in
+> > multiple ring elements and the overflow event will be sent for all ring
+> > elements except the last one. For the last ring element, the EOT event
+> > will be sent indicating the packet boundary.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> [...]
+> I'm a little confused by this, so maybe you can provide
+> a better explanation somehow.
 > 
->>> +
->>> +static void mhi_ep_enable_int(struct mhi_ep_cntrl *mhi_cntrl)
->>> +{
->>
->> Are channel doorbell interrupts enabled separately now?
->> (There was previously an enable_chdb_interrupts() call.)
->>
+> 					-Alex
 > 
-> Doorbell interrupts are enabled when the corresponding channel gets started.
-> Enabling all interrupts here triggers spurious irqs as some of the interrupts
-> associated with hw channels always get triggered.
+> > ---
+> >   drivers/bus/mhi/ep/main.c | 102 ++++++++++++++++++++++++++++++++++++++
+> >   include/linux/mhi_ep.h    |  13 +++++
+> >   2 files changed, 115 insertions(+)
+> > 
+> > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> > index baf383a4857b..e4186b012257 100644
+> > --- a/drivers/bus/mhi/ep/main.c
+> > +++ b/drivers/bus/mhi/ep/main.c
+> > @@ -488,6 +488,108 @@ int mhi_ep_process_tre_ring(struct mhi_ep_ring *ring, struct mhi_ep_ring_element
+> >   	return 0;
+> >   }
+> > +int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, enum dma_data_direction dir,
+> > +		     struct sk_buff *skb, size_t len, enum mhi_flags mflags)
+> 
+> Why are both skb and len supplied?  Will an skb be supplied
+> without wanting to send all of it?  Must len be less than
+> skb->len?  I'm a little confused about the interface.
+> 
+> Also, the data direction is *out*, right?  You'll never
+> be queueing a "receive" SKB?
+> 
 
-This is excellent.  Thanks for the explanation.	-Alex
+This was done to be compatible with the MHI host API where the host can queue
+SKBs in both directions. But I think I should stop doing this.
 
+> > +{
+> > +	struct mhi_ep_chan *mhi_chan = (dir == DMA_FROM_DEVICE) ? mhi_dev->dl_chan :
+> > +								mhi_dev->ul_chan;
+> > +	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
+> > +	struct device *dev = &mhi_chan->mhi_dev->dev;
+> > +	struct mhi_ep_ring_element *el;
+> > +	struct mhi_ep_ring *ring;
+> > +	size_t bytes_to_write;
+> > +	enum mhi_ev_ccs code;
+> > +	void *read_from_loc;
+> > +	u32 buf_remaining;
+> > +	u64 write_to_loc;
+> > +	u32 tre_len;
+> > +	int ret = 0;
+> > +
+> > +	if (dir == DMA_TO_DEVICE)
+> > +		return -EINVAL;
 > 
-> Thanks,
-> Mani
+> Can't you just preclude this from happening, or
+> know it won't happen by inspection?
+> 
+> > +
+> > +	buf_remaining = len;
+> > +	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
+> > +
+> > +	mutex_lock(&mhi_chan->lock);
+> > +
+> > +	do {
+> > +		/* Don't process the transfer ring if the channel is not in RUNNING state */
+> > +		if (mhi_chan->state != MHI_CH_STATE_RUNNING) {
+> > +			dev_err(dev, "Channel not available\n");
+> > +			ret = -ENODEV;
+> > +			goto err_exit;
+> > +		}
+> > +
+> 
+> It would be nice if the caller could know whether there
+> was enough room *before* you start transferring things.
+> It's probably a lot of work to get to that point though.
+> 
 
+No, the caller will do this check but the check is included here so that we
+don't run out of buffers when the packet needs to be splitted.
+
+> > +		if (mhi_ep_queue_is_empty(mhi_dev, dir)) {
+> > +			dev_err(dev, "TRE not available!\n");
+> > +			ret = -EINVAL;
+> > +			goto err_exit;
+> > +		}
+> > +
+> > +		el = &ring->ring_cache[ring->rd_offset];
+> > +		tre_len = MHI_EP_TRE_GET_LEN(el);
+> > +		if (skb->len > tre_len) {
+> > +			dev_err(dev, "Buffer size (%d) is too large for TRE (%d)!\n",
+> > +				skb->len, tre_len);
+> 
+> This means the receive buffer must be big enough to hold
+> any incoming SKB.  This is *without* checking for the
+> CHAIN flag in the TRE, so what you describe in the
+> patch description seems not to be true.  I.e., multiple
+> TREs in a TRD will *not* be consumed if the SKB data
+> requires more than what's left in the current TRE.
+> 
+
+I think I removed this check for v3 but somehow the change got lost :/
+
+But anyway, there is no need to check for CHAIN flag while writing to host.
+CHAIN flag is only used or even make sense when host writes data to device, so
+that it knows the packet boundary and could use the CHAIN flag to tell the
+device where the boundary lies.
+
+But when the device writes to host, it already has the pre-queued elements from
+host that has no idea where the packet boundary lies. So the host would've set
+only EOT on all TREs and expects the device to send OVERFLOW event for TREs that
+don't have the complete packet. Then finally, when device sends EOT event, the
+host will detect the boundary.
+
+Thanks,
+Mani
