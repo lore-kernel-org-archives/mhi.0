@@ -1,42 +1,42 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01802625
-	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 06:06:31 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id gf13-20020a17090ac7cd00b001bbfb9d760eso1368546pjb.2
-        for <mhi@lists.linux.dev>; Mon, 21 Feb 2022 22:06:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7E7E
+	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 07:03:23 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id q11so4999196pln.11
+        for <mhi@lists.linux.dev>; Mon, 21 Feb 2022 23:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=qgHTWYmGSpSQewssga0wRsMEIRFp9xeMp+WIkFk7p5A=;
-        b=nMfJb0FTo0WK1hPaiPc6ulx2U5XLhgf6QXbUiC/UwK+BnIYEeyE5ywWITJj3THcNcd
-         Ule/6v2avPFqd4e4MoDxoUwmjtFOS0kkHtxSOyKgrl1Utg5rZ/mz+CRB4F4Ndy9uPLQh
-         3K4tKqrfwkuqKKt26VjRgR2r1GTwiXvqcS7Q1eG9AjND+rN0LswAMzuaBgfTe7djm6n9
-         KkQg/O9lFxfI9uyrpUKIzY475uqyxYdBETuvsu/A7hkR3G8Rbf5lJNGJERa4FZZpEVH+
-         ykhXRlZA/xeSgh2BpzgcK+IfFfBrwfN8QahenGPLEWF4jP/toTjZdJHwchwLfRxGfBEM
-         H3dQ==
+        bh=k22nQ+5l32+0KCOFzN+ckiNqLiyZfk5xD9lBCarBIVw=;
+        b=dKO3WsZTKTO0oOs9bIYneg0c9r0x03J/xXk/thIOoGwyvBxO5GhRkLvKLhj4I+U25k
+         XFTmrowAMgVkgi0DIeS/Ibsl1EwoZSEw+FNmjc/KX0rQLCSjVVMypX42qcEnl4a6KGGa
+         OGqg9pLz5MODnATkjh1dgtjYk7hyreF69/2itXn3PVGWlvZKKrxb4WhHM5a9H3bieePl
+         ccSwMrNycbvaZ6avy+xfZguQhpDOXgf77CfKSMk0ycFVCiQQErHAdb6LdmWV0UFXT0qM
+         jpsnlCK9pAQ7EVCEJIv7xYMEUG2m611XgqBTFCXDE6gAZScTgbSnj/g0bCoyVVPGQZKv
+         mmVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=qgHTWYmGSpSQewssga0wRsMEIRFp9xeMp+WIkFk7p5A=;
-        b=X11rGXz1FTO4P8nwNJfDEsemJ1Lm7itRx/vV6O2yo58XYZaPgnoxyF8EdoEoEnye1u
-         cO8+l/l9R/1kQ0O3U0YQJhfqBETa4/wVX/rpS13bPnT0HmN7J7Ql7g2xXYzxzwdoB9dH
-         vJXYIez+NPPFzeTWOYtGjyrySlGovX37a3IpCjrblFaXp3SbxYB7YLcDPPQoIPbfB6by
-         W9wtQxACbfBdN9wsNZe9cgFMsHK8h8eHNcn9RaAq3tPFVorwUtaPCJapL9rZnQH4vPlv
-         k5vg3U9eYJ+05gvkqUneSFSOoP7R8UfdjHYjZEcu0kidAk+U6DSwRZeU6Ge96IrlQyRM
-         dBfg==
-X-Gm-Message-State: AOAM530fRIcMam2enX8lVwfmNUkMYLWage3gHIc1r6/KRYFVXr2KXKDm
-	hiXcgo4kkPIzBZJ3QzqYWw0iLTgXh6aPu0U=
-X-Google-Smtp-Source: ABdhPJz4P4fmg8n8s9VjF3Evdup+GYQ2pd94Qpr1uLHIF36Jzk2LaJFZSmO+9IR63s55ftOqRh8NFg==
-X-Received: by 2002:a17:902:8f8b:b0:149:6639:4b86 with SMTP id z11-20020a1709028f8b00b0014966394b86mr22081150plo.60.1645509991315;
-        Mon, 21 Feb 2022 22:06:31 -0800 (PST)
+        bh=k22nQ+5l32+0KCOFzN+ckiNqLiyZfk5xD9lBCarBIVw=;
+        b=R27svC38OZMyEaUcHLOqOgjneO/eB6/x+nbgK9p4e+2wY4jBtL+nvt6MXyUr9Y37Hq
+         eUIpZQZnf47JDY+8+gVKvCWfVAXFC6xBiYEtWPis08cksUIUHTTl4He9uY9SuSTXKYx3
+         /yZfZvL8/jBrXFcuhL9UIdepMxJnIuB7xBW6XwP56NzJGJepuSwPS2t/tgHfCiMdQw15
+         WzYsSuUxg+yAGk2yFP0F6Uhy91MHFKfwQYgVi1xHse6PahDKhGD9RTy8qPsx4KEZ8kwj
+         G6MOrqJG0yn4rld7mGFoTFDoD7NWHTA2cakMogoqdPcKk/xVCTepfTeCBNg1sPNtJEJj
+         rOag==
+X-Gm-Message-State: AOAM530hp9I6UD4AqYUTSMJwoPuQ3K8kXtmSGGqzjEwMy/zLENbkzzEX
+	5bUNAH0sej5rGCoReFBX7Y8lQjqGHqgsTDs=
+X-Google-Smtp-Source: ABdhPJy7/psO5wxTN0D7lIAQo485hkGSjgCavz8S8ufkE8CcXGSZIK3H7bBXdsvO0q33WUeR0F4Otw==
+X-Received: by 2002:a17:902:9348:b0:14f:c715:2a94 with SMTP id g8-20020a170902934800b0014fc7152a94mr6019782plp.66.1645513402581;
+        Mon, 21 Feb 2022 23:03:22 -0800 (PST)
 Received: from thinkpad ([117.217.186.202])
-        by smtp.gmail.com with ESMTPSA id g21-20020a17090a7d1500b001b968e82819sm1197687pjl.10.2022.02.21.22.06.25
+        by smtp.gmail.com with ESMTPSA id s48sm14373311pfw.111.2022.02.21.23.03.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 22:06:30 -0800 (PST)
-Date: Tue, 22 Feb 2022 11:36:23 +0530
+        Mon, 21 Feb 2022 23:03:22 -0800 (PST)
+Date: Tue, 22 Feb 2022 12:33:15 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
@@ -45,12 +45,12 @@ Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
 	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
 	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 13/25] bus: mhi: ep: Add support for sending events to
- the host
-Message-ID: <20220222060623.GA5029@thinkpad>
+Subject: Re: [PATCH v3 14/25] bus: mhi: ep: Add support for managing MHI
+ state machine
+Message-ID: <20220222070315.GB5029@thinkpad>
 References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-14-manivannan.sadhasivam@linaro.org>
- <3396cc98-8640-8f5a-fad3-c7a913faaa58@linaro.org>
+ <20220212182117.49438-15-manivannan.sadhasivam@linaro.org>
+ <6f31cea5-865d-c2b9-5887-f053d1e2001a@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -59,110 +59,130 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3396cc98-8640-8f5a-fad3-c7a913faaa58@linaro.org>
+In-Reply-To: <6f31cea5-865d-c2b9-5887-f053d1e2001a@linaro.org>
 
-On Tue, Feb 15, 2022 at 04:39:17PM -0600, Alex Elder wrote:
+On Tue, Feb 15, 2022 at 04:39:24PM -0600, Alex Elder wrote:
 > On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
-> > Add support for sending the events to the host over MHI bus from the
-> > endpoint. Following events are supported:
+> > Add support for managing the MHI state machine by controlling the state
+> > transitions. Only the following MHI state transitions are supported:
 > > 
-> > 1. Transfer completion event
-> > 2. Command completion event
-> > 3. State change event
-> > 4. Execution Environment (EE) change event
-> > 
-> > An event is sent whenever an operation has been completed in the MHI EP
-> > device. Event is sent using the MHI event ring and additionally the host
-> > is notified using an IRQ if required.
+> > 1. Ready state
+> > 2. M0 state
+> > 3. M3 state
+> > 4. SYS_ERR state
 > > 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> A few things can be simplified here.
-> 
-> 					-Alex
+> Minor suggestions here.		-Alex
 > 
 > > ---
-> >   drivers/bus/mhi/common.h      |  15 ++++
-> >   drivers/bus/mhi/ep/internal.h |   8 ++-
-> >   drivers/bus/mhi/ep/main.c     | 126 ++++++++++++++++++++++++++++++++++
-> >   include/linux/mhi_ep.h        |   8 +++
-> >   4 files changed, 155 insertions(+), 2 deletions(-)
+> >   drivers/bus/mhi/ep/Makefile   |   2 +-
+> >   drivers/bus/mhi/ep/internal.h |  11 +++
+> >   drivers/bus/mhi/ep/main.c     |  51 ++++++++++-
+> >   drivers/bus/mhi/ep/sm.c       | 168 ++++++++++++++++++++++++++++++++++
+> >   include/linux/mhi_ep.h        |   6 ++
+> >   5 files changed, 236 insertions(+), 2 deletions(-)
+> >   create mode 100644 drivers/bus/mhi/ep/sm.c
 > > 
-> > diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> > index 728c82928d8d..26d94ed52b34 100644
-> > --- a/drivers/bus/mhi/common.h
-> > +++ b/drivers/bus/mhi/common.h
-> > @@ -176,6 +176,21 @@
-> >   #define MHI_TRE_GET_EV_LINKSPEED(tre)			((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> >   #define MHI_TRE_GET_EV_LINKWIDTH(tre)			(MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
-> > +/* State change event */
-> > +#define MHI_SC_EV_PTR					0
-> > +#define MHI_SC_EV_DWORD0(state)				cpu_to_le32(state << 24)
-> > +#define MHI_SC_EV_DWORD1(type)				cpu_to_le32(type << 16)
-> > +
-> > +/* EE event */
-> > +#define MHI_EE_EV_PTR					0
-> > +#define MHI_EE_EV_DWORD0(ee)				cpu_to_le32(ee << 24)
-> > +#define MHI_EE_EV_DWORD1(type)				cpu_to_le32(type << 16)
-> > +
-> > +/* Command Completion event */
-> > +#define MHI_CC_EV_PTR(ptr)				cpu_to_le64(ptr)
-> > +#define MHI_CC_EV_DWORD0(code)				cpu_to_le32(code << 24)
-> > +#define MHI_CC_EV_DWORD1(type)				cpu_to_le32(type << 16)
-> > +
-> >   /* Transfer descriptor macros */
-> >   #define MHI_TRE_DATA_PTR(ptr)				cpu_to_le64(ptr)
-> >   #define MHI_TRE_DATA_DWORD0(len)			cpu_to_le32(len & MHI_MAX_MTU)
+> > diff --git a/drivers/bus/mhi/ep/Makefile b/drivers/bus/mhi/ep/Makefile
+> > index 7ba0e04801eb..aad85f180b70 100644
+> > --- a/drivers/bus/mhi/ep/Makefile
+> > +++ b/drivers/bus/mhi/ep/Makefile
+> > @@ -1,2 +1,2 @@
+> >   obj-$(CONFIG_MHI_BUS_EP) += mhi_ep.o
+> > -mhi_ep-y := main.o mmio.o ring.o
+> > +mhi_ep-y := main.o mmio.o ring.o sm.o
 > > diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
-> > index 48d6e9667d55..fd63f79c6aec 100644
+> > index fd63f79c6aec..e4e8f06c2898 100644
 > > --- a/drivers/bus/mhi/ep/internal.h
 > > +++ b/drivers/bus/mhi/ep/internal.h
-> > @@ -131,8 +131,8 @@ enum mhi_ep_ring_type {
+> > @@ -173,6 +173,11 @@ struct mhi_ep_event {
+> >   	struct mhi_ep_ring ring;
 > >   };
-> >   struct mhi_ep_ring_element {
-> > -	u64 ptr;
-> > -	u32 dword[2];
-> > +	__le64 ptr;
-> > +	__le32 dword[2];
-> 
-> Yay!
-> 
-> >   };
-> >   /* Ring element */
-> > @@ -227,4 +227,8 @@ void mhi_ep_mmio_get_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state *s
-> >   void mhi_ep_mmio_init(struct mhi_ep_cntrl *mhi_cntrl);
-> >   void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl);
-> > +/* MHI EP core functions */
-> > +int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state);
-> > +int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ep_execenv exec_env);
+> > +struct mhi_ep_state_transition {
+> > +	struct list_head node;
+> > +	enum mhi_state state;
+> > +};
 > > +
+> >   struct mhi_ep_chan {
+> >   	char *name;
+> >   	struct mhi_ep_device *mhi_dev;
+> > @@ -230,5 +235,11 @@ void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl);
+> >   /* MHI EP core functions */
+> >   int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state);
+> >   int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ep_execenv exec_env);
+> > +bool mhi_ep_check_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state cur_mhi_state,
+> > +			    enum mhi_state mhi_state);
+> > +int mhi_ep_set_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state mhi_state);
+> > +int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
+> > +int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
+> > +int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
 > >   #endif
 > > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> > index 2c8045766292..61f066c6286b 100644
+> > index 61f066c6286b..ccb3c2795041 100644
 > > --- a/drivers/bus/mhi/ep/main.c
 > > +++ b/drivers/bus/mhi/ep/main.c
-
-[...]
-
-> > +static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl,
-> > +					struct mhi_ep_ring *ring, u32 len,
-> > +					enum mhi_ev_ccs code)
+> > @@ -185,6 +185,43 @@ static void mhi_ep_ring_worker(struct work_struct *work)
+> >   	}
+> >   }
+> > +static void mhi_ep_state_worker(struct work_struct *work)
 > > +{
-> > +	struct mhi_ep_ring_element event = {};
-> > +	__le32 tmp;
+> > +	struct mhi_ep_cntrl *mhi_cntrl = container_of(work, struct mhi_ep_cntrl, state_work);
+> > +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> > +	struct mhi_ep_state_transition *itr, *tmp;
+> > +	unsigned long flags;
+> > +	LIST_HEAD(head);
+> > +	int ret;
 > > +
-> > +	event.ptr = le64_to_cpu(ring->ring_ctx->generic.rbase) +
-> > +			ring->rd_offset * sizeof(struct mhi_ep_ring_element);
+> > +	spin_lock_irqsave(&mhi_cntrl->list_lock, flags);
+> > +	list_splice_tail_init(&mhi_cntrl->st_transition_list, &head);
+> > +	spin_unlock_irqrestore(&mhi_cntrl->list_lock, flags);
+> > +
+> > +	list_for_each_entry_safe(itr, tmp, &head, node) {
+> > +		list_del(&itr->node);
+> > +		dev_dbg(dev, "Handling MHI state transition to %s\n",
+> > +			 mhi_state_str(itr->state));
+> > +
+> > +		switch (itr->state) {
+> > +		case MHI_STATE_M0:
+> > +			ret = mhi_ep_set_m0_state(mhi_cntrl);
+> > +			if (ret)
+> > +				dev_err(dev, "Failed to transition to M0 state\n");
+> > +			break;
+> > +		case MHI_STATE_M3:
+> > +			ret = mhi_ep_set_m3_state(mhi_cntrl);
+> > +			if (ret)
+> > +				dev_err(dev, "Failed to transition to M3 state\n");
+> > +			break;
+> > +		default:
+> > +			dev_err(dev, "Invalid MHI state transition: %d\n", itr->state);
+> > +			break;
+> > +		}
+> > +		kfree(itr);
+> > +	}
+> > +}
+> > +
+> >   static void mhi_ep_release_device(struct device *dev)
+> >   {
+> >   	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
+> > @@ -386,6 +423,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   	}
+> >   	INIT_WORK(&mhi_cntrl->ring_work, mhi_ep_ring_worker);
+> > +	INIT_WORK(&mhi_cntrl->state_work, mhi_ep_state_worker);
+> >   	mhi_cntrl->ring_wq = alloc_workqueue("mhi_ep_ring_wq", 0, 0);
+> >   	if (!mhi_cntrl->ring_wq) {
+> > @@ -393,8 +431,16 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   		goto err_free_cmd;
+> >   	}
+> > +	mhi_cntrl->state_wq = alloc_workqueue("mhi_ep_state_wq", 0, 0);
 > 
-> I'm not sure at the moment where this will be called.  But
-> it might be easier to pass in the transfer channel pointer
-> rather than compute its address here.
-> 
+> Maybe it's not a big deal, but do we really need several separate
+> work queues?  Would one suffice?  Could a system workqueue be used
+> in some cases (such as state changes)?
 
-Passing the ring element to these functions won't help. Because, the ring
-element only has the address of the buffer it points to. But what we need here
-is the address of the ring element itself and that can only be found in ring
-context.
+Good question. The reason to have 2 separate workqueue was to avoid running the
+two work items parallely during bringup. But the code has changed a lot afterwards,
+so this could go into the other workqueue.
 
 Thanks,
 Mani
