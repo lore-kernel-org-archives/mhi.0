@@ -1,42 +1,42 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7E7E
-	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 07:03:23 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id q11so4999196pln.11
-        for <mhi@lists.linux.dev>; Mon, 21 Feb 2022 23:03:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A587E
+	for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 08:19:07 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id gi6so8104709pjb.1
+        for <mhi@lists.linux.dev>; Tue, 22 Feb 2022 00:19:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=k22nQ+5l32+0KCOFzN+ckiNqLiyZfk5xD9lBCarBIVw=;
-        b=dKO3WsZTKTO0oOs9bIYneg0c9r0x03J/xXk/thIOoGwyvBxO5GhRkLvKLhj4I+U25k
-         XFTmrowAMgVkgi0DIeS/Ibsl1EwoZSEw+FNmjc/KX0rQLCSjVVMypX42qcEnl4a6KGGa
-         OGqg9pLz5MODnATkjh1dgtjYk7hyreF69/2itXn3PVGWlvZKKrxb4WhHM5a9H3bieePl
-         ccSwMrNycbvaZ6avy+xfZguQhpDOXgf77CfKSMk0ycFVCiQQErHAdb6LdmWV0UFXT0qM
-         jpsnlCK9pAQ7EVCEJIv7xYMEUG2m611XgqBTFCXDE6gAZScTgbSnj/g0bCoyVVPGQZKv
-         mmVg==
+        bh=0RpgV13GqW4CH/NAM61Sb/P8WRwF6jsfgBYkU/X8494=;
+        b=BtIuxxaMmQ4jUX+ROZ7gUGZWW58HHgVzJrB+OgBrXYVCPp2YtV6aLeRyXAOV13nTzR
+         lAlubsr2GH6P2odnEPfZ/R9xr2Leulv4vj33Z4+XQnm0NTQlsaldrPkY+0eTxRVciqpY
+         IAIWbvRiOEWbjU51Di9PDZWjG4mrY0uKaBKh8iG787xgQckWaGtvbE1X02pQ9NAksvvm
+         GllzKQxdy/ef//tpZC+mcyVnPzmpISPFl6+Dp/TawR+wnOIbBu9MUBVMRrEN4vvL0oIA
+         LWzpcw+da+FHlX64StmwAyt/uQTjBQv4MhrC76lS+Ah4w0e0p4xnvEnBUpBC+69hzMeD
+         bwrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=k22nQ+5l32+0KCOFzN+ckiNqLiyZfk5xD9lBCarBIVw=;
-        b=R27svC38OZMyEaUcHLOqOgjneO/eB6/x+nbgK9p4e+2wY4jBtL+nvt6MXyUr9Y37Hq
-         eUIpZQZnf47JDY+8+gVKvCWfVAXFC6xBiYEtWPis08cksUIUHTTl4He9uY9SuSTXKYx3
-         /yZfZvL8/jBrXFcuhL9UIdepMxJnIuB7xBW6XwP56NzJGJepuSwPS2t/tgHfCiMdQw15
-         WzYsSuUxg+yAGk2yFP0F6Uhy91MHFKfwQYgVi1xHse6PahDKhGD9RTy8qPsx4KEZ8kwj
-         G6MOrqJG0yn4rld7mGFoTFDoD7NWHTA2cakMogoqdPcKk/xVCTepfTeCBNg1sPNtJEJj
-         rOag==
-X-Gm-Message-State: AOAM530hp9I6UD4AqYUTSMJwoPuQ3K8kXtmSGGqzjEwMy/zLENbkzzEX
-	5bUNAH0sej5rGCoReFBX7Y8lQjqGHqgsTDs=
-X-Google-Smtp-Source: ABdhPJy7/psO5wxTN0D7lIAQo485hkGSjgCavz8S8ufkE8CcXGSZIK3H7bBXdsvO0q33WUeR0F4Otw==
-X-Received: by 2002:a17:902:9348:b0:14f:c715:2a94 with SMTP id g8-20020a170902934800b0014fc7152a94mr6019782plp.66.1645513402581;
-        Mon, 21 Feb 2022 23:03:22 -0800 (PST)
+        bh=0RpgV13GqW4CH/NAM61Sb/P8WRwF6jsfgBYkU/X8494=;
+        b=RfuygfYVpBoMxQOrXqGQpeNnPasRRj52kQFcYDNMrSfbfbA+f0PvNW6ffRU10or98x
+         CMqjdsthWn+60x4Q+7/TlFxN79+ncQ4+LBFq2r8dvh/eESDWdig+6SAU4M9sSTRZdQvW
+         3HJ3lBDpvYXE63QeFL3q4CIvxizlPjq4rdxR8/eoMLgwDP9Yq3YmS2X5Dp8J1Y0WjFi2
+         d2X3T7gq5ortb3jB3e9ncviY4XU5LSMRsaP/jTc/ktHmBdCepylcmodLol9evws+MYl+
+         k4ghBSqacymVP1TP2MAyhEpk/3BzOI3yUCYHIcfSaVLazTOxI2GR7dPpDWUPraoGBEn2
+         zZIg==
+X-Gm-Message-State: AOAM530MMGXhCSTDBcWEvn0awwPcu8jJVvnie9yYg034GkGhIr5f9fMH
+	AePhZfBUt9pVSxcIWiM0EkJu
+X-Google-Smtp-Source: ABdhPJybsRJHlzEd7+S49/pHGp1xlz06OxOcLHQN9JsCUR67mXiwPUsgi7JH+R2/DWQC0eYR+hVo/A==
+X-Received: by 2002:a17:902:be0a:b0:14d:5db0:7a14 with SMTP id r10-20020a170902be0a00b0014d5db07a14mr21895118pls.155.1645517946688;
+        Tue, 22 Feb 2022 00:19:06 -0800 (PST)
 Received: from thinkpad ([117.217.186.202])
-        by smtp.gmail.com with ESMTPSA id s48sm14373311pfw.111.2022.02.21.23.03.17
+        by smtp.gmail.com with ESMTPSA id d8sm15219894pfl.163.2022.02.22.00.19.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 23:03:22 -0800 (PST)
-Date: Tue, 22 Feb 2022 12:33:15 +0530
+        Tue, 22 Feb 2022 00:19:06 -0800 (PST)
+Date: Tue, 22 Feb 2022 13:48:59 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
@@ -45,12 +45,12 @@ Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
 	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
 	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 14/25] bus: mhi: ep: Add support for managing MHI
- state machine
-Message-ID: <20220222070315.GB5029@thinkpad>
+Subject: Re: [PATCH v3 15/25] bus: mhi: ep: Add support for processing MHI
+ endpoint interrupts
+Message-ID: <20220222081859.GC5029@thinkpad>
 References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-15-manivannan.sadhasivam@linaro.org>
- <6f31cea5-865d-c2b9-5887-f053d1e2001a@linaro.org>
+ <20220212182117.49438-16-manivannan.sadhasivam@linaro.org>
+ <d5bf8b66-e9ec-4750-9d9d-deb55cbcee94@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -59,130 +59,60 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6f31cea5-865d-c2b9-5887-f053d1e2001a@linaro.org>
+In-Reply-To: <d5bf8b66-e9ec-4750-9d9d-deb55cbcee94@linaro.org>
 
-On Tue, Feb 15, 2022 at 04:39:24PM -0600, Alex Elder wrote:
+On Tue, Feb 15, 2022 at 04:39:30PM -0600, Alex Elder wrote:
 > On 2/12/22 12:21 PM, Manivannan Sadhasivam wrote:
-> > Add support for managing the MHI state machine by controlling the state
-> > transitions. Only the following MHI state transitions are supported:
+> > Add support for processing MHI endpoint interrupts such as control
+> > interrupt, command interrupt and channel interrupt from the host.
 > > 
-> > 1. Ready state
-> > 2. M0 state
-> > 3. M3 state
-> > 4. SYS_ERR state
+> > The interrupts will be generated in the endpoint device whenever host
+> > writes to the corresponding doorbell registers. The doorbell logic
+> > is handled inside the hardware internally.
 > > 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> Minor suggestions here.		-Alex
+> Unless I'm mistaken, you have some bugs here.
+> 
+> Beyond that, I question whether you should be using workqueues
+> for handling all interrupts.  For now, it's fine, but there
+> might be room for improvement after this is accepted upstream
+> (using threaded interrupt handlers, for example).
+> 
+
+Only reason I didn't use bottom halves is that the memory for TRE buffers need
+to be allocated each time, so essentially the caller should not sleep.
+
+This is currently a limitation of iATU where there are only 8 windows for
+mapping the host memory and each memory region size is also limited.
+
+> 					-Alex
 > 
 > > ---
-> >   drivers/bus/mhi/ep/Makefile   |   2 +-
-> >   drivers/bus/mhi/ep/internal.h |  11 +++
-> >   drivers/bus/mhi/ep/main.c     |  51 ++++++++++-
-> >   drivers/bus/mhi/ep/sm.c       | 168 ++++++++++++++++++++++++++++++++++
-> >   include/linux/mhi_ep.h        |   6 ++
-> >   5 files changed, 236 insertions(+), 2 deletions(-)
-> >   create mode 100644 drivers/bus/mhi/ep/sm.c
+> >   drivers/bus/mhi/ep/main.c | 113 +++++++++++++++++++++++++++++++++++++-
+> >   include/linux/mhi_ep.h    |   2 +
+> >   2 files changed, 113 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/bus/mhi/ep/Makefile b/drivers/bus/mhi/ep/Makefile
-> > index 7ba0e04801eb..aad85f180b70 100644
-> > --- a/drivers/bus/mhi/ep/Makefile
-> > +++ b/drivers/bus/mhi/ep/Makefile
-> > @@ -1,2 +1,2 @@
-> >   obj-$(CONFIG_MHI_BUS_EP) += mhi_ep.o
-> > -mhi_ep-y := main.o mmio.o ring.o
-> > +mhi_ep-y := main.o mmio.o ring.o sm.o
-> > diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
-> > index fd63f79c6aec..e4e8f06c2898 100644
-> > --- a/drivers/bus/mhi/ep/internal.h
-> > +++ b/drivers/bus/mhi/ep/internal.h
-> > @@ -173,6 +173,11 @@ struct mhi_ep_event {
-> >   	struct mhi_ep_ring ring;
-> >   };
-> > +struct mhi_ep_state_transition {
-> > +	struct list_head node;
-> > +	enum mhi_state state;
-> > +};
-> > +
-> >   struct mhi_ep_chan {
-> >   	char *name;
-> >   	struct mhi_ep_device *mhi_dev;
-> > @@ -230,5 +235,11 @@ void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl);
-> >   /* MHI EP core functions */
-> >   int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state);
-> >   int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ep_execenv exec_env);
-> > +bool mhi_ep_check_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state cur_mhi_state,
-> > +			    enum mhi_state mhi_state);
-> > +int mhi_ep_set_mhi_state(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state mhi_state);
-> > +int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
-> > +int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
-> > +int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
-> >   #endif
 > > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> > index 61f066c6286b..ccb3c2795041 100644
+> > index ccb3c2795041..072b872e735b 100644
 > > --- a/drivers/bus/mhi/ep/main.c
 > > +++ b/drivers/bus/mhi/ep/main.c
-> > @@ -185,6 +185,43 @@ static void mhi_ep_ring_worker(struct work_struct *work)
+> > @@ -185,6 +185,56 @@ static void mhi_ep_ring_worker(struct work_struct *work)
 > >   	}
 > >   }
-> > +static void mhi_ep_state_worker(struct work_struct *work)
+> > +static void mhi_ep_queue_channel_db(struct mhi_ep_cntrl *mhi_cntrl,
+> > +				    unsigned long ch_int, u32 ch_idx)
 > > +{
-> > +	struct mhi_ep_cntrl *mhi_cntrl = container_of(work, struct mhi_ep_cntrl, state_work);
 > > +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> > +	struct mhi_ep_state_transition *itr, *tmp;
-> > +	unsigned long flags;
-> > +	LIST_HEAD(head);
-> > +	int ret;
-> > +
-> > +	spin_lock_irqsave(&mhi_cntrl->list_lock, flags);
-> > +	list_splice_tail_init(&mhi_cntrl->st_transition_list, &head);
-> > +	spin_unlock_irqrestore(&mhi_cntrl->list_lock, flags);
-> > +
-> > +	list_for_each_entry_safe(itr, tmp, &head, node) {
-> > +		list_del(&itr->node);
-> > +		dev_dbg(dev, "Handling MHI state transition to %s\n",
-> > +			 mhi_state_str(itr->state));
-> > +
-> > +		switch (itr->state) {
-> > +		case MHI_STATE_M0:
-> > +			ret = mhi_ep_set_m0_state(mhi_cntrl);
-> > +			if (ret)
-> > +				dev_err(dev, "Failed to transition to M0 state\n");
-> > +			break;
-> > +		case MHI_STATE_M3:
-> > +			ret = mhi_ep_set_m3_state(mhi_cntrl);
-> > +			if (ret)
-> > +				dev_err(dev, "Failed to transition to M3 state\n");
-> > +			break;
-> > +		default:
-> > +			dev_err(dev, "Invalid MHI state transition: %d\n", itr->state);
-> > +			break;
-> > +		}
-> > +		kfree(itr);
-> > +	}
-> > +}
-> > +
-> >   static void mhi_ep_release_device(struct device *dev)
-> >   {
-> >   	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-> > @@ -386,6 +423,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
-> >   	}
-> >   	INIT_WORK(&mhi_cntrl->ring_work, mhi_ep_ring_worker);
-> > +	INIT_WORK(&mhi_cntrl->state_work, mhi_ep_state_worker);
-> >   	mhi_cntrl->ring_wq = alloc_workqueue("mhi_ep_ring_wq", 0, 0);
-> >   	if (!mhi_cntrl->ring_wq) {
-> > @@ -393,8 +431,16 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
-> >   		goto err_free_cmd;
-> >   	}
-> > +	mhi_cntrl->state_wq = alloc_workqueue("mhi_ep_state_wq", 0, 0);
+> > +	struct mhi_ep_ring_item *item;
+> > +	struct mhi_ep_ring *ring;
+> > +	unsigned int i;
 > 
-> Maybe it's not a big deal, but do we really need several separate
-> work queues?  Would one suffice?  Could a system workqueue be used
-> in some cases (such as state changes)?
+> Why not u32 i?  And why is the ch_int argument unsigned long?  The value
+> passed in is a u32.
+> 
 
-Good question. The reason to have 2 separate workqueue was to avoid running the
-two work items parallely during bringup. But the code has changed a lot afterwards,
-so this could go into the other workqueue.
+for_each_set_bit() expects the 2nd argument to be of type "unsigned long".
 
 Thanks,
 Mani
