@@ -1,44 +1,44 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF87C
-	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 15:52:51 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id c18so15135617ioc.6
-        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 07:52:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7EE7C
+	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 15:56:27 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id c14so10315540ilm.4
+        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 07:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9DgP6TI3SFCIIOrHJXN8Egjc5iVP90Y7lmiiWFecc0g=;
-        b=ly/fLusKxhw2jnw8hLVf6/rIfvqMAbEtYCnNF7yTJ4IKqKSwoTJujvGbbfV/uPYduK
-         xbIZJEy7QP3aDgV1bOo3CdT5ORVdKKUyDksJyXknehJEKDctFYSw36wTt6plLLzK/X+D
-         d9o1L5tQX+8HpNzI9wjCdC4zUva9yHtD1cFjE+os8SVbgJB5EI89hZtlub3qL+AcQRes
-         3/kubTOsXzox522BLQpud0sSWsY8RCxY599IjGzZyPgh8lDanukcduKH9TC3eSIEw3RG
-         CoM3ViKRj4nPU+GyX9duTDaeZQyCzqsJs4NnNURIhRTFnDJPLt4qu5ZrpglDCIY+LKMJ
-         tdPA==
+        bh=hbd3PzDMWyEi8w1J5lNXrRbncO7Xk3kUZ9oTOFrvQJ0=;
+        b=gnVt4aXB09+0KeLqRM4g2nPuDlB7L1RPQLDLf6/lrCScKa5Sj3KEJvT6tKTEWxb+lt
+         sBGcD9j7GOlybUEoGBaKMHAlXl12KpI2wbp99B/NWIlsEs1KOdx0yUoFzAuA0UPod/5Q
+         S5iuU0zTKVHKPwAOgkInzloiyDAa59CzxgFP1NSE9V/1wB3yjprEMHwIrexRDyLHaeBb
+         bk00d5HPXL6uAZnqfDh0CBa1nwzwwG2eqDbBqdpWDQfTu04xv0ubZMrzhA0GapwKr8+V
+         DX0yOH4eZWnAPImR9sY3dZ/sHufathoWMbuJiq92cqIjEo6oV931oiNuF8IA+Do7DYdc
+         eUKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=9DgP6TI3SFCIIOrHJXN8Egjc5iVP90Y7lmiiWFecc0g=;
-        b=L1Fa35+W6S4uLrllOeneY++jDRS+Jku/fcqqG5+2Kp9lHQhyuocAsn31ruURK4h9cj
-         mo6zYuSJiykgWZll8knqHwqlxZIyuZVzISvk2ngkDeUpb7O4q9mviJHd7lQazNjigIBr
-         hxw34pCqldvKhZUvt076k6vz/QEYqBQGmqbaN9W8VE5i3S42tzVMxRXBvFSI2HYQD9wi
-         skSYyF4VRTP00UFQEM/dYsa3b8yp9he3YEyXZYKIL8n1Boz22pj+SQKas1Z3ReBFlaZj
-         W+GfNSvXk/BuUAE9WBIuUADEH757DE1LSSEQkn1YNb+QehNkmgmfGRps8VoKLSwtTNta
-         Gt4g==
-X-Gm-Message-State: AOAM532h0INzkLtnudNT/WUmmBYEkZGQLJ3UebaYoDK8d4hckzCJ1z5W
-	+0gMDNeHBGo9wO+pl1VSCdr1XQ==
-X-Google-Smtp-Source: ABdhPJzb8Xax1Bkzh7HPqy6djxjqWe8odWAEo5OvXO1fj2SDwX+1QHNzOUMhHFGuOSVIrtEvL1nuFw==
-X-Received: by 2002:a05:6638:3b3:b0:314:bcc7:d975 with SMTP id z19-20020a05663803b300b00314bcc7d975mr16790706jap.202.1646063570979;
-        Mon, 28 Feb 2022 07:52:50 -0800 (PST)
+        bh=hbd3PzDMWyEi8w1J5lNXrRbncO7Xk3kUZ9oTOFrvQJ0=;
+        b=ZG4XRv6ZpSYxBfp/Ny+kDoSGPHkYj1vvs5Dulqru/7eOwONXdjIZmQ+MpNslJZ+D9+
+         /UJcpQJ8KxHc8wDCNjqK2UP4RHPYE41JWCxAT2nxxKj2LlqSlaLHYUqprGyWGcIOmtdz
+         FoHS3lG4kaqWaktC0BIdpjdCwAYGjp5tAkTNvpa6t4S5eafTknbyXV/bGNw2aXxmiK06
+         HLWgk9aPFwIe6ji+WsikPoi6ix7yy9+y151J2wQqVlpXZ8R3QxBxecfL0faPQroRxPXb
+         qOirFkg0BvtTYqc9GzXv03dfKWwCXL2UqLyaHcBNNnQDyxbAluRvpITjGpFEM3lpuT8P
+         uNsw==
+X-Gm-Message-State: AOAM533bcAdOCw3Syxi+MRSL1xKj/XGEv4Mhq/Ab72OrPrVtp528n+nm
+	aAf1qjYnlHngizXE3t8v5cdDgQ==
+X-Google-Smtp-Source: ABdhPJzRqRtUCGEuwISwrH1DaDtQma/kz0pac+miSnEY/BWB/6pd4w316dfFAociGCu/nHgKE39XyQ==
+X-Received: by 2002:a92:cb44:0:b0:2be:33b0:2a52 with SMTP id f4-20020a92cb44000000b002be33b02a52mr18025563ilq.142.1646063786869;
+        Mon, 28 Feb 2022 07:56:26 -0800 (PST)
 Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id y20-20020a5d94d4000000b00640843474e2sm5948216ior.10.2022.02.28.07.52.49
+        by smtp.googlemail.com with ESMTPSA id 14-20020a92180e000000b002c1bfa2a5e6sm6349898ily.65.2022.02.28.07.56.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 07:52:50 -0800 (PST)
-Message-ID: <797c1e16-6393-8cdb-81c8-da25dc9be1fa@linaro.org>
-Date: Mon, 28 Feb 2022 09:52:49 -0600
+        Mon, 28 Feb 2022 07:56:26 -0800 (PST)
+Message-ID: <c4bcf9f6-82d7-1e35-64bb-0973ed2ceb4a@linaro.org>
+Date: Mon, 28 Feb 2022 09:56:25 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -47,8 +47,8 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 07/27] bus: mhi: host: Rename "struct mhi_tre" to
- "struct mhi_ring_element"
+Subject: Re: [PATCH v4 09/27] bus: mhi: Make mhi_state_str[] array static
+ inline and move to common.h
 Content-Language: en-US
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
  mhi@lists.linux.dev
@@ -56,163 +56,239 @@ Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
  quic_jhugo@quicinc.com, vinod.koul@linaro.org, bjorn.andersson@linaro.org,
  dmitry.baryshkov@linaro.org, quic_vbadigan@quicinc.com,
  quic_cang@quicinc.com, quic_skananth@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hemant Kumar <hemantk@codeaurora.org>
 References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
- <20220228124344.77359-8-manivannan.sadhasivam@linaro.org>
+ <20220228124344.77359-10-manivannan.sadhasivam@linaro.org>
 From: Alex Elder <elder@linaro.org>
-In-Reply-To: <20220228124344.77359-8-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20220228124344.77359-10-manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 2/28/22 6:43 AM, Manivannan Sadhasivam wrote:
-> Structure "struct mhi_tre" is representing a generic MHI ring element and
-> not specifically a Transfer Ring Element (TRE). Fix the naming.
+> mhi_state_str[] array could be used by MHI endpoint stack also. So let's
+> make the array as "static inline function" and move it inside the
+> "common.h" header so that the endpoint stack could also make use of it.
 > 
+> Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
 > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Looks good.
+I guess my grumbling on patch 1 belonged here.  I prefer your use
+of a switch statement though, and that alleviates my concern.
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 
 > ---
->   drivers/bus/mhi/host/init.c     |  6 +++---
->   drivers/bus/mhi/host/internal.h |  2 +-
->   drivers/bus/mhi/host/main.c     | 20 ++++++++++----------
->   3 files changed, 14 insertions(+), 14 deletions(-)
+>   drivers/bus/mhi/common.h       | 29 +++++++++++++++++++++++++----
+>   drivers/bus/mhi/host/boot.c    |  2 +-
+>   drivers/bus/mhi/host/debugfs.c |  6 +++---
+>   drivers/bus/mhi/host/init.c    | 12 ------------
+>   drivers/bus/mhi/host/main.c    |  8 ++++----
+>   drivers/bus/mhi/host/pm.c      | 14 +++++++-------
+>   6 files changed, 40 insertions(+), 31 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index ca068a017a42..016dcc35db80 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -339,7 +339,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->   		er_ctxt->msivec = cpu_to_le32(mhi_event->irq);
->   		mhi_event->db_cfg.db_mode = true;
->   
-> -		ring->el_size = sizeof(struct mhi_tre);
-> +		ring->el_size = sizeof(struct mhi_ring_element);
->   		ring->len = ring->el_size * ring->elements;
->   		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
->   		if (ret)
-> @@ -371,7 +371,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->   	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++, cmd_ctxt++) {
->   		struct mhi_ring *ring = &mhi_cmd->ring;
->   
-> -		ring->el_size = sizeof(struct mhi_tre);
-> +		ring->el_size = sizeof(struct mhi_ring_element);
->   		ring->elements = CMD_EL_PER_RING;
->   		ring->len = ring->el_size * ring->elements;
->   		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
-> @@ -598,7 +598,7 @@ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
->   
->   	buf_ring = &mhi_chan->buf_ring;
->   	tre_ring = &mhi_chan->tre_ring;
-> -	tre_ring->el_size = sizeof(struct mhi_tre);
-> +	tre_ring->el_size = sizeof(struct mhi_ring_element);
->   	tre_ring->len = tre_ring->el_size * tre_ring->elements;
->   	chan_ctxt = &mhi_cntrl->mhi_ctxt->chan_ctxt[mhi_chan->chan];
->   	ret = mhi_alloc_aligned_ring(mhi_cntrl, tre_ring, tre_ring->len);
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index 1c7a48be033f..5860cd326db6 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -168,7 +168,7 @@ struct mhi_ctxt {
->   	dma_addr_t cmd_ctxt_addr;
->   };
->   
-> -struct mhi_tre {
-> +struct mhi_ring_element {
->   	__le64 ptr;
+> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+> index f2690bf11c99..ec75ba1e6686 100644
+> --- a/drivers/bus/mhi/common.h
+> +++ b/drivers/bus/mhi/common.h
+> @@ -275,9 +275,30 @@ struct mhi_ring_element {
 >   	__le32 dword[2];
 >   };
+>   
+> -extern const char * const mhi_state_str[MHI_STATE_MAX];
+> -#define TO_MHI_STATE_STR(state) ((state >= MHI_STATE_MAX || \
+> -				  !mhi_state_str[state]) ? \
+> -				"INVALID_STATE" : mhi_state_str[state])
+> +static inline const char * const mhi_state_str(enum mhi_state state)
+> +{
+> +	switch (state) {
+> +	case MHI_STATE_RESET:
+> +		return "RESET";
+> +	case MHI_STATE_READY:
+> +		return "READY";
+> +	case MHI_STATE_M0:
+> +		return "M0";
+> +	case MHI_STATE_M1:
+> +		return "M1";
+> +	case MHI_STATE_M2:
+> +		return "M2";
+> +	case MHI_STATE_M3:
+> +		return "M3";
+> +	case MHI_STATE_M3_FAST:
+> +		return "M3 FAST";
+> +	case MHI_STATE_BHI:
+> +		return "BHI";
+> +	case MHI_STATE_SYS_ERR:
+> +		return "SYS ERROR";
+> +	default:
+> +		return "Unknown state";
+> +	}
+> +};
+>   
+>   #endif /* _MHI_COMMON_H */
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index d5ba3c7efb61..b0da7ca4519c 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -67,7 +67,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
+>   
+>   	dev_dbg(dev, "Entered with pm_state:%s dev_state:%s ee:%s\n",
+>   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
+> -		TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> +		mhi_state_str(mhi_cntrl->dev_state),
+>   		TO_MHI_EXEC_STR(mhi_cntrl->ee));
+>   
+>   	/*
+> diff --git a/drivers/bus/mhi/host/debugfs.c b/drivers/bus/mhi/host/debugfs.c
+> index bdc875d7bd4d..cfec7811dfbb 100644
+> --- a/drivers/bus/mhi/host/debugfs.c
+> +++ b/drivers/bus/mhi/host/debugfs.c
+> @@ -20,7 +20,7 @@ static int mhi_debugfs_states_show(struct seq_file *m, void *d)
+>   	seq_printf(m, "PM state: %s Device: %s MHI state: %s EE: %s wake: %s\n",
+>   		   to_mhi_pm_state_str(mhi_cntrl->pm_state),
+>   		   mhi_is_active(mhi_cntrl) ? "Active" : "Inactive",
+> -		   TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> +		   mhi_state_str(mhi_cntrl->dev_state),
+>   		   TO_MHI_EXEC_STR(mhi_cntrl->ee),
+>   		   mhi_cntrl->wake_set ? "true" : "false");
+>   
+> @@ -206,13 +206,13 @@ static int mhi_debugfs_regdump_show(struct seq_file *m, void *d)
+>   
+>   	seq_printf(m, "Host PM state: %s Device state: %s EE: %s\n",
+>   		   to_mhi_pm_state_str(mhi_cntrl->pm_state),
+> -		   TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> +		   mhi_state_str(mhi_cntrl->dev_state),
+>   		   TO_MHI_EXEC_STR(mhi_cntrl->ee));
+>   
+>   	state = mhi_get_mhi_state(mhi_cntrl);
+>   	ee = mhi_get_exec_env(mhi_cntrl);
+>   	seq_printf(m, "Device EE: %s state: %s\n", TO_MHI_EXEC_STR(ee),
+> -		   TO_MHI_STATE_STR(state));
+> +		   mhi_state_str(state));
+>   
+>   	for (i = 0; regs[i].name; i++) {
+>   		if (!regs[i].base)
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 016dcc35db80..a665b8e92408 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -45,18 +45,6 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
+>   	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
+>   };
+>   
+> -const char * const mhi_state_str[MHI_STATE_MAX] = {
+> -	[MHI_STATE_RESET] = "RESET",
+> -	[MHI_STATE_READY] = "READY",
+> -	[MHI_STATE_M0] = "M0",
+> -	[MHI_STATE_M1] = "M1",
+> -	[MHI_STATE_M2] = "M2",
+> -	[MHI_STATE_M3] = "M3",
+> -	[MHI_STATE_M3_FAST] = "M3 FAST",
+> -	[MHI_STATE_BHI] = "BHI",
+> -	[MHI_STATE_SYS_ERR] = "SYS ERROR",
+> -};
+> -
+>   const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
+>   	[MHI_CH_STATE_TYPE_RESET] = "RESET",
+>   	[MHI_CH_STATE_TYPE_STOP] = "STOP",
 > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 3e6e615466b7..dabf85b92a84 100644
+> index dabf85b92a84..9021be7f2359 100644
 > --- a/drivers/bus/mhi/host/main.c
 > +++ b/drivers/bus/mhi/host/main.c
-> @@ -554,7 +554,7 @@ static void mhi_recycle_ev_ring_element(struct mhi_controller *mhi_cntrl,
+> @@ -477,8 +477,8 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
+>   	ee = mhi_get_exec_env(mhi_cntrl);
+>   	dev_dbg(dev, "local ee: %s state: %s device ee: %s state: %s\n",
+>   		TO_MHI_EXEC_STR(mhi_cntrl->ee),
+> -		TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> -		TO_MHI_EXEC_STR(ee), TO_MHI_STATE_STR(state));
+> +		mhi_state_str(mhi_cntrl->dev_state),
+> +		TO_MHI_EXEC_STR(ee), mhi_state_str(state));
+>   
+>   	if (state == MHI_STATE_SYS_ERR) {
+>   		dev_dbg(dev, "System error detected\n");
+> @@ -844,7 +844,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+>   			new_state = MHI_TRE_GET_EV_STATE(local_rp);
+>   
+>   			dev_dbg(dev, "State change event to state: %s\n",
+> -				TO_MHI_STATE_STR(new_state));
+> +				mhi_state_str(new_state));
+>   
+>   			switch (new_state) {
+>   			case MHI_STATE_M0:
+> @@ -871,7 +871,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+>   			}
+>   			default:
+>   				dev_err(dev, "Invalid state: %s\n",
+> -					TO_MHI_STATE_STR(new_state));
+> +					mhi_state_str(new_state));
+>   			}
+>   
+>   			break;
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index bb8a23e80e19..3d90b8ecd3d9 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -541,7 +541,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>   
+>   	dev_dbg(dev, "Exiting with PM state: %s, MHI state: %s\n",
+>   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
+> -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
+> +		mhi_state_str(mhi_cntrl->dev_state));
+>   
+>   	mutex_unlock(&mhi_cntrl->pm_mutex);
 >   }
+> @@ -684,7 +684,7 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+>   exit_sys_error_transition:
+>   	dev_dbg(dev, "Exiting with PM state: %s, MHI state: %s\n",
+>   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
+> -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
+> +		mhi_state_str(mhi_cntrl->dev_state));
 >   
->   static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
-> -			    struct mhi_tre *event,
-> +			    struct mhi_ring_element *event,
->   			    struct mhi_chan *mhi_chan)
->   {
->   	struct mhi_ring *buf_ring, *tre_ring;
-> @@ -590,7 +590,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
->   	case MHI_EV_CC_EOT:
->   	{
->   		dma_addr_t ptr = MHI_TRE_GET_EV_PTR(event);
-> -		struct mhi_tre *local_rp, *ev_tre;
-> +		struct mhi_ring_element *local_rp, *ev_tre;
->   		void *dev_rp;
->   		struct mhi_buf_info *buf_info;
->   		u16 xfer_len;
-> @@ -689,7 +689,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>   	mutex_unlock(&mhi_cntrl->pm_mutex);
 >   }
+> @@ -859,7 +859,7 @@ int mhi_pm_suspend(struct mhi_controller *mhi_cntrl)
+>   	if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+>   		dev_err(dev,
+>   			"Did not enter M3 state, MHI state: %s, PM state: %s\n",
+> -			TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> +			mhi_state_str(mhi_cntrl->dev_state),
+>   			to_mhi_pm_state_str(mhi_cntrl->pm_state));
+>   		return -EIO;
+>   	}
+> @@ -885,7 +885,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
 >   
->   static int parse_rsc_event(struct mhi_controller *mhi_cntrl,
-> -			   struct mhi_tre *event,
-> +			   struct mhi_ring_element *event,
->   			   struct mhi_chan *mhi_chan)
->   {
->   	struct mhi_ring *buf_ring, *tre_ring;
-> @@ -753,12 +753,12 @@ static int parse_rsc_event(struct mhi_controller *mhi_cntrl,
->   }
+>   	dev_dbg(dev, "Entered with PM state: %s, MHI state: %s\n",
+>   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
+> -		TO_MHI_STATE_STR(mhi_cntrl->dev_state));
+> +		mhi_state_str(mhi_cntrl->dev_state));
 >   
->   static void mhi_process_cmd_completion(struct mhi_controller *mhi_cntrl,
-> -				       struct mhi_tre *tre)
-> +				       struct mhi_ring_element *tre)
->   {
->   	dma_addr_t ptr = MHI_TRE_GET_EV_PTR(tre);
->   	struct mhi_cmd *cmd_ring = &mhi_cntrl->mhi_cmd[PRIMARY_CMD_RING];
->   	struct mhi_ring *mhi_ring = &cmd_ring->ring;
-> -	struct mhi_tre *cmd_pkt;
-> +	struct mhi_ring_element *cmd_pkt;
->   	struct mhi_chan *mhi_chan;
->   	u32 chan;
+>   	if (mhi_cntrl->pm_state == MHI_PM_DISABLE)
+>   		return 0;
+> @@ -895,7 +895,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
 >   
-> @@ -791,7 +791,7 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->   			     struct mhi_event *mhi_event,
->   			     u32 event_quota)
->   {
-> -	struct mhi_tre *dev_rp, *local_rp;
-> +	struct mhi_ring_element *dev_rp, *local_rp;
->   	struct mhi_ring *ev_ring = &mhi_event->ring;
->   	struct mhi_event_ctxt *er_ctxt =
->   		&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
-> @@ -961,7 +961,7 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->   				struct mhi_event *mhi_event,
->   				u32 event_quota)
->   {
-> -	struct mhi_tre *dev_rp, *local_rp;
-> +	struct mhi_ring_element *dev_rp, *local_rp;
->   	struct mhi_ring *ev_ring = &mhi_event->ring;
->   	struct mhi_event_ctxt *er_ctxt =
->   		&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
-> @@ -1185,7 +1185,7 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->   			struct mhi_buf_info *info, enum mhi_flags flags)
->   {
->   	struct mhi_ring *buf_ring, *tre_ring;
-> -	struct mhi_tre *mhi_tre;
-> +	struct mhi_ring_element *mhi_tre;
->   	struct mhi_buf_info *buf_info;
->   	int eot, eob, chain, bei;
->   	int ret;
-> @@ -1256,7 +1256,7 @@ int mhi_send_cmd(struct mhi_controller *mhi_cntrl,
->   		 struct mhi_chan *mhi_chan,
->   		 enum mhi_cmd_type cmd)
->   {
-> -	struct mhi_tre *cmd_tre = NULL;
-> +	struct mhi_ring_element *cmd_tre = NULL;
->   	struct mhi_cmd *mhi_cmd = &mhi_cntrl->mhi_cmd[PRIMARY_CMD_RING];
->   	struct mhi_ring *ring = &mhi_cmd->ring;
->   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> @@ -1518,7 +1518,7 @@ static void mhi_mark_stale_events(struct mhi_controller *mhi_cntrl,
->   				  int chan)
+>   	if (mhi_get_mhi_state(mhi_cntrl) != MHI_STATE_M3) {
+>   		dev_warn(dev, "Resuming from non M3 state (%s)\n",
+> -			 TO_MHI_STATE_STR(mhi_get_mhi_state(mhi_cntrl)));
+> +			 mhi_state_str(mhi_get_mhi_state(mhi_cntrl)));
+>   		if (!force)
+>   			return -EINVAL;
+>   	}
+> @@ -932,7 +932,7 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
+>   	if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+>   		dev_err(dev,
+>   			"Did not enter M0 state, MHI state: %s, PM state: %s\n",
+> -			TO_MHI_STATE_STR(mhi_cntrl->dev_state),
+> +			mhi_state_str(mhi_cntrl->dev_state),
+>   			to_mhi_pm_state_str(mhi_cntrl->pm_state));
+>   		return -EIO;
+>   	}
+> @@ -1083,7 +1083,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
 >   
->   {
-> -	struct mhi_tre *dev_rp, *local_rp;
-> +	struct mhi_ring_element *dev_rp, *local_rp;
->   	struct mhi_ring *ev_ring;
->   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->   	unsigned long flags;
+>   	state = mhi_get_mhi_state(mhi_cntrl);
+>   	dev_dbg(dev, "Attempting power on with EE: %s, state: %s\n",
+> -		TO_MHI_EXEC_STR(current_ee), TO_MHI_STATE_STR(state));
+> +		TO_MHI_EXEC_STR(current_ee), mhi_state_str(state));
+>   
+>   	if (state == MHI_STATE_SYS_ERR) {
+>   		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
 
