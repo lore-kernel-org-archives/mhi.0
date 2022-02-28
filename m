@@ -1,220 +1,250 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ADF7C
-	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 14:43:42 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id m22so11375878pja.0
-        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 06:43:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D8D7C
+	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 15:11:03 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id d62so14955403iog.13
+        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 07:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GfploZQCnavoHHMaVgX62AjpvQD4w7GvytKlAGcRxOA=;
-        b=IktNeqwTsyLMmTHrTSD6tn7vUkMomQpiiEWbsbZAm2tySUws7cZPxANnsLVhy7LdzU
-         thUWbXBoCHMDHQ7mAjcinHp+b538WbKoaeHESEu3wFw0hz5fkBmbPE2OZoDDWm3xtlz9
-         bb1neqbbyjpyobdRAX2bhlzXzhgeGir29Bz4aJYsHT4kX/AFb1CRGi+mtXB532Tjn1RC
-         QXc0LhEp824Mq0rR8/mqcI7fxfqBI4A50AIaJYtTv4jPeHymiH+5KQJhlfsi9370tm70
-         Hd2TGFDXdhtltCHwGz6XYJrSh1p/KmhLhnul75zDC9yg5sXpOQwLiGPvow4lU/1ZfoXR
-         SqzQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=XTQ8XgKYT+Q/JvWFqzx2y4Gzlrg2alh7l/BePdwDFcs=;
+        b=UX8Egme6Uu9BuECN4hURosB7FqCaqlIpy73una+Vu6qM04exv4EAx6JCZ5kVMtpwqa
+         IVEP6IfxoKWAh84UrQhxj6Q5dZ8SiN8Y+G6it2p+Fu6a3z9kNtCfYoj4qW7RlZtMrQnZ
+         kzjroGud24OZ7X8p1I3gI6Mma+m8Jhe9BSw19vDDfHH7v4ZnPqWdwEDib1FGyB7yt1NB
+         x2SOridVZ0BMfgfm9iyLTuGLC2/jX8PiHqbizvAkzpPo2uMJ5zNiy8lH4Ip9wuoGcwZc
+         Gdx8az8cDRukH6VKAfePuvmTTD4Vah/B5fVGKJ19MdX6/M7HXrEUW5Qf+xZdmMorGA27
+         HM5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GfploZQCnavoHHMaVgX62AjpvQD4w7GvytKlAGcRxOA=;
-        b=MqO5nUD0EJY0X3pFXiPKoiGYiskLK9dv3fu/2O0ERsROC2VzduMHg2wPrrBXZjKYcS
-         Z0whhnSO57LfC2grm+VEPw8xLYWOKPQIygBaEqni3a47C57y+YPaBRJlWB6UNfkObKy3
-         ClLX+IaF2pXQ/hECwHBjTBMDs9bg8yj643GpXWyE+PLMnumF4q7IlYAXDaYJqEMw0S2j
-         gLfsR4oygOA2DS5F+9qVcgg03eL++O+zvPfFcU6PsCmbdi3TnoQ3cyEzXCjM9Xz54dG3
-         E7ofGTPO+/qVIlhn28MKP8fUNX46sRLSPvX0ZC663uk7lbKkIp41Bn13cpTHrdwglONS
-         0+5A==
-X-Gm-Message-State: AOAM530RLQ4O4QKdR39yCfj7HDnSyiyd73+R259TmycIgw1fBKQNZ9HE
-	PHvV4rqm7+jlC2uqM19+Uowd
-X-Google-Smtp-Source: ABdhPJxrQ24tgEDKvqEmFqdhbVLxNfzHfsiqhvbaWUkYWh9cbBVzlQwUi8txCIAjjyJUV+ixIPAX9Q==
-X-Received: by 2002:a17:902:9a41:b0:149:a13f:af62 with SMTP id x1-20020a1709029a4100b00149a13faf62mr20571044plv.147.1646059421928;
-        Mon, 28 Feb 2022 06:43:41 -0800 (PST)
-Received: from workstation ([117.207.25.37])
-        by smtp.gmail.com with ESMTPSA id g4-20020a625204000000b004f1063e3d6csm13148964pfb.125.2022.02.28.06.43.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 28 Feb 2022 06:43:41 -0800 (PST)
-Date: Mon, 28 Feb 2022 20:13:36 +0530
-From: 'Manivannan Sadhasivam' <manivannan.sadhasivam@linaro.org>
-To: David Laight <David.Laight@ACULAB.COM>
-Cc: "mhi@lists.linux.dev" <mhi@lists.linux.dev>,
-	"quic_hemantk@quicinc.com" <quic_hemantk@quicinc.com>,
-	"quic_bbhatt@quicinc.com" <quic_bbhatt@quicinc.com>,
-	"quic_jhugo@quicinc.com" <quic_jhugo@quicinc.com>,
-	"vinod.koul@linaro.org" <vinod.koul@linaro.org>,
-	"bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-	"quic_vbadigan@quicinc.com" <quic_vbadigan@quicinc.com>,
-	"quic_cang@quicinc.com" <quic_cang@quicinc.com>,
-	"quic_skananth@quicinc.com" <quic_skananth@quicinc.com>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"elder@linaro.org" <elder@linaro.org>
-Subject: Re: [PATCH v4 05/27] bus: mhi: Use bitfield operations for handling
- DWORDs of ring elements
-Message-ID: <20220228144336.GB12451@workstation>
-References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
- <20220228124344.77359-6-manivannan.sadhasivam@linaro.org>
- <90b1d3954b8c4157a4045db82b562271@AcuMS.aculab.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XTQ8XgKYT+Q/JvWFqzx2y4Gzlrg2alh7l/BePdwDFcs=;
+        b=rDUkTfw/FL2VLQT0eeXWmBk32zUKHeOdDnbJ2Xu6aL+5SzpoyReg/89dlusoErFdwW
+         aGNW8lxpqEwi+qqew36z1dOAqhotnfVFBh4sWdJQwndYsfgZKJ1JsjG8IORzCxqEDCCu
+         RqF9CnydGNUDiD0QqAJd6xdawjpvGowGIzZ/X+AK9Tz4ruEuDCWwl0xa2SpEM3V/HYLj
+         SMx++RYhxIwsPZSmjhD4ONeAmS9ck613zvLSp+AQ4YWFN9mJWUcWCupcaxSl40Y3O5zK
+         EMGR/VbfnOSdEIHd+pfEtWeDMbrVm0UseGZjB+z1zAlPkNmDIgPNJvnnAybEA0XIe8P9
+         n9HQ==
+X-Gm-Message-State: AOAM530tu8S5gQOl5v21/U9iyC28E/z62Gj5TuzPfOEoMOjgmq7E2Mwm
+	ZTzctkVdKTYNNcRe4JHoMVK0Kw==
+X-Google-Smtp-Source: ABdhPJwDp1HaPBPyDiCQZrAQM5hqCMVKJ2btPV685lxA8goodVZyCyK7w7mJ2Gjqsz4h0zaBPs7c+w==
+X-Received: by 2002:a02:3f47:0:b0:314:4eea:a549 with SMTP id c7-20020a023f47000000b003144eeaa549mr17575819jaf.279.1646061062540;
+        Mon, 28 Feb 2022 07:11:02 -0800 (PST)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id v2-20020a92c802000000b002c1ed616004sm6481202iln.82.2022.02.28.07.11.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Feb 2022 07:11:01 -0800 (PST)
+Message-ID: <c8bb126e-f71c-8ae7-74a3-46e05c803255@linaro.org>
+Date: Mon, 28 Feb 2022 09:11:00 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90b1d3954b8c4157a4045db82b562271@AcuMS.aculab.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 05/27] bus: mhi: Use bitfield operations for handling
+ DWORDs of ring elements
+Content-Language: en-US
+To: 'Manivannan Sadhasivam' <manivannan.sadhasivam@linaro.org>,
+ David Laight <David.Laight@ACULAB.COM>
+Cc: "mhi@lists.linux.dev" <mhi@lists.linux.dev>,
+ "quic_hemantk@quicinc.com" <quic_hemantk@quicinc.com>,
+ "quic_bbhatt@quicinc.com" <quic_bbhatt@quicinc.com>,
+ "quic_jhugo@quicinc.com" <quic_jhugo@quicinc.com>,
+ "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "quic_vbadigan@quicinc.com" <quic_vbadigan@quicinc.com>,
+ "quic_cang@quicinc.com" <quic_cang@quicinc.com>,
+ "quic_skananth@quicinc.com" <quic_skananth@quicinc.com>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
+ <20220228124344.77359-6-manivannan.sadhasivam@linaro.org>
+ <90b1d3954b8c4157a4045db82b562271@AcuMS.aculab.com>
+ <20220228144336.GB12451@workstation>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <20220228144336.GB12451@workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 28, 2022 at 02:00:07PM +0000, David Laight wrote:
-> From: Manivannan Sadhasivam
-> > Sent: 28 February 2022 12:43
-> > 
-> > Instead of using the hardcoded bits in DWORD definitions, let's use the
-> > bitfield operations to make it more clear how the DWORDs are structured.
+On 2/28/22 8:43 AM, 'Manivannan Sadhasivam' wrote:
+> On Mon, Feb 28, 2022 at 02:00:07PM +0000, David Laight wrote:
+>> From: Manivannan Sadhasivam
+>>> Sent: 28 February 2022 12:43
+>>>
+>>> Instead of using the hardcoded bits in DWORD definitions, let's use the
+>>> bitfield operations to make it more clear how the DWORDs are structured.
+>>
+>> That all makes it as clear as mud.
 > 
-> That all makes it as clear as mud.
+> It depends on how you see it ;)
 
-It depends on how you see it ;)
+It's possible David was commenting on the description, but I'm not sure.
 
-For instance,
-
-#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-
-vs
-
-#define MHI_TRE_GET_CMD_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
-
-The later one makes it more obvious that the "type" field resides between bit 23
-and 16. Plus it avoids the extra masking.
-
-> Try reading it!
+> For instance,
 > 
-
-Well I did before sending the patch.
-
-Thanks,
-Mani
-
-> 	David
+> #define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
 > 
-> > 
-> > Suggested-by: Alex Elder <elder@linaro.org>
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> >  drivers/bus/mhi/host/internal.h | 58 +++++++++++++++++++--------------
-> >  1 file changed, 33 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> > index 156bf65b6810..1d1790e83a93 100644
-> > --- a/drivers/bus/mhi/host/internal.h
-> > +++ b/drivers/bus/mhi/host/internal.h
-> > @@ -7,6 +7,7 @@
-> >  #ifndef _MHI_INT_H
-> >  #define _MHI_INT_H
-> > 
-> > +#include <linux/bitfield.h>
-> >  #include <linux/mhi.h>
-> > 
-> >  extern struct bus_type mhi_bus_type;
-> > @@ -205,58 +206,65 @@ enum mhi_cmd_type {
-> >  /* No operation command */
-> >  #define MHI_TRE_CMD_NOOP_PTR (0)
-> >  #define MHI_TRE_CMD_NOOP_DWORD0 (0)
-> > -#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(MHI_CMD_NOP << 16))
-> > +#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_CMD_NOP)))
-> > 
-> >  /* Channel reset command */
-> >  #define MHI_TRE_CMD_RESET_PTR (0)
-> >  #define MHI_TRE_CMD_RESET_DWORD0 (0)
-> > -#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > -					(MHI_CMD_RESET_CHAN << 16)))
-> > +#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
-> > +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_RESET_CHAN))
-> > 
-> >  /* Channel stop command */
-> >  #define MHI_TRE_CMD_STOP_PTR (0)
-> >  #define MHI_TRE_CMD_STOP_DWORD0 (0)
-> > -#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > -				       (MHI_CMD_STOP_CHAN << 16)))
-> > +#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
-> > +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_STOP_CHAN))
-> > 
-> >  /* Channel start command */
-> >  #define MHI_TRE_CMD_START_PTR (0)
-> >  #define MHI_TRE_CMD_START_DWORD0 (0)
-> > -#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32((chid << 24) | \
-> > -					(MHI_CMD_START_CHAN << 16)))
-> > +#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
-> > +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_START_CHAN))
-> > 
-> >  #define MHI_TRE_GET_DWORD(tre, word) (le32_to_cpu((tre)->dword[(word)]))
-> > -#define MHI_TRE_GET_CMD_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > -#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > +#define MHI_TRE_GET_CMD_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
-> > +#define MHI_TRE_GET_CMD_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
-> > 
-> >  /* Event descriptor macros */
-> >  #define MHI_TRE_EV_PTR(ptr) (cpu_to_le64(ptr))
-> > -#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32((code << 24) | len))
-> > -#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32((chid << 24) | (type << 16)))
-> > +#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), code) | \
-> > +						FIELD_PREP(GENMASK(15, 0), len)))
-> > +#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
-> > +						FIELD_PREP(GENMASK(23, 16), type)))
-> >  #define MHI_TRE_GET_EV_PTR(tre) (le64_to_cpu((tre)->ptr))
-> > -#define MHI_TRE_GET_EV_CODE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > -#define MHI_TRE_GET_EV_LEN(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
-> > -#define MHI_TRE_GET_EV_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > -#define MHI_TRE_GET_EV_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
-> > -#define MHI_TRE_GET_EV_STATE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > -#define MHI_TRE_GET_EV_EXECENV(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
-> > +#define MHI_TRE_GET_EV_CODE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
-> > +#define MHI_TRE_GET_EV_LEN(tre) (FIELD_GET(GENMASK(15, 0), (MHI_TRE_GET_DWORD(tre, 0))))
-> > +#define MHI_TRE_GET_EV_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
-> > +#define MHI_TRE_GET_EV_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
-> > +#define MHI_TRE_GET_EV_STATE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
-> > +#define MHI_TRE_GET_EV_EXECENV(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
-> >  #define MHI_TRE_GET_EV_SEQ(tre) MHI_TRE_GET_DWORD(tre, 0)
-> >  #define MHI_TRE_GET_EV_TIME(tre) (MHI_TRE_GET_EV_PTR(tre))
-> >  #define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
-> > -#define MHI_TRE_GET_EV_VEID(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
-> > -#define MHI_TRE_GET_EV_LINKSPEED(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
-> > -#define MHI_TRE_GET_EV_LINKWIDTH(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
-> > +#define MHI_TRE_GET_EV_VEID(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 0))))
-> > +#define MHI_TRE_GET_EV_LINKSPEED(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
-> > +#define MHI_TRE_GET_EV_LINKWIDTH(tre) (FIELD_GET(GENMASK(7, 0), (MHI_TRE_GET_DWORD(tre, 0))))
-> > 
-> >  /* Transfer descriptor macros */
-> >  #define MHI_TRE_DATA_PTR(ptr) (cpu_to_le64(ptr))
-> > -#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(len & MHI_MAX_MTU))
-> > -#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32((2 << 16) | (bei << 10) \
-> > -	| (ieot << 9) | (ieob << 8) | chain))
-> > +#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(FIELD_PREP(GENMASK(15, 0), len)))
-> > +#define MHI_TRE_TYPE_TRANSFER 2
-> > +#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
-> > +							MHI_TRE_TYPE_TRANSFER) | \
-> > +							FIELD_PREP(BIT(10), bei) | \
-> > +							FIELD_PREP(BIT(9), ieot) | \
-> > +							FIELD_PREP(BIT(8), ieob) | \
-> > +							FIELD_PREP(BIT(0), chain)))
-> > 
-> >  /* RSC transfer descriptor macros */
-> > -#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(((u64)len << 48) | ptr))
-> > +#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(FIELD_PREP(GENMASK(64, 48), len) | ptr))
-> >  #define MHI_RSCTRE_DATA_DWORD0(cookie) (cpu_to_le32(cookie))
-> > -#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16))
-> > +#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_PKT_TYPE_COALESCING)
-> > 
-> >  enum mhi_pkt_type {
-> >  	MHI_PKT_TYPE_INVALID = 0x0,
-> > --
-> > 2.25.1
+> vs
 > 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+> #define MHI_TRE_GET_CMD_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
+
+Maybe you should create a static inline function to
+encapsulate this (and the same for others).
+
+In other words, something like:
+
+#define MHI_TRE_DWORD_1_CMD_TYPE_MASK	GENMASK(23, 16)
+
+static inline enum mhi_pkt_type
+mhi_tre_cmd_type(struct mhi_ring_element el)
+{
+	u32 dword = le32_to_cpu(el->dword[1]);
+	enum mhi_pkt_type cmd_type;
+
+	return FIELD_GET(MHI_TRE_DWORD_1_CMD_TYPE_MASK, dword);
+}
+
+It's still a little messy, but breaking it out makes it a
+little easier to understand, and the function makes the
+types involved a little more obvious.
+
+					-Alex
+
+> The later one makes it more obvious that the "type" field resides between bit 23
+> and 16. Plus it avoids the extra masking.
 > 
+>> Try reading it!
+>>
+> 
+> Well I did before sending the patch.
+> 
+> Thanks,
+> Mani
+> 
+>> 	David
+>>
+>>>
+>>> Suggested-by: Alex Elder <elder@linaro.org>
+>>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+>>> ---
+>>>   drivers/bus/mhi/host/internal.h | 58 +++++++++++++++++++--------------
+>>>   1 file changed, 33 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+>>> index 156bf65b6810..1d1790e83a93 100644
+>>> --- a/drivers/bus/mhi/host/internal.h
+>>> +++ b/drivers/bus/mhi/host/internal.h
+>>> @@ -7,6 +7,7 @@
+>>>   #ifndef _MHI_INT_H
+>>>   #define _MHI_INT_H
+>>>
+>>> +#include <linux/bitfield.h>
+>>>   #include <linux/mhi.h>
+>>>
+>>>   extern struct bus_type mhi_bus_type;
+>>> @@ -205,58 +206,65 @@ enum mhi_cmd_type {
+>>>   /* No operation command */
+>>>   #define MHI_TRE_CMD_NOOP_PTR (0)
+>>>   #define MHI_TRE_CMD_NOOP_DWORD0 (0)
+>>> -#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(MHI_CMD_NOP << 16))
+>>> +#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_CMD_NOP)))
+>>>
+>>>   /* Channel reset command */
+>>>   #define MHI_TRE_CMD_RESET_PTR (0)
+>>>   #define MHI_TRE_CMD_RESET_DWORD0 (0)
+>>> -#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+>>> -					(MHI_CMD_RESET_CHAN << 16)))
+>>> +#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
+>>> +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_RESET_CHAN))
+>>>
+>>>   /* Channel stop command */
+>>>   #define MHI_TRE_CMD_STOP_PTR (0)
+>>>   #define MHI_TRE_CMD_STOP_DWORD0 (0)
+>>> -#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+>>> -				       (MHI_CMD_STOP_CHAN << 16)))
+>>> +#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
+>>> +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_STOP_CHAN))
+>>>
+>>>   /* Channel start command */
+>>>   #define MHI_TRE_CMD_START_PTR (0)
+>>>   #define MHI_TRE_CMD_START_DWORD0 (0)
+>>> -#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+>>> -					(MHI_CMD_START_CHAN << 16)))
+>>> +#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
+>>> +					FIELD_PREP(GENMASK(23, 16), MHI_CMD_START_CHAN))
+>>>
+>>>   #define MHI_TRE_GET_DWORD(tre, word) (le32_to_cpu((tre)->dword[(word)]))
+>>> -#define MHI_TRE_GET_CMD_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+>>> -#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
+>>> +#define MHI_TRE_GET_CMD_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
+>>> +#define MHI_TRE_GET_CMD_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
+>>>
+>>>   /* Event descriptor macros */
+>>>   #define MHI_TRE_EV_PTR(ptr) (cpu_to_le64(ptr))
+>>> -#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32((code << 24) | len))
+>>> -#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32((chid << 24) | (type << 16)))
+>>> +#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), code) | \
+>>> +						FIELD_PREP(GENMASK(15, 0), len)))
+>>> +#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
+>>> +						FIELD_PREP(GENMASK(23, 16), type)))
+>>>   #define MHI_TRE_GET_EV_PTR(tre) (le64_to_cpu((tre)->ptr))
+>>> -#define MHI_TRE_GET_EV_CODE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_LEN(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
+>>> -#define MHI_TRE_GET_EV_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_STATE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_EXECENV(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+>>> +#define MHI_TRE_GET_EV_CODE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
+>>> +#define MHI_TRE_GET_EV_LEN(tre) (FIELD_GET(GENMASK(15, 0), (MHI_TRE_GET_DWORD(tre, 0))))
+>>> +#define MHI_TRE_GET_EV_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
+>>> +#define MHI_TRE_GET_EV_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
+>>> +#define MHI_TRE_GET_EV_STATE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
+>>> +#define MHI_TRE_GET_EV_EXECENV(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
+>>>   #define MHI_TRE_GET_EV_SEQ(tre) MHI_TRE_GET_DWORD(tre, 0)
+>>>   #define MHI_TRE_GET_EV_TIME(tre) (MHI_TRE_GET_EV_PTR(tre))
+>>>   #define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
+>>> -#define MHI_TRE_GET_EV_VEID(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_LINKSPEED(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+>>> -#define MHI_TRE_GET_EV_LINKWIDTH(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
+>>> +#define MHI_TRE_GET_EV_VEID(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 0))))
+>>> +#define MHI_TRE_GET_EV_LINKSPEED(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
+>>> +#define MHI_TRE_GET_EV_LINKWIDTH(tre) (FIELD_GET(GENMASK(7, 0), (MHI_TRE_GET_DWORD(tre, 0))))
+>>>
+>>>   /* Transfer descriptor macros */
+>>>   #define MHI_TRE_DATA_PTR(ptr) (cpu_to_le64(ptr))
+>>> -#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(len & MHI_MAX_MTU))
+>>> -#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32((2 << 16) | (bei << 10) \
+>>> -	| (ieot << 9) | (ieob << 8) | chain))
+>>> +#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(FIELD_PREP(GENMASK(15, 0), len)))
+>>> +#define MHI_TRE_TYPE_TRANSFER 2
+>>> +#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+>>> +							MHI_TRE_TYPE_TRANSFER) | \
+>>> +							FIELD_PREP(BIT(10), bei) | \
+>>> +							FIELD_PREP(BIT(9), ieot) | \
+>>> +							FIELD_PREP(BIT(8), ieob) | \
+>>> +							FIELD_PREP(BIT(0), chain)))
+>>>
+>>>   /* RSC transfer descriptor macros */
+>>> -#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(((u64)len << 48) | ptr))
+>>> +#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(FIELD_PREP(GENMASK(64, 48), len) | ptr))
+>>>   #define MHI_RSCTRE_DATA_DWORD0(cookie) (cpu_to_le32(cookie))
+>>> -#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16))
+>>> +#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_PKT_TYPE_COALESCING)
+>>>
+>>>   enum mhi_pkt_type {
+>>>   	MHI_PKT_TYPE_INVALID = 0x0,
+>>> --
+>>> 2.25.1
+>>
+>> -
+>> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+>> Registration No: 1397386 (Wales)
+>>
+
