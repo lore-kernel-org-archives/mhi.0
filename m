@@ -1,41 +1,41 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3527B
-	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 12:46:12 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id z15so11050325pfe.7
-        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 04:46:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D5D7B
+	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 12:46:17 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id e6so9871000pgn.2
+        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 04:46:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OJYdTNp5Gg/lOgcfWY4Qq4TIlRlc1oamUz2dj4AjBfk=;
-        b=qIzffofDKqZnIYKZBrvcvld9xY59Jed2+kjKTQSYZjX3jlWFMQq0v0SM2kxtlIpkO0
-         JsW4sujrunw6Yy5aMGAlO0iry6llnHZ5NaxTF347FJsMj7VNjh363hhjfZf4k8HmsSBA
-         TPQEwjwekuGC05vx1X08/ndD3hLpS5ptHwv41t+6KTXfvsdmZtiVeZ//GlsJwdq6zZ8Q
-         LaF9dg2Znwur3CZ5dxgeqC56gwbGVtrW5sJ9DrAEiSPFJQR887u/gYcsF3Ko746TK7+O
-         Qs5VvfdWvkhz7S7HC+D0n0NDrctAMj+Zc97kq3ZGyvUTiAtEwDIELaVbBG30NC5DsWbD
-         micA==
+        bh=DfwzfNqq6vq0SsTnjLEp+6L4UBQXfn7xq4uvXb2A4qw=;
+        b=bA1BWSLFNpCciGnGldmGs1g305ey7gWYd43oNQc5VxwUczAgrbRw2sleyGyaQ+yTks
+         KIoWCdmI4qVwT2R/y+CkuyNPTHKpcHZxECpjxvZh8d6+KuF2Nh4tEiHZVcmH+kf8VXpn
+         wdDr+0npYRU+vCHEevPo6oY1GTStiukGcKmfZfC4F9ay6enSEPHLTHpZ0Ap6OxDBtkXX
+         u2q1+qlM5qRf1SyzfLkTqEaKaGWxqq47wcYzBNSTshELUZQzOFs8bpZXDhS/fybJxCDU
+         sFnHzByYu3ZTkLQUYCFBHbQvA8kqGS8PheXsfV1lVHZ7E9XR2/Tdc7kE6HCOwnW9+2/b
+         5vNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OJYdTNp5Gg/lOgcfWY4Qq4TIlRlc1oamUz2dj4AjBfk=;
-        b=ENWUAvinX1vu/76JSZ6QFHe/jjM+wbXG7gMGY7qlHcAE4d+Mvj6IThm0uLj5uzrEF7
-         KUAbkPtjy/Jk10PZvqA8557ThJkCogACsvlHQYzsYaDn1pglAu8eji43o9NMOuDuFU5R
-         FgJPGGuIHfFHey4qM0R2Eb7XbSKGlY7sEqSzgUhrKp6Bh1ymmLlvY1ZDauHBTAYnywJ/
-         IqanNPkjWw4fVG6P1z3D0IuhoH7HcHfDFB0e2qP8tomB/fQszu2AsflQaJ58WONArtNb
-         +sCC9Y5JHoEOaYgdooisBhmfDonIoAPVTC8AM1fdSP1piJXTm4YgoG0208aGyrspQqev
-         aXRg==
-X-Gm-Message-State: AOAM530f866beMukBVn+prz8pFLGC0PDADmMmytRDAz/XOYUdQDrou+D
-	rmywFGOKyUva6BA+1HzHMuhG58ljNUPk
-X-Google-Smtp-Source: ABdhPJyGvXFHht1Ju98VcuXWZ+wA7qZaQRE+UQ7ts69fGULz/vaYta9lNRr3of+W9cWQdsMXkpBGkg==
-X-Received: by 2002:a05:6a00:1991:b0:4e1:a7dd:96e5 with SMTP id d17-20020a056a00199100b004e1a7dd96e5mr21800624pfl.2.1646052371636;
-        Mon, 28 Feb 2022 04:46:11 -0800 (PST)
+        bh=DfwzfNqq6vq0SsTnjLEp+6L4UBQXfn7xq4uvXb2A4qw=;
+        b=XPdvTb8vQ6DLwaKU8xXJyGQSekt5/i7eXTFiExqPrhI333dTYd7hpdqwuPAX4Lm2nA
+         eIRmiLWrfcaeNemnWJ9H3PF4ScH5WJS32toVLGVwE2te31MAvlTa/HM8exXBXOePzSjn
+         8fwURhRIELGncyfTiygmyTuoZsvR8epFBU7dltkjCOYcRezFYkf0ZOW+wT3MU3fq11or
+         wsS3EvhHKKFkZkP0a5LpFHmMyGaoyFmJ/WLLGWBArDQ2tKOkJdyprqPlAWvQ6bWIzkNg
+         Y5h7Fvka4xGmg2ZdR/GYNyERQ6ijiotM69DcIuYFwhb6KJUqTVqhuTXnQNK+tu1G+xLN
+         4Mzg==
+X-Gm-Message-State: AOAM531/UovhG5damLGnJLthbnQ8aN5PdQxK5ANJk2rwvxA6OUG3gug+
+	9wQQhxUkGNa4MO5xfT1OZzDt8k6ajr+x
+X-Google-Smtp-Source: ABdhPJyoDhxnyLLhiXj3FVUBCTzye9LuIHWe8nXli2d39+oXfn3otagNBKy+7n1ttyR5IGl84g15pQ==
+X-Received: by 2002:a05:6a00:8d5:b0:4e1:77c9:def8 with SMTP id s21-20020a056a0008d500b004e177c9def8mr21504500pfu.55.1646052376709;
+        Mon, 28 Feb 2022 04:46:16 -0800 (PST)
 Received: from localhost.localdomain ([117.207.25.37])
-        by smtp.gmail.com with ESMTPSA id y12-20020a056a00190c00b004f39e28fb87sm14256737pfi.98.2022.02.28.04.46.06
+        by smtp.gmail.com with ESMTPSA id y12-20020a056a00190c00b004f39e28fb87sm14256737pfi.98.2022.02.28.04.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 04:46:11 -0800 (PST)
+        Mon, 28 Feb 2022 04:46:16 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: quic_hemantk@quicinc.com,
@@ -51,9 +51,9 @@ Cc: quic_hemantk@quicinc.com,
 	linux-kernel@vger.kernel.org,
 	elder@linaro.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v4 25/27] bus: mhi: ep: Add support for queueing SKBs to the host
-Date: Mon, 28 Feb 2022 18:13:42 +0530
-Message-Id: <20220228124344.77359-26-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v4 26/27] bus: mhi: ep: Add support for suspending and resuming channels
+Date: Mon, 28 Feb 2022 18:13:43 +0530
+Message-Id: <20220228124344.77359-27-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
 References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
@@ -65,134 +65,125 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for queueing SKBs to the host over the transfer ring of the
-relevant channel. The mhi_ep_queue_skb() API will be used by the client
-networking drivers to queue the SKBs to the host over MHI bus.
+Add support for suspending and resuming the channels in MHI endpoint stack.
+The channels will be moved to the suspended state during M3 state
+transition and will be resumed during M0 transition.
 
-The host will add ring elements to the transfer ring periodically for
-the device and the device will write SKBs to the ring elements. If a
-single SKB doesn't fit in a ring element (TRE), it will be placed in
-multiple ring elements and the overflow event will be sent for all ring
-elements except the last one. For the last ring element, the EOT event
-will be sent indicating the packet boundary.
-
+Reviewed-by: Alex Elder <elder@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/ep/main.c | 82 +++++++++++++++++++++++++++++++++++++++
- include/linux/mhi_ep.h    |  9 +++++
- 2 files changed, 91 insertions(+)
+ drivers/bus/mhi/ep/internal.h |  2 ++
+ drivers/bus/mhi/ep/main.c     | 58 +++++++++++++++++++++++++++++++++++
+ drivers/bus/mhi/ep/sm.c       |  5 +++
+ 3 files changed, 65 insertions(+)
 
+diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
+index a229d8b70227..14fbf4e41ebf 100644
+--- a/drivers/bus/mhi/ep/internal.h
++++ b/drivers/bus/mhi/ep/internal.h
+@@ -210,6 +210,8 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
+ int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
+ int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
+ void mhi_ep_handle_syserr(struct mhi_ep_cntrl *mhi_cntrl);
++void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl);
++void mhi_ep_suspend_channels(struct mhi_ep_cntrl *mhi_cntrl);
+ 
+ /* MHI EP memory management functions */
+ int mhi_ep_alloc_map(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, size_t size,
 diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 63e14d55aa06..25d34cf26fd7 100644
+index 25d34cf26fd7..3efdbf924076 100644
 --- a/drivers/bus/mhi/ep/main.c
 +++ b/drivers/bus/mhi/ep/main.c
-@@ -471,6 +471,88 @@ int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_element *el
- 	return 0;
+@@ -1129,6 +1129,64 @@ void mhi_ep_power_down(struct mhi_ep_cntrl *mhi_cntrl)
  }
+ EXPORT_SYMBOL_GPL(mhi_ep_power_down);
  
-+/* TODO: Handle partially formed TDs */
-+int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
++void mhi_ep_suspend_channels(struct mhi_ep_cntrl *mhi_cntrl)
 +{
-+	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
-+	struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
-+	struct device *dev = &mhi_chan->mhi_dev->dev;
-+	struct mhi_ring_element *el;
-+	u32 buf_left, read_offset;
-+	struct mhi_ep_ring *ring;
-+	enum mhi_ev_ccs code;
-+	void *read_addr;
-+	u64 write_addr;
-+	size_t tr_len;
-+	u32 tre_len;
-+	int ret;
++	struct mhi_ep_chan *mhi_chan;
++	u32 tmp;
++	int i;
 +
-+	buf_left = skb->len;
-+	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
++	for (i = 0; i < mhi_cntrl->max_chan; i++) {
++		mhi_chan = &mhi_cntrl->mhi_chan[i];
 +
-+	mutex_lock(&mhi_chan->lock);
++		if (!mhi_chan->mhi_dev)
++			continue;
 +
-+	do {
-+		/* Don't process the transfer ring if the channel is not in RUNNING state */
-+		if (mhi_chan->state != MHI_CH_STATE_RUNNING) {
-+			dev_err(dev, "Channel not available\n");
-+			ret = -ENODEV;
-+			goto err_exit;
++		mutex_lock(&mhi_chan->lock);
++		/* Skip if the channel is not currently running */
++		tmp = le32_to_cpu(mhi_cntrl->ch_ctx_cache[i].chcfg);
++		if (FIELD_GET(CHAN_CTX_CHSTATE_MASK, tmp) != MHI_CH_STATE_RUNNING) {
++			mutex_unlock(&mhi_chan->lock);
++			continue;
 +		}
 +
-+		if (mhi_ep_queue_is_empty(mhi_dev, DMA_FROM_DEVICE)) {
-+			dev_err(dev, "TRE not available!\n");
-+			ret = -ENOSPC;
-+			goto err_exit;
-+		}
-+
-+		el = &ring->ring_cache[ring->rd_offset];
-+		tre_len = MHI_TRE_DATA_GET_LEN(el);
-+
-+		tr_len = min(buf_left, tre_len);
-+		read_offset = skb->len - buf_left;
-+		read_addr = skb->data + read_offset;
-+		write_addr = MHI_TRE_DATA_GET_PTR(el);
-+
-+		dev_dbg(dev, "Writing %zd bytes to channel (%u)\n", tr_len, ring->ch_id);
-+		ret = mhi_cntrl->write_to_host(mhi_cntrl, read_addr, write_addr, tr_len);
-+		if (ret < 0) {
-+			dev_err(dev, "Error writing to the channel\n");
-+			goto err_exit;
-+		}
-+
-+		buf_left -= tr_len;
-+		/*
-+		 * For all TREs queued by the host for DL channel, only the EOT flag will be set.
-+		 * If the packet doesn't fit into a single TRE, send the OVERFLOW event to
-+		 * the host so that the host can adjust the packet boundary to next TREs. Else send
-+		 * the EOT event to the host indicating the packet boundary.
-+		 */
-+		if (buf_left)
-+			code = MHI_EV_CC_OVERFLOW;
-+		else
-+			code = MHI_EV_CC_EOT;
-+
-+		ret = mhi_ep_send_completion_event(mhi_cntrl, ring, el, tr_len, code);
-+		if (ret) {
-+			dev_err(dev, "Error sending transfer completion event\n");
-+			goto err_exit;
-+		}
-+
-+		mhi_ep_ring_inc_index(ring);
-+	} while (buf_left);
-+
-+	mutex_unlock(&mhi_chan->lock);
-+
-+	return 0;
-+
-+err_exit:
-+	mutex_unlock(&mhi_chan->lock);
-+
-+	return ret;
++		dev_dbg(&mhi_chan->mhi_dev->dev, "Suspending channel\n");
++		/* Set channel state to SUSPENDED */
++		tmp &= ~CHAN_CTX_CHSTATE_MASK;
++		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_SUSPENDED);
++		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
++		mutex_unlock(&mhi_chan->lock);
++	}
 +}
-+EXPORT_SYMBOL_GPL(mhi_ep_queue_skb);
 +
- static int mhi_ep_cache_host_cfg(struct mhi_ep_cntrl *mhi_cntrl)
++void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl)
++{
++	struct mhi_ep_chan *mhi_chan;
++	u32 tmp;
++	int i;
++
++	for (i = 0; i < mhi_cntrl->max_chan; i++) {
++		mhi_chan = &mhi_cntrl->mhi_chan[i];
++
++		if (!mhi_chan->mhi_dev)
++			continue;
++
++		mutex_lock(&mhi_chan->lock);
++		/* Skip if the channel is not currently suspended */
++		tmp = le32_to_cpu(mhi_cntrl->ch_ctx_cache[i].chcfg);
++		if (FIELD_GET(CHAN_CTX_CHSTATE_MASK, tmp) != MHI_CH_STATE_SUSPENDED) {
++			mutex_unlock(&mhi_chan->lock);
++			continue;
++		}
++
++		dev_dbg(&mhi_chan->mhi_dev->dev, "Resuming channel\n");
++		/* Set channel state to RUNNING */
++		tmp &= ~CHAN_CTX_CHSTATE_MASK;
++		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_RUNNING);
++		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
++		mutex_unlock(&mhi_chan->lock);
++	}
++}
++
+ static void mhi_ep_release_device(struct device *dev)
  {
- 	size_t cmd_ctx_host_size, ch_ctx_host_size, ev_ctx_host_size;
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index 74170dad09f6..bd3ffde01f04 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -272,4 +272,13 @@ void mhi_ep_power_down(struct mhi_ep_cntrl *mhi_cntrl);
-  */
- bool mhi_ep_queue_is_empty(struct mhi_ep_device *mhi_dev, enum dma_data_direction dir);
+ 	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
+diff --git a/drivers/bus/mhi/ep/sm.c b/drivers/bus/mhi/ep/sm.c
+index 4d6e8c2d615c..22b578bd851b 100644
+--- a/drivers/bus/mhi/ep/sm.c
++++ b/drivers/bus/mhi/ep/sm.c
+@@ -62,8 +62,11 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl)
+ 	enum mhi_state old_state;
+ 	int ret;
  
-+/**
-+ * mhi_ep_queue_skb - Send SKBs to host over MHI Endpoint
-+ * @mhi_dev: Device associated with the DL channel
-+ * @skb: SKBs to be queued
-+ *
-+ * Return: 0 if the SKBs has been sent successfully, a negative error code otherwise.
-+ */
-+int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb);
++	/* If MHI is in M3, resume suspended channels */
+ 	spin_lock_bh(&mhi_cntrl->state_lock);
+ 	old_state = mhi_cntrl->mhi_state;
++	if (old_state == MHI_STATE_M3)
++		mhi_ep_resume_channels(mhi_cntrl);
+ 
+ 	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_M0);
+ 	spin_unlock_bh(&mhi_cntrl->state_lock);
+@@ -106,6 +109,8 @@ int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl)
+ 		return ret;
+ 	}
+ 
++	mhi_ep_suspend_channels(mhi_cntrl);
 +
- #endif
+ 	/* Signal host that the device moved to M3 */
+ 	ret = mhi_ep_send_state_change_event(mhi_cntrl, MHI_STATE_M3);
+ 	if (ret) {
 -- 
 2.25.1
 
