@@ -1,41 +1,41 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D5D7B
-	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 12:46:17 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id e6so9871000pgn.2
-        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 04:46:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB607B
+	for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 12:46:22 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id ge19-20020a17090b0e1300b001bcca16e2e7so10257762pjb.3
+        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 04:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DfwzfNqq6vq0SsTnjLEp+6L4UBQXfn7xq4uvXb2A4qw=;
-        b=bA1BWSLFNpCciGnGldmGs1g305ey7gWYd43oNQc5VxwUczAgrbRw2sleyGyaQ+yTks
-         KIoWCdmI4qVwT2R/y+CkuyNPTHKpcHZxECpjxvZh8d6+KuF2Nh4tEiHZVcmH+kf8VXpn
-         wdDr+0npYRU+vCHEevPo6oY1GTStiukGcKmfZfC4F9ay6enSEPHLTHpZ0Ap6OxDBtkXX
-         u2q1+qlM5qRf1SyzfLkTqEaKaGWxqq47wcYzBNSTshELUZQzOFs8bpZXDhS/fybJxCDU
-         sFnHzByYu3ZTkLQUYCFBHbQvA8kqGS8PheXsfV1lVHZ7E9XR2/Tdc7kE6HCOwnW9+2/b
-         5vNg==
+        bh=QFXLiL0cwfTscTFGdegC8jG7wPHkkmACZCaIlJcMC4g=;
+        b=uzElxq1Co02OjZSETgAp4AlzySZjyNblnTFSlL6ekEy2Jd+SYgQjYwySYZULAQ7q2x
+         8ZiFV6Cy+0OSBZnvRjTjOKqS7pEykVqaaj4UyeRYCEsn38pCIU/up2IWhy7HVzLPiPn3
+         EPCp/22b8zYfInCnTEp8RFODkrUhClj3vhG0XN73OSdiYlKYdjbZlTljavaUez3WwyQa
+         WIb4pfGWNRgOU23cpCL5KI6wV94q1UvV98RP7k2QkvvYRlWDxa3KmvXFCUU3/l3U4ALX
+         EPZJGDY4CVabi3WzRpEopru76oAs5ypeAU/527dDy0DnyXcJh/YlCZNHEiLtDGOR2Fbn
+         oSNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DfwzfNqq6vq0SsTnjLEp+6L4UBQXfn7xq4uvXb2A4qw=;
-        b=XPdvTb8vQ6DLwaKU8xXJyGQSekt5/i7eXTFiExqPrhI333dTYd7hpdqwuPAX4Lm2nA
-         eIRmiLWrfcaeNemnWJ9H3PF4ScH5WJS32toVLGVwE2te31MAvlTa/HM8exXBXOePzSjn
-         8fwURhRIELGncyfTiygmyTuoZsvR8epFBU7dltkjCOYcRezFYkf0ZOW+wT3MU3fq11or
-         wsS3EvhHKKFkZkP0a5LpFHmMyGaoyFmJ/WLLGWBArDQ2tKOkJdyprqPlAWvQ6bWIzkNg
-         Y5h7Fvka4xGmg2ZdR/GYNyERQ6ijiotM69DcIuYFwhb6KJUqTVqhuTXnQNK+tu1G+xLN
-         4Mzg==
-X-Gm-Message-State: AOAM531/UovhG5damLGnJLthbnQ8aN5PdQxK5ANJk2rwvxA6OUG3gug+
-	9wQQhxUkGNa4MO5xfT1OZzDt8k6ajr+x
-X-Google-Smtp-Source: ABdhPJyoDhxnyLLhiXj3FVUBCTzye9LuIHWe8nXli2d39+oXfn3otagNBKy+7n1ttyR5IGl84g15pQ==
-X-Received: by 2002:a05:6a00:8d5:b0:4e1:77c9:def8 with SMTP id s21-20020a056a0008d500b004e177c9def8mr21504500pfu.55.1646052376709;
-        Mon, 28 Feb 2022 04:46:16 -0800 (PST)
+        bh=QFXLiL0cwfTscTFGdegC8jG7wPHkkmACZCaIlJcMC4g=;
+        b=Hx5TsHgDUZBhimR+jD2k68kiL0fg7Jl1GjmSmDYJWIJMsavxCu0VYY9iP/spkiJBuJ
+         O2aSKv2F0dgIgp3fk2U5XZtgT2vcdW0fLur3+Dg546E0Caoy3SaD2r4q+tMms26ytxXZ
+         R4vJR2RaVf2SvyO2v/Ahm1hn2bsKX7Z08TqZ0rf+szRFp+EKGqVzS4dZWidm3NXpV9O0
+         OYDuedl8nYGH97Pm45oy7BPzkRVMdfsEvwocnTm+7kGCUbLz8zj/jyCVClVb+O8tZ8gg
+         ALC2fDL8LPyUMhcZTPSoiZMv2XxIr4wSHjOGVZjzOrGxodWCStoO3BzFTKZeppNCMG3A
+         wn2Q==
+X-Gm-Message-State: AOAM530JdbsSvYuLU0npkHoysOCWAF/v9fRjopWldTbasmvv0ysd/cI2
+	HAf7ZEpwSLe7aS7FoEcyzJKDeBXgbH4W
+X-Google-Smtp-Source: ABdhPJz/l4Rjc3SB1CTovpEU0dkPgKs8YNHZfoD96r0SBLyth0Gw6PheAT7YlRKYUk769a7WkNkUSQ==
+X-Received: by 2002:a17:90a:241:b0:1bc:1def:a8c5 with SMTP id t1-20020a17090a024100b001bc1defa8c5mr16469088pje.105.1646052382269;
+        Mon, 28 Feb 2022 04:46:22 -0800 (PST)
 Received: from localhost.localdomain ([117.207.25.37])
-        by smtp.gmail.com with ESMTPSA id y12-20020a056a00190c00b004f39e28fb87sm14256737pfi.98.2022.02.28.04.46.11
+        by smtp.gmail.com with ESMTPSA id y12-20020a056a00190c00b004f39e28fb87sm14256737pfi.98.2022.02.28.04.46.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 04:46:16 -0800 (PST)
+        Mon, 28 Feb 2022 04:46:21 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: quic_hemantk@quicinc.com,
@@ -51,9 +51,9 @@ Cc: quic_hemantk@quicinc.com,
 	linux-kernel@vger.kernel.org,
 	elder@linaro.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v4 26/27] bus: mhi: ep: Add support for suspending and resuming channels
-Date: Mon, 28 Feb 2022 18:13:43 +0530
-Message-Id: <20220228124344.77359-27-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v4 27/27] bus: mhi: ep: Add uevent support for module autoloading
+Date: Mon, 28 Feb 2022 18:13:44 +0530
+Message-Id: <20220228124344.77359-28-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
 References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
@@ -65,125 +65,89 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for suspending and resuming the channels in MHI endpoint stack.
-The channels will be moved to the suspended state during M3 state
-transition and will be resumed during M0 transition.
+Add uevent support to MHI endpoint bus so that the client drivers can be
+autoloaded by udev when the MHI endpoint devices gets created. The client
+drivers are expected to provide MODULE_DEVICE_TABLE with the MHI id_table
+struct so that the alias can be exported.
+
+The MHI endpoint reused the mhi_device_id structure of the MHI bus.
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/ep/internal.h |  2 ++
- drivers/bus/mhi/ep/main.c     | 58 +++++++++++++++++++++++++++++++++++
- drivers/bus/mhi/ep/sm.c       |  5 +++
- 3 files changed, 65 insertions(+)
+ drivers/bus/mhi/ep/main.c       |  9 +++++++++
+ include/linux/mod_devicetable.h |  2 ++
+ scripts/mod/file2alias.c        | 10 ++++++++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
-index a229d8b70227..14fbf4e41ebf 100644
---- a/drivers/bus/mhi/ep/internal.h
-+++ b/drivers/bus/mhi/ep/internal.h
-@@ -210,6 +210,8 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl);
- int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl);
- int mhi_ep_set_ready_state(struct mhi_ep_cntrl *mhi_cntrl);
- void mhi_ep_handle_syserr(struct mhi_ep_cntrl *mhi_cntrl);
-+void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl);
-+void mhi_ep_suspend_channels(struct mhi_ep_cntrl *mhi_cntrl);
- 
- /* MHI EP memory management functions */
- int mhi_ep_alloc_map(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, size_t size,
 diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 25d34cf26fd7..3efdbf924076 100644
+index 3efdbf924076..ce59f38b59a7 100644
 --- a/drivers/bus/mhi/ep/main.c
 +++ b/drivers/bus/mhi/ep/main.c
-@@ -1129,6 +1129,64 @@ void mhi_ep_power_down(struct mhi_ep_cntrl *mhi_cntrl)
+@@ -1568,6 +1568,14 @@ void mhi_ep_driver_unregister(struct mhi_ep_driver *mhi_drv)
  }
- EXPORT_SYMBOL_GPL(mhi_ep_power_down);
+ EXPORT_SYMBOL_GPL(mhi_ep_driver_unregister);
  
-+void mhi_ep_suspend_channels(struct mhi_ep_cntrl *mhi_cntrl)
++static int mhi_ep_uevent(struct device *dev, struct kobj_uevent_env *env)
 +{
-+	struct mhi_ep_chan *mhi_chan;
-+	u32 tmp;
-+	int i;
++	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
 +
-+	for (i = 0; i < mhi_cntrl->max_chan; i++) {
-+		mhi_chan = &mhi_cntrl->mhi_chan[i];
-+
-+		if (!mhi_chan->mhi_dev)
-+			continue;
-+
-+		mutex_lock(&mhi_chan->lock);
-+		/* Skip if the channel is not currently running */
-+		tmp = le32_to_cpu(mhi_cntrl->ch_ctx_cache[i].chcfg);
-+		if (FIELD_GET(CHAN_CTX_CHSTATE_MASK, tmp) != MHI_CH_STATE_RUNNING) {
-+			mutex_unlock(&mhi_chan->lock);
-+			continue;
-+		}
-+
-+		dev_dbg(&mhi_chan->mhi_dev->dev, "Suspending channel\n");
-+		/* Set channel state to SUSPENDED */
-+		tmp &= ~CHAN_CTX_CHSTATE_MASK;
-+		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_SUSPENDED);
-+		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
-+		mutex_unlock(&mhi_chan->lock);
-+	}
++	return add_uevent_var(env, "MODALIAS=" MHI_EP_DEVICE_MODALIAS_FMT,
++					mhi_dev->name);
 +}
 +
-+void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl)
-+{
-+	struct mhi_ep_chan *mhi_chan;
-+	u32 tmp;
-+	int i;
-+
-+	for (i = 0; i < mhi_cntrl->max_chan; i++) {
-+		mhi_chan = &mhi_cntrl->mhi_chan[i];
-+
-+		if (!mhi_chan->mhi_dev)
-+			continue;
-+
-+		mutex_lock(&mhi_chan->lock);
-+		/* Skip if the channel is not currently suspended */
-+		tmp = le32_to_cpu(mhi_cntrl->ch_ctx_cache[i].chcfg);
-+		if (FIELD_GET(CHAN_CTX_CHSTATE_MASK, tmp) != MHI_CH_STATE_SUSPENDED) {
-+			mutex_unlock(&mhi_chan->lock);
-+			continue;
-+		}
-+
-+		dev_dbg(&mhi_chan->mhi_dev->dev, "Resuming channel\n");
-+		/* Set channel state to RUNNING */
-+		tmp &= ~CHAN_CTX_CHSTATE_MASK;
-+		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_RUNNING);
-+		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
-+		mutex_unlock(&mhi_chan->lock);
-+	}
-+}
-+
- static void mhi_ep_release_device(struct device *dev)
+ static int mhi_ep_match(struct device *dev, struct device_driver *drv)
  {
  	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-diff --git a/drivers/bus/mhi/ep/sm.c b/drivers/bus/mhi/ep/sm.c
-index 4d6e8c2d615c..22b578bd851b 100644
---- a/drivers/bus/mhi/ep/sm.c
-+++ b/drivers/bus/mhi/ep/sm.c
-@@ -62,8 +62,11 @@ int mhi_ep_set_m0_state(struct mhi_ep_cntrl *mhi_cntrl)
- 	enum mhi_state old_state;
- 	int ret;
+@@ -1594,6 +1602,7 @@ struct bus_type mhi_ep_bus_type = {
+ 	.name = "mhi_ep",
+ 	.dev_name = "mhi_ep",
+ 	.match = mhi_ep_match,
++	.uevent = mhi_ep_uevent,
+ };
  
-+	/* If MHI is in M3, resume suspended channels */
- 	spin_lock_bh(&mhi_cntrl->state_lock);
- 	old_state = mhi_cntrl->mhi_state;
-+	if (old_state == MHI_STATE_M3)
-+		mhi_ep_resume_channels(mhi_cntrl);
+ static int __init mhi_ep_init(void)
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 4bb71979a8fd..0cff19bd72bf 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -835,6 +835,8 @@ struct wmi_device_id {
+ #define MHI_DEVICE_MODALIAS_FMT "mhi:%s"
+ #define MHI_NAME_SIZE 32
  
- 	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_M0);
- 	spin_unlock_bh(&mhi_cntrl->state_lock);
-@@ -106,6 +109,8 @@ int mhi_ep_set_m3_state(struct mhi_ep_cntrl *mhi_cntrl)
- 		return ret;
- 	}
- 
-+	mhi_ep_suspend_channels(mhi_cntrl);
++#define MHI_EP_DEVICE_MODALIAS_FMT "mhi_ep:%s"
 +
- 	/* Signal host that the device moved to M3 */
- 	ret = mhi_ep_send_state_change_event(mhi_cntrl, MHI_STATE_M3);
- 	if (ret) {
+ /**
+  * struct mhi_device_id - MHI device identification
+  * @chan: MHI channel name
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index 5258247d78ac..d9d6a31446ea 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -1391,6 +1391,15 @@ static int do_mhi_entry(const char *filename, void *symval, char *alias)
+ 	return 1;
+ }
+ 
++/* Looks like: mhi_ep:S */
++static int do_mhi_ep_entry(const char *filename, void *symval, char *alias)
++{
++	DEF_FIELD_ADDR(symval, mhi_device_id, chan);
++	sprintf(alias, MHI_EP_DEVICE_MODALIAS_FMT, *chan);
++
++	return 1;
++}
++
+ /* Looks like: ishtp:{guid} */
+ static int do_ishtp_entry(const char *filename, void *symval, char *alias)
+ {
+@@ -1519,6 +1528,7 @@ static const struct devtable devtable[] = {
+ 	{"tee", SIZE_tee_client_device_id, do_tee_entry},
+ 	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
+ 	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
++	{"mhi_ep", SIZE_mhi_device_id, do_mhi_ep_entry},
+ 	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
+ 	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
+ 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
 -- 
 2.25.1
 
