@@ -1,42 +1,42 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DE3181
-	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 06:15:32 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id t14so10665997pgr.3
-        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 22:15:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C540180
+	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 06:41:34 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id x18so13306700pfh.5
+        for <mhi@lists.linux.dev>; Mon, 28 Feb 2022 22:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=+xfB4gNTbCq291EVkNnRbRLnZWucWmXliw/qvwxMWYg=;
-        b=lDZD/p+clPsiQvcoU7xjudaWbCk6DIPDgYyiVOj6bVOe20MwxiDM4yoc8KhieP+hBS
-         I4doDrNX50gS7vodjdaoFb43s2Z4kumXD7CZJgoLnmo6zFMXxT5csv0NeSN0WixD1Upb
-         9pDb0Cl1lrIsm7awCzCMia9ULlegwlUqDxDUdtseCH3KE6GIeC4t/+ysmHFGUIxQU9ic
-         WLREgWemv4r9/KKrGZKQ1GzOQEeEDhBoBvPpQNGjrafLqFhsyGUiyD0qlFkwH95Y/h7i
-         u7rmrvbwwPzmjHDdTcN5bEykAWVM4C9KoAFtQrk+ucZ6cFcMkDgGvZwrOlX68PxWm8nr
-         tx+Q==
+        bh=InAZmAMB2EBIfdWcEEf0JofPW20Wpd8LRNGnhF7kPbs=;
+        b=B7fb8aGFeDFXOEeCfZj/nNAct7zKzWJOyjVo12/VKnYysq2h4QYMFdKy983nKX/jUf
+         nTMdKvKRvOyyFdDVUqWlNBqQXAjbk1bonG3hX9MmLCJw2YhZFmQPVBkZbHmGICqH9kF2
+         m2H7XtV258bi6QKAP1JrtmgVIw6vE9NmA9jf4EIZTwpm+WFqzNVRmBbrpeJkQqn4eEIF
+         L36RST41sx/kdGJAupB626XeBpJ/nDuGufzo9RIhpcb8094D5c9zZ5eenEw55oD97p7m
+         gtgDIrfX68xfhxXkcZvv9sioK3KYvS0zaNr/htT2pLKcW4YHc5/JREVVH3+V6xymcfLs
+         hVCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+xfB4gNTbCq291EVkNnRbRLnZWucWmXliw/qvwxMWYg=;
-        b=oRnNOzuS2rFNEOs2h1pL7wDMkziHyZ4BoWHS417lMnu215VwwlTyVpniu+Xce26wkh
-         L6qSMXS2GGH7H8Bwie2Gh9z7lShzPcsnYtRGuJkxxyJneWBaEl+BTYUOkeVMy4QFXA+D
-         tvOFa7qZpMzlBGL42JJ0VPVTi988hDO1pVOrNNYLIjo/TH0eGnJ4Odb18GMHydWTSJT8
-         8DOGRenao6zXvUt5RxdrMt1ildQV58mPhiRbOZwA3bvG5FAnqTeobzGiMXWClzUVcWrK
-         dXlAq2ol/waGY/scaY+pZiBBLJqY8RI+0F2GjoSi5h7ppOou2HsyMCh45DEfdnenu61l
-         58Tw==
-X-Gm-Message-State: AOAM530/DiSkBV4tsJwUvktAFer8q9822dvBzlOs0We9Ho6J5pOfpTqD
-	JRZapUQujyNFyrSMBwy64mpZ
-X-Google-Smtp-Source: ABdhPJxtbodzYU9eR4BdjrscPXILinjVURDiK96NyUzPhYadLn0YWNHwx3AsJr8URPJtFlihMmIOBQ==
-X-Received: by 2002:a05:6a00:1a09:b0:4e1:67a7:2c87 with SMTP id g9-20020a056a001a0900b004e167a72c87mr25703780pfv.37.1646115332111;
-        Mon, 28 Feb 2022 22:15:32 -0800 (PST)
+        bh=InAZmAMB2EBIfdWcEEf0JofPW20Wpd8LRNGnhF7kPbs=;
+        b=yEpimWQqgb8X4ONBlPnpeKk7Z8eJA3c4RepNuzPkUnebB4b+SYRLyumA9fUHzGFAba
+         CPXXEyDPTodTOjxnCPMrZ8CkZ+s/7VWjneMvpnKOQBOaeghfu/XJCkcBdjXtQprVBuAw
+         UJUXod16xFimshwkC571UENUVgG3U3jaYK/L69UnBoPjAbFK0McFqtOfjpQn9NYV8hQJ
+         w+GBEgqdi4prHXagHDyeCbNiasHM5ag1mmmbHWSqb7a2vhcC7S56rzH1OyjKyVCIhAo7
+         FFIbOGt4X0jw9lhM/Pl7gmziVckZN7xzPTCXPYPprelc3K+1MtwdDfux4JM9FTti5zs3
+         MXIA==
+X-Gm-Message-State: AOAM5313uTEts1dm+C70z0YYEhOLXcu6wc4LJ8umgv5GMsmkXVWUP6XU
+	sQTasLUjOlgM8o8sWiARm2W/
+X-Google-Smtp-Source: ABdhPJxox4MM6hAazw3C783WMUxznpatQbH85mhnrFWWVTeSbnAMeTz+NyiBsQjriKxl8C+LEGxOYQ==
+X-Received: by 2002:a05:6a00:1494:b0:4f0:ece9:a01c with SMTP id v20-20020a056a00149400b004f0ece9a01cmr25416030pfu.58.1646116894276;
+        Mon, 28 Feb 2022 22:41:34 -0800 (PST)
 Received: from workstation ([117.207.25.80])
-        by smtp.gmail.com with ESMTPSA id r4-20020a17090a438400b001bc6d52de70sm993992pjg.24.2022.02.28.22.15.28
+        by smtp.gmail.com with ESMTPSA id h3-20020a056a00170300b004f104c635e4sm16308420pfc.99.2022.02.28.22.41.30
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 28 Feb 2022 22:15:31 -0800 (PST)
-Date: Tue, 1 Mar 2022 11:45:26 +0530
+        Mon, 28 Feb 2022 22:41:33 -0800 (PST)
+Date: Tue, 1 Mar 2022 12:11:28 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Alex Elder <elder@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
@@ -45,10 +45,12 @@ Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
 	quic_vbadigan@quicinc.com, quic_cang@quicinc.com,
 	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/27] Add initial support for MHI endpoint stack
-Message-ID: <20220301061526.GC12451@workstation>
+Subject: Re: [PATCH v4 17/27] bus: mhi: ep: Add support for processing MHI
+ endpoint interrupts
+Message-ID: <20220301064128.GD12451@workstation>
 References: <20220228124344.77359-1-manivannan.sadhasivam@linaro.org>
- <8bb7a184-d186-fa1f-d8b0-be1c326e385d@linaro.org>
+ <20220228124344.77359-18-manivannan.sadhasivam@linaro.org>
+ <3c611baf-1be9-4bf2-86c9-30a3b935a86b@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -57,45 +59,58 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8bb7a184-d186-fa1f-d8b0-be1c326e385d@linaro.org>
+In-Reply-To: <3c611baf-1be9-4bf2-86c9-30a3b935a86b@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Mon, Feb 28, 2022 at 10:57:48AM -0600, Alex Elder wrote:
+On Mon, Feb 28, 2022 at 10:45:15AM -0600, Alex Elder wrote:
 > On 2/28/22 6:43 AM, Manivannan Sadhasivam wrote:
-> > Hello,
+> > Add support for processing MHI endpoint interrupts such as control
+> > interrupt, command interrupt and channel interrupt from the host.
 > > 
-> > This series adds initial support for the Qualcomm specific Modem Host Interface
-> > (MHI) bus in endpoint devices like SDX55 modems. The MHI bus in endpoint devices
-> > communicates with the MHI bus in host machines like x86 over any physical bus
-> > like PCIe. The MHI host support is already in mainline [1] and been used by PCIe
-> > based modems and WLAN devices running vendor code (downstream).
+> > The interrupts will be generated in the endpoint device whenever host
+> > writes to the corresponding doorbell registers. The doorbell logic
+> > is handled inside the hardware internally.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> I believe I have provided a "Reviewed-by" tag for all patches in
-> this series.  I've made a few minor suggestions, but nothing I
-> saw deserves issuing a new version of the series.
-
-Thanks a lot for your time, Alex! Much appreciated.
-
-> The only "big thing" is whether you want to rework the stuff that David
-> Laight commented on in patch 5 (and 15 too).  I agree with him
-> that the code there isn't very pretty and could be improved,
-> but as I said in my review, my preference would be to get this
-> accepted with a promise from you to revisit that.  Improving
-> that would improve readability and maintainability, and that's
-> important.  But there's too much *other* code in this series
-> and I hate to see its acceptance delayed further.
+> One suggestion for future work, but otherwise this looks good.
 > 
-
-As I replied to you during v3 review, the ring element structure changes
-between command, transfer and event rings. Even with command ring, we
-got different structure for each command. This makes the definition
-a bit hard.
-
-Anyway, I'll take another look once this series gets merged.
-
-> So anyway, I'm done reviewing this, and in general I trust that
-> you will tell me (and drop my Reviewed-by tag) if you change
-> anything substantive in a new version of the series.
+> Reviewed-by: Alex Elder <elder@linaro.org>
+> 
+> > ---
+> >   drivers/bus/mhi/ep/main.c | 123 +++++++++++++++++++++++++++++++++++++-
+> >   include/linux/mhi_ep.h    |   4 ++
+> >   2 files changed, 125 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> > index 7a29543586d0..ce690b1aeace 100644
+> > --- a/drivers/bus/mhi/ep/main.c
+> > +++ b/drivers/bus/mhi/ep/main.c
+> > @@ -143,6 +143,112 @@ static void mhi_ep_state_worker(struct work_struct *work)
+> >   	}
+> >   }
+> > +static void mhi_ep_queue_channel_db(struct mhi_ep_cntrl *mhi_cntrl, unsigned long ch_int,
+> > +				    u32 ch_idx)
+> > +{
+> > +	struct mhi_ep_ring_item *item;
+> > +	struct mhi_ep_ring *ring;
+> > +	bool work = !!ch_int;
+> > +	LIST_HEAD(head);
+> > +	u32 i;
+> > +
+> > +	/* First add the ring items to a local list */
+> > +	for_each_set_bit(i, &ch_int, 32) {
+> > +		/* Channel index varies for each register: 0, 32, 64, 96 */
+> > +		u32 ch_id = ch_idx + i;
+> > +
+> > +		ring = &mhi_cntrl->mhi_chan[ch_id].ring;
+> > +		item = kzalloc(sizeof(*item), GFP_ATOMIC);
+> 
+> It looks like this will be used a lot, so I suggest you
+> consider creating a slab cache of ring items to allocate
+> from.  I haven't suggested that elsewhere, but it's
+> possible there are other frequently-allocated structures
+> that would warrant that.
 > 
 
 Sure.
@@ -103,185 +118,178 @@ Sure.
 Thanks,
 Mani
 
-> 					-Alex
-> 
-> > 
-> > Overview
-> > ========
-> > 
-> > This series aims at adding the MHI support in the endpoint devices with the goal
-> > of getting data connectivity using the mainline kernel running on the modems.
-> > Modems here refer to the combination of an APPS processor (Cortex A grade) and
-> > a baseband processor (DSP). The MHI bus is located in the APPS processor and it
-> > transfers data packets from the baseband processor to the host machine.
-> > 
-> > The MHI Endpoint (MHI EP) stack proposed here is inspired by the downstream
-> > code written by Qualcomm. But the complete stack is mostly re-written to adapt
-> > to the "bus" framework and made it modular so that it can work with the upstream
-> > subsystems like "PCI Endpoint". The code structure of the MHI endpoint stack
-> > follows the MHI host stack to maintain uniformity.
-> > 
-> > With this initial MHI EP stack (along with few other drivers), we can establish
-> > the network interface between host and endpoint over the MHI software channels
-> > (IP_SW0) and can do things like IP forwarding, SSH, etc...
-> > 
-> > Stack Organization
-> > ==================
-> > 
-> > The MHI EP stack has the concept of controller and device drivers as like the
-> > MHI host stack. The MHI EP controller driver can be a PCI Endpoint Function
-> > driver and the MHI device driver can be a MHI EP Networking driver or QRTR
-> > driver. The MHI EP controller driver is tied to the PCI Endpoint subsystem and
-> > handles all bus related activities like mapping the host memory, raising IRQ,
-> > passing link specific events etc... The MHI EP networking driver is tied to the
-> > Networking stack and handles all networking related activities like
-> > sending/receiving the SKBs from netdev, statistics collection etc...
-> > 
-> > This series only contains the MHI EP code, whereas the PCIe EPF driver and MHI
-> > EP Networking drivers are not yet submitted and can be found here [2]. Though
-> > the MHI EP stack doesn't have the build time dependency, it cannot function
-> > without them.
-> > 
-> > Test setup
-> > ==========
-> > 
-> > This series has been tested on Telit FN980 TLB board powered by Qualcomm SDX55
-> > (a.k.a X55 modem) and Qualcomm SM8450 based dev board.
-> > 
-> > For testing the stability and performance, networking tools such as iperf, ssh
-> > and ping are used.
-> > 
-> > Limitations
-> > ===========
-> > 
-> > We are not _yet_ there to get the data packets from the modem as that involves
-> > the Qualcomm IP Accelerator (IPA) integration with MHI endpoint stack. But we
-> > are planning to add support for it in the coming days.
-> > 
-> > References
-> > ==========
-> > 
-> > MHI bus: https://www.kernel.org/doc/html/latest/mhi/mhi.html
-> > Linaro connect presentation around this topic: https://connect.linaro.org/resources/lvc21f/lvc21f-222/
-> > 
-> > Thanks,
-> > Mani
-> > 
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi
-> > [2] https://git.linaro.org/landing-teams/working/qualcomm/kernel.git/log/?h=tracking-qcomlt-sdx55-drivers
-> > 
-> > Changes in v4:
-> > 
-> > * Collected reviews from Hemant and Alex.
-> > * Removed the A7 suffix from register names and functions.
-> > * Added a couple of cleanup patches.
-> > * Reworked the mhi_ep_queue_skb() API.
-> > * Switched to separate workers for command and transfer rings.
-> > * Used a common workqueue for state and ring management.
-> > * Reworked the channel ring management.
-> > * Other misc changes as per review from Alex.
-> > 
-> > Changes in v3:
-> > 
-> > * Splitted the patch 20/23 into two.
-> > * Fixed the error handling in patch 21/23.
-> > * Removed spurious change in patch 01/23.
-> > * Added check for xfer callbacks in client driver probe.
-> > 
-> > Changes in v2:
-> > 
-> > v2 mostly addresses the issues seen while testing the stack on SM8450 that is a
-> > SMP platform and also incorporates the review comments from Alex.
-> > 
-> > Major changes are:
-> > 
-> > * Added a cleanup patch for getting rid of SHIFT macros and used the bitfield
-> >    operations.
-> > * Added the endianess patches that were submitted to MHI list and used the
-> >    endianess conversion in EP patches also.
-> > * Added support for multiple event rings.
-> > * Fixed the MSI generation based on the event ring index.
-> > * Fixed the doorbell list handling by making use of list splice and not locking
-> >    the entire list manipulation.
-> > * Added new APIs for wrapping the reading and writing to host memory (Dmitry).
-> > * Optimized the read_channel and queue_skb function logics.
-> > * Added Hemant's R-o-b tag.
-> > 
-> > Manivannan Sadhasivam (25):
-> >    bus: mhi: Move host MHI code to "host" directory
-> >    bus: mhi: Use bitfield operations for register read and write
-> >    bus: mhi: Use bitfield operations for handling DWORDs of ring elements
-> >    bus: mhi: Cleanup the register definitions used in headers
-> >    bus: mhi: host: Rename "struct mhi_tre" to "struct mhi_ring_element"
-> >    bus: mhi: Move common MHI definitions out of host directory
-> >    bus: mhi: Make mhi_state_str[] array static inline and move to
-> >      common.h
-> >    bus: mhi: ep: Add support for registering MHI endpoint controllers
-> >    bus: mhi: ep: Add support for registering MHI endpoint client drivers
-> >    bus: mhi: ep: Add support for creating and destroying MHI EP devices
-> >    bus: mhi: ep: Add support for managing MMIO registers
-> >    bus: mhi: ep: Add support for ring management
-> >    bus: mhi: ep: Add support for sending events to the host
-> >    bus: mhi: ep: Add support for managing MHI state machine
-> >    bus: mhi: ep: Add support for processing MHI endpoint interrupts
-> >    bus: mhi: ep: Add support for powering up the MHI endpoint stack
-> >    bus: mhi: ep: Add support for powering down the MHI endpoint stack
-> >    bus: mhi: ep: Add support for handling MHI_RESET
-> >    bus: mhi: ep: Add support for handling SYS_ERR condition
-> >    bus: mhi: ep: Add support for processing command rings
-> >    bus: mhi: ep: Add support for reading from the host
-> >    bus: mhi: ep: Add support for processing channel rings
-> >    bus: mhi: ep: Add support for queueing SKBs to the host
-> >    bus: mhi: ep: Add support for suspending and resuming channels
-> >    bus: mhi: ep: Add uevent support for module autoloading
-> > 
-> > Paul Davey (2):
-> >    bus: mhi: Fix pm_state conversion to string
-> >    bus: mhi: Fix MHI DMA structure endianness
-> > 
-> >   drivers/bus/Makefile                     |    2 +-
-> >   drivers/bus/mhi/Kconfig                  |   28 +-
-> >   drivers/bus/mhi/Makefile                 |    9 +-
-> >   drivers/bus/mhi/common.h                 |  326 +++++
-> >   drivers/bus/mhi/core/internal.h          |  722 ----------
-> >   drivers/bus/mhi/ep/Kconfig               |   10 +
-> >   drivers/bus/mhi/ep/Makefile              |    2 +
-> >   drivers/bus/mhi/ep/internal.h            |  222 +++
-> >   drivers/bus/mhi/ep/main.c                | 1623 ++++++++++++++++++++++
-> >   drivers/bus/mhi/ep/mmio.c                |  272 ++++
-> >   drivers/bus/mhi/ep/ring.c                |  197 +++
-> >   drivers/bus/mhi/ep/sm.c                  |  148 ++
-> >   drivers/bus/mhi/host/Kconfig             |   31 +
-> >   drivers/bus/mhi/{core => host}/Makefile  |    4 +-
-> >   drivers/bus/mhi/{core => host}/boot.c    |   17 +-
-> >   drivers/bus/mhi/{core => host}/debugfs.c |   40 +-
-> >   drivers/bus/mhi/{core => host}/init.c    |  131 +-
-> >   drivers/bus/mhi/host/internal.h          |  382 +++++
-> >   drivers/bus/mhi/{core => host}/main.c    |   66 +-
-> >   drivers/bus/mhi/{ => host}/pci_generic.c |    0
-> >   drivers/bus/mhi/{core => host}/pm.c      |   36 +-
-> >   include/linux/mhi_ep.h                   |  284 ++++
-> >   include/linux/mod_devicetable.h          |    2 +
-> >   scripts/mod/file2alias.c                 |   10 +
-> >   24 files changed, 3649 insertions(+), 915 deletions(-)
-> >   create mode 100644 drivers/bus/mhi/common.h
-> >   delete mode 100644 drivers/bus/mhi/core/internal.h
-> >   create mode 100644 drivers/bus/mhi/ep/Kconfig
-> >   create mode 100644 drivers/bus/mhi/ep/Makefile
-> >   create mode 100644 drivers/bus/mhi/ep/internal.h
-> >   create mode 100644 drivers/bus/mhi/ep/main.c
-> >   create mode 100644 drivers/bus/mhi/ep/mmio.c
-> >   create mode 100644 drivers/bus/mhi/ep/ring.c
-> >   create mode 100644 drivers/bus/mhi/ep/sm.c
-> >   create mode 100644 drivers/bus/mhi/host/Kconfig
-> >   rename drivers/bus/mhi/{core => host}/Makefile (54%)
-> >   rename drivers/bus/mhi/{core => host}/boot.c (96%)
-> >   rename drivers/bus/mhi/{core => host}/debugfs.c (90%)
-> >   rename drivers/bus/mhi/{core => host}/init.c (92%)
-> >   create mode 100644 drivers/bus/mhi/host/internal.h
-> >   rename drivers/bus/mhi/{core => host}/main.c (97%)
-> >   rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
-> >   rename drivers/bus/mhi/{core => host}/pm.c (97%)
-> >   create mode 100644 include/linux/mhi_ep.h
-> > 
+> > +		if (!item)
+> > +			return;
+> > +
+> > +		item->ring = ring;
+> > +		list_add_tail(&item->node, &head);
+> > +	}
+> > +
+> > +	/* Now, splice the local list into ch_db_list and queue the work item */
+> > +	if (work) {
+> > +		spin_lock(&mhi_cntrl->list_lock);
+> > +		list_splice_tail_init(&head, &mhi_cntrl->ch_db_list);
+> > +		spin_unlock(&mhi_cntrl->list_lock);
+> > +	}
+> > +}
+> > +
+> > +/*
+> > + * Channel interrupt statuses are contained in 4 registers each of 32bit length.
+> > + * For checking all interrupts, we need to loop through each registers and then
+> > + * check for bits set.
+> > + */
+> > +static void mhi_ep_check_channel_interrupt(struct mhi_ep_cntrl *mhi_cntrl)
+> > +{
+> > +	u32 ch_int, ch_idx, i;
+> > +
+> > +	/* Bail out if there is no channel doorbell interrupt */
+> > +	if (!mhi_ep_mmio_read_chdb_status_interrupts(mhi_cntrl))
+> > +		return;
+> > +
+> > +	for (i = 0; i < MHI_MASK_ROWS_CH_EV_DB; i++) {
+> > +		ch_idx = i * MHI_MASK_CH_EV_LEN;
+> > +
+> > +		/* Only process channel interrupt if the mask is enabled */
+> > +		ch_int = mhi_cntrl->chdb[i].status & mhi_cntrl->chdb[i].mask;
+> > +		if (ch_int) {
+> > +			mhi_ep_queue_channel_db(mhi_cntrl, ch_int, ch_idx);
+> > +			mhi_ep_mmio_write(mhi_cntrl, MHI_CHDB_INT_CLEAR_n(i),
+> > +							mhi_cntrl->chdb[i].status);
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +static void mhi_ep_process_ctrl_interrupt(struct mhi_ep_cntrl *mhi_cntrl,
+> > +					 enum mhi_state state)
+> > +{
+> > +	struct mhi_ep_state_transition *item;
+> > +
+> > +	item = kzalloc(sizeof(*item), GFP_ATOMIC);
+> > +	if (!item)
+> > +		return;
+> > +
+> > +	item->state = state;
+> > +	spin_lock(&mhi_cntrl->list_lock);
+> > +	list_add_tail(&item->node, &mhi_cntrl->st_transition_list);
+> > +	spin_unlock(&mhi_cntrl->list_lock);
+> > +
+> > +	queue_work(mhi_cntrl->wq, &mhi_cntrl->state_work);
+> > +}
+> > +
+> > +/*
+> > + * Interrupt handler that services interrupts raised by the host writing to
+> > + * MHICTRL and Command ring doorbell (CRDB) registers for state change and
+> > + * channel interrupts.
+> > + */
+> > +static irqreturn_t mhi_ep_irq(int irq, void *data)
+> > +{
+> > +	struct mhi_ep_cntrl *mhi_cntrl = data;
+> > +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> > +	enum mhi_state state;
+> > +	u32 int_value;
+> > +
+> > +	/* Acknowledge the ctrl interrupt */
+> > +	int_value = mhi_ep_mmio_read(mhi_cntrl, MHI_CTRL_INT_STATUS);
+> > +	mhi_ep_mmio_write(mhi_cntrl, MHI_CTRL_INT_CLEAR, int_value);
+> > +
+> > +	/* Check for ctrl interrupt */
+> > +	if (FIELD_GET(MHI_CTRL_INT_STATUS_MSK, int_value)) {
+> > +		dev_dbg(dev, "Processing ctrl interrupt\n");
+> > +		mhi_ep_process_ctrl_interrupt(mhi_cntrl, state);
+> > +	}
+> > +
+> > +	/* Check for command doorbell interrupt */
+> > +	if (FIELD_GET(MHI_CTRL_INT_STATUS_CRDB_MSK, int_value))
+> > +		dev_dbg(dev, "Processing command doorbell interrupt\n");
+> > +
+> > +	/* Check for channel interrupts */
+> > +	mhi_ep_check_channel_interrupt(mhi_cntrl);
+> > +
+> > +	return IRQ_HANDLED;
+> > +}
+> > +
+> >   static void mhi_ep_release_device(struct device *dev)
+> >   {
+> >   	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
+> > @@ -339,7 +445,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   	struct mhi_ep_device *mhi_dev;
+> >   	int ret;
+> > -	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->mmio)
+> > +	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->mmio || !mhi_cntrl->irq)
+> >   		return -EINVAL;
+> >   	ret = mhi_ep_chan_init(mhi_cntrl, config);
+> > @@ -361,6 +467,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   	}
+> >   	INIT_LIST_HEAD(&mhi_cntrl->st_transition_list);
+> > +	INIT_LIST_HEAD(&mhi_cntrl->ch_db_list);
+> >   	spin_lock_init(&mhi_cntrl->state_lock);
+> >   	spin_lock_init(&mhi_cntrl->list_lock);
+> >   	mutex_init(&mhi_cntrl->event_lock);
+> > @@ -376,12 +483,20 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   		goto err_destroy_wq;
+> >   	}
+> > +	irq_set_status_flags(mhi_cntrl->irq, IRQ_NOAUTOEN);
+> > +	ret = request_irq(mhi_cntrl->irq, mhi_ep_irq, IRQF_TRIGGER_HIGH,
+> > +			  "doorbell_irq", mhi_cntrl);
+> > +	if (ret) {
+> > +		dev_err(mhi_cntrl->cntrl_dev, "Failed to request Doorbell IRQ\n");
+> > +		goto err_ida_free;
+> > +	}
+> > +
+> >   	/* Allocate the controller device */
+> >   	mhi_dev = mhi_ep_alloc_device(mhi_cntrl, MHI_DEVICE_CONTROLLER);
+> >   	if (IS_ERR(mhi_dev)) {
+> >   		dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate controller device\n");
+> >   		ret = PTR_ERR(mhi_dev);
+> > -		goto err_ida_free;
+> > +		goto err_free_irq;
+> >   	}
+> >   	dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
+> > @@ -398,6 +513,8 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+> >   err_put_dev:
+> >   	put_device(&mhi_dev->dev);
+> > +err_free_irq:
+> > +	free_irq(mhi_cntrl->irq, mhi_cntrl);
+> >   err_ida_free:
+> >   	ida_free(&mhi_ep_cntrl_ida, mhi_cntrl->index);
+> >   err_destroy_wq:
+> > @@ -417,6 +534,8 @@ void mhi_ep_unregister_controller(struct mhi_ep_cntrl *mhi_cntrl)
+> >   	destroy_workqueue(mhi_cntrl->wq);
+> > +	free_irq(mhi_cntrl->irq, mhi_cntrl);
+> > +
+> >   	kfree(mhi_cntrl->mhi_cmd);
+> >   	kfree(mhi_cntrl->mhi_chan);
+> > diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+> > index dc27a5de7d3c..43aa9b133db4 100644
+> > --- a/include/linux/mhi_ep.h
+> > +++ b/include/linux/mhi_ep.h
+> > @@ -70,6 +70,7 @@ struct mhi_ep_db_info {
+> >    * @list_lock: Lock for protecting state transition and channel doorbell lists
+> >    * @state_lock: Lock for protecting state transitions
+> >    * @st_transition_list: List of state transitions
+> > + * @ch_db_list: List of queued channel doorbells
+> >    * @wq: Dedicated workqueue for handling rings and state changes
+> >    * @state_work: State transition worker
+> >    * @raise_irq: CB function for raising IRQ to the host
+> > @@ -87,6 +88,7 @@ struct mhi_ep_db_info {
+> >    * @chdb_offset: Channel doorbell offset set by the host
+> >    * @erdb_offset: Event ring doorbell offset set by the host
+> >    * @index: MHI Endpoint controller index
+> > + * @irq: IRQ used by the endpoint controller
+> >    */
+> >   struct mhi_ep_cntrl {
+> >   	struct device *cntrl_dev;
+> > @@ -111,6 +113,7 @@ struct mhi_ep_cntrl {
+> >   	spinlock_t state_lock;
+> >   	struct list_head st_transition_list;
+> > +	struct list_head ch_db_list;
+> >   	struct workqueue_struct *wq;
+> >   	struct work_struct state_work;
+> > @@ -137,6 +140,7 @@ struct mhi_ep_cntrl {
+> >   	u32 chdb_offset;
+> >   	u32 erdb_offset;
+> >   	u32 index;
+> > +	int irq;
+> >   };
+> >   /**
 > 
