@@ -1,41 +1,41 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8685CAB
-	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 16:03:42 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id g7-20020a17090a708700b001bb78857ccdso2332220pjk.1
-        for <mhi@lists.linux.dev>; Tue, 01 Mar 2022 08:03:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEFC5CAB
+	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 16:03:46 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id ge19-20020a17090b0e1300b001bcca16e2e7so2313443pjb.3
+        for <mhi@lists.linux.dev>; Tue, 01 Mar 2022 08:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CxtZZOug5pAozaT+Hjy+nXQP3phus2MtPvrSLnbfFXs=;
-        b=ia0OEKNkz/1nLdlUs3dPVcvblbquRI2dW9reDoRSKanyZnPKgJC6Lbma+paloPRdsM
-         vef/8erznmKlvkNsEY032hN6aDC7EUHlTLdkZC6GzLd2Om/uGdP/pNkobWOMX0OeCA2l
-         /osfWp35kBW7/IFLEkJNV35sG9f3N6Mx2T6ul3mTBwmNtEbDNz12AUiZf+3FeQsyT0Ru
-         u971rZZx91s2dl6/25TzDucpoTh1XH/+xIdMMaWdh6BMvhbjRzpYf2wey/wtZOfvuQBF
-         C5NddDixulZyV9Oug5vg4BoVPG0VexeKX6H5wgNPqvRXjcTa6a2O+rrNmIo7qmDCQFPO
-         xTjw==
+        bh=AmaSgv84IWNODZjOLL+ziGnUZhBepok+ar+ZuBsoOxY=;
+        b=EBA9mscxKlH4XihJY+JdFdo2tJH97AxNAEImEl9y7O0QT3e/EKAIEEd6ykc01pzSQp
+         flIVPoYpFVeE48Z+hGF3frmZfdGAwUSAx6CQlLEb2Ai9ut3l1XkqIDB4XTOtpwqKmVbf
+         My3Hsq+H1xtnqqH2Blf2etrR30k2ZryEFU6tAJOFOqlMtnd0mTjHQoMMHM4szUWlBGVG
+         hPv7zKp2sDyA1kXyd5ljqQRoD+ufbHaA5OrB1EGAjGNpQST4PA5ZcxHRiizK6zl+X18R
+         dOYI9+rks0F931629mREAjk/ZN/x7NjReUR75gf+2+7OPqYT9YZiowlsQgF+Bnzuim/O
+         dU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CxtZZOug5pAozaT+Hjy+nXQP3phus2MtPvrSLnbfFXs=;
-        b=zloEIoNbTllZmVZEAZW/FlPtAgTzSQY1eb6Bukth3pxk1CNE6BXYlLxFCFd7uK9aLt
-         Q81rAdCQ8QQT0gfGATqnbVviQNrH0wnSGLoWciw3qgeBzIC9gw26WAOxs2s7rDVrAsSi
-         WPC2gX5rIJlX6uyovEZoyswqF1wDAXxtHbZjIfT6CZGYjMMNZRHuc8vg6NeB97mR8vEb
-         n4l1podCvaKywlfbQQ4qENqToHPOg/cv700T+hy8hv3DOig4FUQzVeMWhFhnwfvTPUJ+
-         T3kkz6JP4jDeGxDee3cCL90Zf/5Ugl40uZhojixbYE6OYkXG4FBaYZFLn+SN3h0EPzlB
-         b/zg==
-X-Gm-Message-State: AOAM5333Zs20N4L00q+ymf5ObMKwryI0482d3a1meuAJxaOZL+5Gvb4p
-	6nkJ07ijxYgGuIBqdl/WvOnN
-X-Google-Smtp-Source: ABdhPJyUldq8f9jbPN5uQyZ6VT/PhQfHBR+v2LWGysA2KQGrdDk1i/Q7qTY+AQ1+Mi5BD0p8LElPiQ==
-X-Received: by 2002:a17:902:b201:b0:14d:66b5:5d69 with SMTP id t1-20020a170902b20100b0014d66b55d69mr25755553plr.95.1646150622086;
-        Tue, 01 Mar 2022 08:03:42 -0800 (PST)
+        bh=AmaSgv84IWNODZjOLL+ziGnUZhBepok+ar+ZuBsoOxY=;
+        b=1/7XN++nH/28Zy3oyI/b4OsqGeV4XgjoD6I/0PH44BHUu/speszsmLNAdEUF2iOGjE
+         AdVURvclja3VxKg2bWjwobnfGnMZWfZk8P5ruk3auDSh3beaqCI1TzDMUk5SU/rVeCaV
+         z71Cjj+B2cElVDNIEKP5xWxBKhXen0pp/DPqfCYAK6tLXVGWuZSxjZBS5K12KktoreAG
+         fQ1+c6s8j2VmFEMSUX8ROOkiZRwg43Qf5Q+oK0L1Iz1D/Vf8A/sopDzqSZGVGqtgYdi8
+         PQGcmrtpC9MFh1WYmXwFncAZQ8UY44689sRcixIvJ8Sw+3GY1013e5QyqUbYijlbJIXh
+         lGmw==
+X-Gm-Message-State: AOAM531WoFb6wfcG5DsaCQVl8tvfZpCDaUZR+MPEPunrSc19sNhjVb69
+	CnlqIxFCVYfIZVJojl6kdL53
+X-Google-Smtp-Source: ABdhPJzoC4JPC7eN+qcgeSr05DomhBLAFgB3CfV8rFFSLtlwlLQv7jPeEA1S7ogi6EvJp5osYmx5kw==
+X-Received: by 2002:a17:903:2283:b0:14f:dd52:33d4 with SMTP id b3-20020a170903228300b0014fdd5233d4mr26194547plh.95.1646150625676;
+        Tue, 01 Mar 2022 08:03:45 -0800 (PST)
 Received: from localhost.localdomain ([117.207.25.80])
-        by smtp.gmail.com with ESMTPSA id m17-20020a17090a859100b001bc20ddcc67sm2489530pjn.34.2022.03.01.08.03.39
+        by smtp.gmail.com with ESMTPSA id m17-20020a17090a859100b001bc20ddcc67sm2489530pjn.34.2022.03.01.08.03.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 08:03:41 -0800 (PST)
+        Tue, 01 Mar 2022 08:03:45 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev,
@@ -44,9 +44,9 @@ Cc: mhi@lists.linux.dev,
 	elder@linaro.org,
 	paul.davey@alliedtelesis.co.nz,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 05/10] bus: mhi: Use bitfield operations for register read and write
-Date: Tue,  1 Mar 2022 21:33:03 +0530
-Message-Id: <20220301160308.107452-6-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 06/10] bus: mhi: Use bitfield operations for handling DWORDs of ring elements
+Date: Tue,  1 Mar 2022 21:33:04 +0530
+Message-Id: <20220301160308.107452-7-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301160308.107452-1-manivannan.sadhasivam@linaro.org>
 References: <20220301160308.107452-1-manivannan.sadhasivam@linaro.org>
@@ -58,685 +58,119 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Functions like mhi_read_reg_field(), mhi_poll_reg_field() and
-mhi_write_reg_field() could be modified to not depend on the shift value
-passed as an argument. Instead, the bitfield operation could be used to
-extract the shift value from the mask itself.
-
-This eliminates the need to define _SHIFT (and _SHFT) macros and
-simplifies the code a bit. For shift values those cannot be determined
-during build time, "__ffs()" helper is used find the shift value during
-runtime.
-
-While at it, let's also get rid of 32-bit masks like CHDBOFF_CHDBOFF_MASK
-by doing the full 32-bit register read.
+Instead of using the hardcoded bits in DWORD definitions, let's use the
+bitfield operations to make it more clear how the DWORDs are structured.
 
 Suggested-by: Alex Elder <elder@linaro.org>
 Reviewed-by: Alex Elder <elder@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/host/boot.c     |  15 ++--
- drivers/bus/mhi/host/debugfs.c  |  10 +--
- drivers/bus/mhi/host/init.c     |  67 ++++++++----------
- drivers/bus/mhi/host/internal.h | 120 +++++++-------------------------
- drivers/bus/mhi/host/main.c     |  16 ++---
- drivers/bus/mhi/host/pm.c       |  18 ++---
- 6 files changed, 76 insertions(+), 170 deletions(-)
+ drivers/bus/mhi/host/internal.h | 58 +++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index 74295d3cc662..d5ba3c7efb61 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -46,8 +46,7 @@ void mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
- 	sequence_id = MHI_RANDOM_U32_NONZERO(BHIE_RXVECSTATUS_SEQNUM_BMSK);
- 
- 	mhi_write_reg_field(mhi_cntrl, base, BHIE_RXVECDB_OFFS,
--			    BHIE_RXVECDB_SEQNUM_BMSK, BHIE_RXVECDB_SEQNUM_SHFT,
--			    sequence_id);
-+			    BHIE_RXVECDB_SEQNUM_BMSK, sequence_id);
- 
- 	dev_dbg(dev, "Address: %p and len: 0x%zx sequence: %u\n",
- 		&mhi_buf->dma_addr, mhi_buf->len, sequence_id);
-@@ -127,9 +126,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
- 
- 	while (retry--) {
- 		ret = mhi_read_reg_field(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS,
--					 BHIE_RXVECSTATUS_STATUS_BMSK,
--					 BHIE_RXVECSTATUS_STATUS_SHFT,
--					 &rx_status);
-+					 BHIE_RXVECSTATUS_STATUS_BMSK, &rx_status);
- 		if (ret)
- 			return -EIO;
- 
-@@ -168,7 +165,6 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
- 			   mhi_read_reg_field(mhi_cntrl, base,
- 					      BHIE_RXVECSTATUS_OFFS,
- 					      BHIE_RXVECSTATUS_STATUS_BMSK,
--					      BHIE_RXVECSTATUS_STATUS_SHFT,
- 					      &rx_status) || rx_status,
- 			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
- 
-@@ -203,8 +199,7 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
- 	mhi_write_reg(mhi_cntrl, base, BHIE_TXVECSIZE_OFFS, mhi_buf->len);
- 
- 	mhi_write_reg_field(mhi_cntrl, base, BHIE_TXVECDB_OFFS,
--			    BHIE_TXVECDB_SEQNUM_BMSK, BHIE_TXVECDB_SEQNUM_SHFT,
--			    sequence_id);
-+			    BHIE_TXVECDB_SEQNUM_BMSK, sequence_id);
- 	read_unlock_bh(pm_lock);
- 
- 	/* Wait for the image download to complete */
-@@ -213,7 +208,6 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
- 				 mhi_read_reg_field(mhi_cntrl, base,
- 						   BHIE_TXVECSTATUS_OFFS,
- 						   BHIE_TXVECSTATUS_STATUS_BMSK,
--						   BHIE_TXVECSTATUS_STATUS_SHFT,
- 						   &tx_status) || tx_status,
- 				 msecs_to_jiffies(mhi_cntrl->timeout_ms));
- 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state) ||
-@@ -265,8 +259,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
- 	ret = wait_event_timeout(mhi_cntrl->state_event,
- 			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state) ||
- 			   mhi_read_reg_field(mhi_cntrl, base, BHI_STATUS,
--					      BHI_STATUS_MASK, BHI_STATUS_SHIFT,
--					      &tx_status) || tx_status,
-+					      BHI_STATUS_MASK, &tx_status) || tx_status,
- 			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
- 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state))
- 		goto invalid_pm_state;
-diff --git a/drivers/bus/mhi/host/debugfs.c b/drivers/bus/mhi/host/debugfs.c
-index d818586c229d..bdc875d7bd4d 100644
---- a/drivers/bus/mhi/host/debugfs.c
-+++ b/drivers/bus/mhi/host/debugfs.c
-@@ -61,9 +61,9 @@ static int mhi_debugfs_events_show(struct seq_file *m, void *d)
- 
- 		seq_printf(m, "Index: %d intmod count: %lu time: %lu",
- 			   i, (le32_to_cpu(er_ctxt->intmod) & EV_CTX_INTMODC_MASK) >>
--			   EV_CTX_INTMODC_SHIFT,
-+			   __ffs(EV_CTX_INTMODC_MASK),
- 			   (le32_to_cpu(er_ctxt->intmod) & EV_CTX_INTMODT_MASK) >>
--			   EV_CTX_INTMODT_SHIFT);
-+			   __ffs(EV_CTX_INTMODT_MASK));
- 
- 		seq_printf(m, " base: 0x%0llx len: 0x%llx", le64_to_cpu(er_ctxt->rbase),
- 			   le64_to_cpu(er_ctxt->rlen));
-@@ -107,10 +107,10 @@ static int mhi_debugfs_channels_show(struct seq_file *m, void *d)
- 		seq_printf(m,
- 			   "%s(%u) state: 0x%lx brstmode: 0x%lx pollcfg: 0x%lx",
- 			   mhi_chan->name, mhi_chan->chan, (le32_to_cpu(chan_ctxt->chcfg) &
--			   CHAN_CTX_CHSTATE_MASK) >> CHAN_CTX_CHSTATE_SHIFT,
-+			   CHAN_CTX_CHSTATE_MASK) >> __ffs(CHAN_CTX_CHSTATE_MASK),
- 			   (le32_to_cpu(chan_ctxt->chcfg) & CHAN_CTX_BRSTMODE_MASK) >>
--			   CHAN_CTX_BRSTMODE_SHIFT, (le32_to_cpu(chan_ctxt->chcfg) &
--			   CHAN_CTX_POLLCFG_MASK) >> CHAN_CTX_POLLCFG_SHIFT);
-+			   __ffs(CHAN_CTX_BRSTMODE_MASK), (le32_to_cpu(chan_ctxt->chcfg) &
-+			   CHAN_CTX_POLLCFG_MASK) >> __ffs(CHAN_CTX_POLLCFG_MASK));
- 
- 		seq_printf(m, " type: 0x%x event ring: %u", le32_to_cpu(chan_ctxt->chtype),
- 			   le32_to_cpu(chan_ctxt->erindex));
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index d8787aaa176b..ca068a017a42 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -4,6 +4,7 @@
-  *
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/debugfs.h>
- #include <linux/device.h>
- #include <linux/dma-direction.h>
-@@ -295,11 +296,11 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 
- 		tmp = le32_to_cpu(chan_ctxt->chcfg);
- 		tmp &= ~CHAN_CTX_CHSTATE_MASK;
--		tmp |= (MHI_CH_STATE_DISABLED << CHAN_CTX_CHSTATE_SHIFT);
-+		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_DISABLED);
- 		tmp &= ~CHAN_CTX_BRSTMODE_MASK;
--		tmp |= (mhi_chan->db_cfg.brstmode << CHAN_CTX_BRSTMODE_SHIFT);
-+		tmp |= FIELD_PREP(CHAN_CTX_BRSTMODE_MASK, mhi_chan->db_cfg.brstmode);
- 		tmp &= ~CHAN_CTX_POLLCFG_MASK;
--		tmp |= (mhi_chan->db_cfg.pollcfg << CHAN_CTX_POLLCFG_SHIFT);
-+		tmp |= FIELD_PREP(CHAN_CTX_POLLCFG_MASK, mhi_chan->db_cfg.pollcfg);
- 		chan_ctxt->chcfg = cpu_to_le32(tmp);
- 
- 		chan_ctxt->chtype = cpu_to_le32(mhi_chan->type);
-@@ -331,7 +332,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 		tmp = le32_to_cpu(er_ctxt->intmod);
- 		tmp &= ~EV_CTX_INTMODC_MASK;
- 		tmp &= ~EV_CTX_INTMODT_MASK;
--		tmp |= (mhi_event->intmod << EV_CTX_INTMODT_SHIFT);
-+		tmp |= FIELD_PREP(EV_CTX_INTMODT_MASK, mhi_event->intmod);
- 		er_ctxt->intmod = cpu_to_le32(tmp);
- 
- 		er_ctxt->ertype = cpu_to_le32(MHI_ER_TYPE_VALID);
-@@ -437,71 +438,70 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	struct {
- 		u32 offset;
- 		u32 mask;
--		u32 shift;
- 		u32 val;
- 	} reg_info[] = {
- 		{
--			CCABAP_HIGHER, U32_MAX, 0,
-+			CCABAP_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
- 		},
- 		{
--			CCABAP_LOWER, U32_MAX, 0,
-+			CCABAP_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
- 		},
- 		{
--			ECABAP_HIGHER, U32_MAX, 0,
-+			ECABAP_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
- 		},
- 		{
--			ECABAP_LOWER, U32_MAX, 0,
-+			ECABAP_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
- 		},
- 		{
--			CRCBAP_HIGHER, U32_MAX, 0,
-+			CRCBAP_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
- 		},
- 		{
--			CRCBAP_LOWER, U32_MAX, 0,
-+			CRCBAP_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
- 		},
- 		{
--			MHICFG, MHICFG_NER_MASK, MHICFG_NER_SHIFT,
-+			MHICFG, MHICFG_NER_MASK,
- 			mhi_cntrl->total_ev_rings,
- 		},
- 		{
--			MHICFG, MHICFG_NHWER_MASK, MHICFG_NHWER_SHIFT,
-+			MHICFG, MHICFG_NHWER_MASK,
- 			mhi_cntrl->hw_ev_rings,
- 		},
- 		{
--			MHICTRLBASE_HIGHER, U32_MAX, 0,
-+			MHICTRLBASE_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHICTRLBASE_LOWER, U32_MAX, 0,
-+			MHICTRLBASE_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHIDATABASE_HIGHER, U32_MAX, 0,
-+			MHIDATABASE_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHIDATABASE_LOWER, U32_MAX, 0,
-+			MHIDATABASE_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHICTRLLIMIT_HIGHER, U32_MAX, 0,
-+			MHICTRLLIMIT_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHICTRLLIMIT_LOWER, U32_MAX, 0,
-+			MHICTRLLIMIT_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHIDATALIMIT_HIGHER, U32_MAX, 0,
-+			MHIDATALIMIT_HIGHER, U32_MAX,
- 			upper_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHIDATALIMIT_LOWER, U32_MAX, 0,
-+			MHIDATALIMIT_LOWER, U32_MAX,
- 			lower_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{ 0, 0, 0 }
-@@ -510,8 +510,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	dev_dbg(dev, "Initializing MHI registers\n");
- 
- 	/* Read channel db offset */
--	ret = mhi_read_reg_field(mhi_cntrl, base, CHDBOFF, CHDBOFF_CHDBOFF_MASK,
--				 CHDBOFF_CHDBOFF_SHIFT, &val);
-+	ret = mhi_read_reg(mhi_cntrl, base, CHDBOFF, &val);
- 	if (ret) {
- 		dev_err(dev, "Unable to read CHDBOFF register\n");
- 		return -EIO;
-@@ -527,8 +526,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 		mhi_chan->tre_ring.db_addr = base + val;
- 
- 	/* Read event ring db offset */
--	ret = mhi_read_reg_field(mhi_cntrl, base, ERDBOFF, ERDBOFF_ERDBOFF_MASK,
--				 ERDBOFF_ERDBOFF_SHIFT, &val);
-+	ret = mhi_read_reg(mhi_cntrl, base, ERDBOFF, &val);
- 	if (ret) {
- 		dev_err(dev, "Unable to read ERDBOFF register\n");
- 		return -EIO;
-@@ -549,8 +547,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	/* Write to MMIO registers */
- 	for (i = 0; reg_info[i].offset; i++)
- 		mhi_write_reg_field(mhi_cntrl, base, reg_info[i].offset,
--				    reg_info[i].mask, reg_info[i].shift,
--				    reg_info[i].val);
-+				    reg_info[i].mask, reg_info[i].val);
- 
- 	return 0;
- }
-@@ -583,7 +580,7 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
- 
- 	tmp = le32_to_cpu(chan_ctxt->chcfg);
- 	tmp &= ~CHAN_CTX_CHSTATE_MASK;
--	tmp |= (MHI_CH_STATE_DISABLED << CHAN_CTX_CHSTATE_SHIFT);
-+	tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_DISABLED);
- 	chan_ctxt->chcfg = cpu_to_le32(tmp);
- 
- 	/* Update to all cores */
-@@ -620,7 +617,7 @@ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
- 
- 	tmp = le32_to_cpu(chan_ctxt->chcfg);
- 	tmp &= ~CHAN_CTX_CHSTATE_MASK;
--	tmp |= (MHI_CH_STATE_ENABLED << CHAN_CTX_CHSTATE_SHIFT);
-+	tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_ENABLED);
- 	chan_ctxt->chcfg = cpu_to_le32(tmp);
- 
- 	chan_ctxt->rbase = cpu_to_le64(tre_ring->iommu_base);
-@@ -964,14 +961,10 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
- 	if (ret)
- 		goto err_destroy_wq;
- 
--	mhi_cntrl->family_number = (soc_info & SOC_HW_VERSION_FAM_NUM_BMSK) >>
--					SOC_HW_VERSION_FAM_NUM_SHFT;
--	mhi_cntrl->device_number = (soc_info & SOC_HW_VERSION_DEV_NUM_BMSK) >>
--					SOC_HW_VERSION_DEV_NUM_SHFT;
--	mhi_cntrl->major_version = (soc_info & SOC_HW_VERSION_MAJOR_VER_BMSK) >>
--					SOC_HW_VERSION_MAJOR_VER_SHFT;
--	mhi_cntrl->minor_version = (soc_info & SOC_HW_VERSION_MINOR_VER_BMSK) >>
--					SOC_HW_VERSION_MINOR_VER_SHFT;
-+	mhi_cntrl->family_number = FIELD_GET(SOC_HW_VERSION_FAM_NUM_BMSK, soc_info);
-+	mhi_cntrl->device_number = FIELD_GET(SOC_HW_VERSION_DEV_NUM_BMSK, soc_info);
-+	mhi_cntrl->major_version = FIELD_GET(SOC_HW_VERSION_MAJOR_VER_BMSK, soc_info);
-+	mhi_cntrl->minor_version = FIELD_GET(SOC_HW_VERSION_MINOR_VER_BMSK, soc_info);
- 
- 	mhi_cntrl->index = ida_alloc(&mhi_controller_ida, GFP_KERNEL);
- 	if (mhi_cntrl->index < 0) {
 diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index 37c39bf1c7a9..156bf65b6810 100644
+index 156bf65b6810..1d1790e83a93 100644
 --- a/drivers/bus/mhi/host/internal.h
 +++ b/drivers/bus/mhi/host/internal.h
-@@ -12,120 +12,65 @@
+@@ -7,6 +7,7 @@
+ #ifndef _MHI_INT_H
+ #define _MHI_INT_H
+ 
++#include <linux/bitfield.h>
+ #include <linux/mhi.h>
+ 
  extern struct bus_type mhi_bus_type;
+@@ -205,58 +206,65 @@ enum mhi_cmd_type {
+ /* No operation command */
+ #define MHI_TRE_CMD_NOOP_PTR (0)
+ #define MHI_TRE_CMD_NOOP_DWORD0 (0)
+-#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(MHI_CMD_NOP << 16))
++#define MHI_TRE_CMD_NOOP_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_CMD_NOP)))
  
- #define MHIREGLEN (0x0)
--#define MHIREGLEN_MHIREGLEN_MASK (0xFFFFFFFF)
--#define MHIREGLEN_MHIREGLEN_SHIFT (0)
+ /* Channel reset command */
+ #define MHI_TRE_CMD_RESET_PTR (0)
+ #define MHI_TRE_CMD_RESET_DWORD0 (0)
+-#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+-					(MHI_CMD_RESET_CHAN << 16)))
++#define MHI_TRE_CMD_RESET_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
++					FIELD_PREP(GENMASK(23, 16), MHI_CMD_RESET_CHAN))
  
- #define MHIVER (0x8)
--#define MHIVER_MHIVER_MASK (0xFFFFFFFF)
--#define MHIVER_MHIVER_SHIFT (0)
+ /* Channel stop command */
+ #define MHI_TRE_CMD_STOP_PTR (0)
+ #define MHI_TRE_CMD_STOP_DWORD0 (0)
+-#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+-				       (MHI_CMD_STOP_CHAN << 16)))
++#define MHI_TRE_CMD_STOP_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
++					FIELD_PREP(GENMASK(23, 16), MHI_CMD_STOP_CHAN))
  
- #define MHICFG (0x10)
--#define MHICFG_NHWER_MASK (0xFF000000)
--#define MHICFG_NHWER_SHIFT (24)
--#define MHICFG_NER_MASK (0xFF0000)
--#define MHICFG_NER_SHIFT (16)
--#define MHICFG_NHWCH_MASK (0xFF00)
--#define MHICFG_NHWCH_SHIFT (8)
--#define MHICFG_NCH_MASK (0xFF)
--#define MHICFG_NCH_SHIFT (0)
-+#define MHICFG_NHWER_MASK (GENMASK(31, 24))
-+#define MHICFG_NER_MASK (GENMASK(23, 16))
-+#define MHICFG_NHWCH_MASK (GENMASK(15, 8))
-+#define MHICFG_NCH_MASK (GENMASK(7, 0))
+ /* Channel start command */
+ #define MHI_TRE_CMD_START_PTR (0)
+ #define MHI_TRE_CMD_START_DWORD0 (0)
+-#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32((chid << 24) | \
+-					(MHI_CMD_START_CHAN << 16)))
++#define MHI_TRE_CMD_START_DWORD1(chid) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid)) | \
++					FIELD_PREP(GENMASK(23, 16), MHI_CMD_START_CHAN))
  
- #define CHDBOFF (0x18)
--#define CHDBOFF_CHDBOFF_MASK (0xFFFFFFFF)
--#define CHDBOFF_CHDBOFF_SHIFT (0)
+ #define MHI_TRE_GET_DWORD(tre, word) (le32_to_cpu((tre)->dword[(word)]))
+-#define MHI_TRE_GET_CMD_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+-#define MHI_TRE_GET_CMD_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
++#define MHI_TRE_GET_CMD_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
++#define MHI_TRE_GET_CMD_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
  
- #define ERDBOFF (0x20)
--#define ERDBOFF_ERDBOFF_MASK (0xFFFFFFFF)
--#define ERDBOFF_ERDBOFF_SHIFT (0)
+ /* Event descriptor macros */
+ #define MHI_TRE_EV_PTR(ptr) (cpu_to_le64(ptr))
+-#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32((code << 24) | len))
+-#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32((chid << 24) | (type << 16)))
++#define MHI_TRE_EV_DWORD0(code, len) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), code) | \
++						FIELD_PREP(GENMASK(15, 0), len)))
++#define MHI_TRE_EV_DWORD1(chid, type) (cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
++						FIELD_PREP(GENMASK(23, 16), type)))
+ #define MHI_TRE_GET_EV_PTR(tre) (le64_to_cpu((tre)->ptr))
+-#define MHI_TRE_GET_EV_CODE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+-#define MHI_TRE_GET_EV_LEN(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFFFF)
+-#define MHI_TRE_GET_EV_CHID(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+-#define MHI_TRE_GET_EV_TYPE(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 16) & 0xFF)
+-#define MHI_TRE_GET_EV_STATE(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
+-#define MHI_TRE_GET_EV_EXECENV(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 24) & 0xFF)
++#define MHI_TRE_GET_EV_CODE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
++#define MHI_TRE_GET_EV_LEN(tre) (FIELD_GET(GENMASK(15, 0), (MHI_TRE_GET_DWORD(tre, 0))))
++#define MHI_TRE_GET_EV_CHID(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
++#define MHI_TRE_GET_EV_TYPE(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1))))
++#define MHI_TRE_GET_EV_STATE(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
++#define MHI_TRE_GET_EV_EXECENV(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0))))
+ #define MHI_TRE_GET_EV_SEQ(tre) MHI_TRE_GET_DWORD(tre, 0)
+ #define MHI_TRE_GET_EV_TIME(tre) (MHI_TRE_GET_EV_PTR(tre))
+ #define MHI_TRE_GET_EV_COOKIE(tre) lower_32_bits(MHI_TRE_GET_EV_PTR(tre))
+-#define MHI_TRE_GET_EV_VEID(tre) ((MHI_TRE_GET_DWORD(tre, 0) >> 16) & 0xFF)
+-#define MHI_TRE_GET_EV_LINKSPEED(tre) ((MHI_TRE_GET_DWORD(tre, 1) >> 24) & 0xFF)
+-#define MHI_TRE_GET_EV_LINKWIDTH(tre) (MHI_TRE_GET_DWORD(tre, 0) & 0xFF)
++#define MHI_TRE_GET_EV_VEID(tre) (FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 0))))
++#define MHI_TRE_GET_EV_LINKSPEED(tre) (FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1))))
++#define MHI_TRE_GET_EV_LINKWIDTH(tre) (FIELD_GET(GENMASK(7, 0), (MHI_TRE_GET_DWORD(tre, 0))))
  
- #define BHIOFF (0x28)
--#define BHIOFF_BHIOFF_MASK (0xFFFFFFFF)
--#define BHIOFF_BHIOFF_SHIFT (0)
+ /* Transfer descriptor macros */
+ #define MHI_TRE_DATA_PTR(ptr) (cpu_to_le64(ptr))
+-#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(len & MHI_MAX_MTU))
+-#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32((2 << 16) | (bei << 10) \
+-	| (ieot << 9) | (ieob << 8) | chain))
++#define MHI_TRE_DATA_DWORD0(len) (cpu_to_le32(FIELD_PREP(GENMASK(15, 0), len)))
++#define MHI_TRE_TYPE_TRANSFER 2
++#define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
++							MHI_TRE_TYPE_TRANSFER) | \
++							FIELD_PREP(BIT(10), bei) | \
++							FIELD_PREP(BIT(9), ieot) | \
++							FIELD_PREP(BIT(8), ieob) | \
++							FIELD_PREP(BIT(0), chain)))
  
- #define BHIEOFF (0x2C)
--#define BHIEOFF_BHIEOFF_MASK (0xFFFFFFFF)
--#define BHIEOFF_BHIEOFF_SHIFT (0)
+ /* RSC transfer descriptor macros */
+-#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(((u64)len << 48) | ptr))
++#define MHI_RSCTRE_DATA_PTR(ptr, len) (cpu_to_le64(FIELD_PREP(GENMASK(64, 48), len) | ptr))
+ #define MHI_RSCTRE_DATA_DWORD0(cookie) (cpu_to_le32(cookie))
+-#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(MHI_PKT_TYPE_COALESCING << 16))
++#define MHI_RSCTRE_DATA_DWORD1 (cpu_to_le32(FIELD_PREP(GENMASK(23, 16), MHI_PKT_TYPE_COALESCING)
  
- #define DEBUGOFF (0x30)
--#define DEBUGOFF_DEBUGOFF_MASK (0xFFFFFFFF)
--#define DEBUGOFF_DEBUGOFF_SHIFT (0)
- 
- #define MHICTRL (0x38)
--#define MHICTRL_MHISTATE_MASK (0x0000FF00)
--#define MHICTRL_MHISTATE_SHIFT (8)
--#define MHICTRL_RESET_MASK (0x2)
--#define MHICTRL_RESET_SHIFT (1)
-+#define MHICTRL_MHISTATE_MASK (GENMASK(15, 8))
-+#define MHICTRL_RESET_MASK (BIT(1))
- 
- #define MHISTATUS (0x48)
--#define MHISTATUS_MHISTATE_MASK (0x0000FF00)
--#define MHISTATUS_MHISTATE_SHIFT (8)
--#define MHISTATUS_SYSERR_MASK (0x4)
--#define MHISTATUS_SYSERR_SHIFT (2)
--#define MHISTATUS_READY_MASK (0x1)
--#define MHISTATUS_READY_SHIFT (0)
-+#define MHISTATUS_MHISTATE_MASK (GENMASK(15, 8))
-+#define MHISTATUS_SYSERR_MASK (BIT(2))
-+#define MHISTATUS_READY_MASK (BIT(0))
- 
- #define CCABAP_LOWER (0x58)
--#define CCABAP_LOWER_CCABAP_LOWER_MASK (0xFFFFFFFF)
--#define CCABAP_LOWER_CCABAP_LOWER_SHIFT (0)
- 
- #define CCABAP_HIGHER (0x5C)
--#define CCABAP_HIGHER_CCABAP_HIGHER_MASK (0xFFFFFFFF)
--#define CCABAP_HIGHER_CCABAP_HIGHER_SHIFT (0)
- 
- #define ECABAP_LOWER (0x60)
--#define ECABAP_LOWER_ECABAP_LOWER_MASK (0xFFFFFFFF)
--#define ECABAP_LOWER_ECABAP_LOWER_SHIFT (0)
- 
- #define ECABAP_HIGHER (0x64)
--#define ECABAP_HIGHER_ECABAP_HIGHER_MASK (0xFFFFFFFF)
--#define ECABAP_HIGHER_ECABAP_HIGHER_SHIFT (0)
- 
- #define CRCBAP_LOWER (0x68)
--#define CRCBAP_LOWER_CRCBAP_LOWER_MASK (0xFFFFFFFF)
--#define CRCBAP_LOWER_CRCBAP_LOWER_SHIFT (0)
- 
- #define CRCBAP_HIGHER (0x6C)
--#define CRCBAP_HIGHER_CRCBAP_HIGHER_MASK (0xFFFFFFFF)
--#define CRCBAP_HIGHER_CRCBAP_HIGHER_SHIFT (0)
- 
- #define CRDB_LOWER (0x70)
--#define CRDB_LOWER_CRDB_LOWER_MASK (0xFFFFFFFF)
--#define CRDB_LOWER_CRDB_LOWER_SHIFT (0)
- 
- #define CRDB_HIGHER (0x74)
--#define CRDB_HIGHER_CRDB_HIGHER_MASK (0xFFFFFFFF)
--#define CRDB_HIGHER_CRDB_HIGHER_SHIFT (0)
- 
- #define MHICTRLBASE_LOWER (0x80)
--#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_MASK (0xFFFFFFFF)
--#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_SHIFT (0)
- 
- #define MHICTRLBASE_HIGHER (0x84)
--#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_MASK (0xFFFFFFFF)
--#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_SHIFT (0)
- 
- #define MHICTRLLIMIT_LOWER (0x88)
--#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_MASK (0xFFFFFFFF)
--#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_SHIFT (0)
- 
- #define MHICTRLLIMIT_HIGHER (0x8C)
--#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_MASK (0xFFFFFFFF)
--#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_SHIFT (0)
- 
- #define MHIDATABASE_LOWER (0x98)
--#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_MASK (0xFFFFFFFF)
--#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_SHIFT (0)
- 
- #define MHIDATABASE_HIGHER (0x9C)
--#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_MASK (0xFFFFFFFF)
--#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_SHIFT (0)
- 
- #define MHIDATALIMIT_LOWER (0xA0)
--#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_MASK (0xFFFFFFFF)
--#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_SHIFT (0)
- 
- #define MHIDATALIMIT_HIGHER (0xA4)
--#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_MASK (0xFFFFFFFF)
--#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_SHIFT (0)
- 
- /* Host request register */
- #define MHI_SOC_RESET_REQ_OFFSET (0xB0)
-@@ -139,8 +84,7 @@ extern struct bus_type mhi_bus_type;
- #define BHI_IMGSIZE (0x10)
- #define BHI_RSVD1 (0x14)
- #define BHI_IMGTXDB (0x18)
--#define BHI_TXDB_SEQNUM_BMSK (0x3FFFFFFF)
--#define BHI_TXDB_SEQNUM_SHFT (0)
-+#define BHI_TXDB_SEQNUM_BMSK (GENMASK(29, 0))
- #define BHI_RSVD2 (0x1C)
- #define BHI_INTVEC (0x20)
- #define BHI_RSVD3 (0x24)
-@@ -156,8 +100,7 @@ extern struct bus_type mhi_bus_type;
- #define BHI_MSMHWID(n) (0x4C + (0x4 * (n)))
- #define BHI_OEMPKHASH(n) (0x64 + (0x4 * (n)))
- #define BHI_RSVD5 (0xC4)
--#define BHI_STATUS_MASK (0xC0000000)
--#define BHI_STATUS_SHIFT (30)
-+#define BHI_STATUS_MASK (GENMASK(31, 30))
- #define BHI_STATUS_ERROR (3)
- #define BHI_STATUS_SUCCESS (2)
- #define BHI_STATUS_RESET (0)
-@@ -168,13 +111,10 @@ extern struct bus_type mhi_bus_type;
- #define BHIE_TXVECADDR_HIGH_OFFS (0x0030)
- #define BHIE_TXVECSIZE_OFFS (0x0034)
- #define BHIE_TXVECDB_OFFS (0x003C)
--#define BHIE_TXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
--#define BHIE_TXVECDB_SEQNUM_SHFT (0)
-+#define BHIE_TXVECDB_SEQNUM_BMSK (GENMASK(29, 0))
- #define BHIE_TXVECSTATUS_OFFS (0x0044)
--#define BHIE_TXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
--#define BHIE_TXVECSTATUS_SEQNUM_SHFT (0)
--#define BHIE_TXVECSTATUS_STATUS_BMSK (0xC0000000)
--#define BHIE_TXVECSTATUS_STATUS_SHFT (30)
-+#define BHIE_TXVECSTATUS_SEQNUM_BMSK (GENMASK(29, 0))
-+#define BHIE_TXVECSTATUS_STATUS_BMSK (GENMASK(31, 30))
- #define BHIE_TXVECSTATUS_STATUS_RESET (0x00)
- #define BHIE_TXVECSTATUS_STATUS_XFER_COMPL (0x02)
- #define BHIE_TXVECSTATUS_STATUS_ERROR (0x03)
-@@ -182,32 +122,23 @@ extern struct bus_type mhi_bus_type;
- #define BHIE_RXVECADDR_HIGH_OFFS (0x0064)
- #define BHIE_RXVECSIZE_OFFS (0x0068)
- #define BHIE_RXVECDB_OFFS (0x0070)
--#define BHIE_RXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
--#define BHIE_RXVECDB_SEQNUM_SHFT (0)
-+#define BHIE_RXVECDB_SEQNUM_BMSK (GENMASK(29, 0))
- #define BHIE_RXVECSTATUS_OFFS (0x0078)
--#define BHIE_RXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
--#define BHIE_RXVECSTATUS_SEQNUM_SHFT (0)
--#define BHIE_RXVECSTATUS_STATUS_BMSK (0xC0000000)
--#define BHIE_RXVECSTATUS_STATUS_SHFT (30)
-+#define BHIE_RXVECSTATUS_SEQNUM_BMSK (GENMASK(29, 0))
-+#define BHIE_RXVECSTATUS_STATUS_BMSK (GENMASK(31, 30))
- #define BHIE_RXVECSTATUS_STATUS_RESET (0x00)
- #define BHIE_RXVECSTATUS_STATUS_XFER_COMPL (0x02)
- #define BHIE_RXVECSTATUS_STATUS_ERROR (0x03)
- 
- #define SOC_HW_VERSION_OFFS (0x224)
--#define SOC_HW_VERSION_FAM_NUM_BMSK (0xF0000000)
--#define SOC_HW_VERSION_FAM_NUM_SHFT (28)
--#define SOC_HW_VERSION_DEV_NUM_BMSK (0x0FFF0000)
--#define SOC_HW_VERSION_DEV_NUM_SHFT (16)
--#define SOC_HW_VERSION_MAJOR_VER_BMSK (0x0000FF00)
--#define SOC_HW_VERSION_MAJOR_VER_SHFT (8)
--#define SOC_HW_VERSION_MINOR_VER_BMSK (0x000000FF)
--#define SOC_HW_VERSION_MINOR_VER_SHFT (0)
-+#define SOC_HW_VERSION_FAM_NUM_BMSK (GENMASK(31, 28))
-+#define SOC_HW_VERSION_DEV_NUM_BMSK (GENMASK(27, 16))
-+#define SOC_HW_VERSION_MAJOR_VER_BMSK (GENMASK(15, 8))
-+#define SOC_HW_VERSION_MINOR_VER_BMSK (GENMASK(7, 0))
- 
- #define EV_CTX_RESERVED_MASK GENMASK(7, 0)
- #define EV_CTX_INTMODC_MASK GENMASK(15, 8)
--#define EV_CTX_INTMODC_SHIFT 8
- #define EV_CTX_INTMODT_MASK GENMASK(31, 16)
--#define EV_CTX_INTMODT_SHIFT 16
- struct mhi_event_ctxt {
- 	__le32 intmod;
- 	__le32 ertype;
-@@ -220,11 +151,8 @@ struct mhi_event_ctxt {
- };
- 
- #define CHAN_CTX_CHSTATE_MASK GENMASK(7, 0)
--#define CHAN_CTX_CHSTATE_SHIFT 0
- #define CHAN_CTX_BRSTMODE_MASK GENMASK(9, 8)
--#define CHAN_CTX_BRSTMODE_SHIFT 8
- #define CHAN_CTX_POLLCFG_MASK GENMASK(15, 10)
--#define CHAN_CTX_POLLCFG_SHIFT 10
- #define CHAN_CTX_RESERVED_MASK GENMASK(31, 16)
- struct mhi_chan_ctxt {
- 	__le32 chcfg;
-@@ -659,14 +587,14 @@ int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
- 			      void __iomem *base, u32 offset, u32 *out);
- int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
- 				    void __iomem *base, u32 offset, u32 mask,
--				    u32 shift, u32 *out);
-+				    u32 *out);
- int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
- 				    void __iomem *base, u32 offset, u32 mask,
--				    u32 shift, u32 val, u32 delayus);
-+				    u32 val, u32 delayus);
- void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
- 		   u32 offset, u32 val);
- void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
--			 u32 offset, u32 mask, u32 shift, u32 val);
-+			 u32 offset, u32 mask, u32 val);
- void mhi_ring_er_db(struct mhi_event *mhi_event);
- void mhi_write_db(struct mhi_controller *mhi_cntrl, void __iomem *db_addr,
- 		  dma_addr_t db_val);
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 85f4f7c8d7c6..3e6e615466b7 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -24,7 +24,7 @@ int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
- 
- int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
- 				    void __iomem *base, u32 offset,
--				    u32 mask, u32 shift, u32 *out)
-+				    u32 mask, u32 *out)
- {
- 	u32 tmp;
- 	int ret;
-@@ -33,21 +33,20 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
- 	if (ret)
- 		return ret;
- 
--	*out = (tmp & mask) >> shift;
-+	*out = (tmp & mask) >> __ffs(mask);
- 
- 	return 0;
- }
- 
- int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
- 				    void __iomem *base, u32 offset,
--				    u32 mask, u32 shift, u32 val, u32 delayus)
-+				    u32 mask, u32 val, u32 delayus)
- {
- 	int ret;
- 	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
- 
- 	while (retry--) {
--		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, shift,
--					 &out);
-+		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
- 		if (ret)
- 			return ret;
- 
-@@ -67,7 +66,7 @@ void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
- }
- 
- void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
--			 u32 offset, u32 mask, u32 shift, u32 val)
-+			 u32 offset, u32 mask, u32 val)
- {
- 	int ret;
- 	u32 tmp;
-@@ -77,7 +76,7 @@ void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
- 		return;
- 
- 	tmp &= ~mask;
--	tmp |= (val << shift);
-+	tmp |= (val << __ffs(mask));
- 	mhi_write_reg(mhi_cntrl, base, offset, tmp);
- }
- 
-@@ -159,8 +158,7 @@ enum mhi_state mhi_get_mhi_state(struct mhi_controller *mhi_cntrl)
- {
- 	u32 state;
- 	int ret = mhi_read_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
--				     MHISTATUS_MHISTATE_MASK,
--				     MHISTATUS_MHISTATE_SHIFT, &state);
-+				     MHISTATUS_MHISTATE_MASK, &state);
- 	return ret ? MHI_STATE_MAX : state;
- }
- EXPORT_SYMBOL_GPL(mhi_get_mhi_state);
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index c35c5ddc7220..bb8a23e80e19 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -131,11 +131,10 @@ void mhi_set_mhi_state(struct mhi_controller *mhi_cntrl, enum mhi_state state)
- {
- 	if (state == MHI_STATE_RESET) {
- 		mhi_write_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
--				    MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 1);
-+				    MHICTRL_RESET_MASK, 1);
- 	} else {
- 		mhi_write_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
--				    MHICTRL_MHISTATE_MASK,
--				    MHICTRL_MHISTATE_SHIFT, state);
-+				    MHICTRL_MHISTATE_MASK, state);
- 	}
- }
- 
-@@ -167,16 +166,14 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
- 
- 	/* Wait for RESET to be cleared and READY bit to be set by the device */
- 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
--				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
--				 interval_us);
-+				 MHICTRL_RESET_MASK, 0, interval_us);
- 	if (ret) {
- 		dev_err(dev, "Device failed to clear MHI Reset\n");
- 		return ret;
- 	}
- 
- 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
--				 MHISTATUS_READY_MASK, MHISTATUS_READY_SHIFT, 1,
--				 interval_us);
-+				 MHISTATUS_READY_MASK, 1, interval_us);
- 	if (ret) {
- 		dev_err(dev, "Device failed to enter MHI Ready\n");
- 		return ret;
-@@ -470,8 +467,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
- 
- 		/* Wait for the reset bit to be cleared by the device */
- 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
--				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
--				 25000);
-+				 MHICTRL_RESET_MASK, 0, 25000);
- 		if (ret)
- 			dev_err(dev, "Device failed to clear MHI Reset\n");
- 
-@@ -602,7 +598,6 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
- 							    mhi_cntrl->regs,
- 							    MHICTRL,
- 							    MHICTRL_RESET_MASK,
--							    MHICTRL_RESET_SHIFT,
- 							    &in_reset) ||
- 					!in_reset, timeout);
- 		if (!ret || in_reset) {
-@@ -1093,8 +1088,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 	if (state == MHI_STATE_SYS_ERR) {
- 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
- 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
--				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
--				 interval_us);
-+				 MHICTRL_RESET_MASK, 0, interval_us);
- 		if (ret) {
- 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
- 			goto error_exit;
+ enum mhi_pkt_type {
+ 	MHI_PKT_TYPE_INVALID = 0x0,
 -- 
 2.25.1
 
