@@ -1,41 +1,41 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA3A5CAB
-	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 16:03:39 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id 15-20020a17090a098f00b001bef0376d5cso121792pjo.5
-        for <mhi@lists.linux.dev>; Tue, 01 Mar 2022 08:03:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8685CAB
+	for <mhi@lists.linux.dev>; Tue,  1 Mar 2022 16:03:42 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id g7-20020a17090a708700b001bb78857ccdso2332220pjk.1
+        for <mhi@lists.linux.dev>; Tue, 01 Mar 2022 08:03:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=37H2SCIcd0NGgB8HVqt8l3vRUxyFXtyBqdC2/L2gdR4=;
-        b=NRc4ZB5BupUSPQc61wwXQY0vZF0dWXJhbfdsaTV4MypsD72aOXPMLyQrstqokY1MZo
-         RiC/AxniymUaoj0pYlEEz1HpdeR45b19GIecnIfxFDnGEPRV6HtVMOm1SWrA8xuvIJX/
-         GE1CAEhUuqQeeozaMmWcwfxdkBpTkyjhcEXj0I1NzQq6KlFvcmofvkt5TWf+BeZBf5Vb
-         oYEWGn6Fz6ekcySYqaxxhCNNoO3V4ywMI2uA2FgGRVZu8JFDv3ehBVXYe+/WnsYuo+KU
-         unyt9ZWa0d/kA++jcVksreuon5vvhgRNMlGCz84YzeFiL1QJtLgT2mPHrEo42nXSkQyE
-         36iQ==
+        bh=CxtZZOug5pAozaT+Hjy+nXQP3phus2MtPvrSLnbfFXs=;
+        b=ia0OEKNkz/1nLdlUs3dPVcvblbquRI2dW9reDoRSKanyZnPKgJC6Lbma+paloPRdsM
+         vef/8erznmKlvkNsEY032hN6aDC7EUHlTLdkZC6GzLd2Om/uGdP/pNkobWOMX0OeCA2l
+         /osfWp35kBW7/IFLEkJNV35sG9f3N6Mx2T6ul3mTBwmNtEbDNz12AUiZf+3FeQsyT0Ru
+         u971rZZx91s2dl6/25TzDucpoTh1XH/+xIdMMaWdh6BMvhbjRzpYf2wey/wtZOfvuQBF
+         C5NddDixulZyV9Oug5vg4BoVPG0VexeKX6H5wgNPqvRXjcTa6a2O+rrNmIo7qmDCQFPO
+         xTjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=37H2SCIcd0NGgB8HVqt8l3vRUxyFXtyBqdC2/L2gdR4=;
-        b=AWR6CM2/ZmsWf8U1L8ip6+9W9EJwYsuW9ND8nt7nnN5s7DsDMjqnJDpF2D/XPhgSHz
-         Rz+FUk4pkJz423n81ak9AHLOMfBo8U+YDuqlAPJ7J1R0s7I+thQit4wZkzOPStTBL/Xl
-         3YVY2bjkyPZ7ZWI8JrRpfs4eybMCsbiDWrMHOjdcVFgml9UzT4tx+i8BjVD8qTn8/k4H
-         +M4/WvzCvNq0+8plJMJCQyGxF+97qqBTmf4141zr5k4a4kyjNP100EUTLR58vn3oWie0
-         SmAyBQ+OPGe/zJ1P+OXgEzoqaNmEsovC04vOdpZHeCD03MtN0KTuf1kMyvwqZgWDElSH
-         X9rQ==
-X-Gm-Message-State: AOAM5313rcDXu0Yj1PFnkxVI3YHb8cM8NTRZzgwNUFPmH2hDChbI4vC9
-	YQiuhVdiFQWaBYik6wo+JBQO
-X-Google-Smtp-Source: ABdhPJzv6LHBu35KQ0u9lyvLRrRL7BAKiiARtocwCQcXTPiUB6twtjyk94EIKmCyzeOvbr4dFINuGg==
-X-Received: by 2002:a17:90a:9517:b0:1bc:81ef:79cd with SMTP id t23-20020a17090a951700b001bc81ef79cdmr22229860pjo.164.1646150618733;
-        Tue, 01 Mar 2022 08:03:38 -0800 (PST)
+        bh=CxtZZOug5pAozaT+Hjy+nXQP3phus2MtPvrSLnbfFXs=;
+        b=zloEIoNbTllZmVZEAZW/FlPtAgTzSQY1eb6Bukth3pxk1CNE6BXYlLxFCFd7uK9aLt
+         Q81rAdCQ8QQT0gfGATqnbVviQNrH0wnSGLoWciw3qgeBzIC9gw26WAOxs2s7rDVrAsSi
+         WPC2gX5rIJlX6uyovEZoyswqF1wDAXxtHbZjIfT6CZGYjMMNZRHuc8vg6NeB97mR8vEb
+         n4l1podCvaKywlfbQQ4qENqToHPOg/cv700T+hy8hv3DOig4FUQzVeMWhFhnwfvTPUJ+
+         T3kkz6JP4jDeGxDee3cCL90Zf/5Ugl40uZhojixbYE6OYkXG4FBaYZFLn+SN3h0EPzlB
+         b/zg==
+X-Gm-Message-State: AOAM5333Zs20N4L00q+ymf5ObMKwryI0482d3a1meuAJxaOZL+5Gvb4p
+	6nkJ07ijxYgGuIBqdl/WvOnN
+X-Google-Smtp-Source: ABdhPJyUldq8f9jbPN5uQyZ6VT/PhQfHBR+v2LWGysA2KQGrdDk1i/Q7qTY+AQ1+Mi5BD0p8LElPiQ==
+X-Received: by 2002:a17:902:b201:b0:14d:66b5:5d69 with SMTP id t1-20020a170902b20100b0014d66b55d69mr25755553plr.95.1646150622086;
+        Tue, 01 Mar 2022 08:03:42 -0800 (PST)
 Received: from localhost.localdomain ([117.207.25.80])
-        by smtp.gmail.com with ESMTPSA id m17-20020a17090a859100b001bc20ddcc67sm2489530pjn.34.2022.03.01.08.03.35
+        by smtp.gmail.com with ESMTPSA id m17-20020a17090a859100b001bc20ddcc67sm2489530pjn.34.2022.03.01.08.03.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 08:03:38 -0800 (PST)
+        Tue, 01 Mar 2022 08:03:41 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev,
@@ -43,11 +43,10 @@ Cc: mhi@lists.linux.dev,
 	quic_bbhatt@quicinc.com,
 	elder@linaro.org,
 	paul.davey@alliedtelesis.co.nz,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Hemant Kumar <hemantk@codeaurora.org>
-Subject: [PATCH 04/10] bus: mhi: Move host MHI code to "host" directory
-Date: Tue,  1 Mar 2022 21:33:02 +0530
-Message-Id: <20220301160308.107452-5-manivannan.sadhasivam@linaro.org>
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 05/10] bus: mhi: Use bitfield operations for register read and write
+Date: Tue,  1 Mar 2022 21:33:03 +0530
+Message-Id: <20220301160308.107452-6-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301160308.107452-1-manivannan.sadhasivam@linaro.org>
 References: <20220301160308.107452-1-manivannan.sadhasivam@linaro.org>
@@ -59,179 +58,685 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In preparation of the endpoint MHI support, let's move the host MHI code
-to its own "host" directory and adjust the toplevel MHI Kconfig & Makefile.
+Functions like mhi_read_reg_field(), mhi_poll_reg_field() and
+mhi_write_reg_field() could be modified to not depend on the shift value
+passed as an argument. Instead, the bitfield operation could be used to
+extract the shift value from the mask itself.
 
-While at it, let's also move the "pci_generic" driver to "host" directory
-as it is a host MHI controller driver.
+This eliminates the need to define _SHIFT (and _SHFT) macros and
+simplifies the code a bit. For shift values those cannot be determined
+during build time, "__ffs()" helper is used find the shift value during
+runtime.
 
-Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
+While at it, let's also get rid of 32-bit masks like CHDBOFF_CHDBOFF_MASK
+by doing the full 32-bit register read.
+
+Suggested-by: Alex Elder <elder@linaro.org>
 Reviewed-by: Alex Elder <elder@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/Makefile                      |  2 +-
- drivers/bus/mhi/Kconfig                   | 27 ++------------------
- drivers/bus/mhi/Makefile                  |  8 ++----
- drivers/bus/mhi/host/Kconfig              | 31 +++++++++++++++++++++++
- drivers/bus/mhi/{core => host}/Makefile   |  4 ++-
- drivers/bus/mhi/{core => host}/boot.c     |  0
- drivers/bus/mhi/{core => host}/debugfs.c  |  0
- drivers/bus/mhi/{core => host}/init.c     |  0
- drivers/bus/mhi/{core => host}/internal.h |  0
- drivers/bus/mhi/{core => host}/main.c     |  0
- drivers/bus/mhi/{ => host}/pci_generic.c  |  0
- drivers/bus/mhi/{core => host}/pm.c       |  0
- 12 files changed, 39 insertions(+), 33 deletions(-)
- create mode 100644 drivers/bus/mhi/host/Kconfig
- rename drivers/bus/mhi/{core => host}/Makefile (54%)
- rename drivers/bus/mhi/{core => host}/boot.c (100%)
- rename drivers/bus/mhi/{core => host}/debugfs.c (100%)
- rename drivers/bus/mhi/{core => host}/init.c (100%)
- rename drivers/bus/mhi/{core => host}/internal.h (100%)
- rename drivers/bus/mhi/{core => host}/main.c (100%)
- rename drivers/bus/mhi/{ => host}/pci_generic.c (100%)
- rename drivers/bus/mhi/{core => host}/pm.c (100%)
+ drivers/bus/mhi/host/boot.c     |  15 ++--
+ drivers/bus/mhi/host/debugfs.c  |  10 +--
+ drivers/bus/mhi/host/init.c     |  67 ++++++++----------
+ drivers/bus/mhi/host/internal.h | 120 +++++++-------------------------
+ drivers/bus/mhi/host/main.c     |  16 ++---
+ drivers/bus/mhi/host/pm.c       |  18 ++---
+ 6 files changed, 76 insertions(+), 170 deletions(-)
 
-diff --git a/drivers/bus/Makefile b/drivers/bus/Makefile
-index 52c2f35a26a9..16da51130d1a 100644
---- a/drivers/bus/Makefile
-+++ b/drivers/bus/Makefile
-@@ -39,4 +39,4 @@ obj-$(CONFIG_VEXPRESS_CONFIG)	+= vexpress-config.o
- obj-$(CONFIG_DA8XX_MSTPRI)	+= da8xx-mstpri.o
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index 74295d3cc662..d5ba3c7efb61 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -46,8 +46,7 @@ void mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
+ 	sequence_id = MHI_RANDOM_U32_NONZERO(BHIE_RXVECSTATUS_SEQNUM_BMSK);
  
- # MHI
--obj-$(CONFIG_MHI_BUS)		+= mhi/
-+obj-y				+= mhi/
-diff --git a/drivers/bus/mhi/Kconfig b/drivers/bus/mhi/Kconfig
-index da5cd0c9fc62..4748df7f9cd5 100644
---- a/drivers/bus/mhi/Kconfig
-+++ b/drivers/bus/mhi/Kconfig
-@@ -2,30 +2,7 @@
- #
- # MHI bus
- #
--# Copyright (c) 2018-2020, The Linux Foundation. All rights reserved.
-+# Copyright (c) 2021, Linaro Ltd.
- #
+ 	mhi_write_reg_field(mhi_cntrl, base, BHIE_RXVECDB_OFFS,
+-			    BHIE_RXVECDB_SEQNUM_BMSK, BHIE_RXVECDB_SEQNUM_SHFT,
+-			    sequence_id);
++			    BHIE_RXVECDB_SEQNUM_BMSK, sequence_id);
  
--config MHI_BUS
--	tristate "Modem Host Interface (MHI) bus"
--	help
--	  Bus driver for MHI protocol. Modem Host Interface (MHI) is a
--	  communication protocol used by the host processors to control
--	  and communicate with modem devices over a high speed peripheral
--	  bus or shared memory.
--
--config MHI_BUS_DEBUG
--	bool "Debugfs support for the MHI bus"
--	depends on MHI_BUS && DEBUG_FS
--	help
--	  Enable debugfs support for use with the MHI transport. Allows
--	  reading and/or modifying some values within the MHI controller
--	  for debug and test purposes.
--
--config MHI_BUS_PCI_GENERIC
--	tristate "MHI PCI controller driver"
--	depends on MHI_BUS
--	depends on PCI
--	help
--	  This driver provides MHI PCI controller driver for devices such as
--	  Qualcomm SDX55 based PCIe modems.
--
-+source "drivers/bus/mhi/host/Kconfig"
-diff --git a/drivers/bus/mhi/Makefile b/drivers/bus/mhi/Makefile
-index 0a2d778d6fb4..5f5708a249f5 100644
---- a/drivers/bus/mhi/Makefile
-+++ b/drivers/bus/mhi/Makefile
-@@ -1,6 +1,2 @@
--# core layer
--obj-y += core/
--
--obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
--mhi_pci_generic-y += pci_generic.o
--
-+# Host MHI stack
-+obj-y += host/
-diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
-new file mode 100644
-index 000000000000..da5cd0c9fc62
---- /dev/null
-+++ b/drivers/bus/mhi/host/Kconfig
-@@ -0,0 +1,31 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# MHI bus
-+#
-+# Copyright (c) 2018-2020, The Linux Foundation. All rights reserved.
-+#
-+
-+config MHI_BUS
-+	tristate "Modem Host Interface (MHI) bus"
-+	help
-+	  Bus driver for MHI protocol. Modem Host Interface (MHI) is a
-+	  communication protocol used by the host processors to control
-+	  and communicate with modem devices over a high speed peripheral
-+	  bus or shared memory.
-+
-+config MHI_BUS_DEBUG
-+	bool "Debugfs support for the MHI bus"
-+	depends on MHI_BUS && DEBUG_FS
-+	help
-+	  Enable debugfs support for use with the MHI transport. Allows
-+	  reading and/or modifying some values within the MHI controller
-+	  for debug and test purposes.
-+
-+config MHI_BUS_PCI_GENERIC
-+	tristate "MHI PCI controller driver"
-+	depends on MHI_BUS
-+	depends on PCI
-+	help
-+	  This driver provides MHI PCI controller driver for devices such as
-+	  Qualcomm SDX55 based PCIe modems.
-+
-diff --git a/drivers/bus/mhi/core/Makefile b/drivers/bus/mhi/host/Makefile
-similarity index 54%
-rename from drivers/bus/mhi/core/Makefile
-rename to drivers/bus/mhi/host/Makefile
-index c3feb4130aa3..859c2f38451c 100644
---- a/drivers/bus/mhi/core/Makefile
-+++ b/drivers/bus/mhi/host/Makefile
-@@ -1,4 +1,6 @@
- obj-$(CONFIG_MHI_BUS) += mhi.o
--
- mhi-y := init.o main.o pm.o boot.o
- mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
-+
-+obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
-+mhi_pci_generic-y += pci_generic.o
-diff --git a/drivers/bus/mhi/core/boot.c b/drivers/bus/mhi/host/boot.c
-similarity index 100%
-rename from drivers/bus/mhi/core/boot.c
-rename to drivers/bus/mhi/host/boot.c
-diff --git a/drivers/bus/mhi/core/debugfs.c b/drivers/bus/mhi/host/debugfs.c
-similarity index 100%
-rename from drivers/bus/mhi/core/debugfs.c
-rename to drivers/bus/mhi/host/debugfs.c
-diff --git a/drivers/bus/mhi/core/init.c b/drivers/bus/mhi/host/init.c
-similarity index 100%
-rename from drivers/bus/mhi/core/init.c
-rename to drivers/bus/mhi/host/init.c
-diff --git a/drivers/bus/mhi/core/internal.h b/drivers/bus/mhi/host/internal.h
-similarity index 100%
-rename from drivers/bus/mhi/core/internal.h
-rename to drivers/bus/mhi/host/internal.h
-diff --git a/drivers/bus/mhi/core/main.c b/drivers/bus/mhi/host/main.c
-similarity index 100%
-rename from drivers/bus/mhi/core/main.c
-rename to drivers/bus/mhi/host/main.c
-diff --git a/drivers/bus/mhi/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-similarity index 100%
-rename from drivers/bus/mhi/pci_generic.c
-rename to drivers/bus/mhi/host/pci_generic.c
-diff --git a/drivers/bus/mhi/core/pm.c b/drivers/bus/mhi/host/pm.c
-similarity index 100%
-rename from drivers/bus/mhi/core/pm.c
-rename to drivers/bus/mhi/host/pm.c
+ 	dev_dbg(dev, "Address: %p and len: 0x%zx sequence: %u\n",
+ 		&mhi_buf->dma_addr, mhi_buf->len, sequence_id);
+@@ -127,9 +126,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
+ 
+ 	while (retry--) {
+ 		ret = mhi_read_reg_field(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS,
+-					 BHIE_RXVECSTATUS_STATUS_BMSK,
+-					 BHIE_RXVECSTATUS_STATUS_SHFT,
+-					 &rx_status);
++					 BHIE_RXVECSTATUS_STATUS_BMSK, &rx_status);
+ 		if (ret)
+ 			return -EIO;
+ 
+@@ -168,7 +165,6 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
+ 			   mhi_read_reg_field(mhi_cntrl, base,
+ 					      BHIE_RXVECSTATUS_OFFS,
+ 					      BHIE_RXVECSTATUS_STATUS_BMSK,
+-					      BHIE_RXVECSTATUS_STATUS_SHFT,
+ 					      &rx_status) || rx_status,
+ 			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
+ 
+@@ -203,8 +199,7 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
+ 	mhi_write_reg(mhi_cntrl, base, BHIE_TXVECSIZE_OFFS, mhi_buf->len);
+ 
+ 	mhi_write_reg_field(mhi_cntrl, base, BHIE_TXVECDB_OFFS,
+-			    BHIE_TXVECDB_SEQNUM_BMSK, BHIE_TXVECDB_SEQNUM_SHFT,
+-			    sequence_id);
++			    BHIE_TXVECDB_SEQNUM_BMSK, sequence_id);
+ 	read_unlock_bh(pm_lock);
+ 
+ 	/* Wait for the image download to complete */
+@@ -213,7 +208,6 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
+ 				 mhi_read_reg_field(mhi_cntrl, base,
+ 						   BHIE_TXVECSTATUS_OFFS,
+ 						   BHIE_TXVECSTATUS_STATUS_BMSK,
+-						   BHIE_TXVECSTATUS_STATUS_SHFT,
+ 						   &tx_status) || tx_status,
+ 				 msecs_to_jiffies(mhi_cntrl->timeout_ms));
+ 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state) ||
+@@ -265,8 +259,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+ 	ret = wait_event_timeout(mhi_cntrl->state_event,
+ 			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state) ||
+ 			   mhi_read_reg_field(mhi_cntrl, base, BHI_STATUS,
+-					      BHI_STATUS_MASK, BHI_STATUS_SHIFT,
+-					      &tx_status) || tx_status,
++					      BHI_STATUS_MASK, &tx_status) || tx_status,
+ 			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
+ 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state))
+ 		goto invalid_pm_state;
+diff --git a/drivers/bus/mhi/host/debugfs.c b/drivers/bus/mhi/host/debugfs.c
+index d818586c229d..bdc875d7bd4d 100644
+--- a/drivers/bus/mhi/host/debugfs.c
++++ b/drivers/bus/mhi/host/debugfs.c
+@@ -61,9 +61,9 @@ static int mhi_debugfs_events_show(struct seq_file *m, void *d)
+ 
+ 		seq_printf(m, "Index: %d intmod count: %lu time: %lu",
+ 			   i, (le32_to_cpu(er_ctxt->intmod) & EV_CTX_INTMODC_MASK) >>
+-			   EV_CTX_INTMODC_SHIFT,
++			   __ffs(EV_CTX_INTMODC_MASK),
+ 			   (le32_to_cpu(er_ctxt->intmod) & EV_CTX_INTMODT_MASK) >>
+-			   EV_CTX_INTMODT_SHIFT);
++			   __ffs(EV_CTX_INTMODT_MASK));
+ 
+ 		seq_printf(m, " base: 0x%0llx len: 0x%llx", le64_to_cpu(er_ctxt->rbase),
+ 			   le64_to_cpu(er_ctxt->rlen));
+@@ -107,10 +107,10 @@ static int mhi_debugfs_channels_show(struct seq_file *m, void *d)
+ 		seq_printf(m,
+ 			   "%s(%u) state: 0x%lx brstmode: 0x%lx pollcfg: 0x%lx",
+ 			   mhi_chan->name, mhi_chan->chan, (le32_to_cpu(chan_ctxt->chcfg) &
+-			   CHAN_CTX_CHSTATE_MASK) >> CHAN_CTX_CHSTATE_SHIFT,
++			   CHAN_CTX_CHSTATE_MASK) >> __ffs(CHAN_CTX_CHSTATE_MASK),
+ 			   (le32_to_cpu(chan_ctxt->chcfg) & CHAN_CTX_BRSTMODE_MASK) >>
+-			   CHAN_CTX_BRSTMODE_SHIFT, (le32_to_cpu(chan_ctxt->chcfg) &
+-			   CHAN_CTX_POLLCFG_MASK) >> CHAN_CTX_POLLCFG_SHIFT);
++			   __ffs(CHAN_CTX_BRSTMODE_MASK), (le32_to_cpu(chan_ctxt->chcfg) &
++			   CHAN_CTX_POLLCFG_MASK) >> __ffs(CHAN_CTX_POLLCFG_MASK));
+ 
+ 		seq_printf(m, " type: 0x%x event ring: %u", le32_to_cpu(chan_ctxt->chtype),
+ 			   le32_to_cpu(chan_ctxt->erindex));
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index d8787aaa176b..ca068a017a42 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -4,6 +4,7 @@
+  *
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/dma-direction.h>
+@@ -295,11 +296,11 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+ 
+ 		tmp = le32_to_cpu(chan_ctxt->chcfg);
+ 		tmp &= ~CHAN_CTX_CHSTATE_MASK;
+-		tmp |= (MHI_CH_STATE_DISABLED << CHAN_CTX_CHSTATE_SHIFT);
++		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_DISABLED);
+ 		tmp &= ~CHAN_CTX_BRSTMODE_MASK;
+-		tmp |= (mhi_chan->db_cfg.brstmode << CHAN_CTX_BRSTMODE_SHIFT);
++		tmp |= FIELD_PREP(CHAN_CTX_BRSTMODE_MASK, mhi_chan->db_cfg.brstmode);
+ 		tmp &= ~CHAN_CTX_POLLCFG_MASK;
+-		tmp |= (mhi_chan->db_cfg.pollcfg << CHAN_CTX_POLLCFG_SHIFT);
++		tmp |= FIELD_PREP(CHAN_CTX_POLLCFG_MASK, mhi_chan->db_cfg.pollcfg);
+ 		chan_ctxt->chcfg = cpu_to_le32(tmp);
+ 
+ 		chan_ctxt->chtype = cpu_to_le32(mhi_chan->type);
+@@ -331,7 +332,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+ 		tmp = le32_to_cpu(er_ctxt->intmod);
+ 		tmp &= ~EV_CTX_INTMODC_MASK;
+ 		tmp &= ~EV_CTX_INTMODT_MASK;
+-		tmp |= (mhi_event->intmod << EV_CTX_INTMODT_SHIFT);
++		tmp |= FIELD_PREP(EV_CTX_INTMODT_MASK, mhi_event->intmod);
+ 		er_ctxt->intmod = cpu_to_le32(tmp);
+ 
+ 		er_ctxt->ertype = cpu_to_le32(MHI_ER_TYPE_VALID);
+@@ -437,71 +438,70 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 	struct {
+ 		u32 offset;
+ 		u32 mask;
+-		u32 shift;
+ 		u32 val;
+ 	} reg_info[] = {
+ 		{
+-			CCABAP_HIGHER, U32_MAX, 0,
++			CCABAP_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
+ 		},
+ 		{
+-			CCABAP_LOWER, U32_MAX, 0,
++			CCABAP_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
+ 		},
+ 		{
+-			ECABAP_HIGHER, U32_MAX, 0,
++			ECABAP_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
+ 		},
+ 		{
+-			ECABAP_LOWER, U32_MAX, 0,
++			ECABAP_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
+ 		},
+ 		{
+-			CRCBAP_HIGHER, U32_MAX, 0,
++			CRCBAP_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
+ 		},
+ 		{
+-			CRCBAP_LOWER, U32_MAX, 0,
++			CRCBAP_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
+ 		},
+ 		{
+-			MHICFG, MHICFG_NER_MASK, MHICFG_NER_SHIFT,
++			MHICFG, MHICFG_NER_MASK,
+ 			mhi_cntrl->total_ev_rings,
+ 		},
+ 		{
+-			MHICFG, MHICFG_NHWER_MASK, MHICFG_NHWER_SHIFT,
++			MHICFG, MHICFG_NHWER_MASK,
+ 			mhi_cntrl->hw_ev_rings,
+ 		},
+ 		{
+-			MHICTRLBASE_HIGHER, U32_MAX, 0,
++			MHICTRLBASE_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->iova_start),
+ 		},
+ 		{
+-			MHICTRLBASE_LOWER, U32_MAX, 0,
++			MHICTRLBASE_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->iova_start),
+ 		},
+ 		{
+-			MHIDATABASE_HIGHER, U32_MAX, 0,
++			MHIDATABASE_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->iova_start),
+ 		},
+ 		{
+-			MHIDATABASE_LOWER, U32_MAX, 0,
++			MHIDATABASE_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->iova_start),
+ 		},
+ 		{
+-			MHICTRLLIMIT_HIGHER, U32_MAX, 0,
++			MHICTRLLIMIT_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->iova_stop),
+ 		},
+ 		{
+-			MHICTRLLIMIT_LOWER, U32_MAX, 0,
++			MHICTRLLIMIT_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->iova_stop),
+ 		},
+ 		{
+-			MHIDATALIMIT_HIGHER, U32_MAX, 0,
++			MHIDATALIMIT_HIGHER, U32_MAX,
+ 			upper_32_bits(mhi_cntrl->iova_stop),
+ 		},
+ 		{
+-			MHIDATALIMIT_LOWER, U32_MAX, 0,
++			MHIDATALIMIT_LOWER, U32_MAX,
+ 			lower_32_bits(mhi_cntrl->iova_stop),
+ 		},
+ 		{ 0, 0, 0 }
+@@ -510,8 +510,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 	dev_dbg(dev, "Initializing MHI registers\n");
+ 
+ 	/* Read channel db offset */
+-	ret = mhi_read_reg_field(mhi_cntrl, base, CHDBOFF, CHDBOFF_CHDBOFF_MASK,
+-				 CHDBOFF_CHDBOFF_SHIFT, &val);
++	ret = mhi_read_reg(mhi_cntrl, base, CHDBOFF, &val);
+ 	if (ret) {
+ 		dev_err(dev, "Unable to read CHDBOFF register\n");
+ 		return -EIO;
+@@ -527,8 +526,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 		mhi_chan->tre_ring.db_addr = base + val;
+ 
+ 	/* Read event ring db offset */
+-	ret = mhi_read_reg_field(mhi_cntrl, base, ERDBOFF, ERDBOFF_ERDBOFF_MASK,
+-				 ERDBOFF_ERDBOFF_SHIFT, &val);
++	ret = mhi_read_reg(mhi_cntrl, base, ERDBOFF, &val);
+ 	if (ret) {
+ 		dev_err(dev, "Unable to read ERDBOFF register\n");
+ 		return -EIO;
+@@ -549,8 +547,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 	/* Write to MMIO registers */
+ 	for (i = 0; reg_info[i].offset; i++)
+ 		mhi_write_reg_field(mhi_cntrl, base, reg_info[i].offset,
+-				    reg_info[i].mask, reg_info[i].shift,
+-				    reg_info[i].val);
++				    reg_info[i].mask, reg_info[i].val);
+ 
+ 	return 0;
+ }
+@@ -583,7 +580,7 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
+ 
+ 	tmp = le32_to_cpu(chan_ctxt->chcfg);
+ 	tmp &= ~CHAN_CTX_CHSTATE_MASK;
+-	tmp |= (MHI_CH_STATE_DISABLED << CHAN_CTX_CHSTATE_SHIFT);
++	tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_DISABLED);
+ 	chan_ctxt->chcfg = cpu_to_le32(tmp);
+ 
+ 	/* Update to all cores */
+@@ -620,7 +617,7 @@ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
+ 
+ 	tmp = le32_to_cpu(chan_ctxt->chcfg);
+ 	tmp &= ~CHAN_CTX_CHSTATE_MASK;
+-	tmp |= (MHI_CH_STATE_ENABLED << CHAN_CTX_CHSTATE_SHIFT);
++	tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_ENABLED);
+ 	chan_ctxt->chcfg = cpu_to_le32(tmp);
+ 
+ 	chan_ctxt->rbase = cpu_to_le64(tre_ring->iommu_base);
+@@ -964,14 +961,10 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
+ 	if (ret)
+ 		goto err_destroy_wq;
+ 
+-	mhi_cntrl->family_number = (soc_info & SOC_HW_VERSION_FAM_NUM_BMSK) >>
+-					SOC_HW_VERSION_FAM_NUM_SHFT;
+-	mhi_cntrl->device_number = (soc_info & SOC_HW_VERSION_DEV_NUM_BMSK) >>
+-					SOC_HW_VERSION_DEV_NUM_SHFT;
+-	mhi_cntrl->major_version = (soc_info & SOC_HW_VERSION_MAJOR_VER_BMSK) >>
+-					SOC_HW_VERSION_MAJOR_VER_SHFT;
+-	mhi_cntrl->minor_version = (soc_info & SOC_HW_VERSION_MINOR_VER_BMSK) >>
+-					SOC_HW_VERSION_MINOR_VER_SHFT;
++	mhi_cntrl->family_number = FIELD_GET(SOC_HW_VERSION_FAM_NUM_BMSK, soc_info);
++	mhi_cntrl->device_number = FIELD_GET(SOC_HW_VERSION_DEV_NUM_BMSK, soc_info);
++	mhi_cntrl->major_version = FIELD_GET(SOC_HW_VERSION_MAJOR_VER_BMSK, soc_info);
++	mhi_cntrl->minor_version = FIELD_GET(SOC_HW_VERSION_MINOR_VER_BMSK, soc_info);
+ 
+ 	mhi_cntrl->index = ida_alloc(&mhi_controller_ida, GFP_KERNEL);
+ 	if (mhi_cntrl->index < 0) {
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 37c39bf1c7a9..156bf65b6810 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -12,120 +12,65 @@
+ extern struct bus_type mhi_bus_type;
+ 
+ #define MHIREGLEN (0x0)
+-#define MHIREGLEN_MHIREGLEN_MASK (0xFFFFFFFF)
+-#define MHIREGLEN_MHIREGLEN_SHIFT (0)
+ 
+ #define MHIVER (0x8)
+-#define MHIVER_MHIVER_MASK (0xFFFFFFFF)
+-#define MHIVER_MHIVER_SHIFT (0)
+ 
+ #define MHICFG (0x10)
+-#define MHICFG_NHWER_MASK (0xFF000000)
+-#define MHICFG_NHWER_SHIFT (24)
+-#define MHICFG_NER_MASK (0xFF0000)
+-#define MHICFG_NER_SHIFT (16)
+-#define MHICFG_NHWCH_MASK (0xFF00)
+-#define MHICFG_NHWCH_SHIFT (8)
+-#define MHICFG_NCH_MASK (0xFF)
+-#define MHICFG_NCH_SHIFT (0)
++#define MHICFG_NHWER_MASK (GENMASK(31, 24))
++#define MHICFG_NER_MASK (GENMASK(23, 16))
++#define MHICFG_NHWCH_MASK (GENMASK(15, 8))
++#define MHICFG_NCH_MASK (GENMASK(7, 0))
+ 
+ #define CHDBOFF (0x18)
+-#define CHDBOFF_CHDBOFF_MASK (0xFFFFFFFF)
+-#define CHDBOFF_CHDBOFF_SHIFT (0)
+ 
+ #define ERDBOFF (0x20)
+-#define ERDBOFF_ERDBOFF_MASK (0xFFFFFFFF)
+-#define ERDBOFF_ERDBOFF_SHIFT (0)
+ 
+ #define BHIOFF (0x28)
+-#define BHIOFF_BHIOFF_MASK (0xFFFFFFFF)
+-#define BHIOFF_BHIOFF_SHIFT (0)
+ 
+ #define BHIEOFF (0x2C)
+-#define BHIEOFF_BHIEOFF_MASK (0xFFFFFFFF)
+-#define BHIEOFF_BHIEOFF_SHIFT (0)
+ 
+ #define DEBUGOFF (0x30)
+-#define DEBUGOFF_DEBUGOFF_MASK (0xFFFFFFFF)
+-#define DEBUGOFF_DEBUGOFF_SHIFT (0)
+ 
+ #define MHICTRL (0x38)
+-#define MHICTRL_MHISTATE_MASK (0x0000FF00)
+-#define MHICTRL_MHISTATE_SHIFT (8)
+-#define MHICTRL_RESET_MASK (0x2)
+-#define MHICTRL_RESET_SHIFT (1)
++#define MHICTRL_MHISTATE_MASK (GENMASK(15, 8))
++#define MHICTRL_RESET_MASK (BIT(1))
+ 
+ #define MHISTATUS (0x48)
+-#define MHISTATUS_MHISTATE_MASK (0x0000FF00)
+-#define MHISTATUS_MHISTATE_SHIFT (8)
+-#define MHISTATUS_SYSERR_MASK (0x4)
+-#define MHISTATUS_SYSERR_SHIFT (2)
+-#define MHISTATUS_READY_MASK (0x1)
+-#define MHISTATUS_READY_SHIFT (0)
++#define MHISTATUS_MHISTATE_MASK (GENMASK(15, 8))
++#define MHISTATUS_SYSERR_MASK (BIT(2))
++#define MHISTATUS_READY_MASK (BIT(0))
+ 
+ #define CCABAP_LOWER (0x58)
+-#define CCABAP_LOWER_CCABAP_LOWER_MASK (0xFFFFFFFF)
+-#define CCABAP_LOWER_CCABAP_LOWER_SHIFT (0)
+ 
+ #define CCABAP_HIGHER (0x5C)
+-#define CCABAP_HIGHER_CCABAP_HIGHER_MASK (0xFFFFFFFF)
+-#define CCABAP_HIGHER_CCABAP_HIGHER_SHIFT (0)
+ 
+ #define ECABAP_LOWER (0x60)
+-#define ECABAP_LOWER_ECABAP_LOWER_MASK (0xFFFFFFFF)
+-#define ECABAP_LOWER_ECABAP_LOWER_SHIFT (0)
+ 
+ #define ECABAP_HIGHER (0x64)
+-#define ECABAP_HIGHER_ECABAP_HIGHER_MASK (0xFFFFFFFF)
+-#define ECABAP_HIGHER_ECABAP_HIGHER_SHIFT (0)
+ 
+ #define CRCBAP_LOWER (0x68)
+-#define CRCBAP_LOWER_CRCBAP_LOWER_MASK (0xFFFFFFFF)
+-#define CRCBAP_LOWER_CRCBAP_LOWER_SHIFT (0)
+ 
+ #define CRCBAP_HIGHER (0x6C)
+-#define CRCBAP_HIGHER_CRCBAP_HIGHER_MASK (0xFFFFFFFF)
+-#define CRCBAP_HIGHER_CRCBAP_HIGHER_SHIFT (0)
+ 
+ #define CRDB_LOWER (0x70)
+-#define CRDB_LOWER_CRDB_LOWER_MASK (0xFFFFFFFF)
+-#define CRDB_LOWER_CRDB_LOWER_SHIFT (0)
+ 
+ #define CRDB_HIGHER (0x74)
+-#define CRDB_HIGHER_CRDB_HIGHER_MASK (0xFFFFFFFF)
+-#define CRDB_HIGHER_CRDB_HIGHER_SHIFT (0)
+ 
+ #define MHICTRLBASE_LOWER (0x80)
+-#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_MASK (0xFFFFFFFF)
+-#define MHICTRLBASE_LOWER_MHICTRLBASE_LOWER_SHIFT (0)
+ 
+ #define MHICTRLBASE_HIGHER (0x84)
+-#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_MASK (0xFFFFFFFF)
+-#define MHICTRLBASE_HIGHER_MHICTRLBASE_HIGHER_SHIFT (0)
+ 
+ #define MHICTRLLIMIT_LOWER (0x88)
+-#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_MASK (0xFFFFFFFF)
+-#define MHICTRLLIMIT_LOWER_MHICTRLLIMIT_LOWER_SHIFT (0)
+ 
+ #define MHICTRLLIMIT_HIGHER (0x8C)
+-#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_MASK (0xFFFFFFFF)
+-#define MHICTRLLIMIT_HIGHER_MHICTRLLIMIT_HIGHER_SHIFT (0)
+ 
+ #define MHIDATABASE_LOWER (0x98)
+-#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_MASK (0xFFFFFFFF)
+-#define MHIDATABASE_LOWER_MHIDATABASE_LOWER_SHIFT (0)
+ 
+ #define MHIDATABASE_HIGHER (0x9C)
+-#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_MASK (0xFFFFFFFF)
+-#define MHIDATABASE_HIGHER_MHIDATABASE_HIGHER_SHIFT (0)
+ 
+ #define MHIDATALIMIT_LOWER (0xA0)
+-#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_MASK (0xFFFFFFFF)
+-#define MHIDATALIMIT_LOWER_MHIDATALIMIT_LOWER_SHIFT (0)
+ 
+ #define MHIDATALIMIT_HIGHER (0xA4)
+-#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_MASK (0xFFFFFFFF)
+-#define MHIDATALIMIT_HIGHER_MHIDATALIMIT_HIGHER_SHIFT (0)
+ 
+ /* Host request register */
+ #define MHI_SOC_RESET_REQ_OFFSET (0xB0)
+@@ -139,8 +84,7 @@ extern struct bus_type mhi_bus_type;
+ #define BHI_IMGSIZE (0x10)
+ #define BHI_RSVD1 (0x14)
+ #define BHI_IMGTXDB (0x18)
+-#define BHI_TXDB_SEQNUM_BMSK (0x3FFFFFFF)
+-#define BHI_TXDB_SEQNUM_SHFT (0)
++#define BHI_TXDB_SEQNUM_BMSK (GENMASK(29, 0))
+ #define BHI_RSVD2 (0x1C)
+ #define BHI_INTVEC (0x20)
+ #define BHI_RSVD3 (0x24)
+@@ -156,8 +100,7 @@ extern struct bus_type mhi_bus_type;
+ #define BHI_MSMHWID(n) (0x4C + (0x4 * (n)))
+ #define BHI_OEMPKHASH(n) (0x64 + (0x4 * (n)))
+ #define BHI_RSVD5 (0xC4)
+-#define BHI_STATUS_MASK (0xC0000000)
+-#define BHI_STATUS_SHIFT (30)
++#define BHI_STATUS_MASK (GENMASK(31, 30))
+ #define BHI_STATUS_ERROR (3)
+ #define BHI_STATUS_SUCCESS (2)
+ #define BHI_STATUS_RESET (0)
+@@ -168,13 +111,10 @@ extern struct bus_type mhi_bus_type;
+ #define BHIE_TXVECADDR_HIGH_OFFS (0x0030)
+ #define BHIE_TXVECSIZE_OFFS (0x0034)
+ #define BHIE_TXVECDB_OFFS (0x003C)
+-#define BHIE_TXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
+-#define BHIE_TXVECDB_SEQNUM_SHFT (0)
++#define BHIE_TXVECDB_SEQNUM_BMSK (GENMASK(29, 0))
+ #define BHIE_TXVECSTATUS_OFFS (0x0044)
+-#define BHIE_TXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
+-#define BHIE_TXVECSTATUS_SEQNUM_SHFT (0)
+-#define BHIE_TXVECSTATUS_STATUS_BMSK (0xC0000000)
+-#define BHIE_TXVECSTATUS_STATUS_SHFT (30)
++#define BHIE_TXVECSTATUS_SEQNUM_BMSK (GENMASK(29, 0))
++#define BHIE_TXVECSTATUS_STATUS_BMSK (GENMASK(31, 30))
+ #define BHIE_TXVECSTATUS_STATUS_RESET (0x00)
+ #define BHIE_TXVECSTATUS_STATUS_XFER_COMPL (0x02)
+ #define BHIE_TXVECSTATUS_STATUS_ERROR (0x03)
+@@ -182,32 +122,23 @@ extern struct bus_type mhi_bus_type;
+ #define BHIE_RXVECADDR_HIGH_OFFS (0x0064)
+ #define BHIE_RXVECSIZE_OFFS (0x0068)
+ #define BHIE_RXVECDB_OFFS (0x0070)
+-#define BHIE_RXVECDB_SEQNUM_BMSK (0x3FFFFFFF)
+-#define BHIE_RXVECDB_SEQNUM_SHFT (0)
++#define BHIE_RXVECDB_SEQNUM_BMSK (GENMASK(29, 0))
+ #define BHIE_RXVECSTATUS_OFFS (0x0078)
+-#define BHIE_RXVECSTATUS_SEQNUM_BMSK (0x3FFFFFFF)
+-#define BHIE_RXVECSTATUS_SEQNUM_SHFT (0)
+-#define BHIE_RXVECSTATUS_STATUS_BMSK (0xC0000000)
+-#define BHIE_RXVECSTATUS_STATUS_SHFT (30)
++#define BHIE_RXVECSTATUS_SEQNUM_BMSK (GENMASK(29, 0))
++#define BHIE_RXVECSTATUS_STATUS_BMSK (GENMASK(31, 30))
+ #define BHIE_RXVECSTATUS_STATUS_RESET (0x00)
+ #define BHIE_RXVECSTATUS_STATUS_XFER_COMPL (0x02)
+ #define BHIE_RXVECSTATUS_STATUS_ERROR (0x03)
+ 
+ #define SOC_HW_VERSION_OFFS (0x224)
+-#define SOC_HW_VERSION_FAM_NUM_BMSK (0xF0000000)
+-#define SOC_HW_VERSION_FAM_NUM_SHFT (28)
+-#define SOC_HW_VERSION_DEV_NUM_BMSK (0x0FFF0000)
+-#define SOC_HW_VERSION_DEV_NUM_SHFT (16)
+-#define SOC_HW_VERSION_MAJOR_VER_BMSK (0x0000FF00)
+-#define SOC_HW_VERSION_MAJOR_VER_SHFT (8)
+-#define SOC_HW_VERSION_MINOR_VER_BMSK (0x000000FF)
+-#define SOC_HW_VERSION_MINOR_VER_SHFT (0)
++#define SOC_HW_VERSION_FAM_NUM_BMSK (GENMASK(31, 28))
++#define SOC_HW_VERSION_DEV_NUM_BMSK (GENMASK(27, 16))
++#define SOC_HW_VERSION_MAJOR_VER_BMSK (GENMASK(15, 8))
++#define SOC_HW_VERSION_MINOR_VER_BMSK (GENMASK(7, 0))
+ 
+ #define EV_CTX_RESERVED_MASK GENMASK(7, 0)
+ #define EV_CTX_INTMODC_MASK GENMASK(15, 8)
+-#define EV_CTX_INTMODC_SHIFT 8
+ #define EV_CTX_INTMODT_MASK GENMASK(31, 16)
+-#define EV_CTX_INTMODT_SHIFT 16
+ struct mhi_event_ctxt {
+ 	__le32 intmod;
+ 	__le32 ertype;
+@@ -220,11 +151,8 @@ struct mhi_event_ctxt {
+ };
+ 
+ #define CHAN_CTX_CHSTATE_MASK GENMASK(7, 0)
+-#define CHAN_CTX_CHSTATE_SHIFT 0
+ #define CHAN_CTX_BRSTMODE_MASK GENMASK(9, 8)
+-#define CHAN_CTX_BRSTMODE_SHIFT 8
+ #define CHAN_CTX_POLLCFG_MASK GENMASK(15, 10)
+-#define CHAN_CTX_POLLCFG_SHIFT 10
+ #define CHAN_CTX_RESERVED_MASK GENMASK(31, 16)
+ struct mhi_chan_ctxt {
+ 	__le32 chcfg;
+@@ -659,14 +587,14 @@ int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
+ 			      void __iomem *base, u32 offset, u32 *out);
+ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset, u32 mask,
+-				    u32 shift, u32 *out);
++				    u32 *out);
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset, u32 mask,
+-				    u32 shift, u32 val, u32 delayus);
++				    u32 val, u32 delayus);
+ void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
+ 		   u32 offset, u32 val);
+ void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
+-			 u32 offset, u32 mask, u32 shift, u32 val);
++			 u32 offset, u32 mask, u32 val);
+ void mhi_ring_er_db(struct mhi_event *mhi_event);
+ void mhi_write_db(struct mhi_controller *mhi_cntrl, void __iomem *db_addr,
+ 		  dma_addr_t db_val);
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index 85f4f7c8d7c6..3e6e615466b7 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -24,7 +24,7 @@ int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
+ 
+ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset,
+-				    u32 mask, u32 shift, u32 *out)
++				    u32 mask, u32 *out)
+ {
+ 	u32 tmp;
+ 	int ret;
+@@ -33,21 +33,20 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 	if (ret)
+ 		return ret;
+ 
+-	*out = (tmp & mask) >> shift;
++	*out = (tmp & mask) >> __ffs(mask);
+ 
+ 	return 0;
+ }
+ 
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset,
+-				    u32 mask, u32 shift, u32 val, u32 delayus)
++				    u32 mask, u32 val, u32 delayus)
+ {
+ 	int ret;
+ 	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
+ 
+ 	while (retry--) {
+-		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, shift,
+-					 &out);
++		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -67,7 +66,7 @@ void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
+ }
+ 
+ void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
+-			 u32 offset, u32 mask, u32 shift, u32 val)
++			 u32 offset, u32 mask, u32 val)
+ {
+ 	int ret;
+ 	u32 tmp;
+@@ -77,7 +76,7 @@ void mhi_write_reg_field(struct mhi_controller *mhi_cntrl, void __iomem *base,
+ 		return;
+ 
+ 	tmp &= ~mask;
+-	tmp |= (val << shift);
++	tmp |= (val << __ffs(mask));
+ 	mhi_write_reg(mhi_cntrl, base, offset, tmp);
+ }
+ 
+@@ -159,8 +158,7 @@ enum mhi_state mhi_get_mhi_state(struct mhi_controller *mhi_cntrl)
+ {
+ 	u32 state;
+ 	int ret = mhi_read_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
+-				     MHISTATUS_MHISTATE_MASK,
+-				     MHISTATUS_MHISTATE_SHIFT, &state);
++				     MHISTATUS_MHISTATE_MASK, &state);
+ 	return ret ? MHI_STATE_MAX : state;
+ }
+ EXPORT_SYMBOL_GPL(mhi_get_mhi_state);
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index c35c5ddc7220..bb8a23e80e19 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -131,11 +131,10 @@ void mhi_set_mhi_state(struct mhi_controller *mhi_cntrl, enum mhi_state state)
+ {
+ 	if (state == MHI_STATE_RESET) {
+ 		mhi_write_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				    MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 1);
++				    MHICTRL_RESET_MASK, 1);
+ 	} else {
+ 		mhi_write_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				    MHICTRL_MHISTATE_MASK,
+-				    MHICTRL_MHISTATE_SHIFT, state);
++				    MHICTRL_MHISTATE_MASK, state);
+ 	}
+ }
+ 
+@@ -167,16 +166,14 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Wait for RESET to be cleared and READY bit to be set by the device */
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
+-				 interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to clear MHI Reset\n");
+ 		return ret;
+ 	}
+ 
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
+-				 MHISTATUS_READY_MASK, MHISTATUS_READY_SHIFT, 1,
+-				 interval_us);
++				 MHISTATUS_READY_MASK, 1, interval_us);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to enter MHI Ready\n");
+ 		return ret;
+@@ -470,8 +467,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 		/* Wait for the reset bit to be cleared by the device */
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
+-				 25000);
++				 MHICTRL_RESET_MASK, 0, 25000);
+ 		if (ret)
+ 			dev_err(dev, "Device failed to clear MHI Reset\n");
+ 
+@@ -602,7 +598,6 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+ 							    mhi_cntrl->regs,
+ 							    MHICTRL,
+ 							    MHICTRL_RESET_MASK,
+-							    MHICTRL_RESET_SHIFT,
+ 							    &in_reset) ||
+ 					!in_reset, timeout);
+ 		if (!ret || in_reset) {
+@@ -1093,8 +1088,7 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+ 	if (state == MHI_STATE_SYS_ERR) {
+ 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, MHICTRL_RESET_SHIFT, 0,
+-				 interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us);
+ 		if (ret) {
+ 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
+ 			goto error_exit;
 -- 
 2.25.1
 
