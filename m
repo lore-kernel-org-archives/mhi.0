@@ -1,91 +1,87 @@
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61FD7C
-	for <mhi@lists.linux.dev>; Fri,  4 Mar 2022 21:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1646430550; x=1677966550;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ntN3yl5eMGGkiNg9DiYAf56yeIsPRxv4Lrtu44Q+nhs=;
-  b=O1F8pu3AuTJspZCACitOn/mNLZLuYh+G9MiNQxd+OwZJxBKnUQFhLLjo
-   rfcPZxS9d9iuoN7VUayMNgozZ/0X9m0vg0UZ2cvYuSP1o6MVIyopE2Wnx
-   SC1kuUAeOJ+4oyB9YgnZi7xGSt91bsCUKK3GqlU/yTaGEfVeLJDlx4C0w
-   I=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Mar 2022 13:47:01 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 13:47:01 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Fri, 4 Mar 2022 13:47:01 -0800
-Received: from [10.226.58.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15; Fri, 4 Mar 2022
- 13:46:59 -0800
-Message-ID: <a7b08bec-1692-4b77-cd22-6177aaa95c5e@quicinc.com>
-Date: Fri, 4 Mar 2022 14:46:59 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B209938C9
+	for <mhi@lists.linux.dev>; Mon,  7 Mar 2022 07:17:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C3AEC340EF;
+	Mon,  7 Mar 2022 07:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1646637465;
+	bh=TkHkM64a9L8Z2y7tGG61/lkDEv6OkN2dyJrok5MXSIY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ReMT9ZScMy6S16biad+kyX70EkPfO5keb1jA05y/SLl7+zmMweTh64m7Kk12+F8d0
+	 G/26iR/nAdkqySXi2a8cyfwYAGwNKg41ciZ2X1wP8WAwLGE/gRj2e7VeDcevDipoZ8
+	 8eNEfrPWhBodwdnjtxpP6rqJr/9zqV31N6DEXQOsBsPz4FEDBQQdo8VDAglt8+Wyt8
+	 rXMSu5+btoWv7YI7hjztUmVMF4QDX9/AvSF1z4kcmRWtYKqdHXA4iLR6o/EqJhy6wC
+	 stRQQKpdydFWDMvlcMUgkm/grjLXBuJbVIISt58rgKTT3kFLbdOP/Lbt2EglOk0pwd
+	 yMhr0M8o8nKFQ==
+Date: Mon, 7 Mar 2022 12:47:39 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yang Li <yang.lee@linux.alibaba.com>
+Cc: hemantk@codeaurora.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] bus: mhi: ep: Fix an ignored error return from
+ ida_alloc()
+Message-ID: <20220307071739.GM12451@workstation>
+References: <20220304001139.95082-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3 08/25] bus: mhi: ep: Add support for registering MHI
- endpoint controllers
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Alex Elder
-	<elder@linaro.org>
-CC: <mhi@lists.linux.dev>, <quic_hemantk@quicinc.com>,
-	<quic_bbhatt@quicinc.com>, <vinod.koul@linaro.org>,
-	<bjorn.andersson@linaro.org>, <dmitry.baryshkov@linaro.org>,
-	<quic_vbadigan@quicinc.com>, <quic_cang@quicinc.com>,
-	<quic_skananth@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20220212182117.49438-1-manivannan.sadhasivam@linaro.org>
- <20220212182117.49438-9-manivannan.sadhasivam@linaro.org>
- <4cc78936-b419-4738-b5b2-65c53be06f33@linaro.org>
- <20220217095319.GA11964@workstation>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20220217095319.GA11964@workstation>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220304001139.95082-1-yang.lee@linux.alibaba.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On 2/17/2022 2:53 AM, Manivannan Sadhasivam wrote:
-> On Tue, Feb 15, 2022 at 02:02:41PM -0600, Alex Elder wrote:
+On Fri, Mar 04, 2022 at 08:11:39AM +0800, Yang Li wrote:
+> The return from the call to ida_alloc() is int, it can be a negative
+> error code, however this is being assigned to an unsigned int variable
+> 'mhi_cntrl->index', so assign the value to 'ret' concurrently to solve
+> this problem without affecting other functions.
 > 
-> [...]
+> Eliminate the following coccicheck warning:
+> ./drivers/bus/mhi/ep/main.c:1422:5-21: WARNING: Unsigned expression
+> compared with zero: mhi_cntrl -> index < 0
 > 
->>> +#define MHI_REG_OFFSET				0x100
->>> +#define BHI_REG_OFFSET				0x200
->>
->> Rather than defining the REG_OFFSET values here and adding
->> them to every definition below, why not have the base
->> address used (e.g., in mhi_write_reg_field()) be adjusted
->> by the constant amount?
->>
->> I'm just looking at mhi_init_mmio() (in the existing code)
->> as an example, but for example, the base address used
->> comes from mhi_cntrl->regs.  Can you instead just define
->> a pointer somewhere that is the base of the MHI register
->> range, which is already offset by the appropriate amount?
->>
-> 
-> I've defined two set of APIs for MHI and BHI read/write. They will add the
-> respective offsets.
-> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 
-While you are making changes, maybe don't have a set BHI_REG_OFFSET? 
-Sure, I think it is always 0x200, but that is a convention and nothing 
-I've seen in the spec mandates it.  You can derive it from the bhi 
-offset register.
+Thanks for the fix. Since the MHI EP series is under development, I've
+squashed this patch with the original patch that added the offending code.
 
-This way, if it ever moves in some future chip, this code should just work.
+I'll make a note about this in changelog.
+
+> ---
+>  drivers/bus/mhi/ep/main.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 3e98107f08c4..b27e90d97029 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1418,11 +1418,9 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  	mhi_ep_mmio_set_env(mhi_cntrl, MHI_EE_AMSS);
+>  
+>  	/* Set controller index */
+> -	mhi_cntrl->index = ida_alloc(&mhi_ep_cntrl_ida, GFP_KERNEL);
+> -	if (mhi_cntrl->index < 0) {
+> -		ret = mhi_cntrl->index;
+> +	mhi_cntrl->index = ret = ida_alloc(&mhi_ep_cntrl_ida, GFP_KERNEL);
+> +	if (ret < 0)
+>  		goto err_destroy_wq;
+> -	}
+
+I've just used "ret" for catching the ida_alloc() and assigned it to
+index after success.
+
+Thanks,
+Mani
+>  
+>  	irq_set_status_flags(mhi_cntrl->irq, IRQ_NOAUTOEN);
+>  	ret = request_irq(mhi_cntrl->irq, mhi_ep_irq, IRQF_TRIGGER_HIGH,
+> -- 
+> 2.20.1.7.g153144c
+> 
