@@ -1,150 +1,64 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B95B290B
-	for <mhi@lists.linux.dev>; Tue,  5 Apr 2022 13:59:37 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id 2so4780593pjw.2
-        for <mhi@lists.linux.dev>; Tue, 05 Apr 2022 06:59:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292827A
+	for <mhi@lists.linux.dev>; Tue,  5 Apr 2022 14:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4shTZ7PU5hramHKN4NECwmFPWcXFMMpb2aPfmy33HgE=;
-        b=DBngnlgrKnnIqGtxBXRFwa2pOrKGDqz9XBeZwnXfWodXDNrPRvHiHSWuHtqsN/GBPL
-         rNnfcI9ueN7+p+IdLJQBho+rOUKDL6qDsSkuyO/OrtGqfiAAmpR/AoRTORibwOwTby+V
-         MxIbbh2TQon5UytrGUKWxaRlszy5VCndkvq+c2F4CRZeE0PVOPS5SUo5aTJaQL1KnLcr
-         xycx5Y6xGIDoqKSXWkCY2YF/O67J7VFHLV9EsLroc/0jMpFhMG/Tk2djb9xP2frOgPiu
-         QhIHoUk8NvQ9u31nq/QcZj6fpvateKRackzCZ9EAVzT7JQs8rtvrnUcsB8kP/QxUf7eM
-         Rmig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4shTZ7PU5hramHKN4NECwmFPWcXFMMpb2aPfmy33HgE=;
-        b=roHcOlXpsto/rqgdP+b3qzZGq0bnuZDgzCMi4+zUDODXAnnQ6JxJCVw7REC7TNi2o8
-         xDM7kSR/l1mvjWP6dhDdlQl8FX9GTlO0zLeNc0yYALldLO6OCcEFFeVJT5qXRP2JiF28
-         ISBD2dgrsMiAzERb+lQmsK+fPfeQ42s00Pnu1WyVzGPyBhTxI1Mr7dygGO4ZrLQx4xY7
-         0UjYaEqyCO+NWfo1XZb/XhsElrE1L/nx5IKZR1RMEILCV2pKSBjF03i9Ngf5r9sT18fw
-         5VvZGk96/F/Q34spPHKO0h90NWjBTLmgYeG6XI1skGc3R2RnbCFKpuDU35bKyXfK4hEC
-         N+xQ==
-X-Gm-Message-State: AOAM533ropPHRCjHJYLIDh/03/K88wm9prqEQmfpIeY2pet0aTxlWn5Q
-	0Piyzr8A8ybwR6NolC9+Ymfr
-X-Google-Smtp-Source: ABdhPJzw7quCHFDDc4DPZq4sEUm4pWI0FejBk2vFIMRckx5DZbeqgonEYwGkd2Ezr2v8MX1AcwT2mA==
-X-Received: by 2002:a17:90b:1994:b0:1ca:9b45:405e with SMTP id mv20-20020a17090b199400b001ca9b45405emr4238607pjb.22.1649167176659;
-        Tue, 05 Apr 2022 06:59:36 -0700 (PDT)
-Received: from localhost.localdomain ([59.92.98.98])
-        by smtp.gmail.com with ESMTPSA id u14-20020a056a00124e00b004fab8f3245fsm16785402pfi.149.2022.04.05.06.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 06:59:36 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	elder@linaro.org,
-	mhi@lists.linux.dev,
-	quic_hemantk@quicinc.com,
-	quic_bbhatt@quicinc.com,
-	quic_jhugo@quicinc.com,
-	bjorn.andersson@linaro.org,
-	dmitry.baryshkov@linaro.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 18/18] bus: mhi: ep: Add uevent support for module autoloading
-Date: Tue,  5 Apr 2022 19:27:54 +0530
-Message-Id: <20220405135754.6622-19-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220405135754.6622-1-manivannan.sadhasivam@linaro.org>
-References: <20220405135754.6622-1-manivannan.sadhasivam@linaro.org>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1649170620; x=1680706620;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=huDaabzNyXTklOuIlYUMMUElhAchDLPnGVkMR7VRMeE=;
+  b=PIFnsRdg+5BBVFhXVmfIP5hD1MsLlUh5kqQFntto8028hdQ6H1ZdflnX
+   oV7AWKhVkpWcZmH/4khdIoG3zwGF37OuKn1kDcS+gM+Y5HHPh0HIl87N9
+   r5MqWmmSWz4zT1LmS7d3h6IX7sTb3kTTaBp5baULIQJoCptqlGWS6HBg6
+   4=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 05 Apr 2022 07:54:52 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 07:54:52 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 5 Apr 2022 07:54:51 -0700
+Received: from [10.226.58.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 5 Apr 2022
+ 07:54:50 -0700
+Message-ID: <15068b3f-5645-0a8d-06da-25b1af252123@quicinc.com>
+Date: Tue, 5 Apr 2022 08:54:49 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] MAINTAINERS: Update Hemant's email id
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	<mhi@lists.linux.dev>
+CC: <quic_hemantk@quicinc.com>, <quic_bbhatt@quicinc.com>,
+	<linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20220404064226.59825-1-manivannan.sadhasivam@linaro.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20220404064226.59825-1-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-Add uevent support to MHI endpoint bus so that the client drivers can be
-autoloaded by udev when the MHI endpoint devices gets created. The client
-drivers are expected to provide MODULE_DEVICE_TABLE with the MHI id_table
-struct so that the alias can be exported.
+On 4/4/2022 12:42 AM, Manivannan Sadhasivam wrote:
+> The codeaurora email domain is no longer available for Qualcomm employees.
+> Qualcomm employees should now use the new email ids from quicinc domain for
+> opensource contributions.
+> 
+> So let's use the new email id for Hemant.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
 
-The MHI endpoint reused the mhi_device_id structure of the MHI bus.
-
-Reviewed-by: Alex Elder <elder@linaro.org>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/ep/main.c       |  9 +++++++++
- include/linux/mod_devicetable.h |  2 ++
- scripts/mod/file2alias.c        | 10 ++++++++++
- 3 files changed, 21 insertions(+)
-
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index bae5f40ec15e..40109a79017a 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1536,6 +1536,14 @@ void mhi_ep_driver_unregister(struct mhi_ep_driver *mhi_drv)
- }
- EXPORT_SYMBOL_GPL(mhi_ep_driver_unregister);
- 
-+static int mhi_ep_uevent(struct device *dev, struct kobj_uevent_env *env)
-+{
-+	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-+
-+	return add_uevent_var(env, "MODALIAS=" MHI_EP_DEVICE_MODALIAS_FMT,
-+					mhi_dev->name);
-+}
-+
- static int mhi_ep_match(struct device *dev, struct device_driver *drv)
- {
- 	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
-@@ -1562,6 +1570,7 @@ struct bus_type mhi_ep_bus_type = {
- 	.name = "mhi_ep",
- 	.dev_name = "mhi_ep",
- 	.match = mhi_ep_match,
-+	.uevent = mhi_ep_uevent,
- };
- 
- static int __init mhi_ep_init(void)
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 5da5d990ff58..549590e9c644 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -835,6 +835,8 @@ struct wmi_device_id {
- #define MHI_DEVICE_MODALIAS_FMT "mhi:%s"
- #define MHI_NAME_SIZE 32
- 
-+#define MHI_EP_DEVICE_MODALIAS_FMT "mhi_ep:%s"
-+
- /**
-  * struct mhi_device_id - MHI device identification
-  * @chan: MHI channel name
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 5258247d78ac..d9d6a31446ea 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -1391,6 +1391,15 @@ static int do_mhi_entry(const char *filename, void *symval, char *alias)
- 	return 1;
- }
- 
-+/* Looks like: mhi_ep:S */
-+static int do_mhi_ep_entry(const char *filename, void *symval, char *alias)
-+{
-+	DEF_FIELD_ADDR(symval, mhi_device_id, chan);
-+	sprintf(alias, MHI_EP_DEVICE_MODALIAS_FMT, *chan);
-+
-+	return 1;
-+}
-+
- /* Looks like: ishtp:{guid} */
- static int do_ishtp_entry(const char *filename, void *symval, char *alias)
- {
-@@ -1519,6 +1528,7 @@ static const struct devtable devtable[] = {
- 	{"tee", SIZE_tee_client_device_id, do_tee_entry},
- 	{"wmi", SIZE_wmi_device_id, do_wmi_entry},
- 	{"mhi", SIZE_mhi_device_id, do_mhi_entry},
-+	{"mhi_ep", SIZE_mhi_device_id, do_mhi_ep_entry},
- 	{"auxiliary", SIZE_auxiliary_device_id, do_auxiliary_entry},
- 	{"ssam", SIZE_ssam_device_id, do_ssam_entry},
- 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
--- 
-2.25.1
-
+LGTM.  If its useful, Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
