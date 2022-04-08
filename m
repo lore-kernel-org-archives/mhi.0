@@ -1,50 +1,54 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740B963E
-	for <mhi@lists.linux.dev>; Fri,  8 Apr 2022 14:01:38 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id qh7so17482507ejb.11
-        for <mhi@lists.linux.dev>; Fri, 08 Apr 2022 07:01:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2874320E4
+	for <mhi@lists.linux.dev>; Fri,  8 Apr 2022 15:00:50 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id a16-20020a17090a6d9000b001c7d6c1bb13so9919534pjk.4
+        for <mhi@lists.linux.dev>; Fri, 08 Apr 2022 08:00:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XleLYxPj8RqaxqCHhK/axch93UQBu/FbHCjjLsjUXjA=;
-        b=qNvDkVqdFLQvTmsmdp6cxlL5q6Xw3jKmCGQxqr2gwMdvx43Ij+98yGe0lwKOKwYB4b
-         /z+55WIq2FF4NHsqw9tAOl//EevQr0bim8KXGyG75QrF/AsjTg92mypNfGHrTNb1PHXa
-         ZyTSoUf82Y9zyVItYou4HdY2BClgCWZ+WaSUHIqya2QrvtMq/9Vhy6LbpCw3LefQMEqi
-         GZU38VAVovAXkiEFH294KSf+Zdk7vHbI491Z8nzf1bTsRf5z+7slUqxh6lxVGhP6l/D4
-         Rp90J7nqH7KaDjuno/R9c45BnIASUyMnS9qmlDpvuqiAIRY8oqMIlR3aKCfGGVKJeba1
-         swyg==
+        bh=HRWUAlNBur3Yy5C0NRAoK2xdzrJ+Jexf+aRU2zrKWJc=;
+        b=bf3suufmkspeWIJ1fa0tczHNYnLVzf8qgkWOY7NpPyLB3Rb08foLy5byCD4zs0v+qi
+         1oLoJtCuS2OlMoGaeO34Gbl2+HLaUlHo2ymX+6d7SH6eKLpe/RKiqbMtF0MoP5gcYNBy
+         K2oZ6T7d6by0XhvAq4hIy3cMTZjsmag6UR9s7y5LBhSemBQ5RPwTvbfNGAzPMXKXs6vt
+         zGkaPMMzwxCx+P2WdIJVwu4DzrnG2uwU2Zhdz/Kniuvxxa9YCvBwkow4rZlQX0QFHQ3z
+         zBOmOnLPJKGGp96kNae9MY9rE+4FJON/OOXGVaCVau4GbqMKBF/5i+7QJs+0sv41qlAz
+         6W7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XleLYxPj8RqaxqCHhK/axch93UQBu/FbHCjjLsjUXjA=;
-        b=07YIMm1nx9qm86HgxsgUkBGTy/f+pjz+d1toTAd71iLQ2Xdj3AGbExn8ESDxuL6Hi1
-         dwsn4YMSxFJLzQLO+ow8t1Ux6nFP+l+ZnYFn9eyuTdvtpW/70Grdc7sgPGAkUNlwlVB+
-         naoIVdkw1j+TDDWGwUkrEXn1Qab0zyIQX4xDhflBO1BWiGwTnMksuyX0PHFsjmSnajVD
-         iFg664f8ZyRFT+eDzKJPPvfNEpU1QXfy8YbCY2/fWeygFzGy3K0Q1ljtOPP4/9+fofXn
-         40CwRoBIfT8yCIQTJyW+SN9HGoaY2J4xwMicEOP7y166WRtVJN2JDK/My12S2e3QqarD
-         L08g==
-X-Gm-Message-State: AOAM533aKza7fn7Ub763PB/7fY+2dBKCyus4Fzuu/1iEyoX6qfqnGtB1
-	kvaZDxj+p0gAlNiw70mCHA90wEoUINk=
-X-Google-Smtp-Source: ABdhPJwoxV4xVc6PkTwCC1t2MQUq7TowgfnGgoat6kksN9r8UA9IN8sBLbSeMxcLw2s9Go/qf/xdlg==
-X-Received: by 2002:a17:906:974e:b0:6bb:4f90:a6ae with SMTP id o14-20020a170906974e00b006bb4f90a6aemr19153584ejy.452.1649426496486;
-        Fri, 08 Apr 2022 07:01:36 -0700 (PDT)
-Received: from ThinkStation-P340.. (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id k11-20020a50cb8b000000b0041d20d0bae7sm1046228edi.41.2022.04.08.07.01.35
+        bh=HRWUAlNBur3Yy5C0NRAoK2xdzrJ+Jexf+aRU2zrKWJc=;
+        b=pQTSo8LzYlxzQKONY5lLRFmdUbjqExErYiWzQ4LzhIbkEjfFxxk1buLRoiZunvjexK
+         H5Q+pt5kFaT48bvnaNN+P69US9YyN7tpVXxp1w2w86j5H94NW2Mnuqj2va69C7DlesC+
+         dnTbKXOMcowqjObqMVo1ZOOxUtvxVVhFl3rrvaBUueI6umFGbX+++w+15ZXq7y+AMCr2
+         3ERl6kMrQD2E45MVJMczwrbszWQv/KjIjdPGKjXkR9qsSA3hb3Y1eNhBHcyFP2kg1eTh
+         SCaETYwCZFwkwjwLazAgf/RwsrvOLieYdIZ3t/aGLIsX00g0V2E7Zppm48I1mmXsIsZH
+         owdQ==
+X-Gm-Message-State: AOAM532+qi1SCjZ4ws2EhYLJEon/zmGEC1NNMie4o+m7XwhaEID6jfaL
+	WVR0vMS5d/awV9SEsNbAhOmzwQGwtMhs
+X-Google-Smtp-Source: ABdhPJy72wqAoAwBFvzJmgBCIEukHMQLwiiNKaYUPf4htSfYlBfB92ze7uyzufyeXBx3xOxeYOLhMw==
+X-Received: by 2002:a17:90b:1c03:b0:1c7:5523:6a27 with SMTP id oc3-20020a17090b1c0300b001c755236a27mr22325188pjb.29.1649430048703;
+        Fri, 08 Apr 2022 08:00:48 -0700 (PDT)
+Received: from localhost.localdomain ([59.92.100.79])
+        by smtp.gmail.com with ESMTPSA id s35-20020a056a001c6300b004fb20b5d6c1sm26214636pfw.40.2022.04.08.08.00.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 07:01:35 -0700 (PDT)
-From: Daniele Palmas <dnlplm@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev,
-	Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 1/1] bus: mhi: pci_generic: add Telit FN980 v1 hardware revision
-Date: Fri,  8 Apr 2022 15:59:24 +0200
-Message-Id: <20220408135924.3038485-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Fri, 08 Apr 2022 08:00:48 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: quic_hemantk@quicinc.com,
+	quic_bbhatt@quicinc.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Flush recovery worker during freeze
+Date: Fri,  8 Apr 2022 20:30:39 +0530
+Message-Id: <20220408150039.17297-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -53,66 +57,38 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Telit FN980 v1 hardware revision:
+It is possible that the recovery work might be running while the freeze
+gets executed (during hibernation etc.,). Currently, we don't powerdown
+the stack if it is not up but if the recovery work completes after freeze,
+then the device will be up afterwards. This will not be a sane situation.
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device [17cb:0306]
-        Subsystem: Device [1c5d:2000]
+So let's flush the recovery worker before trying to powerdown the device.
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+Cc: stable@vger.kernel.org
+Fixes: 5f0c2ee1fe8d ("bus: mhi: pci-generic: Fix hibernation")
+Reported-by: Bhaumik Vasav Bhatt <quic_bbhatt@quicinc.com>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/host/pci_generic.c | 38 ++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+
+Changes in v2:
+
+* Switched to flush_work() as the workqueue used is global one.
+
+ drivers/bus/mhi/host/pci_generic.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 9527b7d63840..5e786f4a3bdf 100644
+index ef85dbfb3216..541ced27d941 100644
 --- a/drivers/bus/mhi/host/pci_generic.c
 +++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -446,7 +446,45 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_channel_config mhi_telit_fn980_hw_v1_channels[] = {
-+	MHI_CHANNEL_CONFIG_UL(14, "QMI", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(15, "QMI", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(20, "IPCR", 16, 0),
-+	MHI_CHANNEL_CONFIG_DL_AUTOQUEUE(21, "IPCR", 16, 0),
-+	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 1),
-+	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 2),
-+};
-+
-+static struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
-+	MHI_EVENT_CONFIG_CTRL(0, 128),
-+	MHI_EVENT_CONFIG_HW_DATA(1, 1024, 100),
-+	MHI_EVENT_CONFIG_HW_DATA(2, 2048, 101)
-+};
-+
-+static struct mhi_controller_config modem_telit_fn980_hw_v1_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 20000,
-+	.num_channels = ARRAY_SIZE(mhi_telit_fn980_hw_v1_channels),
-+	.ch_cfg = mhi_telit_fn980_hw_v1_channels,
-+	.num_events = ARRAY_SIZE(mhi_telit_fn980_hw_v1_events),
-+	.event_cfg = mhi_telit_fn980_hw_v1_events,
-+};
-+
-+static const struct mhi_pci_dev_info mhi_telit_fn980_hw_v1_info = {
-+	.name = "telit-fn980-hwv1",
-+	.fw = "qcom/sdx55m/sbl1.mbn",
-+	.edl = "qcom/sdx55m/edl.mbn",
-+	.config = &modem_telit_fn980_hw_v1_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
- static const struct pci_device_id mhi_pci_id_table[] = {
-+	/* Telit FN980 hardware revision v1 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
-+		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
- 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
- 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+@@ -1060,6 +1060,7 @@ static int __maybe_unused mhi_pci_freeze(struct device *dev)
+ 	 * the intermediate restore kernel reinitializes MHI device with new
+ 	 * context.
+ 	 */
++	flush_work(&mhi_pdev->recovery_work);
+ 	if (test_and_clear_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status)) {
+ 		mhi_power_down(mhi_cntrl, true);
+ 		mhi_unprepare_after_power_down(mhi_cntrl);
 -- 
-2.32.0
+2.25.1
 
