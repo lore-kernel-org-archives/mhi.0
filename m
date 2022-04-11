@@ -1,29 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBA610ED
-	for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 05:52:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F34C385A4;
-	Mon, 11 Apr 2022 05:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649656332;
-	bh=jA5CbXjl3NJ1rxLQ/i7+8E65FWJfezry+gSvvDJTQwQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eh9zglOZ7XS7OSZIguK2/fvNHQvFr98tTf/aHH4a4umvvDYxK6opPyKXAcnLIDDMO
-	 5BpEdkKeKmwIx0vfQXoB6pvM5SnHNMHHTj+aCnVDbvMkDSSDJVyKukrT0VEQMoIU6t
-	 8CT1fkMGHFRfrUQFPFQUubSFmNf/Z31qVgI3zJxYHhgb8hDJWEFLvT1X/hDywQTgu4
-	 mitSOqf9/0QPpZqZaYmELP/T+yw1rAYPy90pFGTzGLnNK3j9V49ifY++lzhCxPBfjj
-	 +dRFMoIGPDfRDHt9uEEBILSXs5QBMTR/3qPTPhbvbgLfO+h5dQqIZmHDEI94neS3du
-	 lL8OvMM4VyFow==
-Date: Mon, 11 Apr 2022 11:22:06 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Daniele Palmas <dnlplm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH 1/1] bus: mhi: pci_generic: add Telit FN980 v1 hardware
- revision
-Message-ID: <20220411055206.GA10274@thinkpad>
-References: <20220408135924.3038485-1-dnlplm@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D16310ED
+	for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 06:00:50 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id o5so1711252pjr.0
+        for <mhi@lists.linux.dev>; Sun, 10 Apr 2022 23:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TOrz2TYyKKln5WCCmCjdg2Bgm93TEWKafFMisAhjfgo=;
+        b=uDKUMuBk+Zr5/6D3mpQDlD7lWnjM89KGeJd7wpYHIbDzTCmMEEbv4gzYPu+mrFUF8R
+         /e1fvzqQIFvgaWr7KJng5KPikVRqS07l2vmjsF39/9hj4FPS4yYnyWsHxpHkfgIjGLSq
+         MofXjUkmxK6eTU1CXHQ5fZPtlHn75XefVY5TcSwrMUl92BhW7gcJQuW+FxItHDAX8Iz8
+         rU42CvawGyfJuWNlfIcVZCKc0masTO59K91oGj0/sqWpHwEtoQa8CIqTLCXLGapsXTaA
+         K+cAD46UoErUo6n5PAaZ1EFciGA9RRMdLcHi5BrYLP1baMkKyVNLnPx78ZwUoHc2T4zh
+         NxRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TOrz2TYyKKln5WCCmCjdg2Bgm93TEWKafFMisAhjfgo=;
+        b=wItZXhHzk8axaq+GQ2e1npIIhdNWeWUijx16O8gXo7a4OvHqb6H40m8kXI3aNOaR6J
+         1+v6T49Q8gXlNh7uEmUH5RVPKJNne3vTor5WS+EEkAkFOjoV7o6K7JqlFhcg51mgEiYV
+         XJoLfaoFeqOa+4SH/UPR5DqIB19I5n6xYqAS8xhS61FHx6P9B9/5tMnPMa2zI5yVC2AR
+         +SzSrJ1LQ8pvbDJZ40YoO+5ipn50iXqjyPVv0Os1TbbgSmLs1ZkFxZo5nRXI/weHBBMv
+         59hD/Im7v+VXWzppbB4VgVe7pBEdYnhZdMPrLoV9q3AD2ScO35nWyy6agUoUKy9wMS+M
+         je6g==
+X-Gm-Message-State: AOAM533pgadfGksGn5Z0mgJvh69NJwCYNuuS5YvpRUj9XWIzJ6jtGttC
+	KsrOvwuAWDuQQSt3yrnTHdlBj6CnMCAI
+X-Google-Smtp-Source: ABdhPJymr2uHiw3rePGk47HXX4/TNLZfo6i2NSiXElg+EFB7Li4XBX7woodET5r2u9jQxv/rOEU/tQ==
+X-Received: by 2002:a17:90a:8591:b0:1b9:da10:2127 with SMTP id m17-20020a17090a859100b001b9da102127mr34902852pjn.13.1649656850143;
+        Sun, 10 Apr 2022 23:00:50 -0700 (PDT)
+Received: from thinkpad ([117.217.182.106])
+        by smtp.gmail.com with ESMTPSA id f4-20020a056a0022c400b004fb2292cd74sm34245714pfj.206.2022.04.10.23.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Apr 2022 23:00:49 -0700 (PDT)
+Date: Mon, 11 Apr 2022 11:30:46 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Update Hemant's email id
+Message-ID: <20220411060046.GA16845@thinkpad>
+References: <20220404064226.59825-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -32,78 +52,39 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220408135924.3038485-1-dnlplm@gmail.com>
+In-Reply-To: <20220404064226.59825-1-manivannan.sadhasivam@linaro.org>
 
-On Fri, Apr 08, 2022 at 03:59:24PM +0200, Daniele Palmas wrote:
-> Add Telit FN980 v1 hardware revision:
+On Mon, Apr 04, 2022 at 12:12:26PM +0530, Manivannan Sadhasivam wrote:
+> The codeaurora email domain is no longer available for Qualcomm employees.
+> Qualcomm employees should now use the new email ids from quicinc domain for
+> opensource contributions.
 > 
-> 01:00.0 Unassigned class [ff00]: Qualcomm Device [17cb:0306]
->         Subsystem: Device [1c5d:2000]
+> So let's use the new email id for Hemant.
 > 
-> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 38 ++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9527b7d63840..5e786f4a3bdf 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -446,7 +446,45 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
->  	.sideband_wake = false,
->  };
->  
-> +static const struct mhi_channel_config mhi_telit_fn980_hw_v1_channels[] = {
-> +	MHI_CHANNEL_CONFIG_UL(14, "QMI", 32, 0),
-> +	MHI_CHANNEL_CONFIG_DL(15, "QMI", 32, 0),
-> +	MHI_CHANNEL_CONFIG_UL(20, "IPCR", 16, 0),
-> +	MHI_CHANNEL_CONFIG_DL_AUTOQUEUE(21, "IPCR", 16, 0),
-> +	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 1),
-> +	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 2),
-> +};
-> +
-> +static struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
-> +	MHI_EVENT_CONFIG_CTRL(0, 128),
-> +	MHI_EVENT_CONFIG_HW_DATA(1, 1024, 100),
-> +	MHI_EVENT_CONFIG_HW_DATA(2, 2048, 101)
-> +};
-> +
-> +static struct mhi_controller_config modem_telit_fn980_hw_v1_config = {
-> +	.max_channels = 128,
-> +	.timeout_ms = 20000,
-> +	.num_channels = ARRAY_SIZE(mhi_telit_fn980_hw_v1_channels),
-> +	.ch_cfg = mhi_telit_fn980_hw_v1_channels,
-> +	.num_events = ARRAY_SIZE(mhi_telit_fn980_hw_v1_events),
-> +	.event_cfg = mhi_telit_fn980_hw_v1_events,
-> +};
-> +
-> +static const struct mhi_pci_dev_info mhi_telit_fn980_hw_v1_info = {
-> +	.name = "telit-fn980-hwv1",
-> +	.fw = "qcom/sdx55m/sbl1.mbn",
-> +	.edl = "qcom/sdx55m/edl.mbn",
-> +	.config = &modem_telit_fn980_hw_v1_config,
-> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> +	.dma_data_width = 32,
-> +	.mru_default = 32768,
-> +	.sideband_wake = false,
-> +};
-> +
->  static const struct pci_device_id mhi_pci_id_table[] = {
-> +	/* Telit FN980 hardware revision v1 */
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
-> +		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Please rebase this patch on top of my recent patch that sorts the table [1].
+Applied to mhi-next!
 
 Thanks,
 Mani
 
-[1] https://lore.kernel.org/mhi/20220411054831.16344-1-manivannan.sadhasivam@linaro.org/T/#u
-
->  	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
->  		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
-> -- 
-> 2.32.0
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fd768d43e048..d714313d5cb0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12793,7 +12793,7 @@ F:	arch/arm64/boot/dts/marvell/armada-3720-uDPU.dts
+>  
+>  MHI BUS
+>  M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> -R:	Hemant Kumar <hemantk@codeaurora.org>
+> +R:	Hemant Kumar <quic_hemantk@quicinc.com>
+>  L:	mhi@lists.linux.dev
+>  L:	linux-arm-msm@vger.kernel.org
+>  S:	Maintained
+> -- 
+> 2.25.1
 > 
