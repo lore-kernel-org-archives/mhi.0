@@ -1,77 +1,107 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8BE1849
-	for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 13:31:03 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id b15so14604366pfm.5
-        for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 06:31:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936CF1849
+	for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 13:34:38 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id h23-20020a17090a051700b001c9c1dd3acbso16846893pjh.3
+        for <mhi@lists.linux.dev>; Mon, 11 Apr 2022 06:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ledQ0Ydi6B8CWDPYoNTQwr7v3A4gfz4vdvCqzSKqX7g=;
-        b=fth/YMFqdqkmsYAECvokOQ9m1OKQ/wuocTYitHeSDJ2GYhJIBMB5N/7A6isbrL44X7
-         O5zp/7f5p9eRJ3iFFZKOJuuaU2wu/OZdUKCoCU5bojzuP0hWtXsK4FwRjX18xSYTMzXv
-         rsvMUmGlvJhm1dQx1PF4neFjrzqx6QLRA6rbmpYVFtGoHX98sghMPPNWcEmNPiuhCE/k
-         ZbdG5GyNITJLFNrQs4cNXdRlEbRr4e/tfAWTgxQe0pxiPigqBu7Lh0FpFkjyTswktOk4
-         a1rYjS4rBQByE5MwcwVMNXWR+3T8McxTTViGrWG3ezbp6NRLBCxvd0xAZWmajWK1+54u
-         XGpg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rau6ikLWDvZ3H5Rxeor37L0yr1H0C2rH637cdeZ/OEw=;
+        b=EcsKlULhqSIURak13xFODrD8tjy0rdmIMa8n+/G3m2f+SMKxpBpm+DPWoo/UQr0Fvg
+         l2A0lVR9hkxlkTxwondEhCgwoWXnMP7zzT4I20eNXLBuIF892aJOqFAFb1g2+5/ruJuo
+         SFU2eMVbPiDLIRWtJM9+w4uYmG3g5p9bBxX5+MiSwRI5v/6d3D8euduzdZ/PxOmaMNNT
+         77m6ou9HfzFkLKvyZn/ataeEYhEhQjkDIbpqAbSad6ECJVHCWokGt5rXavbyQxzyXkBJ
+         8nU2z2JqdE09n3ma3XuscmCcI38HQDAOrVzwKJJ1g/8tRFOwzXDkXjbiec+1rmwuO14k
+         W1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ledQ0Ydi6B8CWDPYoNTQwr7v3A4gfz4vdvCqzSKqX7g=;
-        b=HwB8kRr/mGUcBHLIo633kjAbCL6kgvrmKuKEcNaqUc+gzdLgTOERBzDUR30vcCXCX4
-         PkTFZVMZK3SMa4wz8r46uZ4MWrgBY49z0Bl2jckiauUlwhbLXx6dfOt3n5jt3xkWlNll
-         TIEaEBNQeuMeT9I2bHCXwne0ZODvUqeY1LmPkVb9IZ2m1l2HnwotKmB/w1gAdd1qksbB
-         RL7A9sR9z/HGKa2Ms/4G/7GfuvfsElgpL4VXbrgKezkYD9loUi3VTP8K24zbGIhl3KFW
-         xOBjZyMfOmOEL7wzHxJxFdT+9vHrWIg4LO3JeV8nKwGgPjqQOZazd9uUADsX8kU1aoTn
-         2SfQ==
-X-Gm-Message-State: AOAM5309EGXCbL8VN76VBYrUgupa8xvXu15lUELDaA5/99yfuabYY3BE
-	uJvhVHO9EakPjHCRHkVX3kK2
-X-Google-Smtp-Source: ABdhPJwO+TjTZzMHsT/i6K9/3o2QsoDAcQJnb2SLEiCcwm/IE8cuMsvDvVdUcU4C7ipjf2wbQu1eEA==
-X-Received: by 2002:a05:6a00:16cd:b0:4e1:366:7ee8 with SMTP id l13-20020a056a0016cd00b004e103667ee8mr32812580pfc.9.1649683862767;
-        Mon, 11 Apr 2022 06:31:02 -0700 (PDT)
-Received: from thinkpad ([117.217.182.106])
-        by smtp.gmail.com with ESMTPSA id p3-20020a056a000b4300b004faee36ea56sm36126488pfo.155.2022.04.11.06.30.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rau6ikLWDvZ3H5Rxeor37L0yr1H0C2rH637cdeZ/OEw=;
+        b=CC407Bz5VPdFw+L5v5wjkQ5A9oqs9qXk/6Vk0jQLf4y88PdMMmkLOKgz0C34uOAVRe
+         +tZIGQ94N+O6+d0wa9kSDQlm7KSXNH2Cr5bWNTKdHlUKpDiYGQFfFMn9/BIrxdsiE3E7
+         Xz+1J9UwtUtjCRyZxBRPkrEiMmwcQWrMqcN1I75fGM/FJGdoUuOOal5hJRFhqLtZtbnp
+         tcKg91fyKAD2BqGh/7LAdbimvXjHW9m9+rTN0Vt1BechcR66+DCdyvK2XPN76co5yUaN
+         ruoR86XC1arQ1hTN6QLgJofWRXvVU2H8y3T0bHxCOdz6m8u1NQTcnOwnlafiu91lgJXs
+         5flA==
+X-Gm-Message-State: AOAM530xSoXDI8cxQ2sBK87kz7A3vCOcWWUvHpaLsVO+Q5DvKmLmbXoQ
+	Yqj89WgOIK0gFGvpU5FpLD4SsU2DHQ7h
+X-Google-Smtp-Source: ABdhPJzD+D2eOcZy8zFeHEt8TITM9KS6UhjpgS7YATdQRKhIivWnns/ATZL4rrHpOhDjSQRgZev4pg==
+X-Received: by 2002:a17:902:b189:b0:14d:6f87:7c25 with SMTP id s9-20020a170902b18900b0014d6f877c25mr32803825plr.31.1649684077788;
+        Mon, 11 Apr 2022 06:34:37 -0700 (PDT)
+Received: from localhost.localdomain ([117.217.182.106])
+        by smtp.gmail.com with ESMTPSA id q15-20020a056a00150f00b004fb28ea8d9fsm37390195pfu.171.2022.04.11.06.34.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 06:31:02 -0700 (PDT)
-Date: Mon, 11 Apr 2022 19:00:57 +0530
+        Mon, 11 Apr 2022 06:34:37 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Daniele Palmas <dnlplm@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loic.poulain@linaro.org, mhi@lists.linux.dev,
-	quic_bbhatt@quicinc.com, quic_hemantk@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Sort mhi_pci_id_table based
- on the PID'
-Message-ID: <20220411133057.GF24975@thinkpad>
-References: <20220411054831.16344-1-manivannan.sadhasivam@linaro.org>
- <20220411123715.3640935-1-dnlplm@gmail.com>
+To: mhi@lists.linux.dev
+Cc: quic_hemantk@quicinc.com,
+	quic_bbhatt@quicinc.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org,
+	dnlplm@gmail.com,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Sort mhi_pci_id_table based on the PID
+Date: Mon, 11 Apr 2022 19:04:28 +0530
+Message-Id: <20220411133428.42165-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411123715.3640935-1-dnlplm@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 11, 2022 at 02:37:15PM +0200, Daniele Palmas wrote:
-> Hi Mani,
-> 
-> > +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
-> 
-> Shouldn't this entry be after all PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306,
-> ones?
-> 
-> Otherwise will it catch all of them?
-> 
+Sorting this way helps in identifying the products of vendors. There is no
+sorting required for VID and the new VID should be added as the last entry.
 
-Ah, yes. Will fix it.
+Let's also add a note clarifying this.
 
-Thanks,
-Mani
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
 
-> Thanks,
-> Daniele
+Changes in v2:
+
+* Fixup the 0x0306 entry by moving it after subid
+
+ drivers/bus/mhi/host/pci_generic.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 541ced27d941..8858f3bf4f04 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -446,20 +446,21 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
+ 	.sideband_wake = false,
+ };
+ 
++/* Keep the list sorted based on the PID. New VID should be added as the last entry */
+ static const struct pci_device_id mhi_pci_id_table[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
++		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
+ 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
+ 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
+ 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
+-	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+-		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
++	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
++		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+ 	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+-	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+-		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+ 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+-- 
+2.25.1
+
