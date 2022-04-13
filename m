@@ -1,115 +1,87 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051AD4685
-	for <mhi@lists.linux.dev>; Tue, 12 Apr 2022 10:32:31 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id n18so16400065plg.5
-        for <mhi@lists.linux.dev>; Tue, 12 Apr 2022 03:32:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3DB28E0
+	for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 09:00:00 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id p8so1414750pfh.8
+        for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 02:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j/diUgJ6on6fJMFNZB8r5qR9Df3QD60+s0BeH3kCZZE=;
-        b=eqPtoZXzQy7EibLkilIePwxil9cDXhi/222u6HQ2xkHFy75qv8m1UEp+2XcV9YhqkW
-         p3je/XJIODmDyyGCDBKS9Jmn0dg4o/PFO1+1Azg+eluYxdUV8KxfEtNsJ7svBi/TOwKM
-         sSPcvpjYZx7RQbfeQ4IBRkNzDn4OpDRwFmftZTa9dzB6IO8cFYhXR7GcQQYbVkorRwBP
-         5uU+FN9jHnKI/bTKHafONRvng3twc2hF1FQWmeUptt4Z+SnkXExC3M+4EdC3k3K52iXU
-         MdUp3TckFSJDchBbp6Mb8NH7d2wVL3T1DEHoxVExopqRIurj5lML/4Fz3Vy9CHzNpFYq
-         VUwA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=EDhS8xYSBd2n9NcaWEWx6PW2TjEIoAofJnoHWA7XnG8=;
+        b=O149Sk4abdAzjNa/FuuPlloSGGPPgYqriC+xrIg/TWImciJdOwE5u9tHyqdsYNzpNp
+         owIKDOxTfXRUUXW2CAr0WeoyQ7zbMqwJY0L2NKYCANdvk4jh7zfjzMzrbDXKVqbY+TSO
+         utfifiKG16sgBOGumS+6N1LFYgT10cdNxCVmqdr+zgw3niSv5RuZ05dmSAYAauvUzIiK
+         hkSdt6zK9Z9xWsRsv7cfSu6XAB1oCnKGWp/YPG/SimnAtW3vPUVLTWVveKdN7xHc2n56
+         WKtMhyIVv4ky+A5yC2cwh42X6Bjkdsjk5UhESz66JS91FxreEatR+QR5sO9x9yZQIUvJ
+         ZKjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j/diUgJ6on6fJMFNZB8r5qR9Df3QD60+s0BeH3kCZZE=;
-        b=NmTSrGTP8tDeL/xjVO0MnSh1os88XGXDcYoxbi46OMAPC6FzuK0Tw1zGnvozVLjZa/
-         iR1YQfNnpDe/6QLOFFcJFa50higDMa3GzCOGqL2FaaMfXvuF7BfwzXHjhI7tupz9HNLM
-         x16K1La8pWs6kcqBiQ4rYwIqa0ormAYZNbeRNHt5LvOyBmAG4zetSuIrxZXahdSVSuv2
-         cuxMAY1Owiz39N4K5F4tPBmkUKIey5RUFkdkuwOHtOUOA5gt/YuMbhKmk7529/ts29M6
-         aMKZBiBmfMImJgjbg/rcE8qGIm5UqCOkGZyGBqZu9FjN9dXWbcSihoLjcvp1l2TIbFxk
-         I6jw==
-X-Gm-Message-State: AOAM532YgACa8HLo/xQPdvBHm0jdgZdijxNUOXIMsted6V4n/DjR0Xro
-	qvf8JhrNVmxQtFojRXyPW8sJxwmKS0Nd8rtEQXQ=
-X-Google-Smtp-Source: ABdhPJxJgTuTm/K4D0Rn0JofYXhgZEIj20GsEhgefL/eIQuy+S3UNBl/Ih83/Cuo5UxX8n90jH9/N/sU99mGf9nIj20=
-X-Received: by 2002:a17:902:edc5:b0:156:68e4:416 with SMTP id
- q5-20020a170902edc500b0015668e40416mr36483483plk.87.1649759551356; Tue, 12
- Apr 2022 03:32:31 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=EDhS8xYSBd2n9NcaWEWx6PW2TjEIoAofJnoHWA7XnG8=;
+        b=Y4H+VuSbtp8ivD1SR8wEaFVlIqnpOWx7Sfa4us3c4wSfWdLsBbh4+lJuvXJNFZBsE8
+         lD8/XFBGtIA7B7prPlAg02RKK9m5WOHwxirx2/FRAJd5Jdxceqj33eHk0EciJb6MmfCt
+         B7hhUX7A1QcoZrXoyX1bCJZHniNarQg7If1qOHX8TmXMuD15ca8U0ubgu+cx4mefAOgq
+         15w55Yfw+SDtc24j6o4XvsLUu8v4hNeplT/qrSELxz9/wk3SCNufA3XVd+HQ+xJ33vnX
+         I4zJpboezHA98Pyjltqe3YkZiBekPbi6+oxl6fsndFh2btPpGutm3rxV+Db8IVO9QGfP
+         kiFg==
+X-Gm-Message-State: AOAM530p2nHlfbFUu+Lct5Tx6Z9CBGtAAefwP3R+fcwC9AYVdUepD/9n
+	fPxy+IR2/uj6BR8+ATEqkWX7
+X-Google-Smtp-Source: ABdhPJwO2iFFLhBkrptiK2TCZlzOfrLJcUVHx+2oFFdkyWiG9hCOm5NrUnrAD4xSViZlk/JVFd0Kgw==
+X-Received: by 2002:a63:195f:0:b0:399:1f0e:a21d with SMTP id 31-20020a63195f000000b003991f0ea21dmr33848070pgz.393.1649840399909;
+        Wed, 13 Apr 2022 01:59:59 -0700 (PDT)
+Received: from thinkpad ([117.207.28.99])
+        by smtp.gmail.com with ESMTPSA id k23-20020a17090a591700b001ca00b46cf9sm2172266pji.18.2022.04.13.01.59.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 01:59:59 -0700 (PDT)
+Date: Wed, 13 Apr 2022 14:29:54 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
+	loic.poulain@linaro.org, linux-arm-msm@vger.kernel.org
+Subject: [GIT PULL] MHI fixes for v5.18
+Message-ID: <20220413085954.GE2015@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220411133428.42165-1-manivannan.sadhasivam@linaro.org>
-In-Reply-To: <20220411133428.42165-1-manivannan.sadhasivam@linaro.org>
-From: Daniele Palmas <dnlplm@gmail.com>
-Date: Tue, 12 Apr 2022 12:30:18 +0200
-Message-ID: <CAGRyCJEFjx6unWLavitXzyWU9G7vLnW9=b+xU-sLLq6LwU3Aow@mail.gmail.com>
-Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Sort mhi_pci_id_table
- based on the PID
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Loic Poulain <loic.poulain@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Mani,
+The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
 
-Il giorno lun 11 apr 2022 alle ore 15:34 Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> ha scritto:
->
-> Sorting this way helps in identifying the products of vendors. There is no
-> sorting required for VID and the new VID should be added as the last entry.
->
-> Let's also add a note clarifying this.
->
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->
+  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
 
-Reviewed-by: Daniele Palmas <dnlplm@gmail.com>
+are available in the Git repository at:
 
-I will wait for this change to be merged, then rebase the FN980 one.
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-fixes-v5.18
 
-Thanks,
-Daniele
+for you to fetch changes up to c38f83bae4037023827c85e045841d0421f85034:
 
-> Changes in v2:
->
-> * Fixup the 0x0306 entry by moving it after subid
->
->  drivers/bus/mhi/host/pci_generic.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 541ced27d941..8858f3bf4f04 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -446,20 +446,21 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
->         .sideband_wake = false,
->  };
->
-> +/* Keep the list sorted based on the PID. New VID should be added as the last entry */
->  static const struct pci_device_id mhi_pci_id_table[] = {
-> +       { PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
-> +               .driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
->         /* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
->         { PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
->                 .driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
->         { PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
->                 .driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
-> -       { PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
-> -               .driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
-> +       { PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
-> +               .driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
->         { PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
->                 .driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->         { PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
->                 .driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> -       { PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
-> -               .driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
->         /* T99W175 (sdx55), Both for eSIM and Non-eSIM */
->         { PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
->                 .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-> --
-> 2.25.1
->
+  bus: mhi: host: pci_generic: Flush recovery worker during freeze (2022-04-13 13:11:19 +0530)
+
+----------------------------------------------------------------
+MHI fixes for v5.18
+
+Couple of patches fixing the hibernation issue seen on MHI endpoint devices like
+SDX65 modems:
+
+- During hibernation, the host puts the device into D3cold after thaw() stage.
+But at that time, the device would be in M0 state. So the device emits a
+warning (not visible to the host but to device firmware only) stating invalid
+transition. This is fixed by adding a poweroff() callback that puts the device
+into M3 before D3cold.
+
+- There is a possibility that the recovery worker might be running while trying
+to powerdown the device. So flush the recovery worker before that.
+
+----------------------------------------------------------------
+Manivannan Sadhasivam (2):
+      bus: mhi: host: pci_generic: Add missing poweroff() PM callback
+      bus: mhi: host: pci_generic: Flush recovery worker during freeze
+
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
