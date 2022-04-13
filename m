@@ -1,38 +1,39 @@
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
 	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DD37B
-	for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 16:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AC7291E
+	for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 18:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649868137; x=1681404137;
+  t=1649875964; x=1681411964;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=gOJsbaOCa8KxicoNnh0loPS6xmr5k28s00irC47bW6o=;
-  b=NYbY5iuc2FOlmxQDUiQawTeB/hGVnAgkhjyMYdvptJ24bP57m75crVMC
-   Ax2g85ooZS61iVpf1VpNgdQ1A0X5KR/lqRgBpCgj2i4L1CrwqunwBTYqS
-   0BBhGibEl/RfjCOS37gpHdUXbj9XGpjQNGmXmPYGxjU87p7S/iCSd18cE
-   Q=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 13 Apr 2022 09:42:09 -0700
+  bh=3kIdWbaHtEU0x9HW6lYv/3aJs5QjFHoVlujqamdmcyc=;
+  b=AXfVHdMqLIdOuk2XVpxhtiZLKOP0BGhBxy0n7qbJbKGanEDwZldC1qcg
+   h9NKxfe1G6zkKKBwi37n2U3ngcg7+kUarLCWFQ/btRPQfi5hW/fIUtob7
+   yH0pxRqI4y4pCxZEihVts3dVbFwO0/H4ALHf146tpEEIs3DP9x4tjNN4a
+   4=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 13 Apr 2022 11:52:43 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 09:42:09 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 11:52:43 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Apr 2022 09:42:09 -0700
+ 15.2.986.22; Wed, 13 Apr 2022 11:52:42 -0700
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Apr 2022 09:42:08 -0700
+ 15.2.986.22; Wed, 13 Apr 2022 11:52:41 -0700
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <mani@kernel.org>, <quic_hemantk@quicinc.com>, <quic_bbhatt@quicinc.com>
 CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH v3] bus: mhi: host: Use cached values for calculating the shared write pointer
-Date: Wed, 13 Apr 2022 10:41:53 -0600
-Message-ID: <1649868113-18826-1-git-send-email-quic_jhugo@quicinc.com>
+	<linux-kernel@vger.kernel.org>, Jeffrey Hugo <jhugo@codeaurora.org>, "Jeffrey
+ Hugo" <quic_jhugo@quicinc.com>
+Subject: [PATCH v3] bus: mhi: host: Wait for ready state after reset
+Date: Wed, 13 Apr 2022 12:52:26 -0600
+Message-ID: <1649875946-32516-1-git-send-email-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -43,92 +44,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 
-mhi_recycle_ev_ring() computes the shared write pointer for the ring
-(ctxt_wp) using a read/modify/write pattern where the ctxt_wp value in the
-shared memory is read, incremented, and written back.  There are no checks
-on the read value, it is assumed that it is kept in sync with the locally
-cached value.  Per the MHI spec, this is correct.  The device should only
-read ctxt_wp, never write it.
+From: Jeffrey Hugo <jhugo@codeaurora.org>
 
-However, there are devices in the wild that violate the spec, and can
-update the ctxt_wp in a specific scenario.  This can cause corruption, and
-violate the above assumption that the ctxt_wp is in sync with the cached
-value.
+After the device has signaled the end of reset by clearing the reset bit,
+it will automatically reinit MHI and the internal device structures.  Once
+That is done, the device will signal it has entered the ready state.
 
-This can occur when the device has loaded firmware from the host, and is
-transitioning from the SBL EE to the AMSS EE.  As part of shutting down
-SBL, the SBL flushes it's local MHI context to the shared memory since
-the local context will not persist across an EE change.  In the case of
-the event ring, SBL will flush its entire context, not just the parts that
-it is allowed to update.  This means SBL will write to ctxt_wp, and
-possibly corrupt it.
+Signaling the ready state involves sending an interrupt (MSI) to the host
+which might cause IOMMU faults if it occurs at the wrong time.
 
-An example:
+If the controller is being powered down, and possibly removed, then the
+reset flow would only wait for the end of reset.  At which point, the host
+and device would start a race.  The host may complete its reset work, and
+remove the interrupt handler, which would cause the interrupt to be
+disabled in the IOMMU.  If that occurs before the device signals the ready
+state, then the IOMMU will fault since it blocked an interrupt.  While
+harmless, the fault would appear like a serious issue has occurred so let's
+silence it by making sure the device hits the ready state before the host
+completes its reset processing.
 
-Host				Device
-----				---
-Update ctxt_wp to 0x1f0
-				SBL observes 0x1f0
-Update ctxt_wp to 0x0
-				Starts transition to AMSS EE
-				Context flush, writes 0x1f0 to ctxt_wp
-Update ctxt_wp to 0x200
-Update ctxt_wp to 0x210
-				AMSS observes 0x210
-				0x210 exceeds ring size
-				AMSS signals syserr
-
-The reason the ctxt_wp goes off the end of the ring is that the rollover
-check is only performed on the cached wp, which is out of sync with
-ctxt_wp.
-
-Since the host is the authority of the value of ctxt_wp per the MHI spec,
-we can fix this issue by not reading ctxt_wp from the shared memory, and
-instead compute it based on the cached value.  If SBL corrupts ctxt_wp,
-the host won't observe it, and will correct the value at some point later.
-
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
 Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
-Reviewed-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
 
 v3:
-Rebase to -next
+Rebase and use dev_err over dev_warn
 
-v2:
-Fix typo on the ring base
+v2: 
+Fix subject and remove use of cur_state
 
- drivers/bus/mhi/host/main.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/bus/mhi/host/pm.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 142eea1..f3aef77a 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -534,18 +534,13 @@ irqreturn_t mhi_intvec_handler(int irq_number, void *dev)
- static void mhi_recycle_ev_ring_element(struct mhi_controller *mhi_cntrl,
- 					struct mhi_ring *ring)
- {
--	dma_addr_t ctxt_wp;
--
- 	/* Update the WP */
- 	ring->wp += ring->el_size;
--	ctxt_wp = le64_to_cpu(*ring->ctxt_wp) + ring->el_size;
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index a0e91bd..f46158e 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -483,6 +483,15 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 		 * hence re-program it
+ 		 */
+ 		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
++
++		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
++			/* wait for ready to be set */
++			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
++						 MHISTATUS,
++						 MHISTATUS_READY_MASK, 1, 25000);
++			if (ret)
++				dev_err(dev, "Device failed to enter READY state\n");
++		}
+ 	}
  
--	if (ring->wp >= (ring->base + ring->len)) {
-+	if (ring->wp >= (ring->base + ring->len))
- 		ring->wp = ring->base;
--		ctxt_wp = ring->iommu_base;
--	}
- 
--	*ring->ctxt_wp = cpu_to_le64(ctxt_wp);
-+	*ring->ctxt_wp = cpu_to_le64(ring->iommu_base + (ring->wp - ring->base));
- 
- 	/* Update the RP */
- 	ring->rp += ring->el_size;
+ 	dev_dbg(dev,
 -- 
 2.7.4
 
