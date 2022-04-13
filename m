@@ -1,87 +1,79 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3DB28E0
-	for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 09:00:00 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id p8so1414750pfh.8
-        for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 02:00:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AADB290C
+	for <mhi@lists.linux.dev>; Wed, 13 Apr 2022 15:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=EDhS8xYSBd2n9NcaWEWx6PW2TjEIoAofJnoHWA7XnG8=;
-        b=O149Sk4abdAzjNa/FuuPlloSGGPPgYqriC+xrIg/TWImciJdOwE5u9tHyqdsYNzpNp
-         owIKDOxTfXRUUXW2CAr0WeoyQ7zbMqwJY0L2NKYCANdvk4jh7zfjzMzrbDXKVqbY+TSO
-         utfifiKG16sgBOGumS+6N1LFYgT10cdNxCVmqdr+zgw3niSv5RuZ05dmSAYAauvUzIiK
-         hkSdt6zK9Z9xWsRsv7cfSu6XAB1oCnKGWp/YPG/SimnAtW3vPUVLTWVveKdN7xHc2n56
-         WKtMhyIVv4ky+A5yC2cwh42X6Bjkdsjk5UhESz66JS91FxreEatR+QR5sO9x9yZQIUvJ
-         ZKjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=EDhS8xYSBd2n9NcaWEWx6PW2TjEIoAofJnoHWA7XnG8=;
-        b=Y4H+VuSbtp8ivD1SR8wEaFVlIqnpOWx7Sfa4us3c4wSfWdLsBbh4+lJuvXJNFZBsE8
-         lD8/XFBGtIA7B7prPlAg02RKK9m5WOHwxirx2/FRAJd5Jdxceqj33eHk0EciJb6MmfCt
-         B7hhUX7A1QcoZrXoyX1bCJZHniNarQg7If1qOHX8TmXMuD15ca8U0ubgu+cx4mefAOgq
-         15w55Yfw+SDtc24j6o4XvsLUu8v4hNeplT/qrSELxz9/wk3SCNufA3XVd+HQ+xJ33vnX
-         I4zJpboezHA98Pyjltqe3YkZiBekPbi6+oxl6fsndFh2btPpGutm3rxV+Db8IVO9QGfP
-         kiFg==
-X-Gm-Message-State: AOAM530p2nHlfbFUu+Lct5Tx6Z9CBGtAAefwP3R+fcwC9AYVdUepD/9n
-	fPxy+IR2/uj6BR8+ATEqkWX7
-X-Google-Smtp-Source: ABdhPJwO2iFFLhBkrptiK2TCZlzOfrLJcUVHx+2oFFdkyWiG9hCOm5NrUnrAD4xSViZlk/JVFd0Kgw==
-X-Received: by 2002:a63:195f:0:b0:399:1f0e:a21d with SMTP id 31-20020a63195f000000b003991f0ea21dmr33848070pgz.393.1649840399909;
-        Wed, 13 Apr 2022 01:59:59 -0700 (PDT)
-Received: from thinkpad ([117.207.28.99])
-        by smtp.gmail.com with ESMTPSA id k23-20020a17090a591700b001ca00b46cf9sm2172266pji.18.2022.04.13.01.59.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 01:59:59 -0700 (PDT)
-Date: Wed, 13 Apr 2022 14:29:54 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
-	loic.poulain@linaro.org, linux-arm-msm@vger.kernel.org
-Subject: [GIT PULL] MHI fixes for v5.18
-Message-ID: <20220413085954.GE2015@thinkpad>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1649865578; x=1681401578;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ES87OSBxlG40IumnNSe3tDebltkv7o6zRDRSKloQCJ4=;
+  b=pagHz8tTuGfTKfVUOY+4R1Pk0TDJpBTt2AQKu2Vd+hd7SBbjIS12ARRU
+   RPxVmCZiJkKnDNuYH2AZUE+ix0w7HlOyQu1adp9rBYbkPkdQHnM6WIwfw
+   bTUqIOAgEDonZ2EH7JLYvOwDW1axzDzWCIpkn95n99z6f9TWy9iH13dH+
+   s=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 13 Apr 2022 08:57:29 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 08:57:29 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 13 Apr 2022 08:57:08 -0700
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 13 Apr 2022 08:57:07 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <loic.poulain@linaro.org>, <mani@kernel.org>, <quic_hemantk@quicinc.com>,
+	<quic_bbhatt@quicinc.com>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH v3 0/2] MHI MMIO register write updates
+Date: Wed, 13 Apr 2022 09:56:44 -0600
+Message-ID: <1649865406-30198-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+In case of MHI MMIO writes, the register field write function needs to do reads
+before writes are performed. Propagate read failures such that callers are made
+aware of those and can take appropriate action instead of running blind.
 
-  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+Optimizing the MMIO initialization function to use mhi_write_reg() in most cases
+should also be done to improve design.
 
-are available in the Git repository at:
+These patches were tested on X86_64 architecture with Ubuntu 18.04 and SDX65
+attach.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-fixes-v5.18
+v3:
+Noticed this was reviewed but never picked up.  Rebased to -next
 
-for you to fetch changes up to c38f83bae4037023827c85e045841d0421f85034:
+v2:
+-Fix testbot reported missing set of changes from pm.c
 
-  bus: mhi: host: pci_generic: Flush recovery worker during freeze (2022-04-13 13:11:19 +0530)
+Bhaumik Bhatt (2):
+  bus: mhi: host: Bail on writing register fields if read fails
+  bus: mhi: host: Optimize and update MMIO register write method
 
-----------------------------------------------------------------
-MHI fixes for v5.18
+ drivers/bus/mhi/host/boot.c     | 21 +++++++++----
+ drivers/bus/mhi/host/init.c     | 68 ++++++++++++++++++++++++-----------------
+ drivers/bus/mhi/host/internal.h |  7 +++--
+ drivers/bus/mhi/host/main.c     |  9 ++++--
+ drivers/bus/mhi/host/pm.c       | 15 ++++++---
+ 5 files changed, 76 insertions(+), 44 deletions(-)
 
-Couple of patches fixing the hibernation issue seen on MHI endpoint devices like
-SDX65 modems:
+-- 
+2.7.4
 
-- During hibernation, the host puts the device into D3cold after thaw() stage.
-But at that time, the device would be in M0 state. So the device emits a
-warning (not visible to the host but to device firmware only) stating invalid
-transition. This is fixed by adding a poweroff() callback that puts the device
-into M3 before D3cold.
-
-- There is a possibility that the recovery worker might be running while trying
-to powerdown the device. So flush the recovery worker before that.
-
-----------------------------------------------------------------
-Manivannan Sadhasivam (2):
-      bus: mhi: host: pci_generic: Add missing poweroff() PM callback
-      bus: mhi: host: pci_generic: Flush recovery worker during freeze
-
- drivers/bus/mhi/host/pci_generic.c | 2 ++
- 1 file changed, 2 insertions(+)
