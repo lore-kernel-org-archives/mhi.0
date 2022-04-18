@@ -1,105 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00647E0
-	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 06:26:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BC30C385A7;
-	Mon, 18 Apr 2022 06:26:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650263211;
-	bh=EsGNBU+sg7NMQeCrmziT8Zc9i2e1ClCCLAxrjPCfMy0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aqPmGnI1+Iu4R3IluEubsmJlov0GF9yhR//+LPqfnmTr4RW5CduKqNpQurgi89ZHA
-	 5EJsh2gf3XZKnv9CHlx2GQQmGf+blouY3h1tbDcTehWgGo6rPuBr22v8hikY5YEdyT
-	 qwk/t29cFrXl2bosUSUodopPalVEm4wUeYAEy1SbbKlo1Wxj4JKV4lAdiJDI30LNSD
-	 AFB7exqu08WJrwUpCdptyZjQAcb82cg/8o6/fgpNG5Hk5KpQuqOR5HUbujPjuVG4I1
-	 8QQ5/po5HEwhGzJBnXyd65KBJ9yTxwvDXAnmPgqROchE3Tdr6EafIkfblDErB7YmkM
-	 O7fC4S3rT7uQw==
-Date: Mon, 18 Apr 2022 11:56:45 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jeffrey Hugo <jhugo@codeaurora.org>
-Subject: Re: [PATCH v3] bus: mhi: host: Wait for ready state after reset
-Message-ID: <20220418062645.GI7431@thinkpad>
-References: <1649875946-32516-1-git-send-email-quic_jhugo@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8970180F
+	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 13:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1650289637; x=1681825637;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=H1X3BJlerqrWJy2a4jlLXxCz96pB+HYEXK0sfC2JpLo=;
+  b=f0C3G1iS0Pve4VYgDk03EiqCFPanA1I/VXB7LTQBuChdV+FsNHtnLOyN
+   kGewziO/Egya1MErJOz5Mhulh2qCpVTGSp42DriI4hawQiVDtO1dBk9Ix
+   KxDPv6me9SHOxJMA40eHX2LmUZ5GnbpHFl5soXnpqKIQaxFnVrFEEwOBm
+   Y=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Apr 2022 06:45:08 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 06:45:08 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 18 Apr 2022 06:45:07 -0700
+Received: from [10.226.58.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 18 Apr
+ 2022 06:45:06 -0700
+Message-ID: <2c776c00-5742-516f-06e3-80db9f572cb4@quicinc.com>
+Date: Mon, 18 Apr 2022 07:45:06 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1649875946-32516-1-git-send-email-quic_jhugo@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] bus: mhi: host: Add soc_reset sysfs
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <quic_hemantk@quicinc.com>, <quic_bbhatt@quicinc.com>,
+	<mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <1649883619-17609-1-git-send-email-quic_jhugo@quicinc.com>
+ <20220418054649.GB7431@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20220418054649.GB7431@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-On Wed, Apr 13, 2022 at 12:52:26PM -0600, Jeffrey Hugo wrote:
-> From: Jeffrey Hugo <jhugo@codeaurora.org>
+On 4/17/2022 11:46 PM, Manivannan Sadhasivam wrote:
+> On Wed, Apr 13, 2022 at 03:00:19PM -0600, Jeffrey Hugo wrote:
+>> From: Jeffrey Hugo <jhugo@codeaurora.org>
+>>
+>> The MHI bus supports a standardized hardware reset, which is known as the
+>> "SoC Reset".  This reset is similar to the reset sysfs for PCI devices -
+>> a hardware mechanism to reset the state back to square one.
+>>
+>> The MHI SoC Reset is described in the spec as a reset of last resort.  If
+>> some unrecoverable error has occurred where other resets have failed, SoC
+>> Reset is the "big hammer" that ungracefully resets the device.  This is
+>> effectivly the same as yanking the power on the device, and reapplying it.
+>> However, depending on the nature of the particular issue, the underlying
+>> transport link may remain active and configured.  If the link remains up,
+>> the device will flag a MHI system error early in the boot process after
+>> the reset is executed, which allows the MHI bus to process a fatal error
+>> event, and clean up appropiately.
+>>
+>> While the SoC Reset is generally intended as a means of recovery when all
+>> else has failed, it can be useful in non-error scenarios.  For example,
+>> if the device loads firmware from the host filesystem, the device may need
+>> to be fully rebooted inorder to pick up the new firmware.  In this
+>> scenario, the system administrator may use the soc_reset sysfs to cause
+>> the device to pick up the new firmware that the admin placed on the
+>> filesystem.
+>>
+>> Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > 
-> After the device has signaled the end of reset by clearing the reset bit,
-> it will automatically reinit MHI and the internal device structures.  Once
-> That is done, the device will signal it has entered the ready state.
+> Do you need double signed-off because of change in domain?
 > 
-> Signaling the ready state involves sending an interrupt (MSI) to the host
-> which might cause IOMMU faults if it occurs at the wrong time.
-> 
-> If the controller is being powered down, and possibly removed, then the
-> reset flow would only wait for the end of reset.  At which point, the host
-> and device would start a race.  The host may complete its reset work, and
-> remove the interrupt handler, which would cause the interrupt to be
-> disabled in the IOMMU.  If that occurs before the device signals the ready
-> state, then the IOMMU will fault since it blocked an interrupt.  While
-> harmless, the fault would appear like a serious issue has occurred so let's
-> silence it by making sure the device hits the ready state before the host
-> completes its reset processing.
-> 
-> Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
-> Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-I was about to apply this patch but wanted to check with you on using the
-double signed-off by tags. If the patch get's handed over between multiple
-developers then multiple signed-off by's make sense. But since it is you that
-handled the earlier patch also, I think one tag is enough with your new domain.
+That seems to be the convention that I see in the community.  As I 
+understand it, the SoB is linked to the Developers Certificate of 
+Origin.  This version of the change is coming from 
+"quic_jhugo@quicinc.com" and that entity needs to certify they can share 
+the code under the Cert of Origin.
 
-One more thing is, using codeaurora domain will bounce now. So, please use the
-quicinc domain for Hemant also.
+In theory, I could have avoided this by sending this version under the 
+codeaurora address.  The problem is that the codeaurora domain no longer 
+exists, so sending/receiving email from that id is not possible.
 
-Thanks,
-Mani
-
-> ---
-> 
-> v3:
-> Rebase and use dev_err over dev_warn
-> 
-> v2: 
-> Fix subject and remove use of cur_state
-> 
->  drivers/bus/mhi/host/pm.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index a0e91bd..f46158e 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -483,6 +483,15 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->  		 * hence re-program it
->  		 */
->  		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
-> +
-> +		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
-> +			/* wait for ready to be set */
-> +			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
-> +						 MHISTATUS,
-> +						 MHISTATUS_READY_MASK, 1, 25000);
-> +			if (ret)
-> +				dev_err(dev, "Device failed to enter READY state\n");
-> +		}
->  	}
->  
->  	dev_dbg(dev,
-> -- 
-> 2.7.4
-> 
+If I'm not understanding things correctly, please educate me.
