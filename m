@@ -1,32 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6A47E0
-	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 06:08:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECABC385AC;
-	Mon, 18 Apr 2022 06:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F057E0
+	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 06:22:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A64C385A7;
+	Mon, 18 Apr 2022 06:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650262105;
-	bh=XNZr/IKeGY/pGlzCIWto86GY7XWEV0Np1gDcwopi1Xg=;
+	s=k20201202; t=1650262964;
+	bh=PWcIy8PGxkF0B7GrimYoVIiNDzZ6HuGk+0nj59uVwWw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lysp/owBXLrObu8oZX/jv3OR7J3MTz+Ji1yeSgbxa5CiTMoYhoVEEb192Qt+8nf4g
-	 /QP7VfXAVglQTvXMG1AQMBOx8gv5wizHkAwJNJAsr7tgf4jS21aGQ4EFTAXoB2khbv
-	 YWiZEL7BPukNyb9GLBGI9bWJ3s+cCYqyW+5EKRW7WsHTunAUBXN6Q7syxOYKsAlXbr
-	 E5tFGUQh3h76fZQf0Z78KweCQgj0QGptZNhBsWXZE4784Hpu22ElUuRIBuoC13PstZ
-	 EGHU9oi2v4/uxKrfVuFpPUzG1p2zvuORhsX5wXXSFJRspcMfdW24xZabXZpS9SUD72
-	 yI69d+S5vZhUA==
-Date: Mon, 18 Apr 2022 11:38:18 +0530
+	b=EPIT16FMh/HuoCjW4PrvD4bNzAzj3sVuMlxMcDK6jPCSk5PToFgRbH+UAb0Z21NgA
+	 FhODQYe+3zH7k7cdt6C/cAGBlfvHkceHJ/d1CwOwaIA0e5zwdgPjn1/7VqRajOmrHT
+	 W+bogzXOAm5wAfgRHjwNFKiDMXyJhfKLQ/HWBnA95WJV1iwAmYMASrT7IduVBo+Gwd
+	 WZlvZAHP2CjuGZ6JTenh4YAqRMCZrky5XOswC1xitDem9l7Ejsko4xygEG6zIsyiKs
+	 O5a5eMeQa8SLDen4LfnZH0ZeTI1uWKn6JCtlkX2Kw3P0U5XDElEKbmLuVlQFm6Tt7T
+	 APsYb23vBVWTQ==
+Date: Mon, 18 Apr 2022 11:52:38 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: loic.poulain@linaro.org, quic_hemantk@quicinc.com,
-	quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bhaumik Bhatt <bbhatt@codeaurora.org>
-Subject: Re: [PATCH v3 2/2] bus: mhi: host: Optimize and update MMIO register
- write method
-Message-ID: <20220418060818.GF7431@thinkpad>
-References: <1649865406-30198-1-git-send-email-quic_jhugo@quicinc.com>
- <1649865406-30198-3-git-send-email-quic_jhugo@quicinc.com>
+Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] bus: mhi: host: Use cached values for calculating the
+ shared write pointer
+Message-ID: <20220418062238.GH7431@thinkpad>
+References: <1649868113-18826-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -35,159 +32,98 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1649865406-30198-3-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <1649868113-18826-1-git-send-email-quic_jhugo@quicinc.com>
 
-On Wed, Apr 13, 2022 at 09:56:46AM -0600, Jeffrey Hugo wrote:
-> From: Bhaumik Bhatt <bbhatt@codeaurora.org>
+On Wed, Apr 13, 2022 at 10:41:53AM -0600, Jeffrey Hugo wrote:
+> mhi_recycle_ev_ring() computes the shared write pointer for the ring
+> (ctxt_wp) using a read/modify/write pattern where the ctxt_wp value in the
+> shared memory is read, incremented, and written back.  There are no checks
+> on the read value, it is assumed that it is kept in sync with the locally
+> cached value.  Per the MHI spec, this is correct.  The device should only
+> read ctxt_wp, never write it.
 > 
-> As of now, MMIO writes done after ready state transition use the
-> mhi_write_reg_field() API even though the whole register is being
-> written in most cases. Optimize this process by using mhi_write_reg()
-> API instead for those writes and use the mhi_write_reg_field()
-> API for MHI config registers only.
+> However, there are devices in the wild that violate the spec, and can
+> update the ctxt_wp in a specific scenario.  This can cause corruption, and
+> violate the above assumption that the ctxt_wp is in sync with the cached
+> value.
 > 
-> Signed-off-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
-> Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> This can occur when the device has loaded firmware from the host, and is
+> transitioning from the SBL EE to the AMSS EE.  As part of shutting down
+> SBL, the SBL flushes it's local MHI context to the shared memory since
+> the local context will not persist across an EE change.  In the case of
+> the event ring, SBL will flush its entire context, not just the parts that
+> it is allowed to update.  This means SBL will write to ctxt_wp, and
+> possibly corrupt it.
+> 
+> An example:
+> 
+> Host				Device
+> ----				---
+> Update ctxt_wp to 0x1f0
+> 				SBL observes 0x1f0
+> Update ctxt_wp to 0x0
+> 				Starts transition to AMSS EE
+> 				Context flush, writes 0x1f0 to ctxt_wp
+> Update ctxt_wp to 0x200
+> Update ctxt_wp to 0x210
+> 				AMSS observes 0x210
+> 				0x210 exceeds ring size
+> 				AMSS signals syserr
+> 
+> The reason the ctxt_wp goes off the end of the ring is that the rollover
+> check is only performed on the cached wp, which is out of sync with
+> ctxt_wp.
+> 
+> Since the host is the authority of the value of ctxt_wp per the MHI spec,
+> we can fix this issue by not reading ctxt_wp from the shared memory, and
+> instead compute it based on the cached value.  If SBL corrupts ctxt_wp,
+> the host won't observe it, and will correct the value at some point later.
+> 
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/init.c | 62 ++++++++++++++++++++++-----------------------
->  1 file changed, 31 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 9ac93b7..04c409b 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -425,74 +425,65 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	struct {
->  		u32 offset;
-> -		u32 mask;
->  		u32 val;
->  	} reg_info[] = {
->  		{
-> -			CCABAP_HIGHER, U32_MAX,
-> +			CCABAP_HIGHER,
->  			upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
->  		},
->  		{
-> -			CCABAP_LOWER, U32_MAX,
-> +			CCABAP_LOWER,
->  			lower_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
->  		},
->  		{
-> -			ECABAP_HIGHER, U32_MAX,
-> +			ECABAP_HIGHER,
->  			upper_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
->  		},
->  		{
-> -			ECABAP_LOWER, U32_MAX,
-> +			ECABAP_LOWER,
->  			lower_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
->  		},
->  		{
-> -			CRCBAP_HIGHER, U32_MAX,
-> +			CRCBAP_HIGHER,
->  			upper_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
->  		},
->  		{
-> -			CRCBAP_LOWER, U32_MAX,
-> +			CRCBAP_LOWER,
->  			lower_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
->  		},
->  		{
-> -			MHICFG, MHICFG_NER_MASK,
-> -			mhi_cntrl->total_ev_rings,
-> -		},
-> -		{
-> -			MHICFG, MHICFG_NHWER_MASK,
-> -			mhi_cntrl->hw_ev_rings,
-> -		},
-> -		{
-> -			MHICTRLBASE_HIGHER, U32_MAX,
-> +			MHICTRLBASE_HIGHER,
->  			upper_32_bits(mhi_cntrl->iova_start),
->  		},
->  		{
-> -			MHICTRLBASE_LOWER, U32_MAX,
-> +			MHICTRLBASE_LOWER,
->  			lower_32_bits(mhi_cntrl->iova_start),
->  		},
->  		{
-> -			MHIDATABASE_HIGHER, U32_MAX,
-> +			MHIDATABASE_HIGHER,
->  			upper_32_bits(mhi_cntrl->iova_start),
->  		},
->  		{
-> -			MHIDATABASE_LOWER, U32_MAX,
-> +			MHIDATABASE_LOWER,
->  			lower_32_bits(mhi_cntrl->iova_start),
->  		},
->  		{
-> -			MHICTRLLIMIT_HIGHER, U32_MAX,
-> +			MHICTRLLIMIT_HIGHER,
->  			upper_32_bits(mhi_cntrl->iova_stop),
->  		},
->  		{
-> -			MHICTRLLIMIT_LOWER, U32_MAX,
-> +			MHICTRLLIMIT_LOWER,
->  			lower_32_bits(mhi_cntrl->iova_stop),
->  		},
->  		{
-> -			MHIDATALIMIT_HIGHER, U32_MAX,
-> +			MHIDATALIMIT_HIGHER,
->  			upper_32_bits(mhi_cntrl->iova_stop),
->  		},
->  		{
-> -			MHIDATALIMIT_LOWER, U32_MAX,
-> +			MHIDATALIMIT_LOWER,
->  			lower_32_bits(mhi_cntrl->iova_stop),
->  		},
-> -		{ 0, 0, 0 }
-> +		{0, 0}
->  	};
->  
->  	dev_dbg(dev, "Initializing MHI registers\n");
-> @@ -533,13 +524,22 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  	mhi_cntrl->mhi_cmd[PRIMARY_CMD_RING].ring.db_addr = base + CRDB_LOWER;
->  
->  	/* Write to MMIO registers */
-> -	for (i = 0; reg_info[i].offset; i++) {
-> -		ret = mhi_write_reg_field(mhi_cntrl, base, reg_info[i].offset,
-> -					  reg_info[i].mask, reg_info[i].val);
-> -		if (ret) {
-> -			dev_err(dev, "Unable to write to MMIO registers");
-> -			return ret;
-> -		}
-> +	for (i = 0; reg_info[i].offset; i++)
-> +		mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
-> +			      reg_info[i].val);
-> +
-> +	ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NER_MASK,
-> +				  mhi_cntrl->total_ev_rings);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to read MHICFG register\n");
+> Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
+> Reviewed-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
 
-"Unable to write"?
-
-> +		return ret;
-> +	}
-> +
-> +	ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NHWER_MASK,
-> +				  mhi_cntrl->hw_ev_rings);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to read MHICFG register\n");
-
-Same here.
+Applied to mhi-next!
 
 Thanks,
 Mani
 
-> +		return ret;
->  	}
+> ---
+> 
+> v3:
+> Rebase to -next
+> 
+> v2:
+> Fix typo on the ring base
+> 
+>  drivers/bus/mhi/host/main.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 142eea1..f3aef77a 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -534,18 +534,13 @@ irqreturn_t mhi_intvec_handler(int irq_number, void *dev)
+>  static void mhi_recycle_ev_ring_element(struct mhi_controller *mhi_cntrl,
+>  					struct mhi_ring *ring)
+>  {
+> -	dma_addr_t ctxt_wp;
+> -
+>  	/* Update the WP */
+>  	ring->wp += ring->el_size;
+> -	ctxt_wp = le64_to_cpu(*ring->ctxt_wp) + ring->el_size;
 >  
->  	return 0;
+> -	if (ring->wp >= (ring->base + ring->len)) {
+> +	if (ring->wp >= (ring->base + ring->len))
+>  		ring->wp = ring->base;
+> -		ctxt_wp = ring->iommu_base;
+> -	}
+>  
+> -	*ring->ctxt_wp = cpu_to_le64(ctxt_wp);
+> +	*ring->ctxt_wp = cpu_to_le64(ring->iommu_base + (ring->wp - ring->base));
+>  
+>  	/* Update the RP */
+>  	ring->rp += ring->el_size;
 > -- 
 > 2.7.4
 > 
