@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BED180F
-	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 14:01:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7EAFC385A1;
-	Mon, 18 Apr 2022 14:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A38280F
+	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 14:12:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716DBC385A8;
+	Mon, 18 Apr 2022 14:12:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650290460;
-	bh=t87kTP2ANlN2kxQbIJv5pHweOFSoXgwk/LXZka654+E=;
+	s=k20201202; t=1650291174;
+	bh=IVDZmECCaRmoAtMDnJhVFNl6perUjNM7sTyxh9m4brg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EA5vOwPbhjFFZ1nx+L1Ezu86daVyQ8GUzOk0G5mh3/VA7csw1eeXv63QnuYK62Q4m
-	 oXCCLsJhU0rv+quy4Ofa2T+vNYZAqK6e7fVM6VlTalRWNJA07eIIZoz7MSPT75Hf4T
-	 1n1s+5U78hCKKtUE5l9Gu6hh5BhxR6KMG5ZX4o6SEh+J7dJbCmyERuFvmiIj3phm+k
-	 bI++9L8aJsZ2NS+EjjEACSOC6YcQGxw1fIb2/FnbzfqzB4IeitrlipS95zIN5H1vHF
-	 1V2560VTepO6t+GJqmgeylX/Voa6okmbRNviM4x4rC7HkoVWnh6p9nBv74GGOZl76F
-	 d95bf+CZPDMCw==
-Date: Mon, 18 Apr 2022 19:30:53 +0530
+	b=lKdS9WmOwcflzN1Th5Ni8eFpXF1nMyP4ivl5hdxkwJn7O3SoazMmyTYgc/mLhe1tX
+	 QPMCy5Ds1XUKjXCFD8iAIQK6lFbPeJv7dYEj7ZCoB5U99ZmARohYUcz+irAbyvU+DM
+	 pmPcjervlnxx2s3reHgBZrqCyNYRZqRasSguWaT2DqIZggRJA+e/KdCDV5nQUh7v0T
+	 gqc6hI6R/Jyvnif51h5bhtIZF1WxVHpuDc2OER4x44ZfHXG7MCzY2vGF86ZGJt+Q2p
+	 zTfwuyOsPYrXbkEuItOmAvutmCiwPkRsCgRAITS8GYVQok2vZmSzPRK86CPnAk1+1v
+	 8rXvY/gvs5yBA==
+Date: Mon, 18 Apr 2022 19:42:48 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] bus: mhi: host: Add soc_reset sysfs
-Message-ID: <20220418140053.GB161722@thinkpad>
-References: <1649883619-17609-1-git-send-email-quic_jhugo@quicinc.com>
- <20220418054649.GB7431@thinkpad>
- <2c776c00-5742-516f-06e3-80db9f572cb4@quicinc.com>
+Subject: Re: [PATCH v3] bus: mhi: host: Wait for ready state after reset
+Message-ID: <20220418141248.GC161722@thinkpad>
+References: <1649875946-32516-1-git-send-email-quic_jhugo@quicinc.com>
+ <20220418062645.GI7431@thinkpad>
+ <eff55b55-cef0-2931-c8e5-95a9230c9d27@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -33,58 +33,51 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c776c00-5742-516f-06e3-80db9f572cb4@quicinc.com>
+In-Reply-To: <eff55b55-cef0-2931-c8e5-95a9230c9d27@quicinc.com>
 
-On Mon, Apr 18, 2022 at 07:45:06AM -0600, Jeffrey Hugo wrote:
-> On 4/17/2022 11:46 PM, Manivannan Sadhasivam wrote:
-> > On Wed, Apr 13, 2022 at 03:00:19PM -0600, Jeffrey Hugo wrote:
+On Mon, Apr 18, 2022 at 07:53:24AM -0600, Jeffrey Hugo wrote:
+> On 4/18/2022 12:26 AM, Manivannan Sadhasivam wrote:
+> > On Wed, Apr 13, 2022 at 12:52:26PM -0600, Jeffrey Hugo wrote:
 > > > From: Jeffrey Hugo <jhugo@codeaurora.org>
 > > > 
-> > > The MHI bus supports a standardized hardware reset, which is known as the
-> > > "SoC Reset".  This reset is similar to the reset sysfs for PCI devices -
-> > > a hardware mechanism to reset the state back to square one.
+> > > After the device has signaled the end of reset by clearing the reset bit,
+> > > it will automatically reinit MHI and the internal device structures.  Once
+> > > That is done, the device will signal it has entered the ready state.
 > > > 
-> > > The MHI SoC Reset is described in the spec as a reset of last resort.  If
-> > > some unrecoverable error has occurred where other resets have failed, SoC
-> > > Reset is the "big hammer" that ungracefully resets the device.  This is
-> > > effectivly the same as yanking the power on the device, and reapplying it.
-> > > However, depending on the nature of the particular issue, the underlying
-> > > transport link may remain active and configured.  If the link remains up,
-> > > the device will flag a MHI system error early in the boot process after
-> > > the reset is executed, which allows the MHI bus to process a fatal error
-> > > event, and clean up appropiately.
+> > > Signaling the ready state involves sending an interrupt (MSI) to the host
+> > > which might cause IOMMU faults if it occurs at the wrong time.
 > > > 
-> > > While the SoC Reset is generally intended as a means of recovery when all
-> > > else has failed, it can be useful in non-error scenarios.  For example,
-> > > if the device loads firmware from the host filesystem, the device may need
-> > > to be fully rebooted inorder to pick up the new firmware.  In this
-> > > scenario, the system administrator may use the soc_reset sysfs to cause
-> > > the device to pick up the new firmware that the admin placed on the
-> > > filesystem.
+> > > If the controller is being powered down, and possibly removed, then the
+> > > reset flow would only wait for the end of reset.  At which point, the host
+> > > and device would start a race.  The host may complete its reset work, and
+> > > remove the interrupt handler, which would cause the interrupt to be
+> > > disabled in the IOMMU.  If that occurs before the device signals the ready
+> > > state, then the IOMMU will fault since it blocked an interrupt.  While
+> > > harmless, the fault would appear like a serious issue has occurred so let's
+> > > silence it by making sure the device hits the ready state before the host
+> > > completes its reset processing.
 > > > 
 > > > Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
+> > > Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
 > > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > > 
-> > Do you need double signed-off because of change in domain?
+> > I was about to apply this patch but wanted to check with you on using the
+> > double signed-off by tags. If the patch get's handed over between multiple
+> > developers then multiple signed-off by's make sense. But since it is you that
+> > handled the earlier patch also, I think one tag is enough with your new domain.
 > > 
-> > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > One more thing is, using codeaurora domain will bounce now. So, please use the
+> > quicinc domain for Hemant also.
 > 
-> That seems to be the convention that I see in the community.  As I
-> understand it, the SoB is linked to the Developers Certificate of Origin.
-> This version of the change is coming from "quic_jhugo@quicinc.com" and that
-> entity needs to certify they can share the code under the Cert of Origin.
+> I'm aware of the bouncing.  Git send-email however is not, and its default
+> behavior can be a bit annoying in this edge case.
 > 
-> In theory, I could have avoided this by sending this version under the
-> codeaurora address.  The problem is that the codeaurora domain no longer
-> exists, so sending/receiving email from that id is not possible.
-> 
-> If I'm not understanding things correctly, please educate me.
+> I've seen the dual SoB by the same developer elsewhere in the community, but
+> if you want things "cleaned up" to the new quic ids, I'll do that.
 
-IANAL, but since you are the sole developer (and with the same employer) I think
-it is fine to change the DCO. Moreover, if codeaurora is used, it will get CCed
-and will bounce.
-
-But if you have a strong desire to keep the two tags, please let me know.
+Double s-o-b's are common but in this case you handled the patch all the way and
+you are still employed by the same employer. Only thing that changed is your
+domain, so this makes me feel that single s-o-b is enough.
 
 Thanks,
 Mani
