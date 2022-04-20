@@ -1,195 +1,117 @@
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29136A29
-	for <mhi@lists.linux.dev>; Mon, 18 Apr 2022 17:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650304249; x=1681840249;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Cbyg66neQZEsS6a0A9bUci2T5ICx1QxyL7MnY+bDDa8=;
-  b=ugMqHNs7dCfWpGC3iwVDpgkFZ8d7C4ZvWuGokWcRK+tktB1eeIbznoD2
-   ULYp2QMUvG+H/954axFIPoh/YPBA+9tWg687x8/bmmx0kukL554pwPp7W
-   LSSRVZ9McQx6YPVsL0ObcfhPrAJwvJpyCAZp+uyXThkBpKWQWO0Rr9BLj
-   s=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 18 Apr 2022 10:50:49 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 10:50:48 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Apr 2022 10:50:47 -0700
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Apr 2022 10:50:47 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <mani@kernel.org>, <quic_hemantk@quicinc.com>, <quic_bbhatt@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Bhaumik Bhatt <bbhatt@codeaurora.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH v4 2/2] bus: mhi: host: Optimize and update MMIO register write method
-Date: Mon, 18 Apr 2022 11:50:26 -0600
-Message-ID: <1650304226-11080-3-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650304226-11080-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1650304226-11080-1-git-send-email-quic_jhugo@quicinc.com>
+Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36AF1373
+	for <mhi@lists.linux.dev>; Wed, 20 Apr 2022 10:44:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=7ut0Q
+	D0SeAhwHJ2wa4JZOw2v3iSr/i3NVuFHELZO3Hs=; b=iaitjDKGmArIa/RPsuIEE
+	uEdtSERqqRtURhqUx7BHXlYyE0/CAP0PZ3lIF2Min+CujtsfLf9GLnqFDtArgVWa
+	8eU9niGT+Dqr8RGBQ4uQK/Lg2k+mMzVFJs+TmUIim1CjoJV5TpOTYCqEOpkvpWS1
+	mg+3vZYGicnICipA0AZcxY=
+Received: from localhost.localdomain (unknown [112.97.59.179])
+	by smtp4 (Coremail) with SMTP id HNxpCgDX9AlY4F9i69iSAA--.8118S2;
+	Wed, 20 Apr 2022 18:28:42 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org,
+	quic_hemantk@quicinc.com
+Cc: gregkh@linuxfoundation.org,
+	loic.poulain@linaro.org,
+	slark_xiao@163.com,
+	bbhatt@codeaurora.org,
+	christophe.jaillet@wanadoo.fr,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] bus: mhi: host: Add support for Cinterion MV32-WA/MV32-WB
+Date: Wed, 20 Apr 2022 18:28:11 +0800
+Message-Id: <20220420102811.3157-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HNxpCgDX9AlY4F9i69iSAA--.8118S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGw48JF17ArW8KFyktr4xJFb_yoW5GFWDpF
+	WIvrWYyF4vqayaqanay34qgF98Cw4kG343KrnrKw12ywn0y34kZFykK343tFyYvw4vqrs3
+	tr1vqrW3uF4Dt3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zioGQfUUUUU=
+X-Originating-IP: [112.97.59.179]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCdRPoZGBbCtHDJAAAst
 
-From: Bhaumik Bhatt <bbhatt@codeaurora.org>
+MV32-WA is designed based on Qualcomm SDX62, and
+MV32-WB is designed based on QUalcomm SDX65. Both
+products' enumeration would align with previous
+product MV31-W.
+Add some new items for mv32 to separate it from
+mv31-w, in case we need to do any changes in
+future.
 
-As of now, MMIO writes done after ready state transition use the
-mhi_write_reg_field() API even though the whole register is being
-written in most cases. Optimize this process by using mhi_write_reg()
-API instead for those writes and use the mhi_write_reg_field()
-API for MHI config registers only.
-
-Signed-off-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
-Reviewed-by: Hemant Kumar <hemantk@codeaurora.org>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
- drivers/bus/mhi/host/init.c | 62 ++++++++++++++++++++++-----------------------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+ drivers/bus/mhi/host/pci_generic.c | 41 ++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 3842611..cbb86b2 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -439,74 +439,65 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
- 	struct {
- 		u32 offset;
--		u32 mask;
- 		u32 val;
- 	} reg_info[] = {
- 		{
--			CCABAP_HIGHER, U32_MAX,
-+			CCABAP_HIGHER,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
- 		},
- 		{
--			CCABAP_LOWER, U32_MAX,
-+			CCABAP_LOWER,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
- 		},
- 		{
--			ECABAP_HIGHER, U32_MAX,
-+			ECABAP_HIGHER,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
- 		},
- 		{
--			ECABAP_LOWER, U32_MAX,
-+			ECABAP_LOWER,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
- 		},
- 		{
--			CRCBAP_HIGHER, U32_MAX,
-+			CRCBAP_HIGHER,
- 			upper_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
- 		},
- 		{
--			CRCBAP_LOWER, U32_MAX,
-+			CRCBAP_LOWER,
- 			lower_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
- 		},
- 		{
--			MHICFG, MHICFG_NER_MASK,
--			mhi_cntrl->total_ev_rings,
--		},
--		{
--			MHICFG, MHICFG_NHWER_MASK,
--			mhi_cntrl->hw_ev_rings,
--		},
--		{
--			MHICTRLBASE_HIGHER, U32_MAX,
-+			MHICTRLBASE_HIGHER,
- 			upper_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHICTRLBASE_LOWER, U32_MAX,
-+			MHICTRLBASE_LOWER,
- 			lower_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHIDATABASE_HIGHER, U32_MAX,
-+			MHIDATABASE_HIGHER,
- 			upper_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHIDATABASE_LOWER, U32_MAX,
-+			MHIDATABASE_LOWER,
- 			lower_32_bits(mhi_cntrl->iova_start),
- 		},
- 		{
--			MHICTRLLIMIT_HIGHER, U32_MAX,
-+			MHICTRLLIMIT_HIGHER,
- 			upper_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHICTRLLIMIT_LOWER, U32_MAX,
-+			MHICTRLLIMIT_LOWER,
- 			lower_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHIDATALIMIT_HIGHER, U32_MAX,
-+			MHIDATALIMIT_HIGHER,
- 			upper_32_bits(mhi_cntrl->iova_stop),
- 		},
- 		{
--			MHIDATALIMIT_LOWER, U32_MAX,
-+			MHIDATALIMIT_LOWER,
- 			lower_32_bits(mhi_cntrl->iova_stop),
- 		},
--		{ 0, 0, 0 }
-+		{0, 0}
- 	};
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 541ced27d941..a2da40340df7 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -406,6 +406,41 @@ static const struct mhi_pci_dev_info mhi_mv31_info = {
+ 	.mru_default = 32768,
+ };
  
- 	dev_dbg(dev, "Initializing MHI registers\n");
-@@ -547,13 +538,22 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	mhi_cntrl->mhi_cmd[PRIMARY_CMD_RING].ring.db_addr = base + CRDB_LOWER;
- 
- 	/* Write to MMIO registers */
--	for (i = 0; reg_info[i].offset; i++) {
--		ret = mhi_write_reg_field(mhi_cntrl, base, reg_info[i].offset,
--					  reg_info[i].mask, reg_info[i].val);
--		if (ret) {
--			dev_err(dev, "Unable to write to MMIO registers\n");
--			return ret;
--		}
-+	for (i = 0; reg_info[i].offset; i++)
-+		mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
-+			      reg_info[i].val);
++static const struct mhi_channel_config mhi_mv32_channels[] = {
++	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
++	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
++	/* MBIM Control Channel */
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 64, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 64, 0),
++	/* MBIM Data Channel */
++	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 512, 2),
++	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 512, 3),
++};
 +
-+	ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NER_MASK,
-+				  mhi_cntrl->total_ev_rings);
-+	if (ret) {
-+		dev_err(dev, "Unable to write MHICFG register\n");
-+		return ret;
-+	}
++static struct mhi_event_config mhi_mv32_events[] = {
++	MHI_EVENT_CONFIG_CTRL(0, 256),
++	MHI_EVENT_CONFIG_DATA(1, 256),
++	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
++	MHI_EVENT_CONFIG_HW_DATA(3, 1024, 101),
++};
 +
-+	ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NHWER_MASK,
-+				  mhi_cntrl->hw_ev_rings);
-+	if (ret) {
-+		dev_err(dev, "Unable to write MHICFG register\n");
-+		return ret;
- 	}
- 
- 	return 0;
++static const struct mhi_controller_config modem_mv32_config = {
++	.max_channels = 128,
++	.timeout_ms = 20000,
++	.num_channels = ARRAY_SIZE(mhi_mv32_channels),
++	.ch_cfg = mhi_mv32_channels,
++	.num_events = ARRAY_SIZE(mhi_mv32_events),
++	.event_cfg = mhi_mv32_events,
++};
++
++static const struct mhi_pci_dev_info mhi_mv32_info = {
++	.name = "cinterion-mv32",
++	.config = &modem_mv32_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++};
++
+ static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 256, 0),
+@@ -475,6 +510,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(0x1269, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
++	/* MV32-WA (Cinterion) */
++	{ PCI_DEVICE(0x1269, 0x00ba),
++		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
++	/* MV32-WB (Cinterion) */
++	{ PCI_DEVICE(0x1269, 0x00bb),
++		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+ 	{  }
+ };
+ MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
 -- 
-2.7.4
+2.25.1
 
