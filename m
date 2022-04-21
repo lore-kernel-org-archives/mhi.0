@@ -1,125 +1,71 @@
-Received: from mail-m971.mail.163.com (mail-m971.mail.163.com [123.126.97.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBE546B3
-	for <mhi@lists.linux.dev>; Thu, 21 Apr 2022 09:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=aiyjT
-	wKr2WrCCCy47eXa+PFgD09doEJV9YGfIs9RReM=; b=FR9+Ia5Ppk1WIAJQ/fowA
-	eRvsqxGkQG/YHAF5CPfIfJzyYTZr1oaWNEgnDICUIcoMY64t3fWFTEL0EedR5iBO
-	aEQqefVxoZNgj1WialM4M2fgdbLjf74R2gOXZy5xuaTthqEh0CD8lEszEKJC0c3q
-	1Myz0iYIUprxsuSIHGc+Xw=
-Received: from localhost.localdomain (unknown [112.97.55.38])
-	by smtp1 (Coremail) with SMTP id GdxpCgBnYN8yImFiFnrxCA--.411S2;
-	Thu, 21 Apr 2022 17:22:00 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	hemantk@codeaurora.org
-Cc: gregkh@linuxfoundation.org,
-	loic.poulain@linaro.org,
-	slark_xiao@163.com,
-	bbhatt@codeaurora.org,
-	christophe.jaillet@wanadoo.fr,
-	thomas.ulrich@thalesgroup.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] bus: mhi: host: Add support for Cinterion MV32-WA/MV32-WB
-Date: Thu, 21 Apr 2022 17:21:41 +0800
-Message-Id: <20220421092141.3984-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1617A
+	for <mhi@lists.linux.dev>; Thu, 21 Apr 2022 12:59:43 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id c23so4818357plo.0
+        for <mhi@lists.linux.dev>; Thu, 21 Apr 2022 05:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VSJ2rJFM71/kL79jCnpAQ93KJ/x7JSaLjByZLJIvLis=;
+        b=bQtAXsYrpcScFVSrq4QfayE0uHz89yJvJj+NWwQJz3uspPNZ7IfaI8i0n4MZTB3C2P
+         q5X1w6+0UxgI7xuJsjLYgN2vxjbYCTgEuSwIrxO6btQEvZXb2kc9rX1GTF9c/da9lXb1
+         7qzBHOjpjiInSMm/AEtcos16xxEb3L4VPFng5koQvwWdWcnOFcuM7RhhjV+RNVnY/Z7A
+         wGIMq+5NiH3sxrQzNiP5Lqx25Ep/AkpKP5FQazdNeRVVFD3v3PzXKKrQU/gNqlBNM2hr
+         An1M2YUl7YkKW9ubxieNdfg+dQBk+7RA186t2O7yi+zmPDuwravC2jbaC3rNWul1SQqY
+         fqeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VSJ2rJFM71/kL79jCnpAQ93KJ/x7JSaLjByZLJIvLis=;
+        b=H/h/OVSCxmui/cKmJ+CDWBBSh/DI0/sLROCPGIBIGe3a92G3tjK9v1n1EAfs1t0qWb
+         HZJ3cpF0Tx/YdfbE+etEuahEGwavhsD0dqB/E9r5chFB+J7Mjx9gCpB+R65drKE1NsAQ
+         aFQnkUH/5tIzcRk6aEYyGmEr4R6a3v8lwZeJn/eoiVezt8oAwa4mtGaB2tJwBBuPLFFX
+         3DK/qwZQJTeYR8qIeEJI3rfScCFOEXNTAt3dnL+d/BwJuL5vShROJuPMbA20Y6noMiLr
+         E0g2+aeIiMQbgJLcF0JZQSeBkfrKRRu0W6NS1CpFAnP6WrX4b5j8At4XWS2u/YN8xBWq
+         NPmA==
+X-Gm-Message-State: AOAM530oVAwpoR5PYJBU2goxQniDlN0kle+oJbNk/sOURyhXGNqDBtSS
+	XYFLhKdotG4Mq+1YH3CH3jmWtBYDF66E3NkwdsVN1A==
+X-Google-Smtp-Source: ABdhPJwIQ+2mB3qv1xOCuDVLDbz2dL0D2KptMiV9MvVDYueNqS5LsR0SqIrxmiAg5fGEmFqcn+ZywX4Ga1cLAZuoQPg=
+X-Received: by 2002:a17:90a:558a:b0:1c6:fad4:2930 with SMTP id
+ c10-20020a17090a558a00b001c6fad42930mr10366902pji.159.1650545983470; Thu, 21
+ Apr 2022 05:59:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GdxpCgBnYN8yImFiFnrxCA--.411S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGw48JrWDCr1kAF17tr1xGrg_yoW5Aw4DpF
-	WxZrWayF48tFWaqa1vka4v9as8Gws7G3s8KrnrK3W2ywn8C34DXF1kG34SyF1Yy397Xrsr
-	tr4FqFW7W3WDtFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEYL9DUUUUU=
-X-Originating-IP: [112.97.55.38]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBDRjpZFaEIUY8WQAAsI
+References: <20220421092141.3984-1-slark_xiao@163.com>
+In-Reply-To: <20220421092141.3984-1-slark_xiao@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Thu, 21 Apr 2022 14:59:07 +0200
+Message-ID: <CAMZdPi9hsxGqiw11hUkN3dmXVUJ6CUXQdb6P7STPWyfPErpUhg@mail.gmail.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add support for Cinterion MV32-WA/MV32-WB
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mani@kernel.org, hemantk@codeaurora.org, gregkh@linuxfoundation.org, 
+	bbhatt@codeaurora.org, christophe.jaillet@wanadoo.fr, 
+	thomas.ulrich@thalesgroup.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-MV32-WA is designed based on Qualcomm SDX62, and
-MV32-WB is designed based on QUalcomm SDX65. Both
-products' enumeration would align with previous
-product MV31-W.So we merge MV31 and MV32 to MV3X
-for some common settings.
+On Thu, 21 Apr 2022 at 11:22, Slark Xiao <slark_xiao@163.com> wrote:
+>
+> MV32-WA is designed based on Qualcomm SDX62, and
+> MV32-WB is designed based on QUalcomm SDX65. Both
+> products' enumeration would align with previous
+> product MV31-W.So we merge MV31 and MV32 to MV3X
+> for some common settings.
+>
+> Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
 
-Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
- drivers/bus/mhi/host/pci_generic.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+The patch does not fix a bug, but adds new hardware support.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 9527b7d63840..ef8c16746b76 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -371,7 +371,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.sideband_wake = false,
- };
- 
--static const struct mhi_channel_config mhi_mv31_channels[] = {
-+static const struct mhi_channel_config mhi_mv3x_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
- 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
- 	/* MBIM Control Channel */
-@@ -382,25 +382,33 @@ static const struct mhi_channel_config mhi_mv31_channels[] = {
- 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 512, 3),
- };
- 
--static struct mhi_event_config mhi_mv31_events[] = {
-+static struct mhi_event_config mhi_mv3x_events[] = {
- 	MHI_EVENT_CONFIG_CTRL(0, 256),
- 	MHI_EVENT_CONFIG_DATA(1, 256),
- 	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
- 	MHI_EVENT_CONFIG_HW_DATA(3, 1024, 101),
- };
- 
--static const struct mhi_controller_config modem_mv31_config = {
-+static const struct mhi_controller_config modem_mv3x_config = {
- 	.max_channels = 128,
- 	.timeout_ms = 20000,
--	.num_channels = ARRAY_SIZE(mhi_mv31_channels),
--	.ch_cfg = mhi_mv31_channels,
--	.num_events = ARRAY_SIZE(mhi_mv31_events),
--	.event_cfg = mhi_mv31_events,
-+	.num_channels = ARRAY_SIZE(mhi_mv3x_channels),
-+	.ch_cfg = mhi_mv3x_channels,
-+	.num_events = ARRAY_SIZE(mhi_mv3x_events),
-+	.event_cfg = mhi_mv3x_events,
- };
- 
- static const struct mhi_pci_dev_info mhi_mv31_info = {
- 	.name = "cinterion-mv31",
--	.config = &modem_mv31_config,
-+	.config = &modem_mv3x_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+};
-+
-+static const struct mhi_pci_dev_info mhi_mv32_info = {
-+	.name = "cinterion-mv32",
-+	.config = &modem_mv3x_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
- 	.mru_default = 32768,
-@@ -475,6 +483,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(0x1269, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
-+	/* MV32-WA (Cinterion) */
-+	{ PCI_DEVICE(0x1269, 0x00ba),
-+		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
-+	/* MV32-WB (Cinterion) */
-+	{ PCI_DEVICE(0x1269, 0x00bb),
-+		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
- 	{  }
- };
- MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
--- 
-2.25.1
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
+Without the 'fixes' tag:
+
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
