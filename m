@@ -1,25 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF367A
-	for <mhi@lists.linux.dev>; Fri, 22 Apr 2022 13:46:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F67C385A4;
-	Fri, 22 Apr 2022 13:46:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650635194;
-	bh=I7N7mXlIeYjI5hIjBZo40RuqRK7Suv5Air/qzKkySa4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C3F7A
+	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 12:23:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96F49C385A5;
+	Sat, 23 Apr 2022 12:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1650716616;
+	bh=1ZDjuPtLpq1fxqlJBuXcS1neob/RlAg1nHXUoBOA43g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pp2PCell+RYwCpfxPYhwQv5mwF241mC6CTMWu452Ndmn1D1DIPUzjmRGUy/EUj4sf
-	 NsL9Se8+rQ8I889Uq5G3ji1e+DUyrCFAzQFjyhsIXmIreVEq76AUD/ubNrWXnG1HX9
-	 WEE0WSM/lfUIEdbHAIoGnfbHO9Tm0QTExDStP6Wo=
-Date: Fri, 22 Apr 2022 15:46:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=RjpyDUwtlQrv7/c1lLzBfXgeagx3tB/M9NIXbNSBZAykTurh15C8vVIyOdNv6uvYV
+	 eOdhCz+zsQJ1nFw6vafKtQzuD5FHLNram2173vjiK5+k63EaqfGCNvuL8jgjcoX6Rt
+	 dpUKR8mN/T5+vXvlO+WtMhUGiIlKdGGg232QZxGRydyrOvP5rnw4Aq+3U4MhcpWVvu
+	 QXQF+IpwCxn4jeHGiYMgk8lhBMYzt0gYXhrgR4eet1ibG8TnCUQnycsLPO8dRUC2fI
+	 NaLUmU0qBf5dDJPFfbH/zxncTvbE80CpkG+w7VMPDdADqkPzmaKLQYC5+UUNhHFCWX
+	 C6ciwV7uNcJ5g==
+Date: Sat, 23 Apr 2022 17:53:29 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: mhi@lists.linux.dev, quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com,
-	loic.poulain@linaro.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [GIT PULL] MHI fixes for v5.18
-Message-ID: <YmKxr5TswPhLGo2d@kroah.com>
-References: <20220413085954.GE2015@thinkpad>
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org, dnlplm@gmail.com
+Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Sort mhi_pci_id_table
+ based on the PID
+Message-ID: <20220423122329.GK374560@thinkpad>
+References: <20220411133428.42165-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -28,17 +33,60 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220413085954.GE2015@thinkpad>
+In-Reply-To: <20220411133428.42165-1-manivannan.sadhasivam@linaro.org>
 
-On Wed, Apr 13, 2022 at 02:29:54PM +0530, Manivannan Sadhasivam wrote:
-> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+On Mon, Apr 11, 2022 at 07:04:28PM +0530, Manivannan Sadhasivam wrote:
+> Sorting this way helps in identifying the products of vendors. There is no
+> sorting required for VID and the new VID should be added as the last entry.
 > 
->   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+> Let's also add a note clarifying this.
 > 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-fixes-v5.18
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Now pulled and pushed out,t hanks.
+Applied to mhi-next!
 
-greg k-h
+Thanks,
+Mani
+
+> ---
+> 
+> Changes in v2:
+> 
+> * Fixup the 0x0306 entry by moving it after subid
+> 
+>  drivers/bus/mhi/host/pci_generic.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 541ced27d941..8858f3bf4f04 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -446,20 +446,21 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
+>  	.sideband_wake = false,
+>  };
+>  
+> +/* Keep the list sorted based on the PID. New VID should be added as the last entry */
+>  static const struct pci_device_id mhi_pci_id_table[] = {
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+> +		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
+>  	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
+>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
+>  		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
+>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
+> -	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+> -		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+> +		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+>  	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+>  	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> -	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+> -		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+>  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+>  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+> -- 
+> 2.25.1
+> 
