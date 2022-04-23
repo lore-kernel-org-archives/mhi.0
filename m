@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02EA7A
-	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 12:28:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293BFC385A0;
-	Sat, 23 Apr 2022 12:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3977C
+	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 13:14:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D7CC385A5;
+	Sat, 23 Apr 2022 13:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650716883;
-	bh=xd32SN3BRqxRVtnNiYTREn60ZMNvYHMhRfZ1xfou+Ac=;
+	s=k20201202; t=1650719676;
+	bh=EhGNChbTex4daXC/4M0L+MFTZGt5iVXyh5mOH6CzWeM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aSuyPNS2P0Uerv6f4EY/BvZFM2JXV6gDVy1P7a/yu8BpCmt13WXyJ7ydxk64yTa50
-	 Ckd1r2+QoBgKyOCvnzLcIBT4OMetSPhzeecal6W9BwqNLSRybhS3S8wZiQnl6t8IgF
-	 2WQHHDP9X0U5eUL0eQ11epShUBhHIuQA0J8ngQxGfDnJhZUDvhhZyW5aMbuVn7jqfP
-	 R0Ki2J//X06DmizOdhw/D/LrmwHNjrvWuOdbpTn/oNGdEblyCXkAir9ADUWKcnvcUn
-	 C7Sk7uk40M9BrxHS8dI/3hMfnOqu4/F4TZ7gbfcFPUkdH4gfeAy78n2npxN4yj1fnR
-	 4xP0urMChPvtQ==
-Date: Sat, 23 Apr 2022 17:57:56 +0530
+	b=WEmbry3swwcKTDm+Y+ygHIERtUNF07Xpg8tZ0fNPrw3SURPGXJCuDUSlWatSz4NzS
+	 J7WRYJHTHP1LG048fDCbUzh0D8pR1so2Tb81e1ggWtWQW5vKmUM8ts5CYeTJmRmcue
+	 nEQQZR189UIYCpuyXDhZjJ03PaRJJg1kUJEMY/QDNjpxl3ij7XOCjeJ71k+HsgWREE
+	 rFVNuLh8oQ8v9npLTz7zopnpRp/wOnZL+8kp6tZcF6/g5ut7lNG7dASJC0YpwHVE7X
+	 R4FX+Izd/8WE7NmavgLgGwHE0LDpZO0bIbmbQN2OkA4PnLPWQS04z2sAF1Vq0IIe6d
+	 /RnyZwKr6/Z+w==
+Date: Sat, 23 Apr 2022 18:44:29 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] bus: mhi: host: Add soc_reset sysfs
-Message-ID: <20220423122756.GM374560@thinkpad>
-References: <1650302327-30439-1-git-send-email-quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v4] bus: mhi: host: Wait for ready state after reset
+Message-ID: <20220423131429.GN374560@thinkpad>
+References: <1650302562-30964-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -31,33 +31,28 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1650302327-30439-1-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <1650302562-30964-1-git-send-email-quic_jhugo@quicinc.com>
 
-On Mon, Apr 18, 2022 at 11:18:47AM -0600, Jeffrey Hugo wrote:
-> The MHI bus supports a standardized hardware reset, which is known as the
-> "SoC Reset".  This reset is similar to the reset sysfs for PCI devices -
-> a hardware mechanism to reset the state back to square one.
+On Mon, Apr 18, 2022 at 11:22:42AM -0600, Jeffrey Hugo wrote:
+> After the device has signaled the end of reset by clearing the reset bit,
+> it will automatically reinit MHI and the internal device structures.  Once
+> That is done, the device will signal it has entered the ready state.
 > 
-> The MHI SoC Reset is described in the spec as a reset of last resort.  If
-> some unrecoverable error has occurred where other resets have failed, SoC
-> Reset is the "big hammer" that ungracefully resets the device.  This is
-> effectivly the same as yanking the power on the device, and reapplying it.
-> However, depending on the nature of the particular issue, the underlying
-> transport link may remain active and configured.  If the link remains up,
-> the device will flag a MHI system error early in the boot process after
-> the reset is executed, which allows the MHI bus to process a fatal error
-> event, and clean up appropiately.
+> Signaling the ready state involves sending an interrupt (MSI) to the host
+> which might cause IOMMU faults if it occurs at the wrong time.
 > 
-> While the SoC Reset is generally intended as a means of recovery when all
-> else has failed, it can be useful in non-error scenarios.  For example,
-> if the device loads firmware from the host filesystem, the device may need
-> to be fully rebooted inorder to pick up the new firmware.  In this
-> scenario, the system administrator may use the soc_reset sysfs to cause
-> the device to pick up the new firmware that the admin placed on the
-> filesystem.
+> If the controller is being powered down, and possibly removed, then the
+> reset flow would only wait for the end of reset.  At which point, the host
+> and device would start a race.  The host may complete its reset work, and
+> remove the interrupt handler, which would cause the interrupt to be
+> disabled in the IOMMU.  If that occurs before the device signals the ready
+> state, then the IOMMU will fault since it blocked an interrupt.  While
+> harmless, the fault would appear like a serious issue has occurred so let's
+> silence it by making sure the device hits the ready state before the host
+> completes its reset processing.
 > 
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+> Reviewed-by: Hemant Kumar <quic_hemantk@quicinc.com>
 > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 Applied to mhi-next!
@@ -67,62 +62,38 @@ Mani
 
 > ---
 > 
-> v3:
+> v4:
 > Cleanup email domain change
 > 
-> v2:
-> Rebase
+> v3:
+> Rebase and use dev_err over dev_warn
 > 
->  Documentation/ABI/stable/sysfs-bus-mhi | 10 ++++++++++
->  drivers/bus/mhi/host/init.c            | 14 ++++++++++++++
->  2 files changed, 24 insertions(+)
+> v2: 
+> Fix subject and remove use of cur_state
 > 
-> diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
-> index ecfe766..96ccc33 100644
-> --- a/Documentation/ABI/stable/sysfs-bus-mhi
-> +++ b/Documentation/ABI/stable/sysfs-bus-mhi
-> @@ -19,3 +19,13 @@ Description:	The file holds the OEM PK Hash value of the endpoint device
->  		read without having the device power on at least once, the file
->  		will read all 0's.
->  Users:		Any userspace application or clients interested in device info.
+>  drivers/bus/mhi/host/pm.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 3d90b8e..c000a92 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -476,6 +476,15 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>  		 * hence re-program it
+>  		 */
+>  		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
 > +
-> +What:           /sys/bus/mhi/devices/.../soc_reset
-> +Date:           April 2022
-> +KernelVersion:  5.19
-> +Contact:        mhi@lists.linux.dev
-> +Description:	Initiates a SoC reset on the MHI controller.  A SoC reset is
-> +                a reset of last resort, and will require a complete re-init.
-> +                This can be useful as a method of recovery if the device is
-> +                non-responsive, or as a means of loading new firmware as a
-> +                system administration task.
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index a665b8e..a8c18c5f 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -108,9 +108,23 @@ static ssize_t oem_pk_hash_show(struct device *dev,
->  }
->  static DEVICE_ATTR_RO(oem_pk_hash);
+> +		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
+> +			/* wait for ready to be set */
+> +			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
+> +						 MHISTATUS,
+> +						 MHISTATUS_READY_MASK, 1, 25000);
+> +			if (ret)
+> +				dev_err(dev, "Device failed to enter READY state\n");
+> +		}
+>  	}
 >  
-> +static ssize_t soc_reset_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf,
-> +			       size_t count)
-> +{
-> +	struct mhi_device *mhi_dev = to_mhi_device(dev);
-> +	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> +
-> +	mhi_soc_reset(mhi_cntrl);
-> +	return count;
-> +}
-> +static DEVICE_ATTR_WO(soc_reset);
-> +
->  static struct attribute *mhi_dev_attrs[] = {
->  	&dev_attr_serial_number.attr,
->  	&dev_attr_oem_pk_hash.attr,
-> +	&dev_attr_soc_reset.attr,
->  	NULL,
->  };
->  ATTRIBUTE_GROUPS(mhi_dev);
+>  	dev_dbg(dev,
 > -- 
 > 2.7.4
 > 
