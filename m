@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A547C
-	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 13:35:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B1BC385A5;
-	Sat, 23 Apr 2022 13:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C62B7C
+	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 13:38:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27113C385A5;
+	Sat, 23 Apr 2022 13:38:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650720944;
-	bh=rcT0itwEuGIdSuVrugDjXf4ZJA/D1R/gAaME3DtkKWk=;
+	s=k20201202; t=1650721120;
+	bh=1iuqdE/gMCK/IrEB1cps2joJ8q8TDslu7dsCHyQdk3c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lJBGwmgGWcuQZTCWx60EhXQOGAcpLsgeKI6SZZy+WVgD2ZqnjpHxdv+hwwjxwB1L7
-	 jgMx4tUR5pfklwNpbU0kwRU30GyvsBQma/+o66/+hr4rmIlTeCdlQATNXbi6DRZdW1
-	 vxYYwMdyzuPfE4Kdd32A0NxQr6TTmDQh85fBf9NOEEwBWlj3K7HJ1KFOEAt1DBU0pU
-	 PPjZk44IfMPuPfqA6m4lHfCppQW1uacy9TiEvugKe+Vv//p7nz6W87cqJMwRfvRViF
-	 jBK0PSTe/uvmxVyz9cJXL9uO7SjvH2pEUr582v92h2nGIKtz23BHNMM4wB0csOLv+v
-	 0hmS6mUfjk2XA==
-Date: Sat, 23 Apr 2022 19:05:32 +0530
+	b=PqhKrvSOkUQJzntv042bNJrnI5ExqK27Ys0YSXQmTvP8xMjZUIkrz9FV3a0ov7W1I
+	 LcJPNXxfJIhwMhU+icUIJ9cbwVXWzLvH80HIi4QC55WkTj/zQq8+5nSaCDudhszTYh
+	 jH/lBlH0BPzV22xse/CPKXKb9ddt/VUAJ44n6bUyKCEh5K+f33Xy/SNLgBymglJkmD
+	 H06xI2qiHYBMC3povZSv84IDtYb6l/N8NqK5zY1+AZSAZZOv13RBUN43GbHHvD9kJ3
+	 wMITBo9YKWhpI86ijjap321Cvx3NQ0avpN67qu4zs+ViXGBxPf2h/ZmY7gHLiga1GJ
+	 CJ+Ra4/cJNlQw==
+Date: Sat, 23 Apr 2022 19:08:31 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: hemantk@codeaurora.org, gregkh@linuxfoundation.org,
@@ -25,7 +25,7 @@ Cc: hemantk@codeaurora.org, gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] bus: mhi: host: Add support for Cinterion
  MV32-WA/MV32-WB
-Message-ID: <20220423133532.GP374560@thinkpad>
+Message-ID: <20220423133831.GQ374560@thinkpad>
 References: <20220421092141.3984-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -45,12 +45,9 @@ On Thu, Apr 21, 2022 at 05:21:41PM +0800, Slark Xiao wrote:
 > for some common settings.
 > 
 > Fixes: 87693e092bd0 ("bus: mhi: pci_generic: Add Cinterion MV31-W PCIe to MHI")
-
-As Loic noted, Fixes tag is not relevant here. I'll remove it while applying.
-
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 Thanks,
 Mani
