@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3977C
-	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 13:14:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D7CC385A5;
-	Sat, 23 Apr 2022 13:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E937C
+	for <mhi@lists.linux.dev>; Sat, 23 Apr 2022 13:26:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F43C385A5;
+	Sat, 23 Apr 2022 13:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1650719676;
-	bh=EhGNChbTex4daXC/4M0L+MFTZGt5iVXyh5mOH6CzWeM=;
+	s=k20201202; t=1650720388;
+	bh=vZepI/YrdkIUFcAgba62MT7KAC51SG3flI+XjUdGxRw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WEmbry3swwcKTDm+Y+ygHIERtUNF07Xpg8tZ0fNPrw3SURPGXJCuDUSlWatSz4NzS
-	 J7WRYJHTHP1LG048fDCbUzh0D8pR1so2Tb81e1ggWtWQW5vKmUM8ts5CYeTJmRmcue
-	 nEQQZR189UIYCpuyXDhZjJ03PaRJJg1kUJEMY/QDNjpxl3ij7XOCjeJ71k+HsgWREE
-	 rFVNuLh8oQ8v9npLTz7zopnpRp/wOnZL+8kp6tZcF6/g5ut7lNG7dASJC0YpwHVE7X
-	 R4FX+Izd/8WE7NmavgLgGwHE0LDpZO0bIbmbQN2OkA4PnLPWQS04z2sAF1Vq0IIe6d
-	 /RnyZwKr6/Z+w==
-Date: Sat, 23 Apr 2022 18:44:29 +0530
+	b=ivQiMhs4BxbWKlILamBe7PSi0gj0SsBCKwlJfC7AxyfULzM+tEQOn431tYSHfKYmf
+	 YwqUOnXQqjfjlteva+DXzkeG8sEKGQCfq3qYKKarMFxOV0uP5wiGlQtcmbVxcHTU/x
+	 PBfW/Xt86yNFS5SnVyu0nwKu9xj2onlbqGOwUwY1FpE1CEXdrnCqYfevlIIB1g3gLS
+	 /NRs0wWQr+KPTeWXCJlXVJKsHHnPH2ATA39IsOcEQw/bbvb3QkbS1dV0OmY1Z/6ytI
+	 0diu1QfUJ9c8+yCn2aD+B/HGk+g0y3EWOHPGtVVsg7cwOSikSSqy0YL56TPDzov0yA
+	 ZDVGBIKEZ7asg==
+Date: Sat, 23 Apr 2022 18:56:20 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: quic_hemantk@quicinc.com, quic_bbhatt@quicinc.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] bus: mhi: host: Wait for ready state after reset
-Message-ID: <20220423131429.GN374560@thinkpad>
-References: <1650302562-30964-1-git-send-email-quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v4 0/2] MHI MMIO register write updates
+Message-ID: <20220423132620.GO374560@thinkpad>
+References: <1650304226-11080-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -31,69 +31,45 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1650302562-30964-1-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <1650304226-11080-1-git-send-email-quic_jhugo@quicinc.com>
 
-On Mon, Apr 18, 2022 at 11:22:42AM -0600, Jeffrey Hugo wrote:
-> After the device has signaled the end of reset by clearing the reset bit,
-> it will automatically reinit MHI and the internal device structures.  Once
-> That is done, the device will signal it has entered the ready state.
+On Mon, Apr 18, 2022 at 11:50:24AM -0600, Jeffrey Hugo wrote:
+> In case of MHI MMIO writes, the register field write function needs to do reads
+> before writes are performed. Propagate read failures such that callers are made
+> aware of those and can take appropriate action instead of running blind.
 > 
-> Signaling the ready state involves sending an interrupt (MSI) to the host
-> which might cause IOMMU faults if it occurs at the wrong time.
+> Optimizing the MMIO initialization function to use mhi_write_reg() in most cases
+> should also be done to improve design.
 > 
-> If the controller is being powered down, and possibly removed, then the
-> reset flow would only wait for the end of reset.  At which point, the host
-> and device would start a race.  The host may complete its reset work, and
-> remove the interrupt handler, which would cause the interrupt to be
-> disabled in the IOMMU.  If that occurs before the device signals the ready
-> state, then the IOMMU will fault since it blocked an interrupt.  While
-> harmless, the fault would appear like a serious issue has occurred so let's
-> silence it by making sure the device hits the ready state before the host
-> completes its reset processing.
+> These patches were tested on X86_64 architecture with Ubuntu 18.04 and SDX65
+> attach.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Hemant Kumar <quic_hemantk@quicinc.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> v4:
+> Address review comments about log messages, and a missing blank line
+> 
+> v3:
+> Noticed this was reviewed but never picked up.  Rebased to -next
+> 
+> v2:
+> -Fix testbot reported missing set of changes from pm.c
+> 
+> Bhaumik Bhatt (2):
+>   bus: mhi: host: Bail on writing register fields if read fails
+>   bus: mhi: host: Optimize and update MMIO register write method
 
-Applied to mhi-next!
+Series applied to mhi-next!
 
 Thanks,
 Mani
 
-> ---
 > 
-> v4:
-> Cleanup email domain change
+>  drivers/bus/mhi/host/boot.c     | 22 +++++++++----
+>  drivers/bus/mhi/host/init.c     | 68 ++++++++++++++++++++++++-----------------
+>  drivers/bus/mhi/host/internal.h |  7 +++--
+>  drivers/bus/mhi/host/main.c     |  9 ++++--
+>  drivers/bus/mhi/host/pm.c       | 15 ++++++---
+>  5 files changed, 77 insertions(+), 44 deletions(-)
 > 
-> v3:
-> Rebase and use dev_err over dev_warn
-> 
-> v2: 
-> Fix subject and remove use of cur_state
-> 
->  drivers/bus/mhi/host/pm.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index 3d90b8e..c000a92 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -476,6 +476,15 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->  		 * hence re-program it
->  		 */
->  		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
-> +
-> +		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
-> +			/* wait for ready to be set */
-> +			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
-> +						 MHISTATUS,
-> +						 MHISTATUS_READY_MASK, 1, 25000);
-> +			if (ret)
-> +				dev_err(dev, "Device failed to enter READY state\n");
-> +		}
->  	}
->  
->  	dev_dbg(dev,
 > -- 
 > 2.7.4
 > 
