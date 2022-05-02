@@ -1,41 +1,41 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E878115A7
-	for <mhi@lists.linux.dev>; Mon,  2 May 2022 04:31:59 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id x18so436364plg.6
-        for <mhi@lists.linux.dev>; Sun, 01 May 2022 21:31:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C554615A7
+	for <mhi@lists.linux.dev>; Mon,  2 May 2022 04:39:52 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id k1so3018710pll.4
+        for <mhi@lists.linux.dev>; Sun, 01 May 2022 21:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=REuG9AexGg7IgaxDgoA3z0hRC9whRi90+gRekVavtK0=;
-        b=qYdrKsq4vx6OMzLHypiBWrV/zNIs92fUhPgKoluy4rmEnH203IrBZ5Fa674WVndhOO
-         OyvjO/qquEY60LWyX8IFzLCEybrvltsbNa4QuQ/Pg0pzG9euNUJO4LCo2E7P942nFzDr
-         jYpK4GWMt/Yrb6SuCWvbio/x2n3y6+eCwqWEKvChvESVpKhWiXpsj5RaPseuSrICkhn9
-         kxYc/yE2P6PNhIyzbYo/Kyq6wjUV+ZZr/VQzEOM3lkOyeUE3Sa3fY2ecXa4nYyPAoZOa
-         fCrideEKQHeXigGJEKyVp6yqoUHb7aqYoFqXfr0Z9Ao7JXHnHJJ9neN0EGBS3T91IBjb
-         PD0g==
+        bh=Q6JAdcJJ5Qoz6lAJknf+7RgOR6g1kzTLvudjVEl/CYY=;
+        b=k9DoJBIeLjtq7XTDsgDYhnunfFtS3OjDrzj25MKoXmKOVHaSvYwy4wWxKR7RLP1C4p
+         ahOFyr2uL2oR+LXLd1Xh0rjo/t83aM/td7si3cf3mwZAEQf7QdnI95XorOKffwUqxhai
+         KfWzGfOzeBSYn+20ZegeUpXcHtSJZFqABrsm2nZogrmy8eCLI9O/G9URUmLNNnyYIdiU
+         7omSW+Ib7TyNhC0W/oL0C2bMp3oaR9c7g20RfYRYu9+tefwj2DrAG9HMXnE3yxHbr4mj
+         tKDFYgtBNKK/IkK6k0bdPwx/P74KUgXErxS8IC6NUtus3pAh/uy13mXV+8BpjexUCZri
+         zSGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=REuG9AexGg7IgaxDgoA3z0hRC9whRi90+gRekVavtK0=;
-        b=RSW/LoOGVzSAsmxOGeZuISfIXSbXa5I47/yXM6q3eVaPLRd+BKVcHFRG+Fo2wvdKq4
-         T51Tz4J93UczNz8gEVZ6t03H1L6+Hw2bsg7jDLVkzzWrYal9j5DT77JrEoFxmacht98d
-         WA/p1GshtMy14ERCJvqPWQtwnhwSvmyUYh+rTZvFemYL5yhWtRW5W9c7ZiOfjKGhxtNv
-         57C4PK9ee4X3e1Z72dwHBMSBX5726sJfSXkBcdO8F/T1RRNxokX6io5VXYnawR6j4cjp
-         GkUyZmHL2gfN1b9BFvP3UcN9R9RsXfnlwmZWwc605J979Wc7uT2t29sUb5dziaoVsPea
-         HlDA==
-X-Gm-Message-State: AOAM533bv20qjl1QLpD+3K0t7bQbY+GE+NWjaZlFTUsITqFQGgoVNWIZ
-	7mDG5hZWE/5/vsA24e2q1u+4xRznWQAp
-X-Google-Smtp-Source: ABdhPJyJDeuSJAGCrkSPLUekdjILRLsonL6mTKS5o69d+6dmpli3ly3cd2fRtjNqiyYjPxS59Hm2QQ==
-X-Received: by 2002:a17:90a:e641:b0:1da:43b8:95b7 with SMTP id ep1-20020a17090ae64100b001da43b895b7mr11275846pjb.180.1651465919116;
-        Sun, 01 May 2022 21:31:59 -0700 (PDT)
+        bh=Q6JAdcJJ5Qoz6lAJknf+7RgOR6g1kzTLvudjVEl/CYY=;
+        b=ZYs2yplFTL5UzIy906It9dDZC5WGFeAExzS3JQOOY8KfXJCyy2RsJgB3+lt+IbdEQy
+         cX7u/TSBWNobs5APs5vz3pOfDLnZYgs/MqlrJ2yX7kayUVqwY1KjH6i82m3jz1xEbOfc
+         qnqKBUZ4PjpiP+psHXnnhr042zrrsKMB4p3oedQftcVWvmhPknXSMSf0VZfxvrLOpbGI
+         9BbwIxzMsZ/6w+bXwsn2gpTv5+4j5PktyLO1sSxtQ6nLhiUoHPLo3Y/kBvtcD68MbC/u
+         otCQAdzIUjp/5PAN3fW/6JwuixkEQ82ZBFeglDPAMgyo/7AbWpFluNGtRVQ4rAXKcaIo
+         c/ww==
+X-Gm-Message-State: AOAM5333DkXPY8uUvwsjqC2Nv2RtKg0nacIdE36iGn67hkxC5EHYMBxa
+	4erTtbVCeTxIh3+ABWkC0FejzjIfBUlm
+X-Google-Smtp-Source: ABdhPJws5mLlqRV9/kn0AvQrQHPyMTyEdrmcG2GWvpHvmg9kKNkP/Ht87dmDzG//yhrRrCUyc0qasg==
+X-Received: by 2002:a17:90a:dd46:b0:1b8:8:7303 with SMTP id u6-20020a17090add4600b001b800087303mr16177172pjv.197.1651466392013;
+        Sun, 01 May 2022 21:39:52 -0700 (PDT)
 Received: from localhost.localdomain ([27.111.75.99])
-        by smtp.gmail.com with ESMTPSA id o6-20020a1709026b0600b0015e8d4eb2d0sm3620260plk.282.2022.05.01.21.31.55
+        by smtp.gmail.com with ESMTPSA id s25-20020a62e719000000b0050dc76281cbsm3644657pfh.165.2022.05.01.21.39.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 May 2022 21:31:57 -0700 (PDT)
+        Sun, 01 May 2022 21:39:51 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: linux-arm-msm@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: linux-arm-msm@vger.kernel.org,
 	quic_hemantk@quicinc.com,
 	quic_bbhatt@quicinc.com,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] bus: mhi: ep: Power up/down MHI stack during MHI RESET
-Date: Mon,  2 May 2022 10:01:52 +0530
-Message-Id: <20220502043152.16675-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v2] bus: mhi: ep: Power up/down MHI stack during MHI RESET
+Date: Mon,  2 May 2022 10:09:46 +0530
+Message-Id: <20220502043946.24432-1-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -63,23 +63,32 @@ up in the case of SYS_ERR to recover the device.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/ep/main.c | 33 +++++++--------------------------
- 1 file changed, 7 insertions(+), 26 deletions(-)
+
+Changes in v2:
+
+* Removed unused variables
+
+ drivers/bus/mhi/ep/main.c | 35 +++++++----------------------------
+ 1 file changed, 7 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 40109a79017a..2de7ef20225a 100644
+index 40109a79017a..59fe8633d4c9 100644
 --- a/drivers/bus/mhi/ep/main.c
 +++ b/drivers/bus/mhi/ep/main.c
-@@ -977,7 +977,7 @@ static void mhi_ep_reset_worker(struct work_struct *work)
+@@ -973,11 +973,9 @@ static void mhi_ep_abort_transfer(struct mhi_ep_cntrl *mhi_cntrl)
+ static void mhi_ep_reset_worker(struct work_struct *work)
+ {
+ 	struct mhi_ep_cntrl *mhi_cntrl = container_of(work, struct mhi_ep_cntrl, reset_work);
+-	struct device *dev = &mhi_cntrl->mhi_dev->dev;
  	enum mhi_state cur_state;
- 	int ret;
+-	int ret;
  
 -	mhi_ep_abort_transfer(mhi_cntrl);
 +	mhi_ep_power_down(mhi_cntrl);
  
  	spin_lock_bh(&mhi_cntrl->state_lock);
  	/* Reset MMIO to signal host that the MHI_RESET is completed in endpoint */
-@@ -990,27 +990,8 @@ static void mhi_ep_reset_worker(struct work_struct *work)
+@@ -990,27 +988,8 @@ static void mhi_ep_reset_worker(struct work_struct *work)
  	 * issue reset during shutdown also and we don't need to do re-init in
  	 * that case.
  	 */
@@ -109,7 +118,7 @@ index 40109a79017a..2de7ef20225a 100644
  }
  
  /*
-@@ -1089,11 +1070,11 @@ EXPORT_SYMBOL_GPL(mhi_ep_power_up);
+@@ -1089,11 +1068,11 @@ EXPORT_SYMBOL_GPL(mhi_ep_power_up);
  
  void mhi_ep_power_down(struct mhi_ep_cntrl *mhi_cntrl)
  {
