@@ -1,91 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98A97F
-	for <mhi@lists.linux.dev>; Mon,  2 May 2022 07:02:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9A7C385A4;
-	Mon,  2 May 2022 07:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651474974;
-	bh=eoOVYqPeWPBvkRpJO7aEAFxNbNRseBdwEZaMMY6k1bk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SZmaMgVx2B6Sy2rrKKeqWBNCMFt6s73hDKQ298GjcC9VrROtNcIBtElWqmfhlmXHH
-	 tRXzVCN5jATegft2haKhC9CKnWMxnPGmisCgcF96xQiamNfxaGESLcdtAd3M1FWREr
-	 UX68yb5ki7U/8MVXJml45wvjzerv2c6SSI1qZuQgPsbV1kXhONg289I5QQTaotWxiT
-	 PoSepeyqOvDUv1uu7G3NLlMh4Rm//J+bUQpcecWbpT7RjVQCEv1/8yITjwiTCjimNw
-	 wdNE+yi11cYzecn7je+QV8eJVO2d/7X3nhpwCLwK9EJilvJnPbq7Pv75QW/o+OeU8C
-	 wfoRag6C6f2ag==
-Date: Mon, 2 May 2022 12:32:47 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org,
-	gregkh@linuxfoundation.org, loic.poulain@linaro.org,
-	christophe.jaillet@wanadoo.fr, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, weiyongjun1@huawei.com
-Subject: Re: [PATCH] bus: mhi: host: Add support for Foxconn T99W373 and
- T99W368
-Message-ID: <20220502070247.GA5053@thinkpad>
-References: <20220429104241.4074-1-slark_xiao@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC48017D3
+	for <mhi@lists.linux.dev>; Mon,  2 May 2022 10:41:52 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id k1so3540194pll.4
+        for <mhi@lists.linux.dev>; Mon, 02 May 2022 03:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q6Rnw46tJ5c8TR1VH8c4HYYn4D03M2nHnAjzUXe5flU=;
+        b=Pjh9MgqoFCWgam7pbQq637Hxn3x2ZC0hKooYXRjuuTbn5yQ7/kxKf8F24mJbZ3q/HM
+         ukCCI6nYrzsGtJ5Ix6j6vsOKgG16OAzrD7H19+FAbI+D/wCakEuhDUaVLRB0c/ipLCpB
+         M+qADP0jKkXABJzJhfldb5yS8XY7toT4iHKCUTdZhqXkJYPXUNls9NC9mLo+Xw8DGkV9
+         z2sdCnW9v8kPNMa9EKnJQR+4JVZo11Fho3Lxqaei20V69OUFL3OhuoMMqNwePJ5cpqV4
+         RUPfWfkI/V2Pyl+SJcR5Arhqdsg7R8AONJV4N4qr3TLak40Rl4NkxaHLehZ1K2bZcLG8
+         wqqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q6Rnw46tJ5c8TR1VH8c4HYYn4D03M2nHnAjzUXe5flU=;
+        b=5kXoGotJAyMtQJXUVGo3Lo7nC49vG4Cw0nocqOFnc0dA0BJhZHHW4NsRCF79DEGOtc
+         KVaiY6IUZYtRWS/+zPoBI6s9wg9o3U6ILpuwaPqHRwGT8Wz49A98O3CgRdEVqZMRjPhV
+         4Mbvx/h7CMYSqhaFEdoX2qgSBoCV6iqdAxnXIdx6YT4l14bxgM5GBKbPnpn5sD27Qm7G
+         7iug9cwWQmNr42uyRmhQpkbpfsQXwTEKGLXndRZgYLTqxTvkUORf7aI0ReTSkj0uebl1
+         g3wCZhOXCMnpbqod/Xmf2mkwckkhxI1BiK9JN0ufnXIXIxMAFknXTb4to3naR8R4rkfm
+         NQ1A==
+X-Gm-Message-State: AOAM533EJQv85h2HfNsCjM3iBqwrACA7JaXz4MlL7crMW8TfLWVd0Oef
+	7E7FjdCN53rgho9VG+5clxfIzfte5gqP
+X-Google-Smtp-Source: ABdhPJwAs8+H3r7smNJ+ixQ2yCIe61zHgAhL1t7EBRsXyLhMAbzuX4wAz4gQxsVHn/Tux9b0w9j4Dg==
+X-Received: by 2002:a17:902:8d8e:b0:159:4f6:c4aa with SMTP id v14-20020a1709028d8e00b0015904f6c4aamr11199720plo.115.1651488111837;
+        Mon, 02 May 2022 03:41:51 -0700 (PDT)
+Received: from localhost.localdomain ([27.111.75.99])
+        by smtp.gmail.com with ESMTPSA id x10-20020a1709029a4a00b0015e8d4eb2ccsm4368434plv.278.2022.05.02.03.41.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 03:41:51 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	quic_hemantk@quicinc.com,
+	quic_bbhatt@quicinc.com,
+	loic.poulain@linaro.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 0/5] MHI host cleanups
+Date: Mon,  2 May 2022 16:11:39 +0530
+Message-Id: <20220502104144.91806-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429104241.4074-1-slark_xiao@163.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 29, 2022 at 06:42:41PM +0800, Slark Xiao wrote:
-> Product's enumeration align with previous Foxconn
-> SDX55, so T99W373(SDX62)/T99W368(SDX65) would use
->  the same config as Foxconn SDX55.
-> Remove fw and edl for this new commit.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Hi,
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+This series has few cleanups to the MHI host stack. Apart from the cleanups,
+patch (5/5) removes the redundant dma_wmb() from mhi_ring_chan_db() function.
+I've provided the reasoning in the commit message, if my understanding is wrong
+please let me know.
 
 Thanks,
 Mani
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9527b7d63840..efc57cd75cec 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -371,6 +371,15 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
->  	.sideband_wake = false,
->  };
->  
-> +static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
-> +	.name = "foxconn-sdx65",
-> +	.config = &modem_foxconn_sdx55_config,
-> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> +	.dma_data_width = 32,
-> +	.mru_default = 32768,
-> +	.sideband_wake = false,
-> +};
-> +
->  static const struct mhi_channel_config mhi_mv31_channels[] = {
->  	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
->  	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-> @@ -472,6 +481,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* T99W175 (sdx55), Based on Qualcomm new baseline */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-> +	/* T99W368 (sdx65) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
-> +	/* T99W373 (sdx62) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
->  	/* MV31-W (Cinterion) */
->  	{ PCI_DEVICE(0x1269, 0x00b3),
->  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
-> -- 
-> 2.25.1
-> 
+Manivannan Sadhasivam (5):
+  bus: mhi: host: Rename process_db callback to ring_db
+  bus: mhi: host: Rename mhi_db_brstmode() and mhi_db_brstmode_disable()
+  bus: mhi: host: Use {READ/WITE}_ONCE macros for db_mode and db_val
+  bus: mhi: host: Rename parse_{rsc/xfer}_event to
+    process{rsc/xfer}_event
+  bus: mhi: host: Remove redundant dma_wmb() before ctx wp update
+
+ drivers/bus/mhi/host/init.c     | 12 +++++------
+ drivers/bus/mhi/host/internal.h |  6 +++---
+ drivers/bus/mhi/host/main.c     | 37 ++++++++++++++++-----------------
+ 3 files changed, 27 insertions(+), 28 deletions(-)
+
+-- 
+2.25.1
+
