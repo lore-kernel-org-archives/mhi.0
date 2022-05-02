@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE66628E0
-	for <mhi@lists.linux.dev>; Mon,  2 May 2022 14:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BEEC385AC;
-	Mon,  2 May 2022 14:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002C62908
+	for <mhi@lists.linux.dev>; Mon,  2 May 2022 14:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8DF5C385AC;
+	Mon,  2 May 2022 14:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651500608;
-	bh=lf2xnHxh+e52FZBcs8r543qEia7q1Rhuf0TMXHCW9mc=;
+	s=k20201202; t=1651502937;
+	bh=9X9z5TvQoUjbxi6rKPmowVKgzDu6PM48zx9rvEJBf6Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IS7x3hP3HbTQEDEcnbyRjVQyFl1AMFgLSZ13HXGAEQEIjRC0Ug6DinoRvisVVnGnc
-	 pbjDZwlnq23YEC69Ql6y/kEzhfvALP9BE3xbqnb9AiMcvYBVXtTTTJkeScGGaSB24E
-	 dECJexJmdOLMBulkQHjPWgkpG0beqc2EJJU0xmymrNmAxImSmECv87fLHyxpZmk/6A
-	 85vqMK6vzfuiMkHBRYtP5Tq9DFd14fKMROQ5p77por1E8gbwl8xGaZdtMgRYuO5yKD
-	 nITFbG+/9JVz2QpSaiWmGSs/COdpaxLdJiBAg3LV2OjR63P+nHuoHcLLeufYhjggcx
-	 GsiyzBCpRe+DQ==
-Date: Mon, 2 May 2022 19:40:02 +0530
+	b=nPsV/cQQBj0VbmXxqJWFWqyIVN0/CqEta8vfdFUaNFQA6ApmeUVimOePm/Op4eBuk
+	 iM7Pwr2kMwbSSNURic4F5CnD7ojiRrosu2rP11Wv6CNK5eelIxa60cKLmTI8RnqOkC
+	 ABDSAqiT/wUJmU3gqD07I9MKi9i0gQ+2lmyzxq/VwRHbdUcLPN087X+fzjtHnXS353
+	 Eb/0Pnhe0NfHePCCOPWJHmmGcDbkm9Yds3fgWsMxzxK3GXiZeFll1LKWBl8Z+raqms
+	 1NTxi6VZnah8f1jo3jZxIRHlvx6F4PQa6nqRRbNmzlqid7hz7q35iWAwXlrlP/yf19
+	 +2bbv1+rJGEjw==
+Date: Mon, 2 May 2022 20:18:51 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Daniele Palmas <dnlplm@gmail.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
 Subject: Re: [PATCH 1/1] bus: mhi: pci_generic: add Telit FN990
-Message-ID: <20220502141002.GB98313@thinkpad>
+Message-ID: <20220502144851.GC98313@thinkpad>
 References: <20220502112036.443618-1-dnlplm@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -40,7 +40,7 @@ On Mon, May 02, 2022 at 01:20:36PM +0200, Daniele Palmas wrote:
 > 
 > Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 Thanks,
 Mani
