@@ -1,94 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE4217D3
-	for <mhi@lists.linux.dev>; Mon,  2 May 2022 11:13:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928EDC385A4;
-	Mon,  2 May 2022 11:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651489984;
-	bh=LVvc84nVlY9n07NgSWctxdt6j6sFrE2jX7nSZjHeHqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H5CJaEF5maF4knABWlF8dRuyfHlT+7ymEkuamWK9hkLYww11+uA9dMIeybhVMElgL
-	 AbqtwxnVUGdG6aBpOytFdoKJzJWtX+tYuRVz+D1+Mnp5JDdsmPmz4ca8WyPpc05S7o
-	 VP1oMWLhveQnXQ3R65u2BhrFmLuisrUoYabSAmZkk36w9txrD0F7NCyNAeeVj75jQ+
-	 T4HFmBCheVDnHZUZBstO+kqnyXYONE3j3RKqQ2sxYogNhO1OMpx1flbEWu7V+YcIxX
-	 bIBx8Kf7kLgwNsAi83uHwkll19CXM++UcJPjfqJIyy5zOqVsr5Bz9KkE4yj/NhWALI
-	 wSHeprtRZWYHw==
-Date: Mon, 2 May 2022 16:42:57 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: hemantk@codeaurora.org, bbhatt@codeaurora.org,
-	gregkh@linuxfoundation.org, loic.poulain@linaro.org,
-	christophe.jaillet@wanadoo.fr, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, weiyongjun1@huawei.com
-Subject: Re: [PATCH] bus: mhi: host: Add support for Foxconn T99W373 and
- T99W368
-Message-ID: <20220502111257.GA98313@thinkpad>
-References: <20220429104241.4074-1-slark_xiao@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FF117D3
+	for <mhi@lists.linux.dev>; Mon,  2 May 2022 11:23:27 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b24so16243104edu.10
+        for <mhi@lists.linux.dev>; Mon, 02 May 2022 04:23:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fGKU4iEA70MctaOu47KUgwC5u/x0dsROSJOX3ncjBgg=;
+        b=ds5QQYv0f2l6x9LITobsOg7ado/meKLpOpptbRRS6ekPaZX7VSink6r47fXVQNaKyu
+         uL0TaP6eBXzRv7jacLZJE3t+myznOHWb7wjRACrfLugGxI4zP0TZ2tO9k+kpda33W+qx
+         O8yseL5qEnjqfCxDz6lMD1nwvn62N6gKNkWTHjYUxl8l4Wmtss4zE89mHIS4A/0yM3ap
+         rnnVnZn1bT8h/Yl0RZfRxz0U677z8YjdoZy2F6gNIPRe57Zm+3WpeeSLHCy26OGDrCRg
+         13rE+TJmr4rKb9LT/QLg9hm0J/pQjVChpS2vHld2KxfdSnztUMaIedwH04/EOxRCBt0D
+         fShg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fGKU4iEA70MctaOu47KUgwC5u/x0dsROSJOX3ncjBgg=;
+        b=B7n7K2l8HePFfRFyb8yP1jcfVC8T+crP8z917JIZ/v1fGQ3pNX02TWmz8ybS3VM9dC
+         nqO00fj0e/97N/aWfm4LZsT5duO0zvBKH6LYhA792A8mwtFsAyQAz4Z3taDZE5OPyQSd
+         RLBWg9r2v54euxOhj6Hoz1C4nAGM2/ZF+7GniPbUCM/eJMynqh5jvEYrIV2Xunow+Bbe
+         W5UTTjEAy39ARLgt/Pu++P3oRh23VI2EHZxX7s5gBRRGzY33Q9UZTCjTmWlzoULIQury
+         WR3KKah9t8YiAQEKSM6WnERIrAOil3OL19GDnqvpyZ3q0y3tmlws4B/Zb/FgzwOXkj2y
+         SEfQ==
+X-Gm-Message-State: AOAM530T+EwIBSXJPk/CVhrpbefXPfIJ+xFFjkPqGorwuf0I5/6Nbx2P
+	e4NsRqmT792UDk6l8jqnT6rop/SeaDfVKQ==
+X-Google-Smtp-Source: ABdhPJwCmF8eBtE7Q3YCW0PsES8Ml8GEGBoz6uS9Q0MvEKU7RTWHrLI/I88Au8MAlXc+KVjMj3nlrg==
+X-Received: by 2002:a05:6402:2554:b0:423:f3e3:81da with SMTP id l20-20020a056402255400b00423f3e381damr12823233edb.87.1651490606100;
+        Mon, 02 May 2022 04:23:26 -0700 (PDT)
+Received: from ThinkStation-P340.. (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
+        by smtp.gmail.com with ESMTPSA id u26-20020aa7d99a000000b0042617ba63b7sm6659104eds.65.2022.05.02.04.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 04:23:25 -0700 (PDT)
+From: Daniele Palmas <dnlplm@gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	Daniele Palmas <dnlplm@gmail.com>
+Subject: [PATCH 1/1] bus: mhi: pci_generic: add Telit FN990
+Date: Mon,  2 May 2022 13:20:36 +0200
+Message-Id: <20220502112036.443618-1-dnlplm@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429104241.4074-1-slark_xiao@163.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 29, 2022 at 06:42:41PM +0800, Slark Xiao wrote:
-> Product's enumeration align with previous Foxconn
-> SDX55, so T99W373(SDX62)/T99W368(SDX65) would use
->  the same config as Foxconn SDX55.
-> Remove fw and edl for this new commit.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Add Telit FN990:
 
-This patch is not applying cleanly on top of mhi-next [1]. Please rebase and post
-v2 with my Reviewed-by tag.
+01:00.0 Unassigned class [ff00]: Qualcomm Device 0308
+        Subsystem: Device 1c5d:2010
 
-Thanks,
-Mani
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 41 ++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/log/?h=mhi-next
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index d0a7b5d3c01e..24c94c23d78b 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -489,6 +489,44 @@ static const struct mhi_pci_dev_info mhi_telit_fn980_hw_v1_info = {
+ 	.sideband_wake = false,
+ };
+ 
++static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
++	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 1),
++	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 1),
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
++	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
++};
++
++static struct mhi_event_config mhi_telit_fn990_events[] = {
++	MHI_EVENT_CONFIG_CTRL(0, 128),
++	MHI_EVENT_CONFIG_DATA(1, 128),
++	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
++	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101)
++};
++
++static const struct mhi_controller_config modem_telit_fn990_config = {
++	.max_channels = 128,
++	.timeout_ms = 20000,
++	.num_channels = ARRAY_SIZE(mhi_telit_fn990_channels),
++	.ch_cfg = mhi_telit_fn990_channels,
++	.num_events = ARRAY_SIZE(mhi_telit_fn990_events),
++	.event_cfg = mhi_telit_fn990_events,
++};
++
++static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
++	.name = "telit-fn990",
++	.config = &modem_telit_fn990_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++	.mru_default = 32768,
++};
++
+ /* Keep the list sorted based on the PID. New VID should be added as the last entry */
+ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+@@ -501,6 +539,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
++	/* Telit FN990 */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
++		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+ 	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
+-- 
+2.32.0
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9527b7d63840..efc57cd75cec 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -371,6 +371,15 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
->  	.sideband_wake = false,
->  };
->  
-> +static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
-> +	.name = "foxconn-sdx65",
-> +	.config = &modem_foxconn_sdx55_config,
-> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> +	.dma_data_width = 32,
-> +	.mru_default = 32768,
-> +	.sideband_wake = false,
-> +};
-> +
->  static const struct mhi_channel_config mhi_mv31_channels[] = {
->  	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
->  	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-> @@ -472,6 +481,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* T99W175 (sdx55), Based on Qualcomm new baseline */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-> +	/* T99W368 (sdx65) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
-> +	/* T99W373 (sdx62) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
->  	/* MV31-W (Cinterion) */
->  	{ PCI_DEVICE(0x1269, 0x00b3),
->  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
-> -- 
-> 2.25.1
-> 
