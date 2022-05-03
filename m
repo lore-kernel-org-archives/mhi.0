@@ -1,89 +1,64 @@
-Received: from mail-m975.mail.163.com (mail-m975.mail.163.com [123.126.97.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9337C15AB
-	for <mhi@lists.linux.dev>; Tue,  3 May 2022 02:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=bLBOG
-	DgcmNltK6UF/fMVaVtqnF7C3zMmNOYidlKN9Rk=; b=B1e2Fxc1Zm6MuCdZqEX8F
-	BZFFiFweM51pGDkYTn3vN4Vc62+vzBSRGoMBotMOuhkMtZvUBucXTkbfcz/ADnSU
-	w5nvXLIkUNS0s+aB6UIkl6GrEHZalttD+mFF7cIm99k8XWzHPpVl0bztNoALaGms
-	TRwAE/dMvSD/gtY9TBT4Jo=
-Received: from localhost.localdomain (unknown [112.97.63.58])
-	by smtp5 (Coremail) with SMTP id HdxpCgBX2zgil3BiSChTAg--.9943S2;
-	Tue, 03 May 2022 10:44:52 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	quic_hemantk@quicinc.com
-Cc: gregkh@linuxfoundation.org,
-	loic.poulain@linaro.org,
-	slark_xiao@163.com,
-	bbhatt@codeaurora.org,
-	christophe.jaillet@wanadoo.fr,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] bus: mhi: host: Add support for Foxconn T99W373 and T99W368
-Date: Tue,  3 May 2022 10:43:49 +0800
-Message-Id: <20220503024349.4486-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5691017E9
+	for <mhi@lists.linux.dev>; Tue,  3 May 2022 07:23:01 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id e24so14617976pjt.2
+        for <mhi@lists.linux.dev>; Tue, 03 May 2022 00:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dYOKOnX/ag89Q7FWf4mTvhnDEvPe9ePWto1EYZGs+OQ=;
+        b=kJL+2m3UswGuMwUa2ADnBKx9k7XiM5W2DhfJJnyiYigWx/2+gpJi9pNp+p5CwvOkpJ
+         VUs9E5GM/VNuRj1ZxO3KHDcQDVZ/O7X1IQTsVeiD6MMn+j7VYSU0CRis9H7/hjkkpL4s
+         oXCheS3gL/+nL90EFP4hNrVHEIc+hFzauf2IHKpXBZe1VylWQJRily8n9UdrzAIvTr0H
+         OTZGXUk1E0WqjSRV3FVBRhf8r/mlL4/IMfyAF+5X0eLOyyWaiHrpT/q08sNGvSH5LI4g
+         A/wd7jyOlLmL2UMjYCalSQaZzL2YMi50+eCTCQdcE2A9V8pxHd68kL7swWWc1y6oZvq6
+         Hz0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dYOKOnX/ag89Q7FWf4mTvhnDEvPe9ePWto1EYZGs+OQ=;
+        b=SeaCGeWrW3PE71dh4YVXvqbDLDseSqrIhjU4hlpqK6uP6i1KzIBq11Egt4meClNGEA
+         HKgsMWEFHfF5P85YcQR6R3F08E2Qjn3Omzt0Sids/VhGPUY+bG2NKzXY7eb1PeUA8Rpv
+         9iwimydJisDr9w3F7bXLxor00MJDWc03lzzOEli+PJt00PvP1DwiA0NsFLJYt8Svsg3y
+         DqpPZb2ca6uULLwZsgfaRepAEXBMgz+SMhSt/G7a2LZDmZRVresUePcUhGaDXKddHvm3
+         AAq7z4xlZXhicoctMlyc3snowj4QWEwOE+iKJCotHNgiznrw/itF1WHtaN+dvBTO9too
+         v2Vg==
+X-Gm-Message-State: AOAM532AjZwAGiRuyDIIXP1oGgHl3yrj+K6EJBNyrdQKQcE1l7mCwOcs
+	DIQ23PIG9uPAPjEnfpi8g3ntVrprJxzp3e8vZ9fURw==
+X-Google-Smtp-Source: ABdhPJw1s1JswARQvRGebofKaxoOTfTVyYJCUT38LUSf+snPURnEtm8yFrO3id35Fi7bWxmtCBqqpDNYEc7nKS57z0E=
+X-Received: by 2002:a17:902:70cb:b0:158:424e:a657 with SMTP id
+ l11-20020a17090270cb00b00158424ea657mr15285007plt.6.1651562580619; Tue, 03
+ May 2022 00:23:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HdxpCgBX2zgil3BiSChTAg--.9943S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw4DWr1ftF4kWF1DKr4xXrb_yoW8Cr4xpF
-	4SvrWjyFWkJF45t3ykA39ruas5uan3Ary3KF1xGw1a9w4qy3yYqrn2gw129FyYv398XFW3
-	tFyDWFyag3WDKFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_WlydUUUUU=
-X-Originating-IP: [112.97.63.58]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBAwb1ZGB0KLK3cgAAsf
+References: <20220503024349.4486-1-slark_xiao@163.com>
+In-Reply-To: <20220503024349.4486-1-slark_xiao@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Tue, 3 May 2022 09:22:24 +0200
+Message-ID: <CAMZdPi-F96cLTXjCvVEQ7udpbk7KOBsqpMD3E03bE_A+Pkx8JA@mail.gmail.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add support for Foxconn T99W373 and T99W368
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mani@kernel.org, quic_hemantk@quicinc.com, gregkh@linuxfoundation.org, 
+	bbhatt@codeaurora.org, christophe.jaillet@wanadoo.fr, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Product's enumeration align with previous Foxconn
-SDX55, so T99W373(SDX62)/T99W368(SDX65) would use
- the same config as Foxconn SDX55.
-Remove fw and edl for this new commit.
+On Tue, 3 May 2022 at 05:03, Slark Xiao <slark_xiao@163.com> wrote:
+>
+> Product's enumeration align with previous Foxconn
+> SDX55, so T99W373(SDX62)/T99W368(SDX65) would use
+>  the same config as Foxconn SDX55.
+> Remove fw and edl for this new commit.
+>
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/bus/mhi/host/pci_generic.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 24c94c23d78b..6fbc5915ea36 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -371,6 +371,15 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
-+	.name = "foxconn-sdx65",
-+	.config = &modem_foxconn_sdx55_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
- static const struct mhi_channel_config mhi_mv3x_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
- 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-@@ -560,6 +569,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* T99W175 (sdx55), Based on Qualcomm new baseline */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-+	/* T99W368 (sdx65) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
-+	/* T99W373 (sdx62) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(0x1269, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
--- 
-2.25.1
-
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
