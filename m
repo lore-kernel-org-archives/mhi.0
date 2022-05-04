@@ -1,108 +1,92 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13AB2101
-	for <mhi@lists.linux.dev>; Wed,  4 May 2022 07:21:57 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id w17-20020a17090a529100b001db302efed6so524352pjh.4
-        for <mhi@lists.linux.dev>; Wed, 04 May 2022 00:21:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FWCJbI4CGT2i31kMbhu+0FR5T+EOna1DU84vOLrzsmI=;
-        b=qlAFA/71vDvjib7s4u5s/9fb9WhmNOa74bwXdUw569sClb3DOkNKgU0LG38S7loFYF
-         i8zz7CEcGmD4sFS8CZvKH3YxwXSX92OOJ04rhqQzZdB3IAbiWjhkRgC6aXPMsGRW0dRy
-         v7UWFf7x8wDQ8xN0tSJQk2YEdaWp4qWeT+ym12lhq8ZEVA/fvdDb9QazbKHUYD/JLmtS
-         CLG0QbD33jzFgr5ZtivpApzPL2mxJOyHfT6J8v9F9GVt/lRG4ZtgocaH6ISdaYJiljCJ
-         1m57cFJaOc+I6rkUNzsBinGdtwXOzUfeCspq2yKQ8X3HQHnlEwER8JPxubt6jMUBciqe
-         egaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FWCJbI4CGT2i31kMbhu+0FR5T+EOna1DU84vOLrzsmI=;
-        b=DpUjvpm5+rOnbj7H5XpJvqRNSw2fxDl7Fomh7ToW2OZN0+Xkjbu11K7vmW+HTMdS/O
-         ct/b4ksZMQ0C+TgnJ1W9jxI6rN76a22/DF7K/pOpdnr+2yMJiVUsyqWO8PyCXncRMffJ
-         x5m4eVltyMGL/6fJnMgcazwndpuo5DL02oARvXRVHu9uXaQurLnF4ZBRVUsxyJHUVD8W
-         D0R/fjgogMgaFFxSS4LkfOnlsRZMLWpUBzauY9gEfxl/BUmzY9m5gtqjJPLRveiH8kZI
-         Y+krYuT74puQl1F1dDwaYtVfsmky/rWw5KFql7CW06CWOrrDrnsvgzUa/0vbIQbvBgt4
-         DYFA==
-X-Gm-Message-State: AOAM532yXnrfONoNu/NdOi/bIPl/F9Z2o2aJJpkmzbfcTNwMeV0WOOwU
-	xyvTJ+P/+lFTKFVO8FFaqdDPUzsV0Rv85YWxX2u8UU6dvy8=
-X-Google-Smtp-Source: ABdhPJxw1DoDKhe05oCD8505mnMKAIxbnxSdPRDLpH6njPy7/kkzjZZ07oYyjOT0XxJ73DnoPKi0bglyZR9oiRkgFhA=
-X-Received: by 2002:a17:902:70cb:b0:158:424e:a657 with SMTP id
- l11-20020a17090270cb00b00158424ea657mr20146250plt.6.1651648917003; Wed, 04
- May 2022 00:21:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DFE2101
+	for <mhi@lists.linux.dev>; Wed,  4 May 2022 07:26:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD2C0C385A5;
+	Wed,  4 May 2022 07:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1651649188;
+	bh=JaSmcTVmdx/P8IUjgolCGvOpH/ML1P6nWDaNz2FPl+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NgJk+TnwDnXmS1EOHnW7KYPW9dX/+zak8wF7ICbPfGKUfcL5xv2hU5XeYXxO8+mJp
+	 xi4ii/KuxQP69wFGxcPuENp+iSv0M6MXGCDGqPVMwM5M7Kynbc2NfzT4dRYQrNLVqL
+	 xwD34B3sYl/cGN9cfeXynL4gPckapzCbazouUGCDVce3ygCkz8ALeDhrW0Ml+68q9i
+	 /BZMCvn28Cij/LVao89YWqPLT1hvswUqUd2XRV88dXntz3/961H9uLh9JaROuXcLH0
+	 Fn7xa7Iqp1+GkzXkqflmNP3ZEDef1YvOAHIgIZvmpN8rjXj1vMJ/i2I48botd/RiWb
+	 +1U0PThH+eZvQ==
+Date: Wed, 4 May 2022 12:56:20 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: quic_hemantk@quicinc.com, gregkh@linuxfoundation.org,
+	loic.poulain@linaro.org, bbhatt@codeaurora.org,
+	christophe.jaillet@wanadoo.fr, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] bus: mhi: host: Add support for Foxconn T99W373 and
+ T99W368
+Message-ID: <20220504072620.GA5446@thinkpad>
+References: <20220503024349.4486-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220502104144.91806-1-manivannan.sadhasivam@linaro.org> <20220502104144.91806-6-manivannan.sadhasivam@linaro.org>
-In-Reply-To: <20220502104144.91806-6-manivannan.sadhasivam@linaro.org>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Wed, 4 May 2022 09:21:20 +0200
-Message-ID: <CAMZdPi_i60TqszUL+=ocMn-4veyoGRQoOGD_B4YiEpz_uWE+ZQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] bus: mhi: host: Remove redundant dma_wmb() before ctx
- wp update
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, quic_hemantk@quicinc.com, 
-	quic_bbhatt@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503024349.4486-1-slark_xiao@163.com>
 
-Hi Mani,
+On Tue, May 03, 2022 at 10:43:49AM +0800, Slark Xiao wrote:
+> Product's enumeration align with previous Foxconn
+> SDX55, so T99W373(SDX62)/T99W368(SDX65) would use
+>  the same config as Foxconn SDX55.
+> Remove fw and edl for this new commit.
+> 
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-On Mon, 2 May 2022 at 12:42, Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
->
-> The endpoint device will only read the context wp when the host rings
-> the doorbell.
+Applied to mhi-next!
 
-Are we sure about this statement? what if we update ctxt_wp while the
-device is still processing the previous ring? is it going to continue
-processing the new ctxt_wp or wait for a new doorbell interrupt? what
-about burst mode in which we don't ring at all (ring_db is no-op)?
+Thanks,
+Mani
 
-> And moreover the doorbell write is using writel(). This
-> guarantess that the prior writes will be completed before ringing
-> doorbell.
-
-Yes but the barrier is to ensure that descriptor/ring content is
-updated before we actually pass it to device ownership, it's not about
-ordering with the doorbell write, but the memory coherent ones.
-
->
-> So there is no need of an additional dma_wmb() to order the coherent
-> memory writes w.r.t each other. Even if the writes gets reordered, it
-> won't affect the endpoint device.
->
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > ---
->  drivers/bus/mhi/host/main.c | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 966ffc2458b9..6706a82d3aa8 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -138,11 +138,6 @@ void mhi_ring_chan_db(struct mhi_controller *mhi_cntrl,
->
->         db = ring->iommu_base + (ring->wp - ring->base);
->
-> -       /*
-> -        * Writes to the new ring element must be visible to the hardware
-> -        * before letting h/w know there is new element to fetch.
-> -        */
-> -       dma_wmb();
->         *ring->ctxt_wp = cpu_to_le64(db);
->
->         mhi_chan->db_cfg.ring_db(mhi_cntrl, &mhi_chan->db_cfg,
-> --
+>  drivers/bus/mhi/host/pci_generic.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 24c94c23d78b..6fbc5915ea36 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -371,6 +371,15 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+>  	.sideband_wake = false,
+>  };
+>  
+> +static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
+> +	.name = "foxconn-sdx65",
+> +	.config = &modem_foxconn_sdx55_config,
+> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> +	.dma_data_width = 32,
+> +	.mru_default = 32768,
+> +	.sideband_wake = false,
+> +};
+> +
+>  static const struct mhi_channel_config mhi_mv3x_channels[] = {
+>  	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
+>  	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
+> @@ -560,6 +569,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  	/* T99W175 (sdx55), Based on Qualcomm new baseline */
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
+>  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+> +	/* T99W368 (sdx65) */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
+> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
+> +	/* T99W373 (sdx62) */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
+> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
+>  	/* MV31-W (Cinterion) */
+>  	{ PCI_DEVICE(0x1269, 0x00b3),
+>  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+> -- 
 > 2.25.1
->
-
-Regards,
-Loic
+> 
