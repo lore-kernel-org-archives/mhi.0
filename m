@@ -1,52 +1,70 @@
-Received: from mail.77msk.ru (mail.77msk.ru [84.204.203.133])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BF73204
-	for <mhi@lists.linux.dev>; Tue,  3 May 2022 15:18:39 +0000 (UTC)
-Received: from mail.77msk.ru (gatekeeper.domain007.com [192.168.2.20])
-	by hermes.domain007.com (Postfix) with ESMTP id 65A7CD5AC4F
-	for <mhi@lists.linux.dev>; Tue,  3 May 2022 17:54:22 +0300 (MSK)
-Received: from asda.co.uk (unknown [20.97.211.134])
-	by gatekeeper.domain007.com (Postfix) with ESMTPSA id 041763200A5
-	for <mhi@lists.linux.dev>; Tue,  3 May 2022 17:54:21 +0300 (MSK)
-Reply-To: sales@asdaa.uk
-From: ASDA Stores Limited <Hanes.Thomas44@asda.co.uk>
-To: mhi@lists.linux.dev
-Subject: ASDA Procurement order
-Date: 03 May 2022 14:54:21 +0000
-Message-ID: <20220503141529.232FFFB1C106EFA3@asda.co.uk>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FDD20E0
+	for <mhi@lists.linux.dev>; Wed,  4 May 2022 02:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1651631081; x=1683167081;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=qlXIY1CWPzwHXGxBw+qIB1k+fX6YOx/8ySBx/gBpvGA=;
+  b=BXOrF2GsTTUsVd7TYL7I8I6zF3mN5QjLFMBh+FUEqL8avSchNbl9lZID
+   3Ue5YPLChelt84Na+P2nF9ejrVSWcMpoIRZOYbvhsTMZIipsWHPdWm1l4
+   wbZnKBXknXUC1IG+AyNYmRago9iRnvJvkcH7dHmUJQAu8EPP2X6fespXd
+   Q=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 03 May 2022 19:22:30 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2022 19:22:30 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 3 May 2022 19:22:30 -0700
+Received: from [10.110.46.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 3 May 2022
+ 19:22:29 -0700
+Message-ID: <fa92f431-500d-df0f-85f6-55cf5017a80b@quicinc.com>
+Date: Tue, 3 May 2022 19:22:28 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.102.4 at hermes
-X-Virus-Status: Clean
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 5/5] bus: mhi: host: Remove redundant dma_wmb() before ctx
+ wp update
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	<mhi@lists.linux.dev>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<quic_bbhatt@quicinc.com>, <loic.poulain@linaro.org>
+References: <20220502104144.91806-1-manivannan.sadhasivam@linaro.org>
+ <20220502104144.91806-6-manivannan.sadhasivam@linaro.org>
+From: Hemant Kumar <quic_hemantk@quicinc.com>
+In-Reply-To: <20220502104144.91806-6-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-Dear mhi
 
-We are interested in having some of your hot selling product in=20
-our stores and outlets spread all over United Kingdom, Northern=20
-Island and Africa. ASDA Stores Limited is one of the highest-
-ranking Wholesale & Retail outlets in the United Kingdom. 
-=20=20
-We shall furnish our detailed company profile in our next=20
-correspondent. However, it would be appreciated if you can send=20
-us your catalog through email to learn more about your company's=20
-products and wholesale quote. It is hopeful that we can start a=20
-viable long-lasting business relationship (partnership) with you.=20=20
-  
-=20=20
-Your prompt response would be delightfully appreciated. 
-=20=20
-Best Wishes=20
-  
-=20=20
-Hanes S. Thomas=20
-Procurement Office.=20
-ASDA Stores Limited=20
-Tel:  + 44 - 7451271650=20
-WhatsApp: + 44 =E2=80=93 7441440360=20
-Website: www.asda.co.uk
+On 5/2/2022 3:41 AM, Manivannan Sadhasivam wrote:
+> The endpoint device will only read the context wp when the host rings
+> the doorbell. And moreover the doorbell write is using writel(). This
+> guarantess that the prior writes will be completed before ringing
+> doorbell.
+>
+> So there is no need of an additional dma_wmb() to order the coherent
+> memory writes w.r.t each other. Even if the writes gets reordered, it
+> won't affect the endpoint device.
+>
+> Cc: Loic Poulain <loic.poulain@linaro.org>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Reviewed by: Hemant Kumar <quic_hemantk@quicinc.com>
+>
