@@ -1,141 +1,132 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2162.outbound.protection.outlook.com [40.92.62.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78E323B7
-	for <mhi@lists.linux.dev>; Tue, 10 May 2022 06:21:25 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id x88so3491671pjj.1
-        for <mhi@lists.linux.dev>; Mon, 09 May 2022 23:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=f0ZQoiwRSTWeuW/E0qX/vgU+j2w7ZPOXgEISOXG2/K8=;
-        b=rhbooEKxSweLF/hKTN6wo/TqGR2odyzF+HAlYzvlyW2M3o573J3e8/BCh4x6ye4QXB
-         yBonBPk4b8Txqjxw55KdKLwjFjGvpDdHMaVkzzKJXz/EWKC4gDCIxtZ3agLZc+D/9KJw
-         L9E2N6+SLNJPRBM7LKXwBGk+zIOFwr+WlXjm85lSXlSbQ6zIwI+FEEnLms/2EHfhV4eP
-         FOVeKytypd7QBmIXueSRvKy8YPOLcmQ9KatpSEVnhApQToljdstSJxNPOAzxyH3ofGSe
-         wpE9lnDhxaxMlnPRT/CvViVkG3odFeqfg39QVi93JMcRGyAMUJjbqXcEP3j3RGcqiii8
-         T2kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=f0ZQoiwRSTWeuW/E0qX/vgU+j2w7ZPOXgEISOXG2/K8=;
-        b=kYyLSA5l3/f60GvtnbNVGRaQz4SHcPgh/qHkqQU/792gZvDen/9uLZ3DtRGfVybgI3
-         x949e9GPW279VKKMLtPlUghBA2bHZRlXrR5SILT24oUaz2Ef0V7EAL1dZOVOn6qszeui
-         QJG5Ll5XIyUweJ15iDZhiteWUMM6qUoQdCD5dG5Er502E9hXhZUvosnNyhXsCT97BsOk
-         JbXLQFbvaW6y55LemDm9dqw6CpcGeiDkOARzdxopkUUdlygDt/yVNdrsmWpwYeKk/I2E
-         LjWoQyXihPpzhkP1U1XMdXqr4QoPnBMF4Lh+56Qv6kdfWO9r77GUH1wbwXoS18GnhUOM
-         4knA==
-X-Gm-Message-State: AOAM5337iHD5aKlKRplQ2pIbKGOEK522oSQX1F0HNG80ty93KJ/ys1/I
-	62mRlo/eZvKmvx2qTmjc/lrXyejZdY1I
-X-Google-Smtp-Source: ABdhPJxbl+nGav8AiYmNljVz6gZZTrIxKjYDVGiZPJy5CyQg4eiieJxb9aDGLyuKH8TR5PaJAwb+mw==
-X-Received: by 2002:a17:902:cecf:b0:15e:b10a:9f3a with SMTP id d15-20020a170902cecf00b0015eb10a9f3amr19895067plg.118.1652163685110;
-        Mon, 09 May 2022 23:21:25 -0700 (PDT)
-Received: from thinkpad ([220.158.159.212])
-        by smtp.gmail.com with ESMTPSA id r3-20020a170903020300b0015e8d4eb22dsm1041830plh.119.2022.05.09.23.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 23:21:24 -0700 (PDT)
-Date: Tue, 10 May 2022 11:51:20 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: quic_hemantk@quicinc.com, slark_xiao@163.com, quic_jhugo@quicinc.com,
-	Daniele.Palmas@telit.com, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: [GIT PULL] MHI changes for v5.19
-Message-ID: <20220510062120.GA9140@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8DA17FB
+	for <mhi@lists.linux.dev>; Thu, 12 May 2022 09:10:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dQZVmhLWNv/FjQhzIXPOp5UFSVUXI1lj3M5/j9gzgQxAZsSPGTovuZFKnsYQ9wvUgtqj+zTSsPfVyZ/tZ7qBB1xfMkt+wBLX/xO6MRljSQsnfqRWG8JA15i+H0ie3Kc8aHovdGfkJBIPWNdRij6UoZ8JJAPLSmQEa69rIbbkbok22KgVMTFoZJm8QMtJ7LP3A6eIreDlttVThNPe5kdUG3kC0bdQszHKGSX7DJ9IRIrGcOeNFHOOG5oYZmop0jHS1TJXBdWXmWzxKOAxCtjAF475GHf4G0fxGlgFpbTMQRDUuRvhjNPH7HAip2VzoieDL7eXyLC20ODzuyuC47cjvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uTuCJP18nHfqeYgUKGf7KufJ4ztpCEhq/TXcnuTDP5s=;
+ b=dS3s4gigX5PJ1jrR8Oww8SIUwkiWaC5NHTc0ZsbzwUx2mwV5brD+tnpylSlU1ZNxYr0yxIFpBNiWOGAl4Thy3ulNkcon5K+b3By4ALcDwoBmIir0n5H708RAX1kf1e9tVrvTMLRihwHQqMQRr5UAmI1lnnu6XACOhFWCkTh9OfCqYTQc0nZQYKAm4K+Wg+TxQFaslxgzpCsbn1nViuJ7mKVxkVMUKbzb0x3KCR4qsigAXeiO6N3ovGzYDUX+P0tFUSMcHqTeHkZ2RuR8QgbW+xNRIOH+7tnJb8Ovw1SDleo/3elaw7U0MmEpNTZYB33Ov7mznyFp7a9f03UIHzvLag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uTuCJP18nHfqeYgUKGf7KufJ4ztpCEhq/TXcnuTDP5s=;
+ b=ssaky/r4LgU+ujcCNo8tEpzpGqZsAwNL+dE2xhCxFchN+TQC+GSl8psupAeZTKOvnuUQbI9SCCzA9BNfmJFRcJ3OuUSL8dhsrIT/gfvgPKaSNtSMXDEeasw58IHuaOm1fy4dy1mVC2rwfRTSsAS+qQy8jVQq9Qc8Qq3TOrUaqkQskgx1tLlaQEioXgFmB6+lPwgWNJcXj8eTTBW49ygt3nQQAgQ9q7NUgspcQTGZqSAzDU5G+4CIe88UXNPlk63DUrOKghUULRfK0H8yKG7r+m6zPrdifyRGdgn5sF80n2V4EtAD1jNFb6+slQH/H583ww6BnGgWDkWXPCD8cib76Q==
+Received: from MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:113::14)
+ by MEAP282MB0583.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:65::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Thu, 12 May
+ 2022 09:10:28 +0000
+Received: from MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::702a:73df:6a57:6a00]) by MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::702a:73df:6a57:6a00%6]) with mapi id 15.20.5227.023; Thu, 12 May 2022
+ 09:10:28 +0000
+From: Yonglin Tan <yonglin.tan@outlook.com>
+To: mani@kernel.org,
+	quic_hemantk@quicinc.com,
+	gregkh@linuxfoundation.org,
+	loic.poulain@linaro.org
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ylintan <yonglin.tan@outlook.com>
+Subject: [PATCH]     bus: mhi: host: Add support for a new Quectel Module.
+Date: Thu, 12 May 2022 17:07:46 +0800
+Message-ID:
+ <MEYP282MB2374BF134896B003FD8BF826FDCB9@MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-TMN: [hMnkSDSX2drB345a6wB4buGMqTV5dL1T]
+X-ClientProxiedBy: HK2PR0401CA0018.apcprd04.prod.outlook.com
+ (2603:1096:202:2::28) To MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:220:113::14)
+X-Microsoft-Original-Message-ID:
+ <1652346466-16902-1-git-send-email-yonglin.tan@outlook.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e0b35d9-5207-493a-64b1-08da33f74220
+X-MS-Exchange-SLBlob-MailProps:
+	0RSV28T7LqTw98sKciW2l8XpStjyDTN8lXQUQIW6dh9a5RGd2BB5afhuIdpOem/WjOCQyYwtSamluRPx1nyaAIfzbdY4bxDlF99XjnYFCXBnSIshHcJGGj+GKjBrjzvLfdODrj44g+a7s7xLkJeRaJFBkdTue9Tjt/qwVOXYtmmKX3CxzPDXQP8vKSE78t0xj7ObKTbgOBin6b0x46+Y/4LhEgsFDRaZvC2RcHRpe4vjQHBnSwhRJ2uYWecI1Z+uVWSwNXV97akNwKZSLBDgB/TLoz9tZf8G6pUGTglzzNmMVeRh7kzP4hM17hKyckBn/WxGkU3AD5BAgtUceTi/git/R/wuoJqNwJHFB+ppTp6wlxJlim6SBukP2F5MUMBXG/3dqBucqRlTrLbmxeRksQeTCbKYQZpXLiACjwJrq484h34aTNva1ehnXHj8SOoyWm1JnE284sdjZNV9S+LPyxxpJQCYwAolNHhZ8e+ifApd93sv/wp0wbWbsXQ72n5sNN6rkP6iCTIXPG66F9iTubG8CMlIJVsJkAvRcpS6Ed0pRfESCx4iGF+2SiM8zb+cTTWYjSeuh0WsuFPc0Prsv+9Hx6TNPAa8vVqMf1UvoN5T9KFiYlUAn7kLxbsBCs9E33Q2QpbLbWJ+d8FWDOawX34p8uscVdNV9DQ4P9acPYNrKv1B4hbXzpmoGFhF49J9
+X-MS-TrafficTypeDiagnostic: MEAP282MB0583:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6t+/12OZAjh1G7j4S77p/BdjfJ84VRefTRD2rr7LGIhko8pepIjD9ZAUCWJyQM8nNhQsr4U+R5S6D4Iwhd5wd49aa6+5KqlZtWCBH1AWK7ZtLZpo4Hn9Tp4P0gdogSb9w5NqrIIg6feNXAtIv8OdgVdl6j47HGIoyOAiUvi+EBlwSkFA8CknBWtXLL/wbhPlzYZHMKtuhueJMjF93yYck/3m4YODqyYUgitOXs+hQcUko1oS2cmyVz3ft5Zp7xPJI6Pa6IiEqvDju+s5tHG4MqTj3LKfpXzIutux9eQ75xp4DZ55CGeLKrpvTp5K6I3OK9wUMeWmImkXejhT4GvQJ9vYuhCEGh1vVP8vedB58rBRQzBzto43WySdAMSBV/AnCBGc98LkXVPWOp1Y594++pMfQN1xEKpxtPbumi5J1tzfxZPljnCHEJp01W/FWVph252V+CJdwpvjZdPLC/ur4frbO/BA41fAv1rHbmDkVtqmQ0/KRpfPJiROnU+MhGpJqo+pTluyUlUGdy9Cm8JP54Hc58Di0T32rFbpBe3j9iVh/yNTRvKRw4vMXR7OOM59UZ9XEzocXPmma9BJEgD7yg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?V2q1dB4Yk9pLeaZKy7zDhzyV/P4blRkacuA7l0Vu6Xpjl5j8RxdbMTfrhahJ?=
+ =?us-ascii?Q?yLZo9A1fp0nkXRXz4IvdAzVAWwltl4O+x53iH+jLKM2uTUwkpC3Bpn7lbRVF?=
+ =?us-ascii?Q?n3PVQedHQueZoBBPU5/7ZfkyQkwMkdd/RZya/3WZuZEGj9pj+aZNA395j0Jq?=
+ =?us-ascii?Q?amEpFcm7tQ+PAUCXcyj2Mt5M3fEgKk6S4Unf449hge9Kde3UylDalmYNsZcL?=
+ =?us-ascii?Q?DitgJFyrb9ERgR+9sazcc+I3FYTpEUG5WD2qXtiCWcNJJgWj8AkGMoNHhSZM?=
+ =?us-ascii?Q?0KOf4xuGwJlT19Fz0UAyzxD1muxOZ8RoRBlVtV5d00vVWeUr3sXFzXliNIB+?=
+ =?us-ascii?Q?Inyep+NKm16Atpr6XsAcF/dHiucUye6kh+FW17u6b0gSa6zKbtZWFilow5Sp?=
+ =?us-ascii?Q?lplRhXPgZPpt6iuIzA3SIK7DUbCX4G/z1W+KejpUHb1MpqpnNwxXtbxrNQfR?=
+ =?us-ascii?Q?eEogyjhDbfgccfix7v9Q+2gLL/4fZalrUuyJENJlVDJMNruFZsZPiHx1plYM?=
+ =?us-ascii?Q?BstAINwoBf4fy9MG+Q+uPfhr154y5vsJ88zGGIrHdLeFfKsGoeOVeo97RxOL?=
+ =?us-ascii?Q?8pLhJCi4Q9XqvVZs90z7MtJogEvQDB3wAvH68pSpNx2dmsT4lkIO1rHNSzr8?=
+ =?us-ascii?Q?l706APiiUDRIWUuD7DQ0OzxVvX90htLaeiPJQfW/ng76NsXEznnIVA+XK53F?=
+ =?us-ascii?Q?bASdwpCoXsz1s4dh9pwN6rZ8hX2mYV+9ogDnoMHMqIUF4XYeRC4wz/H2LcxC?=
+ =?us-ascii?Q?tV1MpAa4GMK+7POJGb30BW78gSTVdKTkQf5sWpRzpopCK8A1P9gCW6uV+NTs?=
+ =?us-ascii?Q?9IqNu9xm5qmI88rl7lq8QM6HSm9jBHbeZm5JhdPo2GqTuZ8xXlc0PTphODce?=
+ =?us-ascii?Q?AFzbQ1tAR8d0DQcewgqxmcB0fLhI56umBaQYz8G2jWDNDeBRV3561Gpu9jEg?=
+ =?us-ascii?Q?C3m5ymAE+cGkpjMv0lKo/pvYf+h4xjRgAyT4K/gvlpYwPmXKQqy5H3CITRbe?=
+ =?us-ascii?Q?VsG4dPRAcO78VhnGPG2A76ohb6IsA6a4DqBt0BIEH2s68pICKoZJsp8qx3P/?=
+ =?us-ascii?Q?QyAzVif6DSmPweWepmfRmKE8FKnjrSRqF0t4B2vGPoy5/4DXfewQnv3TxDDR?=
+ =?us-ascii?Q?LP6C0nNWfXR5hG3yHEFmWdIbCTrDBoabp1G7zaVB+hDrgBfyHIGMJtzN9fFf?=
+ =?us-ascii?Q?b/Ls6AeWbq5iLvi+zqWoR9mTf82MLmsexF/0yXTjGih/9S2V1B1azKAhwguF?=
+ =?us-ascii?Q?K1vkVh4+owqpIIsEVYt2Zdg32rTYakxWgx59V//8mqgAmi5kQjV5A/ImISb/?=
+ =?us-ascii?Q?wD+xwn1Jy9puCJGI3SufDMUhAu/I/FzXJldW0gkD3iTEm//9F7BjzyWhe87U?=
+ =?us-ascii?Q?xDKuRsakCm3KdOuaiHXqiZ6bZ9KSP/bQMlAN0ViUI7HuhAlFNQwQ8cb6GWV+?=
+ =?us-ascii?Q?bKR2I2SeKqo=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e0b35d9-5207-493a-64b1-08da33f74220
+X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2374.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 09:10:28.8047
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MEAP282MB0583
 
-The following changes since commit 5d4be19cbe6aadfad0a5f40df91bd478cedd8344:
+From: ylintan <yonglin.tan@outlook.com>
 
-  bus: mhi: ep: Add uevent support for module autoloading (2022-04-04 10:17:51 +0530)
+    A new Quectel EM1xx module need to be supported by kernel.
+    The module is based on Qualcomm SDX24 platform and the
+    configuration should be aligned with EM120 and EM160.
 
-are available in the Git repository at:
+    Signed-off-by: Yonglin Tan <yonglin.tan@outlook.com>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v5.19
+Signed-off-by: ylintan <yonglin.tan@outlook.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-for you to fetch changes up to 13b9b814da2de5006795ddcff2bbaea46017429d:
-
-  bus: mhi: host: Add support for Foxconn T99W373 and T99W368 (2022-05-10 11:10:56 +0530)
-
-----------------------------------------------------------------
-MHI changes for v5.19
-
-MHI Host
---------
-
-Support for new modems:
-
- - Foxconn Cinterion MV32-WA/MV32-WB based on SDX62/SDX65
- - Telit FN980 v1 based on SDX55
- - Telit FN990 based on SDX65
- - Foxconn T99W373/T99W368 based on SDX62/SDX65
-
-Core changes:
-
- - During the recycle of event ring elements, compute the ctxt_wp based on the
-   local cached value instead of reading from shared memory. This is to prevent
-   the possible corruption of the ctxt_wp as some of the endpoint devices could
-   modify the value in shared memory.
-
- - Add sysfs support for resetting the endpoint based on the MHI spec. The MHI
-   spec allows the host to hard reset the device in the case of an unrecoverable
-   error and all other reset mechanisms have failed.
-
- - During MHI shutdown, wait for the endpoint device to enter the ready state
-   post reset before proceeding. This is to avoid a possible race where host
-   would remove the interrupt handler and device will send ready state
-   interrupt, resulting in IOMMU fault.
-
- - Bail out updating the MHI register if the read has failed during
-   read/modify/write.
-
- - Use mhi_write_reg() instead of mhi_write_reg_field() for writing the whole
-   register fields in mhi_init_mmio().
-
-MAINTAINERS change:
-
- - Since Qualcomm has moved the email domain for its employess from codeaurora
-   domain to quicinc, update the same for Hemant.
-
-----------------------------------------------------------------
-Bhaumik Bhatt (2):
-      bus: mhi: host: Bail on writing register fields if read fails
-      bus: mhi: host: Optimize and update MMIO register write method
-
-Daniele Palmas (2):
-      bus: mhi: host: pci_generic: add Telit FN980 v1 hardware revision
-      bus: mhi: host: pci_generic: add Telit FN990
-
-Jeffrey Hugo (3):
-      bus: mhi: host: Use cached values for calculating the shared write pointer
-      bus: mhi: host: Add soc_reset sysfs
-      bus: mhi: host: Wait for ready state after reset
-
-Manivannan Sadhasivam (2):
-      MAINTAINERS: Update Hemant's email id
-      bus: mhi: host: pci_generic: Sort mhi_pci_id_table based on the PID
-
-Slark Xiao (2):
-      bus: mhi: host: Add support for Cinterion MV32-WA/MV32-WB
-      bus: mhi: host: Add support for Foxconn T99W373 and T99W368
-
- Documentation/ABI/stable/sysfs-bus-mhi |  10 +++++++
- MAINTAINERS                            |   2 +-
- drivers/bus/mhi/host/boot.c            |  22 ++++++++++----
- drivers/bus/mhi/host/init.c            |  82 ++++++++++++++++++++++++++++++++++------------------
- drivers/bus/mhi/host/internal.h        |   7 +++--
- drivers/bus/mhi/host/main.c            |  18 +++++-------
- drivers/bus/mhi/host/pci_generic.c     | 133 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
- drivers/bus/mhi/host/pm.c              |  24 ++++++++++++---
- 8 files changed, 234 insertions(+), 64 deletions(-)
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 8416267..0a6469c 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -557,6 +557,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
++	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
++		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
