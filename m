@@ -1,167 +1,237 @@
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
 	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2FEEA2
-	for <mhi@lists.linux.dev>; Tue, 21 Jun 2022 08:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCE0EA4
+	for <mhi@lists.linux.dev>; Tue, 21 Jun 2022 09:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1655800731; x=1687336731;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=EI6M6wg5GXdJ9TlHRlOGin1RyyW6eaTiHorelcQBSrE=;
-  b=hZSzP5dFaG0454iZ8xfdWUd1oRLE1ifwe/YWAQLLKNmpMQjR28STx1mm
-   ZV+NVwd0yhfcMzgv4LOheSF7T9x6Wi/9qqutJCKcabeJLYJLsmC/+zyaI
-   XYayroUHJmHHzBPmh/oUrpKD1SqGe5kPj9VkmjWzyZ8yqj4GaPgh7wP7L
-   M=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 21 Jun 2022 01:38:50 -0700
+  t=1655803521; x=1687339521;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=1GpJg6NMu+yfELVq4jWXmhjMKuqtOYuN1Sps5jr+o4w=;
+  b=dpBrcJzown84reR7kVcd9TyVemUxrWxfVSpJz6TSfqhMWYiMMuZhFjKe
+   a6iapIJBKMSub9nht3amgbRLhrNgtEIosapvpUiymTQQMGCQAiiC2V1tc
+   Gv+vTzu49u9r6SnheURpTZlv1K1njA2WY7PAzCPO1+nBTwWu3MdB6ZsYj
+   0=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 21 Jun 2022 02:25:20 -0700
 X-QCInternal: smtphost
 Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 01:38:50 -0700
-Received: from cbsp-sh-gv.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 21 Jun 2022 01:38:48 -0700
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: <mani@kernel.org>, <quic_hemantk@quicinc.com>, <loic.poulain@linaro.org>,
-	<quic_jhugo@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>, Qiang Yu
-	<quic_qianyu@quicinc.com>
-Subject: [PATCH v2 1/1] bus: mhi: Disable IRQs instead of freeing them during power down
-Date: Tue, 21 Jun 2022 16:38:09 +0800
-Message-ID: <1655800689-60632-1-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 02:25:20 -0700
+Received: from [10.253.79.26] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 21 Jun
+ 2022 02:24:47 -0700
+Message-ID: <7f72b026-5808-ee0d-894d-bf50bf162023@quicinc.com>
+Date: Tue, 21 Jun 2022 17:24:45 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] bus: mhi: Disable IRQs instead of freeing them during
+ power down
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <mani@kernel.org>,
+	<quic_hemantk@quicinc.com>, <loic.poulain@linaro.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <1654782215-70383-1-git-send-email-quic_qianyu@quicinc.com>
+ <62d09e6f-9898-6233-dfd6-b5ba5d837571@quicinc.com>
+ <c93aa921-b327-fdf4-adae-f0dd77e8789e@quicinc.com>
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <c93aa921-b327-fdf4-adae-f0dd77e8789e@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 
-MHI device may go down several times while running. So we just do
-disable/enable IRQs during the mhi_{power_down/power_up} time and
-request/free them when the MHI driver gets installed and removed.
 
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
-v1->v2: Rewrite commit text. Remove a random change. Use
-        inline enables.
+On 6/21/2022 3:57 AM, Jeffrey Hugo wrote:
+> On 6/9/2022 7:54 AM, Jeffrey Hugo wrote:
+>> On 6/9/2022 7:43 AM, Qiang Yu wrote:
+>>> EP tends to read MSI address/data once and cache them after BME is set.
+>>> So host should avoid changing MSI address/data after BME is set.
+>>>
+>>> In pci reset function, host invokes free_irq(), which also clears MSI
+>>> address/data in EP's PCIe config space. If the invalid address/data
+>>> are cached and used by EP, MSI triggered by EP wouldn't be received by
+>>> host, because an invalid MSI data is sent to an invalid MSI address.
+>>>
+>>> To fix this issue, after host runs request_irq() successfully during
+>>> mhi driver probe, let's invoke enable_irq()/disable_irq() instead of
+>>> request_irq()/free_irq() when we want to power on and power down MHI.
+>>> Meanwhile, Host should invoke free_irq() when mhi host driver is
+>>> removed.
+>>
+>> I don't think this works for hotplug, nor cases where there are 
+>> multiple MHI devices on the system.
+>>
+>> The EP shouldn't be caching this information for multiple reasons. 
+>> Masking the MSIs, disabling the MSIs, changing the address when the 
+>> affinity changes, etc.
+>>
+>> It really feels like we are solving the problem in the wrong place.
+>>
+>> Right now, this gets a NACK from me.
+>>
+>>>
+>>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+>>> ---
+>>>   drivers/bus/mhi/host/init.c        | 31 
+>>> +++++++++++++++++++++++++++++++
+>>>   drivers/bus/mhi/host/pci_generic.c |  2 ++
+>>>   drivers/bus/mhi/host/pm.c          |  4 ++--
+>>>   3 files changed, 35 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+>>> index cbb86b2..48cb093 100644
+>>> --- a/drivers/bus/mhi/host/init.c
+>>> +++ b/drivers/bus/mhi/host/init.c
+>>> @@ -18,6 +18,7 @@
+>>>   #include <linux/slab.h>
+>>>   #include <linux/vmalloc.h>
+>>>   #include <linux/wait.h>
+>>> +#include <linux/irq.h>
+>>
+>> Should be in alphabetical order
+>>
+>>>   #include "internal.h"
+>>>   static DEFINE_IDA(mhi_controller_ida);
+>>> @@ -168,6 +169,22 @@ int mhi_init_irq_setup(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>       unsigned long irq_flags = IRQF_SHARED | IRQF_NO_SUSPEND;
+>>>       int i, ret;
+>>> +    /*
+>>> +     * if irq[0] has action, it represents all MSI IRQs have been
+>>> +     * requested, so we just need to enable them.
+>>> +     */
+>>
+>> This seems like an assumption about how the interrupts are allocated 
+>> and assigned that may not hold true for all devices.
+>
+> Ah, I see.  This goes to the assumption that the BHI interrupt is 
+> always line 0, even though as far as I am aware, the spec doesn't 
+> require that.  The comment could be clearer I think.
+>
+>>
+>>> +    if (irq_has_action(mhi_cntrl->irq[0])) {
+>>> +        enable_irq(mhi_cntrl->irq[0]);
+>>> +
+>>> +        for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
+>>> +            if (mhi_event->offload_ev)
+>>> +                continue;
+>>> +
+>>> +            enable_irq(mhi_cntrl->irq[mhi_event->irq]);
+>>> +        }
+>>> +        return 0;
+>>> +    }
+>
+> Please no.  This overloads the function to have two different 
+> behaviors, and it doesn't match the inline disables.
+>
+> Since you have inline disables, I would prefer inline enables so that 
+> the code is "balanced".
 
- drivers/bus/mhi/host/init.c | 14 ++++++++++++++
- drivers/bus/mhi/host/pm.c   | 22 ++++++++++++++++------
- 2 files changed, 30 insertions(+), 6 deletions(-)
+I remove this in v2, directly invoke enables during power up.  It 
+becomes like this:
 
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index cbb86b2..daf315a 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -179,6 +179,11 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
- 				   "bhi", mhi_cntrl);
- 	if (ret)
- 		return ret;
-+	/*
-+	 * IRQ marked IRQF_SHARED isn't recommended to use IRQ_NOAUTOEN,
-+	 * so disable it explicitly.
-+	 */
-+	disable_irq(mhi_cntrl->irq[0]);
- 
- 	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
- 		if (mhi_event->offload_ev)
-@@ -200,6 +205,8 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
- 				mhi_cntrl->irq[mhi_event->irq], i);
- 			goto error_request;
- 		}
-+
-+		disable_irq(mhi_cntrl->irq[mhi_event->irq]);
- 	}
- 
- 	return 0;
-@@ -1003,8 +1010,14 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
- 
- 	mhi_create_debugfs(mhi_cntrl);
- 
-+	ret = mhi_init_irq_setup(mhi_cntrl);
-+	if (ret)
-+		goto error_setup_irq;
-+
- 	return 0;
- 
-+error_setup_irq:
-+	mhi_destroy_debugfs(mhi_cntrl);
- err_release_dev:
- 	put_device(&mhi_dev->dev);
- err_ida_free:
-@@ -1027,6 +1040,7 @@ void mhi_unregister_controller(struct mhi_controller *mhi_cntrl)
- 	struct mhi_chan *mhi_chan = mhi_cntrl->mhi_chan;
- 	unsigned int i;
- 
-+	mhi_deinit_free_irq(mhi_cntrl);
- 	mhi_destroy_debugfs(mhi_cntrl);
- 
- 	destroy_workqueue(mhi_cntrl->hiprio_wq);
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index dc2e8ff..eec2d1d 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -500,7 +500,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
- 	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
- 		if (mhi_event->offload_ev)
- 			continue;
--		free_irq(mhi_cntrl->irq[mhi_event->irq], mhi_event);
-+		disable_irq(mhi_cntrl->irq[mhi_event->irq]);
- 		tasklet_kill(&mhi_event->task);
- 	}
- 
-@@ -1060,12 +1060,13 @@ static void mhi_deassert_dev_wake(struct mhi_controller *mhi_cntrl,
- 
- int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- {
-+	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
- 	enum mhi_state state;
- 	enum mhi_ee_type current_ee;
- 	enum dev_st_transition next_state;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
- 	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
--	int ret;
-+	int ret, i;
- 
- 	dev_info(dev, "Requested to power ON\n");
- 
-@@ -1117,9 +1118,18 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
- 		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
- 	}
- 
--	ret = mhi_init_irq_setup(mhi_cntrl);
--	if (ret)
--		goto error_exit;
-+	/*
-+	 * IRQs have been reuqested during probe,
-+	 * so we just need to enable them.
-+	 */
-+	enable_irq(mhi_cntrl->irq[0]);
-+
-+	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
-+		if (mhi_event->offload_ev)
-+			continue;
-+
-+		enable_irq(mhi_cntrl->irq[mhi_event->irq]);
-+	}
- 
- 	/* Transition to next state */
- 	next_state = MHI_IN_PBL(current_ee) ?
-@@ -1182,7 +1192,7 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
- 	/* Wait for shutdown to complete */
- 	flush_work(&mhi_cntrl->st_worker);
- 
--	free_irq(mhi_cntrl->irq[0], mhi_cntrl);
-+	disable_irq(mhi_cntrl->irq[0]);
- }
- EXPORT_SYMBOL_GPL(mhi_power_down);
- 
--- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+mhi power up ->enable_irq,     mhi  power down ->disable irq
 
+pci_probe->mhi_register_controller->request_irq, 
+pci_remove->mhi_unregister_controller->free irq
+
+>
+>>> +
+>>>       /* if controller driver has set irq_flags, use it */
+>>>       if (mhi_cntrl->irq_flags)
+>>>           irq_flags = mhi_cntrl->irq_flags;
+>>> @@ -179,6 +196,11 @@ int mhi_init_irq_setup(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>                      "bhi", mhi_cntrl);
+>>>       if (ret)
+>>>           return ret;
+>>> +    /*
+>>> +     * IRQ marked IRQF_SHARED isn't recommended to use IRQ_NOAUTOEN,
+>>> +     * so disable it explicitly.
+>>> +     */
+>>> +    disable_irq(mhi_cntrl->irq[0]);
+>>>       for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
+>>>           if (mhi_event->offload_ev)
+>>> @@ -200,6 +222,8 @@ int mhi_init_irq_setup(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>                   mhi_cntrl->irq[mhi_event->irq], i);
+>>>               goto error_request;
+>>>           }
+>>> +
+>>> +        disable_irq(mhi_cntrl->irq[mhi_event->irq]);
+>>>       }
+>>>       return 0;
+>>> @@ -1003,8 +1027,14 @@ int mhi_register_controller(struct 
+>>> mhi_controller *mhi_cntrl,
+>>>       mhi_create_debugfs(mhi_cntrl);
+>>> +    ret = mhi_init_irq_setup(mhi_cntrl);
+>>> +    if (ret)
+>>> +        goto error_setup_irq;
+>>> +
+>>>       return 0;
+>>> +error_setup_irq:
+>>> +    mhi_destroy_debugfs(mhi_cntrl);
+>>>   err_release_dev:
+>>>       put_device(&mhi_dev->dev);
+>>>   err_ida_free:
+>>> @@ -1027,6 +1057,7 @@ void mhi_unregister_controller(struct 
+>>> mhi_controller *mhi_cntrl)
+>>>       struct mhi_chan *mhi_chan = mhi_cntrl->mhi_chan;
+>>>       unsigned int i;
+>>> +    mhi_deinit_free_irq(mhi_cntrl);
+>>>       mhi_destroy_debugfs(mhi_cntrl);
+>>>       destroy_workqueue(mhi_cntrl->hiprio_wq);
+>>> diff --git a/drivers/bus/mhi/host/pci_generic.c 
+>>> b/drivers/bus/mhi/host/pci_generic.c
+>>> index 6fbc591..60020d0 100644
+>>> --- a/drivers/bus/mhi/host/pci_generic.c
+>>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>>> @@ -945,6 +945,8 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+>>>       mhi_unregister_controller(mhi_cntrl);
+>>>       pci_disable_pcie_error_reporting(pdev);
+>>> +
+>>> +    pci_free_irq_vectors(pdev);
+>
+> This seems like a random change that should be in a different patch. 
+> Why is it included here?
+
+During probe, host alloc irq venctor, so I add this change to free 
+vector. I remove it in v2.
+
+>
+>>>   }
+>>>   static void mhi_pci_shutdown(struct pci_dev *pdev)
+>>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>>> index dc2e8ff..190231c 100644
+>>> --- a/drivers/bus/mhi/host/pm.c
+>>> +++ b/drivers/bus/mhi/host/pm.c
+>>> @@ -500,7 +500,7 @@ static void mhi_pm_disable_transition(struct 
+>>> mhi_controller *mhi_cntrl)
+>>>       for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
+>>>           if (mhi_event->offload_ev)
+>>>               continue;
+>>> -        free_irq(mhi_cntrl->irq[mhi_event->irq], mhi_event);
+>>> +        disable_irq(mhi_cntrl->irq[mhi_event->irq]);
+>>>           tasklet_kill(&mhi_event->task);
+>>>       }
+>>> @@ -1182,7 +1182,7 @@ void mhi_power_down(struct mhi_controller 
+>>> *mhi_cntrl, bool graceful)
+>>>       /* Wait for shutdown to complete */
+>>>       flush_work(&mhi_cntrl->st_worker);
+>>> -    free_irq(mhi_cntrl->irq[0], mhi_cntrl);
+>>> +    disable_irq(mhi_cntrl->irq[0]);
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(mhi_power_down);
+>>
+>>
+>
