@@ -1,71 +1,68 @@
-Received: from m13110.mail.163.com (m13110.mail.163.com [220.181.13.110])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF2F10F1
-	for <mhi@lists.linux.dev>; Wed, 22 Jun 2022 03:27:44 +0000 (UTC)
+Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519B910F1
+	for <mhi@lists.linux.dev>; Wed, 22 Jun 2022 03:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=jmA9M
-	iP18s2qx/4bJ8dT774gH74Ts8g2x5gZaMn48jA=; b=f4YWJL+McKECzl+zsLOjv
-	nf2Z1+7DcaUqs+EqWWDMqXyFL3ygGWV7cVP6aTv4dtfSYe6umb2ahM/S0Aqm5dUk
-	fbUXan6JxnJ/ueOD93WdH9X3tcJ20jAIXQ86QyHa22xOLgG+oOJyMSX88XALBzAU
-	9r9f5C4QpdMkdVTnLMHHHY=
-Received: from slark_xiao$163.com ( [112.97.63.176] ) by
- ajax-webmail-wmsvr110 (Coremail) ; Wed, 22 Jun 2022 11:11:26 +0800 (CST)
-X-Originating-IP: [112.97.63.176]
-Date: Wed, 22 Jun 2022 11:11:26 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: quic_hemantk@quicinc.com, gregkh@linuxfoundation.org, 
-	loic.poulain@linaro.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	christophe.jaillet@wanadoo.fr
-Subject: Re:Re: [PATCH] bus: mhi: host: Add support for Cinterion MV31-W
- with new device ID
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <20220621131751.GD17181@thinkpad>
-References: <20220601061915.10946-1-slark_xiao@163.com>
- <20220621131751.GD17181@thinkpad>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=11otV
+	2IKFMQ94iOaeDl79qLoQpeapOIdGaJ+c5b79DA=; b=UFMoHA40MSc7vHhf/2oxt
+	ZPvWFhKWj94CHtmarvHPXadk2JMky69DOb1l1cAW1eJwP2vhUAvgHbFgwGwwCp+y
+	wNoq7LwUI3qd5paBiLcgDTZgowcUbGHtLUb//HRcUl8mgiQEDI30QOAjo0fRLQ5S
+	GbK1aYFzA2gCAc9oAEghac=
+Received: from localhost.localdomain (unknown [43.134.191.38])
+	by smtp4 (Coremail) with SMTP id HNxpCgAHdu28i7JiFXqbKg--.1384S2;
+	Wed, 22 Jun 2022 11:25:52 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org,
+	quic_hemantk@quicinc.com
+Cc: gregkh@linuxfoundation.org,
+	loic.poulain@linaro.org,
+	dnlplm@gmail.com,
+	bbhatt@codeaurora.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Add Cinterion MV31-W with new baseline
+Date: Wed, 22 Jun 2022 11:25:44 +0800
+Message-Id: <20220622032544.17713-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <340921be.1572.1818964af76.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:bsGowAAHSwReiLJiOOsRAA--.4546W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCdQEoZGBbD9CRLgACsh
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HNxpCgAHdu28i7JiFXqbKg--.1384S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZr1xKF15JFWkWrWfKr1fXrb_yoWDGFc_Cr
+	93WrsrCw18GrnFvw1vgw13Z340k3WxXFykJF48tas3C34Du395Xw4FqFWYyrn5KrZ8CF9x
+	Ar1fu3sYkw129jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRWT5QJUUUUU==
+X-Originating-IP: [43.134.191.38]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbivwEoZFWB0E6UXgAAsy
 
-CgoKQXQgMjAyMi0wNi0yMSAyMToxNzo1MSwgIk1hbml2YW5uYW4gU2FkaGFzaXZhbSIgPG1hbmlA
-a2VybmVsLm9yZz4gd3JvdGU6Pk9uIFdlZCwgSnVuIDAxLCAyMDIyIGF0IDAyOjE5OjE1UE0gKzA4
-MDAsIFNsYXJrIFhpYW8gd3JvdGU6PgoKPlBsZWFzZSB1c2UgcGNpX2dlbmVyaWMgaW4gdGhlIHN1
-YmplY3QgYXMgdGhpcyBjaGFuZ2UgYmVsb25ncyB0byB0aGF0IGRyaXZlcjoKPgo+YnVzOiBtaGk6
-IGhvc3Q6IHBjaV9nZW5lcmljOiBBZGQgQ2ludGVyaW9uIE1WMzEtVyB3aXRoIG5ldyBiYXNlbGlu
-ZQo+Cj4+IEFzIFRoYWxlcyB3b3VsZCB1c2UgYSBuZXcgYmFzZWxpbmUsIHNvIHdlIG5lZWQgdG8g
-YWRkCj4+IGEgbmV3IGRldmljZSBJRCB0byBzZXBhcmF0ZSBpdCBmcm9tIHByZXZpb3VzLgo+PiAK
-Pgo+VGhhbGVzIHJlZmVycyB0byBDaW50ZXJpb24gTVYzMS1XLCByaWdodD8gQmV0dGVyIGp1c3Qg
-dXNlIENpbnRlcmlvbiBNVjMxLVcuCkhpLCBhY3R1YWxseSBDaW50ZXJpb24gYmVsb25ncyB0byBU
-aGFsZXMgR3JvdXAuIEFueXdheSwgSSB3aWxsIHVzZSBDSW50ZXJpb24KZm9yIHRoaXMgcHJvZHVj
-dC4KCj5MaWtlLAo+Cj5DaW50ZXJpb24gTVYzMS1XIG1vZGVtIHdpdGggYSBuZXcgYmFzZWxpbmUg
-KGZpcm13YXJlKSBpcyBzb2xkIGFzIGEgc2VwYXJhdGUKPnByb2R1Y3Qgd2l0aCBkaWZmZXJlbnQg
-ZGV2aWNlIElELiBTbyBhZGQgc3VwcG9ydCBmb3IgdGhlIHNhbWUgcmV1c2luZyB0aGUKPmNvbmZp
-Zy4KPgpJIHdpbGwgYXBwbHkgaXQgaW4gVjIuIFRoYW5rcy4KCj5UaGFua3MsCj5NYW5pCj4KPj4g
-U2lnbmVkLW9mZi1ieTogU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPgo+PiAtLS0KPj4g
-IGRyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgfCAzICsrKwo+PiAgMSBmaWxlIGNo
-YW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21o
-aS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5j
-Cj4+IGluZGV4IDZmYmM1OTE1ZWEzNi4uYTJhNGZkMmNkMTNkIDEwMDY0NAo+PiAtLS0gYS9kcml2
-ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9o
-b3N0L3BjaV9nZW5lcmljLmMKPj4gQEAgLTU3OCw2ICs1NzgsOSBAQCBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IHBjaV9kZXZpY2VfaWQgbWhpX3BjaV9pZF90YWJsZVtdID0gewo+PiAgCS8qIE1WMzEtVyAo
-Q2ludGVyaW9uKSAqLwo+PiAgCXsgUENJX0RFVklDRSgweDEyNjksIDB4MDBiMyksCj4+ICAJCS5k
-cml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9tdjMxX2luZm8gfSwKPj4gKwkvKiBN
-VjMxLVcgKENpbnRlcmlvbiksIGJhc2VkIG9uIG5ldyBiYXNlbGluZSAqLwo+PiArCXsgUENJX0RF
-VklDRSgweDEyNjksIDB4MDBiNCksCj4+ICsJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdf
-dCkgJm1oaV9tdjMxX2luZm8gfSwKPj4gIAkvKiBNVjMyLVdBIChDaW50ZXJpb24pICovCj4+ICAJ
-eyBQQ0lfREVWSUNFKDB4MTI2OSwgMHgwMGJhKSwKPj4gIAkJLmRyaXZlcl9kYXRhID0gKGtlcm5l
-bF91bG9uZ190KSAmbWhpX212MzJfaW5mbyB9LAo+PiAtLSAKPj4gMi4yNS4xCj4+IAo+Cj4tLSAK
-PuCuruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40K
+Cinterion MV31-W modem with a new baseline (firmware) is sold as a separate
+product with different device ID. So add support for the same reusing the
+config.
+
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 841626727f6b..062662b3778b 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -578,6 +578,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(0x1269, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
++	/* MV31-W (Cinterion), based on new baseline */
++	{ PCI_DEVICE(0x1269, 0x00b4),
++		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+ 	/* MV32-WA (Cinterion) */
+ 	{ PCI_DEVICE(0x1269, 0x00ba),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+-- 
+2.25.1
+
