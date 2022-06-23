@@ -1,29 +1,33 @@
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
 	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF86F43F9
-	for <mhi@lists.linux.dev>; Thu, 23 Jun 2022 12:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7D71FB2
+	for <mhi@lists.linux.dev>; Thu, 23 Jun 2022 17:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1655988553; x=1687524553;
+  t=1656003644; x=1687539644;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=XSHLDM20yyHxd2AJ/tc7tuQqIsakPOIrSym/liEYzCo=;
-  b=mdOMYYj0a/NyA9uX6ASo67+uygsVtfQRY4Lg3K8As7yMaKcKx2HSquF2
-   c0GagCmy2a8JWlM3rWRW2aLOPY6XEQlIXzXSWAxMG87ZT3r+9piIZ08Nw
-   t0WX4Q4Cx8dM1fJvrR/3xnNnlRQNEVwdHfuFjY4aUZOpUaiTv2i739en2
-   Q=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Jun 2022 05:49:06 -0700
+  bh=sxe/FHbgTxmtRkdi6mtiWVttB6WJVeL/b+JDfTfUZwA=;
+  b=DOBcG5NC4tVXA18ubKWoqGWoFPcuX8wKFBxMLFvrlueaegRBfWQIQYWv
+   dCK0RHUxBKH3LV9eZ+h0244Pm90B9goEV+ApscRqhDy/6vV0kxsK8leCk
+   RlRsQX1qXmqEjm8jYCPGEZSqsTpp/TDabbqZzd0f83bqn4eqQYOwf9qqu
+   I=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 23 Jun 2022 10:00:37 -0700
 X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 05:49:06 -0700
-Received: from [10.253.38.41] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 10:00:37 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 23 Jun 2022 10:00:36 -0700
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 23 Jun
- 2022 05:49:03 -0700
-Message-ID: <892d12d9-164d-e91e-2083-31a223369b5a@quicinc.com>
-Date: Thu, 23 Jun 2022 20:49:00 +0800
+ 2022 10:00:35 -0700
+Message-ID: <236a5ed2-566c-9ee8-4189-8c647044a82f@quicinc.com>
+Date: Thu, 23 Jun 2022 11:00:35 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -31,27 +35,26 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+ Thunderbird/91.6.0
 Subject: Re: [PATCH v4 1/1] bus: mhi: host: Move IRQ allocation to controller
  registration phase
 Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>, Qiang Yu
+	<quic_qianyu@quicinc.com>
 CC: <quic_hemantk@quicinc.com>, <loic.poulain@linaro.org>,
-	<quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-	<linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<quic_cang@quicinc.com>
+	<mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>
 References: <1655952183-66792-1-git-send-email-quic_qianyu@quicinc.com>
  <20220623115436.GA15542@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 In-Reply-To: <20220623115436.GA15542@thinkpad>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 
-
-On 6/23/2022 7:54 PM, Manivannan Sadhasivam wrote:
+On 6/23/2022 5:54 AM, Manivannan Sadhasivam wrote:
 > On Thu, Jun 23, 2022 at 10:43:03AM +0800, Qiang Yu wrote:
 >> During runtime, the MHI endpoint may be powered up/down several times.
 >> So instead of allocating and destroying the IRQs all the time, let's just
@@ -64,18 +67,21 @@ On 6/23/2022 7:54 PM, Manivannan Sadhasivam wrote:
 >> and even if the IRQ configuration changes (MSI), that will get accounted.
 >>
 >> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> 
 > I thought I already gave my r-o-b. But anyway,
->
+> 
 > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
->
+> 
 > I'll wait for a review from Jeff before applying.
->
+
+Looks good to me.
+
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+> 
 > Thanks,
 > Mani
-
-I apologize for that. Thanks for your time and patience.
-
->
+> 
 >> ---
 >> v3->v4: move mhi_init_irq_setup() above mhi_alloc_device()
 >> v2->v3: change commit text and comments.
@@ -206,3 +212,5 @@ I apologize for that. Thanks for your time and patience.
 >> -- 
 >> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
 >>
+> 
+
