@@ -1,191 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D31F23B5
-	for <mhi@lists.linux.dev>; Fri, 24 Jun 2022 07:27:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D856C34114;
-	Fri, 24 Jun 2022 07:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656055670;
-	bh=OVKFfuW7NHCKavIayrSolgnVAn8TBSw/7ZZnonCMd58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TE8IJKYlUD2YNIebMov9gUZs0ABHPayDiPUzG+w2kJrXCCvMcKGbhrEiBXTFQ2arq
-	 +4W+E6b+zStehdJ3zPjqOVNNKOS9c/2jwL2lasqqjtbk8YuYOKVBVhiwWZXyoOA7kE
-	 Li4ESjOEb0oO5ElknCwFiYLft6o1z5GgSPZF3mBCcbtJFoRLWhxNCtPpdwLwMPh2xl
-	 bC3OxfeMfgmtAoi2c/Jp3nNppjV0j7WUuNqO6gMIenjD60mViu3+bb5KBRKJS9afR9
-	 jaMeMk28yVhgqCIQIKFXA+QaSOAG4Jn2TJ7/IEkZopNsIPBe+qEUtjTcjD8Ba4aFJK
-	 wniqYpseFiltA==
-Date: Fri, 24 Jun 2022 12:57:40 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org,
-	quic_jhugo@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_cang@quicinc.com
-Subject: Re: [PATCH v4 1/1] bus: mhi: host: Move IRQ allocation to controller
- registration phase
-Message-ID: <20220624072740.GA12171@thinkpad>
-References: <1655952183-66792-1-git-send-email-quic_qianyu@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E9A3236
+	for <mhi@lists.linux.dev>; Mon, 27 Jun 2022 17:05:20 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id s124so13758470oia.0
+        for <mhi@lists.linux.dev>; Mon, 27 Jun 2022 10:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hiy6+iiLMeGDFL3yjWewYCuuYeu2rtEHRH1Mk/XtDns=;
+        b=QyMvNo8m4T4TgwC1HpgS28kutB5bX/froVFu40QZNr8jKdGTdFzyVD0Eho8FO90ag6
+         b9PdDHM8MvcHpcDYzcGhJLRYWlCSfwv0JEO9m4YwDjiM70RE/SY9DYTsVTol0wEl4oj4
+         y+rJU6jj4JNSYVaaDRSsIuTl92Jf5FV1LIhBxyOy0GhjOLS8S16EqNjLjq+u3/FxSB7N
+         xZnfg2lS2BkhbtVMXoI/4p2sjmgnSrwquLhrO0kstzVdFaO9twKcFerIbX2zxSQ4NsZo
+         pq5KOIMlue1YiiqONpRWXmDpwDlNf5eJuwTajSGUoJCP/jT4p4BnPoweMItLaYxbb3/d
+         wrwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hiy6+iiLMeGDFL3yjWewYCuuYeu2rtEHRH1Mk/XtDns=;
+        b=atWz9/zrI6+YjdP4W2yoeXAEFQT1CUXF6lkBGwIWM3VmlmFlDxbv3iiL/woEbfbeQp
+         hD6K/7zwmTgLzRzW4kKzAnxF3ZGRPYHiZcGPkf4aTY2hrn1ps9PwY+z9u3ewEVGMfsE+
+         X3J8st2fb64USwdhpfKJezDvERKGme8GGVHNNvQMRCqN1DMGlACFwE77usNIZghVJzn+
+         CCUN6z6dkacm8EXFkV0Cdi9EmjFp51COMnQz4FjDyVbjWL8HyBQLsZeyLnhPfSYNfe/7
+         VWxWLTQYcLbXW+6URovjEj6ex+m42rHgAWcQlM0Rs3CCXljNEbEPPqCQTrCRh7lUDWcg
+         ohZg==
+X-Gm-Message-State: AJIora8hOXk3g1+LmpsELp5qq4L0i5S8bJh1l1ASKK55gQIIq5DxkviN
+	JOtAZjGYmFWp82gWCgQLPUcGCg==
+X-Google-Smtp-Source: AGRyM1sY/DvE1sLhaZz0G6NJ4ve3bOkQmSv9AL7zpQxIJqIY3FhpZKQIVsCNUjWlNP6i46JvXnLxJw==
+X-Received: by 2002:a05:6808:2111:b0:335:510c:eee4 with SMTP id r17-20020a056808211100b00335510ceee4mr8161509oiw.151.1656349519431;
+        Mon, 27 Jun 2022 10:05:19 -0700 (PDT)
+Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id a12-20020a056870d60c00b000f30837129esm7303175oaq.55.2022.06.27.10.05.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 10:05:18 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Hemant Kumar <quic_hemantk@quicinc.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] bus: mhi: host: pci_generic: Add another Foxconn T99W175
+Date: Mon, 27 Jun 2022 10:07:17 -0700
+Message-Id: <20220627170717.2252335-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1655952183-66792-1-git-send-email-quic_qianyu@quicinc.com>
 
-On Thu, Jun 23, 2022 at 10:43:03AM +0800, Qiang Yu wrote:
-> During runtime, the MHI endpoint may be powered up/down several times.
-> So instead of allocating and destroying the IRQs all the time, let's just
-> enable/disable IRQs during power up/down.
-> 
-> The IRQs will be allocated during mhi_register_controller() and freed
-> during mhi_unregister_controller(). This works well for things like PCI
-> hotplug also as once the PCI device gets removed, the controller will
-> get unregistered. And once it comes back, it will get registered back
-> and even if the IRQ configuration changes (MSI), that will get accounted.
-> 
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+The Foxconn e0c3 device identifies itself as a T99W175 X55, add support
+for this to the pci_generic driver.
 
-Applied to mhi-next!
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks,
-Mani
-
-> ---
-> v3->v4: move mhi_init_irq_setup() above mhi_alloc_device()
-> v2->v3: change commit text and comments.
-> v1->v2: Rewrite commit text. Remove a random change. Use
->         inline enables.
-> 
->  drivers/bus/mhi/host/init.c | 17 ++++++++++++++++-
->  drivers/bus/mhi/host/pm.c   | 19 +++++++++++++------
->  2 files changed, 29 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index cbb86b2..a1d37da 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -179,6 +179,12 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
->  				   "bhi", mhi_cntrl);
->  	if (ret)
->  		return ret;
-> +	/*
-> +	 * IRQs should be enabled during mhi_async_power_up(), so disable them explicitly here.
-> +	 * Due to the use of IRQF_SHARED flag as default while requesting IRQs, we assume that
-> +	 * IRQ_NOAUTOEN is not applicable.
-> +	 */
-> +	disable_irq(mhi_cntrl->irq[0]);
->  
->  	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
->  		if (mhi_event->offload_ev)
-> @@ -200,6 +206,8 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
->  				mhi_cntrl->irq[mhi_event->irq], i);
->  			goto error_request;
->  		}
-> +
-> +		disable_irq(mhi_cntrl->irq[mhi_event->irq]);
->  	}
->  
->  	return 0;
-> @@ -979,12 +987,16 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
->  		goto err_destroy_wq;
->  	}
->  
-> +	ret = mhi_init_irq_setup(mhi_cntrl);
-> +	if (ret)
-> +		goto err_ida_free;
-> +
->  	/* Register controller with MHI bus */
->  	mhi_dev = mhi_alloc_device(mhi_cntrl);
->  	if (IS_ERR(mhi_dev)) {
->  		dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate MHI device\n");
->  		ret = PTR_ERR(mhi_dev);
-> -		goto err_ida_free;
-> +		goto error_setup_irq;
->  	}
->  
->  	mhi_dev->dev_type = MHI_DEVICE_CONTROLLER;
-> @@ -1007,6 +1019,8 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
->  
->  err_release_dev:
->  	put_device(&mhi_dev->dev);
-> +error_setup_irq:
-> +	mhi_deinit_free_irq(mhi_cntrl);
->  err_ida_free:
->  	ida_free(&mhi_controller_ida, mhi_cntrl->index);
->  err_destroy_wq:
-> @@ -1027,6 +1041,7 @@ void mhi_unregister_controller(struct mhi_controller *mhi_cntrl)
->  	struct mhi_chan *mhi_chan = mhi_cntrl->mhi_chan;
->  	unsigned int i;
->  
-> +	mhi_deinit_free_irq(mhi_cntrl);
->  	mhi_destroy_debugfs(mhi_cntrl);
->  
->  	destroy_workqueue(mhi_cntrl->hiprio_wq);
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index dc2e8ff..4a42186 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -500,7 +500,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->  	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
->  		if (mhi_event->offload_ev)
->  			continue;
-> -		free_irq(mhi_cntrl->irq[mhi_event->irq], mhi_event);
-> +		disable_irq(mhi_cntrl->irq[mhi_event->irq]);
->  		tasklet_kill(&mhi_event->task);
->  	}
->  
-> @@ -1060,12 +1060,13 @@ static void mhi_deassert_dev_wake(struct mhi_controller *mhi_cntrl,
->  
->  int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
->  {
-> +	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
->  	enum mhi_state state;
->  	enum mhi_ee_type current_ee;
->  	enum dev_st_transition next_state;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
-> -	int ret;
-> +	int ret, i;
->  
->  	dev_info(dev, "Requested to power ON\n");
->  
-> @@ -1117,9 +1118,15 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
->  		mhi_write_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_INTVEC, 0);
->  	}
->  
-> -	ret = mhi_init_irq_setup(mhi_cntrl);
-> -	if (ret)
-> -		goto error_exit;
-> +	/* IRQs have been requested during probe, so we just need to enable them. */
-> +	enable_irq(mhi_cntrl->irq[0]);
-> +
-> +	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
-> +		if (mhi_event->offload_ev)
-> +			continue;
-> +
-> +		enable_irq(mhi_cntrl->irq[mhi_event->irq]);
-> +	}
->  
->  	/* Transition to next state */
->  	next_state = MHI_IN_PBL(current_ee) ?
-> @@ -1182,7 +1189,7 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
->  	/* Wait for shutdown to complete */
->  	flush_work(&mhi_cntrl->st_worker);
->  
-> -	free_irq(mhi_cntrl->irq[0], mhi_cntrl);
-> +	disable_irq(mhi_cntrl->irq[0]);
->  }
->  EXPORT_SYMBOL_GPL(mhi_power_down);
->  
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
-> 
-> 
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 57d5f611a979..bf82d90f9ca9 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -571,6 +571,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* T99W175 (sdx55), Based on Qualcomm new baseline */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
++	/* T99W175 (sdx55) */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0c3),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+ 	/* T99W368 (sdx65) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
 -- 
-மணிவண்ணன் சதாசிவம்
+2.35.1
+
