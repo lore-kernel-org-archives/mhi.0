@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A2367
-	for <mhi@lists.linux.dev>; Tue, 28 Jun 2022 06:28:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD2FC3411D;
-	Tue, 28 Jun 2022 06:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF0D7A
+	for <mhi@lists.linux.dev>; Wed, 29 Jun 2022 10:37:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9AEAC34114;
+	Wed, 29 Jun 2022 10:37:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656397718;
-	bh=Vy0GziIPpq894+tq94uKIFEgfuZdympsxpYcHvbf2g0=;
+	s=k20201202; t=1656499074;
+	bh=NBWbrjWKhIsl/d/4tqSoGWJc9m+TIA0ZojUt4mMAaFM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dM3rWCMgqh8lBMYBzMUbuCxkpq03n+8sEhax4f8bTC/XeT1Fvz5ZC4cvMdjv3uSoT
-	 Fnuh30WhgwF0PZY6rmhxheLnzXqPEPar7jzrkR2GrbCfSZx53c7wxqoqbHNSHNxIP7
-	 Mmz5WqNskMGUM07KprfUB0Yr+GnI8MeL2YMdy2yiw/Scob4A0UVYkw58gCq31+YdiP
-	 SqWRhVfTYxNdYkrKrwRPgqealHIWaa7UivoNDGOe+bQIv8y7GuUBRt1KOfgCRWUYwH
-	 VkimCDDBJs6c/+iMEhKEmE/gZUxp63uqbig26Ejf+CS464VyKipC4pVNz95rhqXT/0
-	 nFImOWjM3N1mw==
-Date: Tue, 28 Jun 2022 11:58:32 +0530
+	b=MU4PBiNZw1Jj0IXdHMvobaUSXdmz3IuGBebYF1L5eLnlluL9KupehlQdyS4lsv2K8
+	 sm8gf7qK/UM5VtD+qKQgTbVDMjlf9eE5gK4gSuJota4EI0TW+kFNvYiXG/JlUL1y1m
+	 zPE3HO/SocI9nJBLyCW2RRpA6xljpu2PkmeLHa4xaHwNC6F47F+i7qd1gaonbgZOqP
+	 xEhWDw6gc6WERoTeJhZzznvmJPKDyu4WL9cFetIMS2Ovfu+rb5nyjOAHkxAh0Duowe
+	 6sLWvUBuaSxy2s8UsxNpwmerqfh+zhFUsbVE5HNScScY4BgkF1sTTIW6EYRA8j98bc
+	 1kP1ospiz8S1A==
+Date: Wed, 29 Jun 2022 16:07:47 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>
 Cc: Hemant Kumar <quic_hemantk@quicinc.com>,
@@ -23,7 +23,7 @@ Cc: Hemant Kumar <quic_hemantk@quicinc.com>,
 	Loic Poulain <loic.poulain@linaro.org>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add another Foxconn T99W175
-Message-ID: <20220628062832.GA23601@thinkpad>
+Message-ID: <20220629103747.GA21691@thinkpad>
 References: <20220627170717.2252335-1-bjorn.andersson@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -42,7 +42,7 @@ On Mon, Jun 27, 2022 at 10:07:17AM -0700, Bjorn Andersson wrote:
 > 
 > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 Thanks,
 Mani
