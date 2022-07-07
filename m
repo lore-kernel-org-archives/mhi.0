@@ -1,73 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fallback24.mail.ru (fallback24.m.smailru.net [94.100.187.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF0D7A
-	for <mhi@lists.linux.dev>; Wed, 29 Jun 2022 10:37:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9AEAC34114;
-	Wed, 29 Jun 2022 10:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656499074;
-	bh=NBWbrjWKhIsl/d/4tqSoGWJc9m+TIA0ZojUt4mMAaFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MU4PBiNZw1Jj0IXdHMvobaUSXdmz3IuGBebYF1L5eLnlluL9KupehlQdyS4lsv2K8
-	 sm8gf7qK/UM5VtD+qKQgTbVDMjlf9eE5gK4gSuJota4EI0TW+kFNvYiXG/JlUL1y1m
-	 zPE3HO/SocI9nJBLyCW2RRpA6xljpu2PkmeLHa4xaHwNC6F47F+i7qd1gaonbgZOqP
-	 xEhWDw6gc6WERoTeJhZzznvmJPKDyu4WL9cFetIMS2Ovfu+rb5nyjOAHkxAh0Duowe
-	 6sLWvUBuaSxy2s8UsxNpwmerqfh+zhFUsbVE5HNScScY4BgkF1sTTIW6EYRA8j98bc
-	 1kP1ospiz8S1A==
-Date: Wed, 29 Jun 2022 16:07:47 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Hemant Kumar <quic_hemantk@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Loic Poulain <loic.poulain@linaro.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add another Foxconn T99W175
-Message-ID: <20220629103747.GA21691@thinkpad>
-References: <20220627170717.2252335-1-bjorn.andersson@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DF4362
+	for <mhi@lists.linux.dev>; Thu,  7 Jul 2022 06:36:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail4;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=xkzoHBgTUCYb3ifpxuMBrO/7t8Ebk0GKyBwEIC9ukYM=;
+	t=1657175786;x=1657265786; 
+	b=o0IHCPIR0nj/BgdenAAIZX6dnJytvxurXaM6ZR8m/7n9pDTmQOWmaP3NKObgyEUrI6T2MuIAwfy2aljLcjxYjwOXNFWF9oCNy/jZkQZrzmaAn9KtXdverut3ktT19HJLEUo6qcCPy/BOrNz7ZtkYajfzFOJJ8yBB6m2JtpBKTWiD3LHqCZE8c3QsCtIXkORGA4QC4YwAdaGXIkK/w20XaaAiaee/QTvX70r5CHSaassrn2r6H/1bYS+R/Sb5jgC5oF32ncX52XKtEHvqJ9GGkzSKaMVPAFif7vqCjoHWXZ2zdLvZ3HiOJPVP2TMzlmu2ByOw+lZzQcIEcDgCwQrutQ==;
+Received: from [10.161.55.49] (port=41444 helo=smtpng1.i.mail.ru)
+	by fallback24.m.smailru.net with esmtp (envelope-from <fido_max@inbox.ru>)
+	id 1o9Ks9-0008GE-Ui
+	for mhi@lists.linux.dev; Thu, 07 Jul 2022 09:20:22 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail4;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=xkzoHBgTUCYb3ifpxuMBrO/7t8Ebk0GKyBwEIC9ukYM=;
+	t=1657174821;x=1657264821; 
+	b=u/SWHkyItYa+7FloSvpQpcYnMGdhU1SCrHzP5/mlkGRR+h2FRBSwzY2q2e8eMcLkmOW/nPmC6mzt7MtTZTNfwh1PeoYPK6Z80V0jTHAvba4GFFRhTGH8pgLGqUYgizfoxx7xA7R7OnOBPUk0AqPWEDX8iGspuz87IDPI7yd4yoIDjogG/qbk7hUDxP+e0cUyWQ2Ka6Vs8rd9lTbAzFKYyqY5Nv8JyokcT0CAupMn73MHGUUAoG66DNC7Ha3EPkZOMckMUhUuD9HAAmvVx8lp5dEc5K0wOYxzYbC9SQSNcry4PxFdzV5lDid7SbQ6RgI7gtPFatLS7JGJaWQTHqwhSw==;
+Received: by smtpng1.m.smailru.net with esmtpa (envelope-from <fido_max@inbox.ru>)
+	id 1o9Ks1-0005qn-0u; Thu, 07 Jul 2022 09:20:13 +0300
+Message-ID: <263b1524-c6f9-4a50-b03a-4abd3379695d@inbox.ru>
+Date: Thu, 7 Jul 2022 09:20:11 +0300
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220627170717.2252335-1-bjorn.andersson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] net: qrtr: start MHI channel after endpoit creation
+Content-Language: en-US
+To: Hemant Kumar <quic_hemantk@quicinc.com>, mhi@lists.linux.dev
+Cc: manivannan.sadhasivam@linaro.org, bbhatt@codeaurora.org,
+ Maxim Kochetkov <mkochetkov@airspan.com>
+References: <20220430103430.37349-1-fido_max@inbox.ru>
+ <642cccfd-6e70-9024-1a05-6df48a740156@quicinc.com>
+From: Maxim Kochetkov <fido_max@inbox.ru>
+In-Reply-To: <642cccfd-6e70-9024-1a05-6df48a740156@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailru-Src: smtp
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9E4ECCC72C79C76F0DBBE2DD5FB8E3DB37C9299C3987948391867C24CE74E72BB5FE18E9CBFBE7C079B75276B73F119284533B270C0057530E2D9E647C6E0944405401ED2CA4B53CD
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7353CFE866E745C13EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637D07BBD2EBFB7BF888638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8BE85720B3C22570E1280047BA05ADCAA6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7ECC8AC47CD0EDEFF8941B15DA834481FA18204E546F3947CA5ED62E35AC703CCF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006377C70927E34808485389733CBF5DBD5E9B5C8C57E37DE458B9E9CE733340B9D5F3BBE47FD9DD3FB595F5C1EE8F4F765FC72CEEB2601E22B093A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE4930A3850AC1BE2E7352F65BD3C784FEF8FC4224003CC83647689D4C264860C145E
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 9604B64F49C60606AD91A466A1DEF99B296C473AB1E142185AC9E3593CE4B31AB1881A6453793CE9274300E5CE05BD4401A9E91200F654B080B1817FCC3F35FC202589889473004332B8BAA6474A8F1B869985A0AC2603E29C2B6934AE262D3EE7EAB7254005DCED8DA55E71E02F9FC08E8E86DC7131B365E7726E8460B7C23C
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34351729636A02D1DEBC98B844B2648A239E071A32456675483F26D0FE8E26036417BD0A9B0D7FDABB1D7E09C32AA3244C2EE31E931628804EE4451CE770D4EF5F8A6D4CC6FBFAC25183B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojb+SzFQ2YIi/WCD3n/2Eh9A==
+X-Mailru-Sender: 689FA8AB762F7393CC2E0F076E87284E9E4400737C4E7873130B840EA690E8F098CC072019C18A892CA7F8C7C9492E1F2F5E575105D0B01ADBE2EF17B331888EEAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
+X-7564579A: 78E4E2B564C1792B
+X-77F55803: 6242723A09DB00B412A2977D7C45C250975515F87C59FF37826A139197C2F0A6B647ED114AB003AC4BBDD4D122FFD11206371BD8485B58C8F48303731AD4D07491921FADD4BB7917
+X-7FA49CB5: 0D63561A33F958A5506AB27B6667C41EA3D00AA1BE3F0E50E4DC32AA5433C86ACACD7DF95DA8FC8BD5E8D9A59859A8B64071617579528AACCC7F00164DA146DAFE8445B8C89999728AA50765F790063713EF0ED8E3D6D567389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC808214CF94FAA95E0F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE765AFD829FD2E68D2731C566533BA786AA5CC5B56E945C8DA
+X-C1DE0DAB: 9604B64F49C60606AD91A466A1DEF99B296C473AB1E142185AC9E3593CE4B31AB1881A6453793CE9274300E5CE05BD4401A9E91200F654B06A775EFBE1E57E9E20258988947300431ED32A026A1A81F303AB7C22F18CF4D99C2B6934AE262D3EE7EAB7254005DCED8DA55E71E02F9FC08E8E86DC7131B365E7726E8460B7C23C
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojb+SzFQ2YIi9qx8SFce97pA==
+X-Mailru-MI: 8000000000000800
+X-Mras: Ok
 
-On Mon, Jun 27, 2022 at 10:07:17AM -0700, Bjorn Andersson wrote:
-> The Foxconn e0c3 device identifies itself as a T99W175 X55, add support
-> for this to the pci_generic driver.
+
+
+On 03.05.2022 05:35, Hemant Kumar wrote:
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> On 4/30/2022 3:34 AM, Maxim Kochetkov wrote:
+>> From: Maxim Kochetkov <mkochetkov@airspan.com>
+>>
+>> Fixes: a2e2cc0dbb11 ("net: qrtr: Start MHI channels during init")
+>> Signed-off-by: Maxim Kochetkov <mkochetkov@airspan.com>
+> Reviewed-by: Hemant Kumar <quic_hemantk@quicinc.com>
 
-Applied to mhi-next!
-
-Thanks,
-Mani
-
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 57d5f611a979..bf82d90f9ca9 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -571,6 +571,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* T99W175 (sdx55), Based on Qualcomm new baseline */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0bf),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-> +	/* T99W175 (sdx55) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0c3),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
->  	/* T99W368 (sdx65) */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d8),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
-> -- 
-> 2.35.1
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Will it be merged?
