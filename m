@@ -1,74 +1,87 @@
-Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8074627
-	for <mhi@lists.linux.dev>; Fri,  8 Jul 2022 02:00:03 +0000 (UTC)
-Received: from ([60.208.111.195])
-        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id CYP00149;
-        Fri, 08 Jul 2022 09:59:49 +0800
-Received: from localhost.localdomain (10.200.104.97) by
- jtjnmail201612.home.langchao.com (10.100.2.12) with Microsoft SMTP Server id
- 15.1.2507.9; Fri, 8 Jul 2022 09:59:50 +0800
-From: Bo Liu <liubo03@inspur.com>
-To: <mani@kernel.org>, <quic_hemantk@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Bo Liu <liubo03@inspur.com>
-Subject: [PATCH] bus: mhi: ep: Check dev_set_name() return value
-Date: Thu, 7 Jul 2022 21:59:48 -0400
-Message-ID: <20220708015948.4091-1-liubo03@inspur.com>
-X-Mailer: git-send-email 2.18.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA87E7A
+	for <mhi@lists.linux.dev>; Sat,  9 Jul 2022 06:08:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 186A6C3411C;
+	Sat,  9 Jul 2022 06:07:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657346880;
+	bh=vmb51TA7agNZ9Oxx2u8lZxkAmvViGJooTKdRirJS8UY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TKPBEYO1++gFz84IcM+gPuaixDVDAksUkdSSmYOICPc6V7bEN9BgK5aMiFtsOYCaI
+	 h87WL0V9orAb3+Ytv9AWCE2GzxUVrD21zpGe58PeuWrg1A+cnQhN1K7g8MhD9uHIvC
+	 9oi+h/rCco2X5XHkELQsbW4YHzfPyAuqFBN+FCqd47+YWpgfR7Arkk5AlHLT0o7gVL
+	 NuRnjL6JCV8sDfihVGZr/8Z54UIipOhvn0CvGQQddarCAaG6DUYRmz33F8h+CYqDix
+	 WeROnQe9bXVcsEFP4LXxMUyqM3wEPkI7LMx5IKCGy5pOGwfH5GXVxeWe19qaWzaL2x
+	 omT4FbkLXJ+NQ==
+Date: Sat, 9 Jul 2022 11:37:49 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bo Liu <liubo03@inspur.com>
+Cc: mani@kernel.org, quic_hemantk@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: ep: Check dev_set_name() return value
+Message-ID: <20220709060749.GB5063@thinkpad>
+References: <20220708015948.4091-1-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.200.104.97]
-tUid: 2022708095950ed6942c3ae8fce442d2f8adff4aa7a25
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220708015948.4091-1-liubo03@inspur.com>
 
-It's possible that dev_set_name() returns -ENOMEM, catch and handle this.
+On Thu, Jul 07, 2022 at 09:59:48PM -0400, Bo Liu wrote:
+> It's possible that dev_set_name() returns -ENOMEM, catch and handle this.
+> 
+> Signed-off-by: Bo Liu <liubo03@inspur.com>
 
-Signed-off-by: Bo Liu <liubo03@inspur.com>
----
- drivers/bus/mhi/ep/main.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 40109a79017a..1dc8a3557a46 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1242,9 +1242,13 @@ static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id)
- 
- 	/* Channel name is same for both UL and DL */
- 	mhi_dev->name = mhi_chan->name;
--	dev_set_name(&mhi_dev->dev, "%s_%s",
-+	ret = dev_set_name(&mhi_dev->dev, "%s_%s",
- 		     dev_name(&mhi_cntrl->mhi_dev->dev),
- 		     mhi_dev->name);
-+	if (ret) {
-+		put_device(&mhi_dev->dev);
-+		return ret;
-+	}
- 
- 	ret = device_add(&mhi_dev->dev);
- 	if (ret)
-@@ -1408,7 +1412,10 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 		goto err_free_irq;
- 	}
- 
--	dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
-+	ret = dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
-+	if (ret)
-+		goto err_put_dev;
-+
- 	mhi_dev->name = dev_name(&mhi_dev->dev);
- 	mhi_cntrl->mhi_dev = mhi_dev;
- 
+Thanks,
+Mani
+
+> ---
+>  drivers/bus/mhi/ep/main.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 40109a79017a..1dc8a3557a46 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1242,9 +1242,13 @@ static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id)
+>  
+>  	/* Channel name is same for both UL and DL */
+>  	mhi_dev->name = mhi_chan->name;
+> -	dev_set_name(&mhi_dev->dev, "%s_%s",
+> +	ret = dev_set_name(&mhi_dev->dev, "%s_%s",
+>  		     dev_name(&mhi_cntrl->mhi_dev->dev),
+>  		     mhi_dev->name);
+> +	if (ret) {
+> +		put_device(&mhi_dev->dev);
+> +		return ret;
+> +	}
+>  
+>  	ret = device_add(&mhi_dev->dev);
+>  	if (ret)
+> @@ -1408,7 +1412,10 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  		goto err_free_irq;
+>  	}
+>  
+> -	dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
+> +	ret = dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
+> +	if (ret)
+> +		goto err_put_dev;
+> +
+>  	mhi_dev->name = dev_name(&mhi_dev->dev);
+>  	mhi_cntrl->mhi_dev = mhi_dev;
+>  
+> -- 
+> 2.27.0
+> 
+
 -- 
-2.27.0
-
+மணிவண்ணன் சதாசிவம்
