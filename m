@@ -1,31 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB107A
-	for <mhi@lists.linux.dev>; Sat,  9 Jul 2022 06:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E3DAC3411C;
-	Sat,  9 Jul 2022 06:10:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336DE7A
+	for <mhi@lists.linux.dev>; Sat,  9 Jul 2022 06:11:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9BCFC3411C;
+	Sat,  9 Jul 2022 06:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657347024;
-	bh=Snyjm1MUwVdQMrW1b0CDDFR/HpDNy+Rgf4YvfU0y9Jg=;
+	s=k20201202; t=1657347109;
+	bh=/ahQ1nH2C/pIVzBpq5RwmOzj0+TITAHKgJHk11EubCc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ilzI/yfbjXOAO408ytiwHpxT4dgwXFlhPVWFYaYeUAQ4fYPaYp2w26hVa5TaPTdab
-	 oM6QJAfc4sJwOg6kfp8g2aYMZyZRRmVUNKYhAlM+5eIkEZG0wFB+yD/Em4vMSmCi30
-	 5x9dYot9nlIgxSLttA5IqetdLV1RbGw54nwCy55RAzQQTBP/Y9mLh3tNarsP09jU/G
-	 d1VahhXnY32M40zjttMobSr0jt8qCvRYMveKKsasK8xcQOLTSsdqYC686NfPNWAFbC
-	 NZWNIJDI9LmKcUQ2L6mtzkWM7UVBexuylGdI2EzcmFfb7Jij12MgsyU6NQbhDyFwGh
-	 uXU6T5OmczFKw==
-Date: Sat, 9 Jul 2022 11:40:11 +0530
+	b=JE/6zsGUH7fXG9aGUwH1LUWn3+1OMcK7wCzm2tc4+J3YpPvikEsD30RhksL2DdfuG
+	 DMEzqyRVMe2zbGpzrO6qalX0774p2aRojFmoplDT9jGieMdF/zkVYCN+Zs0J60T8TO
+	 Z/OOJW5aRTorHoC6eaQGqzoxD/PI0lb4UM3ygse9ePGFxPqBHnJWx9z/Lhu5PIvVhB
+	 j0pAbVsZTHDdn4g04pIRHrouGD+3wBSWCSWaOxIN2lhNDFBtl0M5Bu2YYb3f4KVWr4
+	 9U+/kTgzUNkkEW1do/req0shZDmNsL8hZ6i+ndj1o/xUuGORSdDxDKl9DvLr4P6kZ1
+	 b2doX0FvKJPnQ==
+Date: Sat, 9 Jul 2022 11:41:39 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Maxim Kochetkov <fido_max@inbox.ru>
-Cc: Hemant Kumar <quic_hemantk@quicinc.com>, mhi@lists.linux.dev,
-	manivannan.sadhasivam@linaro.org, bbhatt@codeaurora.org,
-	Maxim Kochetkov <mkochetkov@airspan.com>
-Subject: Re: [PATCH] net: qrtr: start MHI channel after endpoit creation
-Message-ID: <20220709061011.GD5063@thinkpad>
-References: <20220430103430.37349-1-fido_max@inbox.ru>
- <642cccfd-6e70-9024-1a05-6df48a740156@quicinc.com>
- <263b1524-c6f9-4a50-b03a-4abd3379695d@inbox.ru>
+To: Bo Liu <liubo03@inspur.com>
+Cc: quic_hemantk@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: ep: Check dev_set_name() return value
+Message-ID: <20220709061139.GE5063@thinkpad>
+References: <20220708015948.4091-1-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -35,27 +32,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <263b1524-c6f9-4a50-b03a-4abd3379695d@inbox.ru>
+In-Reply-To: <20220708015948.4091-1-liubo03@inspur.com>
 
-On Thu, Jul 07, 2022 at 09:20:11AM +0300, Maxim Kochetkov wrote:
+On Thu, Jul 07, 2022 at 09:59:48PM -0400, Bo Liu wrote:
+> It's possible that dev_set_name() returns -ENOMEM, catch and handle this.
 > 
-> 
-> On 03.05.2022 05:35, Hemant Kumar wrote:
-> > 
-> > On 4/30/2022 3:34 AM, Maxim Kochetkov wrote:
-> > > From: Maxim Kochetkov <mkochetkov@airspan.com>
-> > > 
-> > > Fixes: a2e2cc0dbb11 ("net: qrtr: Start MHI channels during init")
-> > > Signed-off-by: Maxim Kochetkov <mkochetkov@airspan.com>
-> > Reviewed-by: Hemant Kumar <quic_hemantk@quicinc.com>
-> 
-> Will it be merged?
+> Signed-off-by: Bo Liu <liubo03@inspur.com>
 
-QRTR belongs to netdev. So you need to CC netdev list and their maintainers.
-Please keep the review tags while sending out next revision.
+Applied to mhi-next!
 
 Thanks,
 Mani
+
+> ---
+>  drivers/bus/mhi/ep/main.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 40109a79017a..1dc8a3557a46 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1242,9 +1242,13 @@ static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id)
+>  
+>  	/* Channel name is same for both UL and DL */
+>  	mhi_dev->name = mhi_chan->name;
+> -	dev_set_name(&mhi_dev->dev, "%s_%s",
+> +	ret = dev_set_name(&mhi_dev->dev, "%s_%s",
+>  		     dev_name(&mhi_cntrl->mhi_dev->dev),
+>  		     mhi_dev->name);
+> +	if (ret) {
+> +		put_device(&mhi_dev->dev);
+> +		return ret;
+> +	}
+>  
+>  	ret = device_add(&mhi_dev->dev);
+>  	if (ret)
+> @@ -1408,7 +1412,10 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  		goto err_free_irq;
+>  	}
+>  
+> -	dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
+> +	ret = dev_set_name(&mhi_dev->dev, "mhi_ep%u", mhi_cntrl->index);
+> +	if (ret)
+> +		goto err_put_dev;
+> +
+>  	mhi_dev->name = dev_name(&mhi_dev->dev);
+>  	mhi_cntrl->mhi_dev = mhi_dev;
+>  
+> -- 
+> 2.27.0
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
