@@ -1,114 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8922119
-	for <mhi@lists.linux.dev>; Mon, 25 Jul 2022 18:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10D9C341C6;
-	Mon, 25 Jul 2022 18:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87697E0
+	for <mhi@lists.linux.dev>; Tue, 26 Jul 2022 08:05:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E26BC341C0;
+	Tue, 26 Jul 2022 08:05:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658772014;
-	bh=umOm1cFvLaFJjBTJsRPIlLTUylpQHF2uRLMesgi8PmU=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=QVeeA1GKVVlstdAGGCckwZr3lMEVA1s+rUQZ3H4h0WaG+1dw9znU7VG0+B0nKWqLv
-	 w2nBxCZZ2Ehtyr/3u9wb+G28xcY/wdwgxCWDl0ZenZwU2+llQ6AfkYhNAutiH1+e5a
-	 dhABj+Zco8xFqSN40GASQ6LNiiPqAet1bW3exNUDzBtLISlzxli9AfgopZhQSIGKEV
-	 UrXBG8fOUyOZwTg02cpqmpPDG/KaDAkgSSDZciMEwQIXBYWkIKNUGxRnHDeJ2pvi/V
-	 oCwDaet87QemhqhvJaB2v66p8n5S0YBhSj5WrCIbc0JU3OX0ahwePnlzJ7iasxVO+t
-	 xLw3DxJZyLCcQ==
-From: Kalle Valo <kvalo@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Qiang Yu <quic_qianyu@quicinc.com>,  quic_hemantk@quicinc.com,  loic.poulain@linaro.org,  quic_jhugo@quicinc.com,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  linux-kernel@vger.kernel.org,  quic_cang@quicinc.com,  ath11k@lists.infradead.org
-Subject: Re: [PATCH v4 1/1] bus: mhi: host: Move IRQ allocation to controller registration phase
-References: <1655952183-66792-1-git-send-email-quic_qianyu@quicinc.com>
-	<20220624072740.GA12171@thinkpad> <87k08an038.fsf@kernel.org>
-	<20220720093909.GA5747@thinkpad>
-	<063fe6bf-11b1-1724-058f-0fed7247906e@quicinc.com>
-	<20220721101914.GC36189@thinkpad>
-Date: Mon, 25 Jul 2022 21:00:08 +0300
-In-Reply-To: <20220721101914.GC36189@thinkpad> (Manivannan Sadhasivam's
-	message of "Thu, 21 Jul 2022 15:49:14 +0530")
-Message-ID: <87wnc1qdhz.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	s=k20201202; t=1658822741;
+	bh=AuSXlGXkPcDkuhy4cIR2vtHDpg/jer5nbJzf7kZ8fcg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S/jb5CsETxT0qcotIYIMSfXjAxsypMdq9EZIa9Iwl6DxU6FlTg1WpjrgCZnN+J0AA
+	 IML2WWN2ZCoyhz/lPyYZ7EM6Sg3zapcaEX2gx7z1Gt+YmD+xxfKIL8n4Bs05UKF1qr
+	 rgeEuPYQO0Wen5ks6sbvz0iO7/1BFuMcwBNBAyqUB0G4Ggto9tlf5L8zpbzf62L8vj
+	 aTLv3KEN5o8AAZZR1ugZBj4hBHaROiTff9aZFAowgD02P2eSsHbD8Tajp8Z/6/ZSbh
+	 L4SnT5gLmfpThWKazRJZyITtTzc71fbJIul8esYVtPiGT+BCrep6Um5Lwcc/RixDvY
+	 4L6fUwKtvZmrQ==
+Date: Tue, 26 Jul 2022 13:35:33 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org,
+	quic_jhugo@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com
+Subject: Re: [PATCH v3 1/1] bus: mhi: host: Fix up null pointer access in
+ mhi_irq_handler
+Message-ID: <20220726080533.GD5522@workstation>
+References: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Manivannan Sadhasivam <mani@kernel.org> writes:
++ath11k, Kalle
 
-> On Wed, Jul 20, 2022 at 05:47:37PM +0800, Qiang Yu wrote:
->
->>=20
->> On 7/20/2022 5:39 PM, Manivannan Sadhasivam wrote:
->> > On Mon, Jul 18, 2022 at 02:15:23PM +0300, Kalle Valo wrote:
->> > > + ath11k list
->> > >=20
->> > > Manivannan Sadhasivam <mani@kernel.org> writes:
->> > >=20
->> > > > On Thu, Jun 23, 2022 at 10:43:03AM +0800, Qiang Yu wrote:
->> > > > > During runtime, the MHI endpoint may be powered up/down several =
-times.
->> > > > > So instead of allocating and destroying the IRQs all the time, l=
-et's just
->> > > > > enable/disable IRQs during power up/down.
->> > > > >=20
->> > > > > The IRQs will be allocated during mhi_register_controller() and =
-freed
->> > > > > during mhi_unregister_controller(). This works well for things l=
-ike PCI
->> > > > > hotplug also as once the PCI device gets removed, the controller=
- will
->> > > > > get unregistered. And once it comes back, it will get registered=
- back
->> > > > > and even if the IRQ configuration changes (MSI), that will get a=
-ccounted.
->> > > > >=20
->> > > > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->> > > > Applied to mhi-next!
->> > > I did a bisect and this patch breaks ath11k during rmmod. I'm on
->> > > vacation right now so I can't investigate in detail but more info be=
-low.
->> > >=20
->> > I just tested linux-next/master next-20220718 on my NUC with QCA6390, =
-but I'm
->> > not able to reproduce the issue during rmmod! Instead I couldn't conne=
-ct to AP.
->>=20
->> I suspect that in __free_irq(), if CONFIG_DEBUG_SHIRQ is enabled, irq
->> handler for a shared IRQ will be invoked and null pointer access happen.
->>=20
->> #ifdef CONFIG_DEBUG_SHIRQ
->> =C2=A0=C2=A0 =C2=A0/*
->> =C2=A0=C2=A0 =C2=A0 * It's a shared IRQ -- the driver ought to be prepar=
-ed for an IRQ
->> =C2=A0=C2=A0 =C2=A0 * event to happen even now it's being freed, so let'=
-s make sure that
->> =C2=A0=C2=A0 =C2=A0 * is so by doing an extra call to the handler ....
->> =C2=A0=C2=A0 =C2=A0 *
->> =C2=A0=C2=A0 =C2=A0 * ( We do this after actually deregistering it, to m=
-ake sure that a
->> =C2=A0=C2=A0 =C2=A0 *=C2=A0=C2=A0 'real' IRQ doesn't run in parallel wit=
-h our fake. )
->> =C2=A0=C2=A0 =C2=A0 */
->> =C2=A0=C2=A0 =C2=A0if (action->flags & IRQF_SHARED) {
->> =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 local_irq_save(flags);
->> =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 action->handler(irq, dev_id);
->> =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 local_irq_restore(flags);
->> =C2=A0=C2=A0 =C2=A0}
->> #endif
->>=20
->
-> Ah yes, after enabling CONFIG_DEBUG_SHIRQ I could reproduce the issue.
+On Fri, Jul 22, 2022 at 11:17:18AM +0800, Qiang Yu wrote:
+> The irq handler for a shared IRQ ought to be prepared for running
+> even now it's being freed. So let's check the pointer used by
+> mhi_irq_handler to avoid null pointer access since it is probably
+> released before freeing IRQ.
+> 
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-So how to fix this regression? (If there's already a fix I might have
-missed it as I came back only today)
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
---=20
-https://patchwork.kernel.org/project/linux-wireless/list/
+Thanks,
+Mani
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
-hes
+> ---
+> v2->v3: add comments
+> v1->v2: change dev_err to dev_dbg
+> 
+>  drivers/bus/mhi/host/main.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index f3aef77a..df0fbfe 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -430,12 +430,25 @@ irqreturn_t mhi_irq_handler(int irq_number, void *dev)
+>  {
+>  	struct mhi_event *mhi_event = dev;
+>  	struct mhi_controller *mhi_cntrl = mhi_event->mhi_cntrl;
+> -	struct mhi_event_ctxt *er_ctxt =
+> -		&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
+> +	struct mhi_event_ctxt *er_ctxt;
+>  	struct mhi_ring *ev_ring = &mhi_event->ring;
+> -	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
+> +	dma_addr_t ptr;
+>  	void *dev_rp;
+>  
+> +	/*
+> +	 * If CONFIG_DEBUG_SHIRQ is set, the IRQ handler will get invoked during __free_irq()
+> +	 * and by that time mhi_ctxt() would've freed. So check for the existence of mhi_ctxt
+> +	 * before handling the IRQs.
+> +	 */
+> +	if (!mhi_cntrl->mhi_ctxt) {
+> +		dev_dbg(&mhi_cntrl->mhi_dev->dev,
+> +			"mhi_ctxt has been freed\n");
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	er_ctxt = &mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
+> +	ptr = le64_to_cpu(er_ctxt->rp);
+> +
+>  	if (!is_valid_ring_ptr(ev_ring, ptr)) {
+>  		dev_err(&mhi_cntrl->mhi_dev->dev,
+>  			"Event ring rp points outside of the event ring\n");
+> -- 
+> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+> 
