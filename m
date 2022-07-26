@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87697E0
-	for <mhi@lists.linux.dev>; Tue, 26 Jul 2022 08:05:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E26BC341C0;
-	Tue, 26 Jul 2022 08:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E657E0
+	for <mhi@lists.linux.dev>; Tue, 26 Jul 2022 08:06:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5999C36AE5;
+	Tue, 26 Jul 2022 08:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658822741;
+	s=k20201202; t=1658822804;
 	bh=AuSXlGXkPcDkuhy4cIR2vtHDpg/jer5nbJzf7kZ8fcg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S/jb5CsETxT0qcotIYIMSfXjAxsypMdq9EZIa9Iwl6DxU6FlTg1WpjrgCZnN+J0AA
-	 IML2WWN2ZCoyhz/lPyYZ7EM6Sg3zapcaEX2gx7z1Gt+YmD+xxfKIL8n4Bs05UKF1qr
-	 rgeEuPYQO0Wen5ks6sbvz0iO7/1BFuMcwBNBAyqUB0G4Ggto9tlf5L8zpbzf62L8vj
-	 aTLv3KEN5o8AAZZR1ugZBj4hBHaROiTff9aZFAowgD02P2eSsHbD8Tajp8Z/6/ZSbh
-	 L4SnT5gLmfpThWKazRJZyITtTzc71fbJIul8esYVtPiGT+BCrep6Um5Lwcc/RixDvY
-	 4L6fUwKtvZmrQ==
-Date: Tue, 26 Jul 2022 13:35:33 +0530
+	b=RCCcqAC2M4GslsUvGs5C1x4+/2G3a3w3bEuNTAsrTHtM9sH6pN3U++bWLhLWuMidi
+	 zyAWadDpmrSgL3lkX4NJrljlmQzjsXQeXb0RJ3rAOeqYMNes0+jhfEafI+YcAXukfV
+	 Cb+GkC9NUF1my0VIXuNvFzzLy4cZ13h4wg8V6FlXp3svHe1+70jkp9K9CouDzXWvoE
+	 82aN/TJUjy7zVRKWMxIiI5Ke8jDreKJX0p7iWbhun3lHl67Do4z9E+1wMqXTfhLOS2
+	 W2LC0sskVe1kYmIVXoAMYvs01+RLxH6s7V76IQE4clsmRJLHP1AwakVhf3OnsjtjV9
+	 NQF6jaLu8+bCA==
+Date: Tue, 26 Jul 2022 13:36:36 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Qiang Yu <quic_qianyu@quicinc.com>
 Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org,
 	quic_jhugo@quicinc.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_cang@quicinc.com
+	quic_cang@quicinc.com, ath11k@lists.infradead.org, kvalo@kernel.org
 Subject: Re: [PATCH v3 1/1] bus: mhi: host: Fix up null pointer access in
  mhi_irq_handler
-Message-ID: <20220726080533.GD5522@workstation>
+Message-ID: <20220726080636.GE5522@workstation>
 References: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
