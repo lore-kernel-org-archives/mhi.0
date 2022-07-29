@@ -1,73 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC98538E
-	for <mhi@lists.linux.dev>; Tue, 26 Jul 2022 17:54:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32FB8C433C1;
-	Tue, 26 Jul 2022 17:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3794696
+	for <mhi@lists.linux.dev>; Fri, 29 Jul 2022 14:22:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 624B8C433C1;
+	Fri, 29 Jul 2022 14:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658858042;
-	bh=MTd2fTAvNUmuqKVSjZqDvs/4KSGaAZDJjBUdCfoNxoE=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=AHu3lwB8caO18Cqx0Six5fBB537DDG5SgSwgYiwM0v6qFGFJhI71wp8keugPVtw4j
-	 hTyDNOQHmw5yTDfki9yvxdV9S2shoC6gYPKRALh21LlChG6UEi4gwpmcqAHWT3plsb
-	 hCAWJME/nUa9QvwvunQMQEKCrLMWwZWFzFdliUXhlqssALibwVqLw3TcOwI3yIbGDC
-	 Dym5hs6AoIAFfvFJTCWcOCug7AuEDe+adoW8w0gcKllsofJEypQiujmeiKb3kLch0K
-	 qKcTKyMvCdHAiOsxjRTY33nnDDlOnSLaPo105MHwqX4apmhHBm+2GxYSMH7hTEfSCR
-	 GSBikSfYUdNuw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Qiang Yu <quic_qianyu@quicinc.com>,  quic_hemantk@quicinc.com,  loic.poulain@linaro.org,  quic_jhugo@quicinc.com,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  linux-kernel@vger.kernel.org,  quic_cang@quicinc.com,  ath11k@lists.infradead.org
-Subject: Re: [PATCH v3 1/1] bus: mhi: host: Fix up null pointer access in mhi_irq_handler
+	s=k20201202; t=1659104549;
+	bh=FYp7dxRuDa2TzbtLpfE1k1l6o7hR4ycZLxQgQwCsplA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gI52e6Jn7VE10U5yCiJqdCtJ8vq4VD1COs74rMHOXEDNUAB313zvt0660JPDJ89vL
+	 uRPByAcorrzRsXtzw4UHnEJYFgnZ0epF0+cuXPtDnI7WiYrbh8tDpLbH5ehEusMPBg
+	 eNhTd/WKCWFGW0aqvwRSSQZedj1nbkhf51FcitmIv3mV+5IihAseMfE30NzpLOZ+yz
+	 Vbrkd030U5POnTAx7Z0DMhjniNQpxIMtQyv4s34uHp67VcwJhg0wPbvzzST6nu9tlq
+	 e55lT7qkLZFj0rAWah49KRFUemdcWzLi8jfIAxIEaMFW92wBqgfG7GfQR8uG/sz0BC
+	 dVxKcR7Sz1vGw==
+Date: Fri, 29 Jul 2022 19:52:21 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Qiang Yu <quic_qianyu@quicinc.com>, quic_hemantk@quicinc.com,
+	loic.poulain@linaro.org, quic_jhugo@quicinc.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+	ath11k@lists.infradead.org
+Subject: Re: [PATCH v3 1/1] bus: mhi: host: Fix up null pointer access in
+ mhi_irq_handler
+Message-ID: <20220729142221.GA9937@thinkpad>
 References: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
-	<20220726080636.GE5522@workstation>
-Date: Tue, 26 Jul 2022 20:53:58 +0300
-In-Reply-To: <20220726080636.GE5522@workstation> (Manivannan Sadhasivam's
-	message of "Tue, 26 Jul 2022 13:36:36 +0530")
-Message-ID: <87czdrrc95.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+ <20220726080636.GE5522@workstation>
+ <87czdrrc95.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87czdrrc95.fsf@kernel.org>
 
-Manivannan Sadhasivam <mani@kernel.org> writes:
+On Tue, Jul 26, 2022 at 08:53:58PM +0300, Kalle Valo wrote:
+> Manivannan Sadhasivam <mani@kernel.org> writes:
+> 
+> > +ath11k, Kalle
+> >
+> > On Fri, Jul 22, 2022 at 11:17:18AM +0800, Qiang Yu wrote:
+> >> The irq handler for a shared IRQ ought to be prepared for running
+> >> even now it's being freed. So let's check the pointer used by
+> >> mhi_irq_handler to avoid null pointer access since it is probably
+> >> released before freeing IRQ.
+> >> 
+> >> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> >
+> > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> 
+> This fixes the crash and my regression tests pass now, thanks. But
+> please see my question below.
+> 
+> Tested-by: Kalle Valo <kvalo@kernel.org>
+> 
 
-> +ath11k, Kalle
->
-> On Fri, Jul 22, 2022 at 11:17:18AM +0800, Qiang Yu wrote:
->> The irq handler for a shared IRQ ought to be prepared for running
->> even now it's being freed. So let's check the pointer used by
->> mhi_irq_handler to avoid null pointer access since it is probably
->> released before freeing IRQ.
->> 
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Thanks Kalle!
 
-This fixes the crash and my regression tests pass now, thanks. But
-please see my question below.
+> >> +	/*
+> >> +	 * If CONFIG_DEBUG_SHIRQ is set, the IRQ handler will get invoked during __free_irq()
+> >> +	 * and by that time mhi_ctxt() would've freed. So check for the existence of mhi_ctxt
+> >> +	 * before handling the IRQs.
+> >> +	 */
+> >> +	if (!mhi_cntrl->mhi_ctxt) {
+> >> +		dev_dbg(&mhi_cntrl->mhi_dev->dev,
+> >> +			"mhi_ctxt has been freed\n");
+> >> +		return IRQ_HANDLED;
+> >> +	}
+> 
+> I don't see any protection accessing mhi_cntrl->mhi_ctxt, is this really
+> free of race conditions?
+> 
 
-Tested-by: Kalle Valo <kvalo@kernel.org>
+As Qiang said, it is safe to access mhi_ctxt here.
 
->> +	/*
->> +	 * If CONFIG_DEBUG_SHIRQ is set, the IRQ handler will get invoked during __free_irq()
->> +	 * and by that time mhi_ctxt() would've freed. So check for the existence of mhi_ctxt
->> +	 * before handling the IRQs.
->> +	 */
->> +	if (!mhi_cntrl->mhi_ctxt) {
->> +		dev_dbg(&mhi_cntrl->mhi_dev->dev,
->> +			"mhi_ctxt has been freed\n");
->> +		return IRQ_HANDLED;
->> +	}
+Thanks,
+Mani
 
-I don't see any protection accessing mhi_cntrl->mhi_ctxt, is this really
-free of race conditions?
+> -- 
+> https://patchwork.kernel.org/project/linux-wireless/list/
+> 
+> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+மணிவண்ணன் சதாசிவம்
