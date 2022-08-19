@@ -1,98 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FDF4696
-	for <mhi@lists.linux.dev>; Fri, 29 Jul 2022 14:26:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40456C433B5;
-	Fri, 29 Jul 2022 14:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659104772;
-	bh=+uMoBAWIxMSyXxcObfO5cph22nMVTb/iovwbfOaC60I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=thrMeuuK2VSrxm0ruqnTHhY8+hQZ4zpezH9G8rUOteC7blIg1D/tpQ2cfpPLhfRWE
-	 DLyGP04+rju95e1Y5YIEjnQIVfMco+HTxdfUhU14PFmtQQh1g047x3kh0OD4f6GwrG
-	 v9meh8C0T+sXUGmTl6+0qTbj6Q16GfWq/O4OhHZgMLklA8wGnx89N6RwGza6azMDJJ
-	 pITNu7roK4QkuvIEuWJtaGAcxoUzho3Ee9weqB/uyMy0OvWXRpA0F0mNYyk2TDvzN2
-	 Orfsr/0dJKcaRTJ1Ng3LwCtnvza8H6A9Iali8xH/wW6+//gl8L/8HlZHFEPI3KJLfd
-	 Nk9WijSbKcf4g==
-Date: Fri, 29 Jul 2022 19:56:05 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org,
-	quic_jhugo@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_cang@quicinc.com
-Subject: Re: [PATCH v3 1/1] bus: mhi: host: Fix up null pointer access in
- mhi_irq_handler
-Message-ID: <20220729142605.GB9937@thinkpad>
-References: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB70017EE
+	for <mhi@lists.linux.dev>; Fri, 19 Aug 2022 08:36:31 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id f22so4804505edc.7
+        for <mhi@lists.linux.dev>; Fri, 19 Aug 2022 01:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citymesh-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=r3HFdP2OqG4ybpkvHS1CPlFTw2RYozms1UhdGm/SGGA=;
+        b=Vy5cVf4gaUBnSLnYMbVB3DmQvEo+3QRM3fc5SkzlmTCslbxqitux6CKaZMc7qoBdBM
+         fAyP9k0inUrEAOQTCFdOFhOCz/L+4OuIvFGef+buHqq2D52vfKwXNjAQKDuOBkwHAYMn
+         DzZHSd9AHUWRu7ihyFybT0mZd0MKqZKQtnYPu3fmhuN8wTwcyQ1JdU+nxFOY8nmtOaBl
+         pa4BCmL8f+KBKMZb3w/3521O5NtOnKfkRfiI8YRczTIUDI60KH0IkqkeKfIAgdR7zCtf
+         kF869tmTuKkxn9xTiQFUnugQnqbJYfoYTKOhi2e2V14XfUjkwFk+mawi555njW32j2ns
+         0d6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=r3HFdP2OqG4ybpkvHS1CPlFTw2RYozms1UhdGm/SGGA=;
+        b=XQtPcrPuDhGrfdusoeVfNDLfc1jsAprm9dJRr4oKFMFAdVWwW7iSMNUm2G4bUkwREY
+         RE6ok7FrZp6jkzwnhZ9C9b74S1BIy+zHTr+Bd3x+Qu0geIOUigbl43R12l+IGaReTXAP
+         gH77UvjIP1WKHD6/Iex6KRG7LjRmk/sNAC9L1ljmVuIvkOROwzYqg9JWACB378MR4ehK
+         G+zZl3XjSR62rAusG6OIQQ+F5BYJp4G58fqAAY/y6VHODN6csbvBsYUlZrFikyp5EQ4X
+         pL4aeIN9f9CDg4aS6JSVh2OSwMQM6z+NJMAu1YNRDpFgLhcGHQdnTrxNzdbOXvBqt3SW
+         jMBw==
+X-Gm-Message-State: ACgBeo36UmcSEWAHoSsEZiLJA63iP9enTDwc7OpHW5opjqsMF58alF9V
+	m0BBtU8WytkYbKGYsOet8h0GTcW2107IJw==
+X-Google-Smtp-Source: AA6agR72lhs+Y7dojsFADDGvK+Qw4STwBUH6MMfisRC1cpoypmw6ZeyzzBVEW6GXt6oPrklSePJ/pQ==
+X-Received: by 2002:a05:6402:42ca:b0:43e:3f8d:faf3 with SMTP id i10-20020a05640242ca00b0043e3f8dfaf3mr5306878edc.122.1660898189331;
+        Fri, 19 Aug 2022 01:36:29 -0700 (PDT)
+Received: from localhost.localdomain ([31.31.140.89])
+        by smtp.gmail.com with ESMTPSA id lb4-20020a170907784400b0073c80d008d5sm1184076ejc.122.2022.08.19.01.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 01:36:28 -0700 (PDT)
+From: Koen Vandeputte <koen.vandeputte@citymesh.com>
+X-Google-Original-From: Koen Vandeputte <koen.vandeputte@ncentric.com>
+To: mhi@lists.linux.dev
+Cc: Koen Vandeputte <koen.vandeputte@ncentric.com>
+Subject: [PATCH] bus: mhi: host: always print detected modem name
+Date: Fri, 19 Aug 2022 10:36:15 +0200
+Message-Id: <20220819083615.251960-1-koen.vandeputte@ncentric.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1658459838-30802-1-git-send-email-quic_qianyu@quicinc.com>
 
-On Fri, Jul 22, 2022 at 11:17:18AM +0800, Qiang Yu wrote:
-> The irq handler for a shared IRQ ought to be prepared for running
-> even now it's being freed. So let's check the pointer used by
-> mhi_irq_handler to avoid null pointer access since it is probably
-> released before freeing IRQ.
-> 
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+This harmless print provides a very easy way of knowing
+if the modem is detected properly during probing.
 
-Applied to mhi-next! This patch is targeted for v5.20-rcS.
+Promote it to an informational print so no hassle is required
+enabling kernel debugging info to obtain it.
 
-Thanks,
-Mani
+The rationale here is that:
+On a lot of low-storage embedded devices, extensive kernel
+debugging info is not always present as this would
+increase it's size to much causing partition size issues.
 
-> ---
-> v2->v3: add comments
-> v1->v2: change dev_err to dev_dbg
-> 
->  drivers/bus/mhi/host/main.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index f3aef77a..df0fbfe 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -430,12 +430,25 @@ irqreturn_t mhi_irq_handler(int irq_number, void *dev)
->  {
->  	struct mhi_event *mhi_event = dev;
->  	struct mhi_controller *mhi_cntrl = mhi_event->mhi_cntrl;
-> -	struct mhi_event_ctxt *er_ctxt =
-> -		&mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
-> +	struct mhi_event_ctxt *er_ctxt;
->  	struct mhi_ring *ev_ring = &mhi_event->ring;
-> -	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
-> +	dma_addr_t ptr;
->  	void *dev_rp;
->  
-> +	/*
-> +	 * If CONFIG_DEBUG_SHIRQ is set, the IRQ handler will get invoked during __free_irq()
-> +	 * and by that time mhi_ctxt() would've freed. So check for the existence of mhi_ctxt
-> +	 * before handling the IRQs.
-> +	 */
-> +	if (!mhi_cntrl->mhi_ctxt) {
-> +		dev_dbg(&mhi_cntrl->mhi_dev->dev,
-> +			"mhi_ctxt has been freed\n");
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	er_ctxt = &mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
-> +	ptr = le64_to_cpu(er_ctxt->rp);
-> +
->  	if (!is_valid_ring_ptr(ev_ring, ptr)) {
->  		dev_err(&mhi_cntrl->mhi_dev->dev,
->  			"Event ring rp points outside of the event ring\n");
-> -- 
-> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
-> 
+Signed-off-by: Koen Vandeputte <koen.vandeputte@ncentric.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 9e545f2a5a26..51e2b901bae0 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -841,7 +841,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	struct mhi_controller *mhi_cntrl;
+ 	int err;
+ 
+-	dev_dbg(&pdev->dev, "MHI PCI device found: %s\n", info->name);
++	dev_info(&pdev->dev, "MHI PCI device found: %s\n", info->name);
+ 
+ 	/* mhi_pdev.mhi_cntrl must be zero-initialized */
+ 	mhi_pdev = devm_kzalloc(&pdev->dev, sizeof(*mhi_pdev), GFP_KERNEL);
 -- 
-மணிவண்ணன் சதாசிவம்
+2.34.1
+
