@@ -1,106 +1,167 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CE35C80
-	for <mhi@lists.linux.dev>; Mon, 29 Aug 2022 17:37:14 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id q63so8303204pga.9
-        for <mhi@lists.linux.dev>; Mon, 29 Aug 2022 10:37:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=Fkoh2h30kMhqCuC31iqPKQ6kesLynBjH+mbXyYZdhLY=;
-        b=sCFOZvH+2eh1OZtmE6B/ACBH9iz0Wvrm24jFHkkW8a024urratxB82kB2pN16CuQ82
-         iC4tyXB9l0u4Se7pQBkyiw3GQZZtDS2Q6OY1FXDE2iijluUicblM1205CFft0rxJFR6Y
-         Cy/rbpkKKUF7kNBQyhB/WbTsar0jSuevk3ziNAQm5kZYw8boSveyESKEbejzc2WWlLcB
-         18/jNzPnlY79F/VCfRU4psOb0PrCfT/Ip9TloeNe5hMcHOljkEq9OyFZyQKoSrZLrDyZ
-         G90ZtEQUEZt6ubAhzsOSrE9y9CaUmyhV2K05mv1WucvtCBm8H/2pdulZdOEq6PXwJ699
-         gPaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=Fkoh2h30kMhqCuC31iqPKQ6kesLynBjH+mbXyYZdhLY=;
-        b=z0h7x9J8SAwV+Fv+2FFg8c0ZZkT8DSdXWv6VUVkwMxHa37eXzJd8k/6XmaOYYn0qKk
-         +moWQcg+ycDBOT14E/cNdgS+vuhcqt1gqqGirHH4HBna7wdenJlEwOLPNvljlIXqiIGL
-         xUGqZqKFIGktTg4i/5N5mRRb31EL0w83BBh6npdPuG49qcYewdJ/ska5z45Cz0G+IpbO
-         USq7MCwrADMVJXZS9SKB3xYoNVcjxVbThGsorCCuNAxIYXOZBRUiBje09LWtqjTyq0Jh
-         mNeN+2GWgGexKkit0b2+Nu/skUw8ZZggOWZEqox/dF+Y+P6QIMtjiyvH8kYbuGgxJ/u/
-         j1ZQ==
-X-Gm-Message-State: ACgBeo35aQbUQ7AksCNPxJS1bszX20VLhQFK2S7kT2eQ65zJ1rtxFiO8
-	qD69yRvjB0ESksMdj0f/HfVU
-X-Google-Smtp-Source: AA6agR7eON9r54t1QBnyz2lw+budQ0QaSxpWtfgikJ3R3FUl9yDn/P97PXcCx3YXwpqiXUYpOsQXdg==
-X-Received: by 2002:aa7:81c6:0:b0:535:2aea:e29f with SMTP id c6-20020aa781c6000000b005352aeae29fmr17641264pfn.78.1661794634148;
-        Mon, 29 Aug 2022 10:37:14 -0700 (PDT)
-Received: from thinkpad ([117.193.209.245])
-        by smtp.gmail.com with ESMTPSA id n6-20020a170903110600b0016ee26224a4sm2697329plh.305.2022.08.29.10.37.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 10:37:13 -0700 (PDT)
-Date: Mon, 29 Aug 2022 23:07:08 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Koen Vandeputte <koen.vandeputte@citymesh.com>
-Cc: mhi@lists.linux.dev, Koen Vandeputte <koen.vandeputte@ncentric.com>,
-	loic.poulain@linaro.org
-Subject: Re: [PATCH] bus: mhi: host: always print detected modem name
-Message-ID: <20220829173708.GC84762@thinkpad>
-References: <20220819083615.251960-1-koen.vandeputte@ncentric.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51F1211C
+	for <mhi@lists.linux.dev>; Mon, 29 Aug 2022 20:51:36 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27TKit8i003196;
+	Mon, 29 Aug 2022 20:51:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=we190DjA4Y//5D2wQeRX+Ncln+ajMObBTUaBVync5Ds=;
+ b=kAG6Ai9PrZMn5nh0zYZi/2uBY7AycSjO15EYqKDeCIpxAEWsW/sV9JDaJsgWmwOV6v5b
+ eyHY5xEy+4kUWx8Fe5HrU+sZTJqrmi+VUQm1pa4m01pFq9CW2h+zo4mNds6Y0HJovPBu
+ Yr5UiHAyFUwrqKwYWIPlkC8+uo5JsLIQMBgvOip2vgEtPMndIct4GnDgJuRoNoUZOop/
+ H5aOHFUjTOXMQ3OrYmS2PdysGak11jG5Aw5y+i2kSpQIY7L9e+eF+nOP146TlOhqoAev
+ QvWCRF8WX8Zys2dRlCuZmvdLT2/z2dumpDrikrnxg7GihMrq1caSwrwIhkOU3f7dMYb/ EQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j8x1hs8yh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Aug 2022 20:51:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27TKpK7q011551
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Aug 2022 20:51:21 GMT
+Received: from quicinc.com (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 29 Aug
+ 2022 13:51:20 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        Hemant Kumar
+	<quic_hemantk@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        Jeff Johnson
+	<quic_jjohnson@quicinc.com>
+Subject: [PATCH v4] bus: mhi: host: make mhi_controller_config::event_cfg const
+Date: Mon, 29 Aug 2022 13:51:12 -0700
+Message-ID: <20220829205112.12036-1-quic_jjohnson@quicinc.com>
+X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220819210230.17773-1-quic_jjohnson@quicinc.com>
+References: <20220819210230.17773-1-quic_jjohnson@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220819083615.251960-1-koen.vandeputte@ncentric.com>
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: XRa6O5qVoCXSqTsdW_pBd1fVAKHLj3Ma
+X-Proofpoint-ORIG-GUID: XRa6O5qVoCXSqTsdW_pBd1fVAKHLj3Ma
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-29_09,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
+ spamscore=0 mlxscore=0 malwarescore=0 clxscore=1011 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208290093
 
-+ Loic
+Currently the event_cfg pointer in struct mhi_controller_config is not
+defined as a const pointer. This prevents clients from registering a
+read-only configuration unless they use a typecast. Since the
+event_cfg should not be modified once registered, add the const
+qualifier to event_cfg. This is aligned with the definition of ch_cfg.
 
-On Fri, Aug 19, 2022 at 10:36:15AM +0200, Koen Vandeputte wrote:
-> This harmless print provides a very easy way of knowing
-> if the modem is detected properly during probing.
-> 
-> Promote it to an informational print so no hassle is required
-> enabling kernel debugging info to obtain it.
-> 
-> The rationale here is that:
-> On a lot of low-storage embedded devices, extensive kernel
-> debugging info is not always present as this would
-> increase it's size to much causing partition size issues.
-> 
-> Signed-off-by: Koen Vandeputte <koen.vandeputte@ncentric.com>
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+v4:	updated subject, rebased to v6.0-rc3
 
-The justification makes sense to me.
+v3:	added pci_generic.c change
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+v2:	added S-O-B
 
-Thanks,
-Mani
+ drivers/bus/mhi/host/pci_generic.c | 14 +++++++-------
+ include/linux/mhi.h                |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9e545f2a5a26..51e2b901bae0 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -841,7 +841,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	struct mhi_controller *mhi_cntrl;
->  	int err;
->  
-> -	dev_dbg(&pdev->dev, "MHI PCI device found: %s\n", info->name);
-> +	dev_info(&pdev->dev, "MHI PCI device found: %s\n", info->name);
->  
->  	/* mhi_pdev.mhi_cntrl must be zero-initialized */
->  	mhi_pdev = devm_kzalloc(&pdev->dev, sizeof(*mhi_pdev), GFP_KERNEL);
-> -- 
-> 2.34.1
-> 
-> 
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 9e545f2a5a26..8db63543ce8f 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -238,7 +238,7 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
+ };
+ 
+-static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
++static const struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+ 	/* first ring is control+data ring */
+ 	MHI_EVENT_CONFIG_CTRL(0, 64),
+ 	/* DIAG dedicated event ring */
+@@ -305,7 +305,7 @@ static const struct mhi_channel_config mhi_quectel_em1xx_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
+ 
+-static struct mhi_event_config mhi_quectel_em1xx_events[] = {
++static const struct mhi_event_config mhi_quectel_em1xx_events[] = {
+ 	MHI_EVENT_CONFIG_CTRL(0, 128),
+ 	MHI_EVENT_CONFIG_DATA(1, 128),
+ 	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+@@ -344,7 +344,7 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
+ 
+-static struct mhi_event_config mhi_foxconn_sdx55_events[] = {
++static struct const mhi_event_config mhi_foxconn_sdx55_events[] = {
+ 	MHI_EVENT_CONFIG_CTRL(0, 128),
+ 	MHI_EVENT_CONFIG_DATA(1, 128),
+ 	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+@@ -391,7 +391,7 @@ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 512, 3),
+ };
+ 
+-static struct mhi_event_config mhi_mv3x_events[] = {
++static const struct mhi_event_config mhi_mv3x_events[] = {
+ 	MHI_EVENT_CONFIG_CTRL(0, 256),
+ 	MHI_EVENT_CONFIG_DATA(1, 256),
+ 	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+@@ -438,7 +438,7 @@ static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 512, 2),
+ };
+ 
+-static struct mhi_event_config modem_sierra_em919x_mhi_events[] = {
++static const struct mhi_event_config modem_sierra_em919x_mhi_events[] = {
+ 	/* first ring is control+data and DIAG ring */
+ 	MHI_EVENT_CONFIG_CTRL(0, 2048),
+ 	/* Hardware channels request dedicated hardware event rings */
+@@ -472,7 +472,7 @@ static const struct mhi_channel_config mhi_telit_fn980_hw_v1_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 2),
+ };
+ 
+-static struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
++static const struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
+ 	MHI_EVENT_CONFIG_CTRL(0, 128),
+ 	MHI_EVENT_CONFIG_HW_DATA(1, 1024, 100),
+ 	MHI_EVENT_CONFIG_HW_DATA(2, 2048, 101)
+@@ -511,7 +511,7 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
+ 
+-static struct mhi_event_config mhi_telit_fn990_events[] = {
++static const struct mhi_event_config mhi_telit_fn990_events[] = {
+ 	MHI_EVENT_CONFIG_CTRL(0, 128),
+ 	MHI_EVENT_CONFIG_DATA(1, 128),
+ 	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index a5441ad33c74..ada2f18af4d6 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -281,7 +281,7 @@ struct mhi_controller_config {
+ 	u32 num_channels;
+ 	const struct mhi_channel_config *ch_cfg;
+ 	u32 num_events;
+-	struct mhi_event_config *event_cfg;
++	const struct mhi_event_config *event_cfg;
+ 	bool use_bounce_buf;
+ 	bool m2_no_db;
+ };
 -- 
-மணிவண்ணன் சதாசிவம்
+2.37.0
+
