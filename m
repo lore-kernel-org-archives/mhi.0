@@ -1,88 +1,149 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F57E7
-	for <mhi@lists.linux.dev>; Wed, 31 Aug 2022 10:04:25 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id bj12so27277183ejb.13
-        for <mhi@lists.linux.dev>; Wed, 31 Aug 2022 03:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citymesh-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=jQYlfahpB48jeiJ1hgrXrVCoWgK6RfgfsPEVfyTWprY=;
-        b=AFoa9HVVJx3h/1Qz3iPBYkCyLWSc0JNl4jhq3d7Q0emuNoI4Rj/F3gmmBdT7oySxRd
-         9ucTpex/+C+MUgu2xEO89lzpwFrzEcOmewAKdaHQfiMrsFlIqtfOIypnHNe45OBKopiQ
-         81jpUJvPFf0WfS+DKo51j2DBCNp0D6yikyQdxeD7E/2GSte0NP3EGgFebChxU7e0XyIs
-         gyvGN3fBGI9ug1tLYkTklhtri3q+a4BkLET5ieLwZuiRoE7wEyY0U5tSY4AsRV33QxSe
-         z2rv+xTl8aFupO+YxtCjtRApArm/qJzGeBfmgRyhGg5kPSD/6cB5ee+Ewv8sm236MsAo
-         g50A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=jQYlfahpB48jeiJ1hgrXrVCoWgK6RfgfsPEVfyTWprY=;
-        b=USkLL6wNwTf26VavmZqSXxeDNNrBq8GSZPh+zmiY3s3kh0Db4wARztqINupBTCE8jR
-         1K9209RCElrPBATByxW98Hekg4DmLL7fmJUJyqDokPvDwRAWQLrujvBDZWJlNcJwht7G
-         uRSTbCGWLFVzZMOYzd/+bymISCYddgVYNoWGcvvAlXUFP0ZJ9sE4TLSgG7sBKS5xe+Z1
-         V0C5qS7UNNqBvSAjY2/hI3PhX5wED4WH9YAwetKfsYUy7WxpYsnvf3ntVmdhUTmgBpYQ
-         451iZOmVnsiwNO1IvGysc0idh6Fk6RugW4n9VFZCPWQSJSGUOWvkNJB203pnUOowGmi9
-         b8Zg==
-X-Gm-Message-State: ACgBeo2kmQ4WWu3fH+D4CV0lUhbR6pKcbhmyVK9JFshTcPzVx9mKXA0n
-	tAumjO3pu3XOk+CJgHpDWAYPbpTNjtkoTg==
-X-Google-Smtp-Source: AA6agR7bDXfh7hk3C6f8wohPe/Mn74FK5/HF2ds2o7wmt3tJIoQBj0+a49iWrgvsrwNeEtt8dZdL0A==
-X-Received: by 2002:a17:907:9619:b0:730:8ebb:9e45 with SMTP id gb25-20020a170907961900b007308ebb9e45mr20008260ejc.628.1661940263916;
-        Wed, 31 Aug 2022 03:04:23 -0700 (PDT)
-Received: from localhost.localdomain ([31.31.140.89])
-        by smtp.gmail.com with ESMTPSA id f23-20020a05640214d700b0043ba437fe04sm8841500edx.78.2022.08.31.03.04.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Aug 2022 03:04:14 -0700 (PDT)
-From: Koen Vandeputte <koen.vandeputte@citymesh.com>
-To: mhi@lists.linux.dev
-Cc: mani@kernel.org,
-	Koen Vandeputte <koen.vandeputte@citymesh.com>
-Subject: [PATCH v2] bus: mhi: host: always print detected modem name
-Date: Wed, 31 Aug 2022 12:03:49 +0200
-Message-Id: <20220831100349.1488762-1-koen.vandeputte@citymesh.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239E57E
+	for <mhi@lists.linux.dev>; Wed,  7 Sep 2022 08:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F799C433B5;
+	Wed,  7 Sep 2022 08:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662537627;
+	bh=90ylMoXY5CdNdeYF5G2KIHeYF40APZTZaqUwAJr1djM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cXaY/jGMs8xHJ+KTWu3Va0i/cl3PA6Orcee/89HezJVT/KQ4i4BiMnin6nfzgKfel
+	 ecE9/lAZAKOI0oJviN5on8QcogUdPrcUPV4UhvK+mOpbWof2USTGdmkGP4iYU/y/pz
+	 QGmwn/uTrvctHhHlDwk+V5rST7yhQOHKnlgOlQ0mflZm7/EU6sybotVDO/hhswMnbi
+	 1Rsiv/42lJYc3RV3LgRzbd4wxbVpfeSzcN8sPxA0Su1S+poQt25fNRJiYvBzZGJkRQ
+	 aYdOicLlpDMetCDckV0OsisAsNBBW2UdlhsM97q4TZApVJbhj3a7vC+zbhuzEjttta
+	 qc/Wp7d+AO+Zw==
+Date: Wed, 7 Sep 2022 13:30:16 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Hemant Kumar <quic_hemantk@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v5] bus: mhi: host: make mhi_controller_config::event_cfg
+ const
+Message-ID: <20220907080016.GA22505@workstation>
+References: <20220829205112.12036-1-quic_jjohnson@quicinc.com>
+ <20220830171147.24338-1-quic_jjohnson@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220830171147.24338-1-quic_jjohnson@quicinc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-This harmless print provides a very easy way of knowing
-if the modem is detected properly during probing.
+On Tue, Aug 30, 2022 at 10:11:47AM -0700, Jeff Johnson wrote:
+> Currently the event_cfg pointer in struct mhi_controller_config is not
+> defined as a const pointer. This prevents clients from registering a
+> read-only configuration unless they use a typecast. Since the
+> event_cfg should not be modified once registered, add the const
+> qualifier to event_cfg. This is aligned with the definition of ch_cfg.
+> 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Promote it to an informational print so no hassle is required
-enabling kernel debugging info to obtain it.
+Applied to mhi-next!
 
-The rationale here is that:
-On a lot of low-storage embedded devices, extensive kernel
-debugging info is not always present as this would
-increase it's size to much causing partition size issues.
+Thanks,
+Mani
 
-Signed-off-by: Koen Vandeputte <koen.vandeputte@citymesh.com>
----
-
-v2 -> sync SoB email with From
- drivers/bus/mhi/host/pci_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 9e545f2a5a26..51e2b901bae0 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -841,7 +841,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	struct mhi_controller *mhi_cntrl;
- 	int err;
- 
--	dev_dbg(&pdev->dev, "MHI PCI device found: %s\n", info->name);
-+	dev_info(&pdev->dev, "MHI PCI device found: %s\n", info->name);
- 
- 	/* mhi_pdev.mhi_cntrl must be zero-initialized */
- 	mhi_pdev = devm_kzalloc(&pdev->dev, sizeof(*mhi_pdev), GFP_KERNEL);
--- 
-2.34.1
-
+> ---
+> v5:	corrected mhi_foxconn_sdx55_events[]
+> 
+> v4:	updated subject, rebased to v6.0-rc3
+> 
+> v3:	added pci_generic.c change
+> 
+> v2:	added S-O-B
+> 
+>  drivers/bus/mhi/host/pci_generic.c | 14 +++++++-------
+>  include/linux/mhi.h                |  2 +-
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 9e545f2a5a26..0db437ac3ba4 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -238,7 +238,7 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
+>  };
+>  
+> -static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+> +static const struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+>  	/* first ring is control+data ring */
+>  	MHI_EVENT_CONFIG_CTRL(0, 64),
+>  	/* DIAG dedicated event ring */
+> @@ -305,7 +305,7 @@ static const struct mhi_channel_config mhi_quectel_em1xx_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+>  };
+>  
+> -static struct mhi_event_config mhi_quectel_em1xx_events[] = {
+> +static const struct mhi_event_config mhi_quectel_em1xx_events[] = {
+>  	MHI_EVENT_CONFIG_CTRL(0, 128),
+>  	MHI_EVENT_CONFIG_DATA(1, 128),
+>  	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+> @@ -344,7 +344,7 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+>  };
+>  
+> -static struct mhi_event_config mhi_foxconn_sdx55_events[] = {
+> +static const struct mhi_event_config mhi_foxconn_sdx55_events[] = {
+>  	MHI_EVENT_CONFIG_CTRL(0, 128),
+>  	MHI_EVENT_CONFIG_DATA(1, 128),
+>  	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+> @@ -391,7 +391,7 @@ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 512, 3),
+>  };
+>  
+> -static struct mhi_event_config mhi_mv3x_events[] = {
+> +static const struct mhi_event_config mhi_mv3x_events[] = {
+>  	MHI_EVENT_CONFIG_CTRL(0, 256),
+>  	MHI_EVENT_CONFIG_DATA(1, 256),
+>  	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+> @@ -438,7 +438,7 @@ static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 512, 2),
+>  };
+>  
+> -static struct mhi_event_config modem_sierra_em919x_mhi_events[] = {
+> +static const struct mhi_event_config modem_sierra_em919x_mhi_events[] = {
+>  	/* first ring is control+data and DIAG ring */
+>  	MHI_EVENT_CONFIG_CTRL(0, 2048),
+>  	/* Hardware channels request dedicated hardware event rings */
+> @@ -472,7 +472,7 @@ static const struct mhi_channel_config mhi_telit_fn980_hw_v1_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 2),
+>  };
+>  
+> -static struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
+> +static const struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
+>  	MHI_EVENT_CONFIG_CTRL(0, 128),
+>  	MHI_EVENT_CONFIG_HW_DATA(1, 1024, 100),
+>  	MHI_EVENT_CONFIG_HW_DATA(2, 2048, 101)
+> @@ -511,7 +511,7 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+>  };
+>  
+> -static struct mhi_event_config mhi_telit_fn990_events[] = {
+> +static const struct mhi_event_config mhi_telit_fn990_events[] = {
+>  	MHI_EVENT_CONFIG_CTRL(0, 128),
+>  	MHI_EVENT_CONFIG_DATA(1, 128),
+>  	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index a5441ad33c74..ada2f18af4d6 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -281,7 +281,7 @@ struct mhi_controller_config {
+>  	u32 num_channels;
+>  	const struct mhi_channel_config *ch_cfg;
+>  	u32 num_events;
+> -	struct mhi_event_config *event_cfg;
+> +	const struct mhi_event_config *event_cfg;
+>  	bool use_bounce_buf;
+>  	bool m2_no_db;
+>  };
+> -- 
+> 2.37.0
+> 
+> 
