@@ -1,82 +1,77 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA302C80
-	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 08:18:31 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id m10-20020a17090a730a00b001fa986fd8eeso24951000pjk.0
-        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 01:18:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71DB5C83
+	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 14:43:36 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id go34so49940596ejc.2
+        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 07:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date;
-        bh=O2LOS9GzbC4z/iqV70cxFjAmSLO6Aw6vj3s0xm+V2V8=;
-        b=C6UI52aXnJK5jNmpaLVmCIKsSYnHS5UDZQd5oi9BNmTJjzjUmeiII3tY/8S5k68+YR
-         79Zle6H2ZECQyHVTX9+GE2bKpsmT0To55cTImwKylfYUmzqmxph47z27n9b7BoXFCv8m
-         zziHeaGBc6HUz4rQDGnM3ySROmzFNwugifjkqYPx/zlxIyTi2mWk5dekrBBbs7/XzyCu
-         tpQuzlqzY7afWmi2/eG4zKEdSnCcnVgOR1n6fJrNqKKmw2+6WL/1dj4SYO0rJzTg9ABC
-         ivnLF9h8ZxvYGAXwvqXjwGYU0e3UhP6YnGgyq2FLWHIrjpCOVpkJlTkrA0TaiUPJVsCz
-         Uf8Q==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=LKoaZ5We1TGLeFod6UTJMH7q09dtJndCh1W2gfaDfzM=;
+        b=FPZdopoGGaFUGRqTDSLf/mbn0u3wwg02p7UxOEwbSG5bvv6s1++oPirhDM2S8KDyD3
+         Be4kaXWPqfFNLq2WkV+3glORMuZGdpg1KhtQloZrB3q+fLSD6ftqJGEgYYjBh/wBd3eE
+         eIuCY02i9QkxVIJ4CbywRVkrJM2CNGcmWwjFWBY9/VggqGJEfPMkOg73aeUsYNqc11Nk
+         BSpoheNWqki6kQX/hPBNjmaOV9wmEYoonf2nu8mYsDV4yu7o3NB1BDKYhzVXyVPip/ve
+         8UoGeR9+5GsN6d3gary881TBLdzmIfsEcLA5ilkgjX6j1j7bK6TaBbXKy6ba9TUBhjZV
+         NCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=O2LOS9GzbC4z/iqV70cxFjAmSLO6Aw6vj3s0xm+V2V8=;
-        b=A7QwckxC1TjhqMGfuqUIxiqSLS1gVXO17fJbiIFArkTY2kTkQWaCc5mU233XrQAsub
-         3egbOvhwD+WNRy0/fQh7EU7fHrVs6poZCv6i8+IH3nPrLnwNWlPjs698WWFhitUgI49T
-         RDPLC7Zo8+PKhl5TpNkeqWQ8o3+WDZIcoKj5q0xd/7ac4a5ZY9Sd+hjTE36EZhVeUAFQ
-         5ry/qVDaUASg9I0ugByrPvecleVDkpXDanxDqNcAjBIjLT5DaTheBDTlkxgV10/iuYi7
-         MaPGKROhcV1fhmkKMiNozAGf238TUvGV4uNN0Per/xF8cXHYZ2y0fdUy8/VgV76SPTGJ
-         2+pw==
-X-Gm-Message-State: ACrzQf0ECtXToR1W6OoKtypfPnj7C+qPe8wxbWnfSLfkVNBAnBcd0Uno
-	mcy1+rkcbp30Q0UxLtAbHeqX
-X-Google-Smtp-Source: AMsMyM6Zw7LeowehJPl3fqZ4Hw7uLSI/4aDlFsSPxs9kifWPiu5nFKG9k0W53e5AQvG04pV0fp3NhQ==
-X-Received: by 2002:a17:902:d2d0:b0:178:329d:a5ed with SMTP id n16-20020a170902d2d000b00178329da5edmr3666099plc.142.1663316310938;
-        Fri, 16 Sep 2022 01:18:30 -0700 (PDT)
-Received: from workstation ([117.217.181.92])
-        by smtp.gmail.com with ESMTPSA id x127-20020a626385000000b0053b2681b0e0sm13901993pfb.39.2022.09.16.01.18.28
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 16 Sep 2022 01:18:30 -0700 (PDT)
-Date: Fri, 16 Sep 2022 13:48:26 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: quic_hemantk@quicinc.com, mhi@lists.linux.dev,
-	koen.vandeputte@citymesh.com
-Subject: [GIT PULL] MHI changes for v6.1
-Message-ID: <20220916081826.GA11659@workstation>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=LKoaZ5We1TGLeFod6UTJMH7q09dtJndCh1W2gfaDfzM=;
+        b=TwE0nhVOz6djDFucN2R2U8qeM1Tj2OFgZFA74Ni0QI2Vxql0e1x92l62lYv0z0NnWV
+         tixmE0Yr3OHARlog3M15K84pimurVyo/eSDC4P0U54gi0jKEWewSPOzam0wifCWuf++i
+         q7pPGdc51ymYsSQquTGFOQRx953Mz09cdvd8CyJiPw2CupyGoIZ0TOsORYx5uGvJd/Kn
+         dun1UeI1IU2fXrK7oMJr9ljKi3hnaC0g+GwODvjoxTVPfLjmATQ8H9GgFTpCQafCKdr2
+         fPKpIKSX2DhUbfchCk+pQzoQEfjVQKgXdQBzHkTauEiympwRPTsivkUy3L0KJxmWWJBr
+         2O7g==
+X-Gm-Message-State: ACrzQf2dLC7vVb4TGs03h6+4Pq+kdnV9B2uRumQIqKK8j4TRK9A1nSEk
+	CQ2qfpzqL3zeTVpmyAo1zbCqyN14U8EpKQ==
+X-Google-Smtp-Source: AMsMyM7zIcoW0FRIFKPApyLHgN4mHUuTE5bIgYjHNY9NOwwKb46Fr6t/zkSgRGUmnFvAOxGKYq84kA==
+X-Received: by 2002:a17:906:7944:b0:73c:838:ac3d with SMTP id l4-20020a170906794400b0073c0838ac3dmr3838252ejo.242.1663339414462;
+        Fri, 16 Sep 2022 07:43:34 -0700 (PDT)
+Received: from labdl-itc-sw06.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
+        by smtp.gmail.com with ESMTPSA id b15-20020aa7cd0f000000b004527eb874ebsm6273792edw.40.2022.09.16.07.43.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 07:43:31 -0700 (PDT)
+From: Fabio Porcedda <fabio.porcedda@gmail.com>
+To: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org,
+	mani@kernel.org,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: dnlplm@gmail.com
+Subject: [PATCH 0/2] Add a secondary AT port to the Telit FN990
+Date: Fri, 16 Sep 2022 16:43:27 +0200
+Message-Id: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+In order to add a secondary AT port to the Telit FN990 first add "DUN2"
+to mhi_wwan_ctrl.c, after that add a seconday AT port to the
+Telit FN990 in pci_generic.c
 
-  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+Fabio Porcedda (2):
+  net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
+  bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
 
-are available in the Git repository at:
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ drivers/net/wwan/mhi_wwan_ctrl.c   | 1 +
+ 2 files changed, 3 insertions(+)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.1
+-- 
+2.37.3
 
-for you to fetch changes up to e4e9631b2c8886be172f99bd29f326ee56adc2d2:
-
-  bus: mhi: host: always print detected modem name (2022-09-16 13:38:25 +0530)
-
-----------------------------------------------------------------
-MHI Host
---------
-
-- Print the modem name while probing the MHI host pci-generic driver. This has
-  been exposed as a debug information so far but on a low storate embedded
-  devices such as OpenWRT based products, this helps in identifying the
-  attached modem without enabling the debug logs.
-
-----------------------------------------------------------------
-Koen Vandeputte (1):
-      bus: mhi: host: always print detected modem name
-
- drivers/bus/mhi/host/pci_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
