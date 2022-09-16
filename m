@@ -1,42 +1,42 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FFD5C83
-	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 14:43:38 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id 13so20941702ejn.3
-        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 07:43:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A355C83
+	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 14:43:42 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id y17so44893422ejo.6
+        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 07:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=gllMF7rEKjn2stwt8zy38QVQBQaalDndHDH9GUJ9KbI=;
-        b=aGU63eF0ffZjrabeXppQR6A07Z1vdKgRsAOOfVWaru5FTK02mInfQTd44/O915hd3v
-         rnktJEUalIXx5b3WTn7/cUUCvVHv+JQloN0hjM6k5BmUzgF9VDGdCTDAmlYq3wqs4mPx
-         BGIhOJb1lfE8DwyHwPeX7SP7rqqK0mvzzdbc9nwZR9hW2zRbJeN8glg5yVfK7oanoI/Q
-         4tIHkmohMyhvbcoHh+1ayDXsgyJC2o3OwP2nKl0Ng6zCKq1Aut95LS3hCVewHy+ximsl
-         8pdqrxCkwOHJmOQzFnr9MKVVFUM+O+6wxuFJMfHup92GBMyrZD1v5yHLGTrEYInFzGiF
-         QG+g==
+        bh=ot7dgyB+KtHLDN7Xyqgw/4QKfFL14qXZyomQmyozivc=;
+        b=TBL9jjzQgiXJcDlPnuYA0DP07U23BwTRwfRHAOhLJt/wUIozpDKbBdwxSdYrxtzZNX
+         1gwg2rs5lAZnRaTMpYlR/fEVejvKMoY9mplZz5Oux0xqY/sgLqMuPOduMedGkqwJakGU
+         Oo0LTT2C2xFS4/rmCaxLU4gplP5/MR0Wj5eIGlJqBYXdzD73OC7aotFdtXdRUlgfJzpW
+         l9mstCpFOFw9owE6zxP0Zbptb/WGBbL1ceXt/pENXR1VW/jnQbLlSfd0HJVydM/zhNT+
+         om8nkdTPcDxE/J8l171h9JUw2g5M66ZhYC0vkqWbYpH66pKNuxNNPjsylp0mJYOmxPR2
+         Gm9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=gllMF7rEKjn2stwt8zy38QVQBQaalDndHDH9GUJ9KbI=;
-        b=QoapMNxHSrOzXN5XTaio9ZQMI+xo4VWjmElGyp4lGw6Fq3Re6qOFzlbGhWHiyvvonc
-         H8xH5Y7UPfIld3fFYV/0c5t4CE1eVgSVHXx2KE4KzjQ8eIOyqPuEmXsoaoai0mxEkObE
-         XWuQamWWMGY6ZZgPOnfN90JbDm9/UI6zUOQjbB8V3gKulgdi1zMX+oSf++iomRufe+tb
-         CuMyLLmsPL9oavfAN+zrpQxglh9TNiL2ijxLFiuxprDI5uTDlPrSSUU5fAHNI+jifKFR
-         kOuA+9lLClRaIrYW0NCK0kEVrK4hm+uOYwzFQRGGCbcMQJZDfiXaTTZPRRfn2ssxl6hO
-         8TJA==
-X-Gm-Message-State: ACrzQf0jM2AdEFrYW+ri3eHjy5KVnnO9C1swe54KY37ILUpval27A7pY
-	EhZIoeu0W89DUdvSNipVx6wdhaOOz28ALQ==
-X-Google-Smtp-Source: AMsMyM6yuNIBAzryvbRBESypYb/cWw5mw3gBg1Qyg6kFhU6B+DCAix0l11fB0Esz6fJ+QP+eEiwhow==
-X-Received: by 2002:a17:907:d91:b0:770:86d3:36e4 with SMTP id go17-20020a1709070d9100b0077086d336e4mr3591670ejc.687.1663339416784;
-        Fri, 16 Sep 2022 07:43:36 -0700 (PDT)
+        bh=ot7dgyB+KtHLDN7Xyqgw/4QKfFL14qXZyomQmyozivc=;
+        b=yJemldwIx9O/APel/fPxtFNZnzY/qmj3nRyGXjdIxIig/T3IJmPmpZ9azi2dI/ZLTG
+         Tj7KDlsqVAIa50U9KpdKYsQlrGQWl402jumgQGDt7PGVJF9jhLWQTQKQhDuFnu3CgSQa
+         YrHVi5czAmTs+WKmf5iajW2AV4nzzz4dOoujfJlRq1yvjtcPfDTiNrVw0Oko5nmt+6mW
+         5+Ne+HhMLtQrqrGiTtCdrgAoOJSIHi4odLHpmUKs052a+/zDHMJ9pvUSjK00BWCHkEUo
+         BTOCbpoi1UuxIiq8gLznrTLRTL3MrGSDgrvUKraK9KjQJ5rwVdEUfeLtqqPnSawCbeCc
+         Su/w==
+X-Gm-Message-State: ACrzQf0VKpx/K2bl8Pa9otW9pZPYqt6BwyotCeKmwIn/zx4cCHUDc+FV
+	/0Tjafk1nKAySWzhAVdfkJ9frxQhVym9Ew==
+X-Google-Smtp-Source: AMsMyM4dkscApZ9i0ayoK9S6XBYFSlZGHUE4c8o92NL9XHVxUl7n8gZKN152nsNzzBO6NPSSKDVplQ==
+X-Received: by 2002:a17:907:e9e:b0:77f:9688:2714 with SMTP id ho30-20020a1709070e9e00b0077f96882714mr3915614ejc.208.1663339418500;
+        Fri, 16 Sep 2022 07:43:38 -0700 (PDT)
 Received: from labdl-itc-sw06.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id b15-20020aa7cd0f000000b004527eb874ebsm6273792edw.40.2022.09.16.07.43.34
+        by smtp.gmail.com with ESMTPSA id b15-20020aa7cd0f000000b004527eb874ebsm6273792edw.40.2022.09.16.07.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 07:43:35 -0700 (PDT)
+        Fri, 16 Sep 2022 07:43:37 -0700 (PDT)
 From: Fabio Porcedda <fabio.porcedda@gmail.com>
 To: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
@@ -49,9 +49,9 @@ To: mhi@lists.linux.dev,
 	kuba@kernel.org,
 	pabeni@redhat.com
 Cc: dnlplm@gmail.com
-Subject: [PATCH 1/2] net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
-Date: Fri, 16 Sep 2022 16:43:28 +0200
-Message-Id: <20220916144329.243368-2-fabio.porcedda@gmail.com>
+Subject: [PATCH 2/2] bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
+Date: Fri, 16 Sep 2022 16:43:29 +0200
+Message-Id: <20220916144329.243368-3-fabio.porcedda@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220916144329.243368-1-fabio.porcedda@gmail.com>
 References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
@@ -63,25 +63,26 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to have a secondary AT port add "DUN2".
+Add a secondary AT port using one of OEM reserved channel.
 
 Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
 ---
- drivers/net/wwan/mhi_wwan_ctrl.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
-index e4d0f696687f..f7ca52353f40 100644
---- a/drivers/net/wwan/mhi_wwan_ctrl.c
-+++ b/drivers/net/wwan/mhi_wwan_ctrl.c
-@@ -258,6 +258,7 @@ static void mhi_wwan_ctrl_remove(struct mhi_device *mhi_dev)
- 
- static const struct mhi_device_id mhi_wwan_ctrl_match_table[] = {
- 	{ .chan = "DUN", .driver_data = WWAN_PORT_AT },
-+	{ .chan = "DUN2", .driver_data = WWAN_PORT_AT },
- 	{ .chan = "MBIM", .driver_data = WWAN_PORT_MBIM },
- 	{ .chan = "QMI", .driver_data = WWAN_PORT_QMI },
- 	{ .chan = "DIAG", .driver_data = WWAN_PORT_QCDM },
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 51e2b901bae0..caa4ce28cf9e 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -507,6 +507,8 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
++	MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
+ 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
 -- 
 2.37.3
 
