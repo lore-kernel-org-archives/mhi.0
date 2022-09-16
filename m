@@ -1,27 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06977E
-	for <mhi@lists.linux.dev>; Wed,  7 Sep 2022 08:06:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95CC3C433C1;
-	Wed,  7 Sep 2022 08:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662537972;
-	bh=sImJo0JiqLlOd41UYhSUOcQbzx4NPhs/auVbPIbzJAA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NklUppfh0XsQ7t54pYgu19OnZVwBGaAwwI8zic+yqern0NJ6y8py/p14B1JZHMap/
-	 JI2ttqGAZHz1ccaAXajDcHF7Q4th23WDSB8cl8McRItzblMFiadRxOKqxhN+vGLjw1
-	 YMO/cA4CAoR2N1jPQ7ctE7XqlPcSySbcLNA8Ud0q68TkfJRNJUr8np+r7cgLh6kRzW
-	 HfXICBwNVFnf3HnF63rqREm9mF+uXHg+LSc/F1lkaHsQAZISnIPUHHQVlXbBz/fHXB
-	 f21MZM1gtOIAWU89pvQRhsUqPx3o7LE7Y/jumH1e1DR16xVOflpneIEMNL+h57xNoH
-	 q7Jw6A1JZ+lXw==
-Date: Wed, 7 Sep 2022 13:36:03 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Koen Vandeputte <koen.vandeputte@citymesh.com>
-Cc: mhi@lists.linux.dev
-Subject: Re: [PATCH v2] bus: mhi: host: always print detected modem name
-Message-ID: <20220907080603.GB22505@workstation>
-References: <20220831100349.1488762-1-koen.vandeputte@citymesh.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA302C80
+	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 08:18:31 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id m10-20020a17090a730a00b001fa986fd8eeso24951000pjk.0
+        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 01:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date;
+        bh=O2LOS9GzbC4z/iqV70cxFjAmSLO6Aw6vj3s0xm+V2V8=;
+        b=C6UI52aXnJK5jNmpaLVmCIKsSYnHS5UDZQd5oi9BNmTJjzjUmeiII3tY/8S5k68+YR
+         79Zle6H2ZECQyHVTX9+GE2bKpsmT0To55cTImwKylfYUmzqmxph47z27n9b7BoXFCv8m
+         zziHeaGBc6HUz4rQDGnM3ySROmzFNwugifjkqYPx/zlxIyTi2mWk5dekrBBbs7/XzyCu
+         tpQuzlqzY7afWmi2/eG4zKEdSnCcnVgOR1n6fJrNqKKmw2+6WL/1dj4SYO0rJzTg9ABC
+         ivnLF9h8ZxvYGAXwvqXjwGYU0e3UhP6YnGgyq2FLWHIrjpCOVpkJlTkrA0TaiUPJVsCz
+         Uf8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=O2LOS9GzbC4z/iqV70cxFjAmSLO6Aw6vj3s0xm+V2V8=;
+        b=A7QwckxC1TjhqMGfuqUIxiqSLS1gVXO17fJbiIFArkTY2kTkQWaCc5mU233XrQAsub
+         3egbOvhwD+WNRy0/fQh7EU7fHrVs6poZCv6i8+IH3nPrLnwNWlPjs698WWFhitUgI49T
+         RDPLC7Zo8+PKhl5TpNkeqWQ8o3+WDZIcoKj5q0xd/7ac4a5ZY9Sd+hjTE36EZhVeUAFQ
+         5ry/qVDaUASg9I0ugByrPvecleVDkpXDanxDqNcAjBIjLT5DaTheBDTlkxgV10/iuYi7
+         MaPGKROhcV1fhmkKMiNozAGf238TUvGV4uNN0Per/xF8cXHYZ2y0fdUy8/VgV76SPTGJ
+         2+pw==
+X-Gm-Message-State: ACrzQf0ECtXToR1W6OoKtypfPnj7C+qPe8wxbWnfSLfkVNBAnBcd0Uno
+	mcy1+rkcbp30Q0UxLtAbHeqX
+X-Google-Smtp-Source: AMsMyM6Zw7LeowehJPl3fqZ4Hw7uLSI/4aDlFsSPxs9kifWPiu5nFKG9k0W53e5AQvG04pV0fp3NhQ==
+X-Received: by 2002:a17:902:d2d0:b0:178:329d:a5ed with SMTP id n16-20020a170902d2d000b00178329da5edmr3666099plc.142.1663316310938;
+        Fri, 16 Sep 2022 01:18:30 -0700 (PDT)
+Received: from workstation ([117.217.181.92])
+        by smtp.gmail.com with ESMTPSA id x127-20020a626385000000b0053b2681b0e0sm13901993pfb.39.2022.09.16.01.18.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 16 Sep 2022 01:18:30 -0700 (PDT)
+Date: Fri, 16 Sep 2022 13:48:26 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: quic_hemantk@quicinc.com, mhi@lists.linux.dev,
+	koen.vandeputte@citymesh.com
+Subject: [GIT PULL] MHI changes for v6.1
+Message-ID: <20220916081826.GA11659@workstation>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -30,51 +51,32 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831100349.1488762-1-koen.vandeputte@citymesh.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Wed, Aug 31, 2022 at 12:03:49PM +0200, Koen Vandeputte wrote:
-> This harmless print provides a very easy way of knowing
-> if the modem is detected properly during probing.
-> 
-> Promote it to an informational print so no hassle is required
-> enabling kernel debugging info to obtain it.
-> 
-> The rationale here is that:
-> On a lot of low-storage embedded devices, extensive kernel
-> debugging info is not always present as this would
-> increase it's size to much causing partition size issues.
-> 
-> Signed-off-by: Koen Vandeputte <koen.vandeputte@citymesh.com>
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
 
-You have missed adding reviews of myself and Loic. I have added them while
-applying but please preserve the tags from next time onwards.
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
 
-Applied to mhi-next!
+are available in the Git repository at:
 
-Thanks,
-Mani
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.1
 
-> ---
-> 
-> v2 -> sync SoB email with From
->  drivers/bus/mhi/host/pci_generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9e545f2a5a26..51e2b901bae0 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -841,7 +841,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	struct mhi_controller *mhi_cntrl;
->  	int err;
->  
-> -	dev_dbg(&pdev->dev, "MHI PCI device found: %s\n", info->name);
-> +	dev_info(&pdev->dev, "MHI PCI device found: %s\n", info->name);
->  
->  	/* mhi_pdev.mhi_cntrl must be zero-initialized */
->  	mhi_pdev = devm_kzalloc(&pdev->dev, sizeof(*mhi_pdev), GFP_KERNEL);
-> -- 
-> 2.34.1
-> 
-> 
+for you to fetch changes up to e4e9631b2c8886be172f99bd29f326ee56adc2d2:
+
+  bus: mhi: host: always print detected modem name (2022-09-16 13:38:25 +0530)
+
+----------------------------------------------------------------
+MHI Host
+--------
+
+- Print the modem name while probing the MHI host pci-generic driver. This has
+  been exposed as a debug information so far but on a low storate embedded
+  devices such as OpenWRT based products, this helps in identifying the
+  attached modem without enabling the debug logs.
+
+----------------------------------------------------------------
+Koen Vandeputte (1):
+      bus: mhi: host: always print detected modem name
+
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
