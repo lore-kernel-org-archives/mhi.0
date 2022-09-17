@@ -1,88 +1,71 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A355C83
-	for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 14:43:42 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id y17so44893422ejo.6
-        for <mhi@lists.linux.dev>; Fri, 16 Sep 2022 07:43:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F871FBD
+	for <mhi@lists.linux.dev>; Sat, 17 Sep 2022 13:01:13 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id k13so10997090ilc.11
+        for <mhi@lists.linux.dev>; Sat, 17 Sep 2022 06:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=ot7dgyB+KtHLDN7Xyqgw/4QKfFL14qXZyomQmyozivc=;
-        b=TBL9jjzQgiXJcDlPnuYA0DP07U23BwTRwfRHAOhLJt/wUIozpDKbBdwxSdYrxtzZNX
-         1gwg2rs5lAZnRaTMpYlR/fEVejvKMoY9mplZz5Oux0xqY/sgLqMuPOduMedGkqwJakGU
-         Oo0LTT2C2xFS4/rmCaxLU4gplP5/MR0Wj5eIGlJqBYXdzD73OC7aotFdtXdRUlgfJzpW
-         l9mstCpFOFw9owE6zxP0Zbptb/WGBbL1ceXt/pENXR1VW/jnQbLlSfd0HJVydM/zhNT+
-         om8nkdTPcDxE/J8l171h9JUw2g5M66ZhYC0vkqWbYpH66pKNuxNNPjsylp0mJYOmxPR2
-         Gm9w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=pmOQzOLFS1bvq/UfoCxQwQ27cKIGMTDwAiqU872iItQ=;
+        b=l8ZvtYoKqcPfOGVXOiWdbWyT6f5FFAuy/CSPOsQQkGYBaaI+MUhj+Prahc6u1fvgXX
+         DKhWnP8chAzgOcYkTcJ/blo3y1/8SKuHEqlBHqKIlBGmp/tSOl2YZJ3NvF1w4iHRaBeP
+         2I/aXOEowI5xOxWYRNv6n0K9bcY1rtgOP4AzImCMObmiNraHiCgEbSaBRQfsyXd66epJ
+         L+BgMBQjDvLpJR1AA4iFczhw+tYwKGrg+MMID+7l/l2cUIX11+cv8V8sXyxTAfJpnEzc
+         lMk4P/wQKVg1X0ozaOrBNfHEbeAD02TTraONXR1RxzSkBjOCdXSZTZPol+ADFjffnU28
+         KtqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=ot7dgyB+KtHLDN7Xyqgw/4QKfFL14qXZyomQmyozivc=;
-        b=yJemldwIx9O/APel/fPxtFNZnzY/qmj3nRyGXjdIxIig/T3IJmPmpZ9azi2dI/ZLTG
-         Tj7KDlsqVAIa50U9KpdKYsQlrGQWl402jumgQGDt7PGVJF9jhLWQTQKQhDuFnu3CgSQa
-         YrHVi5czAmTs+WKmf5iajW2AV4nzzz4dOoujfJlRq1yvjtcPfDTiNrVw0Oko5nmt+6mW
-         5+Ne+HhMLtQrqrGiTtCdrgAoOJSIHi4odLHpmUKs052a+/zDHMJ9pvUSjK00BWCHkEUo
-         BTOCbpoi1UuxIiq8gLznrTLRTL3MrGSDgrvUKraK9KjQJ5rwVdEUfeLtqqPnSawCbeCc
-         Su/w==
-X-Gm-Message-State: ACrzQf0VKpx/K2bl8Pa9otW9pZPYqt6BwyotCeKmwIn/zx4cCHUDc+FV
-	/0Tjafk1nKAySWzhAVdfkJ9frxQhVym9Ew==
-X-Google-Smtp-Source: AMsMyM4dkscApZ9i0ayoK9S6XBYFSlZGHUE4c8o92NL9XHVxUl7n8gZKN152nsNzzBO6NPSSKDVplQ==
-X-Received: by 2002:a17:907:e9e:b0:77f:9688:2714 with SMTP id ho30-20020a1709070e9e00b0077f96882714mr3915614ejc.208.1663339418500;
-        Fri, 16 Sep 2022 07:43:38 -0700 (PDT)
-Received: from labdl-itc-sw06.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id b15-20020aa7cd0f000000b004527eb874ebsm6273792edw.40.2022.09.16.07.43.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 07:43:37 -0700 (PDT)
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-To: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	netdev@vger.kernel.org,
-	mani@kernel.org,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: dnlplm@gmail.com
-Subject: [PATCH 2/2] bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
-Date: Fri, 16 Sep 2022 16:43:29 +0200
-Message-Id: <20220916144329.243368-3-fabio.porcedda@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220916144329.243368-1-fabio.porcedda@gmail.com>
-References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=pmOQzOLFS1bvq/UfoCxQwQ27cKIGMTDwAiqU872iItQ=;
+        b=XXdtV9pcfFI2X7JuZdwABMAR2CDGXS2zM6jtymJ9+/+i7CpOhQnMQr5XuLsoKgrvyi
+         6zf/9qousxTpjZgvaoAl29mPAhcn/Mhm6LKwMhDCZS//CXORaw13LBhEDIhPp3quMS7Q
+         WYVtsDSVeo3dvbBoglr7tlwoTUnimx9ZP3KsxItUhWdFh3WHiXeOXG1n0f/PGmho225/
+         fp1uzRZ1GFyXuM+T1mzXFVTsTJTWoFN/b/ELzO8ilJF0EttRzK6tHEE2qAC8gkMG+MdK
+         u9UcZYkshWpIZXp1+kUbXY6sQkLbt4Xcm3quiNE2X8pWjtck5TEcGlucW1eV6glwl50/
+         W4WQ==
+X-Gm-Message-State: ACrzQf0faoGpBK/988aon0ar75zqHzVoTkQd9GrOlFdnIiIjIwGuyTNk
+	MyotQ4i8VxKmQ6MdcRmDcJ5VgzG6+rXvBTC9tWA=
+X-Google-Smtp-Source: AMsMyM4KMzv1esIWasUM+HGwEcBPXoKiZsCzw7O6Gm2Mv2VaL+Ofp+2dke6RuzzQ4s1Pvbai592HzIfHCQuUlwkeHwU=
+X-Received: by 2002:a05:6e02:20c3:b0:2f1:b33c:63e4 with SMTP id
+ 3-20020a056e0220c300b002f1b33c63e4mr4377401ilq.144.1663419672315; Sat, 17 Sep
+ 2022 06:01:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+In-Reply-To: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+Date: Sat, 17 Sep 2022 16:01:05 +0300
+Message-ID: <CAHNKnsSTj1TtONqCcjz3AxPEt5dRsPrT=T6i1kj2AO_=qL+25w@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Add a secondary AT port to the Telit FN990
+To: Fabio Porcedda <fabio.porcedda@gmail.com>, loic.poulain@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, 
+	mani@kernel.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, dnlplm@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add a secondary AT port using one of OEM reserved channel.
+Hello Fabio,
 
-Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Sep 16, 2022 at 5:43 PM Fabio Porcedda <fabio.porcedda@gmail.com> wrote:
+> In order to add a secondary AT port to the Telit FN990 first add "DUN2"
+> to mhi_wwan_ctrl.c, after that add a seconday AT port to the
+> Telit FN990 in pci_generic.c
+>
+> Fabio Porcedda (2):
+>   net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
+>   bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 51e2b901bae0..caa4ce28cf9e 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -507,6 +507,8 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
- 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
- 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
- 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
-+	MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
- 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
- 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
- };
+The code looks good to me, but it needs to be checked by someone who
+is familiar with MHI.
+
+Loic, what do you think?
+
 -- 
-2.37.3
-
+Sergey
