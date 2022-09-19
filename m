@@ -1,71 +1,81 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F871FBD
-	for <mhi@lists.linux.dev>; Sat, 17 Sep 2022 13:01:13 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id k13so10997090ilc.11
-        for <mhi@lists.linux.dev>; Sat, 17 Sep 2022 06:01:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AEB4C70
+	for <mhi@lists.linux.dev>; Mon, 19 Sep 2022 13:22:21 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id y136so28092313pfb.3
+        for <mhi@lists.linux.dev>; Mon, 19 Sep 2022 06:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=pmOQzOLFS1bvq/UfoCxQwQ27cKIGMTDwAiqU872iItQ=;
-        b=l8ZvtYoKqcPfOGVXOiWdbWyT6f5FFAuy/CSPOsQQkGYBaaI+MUhj+Prahc6u1fvgXX
-         DKhWnP8chAzgOcYkTcJ/blo3y1/8SKuHEqlBHqKIlBGmp/tSOl2YZJ3NvF1w4iHRaBeP
-         2I/aXOEowI5xOxWYRNv6n0K9bcY1rtgOP4AzImCMObmiNraHiCgEbSaBRQfsyXd66epJ
-         L+BgMBQjDvLpJR1AA4iFczhw+tYwKGrg+MMID+7l/l2cUIX11+cv8V8sXyxTAfJpnEzc
-         lMk4P/wQKVg1X0ozaOrBNfHEbeAD02TTraONXR1RxzSkBjOCdXSZTZPol+ADFjffnU28
-         KtqA==
+        bh=XBEHv8ghKU0ZkmO5aCePvI4i1EV0Le+oBtd2vt+taKo=;
+        b=vBLtC+xCcV3zfXN2PeQHL6+pSEHW7C9jVtTYHon/W+wS7M/1zwQlZyiKlB2wyB4AV/
+         BM+sH2Kbisj+Hlx+yuhsB9a0GcwKjTm1u8cyEwMYBoCzJhGoRKniGeXx4PzB9NTCOlkk
+         ssSM4AwZn5iuSTBW7NplxwMyhxn69mBU2ZpBvrcZz5PBweV0qzIgt3SRloqgDClQ8C08
+         +P/Itd4sjzjoKvBJ/ep4uKoeYgFF1sy7zKdwfXb8AbGD52YDWHY0Of13br7vlpnI8bFt
+         9ZuqYlTtrVO1KJ3Qql+Q3GFnbGB6cWkB5/v0Q8Ps9JahGaXL089DgmB2AzCK117msMi4
+         TMKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=pmOQzOLFS1bvq/UfoCxQwQ27cKIGMTDwAiqU872iItQ=;
-        b=XXdtV9pcfFI2X7JuZdwABMAR2CDGXS2zM6jtymJ9+/+i7CpOhQnMQr5XuLsoKgrvyi
-         6zf/9qousxTpjZgvaoAl29mPAhcn/Mhm6LKwMhDCZS//CXORaw13LBhEDIhPp3quMS7Q
-         WYVtsDSVeo3dvbBoglr7tlwoTUnimx9ZP3KsxItUhWdFh3WHiXeOXG1n0f/PGmho225/
-         fp1uzRZ1GFyXuM+T1mzXFVTsTJTWoFN/b/ELzO8ilJF0EttRzK6tHEE2qAC8gkMG+MdK
-         u9UcZYkshWpIZXp1+kUbXY6sQkLbt4Xcm3quiNE2X8pWjtck5TEcGlucW1eV6glwl50/
-         W4WQ==
-X-Gm-Message-State: ACrzQf0faoGpBK/988aon0ar75zqHzVoTkQd9GrOlFdnIiIjIwGuyTNk
-	MyotQ4i8VxKmQ6MdcRmDcJ5VgzG6+rXvBTC9tWA=
-X-Google-Smtp-Source: AMsMyM4KMzv1esIWasUM+HGwEcBPXoKiZsCzw7O6Gm2Mv2VaL+Ofp+2dke6RuzzQ4s1Pvbai592HzIfHCQuUlwkeHwU=
-X-Received: by 2002:a05:6e02:20c3:b0:2f1:b33c:63e4 with SMTP id
- 3-20020a056e0220c300b002f1b33c63e4mr4377401ilq.144.1663419672315; Sat, 17 Sep
- 2022 06:01:12 -0700 (PDT)
+        bh=XBEHv8ghKU0ZkmO5aCePvI4i1EV0Le+oBtd2vt+taKo=;
+        b=zdzenx02VFzf2PDfZVEcHmixF1j4S4LL0NM0hFqfUa6+3+RCIZyLitMG/1dhEaYBTi
+         0+q2qLvhlKOf5CV+wSHiIDNi56dd9d4w3kySv3AwHKhpG8cOd8IYqKFP2K67RaNZWdYT
+         x2jhCeRpHAmGtxGA9hi6tnEqVc+mkxlOTNZOMEoJQahSijB9Hq5QqKffOEMeE91wtTqd
+         8yYu1JF36JjDA3nGW052uJQK8ze1fbSUPCXRep/qyejNLHX99SnraogqVYGxzF5XkIgV
+         l/grxlneA3YVGImd5d9Eo2HIcf5+h4KX0ipr9vbZduD0LcXTtL7WmNdqVCKtnckzZhpR
+         9xAg==
+X-Gm-Message-State: ACrzQf2pUXF816plMnzvRYIVnYUpCq6ZOBn8X54Gcac8WQ1enJO0HGZo
+	LX91tTQ2LX2Bt+xlWjGP+boDG+DOjyXQqt/RHdLFdQ==
+X-Google-Smtp-Source: AMsMyM7VRhI9YdnRfz62PSK+fwQI96gHMYVt7kSw4Jq7YAX+9r8gA7/qgJwaA0Oh8DMDBFaKZlmma0A4PRjaKOz8uhU=
+X-Received: by 2002:a63:e07:0:b0:429:8604:d9ad with SMTP id
+ d7-20020a630e07000000b004298604d9admr15417800pgl.586.1663593740890; Mon, 19
+ Sep 2022 06:22:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
-In-Reply-To: <20220916144329.243368-1-fabio.porcedda@gmail.com>
-From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-Date: Sat, 17 Sep 2022 16:01:05 +0300
-Message-ID: <CAHNKnsSTj1TtONqCcjz3AxPEt5dRsPrT=T6i1kj2AO_=qL+25w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add a secondary AT port to the Telit FN990
-To: Fabio Porcedda <fabio.porcedda@gmail.com>, loic.poulain@linaro.org
+References: <20220916144329.243368-1-fabio.porcedda@gmail.com> <20220916144329.243368-2-fabio.porcedda@gmail.com>
+In-Reply-To: <20220916144329.243368-2-fabio.porcedda@gmail.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Mon, 19 Sep 2022 15:21:44 +0200
+Message-ID: <CAMZdPi-hHph8Kuyq5Y-yAMt7BNHpLODnrEuC_zo2s64QCqrbGA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] net: wwan: mhi_wwan_ctrl: Add DUN2 to have a
+ secondary AT port
+To: Fabio Porcedda <fabio.porcedda@gmail.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, 
-	mani@kernel.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, dnlplm@gmail.com
+	mani@kernel.org, ryazanov.s.a@gmail.com, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, dnlplm@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Fabio,
-
-On Fri, Sep 16, 2022 at 5:43 PM Fabio Porcedda <fabio.porcedda@gmail.com> wrote:
-> In order to add a secondary AT port to the Telit FN990 first add "DUN2"
-> to mhi_wwan_ctrl.c, after that add a seconday AT port to the
-> Telit FN990 in pci_generic.c
+On Fri, 16 Sept 2022 at 16:43, Fabio Porcedda <fabio.porcedda@gmail.com> wrote:
 >
-> Fabio Porcedda (2):
->   net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
->   bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
+> In order to have a secondary AT port add "DUN2".
+>
+> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
 
-The code looks good to me, but it needs to be checked by someone who
-is familiar with MHI.
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
 
-Loic, what do you think?
-
--- 
-Sergey
+> ---
+>  drivers/net/wwan/mhi_wwan_ctrl.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
+> index e4d0f696687f..f7ca52353f40 100644
+> --- a/drivers/net/wwan/mhi_wwan_ctrl.c
+> +++ b/drivers/net/wwan/mhi_wwan_ctrl.c
+> @@ -258,6 +258,7 @@ static void mhi_wwan_ctrl_remove(struct mhi_device *mhi_dev)
+>
+>  static const struct mhi_device_id mhi_wwan_ctrl_match_table[] = {
+>         { .chan = "DUN", .driver_data = WWAN_PORT_AT },
+> +       { .chan = "DUN2", .driver_data = WWAN_PORT_AT },
+>         { .chan = "MBIM", .driver_data = WWAN_PORT_MBIM },
+>         { .chan = "QMI", .driver_data = WWAN_PORT_QMI },
+>         { .chan = "DIAG", .driver_data = WWAN_PORT_QCDM },
+> --
+> 2.37.3
+>
