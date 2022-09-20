@@ -1,74 +1,69 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7F26111
-	for <mhi@lists.linux.dev>; Tue, 20 Sep 2022 14:23:37 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id m3so4051616eda.12
-        for <mhi@lists.linux.dev>; Tue, 20 Sep 2022 07:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=AdtpZB7U/EABK14zfV/flloJYC93tZl66p8xW/fKflI=;
-        b=WiApm+FyIA3oAhh+un2VztEkfOLo0vOyUENAeEGzdK5Xaq/T2D3fYeUWCVg+vBB14h
-         H+K4WkGh825B1M3cs6cYQ+KbNbkS/E+oMzFpVqdodOgcMMtbMFJR3w1wQ7FPdav6VQs8
-         ryYdKzuDQ+U3KaGmNScrzmHlhMWL18MvcrXzxQ9w3OPN7n12vS5fccOU40vzn9gvZFJD
-         aEoRrB9/3Fh7pFLgyIjudA6G5CGENdr6eZukz2gFbHDcW1grp8kQeuwYgdhkCskSoHfv
-         7mVT7VAgAUGDWKGDOq/4Nzn/B+eVOHhDW03leKjiGylKhrp5bPGVBVGRiNJ2PWYIHRDd
-         ALrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=AdtpZB7U/EABK14zfV/flloJYC93tZl66p8xW/fKflI=;
-        b=jgfYUbdfKU6r4/5xnc+UKBr/9u2x1cblLX3c9MMZ12VSwcB+bNMC7EYiduDWrMtafv
-         YOgiuUR5mt9zD/98I4d5zE/ScLcTJd3AFZOg0PBI+XHt2mB2pKuJ4ipWk91KwHUA3p0l
-         kpl4vd+PPDip0yBCvSl+V6kfoYkT1RBNmd5iauNwAuu3O4bYZ5M/CybT5aexGSTQ0qRp
-         G7r1Y9UuUMuCqZAVeRJpeRjOlfG8jpnKTrXvqe2KRZZ20sb93MnP8SgL7i6vjDJOxj9R
-         ATWIr9OEMceL5p5ScuHP0j9ddygxWU9aQYtEEKz25z6wpmdrfvBUPVcrYaclbfvCb+1s
-         BpaQ==
-X-Gm-Message-State: ACrzQf2UpvAw8eb9UkthT4c6spJOUaN6KfxvUMsYJ3nKpXr94c8rftiJ
-	pq1lNKZIzYuG90XhAEMsQ10CP7fpRIiaXLbyekjGKNtPwzU=
-X-Google-Smtp-Source: AMsMyM7A0vXmhuLnWz/JvadhLpoO0zXesiteq62wMJys2JjmQ/j4DZd0J7mR2NLFnCp8xixumNbGJKe3LOH37nNGRQQ=
-X-Received: by 2002:aa7:cad5:0:b0:454:88dc:2c22 with SMTP id
- l21-20020aa7cad5000000b0045488dc2c22mr1698575edt.352.1663683816014; Tue, 20
- Sep 2022 07:23:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0D82570
+	for <mhi@lists.linux.dev>; Tue, 20 Sep 2022 23:20:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C5A9C433C1;
+	Tue, 20 Sep 2022 23:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663716018;
+	bh=cwJ91/WCrSqTfzYkTEPlmknGrSqqPyLSdr6saopSYNw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Q4ayZyunP0HUG3GLBjwhmug6rWwQZlpQfj6bJl2tSKCkkeOP0JZSSZ1rvyUN7tjUT
+	 VPYjwAb7MDLAzlJtbu+0zkg2np0VcHDiKIqTAmBzwccC3eQX6eOWPCfjOlUx1oLMsT
+	 JGWnHa0/HZHv1uT/nvPw+vUgvp3ot5pl1CElRcFYyYo+2k/q8Y2rJsRD6QgE4aGzGw
+	 CeN4A6HD4scY1qw6L6YELy8KbzqFqqqvcf9xKlJB2JDaKN+umqweEOkbsQhXRVEmPx
+	 Gf7kezX49uGNr7gmuTu+IY/ZTt2xf1lDSVt3d10e20sWXFJ4LNaxNj2voBm9mpRfdN
+	 EFtZImUcSjSvQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2B081E21EE0;
+	Tue, 20 Sep 2022 23:20:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Daniele Palmas <dnlplm@gmail.com>
-Date: Tue, 20 Sep 2022 16:23:25 +0200
-Message-ID: <CAGRyCJGWQagceLhnECBcpPfG5jMPZrjbsHrio1BvgpZJhk0pbA@mail.gmail.com>
-Subject: MHI DTR client implementation
-To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	Network Development <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/2] Add a secondary AT port to the Telit FN990
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <166371601817.30252.999968040305837655.git-patchwork-notify@kernel.org>
+Date: Tue, 20 Sep 2022 23:20:18 +0000
+References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+In-Reply-To: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+To: Fabio Porcedda <fabio.porcedda@gmail.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ netdev@vger.kernel.org, mani@kernel.org, loic.poulain@linaro.org,
+ ryazanov.s.a@gmail.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, dnlplm@gmail.com
 
-Hello all,
+Hello:
 
-I'm looking for some guidance related to  a possible MHI client for
-serial ports signals management implementation.
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Testing the AT channels with Telit modems I noted that unsolicited
-indications do not show: the root cause for this is DTR not set for
-those ports through MHI channels 18/19, something that with current
-upstream code can't be done due to the missing DTR client driver.
+On Fri, 16 Sep 2022 16:43:27 +0200 you wrote:
+> In order to add a secondary AT port to the Telit FN990 first add "DUN2"
+> to mhi_wwan_ctrl.c, after that add a seconday AT port to the
+> Telit FN990 in pci_generic.c
+> 
+> Fabio Porcedda (2):
+>   net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
+>   bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
+> 
+> [...]
 
-I currently have an hack, based on the very first mhi stack submission
-(see https://lore.kernel.org/lkml/1524795811-21399-2-git-send-email-sdias@codeaurora.org/#Z31drivers:bus:mhi:core:mhi_dtr.c),
-solving my issue, but I would like to understand which would be the
-correct way, so maybe I can contribute some code.
+Here is the summary with links:
+  - [1/2] net: wwan: mhi_wwan_ctrl: Add DUN2 to have a secondary AT port
+    https://git.kernel.org/netdev/net-next/c/0c60d1657d3d
+  - [2/2] bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
+    https://git.kernel.org/netdev/net-next/c/479aa3b0ec2e
 
-Should the MHI DTR client be part of the WWAN subsystem? If yes, does
-it make sense to have an associated port exposed as a char device? I
-guess the answer is no, since it should be used just by the AT ports
-created by mhi_wwan_ctrl, but I'm not sure if that's possible.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Or should the DTR management be somehow part of the MHI stack and
-mhi_wwan_ctrl interacts with that through exported functions?
 
-Thanks a lot in advance,
-Daniele
