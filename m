@@ -1,82 +1,74 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC18A256F
-	for <mhi@lists.linux.dev>; Mon, 19 Sep 2022 13:22:55 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id c198so28063738pfc.13
-        for <mhi@lists.linux.dev>; Mon, 19 Sep 2022 06:22:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7F26111
+	for <mhi@lists.linux.dev>; Tue, 20 Sep 2022 14:23:37 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id m3so4051616eda.12
+        for <mhi@lists.linux.dev>; Tue, 20 Sep 2022 07:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=rB2efXodZAeYQuXLadLjMv2cW1RkQIyx3Ihg+D/gw2c=;
-        b=ET0WcksjYR3a5lAHYU8+chKDBmAmJUMY/Uu3b21tpvzYK0jUQWxMHtwZHRmkwUvHKB
-         Lw7wMkYLcE8Nti9KSDCttDqOOINaGyZVjXporEHIGgyetB0FX0KMOGFMwWzSKIEk0KR8
-         pjTTy+PrMFDI6zLRdSAfgkC/Sx6UGa5Ie/XTt4rJ8pHSu955+XXaMqjIsjvuZzbD7yoV
-         BISYEg/W7/O+MS9Ize574hxM8RMy8Duwk+l0eQnGdz0S8PB2WVajd7a0jeEmXiB4yfzX
-         Q8k3YdX2qqW4PNRjMRTFwOgzHzinvWa1+8g+TAYNZUlmLYGE5ptFCNf6Xwsf7vIOnWRq
-         Bqfg==
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=AdtpZB7U/EABK14zfV/flloJYC93tZl66p8xW/fKflI=;
+        b=WiApm+FyIA3oAhh+un2VztEkfOLo0vOyUENAeEGzdK5Xaq/T2D3fYeUWCVg+vBB14h
+         H+K4WkGh825B1M3cs6cYQ+KbNbkS/E+oMzFpVqdodOgcMMtbMFJR3w1wQ7FPdav6VQs8
+         ryYdKzuDQ+U3KaGmNScrzmHlhMWL18MvcrXzxQ9w3OPN7n12vS5fccOU40vzn9gvZFJD
+         aEoRrB9/3Fh7pFLgyIjudA6G5CGENdr6eZukz2gFbHDcW1grp8kQeuwYgdhkCskSoHfv
+         7mVT7VAgAUGDWKGDOq/4Nzn/B+eVOHhDW03leKjiGylKhrp5bPGVBVGRiNJ2PWYIHRDd
+         ALrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=rB2efXodZAeYQuXLadLjMv2cW1RkQIyx3Ihg+D/gw2c=;
-        b=yGUTae+xixtkbem6WG+ReuuV23EocGEvAQPSVUuWSWr1E3O5HVtGCo5cxjMk9hosSs
-         Op4NFMZZNzJbUz5Z34waD7oDtwp1DOAHFjTVEXotSINx9t3LTUifiV9wGDrB487wOixM
-         5a8P5o6Kc1lIUpo0DIISJ2Byh/ZicjdAgyCZGlwFY9aQ432vbfxTh5HPREjrUJLrasYQ
-         QI1yHXiIHpE/2PohIjs9U9koYCKAf037IYnWwbzfe3abhiYS/oeF7ggTJfgky9ZGswW4
-         VtT3PbEggMd663l8phNPmr5c0oxmSA0NdFSfTnN9MB5/fu/dq0XVDi8RY/wOHgvciuuV
-         vSQA==
-X-Gm-Message-State: ACrzQf1jymZC8lOPf3WLhO9+HHY3HmpsDO+Vfrcj7opBwuNE2tOMBwfD
-	ls+2VTBkPjMvev/bqv+7eK6fOsH25NponwoXnSXVgA==
-X-Google-Smtp-Source: AMsMyM7qX8JaivH+pU9JLjukCe0RRS9uuMlO5zhLeRj22V7Arc9eQv7VeHLlk1eIIGd7/vgHW1i6xYshGo7yqPUtWKo=
-X-Received: by 2002:a05:6a00:acc:b0:530:e79e:fc27 with SMTP id
- c12-20020a056a000acc00b00530e79efc27mr18886647pfl.61.1663593775199; Mon, 19
- Sep 2022 06:22:55 -0700 (PDT)
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=AdtpZB7U/EABK14zfV/flloJYC93tZl66p8xW/fKflI=;
+        b=jgfYUbdfKU6r4/5xnc+UKBr/9u2x1cblLX3c9MMZ12VSwcB+bNMC7EYiduDWrMtafv
+         YOgiuUR5mt9zD/98I4d5zE/ScLcTJd3AFZOg0PBI+XHt2mB2pKuJ4ipWk91KwHUA3p0l
+         kpl4vd+PPDip0yBCvSl+V6kfoYkT1RBNmd5iauNwAuu3O4bYZ5M/CybT5aexGSTQ0qRp
+         G7r1Y9UuUMuCqZAVeRJpeRjOlfG8jpnKTrXvqe2KRZZ20sb93MnP8SgL7i6vjDJOxj9R
+         ATWIr9OEMceL5p5ScuHP0j9ddygxWU9aQYtEEKz25z6wpmdrfvBUPVcrYaclbfvCb+1s
+         BpaQ==
+X-Gm-Message-State: ACrzQf2UpvAw8eb9UkthT4c6spJOUaN6KfxvUMsYJ3nKpXr94c8rftiJ
+	pq1lNKZIzYuG90XhAEMsQ10CP7fpRIiaXLbyekjGKNtPwzU=
+X-Google-Smtp-Source: AMsMyM7A0vXmhuLnWz/JvadhLpoO0zXesiteq62wMJys2JjmQ/j4DZd0J7mR2NLFnCp8xixumNbGJKe3LOH37nNGRQQ=
+X-Received: by 2002:aa7:cad5:0:b0:454:88dc:2c22 with SMTP id
+ l21-20020aa7cad5000000b0045488dc2c22mr1698575edt.352.1663683816014; Tue, 20
+ Sep 2022 07:23:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220916144329.243368-1-fabio.porcedda@gmail.com> <20220916144329.243368-3-fabio.porcedda@gmail.com>
-In-Reply-To: <20220916144329.243368-3-fabio.porcedda@gmail.com>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Mon, 19 Sep 2022 15:22:18 +0200
-Message-ID: <CAMZdPi8gGrbkKnDR+WLadF92shJbwH-ksQY+dbpgfZ21iAp9ug@mail.gmail.com>
-Subject: Re: [PATCH 2/2] bus: mhi: host: pci_generic: Add a secondary AT port
- to Telit FN990
-To: Fabio Porcedda <fabio.porcedda@gmail.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, 
-	mani@kernel.org, ryazanov.s.a@gmail.com, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, dnlplm@gmail.com
+From: Daniele Palmas <dnlplm@gmail.com>
+Date: Tue, 20 Sep 2022 16:23:25 +0200
+Message-ID: <CAGRyCJGWQagceLhnECBcpPfG5jMPZrjbsHrio1BvgpZJhk0pbA@mail.gmail.com>
+Subject: MHI DTR client implementation
+To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	Network Development <netdev@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 16 Sept 2022 at 16:43, Fabio Porcedda <fabio.porcedda@gmail.com> wrote:
->
-> Add a secondary AT port using one of OEM reserved channel.
->
-> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
+Hello all,
 
-Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
+I'm looking for some guidance related to  a possible MHI client for
+serial ports signals management implementation.
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 51e2b901bae0..caa4ce28cf9e 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -507,6 +507,8 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
->         MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
->         MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
->         MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-> +       MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
-> +       MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
->         MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
->         MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
->  };
-> --
-> 2.37.3
->
+Testing the AT channels with Telit modems I noted that unsolicited
+indications do not show: the root cause for this is DTR not set for
+those ports through MHI channels 18/19, something that with current
+upstream code can't be done due to the missing DTR client driver.
+
+I currently have an hack, based on the very first mhi stack submission
+(see https://lore.kernel.org/lkml/1524795811-21399-2-git-send-email-sdias@codeaurora.org/#Z31drivers:bus:mhi:core:mhi_dtr.c),
+solving my issue, but I would like to understand which would be the
+correct way, so maybe I can contribute some code.
+
+Should the MHI DTR client be part of the WWAN subsystem? If yes, does
+it make sense to have an associated port exposed as a char device? I
+guess the answer is no, since it should be used just by the AT ports
+created by mhi_wwan_ctrl, but I'm not sure if that's possible.
+
+Or should the DTR management be somehow part of the MHI stack and
+mhi_wwan_ctrl interacts with that through exported functions?
+
+Thanks a lot in advance,
+Daniele
