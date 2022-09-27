@@ -1,88 +1,92 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BEF7E1
-	for <mhi@lists.linux.dev>; Tue, 27 Sep 2022 10:05:37 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id r5so3422526ilm.10
-        for <mhi@lists.linux.dev>; Tue, 27 Sep 2022 03:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=KMDPm9tfxqbkL9YemYDxZDKB4K9QzyoYtKdQxEFag6I=;
-        b=CoDsXSwd8sG5Bs4BldgrkYONAW+DokpelmfcLoj9fOBdnH6QeSLExEsirl7Ls3MAq9
-         mDzqWzv9HEChi13yiwgkXnr0KuxVjZpBA953zPf0Dlc1SrByIH7+GcL+/kK4Nun7PXVG
-         kSP5xEX+gNvHP3dD5p1mHhebRdAIoLwit7UNH6iOe+q8uXyOwqHfEZYUjXQ9sp6CmwiU
-         0btSngNIf2zY7tXDtfjLM/6R8G35T+DhSw5v2gBJLXpxtDu3fVckk93Rc/JukJWeFohp
-         nD2on5+KGkJ7NdkAs8w4Pxl7G39BcvQ0jRJbJ7LAbsA25hfSuQzmuuGluBL/rULv3zwR
-         DFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=KMDPm9tfxqbkL9YemYDxZDKB4K9QzyoYtKdQxEFag6I=;
-        b=iJt3fsdQIdIzfMdEmrt/0wXyFjFjHKoNdnqhLSxAC1ex/kPhuNDbmiUX9XL8Lw2Y7W
-         uEoia4JFxsxMwbfKLKOWG3rgP2ktfwq68EcrFv2ZiLpFYyQ2WNTgvzzxTBlmPH0bASmc
-         nWjJdrFDRBgY5uhkheBkOpZ+R/3TVPXUz+eOhPi2qASsDzAM0ZAdP4SN+cHaMERZq2/a
-         Nb/OMBp8xZf7Y4gCwtKq4IuWZZ8PNLHwbbBU3HVD/aWYDESv4dmJQFXwxrvlLaEuoDJM
-         aIRuvVQ5i1F/jT1WElqvPYG78p3x0rGPdP9VbWreagaYmPoTZmZUth+od8eMvz8QwDeu
-         cOzw==
-X-Gm-Message-State: ACrzQf0QpJHuSoQpKuFAC6uyTloICAy7fPbCjv5T5Eo+CZL1/llPllVR
-	oGIaBBwqpVk0PANCn36K94vEKe9JQF9ZK0PKMF0RMg==
-X-Google-Smtp-Source: AMsMyM5qtPTHDyEOFZW8f8BH9J8kzgkGtIgU5GquNcVOxcmrhNri4fDu8OutQMG+p1if1aaTHEpF3JJBrbItEkTn+zQ=
-X-Received: by 2002:a05:6e02:12cf:b0:2f5:ddd9:b3d3 with SMTP id
- i15-20020a056e0212cf00b002f5ddd9b3d3mr12322716ilm.122.1664273136354; Tue, 27
- Sep 2022 03:05:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE3E7E1
+	for <mhi@lists.linux.dev>; Tue, 27 Sep 2022 10:09:58 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28R8BoN6030498;
+	Tue, 27 Sep 2022 09:48:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=lGbwoy7vxXUMWFe+8BzdUik+/vtb24iKIFEldI78o2U=;
+ b=DKZ+8+piITpWLUDs/oBfxX9HOcpb9u4CKx+CtWAckJ/kasAz7iaXwtfcDRShvzH/uVPk
+ qh58+wyflqtZwOPKthjlrXSYKQVqDWFcbixv1jExc+NuHxcMWDniE9HEKlnO59ghdZ5L
+ hIZYLQhDKI6/7LiRb0x6TiiQv7EhxnFi8+DxJSvgvfOt66Xv5e21RPor6ZWATBbg/zad
+ Sk7klx6J9PLsAGryaTxGJII1Q/4mDXiq7yTLkrPS37CPyjpS3RedcZxer74G5uzEl4xq
+ r8w7CtveMfqiFBI+BMT17owQgG5TX1FBBbwIGGRCB2a5NsUBKt+i+zDZL2f0f66mv72a SA== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jue00ace2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Sep 2022 09:48:53 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28R9moTW017037;
+	Tue, 27 Sep 2022 09:48:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3jstyngvm2-1;
+	Tue, 27 Sep 2022 09:48:50 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28R9mouU017032;
+	Tue, 27 Sep 2022 09:48:50 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 28R9mngI017030;
+	Tue, 27 Sep 2022 09:48:50 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id EFEF733B3; Tue, 27 Sep 2022 17:48:48 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_hemantk@quicinc.com, loic.poulain@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
+        Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Use mhi_soc_reset() API in place of register write
+Date: Tue, 27 Sep 2022 17:48:46 +0800
+Message-Id: <1664272126-82706-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: zm5NT6f4x6QRVq8-QPijAiZNYvloS0BV
+X-Proofpoint-ORIG-GUID: zm5NT6f4x6QRVq8-QPijAiZNYvloS0BV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-27_02,2022-09-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=787 suspectscore=0 spamscore=0 bulkscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1011 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209270057
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <1664272126-82706-1-git-send-email-quic_qianyu@quicinc.com>
-In-Reply-To: <1664272126-82706-1-git-send-email-quic_qianyu@quicinc.com>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Tue, 27 Sep 2022 12:04:59 +0200
-Message-ID: <CAMZdPi_u75BVP9scBCV3OToGhmOgJ7df599-OYw9D6iXsdgdOg@mail.gmail.com>
-Subject: Re: [PATCH] bus: mhi: host: Use mhi_soc_reset() API in place of
- register write
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: mani@kernel.org, quic_hemantk@quicinc.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_cang@quicinc.com, mrana@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 27 Sept 2022 at 11:49, Qiang Yu <quic_qianyu@quicinc.com> wrote:
->
-> Currently, a direct register write is used when ramdump collection
-> in panic path occurs. Replace that with new mhi_soc_reset() API
-> such that a controller defined reset() function is exercised if
-> one is present and the regular SOC reset is done if it is not.
->
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+Currently, a direct register write is used when ramdump collection
+in panic path occurs. Replace that with new mhi_soc_reset() API
+such that a controller defined reset() function is exercised if
+one is present and the regular SOC reset is done if it is not.
 
-Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+ drivers/bus/mhi/host/boot.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> ---
->  drivers/bus/mhi/host/boot.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index 5bed8b51..79a0eec 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -118,9 +118,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
->                         /* Hardware reset so force device to enter RDDM */
->                         dev_dbg(dev,
->                                 "Did not enter RDDM, do a host req reset\n");
-> -                       mhi_write_reg(mhi_cntrl, mhi_cntrl->regs,
-> -                                     MHI_SOC_RESET_REQ_OFFSET,
-> -                                     MHI_SOC_RESET_REQ);
-> +                       mhi_soc_reset(mhi_cntrl);
->                         udelay(delayus);
->                 }
->
-> --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index 5bed8b51..79a0eec 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -118,9 +118,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
+ 			/* Hardware reset so force device to enter RDDM */
+ 			dev_dbg(dev,
+ 				"Did not enter RDDM, do a host req reset\n");
+-			mhi_write_reg(mhi_cntrl, mhi_cntrl->regs,
+-				      MHI_SOC_RESET_REQ_OFFSET,
+-				      MHI_SOC_RESET_REQ);
++			mhi_soc_reset(mhi_cntrl);
+ 			udelay(delayus);
+ 		}
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
