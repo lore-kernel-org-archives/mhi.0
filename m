@@ -1,78 +1,75 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F4623BE
-	for <mhi@lists.linux.dev>; Tue, 27 Sep 2022 14:01:37 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28RDMXAp029438;
-	Tue, 27 Sep 2022 13:57:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=YTNldlmgui/QlWqHWQNcU+pyYSg6pkhk49atqSSD1lo=;
- b=n88goIsASEoRHD/uNnyhOJK0er60k3Q3SM0dLftfFd5GznXw9GkPgWsLSbGJ8VxYbtQG
- +u1VnOgEkVi+6MwkVRqnTAM03oY/PtDKPHLD+I7tHubgC/T02ojO52ZIBLceJntVK/o9
- VMjfopVECbilW6cphEAvl9Qnj+gQHtB3VWbMSL6/DQeglEfT14+HgssSooz8hinjXYIj
- n5L6qIXklUkUb4BkYk8wuyioyfiSlk7SykxAPJw4nWtMy2Mo/V28VHAr2jxOGxrq++Y3
- SU/9tClWIX3Eaqujx17shVSnZFv6hFe0oCA0Zqv25GamWDzpkBUj6sZ8W7KVJwGXWZrP Mg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3juw260t9q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 Sep 2022 13:57:14 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28RDvDjc032324
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 Sep 2022 13:57:13 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 27 Sep
- 2022 06:57:12 -0700
-Message-ID: <6e5a8bb0-f659-fd6c-a45c-4bcfa537fc5b@quicinc.com>
-Date: Tue, 27 Sep 2022 07:57:11 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF7C1C13
+	for <mhi@lists.linux.dev>; Thu, 29 Sep 2022 14:01:25 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id lh5so2980878ejb.10
+        for <mhi@lists.linux.dev>; Thu, 29 Sep 2022 07:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=7NYIbesMJ2B59ItmTW7eVwTp9j+TaFM7RI/yFrV8y2o=;
+        b=hr/0b9DZ234qAvNtBg8Rlc3EAdzMRzi8n6U3UIkN69rMCHLsQtm2UiLuStqkGl/f4I
+         DpFFzmdgi5XhztK504fTMyp9CNdOSJjD5BVRDXSPmuAv44T5+hlO9SacKHmYnpedar8J
+         D+ErlCR7JtXGqgHfW4pZL2bKy61LBeRWoLBbTSHmewZd29a8tL84pwiB5pPekL5GMaL9
+         tSSBSKwBSFJ87/NCk4pB3wVIzRezz8Z6+DWmecvkVw7iWOjStsnCPwMpgr8vfgXuyPnO
+         UGX49+Uu7TuZhs1JK2Vd5Bmm0lkIDNY1oShx3YBrR68lhh3XF2vy0kM0wLbqHQg9AL4x
+         b6mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=7NYIbesMJ2B59ItmTW7eVwTp9j+TaFM7RI/yFrV8y2o=;
+        b=uMz0NBzg2ypQE9Gv+7lmC4u7GFzL3bAbuBxLMNqti42R4dLqCH6feH9kGWWqWX+PhI
+         Um+TTVKtPkNsmketg+/FGbQJIMFpSkHiu4nW/BnAbmrk8Y1jWcTS8IupemxxYvddjOo4
+         3jYxUlUGB6eV3XsJz6vzbVhLXInZ+BbP2/4hPER2yYxDlaJ2mwn1ThwQUArky9ftynfX
+         wgCZ05JX7X2M7X4Z5gd+02PUWPNyqoroKTg4K5u+BuRL4JwOlx0WC0f4sGeAaMMgsqVU
+         t6S/hSWlwJzJW+65Apq3kxppleULXbk6YWjXCyeshvYa98VUvygDfYg12XYM02wNrY5g
+         /k4Q==
+X-Gm-Message-State: ACrzQf184D2NuiGpvI44nigc8pXWjN+/RvImnuTTyV5eUxccwi142/q+
+	8S8X9jK0p5Z2goyiy+H81wLkknWG00jUaJRwfDnYPN7utQ8Yyg==
+X-Google-Smtp-Source: AMsMyM6t2PwmYYx1RGzjEI0PEGAXHinvqvBJiQjsQYWU4FC1oVfNiZLyD0o/mUJPVy/mZeSPa4GXXTddDO5dCFNftIw=
+X-Received: by 2002:a17:907:96a0:b0:782:9633:2751 with SMTP id
+ hd32-20020a17090796a000b0078296332751mr2816192ejc.359.1664460082936; Thu, 29
+ Sep 2022 07:01:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] bus: mhi: host: Use mhi_soc_reset() API in place of
- register write
-Content-Language: en-US
-To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>,
-        <quic_hemantk@quicinc.com>, <loic.poulain@linaro.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <mrana@quicinc.com>
-References: <1664272126-82706-1-git-send-email-quic_qianyu@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1664272126-82706-1-git-send-email-quic_qianyu@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: H38ixZaWndpGTN84bCpkPFmmbsYnYMk9
-X-Proofpoint-ORIG-GUID: H38ixZaWndpGTN84bCpkPFmmbsYnYMk9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-27_05,2022-09-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 mlxlogscore=894 mlxscore=0 spamscore=0 impostorscore=0
- phishscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209270085
+From: notsyncing <song.fc@gmail.com>
+Date: Thu, 29 Sep 2022 22:01:11 +0800
+Message-ID: <CALL0vWGr0i9Qaf6PYH3V7C5wbV36wSWUSOWKL83uECY9iN+8JA@mail.gmail.com>
+Subject: [PATCH] bus: mhi: host: pci_generic: Add HP variant of T99W175
+To: mhi@lists.linux.dev
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Hemant Kumar <quic_hemantk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/27/2022 3:48 AM, Qiang Yu wrote:
-> Currently, a direct register write is used when ramdump collection
-> in panic path occurs. Replace that with new mhi_soc_reset() API
-> such that a controller defined reset() function is exercised if
-> one is present and the regular SOC reset is done if it is not.
-> 
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-> ---
+The foxconn T99W175 has an HP variant, so add support for it to the
+pci_generic driver.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Song Fuchang <song.fc@gmail.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c
+b/drivers/bus/mhi/host/pci_generic.c
+index 9e545f2a5a26..650e8b9c26ad 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+     /* MV32-WB (Cinterion) */
+     { PCI_DEVICE(0x1269, 0x00bb),
+         .driver_data = (kernel_ulong_t) &mhi_mv32_info },
++    /* T99W175 (sdx55), HP variant */
++    { PCI_DEVICE(0x03f0, 0x0a6c),
++        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+     {  }
+ };
+ MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+-- 
+2.37.3
