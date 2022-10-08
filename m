@@ -1,75 +1,50 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF7C1C13
-	for <mhi@lists.linux.dev>; Thu, 29 Sep 2022 14:01:25 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id lh5so2980878ejb.10
-        for <mhi@lists.linux.dev>; Thu, 29 Sep 2022 07:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=7NYIbesMJ2B59ItmTW7eVwTp9j+TaFM7RI/yFrV8y2o=;
-        b=hr/0b9DZ234qAvNtBg8Rlc3EAdzMRzi8n6U3UIkN69rMCHLsQtm2UiLuStqkGl/f4I
-         DpFFzmdgi5XhztK504fTMyp9CNdOSJjD5BVRDXSPmuAv44T5+hlO9SacKHmYnpedar8J
-         D+ErlCR7JtXGqgHfW4pZL2bKy61LBeRWoLBbTSHmewZd29a8tL84pwiB5pPekL5GMaL9
-         tSSBSKwBSFJ87/NCk4pB3wVIzRezz8Z6+DWmecvkVw7iWOjStsnCPwMpgr8vfgXuyPnO
-         UGX49+Uu7TuZhs1JK2Vd5Bmm0lkIDNY1oShx3YBrR68lhh3XF2vy0kM0wLbqHQg9AL4x
-         b6mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=7NYIbesMJ2B59ItmTW7eVwTp9j+TaFM7RI/yFrV8y2o=;
-        b=uMz0NBzg2ypQE9Gv+7lmC4u7GFzL3bAbuBxLMNqti42R4dLqCH6feH9kGWWqWX+PhI
-         Um+TTVKtPkNsmketg+/FGbQJIMFpSkHiu4nW/BnAbmrk8Y1jWcTS8IupemxxYvddjOo4
-         3jYxUlUGB6eV3XsJz6vzbVhLXInZ+BbP2/4hPER2yYxDlaJ2mwn1ThwQUArky9ftynfX
-         wgCZ05JX7X2M7X4Z5gd+02PUWPNyqoroKTg4K5u+BuRL4JwOlx0WC0f4sGeAaMMgsqVU
-         t6S/hSWlwJzJW+65Apq3kxppleULXbk6YWjXCyeshvYa98VUvygDfYg12XYM02wNrY5g
-         /k4Q==
-X-Gm-Message-State: ACrzQf184D2NuiGpvI44nigc8pXWjN+/RvImnuTTyV5eUxccwi142/q+
-	8S8X9jK0p5Z2goyiy+H81wLkknWG00jUaJRwfDnYPN7utQ8Yyg==
-X-Google-Smtp-Source: AMsMyM6t2PwmYYx1RGzjEI0PEGAXHinvqvBJiQjsQYWU4FC1oVfNiZLyD0o/mUJPVy/mZeSPa4GXXTddDO5dCFNftIw=
-X-Received: by 2002:a17:907:96a0:b0:782:9633:2751 with SMTP id
- hd32-20020a17090796a000b0078296332751mr2816192ejc.359.1664460082936; Thu, 29
- Sep 2022 07:01:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285B97E
+	for <mhi@lists.linux.dev>; Sat,  8 Oct 2022 14:19:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D95E3C433C1;
+	Sat,  8 Oct 2022 14:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1665238747;
+	bh=ncHqj19PYcdj2VfixeA7NItM3XFWktQFqCuiU1u2USo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=oXNaJIWXm0epT/kSfs6h0xHwdXHqJDbFnDwGOxS2w79vPSo9I3zWeLjYZklWjtpz5
+	 xmiGKzFsGXSGrK2CP02Tm0Ff0bQh7xC8MCXlskOWAi8C9Q6blQcMjrQWzBZOpAASGP
+	 ZsH2CNIXqWjkc6XJ6r/MyQMsO4VNvz4x58iCXCjLYC8L93121lzdp0xnSzaYPFnF6u
+	 JjwhDMIvAZDEorjqfAM27zw/KobYueP4mjtGT8mPMOdWRmSdfIBLYWrhh0pMy+83t+
+	 I6jZMCArMzQg9VLpmiV/DrnuGgOEaG8nhD2es3phP0YKticvK+CVoVe2EHnAPXuLDM
+	 X0LcHgUbJ6M/g==
+From: Kalle Valo <kvalo@kernel.org>
+To: notsyncing <song.fc@gmail.com>
+Cc: mhi@lists.linux.dev,  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,  Hemant Kumar <quic_hemantk@quicinc.com>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add HP variant of T99W175
+References: <CALL0vWGr0i9Qaf6PYH3V7C5wbV36wSWUSOWKL83uECY9iN+8JA@mail.gmail.com>
+Date: Sat, 08 Oct 2022 17:19:03 +0300
+In-Reply-To: <CALL0vWGr0i9Qaf6PYH3V7C5wbV36wSWUSOWKL83uECY9iN+8JA@mail.gmail.com>
+	(notsyncing's message of "Thu, 29 Sep 2022 22:01:11 +0800")
+Message-ID: <87y1tq4cvc.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain
+
+notsyncing <song.fc@gmail.com> writes:
+
+> The foxconn T99W175 has an HP variant, so add support for it to the
+> pci_generic driver.
+>
+> Signed-off-by: Song Fuchang <song.fc@gmail.com>
+
+Your name in the From header is wrong:
+
 From: notsyncing <song.fc@gmail.com>
-Date: Thu, 29 Sep 2022 22:01:11 +0800
-Message-ID: <CALL0vWGr0i9Qaf6PYH3V7C5wbV36wSWUSOWKL83uECY9iN+8JA@mail.gmail.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add HP variant of T99W175
-To: mhi@lists.linux.dev
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Hemant Kumar <quic_hemantk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
 
-The foxconn T99W175 has an HP variant, so add support for it to the
-pci_generic driver.
-
-Signed-off-by: Song Fuchang <song.fc@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c
-b/drivers/bus/mhi/host/pci_generic.c
-index 9e545f2a5a26..650e8b9c26ad 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
-     /* MV32-WB (Cinterion) */
-     { PCI_DEVICE(0x1269, 0x00bb),
-         .driver_data = (kernel_ulong_t) &mhi_mv32_info },
-+    /* T99W175 (sdx55), HP variant */
-+    { PCI_DEVICE(0x03f0, 0x0a6c),
-+        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-     {  }
- };
- MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
 -- 
-2.37.3
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
