@@ -1,94 +1,94 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F26185D
-	for <mhi@lists.linux.dev>; Mon, 10 Oct 2022 04:44:38 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4WB0i003167;
-	Mon, 10 Oct 2022 04:32:18 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A2C185D
+	for <mhi@lists.linux.dev>; Mon, 10 Oct 2022 04:53:32 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4Jvs9011448;
+	Mon, 10 Oct 2022 04:53:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id; s=qcppdkim1;
- bh=l3EF25iL6q7Gc1Qj9bnMwNqlO/3nKJvzpT2gVx/6Wf4=;
- b=HN+DIXSUoNNynV1oo9cgvQWMyWH0YdARQ0VC2vM/Xs5djKz6FfONJnFptoxNiY9EyBj+
- Dpx/2xktZX/N658beZEVnt0hEKSRQGv9xv2QDycnY0+LZYoM0En0mxsbJg+bE+0fa4fV
- WE8kG/rvvmN58MPWt9U9CHI9penEtixCQnWvfzFi6YVSzESKExCB5zsDa9PaSmUKa1AQ
- TcLL27rlW8fYwp4JoxLoPvRS9EcZ1REPwb4SYcY3gtazNrRPHriLJLDza+lQOAiK78dS
- e/TS6OmWklUMj7xoR0IzO7Y1AUD9/uIXNC9MpZG6WKQe1VdmSYw3nkvd8O2f8lTHNFXY Fw== 
+ bh=1pH2kdAPH0hwBlu0cPw4KAR9YI8pgeeW3NM+jwlgFug=;
+ b=l+qZQ50yp+pj4QATn9qgjCz9Edd8a/nnu5t9qo4yB18jvU6+av1KxBMTAH2+FRxQcMuv
+ DmifOHZg5MDAUZoeuch+GjAN+BUmygM6Qb/BFdZRevVsRgwlXLmzCgUkjH7BMB3P728r
+ X1v8O7cvSvnTCTWiY2hm9pi6marPkf9RbtsLUB8h/Je4omwgj6/ilTcg/TTilKDVlzII
+ jSik2Qnt2jNmt11v72i2F0aujCqN+/2SAWrpwp7Xr5lmcHxfOot4LlMuz5a/xkWpt8iS
+ 63TVd7wVCHerVDoToJGEiNMCd+3KMnLuLAezQlRdRnHwCdf0rxuwNGEdmIHlS5WKGHH3 Jg== 
 Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k31j3tvjy-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k31fa3b7u-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Oct 2022 04:32:17 +0000
+	Mon, 10 Oct 2022 04:53:18 +0000
 Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4WEZF002707;
-	Mon, 10 Oct 2022 04:32:15 GMT
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4rGph019916;
+	Mon, 10 Oct 2022 04:53:16 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3k3jr33fma-1
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3k3jr33gx3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 10 Oct 2022 04:32:14 +0000
+	Mon, 10 Oct 2022 04:53:16 +0000
 Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29A4WE72002686;
-	Mon, 10 Oct 2022 04:32:14 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29A4rFeB019911;
+	Mon, 10 Oct 2022 04:53:15 GMT
 Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 29A4WDL6002685;
-	Mon, 10 Oct 2022 04:32:14 +0000
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 29A4rFtf019910;
+	Mon, 10 Oct 2022 04:53:15 +0000
 Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 76C053494; Mon, 10 Oct 2022 12:32:11 +0800 (CST)
+	id 5E4623494; Mon, 10 Oct 2022 12:53:14 +0800 (CST)
 From: Qiang Yu <quic_qianyu@quicinc.com>
 To: mani@kernel.org, quic_hemantk@quicinc.com, loic.poulain@linaro.org
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
         Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH] bus: mhi: host: Use mhi_soc_reset() API in place of register write
-Date: Mon, 10 Oct 2022 12:32:04 +0800
-Message-Id: <1665376324-34258-1-git-send-email-quic_qianyu@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Fix race between channel preparation and M0 event
+Date: Mon, 10 Oct 2022 12:53:13 +0800
+Message-Id: <1665377593-45536-1-git-send-email-quic_qianyu@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: X1_msNQ-_7QvX_2PlVE-yQj8MgK0uPmg
-X-Proofpoint-ORIG-GUID: X1_msNQ-_7QvX_2PlVE-yQj8MgK0uPmg
+X-Proofpoint-GUID: _zkj6jOJvWNa3f2VImnPndaZc6NrVYQm
+X-Proofpoint-ORIG-GUID: _zkj6jOJvWNa3f2VImnPndaZc6NrVYQm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-10-07_04,2022-10-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- malwarescore=0 phishscore=0 mlxlogscore=862 mlxscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210100026
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 mlxlogscore=984
+ bulkscore=0 phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210100028
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-Currently, a direct register write is used when ramdump collection
-in panic path occurs. Replace that with new mhi_soc_reset() API
-such that a controller defined reset() function is exercised if
-one is present and the regular SOC reset is done if it is not.
+There is a race condition where mhi_prepare_channel() updates the
+read and write pointers as the base address and in parallel, if
+an M0 transition occurs, the tasklet goes ahead and rings
+doorbells for all channels with a delta in TRE rings assuming
+they are already enabled. This causes a null pointer access. Fix
+it by adding a channel enabled check before ringing channel
+doorbells.
 
 Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/bus/mhi/host/boot.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/bus/mhi/host/pm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index 26d0edd..1c69fee 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -118,9 +118,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
- 			/* Hardware reset so force device to enter RDDM */
- 			dev_dbg(dev,
- 				"Did not enter RDDM, do a host req reset\n");
--			mhi_write_reg(mhi_cntrl, mhi_cntrl->regs,
--				      MHI_SOC_RESET_REQ_OFFSET,
--				      MHI_SOC_RESET_REQ);
-+			mhi_soc_reset(mhi_cntrl);
- 			udelay(delayus);
- 		}
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index 4a42186..0834590 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
+ 		read_lock_irq(&mhi_chan->lock);
  
+ 		/* Only ring DB if ring is not empty */
+-		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
++		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
++		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
+ 			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
+ 		read_unlock_irq(&mhi_chan->lock);
+ 	}
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
