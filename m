@@ -1,95 +1,80 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A2C185D
-	for <mhi@lists.linux.dev>; Mon, 10 Oct 2022 04:53:32 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4Jvs9011448;
-	Mon, 10 Oct 2022 04:53:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=1pH2kdAPH0hwBlu0cPw4KAR9YI8pgeeW3NM+jwlgFug=;
- b=l+qZQ50yp+pj4QATn9qgjCz9Edd8a/nnu5t9qo4yB18jvU6+av1KxBMTAH2+FRxQcMuv
- DmifOHZg5MDAUZoeuch+GjAN+BUmygM6Qb/BFdZRevVsRgwlXLmzCgUkjH7BMB3P728r
- X1v8O7cvSvnTCTWiY2hm9pi6marPkf9RbtsLUB8h/Je4omwgj6/ilTcg/TTilKDVlzII
- jSik2Qnt2jNmt11v72i2F0aujCqN+/2SAWrpwp7Xr5lmcHxfOot4LlMuz5a/xkWpt8iS
- 63TVd7wVCHerVDoToJGEiNMCd+3KMnLuLAezQlRdRnHwCdf0rxuwNGEdmIHlS5WKGHH3 Jg== 
-Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k31fa3b7u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Oct 2022 04:53:18 +0000
-Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29A4rGph019916;
-	Mon, 10 Oct 2022 04:53:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3k3jr33gx3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 10 Oct 2022 04:53:16 +0000
-Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29A4rFeB019911;
-	Mon, 10 Oct 2022 04:53:15 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 29A4rFtf019910;
-	Mon, 10 Oct 2022 04:53:15 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 5E4623494; Mon, 10 Oct 2022 12:53:14 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, quic_hemantk@quicinc.com, loic.poulain@linaro.org
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
-        Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH] bus: mhi: host: Fix race between channel preparation and M0 event
-Date: Mon, 10 Oct 2022 12:53:13 +0800
-Message-Id: <1665377593-45536-1-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _zkj6jOJvWNa3f2VImnPndaZc6NrVYQm
-X-Proofpoint-ORIG-GUID: _zkj6jOJvWNa3f2VImnPndaZc6NrVYQm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-07_04,2022-10-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 mlxlogscore=984
- bulkscore=0 phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210100028
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA13520F8
+	for <mhi@lists.linux.dev>; Thu, 13 Oct 2022 07:07:59 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id d26so1876189eje.10
+        for <mhi@lists.linux.dev>; Thu, 13 Oct 2022 00:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kB0ydcgvCSWAdvBJD7DwCSbpPowUa7zQXcGO4Ybks6k=;
+        b=b2Q8guHNkvCLUlO7h6gBVnmEJEC599xOVk7SOK8/sdWk0bDY/fpuGt0cFni29HWkGd
+         vuEAeeytssn+oF0+bQWzMIYGB4I0hV9BXbF0qgn+/CY6awawQ+FhWBDAKlV3xT/PCi/E
+         s3ePWaN+ikkBNHl4U07Vh/TYMJtNOO8GyhLrnedpUPb9KR/vHHV8s82rxQQPfZh4abxK
+         RnfnXbhwezSYTZI5q7dfimNtiEM1qrvtaYkBuid3uC5elCUGPmpXQ0EAHtw49x69CQNO
+         ou1JlZbdPH71HyYcyBK0f4oUuF+PAqHkTKf7JXitUgzAZmuCKQ881iPcHBZm3asuUq5n
+         BsEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kB0ydcgvCSWAdvBJD7DwCSbpPowUa7zQXcGO4Ybks6k=;
+        b=ve17/d68MQCXU9uZYSSo1A44Exnq5sWIhFqAEy9qRtakvlhiNX6r5FlELHMUK7TXN2
+         msLfTW/TXqam9/0WDwvfuSi6UNvtEZUKPbZ0TLUFk5MIZqnBuRrhe1B604v+EOzmL/NP
+         b4n+tqhPHQjen52ePyCMy8BgjAaJG4DaNVwkGVLyaErX9nN3xDUA0js7lKUpoHC4CsmH
+         HIFxSvH8v0REAjiGCw0cUqpDFHX2hb+l4eKM+MfAfe52sFhx5Pe0sGe+8PlO6zaNlL/P
+         IWJ93X4JPv2FXwIe0Lsom8Sc+WLVOk2Wy6KY+CWyWUjN9TNcptVOe2tWigaflruSjAzD
+         6ing==
+X-Gm-Message-State: ACrzQf2mzXoRqRFvk6cxuX0pT58h996/SFHZMW5+xwZBsaady5LvhpQ+
+	hgDpgNvIJD+XoWQJANZjkFl0OkBHsDraJRFlw3hYhA==
+X-Google-Smtp-Source: AMsMyM66BPJFJSNhWTtWRh+n4ocqHmvOGvRAcl9i5y4joaGgUPGw4PwENz4bHc9VtmwHkr1315u1n+/vgXAXCLC9nZ8=
+X-Received: by 2002:a17:907:3da5:b0:78e:793:4084 with SMTP id
+ he37-20020a1709073da500b0078e07934084mr2036938ejc.285.1665644878099; Thu, 13
+ Oct 2022 00:07:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <7ac21c73.2acb.183cf5fff45.Coremail.slark_xiao@163.com>
+In-Reply-To: <7ac21c73.2acb.183cf5fff45.Coremail.slark_xiao@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Thu, 13 Oct 2022 09:07:21 +0200
+Message-ID: <CAMZdPi_9t-8qHQep87+sfVrWVUJ3-xo0TFY+q4gxFRr18fmMNA@mail.gmail.com>
+Subject: Re: Does MHI driver support DMA remapping?
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, "quic_hemantk@quicinc.com" <quic_hemantk@quicinc.com>, mhi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is a race condition where mhi_prepare_channel() updates the
-read and write pointers as the base address and in parallel, if
-an M0 transition occurs, the tasklet goes ahead and rings
-doorbells for all channels with a delta in TRE rings assuming
-they are already enabled. This causes a null pointer access. Fix
-it by adding a channel enabled check before ringing channel
-doorbells.
+Hi Slark,
 
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
- drivers/bus/mhi/host/pm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Thu, 13 Oct 2022 at 05:25, Slark Xiao <slark_xiao@163.com> wrote:
+>
+> Hi,
+>   I have a question about the DMA feature on our MHI driver. Does MHI sup=
+port DMA remapping feature?
+>   This is the reference description from Windows OS:
+>
+> To ensure compatibility with Kernel DMA Protection and DMAGuard Policy, P=
+CIe device drivers can opt into Direct Memory Access (DMA) remapping.
+>
+> DMA remapping for device drivers protects against memory corruption and m=
+alicious DMA attacks, and provides a higher level of compatibility for devi=
+ces. Also, devices with DMA remapping-compatible drivers can start and perf=
+orm DMA regardless of lock screen status.
 
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index 4a42186..0834590 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
- 		read_lock_irq(&mhi_chan->lock);
- 
- 		/* Only ring DB if ring is not empty */
--		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
-+		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
-+		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
- 			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
- 		read_unlock_irq(&mhi_chan->lock);
- 	}
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+I assume this is all about IOMMU? then AFAIK it should be supported by
+the driver, not because the driver does anything special to handle it,
+but because it uses the standard dma helpers. So if there is an IOMMU
+in between, indicated in e.g. devicetree or ACPI, the different device
+IOVA spaces will be managed/isolated automatically via the IOMMU
+layer/driver.
 
+Regards,
+Loic
