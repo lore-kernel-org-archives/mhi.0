@@ -1,80 +1,67 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA13520F8
-	for <mhi@lists.linux.dev>; Thu, 13 Oct 2022 07:07:59 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id d26so1876189eje.10
-        for <mhi@lists.linux.dev>; Thu, 13 Oct 2022 00:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kB0ydcgvCSWAdvBJD7DwCSbpPowUa7zQXcGO4Ybks6k=;
-        b=b2Q8guHNkvCLUlO7h6gBVnmEJEC599xOVk7SOK8/sdWk0bDY/fpuGt0cFni29HWkGd
-         vuEAeeytssn+oF0+bQWzMIYGB4I0hV9BXbF0qgn+/CY6awawQ+FhWBDAKlV3xT/PCi/E
-         s3ePWaN+ikkBNHl4U07Vh/TYMJtNOO8GyhLrnedpUPb9KR/vHHV8s82rxQQPfZh4abxK
-         RnfnXbhwezSYTZI5q7dfimNtiEM1qrvtaYkBuid3uC5elCUGPmpXQ0EAHtw49x69CQNO
-         ou1JlZbdPH71HyYcyBK0f4oUuF+PAqHkTKf7JXitUgzAZmuCKQ881iPcHBZm3asuUq5n
-         BsEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kB0ydcgvCSWAdvBJD7DwCSbpPowUa7zQXcGO4Ybks6k=;
-        b=ve17/d68MQCXU9uZYSSo1A44Exnq5sWIhFqAEy9qRtakvlhiNX6r5FlELHMUK7TXN2
-         msLfTW/TXqam9/0WDwvfuSi6UNvtEZUKPbZ0TLUFk5MIZqnBuRrhe1B604v+EOzmL/NP
-         b4n+tqhPHQjen52ePyCMy8BgjAaJG4DaNVwkGVLyaErX9nN3xDUA0js7lKUpoHC4CsmH
-         HIFxSvH8v0REAjiGCw0cUqpDFHX2hb+l4eKM+MfAfe52sFhx5Pe0sGe+8PlO6zaNlL/P
-         IWJ93X4JPv2FXwIe0Lsom8Sc+WLVOk2Wy6KY+CWyWUjN9TNcptVOe2tWigaflruSjAzD
-         6ing==
-X-Gm-Message-State: ACrzQf2mzXoRqRFvk6cxuX0pT58h996/SFHZMW5+xwZBsaady5LvhpQ+
-	hgDpgNvIJD+XoWQJANZjkFl0OkBHsDraJRFlw3hYhA==
-X-Google-Smtp-Source: AMsMyM66BPJFJSNhWTtWRh+n4ocqHmvOGvRAcl9i5y4joaGgUPGw4PwENz4bHc9VtmwHkr1315u1n+/vgXAXCLC9nZ8=
-X-Received: by 2002:a17:907:3da5:b0:78e:793:4084 with SMTP id
- he37-20020a1709073da500b0078e07934084mr2036938ejc.285.1665644878099; Thu, 13
- Oct 2022 00:07:58 -0700 (PDT)
+Received: from m13101.mail.163.com (m13101.mail.163.com [220.181.13.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30643137D
+	for <mhi@lists.linux.dev>; Fri, 14 Oct 2022 11:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=GHNB8
+	fhoywVrYStAj6hlXCqO1yyEPKylMU+xzL2A96M=; b=B1yitjRxIt8MVVYp47cmc
+	3+X8vJduvZAL9I7NRbgOEIk6d7ih/qrdXdJI8wdVxy+PSu9EvNxZQ+AwEAtqRuR7
+	4L19/bgq9wpF4zDud/Oa/+lZ1G1RZPCwgMHLgLHUssh+/AMhIg1Ry0IiRCTMQ8bS
+	K5WSQ5dCqWUBS9FBo24lk0=
+Received: from slark_xiao$163.com ( [112.97.57.71] ) by
+ ajax-webmail-wmsvr101 (Coremail) ; Fri, 14 Oct 2022 19:17:42 +0800 (CST)
+X-Originating-IP: [112.97.57.71]
+Date: Fri, 14 Oct 2022 19:17:42 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Loic Poulain" <loic.poulain@linaro.org>
+Cc: "Manivannan Sadhasivam" <mani@kernel.org>, 
+	"quic_hemantk@quicinc.com" <quic_hemantk@quicinc.com>, 
+	mhi@lists.linux.dev
+Subject: Re:Re: Does MHI driver support DMA remapping?
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <CAMZdPi_9t-8qHQep87+sfVrWVUJ3-xo0TFY+q4gxFRr18fmMNA@mail.gmail.com>
+References: <7ac21c73.2acb.183cf5fff45.Coremail.slark_xiao@163.com>
+ <CAMZdPi_9t-8qHQep87+sfVrWVUJ3-xo0TFY+q4gxFRr18fmMNA@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <7ac21c73.2acb.183cf5fff45.Coremail.slark_xiao@163.com>
-In-Reply-To: <7ac21c73.2acb.183cf5fff45.Coremail.slark_xiao@163.com>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Thu, 13 Oct 2022 09:07:21 +0200
-Message-ID: <CAMZdPi_9t-8qHQep87+sfVrWVUJ3-xo0TFY+q4gxFRr18fmMNA@mail.gmail.com>
-Subject: Re: Does MHI driver support DMA remapping?
-To: Slark Xiao <slark_xiao@163.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, "quic_hemantk@quicinc.com" <quic_hemantk@quicinc.com>, mhi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <4595249f.7c2e.183d636dafc.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:ZcGowABHGwRWRUljjDKCAA--.23541W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJR+aZGAJqfGbhwABso
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Hi Slark,
-
-On Thu, 13 Oct 2022 at 05:25, Slark Xiao <slark_xiao@163.com> wrote:
->
-> Hi,
->   I have a question about the DMA feature on our MHI driver. Does MHI sup=
-port DMA remapping feature?
->   This is the reference description from Windows OS:
->
-> To ensure compatibility with Kernel DMA Protection and DMAGuard Policy, P=
-CIe device drivers can opt into Direct Memory Access (DMA) remapping.
->
-> DMA remapping for device drivers protects against memory corruption and m=
-alicious DMA attacks, and provides a higher level of compatibility for devi=
-ces. Also, devices with DMA remapping-compatible drivers can start and perf=
-orm DMA regardless of lock screen status.
-
-I assume this is all about IOMMU? then AFAIK it should be supported by
-the driver, not because the driver does anything special to handle it,
-but because it uses the standard dma helpers. So if there is an IOMMU
-in between, indicated in e.g. devicetree or ACPI, the different device
-IOVA spaces will be managed/isolated automatically via the IOMMU
-layer/driver.
-
-Regards,
-Loic
+CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjItMTAtMTMgMTU6MDc6MjEsICJMb2ljIFBvdWxhaW4iIDxs
+b2ljLnBvdWxhaW5AbGluYXJvLm9yZz4gd3JvdGU6Cj5IaSBTbGFyaywKPgo+T24gVGh1LCAxMyBP
+Y3QgMjAyMiBhdCAwNToyNSwgU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPiB3cm90ZToK
+Pj4KPj4gSGksCj4+ICAgSSBoYXZlIGEgcXVlc3Rpb24gYWJvdXQgdGhlIERNQSBmZWF0dXJlIG9u
+IG91ciBNSEkgZHJpdmVyLiBEb2VzIE1ISSBzdXBwb3J0IERNQSByZW1hcHBpbmcgZmVhdHVyZT8K
+Pj4gICBUaGlzIGlzIHRoZSByZWZlcmVuY2UgZGVzY3JpcHRpb24gZnJvbSBXaW5kb3dzIE9TOgo+
+Pgo+PiBUbyBlbnN1cmUgY29tcGF0aWJpbGl0eSB3aXRoIEtlcm5lbCBETUEgUHJvdGVjdGlvbiBh
+bmQgRE1BR3VhcmQgUG9saWN5LCBQQ0llIGRldmljZSBkcml2ZXJzIGNhbiBvcHQgaW50byBEaXJl
+Y3QgTWVtb3J5IEFjY2VzcyAoRE1BKSByZW1hcHBpbmcuCj4+Cj4+IERNQSByZW1hcHBpbmcgZm9y
+IGRldmljZSBkcml2ZXJzIHByb3RlY3RzIGFnYWluc3QgbWVtb3J5IGNvcnJ1cHRpb24gYW5kIG1h
+bGljaW91cyBETUEgYXR0YWNrcywgYW5kIHByb3ZpZGVzIGEgaGlnaGVyIGxldmVsIG9mIGNvbXBh
+dGliaWxpdHkgZm9yIGRldmljZXMuIEFsc28sIGRldmljZXMgd2l0aCBETUEgcmVtYXBwaW5nLWNv
+bXBhdGlibGUgZHJpdmVycyBjYW4gc3RhcnQgYW5kIHBlcmZvcm0gRE1BIHJlZ2FyZGxlc3Mgb2Yg
+bG9jayBzY3JlZW4gc3RhdHVzLgo+Cj5JIGFzc3VtZSB0aGlzIGlzIGFsbCBhYm91dCBJT01NVT8g
+dGhlbiBBRkFJSyBpdCBzaG91bGQgYmUgc3VwcG9ydGVkIGJ5Cj50aGUgZHJpdmVyLCBub3QgYmVj
+YXVzZSB0aGUgZHJpdmVyIGRvZXMgYW55dGhpbmcgc3BlY2lhbCB0byBoYW5kbGUgaXQsCj5idXQg
+YmVjYXVzZSBpdCB1c2VzIHRoZSBzdGFuZGFyZCBkbWEgaGVscGVycy4gU28gaWYgdGhlcmUgaXMg
+YW4gSU9NTVUKPmluIGJldHdlZW4sIGluZGljYXRlZCBpbiBlLmcuIGRldmljZXRyZWUgb3IgQUNQ
+SSwgdGhlIGRpZmZlcmVudCBkZXZpY2UKPklPVkEgc3BhY2VzIHdpbGwgYmUgbWFuYWdlZC9pc29s
+YXRlZCBhdXRvbWF0aWNhbGx5IHZpYSB0aGUgSU9NTVUKPmxheWVyL2RyaXZlci4KPgo+UmVnYXJk
+cywKPkxvaWMKCkhpIExvaWMsCiAgVGhhbmtzIGZvciB5b3VyIGdyZWF0IGV4cGxhbmF0aW9uLgog
+ICBBbmQgSSBoYXZlIG9uZSBtb3JlIGNvbmNlcm4sIHVudGlsIG5vdywgd2Ugc3RpbGwgZG9uJ3Qg
+a25vdyBob3cgdG8gdXNlIHRoZSBkaWFnIHBvcnQgInd3YW4wcWNkbTAiLgogICBJdCBkb2Vzbid0
+IGxpa2UgUXVhbGNvbW0gdHJhZGl0aW9uYWwgVVNCIGRpYWcgcG9ydCB0aGF0IHdlIGNhbiB1c2Ug
+UVhETSAodGhvdWdoIHRoaXMgaXMgYSBub24tb3BlbiB0b29sIGFuZCBzZWVtcyBvbmx5IGFjY2Vw
+dCBVU0IgZGlhZyBwb3J0KSBvciBzb21lIG90aGVyIHNlcmlhbCB0b29sIHRvIGNvbGxlY3QgZGVi
+dWcgbG9nLgogICBJcyB0aGVyZSBhbnkgbWV0aG9kIHRvIGNvbGxlY3QgZGVidWcgbG9nIGJhc2Vk
+IG9uIHRoaXMgcG9ydD8KClRoYW5rcyE=
