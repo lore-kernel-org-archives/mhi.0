@@ -1,30 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B3A2916
-	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 16:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD04EC433B5;
-	Fri, 28 Oct 2022 16:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F852F44
+	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 17:20:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED407C433C1;
+	Fri, 28 Oct 2022 17:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666976051;
-	bh=CagHt1YKwrFPw9NQtg1cErC7qHaLnYF/pJpMHFrobgY=;
+	s=k20201202; t=1666977630;
+	bh=kqTt1deJK2agJjmjKfnohy/X48Cpk74KPQ7q6QI2i8U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YZCvVBy+vDkYlZMf/7/EGEMNXjyy3syl32922bEgQN1M1C36tEVngOnb1IlPUKXaY
-	 wSHlRtWrfGlshaalXeNuf9OC1wFi91GF/zFU8FRIIteQwV4XBD8vvDnUdDRZCdBr8Z
-	 UluKjSLTSKuB8OA2wNwxNwaSEDwO6iZALGwhE/z3DxBY7cgJBIwCDojZ7A32ChZPm2
-	 1uj+y0rIstBtFf3KBnLeIoxLOljEtHgTP6eP4zlIL9ZUIgHHzAX+BMJ2Riqn8SMFr+
-	 HBlQqwfiL2UeHMVKCe9JZBueFJtrk48+E43D/o+CetvRJwTvVTEGSP+gQ5bAhXJNCH
-	 RIBOi4AOUoGYQ==
-Date: Fri, 28 Oct 2022 22:24:01 +0530
+	b=JmEy3lPBrsVtVzbPd1YHA5FhcaWqnzp5iE3MxBAyWXeAjIXo/JHKaoXJR3u0mRYca
+	 2NeAvTaPUPUclJylcqTqD72LMeL36W8RDjTOfSh/d2183eQqt0U6jZ3Ug+pooPa+mY
+	 l4fFVoPUcK5iNbkf/Cb4AvxQOOFZaMyGs/H302mVKbxF+FSewyzpLw5KcPknpXTt+x
+	 Ayp9r1ldvlLQOrpjuND11HE2A4ARJewDFl2JiTDni6TO/T+x14YQlCbmdDtbOdEmMo
+	 Wj2Ypa5F3W1k4bSKt0Yyliv5nl80K6EQLEUgIGEDdDipqsW6OI+k5+ph2wISbhh4e1
+	 iLHe2Od9ZBV1Q==
+Date: Fri, 28 Oct 2022 22:50:22 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: mani@kernel.org, loic.poulain@linaro.org, mhi@lists.linux.dev,
+Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	quic_cang@quicinc.com, mrana@quicinc.com
-Subject: Re: [PATCH v2] bus: mhi: host: Fix race between channel preparation
- and M0 event
-Message-ID: <20221028165401.GA13880@thinkpad>
-References: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
+Subject: Re: [PATCH] bus: mhi: host: Add session ID to MHI controller
+Message-ID: <20221028172022.GC13880@thinkpad>
+References: <1665376870-60668-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -34,49 +33,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
+In-Reply-To: <1665376870-60668-1-git-send-email-quic_qianyu@quicinc.com>
 
-On Sun, Oct 16, 2022 at 11:05:32AM +0800, Qiang Yu wrote:
-> There is a race condition where mhi_prepare_channel() updates the
-> read and write pointers as the base address and in parallel, if
-> an M0 transition occurs, the tasklet goes ahead and rings
-> doorbells for all channels with a delta in TRE rings assuming
-> they are already enabled. This causes a null pointer access. Fix
-> it by adding a channel enabled check before ringing channel
-> doorbells.
+On Mon, Oct 10, 2022 at 12:41:10PM +0800, Qiang Yu wrote:
+> Session ID to be used during BHI transfers to recognize a
+> particular session are currently not being stored in the MHI
+> controller structure. Store them to allow for tracking and other
+> future usage.
 > 
-> Fixes: a6e2e3522f29 "bus: mhi: core: Add support for PM state transitions"
 > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-Can you also CC stable list for backporting?
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Who/what is going to use this session id?
 
 Thanks,
 Mani
 
 > ---
-> v1->v2: add Fixes tags
+>  drivers/bus/mhi/host/boot.c | 8 ++++----
+>  include/linux/mhi.h         | 1 +
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 > 
->  drivers/bus/mhi/host/pm.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index 4a42186..0834590 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
->  		read_lock_irq(&mhi_chan->lock);
->  
->  		/* Only ring DB if ring is not empty */
-> -		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
-> +		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
-> +		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
->  			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
->  		read_unlock_irq(&mhi_chan->lock);
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index 26d0edd..5bed8b51 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -231,7 +231,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+>  			   dma_addr_t dma_addr,
+>  			   size_t size)
+>  {
+> -	u32 tx_status, val, session_id;
+> +	u32 tx_status, val;
+>  	int i, ret;
+>  	void __iomem *base = mhi_cntrl->bhi;
+>  	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+> @@ -253,16 +253,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+>  		goto invalid_pm_state;
 >  	}
+>  
+> -	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
+> +	mhi_cntrl->session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
+>  	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
+> -		session_id);
+> +		mhi_cntrl->session_id);
+>  	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
+>  	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
+>  		      upper_32_bits(dma_addr));
+>  	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
+>  		      lower_32_bits(dma_addr));
+>  	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
+> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
+> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, mhi_cntrl->session_id);
+>  	read_unlock_bh(pm_lock);
+>  
+>  	/* Wait for the image download to complete */
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index a5441ad..8b3c934 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -405,6 +405,7 @@ struct mhi_controller {
+>  	u32 minor_version;
+>  	u32 serial_number;
+>  	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
+> +	u32 session_id;
+>  
+>  	struct mhi_event *mhi_event;
+>  	struct mhi_cmd *mhi_cmd;
 > -- 
-> 2.7.4
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
 > 
 > 
 
