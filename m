@@ -1,78 +1,72 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C85E2F44
-	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 17:43:09 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id k22so5379347pfd.3
-        for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 10:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0lCS/ZUURVz1YCG4pNVk+KiLqyYD23fxRdWfocVL5sE=;
-        b=GeM1PpMU78y0RQ5AoOn8RBhPwx+Q8QjxLZ0EgvXK+5nLlO972d2aJ4BtwkJ7IVgIGs
-         L3/lvL502/tIjGrLNX9joh+i5e5tTNImqQtMb1q1JcUmLj4U52eb/+nwvY1iE8Shtv9Z
-         cgn56hSBg4dCyUhjfJ2wV2Tg71kWA76as5+7Cy1ieDSh5vBJKuDl5cZX010s6Ql4n5FG
-         inHqsPaq/7PcI9z84ASt5vYB/nwPdIanrWbM/zQ3ipc7ziH0bcqy5xCJP393yxTK1Ei+
-         YlmXXQXxrqYahb4hO9HCnC2dG6YewofBSSZ6eioIYtX3DF4JXPhBnxdkyTFlnlGFkuGq
-         6qCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0lCS/ZUURVz1YCG4pNVk+KiLqyYD23fxRdWfocVL5sE=;
-        b=yt4sAod4tZ/NwpRTXHn5EZyn/sI8IJxj699uH7Wy7SYD5sG2EW+8qQENsG+Z2tmdlC
-         fcjKCqA29aXJy6GV6ehjyX0mPtvMIM9piZt0xNt7apgKMAkSC9HyTH7HgrScWXG8V7fB
-         5UCjnNdQDA8+cOZ+pvXfwiR2Jy5SWLLYnpCzs60obp696JJkvk05U+6vhjALsVy1ca92
-         Ala/IsII0QvEM5qUTZyjTqIFFf0SzbZaQ66/liY6RLX8RC889e3Muf0WAJjO4TCZ/P30
-         nRjMS9zNl7EEGttwViL1biLMUaauJp7P2hUkfbUYSeaGihzGA+xZQJ6hB6cLmK0JQkdF
-         myFQ==
-X-Gm-Message-State: ACrzQf3pLAnmIw+kZc28IFc3O6Q0aiJ676ueXd8nLDu+epBB9eEE7Q3X
-	Pvj4vPhw66Nn7X/qZm0jblPSCgDAqttF
-X-Google-Smtp-Source: AMsMyM4I97Tuks9zFgFeNlC+dT0Lj+6zfOD3GS/7jyrVxydlSI5w7qyDW9LZM9xOAR5uuuf43M2h4Q==
-X-Received: by 2002:a63:2b10:0:b0:451:5df1:4b17 with SMTP id r16-20020a632b10000000b004515df14b17mr549658pgr.61.1666978989030;
-        Fri, 28 Oct 2022 10:43:09 -0700 (PDT)
-Received: from localhost.localdomain ([59.92.103.167])
-        by smtp.gmail.com with ESMTPSA id y14-20020a17090a154e00b00210039560c0sm4462499pja.49.2022.10.28.10.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 10:43:07 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] MAINTAINERS: Remove Hemant from MHI bus
-Date: Fri, 28 Oct 2022 23:12:57 +0530
-Message-Id: <20221028174257.52525-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565102F44
+	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 17:47:15 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29S9owB5006220;
+	Fri, 28 Oct 2022 17:47:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=GJiC5Ebe1Zo+nTqxnrbMM8VaMLvQTQAkmp2+vmn0fTQ=;
+ b=oWhYlfZI+p0t11AqbWm5mYe9PQUcpJ4Q2b2DHaxu8LPe+4fXAw/+FOj/QqQ+MLPmTYFe
+ hHqznpgdvs+ItABKPc34Q4CLfw4qgOAKPnziOhVlPZC8UqX96Q9gj29tlyyzvR6fNOLx
+ K5q33bD2G9TfQtZiT6HCgTgDig846UAiN+hQGsI7VKaAEPc8kBnrZuq5n1OpHfA3A99/
+ rXiKxhqCAXuGndIkWoLnOsvMCokjGeuDhI3I3pN4elOih9mg+xJP87Xd+Q8c4wjgUWqX
+ KyjOaZqjOHL6wEcKTCUXCmSNJ7DjMKUcAkhTTpELtNtfvuPqlQrqenE3hDe06arfYOU6 eA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfyf7kfkt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 28 Oct 2022 17:47:07 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29SHl7Y3022751
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 28 Oct 2022 17:47:07 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 28 Oct
+ 2022 10:47:06 -0700
+Message-ID: <c61bb588-cd5c-9ce0-4d5a-509697b6f15f@quicinc.com>
+Date: Fri, 28 Oct 2022 11:47:05 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] MAINTAINERS: Remove Hemant from MHI bus
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
+References: <20221028174257.52525-1-manivannan.sadhasivam@linaro.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20221028174257.52525-1-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ODxSRlBdXJndU0vRvN1D_rJtC3QBROjU
+X-Proofpoint-GUID: ODxSRlBdXJndU0vRvN1D_rJtC3QBROjU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=745 phishscore=0
+ spamscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210280111
 
-Hemant moved out of Qualcomm and expressed his wish to not continue doing
-any reviews for MHI patches. So let's remove him from MAINTAINERS file.
+On 10/28/2022 11:42 AM, Manivannan Sadhasivam wrote:
+> Hemant moved out of Qualcomm and expressed his wish to not continue doing
+> any reviews for MHI patches. So let's remove him from MAINTAINERS file.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cf0f18502372..ad9279218885 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13395,7 +13395,6 @@ F:	arch/arm64/boot/dts/marvell/armada-3720-uDPU.dts
- 
- MHI BUS
- M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
--R:	Hemant Kumar <quic_hemantk@quicinc.com>
- L:	mhi@lists.linux.dev
- L:	linux-arm-msm@vger.kernel.org
- S:	Maintained
--- 
-2.25.1
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
