@@ -1,31 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CC32F44
-	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 17:34:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF40C433D6;
-	Fri, 28 Oct 2022 17:34:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2B92F44
+	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 17:36:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19706C433D6;
+	Fri, 28 Oct 2022 17:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666978464;
-	bh=I6B85KF2fhTK4YqhEUVgUCk2ZIfhY6KRSlr4vCUGeAU=;
+	s=k20201202; t=1666978581;
+	bh=0uMe61d6zyaKp7YWkRXjRVSGPdk5XS0AglSp0I6eYSs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YXBJZWaEcPvtfxGFPa8JlF51fGecUnrXOd0/0vc5+RnEtTbyP14AZnpk5uKrPJuOy
-	 jD+gyt5pMdr8zoqrDRxus4kY9FRLiQT3T//r3CldiPblgDUG9KE8D36Iqke2eEZNyj
-	 61qspavHy6zjA0NIYlpiET8wmXz3RzV+RVcg3vp/K6aIcrgiuRG9JHdCTPnhCjPRzN
-	 5KyTkFQ4ZtTnmrt0DO2HrRQuH5uJIxWENXKTk76chCJXLSgPqwehfXi7dha26p8V/C
-	 0FIf68/kg3KezqwoT2a2MVEtJQdneDIi6moL/QwvvHR9y0AuXQH/8HDCdP+N+3wwGi
-	 QwMWDfxPMb+JA==
-Date: Fri, 28 Oct 2022 23:04:17 +0530
+	b=dsMGWwxAQ+fIfu3qeGDr9BEbLlJtAIUI1drl+VMNqAF6OEvnwBSOsydN3JELxJ0p2
+	 cRNmz+eP4QiO+IjKkFf8dNSu+l8F9HEAmdjPbqkEYOXODBaGKpayO6V7RfIVAWtxxE
+	 w7QMfcuvtuJWuNPUEi5al4bxWmJox24v1MLUNK88C+0JWg/AFHTECOOYB/8/08+BkH
+	 NAXgSLlkmILWmgzNRFqRqQVpFfxm88i99oeBgwxrLAO8yNDDewLWYAtFH2erZCZSZE
+	 SwE/dgSh90yF0Mu3ahHWJeLIvbtpRG+v3dVab8Vi26jrCDjkgkslDc1krIVlS40Q5p
+	 OV77u0QGc6WuA==
+Date: Fri, 28 Oct 2022 23:06:14 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: loic.poulain@linaro.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_cang@quicinc.com, mrana@quicinc.com
-Subject: Re: [PATCH v2] bus: mhi: host: Fix race between channel preparation
- and M0 event
-Message-ID: <20221028173417.GG13880@thinkpad>
-References: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
- <20221028165401.GA13880@thinkpad>
+To: Fabio Porcedda <fabio.porcedda@gmail.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, dnlplm@gmail.com
+Subject: Re: [PATCH 2/2] bus: mhi: host: pci_generic: Add a secondary AT port
+ to Telit FN990
+Message-ID: <20221028173614.GH13880@thinkpad>
+References: <20220916144329.243368-1-fabio.porcedda@gmail.com>
+ <20220916144329.243368-3-fabio.porcedda@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -35,64 +36,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221028165401.GA13880@thinkpad>
+In-Reply-To: <20220916144329.243368-3-fabio.porcedda@gmail.com>
 
-On Fri, Oct 28, 2022 at 10:24:01PM +0530, Manivannan Sadhasivam wrote:
-> On Sun, Oct 16, 2022 at 11:05:32AM +0800, Qiang Yu wrote:
-> > There is a race condition where mhi_prepare_channel() updates the
-> > read and write pointers as the base address and in parallel, if
-> > an M0 transition occurs, the tasklet goes ahead and rings
-> > doorbells for all channels with a delta in TRE rings assuming
-> > they are already enabled. This causes a null pointer access. Fix
-> > it by adding a channel enabled check before ringing channel
-> > doorbells.
-> > 
-> > Fixes: a6e2e3522f29 "bus: mhi: core: Add support for PM state transitions"
-> > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+On Fri, Sep 16, 2022 at 04:43:29PM +0200, Fabio Porcedda wrote:
+> Add a secondary AT port using one of OEM reserved channel.
 > 
-> Can you also CC stable list for backporting?
-> 
+> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
 
-Nvm, I added stable list and applied the patch to mhi-next! Because of the
-addition of MHI EP support, this patch can be backported without modifications
-till 5.19 only. If you want to backport to older kernels, please send them to
-stable list once this got merged.
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 Thanks,
 Mani
 
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Thanks,
-> Mani
-> 
-> > ---
-> > v1->v2: add Fixes tags
-> > 
-> >  drivers/bus/mhi/host/pm.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> > index 4a42186..0834590 100644
-> > --- a/drivers/bus/mhi/host/pm.c
-> > +++ b/drivers/bus/mhi/host/pm.c
-> > @@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
-> >  		read_lock_irq(&mhi_chan->lock);
-> >  
-> >  		/* Only ring DB if ring is not empty */
-> > -		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
-> > +		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
-> > +		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
-> >  			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
-> >  		read_unlock_irq(&mhi_chan->lock);
-> >  	}
-> > -- 
-> > 2.7.4
-> > 
-> > 
-> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 51e2b901bae0..caa4ce28cf9e 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -507,6 +507,8 @@ static const struct mhi_channel_config mhi_telit_fn990_channels[] = {
+>  	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+>  	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+>  	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+> +	MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
+> +	MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
+>  	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+>  };
 > -- 
-> மணிவண்ணன் சதாசிவம்
+> 2.37.3
+> 
 > 
 
 -- 
