@@ -1,96 +1,84 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1055803
-	for <mhi@lists.linux.dev>; Sun, 16 Oct 2022 03:05:48 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29G2IKG4014678;
-	Sun, 16 Oct 2022 03:05:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=3BSxJk0NwemUAG1JhHZNbSuu/7KCDrRWST5yqjmYRSM=;
- b=PLHE66tAne/9lYsviftdu3rsGE/2kx7+VMYdTlFlVWhazPojjg6NK8U4mJ7iUR1ZZVA0
- ZANhv6BSVYTx222Un0a6CK9GmD6Po6fdSsgiZ/aizS8eGPvdIwIbJcIUkVIfFlq+TAjG
- BtJ4SSNOkTfiizukt/f7XyGJ0itp05e80qUoE2vcSgfCEoyW7MCMWKuL/7RvNrmSVYE7
- 2+CpDPvvZnkVn2E0sGNMujCbh+BM/YGHhaLUw2uDKLCQXeFkD4FkZ4rVy5yyxoodBFE0
- YPO/Qmd92oZJilhVMa0QTB5k8kbSjwhCxKsgavTVVtykgF43ptWvEI+ksWiXZd1CvJrX Ig== 
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k7n8dsftg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 16 Oct 2022 03:05:39 +0000
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29G35aOp004010;
-	Sun, 16 Oct 2022 03:05:36 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3k7nxntned-1;
-	Sun, 16 Oct 2022 03:05:36 +0000
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29G35Zr4004005;
-	Sun, 16 Oct 2022 03:05:36 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 29G35ZQG004003;
-	Sun, 16 Oct 2022 03:05:35 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 27F72290C; Sun, 16 Oct 2022 11:05:34 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, loic.poulain@linaro.org
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
-        Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH v2] bus: mhi: host: Fix race between channel preparation and M0 event
-Date: Sun, 16 Oct 2022 11:05:32 +0800
-Message-Id: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ogdGhOOy2Onxa2LjLraZNDAvLBnGDxIY
-X-Proofpoint-GUID: ogdGhOOy2Onxa2LjLraZNDAvLBnGDxIY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-15_17,2022-10-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1011
- suspectscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=974 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210160017
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B3A2916
+	for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 16:54:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD04EC433B5;
+	Fri, 28 Oct 2022 16:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666976051;
+	bh=CagHt1YKwrFPw9NQtg1cErC7qHaLnYF/pJpMHFrobgY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YZCvVBy+vDkYlZMf/7/EGEMNXjyy3syl32922bEgQN1M1C36tEVngOnb1IlPUKXaY
+	 wSHlRtWrfGlshaalXeNuf9OC1wFi91GF/zFU8FRIIteQwV4XBD8vvDnUdDRZCdBr8Z
+	 UluKjSLTSKuB8OA2wNwxNwaSEDwO6iZALGwhE/z3DxBY7cgJBIwCDojZ7A32ChZPm2
+	 1uj+y0rIstBtFf3KBnLeIoxLOljEtHgTP6eP4zlIL9ZUIgHHzAX+BMJ2Riqn8SMFr+
+	 HBlQqwfiL2UeHMVKCe9JZBueFJtrk48+E43D/o+CetvRJwTvVTEGSP+gQ5bAhXJNCH
+	 RIBOi4AOUoGYQ==
+Date: Fri, 28 Oct 2022 22:24:01 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: mani@kernel.org, loic.poulain@linaro.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, mrana@quicinc.com
+Subject: Re: [PATCH v2] bus: mhi: host: Fix race between channel preparation
+ and M0 event
+Message-ID: <20221028165401.GA13880@thinkpad>
+References: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1665889532-13634-1-git-send-email-quic_qianyu@quicinc.com>
 
-There is a race condition where mhi_prepare_channel() updates the
-read and write pointers as the base address and in parallel, if
-an M0 transition occurs, the tasklet goes ahead and rings
-doorbells for all channels with a delta in TRE rings assuming
-they are already enabled. This causes a null pointer access. Fix
-it by adding a channel enabled check before ringing channel
-doorbells.
+On Sun, Oct 16, 2022 at 11:05:32AM +0800, Qiang Yu wrote:
+> There is a race condition where mhi_prepare_channel() updates the
+> read and write pointers as the base address and in parallel, if
+> an M0 transition occurs, the tasklet goes ahead and rings
+> doorbells for all channels with a delta in TRE rings assuming
+> they are already enabled. This causes a null pointer access. Fix
+> it by adding a channel enabled check before ringing channel
+> doorbells.
+> 
+> Fixes: a6e2e3522f29 "bus: mhi: core: Add support for PM state transitions"
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-Fixes: a6e2e3522f29 "bus: mhi: core: Add support for PM state transitions"
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
-v1->v2: add Fixes tags
+Can you also CC stable list for backporting?
 
- drivers/bus/mhi/host/pm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index 4a42186..0834590 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
- 		read_lock_irq(&mhi_chan->lock);
- 
- 		/* Only ring DB if ring is not empty */
--		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
-+		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
-+		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
- 			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
- 		read_unlock_irq(&mhi_chan->lock);
- 	}
+Thanks,
+Mani
+
+> ---
+> v1->v2: add Fixes tags
+> 
+>  drivers/bus/mhi/host/pm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 4a42186..0834590 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -301,7 +301,8 @@ int mhi_pm_m0_transition(struct mhi_controller *mhi_cntrl)
+>  		read_lock_irq(&mhi_chan->lock);
+>  
+>  		/* Only ring DB if ring is not empty */
+> -		if (tre_ring->base && tre_ring->wp  != tre_ring->rp)
+> +		if (tre_ring->base && tre_ring->wp  != tre_ring->rp &&
+> +		    mhi_chan->ch_state == MHI_CH_STATE_ENABLED)
+>  			mhi_ring_chan_db(mhi_cntrl, mhi_chan);
+>  		read_unlock_irq(&mhi_chan->lock);
+>  	}
+> -- 
+> 2.7.4
+> 
+> 
+
 -- 
-2.7.4
-
+மணிவண்ணன் சதாசிவம்
