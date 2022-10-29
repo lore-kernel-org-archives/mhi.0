@@ -1,90 +1,107 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E4015B3
-	for <mhi@lists.linux.dev>; Sat, 29 Oct 2022 03:47:50 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id l6so6233095pjj.0
-        for <mhi@lists.linux.dev>; Fri, 28 Oct 2022 20:47:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589315AD
+	for <mhi@lists.linux.dev>; Sat, 29 Oct 2022 13:19:55 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso12300125pjc.0
+        for <mhi@lists.linux.dev>; Sat, 29 Oct 2022 06:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pHHuVIPCzYs7vFmo8UtoBL7CxgkvRSRe5+6DkfW68II=;
-        b=I4+9NGTpHkN9TQzvwFMlgL1TXIJuXtWwAqK78qqc3zF+sNmjB3S55ZfzRd49mF2xlC
-         Z+gZl2Vyoe25nuhYnO3/mw4dYexkH4PUoS+YSooCQPyH2dWOL19alcDoIuf0EHAxsoYS
-         WfuO/3lml48WNuWYE3wBzChjkYcaMWFWPh6TwzIQKr9JXiQNMMUaetRgHFrpZeunWwqY
-         mDn9/MzQeW2Lo9qve8OSQyup1FwEJ9v0zPu8jaQFThOy+gpd8I96JgYwMdsNBGeI8zsn
-         NXzGRFZjXW6YP7u7LSifJhNMCddWJ9hYIO/jO5jgBxehUiDy2kttBUf5i6lk9kRYf0kO
-         i3mw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M9U/vzPhxneGrDLg9eA7v9NIcEn0AHq6pgQwYzxT54k=;
+        b=aqo2Meb5Moj17hEc6Y/7TkomJfxRLzzGc2hdB/Al0AS8RFKyn7TI1sIgt3G/HXOu6X
+         mOBPXYiDTJM5u82X0GtC5Ea2lRmbchL+n6qcXUBnCPbRZ9yyFifukdoo/zk1emjMaU9F
+         JZH9c8bPQI5CNy1kIXQyaTBp+NXVJo1cvtQ96Kn0au+Yz2lmBVAfxypxJrqVv/x2FSpT
+         9E/APOrND4Mt6FozX53P2yY1C1VYDfxdoS33F+QjUn6Y/hlU7wmPWANZEAouPSuxec7N
+         YKe4ShGpZzedm7JlVhxJW2vUavIMRV3Msn9Tp0iLxwgt9MnMmyvSNbL2DuROg/vZni7u
+         4xPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHHuVIPCzYs7vFmo8UtoBL7CxgkvRSRe5+6DkfW68II=;
-        b=crafoJ6JhcpJdmfG9ruVHUDE0kpjBRFFE2ENEeLrAQdIEfflNh7NuXwjDejQIKX+9X
-         euSubF/wu1n4RU8Kq5HdoCpiAobuEKDjWGD77m04PjqAXQxSa+4kNl5a2ZfLkMI5xwr6
-         tPbvDGPlPo4/I+JfcZbXnsrwQIDYOPnw7eCyxUjHB13iequlhnnTnot4CU2yhAug+DYK
-         hBuxqhQIiZyUoe/T4wwOzuu1Vqu+UqdNE5sCuXGVM3bQT3RqfSrjtf4qj0ql9iyUj3kG
-         baZboi83z11apuCT6zXuKnjnWGB9tIkJmWo+cCGFC9jYdYrwUoJtUrxFG06yGzFupsj3
-         ldCw==
-X-Gm-Message-State: ACrzQf3gm0C3Xk6Mj74yu315WDcu5UBxjOBB+ha3Afc1SSUeKmB39JFK
-	Tabazf+t7EppRVrOvP/vYMXOTIfaqqDn
-X-Google-Smtp-Source: AMsMyM5Zcg3AuhBsfjwRtrcFrektA3tWfdXZQtZBW8NNlwtdTNgJimcz25+wKdzPhml1gPJQufMDzg==
-X-Received: by 2002:a17:90b:17c3:b0:213:2578:e5ce with SMTP id me3-20020a17090b17c300b002132578e5cemr20042047pjb.231.1667015269407;
-        Fri, 28 Oct 2022 20:47:49 -0700 (PDT)
-Received: from thinkpad ([59.92.103.167])
-        by smtp.gmail.com with ESMTPSA id y28-20020a634b1c000000b004393c5a8006sm195286pga.75.2022.10.28.20.47.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 20:47:48 -0700 (PDT)
-Date: Sat, 29 Oct 2022 09:17:43 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Remove Hemant from MHI bus
-Message-ID: <20221029034743.GA5362@thinkpad>
-References: <20221028174257.52525-1-manivannan.sadhasivam@linaro.org>
+        bh=M9U/vzPhxneGrDLg9eA7v9NIcEn0AHq6pgQwYzxT54k=;
+        b=An0c6zKDaMLxK+oZNdjMIpNvzMCzJqmC70ecIISNvEWb6GGwYAwd2Pugxx5o31gwEm
+         jNLrY7Hir7fbqrAUGTSb/RNARFa7RMHuLTwtPWTup+lekMaSdX+BQ0EdUNCvp+yV11OK
+         6qfnoiChHzaPhLM/7UmPtvBe+NPj8FDyaMoSlYvGb4Dn9+Ol3AM8J5H9zjrQj5/YaYFN
+         W4afLNJBg2YIRKzdGH5CzIoB5hQs8L9G9eEnnuk7GlaaQJotFEZ4I2+1afQa4KKEMKuf
+         lbP0YP1Inre9wfaR8DUtaMXGpEISH1U86zKLChy8amjMhAzbDeVGFkyWu4ywNspEUw1p
+         nC2A==
+X-Gm-Message-State: ACrzQf1+NUe+EgxWQSh0mutViqUI8xunIUcP2awbh+CMGOOcmH8lXawf
+	F38mk/D7iOCKCjevKV4D/mM=
+X-Google-Smtp-Source: AMsMyM4zvUpFj8Qt3nmWPcEjZFKu7ljsz/Qkg8vILPPVwvDB7UszdiL7bmQvzjRG7zxsx/G7zh6Nvw==
+X-Received: by 2002:a17:90b:4d84:b0:212:c78f:8d6e with SMTP id oj4-20020a17090b4d8400b00212c78f8d6emr4591084pjb.201.1667049595228;
+        Sat, 29 Oct 2022 06:19:55 -0700 (PDT)
+Received: from [0.0.0.0] (107.182.18.67.16clouds.com. [107.182.18.67])
+        by smtp.gmail.com with ESMTPSA id q16-20020a17090311d000b001745662d568sm1246525plh.278.2022.10.29.06.19.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 Oct 2022 06:19:54 -0700 (PDT)
+Message-ID: <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
+Date: Sat, 29 Oct 2022 21:19:46 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH RESEND] bus: mhi: host: pci_generic: Add HP variant of
+ T99W175
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev, manivannan.sadhasivam@linaro.org,
+ quic_hemantk@quicinc.com
+References: <676290c3-0435-d85c-99dc-084f120ee04c@gmail.com>
+ <20221028172704.GE13880@thinkpad>
+Content-Language: en-US
+From: Song Fuchang <song.fc@gmail.com>
+In-Reply-To: <20221028172704.GE13880@thinkpad>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221028174257.52525-1-manivannan.sadhasivam@linaro.org>
 
-On Fri, Oct 28, 2022 at 11:12:57PM +0530, Manivannan Sadhasivam wrote:
-> Hemant moved out of Qualcomm and expressed his wish to not continue doing
-> any reviews for MHI patches. So let's remove him from MAINTAINERS file.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Hello, this modem is really a T99W175, but the vendor id 03f0 is for HP 
+Inc. It also has some HP-specific serial numbers printed on its case.
 
-Applied to mhi-next!
+Output of lspci for this modem:
 
-Thanks,
-Mani
+01:00.0 Wireless controller [0d40]: Device 03f0:0a6c
 
-> ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cf0f18502372..ad9279218885 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13395,7 +13395,6 @@ F:	arch/arm64/boot/dts/marvell/armada-3720-uDPU.dts
->  
->  MHI BUS
->  M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> -R:	Hemant Kumar <quic_hemantk@quicinc.com>
->  L:	mhi@lists.linux.dev
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
-> -- 
-> 2.25.1
-> 
+I don't know why the HP's variant uses a different VID, maybe some 
+business decisions? Though it works well with this driver on my laptop.
 
--- 
-மணிவண்ணன் சதாசிவம்
+Thanks!
+
+在 2022/10/29 01:27, Manivannan Sadhasivam 写道:
+> On Sun, Oct 09, 2022 at 11:34:39AM +0800, Song Fuchang wrote:
+>> The foxconn T99W175 has an HP variant, so add support for it to the
+>> pci_generic driver.
+>>
+>> Signed-off-by: Song Fuchang<song.fc@gmail.com>
+>> ---
+>>   drivers/bus/mhi/host/pci_generic.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/bus/mhi/host/pci_generic.c
+>> b/drivers/bus/mhi/host/pci_generic.c
+>> index 9e545f2a5a26..650e8b9c26ad 100644
+>> --- a/drivers/bus/mhi/host/pci_generic.c
+>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>> @@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>>       /* MV32-WB (Cinterion) */
+>>       { PCI_DEVICE(0x1269, 0x00bb),
+>>           .driver_data = (kernel_ulong_t) &mhi_mv32_info },
+>> +    /* T99W175 (sdx55), HP variant */
+>> +    { PCI_DEVICE(0x03f0, 0x0a6c),
+> Why a new VID for this modem? Other T99W series modems are using PCI_VENDOR_ID_FOXCONN.
+>
+> Thanks,
+> Mani
+>
+>> +        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+>>       {  }
+>>   };
+>>   MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+>> -- 2.37.3
+>>
