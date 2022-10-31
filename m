@@ -1,107 +1,67 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589315AD
-	for <mhi@lists.linux.dev>; Sat, 29 Oct 2022 13:19:55 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso12300125pjc.0
-        for <mhi@lists.linux.dev>; Sat, 29 Oct 2022 06:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M9U/vzPhxneGrDLg9eA7v9NIcEn0AHq6pgQwYzxT54k=;
-        b=aqo2Meb5Moj17hEc6Y/7TkomJfxRLzzGc2hdB/Al0AS8RFKyn7TI1sIgt3G/HXOu6X
-         mOBPXYiDTJM5u82X0GtC5Ea2lRmbchL+n6qcXUBnCPbRZ9yyFifukdoo/zk1emjMaU9F
-         JZH9c8bPQI5CNy1kIXQyaTBp+NXVJo1cvtQ96Kn0au+Yz2lmBVAfxypxJrqVv/x2FSpT
-         9E/APOrND4Mt6FozX53P2yY1C1VYDfxdoS33F+QjUn6Y/hlU7wmPWANZEAouPSuxec7N
-         YKe4ShGpZzedm7JlVhxJW2vUavIMRV3Msn9Tp0iLxwgt9MnMmyvSNbL2DuROg/vZni7u
-         4xPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M9U/vzPhxneGrDLg9eA7v9NIcEn0AHq6pgQwYzxT54k=;
-        b=An0c6zKDaMLxK+oZNdjMIpNvzMCzJqmC70ecIISNvEWb6GGwYAwd2Pugxx5o31gwEm
-         jNLrY7Hir7fbqrAUGTSb/RNARFa7RMHuLTwtPWTup+lekMaSdX+BQ0EdUNCvp+yV11OK
-         6qfnoiChHzaPhLM/7UmPtvBe+NPj8FDyaMoSlYvGb4Dn9+Ol3AM8J5H9zjrQj5/YaYFN
-         W4afLNJBg2YIRKzdGH5CzIoB5hQs8L9G9eEnnuk7GlaaQJotFEZ4I2+1afQa4KKEMKuf
-         lbP0YP1Inre9wfaR8DUtaMXGpEISH1U86zKLChy8amjMhAzbDeVGFkyWu4ywNspEUw1p
-         nC2A==
-X-Gm-Message-State: ACrzQf1+NUe+EgxWQSh0mutViqUI8xunIUcP2awbh+CMGOOcmH8lXawf
-	F38mk/D7iOCKCjevKV4D/mM=
-X-Google-Smtp-Source: AMsMyM4zvUpFj8Qt3nmWPcEjZFKu7ljsz/Qkg8vILPPVwvDB7UszdiL7bmQvzjRG7zxsx/G7zh6Nvw==
-X-Received: by 2002:a17:90b:4d84:b0:212:c78f:8d6e with SMTP id oj4-20020a17090b4d8400b00212c78f8d6emr4591084pjb.201.1667049595228;
-        Sat, 29 Oct 2022 06:19:55 -0700 (PDT)
-Received: from [0.0.0.0] (107.182.18.67.16clouds.com. [107.182.18.67])
-        by smtp.gmail.com with ESMTPSA id q16-20020a17090311d000b001745662d568sm1246525plh.278.2022.10.29.06.19.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Oct 2022 06:19:54 -0700 (PDT)
-Message-ID: <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
-Date: Sat, 29 Oct 2022 21:19:46 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B60181
+	for <mhi@lists.linux.dev>; Mon, 31 Oct 2022 08:35:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFCA2C433D6;
+	Mon, 31 Oct 2022 08:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667205300;
+	bh=ASH/N1PVIAa5px2h9gfzwh2e654dPXGg/S3FbL5wbv4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XI6nb058S4gn/MfB1GMCiXnCkhiurD4TA1q6ITQAL3PS2bd8X6l2V7RUBQ+TntPzN
+	 MS9intDVVcO9DcbYqIlUM8zdBn0D2tDgyzfvVtzYIQUUlIEMkxg9qug3fRwxcOEdds
+	 Qi2qJx2aMrMVMDLNyC14FZJtree3RUvhiOyl9jk594kjORjMoVM78VG3+iZ0fTqhZM
+	 vJVUT5wyaKh2eHAIvPVN3kjCAuxL4OnDAgpFp7LaolO8NGq7aEqmQhgAaMPzhAyktZ
+	 nmwXWf8i37fJ5JpkoSNwc4VCkYRLpsZB98hs4SmEjpSANNifXqNf1s2sh6bZAAgTn7
+	 iSUIRT92PdtSQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1opQFq-0004wG-G3; Mon, 31 Oct 2022 09:34:46 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Hemant Kumar <quic_hemantk@quicinc.com>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH] mhi: pci_generic: add support for sc8280xp-crd SDX55 variant
+Date: Mon, 31 Oct 2022 09:34:29 +0100
+Message-Id: <20221031083429.18971-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH RESEND] bus: mhi: host: pci_generic: Add HP variant of
- T99W175
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: mhi@lists.linux.dev, manivannan.sadhasivam@linaro.org,
- quic_hemantk@quicinc.com
-References: <676290c3-0435-d85c-99dc-084f120ee04c@gmail.com>
- <20221028172704.GE13880@thinkpad>
-Content-Language: en-US
-From: Song Fuchang <song.fc@gmail.com>
-In-Reply-To: <20221028172704.GE13880@thinkpad>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hello, this modem is really a T99W175, but the vendor id 03f0 is for HP 
-Inc. It also has some HP-specific serial numbers printed on its case.
+The SC8280XP Compute Reference Design (CRD) has an on-PCB SDX55 modem
+which uses MBIM.
 
-Output of lspci for this modem:
+The exact channel configuration is not known but the Foxconn SDX55
+configuration allows the modem to be used so reuse that one for now.
 
-01:00.0 Wireless controller [0d40]: Device 03f0:0a6c
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I don't know why the HP's variant uses a different VID, maybe some 
-business decisions? Though it works well with this driver on my laptop.
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index caa4ce28cf9e..f9f4345d472d 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -542,6 +542,9 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
+ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
++	/* SC8280XP-CRD (sdx55) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+ 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
+ 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
+ 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+-- 
+2.37.3
 
-Thanks!
-
-在 2022/10/29 01:27, Manivannan Sadhasivam 写道:
-> On Sun, Oct 09, 2022 at 11:34:39AM +0800, Song Fuchang wrote:
->> The foxconn T99W175 has an HP variant, so add support for it to the
->> pci_generic driver.
->>
->> Signed-off-by: Song Fuchang<song.fc@gmail.com>
->> ---
->>   drivers/bus/mhi/host/pci_generic.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/bus/mhi/host/pci_generic.c
->> b/drivers/bus/mhi/host/pci_generic.c
->> index 9e545f2a5a26..650e8b9c26ad 100644
->> --- a/drivers/bus/mhi/host/pci_generic.c
->> +++ b/drivers/bus/mhi/host/pci_generic.c
->> @@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->>       /* MV32-WB (Cinterion) */
->>       { PCI_DEVICE(0x1269, 0x00bb),
->>           .driver_data = (kernel_ulong_t) &mhi_mv32_info },
->> +    /* T99W175 (sdx55), HP variant */
->> +    { PCI_DEVICE(0x03f0, 0x0a6c),
-> Why a new VID for this modem? Other T99W series modems are using PCI_VENDOR_ID_FOXCONN.
->
-> Thanks,
-> Mani
->
->> +        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
->>       {  }
->>   };
->>   MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
->> -- 2.37.3
->>
