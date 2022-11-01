@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76FD7E
-	for <mhi@lists.linux.dev>; Tue,  1 Nov 2022 11:43:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EABCC433D6;
-	Tue,  1 Nov 2022 11:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC3A7E
+	for <mhi@lists.linux.dev>; Tue,  1 Nov 2022 11:44:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E73C433D6;
+	Tue,  1 Nov 2022 11:44:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302990;
-	bh=JcTrk/RF3JsSWeq8eah3J59uSDdXRqqd/gbzuT/lHpY=;
+	s=k20201202; t=1667303092;
+	bh=7gwTNaunjFo8HfcZYaWszNB8IHx8W1LUONJCI5yJcVg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a3mID94cJ3Uf66O/Er1AuJ2n2fP8Juk9Mke++TzbpWqT+GlPVBWScoFqGkUhnOGTE
-	 RUxC/6WBn0mEPtil+qH7v9Rq8Q7ajYjGlkio6GdRzM+TSfad1OZ4tnZD8+j1c833Wx
-	 OQIXkmKCT8LEAnF7KdpiyL2pC+jNKjukCYvXCJBa2beuQSviG0gi9/6C6WWaL72nKO
-	 IkXc5zfDwBG7FVDrmG2OdAPzVXubjFbdSXiTNK28Svlwial8hUHqzojEXRgVRdHEaX
-	 r3spBnNvNyoYwAMAcwgRcmD9lwbHttvagFsV5pkgU9DhwdaqqDh7473lCmpeBGPuNd
-	 SHKGLDCaLHRYg==
-Date: Tue, 1 Nov 2022 17:12:58 +0530
+	b=riT0cVS5esTODyFKMzdfWir9w0vqCNd52GWk17/mPevL+9X9eGXNyun4u9rOBX9hZ
+	 1gL7ONVPLtzMHVbL/gaQ+bPa848mThLiF9tLSHw4YxrERQHjB6lsXlCfJztLskDPQ2
+	 exq7jBH5I2uCZag6kCqUNQDeHD+zaSBV9CkvCFZFQD7VZRqr5vXwU4CZ1g8+SProhV
+	 3o1qwfVAUp0wpX+NXvHhQjq5/xanoURruyIvRkIM0KdcOytgg6cpGrZTYn36QPM4kS
+	 rLdgeJHiTqu7sM+4A/YVRYsUVYiL/jlP7ehyi7NZ4CnfrG0saIVWu+B5LobU6N3fWr
+	 tbPcGvQR6Uyig==
+Date: Tue, 1 Nov 2022 17:14:41 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Hemant Kumar <quic_hemantk@quicinc.com>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mhi: pci_generic: add support for sc8280xp-crd SDX55
- variant
-Message-ID: <20221101114258.GB54667@thinkpad>
-References: <20221031083429.18971-1-johan+linaro@kernel.org>
+To: Song Fuchang <song.fc@gmail.com>
+Cc: mhi@lists.linux.dev, manivannan.sadhasivam@linaro.org,
+	quic_hemantk@quicinc.com
+Subject: Re: [PATCH RESEND] bus: mhi: host: pci_generic: Add HP variant of
+ T99W175
+Message-ID: <20221101114441.GC54667@thinkpad>
+References: <676290c3-0435-d85c-99dc-084f120ee04c@gmail.com>
+ <20221028172704.GE13880@thinkpad>
+ <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -34,48 +35,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221031083429.18971-1-johan+linaro@kernel.org>
+In-Reply-To: <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
 
-On Mon, Oct 31, 2022 at 09:34:29AM +0100, Johan Hovold wrote:
-> The SC8280XP Compute Reference Design (CRD) has an on-PCB SDX55 modem
-> which uses MBIM.
+On Sat, Oct 29, 2022 at 09:19:46PM +0800, Song Fuchang wrote:
+> Hello, this modem is really a T99W175, but the vendor id 03f0 is for HP Inc.
+> It also has some HP-specific serial numbers printed on its case.
 > 
-> The exact channel configuration is not known but the Foxconn SDX55
-> configuration allows the modem to be used so reuse that one for now.
+> Output of lspci for this modem:
 > 
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
+> 01:00.0 Wireless controller [0d40]: Device 03f0:0a6c
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index caa4ce28cf9e..f9f4345d472d 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -542,6 +542,9 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
->  static const struct pci_device_id mhi_pci_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
-> +	/* SC8280XP-CRD (sdx55) */
+> I don't know why the HP's variant uses a different VID, maybe some business
+> decisions? Though it works well with this driver on my laptop.
+> 
 
-Platform device name is not needed.
-
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
-
-Sub ID looks wierd. Did you test with mhi_qcom_sdx55_info? If it didn't
-work, what was the issue?
+Okay, thanks for the clarification. Could you please add these info to the
+commit message for the record?
 
 Thanks,
 Mani
 
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
->  	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
->  		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
-> -- 
-> 2.37.3
+> Thanks!
 > 
-> 
+> 在 2022/10/29 01:27, Manivannan Sadhasivam 写道:
+> > On Sun, Oct 09, 2022 at 11:34:39AM +0800, Song Fuchang wrote:
+> > > The foxconn T99W175 has an HP variant, so add support for it to the
+> > > pci_generic driver.
+> > > 
+> > > Signed-off-by: Song Fuchang<song.fc@gmail.com>
+> > > ---
+> > >   drivers/bus/mhi/host/pci_generic.c | 3 +++
+> > >   1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/pci_generic.c
+> > > b/drivers/bus/mhi/host/pci_generic.c
+> > > index 9e545f2a5a26..650e8b9c26ad 100644
+> > > --- a/drivers/bus/mhi/host/pci_generic.c
+> > > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > > @@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> > >       /* MV32-WB (Cinterion) */
+> > >       { PCI_DEVICE(0x1269, 0x00bb),
+> > >           .driver_data = (kernel_ulong_t) &mhi_mv32_info },
+> > > +    /* T99W175 (sdx55), HP variant */
+> > > +    { PCI_DEVICE(0x03f0, 0x0a6c),
+> > Why a new VID for this modem? Other T99W series modems are using PCI_VENDOR_ID_FOXCONN.
+> > 
+> > Thanks,
+> > Mani
+> > 
+> > > +        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+> > >       {  }
+> > >   };
+> > >   MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+> > > -- 2.37.3
+> > > 
 
 -- 
 மணிவண்ணன் சதாசிவம்
