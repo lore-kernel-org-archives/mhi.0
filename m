@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC3A7E
-	for <mhi@lists.linux.dev>; Tue,  1 Nov 2022 11:44:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E73C433D6;
-	Tue,  1 Nov 2022 11:44:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364687E
+	for <mhi@lists.linux.dev>; Tue,  1 Nov 2022 11:46:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E161DC433D6;
+	Tue,  1 Nov 2022 11:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667303092;
-	bh=7gwTNaunjFo8HfcZYaWszNB8IHx8W1LUONJCI5yJcVg=;
+	s=k20201202; t=1667303165;
+	bh=a8xt1T5Uay9NpOBwXLmpdOHdQGFiCZzWC7ujs3LyI4E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=riT0cVS5esTODyFKMzdfWir9w0vqCNd52GWk17/mPevL+9X9eGXNyun4u9rOBX9hZ
-	 1gL7ONVPLtzMHVbL/gaQ+bPa848mThLiF9tLSHw4YxrERQHjB6lsXlCfJztLskDPQ2
-	 exq7jBH5I2uCZag6kCqUNQDeHD+zaSBV9CkvCFZFQD7VZRqr5vXwU4CZ1g8+SProhV
-	 3o1qwfVAUp0wpX+NXvHhQjq5/xanoURruyIvRkIM0KdcOytgg6cpGrZTYn36QPM4kS
-	 rLdgeJHiTqu7sM+4A/YVRYsUVYiL/jlP7ehyi7NZ4CnfrG0saIVWu+B5LobU6N3fWr
-	 tbPcGvQR6Uyig==
-Date: Tue, 1 Nov 2022 17:14:41 +0530
+	b=qURshmvKeB8E2t/oIPTGsnh0Udh6UOT3w52nnQGF6gaemKL14K8svBmxsqAcHsCqb
+	 wel1ZZUlgIAJWu65ghln+yTwCahK0ucC77KLV2T5LNIhh8ZWgCRirrEqXGMvGj3XZq
+	 Q/ftj0KKcY3hWSfikw2xk51LQAMSrvZpExcoIMDq5dX9EpJMSEKxh+Rnda9mImDiOS
+	 jv6h6umxXe9JepBzvutst+9/Yqtwx8qUWLtirN/DDEx/HBEVJvvoRKMCCD9I1bpVvc
+	 9s9G17/W+SEtPmEIH32kl9fonlJfUSVxsCwwsawWx0b0vZzu0MDk95RIR/SIVwoDKC
+	 dbkcWj+GqBtyQ==
+Date: Tue, 1 Nov 2022 17:15:54 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Song Fuchang <song.fc@gmail.com>
-Cc: mhi@lists.linux.dev, manivannan.sadhasivam@linaro.org,
-	quic_hemantk@quicinc.com
-Subject: Re: [PATCH RESEND] bus: mhi: host: pci_generic: Add HP variant of
- T99W175
-Message-ID: <20221101114441.GC54667@thinkpad>
-References: <676290c3-0435-d85c-99dc-084f120ee04c@gmail.com>
- <20221028172704.GE13880@thinkpad>
- <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: quic_hemantk@quicinc.com, loic.poulain@linaro.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, mrana@quicinc.com
+Subject: Re: [PATCH] bus: mhi: host: Add session ID to MHI controller
+Message-ID: <20221101114554.GD54667@thinkpad>
+References: <1665376870-60668-1-git-send-email-quic_qianyu@quicinc.com>
+ <20221028172022.GC13880@thinkpad>
+ <7dc5b87a-1413-f7cb-4fdc-93828252c4f1@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -35,60 +35,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c93e208-3d2e-2884-21a6-efebc1812e8c@gmail.com>
+In-Reply-To: <7dc5b87a-1413-f7cb-4fdc-93828252c4f1@quicinc.com>
 
-On Sat, Oct 29, 2022 at 09:19:46PM +0800, Song Fuchang wrote:
-> Hello, this modem is really a T99W175, but the vendor id 03f0 is for HP Inc.
-> It also has some HP-specific serial numbers printed on its case.
+On Mon, Oct 31, 2022 at 04:54:55PM +0800, Qiang Yu wrote:
 > 
-> Output of lspci for this modem:
-> 
-> 01:00.0 Wireless controller [0d40]: Device 03f0:0a6c
-> 
-> I don't know why the HP's variant uses a different VID, maybe some business
-> decisions? Though it works well with this driver on my laptop.
-> 
+> On 10/29/2022 1:20 AM, Manivannan Sadhasivam wrote:
+> > On Mon, Oct 10, 2022 at 12:41:10PM +0800, Qiang Yu wrote:
+> > > Session ID to be used during BHI transfers to recognize a
+> > > particular session are currently not being stored in the MHI
+> > > controller structure. Store them to allow for tracking and other
+> > > future usage.
+> > > 
+> > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> > Who/what is going to use this session id?
+> Sometimes, we may find some error logs and want to see what happens on
+> device when host is printing these error logs.
+> Session id can help us find the logs we want.
 
-Okay, thanks for the clarification. Could you please add these info to the
-commit message for the record?
+Okay. Please add this info to the commit message.
 
 Thanks,
 Mani
 
-> Thanks!
-> 
-> 在 2022/10/29 01:27, Manivannan Sadhasivam 写道:
-> > On Sun, Oct 09, 2022 at 11:34:39AM +0800, Song Fuchang wrote:
-> > > The foxconn T99W175 has an HP variant, so add support for it to the
-> > > pci_generic driver.
-> > > 
-> > > Signed-off-by: Song Fuchang<song.fc@gmail.com>
-> > > ---
-> > >   drivers/bus/mhi/host/pci_generic.c | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/bus/mhi/host/pci_generic.c
-> > > b/drivers/bus/mhi/host/pci_generic.c
-> > > index 9e545f2a5a26..650e8b9c26ad 100644
-> > > --- a/drivers/bus/mhi/host/pci_generic.c
-> > > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > > @@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
-> > >       /* MV32-WB (Cinterion) */
-> > >       { PCI_DEVICE(0x1269, 0x00bb),
-> > >           .driver_data = (kernel_ulong_t) &mhi_mv32_info },
-> > > +    /* T99W175 (sdx55), HP variant */
-> > > +    { PCI_DEVICE(0x03f0, 0x0a6c),
-> > Why a new VID for this modem? Other T99W series modems are using PCI_VENDOR_ID_FOXCONN.
 > > 
 > > Thanks,
 > > Mani
 > > 
-> > > +        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
-> > >       {  }
-> > >   };
-> > >   MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
-> > > -- 2.37.3
+> > > ---
+> > >   drivers/bus/mhi/host/boot.c | 8 ++++----
+> > >   include/linux/mhi.h         | 1 +
+> > >   2 files changed, 5 insertions(+), 4 deletions(-)
 > > > 
+> > > diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> > > index 26d0edd..5bed8b51 100644
+> > > --- a/drivers/bus/mhi/host/boot.c
+> > > +++ b/drivers/bus/mhi/host/boot.c
+> > > @@ -231,7 +231,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+> > >   			   dma_addr_t dma_addr,
+> > >   			   size_t size)
+> > >   {
+> > > -	u32 tx_status, val, session_id;
+> > > +	u32 tx_status, val;
+> > >   	int i, ret;
+> > >   	void __iomem *base = mhi_cntrl->bhi;
+> > >   	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+> > > @@ -253,16 +253,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+> > >   		goto invalid_pm_state;
+> > >   	}
+> > > -	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
+> > > +	mhi_cntrl->session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
+> > >   	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
+> > > -		session_id);
+> > > +		mhi_cntrl->session_id);
+> > >   	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
+> > >   	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
+> > >   		      upper_32_bits(dma_addr));
+> > >   	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
+> > >   		      lower_32_bits(dma_addr));
+> > >   	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
+> > > -	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
+> > > +	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, mhi_cntrl->session_id);
+> > >   	read_unlock_bh(pm_lock);
+> > >   	/* Wait for the image download to complete */
+> > > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> > > index a5441ad..8b3c934 100644
+> > > --- a/include/linux/mhi.h
+> > > +++ b/include/linux/mhi.h
+> > > @@ -405,6 +405,7 @@ struct mhi_controller {
+> > >   	u32 minor_version;
+> > >   	u32 serial_number;
+> > >   	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
+> > > +	u32 session_id;
+> > >   	struct mhi_event *mhi_event;
+> > >   	struct mhi_cmd *mhi_cmd;
+> > > -- 
+> > > The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> > > a Linux Foundation Collaborative Project
+> > > 
+> > > 
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
