@@ -1,140 +1,102 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D2E17CD9
-	for <mhi@lists.linux.dev>; Mon, 31 Oct 2022 08:55:10 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 29V8fUT5022303;
-	Mon, 31 Oct 2022 08:55:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2xOEgN8I2ys1RzJQHHjkg8jjAObptFGMUZWOGEDm02A=;
- b=Pkrq+Eq7mSoCx3SlVMyhTmb+8VlX7lUuKT2FyVWHJTZ08uAwJQk8ckcvqzIpTa9CTLUr
- hAkGKA8s0HHxld3UEz4z2fO36F2CqszuCuOc7TBIOj+kftDv/DG61wfmnzzSkbu3UkK4
- DR48qaYnZLfTT/rMJa7DzU7ynPUV84rAbCKaSlZk0kRGbE3RhVOepCOLGZJVIH6nkYJI
- 3rthmEvyRLCoj2LLsoMqib2oOTMf35dQNRokgsybVx/0mzBVRoKILwvoHmX+CTgFRf17
- StHhLvujo1B6ZZSL9iTZ72WGdYlbZGUxzRBoLgrS/MtGuNBfe+do4sYcKscgNqEMjgvj Jw== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kj7msrfev-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Oct 2022 08:55:01 +0000
-Received: from nasanex01a.na.qualcomm.com ([10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29V8t0rL006660
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Oct 2022 08:55:00 GMT
-Received: from [10.253.15.131] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 31 Oct
- 2022 01:54:57 -0700
-Message-ID: <7dc5b87a-1413-f7cb-4fdc-93828252c4f1@quicinc.com>
-Date: Mon, 31 Oct 2022 16:54:55 +0800
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0187D7B
+	for <mhi@lists.linux.dev>; Tue,  1 Nov 2022 02:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=N0hM1
+	nAyAcqMRYO7veUovn/zmY6ZVwxa+Voc4ePVpJI=; b=IYAMurcCVuXtOuUl63xR5
+	kHW1ymWFPAyu2WW1rHRe4sznEJAGjEV18jCrgVqI4Fz4nWpePH3QsrqvuycjlHRc
+	P1azNnpe3w7hYH+yXSxDLvX22eBaSULt+De6bDjccVFWGoJPyYlTRacFSK9HwqYo
+	Vc5qJwGN99zEyrT+NkHNwo=
+Received: from jbd-ThinkPad-X1-Nano-Gen-1.. (unknown [223.104.68.52])
+	by smtp7 (Coremail) with SMTP id C8CowABnLfJlfWBjwnq9PA--.32038S2;
+	Tue, 01 Nov 2022 09:59:02 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org,
+	quic_hemantk@quicinc.com,
+	bhelgaas@google.com,
+	loic.poulain@linaro.org
+Cc: dnlplm@gmail.com,
+	yonglin.tan@outlook.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH v3] PCI: Add vendor ID for THALES
+Date: Tue,  1 Nov 2022 09:58:58 +0800
+Message-Id: <20221101015858.6777-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] bus: mhi: host: Add session ID to MHI controller
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_hemantk@quicinc.com>, <loic.poulain@linaro.org>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <mrana@quicinc.com>
-References: <1665376870-60668-1-git-send-email-quic_qianyu@quicinc.com>
- <20221028172022.GC13880@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <20221028172022.GC13880@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: z7WyHsPObml9g3lJeo6Hmw9O55Sh9jZU
-X-Proofpoint-ORIG-GUID: z7WyHsPObml9g3lJeo6Hmw9O55Sh9jZU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-31_06,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210310056
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:C8CowABnLfJlfWBjwnq9PA--.32038S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KrWDWr45uFyDWF1rAw4DXFb_yoW5Jr4xpF
+	s0krW0yF4kJF4Ut3yvyF9ruF95Aa1DCFy5Kwn3Kw1F9F4Dta1Fgrn7ur4YvFyakayvqrWa
+	qF1Du3yqgayqyaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEuc_UUUUUU=
+X-Originating-IP: [223.104.68.52]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCdQ+sZGBbF-yaewAAsD
 
+In MHI driver, there are some companies' product still do not have their
+own PCI vendor macro. So we add it here to make the code neat. Ref ID
+could be found in link https://pcisig.com/membership/member-companies.
+We must clear that CINTERION belongs to THALES in case confusing user.
+There are some descriptions about that in below link:
+https://www.thalesgroup.com/en/markets/digital-identity-and-security/iot/iot-connectivity/products
 
-On 10/29/2022 1:20 AM, Manivannan Sadhasivam wrote:
-> On Mon, Oct 10, 2022 at 12:41:10PM +0800, Qiang Yu wrote:
->> Session ID to be used during BHI transfers to recognize a
->> particular session are currently not being stored in the MHI
->> controller structure. Store them to allow for tracking and other
->> future usage.
->>
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-> Who/what is going to use this session id?
-Sometimes, we may find some error logs and want to see what happens on 
-device when host is printing these error logs.
-Session id can help us find the logs we want.
->
-> Thanks,
-> Mani
->
->> ---
->>   drivers/bus/mhi/host/boot.c | 8 ++++----
->>   include/linux/mhi.h         | 1 +
->>   2 files changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
->> index 26d0edd..5bed8b51 100644
->> --- a/drivers/bus/mhi/host/boot.c
->> +++ b/drivers/bus/mhi/host/boot.c
->> @@ -231,7 +231,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
->>   			   dma_addr_t dma_addr,
->>   			   size_t size)
->>   {
->> -	u32 tx_status, val, session_id;
->> +	u32 tx_status, val;
->>   	int i, ret;
->>   	void __iomem *base = mhi_cntrl->bhi;
->>   	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
->> @@ -253,16 +253,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
->>   		goto invalid_pm_state;
->>   	}
->>   
->> -	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
->> +	mhi_cntrl->session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
->>   	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
->> -		session_id);
->> +		mhi_cntrl->session_id);
->>   	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
->>   	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
->>   		      upper_32_bits(dma_addr));
->>   	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
->>   		      lower_32_bits(dma_addr));
->>   	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
->> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
->> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, mhi_cntrl->session_id);
->>   	read_unlock_bh(pm_lock);
->>   
->>   	/* Wait for the image download to complete */
->> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
->> index a5441ad..8b3c934 100644
->> --- a/include/linux/mhi.h
->> +++ b/include/linux/mhi.h
->> @@ -405,6 +405,7 @@ struct mhi_controller {
->>   	u32 minor_version;
->>   	u32 serial_number;
->>   	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
->> +	u32 session_id;
->>   
->>   	struct mhi_event *mhi_event;
->>   	struct mhi_cmd *mhi_cmd;
->> -- 
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
->>
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+v3: Separate different vendors into different patch, and change macro
+from CINTERION to THALES.
+
+v2: Update vendor ID to the right location sorted by numeric value.
+---
+ drivers/bus/mhi/host/pci_generic.c | 8 ++++----
+ include/linux/pci_ids.h            | 2 ++
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index caa4ce28cf9e..3ad39f5ac63b 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -583,16 +583,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
+ 	/* MV31-W (Cinterion) */
+-	{ PCI_DEVICE(0x1269, 0x00b3),
++	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+ 	/* MV31-W (Cinterion), based on new baseline */
+-	{ PCI_DEVICE(0x1269, 0x00b4),
++	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+ 	/* MV32-WA (Cinterion) */
+-	{ PCI_DEVICE(0x1269, 0x00ba),
++	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+ 	/* MV32-WB (Cinterion) */
+-	{ PCI_DEVICE(0x1269, 0x00bb),
++	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+ 	{  }
+ };
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index b362d90eb9b0..298c8cae66ff 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -1765,6 +1765,8 @@
+ #define PCI_VENDOR_ID_SATSAGEM		0x1267
+ #define PCI_DEVICE_ID_SATSAGEM_NICCY	0x1016
+ 
++#define PCI_VENDOR_ID_THALES		0x1269
++
+ #define PCI_VENDOR_ID_ENSONIQ		0x1274
+ #define PCI_DEVICE_ID_ENSONIQ_CT5880	0x5880
+ #define PCI_DEVICE_ID_ENSONIQ_ES1370	0x5000
+-- 
+2.34.1
+
