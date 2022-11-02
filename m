@@ -1,104 +1,130 @@
-Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7A97E
-	for <mhi@lists.linux.dev>; Wed,  2 Nov 2022 03:01:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=hKxe7n9CGxb+jXW6mT
-	IrCP7AS5ofdViaMasdKQhrBfI=; b=jzh9l9DPAgdUMyshApYODmpJrl+X8+FiZ6
-	RH3H2/vPHFgB+Y8wJ/jUJyPR3uhva/pFau3UnYvSda5fEWsGXWTpW26nUHYwYqyf
-	HmfkuKl8tHnLw9SoasQEzYoB4TIJa5ontxr35wsAfqJWNaYiHbU5HSekjLXlBTpk
-	Fyn54nOgU=
-Received: from localhost.localdomain (unknown [43.134.191.38])
-	by smtp2 (Coremail) with SMTP id GtxpCgC3Utag2WFjidLwqA--.28382S2;
-	Wed, 02 Nov 2022 10:44:50 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	gregkh@linuxfoundation.org,
-	loic.poulain@linaro.org
-Cc: dnlplm@gmail.com,
-	yonglin.tan@outlook.com,
-	fabio.porcedda@gmail.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add macro for some vids
-Date: Wed,  2 Nov 2022 10:44:37 +0800
-Message-Id: <20221102024437.15248-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:GtxpCgC3Utag2WFjidLwqA--.28382S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxur1kGry8Zw1DWr17Xr1kKrg_yoW5XFyfpF
-	4Y9rWvvF4Dtr4UKw1vyayDZF95Aa17Cry3K3Wxtw4F9F4qkF4Fgr92vrySyFyaqa4kXrWa
-	qF1DZFWUKa1qyr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziWrW7UUUUU=
-X-Originating-IP: [43.134.191.38]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBDQKtZFaELmhrRwAAs+
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F87B7ED
+	for <mhi@lists.linux.dev>; Wed,  2 Nov 2022 09:42:04 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A29Ivv7010134;
+	Wed, 2 Nov 2022 09:41:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=/QZZc3grguwORo1yJe+PG5HwABOwaG+12JG/N0MDOc4=;
+ b=MdsR+E7VHLfs0sumt1hUK6gVYgfwgsS89uX0HMSy8n/K87FXAWReDQOmMw3NLbdspaB0
+ onJ2YrMa6Cp+qJjbx5oewlcYzyYyff/SsN/tm0VvRWV0jtZJYvvE6Jq9OHCBsucKAuiE
+ ZU6K7+47kvGKWdqA+kJCNiaiVLnzU75xunIbsENru+0u/LZyArwEyXyb0SCPmyRq127r
+ T/x3no2uVE7ChAIUlFZU9W7yCPnnHeOgf4pXJMhHpS/wmDfHv9kOBZm74Iw6dsYf/Pvh
+ 3j4ekeWg319bJdIm6LYueGN2yiKYWdKRbVdGwZLnSriNd87Lo6p/Ye8YSKKuPfGWvb+R ow== 
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkja3ggk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Nov 2022 09:41:55 +0000
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2A29fqgd026445;
+	Wed, 2 Nov 2022 09:41:52 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3khdq7sex1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 02 Nov 2022 09:41:52 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A29fp2u026440;
+	Wed, 2 Nov 2022 09:41:51 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 2A29fpLI026439;
+	Wed, 02 Nov 2022 09:41:51 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id C20ED36CB; Wed,  2 Nov 2022 17:41:49 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, loic.poulain@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
+        Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v2] bus: mhi: host: Add session ID to MHI controller
+Date: Wed,  2 Nov 2022 17:41:47 +0800
+Message-Id: <1667382107-14306-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 2ow7Dv-jBa3d3Ro5nMJVrfijwG-et0e-
+X-Proofpoint-GUID: 2ow7Dv-jBa3d3Ro5nMJVrfijwG-et0e-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-02_06,2022-11-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
+ clxscore=1011 phishscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211020058
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-To make code neat and for convenience purpose, using macro for
-some vids. Refer to previous patch in pci_ids.h side, they are
-not allowed to add new entries of single driver needed. So we
-add it in our local file.
+Session ID to be used during BHI transfers to recognize a
+particular session are currently not being stored in the MHI
+controller structure. Store them to allow for debug enhancement
+described below.
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Sometimes, we may find some error logs and want to see what
+happens on device side when host is printing these error logs.
+Session id can help us find the logs we want on device side
+quickly, especially when we are faced with a huge amount of logs.
+
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 ---
- drivers/bus/mhi/host/pci_generic.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+v1->v2: modify commit message.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index c4259cb2d289..5abc778a5290 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -24,6 +24,10 @@
+ drivers/bus/mhi/host/boot.c | 8 ++++----
+ include/linux/mhi.h         | 1 +
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index 1c69fee..79a0eec 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -229,7 +229,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+ 			   dma_addr_t dma_addr,
+ 			   size_t size)
+ {
+-	u32 tx_status, val, session_id;
++	u32 tx_status, val;
+ 	int i, ret;
+ 	void __iomem *base = mhi_cntrl->bhi;
+ 	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+@@ -251,16 +251,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+ 		goto invalid_pm_state;
+ 	}
  
- #define HEALTH_CHECK_PERIOD (HZ * 2)
+-	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
++	mhi_cntrl->session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
+ 	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
+-		session_id);
++		mhi_cntrl->session_id);
+ 	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
+ 	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
+ 		      upper_32_bits(dma_addr));
+ 	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
+ 		      lower_32_bits(dma_addr));
+ 	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
+-	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
++	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, mhi_cntrl->session_id);
+ 	read_unlock_bh(pm_lock);
  
-+#define PCI_VENDOR_ID_THALES	0x1269
-+
-+#define PCI_VENDOR_ID_QUECTEL	0x1eac
-+
- /**
-  * struct mhi_pci_dev_info - MHI PCI device specific information
-  * @config: MHI controller configuration
-@@ -557,11 +561,11 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
--	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
--	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
--	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
-@@ -585,16 +589,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
- 	/* MV31-W (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00b3),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
- 	/* MV31-W (Cinterion), based on new baseline */
--	{ PCI_DEVICE(0x1269, 0x00b4),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
- 	/* MV32-WA (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00ba),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
- 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
- 	/* MV32-WB (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00bb),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
- 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
- 	{  }
- };
+ 	/* Wait for the image download to complete */
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index a5441ad..8b3c934 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -405,6 +405,7 @@ struct mhi_controller {
+ 	u32 minor_version;
+ 	u32 serial_number;
+ 	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
++	u32 session_id;
+ 
+ 	struct mhi_event *mhi_event;
+ 	struct mhi_cmd *mhi_cmd;
 -- 
-2.17.1
+2.7.4
 
