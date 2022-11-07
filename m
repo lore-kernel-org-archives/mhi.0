@@ -1,97 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97085CB4
-	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 12:07:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EA5C4347C;
-	Mon,  7 Nov 2022 12:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667822876;
-	bh=bAveuJlCOoCX/Gy1WjcK67NcvEunw1tl9ZBr69hFsgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bx6hRpWkz+KS0BVBbB7z+4BGcKQJjYMTFtjXLf8rVoUc1xgfrsbrGSoN5YtpfO6lb
-	 7iqPuH6whzRDBMeVyFtfd3PurimQ57+VZinboN1262PTyDfvRV/A6BRQOeQdfNbmhC
-	 omvL+UHuWpSNLros6gHSEUCskf1PRduWCclh1S1o=
-Date: Mon, 7 Nov 2022 13:07:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: mani@kernel.org, loic.poulain@linaro.org, dnlplm@gmail.com,
-	yonglin.tan@outlook.com, fabio.porcedda@gmail.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v2] bus: mhi: host: pci_generic: Add macro for
- some VIDs
-Message-ID: <Y2j1GBLQB2N8+lUM@kroah.com>
-References: <20221107084826.8888-1-slark_xiao@163.com>
- <Y2jJpT5//xBUOQMq@kroah.com>
- <28f1e702.28d7.184516dbbbb.Coremail.slark_xiao@163.com>
- <Y2jVtWPdTybNCYqX@kroah.com>
- <5b96b2e2.3a97.18451a061a3.Coremail.slark_xiao@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63AD5CB4
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 12:11:42 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id l6so10406567pjj.0
+        for <mhi@lists.linux.dev>; Mon, 07 Nov 2022 04:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4J5VLDSP1Iw+mjLb5ctZ65LZwBc9yYbpqHNj8NfVQIM=;
+        b=lhQPE9igsNVeU9mJCD4i1BVBdwgeVx4afH/wH463gknbiKWL1DPykqTqRuZf66r3IF
+         Zi8BmqAiuwiS4LRrMg7XPtFYvZHO9+ozoddKflvVt5C/kgNtjiq3qFHjW4S5Vs5lavBh
+         gY4uYtjHX/uN9R4a4W4p+5t+AYCeoShWNvXYBmsaD5JA5vGf9SMQEVtr8/0TL9Y+f45K
+         zfIllqDYOwY6ZT/Qqw6F4NJ8wWDW4K5aUXH69YAhxiDl6iijW21pzBaA8mPXF6CDh6i7
+         Zgz7iJK6yeyS6/P8/xrsfh9Fj03corQTG0hiKXxR15rq0Ye+ZkvkfHRJgVxVyf4qJyyn
+         u95A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4J5VLDSP1Iw+mjLb5ctZ65LZwBc9yYbpqHNj8NfVQIM=;
+        b=mEVc8vIFtURz6X/VDkJcMHEVCC5HpjdblI40DfX9hg8/UIQRt7I7Y79GQ8CXcMvELR
+         ia4nvmkmZA3JguCffhhxxtxuFnpUcskj2LqwfGW64Xlu+JpJDNNvXs2o5wf5LjktJdl6
+         7WopC+j6SYig3435gyl8tA+y9phNf2kIyjcpJWoN+c/ABqeQFjQM8295qXzIFuIgr9ea
+         PabFyT4wUxMV0WQrVla/66GQ4Rb1L9f1+g6RiX7H/8I9zkxtbmd9Po/ajhUlVkx6SwxF
+         OuExgqE13Xk99qsdnmN/M3/RcUowRy66TzaZEzDk4AsK/ieOuYZ4KBsjujc/BNWdzi+O
+         fIvA==
+X-Gm-Message-State: ACrzQf1bcRYiqJl2CvSUF4ngX0PpWvOOVLLfFZOEdG6+vdLWb0Ycr9vl
+	GccVvbGeJSl/HJ5M+xYxyGnHK7KkSgs=
+X-Google-Smtp-Source: AMsMyM6BwDzqxRKKmIMdm1D7euxbjrHn45MAacqMmDm6d2GlUZc7lAochNJOfvLRs9M8CMNuF0906Q==
+X-Received: by 2002:a17:90a:cb8c:b0:212:eba5:a143 with SMTP id a12-20020a17090acb8c00b00212eba5a143mr51260474pju.79.1667823102269;
+        Mon, 07 Nov 2022 04:11:42 -0800 (PST)
+Received: from [0.0.0.0] (107.182.18.67.16clouds.com. [107.182.18.67])
+        by smtp.gmail.com with ESMTPSA id p1-20020a17090a680100b00203ab277966sm6108685pjj.7.2022.11.07.04.11.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Nov 2022 04:11:41 -0800 (PST)
+Message-ID: <c7500e36-e1fe-ce84-4cb9-662b5169daec@gmail.com>
+Date: Mon, 7 Nov 2022 20:11:37 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b96b2e2.3a97.18451a061a3.Coremail.slark_xiao@163.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev
+From: Song Fuchang <song.fc@gmail.com>
+Subject: [PATCH v2 RESEND] bus: mhi: host: pci_generic: Add HP variant of
+ T99W175
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 07, 2022 at 06:26:16PM +0800, Slark Xiao wrote:
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
+The Foxconn T99W175 modem has an HP variant, which has
+the following output from lspci:
 
-Why all the blank lines?
+   01:00.0 Wireless controller [0d40]: Device 03f0:0a6c
 
-> At 2022-11-07 17:53:57, "Greg KH" <gregkh@linuxfoundation.org> wrote:
-> >On Mon, Nov 07, 2022 at 05:30:56PM +0800, Slark Xiao wrote:
-> >As I said, this is just a define, not a macro at all.
-> >
-> >> And could you give your comments in previous patch, not the 'final' one?
-> >
-> >I do not understand, what previous patrch?  What "final" one?  What is
-> >the "latest" patch?
-> previous patch:
-> https://lore.kernel.org/lkml/20221027115123.5326-1-slark_xiao@163.com/
-> https://lore.kernel.org/lkml/20221028023711.4196-1-slark_xiao@163.com/
-> https://lore.kernel.org/lkml/20221102024437.15248-1-slark_xiao@163.com/
-> 
-> 'final' patch:
-> https://lore.kernel.org/lkml/20221107084826.8888-1-slark_xiao@163.com/
-> https://lore.kernel.org/lkml/20221101015858.6777-1-slark_xiao@163.com/
+It also has some HP-specific serial numbers on the
+metal case. It works well with this driver, so add
+support for this to the pci_generic driver.
 
-That's 2 different versions, with a total of 3.
+Signed-off-by: Song Fuchang <song.fc@gmail.com>
+---
 
-> 
-> The 'final' patch was committed according to the advice of the feature
-> maintainer. 
-> >
-> >> In another pci_ids patch, you break it in v3 and break it here again in v2.
-> >
-> >I broke what?
-> You could have  voiced out such comment in V1, V2 before the 'final'. 
+Changes in v2:
+  - Add more detailed commit message.
 
-We all review patches when we can.  There is no rule that people can not
-comment on newer patches, or older ones.
 
-In fact, it would be wonderful if you could take some time and review
-patches from others.  It would help your understanding of the code and
-how the kernel development process works.
+  drivers/bus/mhi/host/pci_generic.c | 3 +++
+  1 file changed, 3 insertions(+)
 
-thanks,
+diff --git a/drivers/bus/mhi/host/pci_generic.c 
+b/drivers/bus/mhi/host/pci_generic.c
+index 9e545f2a5a26..650e8b9c26ad 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -592,6 +592,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+      /* MV32-WB (Cinterion) */
+      { PCI_DEVICE(0x1269, 0x00bb),
+          .driver_data = (kernel_ulong_t) &mhi_mv32_info },
++    /* T99W175 (sdx55), HP variant */
++    { PCI_DEVICE(0x03f0, 0x0a6c),
++        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+      {  }
+  };
+  MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+-- 
+2.37.3
 
-greg k-h
