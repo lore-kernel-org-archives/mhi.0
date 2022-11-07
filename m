@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835AE5CB4
-	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 11:42:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F494C4347C;
-	Mon,  7 Nov 2022 11:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785975CB4
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 11:59:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F93C433D6;
+	Mon,  7 Nov 2022 11:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667821373;
-	bh=9eowJ01JpeSKROTBqHNO82UhWBEwBAPJBY2Eh1IN4WM=;
+	s=k20201202; t=1667822347;
+	bh=QE8Fn7H4/EmMivLBMWUdLxjL/asG3QuY6BpNL6Z7yrU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Llv1irvrrLGrhfTI02f2lfZjLN3cvPl/cefR2v5PXyszVGC7nvrZCGHY1TPJxtxdu
-	 BvSZ3axZ8OGIYKQVaKHrg2SiAjVgcgVOYfkkIW50cuSDvPwECIczCUV1iuinKpLDdO
-	 g4SVGsVdXT6e2wPiFhq5LYLWEXxOI8Xj1YiH+eCTCNXRJo7lfZR/2+TUDVf6V2YUkj
-	 UNVWDJ2kldy4UigRFHZN8uvMZ5keGCC7fKQ4t+pjFFN/4o1VZN0egADZ6f+TeGC2SP
-	 y9Gky7UlT8O/JvUbE5qQ8PdMppMR9wkvJpYhtZO+i5LLC0zvaybCn4Au2xjfmg4dng
-	 aH49f/Fi0uQ3g==
-Date: Mon, 7 Nov 2022 17:12:43 +0530
+	b=trnW9HyS8GKkvDFdYK9F+h09a+VSpzs2Fg9oE2WrZNLTAoTdhtVGyGW4HbSZkQVxw
+	 BiSz6IFpRuoYKaZYUcwwexw1yUSPEDdrzWnMHEferVh8wwjgYtAsKHVRvO4fDEVwEs
+	 xbtPIp9zoXM5yRxgExxNfkADEpelS8mk7A9aQxwvN5cOVs7G+u1OrdeF9ISJqjMMN3
+	 nLURk5wFROOlJBgtIZmeYHokUtZPOhpSNw/M/OvgwSsXaCFp2tYhXR75rii86GoE04
+	 9rQPJeZakMtE9PeMVzeFS2ikmj9YP+QNA5ugu3+/Zr5HaSlxMyMTlPMn8TVa68BLZ+
+	 GR2xlKFQJ9opw==
+Date: Mon, 7 Nov 2022 17:28:56 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: Hemant Kumar <quic_hemantk@quicinc.com>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mhi: pci_generic: add support for sc8280xp-crd SDX55
- variant
-Message-ID: <20221107114243.GD2220@thinkpad>
-References: <20221104093913.23347-1-johan+linaro@kernel.org>
+To: Daniele Palmas <dnlplm@gmail.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	Network Development <netdev@vger.kernel.org>,
+	loic.poulain@linaro.org
+Subject: Re: MHI DTR client implementation
+Message-ID: <20221107115856.GE2220@thinkpad>
+References: <CAGRyCJGWQagceLhnECBcpPfG5jMPZrjbsHrio1BvgpZJhk0pbA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -33,48 +33,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221104093913.23347-1-johan+linaro@kernel.org>
+In-Reply-To: <CAGRyCJGWQagceLhnECBcpPfG5jMPZrjbsHrio1BvgpZJhk0pbA@mail.gmail.com>
 
-On Fri, Nov 04, 2022 at 10:39:13AM +0100, Johan Hovold wrote:
-> The SC8280XP Compute Reference Design (CRD) has an on-PCB SDX55 modem
-> which uses MBIM.
-> 
-> The exact channel configuration is not known but the Foxconn SDX55
-> configuration allows the modem to be used so reuse that one for now.
-> 
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
++ Loic
 
-Modified the subject to the format "bus: mhi: host: pci_generic" and applied
-to mhi-next!
+On Tue, Sep 20, 2022 at 04:23:25PM +0200, Daniele Palmas wrote:
+> Hello all,
+> 
+> I'm looking for some guidance related to  a possible MHI client for
+> serial ports signals management implementation.
+> 
+> Testing the AT channels with Telit modems I noted that unsolicited
+> indications do not show: the root cause for this is DTR not set for
+> those ports through MHI channels 18/19, something that with current
+> upstream code can't be done due to the missing DTR client driver.
+> 
+> I currently have an hack, based on the very first mhi stack submission
+> (see https://lore.kernel.org/lkml/1524795811-21399-2-git-send-email-sdias@codeaurora.org/#Z31drivers:bus:mhi:core:mhi_dtr.c),
+> solving my issue, but I would like to understand which would be the
+> correct way, so maybe I can contribute some code.
+> 
+> Should the MHI DTR client be part of the WWAN subsystem?
+
+Yes, since WWAN is going to be the consumer of this channel, it makes sense to
+host the client driver there.
+
+> If yes, does it make sense to have an associated port exposed as a char
+> device?
+
+If the goal is to control the DTR settings from userspace, then you can use
+the "AT" chardev node and handle the DTR settings in this client driver.
+Because at the end of the day, user is going to read/write from AT port only.
+Adding one more ctrl port and have it configured before using AT port is going
+to be a pain.
 
 Thanks,
 Mani
 
-> ---
+> I guess the answer is no, since it should be used just by the AT ports
+> created by mhi_wwan_ctrl, but I'm not sure if that's possible.
 > 
-> Changes in v2
->  - drop comment describing this variant (Mani)
+> Or should the DTR management be somehow part of the MHI stack and
+> mhi_wwan_ctrl interacts with that through exported functions?
 > 
-> 
->  drivers/bus/mhi/host/pci_generic.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index caa4ce28cf9e..7dcd0ef3184a 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -542,6 +542,8 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
->  static const struct pci_device_id mhi_pci_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
-> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
->  	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
->  		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
-> -- 
-> 2.37.3
-> 
+> Thanks a lot in advance,
+> Daniele
 > 
 
 -- 
