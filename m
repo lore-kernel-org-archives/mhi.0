@@ -1,106 +1,60 @@
-Received: from mail-m975.mail.163.com (mail-m975.mail.163.com [123.126.97.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 622AE28E8
-	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 09:05:32 +0000 (UTC)
+Received: from m1323.mail.163.com (m1323.mail.163.com [220.181.13.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D08B7F
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 09:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=yCkgxRq/DrTG8PICQM
-	d07ag8t4w0Vq+N3ydkR28Y4xU=; b=dWJgKq40vmuJttDAfJX9i0cClHlbYr1HxV
-	WV8na8S6GLejvaisP5b1MUywpplunu9lzTSgnbDlD8eI39n9SesLUW6mSYXpPQtA
-	D+cLoyoW1T5rudueMUwG6oCSKvVTwjXdNVT9HL2hQJxzPfLSJzX6xmw24vim9+kL
-	xUZIQ6RF0=
-Received: from localhost.localdomain (unknown [43.134.191.38])
-	by smtp5 (Coremail) with SMTP id HdxpCgDn6SVpxmhjffuMqA--.40446S2;
-	Mon, 07 Nov 2022 16:48:45 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	gregkh@linuxfoundation.org,
-	loic.poulain@linaro.org
-Cc: dnlplm@gmail.com,
-	yonglin.tan@outlook.com,
-	fabio.porcedda@gmail.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v2] bus: mhi: host: pci_generic: Add macro for some VIDs
-Date: Mon,  7 Nov 2022 16:48:26 +0800
-Message-Id: <20221107084826.8888-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:HdxpCgDn6SVpxmhjffuMqA--.40446S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGFyfCr13Kr4rKr1ftr43KFg_yoW5WrWfpF
-	4YkrWvvF4Dtr4UK3WvyayDZF95Aa17Cry3K3Z7tw4F9F4qkF4Fgr92vryayFyaqa4kWrWa
-	qF1DZrWUK3Wqkr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
-X-Originating-IP: [43.134.191.38]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiGRuyZFyPfQfdJgABsH
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=9cght
+	XGQQk9Yt267vvrz9hrm+iRwuABo78gGmpmvyeU=; b=UHYAmAYuFxxofx6l6v5Jo
+	pnBbdgegLSOlUtL5weLO21IHIt8sJH8VNBQE8hnWPpoHs/zGHtRSpbnVUwbAmb7g
+	cwCXUpf8U04f1FqE1g81+Qft9T7jfy4iFEBaH/Z5YFtGnH2x8TgSRLPb98YoCmML
+	iCXzp4MJPs/ZOcOo3Znfxs=
+Received: from slark_xiao$163.com ( [112.97.52.114] ) by
+ ajax-webmail-wmsvr23 (Coremail) ; Mon, 7 Nov 2022 17:30:56 +0800 (CST)
+X-Originating-IP: [112.97.52.114]
+Date: Mon, 7 Nov 2022 17:30:56 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: mani@kernel.org, loic.poulain@linaro.org, dnlplm@gmail.com, 
+	yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH v2] bus: mhi: host: pci_generic: Add macro for some
+ VIDs
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <Y2jJpT5//xBUOQMq@kroah.com>
+References: <20221107084826.8888-1-slark_xiao@163.com>
+ <Y2jJpT5//xBUOQMq@kroah.com>
+X-NTES-SC: AL_QuydBfSavEwu4CiaZ+lS8T5326h2JYDkxZVQuvkNWussghrW5goaREZpIkPY/uFibj+4/omKqfsZqcElJYXG
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Message-ID: <28f1e702.28d7.184516dbbbb.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:F8GowACX4GlQ0GhjdHJBAA--.9183W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiGR2yZFyPfQkjmQABsO
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-To make code neat and for convenience purpose, use macro for
-some VIDs. These macros are supposed to be added to pci_ids.h.
-But until the macros are used in multiple places, it is not
-recommended. So adding it locally for now.
-
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
-v2: Update description and format issue
----
- drivers/bus/mhi/host/pci_generic.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index c4259cb2d289..3a789bb2f631 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -24,6 +24,10 @@
- 
- #define HEALTH_CHECK_PERIOD (HZ * 2)
- 
-+/* PCI VID definitions */
-+#define PCI_VENDOR_ID_THALES	0x1269
-+#define PCI_VENDOR_ID_QUECTEL	0x1eac
-+
- /**
-  * struct mhi_pci_dev_info - MHI PCI device specific information
-  * @config: MHI controller configuration
-@@ -557,11 +561,11 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
--	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
--	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
--	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
-@@ -585,16 +589,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
- 	/* MV31-W (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00b3),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
- 	/* MV31-W (Cinterion), based on new baseline */
--	{ PCI_DEVICE(0x1269, 0x00b4),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
- 	/* MV32-WA (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00ba),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
- 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
- 	/* MV32-WB (Cinterion) */
--	{ PCI_DEVICE(0x1269, 0x00bb),
-+	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
- 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
- 	{  }
- };
--- 
-2.17.1
-
+CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjItMTEtMDcgMTc6MDI6MjksICJHcmVnIEtIIiA8Z3JlZ2to
+QGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+T24gTW9uLCBOb3YgMDcsIDIwMjIgYXQgMDQ6
+NDg6MjZQTSArMDgwMCwgU2xhcmsgWGlhbyB3cm90ZToKPj4gVG8gbWFrZSBjb2RlIG5lYXQgYW5k
+IGZvciBjb252ZW5pZW5jZSBwdXJwb3NlLCB1c2UgbWFjcm8gZm9yCj4+IHNvbWUgVklEcy4gVGhl
+c2UgbWFjcm9zIGFyZSBzdXBwb3NlZCB0byBiZSBhZGRlZCB0byBwY2lfaWRzLmguCj4KPk5vLCB0
+aGV5IGFyZSBub3Qgc3VwcG9zZWQgdG8gYmUgYWRkZWQgdGhlcmUgYXQgYWxsLgo+Cj5BbmQgdGhl
+eSBhcmUgbm90IGEgIm1hY3JvIiwgaXQgaXMgYSAiI2RlZmluZSIuCj4KPj4gQnV0IHVudGlsIHRo
+ZSBtYWNyb3MgYXJlIHVzZWQgaW4gbXVsdGlwbGUgcGxhY2VzLCBpdCBpcyBub3QKPj4gcmVjb21t
+ZW5kZWQuIFNvIGFkZGluZyBpdCBsb2NhbGx5IGZvciBub3cuCj4KPkFnYWluLCB0aGVzZSBhcmUg
+bm90IG1hY3Jvcwo+Cj50aGFua3MsCj4KPmdyZWcgay1oCgpIaSBHcmVnLApUaGFua3MgZm9yIHlv
+dXIgY29tbWVudC4KSW4gbXkgb3BpbmlvbiwgTUFDUk8gYWxtb3N0IHNhbWUgYXMgYSAnI2RlZmlu
+ZScuICBNYXkgSSBrbm93IGhvdyBkbyAKeW91IGNhbGwgc3VjaCBkZWZpbml0aW9uPwoKQW5kIGNv
+dWxkIHlvdSBnaXZlIHlvdXIgY29tbWVudHMgaW4gcHJldmlvdXMgcGF0Y2gsIG5vdCB0aGUgJ2Zp
+bmFsJyBvbmU/CkluIGFub3RoZXIgcGNpX2lkcyBwYXRjaCwgeW91IGJyZWFrIGl0IGluIHYzIGFu
+ZCBicmVhayBpdCBoZXJlIGFnYWluIGluIHYyLgpIb25lc3RseSwgIGl0J3MgcG9zaXRpdmUgZm9y
+IHdob2xlIHByb2plY3QuIEJ1dCBpdCdzIG5lZ2F0aXZlICBmb3IgY29udHJpYnV0b3IgCmFuZCBt
+YWludGFpbmVyLiAKCkZpbmFsbHksIGl0J3Mgd2VsY29tZSB0byBwb2ludCBvdXQgdGhlIGVycm9y
+LiA=
