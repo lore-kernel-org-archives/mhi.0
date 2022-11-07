@@ -1,231 +1,105 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CC94C7F
-	for <mhi@lists.linux.dev>; Sat,  5 Nov 2022 19:49:50 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id sc25so21001240ejc.12
-        for <mhi@lists.linux.dev>; Sat, 05 Nov 2022 12:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J5Uw4achefntbuDEmtPAMe547HVX41/nVL2BQsQgEJM=;
-        b=FhCNcouAY5y5+AGNSTDP5XFLuOrKlAGBqJFYOo0biY635FJLas5iDZCn2pWESDoR/d
-         vFWXuvDJDgNzMmPnn2U/5DlggQlCEgBfo/qraD3qc8ANARFWx5zOo8LfzBY7kzeiqOAS
-         42y7vDYO8N/CoxJPHASA3OA5d0ptjuMmCvU50fD8yXTbS6F+ZCzyrWN85Wv5J+ntoW8r
-         vsf5Mx1HsJ/1+la1ab33HIx4FjC80ZSBza60CF/nic6OXXGNffOK1c5OHlcWgCzaCH5A
-         Y3by5pi2w6i8gWRxFJQmUuEWsbJW+m5GPQ7r89TSAAIyDUnYTGfW2pXJcKvRyvoVC8EA
-         XfkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J5Uw4achefntbuDEmtPAMe547HVX41/nVL2BQsQgEJM=;
-        b=LXmEjWPRI6PfthzDGYr8b99AhisSXQGGSTs/s5KXjjE7VCtQWmgk3Xhd5a3OGjaVau
-         YX4btaHvehXWGCJak3HT/lvoz7rm9s5iiX0+UCzGZ4fLWZoXPWaK52uRJra+8t32xniB
-         7Uvk1TYkUkZgbHZrH8MW7XyuIv6CqHLAd0c/h3lC8RFxOxvWPet2x+Ex/+tdV3p4MB4t
-         0lc2e+oJJ0yLSwElhVILVLIzV1Z2hyZwlm3bltvZZXgRFexv+F7mus01nWOQUnDi7lC9
-         AHHoQH0moU0z5LiobXCflZAIC7Qgt+y7ijESFWzptyblsltlBJq4yAXMMJmWgtGNUDXk
-         tBHQ==
-X-Gm-Message-State: ACrzQf24NAzIMLmsx5ncPaZF9qDeZBvys3qvEuIxs9JOQB7KsdLi81mV
-	ny/FDZPh3pSXMOtWObSvdH8=
-X-Google-Smtp-Source: AMsMyM70hd6yCcN13TFAX1z7xRADsiD537lD/kbznKBVMkYevbQFVIitQC1j2CNHnGuT48zwFXV4Vw==
-X-Received: by 2002:a17:907:8688:b0:791:91a0:fdb3 with SMTP id qa8-20020a170907868800b0079191a0fdb3mr38971607ejc.499.1667677788695;
-        Sat, 05 Nov 2022 12:49:48 -0700 (PDT)
-Received: from fedora.. (dh207-96-23.xnet.hr. [88.207.96.23])
-        by smtp.googlemail.com with ESMTPSA id et19-20020a170907295300b0079b9f7509a0sm1289409ejc.52.2022.11.05.12.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 12:49:48 -0700 (PDT)
-From: Robert Marko <robimarko@gmail.com>
-To: mani@kernel.org,
-	kvalo@kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	gregkh@linuxfoundation.org,
-	elder@linaro.org,
-	hemantk@codeaurora.org,
-	quic_jhugo@quicinc.com,
-	quic_qianyu@quicinc.com,
-	bbhatt@codeaurora.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: ansuelsmth@gmail.com,
-	Robert Marko <robimarko@gmail.com>
-Subject: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-Date: Sat,  5 Nov 2022 20:49:43 +0100
-Message-Id: <20221105194943.826847-2-robimarko@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221105194943.826847-1-robimarko@gmail.com>
-References: <20221105194943.826847-1-robimarko@gmail.com>
+Received: from m1311.mail.163.com (m1311.mail.163.com [220.181.13.11])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DAF15A9
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 02:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=ScMxi
+	eHTPar3YkNXAD90hEM0gkbOXRibaEF0UYr+a40=; b=jNQS6yQ2krnrEp2+Jnyxg
+	orqjhV34FsZ3kiuG/zMsO+7mVxwCmpQJl5RiDlO7Ex1QFgULcUPJbGWA3OK2K+Zn
+	z+eYU88kY+yKzo3Er5L38qjx6zOwzNxJ2B7zbX6IYvwAf42reNqRwJ/QzmX5X4/S
+	8P6amf3E0XgMRXHvphBUUw=
+Received: from slark_xiao$163.com ( [223.104.77.212] ) by
+ ajax-webmail-wmsvr11 (Coremail) ; Mon, 7 Nov 2022 10:21:36 +0800 (CST)
+X-Originating-IP: [223.104.77.212]
+Date: Mon, 7 Nov 2022 10:21:36 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Manivannan Sadhasivam" <mani@kernel.org>
+Cc: gregkh@linuxfoundation.org, loic.poulain@linaro.org, dnlplm@gmail.com, 
+	yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH] bus: mhi: host: pci_generic: Add macro for some vids
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <20221103125009.GH8434@thinkpad>
+References: <20221102024437.15248-1-slark_xiao@163.com>
+ <20221103125009.GH8434@thinkpad>
+X-NTES-SC: AL_QuydBfuTuE4i4CGYZOkWkkcRjuo+UMC0vfgh249fPJs0vinO+wQ5bV9mJX3b/Pi2Oh2BkDioQSlTx+1FY4BWRKKqNzdpQRrMEfI6HYBHuawl
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <cbb018a.ab1.1844fe4a7e8.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:C8GowAAHVZWwa2hjQFdcAA--.10820W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCdQCyZGBbGFE3vwAAsZ
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
-will cause a clash in the QRTR instance node ID and prevent the driver
-from talking via QMI to the card and thus initializing it with:
-[    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
-[    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
-
-So, in order to allow for this combination of cards, especially AHB + PCI
-cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
-QRTR instance ID offset by calculating a unique one based on PCI domain
-and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
-using the SBL state callback that is added as part of the series.
-We also have to make sure that new QRTR offset is added on top of the
-default QRTR instance ID-s that are currently used in the driver.
-
-This finally allows using AHB + PCI or multiple PCI cards on the same
-system.
-
-Before:
-root@OpenWrt:/# qrtr-lookup
-  Service Version Instance Node  Port
-     1054       1        0    7     1 <unknown>
-       69       1        2    7     3 ATH10k WLAN firmware service
-
-After:
-root@OpenWrt:/# qrtr-lookup
-  Service Version Instance Node  Port
-     1054       1        0    7     1 <unknown>
-       69       1        2    7     3 ATH10k WLAN firmware service
-       15       1        0    8     1 Test service
-       69       1        8    8     2 ATH10k WLAN firmware service
-
-Tested-on: IPQ8074 hw2.0 AHB WLAN.HK.2.5.0.1-01208-QCAHKSWPL_SILICONZ-1
-Tested-on: QCN9074 hw1.0 PCI WLAN.HK.2.5.0.1-01208-QCAHKSWPL_SILICONZ-1
-
-Signed-off-by: Robert Marko <robimarko@gmail.com>
----
- drivers/net/wireless/ath/ath11k/mhi.c | 47 ++++++++++++++++++---------
- drivers/net/wireless/ath/ath11k/mhi.h |  3 ++
- drivers/net/wireless/ath/ath11k/pci.c |  5 ++-
- 3 files changed, 38 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
-index 86995e8dc913..23e85ea902f5 100644
---- a/drivers/net/wireless/ath/ath11k/mhi.c
-+++ b/drivers/net/wireless/ath/ath11k/mhi.c
-@@ -294,6 +294,32 @@ static void ath11k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
- {
- }
- 
-+static int ath11k_mhi_op_read_reg(struct mhi_controller *mhi_cntrl,
-+				  void __iomem *addr,
-+				  u32 *out)
-+{
-+	*out = readl(addr);
-+
-+	return 0;
-+}
-+
-+static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
-+				    void __iomem *addr,
-+				    u32 val)
-+{
-+	writel(val, addr);
-+}
-+
-+static void ath11k_mhi_qrtr_instance_set(struct mhi_controller *mhi_cntrl)
-+{
-+	struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
-+
-+	ath11k_mhi_op_write_reg(mhi_cntrl,
-+				mhi_cntrl->bhi + BHI_ERRDBG2,
-+				FIELD_PREP(QRTR_INSTANCE_MASK,
-+				ab->qmi.service_ins_id - ab->hw_params.qmi_service_ins_id));
-+}
-+
- static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
- {
- 	switch (reason) {
-@@ -315,6 +341,8 @@ static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
- 		return "MHI_CB_FATAL_ERROR";
- 	case MHI_CB_BW_REQ:
- 		return "MHI_CB_BW_REQ";
-+	case MHI_CB_EE_SBL_MODE:
-+		return "MHI_CB_EE_SBL_MODE";
- 	default:
- 		return "UNKNOWN";
- 	}
-@@ -336,27 +364,14 @@ static void ath11k_mhi_op_status_cb(struct mhi_controller *mhi_cntrl,
- 		if (!(test_bit(ATH11K_FLAG_UNREGISTERING, &ab->dev_flags)))
- 			queue_work(ab->workqueue_aux, &ab->reset_work);
- 		break;
-+	case MHI_CB_EE_SBL_MODE:
-+		ath11k_mhi_qrtr_instance_set(mhi_cntrl);
-+		break;
- 	default:
- 		break;
- 	}
- }
- 
--static int ath11k_mhi_op_read_reg(struct mhi_controller *mhi_cntrl,
--				  void __iomem *addr,
--				  u32 *out)
--{
--	*out = readl(addr);
--
--	return 0;
--}
--
--static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
--				    void __iomem *addr,
--				    u32 val)
--{
--	writel(val, addr);
--}
--
- static int ath11k_mhi_read_addr_from_dt(struct mhi_controller *mhi_ctrl)
- {
- 	struct device_node *np;
-diff --git a/drivers/net/wireless/ath/ath11k/mhi.h b/drivers/net/wireless/ath/ath11k/mhi.h
-index 8d9f852da695..0db308bc3047 100644
---- a/drivers/net/wireless/ath/ath11k/mhi.h
-+++ b/drivers/net/wireless/ath/ath11k/mhi.h
-@@ -16,6 +16,9 @@
- #define MHICTRL					0x38
- #define MHICTRL_RESET_MASK			0x2
- 
-+#define BHI_ERRDBG2				0x38
-+#define QRTR_INSTANCE_MASK			GENMASK(7, 0)
-+
- int ath11k_mhi_start(struct ath11k_pci *ar_pci);
- void ath11k_mhi_stop(struct ath11k_pci *ar_pci);
- int ath11k_mhi_register(struct ath11k_pci *ar_pci);
-diff --git a/drivers/net/wireless/ath/ath11k/pci.c b/drivers/net/wireless/ath/ath11k/pci.c
-index 99cf3357c66e..cd26c1567415 100644
---- a/drivers/net/wireless/ath/ath11k/pci.c
-+++ b/drivers/net/wireless/ath/ath11k/pci.c
-@@ -370,13 +370,16 @@ static void ath11k_pci_sw_reset(struct ath11k_base *ab, bool power_on)
- static void ath11k_pci_init_qmi_ce_config(struct ath11k_base *ab)
- {
- 	struct ath11k_qmi_ce_cfg *cfg = &ab->qmi.ce_cfg;
-+	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
-+	struct pci_bus *bus = ab_pci->pdev->bus;
- 
- 	cfg->tgt_ce = ab->hw_params.target_ce_config;
- 	cfg->tgt_ce_len = ab->hw_params.target_ce_count;
- 
- 	cfg->svc_to_ce_map = ab->hw_params.svc_to_ce_map;
- 	cfg->svc_to_ce_map_len = ab->hw_params.svc_to_ce_map_len;
--	ab->qmi.service_ins_id = ab->hw_params.qmi_service_ins_id;
-+	ab->qmi.service_ins_id = ab->hw_params.qmi_service_ins_id +
-+	(((pci_domain_nr(bus) & 0xF) << 4) | (bus->number & 0xF));
- 
- 	ath11k_ce_get_shadow_config(ab, &cfg->shadow_reg_v2,
- 				    &cfg->shadow_reg_v2_len);
--- 
-2.38.1
-
+CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjItMTEtMDMgMjA6NTA6MDksICJNYW5pdmFubmFuIFNhZGhh
+c2l2YW0iIDxtYW5pQGtlcm5lbC5vcmc+IHdyb3RlOgo+T24gV2VkLCBOb3YgMDIsIDIwMjIgYXQg
+MTA6NDQ6MzdBTSArMDgwMCwgU2xhcmsgWGlhbyB3cm90ZToKPj4gVG8gbWFrZSBjb2RlIG5lYXQg
+YW5kIGZvciBjb252ZW5pZW5jZSBwdXJwb3NlLCB1c2luZyBtYWNybyBmb3IKPj4gc29tZSB2aWRz
+Lgo+Cj5zL3VzaW5nL3VzZQo+cy92aWRzL1ZJRHMKPgo+PiBSZWZlciB0byBwcmV2aW91cyBwYXRj
+aCBpbiBwY2lfaWRzLmggc2lkZSwgdGhleSBhcmUKPj4gbm90IGFsbG93ZWQgdG8gYWRkIG5ldyBl
+bnRyaWVzIG9mIHNpbmdsZSBkcml2ZXIgbmVlZGVkLiBTbyB3ZQo+PiBhZGQgaXQgaW4gb3VyIGxv
+Y2FsIGZpbGUuCj4+Cj4KPlJlZmVyZW5jZSB0byB0aGUgcHJldmlvdXMgcGF0Y2ggaGFzIG5vIHJl
+bGF0aW9uc2hpcCB3aXRoIHRoaXMgY29tbWl0IG9uY2UKPm1lcmdlZC4gSG93IGFib3V0LAo+Cj4i
+VGhlc2UgbWFjcm9zIGFyZSBzdXBwb3NlZCB0byBiZSBhZGRlZCB0byBwY2lfaWRzLmguIEJ1dCB1
+bnRpbCB0aGUgbWFjcm9zIGFyZQo+dXNlZCBpbiBtdWx0aXBsZSBwbGFjZXMsIGl0IGlzIG5vdCBy
+ZWNvbW1lbmRlZC4gU28gYWRkaW5nIGl0IGxvY2FsbHkgZm9yIG5vdy4iCj4gCj4+IFNpZ25lZC1v
+ZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJz
+L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMTggKysrKysrKysrKystLS0tLS0tCj4+ICAx
+IGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPj4gCj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIGIvZHJpdmVycy9i
+dXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiBpbmRleCBjNDI1OWNiMmQyODkuLjVhYmM3Nzhh
+NTI5MCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+
+PiArKysgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+IEBAIC0yNCw2ICsy
+NCwxMCBAQAo+PiAgCj4+ICAjZGVmaW5lIEhFQUxUSF9DSEVDS19QRVJJT0QgKEhaICogMikKPj4g
+IAo+Cj5BZGQgYSBjb21tZW50LAo+Cj4vKiBQQ0kgVklEIGRlZmluaXRpb25zICovCj4KPj4gKyNk
+ZWZpbmUgUENJX1ZFTkRPUl9JRF9USEFMRVMJMHgxMjY5Cj4+ICsKPgo+Tm8gbmVlZCBvZiBuZXds
+aW5lCj4KPj4gKyNkZWZpbmUgUENJX1ZFTkRPUl9JRF9RVUVDVEVMCTB4MWVhYwo+PiArCj4KPkp1
+c3QgdXNlIGEgc3BhY2UgYWZ0ZXIgUENJX1ZFTkRPUl9JRF9RVUVDVEVMIGxpa2UgYWJvdmUuCj4K
+PlRoYW5rcywKPk1hbmkKSGkgTWFuaSwKSSBkaWRuJ3QgZ2V0IHRoZSBwb2ludCBvZiB0aGlzIGZv
+cm1hdCBpc3N1ZS4KRG8geW91IG1lYW4gcmVtb3ZlIHRoYXQgbmV3bGluZSBiZXR3ZWVuIHRoZXNl
+IDIgZGVmaW5pdGlvbnM/Cj4KPj4gIC8qKgo+PiAgICogc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
+LSBNSEkgUENJIGRldmljZSBzcGVjaWZpYyBpbmZvcm1hdGlvbgo+PiAgICogQGNvbmZpZzogTUhJ
+IGNvbnRyb2xsZXIgY29uZmlndXJhdGlvbgo+PiBAQCAtNTU3LDExICs1NjEsMTEgQEAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkIG1oaV9wY2lfaWRfdGFibGVbXSA9IHsKPj4gIAkJ
+LmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX3RlbGl0X2ZuOTkwX2luZm8gfSwK
+Pj4gIAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgpLAo+PiAgCQkuZHJp
+dmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcWNvbV9zZHg2NV9pbmZvIH0sCj4+IC0J
+eyBQQ0lfREVWSUNFKDB4MWVhYywgMHgxMDAxKSwgLyogRU0xMjBSLUdMIChzZHgyNCkgKi8KPj4g
+Kwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RVUVDVEVMLCAweDEwMDEpLCAvKiBFTTEyMFIt
+R0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlf
+cXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+IC0JeyBQQ0lfREVWSUNFKDB4MWVhYywgMHgxMDAyKSwg
+LyogRU0xNjBSLUdMIChzZHgyNCkgKi8KPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9R
+VUVDVEVMLCAweDEwMDIpLCAvKiBFTTE2MFItR0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2Rh
+dGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+IC0JeyBQ
+Q0lfREVWSUNFKDB4MWVhYywgMHgyMDAxKSwgLyogRU0xMjBSLUdMIGZvciBGQ0NMIChzZHgyNCkg
+Ki8KPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RVUVDVEVMLCAweDIwMDEpLCAvKiBF
+TTEyMFItR0wgZm9yIEZDQ0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVs
+X3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+ICAJLyogVDk5VzE3NSAoc2R4
+NTUpLCBCb3RoIGZvciBlU0lNIGFuZCBOb24tZVNJTSAqLwo+PiAgCXsgUENJX0RFVklDRShQQ0lf
+VkVORE9SX0lEX0ZPWENPTk4sIDB4ZTBhYiksCj4+IEBAIC01ODUsMTYgKzU4OSwxNiBAQCBzdGF0
+aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgbWhpX3BjaV9pZF90YWJsZVtdID0gewo+PiAg
+CXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX0ZPWENPTk4sIDB4ZTBkOSksCj4+ICAJCS5kcml2
+ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3NkeDY1X2luZm8gfSwKPj4g
+IAkvKiBNVjMxLVcgKENpbnRlcmlvbikgKi8KPj4gLQl7IFBDSV9ERVZJQ0UoMHgxMjY5LCAweDAw
+YjMpLAo+PiArCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1RIQUxFUywgMHgwMGIzKSwKPj4g
+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212MzFfaW5mbyB9LAo+PiAg
+CS8qIE1WMzEtVyAoQ2ludGVyaW9uKSwgYmFzZWQgb24gbmV3IGJhc2VsaW5lICovCj4+IC0JeyBQ
+Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGI0KSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
+RF9USEFMRVMsIDB4MDBiNCksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
+Jm1oaV9tdjMxX2luZm8gfSwKPj4gIAkvKiBNVjMyLVdBIChDaW50ZXJpb24pICovCj4+IC0JeyBQ
+Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGJhKSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
+RF9USEFMRVMsIDB4MDBiYSksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
+Jm1oaV9tdjMyX2luZm8gfSwKPj4gIAkvKiBNVjMyLVdCIChDaW50ZXJpb24pICovCj4+IC0JeyBQ
+Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGJiKSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
+RF9USEFMRVMsIDB4MDBiYiksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
+Jm1oaV9tdjMyX2luZm8gfSwKPj4gIAl7ICB9Cj4+ICB9Owo+PiAtLSAKPj4gMi4xNy4xCj4+IAo+
+Cj4tLSAKPuCuruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7g
+r40K
