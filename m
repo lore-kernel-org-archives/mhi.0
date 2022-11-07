@@ -1,105 +1,164 @@
-Received: from m1311.mail.163.com (m1311.mail.163.com [220.181.13.11])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DAF15A9
-	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 02:37:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=ScMxi
-	eHTPar3YkNXAD90hEM0gkbOXRibaEF0UYr+a40=; b=jNQS6yQ2krnrEp2+Jnyxg
-	orqjhV34FsZ3kiuG/zMsO+7mVxwCmpQJl5RiDlO7Ex1QFgULcUPJbGWA3OK2K+Zn
-	z+eYU88kY+yKzo3Er5L38qjx6zOwzNxJ2B7zbX6IYvwAf42reNqRwJ/QzmX5X4/S
-	8P6amf3E0XgMRXHvphBUUw=
-Received: from slark_xiao$163.com ( [223.104.77.212] ) by
- ajax-webmail-wmsvr11 (Coremail) ; Mon, 7 Nov 2022 10:21:36 +0800 (CST)
-X-Originating-IP: [223.104.77.212]
-Date: Mon, 7 Nov 2022 10:21:36 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: gregkh@linuxfoundation.org, loic.poulain@linaro.org, dnlplm@gmail.com, 
-	yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] bus: mhi: host: pci_generic: Add macro for some vids
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <20221103125009.GH8434@thinkpad>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6714A2565
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 07:40:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F552C433D6;
+	Mon,  7 Nov 2022 07:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667806827;
+	bh=Q9sAm/EGEjJ9UW42di1s+Bb/pLDCYceoSWiZMW02CYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U2UcuxX3fs0itggbRp+T6jp7dthfdNQfr3Z6g4GVy9gv4EuSmz/mZO/RA1k/vxoet
+	 biC4KXEGXJuRwCviYZxZizPLMngz/zNc6fvxBy3yUkOe0wLSecqe6ah2FwakbssSyQ
+	 xn/Om35wDC31jqNP+gVt5q8KdfQqQs2ErAiZK/coJdq3fw1olTYx7H6sx6SzGkkgED
+	 q79+ozn1rtKi8g0MU4MFYAaWW6MEiuWW+D9BoYQJhykMUuviJFgig4lYDK3wikO3/w
+	 k2PSD3mlaX5mBVts7BpSbaTsZWTnmj/XA51Si/HBhkofb0i4h2krjO2wh6ZDoQCgp9
+	 mcqOARAghrOOw==
+Date: Mon, 7 Nov 2022 13:10:15 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, gregkh@linuxfoundation.org,
+	loic.poulain@linaro.org, dnlplm@gmail.com, yonglin.tan@outlook.com,
+	fabio.porcedda@gmail.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] bus: mhi: host: pci_generic: Add macro for some vids
+Message-ID: <20221107074015.GA5340@thinkpad>
 References: <20221102024437.15248-1-slark_xiao@163.com>
  <20221103125009.GH8434@thinkpad>
-X-NTES-SC: AL_QuydBfuTuE4i4CGYZOkWkkcRjuo+UMC0vfgh249fPJs0vinO+wQ5bV9mJX3b/Pi2Oh2BkDioQSlTx+1FY4BWRKKqNzdpQRrMEfI6HYBHuawl
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <cbb018a.ab1.1844fe4a7e8.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <cbb018a.ab1.1844fe4a7e8.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:C8GowAAHVZWwa2hjQFdcAA--.10820W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCdQCyZGBbGFE3vwAAsZ
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cbb018a.ab1.1844fe4a7e8.Coremail.slark_xiao@163.com>
 
-CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjItMTEtMDMgMjA6NTA6MDksICJNYW5pdmFubmFuIFNhZGhh
-c2l2YW0iIDxtYW5pQGtlcm5lbC5vcmc+IHdyb3RlOgo+T24gV2VkLCBOb3YgMDIsIDIwMjIgYXQg
-MTA6NDQ6MzdBTSArMDgwMCwgU2xhcmsgWGlhbyB3cm90ZToKPj4gVG8gbWFrZSBjb2RlIG5lYXQg
-YW5kIGZvciBjb252ZW5pZW5jZSBwdXJwb3NlLCB1c2luZyBtYWNybyBmb3IKPj4gc29tZSB2aWRz
-Lgo+Cj5zL3VzaW5nL3VzZQo+cy92aWRzL1ZJRHMKPgo+PiBSZWZlciB0byBwcmV2aW91cyBwYXRj
-aCBpbiBwY2lfaWRzLmggc2lkZSwgdGhleSBhcmUKPj4gbm90IGFsbG93ZWQgdG8gYWRkIG5ldyBl
-bnRyaWVzIG9mIHNpbmdsZSBkcml2ZXIgbmVlZGVkLiBTbyB3ZQo+PiBhZGQgaXQgaW4gb3VyIGxv
-Y2FsIGZpbGUuCj4+Cj4KPlJlZmVyZW5jZSB0byB0aGUgcHJldmlvdXMgcGF0Y2ggaGFzIG5vIHJl
-bGF0aW9uc2hpcCB3aXRoIHRoaXMgY29tbWl0IG9uY2UKPm1lcmdlZC4gSG93IGFib3V0LAo+Cj4i
-VGhlc2UgbWFjcm9zIGFyZSBzdXBwb3NlZCB0byBiZSBhZGRlZCB0byBwY2lfaWRzLmguIEJ1dCB1
-bnRpbCB0aGUgbWFjcm9zIGFyZQo+dXNlZCBpbiBtdWx0aXBsZSBwbGFjZXMsIGl0IGlzIG5vdCBy
-ZWNvbW1lbmRlZC4gU28gYWRkaW5nIGl0IGxvY2FsbHkgZm9yIG5vdy4iCj4gCj4+IFNpZ25lZC1v
-ZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJz
-L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMTggKysrKysrKysrKystLS0tLS0tCj4+ICAx
-IGZpbGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPj4gCj4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIGIvZHJpdmVycy9i
-dXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiBpbmRleCBjNDI1OWNiMmQyODkuLjVhYmM3Nzhh
-NTI5MCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+
-PiArKysgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+IEBAIC0yNCw2ICsy
-NCwxMCBAQAo+PiAgCj4+ICAjZGVmaW5lIEhFQUxUSF9DSEVDS19QRVJJT0QgKEhaICogMikKPj4g
-IAo+Cj5BZGQgYSBjb21tZW50LAo+Cj4vKiBQQ0kgVklEIGRlZmluaXRpb25zICovCj4KPj4gKyNk
-ZWZpbmUgUENJX1ZFTkRPUl9JRF9USEFMRVMJMHgxMjY5Cj4+ICsKPgo+Tm8gbmVlZCBvZiBuZXds
-aW5lCj4KPj4gKyNkZWZpbmUgUENJX1ZFTkRPUl9JRF9RVUVDVEVMCTB4MWVhYwo+PiArCj4KPkp1
-c3QgdXNlIGEgc3BhY2UgYWZ0ZXIgUENJX1ZFTkRPUl9JRF9RVUVDVEVMIGxpa2UgYWJvdmUuCj4K
-PlRoYW5rcywKPk1hbmkKSGkgTWFuaSwKSSBkaWRuJ3QgZ2V0IHRoZSBwb2ludCBvZiB0aGlzIGZv
-cm1hdCBpc3N1ZS4KRG8geW91IG1lYW4gcmVtb3ZlIHRoYXQgbmV3bGluZSBiZXR3ZWVuIHRoZXNl
-IDIgZGVmaW5pdGlvbnM/Cj4KPj4gIC8qKgo+PiAgICogc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
-LSBNSEkgUENJIGRldmljZSBzcGVjaWZpYyBpbmZvcm1hdGlvbgo+PiAgICogQGNvbmZpZzogTUhJ
-IGNvbnRyb2xsZXIgY29uZmlndXJhdGlvbgo+PiBAQCAtNTU3LDExICs1NjEsMTEgQEAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkIG1oaV9wY2lfaWRfdGFibGVbXSA9IHsKPj4gIAkJ
-LmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX3RlbGl0X2ZuOTkwX2luZm8gfSwK
-Pj4gIAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgpLAo+PiAgCQkuZHJp
-dmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcWNvbV9zZHg2NV9pbmZvIH0sCj4+IC0J
-eyBQQ0lfREVWSUNFKDB4MWVhYywgMHgxMDAxKSwgLyogRU0xMjBSLUdMIChzZHgyNCkgKi8KPj4g
-Kwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RVUVDVEVMLCAweDEwMDEpLCAvKiBFTTEyMFIt
-R0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlf
-cXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+IC0JeyBQQ0lfREVWSUNFKDB4MWVhYywgMHgxMDAyKSwg
-LyogRU0xNjBSLUdMIChzZHgyNCkgKi8KPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9R
-VUVDVEVMLCAweDEwMDIpLCAvKiBFTTE2MFItR0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2Rh
-dGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+IC0JeyBQ
-Q0lfREVWSUNFKDB4MWVhYywgMHgyMDAxKSwgLyogRU0xMjBSLUdMIGZvciBGQ0NMIChzZHgyNCkg
-Ki8KPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9RVUVDVEVMLCAweDIwMDEpLCAvKiBF
-TTEyMFItR0wgZm9yIEZDQ0wgKHNkeDI0KSAqLwo+PiAgCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVs
-X3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4+ICAJLyogVDk5VzE3NSAoc2R4
-NTUpLCBCb3RoIGZvciBlU0lNIGFuZCBOb24tZVNJTSAqLwo+PiAgCXsgUENJX0RFVklDRShQQ0lf
-VkVORE9SX0lEX0ZPWENPTk4sIDB4ZTBhYiksCj4+IEBAIC01ODUsMTYgKzU4OSwxNiBAQCBzdGF0
-aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgbWhpX3BjaV9pZF90YWJsZVtdID0gewo+PiAg
-CXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX0ZPWENPTk4sIDB4ZTBkOSksCj4+ICAJCS5kcml2
-ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3NkeDY1X2luZm8gfSwKPj4g
-IAkvKiBNVjMxLVcgKENpbnRlcmlvbikgKi8KPj4gLQl7IFBDSV9ERVZJQ0UoMHgxMjY5LCAweDAw
-YjMpLAo+PiArCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1RIQUxFUywgMHgwMGIzKSwKPj4g
-IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212MzFfaW5mbyB9LAo+PiAg
-CS8qIE1WMzEtVyAoQ2ludGVyaW9uKSwgYmFzZWQgb24gbmV3IGJhc2VsaW5lICovCj4+IC0JeyBQ
-Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGI0KSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
-RF9USEFMRVMsIDB4MDBiNCksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
-Jm1oaV9tdjMxX2luZm8gfSwKPj4gIAkvKiBNVjMyLVdBIChDaW50ZXJpb24pICovCj4+IC0JeyBQ
-Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGJhKSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
-RF9USEFMRVMsIDB4MDBiYSksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
-Jm1oaV9tdjMyX2luZm8gfSwKPj4gIAkvKiBNVjMyLVdCIChDaW50ZXJpb24pICovCj4+IC0JeyBQ
-Q0lfREVWSUNFKDB4MTI2OSwgMHgwMGJiKSwKPj4gKwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9J
-RF9USEFMRVMsIDB4MDBiYiksCj4+ICAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
-Jm1oaV9tdjMyX2luZm8gfSwKPj4gIAl7ICB9Cj4+ICB9Owo+PiAtLSAKPj4gMi4xNy4xCj4+IAo+
-Cj4tLSAKPuCuruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7g
-r40K
+On Mon, Nov 07, 2022 at 10:21:36AM +0800, Slark Xiao wrote:
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> At 2022-11-03 20:50:09, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
+> >On Wed, Nov 02, 2022 at 10:44:37AM +0800, Slark Xiao wrote:
+> >> To make code neat and for convenience purpose, using macro for
+> >> some vids.
+> >
+> >s/using/use
+> >s/vids/VIDs
+> >
+> >> Refer to previous patch in pci_ids.h side, they are
+> >> not allowed to add new entries of single driver needed. So we
+> >> add it in our local file.
+> >>
+> >
+> >Reference to the previous patch has no relationship with this commit once
+> >merged. How about,
+> >
+> >"These macros are supposed to be added to pci_ids.h. But until the macros are
+> >used in multiple places, it is not recommended. So adding it locally for now."
+> > 
+> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >> ---
+> >>  drivers/bus/mhi/host/pci_generic.c | 18 +++++++++++-------
+> >>  1 file changed, 11 insertions(+), 7 deletions(-)
+> >> 
+> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >> index c4259cb2d289..5abc778a5290 100644
+> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >> @@ -24,6 +24,10 @@
+> >>  
+> >>  #define HEALTH_CHECK_PERIOD (HZ * 2)
+> >>  
+> >
+> >Add a comment,
+> >
+> >/* PCI VID definitions */
+> >
+> >> +#define PCI_VENDOR_ID_THALES	0x1269
+> >> +
+> >
+> >No need of newline
+> >
+> >> +#define PCI_VENDOR_ID_QUECTEL	0x1eac
+> >> +
+> >
+> >Just use a space after PCI_VENDOR_ID_QUECTEL like above.
+> >
+> >Thanks,
+> >Mani
+> Hi Mani,
+> I didn't get the point of this format issue.
+> Do you mean remove that newline between these 2 definitions?
+
+Yes, since both are VIDs, there is no need to add a newline between them.
+
+Thanks,
+Mani
+
+> >
+> >>  /**
+> >>   * struct mhi_pci_dev_info - MHI PCI device specific information
+> >>   * @config: MHI controller configuration
+> >> @@ -557,11 +561,11 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> >>  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+> >>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+> >> -	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+> >>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >> -	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+> >>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >> -	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+> >>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >>  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+> >>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+> >> @@ -585,16 +589,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> >>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
+> >>  	/* MV31-W (Cinterion) */
+> >> -	{ PCI_DEVICE(0x1269, 0x00b3),
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+> >>  	/* MV31-W (Cinterion), based on new baseline */
+> >> -	{ PCI_DEVICE(0x1269, 0x00b4),
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+> >>  	/* MV32-WA (Cinterion) */
+> >> -	{ PCI_DEVICE(0x1269, 0x00ba),
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+> >>  	/* MV32-WB (Cinterion) */
+> >> -	{ PCI_DEVICE(0x1269, 0x00bb),
+> >> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+> >>  	{  }
+> >>  };
+> >> -- 
+> >> 2.17.1
+> >> 
+> >
+> >-- 
+> >மணிவண்ணன் சதாசிவம்
+
+-- 
+மணிவண்ணன் சதாசிவம்
