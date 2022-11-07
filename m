@@ -1,153 +1,245 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105E57F
-	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 16:36:52 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A7GMjje016916;
-	Mon, 7 Nov 2022 16:36:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=m1DwnOv3KX4c+wIm1QqS50QRxpR691x13I+8VR79ZW8=;
- b=pmNQu1M2rda5uDRUj2KofZcUq7TjOwq7IizmtgHVPPyc3CMapoHoKNdpxu9ULJpWo0+7
- 8sfDIF81u67NxZnufqTwGE7eiXWig/c87+otO2a/p2q2ZM0GS4JtN5z7TiWEHmJwPTit
- XG1UfEdLh7ZUIYgHc+E2KfLhW+3IwzWZMK7K5D1UWA1D4mHmpxwBX19jBmtKcMxULZBE
- dURjahLknisLEUEYTZdxrOwgeXnjc/FQN4aaSWrCPmKGtSmioS4cyOFZiq8MQTff4JhH
- dIHY4tyjpk9/k0kBJKc0efvsMb2iza1aPJB13lwG7MeJXcsgoo6he1eDUhFzgtywj6zB Hw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kq5g0814u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Nov 2022 16:36:43 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A7Gagh1024128
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 7 Nov 2022 16:36:42 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 7 Nov 2022
- 08:36:41 -0800
-Message-ID: <5e8b3ff3-edee-f4d0-925c-545d0a801e1f@quicinc.com>
-Date: Mon, 7 Nov 2022 09:36:40 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD457F
+	for <mhi@lists.linux.dev>; Mon,  7 Nov 2022 17:15:48 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id h14so11179992pjv.4
+        for <mhi@lists.linux.dev>; Mon, 07 Nov 2022 09:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LTjXi97uR4XogIu6puuF858HlEW2qY3mXXi3YgbVyuQ=;
+        b=TzCU+QAP9K5fMmrp7SlNAU4rY+0hRfCIESlt1z0me4mn2THUsK1UtyGPAQld6+Hnpw
+         NA2o9y0cNj+ATFzYyPJrJzvkWxkOjGJyK4k1+K3flYRsm177BsPJ77EFEqM9T1Yei3Wv
+         ZHtd4T6CVTutX2U2tn/yH5M4jKJiDdFU+tVBiiXCtc5clXsAOhDUhMYpi1fbwZiqN2Tw
+         iz6rBAT3GfnmlWjHzTymOaZV7EL9tHyo1LQz2uAtOVH3QzlQcUIZ4saKMNq4hcNaDDMV
+         OMbiYrK6ih2C+5ABlf5+TNI0wVDTkEcxr6i1t9A3vRlp7OrzwCFIM7sfTNoktWyAiIfz
+         pQhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LTjXi97uR4XogIu6puuF858HlEW2qY3mXXi3YgbVyuQ=;
+        b=1cjmuhLZxQiW5Nh4vsLJv5hh7ALo4P9wQV5IEJrWhRhmdApjolPP7G2nDRcWSoAXFc
+         a1oRumoXAHHPC25LWd/H31B3ud1Go+AJ8lDkT0fjyC6LGNZplrX94G57ld7hYzu1FOjI
+         pI1hu5EeBXNC3QPV/5iwNVVBP60uXsp0JbFqacthF4uTuJcU58jKNVMYjqdJVlEOFkTE
+         DUXtXZDdUHiRBGV01gg0sh8yVVsWUZ18fQKuEWAW+f/mCD+MP7D7IKivTji/UaWF/2M8
+         Msw7X5rxMkwYl8gLVfifl7d0nKFKa3DLXYdGYHCCDeC1UtNYAwuFNDl7nBCMw8DP3Ejz
+         aQGg==
+X-Gm-Message-State: ACrzQf2hEiYqJrWcjljoTH3IZVZAUH+e5kfC5tUXzw5QWiCgQm8GnYfY
+	GO5bjMEwK5WXmYDAhwomCcN6pqpWI5D+/i6w5oU=
+X-Google-Smtp-Source: AMsMyM7Ta3jOzYwDilL3rRtbb8+XPHLNKrKcMutr0lEqim5tMfJfS/76spKVnPU0bryeuEMbct8w03U+qXcdmCxAV14=
+X-Received: by 2002:a17:90a:86c6:b0:213:36b6:1b4c with SMTP id
+ y6-20020a17090a86c600b0021336b61b4cmr53258702pjv.7.1667841348032; Mon, 07 Nov
+ 2022 09:15:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: MHI DTR client implementation
-Content-Language: en-US
-To: Daniele Palmas <dnlplm@gmail.com>, Loic Poulain <loic.poulain@linaro.org>
-CC: Manivannan Sadhasivam <mani@kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>
-References: <CAGRyCJGWQagceLhnECBcpPfG5jMPZrjbsHrio1BvgpZJhk0pbA@mail.gmail.com>
- <20221107115856.GE2220@thinkpad>
- <CAMZdPi-=AkfKnyPRBgV-7RxczePnB4shLq2bdj+q3kh+7Web3w@mail.gmail.com>
- <CAGRyCJG_FzzjEWtpc=FQX=gO1s=DM2cV3XFB4Y0vq4UM_MP1KQ@mail.gmail.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <CAGRyCJG_FzzjEWtpc=FQX=gO1s=DM2cV3XFB4Y0vq4UM_MP1KQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5vXZBqjqzefR-LuAplYv-5Up88vHQLaX
-X-Proofpoint-ORIG-GUID: 5vXZBqjqzefR-LuAplYv-5Up88vHQLaX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_08,2022-11-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
- lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211070132
+References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
+ <9d61676a-888a-b172-141d-62257e2e9e84@quicinc.com>
+In-Reply-To: <9d61676a-888a-b172-141d-62257e2e9e84@quicinc.com>
+From: Robert Marko <robimarko@gmail.com>
+Date: Mon, 7 Nov 2022 18:15:36 +0100
+Message-ID: <CAOX2RU6NGVi1j-Es=t5LkqbOb9LCfWC9Rkqa4x00dPWqXUDfKw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: mani@kernel.org, kvalo@kernel.org, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
+	quic_qianyu@quicinc.com, bbhatt@codeaurora.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, ath11k@lists.infradead.org, 
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ansuelsmth@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/7/2022 9:28 AM, Daniele Palmas wrote:
-> Hi Loic,
-> 
-> Il giorno lun 7 nov 2022 alle ore 14:47 Loic Poulain
-> <loic.poulain@linaro.org> ha scritto:
->>
->> On Mon, 7 Nov 2022 at 12:59, Manivannan Sadhasivam <mani@kernel.org> wrote:
->>>
->>> + Loic
->>>
->>> On Tue, Sep 20, 2022 at 04:23:25PM +0200, Daniele Palmas wrote:
->>>> Hello all,
->>>>
->>>> I'm looking for some guidance related to  a possible MHI client for
->>>> serial ports signals management implementation.
->>>>
->>>> Testing the AT channels with Telit modems I noted that unsolicited
->>>> indications do not show: the root cause for this is DTR not set for
->>>> those ports through MHI channels 18/19, something that with current
->>>> upstream code can't be done due to the missing DTR client driver.
->>>>
->>>> I currently have an hack, based on the very first mhi stack submission
->>>> (see https://lore.kernel.org/lkml/1524795811-21399-2-git-send-email-sdias@codeaurora.org/#Z31drivers:bus:mhi:core:mhi_dtr.c),
->>>> solving my issue, but I would like to understand which would be the
->>>> correct way, so maybe I can contribute some code.
->>>>
->>>> Should the MHI DTR client be part of the WWAN subsystem?
->>>
->>> Yes, since WWAN is going to be the consumer of this channel, it makes sense to
->>> host the client driver there.
->>
->> Agree.
->>
->>>
->>>> If yes, does it make sense to have an associated port exposed as a char
->>>> device?
->>>
->>> If the goal is to control the DTR settings from userspace, then you can use
->>> the "AT" chardev node and handle the DTR settings in this client driver.
->>> Because at the end of the day, user is going to read/write from AT port only.
->>> Adding one more ctrl port and have it configured before using AT port is going
->>> to be a pain.
->>>
->>> Thanks,
->>> Mani
->>>
->>>> I guess the answer is no, since it should be used just by the AT ports
->>>> created by mhi_wwan_ctrl, but I'm not sure if that's possible.
->>>>
->>>> Or should the DTR management be somehow part of the MHI stack and
->>>> mhi_wwan_ctrl interacts with that through exported functions?
->>
->> Is this DTR thing Telit specific?
->>
-> 
-> I'm still not 100% sure, but I believe it is Telit specific.
-> 
->> Noticed you're using the IP_CTRL channel for this, do you have more
->> information about the protocol to use?
->>
-> 
-> No, Qualcomm documents I have about mhi does not telly anything about
-> this protocol: all I know is coming from previously sent patches and
-> code available at
-> https://git.codelinaro.org/clo/le/platform/mhi-host/-/commit/17a10f4c879c9f504a0d279f03e924553bcf2420
-> 
->> At first glance, I would say you can create a simple driver for
->> IP_CTRL channel (that could be part of mhi_wwan_ctrl), but instead of
->> exposing it rawly to the user, simply enable DTR unconditionally at
->> probe time?
->>
-> 
-> Yes, this is what I'm currently doing in custom patches and it's
-> working fine since I just need to "turn on" indications. Not sure,
-> however, if this works fine for other use cases (e.g. dial-up, as
-> mentioned in commit description at
-> https://git.codelinaro.org/clo/le/platform/mhi-host/-/commit/17a10f4c879c9f504a0d279f03e924553bcf2420
-> though I'm not sure how much having a dial-up connection with this
-> kind of modems makes sense...)
+On Mon, 7 Nov 2022 at 16:10, Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+>
+> On 11/5/2022 1:49 PM, Robert Marko wrote:
+> > Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
+> > will cause a clash in the QRTR instance node ID and prevent the driver
+> > from talking via QMI to the card and thus initializing it with:
+> > [    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
+> > [    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
+> >
+> > So, in order to allow for this combination of cards, especially AHB + PCI
+> > cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
+> > QRTR instance ID offset by calculating a unique one based on PCI domain
+> > and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
+> > using the SBL state callback that is added as part of the series.
+> > We also have to make sure that new QRTR offset is added on top of the
+> > default QRTR instance ID-s that are currently used in the driver.
+> >
+> > This finally allows using AHB + PCI or multiple PCI cards on the same
+> > system.
+> >
+> > Before:
+> > root@OpenWrt:/# qrtr-lookup
+> >    Service Version Instance Node  Port
+> >       1054       1        0    7     1 <unknown>
+> >         69       1        2    7     3 ATH10k WLAN firmware service
+> >
+> > After:
+> > root@OpenWrt:/# qrtr-lookup
+> >    Service Version Instance Node  Port
+> >       1054       1        0    7     1 <unknown>
+> >         69       1        2    7     3 ATH10k WLAN firmware service
+> >         15       1        0    8     1 Test service
+> >         69       1        8    8     2 ATH10k WLAN firmware service
+> >
+> > Tested-on: IPQ8074 hw2.0 AHB WLAN.HK.2.5.0.1-01208-QCAHKSWPL_SILICONZ-1
+> > Tested-on: QCN9074 hw1.0 PCI WLAN.HK.2.5.0.1-01208-QCAHKSWPL_SILICONZ-1
+> >
+> > Signed-off-by: Robert Marko <robimarko@gmail.com>
+> > ---
+> >   drivers/net/wireless/ath/ath11k/mhi.c | 47 ++++++++++++++++++---------
+> >   drivers/net/wireless/ath/ath11k/mhi.h |  3 ++
+> >   drivers/net/wireless/ath/ath11k/pci.c |  5 ++-
+> >   3 files changed, 38 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+> > index 86995e8dc913..23e85ea902f5 100644
+> > --- a/drivers/net/wireless/ath/ath11k/mhi.c
+> > +++ b/drivers/net/wireless/ath/ath11k/mhi.c
+> > @@ -294,6 +294,32 @@ static void ath11k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
+> >   {
+> >   }
+> >
+> > +static int ath11k_mhi_op_read_reg(struct mhi_controller *mhi_cntrl,
+> > +                               void __iomem *addr,
+> > +                               u32 *out)
+> > +{
+> > +     *out = readl(addr);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
+> > +                                 void __iomem *addr,
+> > +                                 u32 val)
+> > +{
+> > +     writel(val, addr);
+> > +}
+> > +
+> > +static void ath11k_mhi_qrtr_instance_set(struct mhi_controller *mhi_cntrl)
+> > +{
+> > +     struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
+> > +
+> > +     ath11k_mhi_op_write_reg(mhi_cntrl,
+> > +                             mhi_cntrl->bhi + BHI_ERRDBG2,
+> > +                             FIELD_PREP(QRTR_INSTANCE_MASK,
+> > +                             ab->qmi.service_ins_id - ab->hw_params.qmi_service_ins_id));
+> > +}
+>
+> What kind of synchronization is there for this?
 
-Its my understanding DUN is still used for carrier 
-validation/certification and also to support a number of legacy 
-services.  A niche thing, but still in use.
+None from what I could tell.
+>
+> Does SBL spin until this is set?
 
+No, the default value is 0x0 and it will boot with that.
+>
+> What would prevent SBL from booting, sending the notification to the
+> host, and then quickly entering runtime mode before the host had a
+> chance to get here?
+
+As far as I know nothing really, but this is a question for QCA.
+I have tried to make a generic solution from various bits and pieces they
+are using downstream but which are really not suitable for upstream.
+
+I agree it's not ideal, but the worst that could happen is that card
+won't work which is current
+behavior anyway.
+
+Not being able to use AHB + PCI or multiple PCI cards is really
+annoying as I am not able
+to utilize most of the 5GHz spectrum on my router due to this.
+
+Regards,
+Robert
+>
+>
+> > +
+> >   static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
+> >   {
+> >       switch (reason) {
+> > @@ -315,6 +341,8 @@ static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
+> >               return "MHI_CB_FATAL_ERROR";
+> >       case MHI_CB_BW_REQ:
+> >               return "MHI_CB_BW_REQ";
+> > +     case MHI_CB_EE_SBL_MODE:
+> > +             return "MHI_CB_EE_SBL_MODE";
+> >       default:
+> >               return "UNKNOWN";
+> >       }
+> > @@ -336,27 +364,14 @@ static void ath11k_mhi_op_status_cb(struct mhi_controller *mhi_cntrl,
+> >               if (!(test_bit(ATH11K_FLAG_UNREGISTERING, &ab->dev_flags)))
+> >                       queue_work(ab->workqueue_aux, &ab->reset_work);
+> >               break;
+> > +     case MHI_CB_EE_SBL_MODE:
+> > +             ath11k_mhi_qrtr_instance_set(mhi_cntrl);
+> > +             break;
+> >       default:
+> >               break;
+> >       }
+> >   }
+> >
+> > -static int ath11k_mhi_op_read_reg(struct mhi_controller *mhi_cntrl,
+> > -                               void __iomem *addr,
+> > -                               u32 *out)
+> > -{
+> > -     *out = readl(addr);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
+> > -                                 void __iomem *addr,
+> > -                                 u32 val)
+> > -{
+> > -     writel(val, addr);
+> > -}
+> > -
+> >   static int ath11k_mhi_read_addr_from_dt(struct mhi_controller *mhi_ctrl)
+> >   {
+> >       struct device_node *np;
+> > diff --git a/drivers/net/wireless/ath/ath11k/mhi.h b/drivers/net/wireless/ath/ath11k/mhi.h
+> > index 8d9f852da695..0db308bc3047 100644
+> > --- a/drivers/net/wireless/ath/ath11k/mhi.h
+> > +++ b/drivers/net/wireless/ath/ath11k/mhi.h
+> > @@ -16,6 +16,9 @@
+> >   #define MHICTRL                                     0x38
+> >   #define MHICTRL_RESET_MASK                  0x2
+> >
+> > +#define BHI_ERRDBG2                          0x38
+> > +#define QRTR_INSTANCE_MASK                   GENMASK(7, 0)
+> > +
+> >   int ath11k_mhi_start(struct ath11k_pci *ar_pci);
+> >   void ath11k_mhi_stop(struct ath11k_pci *ar_pci);
+> >   int ath11k_mhi_register(struct ath11k_pci *ar_pci);
+> > diff --git a/drivers/net/wireless/ath/ath11k/pci.c b/drivers/net/wireless/ath/ath11k/pci.c
+> > index 99cf3357c66e..cd26c1567415 100644
+> > --- a/drivers/net/wireless/ath/ath11k/pci.c
+> > +++ b/drivers/net/wireless/ath/ath11k/pci.c
+> > @@ -370,13 +370,16 @@ static void ath11k_pci_sw_reset(struct ath11k_base *ab, bool power_on)
+> >   static void ath11k_pci_init_qmi_ce_config(struct ath11k_base *ab)
+> >   {
+> >       struct ath11k_qmi_ce_cfg *cfg = &ab->qmi.ce_cfg;
+> > +     struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
+> > +     struct pci_bus *bus = ab_pci->pdev->bus;
+> >
+> >       cfg->tgt_ce = ab->hw_params.target_ce_config;
+> >       cfg->tgt_ce_len = ab->hw_params.target_ce_count;
+> >
+> >       cfg->svc_to_ce_map = ab->hw_params.svc_to_ce_map;
+> >       cfg->svc_to_ce_map_len = ab->hw_params.svc_to_ce_map_len;
+> > -     ab->qmi.service_ins_id = ab->hw_params.qmi_service_ins_id;
+> > +     ab->qmi.service_ins_id = ab->hw_params.qmi_service_ins_id +
+> > +     (((pci_domain_nr(bus) & 0xF) << 4) | (bus->number & 0xF));
+> >
+> >       ath11k_ce_get_shadow_config(ab, &cfg->shadow_reg_v2,
+> >                                   &cfg->shadow_reg_v2_len);
+>
