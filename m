@@ -1,32 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C782F3B
-	for <mhi@lists.linux.dev>; Tue,  8 Nov 2022 14:58:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D4BC433D6;
-	Tue,  8 Nov 2022 14:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201328BF5
+	for <mhi@lists.linux.dev>; Tue,  8 Nov 2022 17:24:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA76C433D6;
+	Tue,  8 Nov 2022 17:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667919535;
-	bh=XiffxQy7J6DpOe26xZkzFwNHgZVMljPsukiLFLZq6mE=;
+	s=k20201202; t=1667928269;
+	bh=3I2an1duxohv2+c8cwYzYE3GreFTHQqmioncGIw5CXY=;
 	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=hzGdDCsTi6bnBfWyNFLNiqRepZ/QTyqU/gRscatFUNE0s1XXvMUo+LUEJ+ZBDuzip
-	 kiUgHd2HNgteRw57GEXZHX3T8Pdan0Z2bcJ5AcZbxUCuU6hXDkNOjs7ulEZegi+6vz
-	 LijtVgfOYHq7g8kXbuBKWhLujjQmsmo+Avmingdqqf2YAS+Z1fmHl4TvGPYs93gq2f
-	 7NVDfRUJa0u4fwBQSo2mgDja3PtUwk+WGkBy6dLuWiWEuevrJGY8O+vCJ9+A8U5lSh
-	 f0map3FBvJgG3t+A8VSw2Ja93wH2JGTdt+2/i2LbMx94ecAt675VQNcwbXlcqzPH8l
-	 m1Lje9thHB61Q==
+	b=RRkeyAlngu16woa3Ip9iR6+Rnuf99/z8u53ayXiByCj8558mDTeR69SIJ7rai+twB
+	 UkPZ+jUjWOYUWTPcfZHGSXl8Z7v2NJhklCepECtokGW9sVIfesk3UlhczcX6Kssuil
+	 Ig6Eel2ECX87BEZbM9A10Ue4aTn3HW0RSShHgieh9iWDgM/J5mErc/NZhXo2ixEaYx
+	 OwpbmTWovf20WbVvaJsYBLR/z6HLhdM1mm1mR7/JXxG8HRNtaquWMdKOMmUMWFMZpA
+	 369950n87l2IubAjpv8HOs7ONDb4bXb/+CbRXXCr5e/QpoucfrFPvTkMyLP7gUBM9k
+	 xAGTV3zZ4vaWw==
 From: Kalle Valo <kvalo@kernel.org>
 To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>,  Hemant Kumar <quic_hemantk@quicinc.com>,  linux-arm-msm@vger.kernel.org,  mhi@lists.linux.dev
-Subject: Re: [PATCH v5] bus: mhi: host: make mhi_controller_config::event_cfg const
-References: <20220829205112.12036-1-quic_jjohnson@quicinc.com>
-	<20220830171147.24338-1-quic_jjohnson@quicinc.com>
-	<20220907080016.GA22505@workstation> <87fsettvtc.fsf@kernel.org>
-	<20221108143902.GA88842@thinkpad>
-Date: Tue, 08 Nov 2022 16:58:52 +0200
-In-Reply-To: <20221108143902.GA88842@thinkpad> (Manivannan Sadhasivam's
-	message of "Tue, 8 Nov 2022 20:09:02 +0530")
-Message-ID: <878rkltrv7.fsf@kernel.org>
+Cc: Robert Marko <robimarko@gmail.com>,  davem@davemloft.net,  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,  gregkh@linuxfoundation.org,  elder@linaro.org,  hemantk@codeaurora.org,  quic_jhugo@quicinc.com,  quic_qianyu@quicinc.com,  bbhatt@codeaurora.org,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  ansuelsmth@gmail.com
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+References: <20221105194943.826847-1-robimarko@gmail.com>
+	<20221105194943.826847-2-robimarko@gmail.com>
+	<20221107174727.GA7535@thinkpad>
+Date: Tue, 08 Nov 2022 19:24:22 +0200
+In-Reply-To: <20221107174727.GA7535@thinkpad> (Manivannan Sadhasivam's message
+	of "Mon, 7 Nov 2022 23:17:27 +0530")
+Message-ID: <87cz9xcqbd.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -38,29 +37,34 @@ Content-Type: text/plain
 
 Manivannan Sadhasivam <mani@kernel.org> writes:
 
-> On Tue, Nov 08, 2022 at 03:33:35PM +0200, Kalle Valo wrote:
->> Manivannan Sadhasivam <mani@kernel.org> writes:
->> 
->> > On Tue, Aug 30, 2022 at 10:11:47AM -0700, Jeff Johnson wrote:
->> >> Currently the event_cfg pointer in struct mhi_controller_config is not
->> >> defined as a const pointer. This prevents clients from registering a
->> >> read-only configuration unless they use a typecast. Since the
->> >> event_cfg should not be modified once registered, add the const
->> >> qualifier to event_cfg. This is aligned with the definition of ch_cfg.
->> >> 
->> >> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
->> >
->> > Applied to mhi-next!
->> 
->> BTW what happened to this patch? I cannot find it anywhere.
+> On Sat, Nov 05, 2022 at 08:49:43PM +0100, Robert Marko wrote:
+>> Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
+>> will cause a clash in the QRTR instance node ID and prevent the driver
+>> from talking via QMI to the card and thus initializing it with:
+>> [    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
+>> [    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
 >> 
 >
-> Sorry! I did apply this patch earlier locally but didn't push it to
-> remote. So it got lost.
+> There is still an outstanding issue where you cannot connect two WLAN modules
+> with same node id.
 >
-> Now pushed! Thanks for spotting.
+>> So, in order to allow for this combination of cards, especially AHB + PCI
+>> cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
+>> QRTR instance ID offset by calculating a unique one based on PCI domain
+>> and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
+>> using the SBL state callback that is added as part of the series.
+>> We also have to make sure that new QRTR offset is added on top of the
+>> default QRTR instance ID-s that are currently used in the driver.
+>> 
+>
+> Register BHI_ERRDBG2 is listed as Read only from Host as per the BHI spec.
+> So I'm not sure if this solution is going to work on all ath11k supported
+> chipsets.
+>
+> Kalle, can you confirm?
 
-Great, thanks Mani.
+I can't look at this in detail right now, but hopefully in few days.
+I'll get back to you.
 
 -- 
 https://patchwork.kernel.org/project/linux-wireless/list/
