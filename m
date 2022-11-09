@@ -1,72 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201328BF5
-	for <mhi@lists.linux.dev>; Tue,  8 Nov 2022 17:24:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA76C433D6;
-	Tue,  8 Nov 2022 17:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F74257B
+	for <mhi@lists.linux.dev>; Wed,  9 Nov 2022 07:45:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A450C433D6;
+	Wed,  9 Nov 2022 07:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667928269;
-	bh=3I2an1duxohv2+c8cwYzYE3GreFTHQqmioncGIw5CXY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=RRkeyAlngu16woa3Ip9iR6+Rnuf99/z8u53ayXiByCj8558mDTeR69SIJ7rai+twB
-	 UkPZ+jUjWOYUWTPcfZHGSXl8Z7v2NJhklCepECtokGW9sVIfesk3UlhczcX6Kssuil
-	 Ig6Eel2ECX87BEZbM9A10Ue4aTn3HW0RSShHgieh9iWDgM/J5mErc/NZhXo2ixEaYx
-	 OwpbmTWovf20WbVvaJsYBLR/z6HLhdM1mm1mR7/JXxG8HRNtaquWMdKOMmUMWFMZpA
-	 369950n87l2IubAjpv8HOs7ONDb4bXb/+CbRXXCr5e/QpoucfrFPvTkMyLP7gUBM9k
-	 xAGTV3zZ4vaWw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Robert Marko <robimarko@gmail.com>,  davem@davemloft.net,  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,  gregkh@linuxfoundation.org,  elder@linaro.org,  hemantk@codeaurora.org,  quic_jhugo@quicinc.com,  quic_qianyu@quicinc.com,  bbhatt@codeaurora.org,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  ansuelsmth@gmail.com
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-References: <20221105194943.826847-1-robimarko@gmail.com>
-	<20221105194943.826847-2-robimarko@gmail.com>
-	<20221107174727.GA7535@thinkpad>
-Date: Tue, 08 Nov 2022 19:24:22 +0200
-In-Reply-To: <20221107174727.GA7535@thinkpad> (Manivannan Sadhasivam's message
-	of "Mon, 7 Nov 2022 23:17:27 +0530")
-Message-ID: <87cz9xcqbd.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	s=k20201202; t=1667979907;
+	bh=bKZfzoTQZOxjXRJ5wvO5FvUQuWJtV6CrGATUo+dw2JM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t2I32leLnRPuEufxCgUkn7fiFuNZrs+pC32WvQPHl6fNb4+UloTrRnr/x1v2TerJU
+	 cwqbi0I0dPq2OtS8vMuHFiGeO/lUaE5djlGUTMg3bCIwsYWq7MUYY29myXkiVFDgmr
+	 SvbxuRRug8ta+oetWya1qXxvdeHAYY8gf7ItQGxGDcIFmyRjgyrs0QL1PkXF9J/mW/
+	 qypAHYWuZrxmo2BZNkUJMPjEpjMoAVa8kMVIC+xolZl2JzHAKwxjmRnCCUrA+urrR2
+	 HkSBYrm6KdHpi+yYJ2/OjWRF81VDst0/reqslbS8Ny3trVa5n3P5qvCNucqlbb171K
+	 GbSiOCyFO7h+Q==
+Date: Wed, 9 Nov 2022 13:15:00 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Hemant Kumar <quic_hemantk@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v5] bus: mhi: host: make mhi_controller_config::event_cfg
+ const
+Message-ID: <20221109074500.GB4651@thinkpad>
+References: <20220829205112.12036-1-quic_jjohnson@quicinc.com>
+ <20220830171147.24338-1-quic_jjohnson@quicinc.com>
+ <20220907080016.GA22505@workstation>
+ <87fsettvtc.fsf@kernel.org>
+ <20221108143902.GA88842@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221108143902.GA88842@thinkpad>
 
-Manivannan Sadhasivam <mani@kernel.org> writes:
+On Tue, Nov 08, 2022 at 08:09:02PM +0530, Manivannan Sadhasivam wrote:
+> On Tue, Nov 08, 2022 at 03:33:35PM +0200, Kalle Valo wrote:
+> > Manivannan Sadhasivam <mani@kernel.org> writes:
+> > 
+> > > On Tue, Aug 30, 2022 at 10:11:47AM -0700, Jeff Johnson wrote:
+> > >> Currently the event_cfg pointer in struct mhi_controller_config is not
+> > >> defined as a const pointer. This prevents clients from registering a
+> > >> read-only configuration unless they use a typecast. Since the
+> > >> event_cfg should not be modified once registered, add the const
+> > >> qualifier to event_cfg. This is aligned with the definition of ch_cfg.
+> > >> 
+> > >> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> > >
+> > > Applied to mhi-next!
+> > 
+> > BTW what happened to this patch? I cannot find it anywhere.
+> > 
+> 
+> Sorry! I did apply this patch earlier locally but didn't push it to
+> remote. So it got lost.
+> 
+> Now pushed! Thanks for spotting.
+> 
 
-> On Sat, Nov 05, 2022 at 08:49:43PM +0100, Robert Marko wrote:
->> Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
->> will cause a clash in the QRTR instance node ID and prevent the driver
->> from talking via QMI to the card and thus initializing it with:
->> [    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
->> [    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
->> 
->
-> There is still an outstanding issue where you cannot connect two WLAN modules
-> with same node id.
->
->> So, in order to allow for this combination of cards, especially AHB + PCI
->> cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
->> QRTR instance ID offset by calculating a unique one based on PCI domain
->> and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
->> using the SBL state callback that is added as part of the series.
->> We also have to make sure that new QRTR offset is added on top of the
->> default QRTR instance ID-s that are currently used in the driver.
->> 
->
-> Register BHI_ERRDBG2 is listed as Read only from Host as per the BHI spec.
-> So I'm not sure if this solution is going to work on all ath11k supported
-> chipsets.
->
-> Kalle, can you confirm?
+Dropped the patch now because of this: https://lore.kernel.org/lkml/20221109151637.67be60f8@canb.auug.org.au/
 
-I can't look at this in detail right now, but hopefully in few days.
-I'll get back to you.
+Since we need to modify event_cfg for using the shared IRQ, I don't think the
+patch is applicable. Maybe that's the reason I dropped it earlier also, but
+forgot to share it in mailing list.
+
+Thanks,
+Mani
+
+> > -- 
+> > https://patchwork.kernel.org/project/linux-wireless/list/
+> > 
+> > https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> > 
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
+> 
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+மணிவண்ணன் சதாசிவம்
