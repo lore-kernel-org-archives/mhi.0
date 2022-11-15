@@ -1,107 +1,90 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F417C
-	for <mhi@lists.linux.dev>; Tue, 15 Nov 2022 02:24:08 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AF0kKOK002498;
-	Tue, 15 Nov 2022 02:23:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=SGMfU72faLq0V2Muc1DUzPpZ0LBVZTnLSg8NaPV5rrg=;
- b=gdFRC5uEbQAVbxwFLAkvN0+dnPZGD95TFuFqKE8+Qn9T9dx0Kn5gmCdtx4G6jjFA6s7d
- whIa8RDTLkroBEj1HpUMANwUMV2NeWatD9FrLMSMmJdVPBxv8TGRowclbU2Hhk+ddgIf
- /9nXK9QTAuYOBPNvLLpAJ8qGKBd1ETZnobO2WvIimEvYcPw7jLH3t7ZkizH1B90aUxFE
- ZnddFrwamB2oFSsQN+tSCFaKhYrYFbi7Vbx693dQM8keZP0NeHbokm0pTwZ/uDZznZHg
- nzA3Yp/xuYAkXAVyM0eFOMnbEZrvf5vk/7VjrXwkkw9OTJ7M20QTZ7MtBAad5roi6KaP fg== 
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kut9rrvj7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Nov 2022 02:23:59 +0000
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2AF2NuAJ023580;
-	Tue, 15 Nov 2022 02:23:56 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 3kt4jnqy4x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 15 Nov 2022 02:23:56 +0000
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AF2Ntnx023574;
-	Tue, 15 Nov 2022 02:23:56 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 2AF2NtxN023573;
-	Tue, 15 Nov 2022 02:23:55 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 2152E38A8; Tue, 15 Nov 2022 10:23:54 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, loic.poulain@linaro.org
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
-        Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH v3] bus: mhi: host: Disable preemption while processing data events
-Date: Tue, 15 Nov 2022 10:23:51 +0800
-Message-Id: <1668479031-12853-1-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jaKNDo45Ksx3zBuzoHxMuGcHRZ1olxH4
-X-Proofpoint-GUID: jaKNDo45Ksx3zBuzoHxMuGcHRZ1olxH4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-14_15,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=771 clxscore=1015 phishscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 adultscore=0 priorityscore=1501
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211150015
+Received: from m1323.mail.163.com (m1323.mail.163.com [220.181.13.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463EF23A6
+	for <mhi@lists.linux.dev>; Tue, 15 Nov 2022 06:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=hrk0d
+	bbBKzxXX4+Dgcaj55QnrSIJ7qLn9WdJODoPrYk=; b=SIcCZz46ddQl7fblmYx05
+	Oi7txIxvms7eaQTRysvNNr4I698alBcz8dIC09p6rbxaEkVgGvU7LAVEnZAJj1ZI
+	WQhzwxu6wGpzq7LRM0ByVe/ZmAPXRfr94890nB9TVLeT+LTg4WoSWfjJfGkUCTBK
+	fm5J6dQDgnTDHGIfh1hrCw=
+Received: from slark_xiao$163.com ( [112.97.55.21] ) by ajax-webmail-wmsvr23
+ (Coremail) ; Tue, 15 Nov 2022 14:00:10 +0800 (CST)
+X-Originating-IP: [112.97.55.21]
+Date: Tue, 15 Nov 2022 14:00:10 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: mani@kernel.org, gregkh@linuxfoundation.org, loic.poulain@linaro.org
+Cc: dnlplm@gmail.com, yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re:[PATCH v3] bus: mhi: host: pci_generic: Add definition for some
+ VIDs
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <20221107112700.773-1-slark_xiao@163.com>
+References: <20221107112700.773-1-slark_xiao@163.com>
+X-NTES-SC: AL_QuydCviSvUgq5imaZekWkkcRjuo+UMC0vfgh249fPJs0qin81gUHeUVoHmn478SlCyK3iiKRSQFx6eB5cIp8QYC2Tz9ADnGZkVyEGwrYt/iL
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Message-ID: <38bbe02b.1790.18479dfa5ac.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:F8GowACXZmnqKnNjNE1EAA--.17630W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbivxW5ZFWB2Ued3QACs-
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-If data processing of an event is scheduled out because core
-is busy handling multiple irqs, this can starve the processing
-of MHI M0 state change event on another core. Fix this issue by
-disabling irq on the core processing data events.
-
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
-v2->v3: modify the comment
-v1->v2: add comments about why we disable local irq
-
- drivers/bus/mhi/host/main.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index f3aef77a..5dca0a0 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -1027,13 +1027,20 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
- 
- void mhi_ev_task(unsigned long data)
- {
-+	unsigned long flags;
- 	struct mhi_event *mhi_event = (struct mhi_event *)data;
- 	struct mhi_controller *mhi_cntrl = mhi_event->mhi_cntrl;
- 
- 	/* process all pending events */
--	spin_lock_bh(&mhi_event->lock);
-+	spin_lock_irqsave(&mhi_event->lock, flags);
-+	/*
-+	 * When multiple IRQs come, the tasklet will be scheduled out with event ring lock
-+	 * remaining acquired, causing M0 event process on another core gets stuck when it
-+	 * tries to acquire the same event ring lock. Thus, let's disable local IRQs here.
-+	 */
-+
- 	mhi_event->process_event(mhi_cntrl, mhi_event, U32_MAX);
--	spin_unlock_bh(&mhi_event->lock);
-+	spin_unlock_irqrestore(&mhi_event->lock, flags);
- }
- 
- void mhi_ctrl_ev_task(unsigned long data)
--- 
-2.7.4
-
+CkhpIE1hbmksCkFueSB1cGRhdGUgYWJvdXQgdGhpcyBwYXRjaD8gCkF0IDIwMjItMTEtMDcgMTk6
+Mjc6MDAsICJTbGFyayBYaWFvIiA8c2xhcmtfeGlhb0AxNjMuY29tPiB3cm90ZToKPlRvIG1ha2Ug
+Y29kZSBuZWF0IGFuZCBmb3IgY29udmVuaWVuY2UgcHVycG9zZSwgYWRkIGRlZmluaXRpb24gZm9y
+IHNvbWUKPlZJRHMuIEFkZGluZyBpdCBsb2NhbGx5IHVudGlsIHRoZXNlIFZJRHMgYXJlIHVzZWQg
+aW4gbXVsdGlwbGUgcGxhY2VzLgo+Cj5TaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194
+aWFvQDE2My5jb20+Cj4tLS0KPnYzOiBVcGRhdGUgZGVzY3JpcHRpb24KPnYyOiBVcGRhdGUgZGVz
+Y3JpcHRpb24gYW5kIGZpeCBmb3JtYXQgaXNzdWUKPi0tLQo+IGRyaXZlcnMvYnVzL21oaS9ob3N0
+L3BjaV9nZW5lcmljLmMgfCAxOCArKysrKysrKysrKy0tLS0tLS0KPiAxIGZpbGUgY2hhbmdlZCwg
+MTEgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+YnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2Vu
+ZXJpYy5jCj5pbmRleCBjNDI1OWNiMmQyODkuLjNhNzg5YmIyZjYzMSAxMDA2NDQKPi0tLSBhL2Ry
+aXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPisrKyBiL2RyaXZlcnMvYnVzL21oaS9o
+b3N0L3BjaV9nZW5lcmljLmMKPkBAIC0yNCw2ICsyNCwxMCBAQAo+IAo+ICNkZWZpbmUgSEVBTFRI
+X0NIRUNLX1BFUklPRCAoSFogKiAyKQo+IAo+Ky8qIFBDSSBWSUQgZGVmaW5pdGlvbnMgKi8KPisj
+ZGVmaW5lIFBDSV9WRU5ET1JfSURfVEhBTEVTCTB4MTI2OQo+KyNkZWZpbmUgUENJX1ZFTkRPUl9J
+RF9RVUVDVEVMCTB4MWVhYwo+Kwo+IC8qKgo+ICAqIHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIC0g
+TUhJIFBDSSBkZXZpY2Ugc3BlY2lmaWMgaW5mb3JtYXRpb24KPiAgKiBAY29uZmlnOiBNSEkgY29u
+dHJvbGxlciBjb25maWd1cmF0aW9uCj5AQCAtNTU3LDExICs1NjEsMTEgQEAgc3RhdGljIGNvbnN0
+IHN0cnVjdCBwY2lfZGV2aWNlX2lkIG1oaV9wY2lfaWRfdGFibGVbXSA9IHsKPiAJCS5kcml2ZXJf
+ZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV90ZWxpdF9mbjk5MF9pbmZvIH0sCj4gCXsgUENJ
+X0RFVklDRShQQ0lfVkVORE9SX0lEX1FDT00sIDB4MDMwOCksCj4gCQkuZHJpdmVyX2RhdGEgPSAo
+a2VybmVsX3Vsb25nX3QpICZtaGlfcWNvbV9zZHg2NV9pbmZvIH0sCj4tCXsgUENJX0RFVklDRSgw
+eDFlYWMsIDB4MTAwMSksIC8qIEVNMTIwUi1HTCAoc2R4MjQpICovCj4rCXsgUENJX0RFVklDRShQ
+Q0lfVkVORE9SX0lEX1FVRUNURUwsIDB4MTAwMSksIC8qIEVNMTIwUi1HTCAoc2R4MjQpICovCj4g
+CQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZv
+IH0sCj4tCXsgUENJX0RFVklDRSgweDFlYWMsIDB4MTAwMiksIC8qIEVNMTYwUi1HTCAoc2R4MjQp
+ICovCj4rCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1FVRUNURUwsIDB4MTAwMiksIC8qIEVN
+MTYwUi1HTCAoc2R4MjQpICovCj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZt
+aGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4tCXsgUENJX0RFVklDRSgweDFlYWMsIDB4MjAwMSks
+IC8qIEVNMTIwUi1HTCBmb3IgRkNDTCAoc2R4MjQpICovCj4rCXsgUENJX0RFVklDRShQQ0lfVkVO
+RE9SX0lEX1FVRUNURUwsIDB4MjAwMSksIC8qIEVNMTIwUi1HTCBmb3IgRkNDTCAoc2R4MjQpICov
+Cj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9p
+bmZvIH0sCj4gCS8qIFQ5OVcxNzUgKHNkeDU1KSwgQm90aCBmb3IgZVNJTSBhbmQgTm9uLWVTSU0g
+Ki8KPiAJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMGFiKSwKPkBAIC01
+ODUsMTYgKzU4OSwxNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgbWhpX3Bj
+aV9pZF90YWJsZVtdID0gewo+IAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9GT1hDT05OLCAw
+eGUwZDkpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5f
+c2R4NjVfaW5mbyB9LAo+IAkvKiBNVjMxLVcgKENpbnRlcmlvbikgKi8KPi0JeyBQQ0lfREVWSUNF
+KDB4MTI2OSwgMHgwMGIzKSwKPisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfVEhBTEVTLCAw
+eDAwYjMpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212MzFfaW5m
+byB9LAo+IAkvKiBNVjMxLVcgKENpbnRlcmlvbiksIGJhc2VkIG9uIG5ldyBiYXNlbGluZSAqLwo+
+LQl7IFBDSV9ERVZJQ0UoMHgxMjY5LCAweDAwYjQpLAo+Kwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRP
+Ul9JRF9USEFMRVMsIDB4MDBiNCksCj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3Qp
+ICZtaGlfbXYzMV9pbmZvIH0sCj4gCS8qIE1WMzItV0EgKENpbnRlcmlvbikgKi8KPi0JeyBQQ0lf
+REVWSUNFKDB4MTI2OSwgMHgwMGJhKSwKPisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfVEhB
+TEVTLCAweDAwYmEpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212
+MzJfaW5mbyB9LAo+IAkvKiBNVjMyLVdCIChDaW50ZXJpb24pICovCj4tCXsgUENJX0RFVklDRSgw
+eDEyNjksIDB4MDBiYiksCj4rCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1RIQUxFUywgMHgw
+MGJiKSwKPiAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9tdjMyX2luZm8g
+fSwKPiAJeyAgfQo+IH07Cj4tLSAKPjIuMTcuMQo=
