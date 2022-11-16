@@ -1,90 +1,115 @@
-Received: from m1323.mail.163.com (m1323.mail.163.com [220.181.13.23])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463EF23A6
-	for <mhi@lists.linux.dev>; Tue, 15 Nov 2022 06:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=hrk0d
-	bbBKzxXX4+Dgcaj55QnrSIJ7qLn9WdJODoPrYk=; b=SIcCZz46ddQl7fblmYx05
-	Oi7txIxvms7eaQTRysvNNr4I698alBcz8dIC09p6rbxaEkVgGvU7LAVEnZAJj1ZI
-	WQhzwxu6wGpzq7LRM0ByVe/ZmAPXRfr94890nB9TVLeT+LTg4WoSWfjJfGkUCTBK
-	fm5J6dQDgnTDHGIfh1hrCw=
-Received: from slark_xiao$163.com ( [112.97.55.21] ) by ajax-webmail-wmsvr23
- (Coremail) ; Tue, 15 Nov 2022 14:00:10 +0800 (CST)
-X-Originating-IP: [112.97.55.21]
-Date: Tue, 15 Nov 2022 14:00:10 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: mani@kernel.org, gregkh@linuxfoundation.org, loic.poulain@linaro.org
-Cc: dnlplm@gmail.com, yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA823209
+	for <mhi@lists.linux.dev>; Wed, 16 Nov 2022 14:40:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15619C433C1;
+	Wed, 16 Nov 2022 14:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668609623;
+	bh=tHH0R7tHVRFkDxhwOWJ+H+4wBMVKPOoCZMJ+PF+E69c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LPW9WLVVcIQ3BZmBDkwW+HZaWMtvDSY/nruFFvGYD+4k/dJGORMD38yUDg4IPqtI1
+	 FiBhKy+xgwJ1KuGsTCIEtlRJVJWa4mB5E32esQ0hQkNOOcvchXtfYnYffyp57cJkLb
+	 xUiZwV3mwLakTSh5xdvoguzEhi+LDE5U/r0rleLHMdYbH3MnNvOw4APkE8FxzsxIzk
+	 s8PjV5ZdYjYoTt+ewRrfLagHUmQlZ6mR9F2OFiOPvnFJ6AHtJa7KXGwlrGU2+V0Qal
+	 n2jblUxx0SGsoJ+BVmhGqrWrNZSCpLvYfQ2vtnejNQQryy0VSMPxzgafjC6HWo6rdG
+	 it9RQ60eQvVFw==
+Date: Wed, 16 Nov 2022 20:10:15 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mani@kernel.org, gregkh@linuxfoundation.org, loic.poulain@linaro.org,
+	dnlplm@gmail.com, yonglin.tan@outlook.com, fabio.porcedda@gmail.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re:[PATCH v3] bus: mhi: host: pci_generic: Add definition for some
+Subject: Re: [PATCH v3] bus: mhi: host: pci_generic: Add definition for some
  VIDs
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <20221107112700.773-1-slark_xiao@163.com>
+Message-ID: <20221116144015.GA4017@thinkpad>
 References: <20221107112700.773-1-slark_xiao@163.com>
-X-NTES-SC: AL_QuydCviSvUgq5imaZekWkkcRjuo+UMC0vfgh249fPJs0qin81gUHeUVoHmn478SlCyK3iiKRSQFx6eB5cIp8QYC2Tz9ADnGZkVyEGwrYt/iL
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <38bbe02b.1790.18479dfa5ac.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:F8GowACXZmnqKnNjNE1EAA--.17630W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbivxW5ZFWB2Ued3QACs-
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221107112700.773-1-slark_xiao@163.com>
 
-CkhpIE1hbmksCkFueSB1cGRhdGUgYWJvdXQgdGhpcyBwYXRjaD8gCkF0IDIwMjItMTEtMDcgMTk6
-Mjc6MDAsICJTbGFyayBYaWFvIiA8c2xhcmtfeGlhb0AxNjMuY29tPiB3cm90ZToKPlRvIG1ha2Ug
-Y29kZSBuZWF0IGFuZCBmb3IgY29udmVuaWVuY2UgcHVycG9zZSwgYWRkIGRlZmluaXRpb24gZm9y
-IHNvbWUKPlZJRHMuIEFkZGluZyBpdCBsb2NhbGx5IHVudGlsIHRoZXNlIFZJRHMgYXJlIHVzZWQg
-aW4gbXVsdGlwbGUgcGxhY2VzLgo+Cj5TaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194
-aWFvQDE2My5jb20+Cj4tLS0KPnYzOiBVcGRhdGUgZGVzY3JpcHRpb24KPnYyOiBVcGRhdGUgZGVz
-Y3JpcHRpb24gYW5kIGZpeCBmb3JtYXQgaXNzdWUKPi0tLQo+IGRyaXZlcnMvYnVzL21oaS9ob3N0
-L3BjaV9nZW5lcmljLmMgfCAxOCArKysrKysrKysrKy0tLS0tLS0KPiAxIGZpbGUgY2hhbmdlZCwg
-MTEgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-YnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2Vu
-ZXJpYy5jCj5pbmRleCBjNDI1OWNiMmQyODkuLjNhNzg5YmIyZjYzMSAxMDA2NDQKPi0tLSBhL2Ry
-aXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPisrKyBiL2RyaXZlcnMvYnVzL21oaS9o
-b3N0L3BjaV9nZW5lcmljLmMKPkBAIC0yNCw2ICsyNCwxMCBAQAo+IAo+ICNkZWZpbmUgSEVBTFRI
-X0NIRUNLX1BFUklPRCAoSFogKiAyKQo+IAo+Ky8qIFBDSSBWSUQgZGVmaW5pdGlvbnMgKi8KPisj
-ZGVmaW5lIFBDSV9WRU5ET1JfSURfVEhBTEVTCTB4MTI2OQo+KyNkZWZpbmUgUENJX1ZFTkRPUl9J
-RF9RVUVDVEVMCTB4MWVhYwo+Kwo+IC8qKgo+ICAqIHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIC0g
-TUhJIFBDSSBkZXZpY2Ugc3BlY2lmaWMgaW5mb3JtYXRpb24KPiAgKiBAY29uZmlnOiBNSEkgY29u
-dHJvbGxlciBjb25maWd1cmF0aW9uCj5AQCAtNTU3LDExICs1NjEsMTEgQEAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBwY2lfZGV2aWNlX2lkIG1oaV9wY2lfaWRfdGFibGVbXSA9IHsKPiAJCS5kcml2ZXJf
-ZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV90ZWxpdF9mbjk5MF9pbmZvIH0sCj4gCXsgUENJ
-X0RFVklDRShQQ0lfVkVORE9SX0lEX1FDT00sIDB4MDMwOCksCj4gCQkuZHJpdmVyX2RhdGEgPSAo
-a2VybmVsX3Vsb25nX3QpICZtaGlfcWNvbV9zZHg2NV9pbmZvIH0sCj4tCXsgUENJX0RFVklDRSgw
-eDFlYWMsIDB4MTAwMSksIC8qIEVNMTIwUi1HTCAoc2R4MjQpICovCj4rCXsgUENJX0RFVklDRShQ
-Q0lfVkVORE9SX0lEX1FVRUNURUwsIDB4MTAwMSksIC8qIEVNMTIwUi1HTCAoc2R4MjQpICovCj4g
-CQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9pbmZv
-IH0sCj4tCXsgUENJX0RFVklDRSgweDFlYWMsIDB4MTAwMiksIC8qIEVNMTYwUi1HTCAoc2R4MjQp
-ICovCj4rCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1FVRUNURUwsIDB4MTAwMiksIC8qIEVN
-MTYwUi1HTCAoc2R4MjQpICovCj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZt
-aGlfcXVlY3RlbF9lbTF4eF9pbmZvIH0sCj4tCXsgUENJX0RFVklDRSgweDFlYWMsIDB4MjAwMSks
-IC8qIEVNMTIwUi1HTCBmb3IgRkNDTCAoc2R4MjQpICovCj4rCXsgUENJX0RFVklDRShQQ0lfVkVO
-RE9SX0lEX1FVRUNURUwsIDB4MjAwMSksIC8qIEVNMTIwUi1HTCBmb3IgRkNDTCAoc2R4MjQpICov
-Cj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfcXVlY3RlbF9lbTF4eF9p
-bmZvIH0sCj4gCS8qIFQ5OVcxNzUgKHNkeDU1KSwgQm90aCBmb3IgZVNJTSBhbmQgTm9uLWVTSU0g
-Ki8KPiAJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMGFiKSwKPkBAIC01
-ODUsMTYgKzU4OSwxNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgbWhpX3Bj
-aV9pZF90YWJsZVtdID0gewo+IAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9GT1hDT05OLCAw
-eGUwZDkpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5f
-c2R4NjVfaW5mbyB9LAo+IAkvKiBNVjMxLVcgKENpbnRlcmlvbikgKi8KPi0JeyBQQ0lfREVWSUNF
-KDB4MTI2OSwgMHgwMGIzKSwKPisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfVEhBTEVTLCAw
-eDAwYjMpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212MzFfaW5m
-byB9LAo+IAkvKiBNVjMxLVcgKENpbnRlcmlvbiksIGJhc2VkIG9uIG5ldyBiYXNlbGluZSAqLwo+
-LQl7IFBDSV9ERVZJQ0UoMHgxMjY5LCAweDAwYjQpLAo+Kwl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRP
-Ul9JRF9USEFMRVMsIDB4MDBiNCksCj4gCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3Qp
-ICZtaGlfbXYzMV9pbmZvIH0sCj4gCS8qIE1WMzItV0EgKENpbnRlcmlvbikgKi8KPi0JeyBQQ0lf
-REVWSUNFKDB4MTI2OSwgMHgwMGJhKSwKPisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfVEhB
-TEVTLCAweDAwYmEpLAo+IAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX212
-MzJfaW5mbyB9LAo+IAkvKiBNVjMyLVdCIChDaW50ZXJpb24pICovCj4tCXsgUENJX0RFVklDRSgw
-eDEyNjksIDB4MDBiYiksCj4rCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1RIQUxFUywgMHgw
-MGJiKSwKPiAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9tdjMyX2luZm8g
-fSwKPiAJeyAgfQo+IH07Cj4tLSAKPjIuMTcuMQo=
+On Mon, Nov 07, 2022 at 07:27:00PM +0800, Slark Xiao wrote:
+> To make code neat and for convenience purpose, add definition for some
+> VIDs. Adding it locally until these VIDs are used in multiple places.
+> 
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+
+Thanks,
+Mani
+
+> ---
+> v3: Update description
+> v2: Update description and fix format issue
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index c4259cb2d289..3a789bb2f631 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -24,6 +24,10 @@
+>  
+>  #define HEALTH_CHECK_PERIOD (HZ * 2)
+>  
+> +/* PCI VID definitions */
+> +#define PCI_VENDOR_ID_THALES	0x1269
+> +#define PCI_VENDOR_ID_QUECTEL	0x1eac
+> +
+>  /**
+>   * struct mhi_pci_dev_info - MHI PCI device specific information
+>   * @config: MHI controller configuration
+> @@ -557,11 +561,11 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+> -	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> -	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> -	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+>  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+> @@ -585,16 +589,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
+>  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
+>  	/* MV31-W (Cinterion) */
+> -	{ PCI_DEVICE(0x1269, 0x00b3),
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+>  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+>  	/* MV31-W (Cinterion), based on new baseline */
+> -	{ PCI_DEVICE(0x1269, 0x00b4),
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
+>  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+>  	/* MV32-WA (Cinterion) */
+> -	{ PCI_DEVICE(0x1269, 0x00ba),
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
+>  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+>  	/* MV32-WB (Cinterion) */
+> -	{ PCI_DEVICE(0x1269, 0x00bb),
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
+>  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
+>  	{  }
+>  };
+> -- 
+> 2.17.1
+> 
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
