@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA823209
-	for <mhi@lists.linux.dev>; Wed, 16 Nov 2022 14:40:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15619C433C1;
-	Wed, 16 Nov 2022 14:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4012D23CD
+	for <mhi@lists.linux.dev>; Thu, 17 Nov 2022 11:43:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3449FC433C1;
+	Thu, 17 Nov 2022 11:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668609623;
-	bh=tHH0R7tHVRFkDxhwOWJ+H+4wBMVKPOoCZMJ+PF+E69c=;
+	s=k20201202; t=1668685427;
+	bh=xgKPqZLlA+5TY1lw/gQlp4xDwC3HaX8Anj5NcM7+ksQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LPW9WLVVcIQ3BZmBDkwW+HZaWMtvDSY/nruFFvGYD+4k/dJGORMD38yUDg4IPqtI1
-	 FiBhKy+xgwJ1KuGsTCIEtlRJVJWa4mB5E32esQ0hQkNOOcvchXtfYnYffyp57cJkLb
-	 xUiZwV3mwLakTSh5xdvoguzEhi+LDE5U/r0rleLHMdYbH3MnNvOw4APkE8FxzsxIzk
-	 s8PjV5ZdYjYoTt+ewRrfLagHUmQlZ6mR9F2OFiOPvnFJ6AHtJa7KXGwlrGU2+V0Qal
-	 n2jblUxx0SGsoJ+BVmhGqrWrNZSCpLvYfQ2vtnejNQQryy0VSMPxzgafjC6HWo6rdG
-	 it9RQ60eQvVFw==
-Date: Wed, 16 Nov 2022 20:10:15 +0530
+	b=d9IX4d7eD50LL8mVClfWD1wICywrMzh+btm6VU32ub1WbE/RWdJRE1VTe+RQBT7xN
+	 LfSfwAbF8tNGEC1WRqmXNo7+KV1yg1me2kO/VyZ9G58OwwQu73WTmRxm0GYFNf2Mx8
+	 Sq0QQLh95a3Uk2AezAQWCQVn+LQg8HM3AmFt4OvRUGihVJBs/c4jZXNxh6De+rDtut
+	 F3GIiC9ru2f+YyTPCfXaZR0vLIyeawHZN8I2QPpc5kz5Ykk7TktQBPebzBEifgjZBA
+	 fOlQIqPvYTR24puShvqMvyYpAL0hc2OE3AOJo5EG82h8wRPzOBWLqhXX96NIa4qaLN
+	 72q60AbRVTDxg==
+Date: Thu, 17 Nov 2022 17:13:36 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: mani@kernel.org, gregkh@linuxfoundation.org, loic.poulain@linaro.org,
-	dnlplm@gmail.com, yonglin.tan@outlook.com, fabio.porcedda@gmail.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] bus: mhi: host: pci_generic: Add definition for some
- VIDs
-Message-ID: <20221116144015.GA4017@thinkpad>
-References: <20221107112700.773-1-slark_xiao@163.com>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: mani@kernel.org, loic.poulain@linaro.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, mrana@quicinc.com
+Subject: Re: [PATCH v3] bus: mhi: host: Disable preemption while processing
+ data events
+Message-ID: <20221117114336.GC93179@thinkpad>
+References: <1668479031-12853-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -35,79 +34,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107112700.773-1-slark_xiao@163.com>
+In-Reply-To: <1668479031-12853-1-git-send-email-quic_qianyu@quicinc.com>
 
-On Mon, Nov 07, 2022 at 07:27:00PM +0800, Slark Xiao wrote:
-> To make code neat and for convenience purpose, add definition for some
-> VIDs. Adding it locally until these VIDs are used in multiple places.
+On Tue, Nov 15, 2022 at 10:23:51AM +0800, Qiang Yu wrote:
+> If data processing of an event is scheduled out because core
+> is busy handling multiple irqs, this can starve the processing
+> of MHI M0 state change event on another core. Fix this issue by
+> disabling irq on the core processing data events.
 > 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+I'm counting on Jeff's review for this patch.
 
 Thanks,
 Mani
 
 > ---
-> v3: Update description
-> v2: Update description and fix format issue
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+> v2->v3: modify the comment
+> v1->v2: add comments about why we disable local irq
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index c4259cb2d289..3a789bb2f631 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -24,6 +24,10 @@
+>  drivers/bus/mhi/host/main.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index f3aef77a..5dca0a0 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -1027,13 +1027,20 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
 >  
->  #define HEALTH_CHECK_PERIOD (HZ * 2)
+>  void mhi_ev_task(unsigned long data)
+>  {
+> +	unsigned long flags;
+>  	struct mhi_event *mhi_event = (struct mhi_event *)data;
+>  	struct mhi_controller *mhi_cntrl = mhi_event->mhi_cntrl;
 >  
-> +/* PCI VID definitions */
-> +#define PCI_VENDOR_ID_THALES	0x1269
-> +#define PCI_VENDOR_ID_QUECTEL	0x1eac
+>  	/* process all pending events */
+> -	spin_lock_bh(&mhi_event->lock);
+> +	spin_lock_irqsave(&mhi_event->lock, flags);
+> +	/*
+> +	 * When multiple IRQs come, the tasklet will be scheduled out with event ring lock
+> +	 * remaining acquired, causing M0 event process on another core gets stuck when it
+> +	 * tries to acquire the same event ring lock. Thus, let's disable local IRQs here.
+> +	 */
 > +
->  /**
->   * struct mhi_pci_dev_info - MHI PCI device specific information
->   * @config: MHI controller configuration
-> @@ -557,11 +561,11 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
-> -	{ PCI_DEVICE(0x1eac, 0x1001), /* EM120R-GL (sdx24) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> -	{ PCI_DEVICE(0x1eac, 0x1002), /* EM160R-GL (sdx24) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> -	{ PCI_DEVICE(0x1eac, 0x2001), /* EM120R-GL for FCCL (sdx24) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
-> @@ -585,16 +589,16 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
->  	/* MV31-W (Cinterion) */
-> -	{ PCI_DEVICE(0x1269, 0x00b3),
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
->  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
->  	/* MV31-W (Cinterion), based on new baseline */
-> -	{ PCI_DEVICE(0x1269, 0x00b4),
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b4),
->  		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
->  	/* MV32-WA (Cinterion) */
-> -	{ PCI_DEVICE(0x1269, 0x00ba),
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00ba),
->  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
->  	/* MV32-WB (Cinterion) */
-> -	{ PCI_DEVICE(0x1269, 0x00bb),
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00bb),
->  		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
->  	{  }
->  };
+>  	mhi_event->process_event(mhi_cntrl, mhi_event, U32_MAX);
+> -	spin_unlock_bh(&mhi_event->lock);
+> +	spin_unlock_irqrestore(&mhi_event->lock, flags);
+>  }
+>  
+>  void mhi_ctrl_ev_task(unsigned long data)
 > -- 
-> 2.17.1
+> 2.7.4
 > 
 > 
 
