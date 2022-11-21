@@ -1,129 +1,104 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738B67E
-	for <mhi@lists.linux.dev>; Mon, 21 Nov 2022 07:08:55 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id y203so10535891pfb.4
-        for <mhi@lists.linux.dev>; Sun, 20 Nov 2022 23:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I4F6oqrqFJPhhhwNPUsAzcSi2w5AvzPkTRl0QXXfRuc=;
-        b=Czzkl0ffyy8hBjElY6C8m5GTTJ0R0Gbo3Pyx6ZPyFyQr8DF9hGGAYsdO7pvFBbJp7Y
-         DrrnSl0lbidrbJsQXve8ZKO1p/6sVQdXcp0bpZS0agpggBjx+NOrZwrctV6GHSb7pSF2
-         RRd4H0G5ie+te1QhwqBOxIaCvJFFuIAhwtJDncX6w696SIysdtGHbpKBV/H2keZPuhXO
-         NZJhqk0EmEMB2LxeG5pf6mkNLTI4aoE54G5pqAwa3lciCcU6ojph4hgCMMHQqg3wH3y2
-         W313EFE8oyU941+1x3zxTdOfRLjjtwG+D4u6m4D9bOzMwcHXGcVlGkEF4SfAlma18uEM
-         IQYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I4F6oqrqFJPhhhwNPUsAzcSi2w5AvzPkTRl0QXXfRuc=;
-        b=g0NcYxU11Ha2q0MteYB8ebj9MqeAyGpVRr56o+scNb20EVhiYMvDIpzziDJo/BZfZa
-         FPjm+XKY7W2IQi0gYiL9Wi6UU6cr6TEuoLd8S5GKFdR3ZLDR3Uc9HQCZRfDe/S2Cye0Y
-         5IPsnO+/2yGoHpXScKoSRWq0gJEV7kxG4FVkcL21QWvP1vjxDl82eU2DfB4ooj24EBtU
-         QFwGfY8tsVuBeZpoI6LTD/Mvixkn2BDRCy9pIo774e4iZ1+uSmdqBAi6WS48NrcMNS2S
-         xZMQWQTYasJVU2dm9z9vhw3vqhU6EKx8XpjzlBAFOHYVDs9KOmifRPenkAItLwu8IerK
-         43oA==
-X-Gm-Message-State: ANoB5pmrNU96qO8hnJH6UlWoX2QYi2NAkV9/Jt9FIEY7kX1AH/Qt4eh0
-	vUnIWoIiGCY6IO/3x+JLQkLs
-X-Google-Smtp-Source: AA0mqf579ucEWnZvbAzFMBcy8PhOnu5bfWaaXwg5XBJ+1sL372hxjAeotwJ8QlrS5nLgHgtsUz6JOA==
-X-Received: by 2002:a63:580a:0:b0:477:12e3:6e1c with SMTP id m10-20020a63580a000000b0047712e36e1cmr1025179pgb.126.1669014534840;
-        Sun, 20 Nov 2022 23:08:54 -0800 (PST)
-Received: from thinkpad ([59.92.99.222])
-        by smtp.gmail.com with ESMTPSA id l8-20020a170903244800b001885041d7b8sm8870787pls.293.2022.11.20.23.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 23:08:53 -0800 (PST)
-Date: Mon, 21 Nov 2022 12:38:49 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, fabio.porcedda@gmail.com,
-	johan+linaro@kernel.org, song.fc@gmail.com, slark_xiao@163.com
-Subject: [GIT PULL] MHI changes for v6.2
-Message-ID: <20221121070849.GD11945@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB31A4F
+	for <mhi@lists.linux.dev>; Mon, 21 Nov 2022 09:34:41 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AL8OfjJ020302;
+	Mon, 21 Nov 2022 09:34:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=1g+/NvOojCm5ORZk0Of68tqHGjtQ7DzUQncn3xYRqdI=;
+ b=kui3l0jVo0X27upPv3QGtfk3aM7nM1ncP/EkZBzRepxGyu6el0UfYu2up4eLFfUvhNCO
+ O/pBHUk5pFeafYx0VjPrDG6/FJUCurorLRz9ayz2/OT3tnXzy9f5DjgaiYbY1r0krCyc
+ Qu5qaNL92AV6M1UJiecL8yuA+xkDb6lg8h6Blet8ZTf1CIAK7ZCoENDPmTUTorwAXet3
+ 3fc0lTqa764pzUq6KrtCWmyrBlRlS6KY4Fo7ScUytxHM4rkUObgMBVI54NdngMlHpwWt
+ 8GSb8wgD7L39wuZQX7KiwiHiJV9BYqL2um74eVSbPxewQqUnJSCUMhdB2hS1JCx9W+Fj 8Q== 
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kxrfbv0se-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Nov 2022 09:34:31 +0000
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2AL9YSIW014860;
+	Mon, 21 Nov 2022 09:34:28 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 3kxr7nebf7-1;
+	Mon, 21 Nov 2022 09:34:28 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AL9YSFo014854;
+	Mon, 21 Nov 2022 09:34:28 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 2AL9YRrW014851;
+	Mon, 21 Nov 2022 09:34:28 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 531B23A3D; Mon, 21 Nov 2022 17:34:26 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, loic.poulain@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com, mrana@quicinc.com,
+        Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v4] bus: mhi: host: Disable preemption while processing data events
+Date: Mon, 21 Nov 2022 17:34:24 +0800
+Message-Id: <1669023264-84125-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ROqEnf6bKpIWBVofBuHScnuHzup_6-VB
+X-Proofpoint-ORIG-GUID: ROqEnf6bKpIWBVofBuHScnuHzup_6-VB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-21_06,2022-11-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=762 malwarescore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 clxscore=1011 impostorscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211210075
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+If data processing of an event is scheduled out because core
+is busy handling multiple irqs, this can starve the processing
+of MHI M0 state change event on another core. Fix this issue by
+disabling irq on the core processing data events.
 
-  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+v3->v4: modify the comment
+v2->v3: modify the comment
+v1->v2: add comments about why we disable local irq
 
-are available in the Git repository at:
+ drivers/bus/mhi/host/main.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.2
-
-for you to fetch changes up to 5562c6a9657e1bffd4d66df841db142c596f411c:
-
-  bus: mhi: host: pci_generic: Add definition for some VIDs (2022-11-17 17:20:40 +0530)
-
-----------------------------------------------------------------
-MHI Host
-========
-
-Core
-----
-
-- Use mhi_soc_reset() API for resetting the modem in case of crash.
-- Fixed a race condition between mhi_prepare_channel() and M0 state
-  transition. This can happen when mhi_prepare_channel() was updating the
-  read/write pointers and in parallel, the mhi_pm_m0_transition() rings
-  the doorbell of all channels without checking if it was enabled or not.
-  Fixed the race by ringing the doorbell only for the enabled channels in
-  mhi_pm_m0_transition().
-
-pci_generic
------------
-
-- Added a secondary "AT" port using the OEM reserved channel of Telit FN990
-  modem.
-- Added support for a SDX55 variant modem that exists in the Qualcomm
-  SC8280XP Compute Reference Design (CRD).
-- Added support for a T99W175 variant modem manufactured by HP. The modem
-  uses the same configuration as of T99W175, but with a different VID:PID.
-- Added local definitions for some VIDs (Thales and Quectel).
-
-MAINTAINERS
-===========
-
-- Removed Hemant from MHI MAINTAINERS list since he left Qualcomm and
-  expressed his wish to not continue doing reviews for MHI patches.
-
-----------------------------------------------------------------
-Fabio Porcedda (1):
-      bus: mhi: host: pci_generic: Add a secondary AT port to Telit FN990
-
-Johan Hovold (1):
-      bus: mhi: host: pci_generic: add support for sc8280xp-crd SDX55 variant
-
-Manivannan Sadhasivam (1):
-      MAINTAINERS: Remove Hemant from MHI bus
-
-Qiang Yu (2):
-      bus: mhi: host: Use mhi_soc_reset() API in place of register write
-      bus: mhi: host: Fix race between channel preparation and M0 event
-
-Slark Xiao (1):
-      bus: mhi: host: pci_generic: Add definition for some VIDs
-
-Song Fuchang (1):
-      bus: mhi: host: pci_generic: Add HP variant of T99W175
-
- MAINTAINERS                        |  1 -
- drivers/bus/mhi/host/boot.c        |  4 +---
- drivers/bus/mhi/host/pci_generic.c | 25 ++++++++++++++++++-------
- drivers/bus/mhi/host/pm.c          |  3 ++-
- 4 files changed, 21 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index f3aef77a..6c804c3 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -1029,11 +1029,17 @@ void mhi_ev_task(unsigned long data)
+ {
+ 	struct mhi_event *mhi_event = (struct mhi_event *)data;
+ 	struct mhi_controller *mhi_cntrl = mhi_event->mhi_cntrl;
++	unsigned long flags;
+ 
++	/*
++	 * When multiple IRQs arrive, the tasklet will be scheduled out with event ring lock
++	 * acquired, causing other high priority events like M0 state transition getting stuck
++	 * while trying to acquire the same event ring lock. Thus, let's disable local IRQs here.
++	 */
++	spin_lock_irqsave(&mhi_event->lock, flags);
+ 	/* process all pending events */
+-	spin_lock_bh(&mhi_event->lock);
+ 	mhi_event->process_event(mhi_cntrl, mhi_event, U32_MAX);
+-	spin_unlock_bh(&mhi_event->lock);
++	spin_unlock_irqrestore(&mhi_event->lock, flags);
+ }
+ 
+ void mhi_ctrl_ev_task(unsigned long data)
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
