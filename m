@@ -1,87 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB78C1863
-	for <mhi@lists.linux.dev>; Tue, 22 Nov 2022 11:26:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8711C433D7;
-	Tue, 22 Nov 2022 11:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669116390;
-	bh=wpFinb0IMYn50p3PDwUFVzoQbgbhxdX0aMO0iiEe7wY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=kOoeyjcwSPnSu0LZeG5wzcHO5zKGyJ3SjPV3ItIN/Efm99PtC+mE7dmmDcdVfJmFF
-	 U56/XJgtp6mg3MyLONRIkKKMqZU4OAqXyO9uQDVL7POSIdpPQ/5TSOAPhNItlTgn6J
-	 qhsX7hrBbsicZ3b2hCii8e2tIdaqes+DNf8BsXkDS3Z0Vvo9NUbjwOM57rniqnzS2z
-	 XCz9yxHnppwPFrBIEiBKeYufojxwZ8TKF+Grp47c80qqLkTRjVnOqVmpPNAgKKx9zh
-	 UKmh3sWnOWow86WOxV1TLv49k4nSX5lH1pEcD20ZQ2FcJBeIouRQ/qWUWCTdsjYyEv
-	 3UtCKpsE7uW2Q==
-From: Kalle Valo <kvalo@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Robert Marko <robimarko@gmail.com>,  davem@davemloft.net,  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,  gregkh@linuxfoundation.org,  elder@linaro.org,  hemantk@codeaurora.org,  quic_jhugo@quicinc.com,  quic_qianyu@quicinc.com,  bbhatt@codeaurora.org,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  ansuelsmth@gmail.com
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-References: <20221105194943.826847-1-robimarko@gmail.com>
-	<20221105194943.826847-2-robimarko@gmail.com>
-	<20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
-Date: Tue, 22 Nov 2022 13:26:24 +0200
-In-Reply-To: <87cz9xcqbd.fsf@kernel.org> (Kalle Valo's message of "Tue, 08 Nov
-	2022 19:24:22 +0200")
-Message-ID: <877czn8c2n.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78C3236
+	for <mhi@lists.linux.dev>; Wed, 23 Nov 2022 18:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CC0C433D6;
+	Wed, 23 Nov 2022 18:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1669228748;
+	bh=Stmo8/fYT8D2M93dR3Dtbem0ad4ZUrnYYz8AHrtPfTM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vTGRmGq/jxXVpog9EqmGKHMWa7bwl6jUoVW6uY4Rxd0KQ27U5sCNPdpCuf2HbR349
+	 b9zWy8V12msP4M2pPAJUzsI6rOBYW3XAX6uqgGPyYpQp1WW0qixiwuORzNLKroEfsi
+	 397r9nPDvAqSeybztD07ghqEwdAdKVQBrmzuK270=
+Date: Wed, 23 Nov 2022 19:38:50 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, fabio.porcedda@gmail.com,
+	johan+linaro@kernel.org, song.fc@gmail.com, slark_xiao@163.com
+Subject: Re: [GIT PULL] MHI changes for v6.2
+Message-ID: <Y35oulYNg9u3xh8L@kroah.com>
+References: <20221121070849.GD11945@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221121070849.GD11945@thinkpad>
 
-Kalle Valo <kvalo@kernel.org> writes:
+On Mon, Nov 21, 2022 at 12:38:49PM +0530, Manivannan Sadhasivam wrote:
+> The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+> 
+>   Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.2
 
-> Manivannan Sadhasivam <mani@kernel.org> writes:
->
->> On Sat, Nov 05, 2022 at 08:49:43PM +0100, Robert Marko wrote:
->>> Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
->>> will cause a clash in the QRTR instance node ID and prevent the driver
->>> from talking via QMI to the card and thus initializing it with:
->>> [    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
->>> [    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
->>> 
->>
->> There is still an outstanding issue where you cannot connect two WLAN modules
->> with same node id.
->>
->>> So, in order to allow for this combination of cards, especially AHB + PCI
->>> cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
->>> QRTR instance ID offset by calculating a unique one based on PCI domain
->>> and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
->>> using the SBL state callback that is added as part of the series.
->>> We also have to make sure that new QRTR offset is added on top of the
->>> default QRTR instance ID-s that are currently used in the driver.
->>> 
->>
->> Register BHI_ERRDBG2 is listed as Read only from Host as per the BHI spec.
->> So I'm not sure if this solution is going to work on all ath11k supported
->> chipsets.
->>
->> Kalle, can you confirm?
->
-> I can't look at this in detail right now, but hopefully in few days.
-> I'll get back to you.
+Pulled and pushed out, thanks.
 
-The solution we have been thinking internally would not use
-MHI_CB_EE_SBL_MODE at all, it's not clear for me yet why the mode was
-not needed in our solution. Maybe there are firmware modifications? I
-think it's best that we submit our proposal as well, then we can then
-compare implementations and see what is the best course of action.
-
-But it looks that not all ath11k hardware and firmware releases support
-this feature, we would need meta data information from the firmware to
-detect it. I am working on adding firmware meta data support[1] to
-ath11k, will post patches for that "soon".
-
-[1] similar to firmware-N.bin support ath10k has
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+greg k-h
