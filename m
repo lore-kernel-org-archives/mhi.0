@@ -1,44 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78C3236
-	for <mhi@lists.linux.dev>; Wed, 23 Nov 2022 18:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CC0C433D6;
-	Wed, 23 Nov 2022 18:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1669228748;
-	bh=Stmo8/fYT8D2M93dR3Dtbem0ad4ZUrnYYz8AHrtPfTM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vTGRmGq/jxXVpog9EqmGKHMWa7bwl6jUoVW6uY4Rxd0KQ27U5sCNPdpCuf2HbR349
-	 b9zWy8V12msP4M2pPAJUzsI6rOBYW3XAX6uqgGPyYpQp1WW0qixiwuORzNLKroEfsi
-	 397r9nPDvAqSeybztD07ghqEwdAdKVQBrmzuK270=
-Date: Wed, 23 Nov 2022 19:38:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, fabio.porcedda@gmail.com,
-	johan+linaro@kernel.org, song.fc@gmail.com, slark_xiao@163.com
-Subject: Re: [GIT PULL] MHI changes for v6.2
-Message-ID: <Y35oulYNg9u3xh8L@kroah.com>
-References: <20221121070849.GD11945@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D2E8BF1
+	for <mhi@lists.linux.dev>; Wed,  7 Dec 2022 20:02:35 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7GldIf026815;
+	Wed, 7 Dec 2022 19:27:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=OwRMRJb+7c5gqaDyHQE7ipnl64XWdQ3NjzWLz62hDzc=;
+ b=niQn/KSAucucb7VnGASXwuQd/9hdeaICtEBourqlq03rlkRBE590OjlSW+jrW/fbLwQy
+ CHoomo2MWNGFqY0Zab08L0E4IvbdnGpWAvf3IKTg4Vr3dXKobT6Kxjmz//BxXqIFdMM4
+ EIHCDtZdXdob5H4uICtUh6nxVFQ6qvBqaM3PmEEjGQJkWA6el+RDMzYPnoWBV5ukSyk/
+ U1Cu5ErJWdRBSmVKfN/j40wYl8lHGTifwPHj95l/zY1RoqDwcaAQVcZtJAMbJ/n4M/Cw
+ o3RSr0C3YPwrM5jMjpHTuF8aCr+gUdFMP3vGdYMcPt/UF6J5aCuJFZ9+Y/ycTEJSZSLc nQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3man0k9uxg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 Dec 2022 19:27:27 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7JRQpm007941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 7 Dec 2022 19:27:26 GMT
+Received: from carlv-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 7 Dec 2022 11:27:26 -0800
+From: Carl Vanderlip <quic_carlv@quicinc.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        Hemant Kumar
+	<quic_hemantk@quicinc.com>
+CC: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Carl Vanderlip
+	<quic_carlv@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] mhi: Update Makefile to used Kconfig flags
+Date: Wed, 7 Dec 2022 11:26:13 -0800
+Message-ID: <20221207192613.2098614-1-quic_carlv@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221121070849.GD11945@thinkpad>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 6liTA3p1_TSbQq8eDgr8GO49hyW_BrRQ
+X-Proofpoint-ORIG-GUID: 6liTA3p1_TSbQq8eDgr8GO49hyW_BrRQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-07_09,2022-12-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 adultscore=0 mlxlogscore=823
+ clxscore=1011 priorityscore=1501 suspectscore=0 malwarescore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212070164
 
-On Mon, Nov 21, 2022 at 12:38:49PM +0530, Manivannan Sadhasivam wrote:
-> The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
-> 
->   Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.2
+Makefile was always suggesting to build subdirectories regardless of
+Kconfig. Use the Kconfig flags as intended.
 
-Pulled and pushed out, thanks.
+Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
+---
+ drivers/bus/mhi/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-greg k-h
+diff --git a/drivers/bus/mhi/Makefile b/drivers/bus/mhi/Makefile
+index 46981331b38f..354204b0ef3a 100644
+--- a/drivers/bus/mhi/Makefile
++++ b/drivers/bus/mhi/Makefile
+@@ -1,5 +1,5 @@
+ # Host MHI stack
+-obj-y += host/
++obj-$(CONFIG_MHI_BUS) += host/
+ 
+ # Endpoint MHI stack
+-obj-y += ep/
++obj-$(CONFIG_MHI_BUS_EP) += ep/
+-- 
+2.25.1
+
