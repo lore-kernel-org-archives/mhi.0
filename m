@@ -1,76 +1,134 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B978BF1
-	for <mhi@lists.linux.dev>; Wed,  7 Dec 2022 20:25:51 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7CF94x031817;
-	Wed, 7 Dec 2022 19:58:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hfkgWP8DYj9doyV+wOBQD1c3lsxq0dQg+JZ7ln+RJQE=;
- b=SFy8vOzWnCzg5sf9acrNZcsG751IivVQk3ddrnYrKZUcmlPxOJm9MR+CdrN9rUt0ULhy
- B7tlq2FPDdgeK2APrjirYqQSN1RuBdQP7Rl6GftiiQ6yBE2OF/IJ3/ElSgR2leLX6TsF
- bsq8ZspWFjTP/QIthLznSl2byuQUSUasjPMcfoAUlozyZ19jKqEjeW04SF4ZxzcO+fQ4
- MS8WP0ECBkCGbgS6EjmFvKCZppScOozg1CEl/81l33ObSxc0jtubvnOgkRoOdbpnEnJH
- lBnELj0/ulN3Kgn4IUXCY5yqhi2BQ+NYWFOCYF5g7kndjzRIsozy72OeZ88n/bHdYqKS 1A== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3maj5w218u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 Dec 2022 19:58:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B7Jw3kO028013
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 7 Dec 2022 19:58:03 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 7 Dec 2022
- 11:58:03 -0800
-Message-ID: <22d605d5-c214-7f75-3b1c-dab50de0306b@quicinc.com>
-Date: Wed, 7 Dec 2022 12:58:02 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631526121
+	for <mhi@lists.linux.dev>; Wed, 14 Dec 2022 12:02:54 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id x66so4284099pfx.3
+        for <mhi@lists.linux.dev>; Wed, 14 Dec 2022 04:02:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=peaw+2jBoexT/V/OL/klaMSfRkpK0w1QubB8hlHtjKU=;
+        b=IffZpvmos6IFA8F2Mu7UX03vFoZdzSvAl4wArexI2TJ+mCg8LYPObJ0caqqBk6KELc
+         7e96IX0TGhm3EbfxrnJUHspRY4C5kzZjXA8RPZhE2bOdCe6tjVnt+Z3CF0kf/nY0nL+5
+         zhLxH/gVF/oPszrMxuCbjkfNqT6s3OZYE50HYnrLZ7oMjvbFnJ2FU0kVIkcZhH46wiwl
+         wLPAdUYt+VKJPhUoSBgt566qcUxTJYhAUxZrXrKHxPKFY8264tYoNHL+XtQdD6DjNdwK
+         dtgAPPBovln+d78d738YPXAKKoU4rCSJQNQzmoESEN0DTVhkyEgeq7ajtPDj3m1qgn+h
+         UaHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=peaw+2jBoexT/V/OL/klaMSfRkpK0w1QubB8hlHtjKU=;
+        b=7WODSuPsxK91tzQ7UBLlpASExrWhXvP4O7Ae0Etzh73FMv2agxTLB07C9aFRB2IWpY
+         ABS1G/qDEBBLV4JHWdfICIgRLam47O4d/Z8IX9vF4fVhXybNRxzULAz3h5FeLhRyuKL2
+         UUL7St44dfU2ePHa7el8pMvN4NdSLyLdQaJFtiqFOI5mTFEk7HJPTJTQRyW480QKF0h4
+         tbvD689M+UTa3d930VgiNIOcFCcy+6Bnjfm+uYV9hcWh0VaBC79JusB3L9AaX/PacqPA
+         ixVbvheTpyS3Mkp9fBQYS5HJvBqGu1LWQPCbr9hMCEujV6tC/3j6OViBUqHTJkTqeLFd
+         SQ6g==
+X-Gm-Message-State: ANoB5plTABPomn8k2/WNQhCaCP8OYFkY60xCIr4p4Hscrk4SwVeUvTw1
+	lHL1oVA+5zjL4U3v5oB74H1r3LBTwP4biCRdleFuAg==
+X-Google-Smtp-Source: AA0mqf6ACT1hXHaNkKcTvIqqDuxXiD+Qw3prO4hyGi38uOl9IwijS+lvf8GiQLNL3EwGrPbufcxLrNNbvCYdwt6fqnk=
+X-Received: by 2002:a62:8409:0:b0:575:1168:a970 with SMTP id
+ k9-20020a628409000000b005751168a970mr54638196pfd.54.1671019373770; Wed, 14
+ Dec 2022 04:02:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] mhi: Update Makefile to used Kconfig flags
-Content-Language: en-US
-To: Carl Vanderlip <quic_carlv@quicinc.com>,
-        Manivannan Sadhasivam
-	<mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221207192613.2098614-1-quic_carlv@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20221207192613.2098614-1-quic_carlv@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Yxbwl6LFk8HI29cMjSCwFy4MZgwUHClC
-X-Proofpoint-ORIG-GUID: Yxbwl6LFk8HI29cMjSCwFy4MZgwUHClC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_09,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=725
- spamscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 clxscore=1011 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212070168
+References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
+ <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org> <877czn8c2n.fsf@kernel.org>
+In-Reply-To: <877czn8c2n.fsf@kernel.org>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Wed, 14 Dec 2022 13:02:42 +0100
+Message-ID: <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Robert Marko <robimarko@gmail.com>, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
+	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, ansuelsmth@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/7/2022 12:26 PM, Carl Vanderlip wrote:
-> Makefile was always suggesting to build subdirectories regardless of
-> Kconfig. Use the Kconfig flags as intended.
-> 
-> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
+On Tue, Nov 22, 2022 at 12:26 PM Kalle Valo <kvalo@kernel.org> wrote:
+>
+> Kalle Valo <kvalo@kernel.org> writes:
+>
+> > Manivannan Sadhasivam <mani@kernel.org> writes:
+> >
+> >> On Sat, Nov 05, 2022 at 08:49:43PM +0100, Robert Marko wrote:
+> >>> Currently, trying to use AHB + PCI/MHI cards or multiple PCI/MHI cards
+> >>> will cause a clash in the QRTR instance node ID and prevent the driver
+> >>> from talking via QMI to the card and thus initializing it with:
+> >>> [    9.836329] ath11k c000000.wifi: host capability request failed: 1 90
+> >>> [    9.842047] ath11k c000000.wifi: failed to send qmi host cap: -22
+> >>>
+> >>
+> >> There is still an outstanding issue where you cannot connect two WLAN modules
+> >> with same node id.
+> >>
+> >>> So, in order to allow for this combination of cards, especially AHB + PCI
+> >>> cards like IPQ8074 + QCN9074 (Used by me and tested on) set the desired
+> >>> QRTR instance ID offset by calculating a unique one based on PCI domain
+> >>> and bus ID-s and writing it to bits 7-0 of BHI_ERRDBG2 MHI register by
+> >>> using the SBL state callback that is added as part of the series.
+> >>> We also have to make sure that new QRTR offset is added on top of the
+> >>> default QRTR instance ID-s that are currently used in the driver.
+> >>>
+> >>
+> >> Register BHI_ERRDBG2 is listed as Read only from Host as per the BHI spec.
+> >> So I'm not sure if this solution is going to work on all ath11k supported
+> >> chipsets.
+> >>
+> >> Kalle, can you confirm?
+> >
+> > I can't look at this in detail right now, but hopefully in few days.
+> > I'll get back to you.
+>
+> The solution we have been thinking internally would not use
+> MHI_CB_EE_SBL_MODE at all, it's not clear for me yet why the mode was
+> not needed in our solution. Maybe there are firmware modifications? I
+> think it's best that we submit our proposal as well, then we can then
+> compare implementations and see what is the best course of action.
 
-Nice catch.
+Kalle, any ETA when you will post your idea?
+I am constantly hitting this crazy limitation and my idea does not work on cards
+like QCA6390 so it's not a viable workaround at all.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Regards,
+Robert
+>
+> But it looks that not all ath11k hardware and firmware releases support
+> this feature, we would need meta data information from the firmware to
+> detect it. I am working on adding firmware meta data support[1] to
+> ath11k, will post patches for that "soon".
+>
+> [1] similar to firmware-N.bin support ath10k has
+>
+> --
+> https://patchwork.kernel.org/project/linux-wireless/list/
+>
+> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+>
+> --
+> ath11k mailing list
+> ath11k@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/ath11k
+
+
+
+-- 
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura Ltd.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
