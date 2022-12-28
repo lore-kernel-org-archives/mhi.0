@@ -1,52 +1,52 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A97C1C08
-	for <mhi@lists.linux.dev>; Wed, 28 Dec 2022 16:17:36 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id u7so16419029plq.11
-        for <mhi@lists.linux.dev>; Wed, 28 Dec 2022 08:17:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6141C08
+	for <mhi@lists.linux.dev>; Wed, 28 Dec 2022 16:17:39 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id u4-20020a17090a518400b00223f7eba2c4so16468213pjh.5
+        for <mhi@lists.linux.dev>; Wed, 28 Dec 2022 08:17:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k+iHQs4uPoFa0chr8duXApXo2zq9mEU5tnmcTMS1VXc=;
-        b=RZ9ntAEHz2cR92CulW8lqRm6cxZJBAiKx+fRYPDJVU6e2bgPGYAIzC1QzJqFRS8YW3
-         FBA0rLpwRw/eUM3a6OJPyRUCmXpcdIWMPxR0wvrHy6EdQdtPZ6UUqHcSSDnG4LV3Rjzo
-         gXCZ2oHxfUau2UB6QYgeMhS2RUny2GUcEj0/JNeRbqu/6UMEmoG24BSh64+fQ4T2Ra5E
-         bs4k+WEFf2vUdGalc9kF/ZxE0bv7B234oYBb6BJKM+fOBoa77eAgWdIujcuDIzq9tu2S
-         LI0Rt5j5EdRQ8BxOSUWXvBmDvuSdDUDfw/xi/OZV/y31G6FDeB3WhF3Wj049evchny7y
-         XwKA==
+        bh=rSAJAAdg+x2pOzW2h8I4DWXP2kQcq5rdUpJcuztv9EE=;
+        b=zFtugpRj2SGg96qrJKKPlr+MyyNnNyuUCPvH4PdjNFsVHhZZmMIN/KOq4JeyQA8bys
+         /Stl7IcHO4xx7yHuC3VjLzsueyqi0DOdGuZNyG7Uubuhene+VMbN6+vikXMigsNF05SZ
+         zvcmwRX0TQ6HsWH3zzwpQ/vCnnK24FznH+UGjIwOWQ71x9sI+GgiaQziNz5Uj25Q28Uy
+         xw5CcVwNaSFP/o1xg49J+RJdoV50/Mh/HnQfFslJNO4BOnMOMSLOeDNawr1LF5r4lKfg
+         rU9UckkH2uomLEmwOiR8a0qewI0P2yFgk+YeXZFwJoJDB5zVNwYalIWdtpxnLG9FeUC5
+         UK+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k+iHQs4uPoFa0chr8duXApXo2zq9mEU5tnmcTMS1VXc=;
-        b=qeoyWBKbwn/2AYb68xxN2Mgj8vRHbqg//Z9K13A4g+aT8ol0Kg9BozcOpRaDfo81ap
-         ceQxraI+eFz3JTgK4CR6NQZiUGX9oaWih+cDygcrb9YwYreVnmqnjYRpoW4A5pl7JKzm
-         FBCFoD9xNpBfTxL3Zrq1wXswmElgLoz1F3NUwNerAgMyBwQZ28jDJYCDMAMMP3+PIfvA
-         5Pd56q5uoh7Y6AjpPVljOznBeoDvPCrH0iw39jZ5RBPqrNe2KyzhlJ4nD05VoKYdVy1C
-         ylqwauQHcyGBEjvdt5R1F/+cG7yHty4kYb0WQsQTnt64JaQJw2oJYHrMMgCrTMKQGb6y
-         gVdg==
-X-Gm-Message-State: AFqh2krW6Qm9+Qk632kHGyuYznkr4Rya+5BN9Fc1AQR/ie7/B2r5O0I5
-	z8LjoipB77FEDeXtzF3GMJI509zk409KC/Y=
-X-Google-Smtp-Source: AMrXdXvMD9P/xlFzXn30LDNXalC1ybtN/BG+KRBU6C6L+w65aD8UdblWVHgdDVnQt/Sr6+JRm4kDxQ==
-X-Received: by 2002:a17:903:2781:b0:189:c3ef:c759 with SMTP id jw1-20020a170903278100b00189c3efc759mr29247326plb.68.1672244255068;
-        Wed, 28 Dec 2022 08:17:35 -0800 (PST)
+        bh=rSAJAAdg+x2pOzW2h8I4DWXP2kQcq5rdUpJcuztv9EE=;
+        b=gOxoRHQh12WtNeMY2Vi/mxSUAjIecpnvpnjZFqo1O2+s1ITBniWdEfWmRjIqxp+tiX
+         OD0ey+a4d7V90auIdb5TgRVyHNOlxwDHg3hxe14+s3j7bzrcNnelFtJ/vmiX9ztT0Wif
+         kJEuimlfRQEphbKLtkQE/R7zwPoiN4UJAlcnYzKRGaVWockG0a8fvgKTDMyvWw17UPEg
+         ymZzugp4hsv36dzOPuCe+N2LtevwJ95G+HCTxyd+/YBVeHB1RBKfdySEWYNPeGMlL0hM
+         9/TZ5+JAwMYXFwhA30OaXlDV5rKF21nz99Afo3OgoDE0wtzsI5E3byoK5zMiQZ8Gy7eu
+         vqmw==
+X-Gm-Message-State: AFqh2koxIMxaQGipm3FRQVXDonJyWm2ip7WpqUFJP77NsP8rRcHk0Qk5
+	u5938s18Zvt4bc280CqNs4QEFP3GLGcMMr0=
+X-Google-Smtp-Source: AMrXdXu7mmaMcjNI9HxR+d1DxaBtYiq2bLtKfidJoFb02M79IzccfjmBnBfUTVaiydWpiO50zOQ4dQ==
+X-Received: by 2002:a17:902:edd1:b0:192:50fe:504a with SMTP id q17-20020a170902edd100b0019250fe504amr23724967plk.16.1672244258560;
+        Wed, 28 Dec 2022 08:17:38 -0800 (PST)
 Received: from localhost.localdomain ([117.217.178.100])
-        by smtp.gmail.com with ESMTPSA id s3-20020a170902c64300b00186abb95bfdsm11256798pls.25.2022.12.28.08.17.31
+        by smtp.gmail.com with ESMTPSA id s3-20020a170902c64300b00186abb95bfdsm11256798pls.25.2022.12.28.08.17.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 08:17:34 -0800 (PST)
+        Wed, 28 Dec 2022 08:17:37 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: mhi@lists.linux.dev
 Cc: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	stable@vger.kernel.org
-Subject: [PATCH 5/6] bus: mhi: ep: Move chan->lock to the start of processing queued ch ring
-Date: Wed, 28 Dec 2022 21:47:03 +0530
-Message-Id: <20221228161704.255268-6-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 6/6] bus: mhi: ep: Save channel state locally during suspend and resume
+Date: Wed, 28 Dec 2022 21:47:04 +0530
+Message-Id: <20221228161704.255268-7-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221228161704.255268-1-manivannan.sadhasivam@linaro.org>
 References: <20221228161704.255268-1-manivannan.sadhasivam@linaro.org>
@@ -58,68 +58,39 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a good chance that while the channel ring gets processed, the STOP
-or RESET command for the channel might be received from the MHI host. In
-those cases, the entire channel ring processing needs to be protected by
-chan->lock to prevent the race where the corresponding channel ring might
-be reset.
+During suspend and resume, the channel state needs to be saved locally.
+Otherwise, the endpoint may access the channels while they were being
+suspended and causing access violations.
 
-While at it, let's also add a sanity check to make sure that the ring is
-started before processing it. Because, if the STOP/RESET command gets
-processed while mhi_ep_ch_ring_worker() waited for chan->lock, the ring
-would've been reset.
+Fix it by saving the channel state locally during suspend and resume.
 
 Cc: <stable@vger.kernel.org> # 5.19
-Fixes: 03c0bb8ec983 ("bus: mhi: ep: Add support for processing channel rings")
+Fixes: e4b7b5f0f30a ("bus: mhi: ep: Add support for suspending and resuming channels")
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/bus/mhi/ep/main.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/bus/mhi/ep/main.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 0bce6610ebf1..2362fcc8b32c 100644
+index 2362fcc8b32c..bcaaba97ef63 100644
 --- a/drivers/bus/mhi/ep/main.c
 +++ b/drivers/bus/mhi/ep/main.c
-@@ -730,24 +730,37 @@ static void mhi_ep_ch_ring_worker(struct work_struct *work)
- 		list_del(&itr->node);
- 		ring = itr->ring;
+@@ -1122,6 +1122,7 @@ void mhi_ep_suspend_channels(struct mhi_ep_cntrl *mhi_cntrl)
  
-+		chan = &mhi_cntrl->mhi_chan[ring->ch_id];
-+		mutex_lock(&chan->lock);
-+
-+		/*
-+		 * The ring could've stopped while we waited to grab the (chan->lock), so do
-+		 * a sanity check before going further.
-+		 */
-+		if (!ring->started) {
-+			mutex_unlock(&chan->lock);
-+			kfree(itr);
-+			continue;
-+		}
-+
- 		/* Update the write offset for the ring */
- 		ret = mhi_ep_update_wr_offset(ring);
- 		if (ret) {
- 			dev_err(dev, "Error updating write offset for ring\n");
-+			mutex_unlock(&chan->lock);
- 			kfree(itr);
- 			continue;
- 		}
+ 		dev_dbg(&mhi_chan->mhi_dev->dev, "Suspending channel\n");
+ 		/* Set channel state to SUSPENDED */
++		mhi_chan->state = MHI_CH_STATE_SUSPENDED;
+ 		tmp &= ~CHAN_CTX_CHSTATE_MASK;
+ 		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_SUSPENDED);
+ 		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
+@@ -1151,6 +1152,7 @@ void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl)
  
- 		/* Sanity check to make sure there are elements in the ring */
- 		if (ring->rd_offset == ring->wr_offset) {
-+			mutex_unlock(&chan->lock);
- 			kfree(itr);
- 			continue;
- 		}
- 
- 		el = &ring->ring_cache[ring->rd_offset];
--		chan = &mhi_cntrl->mhi_chan[ring->ch_id];
- 
--		mutex_lock(&chan->lock);
- 		dev_dbg(dev, "Processing the ring for channel (%u)\n", ring->ch_id);
- 		ret = mhi_ep_process_ch_ring(ring, el);
- 		if (ret) {
+ 		dev_dbg(&mhi_chan->mhi_dev->dev, "Resuming channel\n");
+ 		/* Set channel state to RUNNING */
++		mhi_chan->state = MHI_CH_STATE_RUNNING;
+ 		tmp &= ~CHAN_CTX_CHSTATE_MASK;
+ 		tmp |= FIELD_PREP(CHAN_CTX_CHSTATE_MASK, MHI_CH_STATE_RUNNING);
+ 		mhi_cntrl->ch_ctx_cache[i].chcfg = cpu_to_le32(tmp);
 -- 
 2.25.1
 
