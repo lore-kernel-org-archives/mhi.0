@@ -1,154 +1,77 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AA37C
-	for <mhi@lists.linux.dev>; Wed,  4 Jan 2023 03:35:08 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id c34so40325197edf.0
-        for <mhi@lists.linux.dev>; Tue, 03 Jan 2023 19:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rg/4sD9rsFme2W7/tIqbHRALCzSlujDOlXVJMQfwtKg=;
-        b=ZgaWET0nvy7ALz28iMroptnlY+TgxZ8mg6QGNd1CZV9YYogAaxl4Hx1XWIecY5BJEu
-         YPhmUIRHfzb4tnodH3d6E0ZUKyE/JXkYe52TCp/48rUTHgU5TC4HUyoaIu/ku5WvwvUK
-         d4zPJ3X3rqovgW3U7MoLoCVwZSjqGjeK/t1wUtm9kuIn0SJH6ovZnF8QHjdutKS3v+Mh
-         vNNnUjPLWc72Z7IT3WejpLD5u83wOaflXoLZqntzwy6BcM/KDES9ibzAjvKNoVigwnYb
-         3opaD2n82MPHMrfKnDkZax3Y1/ur7xMX1TRxwQSnbEV4ZlKoZLByLYfKVXqOsvsKOHwu
-         QLBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rg/4sD9rsFme2W7/tIqbHRALCzSlujDOlXVJMQfwtKg=;
-        b=Fc0tf+1opuHoIQxTKOqUU1HcZXuAZGoymkAvk+TFaYmTJrHNvqJYbPJvPtz+ThcRUp
-         0MW23fM8aU7H2YPH5OVUEy8wygfcf8Qhif/Oq5gul2OuZN9oLf+Ox8/PJk7uGu1x90Pq
-         K+qFP/zzMxQ5I7lwRat85dY7NOgJNL3296O0d+n61AjdGUpYTSobQce8Epb0s7NoW4y5
-         1WOnS4+xBOtGxWB9Tk6rFnqe8R4YrgCsS2AU6XHqa/WwjSpTyIlLPHuS7Rg7edtzyn1j
-         Slc9heOmPnDG+hiHfIVToXJNhMVBTq5H+LkxRzNBebB4PJfV2d0TWhCwU+iFJsKgY9hv
-         zunQ==
-X-Gm-Message-State: AFqh2ko+XzBzpnHyOQIEiKzW7DIHsDSi5V2Wg9iBTOEoOJnWyHHj9eB9
-	Y85LJJ4LePXWdhmZ0BzHdIwhFL5vWJwh+Qm33XQ=
-X-Google-Smtp-Source: AMrXdXuRsu44HxVyHbVKzh3xjrg8EVZH3Jc8BlfDz5MGuWEaxW9E+Aef5xAJB2ix45FtZ4NgGQuSFKJsxYOWom+eOgY=
-X-Received: by 2002:a50:951e:0:b0:484:a88c:a850 with SMTP id
- u30-20020a50951e000000b00484a88ca850mr2796037eda.400.1672803306466; Tue, 03
- Jan 2023 19:35:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F329F7F0
+	for <mhi@lists.linux.dev>; Thu,  5 Jan 2023 04:10:08 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30520KUj020128;
+	Thu, 5 Jan 2023 04:10:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=17ogLiYv+qSzQPmh13dokklfW+MYYfLxJDhpxao04Qw=;
+ b=NSiv0fhBRk3wxy0c44DXw6o+1Fhak+bfKzFEsW2OCvLP7LOCV8qdz74nWP/T/pZLE3gc
+ jSIr7FjWW5/D7Byt+tQ28l9hsYx9G8v3iwPPiEUrVXzpyYV8qrZOP1vNR9bLzVFp1w1j
+ 4w4dT7KD1pILqduRzfgkVx8RJA70CpcERC0UDFgDt3XfmrlkgN/2HQth8ik3Ht9d7n2O
+ n9fyHcp/bspcU9ywpfHTruLOWtyloWnm9+JYqo9MXaCIsmoeL1Gd/m1tbwhFeNph6hUo
+ l7UAv6TthTjhVqlBjwRMqPG4wWj6RKAsdhl98AF9rQlvZl/MqPY+sy0+idM19VySHLGg kw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mwj4hggex-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Jan 2023 04:10:01 +0000
+Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3054A0YN025032
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Jan 2023 04:10:00 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 4 Jan 2023
+ 20:09:59 -0800
+Message-ID: <613e5b54-2e32-640e-a584-df592907c346@quicinc.com>
+Date: Wed, 4 Jan 2023 21:09:58 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230104021445.47484-1-quic_bqiang@quicinc.com>
- <CAOCk7NpGBD-2nHFBE3a4WxNb4XPhEV3uoCDz1J9ArbaOE7Vscg@mail.gmail.com>
- <7dac372b-167c-2dff-b207-6e32fd40c7bb@quicinc.com> <CAOCk7NqNrxcXLsw3PRRdsiOrq5SB9DfxpuSH84-rB9-43fdpog@mail.gmail.com>
- <b0e8d03f-0e4e-b736-aa9d-cd49181d9041@quicinc.com>
-In-Reply-To: <b0e8d03f-0e4e-b736-aa9d-cd49181d9041@quicinc.com>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Tue, 3 Jan 2023 20:34:55 -0700
-Message-ID: <CAOCk7NrnfjZR5ADcVk4iSt9_aP5_9Aamb4eJBoBq7hDH1SVoVg@mail.gmail.com>
-Subject: Re: [PATCH] bus: mhi: host: Change the log levels for SYS_ERR event
-To: Baochen Qiang <quic_bqiang@quicinc.com>
-Cc: manivannan.sadhasivam@linaro.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ath11k@lists.infradead.org, mhi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/6] bus: mhi: ep: Power up/down MHI stack during MHI
+ RESET
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        <mhi@lists.linux.dev>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221228161704.255268-1-manivannan.sadhasivam@linaro.org>
+ <20221228161704.255268-2-manivannan.sadhasivam@linaro.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20221228161704.255268-2-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Msi6NBn_lAWaM8jWLsZuB6iC-ENyILR9
+X-Proofpoint-ORIG-GUID: Msi6NBn_lAWaM8jWLsZuB6iC-ENyILR9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
+ suspectscore=0 mlxlogscore=882 clxscore=1011 adultscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050032
 
-So your firmware is glitching, but it isn't kicking you to the RDDM
-EE?  RDDM EE triggers an entirely different code path than the syserr
-process. If that assumption is correct, then I'm not entirely sure why
-that check exists since the current code would do the syserr
-processing only if it's not a RDDM event.
+On 12/28/2022 9:16 AM, Manivannan Sadhasivam wrote:
+> During graceful shutdown scenario, host will issue MHI RESET to the
+> endpoint device before initiating shutdown. In that case, it makes sense
+> to completely power down the MHI stack as sooner or later the access to
+> MMIO registers will be prohibited. Also, the stack needs to be powered
+> up in the case of SYS_ERR to recover the device.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-There are other reasons the FW might trigger syserr, which would not
-be a fatal error or rddm, and that should trigger both the
-controller's processing as well as the MHI core.
-
-If I were to guess, I would say that Hemanth and Bhaumik had that in
-there because they were concerned about the RDDM processing triggering
-multiple times.  I don't see how RDDM processing can trigger without
-the RDDM EE, which seems to make that concern moot.  Sadly, I can no
-longer ask them to confirm.
-
-Have you experimented with removing that check?  That seems like a
-valid fix for your system.  What you propose is bypassing the dynamic
-debug mechanism, which doesn't seem justified in this case from what
-I've seen so far.
-
--Jeff
-
-On Tue, Jan 3, 2023 at 8:17 PM Baochen Qiang <quic_bqiang@quicinc.com> wrote:
->
->
-> On 1/4/2023 11:11 AM, Jeffrey Hugo wrote:
-> > On Tue, Jan 3, 2023 at 7:57 PM Baochen Qiang <quic_bqiang@quicinc.com> wrote:
-> >>
-> >> On 1/4/2023 10:41 AM, Jeffrey Hugo wrote:
-> >>> Why was this not sent to the MHI mailing list?
-> >> I don't know the MHI mailing list address, could tell me that?
-> > The relevant entry from MAINTAINERS -
-> >
-> > MHI BUS
-> > M: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > L: mhi@lists.linux.dev
-> > L: linux-arm-msm@vger.kernel.org
-> > S: Maintained
-> > T: git git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git
-> > F: Documentation/ABI/stable/sysfs-bus-mhi
-> > F: Documentation/mhi/
-> > F: drivers/bus/mhi/
-> > F: include/linux/mhi.h
-> >
-> >>> On Tue, Jan 3, 2023 at 7:19 PM Baochen Qiang <quic_bqiang@quicinc.com> wrote:
-> >>>> Currently no log printed when SYS_ERR happens, this makes
-> >>>> debug quite hard, so change log level to make it noisy.
-> >>> You are going to need to explain this more.
-> >>> There are two drivers in the upstream kernel that are MHI clients -
-> >>> pci_generic and ath11k.
-> >>> I'm assuming that you care about ath11k because you included that mail list.
-> >> Yes, I am talking about ath11k.
-> >>> In ath11k_mhi_op_status_cb() I see a warning message printed when the
-> >>> syserr callback is triggered.
-> >>> I see something similar in pci_generic.
-> >>>
-> >>> Looks like a log is printed when SYS_ERR happens in all possible
-> >>> scenarios, so I don't understand the point of this change.
-> >>> Particularly given that dev_dbg messages can be trivially enabled.
-> >>>
-> >>> -Jeff
-> >> Well, this is not true in some cases. For example, we have met cases where
-> >>
-> >> WLAN HW/firmware is not working well, and only send a SYS_ERR event to MHI
-> >>
-> >> driver, however this event is not sent to ath11k host becuase of
-> >> mhi_pm_sys_err_handler(),
-> >>
-> >> so we got no log at all.
-> >>
-> > With the 6.1 kernel?
-> >
-> > mhi_pm_sys_err_handler() queues the st_worker.
-> >
-> > mhi_pm_st_worker() , which is the st_worker function, calls
-> > mhi_pm_sys_error_transition() in the DEV_ST_TRANSITION_SYS_ERR case
-> > (we are processing a SYS_ERR).
-> >
-> > Pretty much the first thing mhi_pm_sys_err_transition() does is this -
-> >
-> > /* We must notify MHI control driver so it can clean up first */
-> > mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_SYS_ERROR);
-> >
-> > Which calls the ath11k driver ath11k_mhi_op_status_cb() I mentioned earlier.
-> >
-> > -Jeff
->
->
-> No, mhi_pm_sys_err_handler() will NOT queue the st_worker because ath11k
-> host supports RDDM, so the SYS_ERR event will be skipped. See below log:
->
-> kernel: [  165.393720] mhi mhi0: local ee: MISSION MODE state: M0 device
-> ee: RAMDUMP DOWNLOAD MODE state: M0
-> kernel: [  165.401820] mhi mhi0: State change event to state: SYS ERROR
-> kernel: [  165.401824] mhi mhi0: System error detected
-> kernel: [  165.401827] mhi mhi0: Controller supports RDDM, skip SYS_ERROR
->
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
