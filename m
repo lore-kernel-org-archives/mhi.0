@@ -1,34 +1,34 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0A17FD
-	for <mhi@lists.linux.dev>; Thu,  5 Jan 2023 04:46:51 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30543kV0020204;
-	Thu, 5 Jan 2023 04:12:14 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B223D526
+	for <mhi@lists.linux.dev>; Thu,  5 Jan 2023 15:54:58 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 305EmKTW027144;
+	Thu, 5 Jan 2023 15:54:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=h5tJprJsUMF2KrpzE35hPHeUJaUoqcYRm33Jr1+Uiz8=;
- b=SXELPZuCkDbzv6IDx0TVcWBC+5uMl1C28omqH7nE13pTRfPfZEsWNdIDK3tGjWV2FMcz
- VGLOGVmoccWd6SIbHCgTmSKeoVf1AUoyWnoy8bZEJkcKovRZsn5NgxIHtICwvSE9177m
- 5GnOqHSNbxw7lxIWea0pI4Dt0NNhQjGhHu06FOm7OjJwnKE+kx8cwiZVpeiSO96XL+do
- ttBJj4omQIcjkd4xcwvDXPGQgenSSl8tNDoGBVr7vVnKRT/zFnoWz9Dya1mVbrSWLXeQ
- CZ/PL1T5oJW5GtzW4lGDmzXidx0DJyYf/mU169GdxpIb+pK3AeiuxFDSywrOiRXrfoPc AQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mvsvf3dbr-1
+ bh=Hjwt24Y9U5C+BOTHcFBUMTfjwMcrasKacHZNnRhcUmM=;
+ b=bpghMv16e7Py7LYbHS3LNFKqM1ZAFs0JoHAdtzqfw9RaFSBP5ms9h32UON1YQ8A6kXG7
+ Li1/Po01EU+v9Cpm2U3fcs7u+9oM4ONeAH7VuK0B8Y611wkZqJ8rPmPlxL/4j69ZbKfi
+ /dkATSxnPd1qK08sx0mXSAc8VxIOc7u/jALznaybyJ3kuTmNIYUR0dxb2yMxcUiThbDY
+ HSQ94UrEgbjMN6LRYhTgwPqKMzeVHSZtB0xemefDBJSmocm8kYjyTMP+kaz/totXQh8e
+ SFWdVya/dPFXr77WONVxMj94inHHvWwt497LPp8CWgXZM04Gmk+OLzWUoATSNFHE7E7B gQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mwdckj8tm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Jan 2023 04:12:14 +0000
-Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3054CDeQ007848
+	Thu, 05 Jan 2023 15:54:56 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 305FstGH029415
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Jan 2023 04:12:14 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 4 Jan 2023
- 20:12:13 -0800
-Message-ID: <8b145e5a-f021-795d-a083-636a3ac3cf74@quicinc.com>
-Date: Wed, 4 Jan 2023 21:12:12 -0700
+	Thu, 5 Jan 2023 15:54:55 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 5 Jan 2023
+ 07:54:55 -0800
+Message-ID: <8241c207-0ce3-8313-24d6-b8e5efc25cae@quicinc.com>
+Date: Thu, 5 Jan 2023 08:54:54 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -37,42 +37,40 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 3/6] bus: mhi: ep: Only send -ENOTCONN status if client
- driver is available
+Subject: Re: [PATCH 4/6] bus: mhi: ep: Fix the debug message for
+ MHI_PKT_TYPE_RESET_CHAN_CMD cmd
 Content-Language: en-US
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         <mhi@lists.linux.dev>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20221228161704.255268-1-manivannan.sadhasivam@linaro.org>
- <20221228161704.255268-4-manivannan.sadhasivam@linaro.org>
+ <20221228161704.255268-5-manivannan.sadhasivam@linaro.org>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20221228161704.255268-4-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20221228161704.255268-5-manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jt5fE1gYFq_pf0Gh0VUaVfVIRLjidT8l
-X-Proofpoint-GUID: jt5fE1gYFq_pf0Gh0VUaVfVIRLjidT8l
+X-Proofpoint-GUID: H9b2sfRcd4XV_sc64ohdlQVXW8sFCJIW
+X-Proofpoint-ORIG-GUID: H9b2sfRcd4XV_sc64ohdlQVXW8sFCJIW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- clxscore=1011 priorityscore=1501 spamscore=0 impostorscore=0
- lowpriorityscore=0 suspectscore=0 mlxlogscore=984 mlxscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050033
+ definitions=2023-01-05_06,2023-01-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=815 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050125
 
 On 12/28/2022 9:17 AM, Manivannan Sadhasivam wrote:
-> For the STOP and RESET commands, only send the channel disconnect status
-> -ENOTCONN if client driver is available. Otherwise, it will result in
-> null pointer dereference.
+> The debug log incorrectly mentions that STOP command is received instead of
+> RESET command. Fix that.
 > 
-> Cc: <stable@vger.kernel.org> # 5.19
-> Fixes: e827569062a8 ("bus: mhi: ep: Add support for processing command rings")
 > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+Fixes?
 
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
