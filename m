@@ -1,80 +1,79 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34033D52B
-	for <mhi@lists.linux.dev>; Thu,  5 Jan 2023 15:57:53 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 305DtCqG025495;
-	Thu, 5 Jan 2023 15:57:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Xo83gKabN1O0R3UktLS+Q+GhShKE1s8GwQ3eMi8lJz4=;
- b=NbnolHFEWM3w95DY3Ud7bVyUCp7CeeoE7FTgNCjVcO7UhiS2r1nDuBYYvy3t2OvcEZcV
- uHNW9WFO60wcwMuf0kn/EWjXDxkTrmPRtXrWcPOwLZ+Az7Ft7kwWtF086kwTN1zpDVl0
- UxTxdabTaOtm4cxjLic/3KgPggkKstmrBO31EcPzMZAqb19ZaZSnAEgK/dQyZ71fSACG
- LFfM9P5qwgj2tYKvhg2E3iDq2bOt69KTDjB8SFNx/ziMU4whaTgAxRWjhb33iYu0+o9O
- RhEbLMVhupvT9puOVD07YBp1hjd2e1H+C/86Fb+fWesdgEeks8BkqYq0snu8PYcxVtuI Zw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mwu4vrqaj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Jan 2023 15:57:51 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 305FvoVx032293
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Jan 2023 15:57:50 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 5 Jan 2023
- 07:57:50 -0800
-Message-ID: <4497ea5f-e255-12a3-78ca-7210d34e3762@quicinc.com>
-Date: Thu, 5 Jan 2023 08:57:49 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8BF17EF
+	for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 09:21:25 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id s8so7831248plk.5
+        for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 01:21:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BDAYJ0rba9Lt9b0XJjJxh+A0UhRZ127T1rCwiGZHjnc=;
+        b=x2XQxLUwZR2yYsRMaInf7HWF92ZLD+A8Ta/XpfOy9ltRTG81C6B4t3CzTcmvP7jz3/
+         lWh6f2dtGJ219/jUuv2iH7m/U4NGBjFHzp4071AJBOgyXRI1ViS2OKfAS8IL4VqJH41J
+         Sy8z6MGyzL59k+PLtxV0hmjP4lkCDie1EJO1VFeVSeJqtTm1ierzThCCy4zhfPI1bJJq
+         WFxrtIqvv7HqOo8fSEqABusv8jmYDrsdBNamTK0v9HWaNAQhTdj17J1A/NH1zrh3/0Vf
+         IZODWNH23nkOj9DJvhqo5rr6LJGyKBZnO2cbdGaE+ivTzuOeqxf0C3NlLLut3Tsm9Dtq
+         uu5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BDAYJ0rba9Lt9b0XJjJxh+A0UhRZ127T1rCwiGZHjnc=;
+        b=Je/e/FYVrBAIbfEGBxYrhMlozcVRyZPpanNCIr8PI7DKLvsQIN3DS8/xvRVGVdBPa2
+         hg/1KfAqsIz9/kAui7ttuh7rGnHZFOOJKFdc1c2s0B/GblDNd0NIDzC8FHzX26cyjYEL
+         Ei0W8KQ1ATzMpn2Xd7VZFVgXniDN8TcMrAc+LcxYdwtcYacPWDY0ARDEGrjO6maAkbRx
+         Xxr4m/v9Je4dSytTdK1gktn7kse/V91kG64orAEYj8kejwDnk8u2GLJ5wh9VjD5MnAEF
+         5tLveT8LBftzUDQoxN1xiqgvWqjJPxSCngbQwmDgExyCSLZOK5I7Q3tG/hxl2QpbpCyS
+         4baw==
+X-Gm-Message-State: AFqh2kqlk9+Ae+tSamMYjA5WbB7nJfXVQb5FQKrwSSabQji9E98Uwk6e
+	H8Jzg0dNIZcJfzjqEs7yr02579P6IDJsjnquuJxzAA==
+X-Google-Smtp-Source: AMrXdXs1BfLQg12NC/c7gfJ2HOmIPIiSva1z4dPZByoL2IWMaM3TOIFUfRduiYyr0b0soYPNL3Jt1Ey8jdQq4xjQLaw=
+X-Received: by 2002:a17:90b:48cf:b0:226:164f:522e with SMTP id
+ li15-20020a17090b48cf00b00226164f522emr3628516pjb.22.1673428885353; Wed, 11
+ Jan 2023 01:21:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 6/6] bus: mhi: ep: Save channel state locally during
- suspend and resume
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        <mhi@lists.linux.dev>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20221228161704.255268-1-manivannan.sadhasivam@linaro.org>
- <20221228161704.255268-7-manivannan.sadhasivam@linaro.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20221228161704.255268-7-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: bnNwF8f_R4Sa1sDzZ8yNUNgLm8zcM9pV
-X-Proofpoint-ORIG-GUID: bnNwF8f_R4Sa1sDzZ8yNUNgLm8zcM9pV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-05_06,2023-01-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=889 phishscore=0 suspectscore=0
- impostorscore=0 spamscore=0 malwarescore=0 mlxscore=0 adultscore=0
- bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301050125
+References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
+ <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
+ <877czn8c2n.fsf@kernel.org> <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
+ <87k02jzgkz.fsf@kernel.org>
+In-Reply-To: <87k02jzgkz.fsf@kernel.org>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Wed, 11 Jan 2023 10:21:14 +0100
+Message-ID: <CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Robert Marko <robimarko@gmail.com>, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
+	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, ansuelsmth@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/28/2022 9:17 AM, Manivannan Sadhasivam wrote:
-> During suspend and resume, the channel state needs to be saved locally.
-> Otherwise, the endpoint may access the channels while they were being
-> suspended and causing access violations.
-> 
-> Fix it by saving the channel state locally during suspend and resume.
-> 
-> Cc: <stable@vger.kernel.org> # 5.19
-> Fixes: e4b7b5f0f30a ("bus: mhi: ep: Add support for suspending and resuming channels")
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Really sorry, I just didn't manage to get this finalised due to other
+> stuff and now I'm leaving for a two week vacation :(
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com)
+Any news regarding this, I have a PR for ipq807x support in OpenWrt
+and the current workaround for supporting AHB + PCI or multiple PCI
+cards is breaking cards like QCA6390 which are obviously really
+popular.
+
+Regards,
+Robert
+-- 
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura Ltd.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
