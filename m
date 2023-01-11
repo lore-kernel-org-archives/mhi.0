@@ -1,213 +1,191 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF2C2F32
-	for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 15:20:48 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30BDSZxW009906;
-	Wed, 11 Jan 2023 15:20:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=/YvBClGX/zmnvgpUhJlAbnaIFEHh8kuj/QmimjZlJVQ=;
- b=inIFMVHoHpNTCEfh/wxSElz80IpwzPvExgVeHgU8tTolg92Ar0hGjGlPVoI+bjOzFhV+
- PnDABswuvCIlrCqa8bQ3T9UHiUCU7dX2mvspo6q8PAB85abjocjFVhXb5gWuZnzx8GnE
- SELtV1D19p93ecyzidUdt3iUaQb8a8afGuw8XOYG3AePP8GqM5kfmxxfChOzSRQmkJzI
- 5oTAhrz0xeNSjsYqc4sS1uqSNUtBWVzZdW0X+RkKQW0UE8q65CKcZ4hfxj+P/BlFnVcJ
- SCSzwqIvX8AgL0Aw2j6D57LT1c6kAlKWb2VJAghY54dJFW7iuZ9NRd3WT5wVluMIbGCc 3A== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n1k9j1kct-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Jan 2023 15:20:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30BFKa4c006670
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Jan 2023 15:20:36 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 11 Jan
- 2023 07:20:35 -0800
-Message-ID: <7d692402-3fc1-3b4c-9697-25e722e94539@quicinc.com>
-Date: Wed, 11 Jan 2023 08:20:34 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117123209
+	for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 17:00:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948DFC433D2;
+	Wed, 11 Jan 2023 17:00:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673456439;
+	bh=+WGS0zAXr4cfgNQ2br+L+VpGr671h299i+2KiODXD84=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OoaiHJo7DZYX69G4dcLJkszLQ8f0PfidmSAwa+PwRgncEPuNtz2kvJpH8wEYYyZhZ
+	 GZEY4MeK3+bWVZHPj23Kv62jDEPEGXxfDdSm7yXGvz3Ke3pw7nVJQ0YyasH97KAOjN
+	 mfQDVzQ3yKO+zT9aGjhKh8pH1/H0e2dahRiW8a9RI2uv2QmnZfOZA9XD7d8Eg4PYDE
+	 sr7oIdfekMqL8AIBNipBPYn1McuNxdRcvO+thfmOl0dCF4FTv6zcq+Zeh8dKAfqTRZ
+	 xOQs81nZ2/BniWXf1GEqjkm0lBI8mNyBxYv3r88amJKDK6sM5UgTEKlrK+LnQfznib
+	 9sebg4SRvHfvQ==
+From: Kalle Valo <kvalo@kernel.org>
+To: ath11k@lists.infradead.org
+Cc: mhi@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	robert.marko@sartura.hr
+Subject: [PATCH RFC] ath11k: Add multiple QCN9074 devices support
+Date: Wed, 11 Jan 2023 19:00:33 +0200
+Message-Id: <20230111170033.32454-1-kvalo@kernel.org>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/3] mhi: allow MHI client drivers to provide the firmware
- via a pointer
-Content-Language: en-US
-To: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>
-CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
-References: <20230111092547.21425-1-kvalo@kernel.org>
- <20230111092547.21425-2-kvalo@kernel.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230111092547.21425-2-kvalo@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: bLQ0-FWqS3L6vY3jUhzMrUFMm8iU8d26
-X-Proofpoint-ORIG-GUID: bLQ0-FWqS3L6vY3jUhzMrUFMm8iU8d26
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-11_07,2023-01-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 spamscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301110112
+Content-Transfer-Encoding: 8bit
 
-On 1/11/2023 2:25 AM, Kalle Valo wrote:
-> From: Kalle Valo <quic_kvalo@quicinc.com>
-> 
-> Currently MHI loads the firmware image from the path provided by client
-> devices. ath11k needs to support firmware image embedded along with meta data
-> (named as firmware-2.bin). So allow the client driver to request the firmware
-> file from user space on it's own and provide the firmware image data and size
-> to MHI via a pointer struct mhi_controller::fw_data.
-> 
-> This is an optional feature, if fw_data is NULL MHI load the firmware using the
-> name from struct mhi_controller::fw_image string as before.
-> 
-> Tested with ath11k and WCN6855 hw2.0.
-> 
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
-> ---
->   drivers/bus/mhi/host/boot.c | 27 +++++++++++++++++++--------
->   include/linux/mhi.h         |  6 ++++++
->   2 files changed, 25 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index 1c69feee1703..d6d5f424491e 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->   }
->   
->   static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
-> -			      const struct firmware *firmware,
-> +			      const u8 *buf, size_t remainder,
->   			      struct image_info *img_info)
->   {
-> -	size_t remainder = firmware->size;
->   	size_t to_cpy;
-> -	const u8 *buf = firmware->data;
->   	struct mhi_buf *mhi_buf = img_info->mhi_buf;
->   	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
->   
-> @@ -392,9 +390,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	const struct firmware *firmware = NULL;
->   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->   	const char *fw_name;
-> +	const u8 *fw_data;
->   	void *buf;
->   	dma_addr_t dma_addr;
-> -	size_t size;
-> +	size_t size, fw_sz;
->   	int i, ret;
->   
->   	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-> @@ -424,6 +423,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
->   		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
->   
-> +	if (!fw_name && mhi_cntrl->fbc_download &&
-> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
-> +		size = mhi_cntrl->sbl_size;
-> +		fw_data = mhi_cntrl->fw_data;
-> +		fw_sz = mhi_cntrl->fw_sz;
-> +		goto skip_req_fw;
-> +	}
-> +
->   	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
->   						     !mhi_cntrl->seg_len))) {
->   		dev_err(dev,
-> @@ -443,6 +450,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	if (size > firmware->size)
->   		size = firmware->size;
->   
-> +	fw_data = firmware->data;
-> +	fw_sz = firmware->size;
-> +
-> +skip_req_fw:
->   	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
->   				 GFP_KERNEL);
->   	if (!buf) {
-> @@ -451,7 +462,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	}
->   
->   	/* Download image using BHI */
-> -	memcpy(buf, firmware->data, size);
-> +	memcpy(buf, fw_data, size);
->   	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
->   	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
->   
-> @@ -463,7 +474,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	}
->   
->   	/* Wait for ready since EDL image was loaded */
-> -	if (fw_name == mhi_cntrl->edl_image) {
-> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
->   		release_firmware(firmware);
->   		goto fw_load_ready_state;
->   	}
-> @@ -478,14 +489,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->   	 */
->   	if (mhi_cntrl->fbc_download) {
->   		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
-> -					   firmware->size);
-> +					   fw_sz);
+From: P Praneesh <quic_ppranees@quicinc.com>
 
-Minor nit, but it seems like this could be all on one line.
+On platforms with two or more QCN9074 devices, the QMI service will run with
+identical QRTR ids. qmi_add_lookup() is called with same qmi.service_ins_id.
+Because of this identical id, the QMI .new_server is received on all ath11k QMI
+clients and the QMI state machine fails.
 
->   		if (ret) {
->   			release_firmware(firmware);
->   			goto error_fw_load;
->   		}
->   
->   		/* Load the firmware into BHIE vec table */
-> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
-> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
->   	}
->   
->   	release_firmware(firmware);
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index a5441ad33c74..0d11fe22633e 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -299,6 +299,10 @@ struct mhi_controller_config {
->    * @iova_start: IOMMU starting address for data (required)
->    * @iova_stop: IOMMU stop address for data (required)
->    * @fw_image: Firmware image name for normal booting (optional)
-> + * @fw_data: Firmware image data content for normal booting, used only
-> + *           if fw_image is NULL (optional)
+To solve this generate a unique instance id from PCIe domain number and bus
+number, write to the register ATH11K_PCIE_LOCAL_REG_PCIE_LOCAL_RSV0 before
+power up. It is available for firmware when the QMI service is spawned. As not
+all firmware releases support this feature add a new firmware feature flag
+ATH11K_FW_FEATURE_MULTI_QRTR_ID to detect if it's supported.
 
-The implementation requires fbc_download to be set, which is not a 
-requirement for fw_image.  That is not apparent here.
+With this change, qrtr-lookup is shown in below example.
 
-> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
-> + *         is NULL (optional)
->    * @edl_image: Firmware image name for emergency download mode (optional)
->    * @rddm_size: RAM dump size that host should allocate for debugging purpose
->    * @sbl_size: SBL image size downloaded through BHIe (optional)
-> @@ -384,6 +388,8 @@ struct mhi_controller {
->   	dma_addr_t iova_start;
->   	dma_addr_t iova_stop;
->   	const char *fw_image;
-> +	const u8 *fw_data;
-> +	size_t fw_sz;
+Example:
+root@OpenWrt:/# qrtr-lookup
+Service Version Instance Node Port
+15 1 0 23 1 Test service
+69 1 23 23 2 ATH10k WLAN firmware service
+15 1 0 24 1 Test service
+69 1 24 24 2 ATH10k WLAN firmware service
 
-Did you run pahole?  I remember this struct being well packed, and I 
-think this will add a compiler hole but I have not actually verified.
+Here 23 and 24 on column 3 (QMI Instance ID) and column 4 (Node ID) are the
+node IDs that is unique per ath11k device.
 
->   	const char *edl_image;
->   	size_t rddm_size;
->   	size_t sbl_size;
+Tested-on: QCN9074 hw1.0 PCI WLAN.HK.2.6.0.1-00760-QCAHKSWPL_SILICONZ-1
+
+Co-developed-by: Anilkumar Kolli <quic_akolli@quicinc.com>
+Signed-off-by: Anilkumar Kolli <quic_akolli@quicinc.com>
+Signed-off-by: P Praneesh <quic_ppranees@quicinc.com>
+Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+---
+
+Kalle's comments:
+
+Depends on: https://patchwork.kernel.org/project/linux-wireless/list/?series=710862&order=date
+
+It's also possible to do a simple test by just changing the test
+"test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)" to true, no
+extra patches should be needed.
+
+I don't have a test setup for this so compile tested only. But I assume Praneesh has tested this.
+
+This is alternative approach to Robert's patchset:
+
+https://patchwork.kernel.org/project/linux-wireless/list/?series=692423&state=*&order=date
+
+ drivers/net/wireless/ath/ath11k/fw.h  |  5 +++++
+ drivers/net/wireless/ath/ath11k/pci.c | 31 +++++++++++++++++++++++++++
+ drivers/net/wireless/ath/ath11k/pci.h |  1 +
+ 3 files changed, 37 insertions(+)
+
+diff --git a/drivers/net/wireless/ath/ath11k/fw.h b/drivers/net/wireless/ath/ath11k/fw.h
+index e33b0f78b571..94f50d675f8d 100644
+--- a/drivers/net/wireless/ath/ath11k/fw.h
++++ b/drivers/net/wireless/ath/ath11k/fw.h
+@@ -17,6 +17,11 @@ enum ath11k_fw_ie_type {
+ };
+ 
+ enum ath11k_fw_features {
++	/* The firmware supports setting the QRTR id via register
++	 * ATH11K_PCIE_LOCAL_REG_PCIE_LOCAL_RSV0.
++	 */
++	ATH11K_FW_FEATURE_MULTI_QRTR_ID = 0,
++
+ 	/* keep last */
+ 	ATH11K_FW_FEATURE_COUNT,
+ };
+diff --git a/drivers/net/wireless/ath/ath11k/pci.c b/drivers/net/wireless/ath/ath11k/pci.c
+index 776362d151cb..c42e1e8da624 100644
+--- a/drivers/net/wireless/ath/ath11k/pci.c
++++ b/drivers/net/wireless/ath/ath11k/pci.c
+@@ -27,6 +27,8 @@
+ #define QCN9074_DEVICE_ID		0x1104
+ #define WCN6855_DEVICE_ID		0x1103
+ 
++#define ATH11K_PCIE_LOCAL_REG_PCIE_LOCAL_RSV0  0x1E03164
++
+ static const struct pci_device_id ath11k_pci_id_table[] = {
+ 	{ PCI_VDEVICE(QCOM, QCA6390_DEVICE_ID) },
+ 	{ PCI_VDEVICE(QCOM, WCN6855_DEVICE_ID) },
+@@ -367,9 +369,14 @@ static void ath11k_pci_sw_reset(struct ath11k_base *ab, bool power_on)
+ 	ath11k_mhi_set_mhictrl_reset(ab);
+ }
+ 
++#define ATH11K_QRTR_INSTANCE_PCI_DOMAIN		GENMASK(3, 0)
++#define ATH11K_QRTR_INSTANCE_PCI_BUS_NUM	GENMASK(7, 4)
++
+ static void ath11k_pci_init_qmi_ce_config(struct ath11k_base *ab)
+ {
+ 	struct ath11k_qmi_ce_cfg *cfg = &ab->qmi.ce_cfg;
++	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
++	struct pci_bus *bus = ab_pci->pdev->bus;
+ 
+ 	cfg->tgt_ce = ab->hw_params.target_ce_config;
+ 	cfg->tgt_ce_len = ab->hw_params.target_ce_count;
+@@ -380,6 +387,15 @@ static void ath11k_pci_init_qmi_ce_config(struct ath11k_base *ab)
+ 
+ 	ath11k_ce_get_shadow_config(ab, &cfg->shadow_reg_v2,
+ 				    &cfg->shadow_reg_v2_len);
++
++	if (test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)) {
++		ab_pci->instance_id =
++			FIELD_PREP(ATH11K_QRTR_INSTANCE_PCI_DOMAIN,
++				   pci_domain_nr(bus)) |
++			FIELD_PREP(ATH11K_QRTR_INSTANCE_PCI_BUS_NUM,
++				   bus->number);
++		ab->qmi.service_ins_id += ab_pci->instance_id;
++	}
+ }
+ 
+ static void ath11k_pci_msi_config(struct ath11k_pci *ab_pci, bool enable)
+@@ -597,6 +613,18 @@ static void ath11k_pci_aspm_restore(struct ath11k_pci *ab_pci)
+ 					   ab_pci->link_ctl);
+ }
+ 
++static void ath11k_pci_update_qrtr_node_id(struct ath11k_base *ab)
++{
++	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
++	u32 reg;
++
++	reg = ATH11K_PCIE_LOCAL_REG_PCIE_LOCAL_RSV0 & ATH11K_PCI_WINDOW_RANGE_MASK;
++	ath11k_pcic_write32(ab, reg, ab_pci->instance_id);
++
++	ath11k_dbg(ab, ATH11K_DBG_PCI, "pci reg 0x%x instance_id 0x%x read val 0x%x\n",
++		   reg, ab_pci->instance_id, ath11k_pcic_read32(ab, reg));
++}
++
+ static int ath11k_pci_power_up(struct ath11k_base *ab)
+ {
+ 	struct ath11k_pci *ab_pci = ath11k_pci_priv(ab);
+@@ -613,6 +641,9 @@ static int ath11k_pci_power_up(struct ath11k_base *ab)
+ 
+ 	ath11k_pci_msi_enable(ab_pci);
+ 
++	if (test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features))
++		ath11k_pci_update_qrtr_node_id(ab);
++
+ 	ret = ath11k_mhi_start(ab_pci);
+ 	if (ret) {
+ 		ath11k_err(ab, "failed to start mhi: %d\n", ret);
+diff --git a/drivers/net/wireless/ath/ath11k/pci.h b/drivers/net/wireless/ath/ath11k/pci.h
+index e9a01f344ec6..b9d4018d53c6 100644
+--- a/drivers/net/wireless/ath/ath11k/pci.h
++++ b/drivers/net/wireless/ath/ath11k/pci.h
+@@ -72,6 +72,7 @@ struct ath11k_pci {
+ 	/* enum ath11k_pci_flags */
+ 	unsigned long flags;
+ 	u16 link_ctl;
++	u32 instance_id;
+ };
+ 
+ static inline struct ath11k_pci *ath11k_pci_priv(struct ath11k_base *ab)
+-- 
+2.30.2
 
