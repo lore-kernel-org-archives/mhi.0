@@ -1,103 +1,99 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876033209
-	for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 17:10:50 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id y1so17458988plb.2
-        for <mhi@lists.linux.dev>; Wed, 11 Jan 2023 09:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura.hr; s=sartura;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wbn0wOToWYz8Hqus0qOCdl65fCabjHuCUD8bFfQCj64=;
-        b=PfTiVUep3xEEXd1CwcCgWM/skOcA1SOl2c2pnoewwiTXqAFMRGYHEl3tAboy/P89Sx
-         hesN2lBOF8VTEH1Qp04k02SidAjeJqkEOnIdXRBOxY48WBLosMNAJFvvum8BhHb7e1CR
-         zVf+o46D6GdR5hmPJEV50J31C38Ei+Sfa3W6CkKm19IakoKwdFz00D4Xz59YhYvmM8DR
-         0hnmQK79ppN6iRtRvzIHPNacgW//0PM9q0amW3hax1NyiAEG3XZ4J/8oVlG6Dli1Extt
-         zAj40+jCRt9lbx4zbAELmflze88AdQgaPX3RLOW67JGhc24wPdAYagNZ815W6G1ltHnN
-         UpNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wbn0wOToWYz8Hqus0qOCdl65fCabjHuCUD8bFfQCj64=;
-        b=Yen69PdbNIZknOgt5HtZOK1LHXrMRvRC99zZxhQPkenxroRQ0M/P/fFm5AgOkhgAX6
-         tSMhUGJK9kfuryuV4IL7TTozj0M2EceIzZEtfmImSdns6rv+QzPxTF+I5GVcOuNkev7l
-         j1VOW8ZABdBzgwkebgQiU2MOQeF9JD+HLC8eUYsVCrK6AU/aijE8JWZDzg+KQEm1sR8N
-         jPkiHeNx+Azv788WGX6JOQX5chkZOYe4Ou5YihG1bnxJ1gUc/3GFkexvq+z/qTpuX6AS
-         0LCq3F/GwoOYR4NFGxhNM9rBLD5z8B97y2ACS45xWOmNVn/YBOpk//oU3zt4cYrO+FuB
-         2ZQA==
-X-Gm-Message-State: AFqh2kpcDL3pNV1Yr9Leb3z1/2/PonmMxcpMIEvb7G8sXGB8r8bJJwPO
-	J3mhN29rSqqyPDcggpGnJWf9oqp0Gnt2BI/5u9vBCw==
-X-Google-Smtp-Source: AMrXdXuyLrj3KOt2zYA3aATYluNcRvTg5OCBMB3qKOVlm/93ZiJeMguzrue9ZVjvaNF+I7+L+/kGDr2M31vnIlaQdGE=
-X-Received: by 2002:a17:902:8643:b0:192:ca49:4c50 with SMTP id
- y3-20020a170902864300b00192ca494c50mr2809774plt.36.1673457049979; Wed, 11 Jan
- 2023 09:10:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF251873
+	for <mhi@lists.linux.dev>; Thu, 12 Jan 2023 09:19:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53958C433F0;
+	Thu, 12 Jan 2023 09:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673515164;
+	bh=HYOhnv+T+iftwKLs538Ljw0Pj6fCRNz21LxLxNvbQcA=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=LoHoi02IfYVHDYDXF2YLK3ow7L3x8tp5xd96iP74uYzMabaZ98minm6khDeaVXUeH
+	 NkACXi0UMzJYufaMN6vK8po4PEsPgUsggd9C+y1IQy7J911Mm5J+VtFUjRrHHyZCKG
+	 Kad+uqgcNT/gZ/blvigyro3qf7C7Lg1buT4DAIkwrwyZuEJR3CQUhQUMUO6ZtabW7O
+	 YG+PUsFfUfYq4bZhTERISpr1FtaRjl1TjPjJr+AWG9pGE3lGmLPG08+Da44n/Qi9Dn
+	 BRNrOJoQ2wVXbh6Ffsk6D2MOPK2G3N3jdoHX2whipZCgYR9sA3/uHDMTUQLBXDlS27
+	 Lmpl8TIBuUx6A==
+From: Kalle Valo <kvalo@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,  <linux-wireless@vger.kernel.org>
+Subject: Re: [PATCH 1/3] mhi: allow MHI client drivers to provide the firmware via a pointer
+References: <20230111092547.21425-1-kvalo@kernel.org>
+	<20230111092547.21425-2-kvalo@kernel.org>
+	<7d692402-3fc1-3b4c-9697-25e722e94539@quicinc.com>
+Date: Thu, 12 Jan 2023 11:19:21 +0200
+In-Reply-To: <7d692402-3fc1-3b4c-9697-25e722e94539@quicinc.com> (Jeffrey
+	Hugo's message of "Wed, 11 Jan 2023 08:20:34 -0700")
+Message-ID: <87bkn4ds9y.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
- <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
- <877czn8c2n.fsf@kernel.org> <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
- <87k02jzgkz.fsf@kernel.org> <CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
- <87358hyp3x.fsf@kernel.org>
-In-Reply-To: <87358hyp3x.fsf@kernel.org>
-From: Robert Marko <robert.marko@sartura.hr>
-Date: Wed, 11 Jan 2023 18:10:38 +0100
-Message-ID: <CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-To: Kalle Valo <kvalo@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Robert Marko <robimarko@gmail.com>, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
-	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, ansuelsmth@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Wed, Jan 11, 2023 at 6:10 PM Kalle Valo <kvalo@kernel.org> wrote:
->
-> Robert Marko <robert.marko@sartura.hr> writes:
->
-> >> Really sorry, I just didn't manage to get this finalised due to other
-> >> stuff and now I'm leaving for a two week vacation :(
-> >
-> > Any news regarding this, I have a PR for ipq807x support in OpenWrt
-> > and the current workaround for supporting AHB + PCI or multiple PCI
-> > cards is breaking cards like QCA6390 which are obviously really
-> > popular.
->
-> Sorry, came back only on Monday and trying to catch up slowly. But I
-> submitted the RFC now:
->
-> https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
+Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
 
-Great, thanks for that.
+> On 1/11/2023 2:25 AM, Kalle Valo wrote:
+>> From: Kalle Valo <quic_kvalo@quicinc.com>
+>>
+>> Currently MHI loads the firmware image from the path provided by client
+>> devices. ath11k needs to support firmware image embedded along with meta data
+>> (named as firmware-2.bin). So allow the client driver to request the firmware
+>> file from user space on it's own and provide the firmware image data and size
+>> to MHI via a pointer struct mhi_controller::fw_data.
+>>
+>> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+>> name from struct mhi_controller::fw_image string as before.
+>>
+>> Tested with ath11k and WCN6855 hw2.0.
+>>
+>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-Does it depend on firmware-2 being available?
+[...]
 
-Regards,
-Robert
+>> @@ -478,14 +489,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>>   	 */
+>>   	if (mhi_cntrl->fbc_download) {
+>>   		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+>> -					   firmware->size);
+>> +					   fw_sz);
 >
-> Please take a look and let me know what you think.
->
-> --
-> https://patchwork.kernel.org/project/linux-wireless/list/
->
-> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> Minor nit, but it seems like this could be all on one line.
 
+Will fix in v2.
 
+>> --- a/include/linux/mhi.h
+>> +++ b/include/linux/mhi.h
+>> @@ -299,6 +299,10 @@ struct mhi_controller_config {
+>>    * @iova_start: IOMMU starting address for data (required)
+>>    * @iova_stop: IOMMU stop address for data (required)
+>>    * @fw_image: Firmware image name for normal booting (optional)
+>> + * @fw_data: Firmware image data content for normal booting, used only
+>> + *           if fw_image is NULL (optional)
+>
+> The implementation requires fbc_download to be set, which is not a
+> requirement for fw_image.  That is not apparent here.
+
+Ah, I had missed that. Will mention that in v2.
+
+>> @@ -384,6 +388,8 @@ struct mhi_controller {
+>>   	dma_addr_t iova_start;
+>>   	dma_addr_t iova_stop;
+>>   	const char *fw_image;
+>> +	const u8 *fw_data;
+>> +	size_t fw_sz;
+>
+> Did you run pahole?  I remember this struct being well packed, and I
+> think this will add a compiler hole but I have not actually verified.
+
+I actually haven't used pahole for ages. I will run it and check how
+this structure is packed.
 
 -- 
-Robert Marko
-Staff Embedded Linux Engineer
-Sartura Ltd.
-Lendavska ulica 16a
-10000 Zagreb, Croatia
-Email: robert.marko@sartura.hr
-Web: www.sartura.hr
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
