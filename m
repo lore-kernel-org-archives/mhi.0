@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93351FA4
-	for <mhi@lists.linux.dev>; Thu, 12 Jan 2023 10:01:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 417AAC433F1;
-	Thu, 12 Jan 2023 10:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1599C2107
+	for <mhi@lists.linux.dev>; Thu, 12 Jan 2023 10:26:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34675C433D2;
+	Thu, 12 Jan 2023 10:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673517661;
-	bh=X/6wDyJfkR+Rkx2GS/MEk/jAVjiUJBuLmL+K4Sb+buQ=;
+	s=k20201202; t=1673519185;
+	bh=jKHt3xm+qKVUuPzXztBV/shHxPSZXcZdAUm76eKPg1c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A7Vb/iE9EyamXPacyuG9jkVOYV+7pu76AR7g+CKhWjmfDHsr/adehyZyXM+7E6cVS
-	 EN3zyTJzc7zrFQgLdupkFooqGgafQNYStUW53dFLUQusfmh/PkWM/L7bofk4+aGX+M
-	 Ap5YMNnneNWRNEJmlknnnk2obORlQAtBD8DYyynpicqCbuuWj4ab7yGnsk+k6/AVD0
-	 bDql8s2FxZ0oE9ApS+MdmvGO6G9fNm1//frJd3mDREjvKZeoPrucsCGrrhw3kBwIat
-	 zFwHSWmDKEc7viWjyd8Nr6c6op6h6jZk6xzfniHDwp+sQwsDc8cUCBxS8rYb9OQQEY
-	 gs6jrJ/nwRBxw==
-Date: Thu, 12 Jan 2023 15:30:49 +0530
+	b=C+0RbeX0MzT56R5g//Ip/rfMAQHpH86N+8VtyuKIbax5eITbRYDlilE3cdLC2Z/Jl
+	 9olalQZk+D0790IIi9iSOeHaD1TPCUxA6euPBIg/UUpm08UCq5JjV/mXqTyKZPO3Sf
+	 FB9R8oTGr3X27BvYhwMzSvxU/UdzGGB+RvYMU1lkhferrY/VKEEBeKEHqwcEj1xdQi
+	 eZO8d4FoTi9EIr4RqFpnWH31xlm4iKVHnNybZ5IwEgD7zP5vjXrFKkwFu1K+ZyinV6
+	 yzjWIGeIQ9nUkLJgPgCGktWBoZzdPtpLX0bsOGRAri9iGVh03E+HDdhyeK3DMxJckY
+	 yx43jBlOVmJIQ==
+Date: Thu, 12 Jan 2023 15:56:14 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Slark Xiao <slark_xiao@163.com>
-Cc: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: host: Update mhi driver description
-Message-ID: <20230112100049.GB4782@thinkpad>
+Message-ID: <20230112102614.GC4782@thinkpad>
 References: <20221229011358.15874-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -41,7 +41,7 @@ On Thu, Dec 29, 2022 at 09:13:58AM +0800, Slark Xiao wrote:
 > 
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 Thanks,
 Mani
