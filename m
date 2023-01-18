@@ -1,88 +1,117 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250392906
-	for <mhi@lists.linux.dev>; Tue, 17 Jan 2023 14:17:14 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso4656908wms.3
-        for <mhi@lists.linux.dev>; Tue, 17 Jan 2023 06:17:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272B27B
+	for <mhi@lists.linux.dev>; Wed, 18 Jan 2023 09:24:18 +0000 (UTC)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-15085b8a2f7so34867381fac.2
+        for <mhi@lists.linux.dev>; Wed, 18 Jan 2023 01:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0pxpyrztm0IeXAGdzoCPB/TIkZzE0psb26yKG6U7oTo=;
-        b=eaavDx3rpl+QUgMwkrIJHPMuE7R9BEi3PQ0mg8AtRgFpV9Nw39SLUc0pQy3eNDNadc
-         zhAS9sK0J35SXeXIOWLSIX6RtfY4ldlmULxEACQeFaj0MsaVchLxuHiMIFuybeO/bFEN
-         a5LqEQmmWw5oxKxYLuOoEzUn9fPX1sSpHgtVBgrt49Nz3OUMfzuhu15CdX4DoqrHBFWc
-         HHWqKomcDpteaPXTLf6dCO0XdDLpM/t8GbsmcscnYK44H/RP3tSjuTODICgccYPeTGja
-         6jaUABkTk4lJd91AQG/inTpY5+XZdwlUIMGYAdebJ2ZiDXwotNwQGJXuXQRWomNXVFgt
-         iwvg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QRayMxpaEWdlAxELlIR1SKSEDhjbkxhQsAK8qAMrB8o=;
+        b=PvxSnW/uaMcdy5bTlxgf06sVkXPqUYceCexjbgk7fQjSUFTPdKDKE4xRCGmB6GlfPj
+         X/FYJlepLeQf6mt5wY6SH+tNIcXi1AONK0T1nkX6yFj7pJkXLWsOohBrzHxCjwHaWIm8
+         Jj3kpQiCWVOVxbkgrfHCDO/jeZFAcJ/uMB8Yk0WiSfXIMUQURKZKcPoK0HmSRx9pMV37
+         5/OzsMl//1ufu+gAWzWd5MaW3ezvMTGLtIktPWZVNP4hNwB/phw44SZlEATAVmxXTPMj
+         CNBgRAjs4Hwi903GQEeRWtNXXV9cHXplerQptOOKlcwb/F+l43jepU6xzo4C9S2qYp9+
+         xdBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0pxpyrztm0IeXAGdzoCPB/TIkZzE0psb26yKG6U7oTo=;
-        b=no0zfMt1sqNTco2t1FseUuKTSHAoWfClJcIq5OJDMJhSkP2qyCMMWM+VO1fs874wl0
-         YZcBHgP5jjBI5d9k6bg4oYtUWCTGhCeDn3nqQ+LvyqaKKTxFxeiUG/4MHimWGj/BLAkJ
-         NBVt3VaWmodBCGUHfgxiapAktk2YSrasHZAkBhjUOs5s4iIDBtbm6c01P5HzFI++oHHY
-         gjKf/izFC7UIyD1Rg4PxUTIpJSFWaqogwAiCJmeOgzHvEhwNA+93QKvHhPaBKaqc9LAh
-         qjdruKSmKunVvSXe9s1fFSiKIJzLajUcKcqGgVpgRKYBptarV9tfMvjP4cQsJPDxspP5
-         Ji9A==
-X-Gm-Message-State: AFqh2kocyMZroNCq7ZyiTo9IxnVYX4dpPTdVDFbHp4rpP09R6QyQHZH5
-	cQaPDrKCqxEns8DHGdNfNR4=
-X-Google-Smtp-Source: AMrXdXumqnWrqvVyfusI9W12ENW6v7UzQVgEpHEjbK4+kYS6BpmCr/LyEPMewUDSUEALpAilvl2Fzw==
-X-Received: by 2002:a05:600c:2d0b:b0:3da:fcf0:a31d with SMTP id x11-20020a05600c2d0b00b003dafcf0a31dmr3416669wmf.22.1673965032293;
-        Tue, 17 Jan 2023 06:17:12 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k30-20020a05600c1c9e00b003d9b89a39b2sm41140041wms.10.2023.01.17.06.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 06:17:11 -0800 (PST)
-Date: Tue, 17 Jan 2023 17:17:02 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: mani@kernel.org
-Cc: mhi@lists.linux.dev
-Subject: [bug report] bus: mhi: ep: Add support for suspending and resuming
- channels
-Message-ID: <Y8at3oH+T0wd2NR+@kili>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QRayMxpaEWdlAxELlIR1SKSEDhjbkxhQsAK8qAMrB8o=;
+        b=u+EtzYcaUMgUvv1eZf5E401pLzErXf/iVugZh/utU6vaq7GjusFjw6X9l1O/hnth/I
+         mgfKG/dh6OO/9ehCcw7xSZMqymsnRqAWQ0yB96uv0U7Tr0z16P3Ibk4+6kNPS9N+eXJm
+         QhtPQ6CX6RDDldAKUlOBoUBoIjdG2shG/IZ3tFN4iNXyj5+XCQviZtUMOBWD/M4rpcen
+         6mRj5mpHwx/iv9/RAJpkR07LdWmbzvNNHv8DwFgVB9TFSwjPESpmuT4UHpSF3kYvOv6O
+         B9YNS6RgPtlMP4switwdTksf0zpxdBfkQBqQVVetOtwRZOfq3OLcmJm8W56EiLzWxFys
+         OWDw==
+X-Gm-Message-State: AFqh2kq3CWlw2i3MHU2vtHfDdIxY1Usne5TyzFJ2D8Ju/HEjuNreal6J
+	6++6Uo8ww4Ugk49J+ZiRyZV+Yerw1YadcqP+9lS87Q==
+X-Google-Smtp-Source: AMrXdXsx4Zn9FyH+VngcYJQwWgttvAtRSrmtEim50vpEug4wjEmGLLbRrWROJNqkT+i5VJeBbfflmfVAU59/Na1xLY8=
+X-Received: by 2002:a05:6870:7012:b0:15f:1ad9:6c2c with SMTP id
+ u18-20020a056870701200b0015f1ad96c2cmr524939oae.184.1674033857132; Wed, 18
+ Jan 2023 01:24:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230118011230.25847-1-duke_xinanwen@163.com>
+In-Reply-To: <20230118011230.25847-1-duke_xinanwen@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Wed, 18 Jan 2023 10:23:40 +0100
+Message-ID: <CAMZdPi92d5zCKvXgn9M8Obqj9YNCE=b7R=6CnigPsjT48jVicA@mail.gmail.com>
+Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Add support for Quectel
+ RM520N-GL modem
+To: =?UTF-8?B?RHVrZSBYaW4o6L6b5a6J5paHKQ==?= <duke_xinanwen@163.com>
+Cc: mani@kernel.org, slark_xiao@163.com, gregkh@linuxfoundation.org, 
+	dnlplm@gmail.com, yonglin.tan@outlook.com, fabio.porcedda@gmail.com, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	inux-kernel@vger.kernel.org, jerry.meng@quectel.com, duke.xin@quectel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Manivannan Sadhasivam,
+On Wed, 18 Jan 2023 at 02:13, Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_x=
+inanwen@163.com> wrote:
+>
+> The project is based on Qualcomm's sdx6x chips for laptop,so the mhi inte=
+rface definition and
+> enumeration align with previous Quectel sdx24 configuration
+>
+> Signed-off-by: Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_xinanwen@163.c=
+om>
 
-The patch e4b7b5f0f30a: "bus: mhi: ep: Add support for suspending and
-resuming channels" from Apr 5, 2022, leads to the following Smatch
-static checker warning:
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
 
-	drivers/bus/mhi/ep/main.c:1141 mhi_ep_resume_channels()
-	warn: sleeping in atomic context
-
-drivers/bus/mhi/ep/main.c
-    1129 void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl)
-    1130 {
-    1131         struct mhi_ep_chan *mhi_chan;
-    1132         u32 tmp;
-    1133         int i;
-    1134 
-    1135         for (i = 0; i < mhi_cntrl->max_chan; i++) {
-    1136                 mhi_chan = &mhi_cntrl->mhi_chan[i];
-    1137 
-    1138                 if (!mhi_chan->mhi_dev)
-    1139                         continue;
-    1140 
---> 1141                 mutex_lock(&mhi_chan->lock);
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is called from mhi_ep_set_m0_state().  The mhi_ep_set_m0_state()
-function takes a spinlock so we can't take a mutex if we're holding a
-spinlock.
-
-Enable CONFIG_DEBUG_ATOMIC_SLEEP for more information.
-
-regards,
-dan carpenter
-
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pc=
+i_generic.c
+> index f39657f71483..e1d697839535 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -335,6 +335,16 @@ static const struct mhi_pci_dev_info mhi_quectel_em1=
+xx_info =3D {
+>         .sideband_wake =3D true,
+>  };
+>
+> +static const struct mhi_pci_dev_info mhi_quectel_rm5xx_info =3D {
+> +       .name =3D "quectel-rm5xx",
+> +       .edl =3D "qcom/prog_firehose_sdx6x.elf",
+> +       .config =3D &modem_quectel_em1xx_config,
+> +       .bar_num =3D MHI_PCI_DEFAULT_BAR_NUM,
+> +       .dma_data_width =3D 32,
+> +       .mru_default =3D 32768,
+> +       .sideband_wake =3D true,
+> +};
+> +
+>  static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] =3D =
+{
+>         MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 0),
+>         MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 0),
+> @@ -569,6 +579,8 @@ static const struct pci_device_id mhi_pci_id_table[] =
+=3D {
+>                 .driver_data =3D (kernel_ulong_t) &mhi_quectel_em1xx_info=
+ },
+>         { PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCC=
+L (sdx24) */
+>                 .driver_data =3D (kernel_ulong_t) &mhi_quectel_em1xx_info=
+ },
+> +       { PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1004), /* RM520N-GL (sdx6x)=
+ */
+> +               .driver_data =3D (kernel_ulong_t) &mhi_quectel_rm5xx_info=
+ },
+>         /* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+>         { PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+>                 .driver_data =3D (kernel_ulong_t) &mhi_foxconn_sdx55_info=
+ },
+> --
+> 2.25.1
+>
