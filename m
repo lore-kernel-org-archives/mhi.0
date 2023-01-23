@@ -1,86 +1,130 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DC3224
-	for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 17:23:40 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NGvN6J026960;
-	Mon, 23 Jan 2023 17:10:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=pTuOp5LlMUVJWR1XuURU/ySq8b3L4N71BJXYI/OV+6E=;
- b=MizU+vAIFrxeHgG3Nw8kzDabUB3yyGEesamgjRdIugYNUF90iDknigCtVi3MEwkHuDEX
- 8GUYzix1F5ugVfoF2WI7h03KJQyMKZyXkr45TPboac09oZJFuEJGZwm28ABqOzr4IAbr
- /eXl1jjNBrFmc4aSiet/RwpuZMCMkwfaIWJiyzjWIDgQWFF1OQxqrxatWk4tldm7hr1f
- ZKhva2YLPJuWavmLkk/iEfON94dac7GDC2snJ73m5Og5VRJxxXQsR3NSywx6UrWRCan1
- kyLhj8jZPdnrkaYj4qe/Wdr4j6OZoems00DoukfOn1N5GEUr+uk2Y96iI0ng2jVyRAbK 4Q== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89gt3cuf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Jan 2023 17:10:08 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NHA7GO007117
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Jan 2023 17:10:07 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 23 Jan
- 2023 09:10:07 -0800
-Message-ID: <59422195-28eb-4617-2529-5e997e5a7903@quicinc.com>
-Date: Mon, 23 Jan 2023 10:10:06 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EBC7C
+	for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 19:21:20 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id b6so9751374pgi.7
+        for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 11:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDXuP5MYYXAbh/GyrwzOk8WyuxyPQCqxZw3q4s3iD6c=;
+        b=tkgcEhOicbtfDwCpvIXKnd8G/FRlL5uYYpKH27sdSg0dZinBGyNI6cfbqXcMQ0INuI
+         C1vXl3B5WfROQHaBB0ZgIO3DsbL8TTj4olwIR8Ff8qa9Mwt6nTxLZAT5FaJB+xs56xnK
+         kVn6WRm+zPNaXAoPyvmPoZJesLk00cfksfuo5LjkfIVGYLZXHeQDXVgDWba83T0JDL9f
+         paDtjpJa/3TzNyFo77rj/ulC4nTXdGJQ6eubkNb35Z8FDePEJYd6WRLBU0HwgDwNbOgu
+         HaDZQhhPOShpXz4hg0RNu6HNR4i95FnsPr2qF0ogzCM5h0eEPZ1xul/uaFP/kdBaUX5+
+         YTXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WDXuP5MYYXAbh/GyrwzOk8WyuxyPQCqxZw3q4s3iD6c=;
+        b=VHqv9pduRGoCSBC0d+GMx8KGynvmsfzGTDQ1koGpPb5iLjzkTlwgKuysqcnCDtMoN/
+         znbqs5uMfvQ3AIP0PXN+nWktlJvYJxBBJe6Ok8Ta+It8gV2CcFfV+wzi1iUunt2/EGhQ
+         h1fd7JyNQ3CKp01ZnBtruHIMb/PlUs/R7fMHNsX+Bw9biKIUujn9lvPKBtSO15dKiU2i
+         ZtQZjWuwgWjLHpZ6faMLjFVwPGsYsf1rGd4YraNTAO2KX/kNLefRh6iOUpam0WLmMYSe
+         RbVgoZnz0/TCCEKRDkVp8M3VRDxheRl09z+35TA40C6tCO6bHO46nCA0zk7xNPanYYSJ
+         oonQ==
+X-Gm-Message-State: AFqh2kpqFbqmrBG84mHFnbXgv9bkE9RQvwTYlIPKVE3vLNzaXLg7Kkz7
+	yozA80OSSPUnneJZtQLUw4+77tNLpunRD8sMdoke5XvzcGY2H6ld
+X-Google-Smtp-Source: AMrXdXuuuKT2bxKJ14LORsl1MPDgTLtc1xr4HHO60shSDgnHFBxnsV//IpkEZxYIMzwOctILURRm6BLFnwBEv1J5vyc=
+X-Received: by 2002:a63:a5e:0:b0:4b4:e491:c331 with SMTP id
+ z30-20020a630a5e000000b004b4e491c331mr654902pgk.19.1674501679691; Mon, 23 Jan
+ 2023 11:21:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] bus: mhi: ep: Change state_lock to mutex
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        <mhi@lists.linux.dev>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>, Dan Carpenter <error27@gmail.com>
-References: <20230123075049.168040-1-manivannan.sadhasivam@linaro.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230123075049.168040-1-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: n9SL77rLGTAsIWFNr5Pd4S64zT4LmzVV
-X-Proofpoint-ORIG-GUID: n9SL77rLGTAsIWFNr5Pd4S64zT4LmzVV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=376 spamscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
- clxscore=1011 mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301230165
+References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
+ <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
+ <877czn8c2n.fsf@kernel.org> <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
+ <87k02jzgkz.fsf@kernel.org> <CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
+ <87358hyp3x.fsf@kernel.org> <CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
+ <877cxsdrax.fsf@kernel.org> <CA+HBbNGbg88_3FDu+EZhqMj0UKb8Ja_vyYsxGtmJ_HGt4fNVBQ@mail.gmail.com>
+ <87y1q8ccc4.fsf@kernel.org>
+In-Reply-To: <87y1q8ccc4.fsf@kernel.org>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Mon, 23 Jan 2023 20:21:08 +0100
+Message-ID: <CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Robert Marko <robimarko@gmail.com>, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
+	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, ansuelsmth@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/23/2023 12:50 AM, Manivannan Sadhasivam wrote:
-> state_lock, the spinlock type is meant to protect race against concurrent
-> MHI state transitions. In mhi_ep_set_m0_state(), while the state_lock is
-> being held, the channels are resumed in mhi_ep_resume_channels() if the
-> previous state was M3. This causes sleeping in atomic bug, since
-> mhi_ep_resume_channels() use mutex internally.
-> 
-> Since the state_lock is supposed to be held throughout the state change,
-> it is not ideal to drop the lock before calling mhi_ep_resume_channels().
-> So to fix this issue, let's change the type of state_lock to mutex. This
-> would also allow holding the lock throughout all state transitions thereby
-> avoiding any potential race.
-> 
-> Cc: <stable@vger.kernel.org> # 5.19
-> Fixes: e4b7b5f0f30a ("bus: mhi: ep: Add support for suspending and resuming channels")
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On Thu, Jan 12, 2023 at 10:49 AM Kalle Valo <kvalo@kernel.org> wrote:
+>
+> Robert Marko <robert.marko@sartura.hr> writes:
+>
+> > On Thu, Jan 12, 2023 at 10:40 AM Kalle Valo <kvalo@kernel.org> wrote:
+> >>
+> >> Robert Marko <robert.marko@sartura.hr> writes:
+> >>
+> >> > On Wed, Jan 11, 2023 at 6:10 PM Kalle Valo <kvalo@kernel.org> wrote:
+> >> >>
+> >> >> Robert Marko <robert.marko@sartura.hr> writes:
+> >> >>
+> >> >> >> Really sorry, I just didn't manage to get this finalised due to other
+> >> >> >> stuff and now I'm leaving for a two week vacation :(
+> >> >> >
+> >> >> > Any news regarding this, I have a PR for ipq807x support in OpenWrt
+> >> >> > and the current workaround for supporting AHB + PCI or multiple PCI
+> >> >> > cards is breaking cards like QCA6390 which are obviously really
+> >> >> > popular.
+> >> >>
+> >> >> Sorry, came back only on Monday and trying to catch up slowly. But I
+> >> >> submitted the RFC now:
+> >> >>
+> >> >> https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
+> >> >
+> >> > Great, thanks for that.
+> >> >
+> >> > Does it depend on firmware-2 being available?
+> >>
+> >> The final solution for the users will require firmware-2.bin. But for a
+> >> quick test you can omit the feature bit test by replacing
+> >> "test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)" with
+> >> "true". Just make sure that the firmware release you are using supports
+> >> this feature, I believe only recent QCN9074 releases do that.
+> >
+> > I was able to test on IPQ8074+QCN9074 yesterday by just bypassing the
+> > test and it worked.
+> >
+> > Sideffect is that until firmware-2.bin is available cards like QCA6390
+> > wont work like with my hack.
+>
+> Not following here, can you elaborate what won't work with QCA6390?
 
-Looks sane.
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+Our downstream hack does not work with QCA6390, so that is why its quite
+important for OpenWrt to have a generic solution that works on all cards.
+
+Regards,
+Robert
+>
+>
+> --
+> https://patchwork.kernel.org/project/linux-wireless/list/
+>
+> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
+
+
+-- 
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura Ltd.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
