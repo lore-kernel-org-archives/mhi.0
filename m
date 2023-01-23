@@ -1,83 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995F2A21
-	for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 07:54:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44F3C433EF;
-	Mon, 23 Jan 2023 07:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674460441;
-	bh=2BWYydLu5yMbAy5ZTuhmFIUErDd7gT6zGsRFjGxMD58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AcaGyylgw6BzOjjjOdMhd/qRgyXdAMKNUc+A/43ZY9M0COnFLE3kakJs03fI0KJ9I
-	 gp5UVijWts11ZkgOyn5MZRPxuPg9LgwMbff23Oquq5WafvAPzti4k3Hyv47yvUhDuM
-	 GaLl8bR6CRWDdLf5XBbkU9VcfRLjcSpcO1gngUNXpC0L1DDwbQQvGMf9yz6YHnbhnq
-	 p37EJSd3SE9bF4BlypU78iBp7yYU4K/UwUr+SB1AopMvVI0PQEfmMp5E1WrDXQIDzh
-	 sAPV6vYgS6+4No0JQwIQStoaBZiHekPn/sKf1bhBW52C1/3BqE5BTQIT/OxmLgEykD
-	 Q4XVMG8jKAMkA==
-Date: Mon, 23 Jan 2023 13:23:49 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: mani@kernel.org, mhi@lists.linux.dev
-Subject: Re: [bug report] bus: mhi: ep: Add support for suspending and
- resuming channels
-Message-ID: <20230123075349.GB14294@thinkpad>
-References: <Y8at3oH+T0wd2NR+@kili>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DC3224
+	for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 17:23:40 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NGvN6J026960;
+	Mon, 23 Jan 2023 17:10:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=pTuOp5LlMUVJWR1XuURU/ySq8b3L4N71BJXYI/OV+6E=;
+ b=MizU+vAIFrxeHgG3Nw8kzDabUB3yyGEesamgjRdIugYNUF90iDknigCtVi3MEwkHuDEX
+ 8GUYzix1F5ugVfoF2WI7h03KJQyMKZyXkr45TPboac09oZJFuEJGZwm28ABqOzr4IAbr
+ /eXl1jjNBrFmc4aSiet/RwpuZMCMkwfaIWJiyzjWIDgQWFF1OQxqrxatWk4tldm7hr1f
+ ZKhva2YLPJuWavmLkk/iEfON94dac7GDC2snJ73m5Og5VRJxxXQsR3NSywx6UrWRCan1
+ kyLhj8jZPdnrkaYj4qe/Wdr4j6OZoems00DoukfOn1N5GEUr+uk2Y96iI0ng2jVyRAbK 4Q== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89gt3cuf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 17:10:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NHA7GO007117
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 17:10:07 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 23 Jan
+ 2023 09:10:07 -0800
+Message-ID: <59422195-28eb-4617-2529-5e997e5a7903@quicinc.com>
+Date: Mon, 23 Jan 2023 10:10:06 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y8at3oH+T0wd2NR+@kili>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] bus: mhi: ep: Change state_lock to mutex
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        <mhi@lists.linux.dev>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stable@vger.kernel.org>, Dan Carpenter <error27@gmail.com>
+References: <20230123075049.168040-1-manivannan.sadhasivam@linaro.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230123075049.168040-1-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: n9SL77rLGTAsIWFNr5Pd4S64zT4LmzVV
+X-Proofpoint-ORIG-GUID: n9SL77rLGTAsIWFNr5Pd4S64zT4LmzVV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=376 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301230165
 
-On Tue, Jan 17, 2023 at 05:17:02PM +0300, Dan Carpenter wrote:
-> Hello Manivannan Sadhasivam,
+On 1/23/2023 12:50 AM, Manivannan Sadhasivam wrote:
+> state_lock, the spinlock type is meant to protect race against concurrent
+> MHI state transitions. In mhi_ep_set_m0_state(), while the state_lock is
+> being held, the channels are resumed in mhi_ep_resume_channels() if the
+> previous state was M3. This causes sleeping in atomic bug, since
+> mhi_ep_resume_channels() use mutex internally.
 > 
-> The patch e4b7b5f0f30a: "bus: mhi: ep: Add support for suspending and
-> resuming channels" from Apr 5, 2022, leads to the following Smatch
-> static checker warning:
+> Since the state_lock is supposed to be held throughout the state change,
+> it is not ideal to drop the lock before calling mhi_ep_resume_channels().
+> So to fix this issue, let's change the type of state_lock to mutex. This
+> would also allow holding the lock throughout all state transitions thereby
+> avoiding any potential race.
 > 
-> 	drivers/bus/mhi/ep/main.c:1141 mhi_ep_resume_channels()
-> 	warn: sleeping in atomic context
-> 
-> drivers/bus/mhi/ep/main.c
->     1129 void mhi_ep_resume_channels(struct mhi_ep_cntrl *mhi_cntrl)
->     1130 {
->     1131         struct mhi_ep_chan *mhi_chan;
->     1132         u32 tmp;
->     1133         int i;
->     1134 
->     1135         for (i = 0; i < mhi_cntrl->max_chan; i++) {
->     1136                 mhi_chan = &mhi_cntrl->mhi_chan[i];
->     1137 
->     1138                 if (!mhi_chan->mhi_dev)
->     1139                         continue;
->     1140 
-> --> 1141                 mutex_lock(&mhi_chan->lock);
->                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> This is called from mhi_ep_set_m0_state().  The mhi_ep_set_m0_state()
-> function takes a spinlock so we can't take a mutex if we're holding a
-> spinlock.
-> 
-> Enable CONFIG_DEBUG_ATOMIC_SLEEP for more information.
-> 
+> Cc: <stable@vger.kernel.org> # 5.19
+> Fixes: e4b7b5f0f30a ("bus: mhi: ep: Add support for suspending and resuming channels")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Thanks Dan for the report!
-
-Submitted a fix now: https://lore.kernel.org/mhi/20230123075049.168040-1-manivannan.sadhasivam@linaro.org/
-
-Thanks,
-Mani
-
-> regards,
-> dan carpenter
-> 
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Looks sane.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
