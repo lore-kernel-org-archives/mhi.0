@@ -1,39 +1,39 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCF38F70
-	for <mhi@lists.linux.dev>; Tue, 24 Jan 2023 21:57:51 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30OLutBc030745;
-	Tue, 24 Jan 2023 21:57:49 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE7F8F70
+	for <mhi@lists.linux.dev>; Tue, 24 Jan 2023 22:24:47 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30OLvlNp008559;
+	Tue, 24 Jan 2023 21:57:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=ZI+TubnYFE27O4dAS98WKcu4xk24oqGOmPu60iOZQVo=;
- b=ZmJo0NQBm0A45T7CNRyHmqBLUDDvWWElKZz6x0lD+C9FRANlpKfmoqArAbXsuuHYwBTz
- M5ebO1fvvakCjqip/bd68IJrgt4W8vKH78zwIi6j/KodvHhracx+oeCNzGAAFg28s6G+
- b19uKDGOrflc8HU6m9QdQZw5u0alM4XGpPbbwsAQOCVUDhidispEjXT/zQ65q5zT/j9k
- hjOpAp0f+qAMkHltZb8BMg5l3laG3Geh6YHflsxeL3ctHsmCl9+UD/EoJreKmRc5kzKs
- eBedIK2SvCEEH9Nhf3jNXV0kzPVR5GBM5NAjz0cqMlG7b4j3POX+q3vrgda69z3WWHqq bA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89dndxk0-1
+ bh=ypZ9PLozKHoHoFozXNB0v4MPqqzSGqjIZ9hr3UgvSMM=;
+ b=X6HIoIuTxIEuG+2nlNgqTE61L3+tT8IdEdh76VQpArc6ec+CRof+7zWndAHmLzIxclw/
+ 0o0Gs9OhoH+xI4+h5AyDZMk+29Tvz4yIy4RDKR+UDcbXNaLozFB+4SF1oDnIdm1LQMHe
+ oMKm0WffT31TqGf5VERCKDzEoW2c/9pq3TEJ7vaUVQ+wamNBNgS/8zQp+nDhS4q+w/nj
+ ICUPWkGAi/CAJDa8N8NhY4FX7e5xx0VjPYeD60/E7RXSr64CUHlJ8cZaR1JYr1mLjXKa
+ STaDoxJCRwEa0gRDW4FvB9pBsf8LB05GhVU2LqDkVciYeqzIXSkzyz5a2H8OqzJbeOtV QA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3najkh8pxv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Jan 2023 21:57:49 +0000
+	Tue, 24 Jan 2023 21:57:47 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30OLvm2r023124
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30OLvk0l017003
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Jan 2023 21:57:48 GMT
+	Tue, 24 Jan 2023 21:57:46 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Tue, 24 Jan 2023 13:57:48 -0800
+ 15.2.986.36; Tue, 24 Jan 2023 13:57:45 -0800
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <mani@kernel.org>
 CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 2/2] bus: mhi: host: Use mhi_tryset_pm_state() for setting fw error state
-Date: Tue, 24 Jan 2023 14:57:24 -0700
-Message-ID: <1674597444-24543-3-git-send-email-quic_jhugo@quicinc.com>
+Subject: [PATCH 1/2] bus: mhi: host: Remove duplicate ee check for syserr
+Date: Tue, 24 Jan 2023 14:57:23 -0700
+Message-ID: <1674597444-24543-2-git-send-email-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1674597444-24543-1-git-send-email-quic_jhugo@quicinc.com>
 References: <1674597444-24543-1-git-send-email-quic_jhugo@quicinc.com>
@@ -50,84 +50,49 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: lYmHPk-OgYu57HKWG_tjxGALMAbT1lu9
-X-Proofpoint-ORIG-GUID: lYmHPk-OgYu57HKWG_tjxGALMAbT1lu9
+X-Proofpoint-ORIG-GUID: SVJaJMfQqqmiwAOJmizGYY9DQ6eVSyhP
+X-Proofpoint-GUID: SVJaJMfQqqmiwAOJmizGYY9DQ6eVSyhP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-24_16,2023-01-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 phishscore=0 mlxscore=0 bulkscore=0
- malwarescore=0 mlxlogscore=871 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-01-24_15,2023-01-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2301240202
 
-If firmware loading fails, the controller's pm_state is updated to
-MHI_PM_FW_DL_ERR unconditionally.  This can corrupt the pm_state as the
-update is not done under the proper lock, and also does not validate
-the state transition.  The firmware loading can fail due to a detected
-syserr, but if MHI_PM_FW_DL_ERR is unconditionally set as the pm_state,
-the handling of the syserr can break when it attempts to transition from
-syserr detect, to syserr process.
+If we detect a system error via intvec, we only process the syserr if the
+current ee is different than the last observed ee.  The reason for this
+check is to prevent bhie from running multiple times, but with the single
+queue handling syserr, that is not possible.
 
-By grabbing the lock, we ensure we don't race with some other pm_state
-update.  By using mhi_try_set_pm_state(), we check that the transition
-to MHI_PM_FW_DL_ERR is valid via the state machine logic.  If it is not
-valid, then some other transition is occurring like syserr processing, and
-we assume that will resolve the firmware loading error.
+The check can cause an issue with device recovery.  If PBL loads a bad SBL
+via BHI, but that SBL hangs before notifying the host of an ee change,
+then issuing soc_reset to crash the device and retry (after supplying a
+fixed SBL) will not recover the device as the host will observe a PBL->PBL
+transition and not process the syserr.  The device will be stuck until
+either the driver is reloaded, or the host is rebooted.  Instead, remove
+the check so that we can attempt to recover the device.
 
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
 ---
- drivers/bus/mhi/host/boot.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/bus/mhi/host/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index 1c69fee..d2a19b07 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -391,6 +391,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- {
- 	const struct firmware *firmware = NULL;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	enum mhi_pm_state new_state;
- 	const char *fw_name;
- 	void *buf;
- 	dma_addr_t dma_addr;
-@@ -508,14 +509,18 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index df0fbfe..0c3a009 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -503,7 +503,7 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
  	}
+ 	write_unlock_irq(&mhi_cntrl->pm_lock);
  
- error_fw_load:
--	mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
--	wake_up_all(&mhi_cntrl->state_event);
-+	write_lock_irq(&mhi_cntrl->pm_lock);
-+	new_state = mhi_tryset_pm_state(mhi_cntrl, MHI_PM_FW_DL_ERR);
-+	write_unlock_irq(&mhi_cntrl->pm_lock);
-+	if (new_state == MHI_PM_FW_DL_ERR)
-+		wake_up_all(&mhi_cntrl->state_event);
- }
+-	if (pm_state != MHI_PM_SYS_ERR_DETECT || ee == mhi_cntrl->ee)
++	if (pm_state != MHI_PM_SYS_ERR_DETECT)
+ 		goto exit_intvec;
  
- int mhi_download_amss_image(struct mhi_controller *mhi_cntrl)
- {
- 	struct image_info *image_info = mhi_cntrl->fbc_image;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	enum mhi_pm_state new_state;
- 	int ret;
- 
- 	if (!image_info)
-@@ -526,8 +531,11 @@ int mhi_download_amss_image(struct mhi_controller *mhi_cntrl)
- 			       &image_info->mhi_buf[image_info->entries - 1]);
- 	if (ret) {
- 		dev_err(dev, "MHI did not load AMSS, ret:%d\n", ret);
--		mhi_cntrl->pm_state = MHI_PM_FW_DL_ERR;
--		wake_up_all(&mhi_cntrl->state_event);
-+		write_lock_irq(&mhi_cntrl->pm_lock);
-+		new_state = mhi_tryset_pm_state(mhi_cntrl, MHI_PM_FW_DL_ERR);
-+		write_unlock_irq(&mhi_cntrl->pm_lock);
-+		if (new_state == MHI_PM_FW_DL_ERR)
-+			wake_up_all(&mhi_cntrl->state_event);
- 	}
- 
- 	return ret;
+ 	switch (ee) {
 -- 
 2.7.4
 
