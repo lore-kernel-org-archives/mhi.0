@@ -1,130 +1,77 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EBC7C
-	for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 19:21:20 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id b6so9751374pgi.7
-        for <mhi@lists.linux.dev>; Mon, 23 Jan 2023 11:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura.hr; s=sartura;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDXuP5MYYXAbh/GyrwzOk8WyuxyPQCqxZw3q4s3iD6c=;
-        b=tkgcEhOicbtfDwCpvIXKnd8G/FRlL5uYYpKH27sdSg0dZinBGyNI6cfbqXcMQ0INuI
-         C1vXl3B5WfROQHaBB0ZgIO3DsbL8TTj4olwIR8Ff8qa9Mwt6nTxLZAT5FaJB+xs56xnK
-         kVn6WRm+zPNaXAoPyvmPoZJesLk00cfksfuo5LjkfIVGYLZXHeQDXVgDWba83T0JDL9f
-         paDtjpJa/3TzNyFo77rj/ulC4nTXdGJQ6eubkNb35Z8FDePEJYd6WRLBU0HwgDwNbOgu
-         HaDZQhhPOShpXz4hg0RNu6HNR4i95FnsPr2qF0ogzCM5h0eEPZ1xul/uaFP/kdBaUX5+
-         YTXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WDXuP5MYYXAbh/GyrwzOk8WyuxyPQCqxZw3q4s3iD6c=;
-        b=VHqv9pduRGoCSBC0d+GMx8KGynvmsfzGTDQ1koGpPb5iLjzkTlwgKuysqcnCDtMoN/
-         znbqs5uMfvQ3AIP0PXN+nWktlJvYJxBBJe6Ok8Ta+It8gV2CcFfV+wzi1iUunt2/EGhQ
-         h1fd7JyNQ3CKp01ZnBtruHIMb/PlUs/R7fMHNsX+Bw9biKIUujn9lvPKBtSO15dKiU2i
-         ZtQZjWuwgWjLHpZ6faMLjFVwPGsYsf1rGd4YraNTAO2KX/kNLefRh6iOUpam0WLmMYSe
-         RbVgoZnz0/TCCEKRDkVp8M3VRDxheRl09z+35TA40C6tCO6bHO46nCA0zk7xNPanYYSJ
-         oonQ==
-X-Gm-Message-State: AFqh2kpqFbqmrBG84mHFnbXgv9bkE9RQvwTYlIPKVE3vLNzaXLg7Kkz7
-	yozA80OSSPUnneJZtQLUw4+77tNLpunRD8sMdoke5XvzcGY2H6ld
-X-Google-Smtp-Source: AMrXdXuuuKT2bxKJ14LORsl1MPDgTLtc1xr4HHO60shSDgnHFBxnsV//IpkEZxYIMzwOctILURRm6BLFnwBEv1J5vyc=
-X-Received: by 2002:a63:a5e:0:b0:4b4:e491:c331 with SMTP id
- z30-20020a630a5e000000b004b4e491c331mr654902pgk.19.1674501679691; Mon, 23 Jan
- 2023 11:21:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855A38F6A
+	for <mhi@lists.linux.dev>; Tue, 24 Jan 2023 21:57:50 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30OKYCaE022236;
+	Tue, 24 Jan 2023 21:57:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=/3t6Ul43D/U4MVqFsDlfvNyuYMKr31kFdBiILMCnGfo=;
+ b=YHbwAywxZue/HLZ2vZ8oY06ARTeSZQH0vMgCbmTrO7O3UtfVweFnqeDiyfCjIipntie6
+ qo8WRX9YxCLdN2RylCcLvjGp1oH+b9VWAhH+yAF520lRo+7KlFpo0T0G3SOxoAkNuW1b
+ UvANy5c7Q6TgHN5BATQRBGnVw8G0wx20u09DKJYRYFIaenTR/LAm+d/zP7xLvOG6dd2f
+ 9Vi8Hq6EWZT3pMdDC1tPS0mmmS+bXHDbQZzqmhI9+hj1LRNYHGdd2ooSN24TJSsmCbAv
+ QyHJg/A+8rOCwh+vlE5PVBiM5qcL2ua7ivmqjVe9uZdK3aaFwQR2MUlt7tNLwtMuAMCm pQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89dndxjw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Jan 2023 21:57:41 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30OLveCq026026
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Jan 2023 21:57:40 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Tue, 24 Jan 2023 13:57:39 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH 0/2] MHI host syserr fixes
+Date: Tue, 24 Jan 2023 14:57:22 -0700
+Message-ID: <1674597444-24543-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
- <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
- <877czn8c2n.fsf@kernel.org> <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
- <87k02jzgkz.fsf@kernel.org> <CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
- <87358hyp3x.fsf@kernel.org> <CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
- <877cxsdrax.fsf@kernel.org> <CA+HBbNGbg88_3FDu+EZhqMj0UKb8Ja_vyYsxGtmJ_HGt4fNVBQ@mail.gmail.com>
- <87y1q8ccc4.fsf@kernel.org>
-In-Reply-To: <87y1q8ccc4.fsf@kernel.org>
-From: Robert Marko <robert.marko@sartura.hr>
-Date: Mon, 23 Jan 2023 20:21:08 +0100
-Message-ID: <CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-To: Kalle Valo <kvalo@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Robert Marko <robimarko@gmail.com>, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
-	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, ansuelsmth@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ATm4WQtwur1H_c10HPMZWOqm2_icacje
+X-Proofpoint-ORIG-GUID: ATm4WQtwur1H_c10HPMZWOqm2_icacje
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-24_16,2023-01-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 spamscore=0 phishscore=0 mlxscore=0 bulkscore=0
+ malwarescore=0 mlxlogscore=991 suspectscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301240202
 
-On Thu, Jan 12, 2023 at 10:49 AM Kalle Valo <kvalo@kernel.org> wrote:
->
-> Robert Marko <robert.marko@sartura.hr> writes:
->
-> > On Thu, Jan 12, 2023 at 10:40 AM Kalle Valo <kvalo@kernel.org> wrote:
-> >>
-> >> Robert Marko <robert.marko@sartura.hr> writes:
-> >>
-> >> > On Wed, Jan 11, 2023 at 6:10 PM Kalle Valo <kvalo@kernel.org> wrote:
-> >> >>
-> >> >> Robert Marko <robert.marko@sartura.hr> writes:
-> >> >>
-> >> >> >> Really sorry, I just didn't manage to get this finalised due to other
-> >> >> >> stuff and now I'm leaving for a two week vacation :(
-> >> >> >
-> >> >> > Any news regarding this, I have a PR for ipq807x support in OpenWrt
-> >> >> > and the current workaround for supporting AHB + PCI or multiple PCI
-> >> >> > cards is breaking cards like QCA6390 which are obviously really
-> >> >> > popular.
-> >> >>
-> >> >> Sorry, came back only on Monday and trying to catch up slowly. But I
-> >> >> submitted the RFC now:
-> >> >>
-> >> >> https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
-> >> >
-> >> > Great, thanks for that.
-> >> >
-> >> > Does it depend on firmware-2 being available?
-> >>
-> >> The final solution for the users will require firmware-2.bin. But for a
-> >> quick test you can omit the feature bit test by replacing
-> >> "test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)" with
-> >> "true". Just make sure that the firmware release you are using supports
-> >> this feature, I believe only recent QCN9074 releases do that.
-> >
-> > I was able to test on IPQ8074+QCN9074 yesterday by just bypassing the
-> > test and it worked.
-> >
-> > Sideffect is that until firmware-2.bin is available cards like QCA6390
-> > wont work like with my hack.
->
-> Not following here, can you elaborate what won't work with QCA6390?
+Two small fixes that address an issue where it is observed in stress
+testing that a MHI device could appear to enter a bad state and be unable
+to recover unless the module is removed and re-added which should not be
+necessary.
 
+Jeffrey Hugo (2):
+  bus: mhi: host: Remove duplicate ee check for syserr
+  bus: mhi: host: Use mhi_tryset_pm_state() for setting fw error state
 
-Our downstream hack does not work with QCA6390, so that is why its quite
-important for OpenWrt to have a generic solution that works on all cards.
-
-Regards,
-Robert
->
->
-> --
-> https://patchwork.kernel.org/project/linux-wireless/list/
->
-> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-
-
+ drivers/bus/mhi/host/boot.c | 16 ++++++++++++----
+ drivers/bus/mhi/host/main.c |  2 +-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
 -- 
-Robert Marko
-Staff Embedded Linux Engineer
-Sartura Ltd.
-Lendavska ulica 16a
-10000 Zagreb, Croatia
-Email: robert.marko@sartura.hr
-Web: www.sartura.hr
+2.7.4
+
