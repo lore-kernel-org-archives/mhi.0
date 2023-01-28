@@ -1,75 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D8E23A8
-	for <mhi@lists.linux.dev>; Fri, 27 Jan 2023 07:00:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D29C433EF;
-	Fri, 27 Jan 2023 07:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674802812;
-	bh=bWVN+OTliEjC/t2AVEdhiTatxpI8RYyW/A4NxbNdTMg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Asnn3+OSDHyfYdubzgNrVsAHzWZR4c8hXSurNlKWoQDlQD9Fw/TdaJnfLmmdPolXU
-	 EXRIuPFPd6Iz/hvjCzuLpnP5cYdExrxqd2uMaRG5rP66EpM2N/sWaybsNLIfGx3+Rl
-	 9KJLZ6q+DEDQOdpwV9g5nL5OQdzGyzCVei0Fo+uUTxKuLvO1gwdMDsni9phlyEq5pI
-	 g34YsSpxClnnTkjINn8b0l/Q9aUM20m+qvrLPxA59FykuLRUWf0TTH/me5qcB8Jt5i
-	 fdu4sfrx3f++5w+YWJNSrq3eO/nshT0Uf677wkoHi4aylDIwJOTgrxNLFsYOrJ+UqD
-	 QHK1vl9LC+wZQ==
-Date: Fri, 27 Jan 2023 12:29:58 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Alex Elder <elder@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: ep: Fix off by one in mhi_ep_process_cmd_ring()
-Message-ID: <20230127065958.GG7809@thinkpad>
-References: <Y9JH5sudiZWvbODv@kili>
+Received: from m12.mail.163.com (m12.mail.163.com [123.126.96.233])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44E8817CD
+	for <mhi@lists.linux.dev>; Sat, 28 Jan 2023 03:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=z4JngmKmsUiT6Go8w637Ajw0YEGtBAe0+3wXDZzMYvg=;
+	b=kVuso8PSwtcAuQ2ZHvxkpAdJpB13oJnDQ30kpcUR2cgTS1r44qWR0c2jvymaUe
+	xZh9VKeH7XHjtIoniXIjHcmuTuNtNHx8tjt3Hz41r5urW6u36uZ6E5Ngzj3KCRAh
+	UHQOZMefaRF8g2tC0JMIqY0LXSvmEvC2Sb6Bk2RweN8+o=
+Received: from ubuntu.localdomain (unknown [220.180.239.55])
+	by smtp19 (Coremail) with SMTP id R9xpCgDHwKTgjNRjTovaBw--.8240S2;
+	Sat, 28 Jan 2023 10:48:03 +0800 (CST)
+From: =?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
+To: mani@kernel.org,
+	slark_xiao@163.com
+Cc: loic.poulain@linaro.org,
+	gregkh@linuxfoundation.org,
+	dnlplm@gmail.com,
+	yonglin.tan@outlook.com,
+	fabio.porcedda@gmail.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	inux-kernel@vger.kernel.org,
+	jerry.meng@quectel.com,
+	duke.xin@quectel.com,
+	=?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
+Subject: [PATCH v3] bus: mhi: host: pci_generic: Add support for Quectel RM520N-GL modem
+Date: Fri, 27 Jan 2023 18:47:54 -0800
+Message-Id: <20230128024754.2562-1-duke_xinanwen@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9JH5sudiZWvbODv@kili>
+X-CM-TRANSID:R9xpCgDHwKTgjNRjTovaBw--.8240S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tF1DtryfWr1kuw48KFy8Zrb_yoW8AFWfpF
+	45ZrWIvF4ktFW5ta97A34DGFn5Wwsxury7KFnrG34IgF1qy3yYqryvgF12vF4Y9a95XF13
+	tFyrJr9Ig3WqkFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUn_-gUUUUU=
+X-Originating-IP: [220.180.239.55]
+X-CM-SenderInfo: 5gxnvsp0lqt0xzhqqiywtou0bp/1tbiPRQFe2I0VCdKYAABsZ
 
-On Thu, Jan 26, 2023 at 12:29:10PM +0300, Dan Carpenter wrote:
-> The > comparison should be changed to >= to prevent an out of bounds
-> access into the mhi_cntrl->mhi_chan[] array.  The mhi_cntrl->mhi_chan[]
-> array is allocated in mhi_ep_chan_init() and has mhi_cntrl->max_chan
-> elements.
-> 
-> Fixes: 2527ad44ddb2 ("bus: mhi: ep: Check if the channel is supported by the controller")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
+The project is based on Qualcomm's sdx6x chips for laptop,so the mhi interface definition and
+enumeration align with previous Quectel sdx24 configuration
 
-Applied to mhi-next!
+Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Thanks,
-Mani
-
-> ---
->  drivers/bus/mhi/ep/main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index bcaaba97ef63..be2d56e7f392 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -125,7 +125,7 @@ static int mhi_ep_process_cmd_ring(struct mhi_ep_ring *ring, struct mhi_ring_ele
->  	ch_id = MHI_TRE_GET_CMD_CHID(el);
->  
->  	/* Check if the channel is supported by the controller */
-> -	if ((ch_id > mhi_cntrl->max_chan) || !mhi_cntrl->mhi_chan[ch_id].name) {
-> +	if ((ch_id >= mhi_cntrl->max_chan) || !mhi_cntrl->mhi_chan[ch_id].name) {
->  		dev_err(dev, "Channel (%u) not supported!\n", ch_id);
->  		return -ENODEV;
->  	}
-> -- 
-> 2.35.1
-> 
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index f39657f71483..416dabe2c282 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -335,6 +335,16 @@ static const struct mhi_pci_dev_info mhi_quectel_em1xx_info = {
+ 	.sideband_wake = true,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_quectel_rm5xx_info = {
++	.name = "quectel-rm5xx",
++	.edl = "qcom/prog_firehose_sdx6x.elf",
++	.config = &modem_quectel_em1xx_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = true,
++};
++
+ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 0),
+@@ -569,6 +579,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
++	/* RM520N-GL (sdx6x), eSIM Project */
++	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1004),
++		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
+ 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0ab),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
