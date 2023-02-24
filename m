@@ -1,101 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2C428ED
-	for <mhi@lists.linux.dev>; Thu, 23 Feb 2023 15:48:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFCD1C433EF;
-	Thu, 23 Feb 2023 15:48:40 +0000 (UTC)
-Date: Thu, 23 Feb 2023 21:18:36 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCD2524F
+	for <mhi@lists.linux.dev>; Fri, 24 Feb 2023 12:07:47 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id e9so11510990plh.2
+        for <mhi@lists.linux.dev>; Fri, 24 Feb 2023 04:07:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rhcJhzQ7qGnrVZ4/jtXBdzD+R3XVaYYf5N+qRIXhKBk=;
+        b=wuFYETLFMDfuPnIoFcpo9ASy2MPL6lj321qju9I4Uyl33qCUsEHIHVe+wIgirmo6K4
+         P2zopch31YajGh+qKTPNe8Rrlu46Ugluidgo119z8pY4tMGTHRlU3OGVMpnamT1jeDER
+         +YEKFrjycOXjD4HBpIz7N9UqqFnquXqUQhzHc48Vv6AHC5WLbMYXE5kDrzVHSDbJLppw
+         5HaslIcX6VQHG82YcSx+KYxqooDD2p2mzRuczgIeWDAbLj8R8UbqGn13F4P04Be5wGK0
+         qj5BWLrnO/8D03w7GObbcbc8+TrVz3rLKtKczsJjE51XGEZjHmi8KrUj5siyrkSe8zi0
+         sDpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rhcJhzQ7qGnrVZ4/jtXBdzD+R3XVaYYf5N+qRIXhKBk=;
+        b=HVORnFAoM3XtQP8UTofjAQuHuWg5glUMJa97rkmpub4FSVgBadz6KJp3IIsCUfmwgg
+         ZDWoI2RtwOPMoCgW7ngowe0RZLvzfIkGn1hjk8UYEbSD4gI1QlOpsv/xg5cNPzxfEIWm
+         /kYqpnrQ2SHTBvBJ1UkvrXTwb7F2CClbjsdO+bm4JAmXZQfelgQW2oxzpT58S1fLeTZz
+         Aklyn6ZCf8l4F88O+kyJfXYrr3vFvOnhlmRoBtSicE4uvBytEtk60gPbAhgjfhSU/z64
+         bXk03K6ORgUG/ZVi8LunTOQ+AOiwYnBFAMKvIZOfClpQ3MgbreJ/CY2MzxpcwSX3z8Hn
+         z6kg==
+X-Gm-Message-State: AO0yUKVU5D5uuBdmdkLbQzK3FGKzZyAVg73yqevRKUAzGG5xCMgUrc9b
+	xsA5+ahEqWqzOZu94aUEzDdvCTqDjZXPBRE=
+X-Google-Smtp-Source: AK7set8pTrKn+7zWEdp5yAIjZPTPJbpUPiDLI7KQVMU7Q5dYwsfNq+bLIfyJ/McZXSLoaROt6MtVlA==
+X-Received: by 2002:a17:903:283:b0:199:2e77:fe16 with SMTP id j3-20020a170903028300b001992e77fe16mr18777583plr.58.1677240466547;
+        Fri, 24 Feb 2023 04:07:46 -0800 (PST)
+Received: from localhost.localdomain ([117.217.187.3])
+        by smtp.gmail.com with ESMTPSA id bh4-20020a170902a98400b0019cb6222698sm3808172plb.266.2023.02.24.04.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 04:07:45 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, quic_vbadigan@quicinc.com,
-	quic_krichai@quicinc.com, quic_skananth@quicinc.com,
-	mrana@quicinc.com, Alex Elder <elder@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Hemant Kumar <hemantk@codeaurora.org>,
-	Bhaumik Bhatt <bbhatt@codeaurora.org>,
-	"open list:MHI BUS" <linux-arm-msm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5] bus: mhi: host: Avoid ringing EV DB if there is no
- elements to process
-Message-ID: <20230223154836.GC6422@workstation>
-References: <1677087470-7004-1-git-send-email-quic_vpernami@quicinc.com>
+To: mhi@lists.linux.dev
+Cc: quic_jhugo@quicinc.com,
+	quic_vpernami@quicinc.com,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH] bus: mhi: host: Remove mhi_poll() API
+Date: Fri, 24 Feb 2023 17:31:47 +0530
+Message-Id: <20230224120147.19851-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1677087470-7004-1-git-send-email-quic_vpernami@quicinc.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 22, 2023 at 11:07:48PM +0530, Vivek Pernamitta wrote:
-> As mhi_poll function can be called by mhi client drivers
-> which will call process_event, which will ring DB even if
-> there no ring elements to process. This could cause
-> doorbell event to be processed by MHI device to check for
-> any ring elements even it is none and also it will occupy
-> lot of bandwidth on peripheral when mhi_poll() is called in
-> aggressive loop.
-> 
+mhi_poll() API is not used within the MHI stack and also not by any client
+drivers in mainline. So let's remove it until any consumer is available.
 
-The change looks good to me but who is the actual in-kernel user of
-mhi_poll() API? It is being exported and if there is no upstream client
-driver making use of it, then it shouldn't be.
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/host/main.c | 15 ---------------
+ include/linux/mhi.h         |  7 -------
+ 2 files changed, 22 deletions(-)
 
-I'm gonna submit a patch to remove this API altogether.
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index df0fbfee7b78..4fa0969472fc 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -1679,18 +1679,3 @@ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(mhi_unprepare_from_transfer);
+-
+-int mhi_poll(struct mhi_device *mhi_dev, u32 budget)
+-{
+-	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+-	struct mhi_chan *mhi_chan = mhi_dev->dl_chan;
+-	struct mhi_event *mhi_event = &mhi_cntrl->mhi_event[mhi_chan->er_index];
+-	int ret;
+-
+-	spin_lock_bh(&mhi_event->lock);
+-	ret = mhi_event->process_event(mhi_cntrl, mhi_event, budget);
+-	spin_unlock_bh(&mhi_event->lock);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(mhi_poll);
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index a5441ad33c74..f6de4b6ecfc7 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -765,13 +765,6 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
+  */
+ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev);
+ 
+-/**
+- * mhi_poll - Poll for any available data in DL direction
+- * @mhi_dev: Device associated with the channels
+- * @budget: # of events to process
+- */
+-int mhi_poll(struct mhi_device *mhi_dev, u32 budget);
+-
+ /**
+  * mhi_queue_dma - Send or receive DMA mapped buffers from client device
+  *                 over MHI channel
+-- 
+2.25.1
 
-> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-
-Thanks,
-Mani
-
-> 
-> ---
-> changes since v4:
-> 	updating the commit text with more information.
-> changes since v3:
-> 	- Updating commit text for multiple versions of patches.
-> changes since v2:
-> 	- Updated comments in code.
-> changes since v1:
-> 	- Add an check to avoid ringing EV DB in mhi_process_ctrl_ev_ring().
-> ---
->  drivers/bus/mhi/host/main.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index df0fbfe..1bbdb75 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -961,7 +961,9 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->  	}
->  
->  	read_lock_bh(&mhi_cntrl->pm_lock);
-> -	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
-> +
-> +	/* Ring EV DB only if there is any pending element to process */
-> +	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)) && count)
->  		mhi_ring_er_db(mhi_event);
->  	read_unlock_bh(&mhi_cntrl->pm_lock);
->  
-> @@ -1031,7 +1033,9 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->  		count++;
->  	}
->  	read_lock_bh(&mhi_cntrl->pm_lock);
-> -	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
-> +
-> +	/* Ring EV DB only if there is any pending element to process */
-> +	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)) && count)
->  		mhi_ring_er_db(mhi_event);
->  	read_unlock_bh(&mhi_cntrl->pm_lock);
->  
-> -- 
-> 2.7.4
-> 
