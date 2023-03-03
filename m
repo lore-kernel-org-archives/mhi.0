@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A2A8F7B
-	for <mhi@lists.linux.dev>; Fri,  3 Mar 2023 21:41:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2813C43321;
-	Fri,  3 Mar 2023 21:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCA99446
+	for <mhi@lists.linux.dev>; Fri,  3 Mar 2023 21:43:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132ACC433A0;
+	Fri,  3 Mar 2023 21:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677879708;
+	s=k20201202; t=1677879830;
 	bh=0ykQITa9rK+UFQlUR4IjVhVNgB3E0ll98TQEFCA0pm4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mbeJtqEysA9RPZjsOshNgASML6OrBEtzo7+gQr4sZEmi8zLdf0KZ8XjVAbDircXvb
-	 O4oKDGLkJlC8hq55AfKLdYG5wOvZLkGI2X9WTAPepCQrUg6QM9+CmoH4vgVi6UvHh4
-	 Bwj3eGybd8ToWtQtGS07Jn56fCD9re+lqMmU7VvY0hBz1xs5Oz9F+457gSgVLcPv1a
-	 hmoQtNOzlku9Fm36um7bdPpvMZcupOAsYnzaPnDgyu5syfFLYXE79XhKPeyBS+tU3O
-	 X+crT5B/SmEt/4DLOachVrxmstxFO7U5y9gUo55WOkhbEpRUUos24Z0PGSdyH8Yw/V
-	 M2AYRP66kc/TQ==
+	b=OHISzj/RvyNDZkH6Z3PEIRhNPfjGSSGj9dgha8YRAbC5ltJccjQmOHgBIbkLIrlQf
+	 jsZptL0U1Zx6waR2lmdLrW4zHPkwp+pjpKRzIqpH3gEvOGX8dWm+VYAIJS3bU5TSI0
+	 ZaW2+B932Sg6KM/Yleb1e/eQB6WMdc+wvBR51yyHTg9Cov0cDZh/KbZMkwkQsVAoVl
+	 kltZKxCCObMPEfoNRiJ+PBp1hwsoZ5vZw1NKK7ln8ks7LtIFJehp/HebJp7yw6kXRD
+	 8U7BxSssFGZ0pDb9jjEMjYdoSkMu9zKDfvVZaMeENXtF71K0PG/nEJakgJrpiEGoRy
+	 IBlGIryHKVREA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -25,12 +25,12 @@ Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	gregkh@linuxfoundation.org,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 21/64] bus: mhi: ep: Fix the debug message for MHI_PKT_TYPE_RESET_CHAN_CMD cmd
-Date: Fri,  3 Mar 2023 16:40:23 -0500
-Message-Id: <20230303214106.1446460-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 18/60] bus: mhi: ep: Fix the debug message for MHI_PKT_TYPE_RESET_CHAN_CMD cmd
+Date: Fri,  3 Mar 2023 16:42:32 -0500
+Message-Id: <20230303214315.1447666-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
-References: <20230303214106.1446460-1-sashal@kernel.org>
+In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
+References: <20230303214315.1447666-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
