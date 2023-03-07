@@ -1,103 +1,100 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095DDAD5F
-	for <mhi@lists.linux.dev>; Tue,  7 Mar 2023 16:48:21 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id c10so8439238pfv.13
-        for <mhi@lists.linux.dev>; Tue, 07 Mar 2023 08:48:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678207701;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FQnICWvYNs7bD2B+ziOmGBVgtAqH+5wOKJPUGlck5eg=;
-        b=z2ozD7ZRJgyIlEMW8q3T9LWyeevK9dBUmKibHc/1FJlFiyDrsvLAYj4xkJe3eFp3aY
-         PUj/lf0VBUulWKNWcGVh3nWijnzJfDrDv51PSbRfRvAG8EqAu/QetAk3Q91guu85Fnnf
-         DYpUtqsfxn2DLqozmhF71gsMFo4ekpt8nzABC3Z74/g7qDlK4H8RYSKVPDBAF2rsbcTR
-         KTwW/XPlmZQ2OpW6iE05808tI6+EWazlk1DeIcp7ZpebXLtfat2dtN/oBKw5rR9n0dTw
-         hFtlJUkUhislJFikc44YQKXYYGO0qyRKitUOlRGyGw7TYdPOexPHT3QquaiTPW5sH/rx
-         bv9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678207701;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FQnICWvYNs7bD2B+ziOmGBVgtAqH+5wOKJPUGlck5eg=;
-        b=HuIFegd3F9+Y8r7LmLDBXrHmG/aIVp1ayFWGSDyPNWTiF01JshUFKP5BfuFl71LMru
-         fRhFQkx4P/MbdwknEH+FIxthVudApNmFpZ+XQlsRFVXvbJMcgPS0LBjdjhyaTd8d8zKP
-         sSUwBlpOxs/RMWl3gjrblUMjNMnvtwVHtllvWhh56eqSLlbdLJ3r9CgOiq7IfqE8CA6x
-         igI91c9cEGZkFQDeye87G2dthytWZaXTzDPky9E/o3Um+O3CvtrUCUuB+w+lkdXI3vv2
-         wmGF1JqtaZIpvdhBQAskdm4UoDSvo5wUuQyu2g/mwbVJ3kc0oEbm4rxxl7zs2B3kf8D6
-         CKQA==
-X-Gm-Message-State: AO0yUKW5DThxAWHDOuEGBiCAKFR1eW0X1N+Qwijjfwntx9P3UkaQuVP8
-	6ZNXuzxSUw/TlLx4QYRgDCCbycJZU/2ReeHieg==
-X-Google-Smtp-Source: AK7set/xI2XzvtghAIfjdss+dCxdLBLJoPdvd/R/wO5iEqlbPT2FT9l8MyPTUZxYk26HbVjL/HTF7w==
-X-Received: by 2002:aa7:9489:0:b0:5a9:d619:e5e4 with SMTP id z9-20020aa79489000000b005a9d619e5e4mr13037993pfk.0.1678207701215;
-        Tue, 07 Mar 2023 08:48:21 -0800 (PST)
-Received: from thinkpad ([59.97.52.140])
-        by smtp.gmail.com with ESMTPSA id d22-20020aa78e56000000b005a8512c9988sm8383488pfr.93.2023.03.07.08.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 08:48:20 -0800 (PST)
-Date: Tue, 7 Mar 2023 22:18:16 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: ep: Demote unsupported channel error log to
- debug
-Message-ID: <20230307164816.GH5599@thinkpad>
-References: <20230307074248.86731-1-manivannan.sadhasivam@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18C8BA4F
+	for <mhi@lists.linux.dev>; Tue,  7 Mar 2023 20:16:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B3DC433EF;
+	Tue,  7 Mar 2023 20:16:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678220193;
+	bh=FupbKwelwLHLV++gMmX5dmMnAyDReIjpfS4XTY/hr5U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U5ni1xNATlVfMAIzrN1+nBzrPIn62wUdqocGJ1nsTr7ZeDSxyO2wmoxAqgdgWOp6V
+	 e9WvLpw8HM1S003EyuAd8FNa4VEl9Ma+TXQgj+CZ3PkLVSgutM3hR6suMqqwpU+UgT
+	 RSgxob6o1RiF3LI0rRh9ElDFu6LREuN0hSuh3OKedhaZHEXFsQu/y4gsQRiFdW5TqX
+	 Grdl+1bW6ekgWha+9JKkcjV0vwo1BNEy5yjyY+DZrsBBJ0HenTW027ymdd58wbAapb
+	 AKndnJGh9hZyEyeoBzq3nSQsCeduwT0PVTiYfJV0zUVMgmXx9joctHTAwFN20TAgND
+	 0GqmMwk0jk5Ew==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] bus: mhi: host: pci_generic: Drop redundant pci_enable_pcie_error_reporting()
+Date: Tue,  7 Mar 2023 14:16:25 -0600
+Message-Id: <20230307201625.879567-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307074248.86731-1-manivannan.sadhasivam@linaro.org>
 
-On Tue, Mar 07, 2023 at 01:12:48PM +0530, Manivannan Sadhasivam wrote:
-> Not all MHI endpoints will support all available channels. Most of them
-> support only a selected number of channels based on the implementations.
-> In those cases, it is not needed to print error messages in the endpoint.
-> So let's demote the error log to debug.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Applied to mhi-next!
+pci_enable_pcie_error_reporting() enables the device to send ERR_*
+Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
+native"), the PCI core does this for all devices during enumeration, so the
+driver doesn't need to do it itself.
 
-Thanks,
-Mani
+Remove the redundant pci_enable_pcie_error_reporting() call from the
+driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
+from the driver .remove() path.
 
-> ---
->  drivers/bus/mhi/ep/main.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index 48bc6abb7b37..ba062df4fe25 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -126,7 +126,7 @@ static int mhi_ep_process_cmd_ring(struct mhi_ep_ring *ring, struct mhi_ring_ele
->  
->  	/* Check if the channel is supported by the controller */
->  	if ((ch_id >= mhi_cntrl->max_chan) || !mhi_cntrl->mhi_chan[ch_id].name) {
-> -		dev_err(dev, "Channel (%u) not supported!\n", ch_id);
-> +		dev_dbg(dev, "Channel (%u) not supported!\n", ch_id);
->  		return -ENODEV;
->  	}
->  
-> @@ -702,7 +702,7 @@ static void mhi_ep_cmd_ring_worker(struct work_struct *work)
->  		el = &ring->ring_cache[ring->rd_offset];
->  
->  		ret = mhi_ep_process_cmd_ring(ring, el);
-> -		if (ret)
-> +		if (ret && ret != -ENODEV)
->  			dev_err(dev, "Error processing cmd ring element: %zu\n", ring->rd_offset);
->  
->  		mhi_ep_ring_inc_index(ring);
-> -- 
-> 2.25.1
-> 
+Note that this only controls ERR_* Messages from the device.  An ERR_*
+Message may cause the Root Port to generate an interrupt, depending on the
+AER Root Error Command register managed by the AER service driver.
 
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index f39657f71483..6e13c43a84d1 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -8,7 +8,6 @@
+  * Copyright (C) 2020 Linaro Ltd <loic.poulain@linaro.org>
+  */
+ 
+-#include <linux/aer.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/mhi.h>
+@@ -903,11 +902,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mhi_pdev->pci_state = pci_store_saved_state(pdev);
+ 	pci_load_saved_state(pdev, NULL);
+ 
+-	pci_enable_pcie_error_reporting(pdev);
+-
+ 	err = mhi_register_controller(mhi_cntrl, mhi_cntrl_config);
+ 	if (err)
+-		goto err_disable_reporting;
++		return err;
+ 
+ 	/* MHI bus does not power up the controller by default */
+ 	err = mhi_prepare_for_power_up(mhi_cntrl);
+@@ -941,8 +938,6 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mhi_unprepare_after_power_down(mhi_cntrl);
+ err_unregister:
+ 	mhi_unregister_controller(mhi_cntrl);
+-err_disable_reporting:
+-	pci_disable_pcie_error_reporting(pdev);
+ 
+ 	return err;
+ }
+@@ -965,7 +960,6 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+ 		pm_runtime_get_noresume(&pdev->dev);
+ 
+ 	mhi_unregister_controller(mhi_cntrl);
+-	pci_disable_pcie_error_reporting(pdev);
+ }
+ 
+ static void mhi_pci_shutdown(struct pci_dev *pdev)
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
