@@ -1,41 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8FC3C31
-	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 12:43:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA996C433D2;
-	Wed,  8 Mar 2023 12:43:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2406ABC
+	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 13:20:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DDB9C4339C;
+	Wed,  8 Mar 2023 13:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678279403;
-	bh=DocI4dram1oaC2Qxu/FVDptKl4AwjtU4IjvD88IptJQ=;
+	s=k20201202; t=1678281628;
+	bh=MP+KW6D6LvzYPD/GB8Lxjmh685nCFxeBh6MtYQgx8rA=;
 	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=S1OcYFQhrdN0g87cCs7ucc59mYtX+9rZx1K3co4u0/4mnfPQTJa0Htd86uTqQbJAd
-	 E32xrPsntaL2VE59IPZPYKNFWQCweqb132+OzEfgrwxY6/2lqs4OBaVUba0wiid4hV
-	 BFzc3w8ujd6hCct6aT3bFarUZh3vCioIQAChUi43k/slsd7Au3aa+10ug7n56GWSQh
-	 JBMrDULJzkmOv5CzRJ1pfbPTrpo6aGEkXsnb2okTd66UHBZ0Zvv4rWZm/kK94TZW+P
-	 E9BlraHJ4sayQuF7aGEo8bYma/UOlCWhJShBfMVy0wsZ/B+6D6N4tP+D4BQRWASw3O
-	 IgYdgx7wNCvkQ==
+	b=m/D1pB7WwZi3QIbD53+pgH6T2oM8IglGXrtgk+pF9NZlOBZcDbL6sao8asq1u/T5n
+	 Fu5NI0wrNQbXGX/U6LB0Q7nepRGMcm8HCvS4RIxUssn2rmCRprTAk+b1gbeJvhztkZ
+	 Da97fr6C2GnRzX4+y8LKHMhwSV5X+zikFZ0RQvyMEg4I8cHukgapvoKSHFXXOr0Iv6
+	 iVmuc2bzggDeFK8P2hDa7I+Wcogq/ad2hC/WskQKdGXQk188hYpo793FYwdwrgAzZu
+	 TbjiZHNLiu77Lo3K6lFEnERCR2aSod4NEPee6ii1aIxwCJcz5cyxPv+ivfIvIhsg5B
+	 Rbyf4JpJiXRvw==
 From: Kalle Valo <kvalo@kernel.org>
-To: Robert Marko <robert.marko@sartura.hr>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,  Robert Marko <robimarko@gmail.com>,  davem@davemloft.net,  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,  gregkh@linuxfoundation.org,  elder@linaro.org,  hemantk@codeaurora.org,  quic_jhugo@quicinc.com,  quic_qianyu@quicinc.com,  bbhatt@codeaurora.org,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  ansuelsmth@gmail.com
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-References: <20221105194943.826847-1-robimarko@gmail.com>
-	<20221105194943.826847-2-robimarko@gmail.com>
-	<20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
-	<877czn8c2n.fsf@kernel.org>
-	<CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
-	<87k02jzgkz.fsf@kernel.org>
-	<CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
-	<87358hyp3x.fsf@kernel.org>
-	<CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
-	<877cxsdrax.fsf@kernel.org>
-	<CA+HBbNGbg88_3FDu+EZhqMj0UKb8Ja_vyYsxGtmJ_HGt4fNVBQ@mail.gmail.com>
-	<87y1q8ccc4.fsf@kernel.org>
-	<CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
-Date: Wed, 08 Mar 2023 14:43:16 +0200
-In-Reply-To: <CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
-	(Robert Marko's message of "Mon, 23 Jan 2023 20:21:08 +0100")
-Message-ID: <87fsafpg63.fsf@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,  <linux-wireless@vger.kernel.org>
+Subject: Re: [PATCH 1/3] mhi: allow MHI client drivers to provide the firmware via a pointer
+References: <20230111092547.21425-1-kvalo@kernel.org>
+	<20230111092547.21425-2-kvalo@kernel.org>
+	<7d692402-3fc1-3b4c-9697-25e722e94539@quicinc.com>
+	<87bkn4ds9y.fsf@kernel.org>
+Date: Wed, 08 Mar 2023 15:20:24 +0200
+In-Reply-To: <87bkn4ds9y.fsf@kernel.org> (Kalle Valo's message of "Thu, 12 Jan
+	2023 11:19:21 +0200")
+Message-ID: <87bkl3peg7.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -45,81 +36,133 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Robert Marko <robert.marko@sartura.hr> writes:
+Kalle Valo <kvalo@kernel.org> writes:
 
-> On Thu, Jan 12, 2023 at 10:49 AM Kalle Valo <kvalo@kernel.org> wrote:
+> Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
 >
->>
->> Robert Marko <robert.marko@sartura.hr> writes:
->>
->> > On Thu, Jan 12, 2023 at 10:40 AM Kalle Valo <kvalo@kernel.org> wrote:
->> >>
->> >> Robert Marko <robert.marko@sartura.hr> writes:
->> >>
->> >> > On Wed, Jan 11, 2023 at 6:10 PM Kalle Valo <kvalo@kernel.org> wrote:
->> >> >>
->> >> >> Robert Marko <robert.marko@sartura.hr> writes:
->> >> >>
->> >> >> >> Really sorry, I just didn't manage to get this finalised due to other
->> >> >> >> stuff and now I'm leaving for a two week vacation :(
->> >> >> >
->> >> >> > Any news regarding this, I have a PR for ipq807x support in OpenWrt
->> >> >> > and the current workaround for supporting AHB + PCI or multiple PCI
->> >> >> > cards is breaking cards like QCA6390 which are obviously really
->> >> >> > popular.
->> >> >>
->> >> >> Sorry, came back only on Monday and trying to catch up slowly. But I
->> >> >> submitted the RFC now:
->> >> >>
->> >> >> https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
->> >> >
->> >> > Great, thanks for that.
->> >> >
->> >> > Does it depend on firmware-2 being available?
->> >>
->> >> The final solution for the users will require firmware-2.bin. But for a
->> >> quick test you can omit the feature bit test by replacing
->> >> "test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)" with
->> >> "true". Just make sure that the firmware release you are using supports
->> >> this feature, I believe only recent QCN9074 releases do that.
->> >
->> > I was able to test on IPQ8074+QCN9074 yesterday by just bypassing the
->> > test and it worked.
->> >
->> > Sideffect is that until firmware-2.bin is available cards like QCA6390
->> > wont work like with my hack.
->>
->> Not following here, can you elaborate what won't work with QCA6390?
+>> On 1/11/2023 2:25 AM, Kalle Valo wrote:
+>>> From: Kalle Valo <quic_kvalo@quicinc.com>
+>>>
+>>> Currently MHI loads the firmware image from the path provided by client
+>>> devices. ath11k needs to support firmware image embedded along with meta data
+>>> (named as firmware-2.bin). So allow the client driver to request the firmware
+>>> file from user space on it's own and provide the firmware image data and size
+>>> to MHI via a pointer struct mhi_controller::fw_data.
+>>>
+>>> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+>>> name from struct mhi_controller::fw_image string as before.
+>>>
+>>> Tested with ath11k and WCN6855 hw2.0.
+>>>
+>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+
+[...]
+
+>> Did you run pahole?  I remember this struct being well packed, and I
+>> think this will add a compiler hole but I have not actually verified.
 >
-> Our downstream hack does not work with QCA6390,
+> I actually haven't used pahole for ages. I will run it and check how
+> this structure is packed.
 
-Still not sure what you mean. Are you saying that this patch under
-discussion ("wifi: ath11k: use unique QRTR instance ID") also works with
-QCA6390 and it's possible to connect two QCA6390 devices on the same
-host?
+Below is what pahole shows with GCC 8.3 on x86_64. Look pretty well
+packed, right?
 
-Or are you referring to some other hack? Or have I totally
-misunderstood? :)
+struct mhi_controller {
+	struct device *            cntrl_dev;            /*     0     8 */
+	struct mhi_device *        mhi_dev;              /*     8     8 */
+	struct dentry *            debugfs_dentry;       /*    16     8 */
+	void *                     regs;                 /*    24     8 */
+	void *                     bhi;                  /*    32     8 */
+	void *                     bhie;                 /*    40     8 */
+	void *                     wake_db;              /*    48     8 */
+	dma_addr_t                 iova_start;           /*    56     8 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	dma_addr_t                 iova_stop;            /*    64     8 */
+	const char  *              fw_image;             /*    72     8 */
+	const u8  *                fw_data;              /*    80     8 */
+	size_t                     fw_sz;                /*    88     8 */
+	const char  *              edl_image;            /*    96     8 */
+	size_t                     rddm_size;            /*   104     8 */
+	size_t                     sbl_size;             /*   112     8 */
+	size_t                     seg_len;              /*   120     8 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	size_t                     reg_len;              /*   128     8 */
+	struct image_info *        fbc_image;            /*   136     8 */
+	struct image_info *        rddm_image;           /*   144     8 */
+	struct mhi_chan *          mhi_chan;             /*   152     8 */
+	struct list_head           lpm_chans;            /*   160    16 */
+	int *                      irq;                  /*   176     8 */
+	u32                        max_chan;             /*   184     4 */
+	u32                        total_ev_rings;       /*   188     4 */
+	/* --- cacheline 3 boundary (192 bytes) --- */
+	u32                        hw_ev_rings;          /*   192     4 */
+	u32                        sw_ev_rings;          /*   196     4 */
+	u32                        nr_irqs;              /*   200     4 */
+	u32                        family_number;        /*   204     4 */
+	u32                        device_number;        /*   208     4 */
+	u32                        major_version;        /*   212     4 */
+	u32                        minor_version;        /*   216     4 */
+	u32                        serial_number;        /*   220     4 */
+	u32                        oem_pk_hash[16];      /*   224    64 */
+	/* --- cacheline 4 boundary (256 bytes) was 32 bytes ago --- */
+	struct mhi_event *         mhi_event;            /*   288     8 */
+	struct mhi_cmd *           mhi_cmd;              /*   296     8 */
+	struct mhi_ctxt *          mhi_ctxt;             /*   304     8 */
+	struct mutex               pm_mutex;             /*   312   160 */
+	/* --- cacheline 7 boundary (448 bytes) was 24 bytes ago --- */
+	rwlock_t                   pm_lock;              /*   472    72 */
+	/* --- cacheline 8 boundary (512 bytes) was 32 bytes ago --- */
+	u32                        timeout_ms;           /*   544     4 */
+	u32                        pm_state;             /*   548     4 */
+	u32                        db_access;            /*   552     4 */
+	enum mhi_ee_type           ee;                   /*   556     4 */
+	enum mhi_state             dev_state;            /*   560     4 */
+	atomic_t                   dev_wake;             /*   564     4 */
+	atomic_t                   pending_pkts;         /*   568     4 */
+	u32                        M0;                   /*   572     4 */
+	/* --- cacheline 9 boundary (576 bytes) --- */
+	u32                        M2;                   /*   576     4 */
+	u32                        M3;                   /*   580     4 */
+	struct list_head           transition_list;      /*   584    16 */
+	spinlock_t                 transition_lock;      /*   600    72 */
+	/* --- cacheline 10 boundary (640 bytes) was 32 bytes ago --- */
+	spinlock_t                 wlock;                /*   672    72 */
+	/* --- cacheline 11 boundary (704 bytes) was 40 bytes ago --- */
+	struct mhi_link_info       mhi_link_info;        /*   744     8 */
+	struct work_struct         st_worker;            /*   752    80 */
+	/* --- cacheline 13 boundary (832 bytes) --- */
+	struct workqueue_struct *  hiprio_wq;            /*   832     8 */
+	wait_queue_head_t          state_event;          /*   840    88 */
+	/* --- cacheline 14 boundary (896 bytes) was 32 bytes ago --- */
+	void                       (*status_cb)(struct mhi_controller *, enum mhi_callback); /*   928     8 */
+	void                       (*wake_get)(struct mhi_controller *, bool); /*   936     8 */
+	void                       (*wake_put)(struct mhi_controller *, bool); /*   944     8 */
+	void                       (*wake_toggle)(struct mhi_controller *); /*   952     8 */
+	/* --- cacheline 15 boundary (960 bytes) --- */
+	int                        (*runtime_get)(struct mhi_controller *); /*   960     8 */
+	void                       (*runtime_put)(struct mhi_controller *); /*   968     8 */
+	int                        (*map_single)(struct mhi_controller *, struct mhi_buf_info *); /*   976     8 */
+	void                       (*unmap_single)(struct mhi_controller *, struct mhi_buf_info *); /*   984     8 */
+	int                        (*read_reg)(struct mhi_controller *, void *, u32 *); /*   992     8 */
+	void                       (*write_reg)(struct mhi_controller *, void *, u32); /*  1000     8 */
+	void                       (*reset)(struct mhi_controller *); /*  1008     8 */
+	size_t                     buffer_len;           /*  1016     8 */
+	/* --- cacheline 16 boundary (1024 bytes) --- */
+	int                        index;                /*  1024     4 */
+	bool                       bounce_buf;           /*  1028     1 */
+	bool                       fbc_download;         /*  1029     1 */
+	bool                       wake_set;             /*  1030     1 */
 
-> so that is why its quite important for OpenWrt to have a generic
-> solution that works on all cards.
+	/* XXX 1 byte hole, try to pack */
 
-I fully agree on importance of having a generic solution. It's just sad
-that it seems people who designed this didn't consider about having
-multiple devices on the same host. It looks like there's no easy way to
-implement a generic solution, we have only bad choices to choose from.
-Your solution[1] is racy and writing to a register which is marked as
-read-only in the spec.
+	long unsigned int          irq_flags;            /*  1032     8 */
+	u32                        mru;                  /*  1040     4 */
 
-Qualcomm's solution[2] needs changes in firmware and it's uncertain if
-I'm able to convince all firmware teams to implement the support.
-(Currently only QCN9074 firmware supports this.)
-
-Thoughts?
-
-[1] https://patchwork.kernel.org/project/linux-wireless/patch/20221105194943.826847-2-robimarko@gmail.com/
-
-[2] https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
+	/* size: 1048, cachelines: 17, members: 73 */
+	/* sum members: 1043, holes: 1, sum holes: 1 */
+	/* padding: 4 */
+	/* last cacheline: 24 bytes */
+};
 
 -- 
 https://patchwork.kernel.org/project/linux-wireless/list/
