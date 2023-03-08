@@ -1,113 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388CA647
-	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 05:30:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD49C433EF;
-	Wed,  8 Mar 2023 05:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8FC3C31
+	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 12:43:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA996C433D2;
+	Wed,  8 Mar 2023 12:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678253453;
-	bh=lGONHaeJ8GBUprLoz6RTtZDYCoOi74fna+rLPn2pNTU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r2PoY3PZnJMJJ0nk37fxg2eEwLfz8DPPBLrwAuFrZk6dwuUttjiwBmVODWMqSep8i
-	 JrYmukTHaKr+ve46ca+t8YqKnsMpLCEknOifUi3IECfIv4ThQAwg6whU0dD6YDVym1
-	 jHvSXvAta7LlLYzbqpPI91uHMvsgk8EXrnNHRDDfPswKnAlTLbExrWBhCNMD56omlI
-	 gOdcfJUzn3mmnBXtansp6/JYx64BFpalwBdf6f9P3fvwvvj9kNjOOvSisv1yTW/QJI
-	 +4SfLbhb/au2PTexxW4g8maE6Nua269917oKGK6fn9ym0YAWDd4Dx3+214AFBnv58l
-	 nvCpuCkf7GfNg==
-Date: Wed, 8 Mar 2023 11:00:47 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Drop redundant
- pci_enable_pcie_error_reporting()
-Message-ID: <20230308053047.GC5124@thinkpad>
-References: <20230307201625.879567-1-helgaas@kernel.org>
+	s=k20201202; t=1678279403;
+	bh=DocI4dram1oaC2Qxu/FVDptKl4AwjtU4IjvD88IptJQ=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=S1OcYFQhrdN0g87cCs7ucc59mYtX+9rZx1K3co4u0/4mnfPQTJa0Htd86uTqQbJAd
+	 E32xrPsntaL2VE59IPZPYKNFWQCweqb132+OzEfgrwxY6/2lqs4OBaVUba0wiid4hV
+	 BFzc3w8ujd6hCct6aT3bFarUZh3vCioIQAChUi43k/slsd7Au3aa+10ug7n56GWSQh
+	 JBMrDULJzkmOv5CzRJ1pfbPTrpo6aGEkXsnb2okTd66UHBZ0Zvv4rWZm/kK94TZW+P
+	 E9BlraHJ4sayQuF7aGEo8bYma/UOlCWhJShBfMVy0wsZ/B+6D6N4tP+D4BQRWASw3O
+	 IgYdgx7wNCvkQ==
+From: Kalle Valo <kvalo@kernel.org>
+To: Robert Marko <robert.marko@sartura.hr>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,  Robert Marko <robimarko@gmail.com>,  davem@davemloft.net,  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,  gregkh@linuxfoundation.org,  elder@linaro.org,  hemantk@codeaurora.org,  quic_jhugo@quicinc.com,  quic_qianyu@quicinc.com,  bbhatt@codeaurora.org,  mhi@lists.linux.dev,  linux-arm-msm@vger.kernel.org,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  ansuelsmth@gmail.com
+Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
+References: <20221105194943.826847-1-robimarko@gmail.com>
+	<20221105194943.826847-2-robimarko@gmail.com>
+	<20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
+	<877czn8c2n.fsf@kernel.org>
+	<CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
+	<87k02jzgkz.fsf@kernel.org>
+	<CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
+	<87358hyp3x.fsf@kernel.org>
+	<CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
+	<877cxsdrax.fsf@kernel.org>
+	<CA+HBbNGbg88_3FDu+EZhqMj0UKb8Ja_vyYsxGtmJ_HGt4fNVBQ@mail.gmail.com>
+	<87y1q8ccc4.fsf@kernel.org>
+	<CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
+Date: Wed, 08 Mar 2023 14:43:16 +0200
+In-Reply-To: <CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
+	(Robert Marko's message of "Mon, 23 Jan 2023 20:21:08 +0100")
+Message-ID: <87fsafpg63.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307201625.879567-1-helgaas@kernel.org>
+Content-Type: text/plain
 
-On Tue, Mar 07, 2023 at 02:16:25PM -0600, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> pci_enable_pcie_error_reporting() enables the device to send ERR_*
-> Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
-> native"), the PCI core does this for all devices during enumeration, so the
-> driver doesn't need to do it itself.
-> 
-> Remove the redundant pci_enable_pcie_error_reporting() call from the
-> driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
-> from the driver .remove() path.
-> 
-> Note that this only controls ERR_* Messages from the device.  An ERR_*
-> Message may cause the Root Port to generate an interrupt, depending on the
-> AER Root Error Command register managed by the AER service driver.
-> 
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Robert Marko <robert.marko@sartura.hr> writes:
 
-Amended the commit message to fix a checkpatch warning and applied to
-mhi-next!
+> On Thu, Jan 12, 2023 at 10:49 AM Kalle Valo <kvalo@kernel.org> wrote:
+>
+>>
+>> Robert Marko <robert.marko@sartura.hr> writes:
+>>
+>> > On Thu, Jan 12, 2023 at 10:40 AM Kalle Valo <kvalo@kernel.org> wrote:
+>> >>
+>> >> Robert Marko <robert.marko@sartura.hr> writes:
+>> >>
+>> >> > On Wed, Jan 11, 2023 at 6:10 PM Kalle Valo <kvalo@kernel.org> wrote:
+>> >> >>
+>> >> >> Robert Marko <robert.marko@sartura.hr> writes:
+>> >> >>
+>> >> >> >> Really sorry, I just didn't manage to get this finalised due to other
+>> >> >> >> stuff and now I'm leaving for a two week vacation :(
+>> >> >> >
+>> >> >> > Any news regarding this, I have a PR for ipq807x support in OpenWrt
+>> >> >> > and the current workaround for supporting AHB + PCI or multiple PCI
+>> >> >> > cards is breaking cards like QCA6390 which are obviously really
+>> >> >> > popular.
+>> >> >>
+>> >> >> Sorry, came back only on Monday and trying to catch up slowly. But I
+>> >> >> submitted the RFC now:
+>> >> >>
+>> >> >> https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
+>> >> >
+>> >> > Great, thanks for that.
+>> >> >
+>> >> > Does it depend on firmware-2 being available?
+>> >>
+>> >> The final solution for the users will require firmware-2.bin. But for a
+>> >> quick test you can omit the feature bit test by replacing
+>> >> "test_bit(ATH11K_FW_FEATURE_MULTI_QRTR_ID, ab->fw.fw_features)" with
+>> >> "true". Just make sure that the firmware release you are using supports
+>> >> this feature, I believe only recent QCN9074 releases do that.
+>> >
+>> > I was able to test on IPQ8074+QCN9074 yesterday by just bypassing the
+>> > test and it worked.
+>> >
+>> > Sideffect is that until firmware-2.bin is available cards like QCA6390
+>> > wont work like with my hack.
+>>
+>> Not following here, can you elaborate what won't work with QCA6390?
+>
+> Our downstream hack does not work with QCA6390,
 
-Thanks,
-Mani
+Still not sure what you mean. Are you saying that this patch under
+discussion ("wifi: ath11k: use unique QRTR instance ID") also works with
+QCA6390 and it's possible to connect two QCA6390 devices on the same
+host?
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index f39657f71483..6e13c43a84d1 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -8,7 +8,6 @@
->   * Copyright (C) 2020 Linaro Ltd <loic.poulain@linaro.org>
->   */
->  
-> -#include <linux/aer.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/mhi.h>
-> @@ -903,11 +902,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	mhi_pdev->pci_state = pci_store_saved_state(pdev);
->  	pci_load_saved_state(pdev, NULL);
->  
-> -	pci_enable_pcie_error_reporting(pdev);
-> -
->  	err = mhi_register_controller(mhi_cntrl, mhi_cntrl_config);
->  	if (err)
-> -		goto err_disable_reporting;
-> +		return err;
->  
->  	/* MHI bus does not power up the controller by default */
->  	err = mhi_prepare_for_power_up(mhi_cntrl);
-> @@ -941,8 +938,6 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	mhi_unprepare_after_power_down(mhi_cntrl);
->  err_unregister:
->  	mhi_unregister_controller(mhi_cntrl);
-> -err_disable_reporting:
-> -	pci_disable_pcie_error_reporting(pdev);
->  
->  	return err;
->  }
-> @@ -965,7 +960,6 @@ static void mhi_pci_remove(struct pci_dev *pdev)
->  		pm_runtime_get_noresume(&pdev->dev);
->  
->  	mhi_unregister_controller(mhi_cntrl);
-> -	pci_disable_pcie_error_reporting(pdev);
->  }
->  
->  static void mhi_pci_shutdown(struct pci_dev *pdev)
-> -- 
-> 2.25.1
-> 
+Or are you referring to some other hack? Or have I totally
+misunderstood? :)
+
+> so that is why its quite important for OpenWrt to have a generic
+> solution that works on all cards.
+
+I fully agree on importance of having a generic solution. It's just sad
+that it seems people who designed this didn't consider about having
+multiple devices on the same host. It looks like there's no easy way to
+implement a generic solution, we have only bad choices to choose from.
+Your solution[1] is racy and writing to a register which is marked as
+read-only in the spec.
+
+Qualcomm's solution[2] needs changes in firmware and it's uncertain if
+I'm able to convince all firmware teams to implement the support.
+(Currently only QCN9074 firmware supports this.)
+
+Thoughts?
+
+[1] https://patchwork.kernel.org/project/linux-wireless/patch/20221105194943.826847-2-robimarko@gmail.com/
+
+[2] https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
 
 -- 
-மணிவண்ணன் சதாசிவம்
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
