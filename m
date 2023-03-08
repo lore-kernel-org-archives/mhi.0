@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDF9647
-	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 05:21:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433C5C433EF;
-	Wed,  8 Mar 2023 05:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388CA647
+	for <mhi@lists.linux.dev>; Wed,  8 Mar 2023 05:30:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD49C433EF;
+	Wed,  8 Mar 2023 05:30:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678252874;
-	bh=za1Q16N+OKXL1B8Fsh9XF7M5Y5D0OFnawDBveqfsM6s=;
+	s=k20201202; t=1678253453;
+	bh=lGONHaeJ8GBUprLoz6RTtZDYCoOi74fna+rLPn2pNTU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UDaAIu1ThDvVYCUo/dl7gDw8bAKGfvzpE/etz4q+6fhRTG9kPX2PxZ5GXe4vWPjty
-	 qmD9gucVgghFw6vvNntTbvEqcQscnexMQeXPrrDVvUFXyubWKURVNy/L8z9/y19ISQ
-	 SJH88FzFTwULj1egNf98pGML27XjeyrRh9HlDX1m3J9J0TfLykICcEZrIcYBukEIPw
-	 ed3NdgwZITCC+Ria7SlklapDj954Eq4NmePz5ARTAnWSoRWJx2LuXRn65+le+78n/L
-	 +VpFw95rjWCdULqoRi4mXHP/mLiCiyeeVToFjjxTn+U9BCyVlUsIcqguJOBZRmTXcg
-	 7UMEXY3Ma8BjA==
-Date: Wed, 8 Mar 2023 10:51:08 +0530
+	b=r2PoY3PZnJMJJ0nk37fxg2eEwLfz8DPPBLrwAuFrZk6dwuUttjiwBmVODWMqSep8i
+	 JrYmukTHaKr+ve46ca+t8YqKnsMpLCEknOifUi3IECfIv4ThQAwg6whU0dD6YDVym1
+	 jHvSXvAta7LlLYzbqpPI91uHMvsgk8EXrnNHRDDfPswKnAlTLbExrWBhCNMD56omlI
+	 gOdcfJUzn3mmnBXtansp6/JYx64BFpalwBdf6f9P3fvwvvj9kNjOOvSisv1yTW/QJI
+	 +4SfLbhb/au2PTexxW4g8maE6Nua269917oKGK6fn9ym0YAWDd4Dx3+214AFBnv58l
+	 nvCpuCkf7GfNg==
+Date: Wed, 8 Mar 2023 11:00:47 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Bjorn Helgaas <helgaas@kernel.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
 Subject: Re: [PATCH] bus: mhi: host: pci_generic: Drop redundant
  pci_enable_pcie_error_reporting()
-Message-ID: <20230308052108.GA5124@thinkpad>
+Message-ID: <20230308053047.GC5124@thinkpad>
 References: <20230307201625.879567-1-helgaas@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -53,7 +53,8 @@ On Tue, Mar 07, 2023 at 02:16:25PM -0600, Bjorn Helgaas wrote:
 > 
 > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Amended the commit message to fix a checkpatch warning and applied to
+mhi-next!
 
 Thanks,
 Mani
