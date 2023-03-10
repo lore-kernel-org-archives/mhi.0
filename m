@@ -1,131 +1,120 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80427EF
-	for <mhi@lists.linux.dev>; Fri, 10 Mar 2023 10:34:09 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id o12so18568552edb.9
-        for <mhi@lists.linux.dev>; Fri, 10 Mar 2023 02:34:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678444448;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uJwG2CiQ/K++yhEMzDfBPC3J6efxbJJMs0y+94/eJZ4=;
-        b=kHXx7S3vhx9fI9CU2b3dkuqH7usWzHolXJa3qQ6XSLKLZEDTurxnIgDg041DCqN+d1
-         Hb/hrq4JgGRLyzfcJVeTRK7g+IMnandzPox1P+u3kMAkq51fOR3mhx6KGMsyuqtAzF9s
-         lNDgdJSM8Y0KxInGV5Jb43WFR4RoYQgN8XurHvrgEVipKT5O7QinzcoJw+dzfRPNHdas
-         OaD9iqprX7YIpZMYmXR3m0spMia2DW1I8qX8zvvn8esmRdhhBz53VjBOSATFRgr8PkXi
-         M4EhUfj1WK6YVcM2ohYRK5g7kJAE23ER3ZnqbD+vz3K57ehBcb7XA7Sk1rOS76IfisE+
-         AuFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678444448;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uJwG2CiQ/K++yhEMzDfBPC3J6efxbJJMs0y+94/eJZ4=;
-        b=uw7di4r8jMqVotv6cWa6SlZvFjcnBYlfd5u3s0fp0iNcL9Vl6AATeFT+CLwcZtdTiN
-         x+rw9yilB51MatzCa42HGFD9v3DwEuGzsPvCjaptGbNQ0JIsfbLUOPt29SmoUyG/sX6L
-         KNq67hG+qNORqIdQytl6fbtvwrZ267sdFLdc/okDSWUv58fL2YhBZYDrAvSuzACSAPiW
-         jM6sX5ax/uyqbNSqmULhTSyqJIrk03z2b8ILa/WjKLo+rMXfsjVG27oYzMWBpcpIDkT6
-         FKqsUk80zmzvTZzFNNH0MpJ4mWgFXZ2SbLnqZHyHTfB0Db53KBH+IOXo/7OAfPRTbkxs
-         3YrA==
-X-Gm-Message-State: AO0yUKV3Nt2AH824QJxhfLeU7Ewzf6NcMDca0UpPs1A08esvVOADKqO9
-	4YobFhkYAZBLeXFvs6W1vWe0whjGWUi8yt8T/z4=
-X-Google-Smtp-Source: AK7set+9plAVZiLvbdivPMu0PCQT9w4blh4eMxoeF5vw1OScTWQjQ3Ny0OytY2JQerP8zncC9PMdAnX2hDuYfFQMJQg=
-X-Received: by 2002:a17:906:a1c5:b0:8f0:147b:be2 with SMTP id
- bx5-20020a170906a1c500b008f0147b0be2mr11938349ejb.4.1678444447856; Fri, 10
- Mar 2023 02:34:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E397963B5
+	for <mhi@lists.linux.dev>; Fri, 10 Mar 2023 12:02:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A34C433D2;
+	Fri, 10 Mar 2023 12:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678449735;
+	bh=8DW/LYgCUONCctCnDq4qvjU4rdTwW+KdDdND0ium5HI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fZl6N5bDfdbh6CPz85FEB6qbTu6Q7lOXXLptgxaiNH3G7i6a4gZn4rcr+WUJ8zzfv
+	 UfSAtEW1lb3I/cC6fZ68b65Krs6uBQW360w6uYLRJwbl82vn/rd5nejjzTMOSivJBw
+	 A1sPZA2Qb5ale9462b3nypNpkAInDPOl9mfl5X88V5QPgiFVIqHE6ELYz8lBoNSaZ/
+	 /u+h2V3UC0pAYYX+Ak8cwnTrxLE4ufIgTnnVHQvEeIpfp90cFTQrqLZSBOjr/nf61C
+	 CYsWgvfrOak/DoO6G2tozKa1/K54PUqfueD7SEC9W7JgnIzysZ0u08Nf1iLcpmKKs3
+	 ETURGC2UF2wAQ==
+Date: Fri, 10 Mar 2023 17:32:09 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Fabio Porcedda <fabio.porcedda@gmail.com>
+Cc: Slark Xiao <slark_xiao@163.com>, loic.poulain@linaro.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Revert "Add a secondary AT
+ port to Telit FN990"
+Message-ID: <20230310120209.GB6838@thinkpad>
+References: <20230310101715.69209-1-slark_xiao@163.com>
+ <20230310103126.GA6838@thinkpad>
+ <CAHkwnC_S_qPOfkoJ-uZ7GNW4J26AXik=33f2=uMfw72yFOFXLg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230310101715.69209-1-slark_xiao@163.com> <20230310103126.GA6838@thinkpad>
-In-Reply-To: <20230310103126.GA6838@thinkpad>
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-Date: Fri, 10 Mar 2023 11:33:56 +0100
-Message-ID: <CAHkwnC_S_qPOfkoJ-uZ7GNW4J26AXik=33f2=uMfw72yFOFXLg@mail.gmail.com>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Revert "Add a secondary AT
- port to Telit FN990"
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Slark Xiao <slark_xiao@163.com>, loic.poulain@linaro.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHkwnC_S_qPOfkoJ-uZ7GNW4J26AXik=33f2=uMfw72yFOFXLg@mail.gmail.com>
 
-Il giorno ven 10 mar 2023 alle ore 11:31 Manivannan Sadhasivam
-<mani@kernel.org> ha scritto:
->
-> On Fri, Mar 10, 2023 at 06:17:15PM +0800, Slark Xiao wrote:
-> > This reverts commit 2d5253a096c6057bbf7caa5520856dcdf7eca8bb.
-> > There are 2 commits with commit message "Add a secondary AT
-> > port to Telit FN990". But the last one 2d5253a096 was added
->
-> Btw, we usually refer the commit SHA by 12 digits. Like, 2d5253a096c6.
-> I can fix it up while applying.
->
-> > on Foxconn devices. Actually the second AT port of Foxconn
-> > devices doesn't work in PCIe mode. And the commit message
-> > mismatch with the changes. So we need to remove it.
+On Fri, Mar 10, 2023 at 11:33:56AM +0100, Fabio Porcedda wrote:
+> Il giorno ven 10 mar 2023 alle ore 11:31 Manivannan Sadhasivam
+> <mani@kernel.org> ha scritto:
 > >
->
-> Sigh... the subject itself was wrong :( thanks for catching.
->
-> > Signed-off-by: Slark Xiao <slark_xiao@163.com>
->
-> For future Foxconn patches, please help with the review to catch issues l=
-ike
-> this. Unfortunately, I do not own any Foxconn modems :/
->
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
-Reviewed-by: Fabio Porcedda <fabio.porcedda@gmail.com>
-
-Just to clarify, the original patch change just the Telit FN990:
-https://lore.kernel.org/netdev/CAMZdPi8gGrbkKnDR+WLadF92shJbwH-ksQY+dbpgfZ2=
-1iAp9ug@mail.gmail.com/
-
-The problem is caused by the fact that it was merged two times and the
-second time was merged wrongly.
-The correct one is commit 479aa3b0ec2e000ac99dd0661936d9685d6cac64 and
-the wrong one is 2d5253a096c6057bbf7caa5520856dcdf7eca8bb.
-
-BR
-Fabio
-
-> Thanks,
-> Mani
->
-> > ---
-> >  drivers/bus/mhi/host/pci_generic.c | 2 --
-> >  1 file changed, 2 deletions(-)
+> > On Fri, Mar 10, 2023 at 06:17:15PM +0800, Slark Xiao wrote:
+> > > This reverts commit 2d5253a096c6057bbf7caa5520856dcdf7eca8bb.
+> > > There are 2 commits with commit message "Add a secondary AT
+> > > port to Telit FN990". But the last one 2d5253a096 was added
 > >
-> > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/=
-pci_generic.c
-> > index 6e13c43a84d1..91d02f84ba21 100644
-> > --- a/drivers/bus/mhi/host/pci_generic.c
-> > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > @@ -343,8 +343,6 @@ static const struct mhi_channel_config mhi_foxconn_=
-sdx55_channels[] =3D {
-> >       MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
-> >       MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
-> >       MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-> > -     MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
-> > -     MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
-> >       MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
-> >       MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
-> >  };
+> > Btw, we usually refer the commit SHA by 12 digits. Like, 2d5253a096c6.
+> > I can fix it up while applying.
+> >
+> > > on Foxconn devices. Actually the second AT port of Foxconn
+> > > devices doesn't work in PCIe mode. And the commit message
+> > > mismatch with the changes. So we need to remove it.
+> > >
+> >
+> > Sigh... the subject itself was wrong :( thanks for catching.
+> >
+> > > Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >
+> > For future Foxconn patches, please help with the review to catch issues like
+> > this. Unfortunately, I do not own any Foxconn modems :/
+> >
+> > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> 
+> Reviewed-by: Fabio Porcedda <fabio.porcedda@gmail.com>
+> 
+> Just to clarify, the original patch change just the Telit FN990:
+> https://lore.kernel.org/netdev/CAMZdPi8gGrbkKnDR+WLadF92shJbwH-ksQY+dbpgfZ21iAp9ug@mail.gmail.com/
+> 
+> The problem is caused by the fact that it was merged two times and the
+> second time was merged wrongly.
+> The correct one is commit 479aa3b0ec2e000ac99dd0661936d9685d6cac64 and
+> the wrong one is 2d5253a096c6057bbf7caa5520856dcdf7eca8bb.
+> 
+
+Ah, so the patch was merged into netdev first and then through MHI, then git
+ended up with a resolution :(
+
+Thanks,
+Mani 
+
+> BR
+> Fabio
+> 
+> > Thanks,
+> > Mani
+> >
+> > > ---
+> > >  drivers/bus/mhi/host/pci_generic.c | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > >
+> > > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> > > index 6e13c43a84d1..91d02f84ba21 100644
+> > > --- a/drivers/bus/mhi/host/pci_generic.c
+> > > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > > @@ -343,8 +343,6 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+> > >       MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+> > >       MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+> > >       MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+> > > -     MHI_CHANNEL_CONFIG_UL(92, "DUN2", 32, 1),
+> > > -     MHI_CHANNEL_CONFIG_DL(93, "DUN2", 32, 1),
+> > >       MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+> > >       MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+> > >  };
+> > > --
+> > > 2.34.1
+> > >
+> >
 > > --
-> > 2.34.1
-> >
->
-> --
-> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
-=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
-=E0=AF=8D
+> > மணிவண்ணன் சதாசிவம்
+> 
+> 
+> 
+> -- 
+> Fabio Porcedda
 
-
-
---=20
-Fabio Porcedda
+-- 
+மணிவண்ணன் சதாசிவம்
