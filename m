@@ -1,120 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEB86118
-	for <mhi@lists.linux.dev>; Fri, 24 Mar 2023 14:23:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C8EC433D2;
-	Fri, 24 Mar 2023 14:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679667787;
-	bh=ByUS8ixdKw9ZOUXU671IFgLj5lR9S0HYOJEGGrPdIBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s9Zv+2ZlLctru7hz2kVhdsiAvX+YYpdRGP5PLecwt17Z2m9yR/0WPRMrgXInzH7Dl
-	 rujAt6ladQADe+s5rrzxZb3DktzXItf/vN955TBu14onwZsxHig1SXb9GExUilKMvl
-	 HlWJ2SDi4ByhXCHIeCConJjino6Zk8GzctIAF+c71HN8oGb93qoRJzInD8FJxKqWMF
-	 W/OLOtumeU+vPbVuyCadxySEURGItTF6C/gHXRjQtL/QxXLZisg2sOy9Q6BctnuU8f
-	 iwP8RONf2yR535vViKnoYt/NaAB5CwoVP5MPvNlAzYNx8VAKzU2+b8QZPuGLelw9Ta
-	 UoeTD9lE8KxpQ==
-Date: Fri, 24 Mar 2023 19:52:55 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Range check CHDBOFF and ERDBOFF
-Message-ID: <20230324142255.GD4259@thinkpad>
-References: <1679066059-8399-1-git-send-email-quic_jhugo@quicinc.com>
- <20230324103452.GC4259@thinkpad>
- <11ea2552-27e1-3665-869c-4594de1782a5@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57199747E
+	for <mhi@lists.linux.dev>; Fri, 24 Mar 2023 16:13:20 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32OFsSFf020593;
+	Fri, 24 Mar 2023 16:13:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=Dak5fQL83ddtMorWQzb+nyjRnP7QPKmm1aK9TibiOds=;
+ b=B79NgJrmP6IchXQB3CSVuhlltoGY8v1G6pcTXyyxat5LILL9lw0cXq3sReTwsOkzCnqL
+ BdgN82qZSciUyeoly/Sbp9/GFQg7ok5LBsscZcX7/xX3lwhgqa8i6DRpYKVeXy5pVX7k
+ xde+AkdltuotkHw4epq2Q73hnyGgg4xTs+rElRyhYw+FgK5cboA3BxPjRnI7brNnURbF
+ 3lcJQl4xpkpoT9SThcVj28gBiQ+zOGOAd0p8q1XeP1A7iGu4xDm1aAHEplpelcm0d8W8
+ WeO8gnuyW9f2beZmt5fu7sFQvTkMnvDRm/JbjDAPBGzysOrhF+M3iq6nNSNhUn5o613H SA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3phev481wb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Mar 2023 16:13:17 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32OGDGVl031843
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Mar 2023 16:13:16 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Fri, 24 Mar 2023 09:13:16 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH v2] bus: mhi: host: Range check CHDBOFF and ERDBOFF
+Date: Fri, 24 Mar 2023 10:13:04 -0600
+Message-ID: <1679674384-27209-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <11ea2552-27e1-3665-869c-4594de1782a5@quicinc.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ZjDPMGJx0U0YDY6wT8kJ7ZeYuhhFlbs3
+X-Proofpoint-GUID: ZjDPMGJx0U0YDY6wT8kJ7ZeYuhhFlbs3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_10,2023-03-24_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303240128
 
-On Fri, Mar 24, 2023 at 07:50:01AM -0600, Jeffrey Hugo wrote:
-> On 3/24/2023 4:34 AM, Manivannan Sadhasivam wrote:
-> > On Fri, Mar 17, 2023 at 09:14:19AM -0600, Jeffrey Hugo wrote:
-> > > If the value read from the CHDBOFF and ERDBOFF registers is outside the
-> > > range of the MHI register space then an invalid address might be computed
-> > > which later causes a kernel panic.  Range check the read value to prevent
-> > > a crash due to bad data from the device.
-> > > 
-> > > Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
-> > 
-> > Please CC stable list.
-> 
-> The stable folks have been automatically picking up everything with a fixes
-> tag for years.  CCing the stable list does not seem to do anything unless
-> the patch needs specific backporting adjustments.
-> 
-> Do you still want an explicit CC?
-> 
+If the value read from the CHDBOFF and ERDBOFF registers is outside the
+range of the MHI register space then an invalid address might be computed
+which later causes a kernel panic.  Range check the read value to prevent
+a crash due to bad data from the device.
 
-That was the impression I had but Greg wanted us to explicitly CC stable list
-and add a hint about how deep the patch needs to be applied.
+Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+---
 
-> > 
-> > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> > > ---
-> > >   drivers/bus/mhi/host/init.c | 12 ++++++++++++
-> > >   1 file changed, 12 insertions(+)
-> > > 
-> > > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> > > index 3d779ee..ae8ebcfb 100644
-> > > --- a/drivers/bus/mhi/host/init.c
-> > > +++ b/drivers/bus/mhi/host/init.c
-> > > @@ -516,6 +516,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
-> > >   		return -EIO;
-> > >   	}
-> > > +	if (val >= mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB)) {
-> > > +		dev_err(dev, "CHDB offset: 0x%x is out of range: 0x%zx\n",
-> > > +			val, mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB));
-> > > +		return -EINVAL;
-> > 
-> > Isn't -ERANGE a better errno here and also in other places of the driver?
-> 
-> I suppose that could work.  This was modeled after the existing BHI (eg
-> BHIOFF) range checks.  You want those updated in the same change or a
-> separate one?
-> 
+v2:
+-CC stable
+-Use ERANGE for the error code
 
-That can go into a separate change.
+ drivers/bus/mhi/host/init.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Thanks,
-Mani
-
-> > Thanks,
-> > Mani
-> > 
-> > > +	}
-> > > +
-> > >   	/* Setup wake db */
-> > >   	mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
-> > >   	mhi_cntrl->wake_set = false;
-> > > @@ -532,6 +538,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
-> > >   		return -EIO;
-> > >   	}
-> > > +	if (val >= mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings)) {
-> > > +		dev_err(dev, "ERDB offset: 0x%x is out of range: 0x%zx\n",
-> > > +			val, mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings));
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > >   	/* Setup event db address for each ev_ring */
-> > >   	mhi_event = mhi_cntrl->mhi_event;
-> > >   	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, val += 8, mhi_event++) {
-> > > -- 
-> > > 2.7.4
-> > > 
-> > > 
-> > 
-> 
-
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 3d779ee..b46a082 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -516,6 +516,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 		return -EIO;
+ 	}
+ 
++	if (val >= mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB)) {
++		dev_err(dev, "CHDB offset: 0x%x is out of range: 0x%zx\n",
++			val, mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB));
++		return -ERANGE;
++	}
++
+ 	/* Setup wake db */
+ 	mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
+ 	mhi_cntrl->wake_set = false;
+@@ -532,6 +538,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 		return -EIO;
+ 	}
+ 
++	if (val >= mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings)) {
++		dev_err(dev, "ERDB offset: 0x%x is out of range: 0x%zx\n",
++			val, mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings));
++		return -ERANGE;
++	}
++
+ 	/* Setup event db address for each ev_ring */
+ 	mhi_event = mhi_cntrl->mhi_event;
+ 	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, val += 8, mhi_event++) {
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
