@@ -1,85 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B061A29
-	for <mhi@lists.linux.dev>; Mon, 27 Mar 2023 10:24:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60DDAC433D2;
-	Mon, 27 Mar 2023 10:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679912650;
-	bh=hcQE71Jvx8KIyqm7WTbycXq2YmJt3VrPaHDQ+soP+t8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ByNXDIp1IsDxJc902OilRAg5Kz+6s2qF1EUalQPyHqIC5vJhNHk8Wg9EUd8a2OwAt
-	 l75zb3zgsMRrzLR1azq24o2dlRYXLamzsIHOmG5wuT/DQioCEuNvcUU8rteZ8BO9wE
-	 sg91VzCWrqqWyT7sjYNoD9J21G3TvtQkPOecuz5k82WywAA319o7sHqmMNLN/7f9Iy
-	 Kdjmj0q+/oyNHVK1odjwfc4B0MeJC1LKDxN4pK7v12Lp9gJ/zdtmxXadbySekktqOl
-	 l9ET+OhVYJnJKRBeka4++syR2XBbfGxQtUvFyKFwshkmbDSdxlc2QWuM/Ny8Tj6h3u
-	 yGfyX8Lc4uYaw==
-Date: Mon, 27 Mar 2023 15:53:58 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Use ERANGE for BHIOFF/BHIEOFF range check
-Message-ID: <20230327102358.GD16424@thinkpad>
-References: <1679674860-28229-1-git-send-email-quic_jhugo@quicinc.com>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 497D3AFC4
+	for <mhi@lists.linux.dev>; Wed, 29 Mar 2023 08:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=k1+81
+	/LRc+QPaXuwviz1ZmJdBJ9jC4z0SLIYlLcZv/k=; b=Q3Uk9BKqp9bm4WreWBohS
+	3UY8tW52mSI2m0XIzrh4xHhEO7e2msTRdPViif9KUd3UALF07sfOMTOKWIji5gWm
+	nR6y/r9LK5UXkOxuX+tlrxUDwX25v2aj5pkAEbWl/+AInzV9sDoaFcBOJPP+0eCJ
+	ynQdZfOL9hxWPqfKfifmnk=
+Received: from VM-0-27-ubuntu.. (unknown [43.134.191.38])
+	by zwqz-smtp-mta-g1-3 (Coremail) with SMTP id _____wA3TzdD5yNk5z4EAA--.1365S2;
+	Wed, 29 Mar 2023 15:22:45 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] bus: mhi: pci_generic: Add Foxconn T99W510
+Date: Wed, 29 Mar 2023 15:22:39 +0800
+Message-Id: <20230329072239.93632-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1679674860-28229-1-git-send-email-quic_jhugo@quicinc.com>
+X-CM-TRANSID:_____wA3TzdD5yNk5z4EAA--.1365S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw1UZr1DCw1Duw1DWFWxJFb_yoW8CF1UpF
+	savryUta1kJFWYkFsrJrWDXas8JanxCry3KFn7Gw1Y9r4vyayYqrs7Gry29Fy3Kas8Xr43
+	tFy8uFWUW3WqyF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEgAwnUUUUU=
+X-Originating-IP: [43.134.191.38]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQlBZGI0cAnPYAABsY
 
-On Fri, Mar 24, 2023 at 10:21:00AM -0600, Jeffrey Hugo wrote:
-> If the BHIOFF or BHIEOFF range checks fail, they return EINVAL.  ERANGE
-> is a better error code since it implies an out of range condition.
-> 
-> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+The Foxconn T99W510 device is designed based on Qualcomm
+SDX24. Add 3 variants for different potential customer.
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Thanks,
-Mani
-
-> ---
-> 
-> This feels more like a style change than fixing a bug, so I'm being
-> conservative and intentionally not listing a fixes tag.
-> 
->  drivers/bus/mhi/host/init.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index b46a082..f72fcb6 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -1112,7 +1112,7 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
->  	if (bhi_off >= mhi_cntrl->reg_len) {
->  		dev_err(dev, "BHI offset: 0x%x is out of range: 0x%zx\n",
->  			bhi_off, mhi_cntrl->reg_len);
-> -		ret = -EINVAL;
-> +		ret = -ERANGE;
->  		goto error_reg_offset;
->  	}
->  	mhi_cntrl->bhi = mhi_cntrl->regs + bhi_off;
-> @@ -1129,7 +1129,7 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
->  			dev_err(dev,
->  				"BHIe offset: 0x%x is out of range: 0x%zx\n",
->  				bhie_off, mhi_cntrl->reg_len);
-> -			ret = -EINVAL;
-> +			ret = -ERANGE;
->  			goto error_reg_offset;
->  		}
->  		mhi_cntrl->bhie = mhi_cntrl->regs + bhie_off;
-> -- 
-> 2.7.4
-> 
-> 
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 91d02f84ba21..db0a0b062d8e 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -363,6 +363,15 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+ 	.event_cfg = mhi_foxconn_sdx55_events,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
++	.name = "foxconn-sdx24",
++	.config = &modem_foxconn_sdx55_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+ 	.name = "foxconn-sdx55",
+ 	.fw = "qcom/sdx55m/sbl1.mbn",
+@@ -587,6 +596,15 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* T99W373 (sdx62) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0d9),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
++	/* T99W510 (sdx24), variant 1 */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f0),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx24_info },
++	/* T99W510 (sdx24), variant 2 */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f1),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx24_info },
++	/* T99W510 (sdx24), variant 3 */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f2),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx24_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
 -- 
-மணிவண்ணன் சதாசிவம்
+2.34.1
+
