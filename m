@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0619E364
-	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0495FC433D2;
-	Mon,  3 Apr 2023 05:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B4C364
+	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:18:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD540C433D2;
+	Mon,  3 Apr 2023 05:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680499040;
-	bh=g2TSS6m0UMtjThk7tJNAadrmxBfJBuYpYI2CML4irS0=;
+	s=k20201202; t=1680499082;
+	bh=Ry7b3/8RKxj+1luWeOjO0avmB+5u5dLjGt3zcnvaVn4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j/QRGMOcuaDDa2RhAQeD9MHMeuqXNqS23ZE/TWoO2ArLqF+WKfeWlC3RzppXrS9fo
-	 sm8AFyrw7xyv7HCHp8+vdvZ2J+Dx8P/7XNYrS9wa/otAv8huW2YSVQw88p0A1tOgt7
-	 U1uYv35/CqW77ve5hwCzb/0Gt/5sfqXQ0/2qBe1nvTYyJ+sshEcyMHl3IkOFe5/gbd
-	 lagS1wWq/xYZvi1B2Xl8bc/QfdR+nYTcVjkitsLCqRPDm8W0kQyXmYqGksa4OvF5Ir
-	 EoPJZ+U9DD+4n+h54TzHSVSoqMpo8k+SaYAA1GMiNSlJd2ZrpVh9q3KIqzRrnZb0JP
-	 p2AQ0PXp5lqJw==
-Date: Mon, 3 Apr 2023 10:47:15 +0530
+	b=XjB+HVnPEgcwhnLAcYDTS25EspHJqwb5NR3ehZXCyNHLNOpnm86IVK9dzLlZkAU88
+	 4DkXuvE7Ncr5avdB8aYtmwPbfJgRKnJXkrKRimeBT16J25XmbHSkZKXyH/NOvK+pRc
+	 FJfWCkxY7olQKKpu44eOUcpVI3onDC5hs1Hb6N2KwtMt9slk/eiqP+FU8IuvFy3lKX
+	 /A0/nq4zGBEMwK2hYDcBI58CfFq0+kS7r0LL6BAIFoVNF8iU7u6PiQUonHIaF/t7Ga
+	 6T4toYalOS+z4N81wlUHC4NmGbcKA3lp+mOfcB1mhnmH9DBPV/oWCvAYn2ZE5SbIhi
+	 4ehYlLfrJw86w==
+Date: Mon, 3 Apr 2023 10:47:57 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] bus: mhi: host: Range check CHDBOFF and ERDBOFF
-Message-ID: <20230403051715.GB4627@thinkpad>
-References: <1679674384-27209-1-git-send-email-quic_jhugo@quicinc.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: Use ERANGE for BHIOFF/BHIEOFF range check
+Message-ID: <20230403051757.GC4627@thinkpad>
+References: <1679674860-28229-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -32,62 +32,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1679674384-27209-1-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <1679674860-28229-1-git-send-email-quic_jhugo@quicinc.com>
 
-On Fri, Mar 24, 2023 at 10:13:04AM -0600, Jeffrey Hugo wrote:
-> If the value read from the CHDBOFF and ERDBOFF registers is outside the
-> range of the MHI register space then an invalid address might be computed
-> which later causes a kernel panic.  Range check the read value to prevent
-> a crash due to bad data from the device.
+On Fri, Mar 24, 2023 at 10:21:00AM -0600, Jeffrey Hugo wrote:
+> If the BHIOFF or BHIEOFF range checks fail, they return EINVAL.  ERANGE
+> is a better error code since it implies an out of range condition.
 > 
-> Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
-> Cc: stable@vger.kernel.org
+> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Applied to mhi-next!
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 - Mani
 
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 > ---
 > 
-> v2:
-> -CC stable
-> -Use ERANGE for the error code
+> This feels more like a style change than fixing a bug, so I'm being
+> conservative and intentionally not listing a fixes tag.
 > 
->  drivers/bus/mhi/host/init.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  drivers/bus/mhi/host/init.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 3d779ee..b46a082 100644
+> index b46a082..f72fcb6 100644
 > --- a/drivers/bus/mhi/host/init.c
 > +++ b/drivers/bus/mhi/host/init.c
-> @@ -516,6 +516,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  		return -EIO;
+> @@ -1112,7 +1112,7 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>  	if (bhi_off >= mhi_cntrl->reg_len) {
+>  		dev_err(dev, "BHI offset: 0x%x is out of range: 0x%zx\n",
+>  			bhi_off, mhi_cntrl->reg_len);
+> -		ret = -EINVAL;
+> +		ret = -ERANGE;
+>  		goto error_reg_offset;
 >  	}
->  
-> +	if (val >= mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB)) {
-> +		dev_err(dev, "CHDB offset: 0x%x is out of range: 0x%zx\n",
-> +			val, mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB));
-> +		return -ERANGE;
-> +	}
-> +
->  	/* Setup wake db */
->  	mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
->  	mhi_cntrl->wake_set = false;
-> @@ -532,6 +538,12 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  		return -EIO;
->  	}
->  
-> +	if (val >= mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings)) {
-> +		dev_err(dev, "ERDB offset: 0x%x is out of range: 0x%zx\n",
-> +			val, mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings));
-> +		return -ERANGE;
-> +	}
-> +
->  	/* Setup event db address for each ev_ring */
->  	mhi_event = mhi_cntrl->mhi_event;
->  	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, val += 8, mhi_event++) {
+>  	mhi_cntrl->bhi = mhi_cntrl->regs + bhi_off;
+> @@ -1129,7 +1129,7 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>  			dev_err(dev,
+>  				"BHIe offset: 0x%x is out of range: 0x%zx\n",
+>  				bhie_off, mhi_cntrl->reg_len);
+> -			ret = -EINVAL;
+> +			ret = -ERANGE;
+>  			goto error_reg_offset;
+>  		}
+>  		mhi_cntrl->bhie = mhi_cntrl->regs + bhie_off;
 > -- 
 > 2.7.4
 > 
