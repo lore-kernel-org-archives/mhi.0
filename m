@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B4C364
-	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:18:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD540C433D2;
-	Mon,  3 Apr 2023 05:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994E6364
+	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:18:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D53C433EF;
+	Mon,  3 Apr 2023 05:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680499082;
-	bh=Ry7b3/8RKxj+1luWeOjO0avmB+5u5dLjGt3zcnvaVn4=;
+	s=k20201202; t=1680499109;
+	bh=P8j0AzckZVYhGZrPQQ0YU21I6adlzSVHyeBkQuU1TaA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XjB+HVnPEgcwhnLAcYDTS25EspHJqwb5NR3ehZXCyNHLNOpnm86IVK9dzLlZkAU88
-	 4DkXuvE7Ncr5avdB8aYtmwPbfJgRKnJXkrKRimeBT16J25XmbHSkZKXyH/NOvK+pRc
-	 FJfWCkxY7olQKKpu44eOUcpVI3onDC5hs1Hb6N2KwtMt9slk/eiqP+FU8IuvFy3lKX
-	 /A0/nq4zGBEMwK2hYDcBI58CfFq0+kS7r0LL6BAIFoVNF8iU7u6PiQUonHIaF/t7Ga
-	 6T4toYalOS+z4N81wlUHC4NmGbcKA3lp+mOfcB1mhnmH9DBPV/oWCvAYn2ZE5SbIhi
-	 4ehYlLfrJw86w==
-Date: Mon, 3 Apr 2023 10:47:57 +0530
+	b=ArnlNllK5+jL5k0N6RXq6IqNSbuKSzUmT07cVkdEF+J969KZc205Y78fIj0Haa4pC
+	 d9/PzbvFL3pIK1hAh79zAAyC3i6hB2gOXcCG3+bJ+82zyl3XXUV2VqzFyZxK8fsTPk
+	 VBmEUPWtFi5bD/VviCpHeKLGjt2KwMIfWQjr7hSCjEXvWkII6MMSDcABWPLhx0l3v8
+	 WgAtt76Co24WYzs2H75+FsJjYiuuvf0/MlOF21C5IK+fePj/F/8H9RJs2BoZS5ZTQw
+	 7i789aZ47nzCCIuH1tTRZheEPmxAWMoSEjSMn3pYJtf02fMCgNRsrcXAiQ4EUvumlB
+	 fV9TNf0Zc074g==
+Date: Mon, 3 Apr 2023 10:48:24 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: host: Use ERANGE for BHIOFF/BHIEOFF range check
-Message-ID: <20230403051757.GC4627@thinkpad>
+Message-ID: <20230403051824.GD4627@thinkpad>
 References: <1679674860-28229-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -41,7 +41,7 @@ On Fri, Mar 24, 2023 at 10:21:00AM -0600, Jeffrey Hugo wrote:
 > Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 - Mani
 
