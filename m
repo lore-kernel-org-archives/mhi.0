@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DA2364
-	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:20:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 522DFC433D2;
-	Mon,  3 Apr 2023 05:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A64364
+	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:21:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5635C433EF;
+	Mon,  3 Apr 2023 05:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680499228;
-	bh=VO7ZTBlvGEHOHPdtxg5W/qEhh/9v1Pznmzk39ZuXRGk=;
+	s=k20201202; t=1680499272;
+	bh=Mj47Qs23bdwv1bF+3GKPtoumqI9bOKyr2shj6muWIEI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IVRcmUTIxQhvE2DUpbbYkBUAoZwXtnehxq79P9rZ3iKWkAHBxVzCVwbNCobVdlaeR
-	 2IUElUNED9T8ir/7WtgA18zAaQMX53sBbXjKWo6B0efYBzkIDe8yTjwxxyg3cFTqSL
-	 6YBLTxUVFTLp5V9tI4byuOinRw3epNMzW69+CBhoQLbaYtV1Z+tjbPZabMjDa3RSKz
-	 p6cUvt9QWbsPszvcI8y0v+cI8ddKoHyaz2n0PsG6d8xjiGt/p8h6mSmJRu2xP+AI/0
-	 VLnCXk+DsCUJV7hWFLwSgZXeSpx2CjsOBgJCzXEb3CHLkb5mCkrtS27VtIot0XbIAr
-	 KtlOMJ54h3pog==
-Date: Mon, 3 Apr 2023 10:50:24 +0530
+	b=Z/ZUv/5JhIq3gjDZ3+c0yUzAuJanRGFd5cFeQj89qw2F7Jf2pTLvybuOhDisRE1os
+	 hBjA96W8ZXjvii/iSpNTQZJCpTq/RVlHVyqz6Yd9OzW0fBAOu6oIceUXEb5gF2CmCr
+	 ua1L71VUP4okfczraqNvEW1mMx7+hQrIjE3AKwXIx9fUN0uVTZLw+S9iiLyEiLYQDt
+	 p3nGq4Q831L59lefm8SiD/0CefCzZHLSYI4b3hONjD8VU3rd72GZDtdTI9bgE2M0Ts
+	 5LQ/CE/Bo81xrUrHzvDAaD+q9ZW+S8oHDGDZYgm8BXThVCCcm5eJKxV0l8hEvpOW87
+	 L52hSgtqHRhBA==
+Date: Mon, 3 Apr 2023 10:51:07 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: pci_generic: Add Foxconn T99W510
-Message-ID: <20230403052024.GE4627@thinkpad>
+Message-ID: <20230403052107.GF4627@thinkpad>
 References: <20230329072239.93632-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -40,7 +40,7 @@ On Wed, Mar 29, 2023 at 03:22:39PM +0800, Slark Xiao wrote:
 > 
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 - Mani
 
