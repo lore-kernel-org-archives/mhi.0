@@ -1,37 +1,37 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEE57E
-	for <mhi@lists.linux.dev>; Tue,  4 Apr 2023 09:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE69333DA
+	for <mhi@lists.linux.dev>; Tue,  4 Apr 2023 10:17:04 +0000 (UTC)
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3345U3wu019939;
-	Tue, 4 Apr 2023 09:44:29 GMT
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333N1kFO004589;
+	Tue, 4 Apr 2023 09:41:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id; s=qcppdkim1;
- bh=cdAMDMFLcupSroYCFsLTabB4tFiVlD0GTOdgv18U0AA=;
- b=Na30ydGLtmWetacXYUImr8M7JTlUCAFOylp0zJf4Kyd/tJNibPJ9HNxvsbY5YrbPUnt+
- tSeMVrD4Jc/UaWSoVH/Aai0WjIPsHjZioroACrgQiDjBg8VE/Ypd7XRtxiwhvs5EJkMZ
- +kcwKQiwy/1wZKv4wIby6e3Jm8R6mPN9c0mFI6kVwBbh0YZIyU7uaGG71H5KAywxNZ1p
- mWu98vvLcF71JpXd9z8Nn+hQPv6xb+OnKXJSNR8B7VTpaeWwLBUzEYtmx6n3dwFn41FV
- LNtil5gb8Wh4TjUx60rchLGiwsdW+fj4ZYVAQy34eDAKLoefzkCnHxjsp1MtsewVXF73 LQ== 
+ bh=bv3LqF+vpq1ExVGwlnfJj1L/BJyT8J6hoWyOXdlEXJA=;
+ b=c/UZtHvfqxjNhSQmY95Rzg8497/YSXnxH8PViKiGDXxpFhFgP4PsCmtFrkRCBS5X7gzj
+ zK5R+TjCmWX2OpxpYCVVE6slQl0rsTgRBnLuoq7C/WDBEKPENZEIPq8jpMR6LA2VnSmi
+ VI/u4AEr5kpnMM6FK8dnCgBJhE3Qyf+1rm1C6isrbMhQ0H3ldEHyUcEQxo6S2YsTrR0O
+ SiE2ysX+Ru+Zz7U7MnBqxiv1eD9qWryKcaEbaZK+fnvTuiPlzCpvsFcuGDH7xYQu2fZj
+ lIQ7JUkp2HHtTWJ07p91NSfz2G61u1nqtttooagzkEK8Pggbq6FdDRHfvCkzJNjfr6dT Wg== 
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pr4jm9nuy-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pr4jm9nqs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Apr 2023 09:44:28 +0000
+	Tue, 04 Apr 2023 09:41:21 +0000
 Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3349iLko029614;
-	Tue, 4 Apr 2023 09:44:21 GMT
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3349fGN9026901;
+	Tue, 4 Apr 2023 09:41:16 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ppdpkjnuy-1;
-	Tue, 04 Apr 2023 09:44:21 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ppdpkjnk9-1;
+	Tue, 04 Apr 2023 09:41:16 +0000
 Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3349iLYi029607;
-	Tue, 4 Apr 2023 09:44:21 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3349fGdK026896;
+	Tue, 4 Apr 2023 09:41:16 GMT
 Received: from hu-sgudaval-hyd.qualcomm.com (hu-vpernami-hyd.qualcomm.com [10.213.107.240])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3349iKdN029605;
-	Tue, 04 Apr 2023 09:44:21 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3349fFNd026895;
+	Tue, 04 Apr 2023 09:41:16 +0000
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 2370923)
-	id 34B2939CE; Tue,  4 Apr 2023 15:14:20 +0530 (+0530)
+	id 2BB3739CE; Tue,  4 Apr 2023 15:11:15 +0530 (+0530)
 From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 To: mhi@lists.linux.dev
 Cc: quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
@@ -40,35 +40,35 @@ Cc: quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
         Vivek Pernamitta <quic_vpernami@quicinc.com>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Hemant Kumar <hemantk@codeaurora.org>,
         Bhaumik Bhatt <bbhatt@codeaurora.org>,
+        Hemant Kumar <hemantk@codeaurora.org>,
         linux-arm-msm@vger.kernel.org (open list:MHI BUS),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH V6] bus: mhi: host: Avoid ringing EV DB if there is no elements to process
-Date: Tue,  4 Apr 2023 15:14:16 +0530
-Message-Id: <1680601458-9105-1-git-send-email-quic_vpernami@quicinc.com>
+Subject: [PATCH V5] bus: mhi: host: Avoid ringing EV DB if there is no elements to process
+Date: Tue,  4 Apr 2023 15:11:10 +0530
+Message-Id: <1680601272-8795-1-git-send-email-quic_vpernami@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3gDYPN6RF6hlM7Gy9l_1ZRh1xvylnQSw
-X-Proofpoint-GUID: 3gDYPN6RF6hlM7Gy9l_1ZRh1xvylnQSw
+X-Proofpoint-ORIG-GUID: 9scnxs51jytAxu9S6Q1HdGq00Z3LEbho
+X-Proofpoint-GUID: 9scnxs51jytAxu9S6Q1HdGq00Z3LEbho
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-04_02,2023-04-03_03,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
  priorityscore=1501 malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=832 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2304040090
+ impostorscore=0 lowpriorityscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=818 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304040089
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-currently mhi_process_data_event_ring()/mhi_process_ctrl_ev_ring()
+curenlty mhi_process_data_event_ring()/mhi_process_ctrl_ev_ring()
 will ring DB even if there no ring elements to process.
 This could cause doorbell event to be processed by MHI device
 to check for any ring elements even it is none.
@@ -78,8 +78,6 @@ Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
-changes since v6:
-	updating the commit text.
 changes since v5:
 	updating the commit text.
 changes since v4:
