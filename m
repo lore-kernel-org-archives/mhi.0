@@ -1,91 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD85631
-	for <mhi@lists.linux.dev>; Mon,  3 Apr 2023 05:45:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1739C433D2;
-	Mon,  3 Apr 2023 05:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680500736;
-	bh=HF4zXr7YlZTAcnD2hGh5dmkIZO641Z6Jw2n7nFuw+/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KRRtHJ1LxxNmiVh6nQBuwS5XkdYIGrtMLp4wLAGxhaPHMOUQOTY1qIarZ0tY9nGxC
-	 H8pwkIKvZBvdavczazPcSCvMXVHiaWhPuCDO0CiNcRHW/gGnScNvup/Q+QpyPviMCj
-	 U9KVxJjBmzTghdAJdyiCLFVbmcIEIk0LZSLhtK7L1KIURbb5FjqTpv4h1yJDFstG7B
-	 g8uyzHhgbIh7zeSNi5kbCIJttjDHJTlfAz66JIAnJWBSnQiij1J64ARJZoBwl6cNsI
-	 tqfPidIoWE70yjAxegmojGsxoKWmTAh1nF13vdWA5Jr5MxZlF09OICpi2xQtpj8Pps
-	 gjg4pS7yw1sgw==
-Date: Mon, 3 Apr 2023 11:15:31 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] bus: mhi: host: Remove duplicate ee check for syserr
-Message-ID: <20230403054531.GK4627@thinkpad>
-References: <1674597444-24543-1-git-send-email-quic_jhugo@quicinc.com>
- <1674597444-24543-2-git-send-email-quic_jhugo@quicinc.com>
- <20230403053730.GI4627@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEE57E
+	for <mhi@lists.linux.dev>; Tue,  4 Apr 2023 09:44:59 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3345U3wu019939;
+	Tue, 4 Apr 2023 09:44:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=cdAMDMFLcupSroYCFsLTabB4tFiVlD0GTOdgv18U0AA=;
+ b=Na30ydGLtmWetacXYUImr8M7JTlUCAFOylp0zJf4Kyd/tJNibPJ9HNxvsbY5YrbPUnt+
+ tSeMVrD4Jc/UaWSoVH/Aai0WjIPsHjZioroACrgQiDjBg8VE/Ypd7XRtxiwhvs5EJkMZ
+ +kcwKQiwy/1wZKv4wIby6e3Jm8R6mPN9c0mFI6kVwBbh0YZIyU7uaGG71H5KAywxNZ1p
+ mWu98vvLcF71JpXd9z8Nn+hQPv6xb+OnKXJSNR8B7VTpaeWwLBUzEYtmx6n3dwFn41FV
+ LNtil5gb8Wh4TjUx60rchLGiwsdW+fj4ZYVAQy34eDAKLoefzkCnHxjsp1MtsewVXF73 LQ== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pr4jm9nuy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Apr 2023 09:44:28 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3349iLko029614;
+	Tue, 4 Apr 2023 09:44:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ppdpkjnuy-1;
+	Tue, 04 Apr 2023 09:44:21 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3349iLYi029607;
+	Tue, 4 Apr 2023 09:44:21 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-vpernami-hyd.qualcomm.com [10.213.107.240])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3349iKdN029605;
+	Tue, 04 Apr 2023 09:44:21 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 2370923)
+	id 34B2939CE; Tue,  4 Apr 2023 15:14:20 +0530 (+0530)
+From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+To: mhi@lists.linux.dev
+Cc: quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
+        quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
+        quic_skananth@quicinc.com,
+        Vivek Pernamitta <quic_vpernami@quicinc.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Hemant Kumar <hemantk@codeaurora.org>,
+        Bhaumik Bhatt <bbhatt@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org (open list:MHI BUS),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH V6] bus: mhi: host: Avoid ringing EV DB if there is no elements to process
+Date: Tue,  4 Apr 2023 15:14:16 +0530
+Message-Id: <1680601458-9105-1-git-send-email-quic_vpernami@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 3gDYPN6RF6hlM7Gy9l_1ZRh1xvylnQSw
+X-Proofpoint-GUID: 3gDYPN6RF6hlM7Gy9l_1ZRh1xvylnQSw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-04_02,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=832 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304040090
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230403053730.GI4627@thinkpad>
 
-On Mon, Apr 03, 2023 at 11:07:35AM +0530, Manivannan Sadhasivam wrote:
-> On Tue, Jan 24, 2023 at 02:57:23PM -0700, Jeffrey Hugo wrote:
-> > If we detect a system error via intvec, we only process the syserr if the
-> > current ee is different than the last observed ee.  The reason for this
-> > check is to prevent bhie from running multiple times, but with the single
-> > queue handling syserr, that is not possible.
-> > 
-> > The check can cause an issue with device recovery.  If PBL loads a bad SBL
-> > via BHI, but that SBL hangs before notifying the host of an ee change,
-> > then issuing soc_reset to crash the device and retry (after supplying a
-> > fixed SBL) will not recover the device as the host will observe a PBL->PBL
-> > transition and not process the syserr.  The device will be stuck until
-> > either the driver is reloaded, or the host is rebooted.  Instead, remove
-> > the check so that we can attempt to recover the device.
-> > 
-> > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> 
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> 
+currently mhi_process_data_event_ring()/mhi_process_ctrl_ev_ring()
+will ring DB even if there no ring elements to process.
+This could cause doorbell event to be processed by MHI device
+to check for any ring elements even it is none.
+So ring event DB only if any event ring elements are processed.
 
-Forgot to add that, this patch also needs a fixes tag and backporting.
+Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+changes since v6:
+	updating the commit text.
+changes since v5:
+	updating the commit text.
+changes since v4:
+	updating the commit text with more information.
+changes since v3:
+	- Updating commit text for multiple versions of patches.
+changes since v2:
+	- Updated comments in code.
+changes since v1:
+	- Add an check to avoid ringing EV DB in mhi_process_ctrl_ev_ring().
+---
+ drivers/bus/mhi/host/main.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-- Mani
-
-> - Mani
-> 
-> > Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> > ---
-> >  drivers/bus/mhi/host/main.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> > index df0fbfe..0c3a009 100644
-> > --- a/drivers/bus/mhi/host/main.c
-> > +++ b/drivers/bus/mhi/host/main.c
-> > @@ -503,7 +503,7 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
-> >  	}
-> >  	write_unlock_irq(&mhi_cntrl->pm_lock);
-> >  
-> > -	if (pm_state != MHI_PM_SYS_ERR_DETECT || ee == mhi_cntrl->ee)
-> > +	if (pm_state != MHI_PM_SYS_ERR_DETECT)
-> >  		goto exit_intvec;
-> >  
-> >  	switch (ee) {
-> > -- 
-> > 2.7.4
-> > 
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
-
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index df0fbfe..1bbdb75 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -961,7 +961,9 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+ 	}
+ 
+ 	read_lock_bh(&mhi_cntrl->pm_lock);
+-	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
++
++	/* Ring EV DB only if there is any pending element to process */
++	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)) && count)
+ 		mhi_ring_er_db(mhi_event);
+ 	read_unlock_bh(&mhi_cntrl->pm_lock);
+ 
+@@ -1031,7 +1033,9 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
+ 		count++;
+ 	}
+ 	read_lock_bh(&mhi_cntrl->pm_lock);
+-	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
++
++	/* Ring EV DB only if there is any pending element to process */
++	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)) && count)
+ 		mhi_ring_er_db(mhi_event);
+ 	read_unlock_bh(&mhi_cntrl->pm_lock);
+ 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
