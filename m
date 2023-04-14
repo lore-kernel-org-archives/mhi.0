@@ -1,43 +1,40 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE3F3C04
-	for <mhi@lists.linux.dev>; Mon, 10 Apr 2023 16:28:52 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33AAMUiO024759;
-	Mon, 10 Apr 2023 15:58:37 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C5263CA
+	for <mhi@lists.linux.dev>; Fri, 14 Apr 2023 19:57:50 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33EJYO9D016440;
+	Fri, 14 Apr 2023 19:57:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=mmcyLRiBJx9gAHhptPzkuDIDBuac3B3MBef4hnojS2M=;
- b=WhihGZkGRgs5ztarMq+wh4Wo2nvZV84EB3c0t6m5YsR5xAtmW4FsogpDcVUfY8P5as0x
- E18UHmKWrs1MeE4v6jeKpo1/jKRX27Q8PjfvIae5K7L+Q3VOdL5VG+0H1UjpC4a+bY5V
- Zv3swp/FK827evhJtdgnxDHGU2GUxV2GKWuhUm2/jSGhEr56vnACACa+kp2MG3OvbaRN
- KjMnarNQAODo6EM+hEOywUUgZO0BvQ1Ln3aOfK6dg2IP1+A9IEGuFXbYQoUCytnHsCqP
- l4N39n4KMggSGrS02banNVBy1BJ/vUbeCqGWQTVKKkDYoi1N4j+DNbHoB+hNgEzbe6xa lA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pu0c33bf6-1
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=BqAVwop/+0V+5zcZMkcp/dLT3E6ICdzfCqVvM3N29YA=;
+ b=isb0jPtmqRWA3PCtGsh4s7hr6KOir/1wJo2jXusoNhQx2acEUT8reexWqHrGYGnsD0ak
+ hwkGHDsZYl+cjJU0+vd+b1q1tuvfJO8HzcENcojIZS4Ub6XakHJ21LG1MtCEpsbi7nDe
+ 9ESepA2ovNYOQSc2mKk3T+PRHrGptocQtADAzWMSktfS9vJlBrDe5Y6dhYVGoqPpr7Q/
+ /lJYxFlElHGQHfJHQe+TNowZSUHTXy7ttpdERJ1Jr8gI3purm9fGbv1WfOQSvssf0UAU
+ UHea2c4U7cIufkweG3BtWdjo2SZp8GaFGTek9vwDX8ETV/KUOpgc1egj2ptEP8Vq8Yby pg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3py0cvhuuj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Apr 2023 15:58:37 +0000
+	Fri, 14 Apr 2023 19:57:41 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33AFwaHm015262
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33EJveRt011577
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Apr 2023 15:58:36 GMT
+	Fri, 14 Apr 2023 19:57:40 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 10 Apr 2023 08:58:36 -0700
+ 15.2.986.42; Fri, 14 Apr 2023 12:57:39 -0700
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH v2 1/2] bus: mhi: host: Remove duplicate ee check for syserr
-Date: Mon, 10 Apr 2023 09:58:11 -0600
-Message-ID: <1681142292-27571-2-git-send-email-quic_jhugo@quicinc.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <mhi@lists.linux.dev>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH 0/2] Add MHI quirk for QAIC
+Date: Fri, 14 Apr 2023 13:57:17 -0600
+Message-ID: <1681502239-3781-1-git-send-email-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1681142292-27571-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1681142292-27571-1-git-send-email-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,52 +48,64 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6ESPAp2ed3QSNIlH3WOqeug9W06acyNm
-X-Proofpoint-ORIG-GUID: 6ESPAp2ed3QSNIlH3WOqeug9W06acyNm
+X-Proofpoint-ORIG-GUID: KaFoUd-BjbmCJY43Eo0hRM7ZaiaKjTlf
+X-Proofpoint-GUID: KaFoUd-BjbmCJY43Eo0hRM7ZaiaKjTlf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-10_11,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
- suspectscore=0 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304100135
+ definitions=2023-04-14_12,2023-04-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=553 impostorscore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304140177
 
-If we detect a system error via intvec, we only process the syserr if the
-current ee is different than the last observed ee.  The reason for this
-check is to prevent bhie from running multiple times, but with the single
-queue handling syserr, that is not possible.
+With the QAIC driver in -next, I'd like to suggest some MHI changes that
+specific to AIC100 devices, but perhaps provide a framework for other
+device oddities.
 
-The check can cause an issue with device recovery.  If PBL loads a bad SBL
-via BHI, but that SBL hangs before notifying the host of an ee change,
-then issuing soc_reset to crash the device and retry (after supplying a
-fixed SBL) will not recover the device as the host will observe a PBL->PBL
-transition and not process the syserr.  The device will be stuck until
-either the driver is reloaded, or the host is rebooted.  Instead, remove
-the check so that we can attempt to recover the device.
+AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+issues comes from the device hardware, so host SW needs to work around
+them.
 
-Fixes: ef2126c4e2ea ("bus: mhi: core: Process execution environment changes serially")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/bus/mhi/host/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thie first issue, presented in this series, has to do with the
+SOC_HW_VERSION register. This register is suposed to be initialized by the
+hardware prior to the MHI being accessable by the host to contain a
+version string for the SoC of the device. This could be used by the host
+MHI controller software to identify and handle version to version changes.
+The AIC100 hardware does not initialize this register, and thus it
+contains garbage.
 
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 4fa0969..3a08518 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -503,7 +503,7 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
- 	}
- 	write_unlock_irq(&mhi_cntrl->pm_lock);
- 
--	if (pm_state != MHI_PM_SYS_ERR_DETECT || ee == mhi_cntrl->ee)
-+	if (pm_state != MHI_PM_SYS_ERR_DETECT)
- 		goto exit_intvec;
- 
- 	switch (ee) {
+This would not be much of a problem normally - the QAIC driver would just
+never use it. However the MHI stack uses this register as part of the init
+sequence and if the controller reports that the register is inaccessable
+then the init sequence fails.  On some AIC100 cards, the garbage value
+ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+indicating the access failed.  The MHI controller cannot tell if that
+value is a PCIe link issue, or just garbage.
+
+QAIC needs a way to tell MHI not to use this register. Other buses have a
+quirk mechanism - a way to describe oddities in a particular
+implementation that have some kind of workaround. Since this seems to be
+the first need for such a thing in MHI, introduce a quirk framework.
+
+The second issue AIC100 has involves the PK Hash registers. A solution for
+this is expected to be proposed in the near future and is anticipated to
+make use of the quirk framework proposed here. With PK Hash, there are two
+oddities to handle. AIC100 does not initialize these registers until the
+SBL is running, which is later than the spec indicates, and in practice
+is after MHI reads/caches them. Also, AIC100 does not have enough
+registers defined to fully report the 5 PK Hash slots, so a custom
+reporting format is defined by the device.
+
+Jeffrey Hugo (2):
+  bus: mhi: host: Add quirk framework and initial quirk
+  accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+
+ drivers/accel/qaic/mhi_controller.c |  1 +
+ drivers/bus/mhi/host/init.c         | 13 +++++++++----
+ include/linux/mhi.h                 | 18 ++++++++++++++++++
+ 3 files changed, 28 insertions(+), 4 deletions(-)
+
 -- 
 2.7.4
 
