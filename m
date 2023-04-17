@@ -1,337 +1,146 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE342F4B;
-	Sat, 15 Apr 2023 14:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681568639; x=1713104639;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OfnwQm6Bo6FWbilIKA1+eP5Y8qlhKGqRenzmVzOoc4E=;
-  b=EMoqxrgHnPTZWqw5rHR6XLAwwTi4+YQZdiVUqfyxdw6XXKp+hpgAYYNY
-   0DXtdjfEI01f+oBE5Z3Ka7D6Cxwx/sGJ7Lyj2721btpkohaBhtQLlHSXs
-   sn7clfus1DF6rHahnXwAVn65iKWQw7/tJ58R4+yk08gA635GJ/jq5xVyf
-   R0OLGCdUHjtmlXFSFwuiPrfjnKZTpxWJ9F0VhlGZvxnEGShZkuw/HkXP7
-   1gezJoY2ValxRbwm5Ji9qJQXOVa6a89CAK1n7w0Bwo6SrsqvudO/Uz3Oe
-   fZwxBobr+C77h7qGTX7JbBVWgBaR5VqS/feCiWt0i5uwbTFglKu8p72eb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="407538548"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="407538548"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 07:23:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="1019922219"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="1019922219"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Apr 2023 07:23:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pngoY-000b6h-2g;
-	Sat, 15 Apr 2023 14:23:42 +0000
-Date: Sat, 15 Apr 2023 22:22:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, mani@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-Subject: Re: [PATCH 1/2] bus: mhi: host: Add quirk framework and initial quirk
-Message-ID: <202304152256.QzCwI9iu-lkp@intel.com>
-References: <1681502239-3781-2-git-send-email-quic_jhugo@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6504C2EB
+	for <mhi@lists.linux.dev>; Mon, 17 Apr 2023 08:54:02 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id g6so7944081pjx.4
+        for <mhi@lists.linux.dev>; Mon, 17 Apr 2023 01:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681721642; x=1684313642;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mg/wKJdm9eMUbByDJsTZRJy04IGqfKKqjn7gNdE2cNg=;
+        b=XBzZ3sF8bYGM3f7DhMDcwShBdTzjrpcGeIy7g7TwFwjKf9mU6Us9s9jmJnHPLs34dG
+         hqsnYlm018+4bBf9zvn4qoCAXdnUNme9lYQ+tGfOOqS+FY9hXT0+cSTnH5KjhGhnj1u2
+         GHu6Y03IUakX3Z4RDilckHHr9ilnJRveSq78tPpyTTrO/Alf8+9JHzVCuyRP7EhIH8//
+         ADowZVcmvzj9V/FMqxUnlDfpKZ4rm6LLjlj5sPfJIQWUGaAklLAJipHJMEspr2PJZM+k
+         2Pz6vzPLlZ9TYz9KmT5HLQr0OF0S7+Aj3n3/KB4J4Ayl8iXWE84DdWp9Tr9gmUxW5neQ
+         cxRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681721642; x=1684313642;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mg/wKJdm9eMUbByDJsTZRJy04IGqfKKqjn7gNdE2cNg=;
+        b=B210BUzVxs+SySqBS6kN0N1l8B7akpoEUHraOiwlntsZFy68VpY9pmxtYAZAi3cJqR
+         THdKPZfnLcPuTaS6nuXd83xI1PKIvYN6p1iM6aAIGZfai9TlCcyngknF3CFHrWT9GKdV
+         RAP8Xtn3vM+7D+6Hi7nXVCwn2A4Dajd0y0EDzzOdKitSEeeIWy+TwHwnfNbrD3He5p46
+         BpmgSwKPQhV1WeUFR7RhRZOq699uPJj0KCjKlDxRp7KHTdACaKVRKInXccZ2Ps8KlDtj
+         RLAY+WQJtiZs5Ti97pStzocJzrdSnY/zQqkO31h0aUA6s7GAjIxrvk1Ieov/w0O3bY5X
+         e6Ig==
+X-Gm-Message-State: AAQBX9fwolL77atxB6P7jWGlz6e0+Lg0/9M9UA93sWbiyOp8syscvVdk
+	xj3iT3q64d+b20vMlkYbhI6k
+X-Google-Smtp-Source: AKy350beR97dV1Y2ZwPn9jaeOe3rT7lqnlATCS0CP4T3Z+qDmX88B+WP3jemIWXrhjpAxNELVcHyRg==
+X-Received: by 2002:a05:6a21:78a6:b0:f0:42b4:d428 with SMTP id bf38-20020a056a2178a600b000f042b4d428mr329297pzc.61.1681721641933;
+        Mon, 17 Apr 2023 01:54:01 -0700 (PDT)
+Received: from thinkpad ([27.111.75.72])
+        by smtp.gmail.com with ESMTPSA id d9-20020aa78149000000b005a9ea5d43ddsm7249237pfn.174.2023.04.17.01.53.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Apr 2023 01:54:01 -0700 (PDT)
+Date: Mon, 17 Apr 2023 14:23:57 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, slark_xiao@163.com, bhelgaas@google.com,
+	quic_jhugo@quicinc.com, quic_vpernami@quicinc.com
+Subject: [GIT PULL] MHI changes for v6.4
+Message-ID: <20230417085357.GB2874@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1681502239-3781-2-git-send-email-quic_jhugo@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jeffrey,
+The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
-kernel test robot noticed the following build errors:
+  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip linus/master v6.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+are available in the Git repository at:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/bus-mhi-host-Add-quirk-framework-and-initial-quirk/20230415-035846
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/1681502239-3781-2-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH 1/2] bus: mhi: host: Add quirk framework and initial quirk
-config: i386-randconfig-r036-20230410 (https://download.01.org/0day-ci/archive/20230415/202304152256.QzCwI9iu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/678cad31c3c8f1b6d772150b98d25e40240e4e14
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeffrey-Hugo/bus-mhi-host-Add-quirk-framework-and-initial-quirk/20230415-035846
-        git checkout 678cad31c3c8f1b6d772150b98d25e40240e4e14
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.4
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304152256.QzCwI9iu-lkp@intel.com/
+for you to fetch changes up to 1d1493bdc25f498468a606a4ece947d155cfa3a9:
 
-All errors (new ones prefixed by >>):
+  bus: mhi: host: Use mhi_tryset_pm_state() for setting fw error state (2023-04-10 21:32:55 +0530)
 
->> drivers/bus/mhi/host/init.c:977:2: error: expected expression
-           else {
-           ^
->> drivers/bus/mhi/host/init.c:1043:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1072:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1082:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1088:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1170:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1189:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1208:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1236:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1312:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1382:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1398:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1404:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1412:1: error: function definition is not allowed here
-   {
-   ^
->> drivers/bus/mhi/host/init.c:1436:11: error: use of undeclared identifier 'mhi_match'
-           .match = mhi_match,
-                    ^
->> drivers/bus/mhi/host/init.c:1437:12: error: use of undeclared identifier 'mhi_uevent'; did you mean 'mhi_event'?
-           .uevent = mhi_uevent,
-                     ^~~~~~~~~~
-                     mhi_event
-   drivers/bus/mhi/host/init.c:895:20: note: 'mhi_event' declared here
-           struct mhi_event *mhi_event;
-                             ^
-   drivers/bus/mhi/host/init.c:1442:1: error: function definition is not allowed here
-   {
-   ^
-   drivers/bus/mhi/host/init.c:1448:1: error: function definition is not allowed here
-   {
-   ^
->> drivers/bus/mhi/host/init.c:1453:19: error: use of undeclared identifier 'mhi_init'
-   postcore_initcall(mhi_init);
-                     ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+----------------------------------------------------------------
+MHI Host
+========
 
+Core
+----
 
-vim +977 drivers/bus/mhi/host/init.c
+- Removed the "mhi_poll()" API as there are no in-kernel users available at the
+  moment.
 
-   891	
-   892	int mhi_register_controller(struct mhi_controller *mhi_cntrl,
-   893				    const struct mhi_controller_config *config)
-   894	{
-   895		struct mhi_event *mhi_event;
-   896		struct mhi_chan *mhi_chan;
-   897		struct mhi_cmd *mhi_cmd;
-   898		struct mhi_device *mhi_dev;
-   899		u32 soc_info;
-   900		int ret, i;
-   901	
-   902		if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->regs ||
-   903		    !mhi_cntrl->runtime_get || !mhi_cntrl->runtime_put ||
-   904		    !mhi_cntrl->status_cb || !mhi_cntrl->read_reg ||
-   905		    !mhi_cntrl->write_reg || !mhi_cntrl->nr_irqs ||
-   906		    !mhi_cntrl->irq || !mhi_cntrl->reg_len)
-   907			return -EINVAL;
-   908	
-   909		ret = parse_config(mhi_cntrl, config);
-   910		if (ret)
-   911			return -EINVAL;
-   912	
-   913		mhi_cntrl->mhi_cmd = kcalloc(NR_OF_CMD_RINGS,
-   914					     sizeof(*mhi_cntrl->mhi_cmd), GFP_KERNEL);
-   915		if (!mhi_cntrl->mhi_cmd) {
-   916			ret = -ENOMEM;
-   917			goto err_free_event;
-   918		}
-   919	
-   920		INIT_LIST_HEAD(&mhi_cntrl->transition_list);
-   921		mutex_init(&mhi_cntrl->pm_mutex);
-   922		rwlock_init(&mhi_cntrl->pm_lock);
-   923		spin_lock_init(&mhi_cntrl->transition_lock);
-   924		spin_lock_init(&mhi_cntrl->wlock);
-   925		INIT_WORK(&mhi_cntrl->st_worker, mhi_pm_st_worker);
-   926		init_waitqueue_head(&mhi_cntrl->state_event);
-   927	
-   928		mhi_cntrl->hiprio_wq = alloc_ordered_workqueue("mhi_hiprio_wq", WQ_HIGHPRI);
-   929		if (!mhi_cntrl->hiprio_wq) {
-   930			dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate workqueue\n");
-   931			ret = -ENOMEM;
-   932			goto err_free_cmd;
-   933		}
-   934	
-   935		mhi_cmd = mhi_cntrl->mhi_cmd;
-   936		for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++)
-   937			spin_lock_init(&mhi_cmd->lock);
-   938	
-   939		mhi_event = mhi_cntrl->mhi_event;
-   940		for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
-   941			/* Skip for offload events */
-   942			if (mhi_event->offload_ev)
-   943				continue;
-   944	
-   945			mhi_event->mhi_cntrl = mhi_cntrl;
-   946			spin_lock_init(&mhi_event->lock);
-   947			if (mhi_event->data_type == MHI_ER_CTRL)
-   948				tasklet_init(&mhi_event->task, mhi_ctrl_ev_task,
-   949					     (ulong)mhi_event);
-   950			else
-   951				tasklet_init(&mhi_event->task, mhi_ev_task,
-   952					     (ulong)mhi_event);
-   953		}
-   954	
-   955		mhi_chan = mhi_cntrl->mhi_chan;
-   956		for (i = 0; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-   957			mutex_init(&mhi_chan->mutex);
-   958			init_completion(&mhi_chan->completion);
-   959			rwlock_init(&mhi_chan->lock);
-   960	
-   961			/* used in setting bei field of TRE */
-   962			mhi_event = &mhi_cntrl->mhi_event[mhi_chan->er_index];
-   963			mhi_chan->intmod = mhi_event->intmod;
-   964		}
-   965	
-   966		if (mhi_cntrl->bounce_buf) {
-   967			mhi_cntrl->map_single = mhi_map_single_use_bb;
-   968			mhi_cntrl->unmap_single = mhi_unmap_single_use_bb;
-   969		} else {
-   970			mhi_cntrl->map_single = mhi_map_single_no_bb;
-   971			mhi_cntrl->unmap_single = mhi_unmap_single_no_bb;
-   972		}
-   973	
-   974		/* Read the MHI device info */
-   975		if (mhi_cntrl->quirks & MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE) {
-   976			soc_info = 0;
- > 977		else {
-   978			ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, SOC_HW_VERSION_OFFS, &soc_info);
-   979			if (ret)
-   980				goto err_destroy_wq;
-   981		}
-   982	
-   983		mhi_cntrl->family_number = FIELD_GET(SOC_HW_VERSION_FAM_NUM_BMSK, soc_info);
-   984		mhi_cntrl->device_number = FIELD_GET(SOC_HW_VERSION_DEV_NUM_BMSK, soc_info);
-   985		mhi_cntrl->major_version = FIELD_GET(SOC_HW_VERSION_MAJOR_VER_BMSK, soc_info);
-   986		mhi_cntrl->minor_version = FIELD_GET(SOC_HW_VERSION_MINOR_VER_BMSK, soc_info);
-   987	
-   988		mhi_cntrl->index = ida_alloc(&mhi_controller_ida, GFP_KERNEL);
-   989		if (mhi_cntrl->index < 0) {
-   990			ret = mhi_cntrl->index;
-   991			goto err_destroy_wq;
-   992		}
-   993	
-   994		ret = mhi_init_irq_setup(mhi_cntrl);
-   995		if (ret)
-   996			goto err_ida_free;
-   997	
-   998		/* Register controller with MHI bus */
-   999		mhi_dev = mhi_alloc_device(mhi_cntrl);
-  1000		if (IS_ERR(mhi_dev)) {
-  1001			dev_err(mhi_cntrl->cntrl_dev, "Failed to allocate MHI device\n");
-  1002			ret = PTR_ERR(mhi_dev);
-  1003			goto error_setup_irq;
-  1004		}
-  1005	
-  1006		mhi_dev->dev_type = MHI_DEVICE_CONTROLLER;
-  1007		mhi_dev->mhi_cntrl = mhi_cntrl;
-  1008		dev_set_name(&mhi_dev->dev, "mhi%d", mhi_cntrl->index);
-  1009		mhi_dev->name = dev_name(&mhi_dev->dev);
-  1010	
-  1011		/* Init wakeup source */
-  1012		device_init_wakeup(&mhi_dev->dev, true);
-  1013	
-  1014		ret = device_add(&mhi_dev->dev);
-  1015		if (ret)
-  1016			goto err_release_dev;
-  1017	
-  1018		mhi_cntrl->mhi_dev = mhi_dev;
-  1019	
-  1020		mhi_create_debugfs(mhi_cntrl);
-  1021	
-  1022		return 0;
-  1023	
-  1024	err_release_dev:
-  1025		put_device(&mhi_dev->dev);
-  1026	error_setup_irq:
-  1027		mhi_deinit_free_irq(mhi_cntrl);
-  1028	err_ida_free:
-  1029		ida_free(&mhi_controller_ida, mhi_cntrl->index);
-  1030	err_destroy_wq:
-  1031		destroy_workqueue(mhi_cntrl->hiprio_wq);
-  1032	err_free_cmd:
-  1033		kfree(mhi_cntrl->mhi_cmd);
-  1034	err_free_event:
-  1035		kfree(mhi_cntrl->mhi_event);
-  1036		vfree(mhi_cntrl->mhi_chan);
-  1037	
-  1038		return ret;
-  1039	}
-  1040	EXPORT_SYMBOL_GPL(mhi_register_controller);
-  1041	
-  1042	void mhi_unregister_controller(struct mhi_controller *mhi_cntrl)
-> 1043	{
-  1044		struct mhi_device *mhi_dev = mhi_cntrl->mhi_dev;
-  1045		struct mhi_chan *mhi_chan = mhi_cntrl->mhi_chan;
-  1046		unsigned int i;
-  1047	
-  1048		mhi_deinit_free_irq(mhi_cntrl);
-  1049		mhi_destroy_debugfs(mhi_cntrl);
-  1050	
-  1051		destroy_workqueue(mhi_cntrl->hiprio_wq);
-  1052		kfree(mhi_cntrl->mhi_cmd);
-  1053		kfree(mhi_cntrl->mhi_event);
-  1054	
-  1055		/* Drop the references to MHI devices created for channels */
-  1056		for (i = 0; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-  1057			if (!mhi_chan->mhi_dev)
-  1058				continue;
-  1059	
-  1060			put_device(&mhi_chan->mhi_dev->dev);
-  1061		}
-  1062		vfree(mhi_cntrl->mhi_chan);
-  1063	
-  1064		device_del(&mhi_dev->dev);
-  1065		put_device(&mhi_dev->dev);
-  1066	
-  1067		ida_free(&mhi_controller_ida, mhi_cntrl->index);
-  1068	}
-  1069	EXPORT_SYMBOL_GPL(mhi_unregister_controller);
-  1070	
+- Added range check for the CHDBOFF and ERDBOFF registers in case the device
+  reports bad values.
+
+- Fixed the errno for the rest of the range checks to use -ERANGE.
+
+- Modified the event ring handlers to ring the doorbell only if there are
+  any pending elements in the ring to process for the device.
+
+- Removed the check for EE (Execution Environment) while processing the SYS_ERR
+  transition as it creates device recovery issues when SBL (Secondary
+  Bootloader) crashes early.
+
+- Used mhi_tryset_pm_state() API to set the error state instead of open coding
+  if the firmware loading fails. This avoids the race with other pm_state
+  updates.
+
+pci_generic
+-----------
+
+- Dropped the dedundant pci_{enable/disable}_pcie_error_reporting() calls from
+  driver probe's error path as the PCI core itself takes care of that now.
+
+- Revered the commit 2d5253a096c6 ("bus: mhi: host: pci_generic: Add a secondary
+  AT port to Telit FN990") as it turned out to be erroneous. This happened due
+  to the patch adding secondary AT port for FN990 getting applied through NET
+  and MHI trees and this caused two commits for the same functionality but one
+  of them ended up wrong.
+
+- Added support for Foxconn T99W510 modem based on SDX24 chipset from Qualcomm.
+
+MHI Endpoint
+============
+
+- Demoted the channel not supported error log to debug as not all devices will
+  support all channels defined in MHI spec and this may spam users.
+
+----------------------------------------------------------------
+Bjorn Helgaas (1):
+      bus: mhi: host: pci_generic: Drop redundant pci_enable_pcie_error_reporting()
+
+Jeffrey Hugo (4):
+      bus: mhi: host: Range check CHDBOFF and ERDBOFF
+      bus: mhi: host: Use ERANGE for BHIOFF/BHIEOFF range check
+      bus: mhi: host: Remove duplicate ee check for syserr
+      bus: mhi: host: Use mhi_tryset_pm_state() for setting fw error state
+
+Manivannan Sadhasivam (2):
+      bus: mhi: host: Remove mhi_poll() API
+      bus: mhi: ep: Demote unsupported channel error log to debug
+
+Slark Xiao (2):
+      bus: mhi: host: pci_generic: Revert "Add a secondary AT port to Telit FN990"
+      bus: mhi: pci_generic: Add Foxconn T99W510
+
+Vivek Pernamitta (1):
+      bus: mhi: host: Avoid ringing EV DB if there are no elements to process
+
+ drivers/bus/mhi/ep/main.c          |  4 ++--
+ drivers/bus/mhi/host/boot.c        | 16 ++++++++++++----
+ drivers/bus/mhi/host/init.c        | 16 ++++++++++++++--
+ drivers/bus/mhi/host/main.c        | 25 +++++++------------------
+ drivers/bus/mhi/host/pci_generic.c | 28 +++++++++++++++++++---------
+ include/linux/mhi.h                |  7 -------
+ 6 files changed, 54 insertions(+), 42 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+மணிவண்ணன் சதாசிவம்
