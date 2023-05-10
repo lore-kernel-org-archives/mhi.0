@@ -1,113 +1,101 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33751FA7
-	for <mhi@lists.linux.dev>; Wed, 26 Apr 2023 12:40:43 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-63b5fca48bcso5824908b3a.0
-        for <mhi@lists.linux.dev>; Wed, 26 Apr 2023 05:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682512843; x=1685104843;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sosN6q7mjWABQa1iFcHLQ7HcWfsjeMtm3Mt392Dc1Ok=;
-        b=LHEhXfBwsoX5wQPtnAnd/oSeQOBl5rvEvn7Jq2inf11DTsMzwiilhui/ckik+6rGNf
-         qeVSAL7SRVHE2nj23tcVdeylQ9ODv7KttwZEha1dl04Uz2VuK3FanEMlfBA1WRgs8POM
-         G5Ae8uveZTMTYzFkzAjfO1rOf0DgWsHV2pin2KVCMJlqlF0CcP/ObpMkkG2KwrmYvR+a
-         DjmeyUb0tbVgM1POPQ0QoY/JJ/MDIiTWVHa4UgyNxL2IJW8DVXfSmB5msXnAe6NgA4Vu
-         9O2zG9VNIeDLh8bo3BQSxEQsCc1d9giheLcKV3mnd6NGuLTmQZvN7zs67YTC7hIIblOE
-         w+zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682512843; x=1685104843;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sosN6q7mjWABQa1iFcHLQ7HcWfsjeMtm3Mt392Dc1Ok=;
-        b=Otcv4rJlLaXwLSFlrCMLlIHdpYxNIekOZhQ7AGkoFFWCConZNOc2AK+tl/6Qk3Xegq
-         xum8Vx1qiq+kHopV7429Wc8/7WYqQikCkUf1L2I28LOCkGb4v11SHZBL/1dtQQb1dO2C
-         6OWeckjEKmboqHa9m7Cmbk7Le1bxXD91RcKUUxzcCgh0LXyS9neMennhfIT1ipS5xs/n
-         Ge2eF0N+9OJ4SJFptS39ocClTIP4PypAq759aPN6VlVL0E9fXo39YEQpKt/THTr/u2r2
-         ij/KlcB0WngluLnh220dvVzoguTLLqYfhBrCSg+jjhaCSblPcmgyKghF7uR7q4TGbLHc
-         ZhSQ==
-X-Gm-Message-State: AAQBX9dXD5yg71kcnD4IJ0a1h/jKkJ6RKXbBTnMm1vY2TbQqf85zDx1n
-	/a7jYQOIpz+gwSZpqD3WjpDWyWtPrmsQR2NBBOg=
-X-Google-Smtp-Source: AKy350ayHesJaV9Si6f/E/Wp+h9A2uT5MsJ/lHDtqljcQwtP1Ri7lwAypa0hf/VN91OAfADvz6myhrHxslCOx7xdqxE=
-X-Received: by 2002:a05:6a20:12ca:b0:f3:1b6:f468 with SMTP id
- v10-20020a056a2012ca00b000f301b6f468mr19381338pzg.6.1682512843128; Wed, 26
- Apr 2023 05:40:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C97F62F
+	for <mhi@lists.linux.dev>; Wed, 10 May 2023 06:04:45 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34A5L3uO020961;
+	Wed, 10 May 2023 06:04:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=8R/ZiSa25searnd3hQfxzgFzSZNeg7uDAvgVDMXzUjo=;
+ b=aNEp0/VXjsEtvxQqwFEtwIxDxmuLBk1wp+FHH6TGCHxmUs+8vM9WhHZVfulaT+mi148v
+ vmtfjy06RlI+JL7tLbap3fXJhThlNB20LN8eAK2+pmE2Xks5JZkd5gV089GT4eB7TcB4
+ rBELP1bstdkQTUcLBdDfeU07mRY4vSpThrNAyKlaUYv9zHI+OfrnnouKOOaguM+xbRo5
+ whJ+2yIBW1z9sFPVb68ZQ1+D+UU67PRnxz7TbrxUz1b1vLXzJCrJIgAyqN3UB7oUc52s
+ gvI2G9OxnCjvVsmik5pQDDCwloS5jYQw+ekuDxiU6s6Y0mIrTR4nY/PQGgzdsQVhDg2k CQ== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qfsxj986d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 May 2023 06:04:41 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 34A64cVK003710;
+	Wed, 10 May 2023 06:04:38 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3qdfyktmgv-1;
+	Wed, 10 May 2023 06:04:38 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34A64clq003705;
+	Wed, 10 May 2023 06:04:38 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 34A64cTT003704;
+	Wed, 10 May 2023 06:04:38 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 3C077450B; Wed, 10 May 2023 14:04:37 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Skip MHI reset if device is in RDDM
+Date: Wed, 10 May 2023 14:04:35 +0800
+Message-Id: <1683698675-33315-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: y_8XSJLNd3p4gaLfaVLZyj_fn65C3EI1
+X-Proofpoint-GUID: y_8XSJLNd3p4gaLfaVLZyj_fn65C3EI1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-10_03,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 suspectscore=0 clxscore=1011 impostorscore=0
+ bulkscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305100047
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20221105194943.826847-1-robimarko@gmail.com> <20221105194943.826847-2-robimarko@gmail.com>
- <20221107174727.GA7535@thinkpad> <87cz9xcqbd.fsf@kernel.org>
- <877czn8c2n.fsf@kernel.org> <CA+HBbNFCFtJwzN=6SCsWnDmAjPkmxE4guH1RrLc+-HByLcVVXA@mail.gmail.com>
- <87k02jzgkz.fsf@kernel.org> <CA+HBbNHi0zTeV0DRmwLjZu+XzUQEZQNnSpBMeQeUPiBu3v-2BQ@mail.gmail.com>
- <87358hyp3x.fsf@kernel.org> <CA+HBbNGdOrOiCxhSouZ6uRPRnZmsBSAL+wWpLkczMK9cO8Mczg@mail.gmail.com>
- <877cxsdrax.fsf@kernel.org> <CA+HBbNGbg88_3FDu+EZhqMj0UKb8Ja_vyYsxGtmJ_HGt4fNVBQ@mail.gmail.com>
- <87y1q8ccc4.fsf@kernel.org> <CA+HBbNH2fzr_knOE9EWD4bUi-guvRa07FAxc9WyCH0jK10BLvw@mail.gmail.com>
- <87fsafpg63.fsf@kernel.org>
-In-Reply-To: <87fsafpg63.fsf@kernel.org>
-From: Robert Marko <robimarko@gmail.com>
-Date: Wed, 26 Apr 2023 14:40:32 +0200
-Message-ID: <CAOX2RU5EaRrcKW7uhmDQbUO-TzOOnKAsx5HKtRjMDTMBEZj4tA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] wifi: ath11k: use unique QRTR instance ID
-To: Kalle Valo <kvalo@kernel.org>
-Cc: Robert Marko <robert.marko@sartura.hr>, Manivannan Sadhasivam <mani@kernel.org>, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	gregkh@linuxfoundation.org, elder@linaro.org, hemantk@codeaurora.org, 
-	quic_jhugo@quicinc.com, quic_qianyu@quicinc.com, bbhatt@codeaurora.org, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, ansuelsmth@gmail.com
-Content-Type: text/plain; charset="UTF-8"
 
-> Still not sure what you mean. Are you saying that this patch under
-> discussion ("wifi: ath11k: use unique QRTR instance ID") also works with
-> QCA6390 and it's possible to connect two QCA6390 devices on the same
-> host?
->
-> Or are you referring to some other hack? Or have I totally
-> misunderstood? :)
+In RDDM EE, device can not process MHI reset
+issued by host. In case of MHI power off, host
+is issuing MHI reset and polls for it to get
+cleared until it times out. Since this timeout
+can not be avoided in case of RDDM, skip the
+MHI reset in this scenarios.
 
-We probably have a misunderstanding, QCA6390 does not work with
-("wifi: ath11k: use unique QRTR instance ID"), that is why we in OpenWrt
-limited it to QCN9074 only so far.
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+ drivers/bus/mhi/host/pm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
->
-> > so that is why its quite important for OpenWrt to have a generic
-> > solution that works on all cards.
->
-> I fully agree on importance of having a generic solution. It's just sad
-> that it seems people who designed this didn't consider about having
-> multiple devices on the same host. It looks like there's no easy way to
-> implement a generic solution, we have only bad choices to choose from.
-> Your solution[1] is racy and writing to a register which is marked as
-> read-only in the spec.
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index 0834590..8a4362d 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -470,6 +470,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Trigger MHI RESET so that the device will not access host memory */
+ 	if (!MHI_PM_IN_FATAL_STATE(mhi_cntrl->pm_state)) {
++		/* Skip MHI RESET if in RDDM state */
++		if (mhi_cntrl->rddm_image && mhi_get_exec_env(mhi_cntrl) == MHI_EE_RDDM)
++			goto skip_mhi_reset;
++
+ 		dev_dbg(dev, "Triggering MHI Reset in device\n");
+ 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+ 
+@@ -495,6 +499,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 		}
+ 	}
+ 
++skip_mhi_reset:
+ 	dev_dbg(dev,
+ 		 "Waiting for all pending event ring processing to complete\n");
+ 	mhi_event = mhi_cntrl->mhi_event;
+-- 
+2.7.4
 
-I agree, this is purely a hack based on what QCA is doing downstream where
-they hardcode the QRTR ID in DTS and write to the same register.
-
->
-> Qualcomm's solution[2] needs changes in firmware and it's uncertain if
-> I'm able to convince all firmware teams to implement the support.
-> (Currently only QCN9074 firmware supports this.)
->
-> Thoughts?
-
-I mean, we need some kind of a solution cause trying to pitch using a QCA
-AX SoC-s and PCI cards but then saying that they cannot use AHB+PCI
-or multiple PCI cards at the same time are not viable.
-
-Regards,
-Robert
->
-> [1] https://patchwork.kernel.org/project/linux-wireless/patch/20221105194943.826847-2-robimarko@gmail.com/
->
-> [2] https://patchwork.kernel.org/project/linux-wireless/patch/20230111170033.32454-1-kvalo@kernel.org/
->
-> --
-> https://patchwork.kernel.org/project/linux-wireless/list/
->
-> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
