@@ -1,79 +1,107 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E915579EE
-	for <mhi@lists.linux.dev>; Tue, 16 May 2023 19:42:40 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GIatK0026336;
-	Tue, 16 May 2023 19:42:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=gTTMdHgGaHY74r3+9Co7IUUVET6Ym2vBbJIGXgiiyc8=;
- b=Oi+6PW4BueM8mVhU8frLIWTLos4RQZR9EnZSJr47lG8JrCVK6TIwwq5q8AT8X1QSbQOY
- LiB/PLJrtk3EX6WPJZ1HKUaXoaFfIcDdvQ+htZvhW8kLVphDHuCPR82yIG6gNN6hDFQP
- cZG78SNUGozzPrh9vzHgid1HdqbJHakVWF1rYs9o0Cgir1Rs/vw2eRduV2LivTEC2zZ2
- OxVdF0XcebKL4Zv0+65E3ZkTDnKPOKnsjKKGez2RGZgjhffxyCIEjjfeoaBSlkr43mX8
- PMGYxJrrlxogyv/UJdBy/aFz8iPa2xeb2hFcXIqzHJNmXYx2VKGicoRo1Q6I4/k+qWGT tQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmcc60gve-1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9882820EB
+	for <mhi@lists.linux.dev>; Thu, 18 May 2023 06:22:54 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34I6293I028055;
+	Thu, 18 May 2023 06:22:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=/AnDV/3xdVdl08tsQzbCGrmi9kVas80L/eRnAlVjl2Y=;
+ b=iXRPJHn353Qba/JTaMUgSh9jxQT44cimj1THGW//7NODvMF1Nw+xXiJzqQigmr6V78ZF
+ BSQcR/5f+w0Fudz2ORF0reJeUWYHVjHqsFhQfP/XbBIt5xFDxcxIK+qvkAIR6KtJg8k3
+ tcWQ9jJqOvt/VBVZam2LGxqmFC684mwkyV/8jlhMcBatE7UMKt2gDB+FVs0UsRap7dcB
+ pS1qINfjBZNIjSvrQMCajoxlv3F0quQ5eS6MG9VS3KbPKu8vyHrvvx3AkqKXeXUlKOS7
+ L4QCx09mD0Gw9lYqc9LJVF9y8UsYUhpfUGDZtHsbhXcQiDhm/qpyw0kswci4rys2+aJq 7w== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qned3018r-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 May 2023 19:42:31 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34GJgUet023368
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 May 2023 19:42:30 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 16 May
- 2023 12:42:29 -0700
-Message-ID: <08763c37-38b0-5964-67f0-95f70a0685e9@quicinc.com>
-Date: Tue, 16 May 2023 13:42:28 -0600
+	Thu, 18 May 2023 06:22:46 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 34I6MhvR000555;
+	Thu, 18 May 2023 06:22:43 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3qj3mmf043-1;
+	Thu, 18 May 2023 06:22:43 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34I6MhUJ000550;
+	Thu, 18 May 2023 06:22:43 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 34I6Mh6P000548;
+	Thu, 18 May 2023 06:22:43 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id B4353477B; Thu, 18 May 2023 14:22:41 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>,
+        stable@vger.kernel.org
+Subject: [PATCH v4] bus: mhi: host: Skip MHI reset if device is in RDDM
+Date: Thu, 18 May 2023 14:22:39 +0800
+Message-Id: <1684390959-17836-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: VRvzgFQvJEKTXqb3lmMNlJzqZ0vbclas
+X-Proofpoint-GUID: VRvzgFQvJEKTXqb3lmMNlJzqZ0vbclas
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-18_04,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 clxscore=1011 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305180047
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3] bus: mhi: host: Skip MHI reset if device is in RDDM
-Content-Language: en-US
-To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>
-References: <1683857158-9804-1-git-send-email-quic_qianyu@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1683857158-9804-1-git-send-email-quic_qianyu@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 8PS3bYOKLfuVHtZ0Ea3cf2TWol6xErNT
-X-Proofpoint-ORIG-GUID: 8PS3bYOKLfuVHtZ0Ea3cf2TWol6xErNT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_12,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- phishscore=0 suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305160166
 
-On 5/11/2023 8:05 PM, Qiang Yu wrote:
-> In RDDM EE, device can not process MHI reset issued by host. In case of MHI
-> power off, host is issuing MHI reset and polls for it to get cleared until
-> it times out. Since this timeout can not be avoided in case of RDDM, skip
-> the MHI reset in this scenarios.
-> 
-> Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+In RDDM EE, device can not process MHI reset issued by host. In case of MHI
+power off, host is issuing MHI reset and polls for it to get cleared until
+it times out. Since this timeout can not be avoided in case of RDDM, skip
+the MHI reset in this scenarios.
 
-I believe Mani will want you to CC stable.
-
-Assuming that
+Cc: <stable@vger.kernel.org>
+Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+v1->v2: use ~75 columns in commit text, add Fixes tag
+v2->v3: update Fixes tag
+v3->v4: add review tag and CC stable
+
+ drivers/bus/mhi/host/pm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index 0834590..8a4362d 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -470,6 +470,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Trigger MHI RESET so that the device will not access host memory */
+ 	if (!MHI_PM_IN_FATAL_STATE(mhi_cntrl->pm_state)) {
++		/* Skip MHI RESET if in RDDM state */
++		if (mhi_cntrl->rddm_image && mhi_get_exec_env(mhi_cntrl) == MHI_EE_RDDM)
++			goto skip_mhi_reset;
++
+ 		dev_dbg(dev, "Triggering MHI Reset in device\n");
+ 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+ 
+@@ -495,6 +499,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 		}
+ 	}
+ 
++skip_mhi_reset:
+ 	dev_dbg(dev,
+ 		 "Waiting for all pending event ring processing to complete\n");
+ 	mhi_event = mhi_cntrl->mhi_event;
+-- 
+2.7.4
+
