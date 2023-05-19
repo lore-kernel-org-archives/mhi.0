@@ -1,40 +1,46 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20425679
-	for <mhi@lists.linux.dev>; Fri, 19 May 2023 16:39:46 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34JDR7Qo024834;
-	Fri, 19 May 2023 16:39:22 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C2B5679
+	for <mhi@lists.linux.dev>; Fri, 19 May 2023 16:39:54 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34JDrSNv018183;
+	Fri, 19 May 2023 16:39:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=kgDDoBNwxvR277BxCyv7koD/uI+FCD5MDKi5umWHI6A=;
- b=V1TRaFijUqb9pIF08MD+X/VzNEF2oT9EwZ5DQn5rCzgO+V0ilO7nyjLut6Do6qw+/4+H
- fYBtaqKVSxs7I3otNk2DAp3y2pbH9Ur8qBznQON58s3i15pHE7HPIwVnIMNNRHEQG4Ui
- 1gsDYQJYK7jk7YNPAIgOUKiYnmPcIKR1e2IcM/InkP1SKbX5lOWNCGo/JTVKUhM58i9m
- 8Lfq+Fd8UmK91kQ3jOSStCMJKvXRfq3bX0xOGLzpJ1v6LshmnduopCchRQtysOuL7Yq7
- VLfmk9/gI0sbQL8iiykKyWaeOiQMMxxYfob+NmJQC2wLX10SjBEJghFT1KfksXa2dnWX 9A== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qnwk4j0dc-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=PmwwrCpP7s99PhPdzluX1Sv8XiSbaEIsrIgEmINB0Rk=;
+ b=Wf0SRleSvO52qMXB7aGBehpJV6kPHzKuuhCOvZuJTg8l9rA4j/y+Sax68jgOMWuj7oJv
+ ZbdIFTJ5yH8GbqwNw77+YnYwqw8b2jp2RgHGzlc01uV+FcuYP3oSHhI8//EemjOOtKXx
+ +3KCM8G6AQpyucHAp2MyfpZkVjWB/KP5og1wlHGxgBMhk9Pr7UgajlxJAfdiNaQ2Gqob
+ vgwLfUP9s2oUHxdWQuH2Oko1hCO84xLvhJw9qhW3tj85auRDkTYCrBlPFoyfXF7pv6cb
+ N3t+XMFlMXxrbG2PAa59oBxt7LetLhMI3WJ0OBPZQuTKn1gE5EzETB7RtGGH5l9Eoi+0 jw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qpad1gh8h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 May 2023 16:39:21 +0000
+	Fri, 19 May 2023 16:39:26 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdL0m001824
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdPGS028036
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 May 2023 16:39:21 GMT
+	Fri, 19 May 2023 16:39:25 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 19 May 2023 09:39:20 -0700
+ 15.2.986.42; Fri, 19 May 2023 09:39:24 -0700
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <mani@kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <mhi@lists.linux.dev>, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH v2 0/2] Add MHI quirk for QAIC
-Date: Fri, 19 May 2023 10:39:00 -0600
-Message-ID: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+        <mhi@lists.linux.dev>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Carl Vanderlip
+	<quic_carlv@quicinc.com>,
+        Pranjal Ramajor Asha Kanojiya
+	<quic_pkanojiy@quicinc.com>
+Subject: [PATCH v2 2/2] accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+Date: Fri, 19 May 2023 10:39:02 -0600
+Message-ID: <20230519163902.4170-3-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -48,68 +54,45 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
-X-Proofpoint-ORIG-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
+X-Proofpoint-GUID: 2sHiRmlS5lQ5Mg4baExhW76VCI9KLtuz
+X-Proofpoint-ORIG-GUID: 2sHiRmlS5lQ5Mg4baExhW76VCI9KLtuz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-19_11,2023-05-17_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
- malwarescore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=732 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305190142
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305190141
 
-With the QAIC driver in -next, I'd like to suggest some MHI changes that
-specific to AIC100 devices, but perhaps provide a framework for other
-device oddities.
+AIC100 does not initialize the SOC_HW_VERSION MHI register as expected.
+Some instances of AIC100 are observed to have 0xFFFFFFFF in this register
+which makes the controller think that the link is down and return an error
+up to MHI. This results in a failed initialization.
 
-AIC100 devices technically violate the MHI spec in two ways. Sadly, these
-issues comes from the device hardware, so host SW needs to work around
-them.
+Allow these cards to initialize by advertising
+MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE in the MHI controller.
 
-Thie first issue, presented in this series, has to do with the
-SOC_HW_VERSION register. This register is suposed to be initialized by the
-hardware prior to the MHI being accessable by the host to contain a
-version string for the SoC of the device. This could be used by the host
-MHI controller software to identify and handle version to version changes.
-The AIC100 hardware does not initialize this register, and thus it
-contains garbage.
+Change-Id: I62f31a063abf49e8f22ee2aa630d76babba83c8d
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+---
+ drivers/accel/qaic/mhi_controller.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This would not be much of a problem normally - the QAIC driver would just
-never use it. However the MHI stack uses this register as part of the init
-sequence and if the controller reports that the register is inaccessable
-then the init sequence fails.  On some AIC100 cards, the garbage value
-ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
-indicating the access failed.  The MHI controller cannot tell if that
-value is a PCIe link issue, or just garbage.
-
-QAIC needs a way to tell MHI not to use this register. Other buses have a
-quirk mechanism - a way to describe oddities in a particular
-implementation that have some kind of workaround. Since this seems to be
-the first need for such a thing in MHI, introduce a quirk framework.
-
-The second issue AIC100 has involves the PK Hash registers. A solution for
-this is expected to be proposed in the near future and is anticipated to
-make use of the quirk framework proposed here. With PK Hash, there are two
-oddities to handle. AIC100 does not initialize these registers until the
-SBL is running, which is later than the spec indicates, and in practice
-is after MHI reads/caches them. Also, AIC100 does not have enough
-registers defined to fully report the 5 PK Hash slots, so a custom
-reporting format is defined by the device.
-
-v2:
--Fix build error
--Fix typo in commit text
-
-Jeffrey Hugo (2):
-  bus: mhi: host: Add quirk framework and initial quirk
-  accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
-
- drivers/accel/qaic/mhi_controller.c |  1 +
- drivers/bus/mhi/host/init.c         | 13 +++++++++----
- include/linux/mhi.h                 | 18 ++++++++++++++++++
- 3 files changed, 28 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+index 5036e58e7235..2c85063d8cc6 100644
+--- a/drivers/accel/qaic/mhi_controller.c
++++ b/drivers/accel/qaic/mhi_controller.c
+@@ -400,6 +400,7 @@ static struct mhi_controller_config aic100_config = {
+ 	.event_cfg = aic100_events,
+ 	.use_bounce_buf = false,
+ 	.m2_no_db = false,
++	.quirks = MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE,
+ };
+ 
+ static int mhi_read_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr, u32 *out)
 -- 
 2.40.1
 
