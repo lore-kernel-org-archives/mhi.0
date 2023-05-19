@@ -1,122 +1,115 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCB8DDB1
-	for <mhi@lists.linux.dev>; Fri, 19 May 2023 13:58:15 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-64d24136663so1251404b3a.0
-        for <mhi@lists.linux.dev>; Fri, 19 May 2023 06:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684504695; x=1687096695;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KlUcxwV3gHbaA4F0tBqjLsI2LgjbYmHKZKwiT7gbhio=;
-        b=gyQPvSS053XBYCQ+ulxO8jW8Fmtq1OHPBkIElOynEB24rNWum9fd4vNcGVumCLQXHr
-         H0lHQIY4KR77DtaPP+1Pqc3orpKb5wJCzyOMlsFVsKJM3elUlcrYz+Yji8FmZXl+mIHi
-         zgO5cYxUO8SnLM4MUgrFSOqdDDWqwoES4wUMXLI++QZ35Yb+yv45TlScA6FPoRp49aQR
-         T0e6Yl9Sq/nopmZSvgSqqSitQNGtePYTeAXih5RAU48oohyWoz6W6sUpDez8EvZrsXbZ
-         WgONjcXu+KFY6fxAegXn1eMfobcpNUElTWVjXGII/LR1IyHBnQGlnMHN6BeDBl11uVlI
-         0jTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684504695; x=1687096695;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KlUcxwV3gHbaA4F0tBqjLsI2LgjbYmHKZKwiT7gbhio=;
-        b=IHOUFmASRWWKeda1iJisPFsIPrjtVFDCCwLza8HCsIrchRmi4WTEv5flrO3b/y9IGC
-         F1Gvm2QjQBhEMl9wSiHURW2FP5K+Lic2jxOs2fnwx8bKzyg5iEASAAf2wacJ3JCYlF63
-         XD7ac9IABaQnzwQZNRMl6liPaQkTSoqYZY6RcdUIvJeNOPHU9+/fTXkfS26rxSJc+eRY
-         Nziiw7vrABLQPOW1cR4vt0Id84l/I6C2Qg5pa89hPqFhqDMZRCNp/w8yOfUz8GYeeqO5
-         5/ScT0ztFp0l8aB5nrVCzCiawwOYtoYeue1VxwO/ocW+pcv28n3w5k5Ro4aDie/zLILD
-         ddtQ==
-X-Gm-Message-State: AC+VfDx16XSGRfNNYgclgRruCestiwhfy6cuYxJJv+RILGxD0g1Y1Qz3
-	QB4DcCdN/VNoo38JY85100Z02N0fxNGwJ/XxcA==
-X-Google-Smtp-Source: ACHHUZ4/BIkQFVCK8F94/Uf3Z9uqkLZjy+JIWTSYU7oAl3bKx61PWCnAyinFjETqy7PbT/rCJ/s3gw==
-X-Received: by 2002:a05:6a20:72a8:b0:100:c7bd:9f5d with SMTP id o40-20020a056a2072a800b00100c7bd9f5dmr2169335pzk.44.1684504695128;
-        Fri, 19 May 2023 06:58:15 -0700 (PDT)
-Received: from localhost.localdomain ([117.202.184.13])
-        by smtp.gmail.com with ESMTPSA id i3-20020a63e443000000b0052873a7cecesm3112096pgk.0.2023.05.19.06.58.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 06:58:14 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: loic.poulain@linaro.org,
-	quic_krichai@quicinc.com,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add support for IP_SW0 channels
-Date: Fri, 19 May 2023 19:28:03 +0530
-Message-Id: <20230519135803.13850-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20425679
+	for <mhi@lists.linux.dev>; Fri, 19 May 2023 16:39:46 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34JDR7Qo024834;
+	Fri, 19 May 2023 16:39:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=kgDDoBNwxvR277BxCyv7koD/uI+FCD5MDKi5umWHI6A=;
+ b=V1TRaFijUqb9pIF08MD+X/VzNEF2oT9EwZ5DQn5rCzgO+V0ilO7nyjLut6Do6qw+/4+H
+ fYBtaqKVSxs7I3otNk2DAp3y2pbH9Ur8qBznQON58s3i15pHE7HPIwVnIMNNRHEQG4Ui
+ 1gsDYQJYK7jk7YNPAIgOUKiYnmPcIKR1e2IcM/InkP1SKbX5lOWNCGo/JTVKUhM58i9m
+ 8Lfq+Fd8UmK91kQ3jOSStCMJKvXRfq3bX0xOGLzpJ1v6LshmnduopCchRQtysOuL7Yq7
+ VLfmk9/gI0sbQL8iiykKyWaeOiQMMxxYfob+NmJQC2wLX10SjBEJghFT1KfksXa2dnWX 9A== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qnwk4j0dc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 May 2023 16:39:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdL0m001824
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 May 2023 16:39:21 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 19 May 2023 09:39:20 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <mhi@lists.linux.dev>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH v2 0/2] Add MHI quirk for QAIC
+Date: Fri, 19 May 2023 10:39:00 -0600
+Message-ID: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
+X-Proofpoint-ORIG-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-19_11,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=732 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305190142
 
-IP_SW0 channels are used to transfer data over the networking interface
-between MHI endpoint and the host. Define the channels in the MHI v1
-channel config along with dedicated event rings.
+With the QAIC driver in -next, I'd like to suggest some MHI changes that
+specific to AIC100 devices, but perhaps provide a framework for other
+device oddities.
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/host/pci_generic.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+issues comes from the device hardware, so host SW needs to work around
+them.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index db0a0b062d8e..70e37c490150 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -212,6 +212,19 @@ struct mhi_pci_dev_info {
- 		.offload_channel = false,	\
- 	}
- 
-+#define MHI_EVENT_CONFIG_SW_DATA(ev_ring, el_count) \
-+	{					\
-+		.num_elements = el_count,	\
-+		.irq_moderation_ms = 0,		\
-+		.irq = (ev_ring) + 1,		\
-+		.priority = 1,			\
-+		.mode = MHI_DB_BRST_DISABLE,	\
-+		.data_type = MHI_ER_DATA,	\
-+		.hardware_event = false,	\
-+		.client_managed = false,	\
-+		.offload_channel = false,	\
-+	}
-+
- #define MHI_EVENT_CONFIG_HW_DATA(ev_ring, el_count, ch_num) \
- 	{					\
- 		.num_elements = el_count,	\
-@@ -237,8 +250,10 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
- 	MHI_CHANNEL_CONFIG_DL_AUTOQUEUE(21, "IPCR", 8, 0),
- 	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
- 	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
--	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
--	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
-+	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 64, 2),
-+	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 64, 3),
-+	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 4),
-+	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 5),
- };
- 
- static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
-@@ -246,9 +261,12 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
- 	MHI_EVENT_CONFIG_CTRL(0, 64),
- 	/* DIAG dedicated event ring */
- 	MHI_EVENT_CONFIG_DATA(1, 128),
-+	/* Software channels dedicated event ring */
-+	MHI_EVENT_CONFIG_SW_DATA(2, 64),
-+	MHI_EVENT_CONFIG_SW_DATA(3, 64),
- 	/* Hardware channels request dedicated hardware event rings */
--	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
--	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101)
-+	MHI_EVENT_CONFIG_HW_DATA(4, 1024, 100),
-+	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
- };
- 
- static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+Thie first issue, presented in this series, has to do with the
+SOC_HW_VERSION register. This register is suposed to be initialized by the
+hardware prior to the MHI being accessable by the host to contain a
+version string for the SoC of the device. This could be used by the host
+MHI controller software to identify and handle version to version changes.
+The AIC100 hardware does not initialize this register, and thus it
+contains garbage.
+
+This would not be much of a problem normally - the QAIC driver would just
+never use it. However the MHI stack uses this register as part of the init
+sequence and if the controller reports that the register is inaccessable
+then the init sequence fails.  On some AIC100 cards, the garbage value
+ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+indicating the access failed.  The MHI controller cannot tell if that
+value is a PCIe link issue, or just garbage.
+
+QAIC needs a way to tell MHI not to use this register. Other buses have a
+quirk mechanism - a way to describe oddities in a particular
+implementation that have some kind of workaround. Since this seems to be
+the first need for such a thing in MHI, introduce a quirk framework.
+
+The second issue AIC100 has involves the PK Hash registers. A solution for
+this is expected to be proposed in the near future and is anticipated to
+make use of the quirk framework proposed here. With PK Hash, there are two
+oddities to handle. AIC100 does not initialize these registers until the
+SBL is running, which is later than the spec indicates, and in practice
+is after MHI reads/caches them. Also, AIC100 does not have enough
+registers defined to fully report the 5 PK Hash slots, so a custom
+reporting format is defined by the device.
+
+v2:
+-Fix build error
+-Fix typo in commit text
+
+Jeffrey Hugo (2):
+  bus: mhi: host: Add quirk framework and initial quirk
+  accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+
+ drivers/accel/qaic/mhi_controller.c |  1 +
+ drivers/bus/mhi/host/init.c         | 13 +++++++++----
+ include/linux/mhi.h                 | 18 ++++++++++++++++++
+ 3 files changed, 28 insertions(+), 4 deletions(-)
+
 -- 
-2.25.1
+2.40.1
 
