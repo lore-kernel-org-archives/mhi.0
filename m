@@ -1,187 +1,128 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684F8101DE
-	for <mhi@lists.linux.dev>; Fri, 19 May 2023 16:39:54 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34JEjXxf032125;
-	Fri, 19 May 2023 16:39:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=JRUsMnqln7cZt5qs5HnedPc0mY/Ew7wSzk2Z5dBekec=;
- b=cM9qTaAQl1YTrShSwuY5cGIn3N/zRTlg80DXpjEW1F+wkNMhPv4yBXK+kUUt0ikph8Zf
- eK6PfjZDRXWDyMNericfq0rgN5wPIIlPDzz3esAWcTnhdY3I8rYRShiidRwi8YMyXRdD
- jhZR16VNUAmyxPm5Fk+jvQoioi0rYmOtjJ8Y+JuwwfbzDevwn8MHzshRaHd4byZ/hMMI
- IuPLEUr4TJb08fDHUO7kM0Z3AJ3G2hdhrXIxFZAVrnHkN7HaNbKsSUsglQOatY44PgSn
- L7tAxZSW3u5cCPobZHEaeXDLlmbiYxwTThVhRY5ISZcSt8VQGXVDyxGhG5f6SZTegWXD ng== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qp69u10cv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 May 2023 16:39:24 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdNaW005605
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 May 2023 16:39:23 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 19 May 2023 09:39:22 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <mani@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <mhi@lists.linux.dev>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Carl Vanderlip
-	<quic_carlv@quicinc.com>,
-        Pranjal Ramajor Asha Kanojiya
-	<quic_pkanojiy@quicinc.com>
-Subject: [PATCH v2 1/2] bus: mhi: host: Add quirk framework and initial quirk
-Date: Fri, 19 May 2023 10:39:01 -0600
-Message-ID: <20230519163902.4170-2-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230519163902.4170-1-quic_jhugo@quicinc.com>
-References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE083747F
+	for <mhi@lists.linux.dev>; Sun, 21 May 2023 18:29:50 +0000 (UTC)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-19a5831610dso1523800fac.1
+        for <mhi@lists.linux.dev>; Sun, 21 May 2023 11:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684693790; x=1687285790;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8YdKvk1s42m4/YyjaeLQo6Rg9ti5aRTm6YguiBgoAog=;
+        b=Erbz7tA5D0m+MvvR7Ywy2y0rf0TYdz1OZaBimm9pJAQCLdc3a+p/8YHsDgUN5KpOt4
+         2kqNEfEOzCtJF04UxYmE57duLHedYwl8EG21VKJ7/yU1zH8hUQazEdwR18/uKsn7+vcN
+         FRFW45DaMYsY51lucjDnrzh2yowTtp/0fQeeIxO9IB1Uhe6dL+8I5LFt0MyNuwgLgseH
+         TixXH/78EprKDCJgcbiYUkHDcAw/Qk2sY2hUGsmeeCB70UYTX4o772xLoqkGf/RByvfN
+         WHN4TmajUR6i6KymqAddi3H1Dc4xyWhVdlk+NlUMrsagJbcB0NgoMh/rvKyQyU8euwvQ
+         tUyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684693790; x=1687285790;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8YdKvk1s42m4/YyjaeLQo6Rg9ti5aRTm6YguiBgoAog=;
+        b=kDBtbJv5F2hi4UMnnGYxVQBhqlDQDRG1QmTy8SxYySbuPFQchaFlhf3TtkX33XplGw
+         EB/5C4w2aXRlRI17lsYiYG5IJHIxg39NaLwCTmZx9mczK2LP+8/ztqBCCjrjd4Uw80oB
+         ocVmcXBvsPYxpRPu6urdHzmEbArSmyXvKsUiu+ShapfXYXho0A+uaPhiP5r4H+GqhdIP
+         8S6n+EHWk5HJAbJ17K8ZPryQjRw7wifxO9w45+WrHOoN5rZpQiKfppoKrJYQQd2lx3+Y
+         8o162GlFdqgDF8oJnbdfK9POva+Wap2D5bOQ6Nmg2ON7bJLiNfWHESDI3+jZXjofc76y
+         OWag==
+X-Gm-Message-State: AC+VfDwe9rqJDgKSpM7FUdAmBVWU+YLJ5NZrLyshlPXRGb1g8Bmda8Lc
+	vEBMDmn25E/OsN7nRAARSEWS7mDB7k20qqTxVi33hQ==
+X-Google-Smtp-Source: ACHHUZ6tUPGnoQNqWfClyhqKpcD4Og/NRsCoCFuUaqfRk4LTXdDwhB41w0GIzYb4N2zjTwdmXRsKwnqf9JYItUOvo1Y=
+X-Received: by 2002:a05:6870:b145:b0:19d:6f68:c3f with SMTP id
+ a5-20020a056870b14500b0019d6f680c3fmr1170765oal.33.1684693789681; Sun, 21 May
+ 2023 11:29:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 20jufYsOcK9p9YwLmpcehdNYHf8fLTAv
-X-Proofpoint-GUID: 20jufYsOcK9p9YwLmpcehdNYHf8fLTAv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-19_11,2023-05-17_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- bulkscore=0 adultscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305190141
+References: <20230519135803.13850-1-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20230519135803.13850-1-manivannan.sadhasivam@linaro.org>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Sun, 21 May 2023 20:27:45 +0200
+Message-ID: <CAMZdPi_QRi_n7=Do_P6E3Xwk=zQ3nS3jpiFBNApCvWd4v=LSCw@mail.gmail.com>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for IP_SW0 channels
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, quic_krichai@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-Some devices might require special handling due to flawed implementations
-or other reasons. Implement a quirk framework to handle these situations.
+On Fri, 19 May 2023 at 15:58, Manivannan Sadhasivam
+<manivannan.sadhasivam@linaro.org> wrote:
+>
+> IP_SW0 channels are used to transfer data over the networking interface
+> between MHI endpoint and the host. Define the channels in the MHI v1
+> channel config along with dedicated event rings.
+>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Implement the first quirk in this framework -
-MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+Assuming we can extend the number of event rings (and dedicated irqs)
+without hitting any hardware limitation on the device side?
 
-The MHI spec indicates that the MHI device must initialize the
-SOC_HW_VERSION register before the link to the MHI device is initialized.
-The MHI host implementation uses this register as a quick check to see if
-the device can be accessed early in the init process.
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
 
-If an implementation is flawed, and does not properly initialize this
-register, it may contain garbage data. In the case of PCIe, the value
-0xFFFFFFFF has special meaning and can indicate that the link is down.
-Such an implementation may cause MHI to believe the device cannot be
-initialized.
 
-Allow such controller to indicate that the host implementation should not
-access this register, and handle the access accordingly during MHI init.
 
-Change-Id: I3c8f38e1310f2065004dd6b5c2f0b9b04423205d
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
----
- drivers/bus/mhi/host/init.c | 13 +++++++++----
- include/linux/mhi.h         | 18 ++++++++++++++++++
- 2 files changed, 27 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index f72fcb66f408..701cdf63b8da 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -891,6 +891,8 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
- 	if (config->m2_no_db)
- 		mhi_cntrl->db_access &= ~MHI_PM_M2;
- 
-+	mhi_cntrl->quirks = config->quirks;
-+
- 	return 0;
- 
- error_ev_cfg:
-@@ -982,10 +984,13 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
- 	}
- 
- 	/* Read the MHI device info */
--	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs,
--			   SOC_HW_VERSION_OFFS, &soc_info);
--	if (ret)
--		goto err_destroy_wq;
-+	if (mhi_cntrl->quirks & MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE) {
-+		soc_info = 0;
-+	} else {
-+		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, SOC_HW_VERSION_OFFS, &soc_info);
-+		if (ret)
-+			goto err_destroy_wq;
-+	}
- 
- 	mhi_cntrl->family_number = FIELD_GET(SOC_HW_VERSION_FAM_NUM_BMSK, soc_info);
- 	mhi_cntrl->device_number = FIELD_GET(SOC_HW_VERSION_DEV_NUM_BMSK, soc_info);
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index f6de4b6ecfc7..830df51528aa 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -17,6 +17,20 @@
- 
- #define MHI_MAX_OEM_PK_HASH_SEGMENTS 16
- 
-+/*
-+ * List of workarounds for devices that require behavior not specified in
-+ * the standard.
-+ */
-+enum mhi_quirks {
-+	/*
-+	 * Some devices do not properly initialize the SOC_HW_VERSION register
-+	 * in the BHI space. In some instances, the value is 0xFFFFFFFF which
-+	 * may hold special meaning. In the case of such devices, do not read
-+	 * the register.
-+	 */
-+	MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE		= BIT(0),
-+};
-+
- struct mhi_chan;
- struct mhi_event;
- struct mhi_ctxt;
-@@ -273,6 +287,7 @@ struct mhi_event_config {
-  * @event_cfg: Array of defined event rings
-  * @use_bounce_buf: Use a bounce buffer pool due to limited DDR access
-  * @m2_no_db: Host is not allowed to ring DB in M2 state
-+ * @quirks: Workarounds for devices that require non-standard behavior
-  */
- struct mhi_controller_config {
- 	u32 max_channels;
-@@ -284,6 +299,7 @@ struct mhi_controller_config {
- 	struct mhi_event_config *event_cfg;
- 	bool use_bounce_buf;
- 	bool m2_no_db;
-+	u32 quirks;
- };
- 
- /**
-@@ -358,6 +374,7 @@ struct mhi_controller_config {
-  * @wake_set: Device wakeup set flag
-  * @irq_flags: irq flags passed to request_irq (optional)
-  * @mru: the default MRU for the MHI device
-+ * @quirks: Workarounds for devices that require non-standard behavior
-  *
-  * Fields marked as (required) need to be populated by the controller driver
-  * before calling mhi_register_controller(). For the fields marked as (optional)
-@@ -452,6 +469,7 @@ struct mhi_controller {
- 	bool wake_set;
- 	unsigned long irq_flags;
- 	u32 mru;
-+	u32 quirks;
- };
- 
- /**
--- 
-2.40.1
-
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index db0a0b062d8e..70e37c490150 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -212,6 +212,19 @@ struct mhi_pci_dev_info {
+>                 .offload_channel = false,       \
+>         }
+>
+> +#define MHI_EVENT_CONFIG_SW_DATA(ev_ring, el_count) \
+> +       {                                       \
+> +               .num_elements = el_count,       \
+> +               .irq_moderation_ms = 0,         \
+> +               .irq = (ev_ring) + 1,           \
+> +               .priority = 1,                  \
+> +               .mode = MHI_DB_BRST_DISABLE,    \
+> +               .data_type = MHI_ER_DATA,       \
+> +               .hardware_event = false,        \
+> +               .client_managed = false,        \
+> +               .offload_channel = false,       \
+> +       }
+> +
+>  #define MHI_EVENT_CONFIG_HW_DATA(ev_ring, el_count, ch_num) \
+>         {                                       \
+>                 .num_elements = el_count,       \
+> @@ -237,8 +250,10 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+>         MHI_CHANNEL_CONFIG_DL_AUTOQUEUE(21, "IPCR", 8, 0),
+>         MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
+>         MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+> -       MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
+> -       MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
+> +       MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 64, 2),
+> +       MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 64, 3),
+> +       MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 4),
+> +       MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 5),
+>  };
+>
+>  static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+> @@ -246,9 +261,12 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+>         MHI_EVENT_CONFIG_CTRL(0, 64),
+>         /* DIAG dedicated event ring */
+>         MHI_EVENT_CONFIG_DATA(1, 128),
+> +       /* Software channels dedicated event ring */
+> +       MHI_EVENT_CONFIG_SW_DATA(2, 64),
+> +       MHI_EVENT_CONFIG_SW_DATA(3, 64),
+>         /* Hardware channels request dedicated hardware event rings */
+> -       MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
+> -       MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101)
+> +       MHI_EVENT_CONFIG_HW_DATA(4, 1024, 100),
+> +       MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
+>  };
+>
+>  static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+> --
+> 2.25.1
+>
