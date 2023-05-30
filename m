@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9814A0C
-	for <mhi@lists.linux.dev>; Tue, 30 May 2023 10:40:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F258FC433D2;
-	Tue, 30 May 2023 10:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEA44A0C
+	for <mhi@lists.linux.dev>; Tue, 30 May 2023 10:44:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F18C433D2;
+	Tue, 30 May 2023 10:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685443235;
-	bh=xloVzKThcmCFtR4jJFtCgd3MlQqbexb7mtuyBj6XgCI=;
+	s=k20201202; t=1685443475;
+	bh=gTvX8Mmtm4CsDHwRlEdlXZul8ul7kbGdtit5jNAUN8U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZDcAA3jfk9TRHlvDZYBrTM9tRyZ8C53g6jFuzq+X6omsPNRB2qU819S8lcs/OQhG
-	 kw4KI84xgR54Z4jOywVTlFIsnWUX5SVq5z1lFbI+OAGm60cG4EckoT4EPGaa/K5c8a
-	 1n2uAw0tlVaNfT1nNJxACA6wHQSTQPVWStl0Tr4zd8hxTgxUyj8sovlCZkYyegmM8t
-	 Bo7b0xiRlKl6/gN6Vgacj3M8Zzk9Q3K6tUo00p51eu3IF+XWjBDqy+E1uj6E4gVosk
-	 1wCZYDr4LEEbK2iE9gFWZzUlIeSDsmO5ChiCnQjc/2uRgPgPoe/jKgNXHAuXIKPear
-	 6m5tkA3XztITg==
-Date: Tue, 30 May 2023 16:10:20 +0530
+	b=MQe2Pl+7Velxgwa4YQOvNaHwxy9i7j+Bw5G7/F/vK6pHqfhxVDfpCnTRt88jmtq5O
+	 dfiYeOgKaGLP0zmMrSNmmPvEZ1gjj1aO+uEbqTHcY2IxDpzsgWH+OqWQ3S6a5VdAJz
+	 bm2WTrwBEZphOvwh8atQ8ZcfF2HFkq0f0ogbjRIRfY4uOSWmCgPVv1f51ca0XwuQYT
+	 8TnqGbNPLyeTsg9XPGR1z2D0STDUS44M+QKJjAPJ4wXePpLIP85jfMYvb/X+v5qEKV
+	 2ArH46II4DVmYMNzII86F9CzNAd2imLSZddT9IcWrEQWCspj+IQubXUnAlw0FghHWV
+	 Exr5bPWrDvVvA==
+Date: Tue, 30 May 2023 16:14:21 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Qiang Yu <quic_qianyu@quicinc.com>
 Cc: quic_jhugo@quicinc.com, mhi@lists.linux.dev,
@@ -23,7 +23,7 @@ Cc: quic_jhugo@quicinc.com, mhi@lists.linux.dev,
 	quic_cang@quicinc.com, quic_mrana@quicinc.com,
 	stable@vger.kernel.org
 Subject: Re: [PATCH v4] bus: mhi: host: Skip MHI reset if device is in RDDM
-Message-ID: <20230530104020.GF6379@thinkpad>
+Message-ID: <20230530104421.GG6379@thinkpad>
 References: <1684390959-17836-1-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -45,12 +45,12 @@ On Thu, May 18, 2023 at 02:22:39PM +0800, Qiang Yu wrote:
 > Cc: <stable@vger.kernel.org>
 > Fixes: a6e2e3522f29 ("bus: mhi: core: Add support for PM state transitions")
 > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Applied to mhi-next!
 
 - Mani
 
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > ---
 > v1->v2: use ~75 columns in commit text, add Fixes tag
 > v2->v3: update Fixes tag
