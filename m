@@ -1,133 +1,212 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0837BA936
-	for <mhi@lists.linux.dev>; Wed, 31 May 2023 06:30:09 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-39831cb47fbso3767754b6e.1
-        for <mhi@lists.linux.dev>; Tue, 30 May 2023 23:30:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8E913AEE
+	for <mhi@lists.linux.dev>; Wed, 31 May 2023 11:44:37 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-96fbe7fbdd4so994895866b.3
+        for <mhi@lists.linux.dev>; Wed, 31 May 2023 04:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685514609; x=1688106609;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=E1OpRRIldUM8jbeDsCgHJ5B0G7dPQN5jSdROds/1gnM=;
-        b=x2SnnjMvophJanpT7imV8o8Qkovf+HPUwQN/5KQl3niG086cx6LZVDeKYaSR5fgD13
-         /ZiQquEy1cgWuQypSNCkWwXnVL1QNU9W1drTXXpIjYqJDMEON0L6wlig4C3hf0jun5Di
-         amYhYZPRdugSujRNi2uW2t/GPSCUl17Y7+in//0MvbL/GTriHlZnnx4xxcgVDmR7/jIl
-         paZpWPW/MoA5gtUGup7fSXEGt1wJsp5cibf1KYgIMIA00ptDyK10xoypGHeofdGs9WK/
-         m7L7+qvSBlF36lzbp3CteEwwiY1VOymZ9Yxl4Gx+JkMSuB3+8e9vzV62sx34zi/2JMyj
-         mrxw==
+        d=gmail.com; s=20221208; t=1685533475; x=1688125475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=svKD27iZMk4zyWq87M1jIaqad9dY92z+5caQ3b4G/Oo=;
+        b=lkOSzA3x66/W0DJhOWpWsvZZMMcnJu851cgoRTjaqDtyIEYaOT4MMjDhn9qXFoeC3N
+         xdC+rI6wDrFHCxySubqwCx+WqGM6wgreQ2kaHDdzKGtKKuF6MchkJ+W1Dxy4z7KRHSnF
+         0nU9PSDgX+UEw4bb3CWXBeO+qJpPiJ9+zA5oJBKLQBrYPtgkizHLzX+sb6DGtTxMJTAc
+         ZgVM7CvE+zaF65G09fAqm1Z9CK94ttVBxBxDorADkIbc4Rczao/qbwURELJYPYhjG563
+         nNvDUN+Nnb3Q/DslVTr0sf7F80kRNJiwqacBAr0+0qKftfyh+XwvZwC5UzhuwDV4dGAk
+         k0Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685514609; x=1688106609;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E1OpRRIldUM8jbeDsCgHJ5B0G7dPQN5jSdROds/1gnM=;
-        b=HtsudX9xHPphL9BiqMcdFDsLJ+QNS8aJwUc9hw3ZGIhgqSyBjik6KGupKTtjHJkrys
-         rNX4EyGdfhDfqz6X3tIQm3z++mwr+9R5CrIjHXGN2jf/KLtJ0ZxoPb+cN5BikJ22cZcP
-         H+spd73uc4OV6OUZWtPQTMqsroBqAZlVdth3UAkHbCRsT7kdQ7qWXG8JafDILnxzaFzg
-         WPeynNWwfTBnj7ns7QYuY2fLc+EzS6kJ6ipvTgo6VD8U1/y8ZWRbvHzSZ8mKF5Wp6oQN
-         inR9qAvxmw7yM49gB9AR1bTaM+8KynCQzgT6LVmxDUbtX7QB4l04Vm5SGYRhbYfwc/pT
-         xgng==
-X-Gm-Message-State: AC+VfDwatNJkGeZQxw7VzJi8XQI0DnLRVoBcdH+EdGvvQktlzRBDwHDs
-	mRRx43Ng22B0hmQ+w42o2Pa+OcfD5czeWqI0oA==
-X-Google-Smtp-Source: ACHHUZ7FP+5ZnqUjMGXcbaLzxyktF5wU1Q4LTtszDkktWIiXviMTJH/V9NoQTPAK1XO/eYUiHygGmA==
-X-Received: by 2002:aca:f055:0:b0:397:ed3b:f1d5 with SMTP id o82-20020acaf055000000b00397ed3bf1d5mr2542780oih.11.1685514608972;
-        Tue, 30 May 2023 23:30:08 -0700 (PDT)
-Received: from thinkpad ([117.217.186.173])
-        by smtp.gmail.com with ESMTPSA id jb7-20020a170903258700b001ae0b373382sm431234plb.198.2023.05.30.23.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 23:30:08 -0700 (PDT)
-Date: Wed, 31 May 2023 12:00:03 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: loic.poulain@linaro.org, quic_krichai@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for IP_SW0
- channels
-Message-ID: <20230531063003.GB7968@thinkpad>
-References: <20230519135803.13850-1-manivannan.sadhasivam@linaro.org>
+        d=1e100.net; s=20221208; t=1685533475; x=1688125475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=svKD27iZMk4zyWq87M1jIaqad9dY92z+5caQ3b4G/Oo=;
+        b=FIb0AyRTi8TRevLX2TQIlFxF/s+bBsZvNWdCgrdDxIB4e64nNSAfb97uaKu48L4y0S
+         uP4fPAv9h1HCrqqccntAmrl+vPxH9qikIKOJcCeTjsZ3sgkFp98HNWh/+CZqEjAJ1Fro
+         5ug4EoiRyPbH9olqfYhJDKz6JYos4+H5BcNqpdWDzA+aQbFi9LlXFpR6OVQ1JMDJTlWn
+         Ej2ausa4PXg1BvNFd9E1jcxmjlJv4E/9CjI+Pl8RhhGqG4xW6fdsevt6QolS7T+dzJq8
+         het/n8F65Gn78N6dAZw8FDKbRJtQJs5FJ5KM+fOFijmrg+WhSgxp/qA1rtzQGZVtOr0h
+         1+NQ==
+X-Gm-Message-State: AC+VfDy12c8d/zthdHY3mxIoZpFdMs7VcWoSDjfkvu+jsvMKPTEIVp1v
+	zNsrSLIhyk0RL1i4Jgjelqu7nOdgC7NWRWCSfqg=
+X-Google-Smtp-Source: ACHHUZ5yQz8JQSWl1YMxa6iFOryzSAw5Tyfe214N6f4yEYnFbH7Zt2+DmSEYmJuDiMJ2DDby5IxAtKyrhRLfKArwKTQ=
+X-Received: by 2002:a17:907:6e28:b0:94a:56ec:7f12 with SMTP id
+ sd40-20020a1709076e2800b0094a56ec7f12mr5073041ejc.30.1685533475255; Wed, 31
+ May 2023 04:44:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230519135803.13850-1-manivannan.sadhasivam@linaro.org>
+References: <20230530091340.3513141-1-dnlplm@gmail.com> <20230530103103.GB6379@thinkpad>
+ <CAGRyCJGR4YsUgWekf_DgYHJqoXNfmFpL-N_virvqE18aU=Ovkg@mail.gmail.com> <20230530135620.GA2313@thinkpad>
+In-Reply-To: <20230530135620.GA2313@thinkpad>
+From: Daniele Palmas <dnlplm@gmail.com>
+Date: Wed, 31 May 2023 13:44:24 +0200
+Message-ID: <CAGRyCJG6+k4PZq0V3h-c-SiEm_7ExjoACTtbgCOEeSt3AQjM3g@mail.gmail.com>
+Subject: Re: [PATCH 1/1] bus: mhi: host: allow SBL as initial EE
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 19, 2023 at 07:28:03PM +0530, Manivannan Sadhasivam wrote:
-> IP_SW0 channels are used to transfer data over the networking interface
-> between MHI endpoint and the host. Define the channels in the MHI v1
-> channel config along with dedicated event rings.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Il giorno mar 30 mag 2023 alle ore 15:56 Manivannan Sadhasivam
+<mani@kernel.org> ha scritto:
+>
+> On Tue, May 30, 2023 at 01:12:59PM +0200, Daniele Palmas wrote:
+> > Hi Mani,
+> >
+> > Il giorno mar 30 mag 2023 alle ore 12:31 Manivannan Sadhasivam
+> > <mani@kernel.org> ha scritto:
+> > >
+> > > On Tue, May 30, 2023 at 11:13:40AM +0200, Daniele Palmas wrote:
+> > > > There are situations in which SBL is a legitimate initial execution
+> > > > environment (e.g. modem stuck in SBL due to a firmware failure...),=
+ but
+> > > > mhi refuses to start:
+> > > >
+> > > > mhi-pci-generic 0000:01:00.0: MHI PCI device found: foxconn-sdx55
+> > > > mhi-pci-generic 0000:01:00.0: BAR 0: assigned
+> > > > mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
+> > > > mhi mhi0: Requested to power ON
+> > > > mhi mhi0: SECONDARY BOOTLOADER is not a valid EE for power on
+> > > > mhi-pci-generic 0000:01:00.0: failed to power up MHI controller
+> > > > mhi-pci-generic: probe of 0000:01:00.0 failed with error -5
+> > > >
+> > > > Fix this by adding SBL as an allowed initial execution environment.
+> > > >
+> > >
+> > > What can you do with the modem when firmware failure happens? If ther=
+e is a
+> > > usecase, please explain.
+> >
+> > (removing Siddartha and Sujeev due to addresses not working)
+> >
+>
+> Both left Qualcomm a while ago...
+>
+> > A possible scenario for a Telit modem not being able to go to mission
+> > mode is when a firmware update does not work properly: in this case it
+> > remains stuck in SBL, but the SAHARA device can be used for retrying
+> > the firmware update.
+> >
+>
+> So IIUC, while updating SBL over SAHARA channel, the firmware update coul=
+d be
+> corrupted and the device would get stuck in SBL EE. In that case, the SAH=
+ARA
+> channel exposed by PBL will still be open and that could be used to retry=
+ the
+> firmware update. Am I right?
+>
+> Looks like PBL is doing a fail safe upgrade!
+>
 
-Applied to mhi-next!
+Yes, the scenario is a broken firmware update.
 
-- Mani
+Telit has implemented custom code in the SBL for allowing the firmware
+update through a custom protocol using the SAHARA channels: this has
+been mainly done to avoid sharing with customers Qualcomm IP about
+firmware update, since it is usually problematic.
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index db0a0b062d8e..70e37c490150 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -212,6 +212,19 @@ struct mhi_pci_dev_info {
->  		.offload_channel = false,	\
->  	}
->  
-> +#define MHI_EVENT_CONFIG_SW_DATA(ev_ring, el_count) \
-> +	{					\
-> +		.num_elements = el_count,	\
-> +		.irq_moderation_ms = 0,		\
-> +		.irq = (ev_ring) + 1,		\
-> +		.priority = 1,			\
-> +		.mode = MHI_DB_BRST_DISABLE,	\
-> +		.data_type = MHI_ER_DATA,	\
-> +		.hardware_event = false,	\
-> +		.client_managed = false,	\
-> +		.offload_channel = false,	\
-> +	}
-> +
->  #define MHI_EVENT_CONFIG_HW_DATA(ev_ring, el_count, ch_num) \
->  	{					\
->  		.num_elements = el_count,	\
-> @@ -237,8 +250,10 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
->  	MHI_CHANNEL_CONFIG_DL_AUTOQUEUE(21, "IPCR", 8, 0),
->  	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
->  	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
-> -	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
-> -	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
-> +	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 64, 2),
-> +	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 64, 3),
-> +	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 4),
-> +	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 5),
->  };
->  
->  static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
-> @@ -246,9 +261,12 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
->  	MHI_EVENT_CONFIG_CTRL(0, 64),
->  	/* DIAG dedicated event ring */
->  	MHI_EVENT_CONFIG_DATA(1, 128),
-> +	/* Software channels dedicated event ring */
-> +	MHI_EVENT_CONFIG_SW_DATA(2, 64),
-> +	MHI_EVENT_CONFIG_SW_DATA(3, 64),
->  	/* Hardware channels request dedicated hardware event rings */
-> -	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
-> -	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101)
-> +	MHI_EVENT_CONFIG_HW_DATA(4, 1024, 100),
-> +	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
->  };
->  
->  static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
-> -- 
-> 2.25.1
-> 
+Firmware update is fail safe in the sense that it is guaranteed that
+the modem will always power-up at least in SBL, in which the firmware
+update can always be retried. I don't have the exact details of what
+is happening inside the modem, but, if required, I can get them.
 
--- 
-மணிவண்ணன் சதாசிவம்
+> > Telit FN990 supports the SAHARA channels in pci_generic. It's true
+> > that there's still missing the exposed device for userspace, something
+> > that we are currently managing with out of tree patches, but I see
+> > that there's some ongoing effort for that
+> > https://lore.kernel.org/mhi/20230522190459.13790-1-quic_jhugo@quicinc.c=
+om/
+> >
+> > I'm not sure if non-Telit modems have other reasonable use-cases.
+> >
+>
+> If my above understanding is correct, then this patch will benefit other
+> platforms too.
+>
+
+Well... I can't comment on that, since I don't know if the above
+described behavior is due to Telit custom SBL.
+
+Anyway, maybe there could be other scenarios like, for example, modem
+falling into core dump mode in a very early stage? Not sure...
+
+Regards,
+Daniele
+
+> - Mani
+>
+> > Regards,
+> > Daniele
+> >
+> > >
+> > > - Mani
+> > >
+> > > > Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM oper=
+ations")
+> > > > Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+> > > > ---
+> > > >  drivers/bus/mhi/host/internal.h | 2 +-
+> > > >  drivers/bus/mhi/host/pm.c       | 3 ++-
+> > > >  2 files changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host=
+/internal.h
+> > > > index 2e139e76de4c..3bdcd2321aa5 100644
+> > > > --- a/drivers/bus/mhi/host/internal.h
+> > > > +++ b/drivers/bus/mhi/host/internal.h
+> > > > @@ -56,7 +56,7 @@ extern const char * const mhi_ee_str[MHI_EE_MAX];
+> > > >
+> > > >  #define MHI_IN_PBL(ee) (ee =3D=3D MHI_EE_PBL || ee =3D=3D MHI_EE_P=
+THRU || \
+> > > >                       ee =3D=3D MHI_EE_EDL)
+> > > > -#define MHI_POWER_UP_CAPABLE(ee) (MHI_IN_PBL(ee) || ee =3D=3D MHI_=
+EE_AMSS)
+> > > > +#define MHI_POWER_UP_CAPABLE(ee) (MHI_IN_PBL(ee) || ee =3D=3D MHI_=
+EE_AMSS || ee =3D=3D MHI_EE_SBL)
+> > > >  #define MHI_FW_LOAD_CAPABLE(ee) (ee =3D=3D MHI_EE_PBL || ee =3D=3D=
+ MHI_EE_EDL)
+> > > >  #define MHI_IN_MISSION_MODE(ee) (ee =3D=3D MHI_EE_AMSS || ee =3D=
+=3D MHI_EE_WFW || \
+> > > >                                ee =3D=3D MHI_EE_FP)
+> > > > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> > > > index 083459028a4b..18872c5017be 100644
+> > > > --- a/drivers/bus/mhi/host/pm.c
+> > > > +++ b/drivers/bus/mhi/host/pm.c
+> > > > @@ -1203,10 +1203,11 @@ int mhi_sync_power_up(struct mhi_controller=
+ *mhi_cntrl)
+> > > >
+> > > >       wait_event_timeout(mhi_cntrl->state_event,
+> > > >                          MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
+> > > > +                        mhi_cntrl->ee =3D=3D MHI_EE_SBL ||
+> > > >                          MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)=
+,
+> > > >                          msecs_to_jiffies(mhi_cntrl->timeout_ms));
+> > > >
+> > > > -     ret =3D (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT=
+;
+> > > > +     ret =3D (MHI_IN_MISSION_MODE(mhi_cntrl->ee) || mhi_cntrl->ee =
+=3D=3D MHI_EE_SBL) ? 0 : -ETIMEDOUT;
+> > > >       if (ret)
+> > > >               mhi_power_down(mhi_cntrl, false);
+> > > >
+> > > > --
+> > > > 2.37.1
+> > > >
+> > >
+> > > --
+> > > =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=
+=A9=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=
+=AE=E0=AF=8D
+>
+> --
+> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
+=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
+=E0=AF=8D
