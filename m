@@ -1,260 +1,221 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FAD14274
-	for <mhi@lists.linux.dev>; Thu,  1 Jun 2023 09:51:14 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5149e65c244so985200a12.3
-        for <mhi@lists.linux.dev>; Thu, 01 Jun 2023 02:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685613073; x=1688205073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ipYHDpe1QatHXo7eCL9Afp3YAb0BU3UNGO/X/1rrl8s=;
-        b=lLP+JzhOp96rZKqFBa+BET4AFt0Xw0A+GVYtYhnDcCV0dlKUcpL7Av8egVwZHi8kPA
-         jAX3ldb3QG6qCjF8R0Y45kuST8N0s1eHp0Kl16LDTU27xo9PBbfrLRxuRNUBL6BoIher
-         LleGiJL5TwT20ipkYQB4dJVpl49Jf74FarIIUjHKdIS40xpWCw+3oVv1GMIP0znX3y2E
-         oxb9T3OEcH8nYnZWnTAOFI1Um/ZQtKeGJ/+9RWrSdcg1TaZVmuhxBW2XjfPQCKyoJemH
-         LDCBVeWQM5jxk0J82P8zc3f1a9eBOqRIOSOERajQxFPlhLnixCNZ5nkoX07Bi0vXrtdI
-         OxYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685613073; x=1688205073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ipYHDpe1QatHXo7eCL9Afp3YAb0BU3UNGO/X/1rrl8s=;
-        b=F1VQeU7afuAa75h4gHdELqbKdihHLe4m6pd9kP7BpPma/9dVRhQJdUhb4YUbhDwWUJ
-         YKWsRztdRf7mEekDvCFJ4b6TWZJTXNk+KhFSsGpnCvPj4+iayC5MBm0Uq0nIhmVBp58m
-         kOHYq/5MecFRXKKPqqfB/o6pqTpCgO1wm0NA1BFTR9z91qOS4AYIuqpUkOnCUJ3jiIIO
-         kpdEOC0XxbQRTjAdgD6B7MigcZAfYqllorN+fUGqQZxHqZ+qsIH+mHFN50awc0/uDJCf
-         +5MEucEira9pdHvaJARTDfvKWuCf27sZpZf6JOPPRK5Gwa8mvH4MkMWxwiufwB5QHjJD
-         vakQ==
-X-Gm-Message-State: AC+VfDzlkFB+PvotWeLuWnEL7fApWmG46UDkuA7AAXGQYUO2JWkZPSM8
-	7bIMiwZ0kWX/8JNRNKx1TzzgaXCI3ZaPikRRuYk=
-X-Google-Smtp-Source: ACHHUZ5cYVNSeZ0igWxvLnhE1d9sg8AB9rs7tSqt9svZ+JNJIIna6GFgG0SPZwG0B2wPbX35LQ3o9gaZMoF0Cbalq1M=
-X-Received: by 2002:aa7:c712:0:b0:50c:451b:d0f0 with SMTP id
- i18-20020aa7c712000000b0050c451bd0f0mr5758858edq.37.1685613072652; Thu, 01
- Jun 2023 02:51:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49F833303
+	for <mhi@lists.linux.dev>; Fri,  2 Jun 2023 17:17:38 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 352CsuID026594;
+	Fri, 2 Jun 2023 17:17:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=P8kyodF2jzzYpDdKzUjvz7vqif2Wp2TMDpY8lTBod4I=;
+ b=R5MJsUKWhOn57dozDKyCqGTWVfua8y0bMUZYdTPP3eQXa1msh/e8zfms9b9H0I1aNbif
+ OQnn3mK95CzxuStiKocWhw3iem1oZeDiadJBaQ3S1MKsK/mWzHLIWUoxYCPNOa0alPEI
+ DqfSVnWyhuwPqOESrPdhgLqx1H0kS7zZTEELopPtlme+gZubZM6nfO2Y9M0GIKiu6V7S
+ aClWVqQoFbFzWP6AAyhkUEEuZgsz15x6b12AmdK8VP05eGKDs0QuM31mbYRqMhLB3MSC
+ +7PweVM/l85cJPBNe2kTra6B+lSIJIVyVqMJXhm3wiDiVIzwUoT0phwyjhloP/oOF0IK Pw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qy1bcjbab-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Jun 2023 17:17:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 352HHNQT005274
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Jun 2023 17:17:23 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 2 Jun 2023
+ 10:17:22 -0700
+Message-ID: <6494e9f5-a4df-c058-49bb-1ebfeca5a91d@quicinc.com>
+Date: Fri, 2 Jun 2023 11:17:22 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230530091340.3513141-1-dnlplm@gmail.com> <20230530103103.GB6379@thinkpad>
- <CAGRyCJGR4YsUgWekf_DgYHJqoXNfmFpL-N_virvqE18aU=Ovkg@mail.gmail.com>
- <20230530135620.GA2313@thinkpad> <CAGRyCJG6+k4PZq0V3h-c-SiEm_7ExjoACTtbgCOEeSt3AQjM3g@mail.gmail.com>
- <20230531130104.GG7968@thinkpad>
-In-Reply-To: <20230531130104.GG7968@thinkpad>
-From: Daniele Palmas <dnlplm@gmail.com>
-Date: Thu, 1 Jun 2023 11:51:01 +0200
-Message-ID: <CAGRyCJGXEzUHOp=5emq1a50-oCgWSjn+sPPFR4DKn019kQTQcw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] bus: mhi: host: allow SBL as initial EE
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 1/3] bus: mhi: host: allow MHI client drivers to
+ provide the firmware via a pointer
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>
+CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
+References: <20230530141813.29333-1-kvalo@kernel.org>
+ <20230530141813.29333-2-kvalo@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230530141813.29333-2-kvalo@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: lOK129aB9OipqPTAAAGtNBeu9PcWq32J
+X-Proofpoint-GUID: lOK129aB9OipqPTAAAGtNBeu9PcWq32J
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-02_13,2023-06-02_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ mlxlogscore=999 adultscore=0 clxscore=1011 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2306020131
 
-Il giorno mer 31 mag 2023 alle ore 15:01 Manivannan Sadhasivam
-<mani@kernel.org> ha scritto:
->
-> On Wed, May 31, 2023 at 01:44:24PM +0200, Daniele Palmas wrote:
-> > Il giorno mar 30 mag 2023 alle ore 15:56 Manivannan Sadhasivam
-> > <mani@kernel.org> ha scritto:
-> > >
-> > > On Tue, May 30, 2023 at 01:12:59PM +0200, Daniele Palmas wrote:
-> > > > Hi Mani,
-> > > >
-> > > > Il giorno mar 30 mag 2023 alle ore 12:31 Manivannan Sadhasivam
-> > > > <mani@kernel.org> ha scritto:
-> > > > >
-> > > > > On Tue, May 30, 2023 at 11:13:40AM +0200, Daniele Palmas wrote:
-> > > > > > There are situations in which SBL is a legitimate initial execu=
-tion
-> > > > > > environment (e.g. modem stuck in SBL due to a firmware failure.=
-..), but
-> > > > > > mhi refuses to start:
-> > > > > >
-> > > > > > mhi-pci-generic 0000:01:00.0: MHI PCI device found: foxconn-sdx=
-55
-> > > > > > mhi-pci-generic 0000:01:00.0: BAR 0: assigned
-> > > > > > mhi-pci-generic 0000:01:00.0: enabling device (0000 -> 0002)
-> > > > > > mhi mhi0: Requested to power ON
-> > > > > > mhi mhi0: SECONDARY BOOTLOADER is not a valid EE for power on
-> > > > > > mhi-pci-generic 0000:01:00.0: failed to power up MHI controller
-> > > > > > mhi-pci-generic: probe of 0000:01:00.0 failed with error -5
-> > > > > >
-> > > > > > Fix this by adding SBL as an allowed initial execution environm=
-ent.
-> > > > > >
-> > > > >
-> > > > > What can you do with the modem when firmware failure happens? If =
-there is a
-> > > > > usecase, please explain.
-> > > >
-> > > > (removing Siddartha and Sujeev due to addresses not working)
-> > > >
-> > >
-> > > Both left Qualcomm a while ago...
-> > >
-> > > > A possible scenario for a Telit modem not being able to go to missi=
-on
-> > > > mode is when a firmware update does not work properly: in this case=
- it
-> > > > remains stuck in SBL, but the SAHARA device can be used for retryin=
-g
-> > > > the firmware update.
-> > > >
-> > >
-> > > So IIUC, while updating SBL over SAHARA channel, the firmware update =
-could be
-> > > corrupted and the device would get stuck in SBL EE. In that case, the=
- SAHARA
-> > > channel exposed by PBL will still be open and that could be used to r=
-etry the
-> > > firmware update. Am I right?
-> > >
-> > > Looks like PBL is doing a fail safe upgrade!
-> > >
-> >
-> > Yes, the scenario is a broken firmware update.
-> >
-> > Telit has implemented custom code in the SBL for allowing the firmware
-> > update through a custom protocol using the SAHARA channels: this has
-> > been mainly done to avoid sharing with customers Qualcomm IP about
-> > firmware update, since it is usually problematic.
-> >
-> > Firmware update is fail safe in the sense that it is guaranteed that
-> > the modem will always power-up at least in SBL, in which the firmware
-> > update can always be retried. I don't have the exact details of what
-> > is happening inside the modem, but, if required, I can get them.
-> >
->
-> Okay, I didn't now that it is a custom SBL, so yeah it may not benefit ot=
-her
-> platforms. But what is the userspace tool that you are using to download
-> firmware over SAHARA?
+On 5/30/2023 8:18 AM, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
+> 
+> Currently MHI loads the firmware image from the path provided by client
+> devices. ath11k needs to support firmware image embedded along with meta data
+> (named as firmware-2.bin). So allow the client driver to request the firmware
+> file from user space on it's own and provide the firmware image data and size
+> to MHI via a pointer struct mhi_controller::fw_data.
+> 
+> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+> name from struct mhi_controller::fw_image string as before.
+> 
+> Tested with ath11k and WCN6855 hw2.0.
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> ---
+>   drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
+>   include/linux/mhi.h         |  6 ++++++
+>   2 files changed, 31 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index d2a19b07ccb8..edc0ec5a0933 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>   }
+>   
+>   static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
+> -			      const struct firmware *firmware,
+> +			      const u8 *buf, size_t remainder,
+>   			      struct image_info *img_info)
+>   {
+> -	size_t remainder = firmware->size;
+>   	size_t to_cpy;
+> -	const u8 *buf = firmware->data;
+>   	struct mhi_buf *mhi_buf = img_info->mhi_buf;
+>   	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
+>   
+> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>   	enum mhi_pm_state new_state;
+>   	const char *fw_name;
+> +	const u8 *fw_data;
+>   	void *buf;
+>   	dma_addr_t dma_addr;
+> -	size_t size;
+> +	size_t size, fw_sz;
+>   	int i, ret;
+>   
+>   	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
+>   		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
+>   
+> +	/* check if the driver has already provided the firmware data */
+> +	if (!fw_name && mhi_cntrl->fbc_download &&
+> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
+> +		if (!mhi_cntrl->sbl_size) {
+> +			dev_err(dev, "fw_data provided but no sbl_size\n");
+> +			goto error_fw_load;
+> +		}
+> +
+> +		size = mhi_cntrl->sbl_size;
+> +		fw_data = mhi_cntrl->fw_data;
+> +		fw_sz = mhi_cntrl->fw_sz;
+> +		goto skip_req_fw;
+> +	}
+> +
+>   	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
+>   						     !mhi_cntrl->seg_len))) {
+>   		dev_err(dev,
+> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	if (size > firmware->size)
+>   		size = firmware->size;
+>   
+> +	fw_data = firmware->data;
+> +	fw_sz = firmware->size;
+> +
+> +skip_req_fw:
+>   	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
+>   				 GFP_KERNEL);
+>   	if (!buf) {
+> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	}
+>   
+>   	/* Download image using BHI */
+> -	memcpy(buf, firmware->data, size);
+> +	memcpy(buf, fw_data, size);
+>   	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
+>   	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
+>   
+> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	}
+>   
+>   	/* Wait for ready since EDL image was loaded */
+> -	if (fw_name == mhi_cntrl->edl_image) {
+> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
+>   		release_firmware(firmware);
+>   		goto fw_load_ready_state;
+>   	}
+> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>   	 * device transitioning into MHI READY state
+>   	 */
+>   	if (mhi_cntrl->fbc_download) {
+> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+> -					   firmware->size);
+> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>   		if (ret) {
+>   			release_firmware(firmware);
+>   			goto error_fw_load;
+>   		}
+>   
+>   		/* Load the firmware into BHIE vec table */
+> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
+> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+>   	}
+>   
+>   	release_firmware(firmware);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index f6de4b6ecfc7..7bd58fcb7e58 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -299,6 +299,10 @@ struct mhi_controller_config {
+>    * @iova_start: IOMMU starting address for data (required)
+>    * @iova_stop: IOMMU stop address for data (required)
+>    * @fw_image: Firmware image name for normal booting (optional)
+> + * @fw_data: Firmware image data content for normal booting, used only
+> + *           if fw_image is NULL (optional)
 
-The userspace tool is not public at the moment, but will check about
-the plans for open-sourcing.
+It looks like your implementation requires fbc_download to be set, and 
+while you mention that for fw_sz, you don't mention it here.  While I 
+think this would be useful for non-fbc usecases, we don't have that use 
+currently.
 
-> Can QDL be used?
+I think documenting the fbc_download requirement and letting the usecase 
+that needs this for non-fbc extend it is reasonable.
 
-I will check that with firmware developers.
+With this,
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Reading also Jeffrey's reply, since this looks like a Telit modem
-quirk, I'm wondering if it could make sense to deal with this again
-once the quirk framework at
-https://lore.kernel.org/mhi/20230519163902.4170-2-quic_jhugo@quicinc.com/T/=
-#u
-gets merged, otherwise I guess we can continue living with custom
-patches.
+> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+> + *         is NULL and fbc_download is true (optional)
+>    * @edl_image: Firmware image name for emergency download mode (optional)
+>    * @rddm_size: RAM dump size that host should allocate for debugging purpose
+>    * @sbl_size: SBL image size downloaded through BHIe (optional)
+> @@ -384,6 +388,8 @@ struct mhi_controller {
+>   	dma_addr_t iova_start;
+>   	dma_addr_t iova_stop;
+>   	const char *fw_image;
+> +	const u8 *fw_data;
+> +	size_t fw_sz;
+>   	const char *edl_image;
+>   	size_t rddm_size;
+>   	size_t sbl_size;
 
-Thanks,
-Daniele
-
-> - Mani
->
-> > > > Telit FN990 supports the SAHARA channels in pci_generic. It's true
-> > > > that there's still missing the exposed device for userspace, someth=
-ing
-> > > > that we are currently managing with out of tree patches, but I see
-> > > > that there's some ongoing effort for that
-> > > > https://lore.kernel.org/mhi/20230522190459.13790-1-quic_jhugo@quici=
-nc.com/
-> > > >
-> > > > I'm not sure if non-Telit modems have other reasonable use-cases.
-> > > >
-> > >
-> > > If my above understanding is correct, then this patch will benefit ot=
-her
-> > > platforms too.
-> > >
-> >
-> > Well... I can't comment on that, since I don't know if the above
-> > described behavior is due to Telit custom SBL.
-> >
-> > Anyway, maybe there could be other scenarios like, for example, modem
-> > falling into core dump mode in a very early stage? Not sure...
-> >
-> > Regards,
-> > Daniele
-> >
-> > > - Mani
-> > >
-> > > > Regards,
-> > > > Daniele
-> > > >
-> > > > >
-> > > > > - Mani
-> > > > >
-> > > > > > Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM =
-operations")
-> > > > > > Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/bus/mhi/host/internal.h | 2 +-
-> > > > > >  drivers/bus/mhi/host/pm.c       | 3 ++-
-> > > > > >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/=
-host/internal.h
-> > > > > > index 2e139e76de4c..3bdcd2321aa5 100644
-> > > > > > --- a/drivers/bus/mhi/host/internal.h
-> > > > > > +++ b/drivers/bus/mhi/host/internal.h
-> > > > > > @@ -56,7 +56,7 @@ extern const char * const mhi_ee_str[MHI_EE_M=
-AX];
-> > > > > >
-> > > > > >  #define MHI_IN_PBL(ee) (ee =3D=3D MHI_EE_PBL || ee =3D=3D MHI_=
-EE_PTHRU || \
-> > > > > >                       ee =3D=3D MHI_EE_EDL)
-> > > > > > -#define MHI_POWER_UP_CAPABLE(ee) (MHI_IN_PBL(ee) || ee =3D=3D =
-MHI_EE_AMSS)
-> > > > > > +#define MHI_POWER_UP_CAPABLE(ee) (MHI_IN_PBL(ee) || ee =3D=3D =
-MHI_EE_AMSS || ee =3D=3D MHI_EE_SBL)
-> > > > > >  #define MHI_FW_LOAD_CAPABLE(ee) (ee =3D=3D MHI_EE_PBL || ee =
-=3D=3D MHI_EE_EDL)
-> > > > > >  #define MHI_IN_MISSION_MODE(ee) (ee =3D=3D MHI_EE_AMSS || ee =
-=3D=3D MHI_EE_WFW || \
-> > > > > >                                ee =3D=3D MHI_EE_FP)
-> > > > > > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/p=
-m.c
-> > > > > > index 083459028a4b..18872c5017be 100644
-> > > > > > --- a/drivers/bus/mhi/host/pm.c
-> > > > > > +++ b/drivers/bus/mhi/host/pm.c
-> > > > > > @@ -1203,10 +1203,11 @@ int mhi_sync_power_up(struct mhi_contro=
-ller *mhi_cntrl)
-> > > > > >
-> > > > > >       wait_event_timeout(mhi_cntrl->state_event,
-> > > > > >                          MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
-> > > > > > +                        mhi_cntrl->ee =3D=3D MHI_EE_SBL ||
-> > > > > >                          MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_st=
-ate),
-> > > > > >                          msecs_to_jiffies(mhi_cntrl->timeout_ms=
-));
-> > > > > >
-> > > > > > -     ret =3D (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIME=
-DOUT;
-> > > > > > +     ret =3D (MHI_IN_MISSION_MODE(mhi_cntrl->ee) || mhi_cntrl-=
->ee =3D=3D MHI_EE_SBL) ? 0 : -ETIMEDOUT;
-> > > > > >       if (ret)
-> > > > > >               mhi_power_down(mhi_cntrl, false);
-> > > > > >
-> > > > > > --
-> > > > > > 2.37.1
-> > > > > >
-> > > > >
-> > > > > --
-> > > > > =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=
-=E0=AE=A9=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=
-=E0=AE=AE=E0=AF=8D
-> > >
-> > > --
-> > > =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=
-=A9=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=
-=AE=E0=AF=8D
->
-> --
-> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
-=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
-=E0=AF=8D
