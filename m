@@ -1,42 +1,43 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF622A9E7
-	for <mhi@lists.linux.dev>; Tue,  6 Jun 2023 12:31:27 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b0424c5137so52381115ad.1
-        for <mhi@lists.linux.dev>; Tue, 06 Jun 2023 05:31:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8A42DBDC
+	for <mhi@lists.linux.dev>; Tue,  6 Jun 2023 12:31:30 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b0478487c3so26315835ad.1
+        for <mhi@lists.linux.dev>; Tue, 06 Jun 2023 05:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686054686; x=1688646686;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tnSMPv17DxTIc0EApfFv62sMiPCzQPBGurL8DNcMIjg=;
-        b=ED5wHJmn8ZLA4iS49IErYUL2x+RV79G+ND9qTHeNJbgfhZx7HbbumKO2Om+e9nia4V
-         yLaa3ju2IQyNwjbRagoYWRS8/l4YVdjaaw6ihstAhHGdELxqy6r+TLRL2ywnhZciz3KV
-         GnAEUMWUEEL21U3AJweaap5Ejp07h7T8TlbdcFl6CRQX7Wm+mscilpdpQLlPOBqMlPo2
-         MriRTlfdFH7X8ZHh1SrhCrNNIG5XlOO7DgaBK4BKLkHnI6MIfD5pNEhzYAvNO3ANhGE6
-         DtvXj5S0QGMn1naH/1ZH9yW9pz5Ug+gFXZ/hzfvymwHBZWUwoCGvIUxnaDAe+7MtLYqL
-         JSAw==
+        d=linaro.org; s=google; t=1686054690; x=1688646690;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4bR4/JDXMxihfPEGKcTXFJHlKlbGf1Imp+ICKaG0tKk=;
+        b=Lsv9Pjc/J5JCZCZkwVIv1r9X0WEbg5FRCdvenElvxxx0PTZEf8gbj9362LLy1ehymJ
+         zociLJ2QXW/iA3xrTvZhEf4OI/piTJrkwU50aY/wvDIRfdpS+PJFBI1UsP2nNOYucREf
+         DmI0QD+5EalV8fer6j1blh9WOsYETWSKzCucZTrgBt/wWL4a/WIdMiqcMJMgLobqUPCm
+         HR6QFWMgbTQt/ljD2zy99UUFzpG4lZASRyrakL2irja6MtwiAxZ/LN8DSB85cw3lcm8h
+         2vWjo6QjCntgUNa/2pDm5kka+8vrmidC7NKtfxHtRgOshQ+CmVxfDSlHGgc161kaOkXy
+         TwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686054686; x=1688646686;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tnSMPv17DxTIc0EApfFv62sMiPCzQPBGurL8DNcMIjg=;
-        b=WHebNAUziaak7/ooEyCDx/9Y2NR9E4j5AcY1qsF8r+Q/H4dYoTV5m5z1XNOLarZxz7
-         lwTX2sT1JV/g+cR8Jlpn0X7TurCrRPY/atzNOWGWeiQYMPL6RpNVd0Cmw9EQ4VTKJmLt
-         MADT5fs391CW2fIXzKBTNZLcEE5FUC9UAVyKHN1SnkNA+nsWasbzBDGDsyQ2VUKSPqJh
-         fLzVxCQhuEnTqDckZmyx4aazh6Q0dNelZwyPiVY6hDGLCdF9bNAYhGYUQe3n30Zk3Vj8
-         dgUTjcudDuW5eC67yH2of7aFunZnNINI9xkqgwXAxmwlLwJIHSo/AaYoHUNHWegx5X/9
-         s0lA==
-X-Gm-Message-State: AC+VfDwSXNE+SaFionvZRWxZBWTvju2JkQ+VZPW2v86eCxEKJai34MJP
-	RM7/TvziGDqBRsdOjCv3ilbH
-X-Google-Smtp-Source: ACHHUZ5LRdxhkL8Kk+RGl8CqeDCwiNOHqL0Cxwey/pXI4lj1u2B/gUi3CJwfcNE/jc4Z0yeasnVUKw==
-X-Received: by 2002:a17:903:22c3:b0:1b0:3df1:c293 with SMTP id y3-20020a17090322c300b001b03df1c293mr2206016plg.45.1686054686649;
-        Tue, 06 Jun 2023 05:31:26 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686054690; x=1688646690;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4bR4/JDXMxihfPEGKcTXFJHlKlbGf1Imp+ICKaG0tKk=;
+        b=XtOPDtVeidqtjE0zdWySyUQe3k9fRNbtAZBs9gAsdvXyS7//G1+GYSxt5+9PTdYnX/
+         3wc1U5gORClKtLUAtO2iVDjQsCijukjkLa5apSE6fxe/nUoORsdQD6rGsOYsgjV+j0yz
+         l4CM/n9B5aA2ZGnJsnO8dQRcI499o/2L0dlimedVrDXPr/CQRgMYFDrbUHO12TG2NEPV
+         ievgivDPbjUDIKY9QvAIVsNfE+utuF31328Ypa+JHsZ89FbjFs2KIxzt1z81KR2Tm2q9
+         mYs1/zdHDxd+AGhLjIjGdxIHwkKmQ7wVhdZxZtjcgCdOUMafa199bdOj+XTbFC2ji1Uh
+         X5Hg==
+X-Gm-Message-State: AC+VfDwF3mMu/0YLZXXMimMEswbXpNG6OoJsg192QzKcSfxq+doqhjGf
+	qE/B4Nh6WqJQKn6gnLvfHAMM
+X-Google-Smtp-Source: ACHHUZ4wOgD8oZXJOUzfrt5cyuhOiIytzpywDtwkmMEz/ZhifHxmQ+jj+TpidcYSbsz6Q9nB3rZQNw==
+X-Received: by 2002:a17:903:1250:b0:1b0:4680:3f with SMTP id u16-20020a170903125000b001b04680003fmr764540plh.41.1686054689929;
+        Tue, 06 Jun 2023 05:31:29 -0700 (PDT)
 Received: from localhost.localdomain ([117.202.186.178])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902c74500b001ae59169f05sm8446431plq.182.2023.06.06.05.31.23
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902c74500b001ae59169f05sm8446431plq.182.2023.06.06.05.31.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 05:31:26 -0700 (PDT)
+        Tue, 06 Jun 2023 05:31:29 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: davem@davemloft.net,
 	edumazet@google.com,
@@ -48,10 +49,12 @@ Cc: mhi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	loic.poulain@linaro.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 0/3] Add MHI Endpoint network driver
-Date: Tue,  6 Jun 2023 18:01:16 +0530
-Message-Id: <20230606123119.57499-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 1/3] net: Add MHI Endpoint network driver
+Date: Tue,  6 Jun 2023 18:01:17 +0530
+Message-Id: <20230606123119.57499-2-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230606123119.57499-1-manivannan.sadhasivam@linaro.org>
+References: <20230606123119.57499-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -60,34 +63,392 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Add a network driver for the Modem Host Interface (MHI) endpoint devices
+that provides network interfaces to the PCIe based Qualcomm endpoint
+devices supporting MHI bus. This driver allows the MHI endpoint devices to
+establish IP communication with the host machines (x86, ARM64) over MHI
+bus.
 
-This series adds a network driver for the Modem Host Interface (MHI) endpoint
-devices that provides network interfaces to the PCIe based Qualcomm endpoint
-devices supporting MHI bus (like Modems). This driver allows the MHI endpoint
-devices to establish IP communication with the host machines (x86, ARM64) over
-MHI bus.
+The driver currently supports only IP_SW0 MHI channel that can be used
+to route IP traffic from the endpoint CPU to host machine.
 
-On the host side, the existing mhi_net driver provides the network connectivity
-to the host.
-
-- Mani
-
-Manivannan Sadhasivam (3):
-  net: Add MHI Endpoint network driver
-  MAINTAINERS: Add entry for MHI networking drivers under MHI bus
-  net: mhi: Increase the default MTU from 16K to 32K
-
- MAINTAINERS              |   1 +
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
  drivers/net/Kconfig      |   9 ++
  drivers/net/Makefile     |   1 +
  drivers/net/mhi_ep_net.c | 331 +++++++++++++++++++++++++++++++++++++++
- drivers/net/mhi_net.c    |   2 +-
- 5 files changed, 343 insertions(+), 1 deletion(-)
+ 3 files changed, 341 insertions(+)
  create mode 100644 drivers/net/mhi_ep_net.c
 
-
-base-commit: ae91f7e436f8b631c47e244b892ecac62a4d9430
+diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+index 368c6f5b327e..ec1382d7fcbd 100644
+--- a/drivers/net/Kconfig
++++ b/drivers/net/Kconfig
+@@ -452,6 +452,15 @@ config MHI_NET
+ 	  QCOM based WWAN modems for IP or QMAP/rmnet protocol (like SDX55).
+ 	  Say Y or M.
+ 
++config MHI_EP_NET
++	tristate "MHI Endpoint network driver"
++	depends on MHI_BUS_EP
++	help
++	  This is the network driver for MHI bus implementation in endpoint
++	  devices. It is used provide the network interface for QCOM modems
++	  such as SDX55.
++	  Say Y or M.
++
+ endif # NET_CORE
+ 
+ config SUNGEM_PHY
+diff --git a/drivers/net/Makefile b/drivers/net/Makefile
+index e26f98f897c5..b8e706a4150e 100644
+--- a/drivers/net/Makefile
++++ b/drivers/net/Makefile
+@@ -40,6 +40,7 @@ obj-$(CONFIG_NLMON) += nlmon.o
+ obj-$(CONFIG_NET_VRF) += vrf.o
+ obj-$(CONFIG_VSOCKMON) += vsockmon.o
+ obj-$(CONFIG_MHI_NET) += mhi_net.o
++obj-$(CONFIG_MHI_EP_NET) += mhi_ep_net.o
+ 
+ #
+ # Networking Drivers
+diff --git a/drivers/net/mhi_ep_net.c b/drivers/net/mhi_ep_net.c
+new file mode 100644
+index 000000000000..b3960814c879
+--- /dev/null
++++ b/drivers/net/mhi_ep_net.c
+@@ -0,0 +1,331 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * MHI Endpoint Network driver
++ *
++ * Based on drivers/net/mhi_net.c
++ *
++ * Copyright (c) 2023, Linaro Ltd.
++ * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
++ */
++
++#include <linux/if_arp.h>
++#include <linux/mhi_ep.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/netdevice.h>
++#include <linux/skbuff.h>
++#include <linux/u64_stats_sync.h>
++
++#define MHI_NET_MIN_MTU		ETH_MIN_MTU
++#define MHI_NET_MAX_MTU		0xffff
++
++struct mhi_ep_net_stats {
++	u64_stats_t rx_packets;
++	u64_stats_t rx_bytes;
++	u64_stats_t rx_errors;
++	u64_stats_t tx_packets;
++	u64_stats_t tx_bytes;
++	u64_stats_t tx_errors;
++	u64_stats_t tx_dropped;
++	struct u64_stats_sync tx_syncp;
++	struct u64_stats_sync rx_syncp;
++};
++
++struct mhi_ep_net_dev {
++	struct mhi_ep_device *mdev;
++	struct net_device *ndev;
++	struct mhi_ep_net_stats stats;
++	struct workqueue_struct *xmit_wq;
++	struct work_struct xmit_work;
++	struct sk_buff_head tx_buffers;
++	spinlock_t tx_lock; /* Lock for protecting tx_buffers */
++	u32 mru;
++};
++
++static void mhi_ep_net_dev_process_queue_packets(struct work_struct *work)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = container_of(work,
++			struct mhi_ep_net_dev, xmit_work);
++	struct mhi_ep_device *mdev = mhi_ep_netdev->mdev;
++	struct sk_buff_head q;
++	struct sk_buff *skb;
++	int ret;
++
++	if (mhi_ep_queue_is_empty(mdev, DMA_FROM_DEVICE)) {
++		netif_stop_queue(mhi_ep_netdev->ndev);
++		return;
++	}
++
++	__skb_queue_head_init(&q);
++
++	spin_lock_bh(&mhi_ep_netdev->tx_lock);
++	skb_queue_splice_init(&mhi_ep_netdev->tx_buffers, &q);
++	spin_unlock_bh(&mhi_ep_netdev->tx_lock);
++
++	while ((skb = __skb_dequeue(&q))) {
++		ret = mhi_ep_queue_skb(mdev, skb);
++		if (ret) {
++			kfree(skb);
++			goto exit_drop;
++		}
++
++		u64_stats_update_begin(&mhi_ep_netdev->stats.tx_syncp);
++		u64_stats_inc(&mhi_ep_netdev->stats.tx_packets);
++		u64_stats_add(&mhi_ep_netdev->stats.tx_bytes, skb->len);
++		u64_stats_update_end(&mhi_ep_netdev->stats.tx_syncp);
++
++		/* Check if queue is empty */
++		if (mhi_ep_queue_is_empty(mdev, DMA_FROM_DEVICE)) {
++			netif_stop_queue(mhi_ep_netdev->ndev);
++			break;
++		}
++
++		consume_skb(skb);
++		cond_resched();
++	}
++
++	return;
++
++exit_drop:
++	u64_stats_update_begin(&mhi_ep_netdev->stats.tx_syncp);
++	u64_stats_inc(&mhi_ep_netdev->stats.tx_dropped);
++	u64_stats_update_end(&mhi_ep_netdev->stats.tx_syncp);
++}
++
++static int mhi_ndo_open(struct net_device *ndev)
++{
++	netif_carrier_on(ndev);
++	netif_start_queue(ndev);
++
++	return 0;
++}
++
++static int mhi_ndo_stop(struct net_device *ndev)
++{
++	netif_stop_queue(ndev);
++	netif_carrier_off(ndev);
++
++	return 0;
++}
++
++static netdev_tx_t mhi_ndo_xmit(struct sk_buff *skb, struct net_device *ndev)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = netdev_priv(ndev);
++
++	spin_lock(&mhi_ep_netdev->tx_lock);
++	skb_queue_tail(&mhi_ep_netdev->tx_buffers, skb);
++	spin_unlock(&mhi_ep_netdev->tx_lock);
++
++	queue_work(mhi_ep_netdev->xmit_wq, &mhi_ep_netdev->xmit_work);
++
++	return NETDEV_TX_OK;
++}
++
++static void mhi_ndo_get_stats64(struct net_device *ndev,
++				struct rtnl_link_stats64 *stats)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = netdev_priv(ndev);
++	unsigned int start;
++
++	do {
++		start = u64_stats_fetch_begin(&mhi_ep_netdev->stats.rx_syncp);
++		stats->rx_packets = u64_stats_read(&mhi_ep_netdev->stats.rx_packets);
++		stats->rx_bytes = u64_stats_read(&mhi_ep_netdev->stats.rx_bytes);
++		stats->rx_errors = u64_stats_read(&mhi_ep_netdev->stats.rx_errors);
++	} while (u64_stats_fetch_retry(&mhi_ep_netdev->stats.rx_syncp, start));
++
++	do {
++		start = u64_stats_fetch_begin(&mhi_ep_netdev->stats.tx_syncp);
++		stats->tx_packets = u64_stats_read(&mhi_ep_netdev->stats.tx_packets);
++		stats->tx_bytes = u64_stats_read(&mhi_ep_netdev->stats.tx_bytes);
++		stats->tx_errors = u64_stats_read(&mhi_ep_netdev->stats.tx_errors);
++		stats->tx_dropped = u64_stats_read(&mhi_ep_netdev->stats.tx_dropped);
++	} while (u64_stats_fetch_retry(&mhi_ep_netdev->stats.tx_syncp, start));
++}
++
++static const struct net_device_ops mhi_ep_netdev_ops = {
++	.ndo_open               = mhi_ndo_open,
++	.ndo_stop               = mhi_ndo_stop,
++	.ndo_start_xmit         = mhi_ndo_xmit,
++	.ndo_get_stats64	= mhi_ndo_get_stats64,
++};
++
++static void mhi_ep_net_setup(struct net_device *ndev)
++{
++	ndev->header_ops = NULL;  /* No header */
++	ndev->type = ARPHRD_RAWIP;
++	ndev->hard_header_len = 0;
++	ndev->addr_len = 0;
++	ndev->flags = IFF_POINTOPOINT | IFF_NOARP;
++	ndev->netdev_ops = &mhi_ep_netdev_ops;
++	ndev->mtu = MHI_EP_DEFAULT_MTU;
++	ndev->min_mtu = MHI_NET_MIN_MTU;
++	ndev->max_mtu = MHI_NET_MAX_MTU;
++	ndev->tx_queue_len = 1000;
++}
++
++static void mhi_ep_net_ul_callback(struct mhi_ep_device *mhi_dev,
++				   struct mhi_result *mhi_res)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = dev_get_drvdata(&mhi_dev->dev);
++	struct net_device *ndev = mhi_ep_netdev->ndev;
++	struct sk_buff *skb;
++	size_t size;
++
++	size = mhi_ep_netdev->mru ? mhi_ep_netdev->mru : READ_ONCE(ndev->mtu);
++
++	skb = netdev_alloc_skb(ndev, size);
++	if (unlikely(!skb)) {
++		u64_stats_update_begin(&mhi_ep_netdev->stats.rx_syncp);
++		u64_stats_inc(&mhi_ep_netdev->stats.rx_errors);
++		u64_stats_update_end(&mhi_ep_netdev->stats.rx_syncp);
++		return;
++	}
++
++	skb_copy_to_linear_data(skb, mhi_res->buf_addr, mhi_res->bytes_xferd);
++	skb->len = mhi_res->bytes_xferd;
++	skb->dev = mhi_ep_netdev->ndev;
++
++	if (unlikely(mhi_res->transaction_status)) {
++		switch (mhi_res->transaction_status) {
++		case -ENOTCONN:
++			/* MHI layer stopping/resetting the UL channel */
++			dev_kfree_skb_any(skb);
++			return;
++		default:
++			/* Unknown error, simply drop */
++			dev_kfree_skb_any(skb);
++			u64_stats_update_begin(&mhi_ep_netdev->stats.rx_syncp);
++			u64_stats_inc(&mhi_ep_netdev->stats.rx_errors);
++			u64_stats_update_end(&mhi_ep_netdev->stats.rx_syncp);
++		}
++	} else {
++		skb_put(skb, mhi_res->bytes_xferd);
++
++		switch (skb->data[0] & 0xf0) {
++		case 0x40:
++			skb->protocol = htons(ETH_P_IP);
++			break;
++		case 0x60:
++			skb->protocol = htons(ETH_P_IPV6);
++			break;
++		default:
++			skb->protocol = htons(ETH_P_MAP);
++			break;
++		}
++
++		u64_stats_update_begin(&mhi_ep_netdev->stats.rx_syncp);
++		u64_stats_inc(&mhi_ep_netdev->stats.rx_packets);
++		u64_stats_add(&mhi_ep_netdev->stats.rx_bytes, skb->len);
++		u64_stats_update_end(&mhi_ep_netdev->stats.rx_syncp);
++		netif_rx(skb);
++	}
++}
++
++static void mhi_ep_net_dl_callback(struct mhi_ep_device *mhi_dev,
++				   struct mhi_result *mhi_res)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = dev_get_drvdata(&mhi_dev->dev);
++
++	if (unlikely(mhi_res->transaction_status == -ENOTCONN))
++		return;
++
++	/* Since we got enough buffers to queue, wake the queue if stopped */
++	if (netif_queue_stopped(mhi_ep_netdev->ndev)) {
++		netif_wake_queue(mhi_ep_netdev->ndev);
++		queue_work(mhi_ep_netdev->xmit_wq, &mhi_ep_netdev->xmit_work);
++	}
++}
++
++static int mhi_ep_net_newlink(struct mhi_ep_device *mhi_dev, struct net_device *ndev)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev;
++	int ret;
++
++	mhi_ep_netdev = netdev_priv(ndev);
++
++	dev_set_drvdata(&mhi_dev->dev, mhi_ep_netdev);
++	mhi_ep_netdev->ndev = ndev;
++	mhi_ep_netdev->mdev = mhi_dev;
++	mhi_ep_netdev->mru = mhi_dev->mhi_cntrl->mru;
++
++	skb_queue_head_init(&mhi_ep_netdev->tx_buffers);
++	spin_lock_init(&mhi_ep_netdev->tx_lock);
++
++	u64_stats_init(&mhi_ep_netdev->stats.rx_syncp);
++	u64_stats_init(&mhi_ep_netdev->stats.tx_syncp);
++
++	mhi_ep_netdev->xmit_wq = alloc_workqueue("mhi_ep_net_xmit_wq", 0, WQ_HIGHPRI);
++	INIT_WORK(&mhi_ep_netdev->xmit_work, mhi_ep_net_dev_process_queue_packets);
++
++	ret = register_netdev(ndev);
++	if (ret) {
++		destroy_workqueue(mhi_ep_netdev->xmit_wq);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void mhi_ep_net_dellink(struct mhi_ep_device *mhi_dev, struct net_device *ndev)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = netdev_priv(ndev);
++
++	destroy_workqueue(mhi_ep_netdev->xmit_wq);
++	unregister_netdev(ndev);
++	free_netdev(ndev);
++	dev_set_drvdata(&mhi_dev->dev, NULL);
++}
++
++static int mhi_ep_net_probe(struct mhi_ep_device *mhi_dev, const struct mhi_device_id *id)
++{
++	struct net_device *ndev;
++	int ret;
++
++	ndev = alloc_netdev(sizeof(struct mhi_ep_net_dev), (const char *)id->driver_data,
++			    NET_NAME_PREDICTABLE, mhi_ep_net_setup);
++	if (!ndev)
++		return -ENOMEM;
++
++	SET_NETDEV_DEV(ndev, &mhi_dev->dev);
++
++	ret = mhi_ep_net_newlink(mhi_dev, ndev);
++	if (ret) {
++		free_netdev(ndev);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void mhi_ep_net_remove(struct mhi_ep_device *mhi_dev)
++{
++	struct mhi_ep_net_dev *mhi_ep_netdev = dev_get_drvdata(&mhi_dev->dev);
++
++	mhi_ep_net_dellink(mhi_dev, mhi_ep_netdev->ndev);
++}
++
++static const struct mhi_device_id mhi_ep_net_id_table[] = {
++	/* Software data PATH (from endpoint CPU) */
++	{ .chan = "IP_SW0", .driver_data = (kernel_ulong_t)"mhi_swip%d" },
++	{}
++};
++MODULE_DEVICE_TABLE(mhi, mhi_ep_net_id_table);
++
++static struct mhi_ep_driver mhi_ep_net_driver = {
++	.probe = mhi_ep_net_probe,
++	.remove = mhi_ep_net_remove,
++	.dl_xfer_cb = mhi_ep_net_dl_callback,
++	.ul_xfer_cb = mhi_ep_net_ul_callback,
++	.id_table = mhi_ep_net_id_table,
++	.driver = {
++		.name = "mhi_ep_net",
++		.owner = THIS_MODULE,
++	},
++};
++
++module_mhi_ep_driver(mhi_ep_net_driver);
++
++MODULE_AUTHOR("Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>");
++MODULE_DESCRIPTION("MHI Endpoint Network driver");
++MODULE_LICENSE("GPL");
 -- 
 2.25.1
 
