@@ -1,58 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1971772E;
-	Wed,  7 Jun 2023 17:43:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FBDCC433D2;
-	Wed,  7 Jun 2023 17:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686159831;
-	bh=pZcTVLLiIRL735nUNe2nRR+4NmAQlsIK40zLI6qlujk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=si6CZLulOOFQBwBLvCrGPujNsZgJJv/o7yK0rUP061dgsOcNkqrtpIFMXnEBrHssV
-	 vksE/O1f8ba1i6P8FaMH41D2MBI2e1xzfrsocFKuRcY+AMFSq9ZOFyl+/+MohsfCjG
-	 LqWncXg5pnJSlsfUnC2ECdCdDpRGn+RHw85Zv/C2FgSaKdbOieW5yf5iGQzeeqNG0+
-	 EgudZmd16HbPkMVmNTjYX+F5Kft7RBWe7QP3bFHSY8yP/6vR8ayv/66yOEfriHqMYY
-	 zZEZnav0PSAgb7IB+pG0bw7n8/vL/Rv1toWKRgHUfxqL7xOphTlctNJ0gQIuxMbdjy
-	 gJD5Pw6uPfJUw==
-Date: Wed, 7 Jun 2023 10:43:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, loic.poulain@linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC9F34D75
+	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 18:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=rwP8NTNH2Q6n+MZ4JXwJhAX1XWocWHZPOYyXpdS4lqo=; b=PU0wKnZrtgQMRYj6qfniT+fCgX
+	EZoZx2Xq7hCpCJj4j5OyMiAswAY8aXr9hpojQ3NQbAOXAcMDl0FPospMxECWN+XHfScyVUWulkU7S
+	gxPn4MDtiHw/sQAgSq07hylEU+Aims6XtAZozTokdfVNfzxMTZ9Yg6HfTBW6DbzeTgAU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1q6xf2-00FB1U-1k; Wed, 07 Jun 2023 20:13:32 +0200
+Date: Wed, 7 Jun 2023 20:13:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org
 Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
-Message-ID: <20230607104350.03a51711@kernel.org>
-In-Reply-To: <20230607171153.GA109456@thinkpad>
+Message-ID: <eb4b45ab-1f51-47e9-a286-a9e26461ebed@lunn.ch>
 References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
-	<20230607094922.43106896@kernel.org>
-	<20230607171153.GA109456@thinkpad>
+ <20230607094922.43106896@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607094922.43106896@kernel.org>
 
-On Wed, 7 Jun 2023 22:41:53 +0530 Manivannan Sadhasivam wrote:
-> > In any case, I'm opposed to reuse of the networking stack to talk
-> > to firmware. It's a local device. The networking subsystem doesn't
-> > have to cater to fake networks. Please carry:
+On Wed, Jun 07, 2023 at 09:49:22AM -0700, Jakub Kicinski wrote:
+> On Wed,  7 Jun 2023 20:54:25 +0530 Manivannan Sadhasivam wrote:
+> > This series adds a network driver for the Modem Host Interface (MHI) endpoint
+> > devices that provides network interfaces to the PCIe based Qualcomm endpoint
+> > devices supporting MHI bus (like Modems). This driver allows the MHI endpoint
+> > devices to establish IP communication with the host machines (x86, ARM64) over
+> > MHI bus.
 > > 
-> > Nacked-by: Jakub Kicinski <kuba@kernel.org>
-> > 
-> > if there are future submissions.  
+> > On the host side, the existing mhi_net driver provides the network connectivity
+> > to the host.
 > 
-> Why shouldn't it be? With this kind of setup one could share the data connectivity
-> available in the device with the host over IP tunneling. If the IP source in the
-> device (like modem DSP) has no way to be shared with the host, then those IP
-> packets could be tunneled through this interface for providing connectivity to
-> the host.
+> Why are you posting the next version before the discussion on the
+> previous one concluded? :|
 > 
-> I believe this is a common usecase among the PCIe based wireless endpoint
-> devices.
+> In any case, I'm opposed to reuse of the networking stack to talk
+> to firmware. It's a local device. The networking subsystem doesn't
+> have to cater to fake networks. Please carry:
+> 
+> Nacked-by: Jakub Kicinski <kuba@kernel.org>
 
-We can handwave our way into many scenarios and terrible architectures.
-I don't see any compelling reason to merge this.
+Remote Processor Messaging (rpmsg) Framework does seem to be what is
+supposed to be used for these sorts of situations. Not that i know
+much about it.
+
+     Andrew
