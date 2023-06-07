@@ -1,31 +1,47 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC9F34D75
-	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 18:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=rwP8NTNH2Q6n+MZ4JXwJhAX1XWocWHZPOYyXpdS4lqo=; b=PU0wKnZrtgQMRYj6qfniT+fCgX
-	EZoZx2Xq7hCpCJj4j5OyMiAswAY8aXr9hpojQ3NQbAOXAcMDl0FPospMxECWN+XHfScyVUWulkU7S
-	gxPn4MDtiHw/sQAgSq07hylEU+Aims6XtAZozTokdfVNfzxMTZ9Yg6HfTBW6DbzeTgAU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1q6xf2-00FB1U-1k; Wed, 07 Jun 2023 20:13:32 +0200
-Date: Wed, 7 Jun 2023 20:13:32 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loic.poulain@linaro.org
-Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
-Message-ID: <eb4b45ab-1f51-47e9-a286-a9e26461ebed@lunn.ch>
-References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
- <20230607094922.43106896@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9503925E;
+	Wed,  7 Jun 2023 20:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686169295; x=1717705295;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ptcJdaHahJRD2fNGZZ0WMUGd3tX28UXr2OYz7pD6acg=;
+  b=UbF3L7kdCDbOyNyJo2/su9/yvA8JIKMnLd+nVgBdwVM3x905XtATpdUX
+   I1v+Z1UkLPUEgFhsaYSw1LEzW1VwumeDhgl6VL38nTmaQ/ZyWT3slPvbh
+   7RzGm9h0Gr+OnO8c7yAOdDQI+43xLuMBZunxzgII1hG2NE5+9a+k2zggl
+   R8+llK9Sxha9kN1Sf1sly3PWkA8lIAtac3azTfvdwm1SPNa5e0Ntay5vE
+   RtsCZK9K+vaJdKyXMZIuMdMVnYDbXA0cZALx8Eojz0cGHHiOr51WAOG3f
+   zU8vm63Arr6vVAqiIdnOr3qL1I2HR7AQ5O0vDxljU25flL8j6xJ1o0/Py
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357109031"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
+   d="scan'208";a="357109031"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 13:20:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="739418877"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
+   d="scan'208";a="739418877"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 13:20:40 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6ze4-0006tD-2X;
+	Wed, 07 Jun 2023 20:20:40 +0000
+Date: Thu, 8 Jun 2023 04:19:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yang Li <yang.lee@linux.alibaba.com>, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
+	kishon@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
+Message-ID: <202306080418.i64hTj5T-lkp@intel.com>
+References: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -34,30 +50,74 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607094922.43106896@kernel.org>
+In-Reply-To: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 
-On Wed, Jun 07, 2023 at 09:49:22AM -0700, Jakub Kicinski wrote:
-> On Wed,  7 Jun 2023 20:54:25 +0530 Manivannan Sadhasivam wrote:
-> > This series adds a network driver for the Modem Host Interface (MHI) endpoint
-> > devices that provides network interfaces to the PCIe based Qualcomm endpoint
-> > devices supporting MHI bus (like Modems). This driver allows the MHI endpoint
-> > devices to establish IP communication with the host machines (x86, ARM64) over
-> > MHI bus.
-> > 
-> > On the host side, the existing mhi_net driver provides the network connectivity
-> > to the host.
-> 
-> Why are you posting the next version before the discussion on the
-> previous one concluded? :|
-> 
-> In any case, I'm opposed to reuse of the networking stack to talk
-> to firmware. It's a local device. The networking subsystem doesn't
-> have to cater to fake networks. Please carry:
-> 
-> Nacked-by: Jakub Kicinski <kuba@kernel.org>
+Hi Yang,
 
-Remote Processor Messaging (rpmsg) Framework does seem to be what is
-supposed to be used for these sorts of situations. Not that i know
-much about it.
+kernel test robot noticed the following build warnings:
 
-     Andrew
+[auto build test WARNING on next-20230607]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/PCI-endpoint-Remove-redundant-dev_err/20230607-173708
+base:   next-20230607
+patch link:    https://lore.kernel.org/r/20230607093514.104012-1-yang.lee%40linux.alibaba.com
+patch subject: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080418.i64hTj5T-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git checkout next-20230607
+        b4 shazam https://lore.kernel.org/r/20230607093514.104012-1-yang.lee@linux.alibaba.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/pci/endpoint/functions/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306080418.i64hTj5T-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/pci/endpoint/functions/pci-epf-mhi.c: In function 'pci_epf_mhi_bind':
+>> drivers/pci/endpoint/functions/pci-epf-mhi.c:347:24: warning: unused variable 'dev' [-Wunused-variable]
+     347 |         struct device *dev = &epf->dev;
+         |                        ^~~
+
+
+vim +/dev +347 drivers/pci/endpoint/functions/pci-epf-mhi.c
+
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  341  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  342  static int pci_epf_mhi_bind(struct pci_epf *epf)
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  343  {
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  344  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  345  	struct pci_epc *epc = epf->epc;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  346  	struct platform_device *pdev = to_platform_device(epc->dev.parent);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02 @347  	struct device *dev = &epf->dev;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  348  	struct resource *res;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  349  	int ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  350  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  351  	/* Get MMIO base address from Endpoint controller */
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  352  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  353  	epf_mhi->mmio_phys = res->start;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  354  	epf_mhi->mmio_size = resource_size(res);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  355  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  356  	epf_mhi->mmio = ioremap(epf_mhi->mmio_phys, epf_mhi->mmio_size);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  357  	if (IS_ERR(epf_mhi->mmio))
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  358  		return PTR_ERR(epf_mhi->mmio);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  359  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  360  	ret = platform_get_irq_byname(pdev, "doorbell");
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  361  	if (ret < 0) {
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  362  		iounmap(epf_mhi->mmio);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  363  		return ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  364  	}
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  365  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  366  	epf_mhi->irq = ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  367  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  368  	return 0;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  369  }
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  370  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
