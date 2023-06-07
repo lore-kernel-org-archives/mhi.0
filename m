@@ -1,124 +1,144 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2122.outbound.protection.outlook.com [40.107.223.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918421C3A
-	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 07:41:36 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-256e1d87998so5982766a91.3
-        for <mhi@lists.linux.dev>; Wed, 07 Jun 2023 00:41:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01596FA8
+	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 08:20:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nDQHR1+GnozoCIBHJImy4X/oFimfO4dePCowKt3kKcR2ccw8G46KpNe/nnxQDaCoolaCli1nocLSsyuxrIigZmDEKDMM2YQ71o+ox9qxwu12i+czbSC8l4SnrHGmVFVtA6Erf/Xt+j/TX1yc1zg4162rhrFTcNQYyWd1YEKmE6j/jP3C/yK3xxwPev7/ksXUDGGNDkqM4aIZ1dhxxitVSPSimymRQoXsAaaV6kXAsradzBrrvYsxRXoytLBE/40okot3OhV4Ch0D2Du562xg/OQEOXWK58snUEesQt4XHYjsx02lLy8jiH3tZk1ySleTbRyU9TTMcLkxQB0HD5PjGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YR/ZmXNy/SilguqtFWQXjZgn1W/8DWp7dYFHP5xioq4=;
+ b=kQF0TlFEWMZ2Q53xQ0ZDlxRQ7Xb4iDTPzH/5Vf6OcNRRW2N3CDX7RKQ7YIlckYovFGbgtoALHs1MP/fra72Xy+vywG/rqocfsLAPL1vkJ+1L3mwRJYg+mDVbm5D1OHAS0maD70yopgh+cTJbdkU8mXFSZAdOvsy3scIp6e6tdWnXgO6nqeSf3vvoz0l4VVTcKEVEnQB4BLn5gUQVjJIYOJBNnCj3yJKjysMYxzsZ/lBBKg2OE95zBh1FNliEIGkMZ13hKorZL9sCNTk2lhskqh/pqHeEZbsyZkhfIyozxxjGtZ0ya0owd335D1mL02k5sHMcOgbk9QYUn+eCrS0c3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686123696; x=1688715696;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PjfFNwe8EaTiGUc0QuU/z5HZzTxOk+LVPPYj8mjsNzM=;
-        b=hS/0Qma+MSVMOmezs7ae7p8C6lqEhrJlH4f8w//ca/fANrvQFpvioDvwVaAwPHQSzE
-         EL+56AyeCdS0kQd3cWCnJCzDFlyZ0NgUkjIKhc+IBMpxxfgC/UIbczsJD5rvidJWiFP9
-         nsxFpkRubavOeHiiEIqmlgS/LCSdacfRd/nv2kdeFYj/T3jfPhrkGiOcxQ8TLNcAk9Mc
-         NTiF2gKhlqebuJ/MTHPTamqsd29u40mFj8p5BVVapN6n6TGCmK0Q/ELwrFvNDnVn/Jw5
-         JqSy0dBoTifuelcf07VOm2+g3Cg+A5XuT+aYXYH4rcXRsPuNJr31a1KxDYscNwARPcOh
-         Q/FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686123696; x=1688715696;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PjfFNwe8EaTiGUc0QuU/z5HZzTxOk+LVPPYj8mjsNzM=;
-        b=kj54nsmvWgvNzkTe12eEg/XTdFL0a8DtwhkHU/6pxdBrX32OSiaek8R3qPSheJ+Bjf
-         1gnNvRxU0apH+QRkBp5juIAIOwK7TQWmZsTBMP+UE6YxzzGvOjWz0vNaueC3Fhw8KJ/g
-         qrJccmcJEp7yXQfguzWO7Sn4Hv/BCt7XzMLN2EK4V72KtiCPYsrhw2s0K/QPou4XtDEA
-         hWLb5++gUPrKIdLh9aBLe4VkD9U2Ld5Q5myT87B+DS98pJf6HZ3IZnpERWOFDyEolp/M
-         +Ut1/ShLpaVYZXwUIM2pJ4o6XwlKOaFGBNfBzigpgnUjBBbvBs8lkzUvhDblamTVdgIH
-         sDdA==
-X-Gm-Message-State: AC+VfDy3+GnQQUZ3qGip0ZXIrg+cgeyEZX2kG7yhWL8k+6K/SEtFisS0
-	vD7I4VzAM41j4LVFvv0Xt1HZ
-X-Google-Smtp-Source: ACHHUZ50Fei3Zw35iH9ZCnQkZU/3FdMXz9ZIxWFCszlfvuqnYaKVV+Vt/Nyt3IqrO4RypPINYFkinw==
-X-Received: by 2002:a17:90b:3846:b0:253:49d7:ce19 with SMTP id nl6-20020a17090b384600b0025349d7ce19mr3930719pjb.18.1686123695820;
-        Wed, 07 Jun 2023 00:41:35 -0700 (PDT)
-Received: from thinkpad ([59.92.97.244])
-        by smtp.gmail.com with ESMTPSA id 8-20020a17090a1a4800b0023a84911df2sm788372pjl.7.2023.06.07.00.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 00:41:35 -0700 (PDT)
-Date: Wed, 7 Jun 2023 13:11:18 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Loic Poulain <loic.poulain@linaro.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, mhi@lists.linux.dev,
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YR/ZmXNy/SilguqtFWQXjZgn1W/8DWp7dYFHP5xioq4=;
+ b=EoHTZVoknMfkpeu1FvrawMmh7Kzs0EHHTPFSRR3nYxVxW0SLGTfV+UyyPYsJMBMzyZA+2RolAs4ploHcMbxp/posiTkpFwwiCoSdDwIrTr/Zu65rNR7PedOLMlawtas3Jtq2Hw2O6EJlUKX8qCBJ+RhqrEbSX8B+CD1edR2bq/s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by SA1PR13MB6053.namprd13.prod.outlook.com (2603:10b6:806:33a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Wed, 7 Jun
+ 2023 08:20:47 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e%4]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 08:20:47 +0000
+Date: Wed, 7 Jun 2023 10:20:39 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add MHI Endpoint network driver
-Message-ID: <20230607074118.GD5025@thinkpad>
+	linux-kernel@vger.kernel.org, loic.poulain@linaro.org
+Subject: Re: [PATCH 1/3] net: Add MHI Endpoint network driver
+Message-ID: <ZIA910jCjl+dxc/a@corigine.com>
 References: <20230606123119.57499-1-manivannan.sadhasivam@linaro.org>
- <c769c95d-e8cb-4cf6-a41a-9bef5a786bb1@lunn.ch>
- <20230607065652.GA5025@thinkpad>
- <CAMZdPi-xJAj_eFvosVTmSzA99m3eYhrwoKPfBk-qH87yZzNupQ@mail.gmail.com>
+ <20230606123119.57499-2-manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606123119.57499-2-manivannan.sadhasivam@linaro.org>
+X-ClientProxiedBy: AS4P189CA0033.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5dd::6) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMZdPi-xJAj_eFvosVTmSzA99m3eYhrwoKPfBk-qH87yZzNupQ@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SA1PR13MB6053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24af3d82-f628-488c-ec8c-08db673017fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ovgVlFcOt6n9d7ucc2CehBBSpEDR4DpeB2555ltUHide8lH1+p84XfwiFkDvgyR4FqMBYBiod8X1qc9Ww/zRIulSZaeJ0bNv/iwoymrRCHwnY0ZBsycpQZoMZx+bbil59zYUgqz2rcLRy41jHABOpvw6S+pG0rr7cZfbSG7ArvMfK/R5v9RiPXzKsoefUoKRHjR2YY8uZ7xJsayPOKDBuSU0x1NyyX+GgSAMBt/Uj0r0PIGew0lunnHWm1vD66/CvVmfIoBP3qR0UsZUpt20vGVqlbqbP8ds4RngM9GxOxM/7TmhWyArSK03rZb0K/Iq6ApPCilJYn/k2ZW0+xTihZPM34EGaukjNigTYU59VyOLpoxgvuCTqfga8O7iIqPJvxDuKikKz2oWdgysIeUtjeXdtMLX3abTY6giBSdrZ+9lvrTFZXWPSGOaMinKCw6fKxeMtfuzpBJbU5Tomc/FRM8fDK1AHFHExfTVz1r6TftFlqwWMQoXXtCZ6TQuY4/CCvGH12QPVyPzPUIG9/MDm3RnZ9+CILbEx82/NcLYO8qrV4wtLdZSExME0vDaTf+V
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(376002)(346002)(39840400004)(366004)(451199021)(2906002)(8676002)(8936002)(7416002)(44832011)(5660300002)(6666004)(66476007)(4326008)(66556008)(6916009)(38100700002)(316002)(6486002)(66946007)(36756003)(41300700001)(83380400001)(86362001)(2616005)(478600001)(186003)(4744005)(6512007)(6506007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?9DXySo02p3/mMLv26QWkW9qZIWshdOVAUEJPsr5Mc1wRsVnYAOiBgO+fBu+H?=
+ =?us-ascii?Q?gOWdTLniF3Wc3FLbVrwwQ+MnNvLuCnkJhrwr17PbIG+bKFv2N5FFz83VqTva?=
+ =?us-ascii?Q?RcawPyea5X0Mcn0UcrzNGrk3UVuyyiM6gnKb199CMqPy9ACcZRoVW8RDoFX+?=
+ =?us-ascii?Q?4PQi/pZk2SmWVueYLlTO0v93gFySuwoHnbMCJ7KBV8T1eWxkDHs7udJg+FcL?=
+ =?us-ascii?Q?arqCbTOYPSLkJ2b1H/VvsA1FPbwnm9vB7DErHXBTUNhnZstkACtfqoU05YAl?=
+ =?us-ascii?Q?aFAiOsLYCtgFevqEuSlxPSCY3n/vdCOkfAgCxRA2suQByUT2sPrHi2qyR61M?=
+ =?us-ascii?Q?67rUzsSB05eTPL1Pq6yFtdiwpVV+tf+d4jdnCTaPV+s5r+JRq75eBwFzN60H?=
+ =?us-ascii?Q?RIy1AsslbJQDiJy2q+0OXRR7k9JHrjWTvKhKtz70MtSIhmhbudKR544oVF0D?=
+ =?us-ascii?Q?dQVxTA28V6fB6seVo0/Zez7A+pys0kaThmyDau8eGeq5Ny5gljjTaGQ1m85r?=
+ =?us-ascii?Q?19Fr3aqbbh0O0zHWydEyuV1XupHkdaaADXvHMtikyQHbnggGZ5XayRRM+bdv?=
+ =?us-ascii?Q?Bkh50hMUXakQXFAdqzOY6YyL97glfEdDZaigeu+0Q8cvQxIN7s5kzBOqCpnr?=
+ =?us-ascii?Q?PtE78AOhM+INDn10Evu79I/fbRoRpMfg9JKhXZgaz89g1bLUBOMfDad6oxw/?=
+ =?us-ascii?Q?uk5jiz0Q7MgMXlr9DEcH30BLTuDsu6ElTJQDFP2cgL/R/7m9TLoy9SKV8+iD?=
+ =?us-ascii?Q?qU88TCYjJWrzazj/1W8ZnglQxAAM7KKqb3qRsCkwJeggFu6N6R7uIZZFmBMl?=
+ =?us-ascii?Q?ZoBVmd8CxwfOGq3ICOdl5nm+NrE0p8smGu3ZPMAExdXF+ODleA+9a37WKRaj?=
+ =?us-ascii?Q?yIEw77sJNM/LqE1IIEBGYS9MqtcyS27xT9P7Fk2Jmm4ezwuE8CKpeIojrDmJ?=
+ =?us-ascii?Q?qFAdaJV68tCFvVGg7BGVkoYwD7DBXihBUbMpK1mXT+/IiphSfoKCkg0ZHc1W?=
+ =?us-ascii?Q?QhNTmH/6zEJdQL0EvaemGH4eRhK7acVMtP5f+IBt+eRfAiX0ufHJ8xUtipGn?=
+ =?us-ascii?Q?dhrerB1aPoIPqbulRqf8NqmKmU8PSblFPchC5Qz3AEFOiKroLj7U/ZPt8evy?=
+ =?us-ascii?Q?fJmIC18BLO1AOPmHWcGJnYpjEqZL/u20UGsB9C5Dc+LQc2w12Ikgz7edt60S?=
+ =?us-ascii?Q?N6V1evqJ1m/CHF5C8h9JzcyXWwpZljQ7946WDZUnh+qAuESlM6oKV1Ln63tN?=
+ =?us-ascii?Q?Ir3jEZSZp9UpBMpUdC2xGy9NiS2C3WWd/v+2+5KAUx8NFc6RnnNWSY2y1tcu?=
+ =?us-ascii?Q?PIYXpSI/qmCWJ1WNus98QdtzARQ42YfBgnZMJ2aJ3jYZFvl+UqiPwOiTXq8m?=
+ =?us-ascii?Q?PRHkwRvzK1eGqcn64qJlQcXKS7YyzVZ3+605HcvUWgANCPOHvBecABeSxfRc?=
+ =?us-ascii?Q?oh1ISfHUXm+gQok9f/akRaPYaBv4L2+sfhxjRlp8LL4otPkZkwfu+bLEgM2g?=
+ =?us-ascii?Q?phTsXyTNBTrBWLHTm6iz5nnN/+UDlMdpVxM3pDRnMRbnXqGSXg5MR2j+Ps/v?=
+ =?us-ascii?Q?8XsVqDHFIabLy6fWhDyLlC7VvW/+BIr9hJ5rjeIYD1VBk1tnxc/8nSdpUCi5?=
+ =?us-ascii?Q?hC41/D/jnoyAGUHZSNk9iw+DCkuu0Sub0NTURfRstFQ4DG3MJLIiceD93SdZ?=
+ =?us-ascii?Q?zJOY+A=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24af3d82-f628-488c-ec8c-08db673017fc
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2023 08:20:47.5901
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: erylb27CsLmvN2mJr1xfPoNhflm2moEkVUvKRUSn8SECa2GNqpdyhpjsKjvIC6/6kEJ0K+opP0Wd5EvaVeCaME7hkWsCL2XGnSyOE7XQJUQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR13MB6053
 
-On Wed, Jun 07, 2023 at 09:12:00AM +0200, Loic Poulain wrote:
-> On Wed, 7 Jun 2023 at 08:56, Manivannan Sadhasivam
-> <manivannan.sadhasivam@linaro.org> wrote:
-> >
-> > On Tue, Jun 06, 2023 at 02:59:00PM +0200, Andrew Lunn wrote:
-> > > On Tue, Jun 06, 2023 at 06:01:16PM +0530, Manivannan Sadhasivam wrote:
-> > > > Hi,
-> > > >
-> > > > This series adds a network driver for the Modem Host Interface (MHI) endpoint
-> > > > devices that provides network interfaces to the PCIe based Qualcomm endpoint
-> > > > devices supporting MHI bus (like Modems). This driver allows the MHI endpoint
-> > > > devices to establish IP communication with the host machines (x86, ARM64) over
-> > > > MHI bus.
-> > > >
-> > > > On the host side, the existing mhi_net driver provides the network connectivity
-> > > > to the host.
-> > > >
-> > > > - Mani
-> > > >
-> > > > Manivannan Sadhasivam (3):
-> > > >   net: Add MHI Endpoint network driver
-> > > >   MAINTAINERS: Add entry for MHI networking drivers under MHI bus
-> > > >   net: mhi: Increase the default MTU from 16K to 32K
-> > > >
-> > > >  MAINTAINERS              |   1 +
-> > > >  drivers/net/Kconfig      |   9 ++
-> > > >  drivers/net/Makefile     |   1 +
-> > > >  drivers/net/mhi_ep_net.c | 331 +++++++++++++++++++++++++++++++++++++++
-> > > >  drivers/net/mhi_net.c    |   2 +-
-> > >
-> > > Should we add a drivers/net/modem directory? Maybe modem is too
-> > > generic, we want something which represents GSM, LTE, UMTS, 3G, 4G,
-> > > 5G, ... XG etc.
-> > >
-> >
-> > The generic modem hierarchy sounds good to me because most of the times a
-> > single driver handles multiple technologies. The existing drivers supporting
-> > modems are already under different hierarchy like usb, wwan etc... So unifying
-> > them makes sense. But someone from networking community should take a call.
-> 
-> 
-> Yes, so there is already a drivers/net/wwan directory for this, in
-> which there are drivers for control and data path, that together
-> represent a given 'wwan' (modem) entity. So the generic mhi_net could
-> be moved there, but the point is AFAIU, that MHI, despite his name, is
-> not (more) used only for modem, but as a generic memory sharing based
-> transport protocol, such as virtio. It would then not be necessarily
-> true that a peripheral exposing MHI net channel is actually a modem?
-> 
+On Tue, Jun 06, 2023 at 06:01:17PM +0530, Manivannan Sadhasivam wrote:
 
-Agree, mhi_*_net drivers can be used by non-modem devices too as long as they
-support MHI protocol.
+...
 
-- Mani
+> +static void mhi_ep_net_dev_process_queue_packets(struct work_struct *work)
+> +{
+> +	struct mhi_ep_net_dev *mhi_ep_netdev = container_of(work,
+> +			struct mhi_ep_net_dev, xmit_work);
+> +	struct mhi_ep_device *mdev = mhi_ep_netdev->mdev;
+> +	struct sk_buff_head q;
+> +	struct sk_buff *skb;
+> +	int ret;
+> +
+> +	if (mhi_ep_queue_is_empty(mdev, DMA_FROM_DEVICE)) {
+> +		netif_stop_queue(mhi_ep_netdev->ndev);
+> +		return;
+> +	}
+> +
+> +	__skb_queue_head_init(&q);
+> +
+> +	spin_lock_bh(&mhi_ep_netdev->tx_lock);
+> +	skb_queue_splice_init(&mhi_ep_netdev->tx_buffers, &q);
+> +	spin_unlock_bh(&mhi_ep_netdev->tx_lock);
+> +
+> +	while ((skb = __skb_dequeue(&q))) {
+> +		ret = mhi_ep_queue_skb(mdev, skb);
+> +		if (ret) {
 
-> Regards,
-> Loic
+Hi Manivannan,
 
--- 
-மணிவண்ணன் சதாசிவம்
+I wonder if this should be kfree_skb(skb);
+
+> +			kfree(skb);
+> +			goto exit_drop;
+> +		}
+
+...
