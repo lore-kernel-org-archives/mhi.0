@@ -1,199 +1,101 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99831ACD4
-	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 16:53:03 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 357EqEvj015863;
-	Wed, 7 Jun 2023 16:52:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ccILPXJMNW+fazdoPQ/ZhN5RvSTJkO1d+AFoitKRVio=;
- b=lH9xrwGfpYqUrfdowM0r/PWLceeR4whKcFPVtucAFoe+VnzyhapF6eputI+o6SmHnnXi
- N8OlCbuIReCehaejqvpuxBbEnJTT8pUJmAODAxlSwNhB0jddjDnqQwsumvHvCteFWqLb
- Svduhq2LaMyCkFeoTi17eOhWK76c3uLFnVKc3ER3tG3Q5sOAVd1FBK6Sh0rHQPSBeniX
- Cq6y2whKcM2w/cBWsSyr15vycOR1JqM0d6nq7Qc4AnDiS1+/ZdVQif8Yazs1wvall3Zc
- Xaua9rSYIqZ5loDI4xqqH4/eTCxbvsvfwCvgbLwjqhwNd60q1xIDp/ucsscuEVQ29C1e jg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a6yte6j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 Jun 2023 16:52:56 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357Gqu8V011234
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 7 Jun 2023 16:52:56 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 7 Jun 2023
- 09:52:55 -0700
-Message-ID: <b5cfa726-b61e-90eb-7d4b-d81844189cf6@quicinc.com>
-Date: Wed, 7 Jun 2023 10:52:54 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8077335B21
+	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 17:11:59 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-650c8cb68aeso4223781b3a.3
+        for <mhi@lists.linux.dev>; Wed, 07 Jun 2023 10:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686157919; x=1688749919;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rWtY5he6E2U22BGtj3uJgNRgjOP3X6c6EEgHAfVceAA=;
+        b=mXect4J9DJmCaxC7euotMiP2tk7blJ93LE1V553qNvnTmgH2GBDVmDFCW6KtS+vMN7
+         Axb0cX1wJcgTaXm1IdIPtXfvXLDZpE07394pEVTrE2EVF/IZvAIl+cI3LEK+6Ds1SLKT
+         Zts25GUsIdKWoR6Z11646M2mmeheA6oHVWYMwDBK4U5ejNAAmW/uoJI7wnNntiAmwrMC
+         rM4DXU3ImtDRebjK9ONq1qEODm7k4Sw2nHN2ZzXetQcjOZrL0sV2of4OqDDo4SAkdanR
+         FHSjjp2mkYKC7sGhMCpwfoQWDwYad8UwSext4uZZOPzYyjNv2RvxaCkNvhztbXyh7PzX
+         bMpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686157919; x=1688749919;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWtY5he6E2U22BGtj3uJgNRgjOP3X6c6EEgHAfVceAA=;
+        b=Rxt23+3t0nZd4to1hxOJ1zXZ9S2w226mN0U8H3LuQPu6g+K60CP7k2fVTIWuLYX4c7
+         08DYbUZSVWlDxnAamNq/Cl2sJSSgnPyBNTD30fqlLCL3UDoqSJaGNtqHsHu1auF3h2z/
+         /Hmv6Q/XALdCoGEsTxZTtozIpkfHsTPhw+v7YBDsZInxTgzuqEHxIvCMXaUsTFaboenF
+         aPEIiZnXWM3bBit5CNAwrMOd2buP44x6hur7hUo/OPPFEd4I8YkbDBiMRY/Xq7pIkGG1
+         rwF84P7R8RmUoJDMBdzOW/g165zLhS/8p7DlxwQISklA+QaG12S+4FUPRwp6YfKvH3dc
+         c1sg==
+X-Gm-Message-State: AC+VfDy/pp8c6eJtaoZ8058xe6suGoxAXljwYqNa9tXGraK2tMZCp84/
+	oFYLd30+r7gRNTfZybTcEwJ9
+X-Google-Smtp-Source: ACHHUZ5QgjgWoC5EH7Xt7czYHcPm4hEGhW8TrMZglVc/Jysfh+b6M9//znCzHXVkkqT037ZWx2uYdQ==
+X-Received: by 2002:a05:6a20:4425:b0:10e:e218:d3f0 with SMTP id ce37-20020a056a20442500b0010ee218d3f0mr1743242pzb.54.1686157918848;
+        Wed, 07 Jun 2023 10:11:58 -0700 (PDT)
+Received: from thinkpad ([59.92.97.244])
+        by smtp.gmail.com with ESMTPSA id 21-20020a630c55000000b0051b71e8f633sm9228268pgm.92.2023.06.07.10.11.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 10:11:58 -0700 (PDT)
+Date: Wed, 7 Jun 2023 22:41:53 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org
+Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
+Message-ID: <20230607171153.GA109456@thinkpad>
+References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
+ <20230607094922.43106896@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 1/2] net: Add MHI Endpoint network driver
-Content-Language: en-US
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <loic.poulain@linaro.org>
-References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
- <20230607152427.108607-2-manivannan.sadhasivam@linaro.org>
- <26a85bae-1a33-dd1f-5e73-0ab6da100abf@quicinc.com>
-In-Reply-To: <26a85bae-1a33-dd1f-5e73-0ab6da100abf@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: XKIXGsCiUwRK55YVguS5wyCe6EWDdv6i
-X-Proofpoint-GUID: XKIXGsCiUwRK55YVguS5wyCe6EWDdv6i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-07_09,2023-06-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
- bulkscore=0 priorityscore=1501 mlxlogscore=964 adultscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306070144
+In-Reply-To: <20230607094922.43106896@kernel.org>
 
-On 6/7/2023 10:27 AM, Jeffrey Hugo wrote:
-> On 6/7/2023 9:24 AM, Manivannan Sadhasivam wrote:
->> Add a network driver for the Modem Host Interface (MHI) endpoint devices
->> that provides network interfaces to the PCIe based Qualcomm endpoint
->> devices supporting MHI bus. This driver allows the MHI endpoint 
->> devices to
->> establish IP communication with the host machines (x86, ARM64) over MHI
->> bus.
->>
->> The driver currently supports only IP_SW0 MHI channel that can be used
->> to route IP traffic from the endpoint CPU to host machine.
->>
->> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->> ---
->>   drivers/net/Kconfig      |   9 ++
->>   drivers/net/Makefile     |   1 +
->>   drivers/net/mhi_ep_net.c | 331 +++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 341 insertions(+)
->>   create mode 100644 drivers/net/mhi_ep_net.c
->>
->> diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
->> index 368c6f5b327e..36b628e2e49f 100644
->> --- a/drivers/net/Kconfig
->> +++ b/drivers/net/Kconfig
->> @@ -452,6 +452,15 @@ config MHI_NET
->>         QCOM based WWAN modems for IP or QMAP/rmnet protocol (like 
->> SDX55).
->>         Say Y or M.
->> +config MHI_EP_NET
->> +    tristate "MHI Endpoint network driver"
->> +    depends on MHI_BUS_EP
->> +    help
->> +      This is the network driver for MHI bus implementation in endpoint
->> +      devices. It is used provide the network interface for QCOM 
->> endpoint
->> +      devices such as SDX55 modems.
->> +      Say Y or M.
+On Wed, Jun 07, 2023 at 09:49:22AM -0700, Jakub Kicinski wrote:
+> On Wed,  7 Jun 2023 20:54:25 +0530 Manivannan Sadhasivam wrote:
+> > This series adds a network driver for the Modem Host Interface (MHI) endpoint
+> > devices that provides network interfaces to the PCIe based Qualcomm endpoint
+> > devices supporting MHI bus (like Modems). This driver allows the MHI endpoint
+> > devices to establish IP communication with the host machines (x86, ARM64) over
+> > MHI bus.
+> > 
+> > On the host side, the existing mhi_net driver provides the network connectivity
+> > to the host.
 > 
-> What will the module be called if "m" is selected?
-> 
->> +
->>   endif # NET_CORE
->>   config SUNGEM_PHY
->> diff --git a/drivers/net/Makefile b/drivers/net/Makefile
->> index e26f98f897c5..b8e706a4150e 100644
->> --- a/drivers/net/Makefile
->> +++ b/drivers/net/Makefile
->> @@ -40,6 +40,7 @@ obj-$(CONFIG_NLMON) += nlmon.o
->>   obj-$(CONFIG_NET_VRF) += vrf.o
->>   obj-$(CONFIG_VSOCKMON) += vsockmon.o
->>   obj-$(CONFIG_MHI_NET) += mhi_net.o
->> +obj-$(CONFIG_MHI_EP_NET) += mhi_ep_net.o
->>   #
->>   # Networking Drivers
->> diff --git a/drivers/net/mhi_ep_net.c b/drivers/net/mhi_ep_net.c
->> new file mode 100644
->> index 000000000000..0d7939caefc7
->> --- /dev/null
->> +++ b/drivers/net/mhi_ep_net.c
->> @@ -0,0 +1,331 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * MHI Endpoint Network driver
->> + *
->> + * Based on drivers/net/mhi_net.c
->> + *
->> + * Copyright (c) 2023, Linaro Ltd.
->> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->> + */
->> +
->> +#include <linux/if_arp.h>
->> +#include <linux/mhi_ep.h>
->> +#include <linux/mod_devicetable.h>
->> +#include <linux/module.h>
->> +#include <linux/netdevice.h>
->> +#include <linux/skbuff.h>
->> +#include <linux/u64_stats_sync.h>
->> +
->> +#define MHI_NET_MIN_MTU        ETH_MIN_MTU
->> +#define MHI_NET_MAX_MTU        0xffff
-
-ETH_MAX_MTU ?
-
-Personal preference thing.  If you think 0xffff is really the superior 
-option, so be it.  Personally, it takes me a second to figure out that 
-is 64k - 1 and then relate it to the MHI packet size limit.  Also seems 
-really odd with this line of code right next to, and related to, 
-ETH_MIN_MTU.  Feels like a non-magic number here will make things more 
-maintainable.
-
-Alternatively move MHI_MAX_MTU out of host/internal.h into something 
-that is convenient for this driver to include and use?  It is a 
-fundamental constant for the MHI protocol, we just haven't yet had a 
-need for it to be used outside of the MHI bus implementation code.
-
->> +
->> +struct mhi_ep_net_stats {
->> +    u64_stats_t rx_packets;
->> +    u64_stats_t rx_bytes;
->> +    u64_stats_t rx_errors;
->> +    u64_stats_t tx_packets;
->> +    u64_stats_t tx_bytes;
->> +    u64_stats_t tx_errors;
->> +    u64_stats_t tx_dropped;
->> +    struct u64_stats_sync tx_syncp;
->> +    struct u64_stats_sync rx_syncp;
->> +};
->> +
->> +struct mhi_ep_net_dev {
->> +    struct mhi_ep_device *mdev;
->> +    struct net_device *ndev;
->> +    struct mhi_ep_net_stats stats;
->> +    struct workqueue_struct *xmit_wq;
->> +    struct work_struct xmit_work;
->> +    struct sk_buff_head tx_buffers;
->> +    spinlock_t tx_lock; /* Lock for protecting tx_buffers */
->> +    u32 mru;
->> +};
->> +
->> +static void mhi_ep_net_dev_process_queue_packets(struct work_struct 
->> *work)
->> +{
->> +    struct mhi_ep_net_dev *mhi_ep_netdev = container_of(work,
->> +            struct mhi_ep_net_dev, xmit_work);
-> 
-> Looks like this can fit all on one line to me.
-> 
+> Why are you posting the next version before the discussion on the
+> previous one concluded? :|
 > 
 
+Previous discussion doesn't sound any controversial to me, so I thought of
+respinning. Maybe I should've waited...
+
+> In any case, I'm opposed to reuse of the networking stack to talk
+> to firmware. It's a local device. The networking subsystem doesn't
+> have to cater to fake networks. Please carry:
+> 
+> Nacked-by: Jakub Kicinski <kuba@kernel.org>
+> 
+> if there are future submissions.
+
+Why shouldn't it be? With this kind of setup one could share the data connectivity
+available in the device with the host over IP tunneling. If the IP source in the
+device (like modem DSP) has no way to be shared with the host, then those IP
+packets could be tunneled through this interface for providing connectivity to
+the host.
+
+I believe this is a common usecase among the PCIe based wireless endpoint
+devices.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
