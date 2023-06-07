@@ -1,109 +1,52 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0176AB4
-	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 11:21:48 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-256712e2be3so6205888a91.2
-        for <mhi@lists.linux.dev>; Wed, 07 Jun 2023 04:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686136908; x=1688728908;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sXtu7T4BuQTlc5G2QE10guaIjIMheRY/q8IpaabYJXE=;
-        b=mJcJOtf9cKn2YYWGd/imMh8cq1rB3fGhC5WYLbJRmA79Z2r356m97G9o9T0VhQ42Or
-         dGQ2nwHsJ4TRNWy3H7od5UQpyhwG096mKD468OFXY99pwzrF2BSE37k0C9MnHN5it1nm
-         ToW6hfUtdLfQadVYPGvDPW5Ivrc7sHhY8MGVJ2NUL5A4butCHKYWvRDgmSgTBmSQC1Mf
-         9CtXIVdDDwEWlNZ7VV6Vwl74N4JWJreGrfVIKIY9ZMvjwZXHX6fsVQ2zE47tv4WQ2lj3
-         GOH0dad4BC210GQnP0xEuBUv17WSwMbwPDiPFrgoi2LXCp/laF6+QoADHUZH63rHXcRe
-         p49w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686136908; x=1688728908;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sXtu7T4BuQTlc5G2QE10guaIjIMheRY/q8IpaabYJXE=;
-        b=laY7H/M3XjO9sFDhRBB25XF2pjmUu1sFv0kts+WR+ahiWNiT796YJ1uIqdyRpVu2g5
-         OaXdWhWiOOao+kVWSzkCo8yvMgawpn7trJsuUePebgb+XEZsACCBVxPFJ+HJw6Y4irHr
-         k+g71BC8j6AW/NQ3ZOD0GM7JI+hyebkqExHF5ca8HOIn8lEnbzyS0JHH2TR4o2w4+fRV
-         CIuoTFRO9q7d+/iegETawgLNbUmmO2QGX3eUvgeBVvVzIMu7fHaBPBq1NQUtO0gVVkYO
-         k3AcIVGOlxITTp39bCQlPI61VdvujtCHLoiVQkt6t7nH5U82/2j3vyMEKchozly+Gf1R
-         KNXA==
-X-Gm-Message-State: AC+VfDwlW+KyIiMT4nKfhIeiNg9+iAP8ZdkXVMyUa4MFA6w+HhMMO6TO
-	OvT94jAviBCaDUdANsRrABZc
-X-Google-Smtp-Source: ACHHUZ75KNTAVNCWXJU3GsKBzmblvZ/f6zZCceUwhTqXHVFfvpwuY3PBfdfhrO3xihSUnq5IJQZR0g==
-X-Received: by 2002:a17:90a:195b:b0:259:c015:9fa1 with SMTP id 27-20020a17090a195b00b00259c0159fa1mr1754510pjh.46.1686136908342;
-        Wed, 07 Jun 2023 04:21:48 -0700 (PDT)
-Received: from thinkpad ([59.92.97.244])
-        by smtp.gmail.com with ESMTPSA id 30-20020a17090a001e00b00250bf8495b3sm1217420pja.39.2023.06.07.04.21.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 04:21:47 -0700 (PDT)
-Date: Wed, 7 Jun 2023 16:51:43 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Simon Horman <simon.horman@corigine.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, loic.poulain@linaro.org
-Subject: Re: [PATCH 1/3] net: Add MHI Endpoint network driver
-Message-ID: <20230607112143.GE5025@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E3F13AD6
+	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 12:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Jr+xg2ifRRVhPjCfW2O7H0sIHcq4ucFfwT2EMs2VVTE=; b=2z8/1eUIu0eed8kJ/uXWr08jvx
+	Xam4MlAiQ55jRHKUtQ8okSusP1RUXmzcKVaZIEL60WAjgyRq/pWhXxYhUjM4XpfUhfy/z+9hd5sJj
+	h//tAkzPEvewHhtUpEwPqAqpjkOs9lsoVbOW1WwWcBehjokAldnb9S4QgytaYofRxaTA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1q6sEY-00F8yM-R8; Wed, 07 Jun 2023 14:25:50 +0200
+Date: Wed, 7 Jun 2023 14:25:50 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org
+Subject: Re: [PATCH 3/3] net: mhi: Increase the default MTU from 16K to 32K
+Message-ID: <f96d4956-6b69-4809-9461-9157e32b3865@lunn.ch>
 References: <20230606123119.57499-1-manivannan.sadhasivam@linaro.org>
- <20230606123119.57499-2-manivannan.sadhasivam@linaro.org>
- <ZIA910jCjl+dxc/a@corigine.com>
+ <20230606123119.57499-4-manivannan.sadhasivam@linaro.org>
+ <b8a25a70-8781-8b82-96d8-bc1ecf2d5468@quicinc.com>
+ <20230607065809.GB5025@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZIA910jCjl+dxc/a@corigine.com>
+In-Reply-To: <20230607065809.GB5025@thinkpad>
 
-On Wed, Jun 07, 2023 at 10:20:39AM +0200, Simon Horman wrote:
-> On Tue, Jun 06, 2023 at 06:01:17PM +0530, Manivannan Sadhasivam wrote:
-> 
-> ...
-> 
-> > +static void mhi_ep_net_dev_process_queue_packets(struct work_struct *work)
-> > +{
-> > +	struct mhi_ep_net_dev *mhi_ep_netdev = container_of(work,
-> > +			struct mhi_ep_net_dev, xmit_work);
-> > +	struct mhi_ep_device *mdev = mhi_ep_netdev->mdev;
-> > +	struct sk_buff_head q;
-> > +	struct sk_buff *skb;
-> > +	int ret;
-> > +
-> > +	if (mhi_ep_queue_is_empty(mdev, DMA_FROM_DEVICE)) {
-> > +		netif_stop_queue(mhi_ep_netdev->ndev);
-> > +		return;
-> > +	}
-> > +
-> > +	__skb_queue_head_init(&q);
-> > +
-> > +	spin_lock_bh(&mhi_ep_netdev->tx_lock);
-> > +	skb_queue_splice_init(&mhi_ep_netdev->tx_buffers, &q);
-> > +	spin_unlock_bh(&mhi_ep_netdev->tx_lock);
-> > +
-> > +	while ((skb = __skb_dequeue(&q))) {
-> > +		ret = mhi_ep_queue_skb(mdev, skb);
-> > +		if (ret) {
-> 
-> Hi Manivannan,
-> 
-> I wonder if this should be kfree_skb(skb);
-> 
+On Wed, Jun 07, 2023 at 12:28:09PM +0530, Manivannan Sadhasivam wrote:
+> On Tue, Jun 06, 2023 at 07:50:23AM -0600, Jeffrey Hugo wrote:
+> > On 6/6/2023 6:31 AM, Manivannan Sadhasivam wrote:
+> > > Most of the Qualcomm endpoint devices are supporting 32K MTU for the
+> > > UL (Uplink) and DL (Downlink) channels. So let's use the same value
+> > > in the MHI NET driver also. This gives almost 2x increase in the throughput
+> > > for the UL channel.
 
-Good catch! Will fix it.
+You say here 'Most'. What happens on those which do not support 32K?
+Do the packets get dropped and it turns into a black hole?
 
-- Mani
-
-> > +			kfree(skb);
-> > +			goto exit_drop;
-> > +		}
-> 
-> ...
-
--- 
-மணிவண்ணன் சதாசிவம்
+   Andrew
