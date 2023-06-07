@@ -1,101 +1,58 @@
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0392E1772E
-	for <mhi@lists.linux.dev>; Wed,  7 Jun 2023 17:39:27 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id 6weMqJe3YSNCw6weMqBxss; Wed, 07 Jun 2023 19:08:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1686157728;
-	bh=cdPbQRbPDp+0zA8pJiiJF8vCEuIQxafiGUtIS4RjinE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iztr6Ygp2jO295OFc8hcNMYK+NHPUOyX56BTDBuZMDiabs1FaUVcwYl4TQvuerwvp
-	 2jFbciRi9xuMH2xGzWgRwWoZxSU4qJQ0uyCDf9SEMobGgYJXXuDDTW6QrJIMz82kBH
-	 tWXM81i2kXrcbKIQQbLUBrd5UxtBpO5mzfXxCs6u9HrmsspZWvJ+HRwUg4ZPOqTT4G
-	 4PTkHFpAYxw0hMqb1UyVbfaFTxjRlKyaW8Ny8LDBo90zoxBWYjcou85E87gZAPk1sL
-	 TC06vcxI474ViC+x9J/3K5kW3DvhjQzZw9CBnD2rkail3ByX+PiS/evzih4Vih/3fJ
-	 khEtieUBvijeA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 07 Jun 2023 19:08:48 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <b34b048e-1291-207d-b611-c66d591cbf1b@wanadoo.fr>
-Date: Wed, 7 Jun 2023 19:08:46 +0200
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1971772E;
+	Wed,  7 Jun 2023 17:43:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FBDCC433D2;
+	Wed,  7 Jun 2023 17:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686159831;
+	bh=pZcTVLLiIRL735nUNe2nRR+4NmAQlsIK40zLI6qlujk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=si6CZLulOOFQBwBLvCrGPujNsZgJJv/o7yK0rUP061dgsOcNkqrtpIFMXnEBrHssV
+	 vksE/O1f8ba1i6P8FaMH41D2MBI2e1xzfrsocFKuRcY+AMFSq9ZOFyl+/+MohsfCjG
+	 LqWncXg5pnJSlsfUnC2ECdCdDpRGn+RHw85Zv/C2FgSaKdbOieW5yf5iGQzeeqNG0+
+	 EgudZmd16HbPkMVmNTjYX+F5Kft7RBWe7QP3bFHSY8yP/6vR8ayv/66yOEfriHqMYY
+	 zZEZnav0PSAgb7IB+pG0bw7n8/vL/Rv1toWKRgHUfxqL7xOphTlctNJ0gQIuxMbdjy
+	 gJD5Pw6uPfJUw==
+Date: Wed, 7 Jun 2023 10:43:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loic.poulain@linaro.org
+Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
+Message-ID: <20230607104350.03a51711@kernel.org>
+In-Reply-To: <20230607171153.GA109456@thinkpad>
+References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
+	<20230607094922.43106896@kernel.org>
+	<20230607171153.GA109456@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/2] net: Add MHI Endpoint network driver
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, loic.poulain@linaro.org
-References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
- <20230607152427.108607-2-manivannan.sadhasivam@linaro.org>
-Content-Language: fr
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230607152427.108607-2-manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Le 07/06/2023 à 17:24, Manivannan Sadhasivam a écrit :
-> Add a network driver for the Modem Host Interface (MHI) endpoint devices
-> that provides network interfaces to the PCIe based Qualcomm endpoint
-> devices supporting MHI bus. This driver allows the MHI endpoint devices to
-> establish IP communication with the host machines (x86, ARM64) over MHI
-> bus.
+On Wed, 7 Jun 2023 22:41:53 +0530 Manivannan Sadhasivam wrote:
+> > In any case, I'm opposed to reuse of the networking stack to talk
+> > to firmware. It's a local device. The networking subsystem doesn't
+> > have to cater to fake networks. Please carry:
+> > 
+> > Nacked-by: Jakub Kicinski <kuba@kernel.org>
+> > 
+> > if there are future submissions.  
 > 
-> The driver currently supports only IP_SW0 MHI channel that can be used
-> to route IP traffic from the endpoint CPU to host machine.
+> Why shouldn't it be? With this kind of setup one could share the data connectivity
+> available in the device with the host over IP tunneling. If the IP source in the
+> device (like modem DSP) has no way to be shared with the host, then those IP
+> packets could be tunneled through this interface for providing connectivity to
+> the host.
 > 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
+> I believe this is a common usecase among the PCIe based wireless endpoint
+> devices.
 
-[...]
-
-> +static int mhi_ep_net_newlink(struct mhi_ep_device *mhi_dev, struct net_device *ndev)
-> +{
-> +	struct mhi_ep_net_dev *mhi_ep_netdev;
-> +	int ret;
-> +
-> +	mhi_ep_netdev = netdev_priv(ndev);
-> +
-> +	dev_set_drvdata(&mhi_dev->dev, mhi_ep_netdev);
-> +	mhi_ep_netdev->ndev = ndev;
-> +	mhi_ep_netdev->mdev = mhi_dev;
-> +	mhi_ep_netdev->mru = mhi_dev->mhi_cntrl->mru;
-> +
-> +	skb_queue_head_init(&mhi_ep_netdev->tx_buffers);
-> +	spin_lock_init(&mhi_ep_netdev->tx_lock);
-> +
-> +	u64_stats_init(&mhi_ep_netdev->stats.rx_syncp);
-> +	u64_stats_init(&mhi_ep_netdev->stats.tx_syncp);
-> +
-> +	mhi_ep_netdev->xmit_wq = alloc_workqueue("mhi_ep_net_xmit_wq", 0, WQ_HIGHPRI);
-
-if (!mhi_ep_netdev->xmit_wq)
-	return -ENOMEM;
-
-> +	INIT_WORK(&mhi_ep_netdev->xmit_work, mhi_ep_net_dev_process_queue_packets);
-> +
-> +	ret = register_netdev(ndev);
-> +	if (ret) {
-> +		destroy_workqueue(mhi_ep_netdev->xmit_wq);
-
-I don't really think it is needed, but to be consistent with 
-mhi_ep_net_dellink(), maybe:
-	dev_set_drvdata(&mhi_dev->dev, NULL);
-
-CJ
-
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-[...]
-
+We can handwave our way into many scenarios and terrible architectures.
+I don't see any compelling reason to merge this.
