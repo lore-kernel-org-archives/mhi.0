@@ -1,28 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA6110960
-	for <mhi@lists.linux.dev>; Thu,  8 Jun 2023 11:59:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A83C433EF;
-	Thu,  8 Jun 2023 11:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2AB1119D
+	for <mhi@lists.linux.dev>; Thu,  8 Jun 2023 12:16:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D230CC433D2;
+	Thu,  8 Jun 2023 12:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686225574;
-	bh=kqj+AnBwnPPQKa4kzE0ArmNg7GgENWk2/+XafiMcx5g=;
+	s=k20201202; t=1686226604;
+	bh=aQXNFWs3V3lBJGx35S5YoWBnWH225+QG4DJld0VTV7w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ShsluX5d4ZlHzfqTkZLdoPZBxhpZcjulNtqKiPyvLfOFldMuyZRaBqS8VsiweyA51
-	 YNHEaBAA/InLeOtEo07ZiCploLCoXMWfEvkj0PSWD0+TWlUuZ/0BLzuZCOU3giTIZR
-	 sF+xPlNzefUTZ87VeWWpIfUPY4Z7TSJQefk8VEZHAJcaYLvAel5OjTNwAZF9pbJAIQ
-	 aWL3+5FRnJMXiws5nnodAruR7tn6JE6s0QcEXih9XEJlGOrDQNp8mDOTIeUXuxhuVT
-	 +plZk0SdCa705FgMjgMb9VPaoxe4jP6kh013tmsG7cFC4ewDKyxPhbx7/nkKF6pt3K
-	 wBXqnmXruZJfg==
-Date: Thu, 8 Jun 2023 17:29:28 +0530
+	b=m4DOC24UcHgm9gm75X996UtcPIug04PpHQcJofc/OCne5qwZP0CXloHC7yExzJFW0
+	 ue0a40FG/IbaYfgqYYO1/Y24Gb8fjbrpblEFgwFAjb48NzsxJsFRymiULKdWBoZDVA
+	 bKp+Kgk/ssCL3isVRBxpVRwjJeM6o4VOG+oibcuSVSSqqa4/8faZRMh+Pd8ctxx9b0
+	 PmdJYm2GgiOnrHeKCfFQgHHYdDmNuByuf2WbeYuU4lpDRJrYSIsf9y1k0uTSxleYUZ
+	 40GDtWuJ2aR2kCtRXa3UtZwGVUUaLLxqco3o46kArV1vgoWtfMN7Mm0+LkJxyf82eI
+	 CVEOoUF/Bf5XA==
+Date: Thu, 8 Jun 2023 17:46:38 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: mani@kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
-Message-ID: <20230608115928.GA5672@thinkpad>
-References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] bus: mhi: host: allow MHI client drivers to
+ provide the firmware via a pointer
+Message-ID: <20230608121638.GB5672@thinkpad>
+References: <20230530141813.29333-1-kvalo@kernel.org>
+ <20230530141813.29333-2-kvalo@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -32,77 +34,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+In-Reply-To: <20230530141813.29333-2-kvalo@kernel.org>
 
-On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
-> With the QAIC driver in -next, I'd like to suggest some MHI changes that
-> specific to AIC100 devices, but perhaps provide a framework for other
-> device oddities.
+On Tue, May 30, 2023 at 05:18:11PM +0300, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
 > 
-> AIC100 devices technically violate the MHI spec in two ways. Sadly, these
-> issues comes from the device hardware, so host SW needs to work around
-> them.
+> Currently MHI loads the firmware image from the path provided by client
+> devices. ath11k needs to support firmware image embedded along with meta data
+> (named as firmware-2.bin). So allow the client driver to request the firmware
+> file from user space on it's own and provide the firmware image data and size
+> to MHI via a pointer struct mhi_controller::fw_data.
 > 
-> Thie first issue, presented in this series, has to do with the
-> SOC_HW_VERSION register. This register is suposed to be initialized by the
-> hardware prior to the MHI being accessable by the host to contain a
-> version string for the SoC of the device. This could be used by the host
-> MHI controller software to identify and handle version to version changes.
-> The AIC100 hardware does not initialize this register, and thus it
-> contains garbage.
+> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+> name from struct mhi_controller::fw_image string as before.
 > 
-> This would not be much of a problem normally - the QAIC driver would just
-> never use it. However the MHI stack uses this register as part of the init
-> sequence and if the controller reports that the register is inaccessable
-> then the init sequence fails.  On some AIC100 cards, the garbage value
-> ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
-> indicating the access failed.  The MHI controller cannot tell if that
-> value is a PCIe link issue, or just garbage.
+> Tested with ath11k and WCN6855 hw2.0.
 > 
-> QAIC needs a way to tell MHI not to use this register. Other buses have a
-> quirk mechanism - a way to describe oddities in a particular
-> implementation that have some kind of workaround. Since this seems to be
-> the first need for such a thing in MHI, introduce a quirk framework.
-> 
-> The second issue AIC100 has involves the PK Hash registers. A solution for
-> this is expected to be proposed in the near future and is anticipated to
-> make use of the quirk framework proposed here. With PK Hash, there are two
-> oddities to handle. AIC100 does not initialize these registers until the
-> SBL is running, which is later than the spec indicates, and in practice
-> is after MHI reads/caches them. Also, AIC100 does not have enough
-> registers defined to fully report the 5 PK Hash slots, so a custom
-> reporting format is defined by the device.
-> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-Looking at the two issues you reported above, it looks to me that they can be
-handled inside the aic100 mhi_controller driver itself. Since the MHI stack
-exports the read_reg callback to controller drivers, if some registers are not
-supported by the device, then the callback can provide some fixed dummy data
-emulating the register until the issue is fixed in the device (if at all).
-
-Quirk framework could be useful if the device misbehaves against the protocol
-itself but for the register issues like this, I think the controller driver can
-handle itself.
-
-What do you think?
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 - Mani
 
-> v2:
-> -Fix build error
-> -Fix typo in commit text
+> ---
+>  drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
+>  include/linux/mhi.h         |  6 ++++++
+>  2 files changed, 31 insertions(+), 9 deletions(-)
 > 
-> Jeffrey Hugo (2):
->   bus: mhi: host: Add quirk framework and initial quirk
->   accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
-> 
->  drivers/accel/qaic/mhi_controller.c |  1 +
->  drivers/bus/mhi/host/init.c         | 13 +++++++++----
->  include/linux/mhi.h                 | 18 ++++++++++++++++++
->  3 files changed, 28 insertions(+), 4 deletions(-)
-> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index d2a19b07ccb8..edc0ec5a0933 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  }
+>  
+>  static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
+> -			      const struct firmware *firmware,
+> +			      const u8 *buf, size_t remainder,
+>  			      struct image_info *img_info)
+>  {
+> -	size_t remainder = firmware->size;
+>  	size_t to_cpy;
+> -	const u8 *buf = firmware->data;
+>  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
+>  	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
+>  
+> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>  	enum mhi_pm_state new_state;
+>  	const char *fw_name;
+> +	const u8 *fw_data;
+>  	void *buf;
+>  	dma_addr_t dma_addr;
+> -	size_t size;
+> +	size_t size, fw_sz;
+>  	int i, ret;
+>  
+>  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
+>  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
+>  
+> +	/* check if the driver has already provided the firmware data */
+> +	if (!fw_name && mhi_cntrl->fbc_download &&
+> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
+> +		if (!mhi_cntrl->sbl_size) {
+> +			dev_err(dev, "fw_data provided but no sbl_size\n");
+> +			goto error_fw_load;
+> +		}
+> +
+> +		size = mhi_cntrl->sbl_size;
+> +		fw_data = mhi_cntrl->fw_data;
+> +		fw_sz = mhi_cntrl->fw_sz;
+> +		goto skip_req_fw;
+> +	}
+> +
+>  	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
+>  						     !mhi_cntrl->seg_len))) {
+>  		dev_err(dev,
+> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	if (size > firmware->size)
+>  		size = firmware->size;
+>  
+> +	fw_data = firmware->data;
+> +	fw_sz = firmware->size;
+> +
+> +skip_req_fw:
+>  	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
+>  				 GFP_KERNEL);
+>  	if (!buf) {
+> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Download image using BHI */
+> -	memcpy(buf, firmware->data, size);
+> +	memcpy(buf, fw_data, size);
+>  	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
+>  	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
+>  
+> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Wait for ready since EDL image was loaded */
+> -	if (fw_name == mhi_cntrl->edl_image) {
+> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
+>  		release_firmware(firmware);
+>  		goto fw_load_ready_state;
+>  	}
+> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (mhi_cntrl->fbc_download) {
+> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+> -					   firmware->size);
+> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+>  			goto error_fw_load;
+>  		}
+>  
+>  		/* Load the firmware into BHIE vec table */
+> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
+> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+>  	}
+>  
+>  	release_firmware(firmware);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index f6de4b6ecfc7..7bd58fcb7e58 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -299,6 +299,10 @@ struct mhi_controller_config {
+>   * @iova_start: IOMMU starting address for data (required)
+>   * @iova_stop: IOMMU stop address for data (required)
+>   * @fw_image: Firmware image name for normal booting (optional)
+> + * @fw_data: Firmware image data content for normal booting, used only
+> + *           if fw_image is NULL (optional)
+> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+> + *         is NULL and fbc_download is true (optional)
+>   * @edl_image: Firmware image name for emergency download mode (optional)
+>   * @rddm_size: RAM dump size that host should allocate for debugging purpose
+>   * @sbl_size: SBL image size downloaded through BHIe (optional)
+> @@ -384,6 +388,8 @@ struct mhi_controller {
+>  	dma_addr_t iova_start;
+>  	dma_addr_t iova_stop;
+>  	const char *fw_image;
+> +	const u8 *fw_data;
+> +	size_t fw_sz;
+>  	const char *edl_image;
+>  	size_t rddm_size;
+>  	size_t sbl_size;
 > -- 
-> 2.40.1
+> 2.30.2
 > 
 > 
 
