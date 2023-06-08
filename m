@@ -1,84 +1,110 @@
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C40C1AD33
-	for <mhi@lists.linux.dev>; Thu,  8 Jun 2023 09:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=cZS5E3IyUiBQ9Rw6k7iRxMnbafFWJgCjUmX+UlyMFn0=;
-	b=o5ixhHlkV6s4C8oUvgweMdyxqHy6eKRVe4/BC9twlIjVOdAHNmjmBrn8rthf4s
-	B1PeP2Tnkrulnzar8qeLX8xZ8a5CdQkWjwdUrE0xQIkg10DH7HjtcVUmhlQpjcpn
-	K+NOUjnFL6EOltvzmbxWoWwKvdnOAXiCoGHFbd4qFaeG8=
-Received: from ubuntu.localdomain (unknown [220.180.239.55])
-	by zwqz-smtp-mta-g0-2 (Coremail) with SMTP id _____wBnbtp5n4FkCCZjBw--.17907S2;
-	Thu, 08 Jun 2023 17:29:31 +0800 (CST)
-From: =?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
-To: mani@kernel.org,
-	loic.poulain@linaro.org,
-	slark_xiao@163.com
-Cc: fabio.porcedda@gmail.com,
-	koen.vandeputte@citymesh.com,
-	song.fc@gmail.com,
-	bhelgaas@google.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	jerry.meng@quectel.com,
-	duke.xin@quectel.com,
-	=?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
-Subject: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
-Date: Thu,  8 Jun 2023 02:29:27 -0700
-Message-Id: <20230608092927.2893-1-duke_xinanwen@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA6110960
+	for <mhi@lists.linux.dev>; Thu,  8 Jun 2023 11:59:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A83C433EF;
+	Thu,  8 Jun 2023 11:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686225574;
+	bh=kqj+AnBwnPPQKa4kzE0ArmNg7GgENWk2/+XafiMcx5g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ShsluX5d4ZlHzfqTkZLdoPZBxhpZcjulNtqKiPyvLfOFldMuyZRaBqS8VsiweyA51
+	 YNHEaBAA/InLeOtEo07ZiCploLCoXMWfEvkj0PSWD0+TWlUuZ/0BLzuZCOU3giTIZR
+	 sF+xPlNzefUTZ87VeWWpIfUPY4Z7TSJQefk8VEZHAJcaYLvAel5OjTNwAZF9pbJAIQ
+	 aWL3+5FRnJMXiws5nnodAruR7tn6JE6s0QcEXih9XEJlGOrDQNp8mDOTIeUXuxhuVT
+	 +plZk0SdCa705FgMjgMb9VPaoxe4jP6kh013tmsG7cFC4ewDKyxPhbx7/nkKF6pt3K
+	 wBXqnmXruZJfg==
+Date: Thu, 8 Jun 2023 17:29:28 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: mani@kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
+Message-ID: <20230608115928.GA5672@thinkpad>
+References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBnbtp5n4FkCCZjBw--.17907S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KryrGw48tr1UtFWxKr18AFb_yoW8Gr1kpF
-	4F9340vF4qqFWjk34DW3y8AF98Xa17CFy7KwnxCw1Fqr4Dtr4Fqr929ryYk3WqgaykXF1a
-	qF1rAryYg3Wj9FUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR0zuAUUUUU=
-X-Originating-IP: [220.180.239.55]
-X-CM-SenderInfo: 5gxnvsp0lqt0xzhqqiywtou0bp/1tbivh2Ie1Zchl5BoQAAsi
+In-Reply-To: <20230519163902.4170-1-quic_jhugo@quicinc.com>
 
-The product's would use the same config as previous EM160R-GL
+On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
+> With the QAIC driver in -next, I'd like to suggest some MHI changes that
+> specific to AIC100 devices, but perhaps provide a framework for other
+> device oddities.
+> 
+> AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+> issues comes from the device hardware, so host SW needs to work around
+> them.
+> 
+> Thie first issue, presented in this series, has to do with the
+> SOC_HW_VERSION register. This register is suposed to be initialized by the
+> hardware prior to the MHI being accessable by the host to contain a
+> version string for the SoC of the device. This could be used by the host
+> MHI controller software to identify and handle version to version changes.
+> The AIC100 hardware does not initialize this register, and thus it
+> contains garbage.
+> 
+> This would not be much of a problem normally - the QAIC driver would just
+> never use it. However the MHI stack uses this register as part of the init
+> sequence and if the controller reports that the register is inaccessable
+> then the init sequence fails.  On some AIC100 cards, the garbage value
+> ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+> indicating the access failed.  The MHI controller cannot tell if that
+> value is a PCIe link issue, or just garbage.
+> 
+> QAIC needs a way to tell MHI not to use this register. Other buses have a
+> quirk mechanism - a way to describe oddities in a particular
+> implementation that have some kind of workaround. Since this seems to be
+> the first need for such a thing in MHI, introduce a quirk framework.
+> 
+> The second issue AIC100 has involves the PK Hash registers. A solution for
+> this is expected to be proposed in the near future and is anticipated to
+> make use of the quirk framework proposed here. With PK Hash, there are two
+> oddities to handle. AIC100 does not initialize these registers until the
+> SBL is running, which is later than the spec indicates, and in practice
+> is after MHI reads/caches them. Also, AIC100 does not have enough
+> registers defined to fully report the 5 PK Hash slots, so a custom
+> reporting format is defined by the device.
+> 
 
-Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
----
-Changelog
+Looking at the two issues you reported above, it looks to me that they can be
+handled inside the aic100 mhi_controller driver itself. Since the MHI stack
+exports the read_reg callback to controller drivers, if some registers are not
+supported by the device, then the callback can provide some fixed dummy data
+emulating the register until the issue is fixed in the device (if at all).
 
-v3 -> v4
+Quirk framework could be useful if the device misbehaves against the protocol
+itself but for the register issues like this, I think the controller driver can
+handle itself.
 
-* Update commit message to include the changelog and reviewd tag.
+What do you think?
 
-v2 -> v3
+- Mani
 
-* Add patch CC to mhi@lists.linux.dev.
+> v2:
+> -Fix build error
+> -Fix typo in commit text
+> 
+> Jeffrey Hugo (2):
+>   bus: mhi: host: Add quirk framework and initial quirk
+>   accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+> 
+>  drivers/accel/qaic/mhi_controller.c |  1 +
+>  drivers/bus/mhi/host/init.c         | 13 +++++++++----
+>  include/linux/mhi.h                 | 18 ++++++++++++++++++
+>  3 files changed, 28 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.40.1
+> 
+> 
 
-v1 -> v2
-
-* Remove Space before */ and "for laptop" description.
----
- drivers/bus/mhi/host/pci_generic.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 70e37c490150..5f204b819e95 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-+	/* EM160R-GL (sdx24) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
-+		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
 -- 
-2.25.1
-
+மணிவண்ணன் சதாசிவம்
