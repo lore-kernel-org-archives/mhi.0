@@ -1,123 +1,84 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9503925E;
-	Wed,  7 Jun 2023 20:21:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686169295; x=1717705295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ptcJdaHahJRD2fNGZZ0WMUGd3tX28UXr2OYz7pD6acg=;
-  b=UbF3L7kdCDbOyNyJo2/su9/yvA8JIKMnLd+nVgBdwVM3x905XtATpdUX
-   I1v+Z1UkLPUEgFhsaYSw1LEzW1VwumeDhgl6VL38nTmaQ/ZyWT3slPvbh
-   7RzGm9h0Gr+OnO8c7yAOdDQI+43xLuMBZunxzgII1hG2NE5+9a+k2zggl
-   R8+llK9Sxha9kN1Sf1sly3PWkA8lIAtac3azTfvdwm1SPNa5e0Ntay5vE
-   RtsCZK9K+vaJdKyXMZIuMdMVnYDbXA0cZALx8Eojz0cGHHiOr51WAOG3f
-   zU8vm63Arr6vVAqiIdnOr3qL1I2HR7AQ5O0vDxljU25flL8j6xJ1o0/Py
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357109031"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="357109031"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 13:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="739418877"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="739418877"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 13:20:40 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6ze4-0006tD-2X;
-	Wed, 07 Jun 2023 20:20:40 +0000
-Date: Thu, 8 Jun 2023 04:19:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, mani@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
-	kishon@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
-Message-ID: <202306080418.i64hTj5T-lkp@intel.com>
-References: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C40C1AD33
+	for <mhi@lists.linux.dev>; Thu,  8 Jun 2023 09:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=cZS5E3IyUiBQ9Rw6k7iRxMnbafFWJgCjUmX+UlyMFn0=;
+	b=o5ixhHlkV6s4C8oUvgweMdyxqHy6eKRVe4/BC9twlIjVOdAHNmjmBrn8rthf4s
+	B1PeP2Tnkrulnzar8qeLX8xZ8a5CdQkWjwdUrE0xQIkg10DH7HjtcVUmhlQpjcpn
+	K+NOUjnFL6EOltvzmbxWoWwKvdnOAXiCoGHFbd4qFaeG8=
+Received: from ubuntu.localdomain (unknown [220.180.239.55])
+	by zwqz-smtp-mta-g0-2 (Coremail) with SMTP id _____wBnbtp5n4FkCCZjBw--.17907S2;
+	Thu, 08 Jun 2023 17:29:31 +0800 (CST)
+From: =?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
+To: mani@kernel.org,
+	loic.poulain@linaro.org,
+	slark_xiao@163.com
+Cc: fabio.porcedda@gmail.com,
+	koen.vandeputte@citymesh.com,
+	song.fc@gmail.com,
+	bhelgaas@google.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	jerry.meng@quectel.com,
+	duke.xin@quectel.com,
+	=?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
+Subject: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
+Date: Thu,  8 Jun 2023 02:29:27 -0700
+Message-Id: <20230608092927.2893-1-duke_xinanwen@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBnbtp5n4FkCCZjBw--.17907S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KryrGw48tr1UtFWxKr18AFb_yoW8Gr1kpF
+	4F9340vF4qqFWjk34DW3y8AF98Xa17CFy7KwnxCw1Fqr4Dtr4Fqr929ryYk3WqgaykXF1a
+	qF1rAryYg3Wj9FUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR0zuAUUUUU=
+X-Originating-IP: [220.180.239.55]
+X-CM-SenderInfo: 5gxnvsp0lqt0xzhqqiywtou0bp/1tbivh2Ie1Zchl5BoQAAsi
 
-Hi Yang,
+The product's would use the same config as previous EM160R-GL
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+---
+Changelog
 
-[auto build test WARNING on next-20230607]
+v3 -> v4
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/PCI-endpoint-Remove-redundant-dev_err/20230607-173708
-base:   next-20230607
-patch link:    https://lore.kernel.org/r/20230607093514.104012-1-yang.lee%40linux.alibaba.com
-patch subject: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080418.i64hTj5T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git checkout next-20230607
-        b4 shazam https://lore.kernel.org/r/20230607093514.104012-1-yang.lee@linux.alibaba.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/pci/endpoint/functions/
+* Update commit message to include the changelog and reviewd tag.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080418.i64hTj5T-lkp@intel.com/
+v2 -> v3
 
-All warnings (new ones prefixed by >>):
+* Add patch CC to mhi@lists.linux.dev.
 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c: In function 'pci_epf_mhi_bind':
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:347:24: warning: unused variable 'dev' [-Wunused-variable]
-     347 |         struct device *dev = &epf->dev;
-         |                        ^~~
+v1 -> v2
 
+* Remove Space before */ and "for laptop" description.
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-vim +/dev +347 drivers/pci/endpoint/functions/pci-epf-mhi.c
-
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  341  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  342  static int pci_epf_mhi_bind(struct pci_epf *epf)
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  343  {
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  344  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  345  	struct pci_epc *epc = epf->epc;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  346  	struct platform_device *pdev = to_platform_device(epc->dev.parent);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02 @347  	struct device *dev = &epf->dev;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  348  	struct resource *res;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  349  	int ret;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  350  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  351  	/* Get MMIO base address from Endpoint controller */
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  352  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  353  	epf_mhi->mmio_phys = res->start;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  354  	epf_mhi->mmio_size = resource_size(res);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  355  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  356  	epf_mhi->mmio = ioremap(epf_mhi->mmio_phys, epf_mhi->mmio_size);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  357  	if (IS_ERR(epf_mhi->mmio))
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  358  		return PTR_ERR(epf_mhi->mmio);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  359  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  360  	ret = platform_get_irq_byname(pdev, "doorbell");
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  361  	if (ret < 0) {
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  362  		iounmap(epf_mhi->mmio);
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  363  		return ret;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  364  	}
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  365  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  366  	epf_mhi->irq = ret;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  367  
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  368  	return 0;
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  369  }
-7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  370  
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 70e37c490150..5f204b819e95 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
++	/* EM160R-GL (sdx24) */
++	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
++		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
