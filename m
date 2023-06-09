@@ -1,52 +1,134 @@
-Received: from pv50p00im-ztdg10011201.me.com (pv50p00im-ztdg10011201.me.com [17.58.6.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B8A15AA
-	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 14:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1686321845;
-	bh=CY8s07ypV5krtUwSmbPxJXUTAsPd9WgEEdu9C5VBRc8=;
-	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
-	b=oMQatZKhcCUdUWmylcG+gVoA6xxXtVjCBxCeTgwg2D0WZf+qSE1iPpxdRdlVdWmex
-	 KhQIc+FkB1q1yDkE0Yp0V4pvDK05MeZnZ1SvKA1gtMBRvLiqlZrC6bXKzZ009X1QB1
-	 6U0Ox/8T4ZG2Z7o8zqBjU7x00k3NpFPpAni8Y0Cy/HbbaID0dk6vtHHe6RDBvAkY9O
-	 m4kYCAXv5iUSnQWis1yskxMXwlkwDVPkHikKtZb+jYgBDZ+/lXitZ9upWvrSry5Xq/
-	 KxI/hg4nkG2XQkhZWKNb7gcBjVd2Ayr7v2TSPsGY8DF6GIbyN+vKiHpPWHBCE4flUl
-	 zdz7f7GRLHXDw==
-Received: from smtpclient.apple (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10011201.me.com (Postfix) with ESMTPSA id 379D1680309;
-	Fri,  9 Jun 2023 14:44:03 +0000 (UTC)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Abdurrahman Eksi <eksizadeeksi@icloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413A817757
+	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 15:32:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC05C433EF;
+	Fri,  9 Jun 2023 15:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686324730;
+	bh=DDKlZt/t4+fZJTmcZJEowioerzbMSScPFXXwtDJOEiI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jJ/XBK38ZeUyblXIfx1CrLCpMGFm9rFq9oFzfky25ZryudFLurH6rnEA7unwLqOUh
+	 aT392idplglh7W4nq4IPHKk9UKBFJaK980D+Ax1MrPJkXuUNtuQGuSgaPL9k9VT3hR
+	 8nsVv24FZcYDNqnRzApppMfVaa9SXPEYqSeCzv0mRiCjIdRUXQBHm0HNsTzB16YPYo
+	 n6wKnX744ar0nz9ZEVAOGPUmdndSGdYD4WpRZwQMgVn3lAKqTc3/8Kx+XFaSREMe8L
+	 aB6hjsVfbwGFSKeLbrRaGMqBmH0Tx7dVvAzBSI2bPwHU3rlNuKRYE9RqL6zxIEzqOv
+	 5b5DG6nTeNWEw==
+Date: Fri, 9 Jun 2023 21:02:01 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke.xin@quectel.com>
+Cc: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>,
+	"loic.poulain@linaro.org" <loic.poulain@linaro.org>,
+	"slark_xiao@163.com" <slark_xiao@163.com>,
+	"fabio.porcedda@gmail.com" <fabio.porcedda@gmail.com>,
+	"koen.vandeputte@citymesh.com" <koen.vandeputte@citymesh.com>,
+	"song.fc@gmail.com" <song.fc@gmail.com>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	Jerry =?utf-8?B?TWVuZyjokpnmnbAp?= <jerry.meng@quectel.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIGJ1?=
+ =?utf-8?Q?s=3A_mhi=3A_host=3A_pci=5Fgeneric?= =?utf-8?Q?=3A?= Add support
+ for quectel's new EM160R-GL product
+Message-ID: <20230609153201.GB6847@thinkpad>
+References: <ac814d016b03c3164dbd8cd7c94f8b4f9-6-23kernel.org@g.corp-email.com>
+ <20230608160530.GC8632@thinkpad>
+ <SEZPR06MB6087F7C2AAE5B5FB0F5AFF7E8451A@SEZPR06MB6087.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Date: Fri, 9 Jun 2023 17:43:59 +0300
-Subject: =?utf-8?Q?Re:_=E5=9B=9E=E5=A4=8D:_[PATCH_v4]_bus:_mhi:_host:_pci?=
- =?utf-8?Q?=5Fgeneric:_Add_support_for_quectel's_new_EM160R-GL_prod?=
- =?utf-8?Q?uct?=
-Message-Id: <E8738161-65CE-40B8-B8D5-00DA6A21D367@icloud.com>
-Cc: bhelgaas@google.com, duke_xinanwen@163.com, fabio.porcedda@gmail.com,
- jerry.meng@quectel.com, koen.vandeputte@citymesh.com,
- linux-arm-msm@vger.kernel.org, loic.poulain@linaro.org, mani@kernel.org,
- mhi@lists.linux.dev, slark_xiao@163.com, song.fc@gmail.com
-To: duke.xin@quectel.com
-X-Mailer: iPhone Mail (19H332)
-X-Proofpoint-ORIG-GUID: BS1t2JlJDTl1OhGfB3OLP2Hnq1hn9-jr
-X-Proofpoint-GUID: BS1t2JlJDTl1OhGfB3OLP2Hnq1hn9-jr
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 mlxscore=0
- clxscore=1015 bulkscore=0 spamscore=0 malwarescore=0 adultscore=0
- mlxlogscore=848 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2306090123
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SEZPR06MB6087F7C2AAE5B5FB0F5AFF7E8451A@SEZPR06MB6087.apcprd06.prod.outlook.com>
 
-X
+On Fri, Jun 09, 2023 at 01:21:02AM +0000, Duke Xin(辛安文) wrote:
+> Hi Mani
+> 
+> EM160R-GL is exactly the same name as the old modem with same chipset. What is the difference between these two?
+> >> From my point of view, there are only two EM160R-GL products with different PCIe ids, and the HW and SW of the module are the same. 
+>    The new EM160R-GL product is designed to fit the customer's new laptop.
 
-iPhone=E2=80=99umdan g=C3=B6nderildi=
+Ok. Previously I used to see same modules having two different IDs because they
+share different baseline (from qcom). I will amend the commit message
+accordingly.
+
+For future patches, please include these info in the commit message.
+
+- Mani
+
+> 
+> 
+> 辛安文  Duke Xin | Software Department IX Engineer | Quectel Wireless Solutions Co., Ltd. 
+>             
+> Mobile: +86-15375456183 | Email : Duke.xin@quectel.com  | Tel: +86-0551-65869386-8632
+> Website: www.quectel.com  | QQ: 602659072 | Wechat: 15375456183
+> 
+> Building 1-C, China Speech Valley Area A, 3335 Xiyou Road, High-tech Zone, Hefei, Anhui 230088, China    
+> 安徽省合肥市高新区习友路3335号中国（合肥）国际智能语音产业园A区1号中试楼 230088
+> HQ: Building 5, Shanghai Business Park Phase III (Area B), No.1016 Tianlin Road, Minhang District, Shanghai 200233, China
+> 总部：上海市闵行区田林路1016号科技绿洲3期（B区）5号楼  200233
+> 
+> -----邮件原件-----
+> 发件人: Manivannan Sadhasivam <mani@kernel.org> 
+> 发送时间: 2023年6月9日 0:06
+> 收件人: Duke Xin(辛安文) <duke_xinanwen@163.com>
+> 抄送: loic.poulain@linaro.org; slark_xiao@163.com; fabio.porcedda@gmail.com; koen.vandeputte@citymesh.com; song.fc@gmail.com; bhelgaas@google.com; mhi@lists.linux.dev; linux-arm-msm@vger.kernel.org; Jerry Meng(蒙杰) <jerry.meng@quectel.com>; Duke Xin(辛安文) <duke.xin@quectel.com>
+> 主题: Re: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
+> 
+> On Thu, Jun 08, 2023 at 02:29:27AM -0700, Duke Xin(辛安文) wrote:
+> > The product's would use the same config as previous EM160R-GL
+> > 
+> > Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+> > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> > ---
+> > Changelog
+> > 
+> > v3 -> v4
+> > 
+> > * Update commit message to include the changelog and reviewd tag.
+> > 
+> > v2 -> v3
+> > 
+> > * Add patch CC to mhi@lists.linux.dev.
+> > 
+> > v1 -> v2
+> > 
+> > * Remove Space before */ and "for laptop" description.
+> > ---
+> >  drivers/bus/mhi/host/pci_generic.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/bus/mhi/host/pci_generic.c 
+> > b/drivers/bus/mhi/host/pci_generic.c
+> > index 70e37c490150..5f204b819e95 100644
+> > --- a/drivers/bus/mhi/host/pci_generic.c
+> > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > @@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> > +	/* EM160R-GL (sdx24) */
+> > +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
+> > +		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> 
+> EM160R-GL is exactly the same name as the old modem with same chipset. What is the difference between these two?
+> 
+> - Mani
+> 
+> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+> > --
+> > 2.25.1
+> > 
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
+
+-- 
+மணிவண்ணன் சதாசிவம்
