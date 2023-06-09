@@ -1,32 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870A17757
-	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 15:38:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051EBC433D2;
-	Fri,  9 Jun 2023 15:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5CF19907
+	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 15:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BFA9C4339C;
+	Fri,  9 Jun 2023 15:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686325088;
-	bh=Ub8kgtuLOXlB1lZplho9yrsG0peukzicGmJk6zEpSVc=;
+	s=k20201202; t=1686325821;
+	bh=5w5b1lGyt+7thZ9+8s+QnKfndAO2UNpN5cwTTuTu32Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T8yt3prnNjCsrGiMvS11FWobI5iNrsGllORRPLqIpwtbpOp8uc4o5ovNcmX+Ipuui
-	 Ys3qO9WElHQ4W+/AWoW7Fn93ToDMS1oyt+AtATAmrzD7nQ5EK/TA4cOcJs4XhxhlaM
-	 lyd6MDH353FHNPMFGk1DwPBzUMPlA6/0SdF4ikecTmtSnIc5i7XiAVcBV429WzUfMp
-	 mn7MP0m137vXrcVipiqyNiBw6qbicPuOsyT6yjome1veFMoe3PuyN/EAoJv7ISvxG7
-	 mW2ZkExFx1F5UYeeiwyocMY+A6BiJqcqWRA9UaNVSHpxr8IKPRZ+MovsMO2zLZF2em
-	 KShZq5H6uKH6A==
-Date: Fri, 9 Jun 2023 21:08:00 +0530
+	b=EjK7sByqsGckkLQFc7E/3JROzrZQiLaTvcNflvXp6OVgMV8jCoubAaSupY83Ro+/r
+	 5OECz/IWXRVlJ+AhWqJRoHIzlf1VH3Fz79rYtmqO0ECU0JB2JmK34JKgaS5HgDz62a
+	 KSDcWOv1MV4lPBFzv5L7+JieO7HkPJo7gwG1qg/7oGntHL936Xvdu7MDTaxfiQ0Gj9
+	 s1T+rkj5iT5B9il0b28NXaZCUnZIU28FBqJGKJfuAmkpmciNQBHh591JIoDtzquq0/
+	 vJksFdS+pkfuCj3P/rBemODykSzsJQ2MTzNuuoyPoWe8uK5Mcarl5DXIMWpeB7jJ2W
+	 i4Vpp8HSaUeXg==
+Date: Fri, 9 Jun 2023 21:20:13 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>
-Cc: loic.poulain@linaro.org, slark_xiao@163.com, fabio.porcedda@gmail.com,
-	koen.vandeputte@citymesh.com, song.fc@gmail.com,
-	bhelgaas@google.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, jerry.meng@quectel.com,
-	duke.xin@quectel.com
-Subject: Re: [PATCH v4] bus: mhi: host: pci_generic: Add support for
- quectel's new EM160R-GL product
-Message-ID: <20230609153800.GC6847@thinkpad>
-References: <20230608092927.2893-1-duke_xinanwen@163.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Damien Le Moal <dlemoal@kernel.org>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: endpoint: Check correct variable in
+ __pci_epf_mhi_alloc_map()
+Message-ID: <20230609155013.GD6847@thinkpad>
+References: <258e8de1-abff-4024-89e0-1c8df761d790@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -36,53 +38,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230608092927.2893-1-duke_xinanwen@163.com>
+In-Reply-To: <258e8de1-abff-4024-89e0-1c8df761d790@moroto.mountain>
 
-On Thu, Jun 08, 2023 at 02:29:27AM -0700, Duke Xin(辛安文) wrote:
-> The product's would use the same config as previous EM160R-GL
+On Fri, Jun 09, 2023 at 01:49:33PM +0300, Dan Carpenter wrote:
+> This was intended to check "*vaddr" instead of "vaddr" (without an
+> asterisk).
 > 
-> Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+> Fixes: 7db424a84d96 ("PCI: endpoint: Add PCI Endpoint function driver for MHI bus")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Modified the commit message and subject to reflect the usecase and applied to
-mhi-next!
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 - Mani
 
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 > ---
-> Changelog
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> v3 -> v4
-> 
-> * Update commit message to include the changelog and reviewd tag.
-> 
-> v2 -> v3
-> 
-> * Add patch CC to mhi@lists.linux.dev.
-> 
-> v1 -> v2
-> 
-> * Remove Space before */ and "for laptop" description.
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 70e37c490150..5f204b819e95 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> +	/* EM160R-GL (sdx24) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
-> +		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 1227f059ea12..e7d64b9d12ff 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -112,7 +112,7 @@ static int __pci_epf_mhi_alloc_map(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr,
+>  	int ret;
+>  
+>  	*vaddr = pci_epc_mem_alloc_addr(epc, paddr, size + offset);
+> -	if (!vaddr)
+> +	if (!*vaddr)
+>  		return -ENOMEM;
+>  
+>  	ret = pci_epc_map_addr(epc, epf->func_no, epf->vfunc_no, *paddr,
 > -- 
-> 2.25.1
+> 2.39.2
 > 
 
 -- 
