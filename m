@@ -1,89 +1,52 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pv50p00im-ztdg10012001.me.com (pv50p00im-ztdg10012001.me.com [17.58.6.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4F1377
-	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 10:50:15 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-30af86a966eso1243730f8f.2
-        for <mhi@lists.linux.dev>; Fri, 09 Jun 2023 03:50:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686307814; x=1688899814;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LwQRa4qckO6ixQp2fV7L1BkurPOrWgrccG+//fvOGOk=;
-        b=mdTwXfnjJwYxsIMkqgCh9ivyXno/zU9hfPaJmMw1GbPJojTGdYSAPn04sqfxupAd+U
-         WTYkSF275EtRIZn55DQSQSWY/Rqdc2cqlvDVLwmy9bmMZlMfOJSz8ksPwiO9IGntduYU
-         lSCh204kh3bF1mhohGHgn4dPZvZMEL/M4QDxoQQjTxQaji8dNPBSomMInPl3RRh7qPR6
-         chJJqoY1ac/pTuQJFkOJyxRpX+PRnqKl4yiSuEf2cBIBOKEBRHY2uCvuDT1PrxEPCIoI
-         JRqtTeYk3uT1CNyEogV/3gGKDkPJkSYBSEMKUBucXoQ9Dv/d7yX57h15ekqo+O4snjzm
-         7HEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686307814; x=1688899814;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LwQRa4qckO6ixQp2fV7L1BkurPOrWgrccG+//fvOGOk=;
-        b=dOyZMqtrupYPGrv3loMeien8rzMj86F2CjLxgE+g9jPeGzJNCqttfzv/Mio3W4JAz1
-         hUY0Hmfqohzny2vV1JFh2TJXW/jdH71LXb31PD08Fpy2XiYrXGrFHuJ59R4qsZIJ/7qD
-         jD6pobL3gDrGPEV6lf7ma5+J7b6h9KorPFcS6o8kesfbMRlOTFmNRlgY1l4jQWPsjf+f
-         V8ZIA99llavoGFgiJQERwsYN7xHGoflgI0fDd3m7iiRpPj2WitCWv63RniUL4d2oIKi2
-         AR/RLo5uVjLLZErB+L0ONhX4wSpz5DV88KJHzw3yEnnw/ZGc0A59sTqeBEkNfUe5WVES
-         QF/g==
-X-Gm-Message-State: AC+VfDydiN2Ovit8Zfl2haM+lnsVNLMXA1EXqaP9uXTcNpCEusrKWoNJ
-	142W+QxWriPa7TJekCQMkr2soQ==
-X-Google-Smtp-Source: ACHHUZ7XJbN2Co07oOsfu9qDjkJ8aZ29vciyT48xUtdRs6Y+sT9fXC3xbCouvmEQAGoTnxZypxLhhQ==
-X-Received: by 2002:a05:6000:1012:b0:306:37bf:ca5a with SMTP id a18-20020a056000101200b0030637bfca5amr732641wrx.47.1686307814208;
-        Fri, 09 Jun 2023 03:50:14 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m6-20020a5d6246000000b0030e52d4c1bcsm4161556wrv.71.2023.06.09.03.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 03:50:13 -0700 (PDT)
-Date: Fri, 9 Jun 2023 13:50:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Damien Le Moal <dlemoal@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH 2/2] PCI: endpoint: Fix an IS_ERR() vs NULL bug
-Message-ID: <ca14e566-d9b7-471d-b738-56dd697b1417@moroto.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391EF15AA
+	for <mhi@lists.linux.dev>; Fri,  9 Jun 2023 14:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1686321748;
+	bh=CY8s07ypV5krtUwSmbPxJXUTAsPd9WgEEdu9C5VBRc8=;
+	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
+	b=g0ZSzbQBlh0fCfHrXFNLdgRx+0HcvSxltAymOJr29Q5lCYcG9Ye7Jzyn/KAPrvnxJ
+	 NY0jPg/QpkXFBzscuZz7Id3UI4j11dQ+LTQFJP+coQcyF0BsVQSBCv2JiXRohCnHsi
+	 5/LNNVDrdyS0pGXRgA5WBPGl49czOwNUlIdeQX2JhAMP2IU+0sdg+99f6dQ10WeYI2
+	 8X9LRJuZYSrYiBvL9+Xe4QWgnJ0Zz5BLlQ6N5+xkYJdIiYbZlUDmxf6Ntq1elw7Nvi
+	 0XYK74JkmEWW7kZfee2IzSQXD+OgtND9SfxG9Y/+X6rrMEJoOnmFfbZGbCOMmV6ZR3
+	 6piAXS/R93dAw==
+Received: from smtpclient.apple (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-ztdg10012001.me.com (Postfix) with ESMTPSA id 7154BA02E9;
+	Fri,  9 Jun 2023 14:42:26 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Abdurrahman Eksi <eksizadeeksi@icloud.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <258e8de1-abff-4024-89e0-1c8df761d790@moroto.mountain>
-X-Mailer: git-send-email haha only kidding
+Mime-Version: 1.0 (1.0)
+Date: Fri, 9 Jun 2023 17:42:22 +0300
+Subject: =?utf-8?Q?Re:_=E5=9B=9E=E5=A4=8D:_[PATCH_v4]_bus:_mhi:_host:_pci?=
+ =?utf-8?Q?=5Fgeneric:_Add_support_for_quectel's_new_EM160R-GL_prod?=
+ =?utf-8?Q?uct?=
+Message-Id: <8640F4DE-6B68-4E35-B779-1519BAAB6524@icloud.com>
+Cc: bhelgaas@google.com, duke_xinanwen@163.com, fabio.porcedda@gmail.com,
+ jerry.meng@quectel.com, koen.vandeputte@citymesh.com,
+ linux-arm-msm@vger.kernel.org, loic.poulain@linaro.org, mani@kernel.org,
+ mhi@lists.linux.dev, slark_xiao@163.com, song.fc@gmail.com
+To: duke.xin@quectel.com
+X-Mailer: iPhone Mail (19H332)
+X-Proofpoint-GUID: PEUjI3x2ooztbEPiKjru8NSzWGTVMVGS
+X-Proofpoint-ORIG-GUID: PEUjI3x2ooztbEPiKjru8NSzWGTVMVGS
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 clxscore=1011
+ spamscore=0 adultscore=0 bulkscore=0 mlxlogscore=848 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2306090123
 
-The ioremap() function does not return error pointers, it returns NULL
-on error.
+X
 
-Fixes: 7db424a84d96 ("PCI: endpoint: Add PCI Endpoint function driver for MHI bus")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index e7d64b9d12ff..b45db923306b 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -354,8 +354,8 @@ static int pci_epf_mhi_bind(struct pci_epf *epf)
- 	epf_mhi->mmio_size = resource_size(res);
- 
- 	epf_mhi->mmio = ioremap(epf_mhi->mmio_phys, epf_mhi->mmio_size);
--	if (IS_ERR(epf_mhi->mmio))
--		return PTR_ERR(epf_mhi->mmio);
-+	if (!epf_mhi->mmio)
-+		return -ENOMEM;
- 
- 	ret = platform_get_irq_byname(pdev, "doorbell");
- 	if (ret < 0) {
--- 
-2.39.2
-
+iPhone=E2=80=99umdan g=C3=B6nderildi=
