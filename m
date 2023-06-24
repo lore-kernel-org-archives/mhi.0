@@ -1,71 +1,154 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB04E7460
-	for <mhi@lists.linux.dev>; Fri, 23 Jun 2023 23:45:17 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-668711086f4so884222b3a.1
-        for <mhi@lists.linux.dev>; Fri, 23 Jun 2023 16:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687563917; x=1690155917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oxpqoKiLiXHAYzo2GF/yRNN4ujaz4VhDxbbYENoZ7HE=;
-        b=MO5Uki3XpE8DoU/U9pdbrC+SMdd1H2KLAbjuYzWFlsdCGIiOkj6xMjCmrNwkPxHlYg
-         gg/JSMjuPunSfXbqIdQ9X55hKImJNSiLi4B0AwwWJDyuqsLiCRllyCE2ITFjgLCNc7ON
-         9HA4X+tEwV2L6eky+lcR1MlmUzdMt/kvCzxvc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687563917; x=1690155917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oxpqoKiLiXHAYzo2GF/yRNN4ujaz4VhDxbbYENoZ7HE=;
-        b=dTWSjuHm0ulVfg4PzZwL4klnFWgJJmUG6+dkZxMoPmSZTFMBxEc9LFdmNDHjF19a0O
-         BvT/1M9HYyhiIwEv6ZRdEX8AAxPHxcADTOVrbyl3lBLjj45Ibwl2gTcI3dM7DpsFFOIa
-         KEk7EIa/dvIX8nxtVc27ysYyWHkAXzkVdGcpELr+Q3RZYx0pfz8mzffLrD8sJnmtNdeP
-         S47ob0yQiAjS3X3iEBaCnnGfBGrSOTmw0hhFgDQmXCO6GrF5hRCm/b9Z7Yzjta3UU5B6
-         JCal6bQJ95qP4zGZQzz4WY+GE8BmUChNRPyf2OMzYdsgxEZYCZRiazdYb4clWNDMungA
-         91zg==
-X-Gm-Message-State: AC+VfDyy8TjHykeG0hoSR//kLteqUOccm5ZQgLFTDPtjmkHeHxYzxL7R
-	m/R46l62SzTitJ7KTFY6rl8qtg==
-X-Google-Smtp-Source: ACHHUZ54SvsRZGuby7rh6NGkLzQV2rO8W2svdlmGiXVK6ldfvev3mbsAUeaWTAJ9SaJHOMXk4MXy/A==
-X-Received: by 2002:a05:6a20:12c4:b0:123:152d:d46b with SMTP id v4-20020a056a2012c400b00123152dd46bmr14778534pzg.26.1687563917013;
-        Fri, 23 Jun 2023 16:45:17 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id v26-20020aa7809a000000b0062cf75a9e6bsm70691pff.131.2023.06.23.16.45.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 16:45:16 -0700 (PDT)
-Date: Fri, 23 Jun 2023 16:45:15 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	kernel-janitors@vger.kernel.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/26] bus: mhi: host: use array_size
-Message-ID: <202306231639.68955384A@keescook>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
- <20230623211457.102544-11-Julia.Lawall@inria.fr>
- <3b4ff79b-93b4-cf56-1488-113905b3981d@quicinc.com>
- <alpine.DEB.2.22.394.2306232340510.3129@hadrien>
- <58cb3bf6-5ffd-194b-1455-4e5bb045fc34@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2133E360
+	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 06:57:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72652C433C0;
+	Sat, 24 Jun 2023 06:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687589869;
+	bh=toF4EBgCXkrjlP8EG+AMEChN1VhN9P26lMjqYGNkT1Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nouXr1Z2SVd7KsHroM2bVeZ8pPIZvGJXpA2zA1HsYg6hKIeip3KO81zs68UOewz9M
+	 UWxWWVdPumpO5mIuj2Hiz8mGAOw+v3tb4wuNEgl3rlC6kaQ2hrsOrLxEUjbca5neZO
+	 yowOLwo9md8Dwhjt8eRdg35IuN+v24vobk/e9MZfDZlapvxmgelrgQIq7o+cEHubDN
+	 giCJB3gXdhAcNIRAEjp3UtWsbFVFUrB520rJiloIrKcQBLSVQzQggagmmWYm+4bBer
+	 hP21SZYvDYFdWDzR0mSKFadWPVmlifuaZroQ0ifo7jmpi3up4Klbc11MKMKlq4G71A
+	 l4RTnBNFt8SBA==
+Date: Sat, 24 Jun 2023 12:27:34 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke.xin@quectel.com>
+Cc: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>,
+	"loic.poulain@linaro.org" <loic.poulain@linaro.org>,
+	"slark_xiao@163.com" <slark_xiao@163.com>,
+	"fabio.porcedda@gmail.com" <fabio.porcedda@gmail.com>,
+	"koen.vandeputte@citymesh.com" <koen.vandeputte@citymesh.com>,
+	"song.fc@gmail.com" <song.fc@gmail.com>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	Jerry =?utf-8?B?TWVuZyjokpnmnbAp?= <jerry.meng@quectel.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIGJ1czogbWhpOiBob3N0OiBw?=
+ =?utf-8?Q?ci=5Fgeneric=3A?= Add support for quectel's new EM160R-GL product
+Message-ID: <20230624065734.7az2zttz7yzq7adj@thinkpad>
+References: <d86d1878598b633b437f87e5b75196079-6-23kernel.org@g.corp-email.com>
+ <20230609153800.GC6847@thinkpad>
+ <SEZPR06MB6087B403321E6528CB5589428454A@SEZPR06MB6087.apcprd06.prod.outlook.com>
+ <SEZPR06MB608764064A2D2E91117C2610845DA@SEZPR06MB6087.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <58cb3bf6-5ffd-194b-1455-4e5bb045fc34@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SEZPR06MB608764064A2D2E91117C2610845DA@SEZPR06MB6087.apcprd06.prod.outlook.com>
 
-On Fri, Jun 23, 2023 at 04:09:46PM -0600, Jeffrey Hugo wrote:
-> Kees, would you please chime in and educate me here?  I feel like I'm
-> missing something important here.
+On Wed, Jun 21, 2023 at 10:36:36AM +0000, Duke Xin(辛安文) wrote:
+> Hi Mani
+> 
+> Regarding [PATCH v4] submission for review, I would like to confirm with you whether there are any defects that need to be corrected?
+> 
 
-The array_size() family will saturate at SIZE_MAX (rather than potentially
-wrapping around). No allocator can fulfil a 18446744073709551615 byte
-(18 exabyte) allocation. :) So the NULL return value will (hopefully)
-trigger an error path.
+Patch has been applied to mhi-next branch and will be part of v6.5 release:
+https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/commit/?h=mhi-next&id=6bb6aba2f57ab58a8853bf09cc4e875a46646c0b
+
+- Mani
+
+> 
+> 辛安文  Duke Xin | Software Department IX Engineer | Quectel Wireless Solutions Co., Ltd. 
+>             
+> Mobile: +86-15375456183 | Email : Duke.xin@quectel.com  | Tel: +86-0551-65869386-8632
+> Website: www.quectel.com  | QQ: 602659072 | Wechat: 15375456183
+> 
+> Building 1-C, China Speech Valley Area A, 3335 Xiyou Road, High-tech Zone, Hefei, Anhui 230088, China    
+> 安徽省合肥市高新区习友路3335号中国（合肥）国际智能语音产业园A区1号中试楼 230088
+> HQ: Building 5, Shanghai Business Park Phase III (Area B), No.1016 Tianlin Road, Minhang District, Shanghai 200233, China
+> 总部：上海市闵行区田林路1016号科技绿洲3期（B区）5号楼  200233
+> 
+> -----邮件原件-----
+> 发件人: Duke Xin(辛安文) 
+> 发送时间: 2023年6月12日 10:02
+> 收件人: Manivannan Sadhasivam <mani@kernel.org>; Duke Xin(辛安文) <duke_xinanwen@163.com>
+> 抄送: loic.poulain@linaro.org; slark_xiao@163.com; fabio.porcedda@gmail.com; koen.vandeputte@citymesh.com; song.fc@gmail.com; bhelgaas@google.com; mhi@lists.linux.dev; linux-arm-msm@vger.kernel.org; Jerry Meng(蒙杰) <jerry.meng@QUECTEL.COM>
+> 主题: 回复: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
+> 
+> Hi Mani
+> 
+> Ok. Previously I used to see same modules having two different IDs because they share different baseline (from qcom). I will amend the commit message accordingly.
+> For future patches, please include these info in the commit message.
+> >>  Got it. In the future patch, I will add the corresponding supplementary information (such as baseline) to make a difference.
+>   
+>   Thank you very much for your patient review again.
+> 
+> 辛安文  Duke Xin | Software Department IX Engineer | Quectel Wireless Solutions Co., Ltd. 
+>             
+> Mobile: +86-15375456183 | Email : Duke.xin@quectel.com  | Tel: +86-0551-65869386-8632
+> Website: www.quectel.com  | QQ: 602659072 | Wechat: 15375456183
+> 
+> Building 1-C, China Speech Valley Area A, 3335 Xiyou Road, High-tech Zone, Hefei, Anhui 230088, China    
+> 安徽省合肥市高新区习友路3335号中国（合肥）国际智能语音产业园A区1号中试楼 230088
+> HQ: Building 5, Shanghai Business Park Phase III (Area B), No.1016 Tianlin Road, Minhang District, Shanghai 200233, China
+> 总部：上海市闵行区田林路1016号科技绿洲3期（B区）5号楼  200233
+> 
+> -----邮件原件-----
+> 发件人: Manivannan Sadhasivam <mani@kernel.org> 
+> 发送时间: 2023年6月9日 23:38
+> 收件人: Duke Xin(辛安文) <duke_xinanwen@163.com>
+> 抄送: loic.poulain@linaro.org; slark_xiao@163.com; fabio.porcedda@gmail.com; koen.vandeputte@citymesh.com; song.fc@gmail.com; bhelgaas@google.com; mhi@lists.linux.dev; linux-arm-msm@vger.kernel.org; Jerry Meng(蒙杰) <jerry.meng@quectel.com>; Duke Xin(辛安文) <duke.xin@quectel.com>
+> 主题: Re: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
+> 
+> On Thu, Jun 08, 2023 at 02:29:27AM -0700, Duke Xin(辛安文) wrote:
+> > The product's would use the same config as previous EM160R-GL
+> > 
+> > Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+> 
+> Modified the commit message and subject to reflect the usecase and applied to mhi-next!
+> 
+> - Mani
+> 
+> > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> > ---
+> > Changelog
+> > 
+> > v3 -> v4
+> > 
+> > * Update commit message to include the changelog and reviewd tag.
+> > 
+> > v2 -> v3
+> > 
+> > * Add patch CC to mhi@lists.linux.dev.
+> > 
+> > v1 -> v2
+> > 
+> > * Remove Space before */ and "for laptop" description.
+> > ---
+> >  drivers/bus/mhi/host/pci_generic.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/bus/mhi/host/pci_generic.c 
+> > b/drivers/bus/mhi/host/pci_generic.c
+> > index 70e37c490150..5f204b819e95 100644
+> > --- a/drivers/bus/mhi/host/pci_generic.c
+> > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > @@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> > +	/* EM160R-GL (sdx24) */
+> > +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
+> > +		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> >  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
+> > --
+> > 2.25.1
+> > 
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
 
 -- 
-Kees Cook
+மணிவண்ணன் சதாசிவம்
