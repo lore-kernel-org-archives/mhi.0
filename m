@@ -1,40 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2133E360
-	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 06:57:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72652C433C0;
-	Sat, 24 Jun 2023 06:57:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687589869;
-	bh=toF4EBgCXkrjlP8EG+AMEChN1VhN9P26lMjqYGNkT1Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nouXr1Z2SVd7KsHroM2bVeZ8pPIZvGJXpA2zA1HsYg6hKIeip3KO81zs68UOewz9M
-	 UWxWWVdPumpO5mIuj2Hiz8mGAOw+v3tb4wuNEgl3rlC6kaQ2hrsOrLxEUjbca5neZO
-	 yowOLwo9md8Dwhjt8eRdg35IuN+v24vobk/e9MZfDZlapvxmgelrgQIq7o+cEHubDN
-	 giCJB3gXdhAcNIRAEjp3UtWsbFVFUrB520rJiloIrKcQBLSVQzQggagmmWYm+4bBer
-	 hP21SZYvDYFdWDzR0mSKFadWPVmlifuaZroQ0ifo7jmpi3up4Klbc11MKMKlq4G71A
-	 l4RTnBNFt8SBA==
-Date: Sat, 24 Jun 2023 12:27:34 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke.xin@quectel.com>
-Cc: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>,
-	"loic.poulain@linaro.org" <loic.poulain@linaro.org>,
-	"slark_xiao@163.com" <slark_xiao@163.com>,
-	"fabio.porcedda@gmail.com" <fabio.porcedda@gmail.com>,
-	"koen.vandeputte@citymesh.com" <koen.vandeputte@citymesh.com>,
-	"song.fc@gmail.com" <song.fc@gmail.com>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	Jerry =?utf-8?B?TWVuZyjokpnmnbAp?= <jerry.meng@quectel.com>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIGJ1czogbWhpOiBob3N0OiBw?=
- =?utf-8?Q?ci=5Fgeneric=3A?= Add support for quectel's new EM160R-GL product
-Message-ID: <20230624065734.7az2zttz7yzq7adj@thinkpad>
-References: <d86d1878598b633b437f87e5b75196079-6-23kernel.org@g.corp-email.com>
- <20230609153800.GC6847@thinkpad>
- <SEZPR06MB6087B403321E6528CB5589428454A@SEZPR06MB6087.apcprd06.prod.outlook.com>
- <SEZPR06MB608764064A2D2E91117C2610845DA@SEZPR06MB6087.apcprd06.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F25818
+	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 07:08:54 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51a2de3385fso1692914a12.0
+        for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 00:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687590532; x=1690182532;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZJ++pJQT3qurKKl0Y7MRbbZ8cEjCKiblHc1G+P4gnzk=;
+        b=TKTtg2moSy6mxVY2o1tStfyWPWtCy0iSvS+zaXlxY11MH7tYLciALaEVDYaZlVRUmi
+         WBVDU+0zffvGeZLoNoxwldlG+UZDdRe5t6R5iXRUULXQfhFN7gNLjTZkwSqHP0LYlcl0
+         o/ZFuD0lgd9aBloYmU8kzBklPDTbfwVN5Z4pHCycS71FkdBShYNKBRL7P7T0us3icDCq
+         dcQlLbqnzaBHjj8aQopLA6KziWOlm1OCXCdSyyBespmUJqir7IfJ7uGFGlgNFegvpl0H
+         0+RwgdOT2YGf7cPeqDhYLlx70lgMq1NuuaA0D6mQ6OV1jD4dpF0RQ4R2tvtoJdWAi3i+
+         Y4Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687590532; x=1690182532;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZJ++pJQT3qurKKl0Y7MRbbZ8cEjCKiblHc1G+P4gnzk=;
+        b=R+O5pR+zQrtKuiSYR0i/fwvCuqNVZhKK92q5X3e4MYhVSnDHFvmwWAFycAV0rVtyVw
+         pxpj57JMtT1z5sGKNl12ZdPOp/2LJrYgOHNrQsdrwUGmVpZdnnY3GuvsndmON8cn4bg/
+         KkYbEyiOAzR3wOf1UEQ0mEe2HzVtYLnQEgclix6EBc38gBrwucaqREoGVkojUAbIS6Rs
+         YXBmsrW9AsV4sKttW9GPEMVgxAe9tWNtTfG5pylyEylkMciaWzc4fECX2mfwZ5VGf/RG
+         TTvDLuw3AjgXJZlXaMyQvpdZHVsQvfV8l4sbvywQSk4LAmq9w5CPCRjxEYutuA4UpPWt
+         K07w==
+X-Gm-Message-State: AC+VfDwcnwY+3ZPrXs2u5B7vhwoYGsnzw7Onvb3a11sAUFkwbwFyEuTR
+	8ETGwmTmn+od4cvhJlEAyGxf
+X-Google-Smtp-Source: ACHHUZ4l5vzfnQaLzD7gqGAZEE6VB1pgrzOF6Dqc34LJyLYxtxpPKUHNLNHBY1rv8S62lpQZqbd20g==
+X-Received: by 2002:aa7:d7d7:0:b0:51b:f868:a090 with SMTP id e23-20020aa7d7d7000000b0051bf868a090mr2663205eds.16.1687590532407;
+        Sat, 24 Jun 2023 00:08:52 -0700 (PDT)
+Received: from thinkpad ([117.217.177.236])
+        by smtp.gmail.com with ESMTPSA id z24-20020aa7cf98000000b0051bfcd3c4desm367196edx.19.2023.06.24.00.08.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Jun 2023 00:08:51 -0700 (PDT)
+Date: Sat, 24 Jun 2023 12:38:43 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, duke_xinanwen@163.com
+Subject: [GIT PULL] MHI changes for v6.5
+Message-ID: <20230624070843.GH5611@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -44,111 +53,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <SEZPR06MB608764064A2D2E91117C2610845DA@SEZPR06MB6087.apcprd06.prod.outlook.com>
 
-On Wed, Jun 21, 2023 at 10:36:36AM +0000, Duke Xin(辛安文) wrote:
-> Hi Mani
-> 
-> Regarding [PATCH v4] submission for review, I would like to confirm with you whether there are any defects that need to be corrected?
-> 
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
 
-Patch has been applied to mhi-next branch and will be part of v6.5 release:
-https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/commit/?h=mhi-next&id=6bb6aba2f57ab58a8853bf09cc4e875a46646c0b
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
 
-- Mani
+are available in the Git repository at:
 
-> 
-> 辛安文  Duke Xin | Software Department IX Engineer | Quectel Wireless Solutions Co., Ltd. 
->             
-> Mobile: +86-15375456183 | Email : Duke.xin@quectel.com  | Tel: +86-0551-65869386-8632
-> Website: www.quectel.com  | QQ: 602659072 | Wechat: 15375456183
-> 
-> Building 1-C, China Speech Valley Area A, 3335 Xiyou Road, High-tech Zone, Hefei, Anhui 230088, China    
-> 安徽省合肥市高新区习友路3335号中国（合肥）国际智能语音产业园A区1号中试楼 230088
-> HQ: Building 5, Shanghai Business Park Phase III (Area B), No.1016 Tianlin Road, Minhang District, Shanghai 200233, China
-> 总部：上海市闵行区田林路1016号科技绿洲3期（B区）5号楼  200233
-> 
-> -----邮件原件-----
-> 发件人: Duke Xin(辛安文) 
-> 发送时间: 2023年6月12日 10:02
-> 收件人: Manivannan Sadhasivam <mani@kernel.org>; Duke Xin(辛安文) <duke_xinanwen@163.com>
-> 抄送: loic.poulain@linaro.org; slark_xiao@163.com; fabio.porcedda@gmail.com; koen.vandeputte@citymesh.com; song.fc@gmail.com; bhelgaas@google.com; mhi@lists.linux.dev; linux-arm-msm@vger.kernel.org; Jerry Meng(蒙杰) <jerry.meng@QUECTEL.COM>
-> 主题: 回复: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
-> 
-> Hi Mani
-> 
-> Ok. Previously I used to see same modules having two different IDs because they share different baseline (from qcom). I will amend the commit message accordingly.
-> For future patches, please include these info in the commit message.
-> >>  Got it. In the future patch, I will add the corresponding supplementary information (such as baseline) to make a difference.
->   
->   Thank you very much for your patient review again.
-> 
-> 辛安文  Duke Xin | Software Department IX Engineer | Quectel Wireless Solutions Co., Ltd. 
->             
-> Mobile: +86-15375456183 | Email : Duke.xin@quectel.com  | Tel: +86-0551-65869386-8632
-> Website: www.quectel.com  | QQ: 602659072 | Wechat: 15375456183
-> 
-> Building 1-C, China Speech Valley Area A, 3335 Xiyou Road, High-tech Zone, Hefei, Anhui 230088, China    
-> 安徽省合肥市高新区习友路3335号中国（合肥）国际智能语音产业园A区1号中试楼 230088
-> HQ: Building 5, Shanghai Business Park Phase III (Area B), No.1016 Tianlin Road, Minhang District, Shanghai 200233, China
-> 总部：上海市闵行区田林路1016号科技绿洲3期（B区）5号楼  200233
-> 
-> -----邮件原件-----
-> 发件人: Manivannan Sadhasivam <mani@kernel.org> 
-> 发送时间: 2023年6月9日 23:38
-> 收件人: Duke Xin(辛安文) <duke_xinanwen@163.com>
-> 抄送: loic.poulain@linaro.org; slark_xiao@163.com; fabio.porcedda@gmail.com; koen.vandeputte@citymesh.com; song.fc@gmail.com; bhelgaas@google.com; mhi@lists.linux.dev; linux-arm-msm@vger.kernel.org; Jerry Meng(蒙杰) <jerry.meng@quectel.com>; Duke Xin(辛安文) <duke.xin@quectel.com>
-> 主题: Re: [PATCH v4] bus: mhi: host: pci_generic: Add support for quectel's new EM160R-GL product
-> 
-> On Thu, Jun 08, 2023 at 02:29:27AM -0700, Duke Xin(辛安文) wrote:
-> > The product's would use the same config as previous EM160R-GL
-> > 
-> > Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
-> 
-> Modified the commit message and subject to reflect the usecase and applied to mhi-next!
-> 
-> - Mani
-> 
-> > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> > ---
-> > Changelog
-> > 
-> > v3 -> v4
-> > 
-> > * Update commit message to include the changelog and reviewd tag.
-> > 
-> > v2 -> v3
-> > 
-> > * Add patch CC to mhi@lists.linux.dev.
-> > 
-> > v1 -> v2
-> > 
-> > * Remove Space before */ and "for laptop" description.
-> > ---
-> >  drivers/bus/mhi/host/pci_generic.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/bus/mhi/host/pci_generic.c 
-> > b/drivers/bus/mhi/host/pci_generic.c
-> > index 70e37c490150..5f204b819e95 100644
-> > --- a/drivers/bus/mhi/host/pci_generic.c
-> > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > @@ -591,6 +591,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
-> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
-> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> > +	/* EM160R-GL (sdx24) */
-> > +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d),
-> > +		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> >  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
-> >  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
-> >  	/* T99W175 (sdx55), Both for eSIM and Non-eSIM */
-> > --
-> > 2.25.1
-> > 
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.5
+
+for you to fetch changes up to 6bb6aba2f57ab58a8853bf09cc4e875a46646c0b:
+
+  bus: mhi: host: pci_generic: Add support for Quectel EM160R-GL modem (2023-06-09 21:07:17 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+Core
+----
+
+- Skipped MHI reset if the device is in RDDM EE (Ramdump mode) since the device
+  cannot process reset request.
+
+pci_generic
+-----------
+
+- Added support for MHI SW channels (IP_SW0) so that the host can transfer data
+  from devices over networking interface.
+
+- Added support for Quectel EM160R-GL modem which uses a different PID as it is
+  targeted for laptop usecase.
+
+----------------------------------------------------------------
+Duke Xin (辛安文) (1):
+      bus: mhi: host: pci_generic: Add support for Quectel EM160R-GL modem
+
+Manivannan Sadhasivam (1):
+      bus: mhi: host: pci_generic: Add support for IP_SW0 channels
+
+Qiang Yu (1):
+      bus: mhi: host: Skip MHI reset if device is in RDDM
+
+ drivers/bus/mhi/host/pci_generic.c | 28 ++++++++++++++++++++++++----
+ drivers/bus/mhi/host/pm.c          |  5 +++++
+ 2 files changed, 29 insertions(+), 4 deletions(-)
 
 -- 
 மணிவண்ணன் சதாசிவம்
