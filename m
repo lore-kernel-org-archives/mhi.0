@@ -1,48 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93CC818
-	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 07:17:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6633C433C8;
-	Sat, 24 Jun 2023 07:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1687591041;
-	bh=agg+qken6eP4doV5JAZCm259/6CGeqOxnWHR48cUacs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gz529giSfCF+4GFRsCTWkIR9VQx6urcmX3K1U4C5PR5b1FlNcu1q6+GY9aMTulfH3
-	 4/g8R+v7e1GAAK3U80tlc3S2eBAICm+JNAIunlSn6QwQBLkIXnryIUfq8w0p1xTrVC
-	 LbtHgEVvRoi7kKl8f07VsJKg+G/O0GFVHj4nD5rQ=
-Date: Sat, 24 Jun 2023 09:17:18 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, duke_xinanwen@163.com
-Subject: Re: [GIT PULL] MHI changes for v6.5
-Message-ID: <2023062429-twistable-wielder-48c8@gregkh>
-References: <20230624070843.GH5611@thinkpad>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB626123
+	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 16:06:15 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35OFwvSD003729;
+	Sat, 24 Jun 2023 16:06:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=AHeKVxN60rAVGoJtIK+ThHIv61dgUGDzkTmgkYmzxzg=;
+ b=fjgH+Q42vxty8HRmoAIjsGPTcq5OagzOo/eCsSFEDX/LlGaPftUTaq5hoB+UKiyOMspk
+ CTa009BojN/HvMitavybhCyzkwWq1YfL6yJ8W2bfkznHCmgTrxdrmt7Llx4LM//b/pai
+ S6LgwOS0bE3wjGRVo8YGK1V7nrVizqbgIQvcdDL0YOYU6ei4/Yww4CIbRMwBuSht1IT3
+ +clhVC0uWuDBenUDEW2dKMZMwHL3RsthNDFQ74J3n9AkXQOxAqAIsZ86FRBsBxWb9j3G
+ LwlEZzEJThBdFO9njaU3r8L7MgD/UHfrhqvwehJnbrOkS+hpfQNfEH7qvkz1zdZONvIt qA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rdssdgpcy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 24 Jun 2023 16:06:09 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35OG68rA025297
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 24 Jun 2023 16:06:08 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Sat, 24 Jun
+ 2023 09:06:08 -0700
+Message-ID: <2f1d4e18-f377-74c1-59fc-da422d4e99ee@quicinc.com>
+Date: Sat, 24 Jun 2023 10:06:07 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230624070843.GH5611@thinkpad>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 10/26] bus: mhi: host: use array_size
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>
+CC: Julia Lawall <julia.lawall@inria.fr>,
+        Manivannan Sadhasivam
+	<mani@kernel.org>,
+        <kernel-janitors@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+ <20230623211457.102544-11-Julia.Lawall@inria.fr>
+ <3b4ff79b-93b4-cf56-1488-113905b3981d@quicinc.com>
+ <alpine.DEB.2.22.394.2306232340510.3129@hadrien>
+ <58cb3bf6-5ffd-194b-1455-4e5bb045fc34@quicinc.com>
+ <202306231639.68955384A@keescook>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <202306231639.68955384A@keescook>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FVd_FYpvNMuEqE3Jw1BkvypnTVJkbW7m
+X-Proofpoint-ORIG-GUID: FVd_FYpvNMuEqE3Jw1BkvypnTVJkbW7m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-24_11,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=749 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306240152
 
-On Sat, Jun 24, 2023 at 12:38:43PM +0530, Manivannan Sadhasivam wrote:
-> The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+On 6/23/2023 5:45 PM, Kees Cook wrote:
+> On Fri, Jun 23, 2023 at 04:09:46PM -0600, Jeffrey Hugo wrote:
+>> Kees, would you please chime in and educate me here?  I feel like I'm
+>> missing something important here.
 > 
->   Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+> The array_size() family will saturate at SIZE_MAX (rather than potentially
+> wrapping around). No allocator can fulfil a 18446744073709551615 byte
+> (18 exabyte) allocation. :) So the NULL return value will (hopefully)
+> trigger an error path.
 > 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.5
-> 
-> for you to fetch changes up to 6bb6aba2f57ab58a8853bf09cc4e875a46646c0b:
-> 
->   bus: mhi: host: pci_generic: Add support for Quectel EM160R-GL modem (2023-06-09 21:07:17 +0530)
 
-Sorry, it's too late, my tree is closed.   Please resend this after
-6.5-rc1 is out.
+Fair enough, that handles the 64-bit usecase.  I'm guessing the 
+assumption is that on a 32-bit usecase where size_t is ~4GB, there won't 
+actually be 4GB to allocate and things will also fail.  So far, so good.
 
-greg k-h
+What about a 32-bit system with something like ARM's LPAE (Large 
+Physical Address Extension) where the host is 32-bit, and so size_t 
+would be ~4GB (as far as I can tell) but phys_addr_t is larger than 
+that, and so we can have/access more than 4GB of resources?  Lets see, 
+ignoring that its a 13 year old feature and probably not in circulation 
+anymore, probably still can't satisfy a 4GB allocation since you'd need 
+to map all of it to address it, and part of the address space is surely 
+reserved for other things.
+
+Ok, I think I'm convinced.  I'm going to sleep on it, but I suspect all 
+will still be good early next week.
+
+Thank you for the explanation.
+
+-Jeff
