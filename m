@@ -1,103 +1,62 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB626123
-	for <mhi@lists.linux.dev>; Sat, 24 Jun 2023 16:06:15 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35OFwvSD003729;
-	Sat, 24 Jun 2023 16:06:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AHeKVxN60rAVGoJtIK+ThHIv61dgUGDzkTmgkYmzxzg=;
- b=fjgH+Q42vxty8HRmoAIjsGPTcq5OagzOo/eCsSFEDX/LlGaPftUTaq5hoB+UKiyOMspk
- CTa009BojN/HvMitavybhCyzkwWq1YfL6yJ8W2bfkznHCmgTrxdrmt7Llx4LM//b/pai
- S6LgwOS0bE3wjGRVo8YGK1V7nrVizqbgIQvcdDL0YOYU6ei4/Yww4CIbRMwBuSht1IT3
- +clhVC0uWuDBenUDEW2dKMZMwHL3RsthNDFQ74J3n9AkXQOxAqAIsZ86FRBsBxWb9j3G
- LwlEZzEJThBdFO9njaU3r8L7MgD/UHfrhqvwehJnbrOkS+hpfQNfEH7qvkz1zdZONvIt qA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rdssdgpcy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 24 Jun 2023 16:06:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35OG68rA025297
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 24 Jun 2023 16:06:08 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Sat, 24 Jun
- 2023 09:06:08 -0700
-Message-ID: <2f1d4e18-f377-74c1-59fc-da422d4e99ee@quicinc.com>
-Date: Sat, 24 Jun 2023 10:06:07 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F25410E4
+	for <mhi@lists.linux.dev>; Sun, 25 Jun 2023 18:34:55 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1b8033987baso1372485ad.0
+        for <mhi@lists.linux.dev>; Sun, 25 Jun 2023 11:34:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687718095; x=1690310095;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k7KVQuIv0V8DtSvRNaFYpILs9gFNdEYiZqxK/tch1DY=;
+        b=hCzsuIOJRclY//Vtd1lF0O3qtpCGxX3v0iqiyos73HbDXaD2TngGG41Ee9lt7n1cGT
+         +hR6qCCt+sizZauGM+ac+XMcH+Lml2YIequHinhLhNPkEKosJpMzkY0wUiDS6XXQXBNm
+         EKXxDqeaa2t1uVXNZkGMZ3RxNdkPugJ7/T56DJd8m6nW43Mlg9BDKu2jZtNg2kv4pr6C
+         1TnL5q1vNVj7mWHTwn5HCiJKv/ToQCjTkIL2JSRYSW28xFPmJz3HfOw3LNpSXXPM8AcL
+         RqIO/7l3KbV3hhzVaY4mOtOIrYmcU3m87XUI+1SB18ZAFu1hvki6x2BxX/KE00AWYWvN
+         81Ew==
+X-Gm-Message-State: AC+VfDzcINbA820Lxw27+EovNGJ8K3qM8hdFb0LD3UKmxqiOxAAnJzN1
+	EEbQHIlPnBzn/VqeYPLB9lc=
+X-Google-Smtp-Source: ACHHUZ6CRTVKAAtFbxfwopL29P5NT7jjm5c8z99T4uJtIqzdlfkJtfqi9PwMu2VcDoyjYqpPn1R97w==
+X-Received: by 2002:a17:902:ab05:b0:1b6:6751:95f5 with SMTP id ik5-20020a170902ab0500b001b6675195f5mr5327376plb.25.1687718095267;
+        Sun, 25 Jun 2023 11:34:55 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id kp16-20020a170903281000b001b4f77d4e7csm2742744plb.115.2023.06.25.11.34.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jun 2023 11:34:54 -0700 (PDT)
+Date: Mon, 26 Jun 2023 03:34:53 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Yang Li <yang.lee@linux.alibaba.com>
+Cc: mani@kernel.org, lpieralisi@kernel.org, kishon@kernel.org,
+	bhelgaas@google.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
+Message-ID: <20230625183453.GB2459283@rocinante>
+References: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 10/26] bus: mhi: host: use array_size
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-CC: Julia Lawall <julia.lawall@inria.fr>,
-        Manivannan Sadhasivam
-	<mani@kernel.org>,
-        <kernel-janitors@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
- <20230623211457.102544-11-Julia.Lawall@inria.fr>
- <3b4ff79b-93b4-cf56-1488-113905b3981d@quicinc.com>
- <alpine.DEB.2.22.394.2306232340510.3129@hadrien>
- <58cb3bf6-5ffd-194b-1455-4e5bb045fc34@quicinc.com>
- <202306231639.68955384A@keescook>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <202306231639.68955384A@keescook>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: FVd_FYpvNMuEqE3Jw1BkvypnTVJkbW7m
-X-Proofpoint-ORIG-GUID: FVd_FYpvNMuEqE3Jw1BkvypnTVJkbW7m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-24_11,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- phishscore=0 suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
- mlxlogscore=749 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306240152
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 
-On 6/23/2023 5:45 PM, Kees Cook wrote:
-> On Fri, Jun 23, 2023 at 04:09:46PM -0600, Jeffrey Hugo wrote:
->> Kees, would you please chime in and educate me here?  I feel like I'm
->> missing something important here.
-> 
-> The array_size() family will saturate at SIZE_MAX (rather than potentially
-> wrapping around). No allocator can fulfil a 18446744073709551615 byte
-> (18 exabyte) allocation. :) So the NULL return value will (hopefully)
-> trigger an error path.
-> 
+Hello,
 
-Fair enough, that handles the 64-bit usecase.  I'm guessing the 
-assumption is that on a 32-bit usecase where size_t is ~4GB, there won't 
-actually be 4GB to allocate and things will also fail.  So far, so good.
+> There is no need to call the dev_err() function directly to print a
+> custom message when handling an error from either the platform_get_irq()
+> or platform_get_irq_byname() functions as both are going to display an
+> appropriate error message in case of a failure.
 
-What about a 32-bit system with something like ARM's LPAE (Large 
-Physical Address Extension) where the host is 32-bit, and so size_t 
-would be ~4GB (as far as I can tell) but phys_addr_t is larger than 
-that, and so we can have/access more than 4GB of resources?  Lets see, 
-ignoring that its a 13 year old feature and probably not in circulation 
-anymore, probably still can't satisfy a 4GB allocation since you'd need 
-to map all of it to address it, and part of the address space is surely 
-reserved for other things.
+This extra dev_err() appears to have since been removed, per:
 
-Ok, I think I'm convinced.  I'm going to sleep on it, but I suspect all 
-will still be good early next week.
+  https://git.kernel.org/pci/pci/c/1bf5f25324f7
 
-Thank you for the explanation.
+Nevertheless, thank you for sending the patch over!
 
--Jeff
+	Krzysztof
