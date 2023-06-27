@@ -1,167 +1,147 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D92C8E7
-	for <mhi@lists.linux.dev>; Mon, 26 Jun 2023 17:16:08 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35QAbfRq019286;
-	Mon, 26 Jun 2023 17:15:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=NkiFzCe25ddo2CI1iUwfIKdPfKGFMT4upqMXkk7C3OQ=;
- b=WvfTG+Ce7OiqRZEwOJypw6r1nMQ/R0jtiAAIIAgz0VJLJIrAAVa3C/9xr69fqlvxi48l
- iE4agheJleyfEyZQUJPvjyEvLZ+iQxKaQoTp+/OIJsoSWxE8Ro9N+D8HRvFqzW73J420
- bx+WePGvCngnh5uFXOLEoZdHddUwqECKX6qxIxRd9iFe/49u4Rlrr907HKXT/OtGd3Tj
- jQ7CFQzLJIl6kkiXeCG10o2AtyvFCmDA+66INFAdvhgotncKWtEq9V1Jt+Y7g+BCpAkJ
- hFi02Ka4KdLlzbq15kQAZ/5FB0s6lheuWqXpBWyQhr6m7Sx14jd9wAy+7UzzWi0DUe9E sw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rdssdmmaa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Jun 2023 17:15:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35QHFvhs001058
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Jun 2023 17:15:57 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 26 Jun
- 2023 10:15:57 -0700
-Message-ID: <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
-Date: Mon, 26 Jun 2023 11:15:56 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431518C02;
+	Tue, 27 Jun 2023 14:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lz+eaKXjltZfgC96+KOEH+DiV357kqzsKaP1ME9j9JM=;
+  b=YpuufV72ER5dSm9wrYSnJ+nyISX1oQx33v1s2pGZoMDoTbTZApc/Qnr+
+   jWRuBVmLvwZwmibFQ5jrR1vtZ5noOKi7DSKRNrP0U1BZ9FCltFGcibx6p
+   ck1ThN0OMstSb7PrPLh1Mq91rYGjkQ4mlVR9Zej3KEIn+kL4eNkAXPzxE
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,162,1684792800"; 
+   d="scan'208";a="114936315"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 16:43:51 +0200
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: linux-hyperv@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	keescook@chromium.org,
+	christophe.jaillet@wanadoo.fr,
+	kuba@kernel.org,
+	kasan-dev@googlegroups.com,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	iommu@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	virtualization@lists.linux-foundation.org,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	linux-scsi@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org,
+	John Stultz <jstultz@google.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	Laura Abbott <labbott@redhat.com>,
+	Liam Mark <lmark@codeaurora.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Shailend Chand <shailend@google.com>,
+	linux-rdma@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	linux-sgx@vger.kernel.org
+Subject: [PATCH v2 00/24] use vmalloc_array and vcalloc
+Date: Tue, 27 Jun 2023 16:43:15 +0200
+Message-Id: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <mhi@lists.linux.dev>
-References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
- <20230608115928.GA5672@thinkpad>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230608115928.GA5672@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: tc5UBN98mjMhOlVn5IJFVr011CeDJDEI
-X-Proofpoint-ORIG-GUID: tc5UBN98mjMhOlVn5IJFVr011CeDJDEI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-26_14,2023-06-26_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- phishscore=0 suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306260158
+Content-Transfer-Encoding: 8bit
 
-On 6/8/2023 5:59 AM, Manivannan Sadhasivam wrote:
-> On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
->> With the QAIC driver in -next, I'd like to suggest some MHI changes that
->> specific to AIC100 devices, but perhaps provide a framework for other
->> device oddities.
->>
->> AIC100 devices technically violate the MHI spec in two ways. Sadly, these
->> issues comes from the device hardware, so host SW needs to work around
->> them.
->>
->> Thie first issue, presented in this series, has to do with the
->> SOC_HW_VERSION register. This register is suposed to be initialized by the
->> hardware prior to the MHI being accessable by the host to contain a
->> version string for the SoC of the device. This could be used by the host
->> MHI controller software to identify and handle version to version changes.
->> The AIC100 hardware does not initialize this register, and thus it
->> contains garbage.
->>
->> This would not be much of a problem normally - the QAIC driver would just
->> never use it. However the MHI stack uses this register as part of the init
->> sequence and if the controller reports that the register is inaccessable
->> then the init sequence fails.  On some AIC100 cards, the garbage value
->> ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
->> indicating the access failed.  The MHI controller cannot tell if that
->> value is a PCIe link issue, or just garbage.
->>
->> QAIC needs a way to tell MHI not to use this register. Other buses have a
->> quirk mechanism - a way to describe oddities in a particular
->> implementation that have some kind of workaround. Since this seems to be
->> the first need for such a thing in MHI, introduce a quirk framework.
->>
->> The second issue AIC100 has involves the PK Hash registers. A solution for
->> this is expected to be proposed in the near future and is anticipated to
->> make use of the quirk framework proposed here. With PK Hash, there are two
->> oddities to handle. AIC100 does not initialize these registers until the
->> SBL is running, which is later than the spec indicates, and in practice
->> is after MHI reads/caches them. Also, AIC100 does not have enough
->> registers defined to fully report the 5 PK Hash slots, so a custom
->> reporting format is defined by the device.
->>
-> 
-> Looking at the two issues you reported above, it looks to me that they can be
-> handled inside the aic100 mhi_controller driver itself. Since the MHI stack
-> exports the read_reg callback to controller drivers, if some registers are not
-> supported by the device, then the callback can provide some fixed dummy data
-> emulating the register until the issue is fixed in the device (if at all).
-> 
-> Quirk framework could be useful if the device misbehaves against the protocol
-> itself but for the register issues like this, I think the controller driver can
-> handle itself.
-> 
-> What do you think?
+The functions vmalloc_array and vcalloc were introduced in
 
-I think for the HW_VERSION register, your suggestion is very good, and 
-something I plan to adopt.
+commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
 
-For the PK Hash registers, I don't think it quite works.
+but are not used much yet.  This series introduces uses of
+these functions, to protect against multiplication overflows.
 
-HW_VERSION I can hard code to a valid value, or just stub out to 0 since 
-that appears to be only consumed by the MHI Controller, and we don't use it.
+The changes were done using the following Coccinelle semantic
+patch.
 
-The PK Hash registers are programmed into the SoC, and can be unique 
-from SoC to SoC.  I don't see how the driver can provide valid, but 
-faked information for them.  Also, the user consumes this data via 
-sysfs.  We'd like to give the data to the user, and we can't fake it. 
-Also the data is dynamic.
+@initialize:ocaml@
+@@
 
-Lets start with the dynamic data issue.  Right now MHI reads these 
-registers once, and caches the values.  I would propose a quirk to 
-change that behavior for AIC100, but does MHI really need to operate in 
-a "read once" mode?  Would something actually break if MHI read the 
-registers every time the sysfs node is accessed?  Then sysfs would 
-display the latest data, which would be beneficial to AIC100 and should 
-not be a behavior change for other devices which have static data (MHI 
-just displays the same data because it hasn't changed).
+let rename alloc =
+  match alloc with
+    "vmalloc" -> "vmalloc_array"
+  | "vzalloc" -> "vcalloc"
+  | _ -> failwith "unknown"
 
-Do you recall the reason behind making the PK Hash registers read once 
-and cached?
+@@
+    size_t e1,e2;
+    constant C1, C2;
+    expression E1, E2, COUNT, x1, x2, x3;
+    typedef u8;
+    typedef __u8;
+    type t = {u8,__u8,char,unsigned char};
+    identifier alloc = {vmalloc,vzalloc};
+    fresh identifier realloc = script:ocaml(alloc) { rename alloc };
+@@
 
-> 
-> - Mani
-> 
->> v2:
->> -Fix build error
->> -Fix typo in commit text
->>
->> Jeffrey Hugo (2):
->>    bus: mhi: host: Add quirk framework and initial quirk
->>    accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
->>
->>   drivers/accel/qaic/mhi_controller.c |  1 +
->>   drivers/bus/mhi/host/init.c         | 13 +++++++++----
->>   include/linux/mhi.h                 | 18 ++++++++++++++++++
->>   3 files changed, 28 insertions(+), 4 deletions(-)
->>
->> -- 
->> 2.40.1
->>
->>
-> 
+(
+      alloc(x1*x2*x3)
+|
+      alloc(C1 * C2)
+|
+      alloc((sizeof(t)) * (COUNT), ...)
+|
+-     alloc((e1) * (e2))
++     realloc(e1, e2)
+|
+-     alloc((e1) * (COUNT))
++     realloc(COUNT, e1)
+|
+-     alloc((E1) * (E2))
++     realloc(E1, E2)
+)
 
+v2: This series uses vmalloc_array and vcalloc instead of
+array_size.  It also leaves a multiplication of a constant by a
+sizeof as is.  Two patches are thus dropped from the series.
+
+---
+
+ arch/x86/kernel/cpu/sgx/main.c                    |    2 +-
+ drivers/accel/habanalabs/common/device.c          |    3 ++-
+ drivers/accel/habanalabs/common/state_dump.c      |    7 ++++---
+ drivers/bus/mhi/host/init.c                       |    2 +-
+ drivers/comedi/comedi_buf.c                       |    4 ++--
+ drivers/dma-buf/heaps/system_heap.c               |    2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
+ drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
+ drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
+ drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
+ drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
+ drivers/iommu/tegra-gart.c                        |    4 ++--
+ drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
+ drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
+ drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
+ drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
+ drivers/scsi/fnic/fnic_trace.c                    |    2 +-
+ drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
+ drivers/vdpa/vdpa_user/iova_domain.c              |    4 ++--
+ drivers/virtio/virtio_mem.c                       |    6 +++---
+ fs/btrfs/zoned.c                                  |    4 ++--
+ kernel/kcov.c                                     |    2 +-
+ lib/test_vmalloc.c                                |    9 +++++----
+ 26 files changed, 52 insertions(+), 47 deletions(-)
