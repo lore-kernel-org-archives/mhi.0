@@ -1,24 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ECB13065;
-	Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D8F0C433C9;
-	Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687884023;
-	bh=Mddr9IEnVSSEtvey/EPFRhLi4YnxlTkalZzmHZ6bmJ8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XGRGiORnH0FmaQ+kclMjYIsE8aiZt7Gs4g5WBNw+zT0ASSus8daZkKZirfbcgaoBv
-	 HsuO0nskJhLaiZxylU7zlINMijGNLl9q7WEg/ms3Lh/IrCmjj2LVp6pXCXh1uqP4W3
-	 kOcx2VCa4pIOSzcMTF35giAc72J/A42BnFN7K4h/MvLUE7JXaOanngW1cFFib+5J4v
-	 8N2ABirViOcrN32FYcrvP15sAv/TezaSVGJHU9rgp1d1sCUFbyUbMRRUsWjqDMoEYN
-	 HlJlhL0V9YgQDqvmqEWLdtvBli6Q5b70JaJ8QNh8cP8DiB/xBCXlUB+GXHpoI+1ee3
-	 oj4CRUwtvenNQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B046C64458;
-	Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF399D52D
+	for <mhi@lists.linux.dev>; Wed, 28 Jun 2023 18:24:11 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35SGuh4A018711;
+	Wed, 28 Jun 2023 18:24:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=FmEnIv47O8LpshBv/+Ww/G89f3pFv2vELTGe0c+7Z/k=;
+ b=iIqpVuXapdXKGFfMK9TbjAU+czUOatz8GUUCFMxVcdWEbPe64C/sYZ9X6VIS8VDUiVrp
+ ZUHbgN+c0jg5mEFlxVpQXUUPFTFRKgX2dh4+STsikho3/Tqkn8Ap5/FiUtSgVXTBuj8Y
+ eHoutUwEQIojrWgZZSn/6jUp3LzRZi/MXv7JQHELucGuMEHTKL061lF90lA6SlBbbW46
+ OcvSq++NiOOFvyBVz8aOipT79bnXl6ytRK/sdjiEsmKSPzsQQ1R7fNriNFogcfKZt6o6
+ 7hN7P9CmrNd8qOyAQS7kzhmXOD28dT9n4uO53e/LZS5KXg3C16X1REQ/60EI+O3VKOgl QA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgnxr8mnf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jun 2023 18:24:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SIO1Ll007466
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jun 2023 18:24:01 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.7; Wed, 28 Jun 2023 11:24:00 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>, <andersson@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        Jeffrey Hugo
+	<quic_jhugo@quicinc.com>
+Subject: [PATCH] docs: ABI: sysfs-bus-mhi: Update contact info
+Date: Wed, 28 Jun 2023 12:23:46 -0600
+Message-ID: <20230628182346.3855-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -26,62 +43,57 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 00/24] use vmalloc_array and vcalloc
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <168788402349.21860.17350888958370358926.git-patchwork-notify@kernel.org>
-Date: Tue, 27 Jun 2023 16:40:23 +0000
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: linux-hyperv@vger.kernel.org, kernel-janitors@vger.kernel.org,
- keescook@chromium.org, christophe.jaillet@wanadoo.fr, kuba@kernel.org,
- kasan-dev@googlegroups.com, andreyknvl@gmail.com, dvyukov@google.com,
- iommu@lists.linux.dev, linux-tegra@vger.kernel.org, robin.murphy@arm.com,
- vdumpa@nvidia.com, virtualization@lists.linux-foundation.org,
- xuanzhuo@linux.alibaba.com, linux-scsi@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- jstultz@google.com, Brian.Starkey@arm.com, labbott@redhat.com,
- lmark@codeaurora.org, benjamin.gaignard@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, shailend@google.com, linux-rdma@vger.kernel.org,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-btrfs@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dave.hansen@linux.intel.com, hpa@zytor.com,
- linux-sgx@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: SJQiqnD7wGssbmJPhMV0fiV-w4Z9KUFO
+X-Proofpoint-GUID: SJQiqnD7wGssbmJPhMV0fiV-w4Z9KUFO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-28_13,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306280162
 
-Hello:
+@codeaurora.org email addresses are no longer valid and will bounce to
+sender.  Also, Bhaumik has previously indicated he is no longer interested
+in participating in MHI bus discussions.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Update contact info from Bhaumik to the mhi mail list so that mails will
+be routed to the MHI maintainers and interested parties.
 
-On Tue, 27 Jun 2023 16:43:15 +0200 you wrote:
-> The functions vmalloc_array and vcalloc were introduced in
-> 
-> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
-> 
-> but are not used much yet.  This series introduces uses of
-> these functions, to protect against multiplication overflows.
-> 
-> [...]
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ Documentation/ABI/stable/sysfs-bus-mhi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Here is the summary with links:
-  - [v2,02/24] octeon_ep: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/32d462a5c3e5
-  - [v2,04/24] gve: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/a13de901e8d5
-  - [v2,09/24] pds_core: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/906a76cc7645
-  - [v2,11/24] ionic: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/f712c8297e0a
-  - [v2,18/24] net: enetc: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/fa87c54693ae
-  - [v2,22/24] net: mana: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/e9c74f8b8a31
-
-You are awesome, thank you!
+diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
+index 96ccc3385a2b..1a47f9e0cc84 100644
+--- a/Documentation/ABI/stable/sysfs-bus-mhi
++++ b/Documentation/ABI/stable/sysfs-bus-mhi
+@@ -1,7 +1,7 @@
+ What:		/sys/bus/mhi/devices/.../serialnumber
+ Date:		Sept 2020
+ KernelVersion:	5.10
+-Contact:	Bhaumik Bhatt <bbhatt@codeaurora.org>
++Contact:	mhi@lists.linux.dev
+ Description:	The file holds the serial number of the client device obtained
+ 		using a BHI (Boot Host Interface) register read after at least
+ 		one attempt to power up the device has been done. If read
+@@ -12,7 +12,7 @@ Users:		Any userspace application or clients interested in device info.
+ What:		/sys/bus/mhi/devices/.../oem_pk_hash
+ Date:		Sept 2020
+ KernelVersion:	5.10
+-Contact:	Bhaumik Bhatt <bbhatt@codeaurora.org>
++Contact:	mhi@lists.linux.dev
+ Description:	The file holds the OEM PK Hash value of the endpoint device
+ 		obtained using a BHI (Boot Host Interface) register read after
+ 		at least one attempt to power up the device has been done. If
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.40.1
 
