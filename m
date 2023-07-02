@@ -1,37 +1,37 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCC5156D3;
-	Fri, 30 Jun 2023 13:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DC120FE;
+	Sun,  2 Jul 2023 13:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688132851; x=1719668851;
+  t=1688305064; x=1719841064;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9sM2Z0ZbOcroZOD9P9vuoDOY6kcrOfhx3gRZ/Nk6+Og=;
-  b=cHxMImJ8xy1efwj2ppzbgKfJFUTkW+DhEcUiue+s9MuqkWCOtVZ+AR1y
-   y0EGjND7KnWLOgZuxK6j4cJ+Q1txbOIr/ToUedV/eX9D9GW/0BP8GaJql
-   qkHtKWtsEKUhIsDmhl2Ci6gG5G2lRipId0PHcK60Pu0iIZRu+AlVGfuT4
-   e1udSvHXbvwO2bAoBofz2MqfdALm9Pf2/yv6usfKIA9hr4u9Twx0anb2l
-   c1bFKUfMhnMPH1bR5INkQi8CyXVr2A42eOlyU9yjbaGBz6lwPfgUurLuO
-   GTQCzZFy2CTiq0jzKZa3ihkChl4d++GbjsMIqiDxYLnn5F7nQuWU5UDDx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352217790"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="352217790"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 06:47:30 -0700
+  bh=NNYHHNeDxU7dioHFvNlo1mYkVhxo+/tO2nZb1qvzOxA=;
+  b=kTeDSRoJjm9ILvV4uNEIOK1brJqt2l0YaeODHqtleb/ZFJHDUOhJfss1
+   BrlJAxsVpDLSvOtBYI4n3o8948ZmKTHplkSTOWFje/m74b7DH0wvoqana
+   ivj6raXDQjx8qUcXATuyvIsWylsVxg/03a3SfsZn0Ql/iHnHB/4JfPdML
+   4rqiq13Ms5UXVaZn/LXK4Wa5Evn9fV5aWl5GzWM1ygcSITYedQRS9THrq
+   1tM87Atc4e5Lbfr/Glmj3A1l7wprh2fVADzMu5C4WpQdY0T3d+Fz7pb+H
+   XrdC6Nd1kIgRag/sNY4J1Z/S7enlWqBGmFUFu5zfh+YsHGq81OIogY35N
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="343035019"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
+   d="scan'208";a="343035019"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 06:37:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="783083985"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="783083985"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="753476256"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
+   d="scan'208";a="753476256"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Jun 2023 06:47:27 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2023 06:37:40 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFET9-000F05-0O;
-	Fri, 30 Jun 2023 13:47:27 +0000
-Date: Fri, 30 Jun 2023 21:46:56 +0800
+	id 1qFxGl-000GgD-1r;
+	Sun, 02 Jul 2023 13:37:39 +0000
+Date: Sun, 2 Jul 2023 21:37:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vivek Pernamitta <quic_vpernami@quicinc.com>, mhi@lists.linux.dev
 Cc: oe-kbuild-all@lists.linux.dev, mrana@quicinc.com,
@@ -41,7 +41,7 @@ Cc: oe-kbuild-all@lists.linux.dev, mrana@quicinc.com,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH V1] net: mhi : Add support to enable ethernet interface
-Message-ID: <202306302115.IYBBlrFn-lkp@intel.com>
+Message-ID: <202307022148.nlp4Fazk-lkp@intel.com>
 References: <1688118281-13032-1-git-send-email-quic_vpernami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -67,26 +67,19 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Pernamitta/net-mhi-
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/1688118281-13032-1-git-send-email-quic_vpernami%40quicinc.com
 patch subject: [PATCH V1] net: mhi : Add support to enable ethernet interface
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230630/202306302115.IYBBlrFn-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306302115.IYBBlrFn-lkp@intel.com/reproduce)
+config: i386-randconfig-i062-20230702 (https://download.01.org/0day-ci/archive/20230702/202307022148.nlp4Fazk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230702/202307022148.nlp4Fazk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306302115.IYBBlrFn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307022148.nlp4Fazk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/mhi_net.c: In function 'mhi_net_newlink':
->> drivers/net/mhi_net.c:327:37: warning: passing argument 1 of 'eth_random_addr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     327 |                 eth_random_addr(ndev->dev_addr);
-         |                                 ~~~~^~~~~~~~~~
-   In file included from drivers/net/mhi_net.c:14:
-   include/linux/etherdevice.h:230:40: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'const unsigned char *'
-     230 | static inline void eth_random_addr(u8 *addr)
-         |                                    ~~~~^~~~
-
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/mhi_net.c:327:37: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected unsigned char [usertype] *addr @@     got unsigned char const *dev_addr @@
+   drivers/net/mhi_net.c:327:37: sparse:     expected unsigned char [usertype] *addr
+   drivers/net/mhi_net.c:327:37: sparse:     got unsigned char const *dev_addr
 
 vim +327 drivers/net/mhi_net.c
 
