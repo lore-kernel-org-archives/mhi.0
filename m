@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE671852
-	for <mhi@lists.linux.dev>; Fri,  7 Jul 2023 05:59:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA23C433C7;
-	Fri,  7 Jul 2023 05:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5911852
+	for <mhi@lists.linux.dev>; Fri,  7 Jul 2023 06:15:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CE5C433C8;
+	Fri,  7 Jul 2023 06:15:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688709562;
-	bh=1df7wJ5JvcGHftBxD2iqTzYXp4hDfpxiLwelJO4deNc=;
+	s=k20201202; t=1688710515;
+	bh=+NYJwRTCIMCwGZqWkNR5vlaX4WVi8M1aIhhOzKf+GrA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h9NedX2oMA2BVHX+h/90AAsqscVg9UmDOd31k/KKmG5qhizkDJNly5iiNy94gueup
-	 C6lCbcFrX6eSbn+/kTde4RC/IXir591vgQGDPsXgTmx21B2pr4K+UCiiRR+aYBMixT
-	 Q67O3AuxQLUhqw8e2FFkAplM5Q/bz1S5n9STYYvI3Hlcd5iQc3RqE2erF+SBOuYDRm
-	 Bdi3N5JFsntj6IxCdWlIj11hfJAmG+frboZu0ScJ+c/2hGXsq9yrPF0kDLi/9YxC7e
-	 +v0SIWYYeLir9pVQfwgyUdTX1Ehviqkw2kHSRS/HpIR9JGsrclPmyLmOtzMjcwOScQ
-	 Tovh7COHbxL1g==
-Date: Fri, 7 Jul 2023 11:29:06 +0530
+	b=ml3C4cM16FwO8xbx2/tRgIJ3WCKgXE4JNoMdahF9k7Sx8vuhpe+FamtNqovHVI8hu
+	 IkCMDziNbCyBCwTd3AeqP5vW6rM7jKSw/FGwklzDhrq7zgPqCtCGLVXF/5uxOYuOPo
+	 fEux/ieiVDmsFogF3hIakR+5Md6idVR2xr+4r2/jel7ECUsMkHCn9n8z+Kz4E2r5cm
+	 1wRWNmmVjfiJXLVBbDM+qlgoqCR4Z8Px6XbzL0zXyuiFGHV73P0amiaGNj/TX0l6uO
+	 uWLElim35itePVkuKtevD6YBMUQYor4GwCnSHethahh7Y0pWOl3qxBWZwt2GavXL6t
+	 uM/TZbY2cJ5/g==
+Date: Fri, 7 Jul 2023 11:44:48 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
@@ -29,10 +29,10 @@ Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Jeffrey Hugo <quic_jhugo@quicinc.com>,
 	"open list:MHI BUS" <mhi@lists.linux.dev>
-Subject: Re: [PATCH v2 3/8] PCI: epf-mhi: Add dtate change op
-Message-ID: <20230707055906.GC6001@thinkpad>
+Subject: Re: [PATCH v2 7/8] PCI: epf-mhi: Add wakeup host op
+Message-ID: <20230707061448.GF6001@thinkpad>
 References: <1688122331-25478-1-git-send-email-quic_krichai@quicinc.com>
- <1688122331-25478-4-git-send-email-quic_krichai@quicinc.com>
+ <1688122331-25478-8-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -42,81 +42,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1688122331-25478-4-git-send-email-quic_krichai@quicinc.com>
+In-Reply-To: <1688122331-25478-8-git-send-email-quic_krichai@quicinc.com>
 
-On Fri, Jun 30, 2023 at 04:22:06PM +0530, Krishna chaitanya chundru wrote:
-> Add dstate host op for MHI EPF.
+On Fri, Jun 30, 2023 at 04:22:10PM +0530, Krishna chaitanya chundru wrote:
+> Add wakeup host op for MHI EPF.
+> If the D-state is in D3cold toggle wake signal, otherwise send PME.
 > 
-
-Use "D-state" everywhere. Also the subject should be:
-
-"PCI: epf-mhi: Add support for handling D-state notification from EPC"
-
-Fix the commit message accordingly.
-
 > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 > ---
->  drivers/pci/endpoint/functions/pci-epf-mhi.c | 13 +++++++++++++
->  include/linux/mhi_ep.h                       |  3 +++
->  2 files changed, 16 insertions(+)
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 19 +++++++++++++++++++
+>  include/linux/mhi_ep.h                       |  1 +
+>  2 files changed, 20 insertions(+)
 > 
 > diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> index 9c1f5a1..64ff37d 100644
+> index 64ff37d..deb742c 100644
 > --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
 > +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> @@ -339,6 +339,18 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
+> @@ -237,6 +237,24 @@ static int pci_epf_mhi_write_to_host(struct mhi_ep_cntrl *mhi_cntrl,
 >  	return 0;
 >  }
 >  
-> +static int pci_epf_mhi_dstate_change(struct pci_epf *epf, pci_power_t state)
+> +static int pci_epf_mhi_wakeup_host(struct mhi_ep_cntrl *mhi_cntrl)
 > +{
-> +	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> +	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-> +	struct device *dev = &epf->dev;
+> +	struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
+> +	struct pci_epf *epf = epf_mhi->epf;
+> +	struct pci_epc *epc = epf->epc;
+> +	int ret;
 > +
-> +	mhi_cntrl->dstate = state;
-> +	dev_info(dev, "D-state changeg to %s\n", pci_power_name(state));
+> +	if (mhi_cntrl->dstate == PCI_D3cold)
+> +		ret = pci_epc_wakeup_host(epc, epf->func_no,
+> +					epf->vfunc_no, PCI_WAKEUP_TOGGLE_WAKE);
+> +	else
+> +		ret = pci_epc_wakeup_host(epc, epf->func_no,
+> +					epf->vfunc_no, PCI_WAKEUP_SEND_PME);
+> +
 
-This can be removed since we already print the state in pci driver.
+If the wakeup argument is of type bool (ie. bool use_pme), then
+
+	wakeup = (mhi_cntrl->dstate == PCI_D3cold) ? false : true;
+
+	return pci_epc_wakeup_host(epc, epf->func_no, epf->vfunc_no, state);
 
 - Mani
 
+> +	return ret;
 > +
-> +	return 0;
 > +}
 > +
->  static int pci_epf_mhi_bind(struct pci_epf *epf)
+>  static int pci_epf_mhi_core_init(struct pci_epf *epf)
 >  {
 >  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> @@ -394,6 +406,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
->  	.link_up = pci_epf_mhi_link_up,
->  	.link_down = pci_epf_mhi_link_down,
->  	.bme = pci_epf_mhi_bme,
-> +	.dstate_change = pci_epf_mhi_dstate_change,
->  };
+> @@ -293,6 +311,7 @@ static int pci_epf_mhi_link_up(struct pci_epf *epf)
+>  	mhi_cntrl->unmap_free = pci_epf_mhi_unmap_free;
+>  	mhi_cntrl->read_from_host = pci_epf_mhi_read_from_host;
+>  	mhi_cntrl->write_to_host = pci_epf_mhi_write_to_host;
+> +	mhi_cntrl->wakeup_host = pci_epf_mhi_wakeup_host;
 >  
->  static int pci_epf_mhi_probe(struct pci_epf *epf,
+>  	/* Register the MHI EP controller */
+>  	ret = mhi_ep_register_controller(mhi_cntrl, info->config);
 > diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-> index f198a8a..c3a0685 100644
+> index c3a0685..e353c429 100644
 > --- a/include/linux/mhi_ep.h
 > +++ b/include/linux/mhi_ep.h
-> @@ -8,6 +8,7 @@
->  
->  #include <linux/dma-direction.h>
->  #include <linux/mhi.h>
-> +#include <linux/pci.h>
->  
->  #define MHI_EP_DEFAULT_MTU 0x8000
->  
-> @@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
+> @@ -137,6 +137,7 @@ struct mhi_ep_cntrl {
+>  			   void __iomem *virt, size_t size);
+>  	int (*read_from_host)(struct mhi_ep_cntrl *mhi_cntrl, u64 from, void *to, size_t size);
+>  	int (*write_to_host)(struct mhi_ep_cntrl *mhi_cntrl, void *from, u64 to, size_t size);
+> +	int (*wakeup_host)(struct mhi_ep_cntrl *mhi_cntrl);
 >  
 >  	enum mhi_state mhi_state;
 >  
-> +	pci_power_t dstate;
-> +
->  	u32 max_chan;
->  	u32 mru;
->  	u32 event_rings;
 > -- 
 > 2.7.4
 > 
