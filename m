@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016581F959
-	for <mhi@lists.linux.dev>; Wed, 12 Jul 2023 12:24:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEA4C433C8;
-	Wed, 12 Jul 2023 12:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29D127725
+	for <mhi@lists.linux.dev>; Wed, 12 Jul 2023 12:26:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA20C433C7;
+	Wed, 12 Jul 2023 12:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689164658;
-	bh=Ynv5x4ojvzkObVOILzKFcJKueesdl+1bBjCEB2g6diM=;
+	s=k20201202; t=1689164812;
+	bh=W3smyjCEDQCZ7N9U5xTsAijdASzIF9l4tZ+KT93zqNo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q0klKloQ3jhBWuWa+wKdRaKF1rhi+jq/0yCpb7UiFIwTgVUEKpBfz6zyEBUPKY8eO
-	 oHWrwEmHDmUauQK/UXrS4zBxS23+MWKlFQWOJMnqjFSFEi/8ke1UkovkGDm0x9M064
-	 4IYoHuj9ccwVG8UjebNIbZe8fSQTIJgohnSQySDia546H188kbc4zOCGGphZ52Rplz
-	 uZhMsOV4wRanMyCadzws2Vnf3G+3kgUdAdGMCzwYsqMPI3+1j/qIPwTlCzMm5mIidC
-	 4nGONbtP0BlOCbbXXSzXSBJcFeysmy7eH1doH1fLMQu7RoupagA2QvJlGaL8ph7Wti
-	 zbEqPkCvyLzhA==
-Date: Wed, 12 Jul 2023 17:54:07 +0530
+	b=PbHJHjNSm0fHEbmnjn/xqszft8Exw4uVANi9F/2nCEsVcTkKb+GvzopoYiu5/w3cc
+	 j5G5hy+ON1v9ZjRezYwd14KXa7vkLKvtlYhq9Ju3UFmjx7uMAmBRTeGaGcazJwvA0Y
+	 Q1/bZE0VpRL04w5CTcNeI/QVEAQvTtZeZubA3VYpSw4NT2izVpLKqhwLpmYRMCLStx
+	 DGugihHBitupae5T+moP6G4KEyW6oaH+EHr63xWtl09l0BR+1TrPEr3cD483dq4UgP
+	 R21ef/YAU++ezyWjlpZiUdB+7k5majlClVWxh7xXHDO66lb8zDi29cQO3AQUcDMMkV
+	 8ts/ohS+YYEjQ==
+Date: Wed, 12 Jul 2023 17:56:41 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: loic.poulain@linaro.org, fabio.porcedda@gmail.com, bhelgaas@google.com,
 	song.fc@gmail.com, duke_xinanwen@163.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for Dell DW5932e
-Message-ID: <20230712122407.GC102757@thinkpad>
+Message-ID: <20230712122641.GD102757@thinkpad>
 References: <20230712083741.7615-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -42,9 +42,9 @@ On Wed, Jul 12, 2023 at 04:37:41PM +0800, Slark Xiao wrote:
 > 
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-One nit below but I will fix that while applying.
+Applied to mhi-next!
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+- Mani
 
 > ---
 >  drivers/bus/mhi/host/pci_generic.c | 6 ++++++
@@ -62,11 +62,6 @@ Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 > +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f5),
 > +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
 > +	/* DW5932e (sdx62), Non-eSIM*/
-
-Space required before */
-
-- Mani
-
 > +	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f9),
 > +		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
 >  	/* MV31-W (Cinterion) */
