@@ -1,219 +1,119 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C240815A9
-	for <mhi@lists.linux.dev>; Tue, 18 Jul 2023 06:15:48 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I5W4OU017342;
-	Tue, 18 Jul 2023 06:15:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=FnMF/hPnhkGhQNVCRlvihoFhBZmvCK2+QcLEk0jb/Bs=;
- b=PV0vPj80LkunkeppXTpH+hmpB1eAKDotTOc69n3zXPA7uDYzhfh7DAdq2Sdrm5fqzNSj
- FUlG/Cw0utQFQMNvPcWUes3QkYUsrF8+XxJE79XOPoeZOSNDGa2eyAFD9dNpesDXNRZd
- bcjcqcNH+LfdjkhxybCvSeGkHebA3Bagsd6nGvMmXOzRJFeChcsnuAAeMRdp9kP/QdNK
- D7KAgTDz+54oCB7KVhC4ErPgSb+vzQZ5V/fjGsZ7EczALs+hywvohKNSmGq9HCeMvHA1
- 9r/7yn0Mq4TsrubqPeH2N8HJrLhmaYrllAwpkN/7aiQHck0lFO1SID97i1Jjs0/Ll9fd Wg== 
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rw289thn2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jul 2023 06:15:37 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 36I6FXKc006794;
-	Tue, 18 Jul 2023 06:15:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3rumhk9kv1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 18 Jul 2023 06:15:33 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36I6FW2E006789;
-	Tue, 18 Jul 2023 06:15:32 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-vpernami-hyd.qualcomm.com [10.213.107.240])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 36I6FW2G006788;
-	Tue, 18 Jul 2023 06:15:32 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 2370923)
-	id 640644BF5; Tue, 18 Jul 2023 11:45:31 +0530 (+0530)
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
-To: mhi@lists.linux.dev
-Cc: mrana@quicinc.com, quic_qianyu@quicinc.com,
-        manivannan.sadhasivam@linaro.org, quic_vbadigan@quicinc.com,
-        quic_krichai@quicinc.com, quic_skananth@quicinc.com,
-        linux-arm-msm@vger.kernel.org,
-        Vivek Pernamitta <quic_vpernami@quicinc.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH V2] net: mhi : Add support to enable ethernet interface
-Date: Tue, 18 Jul 2023 11:45:28 +0530
-Message-Id: <1689660928-12092-1-git-send-email-quic_vpernami@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: EVSTbR9y7PXaKywYjZxux8sKff_IZUml
-X-Proofpoint-GUID: EVSTbR9y7PXaKywYjZxux8sKff_IZUml
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
- suspectscore=0 bulkscore=0 mlxscore=0 adultscore=0 spamscore=0
- impostorscore=0 phishscore=0 priorityscore=1501 mlxlogscore=871
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307180056
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D79FAD4B
+	for <mhi@lists.linux.dev>; Tue, 18 Jul 2023 12:43:42 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-666ecf9a081so5648995b3a.2
+        for <mhi@lists.linux.dev>; Tue, 18 Jul 2023 05:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689684222; x=1692276222;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gM/YgQOHeZ56BBUJtDtFJHEmngLOGV7x/3NVPgw+uwg=;
+        b=w2hgTYFo0jHGi/AdVX7TD2uUbk+BXLb+ZG2Zdw4rHJpk2T64R7srvLTU1EecmWqOqS
+         +2jICAWOFdA3n+NCVvYfHl0gbvmHFdN/TULrzU34DmJFhmBJ7HFP7kD5ELlciAE0SsxV
+         kgKsVcvw9mNvmcXpwZJ5BsgmfldRJD4EnkdtvBbHkjY7R1wkzXZqohfr1f2V2t/auNvo
+         uOLi0T3d6Ic7oVvvNRQKN86yHEsfxfjzgpmHSNnGOf0CgRVMHzyIXHqFgtUkPuw34m6B
+         abB+AOkZ+UV4Q+lnWukzd73MYDLSmt8SFGtfUhAx+cIIkzHJHWVCM1nTKlaOQTXdZ+OC
+         icaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689684222; x=1692276222;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gM/YgQOHeZ56BBUJtDtFJHEmngLOGV7x/3NVPgw+uwg=;
+        b=U2ejuWurMwPWjTWHkXfiDzae42JuXdQlXI/kva5WwDaBj4B8bw4pDOYq7i3BTgwsXq
+         aIi9ZUoB/j+gC6DoAOyAug7vq3dcuMz0llTO06Uhu3IisL3sIpL8eP/Ws+okaMrGt3jX
+         FS7cXa8KW7OERaA0Iey3Hbo6AsIv+VbdSY1pIMsyHQ998/kLByekxN5UPPTBIGsffesm
+         OsmgaoNo2NkCsyZe5jeU6elVr1bJ5UcdS8hFEA6kZOzlcILsVxf/+fgVnHyxucqbh5LV
+         eass/X9eP2o0KqgNaycVyVurBZwluhXVX/WdrNcesxtx18iV5KZTTHkk8iV8UXUzWr/i
+         vNhw==
+X-Gm-Message-State: ABy/qLZ47mT64kSo/PyP4M2hGvkERSly9EdqHib8jUz1iKrFTPXeb8hi
+	epyOd3IhDoQLDnhyaQOEGzq5
+X-Google-Smtp-Source: APBJJlGIyCLi2xXMxJXvF91GTdpgYQEGsEVobhqGEnYYRfEsOVgBWaJGpPgU4Z2/dyfXjMaz88khfw==
+X-Received: by 2002:a05:6a20:a121:b0:133:249f:2ce2 with SMTP id q33-20020a056a20a12100b00133249f2ce2mr18924689pzk.0.1689684221820;
+        Tue, 18 Jul 2023 05:43:41 -0700 (PDT)
+Received: from thinkpad ([117.217.191.149])
+        by smtp.gmail.com with ESMTPSA id u21-20020aa78395000000b0065434edd521sm1444932pfm.196.2023.07.18.05.43.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 05:43:41 -0700 (PDT)
+Date: Tue, 18 Jul 2023 18:13:34 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Cc: mhi@lists.linux.dev, mrana@quicinc.com, quic_qianyu@quicinc.com,
+	quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
+	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH V2] net: mhi : Add support to enable ethernet interface
+Message-ID: <20230718124334.GG4771@thinkpad>
+References: <1689660928-12092-1-git-send-email-quic_vpernami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1689660928-12092-1-git-send-email-quic_vpernami@quicinc.com>
 
-Add support to enable ethernet interface for MHI SWIP channels.
+On Tue, Jul 18, 2023 at 11:45:28AM +0530, Vivek Pernamitta wrote:
+> Add support to enable ethernet interface for MHI SWIP channels.
+> 
 
-Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Reviewed-by: Daniele Palmas <dnlplm@gmail.com>
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
----
+Please add more info in the commit message i.e., why this interface is added and
+how it is going to benefit the users etc..
 
-changes since v1:
-	- Moved to net-next from linux-next	
-	- moved to eth_hw_addr_random() to assign Ethernet MAC address
-	  from eth_random_addr()
----
- drivers/net/mhi_net.c | 53 ++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 40 insertions(+), 13 deletions(-)
+Since you are modifying the existing mhi_swip interface, this isn't an ABI
+change?
 
-diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
-index 3d322ac..5bb8d99 100644
---- a/drivers/net/mhi_net.c
-+++ b/drivers/net/mhi_net.c
-@@ -11,6 +11,7 @@
- #include <linux/netdevice.h>
- #include <linux/skbuff.h>
- #include <linux/u64_stats_sync.h>
-+#include <linux/etherdevice.h>
- 
- #define MHI_NET_MIN_MTU		ETH_MIN_MTU
- #define MHI_NET_MAX_MTU		0xffff
-@@ -38,10 +39,12 @@ struct mhi_net_dev {
- 	u32 rx_queue_sz;
- 	int msg_enable;
- 	unsigned int mru;
-+	bool ethernet_if;
- };
- 
- struct mhi_device_info {
- 	const char *netname;
-+	bool ethernet_if;
- };
- 
- static int mhi_ndo_open(struct net_device *ndev)
-@@ -140,6 +143,14 @@ static void mhi_net_setup(struct net_device *ndev)
- 	ndev->tx_queue_len = 1000;
- }
- 
-+static void mhi_ethernet_setup(struct net_device *ndev)
-+{
-+	ndev->netdev_ops = &mhi_netdev_ops;
-+	ether_setup(ndev);
-+	ndev->min_mtu = ETH_MIN_MTU;
-+	ndev->max_mtu = ETH_MAX_MTU;
-+}
-+
- static struct sk_buff *mhi_net_skb_agg(struct mhi_net_dev *mhi_netdev,
- 				       struct sk_buff *skb)
- {
-@@ -209,16 +220,22 @@ static void mhi_net_dl_callback(struct mhi_device *mhi_dev,
- 			mhi_netdev->skbagg_head = NULL;
- 		}
- 
--		switch (skb->data[0] & 0xf0) {
--		case 0x40:
--			skb->protocol = htons(ETH_P_IP);
--			break;
--		case 0x60:
--			skb->protocol = htons(ETH_P_IPV6);
--			break;
--		default:
--			skb->protocol = htons(ETH_P_MAP);
--			break;
-+		if (mhi_netdev->ethernet_if) {
-+			skb_copy_to_linear_data(skb, skb->data,
-+						mhi_res->bytes_xferd);
-+			skb->protocol = eth_type_trans(skb, mhi_netdev->ndev);
-+		} else {
-+			switch (skb->data[0] & 0xf0) {
-+			case 0x40:
-+				skb->protocol = htons(ETH_P_IP);
-+				break;
-+			case 0x60:
-+				skb->protocol = htons(ETH_P_IPV6);
-+				break;
-+			default:
-+				skb->protocol = htons(ETH_P_MAP);
-+				break;
-+			}
- 		}
- 
- 		u64_stats_update_begin(&mhi_netdev->stats.rx_syncp);
-@@ -301,11 +318,17 @@ static void mhi_net_rx_refill_work(struct work_struct *work)
- 		schedule_delayed_work(&mhi_netdev->rx_refill, HZ / 2);
- }
- 
--static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev)
-+static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev, bool eth_dev)
- {
- 	struct mhi_net_dev *mhi_netdev;
- 	int err;
- 
-+	if (eth_dev) {
-+		eth_hw_addr_random(ndev);
-+		if (!is_valid_ether_addr(ndev->dev_addr))
-+			return -EADDRNOTAVAIL;
-+	}
-+
- 	mhi_netdev = netdev_priv(ndev);
- 
- 	dev_set_drvdata(&mhi_dev->dev, mhi_netdev);
-@@ -313,6 +336,7 @@ static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev)
- 	mhi_netdev->mdev = mhi_dev;
- 	mhi_netdev->skbagg_head = NULL;
- 	mhi_netdev->mru = mhi_dev->mhi_cntrl->mru;
-+	mhi_netdev->ethernet_if = eth_dev;
- 
- 	INIT_DELAYED_WORK(&mhi_netdev->rx_refill, mhi_net_rx_refill_work);
- 	u64_stats_init(&mhi_netdev->stats.rx_syncp);
-@@ -356,13 +380,14 @@ static int mhi_net_probe(struct mhi_device *mhi_dev,
- 	int err;
- 
- 	ndev = alloc_netdev(sizeof(struct mhi_net_dev), info->netname,
--			    NET_NAME_PREDICTABLE, mhi_net_setup);
-+			    NET_NAME_PREDICTABLE, info->ethernet_if ?
-+			    mhi_ethernet_setup : mhi_net_setup);
- 	if (!ndev)
- 		return -ENOMEM;
- 
- 	SET_NETDEV_DEV(ndev, &mhi_dev->dev);
- 
--	err = mhi_net_newlink(mhi_dev, ndev);
-+	err = mhi_net_newlink(mhi_dev, ndev, info->ethernet_if);
- 	if (err) {
- 		free_netdev(ndev);
- 		return err;
-@@ -380,10 +405,12 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
- 
- static const struct mhi_device_info mhi_hwip0 = {
- 	.netname = "mhi_hwip%d",
-+	.ethernet_if = false,
- };
- 
- static const struct mhi_device_info mhi_swip0 = {
- 	.netname = "mhi_swip%d",
-+	.ethernet_if = false,
- };
- 
- static const struct mhi_device_id mhi_net_id_table[] = {
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> Reviewed-by: Daniele Palmas <dnlplm@gmail.com>
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> ---
+> 
+> changes since v1:
+> 	- Moved to net-next from linux-next	
+> 	- moved to eth_hw_addr_random() to assign Ethernet MAC address
+> 	  from eth_random_addr()
+> ---
+>  drivers/net/mhi_net.c | 53 ++++++++++++++++++++++++++++++++++++++-------------
+>  1 file changed, 40 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
+> index 3d322ac..5bb8d99 100644
+> --- a/drivers/net/mhi_net.c
+> +++ b/drivers/net/mhi_net.c
+
+[...]
+
+> @@ -380,10 +405,12 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
+>  
+>  static const struct mhi_device_info mhi_hwip0 = {
+>  	.netname = "mhi_hwip%d",
+> +	.ethernet_if = false,
+>  };
+>  
+>  static const struct mhi_device_info mhi_swip0 = {
+>  	.netname = "mhi_swip%d",
+> +	.ethernet_if = false,
+
+false?
+
+- Mani
+
+>  };
+>  
+>  static const struct mhi_device_id mhi_net_id_table[] = {
+> -- 
+> 2.7.4
+> 
+
 -- 
-2.7.4
-
+மணிவண்ணன் சதாசிவம்
