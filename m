@@ -1,120 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907F2134A5;
-	Wed, 19 Jul 2023 11:42:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3D1C433C7;
-	Wed, 19 Jul 2023 11:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6018E1385;
+	Thu, 20 Jul 2023 04:37:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD80CC433C8;
+	Thu, 20 Jul 2023 04:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689766943;
-	bh=wPRMqbpbLUGy3uCjIzFDHysaD/lX8t+s8gaE2CHN+uQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bXWkr6yyQPPbZ1rOXq5/QjUQz1j3giLABh26cCfhh5RRcADgmXpLqKdx6JXnVrscf
-	 yTexG6yrL0z1t1ulOjO3C4ZUkqRJsjLO4wJZKDgopoxeqybJzNjsTqWOHqZRKeQVhG
-	 RotmvRNeTvtPReViEohETLDXmXSDJChCj4jOmyo9YezWoaKD/l57/0z2mwn7zp+m4s
-	 YP0EjW3m3YpKyNqd2l2yV0mlZzN0pjMvgf/sE89lpM0IlLv78rWAhz77VThRdQmWQI
-	 yARd2dTevEcb+T6fuoahaUYIvSQ5RbKUoLu+UNDaCb/7BezmnJ9JS4SXlhGzw11ORB
-	 ehqFuM01CIKbg==
-Date: Wed, 19 Jul 2023 17:12:07 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
+	s=k20201202; t=1689827850;
+	bh=wtXXdLVLfi99i9vNuFnHhlk19NvlcTjhBzB3ICdAvko=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oR77DCAfnIF9ROq994H/Xxvg6BqQ/PtjhVzf+zqKANe+7KHHpQeBCXRhkn2gEIApa
+	 4AEtuJvpN/O2Pq0MQUp2W3fVWVr5ZpIt2dOpJA1v2CMAIj6rZbaOvwP7MJSOP5rHpl
+	 eN3abGN/HXKPbVB6+uP2nGODF333tccSEw3RJFHu+A8YgWydSjSHMBQc4b2EmqEBB8
+	 j9sNLkytr2JIA2K+dgRuw3tAL5v5VPEiY5vLjEaUbrB8Ry909OMyx1XSwlowZEeqwN
+	 NncHiCRCejDM5uu7qVfuMCeVjiOLbue/PQC9KOthxIiGJfyGXSOV/InTxkfImD/5xX
+	 lDqVrn8LUChMw==
+Date: Wed, 19 Jul 2023 21:37:28 -0700
+From: Jakub Kicinski <kuba@kernel.org>
 To: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	mhi@lists.linux.dev, mrana@quicinc.com, quic_qianyu@quicinc.com,
-	quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
-	quic_skananth@quicinc.com, linux-arm-msm@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V2] net: mhi : Add support to enable ethernet interface
-Message-ID: <20230719114207.GC9312@thinkpad>
-References: <1689660928-12092-1-git-send-email-quic_vpernami@quicinc.com>
- <20230718124334.GG4771@thinkpad>
- <350d577a-f0b3-1f20-9c35-356355a9aa8e@quicinc.com>
+Cc: mhi@lists.linux.dev, mrana@quicinc.com, quic_qianyu@quicinc.com,
+ manivannan.sadhasivam@linaro.org, quic_vbadigan@quicinc.com,
+ quic_krichai@quicinc.com, quic_skananth@quicinc.com, andersson@kernel.org,
+ simon.horman@corigine.com, dnlplm@gmail.com, linux-arm-msm@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+ linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH V3] net: mhi : Add support to enable ethernet interface
+Message-ID: <20230719213728.65118446@kernel.org>
+In-Reply-To: <1689762055-12570-1-git-send-email-quic_vpernami@quicinc.com>
+References: <1689762055-12570-1-git-send-email-quic_vpernami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <350d577a-f0b3-1f20-9c35-356355a9aa8e@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 19, 2023 at 04:08:37PM +0530, Vivek Pernamitta wrote:
-> 
-> Currently MHI NET driver does not support Ethernet interface,
-> 
+On Wed, 19 Jul 2023 15:50:54 +0530 Vivek Pernamitta wrote:
+> Add support to enable ethernet network device for MHI NET driver
+> currenlty we have support only NET driver.
 
-Please do not top post. Read: https://people.kernel.org/tglx/notes-about-netiquette-qw89
-
-> we are adding Ethernet interface support to MHI NET driver, so new client
-> can be configured to be Ethernet type over MHI by setting
-> "mhi_device_info.ethernet_if = true"
-> 
-
-Which is the new client you are referring to?
-
-> currently we are not changing mhi_swip0/mhi_hwip0 to Ethernet. we are adding
-> an provision to configure mhi client as  Ethernet type.
-> 
-
-If there are no users of the said provision, then it should not be added now.
-You can only add interfaces to kernel if there is atleast one user.
-
-- Mani
-
-> 
-> On 7/18/2023 6:13 PM, Manivannan Sadhasivam wrote:
-> > On Tue, Jul 18, 2023 at 11:45:28AM +0530, Vivek Pernamitta wrote:
-> > > Add support to enable ethernet interface for MHI SWIP channels.
-> > > 
-> > Please add more info in the commit message i.e., why this interface is added and
-> > how it is going to benefit the users etc..
-> > 
-> > Since you are modifying the existing mhi_swip interface, this isn't an ABI
-> > change?
-> > 
-> > > Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-> > > Reviewed-by: Daniele Palmas <dnlplm@gmail.com>
-> > > Reviewed-by: Simon Horman <simon.horman@corigine.com>
-> > > ---
-> > > 
-> > > changes since v1:
-> > > 	- Moved to net-next from linux-next	
-> > > 	- moved to eth_hw_addr_random() to assign Ethernet MAC address
-> > > 	  from eth_random_addr()
-> > > ---
-> > >   drivers/net/mhi_net.c | 53 ++++++++++++++++++++++++++++++++++++++-------------
-> > >   1 file changed, 40 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
-> > > index 3d322ac..5bb8d99 100644
-> > > --- a/drivers/net/mhi_net.c
-> > > +++ b/drivers/net/mhi_net.c
-> > [...]
-> > 
-> > > @@ -380,10 +405,12 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
-> > >   static const struct mhi_device_info mhi_hwip0 = {
-> > >   	.netname = "mhi_hwip%d",
-> > > +	.ethernet_if = false,
-> > >   };
-> > >   static const struct mhi_device_info mhi_swip0 = {
-> > >   	.netname = "mhi_swip%d",
-> > > +	.ethernet_if = false,
-> > false?
-> yes ,it is false as by default mhi_swip/mhi_hwip interface will be normal
-> net device.
-> > 
-> > - Mani
-> > 
-> > >   };
-> > >   static const struct mhi_device_id mhi_net_id_table[] = {
-> > > -- 
-> > > 2.7.4
-> > > 
-
+There discussion on v2 doesn't seem to have ended.
 -- 
-மணிவண்ணன் சதாசிவம்
+pw-bot: cr
