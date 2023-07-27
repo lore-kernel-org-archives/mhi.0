@@ -1,61 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABC0107AD
-	for <mhi@lists.linux.dev>; Thu, 27 Jul 2023 10:07:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D641C433C8;
-	Thu, 27 Jul 2023 10:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690452459;
-	bh=4B7J3DgvOBHGo6p3m1Nd1vpZc8QRGoaL/MdCOq/oGho=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=YwNloGl6NwR7YLPFl1+21K5endW0UBtm/9XPXImzx/v5aBkoHS0KfYT1dBLhARGGd
-	 o0k6NDeaRhzm6jexbkg7CBtTz8FssBkMl/3mZC6z6+OpR2g1iQAXOuEyPrwzhH07qp
-	 5odZrJJ3eVR0M6iVH6yA3NwauvI70+hHoeMH3zEsOUMOM7/WJ1aVjbyKJITpFwCf2F
-	 /xF2A1OQCTBRJ42N4ax40vF6mv3G9pRKGZ26b46++NcWBe+PrzpW0GBPy2mF96P/P/
-	 Mw26MohcRDPUyudVtYEMZheDhRv/pKWf6FbttuyF724jjupxn0qEpZpkKhe0iotC0h
-	 xPkof6Yq2nabA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,
-  <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH v3 1/3] bus: mhi: host: allow MHI client drivers to
- provide the firmware via a pointer
-References: <20230530141813.29333-1-kvalo@kernel.org>
-	<20230530141813.29333-2-kvalo@kernel.org>
-	<6494e9f5-a4df-c058-49bb-1ebfeca5a91d@quicinc.com>
-Date: Thu, 27 Jul 2023 13:07:36 +0300
-In-Reply-To: <6494e9f5-a4df-c058-49bb-1ebfeca5a91d@quicinc.com> (Jeffrey
-	Hugo's message of "Fri, 2 Jun 2023 11:17:22 -0600")
-Message-ID: <877cql1xcn.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8996127124
+	for <mhi@lists.linux.dev>; Thu, 27 Jul 2023 16:47:39 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36RDkJRP008071;
+	Thu, 27 Jul 2023 16:47:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=WB28qqUYvyseSWD/r/j4+D+ItZWixPmzGHBsazWIPyA=;
+ b=IUW7GFZVOiHOHNTTb6IvgWd/OEryD+D1NLucbHlhwhk7OECar+an4Zu9Nmk92uqTultZ
+ u52jjWkv9rNJDRtd9QVtArx4OEMDTSDwuW/0M2Jm7XXD43zS9H9BQoh/a6iidXpam1Ga
+ /8qEIYjNoBxt8wzE80LwrD1T0XfSjaYK4sU0sVFsoFIzEizIY7YuwAFVtGmHonc0t0Bd
+ N4DYN/Vzx9TaTJ21LqsxJpJrqrm0vCOvU5+35VXXdpwrdR+m8Lv9QbM8y6hYB8TP0pSV
+ Q64iGuiroOSTPRBdobWyyf46ETvGLjnEuKWr0x/LWMPxRM+UivsHBvQ2dBbk4C/SGWCW 6Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3krn9eth-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Jul 2023 16:47:24 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36RGlMqN022812
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Jul 2023 16:47:23 GMT
+Received: from [10.227.110.203] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
+ 2023 09:47:21 -0700
+Message-ID: <d86d8f47-dbb2-1da6-794a-c020c317b4b5@quicinc.com>
+Date: Thu, 27 Jul 2023 09:47:21 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>
+CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+ <20230727100430.3603551-3-kvalo@kernel.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <20230727100430.3603551-3-kvalo@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: JoQrgzWxSJuMopEaBaBWAcPav_TeIEeU
+X-Proofpoint-GUID: JoQrgzWxSJuMopEaBaBWAcPav_TeIEeU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_07,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
+ adultscore=0 suspectscore=0 mlxlogscore=921 priorityscore=1501 bulkscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307270151
 
-Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
+On 7/27/2023 3:04 AM, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
+> 
+> Simple refactoring to make it easier to add firmware-2.bin support in the
+> following patch.
+> 
+> Earlier ath11k_qmi_m3_load() supported changing m3.bin contents while ath11k is
+> running. But that's not going to actually work, m3.bin is supposed to the be
 
->> --- a/include/linux/mhi.h
->> +++ b/include/linux/mhi.h
->> @@ -299,6 +299,10 @@ struct mhi_controller_config {
->>    * @iova_start: IOMMU starting address for data (required)
->>    * @iova_stop: IOMMU stop address for data (required)
->>    * @fw_image: Firmware image name for normal booting (optional)
->> + * @fw_data: Firmware image data content for normal booting, used only
->> + *           if fw_image is NULL (optional)
->
-> It looks like your implementation requires fbc_download to be set, and
-> while you mention that for fw_sz, you don't mention it here.  While I
-> think this would be useful for non-fbc usecases, we don't have that
-> use currently.
+nit: s/to the be/to be the/
 
-Thanks for the review. I submitted v4 to fix this.
+> same during the lifetime of ath11k, for example we don't support changing the
+> firmware capabilities on the fly. Due to this ath11k requests m3.bin firmware
+> file first and only then checks m3_mem->vaddr, so we are basically requesting
+> the firmware file even if it's not needed. Reverse the code so that m3_mem
+> buffer is checked first, and only if it doesn't exist, then m3.bin is requested
+> from user space.
+> 
+> Checking for m3_mem->size is redundant when m3_mem->vaddr is NULL, we would
+> not be able to use the buffer in that case. So remove the check for size.
+> 
+> Simplify the exit handling and use 'goto out'.
+> 
+> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Reviewed-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> ---
+>   drivers/net/wireless/ath/ath11k/qmi.c | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/net/wireless/ath/ath11k/qmi.c b/drivers/net/wireless/ath/ath11k/qmi.c
+> index d4eaf7d2ba84..9b13628fa3c7 100644
+> --- a/drivers/net/wireless/ath/ath11k/qmi.c
+> +++ b/drivers/net/wireless/ath/ath11k/qmi.c
+> @@ -2506,6 +2506,10 @@ static int ath11k_qmi_m3_load(struct ath11k_base *ab)
+>   	char path[100];
+>   	int ret;
+>   
+> +	if (m3_mem->vaddr)
+> +		/* m3 firmware buffer is already available in the DMA buffer */
+> +		return 0;
+> +
+>   	fw = ath11k_core_firmware_request(ab, ATH11K_M3_FILE);
+>   	if (IS_ERR(fw)) {
+>   		ret = PTR_ERR(fw);
+> @@ -2515,25 +2519,25 @@ static int ath11k_qmi_m3_load(struct ath11k_base *ab)
+>   		return ret;
+>   	}
+>   
+> -	if (m3_mem->vaddr || m3_mem->size)
+> -		goto skip_m3_alloc;
+> -
+>   	m3_mem->vaddr = dma_alloc_coherent(ab->dev,
+>   					   fw->size, &m3_mem->paddr,
+>   					   GFP_KERNEL);
+>   	if (!m3_mem->vaddr) {
+>   		ath11k_err(ab, "failed to allocate memory for M3 with size %zu\n",
+>   			   fw->size);
+> -		release_firmware(fw);
+> -		return -ENOMEM;
+> +		ret = -ENOMEM;
+> +		goto out;
+>   	}
+>   
+> -skip_m3_alloc:
+>   	memcpy(m3_mem->vaddr, fw->data, fw->size);
+>   	m3_mem->size = fw->size;
+> +
+> +	ret = 0;
+> +
+> +out:
+>   	release_firmware(fw);
+>   
+> -	return 0;
+> +	return ret;
+>   }
+>   
+>   static void ath11k_qmi_m3_free(struct ath11k_base *ab)
+
