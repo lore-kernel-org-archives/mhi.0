@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E0440D
-	for <mhi@lists.linux.dev>; Fri, 28 Jul 2023 04:10:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0FB2C433C7;
-	Fri, 28 Jul 2023 04:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733D427148
+	for <mhi@lists.linux.dev>; Fri, 28 Jul 2023 04:35:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1C4C433C8;
+	Fri, 28 Jul 2023 04:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690517399;
-	bh=F8nIXDxD0F3z4YhoSjTSX8IFJ05consSO36yJuwugAk=;
+	s=k20201202; t=1690518901;
+	bh=DZrogaGXBUp1d/Lh7/05sza1+746GkxyRTdGmrOOfWI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BZcyH9CUFjVD/kmcWvRjY26aS/D4op8pp77H84DWIpJv94e0GEPw7+uOCdDMXqGf0
-	 39nobliSYFMMRLTA596u1qX1uyANoihapqb2WoSIFakLzMNBivxEwCz9BD3/GpBN5C
-	 wqYmdrJnnMj88neGR3PSdGMuQDmkyEyxLKfgfSizvai3Z++n1UXSGcgFDhC7W4BQYW
-	 t0uHufHuesfAcKZu/NEArkrvJg04VwQngW3LMZPKUHjWCv1YXUlBNwgQ7KRvuxV0wh
-	 jsWDeUDUJnqIZkSYnq8vxrIrAgDaOywLaYEBQwcBLAX+5R2tbRmoJ1bVnGbU54nard
-	 quTxyiI2FKFzA==
-Date: Fri, 28 Jul 2023 09:39:49 +0530
+	b=o8RHc8JQK5Dv4Nx6+SqJ8bXBeTFWRRUnws6PyrkpKmPGyvY9LsNKbzbEOVrOuTOTS
+	 Nm1meMwb9PD3qDZgZY9mPh3otw9PFaDkgUGe5p4WMePlRahoLwRHRjIsy8pRcXDLZc
+	 cXGXzA7rVxHIixeNsulKSXA6evXs8JHT8yOQ5fmmVM9ppr3lCD0SID1UnNJYZWDw1U
+	 /lhg8RBMsXqyhIqc8o8QxcaRA0zczIMumUxQgxohQshAvBrtuJYEwnwdwSPRKtyMFA
+	 gj3UxjO4pSQob45L5NQ13Cuy5rET5mxYUt4PKzl6gM811VTnwzuXzOag21y2/mCbs4
+	 YGmsk1xaX2AvA==
+Date: Fri, 28 Jul 2023 10:04:52 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
@@ -23,17 +23,16 @@ Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
 	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
 	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
 	quic_ramkri@quicinc.com, krzysztof.kozlowski@linaro.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
 	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	"open list:MHI BUS" <mhi@lists.linux.dev>
-Subject: Re: [PATCH v4 3/9] PCI: epf-mhi: Add support for handling D-state
- notify from EPC
-Message-ID: <20230728040949.GF4433@thinkpad>
+Subject: Re: [PATCH v4 9/9] bus: mhi: ep: wake up host if the MHI state is in
+ M3
+Message-ID: <20230728043452.GI4433@thinkpad>
 References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
+ <1689232218-28265-10-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -43,72 +42,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
+In-Reply-To: <1689232218-28265-10-git-send-email-quic_krichai@quicinc.com>
 
-On Thu, Jul 13, 2023 at 12:40:12PM +0530, Krishna chaitanya chundru wrote:
-> Add support for handling D-state notify for MHI EPF.
+On Thu, Jul 13, 2023 at 12:40:18PM +0530, Krishna chaitanya chundru wrote:
+> If the MHI state is in M3 then the most probably the host kept the
+
+s/then the/then
+
+> device in D3 hot or D3 cold, due to that endpoint transctions will not
+
+s/transctions/transactions
+
+> be read by the host, so endpoint wakes up host to bring the host to D0
+
+endpoint needs to wake up the host to bring the device to D0 state...
+
+> which eventually bring back the MHI state to M0.
 > 
 > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 > ---
->  drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
->  include/linux/mhi_ep.h                       |  3 +++
->  2 files changed, 14 insertions(+)
+>  drivers/bus/mhi/ep/main.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> index 9c1f5a1..ee91bfc 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> @@ -339,6 +339,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
->  	return 0;
->  }
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 6008818..46a888e 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -25,6 +25,26 @@ static DEFINE_IDA(mhi_ep_cntrl_ida);
+>  static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id);
+>  static int mhi_ep_destroy_device(struct device *dev, void *data);
 >  
-> +static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
+> +static int mhi_ep_wake_host(struct mhi_ep_cntrl *mhi_cntrl)
 > +{
-> +	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> +	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
+> +	enum mhi_state state;
+> +	bool mhi_reset;
+> +	u32 count = 0;
 > +
-> +	mhi_cntrl->dstate = state;
+> +	mhi_cntrl->wakeup_host(mhi_cntrl);
+> +
+> +	/* Wait for Host to set the M0 state */
+> +	while (count++ < M0_WAIT_COUNT) {
+> +		msleep(M0_WAIT_DELAY_MS);
+> +
+> +		mhi_ep_mmio_get_mhi_state(mhi_cntrl, &state, &mhi_reset);
+> +		if (state == MHI_STATE_M0)
+> +			return 0;
+> +	}
+> +
+> +	return -ENODEV;
 
-Where is this variable being used? Also, don't we need any locking?
+ENODEV or ETIMEDOUT?
+
+> +}
+> +
+>  static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
+>  			     struct mhi_ring_element *el, bool bei)
+>  {
+> @@ -464,6 +484,13 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
+>  	buf_left = skb->len;
+>  	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
+>  
+> +	if (mhi_cntrl->mhi_state == MHI_STATE_M3) {
+> +		if (mhi_ep_wake_host(mhi_cntrl)) {
+
+Don't you need lock here in the case of multiple queue requests?
 
 - Mani
 
+> +			dev_err(dev, "Failed to wakeup host\n");
+> +			return -ENODEV;
+> +		}
+> +	}
 > +
-> +	return 0;
-> +}
-> +
->  static int pci_epf_mhi_bind(struct pci_epf *epf)
->  {
->  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> @@ -394,6 +404,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
->  	.link_up = pci_epf_mhi_link_up,
->  	.link_down = pci_epf_mhi_link_down,
->  	.bme = pci_epf_mhi_bme,
-> +	.dstate_notify = pci_epf_mhi_dstate_notify,
->  };
+>  	mutex_lock(&mhi_chan->lock);
 >  
->  static int pci_epf_mhi_probe(struct pci_epf *epf,
-> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-> index f198a8a..c3a0685 100644
-> --- a/include/linux/mhi_ep.h
-> +++ b/include/linux/mhi_ep.h
-> @@ -8,6 +8,7 @@
->  
->  #include <linux/dma-direction.h>
->  #include <linux/mhi.h>
-> +#include <linux/pci.h>
->  
->  #define MHI_EP_DEFAULT_MTU 0x8000
->  
-> @@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
->  
->  	enum mhi_state mhi_state;
->  
-> +	pci_power_t dstate;
-> +
->  	u32 max_chan;
->  	u32 mru;
->  	u32 event_rings;
+>  	do {
 > -- 
 > 2.7.4
 > 
