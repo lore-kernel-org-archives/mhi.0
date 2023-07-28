@@ -1,69 +1,117 @@
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD4E7C
-	for <mhi@lists.linux.dev>; Fri, 28 Jul 2023 02:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=L7KPycqqZvvt5Po5/qx4gXmbeJK82Cr7UFEfDRUG2jA=;
-	b=gBbG28mmErIhrbwPwVYJMK62kc840VDRSPKYR9hwiP1kgjzl43hlXEc9meqodm
-	dy6OFIkhmuS++tXZfCdq3Ey9da4ITy3tBbNhS3f8/Oa8PvxfEAPuNgN+AD0XUG1T
-	Uoe74+Ab0RATpPRVXpNURokGoiyax3blAA5UNGouSOXrw=
-Received: from ubuntu.localdomain (unknown [220.180.239.201])
-	by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wBn1SkaHsNk6Wv4BQ--.61399S2;
-	Fri, 28 Jul 2023 09:47:08 +0800 (CST)
-From: =?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
-To: mani@kernel.org,
-	loic.poulain@linaro.org,
-	slark_xiao@163.com
-Cc: fabio.porcedda@gmail.com,
-	koen.vandeputte@citymesh.com,
-	bhelgaas@google.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	jerry.meng@quectel.com,
-	duke.xin@quectel.com,
-	=?UTF-8?q?Duke=20Xin=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add support for Lenovo RM520N-GL
-Date: Thu, 27 Jul 2023 18:47:02 -0700
-Message-Id: <20230728014702.25775-1-duke_xinanwen@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E0440D
+	for <mhi@lists.linux.dev>; Fri, 28 Jul 2023 04:10:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0FB2C433C7;
+	Fri, 28 Jul 2023 04:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690517399;
+	bh=F8nIXDxD0F3z4YhoSjTSX8IFJ05consSO36yJuwugAk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BZcyH9CUFjVD/kmcWvRjY26aS/D4op8pp77H84DWIpJv94e0GEPw7+uOCdDMXqGf0
+	 39nobliSYFMMRLTA596u1qX1uyANoihapqb2WoSIFakLzMNBivxEwCz9BD3/GpBN5C
+	 wqYmdrJnnMj88neGR3PSdGMuQDmkyEyxLKfgfSizvai3Z++n1UXSGcgFDhC7W4BQYW
+	 t0uHufHuesfAcKZu/NEArkrvJg04VwQngW3LMZPKUHjWCv1YXUlBNwgQ7KRvuxV0wh
+	 jsWDeUDUJnqIZkSYnq8vxrIrAgDaOywLaYEBQwcBLAX+5R2tbRmoJ1bVnGbU54nard
+	 quTxyiI2FKFzA==
+Date: Fri, 28 Jul 2023 09:39:49 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_ramkri@quicinc.com, krzysztof.kozlowski@linaro.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	"open list:MHI BUS" <mhi@lists.linux.dev>
+Subject: Re: [PATCH v4 3/9] PCI: epf-mhi: Add support for handling D-state
+ notify from EPC
+Message-ID: <20230728040949.GF4433@thinkpad>
+References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
+ <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBn1SkaHsNk6Wv4BQ--.61399S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtFW5AFWUXFyruFyUCrWxJFb_yoWkKFb_Cr
-	Z3WrsxCrnxWrnFvw40gw15Z34jk3WxXF1kGF1IqrZ5Jw17CrZ5Xan3Zr97A3Za93yF9F98
-	A3y5W34Fyw12yjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRRrgWDUUUUU==
-X-Originating-IP: [220.180.239.201]
-X-CM-SenderInfo: 5gxnvsp0lqt0xzhqqiywtou0bp/1tbiVwS6e1etrwuj3QAAsy
+In-Reply-To: <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
 
-This modem is designed based on Qualcomm SDX6x and it will align with the quectel previous RM520N-GL modem settings.
-But this one is designed for lenovo laptop usecase, hence Quectel got a new PID.
+On Thu, Jul 13, 2023 at 12:40:12PM +0530, Krishna chaitanya chundru wrote:
+> Add support for handling D-state notify for MHI EPF.
+> 
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
+>  include/linux/mhi_ep.h                       |  3 +++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 9c1f5a1..ee91bfc 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -339,6 +339,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
+>  	return 0;
+>  }
+>  
+> +static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
+> +{
+> +	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+> +	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
+> +
+> +	mhi_cntrl->dstate = state;
 
-Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
----
- drivers/bus/mhi/host/pci_generic.c | 3 +++
- 1 file changed, 3 insertions(+)
+Where is this variable being used? Also, don't we need any locking?
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index fcd80bc92978..e4f2fb67dfaf 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -604,6 +604,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* RM520N-GL (sdx6x), eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1004),
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
-+	/* RM520N-GL (sdx6x), Lenovo variant */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1007),
-+		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d), /* EM160R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
+- Mani
+
+> +
+> +	return 0;
+> +}
+> +
+>  static int pci_epf_mhi_bind(struct pci_epf *epf)
+>  {
+>  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+> @@ -394,6 +404,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
+>  	.link_up = pci_epf_mhi_link_up,
+>  	.link_down = pci_epf_mhi_link_down,
+>  	.bme = pci_epf_mhi_bme,
+> +	.dstate_notify = pci_epf_mhi_dstate_notify,
+>  };
+>  
+>  static int pci_epf_mhi_probe(struct pci_epf *epf,
+> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+> index f198a8a..c3a0685 100644
+> --- a/include/linux/mhi_ep.h
+> +++ b/include/linux/mhi_ep.h
+> @@ -8,6 +8,7 @@
+>  
+>  #include <linux/dma-direction.h>
+>  #include <linux/mhi.h>
+> +#include <linux/pci.h>
+>  
+>  #define MHI_EP_DEFAULT_MTU 0x8000
+>  
+> @@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
+>  
+>  	enum mhi_state mhi_state;
+>  
+> +	pci_power_t dstate;
+> +
+>  	u32 max_chan;
+>  	u32 mru;
+>  	u32 event_rings;
+> -- 
+> 2.7.4
+> 
+
 -- 
-2.25.1
-
+மணிவண்ணன் சதாசிவம்
