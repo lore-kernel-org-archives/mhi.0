@@ -1,34 +1,34 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCC87F3
-	for <mhi@lists.linux.dev>; Mon, 31 Jul 2023 05:35:49 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36V5RCex019032;
-	Mon, 31 Jul 2023 05:35:37 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEFC7F3
+	for <mhi@lists.linux.dev>; Mon, 31 Jul 2023 05:37:38 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36V4uD1P012327;
+	Mon, 31 Jul 2023 05:37:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=auBQ1fqo5sO0Ek7pY/4g3MLb2S7HCFjPcq5AVgVBzKk=;
- b=WEHeaiKjczAeD5XZE14ipuw123ZRGyNo2ozmoSjNGRkZTSvbDr4KJopmJgL+O31zsQ0f
- XiS+1jXhG8rEkW6OtP0i15yNWtO3Y+Ln/SqwcOz2EezmGq9mjri8eyGaT19Ek2PbopZR
- 0VFkxp8EAM0nuLY/ewToEgJOxVeTayqCoDlufd3EMEHjssRwWVAECuuU2urEodsA4dUG
- XMbpboNYsQ0krT6TAqKZwzY8MwruM/P6L0tGEpVOgGMmyI0SXayECv9D8nzm2XlotMHH
- Wu2yXbh0dgb1d81gbYpKRQE9xyAl6UNf/660pedLA2SjzsdWv6nOe4v/5BkkYsPfMXOx Og== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4v2djnkm-1
+ bh=LOdUw4qNFn1nUTqsoEBuwGPQSo7xeN13kiNxu0hiQ70=;
+ b=Hi1n5l6r7WGMfflzPQXmjoq/Hl67+VWzJRAINNYe13iwaTKhCYBt3vmP3kDnf9/dFHQB
+ ATNVjO6flbiaO4DhNeHWphyAu8MZVapyLVhcqGLgJiPTJuxj7BDj2utlCrl2gkNHyokW
+ MYhUNCnkjMRbOJq//AU6LoRN+rmZKGB9DKwGY1yyVaKjnBlh2jRr3fTmQFua1+/hWMQh
+ IhyNXtjo8xyYZPAIKkkbAWbBo3fck2h4ErTuwqzKt1nOx4MMUmGUdGlQLm2dZW2mgF5f
+ uaUymPxa+az6jTLREf/tatqxShSkObOFVoxrgrNu9ZD5/npyqqQqB/+hG37tpy+Ct8A6 pg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4ueujq7f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Jul 2023 05:35:36 +0000
+	Mon, 31 Jul 2023 05:37:33 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36V5ZaTa012622
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36V5bWx8013854
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Jul 2023 05:35:36 GMT
+	Mon, 31 Jul 2023 05:37:32 GMT
 Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 30 Jul
- 2023 22:35:31 -0700
-Message-ID: <1cfa6656-8130-ce1d-e28e-3665f12cc76a@quicinc.com>
-Date: Mon, 31 Jul 2023 11:05:28 +0530
+ 2023 22:37:27 -0700
+Message-ID: <27541444-9da2-78de-6174-ba22fcabe08f@quicinc.com>
+Date: Mon, 31 Jul 2023 11:07:25 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -37,121 +37,74 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
-Subject: Re: [PATCH v4 3/9] PCI: epf-mhi: Add support for handling D-state
- notify from EPC
+Subject: Re: [PATCH v4 9/9] bus: mhi: ep: wake up host if the MHI state is in
+ M3
 Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
 CC: <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
         <linux-pci@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
         <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
         <quic_ramkri@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
-        "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
-	<kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas
-	<bhelgaas@google.com>,
+        "Manivannan
+ Sadhasivam" <mani@kernel.org>,
         Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Dan Carpenter
+	<error27@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
         "open list:MHI
  BUS" <mhi@lists.linux.dev>
 References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
- <20230728040949.GF4433@thinkpad>
+ <1689232218-28265-10-git-send-email-quic_krichai@quicinc.com>
+ <1399c766-791b-486d-90d5-a00999eb15fb@kadam.mountain>
 From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20230728040949.GF4433@thinkpad>
+In-Reply-To: <1399c766-791b-486d-90d5-a00999eb15fb@kadam.mountain>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: z-ofuw4beMbPqNgejJqFB81DA6v6rK6s
-X-Proofpoint-ORIG-GUID: z-ofuw4beMbPqNgejJqFB81DA6v6rK6s
+X-Proofpoint-GUID: Eq7XhRvqzwE04tMKcRXThNMMNt8Zb5Ui
+X-Proofpoint-ORIG-GUID: Eq7XhRvqzwE04tMKcRXThNMMNt8Zb5Ui
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
- mlxlogscore=903 malwarescore=0 lowpriorityscore=0 clxscore=1015
- adultscore=0 impostorscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307310050
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
+ phishscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=894
+ malwarescore=0 mlxscore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307310050
 
 
-On 7/28/2023 9:39 AM, Manivannan Sadhasivam wrote:
-> On Thu, Jul 13, 2023 at 12:40:12PM +0530, Krishna chaitanya chundru wrote:
->> Add support for handling D-state notify for MHI EPF.
->>
->> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
->> ---
->>   drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
->>   include/linux/mhi_ep.h                       |  3 +++
->>   2 files changed, 14 insertions(+)
->>
->> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
->> index 9c1f5a1..ee91bfc 100644
->> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
->> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
->> @@ -339,6 +339,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
->>   	return 0;
->>   }
+On 7/28/2023 11:21 AM, Dan Carpenter wrote:
+> On Thu, Jul 13, 2023 at 12:40:18PM +0530, Krishna chaitanya chundru wrote:
+>> @@ -464,6 +484,13 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
+>>   	buf_left = skb->len;
+>>   	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
 >>   
->> +static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
->> +{
->> +	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
->> +	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
->> +
->> +	mhi_cntrl->dstate = state;
-> Where is this variable being used? Also, don't we need any locking?
+>> +	if (mhi_cntrl->mhi_state == MHI_STATE_M3) {
+>> +		if (mhi_ep_wake_host(mhi_cntrl)) {
+>> +			dev_err(dev, "Failed to wakeup host\n");
+>> +			return -ENODEV;
+>> +		}
+> Since you're going to be redoing this patch anyway could you please
+> propage the error code:
 >
-> - Mani
+> 		ret = mhi_ep_wake_host(mhi_cntrl);
+> 		if (ret) {
+> 			dev_err(dev, "Failed to wakeup host\n");
+> 			return ret;
+> 		}
+>
+> regards,
+> dan carpenter
 
-we are using this variable in wakeup host op which is introduced on 
-patch [PATCH v4 8/9] PCI: epf-mhi: Add wakeup host op
-
-I will add lock in my next series.
+I will add this in next series.
 
 - KC
 
 >
->> +
->> +	return 0;
->> +}
->> +
->>   static int pci_epf_mhi_bind(struct pci_epf *epf)
->>   {
->>   	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
->> @@ -394,6 +404,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
->>   	.link_up = pci_epf_mhi_link_up,
->>   	.link_down = pci_epf_mhi_link_down,
->>   	.bme = pci_epf_mhi_bme,
->> +	.dstate_notify = pci_epf_mhi_dstate_notify,
->>   };
->>   
->>   static int pci_epf_mhi_probe(struct pci_epf *epf,
->> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
->> index f198a8a..c3a0685 100644
->> --- a/include/linux/mhi_ep.h
->> +++ b/include/linux/mhi_ep.h
->> @@ -8,6 +8,7 @@
->>   
->>   #include <linux/dma-direction.h>
->>   #include <linux/mhi.h>
->> +#include <linux/pci.h>
->>   
->>   #define MHI_EP_DEFAULT_MTU 0x8000
->>   
->> @@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
->>   
->>   	enum mhi_state mhi_state;
->>   
->> +	pci_power_t dstate;
->> +
->>   	u32 max_chan;
->>   	u32 mru;
->>   	u32 event_rings;
->> -- 
->> 2.7.4
->>
