@@ -1,34 +1,34 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224927F3
-	for <mhi@lists.linux.dev>; Mon, 31 Jul 2023 05:38:14 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36V2K9i5008476;
-	Mon, 31 Jul 2023 05:38:05 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5E47E
+	for <mhi@lists.linux.dev>; Tue,  1 Aug 2023 04:21:33 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3711uRP1000919;
+	Tue, 1 Aug 2023 04:21:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=XnRedSNdLIy2U5CPTQIase5ATOdy3by+d5UvM6ptBJw=;
- b=k3r9uPsHGn8BF25HLLWjUn3L1SnCTcBYO31HyKX9PkaUKVqf2t0nSrYOe3rWKRE++7Ti
- WjYHd0lasKrb43mBb/T6txOWl5EWBw3DN4ztyZ+RG5YNoz7DNVMsZIMWWVH2QNNZyhyz
- h9gem0bJ3YpffC06RWNDcIavJTttvwygRggTKWWyP1c5AlCoRBTyrdeoKKi7JSScoAwH
- tZkQFNr+IWT0BXVAlHewOcT3vi1ag13P/VxrWl+xkSs//GdzDkR9ZizGn3TDSHuRs3cd
- OF47rtuNJ+l/d6HGPnd71WW4WC8h0XqbCf8bgS4s5BDASX6wp3gfwJHXPVHSj3BvPG90 nA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4ugsaqq2-1
+ bh=0RtP2Y3YQXXQfiijFoqpCWqcsbUeRAPKQJssdfDcNFs=;
+ b=pnxwmuV4w8VfwVOeT14cieYychGwYFikctTfkzvpMiLMYsFEvSdg0B9Vb/6td9nOL1kf
+ eehsLRSFQVs6zm6RFlhD367bYfO2S/33t0s8Om0AB5rFxh2u+tsoO0hgf3z0Ig7KM7Ub
+ 0ZWhDX28Zc3Itoc9pThZQRpjy1V7knEu8tOnxTajgMhbxDJwi/36Gv20vmU0vb8El1vs
+ lCcd3xDmZl/WK6rLPKGaRBe6UeY7MoSmBhQf8SS5NluacKWrtV39IR5OjkO+ROcF+duz
+ RI5g4RR4zqROqwHUMTnb9Po0551zEV7U7MoBEZRtgDb+24kbmmyNg0BTy+VQXbyQpSFG ug== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6d8gt2fu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Jul 2023 05:38:04 +0000
+	Tue, 01 Aug 2023 04:21:17 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36V5c3BN004580
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3714Korw020313
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Jul 2023 05:38:03 GMT
-Received: from [10.217.219.216] (10.80.80.8) by nalasex01a.na.qualcomm.com
+	Tue, 1 Aug 2023 04:20:50 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 30 Jul
- 2023 22:37:58 -0700
-Message-ID: <1ac2154c-e74c-ebec-90d1-11ddf9b3ba1a@quicinc.com>
-Date: Mon, 31 Jul 2023 11:07:50 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 31 Jul
+ 2023 21:20:49 -0700
+Message-ID: <09c8f5b1-dfa0-9d3f-4164-cfad4d4edc67@quicinc.com>
+Date: Mon, 31 Jul 2023 22:20:48 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -36,75 +36,48 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4 9/9] bus: mhi: ep: wake up host if the MHI state is in
- M3
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: allow MHI client drivers to
+ provide the firmware via a pointer
 Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>,
-        Dan Carpenter
-	<dan.carpenter@linaro.org>
-CC: <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
-        <linux-pci@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_ramkri@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
-        Jeffrey Hugo
-	<quic_jhugo@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <error27@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "open list:MHI BUS" <mhi@lists.linux.dev>
-References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-10-git-send-email-quic_krichai@quicinc.com>
- <20230728043452.GI4433@thinkpad>
- <15a19a2d-d6e8-4fbc-a31d-561cff00b01a@kadam.mountain>
- <20230728153555.GA9129@thinkpad>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20230728153555.GA9129@thinkpad>
+To: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>
+CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+ <20230727100430.3603551-2-kvalo@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230727100430.3603551-2-kvalo@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: JfpkhWHcEX-ES-ZAM7CeEE3vRcPdrZXf
-X-Proofpoint-GUID: JfpkhWHcEX-ES-ZAM7CeEE3vRcPdrZXf
+X-Proofpoint-ORIG-GUID: DgV7rGZyieAPqpMTFAFGHJnkMVOiCRJ2
+X-Proofpoint-GUID: DgV7rGZyieAPqpMTFAFGHJnkMVOiCRJ2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 phishscore=0 mlxlogscore=936 malwarescore=0 clxscore=1015
- spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307310050
+ definitions=2023-07-31_18,2023-07-31_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 clxscore=1011 mlxlogscore=793
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308010039
 
+On 7/27/2023 4:04 AM, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
+> 
+> Currently MHI loads the firmware image from the path provided by client
+> devices. ath11k needs to support firmware image embedded along with meta data
+> (named as firmware-2.bin). So allow the client driver to request the firmware
+> file from user space on it's own and provide the firmware image data and size
+> to MHI via a pointer struct mhi_controller::fw_data.
+> 
+> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+> name from struct mhi_controller::fw_image string as before.
+> 
+> Tested with ath11k and WCN6855 hw2.0.
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-On 7/28/2023 9:05 PM, Manivannan Sadhasivam wrote:
-> On Fri, Jul 28, 2023 at 08:50:55AM +0300, Dan Carpenter wrote:
->> On Fri, Jul 28, 2023 at 10:04:52AM +0530, Manivannan Sadhasivam wrote:
->>>> @@ -464,6 +484,13 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
->>>>   	buf_left = skb->len;
->>>>   	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
->>>>   
->>>> +	if (mhi_cntrl->mhi_state == MHI_STATE_M3) {
->>>> +		if (mhi_ep_wake_host(mhi_cntrl)) {
->>> Don't you need lock here in the case of multiple queue requests?
->>>
->>> - Mani
->>>
->>>> +			dev_err(dev, "Failed to wakeup host\n");
->>>> +			return -ENODEV;
->>>> +		}
->>>> +	}
->>>> +
->>>>   	mutex_lock(&mhi_chan->lock);
->>          ^^^^^^^^^^^^^^^^^^^^^^^^^^
->> This lock isn't enough?
->>
-> The position of this lock won't prevent cocurrent access to mhi_ep_wake_host().
->
-> - Mani
-I will add the lock in the next series.
->> regards,
->> dan carpenter
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
