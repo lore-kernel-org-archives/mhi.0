@@ -1,146 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF02C2CA5
-	for <mhi@lists.linux.dev>; Tue,  1 Aug 2023 17:21:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C27C433C7;
-	Tue,  1 Aug 2023 17:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690910518;
-	bh=FvTrayG0aB9pBS56Qi18iMvVg3XJECQTzUNoJcvfVxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XTg8YtjpaBdEyllcrmu65iWMgj74xz2mpu+ThdUY8cWF+84k4nm+EiWPIwktyvaO/
-	 OD5Y+be8QlhnRdR+PCnVwUmUtBME8/DE1nSc2FIRxIflgSBdWYFTwqT4aBTvf4snXb
-	 O1gVgPwUxCgUS8rEJv7BLxEReymjCD7vzvKhFWiatvEdLrQofd1eE6plTSVs1s74/A
-	 6Ma9EuBOspIfKipNOb7U62xfz5hgp1Hg3spssqoMfzA39l4DwDnCoJhHQQ0sYi8HU2
-	 wBUXqAkLOo5D9dpFQ5aT4L3TAh6VlWzc9s+tdXWoelzuH5TIhitkStIEEQcQmPxIXh
-	 kFLYI0QlKRiZw==
-Date: Tue, 1 Aug 2023 22:51:42 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-Cc: manivannan.sadhasivam@linaro.org, helgaas@kernel.org,
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-	quic_ramkri@quicinc.com, krzysztof.kozlowski@linaro.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	"open list:MHI BUS" <mhi@lists.linux.dev>
-Subject: Re: [PATCH v4 3/9] PCI: epf-mhi: Add support for handling D-state
- notify from EPC
-Message-ID: <20230801172142.GA76659@thinkpad>
-References: <1689232218-28265-1-git-send-email-quic_krichai@quicinc.com>
- <1689232218-28265-4-git-send-email-quic_krichai@quicinc.com>
- <20230728040949.GF4433@thinkpad>
- <1cfa6656-8130-ce1d-e28e-3665f12cc76a@quicinc.com>
- <0a6ca984-9797-88b1-ae12-c64916f6c61c@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB0910E2
+	for <mhi@lists.linux.dev>; Wed,  2 Aug 2023 03:51:43 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3722NIGu028791;
+	Wed, 2 Aug 2023 03:51:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=iv9VMeggZweWL3QOIkADDj2WzrjlhjhC5j1kulPSJ7c=;
+ b=KO3b3yWU9Yeiv/hmJGVWpLLB8uLD+mEBgj+fPeDktexvcG3HKxJzjfLvJeZsc3+Zbjqn
+ N8KG0dNYg7w/fqGUje064kAqIj3jeylY7AafHWUFaGIzQj1bbKvnDMsfGC3ReipPbvN9
+ Oa0ti8LjtuJKStoEIkpQCSvytinlVladvPR5vlZE17p85OcIZ7Ud/tla+Rfcg+zWoIIf
+ 0sQaK8sIBBf7DjgvUca6NjFCuicieY2ApaIe1H0YDkDfge+ypiiEqBtP+Ir0mBjr82kL
+ RQykojQAZJ7qF0pAqZYgKlFWpi2ao+rRANjZ06BLZB/D4ersTNk/z+PbDVLBsu6lgwir dw== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6rhatudq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Aug 2023 03:51:32 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3723pS43022512;
+	Wed, 2 Aug 2023 03:51:28 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3s4uukryxw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 02 Aug 2023 03:51:28 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3723pSSJ022504;
+	Wed, 2 Aug 2023 03:51:28 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-krichai-hyd.qualcomm.com [10.213.110.112])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3723pR5Q022503;
+	Wed, 02 Aug 2023 03:51:28 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 4058933)
+	id 5B7344B59; Wed,  2 Aug 2023 09:21:27 +0530 (+0530)
+From: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+To: manivannan.sadhasivam@linaro.org
+Cc: helgaas@kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
+        quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
+        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        mhi@lists.linux.dev (open list:MHI BUS)
+Subject: [PATCH v5 4/4] PCI: epf-mhi: Add support for handling D-state notify from EPC
+Date: Wed,  2 Aug 2023 09:21:21 +0530
+Message-Id: <1690948281-2143-5-git-send-email-quic_krichai@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1690948281-2143-1-git-send-email-quic_krichai@quicinc.com>
+References: <1690948281-2143-1-git-send-email-quic_krichai@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: BstDsv_bIAOsUCh53GyUGQ2obw2nsynp
+X-Proofpoint-ORIG-GUID: BstDsv_bIAOsUCh53GyUGQ2obw2nsynp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-02_01,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 clxscore=1015 impostorscore=0 spamscore=0
+ bulkscore=0 phishscore=0 mlxlogscore=776 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308020033
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a6ca984-9797-88b1-ae12-c64916f6c61c@quicinc.com>
 
-On Tue, Aug 01, 2023 at 10:31:42AM +0530, Krishna Chaitanya Chundru wrote:
-> 
-> On 7/31/2023 11:05 AM, Krishna Chaitanya Chundru wrote:
-> > 
-> > On 7/28/2023 9:39 AM, Manivannan Sadhasivam wrote:
-> > > On Thu, Jul 13, 2023 at 12:40:12PM +0530, Krishna chaitanya chundru
-> > > wrote:
-> > > > Add support for handling D-state notify for MHI EPF.
-> > > > 
-> > > > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> > > > ---
-> > > >   drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
-> > > >   include/linux/mhi_ep.h                       |  3 +++
-> > > >   2 files changed, 14 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > > > b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > > > index 9c1f5a1..ee91bfc 100644
-> > > > --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > > > +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > > > @@ -339,6 +339,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
-> > > >       return 0;
-> > > >   }
-> > > >   +static int pci_epf_mhi_dstate_notify(struct pci_epf *epf,
-> > > > pci_power_t state)
-> > > > +{
-> > > > +    struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> > > > +    struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-> > > > +
-> > > > +    mhi_cntrl->dstate = state;
-> > > Where is this variable being used? Also, don't we need any locking?
-> > > 
-> > > - Mani
-> > 
-> > we are using this variable in wakeup host op which is introduced on
-> > patch [PATCH v4 8/9] PCI: epf-mhi: Add wakeup host op
-> > 
-> > I will add lock in my next series.
-> > 
-> > - KC
-> 
-> Mani, as this is being called from IRQ context do we need to add any lock
-> here.
-> 
+Add support for handling D-state notify for MHI EPF.
 
-Notifiers are invoked in process context. And here, the context doesn't matter
-as either way you need locking to prevent concurrent access to dstate variable.
+Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
+ include/linux/mhi_ep.h                       |  3 +++
+ 2 files changed, 14 insertions(+)
 
-But I think it is safe to ignore lock for now provided that wakeup_host callback
-is only called while MHI is in M3 state. Even if dstate changes while processing
-wakeup_host, it won't affect the behavior.
-
-- Mani
-
-> - KC
-> 
-> > 
-> > > 
-> > > > +
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > >   static int pci_epf_mhi_bind(struct pci_epf *epf)
-> > > >   {
-> > > >       struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-> > > > @@ -394,6 +404,7 @@ static struct pci_epc_event_ops
-> > > > pci_epf_mhi_event_ops = {
-> > > >       .link_up = pci_epf_mhi_link_up,
-> > > >       .link_down = pci_epf_mhi_link_down,
-> > > >       .bme = pci_epf_mhi_bme,
-> > > > +    .dstate_notify = pci_epf_mhi_dstate_notify,
-> > > >   };
-> > > >     static int pci_epf_mhi_probe(struct pci_epf *epf,
-> > > > diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-> > > > index f198a8a..c3a0685 100644
-> > > > --- a/include/linux/mhi_ep.h
-> > > > +++ b/include/linux/mhi_ep.h
-> > > > @@ -8,6 +8,7 @@
-> > > >     #include <linux/dma-direction.h>
-> > > >   #include <linux/mhi.h>
-> > > > +#include <linux/pci.h>
-> > > >     #define MHI_EP_DEFAULT_MTU 0x8000
-> > > >   @@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
-> > > >         enum mhi_state mhi_state;
-> > > >   +    pci_power_t dstate;
-> > > > +
-> > > >       u32 max_chan;
-> > > >       u32 mru;
-> > > >       u32 event_rings;
-> > > > -- 
-> > > > 2.7.4
-> > > > 
-> > 
-
+diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+index 9c1f5a1..ee91bfc 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
++++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+@@ -339,6 +339,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
+ 	return 0;
+ }
+ 
++static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
++{
++	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
++	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
++
++	mhi_cntrl->dstate = state;
++
++	return 0;
++}
++
+ static int pci_epf_mhi_bind(struct pci_epf *epf)
+ {
+ 	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+@@ -394,6 +404,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
+ 	.link_up = pci_epf_mhi_link_up,
+ 	.link_down = pci_epf_mhi_link_down,
+ 	.bme = pci_epf_mhi_bme,
++	.dstate_notify = pci_epf_mhi_dstate_notify,
+ };
+ 
+ static int pci_epf_mhi_probe(struct pci_epf *epf,
+diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+index f198a8a..c3a0685 100644
+--- a/include/linux/mhi_ep.h
++++ b/include/linux/mhi_ep.h
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/dma-direction.h>
+ #include <linux/mhi.h>
++#include <linux/pci.h>
+ 
+ #define MHI_EP_DEFAULT_MTU 0x8000
+ 
+@@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
+ 
+ 	enum mhi_state mhi_state;
+ 
++	pci_power_t dstate;
++
+ 	u32 max_chan;
+ 	u32 mru;
+ 	u32 event_rings;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.7.4
+
