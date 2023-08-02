@@ -1,30 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E876FAB
-	for <mhi@lists.linux.dev>; Wed,  2 Aug 2023 11:01:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD74C433C7;
-	Wed,  2 Aug 2023 11:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1DD6FC4
+	for <mhi@lists.linux.dev>; Wed,  2 Aug 2023 11:07:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA3CC433C7;
+	Wed,  2 Aug 2023 11:07:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690974082;
-	bh=XKuLTtq7vHM7OrcnA+bCh8OFj1zxjB+o9QgZMTt1OJ0=;
+	s=k20201202; t=1690974469;
+	bh=wrmaodfGzLPH3aCxqHaxRauSI3aslaJU0Se3l6Z1ikQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ApfwCvXImiiCS2oCn28D8X7MQR/dQNtUoV85WTzzIhi3hq4SiAKxpS2gZdXJqhvX+
-	 TCJkcO4/BRpyHzFNAWo+D5fLWA4lNmy4+ce1a8rh1qb/OzLmJaK3zovZBFW88cQa5b
-	 Q79fg1jtM4mBgserT4VOXFlbiDiRYDl1R2tdGxV38Er/3DtMCdhSxUSeupJjMejuSw
-	 kp8Z7IwcMy8E7aPyvtViEYjdImL6amh7V8n3qDlDAhdO0boGb4ypp1Kf3lpuZVoJIB
-	 tIhDkm5xyqi0WlmDZNvsLIoyqqM1B+7MK0SJO4mk6UsDP5L4IwOHxyEUzNXvMw1Otj
-	 FvsAg5DUERgAA==
-Date: Wed, 2 Aug 2023 16:31:10 +0530
+	b=m19LYYgozctwtVrp5E/HMLDced/XRH5+2SKUT3GOwFeGdC1HOZbB5tdmDbYHSvQlB
+	 XMYQved5y0O1obGpOjD01f5ftDypuPIbRN7U2XnbA0WIMfAzhwU7MJ8cstJU5/cNIi
+	 avama0J0bsMBlkTgHb/UMZmT908LqFpqEeqGrMh15IiizkLJFbLV11mzTiUJZnJvGs
+	 cG/O7vbKGVxCg+f47qTq7N++u5422VwuCnn01QeUh3+RCSPASzP882Kkn58eK1k9Y6
+	 +5op32Ua3EsNdXZihAeZ5MT2X0ga2C7U1QPhPLbLUYgXZ5XTAlzayOucQtcbYYjGVo
+	 OqHsRZVfDRmVw==
+Date: Wed, 2 Aug 2023 16:37:36 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kalle Valo <kvalo@kernel.org>
-Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] bus: mhi: host: allow MHI client drivers to
- provide the firmware via a pointer
-Message-ID: <20230802110110.GD57374@thinkpad>
-References: <20230727100430.3603551-1-kvalo@kernel.org>
- <20230727100430.3603551-2-kvalo@kernel.org>
+To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>
+Cc: mani@kernel.org, loic.poulain@linaro.org, slark_xiao@163.com,
+	fabio.porcedda@gmail.com, koen.vandeputte@citymesh.com,
+	bhelgaas@google.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, jerry.meng@quectel.com,
+	duke.xin@quectel.com
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for Lenovo
+ RM520N-GL
+Message-ID: <20230802110736.GE57374@thinkpad>
+References: <20230728014702.25775-1-duke_xinanwen@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -34,164 +36,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230727100430.3603551-2-kvalo@kernel.org>
+In-Reply-To: <20230728014702.25775-1-duke_xinanwen@163.com>
 
-On Thu, Jul 27, 2023 at 01:04:28PM +0300, Kalle Valo wrote:
-> From: Kalle Valo <quic_kvalo@quicinc.com>
-> 
-> Currently MHI loads the firmware image from the path provided by client
-> devices. ath11k needs to support firmware image embedded along with meta data
-> (named as firmware-2.bin). So allow the client driver to request the firmware
-> file from user space on it's own and provide the firmware image data and size
-> to MHI via a pointer struct mhi_controller::fw_data.
-> 
-> This is an optional feature, if fw_data is NULL MHI load the firmware using the
-> name from struct mhi_controller::fw_image string as before.
-> 
-> Tested with ath11k and WCN6855 hw2.0.
-> 
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+On Thu, Jul 27, 2023 at 06:47:02PM -0700, Duke Xin(辛安文) wrote:
 
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+It is a Quectel modem, right? Then it should be mentioned as Quectel in subject.
 
-I can apply this for 6.6 and then you can merge ath11k changes for 6.7. But if
-you want all of these patches to be applied for 6.6, then we can go with an
-immutable branch.
+> This modem is designed based on Qualcomm SDX6x and it will align with the quectel previous RM520N-GL modem settings.
 
-Let me know!
+s/it will align/works
+
+s/quectel previous/Quectel's existing
+
+> But this one is designed for lenovo laptop usecase, hence Quectel got a new PID.
+> 
+
+Also, wrap the commit message to 75 columns. And always run
+./scripts/checkpatch.pl and fix warnings/errors before posting a patch.
 
 - Mani
 
+> Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
 > ---
->  drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
->  include/linux/mhi.h         |  6 ++++++
->  2 files changed, 31 insertions(+), 9 deletions(-)
+>  drivers/bus/mhi/host/pci_generic.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index d2a19b07ccb8..edc0ec5a0933 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  }
->  
->  static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
-> -			      const struct firmware *firmware,
-> +			      const u8 *buf, size_t remainder,
->  			      struct image_info *img_info)
->  {
-> -	size_t remainder = firmware->size;
->  	size_t to_cpy;
-> -	const u8 *buf = firmware->data;
->  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
->  	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
->  
-> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	enum mhi_pm_state new_state;
->  	const char *fw_name;
-> +	const u8 *fw_data;
->  	void *buf;
->  	dma_addr_t dma_addr;
-> -	size_t size;
-> +	size_t size, fw_sz;
->  	int i, ret;
->  
->  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
->  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
->  
-> +	/* check if the driver has already provided the firmware data */
-> +	if (!fw_name && mhi_cntrl->fbc_download &&
-> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
-> +		if (!mhi_cntrl->sbl_size) {
-> +			dev_err(dev, "fw_data provided but no sbl_size\n");
-> +			goto error_fw_load;
-> +		}
-> +
-> +		size = mhi_cntrl->sbl_size;
-> +		fw_data = mhi_cntrl->fw_data;
-> +		fw_sz = mhi_cntrl->fw_sz;
-> +		goto skip_req_fw;
-> +	}
-> +
->  	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
->  						     !mhi_cntrl->seg_len))) {
->  		dev_err(dev,
-> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	if (size > firmware->size)
->  		size = firmware->size;
->  
-> +	fw_data = firmware->data;
-> +	fw_sz = firmware->size;
-> +
-> +skip_req_fw:
->  	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
->  				 GFP_KERNEL);
->  	if (!buf) {
-> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	}
->  
->  	/* Download image using BHI */
-> -	memcpy(buf, firmware->data, size);
-> +	memcpy(buf, fw_data, size);
->  	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
->  	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
->  
-> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	}
->  
->  	/* Wait for ready since EDL image was loaded */
-> -	if (fw_name == mhi_cntrl->edl_image) {
-> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
->  		release_firmware(firmware);
->  		goto fw_load_ready_state;
->  	}
-> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	 * device transitioning into MHI READY state
->  	 */
->  	if (mhi_cntrl->fbc_download) {
-> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
-> -					   firmware->size);
-> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
->  		if (ret) {
->  			release_firmware(firmware);
->  			goto error_fw_load;
->  		}
->  
->  		/* Load the firmware into BHIE vec table */
-> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
-> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
->  	}
->  
->  	release_firmware(firmware);
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index f6de4b6ecfc7..039943ec4d4e 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -299,6 +299,10 @@ struct mhi_controller_config {
->   * @iova_start: IOMMU starting address for data (required)
->   * @iova_stop: IOMMU stop address for data (required)
->   * @fw_image: Firmware image name for normal booting (optional)
-> + * @fw_data: Firmware image data content for normal booting, used only
-> + *           if fw_image is NULL and fbc_download is true (optional)
-> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
-> + *         is NULL and fbc_download is true (optional)
->   * @edl_image: Firmware image name for emergency download mode (optional)
->   * @rddm_size: RAM dump size that host should allocate for debugging purpose
->   * @sbl_size: SBL image size downloaded through BHIe (optional)
-> @@ -384,6 +388,8 @@ struct mhi_controller {
->  	dma_addr_t iova_start;
->  	dma_addr_t iova_stop;
->  	const char *fw_image;
-> +	const u8 *fw_data;
-> +	size_t fw_sz;
->  	const char *edl_image;
->  	size_t rddm_size;
->  	size_t sbl_size;
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index fcd80bc92978..e4f2fb67dfaf 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -604,6 +604,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  	/* RM520N-GL (sdx6x), eSIM */
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1004),
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
+> +	/* RM520N-GL (sdx6x), Lenovo variant */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1007),
+> +		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d), /* EM160R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
 > -- 
-> 2.39.2
-> 
+> 2.25.1
 > 
 
 -- 
