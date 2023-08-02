@@ -1,133 +1,198 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BA8EBF
-	for <mhi@lists.linux.dev>; Wed,  2 Aug 2023 05:00:35 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3724Ocq7011834;
-	Wed, 2 Aug 2023 05:00:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=oq08dOdJIMrBEaDeXRX53aYvb1ypUTiaIeDjdb1iInM=;
- b=lg6QdVtlmU5VVOUIs9Q75nPDAOOOroocwsAwudMgNfPLuQXunUX3x95EGHeSAnYTbDJp
- sMglg2iBf3M5x2q0sSd6+dGBvXrOai19lu9Ff5x+Z2rD6oTA6b7GZzTxCdtPu5leeDkO
- Nl3vP8pRt/DfJl3a5ry/RZaRWAKZtQ1f1AN3j64QzXKrEgrQP4oz6xZAdpql07yLhPyI
- rj+8SMmgnhyK36l1WqWCxNwgYPM/ZSwCUvHrqAkp+jL0r5OACmLtTD4zViOvjGb6aptW
- IDdwNGJ2xUniyA17pPNRuw+J/UkeHyXLGNbe8jNwh58PltBU5rlwIlSo/EC0E7wJ6ON9 4w== 
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s7fre037m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Aug 2023 05:00:16 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 37250DJQ023276;
-	Wed, 2 Aug 2023 05:00:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3s4uukd960-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 02 Aug 2023 05:00:13 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37250Crg023266;
-	Wed, 2 Aug 2023 05:00:12 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-krichai-hyd.qualcomm.com [10.213.110.112])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 37250CbJ023265;
-	Wed, 02 Aug 2023 05:00:12 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 4058933)
-	id CFA8B4B59; Wed,  2 Aug 2023 10:30:11 +0530 (+0530)
-From: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-To: manivannan.sadhasivam@linaro.org
-Cc: helgaas@kernel.org, linux-pci@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
-        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
-        quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
-        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mhi@lists.linux.dev (open list:MHI BUS)
-Subject: [PATCH v5 5/5] bus: mhi: ep: wake up host if the MHI state is in M3
-Date: Wed,  2 Aug 2023 10:29:19 +0530
-Message-Id: <1690952359-8625-6-git-send-email-quic_krichai@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1690952359-8625-1-git-send-email-quic_krichai@quicinc.com>
-References: <1690952359-8625-1-git-send-email-quic_krichai@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: DClo9cbYKnJB2DOf7VdGkt6EuVUak_7J
-X-Proofpoint-ORIG-GUID: DClo9cbYKnJB2DOf7VdGkt6EuVUak_7J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-02_02,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015
- mlxlogscore=937 bulkscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2308020044
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E876FAB
+	for <mhi@lists.linux.dev>; Wed,  2 Aug 2023 11:01:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD74C433C7;
+	Wed,  2 Aug 2023 11:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690974082;
+	bh=XKuLTtq7vHM7OrcnA+bCh8OFj1zxjB+o9QgZMTt1OJ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ApfwCvXImiiCS2oCn28D8X7MQR/dQNtUoV85WTzzIhi3hq4SiAKxpS2gZdXJqhvX+
+	 TCJkcO4/BRpyHzFNAWo+D5fLWA4lNmy4+ce1a8rh1qb/OzLmJaK3zovZBFW88cQa5b
+	 Q79fg1jtM4mBgserT4VOXFlbiDiRYDl1R2tdGxV38Er/3DtMCdhSxUSeupJjMejuSw
+	 kp8Z7IwcMy8E7aPyvtViEYjdImL6amh7V8n3qDlDAhdO0boGb4ypp1Kf3lpuZVoJIB
+	 tIhDkm5xyqi0WlmDZNvsLIoyqqM1B+7MK0SJO4mk6UsDP5L4IwOHxyEUzNXvMw1Otj
+	 FvsAg5DUERgAA==
+Date: Wed, 2 Aug 2023 16:31:10 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: allow MHI client drivers to
+ provide the firmware via a pointer
+Message-ID: <20230802110110.GD57374@thinkpad>
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+ <20230727100430.3603551-2-kvalo@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230727100430.3603551-2-kvalo@kernel.org>
 
-If the MHI state is in M3 then most probably the host kept the
-device in D3 hot or D3 cold, due to that endpoint transactions will not
-be read by the host, endpoint needs to wakes up the host to bring the
-host to D0 which eventually bring back the MHI state to M0.
+On Thu, Jul 27, 2023 at 01:04:28PM +0300, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
+> 
+> Currently MHI loads the firmware image from the path provided by client
+> devices. ath11k needs to support firmware image embedded along with meta data
+> (named as firmware-2.bin). So allow the client driver to request the firmware
+> file from user space on it's own and provide the firmware image data and size
+> to MHI via a pointer struct mhi_controller::fw_data.
+> 
+> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+> name from struct mhi_controller::fw_image string as before.
+> 
+> Tested with ath11k and WCN6855 hw2.0.
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
----
- drivers/bus/mhi/ep/main.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 6008818..9035e02 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -25,6 +25,26 @@ static DEFINE_IDA(mhi_ep_cntrl_ida);
- static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id);
- static int mhi_ep_destroy_device(struct device *dev, void *data);
- 
-+static int mhi_ep_wake_host(struct mhi_ep_cntrl *mhi_cntrl)
-+{
-+	enum mhi_state state;
-+	bool mhi_reset;
-+	u32 count = 0;
-+
-+	mhi_cntrl->wakeup_host(mhi_cntrl);
-+
-+	/* Wait for Host to set the M0 state */
-+	while (count++ < M0_WAIT_COUNT) {
-+		msleep(M0_WAIT_DELAY_MS);
-+
-+		mhi_ep_mmio_get_mhi_state(mhi_cntrl, &state, &mhi_reset);
-+		if (state == MHI_STATE_M0)
-+			return 0;
-+	}
-+
-+	return -ENODEV;
-+}
-+
- static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
- 			     struct mhi_ring_element *el, bool bei)
- {
-@@ -466,6 +486,14 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
- 
- 	mutex_lock(&mhi_chan->lock);
- 
-+	if (mhi_cntrl->mhi_state == MHI_STATE_M3) {
-+		ret = mhi_ep_wake_host(mhi_cntrl);
-+		if (ret) {
-+			dev_err(dev, "Failed to wakeup host\n");
-+			goto err_exit;
-+		}
-+	}
-+
- 	do {
- 		/* Don't process the transfer ring if the channel is not in RUNNING state */
- 		if (mhi_chan->state != MHI_CH_STATE_RUNNING) {
+I can apply this for 6.6 and then you can merge ath11k changes for 6.7. But if
+you want all of these patches to be applied for 6.6, then we can go with an
+immutable branch.
+
+Let me know!
+
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
+>  include/linux/mhi.h         |  6 ++++++
+>  2 files changed, 31 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index d2a19b07ccb8..edc0ec5a0933 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  }
+>  
+>  static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
+> -			      const struct firmware *firmware,
+> +			      const u8 *buf, size_t remainder,
+>  			      struct image_info *img_info)
+>  {
+> -	size_t remainder = firmware->size;
+>  	size_t to_cpy;
+> -	const u8 *buf = firmware->data;
+>  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
+>  	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
+>  
+> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>  	enum mhi_pm_state new_state;
+>  	const char *fw_name;
+> +	const u8 *fw_data;
+>  	void *buf;
+>  	dma_addr_t dma_addr;
+> -	size_t size;
+> +	size_t size, fw_sz;
+>  	int i, ret;
+>  
+>  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
+>  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
+>  
+> +	/* check if the driver has already provided the firmware data */
+> +	if (!fw_name && mhi_cntrl->fbc_download &&
+> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
+> +		if (!mhi_cntrl->sbl_size) {
+> +			dev_err(dev, "fw_data provided but no sbl_size\n");
+> +			goto error_fw_load;
+> +		}
+> +
+> +		size = mhi_cntrl->sbl_size;
+> +		fw_data = mhi_cntrl->fw_data;
+> +		fw_sz = mhi_cntrl->fw_sz;
+> +		goto skip_req_fw;
+> +	}
+> +
+>  	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
+>  						     !mhi_cntrl->seg_len))) {
+>  		dev_err(dev,
+> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	if (size > firmware->size)
+>  		size = firmware->size;
+>  
+> +	fw_data = firmware->data;
+> +	fw_sz = firmware->size;
+> +
+> +skip_req_fw:
+>  	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
+>  				 GFP_KERNEL);
+>  	if (!buf) {
+> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Download image using BHI */
+> -	memcpy(buf, firmware->data, size);
+> +	memcpy(buf, fw_data, size);
+>  	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
+>  	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
+>  
+> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Wait for ready since EDL image was loaded */
+> -	if (fw_name == mhi_cntrl->edl_image) {
+> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
+>  		release_firmware(firmware);
+>  		goto fw_load_ready_state;
+>  	}
+> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (mhi_cntrl->fbc_download) {
+> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+> -					   firmware->size);
+> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+>  			goto error_fw_load;
+>  		}
+>  
+>  		/* Load the firmware into BHIE vec table */
+> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
+> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+>  	}
+>  
+>  	release_firmware(firmware);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index f6de4b6ecfc7..039943ec4d4e 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -299,6 +299,10 @@ struct mhi_controller_config {
+>   * @iova_start: IOMMU starting address for data (required)
+>   * @iova_stop: IOMMU stop address for data (required)
+>   * @fw_image: Firmware image name for normal booting (optional)
+> + * @fw_data: Firmware image data content for normal booting, used only
+> + *           if fw_image is NULL and fbc_download is true (optional)
+> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+> + *         is NULL and fbc_download is true (optional)
+>   * @edl_image: Firmware image name for emergency download mode (optional)
+>   * @rddm_size: RAM dump size that host should allocate for debugging purpose
+>   * @sbl_size: SBL image size downloaded through BHIe (optional)
+> @@ -384,6 +388,8 @@ struct mhi_controller {
+>  	dma_addr_t iova_start;
+>  	dma_addr_t iova_stop;
+>  	const char *fw_image;
+> +	const u8 *fw_data;
+> +	size_t fw_sz;
+>  	const char *edl_image;
+>  	size_t rddm_size;
+>  	size_t sbl_size;
+> -- 
+> 2.39.2
+> 
+> 
+
 -- 
-2.7.4
-
+மணிவண்ணன் சதாசிவம்
