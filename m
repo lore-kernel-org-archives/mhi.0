@@ -1,215 +1,84 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183DB5382
-	for <mhi@lists.linux.dev>; Fri,  4 Aug 2023 06:41:00 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1bb8a89b975so11874885ad.1
-        for <mhi@lists.linux.dev>; Thu, 03 Aug 2023 23:41:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C755A929
+	for <mhi@lists.linux.dev>; Fri,  4 Aug 2023 09:52:10 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1bc3bec2c95so13691225ad.0
+        for <mhi@lists.linux.dev>; Fri, 04 Aug 2023 02:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691131260; x=1691736060;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uTvrtGm9omTNndYE3JOrnTDMBnw5b0qfWu1gksrG4sA=;
-        b=bi7VaxN6DhwhtQXB/TUpFTkTl/gRFZNdenaA1nos0nIyhzVvWqdrCXIf8JnqyCM+54
-         zliSb7mshRlVtYLM3aNiPlxjGICBivz6AQG8HZzoD6qQJZY9QM1mhXmWtzXnze0RSSuo
-         Q2U76NLVfTSFoeKq9o+l7B2HYlFJraukN68XFfwK63rAz4MqdHeGba4JPQqSNbyblkHt
-         ibC0/HTZ/Zq/o4uoN+6bNaC8E2IoFXTAxcfrRxjm/hZS8nglIdQST/Ku1DCclKsiskNZ
-         dPeqiDTYFI6AQ+YAGDCD9NpepafmJbljY0upahkUafdVxgsKPT5h2TiqaEYXOiKT1mey
-         Rqaw==
+        d=gmail.com; s=20221208; t=1691142730; x=1691747530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ztEtGsHv8LUsy3rYuXtTs4zJ+h/bmJ//A4c7nlgI5hw=;
+        b=DF4vOh9oYjsGO5mn6q0HtK0qqUgf67d94y1xNpqbMUE5/ZlvETU4qywX2jSiq2IJdb
+         x0xvfCu3TwzjRUiH25JAogM+QJZ2hrT/p4NUXShuFTwm1OqqCAMaGeo3OC2+kbMrdDyN
+         tzjgB/w51/f13PYfMIIKiHNDfp7DWSsFnKhN1CcFWUsjkjjS5SSSTUwixiIu83+jqcao
+         vfP4bAGcC1xaw0ENAnJGRDfD8Wa8DFq4Ga22c2T0M6Dmy64N1NlrK+BhXPAemHj2j7rP
+         6uS9t+eEqAO4qqLpYoVNkAtr1O7whwMHAUXwNFKXcC3/YIvRJN5o5tiEJ62Om8aphw8/
+         udVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691131260; x=1691736060;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uTvrtGm9omTNndYE3JOrnTDMBnw5b0qfWu1gksrG4sA=;
-        b=DVhOdjLoON4n9zJP7F+zWlooMqcD5SCYagXw3lnt8SqNikbuIJqC9GlpmZ+H83OLt8
-         02Xt38d5J2mGaaeYynGZT69Ek/BtntIoIxH+AWuJaZcXHUVeKUYeVB3Xvo9x8kpuRpae
-         R47LxmmqWOhucOcCo+7bVbMeqO/Q2oegJ5dNdWis4G5cRTrolHAVKCpLjwcX+fAqqWex
-         MQceefTaVhpuQZ0AvzTc1HqCNm5gXb3v5ZkgD6FvuWfg2RV9l7F0TyAOq4Pd/EUqCceh
-         RDH3BcATtz9lra9r3mtWcvCOK8JRhjirmUoVzdoqVMaousXF7mhdEpAhkI6aBrJUoroM
-         EwhQ==
-X-Gm-Message-State: AOJu0YzOgOzfxGsN47X+Nq/F7sgqzsL+D1dApfRPjHAzLQwK0gOzvXvk
-	5DQSMAOCXQQZc8Y6zKmOUDNU
-X-Google-Smtp-Source: AGHT+IHc+yUaZUEKBeCJBB+ETgv1hAlQDqN5i4J03Rw8pg812GZIs+szUUub60VQdRC6HXKVjM+SNQ==
-X-Received: by 2002:a17:902:b70e:b0:1b8:a812:7bc2 with SMTP id d14-20020a170902b70e00b001b8a8127bc2mr745947pls.8.1691131260198;
-        Thu, 03 Aug 2023 23:41:00 -0700 (PDT)
-Received: from thinkpad ([103.28.246.156])
-        by smtp.gmail.com with ESMTPSA id j3-20020a170902c3c300b001b9cf6342e2sm936473plj.42.2023.08.03.23.40.58
+        d=1e100.net; s=20221208; t=1691142730; x=1691747530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ztEtGsHv8LUsy3rYuXtTs4zJ+h/bmJ//A4c7nlgI5hw=;
+        b=P+7TO4NIP5Dw/CahBy7L+Xb7tVJ5tzjFmJc47ew1000yAMMzWf/aOyhh0zZ7ztsnNW
+         tYs7urVnFykUc71USGjdJ0KcePZJsofjZ2EsglfTyHoeDQRyuw8FIxzrymWEWpLSopW+
+         FVZACQNryJ2PXIm9ZU20RIsk1NnO+GnAZwAWR1QwZfpDsFryJjn2YtukMWbc+lPMe1iT
+         4CtIXO2cfT/EiiIOPRMSz72F0sfjQG1515J0NbXNztnQfL9uAU6mfK5zV+qQxZBLKlTj
+         W6S2KHwXgslWg1ck6CDayLyNefGKH+Y9BY5vDb+dcpUFEDs3wGnu1cXZYH9OgTGsbeHh
+         vOfA==
+X-Gm-Message-State: AOJu0YymCWQhRjQ/8IPdD42tdGY0x86Mj0p4vTrsBXP4ExH3ZhbHLRE5
+	Bd5KzvFQYloGc0WYnf0P0k4=
+X-Google-Smtp-Source: AGHT+IE/WipBRcaU+FY6R8C3CdC0fD2YKmltWH+7ElgTn4fIfxyJjtfY+77F/BZaTL1oP+sWFDhhCw==
+X-Received: by 2002:a17:902:f54b:b0:1bc:4df5:8bfe with SMTP id h11-20020a170902f54b00b001bc4df58bfemr1768138plf.20.1691142730365;
+        Fri, 04 Aug 2023 02:52:10 -0700 (PDT)
+Received: from ThinkStation-P340.tmt.telital.com ([2a01:7d0:4800:7:ed2b:eb02:183:4c01])
+        by smtp.gmail.com with ESMTPSA id ja4-20020a170902efc400b001b8013ed362sm1344866plb.96.2023.08.04.02.52.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 23:40:59 -0700 (PDT)
-Date: Fri, 4 Aug 2023 12:10:56 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Kalle Valo <kvalo@kernel.org>
-Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] bus: mhi: host: allow MHI client drivers to
- provide the firmware via a pointer
-Message-ID: <20230804064056.GA24883@thinkpad>
-References: <20230727100430.3603551-1-kvalo@kernel.org>
- <20230727100430.3603551-2-kvalo@kernel.org>
+        Fri, 04 Aug 2023 02:52:08 -0700 (PDT)
+From: Daniele Palmas <dnlplm@gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	Daniele Palmas <dnlplm@gmail.com>
+Subject: [PATCH 1/1] bus: mhi: host: pci_generic: add support for Telit FE990
+Date: Fri,  4 Aug 2023 11:40:39 +0200
+Message-Id: <20230804094039.365102-1-dnlplm@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230727100430.3603551-2-kvalo@kernel.org>
 
-On Thu, Jul 27, 2023 at 01:04:28PM +0300, Kalle Valo wrote:
-> From: Kalle Valo <quic_kvalo@quicinc.com>
-> 
-> Currently MHI loads the firmware image from the path provided by client
-> devices. ath11k needs to support firmware image embedded along with meta data
-> (named as firmware-2.bin). So allow the client driver to request the firmware
-> file from user space on it's own and provide the firmware image data and size
-> to MHI via a pointer struct mhi_controller::fw_data.
-> 
-> This is an optional feature, if fw_data is NULL MHI load the firmware using the
-> name from struct mhi_controller::fw_image string as before.
-> 
-> Tested with ath11k and WCN6855 hw2.0.
-> 
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+Add support for Telit FE990 that has the same configuration than FN990:
 
-Applied to mhi-next!
+$ lspci -vv
+04:00.0 Unassigned class [ff00]: Qualcomm Device 0308
+    Subsystem: Device 1c5d:2015
 
-- Mani
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> ---
->  drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
->  include/linux/mhi.h         |  6 ++++++
->  2 files changed, 31 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index d2a19b07ccb8..edc0ec5a0933 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  }
->  
->  static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
-> -			      const struct firmware *firmware,
-> +			      const u8 *buf, size_t remainder,
->  			      struct image_info *img_info)
->  {
-> -	size_t remainder = firmware->size;
->  	size_t to_cpy;
-> -	const u8 *buf = firmware->data;
->  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
->  	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
->  
-> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	enum mhi_pm_state new_state;
->  	const char *fw_name;
-> +	const u8 *fw_data;
->  	void *buf;
->  	dma_addr_t dma_addr;
-> -	size_t size;
-> +	size_t size, fw_sz;
->  	int i, ret;
->  
->  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
-> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
->  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
->  
-> +	/* check if the driver has already provided the firmware data */
-> +	if (!fw_name && mhi_cntrl->fbc_download &&
-> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
-> +		if (!mhi_cntrl->sbl_size) {
-> +			dev_err(dev, "fw_data provided but no sbl_size\n");
-> +			goto error_fw_load;
-> +		}
-> +
-> +		size = mhi_cntrl->sbl_size;
-> +		fw_data = mhi_cntrl->fw_data;
-> +		fw_sz = mhi_cntrl->fw_sz;
-> +		goto skip_req_fw;
-> +	}
-> +
->  	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
->  						     !mhi_cntrl->seg_len))) {
->  		dev_err(dev,
-> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	if (size > firmware->size)
->  		size = firmware->size;
->  
-> +	fw_data = firmware->data;
-> +	fw_sz = firmware->size;
-> +
-> +skip_req_fw:
->  	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
->  				 GFP_KERNEL);
->  	if (!buf) {
-> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	}
->  
->  	/* Download image using BHI */
-> -	memcpy(buf, firmware->data, size);
-> +	memcpy(buf, fw_data, size);
->  	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
->  	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
->  
-> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	}
->  
->  	/* Wait for ready since EDL image was loaded */
-> -	if (fw_name == mhi_cntrl->edl_image) {
-> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
->  		release_firmware(firmware);
->  		goto fw_load_ready_state;
->  	}
-> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	 * device transitioning into MHI READY state
->  	 */
->  	if (mhi_cntrl->fbc_download) {
-> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
-> -					   firmware->size);
-> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
->  		if (ret) {
->  			release_firmware(firmware);
->  			goto error_fw_load;
->  		}
->  
->  		/* Load the firmware into BHIE vec table */
-> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
-> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
->  	}
->  
->  	release_firmware(firmware);
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index f6de4b6ecfc7..039943ec4d4e 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -299,6 +299,10 @@ struct mhi_controller_config {
->   * @iova_start: IOMMU starting address for data (required)
->   * @iova_stop: IOMMU stop address for data (required)
->   * @fw_image: Firmware image name for normal booting (optional)
-> + * @fw_data: Firmware image data content for normal booting, used only
-> + *           if fw_image is NULL and fbc_download is true (optional)
-> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
-> + *         is NULL and fbc_download is true (optional)
->   * @edl_image: Firmware image name for emergency download mode (optional)
->   * @rddm_size: RAM dump size that host should allocate for debugging purpose
->   * @sbl_size: SBL image size downloaded through BHIe (optional)
-> @@ -384,6 +388,8 @@ struct mhi_controller {
->  	dma_addr_t iova_start;
->  	dma_addr_t iova_stop;
->  	const char *fw_image;
-> +	const u8 *fw_data;
-> +	size_t fw_sz;
->  	const char *edl_image;
->  	size_t rddm_size;
->  	size_t sbl_size;
-> -- 
-> 2.39.2
-> 
-> 
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index fcd80bc92978..676f3ae33ae9 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -595,6 +595,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* Telit FN990 */
+ 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
++	/* Telit FE990, same configuration than FN990 */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2015),
++		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
 -- 
-மணிவண்ணன் சதாசிவம்
+2.37.1
+
