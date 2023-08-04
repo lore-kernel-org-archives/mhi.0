@@ -1,179 +1,215 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2088.outbound.protection.outlook.com [40.107.255.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3461118
-	for <mhi@lists.linux.dev>; Fri,  4 Aug 2023 03:34:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3/7jy75CqhvxG3cCW5r5xAijEF+dZ5FtzJAZWTAroVCJSHGWKr9eX4yQ/IH6qkIZ7XHoLOGjRoVl1KzoYvcVmIFGjQWBEkgpe+unZgHHqeDTEpvSZg4JKvbDNCIllzYcNzq/kXI5d9o2oNqCoAhfvdtxXfXXF2bqfGgLZp/5pDVPlv2QyNi96Y5VfvpaPJF4kY3/UM0uPjDn2kMzI3DFmdkCgpCGVAjGr0sVuAiXCrtiP9thp/Y/cK3nB5Go2MGtFw14wB6eRdccB64i9Sl35qo4umuX0y+fH9og7EhUAO3pMUCYmE7yVNAV5L3/dAPXynwq8bpyYrfS2dDmkQMtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7wK4r1KejdKy96DoGKZIS7v7tTFr1anZbWMOqhguDBM=;
- b=d7h0JP6i7x/OahyGHeDLtFzrJCQ476s+A9j6d78mhE9Jxnf6MJZFTWZSJ8yE6DBI1uJ1jRvwp3/6uLHjBLltoNQRAre96OtKxCqQ+JKmLbegPp8IdzARO1TuwYVbQ1bPmqeVgU1rIs+ccCm8PacC4yJCBa3EYE13GmAsnpz/9bfTlowqjgCm+aE0zwbXBl7OciNmY5+npwCoonzAf+y/DjaxP7cv5u9dDlU1hJ+IbTA1RwHwLpqtTPDFF84F/vjBGLHNV2TGNGLPzIS3mGZJwYjRAVmGxLNVJz4FPcPP4mJRceSkyPrJPx4jW6dgV0YGE3+4Anae643ZBlYLrI2DiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quectel.com; dmarc=pass action=none header.from=quectel.com;
- dkim=pass header.d=quectel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quectel.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7wK4r1KejdKy96DoGKZIS7v7tTFr1anZbWMOqhguDBM=;
- b=YfyZ9nKEmWysBIo4L3h26whZhgNlEbpvbeu/qVI5qPJ9upbsPVTtHqCNJZwGajpHxlXJ2KPnUddQScDyNICXvDA2/4IdoUpoZBN01MamEJaXNOlNpOdhdppsdIEnup2w9VDvSN7QKJvFzz4sAm1Dwi7qrVMgeyfAkoCgShYIaBg=
-Received: from TY0PR06MB5053.apcprd06.prod.outlook.com (2603:1096:400:1be::13)
- by SG2PR06MB5384.apcprd06.prod.outlook.com (2603:1096:4:1db::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
- 2023 03:34:10 +0000
-Received: from TY0PR06MB5053.apcprd06.prod.outlook.com
- ([fe80::c99a:8bdd:8dc0:bd76]) by TY0PR06MB5053.apcprd06.prod.outlook.com
- ([fe80::c99a:8bdd:8dc0:bd76%6]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
- 03:34:10 +0000
-From: =?utf-8?B?RHVrZSBYaW4o6L6b5a6J5paHKQ==?= <duke.xin@quectel.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	=?utf-8?B?RHVrZSBYaW4o6L6b5a6J5paHKQ==?= <duke_xinanwen@163.com>
-CC: "loic.poulain@linaro.org" <loic.poulain@linaro.org>, "slark_xiao@163.com"
-	<slark_xiao@163.com>, "fabio.porcedda@gmail.com" <fabio.porcedda@gmail.com>,
-	"koen.vandeputte@citymesh.com" <koen.vandeputte@citymesh.com>,
-	"bhelgaas@google.com" <bhelgaas@google.com>, "mhi@lists.linux.dev"
-	<mhi@lists.linux.dev>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, =?utf-8?B?SmVycnkgTWVuZyjokpnmnbAp?=
-	<jerry.meng@quectel.com>
-Subject:
- =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIGJ1czogbWhpOiBob3N0OiBwY2lfZ2VuZXJpYzog?=
- =?utf-8?Q?Add_support_for_Lenovo_RM520N-GL?=
-Thread-Topic: [PATCH] bus: mhi: host: pci_generic: Add support for Lenovo
- RM520N-GL
-Thread-Index: AQHZwPWNQ1QPRvXznU2l5TXTumzuuK/W4SoAgAKlQtA=
-Date: Fri, 4 Aug 2023 03:34:09 +0000
-Message-ID:
- <TY0PR06MB50538D79FDB64A7146CF76888409A@TY0PR06MB5053.apcprd06.prod.outlook.com>
-References:
- <6c4818921554a259795e63d00fd0b8892-8-23kernel.org@g.corp-email.com>
- <20230802110736.GE57374@thinkpad>
-In-Reply-To: <20230802110736.GE57374@thinkpad>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quectel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY0PR06MB5053:EE_|SG2PR06MB5384:EE_
-x-ms-office365-filtering-correlation-id: de239a79-d660-425d-06b6-08db949baa46
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- DcuFc69DBXqoW5ZtaG2KGhYaiORlT2JJKHvlRAVFpIglfQI0H4vgrt0bG7gXXYfPmHoRGky0oi2RR0mseYb2WWBBsWHyBU5Ge09YGwGAH8g7aSBAduLxM7lEYkFmarDxj1rvURPKQri2r63YuVgOC3Hy4CgnxlbDwI7+oTuhwn/v/NLWNt7NUB9lpaX9AnCfkgPdSDsJ53iqlBeTO0GdD9OFo8mHh57X6Ru9U+pW/l9ikiZwoImkLWwFdc6UwHWZEmCTziFf/BgtM3KlD9HfqCNfpLnc5W4OfbtHDY552Xg5cDSg5ed1KtSgTosrttGn5/h2HBcKupMlNhskDCWVgIVvt/cT/I91mipAMUifvCU/r7hEcqFtbQWja2nnpkjOiCZ0PJ5LDafGr04n5HORPwHWT3hIGn+hGT2EBgz30TrnRlHlcydogqDV5Y5La8rHlKVgjTiVdDP/mxkApsZgLK7ToevKluSFPZqNZRZX9c6QVD6HD0sCb06zV+KXCQn25n0pxBYP13wD8SZjan5XjGQ45MhuvJZCjxnHDgkiz4rwZc/w8oWnXsQlVobEB1s/m0P/G+2Ah+80kXp35IDUi5B0YWfH9psonGfbWAaZ3wXwHTUQCwX1z21HesYmUQiI
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR06MB5053.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(396003)(39860400002)(366004)(136003)(451199021)(1800799003)(186006)(66446008)(66556008)(41300700001)(316002)(2906002)(76116006)(66946007)(64756008)(4326008)(66476007)(52536014)(8936002)(5660300002)(122000001)(33656002)(85182001)(26005)(224303003)(38070700005)(6506007)(83380400001)(15974865002)(86362001)(38100700002)(7696005)(478600001)(9686003)(54906003)(71200400001)(110136005)(107886003)(55016003)(41533002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WHNOdlgrT0FIMmRzY1VON0NvZzZHYStkaUlObFNVdVZQWlN4UXNaMTRzZW80?=
- =?utf-8?B?T2Y5RURNTlVXVmJZSjd4ZWRycmNPWFBoWkptNGxzMzFOendLc1ZCQzBEaHFV?=
- =?utf-8?B?dFdHVnVMZXpFQnJ3SjVPUFltN0xFRGxpU1hkYjIrbGJ6Z1pIblBMSHBPMDd6?=
- =?utf-8?B?aDJaRktKQnNhUVQ1NG8zdHV5ZmVPNmwwZDQ3NW0yU2tJM09RZGU3VCt6LzlZ?=
- =?utf-8?B?VVB6TzYwMVdnOG8yRmsrcnNXR2tkT3VuT0pPdlp4R2VCMVNBdE5mZkdvVCtY?=
- =?utf-8?B?d09pbjY3ZjNta09CRUpZVngvanlmOEFNMTZPOE9nM0xEUnM5TjVyeGhxNzZD?=
- =?utf-8?B?bTBiZ2p1L3VkMFRxWC9QMnpuOUVmM1czOHBJTzRaSUpSL0t0U3RyQWRRZlc5?=
- =?utf-8?B?RDdoNnI5enRnUkxEMzEvOWZmSTNCMTdZbHBuMWdpTEFBRFdjNEJoVjYzdE9Q?=
- =?utf-8?B?VTFqVmhpT3g5cEVzekpINlFJR25Zb2xtb0ZjWjdSbXB2U1RJQVRmSlhXK0hq?=
- =?utf-8?B?QXY2TWJ0UnVBQUs5SDJlazUzalJXcCtGT0lGY09mWHIraWpXMnBRM0VVYXQ0?=
- =?utf-8?B?bWNqdGNKNFRObnhhUzRUTzVpY1dPN01NWTZmYVR5cVdQYW5NKzJPa0dGb1FM?=
- =?utf-8?B?RkNaZG95bHBFSHRPSFNkY1U0b1U1TUFiZm9tVDdnc1NPL3pXRlhyNmFpVHhw?=
- =?utf-8?B?dlhIY3A2OUJ0b1NOVGRwM01SeHdCSE5OQmFjek1UVnNJVi95a0NpZ0NYSHVO?=
- =?utf-8?B?eitrTUVVRmg5TzE4eVJrMHBoY3dQdXViQXNMT09GY1VNS0RaQmFIalloaG9J?=
- =?utf-8?B?bzRGK21KMmFOcGQ5b3BCaTZZSmsxalp2aW83NkNXWDlIOGJXZHk3aUZlcE90?=
- =?utf-8?B?RGRPU2ZSc3FnbXcwK0xWNXdZbEhuaXpTWTRVaDkyb0hUYVk5QWRiQkk4QlNP?=
- =?utf-8?B?OXd1Ry9MUU9HakVkcnQrdVBGT2NWRFhldWhGL2IwTTUxQzhkZ1V2UFZZWXQ3?=
- =?utf-8?B?SGx0aHcydjJoNHZDTUc2ZmZHNFhHZVRTYUxTY0VxOXBESXZXV0xldHlsdG9j?=
- =?utf-8?B?VGVGYlRCUVRBNERRbGJ4YnVVMnlrL0RMcWd6M1p1VWpNN2RCYnU5dDhVdE9m?=
- =?utf-8?B?ekNMbDNkUWV5NG5UVFhVaHNqMjVEV3FLd2ticitwemxvYytyanRneHBrbll4?=
- =?utf-8?B?OTFUWnhwcXRKenh4dXloQ21TY1owVWF0L3ROYWYwR1JOdkhVWm9SU25vWXQ5?=
- =?utf-8?B?Vk1JU3lIL09GOTlMTEM5eGRBRzIvWlRUOTYvUTErSnIvM0FVUnY4S3RMVldB?=
- =?utf-8?B?RjN2NjYveWdQTm1KaHdBQTFKQ05nSlhZbzFIYmJHT3dTYXVNWmo2dld0ejQy?=
- =?utf-8?B?U1k1NHpKSVBybUhrcjMyYUVEZXkyZEg3aFZ3eGQ1TEpDZHlMYlczUHdTRGI3?=
- =?utf-8?B?aTBSTE1hWGVYMThKV2ZFYmlsTGpTbXBUWkRuN2FEeTcvVGgycUMzNkNvN0h0?=
- =?utf-8?B?L3RkZlVEaFp4TnBpT3pKU01FSi95YmtiN29hTDhZRUF4aXBpdTJTb2REYkgy?=
- =?utf-8?B?RFhzWVptU0xFTUN5cHdYbFZDS1hYbTU2V2xZK1RhbldzdWZJWEZZZllXaVVa?=
- =?utf-8?B?anBBQVpCRW9mcHdrSU41bDZsbUZXWk1PVDFMTmkzR1JlYUJwbXpyZXpLYzIr?=
- =?utf-8?B?VWtaRjlReTRGQ0hvOGQxbnpoZ2VNSWdTQlY4dFVmaS9pdHZiSzBXOGpRUHkv?=
- =?utf-8?B?RHdBTnQxa21mSURzbm9mdXljWXE5V3RoMGxBVmZTckJ1TlNhZWlENWsyY2Rk?=
- =?utf-8?B?R2VvUU1qNVZRYVcrM0Rvd3pKS1NtT3NTRGE1d0FqUmFNWVRwT0RnQmpJaTh4?=
- =?utf-8?B?NXZUZEpLSklzMllOOFdPTmpmcUFNUlpkMU5Sd0xOZC9Gc256ZG5zbjJzYTFl?=
- =?utf-8?B?QzMxWTdpNmk0TXptOWdMSmxLTy8wNkJ4ZldpUGx2UUhkRHpmaGd2Y3M5RHpx?=
- =?utf-8?B?MzVJVkFTNm5sLzVpcWlHNGk4SUU4NCtCU3lBdUFmaXQ5THhPNmJwdVEzak5w?=
- =?utf-8?B?d2dRVmsydXNrSzNySnIvbzRLdzNtOTlVaysxOG1Kdkw3SEZNN1ZvdUovSWd6?=
- =?utf-8?Q?0QcDidslRiGyeuYj8mz0PVbD5?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183DB5382
+	for <mhi@lists.linux.dev>; Fri,  4 Aug 2023 06:41:00 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1bb8a89b975so11874885ad.1
+        for <mhi@lists.linux.dev>; Thu, 03 Aug 2023 23:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691131260; x=1691736060;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uTvrtGm9omTNndYE3JOrnTDMBnw5b0qfWu1gksrG4sA=;
+        b=bi7VaxN6DhwhtQXB/TUpFTkTl/gRFZNdenaA1nos0nIyhzVvWqdrCXIf8JnqyCM+54
+         zliSb7mshRlVtYLM3aNiPlxjGICBivz6AQG8HZzoD6qQJZY9QM1mhXmWtzXnze0RSSuo
+         Q2U76NLVfTSFoeKq9o+l7B2HYlFJraukN68XFfwK63rAz4MqdHeGba4JPQqSNbyblkHt
+         ibC0/HTZ/Zq/o4uoN+6bNaC8E2IoFXTAxcfrRxjm/hZS8nglIdQST/Ku1DCclKsiskNZ
+         dPeqiDTYFI6AQ+YAGDCD9NpepafmJbljY0upahkUafdVxgsKPT5h2TiqaEYXOiKT1mey
+         Rqaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691131260; x=1691736060;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uTvrtGm9omTNndYE3JOrnTDMBnw5b0qfWu1gksrG4sA=;
+        b=DVhOdjLoON4n9zJP7F+zWlooMqcD5SCYagXw3lnt8SqNikbuIJqC9GlpmZ+H83OLt8
+         02Xt38d5J2mGaaeYynGZT69Ek/BtntIoIxH+AWuJaZcXHUVeKUYeVB3Xvo9x8kpuRpae
+         R47LxmmqWOhucOcCo+7bVbMeqO/Q2oegJ5dNdWis4G5cRTrolHAVKCpLjwcX+fAqqWex
+         MQceefTaVhpuQZ0AvzTc1HqCNm5gXb3v5ZkgD6FvuWfg2RV9l7F0TyAOq4Pd/EUqCceh
+         RDH3BcATtz9lra9r3mtWcvCOK8JRhjirmUoVzdoqVMaousXF7mhdEpAhkI6aBrJUoroM
+         EwhQ==
+X-Gm-Message-State: AOJu0YzOgOzfxGsN47X+Nq/F7sgqzsL+D1dApfRPjHAzLQwK0gOzvXvk
+	5DQSMAOCXQQZc8Y6zKmOUDNU
+X-Google-Smtp-Source: AGHT+IHc+yUaZUEKBeCJBB+ETgv1hAlQDqN5i4J03Rw8pg812GZIs+szUUub60VQdRC6HXKVjM+SNQ==
+X-Received: by 2002:a17:902:b70e:b0:1b8:a812:7bc2 with SMTP id d14-20020a170902b70e00b001b8a8127bc2mr745947pls.8.1691131260198;
+        Thu, 03 Aug 2023 23:41:00 -0700 (PDT)
+Received: from thinkpad ([103.28.246.156])
+        by smtp.gmail.com with ESMTPSA id j3-20020a170902c3c300b001b9cf6342e2sm936473plj.42.2023.08.03.23.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 23:40:59 -0700 (PDT)
+Date: Fri, 4 Aug 2023 12:10:56 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: allow MHI client drivers to
+ provide the firmware via a pointer
+Message-ID: <20230804064056.GA24883@thinkpad>
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+ <20230727100430.3603551-2-kvalo@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: quectel.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5053.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de239a79-d660-425d-06b6-08db949baa46
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2023 03:34:10.0478
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7730d043-e129-480c-b1ba-e5b6a9f476aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c0xWmVxluUJh8MrbJV051cZ5/jCuetZDJ2AKotuGsy9YzswqdnN/Zl+ZFIuyspHs19DHnC2PLq/sU7W/IdkWYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5384
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230727100430.3603551-2-kvalo@kernel.org>
 
-SGkgTWFuaQ0KDQpUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGNhcmVmdWwgcmV2aWV3IGFu
-ZCBzdWdnZXN0aW9ucy4gDQpJIHdpbGwgZml4ZWQgaXQgaW4gcGF0Y2ggVjIgdmVyc2lvbi4NCg0K
-6L6b5a6J5paHICBEdWtlIFhpbiB8IFNvZnR3YXJlIERlcGFydG1lbnQgSVggRW5naW5lZXIgfCBR
-dWVjdGVsIFdpcmVsZXNzIFNvbHV0aW9ucyBDby4sIEx0ZC4gDQogICAgICAgICAgICANCk1vYmls
-ZTogKzg2LTE1Mzc1NDU2MTgzIHwgRW1haWwgOiBEdWtlLnhpbkBxdWVjdGVsLmNvbSAgfCBUZWw6
-ICs4Ni0wNTUxLTY1ODY5Mzg2LTg2MzINCldlYnNpdGU6IHd3dy5xdWVjdGVsLmNvbSAgfCBRUTog
-NjAyNjU5MDcyIHwgV2VjaGF0OiAxNTM3NTQ1NjE4Mw0KDQpCdWlsZGluZyAxLUMsIENoaW5hIFNw
-ZWVjaCBWYWxsZXkgQXJlYSBBLCAzMzM1IFhpeW91IFJvYWQsIEhpZ2gtdGVjaCBab25lLCBIZWZl
-aSwgQW5odWkgMjMwMDg4LCBDaGluYSAgICANCuWuieW+veecgeWQiOiCpeW4gumrmOaWsOWMuuS5
-oOWPi+i3rzMzMzXlj7fkuK3lm73vvIjlkIjogqXvvInlm73pmYXmmbrog73or63pn7PkuqfkuJrl
-m61B5Yy6MeWPt+S4reivlealvCAyMzAwODgNCkhROiBCdWlsZGluZyA1LCBTaGFuZ2hhaSBCdXNp
-bmVzcyBQYXJrIFBoYXNlIElJSSAoQXJlYSBCKSwgTm8uMTAxNiBUaWFubGluIFJvYWQsIE1pbmhh
-bmcgRGlzdHJpY3QsIFNoYW5naGFpIDIwMDIzMywgQ2hpbmENCuaAu+mDqO+8muS4iua1t+W4gumX
-teihjOWMuueUsOael+i3rzEwMTblj7fnp5HmioDnu7/mtLIz5pyf77yIQuWMuu+8iTXlj7fmpbwg
-IDIwMDIzMw0KDQotLS0tLemCruS7tuWOn+S7ti0tLS0tDQrlj5Hku7bkuro6IE1hbml2YW5uYW4g
-U2FkaGFzaXZhbSA8bWFuaUBrZXJuZWwub3JnPiANCuWPkemAgeaXtumXtDogMjAyM+W5tDjmnIgy
-5pelIDE5OjA4DQrmlLbku7bkuro6IER1a2UgWGluKOi+m+WuieaWhykgPGR1a2VfeGluYW53ZW5A
-MTYzLmNvbT4NCuaKhOmAgTogbWFuaUBrZXJuZWwub3JnOyBsb2ljLnBvdWxhaW5AbGluYXJvLm9y
-Zzsgc2xhcmtfeGlhb0AxNjMuY29tOyBmYWJpby5wb3JjZWRkYUBnbWFpbC5jb207IGtvZW4udmFu
-ZGVwdXR0ZUBjaXR5bWVzaC5jb207IGJoZWxnYWFzQGdvb2dsZS5jb207IG1oaUBsaXN0cy5saW51
-eC5kZXY7IGxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnOyBKZXJyeSBNZW5nKOiSmeadsCkg
-PGplcnJ5Lm1lbmdAcXVlY3RlbC5jb20+OyBEdWtlIFhpbijovpvlronmlocpIDxkdWtlLnhpbkBx
-dWVjdGVsLmNvbT4NCuS4u+mimDogUmU6IFtQQVRDSF0gYnVzOiBtaGk6IGhvc3Q6IHBjaV9nZW5l
-cmljOiBBZGQgc3VwcG9ydCBmb3IgTGVub3ZvIFJNNTIwTi1HTA0KDQpPbiBUaHUsIEp1bCAyNywg
-MjAyMyBhdCAwNjo0NzowMlBNIC0wNzAwLCBEdWtlIFhpbijovpvlronmlocpIHdyb3RlOg0KDQpJ
-dCBpcyBhIFF1ZWN0ZWwgbW9kZW0sIHJpZ2h0PyBUaGVuIGl0IHNob3VsZCBiZSBtZW50aW9uZWQg
-YXMgUXVlY3RlbCBpbiBzdWJqZWN0Lg0KDQo+IFRoaXMgbW9kZW0gaXMgZGVzaWduZWQgYmFzZWQg
-b24gUXVhbGNvbW0gU0RYNnggYW5kIGl0IHdpbGwgYWxpZ24gd2l0aCB0aGUgcXVlY3RlbCBwcmV2
-aW91cyBSTTUyME4tR0wgbW9kZW0gc2V0dGluZ3MuDQoNCnMvaXQgd2lsbCBhbGlnbi93b3Jrcw0K
-DQpzL3F1ZWN0ZWwgcHJldmlvdXMvUXVlY3RlbCdzIGV4aXN0aW5nDQoNCj4gQnV0IHRoaXMgb25l
-IGlzIGRlc2lnbmVkIGZvciBsZW5vdm8gbGFwdG9wIHVzZWNhc2UsIGhlbmNlIFF1ZWN0ZWwgZ290
-IGEgbmV3IFBJRC4NCj4gDQoNCkFsc28sIHdyYXAgdGhlIGNvbW1pdCBtZXNzYWdlIHRvIDc1IGNv
-bHVtbnMuIEFuZCBhbHdheXMgcnVuIC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGFuZCBmaXggd2Fy
-bmluZ3MvZXJyb3JzIGJlZm9yZSBwb3N0aW5nIGEgcGF0Y2guDQoNCi0gTWFuaQ0KDQo+IFNpZ25l
-ZC1vZmYtYnk6IER1a2UgWGluKOi+m+WuieaWhykgPGR1a2VfeGluYW53ZW5AMTYzLmNvbT4NCj4g
-LS0tDQo+ICBkcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMyArKysNCj4gIDEg
-ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIA0KPiBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3Bj
-aV9nZW5lcmljLmMNCj4gaW5kZXggZmNkODBiYzkyOTc4Li5lNGYyZmI2N2RmYWYgMTAwNjQ0DQo+
-IC0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMNCj4gKysrIGIvZHJpdmVy
-cy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYw0KPiBAQCAtNjA0LDYgKzYwNCw5IEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCBtaGlfcGNpX2lkX3RhYmxlW10gPSB7DQo+ICAJ
-LyogUk01MjBOLUdMIChzZHg2eCksIGVTSU0gKi8NCj4gIAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRP
-Ul9JRF9RVUVDVEVMLCAweDEwMDQpLA0KPiAgCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25n
-X3QpICZtaGlfcXVlY3RlbF9ybTV4eF9pbmZvIH0sDQo+ICsJLyogUk01MjBOLUdMIChzZHg2eCks
-IExlbm92byB2YXJpYW50ICovDQo+ICsJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfUVVFQ1RF
-TCwgMHgxMDA3KSwNCj4gKwkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX3F1
-ZWN0ZWxfcm01eHhfaW5mbyB9LA0KPiAgCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1FVRUNU
-RUwsIDB4MTAwZCksIC8qIEVNMTYwUi1HTCAoc2R4MjQpICovDQo+ICAJCS5kcml2ZXJfZGF0YSA9
-IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9xdWVjdGVsX2VtMXh4X2luZm8gfSwNCj4gIAl7IFBDSV9E
-RVZJQ0UoUENJX1ZFTkRPUl9JRF9RVUVDVEVMLCAweDIwMDEpLCAvKiBFTTEyMFItR0wgZm9yIEZD
-Q0wgDQo+IChzZHgyNCkgKi8NCj4gLS0NCj4gMi4yNS4xDQo+IA0KDQotLQ0K4K6u4K6j4K6/4K61
-4K6j4K+N4K6j4K6p4K+NIOCumuCupOCuvuCumuCuv+CuteCuruCvjQ0K
+On Thu, Jul 27, 2023 at 01:04:28PM +0300, Kalle Valo wrote:
+> From: Kalle Valo <quic_kvalo@quicinc.com>
+> 
+> Currently MHI loads the firmware image from the path provided by client
+> devices. ath11k needs to support firmware image embedded along with meta data
+> (named as firmware-2.bin). So allow the client driver to request the firmware
+> file from user space on it's own and provide the firmware image data and size
+> to MHI via a pointer struct mhi_controller::fw_data.
+> 
+> This is an optional feature, if fw_data is NULL MHI load the firmware using the
+> name from struct mhi_controller::fw_image string as before.
+> 
+> Tested with ath11k and WCN6855 hw2.0.
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+
+Applied to mhi-next!
+
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/boot.c | 34 +++++++++++++++++++++++++---------
+>  include/linux/mhi.h         |  6 ++++++
+>  2 files changed, 31 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index d2a19b07ccb8..edc0ec5a0933 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -365,12 +365,10 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  }
+>  
+>  static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
+> -			      const struct firmware *firmware,
+> +			      const u8 *buf, size_t remainder,
+>  			      struct image_info *img_info)
+>  {
+> -	size_t remainder = firmware->size;
+>  	size_t to_cpy;
+> -	const u8 *buf = firmware->data;
+>  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
+>  	struct bhi_vec_entry *bhi_vec = img_info->bhi_vec;
+>  
+> @@ -393,9 +391,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>  	enum mhi_pm_state new_state;
+>  	const char *fw_name;
+> +	const u8 *fw_data;
+>  	void *buf;
+>  	dma_addr_t dma_addr;
+> -	size_t size;
+> +	size_t size, fw_sz;
+>  	int i, ret;
+>  
+>  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+> @@ -425,6 +424,20 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
+>  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
+>  
+> +	/* check if the driver has already provided the firmware data */
+> +	if (!fw_name && mhi_cntrl->fbc_download &&
+> +	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
+> +		if (!mhi_cntrl->sbl_size) {
+> +			dev_err(dev, "fw_data provided but no sbl_size\n");
+> +			goto error_fw_load;
+> +		}
+> +
+> +		size = mhi_cntrl->sbl_size;
+> +		fw_data = mhi_cntrl->fw_data;
+> +		fw_sz = mhi_cntrl->fw_sz;
+> +		goto skip_req_fw;
+> +	}
+> +
+>  	if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
+>  						     !mhi_cntrl->seg_len))) {
+>  		dev_err(dev,
+> @@ -444,6 +457,10 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	if (size > firmware->size)
+>  		size = firmware->size;
+>  
+> +	fw_data = firmware->data;
+> +	fw_sz = firmware->size;
+> +
+> +skip_req_fw:
+>  	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
+>  				 GFP_KERNEL);
+>  	if (!buf) {
+> @@ -452,7 +469,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Download image using BHI */
+> -	memcpy(buf, firmware->data, size);
+> +	memcpy(buf, fw_data, size);
+>  	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
+>  	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
+>  
+> @@ -464,7 +481,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	/* Wait for ready since EDL image was loaded */
+> -	if (fw_name == mhi_cntrl->edl_image) {
+> +	if (fw_name && fw_name == mhi_cntrl->edl_image) {
+>  		release_firmware(firmware);
+>  		goto fw_load_ready_state;
+>  	}
+> @@ -478,15 +495,14 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (mhi_cntrl->fbc_download) {
+> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+> -					   firmware->size);
+> +		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+>  			goto error_fw_load;
+>  		}
+>  
+>  		/* Load the firmware into BHIE vec table */
+> -		mhi_firmware_copy(mhi_cntrl, firmware, mhi_cntrl->fbc_image);
+> +		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+>  	}
+>  
+>  	release_firmware(firmware);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index f6de4b6ecfc7..039943ec4d4e 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -299,6 +299,10 @@ struct mhi_controller_config {
+>   * @iova_start: IOMMU starting address for data (required)
+>   * @iova_stop: IOMMU stop address for data (required)
+>   * @fw_image: Firmware image name for normal booting (optional)
+> + * @fw_data: Firmware image data content for normal booting, used only
+> + *           if fw_image is NULL and fbc_download is true (optional)
+> + * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+> + *         is NULL and fbc_download is true (optional)
+>   * @edl_image: Firmware image name for emergency download mode (optional)
+>   * @rddm_size: RAM dump size that host should allocate for debugging purpose
+>   * @sbl_size: SBL image size downloaded through BHIe (optional)
+> @@ -384,6 +388,8 @@ struct mhi_controller {
+>  	dma_addr_t iova_start;
+>  	dma_addr_t iova_stop;
+>  	const char *fw_image;
+> +	const u8 *fw_data;
+> +	size_t fw_sz;
+>  	const char *edl_image;
+>  	size_t rddm_size;
+>  	size_t sbl_size;
+> -- 
+> 2.39.2
+> 
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
