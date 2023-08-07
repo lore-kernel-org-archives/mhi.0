@@ -1,82 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139B13D70
-	for <mhi@lists.linux.dev>; Mon,  7 Aug 2023 06:40:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EA4AC433C7;
-	Mon,  7 Aug 2023 06:40:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691390420;
-	bh=nH19bMzfu1oxoSd2MS/m+Uz1OZh9B1bN3liwVOQZFyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=imBx+f6yhYHc8ZTADVE2FHXYpxOy91GkBPW5jLLU1h6syhp4DQ8ywQzs9j8fSSAXf
-	 xnhD7yNCopAl8Dcg1C3NbJik3shKvzJZM1+7r2Hqw3yXDjYevIZLejTr0yWSCdG+HA
-	 ZR7/FpgYh1rbY7PdgX1XXGh2mL7w/PCiPZJs4NLDq22iMJ74mP4OjldnFChlUL7Aki
-	 ao/5WyVP0DhwJEUpdGKmCw3CgOb0zsvtGeC1FSJfm3TCt1xZxG5Rqtcp8/pO5CeSO5
-	 KlUqGK8EV12yEiDcDv9YqRIjF2qrPK2svh/cE5YNmZkFVETNee0WgesRrbY85G+1Km
-	 +9owLmJLqhqKA==
-Date: Mon, 7 Aug 2023 12:10:06 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Duke =?utf-8?B?WGluKOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>
-Cc: loic.poulain@linaro.org, slark_xiao@163.com, fabio.porcedda@gmail.com,
-	johan+linaro@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, jerry.meng@quectel.com,
-	duke.xin@quectel.com
-Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Add support for Lenovo
- RM520N-GL
-Message-ID: <20230807064006.GA18257@thinkpad>
-References: <20230807030454.37255-1-duke_xinanwen@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F5BECA
+	for <mhi@lists.linux.dev>; Mon,  7 Aug 2023 07:02:47 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-523108efb36so4573641a12.1
+        for <mhi@lists.linux.dev>; Mon, 07 Aug 2023 00:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691391765; x=1691996565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CU5B2EBHhQjBavzHa+Lju5JaCfU4uGI90WK0F+KwopU=;
+        b=D2+pEqFLwGX9TPKCDHNgJfpbnfHaC0s9ballaAGrnHGRkH0lJPw53s+B/QJM9iDGeJ
+         alreyZzPf2i3J36Q+fEMCXTejIOAsv588jCjFO14PooeZb6nGr58ZmpUCb7mtGJ/Ha2J
+         ekoSzfzhiTQQZ08dFSnnkJtOzxce402ynNUrSGHBHkS7XsZm40PQLdwB+yedRbuDNbPk
+         y2ab+bXtPVs9MEA9tPhzEIK5Tcx1jXPitRpt8KWJdqexJ5H+PPeCzsX6VMwmFiHY4mIv
+         ujqHUrlclo3BOIJSdmKIhwOWnhCHllMIvJKh8nqjAmosFmC64ypVeKNK0x0dFsz60/fI
+         fRxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691391765; x=1691996565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CU5B2EBHhQjBavzHa+Lju5JaCfU4uGI90WK0F+KwopU=;
+        b=IXNI6YWzdqUbibQcSwOPODGkJhOBPf3QVUa6YEQsaUmj3qoBjA/KQ28H2XfryvldOX
+         aaWSk/S1urBvX5tzkmhqrlwKIs2ksXH9cEvd09AhLxxFf6MK+Swv5am7MaurDX1L9Yv+
+         e84Pj6nHkuLR3oAuTJmeS/QSzBozzlwvprbpPsXDfLNwHzhNjKNRO5iaVFGMEK80yw5+
+         AmhF9CGKg/FTL49yupH4wKYudfkPX59prqrvy5VHjG/D6PdIWQEnUlLFiL7/6Vv/PM2F
+         aA7MQGSbOHaj+nQVA7QFie45tpt3Tvkh6YSflXOTfDPnHBZ08T1ujKMYrwshX3eoIYur
+         0+Mg==
+X-Gm-Message-State: AOJu0YyRfhTkFKsl/P42d80cpPy3rLqbqcFtztiBKLgHgU+TiJ13ehYi
+	1aAzLoEh+L92lcv0tPHNMrDh3wmaE0qoArP1qiNchg==
+X-Google-Smtp-Source: AGHT+IE8fCofi961DObv0VFjUtKUaX4ki8nzGwBAjm4iMSth8k6td3HgtEY47o4ONGrjlAN7E72usAGLUfXWmDvnvqM=
+X-Received: by 2002:aa7:dada:0:b0:523:3e23:15ab with SMTP id
+ x26-20020aa7dada000000b005233e2315abmr600196eds.26.1691391765628; Mon, 07 Aug
+ 2023 00:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20230807030454.37255-1-duke_xinanwen@163.com>
 In-Reply-To: <20230807030454.37255-1-duke_xinanwen@163.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Mon, 7 Aug 2023 09:02:08 +0200
+Message-ID: <CAMZdPi8jijOw5oEeNFkPG1U4qi8cV+MHTE3FAm5oKF49yG5tmA@mail.gmail.com>
+Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Add support for Lenovo RM520N-GL
+To: =?UTF-8?B?RHVrZSBYaW4o6L6b5a6J5paHKQ==?= <duke_xinanwen@163.com>
+Cc: mani@kernel.org, slark_xiao@163.com, fabio.porcedda@gmail.com, 
+	johan+linaro@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, jerry.meng@quectel.com, duke.xin@quectel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 06, 2023 at 08:04:54PM -0700, Duke Xin(辛安文) wrote:
+On Mon, 7 Aug 2023 at 05:05, Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_xi=
+nanwen@163.com> wrote:
+>
 > The Quectel new RM520N-GL product works with the Quectel's existing
 > RM520N-GL modem settings.But this one is designed for lenovo laptop
 > usecase, hence Quectel got a new PID.
-> 
-> Signed-off-by: Duke Xin(辛安文) <duke_xinanwen@163.com>
+>
+> Signed-off-by: Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_xinanwen@163.c=
+om>
 > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
-For this patch, I never gave my reviewed-by tag. From where did you pick this
-up? It is never a good practice to add tags without permissions.
-
-- Mani
-
-> ---
-> Changelog
-> 
-> v1 -> v2
-> 
-> * Adjusted description of quectel modem and limit character length to 75 characters.
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index fcd80bc92978..e4f2fb67dfaf 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -604,6 +604,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* RM520N-GL (sdx6x), eSIM */
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1004),
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
-> +	/* RM520N-GL (sdx6x), Lenovo variant */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1007),
-> +		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x100d), /* EM160R-GL (sdx24) */
->  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x2001), /* EM120R-GL for FCCL (sdx24) */
-> -- 
-> 2.25.1
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
