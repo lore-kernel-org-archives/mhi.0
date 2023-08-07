@@ -1,68 +1,134 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F5BECA
-	for <mhi@lists.linux.dev>; Mon,  7 Aug 2023 07:02:47 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-523108efb36so4573641a12.1
-        for <mhi@lists.linux.dev>; Mon, 07 Aug 2023 00:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691391765; x=1691996565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CU5B2EBHhQjBavzHa+Lju5JaCfU4uGI90WK0F+KwopU=;
-        b=D2+pEqFLwGX9TPKCDHNgJfpbnfHaC0s9ballaAGrnHGRkH0lJPw53s+B/QJM9iDGeJ
-         alreyZzPf2i3J36Q+fEMCXTejIOAsv588jCjFO14PooeZb6nGr58ZmpUCb7mtGJ/Ha2J
-         ekoSzfzhiTQQZ08dFSnnkJtOzxce402ynNUrSGHBHkS7XsZm40PQLdwB+yedRbuDNbPk
-         y2ab+bXtPVs9MEA9tPhzEIK5Tcx1jXPitRpt8KWJdqexJ5H+PPeCzsX6VMwmFiHY4mIv
-         ujqHUrlclo3BOIJSdmKIhwOWnhCHllMIvJKh8nqjAmosFmC64ypVeKNK0x0dFsz60/fI
-         fRxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691391765; x=1691996565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CU5B2EBHhQjBavzHa+Lju5JaCfU4uGI90WK0F+KwopU=;
-        b=IXNI6YWzdqUbibQcSwOPODGkJhOBPf3QVUa6YEQsaUmj3qoBjA/KQ28H2XfryvldOX
-         aaWSk/S1urBvX5tzkmhqrlwKIs2ksXH9cEvd09AhLxxFf6MK+Swv5am7MaurDX1L9Yv+
-         e84Pj6nHkuLR3oAuTJmeS/QSzBozzlwvprbpPsXDfLNwHzhNjKNRO5iaVFGMEK80yw5+
-         AmhF9CGKg/FTL49yupH4wKYudfkPX59prqrvy5VHjG/D6PdIWQEnUlLFiL7/6Vv/PM2F
-         aA7MQGSbOHaj+nQVA7QFie45tpt3Tvkh6YSflXOTfDPnHBZ08T1ujKMYrwshX3eoIYur
-         0+Mg==
-X-Gm-Message-State: AOJu0YyRfhTkFKsl/P42d80cpPy3rLqbqcFtztiBKLgHgU+TiJ13ehYi
-	1aAzLoEh+L92lcv0tPHNMrDh3wmaE0qoArP1qiNchg==
-X-Google-Smtp-Source: AGHT+IE8fCofi961DObv0VFjUtKUaX4ki8nzGwBAjm4iMSth8k6td3HgtEY47o4ONGrjlAN7E72usAGLUfXWmDvnvqM=
-X-Received: by 2002:aa7:dada:0:b0:523:3e23:15ab with SMTP id
- x26-20020aa7dada000000b005233e2315abmr600196eds.26.1691391765628; Mon, 07 Aug
- 2023 00:02:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6F717E3
+	for <mhi@lists.linux.dev>; Mon,  7 Aug 2023 08:00:13 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3777H2o8008651;
+	Mon, 7 Aug 2023 07:59:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=gidHkrGNBS/Q/FTRhnksGL7NvZvTt0ub/F33zzXjTMw=;
+ b=KudwzehPQFZL1fsyXkWh2fvqOWKZ4qikiaSjqiDvwiTX9yGWxCrOJkiaDDBFl+Wom2m+
+ Sgccad3A+rRu1NYiCCkqqIRPSSM67lEcSNBn85RgVryF7UxanVBEv4T2izRVgiBq1LD6
+ xSv1zjYHyk++GIkHprDzIO5xrLMMK9qMAR2FkrGxFw8X/KdYfOCtrg93GPkXYN+/KZJr
+ w/1T+dAaoUK0ZQPnRYOB7eENbmP4rnjLkPmgZT04kkr3N7W8cD64iPK6lpYFBr2/pWPc
+ zrFU2jLp45jBQIluCgGQrZ8K0qXJnI/bvwOxygpyDe4n37NzOqV6Cs8npIpJ5i4Mv/iW kA== 
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s9f6pjtcs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Aug 2023 07:59:57 +0000
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3777xtdc018677;
+	Mon, 7 Aug 2023 07:59:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3s9fgkhehf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 07 Aug 2023 07:59:55 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3777xt72018672;
+	Mon, 7 Aug 2023 07:59:55 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 3777xtIt018670;
+	Mon, 07 Aug 2023 07:59:55 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 009994C57; Mon,  7 Aug 2023 15:59:53 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v2] mhi: host: Add standard ELF header image download functionality
+Date: Mon,  7 Aug 2023 15:59:52 +0800
+Message-Id: <1691395192-16090-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: YqjZznV0w4SQVLWQ__9FIGDB4WIk57Hg
+X-Proofpoint-GUID: YqjZznV0w4SQVLWQ__9FIGDB4WIk57Hg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-07_06,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxscore=0 impostorscore=0 suspectscore=0 phishscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxlogscore=999 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308070074
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20230807030454.37255-1-duke_xinanwen@163.com>
-In-Reply-To: <20230807030454.37255-1-duke_xinanwen@163.com>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Mon, 7 Aug 2023 09:02:08 +0200
-Message-ID: <CAMZdPi8jijOw5oEeNFkPG1U4qi8cV+MHTE3FAm5oKF49yG5tmA@mail.gmail.com>
-Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Add support for Lenovo RM520N-GL
-To: =?UTF-8?B?RHVrZSBYaW4o6L6b5a6J5paHKQ==?= <duke_xinanwen@163.com>
-Cc: mani@kernel.org, slark_xiao@163.com, fabio.porcedda@gmail.com, 
-	johan+linaro@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, jerry.meng@quectel.com, duke.xin@quectel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 7 Aug 2023 at 05:05, Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_xi=
-nanwen@163.com> wrote:
->
-> The Quectel new RM520N-GL product works with the Quectel's existing
-> RM520N-GL modem settings.But this one is designed for lenovo laptop
-> usecase, hence Quectel got a new PID.
->
-> Signed-off-by: Duke Xin(=E8=BE=9B=E5=AE=89=E6=96=87) <duke_xinanwen@163.c=
-om>
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+From: Mayank Rana <quic_mrana@quicinc.com>
 
-Reviewed-by: Loic Poulain <loic.poulain@linaro.org>
+Some devices (e.g. WLAN chips) are unable to handle the non-standard ELF
+format of the FBC image and thus need special handling of the FBC image.
+
+Add standard_elf_image flag which makes decision in terms of how FBC image
+based AMSS image is being downloaded with connected endpoint.
+FBC image is having two image combine: SBL image + AMSS image.
+1. FBC image download using legacy single ELF header image format:
+- SBL image: 512KB of FBC image is downloaded using BHI.
+- AMSS image: full FBC image is downloaded using BHIe.
+2. FBC image download using separate ELF header image format:
+- SBL image: 512 KB of FBC image is downloaded using BHI.
+- AMSS image: 512 KB onward FBC image is downloaded using BHIe.
+There is no change for SBL image download. Although AMSS image start
+address is end address of SBL image while using separate ELF header format.
+
+Signed-off-by: Mayank Rana <quic_mrana@quicinc.com>
+[quic_qianyu@quicinc.com: Update commit message, minor updates]
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+v1->v2: modify commit message
+	correct author
+	rebase on latest mhi-next branch, resolve conflicts
+
+ drivers/bus/mhi/host/boot.c | 7 +++++++
+ include/linux/mhi.h         | 2 ++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index edc0ec5..586d551 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -495,6 +495,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	 * device transitioning into MHI READY state
+ 	 */
+ 	if (mhi_cntrl->fbc_download) {
++		dev_dbg(dev, "standard_elf_image: %s\n",
++				(mhi_cntrl->standard_elf_image ? "True" : "False"));
++		if (mhi_cntrl->standard_elf_image) {
++			fw_data = firmware->data + mhi_cntrl->sbl_size;
++			fw_sz = fw_sz - mhi_cntrl->sbl_size;
++		}
++
+ 		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+ 		if (ret) {
+ 			release_firmware(firmware);
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 039943e..e065101 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -310,6 +310,7 @@ struct mhi_controller_config {
+  * @reg_len: Length of the MHI MMIO region (required)
+  * @fbc_image: Points to firmware image buffer
+  * @rddm_image: Points to RAM dump buffer
++ * @standard_elf_image: Flag to make decision about firmware download start address (optional)
+  * @mhi_chan: Points to the channel configuration table
+  * @lpm_chans: List of channels that require LPM notifications
+  * @irq: base irq # to request (required)
+@@ -456,6 +457,7 @@ struct mhi_controller {
+ 	bool bounce_buf;
+ 	bool fbc_download;
+ 	bool wake_set;
++	bool standard_elf_image;
+ 	unsigned long irq_flags;
+ 	u32 mru;
+ };
+-- 
+2.7.4
+
