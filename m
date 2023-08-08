@@ -1,245 +1,293 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D07D659
-	for <mhi@lists.linux.dev>; Tue,  8 Aug 2023 08:53:42 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3787fpLT005135;
-	Tue, 8 Aug 2023 08:53:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=OMwYtRs4LUqPPcFIZYxm+1oFsKNkdcYpbIPZoUAL5zI=;
- b=C6IWDb8/1tVepnPL8JWQhXexemT3y6x5ALrxv4kGFR1m/ONcu740DYII5LQbKTmPGRJq
- zWvEXUJ6fPUTHSjbdThFUm0fmeLedKiEKVMHGsju8C/bBqan2VFmMS0D1TshR4prAfEn
- kWhHPTH/YdjMn6oDgpnS7XHdslweKEYMYzafV5a360xoie/4zmLTVZkLwO4+MFNBGqqW
- FfxzNuqI9wkkZvgfiW2qWrQ9DiWvv5gUCjvTRmfHp2Vq1KLk3yyXEMDiYhhT+fWY3qys
- fblVt1LvQzXHscXjrGzln3wkQaku1hiRpzWAOKip8npcsHsUgNJn/tESCK17Vfu2Ocei WA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sbb3y8t44-1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274AFDDBF
+	for <mhi@lists.linux.dev>; Tue,  8 Aug 2023 10:00:23 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3786wDSB006364;
+	Tue, 8 Aug 2023 10:00:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=lD6hjJMAqN8E6FnyY2yf36/AWoZiWhCTs0fWAqCMBIg=;
+ b=c9y7MzImP2y9F0OFMwN5Nf/N06h0ApmIggjNANmIOGfwpe06iggRgiiBK33RM9FdWbDb
+ T3NYTo+wEZJK19BdnkRlL3hWN97U0QKPHWojJRG2yzNI+g4luXdROzgvDtZd04oq8exH
+ +HtTdD0eJCrYsPPkqgJ+2o4CYgZZJ+rdrvoNtl4rk8Ih9cA8DmZeRqOl7GlYstGdF7C6
+ OXP/eQKWaBlVfeOkmya0rKF7/MXgp7c2U14Xu69vTX3wHgemoVu5xqfn9SgYvVc9X1UP
+ 8fmPm6w0+61Fn46fdWbWps95WCXZhb8w+eZdy6peK/RQ+IYnEXBR+nyOuuOTDqKfjcQg Fw== 
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sbcacrtb1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Aug 2023 08:53:38 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3788rb2G029968
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 8 Aug 2023 08:53:37 GMT
-Received: from [10.253.74.171] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 8 Aug
- 2023 01:53:35 -0700
-Message-ID: <be205d43-b558-47eb-0250-b7415474b6e9@quicinc.com>
-Date: Tue, 8 Aug 2023 16:53:32 +0800
+	Tue, 08 Aug 2023 10:00:14 +0000
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 378A0CYs025875;
+	Tue, 8 Aug 2023 10:00:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 3s9fgkpa3q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 08 Aug 2023 10:00:12 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 378A0CA7025868;
+	Tue, 8 Aug 2023 10:00:12 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 378A0Cnr025861;
+	Tue, 08 Aug 2023 10:00:12 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 4276A4C37; Tue,  8 Aug 2023 18:00:11 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Add SDX75 based modem support
+Date: Tue,  8 Aug 2023 18:00:09 +0800
+Message-Id: <1691488809-85310-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: o0UXGTYf3JJx3F7FgGyk2IUXYRmWD09t
+X-Proofpoint-ORIG-GUID: o0UXGTYf3JJx3F7FgGyk2IUXYRmWD09t
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-08_09,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308080089
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add SDX75 based modem
- support
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
-References: <1691460215-45383-1-git-send-email-quic_qianyu@quicinc.com>
- <20230808075103.GD4990@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <20230808075103.GD4990@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Kig8R0Xi3gs_mxtfSGLhYIz6YstNcAFs
-X-Proofpoint-GUID: Kig8R0Xi3gs_mxtfSGLhYIz6YstNcAFs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-08_07,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 mlxlogscore=999
- suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
- mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308080079
 
+Add generic info for SDX75 based modems. SDX75 takes longer than expected
+(default, 8 seconds) to set ready after reboot. Hence add optional ready
+timeout parameter to wait enough for device ready as part of power up
+sequence.
 
-On 8/8/2023 3:51 PM, Manivannan Sadhasivam wrote:
-> On Tue, Aug 08, 2023 at 10:03:35AM +0800, Qiang Yu wrote:
->> Add generic info for SDX75 based modems. SDX75 takes longer than expected
->> (default, 8 seconds) to set ready after reboot. Hence add optional ready
->> timeout parameter to wait enough for device ready as part of power up
->> sequence.
->>
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/init.c        |  1 +
->>   drivers/bus/mhi/host/main.c        |  7 ++++++-
->>   drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
->>   drivers/bus/mhi/host/pm.c          |  6 +++++-
->>   include/linux/mhi.h                |  4 ++++
->>   5 files changed, 38 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->> index f78aefd..65ceac1 100644
->> --- a/drivers/bus/mhi/host/init.c
->> +++ b/drivers/bus/mhi/host/init.c
->> @@ -881,6 +881,7 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
->>   	if (!mhi_cntrl->timeout_ms)
->>   		mhi_cntrl->timeout_ms = MHI_TIMEOUT_MS;
->>   
->> +	mhi_cntrl->ready_timeout_ms = config->ready_timeout_ms;
->>   	mhi_cntrl->bounce_buf = config->use_bounce_buf;
->>   	mhi_cntrl->buffer_len = config->buf_len;
->>   	if (!mhi_cntrl->buffer_len)
->> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->> index 74a7543..8590926 100644
->> --- a/drivers/bus/mhi/host/main.c
->> +++ b/drivers/bus/mhi/host/main.c
->> @@ -43,8 +43,13 @@ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
->>   				    u32 mask, u32 val, u32 delayus)
->>   {
->>   	int ret;
->> -	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
->> +	u32 out, retry;
->> +	u32 timeout_ms = mhi_cntrl->timeout_ms;
->>   
->> +	if (mhi_cntrl->ready_timeout_ms && mask == MHISTATUS_READY_MASK)
->> +		timeout_ms = mhi_cntrl->ready_timeout_ms;
-> Instead of handling the timeout inside mhi_poll_reg_field(), you should pass the
-> appropriate timeout value to this function.
-OK, will do.
->
->> +
->> +	retry = (timeout_ms * 1000) / delayus;
->>   	while (retry--) {
->>   		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
->>   		if (ret)
->> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
->> index fcd80bc..9c601f0 100644
->> --- a/drivers/bus/mhi/host/pci_generic.c
->> +++ b/drivers/bus/mhi/host/pci_generic.c
->> @@ -269,6 +269,16 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
->>   	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
->>   };
->>   
->> +static const struct mhi_controller_config modem_qcom_v2_mhiv_config = {
->> +	.max_channels = 128,
->> +	.timeout_ms = 8000,
->> +	.ready_timeout_ms = 50000,
->> +	.num_channels = ARRAY_SIZE(modem_qcom_v1_mhi_channels),
->> +	.ch_cfg = modem_qcom_v1_mhi_channels,
->> +	.num_events = ARRAY_SIZE(modem_qcom_v1_mhi_events),
->> +	.event_cfg = modem_qcom_v1_mhi_events,
->> +};
->> +
->>   static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
->>   	.max_channels = 128,
->>   	.timeout_ms = 8000,
->> @@ -278,6 +288,16 @@ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
->>   	.event_cfg = modem_qcom_v1_mhi_events,
->>   };
->>   
->> +static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
->> +	.name = "qcom-sdx75m",
->> +	.fw = "qcom/sdx75m/xbl.elf",
->> +	.edl = "qcom/sdx75m/edl.mbn",
->> +	.config = &modem_qcom_v2_mhiv_config,
->> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->> +	.dma_data_width = 32,
->> +	.sideband_wake = false,
->> +};
->> +
->>   static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
->>   	.name = "qcom-sdx65m",
->>   	.fw = "qcom/sdx65m/xbl.elf",
->> @@ -597,6 +617,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->>   		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
->>   	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
->>   		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
->> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
->> +		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
->>   	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
->>   		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
->>   	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
->> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->> index 8a4362d..6f049e0 100644
->> --- a/drivers/bus/mhi/host/pm.c
->> +++ b/drivers/bus/mhi/host/pm.c
->> @@ -1202,14 +1202,18 @@ EXPORT_SYMBOL_GPL(mhi_power_down);
->>   int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
->>   {
->>   	int ret = mhi_async_power_up(mhi_cntrl);
->> +	u32 timeout_ms;
->>   
->>   	if (ret)
->>   		return ret;
->>   
->> +	/* Some devices need more time to set ready during power up */
->> +	timeout_ms = mhi_cntrl->ready_timeout_ms ?
->> +		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
-> Since you are using this extended timeout value in a couple of places (not just
-> for checking READY_STATE), it is better to use the existing "timeout_ms"
-> parameter.
->
-> - Mani
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+v1->v2: pass appropriate timeout value to mhi_poll_reg_field
 
-We use ready_timeout_ms here is because READY_STATE is polled in a 
-workqueue,  in parallel with waiting valid EE.
+ drivers/bus/mhi/host/init.c        |  1 +
+ drivers/bus/mhi/host/internal.h    |  2 +-
+ drivers/bus/mhi/host/main.c        |  5 +++--
+ drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
+ drivers/bus/mhi/host/pm.c          | 24 +++++++++++++++++-------
+ include/linux/mhi.h                |  4 ++++
+ 6 files changed, 48 insertions(+), 10 deletions(-)
 
-That means we start to wait valid EE and poll ready like at same time 
-instead of starting to wait EE after ready state.
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index f78aefd..65ceac1 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -881,6 +881,7 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
+ 	if (!mhi_cntrl->timeout_ms)
+ 		mhi_cntrl->timeout_ms = MHI_TIMEOUT_MS;
+ 
++	mhi_cntrl->ready_timeout_ms = config->ready_timeout_ms;
+ 	mhi_cntrl->bounce_buf = config->use_bounce_buf;
+ 	mhi_cntrl->buffer_len = config->buf_len;
+ 	if (!mhi_cntrl->buffer_len)
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 2e139e7..30ac415 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -321,7 +321,7 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    u32 *out);
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset, u32 mask,
+-				    u32 val, u32 delayus);
++				    u32 val, u32 delayus, u32 timeout_ms);
+ void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
+ 		   u32 offset, u32 val);
+ int __must_check mhi_write_reg_field(struct mhi_controller *mhi_cntrl,
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index 74a7543..c0215d1 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -40,10 +40,11 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset,
+-				    u32 mask, u32 val, u32 delayus)
++				    u32 mask, u32 val, u32 delayus,
++				    u32 timeout_ms)
+ {
+ 	int ret;
+-	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
++	u32 out, retry = (timeout_ms * 1000) / delayus;
+ 
+ 	while (retry--) {
+ 		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index fcd80bc..9c601f0 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -269,6 +269,16 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+ 	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
+ };
+ 
++static const struct mhi_controller_config modem_qcom_v2_mhiv_config = {
++	.max_channels = 128,
++	.timeout_ms = 8000,
++	.ready_timeout_ms = 50000,
++	.num_channels = ARRAY_SIZE(modem_qcom_v1_mhi_channels),
++	.ch_cfg = modem_qcom_v1_mhi_channels,
++	.num_events = ARRAY_SIZE(modem_qcom_v1_mhi_events),
++	.event_cfg = modem_qcom_v1_mhi_events,
++};
++
+ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+ 	.max_channels = 128,
+ 	.timeout_ms = 8000,
+@@ -278,6 +288,16 @@ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+ 	.event_cfg = modem_qcom_v1_mhi_events,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
++	.name = "qcom-sdx75m",
++	.fw = "qcom/sdx75m/xbl.elf",
++	.edl = "qcom/sdx75m/edl.mbn",
++	.config = &modem_qcom_v2_mhiv_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
+ 	.name = "qcom-sdx65m",
+ 	.fw = "qcom/sdx65m/xbl.elf",
+@@ -597,6 +617,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
++	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
++		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+ 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index 8a4362d..a2f2fee 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -163,6 +163,7 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+ 	enum mhi_pm_state cur_state;
+ 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+ 	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
++	u32 timeout_ms;
+ 	int ret, i;
+ 
+ 	/* Check if device entered error state */
+@@ -173,14 +174,18 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Wait for RESET to be cleared and READY bit to be set by the device */
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us,
++				 mhi_cntrl->timeout_ms);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to clear MHI Reset\n");
+ 		return ret;
+ 	}
+ 
++	timeout_ms = mhi_cntrl->ready_timeout_ms ?
++		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
+-				 MHISTATUS_READY_MASK, 1, interval_us);
++				 MHISTATUS_READY_MASK, 1, interval_us,
++				 timeout_ms);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to enter MHI Ready\n");
+ 		return ret;
+@@ -479,7 +484,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 		/* Wait for the reset bit to be cleared by the device */
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, 25000);
++				 MHICTRL_RESET_MASK, 0, 25000, mhi_cntrl->timeout_ms);
+ 		if (ret)
+ 			dev_err(dev, "Device failed to clear MHI Reset\n");
+ 
+@@ -492,8 +497,8 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
+ 			/* wait for ready to be set */
+ 			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
+-						 MHISTATUS,
+-						 MHISTATUS_READY_MASK, 1, 25000);
++						 MHISTATUS, MHISTATUS_READY_MASK,
++						 1, 25000, mhi_cntrl->timeout_ms);
+ 			if (ret)
+ 				dev_err(dev, "Device failed to enter READY state\n");
+ 		}
+@@ -1111,7 +1116,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+ 	if (state == MHI_STATE_SYS_ERR) {
+ 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us,
++				 mhi_cntrl->timeout_ms);
+ 		if (ret) {
+ 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
+ 			goto error_exit;
+@@ -1202,14 +1208,18 @@ EXPORT_SYMBOL_GPL(mhi_power_down);
+ int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+ {
+ 	int ret = mhi_async_power_up(mhi_cntrl);
++	u32 timeout_ms;
+ 
+ 	if (ret)
+ 		return ret;
+ 
++	/* Some devices need more time to set ready during power up */
++	timeout_ms = mhi_cntrl->ready_timeout_ms ?
++		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+ 	wait_event_timeout(mhi_cntrl->state_event,
+ 			   MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
+ 			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state),
+-			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
++			   msecs_to_jiffies(timeout_ms));
+ 
+ 	ret = (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT;
+ 	if (ret)
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index e065101..129964c 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -266,6 +266,7 @@ struct mhi_event_config {
+  * struct mhi_controller_config - Root MHI controller configuration
+  * @max_channels: Maximum number of channels supported
+  * @timeout_ms: Timeout value for operations. 0 means use default
++ * @ready_timeout_ms: Timeout value for waiting device to be ready (optional)
+  * @buf_len: Size of automatically allocated buffers. 0 means use default
+  * @num_channels: Number of channels defined in @ch_cfg
+  * @ch_cfg: Array of defined channels
+@@ -277,6 +278,7 @@ struct mhi_event_config {
+ struct mhi_controller_config {
+ 	u32 max_channels;
+ 	u32 timeout_ms;
++	u32 ready_timeout_ms;
+ 	u32 buf_len;
+ 	u32 num_channels;
+ 	const struct mhi_channel_config *ch_cfg;
+@@ -331,6 +333,7 @@ struct mhi_controller_config {
+  * @pm_mutex: Mutex for suspend/resume operation
+  * @pm_lock: Lock for protecting MHI power management state
+  * @timeout_ms: Timeout in ms for state transitions
++ * @ready_timeout_ms: Timeout in ms for waiting device to be ready (optional)
+  * @pm_state: MHI power management state
+  * @db_access: DB access states
+  * @ee: MHI device execution environment
+@@ -420,6 +423,7 @@ struct mhi_controller {
+ 	struct mutex pm_mutex;
+ 	rwlock_t pm_lock;
+ 	u32 timeout_ms;
++	u32 ready_timeout_ms;
+ 	u32 pm_state;
+ 	u32 db_access;
+ 	enum mhi_ee_type ee;
+-- 
+2.7.4
 
-Thus the total time it takes to wait valid EE is about the time for 
-polling ready.
-
->>   	wait_event_timeout(mhi_cntrl->state_event,
->>   			   MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
->>   			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state),
->> -			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
->> +			   msecs_to_jiffies(timeout_ms));
->>   
->>   	ret = (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT;
->>   	if (ret)
->> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
->> index f6de4b6..a43e5f8 100644
->> --- a/include/linux/mhi.h
->> +++ b/include/linux/mhi.h
->> @@ -266,6 +266,7 @@ struct mhi_event_config {
->>    * struct mhi_controller_config - Root MHI controller configuration
->>    * @max_channels: Maximum number of channels supported
->>    * @timeout_ms: Timeout value for operations. 0 means use default
->> + * @ready_timeout_ms: Timeout value for waiting device to be ready (optional)
->>    * @buf_len: Size of automatically allocated buffers. 0 means use default
->>    * @num_channels: Number of channels defined in @ch_cfg
->>    * @ch_cfg: Array of defined channels
->> @@ -277,6 +278,7 @@ struct mhi_event_config {
->>   struct mhi_controller_config {
->>   	u32 max_channels;
->>   	u32 timeout_ms;
->> +	u32 ready_timeout_ms;
->>   	u32 buf_len;
->>   	u32 num_channels;
->>   	const struct mhi_channel_config *ch_cfg;
->> @@ -326,6 +328,7 @@ struct mhi_controller_config {
->>    * @pm_mutex: Mutex for suspend/resume operation
->>    * @pm_lock: Lock for protecting MHI power management state
->>    * @timeout_ms: Timeout in ms for state transitions
->> + * @ready_timeout_ms: Timeout in ms for waiting device to be ready (optional)
->>    * @pm_state: MHI power management state
->>    * @db_access: DB access states
->>    * @ee: MHI device execution environment
->> @@ -413,6 +416,7 @@ struct mhi_controller {
->>   	struct mutex pm_mutex;
->>   	rwlock_t pm_lock;
->>   	u32 timeout_ms;
->> +	u32 ready_timeout_ms;
->>   	u32 pm_state;
->>   	u32 db_access;
->>   	enum mhi_ee_type ee;
->> -- 
->> 2.7.4
->>
