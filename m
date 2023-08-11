@@ -1,29 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138463B6
-	for <mhi@lists.linux.dev>; Fri, 11 Aug 2023 15:05:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85C0C433C9;
-	Fri, 11 Aug 2023 15:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F1463B6;
+	Fri, 11 Aug 2023 15:06:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79BE5C433C7;
+	Fri, 11 Aug 2023 15:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691766348;
-	bh=bBxkPlDqdNXoq1XK4aNK7kOyy2+7zN1Bvu6UATeTQ3s=;
+	s=k20201202; t=1691766414;
+	bh=x9/6qPE0ahOZQaLwoxBTxd9SGZCAAaS1X7FH7xekC3E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D5gOPV2ulNqQa/98acxDTxFaUxK112AYYF7xuDSVnTZQVULIQPOY9HPaN7esyJVHe
-	 OFCNsUzJIEu0+1PTD1v38At0jvgP0u/ha0MNztvUedHWTCl3dZakgSYkQWixGn1W3f
-	 A5uNl68ea8xYg1a3Ig/n4BbYucS5GBjDDCvnoEFFR9Aw0INIOVQiz/XHimBtnHP7Kl
-	 HMf/PVOhZ2nzxICqDirveqWILgN95km0SZvcezEAehSKQTxQbdqkPOG91ZRU0KnRQ2
-	 0nCDlfXkz4VK+9A16gRqC5uCPi+QssQEvfb/JOMppTGvKb2/2UF0epxm+iAQN1zAz/
-	 gQ/traOTy7B4Q==
-Date: Fri, 11 Aug 2023 20:35:36 +0530
+	b=rhIDV5tX3UpkogZmDz/UGhXNsPdjLYb+TPRfoJGSDVHnMj0OSSKTRgqo5Sz/WexcW
+	 5riHcZC3CUSoEYzQ/ND0nGwbI9a15vMS4dsoNtKZlLYlCqvP4S/QaB8Gyx0TUjEGIH
+	 qXCuzKMJgRgeooMbfYMjmjXRdU+WkOcMt68UGi3ZSd3HVQcOt1kisx0wfnHWuN+ETC
+	 CXA9jtQl2ROSChDpN9etivDJOXX6whMQTSSSbdvRSPelaoAEFLLTOWLlCsN+MeE9Yy
+	 1cLX1KqNvI66C38ed1PPi2dEYv3sQwbtdsY8yV4aMowBoLjCxzWt0OVf6e3Fog/uo2
+	 BBoNafQT3v82w==
+Date: Fri, 11 Aug 2023 20:36:44 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Daniele Palmas <dnlplm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/1] bus: mhi: host: pci_generic: add support for Telit
- FE990
-Message-ID: <20230811150536.GA5296@thinkpad>
-References: <20230804094039.365102-1-dnlplm@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Vivek Pernamitta <quic_vpernami@quicinc.com>,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Qiang Yu <quic_qianyu@quicinc.com>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] bus: mhi: host: remove unused-but-set parameter
+Message-ID: <20230811150644.GB5296@thinkpad>
+References: <20230811134547.3231160-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -33,48 +39,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230804094039.365102-1-dnlplm@gmail.com>
+In-Reply-To: <20230811134547.3231160-1-arnd@kernel.org>
 
-On Fri, Aug 04, 2023 at 11:40:39AM +0200, Daniele Palmas wrote:
-> Add support for Telit FE990 that has the same configuration than FN990:
-
-s/than/as
-
+On Fri, Aug 11, 2023 at 03:45:41PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> $ lspci -vv
-> 04:00.0 Unassigned class [ff00]: Qualcomm Device 0308
->     Subsystem: Device 1c5d:2015
+> Clang warns about a parameter that is decremented but never evaluated heere:
 > 
-> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
+> bus/mhi/host/main.c:803:13: error: parameter 'event_quota' set but not used [-Werror,-Wunused-but-set-parameter]
+>                              u32 event_quota)
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index fcd80bc92978..676f3ae33ae9 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -595,6 +595,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* Telit FN990 */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
-> +	/* Telit FE990, same configuration than FN990 */
+> Remove the access to the variable to avoid that warning.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-No need to mention configuration here.
+Applied to mhi-next!
 
 - Mani
 
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2015),
-> +		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
-> -- 
-> 2.37.1
+> ---
+>  drivers/bus/mhi/host/main.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 74a75439c7130..dcf627b36e829 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -938,7 +938,6 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+>  				if (!mhi_chan->configured)
+>  					break;
+>  				parse_xfer_event(mhi_cntrl, local_rp, mhi_chan);
+> -				event_quota--;
+>  			}
+>  			break;
+>  		default:
+> -- 
+> 2.39.2
 > 
 
 -- 
