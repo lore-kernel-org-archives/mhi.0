@@ -1,72 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B47E63B3;
-	Fri, 11 Aug 2023 13:45:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA918C433C7;
-	Fri, 11 Aug 2023 13:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691761555;
-	bh=PrLAN+PGrV3ZLZn47Uvte1I9dCtyNavw8JBu8sftjNk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=adDQjMQ4bDeU4DvWR3BNNYReZyacWrVEGHAOf1NpTtZYkICZo0mW2CLacA4z52QWV
-	 u5ia/HrShnKJNvbsOOFedZQyFxju+oXGLOo7B1ejbIxqYBCawXfyqg9hRIMkiG+K6P
-	 +RcwcbJquhdUDfxhPGd0lUkGPeVIk/C/9/waNI5HQVJTZYYJGvqDJd/dpDLZTW7UIS
-	 TZdDJn3WWFq/BFlbRnmjZTr6R3pKDxuhGmvfTC6pwogHRiiVhCqI5A6NAjCksvGi1V
-	 xd4nUp6GRvddc+Pg8ZJs5K8H8YW1PWhOzJJtuEMQjVi7SJX3hR7sCSqFfnCfLYZrxu
-	 pXoQ4zdSbb+Dg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Tom Rix <trix@redhat.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Vivek Pernamitta <quic_vpernami@quicinc.com>,
-	Carl Vanderlip <quic_carlv@quicinc.com>,
-	Qiang Yu <quic_qianyu@quicinc.com>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] bus: mhi: host: remove unused-but-set parameter
-Date: Fri, 11 Aug 2023 15:45:41 +0200
-Message-Id: <20230811134547.3231160-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646DA63B1;
+	Fri, 11 Aug 2023 14:13:13 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37BDW5pR023281;
+	Fri, 11 Aug 2023 13:51:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=EdJ7xk6KBRC6ekdTqcGFDBr4UL/D1NvEBLqYNr6O/8g=;
+ b=jujjhG0MVpvETWiv90rkrXnDzvALXGfBGtDjwcIGcHmBaaKYX8fc/2H4fIKmLFAn8CUB
+ BlDrYAgWePOtNgPrCJ73gqCnO6A6yiNpuUQbmVXzl4BHB9DKwoNodxoDPZ2J1B4kaqE0
+ 8u8G5RIskZuDWDbH/1l2gmyxNDdJap3Xv62aR5gdDDm+uuDg0TqllSA6M5bR3k/0nr9R
+ DwwZHafFnNSCmfF8CBdZeJATq9s9lFzoyHJWjD0W7rPf2U0UingMkDW1s2fDg+zJIZMP
+ z0AknAcvRJyxW7VrqUMmKoMsa29QJv/5wpSCrDscExVFQXBDJ8Nwsty6EWhnMDNFfvCq ww== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sd8ywsssk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Aug 2023 13:51:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37BDpP9m029487
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Aug 2023 13:51:25 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 11 Aug
+ 2023 06:51:24 -0700
+Message-ID: <1c51f302-e79e-5aa4-e9a8-73a244a240ce@quicinc.com>
+Date: Fri, 11 Aug 2023 07:51:23 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] bus: mhi: host: remove unused-but-set parameter
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers
+	<ndesaulniers@google.com>
+CC: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+        Vivek Pernamitta
+	<quic_vpernami@quicinc.com>,
+        Carl Vanderlip <quic_carlv@quicinc.com>,
+        "Qiang
+ Yu" <quic_qianyu@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <llvm@lists.linux.dev>
+References: <20230811134547.3231160-1-arnd@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230811134547.3231160-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4hbVszYQnY-wuP1oyx0JEB6dwTAGI-U9
+X-Proofpoint-ORIG-GUID: 4hbVszYQnY-wuP1oyx0JEB6dwTAGI-U9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-11_05,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ impostorscore=0 phishscore=0 mlxlogscore=743 lowpriorityscore=0
+ clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308110126
 
-From: Arnd Bergmann <arnd@arndb.de>
+On 8/11/2023 7:45 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Clang warns about a parameter that is decremented but never evaluated heere:
+> 
+> bus/mhi/host/main.c:803:13: error: parameter 'event_quota' set but not used [-Werror,-Wunused-but-set-parameter]
+>                               u32 event_quota)
+> 
+> Remove the access to the variable to avoid that warning.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Clang warns about a parameter that is decremented but never evaluated heere:
-
-bus/mhi/host/main.c:803:13: error: parameter 'event_quota' set but not used [-Werror,-Wunused-but-set-parameter]
-                             u32 event_quota)
-
-Remove the access to the variable to avoid that warning.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/bus/mhi/host/main.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 74a75439c7130..dcf627b36e829 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -938,7 +938,6 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
- 				if (!mhi_chan->configured)
- 					break;
- 				parse_xfer_event(mhi_cntrl, local_rp, mhi_chan);
--				event_quota--;
- 			}
- 			break;
- 		default:
--- 
-2.39.2
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
