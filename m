@@ -1,93 +1,72 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C4863AF
-	for <mhi@lists.linux.dev>; Fri, 11 Aug 2023 09:57:55 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37B98SAP028443;
-	Fri, 11 Aug 2023 09:57:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=Clns84L0nF1KIwe8/JcfpazhdfXCbcoCDajSYtA5KWU=;
- b=TtzDO1V9eIk0m/XS0BZdQOftKo5DW8+/6w4juF/pS/OfNGR2B0QzZKwpu38HpS6Oaw8i
- 8JI96YCd6IfGES2QWKeK0m/PIr+Y6AS5IUmautGP0SAkUi0HW84WOU80kOLjFVZD9Vtk
- d7BiTT1NyC6sng3X8Ov46jDzNSJKraDmELvTdN49gppoWWZWIfaL90iYWxMg9sz7I0VY
- kf5DOMwBMWAy+e5evneOfYmE0TFDG7TC3jTkxQDiVJ8P7D9HmSum0EWK6wTinR8Pv4Wh
- N9dPRTPHtl44tTHxuGhWLwzFyB3+MqSOpLPcOlsjTD1u+zlfgPVkQHUqpDd9jv+lSIp2 DQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sd8ya1a1y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 09:57:38 +0000
-Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 37B9vbNH012556;
-	Fri, 11 Aug 2023 09:57:37 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 3sdf0ssfhf-1;
-	Fri, 11 Aug 2023 09:57:37 +0000
-Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37B9saTm009087;
-	Fri, 11 Aug 2023 09:57:37 GMT
-Received: from hu-devc-lv-c.qualcomm.com (hu-skananth-lv.qualcomm.com [10.47.234.42])
-	by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 37B9vb1W012549;
-	Fri, 11 Aug 2023 09:57:37 +0000
-Received: by hu-devc-lv-c.qualcomm.com (Postfix, from userid 432606)
-	id ED68720FA6; Fri, 11 Aug 2023 02:57:36 -0700 (PDT)
-From: Subramanian Ananthanarayanan <quic_skananth@quicinc.com>
-To: manivannan.sadhasivam@linaro.org
-Cc: helgaas@kernel.org, linux-pci@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
-        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
-        quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <error27@gmail.com>,
-        mhi@lists.linux.dev (open list:MHI BUS)
-Subject: [PATCH v1] bus: mhi: ep: Clear channel interrupts that are unmasked
-Date: Fri, 11 Aug 2023 02:57:08 -0700
-Message-Id: <1691747849-15385-1-git-send-email-quic_skananth@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HCRV8ahvfI5higskXPmV-Kd7b43ZtO7g
-X-Proofpoint-GUID: HCRV8ahvfI5higskXPmV-Kd7b43ZtO7g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-10_20,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 phishscore=0
- mlxlogscore=478 spamscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308110090
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B47E63B3;
+	Fri, 11 Aug 2023 13:45:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA918C433C7;
+	Fri, 11 Aug 2023 13:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691761555;
+	bh=PrLAN+PGrV3ZLZn47Uvte1I9dCtyNavw8JBu8sftjNk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=adDQjMQ4bDeU4DvWR3BNNYReZyacWrVEGHAOf1NpTtZYkICZo0mW2CLacA4z52QWV
+	 u5ia/HrShnKJNvbsOOFedZQyFxju+oXGLOo7B1ejbIxqYBCawXfyqg9hRIMkiG+K6P
+	 +RcwcbJquhdUDfxhPGd0lUkGPeVIk/C/9/waNI5HQVJTZYYJGvqDJd/dpDLZTW7UIS
+	 TZdDJn3WWFq/BFlbRnmjZTr6R3pKDxuhGmvfTC6pwogHRiiVhCqI5A6NAjCksvGi1V
+	 xd4nUp6GRvddc+Pg8ZJs5K8H8YW1PWhOzJJtuEMQjVi7SJX3hR7sCSqFfnCfLYZrxu
+	 pXoQ4zdSbb+Dg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Tom Rix <trix@redhat.com>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Vivek Pernamitta <quic_vpernami@quicinc.com>,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Qiang Yu <quic_qianyu@quicinc.com>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] bus: mhi: host: remove unused-but-set parameter
+Date: Fri, 11 Aug 2023 15:45:41 +0200
+Message-Id: <20230811134547.3231160-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Change is to avoid clearing of interrupts that could have been masked.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Subramanian Ananthanarayanan <quic_skananth@quicinc.com>
+Clang warns about a parameter that is decremented but never evaluated heere:
+
+bus/mhi/host/main.c:803:13: error: parameter 'event_quota' set but not used [-Werror,-Wunused-but-set-parameter]
+                             u32 event_quota)
+
+Remove the access to the variable to avoid that warning.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/bus/mhi/ep/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/bus/mhi/host/main.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 6008818..a818781 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -867,7 +867,7 @@ static void mhi_ep_check_channel_interrupt(struct mhi_ep_cntrl *mhi_cntrl)
- 		if (ch_int) {
- 			mhi_ep_queue_channel_db(mhi_cntrl, ch_int, ch_idx);
- 			mhi_ep_mmio_write(mhi_cntrl, MHI_CHDB_INT_CLEAR_n(i),
--							mhi_cntrl->chdb[i].status);
-+							ch_int);
- 		}
- 	}
- }
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index 74a75439c7130..dcf627b36e829 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -938,7 +938,6 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+ 				if (!mhi_chan->configured)
+ 					break;
+ 				parse_xfer_event(mhi_cntrl, local_rp, mhi_chan);
+-				event_quota--;
+ 			}
+ 			break;
+ 		default:
 -- 
-2.7.4
+2.39.2
 
