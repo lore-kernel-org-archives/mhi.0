@@ -1,80 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284521842
-	for <mhi@lists.linux.dev>; Mon, 14 Aug 2023 08:14:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56655C433C8;
-	Mon, 14 Aug 2023 08:14:40 +0000 (UTC)
-Date: Mon, 14 Aug 2023 13:44:35 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Subramanian Ananthanarayanan <quic_skananth@quicinc.com>
-Cc: helgaas@kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
-	quic_ramkri@quicinc.com, quic_parass@quicinc.com,
-	krzysztof.kozlowski@linaro.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	"open list:MHI BUS" <mhi@lists.linux.dev>
-Subject: Re: [PATCH v1] bus: mhi: ep: Clear channel interrupts that are
- unmasked
-Message-ID: <20230814081435.GA9011@thinkpad>
-References: <1691747849-15385-1-git-send-email-quic_skananth@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038B5A950
+	for <mhi@lists.linux.dev>; Mon, 14 Aug 2023 09:36:32 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qVTzz-002dpQ-1H
+	for mhi@lists.linux.dev;
+	Mon, 14 Aug 2023 04:36:31 -0500
+X-Failed-Recipients: mhi@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: mhi@lists.linux.dev
+References: <20230814103628.32A9B9B6C52A1DE3@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692005791-eximdsn-33633119
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1691747849-15385-1-git-send-email-quic_skananth@quicinc.com>
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qVTzz-002dpQ-1H@ns-196.awsdns-24.com>
+Date: Mon, 14 Aug 2023 04:36:31 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
-On Fri, Aug 11, 2023 at 02:57:08AM -0700, Subramanian Ananthanarayanan wrote:
-> Change is to avoid clearing of interrupts that could have been masked.
-> 
-> Signed-off-by: Subramanian Ananthanarayanan <quic_skananth@quicinc.com>
+--1692005791-eximdsn-33633119
+Content-type: text/plain; charset=us-ascii
 
-Is this scenario possible in real life? We unmask all the interrupts during
-power_up and later mask the interrupts specific to channels when they are
-started. So I do not see a possibility where the CHDB status would be set for an
-unmasked channel.
+This message was created automatically by mail delivery software.
 
-Looking at the code now, I think we can get rid of the mask check, even the
-local copy of mask if there is a guarantee that doorbell interrupts won't be
-enabled behind the back of the MHI stack.
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
 
-IIRC, I added the mask check as the HW channel interrupts were enabled behind
-the back. But that was fixed with all unmask during power_up and mask only
-started channels strategy.
+  mhi@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
 
-PS: The term "mask" is horribly used in an inverted manner in MHI.
+--1692005791-eximdsn-33633119
+Content-type: message/delivery-status
 
-- Mani
+Reporting-MTA: dns; ns-196.awsdns-24.com
 
-> ---
->  drivers/bus/mhi/ep/main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index 6008818..a818781 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -867,7 +867,7 @@ static void mhi_ep_check_channel_interrupt(struct mhi_ep_cntrl *mhi_cntrl)
->  		if (ch_int) {
->  			mhi_ep_queue_channel_db(mhi_cntrl, ch_int, ch_idx);
->  			mhi_ep_mmio_write(mhi_cntrl, MHI_CHDB_INT_CLEAR_n(i),
-> -							mhi_cntrl->chdb[i].status);
-> +							ch_int);
->  		}
->  	}
->  }
-> -- 
-> 2.7.4
-> 
+Action: failed
+Final-Recipient: rfc822;mhi@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
 
--- 
-மணிவண்ணன் சதாசிவம்
+--1692005791-eximdsn-33633119
+Content-type: message/rfc822
+
+Return-path: <mhi@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:54849)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mhi@lists.linux.dev>)
+	id 1qVTzw-002dBW-2y
+	for mhi@lists.linux.dev;
+	Mon, 14 Aug 2023 04:36:29 -0500
+From: lists.linux.devAdministrator<mhi@lists.linux.dev>
+To: mhi@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 14 Aug 2023 10:36:28 +0100
+Message-ID: <20230814103628.32A9B9B6C52A1DE3@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>mhi@lists.linux.dev<div>14=
+-08-2023, 08:00AM <br>&nbsp;<br>Dear mhi,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=
+=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%=
+5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-=
+xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saf=
+eredirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5=
+B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQj=
+CNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-sa=
+feredirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%=
+5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQ=
+jCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Information: =
+<br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"https:/=
+/www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp;sour=
+ce=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7Cve=
+ssvAOsg">Click Here</a><br><br>The system generated this notice on 14-08-20=
+23, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
+
+--1692005791-eximdsn-33633119--
