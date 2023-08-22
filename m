@@ -1,117 +1,88 @@
-Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CD2101C8
-	for <mhi@lists.linux.dev>; Wed, 16 Aug 2023 11:06:54 +0000 (UTC)
-Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
-	id 1qWEMX-00ELTt-2F
-	for mhi@lists.linux.dev;
-	Wed, 16 Aug 2023 06:06:53 -0500
-X-Failed-Recipients: mhi@lists.linux.dev
-Auto-Submitted: auto-replied
-From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
-To: mhi@lists.linux.dev
-References: <20230816120650.BE2BBAFE768CB5F4@lists.linux.dev>
-Content-Type: multipart/report; report-type=delivery-status; boundary=1692184013-eximdsn-2109042429
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5048F78
+	for <mhi@lists.linux.dev>; Tue, 22 Aug 2023 11:50:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B784EC433C7;
+	Tue, 22 Aug 2023 11:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692705037;
+	bh=K6qHsHNv+YaJ8gAyRbjPMOoeo0yAFJvWTILnD6NXzrE=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=BYLhxbdeFsyimUU8GJSdxRrKPCK6Gd07fV1royD5DhJEqaBUYAbh7bKX0+oGhxcy6
+	 17M/uHiscpfnpBqHsRMxJyXlBxuz1idjNnUzaAJuWL63sBDrs81MavnaslSZ0695oe
+	 12nDHMLoqoxANE9UsgMX/a/xJ7ANCprbT900470mZBoHiAo0XoyzoMO09P7vWboUv9
+	 pdWz+TXROq7UDq55fpVk/1fdtVGFJ1NAv+lwVfyl4IfT04BYZkXJ8iBtTxP2EyQVsD
+	 WvcC9PyM8/F0DS0ss7x0b7qZQshyB/G3twsl04XTcf49Mf17CE4rrLrGR8GGUEPH1q
+	 OqtNtkRD2adYA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: mani@kernel.org,  quic_jhugo@quicinc.com,  mhi@lists.linux.dev,
+  linux-arm-msm@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  quic_cang@quicinc.com,  quic_mrana@quicinc.com
+Subject: Re: [PATCH v2] mhi: host: Add standard ELF header image download
+ functionality
+References: <1691395192-16090-1-git-send-email-quic_qianyu@quicinc.com>
+Date: Tue, 22 Aug 2023 14:51:33 +0300
+In-Reply-To: <1691395192-16090-1-git-send-email-quic_qianyu@quicinc.com>
+	(Qiang Yu's message of "Mon, 7 Aug 2023 15:59:52 +0800")
+Message-ID: <87edjvwb0a.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Mail delivery failed: returning message to sender
-Message-Id: <E1qWEMX-00ELTt-2F@ns-196.awsdns-24.com>
-Date: Wed, 16 Aug 2023 06:06:53 -0500
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - 
-X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
-X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
+Content-Type: text/plain
 
---1692184013-eximdsn-2109042429
-Content-type: text/plain; charset=us-ascii
+Qiang Yu <quic_qianyu@quicinc.com> writes:
 
-This message was created automatically by mail delivery software.
+> From: Mayank Rana <quic_mrana@quicinc.com>
+>
+> Some devices (e.g. WLAN chips) are unable to handle the non-standard ELF
+> format of the FBC image and thus need special handling of the FBC image.
+>
+> Add standard_elf_image flag which makes decision in terms of how FBC image
+> based AMSS image is being downloaded with connected endpoint.
+> FBC image is having two image combine: SBL image + AMSS image.
+> 1. FBC image download using legacy single ELF header image format:
+> - SBL image: 512KB of FBC image is downloaded using BHI.
+> - AMSS image: full FBC image is downloaded using BHIe.
+> 2. FBC image download using separate ELF header image format:
+> - SBL image: 512 KB of FBC image is downloaded using BHI.
+> - AMSS image: 512 KB onward FBC image is downloaded using BHIe.
+> There is no change for SBL image download. Although AMSS image start
+> address is end address of SBL image while using separate ELF header format.
+>
+> Signed-off-by: Mayank Rana <quic_mrana@quicinc.com>
+> [quic_qianyu@quicinc.com: Update commit message, minor updates]
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-A message that you sent could not be delivered to one or more of its
-recipients. This is a permanent error. The following address(es) failed:
+I guess this is for an out-of-tree driver? I haven't heard any such
+requirements for ath11k or ath12k.
 
-  mhi@lists.linux.dev
-    host smtp.subspace.kernel.org [44.238.234.78]
-    SMTP error from remote mail server after end of data:
-    550 5.7.1 Blocked by SpamAssassin
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -495,6 +495,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (mhi_cntrl->fbc_download) {
+> +		dev_dbg(dev, "standard_elf_image: %s\n",
+> +				(mhi_cntrl->standard_elf_image ? "True" : "False"));
+> +		if (mhi_cntrl->standard_elf_image) {
+> +			fw_data = firmware->data + mhi_cntrl->sbl_size;
+> +			fw_sz = fw_sz - mhi_cntrl->sbl_size;
+> +		}
 
---1692184013-eximdsn-2109042429
-Content-type: message/delivery-status
+So you are basically skipping the first sbl_size bytes of the firmware
+file? Why not just fix the firmware file in userspace? Or maybe you can
+use the recently added[1] mhi_cntrl->fw_data pointer and handle this in
+your driver instead?
 
-Reporting-MTA: dns; ns-196.awsdns-24.com
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/commit/?h=mhi-next&id=efe47a18e43f59f063a82ccaa464a3b4844bb8a8
 
-Action: failed
-Final-Recipient: rfc822;mhi@lists.linux.dev
-Status: 5.0.0
-Remote-MTA: dns; smtp.subspace.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
---1692184013-eximdsn-2109042429
-Content-type: message/rfc822
-
-Return-path: <mhi@lists.linux.dev>
-Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53437)
-	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mhi@lists.linux.dev>)
-	id 1qWEMV-00EKDC-1M
-	for mhi@lists.linux.dev;
-	Wed, 16 Aug 2023 06:06:51 -0500
-From: lists.linux.devAdministrator<mhi@lists.linux.dev>
-To: mhi@lists.linux.dev
-Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
-Date: 16 Aug 2023 12:06:50 +0100
-Message-ID: <20230816120650.BE2BBAFE768CB5F4@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-
-<html><head><title></title>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-</head>
-<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
-or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
-/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
-ined Messages Report</b> </font>&nbsp;</font><br>mhi@lists.linux.dev<div>16=
--08-2023, 08:00AM <br>&nbsp;<br>Dear mhi,</div><div><br>
-4 messages addressed to you are currently on hold awaiting your further act=
-ion. You can release all of your held messages and permit or block future e=
-mails from the senders, or manage messages individually.<br><br>
-<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
-nxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=
-=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%=
-5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-=
-xB2LHrk7CvessvAOsg">Review all</a>
-&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
-cFJkycxN8DaPanxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saf=
-eredirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5=
-B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQj=
-CNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
-&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
-bcFJkycxN8DaPanxX?clientID=3Dmhi@lists.linux.dev" target=3D"_blank" data-sa=
-feredirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%=
-5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQ=
-jCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Information: =
-<br>
-To view your entire quarantine inbox or manage your preferences, <a href=3D=
-"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
-ID=3Dmhi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"https:/=
-/www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp;sour=
-ce=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7Cve=
-ssvAOsg">Click Here</a><br><br>The system generated this notice on 16-08-20=
-23, at 09:00AM<br>Do not reply to this automated message.<br>
-&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
-</body></html>
-
---1692184013-eximdsn-2109042429--
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
