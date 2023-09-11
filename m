@@ -1,143 +1,81 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1E61389
-	for <mhi@lists.linux.dev>; Fri,  8 Sep 2023 06:54:18 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3885Tbdt007733;
-	Fri, 8 Sep 2023 06:54:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=xbPGXFjhk3rQpoGLqXnqN54My/xDiWdIVQN0PE1OG6s=;
- b=nObuKNjCR0mlCsMCZJ+dY4DGu6UQOVbhb8UPIKqoyPxahi9WmjjKCza/wKcHxb6W2fel
- EXAOYmuNKQ0bHbY8UA+qCx5ck+HRNgffgTuh8ow55OnyyRAZ+PaKm8Ff7lzwzzzjP/9I
- RrunlqK3oeeUrUkoOjqY0czJfEU2OjHh0HAgByOI+XJaMUyUuewUjCRRYaBI4GOt9NRT
- sMbvNvquv/Kkta8msBZ0FJ4zWhQnjYrUUc4Ry10CSuNtYQbvIR4VYw+N21K2c6xXKKmt
- yjBYWIBEfKgXJC7M/kVereseWxk8VKDbvYfm5n2jQK9R8CKUo3Tx0igqh4DfRbLHAh/u gw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3syf5c1ygc-1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297E9C123
+	for <mhi@lists.linux.dev>; Mon, 11 Sep 2023 09:54:43 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38B6e6Xb003529;
+	Mon, 11 Sep 2023 09:54:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=dcisKaOxl88pO4ru3b/qyY3BiC0kLFNKOlg2+iCDKjM=;
+ b=GdO4eyyN3MiCEJCgSg3e8hkmifw/r1PYXzW2dUQFjIW37+ZR2WDk30cxBRw+QNfIXKMz
+ IHme0wWvmGK57mgwU/Tmom6ETfv3mYBxKmlrQBcmQflVVZQtl8puxwbBy/cqicezAA+e
+ DQt1jXMnc8KKYy8d3t9c0Pxs2Sdqsa3jJaZZFJJz87IVHUYF217ORQqam++cVmmRFUj3
+ dHA8pYOBHimvM9O1fbvVtDFSKaJb1nxsjwmu878UaNrLacuiIxsWz1R0qk3MZASFrXSe
+ MYYMXPMb6Rm0fRiNZNPCiIW3Oy4S+YIGR0bTiOlU8RC/MFEKOA7quWav+Z5NqVaqWrag +Q== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t0gx9uewe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Sep 2023 06:54:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3886sCcQ015257
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 8 Sep 2023 06:54:12 GMT
-Received: from hu-krichai-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.36; Thu, 7 Sep 2023 23:54:08 -0700
-From: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Date: Fri, 8 Sep 2023 12:23:38 +0530
-Subject: [PATCH v6 4/4] PCI: epf-mhi: Add support for handling D-state
- notify from EPC
+	Mon, 11 Sep 2023 09:54:35 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 38B9sX57018265;
+	Mon, 11 Sep 2023 09:54:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3t0hsk9dnx-1;
+	Mon, 11 Sep 2023 09:54:33 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38B9sWJM018260;
+	Mon, 11 Sep 2023 09:54:33 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 38B9sWh8018259;
+	Mon, 11 Sep 2023 09:54:32 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id B277A482F; Mon, 11 Sep 2023 17:54:31 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH 0/2] Add lock to avoid race when ringing channel DB
+Date: Mon, 11 Sep 2023 17:54:27 +0800
+Message-Id: <1694426069-74140-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BwgJDuJ1J3hqsDeTDlS_kzcF0gZx1syZ
+X-Proofpoint-GUID: BwgJDuJ1J3hqsDeTDlS_kzcF0gZx1syZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-11_06,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=551 malwarescore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309110091
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230908-dstate_change-v6-4-b414a6edd765@quicinc.com>
-References: <20230908-dstate_change-v6-0-b414a6edd765@quicinc.com>
-In-Reply-To: <20230908-dstate_change-v6-0-b414a6edd765@quicinc.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        Manivannan Sadhasivam
-	<mani@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas
-	<bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring
-	<robh@kernel.org>
-CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <mhi@lists.linux.dev>,
-        Krishna chaitanya chundru <quic_krichai@quicinc.com>
-X-Mailer: b4 0.13-dev-83828
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694156032; l=1755;
- i=quic_krichai@quicinc.com; s=20230907; h=from:subject:message-id;
- bh=vF/dQCu3TPF1bViARZ8lDBrNRejc29BwCNshPXeJqbg=;
- b=CfyLczHQOj9gA4+LDiEHuovleozRyYYl3Bj/1Z2z8PLGXS+8pl/cTnSnsz8JNRLCLi9DztnP/
- S5SJklpzlk4BFXLqeeEm8++BySsMPGlp2D7sMs3NuY5Oj0BRnLGCjLg
-X-Developer-Key: i=quic_krichai@quicinc.com; a=ed25519;
- pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VwRbAi8vdbHXtvqrYeXxho8-t81XDIZV
-X-Proofpoint-ORIG-GUID: VwRbAi8vdbHXtvqrYeXxho8-t81XDIZV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-08_03,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 suspectscore=0 impostorscore=0 bulkscore=0 mlxlogscore=857
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2309080062
 
-Add support for handling D-state notify for MHI EPF.
+1. We need a write lock in mhi_gen_tre otherwise there is race of the WP
+used for ringing channel DB between mhi_queue and M0 transition.
+2. We can not invoke local_bh_enable() when irqs are disabled, so move
+read_lock_irqsave() under the mhi_gen_tre() since we add write_lock_bh() in
+mhi_gen_tre().
 
-Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
- include/linux/mhi_ep.h                       |  3 +++
- 2 files changed, 14 insertions(+)
+Bhaumik Bhatt (1):
+  bus: mhi: host: Add spinlock to protect WP access when queueing TREs
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index b7b9d3e21f97..7bd15cca686c 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -592,6 +592,16 @@ static int pci_epf_mhi_bme(struct pci_epf *epf)
- 	return 0;
- }
- 
-+static int pci_epf_mhi_dstate_notify(struct pci_epf *epf, pci_power_t state)
-+{
-+	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-+	struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
-+
-+	mhi_cntrl->dstate = state;
-+
-+	return 0;
-+}
-+
- static int pci_epf_mhi_bind(struct pci_epf *epf)
- {
- 	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
-@@ -649,6 +659,7 @@ static struct pci_epc_event_ops pci_epf_mhi_event_ops = {
- 	.link_up = pci_epf_mhi_link_up,
- 	.link_down = pci_epf_mhi_link_down,
- 	.bme = pci_epf_mhi_bme,
-+	.dstate_notify = pci_epf_mhi_dstate_notify,
- };
- 
- static int pci_epf_mhi_probe(struct pci_epf *epf,
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index f198a8ac7ee7..c3a068592d21 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/dma-direction.h>
- #include <linux/mhi.h>
-+#include <linux/pci.h>
- 
- #define MHI_EP_DEFAULT_MTU 0x8000
- 
-@@ -139,6 +140,8 @@ struct mhi_ep_cntrl {
- 
- 	enum mhi_state mhi_state;
- 
-+	pci_power_t dstate;
-+
- 	u32 max_chan;
- 	u32 mru;
- 	u32 event_rings;
+Hemant Kumar (1):
+  bus: mhi: host: Take irqsave lock after TRE is generated
+
+ drivers/bus/mhi/host/main.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
 -- 
-2.42.0
+2.7.4
 
