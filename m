@@ -1,97 +1,151 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DEB3B29B
-	for <mhi@lists.linux.dev>; Wed, 20 Sep 2023 14:28:41 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2bffc55af02so60430681fa.2
-        for <mhi@lists.linux.dev>; Wed, 20 Sep 2023 07:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695220120; x=1695824920; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LtxCq9Na6rpCtPYQhYFE+hYkNtnlIQOOpKV463CAC6I=;
-        b=VT7UZf6n3IHUc9itb7RsHTVHelmGwgO6PtX2aTKZp6pYgkSEQWoba7FKVIo/B9303x
-         IzzER8RIGDtsQ4PeYrz4CIs4RC2CwWfPh+JFkT5pSGdc1RgKtaplR2eZH5nQZxDCvHW+
-         FP4NU5VhlOFJQ9iYR5vHfZHJwDpXMBHr/F7jvc9OWjHzyG7kh7BBR5cM1EhH1vsxa7Kr
-         riV8gnZGMbTDXME0ifyY31pa1pprLK/o1RivnjrWSsacWOVXA7gpMtEAi8rWmEPmYO4j
-         2KsX1iuHsLcthES/bqeert7rRbtXkObKR0BPDmhTenKXcsAfi9YKDeUt79fGaUtB8Y9M
-         8mZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695220120; x=1695824920;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LtxCq9Na6rpCtPYQhYFE+hYkNtnlIQOOpKV463CAC6I=;
-        b=vcsckxJ45lq5dvffIkESmR4Oa1Lw8mNYBca5KvH1M5O9M0axO2H76TdtSOzRjEKsPy
-         5cDReYW/EIMD1cYM84staoE2DGKG8vGd29w8lUxSWcUXJ6xmNxi/SB8jPhwFdY5SucjG
-         L4yvq8vQvGZCFMfdSRt11xnUHFWhmyMwUy6zLAUd5GKqwY4eWQphJTAWy14YPhyosNl4
-         tRPhuuBFVeKQNLd6AtCMGC1nbKm1j8pkbzQxpCcDZVTzShLPcktFyt7BVSXXLUz5I2/z
-         LzRXlkZD11HgYUb6zUpT2SlJGnvfYZI6972YAvNQGmgL1zI8jZ/qHXc2KHcaPAK+PGwu
-         vPyQ==
-X-Gm-Message-State: AOJu0YyCb7Zhlt5Gnln+Q5pZTCgGY1V18w2KLn9NgJ8onXBfF/kbyR83
-	HsIqbEm7TPtd5fqE2aJrxeYcuA==
-X-Google-Smtp-Source: AGHT+IHy7BqgLDFZs6UQbHtu2/7vJypH4EJX8MKjk8ev1/EHp8Jj55x1ob7FX8sqs1VAb0K4W9HOQA==
-X-Received: by 2002:a2e:884e:0:b0:2bc:39f5:ecb4 with SMTP id z14-20020a2e884e000000b002bc39f5ecb4mr2411051ljj.25.1695220119763;
-        Wed, 20 Sep 2023 07:28:39 -0700 (PDT)
-Received: from [172.20.86.172] (static-212-193-78-212.thenetworkfactory.nl. [212.78.193.212])
-        by smtp.gmail.com with ESMTPSA id f13-20020a170906390d00b00982a92a849asm9418489eje.91.2023.09.20.07.28.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 07:28:39 -0700 (PDT)
-Message-ID: <911fd752-d5dc-79e2-91b7-74c70e5d8632@linaro.org>
-Date: Wed, 20 Sep 2023 16:28:38 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739A08F49;
+	Thu, 21 Sep 2023 08:11:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA915C116B1;
+	Thu, 21 Sep 2023 08:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695283900;
+	bh=Gewh+X/afwnYE29YDMBBSxcYouKp+J6pI9o/VDPi61s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OOA97oSA87QUXG8tkGzL4e+OSoo31vbKdlGVmS82Rki1F6e6aK/ISRu3oFg3WttHU
+	 hzASotkvmkEWgGL97btIXv1zY0ngfxmtdLZBbCPkYelDLUT7JFSaLbzD4C9di3BSRa
+	 15TTx1vPfe5HUOO2e6VENo6GqHKp4RgPcCW6zSDK69bYfQrPm02bNtZZapQMWRCw7b
+	 c5yYrG9EmjRXx3OWJ5D/VwlH3ZO4UVCOC7E/R9M6WC78qrfh1h9I4vP47H1w9YT55m
+	 9fy/q6WY3fczWq9OLQN+8Dqyxfk6PWf12G6xLK69kEifZm3iUQR1hZ7HflCin9DRbO
+	 NLGEIL3TcplMw==
+Date: Thu, 21 Sep 2023 10:11:32 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+Cc: agross@kernel.org, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	konrad.dybcio@linaro.org, mani@kernel.org,
+	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
+	quic_parass@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH v1 1/5] dt-bindings: PCI: qcom-ep: Add support for
+ SA8775P SoC
+Message-ID: <20230921081132.GA2891@thinkpad>
+References: <1695218113-31198-1-git-send-email-quic_msarkar@quicinc.com>
+ <1695218113-31198-2-git-send-email-quic_msarkar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v1 4/5] PCI: epf-mhi: Add support for SA8775P
-Content-Language: en-US
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
- andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, mani@kernel.org
-Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
- quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
- quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
- quic_parass@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
- Rob Herring <robh@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, linux-pci@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
- linux-phy@lists.infradead.org
-References: <1695218113-31198-1-git-send-email-quic_msarkar@quicinc.com>
- <1695218113-31198-5-git-send-email-quic_msarkar@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1695218113-31198-5-git-send-email-quic_msarkar@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1695218113-31198-2-git-send-email-quic_msarkar@quicinc.com>
 
-
-
-On 9/20/23 15:55, Mrinmay Sarkar wrote:
-> Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
-> SA8775P has the PID (0x0306) and supports HDMA. Currently, it has
-> no fixed PCI class, so it is being advertised as "PCI_CLASS_OTHERS".
+On Wed, Sep 20, 2023 at 07:25:08PM +0530, Mrinmay Sarkar wrote:
+> Add devicetree bindings support for SA8775P SoC.
+> Define reg and interrupt per platform.
 > 
 > Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 > ---
->   drivers/pci/endpoint/functions/pci-epf-mhi.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+>  .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 130 +++++++++++++++++----
+>  1 file changed, 108 insertions(+), 22 deletions(-)
 > 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> index b7b9d3e..4b349fd 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> @@ -114,6 +114,23 @@ static const struct pci_epf_mhi_ep_info sm8450_info = {
->   	.flags = MHI_EPF_USE_DMA,
->   };
->   
-> +static struct pci_epf_header sa8775p_header = {
-const?
+> diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> index a223ce0..e860e8f 100644
+> --- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> +++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> @@ -13,6 +13,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - qcom,sa8775p-pcie-ep
+>            - qcom,sdx55-pcie-ep
+>            - qcom,sm8450-pcie-ep
+>        - items:
+> @@ -20,29 +21,19 @@ properties:
+>            - const: qcom,sdx55-pcie-ep
+>  
+>    reg:
+> -    items:
+> -      - description: Qualcomm-specific PARF configuration registers
+> -      - description: DesignWare PCIe registers
+> -      - description: External local bus interface registers
+> -      - description: Address Translation Unit (ATU) registers
+> -      - description: Memory region used to map remote RC address space
+> -      - description: BAR memory region
+> +    minItems: 6
+> +    maxItems: 7
+>  
+>    reg-names:
+> -    items:
+> -      - const: parf
+> -      - const: dbi
+> -      - const: elbi
+> -      - const: atu
+> -      - const: addr_space
+> -      - const: mmio
+> +    minItems: 6
+> +    maxItems: 7
+>  
+>    clocks:
+> -    minItems: 7
+> +    minItems: 5
+>      maxItems: 8
+>  
+>    clock-names:
+> -    minItems: 7
+> +    minItems: 5
+>      maxItems: 8
+>  
+>    qcom,perst-regs:
+> @@ -57,14 +48,12 @@ properties:
+>            - description: Perst separation enable offset
+>  
+>    interrupts:
+> -    items:
+> -      - description: PCIe Global interrupt
+> -      - description: PCIe Doorbell interrupt
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    interrupt-names:
+> -    items:
+> -      - const: global
+> -      - const: doorbell
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    reset-gpios:
+>      description: GPIO used as PERST# input signal
+> @@ -122,6 +111,51 @@ allOf:
+>          compatible:
+>            contains:
+>              enum:
+> +              - qcom,sa8775p-pcie-ep
+> +    then:
+> +      properties:
+> +        reg:
+> +          items:
+> +            - description: Qualcomm-specific PARF configuration registers
+> +            - description: DesignWare PCIe registers
+> +            - description: External local bus interface registers
+> +            - description: Address Translation Unit (ATU) registers
+> +            - description: Memory region used to map remote RC address space
+> +            - description: BAR memory region
+> +            - description: DMA memory region
 
-Konrad
+It should be described as "DMA register space" or something, because this could
+be misinterpreted as memory region for doing DMA.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
