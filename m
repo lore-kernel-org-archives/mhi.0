@@ -1,133 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533CE944C;
-	Thu, 21 Sep 2023 09:48:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD34C32783;
-	Thu, 21 Sep 2023 09:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC9F7F50D;
+	Thu, 21 Sep 2023 18:38:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A46C433C7;
+	Thu, 21 Sep 2023 18:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695289713;
-	bh=J91xLLYh3063mIz8vTCj0EDjswezy2qXl2KyxMg3RQI=;
+	s=k20201202; t=1695321533;
+	bh=Jo3M7JtBDMiHK2zM7MVLMg4fZ9vIWVE8KTJC0QLndO8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fU057suNKQbihbsVL2RWa98mU6/opeEGInjY7XwbSg83INDcPahdBga23HxJVedq6
-	 1940hb8sDpd52ueZhRszkTZGjQTbKIVk45BC9C0Oiz4+XQSj4k7iZwPlFgY6B2Wg71
-	 6JhA70Ulb3ae4S/VLNazQq97Bv4IvAJzX9bqjQOi1hIRY5/L7HK1mo1T1fQCWIJ9Q7
-	 bpSlWHVeppCYURvyle4n7VWHn7jZX31tJIU3/sR3VXwGM7f3BNWLdsH7FZUP8jb/4D
-	 qYASDzCHLGqEop9vHSeG6kbvvHySj4zYKY2VnfAkaBRhm/eQwBHOejreG5Xor6mwtI
-	 UUo9yEKkxigmA==
-Date: Thu, 21 Sep 2023 11:48:23 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
+	b=BcnsYo6A8D09XBG+riw76rhi9G0pfINMuDAzNBm524D+q7PUAIk1b3wUl5vL4ug18
+	 hgJfsn8lAIay59okmDzzZwjUKxpAnKyoGIxQ9Q1cvfaRd0ZnV3LchtOZi8alhoZtkl
+	 QLpEEFlUpgggXoSESoS1Scm1qIBqt6Cfnj7rzPUkGzvPjAbQI4LHFFeD7AqJpwSD21
+	 PIeVEK+LegHr1y88bqx+U9dXi70CoZA9tjFag7pxUk/GRgGVpsVtV9Yzv2VD232p8w
+	 QqTO8HIV5FhRxbPI84b2rnjLD23VMFddu64fvvrJBWf5XrNIsrOaur8YH/XXrVRyAk
+	 Duge0PLfpwgZA==
+Received: (nullmailer pid 782544 invoked by uid 1000);
+	Thu, 21 Sep 2023 18:38:50 -0000
+Date: Thu, 21 Sep 2023 13:38:50 -0500
+From: Rob Herring <robh@kernel.org>
 To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: agross@kernel.org, andersson@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	konrad.dybcio@linaro.org, quic_shazhuss@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH v1 5/5] arm64: dts: qcom: sa8775p: Add ep pcie0
- controller node
-Message-ID: <20230921094823.GE2891@thinkpad>
+Cc: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org, quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com, quic_krichai@quicinc.com, quic_vbadigan@quicinc.com, quic_parass@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>, linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v1 1/5] dt-bindings: PCI: qcom-ep: Add support for
+ SA8775P SoC
+Message-ID: <20230921183850.GA762694-robh@kernel.org>
 References: <1695218113-31198-1-git-send-email-quic_msarkar@quicinc.com>
- <1695218113-31198-6-git-send-email-quic_msarkar@quicinc.com>
+ <1695218113-31198-2-git-send-email-quic_msarkar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1695218113-31198-6-git-send-email-quic_msarkar@quicinc.com>
+In-Reply-To: <1695218113-31198-2-git-send-email-quic_msarkar@quicinc.com>
 
-On Wed, Sep 20, 2023 at 07:25:12PM +0530, Mrinmay Sarkar wrote:
-> Add ep pcie dtsi node for pcie0 controller found on sa8775p platform.
+On Wed, Sep 20, 2023 at 07:25:08PM +0530, Mrinmay Sarkar wrote:
+> Add devicetree bindings support for SA8775P SoC.
+> Define reg and interrupt per platform.
 > 
-
-It would be good to add more info in the commit message, like PCIe Gen, lane
-info, IP revision etc...
-
 > Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 45 +++++++++++++++++++++++++++++++++++
->  1 file changed, 45 insertions(+)
+>  .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 130 +++++++++++++++++----
+>  1 file changed, 108 insertions(+), 22 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> index 9f4f58e8..5571131 100644
-> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> @@ -2600,4 +2600,49 @@
+> diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> index a223ce0..e860e8f 100644
+> --- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> +++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> @@ -13,6 +13,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - qcom,sa8775p-pcie-ep
+>            - qcom,sdx55-pcie-ep
+>            - qcom,sm8450-pcie-ep
+>        - items:
+> @@ -20,29 +21,19 @@ properties:
+>            - const: qcom,sdx55-pcie-ep
 >  
->  		status = "disabled";
->  	};
-> +
-> +	pcie0_ep: pcie-ep@1c00000 {
-> +		compatible = "qcom,sa8775p-pcie-ep";
-> +		reg = <0x0 0x01c00000 0x0 0x3000>,
-> +		      <0x0 0x40000000 0x0 0xf20>,
-> +		      <0x0 0x40000f20 0x0 0xa8>,
-> +		      <0x0 0x40001000 0x0 0x4000>,
-> +		      <0x0 0x40200000 0x0 0x100000>,
-> +		      <0x0 0x01c03000 0x0 0x1000>,
-> +		      <0x0 0x40005000 0x0 0x2000>;
-> +		reg-names = "parf", "dbi", "elbi", "atu", "addr_space",
-> +			    "mmio", "dma";
-> +
-> +		clocks = <&gcc GCC_PCIE_0_AUX_CLK>,
-> +			<&gcc GCC_PCIE_0_CFG_AHB_CLK>,
-> +			<&gcc GCC_PCIE_0_MSTR_AXI_CLK>,
-> +			<&gcc GCC_PCIE_0_SLV_AXI_CLK>,
-> +			<&gcc GCC_PCIE_0_SLV_Q2A_AXI_CLK>;
-> +
-> +		clock-names = "aux",
-> +			      "cfg",
-> +			      "bus_master",
-> +			      "bus_slave",
-> +			      "slave_q2a";
-> +
-> +		interrupts = <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 630 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		interrupt-names = "global", "doorbell", "dma";
-> +
-> +		interconnects = <&pcie_anoc MASTER_PCIE_0 0 &mc_virt SLAVE_EBI1 0>,
-> +				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_PCIE_0 0>;
-> +		interconnect-names = "pcie-mem", "cpu-pcie";
-> +
+>    reg:
+> -    items:
+> -      - description: Qualcomm-specific PARF configuration registers
+> -      - description: DesignWare PCIe registers
+> -      - description: External local bus interface registers
+> -      - description: Address Translation Unit (ATU) registers
+> -      - description: Memory region used to map remote RC address space
+> -      - description: BAR memory region
+> +    minItems: 6
+> +    maxItems: 7
+>  
+>    reg-names:
+> -    items:
+> -      - const: parf
+> -      - const: dbi
+> -      - const: elbi
+> -      - const: atu
+> -      - const: addr_space
+> -      - const: mmio
+> +    minItems: 6
+> +    maxItems: 7
 
-Don't you need iommu property?
+Don't move these into if/then schemas. Then we are duplicating the 
+names, and there is no reason to keep them aligned for new compatibles.
 
-> +		resets = <&gcc GCC_PCIE_0_BCR>;
-> +		reset-names = "core";
-> +		power-domains = <&gcc PCIE_0_GDSC>;
-> +		phys = <&pcie0_phy>;
-> +		phy-names = "pciephy";
-> +		max-link-speed = <3>;
-
-Gen 3?
-
-> +		num-lanes = <2>;
-
-Only 2 lanes? Or the other one has 4 lanes?
-
-- Mani
-
-> +
-> +		status = "disabled";
-> +	};
->  };
-> -- 
-> 2.7.4
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Rob
