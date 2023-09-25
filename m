@@ -1,81 +1,162 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1A21F199
-	for <mhi@lists.linux.dev>; Fri, 22 Sep 2023 14:50:15 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38MElJcZ024672;
-	Fri, 22 Sep 2023 14:50:12 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0DC7F
+	for <mhi@lists.linux.dev>; Mon, 25 Sep 2023 03:10:29 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38P2w9rj014284;
+	Mon, 25 Sep 2023 03:10:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=i6x/TP+VdD+IpejFbiiPt7d7OBRe18+V3yJHFK61Ht8=;
- b=oJlfTjlg2SO6aAIx7k5knFDvqEgQjUXzektgkm+pL/mg9X2VgGs5oaUAKXBRDYJkw+/Y
- ODTRRvM3NRlJPHZItZUF+oO4LI5Nq2KpQTvI5L54lZKlCWuiv5nVGqzAA/o0hj0IXQoL
- k4wz4z0Qg+goRBbJS7fSVcO7nVKSUjCfr2mBNn4ncMFxPVW3FiXRDFOtE9sB5g3QKE/5
- mtTm2tPqQECyYK7/DsmSd2fR9XyB580CsIv3DP6p8HI69AX1cjkyGJ9G6c0TOJ0jR8mk
- B51fNI2E8ETMmTzR9YCTziP2hTips6wSoBX9YuMOvyIzMerMrTMR28/CuBFjorv0avMm YA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t8u9ha1j9-1
+ bh=30VHeSyGYzHPzTB3jvCEkL+AUpeDSctcovuhd0vnFV0=;
+ b=f/RjTU52f7b3pYQYD2fEZT2Qvr14BxjU9A3OPNfdYgQ0rSY1eF12HDtIlYXz+x2eM7BM
+ slZtfedheae0MGva7FbcezRLAeAL/Mh+F/ASnUY7Pwc9W4bwqGhKK5mKtlv8/YpQL2Hi
+ 6TwedjDF5MzqieedOZU5v0TUrN4qKxuw8+cB+nhkTVVQJrEz9QuTKHJQtg9fpBh6wLCK
+ osy/EMZpSlP1LWLl5Vugf8euA/Er2xKkHvH4QfblZuq5e/dGAYSy4YxjOq1TGcnQ7N8C
+ /uMQyPthOrxx9Bw2JZwyYTWlPeJJRL25t9zF67PHRiIZlZ6zyHMcIz3PASepg5OC1W7o jA== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3t9qbptjcb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Sep 2023 14:50:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38MEoAdY007093
+	Mon, 25 Sep 2023 03:10:20 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38P3AJwQ031384
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Sep 2023 14:50:10 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Fri, 22 Sep
- 2023 07:50:10 -0700
-Message-ID: <e40a1dca-f23e-af32-320e-bf66a894bc6c@quicinc.com>
-Date: Fri, 22 Sep 2023 08:50:09 -0600
+	Mon, 25 Sep 2023 03:10:19 GMT
+Received: from [10.253.15.18] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Sun, 24 Sep
+ 2023 20:10:16 -0700
+Message-ID: <dfeb6071-8ae4-38ba-5273-59478ea8e178@quicinc.com>
+Date: Mon, 25 Sep 2023 11:10:06 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 2/2] bus: mhi: host: Take irqsave lock after TRE is
- generated
-Content-Language: en-US
-To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 1/2] bus: mhi: host: Add spinlock to protect WP access
+ when queueing TREs
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <mani@kernel.org>
 CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>, Hemant Kumar <quic_hemantk@quicinc.com>,
-        "Lazarus
- Motha" <quic_lmotha@quicinc.com>
+        <quic_mrana@quicinc.com>
 References: <1694594861-12691-1-git-send-email-quic_qianyu@quicinc.com>
- <1694594861-12691-3-git-send-email-quic_qianyu@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1694594861-12691-3-git-send-email-quic_qianyu@quicinc.com>
+ <1694594861-12691-2-git-send-email-quic_qianyu@quicinc.com>
+ <af4fc816-d75b-997d-6d37-a774f5eb96ae@quicinc.com>
+Content-Language: en-US
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <af4fc816-d75b-997d-6d37-a774f5eb96ae@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 2cYyCUbgZG-ljFoHfBRafUj9TAYFo3pi
-X-Proofpoint-ORIG-GUID: 2cYyCUbgZG-ljFoHfBRafUj9TAYFo3pi
+X-Proofpoint-GUID: XJRBA2dU3AwcwaB447MKd2S34rCXhU9g
+X-Proofpoint-ORIG-GUID: XJRBA2dU3AwcwaB447MKd2S34rCXhU9g
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-22_13,2023-09-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501 phishscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 mlxlogscore=590 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309220127
+ definitions=2023-09-24_21,2023-09-21_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309250018
 
-On 9/13/2023 2:47 AM, Qiang Yu wrote:
-> From: Hemant Kumar <quic_hemantk@quicinc.com>
-> 
-> Take irqsave lock after TRE is generated to avoid deadlock due to core
-> getting interrupts enabled as local_bh_enable must not be called with
-> irqs disabled based on upstream patch.
 
-Where is local_bh_enable() being called?  What patch?  What is upstream 
-of the codebase you submitted this to?  Why is it safe to call 
-mhi_gen_tre() without the lock?
+On 9/22/2023 10:44 PM, Jeffrey Hugo wrote:
+> On 9/13/2023 2:47 AM, Qiang Yu wrote:
+>> From: Bhaumik Bhatt <bbhatt@codeaurora.org>
+>>
+>> Protect WP accesses such that multiple threads queueing buffers for
+>> incoming data do not race and access the same WP twice. Ensure read and
+>> write locks for the channel are not taken in succession by dropping the
+>> read lock from parse_xfer_event() such that a callback given to client
+>> can potentially queue buffers and acquire the write lock in that 
+>> process.
+>> Any queueing of buffers should be done without channel read lock 
+>> acquired
+>> as it can result in multiple locks and a soft lockup.
+>>
+>> Signed-off-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
+>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+>> ---
+>>   drivers/bus/mhi/host/main.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>> index dcf627b..13c4b89 100644
+>> --- a/drivers/bus/mhi/host/main.c
+>> +++ b/drivers/bus/mhi/host/main.c
+>> @@ -642,6 +642,7 @@ static int parse_xfer_event(struct mhi_controller 
+>> *mhi_cntrl,
+>>               mhi_del_ring_element(mhi_cntrl, tre_ring);
+>>               local_rp = tre_ring->rp;
+>>   +            read_unlock_bh(&mhi_chan->lock);
+>
+> This doesn't work due to the write_lock_irqsave(&mhi_chan->lock, 
+> flags); on line 591.
+Write_lock_irqsave(&mhi_chan->lock, flags) is used in case of ev_code >= 
+MHI_EV_CC_OOB. We only read_lock/read_unlock the mhi_chan while ev_code 
+< MHI_EV_CC_OOB.
+>
+> I really don't like that we are unlocking the mhi_chan while still 
+> using it.  It opens up a window where the mhi_chan state can be 
+> updated between here and the client using the callback to queue a buf.
+>
+> Perhaps we need a new lock that just protects the wp, and needs to be 
+> only grabbed while mhi_chan->lock is held?
 
+Since we have employed mhi_chan lock to protect the channel and what we 
+are concerned here is that client may queue buf to a disabled or stopped 
+channel, can we check channel state after getting mhi_chan->lock like 
+line 595.
+
+We can add the check after getting write lock in mhi_gen_tre() and after 
+getting read lock again here.
+
+>
+>>               /* notify client */
+>>               mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+>>   @@ -667,6 +668,7 @@ static int parse_xfer_event(struct 
+>> mhi_controller *mhi_cntrl,
+>>                       kfree(buf_info->cb_buf);
+>>                   }
+>>               }
+>> +            read_lock_bh(&mhi_chan->lock);
+>>           }
+>>           break;
+>>       } /* CC_EOT */
+>> @@ -1204,6 +1206,9 @@ int mhi_gen_tre(struct mhi_controller 
+>> *mhi_cntrl, struct mhi_chan *mhi_chan,
+>>       int eot, eob, chain, bei;
+>>       int ret;
+>>   +    /* Protect accesses for reading and incrementing WP */
+>> +    write_lock_bh(&mhi_chan->lock);
+>> +
+>>       buf_ring = &mhi_chan->buf_ring;
+>>       tre_ring = &mhi_chan->tre_ring;
+>>   @@ -1221,8 +1226,10 @@ int mhi_gen_tre(struct mhi_controller 
+>> *mhi_cntrl, struct mhi_chan *mhi_chan,
+>>         if (!info->pre_mapped) {
+>>           ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+>> -        if (ret)
+>> +        if (ret) {
+>> +            write_unlock_bh(&mhi_chan->lock);
+>>               return ret;
+>> +        }
+>>       }
+>>         eob = !!(flags & MHI_EOB);
+>> @@ -1239,6 +1246,8 @@ int mhi_gen_tre(struct mhi_controller 
+>> *mhi_cntrl, struct mhi_chan *mhi_chan,
+>>       mhi_add_ring_element(mhi_cntrl, tre_ring);
+>>       mhi_add_ring_element(mhi_cntrl, buf_ring);
+>>   +    write_unlock_bh(&mhi_chan->lock);
+>> +
+>>       return 0;
+>>   }
+>
