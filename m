@@ -1,106 +1,271 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA13235506
-	for <mhi@lists.linux.dev>; Wed, 11 Oct 2023 11:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63081078D
+	for <mhi@lists.linux.dev>; Wed, 11 Oct 2023 11:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rKvtS2iY"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c00e1d4c08so86847201fa.3
-        for <mhi@lists.linux.dev>; Wed, 11 Oct 2023 04:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697024106; x=1697628906; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Qapw6Vwkgw3j/x2kavvMeUiB4u4WXfkqK2WO2XBHoI=;
-        b=rKvtS2iY4BF3ULbnBmqXjuWoZ9T4rmEm6GyNlHqSHGlyqKzn6xSiNfoj+zGsN09W9f
-         /6Cyqr1hmo0oHhe53r6LBPrloI2adhhaxd17DYRV+4IuBFWlAm6K1Nnpj1yOX5Eafg4X
-         0XawBxSThDWCt4blBlIVvNazXrgaPQXn+RaPQKYB0KeFzVcDfK4aQyPLGu5cI1TXXWvx
-         vR72St3CWoq0Rho8DcniDhj7jShp95X/BP7qFeNvw/O/B5UAevB90Xbjs8R/Uma5Hj/b
-         QBmL6UFILoEwTBWzToHLUi7kR3+iGxEAyVqKkVH+6oaV4ga+wq8Z3PfTZ6MTUTct4PKg
-         bN+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697024106; x=1697628906;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Qapw6Vwkgw3j/x2kavvMeUiB4u4WXfkqK2WO2XBHoI=;
-        b=XQU3ZaP5pTLq1fs/nttLthlScxl7tieIkuoHnn+uDqen2/JzcGhKUytvmm6LVCiGom
-         cILE68txO89bFcCzh2Kb0z5dHpHWzSlC6VR8g361qUmzmJUEtJ2jmtWjv8mjLt63HpKi
-         BMtFiaiLosqGWmZZe+X8n3fXz4fBOcU9GXxI8BatP5avzxjbSz4uUMRlQ9Y7H7r3yGgk
-         B9swrpcA1MTxCtDw9+mP3WE5N3SWsxNeUhlQx37oxioPBc2dBulp4lr9DeQDfU7JL0XN
-         ZbKRZlC5nj504s9ROnu/WN878bo+mkbezCl2xCyBuvG/h2/bT9kLI2LOWLvyPtCds94r
-         l/NA==
-X-Gm-Message-State: AOJu0Yy9JLF0AeC9Te8R8rzaWG6aeQrIwrkDOwKHgUu/8WGMQXyOwoQR
-	UbN0bW7KIoluWfUAEHlzgJ7bPQ==
-X-Google-Smtp-Source: AGHT+IF5GLRI9qQunLWRzrMod3FWnDE+uoxeFzNq35YPTOaf98ygydLZmEYH1BWul8Cf/WIu46bWag==
-X-Received: by 2002:a2e:9e53:0:b0:2bf:fa62:5d0e with SMTP id g19-20020a2e9e53000000b002bffa625d0emr18110256ljk.2.1697024105878;
-        Wed, 11 Oct 2023 04:35:05 -0700 (PDT)
-Received: from [172.30.204.240] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id c5-20020a2ea1c5000000b002bcbb464a28sm2882350ljm.59.2023.10.11.04.35.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 04:35:05 -0700 (PDT)
-Message-ID: <7297b408-06e8-41f3-a732-64c3cc3194e1@linaro.org>
-Date: Wed, 11 Oct 2023 13:35:04 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WL1ZgyNP"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39B8qAEB007975;
+	Wed, 11 Oct 2023 11:18:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=TNKGPbGDhbLVkw9aPj73i3CiAj6+IyvL5KZ0PLjcvFQ=;
+ b=WL1ZgyNP5Uwag2bmpIjG9p9XuG1rid3X9sK09CAvrGrsJBP0gwsSty+nED/xRn2ibXgy
+ gDoidZP85ZtQZiQRqFGpGqgGFz/USCzQKHiJIieLN+CpAvhmBIYbyHa8Yu89B2vJiOiJ
+ vj1CfpSou/xFVBRvlCno01Jg6kJT5dy0yYAvMWFBQt+MZP5gN/BhpPbEWH6bwls0pd9k
+ 2meUshj22rYD3KKcMBaWVReCd8lzZXqoiMbsmUfGOHqGp5WTIoKTiAJ5Uo2AHDNKWDSk
+ PLezLm+ECtypdHavjYLnMO3/k2mJrJjZUmwr32/Nwa6auvBamjwkHakvr3naX+tqz4A8 vw== 
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tnn1grq02-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Oct 2023 11:18:43 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39BBIeeF011211;
+	Wed, 11 Oct 2023 11:18:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3tk0dkmax4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 11 Oct 2023 11:18:40 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39BBIeJa011205;
+	Wed, 11 Oct 2023 11:18:40 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.194])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 39BBIedd011204;
+	Wed, 11 Oct 2023 11:18:40 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3891782)
+	id 3D5C143B8; Wed, 11 Oct 2023 16:48:39 +0530 (+0530)
+From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+To: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
+Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+        dmitry.baryshkov@linaro.org, robh@kernel.org, quic_krichai@quicinc.com,
+        quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
+        Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+        linux-phy@lists.infradead.org
+Subject: [PATCH v2 1/4] dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
+Date: Wed, 11 Oct 2023 16:48:26 +0530
+Message-Id: <1697023109-23671-2-git-send-email-quic_msarkar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1697023109-23671-1-git-send-email-quic_msarkar@quicinc.com>
+References: <1697023109-23671-1-git-send-email-quic_msarkar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: YKT7-gGCyonivAYj82mBxU8keRi90ucR
+X-Proofpoint-ORIG-GUID: YKT7-gGCyonivAYj82mBxU8keRi90ucR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-11_09,2023-10-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ mlxlogscore=951 lowpriorityscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1011 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310110099
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] arm64: dts: qcom: sa8775p: Add ep pcie0 controller
- node
-Content-Language: en-US
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: agross@kernel.org, andersson@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
- quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
- quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
- quic_parass@quicinc.com, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- mhi@lists.linux.dev, linux-phy@lists.infradead.org
-References: <1695218113-31198-1-git-send-email-quic_msarkar@quicinc.com>
- <1695218113-31198-6-git-send-email-quic_msarkar@quicinc.com>
- <20230921094823.GE2891@thinkpad>
- <ca898b48-78e0-4bc7-c88c-a33338e7e47a@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <ca898b48-78e0-4bc7-c88c-a33338e7e47a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+Add devicetree bindings support for SA8775P SoC.
+Define reg and interrupt per platform.
 
+Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+---
+ .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 131 +++++++++++++++++----
+ 1 file changed, 109 insertions(+), 22 deletions(-)
 
-On 10/11/23 12:44, Mrinmay Sarkar wrote:
-> 
-> On 9/21/2023 3:18 PM, Manivannan Sadhasivam wrote:
->> On Wed, Sep 20, 2023 at 07:25:12PM +0530, Mrinmay Sarkar wrote:
->>> Add ep pcie dtsi node for pcie0 controller found on sa8775p platform.
->>>
->> It would be good to add more info in the commit message, like PCIe 
->> Gen, lane
->> info, IP revision etc...
->>
->>> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
->>> ---
-[...]
+diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+index a223ce0..8f219a6e 100644
+--- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
++++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+@@ -13,36 +13,28 @@ properties:
+   compatible:
+     oneOf:
+       - enum:
++          - qcom,sa8775p-pcie-ep
+           - qcom,sdx55-pcie-ep
+           - qcom,sm8450-pcie-ep
+       - items:
++          - const: qcom,sa8775p-pcie-ep
+           - const: qcom,sdx65-pcie-ep
+           - const: qcom,sdx55-pcie-ep
+ 
+   reg:
+-    items:
+-      - description: Qualcomm-specific PARF configuration registers
+-      - description: DesignWare PCIe registers
+-      - description: External local bus interface registers
+-      - description: Address Translation Unit (ATU) registers
+-      - description: Memory region used to map remote RC address space
+-      - description: BAR memory region
++    minItems: 6
++    maxItems: 7
+ 
+   reg-names:
+-    items:
+-      - const: parf
+-      - const: dbi
+-      - const: elbi
+-      - const: atu
+-      - const: addr_space
+-      - const: mmio
++    minItems: 6
++    maxItems: 7
+ 
+   clocks:
+-    minItems: 7
++    minItems: 5
+     maxItems: 8
+ 
+   clock-names:
+-    minItems: 7
++    minItems: 5
+     maxItems: 8
+ 
+   qcom,perst-regs:
+@@ -57,14 +49,12 @@ properties:
+           - description: Perst separation enable offset
+ 
+   interrupts:
+-    items:
+-      - description: PCIe Global interrupt
+-      - description: PCIe Doorbell interrupt
++    minItems: 2
++    maxItems: 3
+ 
+   interrupt-names:
+-    items:
+-      - const: global
+-      - const: doorbell
++    minItems: 2
++    maxItems: 3
+ 
+   reset-gpios:
+     description: GPIO used as PERST# input signal
+@@ -122,6 +112,51 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - qcom,sa8775p-pcie-ep
++    then:
++      properties:
++        reg:
++          items:
++            - description: Qualcomm-specific PARF configuration registers
++            - description: DesignWare PCIe registers
++            - description: External local bus interface registers
++            - description: Address Translation Unit (ATU) registers
++            - description: Memory region used to map remote RC address space
++            - description: BAR memory region
++            - description: DMA register space
++        reg-names:
++          items:
++            - const: parf
++            - const: dbi
++            - const: elbi
++            - const: atu
++            - const: addr_space
++            - const: mmio
++            - const: dma
++    else:
++      properties:
++        reg:
++          items:
++            - description: Qualcomm-specific PARF configuration registers
++            - description: DesignWare PCIe registers
++            - description: External local bus interface registers
++            - description: Address Translation Unit (ATU) registers
++            - description: Memory region used to map remote RC address space
++            - description: BAR memory region
++        reg-names:
++          items:
++            - const: parf
++            - const: dbi
++            - const: elbi
++            - const: atu
++            - const: addr_space
++            - const: mmio
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
+               - qcom,sdx55-pcie-ep
+     then:
+       properties:
+@@ -173,6 +208,58 @@ allOf:
+             - const: ddrss_sf_tbu
+             - const: aggre_noc_axi
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sa8775-pcie-ep
++    then:
++      properties:
++        clocks:
++          items:
++            - description: PCIe Auxiliary clock
++            - description: PCIe CFG AHB clock
++            - description: PCIe Master AXI clock
++            - description: PCIe Slave AXI clock
++            - description: PCIe Slave Q2A AXI clock
++        clock-names:
++          items:
++            - const: aux
++            - const: cfg
++            - const: bus_master
++            - const: bus_slave
++            - const: slave_q2a
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sa8775p-pcie-ep
++    then:
++      properties:
++        interrupts:
++          items:
++            - description: PCIe Global interrupt
++            - description: PCIe Doorbell interrupt
++            - description: DMA interrupt
++        interrupt-names:
++          items:
++            - const: global
++            - const: doorbell
++            - const: dma
++    else:
++      properties:
++        interrupts:
++          items:
++            - description: PCIe Global interrupt
++            - description: PCIe Doorbell interrupt
++        interrupt-names:
++          items:
++            - const: global
++            - const: doorbell
++
+ unevaluatedProperties: false
+ 
+ examples:
+-- 
+2.7.4
 
->>> +        max-link-speed = <3>;
->> Gen 3?
-> there is some stability issue with gen4 so going with gen3 as of now.
-> Will update once issue is resolved.
-That's something that should have definitely been mentioned in the 
-commit message..
-
-Please try resolving this first, if it ends up requiring bindings 
-changes (missing clocks or whatever), it will be a pain.
-
-Konrad
