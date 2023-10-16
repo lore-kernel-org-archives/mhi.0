@@ -1,112 +1,345 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033C31944F
-	for <mhi@lists.linux.dev>; Mon, 16 Oct 2023 08:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ormlZ5sE"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39G7p7GH020067;
-	Mon, 16 Oct 2023 08:49:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=sifPsxCDn4LKFjq3zQSutNGMmtzyW892LXiRq2gikAk=;
- b=ormlZ5sE1TuPDGINSyatOVS1KPTFMyKy3ZR2VUbwU8Rwy4IsYJQfblPedjKIWNujpHId
- xkBszs/ZP3Me7jev2ZODBNqLjwzNjOkTy76komnN8g0CD7EZegjYbO3xPSFzObElaQ+R
- IMmJH/9M0DrsC89minDyw4r4t1iq8JTICt3YZsKyQHuvm6x8TtQPX1g1oG56BToXs21B
- 0lZI1eXIijVk5v+qTsdlsQJCVtgQBW2GuTVR577mYvv4dMONn1V7J4Ey4ClLKDc5j4Pc
- FV4tGIYSRV8bEB4JZVkwTla2w0U9apQNx38S1FF2u39fqmR3xDQUM+feungwaZTJv3pG 8Q== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tqj0hkhae-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Oct 2023 08:49:14 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39G8nDAs029099
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Oct 2023 08:49:13 GMT
-Received: from [10.253.8.47] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 16 Oct
- 2023 01:49:11 -0700
-Message-ID: <10f05b5a-8046-4884-b375-007a14248e00@quicinc.com>
-Date: Mon, 16 Oct 2023 16:49:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF405262AC;
+	Mon, 16 Oct 2023 15:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16235C433CD;
+	Mon, 16 Oct 2023 15:12:23 +0000 (UTC)
+Date: Mon, 16 Oct 2023 11:13:57 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
+ <quic_ramkri@quicinc.com>, <quic_nitegupt@quicinc.com>,
+ <quic_skananth@quicinc.com>, <quic_parass@quicinc.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
+Message-ID: <20231016111357.74b991d4@gandalf.local.home>
+In-Reply-To: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
+References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] bus: mhi: host: Take irqsave lock after TRE is
- generated
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>, Hemant Kumar <quic_hemantk@quicinc.com>,
-        "Lazarus
- Motha" <quic_lmotha@quicinc.com>
-References: <1694594861-12691-1-git-send-email-quic_qianyu@quicinc.com>
- <1694594861-12691-3-git-send-email-quic_qianyu@quicinc.com>
- <e40a1dca-f23e-af32-320e-bf66a894bc6c@quicinc.com>
- <a82e188e-2d0e-7c0f-de54-79bbc4b6957b@quicinc.com>
- <6b396b1a-58a7-bf7c-f644-f1bf298a31e0@quicinc.com>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <6b396b1a-58a7-bf7c-f644-f1bf298a31e0@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jHtNlzqMbUmjkR8VBhuqH0hLk0LNKICW
-X-Proofpoint-GUID: jHtNlzqMbUmjkR8VBhuqH0hLk0LNKICW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-16_02,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 mlxlogscore=766 phishscore=0 suspectscore=0
- impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310160076
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 13 Oct 2023 15:22:19 +0530
+Krishna chaitanya chundru <quic_krichai@quicinc.com> wrote:
 
-On 9/29/2023 11:25 PM, Jeffrey Hugo wrote:
-> On 9/24/2023 10:08 PM, Qiang Yu wrote:
->>
->> On 9/22/2023 10:50 PM, Jeffrey Hugo wrote:
->>> On 9/13/2023 2:47 AM, Qiang Yu wrote:
->>>> From: Hemant Kumar <quic_hemantk@quicinc.com>
->>>>
->>>> Take irqsave lock after TRE is generated to avoid deadlock due to core
->>>> getting interrupts enabled as local_bh_enable must not be called with
->>>> irqs disabled based on upstream patch.
->>>
->>> Where is local_bh_enable() being called?  What patch?  What is 
->>> upstream of the codebase you submitted this to?  Why is it safe to 
->>> call mhi_gen_tre() without the lock?
->>
->> This patch is to fix the issue included by  "[PATCH v2 1/2] bus: mhi: 
->> host: Add spinlock to protect WP access when queueing TREs". In that 
->> patch, we add write_lock_bh/write_unlock_bh in mhi_gen_tre().
->>
->> However, before mhi_gen_tre() is invoked, mhi_cntrl->pm_lock is 
->> getted, line 1125, and it is a spin lock. So it becomes we want to 
->> get and release bh lock after spin lock. __local_bh_enable_ip is 
->> called as part of write_unlock_bh
->>
->> and local_bh_enable. When CONFIG_TRACE_IRQFLAGS is enabled, irq will 
->> be enabled once __local_bh_enable_ip is called. The commit message is 
->> not clear and confusing, will change it in [patch v3].
->>
->
-> In addition to clarifying the commit message, I recommend looking at 
-> adding this to the other patch.  It seems very odd to review a series 
-> where one patch introduces a known issue, and a following patch 
-> corrects that issue.  It would be better to not introduce the issue in 
-> the first place.
-OK, will squash two patches into one patch after we achieve an agreement.
+> +++ b/include/trace/events/mhi_host.h
+> @@ -0,0 +1,287 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM mhi_host
+> +
+> +#if !defined(_TRACE_EVENT_MHI_HOST_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_EVENT_MHI_HOST_H
+> +
+> +#include <linux/tracepoint.h>
+> +#define MHI_STATE						\
+> +	EM(MHI_STATE_RESET,	"RESET")			\
+> +	EM(MHI_STATE_READY,	"READY")			\
+> +	EM(MHI_STATE_M0,	"M0")				\
+> +	EM(MHI_STATE_M1,	"M1")				\
+> +	EM(MHI_STATE_M2,	"M2")				\
+> +	EM(MHI_STATE_M3,	"M3")				\
+> +	EM(MHI_STATE_M3_FAST,	"M3 FAST")			\
+> +	EM(MHI_STATE_BHI,	"BHI")				\
+> +	EMe(MHI_STATE_SYS_ERR,	"SYS ERROR")
+> +
+> +#define MHI_EE							\
+> +	EM(MHI_EE_PBL,		"PRIMARY BOOTLOADER")		\
+> +	EM(MHI_EE_SBL,		"SECONDARY BOOTLOADER")		\
+> +	EM(MHI_EE_AMSS,		"MISSION MODE")			\
+> +	EM(MHI_EE_RDDM,		"RAMDUMP DOWNLOAD MODE")	\
+> +	EM(MHI_EE_WFW,		"WLAN FIRMWARE")		\
+> +	EM(MHI_EE_PTHRU,	"PASS THROUGH")			\
+> +	EM(MHI_EE_EDL,		"EMERGENCY DOWNLOAD")		\
+> +	EM(MHI_EE_FP,		"FLASH PROGRAMMER")		\
+> +	EM(MHI_EE_DISABLE_TRANSITION,	"DISABLE")		\
+> +	EMe(MHI_EE_NOT_SUPPORTED,	"NOT SUPPORTED")
+> +
+> +#define MHI_PM_STATE							\
+> +	EM(MHI_PM_STATE_DISABLE,	"DISABLE")			\
+> +	EM(MHI_PM_STATE_POR,		"POWER ON RESET")		\
+> +	EM(MHI_PM_STATE_M0,		"M0")				\
+> +	EM(MHI_PM_STATE_M2,		"M2")				\
+> +	EM(MHI_PM_STATE_M3_ENTER,	"M?->M3")			\
+> +	EM(MHI_PM_STATE_M3,		"M3")				\
+> +	EM(MHI_PM_STATE_M3_EXIT,	"M3->M0")			\
+> +	EM(MHI_PM_STATE_FW_DL_ERR,	"Firmware Download Error")	\
+> +	EM(MHI_PM_STATE_SYS_ERR_DETECT,		"SYS ERROR Detect")	\
+> +	EM(MHI_PM_STATE_SYS_ERR_PROCESS,	"SYS ERROR Process")	\
+> +	EM(MHI_PM_STATE_SHUTDOWN_PROCESS,	"SHUTDOWN Process")	\
+> +	EMe(MHI_PM_STATE_LD_ERR_FATAL_DETECT,	"Linkdown or Error Fatal Detect")
+> +
+> +#define MHI_CH_STATE						\
+> +	EM(MHI_CH_STATE_TYPE_RESET, "RESET")			\
+> +	EM(MHI_CH_STATE_TYPE_STOP, "STOP")			\
+> +	EMe(MHI_CH_STATE_TYPE_START, "START")
+> +
+> +#define MHI_DEV_ST_TRANSITION						\
+> +	EM(DEV_ST_TRANSITION_PBL,	"PBL")				\
+> +	EM(DEV_ST_TRANSITION_READY,	"READY")			\
+> +	EM(DEV_ST_TRANSITION_SBL,	"SBL")				\
+> +	EM(DEV_ST_TRANSITION_MISSION_MODE,	"MISSION MODE")		\
+> +	EM(DEV_ST_TRANSITION_FP,		"FLASH PROGRAMMER")	\
+> +	EM(DEV_ST_TRANSITION_SYS_ERR,		"SYS ERROR")		\
+> +	EMe(DEV_ST_TRANSITION_DISABLE,		"DISABLE")
+> +
+> +/* Enums require being exported to userspace, for user tool parsing */
+> +#undef	EM
+> +#undef	EMe
+> +#define	EM(a, b)	TRACE_DEFINE_ENUM(a);
+> +#define	EMe(a, b)	TRACE_DEFINE_ENUM(a);
+> +
+> +MHI_STATE
+> +MHI_EE
+> +MHI_PM_STATE
+> +MHI_CH_STATE
+> +MHI_DEV_ST_TRANSITION
+> +
+> +/*
+> + * Now redefine the EM() and EMe() macros to map the enums to the strings
+> + * that will be printed in the output.
+> + */
+> +#undef EM
+> +#undef EMe
+> +#define EM(a, b)	{a, b},
+> +#define EMe(a, b)	{a, b}
+> +
+> +TRACE_EVENT(mhi_gen_tre,
+> +
+> +	TP_PROTO(const char *name, int ch_num, u64 wp, __le64 tre_ptr,
+> +		 __le32 dword0, __le32 dword1),
+> +
+> +	TP_ARGS(name, ch_num, wp, tre_ptr, dword0, dword1),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, ch_num)
+
+This is fine as __string() is four bytes in the event (2 bytes for offset
+where the string exists, and 2 bytes for its length).
+
+> +		__field(u64, wp)
+> +		__field(__le64, tre_ptr)
+
+Which makes the two 8 byte fields aligned. Good!
+
+> +		__field(__le32, dword0)
+> +		__field(__le32, dword1)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->ch_num = ch_num;
+> +		__entry->wp = wp;
+> +		__entry->tre_ptr = tre_ptr;
+> +		__entry->dword0 = dword0;
+> +		__entry->dword1 = dword1;
+> +	),
+> +
+> +	TP_printk("%s: Chan: %d WP: 0x%llx TRE: 0x%llx 0x%08x 0x%08x\n",
+> +		  __get_str(name), __entry->ch_num, __entry->wp, __entry->tre_ptr,
+> +		  __entry->dword0, __entry->dword1)
+> +);
+> +
+> +TRACE_EVENT(mhi_intvec_threaded_handler,
+> +
+> +	TP_PROTO(const char *name, int local_ee, int state, int dev_ee, int dev_state),
+> +
+> +	TP_ARGS(name, local_ee, state, dev_ee, dev_state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, local_ee)
+> +		__field(int, state)
+> +		__field(int, dev_ee)
+> +		__field(int, dev_state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->local_ee = local_ee;
+> +		__entry->state = state;
+> +		__entry->dev_ee = dev_ee;
+> +		__entry->dev_state = dev_state;
+> +	),
+> +
+> +	TP_printk("%s: local ee: %s state: %s device ee: %s state: %s\n",
+> +		  __get_str(name),
+> +		  __print_symbolic(__entry->local_ee, MHI_EE),
+> +		  __print_symbolic(__entry->state, MHI_STATE),
+> +		  __print_symbolic(__entry->dev_ee, MHI_EE),
+> +		  __print_symbolic(__entry->dev_state, MHI_STATE))
+> +);
+> +
+> +TRACE_EVENT(mhi_tryset_pm_state,
+> +
+> +	TP_PROTO(const char *name, int pm_state),
+> +
+> +	TP_ARGS(name, pm_state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, pm_state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		if (pm_state)
+> +			pm_state = __fls(pm_state);
+> +		__entry->pm_state = pm_state;
+> +	),
+> +
+> +	TP_printk("%s: PM state: %s\n", __get_str(name),
+> +		  __print_symbolic(__entry->pm_state, MHI_PM_STATE))
+> +);
+> +
+> +TRACE_EVENT(mhi_process_data_event_ring,
+> +
+> +	TP_PROTO(const char *name, __le64 ptr, __le32 dword0, __le32 dword1),
+> +
+> +	TP_ARGS(name, ptr, dword0, dword1),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(__le64, ptr)
+
+Here, I would switch the __field(__le64, ptr) with the __string().
+
+		__field(__le64, ptr)
+		__string(name, name)
+
+otherwise you just created a 4 byte hole in the ring buffer, wasting
+precious ring buffer space.
+
+> +		__field(__le32, dword0)
+> +		__field(__le32, dword1)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->ptr = ptr;
+> +		__entry->dword0 = dword0;
+> +		__entry->dword1 = dword1;
+> +	),
+> +
+> +	TP_printk("%s: Processing Event:0x%llx 0x%08x 0x%08x\n",
+> +		  __get_str(name), __entry->ptr, __entry->dword0, __entry->dword1)
+> +);
+> +
+> +TRACE_EVENT(mhi_process_ctrl_ev_ring,
+> +
+> +	TP_PROTO(const char *name, u64 rp, __le64 ptr, __le32 dword0, __le32 dword1, int state),
+> +
+> +	TP_ARGS(name, rp, ptr, dword0, dword1, state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(u64, rp)
+> +		__field(__le64, ptr)
+
+I would move __string(name, name) here (after the two 8 byte fields).
+
+-- Steve
+
+> +		__field(__le32, dword0)
+> +		__field(__le32, dword1)
+> +		__field(int, state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->rp = rp;
+> +		__entry->ptr = ptr;
+> +		__entry->dword0 = dword0;
+> +		__entry->dword1 = dword1;
+> +		__entry->state = state;
+> +	),
+> +
+> +	TP_printk("%s: RP:0x%llx Processing Event:0x%llx 0x%08x 0x%08x state:%s\n",
+> +		  __get_str(name), __entry->rp, __entry->ptr, __entry->dword0,
+> +		  __entry->dword1, __print_symbolic(__entry->state, MHI_STATE))
+> +);
+> +
+> +TRACE_EVENT(mhi_update_channel_state_start,
+> +
+> +	TP_PROTO(const char *name, int ch_num, int state),
+> +
+> +	TP_ARGS(name, ch_num, state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, ch_num)
+> +		__field(int, state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->ch_num = ch_num;
+> +		__entry->state = state;
+> +	),
+> +
+> +	TP_printk("%s: ch%d: Updating state to: %s\n",
+> +		  __get_str(name), __entry->ch_num,
+> +		  __print_symbolic(__entry->state, MHI_CH_STATE))
+> +);
+> +
+> +TRACE_EVENT(mhi_update_channel_state_end,
+> +
+> +	TP_PROTO(const char *name, int ch_num, int state),
+> +
+> +	TP_ARGS(name, ch_num, state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, ch_num)
+> +		__field(int, state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->ch_num = ch_num;
+> +		__entry->state = state;
+> +	),
+> +
+> +	TP_printk("%s: ch%d: Updated state to: %s\n",
+> +		  __get_str(name), __entry->ch_num,
+> +		  __print_symbolic(__entry->state, MHI_CH_STATE))
+> +);
+> +
+> +TRACE_EVENT(mhi_pm_st_transition,
+> +
+> +	TP_PROTO(const char *name, int state),
+> +
+> +	TP_ARGS(name, state),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(name, name)
+> +		__field(int, state)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(name, name);
+> +		__entry->state = state;
+> +	),
+> +
+> +	TP_printk("%s: Handling state transition: %s\n", __get_str(name),
+> +		  __print_symbolic(__entry->state, MHI_DEV_ST_TRANSITION))
+> +);
+> +
+> +#endif
+> +#include <trace/define_trace.h>
+
