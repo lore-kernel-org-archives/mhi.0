@@ -1,294 +1,257 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B363419C
-	for <mhi@lists.linux.dev>; Wed, 18 Oct 2023 12:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71872F531
+	for <mhi@lists.linux.dev>; Wed, 18 Oct 2023 13:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i0iQKUrO"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-57f0f81b2aeso3726557eaf.3
-        for <mhi@lists.linux.dev>; Wed, 18 Oct 2023 05:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697632109; x=1698236909; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWJF8w+ZmKp1jb1CoVlOBJDONP0RLpMI50cE905pgWg=;
-        b=i0iQKUrOSzl0hGJIIxB35Q0v10A9WH8qTbwDM+9o8bz8OZaQg0EFB+/iRSCPJcXghZ
-         jinlVPmVgKbenj0nyzl550aFnnZH1iWgLwoZ26ZIrX0gjpjW6d14tfQkkieWeVaC9PSF
-         IlBuVSPrBqHHjrNBkKplra1GBGojPD5Vp+YcFhDl14p10izrVMKbBiuBAVYgM37PLqzD
-         VVkuRWyUxvTFuWq3Z5ugUXfrDCdYva74ZHdj5+EnKGo+e6AQW3LShLTaL41S3sYHnmBc
-         bmTn7+aHz8V+wfin02IYcDB2xMW3DC4ZkinbyxrRkAnMyNNBCuqZjcCPbOgfjlj021hb
-         yLow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697632109; x=1698236909;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gWJF8w+ZmKp1jb1CoVlOBJDONP0RLpMI50cE905pgWg=;
-        b=fRfChyO5gNtv/AEhUVTtFZ+0fZq8XOV8rQ7LZL5GpDvmLMz+w4Er11xXgFtj0Zzrqf
-         7QzjpxnFfQih0VS6xR7ZelLBTk0e61UQKhngwtH0vjXRtCKHxZ8PSoFF84k9yoB2GtGA
-         UNhxlryFeoznYh/3YjGBfbLXEEQ64S57QFrw0szkU03fdc6srte09stvWOchDmi/S2wz
-         qFA+HrImBNWVWZ3VS+aU1y85gcwgeL6K78pzRogXK8cZjekaQD6pqqvYj/k16iozYqq+
-         suHiafe7ngNIGejyx7yQ5ktrz5WPrdOBrS3M3ZUrQPQeEuVyyZaACMfCkI95FBM2sw3l
-         4z3A==
-X-Gm-Message-State: AOJu0Yz65h8OV+HQoUcRLcUXNygBPnI1Hs/Jmd/E2RtZq9Bc4ysipcmt
-	Bj0Pal8jDJ5YG6PkKBRdhe51mcZ5XgVWe+bs6A==
-X-Google-Smtp-Source: AGHT+IH+ZPOle3U+H6TZ/sMIPLF6eFrT7YLOVduG7uxDTyeVQuqGmjsQUbEA3+9fBXs2Yer4/7sE9g==
-X-Received: by 2002:a05:6358:e87:b0:150:8ba9:4d with SMTP id 7-20020a0563580e8700b001508ba9004dmr5613112rwg.3.1697632109011;
-        Wed, 18 Oct 2023 05:28:29 -0700 (PDT)
-Received: from localhost.localdomain ([117.202.186.25])
-        by smtp.gmail.com with ESMTPSA id k3-20020aa79d03000000b0069102aa1918sm3180708pfp.48.2023.10.18.05.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 05:28:28 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Alex Elder <elder@linaro.org>
-Subject: [PATCH] bus: mhi: ep: Use slab allocator where applicable
-Date: Wed, 18 Oct 2023 17:58:12 +0530
-Message-Id: <20231018122812.47261-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cC5/Mgcj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C115C433CA;
+	Wed, 18 Oct 2023 13:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697634531;
+	bh=59MIHQ5xze11X1GA0H585EDWrwAwT1Pnx5pWo4xmF+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cC5/Mgcj98h1IrbbjUfngbT0g86KQQNui60+guG2C+Z6f5Aejwf1DdojOFHFooDEs
+	 Q4/16gdfwhYSR7hK9LFBwvnEyluwDD8m8DGHfU35ZtrI2gcYJqeny5AGPppfrAm4W/
+	 /N4BvJSfcNx1/pomDjDB10RTskPC+BfOsdQC+DSZkE7O9Ou3mHR3EwxCqI7ruvRw5O
+	 0q2t4Llvo4J/X1IOgUj1A68t87IfNGh8PixqLfLsiXCrg0MsIQSCF29d0RwHdzOMEP
+	 eJyPXj0nq9nxZ2XCMOjdZ+ve73O+7Ef3zetjoWAH89oE9lGAKEvbqfs7Z3VMGCrLFA
+	 9/tBaRvFJrZ8g==
+Date: Wed, 18 Oct 2023 18:38:43 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, quic_jhugo@quicinc.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+	quic_mrana@quicinc.com
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add SDX75 based modem
+ support
+Message-ID: <20231018130843.GB47321@thinkpad>
+References: <1691460215-45383-1-git-send-email-quic_qianyu@quicinc.com>
+ <20230808075103.GD4990@thinkpad>
+ <be205d43-b558-47eb-0250-b7415474b6e9@quicinc.com>
+ <20230808105928.GF4990@thinkpad>
+ <e3a206e7-f36b-d896-20f7-4e35b9743c1d@quicinc.com>
+ <20231017075035.GB5274@thinkpad>
+ <b7a35d1e-85e2-4c60-a049-e6234d6431df@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b7a35d1e-85e2-4c60-a049-e6234d6431df@quicinc.com>
 
-Use slab allocator for allocating the memory for objects used frequently
-and are of fixed size. This reduces the overheard associated with
-kmalloc().
+On Wed, Oct 18, 2023 at 09:52:55AM +0800, Qiang Yu wrote:
+> 
+> On 10/17/2023 3:50 PM, Manivannan Sadhasivam wrote:
+> > On Wed, Aug 09, 2023 at 11:42:39AM +0800, Qiang Yu wrote:
+> > > On 8/8/2023 6:59 PM, Manivannan Sadhasivam wrote:
+> > > > On Tue, Aug 08, 2023 at 04:53:32PM +0800, Qiang Yu wrote:
+> > > > > On 8/8/2023 3:51 PM, Manivannan Sadhasivam wrote:
+> > > > > > On Tue, Aug 08, 2023 at 10:03:35AM +0800, Qiang Yu wrote:
+> > > > > > > Add generic info for SDX75 based modems. SDX75 takes longer than expected
+> > > > > > > (default, 8 seconds) to set ready after reboot. Hence add optional ready
+> > > > > > > timeout parameter to wait enough for device ready as part of power up
+> > > > > > > sequence.
+> > > > > > > 
+> > > > > > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> > > > > > > ---
+> > > > > > >     drivers/bus/mhi/host/init.c        |  1 +
+> > > > > > >     drivers/bus/mhi/host/main.c        |  7 ++++++-
+> > > > > > >     drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
+> > > > > > >     drivers/bus/mhi/host/pm.c          |  6 +++++-
+> > > > > > >     include/linux/mhi.h                |  4 ++++
+> > > > > > >     5 files changed, 38 insertions(+), 2 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> > > > > > > index f78aefd..65ceac1 100644
+> > > > > > > --- a/drivers/bus/mhi/host/init.c
+> > > > > > > +++ b/drivers/bus/mhi/host/init.c
+> > > > > > > @@ -881,6 +881,7 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
+> > > > > > >     	if (!mhi_cntrl->timeout_ms)
+> > > > > > >     		mhi_cntrl->timeout_ms = MHI_TIMEOUT_MS;
+> > > > > > > +	mhi_cntrl->ready_timeout_ms = config->ready_timeout_ms;
+> > > > > > >     	mhi_cntrl->bounce_buf = config->use_bounce_buf;
+> > > > > > >     	mhi_cntrl->buffer_len = config->buf_len;
+> > > > > > >     	if (!mhi_cntrl->buffer_len)
+> > > > > > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> > > > > > > index 74a7543..8590926 100644
+> > > > > > > --- a/drivers/bus/mhi/host/main.c
+> > > > > > > +++ b/drivers/bus/mhi/host/main.c
+> > > > > > > @@ -43,8 +43,13 @@ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+> > > > > > >     				    u32 mask, u32 val, u32 delayus)
+> > > > > > >     {
+> > > > > > >     	int ret;
+> > > > > > > -	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
+> > > > > > > +	u32 out, retry;
+> > > > > > > +	u32 timeout_ms = mhi_cntrl->timeout_ms;
+> > > > > > > +	if (mhi_cntrl->ready_timeout_ms && mask == MHISTATUS_READY_MASK)
+> > > > > > > +		timeout_ms = mhi_cntrl->ready_timeout_ms;
+> > > > > > Instead of handling the timeout inside mhi_poll_reg_field(), you should pass the
+> > > > > > appropriate timeout value to this function.
+> > > > > OK, will do.
+> > > > > > > +
+> > > > > > > +	retry = (timeout_ms * 1000) / delayus;
+> > > > > > >     	while (retry--) {
+> > > > > > >     		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
+> > > > > > >     		if (ret)
+> > > > > > > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> > > > > > > index fcd80bc..9c601f0 100644
+> > > > > > > --- a/drivers/bus/mhi/host/pci_generic.c
+> > > > > > > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > > > > > > @@ -269,6 +269,16 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+> > > > > > >     	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
+> > > > > > >     };
+> > > > > > > +static const struct mhi_controller_config modem_qcom_v2_mhiv_config = {
+> > > > > > > +	.max_channels = 128,
+> > > > > > > +	.timeout_ms = 8000,
+> > > > > > > +	.ready_timeout_ms = 50000,
+> > > > > > > +	.num_channels = ARRAY_SIZE(modem_qcom_v1_mhi_channels),
+> > > > > > > +	.ch_cfg = modem_qcom_v1_mhi_channels,
+> > > > > > > +	.num_events = ARRAY_SIZE(modem_qcom_v1_mhi_events),
+> > > > > > > +	.event_cfg = modem_qcom_v1_mhi_events,
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >     static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+> > > > > > >     	.max_channels = 128,
+> > > > > > >     	.timeout_ms = 8000,
+> > > > > > > @@ -278,6 +288,16 @@ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+> > > > > > >     	.event_cfg = modem_qcom_v1_mhi_events,
+> > > > > > >     };
+> > > > > > > +static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
+> > > > > > > +	.name = "qcom-sdx75m",
+> > > > > > > +	.fw = "qcom/sdx75m/xbl.elf",
+> > > > > > > +	.edl = "qcom/sdx75m/edl.mbn",
+> > > > > > > +	.config = &modem_qcom_v2_mhiv_config,
+> > > > > > > +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> > > > > > > +	.dma_data_width = 32,
+> > > > > > > +	.sideband_wake = false,
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >     static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
+> > > > > > >     	.name = "qcom-sdx65m",
+> > > > > > >     	.fw = "qcom/sdx65m/xbl.elf",
+> > > > > > > @@ -597,6 +617,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> > > > > > >     		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+> > > > > > >     	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+> > > > > > >     		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+> > > > > > > +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
+> > > > > > > +		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
+> > > > > > >     	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+> > > > > > >     		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+> > > > > > >     	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+> > > > > > > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> > > > > > > index 8a4362d..6f049e0 100644
+> > > > > > > --- a/drivers/bus/mhi/host/pm.c
+> > > > > > > +++ b/drivers/bus/mhi/host/pm.c
+> > > > > > > @@ -1202,14 +1202,18 @@ EXPORT_SYMBOL_GPL(mhi_power_down);
+> > > > > > >     int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+> > > > > > >     {
+> > > > > > >     	int ret = mhi_async_power_up(mhi_cntrl);
+> > > > > > > +	u32 timeout_ms;
+> > > > > > >     	if (ret)
+> > > > > > >     		return ret;
+> > > > > > > +	/* Some devices need more time to set ready during power up */
+> > > > > > > +	timeout_ms = mhi_cntrl->ready_timeout_ms ?
+> > > > > > > +		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+> > > > > > Since you are using this extended timeout value in a couple of places (not just
+> > > > > > for checking READY_STATE), it is better to use the existing "timeout_ms"
+> > > > > > parameter.
+> > > > > > 
+> > > > > > - Mani
+> > > > > We use ready_timeout_ms here is because READY_STATE is polled in a
+> > > > > workqueue,  in parallel with waiting valid EE.
+> > > > > 
+> > > > > That means we start to wait valid EE and poll ready like at same time
+> > > > > instead of starting to wait EE after ready state.
+> > > > > 
+> > > > > Thus the total time it takes to wait valid EE is about the time for polling
+> > > > > ready.
+> > > > > 
+> > > > Yes, but why can't you still increase "timeout_ms" for SDX75 and use the same?
+> > > > 
+> > > > Btw, please do not send another version while the discussion is going on for the
+> > > > current one.
+> > > > 
+> > > > - Mani
+> > > SDX75 only needs 50 seconds when setting ready for the first time after
+> > > power on. Other state transitions
+> > > 
+> > > is expected to wait only 8 seconds. If we use 50s for every state
+> > > transition, it's OK but not friendly in some cases.
+> > > 
+> > > 
+> > > For example, host is resuming from suspend, but device has already crashed
+> > > and tansferred to Sahara mode when
+> > > 
+> > > in suspended state. Thus host must wait M0 event timeout, and then reinit
+> > > mhi and tranfer to SBL state in recovery
+> > > 
+> > > process. If we set mhi_cntrl->timeout_ms=50s, we have to wait 50s to collect
+> > > crash dump after seeing resume fail log.
+> > > 
+> > Hmm. Can't you fix the firmware? Taking 50s to bootup doesn't look good from
+> > user perspective.
+> > 
+> > - Mani
+>  It is a firmware limitation and we can't fix it now.
 
-Suggested-by: Alex Elder <elder@linaro.org>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/ep/main.c | 70 +++++++++++++++++++++++++++++----------
- include/linux/mhi_ep.h    |  3 ++
- 2 files changed, 56 insertions(+), 17 deletions(-)
+Okay. Then I'm fine with this workaround.
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 66ca470bf302..834e7afadd64 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -71,7 +71,8 @@ static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
- static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
- 					struct mhi_ring_element *tre, u32 len, enum mhi_ev_ccs code)
- {
--	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
-+	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
-+							   GFP_KERNEL | GFP_DMA);
- 	int ret;
- 
- 	event->ptr = cpu_to_le64(ring->rbase + ring->rd_offset * sizeof(*tre));
-@@ -79,42 +80,45 @@ static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl, struct m
- 	event->dword[1] = MHI_TRE_EV_DWORD1(ring->ch_id, MHI_PKT_TYPE_TX_EVENT);
- 
- 	ret = mhi_ep_send_event(mhi_cntrl, ring->er_index, event, MHI_TRE_DATA_GET_BEI(tre));
--	kfree(event);
-+	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
- 
- 	return ret;
- }
- 
- int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state)
- {
--	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
-+	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
-+							   GFP_KERNEL | GFP_DMA);
- 	int ret;
- 
- 	event->dword[0] = MHI_SC_EV_DWORD0(state);
- 	event->dword[1] = MHI_SC_EV_DWORD1(MHI_PKT_TYPE_STATE_CHANGE_EVENT);
- 
- 	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
--	kfree(event);
-+	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
- 
- 	return ret;
- }
- 
- int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ee_type exec_env)
- {
--	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
-+	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
-+							   GFP_KERNEL | GFP_DMA);
- 	int ret;
- 
- 	event->dword[0] = MHI_EE_EV_DWORD0(exec_env);
- 	event->dword[1] = MHI_SC_EV_DWORD1(MHI_PKT_TYPE_EE_EVENT);
- 
- 	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
--	kfree(event);
-+	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
- 
- 	return ret;
- }
- 
- static int mhi_ep_send_cmd_comp_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ev_ccs code)
- {
--	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
-+	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
-+							   GFP_KERNEL | GFP_DMA);
- 	struct mhi_ep_ring *ring = &mhi_cntrl->mhi_cmd->ring;
- 	int ret;
- 
-@@ -123,7 +127,7 @@ static int mhi_ep_send_cmd_comp_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_e
- 	event->dword[1] = MHI_CC_EV_DWORD1(MHI_PKT_TYPE_CMD_COMPLETION_EVENT);
- 
- 	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
--	kfree(event);
-+	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
- 
- 	return ret;
- }
-@@ -435,7 +439,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
- 		mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
- 	} else {
- 		/* UL channel */
--		result.buf_addr = kzalloc(len, GFP_KERNEL);
-+		result.buf_addr = kmem_cache_zalloc(mhi_cntrl->tre_buf_cache, GFP_KERNEL | GFP_DMA);
- 		if (!result.buf_addr)
- 			return -ENOMEM;
- 
-@@ -443,7 +447,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
- 			ret = mhi_ep_read_channel(mhi_cntrl, ring, &result, len);
- 			if (ret < 0) {
- 				dev_err(&mhi_chan->mhi_dev->dev, "Failed to read channel\n");
--				kfree(result.buf_addr);
-+				kmem_cache_free(mhi_cntrl->tre_buf_cache, result.buf_addr);
- 				return ret;
- 			}
- 
-@@ -455,7 +459,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
- 			/* Read until the ring becomes empty */
- 		} while (!mhi_ep_queue_is_empty(mhi_chan->mhi_dev, DMA_TO_DEVICE));
- 
--		kfree(result.buf_addr);
-+		kmem_cache_free(mhi_cntrl->tre_buf_cache, result.buf_addr);
- 	}
- 
- 	return 0;
-@@ -764,14 +768,14 @@ static void mhi_ep_ch_ring_worker(struct work_struct *work)
- 		if (ret) {
- 			dev_err(dev, "Error updating write offset for ring\n");
- 			mutex_unlock(&chan->lock);
--			kfree(itr);
-+			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
- 			continue;
- 		}
- 
- 		/* Sanity check to make sure there are elements in the ring */
- 		if (ring->rd_offset == ring->wr_offset) {
- 			mutex_unlock(&chan->lock);
--			kfree(itr);
-+			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
- 			continue;
- 		}
- 
-@@ -783,12 +787,12 @@ static void mhi_ep_ch_ring_worker(struct work_struct *work)
- 			dev_err(dev, "Error processing ring for channel (%u): %d\n",
- 				ring->ch_id, ret);
- 			mutex_unlock(&chan->lock);
--			kfree(itr);
-+			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
- 			continue;
- 		}
- 
- 		mutex_unlock(&chan->lock);
--		kfree(itr);
-+		kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
- 	}
- }
- 
-@@ -844,7 +848,7 @@ static void mhi_ep_queue_channel_db(struct mhi_ep_cntrl *mhi_cntrl, unsigned lon
- 		u32 ch_id = ch_idx + i;
- 
- 		ring = &mhi_cntrl->mhi_chan[ch_id].ring;
--		item = kzalloc(sizeof(*item), GFP_ATOMIC);
-+		item = kmem_cache_zalloc(mhi_cntrl->ring_item_cache, GFP_ATOMIC);
- 		if (!item)
- 			return;
- 
-@@ -1391,6 +1395,29 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 		goto err_free_ch;
- 	}
- 
-+	mhi_cntrl->ev_ring_el_cache = kmem_cache_create("mhi_ep_event_ring_el",
-+							sizeof(struct mhi_ring_element), 0,
-+							SLAB_CACHE_DMA, NULL);
-+	if (!mhi_cntrl->ev_ring_el_cache) {
-+		ret = -ENOMEM;
-+		goto err_free_cmd;
-+	}
-+
-+	mhi_cntrl->tre_buf_cache = kmem_cache_create("mhi_ep_tre_buf", MHI_EP_DEFAULT_MTU, 0,
-+						      SLAB_CACHE_DMA, NULL);
-+	if (!mhi_cntrl->tre_buf_cache) {
-+		ret = -ENOMEM;
-+		goto err_destroy_ev_ring_el_cache;
-+	}
-+
-+	mhi_cntrl->ring_item_cache = kmem_cache_create("mhi_ep_ring_item",
-+							sizeof(struct mhi_ep_ring_item), 0,
-+							0, NULL);
-+	if (!mhi_cntrl->ev_ring_el_cache) {
-+		ret = -ENOMEM;
-+		goto err_destroy_tre_buf_cache;
-+	}
-+
- 	INIT_WORK(&mhi_cntrl->state_work, mhi_ep_state_worker);
- 	INIT_WORK(&mhi_cntrl->reset_work, mhi_ep_reset_worker);
- 	INIT_WORK(&mhi_cntrl->cmd_ring_work, mhi_ep_cmd_ring_worker);
-@@ -1399,7 +1426,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 	mhi_cntrl->wq = alloc_workqueue("mhi_ep_wq", 0, 0);
- 	if (!mhi_cntrl->wq) {
- 		ret = -ENOMEM;
--		goto err_free_cmd;
-+		goto err_destroy_ring_item_cache;
- 	}
- 
- 	INIT_LIST_HEAD(&mhi_cntrl->st_transition_list);
-@@ -1458,6 +1485,12 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 	ida_free(&mhi_ep_cntrl_ida, mhi_cntrl->index);
- err_destroy_wq:
- 	destroy_workqueue(mhi_cntrl->wq);
-+err_destroy_ring_item_cache:
-+	kmem_cache_destroy(mhi_cntrl->ring_item_cache);
-+err_destroy_ev_ring_el_cache:
-+	kmem_cache_destroy(mhi_cntrl->ev_ring_el_cache);
-+err_destroy_tre_buf_cache:
-+	kmem_cache_destroy(mhi_cntrl->tre_buf_cache);
- err_free_cmd:
- 	kfree(mhi_cntrl->mhi_cmd);
- err_free_ch:
-@@ -1479,6 +1512,9 @@ void mhi_ep_unregister_controller(struct mhi_ep_cntrl *mhi_cntrl)
- 
- 	free_irq(mhi_cntrl->irq, mhi_cntrl);
- 
-+	kmem_cache_destroy(mhi_cntrl->tre_buf_cache);
-+	kmem_cache_destroy(mhi_cntrl->ev_ring_el_cache);
-+	kmem_cache_destroy(mhi_cntrl->ring_item_cache);
- 	kfree(mhi_cntrl->mhi_cmd);
- 	kfree(mhi_cntrl->mhi_chan);
- 
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index f198a8ac7ee7..ce85d42b685d 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -128,6 +128,9 @@ struct mhi_ep_cntrl {
- 	struct work_struct reset_work;
- 	struct work_struct cmd_ring_work;
- 	struct work_struct ch_ring_work;
-+	struct kmem_cache *ring_item_cache;
-+	struct kmem_cache *ev_ring_el_cache;
-+	struct kmem_cache *tre_buf_cache;
- 
- 	void (*raise_irq)(struct mhi_ep_cntrl *mhi_cntrl, u32 vector);
- 	int (*alloc_map)(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, phys_addr_t *phys_ptr,
+Please post the next version incorporating other comments.
+
+- Mani
+
+> > > > > > >     	wait_event_timeout(mhi_cntrl->state_event,
+> > > > > > >     			   MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
+> > > > > > >     			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state),
+> > > > > > > -			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
+> > > > > > > +			   msecs_to_jiffies(timeout_ms));
+> > > > > > >     	ret = (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT;
+> > > > > > >     	if (ret)
+> > > > > > > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> > > > > > > index f6de4b6..a43e5f8 100644
+> > > > > > > --- a/include/linux/mhi.h
+> > > > > > > +++ b/include/linux/mhi.h
+> > > > > > > @@ -266,6 +266,7 @@ struct mhi_event_config {
+> > > > > > >      * struct mhi_controller_config - Root MHI controller configuration
+> > > > > > >      * @max_channels: Maximum number of channels supported
+> > > > > > >      * @timeout_ms: Timeout value for operations. 0 means use default
+> > > > > > > + * @ready_timeout_ms: Timeout value for waiting device to be ready (optional)
+> > > > > > >      * @buf_len: Size of automatically allocated buffers. 0 means use default
+> > > > > > >      * @num_channels: Number of channels defined in @ch_cfg
+> > > > > > >      * @ch_cfg: Array of defined channels
+> > > > > > > @@ -277,6 +278,7 @@ struct mhi_event_config {
+> > > > > > >     struct mhi_controller_config {
+> > > > > > >     	u32 max_channels;
+> > > > > > >     	u32 timeout_ms;
+> > > > > > > +	u32 ready_timeout_ms;
+> > > > > > >     	u32 buf_len;
+> > > > > > >     	u32 num_channels;
+> > > > > > >     	const struct mhi_channel_config *ch_cfg;
+> > > > > > > @@ -326,6 +328,7 @@ struct mhi_controller_config {
+> > > > > > >      * @pm_mutex: Mutex for suspend/resume operation
+> > > > > > >      * @pm_lock: Lock for protecting MHI power management state
+> > > > > > >      * @timeout_ms: Timeout in ms for state transitions
+> > > > > > > + * @ready_timeout_ms: Timeout in ms for waiting device to be ready (optional)
+> > > > > > >      * @pm_state: MHI power management state
+> > > > > > >      * @db_access: DB access states
+> > > > > > >      * @ee: MHI device execution environment
+> > > > > > > @@ -413,6 +416,7 @@ struct mhi_controller {
+> > > > > > >     	struct mutex pm_mutex;
+> > > > > > >     	rwlock_t pm_lock;
+> > > > > > >     	u32 timeout_ms;
+> > > > > > > +	u32 ready_timeout_ms;
+> > > > > > >     	u32 pm_state;
+> > > > > > >     	u32 db_access;
+> > > > > > >     	enum mhi_ee_type ee;
+> > > > > > > -- 
+> > > > > > > 2.7.4
+> > > > > > > 
+
 -- 
-2.25.1
-
+மணிவண்ணன் சதாசிவம்
