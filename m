@@ -1,391 +1,274 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0450D3E461
-	for <mhi@lists.linux.dev>; Tue, 17 Oct 2023 09:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935FC185D
+	for <mhi@lists.linux.dev>; Wed, 18 Oct 2023 01:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IqhW7wEa"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39H7mUeA008676;
-	Tue, 17 Oct 2023 09:08:46 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J4nW260A"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39I1qAPk002270;
+	Wed, 18 Oct 2023 01:53:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=PVimyCO5k9k/ebomuq2s7w+2bBOqbDRmPdY9WCc3tZ8=;
- b=IqhW7wEaxCt/0jm4lbqP+eHsuG4ruunFo2Z6crPp5H3aS664mqKmzhJ2PX/eiD9YeCLm
- QWosPwREmcm44BKliXUiGz+7wKGtlVMabGJIrNo2zbG4OMni+dHBykiJX3X4DHfXj4H9
- LOn3e0bHOUHhi/JHQ+nSjxVt7mKyxIuUxusod5ecxlmNOzhzUfi4W7zskR7LH345gQKN
- 6Vj4RIjCcX32+09eRRFj6Fd6+FzlxUxuo9OmhtmwIVTP/6NjYWziUwvzPrJDEBLw0hWD
- twxOhLvTG6UfTDQ0AjNhH85qz4AETgFLiOZCqdiKnBIeVpxXwpzoWFVwpejusFuWlP5b Jw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tsc00sd38-1
+ bh=k2NUCQtsDNFxvztkSfiFcUZdV/NGVPeR98pLoo+67yY=;
+ b=J4nW260AUWnAqUOpr3oTG8R0VQy52xNNnyJDlhQDgIpoX56UjbQ6LwK1J3oSgmlVHpAo
+ 2EW2Qcl/aAmR53BTVDzDda4UI+kUF0QR5UKgLiheWoytcAIP28VbOsTjHOnMl4lNk0W1
+ vNggkSed4U1Q2P84Ehn8VsJQ1M2Cav8/B5p2tj6bZ+5Qpc8fJHm/GeT5X8pIqVjJssEF
+ C8NOV1wbtvi74639JQEh1PhOyVwqM6Tdt2Gju0K1UUP9CydvxvViOWeYNjJaOavEK8f4
+ qlhHUGWDl1ojWeWVbXhjZ0v76VejYfy3oFdkjjQU2lA/PqKHeXBP+h4+UHFPmMtincWl NA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tsneja8a5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Oct 2023 09:08:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39H98jLR007335
+	Wed, 18 Oct 2023 01:53:00 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39I1qxi9021338
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Oct 2023 09:08:45 GMT
-Received: from [10.218.41.203] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+	Wed, 18 Oct 2023 01:52:59 GMT
+Received: from [10.253.34.126] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Tue, 17 Oct
- 2023 02:08:40 -0700
-Message-ID: <646dfd10-0270-462f-484c-50bcb5e9af64@quicinc.com>
-Date: Tue, 17 Oct 2023 14:38:36 +0530
+ 2023 18:52:57 -0700
+Message-ID: <b7a35d1e-85e2-4c60-a049-e6234d6431df@quicinc.com>
+Date: Wed, 18 Oct 2023 09:52:55 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add SDX75 based modem
+ support
 Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>
-CC: Manivannan Sadhasivam <mani@kernel.org>,
-        Masami Hiramatsu
-	<mhiramat@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-        <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_parass@quicinc.com>
-References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
- <20231016111357.74b991d4@gandalf.local.home>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20231016111357.74b991d4@gandalf.local.home>
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
+References: <1691460215-45383-1-git-send-email-quic_qianyu@quicinc.com>
+ <20230808075103.GD4990@thinkpad>
+ <be205d43-b558-47eb-0250-b7415474b6e9@quicinc.com>
+ <20230808105928.GF4990@thinkpad>
+ <e3a206e7-f36b-d896-20f7-4e35b9743c1d@quicinc.com>
+ <20231017075035.GB5274@thinkpad>
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <20231017075035.GB5274@thinkpad>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 5DYZJkPQNPjYlScJsfzH-GbAaBOCuDJE
-X-Proofpoint-GUID: 5DYZJkPQNPjYlScJsfzH-GbAaBOCuDJE
+X-Proofpoint-GUID: YC-_rak-knUDFPsybw8aq1GBVRAC6zFV
+X-Proofpoint-ORIG-GUID: YC-_rak-knUDFPsybw8aq1GBVRAC6zFV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-16_13,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0
- clxscore=1015 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2309180000 definitions=main-2310170075
+ definitions=2023-10-17_08,2023-10-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
+ bulkscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310180014
 
 
-On 10/16/2023 8:43 PM, Steven Rostedt wrote:
-> On Fri, 13 Oct 2023 15:22:19 +0530
-> Krishna chaitanya chundru <quic_krichai@quicinc.com> wrote:
+On 10/17/2023 3:50 PM, Manivannan Sadhasivam wrote:
+> On Wed, Aug 09, 2023 at 11:42:39AM +0800, Qiang Yu wrote:
+>> On 8/8/2023 6:59 PM, Manivannan Sadhasivam wrote:
+>>> On Tue, Aug 08, 2023 at 04:53:32PM +0800, Qiang Yu wrote:
+>>>> On 8/8/2023 3:51 PM, Manivannan Sadhasivam wrote:
+>>>>> On Tue, Aug 08, 2023 at 10:03:35AM +0800, Qiang Yu wrote:
+>>>>>> Add generic info for SDX75 based modems. SDX75 takes longer than expected
+>>>>>> (default, 8 seconds) to set ready after reboot. Hence add optional ready
+>>>>>> timeout parameter to wait enough for device ready as part of power up
+>>>>>> sequence.
+>>>>>>
+>>>>>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+>>>>>> ---
+>>>>>>     drivers/bus/mhi/host/init.c        |  1 +
+>>>>>>     drivers/bus/mhi/host/main.c        |  7 ++++++-
+>>>>>>     drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
+>>>>>>     drivers/bus/mhi/host/pm.c          |  6 +++++-
+>>>>>>     include/linux/mhi.h                |  4 ++++
+>>>>>>     5 files changed, 38 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+>>>>>> index f78aefd..65ceac1 100644
+>>>>>> --- a/drivers/bus/mhi/host/init.c
+>>>>>> +++ b/drivers/bus/mhi/host/init.c
+>>>>>> @@ -881,6 +881,7 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
+>>>>>>     	if (!mhi_cntrl->timeout_ms)
+>>>>>>     		mhi_cntrl->timeout_ms = MHI_TIMEOUT_MS;
+>>>>>> +	mhi_cntrl->ready_timeout_ms = config->ready_timeout_ms;
+>>>>>>     	mhi_cntrl->bounce_buf = config->use_bounce_buf;
+>>>>>>     	mhi_cntrl->buffer_len = config->buf_len;
+>>>>>>     	if (!mhi_cntrl->buffer_len)
+>>>>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>>>>>> index 74a7543..8590926 100644
+>>>>>> --- a/drivers/bus/mhi/host/main.c
+>>>>>> +++ b/drivers/bus/mhi/host/main.c
+>>>>>> @@ -43,8 +43,13 @@ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+>>>>>>     				    u32 mask, u32 val, u32 delayus)
+>>>>>>     {
+>>>>>>     	int ret;
+>>>>>> -	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
+>>>>>> +	u32 out, retry;
+>>>>>> +	u32 timeout_ms = mhi_cntrl->timeout_ms;
+>>>>>> +	if (mhi_cntrl->ready_timeout_ms && mask == MHISTATUS_READY_MASK)
+>>>>>> +		timeout_ms = mhi_cntrl->ready_timeout_ms;
+>>>>> Instead of handling the timeout inside mhi_poll_reg_field(), you should pass the
+>>>>> appropriate timeout value to this function.
+>>>> OK, will do.
+>>>>>> +
+>>>>>> +	retry = (timeout_ms * 1000) / delayus;
+>>>>>>     	while (retry--) {
+>>>>>>     		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
+>>>>>>     		if (ret)
+>>>>>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>>>>>> index fcd80bc..9c601f0 100644
+>>>>>> --- a/drivers/bus/mhi/host/pci_generic.c
+>>>>>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>>>>>> @@ -269,6 +269,16 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
+>>>>>>     	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
+>>>>>>     };
+>>>>>> +static const struct mhi_controller_config modem_qcom_v2_mhiv_config = {
+>>>>>> +	.max_channels = 128,
+>>>>>> +	.timeout_ms = 8000,
+>>>>>> +	.ready_timeout_ms = 50000,
+>>>>>> +	.num_channels = ARRAY_SIZE(modem_qcom_v1_mhi_channels),
+>>>>>> +	.ch_cfg = modem_qcom_v1_mhi_channels,
+>>>>>> +	.num_events = ARRAY_SIZE(modem_qcom_v1_mhi_events),
+>>>>>> +	.event_cfg = modem_qcom_v1_mhi_events,
+>>>>>> +};
+>>>>>> +
+>>>>>>     static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+>>>>>>     	.max_channels = 128,
+>>>>>>     	.timeout_ms = 8000,
+>>>>>> @@ -278,6 +288,16 @@ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
+>>>>>>     	.event_cfg = modem_qcom_v1_mhi_events,
+>>>>>>     };
+>>>>>> +static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
+>>>>>> +	.name = "qcom-sdx75m",
+>>>>>> +	.fw = "qcom/sdx75m/xbl.elf",
+>>>>>> +	.edl = "qcom/sdx75m/edl.mbn",
+>>>>>> +	.config = &modem_qcom_v2_mhiv_config,
+>>>>>> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>>>>>> +	.dma_data_width = 32,
+>>>>>> +	.sideband_wake = false,
+>>>>>> +};
+>>>>>> +
+>>>>>>     static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
+>>>>>>     	.name = "qcom-sdx65m",
+>>>>>>     	.fw = "qcom/sdx65m/xbl.elf",
+>>>>>> @@ -597,6 +617,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>>>>>>     		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+>>>>>>     	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+>>>>>>     		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+>>>>>> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
+>>>>>> +		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
+>>>>>>     	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+>>>>>>     		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+>>>>>>     	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+>>>>>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>>>>>> index 8a4362d..6f049e0 100644
+>>>>>> --- a/drivers/bus/mhi/host/pm.c
+>>>>>> +++ b/drivers/bus/mhi/host/pm.c
+>>>>>> @@ -1202,14 +1202,18 @@ EXPORT_SYMBOL_GPL(mhi_power_down);
+>>>>>>     int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+>>>>>>     {
+>>>>>>     	int ret = mhi_async_power_up(mhi_cntrl);
+>>>>>> +	u32 timeout_ms;
+>>>>>>     	if (ret)
+>>>>>>     		return ret;
+>>>>>> +	/* Some devices need more time to set ready during power up */
+>>>>>> +	timeout_ms = mhi_cntrl->ready_timeout_ms ?
+>>>>>> +		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+>>>>> Since you are using this extended timeout value in a couple of places (not just
+>>>>> for checking READY_STATE), it is better to use the existing "timeout_ms"
+>>>>> parameter.
+>>>>>
+>>>>> - Mani
+>>>> We use ready_timeout_ms here is because READY_STATE is polled in a
+>>>> workqueue,  in parallel with waiting valid EE.
+>>>>
+>>>> That means we start to wait valid EE and poll ready like at same time
+>>>> instead of starting to wait EE after ready state.
+>>>>
+>>>> Thus the total time it takes to wait valid EE is about the time for polling
+>>>> ready.
+>>>>
+>>> Yes, but why can't you still increase "timeout_ms" for SDX75 and use the same?
+>>>
+>>> Btw, please do not send another version while the discussion is going on for the
+>>> current one.
+>>>
+>>> - Mani
+>> SDX75 only needs 50 seconds when setting ready for the first time after
+>> power on. Other state transitions
+>>
+>> is expected to wait only 8 seconds. If we use 50s for every state
+>> transition, it's OK but not friendly in some cases.
+>>
+>>
+>> For example, host is resuming from suspend, but device has already crashed
+>> and tansferred to Sahara mode when
+>>
+>> in suspended state. Thus host must wait M0 event timeout, and then reinit
+>> mhi and tranfer to SBL state in recovery
+>>
+>> process. If we set mhi_cntrl->timeout_ms=50s, we have to wait 50s to collect
+>> crash dump after seeing resume fail log.
+>>
+> Hmm. Can't you fix the firmware? Taking 50s to bootup doesn't look good from
+> user perspective.
 >
->> +++ b/include/trace/events/mhi_host.h
->> @@ -0,0 +1,287 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#undef TRACE_SYSTEM
->> +#define TRACE_SYSTEM mhi_host
->> +
->> +#if !defined(_TRACE_EVENT_MHI_HOST_H) || defined(TRACE_HEADER_MULTI_READ)
->> +#define _TRACE_EVENT_MHI_HOST_H
->> +
->> +#include <linux/tracepoint.h>
->> +#define MHI_STATE						\
->> +	EM(MHI_STATE_RESET,	"RESET")			\
->> +	EM(MHI_STATE_READY,	"READY")			\
->> +	EM(MHI_STATE_M0,	"M0")				\
->> +	EM(MHI_STATE_M1,	"M1")				\
->> +	EM(MHI_STATE_M2,	"M2")				\
->> +	EM(MHI_STATE_M3,	"M3")				\
->> +	EM(MHI_STATE_M3_FAST,	"M3 FAST")			\
->> +	EM(MHI_STATE_BHI,	"BHI")				\
->> +	EMe(MHI_STATE_SYS_ERR,	"SYS ERROR")
->> +
->> +#define MHI_EE							\
->> +	EM(MHI_EE_PBL,		"PRIMARY BOOTLOADER")		\
->> +	EM(MHI_EE_SBL,		"SECONDARY BOOTLOADER")		\
->> +	EM(MHI_EE_AMSS,		"MISSION MODE")			\
->> +	EM(MHI_EE_RDDM,		"RAMDUMP DOWNLOAD MODE")	\
->> +	EM(MHI_EE_WFW,		"WLAN FIRMWARE")		\
->> +	EM(MHI_EE_PTHRU,	"PASS THROUGH")			\
->> +	EM(MHI_EE_EDL,		"EMERGENCY DOWNLOAD")		\
->> +	EM(MHI_EE_FP,		"FLASH PROGRAMMER")		\
->> +	EM(MHI_EE_DISABLE_TRANSITION,	"DISABLE")		\
->> +	EMe(MHI_EE_NOT_SUPPORTED,	"NOT SUPPORTED")
->> +
->> +#define MHI_PM_STATE							\
->> +	EM(MHI_PM_STATE_DISABLE,	"DISABLE")			\
->> +	EM(MHI_PM_STATE_POR,		"POWER ON RESET")		\
->> +	EM(MHI_PM_STATE_M0,		"M0")				\
->> +	EM(MHI_PM_STATE_M2,		"M2")				\
->> +	EM(MHI_PM_STATE_M3_ENTER,	"M?->M3")			\
->> +	EM(MHI_PM_STATE_M3,		"M3")				\
->> +	EM(MHI_PM_STATE_M3_EXIT,	"M3->M0")			\
->> +	EM(MHI_PM_STATE_FW_DL_ERR,	"Firmware Download Error")	\
->> +	EM(MHI_PM_STATE_SYS_ERR_DETECT,		"SYS ERROR Detect")	\
->> +	EM(MHI_PM_STATE_SYS_ERR_PROCESS,	"SYS ERROR Process")	\
->> +	EM(MHI_PM_STATE_SHUTDOWN_PROCESS,	"SHUTDOWN Process")	\
->> +	EMe(MHI_PM_STATE_LD_ERR_FATAL_DETECT,	"Linkdown or Error Fatal Detect")
->> +
->> +#define MHI_CH_STATE						\
->> +	EM(MHI_CH_STATE_TYPE_RESET, "RESET")			\
->> +	EM(MHI_CH_STATE_TYPE_STOP, "STOP")			\
->> +	EMe(MHI_CH_STATE_TYPE_START, "START")
->> +
->> +#define MHI_DEV_ST_TRANSITION						\
->> +	EM(DEV_ST_TRANSITION_PBL,	"PBL")				\
->> +	EM(DEV_ST_TRANSITION_READY,	"READY")			\
->> +	EM(DEV_ST_TRANSITION_SBL,	"SBL")				\
->> +	EM(DEV_ST_TRANSITION_MISSION_MODE,	"MISSION MODE")		\
->> +	EM(DEV_ST_TRANSITION_FP,		"FLASH PROGRAMMER")	\
->> +	EM(DEV_ST_TRANSITION_SYS_ERR,		"SYS ERROR")		\
->> +	EMe(DEV_ST_TRANSITION_DISABLE,		"DISABLE")
->> +
->> +/* Enums require being exported to userspace, for user tool parsing */
->> +#undef	EM
->> +#undef	EMe
->> +#define	EM(a, b)	TRACE_DEFINE_ENUM(a);
->> +#define	EMe(a, b)	TRACE_DEFINE_ENUM(a);
->> +
->> +MHI_STATE
->> +MHI_EE
->> +MHI_PM_STATE
->> +MHI_CH_STATE
->> +MHI_DEV_ST_TRANSITION
->> +
->> +/*
->> + * Now redefine the EM() and EMe() macros to map the enums to the strings
->> + * that will be printed in the output.
->> + */
->> +#undef EM
->> +#undef EMe
->> +#define EM(a, b)	{a, b},
->> +#define EMe(a, b)	{a, b}
->> +
->> +TRACE_EVENT(mhi_gen_tre,
->> +
->> +	TP_PROTO(const char *name, int ch_num, u64 wp, __le64 tre_ptr,
->> +		 __le32 dword0, __le32 dword1),
->> +
->> +	TP_ARGS(name, ch_num, wp, tre_ptr, dword0, dword1),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, ch_num)
-> This is fine as __string() is four bytes in the event (2 bytes for offset
-> where the string exists, and 2 bytes for its length).
->
->> +		__field(u64, wp)
->> +		__field(__le64, tre_ptr)
-> Which makes the two 8 byte fields aligned. Good!
->
->> +		__field(__le32, dword0)
->> +		__field(__le32, dword1)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->ch_num = ch_num;
->> +		__entry->wp = wp;
->> +		__entry->tre_ptr = tre_ptr;
->> +		__entry->dword0 = dword0;
->> +		__entry->dword1 = dword1;
->> +	),
->> +
->> +	TP_printk("%s: Chan: %d WP: 0x%llx TRE: 0x%llx 0x%08x 0x%08x\n",
->> +		  __get_str(name), __entry->ch_num, __entry->wp, __entry->tre_ptr,
->> +		  __entry->dword0, __entry->dword1)
->> +);
->> +
->> +TRACE_EVENT(mhi_intvec_threaded_handler,
->> +
->> +	TP_PROTO(const char *name, int local_ee, int state, int dev_ee, int dev_state),
->> +
->> +	TP_ARGS(name, local_ee, state, dev_ee, dev_state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, local_ee)
->> +		__field(int, state)
->> +		__field(int, dev_ee)
->> +		__field(int, dev_state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->local_ee = local_ee;
->> +		__entry->state = state;
->> +		__entry->dev_ee = dev_ee;
->> +		__entry->dev_state = dev_state;
->> +	),
->> +
->> +	TP_printk("%s: local ee: %s state: %s device ee: %s state: %s\n",
->> +		  __get_str(name),
->> +		  __print_symbolic(__entry->local_ee, MHI_EE),
->> +		  __print_symbolic(__entry->state, MHI_STATE),
->> +		  __print_symbolic(__entry->dev_ee, MHI_EE),
->> +		  __print_symbolic(__entry->dev_state, MHI_STATE))
->> +);
->> +
->> +TRACE_EVENT(mhi_tryset_pm_state,
->> +
->> +	TP_PROTO(const char *name, int pm_state),
->> +
->> +	TP_ARGS(name, pm_state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, pm_state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		if (pm_state)
->> +			pm_state = __fls(pm_state);
->> +		__entry->pm_state = pm_state;
->> +	),
->> +
->> +	TP_printk("%s: PM state: %s\n", __get_str(name),
->> +		  __print_symbolic(__entry->pm_state, MHI_PM_STATE))
->> +);
->> +
->> +TRACE_EVENT(mhi_process_data_event_ring,
->> +
->> +	TP_PROTO(const char *name, __le64 ptr, __le32 dword0, __le32 dword1),
->> +
->> +	TP_ARGS(name, ptr, dword0, dword1),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(__le64, ptr)
-> Here, I would switch the __field(__le64, ptr) with the __string().
->
-> 		__field(__le64, ptr)
-> 		__string(name, name)
->
-> otherwise you just created a 4 byte hole in the ring buffer, wasting
-> precious ring buffer space.
->
->> +		__field(__le32, dword0)
->> +		__field(__le32, dword1)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->ptr = ptr;
->> +		__entry->dword0 = dword0;
->> +		__entry->dword1 = dword1;
->> +	),
->> +
->> +	TP_printk("%s: Processing Event:0x%llx 0x%08x 0x%08x\n",
->> +		  __get_str(name), __entry->ptr, __entry->dword0, __entry->dword1)
->> +);
->> +
->> +TRACE_EVENT(mhi_process_ctrl_ev_ring,
->> +
->> +	TP_PROTO(const char *name, u64 rp, __le64 ptr, __le32 dword0, __le32 dword1, int state),
->> +
->> +	TP_ARGS(name, rp, ptr, dword0, dword1, state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(u64, rp)
->> +		__field(__le64, ptr)
-> I would move __string(name, name) here (after the two 8 byte fields).
->
-> -- Steve
-
-I will reoder as suggested in my next patch.
-
--- KC.
-
->> +		__field(__le32, dword0)
->> +		__field(__le32, dword1)
->> +		__field(int, state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->rp = rp;
->> +		__entry->ptr = ptr;
->> +		__entry->dword0 = dword0;
->> +		__entry->dword1 = dword1;
->> +		__entry->state = state;
->> +	),
->> +
->> +	TP_printk("%s: RP:0x%llx Processing Event:0x%llx 0x%08x 0x%08x state:%s\n",
->> +		  __get_str(name), __entry->rp, __entry->ptr, __entry->dword0,
->> +		  __entry->dword1, __print_symbolic(__entry->state, MHI_STATE))
->> +);
->> +
->> +TRACE_EVENT(mhi_update_channel_state_start,
->> +
->> +	TP_PROTO(const char *name, int ch_num, int state),
->> +
->> +	TP_ARGS(name, ch_num, state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, ch_num)
->> +		__field(int, state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->ch_num = ch_num;
->> +		__entry->state = state;
->> +	),
->> +
->> +	TP_printk("%s: ch%d: Updating state to: %s\n",
->> +		  __get_str(name), __entry->ch_num,
->> +		  __print_symbolic(__entry->state, MHI_CH_STATE))
->> +);
->> +
->> +TRACE_EVENT(mhi_update_channel_state_end,
->> +
->> +	TP_PROTO(const char *name, int ch_num, int state),
->> +
->> +	TP_ARGS(name, ch_num, state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, ch_num)
->> +		__field(int, state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->ch_num = ch_num;
->> +		__entry->state = state;
->> +	),
->> +
->> +	TP_printk("%s: ch%d: Updated state to: %s\n",
->> +		  __get_str(name), __entry->ch_num,
->> +		  __print_symbolic(__entry->state, MHI_CH_STATE))
->> +);
->> +
->> +TRACE_EVENT(mhi_pm_st_transition,
->> +
->> +	TP_PROTO(const char *name, int state),
->> +
->> +	TP_ARGS(name, state),
->> +
->> +	TP_STRUCT__entry(
->> +		__string(name, name)
->> +		__field(int, state)
->> +	),
->> +
->> +	TP_fast_assign(
->> +		__assign_str(name, name);
->> +		__entry->state = state;
->> +	),
->> +
->> +	TP_printk("%s: Handling state transition: %s\n", __get_str(name),
->> +		  __print_symbolic(__entry->state, MHI_DEV_ST_TRANSITION))
->> +);
->> +
->> +#endif
->> +#include <trace/define_trace.h>
+> - Mani
+  It is a firmware limitation and we can't fix it now.
+>>>>>>     	wait_event_timeout(mhi_cntrl->state_event,
+>>>>>>     			   MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
+>>>>>>     			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state),
+>>>>>> -			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
+>>>>>> +			   msecs_to_jiffies(timeout_ms));
+>>>>>>     	ret = (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT;
+>>>>>>     	if (ret)
+>>>>>> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+>>>>>> index f6de4b6..a43e5f8 100644
+>>>>>> --- a/include/linux/mhi.h
+>>>>>> +++ b/include/linux/mhi.h
+>>>>>> @@ -266,6 +266,7 @@ struct mhi_event_config {
+>>>>>>      * struct mhi_controller_config - Root MHI controller configuration
+>>>>>>      * @max_channels: Maximum number of channels supported
+>>>>>>      * @timeout_ms: Timeout value for operations. 0 means use default
+>>>>>> + * @ready_timeout_ms: Timeout value for waiting device to be ready (optional)
+>>>>>>      * @buf_len: Size of automatically allocated buffers. 0 means use default
+>>>>>>      * @num_channels: Number of channels defined in @ch_cfg
+>>>>>>      * @ch_cfg: Array of defined channels
+>>>>>> @@ -277,6 +278,7 @@ struct mhi_event_config {
+>>>>>>     struct mhi_controller_config {
+>>>>>>     	u32 max_channels;
+>>>>>>     	u32 timeout_ms;
+>>>>>> +	u32 ready_timeout_ms;
+>>>>>>     	u32 buf_len;
+>>>>>>     	u32 num_channels;
+>>>>>>     	const struct mhi_channel_config *ch_cfg;
+>>>>>> @@ -326,6 +328,7 @@ struct mhi_controller_config {
+>>>>>>      * @pm_mutex: Mutex for suspend/resume operation
+>>>>>>      * @pm_lock: Lock for protecting MHI power management state
+>>>>>>      * @timeout_ms: Timeout in ms for state transitions
+>>>>>> + * @ready_timeout_ms: Timeout in ms for waiting device to be ready (optional)
+>>>>>>      * @pm_state: MHI power management state
+>>>>>>      * @db_access: DB access states
+>>>>>>      * @ee: MHI device execution environment
+>>>>>> @@ -413,6 +416,7 @@ struct mhi_controller {
+>>>>>>     	struct mutex pm_mutex;
+>>>>>>     	rwlock_t pm_lock;
+>>>>>>     	u32 timeout_ms;
+>>>>>> +	u32 ready_timeout_ms;
+>>>>>>     	u32 pm_state;
+>>>>>>     	u32 db_access;
+>>>>>>     	enum mhi_ee_type ee;
+>>>>>> -- 
+>>>>>> 2.7.4
+>>>>>>
