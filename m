@@ -1,59 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86B014F90
-	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 09:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5D7168DC
+	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 11:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s/uuqQTK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F408C433C7;
-	Thu, 19 Oct 2023 09:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697709219;
-	bh=WuLlGEqjoehEfby0RKfxXzF4AUhxhkyRp8krWGQEpZw=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=s/uuqQTKKeHSMWcRTOKEW+/NOuualBhDX/EUDLCUVsgLv/q5krD3HNZh6VGksGylO
-	 /Np7pFuyBI/6ReQXP+5LI0VGc6hHWyVCJ3ak2vVKNx3PI3iMf78CT27i+ZPMFmzYXm
-	 irFSN8VX6zHM85Y31JoWew53VvB+ODxvIc9qqoce4EgMrS3wftGkTI6weF0kkE8xnv
-	 Wc4sBDBOrGPeaWywc/fF+0u++Fgg1lXHQm+5PpSKHGNQ2NPGEAUg1jvClUO3EauWUr
-	 UMQvuegGf8s5NY4UTC/B7Gmep5vNROb9zwXNmPal6uQ8uV2c8zIN8WGphxVKMqAyJr
-	 x6Fe5kyCH+2Ag==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,
-  <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
-References: <20230727100430.3603551-1-kvalo@kernel.org>
-	<20230727100430.3603551-3-kvalo@kernel.org>
-	<d86d8f47-dbb2-1da6-794a-c020c317b4b5@quicinc.com>
-Date: Thu, 19 Oct 2023 12:53:36 +0300
-In-Reply-To: <d86d8f47-dbb2-1da6-794a-c020c317b4b5@quicinc.com> (Jeff
-	Johnson's message of "Thu, 27 Jul 2023 09:47:21 -0700")
-Message-ID: <87ttqn0wgv.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iXg51tIF"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39JAM3To010649;
+	Thu, 19 Oct 2023 11:37:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=WyuMaCDg3QiXBWvWdK7Mjh2MeC5eNz2FJXCvei2+xE8=;
+ b=iXg51tIFVzekTwWNcHH0c09K+YoDZ4MVw+cJR8+lzxbE/q06E5RDBlmQAA25fy+U6wZX
+ A8pharW1T3kV7Se5dhzCgi/4fgcRT40BmJt1WmDa5Go5Qy3mAMUAksvP8x+lGFH7w85H
+ 8vwcG3EILBC7wQTqdAikUTUA283027NWYl2dJ+5YW3C16nZMLSzG7+tpqAykoUdfhEQU
+ 1aEXe1Bo2rzELmRju28cf8x8kVotrdEbX1TEScoKRuJ3FcCX+6b4ra17u7oot+RFek5K
+ r6sWtSPpgX6Kwqx9jjySFjg9I99Wb+6/21d1nJylOXo7WRweNSlFNekb8cESzo9llteK Vw== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tu1t6r9r5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Oct 2023 11:37:18 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39JBbFqu000816;
+	Thu, 19 Oct 2023 11:37:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3tqm2mcs35-1;
+	Thu, 19 Oct 2023 11:37:15 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39JBbF4V000808;
+	Thu, 19 Oct 2023 11:37:15 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.194])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 39JBbEHK000802;
+	Thu, 19 Oct 2023 11:37:15 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3891782)
+	id 50E71441C; Thu, 19 Oct 2023 17:07:14 +0530 (+0530)
+From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+To: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
+Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+        dmitry.baryshkov@linaro.org, robh@kernel.org, quic_krichai@quicinc.com,
+        quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
+        Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+        linux-phy@lists.infradead.org
+Subject: [PATCH v3 1/5] dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
+Date: Thu, 19 Oct 2023 17:07:06 +0530
+Message-Id: <1697715430-30820-2-git-send-email-quic_msarkar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
+References: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rsxy7JNCUrzt2awcqdoAM9muT0jmp5Mr
+X-Proofpoint-ORIG-GUID: rsxy7JNCUrzt2awcqdoAM9muT0jmp5Mr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-19_09,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=941 phishscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2309180000 definitions=main-2310190099
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-Jeff Johnson <quic_jjohnson@quicinc.com> writes:
+Add devicetree bindings support for SA8775P SoC. It has DMA register
+space and dma interrupt to support HDMA.
 
-> On 7/27/2023 3:04 AM, Kalle Valo wrote:
->> From: Kalle Valo <quic_kvalo@quicinc.com>
->> Simple refactoring to make it easier to add firmware-2.bin support
->> in the
->> following patch.
->> Earlier ath11k_qmi_m3_load() supported changing m3.bin contents
->> while ath11k is
->> running. But that's not going to actually work, m3.bin is supposed to the be
->
-> nit: s/to the be/to be the/
+Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+---
+ .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 44 +++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 2 deletions(-)
 
-Fixed in the pending branch, thanks.
-
+diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+index a223ce0..7485248 100644
+--- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
++++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+@@ -13,6 +13,7 @@ properties:
+   compatible:
+     oneOf:
+       - enum:
++          - qcom,sa8775p-pcie-ep
+           - qcom,sdx55-pcie-ep
+           - qcom,sm8450-pcie-ep
+       - items:
+@@ -20,6 +21,7 @@ properties:
+           - const: qcom,sdx55-pcie-ep
+ 
+   reg:
++    minItems: 6
+     items:
+       - description: Qualcomm-specific PARF configuration registers
+       - description: DesignWare PCIe registers
+@@ -27,8 +29,10 @@ properties:
+       - description: Address Translation Unit (ATU) registers
+       - description: Memory region used to map remote RC address space
+       - description: BAR memory region
++      - description: DMA register space
+ 
+   reg-names:
++    minItems: 6
+     items:
+       - const: parf
+       - const: dbi
+@@ -36,13 +40,14 @@ properties:
+       - const: atu
+       - const: addr_space
+       - const: mmio
++      - const: dma
+ 
+   clocks:
+-    minItems: 7
++    minItems: 5
+     maxItems: 8
+ 
+   clock-names:
+-    minItems: 7
++    minItems: 5
+     maxItems: 8
+ 
+   qcom,perst-regs:
+@@ -57,14 +62,18 @@ properties:
+           - description: Perst separation enable offset
+ 
+   interrupts:
++    minItems: 2
+     items:
+       - description: PCIe Global interrupt
+       - description: PCIe Doorbell interrupt
++      - description: DMA interrupt
+ 
+   interrupt-names:
++    minItems: 2
+     items:
+       - const: global
+       - const: doorbell
++      - const: dma
+ 
+   reset-gpios:
+     description: GPIO used as PERST# input signal
+@@ -173,6 +182,37 @@ allOf:
+             - const: ddrss_sf_tbu
+             - const: aggre_noc_axi
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sa8775p-pcie-ep
++    then:
++      properties:
++        reg:
++          minItems: 7
++        reg-names:
++          minItems: 7
++        clocks:
++          items:
++            - description: PCIe Auxiliary clock
++            - description: PCIe CFG AHB clock
++            - description: PCIe Master AXI clock
++            - description: PCIe Slave AXI clock
++            - description: PCIe Slave Q2A AXI clock
++        clock-names:
++          items:
++            - const: aux
++            - const: cfg
++            - const: bus_master
++            - const: bus_slave
++            - const: slave_q2a
++        interrupts:
++          minItems: 3
++        interrupt-names:
++          minItems: 3
++
+ unevaluatedProperties: false
+ 
+ examples:
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.7.4
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
