@@ -1,49 +1,49 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C061017726
-	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 12:45:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3ED19467
+	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 12:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X99LuhMw"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-507975d34e8so9063531e87.1
-        for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 05:45:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l/Epy9eZ"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-313e742a787so451026f8f.1
+        for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 05:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697719546; x=1698324346; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1697719701; x=1698324501; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XyPrAiFxGzk2dyGWiOGzrDGIGbpFiPYSNVDg4vtpN00=;
-        b=X99LuhMwLyJt05ndFnMaxumWVhAf2x5kg8yzoFB9D9YUWCiogJFnVLqMcZqdEbBGeN
-         1vJLpGH8YXGRjE1hgRRBABGN4drP6bxOS9L7auzijHkOo2SB5lE/87yDyU4jdJkLWGI0
-         rah9Y+Z/ELoNse9Vy14LUsuUs08A4aemyx/GZodDhJ9sMXxsqrE88CRUoXrXsBlk+LG/
-         Ija7Dkwr96pASTrDJakazVjDBWdnwaSF7XUaFHA/Nfmby4nnYE4fCw3D3CF89E9z1KsS
-         XjUSHKTUDmSk+7usxdDzwIlUnZ/rXroDUxVR+P8DUdQ/0uJ9OWX+uwK3LSZSfLJUsQep
-         xU9Q==
+        bh=qFQDquaYrxbOhnZ4aFn7nGgZNpCtXxCsyNZ4tebC/bw=;
+        b=l/Epy9eZ0Eg9fleR92KXV9T9a8yhR+4lgEl9i/QckOCX+TFE7Ps+pWm+0hrFPtHRXN
+         ze+SDGuhB9g+F4Jz0kdsLfp3UQEcaHiFAQFtuByS7Lou933Sn7nd0vojwiX75nLfplQO
+         DnUf5XwwB8YtIGra3yc9jzeH8ZBWIYm2bQtW10+eG7UXp1QeaZYccSIcP1i9D7spXgfw
+         fPjlrxg2fzGfH5xkl2/WcIaa6P1cZbfjIwssu+3cibEicE8Yqw13bpdOvPdInxleubX2
+         CT/tKuI3dDztPJSWQ4EiFFa+5ZlIi1I010HtzJxdvmMI17VpKak/KMjqO6yFmz7ihBWR
+         nmng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697719546; x=1698324346;
+        d=1e100.net; s=20230601; t=1697719701; x=1698324501;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XyPrAiFxGzk2dyGWiOGzrDGIGbpFiPYSNVDg4vtpN00=;
-        b=TL1/rAz7BUZ4EPjF3Yl1a9ujcEYquwiiSM4s87EMkX4z8Hc5fMUhsZyPQ7ooaaQK0T
-         PyiYD7EXYohhBzwDWRTD6YbwASiZo2ohohmzrty03XEvVynkzyXeGRAfWVV0OHrz7UyE
-         p8NsYaX0yLwwzBisL1LqxGgKUzpG3wEo1uzqckYew9sGU+hU64tNdwyZuVOhPcLejsqa
-         WlubKy2n3xSPPtTjWT0Sok1qhuZGcny1ai76pmjYr4mtrVJFtDnn7B0dz4VDSqG8IU6i
-         DQB6bTjdhpDsN71iq0MmxK5yCA/GUxoz+MN58W5mMHrGGa1xdj5LBwih55X4KnM6m064
-         +2Qg==
-X-Gm-Message-State: AOJu0YyYj1c238boLPrgR3lB2kKSDX9eajyWluo+9ODFpJas2+Gr9chP
-	2ur+TlqUliI9DKpqWlaxJf+ymA==
-X-Google-Smtp-Source: AGHT+IFIADFAPPUaYTTocnRZ+shkCqVFc+WazV/YNFoq3vCUdvq84KvSKttY5DUJYBqCA3KyB3qDLw==
-X-Received: by 2002:a05:6512:33ce:b0:503:257a:7f5d with SMTP id d14-20020a05651233ce00b00503257a7f5dmr1624496lfg.31.1697719545735;
-        Thu, 19 Oct 2023 05:45:45 -0700 (PDT)
+        bh=qFQDquaYrxbOhnZ4aFn7nGgZNpCtXxCsyNZ4tebC/bw=;
+        b=w4nbaYtUDYew3FwVuRSJI+xWCc3NkWafjvwuzJLlkRYVr1sCqLBVw8FBfbOL4y2ae2
+         Cx2USJzBpF5x4aUJz5phoc8DdYVUkN6fqJ+7zAPzA8qdbogjBaKSUErdpYDPObTMUAG9
+         12xWYquWx7cw63fG+cN/SpAt/LGmuMsT/RlrewjHs9dlnhKQ7no6UZ98atbXjVKqOISM
+         FgE/5QgL4bvrhlVHSlY59XATFzt3/gXSWIwjZgVsfcMrFfU8xrkzIopxKcAmG/s2Irk6
+         0BK4lEOqeOzMwwJKTjf+qW0SWQGr/Gp5MDkNsakeVgP3pdzF0PVdz82g/hgizutekwgZ
+         QerA==
+X-Gm-Message-State: AOJu0Yxr7R71VIfapBTIJpZPMs/A8PalAe5XIk1mNUL5RUs+WSB6HJgK
+	LX++pzmJ61J2XbLISD/TFRnsFQ==
+X-Google-Smtp-Source: AGHT+IFIlFfsK60mBGVm1Umc72MF15R9tIcGFrq3luoIFWuxu+G5Q4MXudqqKlcV9P4gLpkIT/4meQ==
+X-Received: by 2002:adf:c685:0:b0:32d:c850:b4ba with SMTP id j5-20020adfc685000000b0032dc850b4bamr1570646wrg.31.1697719701354;
+        Thu, 19 Oct 2023 05:48:21 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id m5-20020a056000180500b0031c6581d55esm4437299wrh.91.2023.10.19.05.45.43
+        by smtp.gmail.com with ESMTPSA id l10-20020a1c790a000000b004063cced50bsm4304072wme.23.2023.10.19.05.48.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 05:45:45 -0700 (PDT)
-Message-ID: <0de848a8-a658-4c5b-928b-5e948a22f291@linaro.org>
-Date: Thu, 19 Oct 2023 14:45:41 +0200
+        Thu, 19 Oct 2023 05:48:20 -0700 (PDT)
+Message-ID: <1917c764-9356-4f6e-94d6-1c8a92f4d6a5@linaro.org>
+Date: Thu, 19 Oct 2023 14:48:17 +0200
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,7 +51,8 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] PCI: epf-mhi: Add support for SA8775P
+Subject: Re: [PATCH v3 1/5] dt-bindings: PCI: qcom-ep: Add support for SA8775P
+ SoC
 Content-Language: en-US
 To: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
  andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -60,15 +61,15 @@ Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
  quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
  dmitry.baryshkov@linaro.org, robh@kernel.org, quic_krichai@quicinc.com,
  quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
+ Bjorn Helgaas <bhelgaas@google.com>,
  Lorenzo Pieralisi <lpieralisi@kernel.org>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
  Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  mhi@lists.linux.dev, linux-phy@lists.infradead.org
-References: <1697023109-23671-1-git-send-email-quic_msarkar@quicinc.com>
- <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
+References: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
+ <1697715430-30820-2-git-send-email-quic_msarkar@quicinc.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -114,45 +115,144 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <1697023109-23671-4-git-send-email-quic_msarkar@quicinc.com>
+In-Reply-To: <1697715430-30820-2-git-send-email-quic_msarkar@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/10/2023 13:18, Mrinmay Sarkar wrote:
-> Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
-> SA8775P has the PID (0x0306) and supports HDMA. Currently, it has
-> no fixed PCI class, so it is being advertised as "PCI_CLASS_OTHERS".
+On 19/10/2023 13:37, Mrinmay Sarkar wrote:
+> Add devicetree bindings support for SA8775P SoC. It has DMA register
+> space and dma interrupt to support HDMA.
 > 
 > Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 > ---
->  drivers/pci/endpoint/functions/pci-epf-mhi.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 44 +++++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> index b7b9d3e..f05c2e4 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> @@ -114,6 +114,22 @@ static const struct pci_epf_mhi_ep_info sm8450_info = {
->  	.flags = MHI_EPF_USE_DMA,
->  };
+> diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> index a223ce0..7485248 100644
+> --- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> +++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
+> @@ -13,6 +13,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - qcom,sa8775p-pcie-ep
+>            - qcom,sdx55-pcie-ep
+>            - qcom,sm8450-pcie-ep
+>        - items:
+> @@ -20,6 +21,7 @@ properties:
+>            - const: qcom,sdx55-pcie-ep
 >  
-> +static const struct pci_epf_header sa8775p_header = {
-> +	.vendorid = PCI_VENDOR_ID_QCOM,
-> +	.deviceid = 0x0306,
-> +	.baseclass_code = PCI_CLASS_OTHERS,
-> +	.interrupt_pin = PCI_INTERRUPT_INTA,
-> +};
-> +
-> +static const struct pci_epf_mhi_ep_info sa8775p_info = {
-> +	.config = &mhi_v1_config,
-> +	.epf_header = &sa8775p_header,
-> +	.bar_num = BAR_0,
-> +	.epf_flags = PCI_BASE_ADDRESS_MEM_TYPE_32,
-> +	.msi_count = 32,
-> +	.mru = 0x8000,
+>    reg:
+> +    minItems: 6
+>      items:
+>        - description: Qualcomm-specific PARF configuration registers
+>        - description: DesignWare PCIe registers
+> @@ -27,8 +29,10 @@ properties:
+>        - description: Address Translation Unit (ATU) registers
+>        - description: Memory region used to map remote RC address space
+>        - description: BAR memory region
+> +      - description: DMA register space
 
-This is almost the same (minus MHI_EPF_USE_DMA) as sm8450. Are you sure
-these are not compatible?
+You need to constrain IO space in all other variants.
+
+>  
+>    reg-names:
+> +    minItems: 6
+>      items:
+>        - const: parf
+>        - const: dbi
+> @@ -36,13 +40,14 @@ properties:
+>        - const: atu
+>        - const: addr_space
+>        - const: mmio
+> +      - const: dma
+>  
+>    clocks:
+> -    minItems: 7
+> +    minItems: 5
+>      maxItems: 8
+>  
+>    clock-names:
+> -    minItems: 7
+> +    minItems: 5
+>      maxItems: 8
+>  
+>    qcom,perst-regs:
+> @@ -57,14 +62,18 @@ properties:
+>            - description: Perst separation enable offset
+>  
+>    interrupts:
+> +    minItems: 2
+>      items:
+>        - description: PCIe Global interrupt
+>        - description: PCIe Doorbell interrupt
+> +      - description: DMA interrupt
+>  
+>    interrupt-names:
+> +    minItems: 2
+>      items:
+>        - const: global
+>        - const: doorbell
+> +      - const: dma
+
+You need to constrain interrupts in all other variants.
+
+>  
+>    reset-gpios:
+>      description: GPIO used as PERST# input signal
+> @@ -173,6 +182,37 @@ allOf:
+>              - const: ddrss_sf_tbu
+>              - const: aggre_noc_axi
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sa8775p-pcie-ep
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 7
+
+As well:
+maxItems: 7
+Otherwise any future update will for sure miss this and relax the reg.
+
+> +        reg-names:
+> +          minItems: 7
+
+Ditto
+
+> +        clocks:
+> +          items:
+> +            - description: PCIe Auxiliary clock
+> +            - description: PCIe CFG AHB clock
+> +            - description: PCIe Master AXI clock
+> +            - description: PCIe Slave AXI clock
+> +            - description: PCIe Slave Q2A AXI clock
+> +        clock-names:
+> +          items:
+> +            - const: aux
+> +            - const: cfg
+> +            - const: bus_master
+> +            - const: bus_slave
+> +            - const: slave_q2a
+> +        interrupts:
+> +          minItems: 3
+
+Ditto
+
+> +        interrupt-names:
+> +          minItems: 3
+
+Ditto
+
+> +
+>  unevaluatedProperties: false
+>  
+>  examples:
 
 Best regards,
 Krzysztof
