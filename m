@@ -1,41 +1,41 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5D7168DC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F25819479
 	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 11:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iXg51tIF"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39JAM3To010649;
-	Thu, 19 Oct 2023 11:37:19 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nvIBBWg8"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39JBJa4B006578;
+	Thu, 19 Oct 2023 11:37:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=WyuMaCDg3QiXBWvWdK7Mjh2MeC5eNz2FJXCvei2+xE8=;
- b=iXg51tIFVzekTwWNcHH0c09K+YoDZ4MVw+cJR8+lzxbE/q06E5RDBlmQAA25fy+U6wZX
- A8pharW1T3kV7Se5dhzCgi/4fgcRT40BmJt1WmDa5Go5Qy3mAMUAksvP8x+lGFH7w85H
- 8vwcG3EILBC7wQTqdAikUTUA283027NWYl2dJ+5YW3C16nZMLSzG7+tpqAykoUdfhEQU
- 1aEXe1Bo2rzELmRju28cf8x8kVotrdEbX1TEScoKRuJ3FcCX+6b4ra17u7oot+RFek5K
- r6sWtSPpgX6Kwqx9jjySFjg9I99Wb+6/21d1nJylOXo7WRweNSlFNekb8cESzo9llteK Vw== 
+ subject : date : message-id; s=qcppdkim1;
+ bh=Uibb7vCKN4Pe9NjvGIf8PjhMn2Ru/ZEvqI1gp9q/eWk=;
+ b=nvIBBWg8OIX1H/FwHvojwoI5mGZevNriC0+28e9UVt8IohFv8uwSiDGQ0l/X9J0WZQS9
+ hF50wqcUf1QO0Dz/LlpcbFU9w6zcITxTx2APY/jbJtbeC9pq1EvvdBRKKwrsvmBzuspz
+ wXGk5CmniLQfuem9sDeYEul05YGF+NNE+7+RRa4BAzQ2ZBIOL7CFku9FfzXy9Gj2yCB0
+ FAhgC7kmx4FG99v6IRWcMkQj9FN2ezpB9DnYLgyOPXcpSVq0fda37BxGecRckedOefQE
+ Dnk3sRpfg9Pp3SpyLQmMX/Hrk6MZ5YcEq5v9lTJAxEn0kzNNpoHyG5fxgiQXf0okzdti mA== 
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tu1t6r9r5-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ttgw3tevg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 19 Oct 2023 11:37:18 +0000
 Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39JBbFqu000816;
-	Thu, 19 Oct 2023 11:37:15 GMT
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39JBbEWL000798;
+	Thu, 19 Oct 2023 11:37:14 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3tqm2mcs35-1;
-	Thu, 19 Oct 2023 11:37:15 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3tqm2mcs2y-1;
+	Thu, 19 Oct 2023 11:37:14 +0000
 Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39JBbF4V000808;
-	Thu, 19 Oct 2023 11:37:15 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39JBbEdX000782;
+	Thu, 19 Oct 2023 11:37:14 GMT
 Received: from hu-sgudaval-hyd.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.194])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 39JBbEHK000802;
-	Thu, 19 Oct 2023 11:37:15 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 39JBbDPU000781;
+	Thu, 19 Oct 2023 11:37:14 +0000
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3891782)
-	id 50E71441C; Thu, 19 Oct 2023 17:07:14 +0530 (+0530)
+	id DD337441C; Thu, 19 Oct 2023 17:07:12 +0530 (+0530)
 From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 To: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
@@ -48,149 +48,73 @@ Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
         Kishon Vijay Abraham I <kishon@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, linux-pci@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
         linux-phy@lists.infradead.org
-Subject: [PATCH v3 1/5] dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
-Date: Thu, 19 Oct 2023 17:07:06 +0530
-Message-Id: <1697715430-30820-2-git-send-email-quic_msarkar@quicinc.com>
+Subject: [PATCH v3 0/5] arm64: qcom: sa8775p: add support for EP PCIe
+Date: Thu, 19 Oct 2023 17:07:05 +0530
+Message-Id: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
-References: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
 X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: rsxy7JNCUrzt2awcqdoAM9muT0jmp5Mr
-X-Proofpoint-ORIG-GUID: rsxy7JNCUrzt2awcqdoAM9muT0jmp5Mr
+X-Proofpoint-ORIG-GUID: lpq5l2CFyOWGj1Os-hJ11DuALkuAS5Sq
+X-Proofpoint-GUID: lpq5l2CFyOWGj1Os-hJ11DuALkuAS5Sq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-19_09,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxlogscore=941 phishscore=0 spamscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2309180000 definitions=main-2310190099
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0 bulkscore=0
+ impostorscore=0 adultscore=0 clxscore=1015 malwarescore=0 mlxlogscore=362
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310190099
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-Add devicetree bindings support for SA8775P SoC. It has DMA register
-space and dma interrupt to support HDMA.
+This series adds the relavent DT bindings, new compatible string,
+update PHY, add support to EPF driver and add EP PCIe node in dtsi
+file for ep pcie0 controller.
 
-Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
----
- .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 44 +++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 2 deletions(-)
+v2 -> v3:
+- removed if/then schemas, added minItems for reg,
+  reg-bnames, interrupt and interrupt-names instead.
+- adding qcom,sa8775p-pcie-ep compitable for sa8775p
+  as we have some specific change to add.
+- reusing sm8450's pcs_misc num table as it is same as sa8775p.
+  used appropriate namespace for pcs.
+- remove const from sa8775p_header as kernel test robot
+  throwing some warnings due to this.
+- remove fallback compatiable as we are adding compatiable for sa8775p.
 
-diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
-index a223ce0..7485248 100644
---- a/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
-+++ b/Documentation/devicetree/bindings/pci/qcom,pcie-ep.yaml
-@@ -13,6 +13,7 @@ properties:
-   compatible:
-     oneOf:
-       - enum:
-+          - qcom,sa8775p-pcie-ep
-           - qcom,sdx55-pcie-ep
-           - qcom,sm8450-pcie-ep
-       - items:
-@@ -20,6 +21,7 @@ properties:
-           - const: qcom,sdx55-pcie-ep
- 
-   reg:
-+    minItems: 6
-     items:
-       - description: Qualcomm-specific PARF configuration registers
-       - description: DesignWare PCIe registers
-@@ -27,8 +29,10 @@ properties:
-       - description: Address Translation Unit (ATU) registers
-       - description: Memory region used to map remote RC address space
-       - description: BAR memory region
-+      - description: DMA register space
- 
-   reg-names:
-+    minItems: 6
-     items:
-       - const: parf
-       - const: dbi
-@@ -36,13 +40,14 @@ properties:
-       - const: atu
-       - const: addr_space
-       - const: mmio
-+      - const: dma
- 
-   clocks:
--    minItems: 7
-+    minItems: 5
-     maxItems: 8
- 
-   clock-names:
--    minItems: 7
-+    minItems: 5
-     maxItems: 8
- 
-   qcom,perst-regs:
-@@ -57,14 +62,18 @@ properties:
-           - description: Perst separation enable offset
- 
-   interrupts:
-+    minItems: 2
-     items:
-       - description: PCIe Global interrupt
-       - description: PCIe Doorbell interrupt
-+      - description: DMA interrupt
- 
-   interrupt-names:
-+    minItems: 2
-     items:
-       - const: global
-       - const: doorbell
-+      - const: dma
- 
-   reset-gpios:
-     description: GPIO used as PERST# input signal
-@@ -173,6 +182,37 @@ allOf:
-             - const: ddrss_sf_tbu
-             - const: aggre_noc_axi
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,sa8775p-pcie-ep
-+    then:
-+      properties:
-+        reg:
-+          minItems: 7
-+        reg-names:
-+          minItems: 7
-+        clocks:
-+          items:
-+            - description: PCIe Auxiliary clock
-+            - description: PCIe CFG AHB clock
-+            - description: PCIe Master AXI clock
-+            - description: PCIe Slave AXI clock
-+            - description: PCIe Slave Q2A AXI clock
-+        clock-names:
-+          items:
-+            - const: aux
-+            - const: cfg
-+            - const: bus_master
-+            - const: bus_slave
-+            - const: slave_q2a
-+        interrupts:
-+          minItems: 3
-+        interrupt-names:
-+          minItems: 3
-+
- unevaluatedProperties: false
- 
- examples:
+v1 -> v2:
+- update description for dma
+- Reusing qcom,sdx55-pcie-ep compatibe so remove compaitable
+  for sa8775p
+- sort the defines in phy header file and remove extra defines
+- add const in return type pci_epf_header and remove MHI_EPF_USE_DMA
+  flag as hdma patch is not ready
+- add fallback compatiable as qcom,sdx55-pcie-ep, add iommu property
+
+Mrinmay Sarkar (5):
+  dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
+  PCI: qcom-ep: Add support for SA8775P SOC
+  phy: qcom-qmp-pcie: add endpoint support for sa8775p
+  PCI: epf-mhi: Add support for SA8775P
+  arm64: dts: qcom: sa8775p: Add ep pcie0 controller node
+
+ .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 44 +++++++++++++++++++-
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 48 ++++++++++++++++++++++
+ drivers/pci/controller/dwc/pcie-qcom-ep.c          |  1 +
+ drivers/pci/endpoint/functions/pci-epf-mhi.c       | 17 ++++++++
+ drivers/phy/qualcomm/phy-qcom-qmp-pcie.c           | 37 +++++++++++++++++
+ drivers/phy/qualcomm/phy-qcom-qmp-pcs-v5_20.h      |  2 +
+ 6 files changed, 147 insertions(+), 2 deletions(-)
+
 -- 
 2.7.4
 
