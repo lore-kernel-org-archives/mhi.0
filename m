@@ -1,157 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2D3DDA6
-	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 13:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F892747A
+	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 15:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ng7B2wwU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA0A6C433C8;
-	Thu, 19 Oct 2023 13:27:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697722044;
-	bh=lPXHENQXTgIKjA0QHMUHzGz9n4glR1pHgOhWvBoM1O0=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=Ng7B2wwUV/nxvj2UxMpPsYWeR4gRJEEuMfWTxub09U/tW07tOJMeTTCRPCbliAjNp
-	 ieqyAN8rVYjp4eut1wl+3mR4umLiMyGBEF6mUutinwr4Jz9rYIirGGRWZfypBfPpFx
-	 R8YBsYjswTmD6iRAY4g9HlW1SCLrpORHsbviDILt3huL0uh2Mppgq8NklUfWpjfGzG
-	 ZOSIxTRBN74Q/c9R7FKiBsP16C23K1WoyK77ARcY2h+y7qn+aDxQjUPFpT1WSDfk+J
-	 NANbf1PUglVcD7uFbwp3nEG+kaMxzuesWcMtefpp89d+yAkSdM+fQ0R0w9pEPOkOiX
-	 I65a6Ru3YgJxg==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,
-  <linux-wireless@vger.kernel.org>
-Subject: Re: [PATCH v4 3/3] wifi: ath11k: add firmware-2.bin support
-References: <20230727100430.3603551-1-kvalo@kernel.org>
-	<20230727100430.3603551-4-kvalo@kernel.org>
-	<563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com>
-Date: Thu, 19 Oct 2023 16:27:21 +0300
-In-Reply-To: <563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com> (Jeff
-	Johnson's message of "Thu, 27 Jul 2023 10:12:27 -0700")
-Message-ID: <87leby2152.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lgiPLyIx"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39JERbDc005020;
+	Thu, 19 Oct 2023 15:22:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0v2LvWG1tVNrZ6aUGcIw7ZwbbjE/fboEMBfgC/plseQ=;
+ b=lgiPLyIx8LcIdxy4/Z56HVuKnBQEITyMdd2tYBjq3F0t9VafBnbGvP7HIuKiRux2UFBg
+ R+WCa1eWGtDkyBl0yx9ie4vP1SSel7mHTjuUacGL8nlRwvSS/C5UOPRXp9HzggHsX9PK
+ qQq62mInG22h0JveXZTlm/OpPGppyRa1fNhw1JJiw1/E/OwpgZ56PA1R2pppUFQc9xJK
+ Kdn+hLyASnArIieYfjjvpWksy+dGQImAb3vIUhk/pkJYoBjLO/j1faUlsxpzcaiv4xFc
+ y0JwUC6+ZFz7Y2s9IVLY6FtWZfK+6ERv+IzAEl6Dh32yUe5UxsCOE/uP3ZBa/MBAXak7 ww== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tu67jr441-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Oct 2023 15:22:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39JFM9pN010981
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Oct 2023 15:22:10 GMT
+Received: from [10.48.241.70] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 19 Oct
+ 2023 08:22:09 -0700
+Message-ID: <626763fa-4691-4e81-9afb-77f60b017d74@quicinc.com>
+Date: Thu, 19 Oct 2023 08:22:09 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] wifi: ath11k: add firmware-2.bin support
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>
+CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
+        <linux-wireless@vger.kernel.org>
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+ <20230727100430.3603551-4-kvalo@kernel.org>
+ <563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com>
+ <87leby2152.fsf@kernel.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <87leby2152.fsf@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ZNFuLNRZZ-m0d71pHTZpO9m-B6aQhZDL
+X-Proofpoint-ORIG-GUID: ZNFuLNRZZ-m0d71pHTZpO9m-B6aQhZDL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-19_14,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=552 impostorscore=0 mlxscore=0 malwarescore=0
+ phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310190129
 
-Jeff Johnson <quic_jjohnson@quicinc.com> writes:
+On 10/19/2023 6:27 AM, Kalle Valo wrote:
+> Here's the updated commit in pending branch:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?h=pending&id=96e0d3887f65eaac7745ff9da7c89f0c59bb347d
+Acked-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-> On 7/27/2023 3:04 AM, Kalle Valo wrote:
->
->> From: Anilkumar Kolli <quic_akolli@quicinc.com>
->> Firmware IE containers can dynamically provide various information
->> what firmware supports. Also it can embed more than one image so
->> updating firmware is easy, user just needs to update one file in
->> /lib/firmware/.
->> The firmware API 2 or higher will use the IE container format, the
->> current API 1 will not use the new format but it still is supported
->> for some time. Firmware API 2 files are named as firmware-2.bin
->> (which contains both amss.bin and m3.bin images) and API 1 files are
->> amss.bin and m3.bin.
->> Currently ath11k PCI driver provides firmware binary (amss.bin) path
->> to
->> MHI driver, MHI driver reads firmware from filesystem and boots it. Add
->> provision to read firmware files from ath11k driver and provide the amss.bin
->> firmware data and size to MHI using a pointer.
->> Currently enum ath11k_fw_features is empty, the patches adding
->> features will
->> add the flags.
->> With AHB devices there's no amss.bin or m3.bin, so no changes in how
->> AHB
->> firmware files are used. But AHB devices can use future additions to the meta
->> data, for example in enum ath11k_fw_features.
->> Tested-on: WCN6855 hw2.0 PCI
->> WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
->> Co-developed-by: P Praneesh <quic_ppranees@quicinc.com>
->> Signed-off-by: P Praneesh <quic_ppranees@quicinc.com>
->> Signed-off-by: Anilkumar Kolli <quic_akolli@quicinc.com>
->> Co-developed-by: Kalle Valo <quic_kvalo@quicinc.com>
->> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-[...]
-
->> diff --git a/drivers/net/wireless/ath/ath11k/fw.c
->> b/drivers/net/wireless/ath/ath11k/fw.c
->> new file mode 100644
->> index 000000000000..5423c0be63fa
->> --- /dev/null
->> +++ b/drivers/net/wireless/ath/ath11k/fw.c
->> @@ -0,0 +1,157 @@
->> +// SPDX-License-Identifier: BSD-3-Clause-Clear
->> +/*
->> + * Copyright (c) 2022, Qualcomm Innovation Center, Inc. All rights reserved.
->
-> should the year be updated?
-> same question applies to the .h file
-
-I added 2023 to both files.
-
->> +		case ATH11K_FW_IE_M3_IMAGE:
->> +			ath11k_dbg(ab, ATH11K_DBG_BOOT,
->> +				   "found m3 image ie (%zd B)\n",
->> +				   ie_len);
->> +
->> +			ab->fw.m3_data = data;
->> +			ab->fw.m3_len = ie_len;
->> +			break;
->> +		default:
->> +			ath11k_warn(ab, "Unknown FW IE: %u\n", ie_id);
->> +			break;
->> +		}
->> +
->> +		/* jump over the padding */
->> +		ie_len = ALIGN(ie_len, 4);
->> +
->> +		len -= ie_len;
->> +		data += ie_len;
->
-> is this always safe?
->
-> can we have a case where the original ie_len was <= len but the
-> aligned ie_len is > len, and hence this will lead to an integer
-> underflow of len (becoming a large unsigned value) and we'll continue
-> looping with a buffer overread?
-
-A very good point, this isn't safe. I fixed it like this:
-
-		/* jump over the padding */
-		ie_len = ALIGN(ie_len, 4);
-
-		/* make sure there's space for padding */
-		if (ie_len > len)
-			break;
-
-		len -= ie_len;
-		data += ie_len;
-
-Does that look correct?
-
-> the same question applies to the code where the magic is checked & skipped
-
-Indeed, I fixed that like this:
-
-	/* jump over the padding */
-	magic_len = ALIGN(magic_len, 4);
-
-	/* make sure there's space for padding */
-	if (magic_len > len) {
-		ath11k_err(ab, "No space for padding after magic\n");
-		ret = -EINVAL;
-		goto err;
-	}
-
-	len -= magic_len;
-	data += magic_len;
-
-Here's the updated commit in pending branch:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?h=pending&id=96e0d3887f65eaac7745ff9da7c89f0c59bb347d
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
