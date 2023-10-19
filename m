@@ -1,80 +1,157 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912691A290
-	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 13:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2D3DDA6
+	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 13:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZwEo/o0C"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5a7af52ee31so96973457b3.2
-        for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 06:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697721078; x=1698325878; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKyigxz0xjpNw4M9S8MD6bISZmwbP5guXuL2FXnbjpY=;
-        b=ZwEo/o0CF9UlIFsWPYn8reOLrb0lWtfu9CsWuj39nM8K7p2rjnWBphYuy23JYEFAnH
-         X0MT7IaSpAo9+EiCNWtbmkJ3sWszrUrTIS7pLvlmeo6fILOWKpKCjCKlxa5DN0cKnu/i
-         cp7rWQEO354rIFCXqJL+4Mrw+JtTMiZaNqyG7/riDf8g65Ayh1UDtXLXTWwzuSas8XRI
-         5oZNMAdNfcfJFil8bFjiynUeshY6g9mphcmF2HscRM22lmEjT7GjF73VCETrBJ7J/hTr
-         BPbw1JU91rX/SpeOezGNSEzVHvx9Dzf+jxxwDtSRF9qAzvRg6m7NfaxFWLIdxHkhgYkH
-         LUIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697721078; x=1698325878;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mKyigxz0xjpNw4M9S8MD6bISZmwbP5guXuL2FXnbjpY=;
-        b=l00/z3QElgNLLX/AFYjiEmabVk9m73j1YpKaSU6gzWcb1PRjrnVrkiDqYITdJhCsbL
-         ldA+wRF5P0gDggO/f9vxHm9jX6Rra5xW02MenUEsNTRuTZriRcwQ1ifGuMOb8Pl2jUp6
-         kfOc6jnpirW+k+Mku2rSYvmI2LbRLw8NGpNrEf7zV/c7Mw8h7+HovY9ZPcEpXNYcOgl7
-         vaSUhug35Q1XwzD1rHsxDr3yjX8QnBO3txHWumPzQtQ/IHc0gUeHDLYbV2lp9cBigGTy
-         gVdh35YqxXxUXW3GEc5dNLVNDIugzIjn3DAP0e/2E15cia9l2tHTfh24aZiED4I9VHKF
-         Dhng==
-X-Gm-Message-State: AOJu0YxGXy45q0CkCe7BmRM5ocwpJXGh6mYezQj1u6PutqQw27n2XClU
-	3WkQcsFLjbEtTOqhpwAI/q4ZyTxdMkKyIWahSqNzIg==
-X-Google-Smtp-Source: AGHT+IFTDmViD4G59KbU+RTJg6WzdOrllTZxG71eprBWbjW7yf0Y2TxoOzGTmJh67kNKv4S5EHKdAM9I6+sYql2eQS4=
-X-Received: by 2002:a0d:c1c2:0:b0:5a8:1058:5d97 with SMTP id
- c185-20020a0dc1c2000000b005a810585d97mr2524844ywd.45.1697721078519; Thu, 19
- Oct 2023 06:11:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ng7B2wwU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA0A6C433C8;
+	Thu, 19 Oct 2023 13:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697722044;
+	bh=lPXHENQXTgIKjA0QHMUHzGz9n4glR1pHgOhWvBoM1O0=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=Ng7B2wwUV/nxvj2UxMpPsYWeR4gRJEEuMfWTxub09U/tW07tOJMeTTCRPCbliAjNp
+	 ieqyAN8rVYjp4eut1wl+3mR4umLiMyGBEF6mUutinwr4Jz9rYIirGGRWZfypBfPpFx
+	 R8YBsYjswTmD6iRAY4g9HlW1SCLrpORHsbviDILt3huL0uh2Mppgq8NklUfWpjfGzG
+	 ZOSIxTRBN74Q/c9R7FKiBsP16C23K1WoyK77ARcY2h+y7qn+aDxQjUPFpT1WSDfk+J
+	 NANbf1PUglVcD7uFbwp3nEG+kaMxzuesWcMtefpp89d+yAkSdM+fQ0R0w9pEPOkOiX
+	 I65a6Ru3YgJxg==
+From: Kalle Valo <kvalo@kernel.org>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: <mhi@lists.linux.dev>,  <ath11k@lists.infradead.org>,
+  <linux-wireless@vger.kernel.org>
+Subject: Re: [PATCH v4 3/3] wifi: ath11k: add firmware-2.bin support
+References: <20230727100430.3603551-1-kvalo@kernel.org>
+	<20230727100430.3603551-4-kvalo@kernel.org>
+	<563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com>
+Date: Thu, 19 Oct 2023 16:27:21 +0300
+In-Reply-To: <563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com> (Jeff
+	Johnson's message of "Thu, 27 Jul 2023 10:12:27 -0700")
+Message-ID: <87leby2152.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com> <1697715430-30820-4-git-send-email-quic_msarkar@quicinc.com>
-In-Reply-To: <1697715430-30820-4-git-send-email-quic_msarkar@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 19 Oct 2023 16:11:07 +0300
-Message-ID: <CAA8EJpoAQbTT6KZWeD4_PSxDCG0tZ_PvGmUXxpAfHxrK5CAUcg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] phy: qcom-qmp-pcie: add endpoint support for sa8775p
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org, 
-	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, 
-	quic_nayiluri@quicinc.com, robh@kernel.org, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Kishon Vijay Abraham I <kishon@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Thu, 19 Oct 2023 at 14:37, Mrinmay Sarkar <quic_msarkar@quicinc.com> wrote:
->
-> Add support for dual lane end point mode PHY found on sa8755p platform.
->
-> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-> ---
->  drivers/phy/qualcomm/phy-qcom-qmp-pcie.c      | 37 +++++++++++++++++++++++++++
->  drivers/phy/qualcomm/phy-qcom-qmp-pcs-v5_20.h |  2 ++
->  2 files changed, 39 insertions(+)
+Jeff Johnson <quic_jjohnson@quicinc.com> writes:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> On 7/27/2023 3:04 AM, Kalle Valo wrote:
+>
+>> From: Anilkumar Kolli <quic_akolli@quicinc.com>
+>> Firmware IE containers can dynamically provide various information
+>> what firmware supports. Also it can embed more than one image so
+>> updating firmware is easy, user just needs to update one file in
+>> /lib/firmware/.
+>> The firmware API 2 or higher will use the IE container format, the
+>> current API 1 will not use the new format but it still is supported
+>> for some time. Firmware API 2 files are named as firmware-2.bin
+>> (which contains both amss.bin and m3.bin images) and API 1 files are
+>> amss.bin and m3.bin.
+>> Currently ath11k PCI driver provides firmware binary (amss.bin) path
+>> to
+>> MHI driver, MHI driver reads firmware from filesystem and boots it. Add
+>> provision to read firmware files from ath11k driver and provide the amss.bin
+>> firmware data and size to MHI using a pointer.
+>> Currently enum ath11k_fw_features is empty, the patches adding
+>> features will
+>> add the flags.
+>> With AHB devices there's no amss.bin or m3.bin, so no changes in how
+>> AHB
+>> firmware files are used. But AHB devices can use future additions to the meta
+>> data, for example in enum ath11k_fw_features.
+>> Tested-on: WCN6855 hw2.0 PCI
+>> WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
+>> Co-developed-by: P Praneesh <quic_ppranees@quicinc.com>
+>> Signed-off-by: P Praneesh <quic_ppranees@quicinc.com>
+>> Signed-off-by: Anilkumar Kolli <quic_akolli@quicinc.com>
+>> Co-developed-by: Kalle Valo <quic_kvalo@quicinc.com>
+>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+
+[...]
+
+>> diff --git a/drivers/net/wireless/ath/ath11k/fw.c
+>> b/drivers/net/wireless/ath/ath11k/fw.c
+>> new file mode 100644
+>> index 000000000000..5423c0be63fa
+>> --- /dev/null
+>> +++ b/drivers/net/wireless/ath/ath11k/fw.c
+>> @@ -0,0 +1,157 @@
+>> +// SPDX-License-Identifier: BSD-3-Clause-Clear
+>> +/*
+>> + * Copyright (c) 2022, Qualcomm Innovation Center, Inc. All rights reserved.
+>
+> should the year be updated?
+> same question applies to the .h file
+
+I added 2023 to both files.
+
+>> +		case ATH11K_FW_IE_M3_IMAGE:
+>> +			ath11k_dbg(ab, ATH11K_DBG_BOOT,
+>> +				   "found m3 image ie (%zd B)\n",
+>> +				   ie_len);
+>> +
+>> +			ab->fw.m3_data = data;
+>> +			ab->fw.m3_len = ie_len;
+>> +			break;
+>> +		default:
+>> +			ath11k_warn(ab, "Unknown FW IE: %u\n", ie_id);
+>> +			break;
+>> +		}
+>> +
+>> +		/* jump over the padding */
+>> +		ie_len = ALIGN(ie_len, 4);
+>> +
+>> +		len -= ie_len;
+>> +		data += ie_len;
+>
+> is this always safe?
+>
+> can we have a case where the original ie_len was <= len but the
+> aligned ie_len is > len, and hence this will lead to an integer
+> underflow of len (becoming a large unsigned value) and we'll continue
+> looping with a buffer overread?
+
+A very good point, this isn't safe. I fixed it like this:
+
+		/* jump over the padding */
+		ie_len = ALIGN(ie_len, 4);
+
+		/* make sure there's space for padding */
+		if (ie_len > len)
+			break;
+
+		len -= ie_len;
+		data += ie_len;
+
+Does that look correct?
+
+> the same question applies to the code where the magic is checked & skipped
+
+Indeed, I fixed that like this:
+
+	/* jump over the padding */
+	magic_len = ALIGN(magic_len, 4);
+
+	/* make sure there's space for padding */
+	if (magic_len > len) {
+		ath11k_err(ab, "No space for padding after magic\n");
+		ret = -EINVAL;
+		goto err;
+	}
+
+	len -= magic_len;
+	data += magic_len;
+
+Here's the updated commit in pending branch:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?h=pending&id=96e0d3887f65eaac7745ff9da7c89f0c59bb347d
 
 -- 
-With best wishes
-Dmitry
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
