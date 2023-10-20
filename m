@@ -1,78 +1,100 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F892747A
-	for <mhi@lists.linux.dev>; Thu, 19 Oct 2023 15:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CFA15BD;
+	Fri, 20 Oct 2023 03:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lgiPLyIx"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39JERbDc005020;
-	Thu, 19 Oct 2023 15:22:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0v2LvWG1tVNrZ6aUGcIw7ZwbbjE/fboEMBfgC/plseQ=;
- b=lgiPLyIx8LcIdxy4/Z56HVuKnBQEITyMdd2tYBjq3F0t9VafBnbGvP7HIuKiRux2UFBg
- R+WCa1eWGtDkyBl0yx9ie4vP1SSel7mHTjuUacGL8nlRwvSS/C5UOPRXp9HzggHsX9PK
- qQq62mInG22h0JveXZTlm/OpPGppyRa1fNhw1JJiw1/E/OwpgZ56PA1R2pppUFQc9xJK
- Kdn+hLyASnArIieYfjjvpWksy+dGQImAb3vIUhk/pkJYoBjLO/j1faUlsxpzcaiv4xFc
- y0JwUC6+ZFz7Y2s9IVLY6FtWZfK+6ERv+IzAEl6Dh32yUe5UxsCOE/uP3ZBa/MBAXak7 ww== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tu67jr441-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Oct 2023 15:22:10 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39JFM9pN010981
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Oct 2023 15:22:10 GMT
-Received: from [10.48.241.70] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 19 Oct
- 2023 08:22:09 -0700
-Message-ID: <626763fa-4691-4e81-9afb-77f60b017d74@quicinc.com>
-Date: Thu, 19 Oct 2023 08:22:09 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1U54+UP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697772530; x=1729308530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HZK8XcaOMRdSa1/Hskxmw3lliswKEoaXNG7FZIK02ng=;
+  b=Y1U54+UP+Tu9a3PteLI2SgzRodUmNTco5iE5cPmTLK09aLtoM5KyBK9C
+   cjFjGSQG44AU8Mjxr8OoLlkWomIcVi/ugKZOlDug6ixq1gwNNUyPkbk+e
+   TSbYJIcEKK9xA897kZMOUvkwPgHPvo69mDknLMo59DPgIsjkXSVzfMCI4
+   3xuqQcRPAV3AywNMgW79ExiDzjJbBVSTPW9M72+kaYHFVgm1ebHQaYAid
+   +ZX8c7R67tcWXYbP8I7Q4vhUgtj7Oy5Z5DwtLTo93UipXcJ3DjMTgB3b9
+   WfIQNZnAg4IJ8zZlpuEJ0/MvBqnp3gPPVBjLWu2TU3pHtr5Ioe5blO9Pf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="472645901"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
+   d="scan'208";a="472645901"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 20:28:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="827592029"
+X-IronPort-AV: E=Sophos;i="6.03,238,1694761200"; 
+   d="scan'208";a="827592029"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 20:28:44 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qtgBm-0002vy-2Z;
+	Fri, 20 Oct 2023 03:28:42 +0000
+Date: Fri, 20 Oct 2023 11:27:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
+Message-ID: <202310201110.S903HmeD-lkp@intel.com>
+References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] wifi: ath11k: add firmware-2.bin support
-Content-Language: en-US
-To: Kalle Valo <kvalo@kernel.org>
-CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>
-References: <20230727100430.3603551-1-kvalo@kernel.org>
- <20230727100430.3603551-4-kvalo@kernel.org>
- <563e8d01-beba-bff2-54e0-7629c462add0@quicinc.com>
- <87leby2152.fsf@kernel.org>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <87leby2152.fsf@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ZNFuLNRZZ-m0d71pHTZpO9m-B6aQhZDL
-X-Proofpoint-ORIG-GUID: ZNFuLNRZZ-m0d71pHTZpO9m-B6aQhZDL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-19_14,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 mlxlogscore=552 impostorscore=0 mlxscore=0 malwarescore=0
- phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310190129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
 
-On 10/19/2023 6:27 AM, Kalle Valo wrote:
-> Here's the updated commit in pending branch:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?h=pending&id=96e0d3887f65eaac7745ff9da7c89f0c59bb347d
-Acked-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231017-120241
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231013-ftrace_support-v2-1-6e893ce010b5%40quicinc.com
+patch subject: [PATCH v2] bus: mhi: host: Add tracing support
+config: i386-randconfig-002-20231020 (https://download.01.org/0day-ci/archive/20231020/202310201110.S903HmeD-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231020/202310201110.S903HmeD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310201110.S903HmeD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/bus/mhi/host/main.c:249:12: warning: no previous declaration for 'mhi_to_physical' [-Wmissing-declarations]
+    dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+               ^~~~~~~~~~~~~~~
 
 
+vim +/mhi_to_physical +249 drivers/bus/mhi/host/main.c
+
+   248	
+ > 249	dma_addr_t mhi_to_physical(struct mhi_ring *ring, void *addr)
+   250	{
+   251		return (addr - ring->base) + ring->iommu_base;
+   252	}
+   253	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
