@@ -1,59 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5E41D538;
-	Fri, 20 Oct 2023 16:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056B9C433C7;
-	Fri, 20 Oct 2023 16:28:36 +0000 (UTC)
-Date: Fri, 20 Oct 2023 12:28:33 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Krishna chaitanya chundru <quic_krichai@quicinc.com>, "Manivannan
- Sadhasivam" <mani@kernel.org>, "Masami Hiramatsu" <mhiramat@kernel.org>,
- <linux-kernel@vger.kernel.org>, <mhi@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
- <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
- <quic_parass@quicinc.com>
-Subject: Re: [PATCH v2] bus: mhi: host: Add tracing support
-Message-ID: <20231020122833.647bbc49@gandalf.local.home>
-In-Reply-To: <9216f694-cce0-2b95-df34-e5b60538644a@quicinc.com>
-References: <20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com>
-	<9216f694-cce0-2b95-df34-e5b60538644a@quicinc.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5713EA3;
+	Sat, 21 Oct 2023 03:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OYJNHGdj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697859768; x=1729395768;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8PNS9IwLu/TMYdHnEZRKjglbKlVyBvxRYtzA2v+FvTs=;
+  b=OYJNHGdjDY2uQiHI8RUMRE96033TPKS43bG7HrdlZVc9Uj9Khx8+0xOQ
+   BZBHufg2v1/Y1BFIZ2thkU3zva7Ayd4Q1YfRRyaMiBhrDCOPfy3Rj2jrp
+   IRaC9TcKyHfJrVQMnmUKEglAfBIYeDoTO5feQho+bLYhhLFyx7SbMoBae
+   L9ZZrb43oORBr1QsxXchuLO1Pk+CCyDAe9d2pImo1orAS1r2/XQu9rRbG
+   1agwxgzBq/BZzMHPuGfr7pUE0T493Shm9rQfQp8iETqrS8xPsRzHdMmuK
+   LEFGnjNg9nURigYqH4S5tp657aQpt1+yk97N3pQ1hJjxTE/Q9+ra7q6r1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="371676307"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="371676307"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 20:42:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="881243647"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="881243647"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 20 Oct 2023 20:42:45 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qu2st-0004LK-1q;
+	Sat, 21 Oct 2023 03:42:43 +0000
+Date: Sat, 21 Oct 2023 11:42:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	mhi@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH] bus: mhi: ep: Add support for interrupt moderation timer
+Message-ID: <202310211125.dCDfH087-lkp@intel.com>
+References: <20231019080911.57938-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231019080911.57938-1-manivannan.sadhasivam@linaro.org>
 
-On Fri, 20 Oct 2023 09:03:59 -0600
-Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+Hi Manivannan,
 
-> > diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> > index f78aefd2d7a3..3afa90a204fd 100644
-> > --- a/drivers/bus/mhi/host/init.c
-> > +++ b/drivers/bus/mhi/host/init.c
-> > @@ -20,6 +20,9 @@
-> >   #include <linux/wait.h>
-> >   #include "internal.h"
-> >   
-> > +#define CREATE_TRACE_POINTS
-> > +#include <trace/events/mhi_host.h>  
-> 
-> This feels redundant to me.  A few lines ago we included internal.h, and 
-> internal.h includes trace/events/mhi_host.h
+kernel test robot noticed the following build errors:
 
-It's not redundant. The #define CREATE_TRACE_POINTS enables the magic of
-creating the tracepoints and trace events via the TRACE_EVENT() macro.
+[auto build test ERROR on mani-mhi/mhi-next]
+[also build test ERROR on linus/master v6.6-rc6 next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-It should never be done in a header file, only in .c code!
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/bus-mhi-ep-Add-support-for-interrupt-moderation-timer/20231019-161023
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+patch link:    https://lore.kernel.org/r/20231019080911.57938-1-manivannan.sadhasivam%40linaro.org
+patch subject: [PATCH] bus: mhi: ep: Add support for interrupt moderation timer
+config: x86_64-buildonly-randconfig-003-20231021 (https://download.01.org/0day-ci/archive/20231021/202310211125.dCDfH087-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211125.dCDfH087-lkp@intel.com/reproduce)
 
-The header file include of trace headers are used for having access to the
-declarations of the functions. That is (trace_*()) in the code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211125.dCDfH087-lkp@intel.com/
 
--- Steve
+All errors (new ones prefixed by >>):
+
+   drivers/bus/mhi/ep/main.c: In function 'mhi_ep_send_event':
+>> drivers/bus/mhi/ep/main.c:71:52: error: 'struct mhi_ep_ring' has no member named 'intmod_work'; did you mean 'intmodt_work'?
+      71 |                         cancel_delayed_work(&ring->intmod_work);
+         |                                                    ^~~~~~~~~~~
+         |                                                    intmodt_work
+   drivers/bus/mhi/ep/main.c:76:46: error: 'struct mhi_ep_ring' has no member named 'intmod_work'; did you mean 'intmodt_work'?
+      76 |                 schedule_delayed_work(&ring->intmod_work, msecs_to_jiffies(ring->intmodt));
+         |                                              ^~~~~~~~~~~
+         |                                              intmodt_work
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_OV7670
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
+   Selected by [y]:
+   - VIDEO_CAFE_CCIC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+
+
+vim +71 drivers/bus/mhi/ep/main.c
+
+    27	
+    28	static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
+    29				     struct mhi_ring_element *el, bool bei)
+    30	{
+    31		struct device *dev = &mhi_cntrl->mhi_dev->dev;
+    32		union mhi_ep_ring_ctx *ctx;
+    33		struct mhi_ep_ring *ring;
+    34		int ret;
+    35	
+    36		mutex_lock(&mhi_cntrl->event_lock);
+    37		ring = &mhi_cntrl->mhi_event[ring_idx].ring;
+    38		ctx = (union mhi_ep_ring_ctx *)&mhi_cntrl->ev_ctx_cache[ring_idx];
+    39		if (!ring->started) {
+    40			ret = mhi_ep_ring_start(mhi_cntrl, ring, ctx);
+    41			if (ret) {
+    42				dev_err(dev, "Error starting event ring (%u)\n", ring_idx);
+    43				goto err_unlock;
+    44			}
+    45		}
+    46	
+    47		/* Add element to the event ring */
+    48		ret = mhi_ep_ring_add_element(ring, el);
+    49		if (ret) {
+    50			dev_err(dev, "Error adding element to event ring (%u)\n", ring_idx);
+    51			goto err_unlock;
+    52		}
+    53	
+    54		mutex_unlock(&mhi_cntrl->event_lock);
+    55	
+    56		/*
+    57		 * As per the MHI specification, section 4.3, Interrupt moderation:
+    58		 *
+    59		 * 1. If BEI flag is not set, cancel any pending intmodt work if started
+    60		 * for the event ring and raise IRQ immediately.
+    61		 *
+    62		 * 2. If both BEI and intmodt are set, and if no IRQ is pending for the
+    63		 * same event ring, start the IRQ delayed work as per the value of
+    64		 * intmodt. If previous IRQ is pending, then do nothing as the pending
+    65		 * IRQ is enough for the host to process the current event ring element.
+    66		 *
+    67		 * 3. If BEI is set and intmodt is not set, no need to raise IRQ.
+    68		 */
+    69		if (!bei) {
+    70			if (READ_ONCE(ring->irq_pending))
+  > 71				cancel_delayed_work(&ring->intmod_work);
+    72	
+    73			mhi_cntrl->raise_irq(mhi_cntrl, ring->irq_vector);
+    74		} else if (ring->intmodt && !READ_ONCE(ring->irq_pending)) {
+    75			WRITE_ONCE(ring->irq_pending, true);
+    76			schedule_delayed_work(&ring->intmod_work, msecs_to_jiffies(ring->intmodt));
+    77		}
+    78	
+    79		return 0;
+    80	
+    81	err_unlock:
+    82		mutex_unlock(&mhi_cntrl->event_lock);
+    83	
+    84		return ret;
+    85	}
+    86	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
