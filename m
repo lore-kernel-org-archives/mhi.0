@@ -1,82 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713EE1C684
-	for <mhi@lists.linux.dev>; Wed, 25 Oct 2023 07:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C8414ABC
+	for <mhi@lists.linux.dev>; Wed, 25 Oct 2023 09:54:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjQoYfWq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A1FC433C9;
-	Wed, 25 Oct 2023 07:58:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+tu1xFn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B126FC433C8;
+	Wed, 25 Oct 2023 09:54:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698220698;
-	bh=GUlN9Bi4G76bChK5FRQncDZVmEHwC4XhEnOh4TaUt3o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PjQoYfWqVVQXPgT8rqFrpcE6xWQZEfd6i4TrxdZCN6oYTvWa1CF16ZAdnp0mjtrs+
-	 i53/Zsuf1O1W5xmIMjlN7o+0/WGTFWHUhv97mkmsGHDffZqINg6OfafBjzYpMNWXXG
-	 +SE3xY+17l+5FvUkXpfK0UoofARoJVyq1UkqSVN1PFyn3YUqCIx2baXVjM4YOu9Gxw
-	 dGK8yztR5D9N84QE1OXkchVnSvZJS2e67kRSNPI/HhUR4VdcEZhSsWBiFMytsAEI45
-	 bTPeJIm9z6hGHJTyQB4RhezalBHcCoY/0eLcVikcAnlDTWBCc8rUGb9f/kVMOhSbBH
-	 arysCpBHA+3wQ==
-Date: Wed, 25 Oct 2023 13:28:14 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: Re: [bug report] bus: mhi: ep: Do not allocate event ring element on
- stack
-Message-ID: <20231025075814.GE3648@thinkpad>
-References: <e7d05eeb-2b28-477d-be3f-7f6e9ad7aec5@moroto.mountain>
+	s=k20201202; t=1698227686;
+	bh=yaAsiujagvZOvQ/PZwj5xUzfTRKtOWgXCQg/2408jBA=;
+	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+	b=m+tu1xFnEA69yPdgsePYfRs0i3vP7Lxr6ub4xdGpFSPPKNu1iDZBP6N7rXG83tZvL
+	 Zq2sgl/rpQvJu8qk7ABR0hNPAyCpr5ENBTkezMMwgEUXHflTeVfZYyb5iGtSUCMt06
+	 x/h76Ylb+so3oF9ZZV9AarumiUad/KPDN2F6C8jojq8UX4C3cWJ3d/wSKxQcLWTKdA
+	 R87jTfWBF54nB3ufllxIoWKUogEsSJ6/WPtSUXTJ5ROCbM7NDqw2vo8DDe942TLise
+	 W1OLTG0+UI+J3D8daZkfnQQB2um5XRP8qs9dwViO+J01sbwds7qmH7kPamzBWp/okK
+	 gR/Sq9vjVtOEQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e7d05eeb-2b28-477d-be3f-7f6e9ad7aec5@moroto.mountain>
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4 2/3] wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
+From: Kalle Valo <kvalo@kernel.org>
+In-Reply-To: <20230727100430.3603551-3-kvalo@kernel.org>
+References: <20230727100430.3603551-3-kvalo@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
+ linux-wireless@vger.kernel.org
+User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.11.2
+Message-ID: <169822768265.891844.9494809896760074747.kvalo@kernel.org>
+Date: Wed, 25 Oct 2023 09:54:45 +0000 (UTC)
 
-On Fri, Oct 20, 2023 at 04:54:33PM +0300, Dan Carpenter wrote:
-> Hello Manivannan Sadhasivam,
-> 
-> The patch b910ee376ab3: "bus: mhi: ep: Do not allocate event ring
-> element on stack" from Sep 1, 2023 (linux-next), leads to the
-> following Smatch static checker warning:
-> 
-> drivers/bus/mhi/ep/main.c:106 mhi_ep_send_ee_event() error: potential null dereference 'event'.  (kzalloc returns null)
-> drivers/bus/mhi/ep/main.c:121 mhi_ep_send_cmd_comp_event() error: potential null dereference 'event'.  (kzalloc returns null)
-> drivers/bus/mhi/ep/main.c:77 mhi_ep_send_completion_event() error: potential null dereference 'event'.  (kzalloc returns null)
-> drivers/bus/mhi/ep/main.c:92 mhi_ep_send_state_change_event() error: potential null dereference 'event'.  (kzalloc returns null)
-> 
-> drivers/bus/mhi/ep/main.c
->     101 int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ee_type exec_env)
->     102 {
->     103         struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
-> 
-> No checks for NULL.  Some people have a rule that functions which can
-> fail should not be in the declaration block.  From a static analysis
-> perspective code in the declaration block is buggier than code in the
-> code area.
-> 
+Kalle Valo <kvalo@kernel.org> wrote:
 
-Thanks Dan for the report. Yes, it is indeed a bad idea to have the allocation
-inside declaration. I will move it outside and add the error check.
-
-- Mani
-
->     104         int ret;
->     105 
-> --> 106         event->dword[0] = MHI_EE_EV_DWORD0(exec_env);
->     107         event->dword[1] = MHI_SC_EV_DWORD1(MHI_PKT_TYPE_EE_EVENT);
->     108 
->     109         ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
->     110         kfree(event);
->     111 
->     112         return ret;
->     113 }
+> Simple refactoring to make it easier to add firmware-2.bin support in the
+> following patch.
 > 
-> regards,
-> dan carpenter
+> Earlier ath11k_qmi_m3_load() supported changing m3.bin contents while ath11k is
+> running. But that's not going to actually work, m3.bin is supposed to be the
+> same during the lifetime of ath11k, for example we don't support changing the
+> firmware capabilities on the fly. Due to this ath11k requests m3.bin firmware
+> file first and only then checks m3_mem->vaddr, so we are basically requesting
+> the firmware file even if it's not needed. Reverse the code so that m3_mem
+> buffer is checked first, and only if it doesn't exist, then m3.bin is requested
+> from user space.
+> 
+> Checking for m3_mem->size is redundant when m3_mem->vaddr is NULL, we would
+> not be able to use the buffer in that case. So remove the check for size.
+> 
+> Simplify the exit handling and use 'goto out'.
+> 
+> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> Reviewed-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+
+2 patches applied to ath-next branch of ath.git, thanks.
+
+b49381d3de3a wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
+7db88b962f06 wifi: ath11k: add firmware-2.bin support
 
 -- 
-மணிவண்ணன் சதாசிவம்
+https://patchwork.kernel.org/project/linux-wireless/patch/20230727100430.3603551-3-kvalo@kernel.org/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
