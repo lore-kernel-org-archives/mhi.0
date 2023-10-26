@@ -1,194 +1,146 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF9A8F47
-	for <mhi@lists.linux.dev>; Thu, 26 Oct 2023 04:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C67C2C6
+	for <mhi@lists.linux.dev>; Thu, 26 Oct 2023 05:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lm/AL3uv"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-27d8e2ac2b1so340790a91.2
-        for <mhi@lists.linux.dev>; Wed, 25 Oct 2023 21:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698296119; x=1698900919; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0pt9Dt+M5cqD+vX+u8z8XsQMJi/gjZagBNhhPpDmywM=;
-        b=Lm/AL3uvhIJeii2LUF8/lQ6jpBReF68adyH4ets4RJrI6uiMohgj0J1SJd3vnlBnUk
-         EQNc4D/Ok1gnziqw9jV8c53zTP+QluoXmqleMzjzFEkRH9u7epYFUuh4Bn8bxDD66BUb
-         j6mToUVZj0v3vwGj3dhz5hpHafjp8bZv9dt/GhDLvrWeFVRG6LNGbilpLdOMNKncfA6x
-         SxXfb1MRfeFS5fIkA1LAY469lKpfSeqD30eKpyTYAZJjp/Bd9vjnuDsebN+cOdog3dpm
-         vf8Hh4sT71XJEWO7O2aEu7k/YJDzG2qV2T5hh5R1NfhgWi6g7CO5+nxy9baTmv2a/q9B
-         DvjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698296119; x=1698900919;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0pt9Dt+M5cqD+vX+u8z8XsQMJi/gjZagBNhhPpDmywM=;
-        b=ay0GEwoAQ+K9tH92zqHrSAHBIQnLu0KVc4slSBvQa9Jabav0CFVe/J25oK6G95veEY
-         NyCeLiObSsNpGHvUUQ0gSLTFmw+6I6lfbX6iqiLqr9G8agXkJPjzV9svhH98tVTLZAoj
-         zXrZcCvR+J7rVmHxHrr0ouBQXJCLiXJFEBIlOhWTeIPC7sVUrAuns8HUzckzYzyLC5kO
-         A8IV/EzAvzMZW4YuR2zqClC8FPrf8qfdAtEWS3UswftV8w5zZH12NQiqNeHjAkRyfRWa
-         j5AZoGs7+7U5X+Mf6Zvxrk7Op88rwTSFNvpquXq8uXlzD3p4cnOz7tHDcru/pvUkYn/l
-         R5fA==
-X-Gm-Message-State: AOJu0YwmEUQIh3zFHsrzQl3po8BkuEHyXhzH1rlkWqa9PVwn6P9fht2J
-	Wa1qxVOYp4HmvVdnW5ifkp6ece8wvIvz+GOekg==
-X-Google-Smtp-Source: AGHT+IGH5YwRzFY52rgnvnzSg5DY2VMsp03WcqH7SiHCYs+p66pVT697qQHpImfoKbqhPSxvzcLyEQ==
-X-Received: by 2002:a17:90b:28c3:b0:27d:c36:e134 with SMTP id qj3-20020a17090b28c300b0027d0c36e134mr13144796pjb.42.1698296119397;
-        Wed, 25 Oct 2023 21:55:19 -0700 (PDT)
-Received: from localhost.localdomain ([103.28.246.120])
-        by smtp.gmail.com with ESMTPSA id t16-20020a17090aba9000b00267b38f5e13sm710619pjr.2.2023.10.25.21.55.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 21:55:17 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v2] bus: mhi: ep: Add support for interrupt moderation timer
-Date: Thu, 26 Oct 2023 10:25:13 +0530
-Message-Id: <20231026045513.12981-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G8wbEv0Q"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39Q5RvLl020299;
+	Thu, 26 Oct 2023 05:30:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=TpmWst0YTaQbHQXHbu3AD6DbrLSZSlQlBc5MhXt+JO0=;
+ b=G8wbEv0QaAvgZLrumCkdPm/i3sRkrWSiK3r0MR1VSOYKGAxXTmFje+qRe7yTYCmrrChr
+ +zqfGhg1Y9riLQePifbaKh/rLxsA9Vx+kizNWOCzy4V5ibHGU9QgLqiGkB2+HLdzMD52
+ BxpUcl7BnO5XBgYUVGuGjKnx0cEYBVVGgZE0Skx8HrD532epS0YQeW2UroowPp2KHg+u
+ jE706Jl2ayp9WZAimPNWaC66//ZIxYAJzGYrkBNC+b2ExQfFCbnCYkCBR71PmbjZyjSv
+ s7RX6ZRSLgKLCXUqR162IhgsYqUgOR4GXUHeQOk9+wTSAGEYmxa53nCNEaPxNGpjKbmQ Ng== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ty0tu265a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Oct 2023 05:30:42 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39Q5Uf4u026009
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Oct 2023 05:30:41 GMT
+Received: from [10.216.45.182] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 25 Oct
+ 2023 22:30:32 -0700
+Message-ID: <610b0621-b140-ee9b-c450-0fec6862c4fc@quicinc.com>
+Date: Thu, 26 Oct 2023 11:00:29 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 4/5] PCI: epf-mhi: Add support for SA8775P
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <agross@kernel.org>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>, <quic_shazhuss@quicinc.com>,
+        <quic_nitegupt@quicinc.com>, <quic_ramkri@quicinc.com>,
+        <quic_nayiluri@quicinc.com>, <dmitry.baryshkov@linaro.org>,
+        <robh@kernel.org>, <quic_krichai@quicinc.com>,
+        <quic_vbadigan@quicinc.com>, <quic_parass@quicinc.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Lorenzo
+ Pieralisi" <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
+	<kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Vinod Koul
+	<vkoul@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <linux-phy@lists.infradead.org>
+References: <1697715430-30820-1-git-send-email-quic_msarkar@quicinc.com>
+ <1697715430-30820-5-git-send-email-quic_msarkar@quicinc.com>
+ <20231025075603.GD3648@thinkpad>
+From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+In-Reply-To: <20231025075603.GD3648@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: UsPh1zzspnuUr39tC_m-xsRWj4z3LVWm
+X-Proofpoint-GUID: UsPh1zzspnuUr39tC_m-xsRWj4z3LVWm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-26_03,2023-10-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxlogscore=833
+ suspectscore=0 bulkscore=0 mlxscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2310170001 definitions=main-2310260045
 
-MHI spec defines the interrupt moderation timer feature using which the
-host can limit the number of interrupts being raised for an event ring by
-the device. This feature allows the host to process multiple event ring
-elements by a single IRQ from the device, thereby eliminating the need to
-process IRQ for each element.
 
-The INTMODT field in the event context array provides the value to be used
-for delaying the IRQ generation from device. This value, along with the
-Block Event Interrupt (BEI) flag of the TRE defines how IRQ is generated to
-the host.
+On 10/25/2023 1:26 PM, Manivannan Sadhasivam wrote:
+> On Thu, Oct 19, 2023 at 05:07:09PM +0530, Mrinmay Sarkar wrote:
+>> Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
+>> SA8775P has the PID (0x0306) and supports HDMA. Currently, it has
+> Is the PID fixed? I thought you just want to reuse the SDXxx PID in the
+> meantime.
+>
+> - Mani
 
-Support for interrupt moderation timer is implemented using delayed
-workqueue in kernel. And a separate delayed work item is used for each
-event ring.
+The PID for SA8775p EP is not decided yet. So using 0x0306 PID meantime.
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
+--Mrinmay
 
-Changes in v2:
-
-* Fixed the build issue reported by Kbuild bot.
-
- drivers/bus/mhi/ep/internal.h |  3 +++
- drivers/bus/mhi/ep/main.c     | 22 +++++++++++++++++++---
- drivers/bus/mhi/ep/ring.c     | 19 ++++++++++++++++++-
- 3 files changed, 40 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
-index a2125fa5fe2f..8c5cf2b67951 100644
---- a/drivers/bus/mhi/ep/internal.h
-+++ b/drivers/bus/mhi/ep/internal.h
-@@ -126,6 +126,7 @@ struct mhi_ep_ring {
- 	union mhi_ep_ring_ctx *ring_ctx;
- 	struct mhi_ring_element *ring_cache;
- 	enum mhi_ep_ring_type type;
-+	struct delayed_work intmodt_work;
- 	u64 rbase;
- 	size_t rd_offset;
- 	size_t wr_offset;
-@@ -135,7 +136,9 @@ struct mhi_ep_ring {
- 	u32 ch_id;
- 	u32 er_index;
- 	u32 irq_vector;
-+	u32 intmodt;
- 	bool started;
-+	bool irq_pending;
- };
- 
- struct mhi_ep_cmd {
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index e2513f5f47a6..c06111045a84 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -54,11 +54,27 @@ static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
- 	mutex_unlock(&mhi_cntrl->event_lock);
- 
- 	/*
--	 * Raise IRQ to host only if the BEI flag is not set in TRE. Host might
--	 * set this flag for interrupt moderation as per MHI protocol.
-+	 * As per the MHI specification, section 4.3, Interrupt moderation:
-+	 *
-+	 * 1. If BEI flag is not set, cancel any pending intmodt work if started
-+	 * for the event ring and raise IRQ immediately.
-+	 *
-+	 * 2. If both BEI and intmodt are set, and if no IRQ is pending for the
-+	 * same event ring, start the IRQ delayed work as per the value of
-+	 * intmodt. If previous IRQ is pending, then do nothing as the pending
-+	 * IRQ is enough for the host to process the current event ring element.
-+	 *
-+	 * 3. If BEI is set and intmodt is not set, no need to raise IRQ.
- 	 */
--	if (!bei)
-+	if (!bei) {
-+		if (READ_ONCE(ring->irq_pending))
-+			cancel_delayed_work(&ring->intmodt_work);
-+
- 		mhi_cntrl->raise_irq(mhi_cntrl, ring->irq_vector);
-+	} else if (ring->intmodt && !READ_ONCE(ring->irq_pending)) {
-+		WRITE_ONCE(ring->irq_pending, true);
-+		schedule_delayed_work(&ring->intmodt_work, msecs_to_jiffies(ring->intmodt));
-+	}
- 
- 	return 0;
- 
-diff --git a/drivers/bus/mhi/ep/ring.c b/drivers/bus/mhi/ep/ring.c
-index 115518ec76a4..a1071c13761b 100644
---- a/drivers/bus/mhi/ep/ring.c
-+++ b/drivers/bus/mhi/ep/ring.c
-@@ -157,6 +157,15 @@ void mhi_ep_ring_init(struct mhi_ep_ring *ring, enum mhi_ep_ring_type type, u32
- 	}
- }
- 
-+static void mhi_ep_raise_irq(struct work_struct *work)
-+{
-+	struct mhi_ep_ring *ring = container_of(work, struct mhi_ep_ring, intmodt_work.work);
-+	struct mhi_ep_cntrl *mhi_cntrl = ring->mhi_cntrl;
-+
-+	mhi_cntrl->raise_irq(mhi_cntrl, ring->irq_vector);
-+	WRITE_ONCE(ring->irq_pending, false);
-+}
-+
- int mhi_ep_ring_start(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
- 			union mhi_ep_ring_ctx *ctx)
- {
-@@ -173,8 +182,13 @@ int mhi_ep_ring_start(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
- 	if (ring->type == RING_TYPE_CH)
- 		ring->er_index = le32_to_cpu(ring->ring_ctx->ch.erindex);
- 
--	if (ring->type == RING_TYPE_ER)
-+	if (ring->type == RING_TYPE_ER) {
- 		ring->irq_vector = le32_to_cpu(ring->ring_ctx->ev.msivec);
-+		ring->intmodt = FIELD_GET(EV_CTX_INTMODT_MASK,
-+					  le32_to_cpu(ring->ring_ctx->ev.intmod));
-+
-+		INIT_DELAYED_WORK(&ring->intmodt_work, mhi_ep_raise_irq);
-+	}
- 
- 	/* During ring init, both rp and wp are equal */
- 	memcpy_fromio(&val, (void __iomem *) &ring->ring_ctx->generic.rp, sizeof(u64));
-@@ -201,6 +215,9 @@ int mhi_ep_ring_start(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
- 
- void mhi_ep_ring_reset(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring)
- {
-+	if (ring->type == RING_TYPE_ER)
-+		cancel_delayed_work_sync(&ring->intmodt_work);
-+
- 	ring->started = false;
- 	kfree(ring->ring_cache);
- 	ring->ring_cache = NULL;
-
-base-commit: 12606ba1d46b34a241eb3d0956727e5379f0f626
--- 
-2.25.1
-
+>> no fixed PCI class, so it is being advertised as "PCI_CLASS_OTHERS".
+>>
+>> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+>> ---
+>>   drivers/pci/endpoint/functions/pci-epf-mhi.c | 17 +++++++++++++++++
+>>   1 file changed, 17 insertions(+)
+>>
+>> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+>> index b7b9d3e..4487260 100644
+>> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+>> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+>> @@ -114,6 +114,22 @@ static const struct pci_epf_mhi_ep_info sm8450_info = {
+>>   	.flags = MHI_EPF_USE_DMA,
+>>   };
+>>   
+>> +static struct pci_epf_header sa8775p_header = {
+>> +	.vendorid = PCI_VENDOR_ID_QCOM,
+>> +	.deviceid = 0x0306,
+>> +	.baseclass_code = PCI_CLASS_OTHERS,
+>> +	.interrupt_pin = PCI_INTERRUPT_INTA,
+>> +};
+>> +
+>> +static const struct pci_epf_mhi_ep_info sa8775p_info = {
+>> +	.config = &mhi_v1_config,
+>> +	.epf_header = &sa8775p_header,
+>> +	.bar_num = BAR_0,
+>> +	.epf_flags = PCI_BASE_ADDRESS_MEM_TYPE_32,
+>> +	.msi_count = 32,
+>> +	.mru = 0x8000,
+>> +};
+>> +
+>>   struct pci_epf_mhi {
+>>   	const struct pci_epc_features *epc_features;
+>>   	const struct pci_epf_mhi_ep_info *info;
+>> @@ -677,6 +693,7 @@ static int pci_epf_mhi_probe(struct pci_epf *epf,
+>>   }
+>>   
+>>   static const struct pci_epf_device_id pci_epf_mhi_ids[] = {
+>> +	{ .name = "sa8775p", .driver_data = (kernel_ulong_t)&sa8775p_info },
+>>   	{ .name = "sdx55", .driver_data = (kernel_ulong_t)&sdx55_info },
+>>   	{ .name = "sm8450", .driver_data = (kernel_ulong_t)&sm8450_info },
+>>   	{},
+>> -- 
+>> 2.7.4
+>>
