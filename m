@@ -1,72 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C8414ABC
-	for <mhi@lists.linux.dev>; Wed, 25 Oct 2023 09:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89468BFE
+	for <mhi@lists.linux.dev>; Thu, 26 Oct 2023 02:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+tu1xFn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B126FC433C8;
-	Wed, 25 Oct 2023 09:54:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mtqSjpfG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED5CDC433C8;
+	Thu, 26 Oct 2023 02:14:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698227686;
-	bh=yaAsiujagvZOvQ/PZwj5xUzfTRKtOWgXCQg/2408jBA=;
-	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
-	b=m+tu1xFnEA69yPdgsePYfRs0i3vP7Lxr6ub4xdGpFSPPKNu1iDZBP6N7rXG83tZvL
-	 Zq2sgl/rpQvJu8qk7ABR0hNPAyCpr5ENBTkezMMwgEUXHflTeVfZYyb5iGtSUCMt06
-	 x/h76Ylb+so3oF9ZZV9AarumiUad/KPDN2F6C8jojq8UX4C3cWJ3d/wSKxQcLWTKdA
-	 R87jTfWBF54nB3ufllxIoWKUogEsSJ6/WPtSUXTJ5ROCbM7NDqw2vo8DDe942TLise
-	 W1OLTG0+UI+J3D8daZkfnQQB2um5XRP8qs9dwViO+J01sbwds7qmH7kPamzBWp/okK
-	 gR/Sq9vjVtOEQ==
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1698286467;
+	bh=jUa0j8kXyR+ZqrJZnoV5zjFY9ZcHXkhKnRFy040alus=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mtqSjpfGC88sm08rhZHtFSzjgIa6iszerPfV9hN3YqwaTWtKtatSdNr5BCfEOOr1d
+	 4dyLnLt445TuTelm+nZBwnsRZE9d16gKQ24BTXG/KZYOE6TuZJ3eJp+oPw8yk331Ew
+	 1ya4opqyveU6lXnCpXqCzKi2F6wemq3YX+Vhw9KhAXyqSQY2IX+y/SCCQoEVvndBCK
+	 vyrE3BmirYKIqbZkXzRIrjxJX/NDUyEleHpIA4GJF4BnzR2wCmpmxjASbVaxgrnYMS
+	 +MwWPTYe8iPRzFaVYjVSAzIPfbNhcj0Px4IfOVIcyb7IeACYyt9rvRHPB/5n8e542w
+	 q7lnvib9JOWuw==
+Date: Wed, 25 Oct 2023 19:18:45 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com, 
+	quic_ramkri@quicinc.com, quic_skananth@quicinc.com, quic_parass@quicinc.com
+Subject: Re: [PATCH] bus: mhi: host: Add alignment check for event ring read
+ pointer
+Message-ID: <ixs2dtrijaft4j5hnmemhxuq6mpvmlnv64t5nkge4olnnwrldk@bfjffg7ard5g>
+References: <20231023-alignment_check-v1-1-2ca5716d5c15@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4 2/3] wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
-From: Kalle Valo <kvalo@kernel.org>
-In-Reply-To: <20230727100430.3603551-3-kvalo@kernel.org>
-References: <20230727100430.3603551-3-kvalo@kernel.org>
-To: Kalle Valo <kvalo@kernel.org>
-Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
- linux-wireless@vger.kernel.org
-User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.11.2
-Message-ID: <169822768265.891844.9494809896760074747.kvalo@kernel.org>
-Date: Wed, 25 Oct 2023 09:54:45 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231023-alignment_check-v1-1-2ca5716d5c15@quicinc.com>
 
-Kalle Valo <kvalo@kernel.org> wrote:
-
-> Simple refactoring to make it easier to add firmware-2.bin support in the
-> following patch.
+On Mon, Oct 23, 2023 at 03:13:06PM +0530, Krishna chaitanya chundru wrote:
+> Though we do check the event ring read pointer by "is_valid_ring_ptr"
+> to make sure it is in the buffer range, but there is another risk the
+> pointer may be not aligned.  Since we are expecting event ring elements
+> are 128 bits(struct mhi_tre) aligned, an unaligned read pointer could lead
+> to multiple issues like DoS or ring buffer memory corruption.
 > 
-> Earlier ath11k_qmi_m3_load() supported changing m3.bin contents while ath11k is
-> running. But that's not going to actually work, m3.bin is supposed to be the
-> same during the lifetime of ath11k, for example we don't support changing the
-> firmware capabilities on the fly. Due to this ath11k requests m3.bin firmware
-> file first and only then checks m3_mem->vaddr, so we are basically requesting
-> the firmware file even if it's not needed. Reverse the code so that m3_mem
-> buffer is checked first, and only if it doesn't exist, then m3.bin is requested
-> from user space.
+> So add a alignment check for event ring read pointer.
 > 
-> Checking for m3_mem->size is redundant when m3_mem->vaddr is NULL, we would
-> not be able to use the buffer in that case. So remove the check for size.
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+
+Regards,
+Bjorn
+
+> ---
+>  drivers/bus/mhi/host/main.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Simplify the exit handling and use 'goto out'.
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 499590437e9b..c907bbb67fb2 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -268,7 +268,7 @@ static void mhi_del_ring_element(struct mhi_controller *mhi_cntrl,
+>  
+>  static bool is_valid_ring_ptr(struct mhi_ring *ring, dma_addr_t addr)
+>  {
+> -	return addr >= ring->iommu_base && addr < ring->iommu_base + ring->len;
+> +	return addr >= ring->iommu_base && addr < ring->iommu_base + ring->len && addr % 16 == 0;
+>  }
+>  
+>  int mhi_destroy_device(struct device *dev, void *data)
 > 
-> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.9
+> ---
+> base-commit: 71e68e182e382e951d6248bccc3c960dcec5a718
+> change-id: 20231013-alignment_check-c013f509d24a
 > 
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
-> Reviewed-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-
-2 patches applied to ath-next branch of ath.git, thanks.
-
-b49381d3de3a wifi: ath11k: qmi: refactor ath11k_qmi_m3_load()
-7db88b962f06 wifi: ath11k: add firmware-2.bin support
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/patch/20230727100430.3603551-3-kvalo@kernel.org/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-
+> Best regards,
+> -- 
+> Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> 
