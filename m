@@ -1,41 +1,41 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE801EB41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D641EB47
 	for <mhi@lists.linux.dev>; Fri, 27 Oct 2023 13:34:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nDrpU2vS"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39RCo8Mj004225;
-	Fri, 27 Oct 2023 13:33:22 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VExHeDzO"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39RBPgN0024483;
+	Fri, 27 Oct 2023 13:33:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=DBU0j4dBrgUkK4irOTj/KLSG+jwo3RZm6XIyZE1Wex8=;
- b=nDrpU2vSkceLHZeK4KzPmfZpnhbL1qUiKNdRXArm5OI9jM9FHtBmuda/NFIpeZe/8Bcc
- ZCGjhiQtZkZ/ZtvM/k4y9cOlULazzR135DFseAWGWWpBUfAJkAfoZZC9UX76cbfd3gzW
- r5h9T5vwEtToaUPbUoemKHyAVozXT8Pfbjw6Ju0edLG5JwixuTPFXSdMUC6/qJaPLtm6
- IZyYF9t4vwoxIeRh1jbh167PSsy4fhrb1tpEUW4R23tYoMUJ+P05BsHb8F6XrdNP/em5
- gTUgj9m/zQLlc3nhozghlPcdVoZuc8VQ4OP0Wx4InSJdRCDH2eRBmCrM5+Rb+62q3dOJ dA== 
+ bh=RsQx3p3Jdt45deKD8q2naBRmwFH/7pLMEOjfr52W8xs=;
+ b=VExHeDzOOk0g+Z+Dzcb7knMZzV8n5MYG5Z624K7UiPYSJidCJg2CWXKTk4jUn/RfqqOc
+ +hVsxbye4LegMvGo4LmdLMTkboLKcB2ZEFahwVzk6pX2bu3Yy1koeOk3FDwb3aozYkff
+ xt/hW/CUZFiroeK4yEJfsXKzKQcBH/p3jpmmmWklkgfLUvG7jsIwjDNKA30VrvL0uvIc
+ WlVcHuPM7HTKs6gknxk6QDcMocoB6o2ZSzP3m4Px3FU61Y67GG8crRVpAV7SRlZnpQyg
+ lJmGh3gpJ/xit2KX2+GLC3stx74t8ssExTi6jTazrmL40VBa4EZgn2fZR0147hHq/KuN FQ== 
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyxbx25pa-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyxfga4ex-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 27 Oct 2023 13:33:22 +0000
+	Fri, 27 Oct 2023 13:33:24 +0000
 Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39RDWwDi025504;
-	Fri, 27 Oct 2023 13:33:19 GMT
+	by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 39RDWw6E025502;
+	Fri, 27 Oct 2023 13:33:21 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3tv7qmaapw-1;
-	Fri, 27 Oct 2023 13:33:19 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3tv7qmaaq9-1;
+	Fri, 27 Oct 2023 13:33:21 +0000
 Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39RDXIBM026044;
-	Fri, 27 Oct 2023 13:33:18 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39RDXLoF026080;
+	Fri, 27 Oct 2023 13:33:21 GMT
 Received: from hu-sgudaval-hyd.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.194])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 39RDXIOi026042;
-	Fri, 27 Oct 2023 13:33:18 +0000
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 39RDXLMq026079;
+	Fri, 27 Oct 2023 13:33:21 +0000
 Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3891782)
-	id C26F8481E; Fri, 27 Oct 2023 19:03:17 +0530 (+0530)
+	id 3AC4D481E; Fri, 27 Oct 2023 19:03:20 +0530 (+0530)
 From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 To: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
@@ -47,12 +47,13 @@ Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
         Lorenzo Pieralisi <lpieralisi@kernel.org>,
         =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>, linux-pci@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev
-Subject: [PATCH v4 2/4] PCI: qcom-ep: Add support for SA8775P SOC
-Date: Fri, 27 Oct 2023 19:03:10 +0530
-Message-Id: <1698413592-26523-3-git-send-email-quic_msarkar@quicinc.com>
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mhi@lists.linux.dev
+Subject: [PATCH v4 4/4] arm64: dts: qcom: sa8775p: Add ep pcie0 controller node
+Date: Fri, 27 Oct 2023 19:03:12 +0530
+Message-Id: <1698413592-26523-5-git-send-email-quic_msarkar@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1698413592-26523-1-git-send-email-quic_msarkar@quicinc.com>
 References: <1698413592-26523-1-git-send-email-quic_msarkar@quicinc.com>
@@ -60,15 +61,15 @@ X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: BF2kNGxZQocECmBhMXTzHtnTFUC1877r
-X-Proofpoint-GUID: BF2kNGxZQocECmBhMXTzHtnTFUC1877r
+X-Proofpoint-GUID: D2AllKrWHeaLji7CmmlNujmoAwfwwVod
+X-Proofpoint-ORIG-GUID: D2AllKrWHeaLji7CmmlNujmoAwfwwVod
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-27_11,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 impostorscore=0 mlxlogscore=988
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 phishscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 mlxscore=0
+ clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2310240000 definitions=main-2310270117
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -76,27 +77,72 @@ List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-Add support for SA8775P SoC to the Qualcomm PCIe Endpoint Controller
-driver. Adding new compatible string as it has different set of clocks
-compare to other SOCs.
+Add ep pcie dtsi node for pcie0 controller found on sa8775p platform.
+It supports gen4 and x2 link width. Limiting the speed to Gen3 due to
+stability issues.
 
 Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 ---
- drivers/pci/controller/dwc/pcie-qcom-ep.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi | 46 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-index 32c8d9e..4c01c34 100644
---- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-@@ -858,6 +858,7 @@ static void qcom_pcie_ep_remove(struct platform_device *pdev)
- }
+diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+index 13dd44d..7eab458 100644
+--- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
++++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+@@ -3586,6 +3586,52 @@
+ 		status = "disabled";
+ 	};
  
- static const struct of_device_id qcom_pcie_ep_match[] = {
-+	{ .compatible = "qcom,sa8775p-pcie-ep", },
- 	{ .compatible = "qcom,sdx55-pcie-ep", },
- 	{ .compatible = "qcom,sm8450-pcie-ep", },
- 	{ }
++	pcie0_ep: pcie-ep@1c00000 {
++		compatible = "qcom,sa8775p-pcie-ep";
++		reg = <0x0 0x01c00000 0x0 0x3000>,
++		      <0x0 0x40000000 0x0 0xf20>,
++		      <0x0 0x40000f20 0x0 0xa8>,
++		      <0x0 0x40001000 0x0 0x4000>,
++		      <0x0 0x40200000 0x0 0x100000>,
++		      <0x0 0x01c03000 0x0 0x1000>,
++		      <0x0 0x40005000 0x0 0x2000>;
++		reg-names = "parf", "dbi", "elbi", "atu", "addr_space",
++			    "mmio", "dma";
++
++		clocks = <&gcc GCC_PCIE_0_AUX_CLK>,
++			<&gcc GCC_PCIE_0_CFG_AHB_CLK>,
++			<&gcc GCC_PCIE_0_MSTR_AXI_CLK>,
++			<&gcc GCC_PCIE_0_SLV_AXI_CLK>,
++			<&gcc GCC_PCIE_0_SLV_Q2A_AXI_CLK>;
++
++		clock-names = "aux",
++			      "cfg",
++			      "bus_master",
++			      "bus_slave",
++			      "slave_q2a";
++
++		interrupts = <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 630 IRQ_TYPE_LEVEL_HIGH>;
++
++		interrupt-names = "global", "doorbell", "dma";
++
++		interconnects = <&pcie_anoc MASTER_PCIE_0 0 &mc_virt SLAVE_EBI1 0>,
++				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_PCIE_0 0>;
++		interconnect-names = "pcie-mem", "cpu-pcie";
++
++		iommus = <&pcie_smmu 0x0000 0x7f>;
++		resets = <&gcc GCC_PCIE_0_BCR>;
++		reset-names = "core";
++		power-domains = <&gcc PCIE_0_GDSC>;
++		phys = <&pcie0_phy>;
++		phy-names = "pciephy";
++		max-link-speed = <3>; /* FIXME: Limiting the Gen speed due to stability issues */
++		num-lanes = <2>;
++
++		status = "disabled";
++	};
++
+ 	pcie0_phy: phy@1c04000 {
+ 		compatible = "qcom,sa8775p-qmp-gen4x2-pcie-phy";
+ 		reg = <0x0 0x1c04000 0x0 0x2000>;
 -- 
 2.7.4
 
