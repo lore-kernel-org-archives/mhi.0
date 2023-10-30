@@ -1,117 +1,161 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7954379
-	for <mhi@lists.linux.dev>; Mon, 30 Oct 2023 10:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA4DD265
+	for <mhi@lists.linux.dev>; Mon, 30 Oct 2023 10:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mUd6JAOV"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39U7LaqC011534;
-	Mon, 30 Oct 2023 10:19:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Qwhg6QaANKJI9p6AtVTu2QzMj27rtudbTshH5jutdb8=;
- b=mUd6JAOVFV2nv/7ZHrl12YdX6hgCp/YA//iYM3iAWvWxcqycxr40CJmuX9azCtTT4I6G
- UtvbYO6KRsZcH8JbLSKUlj+/jUovqBDWOvQ+Soo4eRKeVufIsOftixERMWdtEKQNwwyw
- tkXWv6My/lZG/3M+0iiQG75CYnQMSRfAldP5pyb5/GPFOGPyUdCz2Nk/MuNuOfhmtumn
- WercNDx/4qjm4eERNCXdne7ThAuzc9z5O2CxLmKJOmI5xT2EGyS8w452Pqgm0pvnAp3a
- ox/0WjqP1lDvlskUHbY2RwZh1FpCnh5YZigOcaBFjVGr9CyDXDAdPfQHOOlgqWuj00ea Uw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u0ufykbwx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 10:19:30 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39UAJTaC029922
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Oct 2023 10:19:29 GMT
-Received: from [10.216.34.48] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 30 Oct
- 2023 03:19:21 -0700
-Message-ID: <4ea52adf-9f64-7aa3-1d88-e90ce1d9ff4d@quicinc.com>
-Date: Mon, 30 Oct 2023 15:49:18 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OvcpMPeH"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9d216597f64so240590466b.3
+        for <mhi@lists.linux.dev>; Mon, 30 Oct 2023 03:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698663011; x=1699267811; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=knzrkLCwZ6hCiKHeBnBHe0EAB84CYsXSNvsHjcWg86E=;
+        b=OvcpMPeHOjGwk19eeQQ4phNVmmc9dgKkpn1G6bd+rMlowxv+DVOgrErfl491vSx/Hj
+         ZNioshh1SXPLGL4sktvZh7vHfFbEt+qZQ5lJLhz6Z/sCWSXi8hgJ7Z4gLcMmO77wEHCg
+         6/4ZfRBJ1mUPhPMlXaOfCuoTDAFKDI1Go5b6X0MSuP+UAQ89fxlWwIRBh/GijEg2+QNr
+         tuEGcakSRrxybbWLougCx0PMwHhPgsLY4pfBvM9sH0XZItvu0ykiML69nGSbnux9XZX5
+         z5ONbnVAbQjVfUNTEwnWWRJRVpRzWaWLdXpifXZLiKVY4tlCnKhO3WKIK+Sll2JTRdaT
+         ZNPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698663011; x=1699267811;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=knzrkLCwZ6hCiKHeBnBHe0EAB84CYsXSNvsHjcWg86E=;
+        b=ujoSM241nJy2II1gdJHTIY+8628+sBF7w4uialua8gcHv/y/s/MWZQ1BUplOcVj3Qd
+         xf4TmDXjPbGGMxVRDgrDwzTpQzWiqX8Ngj5Y7zJq0QX37sSs5BOSnD/ACOS+UoAEuCuV
+         iB+LJO8HNzkri9bUxePN5TrEj5iiHxX2C4al0K3kSBLusGdTq5S0Gv750X2tNMWmN+xp
+         jAlwRRBRum1EFiZZt77ytYpnxEeMa+tPkheL9wpV4N3uO1IhS2g0bhzW9u84bTR9nijF
+         Q+Z2YC7Ma+g9nZtZy3W4EmAubItStv0Gedg669SRtnHXCKXfq0lx5YdxzRDiLk2fAxdi
+         IT7Q==
+X-Gm-Message-State: AOJu0YwLHU47+pGO5xM+Kq7GIn8MVwEc1hQ1fbipEnFytJV15ZymjfXV
+	HqiAapI9GPCh42iD/neWu8ufWA==
+X-Google-Smtp-Source: AGHT+IEUdn19+1e5UQ+2UrpQM7bwbxFkK+KtWMpTWXbuOXD5l0yskp83ZDwLxMmyZqQ/FniWjmZIKw==
+X-Received: by 2002:a17:907:7ea3:b0:9ae:699d:8a2a with SMTP id qb35-20020a1709077ea300b009ae699d8a2amr7293950ejc.5.1698663011408;
+        Mon, 30 Oct 2023 03:50:11 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id ci6-20020a170906c34600b009a1dbf55665sm5685007ejb.161.2023.10.30.03.50.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Oct 2023 03:50:10 -0700 (PDT)
+Message-ID: <fc0e791d-96a5-4557-9963-ec02318b60fb@linaro.org>
+Date: Mon, 30 Oct 2023 11:50:09 +0100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 1/4] dt-bindings: PCI: qcom-ep: Add support for SA8775P
  SoC
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <agross@kernel.org>,
-        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <konrad.dybcio@linaro.org>, <mani@kernel.org>
-CC: <quic_shazhuss@quicinc.com>, <quic_nitegupt@quicinc.com>,
-        <quic_ramkri@quicinc.com>, <quic_nayiluri@quicinc.com>,
-        <dmitry.baryshkov@linaro.org>, <robh@kernel.org>,
-        <quic_krichai@quicinc.com>, <quic_vbadigan@quicinc.com>,
-        <quic_parass@quicinc.com>, <quic_schintav@quicinc.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
-	<kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        <linux-pci@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mhi@lists.linux.dev>
+Content-Language: en-US
+To: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
+ andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org
+Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+ quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+ dmitry.baryshkov@linaro.org, robh@kernel.org, quic_krichai@quicinc.com,
+ quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
+ quic_schintav@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, linux-pci@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev
 References: <1698413592-26523-1-git-send-email-quic_msarkar@quicinc.com>
  <1698413592-26523-2-git-send-email-quic_msarkar@quicinc.com>
  <45b8f4e1-b915-42f2-aa03-03cc9d1be9f7@linaro.org>
-Content-Language: en-US
-From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-In-Reply-To: <45b8f4e1-b915-42f2-aa03-03cc9d1be9f7@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <4ea52adf-9f64-7aa3-1d88-e90ce1d9ff4d@quicinc.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <4ea52adf-9f64-7aa3-1d88-e90ce1d9ff4d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: LPVRZkKEP-q0WE5oDCx7QMRpyYv6fUFm
-X-Proofpoint-ORIG-GUID: LPVRZkKEP-q0WE5oDCx7QMRpyYv6fUFm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_09,2023-10-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 clxscore=1011 mlxlogscore=936 phishscore=0 suspectscore=0
- impostorscore=0 spamscore=0 mlxscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2310300078
 
-
-On 10/27/2023 7:20 PM, Krzysztof Kozlowski wrote:
-> On 27/10/2023 15:33, Mrinmay Sarkar wrote:
->> Add devicetree bindings support for SA8775P SoC. It has DMA register
->> space and dma interrupt to support HDMA.
+On 30/10/2023 11:19, Mrinmay Sarkar wrote:
+> 
+> On 10/27/2023 7:20 PM, Krzysztof Kozlowski wrote:
+>> On 27/10/2023 15:33, Mrinmay Sarkar wrote:
+>>> Add devicetree bindings support for SA8775P SoC. It has DMA register
+>>> space and dma interrupt to support HDMA.
+>>>
+>>> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+>> Unfortunately I do not see any of my comment addressed. :(
 >>
->> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-> Unfortunately I do not see any of my comment addressed. :(
->
-> This is a friendly reminder during the review process.
->
-> It seems my or other reviewer's previous comments were not fully
-> addressed. Maybe the feedback got lost between the quotes, maybe you
-> just forgot to apply it. Please go back to the previous discussion and
-> either implement all requested changes or keep discussing them.
->
-> Thank you.
->
-> Best regards,
-> Krzysztof
-Thanks Krzysztof for your review and patience.
-Sorry I missed your previous comment.
+>> This is a friendly reminder during the review process.
+>>
+>> It seems my or other reviewer's previous comments were not fully
+>> addressed. Maybe the feedback got lost between the quotes, maybe you
+>> just forgot to apply it. Please go back to the previous discussion and
+>> either implement all requested changes or keep discussing them.
+>>
+>> Thank you.
+>>
+>> Best regards,
+>> Krzysztof
+> Thanks Krzysztof for your review and patience.
+> Sorry I missed your previous comment.
 
-If I understand correctly by constraining IO space/interrupt,
-you mean to add maxItems for reg and interrupt for other variants.
-If so, I verified adding maxItems for these properties and dtb check
-seems to be good. I will post the same in the next patch series.
+Multiple comments. Also from Mani and maybe from others?
 
-Thanks,
-Mrinmay
->
+> 
+> If I understand correctly by constraining IO space/interrupt,
+> you mean to add maxItems for reg and interrupt for other variants.
+> If so, I verified adding maxItems for these properties and dtb check
+> seems to be good. I will post the same in the next patch series.
+> 
+> Thanks,
+> Mrinmay
+>>
+
+Best regards,
+Krzysztof
+
