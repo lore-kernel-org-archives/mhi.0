@@ -1,91 +1,251 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965FE15E9B
-	for <mhi@lists.linux.dev>; Mon,  6 Nov 2023 09:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486B1182A1
+	for <mhi@lists.linux.dev>; Mon,  6 Nov 2023 12:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iKXispDR"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a7af52ee31so49444117b3.2
-        for <mhi@lists.linux.dev>; Mon, 06 Nov 2023 01:40:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699263610; x=1699868410; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpIVvXMECFRktQ4IhefFOl0oiCPkgte0mG50ImpQsdk=;
-        b=iKXispDRrLQY+nfxBRpeqn/MgP85mFmEJQBVcyqoxR9zVSrcSLalQtVhStho8Q77Cc
-         SEL10CMHaKwNoVzbznxlBAKuDI+P1kX9VTT80ulwcsURgnRBdUq1el9uWxjjpq7g67S1
-         embp/i3DLutneyZ5luCwXJ7urho66dnA39tcUlUXGv2TRzG+Ch81vuubi9QGt7OYkolo
-         /698O+/cEOt0YrQUldJ76J1T2c+dYTC1q1iTSGHEZkNW/s9Jjk6WX1oFlD8XQCF1X9K8
-         D47bE2otpT12rk2XNY4ybveDQITKj5GYh7M7E1Gvqa8UvEHozoKGecmap8Hhg4SyW+f/
-         R+zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699263610; x=1699868410;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FpIVvXMECFRktQ4IhefFOl0oiCPkgte0mG50ImpQsdk=;
-        b=mhWntfkynOX1VUvDLlgUnceofVWLVv4jfIk6L9ckGZxiO1EzEIDZC0dh7RXxL8ooHa
-         JtKLDLtQ/PL0D2C051osf0igaWxLlAnvHODOcbGFw9+p4ZXY/AvVvX9iXRn1dPGVv/TJ
-         C7mLsYb2X691UJrNx76O35mqaQEz0WBidx5TCT98qZuS6OUA3WdHEsCq+2na8a5MtREq
-         2EtAQBBE0A2WeHAY3B8Qh/6Kk0Det7V9WTH1V72Zd3Sqw3D7jSmkfaTI9jkDs8IPpy64
-         HSm2+j/N+DbcncNgMTQtQcPTXiyeTZOOHe61cEUYtkPWa1/IaOMUeJ5VtAvY/f8E2rVe
-         kOwQ==
-X-Gm-Message-State: AOJu0YzpIhgARsb2XU83hjnuoL0yQruG+pSto5GS/zBEPvJIkatQ2jeh
-	r98AkTCPZ2/XvqcLcGuxARulQI7p/TRyR+a2KUCowg==
-X-Google-Smtp-Source: AGHT+IEteHXH+5R7EEOi7azE/STUcVaeWLwtpXheOcC2xH4yrT14fOb22Bk4vXiIohltgkr9GmLf/SVrlHYf6RmNdkI=
-X-Received: by 2002:a05:690c:dc6:b0:5a7:b682:7929 with SMTP id
- db6-20020a05690c0dc600b005a7b6827929mr12178727ywb.17.1699263610498; Mon, 06
- Nov 2023 01:40:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="k3O617aX"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A6AS37u003055;
+	Mon, 6 Nov 2023 12:46:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=25JboCpuvejyhK55Z3NjDCJXOJSXE9SQ3Ip7BeR890k=;
+ b=k3O617aX4ouqHgoDGKcpv9evJ7o+bWgb0OJne0g7HTifpw4DZLaKxb4wjGwyrvL3++nC
+ VIJcyWhIJNzQY6+PkoLw+/3yEFgPPrhbsEbcw3/ZaKKbbg/frGU4TjL22dz5BGqQGfsv
+ eGHVYiCxiFhXGBCNV9VxRCqCNyTdejXNtzqQ0kBTqAumH96UJ5em1vWDNOmkHO9Jhz9+
+ LmV0GgjtEPcohhgAXsXRkfaSC4HQogv+sijY092L/j7u246BBprSQJQ+3B6ZKaqLyqxl
+ lJfopuTlnMl5C+GcNnHmlGFmJfyWLENiwNHyiUxIJ9DyuR/kzM2mF3YZugB/uv7DInbM Lw== 
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u6xdu8b5m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Nov 2023 12:46:31 +0000
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3A6CkTMZ008798;
+	Mon, 6 Nov 2023 12:46:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3u5f1kacje-1;
+	Mon, 06 Nov 2023 12:46:29 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3A6CkTch008793;
+	Mon, 6 Nov 2023 12:46:29 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3A6CkToI008792;
+	Mon, 06 Nov 2023 12:46:29 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 581205431; Mon,  6 Nov 2023 20:46:28 +0800 (CST)
+From: Qiang Yu <qianyu@qti.qualcomm.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v2 1/2] bus: mhi: host: Add a separate timeout parameter for waiting ready
+Date: Mon,  6 Nov 2023 20:46:25 +0800
+Message-Id: <1699274786-73881-2-git-send-email-qianyu@qti.qualcomm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1699274786-73881-1-git-send-email-qianyu@qti.qualcomm.com>
+References: <1699274786-73881-1-git-send-email-qianyu@qti.qualcomm.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: fBffH0xL2KSMQ0AVdVW-ORKCiwusI6J4
+X-Proofpoint-ORIG-GUID: fBffH0xL2KSMQ0AVdVW-ORKCiwusI6J4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_11,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ spamscore=0 impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311060103
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <1699242172-79472-1-git-send-email-quic_qianyu@quicinc.com>
-In-Reply-To: <1699242172-79472-1-git-send-email-quic_qianyu@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 6 Nov 2023 11:39:58 +0200
-Message-ID: <CAA8EJppfo94PWYK3Q=ChUBC05PZ5zCguaiB28AHxMNhpRp-tDA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add SDX75 support and its dependency
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: mani@kernel.org, quic_jhugo@quicinc.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_cang@quicinc.com, quic_mrana@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 6 Nov 2023 at 05:43, Qiang Yu <quic_qianyu@quicinc.com> wrote:
->
-> This series add new configuration for SDX75 and new parameter
+From: Qiang Yu <quic_qianyu@quicinc.com>
 
-Qualcomm SDX75.
+Some devices(eg. SDX75) take longer than expected (default, 8 seconds) to
+set ready after reboot. Hence add optional ready timeout parameter and pass
+the appropriate timeout value to mhi_poll_reg_field() to wait enough for
+device ready as part of power up sequence.
 
-> ready_timeout_ms for waiting ready state.
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/host/init.c     |  1 +
+ drivers/bus/mhi/host/internal.h |  2 +-
+ drivers/bus/mhi/host/main.c     |  5 +++--
+ drivers/bus/mhi/host/pm.c       | 24 +++++++++++++++++-------
+ include/linux/mhi.h             |  4 ++++
+ 5 files changed, 26 insertions(+), 10 deletions(-)
 
-Please follow the same subject style for the cover letter subjects.
-This cover letter looks as if it was adding support for the SDX75
-platform to the whole kernel.
-
->
-> Qiang Yu (2):
->   bus: mhi: host: Add a separate timeout parameter for waiting ready
->   bus: mhi: host: pci_generic: Add SDX75 based modem support
->
->  drivers/bus/mhi/host/init.c        |  1 +
->  drivers/bus/mhi/host/internal.h    |  2 +-
->  drivers/bus/mhi/host/main.c        |  5 +++--
->  drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
->  drivers/bus/mhi/host/pm.c          | 24 +++++++++++++++++-------
->  include/linux/mhi.h                |  4 ++++
->  6 files changed, 48 insertions(+), 10 deletions(-)
->
-> --
-> 2.7.4
->
-
-
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index f78aefd..65ceac1 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -881,6 +881,7 @@ static int parse_config(struct mhi_controller *mhi_cntrl,
+ 	if (!mhi_cntrl->timeout_ms)
+ 		mhi_cntrl->timeout_ms = MHI_TIMEOUT_MS;
+ 
++	mhi_cntrl->ready_timeout_ms = config->ready_timeout_ms;
+ 	mhi_cntrl->bounce_buf = config->use_bounce_buf;
+ 	mhi_cntrl->buffer_len = config->buf_len;
+ 	if (!mhi_cntrl->buffer_len)
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 2e139e7..30ac415 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -321,7 +321,7 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    u32 *out);
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset, u32 mask,
+-				    u32 val, u32 delayus);
++				    u32 val, u32 delayus, u32 timeout_ms);
+ void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *base,
+ 		   u32 offset, u32 val);
+ int __must_check mhi_write_reg_field(struct mhi_controller *mhi_cntrl,
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index dcf627b..6cf1145 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -40,10 +40,11 @@ int __must_check mhi_read_reg_field(struct mhi_controller *mhi_cntrl,
+ 
+ int __must_check mhi_poll_reg_field(struct mhi_controller *mhi_cntrl,
+ 				    void __iomem *base, u32 offset,
+-				    u32 mask, u32 val, u32 delayus)
++				    u32 mask, u32 val, u32 delayus,
++				    u32 timeout_ms)
+ {
+ 	int ret;
+-	u32 out, retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
++	u32 out, retry = (timeout_ms * 1000) / delayus;
+ 
+ 	while (retry--) {
+ 		ret = mhi_read_reg_field(mhi_cntrl, base, offset, mask, &out);
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index 8a4362d..a2f2fee 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -163,6 +163,7 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+ 	enum mhi_pm_state cur_state;
+ 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+ 	u32 interval_us = 25000; /* poll register field every 25 milliseconds */
++	u32 timeout_ms;
+ 	int ret, i;
+ 
+ 	/* Check if device entered error state */
+@@ -173,14 +174,18 @@ int mhi_ready_state_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Wait for RESET to be cleared and READY bit to be set by the device */
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us,
++				 mhi_cntrl->timeout_ms);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to clear MHI Reset\n");
+ 		return ret;
+ 	}
+ 
++	timeout_ms = mhi_cntrl->ready_timeout_ms ?
++		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+ 	ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHISTATUS,
+-				 MHISTATUS_READY_MASK, 1, interval_us);
++				 MHISTATUS_READY_MASK, 1, interval_us,
++				 timeout_ms);
+ 	if (ret) {
+ 		dev_err(dev, "Device failed to enter MHI Ready\n");
+ 		return ret;
+@@ -479,7 +484,7 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 
+ 		/* Wait for the reset bit to be cleared by the device */
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, 25000);
++				 MHICTRL_RESET_MASK, 0, 25000, mhi_cntrl->timeout_ms);
+ 		if (ret)
+ 			dev_err(dev, "Device failed to clear MHI Reset\n");
+ 
+@@ -492,8 +497,8 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+ 		if (!MHI_IN_PBL(mhi_get_exec_env(mhi_cntrl))) {
+ 			/* wait for ready to be set */
+ 			ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
+-						 MHISTATUS,
+-						 MHISTATUS_READY_MASK, 1, 25000);
++						 MHISTATUS, MHISTATUS_READY_MASK,
++						 1, 25000, mhi_cntrl->timeout_ms);
+ 			if (ret)
+ 				dev_err(dev, "Device failed to enter READY state\n");
+ 		}
+@@ -1111,7 +1116,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+ 	if (state == MHI_STATE_SYS_ERR) {
+ 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+ 		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
+-				 MHICTRL_RESET_MASK, 0, interval_us);
++				 MHICTRL_RESET_MASK, 0, interval_us,
++				 mhi_cntrl->timeout_ms);
+ 		if (ret) {
+ 			dev_info(dev, "Failed to reset MHI due to syserr state\n");
+ 			goto error_exit;
+@@ -1202,14 +1208,18 @@ EXPORT_SYMBOL_GPL(mhi_power_down);
+ int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+ {
+ 	int ret = mhi_async_power_up(mhi_cntrl);
++	u32 timeout_ms;
+ 
+ 	if (ret)
+ 		return ret;
+ 
++	/* Some devices need more time to set ready during power up */
++	timeout_ms = mhi_cntrl->ready_timeout_ms ?
++		mhi_cntrl->ready_timeout_ms : mhi_cntrl->timeout_ms;
+ 	wait_event_timeout(mhi_cntrl->state_event,
+ 			   MHI_IN_MISSION_MODE(mhi_cntrl->ee) ||
+ 			   MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state),
+-			   msecs_to_jiffies(mhi_cntrl->timeout_ms));
++			   msecs_to_jiffies(timeout_ms));
+ 
+ 	ret = (MHI_IN_MISSION_MODE(mhi_cntrl->ee)) ? 0 : -ETIMEDOUT;
+ 	if (ret)
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 039943e..d0f9b522 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -266,6 +266,7 @@ struct mhi_event_config {
+  * struct mhi_controller_config - Root MHI controller configuration
+  * @max_channels: Maximum number of channels supported
+  * @timeout_ms: Timeout value for operations. 0 means use default
++ * @ready_timeout_ms: Timeout value for waiting device to be ready (optional)
+  * @buf_len: Size of automatically allocated buffers. 0 means use default
+  * @num_channels: Number of channels defined in @ch_cfg
+  * @ch_cfg: Array of defined channels
+@@ -277,6 +278,7 @@ struct mhi_event_config {
+ struct mhi_controller_config {
+ 	u32 max_channels;
+ 	u32 timeout_ms;
++	u32 ready_timeout_ms;
+ 	u32 buf_len;
+ 	u32 num_channels;
+ 	const struct mhi_channel_config *ch_cfg;
+@@ -330,6 +332,7 @@ struct mhi_controller_config {
+  * @pm_mutex: Mutex for suspend/resume operation
+  * @pm_lock: Lock for protecting MHI power management state
+  * @timeout_ms: Timeout in ms for state transitions
++ * @ready_timeout_ms: Timeout in ms for waiting device to be ready (optional)
+  * @pm_state: MHI power management state
+  * @db_access: DB access states
+  * @ee: MHI device execution environment
+@@ -419,6 +422,7 @@ struct mhi_controller {
+ 	struct mutex pm_mutex;
+ 	rwlock_t pm_lock;
+ 	u32 timeout_ms;
++	u32 ready_timeout_ms;
+ 	u32 pm_state;
+ 	u32 db_access;
+ 	enum mhi_ee_type ee;
 -- 
-With best wishes
-Dmitry
+2.7.4
+
