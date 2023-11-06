@@ -1,127 +1,127 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B178139D
-	for <mhi@lists.linux.dev>; Mon,  6 Nov 2023 03:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF13635
+	for <mhi@lists.linux.dev>; Mon,  6 Nov 2023 04:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="M2BRefD4"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A62im9S020460;
-	Mon, 6 Nov 2023 03:43:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=k/5p7jsP6L8vXX4AC+VNBSeSfwLOLNjRq6/PPl2jSvY=;
- b=M2BRefD4unU1HoIIjYRAZYcfNjSZuDgO6Nsl5LFwEkqkciU1n1VU+huU7RyEBeCiR8p5
- 0y09JS8MBxLVN71hrbWVcwtuSBeew8b+5XPLlzzrZ5/5StzhyX3RIJ6f/S2dNKyEYa3T
- lnajeKmKLCxuhr9+sfOCg3aB1IJoAfIOrE1rGndMGE6SmrkkBTNkrTJ+t6dVMTlIO4tc
- 75NqVb3tWCXS6J2Ag6oONmK8Hw4MSUKj+zy+iGqdpYqQ6o5M86yRSMsxc8zqHmawMw7X
- 4R+EkL12WcISaUqsj+kJmYcp/vo4VOV/I4J4N+9vWQ0cymaNzspneSWB9om3ZTp0UJce Vg== 
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u5eg8jw9h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Nov 2023 03:43:00 +0000
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3A63gv4q010549;
-	Mon, 6 Nov 2023 03:42:57 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3u5f1k8pyx-1;
-	Mon, 06 Nov 2023 03:42:57 +0000
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3A63gvhn010543;
-	Mon, 6 Nov 2023 03:42:57 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3A63gvNC010541;
-	Mon, 06 Nov 2023 03:42:57 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id C98D75438; Mon,  6 Nov 2023 11:42:56 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, quic_jhugo@quicinc.com
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH 2/2] bus: mhi: host: pci_generic: Add SDX75 based modem support
-Date: Mon,  6 Nov 2023 11:42:52 +0800
-Message-Id: <1699242172-79472-3-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1699242172-79472-1-git-send-email-quic_qianyu@quicinc.com>
-References: <1699242172-79472-1-git-send-email-quic_qianyu@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Fz4k4bNiNGPqBMiUlGSzMfGPcZW7LGl6
-X-Proofpoint-ORIG-GUID: Fz4k4bNiNGPqBMiUlGSzMfGPcZW7LGl6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-05_21,2023-11-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- impostorscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
- mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2311060029
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Peu4o7qw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BE74C433C7;
+	Mon,  6 Nov 2023 04:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699245694;
+	bh=IIAQOZpGjXwc7fKWKRroagG6s2bx1zCT3L6uGLaxqXs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Peu4o7qwkZo0Z/MtDJwwNepcGBQMJdQbjgWPgzXc+T/RJql4g3M4oNSBYjfwm3zA8
+	 D60CvLEE8mwOV7PvEoMIEr0N8CG6NJvNBQt51rV65D6wl33VBWMJcuxScTcqWD6BEn
+	 jjWBpUfGQcdxWVa16xNRGkao9uCTdhAbjK71voulOHuLOUn21VC4fWWJeRbz//adoV
+	 z+3EUB8vYniwy7gQ9qyvn2+adlyfL0J8E4SZPv59SCf338th4OPhS1kk7KYPE7bJzG
+	 ovbSinbVbc79rWH6cdf2MMMm/gvLJkcSKmk7W6H6O8cnG9Lbpn9XVpSNkdEpR/Gu3C
+	 9a4KSxhSjHfKg==
+Date: Mon, 6 Nov 2023 10:11:26 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: mani@kernel.org, quic_jhugo@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com,
+	Bhaumik Bhatt <bbhatt@codeaurora.org>
+Subject: Re: [PATCH v2 1/2] bus: mhi: host: Add spinlock to protect WP access
+ when queueing TREs
+Message-ID: <20231106044126.GA2474@thinkpad>
+References: <1694594861-12691-1-git-send-email-quic_qianyu@quicinc.com>
+ <1694594861-12691-2-git-send-email-quic_qianyu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1694594861-12691-2-git-send-email-quic_qianyu@quicinc.com>
 
-Add generic info for SDX75 based modems. SDX75 takes longer to set ready
-during power up. Hence use separate configuration.
+On Wed, Sep 13, 2023 at 04:47:40PM +0800, Qiang Yu wrote:
+> From: Bhaumik Bhatt <bbhatt@codeaurora.org>
+> 
+> Protect WP accesses such that multiple threads queueing buffers for
+> incoming data do not race and access the same WP twice. Ensure read and
+> write locks for the channel are not taken in succession by dropping the
+> read lock from parse_xfer_event() such that a callback given to client
+> can potentially queue buffers and acquire the write lock in that process.
+> Any queueing of buffers should be done without channel read lock acquired
+> as it can result in multiple locks and a soft lockup.
+> 
 
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
- drivers/bus/mhi/host/pci_generic.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+This change is doing two things:
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 08f3f03..cd6cd14 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -269,6 +269,16 @@ static struct mhi_event_config modem_qcom_v1_mhi_events[] = {
- 	MHI_EVENT_CONFIG_HW_DATA(5, 2048, 101)
- };
- 
-+static const struct mhi_controller_config modem_qcom_v2_mhiv_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 8000,
-+	.ready_timeout_ms = 50000,
-+	.num_channels = ARRAY_SIZE(modem_qcom_v1_mhi_channels),
-+	.ch_cfg = modem_qcom_v1_mhi_channels,
-+	.num_events = ARRAY_SIZE(modem_qcom_v1_mhi_events),
-+	.event_cfg = modem_qcom_v1_mhi_events,
-+};
-+
- static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
- 	.max_channels = 128,
- 	.timeout_ms = 8000,
-@@ -278,6 +288,16 @@ static const struct mhi_controller_config modem_qcom_v1_mhiv_config = {
- 	.event_cfg = modem_qcom_v1_mhi_events,
- };
- 
-+static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
-+	.name = "qcom-sdx75m",
-+	.fw = "qcom/sdx75m/xbl.elf",
-+	.edl = "qcom/sdx75m/edl.mbn",
-+	.config = &modem_qcom_v2_mhiv_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.sideband_wake = false,
-+};
-+
- static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
- 	.name = "qcom-sdx65m",
- 	.fw = "qcom/sdx65m/xbl.elf",
-@@ -600,6 +620,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
-+		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
- 		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+1. Unlocking xfer_cb to prevent potential lockup
+2. Protecting mhi_gen_tre() against concurrent access
+
+So you should split this into two patches and also add Fixes tag if appropriate.
+
+- Mani
+
+> Signed-off-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> ---
+>  drivers/bus/mhi/host/main.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index dcf627b..13c4b89 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -642,6 +642,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>  			mhi_del_ring_element(mhi_cntrl, tre_ring);
+>  			local_rp = tre_ring->rp;
+>  
+> +			read_unlock_bh(&mhi_chan->lock);
+>  			/* notify client */
+>  			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+>  
+> @@ -667,6 +668,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>  					kfree(buf_info->cb_buf);
+>  				}
+>  			}
+> +			read_lock_bh(&mhi_chan->lock);
+>  		}
+>  		break;
+>  	} /* CC_EOT */
+> @@ -1204,6 +1206,9 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+>  	int eot, eob, chain, bei;
+>  	int ret;
+>  
+> +	/* Protect accesses for reading and incrementing WP */
+> +	write_lock_bh(&mhi_chan->lock);
+> +
+>  	buf_ring = &mhi_chan->buf_ring;
+>  	tre_ring = &mhi_chan->tre_ring;
+>  
+> @@ -1221,8 +1226,10 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+>  
+>  	if (!info->pre_mapped) {
+>  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+> -		if (ret)
+> +		if (ret) {
+> +			write_unlock_bh(&mhi_chan->lock);
+>  			return ret;
+> +		}
+>  	}
+>  
+>  	eob = !!(flags & MHI_EOB);
+> @@ -1239,6 +1246,8 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+>  	mhi_add_ring_element(mhi_cntrl, tre_ring);
+>  	mhi_add_ring_element(mhi_cntrl, buf_ring);
+>  
+> +	write_unlock_bh(&mhi_chan->lock);
+> +
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.7.4
+> 
+> 
+
 -- 
-2.7.4
-
+மணிவண்ணன் சதாசிவம்
