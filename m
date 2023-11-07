@@ -1,51 +1,50 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69A7C2C0
-	for <mhi@lists.linux.dev>; Tue,  7 Nov 2023 07:16:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A731CA46
+	for <mhi@lists.linux.dev>; Tue,  7 Nov 2023 07:17:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DqHT70hv"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A770FUk029918;
-	Tue, 7 Nov 2023 07:16:34 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WaTYrw/X"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A76BHpp027977;
+	Tue, 7 Nov 2023 07:16:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=MW+pjJx+dmWrkSa5rLsX0OV6610yTNFNB2ply4qeBIA=;
- b=DqHT70hvY4EexM/RYRfdtWGOnMwi/RJjdsiqN5GNcGBPIq5hrAGYzWqhf2LYLSMAeibV
- qgF2EjbQc61YYA96XA/RX1GE/x9JH7Sk4rv2q94qArSuPsF13edT1f9EKXxQ9kbXynCm
- f5yywSW6IMOW6ar7wVGrUsGwWXWDT1QRkWtm6QWiJ9W32qLSS7Qdv7YkVbX81WgzEw0s
- A8wMzSORAqFJ6gBFXDu/an2U300La4z8cSttpnb44+i4Z+QZShhOf0HyEK9lQT/68Hj0
- ZJDautlyaZM7w1Lp5fgz8+8YJM4C7Hc2gq4itaZoOEd2aXHIcGJzZT9TUN9psuYqvbFo JA== 
+ bh=c22HVGQNNbHCzJdzQ6OlClcb1N10zdXR7XIevb40yuA=;
+ b=WaTYrw/X2UqG33Z2WuArd233vWKvBTk51PQy78jbtIfmX1CVI+NL6qlUxRouk0YcP9uG
+ 9X/Nt7Bk18pjvtAXuDxepfo144JDCvzmiAf2t65C1m40ccCO53Y/D/XPDc/NXBRb3TZC
+ ZVUtLidaDstZ4wtagqla3XtjrY/3oRQKvgqVbJTwmGTk51o+n3bQmanjhafZ5xpsFSSs
+ y/jTmWAeobRsg7wvsvGNb6nRYi5/bHEAgCbsjaFb+UqT6w8czVnkXpvROQ5tFU5knDtl
+ R7G/igN0OSYtmWiby8ecKnQBYG3INho6b6A42bPtweUiPa5Dwxwy/Kk1d/67I4D3XK/2 KQ== 
 Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u72bthx5j-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u72avswwg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Nov 2023 07:16:34 +0000
+	Tue, 07 Nov 2023 07:16:27 +0000
 Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3A77GBOH008385;
-	Tue, 7 Nov 2023 07:16:11 GMT
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3A77G8GS008365;
+	Tue, 7 Nov 2023 07:16:08 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3u5f1kdxk3-1;
-	Tue, 07 Nov 2023 07:16:11 +0000
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3u5f1kdxjs-1;
+	Tue, 07 Nov 2023 07:16:08 +0000
 Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3A77GB67008380;
-	Tue, 7 Nov 2023 07:16:11 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3A77G8ok008359;
+	Tue, 7 Nov 2023 07:16:08 GMT
 Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3A77GAH1008377;
-	Tue, 07 Nov 2023 07:16:10 +0000
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3A77G83f008358;
+	Tue, 07 Nov 2023 07:16:08 +0000
 Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 1B95B5441; Tue,  7 Nov 2023 15:16:10 +0800 (CST)
+	id 783385442; Tue,  7 Nov 2023 15:16:07 +0800 (CST)
 From: Qiang Yu <quic_qianyu@quicinc.com>
 To: mani@kernel.org, quic_jhugo@quicinc.com
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-        quic_mrana@quicinc.com, Hemant Kumar <quic_hemantk@quicinc.com>,
-        Lazarus Motha <quic_lmotha@quicinc.com>,
-        Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH v3 4/4] bus: mhi: host: Take irqsave lock after TRE is generated
-Date: Tue,  7 Nov 2023 15:16:05 +0800
-Message-Id: <1699341365-47737-5-git-send-email-quic_qianyu@quicinc.com>
+        quic_mrana@quicinc.com, Bhaumik Bhatt <bbhatt@codeaurora.org>,
+        stable@vger.kernel.org, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v3 1/4] bus: mhi: host: Add spinlock to protect WP access when queueing TREs
+Date: Tue,  7 Nov 2023 15:16:02 +0800
+Message-Id: <1699341365-47737-2-git-send-email-quic_qianyu@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1699341365-47737-1-git-send-email-quic_qianyu@quicinc.com>
 References: <1699341365-47737-1-git-send-email-quic_qianyu@quicinc.com>
@@ -53,14 +52,14 @@ X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: qSWrqvccYDix-QsJoEGPNQYQpt-AeHLT
-X-Proofpoint-GUID: qSWrqvccYDix-QsJoEGPNQYQpt-AeHLT
+X-Proofpoint-ORIG-GUID: -c4mk4Ixz3x-Q8qczvdFQfY0IY_Qzz79
+X-Proofpoint-GUID: -c4mk4Ixz3x-Q8qczvdFQfY0IY_Qzz79
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-06_15,2023-11-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=668 mlxscore=0
- bulkscore=0 phishscore=0 impostorscore=0 adultscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 spamscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ mlxlogscore=332 impostorscore=0 phishscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 clxscore=1011 spamscore=0 suspectscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2310240000 definitions=main-2311070059
 Precedence: bulk
@@ -69,54 +68,54 @@ List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 
-From: Hemant Kumar <quic_hemantk@quicinc.com>
+From: Bhaumik Bhatt <bbhatt@codeaurora.org>
 
-Take irqsave lock after TRE is generated to avoid deadlock due to core
-getting interrupts enabled as local_bh_enable must not be called with
-irqs disabled based on upstream patch.
+Protect WP accesses such that multiple threads queueing buffers for
+incoming data do not race.
 
-Signed-off-by: Hemant Kumar <quic_hemantk@quicinc.com>
-Signed-off-by: Lazarus Motha <quic_lmotha@quicinc.com>
+Cc: <stable@vger.kernel.org>
+Fixes: 189ff97cca53 ("bus: mhi: core: Add support for data transfer")
+Signed-off-by: Bhaumik Bhatt <bbhatt@codeaurora.org>
 Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 ---
- drivers/bus/mhi/host/main.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/bus/mhi/host/main.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index b137d54..93b5110 100644
+index 6cf1145..c9415b0 100644
 --- a/drivers/bus/mhi/host/main.c
 +++ b/drivers/bus/mhi/host/main.c
-@@ -1129,17 +1129,15 @@ static int mhi_queue(struct mhi_device *mhi_dev, struct mhi_buf_info *buf_info,
- 	if (unlikely(MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)))
- 		return -EIO;
+@@ -1205,6 +1205,9 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+ 	int eot, eob, chain, bei;
+ 	int ret;
  
--	read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
--
- 	ret = mhi_is_ring_full(mhi_cntrl, tre_ring);
--	if (unlikely(ret)) {
--		ret = -EAGAIN;
--		goto exit_unlock;
--	}
-+	if (unlikely(ret))
-+		return -EAGAIN;
- 
- 	ret = mhi_gen_tre(mhi_cntrl, mhi_chan, buf_info, mflags);
- 	if (unlikely(ret))
--		goto exit_unlock;
-+		return ret;
++	/* Protect accesses for reading and incrementing WP */
++	write_lock_bh(&mhi_chan->lock);
 +
-+	read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
+ 	buf_ring = &mhi_chan->buf_ring;
+ 	tre_ring = &mhi_chan->tre_ring;
  
- 	/* Packet is queued, take a usage ref to exit M3 if necessary
- 	 * for host->device buffer, balanced put is done on buffer completion
-@@ -1159,7 +1157,6 @@ static int mhi_queue(struct mhi_device *mhi_dev, struct mhi_buf_info *buf_info,
- 	if (dir == DMA_FROM_DEVICE)
- 		mhi_cntrl->runtime_put(mhi_cntrl);
+@@ -1222,8 +1225,10 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
  
--exit_unlock:
- 	read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
+ 	if (!info->pre_mapped) {
+ 		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+-		if (ret)
++		if (ret) {
++			write_unlock_bh(&mhi_chan->lock);
+ 			return ret;
++		}
+ 	}
  
- 	return ret;
+ 	eob = !!(flags & MHI_EOB);
+@@ -1240,6 +1245,8 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+ 	mhi_add_ring_element(mhi_cntrl, tre_ring);
+ 	mhi_add_ring_element(mhi_cntrl, buf_ring);
+ 
++	write_unlock_bh(&mhi_chan->lock);
++
+ 	return 0;
+ }
+ 
 -- 
 2.7.4
 
