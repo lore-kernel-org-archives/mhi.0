@@ -1,107 +1,153 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F323159C
-	for <mhi@lists.linux.dev>; Tue,  7 Nov 2023 15:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA22320F
+	for <mhi@lists.linux.dev>; Wed,  8 Nov 2023 06:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SAb3zCeB"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-66d09b6d007so40392856d6.1
-        for <mhi@lists.linux.dev>; Tue, 07 Nov 2023 07:41:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dZCG4Yid"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-543c3756521so10830511a12.2
+        for <mhi@lists.linux.dev>; Tue, 07 Nov 2023 22:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699371675; x=1699976475; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ObVN4OHcPVQWsUpE/966fOo3IFl5zYaTQP4Ff/lWTe4=;
-        b=SAb3zCeBzZ5MWzWHg8o02b6wWrJ55jWKZ92iEotl1eb8np2Y5el6PNikEz7FYksWZg
-         uNjs6gOXmJnwVy4XkwZkcodl+/4E81zEXiRkVzkkUikbnedt+uYAXb8Lm+agJSvpsk/7
-         ljF1DXwY9rbXaX7ONKIBNq3p7Iqse49nquPtgpcduMWRRKSx9Xn7ted5oYA7zzwV5qWF
-         AWnArV3fIfbbC6XkBGNILTGioeLQDwbY0HbosI2qOIPUiIb70GMuNJi+VreYdwTN+esY
-         X3n/YQ98vigCaP5i0h9TZSEpQIaKxlJur9OAUX1OH7PZqDt2rZ5mTnizp4TRkpKqAJE5
-         WavQ==
+        d=linaro.org; s=google; t=1699426124; x=1700030924; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jb2O/lBBk955CKNe/gEpV8g9kuAg3iF6vieIJ3Ps/0o=;
+        b=dZCG4YidihAP0+FQC5k1x1tjXDFOAzoBKsEO/XH3FdhM7fgyU2YI1IVHI8U6+ay7Pj
+         ZvYZ65AMNdanX78uhHnDA7766f10rxbJE2Wzf5lwSV+1xbxY7sEi+1yHnobIGKOYDkDk
+         y6zEKmk2I8edv7F24T2eWu8WlSwOz3YTlfJ9OjZ0yk0HCGUcS9gIG4juzwH0PMXjviEi
+         UJcNbeXf8zhYpNScwRibmKA2b5GTwmv2DyRDwsZxcsY9kPTvNtlbRmSTFK/2441ieAQt
+         fWzreuABRYiKvE/41rY5f+DTQzie5ywPokdLHwcUe3bX5w2WlhJDEEmhRg6VkAjW+cnV
+         J5lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699371675; x=1699976475;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1699426124; x=1700030924;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ObVN4OHcPVQWsUpE/966fOo3IFl5zYaTQP4Ff/lWTe4=;
-        b=fOkSU/x9T5i/Rwju6lRQ/IiX2yCfr5X58MakaldYvqm6DO+6Fv+QaD+OfRltS2LcBi
-         /HvuBGyqJjEpfLROhQjjbiT3oGRdL9kfSbZv5NO+C48OZEqpt+AkFpd9OJSX/on6qaA1
-         7Ch1gTlOheZ3aCNblxa8vhzwKUoTuMzR25jwmbuHhfTaE7P19rsLlnL0/xbTc/jOWHac
-         ebTa5zNDkzT658wvYJuHCfUl5nlR6L/AD+IOY0rdl1GZFt7BQMkoC0iFwvHbo1ILxuNO
-         jGR3IF19Uypruatiy7CztYk1EhEdF7u66689LxHwbew+HwZK46t4cBpMuI9Idk9AGNbq
-         Fehw==
-X-Gm-Message-State: AOJu0YyukHd26gtYY2FJ0aTnR4RjgsDazBCGSPl8ohqPjOAs4hG/z+vz
-	sYBIgRRbCj5uY6Tc7ncUJVN/77zV0yfwk4VPhw==
-X-Google-Smtp-Source: AGHT+IHHqmworfLQWEekvi8UO9gWd02E+Uc289e8Y39lqPlgbomqRT6SyOFmuPC/YBTPy52YJ0fB4w==
-X-Received: by 2002:ad4:5ca2:0:b0:66d:3723:294b with SMTP id q2-20020ad45ca2000000b0066d3723294bmr34665070qvh.64.1699371674936;
-        Tue, 07 Nov 2023 07:41:14 -0800 (PST)
-Received: from localhost.localdomain ([117.217.186.253])
-        by smtp.gmail.com with ESMTPSA id u3-20020a0cb403000000b0064f43efc844sm4565789qve.32.2023.11.07.07.41.12
+        bh=Jb2O/lBBk955CKNe/gEpV8g9kuAg3iF6vieIJ3Ps/0o=;
+        b=RKPFQNcjzJbBlZuKHX3wBmtbOFSmxeLmnBjNBNH/gZoCQBUaIh+qs6+2ixvf6hpu18
+         rRSiLPfznjZ4QYTI4Ia1BgmXCSM+4C8NP0C95/7mH3dLNwPTwoRktY1ANVLsbMibQdMV
+         8NQKeCcfAh38SKjP8cot7kYerUItpy13Zd2LBFkx4wn6ZIBSr/jl7O5wvgN4Efx0sjcT
+         aNFyJ7mQyqghBeXaVD2WTtzz5CKL0kJE4ND/YEkw05BMCgPmh1hAIFWZwnVH/9FcKsb2
+         H+ftnPAymbxFZRlqXO8bhfiaZKK5u99kW0aDDNuzyA1AEiLje+bc92WroOyMxiGFTnvu
+         R/zQ==
+X-Gm-Message-State: AOJu0YwfPqWX3qW88Q1fPEWthjx0ql3kGbAvB0n1ycLS4iu5a/COowlA
+	vcU0GoOkMmHdGDIrmmAOZJd1ag==
+X-Google-Smtp-Source: AGHT+IHaXbdMnQkxeSuF6krmzXyFXkV0AOojjJ7bqHnUMTGc1KreBH+zRVv3VtilSbX9ZkVZYkTbNQ==
+X-Received: by 2002:a50:c352:0:b0:53e:782f:cfa6 with SMTP id q18-20020a50c352000000b0053e782fcfa6mr575642edb.37.1699426124137;
+        Tue, 07 Nov 2023 22:48:44 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v19-20020a50d093000000b005434095b179sm6326163edd.92.2023.11.07.22.48.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 07:41:14 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add local VID definitions for Telit and Sierra
-Date: Tue,  7 Nov 2023 21:11:00 +0530
-Message-Id: <20231107154100.154492-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Tue, 07 Nov 2023 22:48:43 -0800 (PST)
+Date: Wed, 8 Nov 2023 09:48:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Qiang Yu <quic_qianyu@quicinc.com>,
+	mani@kernel.org, quic_jhugo@quicinc.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com,
+	Qiang Yu <quic_qianyu@quicinc.com>
+Subject: Re: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event
+ of a disable channel
+Message-ID: <12ceff53-bbd0-4e12-9597-f6a4bfd0f87f@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1699341365-47737-4-git-send-email-quic_qianyu@quicinc.com>
 
-Add the definitions locally for now since it was agreed earlier that we
-keep it this way until the definitions show up in other drivers.
+Hi Qiang,
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/host/pci_generic.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 08f3f039dbdd..58ce1ecddd19 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -25,6 +25,8 @@
- 
- /* PCI VID definitions */
- #define PCI_VENDOR_ID_THALES	0x1269
-+#define PCI_VENDOR_ID_SIERRA	0x18d7
-+#define PCI_VENDOR_ID_TELIT	0x1c5d
- #define PCI_VENDOR_ID_QUECTEL	0x1eac
- 
- /**
-@@ -585,18 +587,18 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
- 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
--	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_SIERRA, 0x0200),
- 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
- 	/* Telit FN980 hardware revision v1 */
--	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_TELIT, 0x2000),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
- 	/* Telit FN990 */
--	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_TELIT, 0x2010),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
- 	/* Telit FE990 */
--	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2015),
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_TELIT, 0x2015),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Yu/bus-mhi-host-Add-spinlock-to-protect-WP-access-when-queueing-TREs/20231107-151918
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+patch link:    https://lore.kernel.org/r/1699341365-47737-4-git-send-email-quic_qianyu%40quicinc.com
+patch subject: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event of a disable channel
+config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080155.MiyREgoQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311080155.MiyREgoQ-lkp@intel.com/
+
+smatch warnings:
+drivers/bus/mhi/host/main.c:1257 mhi_gen_tre() warn: inconsistent returns '&mhi_chan->lock'.
+
+vim +1257 drivers/bus/mhi/host/main.c
+
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1204  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1205  			struct mhi_buf_info *info, enum mhi_flags flags)
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1206  {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1207  	struct mhi_ring *buf_ring, *tre_ring;
+84f5f31f110e5e drivers/bus/mhi/host/main.c Manivannan Sadhasivam 2022-03-01  1208  	struct mhi_ring_element *mhi_tre;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1209  	struct mhi_buf_info *buf_info;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1210  	int eot, eob, chain, bei;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1211  	int ret;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1212  
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1213  	/* Protect accesses for reading and incrementing WP */
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1214  	write_lock_bh(&mhi_chan->lock);
+6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1215  	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
+6025cde6ecb13c drivers/bus/mhi/host/main.c Qiang Yu              2023-11-07  1216  		return -EINVAL;
+
+This looks like two people submitted patches on the same day?
+We should unlock before returning?
+
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1217  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1218  	buf_ring = &mhi_chan->buf_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1219  	tre_ring = &mhi_chan->tre_ring;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1220  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1221  	buf_info = buf_ring->wp;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1222  	WARN_ON(buf_info->used);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1223  	buf_info->pre_mapped = info->pre_mapped;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1224  	if (info->pre_mapped)
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1225  		buf_info->p_addr = info->p_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1226  	else
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1227  		buf_info->v_addr = info->v_addr;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1228  	buf_info->cb_buf = info->cb_buf;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1229  	buf_info->wp = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1230  	buf_info->dir = mhi_chan->dir;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1231  	buf_info->len = info->len;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1232  
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1233  	if (!info->pre_mapped) {
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1234  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1235  		if (ret) {
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1236  			write_unlock_bh(&mhi_chan->lock);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1237  			return ret;
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1238  		}
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1239  	}
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1240  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1241  	eob = !!(flags & MHI_EOB);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1242  	eot = !!(flags & MHI_EOT);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1243  	chain = !!(flags & MHI_CHAIN);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1244  	bei = !!(mhi_chan->intmod);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1245  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1246  	mhi_tre = tre_ring->wp;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1247  	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
+cd116318803f5e drivers/bus/mhi/core/main.c Hemant Kumar          2020-05-21  1248  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1249  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1250  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1251  	/* increment WP */
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1252  	mhi_add_ring_element(mhi_cntrl, tre_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1253  	mhi_add_ring_element(mhi_cntrl, buf_ring);
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1254  
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1255  	write_unlock_bh(&mhi_chan->lock);
+da05b5d43f483c drivers/bus/mhi/host/main.c Bhaumik Bhatt         2023-11-07  1256  
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20 @1257  	return 0;
+189ff97cca53e3 drivers/bus/mhi/core/main.c Manivannan Sadhasivam 2020-02-20  1258  }
+
 -- 
-2.25.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
