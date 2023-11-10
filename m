@@ -1,93 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A88A225CF;
-	Thu,  9 Nov 2023 16:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392FD17F8
+	for <mhi@lists.linux.dev>; Fri, 10 Nov 2023 03:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOZT5u/k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F8DC433C7;
-	Thu,  9 Nov 2023 16:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699547708;
-	bh=DO7rti32qM8aexLDfsJn/f7IKXiyncbiQH0D8eWb7AY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FOZT5u/kJrglzPjz3w2sZ1ulGNVMQGY7/Sa2kpZQY6rNWGa+0EJ+7Ag7Cj24pTjYq
-	 1Mn3xl0sZXcSma6QQc6wkQPA51y52iHLxfWIswazxUXGXSiyjqpDwJ5gVHcT2D2Mhu
-	 ok0FKbHwVluXVLZn7nZBX8AfNwCDJkhRcMnrQ4yca4A0GBlwfdxUIb6Q/yAXtYv0cj
-	 f8k+4zDf6hFk6qROiCiEesdy+wOXKlIGP9KdYwtTe7cCiC002ijMDjmtrrQTTwd+SX
-	 jg7cbzOZ6nyuKuRL9S2lg2I2iK6sETP99wq85eJkkBUWlElu4xQkKwZ497LJE7J2pE
-	 DXqgQT/xkgfMA==
-Date: Thu, 9 Nov 2023 22:04:57 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_ramkri@quicinc.com, quic_skananth@quicinc.com,
-	quic_parass@quicinc.com, stable@vger.kernel.org
-Subject: Re: [PATCH v2] bus: mhi: host: Add alignment check for event ring
- read pointer
-Message-ID: <20231109163457.GM3752@thinkpad>
-References: <20231031-alignment_check-v2-1-1441db7c5efd@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="M0MY7l75"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA2QepE028397;
+	Fri, 10 Nov 2023 03:39:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=UFNPkU5RcOUlMNZKNlJJTvF2hAP+Gw6TIMJUjo7Cyts=;
+ b=M0MY7l75Dn1Ew3cxRg7vsP+S6dcKSKzIxa0T1oC7egaggSknP5K7KCMBOUwOifaxt/Bl
+ B/MsktPsEomZin7a7eHWOlnD6AMonOwovmtJMI1khsmxHLTddiRawq07KF4sOrFQvolB
+ vP0jl8Rkte62jhbcw7s4YK8BInDuHBJuUoRTa7o2kKMuUQKe1ftZMfFGZNp+HKBAk6EE
+ oACOztX6Wa/uqRTNYgvxYcJRcvRu3yTDZmDQY5BrO+FmI6B9rlhzLzHR+7Eabuqxggvw
+ ILuRa3sQOHr2pKZo57T4nZ1HDeiqNeJLPkNtbLHY5cvAxMF4VbA0o6BLcVIB3U5wZCtJ /A== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u99e90b67-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Nov 2023 03:39:02 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA3d1mN004691
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Nov 2023 03:39:01 GMT
+Received: from [10.253.38.123] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
+ 2023 19:38:59 -0800
+Message-ID: <808f8982-8c2c-40ed-9fb9-1c9932c8db28@quicinc.com>
+Date: Fri, 10 Nov 2023 11:38:42 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231031-alignment_check-v2-1-1441db7c5efd@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event
+ of a disable channel
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
+References: <1699341365-47737-1-git-send-email-quic_qianyu@quicinc.com>
+ <1699341365-47737-4-git-send-email-quic_qianyu@quicinc.com>
+ <20231109163253.GL3752@thinkpad>
+Content-Language: en-US
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <20231109163253.GL3752@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: JO5oR0dYS5W6vdd0xyvRG2VVeITJUZZe
+X-Proofpoint-ORIG-GUID: JO5oR0dYS5W6vdd0xyvRG2VVeITJUZZe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-09_17,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0
+ suspectscore=0 mlxlogscore=737 bulkscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311100029
 
-On Tue, Oct 31, 2023 at 03:21:05PM +0530, Krishna chaitanya chundru wrote:
-> Though we do check the event ring read pointer by "is_valid_ring_ptr"
-> to make sure it is in the buffer range, but there is another risk the
-> pointer may be not aligned.  Since we are expecting event ring elements
-> are 128 bits(struct mhi_ring_element) aligned, an unaligned read pointer
-> could lead to multiple issues like DoS or ring buffer memory corruption.
-> 
-> So add a alignment check for event ring read pointer.
-> 
-> Fixes: ec32332df764 ("bus: mhi: core: Sanity check values from remote device before use")
-> cc: stable@vger.kernel.org
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 
-Applied to mhi-next!
+On 11/10/2023 12:32 AM, Manivannan Sadhasivam wrote:
+> On Tue, Nov 07, 2023 at 03:16:04PM +0800, Qiang Yu wrote:
+>> Ckeck mhi channel state after getting chan->lock to ensure that we only
+>> queue buffer to an enabled channel and process event of an enabled channel.
+>>
+> This commit message doesn't give proper explanation on how the channel can go to
+> disabled state in between parse_xfer_event() and mhi_gen_tre().
+>
+> - Mani
 
-- Mani
+Hi Mani. How about following commit message
 
-> ---
-> Changes in v2:
-> - Change the modulus operation to bit-wise & operation as suggested by Jeff.
-> - Link to v1: https://lore.kernel.org/r/20231023-alignment_check-v1-1-2ca5716d5c15@quicinc.com
-> ---
->  drivers/bus/mhi/host/main.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 499590437e9b..e765c16a99d1 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -268,7 +268,8 @@ static void mhi_del_ring_element(struct mhi_controller *mhi_cntrl,
->  
->  static bool is_valid_ring_ptr(struct mhi_ring *ring, dma_addr_t addr)
->  {
-> -	return addr >= ring->iommu_base && addr < ring->iommu_base + ring->len;
-> +	return addr >= ring->iommu_base && addr < ring->iommu_base + ring->len &&
-> +			!(addr & (sizeof(struct mhi_ring_element) - 1));
->  }
->  
->  int mhi_destroy_device(struct device *dev, void *data)
-> 
-> ---
-> base-commit: 71e68e182e382e951d6248bccc3c960dcec5a718
-> change-id: 20231013-alignment_check-c013f509d24a
-> 
-> Best regards,
-> -- 
-> Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> 
-> 
+MHI channel state is protected by mhi_chan->lock. Hence, after core drops
+mhi_chan->lock during processing xfer event, it can not prevent channel
+state being changed if client closes channel or driver is removed at this
+time. So let's check mhi channel state after getting chan->lock again to 
+avoid
+queuing buffer to a disabled channel in xfer callback and stop processing
+event of the disabled channel.
 
--- 
-மணிவண்ணன் சதாசிவம்
+>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+>> ---
+>>   drivers/bus/mhi/host/main.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>> index a236dc2..b137d54 100644
+>> --- a/drivers/bus/mhi/host/main.c
+>> +++ b/drivers/bus/mhi/host/main.c
+>> @@ -672,6 +672,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>>   			}
+>>   
+>>   			read_lock_bh(&mhi_chan->lock);
+>> +			if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
+>> +				goto end_process_tx_event;
+>>   		}
+>>   		break;
+>>   	} /* CC_EOT */
+>> @@ -1211,6 +1213,8 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+>>   
+>>   	/* Protect accesses for reading and incrementing WP */
+>>   	write_lock_bh(&mhi_chan->lock);
+>> +	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
+>> +		return -EINVAL;
+>>   
+>>   	buf_ring = &mhi_chan->buf_ring;
+>>   	tre_ring = &mhi_chan->tre_ring;
+>> -- 
+>> 2.7.4
+>>
+>>
