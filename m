@@ -1,143 +1,93 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCB217F8
-	for <mhi@lists.linux.dev>; Fri, 10 Nov 2023 03:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A63D13FEE
+	for <mhi@lists.linux.dev>; Fri, 10 Nov 2023 10:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Kx9hdP2x"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA39MGe008932;
-	Fri, 10 Nov 2023 03:42:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GA1k1EoHAjRIkDRMPTj7Sehuf5ZQHogrwImmPswx02w=;
- b=Kx9hdP2xROE+38yF1+tJNvOICwb0uWeaF1dg5/cPOReR102ixDySR60TkLFstLEu2EYy
- U/5bS6xjQQ7PBsHIJ2YKTI8hUoUBIUxobiwcJRXAbRXAJ/2JR3DIW8zUvY85Hj1IayOg
- s9VIciPEceIuf8a+5Fp9Ng5ULBbsi752C9siB6cM6ltu3KinxKNjREs/HVtkHChqRde2
- h5l6J9wFot75GNCDkCZCVmWymzYvhEyt70+KtfXWh8f2e55NflnuRrKLaRG+GpcvnaD/
- Rrl6WomW4n6+VGvYQV7m8zpIFi+Iv7VjlBs3Afli50yI5dxCdEZowOEnZUXxzuaNKQ1x Kg== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u93tq93fx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 03:42:57 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA3gvXw020776
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 03:42:57 GMT
-Received: from [10.253.38.123] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
- 2023 19:42:54 -0800
-Message-ID: <28bae567-23ae-4b06-b77b-946cf46aa74e@quicinc.com>
-Date: Fri, 10 Nov 2023 11:42:52 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f25paLpm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63945C433C7;
+	Fri, 10 Nov 2023 10:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699611725;
+	bh=AMPU4LRyX+OkgHTzmLqYpkHVXivN15INxbcqDW+e4HI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=f25paLpmrrOypJkE+2mOFhXwjwmYKnrZzre9uvCGJFfliCC3KoHtyiViJoXGT2cFi
+	 b++rfZtaMcghghE2dF3fFBgMn+UB7HUphttZhtMwguSh9I3D6IJTbHHj9B/jPCdD1O
+	 MV5Zya/1VfTCFtMACL/Yl7WhXzNgjoqP6VsS/kul3cyhGif5Ogyp2Sxmp+DP/r907u
+	 wX23PukQ4ay1o7U69473/LRzGr7DOzWQMVLlLrs5PaxXAvsEZAPqE4TURk4zv4RwBE
+	 +y2zB+cIyrJQIDcDORId+jQeoRTJLr4v5xKKpi8NnolmFYVPswBMa144n8zgG4Ljxk
+	 M5keyYeN+XCrA==
+From: Kalle Valo <kvalo@kernel.org>
+To: mhi@lists.linux.dev
+Cc: ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: [PATCH RFC 0/8] wifi: ath11k: hibernation support
+Date: Fri, 10 Nov 2023 12:21:54 +0200
+Message-Id: <20231110102202.3168243-1-kvalo@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] bus: mhi: host: Take irqsave lock after TRE is
- generated
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>,
-        Hemant Kumar
-	<quic_hemantk@quicinc.com>,
-        Lazarus Motha <quic_lmotha@quicinc.com>
-References: <1699341365-47737-1-git-send-email-quic_qianyu@quicinc.com>
- <1699341365-47737-5-git-send-email-quic_qianyu@quicinc.com>
- <20231109162933.GK3752@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <20231109162933.GK3752@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: cAB7eTfDVLoZyfuO4RN088p8e95o-FBw
-X-Proofpoint-ORIG-GUID: cAB7eTfDVLoZyfuO4RN088p8e95o-FBw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-09_17,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=879
- spamscore=0 phishscore=0 impostorscore=0 bulkscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311100030
+Content-Transfer-Encoding: 8bit
+
+From: Kalle Valo <quic_kvalo@quicinc.com>
+
+Currently in ath11k we keep the firmware running on the WLAN device when the
+network interface (wlan0) is down. The problem is that this will break
+hibernation, obviously the firmware can't be running after the whole system is
+powered off. To power down the ath11k firmware for suspend/hibernation some
+changes both in MHI subsystem and ath11k is needed.
+
+This patchset fixes a longstanding bug report about broken hibernation support:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=214649
+
+This patchset is marked as RFC as it requires changes in MHI subsystem. Also
+this has been tested only on WCN6855, need to test also on more AP based
+chipsets like IPQ8074 and QCN9074.
+
+The patches are also available at:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/log/?h=ath11k-hibernation-support
+
+Earlier versions of this patchset have been tested by multiple users with
+positive results. Takashi also tested this latest version:
+
+  Tested-by: Takashi Iwai <tiwai@suse.de>
+
+Baochen Qiang (7):
+  bus: mhi: host: add mhi_power_down_no_destroy()
+  bus: mhi: host: add new interfaces to handle MHI channels directly
+  wifi: ath11k: handle irq enable/disable in several code path
+  wifi: ath11k: remove MHI LOOPBACK channels
+  wifi: ath11k: do not dump SRNG statistics during resume
+  wifi: ath11k: fix warning on DMA ring capabilities event
+  wifi: ath11k: support hibernation
+
+Kalle Valo (1):
+  wifi: ath11k: thermal: don't try to register multiple times
+
+ drivers/bus/mhi/host/internal.h           |  1 +
+ drivers/bus/mhi/host/main.c               | 91 +++++++++++++++++++++++
+ drivers/bus/mhi/host/pm.c                 | 26 +++++--
+ drivers/net/wireless/ath/ath11k/ahb.c     |  8 +-
+ drivers/net/wireless/ath/ath11k/core.c    | 44 ++++++-----
+ drivers/net/wireless/ath/ath11k/core.h    |  2 +
+ drivers/net/wireless/ath/ath11k/hif.h     | 12 +--
+ drivers/net/wireless/ath/ath11k/mhi.c     | 49 +++++-------
+ drivers/net/wireless/ath/ath11k/mhi.h     |  4 +-
+ drivers/net/wireless/ath/ath11k/pci.c     | 55 ++++++++++++--
+ drivers/net/wireless/ath/ath11k/qmi.c     |  7 +-
+ drivers/net/wireless/ath/ath11k/thermal.c |  3 +
+ drivers/net/wireless/ath/ath11k/wmi.c     |  1 +
+ include/linux/mhi.h                       | 47 +++++++++++-
+ 14 files changed, 268 insertions(+), 82 deletions(-)
 
 
-On 11/10/2023 12:29 AM, Manivannan Sadhasivam wrote:
-> On Tue, Nov 07, 2023 at 03:16:05PM +0800, Qiang Yu wrote:
->> From: Hemant Kumar <quic_hemantk@quicinc.com>
->>
->> Take irqsave lock after TRE is generated to avoid deadlock due to core
->> getting interrupts enabled as local_bh_enable must not be called with
->> irqs disabled based on upstream patch.
->>
-> You still didn't address any of the comments provided by Jeff in v2.
->
-> - Mani
+base-commit: f24dee89bb8a7ef33c28e31632b1f3dd4e196413
+-- 
+2.39.2
 
-Hi Mani, thanks for review. Sorry, missing this part. Will change to 
-following commit message.
-
-If CONFIG_TRACE_IRQFLAGS is enabled, irq will be enabled once 
-__local_bh_enable_ip
-is called as part of write_unlock_bh. Hence, let's take irqsave lock 
-after TRE is
-generated to avoid running write_unlock_bh when irqsave lock is held.
-
->> Signed-off-by: Hemant Kumar <quic_hemantk@quicinc.com>
->> Signed-off-by: Lazarus Motha <quic_lmotha@quicinc.com>
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/main.c | 13 +++++--------
->>   1 file changed, 5 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->> index b137d54..93b5110 100644
->> --- a/drivers/bus/mhi/host/main.c
->> +++ b/drivers/bus/mhi/host/main.c
->> @@ -1129,17 +1129,15 @@ static int mhi_queue(struct mhi_device *mhi_dev, struct mhi_buf_info *buf_info,
->>   	if (unlikely(MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)))
->>   		return -EIO;
->>   
->> -	read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
->> -
->>   	ret = mhi_is_ring_full(mhi_cntrl, tre_ring);
->> -	if (unlikely(ret)) {
->> -		ret = -EAGAIN;
->> -		goto exit_unlock;
->> -	}
->> +	if (unlikely(ret))
->> +		return -EAGAIN;
->>   
->>   	ret = mhi_gen_tre(mhi_cntrl, mhi_chan, buf_info, mflags);
->>   	if (unlikely(ret))
->> -		goto exit_unlock;
->> +		return ret;
->> +
->> +	read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
->>   
->>   	/* Packet is queued, take a usage ref to exit M3 if necessary
->>   	 * for host->device buffer, balanced put is done on buffer completion
->> @@ -1159,7 +1157,6 @@ static int mhi_queue(struct mhi_device *mhi_dev, struct mhi_buf_info *buf_info,
->>   	if (dir == DMA_FROM_DEVICE)
->>   		mhi_cntrl->runtime_put(mhi_cntrl);
->>   
->> -exit_unlock:
->>   	read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
->>   
->>   	return ret;
->> -- 
->> 2.7.4
->>
->>
