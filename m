@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F3113FEE
-	for <mhi@lists.linux.dev>; Fri, 10 Nov 2023 10:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CB213FEE
+	for <mhi@lists.linux.dev>; Fri, 10 Nov 2023 10:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kd2bZGTT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36980C433CA;
-	Fri, 10 Nov 2023 10:22:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5OioymD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F02C433C7;
+	Fri, 10 Nov 2023 10:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699611729;
-	bh=5ou17yiktRU9nagkHXi6c6F9I8XPQs9jzQuZICUzCw4=;
+	s=k20201202; t=1699611731;
+	bh=m1Qw8/vtVY4p1/3aRSjL1MDaqIJS0lXW4t1xxd50gVI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kd2bZGTTww+NHdBdmpixjeUbted6II9Zmcrm1Y1tUbHnmuxVbsY+zZXeZx7h+vCem
-	 UOVVaGTqAgDgIYeeHfOui1/hpCTLy9CzyO0aGhzFNF5zVqemBWVlxvribKdvfNdZy7
-	 q50zCxJiOlesEpZKVWVjwWnOadJQpZMfLsP6MOCzGGNaPkzrRmS2L35QNph9FAFyCW
-	 GwOjCR/eF32U5jhFEPo1u9dlB43KDYGCstJhrDd/PHM9YI32s5QoULPrVH4yXj2dT9
-	 kxIb6q6lWNe4P4DewJ6PVCAKpN8RETVgqj9PcVDNS14YgKiT0YDIdo1bQyXM0KGAnZ
-	 6Fd1lIZOMl5JA==
+	b=h5OioymDllpakzBKbYnzBWdc/VgmmcFiXEAZZSrR818B67Td+0rPM38wF/zFfIqn+
+	 PCh33PyArwPEa9NHGo0Mk12GlIWKgz9tQCTiLMLiIBMAJHGPK9bHg6GXj0Nq+8tSgj
+	 EvrJzFJaV8lnA9b+GCMuMFas5Aq6n9cBXFbZ93X7bgtxSdGm4mdp4ND/S7mz8CRcYq
+	 l4uu6yTvEpg3uzIhflT8s/uLv3cxsK9vQ1JrJtN+ljGYvkUEvUxSUBiuT9p3NGsSgY
+	 Qi6wdO6Fntdl3D4dXi2FRsP+T8js3F15Q4/sUVXr55/JjY0rD2T1rVGk/K7njEQBji
+	 JRnYZdP4jQAsA==
 From: Kalle Valo <kvalo@kernel.org>
 To: mhi@lists.linux.dev
 Cc: ath11k@lists.infradead.org,
 	linux-wireless@vger.kernel.org
-Subject: [PATCH RFC 3/8] wifi: ath11k: handle irq enable/disable in several code path
-Date: Fri, 10 Nov 2023 12:21:57 +0200
-Message-Id: <20231110102202.3168243-4-kvalo@kernel.org>
+Subject: [PATCH RFC 5/8] wifi: ath11k: do not dump SRNG statistics during resume
+Date: Fri, 10 Nov 2023 12:21:59 +0200
+Message-Id: <20231110102202.3168243-6-kvalo@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231110102202.3168243-1-kvalo@kernel.org>
 References: <20231110102202.3168243-1-kvalo@kernel.org>
@@ -37,58 +37,45 @@ Content-Transfer-Encoding: 8bit
 
 From: Baochen Qiang <quic_bqiang@quicinc.com>
 
-For non WoW suspend/resume, ath11k host powers down whole hardware
-when suspend and power up it when resume, the code path it goes
-through is very like the ath11k reset logic.
+Both the firmware reset feature and the power management
+suspend/resume feature share common power-down and power-up
+functionality. One aspect of the power-up functionality is
+the handling of the ATH11K_QMI_EVENT_FW_INIT_DONE event.
+When this event is received, a call is made to
+ath11k_hal_dump_srng_stats(), with the purpose to collect
+information that may be useful in debugging the cause of a
+firmware reset.
 
-In order to reuse that logic, do some IRQ management work to make
-it work.
+Unfortunately, since this functionality is shared between
+both the firmware reset path and the power management
+resume path, the kernel log is flooded with messages during
+resume. Since these messages are not useful during resume,
+and in fact can be confusing and can increase the time it
+takes to resume, update the logic to only call
+ath11k_hal_dump_srng_stats() during firmware reset.
 
 Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
 
 Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
 Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 ---
- drivers/net/wireless/ath/ath11k/core.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/net/wireless/ath/ath11k/qmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
-index 0c6ecbb9a066..fbd6b6a0e12c 100644
---- a/drivers/net/wireless/ath/ath11k/core.c
-+++ b/drivers/net/wireless/ath/ath11k/core.c
-@@ -852,9 +852,6 @@ int ath11k_core_resume(struct ath11k_base *ab)
- 		return ret;
- 	}
- 
--	ath11k_hif_ce_irq_enable(ab);
--	ath11k_hif_irq_enable(ab);
--
- 	ret = ath11k_dp_rx_pktlog_start(ab);
- 	if (ret) {
- 		ath11k_warn(ab, "failed to start rx pktlog during resume: %d\n",
-@@ -1775,10 +1772,9 @@ static int ath11k_core_reconfigure_on_crash(struct ath11k_base *ab)
- 
- 	mutex_lock(&ab->core_lock);
- 	ath11k_thermal_unregister(ab);
--	ath11k_hif_irq_disable(ab);
- 	ath11k_dp_pdev_free(ab);
- 	ath11k_spectral_deinit(ab);
--	ath11k_hif_stop(ab);
-+	ath11k_ce_cleanup_pipes(ab);
- 	ath11k_wmi_detach(ab);
- 	ath11k_dp_pdev_reo_cleanup(ab);
- 	mutex_unlock(&ab->core_lock);
-@@ -2033,8 +2029,8 @@ static void ath11k_core_reset(struct work_struct *work)
- 	time_left = wait_for_completion_timeout(&ab->recovery_start,
- 						ATH11K_RECOVER_START_TIMEOUT_HZ);
- 
--	ath11k_hif_power_down(ab);
--	ath11k_hif_power_up(ab);
-+	ath11k_hif_irq_disable(ab);
-+	ath11k_hif_ce_irq_disable(ab);
- 
- 	ath11k_dbg(ab, ATH11K_DBG_BOOT, "reset started\n");
- }
+diff --git a/drivers/net/wireless/ath/ath11k/qmi.c b/drivers/net/wireless/ath/ath11k/qmi.c
+index c270dc46d506..97a74563d4a6 100644
+--- a/drivers/net/wireless/ath/ath11k/qmi.c
++++ b/drivers/net/wireless/ath/ath11k/qmi.c
+@@ -3249,7 +3249,8 @@ static void ath11k_qmi_driver_event_work(struct work_struct *work)
+ 		case ATH11K_QMI_EVENT_FW_INIT_DONE:
+ 			clear_bit(ATH11K_FLAG_QMI_FAIL, &ab->dev_flags);
+ 			if (test_bit(ATH11K_FLAG_REGISTERED, &ab->dev_flags)) {
+-				ath11k_hal_dump_srng_stats(ab);
++				if (ab->is_reset)
++					ath11k_hal_dump_srng_stats(ab);
+ 				queue_work(ab->workqueue, &ab->restart_work);
+ 				break;
+ 			}
 -- 
 2.39.2
 
