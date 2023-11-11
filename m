@@ -1,150 +1,273 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D225240
-	for <mhi@lists.linux.dev>; Sat, 11 Nov 2023 02:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF3763B6;
+	Sat, 11 Nov 2023 05:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="P/URjO7h"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AB2VeBK028356;
-	Sat, 11 Nov 2023 02:33:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=3+YMA23o75yDOPLIrv3GEbuYP46t8YxPCwUb1AJ4tA8=;
- b=P/URjO7hh/rL9DqwNcmKMb27Az/iXzG3ULFQnYzZIYJIqd1kfMtqfI8dROZ2Ksxg2svV
- X4+yQajgqCnyIKhiwjUMFFhqi9pdh0O10GOUvZVrcZwYudvuQqEeMEXJdhaJxz3xA4vC
- 23KJV6Gr70m318Jj//PrhNSLoUCFtRoFeb6OU8kR4k71pCJRL3dz75NVGWVIHzYKtVBl
- LoEb4a9/CdTy7+JvAKKu5Ks7D94eaedY0dZDshF8AX3Nm+SsmGeFhexSaGhNsUMc20Qs
- sa+/dmXEwXh4bUWHxIJTeQQZEmT/32cWE4MsUgsN5WXMBfu6cxQUv0Pij6yvW4K+SjtF 1A== 
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ua0k0r0vn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Nov 2023 02:33:19 +0000
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3AB2XGHu021779;
-	Sat, 11 Nov 2023 02:33:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3u5f1mjp57-1;
-	Sat, 11 Nov 2023 02:33:16 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3AB2XGiR021773;
-	Sat, 11 Nov 2023 02:33:16 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.194])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3AB2XFR8021772;
-	Sat, 11 Nov 2023 02:33:16 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3891782)
-	id 0CA442C83; Sat, 11 Nov 2023 08:03:15 +0530 (+0530)
-From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-To: agross@kernel.org, andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, konrad.dybcio@linaro.org, mani@kernel.org,
-        robh+dt@kernel.org
-Cc: quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
-        quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
-        dmitry.baryshkov@linaro.org, robh@kernel.org, quic_krichai@quicinc.com,
-        quic_vbadigan@quicinc.com, quic_parass@quicinc.com,
-        quic_schintav@quicinc.com, quic_shijjose@quicinc.com,
-        Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>, linux-pci@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev
-Subject: [PATCH v8 5/5] arm64: dts: qcom: sa8775p: Add ep pcie0 controller node
-Date: Sat, 11 Nov 2023 08:03:01 +0530
-Message-Id: <1699669982-7691-6-git-send-email-quic_msarkar@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1699669982-7691-1-git-send-email-quic_msarkar@quicinc.com>
-References: <1699669982-7691-1-git-send-email-quic_msarkar@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6mLWkNuqYRMGFuCrORJEeeI0WSdHGVwm
-X-Proofpoint-ORIG-GUID: 6mLWkNuqYRMGFuCrORJEeeI0WSdHGVwm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-10_21,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 adultscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311110018
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVzUGxcD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699679221; x=1731215221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vSKSY9tE7YTJMxF0CNtF11cQM9FmCkpKo8Bvq48ESLY=;
+  b=jVzUGxcDBZss7bg5kKyExEsEBcAJKgqeyyaWrfRD1drxwGohnAroc8+W
+   zrkGRU6VNzs4fREJF7V0DeRCzUUugNrkQTT4GDBtuME5pfSRcLJpHY8ln
+   RbLTvZ1e2zaeASOw2YRkTPKVDumCg+HAOxpK9XqH4/6IaCR76ucq9mhDa
+   vGK5/KJhBvMeqJKCdmHlg8ez/IMDukFqDckRs4oS/+G/uMK5vBkoHa/B6
+   IGEL1dzHPmlnP5Rui/2FUnkGhqL1VnWcg1/cIfq83G7OyDhjSMYVIPuSN
+   iy9m4aRo75P8oRN+p9+JSzHNY+YJR8gqzcMqNmOtF6Q0z5k92hjLq4fcb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="3261592"
+X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
+   d="scan'208";a="3261592"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 21:07:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="907602641"
+X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
+   d="scan'208";a="907602641"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Nov 2023 21:06:57 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1gCt-000ADp-0T;
+	Sat, 11 Nov 2023 05:06:55 +0000
+Date: Sat, 11 Nov 2023 13:06:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v3] bus: mhi: host: Add tracing support
+Message-ID: <202311111237.zTm5NBLH-lkp@intel.com>
+References: <20231111-ftrace_support-v3-1-f358d2911a74@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231111-ftrace_support-v3-1-f358d2911a74@quicinc.com>
 
-Add ep pcie dtsi node for pcie0 controller found on sa8775p platform.
-It supports gen4 and x2 link width. Limiting the speed to Gen3 due to
-stability issues.
+Hi Krishna,
 
-Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- arch/arm64/boot/dts/qcom/sa8775p.dtsi | 46 +++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-index 13dd44d..7eab458 100644
---- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-@@ -3586,6 +3586,52 @@
- 		status = "disabled";
- 	};
- 
-+	pcie0_ep: pcie-ep@1c00000 {
-+		compatible = "qcom,sa8775p-pcie-ep";
-+		reg = <0x0 0x01c00000 0x0 0x3000>,
-+		      <0x0 0x40000000 0x0 0xf20>,
-+		      <0x0 0x40000f20 0x0 0xa8>,
-+		      <0x0 0x40001000 0x0 0x4000>,
-+		      <0x0 0x40200000 0x0 0x100000>,
-+		      <0x0 0x01c03000 0x0 0x1000>,
-+		      <0x0 0x40005000 0x0 0x2000>;
-+		reg-names = "parf", "dbi", "elbi", "atu", "addr_space",
-+			    "mmio", "dma";
-+
-+		clocks = <&gcc GCC_PCIE_0_AUX_CLK>,
-+			<&gcc GCC_PCIE_0_CFG_AHB_CLK>,
-+			<&gcc GCC_PCIE_0_MSTR_AXI_CLK>,
-+			<&gcc GCC_PCIE_0_SLV_AXI_CLK>,
-+			<&gcc GCC_PCIE_0_SLV_Q2A_AXI_CLK>;
-+
-+		clock-names = "aux",
-+			      "cfg",
-+			      "bus_master",
-+			      "bus_slave",
-+			      "slave_q2a";
-+
-+		interrupts = <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 630 IRQ_TYPE_LEVEL_HIGH>;
-+
-+		interrupt-names = "global", "doorbell", "dma";
-+
-+		interconnects = <&pcie_anoc MASTER_PCIE_0 0 &mc_virt SLAVE_EBI1 0>,
-+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_PCIE_0 0>;
-+		interconnect-names = "pcie-mem", "cpu-pcie";
-+
-+		iommus = <&pcie_smmu 0x0000 0x7f>;
-+		resets = <&gcc GCC_PCIE_0_BCR>;
-+		reset-names = "core";
-+		power-domains = <&gcc PCIE_0_GDSC>;
-+		phys = <&pcie0_phy>;
-+		phy-names = "pciephy";
-+		max-link-speed = <3>; /* FIXME: Limiting the Gen speed due to stability issues */
-+		num-lanes = <2>;
-+
-+		status = "disabled";
-+	};
-+
- 	pcie0_phy: phy@1c04000 {
- 		compatible = "qcom,sa8775p-qmp-gen4x2-pcie-phy";
- 		reg = <0x0 0x1c04000 0x0 0x2000>;
+[auto build test ERROR on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231111-101955
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231111-ftrace_support-v3-1-f358d2911a74%40quicinc.com
+patch subject: [PATCH v3] bus: mhi: host: Add tracing support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231111/202311111237.zTm5NBLH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111237.zTm5NBLH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111237.zTm5NBLH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/bus/mhi/host/trace.h:224,
+                    from drivers/bus/mhi/host/init.c:24:
+   drivers/bus/mhi/host/./trace.h: In function 'trace_event_raw_event_mhi_process_ctrl_ev_ring':
+>> drivers/bus/mhi/host/../common.h:144:58: error: invalid type argument of '->' (have 'u64' {aka 'long long unsigned int'})
+     144 | #define MHI_TRE_GET_DWORD(tre, word)    le32_to_cpu((tre)->dword[(word)])
+         |                                                          ^~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:138:9: note: in expansion of macro 'TP_fast_assign'
+     138 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:413:9: note: in expansion of macro '__compiletime_assert'
+     413 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:61:43: note: in expansion of macro '__unsigned_scalar_typeof'
+      61 | #define __bf_cast_unsigned(type, x)     ((__unsigned_scalar_typeof(type))(x))
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:72:34: note: in expansion of macro '__bf_cast_unsigned'
+      72 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:41: note: in expansion of macro 'FIELD_GET'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                         ^~~~~~~~~
+   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:69: note: in expansion of macro 'MHI_TRE_GET_DWORD'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                                                     ^~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:144:34: note: in expansion of macro 'MHI_TRE_GET_EV_STATE'
+     144 |                 __entry->state = MHI_TRE_GET_EV_STATE(rp);
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/mhi/host/../common.h:144:58: error: invalid type argument of '->' (have 'u64' {aka 'long long unsigned int'})
+     144 | #define MHI_TRE_GET_DWORD(tre, word)    le32_to_cpu((tre)->dword[(word)])
+         |                                                          ^~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:138:9: note: in expansion of macro 'TP_fast_assign'
+     138 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:41: note: in expansion of macro 'FIELD_GET'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                         ^~~~~~~~~
+   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:69: note: in expansion of macro 'MHI_TRE_GET_DWORD'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                                                     ^~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:144:34: note: in expansion of macro 'MHI_TRE_GET_EV_STATE'
+     144 |                 __entry->state = MHI_TRE_GET_EV_STATE(rp);
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:103:
+   drivers/bus/mhi/host/./trace.h: In function 'perf_trace_mhi_process_ctrl_ev_ring':
+>> drivers/bus/mhi/host/../common.h:144:58: error: invalid type argument of '->' (have 'u64' {aka 'long long unsigned int'})
+     144 | #define MHI_TRE_GET_DWORD(tre, word)    le32_to_cpu((tre)->dword[(word)])
+         |                                                          ^~
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:138:9: note: in expansion of macro 'TP_fast_assign'
+     138 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:413:9: note: in expansion of macro '__compiletime_assert'
+     413 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:61:43: note: in expansion of macro '__unsigned_scalar_typeof'
+      61 | #define __bf_cast_unsigned(type, x)     ((__unsigned_scalar_typeof(type))(x))
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:72:34: note: in expansion of macro '__bf_cast_unsigned'
+      72 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:41: note: in expansion of macro 'FIELD_GET'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                         ^~~~~~~~~
+   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:69: note: in expansion of macro 'MHI_TRE_GET_DWORD'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                                                     ^~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:144:34: note: in expansion of macro 'MHI_TRE_GET_EV_STATE'
+     144 |                 __entry->state = MHI_TRE_GET_EV_STATE(rp);
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/mhi/host/../common.h:144:58: error: invalid type argument of '->' (have 'u64' {aka 'long long unsigned int'})
+     144 | #define MHI_TRE_GET_DWORD(tre, word)    le32_to_cpu((tre)->dword[(word)])
+         |                                                          ^~
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:138:9: note: in expansion of macro 'TP_fast_assign'
+     138 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:41: note: in expansion of macro 'FIELD_GET'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                         ^~~~~~~~~
+   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
+      89 | #define le32_to_cpu __le32_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/bus/mhi/host/../common.h:159:69: note: in expansion of macro 'MHI_TRE_GET_DWORD'
+     159 | #define MHI_TRE_GET_EV_STATE(tre)       FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+         |                                                                     ^~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:144:34: note: in expansion of macro 'MHI_TRE_GET_EV_STATE'
+     144 |                 __entry->state = MHI_TRE_GET_EV_STATE(rp);
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +144 drivers/bus/mhi/host/../common.h
+
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  122  
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  123  /* Channel reset command */
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  124  #define MHI_TRE_CMD_RESET_PTR		0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  125  #define MHI_TRE_CMD_RESET_DWORD0	0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  126  #define MHI_TRE_CMD_RESET_DWORD1(chid)	cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  127  						    FIELD_PREP(GENMASK(23, 16),         \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  128  							       MHI_CMD_RESET_CHAN))
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  129  
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  130  /* Channel stop command */
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  131  #define MHI_TRE_CMD_STOP_PTR		0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  132  #define MHI_TRE_CMD_STOP_DWORD0		0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  133  #define MHI_TRE_CMD_STOP_DWORD1(chid)	cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  134  						    FIELD_PREP(GENMASK(23, 16),         \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  135  							       MHI_CMD_STOP_CHAN))
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  136  
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  137  /* Channel start command */
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  138  #define MHI_TRE_CMD_START_PTR		0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  139  #define MHI_TRE_CMD_START_DWORD0	0
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  140  #define MHI_TRE_CMD_START_DWORD1(chid)	cpu_to_le32(FIELD_PREP(GENMASK(31, 24), chid) | \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  141  						    FIELD_PREP(GENMASK(23, 16),         \
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  142  							       MHI_CMD_START_CHAN))
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  143  
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01 @144  #define MHI_TRE_GET_DWORD(tre, word)	le32_to_cpu((tre)->dword[(word)])
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  145  #define MHI_TRE_GET_CMD_CHID(tre)	FIELD_GET(GENMASK(31, 24), MHI_TRE_GET_DWORD(tre, 1))
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  146  #define MHI_TRE_GET_CMD_TYPE(tre)	FIELD_GET(GENMASK(23, 16), MHI_TRE_GET_DWORD(tre, 1))
+8485149c7a84bb Manivannan Sadhasivam 2022-03-01  147  
+
 -- 
-2.7.4
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
