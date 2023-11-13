@@ -1,217 +1,82 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C45A8BFC
-	for <mhi@lists.linux.dev>; Mon, 13 Nov 2023 00:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1B0210EA
+	for <mhi@lists.linux.dev>; Mon, 13 Nov 2023 14:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="M8JwBZdS"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AD0MgQ5012327;
-	Mon, 13 Nov 2023 00:32:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DDJAuqU6dNI49U0AqHcyTXIU3f3WNSMCiLfZf/s9yAY=;
- b=M8JwBZdS9kjGbrXOtjl8bbW7kA8VL5OS4i3Y/NbD8ODHKsL1/ooxtN3NwHzs4H6DIaJK
- Ot30nhV81U+2trRQqGbZw5R915G13NHwhXYm7YZ2MjVfxPxDdK61RmaNWRq6CB8GfLeh
- O3klLhQl/iCGwhkQUItJNLaOZNZyp/rfUyrgtBicLEXpIzz5hIvrNi3ZWKDldFl4ZcL1
- Rnaq5981txZMTBjjYqi/T5Vu+vc0dVAujYjCtbSDoj9f70OQVTtH+T1Q3mnjNcb5vgDR
- /pblHkJKAaAV0AjOfnYcZUcpXMdc7lfxrscnxomPGJTJlPYOeQgndmwnn6ldExRsrpMo XQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ua1q1jhhb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Nov 2023 00:32:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AD0W3IG029472
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Nov 2023 00:32:03 GMT
-Received: from [10.253.78.207] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Sun, 12 Nov
- 2023 16:32:01 -0800
-Message-ID: <6c21c0ae-ddaf-4c62-9017-1cbbf2eaa429@quicinc.com>
-Date: Mon, 13 Nov 2023 08:32:00 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W6ijUz7t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F321EC433C8;
+	Mon, 13 Nov 2023 14:15:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699884906;
+	bh=y1OMZ6z7efDhKj1vsokZwE/dfo0DW7No+kNt4zr/hMA=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=W6ijUz7t8wqqkvA4nNp8oJE1agaJUXkRQBBsP8k1HL8FXbHJAT7DbjYYosBg2Rj+r
+	 wsOed5P5VP1NobrIAd32YKDp77ZwSdWv0qtg1IeBcOy6Est+KeI9qIGxoXkQd+lqSe
+	 Rhhy8QboGRBOzxmeVy103L8BEVNmMkEzKw0JeB1ZYXZNrplw3b2jvv7wKlnR5ccr3d
+	 l8/CK0E34OOiH57X7Wjz/q/OpLq+a3Z9TP42z27CSnHuculfzcEgTVGyXq6VjKoTVl
+	 JtVRKkWMyIFmHqaOYxrGmM3Wz40d3l3vzseWNI1lou0aFZS1u93HDZV6g6ukXYOalr
+	 12WXmxxiowGHQ==
+From: Kalle Valo <kvalo@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: Baochen Qiang <quic_bqiang@quicinc.com>,  <mhi@lists.linux.dev>,
+  <ath11k@lists.infradead.org>,  <linux-wireless@vger.kernel.org>
+Subject: Re: [PATCH RFC 4/8] wifi: ath11k: remove MHI LOOPBACK channels
+References: <20231110102202.3168243-1-kvalo@kernel.org>
+	<20231110102202.3168243-5-kvalo@kernel.org>
+	<f56bce13-bba8-40d2-1dfc-210478ff63d6@quicinc.com>
+	<e2ad1380-d55f-42bd-9f40-ef8aa6e0f105@quicinc.com>
+	<818fddb9-b59e-7a6f-6605-2ba016d0db60@quicinc.com>
+Date: Mon, 13 Nov 2023 16:15:02 +0200
+In-Reply-To: <818fddb9-b59e-7a6f-6605-2ba016d0db60@quicinc.com> (Jeffrey
+	Hugo's message of "Sun, 12 Nov 2023 09:15:40 -0700")
+Message-ID: <87msvhu4d5.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/8] bus: mhi: host: add new interfaces to handle MHI
- channels directly
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Kalle Valo <kvalo@kernel.org>,
-        <mhi@lists.linux.dev>
-CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
-References: <20231110102202.3168243-1-kvalo@kernel.org>
- <20231110102202.3168243-3-kvalo@kernel.org>
- <2cb885fa-ab21-dd54-22ff-d23abfc7ea03@quicinc.com>
- <a822b44b-68ac-4383-b837-623dc86c8882@quicinc.com>
- <5d77e9da-4a83-547a-08d9-5d7626e2a600@quicinc.com>
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <5d77e9da-4a83-547a-08d9-5d7626e2a600@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: SJJzqyg095O3feHanflnttqzCFE8Qzx6
-X-Proofpoint-ORIG-GUID: SJJzqyg095O3feHanflnttqzCFE8Qzx6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-12_24,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311130002
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
 
-On 11/13/2023 12:18 AM, Jeffrey Hugo wrote:
-> On 11/11/2023 8:59 PM, Baochen Qiang wrote:
->>
->> On 11/11/2023 1:14 AM, Jeffrey Hugo wrote:
+> On 11/11/2023 9:24 PM, Baochen Qiang wrote:
+>
+>> On 11/11/2023 12:54 AM, Jeffrey Hugo wrote:
 >>> On 11/10/2023 3:21 AM, Kalle Valo wrote:
 >>>> From: Baochen Qiang <quic_bqiang@quicinc.com>
 >>>>
->>>> When using mhi_power_down_no_destroy() MHI hosts need to unprepare 
->>>> MHI channels
->>>> by themselves.  Similarly, MHI stack will also not create new MHI 
->>>> device since
->>>> old devices were not destroyed, so MHI hosts need to prepare 
->>>> channels as well.
->>>> Hence add these two interfaces to make that possible.
+>>>> There is no driver to match these two channels, so
+>>>> remove them. This fixes warnings from MHI subsystem during suspend:
 >>>>
->>>> Tested-on: WCN6855 hw2.0 PCI 
->>>> WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
->>>>
->>>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
->>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
->>>> ---
->>>>   drivers/bus/mhi/host/main.c | 91 
->>>> +++++++++++++++++++++++++++++++++++++
->>>>   include/linux/mhi.h         | 18 ++++++++
->>>>   2 files changed, 109 insertions(+)
->>>>
->>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>>> index dcf627b36e82..9bcf8a49c000 100644
->>>> --- a/drivers/bus/mhi/host/main.c
->>>> +++ b/drivers/bus/mhi/host/main.c
->>>> @@ -1667,6 +1667,49 @@ int 
->>>> mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
->>>>   }
->>>>   EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
->>>>   +static int __mhi_prepare_for_transfer_autoqueue(struct device 
->>>> *dev, void *data)
->>>> +{
->>>> +    struct mhi_device *mhi_dev;
->>>> +    struct mhi_chan *ul_chan, *dl_chan;
->>>> +    enum mhi_ee_type ee = MHI_EE_MAX;
->>>> +
->>>> +    if (dev->bus != &mhi_bus_type)
->>>> +        return 0;
->>>> +
->>>> +    mhi_dev = to_mhi_device(dev);
->>>> +
->>>> +    /* Only prepare virtual devices thats attached to bus */
+>>>> mhi mhi0_LOOPBACK: 1: Failed to reset channel, still resetting
+>>>> mhi mhi0_LOOPBACK: 0: Failed to reset channel, still resetting
 >>>
->>> "that are"?
+>>> This feels like just masking a real issue.
 >>>
->> It means MHI devices with a type of MHI_DEVICE_XFER. See also 
->> mhi_destroy_device();
->
-> I think you are confused about my comment.  "thats" is not correct 
-> English.  I was suggesting you replace it with "that are", but there 
-> are many ways to reword the comment.
-
-Sorry for misunderstood your comment. Will refine it in next version.
-
-
->
->>
->>
->>>> +    if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
->>>> +        return 0;
->>>> +
->>>> +    ul_chan = mhi_dev->ul_chan;
->>>> +    dl_chan = mhi_dev->dl_chan;
->>>> +
->>>> +    /*
->>>> +     * If execution environment is specified, remove only those 
->>>> devices that
->>>> +     * started in them based on ee_mask for the channels as we 
->>>> move on to a
->>>> +     * different execution environment
->>>> +     */
->>>> +    if (data)
->>>> +        ee = *(enum mhi_ee_type *)data;
->>>> +
->>>> +    if (ul_chan && ee != MHI_EE_MAX && !(ul_chan->ee_mask & BIT(ee)))
->>>> +        return 0;
->>>> +
->>>> +
->>>> +    if (dl_chan && ee != MHI_EE_MAX && !(dl_chan->ee_mask & BIT(ee)))
->>>> +        return 0;
->>>> +
->>>> +    return mhi_prepare_for_transfer_autoqueue(mhi_dev);
->>>> +}
->>>> +
->>>> +int mhi_prepare_all_for_transfer_autoqueue(struct mhi_controller 
->>>> *mhi_cntrl)
->>>> +{
->>>> +    return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
->>>> +                     __mhi_prepare_for_transfer_autoqueue);
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(mhi_prepare_all_for_transfer_autoqueue);
+>>> If LOOPBACK is not being consumed, then the channel should never go
+>>> into the start state.=C2=A0 Why would we be trying to transition to the
+>>> reset state then?
 >>>
->>> This seems broken.  It appears to configure all channels as 
->>> autoqueue, regardless of how the controller initially configured 
->>> them.  This would only be safe to use if all channels were 
->>> configured for autoqueue, but would silently cause issues otherwise.
->>
->> Thanks for pointing that. Yes, it is not correct to treat all 
->> channels as autoqueue regardless of its initial configuration. So how 
->> about change as below:
+>>> -Jeff
+>> That is because, with patch 'bus: mhi: host: add new interfaces to
+>> handle MHI channels directly' in this patch set, ath11k is able to
+>> call mhi_unprepare_all_from_transfer(), which will reset all
+>> channels.
 >
-> Seems ok.
+> that implementation is flawed if it is causing this.  Looks like you
+> never check to see if the channel was prepared in the first place.
 >
->>
->> /* The difference between mhi_prepare_for_transfer_autoqueue() and 
->> mhi_prepare_for_transfer() comes from how to treat downlink channel */
->>
->> mhi_prepare_for_transfer_dev(struct device *dev, ...)
->>
->> {
->>
->> ...
->>
->> dl_chan = mhi_dev->dl_chan;
->>
->> ...
->>
->> if (dl_chan->pre_alloc)
->>
->>         mhi_prepare_for_transfer_autoqueue(dev);
->>
->> else
->>
->>         mhi_prepare_for_transfer(dev);
->>
->> }
->>
->> /* And then iterate all devices and call 
->> mhi_prepare_for_transfer_dev() for each. */
->>
->> int mhi_prepare_all_for_transfer(struct mhi_controller *mhi_cntrl)
->> {
->>      return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
->>                       mhi_prepare_for_transfer_dev);
->> }
->> EXPORT_SYMBOL_GPL(mhi_prepare_all_for_transfer);
->>
->
+> If you go fix that, then it looks like this change is not needed.
+
+BTW what do these loopback channels do? I didn't notice any difference
+in the functionality so I'm wondering the reason for these.
+
+--=20
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
+hes
