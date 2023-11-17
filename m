@@ -1,131 +1,133 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA49511715
-	for <mhi@lists.linux.dev>; Tue, 14 Nov 2023 06:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14013DDB3
+	for <mhi@lists.linux.dev>; Fri, 17 Nov 2023 07:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FC6JXz+g"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AE4Sxl7023973;
-	Tue, 14 Nov 2023 06:17:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VfR1d3VfvowgfP3Ve6H+Nvh15iZ5w1IgG2Yr/nNYKR4=;
- b=FC6JXz+g9VcoycoubupLl13Gue3FT0OQ+MKb8/trFL0zZr8hw0iwvWhWj8GGFF9UDkDz
- YF/LMj3zJxtXz+DGukcalVDKUQQuS6JUC101eg+R48kUliPP4ebNpOuAMYC2n1aGdtlN
- iLrbDcoPRxupD0ufeTo4u1nC7yIOdSM7XNjZbzR7ds1OnWQsNVlXuAanyAFTMi3q1Kpe
- haUMbIyNWqf5yN5tXgwzmUfpUKuK/gkW0x+MoJUVEHkTiEZT0gs140DFQn7qjMoUzcys
- dv9T0pr42PPNl5zLq2NpK+0mzIyPqo6aaKa0n8ywB9AeUCWhk8USyxmJtfxg8/+Oyak+ hg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ubqfdhewq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 06:17:41 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AE6Helh016164
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 06:17:40 GMT
-Received: from [10.253.8.153] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
- 2023 22:17:38 -0800
-Message-ID: <c93b6043-2acf-4adc-9e6c-922038c23518@quicinc.com>
-Date: Tue, 14 Nov 2023 14:17:38 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="akCji0zf"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ba54c3ed97so1725006b3a.2
+        for <mhi@lists.linux.dev>; Thu, 16 Nov 2023 23:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700204768; x=1700809568; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BFhGxb0d8TVHFbBvoHAaCR3/jKcNUFSpf4eO7oktV0o=;
+        b=akCji0zfnajfPKmqegS0pq6YD8Q4HgIxXInrtuFwvrVwQUW53w+iGhDxe2Fe/gj7P3
+         hIaYCCt/5AqnU2iA1Gj9UdQ67j0OnIYGD7QHYHPhmW4mMClbVcSfM4fpaOIaYC4ha1gx
+         iUdLrfeLlnHr0yJHBi0JiAftIDmEbJWFbY+F0hov1zYV+RmpNCr/P4b2vz1jnYgDrUUe
+         wOpTR4CnIX1t8perlBIHgilX1L/lQiSfhk3ND74DdboQW2DpqK/hAV22uyjTOvAKEJIZ
+         14AwYkdmVAn929qaWoe3+6GTV+OPoQ1WnrUXD082nRbNux9L0pNTn/PgMCGBs9YJwU4N
+         K4tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700204768; x=1700809568;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFhGxb0d8TVHFbBvoHAaCR3/jKcNUFSpf4eO7oktV0o=;
+        b=Vzrcb8kTgj8YXjLkhN8hzo92Cdq/AENFwVzwmCVcVlZAJS0Ex286neCMo3rQqmW+wQ
+         TM/2DVqw1Czmfk6Pjfxfl4d3ze2/p8MjJu4PhcT9oJSBjtWsAplMRIhzw6oSSkgvCuch
+         Wg4569fUttF82enC4whFowJv4dNux+77LqMO6NNvjZpB62oqjffGyVYvevG0Qp9HHw7p
+         pH0VyThxbPxPS+VUtosdWYpe7OdqFAxQjVCX+zSPwtZjvCGgfziqnbzAUlwi3GchGwTY
+         T8rqMI5ClcvvRrBOEmfKnKSxr4lvszGd1G7wzKkv8iOMO9jO/8qpRQhFxxkqKJQTfZzS
+         GDwA==
+X-Gm-Message-State: AOJu0YzGnq/sdwxBl0CaYGyHZ30Bq9dw/Cj+asjXzoO7suVAoigqRBgG
+	Q5g7EbzstxGnonfSd5re1G7/
+X-Google-Smtp-Source: AGHT+IGfIVkXhPOQhA7r6TpFkqTZFEQ5G2MrI3+aG3pqqr9Ey+8Q4SuY6v/Fxjje7LBfSrP37jc2EQ==
+X-Received: by 2002:a05:6a21:6d96:b0:186:4430:5d16 with SMTP id wl22-20020a056a216d9600b0018644305d16mr19580645pzb.61.1700204768220;
+        Thu, 16 Nov 2023 23:06:08 -0800 (PST)
+Received: from thinkpad ([103.28.246.177])
+        by smtp.gmail.com with ESMTPSA id z13-20020a056a00240d00b006c320b9897fsm785013pfh.126.2023.11.16.23.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 23:06:07 -0800 (PST)
+Date: Fri, 17 Nov 2023 12:36:02 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loic.poulain@linaro.org
+Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
+Message-ID: <20231117070602.GA10361@thinkpad>
+References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
+ <20230607094922.43106896@kernel.org>
+ <20230607171153.GA109456@thinkpad>
+ <20230607104350.03a51711@kernel.org>
+ <20230608123720.GC5672@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] bus: mhi: host: Avoid processing buffer and event
- of a disable channel
-Content-Language: en-US
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
-References: <1699341365-47737-1-git-send-email-quic_qianyu@quicinc.com>
- <1699341365-47737-4-git-send-email-quic_qianyu@quicinc.com>
- <20231109163253.GL3752@thinkpad>
- <808f8982-8c2c-40ed-9fb9-1c9932c8db28@quicinc.com>
-In-Reply-To: <808f8982-8c2c-40ed-9fb9-1c9932c8db28@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: zIFz7VrSYQWSLwhYSt0U8TMYYiMf2SV-
-X-Proofpoint-ORIG-GUID: zIFz7VrSYQWSLwhYSt0U8TMYYiMf2SV-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-14_04,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 adultscore=0 mlxscore=0 clxscore=1015
- malwarescore=0 suspectscore=0 mlxlogscore=692 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311140046
+In-Reply-To: <20230608123720.GC5672@thinkpad>
 
+Hi Jakub,
 
-On 11/10/2023 11:38 AM, Qiang Yu wrote:
->
-> On 11/10/2023 12:32 AM, Manivannan Sadhasivam wrote:
->> On Tue, Nov 07, 2023 at 03:16:04PM +0800, Qiang Yu wrote:
->>> Ckeck mhi channel state after getting chan->lock to ensure that we only
->>> queue buffer to an enabled channel and process event of an enabled 
->>> channel.
->>>
->> This commit message doesn't give proper explanation on how the 
->> channel can go to
->> disabled state in between parse_xfer_event() and mhi_gen_tre().
->>
->> - Mani
->
-> Hi Mani. How about following commit message
->
-> MHI channel state is protected by mhi_chan->lock. Hence, after core drops
-> mhi_chan->lock during processing xfer event, it can not prevent channel
-> state being changed if client closes channel or driver is removed at this
-> time. So let's check mhi channel state after getting chan->lock again 
-> to avoid
-> queuing buffer to a disabled channel in xfer callback and stop processing
-> event of the disabled channel.
-Hi Mani, Have updated this commit message in V4 patch, hope get your 
-comments.
->
->>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->>> ---
->>>   drivers/bus/mhi/host/main.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>> index a236dc2..b137d54 100644
->>> --- a/drivers/bus/mhi/host/main.c
->>> +++ b/drivers/bus/mhi/host/main.c
->>> @@ -672,6 +672,8 @@ static int parse_xfer_event(struct 
->>> mhi_controller *mhi_cntrl,
->>>               }
->>>                 read_lock_bh(&mhi_chan->lock);
->>> +            if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
->>> +                goto end_process_tx_event;
->>>           }
->>>           break;
->>>       } /* CC_EOT */
->>> @@ -1211,6 +1213,8 @@ int mhi_gen_tre(struct mhi_controller 
->>> *mhi_cntrl, struct mhi_chan *mhi_chan,
->>>         /* Protect accesses for reading and incrementing WP */
->>>       write_lock_bh(&mhi_chan->lock);
->>> +    if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED)
->>> +        return -EINVAL;
->>>         buf_ring = &mhi_chan->buf_ring;
->>>       tre_ring = &mhi_chan->tre_ring;
->>> -- 
->>> 2.7.4
->>>
->>>
->
+On Thu, Jun 08, 2023 at 06:07:20PM +0530, Manivannan Sadhasivam wrote:
+> On Wed, Jun 07, 2023 at 10:43:50AM -0700, Jakub Kicinski wrote:
+> > On Wed, 7 Jun 2023 22:41:53 +0530 Manivannan Sadhasivam wrote:
+> > > > In any case, I'm opposed to reuse of the networking stack to talk
+> > > > to firmware. It's a local device. The networking subsystem doesn't
+> > > > have to cater to fake networks. Please carry:
+> > > > 
+> > > > Nacked-by: Jakub Kicinski <kuba@kernel.org>
+> > > > 
+> > > > if there are future submissions.  
+> > > 
+> > > Why shouldn't it be? With this kind of setup one could share the data connectivity
+> > > available in the device with the host over IP tunneling. If the IP source in the
+> > > device (like modem DSP) has no way to be shared with the host, then those IP
+> > > packets could be tunneled through this interface for providing connectivity to
+> > > the host.
+> > > 
+> > > I believe this is a common usecase among the PCIe based wireless endpoint
+> > > devices.
+> > 
+> > We can handwave our way into many scenarios and terrible architectures.
+> > I don't see any compelling reason to merge this.
+> 
+> These kind of usecases exist in the products out there in the market. Regarding
+> your comment on "opposed to reuse of the network stack to talk to firmware", it
+> not the just the firmware, it is the device in general that is talking to the
+> host over this interface. And I don't see how different it is from the host
+> perspective.
+> 
+> And these kind of scenarios exist with all types of interfaces like usb-gadget,
+> virtio etc... So not sure why the rule is different for networking subsystem.
+> 
+
+Sorry to revive this old thread, this discussion seems to have fell through the
+cracks...
+
+As I explained above, other interfaces also expose this kind of functionality
+between host and the device. One of the credible usecase with this driver is
+sharing the network connectivity available in either host or the device with the
+other end.
+
+To make it clear, we have 2 kind of channels exposed by MHI for networking.
+
+1. IP_SW0
+2. IP_HW0
+
+IP_SW0 is useful in scenarios I explained above and IP_HW0 is purely used to
+provide data connectivity to the host machines with the help of modem IP in the
+device. And the host side stack is already well supported in mainline. With the
+proposed driver, Linux can run on the device itself and it will give Qcom a
+chance to get rid of their proprietary firmware used on the PCIe endpoint
+devices like modems, etc...
+
+- Mani
+
+> - Mani
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
+
+-- 
+மணிவண்ணன் சதாசிவம்
