@@ -1,47 +1,47 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7A31DFD2
-	for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 12:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE1718E11
+	for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 12:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UluO0Yjd"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6ce322b62aeso2382249a34.3
-        for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 04:46:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KkYM/AzY"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-77d67000b69so237081785a.2
+        for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 04:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701089166; x=1701693966; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701089171; x=1701693971; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=39EwDzZn0NPRyj1qXqtCdOxw1lfeEL1OF+pNH5oiRHU=;
-        b=UluO0Yjdcag2Cs9/GDAeAN93Ft7OBQ8Hirn7KQ5JdMOwHWAFKMDSvwvN9541fvBihQ
-         mCXv5kVsBVBJWHVLArys/5LAmWem7QwwGfMU25cLKeIbKB/NL6uV56g/LOxuWseqS+HX
-         o224Sq04aqsXeZ1KjYMtuF5R+Iwt91oTouHC0f2LccFhmrVc9FypLkof6GO3xZTulhB+
-         g+n7FTyiH4BRr1RPCjO+HMRXgyNqjiCp/jVz+4OxFCwgLGW4URB+SVwtSjpOSrwMg3wa
-         UQkTEpHD1Y1pYuyUpe8lXCN00svZ0UaajWYxRwBJS+s7wY0YvYx5+Q4Q9jCvJps2keb/
-         Ps9w==
+        bh=n0WeQVv6xDz1fA7FB+siaDKsF7jHm7RdEkvM6+sXcAk=;
+        b=KkYM/AzY71xDVpP+qD6jqliT3VELwUaut7XxJE2m9vyHQU5KznfhNfwvDayWTsyprq
+         Wk3Q+KR+O9hM7jbEBnAEx2OGEysFCMNsDvbIjIkHryZaUOjIPRBdulV0cmgnOLdHJuEc
+         h0kXXVV6xyWbq9HxyyQk2t2TN5SfS8nSqsTNnqIZUJckx0QwW5uDbdXQPXyGMNJ4vB67
+         mLI4aGeBT+mwyjqh8/jA159tDLPprArLkm4AG2pSoya8cawfEZmHbZ84y9V9fLzho/Fx
+         3cvcGScui8G8sbE5qZWAJqS/lwCr1oRC2s4rweYVyzuIIR6W+/mQtGnfmtVcQtion1Q/
+         gVlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701089166; x=1701693966;
+        d=1e100.net; s=20230601; t=1701089171; x=1701693971;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=39EwDzZn0NPRyj1qXqtCdOxw1lfeEL1OF+pNH5oiRHU=;
-        b=FDZc6unPt/yxbUHjPLDpel8rxBtzC7P8X9ARkTsZIwgm41iRRWqQ0UXo9Eejl2oNEj
-         4rRMPre06rbtTdxfyqe+0S6eYnIYEfVZxv0hQiwRaY4KPl3wjzSJMRZz/PCdCOzQzaht
-         sbE1tLQmRTDn/Tx1KLvdJ1HTbNgqeJ2avUtuwM1J5PO1AVNfuu99Q9VYqO0T/OlvWSVb
-         HBx8bcP6kbxekjxgiKT3f5lzdkjgNE+ZVEEQa/TKFp3bWKwJgtZJjYC2kLTSL+57RtCe
-         D0pnQopWpcYrVL3vCnp9Vl1JSgbvYxqYkKaG2YkskDmz3w46XxD83mpX/RmDVUbOxCHo
-         HvPQ==
-X-Gm-Message-State: AOJu0Yw/HVDb6hMLkjXRoJG2brhvPzfdsrizJvXfFg5AZwW1KXyPk/ha
-	ZZATAHCGTAFtsoSpFyxWZyaI
-X-Google-Smtp-Source: AGHT+IEf9XxgXqwBznbFGVOrIEZhtalj01eODY8VxfKTHk4t+FUDBuAKGwYEb/qCa5BZABeEE4aKxA==
-X-Received: by 2002:a9d:6c91:0:b0:6bc:63c9:7946 with SMTP id c17-20020a9d6c91000000b006bc63c97946mr12684837otr.14.1701089166388;
-        Mon, 27 Nov 2023 04:46:06 -0800 (PST)
+        bh=n0WeQVv6xDz1fA7FB+siaDKsF7jHm7RdEkvM6+sXcAk=;
+        b=LuOxdpEi53TSR/fKcI0JTaBxiL9tKofvdMqBz/+SDOQeEOVAK+eTY6qLUV9UplttNz
+         WNQhz6QNF2V6ByHSSrP9Reto87+P/ysR9ojlPGS2YUOoouu08ILrTxAMJJTqgpdZERcm
+         XQnEGr5JFg4B8auc1VW5y6IB/oBldMNlohfYazAtM+CqmJiXasnVzeKpZUiKEpyvL8qV
+         sah7H91e0NmlVYGIJLmy3iWknyA86O6bPxuxM2AEa1bXNswX9duwmiB58gt8NDBlTLZk
+         9KvckHcb5G2n7hHRTdDceWfNmQMl+Ko0sa5jOi8klZDIECUQzdxAxmy6srqzKe4eBULC
+         twaw==
+X-Gm-Message-State: AOJu0YySy4+jrZf7xlZkO4OGzYw2BP+bdmjHNF9UYBY0OV5N7hzZiJD0
+	gafkZ21MFiB7CV1i5pQIkwhz
+X-Google-Smtp-Source: AGHT+IERxAcM9ld/cVONnYwD9Qw8esi9QM+/QvFXWK+aoyDNWVgo9aOd0jymm0Z4uVeT5EbnhzFY6g==
+X-Received: by 2002:a05:6214:469b:b0:67a:35f3:4408 with SMTP id or27-20020a056214469b00b0067a35f34408mr9911296qvb.31.1701089170905;
+        Mon, 27 Nov 2023 04:46:10 -0800 (PST)
 Received: from localhost.localdomain ([117.213.103.241])
-        by smtp.gmail.com with ESMTPSA id er10-20020a056214190a00b0067a204b4688sm2832231qvb.18.2023.11.27.04.46.02
+        by smtp.gmail.com with ESMTPSA id er10-20020a056214190a00b0067a204b4688sm2832231qvb.18.2023.11.27.04.46.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 04:46:06 -0800 (PST)
+        Mon, 27 Nov 2023 04:46:10 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: lpieralisi@kernel.org,
 	kw@linux.com
@@ -52,9 +52,9 @@ Cc: kishon@kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 5/9] PCI: epf-mhi: Add support for DMA async read/write operation
-Date: Mon, 27 Nov 2023 18:15:25 +0530
-Message-Id: <20231127124529.78203-6-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 6/9] PCI: epf-mhi: Enable MHI async read/write support
+Date: Mon, 27 Nov 2023 18:15:26 +0530
+Message-Id: <20231127124529.78203-7-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
 References: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
@@ -66,303 +66,38 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver currently supports only the sync read/write operation i.e., it
-waits for the DMA transfer to complete before returning to the caller
-(MHI stack). But it is sub-optimal and defeats the actual purpose of using
-DMA.
+Now that both eDMA and iATU are prepared to support async transfer, let's
+enable MHI async read/write by supplying the relevant callbacks.
 
-So let's add support for DMA async read/write operation by skipping the DMA
-transfer completion and returning to the caller immediately. When the
-completion actually happens later, the driver will be notified using the
-DMA completion handler and in turn it will notify the caller using the
-newly introduced callback in "struct mhi_ep_buf_info".
-
-Since the DMA completion handler is invoked from the interrupt context, a
-separate workqueue (epf_mhi->dma_wq) is used to notify the caller about the
-completion of the transfer.
+In the absence of eDMA, iATU will be used for both sync and async
+operations.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 231 ++++++++++++++++++-
- 1 file changed, 228 insertions(+), 3 deletions(-)
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index 7214f4da733b..3d09a37e5f7c 100644
+index 3d09a37e5f7c..d3d6a1054036 100644
 --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
 +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -21,6 +21,15 @@
- /* Platform specific flags */
- #define MHI_EPF_USE_DMA BIT(0)
- 
-+struct pci_epf_mhi_dma_transfer {
-+	struct pci_epf_mhi *epf_mhi;
-+	struct mhi_ep_buf_info buf_info;
-+	struct list_head node;
-+	dma_addr_t paddr;
-+	enum dma_data_direction dir;
-+	size_t size;
-+};
-+
- struct pci_epf_mhi_ep_info {
- 	const struct mhi_ep_cntrl_config *config;
- 	struct pci_epf_header *epf_header;
-@@ -124,6 +133,10 @@ struct pci_epf_mhi {
- 	resource_size_t mmio_phys;
- 	struct dma_chan *dma_chan_tx;
- 	struct dma_chan *dma_chan_rx;
-+	struct workqueue_struct *dma_wq;
-+	struct work_struct dma_work;
-+	struct list_head dma_list;
-+	spinlock_t list_lock;
- 	u32 mmio_size;
- 	int irq;
- };
-@@ -418,6 +431,198 @@ static int pci_epf_mhi_edma_write(struct mhi_ep_cntrl *mhi_cntrl,
- 	return ret;
- }
- 
-+static void pci_epf_mhi_dma_worker(struct work_struct *work)
-+{
-+	struct pci_epf_mhi *epf_mhi = container_of(work, struct pci_epf_mhi, dma_work);
-+	struct device *dma_dev = epf_mhi->epf->epc->dev.parent;
-+	struct pci_epf_mhi_dma_transfer *itr, *tmp;
-+	struct mhi_ep_buf_info *buf_info;
-+	unsigned long flags;
-+	LIST_HEAD(head);
-+
-+	spin_lock_irqsave(&epf_mhi->list_lock, flags);
-+	list_splice_tail_init(&epf_mhi->dma_list, &head);
-+	spin_unlock_irqrestore(&epf_mhi->list_lock, flags);
-+
-+	list_for_each_entry_safe(itr, tmp, &head, node) {
-+		list_del(&itr->node);
-+		dma_unmap_single(dma_dev, itr->paddr, itr->size, itr->dir);
-+		buf_info = &itr->buf_info;
-+		buf_info->cb(buf_info);
-+		kfree(itr);
-+	}
-+}
-+
-+static void pci_epf_mhi_dma_async_callback(void *param)
-+{
-+	struct pci_epf_mhi_dma_transfer *transfer = param;
-+	struct pci_epf_mhi *epf_mhi = transfer->epf_mhi;
-+
-+	spin_lock(&epf_mhi->list_lock);
-+	list_add_tail(&transfer->node, &epf_mhi->dma_list);
-+	spin_unlock(&epf_mhi->list_lock);
-+
-+	queue_work(epf_mhi->dma_wq, &epf_mhi->dma_work);
-+}
-+
-+static int pci_epf_mhi_edma_read_async(struct mhi_ep_cntrl *mhi_cntrl,
-+				       struct mhi_ep_buf_info *buf_info)
-+{
-+	struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
-+	struct device *dma_dev = epf_mhi->epf->epc->dev.parent;
-+	struct pci_epf_mhi_dma_transfer *transfer = NULL;
-+	struct dma_chan *chan = epf_mhi->dma_chan_rx;
-+	struct device *dev = &epf_mhi->epf->dev;
-+	DECLARE_COMPLETION_ONSTACK(complete);
-+	struct dma_async_tx_descriptor *desc;
-+	struct dma_slave_config config = {};
-+	dma_cookie_t cookie;
-+	dma_addr_t dst_addr;
-+	int ret;
-+
-+	mutex_lock(&epf_mhi->lock);
-+
-+	config.direction = DMA_DEV_TO_MEM;
-+	config.src_addr = buf_info->host_addr;
-+
-+	ret = dmaengine_slave_config(chan, &config);
-+	if (ret) {
-+		dev_err(dev, "Failed to configure DMA channel\n");
-+		goto err_unlock;
-+	}
-+
-+	dst_addr = dma_map_single(dma_dev, buf_info->dev_addr, buf_info->size,
-+				  DMA_FROM_DEVICE);
-+	ret = dma_mapping_error(dma_dev, dst_addr);
-+	if (ret) {
-+		dev_err(dev, "Failed to map remote memory\n");
-+		goto err_unlock;
-+	}
-+
-+	desc = dmaengine_prep_slave_single(chan, dst_addr, buf_info->size,
-+					   DMA_DEV_TO_MEM,
-+					   DMA_CTRL_ACK | DMA_PREP_INTERRUPT);
-+	if (!desc) {
-+		dev_err(dev, "Failed to prepare DMA\n");
-+		ret = -EIO;
-+		goto err_unmap;
-+	}
-+
-+	transfer = kzalloc(sizeof(*transfer), GFP_KERNEL);
-+	if (!transfer) {
-+		ret = -ENOMEM;
-+		goto err_unmap;
-+	}
-+
-+	transfer->epf_mhi = epf_mhi;
-+	transfer->paddr = dst_addr;
-+	transfer->size = buf_info->size;
-+	transfer->dir = DMA_FROM_DEVICE;
-+	memcpy(&transfer->buf_info, buf_info, sizeof(*buf_info));
-+
-+	desc->callback = pci_epf_mhi_dma_async_callback;
-+	desc->callback_param = transfer;
-+
-+	cookie = dmaengine_submit(desc);
-+	ret = dma_submit_error(cookie);
-+	if (ret) {
-+		dev_err(dev, "Failed to do DMA submit\n");
-+		goto err_free_transfer;
-+	}
-+
-+	dma_async_issue_pending(chan);
-+
-+	goto err_unlock;
-+
-+err_free_transfer:
-+	kfree(transfer);
-+err_unmap:
-+	dma_unmap_single(dma_dev, dst_addr, buf_info->size, DMA_FROM_DEVICE);
-+err_unlock:
-+	mutex_unlock(&epf_mhi->lock);
-+
-+	return ret;
-+}
-+
-+static int pci_epf_mhi_edma_write_async(struct mhi_ep_cntrl *mhi_cntrl,
-+					struct mhi_ep_buf_info *buf_info)
-+{
-+	struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
-+	struct device *dma_dev = epf_mhi->epf->epc->dev.parent;
-+	struct pci_epf_mhi_dma_transfer *transfer = NULL;
-+	struct dma_chan *chan = epf_mhi->dma_chan_tx;
-+	struct device *dev = &epf_mhi->epf->dev;
-+	DECLARE_COMPLETION_ONSTACK(complete);
-+	struct dma_async_tx_descriptor *desc;
-+	struct dma_slave_config config = {};
-+	dma_cookie_t cookie;
-+	dma_addr_t src_addr;
-+	int ret;
-+
-+	mutex_lock(&epf_mhi->lock);
-+
-+	config.direction = DMA_MEM_TO_DEV;
-+	config.dst_addr = buf_info->host_addr;
-+
-+	ret = dmaengine_slave_config(chan, &config);
-+	if (ret) {
-+		dev_err(dev, "Failed to configure DMA channel\n");
-+		goto err_unlock;
-+	}
-+
-+	src_addr = dma_map_single(dma_dev, buf_info->dev_addr, buf_info->size,
-+				  DMA_TO_DEVICE);
-+	ret = dma_mapping_error(dma_dev, src_addr);
-+	if (ret) {
-+		dev_err(dev, "Failed to map remote memory\n");
-+		goto err_unlock;
-+	}
-+
-+	desc = dmaengine_prep_slave_single(chan, src_addr, buf_info->size,
-+					   DMA_MEM_TO_DEV,
-+					   DMA_CTRL_ACK | DMA_PREP_INTERRUPT);
-+	if (!desc) {
-+		dev_err(dev, "Failed to prepare DMA\n");
-+		ret = -EIO;
-+		goto err_unmap;
-+	}
-+
-+	transfer = kzalloc(sizeof(*transfer), GFP_KERNEL);
-+	if (!transfer) {
-+		ret = -ENOMEM;
-+		goto err_unmap;
-+	}
-+
-+	transfer->epf_mhi = epf_mhi;
-+	transfer->paddr = src_addr;
-+	transfer->size = buf_info->size;
-+	transfer->dir = DMA_TO_DEVICE;
-+	memcpy(&transfer->buf_info, buf_info, sizeof(*buf_info));
-+
-+	desc->callback = pci_epf_mhi_dma_async_callback;
-+	desc->callback_param = transfer;
-+
-+	cookie = dmaengine_submit(desc);
-+	ret = dma_submit_error(cookie);
-+	if (ret) {
-+		dev_err(dev, "Failed to do DMA submit\n");
-+		goto err_free_transfer;
-+	}
-+
-+	dma_async_issue_pending(chan);
-+
-+	goto err_unlock;
-+
-+err_free_transfer:
-+	kfree(transfer);
-+err_unmap:
-+	dma_unmap_single(dma_dev, src_addr, buf_info->size, DMA_TO_DEVICE);
-+err_unlock:
-+	mutex_unlock(&epf_mhi->lock);
-+
-+	return ret;
-+}
-+
- struct epf_dma_filter {
- 	struct device *dev;
- 	u32 dma_mask;
-@@ -441,6 +646,7 @@ static int pci_epf_mhi_dma_init(struct pci_epf_mhi *epf_mhi)
- 	struct device *dev = &epf_mhi->epf->dev;
- 	struct epf_dma_filter filter;
- 	dma_cap_mask_t mask;
-+	int ret;
- 
- 	dma_cap_zero(mask);
- 	dma_cap_set(DMA_SLAVE, mask);
-@@ -459,16 +665,35 @@ static int pci_epf_mhi_dma_init(struct pci_epf_mhi *epf_mhi)
- 						   &filter);
- 	if (IS_ERR_OR_NULL(epf_mhi->dma_chan_rx)) {
- 		dev_err(dev, "Failed to request rx channel\n");
--		dma_release_channel(epf_mhi->dma_chan_tx);
--		epf_mhi->dma_chan_tx = NULL;
--		return -ENODEV;
-+		ret = -ENODEV;
-+		goto err_release_tx;
-+	}
-+
-+	epf_mhi->dma_wq = alloc_workqueue("pci_epf_mhi_dma_wq", 0, 0);
-+	if (!epf_mhi->dma_wq) {
-+		ret = -ENOMEM;
-+		goto err_release_rx;
+@@ -766,12 +766,13 @@ static int pci_epf_mhi_link_up(struct pci_epf *epf)
+ 	mhi_cntrl->raise_irq = pci_epf_mhi_raise_irq;
+ 	mhi_cntrl->alloc_map = pci_epf_mhi_alloc_map;
+ 	mhi_cntrl->unmap_free = pci_epf_mhi_unmap_free;
++	mhi_cntrl->read_sync = mhi_cntrl->read_async = pci_epf_mhi_iatu_read;
++	mhi_cntrl->write_sync = mhi_cntrl->write_async = pci_epf_mhi_iatu_write;
+ 	if (info->flags & MHI_EPF_USE_DMA) {
+ 		mhi_cntrl->read_sync = pci_epf_mhi_edma_read;
+ 		mhi_cntrl->write_sync = pci_epf_mhi_edma_write;
+-	} else {
+-		mhi_cntrl->read_sync = pci_epf_mhi_iatu_read;
+-		mhi_cntrl->write_sync = pci_epf_mhi_iatu_write;
++		mhi_cntrl->read_async = pci_epf_mhi_edma_read_async;
++		mhi_cntrl->write_async = pci_epf_mhi_edma_write_async;
  	}
  
-+	INIT_LIST_HEAD(&epf_mhi->dma_list);
-+	INIT_WORK(&epf_mhi->dma_work, pci_epf_mhi_dma_worker);
-+	spin_lock_init(&epf_mhi->list_lock);
-+
- 	return 0;
-+
-+err_release_rx:
-+	dma_release_channel(epf_mhi->dma_chan_rx);
-+	epf_mhi->dma_chan_rx = NULL;
-+err_release_tx:
-+	dma_release_channel(epf_mhi->dma_chan_tx);
-+	epf_mhi->dma_chan_tx = NULL;
-+
-+	return ret;
- }
- 
- static void pci_epf_mhi_dma_deinit(struct pci_epf_mhi *epf_mhi)
- {
-+	destroy_workqueue(epf_mhi->dma_wq);
- 	dma_release_channel(epf_mhi->dma_chan_tx);
- 	dma_release_channel(epf_mhi->dma_chan_rx);
- 	epf_mhi->dma_chan_tx = NULL;
+ 	/* Register the MHI EP controller */
 -- 
 2.25.1
 
