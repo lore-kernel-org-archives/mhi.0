@@ -1,63 +1,30 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC1718E14
-	for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 12:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54CD36AF4;
+	Mon, 27 Nov 2023 16:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d+C7uRwR"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-77d67000b69so237091085a.2
-        for <mhi@lists.linux.dev>; Mon, 27 Nov 2023 04:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701089184; x=1701693984; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F+E40YbuoBKmAjqkT6wNa06Lpu/e8RsvW8Aa+FgX6YU=;
-        b=d+C7uRwRoOdMrvoXgYcilAmh/0LMSiDljOOunx5UrDL35+yZPo4Mwm7ZIkn0XcWfQJ
-         kL+UAi8hYCsWPlikUlA0SPxjiQJ/ABl7uE/Imin8GfQgGoTCB5FOphEXF3fQNeUlBOqT
-         adTTlyBBPycIHDf4yu8xf3YYPN0B0T7S6HrDWD/XaAONSNY4i+yny+SJZyEijd73LqPx
-         IxnVN4DW4rHr0rLQR/yAY8wLss1M33Q1muZjiNNVLclIRtZfwzBFGYRyfmHzDMuhr5Kb
-         4vG61er4poOxT2u7TKYzOdufGUqOxFfNfYOT3Omco9eKjWqVOwP4ILgcBkPqj0NlUK4b
-         B+8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701089184; x=1701693984;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F+E40YbuoBKmAjqkT6wNa06Lpu/e8RsvW8Aa+FgX6YU=;
-        b=Q2fz8kiuaJVd2z53wb8PiNfCgXJhveB95S3OWInMiHLTsDiLlgaGtHY0x4EF9Yj/ov
-         xSP+vIetoyaJ+WfogoilBx1pN/WqHGgBXIitfDojZ50sQs6xS6cq8W4MWkIhexUEO9tf
-         yo+j8RAfqQ8eDzowRy0zGB6t1P9I2t0RhuPTAY1TLCpJcLS3fh9wDKY71oKaMmKhFLNY
-         XDtNpctbHsn8vlBmD3pmoic50PiWCbBh28EWsBXzgE0OC26WMWg11qHJ8+abRsfU7ibq
-         5Ei2q13aZ6nAu7DyQD3otYFwDBdLQxvh4EuMPJTnzozpscgycDHu15MeIv5ubCKTAtCM
-         QFVw==
-X-Gm-Message-State: AOJu0Yx9OosqU176WOgZzTlhj9HWCRFH7c3NelTKouC+QeGAK+JAmQ40
-	+qmWk8pGp5zcatW9egTrq+DQWXditjK9NbIUGA==
-X-Google-Smtp-Source: AGHT+IGjJ2kzkE/6gacJvEqAeEjIAyBT1VNMtpx4NnbwGuihBYTTMBLfyUdv0rtU06YkX96BCpwzXQ==
-X-Received: by 2002:a0c:edcd:0:b0:67a:49c5:8cc3 with SMTP id i13-20020a0cedcd000000b0067a49c58cc3mr1827133qvr.32.1701089184590;
-        Mon, 27 Nov 2023 04:46:24 -0800 (PST)
-Received: from localhost.localdomain ([117.213.103.241])
-        by smtp.gmail.com with ESMTPSA id er10-20020a056214190a00b0067a204b4688sm2832231qvb.18.2023.11.27.04.46.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 04:46:24 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: lpieralisi@kernel.org,
-	kw@linux.com
-Cc: kishon@kernel.org,
-	bhelgaas@google.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 9/9] bus: mhi: ep: Add checks for read/write callbacks while registering controllers
-Date: Mon, 27 Nov 2023 18:15:29 +0530
-Message-Id: <20231127124529.78203-10-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
-References: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTY5d9bd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500F2C43395;
+	Mon, 27 Nov 2023 16:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701102025;
+	bh=Z3NXOof2eRrfFmizeCVpeB9sXefpEKLjnDTpPAKUtmE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QTY5d9bdSSSIFrsCI99T+x4ZtlVlyH+tYoAWxqM28/1oGVAA6Y9G0wh1KPC93PRQg
+	 DX4tBfsyZ62TSGRKp+lmp2shWbbj7cd056knxIEGuIdcK5iumFru67i0Mf5OziAMA1
+	 t+Xkd1TaJEBkAtna9alo8vp1EO8Qefty+yPCDq/0eGKMim1WkMXjCTEv/HrX866P9Y
+	 6N+4mA3g97SbfBavsTr0wt9bACzC+YxFAzSHN5ukKRh1RHnH/NrGjxWoA0ESBkeAef
+	 LS3PFiyjt6aOoAe8/PV9Zo5RArQ4sa+SnySTKQU48aEPBFGL+4FI69flPcljhB8KuZ
+	 m4IMSzu+/tLLA==
+From: Kalle Valo <kvalo@kernel.org>
+To: mhi@lists.linux.dev
+Cc: ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: [PATCH RFC v2 0/8] wifi: ath11k: hibernation support
+Date: Mon, 27 Nov 2023 18:20:14 +0200
+Message-Id: <20231127162022.518834-1-kvalo@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -66,29 +33,81 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The MHI EP controller drivers has to support both sync and async read/write
-callbacks. Hence, add a check for it.
+From: Kalle Valo <quic_kvalo@quicinc.com>
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/bus/mhi/ep/main.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Currently in ath11k we keep the firmware running on the WLAN device when the
+network interface (wlan0) is down. The problem is that this will break
+hibernation, obviously the firmware can't be running after the whole system is
+powered off. To power down the ath11k firmware for suspend/hibernation some
+changes both in MHI subsystem and ath11k is needed.
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 3e599d9640f5..6b84aeeb247a 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1471,6 +1471,10 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->mmio || !mhi_cntrl->irq)
- 		return -EINVAL;
- 
-+	if (!mhi_cntrl->read_sync || !mhi_cntrl->write_sync ||
-+	    !mhi_cntrl->read_async || !mhi_cntrl->write_async)
-+		return -EINVAL;
-+
- 	ret = mhi_ep_chan_init(mhi_cntrl, config);
- 	if (ret)
- 		return ret;
+This patchset fixes a longstanding bug report about broken hibernation support:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=214649
+
+This patchset is marked as RFC as it requires changes in MHI subsystem. Also
+this has been tested only on WCN6855, need to test also on more AP based
+chipsets like IPQ8074 and QCN9074.
+
+The patches are also available at:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/log/?h=ath11k-hibernation-support
+
+Earlier versions of this patchset have been tested by multiple users with
+positive results.
+
+v2:
+
+* rebase to ath-202311221826 (6.7.0-rc2-wt-ath+)
+
+* 'bus: mhi: host: add mhi_power_down_no_destroy()': fix null state string for
+   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE
+
+* 'bus: mhi: host: add new interfaces to handle MHI channels
+  directly': fix typos in comments
+
+* 'bus: mhi: host: add new interfaces to handle MHI channels directly': honour
+   initial autoqueue configuration
+
+* 'bus: mhi: host: add new interfaces to handle MHI channels
+   directly': don't prepare/unprepare MHI devices that don't match
+   with a MHI client driver
+
+* 'wifi: ath11k: remove MHI LOOPBACK channels': remove LOOPBACK channels for QCN9074 as well
+
+v1: https://lore.kernel.org/mhi/20231110102202.3168243-1-kvalo@kernel.org/
+
+Baochen Qiang (7):
+  bus: mhi: host: add mhi_power_down_no_destroy()
+  bus: mhi: host: add new interfaces to handle MHI channels directly
+  wifi: ath11k: handle irq enable/disable in several code path
+  wifi: ath11k: remove MHI LOOPBACK channels
+  wifi: ath11k: do not dump SRNG statistics during resume
+  wifi: ath11k: fix warning on DMA ring capabilities event
+  wifi: ath11k: support hibernation
+
+Kalle Valo (1):
+  wifi: ath11k: thermal: don't try to register multiple times
+
+ drivers/bus/mhi/host/init.c               |   1 +
+ drivers/bus/mhi/host/internal.h           |   1 +
+ drivers/bus/mhi/host/main.c               | 107 ++++++++++++++++++++++
+ drivers/bus/mhi/host/pm.c                 |  26 ++++--
+ drivers/net/wireless/ath/ath11k/ahb.c     |   8 +-
+ drivers/net/wireless/ath/ath11k/core.c    |  44 +++++----
+ drivers/net/wireless/ath/ath11k/core.h    |   2 +
+ drivers/net/wireless/ath/ath11k/hif.h     |  12 +--
+ drivers/net/wireless/ath/ath11k/mhi.c     |  77 ++++------------
+ drivers/net/wireless/ath/ath11k/mhi.h     |   4 +-
+ drivers/net/wireless/ath/ath11k/pci.c     |  55 +++++++++--
+ drivers/net/wireless/ath/ath11k/qmi.c     |   7 +-
+ drivers/net/wireless/ath/ath11k/thermal.c |   3 +
+ drivers/net/wireless/ath/ath11k/wmi.c     |   1 +
+ include/linux/mhi.h                       |  47 +++++++++-
+ 15 files changed, 285 insertions(+), 110 deletions(-)
+
+
+base-commit: 16a212b4f33c4edd9ce9a9e0953b5389216e8ed9
 -- 
-2.25.1
+2.39.2
 
