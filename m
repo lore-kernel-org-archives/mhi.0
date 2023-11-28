@@ -1,164 +1,120 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEB8110B
-	for <mhi@lists.linux.dev>; Tue, 28 Nov 2023 01:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353C05578E;
+	Tue, 28 Nov 2023 13:32:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="p2Mhgd8U"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS0jLb4032114;
-	Tue, 28 Nov 2023 01:13:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=zmXrVDwk9PW2eTGFIyou52WJVtdPQELuoB2+agP0haY=;
- b=p2Mhgd8UlvC/oLcF3QDMRQnMuit71WSJXSteG2qxd+z5l7u25Zyuhb5Eon0XNncP7XR6
- vqg4RwIoztPdCl8NTNPtVMIpaPQSUkqy1OHrZJulYHUJi/M/wt4ldytFgCTqhnvntQRL
- c8GANT01L+VoTKqBez5QHzY0Rb5sz5HYH1DIfz7ikYrSmAkhuywhr2hpfMYrzUH1NYRx
- qX57YGYxyQTtrclf+Nhd3eKIC6ABbevYHeEXz6yDhVq4Qkpsg8krM++nUQPjEzFCVn9J
- 9u8zudJ7+WAnUTOWjQ07cG4K9jFFZvob+mFChhQnKZuNrr3eULQZ7ZyYZ+s46QBDye7n jw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3umt9c1y00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 01:13:31 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AS1DUcS002839
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 01:13:30 GMT
-Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 27 Nov
- 2023 17:13:29 -0800
-Message-ID: <7b833b76-13d2-4672-8f70-5ec681648c28@quicinc.com>
-Date: Tue, 28 Nov 2023 09:13:26 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfuRN5v7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4029EC433C8;
+	Tue, 28 Nov 2023 13:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701178379;
+	bh=rVPeT5nmw8qQQiIaFmZSBajpfC/FLGYEM+kVR8C6eHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OfuRN5v73BRdDwtDvjVqEUkAx+rPfYn3oODDhKDz0wCkZ0zFl69z2eutxwvQFVs7C
+	 Mv92SCFYOLddDui4lzfsEeyOftKENRBdUN/xgoOPwAjXkXW9UevjxziO30/4cYKAu8
+	 GcblBt8q280nOqbtevoOV4V5uK8jq4C/hOPK230N/19LtVMBZmoe/XcXHsSGSCRXLZ
+	 E6uFiToI0W+CqdbJzCH4LyDd389+WqEBgRJiJyLKFMyzylCPIIiHqSjTb6MZkPgn8z
+	 OjMr5p9S3dCjdjlnifW/BrSMLWBxwf9zIAkTOAi8BcmMLPRSHEKNbtsMrBWYevmcyp
+	 oulf8qynZq4mw==
+Date: Tue, 28 Nov 2023 19:02:52 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: quic_jhugo@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com
+Subject: Re: [PATCH v4 2/4] bus: mhi: host: Drop chan lock before queuing
+ buffers
+Message-ID: <20231128133252.GX3088@thinkpad>
+References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
+ <1699939661-7385-3-git-send-email-quic_qianyu@quicinc.com>
+ <20231124100403.GA4536@thinkpad>
+ <639d6008-bdfa-4b6e-b622-e916003ec908@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 4/8] wifi: ath11k: remove MHI LOOPBACK channels
-Content-Language: en-US
-To: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>
-CC: <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-5-kvalo@kernel.org>
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <20231127162022.518834-5-kvalo@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PnEjgTK82t8yS0PAczJNIMkXt5uuzWhE
-X-Proofpoint-ORIG-GUID: PnEjgTK82t8yS0PAczJNIMkXt5uuzWhE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-28_01,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0
- suspectscore=0 adultscore=0 impostorscore=0 mlxlogscore=928
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311060000 definitions=main-2311280007
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <639d6008-bdfa-4b6e-b622-e916003ec908@quicinc.com>
 
+On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
+> 
+> On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
+> > On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
+> > > Ensure read and write locks for the channel are not taken in succession by
+> > > dropping the read lock from parse_xfer_event() such that a callback given
+> > > to client can potentially queue buffers and acquire the write lock in that
+> > > process. Any queueing of buffers should be done without channel read lock
+> > > acquired as it can result in multiple locks and a soft lockup.
+> > > 
+> > Is this patch trying to fix an existing issue in client drivers or a potential
+> > issue in the future drivers?
+> > 
+> > Even if you take care of disabled channels, "mhi_event->lock" acquired during
+> > mhi_mark_stale_events() can cause deadlock, since event lock is already held by
+> > mhi_ev_task().
+> > 
+> > I'd prefer not to open the window unless this patch is fixing a real issue.
+> > 
+> > - Mani
+> In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
+> queueing
+> TREs,  we add
+> write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
+> in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
+> callback,
+> so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
+> mhi_chan->lock
+> twice.
+> 
+> Sorry for confusing you. Do you think we need to sqush this two patch into
+> one?
 
+Well, if patch 1 is introducing a potential deadlock, then we should fix patch
+1 itself and not introduce a follow up patch.
 
-On 11/28/2023 12:20 AM, Kalle Valo wrote:
-> From: Baochen Qiang <quic_bqiang@quicinc.com>
-> 
-> There is no driver to match these two channels, so
-> remove them. This fixes warnings from MHI subsystem during suspend:
-> 
-> mhi mhi0_LOOPBACK: 1: Failed to reset channel, still resetting
-> mhi mhi0_LOOPBACK: 0: Failed to reset channel, still resetting
-With v2, these warnings are gone even without this patch. so it should 
-be removed from commit log. It's enough to only mention that those 
-channels are not used.
+But there is one more issue that I pointed out in my previous reply.
 
+Also, I'm planning to cleanup the locking mess within MHI in the coming days.
+Perhaps we can revisit this series at that point of time. Will that be OK for
+you?
+
+- Mani
+
+> > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> > > ---
+> > >   drivers/bus/mhi/host/main.c | 4 ++++
+> > >   1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> > > index 6c6d253..c4215b0 100644
+> > > --- a/drivers/bus/mhi/host/main.c
+> > > +++ b/drivers/bus/mhi/host/main.c
+> > > @@ -642,6 +642,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+> > >   			mhi_del_ring_element(mhi_cntrl, tre_ring);
+> > >   			local_rp = tre_ring->rp;
+> > > +			read_unlock_bh(&mhi_chan->lock);
+> > > +
+> > >   			/* notify client */
+> > >   			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+> > > @@ -667,6 +669,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+> > >   					kfree(buf_info->cb_buf);
+> > >   				}
+> > >   			}
+> > > +
+> > > +			read_lock_bh(&mhi_chan->lock);
+> > >   		}
+> > >   		break;
+> > >   	} /* CC_EOT */
+> > > -- 
+> > > 2.7.4
+> > > 
+> > > 
 > 
-> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
-> 
-> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
-> ---
->   drivers/net/wireless/ath/ath11k/mhi.c | 56 ---------------------------
->   1 file changed, 56 deletions(-)
-> 
-> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
-> index afeabd6ecc67..579af57f7377 100644
-> --- a/drivers/net/wireless/ath/ath11k/mhi.c
-> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
-> @@ -21,34 +21,6 @@
->   #define RDDM_DUMP_SIZE	0x420000
->   
->   static struct mhi_channel_config ath11k_mhi_channels_qca6390[] = {
-> -	{
-> -		.num = 0,
-> -		.name = "LOOPBACK",
-> -		.num_elements = 32,
-> -		.event_ring = 0,
-> -		.dir = DMA_TO_DEVICE,
-> -		.ee_mask = 0x4,
-> -		.pollcfg = 0,
-> -		.doorbell = MHI_DB_BRST_DISABLE,
-> -		.lpm_notify = false,
-> -		.offload_channel = false,
-> -		.doorbell_mode_switch = false,
-> -		.auto_queue = false,
-> -	},
-> -	{
-> -		.num = 1,
-> -		.name = "LOOPBACK",
-> -		.num_elements = 32,
-> -		.event_ring = 0,
-> -		.dir = DMA_FROM_DEVICE,
-> -		.ee_mask = 0x4,
-> -		.pollcfg = 0,
-> -		.doorbell = MHI_DB_BRST_DISABLE,
-> -		.lpm_notify = false,
-> -		.offload_channel = false,
-> -		.doorbell_mode_switch = false,
-> -		.auto_queue = false,
-> -	},
->   	{
->   		.num = 20,
->   		.name = "IPCR",
-> @@ -114,34 +86,6 @@ static struct mhi_controller_config ath11k_mhi_config_qca6390 = {
->   };
->   
->   static struct mhi_channel_config ath11k_mhi_channels_qcn9074[] = {
-> -	{
-> -		.num = 0,
-> -		.name = "LOOPBACK",
-> -		.num_elements = 32,
-> -		.event_ring = 1,
-> -		.dir = DMA_TO_DEVICE,
-> -		.ee_mask = 0x14,
-> -		.pollcfg = 0,
-> -		.doorbell = MHI_DB_BRST_DISABLE,
-> -		.lpm_notify = false,
-> -		.offload_channel = false,
-> -		.doorbell_mode_switch = false,
-> -		.auto_queue = false,
-> -	},
-> -	{
-> -		.num = 1,
-> -		.name = "LOOPBACK",
-> -		.num_elements = 32,
-> -		.event_ring = 1,
-> -		.dir = DMA_FROM_DEVICE,
-> -		.ee_mask = 0x14,
-> -		.pollcfg = 0,
-> -		.doorbell = MHI_DB_BRST_DISABLE,
-> -		.lpm_notify = false,
-> -		.offload_channel = false,
-> -		.doorbell_mode_switch = false,
-> -		.auto_queue = false,
-> -	},
->   	{
->   		.num = 20,
->   		.name = "IPCR",
+
+-- 
+மணிவண்ணன் சதாசிவம்
