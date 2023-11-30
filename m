@@ -1,32 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFE14CB53;
-	Thu, 30 Nov 2023 05:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE7A1D534
+	for <mhi@lists.linux.dev>; Thu, 30 Nov 2023 08:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWFIHXN7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B813C433C7;
-	Thu, 30 Nov 2023 05:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701322976;
-	bh=Q5/K0MR79gw5PPh04/03uahxI4FEyM/Kmchpy41iaqo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BWFIHXN78HNYEnaHa+V+/3HXGa0VGRKaxkqNXiqLoDtgZAwbd48FfoiWk3yzVIHU0
-	 veTrvlWp5QJfkXOXxQgeOZJH6y0oFZO4VszMFqzRSdMm3ALfCY/6VTLp8QTPUEVjwZ
-	 /+xxQ2YbHBGrEs/VdlGP0bolToIhNcb5oB+4SuF7cdVUxTFn7Jlt8wpRlfEd/pgysc
-	 yD/xGmY56OcFTa01KswwBz+jX3ECoKaoufkokVoxzrCpM33YCCRJWdTDSJshPYu5Kv
-	 jlIm+VAj4sB+RmJmTr80lHOzgUTl8hKpeOqv/TZvKVojMGM4YlcaKEIKytQP4csHS4
-	 QismSjOdMMQ7Q==
-Date: Thu, 30 Nov 2023 11:12:50 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kalle Valo <kvalo@kernel.org>
-Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
- mhi_power_down_no_destroy()
-Message-ID: <20231130054250.GC3043@thinkpad>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-2-kvalo@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fzzpi0um"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6ce353df504so393962a34.3
+        for <mhi@lists.linux.dev>; Thu, 30 Nov 2023 00:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701332526; x=1701937326; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6fFtvMm9yl0lPcAmlRwHHNDchE2fl94adz7eE2fgLUQ=;
+        b=Fzzpi0umz/09BBddMKn7Nlkat8q4MVr0CY6QmWpbgE5hBDVhAoE+mOC88QctTdcHLL
+         zsT74eZOdX9+6qWP0mr112BcC/7+VqPaleYgqwGs8ZiXV0KfpMM7AwCezCoRvgVz4NXD
+         PRjeFt2/59EXhu8HbsyahINRd5+ZF6/1VDsH/fAHJFrdiZjLkMuR69mkmKIRi/gTxV7o
+         zBpT6DzCC5cQpzHdGjpdEAvi3vOrprBD4Y0LtWsd2h8X/fPQZEz2PYvDXUs3ZzrLoo2w
+         0u0dFfZ4H/r6EmpBx+Gpzsh6aZMm067WcmFCj/0k8WTJcxnTTJwEvnT9zWZM/5V0I+W4
+         x2cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701332526; x=1701937326;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6fFtvMm9yl0lPcAmlRwHHNDchE2fl94adz7eE2fgLUQ=;
+        b=bcvQ3aDIKuHPxDx67vcSyCQCEg/QPkQw+Wyf9rSWDzHeqRj8yd5Gjs0PXOlB44mBsC
+         9jqOS0DUAbIrjLc+jofXUO9+y1AJ4k9dJFzZ/iJu3POfgwYKMztw4FPpFYqUD6sWxRbH
+         3w5PXaI46Q5uIHrv2q3/nAKF3sHot3c20ob6Rb8N2yNA2oo5SiMY8crRtCsunxDKPyt+
+         5ZcJmfPfq7+bGl7WcIWlAuDtBzNEGraLc/9DRYVHGZEcvkisrg8/xQG4LYw2qojdsJC2
+         G8GFAt6+UfxyiAYD42/+WfTCI5racUjwFBY6J5k+6KafG3ETAkXrk7tbm/9r7zfgzfNe
+         Mp3w==
+X-Gm-Message-State: AOJu0Yy0wHgOS/Awx7edIODNgyntSW7tIdqkYASJeOYcD5L7SFFkdPw0
+	vMvCPPBMmtBJXbm9QYqivYvGYbN3fsJ4lQbWCw==
+X-Google-Smtp-Source: AGHT+IESiVrnCDdwf6AtlJDG8qdmmXEpsxG9JJTQQ76c7rG9Do52+Sl2zNkV7SXJ9RaP66TsEod2SA==
+X-Received: by 2002:a05:6870:498a:b0:1f9:5f20:8c7a with SMTP id ho10-20020a056870498a00b001f95f208c7amr27293949oab.21.1701332525987;
+        Thu, 30 Nov 2023 00:22:05 -0800 (PST)
+Received: from thinkpad ([59.92.100.237])
+        by smtp.gmail.com with ESMTPSA id z19-20020a05620a101300b0077d75164ef9sm265513qkj.124.2023.11.30.00.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 00:22:05 -0800 (PST)
+Date: Thu, 30 Nov 2023 13:51:59 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alex Elder <elder@linaro.org>
+Subject: Re: [PATCH] bus: mhi: ep: Use slab allocator where applicable
+Message-ID: <20231130082159.GK3043@thinkpad>
+References: <20231018122812.47261-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -36,212 +59,246 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231127162022.518834-2-kvalo@kernel.org>
+In-Reply-To: <20231018122812.47261-1-manivannan.sadhasivam@linaro.org>
 
-On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
-> From: Baochen Qiang <quic_bqiang@quicinc.com>
+On Wed, Oct 18, 2023 at 05:58:12PM +0530, Manivannan Sadhasivam wrote:
+> Use slab allocator for allocating the memory for objects used frequently
+> and are of fixed size. This reduces the overheard associated with
+> kmalloc().
 > 
-> If ath11k tries to call mhi_power_up() during resume it fails:
-> 
-> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
-> 
-> This happens because when calling mhi_power_up() the MHI subsystem eventually
-> calls device_add() from mhi_create_devices() but the device creation is
-> deferred:
-> 
-> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
-> 
-> The reason for deferring device creation is explained in dpm_prepare():
-> 
-> 	/*
-> 	 * It is unsafe if probing of devices will happen during suspend or
-> 	 * hibernation and system behavior will be unpredictable in this case.
-> 	 * So, let's prohibit device's probing here and defer their probes
-> 	 * instead. The normal behavior will be restored in dpm_complete().
-> 	 */
-> 
-> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
-> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
-> 
-> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
-> 				      struct mhi_result *mhi_res)
-> {
-> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
-> 	int rc;
-> 
-> 	if (!qdev || mhi_res->transaction_status)
-> 		return;
-> 
-> So what this means that QRTR is not delivering messages and the QMI connection
-> is not working between ath11k and the firmware, resulting a failure in firmware
-> initialisation.
-> 
-> To fix this add new function mhi_power_down_no_destroy() which does not destroy
-> the devices during power down. This way mhi_power_up() can be called during
-> resume and we can get ath11k hibernation working with the following patches.
-> 
-> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
-> 
-> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
-> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> Suggested-by: Alex Elder <elder@linaro.org>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Any reason for reposting this series without discussing the suggestion from
-Mayank? As I said in the internal thread, this patch breaks the Linux device
-driver model by not destroying the "struct device" when the actual device gets
-removed. We should try to explore alternate options instead of persisting with
-this solution.
+Applied to mhi-next!
 
 - Mani
 
 > ---
->  drivers/bus/mhi/host/init.c     |  1 +
->  drivers/bus/mhi/host/internal.h |  1 +
->  drivers/bus/mhi/host/pm.c       | 26 +++++++++++++++++++-------
->  include/linux/mhi.h             | 29 +++++++++++++++++++++++++++--
->  4 files changed, 48 insertions(+), 9 deletions(-)
+>  drivers/bus/mhi/ep/main.c | 70 +++++++++++++++++++++++++++++----------
+>  include/linux/mhi_ep.h    |  3 ++
+>  2 files changed, 56 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 65ceac1837f9..e626b03ffafa 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -43,6 +43,7 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
->  	[DEV_ST_TRANSITION_FP] = "FLASH PROGRAMMER",
->  	[DEV_ST_TRANSITION_SYS_ERR] = "SYS ERROR",
->  	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
-> +	[DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE] = "DISABLE (DESTROY DEVICE)",
->  };
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 66ca470bf302..834e7afadd64 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -71,7 +71,8 @@ static int mhi_ep_send_event(struct mhi_ep_cntrl *mhi_cntrl, u32 ring_idx,
+>  static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_ring *ring,
+>  					struct mhi_ring_element *tre, u32 len, enum mhi_ev_ccs code)
+>  {
+> -	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
+> +	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
+> +							   GFP_KERNEL | GFP_DMA);
+>  	int ret;
 >  
->  const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index 30ac415a3000..3f45c9c447bd 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -69,6 +69,7 @@ enum dev_st_transition {
->  	DEV_ST_TRANSITION_FP,
->  	DEV_ST_TRANSITION_SYS_ERR,
->  	DEV_ST_TRANSITION_DISABLE,
-> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
->  	DEV_ST_TRANSITION_MAX,
->  };
+>  	event->ptr = cpu_to_le64(ring->rbase + ring->rd_offset * sizeof(*tre));
+> @@ -79,42 +80,45 @@ static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl, struct m
+>  	event->dword[1] = MHI_TRE_EV_DWORD1(ring->ch_id, MHI_PKT_TYPE_TX_EVENT);
 >  
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index a2f2feef1476..8833b0248393 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -458,7 +458,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>  	ret = mhi_ep_send_event(mhi_cntrl, ring->er_index, event, MHI_TRE_DATA_GET_BEI(tre));
+> -	kfree(event);
+> +	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
+>  
+>  	return ret;
 >  }
 >  
->  /* Handle shutdown transitions */
-> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
-> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
-> +				      bool destroy_device)
+>  int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_state state)
 >  {
->  	enum mhi_pm_state cur_state;
->  	struct mhi_event *mhi_event;
-> @@ -520,8 +521,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->  	dev_dbg(dev, "Waiting for all pending threads to complete\n");
->  	wake_up_all(&mhi_cntrl->state_event);
+> -	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
+> +	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
+> +							   GFP_KERNEL | GFP_DMA);
+>  	int ret;
 >  
-> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
-> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
-> +	if (destroy_device) {
-> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
-> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+>  	event->dword[0] = MHI_SC_EV_DWORD0(state);
+>  	event->dword[1] = MHI_SC_EV_DWORD1(MHI_PKT_TYPE_STATE_CHANGE_EVENT);
+>  
+>  	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
+> -	kfree(event);
+> +	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
+>  
+>  	return ret;
+>  }
+>  
+>  int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ee_type exec_env)
+>  {
+> -	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
+> +	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
+> +							   GFP_KERNEL | GFP_DMA);
+>  	int ret;
+>  
+>  	event->dword[0] = MHI_EE_EV_DWORD0(exec_env);
+>  	event->dword[1] = MHI_SC_EV_DWORD1(MHI_PKT_TYPE_EE_EVENT);
+>  
+>  	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
+> -	kfree(event);
+> +	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
+>  
+>  	return ret;
+>  }
+>  
+>  static int mhi_ep_send_cmd_comp_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ev_ccs code)
+>  {
+> -	struct mhi_ring_element *event = kzalloc(sizeof(struct mhi_ring_element), GFP_KERNEL);
+> +	struct mhi_ring_element *event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache,
+> +							   GFP_KERNEL | GFP_DMA);
+>  	struct mhi_ep_ring *ring = &mhi_cntrl->mhi_cmd->ring;
+>  	int ret;
+>  
+> @@ -123,7 +127,7 @@ static int mhi_ep_send_cmd_comp_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_e
+>  	event->dword[1] = MHI_CC_EV_DWORD1(MHI_PKT_TYPE_CMD_COMPLETION_EVENT);
+>  
+>  	ret = mhi_ep_send_event(mhi_cntrl, 0, event, 0);
+> -	kfree(event);
+> +	kmem_cache_free(mhi_cntrl->ev_ring_el_cache, event);
+>  
+>  	return ret;
+>  }
+> @@ -435,7 +439,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
+>  		mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+>  	} else {
+>  		/* UL channel */
+> -		result.buf_addr = kzalloc(len, GFP_KERNEL);
+> +		result.buf_addr = kmem_cache_zalloc(mhi_cntrl->tre_buf_cache, GFP_KERNEL | GFP_DMA);
+>  		if (!result.buf_addr)
+>  			return -ENOMEM;
+>  
+> @@ -443,7 +447,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
+>  			ret = mhi_ep_read_channel(mhi_cntrl, ring, &result, len);
+>  			if (ret < 0) {
+>  				dev_err(&mhi_chan->mhi_dev->dev, "Failed to read channel\n");
+> -				kfree(result.buf_addr);
+> +				kmem_cache_free(mhi_cntrl->tre_buf_cache, result.buf_addr);
+>  				return ret;
+>  			}
+>  
+> @@ -455,7 +459,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring, struct mhi_ring_elem
+>  			/* Read until the ring becomes empty */
+>  		} while (!mhi_ep_queue_is_empty(mhi_chan->mhi_dev, DMA_TO_DEVICE));
+>  
+> -		kfree(result.buf_addr);
+> +		kmem_cache_free(mhi_cntrl->tre_buf_cache, result.buf_addr);
+>  	}
+>  
+>  	return 0;
+> @@ -764,14 +768,14 @@ static void mhi_ep_ch_ring_worker(struct work_struct *work)
+>  		if (ret) {
+>  			dev_err(dev, "Error updating write offset for ring\n");
+>  			mutex_unlock(&chan->lock);
+> -			kfree(itr);
+> +			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
+>  			continue;
+>  		}
+>  
+>  		/* Sanity check to make sure there are elements in the ring */
+>  		if (ring->rd_offset == ring->wr_offset) {
+>  			mutex_unlock(&chan->lock);
+> -			kfree(itr);
+> +			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
+>  			continue;
+>  		}
+>  
+> @@ -783,12 +787,12 @@ static void mhi_ep_ch_ring_worker(struct work_struct *work)
+>  			dev_err(dev, "Error processing ring for channel (%u): %d\n",
+>  				ring->ch_id, ret);
+>  			mutex_unlock(&chan->lock);
+> -			kfree(itr);
+> +			kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
+>  			continue;
+>  		}
+>  
+>  		mutex_unlock(&chan->lock);
+> -		kfree(itr);
+> +		kmem_cache_free(mhi_cntrl->ring_item_cache, itr);
+>  	}
+>  }
+>  
+> @@ -844,7 +848,7 @@ static void mhi_ep_queue_channel_db(struct mhi_ep_cntrl *mhi_cntrl, unsigned lon
+>  		u32 ch_id = ch_idx + i;
+>  
+>  		ring = &mhi_cntrl->mhi_chan[ch_id].ring;
+> -		item = kzalloc(sizeof(*item), GFP_ATOMIC);
+> +		item = kmem_cache_zalloc(mhi_cntrl->ring_item_cache, GFP_ATOMIC);
+>  		if (!item)
+>  			return;
+>  
+> @@ -1391,6 +1395,29 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  		goto err_free_ch;
+>  	}
+>  
+> +	mhi_cntrl->ev_ring_el_cache = kmem_cache_create("mhi_ep_event_ring_el",
+> +							sizeof(struct mhi_ring_element), 0,
+> +							SLAB_CACHE_DMA, NULL);
+> +	if (!mhi_cntrl->ev_ring_el_cache) {
+> +		ret = -ENOMEM;
+> +		goto err_free_cmd;
 > +	}
->  
->  	mutex_lock(&mhi_cntrl->pm_mutex);
->  
-> @@ -806,7 +809,10 @@ void mhi_pm_st_worker(struct work_struct *work)
->  			mhi_pm_sys_error_transition(mhi_cntrl);
->  			break;
->  		case DEV_ST_TRANSITION_DISABLE:
-> -			mhi_pm_disable_transition(mhi_cntrl);
-> +			mhi_pm_disable_transition(mhi_cntrl, false);
-> +			break;
-> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
-> +			mhi_pm_disable_transition(mhi_cntrl, true);
->  			break;
->  		default:
->  			break;
-> @@ -1160,7 +1166,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
->  }
->  EXPORT_SYMBOL_GPL(mhi_async_power_up);
->  
-> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
-> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
-> +		      bool destroy_device)
->  {
->  	enum mhi_pm_state cur_state, transition_state;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> @@ -1196,14 +1203,19 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
->  	write_unlock_irq(&mhi_cntrl->pm_lock);
->  	mutex_unlock(&mhi_cntrl->pm_mutex);
->  
-> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
-> +	if (destroy_device)
-> +		mhi_queue_state_transition(mhi_cntrl,
-> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
-> +	else
-> +		mhi_queue_state_transition(mhi_cntrl,
-> +					   DEV_ST_TRANSITION_DISABLE);
->  
->  	/* Wait for shutdown to complete */
->  	flush_work(&mhi_cntrl->st_worker);
->  
->  	disable_irq(mhi_cntrl->irq[0]);
->  }
-> -EXPORT_SYMBOL_GPL(mhi_power_down);
-> +EXPORT_SYMBOL_GPL(__mhi_power_down);
->  
->  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
->  {
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index d0f9b522f328..ae092bc8b97e 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -648,12 +648,37 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
->   */
->  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
->  
-> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
-> +		    bool destroy_device);
 > +
->  /**
-> - * mhi_power_down - Start MHI power down sequence
-> + * mhi_power_down - Start MHI power down sequence. See also
-> + * mhi_power_down_no_destroy() which is a variant of this for suspend.
-> + *
->   * @mhi_cntrl: MHI controller
->   * @graceful: Link is still accessible, so do a graceful shutdown process
->   */
-> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
-> +static inline void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
-> +{
-> +	__mhi_power_down(mhi_cntrl, graceful, true);
-> +}
+> +	mhi_cntrl->tre_buf_cache = kmem_cache_create("mhi_ep_tre_buf", MHI_EP_DEFAULT_MTU, 0,
+> +						      SLAB_CACHE_DMA, NULL);
+> +	if (!mhi_cntrl->tre_buf_cache) {
+> +		ret = -ENOMEM;
+> +		goto err_destroy_ev_ring_el_cache;
+> +	}
 > +
-> +/**
-> + * mhi_power_down_no_destroy - Start MHI power down sequence but don't
-> + * destroy struct devices. This is a variant for mhi_power_down() and is a
-> + * workaround to make it possible to use mhi_power_up() in a resume
-> + * handler. When using this variant the caller must also call
-> + * mhi_prepare_all_for_transfer_autoqueue() and
-> + * mhi_unprepare_all_from_transfer().
-> + *
-> + * @mhi_cntrl: MHI controller
-> + * @graceful: Link is still accessible, so do a graceful shutdown process
-> + */
-> +static inline void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl,
-> +					     bool graceful)
-> +{
-> +	__mhi_power_down(mhi_cntrl, graceful, false);
-> +}
+> +	mhi_cntrl->ring_item_cache = kmem_cache_create("mhi_ep_ring_item",
+> +							sizeof(struct mhi_ep_ring_item), 0,
+> +							0, NULL);
+> +	if (!mhi_cntrl->ev_ring_el_cache) {
+> +		ret = -ENOMEM;
+> +		goto err_destroy_tre_buf_cache;
+> +	}
+> +
+>  	INIT_WORK(&mhi_cntrl->state_work, mhi_ep_state_worker);
+>  	INIT_WORK(&mhi_cntrl->reset_work, mhi_ep_reset_worker);
+>  	INIT_WORK(&mhi_cntrl->cmd_ring_work, mhi_ep_cmd_ring_worker);
+> @@ -1399,7 +1426,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  	mhi_cntrl->wq = alloc_workqueue("mhi_ep_wq", 0, 0);
+>  	if (!mhi_cntrl->wq) {
+>  		ret = -ENOMEM;
+> -		goto err_free_cmd;
+> +		goto err_destroy_ring_item_cache;
+>  	}
 >  
->  /**
->   * mhi_unprepare_after_power_down - Free any allocated memory after power down
+>  	INIT_LIST_HEAD(&mhi_cntrl->st_transition_list);
+> @@ -1458,6 +1485,12 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>  	ida_free(&mhi_ep_cntrl_ida, mhi_cntrl->index);
+>  err_destroy_wq:
+>  	destroy_workqueue(mhi_cntrl->wq);
+> +err_destroy_ring_item_cache:
+> +	kmem_cache_destroy(mhi_cntrl->ring_item_cache);
+> +err_destroy_ev_ring_el_cache:
+> +	kmem_cache_destroy(mhi_cntrl->ev_ring_el_cache);
+> +err_destroy_tre_buf_cache:
+> +	kmem_cache_destroy(mhi_cntrl->tre_buf_cache);
+>  err_free_cmd:
+>  	kfree(mhi_cntrl->mhi_cmd);
+>  err_free_ch:
+> @@ -1479,6 +1512,9 @@ void mhi_ep_unregister_controller(struct mhi_ep_cntrl *mhi_cntrl)
+>  
+>  	free_irq(mhi_cntrl->irq, mhi_cntrl);
+>  
+> +	kmem_cache_destroy(mhi_cntrl->tre_buf_cache);
+> +	kmem_cache_destroy(mhi_cntrl->ev_ring_el_cache);
+> +	kmem_cache_destroy(mhi_cntrl->ring_item_cache);
+>  	kfree(mhi_cntrl->mhi_cmd);
+>  	kfree(mhi_cntrl->mhi_chan);
+>  
+> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+> index f198a8ac7ee7..ce85d42b685d 100644
+> --- a/include/linux/mhi_ep.h
+> +++ b/include/linux/mhi_ep.h
+> @@ -128,6 +128,9 @@ struct mhi_ep_cntrl {
+>  	struct work_struct reset_work;
+>  	struct work_struct cmd_ring_work;
+>  	struct work_struct ch_ring_work;
+> +	struct kmem_cache *ring_item_cache;
+> +	struct kmem_cache *ev_ring_el_cache;
+> +	struct kmem_cache *tre_buf_cache;
+>  
+>  	void (*raise_irq)(struct mhi_ep_cntrl *mhi_cntrl, u32 vector);
+>  	int (*alloc_map)(struct mhi_ep_cntrl *mhi_cntrl, u64 pci_addr, phys_addr_t *phys_ptr,
 > -- 
-> 2.39.2
-> 
+> 2.25.1
 > 
 
 -- 
