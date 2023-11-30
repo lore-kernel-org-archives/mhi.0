@@ -1,38 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E13A1802D;
-	Thu, 30 Nov 2023 05:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFE14CB53;
+	Thu, 30 Nov 2023 05:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzCN1zJV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151AFC433C7;
-	Thu, 30 Nov 2023 05:32:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWFIHXN7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B813C433C7;
+	Thu, 30 Nov 2023 05:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701322325;
-	bh=pMAZRD6C2KxJP4HEAtpAIDxbTaSlvGsc71rh/SQWRtU=;
+	s=k20201202; t=1701322976;
+	bh=Q5/K0MR79gw5PPh04/03uahxI4FEyM/Kmchpy41iaqo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nzCN1zJVSMh+g5X7qRKecWziuXOdWr00FRIYi06EW39LWAwKZx05wqoCY3qOBN+FI
-	 rQUnlYiDyKD9a22jXTQtSUBuGXxEmyuBWzZTFv+e7jwBPyI5Qe1Nrk+/o1WVjpL4uX
-	 pmPh7lSAAQ80/hn/AhNV9ezx+cZYrnDeAh0ifTa6npt+0Ka6SDakf5SBrKTYnTC7u5
-	 YPfn6eRwh4GVevufSN/gXUaw3bIBXFcoNWM2tBonHNxnmVUJiqKUl1A5IQTD9COAEL
-	 3NPPQDKNiWlINy8sljZrtPDqJG7/3ulyf92erDT42KHQbXFlD06+WWiS7ACC3gp76r
-	 T/x+mREHM8E3Q==
-Date: Thu, 30 Nov 2023 11:01:57 +0530
+	b=BWFIHXN78HNYEnaHa+V+/3HXGa0VGRKaxkqNXiqLoDtgZAwbd48FfoiWk3yzVIHU0
+	 veTrvlWp5QJfkXOXxQgeOZJH6y0oFZO4VszMFqzRSdMm3ALfCY/6VTLp8QTPUEVjwZ
+	 /+xxQ2YbHBGrEs/VdlGP0bolToIhNcb5oB+4SuF7cdVUxTFn7Jlt8wpRlfEd/pgysc
+	 yD/xGmY56OcFTa01KswwBz+jX3ECoKaoufkokVoxzrCpM33YCCRJWdTDSJshPYu5Kv
+	 jlIm+VAj4sB+RmJmTr80lHOzgUTl8hKpeOqv/TZvKVojMGM4YlcaKEIKytQP4csHS4
+	 QismSjOdMMQ7Q==
+Date: Thu, 30 Nov 2023 11:12:50 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, quic_jhugo@quicinc.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-	quic_mrana@quicinc.com
-Subject: Re: [PATCH v4 2/4] bus: mhi: host: Drop chan lock before queuing
- buffers
-Message-ID: <20231130053157.GB3043@thinkpad>
-References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
- <1699939661-7385-3-git-send-email-quic_qianyu@quicinc.com>
- <20231124100403.GA4536@thinkpad>
- <639d6008-bdfa-4b6e-b622-e916003ec908@quicinc.com>
- <20231128133252.GX3088@thinkpad>
- <5eb0a521-0b72-4d15-9a65-429c4c123833@quicinc.com>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
+ mhi_power_down_no_destroy()
+Message-ID: <20231130054250.GC3043@thinkpad>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-2-kvalo@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -42,93 +36,212 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5eb0a521-0b72-4d15-9a65-429c4c123833@quicinc.com>
+In-Reply-To: <20231127162022.518834-2-kvalo@kernel.org>
 
-On Wed, Nov 29, 2023 at 11:29:07AM +0800, Qiang Yu wrote:
+On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
+> From: Baochen Qiang <quic_bqiang@quicinc.com>
 > 
-> On 11/28/2023 9:32 PM, Manivannan Sadhasivam wrote:
-> > On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
-> > > On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
-> > > > On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
-> > > > > Ensure read and write locks for the channel are not taken in succession by
-> > > > > dropping the read lock from parse_xfer_event() such that a callback given
-> > > > > to client can potentially queue buffers and acquire the write lock in that
-> > > > > process. Any queueing of buffers should be done without channel read lock
-> > > > > acquired as it can result in multiple locks and a soft lockup.
-> > > > > 
-> > > > Is this patch trying to fix an existing issue in client drivers or a potential
-> > > > issue in the future drivers?
-> > > > 
-> > > > Even if you take care of disabled channels, "mhi_event->lock" acquired during
-> > > > mhi_mark_stale_events() can cause deadlock, since event lock is already held by
-> > > > mhi_ev_task().
-> > > > 
-> > > > I'd prefer not to open the window unless this patch is fixing a real issue.
-> > > > 
-> > > > - Mani
-> > > In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
-> > > queueing
-> > > TREs,  we add
-> > > write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
-> > > in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
-> > > callback,
-> > > so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
-> > > mhi_chan->lock
-> > > twice.
-> > > 
-> > > Sorry for confusing you. Do you think we need to sqush this two patch into
-> > > one?
-> > Well, if patch 1 is introducing a potential deadlock, then we should fix patch
-> > 1 itself and not introduce a follow up patch.
-> > 
-> > But there is one more issue that I pointed out in my previous reply.
-> Sorry, I can not understand why "mhi_event->lock" acquired during
-> mhi_mark_stale_events() can cause deadlock. In mhi_ev_task(), we will
-> not invoke mhi_mark_stale_events(). Can you provide some interpretation?
+> If ath11k tries to call mhi_power_up() during resume it fails:
+> 
+> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+> 
+> This happens because when calling mhi_power_up() the MHI subsystem eventually
+> calls device_add() from mhi_create_devices() but the device creation is
+> deferred:
+> 
+> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+> 
+> The reason for deferring device creation is explained in dpm_prepare():
+> 
+> 	/*
+> 	 * It is unsafe if probing of devices will happen during suspend or
+> 	 * hibernation and system behavior will be unpredictable in this case.
+> 	 * So, let's prohibit device's probing here and defer their probes
+> 	 * instead. The normal behavior will be restored in dpm_complete().
+> 	 */
+> 
+> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
+> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
+> 
+> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+> 				      struct mhi_result *mhi_res)
+> {
+> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+> 	int rc;
+> 
+> 	if (!qdev || mhi_res->transaction_status)
+> 		return;
+> 
+> So what this means that QRTR is not delivering messages and the QMI connection
+> is not working between ath11k and the firmware, resulting a failure in firmware
+> initialisation.
+> 
+> To fix this add new function mhi_power_down_no_destroy() which does not destroy
+> the devices during power down. This way mhi_power_up() can be called during
+> resume and we can get ath11k hibernation working with the following patches.
+> 
+> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> 
+> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
 
-Going by your theory that if a channel gets disabled while processing the event,
-the process trying to disable the channel will try to acquire "mhi_event->lock"
-which is already held by the process processing the event.
+Any reason for reposting this series without discussing the suggestion from
+Mayank? As I said in the internal thread, this patch breaks the Linux device
+driver model by not destroying the "struct device" when the actual device gets
+removed. We should try to explore alternate options instead of persisting with
+this solution.
 
 - Mani
 
-> > 
-> > Also, I'm planning to cleanup the locking mess within MHI in the coming days.
-> > Perhaps we can revisit this series at that point of time. Will that be OK for
-> > you?
-> Sure, that will be great.
-> > 
-> > - Mani
-> > 
-> > > > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-> > > > > ---
-> > > > >    drivers/bus/mhi/host/main.c | 4 ++++
-> > > > >    1 file changed, 4 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> > > > > index 6c6d253..c4215b0 100644
-> > > > > --- a/drivers/bus/mhi/host/main.c
-> > > > > +++ b/drivers/bus/mhi/host/main.c
-> > > > > @@ -642,6 +642,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
-> > > > >    			mhi_del_ring_element(mhi_cntrl, tre_ring);
-> > > > >    			local_rp = tre_ring->rp;
-> > > > > +			read_unlock_bh(&mhi_chan->lock);
-> > > > > +
-> > > > >    			/* notify client */
-> > > > >    			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
-> > > > > @@ -667,6 +669,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
-> > > > >    					kfree(buf_info->cb_buf);
-> > > > >    				}
-> > > > >    			}
-> > > > > +
-> > > > > +			read_lock_bh(&mhi_chan->lock);
-> > > > >    		}
-> > > > >    		break;
-> > > > >    	} /* CC_EOT */
-> > > > > -- 
-> > > > > 2.7.4
-> > > > > 
-> > > > > 
+> ---
+>  drivers/bus/mhi/host/init.c     |  1 +
+>  drivers/bus/mhi/host/internal.h |  1 +
+>  drivers/bus/mhi/host/pm.c       | 26 +++++++++++++++++++-------
+>  include/linux/mhi.h             | 29 +++++++++++++++++++++++++++--
+>  4 files changed, 48 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 65ceac1837f9..e626b03ffafa 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -43,6 +43,7 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
+>  	[DEV_ST_TRANSITION_FP] = "FLASH PROGRAMMER",
+>  	[DEV_ST_TRANSITION_SYS_ERR] = "SYS ERROR",
+>  	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
+> +	[DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE] = "DISABLE (DESTROY DEVICE)",
+>  };
+>  
+>  const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 30ac415a3000..3f45c9c447bd 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -69,6 +69,7 @@ enum dev_st_transition {
+>  	DEV_ST_TRANSITION_FP,
+>  	DEV_ST_TRANSITION_SYS_ERR,
+>  	DEV_ST_TRANSITION_DISABLE,
+> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
+>  	DEV_ST_TRANSITION_MAX,
+>  };
+>  
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index a2f2feef1476..8833b0248393 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -458,7 +458,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>  }
+>  
+>  /* Handle shutdown transitions */
+> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
+> +				      bool destroy_device)
+>  {
+>  	enum mhi_pm_state cur_state;
+>  	struct mhi_event *mhi_event;
+> @@ -520,8 +521,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>  	dev_dbg(dev, "Waiting for all pending threads to complete\n");
+>  	wake_up_all(&mhi_cntrl->state_event);
+>  
+> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> +	if (destroy_device) {
+> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> +	}
+>  
+>  	mutex_lock(&mhi_cntrl->pm_mutex);
+>  
+> @@ -806,7 +809,10 @@ void mhi_pm_st_worker(struct work_struct *work)
+>  			mhi_pm_sys_error_transition(mhi_cntrl);
+>  			break;
+>  		case DEV_ST_TRANSITION_DISABLE:
+> -			mhi_pm_disable_transition(mhi_cntrl);
+> +			mhi_pm_disable_transition(mhi_cntrl, false);
+> +			break;
+> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
+> +			mhi_pm_disable_transition(mhi_cntrl, true);
+>  			break;
+>  		default:
+>  			break;
+> @@ -1160,7 +1166,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_async_power_up);
+>  
+> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+> +		      bool destroy_device)
+>  {
+>  	enum mhi_pm_state cur_state, transition_state;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> @@ -1196,14 +1203,19 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>  	write_unlock_irq(&mhi_cntrl->pm_lock);
+>  	mutex_unlock(&mhi_cntrl->pm_mutex);
+>  
+> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
+> +	if (destroy_device)
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
+> +	else
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE);
+>  
+>  	/* Wait for shutdown to complete */
+>  	flush_work(&mhi_cntrl->st_worker);
+>  
+>  	disable_irq(mhi_cntrl->irq[0]);
+>  }
+> -EXPORT_SYMBOL_GPL(mhi_power_down);
+> +EXPORT_SYMBOL_GPL(__mhi_power_down);
+>  
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+>  {
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index d0f9b522f328..ae092bc8b97e 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -648,12 +648,37 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
+>   */
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
+>  
+> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+> +		    bool destroy_device);
+> +
+>  /**
+> - * mhi_power_down - Start MHI power down sequence
+> + * mhi_power_down - Start MHI power down sequence. See also
+> + * mhi_power_down_no_destroy() which is a variant of this for suspend.
+> + *
+>   * @mhi_cntrl: MHI controller
+>   * @graceful: Link is still accessible, so do a graceful shutdown process
+>   */
+> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
+> +static inline void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, true);
+> +}
+> +
+> +/**
+> + * mhi_power_down_no_destroy - Start MHI power down sequence but don't
+> + * destroy struct devices. This is a variant for mhi_power_down() and is a
+> + * workaround to make it possible to use mhi_power_up() in a resume
+> + * handler. When using this variant the caller must also call
+> + * mhi_prepare_all_for_transfer_autoqueue() and
+> + * mhi_unprepare_all_from_transfer().
+> + *
+> + * @mhi_cntrl: MHI controller
+> + * @graceful: Link is still accessible, so do a graceful shutdown process
+> + */
+> +static inline void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl,
+> +					     bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, false);
+> +}
+>  
+>  /**
+>   * mhi_unprepare_after_power_down - Free any allocated memory after power down
+> -- 
+> 2.39.2
+> 
 > 
 
 -- 
