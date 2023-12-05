@@ -1,58 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6252022071;
-	Mon,  4 Dec 2023 16:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED913B798;
+	Tue,  5 Dec 2023 12:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="maFYKgAy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703B3C433C8;
-	Mon,  4 Dec 2023 16:12:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1PNPdrg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC69AC433C7;
+	Tue,  5 Dec 2023 12:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701706343;
-	bh=MBDQUUo2JUiiYc8FoOPuMioHnUJ1IL95bAxMP6fsTc4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=maFYKgAy9vXSF6Gy2o1GLDwcHNcLaKj1Jc9FvTqK2Mxc+/o0ynF09qajAtMn87IO2
-	 y8e0jAZP9PNAPyOuEb6iYccjK9DF9BmVvucMIdTWHxWwaiDr6iEtWNLcTsvs5NOteG
-	 omn6p9mW7JuH7d0XlpAaINdmmrgX63Vv7HnY8KrAVPhtW2aYkxvsw8qceRnFPZi+Oe
-	 lM0dQ783jRTPCu6nevIiSFn8Pnb1vQyLlqPrUM0KHBEgS99admyMNrGsAfnBlvbo9F
-	 AHelvpBw3OUD6fpdpDmCE1fe0R+0XmAm6AY7bsQ+k8rsDSfDiDG5ZPrllg4eOsrb7y
-	 ZgZE8c/CMopGw==
-Date: Mon, 4 Dec 2023 08:12:22 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, loic.poulain@linaro.org
-Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
-Message-ID: <20231204081222.31bb980a@kernel.org>
-In-Reply-To: <CAA8EJpqGAK-7be1v8VktFRPpBHhUTwKJ=6JTTrFaWh341JAQEQ@mail.gmail.com>
-References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
-	<20230607094922.43106896@kernel.org>
-	<20230607171153.GA109456@thinkpad>
-	<20230607104350.03a51711@kernel.org>
-	<20230608123720.GC5672@thinkpad>
-	<20231117070602.GA10361@thinkpad>
-	<20231117162638.7cdb3e7d@kernel.org>
-	<20231127060439.GA2505@thinkpad>
-	<20231127084639.6be47207@kernel.org>
-	<CAA8EJppL0YHHjHj=teCnAwPDkNhwR1EWYuLPnDue1QdfZ3RS_w@mail.gmail.com>
-	<20231128125808.7a5f0028@kernel.org>
-	<CAA8EJpqGAK-7be1v8VktFRPpBHhUTwKJ=6JTTrFaWh341JAQEQ@mail.gmail.com>
+	s=k20201202; t=1701779376;
+	bh=sQfnpXdP3ZuhtY6P7yHJiQsXf+TlE9wlb2bR43cDiMM=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=K1PNPdrg+nKHRnEPaHvq1lvbaaQs0VkDae7/YEVtktDoMCG2Tr3gdxOH9//bWObym
+	 PsvVVgP13UrWiGV6TdoSBtPHPli0/bosbyB0QpnCAmQabrMlHd47JcIh52KySaYm3z
+	 pGCpKvalVR3vVO1O9/fDjnWoQCjlH7Crw9fJiCCkwymSEoaxL7hge3t/AdgtscjjFP
+	 Jm6Zs2Z4vhqF9slH2xwgIIDvNasmugdaxDMDimVwGr4xP9nqeH7jAzxwQR/ysVmbtC
+	 UI4hSONLCyr5EyX+UDz02VjQr98cvXEq3vr+dzyHz20HRhxu5VU4bH75hZ6/NxVmVJ
+	 ZI+pGsw38nKMA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,  ath11k@lists.infradead.org,
+  linux-wireless@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add mhi_power_down_no_destroy()
+References: <20231127162022.518834-1-kvalo@kernel.org>
+	<20231127162022.518834-2-kvalo@kernel.org>
+	<20231130054250.GC3043@thinkpad>
+Date: Tue, 05 Dec 2023 14:29:33 +0200
+In-Reply-To: <20231130054250.GC3043@thinkpad> (Manivannan Sadhasivam's message
+	of "Thu, 30 Nov 2023 11:12:50 +0530")
+Message-ID: <87v89cq1ci.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 4 Dec 2023 14:12:12 +0200 Dmitry Baryshkov wrote:
-> Ok, here you are talking about the control path. I can then assume
-> that you consider it to be fine to use netdev for the EP data path, if
-> the control path is kept separate and those two can not be mixed. Does
-> that sound correct?
+Manivannan Sadhasivam <mani@kernel.org> writes:
 
-If datapath == traffic which is intended to leave the card via
-the external port, then yes.
+> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
+>
+>> From: Baochen Qiang <quic_bqiang@quicinc.com>
+>> 
+>> If ath11k tries to call mhi_power_up() during resume it fails:
+>> 
+>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+>> 
+>> This happens because when calling mhi_power_up() the MHI subsystem eventually
+>> calls device_add() from mhi_create_devices() but the device creation is
+>> deferred:
+>> 
+>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+>> 
+>> The reason for deferring device creation is explained in dpm_prepare():
+>> 
+>> 	/*
+>> 	 * It is unsafe if probing of devices will happen during suspend or
+>> 	 * hibernation and system behavior will be unpredictable in this case.
+>> 	 * So, let's prohibit device's probing here and defer their probes
+>> 	 * instead. The normal behavior will be restored in dpm_complete().
+>> 	 */
+>> 
+>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
+>> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
+>> 
+>> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+>> 				      struct mhi_result *mhi_res)
+>> {
+>> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+>> 	int rc;
+>> 
+>> 	if (!qdev || mhi_res->transaction_status)
+>> 		return;
+>> 
+>> So what this means that QRTR is not delivering messages and the QMI connection
+>> is not working between ath11k and the firmware, resulting a failure in firmware
+>> initialisation.
+>> 
+>> To fix this add new function mhi_power_down_no_destroy() which does not destroy
+>> the devices during power down. This way mhi_power_up() can be called during
+>> resume and we can get ath11k hibernation working with the following patches.
+>> 
+>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+>> 
+>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+>
+> Any reason for reposting this series without discussing the suggestion from
+> Mayank?
+
+Baochen quickly sent me fixes for the v1 review comments, as I have been
+out of office for some time I didn't want to sit on Baochen's fixes for
+too long. Better to get them out of the door as soon as possible. I will
+definitely look at Mayank's proposal but that will take longer.
+
+> As I said in the internal thread, this patch breaks the Linux device
+> driver model by not destroying the "struct device" when the actual
+> device gets removed.
+
+This patchset has been tested by several people, I'm even using this
+patchset on main laptop every day, and we haven't noticed any issues.
+
+Can you elaborate more about this driver model? We are not removing any
+ath11k devices, we just want to power down the ath11k (and in the future
+ath12k) devices for suspend and power up during resume.
+
+> We should try to explore alternate options instead of persisting with
+> this solution.
+
+What other options we have here? At least Baochen is not optimistic that
+using PM_POST_HIBERNATION as a workaround would work. The issue we have
+here is that mhi_power_up() doesn't work in the resume handler and
+that's what we should try to fix, not make workarounds.
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
