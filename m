@@ -1,121 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED913B798;
-	Tue,  5 Dec 2023 12:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5020E5E0AB
+	for <mhi@lists.linux.dev>; Tue,  5 Dec 2023 14:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1PNPdrg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC69AC433C7;
-	Tue,  5 Dec 2023 12:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701779376;
-	bh=sQfnpXdP3ZuhtY6P7yHJiQsXf+TlE9wlb2bR43cDiMM=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=K1PNPdrg+nKHRnEPaHvq1lvbaaQs0VkDae7/YEVtktDoMCG2Tr3gdxOH9//bWObym
-	 PsvVVgP13UrWiGV6TdoSBtPHPli0/bosbyB0QpnCAmQabrMlHd47JcIh52KySaYm3z
-	 pGCpKvalVR3vVO1O9/fDjnWoQCjlH7Crw9fJiCCkwymSEoaxL7hge3t/AdgtscjjFP
-	 Jm6Zs2Z4vhqF9slH2xwgIIDvNasmugdaxDMDimVwGr4xP9nqeH7jAzxwQR/ysVmbtC
-	 UI4hSONLCyr5EyX+UDz02VjQr98cvXEq3vr+dzyHz20HRhxu5VU4bH75hZ6/NxVmVJ
-	 ZI+pGsw38nKMA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: mhi@lists.linux.dev,  ath11k@lists.infradead.org,
-  linux-wireless@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add mhi_power_down_no_destroy()
-References: <20231127162022.518834-1-kvalo@kernel.org>
-	<20231127162022.518834-2-kvalo@kernel.org>
-	<20231130054250.GC3043@thinkpad>
-Date: Tue, 05 Dec 2023 14:29:33 +0200
-In-Reply-To: <20231130054250.GC3043@thinkpad> (Manivannan Sadhasivam's message
-	of "Thu, 30 Nov 2023 11:12:50 +0530")
-Message-ID: <87v89cq1ci.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c1XrCk8b"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-da077db5145so3420439276.0
+        for <mhi@lists.linux.dev>; Tue, 05 Dec 2023 06:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701786176; x=1702390976; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G/Frwe5NoLiVErGGo0J2Fc9HYe79JYyuyxPi79nNvzQ=;
+        b=c1XrCk8bVIwyrXdHJN0P3TSD943v+baDlchyZI1JjFtBQCyD4mwoBI2aDaqy5JFsKi
+         EpcT0GVNC5JUpUJdCM4xYboSLfcaH89DaQrTXay2WfUsPoR0UtQx6QB1ICbIP8I1JE3q
+         xCqyqlIMjX6Xx/nCsBf/h/uSF59HJsN0wXIWIwtYGnfeU2JLBPNzmo82LV1GsRCs8QxW
+         LwnwVJsz7T8edSY0S6sIHCd3YrbVPfuzGIhKpnXSy4X2ykm33WwKpbrjbu/By0+ZIre1
+         ZJJcBNsFQDEzegfwj6hm6IFvYY1SPjYMFtxaIhn7hyaE0MEyH2qOUetmmQVCdemrstDQ
+         eSkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701786176; x=1702390976;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G/Frwe5NoLiVErGGo0J2Fc9HYe79JYyuyxPi79nNvzQ=;
+        b=Og/i1VuAJM5h8crsAYTgLxYcJj7+Obdzi2Z5thU1U3ETzbDxD/Ia7yLnKT4PLxh0Zh
+         ZTK0uJ+4L+m23mgwlrYWXU9MjAWC+ZU+QEAnkEBfliGV0aaMChZur4+E8xbPot4k3c5t
+         blsQpAo6wBqk6Xu0pFGP03qhgMqI9HAKrKemMnMfvS7oWsNR5wCgpUHL0fhfz9FFrmlR
+         xSxsq0Ou0SbPFa7Sk7WlWkUsHnMu6qOzHILMpegKEY6khnHqoX87HoK55CPi+bbw4RNC
+         8dUW9me0jbDq66FT83mH+93ywZyjTCvn/Pi72s/7dcoi4DRDPUMLGaL3HcSyoBBdCLxT
+         qdaw==
+X-Gm-Message-State: AOJu0Yzs2iNOMC/ndc9ayms5arfHLtOsTkYen1daveixZPcKnQfBiooW
+	WRHPsWYF5CT73gVwpzyGJ9j8jmdYO27ejYlh9V/3sw==
+X-Google-Smtp-Source: AGHT+IGyrKcpMlCc6HKeOLyBPWiYuASZdAWLwG2aWAnGxzTUHOjqtc2yXhgIigkdzOlV5dwo5Ofz4JjxN6ezYXE4viE=
+X-Received: by 2002:a05:6902:248:b0:db7:dad0:76b5 with SMTP id
+ k8-20020a056902024800b00db7dad076b5mr3673602ybs.81.1701786176179; Tue, 05 Dec
+ 2023 06:22:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
+ <20230607094922.43106896@kernel.org> <20230607171153.GA109456@thinkpad>
+ <20230607104350.03a51711@kernel.org> <20230608123720.GC5672@thinkpad>
+ <20231117070602.GA10361@thinkpad> <20231117162638.7cdb3e7d@kernel.org>
+ <20231127060439.GA2505@thinkpad> <20231127084639.6be47207@kernel.org>
+ <CAA8EJppL0YHHjHj=teCnAwPDkNhwR1EWYuLPnDue1QdfZ3RS_w@mail.gmail.com>
+ <20231128125808.7a5f0028@kernel.org> <CAA8EJpqGAK-7be1v8VktFRPpBHhUTwKJ=6JTTrFaWh341JAQEQ@mail.gmail.com>
+ <20231204081222.31bb980a@kernel.org>
+In-Reply-To: <20231204081222.31bb980a@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 5 Dec 2023 16:22:45 +0200
+Message-ID: <CAA8EJprrcH3T8_aA7bZhZXKiWMXjUTZkvLkQzteHUG4_7e4i8w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loic.poulain@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 
-Manivannan Sadhasivam <mani@kernel.org> writes:
-
-> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
+On Mon, 4 Dec 2023 at 18:12, Jakub Kicinski <kuba@kernel.org> wrote:
 >
->> From: Baochen Qiang <quic_bqiang@quicinc.com>
->> 
->> If ath11k tries to call mhi_power_up() during resume it fails:
->> 
->> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
->> 
->> This happens because when calling mhi_power_up() the MHI subsystem eventually
->> calls device_add() from mhi_create_devices() but the device creation is
->> deferred:
->> 
->> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
->> 
->> The reason for deferring device creation is explained in dpm_prepare():
->> 
->> 	/*
->> 	 * It is unsafe if probing of devices will happen during suspend or
->> 	 * hibernation and system behavior will be unpredictable in this case.
->> 	 * So, let's prohibit device's probing here and defer their probes
->> 	 * instead. The normal behavior will be restored in dpm_complete().
->> 	 */
->> 
->> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
->> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
->> 
->> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
->> 				      struct mhi_result *mhi_res)
->> {
->> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
->> 	int rc;
->> 
->> 	if (!qdev || mhi_res->transaction_status)
->> 		return;
->> 
->> So what this means that QRTR is not delivering messages and the QMI connection
->> is not working between ath11k and the firmware, resulting a failure in firmware
->> initialisation.
->> 
->> To fix this add new function mhi_power_down_no_destroy() which does not destroy
->> the devices during power down. This way mhi_power_up() can be called during
->> resume and we can get ath11k hibernation working with the following patches.
->> 
->> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
->> 
->> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
->> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> On Mon, 4 Dec 2023 14:12:12 +0200 Dmitry Baryshkov wrote:
+> > Ok, here you are talking about the control path. I can then assume
+> > that you consider it to be fine to use netdev for the EP data path, if
+> > the control path is kept separate and those two can not be mixed. Does
+> > that sound correct?
 >
-> Any reason for reposting this series without discussing the suggestion from
-> Mayank?
+> If datapath == traffic which is intended to leave the card via
+> the external port, then yes.
 
-Baochen quickly sent me fixes for the v1 review comments, as I have been
-out of office for some time I didn't want to sit on Baochen's fixes for
-too long. Better to get them out of the door as soon as possible. I will
-definitely look at Mayank's proposal but that will take longer.
+Then I think I understand what causes the confusion.
 
-> As I said in the internal thread, this patch breaks the Linux device
-> driver model by not destroying the "struct device" when the actual
-> device gets removed.
+The MHI netdev is used to deliver network traffic to the modem CPU,
+but it is not the controlpath.
+For the control path we have non-IP MHI channels (QMI, IPCR, etc).
+This can be the traffic targeting e.g. SSH or HTTP server running on
+the EP side of the link.
 
-This patchset has been tested by several people, I'm even using this
-patchset on main laptop every day, and we haven't noticed any issues.
-
-Can you elaborate more about this driver model? We are not removing any
-ath11k devices, we just want to power down the ath11k (and in the future
-ath12k) devices for suspend and power up during resume.
-
-> We should try to explore alternate options instead of persisting with
-> this solution.
-
-What other options we have here? At least Baochen is not optimistic that
-using PM_POST_HIBERNATION as a workaround would work. The issue we have
-here is that mhi_power_up() doesn't work in the resume handler and
-that's what we should try to fix, not make workarounds.
+I probably fail to see the difference between this scenario and the
+proper virtio netdev which also allows us to send the same IPv4/v6
+traffic to the CPU on the EP side.
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+With best wishes
+Dmitry
