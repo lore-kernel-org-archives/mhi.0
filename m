@@ -1,52 +1,31 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9965563A9
-	for <mhi@lists.linux.dev>; Wed,  6 Dec 2023 02:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8575E3A8C9;
+	Wed,  6 Dec 2023 13:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G1XHVcY1"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B60pgVZ031137;
-	Wed, 6 Dec 2023 02:25:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=L19f+ajkxWRfKvLtDMERO9Kn8Y9ELWUmoU2rLGScHyo=;
- b=G1XHVcY1aU5u93YzciAFeiioC60SiLWCvGpthsRnwJaDLevdujFWTLhNFC0+aBAaV+yM
- JrYNIG/+btPKM+wxrlaaWPIOoRQMxYdXk4K/NOWa/GCDlrhTcVGvmPiUJXJi3qAR04pk
- W0VIterumwt6TcztdsXvJpAYV0EKIwgMrp7tsafYy5dja1NNTJ84+asJ8XYLSfw1XAq8
- aJ1A1Tjc8sZQ03AVJk/ft/Mb103LVuXSHPVnmi3nLJqobQtPdzVO6CqTKaPrZO52JN6t
- sA11Ig8GxLjfooM3FQop3f9XlA+qxHXCqJQplZfoPlBdT6bdf8ytFlq0uUkHSjSkajiZ 0Q== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utd0qgccx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Dec 2023 02:25:17 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B62PHnd031217
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 6 Dec 2023 02:25:17 GMT
-Received: from [10.253.14.249] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
- 2023 18:25:15 -0800
-Message-ID: <9873ee7b-7ef1-4327-8e22-49e1cd3872f1@quicinc.com>
-Date: Wed, 6 Dec 2023 10:25:12 +0800
-Precedence: bulk
-X-Mailing-List: mhi@lists.linux.dev
-List-Id: <mhi.lists.linux.dev>
-List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZszqivOo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45E9C433C8;
+	Wed,  6 Dec 2023 13:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701870535;
+	bh=tkjYySP7sGQTDkykz5DyN5SpU1SCRDQmOXY6lWHCTck=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZszqivOowVXi23GOrtIS3SaJLBK5ZushL2trGqtbqmx/01RHzero59mm12WHqMJiU
+	 aShR82QKQs2aC/Dy8BoyugJ/UkRKJi8GqY1Txbi1phowxKb0sN3ugu5USYcGYiPiEX
+	 LzY8azOf4tXJRrkydxtWGgZDpaogM0aJo47krLsSPJw6ScT15u78eRulMW+NCWlIHg
+	 249LIFckXYdv7voqbA/0EaPXVnZj95NfVgm5jFw+ijV2RIdR/cM+7WFMU9pzFUmCWF
+	 ofUvVjIhVl7m5wcinZMGWGkyMfy+KYjK8nhzOMixVpCz9KMiEdB6JadeulCaE0r1lY
+	 2v6FvvWWh8DcA==
+Date: Wed, 6 Dec 2023 19:18:48 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: quic_jhugo@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_mrana@quicinc.com
 Subject: Re: [PATCH v4 2/4] bus: mhi: host: Drop chan lock before queuing
  buffers
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
+Message-ID: <20231206134848.GG12802@thinkpad>
 References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
  <1699939661-7385-3-git-send-email-quic_qianyu@quicinc.com>
  <20231124100403.GA4536@thinkpad>
@@ -54,107 +33,110 @@ References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
  <20231128133252.GX3088@thinkpad>
  <5eb0a521-0b72-4d15-9a65-429c4c123833@quicinc.com>
  <20231130053157.GB3043@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <20231130053157.GB3043@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <9873ee7b-7ef1-4327-8e22-49e1cd3872f1@quicinc.com>
+Precedence: bulk
+X-Mailing-List: mhi@lists.linux.dev
+List-Id: <mhi.lists.linux.dev>
+List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Ai0hCukKgEy8vzX3NDT88uu5EAFybPoP
-X-Proofpoint-ORIG-GUID: Ai0hCukKgEy8vzX3NDT88uu5EAFybPoP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-06_01,2023-12-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 mlxlogscore=750 lowpriorityscore=0 spamscore=0
- adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312060018
+In-Reply-To: <9873ee7b-7ef1-4327-8e22-49e1cd3872f1@quicinc.com>
 
+On Wed, Dec 06, 2023 at 10:25:12AM +0800, Qiang Yu wrote:
+> 
+> On 11/30/2023 1:31 PM, Manivannan Sadhasivam wrote:
+> > On Wed, Nov 29, 2023 at 11:29:07AM +0800, Qiang Yu wrote:
+> > > On 11/28/2023 9:32 PM, Manivannan Sadhasivam wrote:
+> > > > On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
+> > > > > On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
+> > > > > > On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
+> > > > > > > Ensure read and write locks for the channel are not taken in succession by
+> > > > > > > dropping the read lock from parse_xfer_event() such that a callback given
+> > > > > > > to client can potentially queue buffers and acquire the write lock in that
+> > > > > > > process. Any queueing of buffers should be done without channel read lock
+> > > > > > > acquired as it can result in multiple locks and a soft lockup.
+> > > > > > > 
+> > > > > > Is this patch trying to fix an existing issue in client drivers or a potential
+> > > > > > issue in the future drivers?
+> > > > > > 
+> > > > > > Even if you take care of disabled channels, "mhi_event->lock" acquired during
+> > > > > > mhi_mark_stale_events() can cause deadlock, since event lock is already held by
+> > > > > > mhi_ev_task().
+> > > > > > 
+> > > > > > I'd prefer not to open the window unless this patch is fixing a real issue.
+> > > > > > 
+> > > > > > - Mani
+> > > > > In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
+> > > > > queueing
+> > > > > TREs,  we add
+> > > > > write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
+> > > > > in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
+> > > > > callback,
+> > > > > so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
+> > > > > mhi_chan->lock
+> > > > > twice.
+> > > > > 
+> > > > > Sorry for confusing you. Do you think we need to sqush this two patch into
+> > > > > one?
+> > > > Well, if patch 1 is introducing a potential deadlock, then we should fix patch
+> > > > 1 itself and not introduce a follow up patch.
+> > > > 
+> > > > But there is one more issue that I pointed out in my previous reply.
+> > > Sorry, I can not understand why "mhi_event->lock" acquired during
+> > > mhi_mark_stale_events() can cause deadlock. In mhi_ev_task(), we will
+> > > not invoke mhi_mark_stale_events(). Can you provide some interpretation?
+> > Going by your theory that if a channel gets disabled while processing the event,
+> > the process trying to disable the channel will try to acquire "mhi_event->lock"
+> > which is already held by the process processing the event.
+> > 
+> > - Mani
+> OK, I get you. Thank you for kind explanation. Hopefully I didn't intrude
+> too much.
 
-On 11/30/2023 1:31 PM, Manivannan Sadhasivam wrote:
-> On Wed, Nov 29, 2023 at 11:29:07AM +0800, Qiang Yu wrote:
->> On 11/28/2023 9:32 PM, Manivannan Sadhasivam wrote:
->>> On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
->>>> On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
->>>>> On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
->>>>>> Ensure read and write locks for the channel are not taken in succession by
->>>>>> dropping the read lock from parse_xfer_event() such that a callback given
->>>>>> to client can potentially queue buffers and acquire the write lock in that
->>>>>> process. Any queueing of buffers should be done without channel read lock
->>>>>> acquired as it can result in multiple locks and a soft lockup.
->>>>>>
->>>>> Is this patch trying to fix an existing issue in client drivers or a potential
->>>>> issue in the future drivers?
->>>>>
->>>>> Even if you take care of disabled channels, "mhi_event->lock" acquired during
->>>>> mhi_mark_stale_events() can cause deadlock, since event lock is already held by
->>>>> mhi_ev_task().
->>>>>
->>>>> I'd prefer not to open the window unless this patch is fixing a real issue.
->>>>>
->>>>> - Mani
->>>> In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
->>>> queueing
->>>> TREs,  we add
->>>> write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
->>>> in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
->>>> callback,
->>>> so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
->>>> mhi_chan->lock
->>>> twice.
->>>>
->>>> Sorry for confusing you. Do you think we need to sqush this two patch into
->>>> one?
->>> Well, if patch 1 is introducing a potential deadlock, then we should fix patch
->>> 1 itself and not introduce a follow up patch.
->>>
->>> But there is one more issue that I pointed out in my previous reply.
->> Sorry, I can not understand why "mhi_event->lock" acquired during
->> mhi_mark_stale_events() can cause deadlock. In mhi_ev_task(), we will
->> not invoke mhi_mark_stale_events(). Can you provide some interpretation?
-> Going by your theory that if a channel gets disabled while processing the event,
-> the process trying to disable the channel will try to acquire "mhi_event->lock"
-> which is already held by the process processing the event.
->
-> - Mani
-OK, I get you. Thank you for kind explanation. Hopefully I didn't 
-intrude too much.
->
->>> Also, I'm planning to cleanup the locking mess within MHI in the coming days.
->>> Perhaps we can revisit this series at that point of time. Will that be OK for
->>> you?
->> Sure, that will be great.
->>> - Mani
->>>
->>>>>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->>>>>> ---
->>>>>>     drivers/bus/mhi/host/main.c | 4 ++++
->>>>>>     1 file changed, 4 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>>>>> index 6c6d253..c4215b0 100644
->>>>>> --- a/drivers/bus/mhi/host/main.c
->>>>>> +++ b/drivers/bus/mhi/host/main.c
->>>>>> @@ -642,6 +642,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
->>>>>>     			mhi_del_ring_element(mhi_cntrl, tre_ring);
->>>>>>     			local_rp = tre_ring->rp;
->>>>>> +			read_unlock_bh(&mhi_chan->lock);
->>>>>> +
->>>>>>     			/* notify client */
->>>>>>     			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
->>>>>> @@ -667,6 +669,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
->>>>>>     					kfree(buf_info->cb_buf);
->>>>>>     				}
->>>>>>     			}
->>>>>> +
->>>>>> +			read_lock_bh(&mhi_chan->lock);
->>>>>>     		}
->>>>>>     		break;
->>>>>>     	} /* CC_EOT */
->>>>>> -- 
->>>>>> 2.7.4
->>>>>>
->>>>>>
+Not at all. Btw, did you actually encounter any issue that this patch is trying
+to fix? Or just fixing based on code inspection.
+
+- Mani
+
+> > 
+> > > > Also, I'm planning to cleanup the locking mess within MHI in the coming days.
+> > > > Perhaps we can revisit this series at that point of time. Will that be OK for
+> > > > you?
+> > > Sure, that will be great.
+> > > > - Mani
+> > > > 
+> > > > > > > Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+> > > > > > > ---
+> > > > > > >     drivers/bus/mhi/host/main.c | 4 ++++
+> > > > > > >     1 file changed, 4 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> > > > > > > index 6c6d253..c4215b0 100644
+> > > > > > > --- a/drivers/bus/mhi/host/main.c
+> > > > > > > +++ b/drivers/bus/mhi/host/main.c
+> > > > > > > @@ -642,6 +642,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+> > > > > > >     			mhi_del_ring_element(mhi_cntrl, tre_ring);
+> > > > > > >     			local_rp = tre_ring->rp;
+> > > > > > > +			read_unlock_bh(&mhi_chan->lock);
+> > > > > > > +
+> > > > > > >     			/* notify client */
+> > > > > > >     			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+> > > > > > > @@ -667,6 +669,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+> > > > > > >     					kfree(buf_info->cb_buf);
+> > > > > > >     				}
+> > > > > > >     			}
+> > > > > > > +
+> > > > > > > +			read_lock_bh(&mhi_chan->lock);
+> > > > > > >     		}
+> > > > > > >     		break;
+> > > > > > >     	} /* CC_EOT */
+> > > > > > > -- 
+> > > > > > > 2.7.4
+> > > > > > > 
+> > > > > > > 
+
+-- 
+மணிவண்ணன் சதாசிவம்
