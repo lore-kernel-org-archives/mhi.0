@@ -1,92 +1,160 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5020E5E0AB
-	for <mhi@lists.linux.dev>; Tue,  5 Dec 2023 14:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9965563A9
+	for <mhi@lists.linux.dev>; Wed,  6 Dec 2023 02:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c1XrCk8b"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-da077db5145so3420439276.0
-        for <mhi@lists.linux.dev>; Tue, 05 Dec 2023 06:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701786176; x=1702390976; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G/Frwe5NoLiVErGGo0J2Fc9HYe79JYyuyxPi79nNvzQ=;
-        b=c1XrCk8bVIwyrXdHJN0P3TSD943v+baDlchyZI1JjFtBQCyD4mwoBI2aDaqy5JFsKi
-         EpcT0GVNC5JUpUJdCM4xYboSLfcaH89DaQrTXay2WfUsPoR0UtQx6QB1ICbIP8I1JE3q
-         xCqyqlIMjX6Xx/nCsBf/h/uSF59HJsN0wXIWIwtYGnfeU2JLBPNzmo82LV1GsRCs8QxW
-         LwnwVJsz7T8edSY0S6sIHCd3YrbVPfuzGIhKpnXSy4X2ykm33WwKpbrjbu/By0+ZIre1
-         ZJJcBNsFQDEzegfwj6hm6IFvYY1SPjYMFtxaIhn7hyaE0MEyH2qOUetmmQVCdemrstDQ
-         eSkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701786176; x=1702390976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G/Frwe5NoLiVErGGo0J2Fc9HYe79JYyuyxPi79nNvzQ=;
-        b=Og/i1VuAJM5h8crsAYTgLxYcJj7+Obdzi2Z5thU1U3ETzbDxD/Ia7yLnKT4PLxh0Zh
-         ZTK0uJ+4L+m23mgwlrYWXU9MjAWC+ZU+QEAnkEBfliGV0aaMChZur4+E8xbPot4k3c5t
-         blsQpAo6wBqk6Xu0pFGP03qhgMqI9HAKrKemMnMfvS7oWsNR5wCgpUHL0fhfz9FFrmlR
-         xSxsq0Ou0SbPFa7Sk7WlWkUsHnMu6qOzHILMpegKEY6khnHqoX87HoK55CPi+bbw4RNC
-         8dUW9me0jbDq66FT83mH+93ywZyjTCvn/Pi72s/7dcoi4DRDPUMLGaL3HcSyoBBdCLxT
-         qdaw==
-X-Gm-Message-State: AOJu0Yzs2iNOMC/ndc9ayms5arfHLtOsTkYen1daveixZPcKnQfBiooW
-	WRHPsWYF5CT73gVwpzyGJ9j8jmdYO27ejYlh9V/3sw==
-X-Google-Smtp-Source: AGHT+IGyrKcpMlCc6HKeOLyBPWiYuASZdAWLwG2aWAnGxzTUHOjqtc2yXhgIigkdzOlV5dwo5Ofz4JjxN6ezYXE4viE=
-X-Received: by 2002:a05:6902:248:b0:db7:dad0:76b5 with SMTP id
- k8-20020a056902024800b00db7dad076b5mr3673602ybs.81.1701786176179; Tue, 05 Dec
- 2023 06:22:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G1XHVcY1"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B60pgVZ031137;
+	Wed, 6 Dec 2023 02:25:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=L19f+ajkxWRfKvLtDMERO9Kn8Y9ELWUmoU2rLGScHyo=;
+ b=G1XHVcY1aU5u93YzciAFeiioC60SiLWCvGpthsRnwJaDLevdujFWTLhNFC0+aBAaV+yM
+ JrYNIG/+btPKM+wxrlaaWPIOoRQMxYdXk4K/NOWa/GCDlrhTcVGvmPiUJXJi3qAR04pk
+ W0VIterumwt6TcztdsXvJpAYV0EKIwgMrp7tsafYy5dja1NNTJ84+asJ8XYLSfw1XAq8
+ aJ1A1Tjc8sZQ03AVJk/ft/Mb103LVuXSHPVnmi3nLJqobQtPdzVO6CqTKaPrZO52JN6t
+ sA11Ig8GxLjfooM3FQop3f9XlA+qxHXCqJQplZfoPlBdT6bdf8ytFlq0uUkHSjSkajiZ 0Q== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utd0qgccx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Dec 2023 02:25:17 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B62PHnd031217
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 6 Dec 2023 02:25:17 GMT
+Received: from [10.253.14.249] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
+ 2023 18:25:15 -0800
+Message-ID: <9873ee7b-7ef1-4327-8e22-49e1cd3872f1@quicinc.com>
+Date: Wed, 6 Dec 2023 10:25:12 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230607152427.108607-1-manivannan.sadhasivam@linaro.org>
- <20230607094922.43106896@kernel.org> <20230607171153.GA109456@thinkpad>
- <20230607104350.03a51711@kernel.org> <20230608123720.GC5672@thinkpad>
- <20231117070602.GA10361@thinkpad> <20231117162638.7cdb3e7d@kernel.org>
- <20231127060439.GA2505@thinkpad> <20231127084639.6be47207@kernel.org>
- <CAA8EJppL0YHHjHj=teCnAwPDkNhwR1EWYuLPnDue1QdfZ3RS_w@mail.gmail.com>
- <20231128125808.7a5f0028@kernel.org> <CAA8EJpqGAK-7be1v8VktFRPpBHhUTwKJ=6JTTrFaWh341JAQEQ@mail.gmail.com>
- <20231204081222.31bb980a@kernel.org>
-In-Reply-To: <20231204081222.31bb980a@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 5 Dec 2023 16:22:45 +0200
-Message-ID: <CAA8EJprrcH3T8_aA7bZhZXKiWMXjUTZkvLkQzteHUG4_7e4i8w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add MHI Endpoint network driver
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loic.poulain@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] bus: mhi: host: Drop chan lock before queuing
+ buffers
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
+References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
+ <1699939661-7385-3-git-send-email-quic_qianyu@quicinc.com>
+ <20231124100403.GA4536@thinkpad>
+ <639d6008-bdfa-4b6e-b622-e916003ec908@quicinc.com>
+ <20231128133252.GX3088@thinkpad>
+ <5eb0a521-0b72-4d15-9a65-429c4c123833@quicinc.com>
+ <20231130053157.GB3043@thinkpad>
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <20231130053157.GB3043@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Ai0hCukKgEy8vzX3NDT88uu5EAFybPoP
+X-Proofpoint-ORIG-GUID: Ai0hCukKgEy8vzX3NDT88uu5EAFybPoP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-06_01,2023-12-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 mlxlogscore=750 lowpriorityscore=0 spamscore=0
+ adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312060018
 
-On Mon, 4 Dec 2023 at 18:12, Jakub Kicinski <kuba@kernel.org> wrote:
+
+On 11/30/2023 1:31 PM, Manivannan Sadhasivam wrote:
+> On Wed, Nov 29, 2023 at 11:29:07AM +0800, Qiang Yu wrote:
+>> On 11/28/2023 9:32 PM, Manivannan Sadhasivam wrote:
+>>> On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
+>>>> On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
+>>>>> On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
+>>>>>> Ensure read and write locks for the channel are not taken in succession by
+>>>>>> dropping the read lock from parse_xfer_event() such that a callback given
+>>>>>> to client can potentially queue buffers and acquire the write lock in that
+>>>>>> process. Any queueing of buffers should be done without channel read lock
+>>>>>> acquired as it can result in multiple locks and a soft lockup.
+>>>>>>
+>>>>> Is this patch trying to fix an existing issue in client drivers or a potential
+>>>>> issue in the future drivers?
+>>>>>
+>>>>> Even if you take care of disabled channels, "mhi_event->lock" acquired during
+>>>>> mhi_mark_stale_events() can cause deadlock, since event lock is already held by
+>>>>> mhi_ev_task().
+>>>>>
+>>>>> I'd prefer not to open the window unless this patch is fixing a real issue.
+>>>>>
+>>>>> - Mani
+>>>> In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
+>>>> queueing
+>>>> TREs,  we add
+>>>> write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
+>>>> in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
+>>>> callback,
+>>>> so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
+>>>> mhi_chan->lock
+>>>> twice.
+>>>>
+>>>> Sorry for confusing you. Do you think we need to sqush this two patch into
+>>>> one?
+>>> Well, if patch 1 is introducing a potential deadlock, then we should fix patch
+>>> 1 itself and not introduce a follow up patch.
+>>>
+>>> But there is one more issue that I pointed out in my previous reply.
+>> Sorry, I can not understand why "mhi_event->lock" acquired during
+>> mhi_mark_stale_events() can cause deadlock. In mhi_ev_task(), we will
+>> not invoke mhi_mark_stale_events(). Can you provide some interpretation?
+> Going by your theory that if a channel gets disabled while processing the event,
+> the process trying to disable the channel will try to acquire "mhi_event->lock"
+> which is already held by the process processing the event.
 >
-> On Mon, 4 Dec 2023 14:12:12 +0200 Dmitry Baryshkov wrote:
-> > Ok, here you are talking about the control path. I can then assume
-> > that you consider it to be fine to use netdev for the EP data path, if
-> > the control path is kept separate and those two can not be mixed. Does
-> > that sound correct?
+> - Mani
+OK, I get you. Thank you for kind explanation. Hopefully I didn't 
+intrude too much.
 >
-> If datapath == traffic which is intended to leave the card via
-> the external port, then yes.
-
-Then I think I understand what causes the confusion.
-
-The MHI netdev is used to deliver network traffic to the modem CPU,
-but it is not the controlpath.
-For the control path we have non-IP MHI channels (QMI, IPCR, etc).
-This can be the traffic targeting e.g. SSH or HTTP server running on
-the EP side of the link.
-
-I probably fail to see the difference between this scenario and the
-proper virtio netdev which also allows us to send the same IPv4/v6
-traffic to the CPU on the EP side.
-
--- 
-With best wishes
-Dmitry
+>>> Also, I'm planning to cleanup the locking mess within MHI in the coming days.
+>>> Perhaps we can revisit this series at that point of time. Will that be OK for
+>>> you?
+>> Sure, that will be great.
+>>> - Mani
+>>>
+>>>>>> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+>>>>>> ---
+>>>>>>     drivers/bus/mhi/host/main.c | 4 ++++
+>>>>>>     1 file changed, 4 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>>>>>> index 6c6d253..c4215b0 100644
+>>>>>> --- a/drivers/bus/mhi/host/main.c
+>>>>>> +++ b/drivers/bus/mhi/host/main.c
+>>>>>> @@ -642,6 +642,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>>>>>>     			mhi_del_ring_element(mhi_cntrl, tre_ring);
+>>>>>>     			local_rp = tre_ring->rp;
+>>>>>> +			read_unlock_bh(&mhi_chan->lock);
+>>>>>> +
+>>>>>>     			/* notify client */
+>>>>>>     			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+>>>>>> @@ -667,6 +669,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+>>>>>>     					kfree(buf_info->cb_buf);
+>>>>>>     				}
+>>>>>>     			}
+>>>>>> +
+>>>>>> +			read_lock_bh(&mhi_chan->lock);
+>>>>>>     		}
+>>>>>>     		break;
+>>>>>>     	} /* CC_EOT */
+>>>>>> -- 
+>>>>>> 2.7.4
+>>>>>>
+>>>>>>
