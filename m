@@ -1,38 +1,38 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286E310A02
-	for <mhi@lists.linux.dev>; Thu,  7 Dec 2023 05:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0A910A02
+	for <mhi@lists.linux.dev>; Thu,  7 Dec 2023 05:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PCdcqISz"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B74VJdx006324;
-	Thu, 7 Dec 2023 05:27:12 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GqlD4qhc"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B759NV1005313;
+	Thu, 7 Dec 2023 05:27:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
  bh=sJtq/mf3IaDcHrZEnV/Gxwe8zGF+t6C09xMyyojnKQs=;
- b=PCdcqISz+1ZdhIslnfuyA/zxzGgA3fNrYl6nnZnJ0D1+G+NOpuTa3SODZmODoLbgFqp6
- ZcvhagraZqtBE9eDJU4x9LMT9miYeHGne8SlSg2vVHG7opkNjFxpIjkUy8YNqZKT/nJo
- G3OyTYKjWH97Os+6OjVdxG7p38bXksaAyFQbr1xxxEfXubxJaO3/iZ+HIDrenIcNuJot
- dWpc/As+0P4NIJIiy9dwHsLmV6T8Ani5W0v0OV7zHAPAmG9A1lywMg76g823VMDUqAEk
- gaYB58J+2GZDMiIsMFdSndNAF9TtfuA2IhI181lEBFfoCprO/7JJzT20iOv/hLzVcLul +g== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu2p88jye-1
+ b=GqlD4qhcEs6svQOeJvzsjB9ZaaGXpr+3NmClMPHolbWtdQzpBZcARIqNHqTLmYWJIuAW
+ lEG4+M4x9gCDVPWdfOLola6CtvceQoFkoWKHS1BFMxjfbee7gYAqZoS88W370Vv5chGT
+ XyXCbU2Q2kAxomiqVAahmNv+RmiY41OO722ZlELEK6SGNXuep/rNsz9bHSF6RGf1CZTG
+ zX8A0sV3xO0lLM1I5OWb53H2SuFUw86x+HbC+EVVj/utLcfmv+tQkZf7Ukgj13GPz2MX
+ SussIt/AeM5Iab9in2rY2VEkP6QlmzV+7opFGRDdUcPeeFRHoNNEiBXkIkSDKpCajMsD Bw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu6qr04eq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Dec 2023 05:27:11 +0000
+	Thu, 07 Dec 2023 05:27:25 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B75RAGK011917
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B75RObR031511
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 7 Dec 2023 05:27:10 GMT
+	Thu, 7 Dec 2023 05:27:24 GMT
 Received: from [10.253.35.241] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 6 Dec
- 2023 21:25:25 -0800
-Message-ID: <d72ce764-41ee-4a6b-994c-7a6507dcb032@quicinc.com>
-Date: Thu, 7 Dec 2023 13:25:23 +0800
+ 2023 21:27:22 -0800
+Message-ID: <947af144-e2a2-49bc-9f39-31f6ee5b1aa1@quicinc.com>
+Date: Thu, 7 Dec 2023 13:27:19 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -64,16 +64,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: v4W9o8s88LPsw8WWVMjZ_K60gCrzS_9F
-X-Proofpoint-ORIG-GUID: v4W9o8s88LPsw8WWVMjZ_K60gCrzS_9F
+X-Proofpoint-GUID: v8lOCPpFY54S-_fcui5HN1YbNZv7s8iq
+X-Proofpoint-ORIG-GUID: v8lOCPpFY54S-_fcui5HN1YbNZv7s8iq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-07_03,2023-12-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
- suspectscore=0 mlxlogscore=733 mlxscore=0 adultscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312070039
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=733
+ priorityscore=1501 malwarescore=0 impostorscore=0 spamscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312070039
 
 
 On 12/6/2023 9:48 PM, Manivannan Sadhasivam wrote:
