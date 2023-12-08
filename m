@@ -1,44 +1,44 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0F9381A0
-	for <mhi@lists.linux.dev>; Fri,  8 Dec 2023 17:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B768C54657
+	for <mhi@lists.linux.dev>; Fri,  8 Dec 2023 22:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hZYGQYHh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B8D9Ghw005015;
-	Fri, 8 Dec 2023 17:00:08 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SFddAPIW"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B8Lsh8T018256;
+	Fri, 8 Dec 2023 22:14:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding :
  content-type; s=qcppdkim1;
- bh=wHJ+4ZUnbHZlPY4RM1Li/BP4hbUdWSaXqBp7Npt4yes=;
- b=hZYGQYHhGAy638EkUy8KDDXe8hvbKjqdM3MY4UHxw8pfw3ISXGUSl/H9a8ZNeafnifD0
- UMoJ3/82QDT0i1uiLwDgx1R94kB1sb30F97mTuXt0C/41Wh9Dcw6AnxD1eyf/X/6/AZK
- cNU5ioEl6qtEnfKGC3BdZC88qvHDiDQfgbfMKfNBAdiojOQXah+/GC8B/AWOgmWmBaiT
- d9nQGoK3RwiW75WXozgp9J+eDaoK176k2cwdiLaG5c+jVjINC9eDvg6fp+uvA3Sn9nJb
- AnNoWWSuj5PRDU6snOFUrG5v0e7UHIAJQOlF4wDnHjFD4WMWjaLYgogaXZwkF6raHyLl aA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uuj96jqsv-1
+ bh=1vgixEtZoHTf9fbQcvAW3O1TDYX2opNerS0Qyb3Okds=;
+ b=SFddAPIWqrupox45Yb7rdkagsVIGphbt2KAN6zab4jYSqi+WIZ34V3JZvt4WvQi9hcXE
+ vERNZeQBPAZt+sijB8WfxOUhJX3/vRNmTny0Lg0WYdO/lWCci4ORPT6FkZeYey/q5i9h
+ dNO6/3aCARYtwJU+6+nPhcF+XiFZXz9UJW7SlLUa5Li9uTBVWj8GW1CJDzJwwJhFomhE
+ 5Q83qUhJMcxJYGysuTDH8jZx63BDfNCRwVYYEcHQUvN4XQn+Fh/Fz/2RqJNZcTAsglln
+ DUufKq4V2oYRvFWi7cm4kRmOxFYrSM8srceDWsjPMwiqG5k5kZHzuACJ/51Y3FSjYGRA iw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uv2sfs81x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Dec 2023 17:00:07 +0000
+	Fri, 08 Dec 2023 22:14:11 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8H06LB012441
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8MEBvj028395
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 8 Dec 2023 17:00:06 GMT
+	Fri, 8 Dec 2023 22:14:11 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 8 Dec 2023 09:00:05 -0800
+ 15.2.1118.40; Fri, 8 Dec 2023 14:14:10 -0800
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <mani@kernel.org>, <quic_pkanojiy@quicinc.com>, <quic_carlv@quicinc.com>
 CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
         Jeffrey Hugo
 	<quic_jhugo@quicinc.com>
-Subject: [PATCH] bus: mhi: host: Read PK HASH dynamically
-Date: Fri, 8 Dec 2023 09:59:38 -0700
-Message-ID: <20231208165938.1340587-1-quic_jhugo@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
+Date: Fri, 8 Dec 2023 15:13:53 -0700
+Message-ID: <20231208221353.1560177-1-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -52,118 +52,141 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OH5HS67o7qN5epo1t6d4_XwPrgn3Cm9L
-X-Proofpoint-ORIG-GUID: OH5HS67o7qN5epo1t6d4_XwPrgn3Cm9L
+X-Proofpoint-GUID: _SW7SDkHix2cBtcgLi4wZf01EMupCKBT
+X-Proofpoint-ORIG-GUID: _SW7SDkHix2cBtcgLi4wZf01EMupCKBT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-08_11,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312080140
+ definitions=2023-12-08_14,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080184
 
-The OEM PK HASH registers in the BHI region are read once during firmware
-load (boot), cached, and displayed on demand via sysfs. This has a few
-problems - if firmware load is skipped, the registers will not be read and
-if the register values change over the life of the device the local cache
-will be out of sync.
+When processing a SYSERR, if the device does not respond to the MHI_RESET
+from the host, the host will be stuck in a difficult to recover state.
+The host will remain in MHI_PM_SYS_ERR_PROCESS and not clean up the host
+channels.  Clients will not be notified of the SYSERR via the destruction
+of their channel devices, which means clients may think that the device is
+still up.  Subsequent SYSERR events such as a device fatal error will not
+be processed as the state machine cannot transition from PROCESS back to
+DETECT.  The only way to recover from this is to unload the mhi module
+(wipe the state machine state) or for the mhi controller to initiate
+SHUTDOWN.
 
-Qualcomm Cloud AI 100 can expose both these problems. It is possible for
-mhi_async_power_up() to be invoked while the device is in AMSS EE, which
-would bypass firmware loading. Also, Qualcomm Cloud AI 100 has 5 PK HASH
-slots which can be dynamically provisioned while the device is active,
-which would result in the values changing and users may want to know what
-keys are active.
+In this failure case, to recover the device, we need a state similar to
+PROCESS, but can transition to DETECT.  There is not a viable existing
+state to use.  POR has the needed transitions, but assumes the device is
+in a good state and could allow the host to attempt to use the device.
+Allowing PROCESS to transition to DETECT invites the possibility of
+parallel SYSERR processing which could get the host and device out of
+sync.
 
-Address these concerns by reading the PK HASH registers on-demand during
-the sysfs read. This will result in showing the most current information.
+Thus, invent a new state - MHI_PM_SYS_ERR_FAIL
+
+This essentially a holding state.  It allows us to clean up the host
+elements that are based on the old state of the device (channels), but
+does not allow us to directly advance back to an operational state.  It
+does allow the detection and processing of another SYSERR which may
+recover the device, or allows the controller to do a clean shutdown.
 
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
 ---
- drivers/bus/mhi/host/boot.c | 11 +----------
- drivers/bus/mhi/host/init.c | 16 ++++++++++++----
- include/linux/mhi.h         |  2 --
- 3 files changed, 13 insertions(+), 16 deletions(-)
+ drivers/bus/mhi/host/init.c     |  1 +
+ drivers/bus/mhi/host/internal.h |  9 ++++++---
+ drivers/bus/mhi/host/pm.c       | 20 +++++++++++++++++---
+ 3 files changed, 24 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index edc0ec5a0933..dedd29ca8db3 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -395,7 +395,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 	void *buf;
- 	dma_addr_t dma_addr;
- 	size_t size, fw_sz;
--	int i, ret;
-+	int ret;
- 
- 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
- 		dev_err(dev, "Device MHI is not in valid state\n");
-@@ -408,15 +408,6 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 	if (ret)
- 		dev_err(dev, "Could not capture serial number via BHI\n");
- 
--	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++) {
--		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i),
--				   &mhi_cntrl->oem_pk_hash[i]);
--		if (ret) {
--			dev_err(dev, "Could not capture OEM PK HASH via BHI\n");
--			break;
--		}
--	}
--
- 	/* wait for ready on pass through or any other execution environment */
- 	if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
- 		goto fw_load_ready_state;
 diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 65ceac1837f9..e2c2f510b04f 100644
+index e2c2f510b04f..d3f919277cf9 100644
 --- a/drivers/bus/mhi/host/init.c
 +++ b/drivers/bus/mhi/host/init.c
-@@ -97,11 +97,19 @@ static ssize_t oem_pk_hash_show(struct device *dev,
- {
- 	struct mhi_device *mhi_dev = to_mhi_device(dev);
- 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
--	int i, cnt = 0;
-+	u32 hash_segment[MHI_MAX_OEM_PK_HASH_SEGMENTS];
-+	int i, cnt = 0, ret;
+@@ -62,6 +62,7 @@ static const char * const mhi_pm_state_str[] = {
+ 	[MHI_PM_STATE_FW_DL_ERR] = "Firmware Download Error",
+ 	[MHI_PM_STATE_SYS_ERR_DETECT] = "SYS ERROR Detect",
+ 	[MHI_PM_STATE_SYS_ERR_PROCESS] = "SYS ERROR Process",
++	[MHI_PM_STATE_SYS_ERR_FAIL] = "SYS ERROR Failure",
+ 	[MHI_PM_STATE_SHUTDOWN_PROCESS] = "SHUTDOWN Process",
+ 	[MHI_PM_STATE_LD_ERR_FATAL_DETECT] = "Linkdown or Error Fatal Detect",
+ };
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 30ac415a3000..4b6deea17bcd 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -88,6 +88,7 @@ enum mhi_pm_state {
+ 	MHI_PM_STATE_FW_DL_ERR,
+ 	MHI_PM_STATE_SYS_ERR_DETECT,
+ 	MHI_PM_STATE_SYS_ERR_PROCESS,
++	MHI_PM_STATE_SYS_ERR_FAIL,
+ 	MHI_PM_STATE_SHUTDOWN_PROCESS,
+ 	MHI_PM_STATE_LD_ERR_FATAL_DETECT,
+ 	MHI_PM_STATE_MAX
+@@ -104,14 +105,16 @@ enum mhi_pm_state {
+ #define MHI_PM_FW_DL_ERR				BIT(7)
+ #define MHI_PM_SYS_ERR_DETECT				BIT(8)
+ #define MHI_PM_SYS_ERR_PROCESS				BIT(9)
+-#define MHI_PM_SHUTDOWN_PROCESS				BIT(10)
++#define MHI_PM_SYS_ERR_FAIL				BIT(10)
++#define MHI_PM_SHUTDOWN_PROCESS				BIT(11)
+ /* link not accessible */
+-#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(11)
++#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(12)
  
--	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++)
--		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n",
--				i, mhi_cntrl->oem_pk_hash[i]);
-+	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++) {
-+		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i), &hash_segment[i]);
-+		if (ret) {
-+			dev_err(dev, "Could not capture OEM PK HASH\n");
-+			return cnt;
-+		}
-+	}
-+
-+	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++)
-+		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n", i, hash_segment[i]);
+ #define MHI_REG_ACCESS_VALID(pm_state)			((pm_state & (MHI_PM_POR | MHI_PM_M0 | \
+ 						MHI_PM_M2 | MHI_PM_M3_ENTER | MHI_PM_M3_EXIT | \
+ 						MHI_PM_SYS_ERR_DETECT | MHI_PM_SYS_ERR_PROCESS | \
+-						MHI_PM_SHUTDOWN_PROCESS | MHI_PM_FW_DL_ERR)))
++						MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |  \
++						MHI_PM_FW_DL_ERR)))
+ #define MHI_PM_IN_ERROR_STATE(pm_state)			(pm_state >= MHI_PM_FW_DL_ERR)
+ #define MHI_PM_IN_FATAL_STATE(pm_state)			(pm_state == MHI_PM_LD_ERR_FATAL_DETECT)
+ #define MHI_DB_ACCESS_VALID(mhi_cntrl)			(mhi_cntrl->pm_state & mhi_cntrl->db_access)
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index a2f2feef1476..d0d033ce9984 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -36,7 +36,10 @@
+  *     M0 <--> M0
+  *     M0 -> FW_DL_ERR
+  *     M0 -> M3_ENTER -> M3 -> M3_EXIT --> M0
+- * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS --> POR
++ * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS
++ *     SYS_ERR_PROCESS -> SYS_ERR_FAIL
++ *     SYS_ERR_FAIL -> SYS_ERR_DETECT
++ *     SYS_ERR_PROCESS --> POR
+  * L2: SHUTDOWN_PROCESS -> LD_ERR_FATAL_DETECT
+  *     SHUTDOWN_PROCESS -> DISABLE
+  * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
+@@ -93,7 +96,12 @@ static const struct mhi_pm_transitions dev_state_transitions[] = {
+ 	},
+ 	{
+ 		MHI_PM_SYS_ERR_PROCESS,
+-		MHI_PM_POR | MHI_PM_SHUTDOWN_PROCESS |
++		MHI_PM_POR | MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |
++		MHI_PM_LD_ERR_FATAL_DETECT
++	},
++	{
++		MHI_PM_SYS_ERR_FAIL,
++		MHI_PM_SYS_ERR_DETECT | MHI_PM_SHUTDOWN_PROCESS |
+ 		MHI_PM_LD_ERR_FATAL_DETECT
+ 	},
+ 	/* L2 States */
+@@ -629,7 +637,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+ 					!in_reset, timeout);
+ 		if (!ret || in_reset) {
+ 			dev_err(dev, "Device failed to exit MHI Reset state\n");
+-			goto exit_sys_error_transition;
++			write_lock_irq(&mhi_cntrl->pm_lock);
++			cur_state = mhi_tryset_pm_state(mhi_cntrl,
++							MHI_PM_SYS_ERR_FAIL);
++			write_unlock_irq(&mhi_cntrl->pm_lock);
++			/* Shutdown may have occurred, otherwise cleanup now */
++			if (cur_state != MHI_PM_SYS_ERR_FAIL)
++				goto exit_sys_error_transition;
+ 		}
  
- 	return cnt;
- }
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index d0f9b522f328..474d32cb0520 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -325,7 +325,6 @@ struct mhi_controller_config {
-  * @major_version: MHI controller major revision number
-  * @minor_version: MHI controller minor revision number
-  * @serial_number: MHI controller serial number obtained from BHI
-- * @oem_pk_hash: MHI controller OEM PK Hash obtained from BHI
-  * @mhi_event: MHI event ring configurations table
-  * @mhi_cmd: MHI command ring configurations table
-  * @mhi_ctxt: MHI device context, shared memory between host and device
-@@ -413,7 +412,6 @@ struct mhi_controller {
- 	u32 major_version;
- 	u32 minor_version;
- 	u32 serial_number;
--	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
- 
- 	struct mhi_event *mhi_event;
- 	struct mhi_cmd *mhi_cmd;
+ 		/*
 -- 
 2.34.1
 
