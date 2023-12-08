@@ -1,148 +1,169 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0791E489
-	for <mhi@lists.linux.dev>; Thu,  7 Dec 2023 09:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0F9381A0
+	for <mhi@lists.linux.dev>; Fri,  8 Dec 2023 17:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n7Kg2TPE"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B79HhdA005765;
-	Thu, 7 Dec 2023 09:50:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=QxSOJGmEF80oJRpLXAvUU5y18+PxG9dZ4PIqMAM/PK8=;
- b=n7Kg2TPEbwxj+peNBjibFbgM0CRghF7DhOOsZ2r1bGjBbr+rONt21poj961U+1w8BmF5
- PRKW7IyAMgp6M+OalbcYSTuI0uZPxBeVENd9bo0I40QvcCK+DyCxRwc3KN1YtKPLVBST
- KzYS+oLV/e1iiYlw1WdFGsf0r3oatl+8qMBy39tmvkiK8JFCG2RS1KgQJ9qw3AbNwr2E
- knAN6Jm/72NRA+xk72lOQRTUZ2TqOJDthh6noOp8KBEOlWFPKuKd5UfTg24/mhduPl4W
- axncvluxmB9ofnL68i/dV0N9Pw8atxyLmCU0MIlOmRTFlYB6gseTE6YEVCagy3M/ziNz ww== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utynu1e5y-1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hZYGQYHh"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B8D9Ghw005015;
+	Fri, 8 Dec 2023 17:00:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=wHJ+4ZUnbHZlPY4RM1Li/BP4hbUdWSaXqBp7Npt4yes=;
+ b=hZYGQYHhGAy638EkUy8KDDXe8hvbKjqdM3MY4UHxw8pfw3ISXGUSl/H9a8ZNeafnifD0
+ UMoJ3/82QDT0i1uiLwDgx1R94kB1sb30F97mTuXt0C/41Wh9Dcw6AnxD1eyf/X/6/AZK
+ cNU5ioEl6qtEnfKGC3BdZC88qvHDiDQfgbfMKfNBAdiojOQXah+/GC8B/AWOgmWmBaiT
+ d9nQGoK3RwiW75WXozgp9J+eDaoK176k2cwdiLaG5c+jVjINC9eDvg6fp+uvA3Sn9nJb
+ AnNoWWSuj5PRDU6snOFUrG5v0e7UHIAJQOlF4wDnHjFD4WMWjaLYgogaXZwkF6raHyLl aA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uuj96jqsv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Dec 2023 09:50:27 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B79oQ8j008604
+	Fri, 08 Dec 2023 17:00:07 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8H06LB012441
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 7 Dec 2023 09:50:26 GMT
-Received: from [10.253.35.241] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 7 Dec
- 2023 01:50:24 -0800
-Message-ID: <c3e628bd-20cf-4196-959a-c178e4452773@quicinc.com>
-Date: Thu, 7 Dec 2023 17:50:22 +0800
+	Fri, 8 Dec 2023 17:00:06 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 8 Dec 2023 09:00:05 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>, <quic_pkanojiy@quicinc.com>, <quic_carlv@quicinc.com>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        Jeffrey Hugo
+	<quic_jhugo@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Read PK HASH dynamically
+Date: Fri, 8 Dec 2023 09:59:38 -0700
+Message-ID: <20231208165938.1340587-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] bus: mhi: host: Drop chan lock before queuing
- buffers
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_cang@quicinc.com>, <quic_mrana@quicinc.com>
-References: <1699939661-7385-1-git-send-email-quic_qianyu@quicinc.com>
- <1699939661-7385-3-git-send-email-quic_qianyu@quicinc.com>
- <20231124100403.GA4536@thinkpad>
- <639d6008-bdfa-4b6e-b622-e916003ec908@quicinc.com>
- <20231128133252.GX3088@thinkpad>
- <5eb0a521-0b72-4d15-9a65-429c4c123833@quicinc.com>
- <20231130053157.GB3043@thinkpad>
- <9873ee7b-7ef1-4327-8e22-49e1cd3872f1@quicinc.com>
- <20231206134848.GG12802@thinkpad>
- <947af144-e2a2-49bc-9f39-31f6ee5b1aa1@quicinc.com>
- <20231207064347.GE2932@thinkpad>
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <20231207064347.GE2932@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 90aCDS366Q3ZZDdBNwTx-RPZYBs-gNzw
-X-Proofpoint-ORIG-GUID: 90aCDS366Q3ZZDdBNwTx-RPZYBs-gNzw
+X-Proofpoint-GUID: OH5HS67o7qN5epo1t6d4_XwPrgn3Cm9L
+X-Proofpoint-ORIG-GUID: OH5HS67o7qN5epo1t6d4_XwPrgn3Cm9L
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-07_07,2023-12-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- phishscore=0 malwarescore=0 spamscore=0 impostorscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312070079
+ definitions=2023-12-08_11,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080140
 
+The OEM PK HASH registers in the BHI region are read once during firmware
+load (boot), cached, and displayed on demand via sysfs. This has a few
+problems - if firmware load is skipped, the registers will not be read and
+if the register values change over the life of the device the local cache
+will be out of sync.
 
-On 12/7/2023 2:43 PM, Manivannan Sadhasivam wrote:
-> On Thu, Dec 07, 2023 at 01:27:19PM +0800, Qiang Yu wrote:
->> On 12/6/2023 9:48 PM, Manivannan Sadhasivam wrote:
->>> On Wed, Dec 06, 2023 at 10:25:12AM +0800, Qiang Yu wrote:
->>>> On 11/30/2023 1:31 PM, Manivannan Sadhasivam wrote:
->>>>> On Wed, Nov 29, 2023 at 11:29:07AM +0800, Qiang Yu wrote:
->>>>>> On 11/28/2023 9:32 PM, Manivannan Sadhasivam wrote:
->>>>>>> On Mon, Nov 27, 2023 at 03:13:55PM +0800, Qiang Yu wrote:
->>>>>>>> On 11/24/2023 6:04 PM, Manivannan Sadhasivam wrote:
->>>>>>>>> On Tue, Nov 14, 2023 at 01:27:39PM +0800, Qiang Yu wrote:
->>>>>>>>>> Ensure read and write locks for the channel are not taken in succession by
->>>>>>>>>> dropping the read lock from parse_xfer_event() such that a callback given
->>>>>>>>>> to client can potentially queue buffers and acquire the write lock in that
->>>>>>>>>> process. Any queueing of buffers should be done without channel read lock
->>>>>>>>>> acquired as it can result in multiple locks and a soft lockup.
->>>>>>>>>>
->>>>>>>>> Is this patch trying to fix an existing issue in client drivers or a potential
->>>>>>>>> issue in the future drivers?
->>>>>>>>>
->>>>>>>>> Even if you take care of disabled channels, "mhi_event->lock" acquired during
->>>>>>>>> mhi_mark_stale_events() can cause deadlock, since event lock is already held by
->>>>>>>>> mhi_ev_task().
->>>>>>>>>
->>>>>>>>> I'd prefer not to open the window unless this patch is fixing a real issue.
->>>>>>>>>
->>>>>>>>> - Mani
->>>>>>>> In [PATCH v4 1/4] bus: mhi: host: Add spinlock to protect WP access when
->>>>>>>> queueing
->>>>>>>> TREs,  we add
->>>>>>>> write_lock_bh(&mhi_chan->lock)/write_unlock_bh(&mhi_chan->lock)
->>>>>>>> in mhi_gen_tre, which may be invoked as part of mhi_queue in client xfer
->>>>>>>> callback,
->>>>>>>> so we have to use read_unlock_bh(&mhi_chan->lock) here to avoid acquiring
->>>>>>>> mhi_chan->lock
->>>>>>>> twice.
->>>>>>>>
->>>>>>>> Sorry for confusing you. Do you think we need to sqush this two patch into
->>>>>>>> one?
->>>>>>> Well, if patch 1 is introducing a potential deadlock, then we should fix patch
->>>>>>> 1 itself and not introduce a follow up patch.
->>>>>>>
->>>>>>> But there is one more issue that I pointed out in my previous reply.
->>>>>> Sorry, I can not understand why "mhi_event->lock" acquired during
->>>>>> mhi_mark_stale_events() can cause deadlock. In mhi_ev_task(), we will
->>>>>> not invoke mhi_mark_stale_events(). Can you provide some interpretation?
->>>>> Going by your theory that if a channel gets disabled while processing the event,
->>>>> the process trying to disable the channel will try to acquire "mhi_event->lock"
->>>>> which is already held by the process processing the event.
->>>>>
->>>>> - Mani
->>>> OK, I get you. Thank you for kind explanation. Hopefully I didn't intrude
->>>> too much.
->>> Not at all. Btw, did you actually encounter any issue that this patch is trying
->>> to fix? Or just fixing based on code inspection.
->>>
->>> - Mani
->> Yes, we actually meet the race issue in downstream driver. But I can not
->> find more details about the issue.
-> Hmm. I think it is OK to accept this patch and ignore the channel disabling
-> concern since the event lock is in place to prevent that. There would be no
-> deadlock as I mentioned above, since the process that is parsing the xfer event
-> is not the one that is going to disable the channel in parallel.
->
-> Could you please respin this series dropping patch 3/4 and also addressing the
-> issue I mentioned in patch 4/4?
->
-> - Mani
-Thank you for tirelessly review these patches. Will do this in next version.
+Qualcomm Cloud AI 100 can expose both these problems. It is possible for
+mhi_async_power_up() to be invoked while the device is in AMSS EE, which
+would bypass firmware loading. Also, Qualcomm Cloud AI 100 has 5 PK HASH
+slots which can be dynamically provisioned while the device is active,
+which would result in the values changing and users may want to know what
+keys are active.
+
+Address these concerns by reading the PK HASH registers on-demand during
+the sysfs read. This will result in showing the most current information.
+
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+---
+ drivers/bus/mhi/host/boot.c | 11 +----------
+ drivers/bus/mhi/host/init.c | 16 ++++++++++++----
+ include/linux/mhi.h         |  2 --
+ 3 files changed, 13 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index edc0ec5a0933..dedd29ca8db3 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -395,7 +395,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	void *buf;
+ 	dma_addr_t dma_addr;
+ 	size_t size, fw_sz;
+-	int i, ret;
++	int ret;
+ 
+ 	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+ 		dev_err(dev, "Device MHI is not in valid state\n");
+@@ -408,15 +408,6 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	if (ret)
+ 		dev_err(dev, "Could not capture serial number via BHI\n");
+ 
+-	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++) {
+-		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i),
+-				   &mhi_cntrl->oem_pk_hash[i]);
+-		if (ret) {
+-			dev_err(dev, "Could not capture OEM PK HASH via BHI\n");
+-			break;
+-		}
+-	}
+-
+ 	/* wait for ready on pass through or any other execution environment */
+ 	if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
+ 		goto fw_load_ready_state;
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 65ceac1837f9..e2c2f510b04f 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -97,11 +97,19 @@ static ssize_t oem_pk_hash_show(struct device *dev,
+ {
+ 	struct mhi_device *mhi_dev = to_mhi_device(dev);
+ 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+-	int i, cnt = 0;
++	u32 hash_segment[MHI_MAX_OEM_PK_HASH_SEGMENTS];
++	int i, cnt = 0, ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++)
+-		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n",
+-				i, mhi_cntrl->oem_pk_hash[i]);
++	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++) {
++		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i), &hash_segment[i]);
++		if (ret) {
++			dev_err(dev, "Could not capture OEM PK HASH\n");
++			return cnt;
++		}
++	}
++
++	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++)
++		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n", i, hash_segment[i]);
+ 
+ 	return cnt;
+ }
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index d0f9b522f328..474d32cb0520 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -325,7 +325,6 @@ struct mhi_controller_config {
+  * @major_version: MHI controller major revision number
+  * @minor_version: MHI controller minor revision number
+  * @serial_number: MHI controller serial number obtained from BHI
+- * @oem_pk_hash: MHI controller OEM PK Hash obtained from BHI
+  * @mhi_event: MHI event ring configurations table
+  * @mhi_cmd: MHI command ring configurations table
+  * @mhi_ctxt: MHI device context, shared memory between host and device
+@@ -413,7 +412,6 @@ struct mhi_controller {
+ 	u32 major_version;
+ 	u32 minor_version;
+ 	u32 serial_number;
+-	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
+ 
+ 	struct mhi_event *mhi_event;
+ 	struct mhi_cmd *mhi_cmd;
+-- 
+2.34.1
+
