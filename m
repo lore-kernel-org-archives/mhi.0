@@ -1,192 +1,104 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B768C54657
-	for <mhi@lists.linux.dev>; Fri,  8 Dec 2023 22:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754F41D69A
+	for <mhi@lists.linux.dev>; Mon, 11 Dec 2023 06:43:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SFddAPIW"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B8Lsh8T018256;
-	Fri, 8 Dec 2023 22:14:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=1vgixEtZoHTf9fbQcvAW3O1TDYX2opNerS0Qyb3Okds=;
- b=SFddAPIWqrupox45Yb7rdkagsVIGphbt2KAN6zab4jYSqi+WIZ34V3JZvt4WvQi9hcXE
- vERNZeQBPAZt+sijB8WfxOUhJX3/vRNmTny0Lg0WYdO/lWCci4ORPT6FkZeYey/q5i9h
- dNO6/3aCARYtwJU+6+nPhcF+XiFZXz9UJW7SlLUa5Li9uTBVWj8GW1CJDzJwwJhFomhE
- 5Q83qUhJMcxJYGysuTDH8jZx63BDfNCRwVYYEcHQUvN4XQn+Fh/Fz/2RqJNZcTAsglln
- DUufKq4V2oYRvFWi7cm4kRmOxFYrSM8srceDWsjPMwiqG5k5kZHzuACJ/51Y3FSjYGRA iw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uv2sfs81x-1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="meBN3Vtn"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BB5kZCJ028438;
+	Mon, 11 Dec 2023 06:42:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=gDmF3Z8bpvyT
+	2isGQR96C4xl9uFFMECarS08e0Gntcs=; b=meBN3VtnBit3X/I56N8Mulby2qUZ
+	60VL2VBdetWqFQsffLIArcxS9LWuIl/R1hkO5ZDQBhPYnOzORVlASlrn/03WaxcM
+	m4p0b653azm1MffIPcHn6wTUrny1wCXmaFECl2aukrNpOVvZX4pK3mhagUT8nZq1
+	mzn+J/5QtGrYZz/4UovCYx5NUeb4PxderLl6Lknb4dOBZUsJQt8u+W91XOUt01t8
+	q5K9B8TBSxaYiYYhSNvEwL14Om27r35HS5CqXpvrFWp5pHF4kguwIqq13DzmpiWB
+	J13v33o9YQgLgZeWdXuEbtngNsKsTR+EkXkuwK1Lg09vvS/fQ6kPqulqsA==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uvney2gkg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Dec 2023 22:14:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8MEBvj028395
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 8 Dec 2023 22:14:11 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 8 Dec 2023 14:14:10 -0800
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <mani@kernel.org>, <quic_pkanojiy@quicinc.com>, <quic_carlv@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        Jeffrey Hugo
-	<quic_jhugo@quicinc.com>
-Subject: [PATCH] bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
-Date: Fri, 8 Dec 2023 15:13:53 -0700
-Message-ID: <20231208221353.1560177-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	Mon, 11 Dec 2023 06:42:57 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3BB6gtkt026134;
+	Mon, 11 Dec 2023 06:42:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3uvhak8ycp-1;
+	Mon, 11 Dec 2023 06:42:55 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BB6gtsb026128;
+	Mon, 11 Dec 2023 06:42:55 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3BB6gtG5026127;
+	Mon, 11 Dec 2023 06:42:55 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 016C355E7; Mon, 11 Dec 2023 14:42:53 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v5 0/2] bus: mhi: host: Add lock to avoid race when ringing channel DB
+Date: Mon, 11 Dec 2023 14:42:50 +0800
+Message-Id: <1702276972-41296-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: SS15zwtudvQ1jNPVx9kJqxPv_KROnGsh
+X-Proofpoint-ORIG-GUID: SS15zwtudvQ1jNPVx9kJqxPv_KROnGsh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=536 mlxscore=0 phishscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312110054
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _SW7SDkHix2cBtcgLi4wZf01EMupCKBT
-X-Proofpoint-ORIG-GUID: _SW7SDkHix2cBtcgLi4wZf01EMupCKBT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-08_14,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312080184
 
-When processing a SYSERR, if the device does not respond to the MHI_RESET
-from the host, the host will be stuck in a difficult to recover state.
-The host will remain in MHI_PM_SYS_ERR_PROCESS and not clean up the host
-channels.  Clients will not be notified of the SYSERR via the destruction
-of their channel devices, which means clients may think that the device is
-still up.  Subsequent SYSERR events such as a device fatal error will not
-be processed as the state machine cannot transition from PROCESS back to
-DETECT.  The only way to recover from this is to unload the mhi module
-(wipe the state machine state) or for the mhi controller to initiate
-SHUTDOWN.
 
-In this failure case, to recover the device, we need a state similar to
-PROCESS, but can transition to DETECT.  There is not a viable existing
-state to use.  POR has the needed transitions, but assumes the device is
-in a good state and could allow the host to attempt to use the device.
-Allowing PROCESS to transition to DETECT invites the possibility of
-parallel SYSERR processing which could get the host and device out of
-sync.
+1. We need a write lock in mhi_gen_tre otherwise there is race of the WP
+used for ringing channel DB between mhi_queue and M0 transition.
+2. We can not invoke local_bh_enable() when irqs are disabled, so move
+read_lock_irqsave() under the mhi_gen_tre() since we add write_lock_bh() in
+mhi_gen_tre().
+3. Unlock xfer_cb to prevent potential lockup
 
-Thus, invent a new state - MHI_PM_SYS_ERR_FAIL
+v1 -> v2:
+Added write_unlock_bh(&mhi_chan->lock) in mhi_gen_tre() before return
+because of error process.
 
-This essentially a holding state.  It allows us to clean up the host
-elements that are based on the old state of the device (channels), but
-does not allow us to directly advance back to an operational state.  It
-does allow the detection and processing of another SYSERR which may
-recover the device, or allows the controller to do a clean shutdown.
+v2 -> v3:
+1. split protecting WP and unlocking xfer_cb into two patches
+2. Add a new patch to stop processing buffer and eventof a disabled or
+stopped channel.
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
----
- drivers/bus/mhi/host/init.c     |  1 +
- drivers/bus/mhi/host/internal.h |  9 ++++++---
- drivers/bus/mhi/host/pm.c       | 20 +++++++++++++++++---
- 3 files changed, 24 insertions(+), 6 deletions(-)
+v3 -> v4:
+1. Modify commit message
+2. Add unlock operation before return error
 
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index e2c2f510b04f..d3f919277cf9 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -62,6 +62,7 @@ static const char * const mhi_pm_state_str[] = {
- 	[MHI_PM_STATE_FW_DL_ERR] = "Firmware Download Error",
- 	[MHI_PM_STATE_SYS_ERR_DETECT] = "SYS ERROR Detect",
- 	[MHI_PM_STATE_SYS_ERR_PROCESS] = "SYS ERROR Process",
-+	[MHI_PM_STATE_SYS_ERR_FAIL] = "SYS ERROR Failure",
- 	[MHI_PM_STATE_SHUTDOWN_PROCESS] = "SHUTDOWN Process",
- 	[MHI_PM_STATE_LD_ERR_FATAL_DETECT] = "Linkdown or Error Fatal Detect",
- };
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index 30ac415a3000..4b6deea17bcd 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -88,6 +88,7 @@ enum mhi_pm_state {
- 	MHI_PM_STATE_FW_DL_ERR,
- 	MHI_PM_STATE_SYS_ERR_DETECT,
- 	MHI_PM_STATE_SYS_ERR_PROCESS,
-+	MHI_PM_STATE_SYS_ERR_FAIL,
- 	MHI_PM_STATE_SHUTDOWN_PROCESS,
- 	MHI_PM_STATE_LD_ERR_FATAL_DETECT,
- 	MHI_PM_STATE_MAX
-@@ -104,14 +105,16 @@ enum mhi_pm_state {
- #define MHI_PM_FW_DL_ERR				BIT(7)
- #define MHI_PM_SYS_ERR_DETECT				BIT(8)
- #define MHI_PM_SYS_ERR_PROCESS				BIT(9)
--#define MHI_PM_SHUTDOWN_PROCESS				BIT(10)
-+#define MHI_PM_SYS_ERR_FAIL				BIT(10)
-+#define MHI_PM_SHUTDOWN_PROCESS				BIT(11)
- /* link not accessible */
--#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(11)
-+#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(12)
- 
- #define MHI_REG_ACCESS_VALID(pm_state)			((pm_state & (MHI_PM_POR | MHI_PM_M0 | \
- 						MHI_PM_M2 | MHI_PM_M3_ENTER | MHI_PM_M3_EXIT | \
- 						MHI_PM_SYS_ERR_DETECT | MHI_PM_SYS_ERR_PROCESS | \
--						MHI_PM_SHUTDOWN_PROCESS | MHI_PM_FW_DL_ERR)))
-+						MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |  \
-+						MHI_PM_FW_DL_ERR)))
- #define MHI_PM_IN_ERROR_STATE(pm_state)			(pm_state >= MHI_PM_FW_DL_ERR)
- #define MHI_PM_IN_FATAL_STATE(pm_state)			(pm_state == MHI_PM_LD_ERR_FATAL_DETECT)
- #define MHI_DB_ACCESS_VALID(mhi_cntrl)			(mhi_cntrl->pm_state & mhi_cntrl->db_access)
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index a2f2feef1476..d0d033ce9984 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -36,7 +36,10 @@
-  *     M0 <--> M0
-  *     M0 -> FW_DL_ERR
-  *     M0 -> M3_ENTER -> M3 -> M3_EXIT --> M0
-- * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS --> POR
-+ * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS
-+ *     SYS_ERR_PROCESS -> SYS_ERR_FAIL
-+ *     SYS_ERR_FAIL -> SYS_ERR_DETECT
-+ *     SYS_ERR_PROCESS --> POR
-  * L2: SHUTDOWN_PROCESS -> LD_ERR_FATAL_DETECT
-  *     SHUTDOWN_PROCESS -> DISABLE
-  * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
-@@ -93,7 +96,12 @@ static const struct mhi_pm_transitions dev_state_transitions[] = {
- 	},
- 	{
- 		MHI_PM_SYS_ERR_PROCESS,
--		MHI_PM_POR | MHI_PM_SHUTDOWN_PROCESS |
-+		MHI_PM_POR | MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |
-+		MHI_PM_LD_ERR_FATAL_DETECT
-+	},
-+	{
-+		MHI_PM_SYS_ERR_FAIL,
-+		MHI_PM_SYS_ERR_DETECT | MHI_PM_SHUTDOWN_PROCESS |
- 		MHI_PM_LD_ERR_FATAL_DETECT
- 	},
- 	/* L2 States */
-@@ -629,7 +637,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
- 					!in_reset, timeout);
- 		if (!ret || in_reset) {
- 			dev_err(dev, "Device failed to exit MHI Reset state\n");
--			goto exit_sys_error_transition;
-+			write_lock_irq(&mhi_cntrl->pm_lock);
-+			cur_state = mhi_tryset_pm_state(mhi_cntrl,
-+							MHI_PM_SYS_ERR_FAIL);
-+			write_unlock_irq(&mhi_cntrl->pm_lock);
-+			/* Shutdown may have occurred, otherwise cleanup now */
-+			if (cur_state != MHI_PM_SYS_ERR_FAIL)
-+				goto exit_sys_error_transition;
- 		}
- 
- 		/*
+v4 -> v5:
+1. Squash "protecting WP" and "Take irqsave lock" into one patch
+2. Drop patch 3/4 of patch v4
+
+Bhaumik Bhatt (1):
+  bus: mhi: host: Add spinlock to protect WP access when queueing TREs
+
+Qiang Yu (1):
+  bus: mhi: host: Drop chan lock before queuing buffers
+
+ drivers/bus/mhi/host/main.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+
 -- 
-2.34.1
+2.7.4
 
