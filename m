@@ -1,56 +1,43 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FF43C48D
-	for <mhi@lists.linux.dev>; Thu, 14 Dec 2023 10:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E81kGTR/"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3b9e2a014e8so5727961b6e.2
-        for <mhi@lists.linux.dev>; Thu, 14 Dec 2023 02:55:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702551314; x=1703156114; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IfG/ysGevH7N1+fittwEeggjkDoQ9clr+IHO2E1aJ/Y=;
-        b=E81kGTR/P4DxBq4ZrtSAcjX4xu11MHOcU+4F446bMAHOO8zfTGjtQhpHsiF//xf093
-         RhbK8UZ3iiMKV5CWBldCXNzIQX5kXeBrMR+Fl0CqP5SrTmbAYIQGU1atrFsnLL4Px815
-         /w59oNu/Ro9BO2s194lNmOe0+5SeV1TaVwiC158OBoyo7dJtT3THjZVEXuqnrchfuEeR
-         HeN8Z0Zkvy16MaDMCv8dmZwsRJzOdVDm3fnAdmhkJhdu7AYZFPGXJG4B1fbMVRLjtOY5
-         iKu49CJrzjprxpmbjIzJaAIvRKiWMv+JjvSYfKBxV/S8VeSij+em5cTuh9v09AEkHfcL
-         NwIg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26101D68C
+	for <mhi@lists.linux.dev>; Thu, 14 Dec 2023 19:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-591487a1941so1859719eaf.3
+        for <mhi@lists.linux.dev>; Thu, 14 Dec 2023 11:35:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702551314; x=1703156114;
+        d=1e100.net; s=20230601; t=1702582523; x=1703187323;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfG/ysGevH7N1+fittwEeggjkDoQ9clr+IHO2E1aJ/Y=;
-        b=vuoAxcQKt1E/ev7zB7ASpzhoN98HUVRIkqe5uVHXjX5yFwfHWdis2ZYVmYZGJK/dLx
-         JTKvzqDYQWXuCWmkVJqoZhnNtCEECVazCXWR2qA22x99GwWGhHLdAkFdWlHOIJ57oEJN
-         9TP8a3ln42s0+Am3KI3zdCSc6yRs+fgtbAuMPvvGH2ZOAOo8o+wzn7jU489Wf9CMczhG
-         H/3DLJFp8bq8f417GkbzhuPk0n+oLMxmXV0JijyLYTkDJyPivOTsA5Fu5dmzANFMV10h
-         2dAh7YePZ6P6NW16VApck6PnCxQYqZQ6GBsp8FrtX02fD7Thp+TpPEjaaL+9pLMwxTPQ
-         faHQ==
-X-Gm-Message-State: AOJu0YyemdoH19AogqyoVXENYlOhe3eTaXDduLdyTL8TqlEYKBDdZlV9
-	akFns0xYcoqKgjUr4hGDJaYn
-X-Google-Smtp-Source: AGHT+IH9dKZ7weDdopz65PuRKkbO/Mp6K8kuMEeI2h6VFnM6F5xt5c41hlBPLlHFALw9Ax8DidTESA==
-X-Received: by 2002:a05:6808:1690:b0:3ba:3234:a068 with SMTP id bb16-20020a056808169000b003ba3234a068mr970504oib.110.1702551313755;
-        Thu, 14 Dec 2023 02:55:13 -0800 (PST)
-Received: from thinkpad ([117.216.120.87])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm6780784pfo.178.2023.12.14.02.55.10
+        bh=iiR1aavtw7vArPnIPdT1sVPg3JZoC8VIGjwfufazkGQ=;
+        b=N8Ubtl0QNudG8X8AlBMOn/3rnbSTcIygR1ORmUho+9dBR0vbmvhE2AFy5oiYfXGEHe
+         tqeEmAExy5ct4gNnGz8UkWfcf/1uOq0mSfRLNgo9jFMQikYQ/ogXdVaprWJWHPwmNsh3
+         ofSxPk/afN6+7MUNbLz3GyYikfpU1TM/F54Wokp85zdKjDMNhDPAeJaEQQV/iyx6MbsZ
+         CB/Isd/8gd3qbfhO95oUsT9zegiHzMndMt0BRWcWJ3txKZ2ye05dRyb/I6spXnAKpsz2
+         ml7A8hgwOII3HRwXOhz4m9Ms4loWY172rK/NyOsJgd4CoDnyf7wynHuwOlVn62+EdgOW
+         G4Yw==
+X-Gm-Message-State: AOJu0YzVeEtcBXAlyjqD0HmQK7trlJAEIgZI+mkvM2xn6xwLfBAac6vZ
+	9UbKYTAfNaUGcYCMUIiCAPk=
+X-Google-Smtp-Source: AGHT+IH7vqScE0kZe88g0sxyvnMj8xa9jTh9cSHu9m3GZT/ciag+w7PInjd+itvmhYZiWmWyBphbZg==
+X-Received: by 2002:a05:6358:5e11:b0:16e:508e:1706 with SMTP id q17-20020a0563585e1100b0016e508e1706mr15025215rwn.25.1702582522873;
+        Thu, 14 Dec 2023 11:35:22 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id y2-20020a655282000000b00588e8421fa8sm10434729pgp.84.2023.12.14.11.35.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 02:55:13 -0800 (PST)
-Date: Thu, 14 Dec 2023 16:25:06 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: lpieralisi@kernel.org, kw@linux.com
-Cc: kishon@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] bus: mhi: ep: Add async read/write support
-Message-ID: <20231214105506.GA48078@thinkpad>
-References: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
+        Thu, 14 Dec 2023 11:35:22 -0800 (PST)
+Date: Fri, 15 Dec 2023 04:35:21 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: lpieralisi@kernel.org, bhelgaas@google.com, kishon@kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: epf-mhi: Fix the DMA data direction of
+ dma_unmap_single()
+Message-ID: <20231214193521.GA2147106@rocinante>
+References: <20231214063328.40657-1-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -60,53 +47,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231127124529.78203-1-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20231214063328.40657-1-manivannan.sadhasivam@linaro.org>
 
-On Mon, Nov 27, 2023 at 06:15:20PM +0530, Manivannan Sadhasivam wrote:
-> Hi,
-> 
-> This series add async read/write support for the MHI endpoint stack by
-> modifying the MHI ep stack and the MHI EPF (controller) driver.
-> 
-> Currently, only sync read/write operations are supported by the stack,
-> this resulting in poor data throughput as the transfer is halted until
-> receiving the DMA completion. So this series adds async support such
-> that the MHI transfers can continue without waiting for the transfer
-> completion. And once the completion happens, host is notified by sending
-> the transfer completion event.
-> 
-> This series brings iperf throughput of ~4Gbps on SM8450 based dev platform,
-> where previously 1.6Gbps was achieved with sync operation.
-> 
+Hello,
 
-Applied to mhi-next with reviews from Bjorn and Krzysztof for PCI EPF patches.
+> In the error path of pci_epf_mhi_edma_write() function, the DMA data
+> direction passed (DMA_FROM_DEVICE) doesn't match the actual direction used
+> for the data transfer. Fix it by passing the correct one (DMA_TO_DEVICE).
 
-- Mani
+Nice catch!
 
-> - Mani
+> Fixes: 7b99aaaddabb ("PCI: epf-mhi: Add eDMA support")
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
 > 
-> Manivannan Sadhasivam (9):
->   bus: mhi: ep: Pass mhi_ep_buf_info struct to read/write APIs
->   bus: mhi: ep: Rename read_from_host() and write_to_host() APIs
->   bus: mhi: ep: Introduce async read/write callbacks
->   PCI: epf-mhi: Simulate async read/write using iATU
->   PCI: epf-mhi: Add support for DMA async read/write operation
->   PCI: epf-mhi: Enable MHI async read/write support
->   bus: mhi: ep: Add support for async DMA write operation
->   bus: mhi: ep: Add support for async DMA read operation
->   bus: mhi: ep: Add checks for read/write callbacks while registering
->     controllers
-> 
->  drivers/bus/mhi/ep/internal.h                |   1 +
->  drivers/bus/mhi/ep/main.c                    | 256 +++++++++------
->  drivers/bus/mhi/ep/ring.c                    |  41 +--
->  drivers/pci/endpoint/functions/pci-epf-mhi.c | 314 ++++++++++++++++---
->  include/linux/mhi_ep.h                       |  33 +-
->  5 files changed, 485 insertions(+), 160 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+> Bjorn, Krzysztof, I'd like to apply this patch to MHI tree on top of eDMA
+> async patches due to dependency:
+> https://lore.kernel.org/linux-pci/20231127124529.78203-1-manivannan.sadhasivam@linaro.org/
 
--- 
-மணிவண்ணன் சதாசிவம்
+Sounds good to me!  We still have a little time, so let me know if you
+change your mind about who should take this patch and the other series. :)
+
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 472bc489b754..d3d6a1054036 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -424,7 +424,7 @@ static int pci_epf_mhi_edma_write(struct mhi_ep_cntrl *mhi_cntrl,
+>  	}
+>  
+>  err_unmap:
+> -	dma_unmap_single(dma_dev, src_addr, buf_info->size, DMA_FROM_DEVICE);
+> +	dma_unmap_single(dma_dev, src_addr, buf_info->size, DMA_TO_DEVICE);
+>  err_unlock:
+>  	mutex_unlock(&epf_mhi->lock);
+
+Looks good!
+
+Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+
+	Krzysztof
