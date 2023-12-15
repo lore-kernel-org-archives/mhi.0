@@ -1,144 +1,338 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA726A021;
-	Thu, 14 Dec 2023 20:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E588512B99
+	for <mhi@lists.linux.dev>; Fri, 15 Dec 2023 07:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0xFnAQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BntWvs1S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702585095; x=1734121095;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uCpo6PzRSxPyqzDi0lkW0AuppjkJDNwKQvYWYuElAPw=;
-  b=A0xFnAQWQkaKTrKM3sOstzFMgp7lIwkdlWsxV3xCEnCY6e2gJLDKOx29
-   jPtxBUvWrj+8vUMB0jV1IqgeWhkg7k5/4MC6JrTODmUsb1o2x7LusPVd4
-   liQ8SGBclRFCLYceymCusB4ZA7Y6zVkMi6H13F3Ve2u0IOJmuKxfB9/RN
-   CzUwWauhZbe2nmgf/dLBC1C2gezbP1XwOw+0PAxb2SNV6roxw8RWyDCLB
-   iS+iy21aBkMGmcSTi1fWZ5iXZ7yy9S1wguRzvT8p0F2DFHAjLryiNZnRS
-   yLSR3kJvJEShKBRy3Ij3FPQixf/XCNPfmZdypZkB0TcsrbGo7D5CxBJR1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="394051694"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="394051694"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:18:14 -0800
+  t=1702626566; x=1734162566;
+  h=date:from:to:cc:subject:message-id;
+  bh=tv8KCXm5Ms9DsgeamavRzULEt9t3m7WORyMdhWXWzy0=;
+  b=BntWvs1SN1nkS3ftxyyUOSRYvjHwCzs8imR83im+3jZOnt4Z7m2rTksH
+   RumQz77FXfcjHxRtUneRZP5c92Yc8C4aoQc1lvrzN6aFigh/qOcXSQm5K
+   Yjev2t/PB4d7FQ6e7cuuj6gSugGWFyRKji83CZjVR/TGgZzZr1/hPaxxQ
+   1JKlsi3wMtK+/zpguOcXV2tTxnPylEk6F40TZk8k3qgWgFUYdfZ/pK6V8
+   vfpePtdcdXHBufNHjQjL9FnugEyt10RmEqs+OmB8N15jtrOIZEg7kEE/A
+   fa/gm7YJCIHeM2CUvA5+qcIroJTlADn0hYZPl785+kJsS5oDDivrrZw26
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="426376206"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="426376206"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 23:49:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="724191744"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="724191744"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="750851348"
+X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
+   d="scan'208";a="750851348"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Dec 2023 12:18:12 -0800
+  by orsmga006.jf.intel.com with ESMTP; 14 Dec 2023 23:49:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDs9q-000MZn-0I;
-	Thu, 14 Dec 2023 20:18:10 +0000
-Date: Fri, 15 Dec 2023 04:18:09 +0800
+	id 1rE2wj-000NFm-3A;
+	Fri, 15 Dec 2023 07:49:21 +0000
+Date: Fri, 15 Dec 2023 15:48:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next 13/15] drivers/bus/mhi/ep/main.c:520:17: warning:
- format specifies type 'long' but the argument has type 'size_t' (aka
- 'unsigned int')
-Message-ID: <202312150418.TOQGiuVw-lkp@intel.com>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS WITH WARNING
+ f5668f251e29292326e45a022f933c15740a8af2
+Message-ID: <202312151520.ZYAIober-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-head:   f5668f251e29292326e45a022f933c15740a8af2
-commit: e59bba2cc6c746942c7c2d83ebcd9b92ae0a1aca [13/15] bus: mhi: ep: Add support for async DMA write operation
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231215/202312150418.TOQGiuVw-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150418.TOQGiuVw-lkp@intel.com/reproduce)
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: f5668f251e29292326e45a022f933c15740a8af2  bus: mhi: ep: Add checks for read/write callbacks while registering controllers
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150418.TOQGiuVw-lkp@intel.com/
+Warning reports:
 
-All warnings (new ones prefixed by >>):
+https://lore.kernel.org/oe-kbuild-all/202312150418.TOQGiuVw-lkp@intel.com
 
->> drivers/bus/mhi/ep/main.c:520:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-   ring->er_index, ring->rd_offset);
-                   ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                        ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-                              dev, fmt, ##__VA_ARGS__)
-                                   ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-                                                                    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-                                                                          ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-                   func(&id, ##__VA_ARGS__);                       \
-                               ^~~~~~~~~~~
-   drivers/bus/mhi/ep/main.c:601:1: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-   mhi_chan->rd_offset);
-   ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                        ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-                              dev, fmt, ##__VA_ARGS__)
-                                   ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-                                                                    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-                                                                          ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-                   func(&id, ##__VA_ARGS__);                       \
-                               ^~~~~~~~~~~
-   2 warnings generated.
+Warning: (recently discovered and may have been fixed)
 
+drivers/bus/mhi/ep/main.c:520:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
 
-vim +520 drivers/bus/mhi/ep/main.c
+Warning ids grouped by kconfigs:
 
-   499	
-   500	static void mhi_ep_skb_completion(struct mhi_ep_buf_info *buf_info)
-   501	{
-   502		struct mhi_ep_device *mhi_dev = buf_info->mhi_dev;
-   503		struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
-   504		struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
-   505		struct mhi_ep_ring *ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
-   506		struct mhi_ring_element *el = &ring->ring_cache[ring->rd_offset];
-   507		struct device *dev = &mhi_dev->dev;
-   508		struct mhi_result result = {};
-   509		int ret;
-   510	
-   511		if (mhi_chan->xfer_cb) {
-   512			result.buf_addr = buf_info->cb_buf;
-   513			result.dir = mhi_chan->dir;
-   514			result.bytes_xferd = buf_info->size;
-   515	
-   516			mhi_chan->xfer_cb(mhi_dev, &result);
-   517		}
-   518	
-   519		dev_dbg(dev, "Sending completion for ring (%d) rd_offset: %ld\n",
- > 520	ring->er_index, ring->rd_offset);
-   521		ret = mhi_ep_send_completion_event(mhi_cntrl, ring, el, buf_info->size,
-   522						   buf_info->code);
-   523		if (ret) {
-   524			dev_err(dev, "Error sending transfer completion event\n");
-   525			return;
-   526		}
-   527	
-   528		mhi_ep_ring_inc_index(ring);
-   529	}
-   530	
+clang_recent_errors
+|-- arm-randconfig-002-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- arm-randconfig-004-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- hexagon-allmodconfig
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- hexagon-allyesconfig
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- hexagon-randconfig-001-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- hexagon-randconfig-002-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-allmodconfig
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-allyesconfig
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-buildonly-randconfig-001-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-buildonly-randconfig-002-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-buildonly-randconfig-003-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-buildonly-randconfig-005-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-buildonly-randconfig-006-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-001-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-002-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-003-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-004-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-051-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-052-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-053-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-054-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-062-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-063-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-r113-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- powerpc-randconfig-001-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- powerpc-randconfig-002-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- powerpc-randconfig-r063-20231215
+|   `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+`-- powerpc-randconfig-r064-20231215
+    `-- drivers-bus-mhi-ep-main.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+
+elapsed time: 1498m
+
+configs tested: 208
+configs skipped: 2
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20231214   gcc  
+arc                   randconfig-001-20231215   gcc  
+arc                   randconfig-002-20231214   gcc  
+arc                   randconfig-002-20231215   gcc  
+arm                               allnoconfig   gcc  
+arm                     am200epdkit_defconfig   clang
+arm                       aspeed_g5_defconfig   gcc  
+arm                      footbridge_defconfig   gcc  
+arm                       imx_v6_v7_defconfig   gcc  
+arm                        neponset_defconfig   clang
+arm                          pxa3xx_defconfig   gcc  
+arm                   randconfig-001-20231214   gcc  
+arm                   randconfig-002-20231214   gcc  
+arm                   randconfig-003-20231214   gcc  
+arm                   randconfig-004-20231214   gcc  
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231214   gcc  
+arm64                 randconfig-002-20231214   gcc  
+arm64                 randconfig-003-20231214   gcc  
+arm64                 randconfig-004-20231214   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231214   gcc  
+csky                  randconfig-001-20231215   gcc  
+csky                  randconfig-002-20231214   gcc  
+csky                  randconfig-002-20231215   gcc  
+hexagon                          allmodconfig   clang
+hexagon                          allyesconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386                                defconfig   gcc  
+i386                  randconfig-011-20231214   clang
+i386                  randconfig-011-20231215   gcc  
+i386                  randconfig-012-20231214   clang
+i386                  randconfig-012-20231215   gcc  
+i386                  randconfig-013-20231214   clang
+i386                  randconfig-013-20231215   gcc  
+i386                  randconfig-014-20231214   clang
+i386                  randconfig-014-20231215   gcc  
+i386                  randconfig-015-20231214   clang
+i386                  randconfig-015-20231215   gcc  
+i386                  randconfig-016-20231214   clang
+i386                  randconfig-016-20231215   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231214   gcc  
+loongarch             randconfig-001-20231215   gcc  
+loongarch             randconfig-002-20231214   gcc  
+loongarch             randconfig-002-20231215   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          amiga_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                           gcw0_defconfig   gcc  
+mips                       rbtx49xx_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231214   gcc  
+nios2                 randconfig-001-20231215   gcc  
+nios2                 randconfig-002-20231214   gcc  
+nios2                 randconfig-002-20231215   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231214   gcc  
+parisc                randconfig-001-20231215   gcc  
+parisc                randconfig-002-20231214   gcc  
+parisc                randconfig-002-20231215   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      cm5200_defconfig   gcc  
+powerpc                 linkstation_defconfig   gcc  
+powerpc                 mpc8315_rdb_defconfig   clang
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc                 mpc836x_rdk_defconfig   clang
+powerpc               randconfig-001-20231214   gcc  
+powerpc               randconfig-002-20231214   gcc  
+powerpc               randconfig-003-20231214   gcc  
+powerpc                     stx_gp3_defconfig   gcc  
+powerpc                     tqm8548_defconfig   gcc  
+powerpc64             randconfig-001-20231214   gcc  
+powerpc64             randconfig-002-20231214   gcc  
+powerpc64             randconfig-003-20231214   gcc  
+riscv                            allmodconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231214   gcc  
+riscv                 randconfig-002-20231214   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231215   gcc  
+s390                  randconfig-002-20231215   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                            migor_defconfig   gcc  
+sh                          r7785rp_defconfig   gcc  
+sh                    randconfig-001-20231214   gcc  
+sh                    randconfig-001-20231215   gcc  
+sh                    randconfig-002-20231214   gcc  
+sh                    randconfig-002-20231215   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                           se7206_defconfig   gcc  
+sh                           se7750_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231214   gcc  
+sparc64               randconfig-001-20231215   gcc  
+sparc64               randconfig-002-20231214   gcc  
+sparc64               randconfig-002-20231215   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231214   gcc  
+um                    randconfig-002-20231214   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231214   gcc  
+x86_64       buildonly-randconfig-001-20231215   clang
+x86_64       buildonly-randconfig-002-20231214   gcc  
+x86_64       buildonly-randconfig-002-20231215   clang
+x86_64       buildonly-randconfig-003-20231214   gcc  
+x86_64       buildonly-randconfig-003-20231215   clang
+x86_64       buildonly-randconfig-004-20231214   gcc  
+x86_64       buildonly-randconfig-004-20231215   clang
+x86_64       buildonly-randconfig-005-20231214   gcc  
+x86_64       buildonly-randconfig-005-20231215   clang
+x86_64       buildonly-randconfig-006-20231214   gcc  
+x86_64       buildonly-randconfig-006-20231215   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-011-20231214   gcc  
+x86_64                randconfig-011-20231215   clang
+x86_64                randconfig-012-20231214   gcc  
+x86_64                randconfig-012-20231215   clang
+x86_64                randconfig-013-20231214   gcc  
+x86_64                randconfig-013-20231215   clang
+x86_64                randconfig-014-20231214   gcc  
+x86_64                randconfig-014-20231215   clang
+x86_64                randconfig-015-20231214   gcc  
+x86_64                randconfig-015-20231215   clang
+x86_64                randconfig-016-20231214   gcc  
+x86_64                randconfig-016-20231215   clang
+x86_64                randconfig-071-20231214   gcc  
+x86_64                randconfig-071-20231215   clang
+x86_64                randconfig-072-20231214   gcc  
+x86_64                randconfig-072-20231215   clang
+x86_64                randconfig-073-20231214   gcc  
+x86_64                randconfig-073-20231215   clang
+x86_64                randconfig-074-20231214   gcc  
+x86_64                randconfig-074-20231215   clang
+x86_64                randconfig-075-20231214   gcc  
+x86_64                randconfig-075-20231215   clang
+x86_64                randconfig-076-20231214   gcc  
+x86_64                randconfig-076-20231215   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                  audio_kc705_defconfig   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa                randconfig-001-20231214   gcc  
+xtensa                randconfig-001-20231215   gcc  
+xtensa                randconfig-002-20231214   gcc  
+xtensa                randconfig-002-20231215   gcc  
 
 -- 
 0-DAY CI Kernel Test Service
