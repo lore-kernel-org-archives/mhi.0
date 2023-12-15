@@ -1,118 +1,85 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3B9250E2
-	for <mhi@lists.linux.dev>; Fri, 15 Dec 2023 11:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0F241841;
+	Fri, 15 Dec 2023 18:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SGA1G9vs"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6cebbf51742so343539b3a.1
-        for <mhi@lists.linux.dev>; Fri, 15 Dec 2023 03:00:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702638019; x=1703242819; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hqlj4/QUlWtIrDLHx0gmo3NTEhgLbAEJdvoypSzSkV4=;
-        b=SGA1G9vsYXvA7Nk+yULTphuwG4WdG7NW0UrkE4SwPBt5Idv2sKZjIRiEZ/3dkjta6e
-         0XKRVxfEPtdrJSBPuMWZSFkAdbTKJXtkL10Jsk8lllFaERpP6Uq9+VuE+0IQQpOL4XAP
-         i9LauFGNFSK9OY4Y14YhGuttbHfJgAIaSpsLpiZCxZrb9s6vS1fML3jHEV0k/a2A/MGS
-         Pg9u2WoCFEq6hH7CSsbIK4vhp4AJ3IDLvQmn1UiE75m+4avpOpfP90Oa+KvwA+ti/NR0
-         hIvhP+/AHrkfaYiIWNmSNQEyN2lFpEfPuVpRqtSQO0H0mdKoxSk/1ajE1sTe0gZsCQA/
-         0C9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702638019; x=1703242819;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hqlj4/QUlWtIrDLHx0gmo3NTEhgLbAEJdvoypSzSkV4=;
-        b=HAdYrXR5J1yYA4z2x1f5ug0R+46sV5IMbLSE9/v9nJ4b4RgCAQJXhEwdah6aApUBwl
-         pNZCXL5hRCtpz/XMk6jJRMcZmG78dcothY4tNSDnM0fX49/qlTrZnPTfNPbO95BaaxVE
-         beXoBCgAKnH/4nMgBDudlkr57+spSkuUAjT2crRvnHUdJoVGJ8eR2slF1rB97v0gzbrY
-         fG3dgwJ1QWC02t3zhQFvCvNlSCvjyKXUKRnyQ6xckrz0OG27Y10eoDFcuelxAfdY+xFm
-         t9TKiJPq2GKPuBG4cCLTFPn059jPwiM830mNJt4ALpO1R6IVprVrMPKGZCemNIvw6g6R
-         xJxg==
-X-Gm-Message-State: AOJu0YwA1dTvDFm5gF70IQmMDpBWxYKUhSzDHucAhK9SUhnoznnpCyVd
-	/sJqE3UzBo44HJewfsVk4oTe
-X-Google-Smtp-Source: AGHT+IFBP0BhD4lTrTKdOfab7a3x09nSVDozE87qcYpsEL0j06A1OVhRm9jH+v/Q2SbpZhn9G0wpGw==
-X-Received: by 2002:a05:6a00:2301:b0:6c3:4bf2:7486 with SMTP id h1-20020a056a00230100b006c34bf27486mr15018314pfh.7.1702638019633;
-        Fri, 15 Dec 2023 03:00:19 -0800 (PST)
-Received: from thinkpad ([117.207.30.136])
-        by smtp.gmail.com with ESMTPSA id c12-20020aa7880c000000b006ce7ff254b9sm13249835pfo.68.2023.12.15.03.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 03:00:19 -0800 (PST)
-Date: Fri, 15 Dec 2023 16:30:12 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc: lpieralisi@kernel.org, bhelgaas@google.com, kishon@kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: epf-mhi: Fix the DMA data direction of
- dma_unmap_single()
-Message-ID: <20231215110012.GA13113@thinkpad>
-References: <20231214063328.40657-1-manivannan.sadhasivam@linaro.org>
- <20231214193521.GA2147106@rocinante>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J9zMamcC"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFIDlsE018866;
+	Fri, 15 Dec 2023 18:23:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=cWdUXwpzV+VA3O0sS2vlYrQ97X4HVSi9NyhxCaNhYmg=; b=J9
+	zMamcCErsQqC16RoQoXhNYjKz5meI4ZW9Tqn95r8kXMnZtNn0E0SGFsH3KML/CkH
+	5GLm7jFAZzBDGscQLg4NjpXwBaaDxnJh+Cn2HWII4vNWyKIyBqS2HVA1fHx7+X15
+	3mxPJuMjDjKymGYdGwYCCUxPTEzTMbDBp9BDc48atf7Oh0Erw+CAJphdoJor4JVA
+	HTS3mVMgXFmn33kQExMfaPgrnNvZXOBZ3CG2WiEntlpXRgB29vogr1xAoacffMNZ
+	K40C6mYAsCpJMFdP8NyhtDL9gWwVDRIKc28fQHipCM0VhYMrl9B55aVTpbLA/FBH
+	JWFBmJt/9V7xyc6IBPVA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0up201k9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 18:23:53 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFINql3004272
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 18:23:52 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
+ 2023 10:23:51 -0800
+Message-ID: <da3c4c7f-f84b-57f0-4ab7-84675fd954b6@quicinc.com>
+Date: Fri, 15 Dec 2023 11:23:51 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231214193521.GA2147106@rocinante>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v5 2/2] bus: mhi: host: Drop chan lock before queuing
+ buffers
+Content-Language: en-US
+To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
+        <quic_mrana@quicinc.com>
+References: <1702276972-41296-1-git-send-email-quic_qianyu@quicinc.com>
+ <1702276972-41296-3-git-send-email-quic_qianyu@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <1702276972-41296-3-git-send-email-quic_qianyu@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 1_u18HEpdg9l0T19LQ1qzMD5DX3VY7LA
+X-Proofpoint-ORIG-GUID: 1_u18HEpdg9l0T19LQ1qzMD5DX3VY7LA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ mlxscore=0 phishscore=0 adultscore=0 suspectscore=0 mlxlogscore=692
+ impostorscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150129
 
-On Fri, Dec 15, 2023 at 04:35:21AM +0900, Krzysztof Wilczyński wrote:
-> Hello,
+On 12/10/2023 11:42 PM, Qiang Yu wrote:
+> Ensure read and write locks for the channel are not taken in succession by
+> dropping the read lock from parse_xfer_event() such that a callback given
+> to client can potentially queue buffers and acquire the write lock in that
+> process. Any queueing of buffers should be done without channel read lock
+> acquired as it can result in multiple locks and a soft lockup.
 > 
-> > In the error path of pci_epf_mhi_edma_write() function, the DMA data
-> > direction passed (DMA_FROM_DEVICE) doesn't match the actual direction used
-> > for the data transfer. Fix it by passing the correct one (DMA_TO_DEVICE).
-> 
-> Nice catch!
-> 
-> > Fixes: 7b99aaaddabb ("PCI: epf-mhi: Add eDMA support")
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> > 
-> > Bjorn, Krzysztof, I'd like to apply this patch to MHI tree on top of eDMA
-> > async patches due to dependency:
-> > https://lore.kernel.org/linux-pci/20231127124529.78203-1-manivannan.sadhasivam@linaro.org/
-> 
-> Sounds good to me!  We still have a little time, so let me know if you
-> change your mind about who should take this patch and the other series. :)
-> 
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-No change in plan :)
+Seems to work fine for AIC100
 
-> >  drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > index 472bc489b754..d3d6a1054036 100644
-> > --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> > @@ -424,7 +424,7 @@ static int pci_epf_mhi_edma_write(struct mhi_ep_cntrl *mhi_cntrl,
-> >  	}
-> >  
-> >  err_unmap:
-> > -	dma_unmap_single(dma_dev, src_addr, buf_info->size, DMA_FROM_DEVICE);
-> > +	dma_unmap_single(dma_dev, src_addr, buf_info->size, DMA_TO_DEVICE);
-> >  err_unlock:
-> >  	mutex_unlock(&epf_mhi->lock);
-> 
-> Looks good!
-> 
-> Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
-> 
-
-Thanks! Applied to mhi-next.
-
-- Mani
-
-> 	Krzysztof
-
--- 
-மணிவண்ணன் சதாசிவம்
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Tested-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
