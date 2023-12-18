@@ -1,160 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E629C321B6
-	for <mhi@lists.linux.dev>; Sun, 17 Dec 2023 12:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93327129EDD
+	for <mhi@lists.linux.dev>; Mon, 18 Dec 2023 14:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5uEY3wE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702814951; x=1734350951;
-  h=date:from:to:cc:subject:message-id;
-  bh=WEU2DI+JJG/N+W9qlt0tojSImrbBLeop1KXpnzpiopw=;
-  b=P5uEY3wEoGeKJQO3QAQ1TXzMIkGvNXC/MpifirueX4mBDK0vWo6hoobA
-   JdLOMnw41pK/fPT9r65U3ZRLkc+sA8ryLz8ZDep/7+LRMvVtHV82stZa9
-   L74sfP0nYgg0KBlE4kBAXyFgXe7+DikST8vBvaEuHhVpH4qws8ENJRIxy
-   scx6ojnc8pfd0ohNzXJLbjX4TEEpXTA3IchrLS6YcQr+ZDECVGZMXBKpJ
-   OVtkdkvL40/ecWjwhNp70yfsBakqOFsG+7sop2N+kBiZXE2l/a4FzcDTe
-   P2sntQFkB8ZcDY5fgy+Mm9qH5ofVqLnXoM378oEH3zWu0LpqsyQee91i0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2606432"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="2606432"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 04:09:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="16848848"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Dec 2023 04:09:08 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rEpxB-00030L-2d;
-	Sun, 17 Dec 2023 12:09:05 +0000
-Date: Sun, 17 Dec 2023 20:08:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 01bd694ac2f682fb8017e16148b928482bc8fa4b
-Message-ID: <202312172039.sIzNWlYd-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XlcLHBxJ"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-425baafa3c3so30207091cf.0
+        for <mhi@lists.linux.dev>; Mon, 18 Dec 2023 06:18:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702909116; x=1703513916; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mwN7NRMVrn5Cj1ouV+gdYT1eOMlbFHbSF+nSRWU0+iU=;
+        b=XlcLHBxJtPmWCTPYVhYLHNEkTraj5XwHJaSmG830TXXgL0HHLtLySMYkCadZK9gW2V
+         g1+K3eJpd6PDFIr0/yjsyEB98Cb5SHxYqNkEAhm0Qp1BHA77Ma2d8QVkPGpzaToOSeSo
+         lsdZrysUpJDIKadDR0zRzPUkp60TZ8fFT3X0NH/rre/BfeG37YGSzVSYekmwNXK9yhrP
+         8JxLFbs/ZBYsv9wRmU6lh7HX8zip7G1aUbeCT8V37CSEQIULPRfWH0djHe2W+FwZTh/l
+         yooMx7bsZvzewDxEsdlRPP+cahxLg9Dnn36IXErDM7iOLDd2VPHUEBhivQ+OhX9mH6aN
+         HJtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702909116; x=1703513916;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mwN7NRMVrn5Cj1ouV+gdYT1eOMlbFHbSF+nSRWU0+iU=;
+        b=oZjbpXBZcNqHJmm6WHUpeB3UimLzDc+o0TNmSl8kEl9Pjz2Q3kUN6h4hdvmiPuTj5C
+         cwsI36v7FDpD5zFD2CyZcSpwDLf7PyV56jWD+9klPxwx+Yj2ZqC+cu2qMKz7YZqqHW6M
+         hXj9gAKGwsKU0mOkq7UaoHVsYwm5n6PDjcUhdL7BDCjrwrbXCYNseR205X4feA/U+9Kd
+         o3CJH652xSW7yfNNVEjy2GjNmJowmbeVtpgzOkt6sMF+MXAwmwhNoiDduHVNOjfCECK4
+         pZQChMPsE9D9s/8Ww157ZwROOzclDR+HjSuje0u358Gv+G3EaYYN+GTHZUuD9ALCmyeI
+         0LiQ==
+X-Gm-Message-State: AOJu0Yw/SasP8fd7Ao46le1s4Mhu14lUosjKrzfoJSzK+uw787Oem0so
+	hyFwzh8PevUTMSlrEGFK4lQP
+X-Google-Smtp-Source: AGHT+IF8V5c9mOts85EfkFvu+/r+J1mMYOS8qKzY58qhGcbLjdFbvVZ95Q8+KCycSUGnazcuXcOAXQ==
+X-Received: by 2002:a05:622a:1d0:b0:41e:31b5:5c8d with SMTP id t16-20020a05622a01d000b0041e31b55c8dmr23794684qtw.56.1702909116390;
+        Mon, 18 Dec 2023 06:18:36 -0800 (PST)
+Received: from thinkpad ([117.207.27.21])
+        by smtp.gmail.com with ESMTPSA id h5-20020ac85145000000b00423d75e0444sm9311637qtn.73.2023.12.18.06.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 06:18:35 -0800 (PST)
+Date: Mon, 18 Dec 2023 19:48:28 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, quic_krichai@quicinc.com
+Subject: [GIT PULL] MHI changes for v6.8
+Message-ID: <20231218141828.GB2900@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 01bd694ac2f682fb8017e16148b928482bc8fa4b  bus: mhi: host: Drop chan lock before queuing buffers
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
-elapsed time: 1817m
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
 
-configs tested: 95
-configs skipped: 2
+are available in the Git repository at:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.8
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                               defconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231217   gcc  
-arc                   randconfig-002-20231217   gcc  
-arm                               allnoconfig   gcc  
-arm                                 defconfig   clang
-arm                        mvebu_v5_defconfig   clang
-arm                       netwinder_defconfig   clang
-arm                   randconfig-001-20231217   clang
-arm                   randconfig-002-20231217   clang
-arm                   randconfig-003-20231217   clang
-arm                   randconfig-004-20231217   clang
-arm                             rpc_defconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231217   clang
-csky                              allnoconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                           allnoconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231216   gcc  
-i386         buildonly-randconfig-002-20231216   gcc  
-i386         buildonly-randconfig-003-20231216   gcc  
-i386         buildonly-randconfig-004-20231216   gcc  
-i386         buildonly-randconfig-005-20231216   gcc  
-i386         buildonly-randconfig-006-20231216   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231216   gcc  
-i386                  randconfig-002-20231216   gcc  
-i386                  randconfig-003-20231216   gcc  
-i386                  randconfig-004-20231216   gcc  
-i386                  randconfig-005-20231216   gcc  
-i386                  randconfig-006-20231216   gcc  
-i386                  randconfig-011-20231216   clang
-i386                  randconfig-012-20231216   clang
-i386                  randconfig-013-20231216   clang
-i386                  randconfig-014-20231216   clang
-i386                  randconfig-015-20231216   clang
-i386                  randconfig-016-20231216   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           alldefconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                  iss476-smp_defconfig   gcc  
-powerpc                     kilauea_defconfig   clang
-powerpc                     mpc512x_defconfig   clang
-powerpc                     ppa8548_defconfig   gcc  
-powerpc                     tqm5200_defconfig   clang
-powerpc                         wii_defconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                               defconfig   gcc  
-riscv                    nommu_virt_defconfig   clang
-s390                              allnoconfig   gcc  
-s390                                defconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                                  defconfig   gcc  
-sparc64                             defconfig   gcc  
-um                                allnoconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231217   clang
-x86_64       buildonly-randconfig-002-20231217   clang
-x86_64       buildonly-randconfig-003-20231217   clang
-x86_64       buildonly-randconfig-004-20231217   clang
-x86_64       buildonly-randconfig-005-20231217   clang
-x86_64       buildonly-randconfig-006-20231217   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
+for you to fetch changes up to 01bd694ac2f682fb8017e16148b928482bc8fa4b:
+
+  bus: mhi: host: Drop chan lock before queuing buffers (2023-12-16 10:54:29 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Added alignment check for event ring read pointer to avoid the potential
+  buffer corruption issue.
+- Added support for SDX75 modem which takes longer time to enter READY state.
+- Added spinlock to protect concurrent access while queuing transfer ring
+  elements.
+- Dropped the read channel lock before invoking the client callback as the
+  client can potentially queue buffers thus ending up wtih soft lockup.
+
+MHI Endpoint
+============
+
+- Used kzalloc() to allocate event ring elements instead of allocating the
+  elements on the stack, as the endpoint controller trying to queue them may not
+  be able to use vmalloc memory (using DMA).
+- Used slab allocator for allocting the memory for objects used frequently and
+  are of fixed size.
+- Added support for interrupt moderation timer feature which is used by the host
+  to limit the number of interrupts raised by the device for an event ring.
+- Added async read/write DMA support for transferring data between host and the
+  endpoint. So far MHI EP stack assumed that the data will be transferred
+  synchronously (i.e., it sends completion once the transfer APIs are returned).
+  But this impacts the throughput if the controller is using DMA to do the
+  transfer.
+
+  So to add async suport, existing sync transfer APIs are renamed to
+  {read/write}_sync and also introduced two new APIs {read/write}_async for
+  carrying out the async transfer.
+
+  Controllers implementing the async APIs should queue the buffers and return
+  immediately without waiting for transfer completion. Once the transfer
+  completion happens later, they should invoke the completion callback so that
+  the MHI EP stack can send the completion event to the host.
+
+  The controller driver patches (PCI EPF) for this async support are also merged
+  to the MHI tree with Acks from PCI maintainers.
+- Fixed the DMA channel direction in error path of the PCI EPF driver.
+
+----------------------------------------------------------------
+Bhaumik Bhatt (1):
+      bus: mhi: host: Add spinlock to protect WP access when queueing TREs
+
+Krishna chaitanya chundru (1):
+      bus: mhi: host: Add alignment check for event ring read pointer
+
+Manivannan Sadhasivam (13):
+      bus: mhi: ep: Do not allocate event ring element on stack
+      bus: mhi: ep: Use slab allocator where applicable
+      bus: mhi: ep: Add support for interrupt moderation timer
+      bus: mhi: ep: Pass mhi_ep_buf_info struct to read/write APIs
+      bus: mhi: ep: Rename read_from_host() and write_to_host() APIs
+      bus: mhi: ep: Introduce async read/write callbacks
+      PCI: epf-mhi: Simulate async read/write using iATU
+      PCI: epf-mhi: Add support for DMA async read/write operation
+      PCI: epf-mhi: Enable MHI async read/write support
+      bus: mhi: ep: Add support for async DMA write operation
+      bus: mhi: ep: Add support for async DMA read operation
+      bus: mhi: ep: Add checks for read/write callbacks while registering controllers
+      PCI: epf-mhi: Fix the DMA data direction of dma_unmap_single()
+
+Qiang Yu (3):
+      bus: mhi: host: Add a separate timeout parameter for waiting ready
+      bus: mhi: host: pci_generic: Add SDX75 based modem support
+      bus: mhi: host: Drop chan lock before queuing buffers
+
+ drivers/bus/mhi/ep/internal.h                |   4 ++
+ drivers/bus/mhi/ep/main.c                    | 387 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------
+ drivers/bus/mhi/ep/ring.c                    |  60 +++++++++++++++-------
+ drivers/bus/mhi/host/init.c                  |   1 +
+ drivers/bus/mhi/host/internal.h              |   2 +-
+ drivers/bus/mhi/host/main.c                  |  34 +++++++-----
+ drivers/bus/mhi/host/pci_generic.c           |  22 ++++++++
+ drivers/bus/mhi/host/pm.c                    |  24 ++++++---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 314 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------
+ include/linux/mhi.h                          |   4 ++
+ include/linux/mhi_ep.h                       |  36 +++++++++++--
+ 11 files changed, 680 insertions(+), 208 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
