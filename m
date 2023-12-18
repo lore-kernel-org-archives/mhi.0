@@ -1,159 +1,77 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13D449887;
-	Mon, 18 Dec 2023 16:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GHKQ48H/"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BICShi2013722;
-	Mon, 18 Dec 2023 16:20:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=oh6WOAgMbRlFvpoY5zeQ+UPwLxf/DsG3j8pELKI+vs4=; b=GH
-	KQ48H/pOcKWoD9M+yHT0AyOscPmOOdMJ1vNdSTHZjaDXZiHaNQcmzUU0wIEEHIfd
-	Wy/xrE+itM9sXS1AD0FbBFvdvUuC6yl5lYUluRkKI5hEaRX64+lVpHu2qkTKdltc
-	mOn+OUNWOiHUPasKicRN6nBOQQq0Q2sXqk3qlRF70sdvlr0w/B+SezY3j+m5Ha/l
-	yFp46fBJws6cwrWLo9BduJYnKY4mLJFWm22XHOFhw52CzTuDR+6cYwMcJWGDfY7m
-	gJ3cpxlbjiX8zQcDkdyGT3dDbG8+uKSdcU1+8fbV+NHWEaaxcnA5jn0/HyPKTuTm
-	JsfnIa9OajPWMjOH1BBA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2mfe0vpv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 16:20:01 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIGK1Rd025655
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 16:20:01 GMT
-Received: from [10.110.4.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
- 2023 08:19:57 -0800
-Message-ID: <6cf3e5aa-411b-4c6c-a67b-6e61c1258b9c@quicinc.com>
-Date: Mon, 18 Dec 2023 08:19:56 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD3749893;
+	Mon, 18 Dec 2023 22:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6d7395ab92cso1002845b3a.2;
+        Mon, 18 Dec 2023 14:43:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702939388; x=1703544188;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+WdvhxypQSzlZWGhf+IU0LgPAf/h827UUi/xTvTvNns=;
+        b=hhqf+slGp0EZ1Z8nKkk4wPeCCDdCukChX24Mi7eJABrpReeKFzFf10NA3h4mIdSnFe
+         2Dbg3DW9D/pV2aNHf+LBFkvo7Y5MK69Deas0ZA1bNdMy/W82PSulYq+q+7lwiqk0yKxD
+         1HzRTkJYFrASmSeDatVqBhpD8EA6Ka9LZMyQwjXxwIdf79LhW9ognOJGYjkmBeDPEkms
+         hZCBnZE4prlKcQ7yd2RD6Est1TOBvzo5T0KxXcfsLgtsOktlWQ1Vem+OsMWpgsUAW+Rx
+         h6+9WxC+GIUmoXjL9Q3LTJnevwo6k3FEr5SIbrN3z6+9jmzpRhh2oA+nnrd3PRTYJSMn
+         I+sw==
+X-Gm-Message-State: AOJu0Yzg8epHvXCrJL+W9g8af6uiTg3SdCWeTraEJwWHvbQKBqjRLTXF
+	r2XKI+jnWhKo273v4qc7MR0=
+X-Google-Smtp-Source: AGHT+IHVpqC9SjFJK9PqtuBhR1gEkvAClhjy741NZa9o1NOfIAJTOcLzbrlN286BuduIo67vg2/3UA==
+X-Received: by 2002:a05:6a20:4287:b0:186:e53:b64b with SMTP id o7-20020a056a20428700b001860e53b64bmr10072399pzj.47.1702939388434;
+        Mon, 18 Dec 2023 14:43:08 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001d0cd9e4248sm19540300plk.196.2023.12.18.14.43.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 14:43:07 -0800 (PST)
+Date: Tue, 19 Dec 2023 07:43:05 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	linux-pci@vger.kernel.org, mhi@lists.linux.dev, ntb@lists.linux.dev
+Subject: Re: [PATCH 1/5] PCI: endpoint: Make pci_epf_ops in pci_epf_driver
+ const
+Message-ID: <20231218224305.GA2983820@rocinante>
+References: <20230722230848.589428-1-lars@metafoo.de>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
- mhi_power_down_no_destroy()
-Content-Language: en-US
-To: Kalle Valo <kvalo@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-        Mayank Rana <quic_mrana@quicinc.com>
-CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>,
-        "kernel@quicinc.com" <kernel@quicinc.com>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-2-kvalo@kernel.org> <20231130054250.GC3043@thinkpad>
- <87v89cq1ci.fsf@kernel.org>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <87v89cq1ci.fsf@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: K4MNfyV7sWdzA1R_VX3VNoL1TKeXcZmS
-X-Proofpoint-GUID: K4MNfyV7sWdzA1R_VX3VNoL1TKeXcZmS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1011 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=876 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312180120
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230722230848.589428-1-lars@metafoo.de>
 
-On 12/5/2023 4:29 AM, Kalle Valo wrote:
-> Manivannan Sadhasivam <mani@kernel.org> writes:
-> 
->> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
->>
->>> From: Baochen Qiang <quic_bqiang@quicinc.com>
->>>
->>> If ath11k tries to call mhi_power_up() during resume it fails:
->>>
->>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
->>>
->>> This happens because when calling mhi_power_up() the MHI subsystem eventually
->>> calls device_add() from mhi_create_devices() but the device creation is
->>> deferred:
->>>
->>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
->>>
->>> The reason for deferring device creation is explained in dpm_prepare():
->>>
->>> 	/*
->>> 	 * It is unsafe if probing of devices will happen during suspend or
->>> 	 * hibernation and system behavior will be unpredictable in this case.
->>> 	 * So, let's prohibit device's probing here and defer their probes
->>> 	 * instead. The normal behavior will be restored in dpm_complete().
->>> 	 */
->>>
->>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
->>> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
->>>
->>> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
->>> 				      struct mhi_result *mhi_res)
->>> {
->>> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
->>> 	int rc;
->>>
->>> 	if (!qdev || mhi_res->transaction_status)
->>> 		return;
->>>
->>> So what this means that QRTR is not delivering messages and the QMI connection
->>> is not working between ath11k and the firmware, resulting a failure in firmware
->>> initialisation.
->>>
->>> To fix this add new function mhi_power_down_no_destroy() which does not destroy
->>> the devices during power down. This way mhi_power_up() can be called during
->>> resume and we can get ath11k hibernation working with the following patches.
->>>
->>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
->>>
->>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
->>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
->>
->> Any reason for reposting this series without discussing the suggestion from
->> Mayank?
-> 
-> Baochen quickly sent me fixes for the v1 review comments, as I have been
-> out of office for some time I didn't want to sit on Baochen's fixes for
-> too long. Better to get them out of the door as soon as possible. I will
-> definitely look at Mayank's proposal but that will take longer.
-> 
->> As I said in the internal thread, this patch breaks the Linux device
->> driver model by not destroying the "struct device" when the actual
->> device gets removed.
-> 
-> This patchset has been tested by several people, I'm even using this
-> patchset on main laptop every day, and we haven't noticed any issues.
-> 
-> Can you elaborate more about this driver model? We are not removing any
-> ath11k devices, we just want to power down the ath11k (and in the future
-> ath12k) devices for suspend and power up during resume.
-> 
->> We should try to explore alternate options instead of persisting with
->> this solution.
-> 
-> What other options we have here? At least Baochen is not optimistic that
-> using PM_POST_HIBERNATION as a workaround would work. The issue we have
-> here is that mhi_power_up() doesn't work in the resume handler and
-> that's what we should try to fix, not make workarounds.
-> 
+Hello,
 
-Adding Mayank directly plus others to this discussion since we need a
-solution to have proper hibernation support for devices containing
-ath11k (and in the near future ath12k).
+> The pci_epf_ops struct contains a set of callbacks that are used by the
+> pci_epf_driver. The ops struct is never modified by the epf core itself.
+> 
+> Marking the ops pointer const allows epf drivers to declare their
+> pci_epf_ops struct to be const. This allows the struct to be placed in the
+> read-only section. Which for example brings some security benefits as the
+> callbacks can not be overwritten.
 
-/jeff
-/jeff
+Applied to endpoint, thank you!
 
+[01/05] PCI: endpoint: Make struct pci_epf_ops in pci_epf_driver const
+        https://git.kernel.org/pci/pci/c/86362293044b
+[02/05] PCI: endpoint: pci-epf-mhi: Make structs pci_epf_ops and pci_epf_event_ops const
+        https://git.kernel.org/pci/pci/c/150d04ddf386
+[03/05] PCI: endpoint: pci-epf-ntb: Make struct pci_epf_ops const
+        https://git.kernel.org/pci/pci/c/54f22c9758dc
+[04/05] PCI: endpoint: pci-epf-vntb: Make struct pci_epf_ops const
+        https://git.kernel.org/pci/pci/c/c21b53deda09
+[05/05] PCI: endpoint: pci-epf-test: Make struct pci_epf_ops const
+        https://git.kernel.org/pci/pci/c/6f517e044096
+
+	Krzysztof
