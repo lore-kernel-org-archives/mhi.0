@@ -1,155 +1,159 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93327129EDD
-	for <mhi@lists.linux.dev>; Mon, 18 Dec 2023 14:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13D449887;
+	Mon, 18 Dec 2023 16:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XlcLHBxJ"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-425baafa3c3so30207091cf.0
-        for <mhi@lists.linux.dev>; Mon, 18 Dec 2023 06:18:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702909116; x=1703513916; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mwN7NRMVrn5Cj1ouV+gdYT1eOMlbFHbSF+nSRWU0+iU=;
-        b=XlcLHBxJtPmWCTPYVhYLHNEkTraj5XwHJaSmG830TXXgL0HHLtLySMYkCadZK9gW2V
-         g1+K3eJpd6PDFIr0/yjsyEB98Cb5SHxYqNkEAhm0Qp1BHA77Ma2d8QVkPGpzaToOSeSo
-         lsdZrysUpJDIKadDR0zRzPUkp60TZ8fFT3X0NH/rre/BfeG37YGSzVSYekmwNXK9yhrP
-         8JxLFbs/ZBYsv9wRmU6lh7HX8zip7G1aUbeCT8V37CSEQIULPRfWH0djHe2W+FwZTh/l
-         yooMx7bsZvzewDxEsdlRPP+cahxLg9Dnn36IXErDM7iOLDd2VPHUEBhivQ+OhX9mH6aN
-         HJtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702909116; x=1703513916;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mwN7NRMVrn5Cj1ouV+gdYT1eOMlbFHbSF+nSRWU0+iU=;
-        b=oZjbpXBZcNqHJmm6WHUpeB3UimLzDc+o0TNmSl8kEl9Pjz2Q3kUN6h4hdvmiPuTj5C
-         cwsI36v7FDpD5zFD2CyZcSpwDLf7PyV56jWD+9klPxwx+Yj2ZqC+cu2qMKz7YZqqHW6M
-         hXj9gAKGwsKU0mOkq7UaoHVsYwm5n6PDjcUhdL7BDCjrwrbXCYNseR205X4feA/U+9Kd
-         o3CJH652xSW7yfNNVEjy2GjNmJowmbeVtpgzOkt6sMF+MXAwmwhNoiDduHVNOjfCECK4
-         pZQChMPsE9D9s/8Ww157ZwROOzclDR+HjSuje0u358Gv+G3EaYYN+GTHZUuD9ALCmyeI
-         0LiQ==
-X-Gm-Message-State: AOJu0Yw/SasP8fd7Ao46le1s4Mhu14lUosjKrzfoJSzK+uw787Oem0so
-	hyFwzh8PevUTMSlrEGFK4lQP
-X-Google-Smtp-Source: AGHT+IF8V5c9mOts85EfkFvu+/r+J1mMYOS8qKzY58qhGcbLjdFbvVZ95Q8+KCycSUGnazcuXcOAXQ==
-X-Received: by 2002:a05:622a:1d0:b0:41e:31b5:5c8d with SMTP id t16-20020a05622a01d000b0041e31b55c8dmr23794684qtw.56.1702909116390;
-        Mon, 18 Dec 2023 06:18:36 -0800 (PST)
-Received: from thinkpad ([117.207.27.21])
-        by smtp.gmail.com with ESMTPSA id h5-20020ac85145000000b00423d75e0444sm9311637qtn.73.2023.12.18.06.18.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 06:18:35 -0800 (PST)
-Date: Mon, 18 Dec 2023 19:48:28 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, quic_krichai@quicinc.com
-Subject: [GIT PULL] MHI changes for v6.8
-Message-ID: <20231218141828.GB2900@thinkpad>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GHKQ48H/"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BICShi2013722;
+	Mon, 18 Dec 2023 16:20:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=oh6WOAgMbRlFvpoY5zeQ+UPwLxf/DsG3j8pELKI+vs4=; b=GH
+	KQ48H/pOcKWoD9M+yHT0AyOscPmOOdMJ1vNdSTHZjaDXZiHaNQcmzUU0wIEEHIfd
+	Wy/xrE+itM9sXS1AD0FbBFvdvUuC6yl5lYUluRkKI5hEaRX64+lVpHu2qkTKdltc
+	mOn+OUNWOiHUPasKicRN6nBOQQq0Q2sXqk3qlRF70sdvlr0w/B+SezY3j+m5Ha/l
+	yFp46fBJws6cwrWLo9BduJYnKY4mLJFWm22XHOFhw52CzTuDR+6cYwMcJWGDfY7m
+	gJ3cpxlbjiX8zQcDkdyGT3dDbG8+uKSdcU1+8fbV+NHWEaaxcnA5jn0/HyPKTuTm
+	JsfnIa9OajPWMjOH1BBA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2mfe0vpv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 16:20:01 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIGK1Rd025655
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 16:20:01 GMT
+Received: from [10.110.4.21] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
+ 2023 08:19:57 -0800
+Message-ID: <6cf3e5aa-411b-4c6c-a67b-6e61c1258b9c@quicinc.com>
+Date: Mon, 18 Dec 2023 08:19:56 -0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
+ mhi_power_down_no_destroy()
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+        Mayank Rana <quic_mrana@quicinc.com>
+CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
+        <linux-wireless@vger.kernel.org>,
+        "kernel@quicinc.com" <kernel@quicinc.com>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-2-kvalo@kernel.org> <20231130054250.GC3043@thinkpad>
+ <87v89cq1ci.fsf@kernel.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <87v89cq1ci.fsf@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: K4MNfyV7sWdzA1R_VX3VNoL1TKeXcZmS
+X-Proofpoint-GUID: K4MNfyV7sWdzA1R_VX3VNoL1TKeXcZmS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
+ mlxlogscore=876 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180120
 
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+On 12/5/2023 4:29 AM, Kalle Valo wrote:
+> Manivannan Sadhasivam <mani@kernel.org> writes:
+> 
+>> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
+>>
+>>> From: Baochen Qiang <quic_bqiang@quicinc.com>
+>>>
+>>> If ath11k tries to call mhi_power_up() during resume it fails:
+>>>
+>>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+>>>
+>>> This happens because when calling mhi_power_up() the MHI subsystem eventually
+>>> calls device_add() from mhi_create_devices() but the device creation is
+>>> deferred:
+>>>
+>>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+>>>
+>>> The reason for deferring device creation is explained in dpm_prepare():
+>>>
+>>> 	/*
+>>> 	 * It is unsafe if probing of devices will happen during suspend or
+>>> 	 * hibernation and system behavior will be unpredictable in this case.
+>>> 	 * So, let's prohibit device's probing here and defer their probes
+>>> 	 * instead. The normal behavior will be restored in dpm_complete().
+>>> 	 */
+>>>
+>>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
+>>> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
+>>>
+>>> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+>>> 				      struct mhi_result *mhi_res)
+>>> {
+>>> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+>>> 	int rc;
+>>>
+>>> 	if (!qdev || mhi_res->transaction_status)
+>>> 		return;
+>>>
+>>> So what this means that QRTR is not delivering messages and the QMI connection
+>>> is not working between ath11k and the firmware, resulting a failure in firmware
+>>> initialisation.
+>>>
+>>> To fix this add new function mhi_power_down_no_destroy() which does not destroy
+>>> the devices during power down. This way mhi_power_up() can be called during
+>>> resume and we can get ath11k hibernation working with the following patches.
+>>>
+>>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+>>>
+>>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+>>
+>> Any reason for reposting this series without discussing the suggestion from
+>> Mayank?
+> 
+> Baochen quickly sent me fixes for the v1 review comments, as I have been
+> out of office for some time I didn't want to sit on Baochen's fixes for
+> too long. Better to get them out of the door as soon as possible. I will
+> definitely look at Mayank's proposal but that will take longer.
+> 
+>> As I said in the internal thread, this patch breaks the Linux device
+>> driver model by not destroying the "struct device" when the actual
+>> device gets removed.
+> 
+> This patchset has been tested by several people, I'm even using this
+> patchset on main laptop every day, and we haven't noticed any issues.
+> 
+> Can you elaborate more about this driver model? We are not removing any
+> ath11k devices, we just want to power down the ath11k (and in the future
+> ath12k) devices for suspend and power up during resume.
+> 
+>> We should try to explore alternate options instead of persisting with
+>> this solution.
+> 
+> What other options we have here? At least Baochen is not optimistic that
+> using PM_POST_HIBERNATION as a workaround would work. The issue we have
+> here is that mhi_power_up() doesn't work in the resume handler and
+> that's what we should try to fix, not make workarounds.
+> 
 
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+Adding Mayank directly plus others to this discussion since we need a
+solution to have proper hibernation support for devices containing
+ath11k (and in the near future ath12k).
 
-are available in the Git repository at:
+/jeff
+/jeff
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.8
-
-for you to fetch changes up to 01bd694ac2f682fb8017e16148b928482bc8fa4b:
-
-  bus: mhi: host: Drop chan lock before queuing buffers (2023-12-16 10:54:29 +0530)
-
-----------------------------------------------------------------
-MHI Host
-========
-
-- Added alignment check for event ring read pointer to avoid the potential
-  buffer corruption issue.
-- Added support for SDX75 modem which takes longer time to enter READY state.
-- Added spinlock to protect concurrent access while queuing transfer ring
-  elements.
-- Dropped the read channel lock before invoking the client callback as the
-  client can potentially queue buffers thus ending up wtih soft lockup.
-
-MHI Endpoint
-============
-
-- Used kzalloc() to allocate event ring elements instead of allocating the
-  elements on the stack, as the endpoint controller trying to queue them may not
-  be able to use vmalloc memory (using DMA).
-- Used slab allocator for allocting the memory for objects used frequently and
-  are of fixed size.
-- Added support for interrupt moderation timer feature which is used by the host
-  to limit the number of interrupts raised by the device for an event ring.
-- Added async read/write DMA support for transferring data between host and the
-  endpoint. So far MHI EP stack assumed that the data will be transferred
-  synchronously (i.e., it sends completion once the transfer APIs are returned).
-  But this impacts the throughput if the controller is using DMA to do the
-  transfer.
-
-  So to add async suport, existing sync transfer APIs are renamed to
-  {read/write}_sync and also introduced two new APIs {read/write}_async for
-  carrying out the async transfer.
-
-  Controllers implementing the async APIs should queue the buffers and return
-  immediately without waiting for transfer completion. Once the transfer
-  completion happens later, they should invoke the completion callback so that
-  the MHI EP stack can send the completion event to the host.
-
-  The controller driver patches (PCI EPF) for this async support are also merged
-  to the MHI tree with Acks from PCI maintainers.
-- Fixed the DMA channel direction in error path of the PCI EPF driver.
-
-----------------------------------------------------------------
-Bhaumik Bhatt (1):
-      bus: mhi: host: Add spinlock to protect WP access when queueing TREs
-
-Krishna chaitanya chundru (1):
-      bus: mhi: host: Add alignment check for event ring read pointer
-
-Manivannan Sadhasivam (13):
-      bus: mhi: ep: Do not allocate event ring element on stack
-      bus: mhi: ep: Use slab allocator where applicable
-      bus: mhi: ep: Add support for interrupt moderation timer
-      bus: mhi: ep: Pass mhi_ep_buf_info struct to read/write APIs
-      bus: mhi: ep: Rename read_from_host() and write_to_host() APIs
-      bus: mhi: ep: Introduce async read/write callbacks
-      PCI: epf-mhi: Simulate async read/write using iATU
-      PCI: epf-mhi: Add support for DMA async read/write operation
-      PCI: epf-mhi: Enable MHI async read/write support
-      bus: mhi: ep: Add support for async DMA write operation
-      bus: mhi: ep: Add support for async DMA read operation
-      bus: mhi: ep: Add checks for read/write callbacks while registering controllers
-      PCI: epf-mhi: Fix the DMA data direction of dma_unmap_single()
-
-Qiang Yu (3):
-      bus: mhi: host: Add a separate timeout parameter for waiting ready
-      bus: mhi: host: pci_generic: Add SDX75 based modem support
-      bus: mhi: host: Drop chan lock before queuing buffers
-
- drivers/bus/mhi/ep/internal.h                |   4 ++
- drivers/bus/mhi/ep/main.c                    | 387 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------
- drivers/bus/mhi/ep/ring.c                    |  60 +++++++++++++++-------
- drivers/bus/mhi/host/init.c                  |   1 +
- drivers/bus/mhi/host/internal.h              |   2 +-
- drivers/bus/mhi/host/main.c                  |  34 +++++++-----
- drivers/bus/mhi/host/pci_generic.c           |  22 ++++++++
- drivers/bus/mhi/host/pm.c                    |  24 ++++++---
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 314 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------
- include/linux/mhi.h                          |   4 ++
- include/linux/mhi_ep.h                       |  36 +++++++++++--
- 11 files changed, 680 insertions(+), 208 deletions(-)
-
--- 
-மணிவண்ணன் சதாசிவம்
