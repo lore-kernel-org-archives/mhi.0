@@ -1,46 +1,26 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD3749893;
-	Mon, 18 Dec 2023 22:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6d7395ab92cso1002845b3a.2;
-        Mon, 18 Dec 2023 14:43:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702939388; x=1703544188;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+WdvhxypQSzlZWGhf+IU0LgPAf/h827UUi/xTvTvNns=;
-        b=hhqf+slGp0EZ1Z8nKkk4wPeCCDdCukChX24Mi7eJABrpReeKFzFf10NA3h4mIdSnFe
-         2Dbg3DW9D/pV2aNHf+LBFkvo7Y5MK69Deas0ZA1bNdMy/W82PSulYq+q+7lwiqk0yKxD
-         1HzRTkJYFrASmSeDatVqBhpD8EA6Ka9LZMyQwjXxwIdf79LhW9ognOJGYjkmBeDPEkms
-         hZCBnZE4prlKcQ7yd2RD6Est1TOBvzo5T0KxXcfsLgtsOktlWQ1Vem+OsMWpgsUAW+Rx
-         h6+9WxC+GIUmoXjL9Q3LTJnevwo6k3FEr5SIbrN3z6+9jmzpRhh2oA+nnrd3PRTYJSMn
-         I+sw==
-X-Gm-Message-State: AOJu0Yzg8epHvXCrJL+W9g8af6uiTg3SdCWeTraEJwWHvbQKBqjRLTXF
-	r2XKI+jnWhKo273v4qc7MR0=
-X-Google-Smtp-Source: AGHT+IHVpqC9SjFJK9PqtuBhR1gEkvAClhjy741NZa9o1NOfIAJTOcLzbrlN286BuduIo67vg2/3UA==
-X-Received: by 2002:a05:6a20:4287:b0:186:e53:b64b with SMTP id o7-20020a056a20428700b001860e53b64bmr10072399pzj.47.1702939388434;
-        Mon, 18 Dec 2023 14:43:08 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001d0cd9e4248sm19540300plk.196.2023.12.18.14.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 14:43:07 -0800 (PST)
-Date: Tue, 19 Dec 2023 07:43:05 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
-	linux-pci@vger.kernel.org, mhi@lists.linux.dev, ntb@lists.linux.dev
-Subject: Re: [PATCH 1/5] PCI: endpoint: Make pci_epf_ops in pci_epf_driver
- const
-Message-ID: <20231218224305.GA2983820@rocinante>
-References: <20230722230848.589428-1-lars@metafoo.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F62CD521
+	for <mhi@lists.linux.dev>; Tue, 19 Dec 2023 07:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GeB1LFeb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6FA2C433C8;
+	Tue, 19 Dec 2023 07:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1702972697;
+	bh=KuZT/1Hd3XumVmd9GV1qsHdCxR5AIC+2YzvRnv+MNuo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GeB1LFebgxiVfwGKAhGMKlzwQ4hj+hbV02OOa/oFFUHbGvXM8I9zKVQqkXTuFud/m
+	 vykeMy7CGsOfObmRvvpHVqqxN1NyiNiR3EWH4IuvurZr6KnZIt3gSdL18V3SFvsKRh
+	 Hp0ZLZ6LDEJ2E6I/VV5MVc14T2R5TpV9VdzgIPHk=
+Date: Tue, 19 Dec 2023 08:57:41 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, quic_krichai@quicinc.com
+Subject: Re: [GIT PULL] MHI changes for v6.8
+Message-ID: <2023121930-squabble-certainty-60e2@gregkh>
+References: <20231218141828.GB2900@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -49,29 +29,17 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230722230848.589428-1-lars@metafoo.de>
+In-Reply-To: <20231218141828.GB2900@thinkpad>
 
-Hello,
-
-> The pci_epf_ops struct contains a set of callbacks that are used by the
-> pci_epf_driver. The ops struct is never modified by the epf core itself.
+On Mon, Dec 18, 2023 at 07:48:28PM +0530, Manivannan Sadhasivam wrote:
+> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 > 
-> Marking the ops pointer const allows epf drivers to declare their
-> pci_epf_ops struct to be const. This allows the struct to be placed in the
-> read-only section. Which for example brings some security benefits as the
-> callbacks can not be overwritten.
+>   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.8
 
-Applied to endpoint, thank you!
+Pulled and pushed out, thanks.
 
-[01/05] PCI: endpoint: Make struct pci_epf_ops in pci_epf_driver const
-        https://git.kernel.org/pci/pci/c/86362293044b
-[02/05] PCI: endpoint: pci-epf-mhi: Make structs pci_epf_ops and pci_epf_event_ops const
-        https://git.kernel.org/pci/pci/c/150d04ddf386
-[03/05] PCI: endpoint: pci-epf-ntb: Make struct pci_epf_ops const
-        https://git.kernel.org/pci/pci/c/54f22c9758dc
-[04/05] PCI: endpoint: pci-epf-vntb: Make struct pci_epf_ops const
-        https://git.kernel.org/pci/pci/c/c21b53deda09
-[05/05] PCI: endpoint: pci-epf-test: Make struct pci_epf_ops const
-        https://git.kernel.org/pci/pci/c/6f517e044096
-
-	Krzysztof
+greg k-h
