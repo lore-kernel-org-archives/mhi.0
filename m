@@ -1,200 +1,177 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080A36720B;
-	Thu, 21 Dec 2023 11:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE7B23A8;
+	Mon, 25 Dec 2023 07:48:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="W7CGFNr9"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BL65DX8003047;
-	Thu, 21 Dec 2023 11:05:15 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lwaGuJ7x"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BP6iKBS023016;
+	Mon, 25 Dec 2023 07:48:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=cwyLE3ONTL0QWnPBxD1H4N27lQJtWFsVt/zVs1TVX+w=; b=W7
-	CGFNr9Bq1Fg262PU8MyeHVVZVfvPKPuJvk/pBsuXk3RECnUthc0K6RRaEbAobvmd
-	DcK1CASMbrlRAoEWW/VDWkgoD1bW8Es4Vlp/1OO8Bv3cJGxF/2e/CL1T2C1PtSgt
-	Kvyb8Nz4ZtIN0O2UXUPT4uCt20PofoNIXKdbr9rmOlbcbZh8/jx0wMl6WlkSKJi2
-	ckFQnvltvt9tbPliNJsb8puPgoc1IcYimE0p0a0FDsvpX/R904Eod1dv+YJobQvf
-	Fv/DzwRLSBtD48G8eyFXO9Armj14/gtk53pOD7omD4BuwuHhEQuHmmQFTKMpkqQD
-	NRqCKSZTz2LtFQTEFPpA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v4eg9hehx-1
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=C01KwbOTHikN
+	+ObGKHLL1aw5uF4LVRLi/jy5fguvFJc=; b=lwaGuJ7xCrrhAFbtq4jj/TmzJVZL
+	Q5IiOAppxLS3JcmIYbfEeen9imPsDwCmgGuBqM44sodFVTtBOT9oTsG4/wEZnUPx
+	XiGNMzYq4oPRLEcbDFOybXlrB+RmSgAfc81+G3zl46hMmUWzMDHVgcgvgpN5Al7W
+	1ArSK7ky34kD+TDTg3Wkaq2JvH6HnXmLE3V2CXz/g4IRCmapbZxN8Q41noGk80zB
+	EnV1QEweevTVEiTRm0SGd+dYyANowteMD+iSg2FQcv5sNF1eH8sTfsQVd/Zo8CNq
+	+1QohgJ1zHoddZ5VtMQWLBGic7YfMLl0EYsQRffKugqF6UQkKXV15sGg+g==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v5q54k5u6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 11:05:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BLB5Eu0025252
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 11:05:14 GMT
-Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 21 Dec
- 2023 03:05:12 -0800
-Message-ID: <7a31696b-cf2b-48c0-bad3-327e9ce47172@quicinc.com>
-Date: Thu, 21 Dec 2023 19:05:09 +0800
+	Mon, 25 Dec 2023 07:47:59 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3BP7lvra021511;
+	Mon, 25 Dec 2023 07:47:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3v5rmkh1qu-1;
+	Mon, 25 Dec 2023 07:47:57 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BP7lvLp021506;
+	Mon, 25 Dec 2023 07:47:57 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3BP7luYj021504;
+	Mon, 25 Dec 2023 07:47:57 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id DEA525699; Mon, 25 Dec 2023 15:47:55 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Bhaumik Bhatt <quic_bbhatt@quicinc.com>,
+        Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH] bus: mhi: host: Add sysfs entry to force device to enter EDL
+Date: Mon, 25 Dec 2023 15:47:54 +0800
+Message-Id: <1703490474-84730-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: llpIygQ1XhDkRaG-q8XS8SDMgXHN-Wd9
+X-Proofpoint-GUID: llpIygQ1XhDkRaG-q8XS8SDMgXHN-Wd9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 mlxscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
+ definitions=main-2312250057
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
- mhi_power_down_no_destroy()
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>, Kalle Valo <kvalo@kernel.org>
-CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-2-kvalo@kernel.org> <20231130054250.GC3043@thinkpad>
- <87v89cq1ci.fsf@kernel.org> <20231220163209.GJ3544@thinkpad>
- <20231220165113.GK3544@thinkpad>
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <20231220165113.GK3544@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: HWLgVgY4eUPgeBZ-9OOk4Ifvy6beLB3e
-X-Proofpoint-ORIG-GUID: HWLgVgY4eUPgeBZ-9OOk4Ifvy6beLB3e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 phishscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2312210082
 
+From: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
 
+Forcing the device (eg. SDX75) to enter Emergency Download Mode involves
+writing the 0xEDEDEDED cookie to the channel 91 doorbell register and
+forcing an SOC reset afterwards. Allow users of the MHI bus to exercise the
+sequence using a sysfs entry.
 
-On 12/21/2023 12:51 AM, Manivannan Sadhasivam wrote:
-> On Wed, Dec 20, 2023 at 10:02:25PM +0530, Manivannan Sadhasivam wrote:
->> On Tue, Dec 05, 2023 at 02:29:33PM +0200, Kalle Valo wrote:
->>> Manivannan Sadhasivam <mani@kernel.org> writes:
->>>
->>>> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
->>>>
->>>>> From: Baochen Qiang <quic_bqiang@quicinc.com>
->>>>>
->>>>> If ath11k tries to call mhi_power_up() during resume it fails:
->>>>>
->>>>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
->>>>>
->>>>> This happens because when calling mhi_power_up() the MHI subsystem eventually
->>>>> calls device_add() from mhi_create_devices() but the device creation is
->>>>> deferred:
->>>>>
->>>>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
->>>>>
->>>>> The reason for deferring device creation is explained in dpm_prepare():
->>>>>
->>>>> 	/*
->>>>> 	 * It is unsafe if probing of devices will happen during suspend or
->>>>> 	 * hibernation and system behavior will be unpredictable in this case.
->>>>> 	 * So, let's prohibit device's probing here and defer their probes
->>>>> 	 * instead. The normal behavior will be restored in dpm_complete().
->>>>> 	 */
->>>>>
->>>>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
->>>>> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
->>>>>
->>>>> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
->>>>> 				      struct mhi_result *mhi_res)
->>>>> {
->>>>> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
->>>>> 	int rc;
->>>>>
->>>>> 	if (!qdev || mhi_res->transaction_status)
->>>>> 		return;
->>>>>
->>>>> So what this means that QRTR is not delivering messages and the QMI connection
->>>>> is not working between ath11k and the firmware, resulting a failure in firmware
->>>>> initialisation.
->>>>>
->>>>> To fix this add new function mhi_power_down_no_destroy() which does not destroy
->>>>> the devices during power down. This way mhi_power_up() can be called during
->>>>> resume and we can get ath11k hibernation working with the following patches.
->>>>>
->>>>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
->>>>>
->>>>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
->>>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
->>>>
->>>> Any reason for reposting this series without discussing the suggestion from
->>>> Mayank?
->>>
->>> Baochen quickly sent me fixes for the v1 review comments, as I have been
->>> out of office for some time I didn't want to sit on Baochen's fixes for
->>> too long. Better to get them out of the door as soon as possible. I will
->>> definitely look at Mayank's proposal but that will take longer.
->>>
->>>> As I said in the internal thread, this patch breaks the Linux device
->>>> driver model by not destroying the "struct device" when the actual
->>>> device gets removed.
->>>
->>> This patchset has been tested by several people, I'm even using this
->>> patchset on main laptop every day, and we haven't noticed any issues.
->>>
->>> Can you elaborate more about this driver model? We are not removing any
->>> ath11k devices, we just want to power down the ath11k (and in the future
->>> ath12k) devices for suspend and power up during resume.
->>>
->>
->> Devices (struct dev) for each channels are created once the device (WLAN) enters
->> runtime mode such as (MISSION, SBL etc...). During hibernation, ath11k stack
->> calls mhi_power_down() which essentially resets the device to POR and also the
->> stack powers down the device properly.
->>
->> In that case, MHI channels do not exist as the device (WLAN) itself is powered
->> down. As per kernel driver model, each struct device is tied to its reference
->> count. And the reference count should be decremented whenever the actual device
->> is not in use. Once the actual device is removed from the system, then the
->> respective struct device has to be destroyed altogether.
->>
->> So in this case, even though the channels are not active (present) in the
->> device, the device itself gets powered off, you want MHI stack to keep the
->> struct device active, which is against the model I referenced above.
->>
->> To fix this issue properly, we need to investigate on how other subsystems are
->> handling this situation (device getting powered down during hibernation), like
->> USB.
->>
-> 
-> To me it all sounds like the probe deferral is not handled properly in mac80211
-> stack. As you mentioned in the commit message that the dpm_prepare() blocks
-> probing of devices. It gets unblocked and trigerred in dpm_complete():
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/power/main.c#n1131
-> 
-> So if mac80211/ath11k cannot probe the devices at the dpm_complete() stage, then
-> it is definitely an issue that needs to be fixed properly.
-To clarify, ath11k CAN probe the devices at dpm_complete() stage. The 
-problem is kernel does not wait for all probes to finish, and in that 
-way we will face the issue that user space applications are likely to 
-fail because they get thawed BEFORE WLAN is ready.
+Signed-off-by: Bhaumik Bhatt <quic_bbhatt@quicinc.com>
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+ drivers/bus/mhi/host/init.c     | 37 +++++++++++++++++++++++++++++++++++++
+ drivers/bus/mhi/host/internal.h |  1 +
+ include/linux/mhi.h             |  2 ++
+ 3 files changed, 40 insertions(+)
 
-> 
-> - Mani
-> 
->> - Mani
->>
->>>> We should try to explore alternate options instead of persisting with
->>>> this solution.
->>>
->>> What other options we have here? At least Baochen is not optimistic that
->>> using PM_POST_HIBERNATION as a workaround would work. The issue we have
->>> here is that mhi_power_up() doesn't work in the resume handler and
->>> that's what we should try to fix, not make workarounds.
->>>
->>> -- 
->>> https://patchwork.kernel.org/project/linux-wireless/list/
->>>
->>> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
->>
->> -- 
->> மணிவண்ணன் சதாசிவம்
-> 
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 65ceac1..4654bc5 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -120,10 +120,46 @@ static ssize_t soc_reset_store(struct device *dev,
+ }
+ static DEVICE_ATTR_WO(soc_reset);
+ 
++static ssize_t force_edl_store(struct device *dev,
++			       struct device_attribute *attr,
++			       const char *buf, size_t count)
++{
++	struct mhi_device *mhi_dev = to_mhi_device(dev);
++	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret < 0) {
++		dev_err(dev, "Could not parse string: %d\n", ret);
++		return ret;
++	}
++
++	if (!val)
++		return count;
++
++	ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
++	if (ret)
++		return ret;
++
++	pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
++	mhi_cntrl->runtime_get(mhi_cntrl);
++
++	mhi_write_db(mhi_cntrl, mhi_cntrl->edl_db, 0xEDEDEDED);
++	mhi_soc_reset(mhi_cntrl);
++
++	mhi_cntrl->runtime_put(mhi_cntrl);
++	mhi_device_put(mhi_cntrl->mhi_dev);
++
++	return count;
++}
++static DEVICE_ATTR_WO(force_edl);
++
+ static struct attribute *mhi_dev_attrs[] = {
+ 	&dev_attr_serial_number.attr,
+ 	&dev_attr_oem_pk_hash.attr,
+ 	&dev_attr_soc_reset.attr,
++	&dev_attr_force_edl.attr,
+ 	NULL,
+ };
+ ATTRIBUTE_GROUPS(mhi_dev);
+@@ -524,6 +560,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 
+ 	/* Setup wake db */
+ 	mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
++	mhi_cntrl->edl_db = base + val + (8 * MHI_EDL_DB);
+ 	mhi_cntrl->wake_set = false;
+ 
+ 	/* Setup channel db address for each channel in tre_ring */
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 30ac415..c414ebf 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -128,6 +128,7 @@ enum mhi_pm_state {
+ #define CMD_EL_PER_RING					128
+ #define PRIMARY_CMD_RING				0
+ #define MHI_DEV_WAKE_DB					127
++#define MHI_EDL_DB					91
+ #define MHI_MAX_MTU					0xffff
+ #define MHI_RANDOM_U32_NONZERO(bmsk)			(get_random_u32_inclusive(1, bmsk))
+ 
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index d0f9b522..c754d32 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -298,6 +298,7 @@ struct mhi_controller_config {
+  * @bhi: Points to base of MHI BHI register space
+  * @bhie: Points to base of MHI BHIe register space
+  * @wake_db: MHI WAKE doorbell register address
++ * @edl_db: MHI EDL channel 91 doorbell register address
+  * @iova_start: IOMMU starting address for data (required)
+  * @iova_stop: IOMMU stop address for data (required)
+  * @fw_image: Firmware image name for normal booting (optional)
+@@ -387,6 +388,7 @@ struct mhi_controller {
+ 	void __iomem *bhi;
+ 	void __iomem *bhie;
+ 	void __iomem *wake_db;
++	void __iomem *edl_db;
+ 
+ 	dma_addr_t iova_start;
+ 	dma_addr_t iova_stop;
+-- 
+2.7.4
+
