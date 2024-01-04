@@ -1,487 +1,185 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D69F154AD;
-	Thu,  4 Jan 2024 04:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7E518EA8;
+	Thu,  4 Jan 2024 06:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dKYB2Yk6"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4044hQ3F009553;
-	Thu, 4 Jan 2024 04:47:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=0B+T23ftOBKKmlj9igi28YYFTv3HsA9Cd9NaJlkQu24=; b=dK
-	YB2Yk6Op2uAxUai0ndNYtcuelhpDbACLGhWQJIlghgkMIGISxQSs12qhzpXaw3vf
-	0jBWmQWLZ92J1qaTi3MLhgIE2ZLTA3GCVAsoCIpKntBbpaBFHk2G27uuHbvs+OHH
-	K7PIOfO0sX5oqUo9YSmhKk2JbdXLtx2PRqwTlP6z/fqVWTBHz8eA3qd9uzuXjf+y
-	Uztm3JGPT8rO8wOe/xDNgMES/0GyOHrHrzE6JtDyHKTpOLr9rFjSWc8Q1b7DMPn/
-	LbFokL3516kGcPGOa0H567IEoqDkylgoIigxWhj0qoZjhW9jwGY9JUrY2QQa3HDm
-	0/2gC2+7kdRno9guHUsg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vd3mb2jgq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Jan 2024 04:47:51 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4044lo3O018109
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 4 Jan 2024 04:47:50 GMT
-Received: from [10.216.4.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 3 Jan
- 2024 20:47:45 -0800
-Message-ID: <ef11f099-d058-7f37-dde0-f7ef3cd52f38@quicinc.com>
-Date: Thu, 4 Jan 2024 10:17:42 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC75+Ocf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5395C433C8;
+	Thu,  4 Jan 2024 06:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704348552;
+	bh=Ko5iXtApY0EshgnOz1TdDJDaIgaK62Wjlz/YlsDmp/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZC75+OcfCxOYgSYIsmIqVLQPOXEK02OfoMCF4zLeWMpoOc9hce4fEKk09/oCVdbj0
+	 jfNJc+AsT43AjBnCpcgcL5YCEs+2tPJlJG5VGGESkQwdsGH38JgIXfR2RswM6Cn6ht
+	 mNfTIb/8JvEMElb+XNCVBDYBTPLw3O/V53NvJt4FQE6PZ7VzlcMzkkoDnow/4uTgmH
+	 XTLhxbiBJ4QwEdILJfH4mSEXyCOINZrZPYDbXzZvCvZl08VKuLC/nFUYcu1Si/SPey
+	 3OKXBBKXZMHaTKUVSW3z74P0XHoSN0E7IhZ+dATWdi1+lbcOpchX3AzcHuLIkfJm2W
+	 JUpTHlVHvNfJw==
+Date: Thu, 4 Jan 2024 11:39:04 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
+ mhi_power_down_no_destroy()
+Message-ID: <20240104060904.GB3031@thinkpad>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-2-kvalo@kernel.org>
+ <20231130054250.GC3043@thinkpad>
+ <87v89cq1ci.fsf@kernel.org>
+ <20231220163209.GJ3544@thinkpad>
+ <20231220165113.GK3544@thinkpad>
+ <7a31696b-cf2b-48c0-bad3-327e9ce47172@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v8] bus: mhi: host: Add tracing support
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>,
-        Steven Rostedt
-	<rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-        <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_parass@quicinc.com>
-References: <20231207-ftrace_support-v8-1-7f62d4558555@quicinc.com>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20231207-ftrace_support-v8-1-7f62d4558555@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: dqKxVDwNnZvDREsMW8NMPyM1uvncs6JJ
-X-Proofpoint-ORIG-GUID: dqKxVDwNnZvDREsMW8NMPyM1uvncs6JJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- mlxscore=0 phishscore=0 spamscore=0 mlxlogscore=999 clxscore=1011
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401040030
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7a31696b-cf2b-48c0-bad3-327e9ce47172@quicinc.com>
 
-Hi Steven,
+On Thu, Dec 21, 2023 at 07:05:09PM +0800, Baochen Qiang wrote:
+> 
+> 
+> On 12/21/2023 12:51 AM, Manivannan Sadhasivam wrote:
+> > On Wed, Dec 20, 2023 at 10:02:25PM +0530, Manivannan Sadhasivam wrote:
+> > > On Tue, Dec 05, 2023 at 02:29:33PM +0200, Kalle Valo wrote:
+> > > > Manivannan Sadhasivam <mani@kernel.org> writes:
+> > > > 
+> > > > > On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
+> > > > > 
+> > > > > > From: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > > > > 
+> > > > > > If ath11k tries to call mhi_power_up() during resume it fails:
+> > > > > > 
+> > > > > > ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+> > > > > > 
+> > > > > > This happens because when calling mhi_power_up() the MHI subsystem eventually
+> > > > > > calls device_add() from mhi_create_devices() but the device creation is
+> > > > > > deferred:
+> > > > > > 
+> > > > > > mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+> > > > > > 
+> > > > > > The reason for deferring device creation is explained in dpm_prepare():
+> > > > > > 
+> > > > > > 	/*
+> > > > > > 	 * It is unsafe if probing of devices will happen during suspend or
+> > > > > > 	 * hibernation and system behavior will be unpredictable in this case.
+> > > > > > 	 * So, let's prohibit device's probing here and defer their probes
+> > > > > > 	 * instead. The normal behavior will be restored in dpm_complete().
+> > > > > > 	 */
+> > > > > > 
+> > > > > > Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
+> > > > > > qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
+> > > > > > 
+> > > > > > static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+> > > > > > 				      struct mhi_result *mhi_res)
+> > > > > > {
+> > > > > > 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+> > > > > > 	int rc;
+> > > > > > 
+> > > > > > 	if (!qdev || mhi_res->transaction_status)
+> > > > > > 		return;
+> > > > > > 
+> > > > > > So what this means that QRTR is not delivering messages and the QMI connection
+> > > > > > is not working between ath11k and the firmware, resulting a failure in firmware
+> > > > > > initialisation.
+> > > > > > 
+> > > > > > To fix this add new function mhi_power_down_no_destroy() which does not destroy
+> > > > > > the devices during power down. This way mhi_power_up() can be called during
+> > > > > > resume and we can get ath11k hibernation working with the following patches.
+> > > > > > 
+> > > > > > Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> > > > > > 
+> > > > > > Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > > > > Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> > > > > 
+> > > > > Any reason for reposting this series without discussing the suggestion from
+> > > > > Mayank?
+> > > > 
+> > > > Baochen quickly sent me fixes for the v1 review comments, as I have been
+> > > > out of office for some time I didn't want to sit on Baochen's fixes for
+> > > > too long. Better to get them out of the door as soon as possible. I will
+> > > > definitely look at Mayank's proposal but that will take longer.
+> > > > 
+> > > > > As I said in the internal thread, this patch breaks the Linux device
+> > > > > driver model by not destroying the "struct device" when the actual
+> > > > > device gets removed.
+> > > > 
+> > > > This patchset has been tested by several people, I'm even using this
+> > > > patchset on main laptop every day, and we haven't noticed any issues.
+> > > > 
+> > > > Can you elaborate more about this driver model? We are not removing any
+> > > > ath11k devices, we just want to power down the ath11k (and in the future
+> > > > ath12k) devices for suspend and power up during resume.
+> > > > 
+> > > 
+> > > Devices (struct dev) for each channels are created once the device (WLAN) enters
+> > > runtime mode such as (MISSION, SBL etc...). During hibernation, ath11k stack
+> > > calls mhi_power_down() which essentially resets the device to POR and also the
+> > > stack powers down the device properly.
+> > > 
+> > > In that case, MHI channels do not exist as the device (WLAN) itself is powered
+> > > down. As per kernel driver model, each struct device is tied to its reference
+> > > count. And the reference count should be decremented whenever the actual device
+> > > is not in use. Once the actual device is removed from the system, then the
+> > > respective struct device has to be destroyed altogether.
+> > > 
+> > > So in this case, even though the channels are not active (present) in the
+> > > device, the device itself gets powered off, you want MHI stack to keep the
+> > > struct device active, which is against the model I referenced above.
+> > > 
+> > > To fix this issue properly, we need to investigate on how other subsystems are
+> > > handling this situation (device getting powered down during hibernation), like
+> > > USB.
+> > > 
+> > 
+> > To me it all sounds like the probe deferral is not handled properly in mac80211
+> > stack. As you mentioned in the commit message that the dpm_prepare() blocks
+> > probing of devices. It gets unblocked and trigerred in dpm_complete():
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/power/main.c#n1131
+> > 
+> > So if mac80211/ath11k cannot probe the devices at the dpm_complete() stage, then
+> > it is definitely an issue that needs to be fixed properly.
+> To clarify, ath11k CAN probe the devices at dpm_complete() stage. The
+> problem is kernel does not wait for all probes to finish, and in that way we
+> will face the issue that user space applications are likely to fail because
+> they get thawed BEFORE WLAN is ready.
+> 
 
-Can you please review this.
+Hmm. Please give me some time to reproduce this issue locally. I will get back
+to this thread with my analysis.
 
-Thanks & Regards,
+- Mani
 
-Krishna Chaitanya.
+> > 
+> > - Mani
+> > 
+> > > - Mani
+> > > 
+> > > > > We should try to explore alternate options instead of persisting with
+> > > > > this solution.
+> > > > 
+> > > > What other options we have here? At least Baochen is not optimistic that
+> > > > using PM_POST_HIBERNATION as a workaround would work. The issue we have
+> > > > here is that mhi_power_up() doesn't work in the resume handler and
+> > > > that's what we should try to fix, not make workarounds.
+> > > > 
+> > > > -- 
+> > > > https://patchwork.kernel.org/project/linux-wireless/list/
+> > > > 
+> > > > https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> > > 
+> > > -- 
+> > > மணிவண்ணன் சதாசிவம்
+> > 
+> 
 
-On 12/7/2023 10:00 AM, Krishna chaitanya chundru wrote:
-> This change adds ftrace support for following functions which
-> helps in debugging the issues when there is Channel state & MHI
-> state change and also when we receive data and control events:
-> 1. mhi_intvec_mhi_states
-> 2. mhi_process_data_event_ring
-> 3. mhi_process_ctrl_ev_ring
-> 4. mhi_gen_tre
-> 5. mhi_update_channel_state
-> 6. mhi_tryset_pm_state
-> 7. mhi_pm_st_worker
->
-> Where ever the trace events are added, debug messages are removed.
->
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> ---
-> Changes in v8:
-> - Pass the structure and derefernce the variables in TP_fast_assign as suggested by steve
-> - Link to v7: https://lore.kernel.org/r/20231206-ftrace_support-v7-1-aca49a04268b@quicinc.com
->
-> Changes in v7:
-> - change log format as pointed by mani.
-> - Link to v6: https://lore.kernel.org/r/20231204-ftrace_support-v6-1-9b206546dac2@quicinc.com
->
-> Changes in v6:
-> - use 'rp' directly as suggested by jeffrey.
-> - Link to v5: https://lore.kernel.org/r/20231127-ftrace_support-v5-1-eb67daead4f1@quicinc.com
->
-> Changes in v5:
-> - Use DECLARE_EVENT_CLASS for multiple events as suggested by steve.
-> - Instead of converting to u64 to print address, use %px to print the address to avoid
-> - warnings in some platforms.
-> - Link to v4: https://lore.kernel.org/r/20231111-ftrace_support-v4-1-c83602399461@quicinc.com
->
-> Changes in v4:
-> - Fix compilation issues in previous patch which happended due to rebasing.
-> - In the defconfig FTRACE config is not enabled due to that the compilation issue is not
-> - seen in my workspace.
-> - Link to v3: https://lore.kernel.org/r/20231111-ftrace_support-v3-1-f358d2911a74@quicinc.com
->
-> Changes in v3:
-> - move trace header file from include/trace/events to drivers/bus/mhi/host/ so that
-> - we can include driver header files.
-> - Use macros directly in the trace events as suggested Jeffrey Hugo.
-> - Reorder the structure in the events as suggested by steve to avoid holes in the buffer.
-> - removed the mhi_to_physical function as this can give security issues.
-> - removed macros to define strings as we can get those from driver headers.
-> - Link to v2: https://lore.kernel.org/r/20231013-ftrace_support-v2-1-6e893ce010b5@quicinc.com
->
-> Changes in v2:
-> - Passing the raw state into the trace event and using  __print_symbolic() as suggested by bjorn.
-> - Change mhi_pm_st_worker to mhi_pm_st_transition as suggested by bjorn.
-> - Fixed the kernel test rebot issues.
-> - Link to v1: https://lore.kernel.org/r/20231005-ftrace_support-v1-1-23a2f394fa49@quicinc.com
-> ---
->   drivers/bus/mhi/host/init.c  |   3 +
->   drivers/bus/mhi/host/main.c  |  19 ++--
->   drivers/bus/mhi/host/pm.c    |   7 +-
->   drivers/bus/mhi/host/trace.h | 205 +++++++++++++++++++++++++++++++++++++++++++
->   4 files changed, 221 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index f78aefd2d7a3..6acb85f4c5f8 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -20,6 +20,9 @@
->   #include <linux/wait.h>
->   #include "internal.h"
->   
-> +#define CREATE_TRACE_POINTS
-> +#include "trace.h"
-> +
->   static DEFINE_IDA(mhi_controller_ida);
->   
->   const char * const mhi_ee_str[MHI_EE_MAX] = {
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index dcf627b36e82..189f4786403e 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -15,6 +15,7 @@
->   #include <linux/skbuff.h>
->   #include <linux/slab.h>
->   #include "internal.h"
-> +#include "trace.h"
->   
->   int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
->   			      void __iomem *base, u32 offset, u32 *out)
-> @@ -491,11 +492,8 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
->   
->   	state = mhi_get_mhi_state(mhi_cntrl);
->   	ee = mhi_get_exec_env(mhi_cntrl);
-> -	dev_dbg(dev, "local ee: %s state: %s device ee: %s state: %s\n",
-> -		TO_MHI_EXEC_STR(mhi_cntrl->ee),
-> -		mhi_state_str(mhi_cntrl->dev_state),
-> -		TO_MHI_EXEC_STR(ee), mhi_state_str(state));
->   
-> +	trace_mhi_intvec_states(mhi_cntrl, ee, state);
->   	if (state == MHI_STATE_SYS_ERR) {
->   		dev_dbg(dev, "System error detected\n");
->   		pm_state = mhi_tryset_pm_state(mhi_cntrl,
-> @@ -832,6 +830,8 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->   	while (dev_rp != local_rp) {
->   		enum mhi_pkt_type type = MHI_TRE_GET_EV_TYPE(local_rp);
->   
-> +		trace_mhi_ctrl_event(mhi_cntrl, local_rp);
-> +
->   		switch (type) {
->   		case MHI_PKT_TYPE_BW_REQ_EVENT:
->   		{
-> @@ -997,6 +997,8 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->   	while (dev_rp != local_rp && event_quota > 0) {
->   		enum mhi_pkt_type type = MHI_TRE_GET_EV_TYPE(local_rp);
->   
-> +		trace_mhi_data_event(mhi_cntrl, local_rp);
-> +
->   		chan = MHI_TRE_GET_EV_CHID(local_rp);
->   
->   		WARN_ON(chan >= mhi_cntrl->max_chan);
-> @@ -1235,6 +1237,7 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->   	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
->   	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
->   
-> +	trace_mhi_gen_tre(mhi_cntrl, mhi_chan, mhi_tre);
->   	/* increment WP */
->   	mhi_add_ring_element(mhi_cntrl, tre_ring);
->   	mhi_add_ring_element(mhi_cntrl, buf_ring);
-> @@ -1327,9 +1330,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->   	enum mhi_cmd_type cmd = MHI_CMD_NOP;
->   	int ret;
->   
-> -	dev_dbg(dev, "%d: Updating channel state to: %s\n", mhi_chan->chan,
-> -		TO_CH_STATE_TYPE_STR(to_state));
-> -
-> +	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state);
->   	switch (to_state) {
->   	case MHI_CH_STATE_TYPE_RESET:
->   		write_lock_irq(&mhi_chan->lock);
-> @@ -1396,9 +1397,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->   		write_unlock_irq(&mhi_chan->lock);
->   	}
->   
-> -	dev_dbg(dev, "%d: Channel state change to %s successful\n",
-> -		mhi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
-> -
-> +	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state);
->   exit_channel_update:
->   	mhi_cntrl->runtime_put(mhi_cntrl);
->   	mhi_device_put(mhi_cntrl->mhi_dev);
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index 8a4362d75fc4..5a2394b5b2e1 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -15,6 +15,7 @@
->   #include <linux/slab.h>
->   #include <linux/wait.h>
->   #include "internal.h"
-> +#include "trace.h"
->   
->   /*
->    * Not all MHI state transitions are synchronous. Transitions like Linkdown,
-> @@ -123,6 +124,7 @@ enum mhi_pm_state __must_check mhi_tryset_pm_state(struct mhi_controller *mhi_cn
->   	if (unlikely(!(dev_state_transitions[index].to_states & state)))
->   		return cur_state;
->   
-> +	trace_mhi_tryset_pm_state(mhi_cntrl, state);
->   	mhi_cntrl->pm_state = state;
->   	return mhi_cntrl->pm_state;
->   }
-> @@ -753,7 +755,6 @@ void mhi_pm_st_worker(struct work_struct *work)
->   	struct mhi_controller *mhi_cntrl = container_of(work,
->   							struct mhi_controller,
->   							st_worker);
-> -	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->   
->   	spin_lock_irq(&mhi_cntrl->transition_lock);
->   	list_splice_tail_init(&mhi_cntrl->transition_list, &head);
-> @@ -761,8 +762,8 @@ void mhi_pm_st_worker(struct work_struct *work)
->   
->   	list_for_each_entry_safe(itr, tmp, &head, node) {
->   		list_del(&itr->node);
-> -		dev_dbg(dev, "Handling state transition: %s\n",
-> -			TO_DEV_STATE_TRANS_STR(itr->state));
-> +
-> +		trace_mhi_pm_st_transition(mhi_cntrl, itr->state);
->   
->   		switch (itr->state) {
->   		case DEV_ST_TRANSITION_PBL:
-> diff --git a/drivers/bus/mhi/host/trace.h b/drivers/bus/mhi/host/trace.h
-> new file mode 100644
-> index 000000000000..73c129bb91d9
-> --- /dev/null
-> +++ b/drivers/bus/mhi/host/trace.h
-> @@ -0,0 +1,205 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM mhi_host
-> +
-> +#if !defined(_TRACE_EVENT_MHI_HOST_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_EVENT_MHI_HOST_H
-> +
-> +#include <linux/tracepoint.h>
-> +#include <linux/trace_seq.h>
-> +#include "../common.h"
-> +#include "internal.h"
-> +
-> +TRACE_EVENT(mhi_gen_tre,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-> +		 struct mhi_ring_element *mhi_tre),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, mhi_tre),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, ch_num)
-> +		__field(void *, wp)
-> +		__field(__le64, tre_ptr)
-> +		__field(__le32, dword0)
-> +		__field(__le32, dword1)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->ch_num = mhi_chan->chan;
-> +		__entry->wp = mhi_tre;
-> +		__entry->tre_ptr = mhi_tre->ptr;
-> +		__entry->dword0 = mhi_tre->dword[0];
-> +		__entry->dword1 = mhi_tre->dword[1];
-> +	),
-> +
-> +	TP_printk("%s: Chan: %d Tre: 0x%p Tre buf: 0x%llx dword0: 0x%08x dword1: 0x%08x\n",
-> +		  __get_str(name), __entry->ch_num, __entry->wp, __entry->tre_ptr,
-> +		  __entry->dword0, __entry->dword1)
-> +);
-> +
-> +TRACE_EVENT(mhi_intvec_states,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, int dev_ee, int dev_state),
-> +
-> +	TP_ARGS(mhi_cntrl, dev_ee, dev_state),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, local_ee)
-> +		__field(int, state)
-> +		__field(int, dev_ee)
-> +		__field(int, dev_state)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->local_ee = mhi_cntrl->ee;
-> +		__entry->state = mhi_cntrl->dev_state;
-> +		__entry->dev_ee = dev_ee;
-> +		__entry->dev_state = dev_state;
-> +	),
-> +
-> +	TP_printk("%s: local ee: %s state: %s device ee: %s state: %s\n",
-> +		  __get_str(name),
-> +		  TO_MHI_EXEC_STR(__entry->local_ee),
-> +		  mhi_state_str(__entry->state),
-> +		  TO_MHI_EXEC_STR(__entry->dev_ee),
-> +		  mhi_state_str(__entry->dev_state))
-> +);
-> +
-> +TRACE_EVENT(mhi_tryset_pm_state,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, int pm_state),
-> +
-> +	TP_ARGS(mhi_cntrl, pm_state),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, pm_state)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		if (pm_state)
-> +			pm_state = __fls(pm_state);
-> +		__entry->pm_state = pm_state;
-> +	),
-> +
-> +	TP_printk("%s: PM state: %s\n", __get_str(name),
-> +		  to_mhi_pm_state_str(__entry->pm_state))
-> +);
-> +
-> +DECLARE_EVENT_CLASS(mhi_process_event_ring,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_ring_element *rp),
-> +
-> +	TP_ARGS(mhi_cntrl, rp),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(__le32, dword0)
-> +		__field(__le32, dword1)
-> +		__field(int, state)
-> +		__field(__le64, ptr)
-> +		__field(void *, rp)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->rp = rp;
-> +		__entry->ptr = rp->ptr;
-> +		__entry->dword0 = rp->dword[0];
-> +		__entry->dword1 = rp->dword[1];
-> +		__entry->state = MHI_TRE_GET_EV_STATE(rp);
-> +	),
-> +
-> +	TP_printk("%s: Tre: 0x%p Tre buf: 0x%llx dword0: 0x%08x dword1: 0x%08x state: %s\n",
-> +		  __get_str(name), __entry->rp, __entry->ptr, __entry->dword0,
-> +		  __entry->dword1, mhi_state_str(__entry->state))
-> +);
-> +
-> +DEFINE_EVENT(mhi_process_event_ring, mhi_data_event,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_ring_element *rp),
-> +
-> +	TP_ARGS(mhi_cntrl, rp)
-> +);
-> +
-> +DEFINE_EVENT(mhi_process_event_ring, mhi_ctrl_event,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_ring_element *rp),
-> +
-> +	TP_ARGS(mhi_cntrl, rp)
-> +);
-> +
-> +DECLARE_EVENT_CLASS(mhi_update_channel_state,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, ch_num)
-> +		__field(int, state)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->ch_num = mhi_chan->chan;
-> +		__entry->state = state;
-> +	),
-> +
-> +	TP_printk("%s: chan%d: Updating state to: %s\n",
-> +		  __get_str(name), __entry->ch_num,
-> +		  TO_CH_STATE_TYPE_STR(__entry->state))
-> +);
-> +
-> +DEFINE_EVENT(mhi_update_channel_state, mhi_channel_command_start,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state)
-> +);
-> +
-> +DEFINE_EVENT(mhi_update_channel_state, mhi_channel_command_end,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state)
-> +);
-> +
-> +TRACE_EVENT(mhi_pm_st_transition,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, int state),
-> +
-> +	TP_ARGS(mhi_cntrl, state),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, state)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->state = state;
-> +	),
-> +
-> +	TP_printk("%s: Handling state transition: %s\n", __get_str(name),
-> +		  TO_DEV_STATE_TRANS_STR(__entry->state))
-> +);
-> +
-> +#endif
-> +#undef TRACE_INCLUDE_PATH
-> +#define TRACE_INCLUDE_PATH ../../drivers/bus/mhi/host
-> +#undef TRACE_INCLUDE_FILE
-> +#define TRACE_INCLUDE_FILE trace
-> +
-> +#include <trace/define_trace.h>
->
-> ---
-> base-commit: 3006adf3be79cde4d14b1800b963b82b6e5572e0
-> change-id: 20231005-ftrace_support-6869d4156139
->
-> Best regards,
+-- 
+மணிவண்ணன் சதாசிவம்
