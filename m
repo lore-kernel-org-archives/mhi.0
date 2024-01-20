@@ -1,129 +1,114 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE8F5465B
-	for <mhi@lists.linux.dev>; Fri, 19 Jan 2024 13:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E608F12E47;
+	Sat, 20 Jan 2024 15:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705670829; cv=none; b=iLAqInQq6JJW0AICrVfFWdv3AbbcjIXfV7us9gEAApbn8+STzA7QfimfFlDMBy+9xxvp5tNbtgiJr+yQhsBMfaYl1kC4wWo9zkNlRScozEpVOOKd16ScAFNE4qjDMrfPmykgqgpAlN7zEnMGAskFz5YtNjSPc6/AZcncVx1TiGo=
+	t=1705764347; cv=none; b=DHuE42FqXB5QLoCGSughtsixekL0ATyOjZVOU5iEbJm54lUIleIfeg5H4m/V6QceyFgwmicxjv5FpC3YjF+j1w7dJg/Ky30fC6nXzAxlpToBk2a0VQDE+5tcS+d2LwSF3rAWyqRL1m0sG/IkycHDTIzqPsH+7D5QLkKab5UmK7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705670829; c=relaxed/simple;
-	bh=tkNP5hdtLMLmdRU6kGCnnq1HZvK5vqTcSU7Mp+tbZQE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q2G3xei8UvhvMtYRcmJLFSGkSwMZ9m6pH8rsiZcqkLtb/ZGvM6DPzK+hUan54EoJrteCLcrZvhKl1l171QMhPIGhjpf9z35TNqUa4BkX2otS/FbYaN/waq+ikQPvIXI+s/0LlgnfNKh4UFErUKgVD5KZxyzktvgaQ8l9a6Fmnbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rn6USq2S; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1705764347; c=relaxed/simple;
+	bh=0JcJgRwF76wGIs5To2XuhDLeUD7IzHJSy+e2cc+KXys=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XZWOdEssB/ovMeQgzQMcQcVEBrpEGooJZcz0q6AZi3Df4jRNcsgzjQ5hzX6Y9AH1kqV3giJbCE2rHo93oo/j22VWbKtjrS1YOf6uqvlJeCRm9nlpAtDq+rTmE4xctJXH4/hnmguaGjhYs4aGfWrJqr97Ms9aRVZkuJJlWVrEU5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b=a+J0bbi+; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rn6USq2S"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dc223463ee4so771195276.2
-        for <mhi@lists.linux.dev>; Fri, 19 Jan 2024 05:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705670827; x=1706275627; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=42jWvBuWK7I9LjSS4bPIwTmo8OJpE10eZpVzP5bii30=;
-        b=Rn6USq2S9fN5caNeUThwjLPedEFm4fEIy0uZdGoxfPivt5cJl/8SPLGAkdNZY8zKrC
-         uzg+2D1yqqBJGZPWmxlCsum+pdG3s9Pvs+TEeb8zAXf3CGBxJmXQI440+eJ6SQInnY1W
-         6yFJ9R+bYCV2E9Ce5KavbO4u2ytDCTED/PM4eOQXV+VQOa9D3fEUR6FzHpcqsuVZSwpc
-         MUPeWm/4K3/6cddYHgGspWGCyNT/vqPBhTkg1EkyzhLpu9WgGgk/FR0iJ/M2sOruhd4H
-         GgC/lKWT440ffC0rBFx7Pw5zDd0PWTi+3Ud2a89sPzrYFQIHkmXUoU1vEix2qFmq7IP9
-         3yJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705670827; x=1706275627;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=42jWvBuWK7I9LjSS4bPIwTmo8OJpE10eZpVzP5bii30=;
-        b=c5zk5KW5X32JBCmRMIDcY85hTGdj8j7YKeJeJjcBPYqBCO/rdXke2+RLLKjUtu5NWh
-         bxTRdVPpmtKITYNe3BfiDwkNRZcHIVik5yx/oXCHIEddYFvkJs0SGDNtC9qfp7h+2ONW
-         WVH5CuIko55CQbjMCwt3Crh1oeWtWvxK890ueEi0RxOKMjKUt7TDKrKx9wuHz9RvrXFW
-         QEfkU/6j3UgdHaiclMfhR9Zc4iFrHmVpIZ/tGqOBLPQny5CIBMjHjax4jaVj22B7SlSH
-         JifjelVW54Fk+hegaNE8dSncM9Hta56HtgITyynW5uMYQOtmXdYGBDra85ApxUTGviSv
-         g7lg==
-X-Gm-Message-State: AOJu0YxNf17usjLw0OARMt2JJsVMV4G4zGAFPiC19E5R4s65IZW9ZJQr
-	BXeXwE2xrJdZxM+3gheHMby8FtXMJeX8I+7cIQ1gak+u6O2dwJRu3cN+N0Tuc4DFFP8pG8hR3b2
-	98aYf65Mf/RsUrnCsuTHNgFKQDHuQvDKsSA51iw==
-X-Google-Smtp-Source: AGHT+IHcNZ3z0a6KFk4Azj3BQtD3k/0SlfNc1gxTnmWDbYZDfxsy/+8Zo5qiZ4T2sE8zVUc9JU70wOEc2pwAJXP0ECs=
-X-Received: by 2002:a25:c583:0:b0:dc2:46d7:d8d5 with SMTP id
- v125-20020a25c583000000b00dc246d7d8d5mr1960765ybe.65.1705670827062; Fri, 19
- Jan 2024 05:27:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b="a+J0bbi+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+	s=s31663417; t=1705764333; x=1706369133; i=erick.archer@gmx.com;
+	bh=0JcJgRwF76wGIs5To2XuhDLeUD7IzHJSy+e2cc+KXys=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=a+J0bbi+NsDjv0b0ocCwCIWY/37ZnhbzPAf5hYXMlAvFmjEPWUcDi18t0N6wUsC8
+	 QN454ULVBTCAYoj7L6G/yEWDEvuoOnNjONtkeEjqcAjbUS2h6ANeoehuqVgDLZIxU
+	 TELT/VVcdZFjhQM00WLHZtaKnq8sPvWoX9OrfcrqS/o6r4Ezqqo6R+aJmCriTlxIr
+	 XhEPiJv3Jlj3uh66h36tlKC7fdPTMxmk4zkOz3a0amhakJnKCTR8GBq2vrpLaOShA
+	 ZdD77Nf4A0XrRvB6vTb+2VHxUZR+qbhmdHg6dsXkb40AD3i/L8eF/hn0pvTqPpP1X
+	 4CZHGhyuallkx3iHcA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MOzOw-1rm3zl0sIe-00PLJ3; Sat, 20 Jan 2024 16:25:33 +0100
+From: Erick Archer <erick.archer@gmx.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Erick Archer <erick.archer@gmx.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+Date: Sat, 20 Jan 2024 16:25:18 +0100
+Message-Id: <20240120152518.13006-1-erick.archer@gmx.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com> <1705669223-5655-3-git-send-email-quic_msarkar@quicinc.com>
-In-Reply-To: <1705669223-5655-3-git-send-email-quic_msarkar@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 19 Jan 2024 15:26:56 +0200
-Message-ID: <CAA8EJprWHiShFpZdb+pWsCoxNvNEoP+3By2x4u8rq+ek37hJXw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/6] dmaengine: dw-edma: Introduce helpers for getting
- the eDMA/HDMA max channel count
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: vkoul@kernel.org, jingoohan1@gmail.com, conor+dt@kernel.org, 
-	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org, 
-	robh+dt@kernel.org, quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, 
-	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, quic_schintav@quicinc.com, 
-	quic_shijjose@quicinc.com, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Serge Semin <fancer.lancer@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:krwpxKzuxrjKJNYG65YRp+r0EkkR1wBIMU1g/OgIxutkIvqq0Oy
+ mZ64rNHG3mxwru5Qg74zFseIO0kbYKg68tGcipBH3oOCo0v0eP8OfOwt60nODjBS1n4Ajj6
+ h9tE/I57lr+PfQuoKDdjBiw69dpYvjtOSU1cY/JKLvuDhZucSb+0HKijrDEwdzTQI4XVfm8
+ WU1YTuzwqOA1qtPUBq+Ew==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zOxPMh2inqg=;dVBjcptvjRaTcfEepMXErcxwZ5J
+ GXQ+fZoR/t5YkQ8aBHovvX/vu751QvIbidTUF018n6kJF5vcNkTZXxpV2kFGCwxCGrncHqi/H
+ fUWnQPwFAWrFJq1ruZt6du8tjk5MmKvmhYZAZclNID/KtJuxA9TOr8iAJxIs2Lr8FoJCdsyYH
+ BcnONdX2PValbcfleEofllWvCrfPfM8v31J5bwpeci1wGXBR0FHyOdpJLhPsfoKfpr9i5Lz4O
+ VxkD53Uzco2bicd80nGcRDAR93T0VAJkG4k3Yl4FUEzr0F/oYNn/Vclrw2EvQVdEMyfUBq4My
+ ZCqFlbBbt7Zq6CAJxH0e7kb+YcyZEPhZQG4hYbgZQ38TET0iJds6yITyZvMkt2UvVU1PTGryu
+ 1rrArB4aKTN2y8I8LbMULpehbgZDl7YkAFX1JB/0xy5GuSOYTlQCgFo//2Rh+QotMBuCgMSzC
+ 2TQmWi3Zj6UT/Z4YSaRVQf6WRNZzVNBkLV5zBgTjFq50Zf2ncJWeIWB1tBhnb+1znaUhNDw4/
+ KLZlfslgsg8TXFNvMUuud+vlvfNK/eZ8AqmSucDgy4qpboQf+Aj1p7lTTYNwRyESgYQtoMzLF
+ zljPYDW1v7X0Hjaco58FUx7WaMHJ4vI0KnTh42Moba3c+npDIbfLBmquV+FKclXx4Nv41+er+
+ n+DxTDIQDFGrmMCNGmYRRf2n2JaSq1ET+l7uyWjpyZWh12GceurwmAaIYvvKM811oVI54QtGp
+ YVA54V0Q0GBkrBeDctPYK/eVsYW3qaYmm9iguwC4lsVGTDCaGxF9P6uibznR2NroiqYa7RNy4
+ tlE3eEVOdCCauwH2dh6ahnlpbRkQPkuZBEZqnlbzWLTlG5fwCnTuZYEVrisLYgGVZv3t40sd8
+ FN/aUoBj8VktX+Pghmief4gH0FS0O1xnbInUUnjeIKniaC4NzSvfD0VDbydFwtYk7gnNek9SO
+ 5tWhdeP5E5RqvhfAdX82TNnbm54=
 
-On Fri, 19 Jan 2024 at 15:00, Mrinmay Sarkar <quic_msarkar@quicinc.com> wrote:
->
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->
-> Add common helpers for getting the eDMA/HDMA max channel count.
->
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-> ---
->  drivers/dma/dw-edma/dw-edma-core.c           | 18 ++++++++++++++++++
->  drivers/pci/controller/dwc/pcie-designware.c |  6 +++---
->  include/linux/dma/edma.h                     | 14 ++++++++++++++
->  3 files changed, 35 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> index 7fe1c19..2bd6e43 100644
-> --- a/drivers/dma/dw-edma/dw-edma-core.c
-> +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> @@ -902,6 +902,24 @@ static int dw_edma_irq_request(struct dw_edma *dw,
->         return err;
->  }
->
-> +static u32 dw_edma_get_max_ch(enum dw_edma_map_format mf, enum dw_edma_dir dir)
-> +{
-> +       if (mf == EDMA_MF_HDMA_NATIVE)
-> +               return HDMA_MAX_NR_CH;
+As noted in the "Deprecated Interfaces, Language Features, Attributes,
+and Conventions" documentation [1], size calculations (especially
+multiplication) should not be performed in memory allocator (or similar)
+function arguments due to the risk of them overflowing. This could lead
+to values wrapping around and a smaller allocation being made than the
+caller was expecting. Using those allocations could lead to linear
+overflows of heap memory and other misbehaviors.
 
-This will break unless patch 5 is applied. Please move the
-corresponding definition to this path.
+So, use the purpose specific kcalloc() function instead of the argument
+count * size in the kzalloc() function.
 
-> +
-> +       return dir == EDMA_DIR_WRITE ? EDMA_MAX_WR_CH : EDMA_MAX_RD_CH;
-> +}
-> +
-> +u32 dw_edma_get_max_rd_ch(enum dw_edma_map_format mf)
-> +{
-> +       return dw_edma_get_max_ch(mf, EDMA_DIR_READ);
-> +}
-> +
-> +u32 dw_edma_get_max_wr_ch(enum dw_edma_map_format mf)
-> +{
-> +       return dw_edma_get_max_ch(mf, EDMA_DIR_WRITE);
-> +}
-> +
->  int dw_edma_probe(struct dw_edma_chip *chip)
->  {
->         struct device *dev;
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-co=
+ded-arithmetic-in-allocator-arguments [1]
+Link: https://github.com/KSPP/linux/issues/162
+Signed-off-by: Erick Archer <erick.archer@gmx.com>
+=2D--
+ drivers/bus/mhi/ep/main.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index 65fc1d738bec..8d7a4102bdb7 100644
+=2D-- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
+ 	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
+ 	mhi_ep_mmio_init(mhi_cntrl);
 
--- 
-With best wishes
-Dmitry
+-	mhi_cntrl->mhi_event =3D kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_c=
+ntrl->mhi_event)),
+-					GFP_KERNEL);
++	mhi_cntrl->mhi_event =3D kcalloc(mhi_cntrl->event_rings,
++				       sizeof(*mhi_cntrl->mhi_event),
++				       GFP_KERNEL);
+ 	if (!mhi_cntrl->mhi_event)
+ 		return -ENOMEM;
+
+=2D-
+2.25.1
+
