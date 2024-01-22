@@ -1,139 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799FA3CF40;
-	Mon, 22 Jan 2024 13:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216C4D137
+	for <mhi@lists.linux.dev>; Mon, 22 Jan 2024 17:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705928995; cv=none; b=gTHvRPvSYljyQvOX+oKJXGpTeHkIRRXhONkmYG4cyEj9LeLZ2DIWdRdbow7HhjAt1AON9MQBzv2sz0Tw/U+iXXdIs9at7tdFJNxJea2m3l238JHGtHHNTGxVtCd5/ozhK/NH6ZKFwYyHKWiLWmKxODieOLRZ2wuFaCzz5beZoIw=
+	t=1705945841; cv=none; b=lL8lfqSH3EqGteoGXC7YiW2B2sXyEMaLw+6gDIrrQ8bbUAdF/zkVx815EJWRLgxavl8ZTxEr4ogNQDf9nLDN+DC7PI9uJsPhAH7cVUUR4UN5FwHkotbNM2cwDEkqcDuF7sdi2Zxwteg9vWjO8oy6Xm8R1yphiro9sQz1UULAV40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705928995; c=relaxed/simple;
-	bh=M8QIjfgLmhjPzTCa+15a6GOuMApXegCXdUQZ/H5k2DU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/YdYCgo487wROAyxnogWsLCmYxcC/zPv988+SBX8AaiDvyIVoYIIftyPrANTUSQD7bgIf4pAETT9TNBodWuU9Nex35P+FXguF13nXiyeoEJ09wk98MJNIT+efVdVzj4ExuRlX04MTTg6XKokVscfyg+rqQdlAvPuXvPzoCU+Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDK2yH+I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705945841; c=relaxed/simple;
+	bh=YxrQ8GVGh14WVWu2iVdnBrx1qzBPHiKAvXevqbj+oyw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ThPIanQgjEtaLP9UJRsep6UKGxgJ9x8jEHJdvceEUiaCaMzAPJASKDXKz4dNo0fHxhVHGWCiBPoeK/7oZQTN7tG80BWwIEcWL5Z8LnWIO2WAhVdIEpBGrOxjNvfezrSRQ102FsrsDQ7h5AeYYFZoJn+g+u6RZLZa6X++Hl0KQHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=RBTRfLlV; arc=none smtp.client-ip=44.202.169.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDK2yH+I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BABC433C7;
-	Mon, 22 Jan 2024 13:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705928994;
-	bh=M8QIjfgLmhjPzTCa+15a6GOuMApXegCXdUQZ/H5k2DU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qDK2yH+IyNUI5eeCq14hsHsWxNiGiPh+F+iDqLLBTHHz39Q3M7fBTIE1/AQsAJXv1
-	 zFA4KyEah/qF/IxvCI/dddIZaCdAZVjCWkbSnsO8W2K2uAbEe1AEEjGv/nkHWAnVuC
-	 guI0pYz1v+TEcowjwVTzbTxrfK1H9L/dKS9w6jypNFQlRXdmEMqlwrBCy8U5WctNRW
-	 hIcWRdmUn2ZqLaWLkpr9NHeXcrhd9axnEVMx9sywyzitz/8rfdXrq2DAcSy/8fKwn8
-	 4KePO05Bpr6NUDQVRryRFGhBiYy72nd697/K5UooqWFOnVBuBV7GaRXdg/rVxvAO0w
-	 rjNvkxxr36s8Q==
-Date: Mon, 22 Jan 2024 18:39:47 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Baochen Qiang <quic_bqiang@quicinc.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Kalle Valo <kvalo@kernel.org>,
-	mhi@lists.linux.dev, ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org, quic_cang@quicinc.com,
-	quic_qianyu@quicinc.com
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
- mhi_power_down_no_destroy()
-Message-ID: <20240122130947.GD3176@thinkpad>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-2-kvalo@kernel.org>
- <20231130054250.GC3043@thinkpad>
- <87v89cq1ci.fsf@kernel.org>
- <20231220163209.GJ3544@thinkpad>
- <20231220165113.GK3544@thinkpad>
- <7a31696b-cf2b-48c0-bad3-327e9ce47172@quicinc.com>
- <20240104060904.GB3031@thinkpad>
- <20240122062411.GA3176@thinkpad>
- <9ac258d7-8a57-4071-af8d-5b07d776135b@quicinc.com>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="RBTRfLlV"
+Received: from eig-obgw-6007a.ext.cloudfilter.net ([10.0.30.247])
+	by cmsmtp with ESMTPS
+	id RtuGriOR89gG6RyRTr8fMX; Mon, 22 Jan 2024 17:50:39 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id RyRSrosrgyxR5RyRSrG8m1; Mon, 22 Jan 2024 17:50:38 +0000
+X-Authority-Analysis: v=2.4 cv=JYOvEGGV c=1 sm=1 tr=0 ts=65aeaaee
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
+ a=IkcTkHD0fZMA:10 a=dEuoMetlWLkA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
+ a=NEAV23lmAAAA:8 a=7YfXLusrAAAA:8 a=ciz651twq8eCfWHvLXUA:9 a=QEXdDO2ut3YA:10
+ a=9cHFzqQdt-sA:10 a=PUnBvhIW4WwA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=SLz71HocmBbuEhFRYD3r:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3jl5Rvy1dz3jbfkhQsaWmnIHJyLyzrbXC5qPXJXKIM0=; b=RBTRfLlVX+HBtohsXzyv/w7ZIT
+	6ql3qmCv/NVCF1lIo8QHAC/ilRPCdi4mfKRQ0qX3DABKk+/5tHtIGxTe32885qo1jaAKF2rmBWAjK
+	iy+UmweXOWjMLHmv3kHwwxCUpzLsb7XbfkJs+mHFA1H0lIIoF7zyZGV5HmSimQwg5j9xTl59M5E6d
+	bmfXYJDBIpbKKgZJ5Bj1L6dg4F/LDHa+S8vyivvd3Z00ALRLUZdTx8rkP6/TnrjrYx9MrISv3N/xe
+	pZEgiwdsFcAiL3Q2mGDg0I3hwS04xuy/32Ky06aHXX67o/x1AfntSRrxJ/Pfc9R0L/cquSGoirfUa
+	NYuab93A==;
+Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:40442 helo=[192.168.15.10])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1rRyRR-001JMH-1I;
+	Mon, 22 Jan 2024 11:50:37 -0600
+Message-ID: <bd8965ec-f2fe-44ae-9b0a-e6aad7a6b7bb@embeddedor.com>
+Date: Mon, 22 Jan 2024 11:50:35 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ac258d7-8a57-4071-af8d-5b07d776135b@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+Content-Language: en-US
+To: Erick Archer <erick.archer@gmx.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Dan Carpenter <error27@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240120152518.13006-1-erick.archer@gmx.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20240120152518.13006-1-erick.archer@gmx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.21.192
+X-Source-L: No
+X-Exim-ID: 1rRyRR-001JMH-1I
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.10]) [187.162.21.192]:40442
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 17
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfOrh6QVmeOary0GngSOngDo50m/X1HU53YQnLV6PTiJ1HNXFNdyiz+wb4nWAepUNGtfDDH5iLhNoCXS0sO2gOHaTDSlUVvyaYe+bgEebPlrt0tz4XQOA
+ IG5RxBi/eGm7Qdlp3DuNUOrEacXt8Bb6HjXp4noWfq/KQH3QLqMTq+OBXzXezDvZEPWdRnpaHoVKzCWU6avXhu3MyKVZi5OKTro=
 
-On Mon, Jan 22, 2024 at 04:09:53PM +0800, Baochen Qiang wrote:
+
+
+On 1/20/24 09:25, Erick Archer wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
 > 
+> So, use the purpose specific kcalloc() function instead of the argument
+> count * size in the kzalloc() function.
 > 
-> On 1/22/2024 2:24 PM, Manivannan Sadhasivam wrote:
-> > On Thu, Jan 04, 2024 at 11:39:12AM +0530, Manivannan Sadhasivam wrote:
-> > 
-> > + Can, Qiang
-> > 
-> > [...]
-> > 
-> > > > > To me it all sounds like the probe deferral is not handled properly in mac80211
-> > > > > stack. As you mentioned in the commit message that the dpm_prepare() blocks
-> > > > > probing of devices. It gets unblocked and trigerred in dpm_complete():
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/power/main.c#n1131
-> > > > > 
-> > > > > So if mac80211/ath11k cannot probe the devices at the dpm_complete() stage, then
-> > > > > it is definitely an issue that needs to be fixed properly.
-> > > > To clarify, ath11k CAN probe the devices at dpm_complete() stage. The
-> > > > problem is kernel does not wait for all probes to finish, and in that way we
-> > > > will face the issue that user space applications are likely to fail because
-> > > > they get thawed BEFORE WLAN is ready.
-> > > > 
-> > > 
-> > > Hmm. Please give me some time to reproduce this issue locally. I will get back
-> > > to this thread with my analysis.
-> > > 
-> > 
-> > We reproduced the issue with the help of PCIe team (thanks Can). What we found
-> > out was, during the resume from hibernation the faliure happens in
-> > ath11k_core_resume(). Precisely here:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/tree/drivers/net/wireless/ath/ath11k/core.c?h=ath11k-hibernation-support#n850
-> > 
-> > This code waits for the QMI messages to arrive and eventually timesout. But the
-> > impression I got from the start was that the mhi_power_up() always fails during
-> > resume. In our investigation, we confirmed that the failure is not happening at
-> > the MHI level.No, mhi_power_up() never fails as it only downloads PBL,
-> > SBL and waits
-> for mission mode, no MHI device created hence not affected by the deferred
-> probe. However in addition to PBL/SBL, ath11k also needs to download m3.bin,
-> borad.bin and regdb.bin. Those files are part of WLAN firmware and are
-> downloaded via QMI messages. After mhi_power_up() succeeds
-> ath11k_core_resume() waits for QMI downloading those files. As you know QMI
-> relies on MHI channels, these channels are managed by qcom_mhi_qrtr_driver.
-> Since device probing is deferred, qcom_mhi_qrtr_driver has no chance to run
-> at this stage. As a result ath11k_core_resume() times out.
-> 
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
 
-Thanks for the info, this clarifies the issue in detail.
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-> > 
-> > I'm not pointing fingers here, but trying to understand why can't you fix
-> > ath11k_core_resume() to not timeout? IMO this timeout should be handled as a
-> > deferral case.
-> Let's see what happens if we do it in a deferral way:
-> 1. In ath11k_core_resume() we returns success directly without waiting for
-> QMI downloading other firmware files.
-> 2. Kernel unblocks device probe and schedules a work item to trigger all
-> deferred probing. As a result MHI devices are probed by qcom_mhi_qrtr_driver
-> and finally QMI is online.
-> 3. kernel continues to resume and wake up userspace applications.
-> 4. ath11k gets the message, either by kernel PM notification or something
-> else, that QMI is ready and then downloads other firmware files.
-> 
-> What happens if userspace applications or network stack immediately initiate
-> some WLAN request after resume back? Can ath11k handle such request? The
-> answer is, most likely, no. Because there is no guarantee that QMI finishes
-> downloading before those request.
-> 
-
-What will happen to userspace if ath11k returns an error like -EBUSY or
-something? Will the netdev completely go away?
-
-- Mani
-
-> > 
-> > - Mani
-> > 
-
+Thanks!
 -- 
-மணிவண்ணன் சதாசிவம்
+Gustavo
+
+> ---
+>   drivers/bus/mhi/ep/main.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 65fc1d738bec..8d7a4102bdb7 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
+>   	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
+>   	mhi_ep_mmio_init(mhi_cntrl);
+> 
+> -	mhi_cntrl->mhi_event = kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_cntrl->mhi_event)),
+> -					GFP_KERNEL);
+> +	mhi_cntrl->mhi_event = kcalloc(mhi_cntrl->event_rings,
+> +				       sizeof(*mhi_cntrl->mhi_event),
+> +				       GFP_KERNEL);
+>   	if (!mhi_cntrl->mhi_event)
+>   		return -ENOMEM;
+> 
+> --
+> 2.25.1
+> 
+> 
