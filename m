@@ -1,114 +1,98 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E608F12E47;
-	Sat, 20 Jan 2024 15:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976F063A0;
+	Mon, 22 Jan 2024 06:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705764347; cv=none; b=DHuE42FqXB5QLoCGSughtsixekL0ATyOjZVOU5iEbJm54lUIleIfeg5H4m/V6QceyFgwmicxjv5FpC3YjF+j1w7dJg/Ky30fC6nXzAxlpToBk2a0VQDE+5tcS+d2LwSF3rAWyqRL1m0sG/IkycHDTIzqPsH+7D5QLkKab5UmK7U=
+	t=1705904665; cv=none; b=kTo05GcrwnNRuAX34de6Y6hZhC4aZc6Bru7Y+NzM8k6IsXizdOtmGTmuRyJFWAxAmT87BQWai5TX/nw93L+dBAnlTo2oRnb6kAW4MZe5y05nNfOWr9GEdcU/Vy10DzFq1e/UEMiJ0qMvxHjF+SHTky+MsnjNwWfbBJu2DGuZtE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705764347; c=relaxed/simple;
-	bh=0JcJgRwF76wGIs5To2XuhDLeUD7IzHJSy+e2cc+KXys=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XZWOdEssB/ovMeQgzQMcQcVEBrpEGooJZcz0q6AZi3Df4jRNcsgzjQ5hzX6Y9AH1kqV3giJbCE2rHo93oo/j22VWbKtjrS1YOf6uqvlJeCRm9nlpAtDq+rTmE4xctJXH4/hnmguaGjhYs4aGfWrJqr97Ms9aRVZkuJJlWVrEU5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b=a+J0bbi+; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1705904665; c=relaxed/simple;
+	bh=ytQ70xzw9VFq0ngIprfNmliPx9LBkAoh27nHd5RHzYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i9Bqk1HLbd3SpDC0f0tQObs1fWsDM1lW1owFyNcgFX1sCG1W29mj8IYK19adCRKU5GQt0KppWRiK4sHzODpXALMuFUy9VVm2VUctoZezBSOHI2tSP6tWYyc+n6OxzJuJ53t0cp+H6DdxJQ7ukfcwfkdE1CSB/gehjosLnymhEoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CY1ZkjTD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b="a+J0bbi+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
-	s=s31663417; t=1705764333; x=1706369133; i=erick.archer@gmx.com;
-	bh=0JcJgRwF76wGIs5To2XuhDLeUD7IzHJSy+e2cc+KXys=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=a+J0bbi+NsDjv0b0ocCwCIWY/37ZnhbzPAf5hYXMlAvFmjEPWUcDi18t0N6wUsC8
-	 QN454ULVBTCAYoj7L6G/yEWDEvuoOnNjONtkeEjqcAjbUS2h6ANeoehuqVgDLZIxU
-	 TELT/VVcdZFjhQM00WLHZtaKnq8sPvWoX9OrfcrqS/o6r4Ezqqo6R+aJmCriTlxIr
-	 XhEPiJv3Jlj3uh66h36tlKC7fdPTMxmk4zkOz3a0amhakJnKCTR8GBq2vrpLaOShA
-	 ZdD77Nf4A0XrRvB6vTb+2VHxUZR+qbhmdHg6dsXkb40AD3i/L8eF/hn0pvTqPpP1X
-	 4CZHGhyuallkx3iHcA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MOzOw-1rm3zl0sIe-00PLJ3; Sat, 20 Jan 2024 16:25:33 +0100
-From: Erick Archer <erick.archer@gmx.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Erick Archer <erick.archer@gmx.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
-Date: Sat, 20 Jan 2024 16:25:18 +0100
-Message-Id: <20240120152518.13006-1-erick.archer@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CY1ZkjTD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0572C433C7;
+	Mon, 22 Jan 2024 06:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705904665;
+	bh=ytQ70xzw9VFq0ngIprfNmliPx9LBkAoh27nHd5RHzYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CY1ZkjTDYIl7+UJ1dyUpfirvwdoVAMRbMoqr9lWpPih1UFj+oYhgembV47LZcvka3
+	 ExmL9/w3jSOjXOu3sQ0hG9Sf0Wbmh5NvsZan+IxhCKH5c1c/dgYYV7fZ4aUkfWQ/ns
+	 lV05TA9OP5gb+AY2XqshCbLZkEEjz+gO1nbmwIEOLc4qHzeBvNjl7CryfR/YPoShfD
+	 Rn/yOP6PuRwBdNlvSkNkCno2V3Bs2xmxXq2LoAKI34rAoNH0Vcdsus0/IKMY9qvvGQ
+	 GDd37K0EOtunAA/DH5lQE8Lj7IbOa5AbjU0aUEe4DYmUu/2JjkjGFnOp6ba5/zEvhs
+	 Zq3Up7LuKcwPA==
+Date: Mon, 22 Jan 2024 11:54:11 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Baochen Qiang <quic_bqiang@quicinc.com>, Kalle Valo <kvalo@kernel.org>,
+	mhi@lists.linux.dev, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org, quic_cang@quicinc.com,
+	quic_qianyu@quicinc.com
+Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
+ mhi_power_down_no_destroy()
+Message-ID: <20240122062411.GA3176@thinkpad>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-2-kvalo@kernel.org>
+ <20231130054250.GC3043@thinkpad>
+ <87v89cq1ci.fsf@kernel.org>
+ <20231220163209.GJ3544@thinkpad>
+ <20231220165113.GK3544@thinkpad>
+ <7a31696b-cf2b-48c0-bad3-327e9ce47172@quicinc.com>
+ <20240104060904.GB3031@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:krwpxKzuxrjKJNYG65YRp+r0EkkR1wBIMU1g/OgIxutkIvqq0Oy
- mZ64rNHG3mxwru5Qg74zFseIO0kbYKg68tGcipBH3oOCo0v0eP8OfOwt60nODjBS1n4Ajj6
- h9tE/I57lr+PfQuoKDdjBiw69dpYvjtOSU1cY/JKLvuDhZucSb+0HKijrDEwdzTQI4XVfm8
- WU1YTuzwqOA1qtPUBq+Ew==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zOxPMh2inqg=;dVBjcptvjRaTcfEepMXErcxwZ5J
- GXQ+fZoR/t5YkQ8aBHovvX/vu751QvIbidTUF018n6kJF5vcNkTZXxpV2kFGCwxCGrncHqi/H
- fUWnQPwFAWrFJq1ruZt6du8tjk5MmKvmhYZAZclNID/KtJuxA9TOr8iAJxIs2Lr8FoJCdsyYH
- BcnONdX2PValbcfleEofllWvCrfPfM8v31J5bwpeci1wGXBR0FHyOdpJLhPsfoKfpr9i5Lz4O
- VxkD53Uzco2bicd80nGcRDAR93T0VAJkG4k3Yl4FUEzr0F/oYNn/Vclrw2EvQVdEMyfUBq4My
- ZCqFlbBbt7Zq6CAJxH0e7kb+YcyZEPhZQG4hYbgZQ38TET0iJds6yITyZvMkt2UvVU1PTGryu
- 1rrArB4aKTN2y8I8LbMULpehbgZDl7YkAFX1JB/0xy5GuSOYTlQCgFo//2Rh+QotMBuCgMSzC
- 2TQmWi3Zj6UT/Z4YSaRVQf6WRNZzVNBkLV5zBgTjFq50Zf2ncJWeIWB1tBhnb+1znaUhNDw4/
- KLZlfslgsg8TXFNvMUuud+vlvfNK/eZ8AqmSucDgy4qpboQf+Aj1p7lTTYNwRyESgYQtoMzLF
- zljPYDW1v7X0Hjaco58FUx7WaMHJ4vI0KnTh42Moba3c+npDIbfLBmquV+FKclXx4Nv41+er+
- n+DxTDIQDFGrmMCNGmYRRf2n2JaSq1ET+l7uyWjpyZWh12GceurwmAaIYvvKM811oVI54QtGp
- YVA54V0Q0GBkrBeDctPYK/eVsYW3qaYmm9iguwC4lsVGTDCaGxF9P6uibznR2NroiqYa7RNy4
- tlE3eEVOdCCauwH2dh6ahnlpbRkQPkuZBEZqnlbzWLTlG5fwCnTuZYEVrisLYgGVZv3t40sd8
- FN/aUoBj8VktX+Pghmief4gH0FS0O1xnbInUUnjeIKniaC4NzSvfD0VDbydFwtYk7gnNek9SO
- 5tWhdeP5E5RqvhfAdX82TNnbm54=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240104060904.GB3031@thinkpad>
 
-As noted in the "Deprecated Interfaces, Language Features, Attributes,
-and Conventions" documentation [1], size calculations (especially
-multiplication) should not be performed in memory allocator (or similar)
-function arguments due to the risk of them overflowing. This could lead
-to values wrapping around and a smaller allocation being made than the
-caller was expecting. Using those allocations could lead to linear
-overflows of heap memory and other misbehaviors.
+On Thu, Jan 04, 2024 at 11:39:12AM +0530, Manivannan Sadhasivam wrote:
 
-So, use the purpose specific kcalloc() function instead of the argument
-count * size in the kzalloc() function.
++ Can, Qiang
 
-Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-co=
-ded-arithmetic-in-allocator-arguments [1]
-Link: https://github.com/KSPP/linux/issues/162
-Signed-off-by: Erick Archer <erick.archer@gmx.com>
-=2D--
- drivers/bus/mhi/ep/main.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+[...]
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 65fc1d738bec..8d7a4102bdb7 100644
-=2D-- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
- 	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
- 	mhi_ep_mmio_init(mhi_cntrl);
+> > > To me it all sounds like the probe deferral is not handled properly in mac80211
+> > > stack. As you mentioned in the commit message that the dpm_prepare() blocks
+> > > probing of devices. It gets unblocked and trigerred in dpm_complete():
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/base/power/main.c#n1131
+> > > 
+> > > So if mac80211/ath11k cannot probe the devices at the dpm_complete() stage, then
+> > > it is definitely an issue that needs to be fixed properly.
+> > To clarify, ath11k CAN probe the devices at dpm_complete() stage. The
+> > problem is kernel does not wait for all probes to finish, and in that way we
+> > will face the issue that user space applications are likely to fail because
+> > they get thawed BEFORE WLAN is ready.
+> > 
+> 
+> Hmm. Please give me some time to reproduce this issue locally. I will get back
+> to this thread with my analysis.
+> 
 
--	mhi_cntrl->mhi_event =3D kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_c=
-ntrl->mhi_event)),
--					GFP_KERNEL);
-+	mhi_cntrl->mhi_event =3D kcalloc(mhi_cntrl->event_rings,
-+				       sizeof(*mhi_cntrl->mhi_event),
-+				       GFP_KERNEL);
- 	if (!mhi_cntrl->mhi_event)
- 		return -ENOMEM;
+We reproduced the issue with the help of PCIe team (thanks Can). What we found
+out was, during the resume from hibernation the faliure happens in
+ath11k_core_resume(). Precisely here:
+https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/tree/drivers/net/wireless/ath/ath11k/core.c?h=ath11k-hibernation-support#n850
 
-=2D-
-2.25.1
+This code waits for the QMI messages to arrive and eventually timesout. But the
+impression I got from the start was that the mhi_power_up() always fails during
+resume. In our investigation, we confirmed that the failure is not happening at
+the MHI level.
 
+I'm not pointing fingers here, but trying to understand why can't you fix
+ath11k_core_resume() to not timeout? IMO this timeout should be handled as a
+deferral case.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
