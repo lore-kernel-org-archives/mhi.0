@@ -1,130 +1,116 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4671EB3F;
-	Sun, 28 Jan 2024 11:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5F8433CF
+	for <mhi@lists.linux.dev>; Mon, 29 Jan 2024 05:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706441273; cv=none; b=KvfPPl1qV/2AxC9BdjdACC+mRbCTA51CbClIrKF87KcsLCk29qMhWvAr6tOG1IRCaXKGSN6JpBPTMO7N4v7Cnb3xSrKC2Ky1j9c346JQknOl0it4PFDrBnEoPoFzK6ceTOMtCfiryFSvX3bvYLMj1CBMvdslKtVEky3OXEvMFXM=
+	t=1706505635; cv=none; b=duuN0tZXkyoHWP4Fg26g/g0BCwMBIDD/bum+og3SKXcjfd+JJFSHEC2naAaSDjrQHonX+5p+G4PtNXsTtMQAo6eCx8cuz32cu1x0WElA+9M+ayaiGwQjMAIbPi7TbWXU/tpx5oYfiporfl0aSgZr+ENtwoqxdz2Bv48f/CAN0uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706441273; c=relaxed/simple;
-	bh=0GN2Bv/A+IeP+4/5GEgM6WZAwRH4zVNjGdeSFF0auzQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mGRBcQd76tqU7FF81ANqFH3X1WSGDAEMkEbP/BPKbSpLdetVPXsJ1qdRjESTt2zSNSr/m7iUc+YfKhNCPrDOCcig9JzrpK1U/YwLgJ7Aczj4uKwHMCwZS+KfoZ4yxzDGHfRrP6QDLtuGWc9wCLNyQNXyGQmTeY9+De1ykgs96Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b=G4Olv8bM; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1706505635; c=relaxed/simple;
+	bh=VNfQNXcwaj9L7sBzly9Yd2YYDACh1h3l8Zw6n6MrGnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOmzlaD3S+v5NF3pdSuKh9nV5bqRN9e3dsu1Z8yVShtk5scNjhMjDfmGwAIsKTovNYp6LXfNHCelnl0TVu/7fb2HgBWfnGwQEElVnvvdMCQ3uaDc7SGMB1wcMRtyUh+W/ZoJ2rax8PCggSv/WeNuZRbPzeDqvAJmefZ27uEuyhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sb+4gJif; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=erick.archer@gmx.com header.b="G4Olv8bM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
-	s=s31663417; t=1706441260; x=1707046060; i=erick.archer@gmx.com;
-	bh=0GN2Bv/A+IeP+4/5GEgM6WZAwRH4zVNjGdeSFF0auzQ=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=G4Olv8bM0Zi01S4TiGpnwHeE0U5XBriX3S3E/Shuw47w/Qvj2/yGHhzXf8CTa/Gl
-	 mp+OqfWSRI2hSmBNBg+EF/2Vwq2EaXRBNm7qpLSAMMIKkPeSRuCjC5GjR8XGiWrzL
-	 V5ld8U8JsAvGsPHf6qpjTkCcczdZAdlQgKqqc6Fsz/at5JKHGaXXoJkUTb7d5ApDd
-	 N7SJ7vPn4eUEJUadomwcHHQQFesdj3YdgQzq5PqM9/bZK5zhpc3aB+T1gfG1qhVh4
-	 edrKSUnZ1A8B/jMsJW5+cvs/1spkiN6d8fAhs7kO6NXCYQyA6MUkNQ9PSNsz3t7Pi
-	 YdEjn3T4A2vlh5s33Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.localdomain ([79.157.194.183]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MK3W0-1rmGQc12cQ-00LXk4; Sun, 28 Jan 2024 12:27:40 +0100
-From: Erick Archer <erick.archer@gmx.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sb+4gJif"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e913e3f03so30713735e9.3
+        for <mhi@lists.linux.dev>; Sun, 28 Jan 2024 21:20:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706505630; x=1707110430; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TG0As8Zf+jaNpWP1oUZ8aP25VHp9LmLOVgXQ/rkSlDI=;
+        b=sb+4gJifpf0iZcQSX4lrI5xRykDR8tMVvFW3n17o1WzzjH7TMxz1yfdGHDiWQLcvqk
+         lbE9VTaP/jZvB6YCZdYa/n4wbNowE4gGXsuQpEA+j96iY8b2ScPWbNq7UKxgAkUbbVgW
+         bTGGWX1nLF+8t1mRzF2Pyqc1r5WZrZYu3ld+6/uVk0ERs3CbHdVK3YhlTNfz8f7JNQjy
+         IPcGePboJ+OXV/w4nec9QVhtNSQ8b9FLrFa8bpVgcgZRS5JDD2jLoplLHD57rsWwbKUC
+         QAyMXv9xsW7HhChHEKDmycbjWvYguviXXVZgQgqYu/TAC2xCDnuBjjh9C78I1R6pr0sC
+         RStA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706505630; x=1707110430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TG0As8Zf+jaNpWP1oUZ8aP25VHp9LmLOVgXQ/rkSlDI=;
+        b=LgTS1h/reTwnBCl0U3vtyn73uYeuPvZAiC7/c/fPyzcFQ7o7Z9myF77QKdrKpQm/fB
+         6PPXP9UpyiMSo5w16+ukovBpGNMKelczsUnc6YLFTANdCWmvqKZktKtsE3YSLsj720kQ
+         DXIoVL/i6PzbUAb+tOUkKZ/Uf+5L87EZjJlrPKm/Z+KlVl8zvYp1iUWHsPwibQvRZ74F
+         6ham5aK1Lf7suY6+embrUdTqwmSKX3pgRb/L8zw/K3Ls6lQOOZw8Ix21yGcN0eKfjet1
+         2TV7DAKAABx7aBP+g39Sjk5dmUs2wjcHCn7f7QM7U/cnGucPk0F2wpKvBzwrLrl5snRt
+         MgSQ==
+X-Gm-Message-State: AOJu0YzeipSzoWAFuA9eYz5sloYCKQOejlbruZHd4VOOkNaaJ3p2af1a
+	XEMVHVuNEu7oCYcHCWbeNnIE8AjZc0CXlNIR5TPfGe6Wsfb1uamZRC3ETLyF0vw=
+X-Google-Smtp-Source: AGHT+IEfoXxJ+z+aVz9Hl5jSUOADUMdycEW6ZCPWSS5N4L7GhwgTKNyeWxDzwUUJNPQ0Lx23qnWpKw==
+X-Received: by 2002:a05:600c:ad0:b0:40e:779f:416 with SMTP id c16-20020a05600c0ad000b0040e779f0416mr4554158wmr.2.1706505630593;
+        Sun, 28 Jan 2024 21:20:30 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id m5-20020a05600c4f4500b0040ec8330c8asm12823044wmq.39.2024.01.28.21.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 21:20:30 -0800 (PST)
+Date: Mon, 29 Jan 2024 08:20:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Erick Archer <erick.archer@gmx.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Jeffrey Hugo <quic_jhugo@quicinc.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dan Carpenter <error27@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Elder <elder@linaro.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Erick Archer <erick.archer@gmx.com>,
-	linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2] bus: mhi: ep: Use kcalloc() instead of kzalloc()
-Date: Sun, 28 Jan 2024 12:27:22 +0100
-Message-Id: <20240128112722.4334-1-erick.archer@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+Message-ID: <3b175cb6-fcbe-4521-b6ac-442c8a11c297@moroto.mountain>
+References: <20240120152518.13006-1-erick.archer@gmx.com>
+ <43614a09-d520-4111-873a-b352bd93ea07@moroto.mountain>
+ <20240128102933.GA2800@titan>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:EQoWUExa/DIBgOI20JFy4vw9y0S152bCMrw7Ds5pWGwDK66l/Vj
- f9UkZeFwkKUqiv4QVkTtx9qyixY68fZn6aE/SuEexl/57uXeVm9s/sxi3GpkfA1bPLR4tXt
- 9hEcQ801VXlcYJyOPtBsrU39GCI8Kp+rSOV24zdPPYu2RpBSlZM5+1rFkVblS6P5QMMu7j0
- lpHJ1dACELKUZ3Ue6sfZg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:QpCG4lROFyc=;IQKTYInMl7RWTyOg1TIUJUrtwut
- 460V792KEUzvomGrMCI4hki5D65XiZ4VSTNd/xXmS/6WZGyi7xIiPS+l8V7kXmjGosUEguvmS
- IqsrSCmaAJUBidKc90XsPldsPcIF50k92K0WzzGbyMQlttOr09KILnWRNiQ2klVEk4qPbsI1h
- tZ1/D54a7sKEyjXr0QnzE08/zE3cS/fE40SwWFq2ESHe5UCWVN7WFsOtye/QyzoUFI4fqzTHe
- DEKgkVRzpLzA1IaxxntC/xxEaGsXU59EIcuZGu9D/tXAKrDilVxJ8sC+JMPQhqA+yUTl3DhQ1
- OOEJvOoU3JpEVsXvCKaaiS3n3dTVo8zkwKkXrpmdJNpMlcSr/XbcdX+ggLvSGhVtbjWUA+Yrr
- 9Hs1DfLTGWjkMMMZ+MIGwu1c9iBdTDtU66eOOSfDqZFJFtmn+HAL2SwhhsXkbeaEbbEot9UE6
- UWUxPjNXIuOPRYjqrd3B1VxggeM/wWeeIO8b0txgqDtOs3N8kzSLVDmgsPDNQxujWK7fGRyG8
- 9gDUIN2XHEI7Si13HEKe1F2+NRmbF4HLQWlt9j2mUW+hBiHnHfnIjXnmXvoYo5Sn5YRbVp52j
- OR5MTNslL0MHdmq31rqDeqwblw2GFVzGUzq55J0M1tr9FY+m2zcHr/fn1q0p6BQ0mqlWNMdC8
- 02vR7F1hKgpdZWscnVeeEEN3tMM/iw+k5fErwHScoD2AMggRV0M+O+aJB0eEeCG1rMRStt+rp
- Z57ccqRvPTMyXsAukU2eLr8Kx696xZ63inmz91gzKk5FlV6qLIAgb6IYRqLT9AihhvVv2Ifjo
- dd/ZFN7ytTn9yjQYgNXaZRm5U8CXBstZA8IPuh+pMmi4miAE50PhPmk5qQrhMySCH7MfAABRd
- PnSSsvOgE0MKTfJdiX3Vwf5N+x9M5YvKy6eYiQOVZ/3uWBREnbDjJujMuMJGzYQDFfDMFESJ5
- yjsDpTnkYiRjc3tP4IT4ApFgeRM=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240128102933.GA2800@titan>
 
-This is an effort to get rid of all multiplications from allocation
-functions in order to prevent integer overflows [1].
+On Sun, Jan 28, 2024 at 11:29:33AM +0100, Erick Archer wrote:
+> > It's a bit concerning that ->event_rings is set multiple times, but only
+> > allocated one time.  It's either unnecessary or there is a potential
+> > memory corruption bug.  If it's really necessary then there should be a
+> > check that the new size is <= the size of the original buffer that we
+> > allocated.
+> 
+> The ->event_rings is set twice. In the mhi_ep_mmio_init function and in
+> the mhi_ep_mmio_update_ner function.
+> 
 
-Here the multiplication is obviously safe because the "event_rings"
-member never can have a value greater than 255 (8 bits). This member
-is set twice using always FIELD_GET:
+It's not about the type.
 
-mhi_cntrl->event_rings =3D FIELD_GET(MHICFG_NER_MASK, regval);
-mhi_cntrl->event_rings =3D FIELD_GET(MHICFG_NER_MASK, regval);
+The event_rings struct member is the number of elements in the
+mhi_cntrl->mhi_event array.  However, we ->event_rings without
+re-allocating mhi_cntrl->mhi_event so those are not in sync any more.
+So since we don't know the number of elements in the mhi_cntrl->mhi_event
+array leading to memory corruption.
 
-And the MHICFG_NER_MASK macro defines the 8 bits mask that guarantees
-a maximum value of 255.
+> void mhi_ep_mmio_init(struct mhi_ep_cntrl *mhi_cntrl)
+> {
+> 	[...]
+> 	mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> 	[...]
+> }
+> 
+> void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl)
+> {
+> 	[...]
+> 	mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> 	[...]
+> }
 
-However, using kcalloc() is more appropriate [1] and improves
-readability. This patch has no effect on runtime behavior.
+These ->event_rings assignments look exactly the same.  It depends on
+regval.  So possibly one could be deleted.
 
-Link: https://github.com/KSPP/linux/issues/162 [1]
-Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-co=
-ded-arithmetic-in-allocator-arguments [1]
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Signed-off-by: Erick Archer <erick.archer@gmx.com>
-=2D--
-Changes in v2:
-- Add more info in the commit message to better explain the change.
-  (Dan Carpenter)
-- Add the "Reviewed-by:" tag.
-
-Previous versions:
-v1 - https://lore.kernel.org/linux-hardening/20240120152518.13006-1-erick.=
-archer@gmx.com/
-=2D--
- drivers/bus/mhi/ep/main.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 65fc1d738bec..8d7a4102bdb7 100644
-=2D-- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
- 	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
- 	mhi_ep_mmio_init(mhi_cntrl);
-
--	mhi_cntrl->mhi_event =3D kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_c=
-ntrl->mhi_event)),
--					GFP_KERNEL);
-+	mhi_cntrl->mhi_event =3D kcalloc(mhi_cntrl->event_rings,
-+				       sizeof(*mhi_cntrl->mhi_event),
-+				       GFP_KERNEL);
- 	if (!mhi_cntrl->mhi_event)
- 		return -ENOMEM;
-
-=2D-
-2.25.1
+regards,
+dan carpenter
 
