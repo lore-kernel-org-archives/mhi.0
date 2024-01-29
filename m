@@ -1,116 +1,154 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5F8433CF
-	for <mhi@lists.linux.dev>; Mon, 29 Jan 2024 05:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5253F6166D;
+	Mon, 29 Jan 2024 12:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706505635; cv=none; b=duuN0tZXkyoHWP4Fg26g/g0BCwMBIDD/bum+og3SKXcjfd+JJFSHEC2naAaSDjrQHonX+5p+G4PtNXsTtMQAo6eCx8cuz32cu1x0WElA+9M+ayaiGwQjMAIbPi7TbWXU/tpx5oYfiporfl0aSgZr+ENtwoqxdz2Bv48f/CAN0uo=
+	t=1706531969; cv=none; b=ARerNhFYJbIi2dBHu7XXSLQm6qnvPtVcpr6IaLebwEsge7FB1/J0Jb4MAogFbXPnHKumY9WLV9wvMZAjJEOltCpVUGPRS23ftcBUagjy5u5t+3Q45N6PIPMUm7b1YFKLJjgLmqnMWmn2liUkDpUxA65OBCCCRTudbPm0LXEFBS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706505635; c=relaxed/simple;
-	bh=VNfQNXcwaj9L7sBzly9Yd2YYDACh1h3l8Zw6n6MrGnc=;
+	s=arc-20240116; t=1706531969; c=relaxed/simple;
+	bh=4vsq0jGRemPIenPEeylBuokXHeP6HZCyOf/KheuJU4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOmzlaD3S+v5NF3pdSuKh9nV5bqRN9e3dsu1Z8yVShtk5scNjhMjDfmGwAIsKTovNYp6LXfNHCelnl0TVu/7fb2HgBWfnGwQEElVnvvdMCQ3uaDc7SGMB1wcMRtyUh+W/ZoJ2rax8PCggSv/WeNuZRbPzeDqvAJmefZ27uEuyhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sb+4gJif; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=FE2UdjkfQedtSQUuU+aUNOdP+932nLSSZp2hBZT5xQQ28uDm7FNW6Bwm7IF2m270snqKqgLZLzAfR64dCCspHP2D9Vrf4ttlzZloAyVDyQPuYnh+nX/OO+Bl3oju/paHk1mHUDElr65hbOKfHcuDPOpcTACltvbfctnwYfA/rbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hd3QBaAd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sb+4gJif"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e913e3f03so30713735e9.3
-        for <mhi@lists.linux.dev>; Sun, 28 Jan 2024 21:20:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706505630; x=1707110430; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TG0As8Zf+jaNpWP1oUZ8aP25VHp9LmLOVgXQ/rkSlDI=;
-        b=sb+4gJifpf0iZcQSX4lrI5xRykDR8tMVvFW3n17o1WzzjH7TMxz1yfdGHDiWQLcvqk
-         lbE9VTaP/jZvB6YCZdYa/n4wbNowE4gGXsuQpEA+j96iY8b2ScPWbNq7UKxgAkUbbVgW
-         bTGGWX1nLF+8t1mRzF2Pyqc1r5WZrZYu3ld+6/uVk0ERs3CbHdVK3YhlTNfz8f7JNQjy
-         IPcGePboJ+OXV/w4nec9QVhtNSQ8b9FLrFa8bpVgcgZRS5JDD2jLoplLHD57rsWwbKUC
-         QAyMXv9xsW7HhChHEKDmycbjWvYguviXXVZgQgqYu/TAC2xCDnuBjjh9C78I1R6pr0sC
-         RStA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706505630; x=1707110430;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TG0As8Zf+jaNpWP1oUZ8aP25VHp9LmLOVgXQ/rkSlDI=;
-        b=LgTS1h/reTwnBCl0U3vtyn73uYeuPvZAiC7/c/fPyzcFQ7o7Z9myF77QKdrKpQm/fB
-         6PPXP9UpyiMSo5w16+ukovBpGNMKelczsUnc6YLFTANdCWmvqKZktKtsE3YSLsj720kQ
-         DXIoVL/i6PzbUAb+tOUkKZ/Uf+5L87EZjJlrPKm/Z+KlVl8zvYp1iUWHsPwibQvRZ74F
-         6ham5aK1Lf7suY6+embrUdTqwmSKX3pgRb/L8zw/K3Ls6lQOOZw8Ix21yGcN0eKfjet1
-         2TV7DAKAABx7aBP+g39Sjk5dmUs2wjcHCn7f7QM7U/cnGucPk0F2wpKvBzwrLrl5snRt
-         MgSQ==
-X-Gm-Message-State: AOJu0YzeipSzoWAFuA9eYz5sloYCKQOejlbruZHd4VOOkNaaJ3p2af1a
-	XEMVHVuNEu7oCYcHCWbeNnIE8AjZc0CXlNIR5TPfGe6Wsfb1uamZRC3ETLyF0vw=
-X-Google-Smtp-Source: AGHT+IEfoXxJ+z+aVz9Hl5jSUOADUMdycEW6ZCPWSS5N4L7GhwgTKNyeWxDzwUUJNPQ0Lx23qnWpKw==
-X-Received: by 2002:a05:600c:ad0:b0:40e:779f:416 with SMTP id c16-20020a05600c0ad000b0040e779f0416mr4554158wmr.2.1706505630593;
-        Sun, 28 Jan 2024 21:20:30 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id m5-20020a05600c4f4500b0040ec8330c8asm12823044wmq.39.2024.01.28.21.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 21:20:30 -0800 (PST)
-Date: Mon, 29 Jan 2024 08:20:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Erick Archer <erick.archer@gmx.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
-Message-ID: <3b175cb6-fcbe-4521-b6ac-442c8a11c297@moroto.mountain>
-References: <20240120152518.13006-1-erick.archer@gmx.com>
- <43614a09-d520-4111-873a-b352bd93ea07@moroto.mountain>
- <20240128102933.GA2800@titan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hd3QBaAd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92373C433C7;
+	Mon, 29 Jan 2024 12:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706531968;
+	bh=4vsq0jGRemPIenPEeylBuokXHeP6HZCyOf/KheuJU4Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hd3QBaAdKcV2IDgDwKRpUKY7YipRrrIB4zunykNwepqBUiz9io6CvwAh92Q5ob9DS
+	 765eZjZv0Zlg271R8GIrZHAoKkqPVz95UoPGyxD6vJWTNGj36FAe07T1C/cyFnQUln
+	 80v/PlT1GUJBtHFmRKYBLJaz1+WMqAxJr3cvVGehlobyCLgfgwckafiXghcPNjk8uK
+	 udeejD4j4A+yax/aDN8WTKStZ0bfSOuwcZywy2iuonYHCCwaylLSONfxA0+itdkk0J
+	 e6OYL89f26/lvC3IeT3AC/m1lmb/89PBQnGQOZEM8EpP4NGlFCdljSmQp7WTfLevGQ
+	 O3vEB7smUahkA==
+Date: Mon, 29 Jan 2024 18:09:09 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Mrinmay Sarkar <quic_msarkar@quicinc.com>, agross@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	konrad.dybcio@linaro.org, mani@kernel.org, robh+dt@kernel.org,
+	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+	dmitry.baryshkov@linaro.org, robh@kernel.org,
+	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
+	quic_parass@quicinc.com, quic_schintav@quicinc.com,
+	quic_shijjose@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v9 0/5] arm64: qcom: sa8775p: add support for EP PCIe
+Message-ID: <20240129123909.GB22617@thinkpad>
+References: <1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com>
+ <pm2emx3nnypdtfo63f6vly4guybl3pguqe3djgeqgiojxgqttl@oainfndei3qa>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240128102933.GA2800@titan>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <pm2emx3nnypdtfo63f6vly4guybl3pguqe3djgeqgiojxgqttl@oainfndei3qa>
 
-On Sun, Jan 28, 2024 at 11:29:33AM +0100, Erick Archer wrote:
-> > It's a bit concerning that ->event_rings is set multiple times, but only
-> > allocated one time.  It's either unnecessary or there is a potential
-> > memory corruption bug.  If it's really necessary then there should be a
-> > check that the new size is <= the size of the original buffer that we
-> > allocated.
+On Sat, Jan 27, 2024 at 08:58:17PM -0600, Bjorn Andersson wrote:
+> On Fri, Dec 01, 2023 at 05:36:11PM +0530, Mrinmay Sarkar wrote:
+> > This series adds the relavent DT bindings, new compatible string,
+> > add support to EPF driver and add EP PCIe node in dtsi file for
+> > ep pcie0 controller.
+> > 
 > 
-> The ->event_rings is set twice. In the mhi_ep_mmio_init function and in
-> the mhi_ep_mmio_update_ner function.
+> Waiting for the driver changes to be picked up, so that I can merge
+> patch 5 through the qcom tree. Are there any unresolved issues that I'm
+> failing to spot?
 > 
 
-It's not about the type.
+No, there are no issues. But they fail to catch the eye of maintainers during
+the last merge window. I really hope that these will get picked for 6.9.
 
-The event_rings struct member is the number of elements in the
-mhi_cntrl->mhi_event array.  However, we ->event_rings without
-re-allocating mhi_cntrl->mhi_event so those are not in sync any more.
-So since we don't know the number of elements in the mhi_cntrl->mhi_event
-array leading to memory corruption.
+- Mani
 
-> void mhi_ep_mmio_init(struct mhi_ep_cntrl *mhi_cntrl)
-> {
-> 	[...]
-> 	mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
-> 	[...]
-> }
+> Regards,
+> Bjorn
 > 
-> void mhi_ep_mmio_update_ner(struct mhi_ep_cntrl *mhi_cntrl)
-> {
-> 	[...]
-> 	mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
-> 	[...]
-> }
+> > v8 -> v9:
+> > - update author in "Add pci_epf_mhi_ prefix to the function" patch.
+> > - add ack by and reviewed by tag in commit message.
+> > 
+> > v7 -> v8:
+> > - Add new patch PCI: epf-mhi: Add "pci_epf_mhi_" prefix to the function
+> >   names
+> > - Update PCI: epf-mhi: Add support for SA8775P patch on top of the new
+> >   patch and update commit message.
+> > 
+> > v6 -> v7:
+> > - add reviewed by tag in commit message in all patches.
+> > - update commit message in patch 2 as per comment.
+> > - update reason for reusing PID in commit message.
+> > 
+> > v5 -> v6:
+> > - update cover letter.
+> > 
+> > v4 -> v5:
+> > - add maxItems to the respective field to constrain io space and
+> >   interrupt in all variants.
+> > 
+> > v3 -> v4:
+> > - add maxItems field in dt bindings
+> > - update comment in patch2
+> > - dropped PHY driver patch as it is already applied [1]
+> > - update comment in EPF driver patch
+> > - update commect in dtsi and add iommus instead of iommu-map
+> > 
+> > [1] https://lore.kernel.org/all/169804254205.383714.18423881810869732517.b4-ty@kernel.org/
+> > 
+> > v2 -> v3:
+> > - removed if/then schemas, added minItems for reg,
+> >   reg-bnames, interrupt and interrupt-names instead.
+> > - adding qcom,sa8775p-pcie-ep compitable for sa8775p
+> >   as we have some specific change to add.
+> > - reusing sm8450's pcs_misc num table as it is same as sa8775p.
+> >   used appropriate namespace for pcs.
+> > - remove const from sa8775p_header as kernel test robot
+> >   throwing some warnings due to this.
+> > - remove fallback compatiable as we are adding compatiable for sa8775p.
+> > 
+> > v1 -> v2:
+> > - update description for dma
+> > - Reusing qcom,sdx55-pcie-ep compatibe so remove compaitable
+> >   for sa8775p
+> > - sort the defines in phy header file and remove extra defines
+> > - add const in return type pci_epf_header and remove MHI_EPF_USE_DMA
+> >   flag as hdma patch is not ready
+> > - add fallback compatiable as qcom,sdx55-pcie-ep, add iommu property
+> > 
+> > 
+> > Manivannan Sadhasivam (1):
+> >   PCI: epf-mhi: Add "pci_epf_mhi_" prefix to the function names
+> > 
+> > Mrinmay Sarkar (4):
+> >   dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
+> >   PCI: qcom-ep: Add support for SA8775P SOC
+> >   PCI: epf-mhi: Add support for SA8775P
+> >   arm64: dts: qcom: sa8775p: Add ep pcie0 controller node
+> > 
+> >  .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 64 +++++++++++++++++++++-
+> >  arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 46 ++++++++++++++++
+> >  drivers/pci/controller/dwc/pcie-qcom-ep.c          |  1 +
+> >  drivers/pci/endpoint/functions/pci-epf-mhi.c       | 21 ++++++-
+> >  4 files changed, 128 insertions(+), 4 deletions(-)
+> > 
+> > -- 
+> > 2.7.4
+> > 
 
-These ->event_rings assignments look exactly the same.  It depends on
-regval.  So possibly one could be deleted.
-
-regards,
-dan carpenter
-
+-- 
+மணிவண்ணன் சதாசிவம்
