@@ -1,134 +1,136 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9536086F
-	for <mhi@lists.linux.dev>; Tue, 30 Jan 2024 10:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F4B66B2B
+	for <mhi@lists.linux.dev>; Tue, 30 Jan 2024 11:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706608861; cv=none; b=bI6VekUHgW05J1kRifrUC54pyvmpF4STxq+3r7XHFqk+JkUywICXpGFLznjPfjma/x6olDDRpA+yu+qk33aSME+a9hocTEEcsr04xzeo9AIqUVTbREUiE7QMudTFImHNzGyAHb49qhOE9d59RJLDAtU+7+MyLgUavowvNB8Couo=
+	t=1706613843; cv=none; b=sM0nTbyIUQmmEmMZvf8DYOJ0RBAZ6bbEAE+1OOf5E4tNFK3SD7QCViAgQT/kmWMa1VG0EXEP5dI6GFD0rZDU8bSHJjv6SUWwd3D4afq05jW0BIAb3kTX3MkD+PQZRDoHul0wc21uLNHH1DCBJ5aqK2tASj6QT4Ck13StXdwTgS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706608861; c=relaxed/simple;
-	bh=hKlCC6YUzxSXpDs5Zn6rvnAxPGMT1RzEP6h13cQWdtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UA8pkhwwoeAAIR9PJD1+zoBOtIFWih2Cn86OGX09Cc7yims3DuRBucwKc9ieqeOGffGxBOL1O0JU/QBqYPZU/LDn3fGPHkhyzzx9ilVQhhCVq5ba5lAgs1WduB439Obc8/oK4x9vVv7JKM1Ukm7e4NTk/58+HI4mA+4B/G7U6fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mi+PdG7d; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706613843; c=relaxed/simple;
+	bh=lv43hevcTa+64J0GxwrbWW7IYyzTy2+TvNR2spRRFog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ebtDJS8jV27dOIA/2vovL51eoeRloJE9Xyj2W+e3BvK95mYIM7Hcdz//yKsQjLDW/OA26AdW7r0tsC0FFiQnCyhWS9lz0K6u8M4wY9sunlCi0GhearA98HscxuMLBMvb5t98LCdeVn2kJ1+UjX41cwJdQYV7kQXKy1EtP3/Lt8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pBi3HVff; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mi+PdG7d"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50eabbc3dccso4633749e87.2
-        for <mhi@lists.linux.dev>; Tue, 30 Jan 2024 02:00:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pBi3HVff"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3637b935e80so5146945ab.3
+        for <mhi@lists.linux.dev>; Tue, 30 Jan 2024 03:24:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706608858; x=1707213658; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nyIC+0v2XinIiBdeUWjmL9g3EZvpHlLY+6DNNfN27Qo=;
-        b=mi+PdG7d9E910Lb+npl6OEOT0tyRwhxiR7xrrKezhSE2NhlyDT1X1LKKleLCSr80DL
-         vlcOpGkqzb4g5uHnviOiKHMD2BE2pE6qXSIk5/5vE6a7+UyL4fSHfudMT3XDvyYdqNUM
-         UD/bJQG+/QImok59ModOfzqiRae0uLAVjZpfVLjH/ij8uxTjZHIu9zVjk7LC1sJnHX+I
-         UhZHJmbVhpOzpYo88MOhsVcCGfFhTLO6a7+dF+cNz6LYkjrsOVaujPz1unpNcoY0lTWg
-         WrqZO1QBiP220NgAqyuHzu+iifCTQFk9TkRV7VV5g1fEM79D/98au8pUzKVNvDUnR57v
-         4STw==
+        d=linaro.org; s=google; t=1706613840; x=1707218640; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1F5K1w5ptPpWVbrzL69kxVWikdQT589qSufOOrLNvyk=;
+        b=pBi3HVffUcmu/Tp8jRnFkuBNaogWyKstASEoLekR4XalMSd0GunX+6auD1NpslS/C/
+         EJx1CIq1G4c7ozG8Wl73lDrL642FcyRu6kjx2SZHWixh777LDFyhHHpu7KPXxlg1srpb
+         xS7TCfsmPvrTe46JMPKgcS5hqkvmllv7R+ZoPD2QGYMNHzIjjY00wzIOQJXhLZjLxgC1
+         dyBxzrutvy8wh7IRDw/3WEnZixsVkw5KDnkiG9w5DWZQU5KAaW60EV6XOK2cF8YLDmYZ
+         9CsmjPK3w1cEzz5HC5vkRoZm2kPmLCz2HutcwTIC7y9PNHpEUexD/EXLinz0aKM1ThEa
+         b7oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706608858; x=1707213658;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nyIC+0v2XinIiBdeUWjmL9g3EZvpHlLY+6DNNfN27Qo=;
-        b=J6fHQzpvyWWWvqm5M+DKQWtNBBlEj+Cxft/5q2k/vfC9CNGg5XU1ixcdTmhOShnPTb
-         YkWd2wrAuNpq6rY8hszd48i0sx/rPOn790fXNP7l2VNqfrnNYYpIPVDaET6gHidJMcuW
-         TJMaS1mcFlLdBU2UNG4bmn0riJcLAoyvClnk1Offozl1zfyqO9hEx341eJ2TZMdeiW3u
-         lc64qkajDginn4S9dDR6fOL6zjg1XIyoZN/p7Q8PMr+HMzSqZ1F2ZwylLRtD65gHnfbu
-         CEv/uVJq0DxSa5SEaJrmP6tjII52Mc2sIwdDWUlakhPBGfJBg/uCXsyfY8+h94nQTJXx
-         Y6Ug==
-X-Gm-Message-State: AOJu0YwX29gnk+SDvUAnJISn7OS0m654xlFSSDCir0VvE6KESE19vkIF
-	QWW9nXnqtO7q82Ja15BivxNcJbBdk2aWhhsMohu4xTf2h44OnmLrom+XICS0UtY=
-X-Google-Smtp-Source: AGHT+IGmJxgGMmmaVLREQN6NVgyEYuTQSRRLERxVVt5MueMLM0D2kw3IvlV1xef3VoXvP3q+2nMlrQ==
-X-Received: by 2002:a05:6512:138c:b0:50e:3e4a:f248 with SMTP id fc12-20020a056512138c00b0050e3e4af248mr6224744lfb.3.1706608857449;
-        Tue, 30 Jan 2024 02:00:57 -0800 (PST)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id y8-20020ac24208000000b0051010608804sm1390457lfh.65.2024.01.30.02.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 02:00:56 -0800 (PST)
-Date: Tue, 30 Jan 2024 13:00:53 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: vkoul@kernel.org, jingoohan1@gmail.com, conor+dt@kernel.org, 
-	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org, robh+dt@kernel.org, 
-	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, 
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, quic_schintav@quicinc.com, 
-	quic_shijjose@quicinc.com, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v1 0/6] Add Change to integrate HDMA with dwc ep driver
-Message-ID: <yfnvs3l5t7ggvdj2ebrwg7zmrn3r3su3t2xbvcfkwhb2q4sajv@ya3urqlwpzt7>
-References: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com>
+        d=1e100.net; s=20230601; t=1706613840; x=1707218640;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1F5K1w5ptPpWVbrzL69kxVWikdQT589qSufOOrLNvyk=;
+        b=iDxodzWRVXFbY+ggY9VXKwxt+O+KDzfysO4m9y7Ydd9jfiVRUP/T0Act6qZg5B/a03
+         aMFG/+VRxckc4cKlItvYl5B8hHyrNb3AFpUnE9RF1jR3nlPBKUYRHeA5FL1cI2grhfvx
+         y9npCwFUv2/ZvcWo2MCjQ0ZKAIVcWWzN8VV8SZQ8UgIWl4IQWY5yP50GYaPngiByTDKB
+         2LwZV8bSa58fo94oktzDXNCmLS8ByfiiZj3ZcIm0e4wqFdgHuZRQhyhzwlkvawi27/l8
+         AvYNmEaQOE5ott5it6l52EwGtLEmjKQlxKNEnZ6qcv+LZmTa0mZS0ITbFRYdX3MkMggI
+         IJww==
+X-Gm-Message-State: AOJu0YzhLKdN7d4iIyaqx1JzPS7dXEHdcV5vM7RJovsHaz9CgnlQxPnM
+	8UstFhx4p7T3nBLaUdBnAlGNvicg3eTAU6GKPGFTMHgSWg96OkvSwbwZMlgcNPc=
+X-Google-Smtp-Source: AGHT+IHKdQCanZI5XXVDCMtb7vhvgINd+abU2YHqtb5E0Q9PMHdFUkLdkHUE23F69+B0bNtzNBk0pg==
+X-Received: by 2002:a92:c14b:0:b0:363:8559:edf with SMTP id b11-20020a92c14b000000b0036385590edfmr3200068ilh.1.1706613840424;
+        Tue, 30 Jan 2024 03:24:00 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.gmail.com with ESMTPSA id e16-20020a92d750000000b00362902d6818sm2787085ilq.62.2024.01.30.03.23.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 03:23:59 -0800 (PST)
+Message-ID: <b5ae6fd2-1dee-47e4-b7e4-ebd8a2aea472@linaro.org>
+Date: Tue, 30 Jan 2024 05:23:58 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+To: Erick Archer <erick.archer@gmx.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Dan Carpenter <error27@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240128112722.4334-1-erick.archer@gmx.com>
+Content-Language: en-US
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <20240128112722.4334-1-erick.archer@gmx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mrinmay
+On 1/28/24 5:27 AM, Erick Archer wrote:
+> This is an effort to get rid of all multiplications from allocation
+> functions in order to prevent integer overflows [1].
+> 
+> Here the multiplication is obviously safe because the "event_rings"
+> member never can have a value greater than 255 (8 bits). This member
+> is set twice using always FIELD_GET:
+> 
+> mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> 
+> And the MHICFG_NER_MASK macro defines the 8 bits mask that guarantees
+> a maximum value of 255.
+> 
+> However, using kcalloc() is more appropriate [1] and improves
+> readability. This patch has no effect on runtime behavior.
+> 
+> Link: https://github.com/KSPP/linux/issues/162 [1]
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
+> ---
+> Changes in v2:
+> - Add more info in the commit message to better explain the change.
+>    (Dan Carpenter)
+> - Add the "Reviewed-by:" tag.
 
-On Fri, Jan 19, 2024 at 06:30:16PM +0530, Mrinmay Sarkar wrote:
-> Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
-> Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only the
-> unrolled mapping format. This patch series is to integrate HDMA with
-> dwc ep driver.
-> 
-> Add change to provide a valid base address of the CSRs from the
-> platform driver and also provides read/write channels count from
-> platform driver since there is no standard way to auto detect the
-> number of available read/write channels in a platform and set the
-> mapping format in platform driver for HDMA.
-> 
-> This series passes 'struct dw_edma_chip' to irq_vector() as it needs
-> to access that particular structure and fix to get the eDMA/HDMA
-> max channel count. Also move the HDMA max channel definition to edma.h
-> to maintain uniformity with eDMA.
+Looks good.
 
-Thanks for the patchset. I'll have a look at it later on this
-week or early on the next one. If you wish you can resubmit it by then
-with the Dmitry' and Mani' notes fixed.
-
--Serge(y)
+Reviewed-by: Alex Elder <elder@linaro.org>
 
 > 
-> Dependency
-> ----------
-> Depends on:
-> https://lore.kernel.org/dmaengine/20231117-b4-feature_hdma_mainline-v6-0-ebf7aa0e40d7@bootlin.com/
-> https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
+> Previous versions:
+> v1 - https://lore.kernel.org/linux-hardening/20240120152518.13006-1-erick.archer@gmx.com/
+> ---
+>   drivers/bus/mhi/ep/main.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> Manivannan Sadhasivam (4):
->   dmaengine: dw-edma: Pass 'struct dw_edma_chip' to irq_vector()
->   dmaengine: dw-edma: Introduce helpers for getting the eDMA/HDMA max
->     channel count
->   PCI: dwc: Add HDMA support
->   dmaengine: dw-edma: Move HDMA_V0_MAX_NR_CH definition to edma.h
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 65fc1d738bec..8d7a4102bdb7 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
+>   	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
+>   	mhi_ep_mmio_init(mhi_cntrl);
 > 
-> Mrinmay Sarkar (2):
->   PCI: qcom-ep: Provide number of read/write channel for HDMA
->   PCI: epf-mhi: Add flag to enable HDMA for SA8775P
+> -	mhi_cntrl->mhi_event = kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_cntrl->mhi_event)),
+> -					GFP_KERNEL);
+> +	mhi_cntrl->mhi_event = kcalloc(mhi_cntrl->event_rings,
+> +				       sizeof(*mhi_cntrl->mhi_event),
+> +				       GFP_KERNEL);
+>   	if (!mhi_cntrl->mhi_event)
+>   		return -ENOMEM;
 > 
->  drivers/dma/dw-edma/dw-edma-core.c           | 29 ++++++++++---
->  drivers/dma/dw-edma/dw-edma-pcie.c           |  4 +-
->  drivers/dma/dw-edma/dw-hdma-v0-core.c        |  4 +-
->  drivers/dma/dw-edma/dw-hdma-v0-regs.h        |  3 +-
->  drivers/pci/controller/dwc/pcie-designware.c | 63 ++++++++++++++++++++++------
->  drivers/pci/controller/dwc/pcie-qcom-ep.c    | 19 ++++++++-
->  drivers/pci/endpoint/functions/pci-epf-mhi.c |  1 +
->  include/linux/dma/edma.h                     | 18 +++++++-
->  8 files changed, 115 insertions(+), 26 deletions(-)
+> --
+> 2.25.1
 > 
-> -- 
-> 2.7.4
-> 
+
