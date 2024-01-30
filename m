@@ -1,39 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F99358213;
-	Tue, 30 Jan 2024 08:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B0312E4D;
+	Tue, 30 Jan 2024 08:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706602905; cv=none; b=tTyOgfA0PiUkAeQezj2f5OKnBbQvCAzZfj2y4pWfu3Vecog+vxT6k1AOuh2ygfdP6qMNDblC1juuBSUQFftr15UDU7wW7tiMl0JlglKBby9688maoDRvLc7yP1q4HQV7YMb1xFqKUrfnWoVujUEG2s0XRLBHEfyh1Tgy1g1/4+E=
+	t=1706603688; cv=none; b=ErM3ioUkRFMpD9QcERr68pOLWvxEEdMYnAr8zRPh0+fcqA6pNZ+PiK2uWgPhFMlo4g6JK4PwHjGuTbubqHYgzgKMOdL2YqVQJCYIAxRpw6PI/OOCUNOBC5vKPWZDXS2M2OCxdqTINCh0Z/EGhl18SJ9LcMn83gSLrBgvn53mIK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706602905; c=relaxed/simple;
-	bh=l92rlH4QMnqWPZQBTA6fZs3p3JG1usdcirSgXEg9km0=;
+	s=arc-20240116; t=1706603688; c=relaxed/simple;
+	bh=PDBalufe/OZxGpAG/naTR/fooOv/KA48jowWnj1HpOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vr4w61NXLN+V9pg+lt2DYkwPip3YerW3JyN6weTxLGmBYO2wJ/2yslh/3vKaXffIIJTD51zKbmGlhilzA/4FQ3k+/Vwg96fFsws6tMAdDL0dKe6pDccyCbMTR14NHVnnaejkulZnJoRSDmcrBqvc3nCPWyjWWtpJ5VjjIedXUeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DRb9GxKY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i00bS+mf0BvB81r6qaDJis9yrMD04hM6EINwBWe4sCbKI+mPGj7C0WKeTKvZJKayteWFunQAp9WlKTTxMmX/ombUYsr2h7GGpeoTS0d8ESZ/UkKECEP3m2P1jqWhdRUg6L4w1iqBYFvsnG8+WYBfBZ66ezp3hPm9C9lKLfOxg44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fz8Jl9Mj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRb9GxKY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1DFC32795;
-	Tue, 30 Jan 2024 08:21:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fz8Jl9Mj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4784CC433C7;
+	Tue, 30 Jan 2024 08:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706602904;
-	bh=l92rlH4QMnqWPZQBTA6fZs3p3JG1usdcirSgXEg9km0=;
+	s=k20201202; t=1706603687;
+	bh=PDBalufe/OZxGpAG/naTR/fooOv/KA48jowWnj1HpOI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DRb9GxKYRIFgICac1eS9CRTjAOMeF0SOQGAXTE5kyTmIP1JCBCj8vZT3f34H4mitN
-	 XjbdBGfUwor1/247cAk3wDjek5QsyeEvwkfgKti5pRYIodp1HYqW3aPGaC8r5icJad
-	 WWwn0Zmv+a6MqiTkl1LVBmcG4ZR6wSuVbGbZX9xVPTQFYsvNNxEfPJWQ7Kxmn12Nmt
-	 B75lEFVxYn3COf8PHb9dzUOthdC0piN8iuNxZHv4z95bXPvbrJA55gQ4CCF81Xbrim
-	 +Yo5drU4+cJNpEA3pmzfC6YFt8q+r3JyZScqLM5YemReXcF36UuHostvJmMp9649yv
-	 8eDdnS+q5zWwQ==
-Date: Tue, 30 Jan 2024 13:51:38 +0530
+	b=fz8Jl9MjAfgIKJeEbtyvr73lL20xJkHm+iy0ge/8TgeDpUF4MsFPoq+h89DdsflZH
+	 1/mO8u6Yc4OxRFzPOsiOznTCtdEt3j5Un4bRezPuu5h+5ONHwCrY82Iz8as1FLc4g9
+	 K6s+sEaK4GiSyMlOHz5dOsJbEIq3Ckp7RJiOUWK1IdBQp5QVzp2Ci8PuqFVwhmrtO6
+	 R0Twc6fzF3xp6l3v+y9DBaHgDtupj8FNvNjYvDvLG8jzqac7Bh2kTpHalW7TPYnMqJ
+	 5tzopcL3NcKRS1ocE8jtG78th8PAKD5YyoPvb6i0RTPiW73IEdWi2byr2wp5vqcblE
+	 dtsbkE326Mx2A==
+Date: Tue, 30 Jan 2024 14:04:38 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Read PK HASH dynamically
-Message-ID: <20240130082138.GL32821@thinkpad>
-References: <20231208165938.1340587-1-quic_jhugo@quicinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Erick Archer <erick.archer@gmx.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+Message-ID: <20240130083438.GM32821@thinkpad>
+References: <20240120152518.13006-1-erick.archer@gmx.com>
+ <43614a09-d520-4111-873a-b352bd93ea07@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -43,119 +51,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231208165938.1340587-1-quic_jhugo@quicinc.com>
+In-Reply-To: <43614a09-d520-4111-873a-b352bd93ea07@moroto.mountain>
 
-On Fri, Dec 08, 2023 at 09:59:38AM -0700, Jeffrey Hugo wrote:
-> The OEM PK HASH registers in the BHI region are read once during firmware
-> load (boot), cached, and displayed on demand via sysfs. This has a few
-> problems - if firmware load is skipped, the registers will not be read and
-> if the register values change over the life of the device the local cache
-> will be out of sync.
+On Mon, Jan 22, 2024 at 10:15:20AM +0300, Dan Carpenter wrote:
+> This code does not have an integer overflow, but it might have a
+> different memory corruption bug.
 > 
-> Qualcomm Cloud AI 100 can expose both these problems. It is possible for
-> mhi_async_power_up() to be invoked while the device is in AMSS EE, which
-> would bypass firmware loading. Also, Qualcomm Cloud AI 100 has 5 PK HASH
-> slots which can be dynamically provisioned while the device is active,
-> which would result in the values changing and users may want to know what
-> keys are active.
+> On Sat, Jan 20, 2024 at 04:25:18PM +0100, Erick Archer wrote:
+> > As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> > and Conventions" documentation [1], size calculations (especially
+> > multiplication) should not be performed in memory allocator (or similar)
+> > function arguments due to the risk of them overflowing. This could lead
+> > to values wrapping around and a smaller allocation being made than the
+> > caller was expecting. Using those allocations could lead to linear
+> > overflows of heap memory and other misbehaviors.
+> > 
+> > So, use the purpose specific kcalloc() function instead of the argument
+> > count * size in the kzalloc() function.
+> > 
 > 
-> Address these concerns by reading the PK HASH registers on-demand during
-> the sysfs read. This will result in showing the most current information.
+> This one is more complicated to analyze.  I have built a Smatch cross
+> function database so it's easy for me and I will help you.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> $ smbd.py where mhi_ep_cntrl event_rings
+> drivers/pci/endpoint/functions/pci-epf-mhi.c | pci_epf_mhi_probe              | (struct mhi_ep_cntrl)->event_rings | 0
+> drivers/bus/mhi/ep/main.c      | mhi_ep_irq                     | (struct mhi_ep_cntrl)->event_rings | min-max
+> drivers/bus/mhi/ep/mmio.c      | mhi_ep_mmio_init               | (struct mhi_ep_cntrl)->event_rings | 0-255
+> drivers/bus/mhi/ep/mmio.c      | mhi_ep_mmio_update_ner         | (struct mhi_ep_cntrl)->event_rings | 0-255
+> 
+> The other way to figure this stuff out would be to do:
+> 
+> $ grep -Rn "event_rings = " drivers/bus/mhi/ep/
+> drivers/bus/mhi/ep/mmio.c:260:  mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> drivers/bus/mhi/ep/mmio.c:261:  mhi_cntrl->hw_event_rings = FIELD_GET(MHICFG_NHWER_MASK, regval);
+> drivers/bus/mhi/ep/mmio.c:271:  mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> drivers/bus/mhi/ep/mmio.c:272:  mhi_cntrl->hw_event_rings = FIELD_GET(MHICFG_NHWER_MASK, regval);
+> 
+> That means that this multiplication can never overflow so the patch
+> has no effect on runtime.  The patch is still useful because we don't
+> want every single person to have to do this analysis.  The kcalloc()
+> function is just safer and more obviously correct.
+> 
 
-Applied to mhi-next!
+Agree.
+
+> It's a bit concerning that ->event_rings is set multiple times, but only
+> allocated one time.  It's either unnecessary or there is a potential
+> memory corruption bug.  If it's really necessary then there should be a
+> check that the new size is <= the size of the original buffer that we
+> allocated.
+
+Agree, the dual assignment could be avoided. I added it initially to have all
+the memory allocations in one place, and also there is a guarantee from the spec
+that the MHICFG_NER_MASK will always be initialized to hw max value.
+
+But looking at it again, it seems redundant. So I will drop the assignment from
+mhi_ep_mmio_init().
+
+Thanks for spotting!
 
 - Mani
-
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c | 11 +----------
->  drivers/bus/mhi/host/init.c | 16 ++++++++++++----
->  include/linux/mhi.h         |  2 --
->  3 files changed, 13 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index edc0ec5a0933..dedd29ca8db3 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -395,7 +395,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	void *buf;
->  	dma_addr_t dma_addr;
->  	size_t size, fw_sz;
-> -	int i, ret;
-> +	int ret;
->  
->  	if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->  		dev_err(dev, "Device MHI is not in valid state\n");
-> @@ -408,15 +408,6 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	if (ret)
->  		dev_err(dev, "Could not capture serial number via BHI\n");
->  
-> -	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++) {
-> -		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i),
-> -				   &mhi_cntrl->oem_pk_hash[i]);
-> -		if (ret) {
-> -			dev_err(dev, "Could not capture OEM PK HASH via BHI\n");
-> -			break;
-> -		}
-> -	}
-> -
->  	/* wait for ready on pass through or any other execution environment */
->  	if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
->  		goto fw_load_ready_state;
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 65ceac1837f9..e2c2f510b04f 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -97,11 +97,19 @@ static ssize_t oem_pk_hash_show(struct device *dev,
->  {
->  	struct mhi_device *mhi_dev = to_mhi_device(dev);
->  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> -	int i, cnt = 0;
-> +	u32 hash_segment[MHI_MAX_OEM_PK_HASH_SEGMENTS];
-> +	int i, cnt = 0, ret;
->  
-> -	for (i = 0; i < ARRAY_SIZE(mhi_cntrl->oem_pk_hash); i++)
-> -		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n",
-> -				i, mhi_cntrl->oem_pk_hash[i]);
-> +	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++) {
-> +		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_OEMPKHASH(i), &hash_segment[i]);
-> +		if (ret) {
-> +			dev_err(dev, "Could not capture OEM PK HASH\n");
-> +			return cnt;
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < MHI_MAX_OEM_PK_HASH_SEGMENTS; i++)
-> +		cnt += sysfs_emit_at(buf, cnt, "OEMPKHASH[%d]: 0x%x\n", i, hash_segment[i]);
->  
->  	return cnt;
->  }
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index d0f9b522f328..474d32cb0520 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -325,7 +325,6 @@ struct mhi_controller_config {
->   * @major_version: MHI controller major revision number
->   * @minor_version: MHI controller minor revision number
->   * @serial_number: MHI controller serial number obtained from BHI
-> - * @oem_pk_hash: MHI controller OEM PK Hash obtained from BHI
->   * @mhi_event: MHI event ring configurations table
->   * @mhi_cmd: MHI command ring configurations table
->   * @mhi_ctxt: MHI device context, shared memory between host and device
-> @@ -413,7 +412,6 @@ struct mhi_controller {
->  	u32 major_version;
->  	u32 minor_version;
->  	u32 serial_number;
-> -	u32 oem_pk_hash[MHI_MAX_OEM_PK_HASH_SEGMENTS];
->  
->  	struct mhi_event *mhi_event;
->  	struct mhi_cmd *mhi_cmd;
-> -- 
-> 2.34.1
-> 
-> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
