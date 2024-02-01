@@ -1,307 +1,315 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA9C69DE9;
-	Wed, 31 Jan 2024 10:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4394DA19
+	for <mhi@lists.linux.dev>; Thu,  1 Feb 2024 10:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706698319; cv=none; b=G0MtrWNRI16BrD4ZyWHCmZt55Ww1mlcgpzTsRlzGds6/NLsWOtPiiEWJJPvxl/ofiak0TGYHExV/Tp7sH91csw1QrhRdTJEwFpDnDrcmHvLB4fmdPrQX+zDGOLbmNYCu0mod1zKwMpwXuAGxPQXFMk6ObkcFToDuCp1V7F98FEQ=
+	t=1706781648; cv=none; b=jwPwLjX5XmSUcImiZYnt2GH3kzUungB+FnBeG1eVRmowAyzclILJgKp6vXF6L16xPTyfpjVJYoE9pN/I5ecMg5PgWCHPpvawqV+I661WgTILgih0j1XpYByfI5Veg/CmALrjw7EXvUiJ/AMy3AiAqqSwUQgaiq8Ey5YLenzStWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706698319; c=relaxed/simple;
-	bh=oGJAk+btxd4sAX3pm6kpuhnj94uvN7Yp9EsJ14pItRY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EpsprX4UpHHKMMWrr7RILnrqaFHgudxzgZ3ejLIElYdV2yszs0wnOMJqkL+WDAXnJ8rVMn4SSi/UXFCJxr3HCQ1uqpw7Vn0uUZ9avGAzswDS17s3xQA/b4Z6U3eianR5NAXv1NQOk9WTGhmBgsMieaBM0ByPnwh6rniTLG0SffY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iJ4VPC6E; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1706781648; c=relaxed/simple;
+	bh=YNlN8yDk5aO/yvRInRO8XtX+T7e4+hdzdwTE1pq56bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u9M8AD3Shov0ift3Z2XcS53U//jLfHUtclhBCAQ7t1oZ/Y7jEn84wOgSzyK0v8coIWj99b4x+1pZTv8F5x7A6KN5noaJQFKkusLTqYdtdH2meJDk5m5LwY5/5v7a1RsjhtXr5njl42OnD8aWKP40BRZAmEqExdwYosfH7gThLIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdB1YIiG; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iJ4VPC6E"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40V77IqS009657;
-	Wed, 31 Jan 2024 10:51:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=bT+6EzFnYFRcUGul11OVbMhJB9IMcun02+JmsHfFfrg=; b=iJ
-	4VPC6EvBMp18UsCalz6i+SnXqYwGfkDppB9D5TjVQg8fMq4t6HzFG4wx3s3NSBgs
-	CX5AhqO6I+qim4PtHp/D1SOIyEH3RNiTSwujEOyqyQg5jiwje26u+gunSsCyeup2
-	n++NUCcav9gmYtHlV5plMciMTHffTpiOJzNnnvBKZ8VpYWfIRY2gw8w8OQfcTkql
-	KoCu+SI6Z1bctWrIKhhWLDFD1w2ttyPMrXiLC/XUyj7Ec7JoX7E/ZF+hQVYx9Eah
-	vF2R/aEo7jFgYHE+aiMTleKLsw0wx3DK5P9T9JWZJkOIbuHe8+CdlLf3aZJCyZiF
-	qa4ZheB3tZmOiSjfwufg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vyb0csfex-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 31 Jan 2024 10:51:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40VAplOS021120
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 31 Jan 2024 10:51:47 GMT
-Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 31 Jan
- 2024 02:51:45 -0800
-Message-ID: <350b3fb0-5941-4a52-b25c-9ad7aecd0fac@quicinc.com>
-Date: Wed, 31 Jan 2024 18:51:43 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdB1YIiG"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6da9c834646so503759b3a.3
+        for <mhi@lists.linux.dev>; Thu, 01 Feb 2024 02:00:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706781646; x=1707386446; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MtEt022kkPXVXmIT70xulNhz204nKO73T0HIbZTpt3c=;
+        b=AdB1YIiGRvxCmRXG6sbZvmsV5nEtlmuzfiPlfQEBWxRDAVbXBm5IfwYVE0bHvhWCYP
+         153nkH61yMh25vG3X3wyGhi42K87x0YqdmU4jMEhiCjqugx6rDxdsM2NvYBo2VXm1qbY
+         WVrkItuxBxQJ7wSGq95pCDh32Hum0RwVen8O+ctZgiwBa0bWwgumXBDBaskAHZLMgdFG
+         XDgDdK6vy6+Whu5PNfyd1n2TQI7tZrAsLCWOy0V/kilpRkMswhq1l2fBtv/0WkxHxp9y
+         1rkbGjSgY+NiIlsn4TMi28C53wgMiqQdx8TdZ04WcDeIfnUksIlvKrCZRI5WPBLEcYHz
+         xYCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706781646; x=1707386446;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MtEt022kkPXVXmIT70xulNhz204nKO73T0HIbZTpt3c=;
+        b=r2t3TZ+pRm3H4JwHkI6/sKmmsKhWyGaDPM8gdb3PCBweBk7xus6c6/uBDnF3+R9PaF
+         dzSuoYhGR1Z6Rr+ehXxa+vJdouQDflRz7A8Yg9PcGswFkoZ8pCJJptDjfpvpKdGf4hN7
+         ombgzj24dQii+uRNHjRzohehebnotmUzRyyoIZrkldxoIUg9WRtLIK0WAz4YcAi+Hxz2
+         EMr0LxAwPvOqd+U62M8djl3UfCuTLAlOxX4Ai2GKBqumfNqnq810tfgS5HKDktRpH2Aj
+         HmlgDHkzJ/SVlBZWUjRLSnWbFSlyX5DRk5/MutqCImUyTqPcuFknzt2rGIfFNq74F0YU
+         FJzg==
+X-Gm-Message-State: AOJu0Yycf3yHOk7vsF9g1wardJCl7yi5Qd6p9luC3Lld/xSZrUEA78BS
+	SS+ojhPA94GKtZjDWxL3xH+ZLAkEkAHHQQsjJ1PWtiaWmBPb5ZG7ctNJJncCzw==
+X-Google-Smtp-Source: AGHT+IF+MGpP/C7cfZjCjiG2aRdHkdHtz96E7vnVzdz00IberE36RJU8ufLm/3ynoxUiAbLUZ2NUiw==
+X-Received: by 2002:a05:6a00:830d:b0:6dd:a0a5:141f with SMTP id gd13-20020a056a00830d00b006dda0a5141fmr3943855pfb.28.1706781645551;
+        Thu, 01 Feb 2024 02:00:45 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXVWK7ZNbXwm8vo/FW2JCaF4MCdQw3rEaFqlzDa/y5YlePi0w/NMK0AEl0x8jlw0AbXA9MhulRZ+/8PwRsfzInBnqlY1r3hro1Tt8zcjhBxn5KeDzZrmq98Ak8CZC517clv5wEvyNOvk0H/BttdCSmlwXbr97Wxfaoa2qNX26Ew
+Received: from thinkpad ([117.248.5.99])
+        by smtp.gmail.com with ESMTPSA id r6-20020a056a00216600b006dbda1b19f7sm11389533pff.159.2024.02.01.02.00.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 02:00:45 -0800 (PST)
+Date: Thu, 1 Feb 2024 15:30:40 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: Kalle Valo <kvalo@kernel.org>, mhi@lists.linux.dev,
+	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH RFC v2 2/8] bus: mhi: host: add new interfaces to handle
+ MHI channels directly
+Message-ID: <20240201100040.GB17027@thinkpad>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-3-kvalo@kernel.org>
+ <20240130181938.GB4218@thinkpad>
+ <d002afe9-3c01-413c-82d2-353db0356802@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/8] bus: mhi: host: add
- mhi_power_down_no_destroy()
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Kalle Valo
-	<kvalo@kernel.org>
-CC: <mhi@lists.linux.dev>, <ath11k@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>
-References: <20231127162022.518834-1-kvalo@kernel.org>
- <20231127162022.518834-2-kvalo@kernel.org> <20240130180411.GA4218@thinkpad>
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <20240130180411.GA4218@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _DwbSZ5rHQ-yoZB1xnQLAIo1O3-2k25F
-X-Proofpoint-ORIG-GUID: _DwbSZ5rHQ-yoZB1xnQLAIo1O3-2k25F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-31_05,2024-01-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401190000 definitions=main-2401310082
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d002afe9-3c01-413c-82d2-353db0356802@quicinc.com>
 
+On Wed, Jan 31, 2024 at 03:39:26PM +0800, Baochen Qiang wrote:
+> 
+> 
+> On 1/31/2024 2:19 AM, Manivannan Sadhasivam wrote:
+> > On Mon, Nov 27, 2023 at 06:20:16PM +0200, Kalle Valo wrote:
+> > > From: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > 
+> > > When using mhi_power_down_no_destroy() MHI hosts need to unprepare MHI channels
+> > > by themselves.  Similarly, MHI stack will also not create new MHI device since
+> > > old devices were not destroyed, so MHI hosts need to prepare channels as well.
+> > > Hence add these two interfaces to make that possible.
+> > > 
+> > > Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> > > 
+> > > Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> > > ---
+> > >   drivers/bus/mhi/host/main.c | 107 ++++++++++++++++++++++++++++++++++++
+> > >   include/linux/mhi.h         |  20 ++++++-
+> > >   2 files changed, 126 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> > > index d80975f4bba8..3f677fc628ad 100644
+> > > --- a/drivers/bus/mhi/host/main.c
+> > > +++ b/drivers/bus/mhi/host/main.c
+> > > @@ -1669,6 +1669,58 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
+> > > +static int ____mhi_prepare_for_transfer(struct device *dev, void *data)
+> > 
+> > "__mhi_prepare_all_for_transfer"
+> 
+> This is to prepare one single child device, I don't think a name like
+> __mhi_prepare_all_for_transfer (with 'all' inside) make sense, right?
+> How about changing to "mhi_prepare_dev_for_transfer" or
+> "mhi_prepare_single_for_transfer"?
+> 
 
+I think most of the checks in this function can be moved inside
+mhi_prepare_for_transfer() API. With that you can just reuse the API without
+adding a new helper.
 
-On 1/31/2024 2:04 AM, Manivannan Sadhasivam wrote:
-> On Mon, Nov 27, 2023 at 06:20:15PM +0200, Kalle Valo wrote:
->> From: Baochen Qiang <quic_bqiang@quicinc.com>
->>
->> If ath11k tries to call mhi_power_up() during resume it fails:
->>
-> 
-> This is confusing! Maybe this is what confused me initially. mhi_sync_power_up()
-> never fails, but ath11k timesout waiting for QMI. You also confirmed the same
-> [1].
+For autoqueue channels, you can add another API
+mhi_prepare_all_for_transfer_autoqueue() just like
+mhi_prepare_for_transfer_autoqueue() to maintain uniformity.
 
-mhi_sync_power_up() creates MHI devices which fails to get probed. So 
-from the view of ath11k it fails, while from the sense of code 
-execuation it succeeds. Will rephrase to avoid confusion.
+- Mani
 
+> > 
+> > > +{
+> > > +	struct mhi_device *mhi_dev;
+> > > +	struct mhi_chan *ul_chan, *dl_chan;
+> > > +	enum mhi_ee_type ee = MHI_EE_MAX;
+> > 
+> > Reverse Xmas order, please.
+> > 
+> > > +
+> > > +	if (dev->bus != &mhi_bus_type)
+> > > +		return 0;
+> > > +
+> > > +	mhi_dev = to_mhi_device(dev);
+> > > +
+> > > +	/* Only prepare virtual devices that are attached to bus */
+> > 
+> > "Only prepare virtual devices for the channels". Here and below.
+> > 
+> > > +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
+> > > +		return 0;
+> > > +
+> > > +	/* There are cases where there is no MHI client driver matches
+> > > +	 * this device, we are not allowed to do prepare for it.
+> > > +	 */
+> > 
+> > Use the preferred style for comment:
+> > 
+> > 	/*
+> > 	 * ...
+> > 	 */
+> > 
+> > > +	if (!mhi_dev->id)
+> > > +		return 0;
+> > > +
+> > > +	ul_chan = mhi_dev->ul_chan;
+> > > +	dl_chan = mhi_dev->dl_chan;
+> > > +
+> > > +	/*
+> > > +	 * If execution environment is specified, remove only those devices that
+> > > +	 * started in them based on ee_mask for the channels as we move on to a
+> > > +	 * different execution environment
+> > > +	 */
+> > > +	if (data)
+> > > +		ee = *(enum mhi_ee_type *)data;
+> > > +
+> > > +	if (ul_chan && ee != MHI_EE_MAX && !(ul_chan->ee_mask & BIT(ee)))
+> > > +		return 0;
+> > > +
+> > > +
+> > 
+> > Remove extra newline.
+> > 
+> > > +	if (dl_chan && ee != MHI_EE_MAX && !(dl_chan->ee_mask & BIT(ee)))
+> > > +		return 0;
+> > > +
+> > > +	if (dl_chan->pre_alloc)
+> > > +		return mhi_prepare_for_transfer_autoqueue(mhi_dev);
+> > > +	else
+> > > +		return mhi_prepare_for_transfer(mhi_dev);
+> > > +}
+> > > +
+> > > +int mhi_prepare_all_for_transfer(struct mhi_controller *mhi_cntrl)
+> > > +{
+> > > +	return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
+> > > +				     ____mhi_prepare_for_transfer);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(mhi_prepare_all_for_transfer);
+> > > +
+> > >   void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+> > >   {
+> > >   	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+> > > @@ -1684,3 +1736,58 @@ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+> > >   	}
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(mhi_unprepare_from_transfer);
+> > > +
+> > > +static int ____mhi_unprepare_from_transfer(struct device *dev, void *data)
+> > 
+> > __mhi_unprepare_all_from_transfer
 > 
->> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
->>
->> This happens because when calling mhi_power_up() the MHI subsystem eventually
->> calls device_add() from mhi_create_devices() but the device creation is
->> deferred:
->>
->> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
->>
->> The reason for deferring device creation is explained in dpm_prepare():
->>
->> 	/*
->> 	 * It is unsafe if probing of devices will happen during suspend or
->> 	 * hibernation and system behavior will be unpredictable in this case.
->> 	 * So, let's prohibit device's probing here and defer their probes
->> 	 * instead. The normal behavior will be restored in dpm_complete().
->> 	 */
->>
->> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not called and
->> qcom_mhi_qrtr_dl_callback() fails silently as qdev is zero:
->>
->> static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
->> 				      struct mhi_result *mhi_res)
->> {
->> 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
->> 	int rc;
->>
->> 	if (!qdev || mhi_res->transaction_status)
->> 		return;
->>
->> So what this means that QRTR is not delivering messages and the QMI connection
->> is not working between ath11k and the firmware, resulting a failure in firmware
->> initialisation.
->>
->> To fix this add new function mhi_power_down_no_destroy() which does not destroy
->> the devices during power down. This way mhi_power_up() can be called during
->> resume and we can get ath11k hibernation working with the following patches.
->>
->> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
->>
->> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
->> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/init.c     |  1 +
->>   drivers/bus/mhi/host/internal.h |  1 +
->>   drivers/bus/mhi/host/pm.c       | 26 +++++++++++++++++++-------
->>   include/linux/mhi.h             | 29 +++++++++++++++++++++++++++--
->>   4 files changed, 48 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->> index 65ceac1837f9..e626b03ffafa 100644
->> --- a/drivers/bus/mhi/host/init.c
->> +++ b/drivers/bus/mhi/host/init.c
->> @@ -43,6 +43,7 @@ const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX] = {
->>   	[DEV_ST_TRANSITION_FP] = "FLASH PROGRAMMER",
->>   	[DEV_ST_TRANSITION_SYS_ERR] = "SYS ERROR",
->>   	[DEV_ST_TRANSITION_DISABLE] = "DISABLE",
->> +	[DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE] = "DISABLE (DESTROY DEVICE)",
->>   };
->>   
->>   const char * const mhi_ch_state_type_str[MHI_CH_STATE_TYPE_MAX] = {
->> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
->> index 30ac415a3000..3f45c9c447bd 100644
->> --- a/drivers/bus/mhi/host/internal.h
->> +++ b/drivers/bus/mhi/host/internal.h
->> @@ -69,6 +69,7 @@ enum dev_st_transition {
->>   	DEV_ST_TRANSITION_FP,
->>   	DEV_ST_TRANSITION_SYS_ERR,
->>   	DEV_ST_TRANSITION_DISABLE,
->> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
->>   	DEV_ST_TRANSITION_MAX,
->>   };
->>   
->> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->> index a2f2feef1476..8833b0248393 100644
->> --- a/drivers/bus/mhi/host/pm.c
->> +++ b/drivers/bus/mhi/host/pm.c
->> @@ -458,7 +458,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
->>   }
->>   
->>   /* Handle shutdown transitions */
->> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
->> +				      bool destroy_device)
->>   {
->>   	enum mhi_pm_state cur_state;
->>   	struct mhi_event *mhi_event;
->> @@ -520,8 +521,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
->>   	dev_dbg(dev, "Waiting for all pending threads to complete\n");
->>   	wake_up_all(&mhi_cntrl->state_event);
->>   
->> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
->> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
->> +	if (destroy_device) {
->> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
->> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
->> +	}
->>   
->>   	mutex_lock(&mhi_cntrl->pm_mutex);
->>   
->> @@ -806,7 +809,10 @@ void mhi_pm_st_worker(struct work_struct *work)
->>   			mhi_pm_sys_error_transition(mhi_cntrl);
->>   			break;
->>   		case DEV_ST_TRANSITION_DISABLE:
->> -			mhi_pm_disable_transition(mhi_cntrl);
->> +			mhi_pm_disable_transition(mhi_cntrl, false);
->> +			break;
->> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
->> +			mhi_pm_disable_transition(mhi_cntrl, true);
->>   			break;
->>   		default:
->>   			break;
->> @@ -1160,7 +1166,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
->>   }
->>   EXPORT_SYMBOL_GPL(mhi_async_power_up);
->>   
->> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
->> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
->> +		      bool destroy_device)
->>   {
->>   	enum mhi_pm_state cur_state, transition_state;
->>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->> @@ -1196,14 +1203,19 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
->>   	write_unlock_irq(&mhi_cntrl->pm_lock);
->>   	mutex_unlock(&mhi_cntrl->pm_mutex);
->>   
->> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
->> +	if (destroy_device)
->> +		mhi_queue_state_transition(mhi_cntrl,
->> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
->> +	else
->> +		mhi_queue_state_transition(mhi_cntrl,
->> +					   DEV_ST_TRANSITION_DISABLE);
->>   
->>   	/* Wait for shutdown to complete */
->>   	flush_work(&mhi_cntrl->st_worker);
->>   
->>   	disable_irq(mhi_cntrl->irq[0]);
->>   }
->> -EXPORT_SYMBOL_GPL(mhi_power_down);
->> +EXPORT_SYMBOL_GPL(__mhi_power_down);
+> same as above.
 > 
-> This is a helper, so should not be exported. You should export the API instead.
-> 
->>   
->>   int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
->>   {
->> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
->> index d0f9b522f328..ae092bc8b97e 100644
->> --- a/include/linux/mhi.h
->> +++ b/include/linux/mhi.h
->> @@ -648,12 +648,37 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
->>    */
->>   int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
->>   
->> +void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
->> +		    bool destroy_device);
-> 
-> This is a helper, so make it static.
-> 
->> +
->>   /**
->> - * mhi_power_down - Start MHI power down sequence
->> + * mhi_power_down - Start MHI power down sequence. See also
->> + * mhi_power_down_no_destroy() which is a variant of this for suspend.
-> 
-> suspend/hibernation
-> 
->> + *
->>    * @mhi_cntrl: MHI controller
->>    * @graceful: Link is still accessible, so do a graceful shutdown process
->>    */
->> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
->> +static inline void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
-> 
-> No, API cannot be static inline. Make it global.
-> 
->> +{
->> +	__mhi_power_down(mhi_cntrl, graceful, true);
->> +}
->> +
->> +/**
->> + * mhi_power_down_no_destroy - Start MHI power down sequence but don't
->> + * destroy struct devices. This is a variant for mhi_power_down() and is a
-> 
-> "struct devices for channels"
-> 
->> + * workaround to make it possible to use mhi_power_up() in a resume
-> 
-> You should mention that the devices are not destroyed and this would be useful
-> in suspend/hibernation.
-> 
->> + * handler. When using this variant the caller must also call
->> + * mhi_prepare_all_for_transfer_autoqueue() and
-> 
-> mhi_prepare_all_for_transfer*()
-> 
->> + * mhi_unprepare_all_from_transfer().
->> + *
->> + * @mhi_cntrl: MHI controller
->> + * @graceful: Link is still accessible, so do a graceful shutdown process
->> + */
->> +static inline void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl,
->> +					     bool graceful)
-> 
-> Same as above, make it global.
-> 
-> - Mani
-> 
+> > 
+> > > +{
+> > > +	struct mhi_device *mhi_dev;
+> > > +	struct mhi_chan *ul_chan, *dl_chan;
+> > > +	enum mhi_ee_type ee = MHI_EE_MAX;
+> > > +
+> > > +	if (dev->bus != &mhi_bus_type)
+> > > +		return 0;
+> > > +
+> > > +	mhi_dev = to_mhi_device(dev);
+> > > +
+> > > +	/* Only unprepare virtual devices that are attached to bus */
+> > > +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
+> > > +		return 0;
+> > > +
+> > > +	/* There are cases where there is no MHI client driver matches
+> > > +	 * this device, so it is not probed or prepared, no need to
+> > > +	 * do unprepare for it.
+> > > +	 */
+> > > +	if (!mhi_dev->id)
+> > > +		return 0;
+> > > +
+> > > +	ul_chan = mhi_dev->ul_chan;
+> > > +	dl_chan = mhi_dev->dl_chan;
+> > > +
+> > > +	/*
+> > > +	 * If execution environment is specified, remove only those devices that
+> > > +	 * started in them based on ee_mask for the channels as we move on to a
+> > > +	 * different execution environment
+> > > +	 */
+> > > +	if (data)
+> > > +		ee = *(enum mhi_ee_type *)data;
+> > > +
+> > > +	if (ul_chan) {
+> > > +		if (ee != MHI_EE_MAX && !(ul_chan->ee_mask & BIT(ee)))
+> > > +			return 0;
+> > > +	}
+> > > +
+> > > +	if (dl_chan) {
+> > > +		if (ee != MHI_EE_MAX && !(dl_chan->ee_mask & BIT(ee)))
+> > > +			return 0;
+> > > +	}
+> > > +
+> > > +	mhi_unprepare_from_transfer(mhi_dev);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +int mhi_unprepare_all_from_transfer(struct mhi_controller *mhi_cntrl)
+> > > +{
+> > > +	return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
+> > > +				     ____mhi_unprepare_from_transfer);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(mhi_unprepare_all_from_transfer);
+> > > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> > > index ae092bc8b97e..dcf62a57056a 100644
+> > > --- a/include/linux/mhi.h
+> > > +++ b/include/linux/mhi.h
+> > > @@ -668,7 +668,7 @@ static inline void mhi_power_down(struct mhi_controller *mhi_cntrl, bool gracefu
+> > >    * destroy struct devices. This is a variant for mhi_power_down() and is a
+> > >    * workaround to make it possible to use mhi_power_up() in a resume
+> > >    * handler. When using this variant the caller must also call
+> > > - * mhi_prepare_all_for_transfer_autoqueue() and
+> > > + * mhi_prepare_all_for_transfer() and
+> > 
+> > This change belongs to previous patch.
+> > 
+> > >    * mhi_unprepare_all_from_transfer().
+> > >    *
+> > >    * @mhi_cntrl: MHI controller
+> > > @@ -842,4 +842,22 @@ int mhi_queue_skb(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+> > >    */
+> > >   bool mhi_queue_is_full(struct mhi_device *mhi_dev, enum dma_data_direction dir);
+> > > +/**
+> > > + * mhi_prepare_all_for_transfer - if you are using
+> > > + * mhi_power_down_no_destroy() variant this needs to be called after
+> > > + * calling mhi_power_up().
+> > 
+> > Add info about what this API does also.
+> > 
+> > > + *
+> > > + * @mhi_cntrl: MHI controller
+> > > + */
+> > > +int mhi_prepare_all_for_transfer(struct mhi_controller *mhi_cntrl);
+> > > +
+> > > +/**
+> > > + * mhi_unprepare_all_from_transfer - if you are using
+> > > + * mhi_power_down_no_destroy() variant this function needs to be called
+> > > + * before calling mhi_power_down_no_destroy().
+> > 
+> > Same as above.
+> > 
+> > - Mani
+> > 
+> > > + *
+> > > + * @mhi_cntrl: MHI controller
+> > > + */
+> > > +int mhi_unprepare_all_from_transfer(struct mhi_controller *mhi_cntrl);
+> > > +
+> > >   #endif /* _MHI_H_ */
+> > > -- 
+> > > 2.39.2
+> > > 
+> > > 
+> > 
+
+-- 
+மணிவண்ணன் சதாசிவம்
