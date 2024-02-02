@@ -1,176 +1,361 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0110013D506
-	for <mhi@lists.linux.dev>; Fri,  2 Feb 2024 10:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4677A732;
+	Fri,  2 Feb 2024 10:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706870865; cv=none; b=YGh0KIrBXVcmSyioF9aYQ4nnNsHDCVox33G+XLmUE5AStG7JdSCNyyYpbZmGZLsvdpIdXFgYgz8/p3lfwVzV3L8zfdhDT5MQ6/9Hj4G+73U3DOZDGFD6LwOb7UQa6xhf7qZS8Jl658XjCyPXTo4Wp/pW9QgkUlJ/sQ92OHNrfo4=
+	t=1706870974; cv=none; b=DCfyjGMag+pc1pmKhqd9QoXYUNp8CET1NRmJWUD1QZbiML3WMv6t1wl1Jy/vYVQYhaYPTNFmOWPYAJk33eW26m8Oe1xvGYM5528GTtPmGnqZ0gcUKWsfcOHKC5LMpr74HsUL26NPPMeskqA+0kNB167elNVhoCegom5e2BCBLpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706870865; c=relaxed/simple;
-	bh=Xt2M8HRs7SN4laOAJeIgS9tMuog2lLj8YJwaT2VLCpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qJrfGgpdKjArthfmNjLXproEdilmRr1IlEB8KRUNDLGqTRtZLbHy+D6/+Y3MHYpnqh6/OA8jItgDN8pvXhTCxZJ789lLWKqhKhGC1NHehXAQlRTwLtv5OoC97V7MVyohyXTL8aBJ9MLembZ7aObyI6gBtRz1pAENp9IA82WnjJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nhgEo+aa; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706870974; c=relaxed/simple;
+	bh=9ZBBSAXrt6kWsx+eqpSYCzasMCfGvJqFbv5Xmg39tzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=gk8ruqLSjJVfMOLXbcbioNOc8ZPvW4wG0SeGWthv9LOm72TK02RapYjHD+0jloO2yOl6pwSUUmc4zdplADkSi3iy3mC5M6oBfzNdG7UaelQQcX3IFGZAdVnQgjjiYPVtA9AS/35mLxb7aBMDaz9HidCGG5DM21aVHCEWok9rB/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=C48MimFk; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhgEo+aa"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2cf5917f049so23270761fa.2
-        for <mhi@lists.linux.dev>; Fri, 02 Feb 2024 02:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706870862; x=1707475662; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZgnYAXpWAFiqkpCspnUr87mQXP6L2kKrtXFLuLkvSw=;
-        b=nhgEo+aaDCuMYT0bKDYK+ZQR8RGLlrgM3/ved3ZUf3AR3YhkDjQlM5VCEgNZ/DbFZb
-         3KONNDRHZ9bg2fSrmV5MhfMrz+qT9Ig43vnxbrNewo0mEFItoo+/z0f6gB3RPONEQVFA
-         CN6Jzw7ol2nO1aPEl71dwipQotyE6UO6hxO3W9+rVrDdYYGy3yNtXxRLJqfnhtfkGSbK
-         qwSmnH6YswdrT3hZxs/DMUdVbbwu8YJP+aK1dG5vE/vADRA3QdX0U0iarBJ/+D5D5Q9l
-         74dKuO//twivyO4T8aYVIQEV28VEtqiqTLhGkNWUvcCe5ZHdu1A660rI/YXcHfEFvY0i
-         fEYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706870862; x=1707475662;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MZgnYAXpWAFiqkpCspnUr87mQXP6L2kKrtXFLuLkvSw=;
-        b=QOnpJtO+A372ra++BYCN5AWFbq7YsttspPm9B6zw7ScACdreaq+QKq3M4z5nGZ76CM
-         zXls9wfLRayhHGTWAsa+0n2pY1XxdYWOucKMlZgpdk9XBgvB28aD92ezE6lEVOToi23H
-         0bUn3jJmcRgWN630m+EUIkL0rlFjUfol0MgWhVRfk30a+Ha8OLciR10YWiYcmX2Fvr5R
-         uyWvV2zqK0SGYiFOz9MV3t6DOET92EPe6lx8VPBAZvZA5hlj+5RDQUDAQLLtrCOInDm/
-         EpvIyFLHoON8CBG5C34045XFXFuDS9IerZIaJnA97GdpyRaN3w+ohRu8XlFZQiATpzWE
-         4g/g==
-X-Gm-Message-State: AOJu0Yw+GimyIOAXLB+GxAj3mqizM9hgcQCNieQEzAj2q2C69lbEhsuB
-	/t4OhDRVDBi8ZO7fkDes3IgNihvvtNqz+mZf5/yoxUt0vQL+Sdwv
-X-Google-Smtp-Source: AGHT+IEbwjkbpK9Xuml1Y77SKru5bILD7sva7aCjmFi0vC3jKu4Fbqk4CltwUykk2Lw/tPel9KHrkA==
-X-Received: by 2002:a2e:9b87:0:b0:2d0:7aa5:583c with SMTP id z7-20020a2e9b87000000b002d07aa5583cmr3152488lji.39.1706870861541;
-        Fri, 02 Feb 2024 02:47:41 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCX3dEegt/O88JfWAjSzBp+Ni5hOFkgeNxEqiwAlwSr2bQvnUmy4oME/UXe/Zt7cS+FORlGWXfB3hr3vqXrxGHLNJPDyGAVB143mMX8WdBwR4QRo1IfBybrZoDZjcyluHQyT5J4/fJHuvpjKxFsgF1deQUcaPst3sLQOulMZjtbxXxbE9E7CojloHlygPfXv4ypy2N0zMymcIXBl6JzU3XiNAKrtzxOMV8jYW4S+FwZS6l6D1AUXMCktmeVhgunyO6X4RRIkGJHnSp07L3mFRExxNQwfaClrQxw4e8SLNX36vpX/2B3iKDktAHpVjflKI+kBKzUYvXGsFcAqS9MEECRe1TX/ZZDWdOge1ElvbkEYaYXnUZYIUw8fuNU6bIQcjnlX2bEH+SXW4qj/XX3jnSCdE/H61L4yBQCcz2YILnEdiDVSzLVXfmo6sl3rfUUCKn1KyuNGoypKjJiwQAryidzISZmCvg8ZDvf0WmYdfamy6irVgLhmHmrC28MN5PzAwRQLhMDyIqS8yEmOWRp/GPKYWwhdotCVczpQ1otTSHroxZYLuNOW7dXPdPLRgPSh91QV/1Fsfyqw7TJF3m394uPgigpVRbFI1YYu+ycdEbyfmfuQWBpd/q+Zkn/c25uSI+ABS974DGmmt8fuChAdnfYgJGD5Vh1jBdVmoaN56EHhT4eMFIj9PGqkeOT9fnHuyV6qzRVFxiYJUC3xrbeCROVFO/dlj3CBalvu35h63RQSkdua30jyqaOznpNY8UcxENQ7yigPX33fzArcfYf8FNugdbQBnEqTd3gSZ1X2cocIOTgq40DgQqn3wDN+qEp/Qgifi4P65uefgjI/0K7/9kR+clJQ3MHiQcHbxnr4uElONDl2MOgpKd1fkLHDJiVXV/NoBPAVxuvgF0BZmjeoFRjF3yY0eQFd6RRp
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id j13-20020a2e850d000000b002d0406b4c9fsm239639lji.48.2024.02.02.02.47.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 02:47:41 -0800 (PST)
-Date: Fri, 2 Feb 2024 13:47:37 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: vkoul@kernel.org, jingoohan1@gmail.com, conor+dt@kernel.org, 
-	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org, robh+dt@kernel.org, 
-	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, 
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, quic_schintav@quicinc.com, 
-	quic_shijjose@quicinc.com, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v1 4/6] dmaengine: dw-edma: Move HDMA_V0_MAX_NR_CH
- definition to edma.h
-Message-ID: <qfdsnz7louqdrs6mhz72o6mzjo66kw63vtlhgpz6hgqfyyzyhq@tge3r7mvwtw3>
-References: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com>
- <1705669223-5655-5-git-send-email-quic_msarkar@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="C48MimFk"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4128KCue020122;
+	Fri, 2 Feb 2024 10:49:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=r/vYhl3PQI50RWcwzVPq43BmiasixwPxSX7bPMzn85g=; b=C4
+	8MimFkG5Abofw3x3Bi8zINHWPAzBOjW/SrpzLL8+fO7HKIBnqicCgxcD5d7rnYoP
+	MGfvGsE9+MdWPEQ0cK+rsqDmHMQElSZ17t7W+P5CSoSoWMom6tMNwhfQ1KxWJOVl
+	2wNpscxqcppyOqBJhFLuYUAP9z7zROzE54j4Vg79uEM34Br6y5PjMlEZuzCJ4EGx
+	YrCyAdD4r3+5kKDHfiK+ECEhWmqsVwIW9TLPHoG7pxFxAmUJ4W+Z8GAUUU3Xguei
+	z4hXYJmzmPIoCguj+GKpzVvnAudN4IPq0kgAsySlQ1ioov2M/XG2FComRHHR74tw
+	paWxP2qcHvcgB9CBvo8w==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0ptw960j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Feb 2024 10:49:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412AnNJ6007090
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Feb 2024 10:49:23 GMT
+Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 2 Feb
+ 2024 02:49:22 -0800
+Message-ID: <34e80f19-8804-4505-b134-f099e087b53e@quicinc.com>
+Date: Fri, 2 Feb 2024 18:49:19 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1705669223-5655-5-git-send-email-quic_msarkar@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 2/8] bus: mhi: host: add new interfaces to handle
+ MHI channels directly
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Kalle Valo <kvalo@kernel.org>, <mhi@lists.linux.dev>,
+        <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-3-kvalo@kernel.org> <20240130181938.GB4218@thinkpad>
+ <d002afe9-3c01-413c-82d2-353db0356802@quicinc.com>
+ <20240201100040.GB17027@thinkpad>
+ <07668be1-8366-43b5-83ca-bf66d0d8087b@quicinc.com>
+ <20240202071011.GA2961@thinkpad>
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <20240202071011.GA2961@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Mmzq7vdMjELr0zlhXlzEPAkV6tyKqmrK
+X-Proofpoint-GUID: Mmzq7vdMjELr0zlhXlzEPAkV6tyKqmrK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_04,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ mlxlogscore=740 adultscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020078
 
-Hi Mrinmay
 
-On Fri, Jan 19, 2024 at 06:30:20PM +0530, Mrinmay Sarkar wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+On 2/2/2024 3:10 PM, Manivannan Sadhasivam wrote:
+> On Fri, Feb 02, 2024 at 02:42:58PM +0800, Baochen Qiang wrote:
+>>
+>>
+>> On 2/1/2024 6:00 PM, Manivannan Sadhasivam wrote:
+>>> On Wed, Jan 31, 2024 at 03:39:26PM +0800, Baochen Qiang wrote:
+>>>>
+>>>>
+>>>> On 1/31/2024 2:19 AM, Manivannan Sadhasivam wrote:
+>>>>> On Mon, Nov 27, 2023 at 06:20:16PM +0200, Kalle Valo wrote:
+>>>>>> From: Baochen Qiang <quic_bqiang@quicinc.com>
+>>>>>>
+>>>>>> When using mhi_power_down_no_destroy() MHI hosts need to unprepare MHI channels
+>>>>>> by themselves.  Similarly, MHI stack will also not create new MHI device since
+>>>>>> old devices were not destroyed, so MHI hosts need to prepare channels as well.
+>>>>>> Hence add these two interfaces to make that possible.
+>>>>>>
+>>>>>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+>>>>>>
+>>>>>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+>>>>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+>>>>>> ---
+>>>>>>     drivers/bus/mhi/host/main.c | 107 ++++++++++++++++++++++++++++++++++++
+>>>>>>     include/linux/mhi.h         |  20 ++++++-
+>>>>>>     2 files changed, 126 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>>>>>> index d80975f4bba8..3f677fc628ad 100644
+>>>>>> --- a/drivers/bus/mhi/host/main.c
+>>>>>> +++ b/drivers/bus/mhi/host/main.c
+>>>>>> @@ -1669,6 +1669,58 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
+>>>>>>     }
+>>>>>>     EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
+>>>>>> +static int ____mhi_prepare_for_transfer(struct device *dev, void *data)
+>>>>>
+>>>>> "__mhi_prepare_all_for_transfer"
+>>>>
+>>>> This is to prepare one single child device, I don't think a name like
+>>>> __mhi_prepare_all_for_transfer (with 'all' inside) make sense, right?
+>>>> How about changing to "mhi_prepare_dev_for_transfer" or
+>>>> "mhi_prepare_single_for_transfer"?
+>>>>
+>>>
+>>> I think most of the checks in this function can be moved inside
+>>> mhi_prepare_for_transfer() API. With that you can just reuse the API without
+>>> adding a new helper.
+>>>
+>>> For autoqueue channels, you can add another API
+>>> mhi_prepare_all_for_transfer_autoqueue() just like
+>>> mhi_prepare_for_transfer_autoqueue() to maintain uniformity.
+>>>
+>>> - Mani
+>> If we do that, we need to call two APIs together, does it make sense? From
+>> the view of an MHI user, what we want is an API to prepare all channels, no
+>> matter whether a channel is configured as autoqueue or non-autoqueue, we
+>> don't care about it.
+>>
 > 
-> To maintain uniformity with eDMA, let's move the HDMA max channel
-> definition to edma.h. While at it, let's also rename it to HDMA_MAX_NR_CH.
+> You are calling this API from a wrong place first up.
+> mhi_{prepare/unprepare}_transfer* APIs are meant to be used by the client
+> drivers like QRTR. Controller drivers should not call them.
+> 
+> What you need here is the hibernation support for QRTR itself and call these
+> APIs from there.
 
-First of all include/linux/dma/edma.h already contains the common DW
-EDMA and _HDMA_ settings/entities including the number of channels.
-Both of these IP-cores have the same constraints on the max amount of
-channels. Moreover the EDMA_MAX_WR_CH/EDMA_MAX_RD_CH macros are
-already utilized in the common dw_edma_probe() method. So to speak you
-can freely use these macros for HDMA too. Thus this change is
-redundant. So is the patches 1/6 and 2/6.
-
-Note currently all the common DW EDMA driver code uses the EDMA_/edma_
-prefixes. HDMA_/hdma_ prefixes are utilized in the Native
-HDMA-specific module only. So if you wished to provide some IP-core
-specific settings utilized in the common part of the driver, then the
-best approach would be to provide a change for the entire driver
-interface (for instance first convert it to having a neutral prefixes,
-like xdma_/etc, and then use the IP-core specific ones). So please
-just use the EDMA_MAX_WR_CH and EDMA_MAX_RD_CH macros and drop the
-patches 1, 2, and 4.
-
--Serge(y)
+OK, I got your point. QRTR is the right place to manage MHI channels, 
+not ath11k it self.
+And we even don't need these two APIs if change to do it in QRTR.
 
 > 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-> ---
->  drivers/dma/dw-edma/dw-hdma-v0-core.c | 4 ++--
->  drivers/dma/dw-edma/dw-hdma-v0-regs.h | 3 +--
->  include/linux/dma/edma.h              | 1 +
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>> And besides, I don't think there is a scenario where we need to use them
+>> separately. So if we always need to use them together, why not merge them in
+>> a single API?
+>>
 > 
-> diff --git a/drivers/dma/dw-edma/dw-hdma-v0-core.c b/drivers/dma/dw-edma/dw-hdma-v0-core.c
-> index 1f4cb7d..819ef1f 100644
-> --- a/drivers/dma/dw-edma/dw-hdma-v0-core.c
-> +++ b/drivers/dma/dw-edma/dw-hdma-v0-core.c
-> @@ -54,7 +54,7 @@ static void dw_hdma_v0_core_off(struct dw_edma *dw)
->  {
->  	int id;
->  
-> -	for (id = 0; id < HDMA_V0_MAX_NR_CH; id++) {
-> +	for (id = 0; id < HDMA_MAX_NR_CH; id++) {
->  		SET_BOTH_CH_32(dw, id, int_setup,
->  			       HDMA_V0_STOP_INT_MASK | HDMA_V0_ABORT_INT_MASK);
->  		SET_BOTH_CH_32(dw, id, int_clear,
-> @@ -70,7 +70,7 @@ static u16 dw_hdma_v0_core_ch_count(struct dw_edma *dw, enum dw_edma_dir dir)
->  	 * available, we set it to maximum channels and let the platform
->  	 * set the right number of channels.
->  	 */
-> -	return HDMA_V0_MAX_NR_CH;
-> +	return HDMA_MAX_NR_CH;
->  }
->  
->  static enum dma_status dw_hdma_v0_core_ch_status(struct dw_edma_chan *chan)
-> diff --git a/drivers/dma/dw-edma/dw-hdma-v0-regs.h b/drivers/dma/dw-edma/dw-hdma-v0-regs.h
-> index a974abd..cd7eab2 100644
-> --- a/drivers/dma/dw-edma/dw-hdma-v0-regs.h
-> +++ b/drivers/dma/dw-edma/dw-hdma-v0-regs.h
-> @@ -11,7 +11,6 @@
->  
->  #include <linux/dmaengine.h>
->  
-> -#define HDMA_V0_MAX_NR_CH			8
->  #define HDMA_V0_LOCAL_ABORT_INT_EN		BIT(6)
->  #define HDMA_V0_REMOTE_ABORT_INT_EN		BIT(5)
->  #define HDMA_V0_LOCAL_STOP_INT_EN		BIT(4)
-> @@ -92,7 +91,7 @@ struct dw_hdma_v0_ch {
->  } __packed;
->  
->  struct dw_hdma_v0_regs {
-> -	struct dw_hdma_v0_ch ch[HDMA_V0_MAX_NR_CH];	/* 0x0000..0x0fa8 */
-> +	struct dw_hdma_v0_ch ch[HDMA_MAX_NR_CH];	/* 0x0000..0x0fa8 */
->  } __packed;
->  
->  struct dw_hdma_v0_lli {
-> diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
-> index 550f6a4..2cdf249a 100644
-> --- a/include/linux/dma/edma.h
-> +++ b/include/linux/dma/edma.h
-> @@ -14,6 +14,7 @@
->  
->  #define EDMA_MAX_WR_CH                                  8
->  #define EDMA_MAX_RD_CH                                  8
-> +#define HDMA_MAX_NR_CH					8
->  
->  struct dw_edma;
->  struct dw_edma_chip;
-> -- 
-> 2.7.4
+> A single controller driver may expose multiple channels and those will bind to
+> multiple client drivers. So only the client drivers should manage the channels,
+> not the controller drivers themselves.
+Exactly.
+
+Great thanks for the proposal, Mani. Will change accordingly in next 
+version.
+
+> 
+> - Mani
+> 
+>>>
+>>>>>
+>>>>>> +{
+>>>>>> +	struct mhi_device *mhi_dev;
+>>>>>> +	struct mhi_chan *ul_chan, *dl_chan;
+>>>>>> +	enum mhi_ee_type ee = MHI_EE_MAX;
+>>>>>
+>>>>> Reverse Xmas order, please.
+>>>>>
+>>>>>> +
+>>>>>> +	if (dev->bus != &mhi_bus_type)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	mhi_dev = to_mhi_device(dev);
+>>>>>> +
+>>>>>> +	/* Only prepare virtual devices that are attached to bus */
+>>>>>
+>>>>> "Only prepare virtual devices for the channels". Here and below.
+>>>>>
+>>>>>> +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	/* There are cases where there is no MHI client driver matches
+>>>>>> +	 * this device, we are not allowed to do prepare for it.
+>>>>>> +	 */
+>>>>>
+>>>>> Use the preferred style for comment:
+>>>>>
+>>>>> 	/*
+>>>>> 	 * ...
+>>>>> 	 */
+>>>>>
+>>>>>> +	if (!mhi_dev->id)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	ul_chan = mhi_dev->ul_chan;
+>>>>>> +	dl_chan = mhi_dev->dl_chan;
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * If execution environment is specified, remove only those devices that
+>>>>>> +	 * started in them based on ee_mask for the channels as we move on to a
+>>>>>> +	 * different execution environment
+>>>>>> +	 */
+>>>>>> +	if (data)
+>>>>>> +		ee = *(enum mhi_ee_type *)data;
+>>>>>> +
+>>>>>> +	if (ul_chan && ee != MHI_EE_MAX && !(ul_chan->ee_mask & BIT(ee)))
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +
+>>>>>
+>>>>> Remove extra newline.
+>>>>>
+>>>>>> +	if (dl_chan && ee != MHI_EE_MAX && !(dl_chan->ee_mask & BIT(ee)))
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	if (dl_chan->pre_alloc)
+>>>>>> +		return mhi_prepare_for_transfer_autoqueue(mhi_dev);
+>>>>>> +	else
+>>>>>> +		return mhi_prepare_for_transfer(mhi_dev);
+>>>>>> +}
+>>>>>> +
+>>>>>> +int mhi_prepare_all_for_transfer(struct mhi_controller *mhi_cntrl)
+>>>>>> +{
+>>>>>> +	return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
+>>>>>> +				     ____mhi_prepare_for_transfer);
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL_GPL(mhi_prepare_all_for_transfer);
+>>>>>> +
+>>>>>>     void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+>>>>>>     {
+>>>>>>     	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+>>>>>> @@ -1684,3 +1736,58 @@ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev)
+>>>>>>     	}
+>>>>>>     }
+>>>>>>     EXPORT_SYMBOL_GPL(mhi_unprepare_from_transfer);
+>>>>>> +
+>>>>>> +static int ____mhi_unprepare_from_transfer(struct device *dev, void *data)
+>>>>>
+>>>>> __mhi_unprepare_all_from_transfer
+>>>>
+>>>> same as above.
+>>>>
+>>>>>
+>>>>>> +{
+>>>>>> +	struct mhi_device *mhi_dev;
+>>>>>> +	struct mhi_chan *ul_chan, *dl_chan;
+>>>>>> +	enum mhi_ee_type ee = MHI_EE_MAX;
+>>>>>> +
+>>>>>> +	if (dev->bus != &mhi_bus_type)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	mhi_dev = to_mhi_device(dev);
+>>>>>> +
+>>>>>> +	/* Only unprepare virtual devices that are attached to bus */
+>>>>>> +	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	/* There are cases where there is no MHI client driver matches
+>>>>>> +	 * this device, so it is not probed or prepared, no need to
+>>>>>> +	 * do unprepare for it.
+>>>>>> +	 */
+>>>>>> +	if (!mhi_dev->id)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	ul_chan = mhi_dev->ul_chan;
+>>>>>> +	dl_chan = mhi_dev->dl_chan;
+>>>>>> +
+>>>>>> +	/*
+>>>>>> +	 * If execution environment is specified, remove only those devices that
+>>>>>> +	 * started in them based on ee_mask for the channels as we move on to a
+>>>>>> +	 * different execution environment
+>>>>>> +	 */
+>>>>>> +	if (data)
+>>>>>> +		ee = *(enum mhi_ee_type *)data;
+>>>>>> +
+>>>>>> +	if (ul_chan) {
+>>>>>> +		if (ee != MHI_EE_MAX && !(ul_chan->ee_mask & BIT(ee)))
+>>>>>> +			return 0;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	if (dl_chan) {
+>>>>>> +		if (ee != MHI_EE_MAX && !(dl_chan->ee_mask & BIT(ee)))
+>>>>>> +			return 0;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	mhi_unprepare_from_transfer(mhi_dev);
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +int mhi_unprepare_all_from_transfer(struct mhi_controller *mhi_cntrl)
+>>>>>> +{
+>>>>>> +	return device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL,
+>>>>>> +				     ____mhi_unprepare_from_transfer);
+>>>>>> +}
+>>>>>> +EXPORT_SYMBOL_GPL(mhi_unprepare_all_from_transfer);
+>>>>>> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+>>>>>> index ae092bc8b97e..dcf62a57056a 100644
+>>>>>> --- a/include/linux/mhi.h
+>>>>>> +++ b/include/linux/mhi.h
+>>>>>> @@ -668,7 +668,7 @@ static inline void mhi_power_down(struct mhi_controller *mhi_cntrl, bool gracefu
+>>>>>>      * destroy struct devices. This is a variant for mhi_power_down() and is a
+>>>>>>      * workaround to make it possible to use mhi_power_up() in a resume
+>>>>>>      * handler. When using this variant the caller must also call
+>>>>>> - * mhi_prepare_all_for_transfer_autoqueue() and
+>>>>>> + * mhi_prepare_all_for_transfer() and
+>>>>>
+>>>>> This change belongs to previous patch.
+>>>>>
+>>>>>>      * mhi_unprepare_all_from_transfer().
+>>>>>>      *
+>>>>>>      * @mhi_cntrl: MHI controller
+>>>>>> @@ -842,4 +842,22 @@ int mhi_queue_skb(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+>>>>>>      */
+>>>>>>     bool mhi_queue_is_full(struct mhi_device *mhi_dev, enum dma_data_direction dir);
+>>>>>> +/**
+>>>>>> + * mhi_prepare_all_for_transfer - if you are using
+>>>>>> + * mhi_power_down_no_destroy() variant this needs to be called after
+>>>>>> + * calling mhi_power_up().
+>>>>>
+>>>>> Add info about what this API does also.
+>>>>>
+>>>>>> + *
+>>>>>> + * @mhi_cntrl: MHI controller
+>>>>>> + */
+>>>>>> +int mhi_prepare_all_for_transfer(struct mhi_controller *mhi_cntrl);
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * mhi_unprepare_all_from_transfer - if you are using
+>>>>>> + * mhi_power_down_no_destroy() variant this function needs to be called
+>>>>>> + * before calling mhi_power_down_no_destroy().
+>>>>>
+>>>>> Same as above.
+>>>>>
+>>>>> - Mani
+>>>>>
+>>>>>> + *
+>>>>>> + * @mhi_cntrl: MHI controller
+>>>>>> + */
+>>>>>> +int mhi_unprepare_all_from_transfer(struct mhi_controller *mhi_cntrl);
+>>>>>> +
+>>>>>>     #endif /* _MHI_H_ */
+>>>>>> -- 
+>>>>>> 2.39.2
+>>>>>>
+>>>>>>
+>>>>>
+>>>
 > 
