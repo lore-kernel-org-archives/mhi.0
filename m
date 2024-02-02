@@ -1,188 +1,174 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3DB7A73D
-	for <mhi@lists.linux.dev>; Fri,  2 Feb 2024 10:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F70813D4E8
+	for <mhi@lists.linux.dev>; Fri,  2 Feb 2024 12:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706871077; cv=none; b=qHNV6JeR/WDMg/RNFRp4LiV5ls90hBooSDtNfZ5aVN7vZ5VGzU6pp6YuYWbLJCdKgr7Gbs+6ZjA7aKvJ6mmHwjRQuetpkTWPe5bWYqn3v8GNZZSk1KXlYwXNXgu/C1oxHgqKLoBdGIvF7wxCaDLMA4JhsE04QdZ/qqJQtM4wKM8=
+	t=1706876196; cv=none; b=j09wqJEuxgIOqhpCiD84WHF59uMZtHhDMIcIHr3fdx4Caxeb2+pGHN6lZSVugTAlv6CyIDi98gojlVx3uGtG7LbtbPJa8QmEUlNG3DCQqRs5BaQOIjKsjxkq1V3M15ND+coULMRqNDFZxESz5vC/JD+oyGM5zCYAu5GkQYKjeRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706871077; c=relaxed/simple;
-	bh=IOY6464NxNU4brqTtjjX6NWMS6Lq4bFk/LCbg383F2A=;
+	s=arc-20240116; t=1706876196; c=relaxed/simple;
+	bh=vsCTrypPgQBUy+UjcZZL2T6JpKJkNjDRlOAk0xfL4jg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VUIKcJAaZQZwuLrrfYHEKbPgyd8c91jGfJZzC6YzNEkvyV219IuL78XJH4mNO9ZZGQcuiVLG1/GSC+gl+tqC/JbgrgkviNoBgFMCEln0rSZKNeAjp7DUXf8NlIRJYVMLF7l3+/AW8ANQ9S1PcBV/plnGnWJ325ZtP+hwAUtJ0pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RlMNnl6F; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GQPxzOq8//HWOBecb9QFTkNuaBNtEV40Ic5/y6spfAlUgpIANlyk1i+Zw/te00+ifgkhRcIiY5pYxWiqrd9u+dEy15llXAmZ84+mNFoVi7IpKdnX/BVxleCbYRGNHjHcNIh0qL6I9+YwNKw3yV0qj+VtqIq/OcakD1SwyZNWg0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rNCFbgx3; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RlMNnl6F"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d043160cd1so22654101fa.1
-        for <mhi@lists.linux.dev>; Fri, 02 Feb 2024 02:51:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rNCFbgx3"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6da4a923b1bso1364360b3a.2
+        for <mhi@lists.linux.dev>; Fri, 02 Feb 2024 04:16:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706871073; x=1707475873; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kx4mIgU1jBfilctvZhlH5DYX3FWSs/9dFiVk8rkOVB0=;
-        b=RlMNnl6FCnal8M0n5MRd7IUVvPUBuWCBNfVwoFH2WROh/otA+jDEt0T4QZuVEaaEtg
-         jJprWnZjdcLNaMY1OKnOw/aqVWCngv8IpXddDEoLFoHFE/td6gnMmPnNMplJolZYRrts
-         dfouvgLoUgtInOJr7EmcqzvzbO0hJigVB5QM9KB/4DS3XGSxXKcclXTUkVvcsJAzAoxP
-         oCm2DP83X8dpJdhKvpMRpRmd8U1m8jXjPjm2zXBm9FzVgi7awc3f9KXJJ56FJnP8USqA
-         LE2KQ5gDaxIADM+gO8PBlt75Z/un3EHYGweDnJGmg7SgU2H5GbxK49/p0+ccNLOxxdSP
-         +F0g==
+        d=linaro.org; s=google; t=1706876194; x=1707480994; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3WrQlKWmTzgxXM9Xq7iWZ37ybL6PQV7GmW6fl32Nxz8=;
+        b=rNCFbgx3i155KgM0TCjvbFtYQkjmSZOh/2PnkcD7vLCW8+6rY+KL+NAQYf6ze0Z3vi
+         KpuUerTkMgq3aHEAGtbjJDyS4wnxN7mKuekuaXRH1iSRUqwlFwHz/Q9XYtMvaYpxhYsi
+         pH84eb4MQlgclvwym14HS2FLgbK5jXvApOILJKl4sB4S2GXREbuW5U/NSgfdFxItaZ1f
+         PGCxzL5bfmIcP6hef/1vXIeWm7ZtHqps/Wg6l1l0knlNi2iziaWsw4v4kfgSefXf+md3
+         xMnp/EvVp0OzH6csD0MUXpIkYxDkVJZ9JJiHhj80Xf9ep65IZwjmf9YctS6GaI50Mai2
+         tZQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706871073; x=1707475873;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kx4mIgU1jBfilctvZhlH5DYX3FWSs/9dFiVk8rkOVB0=;
-        b=mYV8S8cXLWzlvOh2FIBaYHtB7uZp81TjVyHxkuSRYX3FNdNQ+mkjgUdA7Gp/k1Yh3I
-         UzEzpSeoqtmuUkiWwYO9XSZh77kDS821kQ9Ogawbft/tJTU9JRl6+4feWn4iU6x2IYa8
-         j92QX5qIO1TxkFKvAecg9UVhLGabaO8jt7/UeOv9iCmPorNW7iBvw4C+CnWLGmCzNzYy
-         V04I4dkGemxndKafcRZ8x5dLfAuicFGheMmw/d6wDhKGGkN9UT/YkZuJ3FSjSi87U8Qc
-         BPn27bhc1ETYpAincbK4+mPYzS9Cq+5tCY6tAzKmg3WT5QZ2cvyAIzTsVRSva7aXdps1
-         MJNQ==
-X-Gm-Message-State: AOJu0YzAjRWjiWc2UT9sc3ihwKa4nX1DqbMOoM/6h6Uquq605bFM/pSR
-	BRBb+zz8QbIhd+XraxJvAsw9qPp8QnOgSvFtGDFQnvdDn36Ynjjo
-X-Google-Smtp-Source: AGHT+IFBBAv4djkjIr64uSUqBaRgzJgTXmTCYRnLptqsty5wsmiMjBqHWBJy6fRmQbvifnYBus9v4Q==
-X-Received: by 2002:a2e:3c0f:0:b0:2d0:54ac:35a with SMTP id j15-20020a2e3c0f000000b002d054ac035amr990510lja.4.1706871073157;
-        Fri, 02 Feb 2024 02:51:13 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVHq+TVXuo5qAsWn2M07nkxLeFNz1PodEBo1sRZRYCLFTYpE77y15gWwkSE+lEJSNnsEz8coRLdXJ0rsUXI23QOOGaSE7TstJYQEssCaZCzD7BUaNHwBb4ziHp0BAKjLFKcuaZrIri7O/HWr7uHzLPxiNanY44oaCb+y9oCorn/VH1KFT/8PUCL5mm5q7A4BZR7aF0iXlnwmKlGElSdpwA8IvZltIj/CmBwcraguqkv4JWvzLa7daY4pmn9Aa2tyTEudKY5CsuK3RFE0KMQQXYx6Kid0jBaNRi7hzgiy6M3eRT6CF5ib9cI6Nd9G4ho8CTIXZODz6dyyzn/wLecTxt9tAe1fhnufBaMta04dEWL3BNhLa+E85Svbx3INGbslJNrQWK+JkdW/YKDSN9Kw5tAEYaU3Z7cJE13TgF1+1OVYC3VKcnPePhSjFPin/4szTTFLOIEqLGn/WUqjefN3R84AzA3VKP25fb7xAoK8QvPdF734i6yKutr9d2zhNOo5w+gfomo8GmdD+DZGcpgM7OxMEEb1T0nKNdp537/YSVomy/mkXFj1bNSC/dL44l1ffnWfZIUvkm4WQEq5RQPtsesZYfoGgv8FN5ozrguaVWsT3KG5oe6hi9641BykkJcAAbtfzaLF6DiKChg7hKLQPT5nupdw60gZUvEIKJY+DfGXg4OdeZf/TZ+YLs9Nif/c1tlQ50O8wJRFldJMnHWzze8rSmRN2B/aAyUM+k/mkHKfbG3CfHbAv9UMjwe5ZK9rDlpx2HvvaFF5a+t86lv47WVGibUCy3eFcLeSLXygnj/dCBlnFKQVFKurWYC9XtWn9C2Yn8uurLdZc+3grv1HGMII4tjfEk7YTZ3mXjgmg86MOc14fxUNdFAdwzI7RwkooVuqVXkWE3lTAtu3V0lwWYz9mGwoXI+iLvx
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id bx30-20020a05651c199e00b002d0511e7420sm241007ljb.6.2024.02.02.02.51.11
+        d=1e100.net; s=20230601; t=1706876194; x=1707480994;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3WrQlKWmTzgxXM9Xq7iWZ37ybL6PQV7GmW6fl32Nxz8=;
+        b=P39q21pMoAeqJ02gf88dMmFf0ODyTJSurVNAXwDL01hTRM1Rxd5cYMIcjIyFom6mQQ
+         22IqhKUwd8cM8SgnOqVFHboo4HGBveIiKLnl6/NeRbhUBPPjJ2+RQRpCq7S4Nbrs7Mol
+         6M22oKYFQpojuQeylDE281ZQL5hxx0fkn2hEPGNB3Q+K9vHu6J+aC9FsCSAxT4g2vC/4
+         PU5SqT/8+eijL83O7vEPRrYfv6p7KqsWZHPk/+wUbUZpY+q+hh2D5HS2eXBIeG+UPQTh
+         mJbaH5CM7FtgaUbZ71+kwoTXJhWDmWFQZZMNn1MMnrCyQac7UmaRe86BPVbjg9GFMIcF
+         6gsQ==
+X-Gm-Message-State: AOJu0YyGDrRk0lmIAs+7jmpcV4Coa5375Jcj+GS1nrlBYcX6WVu8ea6h
+	CPuvMso9Q4psah9EcoT6uAP6jvkAkS0jQiY8QXJvl2yl90nlZ1bAeFIVMTrM4g==
+X-Google-Smtp-Source: AGHT+IFSwEV2m0Gdmgd6lEedpwK/MfSLND1vfenzThu++22xu2B5azEXkWVeQKf2qKJSz4JPkb0iug==
+X-Received: by 2002:a05:6a20:7d83:b0:19e:3c7f:cbbe with SMTP id v3-20020a056a207d8300b0019e3c7fcbbemr6479540pzj.9.1706876194527;
+        Fri, 02 Feb 2024 04:16:34 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWIbd9h/zN8zW55YNPgvoxkUt0iVLXCIPcM/ljKjrL3w8GQ/vvoo5s6qZJFJUuatnCU7xjeeTWtjCJ/+6TQew2LXihhqmXW6rmhgxOtd54sMqN9Tu9sJayCep52VVQM/7WlK+NkLmBy9lcoYgWqkKefIxYDPRsDbZg72ZQiE6Cp
+Received: from thinkpad ([120.56.198.122])
+        by smtp.gmail.com with ESMTPSA id b19-20020a63eb53000000b005cda7a1d72dsm1439531pgk.74.2024.02.02.04.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 02:51:12 -0800 (PST)
-Date: Fri, 2 Feb 2024 13:51:10 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: vkoul@kernel.org, jingoohan1@gmail.com, conor+dt@kernel.org, 
-	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org, robh+dt@kernel.org, 
-	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, 
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, quic_schintav@quicinc.com, 
-	quic_shijjose@quicinc.com, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v1 2/6] dmaengine: dw-edma: Introduce helpers for getting
- the eDMA/HDMA max channel count
-Message-ID: <yaf4wvjqy27whulyppep5qvw3cabfcvaoyxfn3p2i7khc3deyv@42pjna2sfmzr>
-References: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com>
- <1705669223-5655-3-git-send-email-quic_msarkar@quicinc.com>
+        Fri, 02 Feb 2024 04:16:34 -0800 (PST)
+Date: Fri, 2 Feb 2024 17:46:30 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: Kalle Valo <kvalo@kernel.org>, mhi@lists.linux.dev,
+	ath11k@lists.infradead.org, linux-wireless@vger.kernel.org
+Subject: Re: [PATCH RFC v2 2/8] bus: mhi: host: add new interfaces to handle
+ MHI channels directly
+Message-ID: <20240202121630.GC8020@thinkpad>
+References: <20231127162022.518834-1-kvalo@kernel.org>
+ <20231127162022.518834-3-kvalo@kernel.org>
+ <20240130181938.GB4218@thinkpad>
+ <d002afe9-3c01-413c-82d2-353db0356802@quicinc.com>
+ <20240201100040.GB17027@thinkpad>
+ <07668be1-8366-43b5-83ca-bf66d0d8087b@quicinc.com>
+ <20240202071011.GA2961@thinkpad>
+ <34e80f19-8804-4505-b134-f099e087b53e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1705669223-5655-3-git-send-email-quic_msarkar@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34e80f19-8804-4505-b134-f099e087b53e@quicinc.com>
 
-On Fri, Jan 19, 2024 at 06:30:18PM +0530, Mrinmay Sarkar wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On Fri, Feb 02, 2024 at 06:49:19PM +0800, Baochen Qiang wrote:
 > 
-> Add common helpers for getting the eDMA/HDMA max channel count.
+> 
+> On 2/2/2024 3:10 PM, Manivannan Sadhasivam wrote:
+> > On Fri, Feb 02, 2024 at 02:42:58PM +0800, Baochen Qiang wrote:
+> > > 
+> > > 
+> > > On 2/1/2024 6:00 PM, Manivannan Sadhasivam wrote:
+> > > > On Wed, Jan 31, 2024 at 03:39:26PM +0800, Baochen Qiang wrote:
+> > > > > 
+> > > > > 
+> > > > > On 1/31/2024 2:19 AM, Manivannan Sadhasivam wrote:
+> > > > > > On Mon, Nov 27, 2023 at 06:20:16PM +0200, Kalle Valo wrote:
+> > > > > > > From: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > > > > > 
+> > > > > > > When using mhi_power_down_no_destroy() MHI hosts need to unprepare MHI channels
+> > > > > > > by themselves.  Similarly, MHI stack will also not create new MHI device since
+> > > > > > > old devices were not destroyed, so MHI hosts need to prepare channels as well.
+> > > > > > > Hence add these two interfaces to make that possible.
+> > > > > > > 
+> > > > > > > Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> > > > > > > 
+> > > > > > > Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > > > > > Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> > > > > > > ---
+> > > > > > >     drivers/bus/mhi/host/main.c | 107 ++++++++++++++++++++++++++++++++++++
+> > > > > > >     include/linux/mhi.h         |  20 ++++++-
+> > > > > > >     2 files changed, 126 insertions(+), 1 deletion(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> > > > > > > index d80975f4bba8..3f677fc628ad 100644
+> > > > > > > --- a/drivers/bus/mhi/host/main.c
+> > > > > > > +++ b/drivers/bus/mhi/host/main.c
+> > > > > > > @@ -1669,6 +1669,58 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev)
+> > > > > > >     }
+> > > > > > >     EXPORT_SYMBOL_GPL(mhi_prepare_for_transfer_autoqueue);
+> > > > > > > +static int ____mhi_prepare_for_transfer(struct device *dev, void *data)
+> > > > > > 
+> > > > > > "__mhi_prepare_all_for_transfer"
+> > > > > 
+> > > > > This is to prepare one single child device, I don't think a name like
+> > > > > __mhi_prepare_all_for_transfer (with 'all' inside) make sense, right?
+> > > > > How about changing to "mhi_prepare_dev_for_transfer" or
+> > > > > "mhi_prepare_single_for_transfer"?
+> > > > > 
+> > > > 
+> > > > I think most of the checks in this function can be moved inside
+> > > > mhi_prepare_for_transfer() API. With that you can just reuse the API without
+> > > > adding a new helper.
+> > > > 
+> > > > For autoqueue channels, you can add another API
+> > > > mhi_prepare_all_for_transfer_autoqueue() just like
+> > > > mhi_prepare_for_transfer_autoqueue() to maintain uniformity.
+> > > > 
+> > > > - Mani
+> > > If we do that, we need to call two APIs together, does it make sense? From
+> > > the view of an MHI user, what we want is an API to prepare all channels, no
+> > > matter whether a channel is configured as autoqueue or non-autoqueue, we
+> > > don't care about it.
+> > > 
+> > 
+> > You are calling this API from a wrong place first up.
+> > mhi_{prepare/unprepare}_transfer* APIs are meant to be used by the client
+> > drivers like QRTR. Controller drivers should not call them.
+> > 
+> > What you need here is the hibernation support for QRTR itself and call these
+> > APIs from there.
+> 
+> OK, I got your point. QRTR is the right place to manage MHI channels, not
+> ath11k it self.
+> And we even don't need these two APIs if change to do it in QRTR.
+> 
+> > 
+> > > And besides, I don't think there is a scenario where we need to use them
+> > > separately. So if we always need to use them together, why not merge them in
+> > > a single API?
+> > > 
+> > 
+> > A single controller driver may expose multiple channels and those will bind to
+> > multiple client drivers. So only the client drivers should manage the channels,
+> > not the controller drivers themselves.
+> Exactly.
+> 
+> Great thanks for the proposal, Mani. Will change accordingly in next
+> version.
+> 
 
-See my comment to the patch 4:
-https://lore.kernel.org/linux-pci/qfdsnz7louqdrs6mhz72o6mzjo66kw63vtlhgpz6hgqfyyzyhq@tge3r7mvwtw3/
+And you can drop the RFC tag in the version.
 
--Serge(y)
+- Mani
 
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-> ---
->  drivers/dma/dw-edma/dw-edma-core.c           | 18 ++++++++++++++++++
->  drivers/pci/controller/dwc/pcie-designware.c |  6 +++---
->  include/linux/dma/edma.h                     | 14 ++++++++++++++
->  3 files changed, 35 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> index 7fe1c19..2bd6e43 100644
-> --- a/drivers/dma/dw-edma/dw-edma-core.c
-> +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> @@ -902,6 +902,24 @@ static int dw_edma_irq_request(struct dw_edma *dw,
->  	return err;
->  }
->  
-> +static u32 dw_edma_get_max_ch(enum dw_edma_map_format mf, enum dw_edma_dir dir)
-> +{
-> +	if (mf == EDMA_MF_HDMA_NATIVE)
-> +		return HDMA_MAX_NR_CH;
-> +
-> +	return dir == EDMA_DIR_WRITE ? EDMA_MAX_WR_CH : EDMA_MAX_RD_CH;
-> +}
-> +
-> +u32 dw_edma_get_max_rd_ch(enum dw_edma_map_format mf)
-> +{
-> +	return dw_edma_get_max_ch(mf, EDMA_DIR_READ);
-> +}
-> +
-> +u32 dw_edma_get_max_wr_ch(enum dw_edma_map_format mf)
-> +{
-> +	return dw_edma_get_max_ch(mf, EDMA_DIR_WRITE);
-> +}
-> +
->  int dw_edma_probe(struct dw_edma_chip *chip)
->  {
->  	struct device *dev;
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index eca047a..96575b8 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -864,7 +864,7 @@ static int dw_pcie_edma_irq_vector(struct dw_edma_chip *edma, unsigned int nr)
->  	char name[6];
->  	int ret;
->  
-> -	if (nr >= EDMA_MAX_WR_CH + EDMA_MAX_RD_CH)
-> +	if (nr >= dw_edma_get_max_rd_ch(edma->mf) + dw_edma_get_max_wr_ch(edma->mf))
->  		return -EINVAL;
->  
->  	ret = platform_get_irq_byname_optional(pdev, "dma");
-> @@ -923,8 +923,8 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
->  
->  	/* Sanity check the channels count if the mapping was incorrect */
-> -	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > EDMA_MAX_WR_CH ||
-> -	    !pci->edma.ll_rd_cnt || pci->edma.ll_rd_cnt > EDMA_MAX_RD_CH)
-> +	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > dw_edma_get_max_wr_ch(pci->edma.mf) ||
-> +	    !pci->edma.ll_rd_cnt || pci->edma.ll_rd_cnt > dw_edma_get_max_rd_ch(pci->edma.mf))
->  		return -EINVAL;
->  
->  	return 0;
-> diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
-> index 7197a58..550f6a4 100644
-> --- a/include/linux/dma/edma.h
-> +++ b/include/linux/dma/edma.h
-> @@ -106,6 +106,9 @@ struct dw_edma_chip {
->  #if IS_REACHABLE(CONFIG_DW_EDMA)
->  int dw_edma_probe(struct dw_edma_chip *chip);
->  int dw_edma_remove(struct dw_edma_chip *chip);
-> +
-> +u32 dw_edma_get_max_rd_ch(enum dw_edma_map_format mf);
-> +u32 dw_edma_get_max_wr_ch(enum dw_edma_map_format mf);
->  #else
->  static inline int dw_edma_probe(struct dw_edma_chip *chip)
->  {
-> @@ -116,6 +119,17 @@ static inline int dw_edma_remove(struct dw_edma_chip *chip)
->  {
->  	return 0;
->  }
-> +
-> +static inline u32 dw_edma_get_max_rd_ch(enum dw_edma_map_format mf)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline u32 dw_edma_get_max_wr_ch(enum dw_edma_map_format mf)
-> +{
-> +	return 0;
-> +}
-> +
->  #endif /* CONFIG_DW_EDMA */
->  
->  #endif /* _DW_EDMA_H */
-> -- 
-> 2.7.4
-> 
+-- 
+மணிவண்ணன் சதாசிவம்
