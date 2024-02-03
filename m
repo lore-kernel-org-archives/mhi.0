@@ -1,586 +1,139 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655A2839F5
-	for <mhi@lists.linux.dev>; Fri,  2 Feb 2024 21:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE40101E8
+	for <mhi@lists.linux.dev>; Sat,  3 Feb 2024 04:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706910046; cv=none; b=KDJ1Z5tqwJ7B9Mlh+bAv9BWoln1U0J9yqKBV0jLGYsbupZ/sPR2Tp2skHj2cRR0zO1sd8albQ/aJ7t+lzgVV1RdUIf0m7PZPvgGW3xhmoH37wyLcPjDegya1kJchkg91WHVj5R8srtK80vBDK0UoPi4Jk2XaVlxOD3hoet8oawQ=
+	t=1706936222; cv=none; b=UnTiU1KWd73ZfltP7Jxu7Jnaee/mebO9P61Qk5JHGZu2y+/Dxr8yE87xnVC9L1tA/mddZL5P8nHbJCNCwiQRBSkfiGOs4eHSUuU+bO9rNQ7+goWH3PYHQpxzGQ1rBoumn9G2tcQhBbHHXS1cSY1w5RNGIAFRxRjELY61Y1pGnhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706910046; c=relaxed/simple;
-	bh=LuZMUnydoGv2XFz8TpQjo0fT1iH278cMUNHE19jjLFc=;
+	s=arc-20240116; t=1706936222; c=relaxed/simple;
+	bh=wKy8pJGaRQ54CuzSdhu8+xkT6SOYTsPwXkeIF/nYQD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOhwkcH4GBG51C2B4O5tsBNJR7Q/hjd379iunqlb4rASEMgI2u58vYV+UixtAEZiQ2SOejey25/sz762MjX9hSoR5I8sV2yqTlJCL9jZ1DQKydcacx5zcXm9Sbz26szcqFHB/tvaXZEY1jmAAcd4uraA/r0kC88IepD5KWKePP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cf/5wNAC; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQ5xXDM3BSsG493bj6PiFgf/tmVOkc1OwjQ7lmnKag5IwNBhR4KTlmh6vvJjY7aq6jbCa1FltjBCt6PRM7WU7kbdeDvqZ3t/noJjBMZYvB8INWIQZD7PlqcGUIv1Mb88DF5f9v14puGY7sxohtaxkS2CasSCu3EsS3sZAdM2q44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LiUXo8NM; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cf/5wNAC"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-511396ec8c7so1511593e87.0
-        for <mhi@lists.linux.dev>; Fri, 02 Feb 2024 13:40:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LiUXo8NM"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-59a910a1265so1498162eaf.1
+        for <mhi@lists.linux.dev>; Fri, 02 Feb 2024 20:57:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706910042; x=1707514842; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ciliF3Z1ZSnZYQ88YRXRVBgp7xcJaGI0jC2SZ8tdkU=;
-        b=Cf/5wNACoL93DYPwZhQ05ZtNwjeCPL9rkWojLpIsHWxdT8wS7LQmjjmz5klJtK3sK8
-         P2QpiO2d0p3p67l1/fkbmS/KwohGjRKqjpe7C3Ap+OBx+XoDTdpNp7Pc5mIIyO3oZH1k
-         uTRe/G1HuKeyrKk24QuKNeewdDMYffJucFsiFhqA8tpV2bOkc6EnNlMFiLhxk+5exkRJ
-         eRN/wg/ArqmSvpJxBtP7tZtHgbw/+KJJa3IYg2PSqabNrJ7H3vDMMEqNP0dd3NWiaZ/U
-         bsyY5tvQ+PqToeo3T88JZyO5djR7CfKGewN7RX2sCecbjUS67zp+4r3f9zohfbJ6fu8l
-         WNHA==
+        d=linaro.org; s=google; t=1706936220; x=1707541020; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Js2QfXs3Kv3aTrQZDgjZoyjW7ifVdIqfUU+Z5Gf8Jr0=;
+        b=LiUXo8NMQMYbyJTa//3otI9NSt/wKFX5mEqirXas0oDV92w9Da5gAoO2SyXYbiMVI2
+         rpGyPMTPrjN8XSrCMYf3alnIgh+qDdAjw1KSTLWGD4MTDI8eh1oneA9tWdpN6TKpat6r
+         sQjpFNErcExEgiUoSZyk1TLzBQAqsKVrzTrMn0UZ9KTy5iLzxiWZa2BfkraaUnKfKPB4
+         gkGs20Mj/CSgFdpJ14lMy+o+7RyzGdKAVn8sXTE2L6XatSkuLBfB/mInVmpVvE1Q88jb
+         qgR17FQPt26HP6ppywqEmVSicdSb2jky8EcrYVO2ZZmUcNsPbWl2W5Z0OXDWhQVw9A/L
+         /wwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706910042; x=1707514842;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ciliF3Z1ZSnZYQ88YRXRVBgp7xcJaGI0jC2SZ8tdkU=;
-        b=WfmxBopLQF1DVv9KLIFFyHeGs6xPRQ+zi6WRWxt084YQOjmtFxvJ4+xJ4o/DaPcXbq
-         ixirFPSBTqXiPRwWJr9qVRc8/PUzdycBH6umCwyvPlJgAo69nfknwGW5ftOpvupkMKuC
-         f0ekIKt1IdALiCVHfCsqw77z4a7SrJ+I+C0OLiJLy5ZWADXd4NQcIj61fI3gEBok0Qmy
-         2ldtfixsA2yvpDPd46H3M1xXVWQ6ZH2nhwQ65IobZVRu5L5eIhxZhOFQoH5LrePRC62C
-         WCM6jmMHTVVVdRBXHEojweX/H8QncRufAIDR67m38FhOV/kQSIr6mZSEy/XUvvcQLuRn
-         kWpA==
-X-Gm-Message-State: AOJu0Ywc4WonaFGPfeDedP1kd0ZFXDTlt4cKld9CmdlxtPBRCjV9diTC
-	wVkDeYbc9QTDrCFCL6+cY1J/xfa6/tK7IlxGWI7RW7ilDQe+n6qQ
-X-Google-Smtp-Source: AGHT+IFV8IGJw0e8hN3HX6AmCs6oiTfS5JfFLdPYQ62gTbT6ql2mG9qs5QwjehiZ5P4QtSTobN00lA==
-X-Received: by 2002:a05:6512:49c:b0:511:33a3:c2bc with SMTP id v28-20020a056512049c00b0051133a3c2bcmr2789764lfq.39.1706910042084;
-        Fri, 02 Feb 2024 13:40:42 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUDM5gzHiFe010B19esWfECvRZy6/VL/UokM1w0I/tj8Ju3pMMXOk5nhVfR5xLoPWWY9GsLxQMQDawxdqfpz5RtqBaennrEZLUkRF/I9fIx/QjCN2y2hc2BR9xlZM93lCH4Ya/vCYrUNLansOQoOD0xXygXLFhYsGlg4P+fPCJCM3ogyHw2Trr3WJTcMnf4AZLVK5RQyWSL8rsqx0QBzTtQoKKAHKjC1BOtWc8SboR1WidnKeji02yqeNMKgN90/JKmLAoUFPr9T0sDH2Cvhd36oxi39fnMmT+HgrAc35+vQP1fVcZl+CsSbZVWaZUgPLw1KwGreXwzjM0oPQHYh+fBw4hmDLQgSlu+QNQmvXqcIFFG85yik0doUrobRDudQAcVdIo/ZVYSl+j1i6T6dogp28i9sVJrzbXaDOnA7W74WcojD6wNxliUKYc/F5+PPIKvVAEESrTfpuIP/1KIDRO/Bz8yeh1mr06PU/8/Q1XHBrMJ3gAHZiuq22mgEkfyMxDUFBJMvRTTAo57Kr3y/sOpsjMhhFb5g9ZmAxWyr5j1KxooCJKrhGquPJYdi+6ZQJBDHowdKsMLsbaawzVt5secfMJ2ZmJKeDYSC7EPZDcHR+FEQdtTbdnxJ2EEH22LTOJFF4eIyI45BwhESWJoV9pWIEeQX5zvc4GCPE7oIveFRJ7U5uTxw9MajjhIpGew1pJMDRznkLvxMm6kzlDyY80vawpIKQh4SsDaZKNjhLmREOaarbz5RXuiVfceXPBI+tP1ibbqpN6zlfrrlToTp8WHhaG7fRW2A8oj6naHkUuWLW/Ul75yA6+ck8ofNdxNQJ/ZRQ+vSXWSPe+GB8sGakYo2cpAtveENHe3R8+t++W7S9sWPn0qzC8fwIl9gMIkhjHSIT4RtrbM8Z4c7xR1yQGEhkxqxsq361eJ
-Received: from mobilestation ([95.79.203.166])
-        by smtp.gmail.com with ESMTPSA id b27-20020a0565120b9b00b0050ecae41c51sm413312lfv.135.2024.02.02.13.40.40
+        d=1e100.net; s=20230601; t=1706936220; x=1707541020;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Js2QfXs3Kv3aTrQZDgjZoyjW7ifVdIqfUU+Z5Gf8Jr0=;
+        b=qhxS0db1wuUr5+GDmhqAN57soJrc1f5cfu2zLUbCyRaVqJyro2Rng28iHLwFbYFJxb
+         jq4hiWmnEdCXbItdgNfKOUa2UtEIi0G80C9CxSaGE3lIj1dghrCTT8gNAk6vjywudbWW
+         apdGwgB6zSJU4e4iyZQuyUu2jqPfhx3pengY7xpt+ERu1DyyriS+9/3nE9v/EOhPfHK/
+         jCi0wDqjA31KKulEdRhQBMQ0CAM/Bg2fQWud1CiZB6MijpuGpqi/L7GGk+FIgTde2RUL
+         RiU26Hf5Ai4T+lAZ5Esdj4HDb8nv1yo5puiQtUnUsCjCuZTfCcQ0yBJ0+qKnStWfApnk
+         2YyA==
+X-Gm-Message-State: AOJu0YzHnAXyuS+8aCdRM9nUTJBIgQ6l4B6GOxIkI1qXzdOaJuIX4je7
+	wm/wmM3h6PtaBk2gUG3g51dnX36KS/nnP4G2bItweymk3LusliZ+AVLOOynK9Q==
+X-Google-Smtp-Source: AGHT+IGOgmxZ3CB6VB34fKCm/ENjp6io0zJyn4+7PxlwjeLGiYmNeh5ehDZqnV1Yxl+sjPgzEbquAg==
+X-Received: by 2002:a05:6358:3a0e:b0:176:916e:5d97 with SMTP id g14-20020a0563583a0e00b00176916e5d97mr9279249rwe.32.1706936219967;
+        Fri, 02 Feb 2024 20:56:59 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVF4BmuxQQtX2Z3E/9s1868PC597dydjDbX0qy52eMb3OihcGrpzTKaXf1yyTwQ/q76pQGBRr7jxWpToOrYMr2VjBUQ6ldXWVD2baTsTMwQCjZjCU6CaU0I4KHpQvJcEBTwbR2OSV34Mv1uu1iWHDLWP6PaYWuA4KcBnGRTrdeTCQyTcLCGVGaGp6CjMXZLm0HlJGqxkVPrVTtEQbrQ01muOk/u3++uVfJpMT2wWz8EDAjgNGXx7j79L9B2Y3H0CTsZaN2WcLbFb4TnXBABbatQk4+v5w0cUS0RIoRzHJMban3bI004Sy2Y8Kp1w0domqj4cBTzMMA6+KQtngWNEMDyH7tV6p1+eCw0EQSM
+Received: from thinkpad ([117.202.187.138])
+        by smtp.gmail.com with ESMTPSA id j31-20020a63595f000000b005cfbe445a85sm2631019pgm.70.2024.02.02.20.56.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 13:40:41 -0800 (PST)
-Date: Sat, 3 Feb 2024 00:40:39 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Cc: vkoul@kernel.org, jingoohan1@gmail.com, conor+dt@kernel.org, 
-	konrad.dybcio@linaro.org, manivannan.sadhasivam@linaro.org, robh+dt@kernel.org, 
-	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com, 
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org, quic_krichai@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_parass@quicinc.com, quic_schintav@quicinc.com, 
-	quic_shijjose@quicinc.com, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v1 3/6] PCI: dwc: Add HDMA support
-Message-ID: <oa76ts3zqud7mtkpilbo4uub7gazqncnbh6rma26kaz6wt6fch@ufv672fgrcgj>
-References: <1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com>
- <1705669223-5655-4-git-send-email-quic_msarkar@quicinc.com>
+        Fri, 02 Feb 2024 20:56:59 -0800 (PST)
+Date: Sat, 3 Feb 2024 10:26:53 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Erick Archer <erick.archer@gmx.com>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Elder <elder@linaro.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] bus: mhi: ep: Use kcalloc() instead of kzalloc()
+Message-ID: <20240203045653.GB3038@thinkpad>
+References: <20240128112722.4334-1-erick.archer@gmx.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="vqp52he5ger5zlrw"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1705669223-5655-4-git-send-email-quic_msarkar@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240128112722.4334-1-erick.archer@gmx.com>
 
+On Sun, Jan 28, 2024 at 12:27:22PM +0100, Erick Archer wrote:
+> This is an effort to get rid of all multiplications from allocation
+> functions in order to prevent integer overflows [1].
+> 
+> Here the multiplication is obviously safe because the "event_rings"
+> member never can have a value greater than 255 (8 bits). This member
+> is set twice using always FIELD_GET:
+> 
+> mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> mhi_cntrl->event_rings = FIELD_GET(MHICFG_NER_MASK, regval);
+> 
+> And the MHICFG_NER_MASK macro defines the 8 bits mask that guarantees
+> a maximum value of 255.
+> 
+> However, using kcalloc() is more appropriate [1] and improves
+> readability. This patch has no effect on runtime behavior.
+> 
+> Link: https://github.com/KSPP/linux/issues/162 [1]
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
 
---vqp52he5ger5zlrw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to mhi-next!
 
-On Fri, Jan 19, 2024 at 06:30:19PM +0530, Mrinmay Sarkar wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> 
-> Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
-> Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only the
-> unrolled mapping format. So the platform drivers need to provide a valid
-> base address of the CSRs. Also, there is no standard way to auto detect
-> the number of available read/write channels in a platform. So the platform
-> drivers has to provide that information as well.
-> 
-> For adding HDMA support, the mapping format set by the platform drivers is
-> used to detect whether eDMA or HDMA is being used, since we cannot auto
-> detect it in a sane way.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+- Mani
+
 > ---
->  drivers/pci/controller/dwc/pcie-designware.c | 55 ++++++++++++++++++++++++----
->  1 file changed, 47 insertions(+), 8 deletions(-)
+> Changes in v2:
+> - Add more info in the commit message to better explain the change.
+>   (Dan Carpenter)
+> - Add the "Reviewed-by:" tag.
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 96575b8..07a1f2d 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -880,7 +880,29 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
->  	.irq_vector = dw_pcie_edma_irq_vector,
->  };
->  
-> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +static int dw_pcie_find_hdma(struct dw_pcie *pci)
-> +{
-> +	/*
-> +	 * Since HDMA supports only unrolled mapping, platform drivers need to
-> +	 * provide a valid base address.
-> +	 */
-> +	if (!pci->edma.reg_base)
-> +		return -ENODEV;
-> +
-> +	/*
-> +	 * Since there is no standard way to detect the number of read/write
-> +	 * HDMA channels, platform drivers are expected to provide the channel
-> +	 * count. Let's also do a sanity check of them to make sure that the
-> +	 * counts are within the limit specified by the spec.
-> +	 */
-> +	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > dw_edma_get_max_wr_ch(pci->edma.mf) ||
-> +	    !pci->edma.ll_rd_cnt || pci->edma.ll_rd_cnt > dw_edma_get_max_rd_ch(pci->edma.mf))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_pcie_find_edma(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> @@ -912,13 +934,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  		return -ENODEV;
->  	}
->  
-> -	pci->edma.dev = pci->dev;
-> -
-> -	if (!pci->edma.ops)
-> -		pci->edma.ops = &dw_pcie_edma_ops;
-> -
-> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> -
->  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
->  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
->  
-> @@ -930,6 +945,30 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	return 0;
->  }
->  
-> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +{
-> +	int ret;
-> +
-
-> +	if (pci->edma.mf == EDMA_MF_HDMA_NATIVE) {
-> +		ret = dw_pcie_find_hdma(pci);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		ret = dw_pcie_find_edma(pci);
-> +		if (ret)
-> +			return ret;
-> +	}
-
-Basically this change defines two versions of the eDMA info
-initialization procedure:
-1. use pre-defined CSRs mapping format and amount of channels,
-2. auto-detect CSRs mapping and the amount of channels.
-The second version also supports the optional CSRs mapping format
-detection procedure by means of the DW_PCIE_CAP_EDMA_UNROLL flag
-semantics. Thus should this patch is accepted there will be the
-functionality duplication. I suggest to make things a bit more
-flexible than that. Instead of creating the two types of the
-init-methods selectable based on the mapping format, let's split up
-the already available DW eDMA engine detection procedure into the next
-three stages:
-1. initialize DW eDMA data,
-2. auto-detect the CSRs mapping format,
-3. auto-detect the amount of channels.
-and convert the later two to being optional. They will be skipped in case
-if the mapping format or the amount of channels have been pre-defined
-by the platform drivers. Thus we can keep the eDMA data init procedure
-more linear thus easier to read, drop redundant DW_PCIE_CAP_EDMA_UNROLL flag
-and use the new functionality for the Renesas R-Car S4-8's PCIe
-controller (for which the auto-detection didn't work), for HDMA with compat
-and _native_ CSRs mapping. See the attached patches for details:
-
-0001-PCI-dwc-Fix-eDMA-mapping-info-string.patch
-+- Just the eDMA log-message fix which will be useful in any case.
-
-0002-PCI-dwc-Split-up-eDMA-parameters-auto-detection-proc.patch
-+-> Split up the dw_pcie_edma_find_chip() method into three ones
-described above.
-
-0003-PCI-dwc-Convert-eDMA-mapping-detection-to-being-full.patch
-+-> Skip the second stage the mapping format has been specified.
-
-0004-PCI-dwc-Convert-eDMA-channels-detection-to-being-opt.patch
-+-> Skip the amount of channels auto-detection if the amount has
-already been specified.
-
-0005-PCI-dwc-Drop-DW_PCIE_CAP_EDMA_UNROLL-flag.patch
-+-> Drop the no longer needed DW_PCIE_CAP_EDMA_UNROLL flag.
-
-After these patches are applied AFAICS the patches 5/6 and 6/6 of this
-series shall work with no additional modification.
-
-* Note I only build-tested the attached patches. So even though they
-* aren't that much invasive please be read for a bit debugging.
-
--Serge(y)
-
-> +
-> +	pci->edma.dev = pci->dev;
-> +
-> +	if (!pci->edma.ops)
-> +		pci->edma.ops = &dw_pcie_edma_ops;
-> +
-> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +
-> +	return 0;
-> +}
-> +
->  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
->  {
->  	struct platform_device *pdev = to_platform_device(pci->dev);
-> -- 
-> 2.7.4
+> Previous versions:
+> v1 - https://lore.kernel.org/linux-hardening/20240120152518.13006-1-erick.archer@gmx.com/
+> ---
+>  drivers/bus/mhi/ep/main.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 65fc1d738bec..8d7a4102bdb7 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1149,8 +1149,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
+>  	mhi_ep_mmio_mask_interrupts(mhi_cntrl);
+>  	mhi_ep_mmio_init(mhi_cntrl);
+> 
+> -	mhi_cntrl->mhi_event = kzalloc(mhi_cntrl->event_rings * (sizeof(*mhi_cntrl->mhi_event)),
+> -					GFP_KERNEL);
+> +	mhi_cntrl->mhi_event = kcalloc(mhi_cntrl->event_rings,
+> +				       sizeof(*mhi_cntrl->mhi_event),
+> +				       GFP_KERNEL);
+>  	if (!mhi_cntrl->mhi_event)
+>  		return -ENOMEM;
+> 
+> --
+> 2.25.1
 > 
 
---vqp52he5ger5zlrw
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-PCI-dwc-Fix-eDMA-mapping-info-string.patch"
-
-From 9b600c17aa56b3949a040055cf82222c48b60bf3 Mon Sep 17 00:00:00 2001
-From: Serge Semin <fancer.lancer@gmail.com>
-Date: Fri, 2 Feb 2024 18:01:31 +0300
-Subject: [PATCH 1/5] PCI: dwc: Fix eDMA mapping info string
-
-DW PCIe controller can be equipped with the next types of DMA controllers:
-1. eDMA controller with viewport-based CSRs access (so called legacy),
-2. eDMA controller with unrolled CSRs mapping,
-3. HDMA controller compatible with the eDMA unrolled CSRs mapping,
-4. HDMA controller with native CSRs mapping.
-The later three types imply having the DMA-engine CSRs _unrolled_ mapping.
-Let's fix the info-message printed in the DW PCIe eDMA controller
-detection procedure to comply with that.
-
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/pci/controller/dwc/pcie-designware.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 7551e0fea5e9..454ea32ee70b 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -1018,7 +1018,7 @@ int dw_pcie_edma_detect(struct dw_pcie *pci)
- 	}
- 
- 	dev_info(pci->dev, "eDMA: unroll %s, %hu wr, %hu rd\n",
--		 pci->edma.mf == EDMA_MF_EDMA_UNROLL ? "T" : "F",
-+		 pci->edma.mf != EDMA_MF_EDMA_LEGACY ? "T" : "F",
- 		 pci->edma.ll_wr_cnt, pci->edma.ll_rd_cnt);
- 
- 	return 0;
 -- 
-2.43.0
-
-
---vqp52he5ger5zlrw
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0002-PCI-dwc-Split-up-eDMA-parameters-auto-detection-proc.patch"
-
-From ca70e7dd9b84c9dd01124a13f624441c01f7c09d Mon Sep 17 00:00:00 2001
-From: Serge Semin <fancer.lancer@gmail.com>
-Date: Fri, 2 Feb 2024 18:18:39 +0300
-Subject: [PATCH 2/5] PCI: dwc: Split up eDMA parameters auto-detection
- procedure
-
-It turns out the DW HDMA controller parameters can't be auto-detected in
-the same way as it's done for DW eDMA: HDMA has only the unrolled CSRs
-mapping and has no way to find out the amount of the channels. For that
-case the best choice would be to have the HDMA controller parameters
-pre-defined by the platform drivers and to convert the implemented
-auto-detection procedure to being optionally executed if no DMA-controller
-parameters specified. As a preparation step before that let's split the
-eDMA auto-detection into three stages:
-1. initialize DW eDMA data,
-2. auto-detect the CSRs mapping format,
-3. auto-detect the amount of channels.
-
-Note this commit doesn't imply the eDMA detection procedure semantics
-change.
-
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/pci/controller/dwc/pcie-designware.c | 33 +++++++++++++++-----
- 1 file changed, 25 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 454ea32ee70b..149c7a2a12f2 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -878,7 +878,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
- 	.irq_vector = dw_pcie_edma_irq_vector,
- };
- 
--static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-+static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-+{
-+	pci->edma.dev = pci->dev;
-+
-+	if (!pci->edma.ops)
-+		pci->edma.ops = &dw_pcie_edma_ops;
-+
-+	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-+}
-+
-+static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
- {
- 	u32 val;
- 
-@@ -900,8 +910,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
- 
- 	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
- 		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
--
--		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
- 	} else if (val != 0xFFFFFFFF) {
- 		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
- 
-@@ -910,12 +918,14 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
- 		return -ENODEV;
- 	}
- 
--	pci->edma.dev = pci->dev;
-+	return 0;
-+}
- 
--	if (!pci->edma.ops)
--		pci->edma.ops = &dw_pcie_edma_ops;
-+static int dw_pcie_edma_find_chan(struct dw_pcie *pci)
-+{
-+	u32 val;
- 
--	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-+	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
- 
- 	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
- 	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-@@ -992,8 +1002,15 @@ int dw_pcie_edma_detect(struct dw_pcie *pci)
- {
- 	int ret;
- 
-+	dw_pcie_edma_init_data(pci);
-+
- 	/* Don't fail if no eDMA was found (for the backward compatibility) */
--	ret = dw_pcie_edma_find_chip(pci);
-+	ret = dw_pcie_edma_find_mf(pci);
-+	if (ret)
-+		return 0;
-+
-+	/* Don't fail if no valid channels detected (for the backward compatibility) */
-+	ret = dw_pcie_edma_find_chan(pci);
- 	if (ret)
- 		return 0;
- 
--- 
-2.43.0
-
-
---vqp52he5ger5zlrw
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0003-PCI-dwc-Convert-eDMA-mapping-detection-to-being-full.patch"
-
-From f5149d0827d9d8b0ccaaaeb6309b1a86832cdddc Mon Sep 17 00:00:00 2001
-From: Serge Semin <fancer.lancer@gmail.com>
-Date: Fri, 2 Feb 2024 19:02:35 +0300
-Subject: [PATCH 3/5] PCI: dwc: Convert eDMA mapping detection to being fully
- optional
-
-The DW eDMA CSRs mapping detection procedure doesn't work for the DW HDMA
-controller. Moreover it isn't that easy to distinguish HDMA from eDMA if
-the former controller available in place of the later one. Thus seeing DW
-HDMA controller has the unrolled CSRs mapping only there is no better
-choice but to rely on the HDMA-capable platform drivers having the
-DMA-engine mapping format specified. In order to permit that let's convert
-the eDMA mapping format auto-detection to being fully optional: execute
-the DMA Ctrl-based CSRs mapping auto-detection only if no mapping format
-was specific.
-
-Note the DW_PCIE_CAP_EDMA_UNROLL flag semantics also imply the mapping
-auto-detection optionality. But it doesn't indicate the type of the
-controller. It's merely a fixup for the DW PCIe eDMA controllers which for
-some reason don't support the DMA Ctrl-based CSRs mapping auto-detection
-procedure (see note regarding the Renesas R-Car S4-8's PCIe). So it can't
-be utilized for DW HDMA auto-detection. But after this change is applied
-the flag will get to be redundant and will be subject for removal in one
-of the subsequent commit.
-
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/pci/controller/dwc/pcie-designware.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 149c7a2a12f2..2243ffeb95b5 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -892,6 +892,14 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
- {
- 	u32 val;
- 
-+	/*
-+	 * The platform drivers can pre-define the DMA controller mapping
-+	 * format especially if the auto-detection procedure doesn't work for
-+	 * them. In that case the CSRs base must be specified too.
-+	 */
-+	if (pci->edma.mf != EDMA_MF_EDMA_LEGACY)
-+		return pci->edma.reg_base ? 0 : -EINVAL;
-+
- 	/*
- 	 * Indirect eDMA CSRs access has been completely removed since v5.40a
- 	 * thus no space is now reserved for the eDMA channels viewport and
--- 
-2.43.0
-
-
---vqp52he5ger5zlrw
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0004-PCI-dwc-Convert-eDMA-channels-detection-to-being-opt.patch"
-
-From 4f9668ad9e741b501476cd4457cf9ca9013ee6e3 Mon Sep 17 00:00:00 2001
-From: Serge Semin <fancer.lancer@gmail.com>
-Date: Fri, 2 Feb 2024 20:12:46 +0300
-Subject: [PATCH 4/5] PCI: dwc: Convert eDMA channels detection to being
- optional
-
-DW HDMA controller channels can't be auto-detected. Thus there is no way
-but to rely on the HDMA-capable platform drivers having the number of
-channels specified. In order to permit that convert the
-dw_pcie_edma_find_chan() method to executing the DMA Ctrl CSR-based number
-of channels detection procedure only if no channels amount was specified,
-otherwise just sanity check the specified values.
-
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/pci/controller/dwc/pcie-designware.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 2243ffeb95b5..4d53a71ab1b4 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -933,12 +933,20 @@ static int dw_pcie_edma_find_chan(struct dw_pcie *pci)
- {
- 	u32 val;
- 
--	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-+	if (!pci->edma.ll_wr_cnt && !pci->edma.ll_rd_cnt) {
-+		if (pci->edma.mf == EDMA_MF_HDMA_NATIVE)
-+			return -EINVAL;
-+
-+		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
- 
--	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
--	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-+		pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-+		pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-+	}
- 
--	/* Sanity check the channels count if the mapping was incorrect */
-+	/*
-+	 * Sanity check the channels count in case if the mapping was
-+	 * incorrectly detected/specified by the glue-driver.
-+	 */
- 	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > EDMA_MAX_WR_CH ||
- 	    !pci->edma.ll_rd_cnt || pci->edma.ll_rd_cnt > EDMA_MAX_RD_CH)
- 		return -EINVAL;
--- 
-2.43.0
-
-
---vqp52he5ger5zlrw
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0005-PCI-dwc-Drop-DW_PCIE_CAP_EDMA_UNROLL-flag.patch"
-
-From 9590af6f5114b07e4073083ecde9e563cc920410 Mon Sep 17 00:00:00 2001
-From: Serge Semin <fancer.lancer@gmail.com>
-Date: Fri, 2 Feb 2024 23:45:00 +0300
-Subject: [PATCH 5/5] PCI: dwc: Drop DW_PCIE_CAP_EDMA_UNROLL flag
-
-That flag was introduced in order to bypass the DW eDMA mapping format
-auto-detection procedure and force the unrolled eDMA CSRs mapping
-procedure. Since the same can be now reached just by pre-defining the
-required mapping format, drop the flag and convert the Renesas R-Car S4-8
-glue-driver to using the new approach.
-
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/pci/controller/dwc/pcie-designware.c | 13 +++++--------
- drivers/pci/controller/dwc/pcie-designware.h |  5 ++---
- drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
- 3 files changed, 8 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-index 4d53a71ab1b4..a49de18c9836 100644
---- a/drivers/pci/controller/dwc/pcie-designware.c
-+++ b/drivers/pci/controller/dwc/pcie-designware.c
-@@ -895,7 +895,10 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
- 	/*
- 	 * The platform drivers can pre-define the DMA controller mapping
- 	 * format especially if the auto-detection procedure doesn't work for
--	 * them. In that case the CSRs base must be specified too.
-+	 * them (e.g. Renesas R-Car S4-8's PCIe controllers for unknown reason
-+	 * have zeros in the eDMA CTRL register even though the HW-manual
-+	 * explicitly states there must be FFs if the unrolled mapping is
-+	 * enabled). In that case the CSRs base must be specified too.
- 	 */
- 	if (pci->edma.mf != EDMA_MF_EDMA_LEGACY)
- 		return pci->edma.reg_base ? 0 : -EINVAL;
-@@ -904,14 +907,8 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
- 	 * Indirect eDMA CSRs access has been completely removed since v5.40a
- 	 * thus no space is now reserved for the eDMA channels viewport and
- 	 * former DMA CTRL register is no longer fixed to FFs.
--	 *
--	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
--	 * have zeros in the eDMA CTRL register even though the HW-manual
--	 * explicitly states there must FFs if the unrolled mapping is enabled.
--	 * For such cases the low-level drivers are supposed to manually
--	 * activate the unrolled mapping to bypass the auto-detection procedure.
- 	 */
--	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
-+	if (dw_pcie_ver_is_ge(pci, 540A))
- 		val = 0xFFFFFFFF;
- 	else
- 		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-index 035df6bc7606..a666190e8b1b 100644
---- a/drivers/pci/controller/dwc/pcie-designware.h
-+++ b/drivers/pci/controller/dwc/pcie-designware.h
-@@ -54,9 +54,8 @@
- 
- /* DWC PCIe controller capabilities */
- #define DW_PCIE_CAP_REQ_RES		0
--#define DW_PCIE_CAP_EDMA_UNROLL		1
--#define DW_PCIE_CAP_IATU_UNROLL		2
--#define DW_PCIE_CAP_CDM_CHECK		3
-+#define DW_PCIE_CAP_IATU_UNROLL		1
-+#define DW_PCIE_CAP_CDM_CHECK		2
- 
- #define dw_pcie_cap_is(_pci, _cap) \
- 	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index 3bc45e513b3d..5678d69c413a 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -255,7 +255,7 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
- 	rcar->dw.ops = &dw_pcie_ops;
- 	rcar->dw.dev = dev;
- 	rcar->pdev = pdev;
--	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
-+	rcar->dw.edma.mf = EDMA_MF_EDMA_UNROLL;
- 	dw_pcie_cap_set(&rcar->dw, REQ_RES);
- 	platform_set_drvdata(pdev, rcar);
- 
--- 
-2.43.0
-
-
---vqp52he5ger5zlrw--
+மணிவண்ணன் சதாசிவம்
