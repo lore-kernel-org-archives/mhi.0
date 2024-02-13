@@ -1,197 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F51405FD;
-	Mon, 12 Feb 2024 18:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E92117743;
+	Tue, 13 Feb 2024 07:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707762369; cv=none; b=RZoS5n0QWMo+qX93mKge6qoKuxfVBYl28WDUPQS7b9Mlg+40msbWVwfN0NUBgLVyg5R6IRwzfExXEDgXVbXG6Y0hkYDSx/43RV3xV55Xm9ARFqg7n2N1cj05Caif3fVH+qyP7PBUF8EHJQ6TnmiP2o/bqHFvfRBQN96q4Ehi+w4=
+	t=1707810800; cv=none; b=Noss5BMsnFlJjNnyYLv1W3ADUXNdpb/bnbjPljDBLhpQz5BtdgeSG+XrU+bBpILrkaAgvnyYnqG0z8sxYgZMOXzTPxIr4PxZbROD/PtWoIy92hnbc4Y7Egm86y4lRvkSdvEefLCynEPRgx8KsToEZeX5VcRefuzfkx0DLwRRheo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707762369; c=relaxed/simple;
-	bh=RVBiiKt71wjFsnRdAFPjF0d4lGi7IogOJgAvmxhOfIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=movyyexd2AphoO4XQ6o34tBxiFu9z9t5/M8ualL5x/ukshP4uzVIrj4gVzCczu/pnSGJQIuaUyWRfRprBizWaEdFRxbrl9HJ2EBFK6I/FNE1ZGzRisR1OeLXYu6iLd8r1993uftu/byayeDgjjwO0WebhtHV/ZrFMYVrwnxpf7I=
+	s=arc-20240116; t=1707810800; c=relaxed/simple;
+	bh=h2mcc3tinXFTTUlzRS/uHQRAwxsDtAwyOZUFiyrUldQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flBgj2nXH8WZopqddbBcqJI2VGjaYqyaGGOWCH5EH30oTgssBpzC4Uo8piLsPEnAlNQS59K9zihPmm2oWp2cMNSu4QuQKfQc78NLazn8btCaPBFUjNuHnzuYXx/SNRZxctX2+n6ZVUajaQiFXmjj7hPPK/JnSryuPVl13PHtSuw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BA73C43399;
-	Mon, 12 Feb 2024 18:26:07 +0000 (UTC)
-Date: Mon, 12 Feb 2024 13:26:49 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, "Manivannan Sadhasivam"
- <manivannan.sadhasivam@linaro.org>, <linux-kernel@vger.kernel.org>,
- <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
- <quic_ramkri@quicinc.com>, <quic_nitegupt@quicinc.com>,
- <quic_skananth@quicinc.com>, <quic_parass@quicinc.com>
-Subject: Re: [PATCH v11] bus: mhi: host: Add tracing support
-Message-ID: <20240212132649.767e9b87@gandalf.local.home>
-In-Reply-To: <20240206-ftrace_support-v11-1-3f71dc187544@quicinc.com>
-References: <20240206-ftrace_support-v11-1-3f71dc187544@quicinc.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71F0C433C7;
+	Tue, 13 Feb 2024 07:53:10 +0000 (UTC)
+Date: Tue, 13 Feb 2024 13:23:06 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, vkoul@kernel.org,
+	jingoohan1@gmail.com, conor+dt@kernel.org, konrad.dybcio@linaro.org,
+	robh+dt@kernel.org, quic_shazhuss@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org,
+	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
+	quic_parass@quicinc.com, quic_schintav@quicinc.com,
+	quic_shijjose@quicinc.com,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v1 3/6] PCI: dwc: Add HDMA support
+Message-ID: <20240213075232.GA5067@thinkpad>
+References: <oa76ts3zqud7mtkpilbo4uub7gazqncnbh6rma26kaz6wt6fch@ufv672fgrcgj>
+ <20240209171032.GA1004885@bhelgaas>
+ <qppxhhlbjqmop2vmaa6b5zjesgry75hapllokcmllgfwti4tbo@55aeewwp23cq>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <qppxhhlbjqmop2vmaa6b5zjesgry75hapllokcmllgfwti4tbo@55aeewwp23cq>
 
-On Tue, 6 Feb 2024 10:02:05 +0530
-Krishna chaitanya chundru <quic_krichai@quicinc.com> wrote:
+On Sun, Feb 11, 2024 at 10:37:43PM +0300, Serge Semin wrote:
+> On Fri, Feb 09, 2024 at 11:10:32AM -0600, Bjorn Helgaas wrote:
+> > On Sat, Feb 03, 2024 at 12:40:39AM +0300, Serge Semin wrote:
+> > > On Fri, Jan 19, 2024 at 06:30:19PM +0530, Mrinmay Sarkar wrote:
+> > > > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > 
+> > > > Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
+> > > > Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only the
+> > > > unrolled mapping format. So the platform drivers need to provide a valid
+> > > > base address of the CSRs. Also, there is no standard way to auto detect
+> > > > the number of available read/write channels in a platform. So the platform
+> > > > drivers has to provide that information as well.
+> > > ...
+> > 
+> > > Basically this change defines two versions of the eDMA info
+> > > initialization procedure:
+> > > 1. use pre-defined CSRs mapping format and amount of channels,
+> > > 2. auto-detect CSRs mapping and the amount of channels.
+> > > The second version also supports the optional CSRs mapping format
+> > > detection procedure by means of the DW_PCIE_CAP_EDMA_UNROLL flag
+> > > semantics. Thus should this patch is accepted there will be the
+> > > functionality duplication. I suggest to make things a bit more
+> > > flexible than that. Instead of creating the two types of the
+> > > init-methods selectable based on the mapping format, let's split up
+> > > the already available DW eDMA engine detection procedure into the next
+> > > three stages:
+> > > 1. initialize DW eDMA data,
+> > > 2. auto-detect the CSRs mapping format,
+> > > 3. auto-detect the amount of channels.
+> > > and convert the later two to being optional. They will be skipped in case
+> > > if the mapping format or the amount of channels have been pre-defined
+> > > by the platform drivers. Thus we can keep the eDMA data init procedure
+> > > more linear thus easier to read, drop redundant DW_PCIE_CAP_EDMA_UNROLL flag
+> > > and use the new functionality for the Renesas R-Car S4-8's PCIe
+> > > controller (for which the auto-detection didn't work), for HDMA with compat
+> > > and _native_ CSRs mapping. See the attached patches for details:
+> > 
+> > I am still bound by the opinion of Google's legal team that I cannot
+> > accept the code changes that were attached here.  I think it's fair to
+> > read the review comments (thank you for those), but I suggest not
+> > reading the patches that were attached.
+> 
+> Em, the review comment and the resultant patches were my own private
+> researches and developments. Is Google now blocking even individual
+> contributors?
+> 
+> In anyway if you are agree with the changes suggested above you can
+> set to the patches any author you think would be acceptable. My only
+> concern was to maintain the cleanness of the driver code developed by
+> me and which is going to be affected in the framework of this series.
+> 
 
+I take the patch authorship seriously, so I won't change the author of your
+patches. Instead, I'll just create my own patches based on your comments above.
 
+- Mani
 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index abb561db9ae1..2d38f6005da6 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -15,6 +15,7 @@
->  #include <linux/skbuff.h>
->  #include <linux/slab.h>
->  #include "internal.h"
-> +#include "trace.h"
->  
->  int __must_check mhi_read_reg(struct mhi_controller *mhi_cntrl,
->  			      void __iomem *base, u32 offset, u32 *out)
-> @@ -493,11 +494,8 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
->  
->  	state = mhi_get_mhi_state(mhi_cntrl);
->  	ee = mhi_get_exec_env(mhi_cntrl);
-> -	dev_dbg(dev, "local ee: %s state: %s device ee: %s state: %s\n",
-> -		TO_MHI_EXEC_STR(mhi_cntrl->ee),
-> -		mhi_state_str(mhi_cntrl->dev_state),
-> -		TO_MHI_EXEC_STR(ee), mhi_state_str(state));
->  
-> +	trace_mhi_intvec_states(mhi_cntrl, ee, state);
->  	if (state == MHI_STATE_SYS_ERR) {
->  		dev_dbg(dev, "System error detected\n");
->  		pm_state = mhi_tryset_pm_state(mhi_cntrl,
-> @@ -838,6 +836,8 @@ int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->  	while (dev_rp != local_rp) {
->  		enum mhi_pkt_type type = MHI_TRE_GET_EV_TYPE(local_rp);
->  
-> +		trace_mhi_ctrl_event(mhi_cntrl, local_rp);
-> +
->  		switch (type) {
->  		case MHI_PKT_TYPE_BW_REQ_EVENT:
->  		{
-> @@ -1003,6 +1003,8 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->  	while (dev_rp != local_rp && event_quota > 0) {
->  		enum mhi_pkt_type type = MHI_TRE_GET_EV_TYPE(local_rp);
->  
-> +		trace_mhi_data_event(mhi_cntrl, local_rp);
-> +
->  		chan = MHI_TRE_GET_EV_CHID(local_rp);
->  
->  		WARN_ON(chan >= mhi_cntrl->max_chan);
-> @@ -1243,6 +1245,7 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->  	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
->  	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
->  
-> +	trace_mhi_gen_tre(mhi_cntrl, mhi_chan, mhi_tre);
->  	/* increment WP */
->  	mhi_add_ring_element(mhi_cntrl, tre_ring);
->  	mhi_add_ring_element(mhi_cntrl, buf_ring);
-> @@ -1337,9 +1340,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  	enum mhi_cmd_type cmd = MHI_CMD_NOP;
->  	int ret;
->  
-> -	dev_dbg(dev, "%d: Updating channel state to: %s\n", mhi_chan->chan,
-> -		TO_CH_STATE_TYPE_STR(to_state));
-> -
-> +	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, "Updating");
-
-The string above "Updating"
-
->  	switch (to_state) {
->  	case MHI_CH_STATE_TYPE_RESET:
->  		write_lock_irq(&mhi_chan->lock);
-> @@ -1406,9 +1407,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  		write_unlock_irq(&mhi_chan->lock);
->  	}
->  
-> -	dev_dbg(dev, "%d: Channel state change to %s successful\n",
-> -		mhi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
-> -
-> +	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, "Updated");
-
-And here "Updated"
-
->  exit_channel_update:
->  	mhi_cntrl->runtime_put(mhi_cntrl);
->  	mhi_device_put(mhi_cntrl->mhi_dev);
-
-Please add them to the printk_formats (like RCU trace events do).
-
-#define TPS(x)	tracepoint_string(x)
-
-Then the above should have:
-
-	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, TPS("Updating"));
-
-and
-
-	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, TPS("Updated"));
-
-> +DECLARE_EVENT_CLASS(mhi_update_channel_state,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state,
-> +		 const char *reason),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state, reason),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(name, mhi_cntrl->mhi_dev->name)
-> +		__field(int, ch_num)
-> +		__field(int, state)
-> +		__field(const char *, reason)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(name, mhi_cntrl->mhi_dev->name);
-> +		__entry->ch_num = mhi_chan->chan;
-> +		__entry->state = state;
-> +		__entry->reason = reason;
-> +	),
-> +
-> +	TP_printk("%s: chan%d: %s state to: %s\n",
-> +		  __get_str(name),  __entry->ch_num, __entry->reason,
-> +		  __print_symbolic(__entry->state, MHI_CH_STATE_TYPE_LIST))
-> +);
-
-The above print fmt has "%s" on __entry->reason which is just an internal
-kernel pointer to the string that is saved in the ring buffer. User space
-tools like perf and trace-cmd will not report them. It will just show some
-internal kernel address. By adding the TPS() logic above, those addresses
-will be mapped to strings:
-
- ~# grep RCU /sys/kernel/tracing/printk_formats 
- 0xffffffffb069a4e0 : "End RCU core"
- 0xffffffffb069a520 : "Start RCU core"
-
-As RCU uses direct string pointers in its name space, it has the TPS()
-logic that allows perf and ftrace to map the addresses that are saved in
-the ring buffer to the strings they represent.
-
--- Steve
-
-
-> +
-> +DEFINE_EVENT(mhi_update_channel_state, mhi_channel_command_start,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state,
-> +		 const char *reason),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state, reason)
-> +);
-> +
-> +DEFINE_EVENT(mhi_update_channel_state, mhi_channel_command_end,
-> +
-> +	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan, int state,
-> +		 const char *reason),
-> +
-> +	TP_ARGS(mhi_cntrl, mhi_chan, state, reason)
-> +);
-> +
+-- 
+மணிவண்ணன் சதாசிவம்
