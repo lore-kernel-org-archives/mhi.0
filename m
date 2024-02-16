@@ -1,45 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E92117743;
-	Tue, 13 Feb 2024 07:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855DF535A2;
+	Fri, 16 Feb 2024 10:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707810800; cv=none; b=Noss5BMsnFlJjNnyYLv1W3ADUXNdpb/bnbjPljDBLhpQz5BtdgeSG+XrU+bBpILrkaAgvnyYnqG0z8sxYgZMOXzTPxIr4PxZbROD/PtWoIy92hnbc4Y7Egm86y4lRvkSdvEefLCynEPRgx8KsToEZeX5VcRefuzfkx0DLwRRheo=
+	t=1708080772; cv=none; b=ofZBhUu3AKa13W9TTf42Rc2/9HuOp6FbtoHVbP1uDxvXUkuUAUvEZV90ZzxtgpxFirt0j/NkknVpxx6oc0NbFgBOVy1m+ZVARv8KRpmKzm3OHo+/2ap7xIuqwS7P7uAVtMm+kFOe5IcqTd85uO8rONGAhyaTF9rgKrYI42jfugQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707810800; c=relaxed/simple;
-	bh=h2mcc3tinXFTTUlzRS/uHQRAwxsDtAwyOZUFiyrUldQ=;
+	s=arc-20240116; t=1708080772; c=relaxed/simple;
+	bh=8VkaDPezDLyOsFDWG7YISAHY6yzoxdeio9M6WtqjSaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flBgj2nXH8WZopqddbBcqJI2VGjaYqyaGGOWCH5EH30oTgssBpzC4Uo8piLsPEnAlNQS59K9zihPmm2oWp2cMNSu4QuQKfQc78NLazn8btCaPBFUjNuHnzuYXx/SNRZxctX2+n6ZVUajaQiFXmjj7hPPK/JnSryuPVl13PHtSuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71F0C433C7;
-	Tue, 13 Feb 2024 07:53:10 +0000 (UTC)
-Date: Tue, 13 Feb 2024 13:23:06 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	Manivannan Sadhasivam <mani@kernel.org>, vkoul@kernel.org,
-	jingoohan1@gmail.com, conor+dt@kernel.org, konrad.dybcio@linaro.org,
-	robh+dt@kernel.org, quic_shazhuss@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nayiluri@quicinc.com, dmitry.baryshkov@linaro.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=fph5odDwzzAIxy5jkyl0UqSPnSu+73Fmg5t9SQUgEe936FhY38YpmDrBIpgxKBs59+QbCuUnvjR8AP1yYJjooi3KuHE6dOA3HPT5pBRu8qeHD6+2RHfyavfB0vXuif6+b/NDjU3A5tR04+jM7J0SbHPnlqzevmw05ZtfxhTN8vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZxKMAMl; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZxKMAMl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B92C433C7;
+	Fri, 16 Feb 2024 10:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708080772;
+	bh=8VkaDPezDLyOsFDWG7YISAHY6yzoxdeio9M6WtqjSaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dZxKMAMlNEItXdf+sah3f0Cyw5u24xo2zCc00T3+8mqhBrqpOxyetDPgOL9e8avxx
+	 mv22lD1sEPmBEmFDSHApj6JOize1TuBT4VPWM4jBcJrKvhYj92EzTyN60eKdNNzhIt
+	 7yYcEj66TVVTE8xrrDPoK4urjCLlNNUpfQPba/TWUvl/7TT12Yr5dVPI/+323QCq7F
+	 TmaGxLvOhmIVwApJw/9MbnTbjlaCsq1ZAzy8dZAgR6x9rfcpnVf2SuuJSE3GDx4sNQ
+	 FBP2KsLyjT8nx4N4tU/0WxdWlWFnesGH9gIGZWVbjblrTWsB7Pb2DROPyjsNu9MQZD
+	 b6BSnB9vI28LQ==
+Date: Fri, 16 Feb 2024 16:22:41 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+Cc: agross@kernel.org, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	konrad.dybcio@linaro.org, mani@kernel.org, robh+dt@kernel.org,
+	quic_shazhuss@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
+	dmitry.baryshkov@linaro.org, robh@kernel.org,
 	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
 	quic_parass@quicinc.com, quic_schintav@quicinc.com,
-	quic_shijjose@quicinc.com,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	quic_shijjose@quicinc.com, Bjorn Helgaas <bhelgaas@google.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mhi@lists.linux.dev
-Subject: Re: [PATCH v1 3/6] PCI: dwc: Add HDMA support
-Message-ID: <20240213075232.GA5067@thinkpad>
-References: <oa76ts3zqud7mtkpilbo4uub7gazqncnbh6rma26kaz6wt6fch@ufv672fgrcgj>
- <20240209171032.GA1004885@bhelgaas>
- <qppxhhlbjqmop2vmaa6b5zjesgry75hapllokcmllgfwti4tbo@55aeewwp23cq>
+Subject: Re: [PATCH v9 0/5] arm64: qcom: sa8775p: add support for EP PCIe
+Message-ID: <20240216105241.GB2559@thinkpad>
+References: <1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -49,64 +56,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <qppxhhlbjqmop2vmaa6b5zjesgry75hapllokcmllgfwti4tbo@55aeewwp23cq>
+In-Reply-To: <1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com>
 
-On Sun, Feb 11, 2024 at 10:37:43PM +0300, Serge Semin wrote:
-> On Fri, Feb 09, 2024 at 11:10:32AM -0600, Bjorn Helgaas wrote:
-> > On Sat, Feb 03, 2024 at 12:40:39AM +0300, Serge Semin wrote:
-> > > On Fri, Jan 19, 2024 at 06:30:19PM +0530, Mrinmay Sarkar wrote:
-> > > > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > > 
-> > > > Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
-> > > > Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only the
-> > > > unrolled mapping format. So the platform drivers need to provide a valid
-> > > > base address of the CSRs. Also, there is no standard way to auto detect
-> > > > the number of available read/write channels in a platform. So the platform
-> > > > drivers has to provide that information as well.
-> > > ...
-> > 
-> > > Basically this change defines two versions of the eDMA info
-> > > initialization procedure:
-> > > 1. use pre-defined CSRs mapping format and amount of channels,
-> > > 2. auto-detect CSRs mapping and the amount of channels.
-> > > The second version also supports the optional CSRs mapping format
-> > > detection procedure by means of the DW_PCIE_CAP_EDMA_UNROLL flag
-> > > semantics. Thus should this patch is accepted there will be the
-> > > functionality duplication. I suggest to make things a bit more
-> > > flexible than that. Instead of creating the two types of the
-> > > init-methods selectable based on the mapping format, let's split up
-> > > the already available DW eDMA engine detection procedure into the next
-> > > three stages:
-> > > 1. initialize DW eDMA data,
-> > > 2. auto-detect the CSRs mapping format,
-> > > 3. auto-detect the amount of channels.
-> > > and convert the later two to being optional. They will be skipped in case
-> > > if the mapping format or the amount of channels have been pre-defined
-> > > by the platform drivers. Thus we can keep the eDMA data init procedure
-> > > more linear thus easier to read, drop redundant DW_PCIE_CAP_EDMA_UNROLL flag
-> > > and use the new functionality for the Renesas R-Car S4-8's PCIe
-> > > controller (for which the auto-detection didn't work), for HDMA with compat
-> > > and _native_ CSRs mapping. See the attached patches for details:
-> > 
-> > I am still bound by the opinion of Google's legal team that I cannot
-> > accept the code changes that were attached here.  I think it's fair to
-> > read the review comments (thank you for those), but I suggest not
-> > reading the patches that were attached.
-> 
-> Em, the review comment and the resultant patches were my own private
-> researches and developments. Is Google now blocking even individual
-> contributors?
-> 
-> In anyway if you are agree with the changes suggested above you can
-> set to the patches any author you think would be acceptable. My only
-> concern was to maintain the cleanness of the driver code developed by
-> me and which is going to be affected in the framework of this series.
+On Fri, Dec 01, 2023 at 05:36:11PM +0530, Mrinmay Sarkar wrote:
+> This series adds the relavent DT bindings, new compatible string,
+> add support to EPF driver and add EP PCIe node in dtsi file for
+> ep pcie0 controller.
 > 
 
-I take the patch authorship seriously, so I won't change the author of your
-patches. Instead, I'll just create my own patches based on your comments above.
+Applied patches 3 and 4 to pci/endpoint!
 
 - Mani
+
+> v8 -> v9:
+> - update author in "Add pci_epf_mhi_ prefix to the function" patch.
+> - add ack by and reviewed by tag in commit message.
+> 
+> v7 -> v8:
+> - Add new patch PCI: epf-mhi: Add "pci_epf_mhi_" prefix to the function
+>   names
+> - Update PCI: epf-mhi: Add support for SA8775P patch on top of the new
+>   patch and update commit message.
+> 
+> v6 -> v7:
+> - add reviewed by tag in commit message in all patches.
+> - update commit message in patch 2 as per comment.
+> - update reason for reusing PID in commit message.
+> 
+> v5 -> v6:
+> - update cover letter.
+> 
+> v4 -> v5:
+> - add maxItems to the respective field to constrain io space and
+>   interrupt in all variants.
+> 
+> v3 -> v4:
+> - add maxItems field in dt bindings
+> - update comment in patch2
+> - dropped PHY driver patch as it is already applied [1]
+> - update comment in EPF driver patch
+> - update commect in dtsi and add iommus instead of iommu-map
+> 
+> [1] https://lore.kernel.org/all/169804254205.383714.18423881810869732517.b4-ty@kernel.org/
+> 
+> v2 -> v3:
+> - removed if/then schemas, added minItems for reg,
+>   reg-bnames, interrupt and interrupt-names instead.
+> - adding qcom,sa8775p-pcie-ep compitable for sa8775p
+>   as we have some specific change to add.
+> - reusing sm8450's pcs_misc num table as it is same as sa8775p.
+>   used appropriate namespace for pcs.
+> - remove const from sa8775p_header as kernel test robot
+>   throwing some warnings due to this.
+> - remove fallback compatiable as we are adding compatiable for sa8775p.
+> 
+> v1 -> v2:
+> - update description for dma
+> - Reusing qcom,sdx55-pcie-ep compatibe so remove compaitable
+>   for sa8775p
+> - sort the defines in phy header file and remove extra defines
+> - add const in return type pci_epf_header and remove MHI_EPF_USE_DMA
+>   flag as hdma patch is not ready
+> - add fallback compatiable as qcom,sdx55-pcie-ep, add iommu property
+> 
+> 
+> Manivannan Sadhasivam (1):
+>   PCI: epf-mhi: Add "pci_epf_mhi_" prefix to the function names
+> 
+> Mrinmay Sarkar (4):
+>   dt-bindings: PCI: qcom-ep: Add support for SA8775P SoC
+>   PCI: qcom-ep: Add support for SA8775P SOC
+>   PCI: epf-mhi: Add support for SA8775P
+>   arm64: dts: qcom: sa8775p: Add ep pcie0 controller node
+> 
+>  .../devicetree/bindings/pci/qcom,pcie-ep.yaml      | 64 +++++++++++++++++++++-
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 46 ++++++++++++++++
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c          |  1 +
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c       | 21 ++++++-
+>  4 files changed, 128 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
