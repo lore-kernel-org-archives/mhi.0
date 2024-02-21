@@ -1,87 +1,61 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400083D0C5
-	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 08:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A9B69D38;
+	Wed, 21 Feb 2024 14:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708505988; cv=none; b=PApNRpO6bNrhuF/GENZaE1CqIJIANq2dZXKEAbckZAlujZG/D0UA4KL0h4cYGSQ4JpZop2wcu6SNyVkXkfNryMFKOHzwOBC54ksyiI3IoWb8cHUJmeYFwrREEQZd3bCRaH0Sh9/1KQFySme0It2CO2cMfJM9853SdwmOUEZULds=
+	t=1708524557; cv=none; b=Ps6S/DuRQibbDr5MF2V13//Y3guUp/DdnWduUm5CD0LuyYqtxm4TKs93wxPO+1lpMsTNBMhiYaffItx8fySGesuNdNfIR67C5nW8wxKVsdN/rXLmv9gvXz1aPUsTLvRBwbQdL8mzL2/yfNaSPIt2lLQ5zjMLWQiOhkA1KB0o3Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708505988; c=relaxed/simple;
-	bh=bpSDrbg1x+ADfRkSuv6gR85kGx7h4cdgDMDUKWHwcaY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oE3Opw9mSzpJT4hSVkMooIfAqFJHZ65LGp6/TYSP0+QCYv60Mmqsu5Yhv5dRvxIX1TNRjWbGQ8d2okdrd8ucis1ISu6ZDf3ZD+hef2u5ArjLe5yNqT1hxBR1O0c+MGgCrtYiH9XyP+0pN9euzEyYTPMVKbYCkiNiHHtJSNwWBxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 229ba8d755af451e99cec9e56b9074ff-20240221
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:fd401693-8bb0-4312-b356-3816213a343c,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-5
-X-CID-INFO: VERSION:1.1.35,REQID:fd401693-8bb0-4312-b356-3816213a343c,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:5d391d7,CLOUDID:4c458b8f-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:240221165940WOC6CRID,BulkQuantity:0,Recheck:0,SF:66|24|17|19|44|102,
-	TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-UUID: 229ba8d755af451e99cec9e56b9074ff-20240221
-Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
-	(envelope-from <chentao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 584099357; Wed, 21 Feb 2024 16:59:40 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 01462E000EBC;
-	Wed, 21 Feb 2024 16:59:40 +0800 (CST)
-X-ns-mid: postfix-65D5BB7B-805504581
-Received: from kernel.. (unknown [172.20.15.254])
-	by mail.kylinos.cn (NSMail) with ESMTPA id D5B81E000EBC;
-	Wed, 21 Feb 2024 16:59:38 +0800 (CST)
-From: Kunwu Chan <chentao@kylinos.cn>
-To: manivannan.sadhasivam@linaro.org
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kunwu Chan <chentao@kylinos.cn>
-Subject: [PATCH] bus: mhi: ep: Simplify the allocation of slab caches in mhi_ep_register_controller
-Date: Wed, 21 Feb 2024 16:59:37 +0800
-Message-Id: <20240221085937.167200-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1708524557; c=relaxed/simple;
+	bh=o+Pf9FEYFHEjMXG9WRgtJ1Cj03FyG5XJoFFDXLwWgAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AKuoP4nsD02qK9DtvhjInNYNnnl2Sc5F9XBF4VK3cViFiQDbraxGKOpVIY2DwAQA1//oUGag3LB7XGpwppZFOSZhQSKEP2EUpXigc5ZYONzIT3a8CXq2PDls9WNQRVMW3LekoejWCiZKm3hKnQ+tpCtE7SPcPkdTBw7Ryqcqsvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30390C433C7;
+	Wed, 21 Feb 2024 14:09:16 +0000 (UTC)
+Date: Wed, 21 Feb 2024 09:11:03 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
+ quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+ quic_parass@quicinc.com
+Subject: Re: [PATCH] bus: mhi: host: Change the trace string for the
+ userspace tools mapping
+Message-ID: <20240221091103.37497ed0@gandalf.local.home>
+In-Reply-To: <20240221061146.GF11693@thinkpad>
+References: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
+	<20240221061146.GF11693@thinkpad>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
-to simplify the creation of SLAB caches.
+On Wed, 21 Feb 2024 11:41:46 +0530
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> wrote:
 
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
----
- drivers/bus/mhi/ep/main.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> On Sun, Feb 18, 2024 at 02:13:39PM +0530, Krishna chaitanya chundru wrote:
+> > User space tools can't map strings if we use directly, as the string
+> > address is internal to kernel.
+> > 
+> > So add trace point strings for the user space tools to map strings
+> > properly.
+> > 
+> > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>  
+> 
+> Reported-by: Steven Rostedt <rostedt@goodmis.org>
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index 65fc1d738bec..7b61d384b2b6 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1493,9 +1493,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl =
-*mhi_cntrl,
- 		goto err_destroy_ev_ring_el_cache;
- 	}
-=20
--	mhi_cntrl->ring_item_cache =3D kmem_cache_create("mhi_ep_ring_item",
--							sizeof(struct mhi_ep_ring_item), 0,
--							0, NULL);
-+	mhi_cntrl->ring_item_cache =3D KMEM_CACHE(mhi_ep_ring_item, 0);
- 	if (!mhi_cntrl->ev_ring_el_cache) {
- 		ret =3D -ENOMEM;
- 		goto err_destroy_tre_buf_cache;
---=20
-2.39.2
+Suggested-by: may be more accurate?
+
+-- Steve
+
+> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
