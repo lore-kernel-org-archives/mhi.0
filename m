@@ -1,143 +1,98 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF58739FE8
-	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 06:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CFF39FC3
+	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 06:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708495916; cv=none; b=gRkMHor+ylNGGLqHOoaqRX2afUMMRyr9Hltp0UQbFnLbt/EkC+b/wQ8Az1oFLOTNbYshL+ggnbYiSVlJtWIAq7OS/S3xya+8JWeJ799gglME6L/S88+no7Fl3TPIQ5e4RmBDoDMpJDeeXSW3HBADN1euxgN0XA1mHu4HHyeMCwc=
+	t=1708496426; cv=none; b=C2l+SQJUJDx+rAcWZcqnH+QLtJnRhV5+2rnwPMrMum9GadNcYuGkb+qXM4uY16rZUkczntpAuQdV6a7UfeKNuAmlZfJ9sA8miUZldS71ReDUl7MPRxHUwfkm77lnpn1vJYRwuOLuaSDf3tYyuDJLojkgM+OGJpWBbs3V6zZ6+Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708495916; c=relaxed/simple;
-	bh=2TAQVV25B3Mep0g8bVd1ctba4+Nb47hssI9JMLGlWw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IK2hBQmTW/BZfzilW1FcZY6W5jwscyfyyVSMPK3e0uVtWCZMHKFqJ4ffRr4AwcSC49PladzfGC29WFTEl4G5lyL836GIlRaic7S/h7okTZ+R2f6Ij8o8fzIIKbLJB+uAMgk2S622MQqqHpB1BzngBSRZXgtnp9Ej/QzWjG4vzyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CtRFan0d; arc=none smtp.client-ip=209.85.160.42
+	s=arc-20240116; t=1708496426; c=relaxed/simple;
+	bh=Aa84HSv1+2OvUetKNGlbuxpski5nWr6VCsHSEhRtETY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DL3rf3Z7Ec/O+X6nMRGPVj8PTHOxEj0FYBFfudXNbMRTUFvMNqqdml80nIRKfv5CFCN5jy5MtwIbQPd/Xh1VeUt78Qqeq6W0rMZipf4IUCsq3OOLRZCDGVrn90TREpt20qAKbcOTSFBwYACKijwPE6100eBdzv2mlLFMqVocxBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v5C3Y7+H; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CtRFan0d"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-206689895bfso3935938fac.1
-        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 22:11:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v5C3Y7+H"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-563d32ee33aso6891827a12.2
+        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 22:20:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708495914; x=1709100714; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fL2zwEDwboBOluBoCe5ERhhpUpWk0xO78/TTkM69qsU=;
-        b=CtRFan0dWFzw1pMWENlINN+tL1xfmysECVf58RaUKstmpRTGaQB4n0cCf4dGVVXwZn
-         ZrtorrKUTw2F52sxG/tniO0DyJ1ReN5pkfViKetQNfyaevu2PHAaUNCkCDF+5fwaWII8
-         F9rzLT9/3a9XJ8OEm+ntiyYDiTYKKqea8c9LRPUU+8cb+iD0NG4nZgUtRC4u6KzaytyN
-         woxNnPz0pmW1Z7WViMf44dgo8Cg3ix8E1b0QAmqhQyrCktHfjMSHrx4PT0qmjUWwmEJS
-         t0VO22yuGVyv3D1/EGnGTMGCe6ObeTjPudEH7hyY1hvN9B3okZOIkMuRUPPxp53jjCrz
-         FMyQ==
+        d=linaro.org; s=google; t=1708496423; x=1709101223; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z7BDvVnOFI8EfULdSJBhx0Uoarr0dwLKho4DFLKCbPE=;
+        b=v5C3Y7+H6qMfbGO132fcZGNViMN8G/koqEqpJefIYrlEmKsrRH+ZVqFADTD+slnjZW
+         XFqs7Y5a7fa1ycgiJ+CXmfzcI5SjZJ6s7lOi5Nngr4qfDkxdL9hKssG6W2kWENSQYIcB
+         dLCkaDaIjuF02/8cbPh8HcYQDSoJ7cUBpOCm6Wx19XU0T4lIRk3NlnWMv+Mur6l8mR9/
+         w4Frq/iNmqJYKJu41tqtZ9/PS5HrCYIjDK1REZtD5COp86hkINa0Q7LLwq/0ZR+m9CZz
+         MKuku6BqEwQrBlCvzBB5hPWPpCx37Tgy5qewYE04VMiwRqiMhbJZbZH/qhMIVNPIf5Vm
+         RW+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708495914; x=1709100714;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1708496423; x=1709101223;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fL2zwEDwboBOluBoCe5ERhhpUpWk0xO78/TTkM69qsU=;
-        b=EOGFA+rwOdH4kk6TxHPvBWA0dPfGyrJqQ1KEVrzXpOEFta8QvglRegrdwrWMFvW52Y
-         9KyXkXljRW3dRo4NFHqCLMx9FNiKd/i+vxS5pUSQY0HKZqrFnxTfe1fFIjjQZ9Y2QLPL
-         AuUcifVyqxtJHYNUcHbTU1KjhC6A/TYd2O7DzvjB0AL+0e3ZhneDIohn3AM0maJzd7lp
-         oXxDJmCGZkpZBSlfykOtcjg4hbuHAOimhsfgwjf1lg1UVQniQJoCYYguv20QVczTiTHA
-         iT82Xx/V1aW1LwVh0oNIy24flcZazO2Ih8tZ9qc/UtYSnYK5L13VRoFs19b8koweScCZ
-         kD2w==
-X-Forwarded-Encrypted: i=1; AJvYcCV8I/qAhZ6mJ2wZcZ60Y1cg5PHm6cn1tZ+U54uxpznKdtDkcpVJ1gk9ZTKHoTnYKCbKUdp1OIQWIEzCwH/tP3cAJvwh
-X-Gm-Message-State: AOJu0Yw2vHz0Q2ms1+/1RIIuJZY0s+T0SDJ/H+zOq5Kye2ixODg/gwwE
-	pcBP5WfIqfX0dXuNqOkv77wmsvPgN8dHIr0Fe2gS3tXvrcGihfOAWdHrV8vfDQ==
-X-Google-Smtp-Source: AGHT+IEXMreBXKcUfZWk6J8tb7zlxvS17xKsDFwi7Dxrk9YaZ/GcMzlIx9Pg4VQIy7bL/eGMHKNC3g==
-X-Received: by 2002:a05:6870:ac1f:b0:21e:7ad8:dce8 with SMTP id kw31-20020a056870ac1f00b0021e7ad8dce8mr13146574oab.23.1708495913799;
-        Tue, 20 Feb 2024 22:11:53 -0800 (PST)
-Received: from thinkpad ([117.207.28.224])
-        by smtp.gmail.com with ESMTPSA id g2-20020a636b02000000b005dc87f5dfcfsm7555975pgc.78.2024.02.20.22.11.50
+        bh=z7BDvVnOFI8EfULdSJBhx0Uoarr0dwLKho4DFLKCbPE=;
+        b=gW3BEHJeIn/tsA/mroe8dAKq1QBJeJBxMZ+IZG0H0wh+I5u73lVbVa6/0RpOzpkFd3
+         BY+ZuoatrntSXUUBYbY5CbDze+NnXkkjvek3iZFgDgaGeeIZMagqqhqZH8N+d7//Scnq
+         /YXYLXNc6Dw9WFq3kQs1S60o5NMXpNFVBxIBbP9z1GdGu2SV2EXdnV2yAFeb0NhYJvyu
+         hky/rhVkwoQcuRJVgcPbSQEAiHd3RMe9OalzMn1ij/EjlJUN5cqtso0+zYLhLbSSFB1I
+         Y6lZ4U1drwo1OVzYkiP51h3ejOD4IlWE5XVAqi185uGd/g+HFK+JrhurjMYosyDSC/Cs
+         8HUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpbghptTGJTIS0/6Gn8W/TmwZil0LIO5FAPZbE0n3ZWDPWnRbBVduxl+Eyf6jQcWLP6tJUYwQ0FJg+8t3Tp6Emf0UY
+X-Gm-Message-State: AOJu0YxHplSky1Uy1MXxw6tskmUJ2y+m0baal5VbY4sFXVfZI/wSBSuj
+	zU3AGS5ndl+GGzo0WeDggjIL9G7D8lGiwPVlsyMSBxvIO5PEHN4Pvi7ckYbfSrRdYUyEQq8E6Sw
+	4
+X-Google-Smtp-Source: AGHT+IEo1seUMFO75qlMhw5YgJjVl6BOsKnCUA2331SaQXoJuA959myuBNCXTpBpJJToej8dHPipIg==
+X-Received: by 2002:a05:6402:17c4:b0:563:ccd1:26bd with SMTP id s4-20020a05640217c400b00563ccd126bdmr9951812edy.2.1708496422990;
+        Tue, 20 Feb 2024 22:20:22 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id c1-20020a056402100100b0056486eaa669sm2266459edu.50.2024.02.20.22.20.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 22:11:53 -0800 (PST)
-Date: Wed, 21 Feb 2024 11:41:46 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
-	quic_skananth@quicinc.com, quic_parass@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: Change the trace string for the
- userspace tools mapping
-Message-ID: <20240221061146.GF11693@thinkpad>
-References: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
+        Tue, 20 Feb 2024 22:20:22 -0800 (PST)
+Date: Wed, 21 Feb 2024 09:20:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Alex Elder <elder@linaro.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Erick Archer <erick.archer@gmx.com>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] bus: mhi: ep: check the correct variable in
+ mhi_ep_register_controller()
+Message-ID: <bebcd822-d465-45da-adae-5435ec93e6d4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
+X-Mailer: git-send-email haha only kidding
 
-On Sun, Feb 18, 2024 at 02:13:39PM +0530, Krishna chaitanya chundru wrote:
-> User space tools can't map strings if we use directly, as the string
-> address is internal to kernel.
-> 
-> So add trace point strings for the user space tools to map strings
-> properly.
-> 
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+There is a copy and paste bug here so it checks "ev_ring_el_cache" instead
+of "ring_item_cache".
 
-Reported-by: Steven Rostedt <rostedt@goodmis.org>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Fixes: 62210a26cd4f ("bus: mhi: ep: Use slab allocator where applicable")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/bus/mhi/ep/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- Mani
-
-> ---
->  drivers/bus/mhi/host/main.c  | 4 ++--
->  drivers/bus/mhi/host/trace.h | 2 ++
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 2d38f6005da6..15d657af9b5b 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -1340,7 +1340,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  	enum mhi_cmd_type cmd = MHI_CMD_NOP;
->  	int ret;
->  
-> -	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, "Updating");
-> +	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, TPS("Updating"));
->  	switch (to_state) {
->  	case MHI_CH_STATE_TYPE_RESET:
->  		write_lock_irq(&mhi_chan->lock);
-> @@ -1407,7 +1407,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  		write_unlock_irq(&mhi_chan->lock);
->  	}
->  
-> -	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, "Updated");
-> +	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, TPS("Updated"));
->  exit_channel_update:
->  	mhi_cntrl->runtime_put(mhi_cntrl);
->  	mhi_device_put(mhi_cntrl->mhi_dev);
-> diff --git a/drivers/bus/mhi/host/trace.h b/drivers/bus/mhi/host/trace.h
-> index d12a98d44272..368515dcb22d 100644
-> --- a/drivers/bus/mhi/host/trace.h
-> +++ b/drivers/bus/mhi/host/trace.h
-> @@ -84,6 +84,8 @@ DEV_ST_TRANSITION_LIST
->  #define dev_st_trans(a, b)		{ DEV_ST_TRANSITION_##a, b },
->  #define dev_st_trans_end(a, b)		{ DEV_ST_TRANSITION_##a, b }
->  
-> +#define TPS(x)	tracepoint_string(x)
-> +
->  TRACE_EVENT(mhi_gen_tre,
->  
->  	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-> 
-> ---
-> base-commit: ceeb64f41fe6a1eb9fc56d583983a81f8f3dd058
-> change-id: 20240218-ftrace_string-7677762aa63c
-> 
-> Best regards,
-> -- 
-> Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> 
-
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index 8d7a4102bdb7..f8f674adf1d4 100644
+--- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -1497,7 +1497,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+ 	mhi_cntrl->ring_item_cache = kmem_cache_create("mhi_ep_ring_item",
+ 							sizeof(struct mhi_ep_ring_item), 0,
+ 							0, NULL);
+-	if (!mhi_cntrl->ev_ring_el_cache) {
++	if (!mhi_cntrl->ring_item_cache) {
+ 		ret = -ENOMEM;
+ 		goto err_destroy_tre_buf_cache;
+ 	}
 -- 
-மணிவண்ணன் சதாசிவம்
+2.43.0
+
