@@ -1,65 +1,69 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D7B38FB0
-	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 05:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF58739FE8
+	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 06:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708494797; cv=none; b=ljmD+AAgQZeSIyrWIGbeDxBQOmym5kM5Oc0mZOo7vwOWVv9ryHbEJ0cdkOP1s8SJBXBzuyGNUUJW0infkjpIsbDRBw5ArruHg/eA1jNG3Ou2V9mFwgRngo4vDGToaQCJXqR5eYUaNxevVmp1OoHp27X1VDLTltnBoAavSHEka1E=
+	t=1708495916; cv=none; b=gRkMHor+ylNGGLqHOoaqRX2afUMMRyr9Hltp0UQbFnLbt/EkC+b/wQ8Az1oFLOTNbYshL+ggnbYiSVlJtWIAq7OS/S3xya+8JWeJ799gglME6L/S88+no7Fl3TPIQ5e4RmBDoDMpJDeeXSW3HBADN1euxgN0XA1mHu4HHyeMCwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708494797; c=relaxed/simple;
-	bh=VGwYTx7Gi5TTVoTRuqmNpO3DNZJwHqE4ELe/KeP5rZQ=;
+	s=arc-20240116; t=1708495916; c=relaxed/simple;
+	bh=2TAQVV25B3Mep0g8bVd1ctba4+Nb47hssI9JMLGlWw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dzaS1YMdMbG69Y5cQ9NrCAFWKC1XQ0r15Y3ue8QeAR7xzXxL5SR17devjdS//QBq9LLeNKqSkVc8VMMUD5vJO8AmyTwT9ahX+268PorUxG09QvJRo2yZm2itRZBhcXZcKArkd2SWCxzwAy9CGu0uHclM6WeXoYq6qVX4Hs4OTBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IT6JvSdN; arc=none smtp.client-ip=209.85.214.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=IK2hBQmTW/BZfzilW1FcZY6W5jwscyfyyVSMPK3e0uVtWCZMHKFqJ4ffRr4AwcSC49PladzfGC29WFTEl4G5lyL836GIlRaic7S/h7okTZ+R2f6Ij8o8fzIIKbLJB+uAMgk2S622MQqqHpB1BzngBSRZXgtnp9Ej/QzWjG4vzyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CtRFan0d; arc=none smtp.client-ip=209.85.160.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IT6JvSdN"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d8da50bffaso31786695ad.2
-        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 21:53:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CtRFan0d"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-206689895bfso3935938fac.1
+        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 22:11:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708494794; x=1709099594; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1708495914; x=1709100714; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=7oLdmw7yJp/G7d6boWdv4H/Pf9LYOiQe2zk/LSJDUI8=;
-        b=IT6JvSdNCwcZAfI+8MjEdor+TwsOEs922ni9DXK4SEN+f829aVKgIyDUIYTt//uisQ
-         Ur4FxgwwEqgUTVH/hRbTClirQe1wfqBeKuz3mQW4zg1EnGRbglWgoGeSfPLp7r9I5jMK
-         BOf/b/d/SgYuvvHQlKmkS1IS+hSBamaBP1NlpgTcKXBIMbmcQfoVgfF7NbnCCT+UocUg
-         3xpgjmdb0VBRyryRZ/srLE4vS7Z9PQ83JeIZZzPQfUj5W91kgzuc+ULA+6tV/vX/lATr
-         mz5rYE/7hqlvvH3Q6Fzx23iJoTijLUPTjqRR8qqeJGzvjZjMGmsb/zmCwh03FTp1oWzt
-         ipTA==
+        bh=fL2zwEDwboBOluBoCe5ERhhpUpWk0xO78/TTkM69qsU=;
+        b=CtRFan0dWFzw1pMWENlINN+tL1xfmysECVf58RaUKstmpRTGaQB4n0cCf4dGVVXwZn
+         ZrtorrKUTw2F52sxG/tniO0DyJ1ReN5pkfViKetQNfyaevu2PHAaUNCkCDF+5fwaWII8
+         F9rzLT9/3a9XJ8OEm+ntiyYDiTYKKqea8c9LRPUU+8cb+iD0NG4nZgUtRC4u6KzaytyN
+         woxNnPz0pmW1Z7WViMf44dgo8Cg3ix8E1b0QAmqhQyrCktHfjMSHrx4PT0qmjUWwmEJS
+         t0VO22yuGVyv3D1/EGnGTMGCe6ObeTjPudEH7hyY1hvN9B3okZOIkMuRUPPxp53jjCrz
+         FMyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708494794; x=1709099594;
+        d=1e100.net; s=20230601; t=1708495914; x=1709100714;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7oLdmw7yJp/G7d6boWdv4H/Pf9LYOiQe2zk/LSJDUI8=;
-        b=rkaQLR7U/Igs7+oyHHtqmhO1O4yGCZrQMFIJW4lMTXSrQzs6vmq91PWmu6kT8mJHZ6
-         +vtEhJMdOUjJwUDyoi3BkIZpTc9Am589LTXolru2rPZHCDPI3Lv2WsKbYXGk/GMyuSvz
-         Rbj0CUUbVzHmD5L6KKlaTqVubHFw7h5e/jzcW4cPVPDv0mUGi/EGCESTQB7m/O03Gv+0
-         n1uDM2L7fVNJwl97WWL+NKTxdKJz2KnxyVStiHECMz/wfa0gt/KGmBD7W3/CGHt7dorV
-         JE5cF9jB9ptzrMRome4MI9v9sR0haQ3xOa40STo2+6eDri4OwU8Q9rHpy1QiJRFkoiuR
-         AD9Q==
-X-Gm-Message-State: AOJu0Yx1VsoIiMBtAsXFnCVV9I8Lm9niSThxOMKRQTYdRFS3xLXX5JOE
-	jPFwF5mq7NvPnStb8FlMhxBz4tpNJWdCAKFL6MzGtgN2e06IPSUmDiwd6njpog==
-X-Google-Smtp-Source: AGHT+IF243omxbLHF6WsbFCoQ9WU8t84wuLHWYp+nKkFV1c1FGBcwW3iFQfcLEwQtRXhgdOkDJf8Ag==
-X-Received: by 2002:a17:902:ce85:b0:1db:d120:5cda with SMTP id f5-20020a170902ce8500b001dbd1205cdamr11644030plg.11.1708494794091;
-        Tue, 20 Feb 2024 21:53:14 -0800 (PST)
+        bh=fL2zwEDwboBOluBoCe5ERhhpUpWk0xO78/TTkM69qsU=;
+        b=EOGFA+rwOdH4kk6TxHPvBWA0dPfGyrJqQ1KEVrzXpOEFta8QvglRegrdwrWMFvW52Y
+         9KyXkXljRW3dRo4NFHqCLMx9FNiKd/i+vxS5pUSQY0HKZqrFnxTfe1fFIjjQZ9Y2QLPL
+         AuUcifVyqxtJHYNUcHbTU1KjhC6A/TYd2O7DzvjB0AL+0e3ZhneDIohn3AM0maJzd7lp
+         oXxDJmCGZkpZBSlfykOtcjg4hbuHAOimhsfgwjf1lg1UVQniQJoCYYguv20QVczTiTHA
+         iT82Xx/V1aW1LwVh0oNIy24flcZazO2Ih8tZ9qc/UtYSnYK5L13VRoFs19b8koweScCZ
+         kD2w==
+X-Forwarded-Encrypted: i=1; AJvYcCV8I/qAhZ6mJ2wZcZ60Y1cg5PHm6cn1tZ+U54uxpznKdtDkcpVJ1gk9ZTKHoTnYKCbKUdp1OIQWIEzCwH/tP3cAJvwh
+X-Gm-Message-State: AOJu0Yw2vHz0Q2ms1+/1RIIuJZY0s+T0SDJ/H+zOq5Kye2ixODg/gwwE
+	pcBP5WfIqfX0dXuNqOkv77wmsvPgN8dHIr0Fe2gS3tXvrcGihfOAWdHrV8vfDQ==
+X-Google-Smtp-Source: AGHT+IEXMreBXKcUfZWk6J8tb7zlxvS17xKsDFwi7Dxrk9YaZ/GcMzlIx9Pg4VQIy7bL/eGMHKNC3g==
+X-Received: by 2002:a05:6870:ac1f:b0:21e:7ad8:dce8 with SMTP id kw31-20020a056870ac1f00b0021e7ad8dce8mr13146574oab.23.1708495913799;
+        Tue, 20 Feb 2024 22:11:53 -0800 (PST)
 Received: from thinkpad ([117.207.28.224])
-        by smtp.gmail.com with ESMTPSA id d10-20020a170903208a00b001d8be6d1ec4sm7225867plc.39.2024.02.20.21.53.12
+        by smtp.gmail.com with ESMTPSA id g2-20020a636b02000000b005dc87f5dfcfsm7555975pgc.78.2024.02.20.22.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 21:53:13 -0800 (PST)
-Date: Wed, 21 Feb 2024 11:23:08 +0530
+        Tue, 20 Feb 2024 22:11:53 -0800 (PST)
+Date: Wed, 21 Feb 2024 11:41:46 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "bus: mhi: core: Add support for reading MHI info
- from device"
-Message-ID: <20240221055308.GE11693@thinkpad>
-References: <20240219180748.1591527-1-quic_jhugo@quicinc.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com
+Subject: Re: [PATCH] bus: mhi: host: Change the trace string for the
+ userspace tools mapping
+Message-ID: <20240221061146.GF11693@thinkpad>
+References: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -69,128 +73,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240219180748.1591527-1-quic_jhugo@quicinc.com>
+In-Reply-To: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
 
-On Mon, Feb 19, 2024 at 11:07:48AM -0700, Jeffrey Hugo wrote:
-> This reverts commit 3316ab2b45f6bf4797d8d65b22fda3cc13318890.
+On Sun, Feb 18, 2024 at 02:13:39PM +0530, Krishna chaitanya chundru wrote:
+> User space tools can't map strings if we use directly, as the string
+> address is internal to kernel.
 > 
-> The MHI spec owner pointed out that the SOC_HW_VERSION register is part
-> of the BHIe segment, and only valid on devices which implement BHIe.
-> Only a small subset of MHI devices implement BHIe so blindly accessing
-> the register for all devices is not correct. Also, since the BHIe
-> segment offset is not used when accessing the register, any
-> implementation which moves the BHIe segment will result in accessing
-> some other register.  We've seen that accessing this register on AIC100
-> which does not support BHIe can result in initialization failures.
+> So add trace point strings for the user space tools to map strings
+> properly.
 > 
-> We could try to put checks into the code to address these issues, but in
-> the roughly 4 years this functionality has existed, no one has used it.
-> Easier to drop this dead code and address the issues if anyone comes up
-> with a real world use for it.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 
-Applied to mhi-next!
+Reported-by: Steven Rostedt <rostedt@goodmis.org>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 - Mani
 
 > ---
->  drivers/bus/mhi/host/init.c     | 12 ------------
->  drivers/bus/mhi/host/internal.h |  6 ------
->  include/linux/mhi.h             | 17 -----------------
->  3 files changed, 35 deletions(-)
+>  drivers/bus/mhi/host/main.c  | 4 ++--
+>  drivers/bus/mhi/host/trace.h | 2 ++
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 944da46e6f11..44f934981de8 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -914,7 +914,6 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
->  	struct mhi_chan *mhi_chan;
->  	struct mhi_cmd *mhi_cmd;
->  	struct mhi_device *mhi_dev;
-> -	u32 soc_info;
->  	int ret, i;
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 2d38f6005da6..15d657af9b5b 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -1340,7 +1340,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
+>  	enum mhi_cmd_type cmd = MHI_CMD_NOP;
+>  	int ret;
 >  
->  	if (!mhi_cntrl || !mhi_cntrl->cntrl_dev || !mhi_cntrl->regs ||
-> @@ -989,17 +988,6 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
->  		mhi_cntrl->unmap_single = mhi_unmap_single_no_bb;
+> -	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, "Updating");
+> +	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, TPS("Updating"));
+>  	switch (to_state) {
+>  	case MHI_CH_STATE_TYPE_RESET:
+>  		write_lock_irq(&mhi_chan->lock);
+> @@ -1407,7 +1407,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
+>  		write_unlock_irq(&mhi_chan->lock);
 >  	}
 >  
-> -	/* Read the MHI device info */
-> -	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs,
-> -			   SOC_HW_VERSION_OFFS, &soc_info);
-> -	if (ret)
-> -		goto err_destroy_wq;
-> -
-> -	mhi_cntrl->family_number = FIELD_GET(SOC_HW_VERSION_FAM_NUM_BMSK, soc_info);
-> -	mhi_cntrl->device_number = FIELD_GET(SOC_HW_VERSION_DEV_NUM_BMSK, soc_info);
-> -	mhi_cntrl->major_version = FIELD_GET(SOC_HW_VERSION_MAJOR_VER_BMSK, soc_info);
-> -	mhi_cntrl->minor_version = FIELD_GET(SOC_HW_VERSION_MINOR_VER_BMSK, soc_info);
-> -
->  	mhi_cntrl->index = ida_alloc(&mhi_controller_ida, GFP_KERNEL);
->  	if (mhi_cntrl->index < 0) {
->  		ret = mhi_cntrl->index;
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index 091244cf17c6..5fe49311b8eb 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -15,12 +15,6 @@ extern struct bus_type mhi_bus_type;
->  #define MHI_SOC_RESET_REQ_OFFSET			0xb0
->  #define MHI_SOC_RESET_REQ				BIT(0)
+> -	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, "Updated");
+> +	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, TPS("Updated"));
+>  exit_channel_update:
+>  	mhi_cntrl->runtime_put(mhi_cntrl);
+>  	mhi_device_put(mhi_cntrl->mhi_dev);
+> diff --git a/drivers/bus/mhi/host/trace.h b/drivers/bus/mhi/host/trace.h
+> index d12a98d44272..368515dcb22d 100644
+> --- a/drivers/bus/mhi/host/trace.h
+> +++ b/drivers/bus/mhi/host/trace.h
+> @@ -84,6 +84,8 @@ DEV_ST_TRANSITION_LIST
+>  #define dev_st_trans(a, b)		{ DEV_ST_TRANSITION_##a, b },
+>  #define dev_st_trans_end(a, b)		{ DEV_ST_TRANSITION_##a, b }
 >  
-> -#define SOC_HW_VERSION_OFFS				0x224
-> -#define SOC_HW_VERSION_FAM_NUM_BMSK			GENMASK(31, 28)
-> -#define SOC_HW_VERSION_DEV_NUM_BMSK			GENMASK(27, 16)
-> -#define SOC_HW_VERSION_MAJOR_VER_BMSK			GENMASK(15, 8)
-> -#define SOC_HW_VERSION_MINOR_VER_BMSK			GENMASK(7, 0)
-> -
->  struct mhi_ctxt {
->  	struct mhi_event_ctxt *er_ctxt;
->  	struct mhi_chan_ctxt *chan_ctxt;
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index 474d32cb0520..77b8c0a26674 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -320,10 +320,6 @@ struct mhi_controller_config {
->   * @hw_ev_rings: Number of hardware event rings
->   * @sw_ev_rings: Number of software event rings
->   * @nr_irqs: Number of IRQ allocated by bus master (required)
-> - * @family_number: MHI controller family number
-> - * @device_number: MHI controller device number
-> - * @major_version: MHI controller major revision number
-> - * @minor_version: MHI controller minor revision number
->   * @serial_number: MHI controller serial number obtained from BHI
->   * @mhi_event: MHI event ring configurations table
->   * @mhi_cmd: MHI command ring configurations table
-> @@ -368,15 +364,6 @@ struct mhi_controller_config {
->   * Fields marked as (required) need to be populated by the controller driver
->   * before calling mhi_register_controller(). For the fields marked as (optional)
->   * they can be populated depending on the usecase.
-> - *
-> - * The following fields are present for the purpose of implementing any device
-> - * specific quirks or customizations for specific MHI revisions used in device
-> - * by the controller drivers. The MHI stack will just populate these fields
-> - * during mhi_register_controller():
-> - *  family_number
-> - *  device_number
-> - *  major_version
-> - *  minor_version
->   */
->  struct mhi_controller {
->  	struct device *cntrl_dev;
-> @@ -407,10 +394,6 @@ struct mhi_controller {
->  	u32 hw_ev_rings;
->  	u32 sw_ev_rings;
->  	u32 nr_irqs;
-> -	u32 family_number;
-> -	u32 device_number;
-> -	u32 major_version;
-> -	u32 minor_version;
->  	u32 serial_number;
+> +#define TPS(x)	tracepoint_string(x)
+> +
+>  TRACE_EVENT(mhi_gen_tre,
 >  
->  	struct mhi_event *mhi_event;
+>  	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+> 
+> ---
+> base-commit: ceeb64f41fe6a1eb9fc56d583983a81f8f3dd058
+> change-id: 20240218-ftrace_string-7677762aa63c
+> 
+> Best regards,
 > -- 
-> 2.34.1
+> Krishna chaitanya chundru <quic_krichai@quicinc.com>
 > 
 
 -- 
