@@ -1,58 +1,58 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9043A1C2
-	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 07:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD6B3A8C0
+	for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 07:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708499271; cv=none; b=RZ5YX/UHclDIJxqj2ushkif9mVBeaf5Eb0YTceiQeJgPbF+UlnPEzwoQTatBXfF2Fnqo4ISwivALw4y4KFYlQl/DKXoXaQriWPNJVQd+t9kdYmW5sjADgT0nyinAFrrdQGF6rJUU+44w8/QneE9LY9Kr3chH4493Xmkf2XD05nc=
+	t=1708499773; cv=none; b=nAVoQC8Ffwyd9AYZg84ThzwpsVtUWacwD0h0R2UT2VUAvmnZ7D76e+qWsYK6StuZVXVbhQStgqZOtZI1ulKARWY7bX5XeHJIaVknw7kKRnymvC1AEtANPJMpfRXlfU3MrFllUEgr8LCMjKZlieHLMNJxpCTupjV7cHukA5sV1fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708499271; c=relaxed/simple;
-	bh=iBt7GgaipAQNgxegnjfd9wvWH/HcjSlObaEGobdnf/Q=;
+	s=arc-20240116; t=1708499773; c=relaxed/simple;
+	bh=wkLAEBQr8OqY63bSzLHVJZpa0DZYKA/19CYDFKRQsv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gpt3WBYFNs3zlANLweXr+rfiiy9p/rwU0ZDyro7wE4l5V/wt847nUC4aF1eyvkdHWIFfYDPYdhWj+dj5GgZN1l29YkVqFvuji/Q/5Ggf8hnCsPcCBfsv+81azS5uBW1/ARu3+Hp4BsOeJ+IX/hKs0X2wsbu/CUAp7cOiCepe7hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dOti657g; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXDE/Kt47e79+iFbjprAYsA44y9osPSNAAvxLuYAaxJ30gok+bquo8qIzZyc85/chr615TytLsytXzJDAgTUHZKOIoGk3+1sgZrMwT6eQc0VVMgXZ35Jn/exhTaTHWbWQG5FCdkNvViYFii7gtjv1UvBHt2ZJCwxwXlpnwJXK/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nuYgDbxD; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dOti657g"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dc09556599so1986245ad.1
-        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 23:07:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nuYgDbxD"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d93edfa76dso39416095ad.1
+        for <mhi@lists.linux.dev>; Tue, 20 Feb 2024 23:16:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708499269; x=1709104069; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1708499771; x=1709104571; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=HN6S5OkRpzjfW/oUatP0Qz5x0+v3A5sIvi8QPWu6N9A=;
-        b=dOti657go15MIbAA2E9RJJTNCEDSO4zRicZfbavlT9q9bC61sZ2y1K2WYCWTAAvfYq
-         jb752qZatyJUYy737mqAtDxxxA5KjsCnRqFe3Cnhmbd6C5L9r1CJs5gStK72Fkg017qU
-         4mwGS49hzFhIYe28U7TTyK/POVva2u0MS0jaNzreQelkhErMX/cD76QUmWmb3Y8DKxjo
-         K+ssZuDTBTxTG6mXmrNif2Es8intAjJedeyCGGA2KBg/+DLQ8LDH7gKArMCy8fw/Db+t
-         rlm9M/Z3fplFnn76A/RoaXOPF4/45GbjRXX6zudvs2tYaetToKxyD4zO7+18wsghakAk
-         MfIg==
+        bh=YVkY57PGrXF7HDeyEq0gu14Rt9F9yCgxKA8JQPS+gCQ=;
+        b=nuYgDbxDcZaEuqIC2r0tBTdm0IKjA0Bn/BeCX/HLwGCAPm8RgfjNHd/JjZe40ri2kL
+         SUrdwgW+YGAVjz707mWhp7Hy5ki5POALFt/XooD/N2a7rcPQfSVUaYuzzr58EVwrcE2V
+         NFOIMGQoEocezLLhFfp7k67lpq8XI8q8QdY8oN08YSReVLA1W0hOO/PayZt5UdlfW1ko
+         gR8iwxhb8hHmgvczRoEiTgatwQsonYUCIwYf1Iog7pKXhE27/8XadPCtmoOV+hY+ERGb
+         MKUgS9kp5zZtO8WJlpgIX+Dj/o58b0JquOhEYeg6/IQI2aWTWiMhbp+HP2etYTrETEPm
+         k6ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708499269; x=1709104069;
+        d=1e100.net; s=20230601; t=1708499771; x=1709104571;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HN6S5OkRpzjfW/oUatP0Qz5x0+v3A5sIvi8QPWu6N9A=;
-        b=Y4g6DT8FaxF4khPxFERaFUhx4ZM2+/kQYOmnVWCkckLqMYutV2CR8bpD7BtZtqo4Pg
-         seZsAQoRqoM9SX8rgqTxChnrtHJObCn9UfsAAw6iETSns0A8mk8lQgBpdOYovZKQxaqQ
-         oWiqnMTWQzkWV8J3/LQTAt5YrR46+ur626R0fJSnPSgwA7XkOeCBpScLuV9KYTPEEg0t
-         X2o07E8F0q0n4UZLSajFvCCTH9D6jW6AEJO5hvfJAsBblaGBO8GP06K59/GNS+h3X1Ey
-         FL0on5CScqc404U66cXRgvcKrSQNJMWzUQRc5QtpAyXNYNhPMhySqGtc7dKFWqTAZ+iT
-         Ol5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWtKIGNxkpt4nk9RBzXWx2jJNczwxcQIEZ+j4Y1O8BHweJ1h4Oh76Dmu3ru37hcFuvs4Peo4h5ULt06dHnKCaZq02YY
-X-Gm-Message-State: AOJu0YwgiU6Ws0ebUUehaQtTTkU23nPoMwDoSQerSJM2jfBEXXAD4YXR
-	juJuaYMiGH/XvaCZO/BThK9nIaOM5XYrle62i1O0zy8JG9YRBlEQLLc5Y1pg7A==
-X-Google-Smtp-Source: AGHT+IGw2tun5cH6q5fUCAvKCYRBsgdMhG+kJkVxK0Ihl/pZe6XSEZfaTek3RQXFn856xz5XBxgK8A==
-X-Received: by 2002:a17:903:1106:b0:1d9:e18b:d916 with SMTP id n6-20020a170903110600b001d9e18bd916mr24917776plh.28.1708499268670;
-        Tue, 20 Feb 2024 23:07:48 -0800 (PST)
+        bh=YVkY57PGrXF7HDeyEq0gu14Rt9F9yCgxKA8JQPS+gCQ=;
+        b=wj6vafNKmYd/A/KYR+s9F5pg8BKgHRgNlibTyv2svo+cPGdzvDrAsS1xwHMA0zbz2D
+         oXnJN1F/MlWHptiB6HZJXeIuu8SZIIjpQGKQATNQz0qgfwmPzyVKhYnGfbV9qOZEDm5q
+         udwI5Z2zJ824ekYuIQQM0u+bhIL3Pdqaix1aMdZjKdEvvumNtHK9C8HPlWMp0XVtVjQ4
+         rVvVT5ErSJdpPlk0j9EJEY3Q2crMh+6ATQnsm55bDlnyQFLMG0I5QgjaG3XHQEceJozk
+         fI6XXlCFFtIaDz1Qmuh9Th/G9H0/vuzFnn99Fx9+38nD+O1wRgMY33UtsZDQdplE97Gj
+         Ux0A==
+X-Forwarded-Encrypted: i=1; AJvYcCXU1d0WhoUtKJHCM2vdqIxY2VXykQmZ5l/p3PRAw+qe1LsYx/qgJyDmB5P1m7ON9i35SjtnuUHVHPQEW1s9yk8sIyDE
+X-Gm-Message-State: AOJu0YzaLuqbKfCN7tQ863Y8Przn83qay4DjLVOInhh2Ub3Y9Acs9BoW
+	jHwH8j7Eo+Ry6I2PkVX8Odnqse5xBtjATbl8yBXbfBhiZOwmCIF9ZZoTJkWfuQ==
+X-Google-Smtp-Source: AGHT+IFJseXOB8SzQJOx52KJSNABZWO93XSLQ3J8TgYtz3c9BhFtZivo9ic5RjdmOMgrSHlSH6V6vQ==
+X-Received: by 2002:a17:902:d4c3:b0:1dc:10a5:8be7 with SMTP id o3-20020a170902d4c300b001dc10a58be7mr6016047plg.50.1708499771002;
+        Tue, 20 Feb 2024 23:16:11 -0800 (PST)
 Received: from thinkpad ([117.207.28.224])
-        by smtp.gmail.com with ESMTPSA id jd20-20020a170903261400b001d94a3f3987sm7335617plb.184.2024.02.20.23.07.46
+        by smtp.gmail.com with ESMTPSA id kn14-20020a170903078e00b001d9a91af8a4sm7379488plb.28.2024.02.20.23.16.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 23:07:48 -0800 (PST)
-Date: Wed, 21 Feb 2024 12:37:42 +0530
+        Tue, 20 Feb 2024 23:16:10 -0800 (PST)
+Date: Wed, 21 Feb 2024 12:46:04 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Alex Elder <elder@linaro.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
@@ -61,7 +61,7 @@ Cc: Alex Elder <elder@linaro.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
 	kernel-janitors@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: ep: check the correct variable in
  mhi_ep_register_controller()
-Message-ID: <20240221070742.GG11693@thinkpad>
+Message-ID: <20240221071604.GH11693@thinkpad>
 References: <bebcd822-d465-45da-adae-5435ec93e6d4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -81,7 +81,7 @@ On Wed, Feb 21, 2024 at 09:20:19AM +0300, Dan Carpenter wrote:
 > Fixes: 62210a26cd4f ("bus: mhi: ep: Use slab allocator where applicable")
 > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
