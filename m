@@ -1,69 +1,69 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA38BFC16
-	for <mhi@lists.linux.dev>; Thu, 22 Feb 2024 05:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4AB101F1
+	for <mhi@lists.linux.dev>; Thu, 22 Feb 2024 05:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708578992; cv=none; b=phY4lmZAaJg+MW+QKcTPJQp1Ye2xkBsUrwFVRwsLdyzj3Yyy/Y3BVmT+KU63YSSohaC1y67KNbXybMFGg0eP2hOOTm0UDAOv/xcwlhA14BhWUrfDJeVA53JnMAm375ZtB7SCNhaIx7kbO5QUzaZaIKegJQtn9A/vnVBeKDUwiZA=
+	t=1708580868; cv=none; b=jz5ALWhH+gMud+Ob/MfwG7dAnBENtqAYrI1DVpdFdrQbl5eQ4IyyqL/M8+X4VVWtszKXBPKnwoNiNkhftN1vMWHCiOYinINhSI+9831fg8DRjpNyLSTWB9ZA9Xt4h5Amx8Sq3L7y29fda7wAZIUDVwwdC3gNwk8+uYeiYVuzilg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708578992; c=relaxed/simple;
-	bh=EYqco1GKfph2qvviCl2qwp3U+UCjcwLr0vJ5cMoQcXI=;
+	s=arc-20240116; t=1708580868; c=relaxed/simple;
+	bh=qdDEQ/odklpLTC89u2grpARtU2NkpDJ3xSWe0VUu6UY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Onc0+1A4eL9MhGTHgNOrfm3/CGmBc9FezhuNklm/vbG12mVcwrJSWRLzSl6/5UjKX2yPntJfChKC0JjBphVkGIiTHhwVhfWxWHGglohS+XUT+k4bFODjnxPHdbFZrynL8l2ThZQ8jSTk7a8Hhwg2kCWlx6HIA4VhY202gAj9Sss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n3uECpF2; arc=none smtp.client-ip=209.85.215.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=onLqLip6m0nNNN2Yeraq2N7FJblFzxvBKHks/8i4EwcEROmxWkEyH0+x6V4u0mbU4zOomCLv0X6AmfTxa38rtVp35NHCUafseo3+UVst+HSyZ7RLE9xY438KL4uTfBCc9Ttiw6reeRUQcl/8vDJlImwEb3ob/+FMQr8gofpAxtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yxRqmamv; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n3uECpF2"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5ce2aada130so6572642a12.1
-        for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 21:16:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yxRqmamv"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6e08dd0fa0bso468481b3a.1
+        for <mhi@lists.linux.dev>; Wed, 21 Feb 2024 21:47:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708578990; x=1709183790; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1708580866; x=1709185666; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=duIZxpvn6RingjjUFfVcxJVtZ2NkUSkNaC91pQVkegY=;
-        b=n3uECpF2jhI1HIL2WCzmcJhsU1A/hpZIgmsR+cG2CHrRnCyZzB/RAri/NWZGrXP/Uq
-         Mk/nUyqY1OFiLl/A7bTMoMAOlwOjo1f5K8e87xKU1bzLMthNXPe4WjH+8WSU016tXHcI
-         +zdZNOIm1ly3Z26odUHEtVme4Lk10J4q4p+c9CxPIGjVnWYSPnbDB2Z10MMDFKpL4Nn2
-         LZb5lumCb/sT2VseZEiawLjTILOVk3xLQ6qn9SEZBX+7Q78VatI6wYFmj4f/Hpc/luiO
-         x0xrLrHwmCFveYs9KJL4pwXLcVa4jWTiQXuFdyuTm6QS70iomUAZtChdL++W1IylpRyn
-         GH/g==
+        bh=wSWmeGU/PHEWXrJBkyrdMCv0vQ2HmKobzP0FHV/IZQY=;
+        b=yxRqmamvsTplUkOGhjdecqLwgx0VTAr8oDPDjynSLvq2/konR5oP7FvKdriJ+I/kUv
+         2vL2oZ1ybjMf/Li8iTDXmNvtXRdZEXamoQbdjK6lOvAbVq8DgMbK3ExoHVUPzff3BaDq
+         TYCCMSv9WxDypHdthPIMEg29rvvBGo33gElXJIa45nXjZE87nQudUnWh8TdHL7kBV5Tb
+         0aCPL6YEWy0eA04tZAwKltZUDq3dTC7rg1NE8HImek65RvWSZwiDveZXG7jwKsOLcaE+
+         fdJBSmjn8If+hE3jsIWdp3xQZ4I40YqW0zLXgJvZ2t0aaZhtuo/5vEjuAqic87TK/yfl
+         vOTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708578990; x=1709183790;
+        d=1e100.net; s=20230601; t=1708580866; x=1709185666;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=duIZxpvn6RingjjUFfVcxJVtZ2NkUSkNaC91pQVkegY=;
-        b=dgc0Mr8aQPOeSDVITG4ZzK7t+qFT6WLbhZpo9NEoHBR/HCH1Oxzags0+WdeWzq4ixg
-         N1NiMxTE99jM2v+Ci5jHRHa2HDroWYpe+Bu830Gus+smNHTbOYyH/SYZNUeyZaZsYiQC
-         D0H0Cgbm0H5FMMpFpqo+lT+hbOFhvcWUNEkJW0rg811IJkMMfggrMEcBm5RM3S+AFbP0
-         JeFQpnPy4RhiYtlSE6A8j4Rie+0OSofqHNDhM/iv5u56egvjDeR9eUibDi5jo+MTK9Ca
-         tseRJy7qUHv8LqWO3qWVwolsuAg9XnRGWJ+n2dl4DYzM4uYzAF8S1JsX/hgkRZwxfunq
-         2StA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdWMwtlEamKKL56vW59lHWcdDXAwBP2QqdzQ+guvOa4tGq9bbr2Mqsup6pCRjS77Czd4kMLV/Libk9Xz8eMiZVzBaZ
-X-Gm-Message-State: AOJu0YwjjcbHDye//04kUjSsFxj7ps1ePfDbbxKDI1cD8AsOTnawwiPc
-	L6/5OgU5MCGC/o9pLeLVGK324HbOF+4FEtg1RwZpa4RAz9PTydrlysoNeMh2bA==
-X-Google-Smtp-Source: AGHT+IF1BbQ0EnZKJMj1ATUyc9q4gcsnLCvpFzHDOMbytY3INdyz3p1P9lC6mFjFGyQVSpe1j4yvSg==
-X-Received: by 2002:a05:6a21:1693:b0:19e:b6e0:8d26 with SMTP id np19-20020a056a21169300b0019eb6e08d26mr19510388pzb.15.1708578990015;
-        Wed, 21 Feb 2024 21:16:30 -0800 (PST)
+        bh=wSWmeGU/PHEWXrJBkyrdMCv0vQ2HmKobzP0FHV/IZQY=;
+        b=LI1U6EYW81ZHiuk5dp8i+noEvfsrQZj5RBia5oQVuCS8N9K+zdt2I4fn8JCIBQM28O
+         it10FYHI444ckgxLEMmbZYqevgPCLX90rJiZIiuTtFGBcYbe7cZK+5+vxIWgnngs6EK0
+         l9wPOH54m1/V/yV4dVdNDEXmC1qKaQ7KKeUJxvF0Qz2nDGeqUDJqLT0IZv5mv4l/1lZ7
+         BpVVcoL5vL0q+h5MISn06j7s6LsU/1XtRKwx6oQMZLJVpVmp4DghHJOfD6t3anUbmOkb
+         JuClr7+iTq436Jn4rtRNq/eJjIzmCKcbI7QuoeniCrx+gqquruSs85xjvvWkA5XW3vUw
+         He1A==
+X-Forwarded-Encrypted: i=1; AJvYcCU+bm8K9BtA+RP+3y3S4ew4EPuksIu6xqpXcJqnFqi4n7iPOG9RypsM9EDaGijM+WCG49PoixJM/pl4uuJJrFAuTA0l
+X-Gm-Message-State: AOJu0YzNa8XxdPtBM4GkUwZ0va7LsjUlUNJ7zmRXlciLdbyf7+hi2eiz
+	kyVc+w5253LAjhtCspG+eifHzYHSsYUxMOHobyXsyD++RUGyOrmkmBmCyHXmqA==
+X-Google-Smtp-Source: AGHT+IHcAZ7rWFCCCCrNCo/vjZ7VNYn7nL2POZRFMS+2IBVvi+pUx8xK0KHdEmv6esp16oSwmLVbuA==
+X-Received: by 2002:a05:6a00:2d0f:b0:6e0:4a19:8da6 with SMTP id fa15-20020a056a002d0f00b006e04a198da6mr2882834pfb.3.1708580866081;
+        Wed, 21 Feb 2024 21:47:46 -0800 (PST)
 Received: from thinkpad ([117.193.212.166])
-        by smtp.gmail.com with ESMTPSA id p11-20020a170902bd0b00b001dc35e04b02sm1933206pls.32.2024.02.21.21.16.25
+        by smtp.gmail.com with ESMTPSA id fn16-20020a056a002fd000b006e3dfb2ef4esm8623980pfb.95.2024.02.21.21.47.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 21:16:29 -0800 (PST)
-Date: Thu, 22 Feb 2024 10:46:21 +0530
+        Wed, 21 Feb 2024 21:47:45 -0800 (PST)
+Date: Thu, 22 Feb 2024 11:17:39 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
-	quic_skananth@quicinc.com, quic_parass@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: Change the trace string for the
- userspace tools mapping
-Message-ID: <20240222051621.GD3374@thinkpad>
-References: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Kalle Valo <kvalo@kernel.org>,
+	Linux Wireless <linux-wireless@vger.kernel.org>,
+	ath11k@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Subject: Re: ath11k allocation failure on resume breaking wifi until power
+ cycle
+Message-ID: <20240222054739.GG3374@thinkpad>
+References: <96481a45-3547-4d23-ad34-3a8f1d90c1cd@suse.cz>
+ <0994ae16-8174-4a04-b454-1974b16bc106@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -73,70 +73,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240218-ftrace_string-v1-1-27da85c1f844@quicinc.com>
+In-Reply-To: <0994ae16-8174-4a04-b454-1974b16bc106@quicinc.com>
 
-On Sun, Feb 18, 2024 at 02:13:39PM +0530, Krishna chaitanya chundru wrote:
-> User space tools can't map strings if we use directly, as the string
-> address is internal to kernel.
-> 
-> So add trace point strings for the user space tools to map strings
-> properly.
-> 
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+On Wed, Feb 21, 2024 at 08:34:23AM -0800, Jeff Johnson wrote:
+> On 2/21/2024 6:39 AM, Vlastimil Babka wrote:
+> > Hi,
+> > 
+> > starting with 6.8 rc series, I'm experiencing problems on resume from s2idle
+> > on my laptop, which is Lenovo T14s Gen3:
+> > 
+> > LENOVO 21CRS0K63K/21CRS0K63K, BIOS R22ET65W (1.35 )
+> > ath11k_pci 0000:01:00.0: wcn6855 hw2.1
+> > ath11k_pci 0000:01:00.0: chip_id 0x12 chip_family 0xb board_id 0xff soc_id 0x400c1211
+> > ath11k_pci 0000:01:00.0: fw_version 0x1106196e fw_build_timestamp 2024-01-12 11:30 fw_build_id WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.37
+> > 
+> > The problem is an allocation failure happening on resume from s2idle. After
+> > that the wifi stops working and even a reboot won't fix it, only a
+> > poweroff/poweron cycle of the laptop.
+> > 
 
-Applied to mhi-next!
+Looks like WLAN is powered down during s2idle, which doesn't make sense. I hope
+Jeff will figure out what's going on.
+
+But if you can share the dmesg after enabling the debug prints of both ath11k
+and MHI, it will help a lot.
 
 - Mani
 
-> ---
->  drivers/bus/mhi/host/main.c  | 4 ++--
->  drivers/bus/mhi/host/trace.h | 2 ++
->  2 files changed, 4 insertions(+), 2 deletions(-)
+> > This is order 4 (costly order), GFP_NOIO (maybe it's originally GFP_KERNEL
+> > but we restrict to GFP_NOIO during resume) allocation, thus it's impossible
+> > to do memory compaction and the page allocator gives up. Such high-order
+> > allocations should have a fallback using smaller pages, or maybe it could at
+> > least retry once the restricted GFP_NOIO context is gone.
+> > 
+> > I don't know why it never happened before 6.8, didn't spot anything obvious
+> > and it happens too unreliably to go bisect. Any idea?
 > 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 2d38f6005da6..15d657af9b5b 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -1340,7 +1340,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  	enum mhi_cmd_type cmd = MHI_CMD_NOP;
->  	int ret;
->  
-> -	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, "Updating");
-> +	trace_mhi_channel_command_start(mhi_cntrl, mhi_chan, to_state, TPS("Updating"));
->  	switch (to_state) {
->  	case MHI_CH_STATE_TYPE_RESET:
->  		write_lock_irq(&mhi_chan->lock);
-> @@ -1407,7 +1407,7 @@ static int mhi_update_channel_state(struct mhi_controller *mhi_cntrl,
->  		write_unlock_irq(&mhi_chan->lock);
->  	}
->  
-> -	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, "Updated");
-> +	trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, TPS("Updated"));
->  exit_channel_update:
->  	mhi_cntrl->runtime_put(mhi_cntrl);
->  	mhi_device_put(mhi_cntrl->mhi_dev);
-> diff --git a/drivers/bus/mhi/host/trace.h b/drivers/bus/mhi/host/trace.h
-> index d12a98d44272..368515dcb22d 100644
-> --- a/drivers/bus/mhi/host/trace.h
-> +++ b/drivers/bus/mhi/host/trace.h
-> @@ -84,6 +84,8 @@ DEV_ST_TRANSITION_LIST
->  #define dev_st_trans(a, b)		{ DEV_ST_TRANSITION_##a, b },
->  #define dev_st_trans_end(a, b)		{ DEV_ST_TRANSITION_##a, b }
->  
-> +#define TPS(x)	tracepoint_string(x)
-> +
->  TRACE_EVENT(mhi_gen_tre,
->  
->  	TP_PROTO(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+> I've asked the development team to look at this, but in the interim can
+> you apply the two hibernation patchsets to see if those cleanups also
+> fix your problem:
 > 
-> ---
-> base-commit: ceeb64f41fe6a1eb9fc56d583983a81f8f3dd058
-> change-id: 20240218-ftrace_string-7677762aa63c
+> [PATCH 0/5] wifi: ath11k: prepare for hibernation support
+> https://lore.kernel.org/linux-wireless/20240221024725.10057-1-quic_bqiang@quicinc.com
 > 
-> Best regards,
-> -- 
-> Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> 
+> [PATCH 0/3] wifi: ath11k: hibernation support
+> https://lore.kernel.org/linux-wireless/20240221030026.10553-1-quic_bqiang@quicinc.com
 
 -- 
 மணிவண்ணன் சதாசிவம்
