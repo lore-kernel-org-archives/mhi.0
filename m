@@ -1,182 +1,97 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E44823D7
-	for <mhi@lists.linux.dev>; Fri, 23 Feb 2024 15:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365446E600;
+	Fri, 23 Feb 2024 15:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708702111; cv=none; b=tyiw1eeA1CRcM38qATPWGtYSC3+CgEjtFJeIyhUVho5lpy+cJLF8/FEqOT8L+JMs9UfZXGuiTAHGIdFLkxhBQKGlbqokM+bVO0yVIIATUVp1hui0m2UeSzKZ5997lE/kwV5OvrdRKcMnDwTvIhnFnOypWc+oYO4N9e/oRWGrvu8=
+	t=1708703202; cv=none; b=bXhDMWpubyJMVoF4wjT75AWKZzGu3ZwISgIE1U1uxpiX0KVk/rqPA/euxO1rXIwtiFcv/FmQ5WwdMVMzivqr5WIE5/OPUI3MmFGrLflNKNt5UNJrdtTXoL9IrhDszaIuWr3Pkvwd+7O8hl30TAe1Se3XqAAH8OX1mawQ9dZNN6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708702111; c=relaxed/simple;
-	bh=9hvVEuEX7/xy74xE2geevxGtJuW1beNH5JA1d/aaE1w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WJTS3+5bY97jFVzAb3b4w0X+bAPgDWeQnPLGHIuRy8u3YF/SyxfO5LpgJBmrMxDE9bPq3R0ZzbyzBGugd74h8kNmC56vY+Sq8DBi0socxx8nuV8Pj4POmud3+Re6/vRTlrOUqaQJV7HG311439mClQrcHokJ5I0Zs0vd1adxwUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BksMdMFr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L1IGN+0c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BksMdMFr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L1IGN+0c; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708703202; c=relaxed/simple;
+	bh=3K1YElhmGqBFBiWcDwhwhoj2GW63wMKrK52rUUQ+rtM=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ais88D4/D6ESPC/ARkp3VnTcRBfWdmm3bEjutozWYpNZQfGf+fqd45FLvcDfz3bJ9GmkxEW8ClqoiQT+Ozdoa9yOWioakgswptj4VnL/woKgeZ9g5Sd1updZ1o8P+diw/8+E7kNeynDUonx4+HlPelyI+eag2V5G6AQR24+JtjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uIirtlHU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BksMdMFr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L1IGN+0c";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BksMdMFr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L1IGN+0c"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CFFCD1FC0C;
-	Fri, 23 Feb 2024 15:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708702107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v36nd4PFmvY6FAwtTKo1vy8S4903safEpdw3P1sE3Ec=;
-	b=BksMdMFr9gcRTPKjaEHC8XeOgShZGz+yZWEYIWYAU9rIagxoEF8ASZAJILXbW++iMNuop0
-	h7gfrWrhNbuJMsSkRW0Ss8D73dUvu/RLVIKd8+V2oPfqibhjsaPYFrB/kYpUxN58bAa7lr
-	UisbuQRnmNnf3D/O94OaTSBth0DUlII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708702107;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v36nd4PFmvY6FAwtTKo1vy8S4903safEpdw3P1sE3Ec=;
-	b=L1IGN+0c4p0OUTU5vp0xP+7UubceuCK+19sE/B1Qd2apWi/r7jIdGubAWWvW0pL3yokX0k
-	ZQHyNCgNabXl2gDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708702107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v36nd4PFmvY6FAwtTKo1vy8S4903safEpdw3P1sE3Ec=;
-	b=BksMdMFr9gcRTPKjaEHC8XeOgShZGz+yZWEYIWYAU9rIagxoEF8ASZAJILXbW++iMNuop0
-	h7gfrWrhNbuJMsSkRW0Ss8D73dUvu/RLVIKd8+V2oPfqibhjsaPYFrB/kYpUxN58bAa7lr
-	UisbuQRnmNnf3D/O94OaTSBth0DUlII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708702107;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v36nd4PFmvY6FAwtTKo1vy8S4903safEpdw3P1sE3Ec=;
-	b=L1IGN+0c4p0OUTU5vp0xP+7UubceuCK+19sE/B1Qd2apWi/r7jIdGubAWWvW0pL3yokX0k
-	ZQHyNCgNabXl2gDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC93C132C7;
-	Fri, 23 Feb 2024 15:28:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D5qvLZu52GW6IgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 23 Feb 2024 15:28:27 +0000
-Message-ID: <38c36d16-9cc1-4f03-b758-4a3ba90f8aa4@suse.cz>
-Date: Fri, 23 Feb 2024 16:28:27 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uIirtlHU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B61CC433F1;
+	Fri, 23 Feb 2024 15:46:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708703201;
+	bh=3K1YElhmGqBFBiWcDwhwhoj2GW63wMKrK52rUUQ+rtM=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=uIirtlHUpC1FGughklquX9RfUKvNSJRmLfGw1z6KEj84g2kNdfMf0OHxDtvMYlRpc
+	 jpCHdbxXBGrv7CNMzN2Pic348dI8sAkJ6cvSJ+G353tThgHm/WNhaS914LXko7/3TG
+	 CtYyjFrH3MQN0YMDAs1xk/NR8jYopK86es26QS4ut9XvudOIUQcFfBbf2nbfgO4pav
+	 QEOyyt5BKwN0fn0mON21uiGer6nB4Kt54Vg1qv3eKHZpU1FsED3euVNchv4nbZs014
+	 dchJL+OVNuKY+58W/itQGCUXYuUMf3UoGk2ge41JIuP4vW5A102AdbStULbdkKbjxW
+	 U7S1sJP8HwoWg==
+Date: Fri, 23 Feb 2024 07:46:40 -0800
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sound@vger.kernel.org, mhi@lists.linux.dev,
+ nouveau@lists.freedesktop.org, ntfs3@lists.linux.dev,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: =?US-ASCII?Q?Re=3A_=5Blinux-next=3Amaster=5D_BUILD_REGRESSION?= =?US-ASCII?Q?_e31185ce00a96232308300008db193416ceb9769?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <202402231222.DVB9DC74-lkp@intel.com>
+References: <202402231222.DVB9DC74-lkp@intel.com>
+Message-ID: <3532AACB-176A-4C48-9855-CCD6C97FDE91@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ath11k allocation failure on resume breaking wifi until power
- cycle
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Kalle Valo <kvalo@kernel.org>,
- Linux Wireless <linux-wireless@vger.kernel.org>, ath11k@lists.infradead.org,
- LKML <linux-kernel@vger.kernel.org>, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org
-References: <96481a45-3547-4d23-ad34-3a8f1d90c1cd@suse.cz>
- <0994ae16-8174-4a04-b454-1974b16bc106@quicinc.com>
- <20240222054739.GG3374@thinkpad>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20240222054739.GG3374@thinkpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=BksMdMFr;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=L1IGN+0c
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CFFCD1FC0C
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2/22/24 06:47, Manivannan Sadhasivam wrote:
-> On Wed, Feb 21, 2024 at 08:34:23AM -0800, Jeff Johnson wrote:
->> On 2/21/2024 6:39 AM, Vlastimil Babka wrote:
->> > Hi,
->> > 
->> > starting with 6.8 rc series, I'm experiencing problems on resume from s2idle
->> > on my laptop, which is Lenovo T14s Gen3:
->> > 
->> > LENOVO 21CRS0K63K/21CRS0K63K, BIOS R22ET65W (1.35 )
->> > ath11k_pci 0000:01:00.0: wcn6855 hw2.1
->> > ath11k_pci 0000:01:00.0: chip_id 0x12 chip_family 0xb board_id 0xff soc_id 0x400c1211
->> > ath11k_pci 0000:01:00.0: fw_version 0x1106196e fw_build_timestamp 2024-01-12 11:30 fw_build_id WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.37
->> > 
->> > The problem is an allocation failure happening on resume from s2idle. After
->> > that the wifi stops working and even a reboot won't fix it, only a
->> > poweroff/poweron cycle of the laptop.
->> > 
-> 
-> Looks like WLAN is powered down during s2idle, which doesn't make sense. I hope
-> Jeff will figure out what's going on.
 
-You mean the firmware is supposed to power it down/up transparently without
-kernel involvement? Because it should be powered down to save the power, no?
 
-But I just found out that when I build my own kernel using the distro config
-as base but reduced by make localmodconfig, the "mhi mhi0: Requested to
-power ON" and related messages don't occur anymore, so there's something
-weird going on.
+On February 22, 2024 8:29:28 PM PST, kernel test robot <lkp@intel=2Ecom> w=
+rote:
+>tree/branch: https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/next/lin=
+ux-next=2Egit master
+>branch HEAD: e31185ce00a96232308300008db193416ceb9769  Add linux-next spe=
+cific files for 20240222
+>
+>Error/Warning reports:
+>
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222223=2Eh9rFmYj4-lkp@int=
+el=2Ecom
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402222314=2EJ6A7eb4B-lkp@int=
+el=2Ecom
+>https://lore=2Ekernel=2Eorg/oe-kbuild-all/202402230537=2E2s6Nhfsn-lkp@int=
+el=2Ecom
+>
+>Error/Warning: (recently discovered and may have been fixed)
+>
+>arch/arm/boot/compressed/misc=2Ec:157:6: warning: no previous prototype f=
+or function '__fortify_panic' [-Wmissing-prototypes]
+>arch/arm/boot/compressed/misc=2Eh:13:36: error: macro "fortify_panic" req=
+uires 2 arguments, but only 1 given
 
-> But if you can share the dmesg after enabling the debug prints of both ath11k
-> and MHI, it will help a lot.
-> 
-> - Mani
-> 
->> > This is order 4 (costly order), GFP_NOIO (maybe it's originally GFP_KERNEL
->> > but we restrict to GFP_NOIO during resume) allocation, thus it's impossible
->> > to do memory compaction and the page allocator gives up. Such high-order
->> > allocations should have a fallback using smaller pages, or maybe it could at
->> > least retry once the restricted GFP_NOIO context is gone.
->> > 
->> > I don't know why it never happened before 6.8, didn't spot anything obvious
->> > and it happens too unreliably to go bisect. Any idea?
->> 
->> I've asked the development team to look at this, but in the interim can
->> you apply the two hibernation patchsets to see if those cleanups also
->> fix your problem:
->> 
->> [PATCH 0/5] wifi: ath11k: prepare for hibernation support
->> https://lore.kernel.org/linux-wireless/20240221024725.10057-1-quic_bqiang@quicinc.com
->> 
->> [PATCH 0/3] wifi: ath11k: hibernation support
->> https://lore.kernel.org/linux-wireless/20240221030026.10553-1-quic_bqiang@quicinc.com
-> 
+This is fixed for the subsequent -next tree=2E
 
+>arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/decompress_unxz=
+=2Ec:350:(=2Etext+0x20b4): undefined reference to `__ubsan_handle_out_of_bo=
+unds'
+>sh4-linux-ld: arch/sh/boot/compressed/=2E=2E/=2E=2E/=2E=2E/=2E=2E/lib/xz/=
+xz_dec_lzma2=2Ec:751:(=2Etext+0x904): undefined reference to `__ubsan_handl=
+e_out_of_bounds'
+
+This is fixed here and is waiting to land:
+https://lore=2Ekernel=2Eorg/linux-hardening/20240130232717=2Ework=2E088-ke=
+es@kernel=2Eorg/
+
+-Kees
+
+--=20
+Kees Cook
