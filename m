@@ -1,108 +1,185 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E69A1DA37
-	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 11:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916E31CD08
+	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 12:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708948051; cv=none; b=cftufDipJ5cAGo7l3JurMgQK/PYpoT2pUbMj7pGWW825bC/K8AptyUH0otcPf5tGy91iTcf4G+cvWR1F2W+EV1Y1mlxZtC589exK7DtQpDpR9yK6+0ZiUhT5WCQO2kLlNFAubF1Jwk+95VbwZMz9EhwGKUivO7pnmD9nezPHBGU=
+	t=1708948993; cv=none; b=FNaCoHt/cb36pCaXJkqTTfEmYdvZXwiR+zTtPSGMwOb2Hv0yA7ooNs3PCDBeDU3L1jGhn+KVAL2Znsw4GTz6ruJyzL9UIkgbOL/+8JUew3Yws3H/LG8X/b00O2DLFs3F9j+riAZnr44g/i2/rNG3AhduHqewQ4GBGvSB7Oqj7LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708948051; c=relaxed/simple;
-	bh=xI/+JNTH1HBg6PbQe98nkhNmlv7el3dBU8j34qK8pO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u4YZcM9/GJ5JFEhX83y+rrPOMwMKZmofTThuUrIzZNB4L7FuQmNl74xXXAjDiTxApJOlCFscpkeKYjA5LQZGrPSqFcjXqfFuTx2yrOmvJJlnTRBmRKvn5Qz9/OwNe9c0N6rOQyqkK30kgmO5FSGul1yV8c4eZOwuWr3O1f56HA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NZaGtjQA; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708948993; c=relaxed/simple;
+	bh=vRIEb/+D7M4j/nHK9fDGfbH9sUW39k0q7B5ZbffZKjw=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a1cIt4kZBZUESxqwU2cWMaAGGpczENAsN1P6woVMZpsa8h+mbM/H0bnd5bvl+QpuDXgWRWJFPrpO7+Y6wv3/NdRFxjAm10Lj9c+39bX11AmaEd6H13lZqD1kq84U19t4VgsP84aSKcdZvxU/1ig43eQnvAZUyxLnp2qng0/uHL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kzG7Z1CL; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NZaGtjQA"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-787c0f5eaa2so124528585a.2
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 03:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708948048; x=1709552848; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QRqUlMYfT55I0mUOriv+WhNqbIIJL/CKuAFOjzZC4uk=;
-        b=NZaGtjQAADUYNNP7UwUHsQHEy7Tum8CE9wTXdbarIuJJzuZoyoViHXoYMOuVsNpeBw
-         YDrrgqKPwsfgQvDEdOe2UeWq4HDiSh0jROIPpuKLgKWKWjK4tg3nFhqbe0dJ27EupBIn
-         GY5YzD6YJL2Txz7GCZdFzp2efutS44NE6BVuH+D2lHUWDuLRJJ5TpLYXtJQiywpx+TaW
-         Vb5Y/wygDDQO3T3b10TRCBaxR3rSQH6YdlmYbiUXX6Uh7DJ1kFUkkOVI4JCVnbo53JyT
-         qjnIikAX8YpD6/nWo9lI6Vmxm5YMmwjDEKyaAQlC2pMrWvh7XmX4WcHIDRZn74P9ZbjV
-         U3PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708948048; x=1709552848;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QRqUlMYfT55I0mUOriv+WhNqbIIJL/CKuAFOjzZC4uk=;
-        b=uoGhSN/VeIIW+sS4HXaoTGHrKwAnlXV9ZQDMTd/IyBePIlX7JiVMVbAmjq0BBgIcyt
-         TIuMZUUZce0y3Bt592oFRb8xUmwuL7tNC4iYo4nhIxydB9C6i0uMDWe69zgWjHre0MxJ
-         tuGbUYoAr5tfs/FFg+l5cYIL5uScEPYC9H5FIbPg4qMRz1Z9gBMc/KJ/slHiKOnI0qPc
-         J6kpSIyYM+/M5ucuRKgwuZhklWauWDrhSpbxPQHjntkc2IdNcH1DPu79M6LQ9uvQGBwI
-         MWzDkP0Rd76Y5hocHxkqJFGFrKbLdszFqkeiDWX1eetIRAdBgPoC8of3WHeqVdP7Yrng
-         fVjQ==
-X-Gm-Message-State: AOJu0YzazZssgegg9CXfSKnaea4BqLGVonRVRPZ3wBMr2arz9Cj0qKYp
-	ZZ6jHf6AKWmUIv1lrE0hQgCusqNs345h21bqQ40ksd7lnZKqHfaVLKyPUH8pMQ==
-X-Google-Smtp-Source: AGHT+IHi3HYOP27dsAZYTozwNq3EVHMCKBPNrZ0oYnRIkB0H+YY5YnR3Yxm0XqH2Uh4PixfVEIMWgQ==
-X-Received: by 2002:a37:c209:0:b0:787:25e8:3391 with SMTP id i9-20020a37c209000000b0078725e83391mr7569722qkm.18.1708948048577;
-        Mon, 26 Feb 2024 03:47:28 -0800 (PST)
-Received: from thinkpad ([117.202.184.81])
-        by smtp.gmail.com with ESMTPSA id u23-20020a05620a121700b00787c6703539sm2033427qkj.90.2024.02.26.03.47.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 03:47:28 -0800 (PST)
-Date: Mon, 26 Feb 2024 17:17:23 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: constify
- modem_telit_fn980_hw_v1_config
-Message-ID: <20240226114723.GC8422@thinkpad>
-References: <20240222-mhi-const-bus-mhi-host-pci_generic-v1-1-d4c9b0b0a7a5@quicinc.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kzG7Z1CL"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2mR0099398;
+	Mon, 26 Feb 2024 06:02:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1708948968;
+	bh=+3AsQsaBHuAdklDpGOnvvIB16uuAzF8tgDh7ffFqkhY=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=kzG7Z1CL27dDBNkYo2tw7iZjIJPFaNvIU847qw0GQo0uVwMo1MBKX5cMH/pORS2V4
+	 H4t1PkdKa7j5T1kXRQH+nJFQc9l9KTioni/0nyQWp/DlrIYRmzNB0SPQ4CTbzy580C
+	 FV04F/xi3LJYmMN8WiwyuXf90xfPaRTq7klgspuE=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41QC2m0t104041
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 26 Feb 2024 06:02:48 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 26
+ Feb 2024 06:02:48 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 26 Feb 2024 06:02:48 -0600
+Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2lnH056462;
+	Mon, 26 Feb 2024 06:02:47 -0600
+Date: Mon, 26 Feb 2024 17:32:46 +0530
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel
+	<gustavo.pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring
+	<robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut
+	<marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Serge Semin <fancer.lancer@gmail.com>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <s-vadapalli@ti.com>
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <a3e4f9f9-e3c0-428c-913c-d777f3386556@ti.com>
+References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
+ <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240222-mhi-const-bus-mhi-host-pci_generic-v1-1-d4c9b0b0a7a5@quicinc.com>
+In-Reply-To: <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Thu, Feb 22, 2024 at 06:00:23PM -0800, Jeff Johnson wrote:
-> MHI expects the controller configs to be const, and all of the other ones
-> in this file already are, so constify modem_telit_fn980_hw_v1_config.
+On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
+> In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> dw_pcie_edma_find_chip() API by moving the common code to separate
+> functions.
 > 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> No functional change.
+> 
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Applied to mhi-next!
+Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
 
-- Mani
+Regards,
+Siddharth.
 
 > ---
->  drivers/bus/mhi/host/pci_generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
+>  1 file changed, 39 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index cd6cd14b3d29..51639bfcfec7 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -538,7 +538,7 @@ static struct mhi_event_config mhi_telit_fn980_hw_v1_events[] = {
->  	MHI_EVENT_CONFIG_HW_DATA(2, 2048, 101)
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 250cf7f40b85..193fcd86cf93 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+>  	.irq_vector = dw_pcie_edma_irq_vector,
 >  };
 >  
-> -static struct mhi_controller_config modem_telit_fn980_hw_v1_config = {
-> +static const struct mhi_controller_config modem_telit_fn980_hw_v1_config = {
->  	.max_channels = 128,
->  	.timeout_ms = 20000,
->  	.num_channels = ARRAY_SIZE(mhi_telit_fn980_hw_v1_channels),
+> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> +{
+> +	pci->edma.dev = pci->dev;
+> +
+> +	if (!pci->edma.ops)
+> +		pci->edma.ops = &dw_pcie_edma_ops;
+> +
+> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +}
+> +
+> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+>  {
+>  	u32 val;
+>  
+> @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	else
+>  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+>  
+> -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> -
+> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> -	} else if (val != 0xFFFFFFFF) {
+> -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> +	/* Set default mapping format here and update it below if needed */
+> +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+>  
+> +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+> +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> +	else if (val != 0xFFFFFFFF)
+>  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> -	} else {
+> +	else
+>  		return -ENODEV;
+> -	}
+>  
+> -	pci->edma.dev = pci->dev;
+> +	return 0;
+> +}
+>  
+> -	if (!pci->edma.ops)
+> -		pci->edma.ops = &dw_pcie_edma_ops;
+> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
+> +{
+> +	u32 val;
+>  
+> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+>  
+>  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
+>  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
+> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	return 0;
+>  }
+>  
+> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +{
+> +	int ret;
+> +
+> +	dw_pcie_edma_init_data(pci);
+> +
+> +	ret = dw_pcie_edma_find_mf(pci);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return dw_pcie_edma_find_channels(pci);
+> +}
+> +
+>  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+>  {
+>  	struct platform_device *pdev = to_platform_device(pci->dev);
 > 
-> ---
-> base-commit: 3ab6aff5793c3c7bdf6535d9b0024544a4abbdd5
-> change-id: 20240222-mhi-const-bus-mhi-host-pci_generic-5ddf8f13d35c
+> -- 
+> 2.25.1
 > 
-
--- 
-மணிவண்ணன் சதாசிவம்
+> 
