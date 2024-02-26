@@ -1,155 +1,168 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298CA24B21
-	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 09:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793C61DA2E
+	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 11:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708938702; cv=none; b=XAXHY/pRJp79rKncY4Ck4GA+LVWse/7ZCexcfilqQeSmjSTA9b8RYzKU4a0dXuMmwcd8vq6haGnYI9AvVPrGlvejs6+08O8eIxQywYErgdfOFql1F44bYx3gonRF5rledbw0AvCEMYPYLRTv9Ub18jP2u18lrdEJ6k/Rh86vlV8=
+	t=1708947472; cv=none; b=fpfvhQrYym2NK/19QS4Yvm+epSOCE7fjtyPdJ+ogx4KU/A+ffLHCL+kzwfMu2iRt/r0dztc4U2oAgf0ZtVDiI9w6qLuNO3z2y3YRDOKgCK9LMxac99A9otW1jtpRpOIbHlH4YeDXXTiwq3h1+cnxBS2bTKx5gOEFxV+YGAOBMLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708938702; c=relaxed/simple;
-	bh=x/ilEKn/8MMA6kW/i6VzzDdhwp4h6oo0eJYB82oMBig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mAufrrieTDeCK5OjAVUA1sWoFyiDdRq/ULLRcIdEEcEYMjgbZvUTSmYok3h3zBNxXC4D1qtRFVf/uVJ/lGQ+Oejtvjmv28QEmkg6w2dWb1r2qjR783xoKaXr+5fBQvZDESJaSJWuQSfGyY+GK/o9doYDeTKDYzlxWJsbOy1heO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QNmlGj/8; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1708947472; c=relaxed/simple;
+	bh=zN4H7AL9yEWwBMPFUse2kPeWuj9c3TyK31dCtLQBVwU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CfbNaKwbpNYePhRcwHBcHNFh/mE3aievO3gIclR/DEOQKSDUdx0GI/pRtGLpATlBV9f+4my1GPVVsnDfLxVYw1qOOU/vcPVX8BmN+X4qB419nQQXRCpZGzLxulptaCrjajY22I/XBZ0b/2qphudVhqMoe3m7RMWOUgitLkLWTIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vR07pMaW; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QNmlGj/8"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41Q8To2L001388;
-	Mon, 26 Feb 2024 09:11:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=yWtXZicRpAgfXVyVIenJ7IEvf1Z/owV8NiuVYwSM6g4=; b=QN
-	mlGj/8doloXJgW/zQh1eC5g2zK6uh6EiEGlBh/gHENrsUjdfKVC6TsZO5gpgcvwP
-	9J2Ptn7oKsAhez73cU34YzfXso5pevtTxLShOAoKAOr9Cn6qiVJbv/QpOl77UOWj
-	5uFvUIxMkrpitX80yKyk3hf3+qTwSMBV31gTCAi33an0d9Xu/wChpacoeO+Px6S9
-	qrj9VR03umaXEVT53gR7ME7yGM8miIpR6bQvFnIk7KPBBtveLmu122zL6tIzMk0v
-	0HfDIjRd/snNI4mNCPNgD2v9S8HCYqU7mGoVLkK5GL37ggY+DbICFBSXejo5q2kT
-	JZT8cR4KTarydC8RLlXQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wgkxngefp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 09:11:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41Q9BMxn015875
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 09:11:22 GMT
-Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 26 Feb
- 2024 01:11:20 -0800
-Message-ID: <34123ee0-26c9-4240-8d58-aba02f7c66b9@quicinc.com>
-Date: Mon, 26 Feb 2024 17:11:17 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vR07pMaW"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-787bc70dfc7so157057085a.2
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 03:37:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708947468; x=1709552268; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yOtDU75r2JA5nMqmgqSfs6LZtJBpRoh0ipLmkGMw850=;
+        b=vR07pMaWGADhPTSIy275Vt2THfTUySMhBwZoCPot0+GpFp5mN7K3U5jDmpPPVoasu9
+         sWaP2nlX/oQUcHXobdNX4c6NIQxoYHilpqDZLnfzrbeas7xFliRt+xUQe3+GbS+ZKO+j
+         /JDVRFaHOBAa0QQUdkQ8sCJvt14pYc0piSGKBugaE8uiO4MGeJiUUMDTum0jTcGpoU6k
+         4vsBAcXinD4nD2BumdZHNbqf1ywozIH8EIuhLwf617IumhaZPnPw4zHAYn5Y3hQTJ/w/
+         CrzOWiFodBUUOhx/nh5lKNPSftTzsWLpCS7PL6aLDJCY2GsM2mQObjCgWi194qbR9mXL
+         d24A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708947468; x=1709552268;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yOtDU75r2JA5nMqmgqSfs6LZtJBpRoh0ipLmkGMw850=;
+        b=I0lP92+TqRDUxAX+LxtqkpeaIXu8psmW2oWNqUcmklwRpGN/ijvikMJOLMUznrFSrO
+         cRmgw3F8rKfjXi7uPnxlBYXYmweLW9LA2dGdu8TdCS10xo88TWjbPfSPehCPegPSuPkF
+         zpTS9rZK9O3+q2WyiciMIkPd/l2wEvgbOMmOiTYIV4BEhhXuqnlViEm0LZFQFKdNhAoY
+         mNdO5dh1+hVo5n7od/lk72JgCGdAkTvOTiGSOoR63dOURwiJrB4MfaojdG4Boyp7xG8O
+         l8aXZLzhhfQOzSYJJLeyl4Qs/ET7j7zdS+MJS8nKsscm46l2tg6uIMO8iPcePh82Gg3H
+         LJRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVsogzzJ+YiFiXUhj9OAeVWyhR6nDX5Xz348ESEWbbcLsjPp4RvJ9xZfWRQwdvunSRyOClfkwCj5tJmWirt1XUzs99/
+X-Gm-Message-State: AOJu0YxUPGq3dT2+b3PsNIhK4VSla5twZkDoNcp289hAw81ZwI5Wfgdl
+	7w2b58TaDQ+PqW+fzloYCyyxEEriRXAQcq5y1Q+LON77LQcGBewDVITK+ZnuqQ==
+X-Google-Smtp-Source: AGHT+IHRlLAac3t/t+Ib99/W27Guf/dv3EWDLEDqeS4bxH0DZ+XkVc/0i/w22EDz3k2nxlw6LuR/Kw==
+X-Received: by 2002:a05:620a:7f9:b0:787:1a78:fbe9 with SMTP id k25-20020a05620a07f900b007871a78fbe9mr6385524qkk.56.1708947468464;
+        Mon, 26 Feb 2024 03:37:48 -0800 (PST)
+Received: from [127.0.1.1] ([117.202.184.81])
+        by smtp.gmail.com with ESMTPSA id q15-20020a05620a0c8f00b007878babb96asm2341842qki.94.2024.02.26.03.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 03:37:47 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v3 0/5] PCI: dwc: Add support for integrating HDMA with DWC
+ EP driver
+Date: Mon, 26 Feb 2024 17:07:25 +0530
+Message-Id: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ath11k allocation failure on resume breaking wifi until power
- cycle
-Content-Language: en-US
-To: Vlastimil Babka <vbabka@suse.cz>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>, Takashi Iwai <tiwai@suse.de>,
-        Jiri Slaby <jirislaby@kernel.org>
-CC: Kalle Valo <kvalo@kernel.org>,
-        Linux Wireless
-	<linux-wireless@vger.kernel.org>,
-        <ath11k@lists.infradead.org>, LKML
-	<linux-kernel@vger.kernel.org>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
-References: <96481a45-3547-4d23-ad34-3a8f1d90c1cd@suse.cz>
- <0994ae16-8174-4a04-b454-1974b16bc106@quicinc.com>
- <20240222054739.GG3374@thinkpad>
- <38c36d16-9cc1-4f03-b758-4a3ba90f8aa4@suse.cz>
- <abc0c24f-2137-41eb-bb99-80aea8dacdb2@quicinc.com>
- <a36b35a9-fb37-4afe-a718-a47dfe658cb5@suse.cz>
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <a36b35a9-fb37-4afe-a718-a47dfe658cb5@suse.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: -x6WQcKEukRq5dnajDIZ21WCOKyZ4tlh
-X-Proofpoint-GUID: -x6WQcKEukRq5dnajDIZ21WCOKyZ4tlh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-26_05,2024-02-23_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402260068
+X-B4-Tracking: v=1; b=H4sIAPV33GUC/2XMQQ7CIBCF4as0sxYzDqRJXXkP0wUUKJMoGDCoa
+ bi72K3L/+Xl26C4zK7Aedggu8qFU+whDwMsQcfVCba9gZAU0mkU9iWCvWsxKmsXnLyRaKC/H9l
+ 5fu/Sde4duDxT/uxwpd/6b1QSKIwiSROi9Epebhx1TseUV5hba1/oduAdnwAAAA==
+To: Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Siddharth Vadapalli <s-vadapalli@ti.com>, 
+ Mrinmay Sarkar <quic_msarkar@quicinc.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2608;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=zN4H7AL9yEWwBMPFUse2kPeWuj9c3TyK31dCtLQBVwU=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl3Hf+ugscH906dxKa1q956AiK7dO/M8tdcr6fT
+ aiph35AMmeJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZdx3/gAKCRBVnxHm/pHO
+ 9VIPB/90Qib9s9ybHOJjZTFAzC+LuAX4iTj/eAvrr+mXEaxKJgMyz/Zaxr3LoPGnq9TeHvyOSh+
+ rk8EqkZ8yGo+jFjQru/9eO3BCZEAaZQgbP4dgHuLgkKBkUOl91uC1af3moCy9egzAqAnXVcZJ2k
+ lgcJf7eOuH+Db/euhh8+4bvApFvNG2KBCWI+e3lP8A4MARip6kPe7hc924+LzcG1RAg2CLJXK6w
+ qGIQeCoU/d5wx0OiCOz8HGQpUWTXeTSDOes8m4P9WVTwWHQih8n5oYyZ8DV4yoURYsgxiaE43QX
+ O+qByCZy8Q9LEQTmuuv+cv8fJuWCq5nxdUXlYbYny/O34vIw
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
+Hello,
 
+This series adds support for integrating HDMA with the DWC EP driver.
 
-On 2/26/2024 4:45 PM, Vlastimil Babka wrote:
-> On 2/26/24 03:09, Baochen Qiang wrote:
->>
->>
->> On 2/23/2024 11:28 PM, Vlastimil Babka wrote:
->>> On 2/22/24 06:47, Manivannan Sadhasivam wrote:
->>>> On Wed, Feb 21, 2024 at 08:34:23AM -0800, Jeff Johnson wrote:
->>>>> On 2/21/2024 6:39 AM, Vlastimil Babka wrote:
->>>>>> Hi,
->>>>>>
->>>>>> starting with 6.8 rc series, I'm experiencing problems on resume from s2idle
->>>>>> on my laptop, which is Lenovo T14s Gen3:
->>>>>>
->>>>>> LENOVO 21CRS0K63K/21CRS0K63K, BIOS R22ET65W (1.35 )
->>>>>> ath11k_pci 0000:01:00.0: wcn6855 hw2.1
->>>>>> ath11k_pci 0000:01:00.0: chip_id 0x12 chip_family 0xb board_id 0xff soc_id 0x400c1211
->>>>>> ath11k_pci 0000:01:00.0: fw_version 0x1106196e fw_build_timestamp 2024-01-12 11:30 fw_build_id WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.37
->>>>>>
->>>>>> The problem is an allocation failure happening on resume from s2idle. After
->>>>>> that the wifi stops working and even a reboot won't fix it, only a
->>>>>> poweroff/poweron cycle of the laptop.
->>>>>>
->>>>
->>>> Looks like WLAN is powered down during s2idle, which doesn't make sense. I hope
->>>> Jeff will figure out what's going on.
->>>
->>> You mean the firmware is supposed to power it down/up transparently without
->>> kernel involvement? Because it should be powered down to save the power, no?
->> Let me clarify: from backtrace info, seems you are using a kernel with
->> the hibernation-support patches [1] applied, which are not accepted yet
->> to mainline kernel or even
->> git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git.
-> 
-> Oh, you're right. Sorry for confusing you all. The rc kernel builds we have
-> for openSUSE have nearly no non-upstream patches so it didn't really occur
-> to me to double check if there might be in the area.
-> 
-> Seems Takashi (Cc'd) added them indeed to make hibernation work:
-> https://bugzilla.suse.com/show_bug.cgi?id=1207948#c51
-> 
-> But then, why do they affect also s2idle, is it intentional? And why I only
-Yes, it's intentional. When suspend/resume, ath11k does the same for 
-either a s2idle suspend or a deep one.
+Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
+Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only unroll
+mapping format and doesn't support auto detecting the read/write channels.
 
-> started seeing the problems in 6.8, the patches are there since August.
-> 
->> So this is why you see WLAN firmware is powered down during suspend.
->>
->> [1]
->> https://patchwork.kernel.org/project/linux-wireless/cover/20231127162022.518834-1-kvalo@kernel.org/
->>
->>>
->>> But I just found out that when I build my own kernel using the distro config
->>> as base but reduced by make localmodconfig, the "mhi mhi0: Requested to
->>> power ON" and related messages don't occur anymore, so there's something
->>> weird going on.
->> Here your own kernel doesn't include the hibernation-support patches, right?
-> 
-> Right.
-> 
-> 
-> 
+Hence, this series modifies the existing eDMA code to work with HDMA by
+honoring the platform supplied mapping format and read/write channels
+count.
+
+The platform drivers making use of HDMA should pass the EDMA_MF_HDMA_NATIVE
+flag and provide channels count. In this series, HDMA support is added for
+the Qcom SA8775P SoC and the DMA support in enabled in MHI EPF driver as
+well.
+
+Testing
+-------
+
+Tested on Qualcomm SA8775P Ride board.
+
+Dependency
+----------
+
+Depends on:
+https://lore.kernel.org/dmaengine/20240129-b4-feature_hdma_mainline-v7-0-8e8c1acb7a46@bootlin.com/
+https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
+
+NOTE: I've taken over this series from Mrinmay who posted v1:
+https://lore.kernel.org/linux-pci/1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com/
+
+- Mani
+
+Changes in v3:
+
+- Collected review tags
+- Minor code refactoring (Siddharth)
+- Link to v2: https://lore.kernel.org/r/20240216-dw-hdma-v2-0-b42329003f43@linaro.org
+
+Changes in v2:
+
+- Dropped dmaengine patches (Sergey)
+- Reworked dw_pcie_edma_find_chip() to support both eDMA and HDMA (Sergey)
+- Skipped MF and channel detection if glue drivers have provided them (Sergey)
+- Addressed review comments in pcie-qcom-ep and pci-epf-mhi drivers (Mani)
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+Manivannan Sadhasivam (3):
+      PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+      PCI: dwc: Skip finding eDMA channels count if glue drivers have passed them
+      PCI: dwc: Pass the eDMA mapping format flag directly from glue drivers
+
+Mrinmay Sarkar (2):
+      PCI: qcom-ep: Add HDMA support for SA8775P SoC
+      PCI: epf-mhi: Enable HDMA for SA8775P SoC
+
+ drivers/pci/controller/dwc/pcie-designware.c | 74 +++++++++++++++++++---------
+ drivers/pci/controller/dwc/pcie-designware.h |  5 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c    | 23 ++++++++-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+ drivers/pci/endpoint/functions/pci-epf-mhi.c |  1 +
+ 5 files changed, 78 insertions(+), 27 deletions(-)
+---
+base-commit: fdd10aee7740a53c370a867b8743a8c8945d1db1
+change-id: 20240216-dw-hdma-64ddc09fb30b
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
