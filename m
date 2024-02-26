@@ -1,64 +1,64 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7971DA21
-	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 11:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E69A1DA37
+	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 11:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708947907; cv=none; b=chxHFdCQ0moayoUzR3JUkWsJPb1OEjU7v3Zb2dteA5sX1/OfmeSDj+KSxN7VhC38x4rKIPO+d/DCCqrmdxcDsXV5b9cf+F5yUn/NNPZ5Vh6ptNhZKRC3SpgdEVtb1edhlrx6+3gRAIYBmlOzZG43aaDlZ/jyMe7RGZqJFwf4RNI=
+	t=1708948051; cv=none; b=cftufDipJ5cAGo7l3JurMgQK/PYpoT2pUbMj7pGWW825bC/K8AptyUH0otcPf5tGy91iTcf4G+cvWR1F2W+EV1Y1mlxZtC589exK7DtQpDpR9yK6+0ZiUhT5WCQO2kLlNFAubF1Jwk+95VbwZMz9EhwGKUivO7pnmD9nezPHBGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708947907; c=relaxed/simple;
-	bh=prNgVbePwRcKo0ldZvLmcT9NEprnyubS2n4dPuEAQS8=;
+	s=arc-20240116; t=1708948051; c=relaxed/simple;
+	bh=xI/+JNTH1HBg6PbQe98nkhNmlv7el3dBU8j34qK8pO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A8MP6XrEWLxG3/d91D/LR7GUjTyM05C5v5C+b3/KLWJz9Hg9TBy5J9Kn1Ya4sk1aRDdKWymeOqcGdhjgl5w8+boKvl80IddUnRDiPDfTw3K9HiktAYWI+LBiOaCIa23i7UbsXQRB0YZb7tsTUKQJHFQEoo2MgOQLCWCLhGY3EXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LlHWt5VO; arc=none smtp.client-ip=209.85.222.177
+	 Content-Type:Content-Disposition:In-Reply-To; b=u4YZcM9/GJ5JFEhX83y+rrPOMwMKZmofTThuUrIzZNB4L7FuQmNl74xXXAjDiTxApJOlCFscpkeKYjA5LQZGrPSqFcjXqfFuTx2yrOmvJJlnTRBmRKvn5Qz9/OwNe9c0N6rOQyqkK30kgmO5FSGul1yV8c4eZOwuWr3O1f56HA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NZaGtjQA; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LlHWt5VO"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-787bc61cb69so190928785a.1
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 03:45:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NZaGtjQA"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-787c0f5eaa2so124528585a.2
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 03:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708947904; x=1709552704; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1708948048; x=1709552848; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CSKU6X8Qwf8AFWfUlivJ0Qu0nT+8oAq4LKU9650PhEY=;
-        b=LlHWt5VO6BjOFJk96HHvF7863UqggDkh317JxddXlYivCgtynFlTRmpG8nc4OlOwpA
-         TcAFgOGZlBZJEXLtIlrkoMmEG/SM5EQWt8bzpmWooFdpV7u0EahCHWcoJykOKvSy10Mo
-         T7fYDC7aqq/P1TY4bqqAu2MzZ/wP5pA2Ge1XrObjvjFlEq5Dk48q7sgF+2kf6IFMImyD
-         q9A333YDmxdziCKJUMP4XDhFFF3owhNH1L8WkHmf55Tx16LYXY04yap3ueSdW80kRj++
-         qiVA/fXQrQXf3mGZ/KF60NIMGOl6ZIynVZd5WIYnKn6w1T83eETFt8x4SFfT8ePTcStn
-         SJLg==
+        bh=QRqUlMYfT55I0mUOriv+WhNqbIIJL/CKuAFOjzZC4uk=;
+        b=NZaGtjQAADUYNNP7UwUHsQHEy7Tum8CE9wTXdbarIuJJzuZoyoViHXoYMOuVsNpeBw
+         YDrrgqKPwsfgQvDEdOe2UeWq4HDiSh0jROIPpuKLgKWKWjK4tg3nFhqbe0dJ27EupBIn
+         GY5YzD6YJL2Txz7GCZdFzp2efutS44NE6BVuH+D2lHUWDuLRJJ5TpLYXtJQiywpx+TaW
+         Vb5Y/wygDDQO3T3b10TRCBaxR3rSQH6YdlmYbiUXX6Uh7DJ1kFUkkOVI4JCVnbo53JyT
+         qjnIikAX8YpD6/nWo9lI6Vmxm5YMmwjDEKyaAQlC2pMrWvh7XmX4WcHIDRZn74P9ZbjV
+         U3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708947904; x=1709552704;
+        d=1e100.net; s=20230601; t=1708948048; x=1709552848;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CSKU6X8Qwf8AFWfUlivJ0Qu0nT+8oAq4LKU9650PhEY=;
-        b=jB/vV0WRXvISCVhvp6xLkbTG20vUlYAuNS+bh16xPhIMv+m+1aekibgVaKtotrLHZy
-         8rDyTQ6XWqoHqGzhqJjsxhVovncb9xB/ER14m5jm/W34Ly5GGFZSy989CxuRmW678rXu
-         25NAmozz0fhlAQEvXp+CWX/AuYtcX3akPVRdLR3olHnfDbgdds/W1BpkHwZmeVa2Nyrl
-         P0eYAQm+n8KQI5Dotrdr50FbVvpfJKHdAWAv0cU6WWUnUuNaBn7XdSJCCcIPa8KSuaAP
-         X683jttq/Gwi6ZU9OKScf+4fmillx6cvytpy9dLOktVLWPJdzaDzkygCLeK8SCiX49t+
-         B8QA==
-X-Gm-Message-State: AOJu0Yyt+LNdK6NAb7aY6Jkfigu7j9W1UkLea9UCHyektMw5GXtTOPDQ
-	BbE7q6cn5SNaziTjly82kT5QVh3Ec10F1cLSKLnolOpT67pkGtaoJ/JSsuJecQ==
-X-Google-Smtp-Source: AGHT+IGpa5Q2fHBV5USsuqQLitp7DsDSNKdukrxekBdLBW00T7uhMM/LdUvMDcnQPH4wSebMQTN4JA==
-X-Received: by 2002:a0c:f0d3:0:b0:68f:e821:ed43 with SMTP id d19-20020a0cf0d3000000b0068fe821ed43mr5600040qvl.42.1708947904574;
-        Mon, 26 Feb 2024 03:45:04 -0800 (PST)
+        bh=QRqUlMYfT55I0mUOriv+WhNqbIIJL/CKuAFOjzZC4uk=;
+        b=uoGhSN/VeIIW+sS4HXaoTGHrKwAnlXV9ZQDMTd/IyBePIlX7JiVMVbAmjq0BBgIcyt
+         TIuMZUUZce0y3Bt592oFRb8xUmwuL7tNC4iYo4nhIxydB9C6i0uMDWe69zgWjHre0MxJ
+         tuGbUYoAr5tfs/FFg+l5cYIL5uScEPYC9H5FIbPg4qMRz1Z9gBMc/KJ/slHiKOnI0qPc
+         J6kpSIyYM+/M5ucuRKgwuZhklWauWDrhSpbxPQHjntkc2IdNcH1DPu79M6LQ9uvQGBwI
+         MWzDkP0Rd76Y5hocHxkqJFGFrKbLdszFqkeiDWX1eetIRAdBgPoC8of3WHeqVdP7Yrng
+         fVjQ==
+X-Gm-Message-State: AOJu0YzazZssgegg9CXfSKnaea4BqLGVonRVRPZ3wBMr2arz9Cj0qKYp
+	ZZ6jHf6AKWmUIv1lrE0hQgCusqNs345h21bqQ40ksd7lnZKqHfaVLKyPUH8pMQ==
+X-Google-Smtp-Source: AGHT+IHi3HYOP27dsAZYTozwNq3EVHMCKBPNrZ0oYnRIkB0H+YY5YnR3Yxm0XqH2Uh4PixfVEIMWgQ==
+X-Received: by 2002:a37:c209:0:b0:787:25e8:3391 with SMTP id i9-20020a37c209000000b0078725e83391mr7569722qkm.18.1708948048577;
+        Mon, 26 Feb 2024 03:47:28 -0800 (PST)
 Received: from thinkpad ([117.202.184.81])
-        by smtp.gmail.com with ESMTPSA id bd3-20020ad45683000000b0068fa52f5f7esm2811461qvb.7.2024.02.26.03.45.01
+        by smtp.gmail.com with ESMTPSA id u23-20020a05620a121700b00787c6703539sm2033427qkj.90.2024.02.26.03.47.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 03:45:04 -0800 (PST)
-Date: Mon, 26 Feb 2024 17:14:59 +0530
+        Mon, 26 Feb 2024 03:47:28 -0800 (PST)
+Date: Mon, 26 Feb 2024 17:17:23 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Jeff Johnson <quic_jjohnson@quicinc.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org, kernel@quicinc.com
 Subject: Re: [PATCH] bus: mhi: host: pci_generic: constify
  modem_telit_fn980_hw_v1_config
-Message-ID: <20240226114459.GB8422@thinkpad>
+Message-ID: <20240226114723.GC8422@thinkpad>
 References: <20240222-mhi-const-bus-mhi-host-pci_generic-v1-1-d4c9b0b0a7a5@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -77,7 +77,7 @@ On Thu, Feb 22, 2024 at 06:00:23PM -0800, Jeff Johnson wrote:
 > 
 > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
