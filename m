@@ -1,166 +1,212 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D79604BA
-	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 12:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6A173162
+	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 12:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708950061; cv=none; b=Kw0A/b2h+n4XbgInYrtQLJcFG+ghBgeMgtHYAZwSfKpMgY1/nGkWZBDR/dMbCU9ZNEU1h1vihNpohIIugyqmT1X4Nl+Ni/XtF+07GO/ch3ryR7rA9EuLrfIODRSpVVh4w03hifVm4vDKLb7tUiXrvGh0RQrKjekj4xP9sCs8eyA=
+	t=1708951523; cv=none; b=HcEvErG79GHMDvBkhUTPcZn/hoM6i8zlVI5LmrZjQxbWO9Ejtos+esaPm0WVGxwo2moEdTogcIw/RVNnPLBjQy8Npqq60FNPTFFNR7Dv/xNdzBm6McC1QoPurLXDUnd1cic7wgneIjZ2vOMQrhhaa4tYBDcyaQXDdNGKgv8X9c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708950061; c=relaxed/simple;
-	bh=ryPozF+ZEiZQv5gU9znIhxNGg250XVTfuostgCQKxvU=;
+	s=arc-20240116; t=1708951523; c=relaxed/simple;
+	bh=TZVUR9ocsVnQ0pHZ0RxO5osTV317Ybr1stOPtvhwMVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bmTe+G0V2IVklr7PvP+lXI3gwi8zHC8BsV9aMj3X15oNfw0el7g8S+knh+ywQ+aOFWPsq+1YmH6Xd9bl1naz/v2Zhlr0UXDUMSY2rJnLnopgsZ+ROHuQuZUJOUTnWziiOPoq9JgTpfJgFqRaTMcC9xbnDGGx5YvDYr7I9nOxOfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ISFpcg6v; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=t46Slly8HLYvTB+l2aSCZ8zafU9GX8dKLscZ/VQVgmWGzScMcQQhnrBFf/Dh+QEYfGXlstAZ1Wk9sJT6ap53Uodfko8my/vW6v8JyG3CFvEdhYBoRgDcO2uuzD7y8erOZZjU3Z8W/ykjJIXeviyWHVxPtXkVK83+I/7BDjVFl8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcp5kHjY; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ISFpcg6v"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1dc0e5b223eso24104605ad.1
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 04:20:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcp5kHjY"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-512e568607aso2795928e87.1
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 04:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708950059; x=1709554859; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kvYVirxxYrcEoYPYhVtajEjzNx9trrhQLd3ahVDvBX0=;
-        b=ISFpcg6vZK+LptcTgtoRSZQygR2b9XvscuKEPnARYMnR9R0MUJuikA9bM4sauWNvU3
-         c03S/BolMcIBjnKOR492McMmsWvElrbaS3xzDd24NVHmKDLpLdpWqUZWSsVdDSIK1vAq
-         teFeD646IG0U1abxWP7lcm1ucGgLyFg+qZmb+GLJADzBmeeHP7/fNIQvkPQ1NIEfayX8
-         6X1UYm49MKhn7z7x5wcAesFUnuI+tfqiUHkJ8IB0C/aAF/JX7fnqqbwGoV6rtJ11ZQzi
-         2BKCAbLzUQuBE1sw/CBQ2bOVTozZL1QFRoqciipGGnRZo0zLyLZYozvXOQ85Qw5du3Wh
-         CQmQ==
+        d=gmail.com; s=20230601; t=1708951519; x=1709556319; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5inM5MIJdH95rtY5NIhYJAB5BjouiCH5y6Mv4miue6E=;
+        b=jcp5kHjYaIgIOZ8IbJqLUtYElRgwu9H+oMMpKb6Otu5Bzcvf1r0baCw2ufyY+Ao75f
+         J4LyHjhMPMoxGy+YKVf8ZS3KdmGfdBXbL7Zb4nVadL3g0AFEUuV7vo/O4mSu/wVDyhN0
+         aura5MJ2WlTfpJCBSz57cOVckJJNJcat7kE8zyrF7vVQmfp1dlAgrnWrUisJX1nTK5wC
+         mxfP+qxC3DAVDiN+J28ARQexSR5kwXr+AW149oEdnIHyrRqBTdnMub6BQc087Tg00Tlp
+         eD82Mjooj9F0UN4cj7OOBnBVAX4bSt2vM+PrpY/q6LHWbIo06i7OKsE+HIAOwFsgV+KG
+         drDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708950059; x=1709554859;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kvYVirxxYrcEoYPYhVtajEjzNx9trrhQLd3ahVDvBX0=;
-        b=TM67x9yvwoYXhSRyvT1nCpJTzRaC5coyv49tKN1x9bXIPdDxm4Yav9SjIB1pJ+oASw
-         YarvKOFllVy21I1GdjO6PSve2soBl1xyxJYe/Kbh0Jd3av2xHc7RgoFzPJdiI7X0Ue0Z
-         WMIj/cwEoj/DV07QTuZE6KONwtfSY4A0tZhdnFTolzUd/D2jxBlYQH19uwrBdyfFGNaB
-         EroOOR0zCMipn2mK113a9hewtxJOfT2WmE0ZR7qhED39m8onm17YTyMEXwyiOb7nwdWW
-         1SQuSvOvTuc8svgkooROrglyTfpFTv3DT4b/6uqintWQbHfxi0jyQH4e7Zkb/CxN8tpJ
-         hhTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjdIjn5bTDU0UwVDkX6BYiZTCOCxvUtxZv2PT4Iq0gBbOVPp9XPvOlpLpFlF9THBjnr9cjXfjbFiAseNRgaFkcXj1S
-X-Gm-Message-State: AOJu0Yw30xmSGnLVCxoO6ZeJgsemeXAQGV397FQwNTGiVjRalq/ugJpJ
-	voRiLTG+MAy1thLJ/Fp5wgwRcoyneMjCrhi4aAzI3jjJiEcJrKwF6FI1o7Mb47473X6bCQxwz1A
-	=
-X-Google-Smtp-Source: AGHT+IFNO0EvqpSlsp90jIMoKkSHpuCVgm2eQEtRszipPHoVaXKCILn8GEKj9H06BqJROE7zrz5L0w==
-X-Received: by 2002:a17:902:ba88:b0:1dc:266e:a7e2 with SMTP id k8-20020a170902ba8800b001dc266ea7e2mr6036261pls.11.1708950059447;
-        Mon, 26 Feb 2024 04:20:59 -0800 (PST)
-Received: from thinkpad ([117.202.184.81])
-        by smtp.gmail.com with ESMTPSA id jh5-20020a170903328500b001dcada71593sm888333plb.273.2024.02.26.04.20.57
+        d=1e100.net; s=20230601; t=1708951519; x=1709556319;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5inM5MIJdH95rtY5NIhYJAB5BjouiCH5y6Mv4miue6E=;
+        b=vT1+u/BtsIXyELe5Srxamyux0SEXrVhvpzCEI1V/3PPY82oAmje4XrqrNIVt0oX4vG
+         KgSv/3+GUBjClJVk+YhG6Yn4FIJ01fr/Qf+KLYF+sCmcnFLwfN2BHlOHfULBfAen8EbC
+         I8Q9E7Izkt/gLHCuSh1UMVA+XSsyolHC5WE9KiTZsi1g9c4iWl+dNkBImZC/euLRuwJO
+         1Jy+5ZYQ765TvbROb+B0oojK/EozQnf1eH5JY37GiKsMBTBWGcTxD8Msnvd5Eto+obGo
+         W+9DDpG0EZbD8OVxqCpK8rzVlYvuNJyrZL/PnoaWLqt3E41xhCAGN04pfZ8Gs4vd4JVy
+         ugkg==
+X-Forwarded-Encrypted: i=1; AJvYcCX98EtbK7wHjWTTFVnb9Ueagf8ZoXfiWDjnepq3UA5431wUaq5mlPSwkHT9iyb7tRGPpadH/XUUv27XHw2tDmd8Nc8O
+X-Gm-Message-State: AOJu0YwfMmk+vNRa+zvgIP+9iIqT/p/z/kx/BEWM1JHveHR4CMbO2X7U
+	CYgy/zWt+a2OEdEKbfmagX5A5xs0X4Z1ZDRrNFj/d+wpO6Ap6i2l
+X-Google-Smtp-Source: AGHT+IFTcXELJgIuddDmuX7MVZviLk/f/Js23B+qxWOY8L55q/M6wGDtHgANSMV7Pitn4EaDSF8hvA==
+X-Received: by 2002:a05:6512:3605:b0:512:fccc:f289 with SMTP id f5-20020a056512360500b00512fcccf289mr1822609lfs.6.1708951519358;
+        Mon, 26 Feb 2024 04:45:19 -0800 (PST)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id f21-20020a193815000000b00512d8cecd78sm856365lfa.197.2024.02.26.04.45.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 04:20:59 -0800 (PST)
-Date: Mon, 26 Feb 2024 17:50:55 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Baochen Qiang <quic_bqiang@quicinc.com>
-Cc: ath11k@lists.infradead.org, mhi@lists.linux.dev,
-	linux-wireless@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: qrtr: support suspend/hibernation
-Message-ID: <20240226122055.GE8422@thinkpad>
-References: <20240221030026.10553-1-quic_bqiang@quicinc.com>
- <20240221030026.10553-3-quic_bqiang@quicinc.com>
+        Mon, 26 Feb 2024 04:45:18 -0800 (PST)
+Date: Mon, 26 Feb 2024 15:45:16 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Siddharth Vadapalli <s-vadapalli@ti.com>, 
+	Jingoo Han <jingoohan1@gmail.com>, Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Marek Vasut <marek.vasut+renesas@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <fielxplkgrvz5qmqrrq5ahmah5yqx7anjylrlcqyev2z2cl2wo@3ltyl242vkba>
+References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
+ <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240221030026.10553-3-quic_bqiang@quicinc.com>
+In-Reply-To: <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
 
-On Wed, Feb 21, 2024 at 11:00:25AM +0800, Baochen Qiang wrote:
-> MHI devices may not be destroyed during suspend/hibernation, so need
-> to unprepare/prepare MHI channels throughout the transition.
-> 
+Hi Manivannan
 
-Again, below content should go to the comment section, not in the commit
-message.
-
-Please add only relevant content in the commit message.
-
-- Mani
-
-> The RFC version adds new API to MHI stack with which an MHI controller
-> driver can do unprepare/prepare directly by itself, see
+On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
+> In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> dw_pcie_edma_find_chip() API by moving the common code to separate
+> functions.
 > 
-> https://patchwork.kernel.org/project/linux-wireless/patch/20231127162022.518834-3-kvalo@kernel.org/
+> No functional change.
 > 
-> Although it works well Mani pointed out that the design is not good
-> because MHI channels are managed by MHI client driver thus should not
-> be touched by others. See the discussion
-> 
-> https://lore.kernel.org/mhi/20231127162022.518834-1-kvalo@kernel.org/
-> 
-> This version changes to add suspend/resume callbacks to achieve the
-> same purpose. The suspend callback is called in the late suspend stage,
-> this means MHI channels are still alive at suspend stage, and that makes
-> it possible for an MHI controller driver to communicate with others over
-> those channels at suspend stage. While the resume callback is called in
-> the early resume stage, for a similar reason.
-> 
-> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
-> 
-> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > ---
->  net/qrtr/mhi.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+>  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
+>  1 file changed, 39 insertions(+), 13 deletions(-)
 > 
-> diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
-> index 9ced13c0627a..b54a6c2113e9 100644
-> --- a/net/qrtr/mhi.c
-> +++ b/net/qrtr/mhi.c
-> @@ -118,6 +118,32 @@ static const struct mhi_device_id qcom_mhi_qrtr_id_table[] = {
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 250cf7f40b85..193fcd86cf93 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+>  	.irq_vector = dw_pcie_edma_irq_vector,
 >  };
->  MODULE_DEVICE_TABLE(mhi, qcom_mhi_qrtr_id_table);
 >  
-> +static int qcom_mhi_qrtr_pm_suspend_late(struct device *dev)
+> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
 > +{
-> +	struct mhi_device *mhi_dev = container_of(dev, struct mhi_device, dev);
+> +	pci->edma.dev = pci->dev;
 > +
-> +	mhi_unprepare_from_transfer(mhi_dev);
+> +	if (!pci->edma.ops)
+> +		pci->edma.ops = &dw_pcie_edma_ops;
 > +
+> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +}
+> +
+> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+>  {
+>  	u32 val;
+>  
+> @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	else
+>  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> 
+
+> -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> -
+> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> -	} else if (val != 0xFFFFFFFF) {
+> -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> +	/* Set default mapping format here and update it below if needed */
+> +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+>  
+> +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+> +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> +	else if (val != 0xFFFFFFFF)
+>  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> -	} else {
+> +	else
+>  		return -ENODEV;
+> -	}
+
+Sorry for not posting my opinion about this earlier, but IMO v2 code
+was more correct than this one. This version makes the code being not
+linear as it was in v2, thus harder to comprehend:
+
+1. Setting up a default value and then overriding it or not makes the
+reader to keep in mind the initialized value which is harder than to
+just read what is done in the respective branch.
+
+2. Splitting up the case clause with respective inits and the mapping
+format setting up also makes it harder to comprehend what's going on.
+In the legacy case the reg-base address and the mapping format init are
+split up while they should have been done simultaneously only if (val
+!= 0xFFFFFFFF).
+
+3. The most of the current devices has the unrolled mapping (available
+since v4.9 IP-core), thus having the mf field pre-initialized produces
+a redundant store operation for the most of the modern devices.
+
+4. Getting rid from the curly braces isn't something what should be
+avoided at any cost and doesn't give any optimization really. It
+doesn't cause having less C-lines of the source code and doesn't
+improve the code readability.
+
+So to speak, I'd suggest to get back the v2 implementation here.
+
+>  
+> -	pci->edma.dev = pci->dev;
 > +	return 0;
 > +}
-> +
-> +static int qcom_mhi_qrtr_pm_resume_early(struct device *dev)
+>  
+> -	if (!pci->edma.ops)
+> -		pci->edma.ops = &dw_pcie_edma_ops;
+> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
 > +{
-> +	struct mhi_device *mhi_dev = container_of(dev, struct mhi_device, dev);
-> +	int rc;
+> +	u32 val;
+>  
+> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+
+Just dw_pcie_readl_dma(pci, PCIE_DMA_CTRL)
+
+-Serge(y)
+
+>  
+>  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
+>  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
+> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	return 0;
+>  }
+>  
+> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +{
+> +	int ret;
 > +
-> +	rc = mhi_prepare_for_transfer_autoqueue(mhi_dev);
-> +	if (rc)
-> +		dev_err(dev, "failed to prepare for autoqueue transfer %d\n", rc);
+> +	dw_pcie_edma_init_data(pci);
 > +
-> +	return rc;
+> +	ret = dw_pcie_edma_find_mf(pci);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return dw_pcie_edma_find_channels(pci);
 > +}
 > +
-> +static const struct dev_pm_ops __maybe_unused qcom_mhi_qrtr_pm_ops = {
-> +	SET_LATE_SYSTEM_SLEEP_PM_OPS(qcom_mhi_qrtr_pm_suspend_late,
-> +				     qcom_mhi_qrtr_pm_resume_early)
-> +};
-> +
->  static struct mhi_driver qcom_mhi_qrtr_driver = {
->  	.probe = qcom_mhi_qrtr_probe,
->  	.remove = qcom_mhi_qrtr_remove,
-> @@ -126,6 +152,9 @@ static struct mhi_driver qcom_mhi_qrtr_driver = {
->  	.id_table = qcom_mhi_qrtr_id_table,
->  	.driver = {
->  		.name = "qcom_mhi_qrtr",
-> +#ifdef CONFIG_PM
-> +		.pm = &qcom_mhi_qrtr_pm_ops,
-> +#endif
->  	},
->  };
->  
+>  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+>  {
+>  	struct platform_device *pdev = to_platform_device(pci->dev);
+> 
 > -- 
 > 2.25.1
 > 
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
