@@ -1,185 +1,312 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916E31CD08
-	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 12:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44805604A7
+	for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 12:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708948993; cv=none; b=FNaCoHt/cb36pCaXJkqTTfEmYdvZXwiR+zTtPSGMwOb2Hv0yA7ooNs3PCDBeDU3L1jGhn+KVAL2Znsw4GTz6ruJyzL9UIkgbOL/+8JUew3Yws3H/LG8X/b00O2DLFs3F9j+riAZnr44g/i2/rNG3AhduHqewQ4GBGvSB7Oqj7LY=
+	t=1708949749; cv=none; b=sAgCprPTjFpqkPZc7gvUQrtB6QFlLWqjr1QutZh2XATu1fFadQ5rBQuj0PBomlXXy/0tYb0dHHhQK+Wz0B687Atxu0ieuHGuLgKRan7/TigFPPsEQbQS4Yi2lOZk7wolvudgvUOnAj4GOE0wnCWmmkD2lizyhgVcp+5rLeZwgLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708948993; c=relaxed/simple;
-	bh=vRIEb/+D7M4j/nHK9fDGfbH9sUW39k0q7B5ZbffZKjw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a1cIt4kZBZUESxqwU2cWMaAGGpczENAsN1P6woVMZpsa8h+mbM/H0bnd5bvl+QpuDXgWRWJFPrpO7+Y6wv3/NdRFxjAm10Lj9c+39bX11AmaEd6H13lZqD1kq84U19t4VgsP84aSKcdZvxU/1ig43eQnvAZUyxLnp2qng0/uHL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kzG7Z1CL; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1708949749; c=relaxed/simple;
+	bh=yCr1cL0g49Fc+3NlFvIIDf1tArV8B3nCuYxeBbV2Qss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fmAC3j4NVy7WdNawK1Ak27dectNFmvrQMtBnNBTa4FCv0TY5IGfvbW0AKZ59Nzb/rIzUal8uxBulJneGVfWqAo9M9Xe73oqXe1YqIv9f7ENCSAfkL/qSjtF2u+gHcz+vspugjb/3vZyilA2A/jkFptqde39/Jvror4i/CbPStRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AutWeocN; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kzG7Z1CL"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2mR0099398;
-	Mon, 26 Feb 2024 06:02:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1708948968;
-	bh=+3AsQsaBHuAdklDpGOnvvIB16uuAzF8tgDh7ffFqkhY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=kzG7Z1CL27dDBNkYo2tw7iZjIJPFaNvIU847qw0GQo0uVwMo1MBKX5cMH/pORS2V4
-	 H4t1PkdKa7j5T1kXRQH+nJFQc9l9KTioni/0nyQWp/DlrIYRmzNB0SPQ4CTbzy580C
-	 FV04F/xi3LJYmMN8WiwyuXf90xfPaRTq7klgspuE=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41QC2m0t104041
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 26 Feb 2024 06:02:48 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 26
- Feb 2024 06:02:48 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 26 Feb 2024 06:02:48 -0600
-Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2lnH056462;
-	Mon, 26 Feb 2024 06:02:47 -0600
-Date: Mon, 26 Feb 2024 17:32:46 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel
-	<gustavo.pimentel@synopsys.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring
-	<robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        Marek Vasut
-	<marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I
-	<kishon@kernel.org>,
-        Serge Semin <fancer.lancer@gmail.com>, <linux-pci@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <s-vadapalli@ti.com>
-Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-Message-ID: <a3e4f9f9-e3c0-428c-913c-d777f3386556@ti.com>
-References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
- <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AutWeocN"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e4e7e2594cso1440121b3a.2
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 04:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708949746; x=1709554546; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=k6zd1PEyLITWZm9KL/dK4q9knEoV+TXO6CvpPczfz6M=;
+        b=AutWeocNLvJdQJ5BVAVDZ49MBHVgtqQ9BE4c5YK5di50x4zWQDKtnu/Dp5nGPAiRH9
+         0CrHc7wl4xurKP3MQWCEwft3KHqTbpxbiPDm1JITDR4svMdPD7kc/yRtem6/jkTmPCev
+         MsnUdfMGfqcnV1NZuccpjk2hq7O1S0Tp4lVGhhdMo87/KYhJWFtpa+PNH1+W61+aSxCM
+         r9lzbXMikue0DQbkLmMmj9mAcUe26ZHbxZdjSas0SWs2lzoYIP6R4Jz8YH1O8JnaNGCT
+         7evJxBHPOvlzk4WJC4X87DMiwqJ4dYVBAyEJEJCoWJ86D8WahXKbFMPftfNdp7wETyHb
+         LYmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708949746; x=1709554546;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k6zd1PEyLITWZm9KL/dK4q9knEoV+TXO6CvpPczfz6M=;
+        b=UPXmdTx4u6ke5iSCIrvf7i73n/Sdx1ByMDzYBZjQF7c61kjahh8edMLeHqAlG+FNk5
+         zvI1ZIrGJX4PFLYZeSKlJloBb5PsVPjJ8+KqqYQooMd9llV2w6qh/lRUwHr9levLX0/m
+         aOUcdZLCqCXQ334SF+zPPa0s0nWnGwpNp7yL/d3sxHNv6Mkv3Fg/i181HY1oMPiGTlD8
+         5Wz1Gk2GrBjPXYKSskrcxrDrIkj35C5RHqp01tBZzFSp4sOdioILA38O4BfMEtH2efiL
+         seu9rJiwc5bWin6mvtxiAZlSVW3FYnpeoUikgOzr6gOOf2VmZIBXxHp+joGtb4zXIGEQ
+         yO/w==
+X-Forwarded-Encrypted: i=1; AJvYcCX5UowDTpzz2A57hnuWbgBbcQfZMXU2vg/QZMHA01DA8M3v+W0TyYGh73LxQTYnFRXyux/j4zBjk4+9kBuVchOagPFt
+X-Gm-Message-State: AOJu0YxXBlZkm08sM0kZmrQjaJcascaW719Dn38WHVpyPaPlOhImK8dG
+	Nq83tGIgxEnwPZ0BWhQaIyBFHw/ZTZb9QGJssKagTKHU1ENJ8DhwCZfBHxJ5XQ==
+X-Google-Smtp-Source: AGHT+IFDKTAEwU7H2ub/fu0Zunzeq97i1ADGULrYokdFChSWx4DN0La9rIhOTdH6MyK96EtToENjlA==
+X-Received: by 2002:a05:6a21:31c7:b0:1a0:adbc:7a96 with SMTP id zb7-20020a056a2131c700b001a0adbc7a96mr5643823pzb.36.1708949746498;
+        Mon, 26 Feb 2024 04:15:46 -0800 (PST)
+Received: from thinkpad ([117.202.184.81])
+        by smtp.gmail.com with ESMTPSA id p18-20020a056a0026d200b006e45b910a98sm3912974pfw.6.2024.02.26.04.15.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 04:15:46 -0800 (PST)
+Date: Mon, 26 Feb 2024 17:45:42 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: ath11k@lists.infradead.org, mhi@lists.linux.dev,
+	linux-wireless@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/3] bus: mhi: host: add mhi_power_down_no_destroy()
+Message-ID: <20240226121542.GD8422@thinkpad>
+References: <20240221030026.10553-1-quic_bqiang@quicinc.com>
+ <20240221030026.10553-2-quic_bqiang@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240221030026.10553-2-quic_bqiang@quicinc.com>
 
-On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
-> In order to add support for Hyper DMA (HDMA), let's refactor the existing
-> dw_pcie_edma_find_chip() API by moving the common code to separate
-> functions.
+On Wed, Feb 21, 2024 at 11:00:24AM +0800, Baochen Qiang wrote:
+> ath11k fails to resume:
 > 
-> No functional change.
+> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
 > 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> This happens because when calling mhi_sync_power_up() the MHI subsystem
+> eventually calls device_add() from mhi_create_devices() but the device
+> creation is deferred:
+> 
+> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+> 
+> The reason for deferring device creation is explained in dpm_prepare():
+> 
+>         /*
+>          * It is unsafe if probing of devices will happen during suspend or
+>          * hibernation and system behavior will be unpredictable in this case.
+>          * So, let's prohibit device's probing here and defer their probes
+>          * instead. The normal behavior will be restored in dpm_complete().
+>          */
+> 
+> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not
+> called and thus MHI channels are not prepared:
+> 
+> So what this means that QRTR is not delivering messages and the QMI connection
+> is not working between ath11k and the firmware, resulting a failure in firmware
+> initialization.
+> 
+> To fix this add new function mhi_power_down_no_destroy() which doesn't destroy
+> the devices for channels during power down. This way we avoid probe defer issue
+> and finally can get ath11k hibernation working with the following patches.
+> 
 
-Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+Upto this line is the actual commit message and below should be moved to the
+comments section of the patch.
 
-Regards,
-Siddharth.
-
+> Actually there is an RFC version of this change and it gets positive results
+> from multiple users. Firstly Mani doesn't like this idea and insists that an
+> MHI device should be destroyed when going to suspend/hibernation, see
+> 
+> https://lore.kernel.org/mhi/20231127162022.518834-1-kvalo@kernel.org/
+> 
+> Then Mani changed his mind after a further discussion with kernel PM guys,
+> see
+> 
+> https://lore.kernel.org/all/21cd2098-97e1-4947-a5bb-a97582902ead@quicinc.com/
+> 
+> So we come up with the regular version and it is almost identical with that RFC
+> version.
+> 
+> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> 
+> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
 > ---
->  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
->  1 file changed, 39 insertions(+), 13 deletions(-)
+>  drivers/bus/mhi/host/internal.h |  4 +++-
+>  drivers/bus/mhi/host/pm.c       | 36 +++++++++++++++++++++++++++------
+>  include/linux/mhi.h             | 15 +++++++++++++-
+>  3 files changed, 47 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 250cf7f40b85..193fcd86cf93 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
->  	.irq_vector = dw_pcie_edma_irq_vector,
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 091244cf17c6..8ce4aec56425 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -86,6 +86,7 @@ enum dev_st_transition {
+>  	DEV_ST_TRANSITION_FP,
+>  	DEV_ST_TRANSITION_SYS_ERR,
+>  	DEV_ST_TRANSITION_DISABLE,
+> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
+>  	DEV_ST_TRANSITION_MAX,
 >  };
 >  
-> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-> +{
-> +	pci->edma.dev = pci->dev;
-> +
-> +	if (!pci->edma.ops)
-> +		pci->edma.ops = &dw_pcie_edma_ops;
-> +
-> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +}
-> +
-> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
->  {
->  	u32 val;
+> @@ -96,7 +97,8 @@ enum dev_st_transition {
+>  	dev_st_trans(MISSION_MODE,	"MISSION MODE")		\
+>  	dev_st_trans(FP,		"FLASH PROGRAMMER")	\
+>  	dev_st_trans(SYS_ERR,		"SYS ERROR")		\
+> -	dev_st_trans_end(DISABLE,	"DISABLE")
+> +	dev_st_trans(DISABLE,		"DISABLE")		\
+> +	dev_st_trans_end(DISABLE_DESTROY_DEVICE, "DISABLE (DESTROY DEVICE)")
 >  
-> @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	else
->  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
->  
-> -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
-> -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> -
-> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> -	} else if (val != 0xFFFFFFFF) {
-> -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
-> +	/* Set default mapping format here and update it below if needed */
-> +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
->  
-> +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
-> +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> +	else if (val != 0xFFFFFFFF)
->  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
-> -	} else {
-> +	else
->  		return -ENODEV;
-> -	}
->  
-> -	pci->edma.dev = pci->dev;
-> +	return 0;
-> +}
->  
-> -	if (!pci->edma.ops)
-> -		pci->edma.ops = &dw_pcie_edma_ops;
-> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> +{
-> +	u32 val;
->  
-> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> +	else
-> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  
->  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
->  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	return 0;
+>  extern const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX];
+>  #define TO_DEV_STATE_TRANS_STR(state) (((state) >= DEV_ST_TRANSITION_MAX) ? \
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 8b40d3f01acc..5686d32f7458 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -468,7 +468,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
 >  }
 >  
-> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +{
-> +	int ret;
-> +
-> +	dw_pcie_edma_init_data(pci);
-> +
-> +	ret = dw_pcie_edma_find_mf(pci);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return dw_pcie_edma_find_channels(pci);
-> +}
-> +
->  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+>  /* Handle shutdown transitions */
+> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
+> +				      bool destroy_device)
 >  {
->  	struct platform_device *pdev = to_platform_device(pci->dev);
-> 
+>  	enum mhi_pm_state cur_state;
+>  	struct mhi_event *mhi_event;
+> @@ -530,8 +531,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>  	dev_dbg(dev, "Waiting for all pending threads to complete\n");
+>  	wake_up_all(&mhi_cntrl->state_event);
+>  
+> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+
+I'd be nice to add a comment here on why destroying the device is optional.
+
+> +	if (destroy_device) {
+> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> +	}
+>  
+>  	mutex_lock(&mhi_cntrl->pm_mutex);
+>  
+> @@ -821,7 +824,10 @@ void mhi_pm_st_worker(struct work_struct *work)
+>  			mhi_pm_sys_error_transition(mhi_cntrl);
+>  			break;
+>  		case DEV_ST_TRANSITION_DISABLE:
+> -			mhi_pm_disable_transition(mhi_cntrl);
+> +			mhi_pm_disable_transition(mhi_cntrl, false);
+> +			break;
+> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
+> +			mhi_pm_disable_transition(mhi_cntrl, true);
+>  			break;
+>  		default:
+>  			break;
+> @@ -1175,7 +1181,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_async_power_up);
+>  
+> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +static void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+> +			     bool destroy_device)
+>  {
+>  	enum mhi_pm_state cur_state, transition_state;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> @@ -1211,15 +1218,32 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>  	write_unlock_irq(&mhi_cntrl->pm_lock);
+>  	mutex_unlock(&mhi_cntrl->pm_mutex);
+>  
+> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
+> +	if (destroy_device)
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
+> +	else
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE);
+>  
+>  	/* Wait for shutdown to complete */
+>  	flush_work(&mhi_cntrl->st_worker);
+>  
+>  	disable_irq(mhi_cntrl->irq[0]);
+>  }
+> +
+> +void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, true);
+> +}
+>  EXPORT_SYMBOL_GPL(mhi_power_down);
+>  
+> +void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl,
+
+How about "mhi_power_down_keep_dev"? Not the best of the API naming suggestion,
+but it reflects what the API does.
+
+> +			       bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, false);
+> +}
+> +EXPORT_SYMBOL_GPL(mhi_power_down_no_destroy);
+> +
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+>  {
+>  	int ret = mhi_async_power_up(mhi_cntrl);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index 474d32cb0520..39a6a944a52c 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -647,12 +647,25 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
+>  
+>  /**
+> - * mhi_power_down - Start MHI power down sequence
+> + * mhi_power_down - Start MHI power down sequence. See also
+
+How about?
+
+	/**
+	 * mhi_power_down - Power down the MHI device and also destroy the
+	 * 		    'struct device' for the channels associated with it.
+
+	 ...
+
+	 * See also mhi_power_down_keep_dev() which is a variant of
+	 * this API that keeps the 'struct device' for channels (useful during
+	 * suspend/hibernation).
+	 */
+
+> + * mhi_power_down_no_destroy() which is a variant of this for
+> + * suspend/hibernation.
+> + *
+>   * @mhi_cntrl: MHI controller
+>   * @graceful: Link is still accessible, so do a graceful shutdown process
+>   */
+>  void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
+>  
+> +/**
+> + * mhi_power_down_no_destroy - Start MHI power down sequence but don't destroy
+> + * struct devices for channels. This is a variant for mhi_power_down() and
+> + * would be useful in suspend/hibernation.
+> + *
+
+	/**
+	 * mhi_power_down_keep_dev - Power down the MHI device but keep the
+	 * 			     'struct device' for the channels
+	 *			     associated with it.
+
+	 ...
+
+	 * This is a variant of 'mhi_power_down' and useful in scenarios such as
+	 * suspend/hibernation where destroying of the 'struct device' is not
+	 * needed.
+	 */
+
+- Mani
+
+> + * @mhi_cntrl: MHI controller
+> + * @graceful: Link is still accessible, so do a graceful shutdown process
+> + */
+> +void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl, bool graceful);
+> +
+>  /**
+>   * mhi_unprepare_after_power_down - Free any allocated memory after power down
+>   * @mhi_cntrl: MHI controller
 > -- 
 > 2.25.1
 > 
 > 
+
+-- 
+மணிவண்ணன் சதாசிவம்
