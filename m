@@ -1,62 +1,61 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0763D54F95
-	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 07:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5438B54F82
+	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 07:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709019306; cv=none; b=itmwbhCHBtXQu7g+jUAOlHaDabMP5xGD+NGMCDp+VghdsrjtVRJqNcHUZPYtOGcVvn8qaYMmzp5F33VkAkX7Bq8DQRaSQgITau5p3uUFyAr9Lntluw+/usHkxBrcxgdZ3cML04AGJODyBTYuKvq5ekMDawUMffbqYdgHQVpSCEE=
+	t=1709019944; cv=none; b=gVBd8sVRVcZoEKhzwYeTRKhD9x5xBhH/n6hz1rIeqgzZn034l2KDlfUC1oGNaqTFHTvxIDXtVe5jyrqBKaxTw2697WsO4s+rYb0NNkQEA1ifPjerqOpUglJcxT2/71xDwFSfiKFDFvfRSiraEtkEgWRNOt30r6MbM3nOLryoxcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709019306; c=relaxed/simple;
-	bh=pAafngDaYgAut7R/eqNrFUqz29Ygcobextfawbs04io=;
+	s=arc-20240116; t=1709019944; c=relaxed/simple;
+	bh=LHY1soh3TSDneqtCq2eVyxDXi8p5oUsCqKFJ1MDn28Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VPAzK7SZObj+XALO39AgDg8NB+8nCSHjZeEBqIVR/y36+uwZvsL+1+9JIhV9dMiOm2uFPIrCLYl6eUE55Rg7s/+1Ky9qV6jQtL2lnbqPDMO/V2n+MlpVA+qz0+GyH6DJIwCjlYadHkTjEVc1uwDt/OLRIE7vQ6XXH2TdhwVyGK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZM+hpcw; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=qpLdd4jOr+oTIMNUNcEG7gm+3KN8CTan4crBg+lFGnwogyw08QqS/IuLEBoK06GN4joDBtTHbWZAzyIB9yRwyqbcGJMs1CPKKF8YelOy+QZ8bRMU3FGSMgam+/FNtCjHkcapYHlAk9brRJPgokLAtKcWjgk+3udikBfrMciOomc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N0u6pfmO; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZM+hpcw"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d911c2103aso21601805ad.0
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 23:35:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N0u6pfmO"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dc09556599so34369485ad.1
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 23:45:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709019304; x=1709624104; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1709019942; x=1709624742; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
-        b=hZM+hpcwzUPKNgrM3TI++JbAu9NgyOQDiuVv6YFnjv3ImNhN14iM7TRE/PGtGII0I0
-         saQk3CdzhmVpa8fQS8vQwDNb4X6BkAETeXeV+M7QsU61AwRlzV/o84VYTZBLebNyylZ2
-         7/90CZM9bhTGSVy/exMIXRX+FN0RKjHvPNdd2b8uLY1yFol+dFNOqC+9aAOD11wkXzOt
-         Cy7BaffwV27IqEWOdYNTVNT35gTiGLYsnP5btVYicuGv0PA0QZrwNQo6kOGlhgkgLC+m
-         Ou24I75O9NRWg9Ov50XLpFCKW0tjCB5sm3/VKYYz6i4ewEYGxEU0lRvaRiIFBIwSSApi
-         yq4A==
+        bh=vz+b24keEy8SKVGT/zsCqIzqYg8F8QonmdaHU6M1RMQ=;
+        b=N0u6pfmODtvrOzWNmGrmdtxBAkS4hVm6We6i0WRzO3Mlm0icuLz7Yui7QrmaS08IoJ
+         1J6eRWEhQZiEfiEseoJ+vOtrl7jETphUovXyLCqqYVgcIzdtheWkOE0vv2ML2VbZ6N37
+         yoX2PVdW/zI/dmnrpkeXBkg5dgldbjzU00j/47l2u+qyhv0pcv+OcE+cPtgmSWNTQzrM
+         FA6bzFYda1Zc5gDXYtgVg+qivXbqzybGJ8QLlJnE5jdKZNDd6+jfSzohdgsDE87qRCvy
+         xkgRnnGxIVhenj0488g3Fn9L+U7LhqkubRMY4HdH5pPlN/GGtM0cgmoTgIusy1sbT3Gs
+         Eogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709019304; x=1709624104;
+        d=1e100.net; s=20230601; t=1709019942; x=1709624742;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
-        b=a9ptsqlJALyu+yAOjh4qapGOQtxYdt3eUGRpY3t5rqua0zo77owpTqy3yWZJLPGEw0
-         Yga+tH77rk1YtMq1axqUe4+zrnOqkX45l0ziVT7iePQxviSfoMtp9G5R1NkEswan3O3K
-         x4LRdkf0S5u0mIEFJ5p7el8AA21siX5W6EOF85xtlD23Xx3UtD36gEsgVt9tCqXd2Ren
-         FQzOiFmsBIscEW4g7WRRNZZQpdFtqydTMq8dcqEivubamGgtLf/K1UIr2NoO6nmszsG8
-         QhKh3mPrxqQg1YDlAtzDTo/EC8DFS0hbdGRo389Vn3h416S6ZduobYhlvYUypJGVpNvt
-         FYvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYzf7K0FMghVPqsmLc4+PmCKaH+Hq2fpSvUKkgls39Xd1PaIhDagXKnm+HUtIMIV7zEuzabaBaHV+iRebwNfZhbCAX
-X-Gm-Message-State: AOJu0YyjtcV6VK6ST6hPIwLyPZxczM5IUe2l0xNAk7wiyv+mNYvvP1gF
-	Ix7IQRG+WEB7SF7ENrtg4CfzkJPjiAStmqPv4iBb1KwD0FMb9CRHTrS0G28i/A==
-X-Google-Smtp-Source: AGHT+IF5qCH87pgk8mzfEN6e/vWkj+Lkv+zoEImw8I8EPmhF8wuiKbsba1BqsKFCjz+kC+4zNB6kVg==
-X-Received: by 2002:a17:903:41cb:b0:1dc:38c7:ba1a with SMTP id u11-20020a17090341cb00b001dc38c7ba1amr11749172ple.25.1709019304388;
-        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
+        bh=vz+b24keEy8SKVGT/zsCqIzqYg8F8QonmdaHU6M1RMQ=;
+        b=DJEGG0GzuJt6HXnKHD+0xww1C+CX75xJsWsQZw9oW8vRUCZkJ98BOHV6ZWmtL59iMT
+         2uKPMx6k5LVrx4sYa3J4dPNGSOn164dB64LdxLd2BcN8kmwqK4EYmM6LLRkgtniX+Eo6
+         lYyUEqVW+oV+shlEKBnqUfqdjxQjf+A4BRwybZSs7c3ItVxP6uSQ+6eFjnd0OIUIeKYv
+         eVYjLhIR+LXZ8pdTAlAqgqKwYdp95ZD/mrKWFrtOUyTzAp8zpf62KZXDomPOGXU9+P+t
+         e9Bnto4VRfU2Ii3NHfNrQuNXrNlltiMdKdUaNDyk2TmNIvuqi5D8gSG+58fPL6CeVC+P
+         hwtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXkJSYd4khkyWvvyIc2qXFMaW7aMYKc4hI581qxz3VG+zj+Zatee5FwPMYPq2FqyogoCN5R7SYQnAh86LY/taCwVV6
+X-Gm-Message-State: AOJu0YyHTG8C3Dg2lgJmIRLeK3+XtvEb1TNaxIXFC61qqOvZZIN1gyVs
+	i9HUg9g+B6uj2B1Hi1ixv2s8QwGQrf0X0ly8EOxtgCb9dXv+TXsrLEpa8wUcZQ==
+X-Google-Smtp-Source: AGHT+IGoPWkNE6JIjVJz1XqdnjAP9lGvBAm0VujbexvNFkLOg4OzNepoOaOycaMqUlL+eVesMoK8lA==
+X-Received: by 2002:a17:902:db0e:b0:1dc:b77e:1973 with SMTP id m14-20020a170902db0e00b001dcb77e1973mr1593245plx.53.1709019941652;
+        Mon, 26 Feb 2024 23:45:41 -0800 (PST)
 Received: from thinkpad ([117.213.97.177])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b001d9eef9892asm852511plg.174.2024.02.26.23.34.59
+        by smtp.gmail.com with ESMTPSA id l20-20020a170902e2d400b001d71729ec9csm884589plc.188.2024.02.26.23.45.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
-Date: Tue, 27 Feb 2024 13:04:55 +0530
+        Mon, 26 Feb 2024 23:45:41 -0800 (PST)
+Date: Tue, 27 Feb 2024 13:15:33 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
+To: Frank Li <Frank.li@nxp.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
 	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
@@ -64,16 +63,16 @@ Cc: Siddharth Vadapalli <s-vadapalli@ti.com>,
 	Marek Vasut <marek.vasut+renesas@gmail.com>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-Message-ID: <20240227073455.GG2587@thinkpad>
+	Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	Siddharth Vadapalli <s-vadapalli@ti.com>
+Subject: Re: [PATCH v3 3/5] PCI: dwc: Pass the eDMA mapping format flag
+ directly from glue drivers
+Message-ID: <20240227074533.GH2587@thinkpad>
 References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
- <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
- <fielxplkgrvz5qmqrrq5ahmah5yqx7anjylrlcqyev2z2cl2wo@3ltyl242vkba>
- <20240226152757.GF8422@thinkpad>
- <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
+ <20240226-dw-hdma-v3-3-cfcb8171fc24@linaro.org>
+ <Zdy8lVU6r+JO6OSJ@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -83,157 +82,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
+In-Reply-To: <Zdy8lVU6r+JO6OSJ@lizhi-Precision-Tower-5810>
 
-On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
-> On Mon, Feb 26, 2024 at 08:57:57PM +0530, Manivannan Sadhasivam wrote:
-> > On Mon, Feb 26, 2024 at 03:45:16PM +0300, Serge Semin wrote:
-> > > Hi Manivannan
-> > > 
-> > > On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
-> > > > In order to add support for Hyper DMA (HDMA), let's refactor the existing
-> > > > dw_pcie_edma_find_chip() API by moving the common code to separate
-> > > > functions.
-> > > > 
-> > > > No functional change.
-> > > > 
-> > > > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > > ---
-> > > >  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
-> > > >  1 file changed, 39 insertions(+), 13 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > index 250cf7f40b85..193fcd86cf93 100644
-> > > > --- a/drivers/pci/controller/dwc/pcie-designware.c
-> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
-> > > >  	.irq_vector = dw_pcie_edma_irq_vector,
-> > > >  };
-> > > >  
-> > > > -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> > > > +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-> > > > +{
-> > > > +	pci->edma.dev = pci->dev;
-> > > > +
-> > > > +	if (!pci->edma.ops)
-> > > > +		pci->edma.ops = &dw_pcie_edma_ops;
-> > > > +
-> > > > +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> > > > +}
-> > > > +
-> > > > +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
-> > > >  {
-> > > >  	u32 val;
-> > > >  
-> > > > @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> > > >  	else
-> > > >  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > > > 
-> > > 
-> > > > -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
-> > > > -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> > > > -
-> > > > -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > > > -	} else if (val != 0xFFFFFFFF) {
-> > > > -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
-> > > > +	/* Set default mapping format here and update it below if needed */
-> > > > +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
-> > > >  
-> > > > +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
-> > > > +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> > > > +	else if (val != 0xFFFFFFFF)
-> > > >  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
-> > > > -	} else {
-> > > > +	else
-> > > >  		return -ENODEV;
-> > > > -	}
-> > > 
-> > > Sorry for not posting my opinion about this earlier, but IMO v2 code
-> > > was more correct than this one. This version makes the code being not
-> > > linear as it was in v2, thus harder to comprehend:
-> > > 
-> > > 1. Setting up a default value and then overriding it or not makes the
-> > > reader to keep in mind the initialized value which is harder than to
-> > > just read what is done in the respective branch.
-> > > 
-> > 
-> > No, I disagree. Whether we set the default value or not, EDMA_MF_EDMA_LEGACY is
-> > indeed the default mapping format (this is one of the reasons why the enums
-> > should start from 1 instead of 0). So initializing it to legacy is not changing
-> > anything, rather making it explicit.
-> > 
-> > > 2. Splitting up the case clause with respective inits and the mapping
-> > > format setting up also makes it harder to comprehend what's going on.
-> > > In the legacy case the reg-base address and the mapping format init are
-> > > split up while they should have been done simultaneously only if (val
-> > > != 0xFFFFFFFF).
-> > > 
-> > 
-> > Well again, this doesn't matter since the default mapping format is legacy. But
-> > somewhat agree that the two clauses are setting different fields, but even if
-> > the legacy mapping format is set inside the second clause, it still differs from
-> > the first one since we are not setting reg_base.
-> > 
-> > > 3. The most of the current devices has the unrolled mapping (available
-> > > since v4.9 IP-core), thus having the mf field pre-initialized produces
-> > > a redundant store operation for the most of the modern devices.
-> > > 
-> > 
-> > Ok, this one I agree. We could avoid the extra assignment.
-> > 
-> > > 4. Getting rid from the curly braces isn't something what should be
-> > > avoided at any cost and doesn't give any optimization really. It
-> > > doesn't cause having less C-lines of the source code and doesn't
-> > > improve the code readability.
-> > > 
-> > 
-> > Yeah, there is no benefit other than a simple view of the code. But for point
-> > (3), I agree to roll back to v2 version.
-> > 
-> > > So to speak, I'd suggest to get back the v2 implementation here.
-> > > 
-> > > >  
-> > > > -	pci->edma.dev = pci->dev;
-> > > > +	return 0;
-> > > > +}
-> > > >  
-> > > > -	if (!pci->edma.ops)
-> > > > -		pci->edma.ops = &dw_pcie_edma_ops;
-> > > > +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> > > > +{
-> > > > +	u32 val;
-> > > >  
-> > > > -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> > > 
-> > > > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> > > > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > > > +	else
-> > > > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > > 
-> > > Just dw_pcie_readl_dma(pci, PCIE_DMA_CTRL)
-> > > 
-> > 
-> > 'val' is uninitialized. Why should the assignment be skipped?
+On Mon, Feb 26, 2024 at 11:30:13AM -0500, Frank Li wrote:
+> On Mon, Feb 26, 2024 at 05:07:28PM +0530, Manivannan Sadhasivam wrote:
+> > Instead of maintaining a separate capability for glue drivers that cannot
+> > support auto detection of the eDMA mapping format, let's pass the mapping
+> > format directly from them.
 > 
-> The entire
-> 
-> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> +	else
-> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> 
-> can be replaced with a single line
-> 
-> +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> 
-> since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) and the
-> reg_base has been initialized by now.
+> Sorry, what's mapping? is it register address layout?
 > 
 
-Ah okay, got it!
+Memory map containing the register layout for iATU, DMA etc...
 
 - Mani
+
+> Frank
+> 
+> > 
+> > This will simplify the code and also allow adding HDMA support that also
+> > doesn't support auto detection of mapping format.
+> > 
+> > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> > Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >  drivers/pci/controller/dwc/pcie-designware.c | 16 +++++++++-------
+> >  drivers/pci/controller/dwc/pcie-designware.h |  5 ++---
+> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+> >  3 files changed, 12 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > index ce273c3c5421..3e90b9947a13 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > @@ -894,18 +894,20 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+> >  {
+> >  	u32 val;
+> >  
+> > +	/*
+> > +	 * Bail out finding the mapping format if it is already set by the glue
+> > +	 * driver. Also ensure that the edma.reg_base is pointing to a valid
+> > +	 * memory region.
+> > +	 */
+> > +	if (pci->edma.mf != EDMA_MF_EDMA_LEGACY)
+> > +		return pci->edma.reg_base ? 0 : -ENODEV;
+> > +
+> >  	/*
+> >  	 * Indirect eDMA CSRs access has been completely removed since v5.40a
+> >  	 * thus no space is now reserved for the eDMA channels viewport and
+> >  	 * former DMA CTRL register is no longer fixed to FFs.
+> > -	 *
+> > -	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
+> > -	 * have zeros in the eDMA CTRL register even though the HW-manual
+> > -	 * explicitly states there must FFs if the unrolled mapping is enabled.
+> > -	 * For such cases the low-level drivers are supposed to manually
+> > -	 * activate the unrolled mapping to bypass the auto-detection procedure.
+> >  	 */
+> > -	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
+> > +	if (dw_pcie_ver_is_ge(pci, 540A))
+> >  		val = 0xFFFFFFFF;
+> >  	else
+> >  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > index 26dae4837462..995805279021 100644
+> > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > @@ -51,9 +51,8 @@
+> >  
+> >  /* DWC PCIe controller capabilities */
+> >  #define DW_PCIE_CAP_REQ_RES		0
+> > -#define DW_PCIE_CAP_EDMA_UNROLL		1
+> > -#define DW_PCIE_CAP_IATU_UNROLL		2
+> > -#define DW_PCIE_CAP_CDM_CHECK		3
+> > +#define DW_PCIE_CAP_IATU_UNROLL		1
+> > +#define DW_PCIE_CAP_CDM_CHECK		2
+> >  
+> >  #define dw_pcie_cap_is(_pci, _cap) \
+> >  	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
+> > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > index e9166619b1f9..3c535ef5ea91 100644
+> > --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > @@ -255,7 +255,7 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+> >  	rcar->dw.ops = &dw_pcie_ops;
+> >  	rcar->dw.dev = dev;
+> >  	rcar->pdev = pdev;
+> > -	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
+> > +	rcar->dw.edma.mf = EDMA_MF_EDMA_UNROLL;
+> >  	dw_pcie_cap_set(&rcar->dw, REQ_RES);
+> >  	platform_set_drvdata(pdev, rcar);
+> >  
+> > 
+> > -- 
+> > 2.25.1
+> > 
 
 -- 
 மணிவண்ணன் சதாசிவம்
