@@ -1,79 +1,79 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9594854775
-	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 07:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0763D54F95
+	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 07:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709018364; cv=none; b=Fid2OC0a7wz4nisIzOFZnOr2dD3QjtATZ87luJaQUtXhZrx01ONckL0FK1JsFXAxw2hoGLmSUV/me/ubBJmccPHgxGTwflUmYdL021rWEs/a1rNguesA9r7IbR1ZPBa1Xyk5DdA0JFv+haskbK01usKxJyw4bbuEVYhK9I4pMYY=
+	t=1709019306; cv=none; b=itmwbhCHBtXQu7g+jUAOlHaDabMP5xGD+NGMCDp+VghdsrjtVRJqNcHUZPYtOGcVvn8qaYMmzp5F33VkAkX7Bq8DQRaSQgITau5p3uUFyAr9Lntluw+/usHkxBrcxgdZ3cML04AGJODyBTYuKvq5ekMDawUMffbqYdgHQVpSCEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709018364; c=relaxed/simple;
-	bh=lVyTXCleZImck8BrH8tMbX31xUSHJ2/S9SscG0nZ/HY=;
+	s=arc-20240116; t=1709019306; c=relaxed/simple;
+	bh=pAafngDaYgAut7R/eqNrFUqz29Ygcobextfawbs04io=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQlIlfRtaFKoPoW1gecqBf5a/jRx8j1xa45qHRThPJttPSS2PNeVyL6CIJxWGkF2i32RFHeLjl7ZyGQCzlSqfcg4hJ7yCtCKtUiWf5ZvH6Yr6SC9mX/jJrZrqJ1tjc+yqpdn1Hsv+f65tDdUjY4f3DprXhyqzAN9qS9Ih9vfE4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g21iPOxP; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPAzK7SZObj+XALO39AgDg8NB+8nCSHjZeEBqIVR/y36+uwZvsL+1+9JIhV9dMiOm2uFPIrCLYl6eUE55Rg7s/+1Ky9qV6jQtL2lnbqPDMO/V2n+MlpVA+qz0+GyH6DJIwCjlYadHkTjEVc1uwDt/OLRIE7vQ6XXH2TdhwVyGK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZM+hpcw; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g21iPOxP"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e4d48a5823so3182274b3a.1
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 23:19:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZM+hpcw"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d911c2103aso21601805ad.0
+        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 23:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709018362; x=1709623162; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1709019304; x=1709624104; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=QxFTuOsrpMcuyCu0Hy+lb4Bd4RUL02qdG86Qt+qw8gE=;
-        b=g21iPOxPGvkN1EveDWbu2BDnjRGO78spHuQyjBs1WNre6/+rW3hj7+W/QoLOKtZ/Uq
-         0yImDSpRxlJF6JX1RY2mfI256yqf7I3L1QkW08V6kCzg+FJFt1jb3Isn4HFswkZDoqSA
-         rmFg9Ky47ttB5MvEbS3/47cbLwSoDJHWeIgI6kiZwxEmE9tEV1hiN4LQADfmUPUs5fTd
-         RvNZKX8KeaF7JQ4HsTRwe+KA+sExPcBniQ3pnaW4JjlmCeUOfhyk8J/PD+q5WbNo4GyD
-         Txbh9VvitAcvn3l5ymyi4md3n598MqDkH7XdjpU2Glkd9PQEUobfgeOEkWcxHFBZNtoN
-         XhNA==
+        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
+        b=hZM+hpcwzUPKNgrM3TI++JbAu9NgyOQDiuVv6YFnjv3ImNhN14iM7TRE/PGtGII0I0
+         saQk3CdzhmVpa8fQS8vQwDNb4X6BkAETeXeV+M7QsU61AwRlzV/o84VYTZBLebNyylZ2
+         7/90CZM9bhTGSVy/exMIXRX+FN0RKjHvPNdd2b8uLY1yFol+dFNOqC+9aAOD11wkXzOt
+         Cy7BaffwV27IqEWOdYNTVNT35gTiGLYsnP5btVYicuGv0PA0QZrwNQo6kOGlhgkgLC+m
+         Ou24I75O9NRWg9Ov50XLpFCKW0tjCB5sm3/VKYYz6i4ewEYGxEU0lRvaRiIFBIwSSApi
+         yq4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709018362; x=1709623162;
+        d=1e100.net; s=20230601; t=1709019304; x=1709624104;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QxFTuOsrpMcuyCu0Hy+lb4Bd4RUL02qdG86Qt+qw8gE=;
-        b=BdjznRsev1L0o7t97r2puUEMeNH4V2oHxdK71t4nLoUwT+k+sPfXBkYb9AeqIhbm+g
-         hf12MQ4IiY0UlNW1Os2SJSYoRWnFwbelp0POB6T+2rcXNFgzqAV5tyqmsvWelqdBDWWP
-         HQnFYMFJWbg0XjlmJrjjMP/FX8FoqjAL72m2pPoKM3hOmRsxdWAxJ5tkmk8X9NrruNal
-         1gI8uoS1Jxg/UgRSDTsODnNkrR42YltkB6en8wb3SViCJo5gY0gAlDdZTezJRFzsd/Q4
-         ddILpEMKFBU+kd7giXew7rLCLkrbV8Nc0qYhg0xPys81kaOibgXc3Xdq1XuVZRUGYLL5
-         UPAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKoe7stGSHTDKrc3SnlyfrAJ/gSLae53/ZjKyB9E6OXSd8Co7zn4N9hKx9jF982LSNArCxUwcqivx6+SirUVRG4pmH
-X-Gm-Message-State: AOJu0YzOKE1mY4fAdAn0F7J8LyGoyPLIxe+cDFKPSLTnwdb8swQzM/On
-	+bg1FXqin/Kqo7LlheYz8HpRNtOLjzQEq+tPR3KmWH1VLMJTD9CZjssO4lZ/ug==
-X-Google-Smtp-Source: AGHT+IF1LF7zhEOVHEOb+Wy1qkWAaN21CKUVcJcNJZUjgL5YGc8K+RirkDo2jbJKuMOoL83r7N2YfA==
-X-Received: by 2002:a05:6a20:e605:b0:1a1:e83:8eb4 with SMTP id my5-20020a056a20e60500b001a10e838eb4mr801517pzb.9.1709018361960;
-        Mon, 26 Feb 2024 23:19:21 -0800 (PST)
+        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
+        b=a9ptsqlJALyu+yAOjh4qapGOQtxYdt3eUGRpY3t5rqua0zo77owpTqy3yWZJLPGEw0
+         Yga+tH77rk1YtMq1axqUe4+zrnOqkX45l0ziVT7iePQxviSfoMtp9G5R1NkEswan3O3K
+         x4LRdkf0S5u0mIEFJ5p7el8AA21siX5W6EOF85xtlD23Xx3UtD36gEsgVt9tCqXd2Ren
+         FQzOiFmsBIscEW4g7WRRNZZQpdFtqydTMq8dcqEivubamGgtLf/K1UIr2NoO6nmszsG8
+         QhKh3mPrxqQg1YDlAtzDTo/EC8DFS0hbdGRo389Vn3h416S6ZduobYhlvYUypJGVpNvt
+         FYvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYzf7K0FMghVPqsmLc4+PmCKaH+Hq2fpSvUKkgls39Xd1PaIhDagXKnm+HUtIMIV7zEuzabaBaHV+iRebwNfZhbCAX
+X-Gm-Message-State: AOJu0YyjtcV6VK6ST6hPIwLyPZxczM5IUe2l0xNAk7wiyv+mNYvvP1gF
+	Ix7IQRG+WEB7SF7ENrtg4CfzkJPjiAStmqPv4iBb1KwD0FMb9CRHTrS0G28i/A==
+X-Google-Smtp-Source: AGHT+IF5qCH87pgk8mzfEN6e/vWkj+Lkv+zoEImw8I8EPmhF8wuiKbsba1BqsKFCjz+kC+4zNB6kVg==
+X-Received: by 2002:a17:903:41cb:b0:1dc:38c7:ba1a with SMTP id u11-20020a17090341cb00b001dc38c7ba1amr11749172ple.25.1709019304388;
+        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
 Received: from thinkpad ([117.213.97.177])
-        by smtp.gmail.com with ESMTPSA id kr12-20020a170903080c00b001dca813b07csm839619plb.62.2024.02.26.23.19.18
+        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b001d9eef9892asm852511plg.174.2024.02.26.23.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 23:19:21 -0800 (PST)
-Date: Tue, 27 Feb 2024 12:49:15 +0530
+        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
+Date: Tue, 27 Feb 2024 13:04:55 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Baochen Qiang <quic_bqiang@quicinc.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Takashi Iwai <tiwai@suse.de>, Jiri Slaby <jirislaby@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Linux Wireless <linux-wireless@vger.kernel.org>,
-	ath11k@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
-Subject: Re: ath11k allocation failure on resume breaking wifi until power
- cycle
-Message-ID: <20240227071915.GE2587@thinkpad>
-References: <96481a45-3547-4d23-ad34-3a8f1d90c1cd@suse.cz>
- <0994ae16-8174-4a04-b454-1974b16bc106@quicinc.com>
- <20240222054739.GG3374@thinkpad>
- <38c36d16-9cc1-4f03-b758-4a3ba90f8aa4@suse.cz>
- <abc0c24f-2137-41eb-bb99-80aea8dacdb2@quicinc.com>
- <a36b35a9-fb37-4afe-a718-a47dfe658cb5@suse.cz>
- <34123ee0-26c9-4240-8d58-aba02f7c66b9@quicinc.com>
- <20240226114307.GA8422@thinkpad>
- <c4b7ec62-7d2d-438b-904d-d935e09e517c@quicinc.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <20240227073455.GG2587@thinkpad>
+References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
+ <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
+ <fielxplkgrvz5qmqrrq5ahmah5yqx7anjylrlcqyev2z2cl2wo@3ltyl242vkba>
+ <20240226152757.GF8422@thinkpad>
+ <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -83,101 +83,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c4b7ec62-7d2d-438b-904d-d935e09e517c@quicinc.com>
+In-Reply-To: <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
 
-On Tue, Feb 27, 2024 at 10:43:22AM +0800, Baochen Qiang wrote:
-> 
-> 
-> On 2/26/2024 7:43 PM, Manivannan Sadhasivam wrote:
-> > On Mon, Feb 26, 2024 at 05:11:17PM +0800, Baochen Qiang wrote:
+On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
+> On Mon, Feb 26, 2024 at 08:57:57PM +0530, Manivannan Sadhasivam wrote:
+> > On Mon, Feb 26, 2024 at 03:45:16PM +0300, Serge Semin wrote:
+> > > Hi Manivannan
 > > > 
+> > > On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
+> > > > In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> > > > dw_pcie_edma_find_chip() API by moving the common code to separate
+> > > > functions.
+> > > > 
+> > > > No functional change.
+> > > > 
+> > > > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > ---
+> > > >  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
+> > > >  1 file changed, 39 insertions(+), 13 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > > > index 250cf7f40b85..193fcd86cf93 100644
+> > > > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > > > @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+> > > >  	.irq_vector = dw_pcie_edma_irq_vector,
+> > > >  };
+> > > >  
+> > > > -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> > > > +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> > > > +{
+> > > > +	pci->edma.dev = pci->dev;
+> > > > +
+> > > > +	if (!pci->edma.ops)
+> > > > +		pci->edma.ops = &dw_pcie_edma_ops;
+> > > > +
+> > > > +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> > > > +}
+> > > > +
+> > > > +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+> > > >  {
+> > > >  	u32 val;
+> > > >  
+> > > > @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> > > >  	else
+> > > >  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > > > 
 > > > 
-> > > On 2/26/2024 4:45 PM, Vlastimil Babka wrote:
-> > > > On 2/26/24 03:09, Baochen Qiang wrote:
-> > > > > 
-> > > > > 
-> > > > > On 2/23/2024 11:28 PM, Vlastimil Babka wrote:
-> > > > > > On 2/22/24 06:47, Manivannan Sadhasivam wrote:
-> > > > > > > On Wed, Feb 21, 2024 at 08:34:23AM -0800, Jeff Johnson wrote:
-> > > > > > > > On 2/21/2024 6:39 AM, Vlastimil Babka wrote:
-> > > > > > > > > Hi,
-> > > > > > > > > 
-> > > > > > > > > starting with 6.8 rc series, I'm experiencing problems on resume from s2idle
-> > > > > > > > > on my laptop, which is Lenovo T14s Gen3:
-> > > > > > > > > 
-> > > > > > > > > LENOVO 21CRS0K63K/21CRS0K63K, BIOS R22ET65W (1.35 )
-> > > > > > > > > ath11k_pci 0000:01:00.0: wcn6855 hw2.1
-> > > > > > > > > ath11k_pci 0000:01:00.0: chip_id 0x12 chip_family 0xb board_id 0xff soc_id 0x400c1211
-> > > > > > > > > ath11k_pci 0000:01:00.0: fw_version 0x1106196e fw_build_timestamp 2024-01-12 11:30 fw_build_id WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.37
-> > > > > > > > > 
-> > > > > > > > > The problem is an allocation failure happening on resume from s2idle. After
-> > > > > > > > > that the wifi stops working and even a reboot won't fix it, only a
-> > > > > > > > > poweroff/poweron cycle of the laptop.
-> > > > > > > > > 
-> > > > > > > 
-> > > > > > > Looks like WLAN is powered down during s2idle, which doesn't make sense. I hope
-> > > > > > > Jeff will figure out what's going on.
-> > > > > > 
-> > > > > > You mean the firmware is supposed to power it down/up transparently without
-> > > > > > kernel involvement? Because it should be powered down to save the power, no?
-> > > > > Let me clarify: from backtrace info, seems you are using a kernel with
-> > > > > the hibernation-support patches [1] applied, which are not accepted yet
-> > > > > to mainline kernel or even
-> > > > > git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git.
-> > > > 
-> > > > Oh, you're right. Sorry for confusing you all. The rc kernel builds we have
-> > > > for openSUSE have nearly no non-upstream patches so it didn't really occur
-> > > > to me to double check if there might be in the area.
-> > > > 
-> > > > Seems Takashi (Cc'd) added them indeed to make hibernation work:
-> > > > https://bugzilla.suse.com/show_bug.cgi?id=1207948#c51
-> > > > 
-> > > > But then, why do they affect also s2idle, is it intentional? And why I only
-> > > Yes, it's intentional. When suspend/resume, ath11k does the same for either
-> > > a s2idle suspend or a deep one.
+> > > > -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> > > > -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> > > > -
+> > > > -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > > > -	} else if (val != 0xFFFFFFFF) {
+> > > > -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> > > > +	/* Set default mapping format here and update it below if needed */
+> > > > +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> > > >  
+> > > > +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+> > > > +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> > > > +	else if (val != 0xFFFFFFFF)
+> > > >  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> > > > -	} else {
+> > > > +	else
+> > > >  		return -ENODEV;
+> > > > -	}
+> > > 
+> > > Sorry for not posting my opinion about this earlier, but IMO v2 code
+> > > was more correct than this one. This version makes the code being not
+> > > linear as it was in v2, thus harder to comprehend:
+> > > 
+> > > 1. Setting up a default value and then overriding it or not makes the
+> > > reader to keep in mind the initialized value which is harder than to
+> > > just read what is done in the respective branch.
 > > > 
 > > 
-> > That's a terrible idea for usecases like Android IMO. s2idle happens very often
-> > on Android platforms (screen lock) and do you want to powerdown the WLAN device
-> > all the time?
-> I am not familiar with Android case. Is WoWLAN enabled in that case? I am
-> asking this because if WoWLAN is enabled ath11k goes another path and only
-> calls mhi_pm_suspend()/resume() instead of mhi_power_down()/up().
+> > No, I disagree. Whether we set the default value or not, EDMA_MF_EDMA_LEGACY is
+> > indeed the default mapping format (this is one of the reasons why the enums
+> > should start from 1 instead of 0). So initializing it to legacy is not changing
+> > anything, rather making it explicit.
+> > 
+> > > 2. Splitting up the case clause with respective inits and the mapping
+> > > format setting up also makes it harder to comprehend what's going on.
+> > > In the legacy case the reg-base address and the mapping format init are
+> > > split up while they should have been done simultaneously only if (val
+> > > != 0xFFFFFFFF).
+> > > 
+> > 
+> > Well again, this doesn't matter since the default mapping format is legacy. But
+> > somewhat agree that the two clauses are setting different fields, but even if
+> > the legacy mapping format is set inside the second clause, it still differs from
+> > the first one since we are not setting reg_base.
+> > 
+> > > 3. The most of the current devices has the unrolled mapping (available
+> > > since v4.9 IP-core), thus having the mf field pre-initialized produces
+> > > a redundant store operation for the most of the modern devices.
+> > > 
+> > 
+> > Ok, this one I agree. We could avoid the extra assignment.
+> > 
+> > > 4. Getting rid from the curly braces isn't something what should be
+> > > avoided at any cost and doesn't give any optimization really. It
+> > > doesn't cause having less C-lines of the source code and doesn't
+> > > improve the code readability.
+> > > 
+> > 
+> > Yeah, there is no benefit other than a simple view of the code. But for point
+> > (3), I agree to roll back to v2 version.
+> > 
+> > > So to speak, I'd suggest to get back the v2 implementation here.
+> > > 
+> > > >  
+> > > > -	pci->edma.dev = pci->dev;
+> > > > +	return 0;
+> > > > +}
+> > > >  
+> > > > -	if (!pci->edma.ops)
+> > > > -		pci->edma.ops = &dw_pcie_edma_ops;
+> > > > +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
+> > > > +{
+> > > > +	u32 val;
+> > > >  
+> > > > -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> > > 
+> > > > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> > > > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > > > +	else
+> > > > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > > 
+> > > Just dw_pcie_readl_dma(pci, PCIE_DMA_CTRL)
+> > > 
+> > 
+> > 'val' is uninitialized. Why should the assignment be skipped?
+> 
+> The entire
+> 
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> 
+> can be replaced with a single line
+> 
+> +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> 
+> since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) and the
+> reg_base has been initialized by now.
 > 
 
-I don't work on Android platform, no idea about WoWLAN. But I just raised a
-possible issue. Please check with the Qcom internal Android teams about this. If
-it is not going to be an issue (different code path as you said above), then
-feel free to ignore my comment.
+Ah okay, got it!
 
 - Mani
-
-> > 
-> > Even though it offers power saving, I'm worried about the latency and possible
-> > teardown of the chipset. Later is only valid if the chipset undergoes complete
-> > power cycle though.
-> > 
-> > - Mani
-> > 
-> > > > started seeing the problems in 6.8, the patches are there since August.
-> > > > 
-> > > > > So this is why you see WLAN firmware is powered down during suspend.
-> > > > > 
-> > > > > [1]
-> > > > > https://patchwork.kernel.org/project/linux-wireless/cover/20231127162022.518834-1-kvalo@kernel.org/
-> > > > > 
-> > > > > > 
-> > > > > > But I just found out that when I build my own kernel using the distro config
-> > > > > > as base but reduced by make localmodconfig, the "mhi mhi0: Requested to
-> > > > > > power ON" and related messages don't occur anymore, so there's something
-> > > > > > weird going on.
-> > > > > Here your own kernel doesn't include the hibernation-support patches, right?
-> > > > 
-> > > > Right.
-> > > > 
-> > > > 
-> > > > 
-> > 
 
 -- 
 மணிவண்ணன் சதாசிவம்
