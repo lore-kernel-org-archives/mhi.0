@@ -1,113 +1,135 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E277913699A
-	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 09:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437B813699A
+	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 09:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709027758; cv=none; b=gw6F9pOyw8t0nwvvNOwkMVjJb+BpxgNSWN5iR8gGaH0DgB9Evnvw15N+zmkCTOcaF6oH4zc7K00D0S6mTF67+49QMjrWlju84dGM1ux5XqN7PdcyffivVgs7+2lSow34CJstajfTLEGlBWyc5AxGkySxSZ0wguWuI1JAsQvljtQ=
+	t=1709027771; cv=none; b=AZWtbBWcTyevekwlmO5z7ICkFUQvQpHxk9oDwbw9FUlR5sv1A9cvskKPokPfYiRmhgZVtRQDK1QiND6wZfcpXF9oTAgJsJZENRWg3/7bgG8LLdGnWO1J8kRNCRGptqB6nl3YYu5XftQnV5KCH0FNcAWqyyRqTsXuD7dm6OdV0dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709027758; c=relaxed/simple;
-	bh=xq3qBvU4gk1ltWqMXc7Ql/8kJ/Mxz+rJm9geJy5TnhA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OTtIPzDuS90J0FyPLvrbmfQd4YFfALxONn6TymRSwqyoHz/CY/fglX/rsmNRcuVqbbIjaEGGIZyezJg157ucIECP47PFziMMeGJ97KeOAa1xLCDjWHJxXTym/9wgdOBRqLt3iRAes8tgECFgFFLCXPCiqwDi603Pqgxza+i87nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 3cf98a80e6454bb8b1d6f00fd9077175-20240227
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.37,REQID:162797f2-c538-442e-bc87-ce312ef5383f,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-5
-X-CID-INFO: VERSION:1.1.37,REQID:162797f2-c538-442e-bc87-ce312ef5383f,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:6f543d0,CLOUDID:d9de43ff-c16b-4159-a099-3b9d0558e447,B
-	ulkID:2402271312595MEHZP25,BulkQuantity:5,Recheck:0,SF:24|17|19|44|64|66|1
-	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:
-	nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 1,FCT|NGT
-X-CID-BAS: 1,FCT|NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-UUID: 3cf98a80e6454bb8b1d6f00fd9077175-20240227
-Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
-	(envelope-from <chentao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 763447630; Tue, 27 Feb 2024 17:55:49 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 493D2E000EBC;
-	Tue, 27 Feb 2024 17:55:49 +0800 (CST)
-X-ns-mid: postfix-65DDB1A5-1319371114
-Received: from kernel.. (unknown [172.20.15.254])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 6132CE000EBC;
-	Tue, 27 Feb 2024 17:55:48 +0800 (CST)
-From: Kunwu Chan <chentao@kylinos.cn>
-To: manivannan.sadhasivam@linaro.org
-Cc: chentao@kylinos.cn,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH] bus: mhi: ep: Simplify the allocation of slab caches in mhi_ep_register_controller
-Date: Tue, 27 Feb 2024 17:55:47 +0800
-Message-Id: <20240227095547.160357-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240227051236.GA2587@thinkpad>
-References: <20240227051236.GA2587@thinkpad>
+	s=arc-20240116; t=1709027771; c=relaxed/simple;
+	bh=0vkry09dbrjmRYGjaxCJORMsWZUMZhqHrh0ALLXIcFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H4yevpr3hwA7z4YwFc12nm+/1mus/EHWxAUdFIoUSDeti+CX4WFQFuygfl2AfgDZYHR5V0X26bax+etpZJRTrrJeBJVYkHpkO0IS89dAtlKaDJCRdEqb//CPll4EuAqga+cWI/vjcnwvy9P1gcLurRml4fJRhZdQoeSLZCaXwjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K5qpcKlZ; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K5qpcKlZ"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1dc0d11d1b7so32582465ad.2
+        for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 01:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709027768; x=1709632568; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q0zvhbCPiCFCYCeFD7LK8Y8h9az5jZBUIzn1XEZBm2A=;
+        b=K5qpcKlZVB0k0NHqTMKaVOi6eS0HyETOPg6MECsRIDziyEa+qT7eOVrguixHJp8hIV
+         4oDZB3WghPBb24wrcZOXY+0DTjUISUFzeXnTVRrGaPrhU54clPOUQy/4qYM3JsAb8DBG
+         hQgPNaMctel+ftUcgB3w//Y7dd4Y/VxzuADJXi/9iUfhEkJ20Ya77//BNY0+M0Ii4fYy
+         MdIsn8ihNI53GYLUOVI5fTWUYTw9hGQGgkSehzPTTGOMxVeW/dOwb75DtUah2BKJUea0
+         x3RH29Juwb8O8k1y/bf4c06Iy179v23SLT8MN3t7Db9lrQ9uag0TJNkGBfqLGpzQVxg4
+         2Fjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709027768; x=1709632568;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q0zvhbCPiCFCYCeFD7LK8Y8h9az5jZBUIzn1XEZBm2A=;
+        b=Mit0xrLueqf7g+rdmSGlA6u524YQsIvpeLCVrdTR7FhrrYIIYUe6D1R0ph2akgT8La
+         ApbpWJvTks394bQRS0XUakkysc59KsgcbHkVdnj8AvoM+i6k17sSk35X12QK5ItFVKG3
+         4JwJJ8ZWRTD7yPSPwLw1yrr8CIc36a4fCar0/vz0nhK0oYnIg6TzVfaTLp4IbFXhBqL7
+         IZ/RJgsWdR5FJXEw10rU/ymMK4EG63kP4LW8KRgRCL36Desgo5PdkgCClX0nuB4FipI9
+         Vi6cGGQwZmfLMnSxMpZFSfq2gDzW1Rijoa2YzyXKzs+iW0fyMrFHj5DAjySadVT5ETK8
+         GARA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqlElCeCwtlnOE/2OJrkrZa8YLZyBz7vhANbE+g7wRQnsSarpt5E5Fp2m0V6zBnppeXSTgKON5XSi1NKr48WPvl83O
+X-Gm-Message-State: AOJu0YwgWuT9KlGjgOqq2gCWYYPmp0rLBnk+8GdCBnbaPnxbsEXm1tG/
+	EsEGVEaOsnUneI2VKhj8nfZ1Ja/kixFV+xMtgxYiOvDRF3ISas7jzhIM11xqYQ==
+X-Google-Smtp-Source: AGHT+IE9YTOwwA5pib+X9K66GLYALzgiY71GH4bQuMmT3p83XMqAy3UfA9W4xlkOJqFp3BKOBu0+Xw==
+X-Received: by 2002:a17:903:24e:b0:1dc:7890:72d6 with SMTP id j14-20020a170903024e00b001dc789072d6mr10534336plh.22.1709027768485;
+        Tue, 27 Feb 2024 01:56:08 -0800 (PST)
+Received: from thinkpad ([117.213.97.177])
+        by smtp.gmail.com with ESMTPSA id jz12-20020a170903430c00b001dca68b97d3sm1149704plb.44.2024.02.27.01.56.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Feb 2024 01:56:08 -0800 (PST)
+Date: Tue, 27 Feb 2024 15:26:02 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: ath11k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] net: qrtr: support suspend/hibernation
+Message-ID: <20240227095602.GK2587@thinkpad>
+References: <20240227063613.4478-1-quic_bqiang@quicinc.com>
+ <20240227063613.4478-3-quic_bqiang@quicinc.com>
+ <20240227071531.GD2587@thinkpad>
+ <7b743820-850a-4871-a0d8-aded36e11aba@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=8bit
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b743820-850a-4871-a0d8-aded36e11aba@quicinc.com>
 
-Thanks for the reply.
-> > On Wed, Feb 21, 2024 at 04:59:37PM +0800, Kunwu Chan wrote:
-> > Use the new KMEM_CACHE() macro instead of direct kmem_cache_create
-> > to simplify the creation of SLAB caches.
-> >=20
->=20
-> There are multiple instances of kmem_cache_create() in this driver. Cou=
-ld you
-> change them also?
+On Tue, Feb 27, 2024 at 04:39:41PM +0800, Baochen Qiang wrote:
+> 
+> 
+> On 2/27/2024 3:15 PM, Manivannan Sadhasivam wrote:
+> > On Tue, Feb 27, 2024 at 02:36:12PM +0800, Baochen Qiang wrote:
+> > > MHI devices may not be destroyed during suspend/hibernation, so need
+> > > to unprepare/prepare MHI channels throughout the transition, this is
+> > > done by adding suspend/resume callbacks.
+> > > 
+> > > The suspend callback is called in the late suspend stage, this means
+> > > MHI channels are still alive at suspend stage, and that makes it
+> > > possible for an MHI controller driver to communicate with others over
+> > > those channels at suspend stage. While the resume callback is called
+> > > in the early resume stage, for a similar reason.
+> > > 
+> > > Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> > > 
+> > > Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > 
+> > Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > 
+> > Could you please confirm if this patch can be applied separately and won't cause
+> > regression?
+> Just searched the kernel and found another two drivers using IPCR channels,
+> one is pci_epf_mhi_driver in drivers/pci/endpoint/functions/pci-epf-mhi.c
+> and the other is mhi_pci_driver in drivers/bus/mhi/host/pci_generic.c.
+> 
+> For pci_epf_mhi_driver, this is not impacted because the devices for those
+> channels are attached to mhi_ep_bus_type while QRTR MHI driver attached to
+> mhi_bus_type.
+> 
+> For mhi_pci_driver, I am afraid there would be regressions caused by this
+> patch. The regression is because when system suspends, mhi_pci_suspend() is
+> called and then qcom_mhi_qrtr_pm_suspend_late() called, however the latter
+> would fail because MHI is moved to M3 state by call mhi_pm_suspend() in
+> mhi_pci_suspend(). To address this, there might be two options: the first is
+> to move mhi_pci_suspend() to a late suspend stage which would be called
+> after qcom_mhi_qrtr_pm_suspend_late(). and the second is to avoid whole QRTR
+> suspend operation in such cases. I prefer the second one, because if MHI is
+> going to suspend, instead of power down, it is pointless to unprepare MHI
+> channels and re-prepare them after resume back. We can achieve this purpose
+> by adding a status_cb() to QRTR MHI driver which would be called when MHI
+> goes to low power mode. And then QRTR MHI driver could decide not to
+> suspend/resume if low power mode is notified.
+> 
+> Your thoughts?
+> 
 
-Sure, I'll change all of them if possible in v2 patch.
+I'd rather query the MHI state of the device in suspend/resume callback using
+mhi_get_mhi_state(mhi_dev->mhi_cntrl) and if the device is found to be in M3
+(suspend) state, then I'd skip prepare/unprepare part.
 
->=20
-> - Mani
->=20
-> > Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-> > ---
-> >  drivers/bus/mhi/ep/main.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> > index 65fc1d738bec..7b61d384b2b6 100644
-> > --- a/drivers/bus/mhi/ep/main.c
-> > +++ b/drivers/bus/mhi/ep/main.c
-> > @@ -1493,9 +1493,7 @@ int mhi_ep_register_controller(struct mhi_ep_cn=
-trl *mhi_cntrl,
-> >  		goto err_destroy_ev_ring_el_cache;
-> >  	}
-> > =20
-> > -	mhi_cntrl->ring_item_cache =3D kmem_cache_create("mhi_ep_ring_item"=
-,
-> > -							sizeof(struct mhi_ep_ring_item), 0,
-> > -							0, NULL);
-> > +	mhi_cntrl->ring_item_cache =3D KMEM_CACHE(mhi_ep_ring_item, 0);
-> >  	if (!mhi_cntrl->ev_ring_el_cache) {
-> >  		ret =3D -ENOMEM;
-> >  		goto err_destroy_tre_buf_cache;
-> > --=20
-> > 2.39.2
-> >=20
-> >=20
->=20
-> --=20
-> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
-=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
-=E0=AF=8D
->=20
- Thanks,
-	Kunwu.Chan
+Because this makes it clear that, if the device is in suspend state, then no
+need for the client drivers to unprepare/prepare the channels.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
