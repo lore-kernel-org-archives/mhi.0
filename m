@@ -1,148 +1,322 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76255199B4
-	for <mhi@lists.linux.dev>; Tue, 27 Feb 2024 05:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3BE5336E;
+	Tue, 27 Feb 2024 06:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709012846; cv=none; b=m+BOeCx//aRZlXKubnjVm61YlBTG9IrkyjzL9sp8zdUKPDUDF7mOWWjmWoE4Z3GORgt/sbu3aRhvaXbqerUNVaC3fbLmlgpg1OxBQ8g0Ue1uLDz8Du2GrrmypTX9wrP5Y2L8hNXnG2y8P3RJRpjuOwXjtOjO+ZcHMj/JtmRWoHQ=
+	t=1709015357; cv=none; b=ew8GylQgixlel3+K3MmYbJ3qy23iY0OArCxDOibWT/2wZViWs3YtQ3yPQOnBJeRcdy7RpWxc2tD658gRhIHZ6Ge/mUYN4oOj+iPiBdLAvcuVYn3F2nu+CRgHgqtFfmaO90SQcPrWOCmA7N4ek3abAI96m2lUSj9UPaG2/vikcoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709012846; c=relaxed/simple;
-	bh=8HRuS+hvlQA6iSzvP/WBaOYbG3r938rLEna2X47kSHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z4zhnCKRjzOf/bkljvZp3mJs2LuWjah1mIgfM5w05YYBirEe6LPb/j8ozIOFbEN+XjOLauz4609hAbNvd3e3MTbDl3D6kmwzvwNF9Qap+IX6BPFvGRw3wSuMdDl5ewIn68+MGVPdIPY0zjF2qhK4n0HiQbxiPja1APE4xLbJ2Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VPnZrP7B; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709015357; c=relaxed/simple;
+	bh=fPa6TWVMZjngBRgiuS+rjeBx7lnR5aUXK4o6jDtPPBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=oUy1g8CWJ4+kBIcXBHRGQ479GiOKOSsxUhjJhG4HVFTXbUOou6tBvpsStWj7QMksbSui7V55lXIs1wXgmFCUI0jZ/5RAd4dWfQj862FutbR8go/kRpYNBnhMwV7w8/BK+96h7ctPdIzAX/c6FCLdnU4gMaHz2bMjaBDRUlYfIqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XqydEXpN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VPnZrP7B"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dc9222b337so20334445ad.2
-        for <mhi@lists.linux.dev>; Mon, 26 Feb 2024 21:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709012844; x=1709617644; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r8jXbRkSQmJxBEDan8I3/Dh3Dps5pGSI/SfFRoKMcOA=;
-        b=VPnZrP7Bmw2kZ6pobBZiAFVy8S3ODtq4O7PSskznGMWCF18MBejDin97qkqfaoi/Vu
-         olWYTkosefOj/E11/r81PEZoeuUJB4NJ+JsPEvTR9Fc+RRX6UjgZet6sczYM5lVU3cUe
-         MKXZRWks2uBKd1gOHhPEM10j5+FCOmoq61uo0HcR0d/0wqcPgG/G4FPwBLVXNe45ELHt
-         BiarHXK+OOygN+K2JCvlRlFtrwi+hm0jUV+ue3c9sEUohfmTNUBEPZwlBWw66DLJtEZN
-         aHi7F4N56POt2l6fGG/3vOBFuDd77D46iVSq7jYUfzB2KrIbB3OFxaAu9Ou6qm7UHa9k
-         b+Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709012844; x=1709617644;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r8jXbRkSQmJxBEDan8I3/Dh3Dps5pGSI/SfFRoKMcOA=;
-        b=QUvlTufxVLaJscyMmc0XnOCgrC2gHW16exxw0HJMaVZ7N450ojteJWliEJ8p9GetjJ
-         RU6Ht0Y9Jkfdgp541qyXdDhBsrjVcMC5DdFy/Mtt28lCrqJ5JZnaNkIZS3eRZfP30IKJ
-         WKGVrvJi5nrGdF0WnoCStCpWISOLGPH94AL/qaqLOXRDPd3S9i2KwzgV0J3Wq81NFP/6
-         pzX/SrbX0JYfY6WgZzk7spnXU9mP0Tv8R04OLaJYr4avv5rLt0AWoEaJ8uj9ojDVxuEJ
-         4UA+kx/ZVX8N3hov0zFjVPkEg5TKgD6TgP7qEMiOBVpe4Isy0wFv6BYQ3ntU0Oro5+gT
-         flVw==
-X-Gm-Message-State: AOJu0YxIvRXtX6NsmzMHeMVGBpPTCN23IhSmLzLI1KueZd2caRzy03Yb
-	WSUQ52Ug1aqGA8/d8P1kXrQr+ljxXQsyEwRpsdAJrwqYgCACQHFqedNA+nfqwA==
-X-Google-Smtp-Source: AGHT+IH+6DC1sUP1moOOBieeBP4dAFtyTSgmYaj6V7O/0vMrfYvzVfNSsKU4a323mKyAbnvc/1vsrw==
-X-Received: by 2002:a17:903:11c9:b0:1dc:7887:7723 with SMTP id q9-20020a17090311c900b001dc78877723mr12537383plh.61.1709012843553;
-        Mon, 26 Feb 2024 21:47:23 -0800 (PST)
-Received: from thinkpad ([117.202.184.81])
-        by smtp.gmail.com with ESMTPSA id mn4-20020a1709030a4400b001dcb4a4e461sm626144plb.163.2024.02.26.21.47.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 21:47:22 -0800 (PST)
-Date: Tue, 27 Feb 2024 11:17:18 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: gregkh@linuxfoundation.org
-Cc: mhi@lists.linux.dev, quic_jhugo@quicinc.com, erick.archer@gmx.com,
-	quic_krichai@quicinc.com, dan.carpenter@linaro.org,
-	quic_jjohnson@quicinc.com
-Subject: [GIT PULL] MHI changes for v6.9
-Message-ID: <20240227054718.GB2587@thinkpad>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XqydEXpN"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R5s1xr008920;
+	Tue, 27 Feb 2024 06:29:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=4EEgC2z2c5LElvw2LIh/ssUFuIK4JNpxaFYKe9bwlco=; b=Xq
+	ydEXpNVEHZVjtpyzcpmoOAwFlBRnOQ19A2O0XG1geJxrQSRvaMAVzWY+VbRF2yKb
+	U5bdjMH5Y8gxXmcF9qdcVTV2T9MvbZfJFkDhbrIeuJeaon3ubaBdsSzFZ0qft9z0
+	euWi8yis4X6QHgw0pTRBuLpwl7NukzoiAFfb+VDYJxopsfOETrMyh4NPmk1b2E51
+	vWd9z772jmOg4QwGjKbLtIT3kayDmPNI36FHPOxcHm5gLGS7Vj4PFkQtDyTe0Xfr
+	0Aoyg6Ji0vmKHv21H8dPUPmcTO6esslb84SyyZQvQkc3ymx5MSxcD51lc0ojF54f
+	wVpQLW6UEhuJUFOhKmwg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wha078240-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 06:29:10 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41R6T9f1019668
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 06:29:09 GMT
+Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 26 Feb
+ 2024 22:29:08 -0800
+Message-ID: <5a92d18e-a3a9-4d06-a6d3-de67889d7b3b@quicinc.com>
+Date: Tue, 27 Feb 2024 14:29:05 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] bus: mhi: host: add mhi_power_down_no_destroy()
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: <ath11k@lists.infradead.org>, <mhi@lists.linux.dev>,
+        <linux-wireless@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <20240221030026.10553-1-quic_bqiang@quicinc.com>
+ <20240221030026.10553-2-quic_bqiang@quicinc.com>
+ <20240226121542.GD8422@thinkpad>
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <20240226121542.GD8422@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: a3MWLLzuGkT-eL8WBaOEyAb7nBHtAwi-
+X-Proofpoint-GUID: a3MWLLzuGkT-eL8WBaOEyAb7nBHtAwi-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 clxscore=1015 suspectscore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 spamscore=0
+ malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2402120000 definitions=main-2402270050
 
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
 
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
 
-are available in the Git repository at:
+On 2/26/2024 8:15 PM, Manivannan Sadhasivam wrote:
+> On Wed, Feb 21, 2024 at 11:00:24AM +0800, Baochen Qiang wrote:
+>> ath11k fails to resume:
+>>
+>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+>>
+>> This happens because when calling mhi_sync_power_up() the MHI subsystem
+>> eventually calls device_add() from mhi_create_devices() but the device
+>> creation is deferred:
+>>
+>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+>>
+>> The reason for deferring device creation is explained in dpm_prepare():
+>>
+>>          /*
+>>           * It is unsafe if probing of devices will happen during suspend or
+>>           * hibernation and system behavior will be unpredictable in this case.
+>>           * So, let's prohibit device's probing here and defer their probes
+>>           * instead. The normal behavior will be restored in dpm_complete().
+>>           */
+>>
+>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not
+>> called and thus MHI channels are not prepared:
+>>
+>> So what this means that QRTR is not delivering messages and the QMI connection
+>> is not working between ath11k and the firmware, resulting a failure in firmware
+>> initialization.
+>>
+>> To fix this add new function mhi_power_down_no_destroy() which doesn't destroy
+>> the devices for channels during power down. This way we avoid probe defer issue
+>> and finally can get ath11k hibernation working with the following patches.
+>>
+> 
+> Upto this line is the actual commit message and below should be moved to the
+> comments section of the patch.
+I would like to remove below info since they are included in the cover 
+letter already. And even keeping them in the comment section won't make 
+them visible after patch got merged.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.9
-
-for you to fetch changes up to 2ec11b5d6d900b17c7d001fbee4751fd2aa58917:
-
-  bus: mhi: host: pci_generic: constify modem_telit_fn980_hw_v1_config (2024-02-26 17:16:21 +0530)
-
-----------------------------------------------------------------
-MHI Host
-========
-
-- Added new MHI_PM_SYS_ERR_FAIL state to the MHI state machine to properly
-  cleanup the channel state if the device fails to respond to the MHI reset
-  during SYS_ERR handling. This issue was discovered with the Qualcomm AIC100 AI
-  accelerator device.
-
-- Modified the code that reads and exposes the OEM_PK_HASH registers through
-  sysfs to read them on-demand instead of reading once during boot. Qualcomm
-  AIC100 devices support provisioning the keys dynamically, so this allows the
-  users to know the upto date information.
-
-- Added tracepoint support to expose the debug information over tracefs.
-
-- Reverted the commit that reads the MHI device revision from the device during
-  boot. This is done because the read info was not used anywhere (dead code) and
-  also it is not possible to read the revision info from all the devices.
-
-- Constified the modem config for Telit FN980 modem as required by the MHI core.
-
-MHI Endpoint
-============
-
-- Replaced kzalloc() with kcalloc() in an effort to avoid integer overflows
-  during multiplication. Even though there is no potential overflow in the
-  endpoint code, this is done for the sake of uniformity and best practice.
-
-- Fixed the kmem_cache_create() failure check to use the correct variable.
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      bus: mhi: ep: check the correct variable in mhi_ep_register_controller()
-
-Erick Archer (1):
-      bus: mhi: ep: Use kcalloc() instead of kzalloc()
-
-Jeff Johnson (1):
-      bus: mhi: host: pci_generic: constify modem_telit_fn980_hw_v1_config
-
-Jeffrey Hugo (3):
-      bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
-      bus: mhi: host: Read PK HASH dynamically
-      Revert "bus: mhi: core: Add support for reading MHI info from device"
-
-Krishna chaitanya chundru (2):
-      bus: mhi: host: Add tracing support
-      bus: mhi: host: Change the trace string for the userspace tools mapping
-
- drivers/bus/mhi/common.h           |  38 +++++++++++------------
- drivers/bus/mhi/ep/main.c          |   7 +++--
- drivers/bus/mhi/host/boot.c        |  11 +------
- drivers/bus/mhi/host/init.c        |  91 ++++++++++++++++++++++++++----------------------------
- drivers/bus/mhi/host/internal.h    |  56 ++++++++++++++++++++++++++++------
- drivers/bus/mhi/host/main.c        |  19 ++++++------
- drivers/bus/mhi/host/pci_generic.c |   2 +-
- drivers/bus/mhi/host/pm.c          |  27 ++++++++++++----
- drivers/bus/mhi/host/trace.h       | 282 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/mhi.h                |  19 ------------
- 10 files changed, 427 insertions(+), 125 deletions(-)
- create mode 100644 drivers/bus/mhi/host/trace.h
-
--- 
-மணிவண்ணன் சதாசிவம்
+> 
+>> Actually there is an RFC version of this change and it gets positive results
+>> from multiple users. Firstly Mani doesn't like this idea and insists that an
+>> MHI device should be destroyed when going to suspend/hibernation, see
+>>
+>> https://lore.kernel.org/mhi/20231127162022.518834-1-kvalo@kernel.org/
+>>
+>> Then Mani changed his mind after a further discussion with kernel PM guys,
+>> see
+>>
+>> https://lore.kernel.org/all/21cd2098-97e1-4947-a5bb-a97582902ead@quicinc.com/
+>>
+>> So we come up with the regular version and it is almost identical with that RFC
+>> version.
+>>
+>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+>>
+>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+>> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
+>> ---
+>>   drivers/bus/mhi/host/internal.h |  4 +++-
+>>   drivers/bus/mhi/host/pm.c       | 36 +++++++++++++++++++++++++++------
+>>   include/linux/mhi.h             | 15 +++++++++++++-
+>>   3 files changed, 47 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+>> index 091244cf17c6..8ce4aec56425 100644
+>> --- a/drivers/bus/mhi/host/internal.h
+>> +++ b/drivers/bus/mhi/host/internal.h
+>> @@ -86,6 +86,7 @@ enum dev_st_transition {
+>>   	DEV_ST_TRANSITION_FP,
+>>   	DEV_ST_TRANSITION_SYS_ERR,
+>>   	DEV_ST_TRANSITION_DISABLE,
+>> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
+>>   	DEV_ST_TRANSITION_MAX,
+>>   };
+>>   
+>> @@ -96,7 +97,8 @@ enum dev_st_transition {
+>>   	dev_st_trans(MISSION_MODE,	"MISSION MODE")		\
+>>   	dev_st_trans(FP,		"FLASH PROGRAMMER")	\
+>>   	dev_st_trans(SYS_ERR,		"SYS ERROR")		\
+>> -	dev_st_trans_end(DISABLE,	"DISABLE")
+>> +	dev_st_trans(DISABLE,		"DISABLE")		\
+>> +	dev_st_trans_end(DISABLE_DESTROY_DEVICE, "DISABLE (DESTROY DEVICE)")
+>>   
+>>   extern const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX];
+>>   #define TO_DEV_STATE_TRANS_STR(state) (((state) >= DEV_ST_TRANSITION_MAX) ? \
+>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>> index 8b40d3f01acc..5686d32f7458 100644
+>> --- a/drivers/bus/mhi/host/pm.c
+>> +++ b/drivers/bus/mhi/host/pm.c
+>> @@ -468,7 +468,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>>   }
+>>   
+>>   /* Handle shutdown transitions */
+>> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
+>> +				      bool destroy_device)
+>>   {
+>>   	enum mhi_pm_state cur_state;
+>>   	struct mhi_event *mhi_event;
+>> @@ -530,8 +531,10 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>>   	dev_dbg(dev, "Waiting for all pending threads to complete\n");
+>>   	wake_up_all(&mhi_cntrl->state_event);
+>>   
+>> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+>> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> 
+> I'd be nice to add a comment here on why destroying the device is optional.
+> 
+>> +	if (destroy_device) {
+>> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+>> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+>> +	}
+>>   
+>>   	mutex_lock(&mhi_cntrl->pm_mutex);
+>>   
+>> @@ -821,7 +824,10 @@ void mhi_pm_st_worker(struct work_struct *work)
+>>   			mhi_pm_sys_error_transition(mhi_cntrl);
+>>   			break;
+>>   		case DEV_ST_TRANSITION_DISABLE:
+>> -			mhi_pm_disable_transition(mhi_cntrl);
+>> +			mhi_pm_disable_transition(mhi_cntrl, false);
+>> +			break;
+>> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
+>> +			mhi_pm_disable_transition(mhi_cntrl, true);
+>>   			break;
+>>   		default:
+>>   			break;
+>> @@ -1175,7 +1181,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+>>   }
+>>   EXPORT_SYMBOL_GPL(mhi_async_power_up);
+>>   
+>> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>> +static void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+>> +			     bool destroy_device)
+>>   {
+>>   	enum mhi_pm_state cur_state, transition_state;
+>>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>> @@ -1211,15 +1218,32 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>>   	write_unlock_irq(&mhi_cntrl->pm_lock);
+>>   	mutex_unlock(&mhi_cntrl->pm_mutex);
+>>   
+>> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
+>> +	if (destroy_device)
+>> +		mhi_queue_state_transition(mhi_cntrl,
+>> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
+>> +	else
+>> +		mhi_queue_state_transition(mhi_cntrl,
+>> +					   DEV_ST_TRANSITION_DISABLE);
+>>   
+>>   	/* Wait for shutdown to complete */
+>>   	flush_work(&mhi_cntrl->st_worker);
+>>   
+>>   	disable_irq(mhi_cntrl->irq[0]);
+>>   }
+>> +
+>> +void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>> +{
+>> +	__mhi_power_down(mhi_cntrl, graceful, true);
+>> +}
+>>   EXPORT_SYMBOL_GPL(mhi_power_down);
+>>   
+>> +void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl,
+> 
+> How about "mhi_power_down_keep_dev"? Not the best of the API naming suggestion,
+> but it reflects what the API does.
+> 
+>> +			       bool graceful)
+>> +{
+>> +	__mhi_power_down(mhi_cntrl, graceful, false);
+>> +}
+>> +EXPORT_SYMBOL_GPL(mhi_power_down_no_destroy);
+>> +
+>>   int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+>>   {
+>>   	int ret = mhi_async_power_up(mhi_cntrl);
+>> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+>> index 474d32cb0520..39a6a944a52c 100644
+>> --- a/include/linux/mhi.h
+>> +++ b/include/linux/mhi.h
+>> @@ -647,12 +647,25 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
+>>   int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
+>>   
+>>   /**
+>> - * mhi_power_down - Start MHI power down sequence
+>> + * mhi_power_down - Start MHI power down sequence. See also
+> 
+> How about?
+> 
+> 	/**
+> 	 * mhi_power_down - Power down the MHI device and also destroy the
+> 	 * 		    'struct device' for the channels associated with it.
+> 
+> 	 ...
+> 
+> 	 * See also mhi_power_down_keep_dev() which is a variant of
+> 	 * this API that keeps the 'struct device' for channels (useful during
+> 	 * suspend/hibernation).
+> 	 */
+> 
+>> + * mhi_power_down_no_destroy() which is a variant of this for
+>> + * suspend/hibernation.
+>> + *
+>>    * @mhi_cntrl: MHI controller
+>>    * @graceful: Link is still accessible, so do a graceful shutdown process
+>>    */
+>>   void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
+>>   
+>> +/**
+>> + * mhi_power_down_no_destroy - Start MHI power down sequence but don't destroy
+>> + * struct devices for channels. This is a variant for mhi_power_down() and
+>> + * would be useful in suspend/hibernation.
+>> + *
+> 
+> 	/**
+> 	 * mhi_power_down_keep_dev - Power down the MHI device but keep the
+> 	 * 			     'struct device' for the channels
+> 	 *			     associated with it.
+> 
+> 	 ...
+> 
+> 	 * This is a variant of 'mhi_power_down' and useful in scenarios such as
+> 	 * suspend/hibernation where destroying of the 'struct device' is not
+> 	 * needed.
+> 	 */
+> 
+> - Mani
+> 
+>> + * @mhi_cntrl: MHI controller
+>> + * @graceful: Link is still accessible, so do a graceful shutdown process
+>> + */
+>> +void mhi_power_down_no_destroy(struct mhi_controller *mhi_cntrl, bool graceful);
+>> +
+>>   /**
+>>    * mhi_unprepare_after_power_down - Free any allocated memory after power down
+>>    * @mhi_cntrl: MHI controller
+>> -- 
+>> 2.25.1
+>>
+>>
+> 
