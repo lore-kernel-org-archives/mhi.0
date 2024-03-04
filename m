@@ -1,56 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716673FB32
-	for <mhi@lists.linux.dev>; Sat,  2 Mar 2024 18:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD4315B7
+	for <mhi@lists.linux.dev>; Mon,  4 Mar 2024 02:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709405890; cv=none; b=dTURr8ItzmZ0juci8MNRvumROHnUdYEIESiNQuoTocYQvbOQY7KUy/2MFV99H5ccg4W+mTtAOzF4i8gEpZz1skeXU47SnZbGzvVHE0KsKF0z/jGLhb9TQ/WDCvVY70x0RbWeucKyx2uzB6zHHNA0BnU/k5nGwJh/HbRILVl11jI=
+	t=1709517738; cv=none; b=cd6EGS7FkPBFLCxsD7RKHnSiLyqfqoZoAxt+9S6vAv68GiFHuhnts7lOqB0CoeQHoo4W1MdL79GB9Fi+l6tKjjj58K8XhWt6BsknjA4mGiPEbclTuflcfE2vHeXSctJGp2joMtvFsKaSolzuHbbO+Qwk0aGnXtSR0i68HuZIbIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709405890; c=relaxed/simple;
-	bh=zhR4TDA+k9AxrxlKJGi5L5fyUrbFR/B6jANiGCI8zOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YY21v5i244YbgEnMK9c0MFwzlffXnTQIZeQJ7srBuq/7I28BZLjtgqTaNT0FzrZc7CRqpRPE0dwIIO1GwOoMnNN6G8zzGPAFxG7QU1WqX9wBirzl+OECekbfr1bTQYt+NVjqDRZkYvWCkaXM0BsR12swLqzmN4gO2Bd3QhTtGlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qWclgL5X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709517738; c=relaxed/simple;
+	bh=Ue33lGzqfo/jgNtFGbgWBqs1RMLXZ8/yeEEgr4eoBeM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iIvjL2hfT7/bHY6ImCPgnpkqljwskSfltCeElBPO2a0XtWVnBxZ7zRyv7xWO9uCQ8FHNG18UxKIDkUeOttoO4/OIxYIt7Q7Z3Kp+FMmQ3fR6jqZXZ1onfQYfyVOtBNS/dw5zI0ZIFUmbK1cYU71+YKeg1genFSwIp9/vSRdCUos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BQuFEABM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qWclgL5X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EA3AC433F1;
-	Sat,  2 Mar 2024 18:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709405890;
-	bh=zhR4TDA+k9AxrxlKJGi5L5fyUrbFR/B6jANiGCI8zOc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qWclgL5X05TjCw6ZhFG+yFPqBf2JmFQ/lue05wJpVGSPWQMb1XBBt5sDAFQzfW5Z6
-	 pvRXo9cLMt8mWNj41Cmt5FZrIlJItoAB6VswNeOCdARMFkeo2rRZSYJfpVe4up9HtP
-	 r2dLDMWzxzx+2CSpdISM1erZYAQJThJhsR/UsBY4=
-Date: Sat, 2 Mar 2024 19:58:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, quic_jhugo@quicinc.com, erick.archer@gmx.com,
-	quic_krichai@quicinc.com, dan.carpenter@linaro.org,
-	quic_jjohnson@quicinc.com
-Subject: Re: [GIT PULL] MHI changes for v6.9
-Message-ID: <2024030259-statue-recount-577d@gregkh>
-References: <20240227054718.GB2587@thinkpad>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BQuFEABM"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4240ruIc001535;
+	Mon, 4 Mar 2024 02:02:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=dyx8i+1adfOwtwk/jtjUkWWhA/+3oNCwintV1yE78Qk=; b=BQ
+	uFEABMcT6IYdLSiKSJGQrkmucM3SBJWSrSIx5RK5U0kSARNRWNXBaTCIY6p+a43/
+	xebeTkNtCgfWo7So9fIGz4ZrpH1xbkkMbFCpvpHm4TKcQvy2u7ALTH+QO2gqnbUv
+	Tu9HXT/LYSMOYc+hhOpwg+O5ieIRio7xqdBYYDE7hWTCuXKaRWWUc/r4bPTssnYG
+	NSeunbmTrJMUBN3qtFy9axPZ7wtnHSi3fpK+wD7i92nDm/wcYecofycNPWaC5sN4
+	qt6zLcfvzmWiK8okwhn+eWdmV1a4MSNHmZ4IkQsHoRVwpvrfQ3VTwKusUAykSRan
+	O+AQRirZigkRWG+A9sEg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wkwdhta39-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Mar 2024 02:02:02 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 424221Jp029057
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 4 Mar 2024 02:02:01 GMT
+Received: from [10.231.195.68] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 3 Mar
+ 2024 18:01:59 -0800
+Message-ID: <ef427b87-1cf2-4ae2-8f14-2e2b34df3d84@quicinc.com>
+Date: Mon, 4 Mar 2024 10:01:56 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227054718.GB2587@thinkpad>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: add mhi_power_down_keep_dev()
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Kalle Valo <kvalo@kernel.org>,
+        "Kalle Valo (QUIC)"
+	<quic_kvalo@quicinc.com>,
+        <ath11k@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <netdev@vger.kernel.org>
+References: <20240228022243.17762-1-quic_bqiang@quicinc.com>
+ <20240228022243.17762-2-quic_bqiang@quicinc.com>
+ <20240229101202.GB2999@thinkpad>
+ <531daaa9-cf14-4812-8908-c617bd25bc08@quicinc.com>
+ <87le7383nd.fsf@kernel.org>
+ <b5b3f46d-ad98-44e5-84e0-7b00fe29ec5a@quicinc.com>
+ <20240301122559.GB2401@thinkpad>
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <20240301122559.GB2401@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: BF7jkQ2l8daP5i1xFiOnjYhtP4OXfjPH
+X-Proofpoint-GUID: BF7jkQ2l8daP5i1xFiOnjYhtP4OXfjPH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-04_01,2024-03-01_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 spamscore=0 clxscore=1015 mlxlogscore=951
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403040014
 
-On Tue, Feb 27, 2024 at 11:17:18AM +0530, Manivannan Sadhasivam wrote:
-> The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
-> 
->   Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.9
 
-Pulled and pushed out, thanks.
 
-greg k-h
+On 3/1/2024 8:25 PM, Manivannan Sadhasivam wrote:
+> On Fri, Mar 01, 2024 at 10:04:06AM +0800, Baochen Qiang wrote:
+>>
+>>
+>> On 3/1/2024 3:35 AM, Kalle Valo wrote:
+>>> Baochen Qiang <quic_bqiang@quicinc.com> writes:
+>>>
+>>>> On 2/29/2024 6:12 PM, Manivannan Sadhasivam wrote:
+>>>>> On Wed, Feb 28, 2024 at 10:22:41AM +0800, Baochen Qiang wrote:
+>>>>>> ath11k fails to resume:
+>>>>>>
+>>>>>> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
+>>>>>>
+>>>>>> This happens because when calling mhi_sync_power_up() the MHI subsystem
+>>>>>> eventually calls device_add() from mhi_create_devices() but the device
+>>>>>> creation is deferred:
+>>>>>>
+>>>>>> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+>>>>>>
+>>>>>> The reason for deferring device creation is explained in dpm_prepare():
+>>>>>>
+>>>>>>            /*
+>>>>>>             * It is unsafe if probing of devices will happen during suspend or
+>>>>>>             * hibernation and system behavior will be unpredictable in this case.
+>>>>>>             * So, let's prohibit device's probing here and defer their probes
+>>>>>>             * instead. The normal behavior will be restored in dpm_complete().
+>>>>>>             */
+>>>>>>
+>>>>>> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not
+>>>>>> called and thus MHI channels are not prepared:
+>>>>>>
+>>>>>> So what this means that QRTR is not delivering messages and the QMI connection
+>>>>>> is not working between ath11k and the firmware, resulting a failure in firmware
+>>>>>> initialization.
+>>>>>>
+>>>>>> To fix this add new function mhi_power_down_keep_dev() which doesn't destroy
+>>>>>> the devices for channels during power down. This way we avoid probe defer issue
+>>>>>> and finally can get ath11k hibernation working with the following patches.
+>>>>>>
+>>>>>> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+>>>>>>
+>>>>>> Signed-off-by: Kalle Valo <quic_kvalo@quicinc.com>
+>>>>>
+>>>>> Did Kalle co-author this patch? If so, his Co-developed-by tag should
+>>>>> be added.
+>>>>
+>>>> Hmm, I'm not sure...  I would like Kalle's thoughts on this.
+>>>
+>>> IIRC I did only some simple cleanup before submitting the patch so I
+>>> don't think Co-developed-by is justified. I'm also fine with removing my
+>>> Signed-off-by.
+>> Thanks Kalle.
+>>
+>> Hi Mani, so according to Kalle's comments, I'd like to keep the patch as is.
+>>
+> 
+> No. Either remove his signed off by (as indicated by Kalle) or add a
+> co-developed-by tag. Keeping just a signed-off-by tag is wrong.
+> 
+OK, will send new version with Kalle's s-o-b tag removed.
+
+> - Mani
+> 
