@@ -1,142 +1,147 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC8E7CF1C
-	for <mhi@lists.linux.dev>; Tue, 12 Mar 2024 09:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CC271B2D
+	for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 15:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710235075; cv=none; b=GsQ9sZVY4zoPgjI4/4/IxPId6iXz8Sl21A84VCLONJIPcevEge02kD4aF9ekGz2chtv5QSVCdLfsD7LDKAUeQsDu1em2f0ZMKJMq7lElePrE37PuzK8gUMVQ+tio5TfEa5YD6y4v++hPZcYpw5LsZnimlBcH9wAnh2boTdWUDPk=
+	t=1710429848; cv=none; b=ljnEQQj5OVnbxubFYosbBDtw2ZJB+0ht2Ovk0QX3pMFfr0NKJ4/itsiFE9fpYO5iF4ApRMmS5yJqMgOC8I55rwRVeldC5FCJx8OoBtr2Ovl2KYwC9+zmEbyjKf6bQynjVSF7qJS2vRJCAXQJd13ZMUCFIJ+AeWddVkm0dILOszA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710235075; c=relaxed/simple;
-	bh=n/xyd4RSK51AZo83JsP+jj0gL9V4BBAgGqAGe8AEkg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c3Vg+G/L84oIgZx8kkZqLo9Z7eo+5vDUKSazUeoH3Rj2kck7s0mNJFR+lKhE2/bfujmqztjKsP4pceWPykacF8X7wbxjyskT29zKhlwO1c2SS0oaosILeEguaMsZnVkYqC7R4ReLEikpiHtA0cPDVR/Zd8ouQ4pRAOSCGd1I4d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bzAvjg50; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710429848; c=relaxed/simple;
+	bh=+XqMRpYE8HYIeYnArh9TOIJOZHL3dBFs8VCBPD9Q15c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L57WF6vVbkt6CaL2NThk0ddWToP1DcPEY3thkY1j0K/vAkq/xtc705PeEykD6wdZ9EGSdbTR58pTN2em7tbxmk7vrxjcoUawBqp7jWVqTW0ReuNazXUnXlvlKBLEaHKUg6eO0D6m8vOgZ2MiBCasQttgYXIK3onEQX5XBoyFlZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wJ+HSJw+; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzAvjg50"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d26227d508so80150311fa.2
-        for <mhi@lists.linux.dev>; Tue, 12 Mar 2024 02:17:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wJ+HSJw+"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6e6b6e000a4so885649b3a.0
+        for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 08:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710235072; x=1710839872; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BZ6n3LCBgXbzRZ+jOk9gBUl7KDl6UUW0N9+kmdRSwFk=;
-        b=bzAvjg50NCXObu6oDYftGmMDTKqHWemXTT4xoEV8Me3WX7ovHHR8WVD5CSTMMXmuNE
-         qRwF1EemMZlp12hQJNGVD0XXzi73r1M57xE2fUpFKYtg1oE5/8yaPLNuuvc8H29X/2jJ
-         jNDw6GrZgZ91e/1895UkUP0UvevXxbs+WiQqZYbYJe+1Dq04z2uDMmNhsoJZtumsKGft
-         /jfMhSrsygi0DFEZ3wCATajDAPoC0MO2nDvVelmaeyywk5nnbfudE+Ysb0FPkCTN3btH
-         VtJNN2VuwpWVRNbXqgPQSsFh6OBR0jYiq9x99HlvTTpOuKHnSHRD4cJJvJs5shUH58yz
-         SmIA==
+        d=linaro.org; s=google; t=1710429846; x=1711034646; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uipF2nWjwEvJ8FinmI/99ZEfUz9FMdfPX7qMJmCrSQo=;
+        b=wJ+HSJw+p2byaQgD5IFaNRXJicjcqJjAQxfoRrmBh2EOzgdgL9i/K1DMPm6V0wb4B9
+         uUrfz5hZ0WY791IZyacAshqQB5Gm/LIRK+qw7yaSbzDOlhbDD9dL5bpwPu0CO+2ufmdU
+         +pwmysE/wush/BCH2QbETz0vNL6aCVzr5CAVbrJ3KKVLsyMOWZaZ768CPvdofnrjlC9F
+         jOZG6YB9YYsXxWeMZb1AWnA/WwQ024t+je9OqQWbqC/7uBT5j++jDMkHFA5e+mqys3lI
+         ZXpxxbjFBtHcWn8avzcFfRmVFQB5Oi9YCF5/RdYO7W0sJZ5zINFLtHKrvsUtV+4GGECj
+         JA2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710235072; x=1710839872;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BZ6n3LCBgXbzRZ+jOk9gBUl7KDl6UUW0N9+kmdRSwFk=;
-        b=YGHPaFxY9jIBKLB6ANbliVhl6WbSGGU9/jbBaxWXTYF1ODOMwB/wwSWQ0Toa2Ze3i2
-         9Or4h2KhsqTWxb8gLRbmf4hTaJDCwwaMv0lw0YzepiF3pHkDJgs7FQ+KAwBD8eOlPl0p
-         1Z7o3x+T1Adp4srKiIrQu6XNuwcyU1zimL20kMZk0swhsyy7RKxJtdj7YzPcw1Sm07oh
-         niV+JVmSPjGlJn35tCtrArpjRFv4hqVArG8Roy55+qrWuLSkgxuH12YNEQsOLWQ1Zwfq
-         REJrnIYsjNL1UQVustVIgQqJKhrvpCZhVYsQ1Ckp/R7X8I/HN2YRJJSZSetOEwdenPSk
-         RzPw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQwaTwXeCtRr1gbsl82Xr8IIzi2EWogV2DiCRGV5Lw8Q3kAmbZoc2FPFa9obL4BxK3oC6yC/E+nTPtQ6eaYWnSSZrY
-X-Gm-Message-State: AOJu0Yx6RN7o8F57wdLKc1iJU3GU6s8Waxcr/wlPiUGCjtd2QreKU88y
-	oxFXuglK8Ft5AafRaq7LcUWki6rD10dmsE5f/7sVUjCgLADyikkYTVAh5T/O
-X-Google-Smtp-Source: AGHT+IFm7+AOiUOnzjOZiIaCXRd9rxISYVnr31Yubo08D3ay+vXSLHfTEBCY79LtjUa86DxxV5qF6A==
-X-Received: by 2002:a2e:be8d:0:b0:2d4:59bd:bc87 with SMTP id a13-20020a2ebe8d000000b002d459bdbc87mr790603ljr.4.1710235071652;
-        Tue, 12 Mar 2024 02:17:51 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05651c02c900b002d2a710f864sm1521827ljo.24.2024.03.12.02.17.50
+        d=1e100.net; s=20230601; t=1710429846; x=1711034646;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uipF2nWjwEvJ8FinmI/99ZEfUz9FMdfPX7qMJmCrSQo=;
+        b=rwiRgrX+kXJtNrNH09PZzE6IwnaDyC1DgFfo5J5OSI0lrOrVaIM6DQD+E0aVeuIhdK
+         Zdu35Tk2YUv4jlhxnsQE885mKnVBvqdslMe5pXca942tHwDC71n0r8C1CFuuahhgv97d
+         RrwjvXUcjv0zcIY0tvaykulPqYJelSe9rsI6vMYjoE8iQkqt54gbYe6rwlsQLn7uXWhA
+         qnnqMtiPPYdU+57kxFXDCDodmr8dM+PmgPJSmVRDlMiBReqPkeuCgdtPPqAfDYpFaCYw
+         2u1IQ6mlN7gqH9/KxuRHZpfKpFIWtaI50u7Eh6zYIA6NCiAf4bHSXxia5D21ffNOyCJ6
+         jlqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9QneKPDyalVRppbPmHccTT3s98XHbCw2ZQZRtP69ZeEfLd5U30oRCE1+mXmKdHCpvlEgk3BPiw/8j46klsHSutswn
+X-Gm-Message-State: AOJu0Yw35UbBJMWsIqhXMdnteDqhbLJKe5DYoEIIOypf8bYWezj19LSx
+	Hc3WQJ/oNKG4d6H+jBRLDPYSFkB/sc5Y+f4V29zEqbl+XeM1fU3dYGSfPLyUXQ==
+X-Google-Smtp-Source: AGHT+IFklPwK5lYnqo3cgyMR3pbXaUxnP8BhUJMkvG0Mpsc5bJGrHi6YT+MWzcxtRkOPSBXX0DpvhA==
+X-Received: by 2002:a05:6a21:99a2:b0:1a1:5a12:9119 with SMTP id ve34-20020a056a2199a200b001a15a129119mr8387816pzb.3.1710429846330;
+        Thu, 14 Mar 2024 08:24:06 -0700 (PDT)
+Received: from [127.0.1.1] ([117.207.30.211])
+        by smtp.gmail.com with ESMTPSA id m4-20020a63ed44000000b005e438ea2a5asm824021pgk.53.2024.03.14.08.24.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 02:17:51 -0700 (PDT)
-Date: Tue, 12 Mar 2024 12:17:48 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4 2/5] PCI: dwc: Skip finding eDMA channels count for
- HDMA platforms
-Message-ID: <kqztfm6ri54pkxcmsmngldmlf22mt2vn5cgxxfhjqxujx3qkq2@us6rc2sof7gk>
-References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
- <20240306-dw-hdma-v4-2-9fed506e95be@linaro.org>
+        Thu, 14 Mar 2024 08:24:05 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 00/11] PCI: endpoint: Make host reboot handling more robust
+Date: Thu, 14 Mar 2024 20:53:39 +0530
+Message-Id: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306-dw-hdma-v4-2-9fed506e95be@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHsW82UC/x3MQQqAIBBA0avIrBtQs6KuEi2sphqCkhEqCO+et
+ HyL/1+IJEwROvWC0MWRzyPDFAqmzR8rIc/ZYLV1ujQOw8RIYUGh+5QdfU11NRpd+qaFHAWhhZ9
+ /2A8pfYuAfZ5gAAAA
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Cc: linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Niklas Cassel <cassel@kernel.org>, Vidya Sagar <vidyas@nvidia.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2289;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=+XqMRpYE8HYIeYnArh9TOIJOZHL3dBFs8VCBPD9Q15c=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl8xaJsDnRXWXOn639N6QSYpQWMRYVyNmaaXhJa
+ fn0bkPxFe2JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZfMWiQAKCRBVnxHm/pHO
+ 9aycB/9b/o4Li6j8PqMVlSnWfc7wdfhcraMkEMFGScwUc/THnarLDa5UEMcMICzCyb9OLOWRndt
+ oCBxFCx4BL1ZKDe4PUbQUdo47vJm12TLIoq5bnXsy8rl7eUSaxklwzQaG1HxCbenXX6Ob93oo3M
+ nOaWZ/FWBuLztkGRERM5PsXEcw0ViOcPwn3IlQ/1qBvKdBCQ+bJEtrJFih8ES1wXtxMCeeeBMem
+ 0kVbsWosc0pA5xP6Q8EKQfQRX3VLIpRuoL1MmkEA+yQTL03Au8rJS8JowKwbh/MjtDwv+XSiSUu
+ Xx+afP9RJhNfpvDPNHIJ/UKyy2Hhztd6xfR07xVMgfhQgjzZ
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-On Wed, Mar 06, 2024 at 03:51:58PM +0530, Manivannan Sadhasivam wrote:
-> In the case of Hyper DMA (HDMA) present in DWC controllers, there is no way
-> the drivers can auto detect the number of read/write channels as like its
-> predecessor embedded DMA (eDMA). So the glue drivers making use of HDMA
-> have to pass the channels count during probe.
-> 
-> To accommodate that, let's skip the existing auto detection of channels
-> count procedure for HDMA based platforms. If the channels count passed by
-> the glue drivers were wrong in any form, then the existing sanity check
-> will catch it.
-> 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Hello,
 
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+This is the follow up series of [1], to improve the handling of host reboot in
+the endpoint subsystem. This involves refining the PERST# and Link Down event
+handling in both the controller and function drivers.
 
-Please find a tiny nitpick further below.
+Testing
+=======
 
-> ---
->  drivers/pci/controller/dwc/pcie-designware.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 3a26dfc5368f..599991b7ffb2 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -927,13 +927,18 @@ static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> -	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> -		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> -	else
+This series is tested on Qcom SM8450 based development board with both MHI_EPF
+and EPF_TEST function drivers.
 
-> +	/*
-> +	 * Autodetect the read/write channels count only for non-HDMA platforms.
-> +	 * HDMA platforms doesn't support autodetect, so the glue drivers should've
-> +	 * passed the valid count already. If not, the below sanity check will
-> +	 * catch it.
-> +	 */
+Dependency
+==========
 
-This is correct for the _native_ HDMA CSRs mapping. I suggest to emphasize
-that in the note above.
+This series depends on [1].
 
--Serge(y)
+- Mani
 
-> +	if (pci->edma.mf != EDMA_MF_HDMA_NATIVE) {
->  		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  
-> -	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> -	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> +		pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> +		pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> +	}
->  
->  	/* Sanity check the channels count if the mapping was incorrect */
->  	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > EDMA_MAX_WR_CH ||
-> 
-> -- 
-> 2.25.1
-> 
+[1] https://lore.kernel.org/linux-pci/20240314-pci-dbi-rework-v10-0-14a45c5a938e@linaro.org/
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+Manivannan Sadhasivam (11):
+      PCI: qcom-ep: Disable resources unconditionally during PERST# assert
+      PCI: endpoint: Decouple EPC and PCIe bus specific events
+      PCI: endpoint: Rename core_init() callback in 'struct pci_epc_event_ops' to init()
+      PCI: epf-test: Refactor pci_epf_test_unbind() function
+      PCI: epf-{mhi/test}: Move DMA initialization to EPC init callback
+      PCI: endpoint: Introduce EPC 'deinit' event and notify the EPF drivers
+      PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
+      PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+      PCI: epf-test: Handle Link Down event
+      PCI: qcom-ep: Rework {start/stop}_link() callbacks implementation
+      PCI: tegra194: Rework {start/stop}_link() callbacks implementation
+
+ drivers/pci/controller/dwc/pcie-designware-ep.c |  93 +++++++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h    |   5 ++
+ drivers/pci/controller/dwc/pcie-qcom-ep.c       |  30 +++----
+ drivers/pci/controller/dwc/pcie-tegra194.c      |  25 +++---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c    |  47 ++++++++---
+ drivers/pci/endpoint/functions/pci-epf-test.c   | 108 +++++++++++++++++-------
+ drivers/pci/endpoint/pci-epc-core.c             |  53 +++++++++---
+ include/linux/pci-epc.h                         |   1 +
+ include/linux/pci-epf.h                         |  27 ++++--
+ 9 files changed, 265 insertions(+), 124 deletions(-)
+---
+base-commit: d65c75fc384ada26392a975c351689ec4e069c50
+change-id: 20240314-pci-epf-rework-a6e65b103a79
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
