@@ -1,61 +1,61 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AFA71B42
-	for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 15:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E571B50
+	for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 15:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710429860; cv=none; b=F2KzmjxMp327uLaJ+sKkuXmwXDGcLs2Qu4cfM7zooILZtmFZWPcoE8bV81n7G2S2m8q9l7A4DkEWnfiduT8Ym1hFpHYAxrYbKy6C/5CGRe3Y2MozfxxxfLm8NUGtS2GFtnym6KLT0geEQVaUxh/IsCFTbXgKTIHBY8LOzMmpN4Q=
+	t=1710429862; cv=none; b=UuMmr4J9S3l5gHhNqrsOo8tXH1V4LxixjKsMX27GuU89BcHfn4JJn/jXigwGVIo4Lwn6AxQWtUI8kpbHbPmPZ0VEdaRAwAcCmbN9u44qthNfqNqickeIlFcXfPZD2Fv3wsb9BWu9sBx/fC8NgGr52709XW52qBx8LUaWxSvzIr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710429860; c=relaxed/simple;
-	bh=9R/4BRcR5YWjVx8HSWtHp3tea3KFcjiGJn6zOJW2sDQ=;
+	s=arc-20240116; t=1710429862; c=relaxed/simple;
+	bh=lGCqTGsH0mm9VdgV3rimMB23vCvTqdQtyUoVRgnqHFc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MRk9ijA1tPcqxGHFsS8vTLYstuCPEaiARp6scHZaWj1kqSQrW5unBZEgORnpYWV/SV5ijIV8H+9CHqhyQLXg5D4k1b9oigQaWdsYAHwoXaxTfuLc7l93hHaqwzKG+Mfi+ib9hHMyX0bRNyMgJgoPz3Iy5t0u3a3L2iu5G/CMMMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G7Gr9rXy; arc=none smtp.client-ip=209.85.161.49
+	 In-Reply-To:To:Cc; b=cT1LhhRRL6DGcsxL2g4hZ0GuJSrjUhf7lBBE3LFUZv7cMNSXom0a201eOmTOOoZTBFQj+nbud7XtCDZT9hmqFAezpowJbWhfeFkxUynYpYbElKjOFCc4jLxHaKJ7FEyGLngZXI4yf7oRFinlOLm3ugc+bZoDejnppF9lUVHMFu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DXGV4lDl; arc=none smtp.client-ip=209.85.161.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G7Gr9rXy"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a1b6800ba8so511806eaf.0
-        for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 08:24:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DXGV4lDl"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-59fdcf8ebbcso648688eaf.3
+        for <mhi@lists.linux.dev>; Thu, 14 Mar 2024 08:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710429856; x=1711034656; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710429860; x=1711034660; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xEWUsK3WjK6B5cd6Lu/XIj57FaZ2PiCBZt++wpc0fHs=;
-        b=G7Gr9rXyDhQcV4u5FfkNWER8xLXfeVE8ELmxdwxmlzuZf45Ao9L5Xu8yI2KgadWUQw
-         gLaqfdt0BhQGcSbCVTchWfQTvsXs/rPq/HLuuLGQCrA63VVz/p4DNVRBzLvbWizYpxPz
-         ykn4/iUJ2Yr69wgbF/DcT8x5F0KW06jnr7qyn36fPP/w4QkjtKA8MnLiKJY9qy2sjOgJ
-         jAccLU+khzByK9lmpy9JHxfPT4mIZfPEJEKF74u357+951/1lhLyoikXq4j9FCgYAKxi
-         LsR19c555LpR879eSvw/orw/2LlUErX5qMBxQkurtPbBfCZEUtl7jT+O1ju0VFeLNkda
-         n1sg==
+        bh=Hmo5GkrWgq85dG1VyL0i72o0ju0TcnLWL9PRQB4CpVU=;
+        b=DXGV4lDl8cSUx5edIT8RAeVaxysqtgpBWe+SIBAmujlth34VUvQlXtiePZBsX59vIW
+         i/dVQSsWO4Bk0MqUx1EFZ0pcvTBCZUB2rRptpWOIoUQSoX/6Jt0eoPIt8KyLO8mo1eh7
+         Xm04LkIajYDCYVrdbBWq3vN82POZfcTjG0gCCBOudMl/jzxsKFOsa9uhH1WH1psYBgu+
+         qBGIS4XC/1vllwnWZ8vTJ9RLPtqhcV2EY1qyMsLda2HMnGzqtQxDqLsrIjAWV7lCDId+
+         OJGNQdKtcMVUIuisb1shSdzqtFKuguEwgeH9hOLVMC5nqq/0DbEALeE39B1aELLG4roJ
+         aTmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710429856; x=1711034656;
+        d=1e100.net; s=20230601; t=1710429860; x=1711034660;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xEWUsK3WjK6B5cd6Lu/XIj57FaZ2PiCBZt++wpc0fHs=;
-        b=oU7WFwPYbplSLVyUlgvtIfFMBBhB427cr++kig4MBy+7NkpQka8F1mWckudORJjILi
-         z2BFDj4wBbSb/d3Z1BBhZHPN0YHPfEwzhk9x9JuVD3vRb8SI0wIxpmcz23/DDnCGYzWR
-         7zhaifJx8y/ZRB18NfgiscCsiYvm0y0I7+fTe9QK6TW+wiHSVvPY66D7w7SlQUzXU+am
-         Fxu8JJ88k9ODgQI5003Y7KzJdb+IyabrcE+prYtswXGPQq/yAPbMsGWRp5Cug8yUBNb5
-         iaNQD0ahx13GGm78gvGEgHIG30CRszuTIrNdDSsaY6k6JExu4iAWs5mwuQyegKLnyM5o
-         W0NA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUswCZe68eeYj5NKGix587/AORi+jDP/PTS0mfn0e2mug+weTYKayjdxRd1b/pFplt62k5m0v/hemIZoXzem+uf+va
-X-Gm-Message-State: AOJu0YwrQu5Dpl1CoMaNoj7ZuouwXBao44WaQNA1LSRU/BWTL4RZBUKZ
-	Q2BzGNbpJV2wBflwwXweuyFy2MImRtPiTplKF30eqyHDr5lY3pu0ffF2GfaqTA==
-X-Google-Smtp-Source: AGHT+IHP8NMJaf/7kaBlz1m3NjEaEUbyEINYKTdtRwykSNpv+uyLAP+YGybVOzt6HovdxEZEpbwkDA==
-X-Received: by 2002:a05:6358:5304:b0:17b:f2ae:e561 with SMTP id n4-20020a056358530400b0017bf2aee561mr1971178rwf.30.1710429855405;
-        Thu, 14 Mar 2024 08:24:15 -0700 (PDT)
+        bh=Hmo5GkrWgq85dG1VyL0i72o0ju0TcnLWL9PRQB4CpVU=;
+        b=R7oPnaWGbT0PAt1R1r70xfzqj8L+Qk7JIV26Yl5u6ZIwh/QjNxmmHUPSMEZ8puvw3X
+         m+Uz8YwiT3R5sKodX8xPpOHCQkBd6VkLNQ137CuZlFvGeISdJX1WghHGM7EVMhp0QWKu
+         nXi20Si4pcwyaphWxF+HtL132DBbvNU3EcwpwbTKKsBY3M5MkwLuKEA+KTzUW0VXzYz7
+         D4sQyjiYmobBIPvYdGWHnXpxLUB8p5F/MGOGS8BiapKpswK1L8/5EwYZzeApg6VhRinz
+         B3ijQBIFrZB1jM9ZnFKVj+vzeX9VieuJJTV1KfsvhSfwVGgU51I9CNT/LoVRsa3gZMK/
+         0oDw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/2dCvYgPLblM29KfWOgb7vO60PnnvoP0h8mSL2YBEngTVtKvpl/3hw7M1hra6WeQaXRRGmC5EDnq14WwEClpmpbrm
+X-Gm-Message-State: AOJu0Ywp1Ks80t9lW0ZZXB0Hq2mUETbtSJvOSSPJRHVITzJQYSl6HWnI
+	7cz33Ph76iZySp0tEAF5AzZt8iZvw0lJlBaq9VQQQHM21OjpIZhV1kWrVcETLw==
+X-Google-Smtp-Source: AGHT+IH735h0wRO4p3EDFKpXdMk7lf50Krmo5ygqFNlixEaKdjPh2gApyS1k774c2ix2b6oWQqeniQ==
+X-Received: by 2002:a05:6358:248b:b0:17b:f3f9:117d with SMTP id m11-20020a056358248b00b0017bf3f9117dmr2735196rwc.16.1710429859818;
+        Thu, 14 Mar 2024 08:24:19 -0700 (PDT)
 Received: from [127.0.1.1] ([117.207.30.211])
-        by smtp.gmail.com with ESMTPSA id m4-20020a63ed44000000b005e438ea2a5asm824021pgk.53.2024.03.14.08.24.11
+        by smtp.gmail.com with ESMTPSA id m4-20020a63ed44000000b005e438ea2a5asm824021pgk.53.2024.03.14.08.24.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 08:24:14 -0700 (PDT)
+        Thu, 14 Mar 2024 08:24:19 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Date: Thu, 14 Mar 2024 20:53:41 +0530
-Subject: [PATCH 02/11] PCI: endpoint: Decouple EPC and PCIe bus specific
- events
+Date: Thu, 14 Mar 2024 20:53:42 +0530
+Subject: [PATCH 03/11] PCI: endpoint: Rename core_init() callback in
+ 'struct pci_epc_event_ops' to init()
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240314-pci-epf-rework-v1-2-6134e6c1d491@linaro.org>
+Message-Id: <20240314-pci-epf-rework-v1-3-6134e6c1d491@linaro.org>
 References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
 In-Reply-To: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
 To: Lorenzo Pieralisi <lpieralisi@kernel.org>, 
@@ -79,196 +79,142 @@ Cc: linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-tegra@vger.kernel.org, 
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7165;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5286;
  i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=9R/4BRcR5YWjVx8HSWtHp3tea3KFcjiGJn6zOJW2sDQ=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl8xaOuI/id1EPmdXTpkB5hTosPO+3YkDwNzT9O
- 1dki8CaNoSJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZfMWjgAKCRBVnxHm/pHO
- 9fsmB/93d2Eg2EacntW52OJYEoBdX0WLgtZNSEzX1D0kPl5iX16uh0+yADrvlrovh25+G7nAacY
- fqlS6Fv2Dki5ph34J/GVCyP+LrBCAN0mmq7jiGkdWdGN+k0Y6r4rzoA9iol7838nAVqpCT3Sk36
- IuM5OpXw0a6uZT1s7D9AtjlQtiW9+UQwV8jTtfmnTQdXxOOQxZHyYF0BY8oNqocbn9t0x60FYkH
- /7gUOUj4q2xtrLPulTU7VeC/yFoxBtA8jUBj0peqvHrPt+3rNKS37mcA4Pl0w2n0KZYxFznRKOg
- DCEoLrM8hFzLkBiSpuiI/U3nCEDt1slSRYcCmFyl2IbUZf7K
+ bh=lGCqTGsH0mm9VdgV3rimMB23vCvTqdQtyUoVRgnqHFc=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl8xaO/kPngWfy5i/yfKtWNyWLtszgSAOX80+JM
+ Zd7R8DLC/uJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZfMWjgAKCRBVnxHm/pHO
+ 9Y9yB/9p0lkMoFe7sB5zCrNwSgPCUSxbb7RwZelaxXlhS5eru2NoWPc6nervrB3VSZYrItAebyU
+ ENZddDyZY5pFAm3l4/aoJ8DhJd+fCrNgsqUV3JPXRZdsrinTxCbfbDlS0TIHH+255uiy0osRMxo
+ VjNcNfiRxylOi1NVeVsr3Q0gDo90lI0WHkPhpzx8wsjo69OzykBfV+f8p/KN590C7z71yRAh6GO
+ oONX3nSRm2ziR/9KETgAyunWypnI9tO6dNsl+H6VkfCWrbVJ4mrFr85ZEVRHjqr6UnIN1+qAPHV
+ KLpSYYEuzF8JGp925cOz6vuAc1zwUghqPzrTaoKeAgr8dwR2
 X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
  fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Currently, 'struct pci_epc_event_ops' has a bunch of events that are sent
-from the EPC driver to EPF driver. But those events are a mix of EPC
-specific events like core_init and PCIe bus specific events like LINK_UP,
-LINK_DOWN, BME etc...
+core_init() callback is used to notify the EPC initialization event to the
+EPF drivers. The 'core' prefix was used indicate that the controller IP
+core has completed initialization. But it serves no purpose as the EPF
+driver will only care about the EPC initialization as a whole and there is
+no real benefit to distinguish the IP core part.
 
-Let's decouple them to respective structs (pci_epc_event_ops,
-pci_epc_bus_event_ops) to make the separation clear.
+So let's rename the core_init() callback in 'struct pci_epc_event_ops' to
+just init() to make it more clear.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/pci/endpoint/functions/pci-epf-mhi.c  |  8 ++++++--
- drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++++++--
- drivers/pci/endpoint/pci-epc-core.c           | 20 ++++++++++----------
- include/linux/pci-epf.h                       | 23 ++++++++++++++++-------
- 4 files changed, 38 insertions(+), 21 deletions(-)
+ drivers/pci/endpoint/functions/pci-epf-mhi.c  |  4 ++--
+ drivers/pci/endpoint/functions/pci-epf-test.c |  4 ++--
+ drivers/pci/endpoint/pci-epc-core.c           | 16 ++++++++--------
+ include/linux/pci-epf.h                       |  4 ++--
+ 4 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index 1c3e4ea76bd2..e5d67aec7574 100644
+index e5d67aec7574..da894a9a447e 100644
 --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
 +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -880,8 +880,11 @@ static void pci_epf_mhi_unbind(struct pci_epf *epf)
- 	pci_epc_clear_bar(epc, epf->func_no, epf->vfunc_no, epf_bar);
+@@ -700,7 +700,7 @@ static void pci_epf_mhi_dma_deinit(struct pci_epf_mhi *epf_mhi)
+ 	epf_mhi->dma_chan_rx = NULL;
  }
  
--static const struct pci_epc_event_ops pci_epf_mhi_event_ops = {
-+static const struct pci_epc_event_ops pci_epf_mhi_epc_event_ops = {
- 	.core_init = pci_epf_mhi_core_init,
-+};
-+
-+static const struct pci_epc_bus_event_ops pci_epf_mhi_bus_event_ops = {
- 	.link_up = pci_epf_mhi_link_up,
- 	.link_down = pci_epf_mhi_link_down,
- 	.bme = pci_epf_mhi_bme,
-@@ -903,7 +906,8 @@ static int pci_epf_mhi_probe(struct pci_epf *epf,
- 	epf_mhi->info = info;
- 	epf_mhi->epf = epf;
- 
--	epf->event_ops = &pci_epf_mhi_event_ops;
-+	epf->epc_event_ops = &pci_epf_mhi_epc_event_ops;
-+	epf->bus_event_ops = &pci_epf_mhi_bus_event_ops;
- 
- 	mutex_init(&epf_mhi->lock);
- 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index fc0282b0d626..751dab5799d5 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -813,8 +813,11 @@ static int pci_epf_test_link_up(struct pci_epf *epf)
- 	return 0;
+-static int pci_epf_mhi_core_init(struct pci_epf *epf)
++static int pci_epf_mhi_epc_init(struct pci_epf *epf)
+ {
+ 	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+ 	const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
+@@ -881,7 +881,7 @@ static void pci_epf_mhi_unbind(struct pci_epf *epf)
  }
  
--static const struct pci_epc_event_ops pci_epf_test_event_ops = {
-+static const struct pci_epc_event_ops pci_epf_test_epc_event_ops = {
- 	.core_init = pci_epf_test_core_init,
-+};
-+
-+static const struct pci_epc_bus_event_ops pci_epf_test_bus_event_ops = {
- 	.link_up = pci_epf_test_link_up,
+ static const struct pci_epc_event_ops pci_epf_mhi_epc_event_ops = {
+-	.core_init = pci_epf_mhi_core_init,
++	.init = pci_epf_mhi_epc_init,
  };
  
-@@ -959,7 +962,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
- 
- 	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
- 
--	epf->event_ops = &pci_epf_test_event_ops;
-+	epf->epc_event_ops = &pci_epf_test_epc_event_ops;
-+	epf->bus_event_ops = &pci_epf_test_bus_event_ops;
- 
- 	epf_set_drvdata(epf, epf_test);
+ static const struct pci_epc_bus_event_ops pci_epf_mhi_bus_event_ops = {
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index 751dab5799d5..1dae0fce8fc4 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -746,7 +746,7 @@ static int pci_epf_test_set_bar(struct pci_epf *epf)
  	return 0;
+ }
+ 
+-static int pci_epf_test_core_init(struct pci_epf *epf)
++static int pci_epf_test_epc_init(struct pci_epf *epf)
+ {
+ 	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
+ 	struct pci_epf_header *header = epf->header;
+@@ -814,7 +814,7 @@ static int pci_epf_test_link_up(struct pci_epf *epf)
+ }
+ 
+ static const struct pci_epc_event_ops pci_epf_test_epc_event_ops = {
+-	.core_init = pci_epf_test_core_init,
++	.init = pci_epf_test_epc_init,
+ };
+ 
+ static const struct pci_epc_bus_event_ops pci_epf_test_bus_event_ops = {
 diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index ba2ff037dfa6..f602f08a11a2 100644
+index f602f08a11a2..5a522b2842e2 100644
 --- a/drivers/pci/endpoint/pci-epc-core.c
 +++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -697,8 +697,8 @@ void pci_epc_linkup(struct pci_epc *epc)
- 	mutex_lock(&epc->list_lock);
- 	list_for_each_entry(epf, &epc->pci_epf, list) {
- 		mutex_lock(&epf->lock);
--		if (epf->event_ops && epf->event_ops->link_up)
--			epf->event_ops->link_up(epf);
-+		if (epf->bus_event_ops && epf->bus_event_ops->link_up)
-+			epf->bus_event_ops->link_up(epf);
- 		mutex_unlock(&epf->lock);
- 	}
- 	mutex_unlock(&epc->list_lock);
-@@ -723,8 +723,8 @@ void pci_epc_linkdown(struct pci_epc *epc)
- 	mutex_lock(&epc->list_lock);
- 	list_for_each_entry(epf, &epc->pci_epf, list) {
- 		mutex_lock(&epf->lock);
--		if (epf->event_ops && epf->event_ops->link_down)
--			epf->event_ops->link_down(epf);
-+		if (epf->bus_event_ops && epf->bus_event_ops->link_down)
-+			epf->bus_event_ops->link_down(epf);
- 		mutex_unlock(&epf->lock);
- 	}
- 	mutex_unlock(&epc->list_lock);
+@@ -732,9 +732,9 @@ void pci_epc_linkdown(struct pci_epc *epc)
+ EXPORT_SYMBOL_GPL(pci_epc_linkdown);
+ 
+ /**
+- * pci_epc_init_notify() - Notify the EPF device that EPC device's core
+- *			   initialization is completed.
+- * @epc: the EPC device whose core initialization is completed
++ * pci_epc_init_notify() - Notify the EPF device that EPC device initialization
++ *                         is completed.
++ * @epc: the EPC device whose initialization is completed
+  *
+  * Invoke to Notify the EPF device that the EPC device's initialization
+  * is completed.
 @@ -749,8 +749,8 @@ void pci_epc_init_notify(struct pci_epc *epc)
  	mutex_lock(&epc->list_lock);
  	list_for_each_entry(epf, &epc->pci_epf, list) {
  		mutex_lock(&epf->lock);
--		if (epf->event_ops && epf->event_ops->core_init)
--			epf->event_ops->core_init(epf);
-+		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
-+			epf->epc_event_ops->core_init(epf);
+-		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+-			epf->epc_event_ops->core_init(epf);
++		if (epf->epc_event_ops && epf->epc_event_ops->init)
++			epf->epc_event_ops->init(epf);
  		mutex_unlock(&epf->lock);
  	}
  	epc->init_complete = true;
+@@ -761,7 +761,7 @@ EXPORT_SYMBOL_GPL(pci_epc_init_notify);
+ /**
+  * pci_epc_notify_pending_init() - Notify the pending EPC device initialization
+  *                                 complete to the EPF device
+- * @epc: the EPC device whose core initialization is pending to be notified
++ * @epc: the EPC device whose initialization is pending to be notified
+  * @epf: the EPF device to be notified
+  *
+  * Invoke to notify the pending EPC device initialization complete to the EPF
 @@ -772,8 +772,8 @@ void pci_epc_notify_pending_init(struct pci_epc *epc, struct pci_epf *epf)
  {
  	if (epc->init_complete) {
  		mutex_lock(&epf->lock);
--		if (epf->event_ops && epf->event_ops->core_init)
--			epf->event_ops->core_init(epf);
-+		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
-+			epf->epc_event_ops->core_init(epf);
+-		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+-			epf->epc_event_ops->core_init(epf);
++		if (epf->epc_event_ops && epf->epc_event_ops->init)
++			epf->epc_event_ops->init(epf);
  		mutex_unlock(&epf->lock);
  	}
  }
-@@ -797,8 +797,8 @@ void pci_epc_bme_notify(struct pci_epc *epc)
- 	mutex_lock(&epc->list_lock);
- 	list_for_each_entry(epf, &epc->pci_epf, list) {
- 		mutex_lock(&epf->lock);
--		if (epf->event_ops && epf->event_ops->bme)
--			epf->event_ops->bme(epf);
-+		if (epf->bus_event_ops && epf->bus_event_ops->bme)
-+			epf->bus_event_ops->bme(epf);
- 		mutex_unlock(&epf->lock);
- 	}
- 	mutex_unlock(&epc->list_lock);
 diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
-index 77b146e0f672..1271e1e00bbd 100644
+index 1271e1e00bbd..ff8304e72f8e 100644
 --- a/include/linux/pci-epf.h
 +++ b/include/linux/pci-epf.h
-@@ -68,14 +68,21 @@ struct pci_epf_ops {
- };
+@@ -69,10 +69,10 @@ struct pci_epf_ops {
  
  /**
-- * struct pci_epc_event_ops - Callbacks for capturing the EPC events
-- * @core_init: Callback for the EPC initialization complete event
-- * @link_up: Callback for the EPC link up event
-- * @link_down: Callback for the EPC link down event
-- * @bme: Callback for the EPC BME (Bus Master Enable) event
-+ * struct pci_epc_event_ops - Callbacks for capturing the EPC specific events
-+ * @core_init: Callback for the EPC initialization event
+  * struct pci_epc_event_ops - Callbacks for capturing the EPC specific events
+- * @core_init: Callback for the EPC initialization event
++ * @init: Callback for the EPC initialization event
   */
  struct pci_epc_event_ops {
- 	int (*core_init)(struct pci_epf *epf);
-+};
-+
-+/**
-+ * struct pci_epc_bus_event_ops - Callbacks for capturing the PCIe bus specific
-+ *                               events
-+ * @link_up: Callback for the PCIe bus link up event
-+ * @link_down: Callback for the PCIe bus link down event
-+ * @bme: Callback for the PCIe bus BME (Bus Master Enable) event
-+ */
-+struct pci_epc_bus_event_ops {
- 	int (*link_up)(struct pci_epf *epf);
- 	int (*link_down)(struct pci_epf *epf);
- 	int (*bme)(struct pci_epf *epf);
-@@ -149,7 +156,8 @@ struct pci_epf_bar {
-  * @is_vf: true - virtual function, false - physical function
-  * @vfunction_num_map: bitmap to manage virtual function number
-  * @pci_vepf: list of virtual endpoint functions associated with this function
-- * @event_ops: Callbacks for capturing the EPC events
-+ * @epc_event_ops: Callbacks for capturing the EPC events
-+ * @bus_event_ops: Callbacks for capturing the PCIe bus events
-  */
- struct pci_epf {
- 	struct device		dev;
-@@ -179,7 +187,8 @@ struct pci_epf {
- 	unsigned int		is_vf;
- 	unsigned long		vfunction_num_map;
- 	struct list_head	pci_vepf;
--	const struct pci_epc_event_ops *event_ops;
-+	const struct pci_epc_event_ops *epc_event_ops;
-+	const struct pci_epc_bus_event_ops *bus_event_ops;
+-	int (*core_init)(struct pci_epf *epf);
++	int (*init)(struct pci_epf *epf);
  };
  
  /**
