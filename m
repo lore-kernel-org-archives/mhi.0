@@ -1,58 +1,58 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621CB200C7
-	for <mhi@lists.linux.dev>; Mon, 18 Mar 2024 05:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7090B224DA
+	for <mhi@lists.linux.dev>; Mon, 18 Mar 2024 05:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710739751; cv=none; b=R5NJIMswUgN5S/gtcpwhZKHuWtXQuNzGA1jk14Vz0PSWpth70k17tYPc74hExb13KCF/6TbriYlA+W9nYzXcVwhG6ymH62ZSymyOKolBdGQXYNo5UJ3Egg+xZxI7OP2fUO4vd0zVALdfAY4S8WBtGXDCzwlG1NkQMb16qy3v7Vs=
+	t=1710740086; cv=none; b=YOK6f9tuvsCSs1JHEvMacIpwG3ntOcLSPOPQl+o2Z3hEWoUZkmE0Lmv1s4cwUsbstVh4fIspLo7Rtx1vieKfDe4GLFO4KhEqlSFRkJt3mRH2tnQi9NYeqGvBFc36zTERZ4ofIvOTJITpcSjrWZg8P72679hwJA6onnSwwyti5tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710739751; c=relaxed/simple;
-	bh=mUtQaRoB5w1JR5t4g2/fqWtSD3Yp9K7/afA+Kz/dF9s=;
+	s=arc-20240116; t=1710740086; c=relaxed/simple;
+	bh=AiQOLLLmKWz3oZYJRfuHOSVlqQaIsEFensTv4wlYHnI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=op/b24uUWCBMB3ihTvw3n72TNghmM7jwN0zG5l7St1Ukzhe5RMOJ0mnmsv4L//kZXHwp2Gd+k4ZWSqj36jHikQHV3QBrXrjk3agPpSNbhtRcW5OQiexVCkXxIqmsKXaJg7+QB2+JHge86wChLsLusmtYMnv3clQ7R875dkPGfzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZVOE2kTS; arc=none smtp.client-ip=209.85.167.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJLgrXw5vVI/XNBZ+DDWqRJpEuHSi44eIof8R5myKaHjoUpFgd+yIEcISVlolYjcecQI4f4lCF89n08mVFXPZZauhLTVX8UHSEPsvTUO4aXz3BKEGGfsanYJ8FoH26LEsWra93T/5VKQ/HpcC5LyBvgWMM1xDWqETpmoj7KKd3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hIwXAj/O; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZVOE2kTS"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c38b719ab5so49156b6e.2
-        for <mhi@lists.linux.dev>; Sun, 17 Mar 2024 22:29:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hIwXAj/O"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1def2a1aafaso13639515ad.3
+        for <mhi@lists.linux.dev>; Sun, 17 Mar 2024 22:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710739748; x=1711344548; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710740083; x=1711344883; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XwgA0qRybu1Pipes5bSoqBwD+flXuGSyS+IfuKrdceQ=;
-        b=ZVOE2kTSa1hb9R9CZOo9eF9+Ued5yP7UmyHw1ZMacE1YX4Oz48qIRGeM0DLuZGgXIL
-         HVt6I739GQcRCe3QRF2mHkumMKPF3RLv5zsDUVcPgM8UtXedmjOSttN//SqkDK9atJIU
-         3f/MWfAlhc+ek7cKp5ACj5Wz0Ed5t/XaLjmhNrtpzwXvsOFo7MY7gZMcPHj8l+yYGPVK
-         QjfoUwXRsqEu7v0BBIQKJidBAiE2s+JL0QDEC/TzBsVcIGkcso8UzoR9I/X8r6QKbEjY
-         Rtp63Eofj7VmkQqCV/ZkgHdQ4L6YWmj7t9wE2dgCpz2U7arhTkBLKdgBGjtGUPFc+ySI
-         YxbQ==
+        bh=EF1nwg1aauriBtLQKhQ+qgjoLON5IninqkCOyqnKfIU=;
+        b=hIwXAj/O9EjoHQdifsBCUSTwYrwWgQKMCrXi/vt5hng6DJoANm/11/gTU7OgirJvm3
+         LFLOV+PU27b9HT80o14GJ991MsVUD5VduLV90GBpqC9azEEIAPcu2zy6du2W6BdceZQz
+         2NPX2Ff346sMLdK/lQ8vNs4Sr8HKa/tCD5OH3bdg9ZS8JpMcXNgPK7r2Q4f4DoroNLuc
+         Jq0hGNdXqpUWi6KbPPrbMsyfte3cTyoSB5bg3BIN/rTqizorEClnONVdgYCIdNvSSlxs
+         stysLLpuy+e0o51Y3Q4Tv5JvZ5eXHEHOcFxIeEuzXlnVV+YuzuVgpRZ732sf/MoBp8+n
+         gj7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710739748; x=1711344548;
+        d=1e100.net; s=20230601; t=1710740083; x=1711344883;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwgA0qRybu1Pipes5bSoqBwD+flXuGSyS+IfuKrdceQ=;
-        b=LTH2xy+NCs263Jx+DCiLcEPxyG2DHosGwC2dyZVmldhlPCB7tC7Xvm24AjefnTmHv4
-         00UsFnOJ+NSSJW8ZN8d0EhMrDfkWxszH/QyRZp6Hc6ifUSOvCqUmqX1Tew5XYJD0Z9bO
-         Y8AX4eX6L92/ZcBh3ImzlZf8Jl/KSoU2P+r2e9SGXG8t/jhEKT3j2HmEJICO3M5Zf/uA
-         saD8fOB86BLq/pC4BSo/fuBlY/cMqg0Jv/el32R0kcNNQ8JjC9d3emi9p22y3f7UTWc8
-         phTWmYqf7njs+DEm5x9/MX7hWpVfwgRsruCTB8uG9NsG/OHRHRjxcukKap/8bLuB++PQ
-         wD0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUfG3Sw6f7s4K+w5VZD1/kaRVUN2LBJ/yiTVeTzVHjXQz1dLWZXj/Oo35VP2qqjWi7j75JR8K51VgoTvJlqjdmNpb0j
-X-Gm-Message-State: AOJu0YwqW5Gdpqa+5RRO3MHoLcWIZH0/O5zNkTnotk4vDkJebkXo5azR
-	OppF02CPrFzOWZdB2tRonh9iu0C+DNKPLsOpwO8cMZE5bhD23yf9YG94FvTmWg==
-X-Google-Smtp-Source: AGHT+IFXBqlwSWe79lImxbdZTCooxa6XPg74HV6RDustVdZBTvf62IKKJQGcctaUNpUMj4DgIr/wPw==
-X-Received: by 2002:a05:6808:228b:b0:3c3:814a:fc6f with SMTP id bo11-20020a056808228b00b003c3814afc6fmr5300500oib.38.1710739748303;
-        Sun, 17 Mar 2024 22:29:08 -0700 (PDT)
+        bh=EF1nwg1aauriBtLQKhQ+qgjoLON5IninqkCOyqnKfIU=;
+        b=jmy7Uv4/FuA+WD0BvlVA09AjzmFHZ0Dl8DvMdFsVXqRHHWSJvn6znvHMgs/iFydb/l
+         Ajq2Is8yJ26w9eXaYPazevgn85oZIOzw2A8DPcX5la3+OMnf3ugaLzTyd/QBE4Khb0B/
+         zEd+Ez0+TyaDWraLnbjB9sxrf+L0XCM/iy9Au1cUE2SW8wrR65wJD4tukb12u6qPHXa3
+         lj85PbPV09al3S+GBF9C2YaSexMoaWqh5SjmVIw6wD1QCBj7pGOT+yX29SO36wk8I5ll
+         TD7zGg13p3MqXCO4rYSD8WKFciM/I1kU+NfL3Gm/Xqx4ygsYKWd7xXhpzNGPcXw5AsGP
+         BZHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMq94cIGWToScBJ5rnFx8E9cyvwpV744f9VKnVYvbloyC++WnV94HxbEHzxHJS9qa4LXuCqFIl3GaK5GVOcBUep+In
+X-Gm-Message-State: AOJu0Yx/SQgWK5NdLw34TeLfxawkW4BqaMqGWPhQr5tRRckwP+KXW4vg
+	/BuJIUM31DhTFQFQRaAe1NE24qIpKmiaSqVo72PuUhWwN8Zqv0gpmoXkD8Ah5g==
+X-Google-Smtp-Source: AGHT+IEKMHb+7xvRCgR/g4XEp4tB9vwgi0BH58gTwM7mvpy1llF9PEEfvC2uPC2VQbcd7dshAsa6Mg==
+X-Received: by 2002:a17:903:22d1:b0:1e0:1a96:33d1 with SMTP id y17-20020a17090322d100b001e01a9633d1mr2858887plg.16.1710740082128;
+        Sun, 17 Mar 2024 22:34:42 -0700 (PDT)
 Received: from thinkpad ([103.246.195.160])
-        by smtp.gmail.com with ESMTPSA id fe11-20020a056a002f0b00b006e537f3c487sm7019018pfb.127.2024.03.17.22.29.04
+        by smtp.gmail.com with ESMTPSA id mp6-20020a170902fd0600b001dee3c1559dsm7127313plb.303.2024.03.17.22.34.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 22:29:07 -0700 (PDT)
-Date: Mon, 18 Mar 2024 10:59:02 +0530
+        Sun, 17 Mar 2024 22:34:41 -0700 (PDT)
+Date: Mon, 18 Mar 2024 11:04:36 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Serge Semin <fancer.lancer@gmail.com>
 Cc: Jingoo Han <jingoohan1@gmail.com>,
@@ -67,11 +67,12 @@ Cc: Jingoo Han <jingoohan1@gmail.com>,
 	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>,
 	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-Message-ID: <20240318052902.GD2748@thinkpad>
+Subject: Re: [PATCH v4 2/5] PCI: dwc: Skip finding eDMA channels count for
+ HDMA platforms
+Message-ID: <20240318053436.GE2748@thinkpad>
 References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
- <20240306-dw-hdma-v4-1-9fed506e95be@linaro.org>
- <flwmqlr3irjuwfqpjn227qnrkyyayym57d5v3ksr4xqmfxshaj@ibdi3dyetkou>
+ <20240306-dw-hdma-v4-2-9fed506e95be@linaro.org>
+ <kqztfm6ri54pkxcmsmngldmlf22mt2vn5cgxxfhjqxujx3qkq2@us6rc2sof7gk>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -81,103 +82,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <flwmqlr3irjuwfqpjn227qnrkyyayym57d5v3ksr4xqmfxshaj@ibdi3dyetkou>
+In-Reply-To: <kqztfm6ri54pkxcmsmngldmlf22mt2vn5cgxxfhjqxujx3qkq2@us6rc2sof7gk>
 
-On Tue, Mar 12, 2024 at 12:04:17PM +0300, Serge Semin wrote:
-> Hi Mani
-> 
-> On Wed, Mar 06, 2024 at 03:51:57PM +0530, Manivannan Sadhasivam wrote:
-> > In order to add support for Hyper DMA (HDMA), let's refactor the existing
-> > dw_pcie_edma_find_chip() API by moving the common code to separate
-> > functions.
+On Tue, Mar 12, 2024 at 12:17:48PM +0300, Serge Semin wrote:
+> On Wed, Mar 06, 2024 at 03:51:58PM +0530, Manivannan Sadhasivam wrote:
+> > In the case of Hyper DMA (HDMA) present in DWC controllers, there is no way
+> > the drivers can auto detect the number of read/write channels as like its
+> > predecessor embedded DMA (eDMA). So the glue drivers making use of HDMA
+> > have to pass the channels count during probe.
 > > 
-> > No functional change.
+> > To accommodate that, let's skip the existing auto detection of channels
+> > count procedure for HDMA based platforms. If the channels count passed by
+> > the glue drivers were wrong in any form, then the existing sanity check
+> > will catch it.
 > > 
 > > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
 > > Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
 > > Reviewed-by: Frank Li <Frank.Li@nxp.com>
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> 
+> Please find a tiny nitpick further below.
+> 
 > > ---
-> >  drivers/pci/controller/dwc/pcie-designware.c | 40 +++++++++++++++++++++++-----
-> >  1 file changed, 33 insertions(+), 7 deletions(-)
+> >  drivers/pci/controller/dwc/pcie-designware.c | 15 ++++++++++-----
+> >  1 file changed, 10 insertions(+), 5 deletions(-)
 > > 
 > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > index 250cf7f40b85..3a26dfc5368f 100644
+> > index 3a26dfc5368f..599991b7ffb2 100644
 > > --- a/drivers/pci/controller/dwc/pcie-designware.c
 > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
-> >  	.irq_vector = dw_pcie_edma_irq_vector,
-> >  };
-> >  
-> > -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> > +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-> > +{
-> > +	pci->edma.dev = pci->dev;
-> > +
-> > +	if (!pci->edma.ops)
-> > +		pci->edma.ops = &dw_pcie_edma_ops;
-> > +
-> > +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> > +}
-> > +
-> > +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+> > @@ -927,13 +927,18 @@ static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
 > >  {
 > >  	u32 val;
 > >  
-> > @@ -902,8 +912,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> >  
-> >  	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
-> >  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> > -
-> > -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> >  	} else if (val != 0xFFFFFFFF) {
-> >  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
-> >  
-> > @@ -912,12 +920,17 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > -	pci->edma.dev = pci->dev;
-> > +	return 0;
-> > +}
-> >  
-> > -	if (!pci->edma.ops)
-> > -		pci->edma.ops = &dw_pcie_edma_ops;
-> > +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> > +{
-> > +	u32 val;
-> >  
+> > -	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> > -		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > -	else
 > 
-> > -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > +	else
-> > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > +	/*
+> > +	 * Autodetect the read/write channels count only for non-HDMA platforms.
+> > +	 * HDMA platforms doesn't support autodetect, so the glue drivers should've
+> > +	 * passed the valid count already. If not, the below sanity check will
+> > +	 * catch it.
+> > +	 */
 > 
-> Once again:
-> 
-> On Tue, Feb 27, 2024 at 01:04:55PM +0530, Manivannan Sadhasivam wrote:
-> > On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
-> > > The entire
-> > > 
-> > > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> > > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > > +	else
-> > > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > > 
-> > > can be replaced with a single line
-> > > 
-> > > +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > > 
-> > > since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) the
-> > > pci->edma.reg_base has been initialized by now.
-> > > 
-> > 
-> > Ah okay, got it!
+> This is correct for the _native_ HDMA CSRs mapping. I suggest to emphasize
+> that in the note above.
 > 
 
-Sorry, I had this change but looks like it got lost during rebase somehow. Will
-bring it back.
+Ack.
 
 - Mani
 
