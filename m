@@ -1,58 +1,58 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3715C130AFA
-	for <mhi@lists.linux.dev>; Tue, 26 Mar 2024 07:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B131327F7
+	for <mhi@lists.linux.dev>; Tue, 26 Mar 2024 07:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711439080; cv=none; b=gIYc7VNEtovzNHSOOO+mfV7U1ugP1OadcMWabfZovy4O1vOx4stiTv7LADYDUUa/5RsznTmXwOxzsN0HYFUo+VhN9UrNCgoatkmHtVLHa3CRhE10DLA1bVRE8D1Sw/ig5VthHgl4YPx7WgCEyqK5UgEFp8my/mI06eC1f9484Hc=
+	t=1711439359; cv=none; b=mU7RtQZR1FO3jrZo1b+BW5mWx/xIFWDwbCiekQwCNerH9JdGdmDkVGq8OHYO0dUON8EwiBiSTjH2p8kYVy111RMMCtE7W+OFuf+tPjDbuT0380+PZORlwW7ZNy4uwVj8l1uHQG2J46lvl4FbGVr5o8Ejq4qpnk5It0aQnYuhAqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711439080; c=relaxed/simple;
-	bh=MsrkW69p8rySCRtLMEt7t+ExHfkgy2bgx4K2VLJtRIw=;
+	s=arc-20240116; t=1711439359; c=relaxed/simple;
+	bh=mD/uOohmAdwq6qtfbHHxntanqBnx57lMSP/jqCllu9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sjtloLMi/UAyT+tawBIHypwmSVtgOuv1yNPVzR3bakS6pkhxZ+GtK655q7tjiVh6FvJ68tsfYD0cjn4t1wvszlKNZWbYPVzr6Yx2oXMQUQpVQaC9m0a7CGBr5jSD9MJHDW0WmrvF9dcwqbMdO4Oe7Q2kNr5+k3owKI9VYoySg5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MZ0Y5ONn; arc=none smtp.client-ip=209.85.215.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/xFcGRLysLk/MNM08R+WOd+KDqNsT3svkxh8VQbfA0DHr/mwowGTnLHnyWzrXgsp6NnA17QJtluej2Sp9WUXLB+aOoUiVMv//+jZnCCzw2IX8O1Lxt9BsytWppeVYkahd1r+02V3N/ZcOqiS8YlF2cy+v+Zs2Sn3Yb2cgMzpvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dCvxMlfW; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MZ0Y5ONn"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5c66b093b86so4484648a12.0
-        for <mhi@lists.linux.dev>; Tue, 26 Mar 2024 00:44:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dCvxMlfW"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso3585059a12.3
+        for <mhi@lists.linux.dev>; Tue, 26 Mar 2024 00:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711439077; x=1712043877; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1711439357; x=1712044157; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ltBMUKgzn3zhp60fMyljAq7QO/sGMekj2XSf0AJieWY=;
-        b=MZ0Y5ONnkWT8S8geOKbiGMzy+L/gr6OQYoGhukATrw53JhqRFcLK+mhXssv32Ky9rB
-         xuBd8sBV/1ntgiGTZIPotQp8z3gFh9SMuze5lhE/6103/YWrf3STdJPr7xJFpl6XUvdG
-         Oajv4XZyRPJlljvI6SLGOsBp5cW8I03d4ttwx/iWKCjDFsPiyn/Ya15qADbBUTEb1edq
-         lxmI4kaFq8cxin5ISV75jVwybTspwSykkp19Li8Zj9Egjxkt4byuvhuCpry6YvRHhAcM
-         Ggka6GLwW4U9sPBHOrCc8xKwRlOYCXfO5YkQaHQtk4GGem8C5X0C4fOFfxErrKfYtTZj
-         XF/w==
+        bh=lTWElJB3E3CFBIiAE7FiS8GKRMyRjDaWbtu+LrgbpaY=;
+        b=dCvxMlfWCVKE/qhp/qPYzSRuoBxoV7NqosmrJLOxBMUkSd/9Ywzt69sioW46kRH6YK
+         dsHBnymezLdYKDaXqyH+ToA/y4yionB5MQzJzZFldLKKxt+yYBbsdpUUGr9uVBLq0Tzk
+         xaXuQ6AjVRifYbF6bftc/P6vhP9nPsxIT9wABqF97mOR4VylH6StLXMuYO1zI5rzwSZx
+         53NSTjFSf7qCi2Q/BpJVq3VE09VfqFZ5cojU+BErAIPHaWASemS6sQ0GEQILRsbItbau
+         THQH/8z7QhSMx78jmT+eoWHALYd3q2egewXTPGt4oz/DN8Kvysk00AtLEJ2TkVxB5vhY
+         PLyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711439077; x=1712043877;
+        d=1e100.net; s=20230601; t=1711439357; x=1712044157;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ltBMUKgzn3zhp60fMyljAq7QO/sGMekj2XSf0AJieWY=;
-        b=mY29iPfV//K3C6dgr2bsCo4TtMT6zhiCEDz/f72MEi/MtBB2Qu8HpRWVar3L8ryOSi
-         zFk4PvpzRWmA86UpT+iyzqDMEhj9w2ZuHno2dNpGkeuaJsT8G4vQ35jaC6GfOUpuh3/t
-         EE5hGuGiOg+4afpaim7KChHjOQcQc8zcakUIJqcRN/LMs1miUt0erRADPv6AQbZpjvfB
-         yvAaMW+ggR0NjihZWU09QsyiVfw8BN1kvq8tXgd8erH47PFvTbByjCW42tSPHutIxVKS
-         NeMU85ea4UrSVGuCrYhRt9APLQWdI+bHKLKrgJrbBt0et8DCam/RkI0ERILAHqBSyGVy
-         Zmcg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3gTyoifc1XkGZEnyOTQ4MbU7XJnFF3oHiOhN0/4HqKrHOo9P9uSJObYqBwEfd7NWhO+hQMRIs1LsAJffaw82P0Prf
-X-Gm-Message-State: AOJu0YyVlzItFucU6aBJBIS8bzkty78B57o2Wu8mcfLKADVnX9EVWUx3
-	RzTLun13tfuHvC/fUlA3E7Ui81uQY/Gw2ByYdNcOaL4sqV7ld6d9cIPul9pAGQ==
-X-Google-Smtp-Source: AGHT+IFpNW25eFjP8EzgblCKW0udVOJeCu+1W8FIYLgYCGlpAIzgTkcJLGCCZzYcvI56FkcxZcDtgA==
-X-Received: by 2002:a17:90a:ec0d:b0:2a0:61ca:8d8a with SMTP id l13-20020a17090aec0d00b002a061ca8d8amr1054642pjy.6.1711439077214;
-        Tue, 26 Mar 2024 00:44:37 -0700 (PDT)
+        bh=lTWElJB3E3CFBIiAE7FiS8GKRMyRjDaWbtu+LrgbpaY=;
+        b=hP69h2Z+qUmSUpGXe6Un5GY9Y5o6yVrNAvwNyte7649NVQ/7gcdVb86UCi7C52EWzO
+         UPcWZhcK3QNKpKhhQBquv99fI5+5hq235SMqa6h+49wFpnWl7Jgq1us80mVpOU3+dSu7
+         XoThf8epuTAAjlWdqn4cbBUNu5CmxQFLLxyQen4WuxKJBi9tm+PT09H2NiIDU4aWaLmL
+         BJqxiMKPeDu8ERBqtUB+mNUUwvGiRSIj7wShLkGNg4HGGhMp1mocBMeC1b931XGHOKta
+         KP+ptL4YJ1t3g5/gxu3Fnkxd/gv1S1gPl6pZMy+ehPc1Znx2L/D3PjW0hFFydh4+fEwo
+         e4ng==
+X-Forwarded-Encrypted: i=1; AJvYcCX4kQ1y1lHF+J4gaalD0vidHDtmM/jaypKt4dOGRC4D5IKc3+reYWnFsxyFrA0Th8SeWCgk6a1EFi4A2Ly6vJffIJ0x
+X-Gm-Message-State: AOJu0YyO8KPXQGGct5BPH/8H1PzMWIwCnLmkXhojD7Gn9Hkdn2ANZDj6
+	5+Ds19IxqUDrJsgBCir3KlhWP0lkE/3f5UlNnVS3QHNWGfQl4xD3rplaxVPbEg==
+X-Google-Smtp-Source: AGHT+IFnMR21PN0mlfkHlkrPmdV3CmWyEENg9/wVPEmQQIeVbXaJ2uuYk7atQhi5sEPODMYCRFD0pw==
+X-Received: by 2002:a17:90a:1c16:b0:2a0:1f2:e3ca with SMTP id s22-20020a17090a1c1600b002a001f2e3camr8943146pjs.36.1711439357212;
+        Tue, 26 Mar 2024 00:49:17 -0700 (PDT)
 Received: from thinkpad ([117.207.28.168])
-        by smtp.gmail.com with ESMTPSA id q67-20020a17090a17c900b0029c5ee381dfsm8460725pja.26.2024.03.26.00.44.33
+        by smtp.gmail.com with ESMTPSA id t22-20020a17090ae51600b002a000f06db4sm11296861pjy.5.2024.03.26.00.49.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 00:44:36 -0700 (PDT)
-Date: Tue, 26 Mar 2024 13:14:29 +0530
+        Tue, 26 Mar 2024 00:49:16 -0700 (PDT)
+Date: Tue, 26 Mar 2024 13:19:07 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Niklas Cassel <cassel@kernel.org>
 Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -66,12 +66,12 @@ Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
 	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 01/11] PCI: qcom-ep: Disable resources unconditionally
- during PERST# assert
-Message-ID: <20240326074429.GC9565@thinkpad>
+Subject: Re: [PATCH 02/11] PCI: endpoint: Decouple EPC and PCIe bus specific
+ events
+Message-ID: <20240326074907.GD9565@thinkpad>
 References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
- <20240314-pci-epf-rework-v1-1-6134e6c1d491@linaro.org>
- <Zf2s9kTMlZncldWx@ryzen>
+ <20240314-pci-epf-rework-v1-2-6134e6c1d491@linaro.org>
+ <Zf2tBNctPpIrHeWA@ryzen>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -81,59 +81,241 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zf2s9kTMlZncldWx@ryzen>
+In-Reply-To: <Zf2tBNctPpIrHeWA@ryzen>
 
-On Fri, Mar 22, 2024 at 05:08:22PM +0100, Niklas Cassel wrote:
-> On Thu, Mar 14, 2024 at 08:53:40PM +0530, Manivannan Sadhasivam wrote:
-> > All EP specific resources are enabled during PERST# deassert. As a counter
-> > operation, all resources should be disabled during PERST# assert. There is
-> > no point in skipping that if the link was not enabled.
+On Fri, Mar 22, 2024 at 05:08:36PM +0100, Niklas Cassel wrote:
+> On Thu, Mar 14, 2024 at 08:53:41PM +0530, Manivannan Sadhasivam wrote:
+> > Currently, 'struct pci_epc_event_ops' has a bunch of events that are sent
+> > from the EPC driver to EPF driver. But those events are a mix of EPC
+> > specific events like core_init and PCIe bus specific events like LINK_UP,
+> > LINK_DOWN, BME etc...
 > > 
-> > This will also result in enablement of the resources twice if PERST# got
-> > deasserted again. So remove the check from qcom_pcie_perst_assert() and
-> > disable all the resources unconditionally.
+> > Let's decouple them to respective structs (pci_epc_event_ops,
+> > pci_epc_bus_event_ops) to make the separation clear.
 > > 
-> > Fixes: f55fee56a631 ("PCI: qcom-ep: Add Qualcomm PCIe Endpoint controller driver")
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > > ---
-> >  drivers/pci/controller/dwc/pcie-qcom-ep.c | 6 ------
-> >  1 file changed, 6 deletions(-)
+> >  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  8 ++++++--
+> >  drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++++++--
+> >  drivers/pci/endpoint/pci-epc-core.c           | 20 ++++++++++----------
+> >  include/linux/pci-epf.h                       | 23 ++++++++++++++++-------
+> >  4 files changed, 38 insertions(+), 21 deletions(-)
 > > 
-> > diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> > index 2fb8c15e7a91..50b1635e3cbb 100644
-> > --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> > +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> > @@ -500,12 +500,6 @@ static int qcom_pcie_perst_deassert(struct dw_pcie *pci)
-> >  static void qcom_pcie_perst_assert(struct dw_pcie *pci)
-> >  {
-> >  	struct qcom_pcie_ep *pcie_ep = to_pcie_ep(pci);
-> > -	struct device *dev = pci->dev;
-> > -
-> > -	if (pcie_ep->link_status == QCOM_PCIE_EP_LINK_DISABLED) {
-> > -		dev_dbg(dev, "Link is already disabled\n");
-> > -		return;
-> > -	}
+> > diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> > index 1c3e4ea76bd2..e5d67aec7574 100644
+> > --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> > +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> > @@ -880,8 +880,11 @@ static void pci_epf_mhi_unbind(struct pci_epf *epf)
+> >  	pci_epc_clear_bar(epc, epf->func_no, epf->vfunc_no, epf_bar);
+> >  }
 > >  
-> >  	dw_pcie_ep_cleanup(&pci->ep);
-> >  	qcom_pcie_disable_resources(pcie_ep);
+> > -static const struct pci_epc_event_ops pci_epf_mhi_event_ops = {
+> > +static const struct pci_epc_event_ops pci_epf_mhi_epc_event_ops = {
+> >  	.core_init = pci_epf_mhi_core_init,
+> > +};
+> > +
+> > +static const struct pci_epc_bus_event_ops pci_epf_mhi_bus_event_ops = {
+> >  	.link_up = pci_epf_mhi_link_up,
+> >  	.link_down = pci_epf_mhi_link_down,
+> >  	.bme = pci_epf_mhi_bme,
+> > @@ -903,7 +906,8 @@ static int pci_epf_mhi_probe(struct pci_epf *epf,
+> >  	epf_mhi->info = info;
+> >  	epf_mhi->epf = epf;
+> >  
+> > -	epf->event_ops = &pci_epf_mhi_event_ops;
+> > +	epf->epc_event_ops = &pci_epf_mhi_epc_event_ops;
+> > +	epf->bus_event_ops = &pci_epf_mhi_bus_event_ops;
+> >  
+> >  	mutex_init(&epf_mhi->lock);
+> >  
+> > diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> > index fc0282b0d626..751dab5799d5 100644
+> > --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> > +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> > @@ -813,8 +813,11 @@ static int pci_epf_test_link_up(struct pci_epf *epf)
+> >  	return 0;
+> >  }
+> >  
+> > -static const struct pci_epc_event_ops pci_epf_test_event_ops = {
+> > +static const struct pci_epc_event_ops pci_epf_test_epc_event_ops = {
+> >  	.core_init = pci_epf_test_core_init,
+> > +};
+> > +
+> > +static const struct pci_epc_bus_event_ops pci_epf_test_bus_event_ops = {
+> >  	.link_up = pci_epf_test_link_up,
+> >  };
 > 
-> Are you really sure that this is safe?
+> I'm not a big fan of every EPF driver now needing two different
+> static const struct pci_*_event_ops.
 > 
-> I think I remember seeing some splat in dmesg if some clks, or maybe it
-> was regulators, got disabled while already being disabled.
+> Is really:
+> static const struct pci_epc_event_ops pci_epf_test_epc_event_ops = {
+> 	.core_init = pci_epf_test_core_init,
+> };
 > 
-> Perhaps you could test it by simply calling:
-> qcom_pcie_disable_resources();
-> twice here, and see if you see and splat in dmesg.
+> static const struct pci_epc_bus_event_ops pci_epf_test_bus_event_ops = {
+> 	.link_up = pci_epf_test_link_up,
+> };
+> 
+> 
+> Better than:
+> static const struct pci_epc_event_ops pci_epf_test_event_ops = {
+> 	.core_init = pci_epf_test_core_init,
+> 	.link_up = pci_epf_test_link_up,
+> }
+> 
+> The callbacks should have sufficiently distinct names that it is obvious
+> what it is happening?
+> 
+> Link up is that the EPC driver tells me that it is link up.
+> Init is that the EPF function should initialize the BARs etc.
+> 
+> I'm not saying that I'm totally against this, but I'm not sure that there
+> are so many EPC callbacks that this is needed?
 > 
 
-Calling the disable_resources() function twice will definitely result in the
-splat. But here PERST# is level triggered, so I don't see how the EP can see
-assert twice.
+The issue I'm seeing is that these callbacks are serving different purposes. One
+is purely EPC specific and another is PCIe Link specific. So mixing them in a
+single struct doesn't look good IMO.
 
-Am I missing something?
+And I agree that we will be left with 2 structs, but at least I can see that it
+gives a clear representation of the purposes of the callbacks.
 
 - Mani
+
+> How many will there be after this series?
+> Four? .init, .deinit, .link_up, .link_down ?
+> 
+> I would vote to keep all callbacks in the same struct for now,
+> but you are the maintainer.
+> 
+> 
+> >  
+> > @@ -959,7 +962,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+> >  
+> >  	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
+> >  
+> > -	epf->event_ops = &pci_epf_test_event_ops;
+> > +	epf->epc_event_ops = &pci_epf_test_epc_event_ops;
+> > +	epf->bus_event_ops = &pci_epf_test_bus_event_ops;
+> >  
+> >  	epf_set_drvdata(epf, epf_test);
+> >  	return 0;
+> > diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+> > index ba2ff037dfa6..f602f08a11a2 100644
+> > --- a/drivers/pci/endpoint/pci-epc-core.c
+> > +++ b/drivers/pci/endpoint/pci-epc-core.c
+> > @@ -697,8 +697,8 @@ void pci_epc_linkup(struct pci_epc *epc)
+> >  	mutex_lock(&epc->list_lock);
+> >  	list_for_each_entry(epf, &epc->pci_epf, list) {
+> >  		mutex_lock(&epf->lock);
+> > -		if (epf->event_ops && epf->event_ops->link_up)
+> > -			epf->event_ops->link_up(epf);
+> > +		if (epf->bus_event_ops && epf->bus_event_ops->link_up)
+> > +			epf->bus_event_ops->link_up(epf);
+> >  		mutex_unlock(&epf->lock);
+> >  	}
+> >  	mutex_unlock(&epc->list_lock);
+> > @@ -723,8 +723,8 @@ void pci_epc_linkdown(struct pci_epc *epc)
+> >  	mutex_lock(&epc->list_lock);
+> >  	list_for_each_entry(epf, &epc->pci_epf, list) {
+> >  		mutex_lock(&epf->lock);
+> > -		if (epf->event_ops && epf->event_ops->link_down)
+> > -			epf->event_ops->link_down(epf);
+> > +		if (epf->bus_event_ops && epf->bus_event_ops->link_down)
+> > +			epf->bus_event_ops->link_down(epf);
+> >  		mutex_unlock(&epf->lock);
+> >  	}
+> >  	mutex_unlock(&epc->list_lock);
+> > @@ -749,8 +749,8 @@ void pci_epc_init_notify(struct pci_epc *epc)
+> >  	mutex_lock(&epc->list_lock);
+> >  	list_for_each_entry(epf, &epc->pci_epf, list) {
+> >  		mutex_lock(&epf->lock);
+> > -		if (epf->event_ops && epf->event_ops->core_init)
+> > -			epf->event_ops->core_init(epf);
+> > +		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+> > +			epf->epc_event_ops->core_init(epf);
+> >  		mutex_unlock(&epf->lock);
+> >  	}
+> >  	epc->init_complete = true;
+> > @@ -772,8 +772,8 @@ void pci_epc_notify_pending_init(struct pci_epc *epc, struct pci_epf *epf)
+> >  {
+> >  	if (epc->init_complete) {
+> >  		mutex_lock(&epf->lock);
+> > -		if (epf->event_ops && epf->event_ops->core_init)
+> > -			epf->event_ops->core_init(epf);
+> > +		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+> > +			epf->epc_event_ops->core_init(epf);
+> >  		mutex_unlock(&epf->lock);
+> >  	}
+> >  }
+> > @@ -797,8 +797,8 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+> >  	mutex_lock(&epc->list_lock);
+> >  	list_for_each_entry(epf, &epc->pci_epf, list) {
+> >  		mutex_lock(&epf->lock);
+> > -		if (epf->event_ops && epf->event_ops->bme)
+> > -			epf->event_ops->bme(epf);
+> > +		if (epf->bus_event_ops && epf->bus_event_ops->bme)
+> > +			epf->bus_event_ops->bme(epf);
+> >  		mutex_unlock(&epf->lock);
+> >  	}
+> >  	mutex_unlock(&epc->list_lock);
+> > diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+> > index 77b146e0f672..1271e1e00bbd 100644
+> > --- a/include/linux/pci-epf.h
+> > +++ b/include/linux/pci-epf.h
+> > @@ -68,14 +68,21 @@ struct pci_epf_ops {
+> >  };
+> >  
+> >  /**
+> > - * struct pci_epc_event_ops - Callbacks for capturing the EPC events
+> > - * @core_init: Callback for the EPC initialization complete event
+> > - * @link_up: Callback for the EPC link up event
+> > - * @link_down: Callback for the EPC link down event
+> > - * @bme: Callback for the EPC BME (Bus Master Enable) event
+> > + * struct pci_epc_event_ops - Callbacks for capturing the EPC specific events
+> > + * @core_init: Callback for the EPC initialization event
+> >   */
+> >  struct pci_epc_event_ops {
+> >  	int (*core_init)(struct pci_epf *epf);
+> > +};
+> > +
+> > +/**
+> > + * struct pci_epc_bus_event_ops - Callbacks for capturing the PCIe bus specific
+> > + *                               events
+> > + * @link_up: Callback for the PCIe bus link up event
+> > + * @link_down: Callback for the PCIe bus link down event
+> > + * @bme: Callback for the PCIe bus BME (Bus Master Enable) event
+> > + */
+> > +struct pci_epc_bus_event_ops {
+> >  	int (*link_up)(struct pci_epf *epf);
+> >  	int (*link_down)(struct pci_epf *epf);
+> >  	int (*bme)(struct pci_epf *epf);
+> > @@ -149,7 +156,8 @@ struct pci_epf_bar {
+> >   * @is_vf: true - virtual function, false - physical function
+> >   * @vfunction_num_map: bitmap to manage virtual function number
+> >   * @pci_vepf: list of virtual endpoint functions associated with this function
+> > - * @event_ops: Callbacks for capturing the EPC events
+> > + * @epc_event_ops: Callbacks for capturing the EPC events
+> > + * @bus_event_ops: Callbacks for capturing the PCIe bus events
+> >   */
+> >  struct pci_epf {
+> >  	struct device		dev;
+> > @@ -179,7 +187,8 @@ struct pci_epf {
+> >  	unsigned int		is_vf;
+> >  	unsigned long		vfunction_num_map;
+> >  	struct list_head	pci_vepf;
+> > -	const struct pci_epc_event_ops *event_ops;
+> > +	const struct pci_epc_event_ops *epc_event_ops;
+> > +	const struct pci_epc_bus_event_ops *bus_event_ops;
+> >  };
+> >  
+> >  /**
+> > 
+> > -- 
+> > 2.25.1
+> > 
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
