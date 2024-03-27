@@ -1,34 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4368512D765;
-	Tue, 26 Mar 2024 14:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EF91DA22
+	for <mhi@lists.linux.dev>; Wed, 27 Mar 2024 06:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711463254; cv=none; b=I4wmqB6O1yz1HsIgEC1LiUQjdCHwW1pTyfLJHXmrZz/+pQHiOfZJh8ks5sLNqhceU5oGvN0YA1V+QC5Hs56s5SOGai31TyioDvNnCfZiesUK7o8X5cQGkHlgYKl34WNC+tdszLzOA3ElAaiNUr3nbnRrQEuFDXEp5+1pGcGdS+k=
+	t=1711520314; cv=none; b=q4ZsH2UtTVqYWXgn7S3T8ebZlwBDx2Vw4+u9cTUm4yBphIGbSxyTFTngZmCxKh4zkBCeP9N9L/fHvf/3r5eNEUTaVtw5th/ldxzHumsGxlOn7/BUTabtFqOozdvM7So/eEK/hrVya8qQfaHQO6GZR1LIimMIsw8Ov6s5PI1xTNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711463254; c=relaxed/simple;
-	bh=LW9RMlhjXMwwswaA4XM355elpcokxVWRyHjYs7X4Luo=;
+	s=arc-20240116; t=1711520314; c=relaxed/simple;
+	bh=QSWOd5QSD/Mwb0i+vtxbpmvy9IlXp1/N645iLIzqlgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G5Du8EGS4LTeb1ja9LkKUu3ODkXyyr9eVcPVPa8tdcLq3wbNWd84Pak4tq5OdiNnxZbZJ0J/jfBoigC1SRSP1M9l/IDRMHJ2itRpRy0+zvqaDMWLNulbbvgBi1FTALTYGZSZ6l1KlvtUYAmBD8Ehx3DlVRWEVk697CLwh6j04IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8zwX8+D; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SwB+xf9EOSdnzKZ8bFUmYKlsnqa7hnEVYw5wwjHOPh5+eYtGg0GzcBl7Q++CjMZmktgSsi87TpYBE7Vhg6XVmt+diLhmllQchApRvI9gfxYwS8AWyAkc89LAZJ+g4RVEwe7ZUOXjYE8yfwEb6p7Bl+0jPJB/gcnZN+3hR0aJXKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oMsrQesp; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8zwX8+D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EC5C433F1;
-	Tue, 26 Mar 2024 14:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711463253;
-	bh=LW9RMlhjXMwwswaA4XM355elpcokxVWRyHjYs7X4Luo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W8zwX8+Dj6EWx5MT6Wn47Cd7patuQ8QPQ4ioHlq11Aze2rf+BuJMTHdGm9OiF5avM
-	 yQrZJiPxfUICNRrm7yGJHiTaZnuTzQIDMoVfJzUFFxibsv+r+Cng2BRyAmUglci+H0
-	 Z+UOjIsmsH5t3wVD/MuyCAWshEzsjF6P8lWwEkVHkwTwRkavQ2o5nnLRFv2Rla6BVG
-	 sA+sb6pVYcXfOP4ya08e6gLkcYx+O16EZFOXef+vzMYNLQjmrjAxLn1cbmKGNJEC91
-	 jXQn8o6fsxYKLMkBwy9zVGfZYfs2jrtEwuGEmPG8aeaMl032t5Op5OB/+mHirSrQSD
-	 TH6+rmekRv6DQ==
-Date: Tue, 26 Mar 2024 15:27:27 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oMsrQesp"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e0b213efa3so26157915ad.0
+        for <mhi@lists.linux.dev>; Tue, 26 Mar 2024 23:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711520312; x=1712125112; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=o0gjg83GHJ5iMw1grXSKgZDAg4bzhxIcgbatUtZtL1w=;
+        b=oMsrQesphpWCEHyD7awwA/nVTMVsM7Q769snWSMaHOpe09JJmY2h90UnotHOXq8qrP
+         0HDF+8c7JV/Cpmr7/N5h55XvemwDHvK4k//5xHtE+sZxF9atZrvtvgosPplkCsJHVsCq
+         F/4Oyr/gzFOBrxOf4Dl1FC3k6OU2GEsIcF1H+THb5g/TENK5sENdeJ+t6HFJfGDIcWDQ
+         xnCNGIdzBEuvKpqbWjWQfI1WilWYZHG9lNFc5gQNFLaNP/yRQ6/szHY7tfy57qJLipeY
+         Twm+M/EjnqHBvH8aL6NLcKSf9lYgOs3x0cIk0K6Ix4WUwHy7VeE+6KePTfUSveIFu+wF
+         xAWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711520312; x=1712125112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o0gjg83GHJ5iMw1grXSKgZDAg4bzhxIcgbatUtZtL1w=;
+        b=xJG665RaYGz8iAPVAiG4bMNwFtjEMdC/b9i3gtFJn+BzKUBCSw96FGvpLj1XPdgDmq
+         j5pGsnQbNtw1jYdPVN5LLDcWGKh2oeOmsMw2b7MDkkr1hG+OilInZbwfglT8lEmcsHz0
+         SndokI5YzBswQPzboeFK6pk2CDme4Pt7t7EWIckqAZOmPpPuoU9PpU+/TzWu0Lb/cjkc
+         reIr4VKbLWG202veGif5RWKKd1AUOzgKanq+BrKxg0l9DLB9RTkT40Y5boOfZ/rqH8eO
+         Bu8ANm/Ry/91vRGUfBWZQX5DQJmcdoS1pk+FbG9YpoAvlCKOy3nlDgyfiBWq6uX5OxYk
+         6YBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVv9SSqrf50blNetsmn9EQUqA+L8duW8ylE/ucNlOCxCKUMa6zKYdzf40qTM9yFkYL81NbF6mghXNW5VbbwKiLil5NS
+X-Gm-Message-State: AOJu0YzRhQD6kU24Kb5pTPAy7ulbBeeEEIJSnyPr6o9WH4T5PRKnjdE5
+	ARzshKkUW+j4cpW9cf8LKhg2lscEiQahLoOVNqtYPvCFAhB2bwpg1FshG+261w==
+X-Google-Smtp-Source: AGHT+IHji7g8cihtAriwVgPqznOHJahJLJB2a+jqLM2ts6GNSuhe4SxcmmyVioUmpWFcQTqU1N0vyg==
+X-Received: by 2002:a17:902:ecc5:b0:1e0:342b:af6f with SMTP id a5-20020a170902ecc500b001e0342baf6fmr3668522plh.16.1711520311993;
+        Tue, 26 Mar 2024 23:18:31 -0700 (PDT)
+Received: from thinkpad ([117.207.28.168])
+        by smtp.gmail.com with ESMTPSA id h10-20020a170902f54a00b001e02875930asm8003160plf.25.2024.03.26.23.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 23:18:31 -0700 (PDT)
+Date: Wed, 27 Mar 2024 11:48:19 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Niklas Cassel <cassel@kernel.org>
 Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
@@ -42,7 +68,7 @@ Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	linux-tegra@vger.kernel.org
 Subject: Re: [PATCH 05/11] PCI: epf-{mhi/test}: Move DMA initialization to
  EPC init callback
-Message-ID: <ZgLbT1JLn7r_TCwd@ryzen>
+Message-ID: <20240327055457.GA2742@thinkpad>
 References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
  <20240314-pci-epf-rework-v1-5-6134e6c1d491@linaro.org>
  <Zf2tXgKo-gc3qy1D@ryzen>
@@ -54,8 +80,9 @@ List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <ZgKsBoTvPWWhPO9e@ryzen>
 
 On Tue, Mar 26, 2024 at 12:05:42PM +0100, Niklas Cassel wrote:
@@ -111,6 +138,15 @@ On Tue, Mar 26, 2024 at 12:05:42PM +0100, Niklas Cassel wrote:
 > -DMA API using the eDMA
 > -DMA API using the "dummy" memcpy dma-channel.
 > 
+
+IMO, the test driver should just test one form of data transfer. Either CPU
+memcpy (using iATU or something similar) or DMA. But I think the motive behind
+using DMA memcpy is that to support platforms that do not pass DMA slave
+channels in devicetree.
+
+It is applicable to test driver but not to MHI driver since all DMA supported
+MHI platforms will pass the DMA slave channels in devicetree.
+
 > However, it seems like both pci-epf-mhi.c and pci-epf-test.c
 > do either:
 > -Use DMA API
@@ -121,6 +157,10 @@ On Tue, Mar 26, 2024 at 12:05:42PM +0100, Niklas Cassel wrote:
 > To me, it seems like we should always be able to use
 > DMA API (using either a eDMA or "dummy" memcpy).
 > 
+
+No, there are platforms that don't support DMA at all. Like Qcom SDX55, so we
+still need to do CPU memcpy.
+
 > I don't really see the need to have the path that does:
 > memcpy_fromio()/memcpy_toio().
 > 
@@ -133,23 +173,16 @@ On Tue, Mar 26, 2024 at 12:05:42PM +0100, Niklas Cassel wrote:
 > something.
 > (Such that we can change these drivers to only have a
 > code path that uses DMA API.)
+> (...and making sure that inheriting the DMA mask does
+> not affect the DMA mask for DMA_MEMCPY.)
+> 
+> But perhaps I am missing something... and DMA_MEMCPY is
+> not always available?
+> 
 
-Looking at pci-epf-mhi.c, it seems to use names like:
-pci_epf_mhi_iatu_read() and pci_epf_mhi_edma_read().
+Yes.
 
-This seems to be a very DWC focused naming.
+- Mani
 
-AFAICT, EPF drivers should work on any PCIe EP controller that implements
-the EPC API.
-
-Yes, I understand that it is only Qualcomm that uses this MHI interface/bus,
-but what is stopping Qualcomm from using a non-DWC based PCIe EP controller
-in an upcoming SoC?
-
-Surely that Qualcomm SoC could still implement the MHI interface/bus,
-so perhaps the naming in this EPF driver should use somewhat less
-"EPC vendor specific" function names?
-
-
-Kind regards,
-Niklas
+-- 
+மணிவண்ணன் சதாசிவம்
