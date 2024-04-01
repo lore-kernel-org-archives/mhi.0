@@ -1,309 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7DE52F62;
-	Thu, 28 Mar 2024 18:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749191CAA9
+	for <mhi@lists.linux.dev>; Mon,  1 Apr 2024 10:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711651374; cv=none; b=Vt+58OhyXP3oytGuVOdnP5YLYU/5hCYSQ9+htSn/JFmRhzfXOwG2ckbUKbp8Gae5wIMthKNbMmjIy2Lg3FIEJH8c4Dgj68fXGsdEU2dk28FWWRK5Y3vBP9GahrlrmIRD8MMSoxIwXcnuzzJhS/RC+dDHUIdslHiG23CipuU5DMU=
+	t=1711968556; cv=none; b=tPLerEHHlsfeB3ry2jftjdH3ypJl7XJ1NNJJfGKrDvjIMYfHfHXL7Ce7BOLMZbHeY6z3T+Dx7KqDHOsWfyzByTRM9LlwLsIovuahJw8D2v4PJL4bsReOxVOaA73Dy4A3hVfjA5g3+InhA09wBiLSsn3iLmD3j85rheQ8rz6tJDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711651374; c=relaxed/simple;
-	bh=Lhjd64SIjhVMv9/lv3bYSJaei3jnDSVww9duNzoywLo=;
+	s=arc-20240116; t=1711968556; c=relaxed/simple;
+	bh=QJMJfCdLEuJ+FfMXIfDmDR+++PbMg13/naaZeMO3ZkM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uN3Vf/0rrSayHFzLVUtAK70ABYHdsy0hUnWeQyVE584tAvdzBhPNK+pXH4YPM0Rdshq+yDHVjAYuIjHUmFehpm/y8kWKY5wnVHigetGL5CmCCPXBGmrakJzT5tpTSot00+1eZIbsmkuufgttol12XBwQqLozqDbhe4A57cM1Kh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhL3q+An; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cm/S1bZicN3582AhOHM8+VIX/GJXhIGkBdAEMCnLhYyrDQlwsM7mNa9Dz60ZSz3lI0/b/Qe6wJKe70hfWVd7ZnPY872QmufeKSePFUM91B6YQsTnOc1tF0aoaYzPeC7pHLKABvU2rvHLNqK8Hfcewg+FnP1CZx4DNJMpWodP1mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YXrkpQSQ; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhL3q+An"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0799C433F1;
-	Thu, 28 Mar 2024 18:42:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711651374;
-	bh=Lhjd64SIjhVMv9/lv3bYSJaei3jnDSVww9duNzoywLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lhL3q+AnF8cBpxy+HC9aPsEt1sU2kR4MRCwq7reUIMtl4htRmWXBN5RNsRamazXfX
-	 BKs1Y0+rbXdrmCjse1Gec3NVTdpSHojDNW9d+wJ7hRBcEBQP8bMrNqxtKJTSFMdxGL
-	 eeXqgGpkKH+3zQ/YRRwz+FzbLXAS7j2P0TqX+5xEZjMjkSO2mz8+vlihgmbILoEf1E
-	 3xYUNJDoJ5OfB/dA7T+J4pOH+I3KWuiO3Cjz9FmePGunVpD3HgOKjxNxN8auRJ51Zt
-	 TK8vWajVfoyao4L5vMhE/6RmfzSxVUyebh3oDdlyGDJt2PSPB7Xy/M3OdTepO9LwDA
-	 3k0nLAaKmIRug==
-Date: Fri, 29 Mar 2024 00:12:48 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 05/11] PCI: epf-{mhi/test}: Move DMA initialization to
- EPC init callback
-Message-ID: <ZgW6KB73Wh1X6911@matsya>
-References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
- <20240314-pci-epf-rework-v1-5-6134e6c1d491@linaro.org>
- <Zf2tXgKo-gc3qy1D@ryzen>
- <20240326082636.GG9565@thinkpad>
- <ZgKsBoTvPWWhPO9e@ryzen>
- <20240327055457.GA2742@thinkpad>
- <ZgQFXsgqpeLbXMTb@ryzen>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YXrkpQSQ"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e0bec01232so29555775ad.3
+        for <mhi@lists.linux.dev>; Mon, 01 Apr 2024 03:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711968553; x=1712573353; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tKCS9QdnAwWbuZtYBI4sT1iLB4Tt93btjF36mrIzaXY=;
+        b=YXrkpQSQG/cwm+nxRXLCLKgHzoCvI1QJphN1vsIr3YzbHCi5gSLdS79T9mUioF9xG2
+         JFBrT6KPWT6+WpyjlL7ngE5nkdPnr7ZvGU/GpFXrRDbVPuZArPvTcc3u1w0cTStPF8FU
+         pKIRNccGbwFPLG1vS1xJGc/W1bb6wztABT27uT+xHvfXPhrKejJ72ZZW5V1Sos9xohGp
+         M8tWwpdFlc5q1rVGDkLmfDqyAQvTrtVhcrRvSK/X5NqHhh1q2MKV5R/SZka7ARkJIW4j
+         V4yfBC3MQTBc6fLKy4upyEuKBNysp+QqhvchLkPlP0O/7rLatXDgWgTSIZyR+0O0tguW
+         RlQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711968553; x=1712573353;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tKCS9QdnAwWbuZtYBI4sT1iLB4Tt93btjF36mrIzaXY=;
+        b=fDnYHDAEUP82fjk+e40XUaCGWWSwId1PbLE3QsUpUrenPku1wMOjtQ36nEBgNEhZD0
+         lX22iMgDPkNsgZMp6gACh0Zj+Jbonz5P7PPhMxlHTNU85gDpFELE8CM+rjcZVSwCsbzH
+         fuIWNe+RFJzhVkjM17rU/+vSu6O3BksRrBDFuAUEHHDMb4gkrcIpqglRS947Otnjpxo9
+         BcwNRUBmgNHFe/17LHJDvHCny3RApmhcRwblAmurow7viqdB5hULJS1o1Sj0Xsf5pSjq
+         zAJkrR7r/ogPsrvJ6vV/dDIWIM4s+5ie+kM9WCWxGzoOuN88gSFj1BapJZKdclvgDIlU
+         vwBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhUNFOUW5bQOw3m1aPEZwDfmN4yMNJOFa2+SiQsFtv8M5cKHBX3IK83g/AoLliv+g6+b3GJwYqDe61oABjYZw+j5dV
+X-Gm-Message-State: AOJu0YyBmkjU8i+bCVXGNZO6or3N+e7wChWVciRf+mt/C7XMhsVygef9
+	9o9U+o4SUra1TUxhJsQgKZfLtGHkRmRyP6EKlhOujcz2cgCARKHAVrlUmZzoaA==
+X-Google-Smtp-Source: AGHT+IFF770fgs+yMHKwTIlLL3P039OFnIkWdfZJY4CvGxJUM7y7krgfn19E1tYKv8Gdk6uxTqFDKA==
+X-Received: by 2002:a17:902:e802:b0:1e0:b862:5330 with SMTP id u2-20020a170902e80200b001e0b8625330mr10121788plg.54.1711968553329;
+        Mon, 01 Apr 2024 03:49:13 -0700 (PDT)
+Received: from thinkpad ([103.28.246.102])
+        by smtp.gmail.com with ESMTPSA id u1-20020a170902e5c100b001e0b5eee802sm8552693plf.123.2024.04.01.03.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Apr 2024 03:49:12 -0700 (PDT)
+Date: Mon, 1 Apr 2024 16:19:08 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: ath11k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org
+Subject: Re: [PATCH v7 1/3] bus: mhi: host: add mhi_power_down_keep_dev()
+Message-ID: <20240401104908.GA234427@thinkpad>
+References: <20240305021320.3367-1-quic_bqiang@quicinc.com>
+ <20240305021320.3367-2-quic_bqiang@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZgQFXsgqpeLbXMTb@ryzen>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240305021320.3367-2-quic_bqiang@quicinc.com>
 
-On 27-03-24, 12:39, Niklas Cassel wrote:
-> +CC Vinod
+On Tue, Mar 05, 2024 at 10:13:18AM +0800, Baochen Qiang wrote:
+> ath11k fails to resume:
 > 
-> Hello Vinod,
+> ath11k_pci 0000:06:00.0: timeout while waiting for restart complete
 > 
-> I didn't know the answer, so I chose the "call a friend option" ;)
-> I hope that you can help me out :)
+> This happens because when calling mhi_sync_power_up() the MHI subsystem
+> eventually calls device_add() from mhi_create_devices() but the device
+> creation is deferred:
+> 
+> mhi mhi0_IPCR: Driver qcom_mhi_qrtr force probe deferral
+> 
+> The reason for deferring device creation is explained in dpm_prepare():
+> 
+>         /*
+>          * It is unsafe if probing of devices will happen during suspend or
+>          * hibernation and system behavior will be unpredictable in this case.
+>          * So, let's prohibit device's probing here and defer their probes
+>          * instead. The normal behavior will be restored in dpm_complete().
+>          */
+> 
+> Because the device probe is deferred, the qcom_mhi_qrtr_probe() is not
+> called and thus MHI channels are not prepared:
+> 
+> So what this means that QRTR is not delivering messages and the QMI connection
+> is not working between ath11k and the firmware, resulting a failure in firmware
+> initialization.
+> 
+> To fix this add new function mhi_power_down_keep_dev() which doesn't destroy
+> the devices for channels during power down. This way we avoid probe defer issue
+> and finally can get ath11k hibernation working with the following patches.
+> 
+> Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03125-QCAHSPSWPL_V1_V2_SILICONZ_LITE-3.6510.30
+> 
+> Signed-off-by: Baochen Qiang <quic_bqiang@quicinc.com>
 
-Anytime :-)
+Applied to mhi-next! Note that this patch is also available in mhi-immutable
+branch for ath11k maintainers to pull into their tree.
 
-> 
-> 
-> If you take a look at drivers/pci/endpoint/functions/pci-epf-test.c
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/endpoint/functions/pci-epf-test.c#L448-L471
-> 
-> You can see that the driver always does pci_epc_map_addr(),
-> then it will either use:
-> DMA API, e.g. dma_map_single() etc.
-> or
-> memcpy_fromio()/memcpy_toio()
-> 
-> based on flag FLAG_USE_DMA.
-> 
-> This flag is set via ioctl, so if we run:
-> /usr/bin/pcitest -d
-> the flag will be set, without the -d parameter the flag won't be set.
-> 
-> 
-> If you look at how the DMA channel is requested:
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/endpoint/functions/pci-epf-test.c#L224-L258
-> 
-> If will try to get a private DMA channel, if that fails,
-> it will use the "dummy memcpy" DMA channel.
-> 
-> If the FLAG_USE_DMA is set, the transfers itself will use:
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/endpoint/functions/pci-epf-test.c#L139-L155
-> either dmaengine_prep_slave_single() or dmaengine_prep_dma_memcpy(),
-> depending on if we are using "dummy memcpy" or not.
-> 
-> 
-> 
-> If you take e.g. the DWC PCIe EP controller, it can have an embedded DMA
-> controller on the PCIe controller, and we will try to detect it when
-> initializing the PCIe EP controller using dw_pcie_edma_detect():
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/controller/dwc/pcie-designware-ep.c#L759
-> 
-> For the PCIe EP controller that I am using, which have eDMA built-in,
-> I noticed that if I do not enable the eDMA driver (# CONFIG_DW_EDMA is not
-> set), I noticed that I can still run:
-> /usr/bin/pcitest -d
-> 
-> Which will use the "dummy memcpy" DMA channel.
-> Yes, the performance is poor, but it still works, so it appears that the
-> fallback code is working properly.
-> 
-> 
-> If I enable the eDMA driver (CONFIG_DW_EDMA=y),
-> I can run:
-> /usr/bin/pcitest -d
-> 
-> And the performance is good.
-> 
-> 
-> So my question is:
-> Is the "dummy memcpy" DMA channel always available?
+https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/log/?h=mhi-immutable
 
-That depends on the system, you may or maynot have such a system where
-you have a generic memcpy dma controller which can provide you with
-these channels
+- Mani
 
+> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Reviewed-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+>  drivers/bus/mhi/host/internal.h |  4 +++-
+>  drivers/bus/mhi/host/pm.c       | 42 ++++++++++++++++++++++++++++-----
+>  include/linux/mhi.h             | 18 +++++++++++++-
+>  3 files changed, 56 insertions(+), 8 deletions(-)
 > 
-> Because if it is, I think we could drop the path in the pci-epf-test.c
-> driver which uses memcpy_fromio()/memcpy_toio() instead of DMA API.
-> (Since just having a single path to do I/O in the driver would simplify
-> the driver IMO.)
-> 
-> I assume that the "dummy memcpy" DMA channel just uses memcpy_fromio() and
-> memcpy_toio() under the hood, so I assume that using the memcpy_fromio()/
-> memcpy_toio/() is equivalent to using DMA API + dmaengine_prep_dma_memcpy().
-> 
-> Although it would be nice if we didn't need to have the two separate paths
-> in pci_epf_test_data_transfer() (dmaengine_prep_slave_single() vs
-> dmaengine_prep_dma_memcpy()) to support the "dummy memcpy" channel.
-> But I guess that is not possible...
-
-Based on my reading you might have this mechanism:
-- eDMA provides dmaengine_prep_slave_single() which transfers data from
-  mem to pci ep device, so fasted
-- dmaengine_prep_dma_memcpy: This will copy the data but treat it as
-  memory. I dont pci internals to figure out how both can work... So
-  cant really make out why it is slowed
-- memcpy_xxx that is IO mem functions, so ofc they will be slowest
-
-I think the code is decent from fallback pov... chooses fastest path if
-available on a system
-
-> 
-> 
-> I hope that you can bring some clarity Vinod.
-> (Please read my replies to Mani below before you compose your email,
-> as it does provide more insight to this mess.)
-> 
-> Mani, I tried to reply to you inline below, with my limited understanding
-> of how dmaengine works.
-> 
-> 
-> On Wed, Mar 27, 2024 at 11:48:19AM +0530, Manivannan Sadhasivam wrote:
-> > > So we still want to test:
-> > > -DMA API using the eDMA
-> > > -DMA API using the "dummy" memcpy dma-channel.
-> > > 
-> > 
-> > IMO, the test driver should just test one form of data transfer. Either CPU
-> > memcpy (using iATU or something similar) or DMA. But I think the motive behind
-> > using DMA memcpy is that to support platforms that do not pass DMA slave
-> > channels in devicetree.
-> > 
-> > It is applicable to test driver but not to MHI driver since all DMA supported
-> > MHI platforms will pass the DMA slave channels in devicetree.
-> 
-> I don't understand how device tree is relevant here, e.g. qcom-ep.c
-> specifies pcie_ep->pci.edma.nr_irqs = 1;
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/controller/dwc/pcie-qcom-ep.c#L818
-> which is sufficient for you to be able to probe/detect eDMA successfully,
-> no need for anything in device tree at all.
-> 
-> 
-> > 
-> > > However, it seems like both pci-epf-mhi.c and pci-epf-test.c
-> > > do either:
-> > > -Use DMA API
-> > > or
-> > > -Use memcpy_fromio()/memcpy_toio() instead of DMA API
-> > > 
-> > > 
-> > > To me, it seems like we should always be able to use
-> > > DMA API (using either a eDMA or "dummy" memcpy).
-> > > 
-> > 
-> > No, there are platforms that don't support DMA at all. Like Qcom SDX55, so we
-> > still need to do CPU memcpy.
-> 
-> I assume that you mean the the PCIe controller used in SDX55 does not
-> have the eDMA on the PCIe controller, so dw_pcie_edma_detect() will
-> fail to detect any eDMA. That is fine no?
-> 
-> I assume that this SoC will still able to use the "dummy" memcpy dma-channel?
-> 
-> 
-> > 
-> > > I don't really see the need to have the path that does:
-> > > memcpy_fromio()/memcpy_toio().
-> > > 
-> > > I know that for DWC, when using memcpy (and this also
-> > > memcpy via DMA API), we need to map the address using
-> > > iATU first.
-> > > 
-> > > But that could probably be done using another flag,
-> > > perhaps rename that flag FLAG_USE_DMA to NEEDS_MAP or
-> > > something.
-> > > (Such that we can change these drivers to only have a
-> > > code path that uses DMA API.)
-> > > (...and making sure that inheriting the DMA mask does
-> > > not affect the DMA mask for DMA_MEMCPY.)
-> 
-> I was wrong here, pci-epf-test always calls pci_epc_map_addr()
-> regardless if FLAG_USE_DMA is set or not.
-> 
-> (Even though this should be unnecessary when using the eDMA.)
-> 
-> However, if we look at pci-epf-mhi.c we can see that it does
-> NOT call pci_epc_map_addr() when using DMA API + dmaengine.
-> 
-> Is it really safe to avoid pci_epc_map_addr() in all EPC controllers?
-> I assume that it should be safe for all "real" DMA channels.
-> We can see that it is not safe when using DMA API + "dummy" memcpy
-> dma-channel. (That is why I was asking if we need a NEEDS_MAP, or
-> MAP_NOT_NEEDED flag.)
-> 
-> 
-> > > 
-> > > But perhaps I am missing something... and DMA_MEMCPY is
-> > > not always available?
-> 
-> Right now pci-epf-test driver has three ways:
-> -DMA API + dmaengine dmaengine_prep_slave_single()
-> -DMA API + dmaengine dmaengine_prep_dma_memcpy()
-> -memcpy_toio()/memcpy_fromio().
-> 
-> pci-epf-mhi.c driver has two ways:
-> -DMA API + dmaengine dmaengine_prep_slave_single()
-> -memcpy_toio()/memcpy_fromio().
-> 
-> 
-> pci-epf-test.c:
-> -Always calls pci_epc_map_addr() when using DMA API.
-> 
-> pci-epf-mhi.c:
-> -Never calls pci_epc_map_addr() when using DMA API.
-> 
-> 
-> I honestly don't see any point of having three paths
-> for pci-epf-test. Ideally I would want one, max two.
-> 
-> If you think that:
-> -DMA API + dmaengine dmaengine_prep_slave_single()
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 5fe49311b8eb..aaad40a07f69 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -80,6 +80,7 @@ enum dev_st_transition {
+>  	DEV_ST_TRANSITION_FP,
+>  	DEV_ST_TRANSITION_SYS_ERR,
+>  	DEV_ST_TRANSITION_DISABLE,
+> +	DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE,
+>  	DEV_ST_TRANSITION_MAX,
+>  };
+>  
+> @@ -90,7 +91,8 @@ enum dev_st_transition {
+>  	dev_st_trans(MISSION_MODE,	"MISSION MODE")		\
+>  	dev_st_trans(FP,		"FLASH PROGRAMMER")	\
+>  	dev_st_trans(SYS_ERR,		"SYS ERROR")		\
+> -	dev_st_trans_end(DISABLE,	"DISABLE")
+> +	dev_st_trans(DISABLE,		"DISABLE")		\
+> +	dev_st_trans_end(DISABLE_DESTROY_DEVICE, "DISABLE (DESTROY DEVICE)")
+>  
+>  extern const char * const dev_state_tran_str[DEV_ST_TRANSITION_MAX];
+>  #define TO_DEV_STATE_TRANS_STR(state) (((state) >= DEV_ST_TRANSITION_MAX) ? \
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 8b40d3f01acc..11c0e751f223 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -468,7 +468,8 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>  }
+>  
+>  /* Handle shutdown transitions */
+> -static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+> +static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl,
+> +				      bool destroy_device)
+>  {
+>  	enum mhi_pm_state cur_state;
+>  	struct mhi_event *mhi_event;
+> @@ -530,8 +531,16 @@ static void mhi_pm_disable_transition(struct mhi_controller *mhi_cntrl)
+>  	dev_dbg(dev, "Waiting for all pending threads to complete\n");
+>  	wake_up_all(&mhi_cntrl->state_event);
+>  
+> -	dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> -	device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> +	/*
+> +	 * Only destroy the 'struct device' for channels if indicated by the
+> +	 * 'destroy_device' flag. Because, during system suspend or hibernation
+> +	 * state, there is no need to destroy the 'struct device' as the endpoint
+> +	 * device would still be physically attached to the machine.
+> +	 */
+> +	if (destroy_device) {
+> +		dev_dbg(dev, "Reset all active channels and remove MHI devices\n");
+> +		device_for_each_child(&mhi_cntrl->mhi_dev->dev, NULL, mhi_destroy_device);
+> +	}
+>  
+>  	mutex_lock(&mhi_cntrl->pm_mutex);
+>  
+> @@ -821,7 +830,10 @@ void mhi_pm_st_worker(struct work_struct *work)
+>  			mhi_pm_sys_error_transition(mhi_cntrl);
+>  			break;
+>  		case DEV_ST_TRANSITION_DISABLE:
+> -			mhi_pm_disable_transition(mhi_cntrl);
+> +			mhi_pm_disable_transition(mhi_cntrl, false);
+> +			break;
+> +		case DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE:
+> +			mhi_pm_disable_transition(mhi_cntrl, true);
+>  			break;
+>  		default:
+>  			break;
+> @@ -1175,7 +1187,8 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_async_power_up);
+>  
+> -void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +static void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+> +			     bool destroy_device)
+>  {
+>  	enum mhi_pm_state cur_state, transition_state;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> @@ -1211,15 +1224,32 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+>  	write_unlock_irq(&mhi_cntrl->pm_lock);
+>  	mutex_unlock(&mhi_cntrl->pm_mutex);
+>  
+> -	mhi_queue_state_transition(mhi_cntrl, DEV_ST_TRANSITION_DISABLE);
+> +	if (destroy_device)
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
+> +	else
+> +		mhi_queue_state_transition(mhi_cntrl,
+> +					   DEV_ST_TRANSITION_DISABLE);
+>  
+>  	/* Wait for shutdown to complete */
+>  	flush_work(&mhi_cntrl->st_worker);
+>  
+>  	disable_irq(mhi_cntrl->irq[0]);
+>  }
 > +
-> -memcpy_toio()/memcpy_fromio().
-> 
-> is more logical than:
-> -DMA API + dmaengine dmaengine_prep_slave_single()
+> +void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, true);
+> +}
+>  EXPORT_SYMBOL_GPL(mhi_power_down);
+>  
+> +void mhi_power_down_keep_dev(struct mhi_controller *mhi_cntrl,
+> +			       bool graceful)
+> +{
+> +	__mhi_power_down(mhi_cntrl, graceful, false);
+> +}
+> +EXPORT_SYMBOL_GPL(mhi_power_down_keep_dev);
 > +
-> -DMA API + dmaengine dmaengine_prep_dma_memcpy()
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl)
+>  {
+>  	int ret = mhi_async_power_up(mhi_cntrl);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index 77b8c0a26674..cde01e133a1b 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -630,12 +630,28 @@ int mhi_async_power_up(struct mhi_controller *mhi_cntrl);
+>  int mhi_sync_power_up(struct mhi_controller *mhi_cntrl);
+>  
+>  /**
+> - * mhi_power_down - Start MHI power down sequence
+> + * mhi_power_down - Power down the MHI device and also destroy the
+> + *                  'struct device' for the channels associated with it.
+> + *                  See also mhi_power_down_keep_dev() which is a variant
+> + *                  of this API that keeps the 'struct device' for channels
+> + *                  (useful during suspend/hibernation).
+>   * @mhi_cntrl: MHI controller
+>   * @graceful: Link is still accessible, so do a graceful shutdown process
+>   */
+>  void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful);
+>  
+> +/**
+> + * mhi_power_down_keep_dev - Power down the MHI device but keep the 'struct
+> + *                           device' for the channels associated with it.
+> + *                           This is a variant of 'mhi_power_down()' and
+> + *                           useful in scenarios such as suspend/hibernation
+> + *                           where destroying of the 'struct device' is not
+> + *                           needed.
+> + * @mhi_cntrl: MHI controller
+> + * @graceful: Link is still accessible, so do a graceful shutdown process
+> + */
+> +void mhi_power_down_keep_dev(struct mhi_controller *mhi_cntrl, bool graceful);
+> +
+>  /**
+>   * mhi_unprepare_after_power_down - Free any allocated memory after power down
+>   * @mhi_cntrl: MHI controller
+> -- 
+> 2.25.1
 > 
-> Then I think we should rip out the:
-> -DMA API + dmaengine dmaengine_prep_dma_memcpy()
-> it serves no purpose... if you don't have a "real" DMA channel,
-> just run without the -d flag.
-> 
-> Or, if you argue that the dmaengine_prep_dma_memcpy() is there
-> to test the DMA API code (which I can't say that it does, since
-> it doesn't use the exact same code path as a "real" DMA channel, see:
-> https://github.com/torvalds/linux/blob/v6.9-rc1/drivers/pci/endpoint/functions/pci-epf-test.c#L139-L155
-> so this argument is questionable).
-> 
-> Put it under a --use_dummy_dma, and return failure by default
-> if no "real" DMA channel is found.
-> 
-> 
-> But even so, that would not address the pci-epf-test and
-> pci-mhi-test inconsistency WRT pci_epc_map_addr().
-> 
-> I think if we rip out:
-> -DMA API + dmaengine dmaengine_prep_dma_memcpy()
-> we could also move the pci_epc_map_addr() so that it is
-> only used for the memcpy_toio()/memcpy_fromio() path.
-> 
-> (Or if we add a --use_dummy_dma, we can move the pci_epc_map_addr() to
-> that path, and remove it from the dmaengine_prep_slave_single() path.)
-> 
-> 
-> Kind regards,
-> Niklas
 
 -- 
-~Vinod
+மணிவண்ணன் சதாசிவம்
