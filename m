@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8B79454;
-	Tue,  2 Apr 2024 09:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51D85F84F;
+	Tue,  2 Apr 2024 10:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712050867; cv=none; b=LJPcpNpcXfF58Sg3iCm/z757w+we48101aIRCxnqhA+rnck4YBktHFZmB65tF4g33C9qtwyqJV05dsepSP7q83i4FtDDiGwxs4eAYWZaI6qS0IQiUdZ2fYJ2ba6NoFh0Mzp2QUQAP0mP6nLt6dMA4Scg1WPbVPr/QurF9BXY9Ms=
+	t=1712055136; cv=none; b=mggMM/45j59a/Awn8SOuPtkKKzfjanUpmrkFZ510xP0IpLmA52CLuVPdKyetyiY7AnWCoPXP0/i9YBjCt/gVBwgKa7mrtFEE7KiX1bzBhc46DAvnWRGOT9okL2vcNlWf/lWlILiMZKMCsLyQuyHWVshN+AjRwRBusurQ1ndbIi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712050867; c=relaxed/simple;
-	bh=1+JbQzvwocmkPZJ25oUBQdFuhjuvVbr9C5IUSGthFBc=;
+	s=arc-20240116; t=1712055136; c=relaxed/simple;
+	bh=8SEISNTjMjd6fQgKPbae4xl+U7OguugiIa4T9Rb5u+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zf/U+lRY2bd7mvrb8n6RygBagRjixogQDbgMSfQHzDi3SKShtuSHrCpT68V0TDOz2uTN0jEtj172y1F4/BUUetsbpFJ0P4v6Dj037eFiaAtk/n7raWxZHLNBaIGbeFHD80gQXzbEmu+K73cYB7kr8rZWP/uZYP8JV3eEPJ2+lUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjfO+tX0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4NGGUgiw7ZfkW2Rtoa3kGu3u+i6NwBp0QLB2x6srCwQquSniUR7eictF99zcPRat32qm6yhxrUvPRD9X/h90/izEGD9u0hvV18YXcUYQrQXfbNPLR9f43xBQYi9Y2dgnyf+zOkjmb/cUAsKktT0ZjiifCkiFir7EmCEXey2c/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4MPsNrE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjfO+tX0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F73C433C7;
-	Tue,  2 Apr 2024 09:41:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4MPsNrE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 680E6C43390;
+	Tue,  2 Apr 2024 10:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712050866;
-	bh=1+JbQzvwocmkPZJ25oUBQdFuhjuvVbr9C5IUSGthFBc=;
+	s=k20201202; t=1712055136;
+	bh=8SEISNTjMjd6fQgKPbae4xl+U7OguugiIa4T9Rb5u+k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MjfO+tX0nuoKKP8XrPY8G8F08OlHHBr687YgRsWjw+KGshvwv+s7vv1nuxoh0Emt+
-	 1sB7jtbaP6R8XX6kjWyXpHozaPQ68IhvOxtsGqtq7lpx+cv+BG7rDUgp5FRsyMNJlf
-	 KuvkwCTDtGI/H7tf0bjtmDnNXDCgPWRjDKdgGdojXK1+S3bZ1h22u4BkwB9lBoxShJ
-	 KlBPIvuF3cKN4UrBldFxW0tWsOHzsL5RVKJhyxl17GHEkBAtZpi3fnwJff5YnKxhP+
-	 /6579sVQ9Lfj4Ss7v+K28yicNQ9gT0rq3tw5LIUD6eiiWKt3dcW/nprJIVrORHSUbe
-	 cWIZm61BAmyyw==
-Date: Tue, 2 Apr 2024 11:41:00 +0200
+	b=n4MPsNrE5cmbGK3k1jBmWUG04hQzuCE81mF2+4cRHKWApITQdHRfaZZkH+5ZaYL3I
+	 bpgZdFe9kyxMuSY3xTS2joBUZAwPhGareRD9eTIlfYy7Zp+2kJjK3SZhDiioGG0qb2
+	 WPKrIa/Hv//QJu7JPaIuP4knMhIpJQXNABg+G3B2Gw6zcSU5OgouIkux49LuCCghfq
+	 UKZZYA0JP7FTYeY++6H8GCzbdrFQ5QscjabQPb85kNJ8IafyjcdE2BdFzXnl7i1Wpv
+	 2K7ra/QO/nqfSQ9Hul2/wHBA7vGjhK+hX7L+oa7ssB3gngNSqCf2ivruu7waKNfmbc
+	 OxLdJaJ2WzRqw==
+Date: Tue, 2 Apr 2024 12:52:10 +0200
 From: Niklas Cassel <cassel@kernel.org>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -38,10 +38,11 @@ Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mhi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] PCI: endpoint: Make host reboot handling more
- robust
-Message-ID: <ZgvSrLpvChG4jqQl@ryzen>
+Subject: Re: [PATCH v2 03/10] PCI: endpoint: Rename core_init() callback in
+ 'struct pci_epc_event_ops' to init()
+Message-ID: <ZgvjWtC0f1CY6DJs@ryzen>
 References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+ <20240401-pci-epf-rework-v2-3-970dbe90b99d@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,90 +51,63 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+In-Reply-To: <20240401-pci-epf-rework-v2-3-970dbe90b99d@linaro.org>
 
-On Mon, Apr 01, 2024 at 09:20:26PM +0530, Manivannan Sadhasivam wrote:
-> Hello,
+On Mon, Apr 01, 2024 at 09:20:29PM +0530, Manivannan Sadhasivam wrote:
+> core_init() callback is used to notify the EPC initialization event to the
+> EPF drivers. The 'core' prefix was used indicate that the controller IP
+> core has completed initialization. But it serves no purpose as the EPF
+> driver will only care about the EPC initialization as a whole and there is
+> no real benefit to distinguish the IP core part.
 > 
-> This is the follow up series of [1], to improve the handling of host reboot in
-> the endpoint subsystem. This involves refining the PERST# and Link Down event
-> handling in both the controller and function drivers.
+> So let's rename the core_init() callback in 'struct pci_epc_event_ops' to
+> just init() to make it more clear.
 > 
-> Testing
-> =======
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  4 ++--
+>  drivers/pci/endpoint/functions/pci-epf-test.c |  4 ++--
+>  drivers/pci/endpoint/pci-epc-core.c           | 16 ++++++++--------
+>  include/linux/pci-epf.h                       |  4 ++--
+>  4 files changed, 14 insertions(+), 14 deletions(-)
 > 
-> This series is tested on Qcom SM8450 based development board with both MHI_EPF
-> and EPF_TEST function drivers.
-> 
-> Dependency
-> ==========
-> 
-> This series depends on [1] and [2].
-> 
-> - Mani
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 280863c0eeb9..b3c26ffd29a5 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -716,7 +716,7 @@ static void pci_epf_mhi_dma_deinit(struct pci_epf_mhi *epf_mhi)
+>  	epf_mhi->dma_chan_rx = NULL;
+>  }
+>  
+> -static int pci_epf_mhi_core_init(struct pci_epf *epf)
+> +static int pci_epf_mhi_epc_init(struct pci_epf *epf)
+>  {
+>  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+>  	const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
+> @@ -897,7 +897,7 @@ static void pci_epf_mhi_unbind(struct pci_epf *epf)
+>  }
+>  
+>  static const struct pci_epc_event_ops pci_epf_mhi_epc_event_ops = {
+> -	.core_init = pci_epf_mhi_core_init,
+> +	.init = pci_epf_mhi_epc_init,
+>  };
+>  
+>  static const struct pci_epc_bus_event_ops pci_epf_mhi_bus_event_ops = {
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> index 973db0b1bde2..abcb6ca61c4e 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> @@ -731,7 +731,7 @@ static int pci_epf_test_set_bar(struct pci_epf *epf)
+>  	return 0;
+>  }
+>  
+> -static int pci_epf_test_core_init(struct pci_epf *epf)
+> +static int pci_epf_test_epc_init(struct pci_epf *epf)
 
-Hello Mani,
-
-> [1] https://lore.kernel.org/linux-pci/20240314-pci-dbi-rework-v10-0-14a45c5a938e@linaro.org/
-> [2] https://lore.kernel.org/linux-pci/20240320113157.322695-1-cassel@kernel.org/
-
-AFAICT both these series [1] (DBI rework v12, not v10) and [2] are fully
-reviewed and seem to be ready to go.
-
-Considering that we have patches depending on [1] and [2],
-namely the series in $subject, but also:
-https://lore.kernel.org/linux-pci/20240330041928.1555578-1-dlemoal@kernel.org/T/#t
-
-I think it would be a good idea if you could apply [1] and [2] to the
-pci/endpoint branch.
-
-(It is not easy for people to know that they will need to rebase their work on
-these (fully reviewed) series, when they have not been applied.)
+On V1 you agreed that it is better to remove 'epc' from the naming.
+(For both pci-epf-test and pci-epf-mhi).
+You seem to have forgotten to address this for V2.
 
 
 Kind regards,
 Niklas
-
-
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
-> Changes in v2:
-> - Dropped the {start/stop}_link rework patches
-> - Incorporated comments from Niklas
-> - Collected review tags
-> - Rebased on top of v6.9-rc1 and https://lore.kernel.org/linux-pci/20240320113157.322695-1-cassel@kernel.org/
-> - Link to v1: https://lore.kernel.org/r/20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org
-> 
-> ---
-> Manivannan Sadhasivam (10):
->       PCI: qcom-ep: Disable resources unconditionally during PERST# assert
->       PCI: endpoint: Decouple EPC and PCIe bus specific events
->       PCI: endpoint: Rename core_init() callback in 'struct pci_epc_event_ops' to init()
->       PCI: epf-test: Refactor pci_epf_test_unbind() function
->       PCI: epf-{mhi/test}: Move DMA initialization to EPC init callback
->       PCI: endpoint: Introduce EPC 'deinit' event and notify the EPF drivers
->       PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
->       PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
->       PCI: epf-test: Handle Link Down event
->       PCI: qcom: Implement shutdown() callback to properly reset the endpoint devices
-> 
->  drivers/pci/controller/dwc/pcie-designware-ep.c |  99 ++++++++++++++---------
->  drivers/pci/controller/dwc/pcie-designware.h    |   5 ++
->  drivers/pci/controller/dwc/pcie-qcom-ep.c       |   9 +--
->  drivers/pci/controller/dwc/pcie-qcom.c          |   8 ++
->  drivers/pci/controller/dwc/pcie-tegra194.c      |   1 +
->  drivers/pci/endpoint/functions/pci-epf-mhi.c    |  47 ++++++++---
->  drivers/pci/endpoint/functions/pci-epf-test.c   | 103 +++++++++++++++++-------
->  drivers/pci/endpoint/pci-epc-core.c             |  53 ++++++++----
->  include/linux/pci-epc.h                         |   1 +
->  include/linux/pci-epf.h                         |  27 +++++--
->  10 files changed, 248 insertions(+), 105 deletions(-)
-> ---
-> base-commit: e6377605ca734126533a0f8e4de2b4bac881f076
-> change-id: 20240314-pci-epf-rework-a6e65b103a79
-> 
-> Best regards,
-> -- 
-> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> 
