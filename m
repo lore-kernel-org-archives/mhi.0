@@ -1,77 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BEF17BBE
-	for <mhi@lists.linux.dev>; Tue,  2 Apr 2024 04:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8B79454;
+	Tue,  2 Apr 2024 09:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712033811; cv=none; b=f2hYRF1pKjwB3CuHWoAlUOiXVNXYNeXhCD+o5vItnc8LeFhvgHpWKzs7NyaJAalisNISvnGjlwO5I6vEz2D6T3Wv+ykerXzR3JmAsEKjzZTR7/Tok788/dqOMwO9at2Icpd0RK/rtus4R2DA68pc6fG6wY0PhCF+H+gR7ZDD5gY=
+	t=1712050867; cv=none; b=LJPcpNpcXfF58Sg3iCm/z757w+we48101aIRCxnqhA+rnck4YBktHFZmB65tF4g33C9qtwyqJV05dsepSP7q83i4FtDDiGwxs4eAYWZaI6qS0IQiUdZ2fYJ2ba6NoFh0Mzp2QUQAP0mP6nLt6dMA4Scg1WPbVPr/QurF9BXY9Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712033811; c=relaxed/simple;
-	bh=mTzIJSj3c+9OTLvLPgl0yiej3h2UqQYmOPv0ZKmDBgc=;
+	s=arc-20240116; t=1712050867; c=relaxed/simple;
+	bh=1+JbQzvwocmkPZJ25oUBQdFuhjuvVbr9C5IUSGthFBc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8qnTND9hzYJh6MPguK9j/p+aFnSLVq/WMfHEdK99L7X1UfZ1w7Z/oB2XVY8NjuUZfGUNP1NKZovKPrXJ+vhZNXF5tl7K+sn0EKlKuTKJRIs0NW5Wz6H1oA2L4FlVdwxnrUiUv4ZqNnEu/Y22VVCnb1+pE0pgS1iMNh9fGgfoMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRzV4bUg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zf/U+lRY2bd7mvrb8n6RygBagRjixogQDbgMSfQHzDi3SKShtuSHrCpT68V0TDOz2uTN0jEtj172y1F4/BUUetsbpFJ0P4v6Dj037eFiaAtk/n7raWxZHLNBaIGbeFHD80gQXzbEmu+K73cYB7kr8rZWP/uZYP8JV3eEPJ2+lUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjfO+tX0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRzV4bUg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 663CEC433C7;
-	Tue,  2 Apr 2024 04:56:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjfO+tX0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F73C433C7;
+	Tue,  2 Apr 2024 09:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712033811;
-	bh=mTzIJSj3c+9OTLvLPgl0yiej3h2UqQYmOPv0ZKmDBgc=;
+	s=k20201202; t=1712050866;
+	bh=1+JbQzvwocmkPZJ25oUBQdFuhjuvVbr9C5IUSGthFBc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kRzV4bUgs/onvcWPzq5CasScV9Az3AWKvbiy8XCb0c7O0obwSn9+bCW6TyLeliea0
-	 NgCfpX0SmrjfuqMlZfwj1yV8roJpqlQY0AWBmMKMwPSqLnw5lcgSNC38tnSG4RhBjQ
-	 /06O4Q98C0KXr4UdRkB9vgwwD2nyjhiiHHLS0ayshbWUC/cI1JxR5MLY/9fubKXLr5
-	 Ikq6wS5nLDRKV5yGQ+Np7fhU/VLYgSIwAWJDddT82cFy/UA3rEVS6sd0TJkuAUEeBn
-	 RaOQ7wuGivJOIFzyTTMWU5N28qNkD/cd2D+0ZO7YjqQvsJm1OY2vGGRBVx+6L6DFlJ
-	 zPcY2lRQ6uoow==
-Date: Tue, 2 Apr 2024 10:26:47 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: mhi@lists.linux.dev
-Subject: Re: failed to power up MHI controller issue
-Message-ID: <20240402045647.GG2933@thinkpad>
-References: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
+	b=MjfO+tX0nuoKKP8XrPY8G8F08OlHHBr687YgRsWjw+KGshvwv+s7vv1nuxoh0Emt+
+	 1sB7jtbaP6R8XX6kjWyXpHozaPQ68IhvOxtsGqtq7lpx+cv+BG7rDUgp5FRsyMNJlf
+	 KuvkwCTDtGI/H7tf0bjtmDnNXDCgPWRjDKdgGdojXK1+S3bZ1h22u4BkwB9lBoxShJ
+	 KlBPIvuF3cKN4UrBldFxW0tWsOHzsL5RVKJhyxl17GHEkBAtZpi3fnwJff5YnKxhP+
+	 /6579sVQ9Lfj4Ss7v+K28yicNQ9gT0rq3tw5LIUD6eiiWKt3dcW/nprJIVrORHSUbe
+	 cWIZm61BAmyyw==
+Date: Tue, 2 Apr 2024 11:41:00 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] PCI: endpoint: Make host reboot handling more
+ robust
+Message-ID: <ZgvSrLpvChG4jqQl@ryzen>
+References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
+In-Reply-To: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
 
-+ MHI list
-
-On Thu, Mar 28, 2024 at 08:02:20PM +0800, Slark Xiao wrote:
-> Hi Mani,
->  Hope you are doing well! I got a problem with our sdx65 device in some
+On Mon, Apr 01, 2024 at 09:20:26PM +0530, Manivannan Sadhasivam wrote:
+> Hello,
 > 
-> specific platform. MHI driver would report "failed to power up MHI controller"
-> when device bootup. Actually, I can reproduce this error when host doing a
-> reboot. It's Rockpro64 with SDX65, and kernel 6.6.3 or 6.7.10.
+> This is the follow up series of [1], to improve the handling of host reboot in
+> the endpoint subsystem. This involves refining the PERST# and Link Down event
+> handling in both the controller and function drivers.
 > 
-> So I add some logs and change dbg level log to info for more print. You can
-> see my attachments for reference.
-> It seems the host didn't receive the event of "MISSION MODE" and then
-> power down the device.
-> BTW, there are some extra log prints were added in function
-> mhi_sync_power_up(). You can find it with mask "##shawn##".
-> Do you have any idea to debug it?
+> Testing
+> =======
 > 
+> This series is tested on Qcom SM8450 based development board with both MHI_EPF
+> and EPF_TEST function drivers.
+> 
+> Dependency
+> ==========
+> 
+> This series depends on [1] and [2].
+> 
+> - Mani
 
-Looks like something gone wrong with the device firmware. Is it possible to get
-the logs from the device?
+Hello Mani,
 
-This could be due to the way the PCIe controller driver on the host handling
-reboot.
+> [1] https://lore.kernel.org/linux-pci/20240314-pci-dbi-rework-v10-0-14a45c5a938e@linaro.org/
+> [2] https://lore.kernel.org/linux-pci/20240320113157.322695-1-cassel@kernel.org/
 
-But let's get the device logs first to debug further.
+AFAICT both these series [1] (DBI rework v12, not v10) and [2] are fully
+reviewed and seem to be ready to go.
 
-- Mani
+Considering that we have patches depending on [1] and [2],
+namely the series in $subject, but also:
+https://lore.kernel.org/linux-pci/20240330041928.1555578-1-dlemoal@kernel.org/T/#t
 
--- 
-மணிவண்ணன் சதாசிவம்
+I think it would be a good idea if you could apply [1] and [2] to the
+pci/endpoint branch.
+
+(It is not easy for people to know that they will need to rebase their work on
+these (fully reviewed) series, when they have not been applied.)
+
+
+Kind regards,
+Niklas
+
+
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+> Changes in v2:
+> - Dropped the {start/stop}_link rework patches
+> - Incorporated comments from Niklas
+> - Collected review tags
+> - Rebased on top of v6.9-rc1 and https://lore.kernel.org/linux-pci/20240320113157.322695-1-cassel@kernel.org/
+> - Link to v1: https://lore.kernel.org/r/20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org
+> 
+> ---
+> Manivannan Sadhasivam (10):
+>       PCI: qcom-ep: Disable resources unconditionally during PERST# assert
+>       PCI: endpoint: Decouple EPC and PCIe bus specific events
+>       PCI: endpoint: Rename core_init() callback in 'struct pci_epc_event_ops' to init()
+>       PCI: epf-test: Refactor pci_epf_test_unbind() function
+>       PCI: epf-{mhi/test}: Move DMA initialization to EPC init callback
+>       PCI: endpoint: Introduce EPC 'deinit' event and notify the EPF drivers
+>       PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
+>       PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+>       PCI: epf-test: Handle Link Down event
+>       PCI: qcom: Implement shutdown() callback to properly reset the endpoint devices
+> 
+>  drivers/pci/controller/dwc/pcie-designware-ep.c |  99 ++++++++++++++---------
+>  drivers/pci/controller/dwc/pcie-designware.h    |   5 ++
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c       |   9 +--
+>  drivers/pci/controller/dwc/pcie-qcom.c          |   8 ++
+>  drivers/pci/controller/dwc/pcie-tegra194.c      |   1 +
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c    |  47 ++++++++---
+>  drivers/pci/endpoint/functions/pci-epf-test.c   | 103 +++++++++++++++++-------
+>  drivers/pci/endpoint/pci-epc-core.c             |  53 ++++++++----
+>  include/linux/pci-epc.h                         |   1 +
+>  include/linux/pci-epf.h                         |  27 +++++--
+>  10 files changed, 248 insertions(+), 105 deletions(-)
+> ---
+> base-commit: e6377605ca734126533a0f8e4de2b4bac881f076
+> change-id: 20240314-pci-epf-rework-a6e65b103a79
+> 
+> Best regards,
+> -- 
+> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
