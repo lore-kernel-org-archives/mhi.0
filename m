@@ -1,331 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA15B5674A
-	for <mhi@lists.linux.dev>; Mon,  1 Apr 2024 23:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C049E552;
+	Tue,  2 Apr 2024 00:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712012991; cv=none; b=HVD8XAJUreF2vsRLM3c2Szn9gLIoCR9EenVqHtoI/TShI9hP4qQg4zOS8KPGYR6/k1Reu5ZFVhaM9GJ0Rtw3n4fQbifAK5SAJYITf0HC3rJMxi02DaPrfk/DHsaFsXcN0Zht7GDM1qcmJmOLalONFhbsq5NNCW5V8YcSr4ldIcw=
+	t=1712016864; cv=none; b=uVD6ZIcvthJHanl4oYjAcuXJ5O4F0yqHFbsRGdqANLBnUJVbfHYgvhbVFq8PtPvEtnak/1lB+j7p/T+zRgxDtMAQ11dZW5fXc2TbobDcSDUF5+Ff1TTGIljRsjkYUOBVd12zQ4v2l7ilHs1KCQLbX3f/vA0Dt86yn1kThlTHhCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712012991; c=relaxed/simple;
-	bh=nx0Ssxcwedxi4+oE9LGFE+J9T5S/cNavy/xEX+hUaUE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KQMkMBsWZpSro6e44ahLPMgz7/em3Rm62/0Xjl+uH2GZ57KgYmSkpKIC9UyjGmYICuWbGZaMt5kqtuWzzfRFglSMNZcpksIWBwkpbmK8gu/Dc+fl42OKS7fiG/PfFLHEGnbJCMzt/MVk47zes+ixB6euH2aMdSPEMH6Poe2tn9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAkiXf+H; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712016864; c=relaxed/simple;
+	bh=Y1r6F3EJQCsWu05mdM0m/RL9mp3ue/Gjw8EoC602RYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jrVdWwSyg0NIEBdhzJuSAMade2qdU9pyT0DXlmPAnwJAyVvk6bgbl3wX1gNiprRQHjXfHhjYt4xlZsDRKW7vwNNOFfATz++dpIfDuax644KyGDUj/LhXV7eZ7meknKiG+Xe/msW6dTZwOoAcheTzCilDF6f2LrErOMR4kFQz9gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r8U+TmfV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAkiXf+H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712012990; x=1743548990;
-  h=date:from:to:cc:subject:message-id;
-  bh=nx0Ssxcwedxi4+oE9LGFE+J9T5S/cNavy/xEX+hUaUE=;
-  b=GAkiXf+HTGn+sEgk0ejlIZdP7Vfo5Yxz/iZYztLDivJCfE/Upm0D2Npn
-   5By1dogTc/T17PaeoWC7TwSWYwDXUc3BLspeQtzthoDucf/YRfD+2e7kL
-   ujODx0XCcbx+Dnd5weH0vkMnr3Yv22SB0Szme5Ht33GY9xyhWcIkQuUUL
-   gXFDEgKSAg1Yv5QMh90qC+xBl7tm8Xor9G2DpFSlt3EsKhoCSYQ5oimwO
-   l1z3dxQnmc9jClzHgXT55J0QT3T+w/9I13gP/CrQeNJOirxzpPoHx1xxf
-   92wVKuFriHrTUH/QHG7EM6yqPhtSLkDiFZ4l5519duxNBNySBSbjWfTMJ
-   w==;
-X-CSE-ConnectionGUID: LjPcPfjtRS+DJwRPjZNZEg==
-X-CSE-MsgGUID: /wDOhkx5Sk6zlhxvDiFdhw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7016564"
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="7016564"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 16:09:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,173,1708416000"; 
-   d="scan'208";a="18324631"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Apr 2024 16:09:48 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rrQmV-0000ex-0q;
-	Mon, 01 Apr 2024 23:09:38 +0000
-Date: Tue, 02 Apr 2024 07:08:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 813e0ae613d6ee1b3e11f1c41f8b9e9df8ef0493
-Message-ID: <202404020717.tAEtvYLm-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r8U+TmfV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C150BC433C7;
+	Tue,  2 Apr 2024 00:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712016863;
+	bh=Y1r6F3EJQCsWu05mdM0m/RL9mp3ue/Gjw8EoC602RYY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r8U+TmfVVZ/2zSi5oYgBiPp1Nb+hWR6CaYSOEjZAKrgo5xp3sg7dK5CwDIdAXk9u4
+	 NgiDVNcciDxnNp3IfwVGznTuLSIVWMZjXcXwnbwe4XbOdvjf9DZ9vVzMyteNWp7xY7
+	 LL/wzbXs10Tdh0YIV+LpwBP/frBE7VQ47GA0mXwtV1MAwGnwF8E6dVEzviazcWoR7y
+	 1U01lgT81ggO+D38aFlgrDbklWzcwvLnnE2G4nRE0qmWtHjAEfnbRB+n6/WNrfYLfA
+	 SLvIJ4VeWHIWJ2X+70t4dCEmTbZftXAMpqUWp4u4RScbiqsOhpeXHIMWA0Bk3n7Lnw
+	 lDwkj3SGzuY2w==
+Message-ID: <45b2db99-2d03-469b-aa37-bc6c63cef141@kernel.org>
+Date: Tue, 2 Apr 2024 09:14:20 +0900
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] PCI: endpoint: Decouple EPC and PCIe bus
+ specific events
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jingoo Han <jingoohan1@gmail.com>
+Cc: linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Niklas Cassel <cassel@kernel.org>
+References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+ <20240401-pci-epf-rework-v2-2-970dbe90b99d@linaro.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240401-pci-epf-rework-v2-2-970dbe90b99d@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 813e0ae613d6ee1b3e11f1c41f8b9e9df8ef0493  bus: mhi: host: Add mhi_power_down_keep_dev() API to support system suspend/hibernation
+On 4/2/24 00:50, Manivannan Sadhasivam wrote:
+> Currently, 'struct pci_epc_event_ops' has a bunch of events that are sent
+> from the EPC driver to EPF driver. But those events are a mix of EPC
+> specific events like core_init and PCIe bus specific events like LINK_UP,
+> LINK_DOWN, BME etc...
+> 
+> Let's decouple them to respective structs (pci_epc_event_ops,
+> pci_epc_bus_event_ops) to make the separation clear.
 
-elapsed time: 725m
+I fail to see the benefits here. The event operation names are quite clear and,
+in my opinion, it is clear if an event op applies to the controller or to the
+bus/link. If anything, "core_init" could a little more clear, so renaming that
+"ep_controller_init" or something like that (clearly spelling out what is being
+initialized) seems enough to me. Similarly, the "bme" op name is very criptic.
+Renaming that to "bus_master_enable" would go a long way clarifying the code.
+For link events, "link_up", "link_down" are clear. So I think there is no need
+to split the event op struct like this. Renaming the ops is better.
 
-configs tested: 256
-configs skipped: 4
+Note that I am not opposed to this patch, but I think it is just code churn
+that does not really bring any fundamental improvement. Regardless, renaming
+"core_init" and "bme" ops is I think desired.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs101_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                   randconfig-001-20240401   gcc  
-arc                   randconfig-001-20240402   gcc  
-arc                   randconfig-002-20240401   gcc  
-arc                   randconfig-002-20240402   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                          collie_defconfig   gcc  
-arm                                 defconfig   clang
-arm                      jornada720_defconfig   clang
-arm                        mvebu_v5_defconfig   gcc  
-arm                          pxa3xx_defconfig   clang
-arm                   randconfig-001-20240401   clang
-arm                   randconfig-001-20240402   gcc  
-arm                   randconfig-002-20240401   clang
-arm                   randconfig-003-20240401   gcc  
-arm                   randconfig-004-20240401   gcc  
-arm                        vexpress_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240401   gcc  
-arm64                 randconfig-002-20240401   gcc  
-arm64                 randconfig-003-20240401   gcc  
-arm64                 randconfig-004-20240401   gcc  
-arm64                 randconfig-004-20240402   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240401   gcc  
-csky                  randconfig-001-20240402   gcc  
-csky                  randconfig-002-20240401   gcc  
-csky                  randconfig-002-20240402   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240401   clang
-hexagon               randconfig-002-20240401   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240401   gcc  
-i386         buildonly-randconfig-002-20240401   clang
-i386         buildonly-randconfig-003-20240401   clang
-i386         buildonly-randconfig-004-20240401   gcc  
-i386         buildonly-randconfig-005-20240401   gcc  
-i386         buildonly-randconfig-006-20240401   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240401   gcc  
-i386                  randconfig-002-20240401   gcc  
-i386                  randconfig-003-20240401   clang
-i386                  randconfig-004-20240401   clang
-i386                  randconfig-005-20240401   gcc  
-i386                  randconfig-006-20240401   gcc  
-i386                  randconfig-011-20240401   clang
-i386                  randconfig-012-20240401   clang
-i386                  randconfig-013-20240401   gcc  
-i386                  randconfig-014-20240401   gcc  
-i386                  randconfig-015-20240401   gcc  
-i386                  randconfig-016-20240401   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240401   gcc  
-loongarch             randconfig-001-20240402   gcc  
-loongarch             randconfig-002-20240401   gcc  
-loongarch             randconfig-002-20240402   gcc  
-m68k                             alldefconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                          amiga_defconfig   gcc  
-m68k                         apollo_defconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5208evb_defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                         db1xxx_defconfig   clang
-mips                 decstation_r4k_defconfig   gcc  
-mips                          eyeq5_defconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240401   gcc  
-nios2                 randconfig-001-20240402   gcc  
-nios2                 randconfig-002-20240401   gcc  
-nios2                 randconfig-002-20240402   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                    or1ksim_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240401   gcc  
-parisc                randconfig-001-20240402   gcc  
-parisc                randconfig-002-20240401   gcc  
-parisc                randconfig-002-20240402   gcc  
-parisc64                            defconfig   gcc  
-powerpc                    adder875_defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                    amigaone_defconfig   gcc  
-powerpc                        cell_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                    gamecube_defconfig   clang
-powerpc                    ge_imp3a_defconfig   gcc  
-powerpc                   motionpro_defconfig   clang
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc               randconfig-001-20240401   gcc  
-powerpc               randconfig-002-20240401   gcc  
-powerpc               randconfig-002-20240402   gcc  
-powerpc               randconfig-003-20240401   gcc  
-powerpc                     tqm8540_defconfig   gcc  
-powerpc                      walnut_defconfig   gcc  
-powerpc64             randconfig-001-20240401   gcc  
-powerpc64             randconfig-001-20240402   gcc  
-powerpc64             randconfig-002-20240401   clang
-powerpc64             randconfig-002-20240402   gcc  
-powerpc64             randconfig-003-20240401   gcc  
-powerpc64             randconfig-003-20240402   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240401   clang
-riscv                 randconfig-002-20240401   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240401   gcc  
-s390                  randconfig-001-20240402   gcc  
-s390                  randconfig-002-20240401   gcc  
-s390                  randconfig-002-20240402   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         ap325rxa_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                    randconfig-001-20240401   gcc  
-sh                    randconfig-001-20240402   gcc  
-sh                    randconfig-002-20240401   gcc  
-sh                    randconfig-002-20240402   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sh                   rts7751r2dplus_defconfig   gcc  
-sh                           se7206_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7750_defconfig   gcc  
-sparc                            alldefconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240401   gcc  
-sparc64               randconfig-001-20240402   gcc  
-sparc64               randconfig-002-20240401   gcc  
-sparc64               randconfig-002-20240402   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240401   gcc  
-um                    randconfig-001-20240402   gcc  
-um                    randconfig-002-20240401   clang
-um                    randconfig-002-20240402   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240401   clang
-x86_64       buildonly-randconfig-001-20240402   clang
-x86_64       buildonly-randconfig-002-20240401   clang
-x86_64       buildonly-randconfig-002-20240402   clang
-x86_64       buildonly-randconfig-003-20240401   gcc  
-x86_64       buildonly-randconfig-003-20240402   clang
-x86_64       buildonly-randconfig-004-20240401   gcc  
-x86_64       buildonly-randconfig-004-20240402   clang
-x86_64       buildonly-randconfig-005-20240401   gcc  
-x86_64       buildonly-randconfig-005-20240402   clang
-x86_64       buildonly-randconfig-006-20240401   clang
-x86_64       buildonly-randconfig-006-20240402   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240401   gcc  
-x86_64                randconfig-001-20240402   clang
-x86_64                randconfig-002-20240401   clang
-x86_64                randconfig-002-20240402   clang
-x86_64                randconfig-003-20240401   clang
-x86_64                randconfig-003-20240402   gcc  
-x86_64                randconfig-004-20240401   gcc  
-x86_64                randconfig-004-20240402   clang
-x86_64                randconfig-005-20240401   gcc  
-x86_64                randconfig-005-20240402   gcc  
-x86_64                randconfig-006-20240401   clang
-x86_64                randconfig-006-20240402   gcc  
-x86_64                randconfig-011-20240401   clang
-x86_64                randconfig-011-20240402   gcc  
-x86_64                randconfig-012-20240401   gcc  
-x86_64                randconfig-012-20240402   gcc  
-x86_64                randconfig-013-20240401   gcc  
-x86_64                randconfig-013-20240402   clang
-x86_64                randconfig-014-20240401   gcc  
-x86_64                randconfig-014-20240402   gcc  
-x86_64                randconfig-015-20240401   gcc  
-x86_64                randconfig-015-20240402   clang
-x86_64                randconfig-016-20240401   gcc  
-x86_64                randconfig-016-20240402   gcc  
-x86_64                randconfig-071-20240401   gcc  
-x86_64                randconfig-071-20240402   clang
-x86_64                randconfig-072-20240401   gcc  
-x86_64                randconfig-072-20240402   clang
-x86_64                randconfig-073-20240401   clang
-x86_64                randconfig-073-20240402   clang
-x86_64                randconfig-074-20240401   gcc  
-x86_64                randconfig-074-20240402   gcc  
-x86_64                randconfig-075-20240401   gcc  
-x86_64                randconfig-075-20240402   clang
-x86_64                randconfig-076-20240401   gcc  
-x86_64                randconfig-076-20240402   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
-xtensa                randconfig-001-20240401   gcc  
-xtensa                randconfig-001-20240402   gcc  
-xtensa                randconfig-002-20240401   gcc  
-xtensa                randconfig-002-20240402   gcc  
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  8 ++++++--
+>  drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++++++--
+>  drivers/pci/endpoint/pci-epc-core.c           | 20 ++++++++++----------
+>  include/linux/pci-epf.h                       | 23 ++++++++++++++++-------
+>  4 files changed, 38 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 2c54d80107cf..280863c0eeb9 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -896,8 +896,11 @@ static void pci_epf_mhi_unbind(struct pci_epf *epf)
+>  	pci_epc_clear_bar(epc, epf->func_no, epf->vfunc_no, epf_bar);
+>  }
+>  
+> -static const struct pci_epc_event_ops pci_epf_mhi_event_ops = {
+> +static const struct pci_epc_event_ops pci_epf_mhi_epc_event_ops = {
+>  	.core_init = pci_epf_mhi_core_init,
+> +};
+> +
+> +static const struct pci_epc_bus_event_ops pci_epf_mhi_bus_event_ops = {
+>  	.link_up = pci_epf_mhi_link_up,
+>  	.link_down = pci_epf_mhi_link_down,
+>  	.bme = pci_epf_mhi_bme,
+> @@ -919,7 +922,8 @@ static int pci_epf_mhi_probe(struct pci_epf *epf,
+>  	epf_mhi->info = info;
+>  	epf_mhi->epf = epf;
+>  
+> -	epf->event_ops = &pci_epf_mhi_event_ops;
+> +	epf->epc_event_ops = &pci_epf_mhi_epc_event_ops;
+> +	epf->bus_event_ops = &pci_epf_mhi_bus_event_ops;
+>  
+>  	mutex_init(&epf_mhi->lock);
+>  
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> index 977fb79c1567..973db0b1bde2 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> @@ -798,8 +798,11 @@ static int pci_epf_test_link_up(struct pci_epf *epf)
+>  	return 0;
+>  }
+>  
+> -static const struct pci_epc_event_ops pci_epf_test_event_ops = {
+> +static const struct pci_epc_event_ops pci_epf_test_epc_event_ops = {
+>  	.core_init = pci_epf_test_core_init,
+> +};
+> +
+> +static const struct pci_epc_bus_event_ops pci_epf_test_bus_event_ops = {
+>  	.link_up = pci_epf_test_link_up,
+>  };
+>  
+> @@ -916,7 +919,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+>  
+>  	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
+>  
+> -	epf->event_ops = &pci_epf_test_event_ops;
+> +	epf->epc_event_ops = &pci_epf_test_epc_event_ops;
+> +	epf->bus_event_ops = &pci_epf_test_bus_event_ops;
+>  
+>  	epf_set_drvdata(epf, epf_test);
+>  	return 0;
+> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+> index 47d27ec7439d..f202ae07ffa9 100644
+> --- a/drivers/pci/endpoint/pci-epc-core.c
+> +++ b/drivers/pci/endpoint/pci-epc-core.c
+> @@ -692,8 +692,8 @@ void pci_epc_linkup(struct pci_epc *epc)
+>  	mutex_lock(&epc->list_lock);
+>  	list_for_each_entry(epf, &epc->pci_epf, list) {
+>  		mutex_lock(&epf->lock);
+> -		if (epf->event_ops && epf->event_ops->link_up)
+> -			epf->event_ops->link_up(epf);
+> +		if (epf->bus_event_ops && epf->bus_event_ops->link_up)
+> +			epf->bus_event_ops->link_up(epf);
+>  		mutex_unlock(&epf->lock);
+>  	}
+>  	mutex_unlock(&epc->list_lock);
+> @@ -718,8 +718,8 @@ void pci_epc_linkdown(struct pci_epc *epc)
+>  	mutex_lock(&epc->list_lock);
+>  	list_for_each_entry(epf, &epc->pci_epf, list) {
+>  		mutex_lock(&epf->lock);
+> -		if (epf->event_ops && epf->event_ops->link_down)
+> -			epf->event_ops->link_down(epf);
+> +		if (epf->bus_event_ops && epf->bus_event_ops->link_down)
+> +			epf->bus_event_ops->link_down(epf);
+>  		mutex_unlock(&epf->lock);
+>  	}
+>  	mutex_unlock(&epc->list_lock);
+> @@ -744,8 +744,8 @@ void pci_epc_init_notify(struct pci_epc *epc)
+>  	mutex_lock(&epc->list_lock);
+>  	list_for_each_entry(epf, &epc->pci_epf, list) {
+>  		mutex_lock(&epf->lock);
+> -		if (epf->event_ops && epf->event_ops->core_init)
+> -			epf->event_ops->core_init(epf);
+> +		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+> +			epf->epc_event_ops->core_init(epf);
+>  		mutex_unlock(&epf->lock);
+>  	}
+>  	epc->init_complete = true;
+> @@ -767,8 +767,8 @@ void pci_epc_notify_pending_init(struct pci_epc *epc, struct pci_epf *epf)
+>  {
+>  	if (epc->init_complete) {
+>  		mutex_lock(&epf->lock);
+> -		if (epf->event_ops && epf->event_ops->core_init)
+> -			epf->event_ops->core_init(epf);
+> +		if (epf->epc_event_ops && epf->epc_event_ops->core_init)
+> +			epf->epc_event_ops->core_init(epf);
+>  		mutex_unlock(&epf->lock);
+>  	}
+>  }
+> @@ -792,8 +792,8 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+>  	mutex_lock(&epc->list_lock);
+>  	list_for_each_entry(epf, &epc->pci_epf, list) {
+>  		mutex_lock(&epf->lock);
+> -		if (epf->event_ops && epf->event_ops->bme)
+> -			epf->event_ops->bme(epf);
+> +		if (epf->bus_event_ops && epf->bus_event_ops->bme)
+> +			epf->bus_event_ops->bme(epf);
+>  		mutex_unlock(&epf->lock);
+>  	}
+>  	mutex_unlock(&epc->list_lock);
+> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+> index adee6a1b35db..77399fecaeb5 100644
+> --- a/include/linux/pci-epf.h
+> +++ b/include/linux/pci-epf.h
+> @@ -69,14 +69,21 @@ struct pci_epf_ops {
+>  };
+>  
+>  /**
+> - * struct pci_epc_event_ops - Callbacks for capturing the EPC events
+> - * @core_init: Callback for the EPC initialization complete event
+> - * @link_up: Callback for the EPC link up event
+> - * @link_down: Callback for the EPC link down event
+> - * @bme: Callback for the EPC BME (Bus Master Enable) event
+> + * struct pci_epc_event_ops - Callbacks for capturing the EPC specific events
+> + * @core_init: Callback for the EPC initialization event
+>   */
+>  struct pci_epc_event_ops {
+>  	int (*core_init)(struct pci_epf *epf);
+> +};
+> +
+> +/**
+> + * struct pci_epc_bus_event_ops - Callbacks for capturing the PCIe bus specific
+> + *                               events
+> + * @link_up: Callback for the PCIe bus link up event
+> + * @link_down: Callback for the PCIe bus link down event
+> + * @bme: Callback for the PCIe bus BME (Bus Master Enable) event
+> + */
+> +struct pci_epc_bus_event_ops {
+>  	int (*link_up)(struct pci_epf *epf);
+>  	int (*link_down)(struct pci_epf *epf);
+>  	int (*bme)(struct pci_epf *epf);
+> @@ -150,7 +157,8 @@ struct pci_epf_bar {
+>   * @is_vf: true - virtual function, false - physical function
+>   * @vfunction_num_map: bitmap to manage virtual function number
+>   * @pci_vepf: list of virtual endpoint functions associated with this function
+> - * @event_ops: Callbacks for capturing the EPC events
+> + * @epc_event_ops: Callbacks for capturing the EPC events
+> + * @bus_event_ops: Callbacks for capturing the PCIe bus events
+>   */
+>  struct pci_epf {
+>  	struct device		dev;
+> @@ -180,7 +188,8 @@ struct pci_epf {
+>  	unsigned int		is_vf;
+>  	unsigned long		vfunction_num_map;
+>  	struct list_head	pci_vepf;
+> -	const struct pci_epc_event_ops *event_ops;
+> +	const struct pci_epc_event_ops *epc_event_ops;
+> +	const struct pci_epc_bus_event_ops *bus_event_ops;
+>  };
+>  
+>  /**
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Damien Le Moal
+Western Digital Research
+
