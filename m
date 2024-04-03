@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01631155A43;
-	Wed,  3 Apr 2024 17:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE62815538B;
+	Wed,  3 Apr 2024 17:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164625; cv=none; b=Fm6gKYCHHhFMu8htEa45Q+52532kKTDaPEx5Sq+LvqG5NcTf7MnuY6JJyW7QoBwBX6lUAC9VQNns7mROg4x33BWDDilbcmRc86hI2NDBMeJZLg/MwArzFdxsVb3s7n2xe4zYdqefTuk3ogZtfLcGypyg1rvyPSg8E7jdD6SA1aA=
+	t=1712164702; cv=none; b=FUhQWMHEd1WeewSVCfRYo1rQHk0YCP7BfeiQpQroAsCkaZcQHJDuJ83cdjtWYJXPZhQ22qZ3amzMtkiGUheGVdFvDsNiSkTgsDZDugkonzVCzHG9javaGyXjsuV1ZuOchhTxytW8Me9Tp6hJRMby1nv4v8roLmtqs9/2mM7/iNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164625; c=relaxed/simple;
-	bh=w19gzpbr+XAqjZGzBY9VmtjFHzJ2i+cxM14/amqpDJs=;
+	s=arc-20240116; t=1712164702; c=relaxed/simple;
+	bh=uZxNfE4xgVcbpyibAGlkcWPWBwdn30GDAfqMG2u9zdI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nfaz7GrJpM3Hf4ZF7KGPasG1l2faKlgo7hfDRxgOGKrRU4HPtQczUH+6ilFUp8dm8JCA260k1x6NTgg8evjnmFnZwgW9jtHQNVHxmNjAJs5aJvv6qogoQQnu4+3IvWQZBVBKHCtgtlE4qW7sN9HK5ODDnI1BlGtkyXTz5WPAktk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caNKmqx7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ofMWgvH1bUjX4kvk/vubtxOgk72/6SOmtBT/hLt1t+XBbOU636nqkuy04PgYBWHhZi11k6IbFr0FDSkTv1GMQiOWWQJ556DvZ0aGjEbHOF8AZWI7m8FFpy3iAhh6LvKiH9Wqu+V+GAerrKwOQ6VyoCj9j2Ubku8zAQxzVS2co60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YeOvC0c+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caNKmqx7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A62C433C7;
-	Wed,  3 Apr 2024 17:17:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YeOvC0c+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC0FC43390;
+	Wed,  3 Apr 2024 17:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164624;
-	bh=w19gzpbr+XAqjZGzBY9VmtjFHzJ2i+cxM14/amqpDJs=;
+	s=k20201202; t=1712164701;
+	bh=uZxNfE4xgVcbpyibAGlkcWPWBwdn30GDAfqMG2u9zdI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=caNKmqx7yAHDFvXVzz/Y9VwItSBh+1GZUtEmu6cxn9uBp3UOTIpFqrTTH+H7oMnp1
-	 d/ipyaGBkGsEOb+wDp+N1Bm5ScTeg9Vc41es2sCnJEOUDx0PYtaKuNXXVbIscBWNr+
-	 46hmVEAgzAH/h3SbqQCo9VshOSM6bpGoQLkpwzbwUCI/Uxwwc2ajI+mD5HHh/lLVeL
-	 bcFNydOwwf48c/2495fWB1020YX+AuNk5rDI4Ce+6ySDu/IwrAKVSWENen208nQMuZ
-	 O9qsnyCMQMAanIVEM6LcWKAKOW8RFnFRqqG9a3S9g7WUOWDRGhXVENLn6b1Gj0aD6D
-	 36hfzZYc3WyVA==
+	b=YeOvC0c+RqtQbl6241HZG2AxrCAbm5vxxlMq1Z3WKkHUiRZCWwaEp3MAc6tAmaR67
+	 aQ3k9HyvKcGMkRL0eyctcjbIHEkgCS2zSIt5GeN7CLyGHaE9ey6Pqm4TijZZO4tcPo
+	 frbYEVVxnBCyopo+zFf7wJJgJQs2DkrRKCGKlW3x7JE3i+oPcTBmOePhPl5f8PXGq8
+	 SjZsubBig6RNU36MG4gDBfTXD6hNUZWm05MtfWdmoom9OxwSYHQsY6pJYIaufXwZw6
+	 iUzPHXa6ps8LTuH9ouRmMgp+TdDKtfhr/fjtfDOhK/mt3t5VAQNErx7M3JXGLDRiSC
+	 /6Q9JPtq9F4yQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -33,19 +33,18 @@ Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
 	Carl Vanderlip <quic_carlv@quicinc.com>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
+	quic_krichai@quicinc.com,
 	Julia.Lawall@inria.fr,
 	quic_pkanojiy@quicinc.com,
-	rostedt@goodmis.org,
 	quic_qianyu@quicinc.com,
-	quic_krichai@quicinc.com,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 04/28] bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
-Date: Wed,  3 Apr 2024 13:16:06 -0400
-Message-ID: <20240403171656.335224-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 03/20] bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
+Date: Wed,  3 Apr 2024 13:17:44 -0400
+Message-ID: <20240403171815.342668-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240403171656.335224-1-sashal@kernel.org>
-References: <20240403171656.335224-1-sashal@kernel.org>
+In-Reply-To: <20240403171815.342668-1-sashal@kernel.org>
+References: <20240403171815.342668-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -54,7 +53,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.3
+X-stable-base: Linux 6.6.24
 Content-Transfer-Encoding: 8bit
 
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
@@ -118,7 +117,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 24 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 65ceac1837f9a..8e5ec1a409b80 100644
+index f78aefd2d7a36..cfd17c02fe20e 100644
 --- a/drivers/bus/mhi/host/init.c
 +++ b/drivers/bus/mhi/host/init.c
 @@ -62,6 +62,7 @@ static const char * const mhi_pm_state_str[] = {
@@ -130,7 +129,7 @@ index 65ceac1837f9a..8e5ec1a409b80 100644
  	[MHI_PM_STATE_LD_ERR_FATAL_DETECT] = "Linkdown or Error Fatal Detect",
  };
 diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index 30ac415a3000f..4b6deea17bcd2 100644
+index 2e139e76de4c0..d2858236af52b 100644
 --- a/drivers/bus/mhi/host/internal.h
 +++ b/drivers/bus/mhi/host/internal.h
 @@ -88,6 +88,7 @@ enum mhi_pm_state {
@@ -162,7 +161,7 @@ index 30ac415a3000f..4b6deea17bcd2 100644
  #define MHI_PM_IN_FATAL_STATE(pm_state)			(pm_state == MHI_PM_LD_ERR_FATAL_DETECT)
  #define MHI_DB_ACCESS_VALID(mhi_cntrl)			(mhi_cntrl->pm_state & mhi_cntrl->db_access)
 diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index a2f2feef14768..d0d033ce9984b 100644
+index 8a4362d75fc43..27f8a40f288cf 100644
 --- a/drivers/bus/mhi/host/pm.c
 +++ b/drivers/bus/mhi/host/pm.c
 @@ -36,7 +36,10 @@
@@ -191,7 +190,7 @@ index a2f2feef14768..d0d033ce9984b 100644
  		MHI_PM_LD_ERR_FATAL_DETECT
  	},
  	/* L2 States */
-@@ -629,7 +637,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+@@ -624,7 +632,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
  					!in_reset, timeout);
  		if (!ret || in_reset) {
  			dev_err(dev, "Device failed to exit MHI Reset state\n");
