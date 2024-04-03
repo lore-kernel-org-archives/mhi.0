@@ -1,211 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DDC153BC4;
-	Wed,  3 Apr 2024 17:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87078155749;
+	Wed,  3 Apr 2024 20:03:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164756; cv=none; b=CR9y0yMKzxK5bJTmlbUKJD8Yqhw/w6DvlF6bGASbESEXUj6rqvgJJIcfNrQPQfZL9S/jBxOa+lMGd0+r2m6l0jBmyNJj/37XtTWsV6/BdkycquXCM4s1rRWGcip9OP46uOPuQu36T92wcof9s5B24J0pHC4s5xq6RUNg4pne0T4=
+	t=1712174613; cv=none; b=VH8v22eBMdNTVOtJdIut23WFrz0Pg+ggU2O4cMROL2F6hzxSUyWRbuoB6lcnQUJ0tU2mUATJoWQYOkRvpkyyuGSR2UNzmrAwdPKElEv096CVwAAiI3h1hJspMCTcHpKjjQGz0Z0vPaYTnSm261+ZL0sIjpMtIxkfBm/H+8Esupg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164756; c=relaxed/simple;
-	bh=AuWm8VPtxA3NvMNa5GLc39tWpB+s5a8wdjvLONGKg8E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZwZUv7NwDH1MEABYx5XJVDgCBSXWLx3DwuuuUZiT+ajtC12qf42XA5rNdwfxMUNJxQLaakDjrluBtXp/V2yWXVpwmKD7FlfrKsCAbuFpdXG7w1HAU5qmAOI8kMwM6MUtFp4t6XzaDNQsAd/IqYcw4CHeYzxgpccfXLzUNrJ3Z2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oco9Qqhw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712174613; c=relaxed/simple;
+	bh=Ovv7lqjG/5spEzrPzpiFA+SpnlcVPrC9hvQHQkXzbEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGsQS9gOQSt/H6nf5AErpFgRljr43poHuUz0VhmUYaVt+WhGjO2K7MF73GXbGiuxilw2tBniepRpDlEytlgcJzOFCW1SukGGybedemk+1+87ibQpDq0qIeUc4bJXguaiXSgJ0xcwrkj8fTLUEpMsMoc38v1V2l03LuuT9eA4rGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aOGphwE5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oco9Qqhw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6FCC433C7;
-	Wed,  3 Apr 2024 17:19:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aOGphwE5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A55C433C7;
+	Wed,  3 Apr 2024 20:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164756;
-	bh=AuWm8VPtxA3NvMNa5GLc39tWpB+s5a8wdjvLONGKg8E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oco9Qqhw7DTIF/n97JmJIgnrxl7XDxpRUWRL5bYqceG/lwmyRedzpbNwOE7kTgIWo
-	 ebOlpFxrmtLX+EXTPC4UePVNg3/IQRA5bD8TH2FHjHEddcwcpfYWaVKjPnvIndnfep
-	 2ICDAllE1cTAubcvyho6j7Dd/YqRlM6Pc3schz0qctpKjebU6eM98zx4KhO1FCkD1X
-	 BQaj1m638mNYELbzed4RGzFmCFtQM7qFFOUn5wOTvlqyJYK6K0CBwg4NEAodi8mDCi
-	 1q8UBT50550vGnrUTY8YxPJkAv/nOno+J6rmxpr8tRf0WQ/o+lYH2SJVsQTd1K9sg3
-	 DLHGOeGZfPMhA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Carl Vanderlip <quic_carlv@quicinc.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Sasha Levin <sashal@kernel.org>,
-	quic_qianyu@quicinc.com,
-	Julia.Lawall@inria.fr,
-	quic_pkanojiy@quicinc.com,
-	quic_krichai@quicinc.com,
-	rostedt@goodmis.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 03/15] bus: mhi: host: Add MHI_PM_SYS_ERR_FAIL state
-Date: Wed,  3 Apr 2024 13:18:47 -0400
-Message-ID: <20240403171909.345570-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240403171909.345570-1-sashal@kernel.org>
-References: <20240403171909.345570-1-sashal@kernel.org>
+	s=k20201202; t=1712174613;
+	bh=Ovv7lqjG/5spEzrPzpiFA+SpnlcVPrC9hvQHQkXzbEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aOGphwE5GwRdEQesODb7dWfj04T7o4VFCZoUH7f4EKV4/W5v7TSIhhtVUZjAiZC6B
+	 Ojij1K5B0FAaGuqSRTZfc3tvYIY7We+XKjWJlA6F0IW7uccfLUMmK/5snYmSPBA4lr
+	 iJ+ofXVO2x7Vb+pv8JIOOI4LJCbbnetBqviKVJ95MqUIb+qaPL8pEitZk4nYvhwvY/
+	 +Ac6BYtWpvhWAf5GJesUU1/8/ebE07ERBRgdgwfH8lPY7z3lXXYfYNd23ia2Mm8a2K
+	 JSRd3BbiMmSF0ODReSPtsHN77dFJWA7XUW9gWWwjIBlsbXc1FbfLJ2bhO/hSMq71eR
+	 4JmHNKhepy2nQ==
+Date: Wed, 3 Apr 2024 22:03:26 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] PCI: qcom: Implement shutdown() callback to
+ properly reset the endpoint devices
+Message-ID: <Zg22Dhi2c7U5oqoz@ryzen>
+References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+ <20240401-pci-epf-rework-v2-10-970dbe90b99d@linaro.org>
+ <ZgvpnqdjQ39JMRiV@ryzen>
+ <20240403133217.GK25309@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.84
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403133217.GK25309@thinkpad>
 
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Wed, Apr 03, 2024 at 07:02:17PM +0530, Manivannan Sadhasivam wrote:
+> On Tue, Apr 02, 2024 at 01:18:54PM +0200, Niklas Cassel wrote:
+> > On Mon, Apr 01, 2024 at 09:20:36PM +0530, Manivannan Sadhasivam wrote:
+> > > PCIe host controller drivers are supposed to properly reset the endpoint
+> > > devices during host shutdown/reboot. Currently, Qcom driver doesn't do
+> > > anything during host shutdown/reboot, resulting in both PERST# and refclk
+> > > getting disabled at the same time. This prevents the endpoint device
+> > > firmware to properly reset the state machine. Because, if the refclk is
+> > > cutoff immediately along with PERST#, access to device specific registers
+> > > within the endpoint will result in a firmware crash.
+> > > 
+> > > To address this issue, let's call qcom_pcie_host_deinit() inside the
+> > > shutdown callback, that asserts PERST# and then cuts off the refclk with a
+> > > delay of 1ms, thus allowing the endpoint device firmware to properly
+> > > cleanup the state machine.
+> > 
+> > Hm... a QCOM EP device could be attached to any of the PCIe RC drivers that
+> > we have in the kernel, so it seems a bit weird to fix this problem by
+> > patching the QCOM RC driver only.
+> > 
+> > Which DBI call is it that causes this problem during perst assert on EP side?
+> > 
+> > I assume that it is pci-epf-test:deinit() callback that calls
+> > pci_epc_clear_bar(), which calls dw_pcie_ep_clear_bar(), which will both:
+> > -clear local data structures, e.g.
+> > ep->epf_bar[bar] = NULL;
+> > ep->bar_to_atu[bar] = 0;
+> > 
+> > but also call:
+> > __dw_pcie_ep_reset_bar()
+> > dw_pcie_disable_atu()
+> > 
+> > 
+> > Do we perhaps need to redesign the .deinit EPF callback?
+> > 
+> > Considering that we know that .deinit() will only be called on platforms
+> > where there will be a fundamental core reset, I guess we could do something
+> > like introduce a __dw_pcie_ep_clear_bar() which will only clear the local
+> > data structures. (It might not need to do any DBI writes, since the
+> > fundamental core reset should have reset all values.)
+> > 
+> > Or perhaps instead of letting pci_epf_test_epc_deinit() call
+> > pci_epf_test_clear_bar()/__pci_epf_test_clear_bar() directly, perhaps let
+> > pci_epf_test_epc_deinit() call add a .deinit()/.cleanup() defined in the
+> > EPC driver.
+> > 
+> > This EPC .deinit()/.cleanup() callback would then only clear the
+> > local data structures (no DBI writes...).
+> > 
+> > Something like that?
+> > 
+> 
+> It is not just about the EPF test driver. A function driver may need to do many
+> things to properly reset the state machine. Like in the case of MHI driver, it
+> needs to reset channel state, mask interrupts etc... and all requires writing to
+> some registers. So certainly there should be some time before cutting off the
+> refclk.
 
-[ Upstream commit bce3f770684cc1d91ff9edab431b71ac991faf29 ]
+I was more thinking that perhaps we should think of .deinit() as in how
+dw_pcie_ep_init() used to be. It was not allowed to have any DBI writes.
+(The DBI writes were all in dw_pcie_ep_init_complete()).
+So perhaps we could define that a EPF .deinit() callback is not allowed
+to have any DBI writes.
 
-When processing a SYSERR, if the device does not respond to the MHI_RESET
-from the host, the host will be stuck in a difficult to recover state.
-The host will remain in MHI_PM_SYS_ERR_PROCESS and not clean up the host
-channels.  Clients will not be notified of the SYSERR via the destruction
-of their channel devices, which means clients may think that the device is
-still up.  Subsequent SYSERR events such as a device fatal error will not
-be processed as the state machine cannot transition from PROCESS back to
-DETECT.  The only way to recover from this is to unload the mhi module
-(wipe the state machine state) or for the mhi controller to initiate
-SHUTDOWN.
+If we take qcom-ep as an example, as soon as you get a PERST assertion
+the qcom-ep driver calls notify_deinit(), then asserts the reset control,
+disables clocks and regulators.
 
-This issue was discovered by stress testing soc_reset events on AIC100
-via the sysfs node.
+Since the PCIe core is held in reset, the hardware is in a well defined
+state, no? Sure, the data structures e.g. bar_to_iatu[], etc., might be
+out of sync, but these could be memset():ed no? Since this is a fundamental
+reset, all registers should be reset to their default state (once reset
+is deasserted).
 
-soc_reset is processed entirely in hardware.  When the register write
-hits the endpoint hardware, it causes the soc to reset without firmware
-involvement.  In stress testing, there is a rare race where soc_reset N
-will cause the soc to reset and PBL to signal SYSERR (fatal error).  If
-soc_reset N+1 is triggered before PBL can process the MHI_RESET from the
-host, then the soc will reset again, and re-run PBL from the beginning.
-This will cause PBL to lose all state.  PBL will be waiting for the host
-to respond to the new syserr, but host will be stuck expecting the
-previous MHI_RESET to be processed.
+For a real PCIe card, if you assert + msleep(100) + deassert PERST, surely
+the endpoint is supposed to be in a good/well defined state, regardless if
+he REFCLK was cutoff at the exact time as PERST was asserted or not?
 
-Additionally, the AMSS EE firmware (QSM) was hacked to synthetically
-reproduce the issue by simulating a FW hang after the QSM issued a
-SYSERR.  In this case, soc_reset would not recover the device.
+I would assume that we would want a PCI EPF driver to behave the same way,
+if possible.
 
-For this failure case, to recover the device, we need a state similar to
-PROCESS, but can transition to DETECT.  There is not a viable existing
-state to use.  POR has the needed transitions, but assumes the device is
-in a good state and could allow the host to attempt to use the device.
-Allowing PROCESS to transition to DETECT invites the possibility of
-parallel SYSERR processing which could get the host and device out of
-sync.
 
-Thus, invent a new state - MHI_PM_SYS_ERR_FAIL
-
-This essentially a holding state.  It allows us to clean up the host
-elements that are based on the old state of the device (channels), but
-does not allow us to directly advance back to an operational state.  It
-does allow the detection and processing of another SYSERR which may
-recover the device, or allows the controller to do a clean shutdown.
-
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Link: https://lore.kernel.org/r/20240112180800.536733-1-quic_jhugo@quicinc.com
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/bus/mhi/host/init.c     |  1 +
- drivers/bus/mhi/host/internal.h |  9 ++++++---
- drivers/bus/mhi/host/pm.c       | 20 +++++++++++++++++---
- 3 files changed, 24 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 04fbccff65ac2..60c1df048fa20 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -62,6 +62,7 @@ static const char * const mhi_pm_state_str[] = {
- 	[MHI_PM_STATE_FW_DL_ERR] = "Firmware Download Error",
- 	[MHI_PM_STATE_SYS_ERR_DETECT] = "SYS ERROR Detect",
- 	[MHI_PM_STATE_SYS_ERR_PROCESS] = "SYS ERROR Process",
-+	[MHI_PM_STATE_SYS_ERR_FAIL] = "SYS ERROR Failure",
- 	[MHI_PM_STATE_SHUTDOWN_PROCESS] = "SHUTDOWN Process",
- 	[MHI_PM_STATE_LD_ERR_FATAL_DETECT] = "Linkdown or Error Fatal Detect",
- };
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index 01fd10a399b61..6abf09da4f618 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -88,6 +88,7 @@ enum mhi_pm_state {
- 	MHI_PM_STATE_FW_DL_ERR,
- 	MHI_PM_STATE_SYS_ERR_DETECT,
- 	MHI_PM_STATE_SYS_ERR_PROCESS,
-+	MHI_PM_STATE_SYS_ERR_FAIL,
- 	MHI_PM_STATE_SHUTDOWN_PROCESS,
- 	MHI_PM_STATE_LD_ERR_FATAL_DETECT,
- 	MHI_PM_STATE_MAX
-@@ -104,14 +105,16 @@ enum mhi_pm_state {
- #define MHI_PM_FW_DL_ERR				BIT(7)
- #define MHI_PM_SYS_ERR_DETECT				BIT(8)
- #define MHI_PM_SYS_ERR_PROCESS				BIT(9)
--#define MHI_PM_SHUTDOWN_PROCESS				BIT(10)
-+#define MHI_PM_SYS_ERR_FAIL				BIT(10)
-+#define MHI_PM_SHUTDOWN_PROCESS				BIT(11)
- /* link not accessible */
--#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(11)
-+#define MHI_PM_LD_ERR_FATAL_DETECT			BIT(12)
- 
- #define MHI_REG_ACCESS_VALID(pm_state)			((pm_state & (MHI_PM_POR | MHI_PM_M0 | \
- 						MHI_PM_M2 | MHI_PM_M3_ENTER | MHI_PM_M3_EXIT | \
- 						MHI_PM_SYS_ERR_DETECT | MHI_PM_SYS_ERR_PROCESS | \
--						MHI_PM_SHUTDOWN_PROCESS | MHI_PM_FW_DL_ERR)))
-+						MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |  \
-+						MHI_PM_FW_DL_ERR)))
- #define MHI_PM_IN_ERROR_STATE(pm_state)			(pm_state >= MHI_PM_FW_DL_ERR)
- #define MHI_PM_IN_FATAL_STATE(pm_state)			(pm_state == MHI_PM_LD_ERR_FATAL_DETECT)
- #define MHI_DB_ACCESS_VALID(mhi_cntrl)			(mhi_cntrl->pm_state & mhi_cntrl->db_access)
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index 8a4362d75fc43..27f8a40f288cf 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -36,7 +36,10 @@
-  *     M0 <--> M0
-  *     M0 -> FW_DL_ERR
-  *     M0 -> M3_ENTER -> M3 -> M3_EXIT --> M0
-- * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS --> POR
-+ * L1: SYS_ERR_DETECT -> SYS_ERR_PROCESS
-+ *     SYS_ERR_PROCESS -> SYS_ERR_FAIL
-+ *     SYS_ERR_FAIL -> SYS_ERR_DETECT
-+ *     SYS_ERR_PROCESS --> POR
-  * L2: SHUTDOWN_PROCESS -> LD_ERR_FATAL_DETECT
-  *     SHUTDOWN_PROCESS -> DISABLE
-  * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
-@@ -93,7 +96,12 @@ static const struct mhi_pm_transitions dev_state_transitions[] = {
- 	},
- 	{
- 		MHI_PM_SYS_ERR_PROCESS,
--		MHI_PM_POR | MHI_PM_SHUTDOWN_PROCESS |
-+		MHI_PM_POR | MHI_PM_SYS_ERR_FAIL | MHI_PM_SHUTDOWN_PROCESS |
-+		MHI_PM_LD_ERR_FATAL_DETECT
-+	},
-+	{
-+		MHI_PM_SYS_ERR_FAIL,
-+		MHI_PM_SYS_ERR_DETECT | MHI_PM_SHUTDOWN_PROCESS |
- 		MHI_PM_LD_ERR_FATAL_DETECT
- 	},
- 	/* L2 States */
-@@ -624,7 +632,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
- 					!in_reset, timeout);
- 		if (!ret || in_reset) {
- 			dev_err(dev, "Device failed to exit MHI Reset state\n");
--			goto exit_sys_error_transition;
-+			write_lock_irq(&mhi_cntrl->pm_lock);
-+			cur_state = mhi_tryset_pm_state(mhi_cntrl,
-+							MHI_PM_SYS_ERR_FAIL);
-+			write_unlock_irq(&mhi_cntrl->pm_lock);
-+			/* Shutdown may have occurred, otherwise cleanup now */
-+			if (cur_state != MHI_PM_SYS_ERR_FAIL)
-+				goto exit_sys_error_transition;
- 		}
- 
- 		/*
--- 
-2.43.0
-
+Kind regards,
+Niklas
