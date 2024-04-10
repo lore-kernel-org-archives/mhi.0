@@ -1,59 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D1A158A0E;
-	Tue,  9 Apr 2024 21:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12541581E5
+	for <mhi@lists.linux.dev>; Wed, 10 Apr 2024 10:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712698614; cv=none; b=Kw1RZ8uFe4vlqCGVVASKe7krAidBu5pEyHfYAjZWDAU5xp7LnrneTBVpaiLnVSuo9dgduh3v25Mf3JJj0nvC/Gxt0vfvEO7uSiF+9RfujIuu8Qhow8do3IT397BjDfsleVF0QRJsw7IUbuJcorKc9hMoxm/0yCpP9g7CpuotePI=
+	t=1712746461; cv=none; b=Y10FQjKJv1GsX/bPmYlAXxwknxXD0Ix1A00igwziICrTdCHW3UIPqi13YQDdbmhx+5JkiOLyvRzhiB8QiIYjtvF7xiIXFiG8mqZxtMwuSyC+ZZUG1JA6crE66/OOMNID3XeaNrGrH4itKakGpSMiyAcH9rCRJL9YKzEH0ll7Ooo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712698614; c=relaxed/simple;
-	bh=DnLOeLETMfr9szDDiTAWX9eoEbMZT8svSFqOh4k7jb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KZEfeSemvmxKnoVmtVVhnu9/XRpRvfUbEUhorJNuyt4bUqYLJV6upGNaBKXLJZCPgYvBpyL6wMuxULlVMX62oyyXpcAc1YHkOF2q2dxBZPeYCzeg31pdbOogy6lxDKd+P7jGyyEfrPWrd5aGOgj9PuMZtrbRkZth7d5CEWlJPRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qV7AVBUH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712746461; c=relaxed/simple;
+	bh=jUaUcsBz0kBYNiDTFGfgViL2znCd2+ewac233R5G5FI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4n8+TdS0Kz3dgNViXotIy95byywu1qN+jkJug/Nfom/IFnzr/VIZdkeKpe0CC4A1VpFy3LhPZEcKIsxJWNptuCx9ypRGW7N5tV4fAbpvQ1AaSmVcmIeHNk44MKIHsjw/s7IQMp7bBvybnlKXX7EPLfokXnBGS1HdsZQdtCXAbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BUyIEqDd; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qV7AVBUH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04FE7C433C7;
-	Tue,  9 Apr 2024 21:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712698613;
-	bh=DnLOeLETMfr9szDDiTAWX9eoEbMZT8svSFqOh4k7jb4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qV7AVBUHnH0DfbZGWscQ85F51SrwD666zZzJpmq24viHXRQ28ze1azompCotzHETq
-	 3skThZ+CrSTuKlGAg8KjDgMhwS5d97WPMTXLzaUoxZzbL+PilEscDpG9dFjDFtQUJ/
-	 0I0csVV7eyjvr2jqI9egjh9TmRgMMOUyOKyiv8NNBZi/eRWm/TZRfNkkCwp1ccMFqM
-	 frgrF9NSGFVCXbhn5vK7L3rqNbEXnOAwDEBWawZV5iTFPZ557s/lAcdh4XdbS58mrc
-	 fNEqBe9iJwtX3tVsrjzRlNGkACJOxA3ObuoBrbHk0BdIKvUlFH38ly+AZP2PeqmzeY
-	 TimcWEvz5NKIA==
-Date: Tue, 9 Apr 2024 14:36:52 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kalle Valo <kvalo@kernel.org>
-Cc: <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
- Baochen Qiang <quic_bqiang@quicinc.com>, <ath11k@lists.infradead.org>,
- <manivannan.sadhasivam@linaro.org>, <linux-wireless@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
- <netdev@vger.kernel.org>
-Subject: Re: [PATCH v7 2/3] net: qrtr: support suspend/hibernation
-Message-ID: <20240409143652.57bc8cc3@kernel.org>
-In-Reply-To: <87il0q28a5.fsf@kernel.org>
-References: <20240305021320.3367-1-quic_bqiang@quicinc.com>
-	<20240305021320.3367-3-quic_bqiang@quicinc.com>
-	<8734s02b3s.fsf@kernel.org>
-	<87il0q28a5.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BUyIEqDd"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ecec796323so6168569b3a.3
+        for <mhi@lists.linux.dev>; Wed, 10 Apr 2024 03:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712746459; x=1713351259; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=G7XlcG8nz/Uid5WPQaw8m1uFQJJAhe5HyrWzemE3ePs=;
+        b=BUyIEqDd/Jwg4AGk3poDD1djIfy4HOkqME/EQdW5RyXuvXNXDqIbNEJIPc74zBps4U
+         dJ7AmAhX2iSiz0rm7l5RbmY9dynsUwhOqAM5V2KSFv6IVOLm8LIf0Vi2EDu2u6m0OCxQ
+         9UNlaYhNlZzlAsoaFfNqcHam+7wi+RlfplVZbCqjwRA6W8XpwXem3M4uePEl3UJBkBft
+         jpCNZqB1IUJSKPlqKRJgb6kl/yL9G8ndnmsiENTK+R1ERLlsT7f6O334XKO5CgsSzI0Q
+         CzRP6J7ZsYqeZP9MYnMgNr8L5zbp//1k0th+mfkfHK+Kn196kP5Nw2kgR4oH0muJrxFz
+         PLFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712746459; x=1713351259;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G7XlcG8nz/Uid5WPQaw8m1uFQJJAhe5HyrWzemE3ePs=;
+        b=cOsAvJbnPPojuX7w32wV2HUSg5WgkIRsRHgmBDUTMApyCVQGicYYZ6w4dWYN/lolZH
+         51ySBN/hdIxK7vFKF4I/U34mFqdla6YdfAMHIM9R4aykk2vGrejTRtodxUBuFwK8QJpA
+         n+gcbW6c1DLq+3sjueUDCwInbfdW28WNHUZ97+FeA7iuvI50xFiNBn5io8ej2QRCZc26
+         Nlpg+Un2sJkbo/4Oa51h2Qlw2NpTa9iB0rknaY07QjgWw39EKvZ++rpRnYpb0vlzWU/t
+         6fR9/WgWnZuZaEO66Hn9t4FDuXky/ZXgmDQq187jWjwnvAgiJfTfkqAVyc/BRB5xWvcf
+         HUzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWASBztrpYuUugHNAmRr6klnGVIWD17bWJ7ps2gaa4F7aGmW610uOEvgS1Dffr8LHNNphlmrcs/oog5uLyODECVz3Nk
+X-Gm-Message-State: AOJu0YyWe1AiG9bL2uZdEgS1kynnqwGMQvcS+CzWNHhllhf13GCOQI3h
+	am/NmslaIVvEc4iDgEXqDPZksRQKdtcbmHzjxEnzxcj3EIePNR4tFpt1acMVpA==
+X-Google-Smtp-Source: AGHT+IFCd4CUvr9tZEjG41EcHBSw0CUviyNK0Ht6d9nhGK7kPeU0ZuGtcybllY9zEnYiE3s44RmCWQ==
+X-Received: by 2002:a05:6a00:2d93:b0:6ea:d114:5ea1 with SMTP id fb19-20020a056a002d9300b006ead1145ea1mr2497785pfb.17.1712746458832;
+        Wed, 10 Apr 2024 03:54:18 -0700 (PDT)
+Received: from thinkpad ([120.60.76.50])
+        by smtp.gmail.com with ESMTPSA id i4-20020aa787c4000000b006e64c9bc2b3sm10137231pfo.11.2024.04.10.03.54.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 03:54:18 -0700 (PDT)
+Date: Wed, 10 Apr 2024 16:24:10 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] PCI: qcom: Implement shutdown() callback to
+ properly reset the endpoint devices
+Message-ID: <20240410105410.GC2903@thinkpad>
+References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+ <20240401-pci-epf-rework-v2-10-970dbe90b99d@linaro.org>
+ <ZgvpnqdjQ39JMRiV@ryzen>
+ <20240403133217.GK25309@thinkpad>
+ <Zg22Dhi2c7U5oqoz@ryzen>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zg22Dhi2c7U5oqoz@ryzen>
 
-On Tue, 09 Apr 2024 12:29:54 +0300 Kalle Valo wrote:
-> No reply from netdev maintainers but as the patch is marked as 'Not
-> Applicable' in netdev patchwork I guess they would not have major
-> objection to take this to ath.git. It should go to net-next in the next
-> wireless-next pull request anyway.
+On Wed, Apr 03, 2024 at 10:03:26PM +0200, Niklas Cassel wrote:
+> On Wed, Apr 03, 2024 at 07:02:17PM +0530, Manivannan Sadhasivam wrote:
+> > On Tue, Apr 02, 2024 at 01:18:54PM +0200, Niklas Cassel wrote:
+> > > On Mon, Apr 01, 2024 at 09:20:36PM +0530, Manivannan Sadhasivam wrote:
+> > > > PCIe host controller drivers are supposed to properly reset the endpoint
+> > > > devices during host shutdown/reboot. Currently, Qcom driver doesn't do
+> > > > anything during host shutdown/reboot, resulting in both PERST# and refclk
+> > > > getting disabled at the same time. This prevents the endpoint device
+> > > > firmware to properly reset the state machine. Because, if the refclk is
+> > > > cutoff immediately along with PERST#, access to device specific registers
+> > > > within the endpoint will result in a firmware crash.
+> > > > 
+> > > > To address this issue, let's call qcom_pcie_host_deinit() inside the
+> > > > shutdown callback, that asserts PERST# and then cuts off the refclk with a
+> > > > delay of 1ms, thus allowing the endpoint device firmware to properly
+> > > > cleanup the state machine.
+> > > 
+> > > Hm... a QCOM EP device could be attached to any of the PCIe RC drivers that
+> > > we have in the kernel, so it seems a bit weird to fix this problem by
+> > > patching the QCOM RC driver only.
+> > > 
+> > > Which DBI call is it that causes this problem during perst assert on EP side?
+> > > 
+> > > I assume that it is pci-epf-test:deinit() callback that calls
+> > > pci_epc_clear_bar(), which calls dw_pcie_ep_clear_bar(), which will both:
+> > > -clear local data structures, e.g.
+> > > ep->epf_bar[bar] = NULL;
+> > > ep->bar_to_atu[bar] = 0;
+> > > 
+> > > but also call:
+> > > __dw_pcie_ep_reset_bar()
+> > > dw_pcie_disable_atu()
+> > > 
+> > > 
+> > > Do we perhaps need to redesign the .deinit EPF callback?
+> > > 
+> > > Considering that we know that .deinit() will only be called on platforms
+> > > where there will be a fundamental core reset, I guess we could do something
+> > > like introduce a __dw_pcie_ep_clear_bar() which will only clear the local
+> > > data structures. (It might not need to do any DBI writes, since the
+> > > fundamental core reset should have reset all values.)
+> > > 
+> > > Or perhaps instead of letting pci_epf_test_epc_deinit() call
+> > > pci_epf_test_clear_bar()/__pci_epf_test_clear_bar() directly, perhaps let
+> > > pci_epf_test_epc_deinit() call add a .deinit()/.cleanup() defined in the
+> > > EPC driver.
+> > > 
+> > > This EPC .deinit()/.cleanup() callback would then only clear the
+> > > local data structures (no DBI writes...).
+> > > 
+> > > Something like that?
+> > > 
+> > 
+> > It is not just about the EPF test driver. A function driver may need to do many
+> > things to properly reset the state machine. Like in the case of MHI driver, it
+> > needs to reset channel state, mask interrupts etc... and all requires writing to
+> > some registers. So certainly there should be some time before cutting off the
+> > refclk.
+> 
+> I was more thinking that perhaps we should think of .deinit() as in how
+> dw_pcie_ep_init() used to be. It was not allowed to have any DBI writes.
+> (The DBI writes were all in dw_pcie_ep_init_complete()).
+> So perhaps we could define that a EPF .deinit() callback is not allowed
+> to have any DBI writes.
+> 
+> If we take qcom-ep as an example, as soon as you get a PERST assertion
+> the qcom-ep driver calls notify_deinit(), then asserts the reset control,
+> disables clocks and regulators.
+> 
+> Since the PCIe core is held in reset, the hardware is in a well defined
+> state, no? Sure, the data structures e.g. bar_to_iatu[], etc., might be
+> out of sync, but these could be memset():ed no? Since this is a fundamental
+> reset, all registers should be reset to their default state (once reset
+> is deasserted).
+> 
 
-Sorry for the silence, FWIW no objection/opinion here.
+Well, we could prevent the register access during PERST# assert time in the
+endpoint, but my worry is that we will end up with 2 version of the cleanup
+APIs. Lets take an example of dw_pcie_edma_remove() API which gets called
+during deinit and it touches some eDMA registers.
+
+So should we introduce another API which just clears the sw data structure and
+not touching the registers? And this may be needed for other generic APIs as
+well.
+
+Ideally, if there is a Link Down event before PERST# assert, then this could've
+been solved, but that is also not a spec defined behavior.
+
+- Mani
+
+> For a real PCIe card, if you assert + msleep(100) + deassert PERST, surely
+> the endpoint is supposed to be in a good/well defined state, regardless if
+> he REFCLK was cutoff at the exact time as PERST was asserted or not?
+> 
+> I would assume that we would want a PCI EPF driver to behave the same way,
+> if possible.
+> 
+> 
+> Kind regards,
+> Niklas
+
+-- 
+மணிவண்ணன் சதாசிவம்
