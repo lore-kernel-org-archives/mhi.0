@@ -1,208 +1,178 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D267D529;
-	Thu, 11 Apr 2024 14:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8264085A
+	for <mhi@lists.linux.dev>; Fri, 12 Apr 2024 06:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712846784; cv=none; b=m0BnyszCvudG6CK1qRC/IUTP/8WvL8cDr1+GjVvhYGZWHLsFKj/ML0B9vsFGigkuEekPUFj8MYacmEF4/ZqFnEcTYQl4Zax3mKmtJwdBtkt6fAUSdov8Xdtx1JMmDnGOSPnGWwmP8eVaiwk3VDlyoQmVyGzXpwCSor9j/lG3lhE=
+	t=1712903573; cv=none; b=nYzm8e8PqjPEV8GxFcrdMRMgodrnQ4icLDpOebomamlWfpGpnrYFAP6UkFph2tS968YUPRKXWl1FT+bmLrp7x6l8Xe1OcUln/Veu0TXoA0B2B3Tp608ityv440g+W0tEX9GRA7DCddfU+Csa13+XewwsxAy8KO5SfVUZiw8A3Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712846784; c=relaxed/simple;
-	bh=WOsfYlx/Hwa8Lsmj956+sM4HTD3hGnqHfcAoqJR9+zw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=N1W8nJhdgGWpcqniSY8MCuiYbxcavu6k47UHIxjiwPcJdTEdj7LRMg6jfoBj2fsXVrHAXbYHRaFpFvVvafInl2zbPBrJmJzQyAoHJHDKC3/3oDc8SEJATcDzjpf6PIMkoy2C68Ir6qhpvDlVgmlANVXO2L8L43+uDsaEXu1IxBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LQDtuVrj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1712903573; c=relaxed/simple;
+	bh=bwU006iDRHmLpYECYxI0IIeu6Yfiw/jYFKnkfTxSxBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPfriigioYFfNiRyXtyB3JgXiCHNPo690jatRy5vadhTA1jAuxUhRIhx0dAT3idSoN1njhj7mf7S0sp5mFAWdoftbCxdj/IHd1HDecp71V01X1Hxve6o9DVwCZhsdoFpjgkV8msb8/Y9Ner1B4NMI5oLzocCj/nuhBW+4mmzKAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ETU+C4Wz; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LQDtuVrj"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43BDw8xi018489;
-	Thu, 11 Apr 2024 14:46:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=A/oAT/wNDEmcZmpWTKzBi87UUHvcOVZ5gW5oGv6Ix1k=; b=LQ
-	DtuVrjhHO3o51L80DrYPItcEfvXePoFjknySqL9FSmvWRG3RoLNCoxtyFuANTCKI
-	q6/kJLdzx/bX9lWjiNApmTl7VlTkWqM84rp5EBOj/8sSpsdTKQMts6TOpwsgtd6N
-	DrAtlWJoRlb09Q7zxcRuk0g+t1DgJhVo8Uj7RkX5Cm+OgBP4G7RdSVrTrayy5Cni
-	xm1msJcScBqvWtGhRsH/1O6WHOalCoeuzx2URDPYWDJ6ABvY6XM+s5aj3anKvdZf
-	R3w5jVf2WwQZVy2jph37tbRAVGxDZf0VM/XcdcinTG8wEjylyJ/pzvSLwQx4MCki
-	+6bB9FLPfnjRZcXsBr5A==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xe5ehu2e9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 14:46:17 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43BEkGs4024437
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 14:46:16 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 11 Apr
- 2024 07:46:15 -0700
-Message-ID: <78de32be-7e3b-e7e9-61f3-9679993dbe71@quicinc.com>
-Date: Thu, 11 Apr 2024 08:46:15 -0600
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ETU+C4Wz"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e0b889901bso5266335ad.1
+        for <mhi@lists.linux.dev>; Thu, 11 Apr 2024 23:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712903572; x=1713508372; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OZ1TSm7GFHa2Ucou+5Iv5f1vxmDGk25rrnqUZSXXWQw=;
+        b=ETU+C4WzqOgMtodG+8hpEEiet8tBNnZ3HI2kICNxMxrBuZnWGR0uJMGvajKVqMnUeJ
+         OleIJVWvYQUdEf9HkbCNNhrdY1+N1HOQtlp/0gF/443eqmAHfZ1m52BZZwOUOTNTrHxe
+         g1qqmwfF254wT5XVKJVhf8cwtkLnbnxCLdfadGAY8fDmDtOi464BqsHltbN0vQn+SSSt
+         8LDvvsjuxLDMSmG1BlxiJ8X94CrpPrXcLUCDQBEmNkuC1emOSKFsvUO7ynDg+hVsE9WB
+         mjcy4t0Uv/JdupCMZjJBAbMx1Vj223/Au9zkA1DEkHOrzJ5ZJaVs8sSNombPgmGWPpIs
+         KLCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712903572; x=1713508372;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OZ1TSm7GFHa2Ucou+5Iv5f1vxmDGk25rrnqUZSXXWQw=;
+        b=VuP/909TYPbnXQ+IZrl40ii+FKyvcXWdXPo0dvP+CjTaam3P+F+3JwU4ny9E9Opf9N
+         HqcpaxP3vHjeLeyfTxfATCeaukAkhRcKjHBgnqh6ZXiJfJfdfi1iwAAA+M+odsZaXnE6
+         5YMEO8v4IorJGCj0LC2PqgqStsMlX6MDQTJBi6SXadlh+lY7DoA4y4pAxbnIm+bfAFX8
+         DKDxu6dvWmVzG5iMWLfV+YGadz1a04rGNtQDCou4m/kkxWgSwKSrnoL/DJizB9IRzr8w
+         Sj2ONIvRGufHw2p3AByAScwWIb4EALl40goHt5i730QgPxKpoTpywKDYzowLELktBDyf
+         KNDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUIpVdVHnZorua01RaGRqfWO7nYxb7hjWzB7t8xXa1bZ2tu/JaRJIvdHoO6UDYdEu33IK+XHITmKgPsHh/gZbvW08r
+X-Gm-Message-State: AOJu0YyxKmq7Nmf3uJ3DDG5R7s0I1vValW9Y72mtjjyQgIfCjUIC1Xu8
+	rN9ngToUxVvGnUk6Dvx+oxAg2MhkfZ4NPzNdq8vxkAOA1kw1YANhZtAags4lAw==
+X-Google-Smtp-Source: AGHT+IFtWVDd1JybnaegLu2KjmDMDdAP9N33LYJF44OL052ORmXPnpbkzGfYpmuz2tVoN9tuYOItQg==
+X-Received: by 2002:a17:902:ccce:b0:1e5:4fde:15f with SMTP id z14-20020a170902ccce00b001e54fde015fmr2031560ple.7.1712903571591;
+        Thu, 11 Apr 2024 23:32:51 -0700 (PDT)
+Received: from thinkpad ([120.56.204.201])
+        by smtp.gmail.com with ESMTPSA id w2-20020a1709026f0200b001e43df03096sm472645plk.30.2024.04.11.23.32.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 23:32:51 -0700 (PDT)
+Date: Fri, 12 Apr 2024 12:02:42 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] PCI: qcom: Implement shutdown() callback to
+ properly reset the endpoint devices
+Message-ID: <20240412063242.GA2712@thinkpad>
+References: <20240401-pci-epf-rework-v2-0-970dbe90b99d@linaro.org>
+ <20240401-pci-epf-rework-v2-10-970dbe90b99d@linaro.org>
+ <ZgvpnqdjQ39JMRiV@ryzen>
+ <20240403133217.GK25309@thinkpad>
+ <Zg22Dhi2c7U5oqoz@ryzen>
+ <20240410105410.GC2903@thinkpad>
+ <Zhanol2xi_E2Ypv3@ryzen>
+ <ZhcAKSJCQag6AX09@ryzen>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 2/2] bus: mhi: host: pci_generic: Add edl callback to
- enter EDL
-Content-Language: en-US
-To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>
-References: <1712805329-46158-1-git-send-email-quic_qianyu@quicinc.com>
- <1712805329-46158-3-git-send-email-quic_qianyu@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1712805329-46158-3-git-send-email-quic_qianyu@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Zb4i8FTTj8nf5loz6u61n6neptFjabZT
-X-Proofpoint-ORIG-GUID: Zb4i8FTTj8nf5loz6u61n6neptFjabZT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-11_08,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 bulkscore=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404110108
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZhcAKSJCQag6AX09@ryzen>
 
-On 4/10/2024 9:15 PM, Qiang Yu wrote:
-> Add mhi_pci_generic_edl_trigger as edl_trigger for some devices (eg. SDX65)
-> to enter EDL mode by writing the 0xEDEDEDED cookie to the channel 91
-> doorbell register and forcing an SOC reset afterwards.
+On Wed, Apr 10, 2024 at 11:10:01PM +0200, Niklas Cassel wrote:
+> On Wed, Apr 10, 2024 at 04:52:18PM +0200, Niklas Cassel wrote:
+> > On Wed, Apr 10, 2024 at 04:24:10PM +0530, Manivannan Sadhasivam wrote:
+> > > 
+> > > Well, we could prevent the register access during PERST# assert time in the
+> > > endpoint, but my worry is that we will end up with 2 version of the cleanup
+> > > APIs. Lets take an example of dw_pcie_edma_remove() API which gets called
+> > > during deinit and it touches some eDMA registers.
+> > > 
+> > > So should we introduce another API which just clears the sw data structure and
+> > > not touching the registers? And this may be needed for other generic APIs as
+> > > well.
+> > 
+> > I agree that it will be hard to come up with an elegant solution to this
+> > problem.
+> > 
+> > These endpoint controllers that cannot do register accesses to their own
+> > controllers' DBI/register space without the RC providing a refclock are
+> > really becoming a pain... and the design and complexity of the PCI endpoint
+> > APIs is what suffers as a result.
+> > 
+> > PERST could be asserted at any time.
+> > So for your system to not crash/hang by accessing registers in the controller,
+> > an EPF driver must be designed with great care to never do any register access
+> > when it is not safe...
+> > 
+> > Perhaps the the EPF core should set the state (i.e. init_complete = false,
+> > even before calling the deinit callback in EPF driver, and perhaps even add
+> > safe-guards against init_complete in some APIs, so that e.g. a set_bar() call
+> > cannot trigger a crash because PERST# is asserted.. but even then, it could
+> > still be asserted in the middle of set_bar()'s execution.)
+> > 
+> > 
+> > Looking at the databook, it looks like core_clk is derived from pipe_clk
+> > output of the PHY. The PHY will either use external clock or internal clock.
+> > 
+> > 4.6.2 DBI Protocol Transactions
+> > it looks like core_clk must be active to read/write the DBI.
+> > 
+> > I really wish those controllers could e.g. change the clock temporarily
+> > using a mux, so that it could still perform DBI read/writes when there is
+> > not external refclk... Something like pm_sel_aux_clk selecting to use the
+> > aux clk instead of core_clk when in low power states.
+> > But I don't know the hardware well enough to know if that is possible for
+> > the DBI, so that might just be wishful thinking...
 > 
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
-> ---
->   drivers/bus/mhi/host/pci_generic.c | 50 ++++++++++++++++++++++++++++++++++++++
->   1 file changed, 50 insertions(+)
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 51639bf..a529815 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -27,12 +27,23 @@
->   #define PCI_VENDOR_ID_THALES	0x1269
->   #define PCI_VENDOR_ID_QUECTEL	0x1eac
->   
-> +#define MHI_EDL_DB			91
-> +#define MHI_EDL_COOKIE			0xEDEDEDED
-> +
-> +/* Device can enter EDL by first setting edl cookie then issuing inband reset*/
-> +#define MHI_PCI_GENERIC_EDL_TRIGGER	BIT(0)
-> +
-> +#define CHDBOFF			0x18
+> Looking at the rock5b SBC (rockchip rk3588), the PHY refclk can either
+> be taken from
+> -a PLL internally from the SoC.
+> or
+> -an external clock on the SBC.
+> 
+> There does not seem to be an option to get the refclk as an input from
+> the PCIe slot. (The refclk can only be output to the PCIe slot.)
+> 
+> So when running two rock5b SBC, you cannot use a common clock for the RC
+> and the EP side, you have to use a separate reference clock scheme,
+> either SRNS or SRIS.
+> 
+> Since I assume that you use two qcom platforms of the same model
+> (I remember that you wrote that you usually test with
+> qcom,sdx55-pcie-ep somewhere.)
+> Surely this board must be able to supply a reference clock?
+> (How else does it send this clock to the EP side?)
+> 
 
-This is already in drivers/bus/mhi/common.h why duplicate it here?
+It is not the same model. It is the same SoC but with different base boards.
+FWIW, I'm testing with both SDX55 and SM8450 SoC based boards.
 
-> +#define CHDBOFF_CHDBOFF_MASK	0xFFFFFFFF
-> +#define CHDBOFF_CHDBOFF_SHIFT	0
-> +
->   /**
->    * struct mhi_pci_dev_info - MHI PCI device specific information
->    * @config: MHI controller configuration
->    * @name: name of the PCI module
->    * @fw: firmware path (if any)
->    * @edl: emergency download mode firmware path (if any)
-> + * @edl_trigger: each bit represents a different way to enter EDL
->    * @bar_num: PCI base address register to use for MHI MMIO register space
->    * @dma_data_width: DMA transfer word size (32 or 64 bits)
->    * @mru_default: default MRU size for MBIM network packets
-> @@ -44,6 +55,7 @@ struct mhi_pci_dev_info {
->   	const char *name;
->   	const char *fw;
->   	const char *edl;
-> +	unsigned int edl_trigger;
->   	unsigned int bar_num;
->   	unsigned int dma_data_width;
->   	unsigned int mru_default;
-> @@ -292,6 +304,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
->   	.name = "qcom-sdx75m",
->   	.fw = "qcom/sdx75m/xbl.elf",
->   	.edl = "qcom/sdx75m/edl.mbn",
-> +	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->   	.config = &modem_qcom_v2_mhiv_config,
->   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->   	.dma_data_width = 32,
-> @@ -302,6 +315,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
->   	.name = "qcom-sdx65m",
->   	.fw = "qcom/sdx65m/xbl.elf",
->   	.edl = "qcom/sdx65m/edl.mbn",
-> +	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->   	.config = &modem_qcom_v1_mhiv_config,
->   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->   	.dma_data_width = 32,
-> @@ -312,6 +326,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx55_info = {
->   	.name = "qcom-sdx55m",
->   	.fw = "qcom/sdx55m/sbl1.mbn",
->   	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->   	.config = &modem_qcom_v1_mhiv_config,
->   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->   	.dma_data_width = 32,
-> @@ -928,6 +943,38 @@ static void health_check(struct timer_list *t)
->   	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
->   }
->   
-> +static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
-> +{
-> +	int ret;
-> +	u32 val;
-> +	void __iomem *edl_db;
-> +	void __iomem *base = mhi_cntrl->regs;
+So the Qcom EP has no way to generate refclk internally (I double checked this)
+and it has to rely on refclk from either host or a separate clock source.
 
-It looks like this file follows reverse christmas tree, but this 
-function does not. you should fix it.
+But in most of the board designs they connect to host refclk by default.
 
-> +
-> +	ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
-> +	if (ret) {
-> +		dev_err(mhi_cntrl->cntrl_dev, "Wake up device fail before trigger EDL\n");
-> +		return ret;
-> +	}
-> +
-> +	pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
-> +	mhi_cntrl->runtime_get(mhi_cntrl);
-> +
-> +	mhi_cntrl->read_reg(mhi_cntrl, base + CHDBOFF, &val);
-> +	val = (val & CHDBOFF_CHDBOFF_MASK) >> CHDBOFF_CHDBOFF_SHIFT;
-> +
-> +	edl_db = base + val + (8 * MHI_EDL_DB);
-> +
-> +	mhi_cntrl->write_reg(mhi_cntrl, edl_db + 4, upper_32_bits(MHI_EDL_COOKIE));
-> +	mhi_cntrl->write_reg(mhi_cntrl, edl_db, lower_32_bits(MHI_EDL_COOKIE));
-> +
-> +	mhi_soc_reset(mhi_cntrl);
-> +
-> +	mhi_cntrl->runtime_put(mhi_cntrl);
-> +	mhi_device_put(mhi_cntrl->mhi_dev);
-> +
-> +	return 0;
-> +}
-> +
->   static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   {
->   	const struct mhi_pci_dev_info *info = (struct mhi_pci_dev_info *) id->driver_data;
-> @@ -962,6 +1009,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
->   	mhi_cntrl->mru = info->mru_default;
->   
-> +	if (info->edl_trigger & MHI_PCI_GENERIC_EDL_TRIGGER)
-> +		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
-> +
->   	if (info->sideband_wake) {
->   		mhi_cntrl->wake_get = mhi_pci_wake_get_nop;
->   		mhi_cntrl->wake_put = mhi_pci_wake_put_nop;
+> So... why can't you run in SRNS or SRIS mode, where the EP provides
+> it's own clock?
+> 
 
+As per the discussion I had with Qcom PCIe team, they that said SRIS is only
+available at the host side to supply independent clock to the EP. But that
+requires changes to the PHY sequence and could also result in preformance drop.
+Also this mode is available only on new SoCs but not on older ones like SDX55.
+
+So I don't think this is a viable option.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
