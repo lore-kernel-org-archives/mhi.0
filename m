@@ -1,196 +1,228 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A07740868;
-	Mon, 15 Apr 2024 08:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2161F5B5BB
+	for <mhi@lists.linux.dev>; Mon, 15 Apr 2024 10:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713170976; cv=none; b=FaGb7bDViGYjO+K78C3UlQLVZ42vlpnDt0Wswi84CfecrJLJMtObdlTqkspxaSNlOBM4JX4ah3mdBwBnsh3mzPXWhxQ245UOEQEzPYV9FZ2zrO1qWix+6KipCI8CCdbKXVDJ2vQn9LdTTNcyk6OnLcWZR2fgAy2U0bCZ5LQ4I2I=
+	t=1713177202; cv=none; b=slim8cGsqkc03o7uw3QFmi4QpLoY1Gbq16bw9KovhoV6IckzXGXKECHWDjW3gHJO2YJq4MuRx1dxY/Gi5c+MaelNOvPyVAAaysp2VyoD6uXAZOsU4vBfzsbgySmiIJ2IRsl7M9sNKzPdtlxvEX/NaGzcnS7MwTuI2+L/JYqAzwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713170976; c=relaxed/simple;
-	bh=MGgz9Cor2IBmN0/AQFwN26ChUvw8hSaMBL6F+iIJGC0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=DA5AtD5s1WwXxK9LmJK+JAoA+3x3R6B8EcTOjTL7hoXt2g9dOEwRn0Wpy7ooJMw3z63o1u5wb2r0SAwT1nd6ky96SDYFB9QSSpCzgq9CnTTYH+QN5iaSTjBpyDNM19/9/2CZeJJclYE0v6PgkyZTc1PiMXHayofpy77A553AA3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Uo80+cG/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1713177202; c=relaxed/simple;
+	bh=iNmUx1Ar8A7W7bVGH8ZwDecBdKly7WiqY1W1UYiNuvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p3t9SF11iH2Gin7xagtMmopuyyDHZsX9NDQU63rFXrgjo/rPZn2HrowCx8vgM6BVz8ODkSll3o3/hSW308cwfeYKn6+9gaduKYmX5IIcLe/KvHg1TehrneY8CxvVYW2oPLne3JCdaAUOoj3EogTjmAGgN/TdER8Q6DsNLz/R4tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E27jsnof; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Uo80+cG/"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43F4oYET003834;
-	Mon, 15 Apr 2024 08:49:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	qcppdkim1; bh=TzseajAnHwOdobaM5+KXAw1GO5mBXJ23A9dbPs893hk=; b=Uo
-	80+cG/4kujnLJdstoys86RRP8xXhhGkpGfmuBF14FVn2InrJNK2rZ5pIrhn4Vkta
-	5d6XF4Qq+jCbrLiXpPAcr2SCzUxWzCnz2yFmDm7++IasBtkic23NIhx04FYM6tzU
-	OgGuOEsgNMFMwdOXy/swcgldDyw789ZgspYhPaW4QsBSy+0dDz10wTU2EAHxZiMz
-	EXZrlLs6X+PRFL3LWsD88uGrjQdhzLy4RGY0NfUh3qcoTjPdKO3r5WkmuOB5o3HO
-	vRo5/B9z+OZFz3wdwZY1vS+LhlHI5CE1s9GfCpGUGXiUscmZ1qgjXvHNmmUAslJf
-	k3yxIezA6b95htgCm8ww==
-Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xgwhq0fc3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Apr 2024 08:49:33 +0000 (GMT)
-Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43F8n9ad008775;
-	Mon, 15 Apr 2024 08:49:09 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 3xfk4khayq-1;
-	Mon, 15 Apr 2024 08:49:09 +0000
-Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43F8n94F008770;
-	Mon, 15 Apr 2024 08:49:09 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 43F8n8ee008769;
-	Mon, 15 Apr 2024 08:49:09 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 2E8F85AF9; Mon, 15 Apr 2024 16:49:08 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, quic_jhugo@quicinc.com
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH v3 3/3] bus: mhi: host: pci_generic: Add edl callback to enter EDL
-Date: Mon, 15 Apr 2024 16:49:05 +0800
-Message-Id: <1713170945-44640-4-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
-References: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: f1Ocg_qiIW6s1uksEf8pN7du_erWEfMu
-X-Proofpoint-GUID: f1Ocg_qiIW6s1uksEf8pN7du_erWEfMu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-15_08,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- mlxscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999 adultscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404150058
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E27jsnof"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8701DC113CC;
+	Mon, 15 Apr 2024 10:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713177202;
+	bh=iNmUx1Ar8A7W7bVGH8ZwDecBdKly7WiqY1W1UYiNuvw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E27jsnofbPO+JddNOQ8lhOnfqIWcbdghzztbYFw/3DU8fncXVG+MMiuO2oQNjyjGC
+	 MfT9gENBItGYevLn8IZO7q20sKZVKPEUQbz4mFNzt2IHno6Pf5QEsAgNTZEG8SmO5T
+	 pGshDAozKyK2MhYjGpVwh63dDulFGPIKqbEmK5Qjgy3pVVvu8CWEO3olhgnZzQHYvX
+	 FHvTO7oE2MvVbXk0xy1aLLESo+pmFDXCExlqc5VoxN4DCnVdwt2rPsJR85urf4ow+9
+	 vj8QtnxuB7wWB4Wmi+ip22JygKtv2HzJIcLUwY71yiXnuGYpwSGgvlqxQmF7XNBMem
+	 y6NgjmEejk7rA==
+Date: Mon, 15 Apr 2024 16:03:16 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: Slark Xiao <slark_xiao@163.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev
+Subject: Re: failed to power up MHI controller issue
+Message-ID: <20240415103316.GE7537@thinkpad>
+References: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
+ <20240402045647.GG2933@thinkpad>
+ <4d76dd24.edcc.18ebd2606cc.Coremail.slark_xiao@163.com>
+ <5b6ca95c-92a0-4f47-9a92-ed8ba3c29fa1@quicinc.com>
+ <40210cbb.3949.18ed6b904d6.Coremail.slark_xiao@163.com>
+ <ca6b8dfb-7544-40c9-a6f2-e8c25a1b7c2c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca6b8dfb-7544-40c9-a6f2-e8c25a1b7c2c@quicinc.com>
 
-Add mhi_pci_generic_edl_trigger as edl_trigger for some devices (eg. SDX65)
-to enter EDL mode by writing the 0xEDEDEDED cookie to the channel 91
-doorbell register and forcing an SOC reset afterwards.
+On Mon, Apr 15, 2024 at 02:09:35PM +0800, Qiang Yu wrote:
+> 
+> On 4/13/2024 5:10 PM, Slark Xiao wrote:
+> > Hi QiangYu, Mani,
+> > My case has a bit difference with yours.
+> > In my local case, device can't be recovered except a reboot(mainly a cold
+> > reboot). Workaround remove and rescan can't solve it.
+> > Also, this issue could be occured in some platform in the first bootup.
+> > May I know if this issue related with the power sequence of host or
+> > pin settings of the connector?
+> Hi Slark
+> 
+> I don't think it's a mhi host driver issue. From the log you shared, there
+> is a
+> PERST deassertion followed by a PERST assertion closely, leading to device
+> run
+> out of order.
+> 
+> // Here, suppose reboot is triggered on host, so mhi_pci_shutdown is invoked
+> 91.474100278 [0x0 mhi_sm_pcie_event_manager] Handling
+> EP_PCIE_PM_D3_HOT_EVENT
+> event, current states: READY and D0_STATE
+> 
+> 91.747734185 ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST assertion
+> 91.747784342 [0x0 mhi_dev_sm_pcie_handler] received:
+> EP_PCIE_PM_D3_COLD_EVENT
+> 91.748044394 [0x0 mhi_sm_pcie_event_manager] Handling
+> EP_PCIE_PM_D3_COLD_EVENT
+> event, current states: READY and D3_HOT_STATE
+> 
+> //Host should power up, so it deassert perst prepare to do link train.
+> 92.475207677 ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST
+> deassertion
+> 92.475269968 ep_pcie_notify_event: PCIe V1711211: Callback client for event
+> 8
+> 92.475317729 ep_pcie_core_enable_endpoint: PCIe V1711211: options input are
+> 0x2
+> 92.475321427 ep_pcie_vreg_init: PCIe V1711211
+> 92.475323823 ep_pcie_vreg_init: PCIe V1711211: Vreg vreg-1p8 is being
+> enabled
+> 
+> //Process of perst deassert has not completed, but deassert happen, which is
+> not expected
+> 92.475366010 ep_pcie_handle_perst_irq: PCIe V1711211: No. 2 PERST assertion
 
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
- drivers/bus/mhi/host/pci_generic.c | 47 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+Ok. I think I know what is going on. It is related to how PERST# is handled in
+the host.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 51639bf..cbf8a58 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -27,12 +27,19 @@
- #define PCI_VENDOR_ID_THALES	0x1269
- #define PCI_VENDOR_ID_QUECTEL	0x1eac
- 
-+#define MHI_EDL_DB			91
-+#define MHI_EDL_COOKIE			0xEDEDEDED
-+
-+/* Device can enter EDL by first setting edl cookie then issuing inband reset*/
-+#define MHI_PCI_GENERIC_EDL_TRIGGER	BIT(0)
-+
- /**
-  * struct mhi_pci_dev_info - MHI PCI device specific information
-  * @config: MHI controller configuration
-  * @name: name of the PCI module
-  * @fw: firmware path (if any)
-  * @edl: emergency download mode firmware path (if any)
-+ * @edl_trigger: each bit represents a different way to enter EDL
-  * @bar_num: PCI base address register to use for MHI MMIO register space
-  * @dma_data_width: DMA transfer word size (32 or 64 bits)
-  * @mru_default: default MRU size for MBIM network packets
-@@ -44,6 +51,7 @@ struct mhi_pci_dev_info {
- 	const char *name;
- 	const char *fw;
- 	const char *edl;
-+	unsigned int edl_trigger;
- 	unsigned int bar_num;
- 	unsigned int dma_data_width;
- 	unsigned int mru_default;
-@@ -292,6 +300,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx75_info = {
- 	.name = "qcom-sdx75m",
- 	.fw = "qcom/sdx75m/xbl.elf",
- 	.edl = "qcom/sdx75m/edl.mbn",
-+	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
- 	.config = &modem_qcom_v2_mhiv_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -302,6 +311,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx65_info = {
- 	.name = "qcom-sdx65m",
- 	.fw = "qcom/sdx65m/xbl.elf",
- 	.edl = "qcom/sdx65m/edl.mbn",
-+	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
- 	.config = &modem_qcom_v1_mhiv_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -312,6 +322,7 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx55_info = {
- 	.name = "qcom-sdx55m",
- 	.fw = "qcom/sdx55m/sbl1.mbn",
- 	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
- 	.config = &modem_qcom_v1_mhiv_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -928,6 +939,39 @@ static void health_check(struct timer_list *t)
- 	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
- }
- 
-+static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
-+{
-+	void __iomem *base = mhi_cntrl->regs;
-+	void __iomem *edl_db;
-+	int ret;
-+	u32 val;
-+
-+	ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
-+	if (ret) {
-+		dev_err(mhi_cntrl->cntrl_dev, "Wake up device fail before trigger EDL\n");
-+		return ret;
-+	}
-+
-+	pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
-+	mhi_cntrl->runtime_get(mhi_cntrl);
-+
-+	ret = mhi_get_channel_doorbell(mhi_cntrl, &val);
-+	if (ret)
-+		return ret;
-+
-+	edl_db = base + val + (8 * MHI_EDL_DB);
-+
-+	mhi_cntrl->write_reg(mhi_cntrl, edl_db + 4, upper_32_bits(MHI_EDL_COOKIE));
-+	mhi_cntrl->write_reg(mhi_cntrl, edl_db, lower_32_bits(MHI_EDL_COOKIE));
-+
-+	mhi_soc_reset(mhi_cntrl);
-+
-+	mhi_cntrl->runtime_put(mhi_cntrl);
-+	mhi_device_put(mhi_cntrl->mhi_dev);
-+
-+	return 0;
-+}
-+
- static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	const struct mhi_pci_dev_info *info = (struct mhi_pci_dev_info *) id->driver_data;
-@@ -962,6 +1006,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
- 	mhi_cntrl->mru = info->mru_default;
- 
-+	if (info->edl_trigger & MHI_PCI_GENERIC_EDL_TRIGGER)
-+		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
-+
- 	if (info->sideband_wake) {
- 		mhi_cntrl->wake_get = mhi_pci_wake_get_nop;
- 		mhi_cntrl->wake_put = mhi_pci_wake_put_nop;
+Rockpro64 SoC defines the PERST# GPIO as below in
+arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi:
+
+        ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
+
+Here, the PERST# GPIO is configured as ACTIVE_HIGH. So whatever the value driver
+sets as the logical output for the GPIO, it will be reflected as it is on the
+physical line.
+
+In the drivers/pci/controller/pcie-rockchip-host.c driver:
+
+	gpiod_set_value_cansleep(rockchip->ep_gpio, 0); # PERST# assert
+	gpiod_set_value_cansleep(rockchip->ep_gpio, 1); # PERST# deassert
+
+So when driver asserts the PERST# GPIO, the physical line will output "low"
+corresponding to the driver logical value "0". And vice versa for the deassert.
+
+When host reboot happens, the driver is not doing anything specific for PERST#.
+So after the SoC reboot, the physical line goes to "low" state corresponding to
+PERST# assert (default state of the GPIO) and this is reflected in the endpoint
+log as:
+
+	[    91.747734185] ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST assertion
+
+Then, when the host controller probes, the PERST# GPIO is requested as below:
+
+	rockchip->ep_gpio = devm_gpiod_get_optional(dev, "ep",
+                                                            GPIOD_OUT_HIGH);
+
+Here, the GPIO is requested with the initial state of GPIOD_OUT_HIGH. Which
+means, the driver sets the logical value of the PERST# GPIO to "1" and the
+physical value will be "high" and this is reflected in the endpoint log as:
+
+	[    92.475207677] ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST deassertion	
+
+Then during rockchip_pcie_host_init_port() of driver probe, PERST# is asserted
+again to perform register initialization and this is also reflected in the
+endpoint log as:
+
+	[    92.475366010] ep_pcie_handle_perst_irq: PCIe V1711211: No. 2 PERST assertion
+
+Once the register initilization is completed, then the PERST# is deasserted:
+
+	[    92.503568354] ep_pcie_handle_perst_irq: PCIe V1711211: No. 2 PERST deassertion
+
+The issue here happens due to the very short time between the first PERST#
+deassert during devm_gpiod_get_optional() and then successive PERST# assert
+during rockchip_pcie_host_init_port() as Qiang noted.
+
+But the GPIO flag (GPIOD_OUT_HIGH) is what actually culprit. It is supposed to
+be GPIOD_OUT_LOW as the driver should not deassert PERST# before configuring the
+controller.
+
+@Slark: If you can modify the host platform, then try changing the flag from
+GPIOD_OUT_HIGH to GPIOD_OUT_LOW in [1] and see if that fixes the issue during
+reboot.
+
+- Mani
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/pci/controller/pcie-rockchip.c?h=v6.6.3#n123
+
+> > At 2024-04-09 12:35:41, "Qiang Yu" <quic_qianyu@quicinc.com> wrote:
+> > >
+> > >On 4/8/2024 5:59 PM, Slark Xiao wrote:
+> > >> Hi Mani,
+> > >> Please see attached log files(both kernel log and IPC log).
+> > >>
+> > >Hi Mani, Slark
+> > >
+> > >I ever met similar issue like this, where device treated D3cold,ready -> D0
+> > >as illegal transition.
+> > >
+> > >"EP_PCIE_PM_D0_EVENT: illegal in current MHI state: READY and D3_COLD_STATE"
+> > >
+> > >In MHI spec, there is not transition path from D3cold,ready->D0, but
+> > >in fact, we have this transition in some cases.
+> > >
+> > >For example, when we remove and reinstall pci generic driver. During
+> > >remove,
+> > >mhi will reset device and pci framework will put it into D3cold
+> > directly >when
+> > >rootport driver runtime suspend. When we reinstall driver, device will
+> > >see D0
+> > >event but its current state is D3cold,ready. The whole state transition is
+> > >like:
+> > >D0,M0 -> D0,reset -> D0,ready-> D3cold,ready -> D0,ready.
+> > >
+> > >During reboot, if device doesn't reboot with host, look like we will
+> > >also meet
+> > >similar transition.
+> > >
+> > >This illegal state error log may not root cause to this issue. Even
+> > >process it
+> > >as syserr, we can still recovery and go back to M0.
+> > >> At 2024-04-02 12:56:47, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
+> > >> >+ MHI list
+> > >> >
+> > >> >On Thu, Mar 28, 2024 at 08:02:20PM +0800, Slark Xiao wrote:
+> > >> >> Hi Mani,
+> > >> >>  Hope you are doing well! I got a problem with our sdx65 device in some
+> > >> >> >> >> specific platform. MHI driver would report "failed to power
+> > up MHI controller"
+> > >> >> when device bootup. Actually, I can reproduce this error when host doing a
+> > >> >> reboot. It's Rockpro64 with SDX65, and kernel 6.6.3 or 6.7.10.
+> > >> >> >> >> So I add some logs and change dbg level log to info for more
+> > print. You can
+> > >> >> see my attachments for reference.
+> > >> >> It seems the host didn't receive the event of "MISSION MODE" and then
+> > >> >> power down the device.
+> > >> >> BTW, there are some extra log prints were added in function
+> > >> >> mhi_sync_power_up(). You can find it with mask "##shawn##".
+> > >> >> Do you have any idea to debug it?
+> > >> >> >> >
+> > >> >Looks like something gone wrong with the device firmware. Is it possible to get
+> > >> >the logs from the device?
+> > >> >
+> > >> >This could be due to the way the PCIe controller driver on the host handling
+> > >> >reboot.
+> > >> >
+> > >> >But let's get the device logs first to debug further.
+> > >> >
+> > >> >- Mani
+> > >> >
+> > >> >-- >> >மணிவண்ணன் சதாசிவம்
+> 
+
 -- 
-2.7.4
-
+மணிவண்ணன் சதாசிவம்
