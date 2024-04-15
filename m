@@ -1,188 +1,195 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED836139
-	for <mhi@lists.linux.dev>; Mon, 15 Apr 2024 06:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A13219F3;
+	Mon, 15 Apr 2024 08:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713161395; cv=none; b=qbc2bS0kliBhl131PQG72TvBKcetNJFsnUBpZnzKPVTUy6e05WtbpFx80W+obvoP7G15w3sKv0Js8X9k0v9FUo7MlnmiirQZk4FQy3s2EI+6n95gFaFNXp0jhCZk7Qpf9ha0xvu0hywmKCDqLeIIpW4CPefZUgzXVoBA84mzJoc=
+	t=1713170955; cv=none; b=FRqYrJwepgkLe5Uk61+omgQc75pwHtsJzrdWqQbyV3iwiy+5xca9jdIiW8gqay+oe6qcHPku1NE0t/mUG9ldMM1OZf3kihB5NKbWsiJigNZLITet0lNuWowVY7w4udwls9TMqsXo4eHUr4c7CaQ8zryO+Cfq/0BGhX7Wz6cOLE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713161395; c=relaxed/simple;
-	bh=j55jctXp/JPq4f+kQzWeu65K9xQQA4rIGNkz/8LYPRM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rzJt1qQtF2FhJGq7dNZkpq3wElfTCfOyr8U+jEEYQxvsr64VdmA2K14ynTfUWjZnjpExr/vFZlpXE46cfbOdLCB70jtpu8Sm3Oz8JIMCLudGNckQ94huFE+B1VZb1+TqxLgVSe7bRHpKgGtGMACD8y35pOTB3xU4CqkhyPGl+6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Le7/7Ppv; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1713170955; c=relaxed/simple;
+	bh=MMSPrUmwgN2qLdpt3KXhCkN/0191aCKN8f40hpNb6sE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ZWtp5hkg7ljpirtrdyNVSs4fbTBbipjy7PYG9SQy7C5hR0bxXihA6KC0NmC4luqn2SrmA/2Zfg/qD9Dl0PNycEFfW0DMfNcDe1GOL0B6+QTT6pBaawTHjPZ/95q0taYFfmGyyMUaaH7C8rkf3r9K8wvRBMqBmZnJccYecPNMwOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D/YpSzGg; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Le7/7Ppv"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43F4ufba002728;
-	Mon, 15 Apr 2024 06:09:40 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D/YpSzGg"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43F82B6r010720;
+	Mon, 15 Apr 2024 08:49:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=bJazuXZPiACTq4VBhp2x1RtN3M6QJXm0LVy71R5vsyc=; b=Le
-	7/7PpvboFF7imQmlGYRoiQZw/l7A4kzSfsKPmOg0C+x/TJsYASP9fmhzQF6WN/BG
-	yaUFCcspR/ehFwNObuhWBuD80XNTbm3ZPpFfa17BNXSGutbXGIPRu/zYlCXrELmx
-	VDlxKW2/QgHmghwXfvLQnPWbkHhNTZrUklZstU4jXeQ+3gBOjjIqMFXpiHHFFYxm
-	hmfOnGsItD8ujetnk9k4rIuGfhsoySwIjx7C3ISBYKVR5Ar8Ryhi8XI9uSh6bp8o
-	0y8kt4fnpm42i9/+u2BkHCEFyR7u+Hu9Hu38Dq54eJfOw4kbUuOhk7Dwa37AP9kd
-	xHgYm37xnNut+w7eQe8g==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xgupcg9x9-1
+	from:to:cc:subject:date:message-id:in-reply-to:references; s=
+	qcppdkim1; bh=oMEWZzM1rS6b1hQAERLelSHkbFuDmEIXiKyjw35akB8=; b=D/
+	YpSzGgZd6c9hzIuXGo2CmDO4aEYUrvimLp6izzmur0Y3zL6Tb/CtqXJ2+kwfIfCS
+	ALBxtFibzjgZze1TSPRS+5mjk7bjl4EUXVLfcQdpwnk/Fc4zG6YjR7NoMdRfcCDq
+	/GHyWmOBzDOCkiBXA4WtYmGXxYMEJSu82mkJTfpYZj6By0ZYbWJw9zD89X+1gAfU
+	xo406//WPJhBQtCm0+gVrrsVJLtqMa3bL8wNYski7hz1zRQCA2aonF5/6HFGC9wr
+	WWxo9ss0yAsvzAUPu5pcA09KNamu7LvIfYYfELJRtU5CwlRCMlH93kB4AQmb/2/s
+	ptdlHpPAVIVFmP4+aQfQ==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xgyq7r6tb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Apr 2024 06:09:39 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43F69dIH018692
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Apr 2024 06:09:39 GMT
-Received: from [10.239.29.179] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 14 Apr
- 2024 23:09:38 -0700
-Message-ID: <ca6b8dfb-7544-40c9-a6f2-e8c25a1b7c2c@quicinc.com>
-Date: Mon, 15 Apr 2024 14:09:35 +0800
+	Mon, 15 Apr 2024 08:49:10 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43F8n8aD008759;
+	Mon, 15 Apr 2024 08:49:08 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 3xfk4khayk-1;
+	Mon, 15 Apr 2024 08:49:08 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43F8n84g008754;
+	Mon, 15 Apr 2024 08:49:08 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 43F8n7mm008753;
+	Mon, 15 Apr 2024 08:49:08 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 526235AFA; Mon, 15 Apr 2024 16:49:07 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v3 1/3] bus: mhi: host: Add sysfs entry to force device to enter EDL
+Date: Mon, 15 Apr 2024 16:49:03 +0800
+Message-Id: <1713170945-44640-2-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
+References: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: fMB-RU7igfulCOXQLzpsP2EkOVYvQ0Tl
+X-Proofpoint-ORIG-GUID: fMB-RU7igfulCOXQLzpsP2EkOVYvQ0Tl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-15_08,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ clxscore=1015 adultscore=0 impostorscore=0 suspectscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404150057
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: failed to power up MHI controller issue
-To: Slark Xiao <slark_xiao@163.com>
-CC: Manivannan Sadhasivam <mani@kernel.org>, <mhi@lists.linux.dev>
-References: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
- <20240402045647.GG2933@thinkpad>
- <4d76dd24.edcc.18ebd2606cc.Coremail.slark_xiao@163.com>
- <5b6ca95c-92a0-4f47-9a92-ed8ba3c29fa1@quicinc.com>
- <40210cbb.3949.18ed6b904d6.Coremail.slark_xiao@163.com>
-Content-Language: en-US
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <40210cbb.3949.18ed6b904d6.Coremail.slark_xiao@163.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OSWVcp2UEIvzsRYYbg53ODkCUcCApkDC
-X-Proofpoint-ORIG-GUID: OSWVcp2UEIvzsRYYbg53ODkCUcCApkDC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-15_05,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
- impostorscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404150038
 
+Add sysfs entry to allow users of MHI bus force device to enter EDL.
+Considering that the way to enter EDL mode varies from device to device and
+some devices even do not support EDL. Hence, add a callback edl_trigger in
+mhi controller as part of the sysfs entry to be invoked and MHI core will
+only create EDL sysfs entry for mhi controller that provides edl_trigger
+callback. All of the process a specific device required to enter EDL mode
+can be placed in this callback.
 
-On 4/13/2024 5:10 PM, Slark Xiao wrote:
-> Hi QiangYu, Mani,
-> My case has a bit difference with yours.
-> In my local case, device can't be recovered except a reboot(mainly a cold
-> reboot). Workaround remove and rescan can't solve it.
-> Also, this issue could be occured in some platform in the first bootup.
-> May I know if this issue related with the power sequence of host or
-> pin settings of the connector?
-Hi Slark
+Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+---
+ Documentation/ABI/stable/sysfs-bus-mhi | 11 +++++++++++
+ drivers/bus/mhi/host/init.c            | 35 ++++++++++++++++++++++++++++++++++
+ include/linux/mhi.h                    |  2 ++
+ 3 files changed, 48 insertions(+)
 
-I don't think it's a mhi host driver issue. From the log you shared, 
-there is a
-PERST deassertion followed by a PERST assertion closely, leading to 
-device run
-out of order.
+diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
+index 1a47f9e..d0bf9ae 100644
+--- a/Documentation/ABI/stable/sysfs-bus-mhi
++++ b/Documentation/ABI/stable/sysfs-bus-mhi
+@@ -29,3 +29,14 @@ Description:	Initiates a SoC reset on the MHI controller.  A SoC reset is
+                 This can be useful as a method of recovery if the device is
+                 non-responsive, or as a means of loading new firmware as a
+                 system administration task.
++
++What:           /sys/bus/mhi/devices/.../force_edl
++Date:           April 2024
++KernelVersion:  6.9
++Contact:        mhi@lists.linux.dev
++Description:    Force devices to enter EDL (emergency download) mode. Only MHI
++                controller that supports EDL mode and provides a mechanism for
++                manually triggering EDL contains this file. Once in EDL mode,
++                the flash programmer image can be downloaded to the device to
++                enter the flash programmer execution environment. This can be
++                useful if user wants to update firmware.
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 44f9349..333ac94 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -127,6 +127,32 @@ static ssize_t soc_reset_store(struct device *dev,
+ }
+ static DEVICE_ATTR_WO(soc_reset);
+ 
++static ssize_t force_edl_store(struct device *dev,
++			       struct device_attribute *attr,
++			       const char *buf, size_t count)
++{
++	struct mhi_device *mhi_dev = to_mhi_device(dev);
++	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret < 0) {
++		dev_err(dev, "Could not parse string: %d\n", ret);
++		return ret;
++	}
++
++	if (!val)
++		return count;
++
++	ret = mhi_cntrl->edl_trigger(mhi_cntrl);
++	if (ret)
++		return ret;
++
++	return count;
++}
++static DEVICE_ATTR_WO(force_edl);
++
+ static struct attribute *mhi_dev_attrs[] = {
+ 	&dev_attr_serial_number.attr,
+ 	&dev_attr_oem_pk_hash.attr,
+@@ -1018,6 +1044,12 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
+ 	if (ret)
+ 		goto err_release_dev;
+ 
++	if (mhi_cntrl->edl_trigger) {
++		ret = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_force_edl.attr);
++		if (ret)
++			goto err_release_dev;
++	}
++
+ 	mhi_cntrl->mhi_dev = mhi_dev;
+ 
+ 	mhi_create_debugfs(mhi_cntrl);
+@@ -1051,6 +1083,9 @@ void mhi_unregister_controller(struct mhi_controller *mhi_cntrl)
+ 	mhi_deinit_free_irq(mhi_cntrl);
+ 	mhi_destroy_debugfs(mhi_cntrl);
+ 
++	if (mhi_cntrl->edl_trigger)
++		sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_force_edl.attr);
++
+ 	destroy_workqueue(mhi_cntrl->hiprio_wq);
+ 	kfree(mhi_cntrl->mhi_cmd);
+ 	kfree(mhi_cntrl->mhi_event);
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index cde01e1..8280545 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -353,6 +353,7 @@ struct mhi_controller_config {
+  * @read_reg: Read a MHI register via the physical link (required)
+  * @write_reg: Write a MHI register via the physical link (required)
+  * @reset: Controller specific reset function (optional)
++ * @edl_trigger: CB function to enter EDL mode (optional)
+  * @buffer_len: Bounce buffer length
+  * @index: Index of the MHI controller instance
+  * @bounce_buf: Use of bounce buffer
+@@ -435,6 +436,7 @@ struct mhi_controller {
+ 	void (*write_reg)(struct mhi_controller *mhi_cntrl, void __iomem *addr,
+ 			  u32 val);
+ 	void (*reset)(struct mhi_controller *mhi_cntrl);
++	int (*edl_trigger)(struct mhi_controller *mhi_cntrl);
+ 
+ 	size_t buffer_len;
+ 	int index;
+-- 
+2.7.4
 
-// Here, suppose reboot is triggered on host, so mhi_pci_shutdown is invoked
-91.474100278 [0x0 mhi_sm_pcie_event_manager] Handling 
-EP_PCIE_PM_D3_HOT_EVENT
-event, current states: READY and D0_STATE
-
-91.747734185 ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST assertion
-91.747784342 [0x0 mhi_dev_sm_pcie_handler] received: 
-EP_PCIE_PM_D3_COLD_EVENT
-91.748044394 [0x0 mhi_sm_pcie_event_manager] Handling 
-EP_PCIE_PM_D3_COLD_EVENT
-event, current states: READY and D3_HOT_STATE
-
-//Host should power up, so it deassert perst prepare to do link train.
-92.475207677 ep_pcie_handle_perst_irq: PCIe V1711211: No. 1 PERST 
-deassertion
-92.475269968 ep_pcie_notify_event: PCIe V1711211: Callback client for 
-event 8
-92.475317729 ep_pcie_core_enable_endpoint: PCIe V1711211: options input 
-are 0x2
-92.475321427 ep_pcie_vreg_init: PCIe V1711211
-92.475323823 ep_pcie_vreg_init: PCIe V1711211: Vreg vreg-1p8 is being 
-enabled
-
-//Process of perst deassert has not completed, but deassert happen, 
-which is not expected
-92.475366010 ep_pcie_handle_perst_irq: PCIe V1711211: No. 2 PERST assertion
-> At 2024-04-09 12:35:41, "Qiang Yu" <quic_qianyu@quicinc.com> wrote:
-> >
-> >On 4/8/2024 5:59 PM, Slark Xiao wrote:
-> >> Hi Mani,
-> >> Please see attached log files(both kernel log and IPC log).
-> >>
-> >Hi Mani, Slark
-> >
-> >I ever met similar issue like this, where device treated D3cold,ready -> D0
-> >as illegal transition.
-> >
-> >"EP_PCIE_PM_D0_EVENT: illegal in current MHI state: READY and D3_COLD_STATE"
-> >
-> >In MHI spec, there is not transition path from D3cold,ready->D0, but
-> >in fact, we have this transition in some cases.
-> >
-> >For example, when we remove and reinstall pci generic driver. During 
-> >remove,
-> >mhi will reset device and pci framework will put it into D3cold directly 
-> >when
-> >rootport driver runtime suspend. When we reinstall driver, device will 
-> >see D0
-> >event but its current state is D3cold,ready. The whole state transition is
-> >like:
-> >D0,M0 -> D0,reset -> D0,ready-> D3cold,ready -> D0,ready.
-> >
-> >During reboot, if device doesn't reboot with host, look like we will 
-> >also meet
-> >similar transition.
-> >
-> >This illegal state error log may not root cause to this issue. Even 
-> >process it
-> >as syserr, we can still recovery and go back to M0.
-> >> At 2024-04-02 12:56:47, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
-> >> >+ MHI list
-> >> >
-> >> >On Thu, Mar 28, 2024 at 08:02:20PM +0800, Slark Xiao wrote:
-> >> >> Hi Mani,
-> >> >>  Hope you are doing well! I got a problem with our sdx65 device in some
-> >> >> 
-> >> >> specific platform. MHI driver would report "failed to power up MHI controller"
-> >> >> when device bootup. Actually, I can reproduce this error when host doing a
-> >> >> reboot. It's Rockpro64 with SDX65, and kernel 6.6.3 or 6.7.10.
-> >> >> 
-> >> >> So I add some logs and change dbg level log to info for more print. You can
-> >> >> see my attachments for reference.
-> >> >> It seems the host didn't receive the event of "MISSION MODE" and then
-> >> >> power down the device.
-> >> >> BTW, there are some extra log prints were added in function
-> >> >> mhi_sync_power_up(). You can find it with mask "##shawn##".
-> >> >> Do you have any idea to debug it?
-> >> >> 
-> >> >
-> >> >Looks like something gone wrong with the device firmware. Is it possible to get
-> >> >the logs from the device?
-> >> >
-> >> >This could be due to the way the PCIe controller driver on the host handling
-> >> >reboot.
-> >> >
-> >> >But let's get the device logs first to debug further.
-> >> >
-> >> >- Mani
-> >> >
-> >> >-- 
-> >> >மணிவண்ணன் சதாசிவம்
