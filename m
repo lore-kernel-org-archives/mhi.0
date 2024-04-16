@@ -1,231 +1,192 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E69A199BC;
-	Tue, 16 Apr 2024 03:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD45D512
+	for <mhi@lists.linux.dev>; Tue, 16 Apr 2024 03:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713239428; cv=none; b=qcePTG3debUzFr8KOmQ/wpOrTymn1eoJYpDkfcQqMcROi8HyarxgiDJnB38o7Iahw9DzDzL/Ys6Yz79y2zkfRyMcAygbllODhf+7sv4kg9lsYya1IUOVA1oRW9ttNgZwOIN2lgfvVyHh3/Lh8I8yCp9iZgoAxUYHxVdkn6xoQAs=
+	t=1713239807; cv=none; b=WpjP02+Unc4ZI7S0nGsUtb7S4C0M4Ju/aDrgAnTn/gO6IcOK+SJCqY/MBwMqrK4KyyPj9LETa5qU3giKzrSHMUweMtwK82WWsTI1iinIcMzP1TuRsQ9qEDhOXJmFm14rXbxCguQBdCNfD5TKLnrADuuXEfK/1QL6ntvsvdZdcf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713239428; c=relaxed/simple;
-	bh=pwekYD8Wkc6Veq9X/9ki7fdgxaAJi5ssre0H+rqvVOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GkvXr2QthI/Wqx+bH1zFcg84tr498VDENVxD8jTCIYPJwNUaMq1r4XnYG6q934aDH/KMELB2KZNVBpRTAa/dIknZ5yJXq9OOBfMAyCKbbtBVQjcDTUUZzls0LzogOuD1JRDn2Vg1+qXO8UiJDJW9XxOSXytjsT370NB39Hrx/Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fQPl31W6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1713239807; c=relaxed/simple;
+	bh=kV2C5u1GAeuvRAEY6qNSnRzP8eGCOOZfsqkxceUdwTw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=G3s8V9WrR7IaeCJ4RIE9aYSp269sHPJdtZ2rXggpi44PulmKQeaenWce4dKt/Q8iysoAJCh9AuV+m6rzbqvgjpk4ItRRJe05YfieRvW5sUTv/AmukAd3jOlGpH/4zkXeGQ688/oHc5FtSDdzYkCi8PCB0Hfo60vu5bw2W69j3Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=pvk1P2a/ reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fQPl31W6"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43G3o12p011307;
-	Tue, 16 Apr 2024 03:50:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Hte0m1rpzkCLyr+QyeNl0cr9HUN873o6biJxbNQpjVo=; b=fQ
-	Pl31W67xSr1GlRIljQlHG0f7yGoQFITbwd/fD+PzCOw/8o1jfWuVrXRnggiv3boz
-	dmfLYQ8NloVaUbAsm/I6bIQ+f+nRyWsD6QwSAUj70gBc6XPQ3u650P0q/+yYjYqg
-	v2iByUcW3EXS3JAghqXwtuAb5clAzGjjuVMFEkiOmLH93TxhhW9ihHdtoW0RFuqp
-	GzeseMFV20b81Eh3WacVmXBh9X7i+ZBbDHQhjBB/av7UIrX2ccIYsrQRokWVANU3
-	jc3fH0+IIUryQnsxOLfCS/iAtI2y0zmvCehJWQJ1rS4oizYDtAhSA0bMlaIKil5T
-	yckEdSKF6iEMLrygS8+A==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xh5jx9ka5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Apr 2024 03:50:21 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43G3oKrY022947
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Apr 2024 03:50:20 GMT
-Received: from [10.239.29.179] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 15 Apr
- 2024 20:50:18 -0700
-Message-ID: <4b684db2-d384-404a-9c54-60d79ac7cf9f@quicinc.com>
-Date: Tue, 16 Apr 2024 11:50:15 +0800
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="pvk1P2a/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=Y1HUbIpJeB5NK+m6OIuQC3ThjVt4TQlHA3jGEHxuzlY=; b=p
+	vk1P2a/pA01xJBjQ314urx4HeGUc/kz4QOq5QMhs6nMObAjpfOIyLojfNM5dvrvc
+	xtokJu6In8EyXVrjjCE7MXL+TIg6Uo52+7CTux/4ez0LI15e1HxB8+lxbSduRQfv
+	y/JDCVbhTsX5zezBcTAqUFlY8fYOJUcHHCmtS+xaco=
+Received: from slark_xiao$163.com ( [223.160.230.47] ) by
+ ajax-webmail-wmsvr-40-105 (Coremail) ; Tue, 16 Apr 2024 11:56:24 +0800
+ (CST)
+Date: Tue, 16 Apr 2024 11:56:24 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Manivannan Sadhasivam" <mani@kernel.org>
+Cc: "Qiang Yu" <quic_qianyu@quicinc.com>, mhi@lists.linux.dev
+Subject: Re:Re: failed to power up MHI controller issue
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20240415103316.GE7537@thinkpad>
+References: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
+ <20240402045647.GG2933@thinkpad>
+ <4d76dd24.edcc.18ebd2606cc.Coremail.slark_xiao@163.com>
+ <5b6ca95c-92a0-4f47-9a92-ed8ba3c29fa1@quicinc.com>
+ <40210cbb.3949.18ed6b904d6.Coremail.slark_xiao@163.com>
+ <ca6b8dfb-7544-40c9-a6f2-e8c25a1b7c2c@quicinc.com>
+ <20240415103316.GE7537@thinkpad>
+X-NTES-SC: AL_Qu2aAf6Ytk8j4imYZ+kWmEgThek/XsuyuPov2oJRN5k0tyTj6AoMdEBxM3rV0c+2OTmMjyeYczFD1cJqfqx0cL3saheRFSRVllhO7u47jyFK
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] bus: mhi: host: pci_generic: Add edl callback to
- enter EDL
-To: Mayank Rana <quic_mrana@quicinc.com>, <mani@kernel.org>,
-        <quic_jhugo@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>
-References: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
- <1713170945-44640-4-git-send-email-quic_qianyu@quicinc.com>
- <17d94b91-137c-409c-8af3-f32f1af2eb71@quicinc.com>
-Content-Language: en-US
-From: Qiang Yu <quic_qianyu@quicinc.com>
-In-Reply-To: <17d94b91-137c-409c-8af3-f32f1af2eb71@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ZjP7A9NfbE99xMuEif1TzTvdzB6e-sMv
-X-Proofpoint-ORIG-GUID: ZjP7A9NfbE99xMuEif1TzTvdzB6e-sMv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-16_02,2024-04-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404160022
+Message-ID: <61e13e10.612a.18ee50c7dca.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3X6Lo9h1mw2ULAA--.4209W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQvCZGV4HH6axwABs7
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-
-On 4/16/2024 7:53 AM, Mayank Rana wrote:
-> Hi Qiang
->
-> On 4/15/2024 1:49 AM, Qiang Yu wrote:
->> Add mhi_pci_generic_edl_trigger as edl_trigger for some devices (eg. 
->> SDX65)
->> to enter EDL mode by writing the 0xEDEDEDED cookie to the channel 91
->> doorbell register and forcing an SOC reset afterwards.
->>
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/pci_generic.c | 47 
->> ++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 47 insertions(+)
->>
->> diff --git a/drivers/bus/mhi/host/pci_generic.c 
->> b/drivers/bus/mhi/host/pci_generic.c
->> index 51639bf..cbf8a58 100644
->> --- a/drivers/bus/mhi/host/pci_generic.c
->> +++ b/drivers/bus/mhi/host/pci_generic.c
->> @@ -27,12 +27,19 @@
->>   #define PCI_VENDOR_ID_THALES    0x1269
->>   #define PCI_VENDOR_ID_QUECTEL    0x1eac
->>   +#define MHI_EDL_DB            91
->> +#define MHI_EDL_COOKIE            0xEDEDEDED
->> +
->> +/* Device can enter EDL by first setting edl cookie then issuing 
->> inband reset*/
->> +#define MHI_PCI_GENERIC_EDL_TRIGGER    BIT(0)
->> +
->>   /**
->>    * struct mhi_pci_dev_info - MHI PCI device specific information
->>    * @config: MHI controller configuration
->>    * @name: name of the PCI module
->>    * @fw: firmware path (if any)
->>    * @edl: emergency download mode firmware path (if any)
->> + * @edl_trigger: each bit represents a different way to enter EDL
->>    * @bar_num: PCI base address register to use for MHI MMIO register 
->> space
->>    * @dma_data_width: DMA transfer word size (32 or 64 bits)
->>    * @mru_default: default MRU size for MBIM network packets
->> @@ -44,6 +51,7 @@ struct mhi_pci_dev_info {
->>       const char *name;
->>       const char *fw;
->>       const char *edl;
->> +    unsigned int edl_trigger;
->>       unsigned int bar_num;
->>       unsigned int dma_data_width;
->>       unsigned int mru_default;
->> @@ -292,6 +300,7 @@ static const struct mhi_pci_dev_info 
->> mhi_qcom_sdx75_info = {
->>       .name = "qcom-sdx75m",
->>       .fw = "qcom/sdx75m/xbl.elf",
->>       .edl = "qcom/sdx75m/edl.mbn",
->> +    .edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->>       .config = &modem_qcom_v2_mhiv_config,
->>       .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->>       .dma_data_width = 32,
->> @@ -302,6 +311,7 @@ static const struct mhi_pci_dev_info 
->> mhi_qcom_sdx65_info = {
->>       .name = "qcom-sdx65m",
->>       .fw = "qcom/sdx65m/xbl.elf",
->>       .edl = "qcom/sdx65m/edl.mbn",
->> +    .edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->>       .config = &modem_qcom_v1_mhiv_config,
->>       .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->>       .dma_data_width = 32,
->> @@ -312,6 +322,7 @@ static const struct mhi_pci_dev_info 
->> mhi_qcom_sdx55_info = {
->>       .name = "qcom-sdx55m",
->>       .fw = "qcom/sdx55m/sbl1.mbn",
->>       .edl = "qcom/sdx55m/edl.mbn",
->> +    .edl_trigger = MHI_PCI_GENERIC_EDL_TRIGGER,
->>       .config = &modem_qcom_v1_mhiv_config,
->>       .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->>       .dma_data_width = 32,
->> @@ -928,6 +939,39 @@ static void health_check(struct timer_list *t)
->>       mod_timer(&mhi_pdev->health_check_timer, jiffies + 
->> HEALTH_CHECK_PERIOD);
->>   }
->>   +static int mhi_pci_generic_edl_trigger(struct mhi_controller 
->> *mhi_cntrl)
->> +{
->> +    void __iomem *base = mhi_cntrl->regs;
->> +    void __iomem *edl_db;
->> +    int ret;
->> +    u32 val;
->> +
->> +    ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->> +    if (ret) {
->> +        dev_err(mhi_cntrl->cntrl_dev, "Wake up device fail before 
->> trigger EDL\n");
->> +        return ret;
->> +    }
->> +
->> +    pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
->> +    mhi_cntrl->runtime_get(mhi_cntrl);
->> +
->> +    ret = mhi_get_channel_doorbell(mhi_cntrl, &val);
->> +    if (ret)
->> +        return ret;
-> Don't we need error handling part here i.e. calling 
-> mhi_cntrl->runtime_put() as well mhi_device_put() ?
-
-Hi Mayank
-
-After soc_reset, device will reboot to EDL mode and MHI state will be 
-SYSERR. So host will fail to suspend
-anyway. The "error handling" we need here is actually to enter EDL mode, 
-this will be done by SYSERR irq.
-Here, mhi_cntrl->runtime_put() and mhi_device_put() are only to balance 
-mhi_cntrl->runtime_get() and
-mhi_device_get_sync().
-
-Thanks,
-Qiang
-
->> +    edl_db = base + val + (8 * MHI_EDL_DB);
->> +
->> +    mhi_cntrl->write_reg(mhi_cntrl, edl_db + 4, 
->> upper_32_bits(MHI_EDL_COOKIE));
->> +    mhi_cntrl->write_reg(mhi_cntrl, edl_db, 
->> lower_32_bits(MHI_EDL_COOKIE));
->> +
->> +    mhi_soc_reset(mhi_cntrl);
->> +
->> +    mhi_cntrl->runtime_put(mhi_cntrl);
->> +    mhi_device_put(mhi_cntrl->mhi_dev);
->> +
->> +    return 0;
->> +}
->> +
->>   static int mhi_pci_probe(struct pci_dev *pdev, const struct 
->> pci_device_id *id)
->>   {
->>       const struct mhi_pci_dev_info *info = (struct mhi_pci_dev_info 
->> *) id->driver_data;
->> @@ -962,6 +1006,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, 
->> const struct pci_device_id *id)
->>       mhi_cntrl->runtime_put = mhi_pci_runtime_put;
->>       mhi_cntrl->mru = info->mru_default;
->>   +    if (info->edl_trigger & MHI_PCI_GENERIC_EDL_TRIGGER)
->> +        mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
->> +
->>       if (info->sideband_wake) {
->>           mhi_cntrl->wake_get = mhi_pci_wake_get_nop;
->>           mhi_cntrl->wake_put = mhi_pci_wake_put_nop;
-> Regards,
-> Mayank
+CkhpIE1hbmksIFFpYW5nWXUsCkp1c3QgY29uZmlybWVkIGl0IHdpdGggYXR0YWNoZWQgbW9kaWZp
+Y2F0aW9uLCBhbmQgaXNzdWUgd2FzIGdvbmUuClNvIHlvdSBjYW4gaGVscCB1cGRhdGUgaXQgaW50
+byBrZXJuZWwgc2lkZS4gQW5kIEkgd2lsbCBmb2xsb3cgdGhpcwpyZWZlcmVuY2UgZGVidWcgZXhw
+ZXJpZW5jZSBmb3Igb3RoZXIgcG90ZW50aWFsIHBsYXRmb3JtLgpUaGFuayB5b3UgZ3V5cyBhIGxv
+dCEKCkF0IDIwMjQtMDQtMTUgMTg6MzM6MTYsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5p
+QGtlcm5lbC5vcmc+IHdyb3RlOgo+T24gTW9uLCBBcHIgMTUsIDIwMjQgYXQgMDI6MDk6MzVQTSAr
+MDgwMCwgUWlhbmcgWXUgd3JvdGU6Cj4+IAo+PiBPbiA0LzEzLzIwMjQgNToxMCBQTSwgU2xhcmsg
+WGlhbyB3cm90ZToKPj4gPiBIaSBRaWFuZ1l1LCBNYW5pLAo+PiA+IE15IGNhc2UgaGFzIGEgYml0
+IGRpZmZlcmVuY2Ugd2l0aCB5b3Vycy4KPj4gPiBJbiBteSBsb2NhbCBjYXNlLCBkZXZpY2UgY2Fu
+J3QgYmUgcmVjb3ZlcmVkIGV4Y2VwdCBhIHJlYm9vdChtYWlubHkgYSBjb2xkCj4+ID4gcmVib290
+KS4gV29ya2Fyb3VuZCByZW1vdmUgYW5kIHJlc2NhbiBjYW4ndCBzb2x2ZSBpdC4KPj4gPiBBbHNv
+LCB0aGlzIGlzc3VlIGNvdWxkIGJlIG9jY3VyZWQgaW4gc29tZSBwbGF0Zm9ybSBpbiB0aGUgZmly
+c3QgYm9vdHVwLgo+PiA+IE1heSBJIGtub3cgaWYgdGhpcyBpc3N1ZSByZWxhdGVkIHdpdGggdGhl
+IHBvd2VyIHNlcXVlbmNlIG9mIGhvc3Qgb3IKPj4gPiBwaW4gc2V0dGluZ3Mgb2YgdGhlIGNvbm5l
+Y3Rvcj8KPj4gSGkgU2xhcmsKPj4gCj4+IEkgZG9uJ3QgdGhpbmsgaXQncyBhIG1oaSBob3N0IGRy
+aXZlciBpc3N1ZS4gRnJvbSB0aGUgbG9nIHlvdSBzaGFyZWQsIHRoZXJlCj4+IGlzIGEKPj4gUEVS
+U1QgZGVhc3NlcnRpb24gZm9sbG93ZWQgYnkgYSBQRVJTVCBhc3NlcnRpb24gY2xvc2VseSwgbGVh
+ZGluZyB0byBkZXZpY2UKPj4gcnVuCj4+IG91dCBvZiBvcmRlci4KPj4gCj4+IC8vIEhlcmUsIHN1
+cHBvc2UgcmVib290IGlzIHRyaWdnZXJlZCBvbiBob3N0LCBzbyBtaGlfcGNpX3NodXRkb3duIGlz
+IGludm9rZWQKPj4gOTEuNDc0MTAwMjc4IFsweDAgbWhpX3NtX3BjaWVfZXZlbnRfbWFuYWdlcl0g
+SGFuZGxpbmcKPj4gRVBfUENJRV9QTV9EM19IT1RfRVZFTlQKPj4gZXZlbnQsIGN1cnJlbnQgc3Rh
+dGVzOiBSRUFEWSBhbmQgRDBfU1RBVEUKPj4gCj4+IDkxLjc0NzczNDE4NSBlcF9wY2llX2hhbmRs
+ZV9wZXJzdF9pcnE6IFBDSWUgVjE3MTEyMTE6IE5vLiAxIFBFUlNUIGFzc2VydGlvbgo+PiA5MS43
+NDc3ODQzNDIgWzB4MCBtaGlfZGV2X3NtX3BjaWVfaGFuZGxlcl0gcmVjZWl2ZWQ6Cj4+IEVQX1BD
+SUVfUE1fRDNfQ09MRF9FVkVOVAo+PiA5MS43NDgwNDQzOTQgWzB4MCBtaGlfc21fcGNpZV9ldmVu
+dF9tYW5hZ2VyXSBIYW5kbGluZwo+PiBFUF9QQ0lFX1BNX0QzX0NPTERfRVZFTlQKPj4gZXZlbnQs
+IGN1cnJlbnQgc3RhdGVzOiBSRUFEWSBhbmQgRDNfSE9UX1NUQVRFCj4+IAo+PiAvL0hvc3Qgc2hv
+dWxkIHBvd2VyIHVwLCBzbyBpdCBkZWFzc2VydCBwZXJzdCBwcmVwYXJlIHRvIGRvIGxpbmsgdHJh
+aW4uCj4+IDkyLjQ3NTIwNzY3NyBlcF9wY2llX2hhbmRsZV9wZXJzdF9pcnE6IFBDSWUgVjE3MTEy
+MTE6IE5vLiAxIFBFUlNUCj4+IGRlYXNzZXJ0aW9uCj4+IDkyLjQ3NTI2OTk2OCBlcF9wY2llX25v
+dGlmeV9ldmVudDogUENJZSBWMTcxMTIxMTogQ2FsbGJhY2sgY2xpZW50IGZvciBldmVudAo+PiA4
+Cj4+IDkyLjQ3NTMxNzcyOSBlcF9wY2llX2NvcmVfZW5hYmxlX2VuZHBvaW50OiBQQ0llIFYxNzEx
+MjExOiBvcHRpb25zIGlucHV0IGFyZQo+PiAweDIKPj4gOTIuNDc1MzIxNDI3IGVwX3BjaWVfdnJl
+Z19pbml0OiBQQ0llIFYxNzExMjExCj4+IDkyLjQ3NTMyMzgyMyBlcF9wY2llX3ZyZWdfaW5pdDog
+UENJZSBWMTcxMTIxMTogVnJlZyB2cmVnLTFwOCBpcyBiZWluZwo+PiBlbmFibGVkCj4+IAo+PiAv
+L1Byb2Nlc3Mgb2YgcGVyc3QgZGVhc3NlcnQgaGFzIG5vdCBjb21wbGV0ZWQsIGJ1dCBkZWFzc2Vy
+dCBoYXBwZW4sIHdoaWNoIGlzCj4+IG5vdCBleHBlY3RlZAo+PiA5Mi40NzUzNjYwMTAgZXBfcGNp
+ZV9oYW5kbGVfcGVyc3RfaXJxOiBQQ0llIFYxNzExMjExOiBOby4gMiBQRVJTVCBhc3NlcnRpb24K
+Pgo+T2suIEkgdGhpbmsgSSBrbm93IHdoYXQgaXMgZ29pbmcgb24uIEl0IGlzIHJlbGF0ZWQgdG8g
+aG93IFBFUlNUIyBpcyBoYW5kbGVkIGluCj50aGUgaG9zdC4KPgo+Um9ja3BybzY0IFNvQyBkZWZp
+bmVzIHRoZSBQRVJTVCMgR1BJTyBhcyBiZWxvdyBpbgo+YXJjaC9hcm02NC9ib290L2R0cy9yb2Nr
+Y2hpcC9yazMzOTktcm9ja3BybzY0LmR0c2k6Cj4KPiAgICAgICAgZXAtZ3Bpb3MgPSA8JmdwaW8y
+IFJLX1BENCBHUElPX0FDVElWRV9ISUdIPjsKPgo+SGVyZSwgdGhlIFBFUlNUIyBHUElPIGlzIGNv
+bmZpZ3VyZWQgYXMgQUNUSVZFX0hJR0guIFNvIHdoYXRldmVyIHRoZSB2YWx1ZSBkcml2ZXIKPnNl
+dHMgYXMgdGhlIGxvZ2ljYWwgb3V0cHV0IGZvciB0aGUgR1BJTywgaXQgd2lsbCBiZSByZWZsZWN0
+ZWQgYXMgaXQgaXMgb24gdGhlCj5waHlzaWNhbCBsaW5lLgo+Cj5JbiB0aGUgZHJpdmVycy9wY2kv
+Y29udHJvbGxlci9wY2llLXJvY2tjaGlwLWhvc3QuYyBkcml2ZXI6Cj4KPglncGlvZF9zZXRfdmFs
+dWVfY2Fuc2xlZXAocm9ja2NoaXAtPmVwX2dwaW8sIDApOyAjIFBFUlNUIyBhc3NlcnQKPglncGlv
+ZF9zZXRfdmFsdWVfY2Fuc2xlZXAocm9ja2NoaXAtPmVwX2dwaW8sIDEpOyAjIFBFUlNUIyBkZWFz
+c2VydAo+Cj5TbyB3aGVuIGRyaXZlciBhc3NlcnRzIHRoZSBQRVJTVCMgR1BJTywgdGhlIHBoeXNp
+Y2FsIGxpbmUgd2lsbCBvdXRwdXQgImxvdyIKPmNvcnJlc3BvbmRpbmcgdG8gdGhlIGRyaXZlciBs
+b2dpY2FsIHZhbHVlICIwIi4gQW5kIHZpY2UgdmVyc2EgZm9yIHRoZSBkZWFzc2VydC4KPgo+V2hl
+biBob3N0IHJlYm9vdCBoYXBwZW5zLCB0aGUgZHJpdmVyIGlzIG5vdCBkb2luZyBhbnl0aGluZyBz
+cGVjaWZpYyBmb3IgUEVSU1QjLgo+U28gYWZ0ZXIgdGhlIFNvQyByZWJvb3QsIHRoZSBwaHlzaWNh
+bCBsaW5lIGdvZXMgdG8gImxvdyIgc3RhdGUgY29ycmVzcG9uZGluZyB0bwo+UEVSU1QjIGFzc2Vy
+dCAoZGVmYXVsdCBzdGF0ZSBvZiB0aGUgR1BJTykgYW5kIHRoaXMgaXMgcmVmbGVjdGVkIGluIHRo
+ZSBlbmRwb2ludAo+bG9nIGFzOgo+Cj4JWyAgICA5MS43NDc3MzQxODVdIGVwX3BjaWVfaGFuZGxl
+X3BlcnN0X2lycTogUENJZSBWMTcxMTIxMTogTm8uIDEgUEVSU1QgYXNzZXJ0aW9uCj4KPlRoZW4s
+IHdoZW4gdGhlIGhvc3QgY29udHJvbGxlciBwcm9iZXMsIHRoZSBQRVJTVCMgR1BJTyBpcyByZXF1
+ZXN0ZWQgYXMgYmVsb3c6Cj4KPglyb2NrY2hpcC0+ZXBfZ3BpbyA9IGRldm1fZ3Bpb2RfZ2V0X29w
+dGlvbmFsKGRldiwgImVwIiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIEdQSU9EX09VVF9ISUdIKTsKPgo+SGVyZSwgdGhlIEdQSU8g
+aXMgcmVxdWVzdGVkIHdpdGggdGhlIGluaXRpYWwgc3RhdGUgb2YgR1BJT0RfT1VUX0hJR0guIFdo
+aWNoCj5tZWFucywgdGhlIGRyaXZlciBzZXRzIHRoZSBsb2dpY2FsIHZhbHVlIG9mIHRoZSBQRVJT
+VCMgR1BJTyB0byAiMSIgYW5kIHRoZQo+cGh5c2ljYWwgdmFsdWUgd2lsbCBiZSAiaGlnaCIgYW5k
+IHRoaXMgaXMgcmVmbGVjdGVkIGluIHRoZSBlbmRwb2ludCBsb2cgYXM6Cj4KPglbICAgIDkyLjQ3
+NTIwNzY3N10gZXBfcGNpZV9oYW5kbGVfcGVyc3RfaXJxOiBQQ0llIFYxNzExMjExOiBOby4gMSBQ
+RVJTVCBkZWFzc2VydGlvbgkKPgo+VGhlbiBkdXJpbmcgcm9ja2NoaXBfcGNpZV9ob3N0X2luaXRf
+cG9ydCgpIG9mIGRyaXZlciBwcm9iZSwgUEVSU1QjIGlzIGFzc2VydGVkCj5hZ2FpbiB0byBwZXJm
+b3JtIHJlZ2lzdGVyIGluaXRpYWxpemF0aW9uIGFuZCB0aGlzIGlzIGFsc28gcmVmbGVjdGVkIGlu
+IHRoZQo+ZW5kcG9pbnQgbG9nIGFzOgo+Cj4JWyAgICA5Mi40NzUzNjYwMTBdIGVwX3BjaWVfaGFu
+ZGxlX3BlcnN0X2lycTogUENJZSBWMTcxMTIxMTogTm8uIDIgUEVSU1QgYXNzZXJ0aW9uCj4KPk9u
+Y2UgdGhlIHJlZ2lzdGVyIGluaXRpbGl6YXRpb24gaXMgY29tcGxldGVkLCB0aGVuIHRoZSBQRVJT
+VCMgaXMgZGVhc3NlcnRlZDoKPgo+CVsgICAgOTIuNTAzNTY4MzU0XSBlcF9wY2llX2hhbmRsZV9w
+ZXJzdF9pcnE6IFBDSWUgVjE3MTEyMTE6IE5vLiAyIFBFUlNUIGRlYXNzZXJ0aW9uCj4KPlRoZSBp
+c3N1ZSBoZXJlIGhhcHBlbnMgZHVlIHRvIHRoZSB2ZXJ5IHNob3J0IHRpbWUgYmV0d2VlbiB0aGUg
+Zmlyc3QgUEVSU1QjCj5kZWFzc2VydCBkdXJpbmcgZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoKSBh
+bmQgdGhlbiBzdWNjZXNzaXZlIFBFUlNUIyBhc3NlcnQKPmR1cmluZyByb2NrY2hpcF9wY2llX2hv
+c3RfaW5pdF9wb3J0KCkgYXMgUWlhbmcgbm90ZWQuCj4KPkJ1dCB0aGUgR1BJTyBmbGFnIChHUElP
+RF9PVVRfSElHSCkgaXMgd2hhdCBhY3R1YWxseSBjdWxwcml0LiBJdCBpcyBzdXBwb3NlZCB0bwo+
+YmUgR1BJT0RfT1VUX0xPVyBhcyB0aGUgZHJpdmVyIHNob3VsZCBub3QgZGVhc3NlcnQgUEVSU1Qj
+IGJlZm9yZSBjb25maWd1cmluZyB0aGUKPmNvbnRyb2xsZXIuCj4KPkBTbGFyazogSWYgeW91IGNh
+biBtb2RpZnkgdGhlIGhvc3QgcGxhdGZvcm0sIHRoZW4gdHJ5IGNoYW5naW5nIHRoZSBmbGFnIGZy
+b20KPkdQSU9EX09VVF9ISUdIIHRvIEdQSU9EX09VVF9MT1cgaW4gWzFdIGFuZCBzZWUgaWYgdGhh
+dCBmaXhlcyB0aGUgaXNzdWUgZHVyaW5nCj5yZWJvb3QuCj4KPi0gTWFuaQo+Cj5bMV0gaHR0cHM6
+Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc3RhYmxlL2xpbnV4Lmdp
+dC90cmVlL2RyaXZlcnMvcGNpL2NvbnRyb2xsZXIvcGNpZS1yb2NrY2hpcC5jP2g9djYuNi4zI24x
+MjMKPgo+PiA+IEF0IDIwMjQtMDQtMDkgMTI6MzU6NDEsICJRaWFuZyBZdSIgPHF1aWNfcWlhbnl1
+QHF1aWNpbmMuY29tPiB3cm90ZToKPj4gPiA+Cj4+ID4gPk9uIDQvOC8yMDI0IDU6NTkgUE0sIFNs
+YXJrIFhpYW8gd3JvdGU6Cj4+ID4gPj4gSGkgTWFuaSwKPj4gPiA+PiBQbGVhc2Ugc2VlIGF0dGFj
+aGVkIGxvZyBmaWxlcyhib3RoIGtlcm5lbCBsb2cgYW5kIElQQyBsb2cpLgo+PiA+ID4+Cj4+ID4g
+PkhpIE1hbmksIFNsYXJrCj4+ID4gPgo+PiA+ID5JIGV2ZXIgbWV0IHNpbWlsYXIgaXNzdWUgbGlr
+ZSB0aGlzLCB3aGVyZSBkZXZpY2UgdHJlYXRlZCBEM2NvbGQscmVhZHkgLT4gRDAKPj4gPiA+YXMg
+aWxsZWdhbCB0cmFuc2l0aW9uLgo+PiA+ID4KPj4gPiA+IkVQX1BDSUVfUE1fRDBfRVZFTlQ6IGls
+bGVnYWwgaW4gY3VycmVudCBNSEkgc3RhdGU6IFJFQURZIGFuZCBEM19DT0xEX1NUQVRFIgo+PiA+
+ID4KPj4gPiA+SW4gTUhJIHNwZWMsIHRoZXJlIGlzIG5vdCB0cmFuc2l0aW9uIHBhdGggZnJvbSBE
+M2NvbGQscmVhZHktPkQwLCBidXQKPj4gPiA+aW4gZmFjdCwgd2UgaGF2ZSB0aGlzIHRyYW5zaXRp
+b24gaW4gc29tZSBjYXNlcy4KPj4gPiA+Cj4+ID4gPkZvciBleGFtcGxlLCB3aGVuIHdlIHJlbW92
+ZSBhbmQgcmVpbnN0YWxsIHBjaSBnZW5lcmljIGRyaXZlci4gRHVyaW5nCj4+ID4gPnJlbW92ZSwK
+Pj4gPiA+bWhpIHdpbGwgcmVzZXQgZGV2aWNlIGFuZCBwY2kgZnJhbWV3b3JrIHdpbGwgcHV0IGl0
+IGludG8gRDNjb2xkCj4+ID4gZGlyZWN0bHkgPndoZW4KPj4gPiA+cm9vdHBvcnQgZHJpdmVyIHJ1
+bnRpbWUgc3VzcGVuZC4gV2hlbiB3ZSByZWluc3RhbGwgZHJpdmVyLCBkZXZpY2Ugd2lsbAo+PiA+
+ID5zZWUgRDAKPj4gPiA+ZXZlbnQgYnV0IGl0cyBjdXJyZW50IHN0YXRlIGlzIEQzY29sZCxyZWFk
+eS4gVGhlIHdob2xlIHN0YXRlIHRyYW5zaXRpb24gaXMKPj4gPiA+bGlrZToKPj4gPiA+RDAsTTAg
+LT4gRDAscmVzZXQgLT4gRDAscmVhZHktPiBEM2NvbGQscmVhZHkgLT4gRDAscmVhZHkuCj4+ID4g
+Pgo+PiA+ID5EdXJpbmcgcmVib290LCBpZiBkZXZpY2UgZG9lc24ndCByZWJvb3Qgd2l0aCBob3N0
+LCBsb29rIGxpa2Ugd2Ugd2lsbAo+PiA+ID5hbHNvIG1lZXQKPj4gPiA+c2ltaWxhciB0cmFuc2l0
+aW9uLgo+PiA+ID4KPj4gPiA+VGhpcyBpbGxlZ2FsIHN0YXRlIGVycm9yIGxvZyBtYXkgbm90IHJv
+b3QgY2F1c2UgdG8gdGhpcyBpc3N1ZS4gRXZlbgo+PiA+ID5wcm9jZXNzIGl0Cj4+ID4gPmFzIHN5
+c2Vyciwgd2UgY2FuIHN0aWxsIHJlY292ZXJ5IGFuZCBnbyBiYWNrIHRvIE0wLgo+PiA+ID4+IEF0
+IDIwMjQtMDQtMDIgMTI6NTY6NDcsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pQGtlcm5l
+bC5vcmc+IHdyb3RlOgo+PiA+ID4+ID4rIE1ISSBsaXN0Cj4+ID4gPj4gPgo+PiA+ID4+ID5PbiBU
+aHUsIE1hciAyOCwgMjAyNCBhdCAwODowMjoyMFBNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+
+PiA+ID4+ID4+IEhpIE1hbmksCj4+ID4gPj4gPj4gIEhvcGUgeW91IGFyZSBkb2luZyB3ZWxsISBJ
+IGdvdCBhIHByb2JsZW0gd2l0aCBvdXIgc2R4NjUgZGV2aWNlIGluIHNvbWUKPj4gPiA+PiA+PiA+
+PiA+PiBzcGVjaWZpYyBwbGF0Zm9ybS4gTUhJIGRyaXZlciB3b3VsZCByZXBvcnQgImZhaWxlZCB0
+byBwb3dlcgo+PiA+IHVwIE1ISSBjb250cm9sbGVyIgo+PiA+ID4+ID4+IHdoZW4gZGV2aWNlIGJv
+b3R1cC4gQWN0dWFsbHksIEkgY2FuIHJlcHJvZHVjZSB0aGlzIGVycm9yIHdoZW4gaG9zdCBkb2lu
+ZyBhCj4+ID4gPj4gPj4gcmVib290LiBJdCdzIFJvY2twcm82NCB3aXRoIFNEWDY1LCBhbmQga2Vy
+bmVsIDYuNi4zIG9yIDYuNy4xMC4KPj4gPiA+PiA+PiA+PiA+PiBTbyBJIGFkZCBzb21lIGxvZ3Mg
+YW5kIGNoYW5nZSBkYmcgbGV2ZWwgbG9nIHRvIGluZm8gZm9yIG1vcmUKPj4gPiBwcmludC4gWW91
+IGNhbgo+PiA+ID4+ID4+IHNlZSBteSBhdHRhY2htZW50cyBmb3IgcmVmZXJlbmNlLgo+PiA+ID4+
+ID4+IEl0IHNlZW1zIHRoZSBob3N0IGRpZG4ndCByZWNlaXZlIHRoZSBldmVudCBvZiAiTUlTU0lP
+TiBNT0RFIiBhbmQgdGhlbgo+PiA+ID4+ID4+IHBvd2VyIGRvd24gdGhlIGRldmljZS4KPj4gPiA+
+PiA+PiBCVFcsIHRoZXJlIGFyZSBzb21lIGV4dHJhIGxvZyBwcmludHMgd2VyZSBhZGRlZCBpbiBm
+dW5jdGlvbgo+PiA+ID4+ID4+IG1oaV9zeW5jX3Bvd2VyX3VwKCkuIFlvdSBjYW4gZmluZCBpdCB3
+aXRoIG1hc2sgIiMjc2hhd24jIyIuCj4+ID4gPj4gPj4gRG8geW91IGhhdmUgYW55IGlkZWEgdG8g
+ZGVidWcgaXQ/Cj4+ID4gPj4gPj4gPj4gPgo+PiA+ID4+ID5Mb29rcyBsaWtlIHNvbWV0aGluZyBn
+b25lIHdyb25nIHdpdGggdGhlIGRldmljZSBmaXJtd2FyZS4gSXMgaXQgcG9zc2libGUgdG8gZ2V0
+Cj4+ID4gPj4gPnRoZSBsb2dzIGZyb20gdGhlIGRldmljZT8KPj4gPiA+PiA+Cj4+ID4gPj4gPlRo
+aXMgY291bGQgYmUgZHVlIHRvIHRoZSB3YXkgdGhlIFBDSWUgY29udHJvbGxlciBkcml2ZXIgb24g
+dGhlIGhvc3QgaGFuZGxpbmcKPj4gPiA+PiA+cmVib290Lgo+PiA+ID4+ID4KPj4gPiA+PiA+QnV0
+IGxldCdzIGdldCB0aGUgZGV2aWNlIGxvZ3MgZmlyc3QgdG8gZGVidWcgZnVydGhlci4KPj4gPiA+
+PiA+Cj4+ID4gPj4gPi0gTWFuaQo+PiA+ID4+ID4KPj4gPiA+PiA+LS0gPj4gPuCuruCuo+Cuv+Cu
+teCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40KPj4gCj4KPi0tIAo+4K6u
+4K6j4K6/4K614K6j4K+N4K6j4K6p4K+NIOCumuCupOCuvuCumuCuv+CuteCuruCvjQo=
