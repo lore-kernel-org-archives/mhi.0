@@ -1,192 +1,169 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD45D512
-	for <mhi@lists.linux.dev>; Tue, 16 Apr 2024 03:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BFE3B29D
+	for <mhi@lists.linux.dev>; Tue, 16 Apr 2024 05:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713239807; cv=none; b=WpjP02+Unc4ZI7S0nGsUtb7S4C0M4Ju/aDrgAnTn/gO6IcOK+SJCqY/MBwMqrK4KyyPj9LETa5qU3giKzrSHMUweMtwK82WWsTI1iinIcMzP1TuRsQ9qEDhOXJmFm14rXbxCguQBdCNfD5TKLnrADuuXEfK/1QL6ntvsvdZdcf8=
+	t=1713246179; cv=none; b=fHlUWbBEEyOqGNoFN7j35Qv8A/5JOkKBJURED/9PuOnEu7y9KixzHrxasul1fFZhBPIafBg6O67X7t/y4qBy0YUxYTilJ1WgaxSwGRzxT2dlQneMgWRiQomfZ4BQ/kinCKiAUh73J1LoYgEET6m+cDoev9o0vBrCOUwMz2OqjuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713239807; c=relaxed/simple;
-	bh=kV2C5u1GAeuvRAEY6qNSnRzP8eGCOOZfsqkxceUdwTw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=G3s8V9WrR7IaeCJ4RIE9aYSp269sHPJdtZ2rXggpi44PulmKQeaenWce4dKt/Q8iysoAJCh9AuV+m6rzbqvgjpk4ItRRJe05YfieRvW5sUTv/AmukAd3jOlGpH/4zkXeGQ688/oHc5FtSDdzYkCi8PCB0Hfo60vu5bw2W69j3Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=pvk1P2a/ reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1713246179; c=relaxed/simple;
+	bh=YzcwzdZL4XKreo1CF3wbVR5j3L/jHhRL6gcOR16pIWc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cVITDi5yng9enIVWgi+0zPd05qz3Ys+aafE9snmnClqGHQ1lCurVuzgJ57upiRGC72EIyfUg64+y8+HwD8ofo+/tGVoUU4JroHGszk3T0awjTeWaOVZVRpY+q9ynX4hF5b1ldBxCWCn2Qj1O7KaIGFBYI0NDtzD3YjXDVj0/vSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZWZ2gDDa; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="pvk1P2a/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=Y1HUbIpJeB5NK+m6OIuQC3ThjVt4TQlHA3jGEHxuzlY=; b=p
-	vk1P2a/pA01xJBjQ314urx4HeGUc/kz4QOq5QMhs6nMObAjpfOIyLojfNM5dvrvc
-	xtokJu6In8EyXVrjjCE7MXL+TIg6Uo52+7CTux/4ez0LI15e1HxB8+lxbSduRQfv
-	y/JDCVbhTsX5zezBcTAqUFlY8fYOJUcHHCmtS+xaco=
-Received: from slark_xiao$163.com ( [223.160.230.47] ) by
- ajax-webmail-wmsvr-40-105 (Coremail) ; Tue, 16 Apr 2024 11:56:24 +0800
- (CST)
-Date: Tue, 16 Apr 2024 11:56:24 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: "Qiang Yu" <quic_qianyu@quicinc.com>, mhi@lists.linux.dev
-Subject: Re:Re: failed to power up MHI controller issue
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240415103316.GE7537@thinkpad>
-References: <38c7997c.10212.18e84f08a4f.Coremail.slark_xiao@163.com>
- <20240402045647.GG2933@thinkpad>
- <4d76dd24.edcc.18ebd2606cc.Coremail.slark_xiao@163.com>
- <5b6ca95c-92a0-4f47-9a92-ed8ba3c29fa1@quicinc.com>
- <40210cbb.3949.18ed6b904d6.Coremail.slark_xiao@163.com>
- <ca6b8dfb-7544-40c9-a6f2-e8c25a1b7c2c@quicinc.com>
- <20240415103316.GE7537@thinkpad>
-X-NTES-SC: AL_Qu2aAf6Ytk8j4imYZ+kWmEgThek/XsuyuPov2oJRN5k0tyTj6AoMdEBxM3rV0c+2OTmMjyeYczFD1cJqfqx0cL3saheRFSRVllhO7u47jyFK
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZWZ2gDDa"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6ecee1f325bso3707837b3a.2
+        for <mhi@lists.linux.dev>; Mon, 15 Apr 2024 22:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713246177; x=1713850977; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A3zTEkiG2nqHLpygf92sT5A2vKJ1K17V0uKLVPKWPqc=;
+        b=ZWZ2gDDa0v0+jbZHN1/9/PcvEoCl6pU6akkp5jswjvSZPYikXWQukvhd/xtG0sFPat
+         OdFsj3Kg7tkAD69rrE4WIAJUprfixg2r/4As3UwMNYt5Ywjnr3scQohwi2ZcBg/i1/2q
+         uPhCxfWlzWYCQeFk7cmYgTi+YsRa2wJPavkOfcVIeuH66ScpIutl9ZTH47ZZXBwf3y2t
+         InyQA5o5pn9qjIyZGtE+YUN2nNC3Zuyt7GMANYbQoSc71r0KlrsvIQMagOXCzJT40Pwq
+         apfWKl0O3JWSPrVEi2A4wSBhqzXA1U7TAKRDep8IMemQ2M01osdKJzoVWO5WAydrPB7Z
+         hSPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713246177; x=1713850977;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A3zTEkiG2nqHLpygf92sT5A2vKJ1K17V0uKLVPKWPqc=;
+        b=uKbM0THr9cdGAWaTfimOSbkPWK0uXS8c5qn7M54WKBlOLEHiH7dxGtuwbon5Oh2Akv
+         ul5gAlQRJAI0cMtVvSjFO9BkaX2Ks6yEe6HJbb+zgMntks2PEwx1gr1A7VkAGBC7igZc
+         UG+biSR+Syrhyw7KIUEPndVWyLlITwCU1InpNwn1oz2PxaJ5mDvbqWeVS/a4fFi4HT1V
+         jouXnLz5DoqJRHcXsQhYRWVhoh579QJIEhg3U4R/Nj4hnPfw4b70ZQDgp0EKlRmkYsju
+         xAE83A7/AxxNbXtJx+8s2ogFALl0d6wbUD39P3QT+iV54jBdOejvJNv8bxZ1FWJxyzAJ
+         rJvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWeSuUhZX6sjs/9b27qymygsBM7sYKOcOEGWcMNM/k+Hv/PYtDryAlcIJ+l89K+2C4EMz6CWlEuAkFkJIfJQS6aZesn
+X-Gm-Message-State: AOJu0YxDKrZr0QKqqAsCMfXYMz+/mCHXnljDWNs2wH7FSa1irTFRQY3j
+	0xdeVg5HzINNbwLfyVr0dAQz4Rws93O2+lNEp7VgEYm/aOMKfid0xhv+c4uA0Q==
+X-Google-Smtp-Source: AGHT+IHmL5CGk/C9YY3eQgCl7Y3aehKD10gTha3MpE92TAHps4Lx1+7Q4FtBizYCJM5LHup7vD1Aeg==
+X-Received: by 2002:a05:6a00:1945:b0:6ea:f4ad:7298 with SMTP id s5-20020a056a00194500b006eaf4ad7298mr16195085pfk.34.1713246177243;
+        Mon, 15 Apr 2024 22:42:57 -0700 (PDT)
+Received: from [127.0.1.1] ([103.28.246.221])
+        by smtp.gmail.com with ESMTPSA id jw9-20020a056a00928900b006ece7862035sm8096651pfb.128.2024.04.15.22.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 22:42:56 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Date: Tue, 16 Apr 2024 11:12:35 +0530
+Subject: [PATCH] PCI: rockchip: Use GPIOD_OUT_LOW flag while requesting
+ ep_gpio
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <61e13e10.612a.18ee50c7dca.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3X6Lo9h1mw2ULAA--.4209W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQvCZGV4HH6axwABs7
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240416-pci-rockchip-perst-fix-v1-1-4800b1d4d954@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAMoPHmYC/x2MQQqAMAzAviI9W3BFxvQr4kFq1SLo6EQE2d8dH
+ hNIXkhiKgn66gWTW5OeRwFXV8DbdKyCOhcGaqhtWucxsqKdvPOmEaNYunDRB0PgjsiTm7sJShx
+ Niv7Hw5jzB1Ks2+JoAAAA
+To: Shawn Lin <shawn.lin@rock-chips.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Brian Norris <briannorris@chromium.org>
+Cc: linux-pci@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ mhi@lists.linux.dev, stable@vger.kernel.org, 
+ Slark Xiao <slark_xiao@163.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3420;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=YzcwzdZL4XKreo1CF3wbVR5j3L/jHhRL6gcOR16pIWc=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBmHg/crzU1Kkb1i9AqXVJ3hRXBiUx9TkrzmPVOq
+ mUTZO2izYWJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZh4P3AAKCRBVnxHm/pHO
+ 9fTRCACK8wHhlIy/kLvZHbQzhc/EFgpLhGxBwGkKpiC9xOYMycx6mQuk8X1lpK2goCoKljGgktY
+ e/Ti3YO9R2ntH5ycJCk/FK/xMY1wZffrkZYUg6QKtEvZoa/kWnzAIk+Vt9bagTtP++dRzu4C7bq
+ 0Zgccetk3ERl1hzVhTluvHGB1AEHOCgCIyQTOS31v3gy2QmRLo4zDLQULZvtm6X0fNDJNQ2qlsW
+ ftcyIPvXBVxIDlkQsY8t5m23kXP/PeVhPhIn/bvbB2rJ5g4Tsr15A3RwqVuSKt9C6V89PogwlGn
+ qFNOcL9t95ugWM11fE3JxyLL309ww7DJvfLnqgnK8zPZDpqZ
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-CkhpIE1hbmksIFFpYW5nWXUsCkp1c3QgY29uZmlybWVkIGl0IHdpdGggYXR0YWNoZWQgbW9kaWZp
-Y2F0aW9uLCBhbmQgaXNzdWUgd2FzIGdvbmUuClNvIHlvdSBjYW4gaGVscCB1cGRhdGUgaXQgaW50
-byBrZXJuZWwgc2lkZS4gQW5kIEkgd2lsbCBmb2xsb3cgdGhpcwpyZWZlcmVuY2UgZGVidWcgZXhw
-ZXJpZW5jZSBmb3Igb3RoZXIgcG90ZW50aWFsIHBsYXRmb3JtLgpUaGFuayB5b3UgZ3V5cyBhIGxv
-dCEKCkF0IDIwMjQtMDQtMTUgMTg6MzM6MTYsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5p
-QGtlcm5lbC5vcmc+IHdyb3RlOgo+T24gTW9uLCBBcHIgMTUsIDIwMjQgYXQgMDI6MDk6MzVQTSAr
-MDgwMCwgUWlhbmcgWXUgd3JvdGU6Cj4+IAo+PiBPbiA0LzEzLzIwMjQgNToxMCBQTSwgU2xhcmsg
-WGlhbyB3cm90ZToKPj4gPiBIaSBRaWFuZ1l1LCBNYW5pLAo+PiA+IE15IGNhc2UgaGFzIGEgYml0
-IGRpZmZlcmVuY2Ugd2l0aCB5b3Vycy4KPj4gPiBJbiBteSBsb2NhbCBjYXNlLCBkZXZpY2UgY2Fu
-J3QgYmUgcmVjb3ZlcmVkIGV4Y2VwdCBhIHJlYm9vdChtYWlubHkgYSBjb2xkCj4+ID4gcmVib290
-KS4gV29ya2Fyb3VuZCByZW1vdmUgYW5kIHJlc2NhbiBjYW4ndCBzb2x2ZSBpdC4KPj4gPiBBbHNv
-LCB0aGlzIGlzc3VlIGNvdWxkIGJlIG9jY3VyZWQgaW4gc29tZSBwbGF0Zm9ybSBpbiB0aGUgZmly
-c3QgYm9vdHVwLgo+PiA+IE1heSBJIGtub3cgaWYgdGhpcyBpc3N1ZSByZWxhdGVkIHdpdGggdGhl
-IHBvd2VyIHNlcXVlbmNlIG9mIGhvc3Qgb3IKPj4gPiBwaW4gc2V0dGluZ3Mgb2YgdGhlIGNvbm5l
-Y3Rvcj8KPj4gSGkgU2xhcmsKPj4gCj4+IEkgZG9uJ3QgdGhpbmsgaXQncyBhIG1oaSBob3N0IGRy
-aXZlciBpc3N1ZS4gRnJvbSB0aGUgbG9nIHlvdSBzaGFyZWQsIHRoZXJlCj4+IGlzIGEKPj4gUEVS
-U1QgZGVhc3NlcnRpb24gZm9sbG93ZWQgYnkgYSBQRVJTVCBhc3NlcnRpb24gY2xvc2VseSwgbGVh
-ZGluZyB0byBkZXZpY2UKPj4gcnVuCj4+IG91dCBvZiBvcmRlci4KPj4gCj4+IC8vIEhlcmUsIHN1
-cHBvc2UgcmVib290IGlzIHRyaWdnZXJlZCBvbiBob3N0LCBzbyBtaGlfcGNpX3NodXRkb3duIGlz
-IGludm9rZWQKPj4gOTEuNDc0MTAwMjc4IFsweDAgbWhpX3NtX3BjaWVfZXZlbnRfbWFuYWdlcl0g
-SGFuZGxpbmcKPj4gRVBfUENJRV9QTV9EM19IT1RfRVZFTlQKPj4gZXZlbnQsIGN1cnJlbnQgc3Rh
-dGVzOiBSRUFEWSBhbmQgRDBfU1RBVEUKPj4gCj4+IDkxLjc0NzczNDE4NSBlcF9wY2llX2hhbmRs
-ZV9wZXJzdF9pcnE6IFBDSWUgVjE3MTEyMTE6IE5vLiAxIFBFUlNUIGFzc2VydGlvbgo+PiA5MS43
-NDc3ODQzNDIgWzB4MCBtaGlfZGV2X3NtX3BjaWVfaGFuZGxlcl0gcmVjZWl2ZWQ6Cj4+IEVQX1BD
-SUVfUE1fRDNfQ09MRF9FVkVOVAo+PiA5MS43NDgwNDQzOTQgWzB4MCBtaGlfc21fcGNpZV9ldmVu
-dF9tYW5hZ2VyXSBIYW5kbGluZwo+PiBFUF9QQ0lFX1BNX0QzX0NPTERfRVZFTlQKPj4gZXZlbnQs
-IGN1cnJlbnQgc3RhdGVzOiBSRUFEWSBhbmQgRDNfSE9UX1NUQVRFCj4+IAo+PiAvL0hvc3Qgc2hv
-dWxkIHBvd2VyIHVwLCBzbyBpdCBkZWFzc2VydCBwZXJzdCBwcmVwYXJlIHRvIGRvIGxpbmsgdHJh
-aW4uCj4+IDkyLjQ3NTIwNzY3NyBlcF9wY2llX2hhbmRsZV9wZXJzdF9pcnE6IFBDSWUgVjE3MTEy
-MTE6IE5vLiAxIFBFUlNUCj4+IGRlYXNzZXJ0aW9uCj4+IDkyLjQ3NTI2OTk2OCBlcF9wY2llX25v
-dGlmeV9ldmVudDogUENJZSBWMTcxMTIxMTogQ2FsbGJhY2sgY2xpZW50IGZvciBldmVudAo+PiA4
-Cj4+IDkyLjQ3NTMxNzcyOSBlcF9wY2llX2NvcmVfZW5hYmxlX2VuZHBvaW50OiBQQ0llIFYxNzEx
-MjExOiBvcHRpb25zIGlucHV0IGFyZQo+PiAweDIKPj4gOTIuNDc1MzIxNDI3IGVwX3BjaWVfdnJl
-Z19pbml0OiBQQ0llIFYxNzExMjExCj4+IDkyLjQ3NTMyMzgyMyBlcF9wY2llX3ZyZWdfaW5pdDog
-UENJZSBWMTcxMTIxMTogVnJlZyB2cmVnLTFwOCBpcyBiZWluZwo+PiBlbmFibGVkCj4+IAo+PiAv
-L1Byb2Nlc3Mgb2YgcGVyc3QgZGVhc3NlcnQgaGFzIG5vdCBjb21wbGV0ZWQsIGJ1dCBkZWFzc2Vy
-dCBoYXBwZW4sIHdoaWNoIGlzCj4+IG5vdCBleHBlY3RlZAo+PiA5Mi40NzUzNjYwMTAgZXBfcGNp
-ZV9oYW5kbGVfcGVyc3RfaXJxOiBQQ0llIFYxNzExMjExOiBOby4gMiBQRVJTVCBhc3NlcnRpb24K
-Pgo+T2suIEkgdGhpbmsgSSBrbm93IHdoYXQgaXMgZ29pbmcgb24uIEl0IGlzIHJlbGF0ZWQgdG8g
-aG93IFBFUlNUIyBpcyBoYW5kbGVkIGluCj50aGUgaG9zdC4KPgo+Um9ja3BybzY0IFNvQyBkZWZp
-bmVzIHRoZSBQRVJTVCMgR1BJTyBhcyBiZWxvdyBpbgo+YXJjaC9hcm02NC9ib290L2R0cy9yb2Nr
-Y2hpcC9yazMzOTktcm9ja3BybzY0LmR0c2k6Cj4KPiAgICAgICAgZXAtZ3Bpb3MgPSA8JmdwaW8y
-IFJLX1BENCBHUElPX0FDVElWRV9ISUdIPjsKPgo+SGVyZSwgdGhlIFBFUlNUIyBHUElPIGlzIGNv
-bmZpZ3VyZWQgYXMgQUNUSVZFX0hJR0guIFNvIHdoYXRldmVyIHRoZSB2YWx1ZSBkcml2ZXIKPnNl
-dHMgYXMgdGhlIGxvZ2ljYWwgb3V0cHV0IGZvciB0aGUgR1BJTywgaXQgd2lsbCBiZSByZWZsZWN0
-ZWQgYXMgaXQgaXMgb24gdGhlCj5waHlzaWNhbCBsaW5lLgo+Cj5JbiB0aGUgZHJpdmVycy9wY2kv
-Y29udHJvbGxlci9wY2llLXJvY2tjaGlwLWhvc3QuYyBkcml2ZXI6Cj4KPglncGlvZF9zZXRfdmFs
-dWVfY2Fuc2xlZXAocm9ja2NoaXAtPmVwX2dwaW8sIDApOyAjIFBFUlNUIyBhc3NlcnQKPglncGlv
-ZF9zZXRfdmFsdWVfY2Fuc2xlZXAocm9ja2NoaXAtPmVwX2dwaW8sIDEpOyAjIFBFUlNUIyBkZWFz
-c2VydAo+Cj5TbyB3aGVuIGRyaXZlciBhc3NlcnRzIHRoZSBQRVJTVCMgR1BJTywgdGhlIHBoeXNp
-Y2FsIGxpbmUgd2lsbCBvdXRwdXQgImxvdyIKPmNvcnJlc3BvbmRpbmcgdG8gdGhlIGRyaXZlciBs
-b2dpY2FsIHZhbHVlICIwIi4gQW5kIHZpY2UgdmVyc2EgZm9yIHRoZSBkZWFzc2VydC4KPgo+V2hl
-biBob3N0IHJlYm9vdCBoYXBwZW5zLCB0aGUgZHJpdmVyIGlzIG5vdCBkb2luZyBhbnl0aGluZyBz
-cGVjaWZpYyBmb3IgUEVSU1QjLgo+U28gYWZ0ZXIgdGhlIFNvQyByZWJvb3QsIHRoZSBwaHlzaWNh
-bCBsaW5lIGdvZXMgdG8gImxvdyIgc3RhdGUgY29ycmVzcG9uZGluZyB0bwo+UEVSU1QjIGFzc2Vy
-dCAoZGVmYXVsdCBzdGF0ZSBvZiB0aGUgR1BJTykgYW5kIHRoaXMgaXMgcmVmbGVjdGVkIGluIHRo
-ZSBlbmRwb2ludAo+bG9nIGFzOgo+Cj4JWyAgICA5MS43NDc3MzQxODVdIGVwX3BjaWVfaGFuZGxl
-X3BlcnN0X2lycTogUENJZSBWMTcxMTIxMTogTm8uIDEgUEVSU1QgYXNzZXJ0aW9uCj4KPlRoZW4s
-IHdoZW4gdGhlIGhvc3QgY29udHJvbGxlciBwcm9iZXMsIHRoZSBQRVJTVCMgR1BJTyBpcyByZXF1
-ZXN0ZWQgYXMgYmVsb3c6Cj4KPglyb2NrY2hpcC0+ZXBfZ3BpbyA9IGRldm1fZ3Bpb2RfZ2V0X29w
-dGlvbmFsKGRldiwgImVwIiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIEdQSU9EX09VVF9ISUdIKTsKPgo+SGVyZSwgdGhlIEdQSU8g
-aXMgcmVxdWVzdGVkIHdpdGggdGhlIGluaXRpYWwgc3RhdGUgb2YgR1BJT0RfT1VUX0hJR0guIFdo
-aWNoCj5tZWFucywgdGhlIGRyaXZlciBzZXRzIHRoZSBsb2dpY2FsIHZhbHVlIG9mIHRoZSBQRVJT
-VCMgR1BJTyB0byAiMSIgYW5kIHRoZQo+cGh5c2ljYWwgdmFsdWUgd2lsbCBiZSAiaGlnaCIgYW5k
-IHRoaXMgaXMgcmVmbGVjdGVkIGluIHRoZSBlbmRwb2ludCBsb2cgYXM6Cj4KPglbICAgIDkyLjQ3
-NTIwNzY3N10gZXBfcGNpZV9oYW5kbGVfcGVyc3RfaXJxOiBQQ0llIFYxNzExMjExOiBOby4gMSBQ
-RVJTVCBkZWFzc2VydGlvbgkKPgo+VGhlbiBkdXJpbmcgcm9ja2NoaXBfcGNpZV9ob3N0X2luaXRf
-cG9ydCgpIG9mIGRyaXZlciBwcm9iZSwgUEVSU1QjIGlzIGFzc2VydGVkCj5hZ2FpbiB0byBwZXJm
-b3JtIHJlZ2lzdGVyIGluaXRpYWxpemF0aW9uIGFuZCB0aGlzIGlzIGFsc28gcmVmbGVjdGVkIGlu
-IHRoZQo+ZW5kcG9pbnQgbG9nIGFzOgo+Cj4JWyAgICA5Mi40NzUzNjYwMTBdIGVwX3BjaWVfaGFu
-ZGxlX3BlcnN0X2lycTogUENJZSBWMTcxMTIxMTogTm8uIDIgUEVSU1QgYXNzZXJ0aW9uCj4KPk9u
-Y2UgdGhlIHJlZ2lzdGVyIGluaXRpbGl6YXRpb24gaXMgY29tcGxldGVkLCB0aGVuIHRoZSBQRVJT
-VCMgaXMgZGVhc3NlcnRlZDoKPgo+CVsgICAgOTIuNTAzNTY4MzU0XSBlcF9wY2llX2hhbmRsZV9w
-ZXJzdF9pcnE6IFBDSWUgVjE3MTEyMTE6IE5vLiAyIFBFUlNUIGRlYXNzZXJ0aW9uCj4KPlRoZSBp
-c3N1ZSBoZXJlIGhhcHBlbnMgZHVlIHRvIHRoZSB2ZXJ5IHNob3J0IHRpbWUgYmV0d2VlbiB0aGUg
-Zmlyc3QgUEVSU1QjCj5kZWFzc2VydCBkdXJpbmcgZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoKSBh
-bmQgdGhlbiBzdWNjZXNzaXZlIFBFUlNUIyBhc3NlcnQKPmR1cmluZyByb2NrY2hpcF9wY2llX2hv
-c3RfaW5pdF9wb3J0KCkgYXMgUWlhbmcgbm90ZWQuCj4KPkJ1dCB0aGUgR1BJTyBmbGFnIChHUElP
-RF9PVVRfSElHSCkgaXMgd2hhdCBhY3R1YWxseSBjdWxwcml0LiBJdCBpcyBzdXBwb3NlZCB0bwo+
-YmUgR1BJT0RfT1VUX0xPVyBhcyB0aGUgZHJpdmVyIHNob3VsZCBub3QgZGVhc3NlcnQgUEVSU1Qj
-IGJlZm9yZSBjb25maWd1cmluZyB0aGUKPmNvbnRyb2xsZXIuCj4KPkBTbGFyazogSWYgeW91IGNh
-biBtb2RpZnkgdGhlIGhvc3QgcGxhdGZvcm0sIHRoZW4gdHJ5IGNoYW5naW5nIHRoZSBmbGFnIGZy
-b20KPkdQSU9EX09VVF9ISUdIIHRvIEdQSU9EX09VVF9MT1cgaW4gWzFdIGFuZCBzZWUgaWYgdGhh
-dCBmaXhlcyB0aGUgaXNzdWUgZHVyaW5nCj5yZWJvb3QuCj4KPi0gTWFuaQo+Cj5bMV0gaHR0cHM6
-Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc3RhYmxlL2xpbnV4Lmdp
-dC90cmVlL2RyaXZlcnMvcGNpL2NvbnRyb2xsZXIvcGNpZS1yb2NrY2hpcC5jP2g9djYuNi4zI24x
-MjMKPgo+PiA+IEF0IDIwMjQtMDQtMDkgMTI6MzU6NDEsICJRaWFuZyBZdSIgPHF1aWNfcWlhbnl1
-QHF1aWNpbmMuY29tPiB3cm90ZToKPj4gPiA+Cj4+ID4gPk9uIDQvOC8yMDI0IDU6NTkgUE0sIFNs
-YXJrIFhpYW8gd3JvdGU6Cj4+ID4gPj4gSGkgTWFuaSwKPj4gPiA+PiBQbGVhc2Ugc2VlIGF0dGFj
-aGVkIGxvZyBmaWxlcyhib3RoIGtlcm5lbCBsb2cgYW5kIElQQyBsb2cpLgo+PiA+ID4+Cj4+ID4g
-PkhpIE1hbmksIFNsYXJrCj4+ID4gPgo+PiA+ID5JIGV2ZXIgbWV0IHNpbWlsYXIgaXNzdWUgbGlr
-ZSB0aGlzLCB3aGVyZSBkZXZpY2UgdHJlYXRlZCBEM2NvbGQscmVhZHkgLT4gRDAKPj4gPiA+YXMg
-aWxsZWdhbCB0cmFuc2l0aW9uLgo+PiA+ID4KPj4gPiA+IkVQX1BDSUVfUE1fRDBfRVZFTlQ6IGls
-bGVnYWwgaW4gY3VycmVudCBNSEkgc3RhdGU6IFJFQURZIGFuZCBEM19DT0xEX1NUQVRFIgo+PiA+
-ID4KPj4gPiA+SW4gTUhJIHNwZWMsIHRoZXJlIGlzIG5vdCB0cmFuc2l0aW9uIHBhdGggZnJvbSBE
-M2NvbGQscmVhZHktPkQwLCBidXQKPj4gPiA+aW4gZmFjdCwgd2UgaGF2ZSB0aGlzIHRyYW5zaXRp
-b24gaW4gc29tZSBjYXNlcy4KPj4gPiA+Cj4+ID4gPkZvciBleGFtcGxlLCB3aGVuIHdlIHJlbW92
-ZSBhbmQgcmVpbnN0YWxsIHBjaSBnZW5lcmljIGRyaXZlci4gRHVyaW5nCj4+ID4gPnJlbW92ZSwK
-Pj4gPiA+bWhpIHdpbGwgcmVzZXQgZGV2aWNlIGFuZCBwY2kgZnJhbWV3b3JrIHdpbGwgcHV0IGl0
-IGludG8gRDNjb2xkCj4+ID4gZGlyZWN0bHkgPndoZW4KPj4gPiA+cm9vdHBvcnQgZHJpdmVyIHJ1
-bnRpbWUgc3VzcGVuZC4gV2hlbiB3ZSByZWluc3RhbGwgZHJpdmVyLCBkZXZpY2Ugd2lsbAo+PiA+
-ID5zZWUgRDAKPj4gPiA+ZXZlbnQgYnV0IGl0cyBjdXJyZW50IHN0YXRlIGlzIEQzY29sZCxyZWFk
-eS4gVGhlIHdob2xlIHN0YXRlIHRyYW5zaXRpb24gaXMKPj4gPiA+bGlrZToKPj4gPiA+RDAsTTAg
-LT4gRDAscmVzZXQgLT4gRDAscmVhZHktPiBEM2NvbGQscmVhZHkgLT4gRDAscmVhZHkuCj4+ID4g
-Pgo+PiA+ID5EdXJpbmcgcmVib290LCBpZiBkZXZpY2UgZG9lc24ndCByZWJvb3Qgd2l0aCBob3N0
-LCBsb29rIGxpa2Ugd2Ugd2lsbAo+PiA+ID5hbHNvIG1lZXQKPj4gPiA+c2ltaWxhciB0cmFuc2l0
-aW9uLgo+PiA+ID4KPj4gPiA+VGhpcyBpbGxlZ2FsIHN0YXRlIGVycm9yIGxvZyBtYXkgbm90IHJv
-b3QgY2F1c2UgdG8gdGhpcyBpc3N1ZS4gRXZlbgo+PiA+ID5wcm9jZXNzIGl0Cj4+ID4gPmFzIHN5
-c2Vyciwgd2UgY2FuIHN0aWxsIHJlY292ZXJ5IGFuZCBnbyBiYWNrIHRvIE0wLgo+PiA+ID4+IEF0
-IDIwMjQtMDQtMDIgMTI6NTY6NDcsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pQGtlcm5l
-bC5vcmc+IHdyb3RlOgo+PiA+ID4+ID4rIE1ISSBsaXN0Cj4+ID4gPj4gPgo+PiA+ID4+ID5PbiBU
-aHUsIE1hciAyOCwgMjAyNCBhdCAwODowMjoyMFBNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+
-PiA+ID4+ID4+IEhpIE1hbmksCj4+ID4gPj4gPj4gIEhvcGUgeW91IGFyZSBkb2luZyB3ZWxsISBJ
-IGdvdCBhIHByb2JsZW0gd2l0aCBvdXIgc2R4NjUgZGV2aWNlIGluIHNvbWUKPj4gPiA+PiA+PiA+
-PiA+PiBzcGVjaWZpYyBwbGF0Zm9ybS4gTUhJIGRyaXZlciB3b3VsZCByZXBvcnQgImZhaWxlZCB0
-byBwb3dlcgo+PiA+IHVwIE1ISSBjb250cm9sbGVyIgo+PiA+ID4+ID4+IHdoZW4gZGV2aWNlIGJv
-b3R1cC4gQWN0dWFsbHksIEkgY2FuIHJlcHJvZHVjZSB0aGlzIGVycm9yIHdoZW4gaG9zdCBkb2lu
-ZyBhCj4+ID4gPj4gPj4gcmVib290LiBJdCdzIFJvY2twcm82NCB3aXRoIFNEWDY1LCBhbmQga2Vy
-bmVsIDYuNi4zIG9yIDYuNy4xMC4KPj4gPiA+PiA+PiA+PiA+PiBTbyBJIGFkZCBzb21lIGxvZ3Mg
-YW5kIGNoYW5nZSBkYmcgbGV2ZWwgbG9nIHRvIGluZm8gZm9yIG1vcmUKPj4gPiBwcmludC4gWW91
-IGNhbgo+PiA+ID4+ID4+IHNlZSBteSBhdHRhY2htZW50cyBmb3IgcmVmZXJlbmNlLgo+PiA+ID4+
-ID4+IEl0IHNlZW1zIHRoZSBob3N0IGRpZG4ndCByZWNlaXZlIHRoZSBldmVudCBvZiAiTUlTU0lP
-TiBNT0RFIiBhbmQgdGhlbgo+PiA+ID4+ID4+IHBvd2VyIGRvd24gdGhlIGRldmljZS4KPj4gPiA+
-PiA+PiBCVFcsIHRoZXJlIGFyZSBzb21lIGV4dHJhIGxvZyBwcmludHMgd2VyZSBhZGRlZCBpbiBm
-dW5jdGlvbgo+PiA+ID4+ID4+IG1oaV9zeW5jX3Bvd2VyX3VwKCkuIFlvdSBjYW4gZmluZCBpdCB3
-aXRoIG1hc2sgIiMjc2hhd24jIyIuCj4+ID4gPj4gPj4gRG8geW91IGhhdmUgYW55IGlkZWEgdG8g
-ZGVidWcgaXQ/Cj4+ID4gPj4gPj4gPj4gPgo+PiA+ID4+ID5Mb29rcyBsaWtlIHNvbWV0aGluZyBn
-b25lIHdyb25nIHdpdGggdGhlIGRldmljZSBmaXJtd2FyZS4gSXMgaXQgcG9zc2libGUgdG8gZ2V0
-Cj4+ID4gPj4gPnRoZSBsb2dzIGZyb20gdGhlIGRldmljZT8KPj4gPiA+PiA+Cj4+ID4gPj4gPlRo
-aXMgY291bGQgYmUgZHVlIHRvIHRoZSB3YXkgdGhlIFBDSWUgY29udHJvbGxlciBkcml2ZXIgb24g
-dGhlIGhvc3QgaGFuZGxpbmcKPj4gPiA+PiA+cmVib290Lgo+PiA+ID4+ID4KPj4gPiA+PiA+QnV0
-IGxldCdzIGdldCB0aGUgZGV2aWNlIGxvZ3MgZmlyc3QgdG8gZGVidWcgZnVydGhlci4KPj4gPiA+
-PiA+Cj4+ID4gPj4gPi0gTWFuaQo+PiA+ID4+ID4KPj4gPiA+PiA+LS0gPj4gPuCuruCuo+Cuv+Cu
-teCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40KPj4gCj4KPi0tIAo+4K6u
-4K6j4K6/4K614K6j4K+N4K6j4K6p4K+NIOCumuCupOCuvuCumuCuv+CuteCuruCvjQo=
+Rockchip platforms use 'GPIO_ACTIVE_HIGH' flag in the devicetree definition
+for ep_gpio. This means, whatever the logical value set by the driver for
+the ep_gpio, physical line will output the same logic level.
+
+For instance,
+
+	gpiod_set_value_cansleep(rockchip->ep_gpio, 0); --> Level low
+	gpiod_set_value_cansleep(rockchip->ep_gpio, 1); --> Level high
+
+But while requesting the ep_gpio, GPIOD_OUT_HIGH flag is currently used.
+Now, this also causes the physical line to output 'high' creating trouble
+for endpoint devices during host reboot.
+
+When host reboot happens, the ep_gpio will initially output 'low' due to
+the GPIO getting reset to its POR value. Then during host controller probe,
+it will output 'high' due to GPIOD_OUT_HIGH flag. Then during
+rockchip_pcie_host_init_port(), it will first output 'low' and then 'high'
+indicating the completion of controller initialization.
+
+On the endpoint side, each output 'low' of ep_gpio is accounted for PERST#
+assert and 'high' for PERST# deassert. With the above mentioned flow during
+host reboot, endpoint will witness below state changes for PERST#:
+
+	(1) PERST# assert - GPIO POR state
+	(2) PERST# deassert - GPIOD_OUT_HIGH while requesting GPIO
+	(3) PERST# assert - rockchip_pcie_host_init_port()
+	(4) PERST# deassert - rockchip_pcie_host_init_port()
+
+Now the time interval between (2) and (3) is very short as both happen
+during the driver probe(), and this results in a race in the endpoint.
+Because, before completing the PERST# deassertion in (2), endpoint got
+another PERST# assert in (3).
+
+A proper way to fix this issue is to change the GPIOD_OUT_HIGH flag in (2)
+to GPIOD_OUT_LOW. Because the usual convention is to request the GPIO with
+a state corresponding to its 'initial/default' value and let the driver
+change the state of the GPIO when required.
+
+As per that, the ep_gpio should be requested with GPIOD_OUT_LOW as it
+corresponds to the POR value of '0' (PERST# assert in the endpoint). Then
+the driver can change the state of the ep_gpio later in
+rockchip_pcie_host_init_port() as per the initialization sequence.
+
+This fixes the firmware crash issue in Qcom based modems connected to
+Rockpro64 based board.
+
+Cc:  <stable@vger.kernel.org> # 4.9
+Reported-by: Slark Xiao <slark_xiao@163.com>
+Closes: https://lore.kernel.org/mhi/20240402045647.GG2933@thinkpad/
+Fixes: e77f847df54c ("PCI: rockchip: Add Rockchip PCIe controller support")
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/pci/controller/pcie-rockchip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pcie-rockchip.c b/drivers/pci/controller/pcie-rockchip.c
+index 0ef2e622d36e..c07d7129f1c7 100644
+--- a/drivers/pci/controller/pcie-rockchip.c
++++ b/drivers/pci/controller/pcie-rockchip.c
+@@ -121,7 +121,7 @@ int rockchip_pcie_parse_dt(struct rockchip_pcie *rockchip)
+ 
+ 	if (rockchip->is_rc) {
+ 		rockchip->ep_gpio = devm_gpiod_get_optional(dev, "ep",
+-							    GPIOD_OUT_HIGH);
++							    GPIOD_OUT_LOW);
+ 		if (IS_ERR(rockchip->ep_gpio))
+ 			return dev_err_probe(dev, PTR_ERR(rockchip->ep_gpio),
+ 					     "failed to get ep GPIO\n");
+
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240416-pci-rockchip-perst-fix-88c922621d9a
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
