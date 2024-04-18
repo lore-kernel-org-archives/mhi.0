@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08240165FCB;
-	Thu, 18 Apr 2024 14:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879C23D7;
+	Thu, 18 Apr 2024 16:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713451751; cv=none; b=SD7VzRQ4G2zsNOlWu8qtdqWoDdKWTNhZSvhlW5yBusAhB4nn0irpe7D19UHuY3W4ECrLfXfhKisA4l+URfiyKDeyNmsdgE+nEYOZ5Ym5Bna51yrpNHL+tX5UB5PE9V0ewV1xSB6oyaEgmUiYndivLnotCveKk6wamx7GhANCgBc=
+	t=1713456732; cv=none; b=H1Rgl7mnsICXKKdnnAEt4Wrfa61zMhIACVtS5Ib/ItG0HoayTEl+0gSmrtz8oQCbvb1LQDHhFBnMu/9QQDEXt+lojcUAfHbn1zQ249St4wNP7e3VUJWXOfuXeh74bwR7MLU8CSG1V9Co5HvpIoC+a+o2Gp9/sIs3EnAgEyay+K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713451751; c=relaxed/simple;
-	bh=rDbUab31w3dB1JmzdTeQ6kvukXa2XZnDAfrUgOMw7rI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gz1Cpw0hm6Lmzc24dp6wJm0QPP6R81yy9DPcQZ7g7y+pjZiqdJJkBwl1PyHssygmex0GUQDJX8oSw2VwBq9Xup8JXsyf4UR18sJpBLsKrXlHeC6dCN36JdvFeKQ6hojx1tLjMtkjxygU33ySqkH/yqajr+TpO92zfHknWu1dwR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QW4/11Zc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713456732; c=relaxed/simple;
+	bh=eRwB3YCw2t/w180tUcjZCYanbt8cMadquiphPHE1TiA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jZD1eXFAoY/jMxKPYDUvpmNxcKgmwAnQXTPldh4r115dTkYnJdIteQPaR+GD0mrIyOlIdClX7MmOwBdKLB9v9lc/L03VLxyvDYVYCvmpUuFsFwFKl2Rm56kfFuNHKSEe+w06AHn4UH325xqwOe6agOnCD1zpPth0LK65/kuxmYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iE+QD7BL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QW4/11Zc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA2CC113CC;
-	Thu, 18 Apr 2024 14:49:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iE+QD7BL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A8ABC3277B;
+	Thu, 18 Apr 2024 16:12:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713451750;
-	bh=rDbUab31w3dB1JmzdTeQ6kvukXa2XZnDAfrUgOMw7rI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QW4/11Zc0MAOdJOuCp9c+QFLurWnhvoH2qdgj7xHlsJIHUetIlBa92h+/4VhJcqPX
-	 eQzaeTWsxSZFVdot+9Se00mUeADHsUAr7XFDyPwssQnvlkutqNzlTMBgeFvqrDdIxz
-	 kSmctl6EFgw+4pX+ESbHbK0khZlOvpirfg8NnEUQq695oKHBXLcoic6v7vbLVDjAhe
-	 AmsJGALJDKYg018EenIyUy9Zr4IoCRQXIj3ibuLRYbP+T9PI4XX5ZjibvHYUp0Fsn7
-	 r8FpEizpVvGQiQSCdqilFsOn7DSjMHexvtO+D3VLl4rcvvZdCpOwli24TVga1J7gOY
-	 MQaHdQl6UKf9w==
-Date: Thu, 18 Apr 2024 16:49:04 +0200
-From: Niklas Cassel <cassel@kernel.org>
+	s=k20201202; t=1713456731;
+	bh=eRwB3YCw2t/w180tUcjZCYanbt8cMadquiphPHE1TiA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=iE+QD7BLSB9x6TGqXDdv4Zdg0SxEzUneBlr02PnQCY9J93OeWYeFLE7Z2izfpbo9V
+	 7/+xMMaxc5o490jmdY8cyBOuAqJvTrU/lKvPAybVUs1PzpSi1j4spg6tN01mYU9IRH
+	 Xma2PLYFuPx07sHGMvWD9p0LAv85X0uQGQx595NQQWssB09z18Cu7PlY9Fsqij/gxM
+	 j5iY0NBTID0B8Te4oEcr54uWMWuqbqCy/bZLKQthJgZYhSc2nQYHjmWac4O7HdRbSE
+	 +FVfiKdrXzgdjmNmwwDyTTudYOePPw6pyTJvqzQRQ3ccMjXHdY0PUdgphryOjC2tsn
+	 tInUT5nAvtNhg==
+Date: Thu, 18 Apr 2024 11:12:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
@@ -38,11 +38,10 @@ Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mhi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>,
 	Damien Le Moal <dlemoal@kernel.org>
 Subject: Re: [PATCH v3 3/9] PCI: endpoint: Rename BME to Bus Master Enable
-Message-ID: <ZiEy4EVcVpUry9qn@ryzen>
-References: <20240418-pci-epf-rework-v3-0-222a5d1ed2e5@linaro.org>
- <20240418-pci-epf-rework-v3-3-222a5d1ed2e5@linaro.org>
+Message-ID: <20240418161209.GA239309@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -58,23 +57,39 @@ On Thu, Apr 18, 2024 at 05:28:31PM +0530, Manivannan Sadhasivam wrote:
 > spec even though it is commonly referred in many places (vendor docs). But
 > to align with the spec, let's rename it to its expansion 'Bus Master
 > Enable'.
-> 
-> Suggested-by: Damien Le Moal <dlemoal@kernel.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
 
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
+Thanks for doing this.  I'm always in favor of using terms from the
+spec.
 
+> -		dev_dbg(dev, "Received BME event. Link is enabled!\n");
+> +		dev_dbg(dev, "Received Bus Master Enable event. Link is enabled!\n");
 
-Outside the scope of this patch/series:
-Do we perhaps want to add a bus_master_enable() callback also for the
-pci-epf-test driver?
+Nothing to do with *this* patch, but this message reads a little weird
+to me because setting Bus Master Enable has nothing to do with link
+enablement.
 
-In my opinion, the test driver should be "the driver" that tests that
-all the EPF features/callbacks work, at least a basic test "does it
-work at all". Other EPF drivers can implement the callbacks, and do
-more intelligent things, i.e. more than just seeing that "it works".
+Also incidental: some of these messages and comments refer to a "Bus
+Master Enable *event*".  Does "event" here refer to the act of the
+host setting the Bus Master Enable bit in the Command register?  This
+is in qcom_pcie_ep_global_irq_thread(), so I assume there's something
+in the endpoint hardware that generates an IRQ when the Command
+register is written?
 
+> - * pci_epc_bme_notify() - Notify the EPF device that the EPC device has received
+> - *			  the BME event from the Root complex
+> - * @epc: the EPC device that received the BME event
+> + * pci_epc_bus_master_enable_notify() - Notify the EPF device that the EPC
+> + *					device has received the Bus Master
+> + *					Enable event from the Root complex
+> + * @epc: the EPC device that received the Bus Master Enable event
+>   *
+>   * Invoke to Notify the EPF device that the EPC device has received the Bus
+> - * Master Enable (BME) event from the Root complex
+> + * Master Enable event from the Root complex
 
-Kind regards,
-Niklas
+There's no "set Bus Master Enable" transaction that would appear on
+the PCIe link, so I assume "the Bus Master Enable event from the Root
+Complex" is a way of saying something like "host has written the
+Command register to set the Bus Master Enable bit"?
+
+Bjorn
