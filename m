@@ -1,60 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BE94CE1F;
-	Mon, 22 Apr 2024 07:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A5A4E1D1;
+	Mon, 22 Apr 2024 08:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713772533; cv=none; b=drwYbwnGRYv0EwskYluVxqmmJiJiLK8KeZ66rF0BvTCe6JtRMzTHSCM3qJ0YEKVtZwYk8d3IxNwv4WfePAkSGYxY1OekVdyzKV9ArjqNVhyXyb1fzUiccA1EraCBgPtucU2IYKzU/QBzqpaivKyIVLC3lQnkh2liHAIbybXlz/I=
+	t=1713773328; cv=none; b=S5+lq5xgIQVDv6C83FxvHP4dOxwljera6eU8GOuBCmDhmUpjLRZE/4z5LZ83or4lvcc5XXqW2UgeWLMm/VAxf8LtZIBJR5G1Todgq8b8Ob9C7ov+czN9z2GouHfk7ehPet8eefxjCfVIIbDziAZxlTlKH6Mka5GhhL0PO5k8c4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713772533; c=relaxed/simple;
-	bh=EzRjNCSbKtQiwQ0eT1S66pyOa6ClYC4xUHa8zMfB0Xs=;
+	s=arc-20240116; t=1713773328; c=relaxed/simple;
+	bh=pNxKvZ0pvbZikOaEInjWBK+/okMiv9iReGjzye9rv6g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=trn4w3RGC8pl3guK2ha+Lw+5daTz0zaMV26mSmQAcseQrFDyHn7bffjhv4uL0eVSoj3cxXBMLeHjEZgV+hXqPr39U2KoLuQ4cnoQ6Ngro6qztd/lWrzfBSQahGgMok7attd1lI0k7uQ4bpJZqJWsLlKSJA2wV///7fHWEUGJeuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCbjH1yy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZ0Mf6DW8ZBz1VLwfvKuTSrGvxtd7egm0LZHsQ8aQWsZJrYwuPUe4Pdp2BqtpvdlLow7ieIaNEJFSnXHVgN7Y/6V4CShVEJoP55zuXrtov/jfhXDsVSPCjCQYDEuPBa706jXt3P7+AfYTQZlWDd46xKQow3JOegWffjVvCpGTcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYnnX9hk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCbjH1yy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A25BC113CC;
-	Mon, 22 Apr 2024 07:55:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYnnX9hk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E01C113CC;
+	Mon, 22 Apr 2024 08:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713772532;
-	bh=EzRjNCSbKtQiwQ0eT1S66pyOa6ClYC4xUHa8zMfB0Xs=;
+	s=k20201202; t=1713773327;
+	bh=pNxKvZ0pvbZikOaEInjWBK+/okMiv9iReGjzye9rv6g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OCbjH1yyvhAAC80zHQuNReQp/rrz/BGPMuAGGM/ammvFcPPjak7uc/6WVl6aN27Np
-	 pI7SHZa8uYH4bVlWlOGhJCaf9TF5Bm6hKs5f/gOUy2yHjwgSvE0QzCYO6oy8Bu4EpX
-	 QlRuOfIA2kVBhXGS1Win0JCN5tjkcYVbtWYhJoFTzb03F5qmeDjDaHovMcIfjlfwjE
-	 RW655maF2+Kfipl8t95EI8UwQXCnHY+xWc0gEgOD5MHZ4vW9KjescbzLZTSIUVzXUb
-	 ta0hpcY5GpaS7JDPeUR59YbKNwvi3Bmsv0hH6JfwvGcd4XFj0GLkBRg68vFhh0edDE
-	 VianSv1g9oOiw==
-Date: Mon, 22 Apr 2024 13:25:21 +0530
+	b=tYnnX9hkuZk086wYX/7xTI0zsle1Jym28LckvN4FGLSLCqehhNdDq/aBiEm5HzniY
+	 aBWhaV8pm2wLZ2Hw7GIA9BRGPqEY9mMEGD5DQStIsZGsYsBMdfe2xW9Pijgp6hXEQv
+	 5T3+VTJrWiiMvtsPAX5VLa0zRh0QZdDbkyi3hLj04yix8nse8Xvqrh2PMeX4Tw15LV
+	 TqTRlELnMoHLzZijJnNqEH3mmhHTUzdsWvmqBlk4FvObDHD+Ecey2E9DYGngsqBpmb
+	 txexvDVqlJ7kLzGSsLj2eDFwjDXg0pio3yA6S3jbFaLTEkMUWfd8GH92UasMqBbLUe
+	 1ISII0+6Tbkpg==
+Date: Mon, 22 Apr 2024 13:38:37 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 05/11] PCI: epf-{mhi/test}: Move DMA initialization to
- EPC init callback
-Message-ID: <20240422075521.GB9775@thinkpad>
-References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
- <20240314-pci-epf-rework-v1-5-6134e6c1d491@linaro.org>
- <Zf2tXgKo-gc3qy1D@ryzen>
- <20240326082636.GG9565@thinkpad>
- <ZgKsBoTvPWWhPO9e@ryzen>
- <20240327055457.GA2742@thinkpad>
- <ZgQFXsgqpeLbXMTb@ryzen>
- <ZgW6KB73Wh1X6911@matsya>
- <Zg5oeDzq5u3jmKIu@ryzen>
+To: Qiang Yu <quic_qianyu@quicinc.com>
+Cc: Mayank Rana <quic_mrana@quicinc.com>, quic_jhugo@quicinc.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_cang@quicinc.com
+Subject: Re: [PATCH v3 3/3] bus: mhi: host: pci_generic: Add edl callback to
+ enter EDL
+Message-ID: <20240422080837.GC9775@thinkpad>
+References: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
+ <1713170945-44640-4-git-send-email-quic_qianyu@quicinc.com>
+ <17d94b91-137c-409c-8af3-f32f1af2eb71@quicinc.com>
+ <4b684db2-d384-404a-9c54-60d79ac7cf9f@quicinc.com>
+ <adb9ab3d-0fd2-4afe-96d7-573b1822e0c3@quicinc.com>
+ <ab27b383-dcbf-4337-b3ea-da91763e834a@quicinc.com>
+ <a5ea5263-8acb-48dd-a4e1-bc48a9bdf791@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -64,177 +51,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zg5oeDzq5u3jmKIu@ryzen>
+In-Reply-To: <a5ea5263-8acb-48dd-a4e1-bc48a9bdf791@quicinc.com>
 
-On Thu, Apr 04, 2024 at 10:44:40AM +0200, Niklas Cassel wrote:
-> On Fri, Mar 29, 2024 at 12:12:48AM +0530, Vinod Koul wrote:
-> > On 27-03-24, 12:39, Niklas Cassel wrote:
-> > > 
-> > > So my question is:
-> > > Is the "dummy memcpy" DMA channel always available?
+On Wed, Apr 17, 2024 at 12:41:25PM +0800, Qiang Yu wrote:
+
+[...]
+
+> > > > > > +    ret = mhi_get_channel_doorbell(mhi_cntrl, &val);
+> > > > > > +    if (ret)
+> > > > > > +        return ret;
+> > > > > Don't we need error handling part here i.e. calling
+> > > > > mhi_cntrl->runtime_put() as well mhi_device_put() ?
+> > > > 
+> > > > Hi Mayank
+> > > > 
+> > > > After soc_reset, device will reboot to EDL mode and MHI state
+> > > > will be SYSERR. So host will fail to suspend
+> > > > anyway. The "error handling" we need here is actually to enter
+> > > > EDL mode, this will be done by SYSERR irq.
+> > > > Here, mhi_cntrl->runtime_put() and mhi_device_put() are only to
+> > > > balance mhi_cntrl->runtime_get() and
+> > > > mhi_device_get_sync().
+> > > > 
+> > > > Thanks,
+> > > > Qiang
+> > > I am saying is there possibility that mhi_get_channel_doorbell()
+> > > returns error ?
+> > > If yes, then why don't we need error handling as part of it. you are
+> > > exiting if this API return error without doing anything.
 > > 
-> > That depends on the system, you may or maynot have such a system where
-> > you have a generic memcpy dma controller which can provide you with
-> > these channels
-> 
-> I misunderstood DMA_MEMCPY then, I assumed that it was a "software emulated"
-> DMA channel, which allowed the a driver to always use dmaengine + DMA API.
-> 
-> It actually uses a real DMA controller. I don't have any DMA controller in
-> the PCIe EP device tree node, but perhaps it can use any DMA controller that
-> has been registered with dmaengine?
-> 
-
-AFAIK, most of the dma controllers support both memcpy and separate tx/rx
-channels except a few like dw-edma where memcpy is not supported.
-
-But for just memcpy, clients can use any registered DMA controller in the
-system. For slave channels, it is best to pass them in DT since the client may
-not know how the channels are laid out in the DMA controller.
-
-> 
-> > Based on my reading you might have this mechanism:
-> > - eDMA provides dmaengine_prep_slave_single() which transfers data from
-> >   mem to pci ep device, so fasted
-> > - dmaengine_prep_dma_memcpy: This will copy the data but treat it as
-> >   memory. I dont pci internals to figure out how both can work... So
-> >   cant really make out why it is slowed
-> > - memcpy_xxx that is IO mem functions, so ofc they will be slowest
+> > I think here mhi_get_channel_doorbell will not return error. But I still
+> > add a error checking because it invoked mhi_read_reg, which is a must
+> > check
+> > API. For modem mhi controller, this API eventually does a memory read.
+> > This memory read will return a normal value if link is up and all f's if
+> > link
+> > is bad.
 > > 
-> > I think the code is decent from fallback pov... chooses fastest path if
-> > available on a system
+> > Thanks,
+> > Qiang
 > 
-> Indeed, it makes more sense to me now, thank you Vinod.
+> Actually, mhi_get_channel_doorbell should also be used in mhi_init_mmio to
+> replace the getting chdb operation by invoking mhi_read_reg as Mani
+> commented.
+> In mhi_init_mmio, we invoke mhi_read_reg many times, but there is also not
+> additionnal error handling.
 > 
-> 
-> > > I was wrong here, pci-epf-test always calls pci_epc_map_addr()
-> > > regardless if FLAG_USE_DMA is set or not.
-> > > 
-> > > (Even though this should be unnecessary when using the eDMA.)
-> > > 
-> > > However, if we look at pci-epf-mhi.c we can see that it does
-> > > NOT call pci_epc_map_addr() when using DMA API + dmaengine.
-> > > 
-> > > Is it really safe to avoid pci_epc_map_addr() in all EPC controllers?
-> > > I assume that it should be safe for all "real" DMA channels.
-> > > We can see that it is not safe when using DMA API + "dummy" memcpy
-> > > dma-channel. (That is why I was asking if we need a NEEDS_MAP, or
-> > > MAP_NOT_NEEDED flag.)
-> 
-> 
-> > > pci-epf-test.c:
-> > > -Always calls pci_epc_map_addr() when using DMA API.
-> > > 
-> > > pci-epf-mhi.c:
-> > > -Never calls pci_epc_map_addr() when using DMA API.
-> 
-> Mani, I still think that this part is inconsistent between PCI EPF drivers.
-> 
-> Looking more at commit:
-> 8353813c88ef ("PCI: endpoint: Enable DMA tests for endpoints with DMA capabilities")
-> 
-> Adding Frank on CC, since he is the author of that commit.
-> 
-> When the commit added support for eDMA to pci-epf-test, it added an extra
-> parameter to pci_epf_test_data_transfer(), to pass the PCI/DMA address of
-> the remote buffer, in addition to the already provided local physical address
-> that pci_epc_map_addr() has mapped the PCI/DMA address to.
-> 
-> So in the case of eDMA transfer, the pci_epc_map_addr() operation is still
-> being performed, even though pci-epf-test never uses the result of the
-> the mapping operation... This is just confusing and a waste of CPU cycles.
-> 
-> What I would like is more consistency between the EPF drivers.
-> 
-> I guess an if-statement that skips the pci_epc_map_addr() in pci-epf-test
-> if using eDMA would make pci-epf-mhi and pci-epf-test most consistent.
+> I'm not very sure the reason but perhaps if mhi_read_reg returns error (I
+> don't
+> know which controller will provide a memory read callback returning errors),
+
+Take a look at AIC100 driver: drivers/accel/qaic/mhi_controller.c
+
+> most
+> probably something is wrong in PCIe, which is not predictable by MHI and we
+> can
+> not add err handling every time invoking mhi_read_reg. But we have a timer
+> to
+> do health_check in pci_generic.c. If link is down, we will do
+> pci_function_reset
+> to try to reovery.
 > 
 
-Agree.
+Right, but the MHI stack is designed to be bus agnostic. So if we happen to use
+it with other busses like USB, I2C etc... then read APIs may fail.
 
-> 
-> However, when reading the DWC databook:
-> -The eDMA and HDMA always goes via the iATU table.
-> If you do not want this, then you need to set the the appropriate bypass bit.
-> 
-> 
-> For eDMA:
-> ""
-> When you do not want the iATU to translate outbound requests that are generated by the
-> internal DMA module, then you must implement one of the following approaches:
-> - Ensure that the combination of DMA channel programming and iATU control register
-> programming, causes no translation of DMA traffic to be done in the iATU.
-> or
-> - Activate the DMA bypass mode to allow request TLPs which are initiated by the DMA
-> controller to pass through the iATU untranslated. You can activate DMA bypass mode by
-> setting the DMA Bypass field of the iATU Control 2 Register (IATU_REGION_C-
-> TRL_OFF_2_OUTBOUND_0).
-> ""
-> 
-> For HDMA:
-> ""
-> When you do not want the iATU to translate outbound requests that are generated by the
-> internal HDMA module, then you must implement one of the following approaches:
-> - Ensure that the combination of HDMA channel programming and iATU control register
-> programming, causes no translation of DMA traffic to be done in the iATU.
-> or
-> - Activate the HDMA bypass mode to allow request TLPs which are initiated by the HDMA
-> controller to pass through the iATU untranslated. You can activate HDMA bypass mode by
-> setting the HDMA Bypass field of the iATU Control 2 Register (IATU_REGION_C-
-> TRL_OFF_2_OUTBOUND_0).
-> ""
-> 
-> We also know that, if there is no match in the iATU table:
-> ""
-> The default behavior of the ATU when there is no address match in the outbound direction or no
-> TLP attribute match in the inbound direction, is to pass the transaction through.
-> ""
-> 
-> So even if we do not call pci_epc_map_addr(), the eDMA and HDMA will go via
-> the iATU table, it will most likely not find a match, so it will go through
-> untranslated.
-> 
-> So I think we need to answer these questions:
-> 1) Do we want to rely on the fact that hopefully none of the iATUs in the DWC
-> controller has configured a mapping that might mess things up for us?
-> I don't see why the PCI/DMA address of the remote buffer, supplied to
-> pci-epf-test via test_reg BAR, might not fall within the physical iATU window
-> on the local EP system. (As long as the PCI EPF driver has mapped any address
-> using pci_epc_map_addr().)
-> 
-> This is a big argument that EPF drivers running on a DWC-based EPC should
-> definitely NOT call pci_epc_map_addr() needlessly when using eDMA, as it
-> can be catastrophic. (pci-epf-test needs to be patched.)
-> 
+Even with PCIe, read transaction may return all 1 response and MHI needs to
+treat it as an error condition. But sadly, both pci_generic and ath controllers
+are not checking for invalid read value. But those need to be fixed.
 
-Right. There is no need to do iATU translation for DMA. I avoid that in MHI
-driver.
-
-> 
-> 2) Can we really assume that both pci-epf-test and pci-epf-mhi does not need
-> to call pci_epc_map_addr() when using a DMA_SLAVE DMA controller?
-> This seems to be designed only with DWC in mind. Other PCIe endpoint
-> controllers might require this.
-> (Yes, for DWC-based controllers, this definitely should be skipped, but EPF
-> drivers are supposed to be independent from a specific EPC.)
-> 
-
-For TEST yes, but for MHI, no. In MHI, I kind of mix both iATU and DMA to ripe
-most of the performance (small vs big transactions). But for the TEST driver, it
-is fair to not call pci_epc_map_addr() when DMA_SLAVE is supported.
-
-I do feel that we need to maintain the similarity within the EPF drivers, but it
-is OK to let the drivers diverge a little for optimization.
-
-> I'm fine with just avoiding the pci_epc_map_addr() call when using DMA_SLAVE
-> DMA in pci-epf-test for now, as that is the only DMA controller that I'm
-> familiar with. This second question was more a question for how EPF drivers
-> are should be designed now and in the future.
-> 
-
-Regarding the DMA_MEMCPY code in TEST driver. We need to keep it for backwards
-compatibility since not all platforms are passing the slave channels in
-devicetree.
+Regarding Mayank's query, you should do error cleanups if
+mhi_get_channel_doorbell() API fails.
 
 - Mani
 
