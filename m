@@ -1,129 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A5A4E1D1;
-	Mon, 22 Apr 2024 08:08:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49B35029A;
+	Mon, 22 Apr 2024 09:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713773328; cv=none; b=S5+lq5xgIQVDv6C83FxvHP4dOxwljera6eU8GOuBCmDhmUpjLRZE/4z5LZ83or4lvcc5XXqW2UgeWLMm/VAxf8LtZIBJR5G1Todgq8b8Ob9C7ov+czN9z2GouHfk7ehPet8eefxjCfVIIbDziAZxlTlKH6Mka5GhhL0PO5k8c4U=
+	t=1713778217; cv=none; b=mr+PARSRvO02FRc4iE+3rzVBRMf2iO5QnETFRouGeXnQhmhOT+TL/TYq6Y6ZpfcDEOO8arjCXrlGwR60v5UU2x7YhREbT7Aknf+rk4o56k67bvl2Su0quGuDN4h1eXwqjyodQK0jDgIuVlxlFEuituKIwZ4Gt+JwXWzwchfTfHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713773328; c=relaxed/simple;
-	bh=pNxKvZ0pvbZikOaEInjWBK+/okMiv9iReGjzye9rv6g=;
+	s=arc-20240116; t=1713778217; c=relaxed/simple;
+	bh=EESYxXe371fcWRXjGI9bPSFEjgmbWU9a8XVa2tbzFQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZ0Mf6DW8ZBz1VLwfvKuTSrGvxtd7egm0LZHsQ8aQWsZJrYwuPUe4Pdp2BqtpvdlLow7ieIaNEJFSnXHVgN7Y/6V4CShVEJoP55zuXrtov/jfhXDsVSPCjCQYDEuPBa706jXt3P7+AfYTQZlWDd46xKQow3JOegWffjVvCpGTcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYnnX9hk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCzuRWycpLn+yDlxfZ8UeXiyTPtKEHutfqIIlLNXR3FLcMEUpDgfNgCMIsSZ/kNZVe16gAGUIfjEq1GkvN3E7Bg65idbfSfkxE0hTp2lSFZ2uCRvX4OQUhCOfH8v8UNIcCRndIhCXoGGM/GL/xQNHuc82FxEIEsi1x2SKFMJGCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJzhJEIE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYnnX9hk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E01C113CC;
-	Mon, 22 Apr 2024 08:08:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJzhJEIE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F17BC113CC;
+	Mon, 22 Apr 2024 09:30:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713773327;
-	bh=pNxKvZ0pvbZikOaEInjWBK+/okMiv9iReGjzye9rv6g=;
+	s=k20201202; t=1713778216;
+	bh=EESYxXe371fcWRXjGI9bPSFEjgmbWU9a8XVa2tbzFQE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tYnnX9hkuZk086wYX/7xTI0zsle1Jym28LckvN4FGLSLCqehhNdDq/aBiEm5HzniY
-	 aBWhaV8pm2wLZ2Hw7GIA9BRGPqEY9mMEGD5DQStIsZGsYsBMdfe2xW9Pijgp6hXEQv
-	 5T3+VTJrWiiMvtsPAX5VLa0zRh0QZdDbkyi3hLj04yix8nse8Xvqrh2PMeX4Tw15LV
-	 TqTRlELnMoHLzZijJnNqEH3mmhHTUzdsWvmqBlk4FvObDHD+Ecey2E9DYGngsqBpmb
-	 txexvDVqlJ7kLzGSsLj2eDFwjDXg0pio3yA6S3jbFaLTEkMUWfd8GH92UasMqBbLUe
-	 1ISII0+6Tbkpg==
-Date: Mon, 22 Apr 2024 13:38:37 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Qiang Yu <quic_qianyu@quicinc.com>
-Cc: Mayank Rana <quic_mrana@quicinc.com>, quic_jhugo@quicinc.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_cang@quicinc.com
-Subject: Re: [PATCH v3 3/3] bus: mhi: host: pci_generic: Add edl callback to
- enter EDL
-Message-ID: <20240422080837.GC9775@thinkpad>
-References: <1713170945-44640-1-git-send-email-quic_qianyu@quicinc.com>
- <1713170945-44640-4-git-send-email-quic_qianyu@quicinc.com>
- <17d94b91-137c-409c-8af3-f32f1af2eb71@quicinc.com>
- <4b684db2-d384-404a-9c54-60d79ac7cf9f@quicinc.com>
- <adb9ab3d-0fd2-4afe-96d7-573b1822e0c3@quicinc.com>
- <ab27b383-dcbf-4337-b3ea-da91763e834a@quicinc.com>
- <a5ea5263-8acb-48dd-a4e1-bc48a9bdf791@quicinc.com>
+	b=GJzhJEIEdrVn3UR5wDwmgtXyJ3D1hYmqDK9ZCaV5oHq0LHAWy77vYsB5zGSsc24Ti
+	 BUEtAfqwYUlUffVIrbiGfyCWudcRomRqBKmg5sSoIL4lCpPH9a/1WVLDSZUzi2oCoo
+	 CcZjP+LCBcwW2t7PhVhXRj7ote5xbSuEN9JyQggWdxgB0LWQnggJ7tlIbQ9rvg5LPc
+	 M8lULz/DFG+nHfCzuBHecDLJ5AWL9mZ29tmDG8rE/oUOzRIy/jyime52EqZjgetPBf
+	 0iSDy5zZmctguF+py2v5ixATr2R404SpElNFrls7KAaGaoLc+Pmaix5wOHQMbYNXIJ
+	 xxZ6gFl/6iVbw==
+Date: Mon, 22 Apr 2024 11:30:09 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 05/11] PCI: epf-{mhi/test}: Move DMA initialization to
+ EPC init callback
+Message-ID: <ZiYuIaX7ZV0exKMt@ryzen>
+References: <20240314-pci-epf-rework-v1-0-6134e6c1d491@linaro.org>
+ <20240314-pci-epf-rework-v1-5-6134e6c1d491@linaro.org>
+ <Zf2tXgKo-gc3qy1D@ryzen>
+ <20240326082636.GG9565@thinkpad>
+ <ZgKsBoTvPWWhPO9e@ryzen>
+ <20240327055457.GA2742@thinkpad>
+ <ZgQFXsgqpeLbXMTb@ryzen>
+ <ZgW6KB73Wh1X6911@matsya>
+ <Zg5oeDzq5u3jmKIu@ryzen>
+ <20240422075521.GB9775@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a5ea5263-8acb-48dd-a4e1-bc48a9bdf791@quicinc.com>
+In-Reply-To: <20240422075521.GB9775@thinkpad>
 
-On Wed, Apr 17, 2024 at 12:41:25PM +0800, Qiang Yu wrote:
-
-[...]
-
-> > > > > > +    ret = mhi_get_channel_doorbell(mhi_cntrl, &val);
-> > > > > > +    if (ret)
-> > > > > > +        return ret;
-> > > > > Don't we need error handling part here i.e. calling
-> > > > > mhi_cntrl->runtime_put() as well mhi_device_put() ?
-> > > > 
-> > > > Hi Mayank
-> > > > 
-> > > > After soc_reset, device will reboot to EDL mode and MHI state
-> > > > will be SYSERR. So host will fail to suspend
-> > > > anyway. The "error handling" we need here is actually to enter
-> > > > EDL mode, this will be done by SYSERR irq.
-> > > > Here, mhi_cntrl->runtime_put() and mhi_device_put() are only to
-> > > > balance mhi_cntrl->runtime_get() and
-> > > > mhi_device_get_sync().
-> > > > 
-> > > > Thanks,
-> > > > Qiang
-> > > I am saying is there possibility that mhi_get_channel_doorbell()
-> > > returns error ?
-> > > If yes, then why don't we need error handling as part of it. you are
-> > > exiting if this API return error without doing anything.
+On Mon, Apr 22, 2024 at 01:25:21PM +0530, Manivannan Sadhasivam wrote:
 > > 
-> > I think here mhi_get_channel_doorbell will not return error. But I still
-> > add a error checking because it invoked mhi_read_reg, which is a must
-> > check
-> > API. For modem mhi controller, this API eventually does a memory read.
-> > This memory read will return a normal value if link is up and all f's if
-> > link
-> > is bad.
+> > What I would like is more consistency between the EPF drivers.
 > > 
-> > Thanks,
-> > Qiang
+> > I guess an if-statement that skips the pci_epc_map_addr() in pci-epf-test
+> > if using eDMA would make pci-epf-mhi and pci-epf-test most consistent.
+> > 
 > 
-> Actually, mhi_get_channel_doorbell should also be used in mhi_init_mmio to
-> replace the getting chdb operation by invoking mhi_read_reg as Mani
-> commented.
-> In mhi_init_mmio, we invoke mhi_read_reg many times, but there is also not
-> additionnal error handling.
+> Agree.
+
+
+> > 1) Do we want to rely on the fact that hopefully none of the iATUs in the DWC
+> > controller has configured a mapping that might mess things up for us?
+> > I don't see why the PCI/DMA address of the remote buffer, supplied to
+> > pci-epf-test via test_reg BAR, might not fall within the physical iATU window
+> > on the local EP system. (As long as the PCI EPF driver has mapped any address
+> > using pci_epc_map_addr().)
+> > 
+> > This is a big argument that EPF drivers running on a DWC-based EPC should
+> > definitely NOT call pci_epc_map_addr() needlessly when using eDMA, as it
+> > can be catastrophic. (pci-epf-test needs to be patched.)
+> > 
 > 
-> I'm not very sure the reason but perhaps if mhi_read_reg returns error (I
-> don't
-> know which controller will provide a memory read callback returning errors),
+> Right. There is no need to do iATU translation for DMA. I avoid that in MHI
+> driver.
 
-Take a look at AIC100 driver: drivers/accel/qaic/mhi_controller.c
+There is no need for pci_epc_map_addr() when using DMA_SLAVE *for DWC-based
+controllers*.
 
-> most
-> probably something is wrong in PCIe, which is not predictable by MHI and we
-> can
-> not add err handling every time invoking mhi_read_reg. But we have a timer
-> to
-> do health_check in pci_generic.c. If link is down, we will do
-> pci_function_reset
-> to try to reovery.
+Are we certain that this will not break pci-epf-test for non DWC-based
+controllers?
+
+
+> > 2) Can we really assume that both pci-epf-test and pci-epf-mhi does not need
+> > to call pci_epc_map_addr() when using a DMA_SLAVE DMA controller?
+> > This seems to be designed only with DWC in mind. Other PCIe endpoint
+> > controllers might require this.
+> > (Yes, for DWC-based controllers, this definitely should be skipped, but EPF
+> > drivers are supposed to be independent from a specific EPC.)
+> > 
 > 
+> For TEST yes, but for MHI, no. In MHI, I kind of mix both iATU and DMA to ripe
+> most of the performance (small vs big transactions). But for the TEST driver, it
+> is fair to not call pci_epc_map_addr() when DMA_SLAVE is supported.
 
-Right, but the MHI stack is designed to be bus agnostic. So if we happen to use
-it with other busses like USB, I2C etc... then read APIs may fail.
+I agree that we should definitely skip pci_epc_map_addr() in pci-epf-test when
+using DMA_SLAVE on DWC-based controllers, but I don't feel comfortable in
+submitting a patch that does this unconditionally for pci-epf-test.c,
+as I don't know how the DMA hardware in:
+drivers/pci/controller/cadence/pcie-cadence-ep.c
+drivers/pci/controller/pcie-rcar-ep.c
+drivers/pci/controller/pcie-rockchip-ep.c
 
-Even with PCIe, read transaction may return all 1 response and MHI needs to
-treat it as an error condition. But sadly, both pci_generic and ath controllers
-are not checking for invalid read value. But those need to be fixed.
+works, and I do not want to regress them.
 
-Regarding Mayank's query, you should do error cleanups if
-mhi_get_channel_doorbell() API fails.
+I did suggest that DWC-based drivers could set a DMA_SLAVE_SKIP_MEM_MAP flag
+or similar when registering the eDMA, which pci-epf-test then could check,
+but I got no response if anoyone else thought that this was a good idea.
 
-- Mani
 
--- 
-மணிவண்ணன் சதாசிவம்
+Kind regards,
+Niklas
