@@ -1,195 +1,93 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D164CB55;
-	Tue, 23 Apr 2024 10:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B3285653;
+	Tue, 23 Apr 2024 18:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713868437; cv=none; b=KMcny5m+npf2PCD2uzAHoHVYWg8dayDsLLeJ27Xu5RyZHrK01Ma53BakxM6tnblFZCXeRAyqjsAdGnkDSpELkfoGIjWuTzzGE47eGehr8PH3Aq95O5GhFJKR1RqF+lrM25LSRpEX43JVEXpSCbsSDKV/UXFcuwY+Hmx9XA0KQd8=
+	t=1713897766; cv=none; b=IBtpvF5MP+XvsEUUOdR+k5+/yoFk7iTjIzLI+GIZP81FUIDoFgb10KEeXWn/NoZR7EtDsLTy0v4cObSr1Wum+RwvkYEE05EAef1WauqUs5nE6vH/7qWhqCgRac9Nk0T1NFC0XCUq0KV3+H+SW96K5ll3sWgRE93/2fEQ3VTbDzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713868437; c=relaxed/simple;
-	bh=UtpNEe7RCVCyvjmiQbOopIWJt3NeINXQPxdStX6uzGQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=dL4a8Km+6idLT678ZedonevDnP9tIt55OHOKTLEXsf2+g0DAUZQ+vMw1jzdbOlRCcEl3hRevOt3HdsWVvB+gx/u/6wEsuTyykjKze4RLyPI/Gvs42grKgT/idHTt+3qHhNbPy5G1d0b7TSUcfxRcG7MpEj2MdA4w8jTYByiyDoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E2tMDePN; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1713897766; c=relaxed/simple;
+	bh=2U6q3AnIep0O9K7JjfLvpOuvvCYxZ9voAB/ZwE7uOUw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uVuX3VVtomR12CvNoCq8zsht8DPbqkE+CvyG1Olh4RUAb+TBv3ZcBBrrGSGSA5T08z0hHOPmR/aKXNpOOttUwewVak3SPkRhAyWY67LOruP7WIm0ocyvwLK+0Nzc/I+YZGBzjvbfVrQ6b0Er2Bd+HBsHjLX7AD6YKIC4hgtQJEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bpGE6YPp; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E2tMDePN"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N7uX8A019524;
-	Tue, 23 Apr 2024 10:33:43 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bpGE6YPp"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N5qCGh013043;
+	Tue, 23 Apr 2024 18:42:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	qcppdkim1; bh=ngidwSR8rhrotn4Wwssi/8HJt6GkxJpIhIcymAffNfk=; b=E2
-	tMDePNdHhWwWORDe8P78B9ICMuZ4tWro5OPNQ28EZ0GNcnbtBRe3WILVURWK/Ckq
-	av/vjxnGz4biIIzsE0w9TcmgR6aE7HzkBtVxANJhW4kHTEcINQ9SevGy6eKcrvHP
-	wigmOhh+VB9wsCd6c4b7UXonw/ppy53fpoVP9XO4nGs8stPQSqJE3pbnYCXsZkG5
-	dcfvHGlJiPb6sz+t4Kcz1pDuGcUTrLAT5B+dzntpX2GXdlEvpsT7amkYiRHAC/UV
-	gg3yfkmq1HfVNYIp6YByd4w47V+rAdk26cWYjLVOxkgZQXglk5aDuvroAQFreO8j
-	fcZjhO4AFSmIb7O0OYGw==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xp91rrcek-1
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=tqHQDFqMUEDZk57HJ3NWrEhyU2BqbzhbR5rPVKR1UEM=; b=bp
+	GE6YPpdalyvKNMg8X8nS7wymRW/A62GrJ4Ah7GJQbVcr4s9CPlFvkQp5yinpHnrX
+	XNFi9Yr77JECaCgneF5IUZwMNR2UGqvl6tCISUhdjLApIDBS9p/G69jXV2VYFVq9
+	is9gTDSJaGC7glspL1WkSUBvQqarcOfyms8eE5vnfgKf0gVLEvlC+uQdcbmYkFTB
+	76KlicJvE0omenoxstR1vOA7a2sGVaBysgpFf8+erDiLf4T3Hk5x2WFfKa6lU4KQ
+	cGURS7mh9jTJn1muAGjF3/TYGa64xr0PugBV8hcdRDxw4l5eIyEdwY2bgG1ATLxr
+	HdOmBgNqALEYI3iUAGIQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xnvtnb6u2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Apr 2024 10:33:43 +0000 (GMT)
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43NAXetW030325;
-	Tue, 23 Apr 2024 10:33:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 3xm6skdt6a-1;
-	Tue, 23 Apr 2024 10:33:40 +0000
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43NAXeTE030320;
-	Tue, 23 Apr 2024 10:33:40 GMT
-Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTP id 43NAXef6030319;
-	Tue, 23 Apr 2024 10:33:40 +0000
-Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
-	id 8E6645B13; Tue, 23 Apr 2024 18:33:39 +0800 (CST)
-From: Qiang Yu <quic_qianyu@quicinc.com>
-To: mani@kernel.org, quic_jhugo@quicinc.com
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
-        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
-Subject: [PATCH v4 1/3] bus: mhi: host: Add sysfs entry to force device to enter EDL
-Date: Tue, 23 Apr 2024 18:33:35 +0800
-Message-Id: <1713868417-37856-2-git-send-email-quic_qianyu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1713868417-37856-1-git-send-email-quic_qianyu@quicinc.com>
-References: <1713868417-37856-1-git-send-email-quic_qianyu@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: u91YeVTGBqAdZW4xFWRkqUKiU8mTMC8C
-X-Proofpoint-ORIG-GUID: u91YeVTGBqAdZW4xFWRkqUKiU8mTMC8C
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-23_09,2024-04-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- mlxlogscore=999 malwarescore=0 clxscore=1015 phishscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404230028
+	Tue, 23 Apr 2024 18:42:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43NIge11023290
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Apr 2024 18:42:40 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 23 Apr
+ 2024 11:42:39 -0700
+Message-ID: <4e766214-1bf4-9377-d9db-ed7b0b9e2832@quicinc.com>
+Date: Tue, 23 Apr 2024 12:42:38 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: Add sysfs entry to force device to
+ enter EDL
+Content-Language: en-US
+To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
+        <quic_mrana@quicinc.com>
+References: <1713868417-37856-1-git-send-email-quic_qianyu@quicinc.com>
+ <1713868417-37856-2-git-send-email-quic_qianyu@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <1713868417-37856-2-git-send-email-quic_qianyu@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: xzaDnPiYSyLWFIa9-BJF5PvQh2FDQK8K
+X-Proofpoint-ORIG-GUID: xzaDnPiYSyLWFIa9-BJF5PvQh2FDQK8K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-23_15,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=732 phishscore=0 priorityscore=1501
+ mlxscore=0 adultscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2404230043
 
-Add sysfs entry to allow users of MHI bus force device to enter EDL.
-Considering that the way to enter EDL mode varies from device to device and
-some devices even do not support EDL. Hence, add a callback edl_trigger in
-mhi controller as part of the sysfs entry to be invoked and MHI core will
-only create EDL sysfs entry for mhi controller that provides edl_trigger
-callback. All of the process a specific device required to enter EDL mode
-can be placed in this callback.
+On 4/23/2024 4:33 AM, Qiang Yu wrote:
+> Add sysfs entry to allow users of MHI bus force device to enter EDL.
+> Considering that the way to enter EDL mode varies from device to device and
+> some devices even do not support EDL. Hence, add a callback edl_trigger in
+> mhi controller as part of the sysfs entry to be invoked and MHI core will
+> only create EDL sysfs entry for mhi controller that provides edl_trigger
+> callback. All of the process a specific device required to enter EDL mode
+> can be placed in this callback.
+> 
+> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
 
-Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
----
- Documentation/ABI/stable/sysfs-bus-mhi | 13 +++++++++++++
- drivers/bus/mhi/host/init.c            | 33 +++++++++++++++++++++++++++++++++
- include/linux/mhi.h                    |  2 ++
- 3 files changed, 48 insertions(+)
-
-diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
-index 1a47f9e..b44f467 100644
---- a/Documentation/ABI/stable/sysfs-bus-mhi
-+++ b/Documentation/ABI/stable/sysfs-bus-mhi
-@@ -29,3 +29,16 @@ Description:	Initiates a SoC reset on the MHI controller.  A SoC reset is
-                 This can be useful as a method of recovery if the device is
-                 non-responsive, or as a means of loading new firmware as a
-                 system administration task.
-+
-+What:           /sys/bus/mhi/devices/.../trigger_edl
-+Date:           April 2024
-+KernelVersion:  6.9
-+Contact:        mhi@lists.linux.dev
-+Description:    Writing a non-zero value to this file will force devices to
-+                enter EDL (Emergency Download) mode. This entry only exists for
-+                devices capable of entering the EDL mode using the standard EDL
-+                triggering mechanism defined in the MHI spec v1.2. Once in EDL
-+                mode, the flash programmer image can be downloaded to the
-+                device to enter the flash programmer execution environment.
-+                This can be useful if user wants to use QDL (Qualcomm Download,
-+                which is used to download firmware over EDL) to update firmware.
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 44f9349..7104c18 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -127,6 +127,30 @@ static ssize_t soc_reset_store(struct device *dev,
- }
- static DEVICE_ATTR_WO(soc_reset);
- 
-+static ssize_t trigger_edl_store(struct device *dev,
-+			       struct device_attribute *attr,
-+			       const char *buf, size_t count)
-+{
-+	struct mhi_device *mhi_dev = to_mhi_device(dev);
-+	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-+	unsigned long val;
-+	int ret;
-+
-+	ret = kstrtoul(buf, 10, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	ret = mhi_cntrl->edl_trigger(mhi_cntrl);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(trigger_edl);
-+
- static struct attribute *mhi_dev_attrs[] = {
- 	&dev_attr_serial_number.attr,
- 	&dev_attr_oem_pk_hash.attr,
-@@ -1018,6 +1042,12 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
- 	if (ret)
- 		goto err_release_dev;
- 
-+	if (mhi_cntrl->edl_trigger) {
-+		ret = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_trigger_edl.attr);
-+		if (ret)
-+			goto err_release_dev;
-+	}
-+
- 	mhi_cntrl->mhi_dev = mhi_dev;
- 
- 	mhi_create_debugfs(mhi_cntrl);
-@@ -1051,6 +1081,9 @@ void mhi_unregister_controller(struct mhi_controller *mhi_cntrl)
- 	mhi_deinit_free_irq(mhi_cntrl);
- 	mhi_destroy_debugfs(mhi_cntrl);
- 
-+	if (mhi_cntrl->edl_trigger)
-+		sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_trigger_edl.attr);
-+
- 	destroy_workqueue(mhi_cntrl->hiprio_wq);
- 	kfree(mhi_cntrl->mhi_cmd);
- 	kfree(mhi_cntrl->mhi_event);
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index cde01e1..d968e1a 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -353,6 +353,7 @@ struct mhi_controller_config {
-  * @read_reg: Read a MHI register via the physical link (required)
-  * @write_reg: Write a MHI register via the physical link (required)
-  * @reset: Controller specific reset function (optional)
-+ * @edl_trigger: CB function to trigger EDL mode (optional)
-  * @buffer_len: Bounce buffer length
-  * @index: Index of the MHI controller instance
-  * @bounce_buf: Use of bounce buffer
-@@ -435,6 +436,7 @@ struct mhi_controller {
- 	void (*write_reg)(struct mhi_controller *mhi_cntrl, void __iomem *addr,
- 			  u32 val);
- 	void (*reset)(struct mhi_controller *mhi_cntrl);
-+	int (*edl_trigger)(struct mhi_controller *mhi_cntrl);
- 
- 	size_t buffer_len;
- 	int index;
--- 
-2.7.4
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
