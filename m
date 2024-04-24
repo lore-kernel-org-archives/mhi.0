@@ -1,91 +1,129 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A894013E3FA;
-	Tue, 23 Apr 2024 18:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992FD947E;
+	Wed, 24 Apr 2024 03:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713898020; cv=none; b=kQy2hULWDUcsVLB4UonTKds7XfttXzrbpd30a4F22I2jbpjfH+PO+rDIElii38H4ozTKsLavr2Vxg/w53B0EHmjSDN+sKTdBE95kPOSFXHIoB5L5RvdfTUC/OIshsEfcTZnfSyuxcAC814uHe2cWxXwaOj8UFWLYOwFY1954pxQ=
+	t=1713928927; cv=none; b=h9JbQHA4cDsMkLyfrR961YgxOggcMH+MCwPDXjSMxYsZ2w5cZBLk8gslBjKGytoOVm7Eca/h2ToB4ivqQnYDRPgAsGuwZxd/WxqkrCC+K/XRtK//a4yGfWSa2yLwkVKxoB2CXnkuTekF21xDq6BUuOWJzvd4bNy9AMfQhKBDCnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713898020; c=relaxed/simple;
-	bh=eDIJ3+MJpBImloGLMO5gq7Xkd5gmDED6oLJC1IQyaYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=pgB/3c83nPqsbsjv/n7i1sF/ZmnkrlMduparrDA8rWugYlOlmqFqoALS2UthdsjdSOQ153AkLrSiIaY92fVviyaKZB1GUePi4vgNNHAd6OE5U7OoSHMQqJK1BsJ98O+Tr+dLvMr2GS8pvH8NJnq3tAwa6/WdMnti9dzUFNknllI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JqD0ppGj; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1713928927; c=relaxed/simple;
+	bh=R1mueC9SUcpU6A8TYOzL4KkjjbUjUGBMieumGsYzqD8=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=G+rhlDf4JQ5NkqXBXW74RaNsvWDrump4V1QMhbYa76V/Uy9z858tfJoCGpRDeN0fpQ6eabdOYjpLZ56YjG6ICLuYD78EqCAHUnlWxDynxt0exQFP5SPAcbN29eNZ1Dn02pa78Doe9eCXWL7OZmW2PgeIsU4JpzNk4Krhm+87PV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q53fMSz/; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JqD0ppGj"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43NHTvZ3016965;
-	Tue, 23 Apr 2024 18:46:56 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q53fMSz/"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43O32IjH002198;
+	Wed, 24 Apr 2024 03:22:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=VWfp8unN8bbHw0a+C9DNsJI0GAw+ks5tw//vps2BHp8=; b=Jq
-	D0ppGja6OLJ/ZDkNgAEpRMcF4KZinJgGVYG9vL8NfmR6Y4EvaRawsi7ktqLj1sl6
-	wxYKnW8tXEciIeoZEIMVj26F+bqHE5h9OggTtQBGBsXgy8+t49x9faBzYQ884b+m
-	aI4bWOCfQpSHqNj88KQ6MsWK5OO96ERZ423PdeHX13gayhyYrTaNUd7D2HUgvV3v
-	QPiO7Ds9LVrsupm1pjvsTGx9Xi5ZJeQEWVPPHq1T3hUETvzauvFPpdTFyYftpnzz
-	A9S2NMtkSSsQIWRfwoOBSI7cYECsQQYL8PruK6YE/QtP50Ceo6MLAlFt4mZJ/gAy
-	S+BgbQWt6sty/fut8ycw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xp978stdn-1
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=MuZUX7Ht1E8K
+	IROZNKFvqsRnZXOXGpGWf3Y/osE8/uQ=; b=Q53fMSz/qaQkzWwwamfM/1Ak/MWy
+	S75tvwD/txYX8fg5vLoicEyyic39f6oEtFinOESmS6lcqD3zPAD1qpM+cdfCIG/W
+	dH1ueX9y5fyzWHd9WVUVeP8j5LyaL5/fE0d82jd5UY+J4fJr1F3txdjy+/xIo2Uw
+	aNYX0xsI/jkn8DrDuUMFNgbp/o+tDAw7yS2Yrlc7F2Qpb3W9Ao6kwaf0vzI8PA3g
+	afyid6mo2+Sy/OeOHwyELNDVPQHmSW3OyjHq3VKTyYRXlC3F+0ygl9d755sM+up3
+	fQVJaYW/IZR7sEucScq/1TQHpDAZQgeBN1gOAEdlolZshxvMz1n/70nj1A==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpapmjrcd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Apr 2024 18:46:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43NIktmt002045
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Apr 2024 18:46:55 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 23 Apr
- 2024 11:46:54 -0700
-Message-ID: <5df422b9-d660-e19b-07f1-67f2ee4d018f@quicinc.com>
-Date: Tue, 23 Apr 2024 12:46:53 -0600
+	Wed, 24 Apr 2024 03:22:02 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 43O3M08G024079;
+	Wed, 24 Apr 2024 03:22:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 3xm6skh29k-1;
+	Wed, 24 Apr 2024 03:22:00 +0000
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 43O3M0xL024074;
+	Wed, 24 Apr 2024 03:22:00 GMT
+Received: from cbsp-sh-gv.qualcomm.com (CBSP-SH-gv.ap.qualcomm.com [10.231.249.68])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTP id 43O3M0AR024072;
+	Wed, 24 Apr 2024 03:22:00 +0000
+Received: by cbsp-sh-gv.qualcomm.com (Postfix, from userid 4098150)
+	id 8113A5B1C; Wed, 24 Apr 2024 11:21:59 +0800 (CST)
+From: Qiang Yu <quic_qianyu@quicinc.com>
+To: mani@kernel.org, quic_jhugo@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_cang@quicinc.com,
+        quic_mrana@quicinc.com, Qiang Yu <quic_qianyu@quicinc.com>
+Subject: [PATCH v5 0/3] Add sysfs entry to EDL mode
+Date: Wed, 24 Apr 2024 11:21:52 +0800
+Message-Id: <1713928915-18229-1-git-send-email-quic_qianyu@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: OPDHaBT4SW0C-ko7R442X_ztgV4OIU_D
+X-Proofpoint-GUID: OPDHaBT4SW0C-ko7R442X_ztgV4OIU_D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-23_20,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=762 clxscore=1015 spamscore=0 adultscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404240014
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 3/3] bus: mhi: host: pci_generic: Add edl callback to
- enter EDL
-Content-Language: en-US
-To: Qiang Yu <quic_qianyu@quicinc.com>, <mani@kernel.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>
-References: <1713868417-37856-1-git-send-email-quic_qianyu@quicinc.com>
- <1713868417-37856-4-git-send-email-quic_qianyu@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1713868417-37856-4-git-send-email-quic_qianyu@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ngq_00zODfU5eZIb9KpM_aceti3AzA0G
-X-Proofpoint-GUID: Ngq_00zODfU5eZIb9KpM_aceti3AzA0G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-23_16,2024-04-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 impostorscore=0 mlxlogscore=862 adultscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404230043
 
-On 4/23/2024 4:33 AM, Qiang Yu wrote:
-> Some of the MHI modems like SDX65 based ones are capable of entering the EDL
-> mode as per the standard triggering mechanism defined in the MHI spec v1.2. So
-> let's add a common mhi_pci_generic_edl_trigger() function that triggers the EDL
-> mode in the device when user writes to the /sys/bus/mhi/devices/.../trigger_edl
-> file.
-> 
-> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
+Add EDL sysfs entry for mhi controller that provides edl_trigger callback.
+Add mhi_pci_generic_edl_trigger for qualcomm sdx55,sdx65 and sdx75 as
+edl_trigger callback.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+v4->v5:
+1. Add a blank line before the #endif in patch[2/3].
+
+2. Add reviewed-by tag.
+
+v3->v4:
+1. Modify some comments, commit message and sysfs entry description.
+
+2. Add error cleanups if get channel doorbell offset fail.
+
+3. s/force_edl/trigger_edl
+
+4. s/mhi_get_channel_doorbell/mhi_get_channel_doorbell_offset
+
+5. Use mhi_get_channel_doorbell_offset in mhi_init_mmio()
+
+v2->v3:
+1. Update Documentation/ABI/stable/sysfs-bus-mhi with description of
+   force_edl sysfs entry.
+
+2. Add comments about edl_trigger callback in mhi_controller struct.
+
+3. Follow reverse christmas tree in mhi_pci_generic_edl_trigger.
+
+4. Add a new API in MHI to allow controller to get CHDB address and avoid
+   duplicating the definition of CHDBOFF.
+
+v1->v2:
+1. Move all process needed by qualcomm sdx55,sdx65,sdx75 to enter EDL into
+   mhi_pci_generic_edl_trigger() as the callback to edl_trigger.
+
+2. MHI stack creates EDL sysfs entry to invoke edl_trigger callback so
+   that devices need different mechanism to enter EDL can provide its own
+   edl_trigger callabck.
+
+Qiang Yu (3):
+  bus: mhi: host: Add sysfs entry to force device to enter EDL
+  bus: mhi: host: Add a new API for getting channel doorbell address
+  bus: mhi: host: pci_generic: Add edl callback to enter EDL
+
+ Documentation/ABI/stable/sysfs-bus-mhi | 13 ++++++++++
+ drivers/bus/mhi/host/init.c            | 39 ++++++++++++++++++++++++++---
+ drivers/bus/mhi/host/main.c            | 16 ++++++++++++
+ drivers/bus/mhi/host/pci_generic.c     | 45 ++++++++++++++++++++++++++++++++++
+ include/linux/mhi.h                    |  9 +++++++
+ 5 files changed, 118 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
+
