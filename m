@@ -1,104 +1,234 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C25F14A087;
-	Thu, 25 Apr 2024 15:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A070038384
+	for <mhi@lists.linux.dev>; Fri, 26 Apr 2024 12:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714057665; cv=none; b=TaWKQTm3NvomcQo0J/Ej6u6xgkH3YcR68X87QkQzhmfckPaMI61bqXcneP9y2/ESoPguRZihHKA3/AizkvfRArNvXGec6CQFBcyZSn2UVoO0uHr8smTkUmWwADkU8YaN5cKpxTXUIfMjMxQ9a/VGQTJsnll3vKXppkmz1o75pDA=
+	t=1714136032; cv=none; b=lOCv6efFMdsY2Ybx1z3zf4pavXVCk/PNk5I7jpvpCvGAsgObXUejD6hKvuwGo/a3tH3QgCeU5ZO1QhpEX9ZtoGttenMnhEvBhvtzIcoDFxPqP5pyb1S89gcFDIxJFS1MPsUIgWFh9SnO0TxUFr2sRpB0nLDHTHHXXAodBtonFX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714057665; c=relaxed/simple;
-	bh=+w1M8pWXIufZllVT2cd3eQpABjwHYXsC6tCfmPGVsH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bmertAnWWQGOR0Im/vS5ZZdGc7M8GSOoNI2sLaNkihU+JJpX4h39pLmqhl0DkRirZcwdfmyEJTay6RLyEqlJGCnHURUCKmCijT1+T1A+NcfF55gqTYcK/RHfZxio0XOqnxzwNKdo85b2x3INEhs6RZSXqEHurtYvb7Dt2ieyWKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=awg59QXp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714136032; c=relaxed/simple;
+	bh=nlGxeSLSEn0oCaGk1nOelICaUGgTA2EiT3UNsm1o4hU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=K9pBEBZZ4SaP7MYO0XhuULhmlW9JlWPU0ud3ujjHczA76QMXyaGyuhdb6qKYXP3idHLew1twMqqNdCRbCO/OAh4Vl28PnbUwJWrLqRsE6T3HNH31T0y78kxqGpvQzXPihJEVzLxxx1ad4vQdaEV42xImodL1mXRRm5qw2VmvJBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBhozPf5; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="awg59QXp"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PB1PWA023589;
-	Thu, 25 Apr 2024 15:07:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=ria7m5Fq40+4Cm6u2kT5RdP6PQUlD1XkRAAq94umFJs=; b=aw
-	g59QXpAgz7CmdvOqVDFUcpvpvw7CtOLzTXf7Y3/56on9W+7OctnR6DdQbe0buJJr
-	VeBnd92Hfw8P+J2IuZaN7qNW3FmyAZbMn765kBMHnOgBFmUI2wLiAEKguQ7Oumw/
-	0JHH/RppxhGUN6xInhDPDGA+fRzJaOriOxNPKbBGa6o4pP+Rau8ooWb6aC+1Je6K
-	HxWVL0xyCuo9CTVScFTPcl5y714TMvst5PVs3feJaM3MYtp1KADv/8B7W6ycnaVN
-	ismnRf7quzN5ugPMjGiCl5ouaraI7cUKRFtgFJX2OyDWVn+DzoriSnN1kdaC5xC6
-	jyr4kIpn0zmhm8nlXRYA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqenkjx7d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 15:07:40 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PF7dbF016481
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 15:07:39 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 25 Apr
- 2024 08:07:38 -0700
-Message-ID: <e0fb41f3-3080-c1b5-ab7c-bcff8bbbe754@quicinc.com>
-Date: Thu, 25 Apr 2024 09:07:37 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBhozPf5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714136031; x=1745672031;
+  h=date:from:to:cc:subject:message-id;
+  bh=nlGxeSLSEn0oCaGk1nOelICaUGgTA2EiT3UNsm1o4hU=;
+  b=IBhozPf50TtC0HvRtN0buoYdaRO0DpANQIPx7Vgz5BHJ6GqT7QJhYeEd
+   Ree5oLF7I5/2cmev8k4uNudeeVyygYyuRcLAqRG3Jds9pN4CAXhqaz4Az
+   b51K63ML+RKUnNL8nWh2j0UEwq/SFd5c1LS2+f2s9VvD27Oo6jXibDb9S
+   wiXx1zLEni0cTApuPtGfNuADdcB6NO3zpSAiNk42CLLcWsiQSV/hcmOR6
+   ItMO73FJ7DjyUnskPEqbesOmerCw7Trdigqc2tbsSUAoFhGGRDCY8OaiR
+   zJkJeScA0fVVFxZv8WKanVGqOkh1srW6n/6SomjWROpkwUiI+NtX9C12B
+   Q==;
+X-CSE-ConnectionGUID: 4IWcV/qhSCiLT7IIablAzQ==
+X-CSE-MsgGUID: EDig+C27Qf2pdGBqGCDuWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9990805"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="9990805"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 05:53:50 -0700
+X-CSE-ConnectionGUID: fi1Xtnb9T5SNSSMepz/yPA==
+X-CSE-MsgGUID: 3ju7Nb/VRcS6xo0QM5KeLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="25293272"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 26 Apr 2024 05:53:49 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s0L5G-0003iQ-2I;
+	Fri, 26 Apr 2024 12:53:46 +0000
+Date: Fri, 26 Apr 2024 20:53:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS
+ 48f98496b1de132f2e056605b5330209136066dc
+Message-ID: <202404262027.4HIf0d4s-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 1/3] bus: mhi: host: Add sysfs entry to force device to
- enter EDL
-Content-Language: en-US
-To: Manivannan Sadhasivam <mani@kernel.org>,
-        Qiang Yu
-	<quic_qianyu@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_cang@quicinc.com>,
-        <quic_mrana@quicinc.com>
-References: <1713928915-18229-1-git-send-email-quic_qianyu@quicinc.com>
- <1713928915-18229-2-git-send-email-quic_qianyu@quicinc.com>
- <20240425145450.GH3449@thinkpad>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240425145450.GH3449@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: XkQ7qP8xCQZjU6tIZTPgFP0kzmrh0Vhc
-X-Proofpoint-GUID: XkQ7qP8xCQZjU6tIZTPgFP0kzmrh0Vhc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-25_15,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- mlxlogscore=819 priorityscore=1501 impostorscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404250109
 
-On 4/25/2024 8:54 AM, Manivannan Sadhasivam wrote:
-> On Wed, Apr 24, 2024 at 11:21:53AM +0800, Qiang Yu wrote:
->> Add sysfs entry to allow users of MHI bus force device to enter EDL.
->> Considering that the way to enter EDL mode varies from device to device and
->> some devices even do not support EDL. Hence, add a callback edl_trigger in
->> mhi controller as part of the sysfs entry to be invoked and MHI core will
->> only create EDL sysfs entry for mhi controller that provides edl_trigger
->> callback. All of the process a specific device required to enter EDL mode
->> can be placed in this callback.
->>
->> Signed-off-by: Qiang Yu <quic_qianyu@quicinc.com>
->> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> 
-> All 3 patches are applied to mhi-next with my reported changes! Since you are
-> doing upstreaming for some time, you should know that the changelog _must_ be
-> present in the patches itself or in the cover letter.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: 48f98496b1de132f2e056605b5330209136066dc  bus: mhi: host: pci_generic: Add generic edl_trigger to allow devices to enter EDL mode
 
-It is/was in the cover letter.  Was the format not to your liking?
+elapsed time: 1309m
 
--Jeff
+configs tested: 157
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20240426   gcc  
+arc                   randconfig-002-20240426   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          moxart_defconfig   gcc  
+arm                           omap1_defconfig   gcc  
+arm                   randconfig-002-20240426   gcc  
+arm                   randconfig-003-20240426   gcc  
+arm                   randconfig-004-20240426   gcc  
+arm                        shmobile_defconfig   gcc  
+arm                        vexpress_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   clang
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240426   gcc  
+arm64                 randconfig-002-20240426   gcc  
+arm64                 randconfig-004-20240426   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240426   gcc  
+csky                  randconfig-002-20240426   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-002-20240426   clang
+i386         buildonly-randconfig-005-20240426   clang
+i386         buildonly-randconfig-006-20240426   clang
+i386                                defconfig   clang
+i386                  randconfig-002-20240426   clang
+i386                  randconfig-006-20240426   clang
+i386                  randconfig-012-20240426   clang
+i386                  randconfig-013-20240426   clang
+i386                  randconfig-014-20240426   clang
+i386                  randconfig-015-20240426   clang
+i386                  randconfig-016-20240426   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240426   gcc  
+loongarch             randconfig-002-20240426   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          hp300_defconfig   gcc  
+m68k                       m5249evb_defconfig   gcc  
+m68k                            q40_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                           ip27_defconfig   gcc  
+mips                       rbtx49xx_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240426   gcc  
+nios2                 randconfig-002-20240426   gcc  
+openrisc                         alldefconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240426   gcc  
+parisc                randconfig-002-20240426   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                     ppa8548_defconfig   gcc  
+powerpc               randconfig-002-20240426   gcc  
+powerpc                      walnut_defconfig   gcc  
+powerpc64             randconfig-001-20240426   gcc  
+powerpc64             randconfig-002-20240426   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-002-20240426   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                    randconfig-001-20240426   gcc  
+sh                    randconfig-002-20240426   gcc  
+sh                          rsk7269_defconfig   gcc  
+sh                             sh03_defconfig   gcc  
+sh                            shmin_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240426   gcc  
+sparc64               randconfig-002-20240426   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240426   gcc  
+um                    randconfig-002-20240426   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-002-20240426   gcc  
+x86_64       buildonly-randconfig-005-20240426   gcc  
+x86_64       buildonly-randconfig-006-20240426   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   clang
+x86_64                randconfig-001-20240426   gcc  
+x86_64                randconfig-002-20240426   gcc  
+x86_64                randconfig-003-20240426   gcc  
+x86_64                randconfig-012-20240426   gcc  
+x86_64                randconfig-013-20240426   gcc  
+x86_64                randconfig-014-20240426   gcc  
+x86_64                randconfig-015-20240426   gcc  
+x86_64                randconfig-074-20240426   gcc  
+x86_64                randconfig-075-20240426   gcc  
+x86_64                randconfig-076-20240426   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240426   gcc  
+xtensa                randconfig-002-20240426   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
