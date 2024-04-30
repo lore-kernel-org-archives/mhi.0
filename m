@@ -1,88 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mxb.hotsplots.de (mxb.hotsplots.de [185.46.137.13])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5B745025;
-	Tue, 30 Apr 2024 08:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503941E52C
+	for <mhi@lists.linux.dev>; Tue, 30 Apr 2024 21:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.46.137.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714464350; cv=none; b=b9AO1dqyh0M+kwRByHvxSSS5R1wNjHj1Xi5rtv3t+zhDm5maBaXxFmEVixBD/4ynCn2VIxkdYbLlVi4thuYrgciwK06xwheqXuu+bzKYdK+D5EGxnEF6iC/pKlVLr4mteclxBhGZBsokRLc1JlkpZ6cZXVy1VV9jidcLo9DnqqM=
+	t=1714513265; cv=none; b=Bww3S9aFViT/kgQzzYzY/kDznwo2WsKttvdgUb+tlNyuGpdJi1RQGb3NZ2grl5tQlcFW8j6J70vNNR03zJfYi/N6v4T5piW12VMfJz24M7tfgluxmwFqRKAkLoKDrSZJgpygxIv2U3lfdYyAWBF5WjOaiLkuYQoKAo63TVGdP4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714464350; c=relaxed/simple;
-	bh=fZlcYqSpR1qIHI7+FV0GRGg/1UW0j86/RtjUAe6cOus=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u/TdzAAfc9YIH484VzKcXrROaf8FgO9ESJIFP4n9YKZXLQlCo3uvWYkpYG7dfwg5X8qo73cLu6GzRsW8fAKq0txCKo16JLbUDuhBTo28zHG/jWtbaDMmKHjMu/TFpqhi5VT9D8SMHdh5zt311+d47IeJBjhbixu8ibeap5QGxjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDYceixi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDYceixi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56A45C2BBFC;
-	Tue, 30 Apr 2024 08:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714464349;
-	bh=fZlcYqSpR1qIHI7+FV0GRGg/1UW0j86/RtjUAe6cOus=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDYceixiVNKl2rZlwhH+0mqIn8qgRF2jmeFy+1zJQ7sdotsRnp+s5JhFXshq2e5iA
-	 xbtPfzzywFyv5jMJVyexbxxKraVb+Q+wegepRKFMjVzNBYw/iNl1I8jzLTQek0XBMm
-	 OFbuhgHbu+2VMeM45hOAaz9E7QMHzSt3h4y3RnIoKXTkTQ6usC8KuR3vHFJ1YzyRZt
-	 LRPfmAmv7duacOC3FgSLe3lE2o7xjjlUxRK0moKsBfvWQ3gJ8XwXjOFtrnVii/PnKU
-	 Gy+Zdwi78MrBzdahIqXCM/B/jQpN50TQLTdURBdlnXJ5paJLUukxR8JnOvoOSv0sFb
-	 k32C9ZN/PXWKw==
-Date: Tue, 30 Apr 2024 10:05:42 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v4 04/10] PCI: qcom-ep: Drop 'Link is enabled' from the
- debug message for BME event
-Message-ID: <ZjCmVuc_-oCDQXIX@ryzen.lan>
-References: <20240430-pci-epf-rework-v4-0-22832d0d456f@linaro.org>
- <20240430-pci-epf-rework-v4-4-22832d0d456f@linaro.org>
+	s=arc-20240116; t=1714513265; c=relaxed/simple;
+	bh=P7lVKZGI+IL8uZFAv3yug/V+Sym8HiighDz3wFJKURM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HqPMKDu3x6DAq47nmPxW5P4hGf55kJZYgIsR5KaMP8yoICCazkCd/pCviZJGhUbOGcuG9oJuAscBNPMO1yj2OdbBc1wkUQRQRx+VuRTdSoPfxuearYiBuDxv63HemlXH7UT2+WUKBC9DH9skdiI0/dewD2crA6HY0uwGsljqjCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de; spf=pass smtp.mailfrom=hotsplots.de; arc=none smtp.client-ip=185.46.137.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotsplots.de
+Date: Tue, 30 Apr 2024 23:30:57 +0200
+From: Martin =?iso-8859-1?Q?F=E4cknitz?= <faecknitz@hotsplots.de>
+To: mhi@lists.linux.dev
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: MHI MMIO endian issue
+Message-ID: <ZjFjEe0-tJ6un10J@dev2>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240430-pci-epf-rework-v4-4-22832d0d456f@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.77 / 500.00];
+	 BAYES_HAM(-4.67)[99.15%];
+	 RCPT_COUNT_TWO(0.00)[2];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RCVD_COUNT_ZERO(0.00)[0];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 ASN(0.00)[asn:3320, ipnet:84.128.0.0/10, country:DE];
+	 MIME_TRACE(0.00)[0:+];
+	 R_MIXED_CHARSET(0.50)[subject]
+X-Spamd-Bar: ---
+X-Rspamd-Server: mxb
+X-Rspamd-Queue-Id: 96E218C044A
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=faecknitz@hotsplots.de smtp.mailfrom=faecknitz@hotsplots.de
 
-On Tue, Apr 30, 2024 at 11:43:45AM +0530, Manivannan Sadhasivam wrote:
-> Bus Master Enable (BME) event that is generated by the Qcom PCIe EP
-> controller due to host setting the Bus Master Enable bit in the Command
-> register doesn't have anything to do with the PCIe link.
-> 
-> Hence, drop the bogus statement.
-> 
-> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->  drivers/pci/controller/dwc/pcie-qcom-ep.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> index f6e925d434f6..dcac177b55fb 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> @@ -636,7 +636,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
->  		pcie_ep->link_status = QCOM_PCIE_EP_LINK_DOWN;
->  		pci_epc_linkdown(pci->ep.epc);
->  	} else if (FIELD_GET(PARF_INT_ALL_BME, status)) {
-> -		dev_dbg(dev, "Received Bus Master Enable event. Link is enabled!\n");
-> +		dev_dbg(dev, "Received Bus Master Enable event\n");
->  		pcie_ep->link_status = QCOM_PCIE_EP_LINK_ENABLED;
->  		qcom_pcie_ep_icc_update(pcie_ep);
->  		pci_epc_bus_master_enable_notify(pci->ep.epc);
-> 
-> -- 
-> 2.25.1
-> 
+Hello,
 
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
+the function mhi_init_mmio configures MMIO registers using the reg_info
+table:
+
+  eg_info[] = {
+    {
+	  CCABAP_HIGHER,
+      upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
+	},
+	...
+
+  mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
+    reg_info[i].val);
+
+However, the values are in host byte orders, not in device byte order. I
+have a PPC64 system which is big endian, but the device is little
+endian. Without wrapping each value in eg_info using cpu_to_le32 the
+device (sdx55) doesn't response:
+
+  cpu_to_le32(upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr))
+
+Hard to believe i am the first one which has this issue? Let me know if
+i should make a patch.
+
+-- 
+Martin Fäcknitz
+
+hotsplots GmbH
+Rotherstr. 22
+10245 Berlin
+Fon: +49 (0)30 29 77 348-0
+Fax: +49 (0)30 29 77 348-99
+E-Mail: faecknitz@hotsplots.de
+
+Amtsgericht Charlottenburg HRB 93460B
+Geschäftsführung: Dipl. Ing. Sascha Schaub
