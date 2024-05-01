@@ -1,109 +1,127 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CC0646
-	for <mhi@lists.linux.dev>; Wed,  1 May 2024 00:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A94111CB8
+	for <mhi@lists.linux.dev>; Wed,  1 May 2024 04:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714524293; cv=none; b=K7JtsNi4ZkFkYcGQLTnAI1z+MIJr1RUosUAnxZ/m8vKO5BwY9mkftmDDOc6AR1XABZReCSNPIMjNMqDcV+RmQv3nbZaW3aAyQBqxP32SKaJSrvlBOrqPSPijFArLhmFaGeGVGmUYrNPimyaTFDjxUfdfkfx8vAgmBejFv1mWDkQ=
+	t=1714538097; cv=none; b=jVkKqyI/PcD7AyQ0UpfU0QoU6/z50LTHRQm2O8WkNG7XJIsA16MdWaC/AxKEWllZtDHUR+WdZmaqTInr6Z4L9vZni5xFwwEc+6rz8wJlEscC9rL6Npxd1p1H2RfTKTtjFkTLOqvaSBT3USZCvdKIYgpaPUx2amn1xKKbEHMBU3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714524293; c=relaxed/simple;
-	bh=8Q6cLkC3D4EY7LSs2PibPSLFZhc6niHVbM1j+Q+kuYo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RYDGPmrMvXiROh2klsPdnzSh55YuteZlzZEOggbZB7Xy4dU6cEIVYUNi0C317iwEy14Nggcqn79ue7QKGcJ83qpzjnOxi/b+tHMzQE+EX1opOMmnTWURkOf3yv1+BtqmsG2UVtFZBfHGYi9qLD0EsURG3jKqCvNwfFvYrlLxct8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QabhoLYZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714538097; c=relaxed/simple;
+	bh=GyxenWljCNUelToG6vJ1Nz1JxS5+MFbJtEqJ1L8j3Ho=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Eo3/8GrMEPmD6SMvCi6AjpZ4BomGfSczTFuj/VWfjDaXD/alQz2JWHm4Zk9174kvMdG2odA7sY2rIWPb/Z6yU3hczpTMR6dlIxizx838Pk2wZwn6bfH6LHXLBq7/KOtDe/X6adXqUEZqPndh1vuqwNvKTUn//KtPCMJcyEwCv7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=af13ixH8; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QabhoLYZ"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4410c6gL010636;
-	Wed, 1 May 2024 00:44:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=wrKQMKSXW2vOUzjkvpAKoPz9xqDT/2O1EYMAnXbTxxs=; b=Qa
-	bhoLYZe15CLBmCsseQ1G1fhx4xq693oKUKWwfDDUReoRzTfY78i7yAdcGQIxBiNc
-	imRiKAyd+3Qngnm7iTf3fVbXCfIz5Ad3eVhtzA+1KoPZ6sS+XdvqMj6OrVi/OaQe
-	n9dH0K1eXZia0FEoe8DfRFDlpFM1x3yUfr5uZ73mvA1p1ANB3WTEpav1dvjjca2a
-	Tu7mY6+DHDqZmuZXtY/TadV4ZpSy4yl3d4UsBxO4d1vizs4fvSyC5wjHHH0mBrJu
-	NZbm0zpu3KE9nPlDXNFGyGLT4Ox91FzuonUF2V9o/FqHISYKsFRwW8spM0xWxjIB
-	vTmBELic0bnMR49OLLfA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xtv1htcrq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 May 2024 00:44:40 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4410idfA014142
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 1 May 2024 00:44:39 GMT
-Received: from [10.110.62.5] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
- 2024 17:44:38 -0700
-Message-ID: <a54f2580-e748-4bdc-a0db-48fca24c63f3@quicinc.com>
-Date: Tue, 30 Apr 2024 17:44:37 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="af13ixH8"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso5368363a12.2
+        for <mhi@lists.linux.dev>; Tue, 30 Apr 2024 21:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714538095; x=1715142895; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nP0d9ZPQBQsFSlVx/oy1BB3GWNuBWXEjTH9+lDRSSeE=;
+        b=af13ixH8cZqeV/3rdae8rW7QMpT+iQr4DSasDfrUA3x62f4N6SLY3KpLMkZfJKuoXk
+         SzwXSyOo8EMRJUoqnHL7/ne2DJdxWL506Ihf2pa7g1kpYbkMnMDh5DRvAJiuPqaFLpT3
+         qDtfEp/8DZornolcxNum7pVlsETHytg5LyjDAiSuNDZ3+Ad6mX8ZaRJjGNm3q0p4UxBI
+         U+iA/KL5yXmv3076Mgr9KFbNIG3GkrnVxcFnjVRxLLhsZRDjRV5aE97q/sIKDkIjJopA
+         XnJgCjiz8o2dm5rtsEV1xDMLo9+r1MQCQe/u4/MXQqHiodSUjUdTvfDViYpKP+kM4iGF
+         dfRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714538095; x=1715142895;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nP0d9ZPQBQsFSlVx/oy1BB3GWNuBWXEjTH9+lDRSSeE=;
+        b=K+lNnGSV9dHvez1ue3DLtNN2ERuYste9b5IXW9JDub/9rIhydlmJJTpFADQobCoM0p
+         S/POkjqjxFRkzMCbWGOkWZUUiEQdtQAsxNejV31+8UBw5SgQdq2dX2jAf1VRkVPaf3pi
+         nSE3kSz5REwX2ZdAasEyTdPu4tvG5/e3Z55HtW6lDyfgr244hJB6rZ+cQ5O4BVi4wfUq
+         84Z3pPdRIhHLA6mNjH/dp9g3v0Z1Gb0HoR+7nI2UOmIx3mvidc7+iHUVq5bFklEjBirg
+         575IyWMLNxuayN3il0ZtS8QA2xz/iSLHBJty6btVHL5fgBlKyNVy9aFpXvoF160lbj6Z
+         9qAg==
+X-Gm-Message-State: AOJu0YwG30ZIMM7yiFz+E6SOr8Ts5nFpU8nuvB8YaiL9o2XseXt/HWPO
+	EfhxL8HYZK1igusFs81UwJ58II6MWnj/ektj/06vfx4iGStH1CkBER9kfMzEIA==
+X-Google-Smtp-Source: AGHT+IFIWjgfOTINbS43h+bnyH5Hd0IRYKA3jbzKN8xbSIfBpy3Z/8d64GAs6wucSVbhak2mJn+3yg==
+X-Received: by 2002:a05:6a20:a12a:b0:1a7:2e17:efd3 with SMTP id q42-20020a056a20a12a00b001a72e17efd3mr2413924pzk.5.1714538095242;
+        Tue, 30 Apr 2024 21:34:55 -0700 (PDT)
+Received: from thinkpad ([220.158.156.193])
+        by smtp.gmail.com with ESMTPSA id ha24-20020a17090af3d800b002b1b1a3611dsm474389pjb.43.2024.04.30.21.34.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 21:34:54 -0700 (PDT)
+Date: Wed, 1 May 2024 10:04:50 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, quic_bqiang@quicinc.com,
+	ath11k@lists.infradead.org, quic_qianyu@quicinc.com
+Subject: [GIT PULL] MHI changes for v6.10
+Message-ID: <20240501043450.GA5218@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: MHI MMIO endian issue
-Content-Language: en-US
-To: =?UTF-8?Q?Martin_F=C3=A4cknitz?= <faecknitz@hotsplots.de>,
-        <mhi@lists.linux.dev>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-References: <ZjFjEe0-tJ6un10J@dev2>
-From: Mayank Rana <quic_mrana@quicinc.com>
-In-Reply-To: <ZjFjEe0-tJ6un10J@dev2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 0jabK-W3BXsseFUx0AlRcHvtRTEtcI-s
-X-Proofpoint-ORIG-GUID: 0jabK-W3BXsseFUx0AlRcHvtRTEtcI-s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-30_16,2024-04-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=541 adultscore=0
- spamscore=0 clxscore=1011 suspectscore=0 impostorscore=0 phishscore=0
- bulkscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405010004
 
-Hi Martin
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-On 4/30/2024 2:30 PM, Martin Fäcknitz wrote:
-> Hello,
-> 
-> the function mhi_init_mmio configures MMIO registers using the reg_info
-> table:
-> 
->    eg_info[] = {
->      {
-> 	  CCABAP_HIGHER,
->        upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
-> 	},
-> 	...
-> 
->    mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
->      reg_info[i].val);
-> 
-> However, the values are in host byte orders, not in device byte order. I
-> have a PPC64 system which is big endian, but the device is little
-> endian. Without wrapping each value in eg_info using cpu_to_le32 the
-> device (sdx55) doesn't response:
-> 
->    cpu_to_le32(upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr))
-> 
-> Hard to believe i am the first one which has this issue? Let me know if
-> i should make a patch.
-Yes, Please. At least I am not aware of running Linux MHI host stack on 
-big endian architecture.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-Regards,
-Mayank
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-6.10
+
+for you to fetch changes up to 48f98496b1de132f2e056605b5330209136066dc:
+
+  bus: mhi: host: pci_generic: Add generic edl_trigger to allow devices to enter EDL mode (2024-04-25 20:25:45 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Added a new API mhi_power_down_keep_dev() to not destroy the struct dev
+  associated with the MHI channels during MHI power down. This is useful in
+  scenarios such as system suspend/hibernation where the probability of
+  channels coming back is very high. So the PM maintainer suggested not to
+  destroy the struct dev in those cases.
+
+  This API is introduced for fixing the failure reported in the ath11k driver
+  during resume from system suspend.
+
+  NOTE: Due to the API dependency, the patch adding the API is pushed to an
+  immutable branch (mhi-immutable) and merged into both mhi and ath trees. But
+  the merge commit is not visible in mhi tree due to git being smart with
+  'fast-forward'.
+
+- Added an optional sysfs entry to force the MHI devices to enter the Emergency
+  Download (EDL) mode to download the firmware from host.
+
+- Added EDL mode support for Qcom SDX75/65/55 modems as per the MHI spec v1.2,
+  Chapter 13.2. This involves writing a cookie to the EDL doorbell registers and
+  then triggering the device reset from host.
+
+----------------------------------------------------------------
+Baochen Qiang (1):
+      bus: mhi: host: Add mhi_power_down_keep_dev() API to support system suspend/hibernation
+
+Qiang Yu (3):
+      bus: mhi: host: Add sysfs entry to force device to enter EDL
+      bus: mhi: host: Add a new API for getting channel doorbell offset
+      bus: mhi: host: pci_generic: Add generic edl_trigger to allow devices to enter EDL mode
+
+ Documentation/ABI/stable/sysfs-bus-mhi | 13 +++++++++++++
+ drivers/bus/mhi/host/init.c            | 41 ++++++++++++++++++++++++++++++++++++-----
+ drivers/bus/mhi/host/internal.h        |  4 +++-
+ drivers/bus/mhi/host/main.c            | 16 ++++++++++++++++
+ drivers/bus/mhi/host/pci_generic.c     | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/bus/mhi/host/pm.c              | 42 ++++++++++++++++++++++++++++++++++++------
+ include/linux/mhi.h                    | 29 ++++++++++++++++++++++++++++-
+ 7 files changed, 177 insertions(+), 13 deletions(-)
+
+-- 
+மணிவண்ணன் சதாசிவம்
