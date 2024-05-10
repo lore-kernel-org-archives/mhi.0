@@ -1,128 +1,90 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C537F
-	for <mhi@lists.linux.dev>; Wed,  1 May 2024 06:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5485CD2F5
+	for <mhi@lists.linux.dev>; Fri, 10 May 2024 00:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714546512; cv=none; b=jo6i7+JIEJhBjrYQJqYdR9A5FowBhQO8SXfDKwoAFS7yH73b4fo/0o9V6FZexnpyJSnT8QKG3WFwV8Cf1NoKAD7pmOeSAgwqBrhaDijN7xhm3LecIoY0Wn2t3lyD1vEpjp0Z/Vm9FPaijtNpWW14/jSPGiR9Pk9mMZD4E6/8pTI=
+	t=1715302503; cv=none; b=sMOyOrUQF2mf+jOVJ2GNZflpu9sJFHLMFkOndalV+GwCu1CjuAo0lJhP4gLhuz1C0NlNtzxT4/srTSROKpQJtkV3bL8QZBGpJ0LZdISx1OFvkEBbfA/qWBigfdNAg+o6S8WIavMnXXJBfBggA1TTvNYvVLKgqXRekL5HGFSXad8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714546512; c=relaxed/simple;
-	bh=i5KE1+1LQPtHUveVrNhgiB7rgyip2sY2SOZ1Flw4ehk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=afB6ZG9qxXBesbMBvt3mxsUNNDNipNw0Hpe6rui55F5ZRkEkdeMgJ5F/XBkPWXjKIGi4AiTAil4zqPeQFlih2W/5nPjWjdYBO7DCc44vvhfpOULUSl+RFFTXlToSqxIa1Knr7jqrqF7Ud+hNSR7FbC6l2BLTnfGPjIpQZPd8Ob4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mNIftIXr; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715302503; c=relaxed/simple;
+	bh=GRVSGVYwR5joY8F7eRtMT4D+7hl9XGVUXnNUCmZg838=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=V+H/PXNIJ6ahhrB/i9o6c/inx4Ra556UkaKSaV719Y5CfKIgcrLL4hCpHMRCflUUQQry7NUeU933eqP0TkQycaBTmdKh/hAFQJeqI0i45h3O3umLzxhqgloJkU11ry1DFspCUiAuoQXIHwTmCDEt7KWMKRTpSUfXCrApII/rvAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=SrFr53h/; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mNIftIXr"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e4bf0b3e06so64934725ad.1
-        for <mhi@lists.linux.dev>; Tue, 30 Apr 2024 23:55:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714546510; x=1715151310; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=i1DDBmBAI6tZyAC516w7TDjHiE9iB7rwJVJBkjDDDFM=;
-        b=mNIftIXrbogQrYdxgad8rRcyvz0ZJOy70V/QJfYSk4LyVGRTcQfjS6YJWQ85bojmlh
-         evqt+Fw+jK0MgYs5Fr1L3J+AKJ182Wjf435xXwRiwflHLqQ0jue8eEo3lu6IU+Z7oJpg
-         XhrhU2UnQZlNndv0cT5SxX08zGEbuFoKDEgOF35vm+jOnM9tOd/ltHG3rmken0ZamjjK
-         p35L0D5UFVOP3YgvYLK0Qe3WEE7HbeHAbFSSMri0EOlLo0hKN0pnGiNCcoVbgdCqucW/
-         195Ul9xKQTeHB6d/w1AvZNHo22tuFSvg3fa+BhP/v4e0gBKFEmPqs1r/qa30hsOpBLbj
-         nVBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714546510; x=1715151310;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1DDBmBAI6tZyAC516w7TDjHiE9iB7rwJVJBkjDDDFM=;
-        b=lq+yFRvJ5AJ4+qyxRf2H4X2L7dszrd1cGYyD6yLEsQi9Mn0wAP7b73Wk5rmTnH8kmY
-         6gNrwxR4Lfp1qIs3sZjpEuBiazl286dquaNh2+7NGHXc6LUDBlC1Lumd5xj3OIDTbjGk
-         7S4kCvkTBNaCEs5pQ3e27WbeQVW7PICmGOZR2wLbXDFMIDHD6Tp3UaSGg8wSKrAjXZul
-         WXvwMtXNxjX+mXTXUEPGtMtpJQMyK7AOgA4txPG0TeYsAp1UO9fMGlRwmNTMiQZh7ETG
-         a8H6eaQueeSUanXCTp+ezBMEQ09HACOOp94wlPqe9OzQtF7jDuBK3qoYXa9MPV5qx6+b
-         mCRw==
-X-Gm-Message-State: AOJu0Yx7DoPzpjzKMqZLQAU9nuOqCDRmM3duxXNjO7J4rY6TWpOJT1bj
-	zlS92yhd7HcDHV1kanpAF12TThgjytwcGe784p7zZOISwIdoWwcsUEx6TpKZ6w==
-X-Google-Smtp-Source: AGHT+IFjizgid/x5kXM4kJaxDlZHOUrsuI+1nyDmTw7ctzW0j0Fna/ooGq7Ldus54uJuhFbokohwSQ==
-X-Received: by 2002:a17:902:ea02:b0:1e3:e093:b5f0 with SMTP id s2-20020a170902ea0200b001e3e093b5f0mr1795709plg.8.1714546509379;
-        Tue, 30 Apr 2024 23:55:09 -0700 (PDT)
-Received: from thinkpad ([120.56.206.24])
-        by smtp.gmail.com with ESMTPSA id n5-20020a170902d2c500b001ea02645bc9sm15423189plc.148.2024.04.30.23.55.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 23:55:08 -0700 (PDT)
-Date: Wed, 1 May 2024 12:25:04 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Martin =?iso-8859-1?Q?F=E4cknitz?= <faecknitz@hotsplots.de>
-Cc: mhi@lists.linux.dev, paul.davey@alliedtelesis.co.nz
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="SrFr53h/"
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 187E62C0132;
+	Fri, 10 May 2024 12:54:50 +1200 (NZST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1715302490;
+	bh=GRVSGVYwR5joY8F7eRtMT4D+7hl9XGVUXnNUCmZg838=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=SrFr53h/I6mPCw2i1q03/yfVaHEgkxL3m7jE0jK4IpYlRQGjUJilJR1xav141r5Po
+	 b5A5KJ/ZnUARNZTvY0kwAbbxeXQo6QOP72kX/HY2S26syoUL/mVQ762atG+9BzSN4F
+	 qlCLPCdmo8jDF5vAxkL/2rlg67UTPRS8TP7F4EsWMlHBxJmZxBkmTVynoG59ymQLAz
+	 3AI9UxuwU3neUO4qA/Tl7Fd3jnOpUAb8RwAEgQQ4uloxXf+zy6qP6i35xLHfW50m2X
+	 4a4/rwWEaQzthCjYoO1wT5Nzx5xHy8SZlhFnMzJWdqShH6jRuEJ8FlZfFMnO8wvbBu
+	 Trx2eOnlfuA4A==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B663d70590000>; Fri, 10 May 2024 12:54:49 +1200
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 10 May 2024 12:54:49 +1200
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1544.011; Fri, 10 May 2024 12:54:49 +1200
+From: Paul Davey <Paul.Davey@alliedtelesis.co.nz>
+To: "faecknitz@hotsplots.de" <faecknitz@hotsplots.de>,
+	"manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
+CC: "mhi@lists.linux.dev" <mhi@lists.linux.dev>
 Subject: Re: MHI MMIO endian issue
-Message-ID: <20240501065504.GA1979@thinkpad>
-References: <ZjFjEe0-tJ6un10J@dev2>
+Thread-Topic: MHI MMIO endian issue
+Thread-Index: AQHam5SN8jGvmtki/EW3mpTNYdjPYbGO6P2A
+Date: Fri, 10 May 2024 00:54:49 +0000
+Message-ID: <641289b189a8e85244f2e6d338aa0f376f4a7da2.camel@alliedtelesis.co.nz>
+References: <ZjFjEe0-tJ6un10J@dev2> <20240501065504.GA1979@thinkpad>
+In-Reply-To: <20240501065504.GA1979@thinkpad>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0FDE10AF98DFA147A5DB34F82246A1C5@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZjFjEe0-tJ6un10J@dev2>
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=MfrPuI/f c=1 sm=1 tr=0 ts=663d7059 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=TpHVaj0NuXgA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=2B1QhGGsJJc7WSE29eAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=cvBusfyB2V15izCimMoJ:22
+X-SEG-SpamProfiler-Score: 0
 
-+ Paul Davey
-
-On Tue, Apr 30, 2024 at 11:30:57PM +0200, Martin Fäcknitz wrote:
-> Hello,
-> 
-> the function mhi_init_mmio configures MMIO registers using the reg_info
-> table:
-> 
->   eg_info[] = {
->     {
-> 	  CCABAP_HIGHER,
->       upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
-> 	},
-> 	...
-> 
->   mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
->     reg_info[i].val);
-> 
-> However, the values are in host byte orders, not in device byte order. I
-> have a PPC64 system which is big endian, but the device is little
-> endian. Without wrapping each value in eg_info using cpu_to_le32 the
-> device (sdx55) doesn't response:
-> 
->   cpu_to_le32(upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr))
-> 
-> Hard to believe i am the first one which has this issue? Let me know if
-> i should make a patch.
-> 
-
-You are not the first one to try MHI on a big endian machine. Paul did that a
-while ago and fixed some issues w.r.t endianess [1]. But I'm wondering how Paul
-didn't hit the issue that you are seeing.
-
-Anyway, I think the fix is to modify mhi_{read/write}_reg to accept '__le32'
-for the 'val' parameter and fix all the callers.
-
-I can cook a patch if needed, but won't be able to do so for atleast 2-3 weeks.
-
-- Mani
-
-[1] https://lore.kernel.org/mhi/20220212182117.49438-3-manivannan.sadhasivam@linaro.org/
-
-> -- 
-> Martin Fäcknitz
-> 
-> hotsplots GmbH
-> Rotherstr. 22
-> 10245 Berlin
-> Fon: +49 (0)30 29 77 348-0
-> Fax: +49 (0)30 29 77 348-99
-> E-Mail: faecknitz@hotsplots.de
-> 
-> Amtsgericht Charlottenburg HRB 93460B
-> Geschäftsführung: Dipl. Ing. Sascha Schaub
-
--- 
-மணிவண்ணன் சதாசிவம்
+T24gV2VkLCAyMDI0LTA1LTAxIGF0IDEyOjI1ICswNTMwLCBNYW5pdmFubmFuIFNhZGhhc2l2YW0g
+d3JvdGU6DQo+IA0KPiBZb3UgYXJlIG5vdCB0aGUgZmlyc3Qgb25lIHRvIHRyeSBNSEkgb24gYSBi
+aWcgZW5kaWFuIG1hY2hpbmUuIFBhdWwNCj4gZGlkIHRoYXQgYQ0KPiB3aGlsZSBhZ28gYW5kIGZp
+eGVkIHNvbWUgaXNzdWVzIHcuci50IGVuZGlhbmVzcyBbMV0uIEJ1dCBJJ20NCj4gd29uZGVyaW5n
+IGhvdyBQYXVsDQo+IGRpZG4ndCBoaXQgdGhlIGlzc3VlIHRoYXQgeW91IGFyZSBzZWVpbmcuDQo+
+IA0KSSBzdXNwZWN0IHRoZSByZWFzb24gSSBkaWQgbm90IHNlZSB0aGlzIGlzIHRoYXQgdGhlIHBs
+YXRmb3JtIEkgd2FzDQp1c2luZyB0aGUgTUhJIHN0YWNrIG9uIGhhcyBzb21lIHN1cHBvcnQgZm9y
+IGhhcmR3YXJlIGVuZGlhbmVzcw0KdHJhbnNsYXRpb24gaW4gUENJZSBCQVJzIHdoaWNoIHdhcyBs
+aWtlbHkgbWFza2luZyB0aGUgZGlmZmVyZW5jZSBmb3INCnRoZSBNTUlPIHJlZ2lzdGVycyBidXQg
+ZGlkIG5vdCBkbyBhbnl0aGluZyBhYm91dCB0aGUgaG9zdCBSQU0gYWNjZXNzZXMNCmZyb20gdGhl
+IE1ISSBtb2RlbS4NCg0KSSBhbSBub3Qgc3VyZSBob3cgcHJldmFsZW50IHRoYXQgc29ydCBvZiBm
+ZWF0dXJlIGlzIG9yIGhvdyBpdCBpcyBiZXN0DQp0byBkZWFsIHdpdGggTU1JTyBhY2Nlc3MgaWYg
+aXQgbWF5IGJlIGVuYWJsZWQsIGRvZXMgdGhpcyBjb21lIHVwIHdpdGgNCmFueSBvdGhlciBQQ0ll
+IGRldmljZXM/ICBTb21lIG9mIHRoZSBhdGhlcm9zIGV0aGVybmV0IE5JQyBkcml2ZXJzIChhdA0K
+bGVhc3QgYXRsMWUgYW5kIGF0bDFjKSBhcHBlYXIgdG8gdHJhbnNsYXRlIGRtYSBidWZmZXIgYWRk
+cmVzc2VzIGFuZA0KbGVuZ3RocyB0byBsaXR0bGUgZW5kaWFuIGluIGRlc2NyaXB0b3JzIGJ1dCBu
+b3Qgb3RoZXIgZmllbGRzIGluIHRob3NlDQpkZXNjcmlwdG9ycyBhbmQgbm90IGFueSBNTUlPIHJl
+Z2lzdGVyIGFjY2Vzc2VzLg0KPiANCj4gWzFdDQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL21o
+aS8yMDIyMDIxMjE4MjExNy40OTQzOC0zLW1hbml2YW5uYW4uc2FkaGFzaXZhbUBsaW5hcm8ub3Jn
+Lw0KPiANCj4gDQoNClRoYW5rcywNClBhdWwNCg==
