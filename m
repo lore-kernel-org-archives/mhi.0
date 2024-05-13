@@ -1,123 +1,68 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6A31494A0
-	for <mhi@lists.linux.dev>; Fri, 10 May 2024 03:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from mxb.hotsplots.de (mxb.hotsplots.de [185.46.137.13])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3586153572
+	for <mhi@lists.linux.dev>; Mon, 13 May 2024 14:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.46.137.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715311637; cv=none; b=r0RTiW9naXkaV0V69x79tMGMHxidM6bOx/oiuRgLLD5xvoms5e119FoO+VOA8P3yLnj2hnIGVcQ5XeqJZCX/sLMBmjyhvkZZbPgUjM2+XUZ/9dNzSMHLa5bI3PRdbkkBn1LRmV8ZajeMiVOH51Bbm+HttOUL/ilOgBq6+3phgSo=
+	t=1715608896; cv=none; b=of5z5GwQlX7ObgunPuPC7rFh4cx9VQbY9vKm6DXZsegDJrTMuuUe40DNPqfUtTpoOMWobylkXwMycTajhA3oYlsKEmSpfvjjK6HhXifizymKWGz3AL1BG8GtJZvcZtq8jFUwVxEmsB3nXRnBzhUjop6LaHVgo2hLIQLX9W2FBso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715311637; c=relaxed/simple;
-	bh=Z7MPoeMmZKPqqjt1uSdl2xiWuJE7dBoYnnwX8FfM10I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X9egCDFTfnnF0OtR6zf379lzE6tUev43uCZ3/fLUDXPcy5pSGWdrE0a4Yczvmj9otmZrCay7wOK4KWHiRpNAgWP52WPOFNyLjfswrBVpRJkhF67DSX2HugzHR5vLR0mIJIgdGrCbMTEVrD/hv/+rJRCt643iyR7IrXTis4M/tuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Jm0m7fbP; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Jm0m7fbP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=jmv/e
-	Z0oj6B9M++CEv1uezXK3yVeNwJfrJ1xXJUCHHw=; b=Jm0m7fbPXu0lXqMbkZT9w
-	IKXhJc7PNi/cQY/OTENlzVL6iZ7cXI0yh8O5Wk+32uWHQhi9swJPOx/cICXEq0Fw
-	kPrGqbiOFhG7Pu/FXV1c48TADth5GCueSh/KOqndlFDFoa4bBdmv9z4hcwOzsYy4
-	GAiih1dCm64MfJXbDJX8xo=
-Received: from localhost.localdomain (unknown [223.160.225.215])
-	by gzga-smtp-mta-g2-5 (Coremail) with SMTP id _____wD3H9EDlD1mCPkAAQ--.22491S2;
-	Fri, 10 May 2024 11:27:00 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: manivannan.sadhasivam@linaro.org,
-	loic.poulain@linaro.org
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: Add Foxconn SDX72 related support
-Date: Fri, 10 May 2024 11:26:57 +0800
-Message-Id: <20240510032657.789629-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1715608896; c=relaxed/simple;
+	bh=aO3s/NcLi8t5Jh4SXvRxtzUqiOd0Q8FfymiyrdG+uNE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=rP9fOifmZJY7CsJp4bBq5MINvHRx87SMlr68nVoSZ8za0wK++a3pWJEkN/VugViN96jyqBE9zqg+SHEDkUaPEmeVL4tyTGHL1gfu8hpmQs5pDUunDIjNNidz8nw1sWBWMvcLO32FYSTZ2SFMjaKPk3PmM0ieyB7Qo52gmI+zFcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de; spf=pass smtp.mailfrom=hotsplots.de; arc=none smtp.client-ip=185.46.137.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotsplots.de
+Received: from build2.hotsplots.bln (unknown [217.66.62.140])
+	by mxb.hotsplots.de (Postfix) with ESMTPS id 23B0E8C03EB;
+	Mon, 13 May 2024 16:01:32 +0200 (CEST)
+Received: from mf by build2.hotsplots.bln with local (Exim 4.89)
+	(envelope-from <faecknitz@hotsplots.de>)
+	id 1s6WFA-0003yi-11; Mon, 13 May 2024 16:01:32 +0200
+From: =?UTF-8?q?Martin=20F=C3=A4cknitz?= <faecknitz@hotsplots.de>
+To: mhi@lists.linux.dev
+Cc: =?UTF-8?q?Martin=20F=C3=A4cknitz?= <faecknitz@hotsplots.de>
+Subject: [PATCH net] bus: mhi: host: fix MMIO registers byte order
+Date: Mon, 13 May 2024 16:01:25 +0200
+Message-Id: <20240513140125.14485-1-faecknitz@hotsplots.de>
+X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3H9EDlD1mCPkAAQ--.22491S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCFW3JFy7Xr4rGr4UZr45Awb_yoW5CrWUpF
-	4fZ3y5taykJrWFgFW8A34DGas5Jan3Cr9xKFnrKw1I9w1Fy3yYqFWkK342gFyYy34qqFyS
-	yFykWa4a93WDJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRHlkcUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiowXaZGVODTtkoAAAsB
+X-Spamd-Bar: --------------------------------------------------
+X-Rspamd-Server: mxb
+X-Rspamd-Queue-Id: 23B0E8C03EB
+Authentication-Results: mxb.hotsplots.de;
+	none
+X-Spamd-Result: default: False [-50.00 / 500.00];
+	 ASN(0.00)[asn:33811, ipnet:217.66.48.0/20, country:DE];
+	 IP_WHITELIST(-50.00)[217.66.62.140]
 
-Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
-And also, add firehose support since SDX72.
+MHI is little endian, but host may big endian.
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Signed-off-by: Martin Fäcknitz <faecknitz@hotsplots.de>
 ---
- drivers/bus/mhi/host/pci_generic.c | 31 ++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/bus/mhi/host/init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 08844ee79654..0fd94c193fc6 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
- 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
- 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
- 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
- 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
- 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
- };
-@@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
- 	.event_cfg = mhi_foxconn_sdx55_events,
- };
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 173f79918741..b59c276a68d8 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -588,7 +588,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 	/* Write to MMIO registers */
+ 	for (i = 0; reg_info[i].offset; i++)
+ 		mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
+-			      reg_info[i].val);
++			      cpu_to_le32(reg_info[i].val));
  
-+static const struct mhi_controller_config modem_foxconn_sdx72_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 20000,
-+	.ready_timeout_ms = 50000,
-+	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
-+	.ch_cfg = mhi_foxconn_sdx55_channels,
-+	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
-+	.event_cfg = mhi_foxconn_sdx55_events,
-+};
-+
- static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
- 	.name = "foxconn-sdx24",
- 	.config = &modem_foxconn_sdx55_config,
-@@ -448,6 +460,16 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
-+	.name = "foxconn-sdx72",
-+	.edl = "qcom/sdx72m/xbl_s_devprg_ns.melf",
-+	.config = &modem_foxconn_sdx72_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
- static const struct mhi_channel_config mhi_mv3x_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
- 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-@@ -680,6 +702,15 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* DW5932e (sdx62), Non-eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f9),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx65_info },
-+	/* T99W515 (sdx72) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe118),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx72_info },
-+	/* DW5934e(sdx72), With eSIM */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11d),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx72_info },
-+	/* DW5934e(sdx72), Non-eSIM */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_sdx72_info },
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+ 	ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NER_MASK,
+ 				  mhi_cntrl->total_ev_rings);
 -- 
-2.25.1
+2.11.0
 
