@@ -1,131 +1,104 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6364C3EA66
-	for <mhi@lists.linux.dev>; Tue, 14 May 2024 14:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984FC4404
+	for <mhi@lists.linux.dev>; Wed, 15 May 2024 01:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715697466; cv=none; b=o8VNRENuOG3+BySAqEZXEc+KYCCeEo2b7u7TT45R2lvDkUxdm/sU51J/hHIQdWnz5TEnLOoLf9LQZXex5PXfTtKRk1pdzak1AyC2+hJV14sq/kOx6EsNzEL2kHxCWoTMaH0Ai1VGS5WaxTF2V9MksnRaxj1kq3dNjVQS61/jOsE=
+	t=1715736595; cv=none; b=fLLzRDINbcQmFP4Na9kosEecAfdLg++qunDKt8O6ndRgwejj3yiiiIbvF2olKRK2dnN3wqh2NdOngoYVvjIPh3SBxEUMOVzAnAKoL2dSISsi77+Usbb1J1UF7V6+zhAHwU0b2WoHoazS/Z8m5nAqy46MHalcikRZz8m52uNO3g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715697466; c=relaxed/simple;
-	bh=cCN6oAFPt/mZTrQVhHoM8Poynt/Vme2RK/JjKPD/hGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQ5aC5HHUppGiisDv1kEAGrFTGnkjFeuGMpUW0jEZPlfyYEa+h2iA/NsFyy6Nezresk74IoNOlNTMHwXEU6AJpD1TpGS9KLgE6x4NPCZTp8MQdXAp8PCXIfPL2Rm4sbFI33Z7/yNB7UiS/oz3C5C0dhPvqyLvRPBXHuNyEiVLgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vXA00y/y; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715736595; c=relaxed/simple;
+	bh=peQoSaJm5r7/rNi/49CSPH85oFpV+vigzRHrPMTFNb8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=k9tJwqwjBTCPOl4D4a+qyzWNJGjx+OUX7+6vIst8ZppayS5yagckc/O8LnIArjFWlNd25fSZiT6pXgaCyvJjS+u+CX5xsn4SavEV6f7Whi1emURmpPV47qP5fFRRH0fRotMQ4G5fpBWFyQZt6hpDQMsTfibfJrOFu7NETTGAA7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=oBzZo/OV reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vXA00y/y"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-420180b58c5so14645115e9.3
-        for <mhi@lists.linux.dev>; Tue, 14 May 2024 07:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715697463; x=1716302263; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TAc7NjihDXzocbPFDcPShOeBfL8pHSiZ3S9lbKbtkK4=;
-        b=vXA00y/y2epI5hGVYKSx/gGQd6iV3TWlTL1Pch7Tn8mbrKGPU3sp9VqsaI4R4rCI0F
-         NIICpj+yId7basMRuqTKPyKkrKGMMm/EJ3MwtTMWL4VEUWikWasxjTowqBXiOs+TTOK9
-         DPyWUPn4awbd9BZFJUKdL8UFbQtWSyatPG3wde3uHOqbLbmfwLuzuUDEu1Tasna40T/o
-         rG6mkwBjvwS2wTl49rsyjtgX9qTP9RKyvQnzxIrODs8XFK9UpxB4R8aI1jrZ2pWiQapv
-         7XQDIm7C6mCdaIzmTsV9EbhwWAj/2BQpEsCiUQgoYV5AeCGoj9KFgZmj2We7bt0CuL7N
-         gNgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715697463; x=1716302263;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TAc7NjihDXzocbPFDcPShOeBfL8pHSiZ3S9lbKbtkK4=;
-        b=xT2iuVS86lhMowP5R1seCG5r4bVcn7V2CEPzYCTDxKMgb48x/HZqFShQF+xI5f4gbG
-         bDh7XrP2L+33rjKwNlNB4BA4h+FolLlz4h5O5aXZ874axpMg71YVGP+NIGAYPGIMLjJ3
-         lIkK/JraS5c8hShwky1aMHuSehAHulEUTr8Cp8nuTD72WVHwNGtWeRzFVI/zRIUAr3tO
-         F7AlsA+a+rzwlIc+sTSiVq8U9RrZdAr5281/h2dEJ3k2zVUZWYU0pwjgS0nJLPTW+W9b
-         t95utavZMM3hySiys+uWKQqpOOJLHfvoQlykWdF2czeUSosyFRKCRb3cLP3m0lFcpgpi
-         U7tw==
-X-Forwarded-Encrypted: i=1; AJvYcCWFPimlvnWi+tdQhoHQJb9Ya/f7ItkSlkypFCd6Q1s1/HqHmbpg0Dfs4BHlK4qSU1DeFQmhhSBED08hwmCa+XRSgjPi
-X-Gm-Message-State: AOJu0YwP6fwO7vU2LgP2FEBZyTbSeTB+dFQH5KbAlg865LvE+ioZZyX9
-	1NeCWjzogYcyA/OF8qTEpLw4ZQxT0DriYjfFBPsBvtcZu518PMbVrJptnPCA+A==
-X-Google-Smtp-Source: AGHT+IGPyRX8qtOMt+JESevQaTVma23gUecjuwUc1IYuJbTTmpZ+UJ3tSQ0+ECufdM0ZY1qj8EQ5xg==
-X-Received: by 2002:a05:600c:1c9f:b0:41c:35c:2da7 with SMTP id 5b1f17b1804b1-41feac551a0mr100665255e9.30.1715697462515;
-        Tue, 14 May 2024 07:37:42 -0700 (PDT)
-Received: from thinkpad ([149.14.240.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35045583669sm12283626f8f.106.2024.05.14.07.37.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 07:37:42 -0700 (PDT)
-Date: Tue, 14 May 2024 16:37:41 +0200
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: loic.poulain@linaro.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72 related support
-Message-ID: <20240514143741.GA2306@thinkpad>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="oBzZo/OV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=dH/gpF16Z7nc/BPL3pmSYU9XRCHIeE+cpF7SwrMJQwg=; b=o
+	BzZo/OV42n/AUxeFg+tVhjTDrgIFUdt9YzGgXa2ztP3aVnHXbBevPj/APNH3Z3ha
+	dKqWyPkP+4fBZ4iUKx0957Y7tDee8YpA3lUL8E9W6OKkpe/ySDo4xDOBkp1Zpung
+	AqAs4n2lC3u+L5gHOPYMYDJxH/ZvlUIeCNDjQ3dnHs=
+Received: from slark_xiao$163.com ( [223.104.68.205] ) by
+ ajax-webmail-wmsvr-40-127 (Coremail) ; Wed, 15 May 2024 09:29:20 +0800
+ (CST)
+Date: Wed, 15 May 2024 09:29:20 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
+Cc: loic.poulain@linaro.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH] bus: mhi: host: Add Foxconn SDX72 related support
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <20240514143741.GA2306@thinkpad>
 References: <20240510032657.789629-1-slark_xiao@163.com>
+ <20240514143741.GA2306@thinkpad>
+X-NTES-SC: AL_Qu2aB/uYuU0t5iifYukfm0kaj+c/WMGzu/8m3oFXO51wjA/p9R8Ab25qLX/Vwd6AAAyRtzG+XDNV0PRYYrFmXaQGqGfN1UJIgwrgTeS8H8cepw==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240510032657.789629-1-slark_xiao@163.com>
+Message-ID: <541de8e4.1600.18f79de44f3.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3v9LwD0RmKxheAA--.442W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNRneZGV4Hlw0FAADsq
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Fri, May 10, 2024 at 11:26:57AM +0800, Slark Xiao wrote:
-> Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
-> And also, add firehose support since SDX72.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 31 ++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 08844ee79654..0fd94c193fc6 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
->  	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
->  	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
->  	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-> +	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
-> +	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
-
-This means SDX55 is also supporting FIREHOSE channels, which is not true I
-believe.
-
->  	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
->  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
->  };
-> @@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
->  	.event_cfg = mhi_foxconn_sdx55_events,
->  };
->  
-> +static const struct mhi_controller_config modem_foxconn_sdx72_config = {
-> +	.max_channels = 128,
-> +	.timeout_ms = 20000,
-> +	.ready_timeout_ms = 50000,
-> +	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
-> +	.ch_cfg = mhi_foxconn_sdx55_channels,
-> +	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
-> +	.event_cfg = mhi_foxconn_sdx55_events,
-> +};
-> +
->  static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
->  	.name = "foxconn-sdx24",
->  	.config = &modem_foxconn_sdx55_config,
-> @@ -448,6 +460,16 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
->  	.sideband_wake = false,
->  };
->  
-> +static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
-> +	.name = "foxconn-sdx72",
-> +	.edl = "qcom/sdx72m/xbl_s_devprg_ns.melf",
-
-What is '.melf'? Is the firmware available somewhere? Did you plan to upstream
-it to linux-firmware?
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+QXQgMjAyNC0wNS0xNCAyMjozNzo0MSwgIk1hbml2YW5uYW4gU2FkaGFzaXZhbSIgPG1hbml2YW5u
+YW4uc2FkaGFzaXZhbUBsaW5hcm8ub3JnPiB3cm90ZToKPk9uIEZyaSwgTWF5IDEwLCAyMDI0IGF0
+IDExOjI2OjU3QU0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IEFsaWduIHdpdGggUWNvbSBT
+RFg3MiwgYWRkIHJlYWR5IHRpbWVvdXQgaXRlbSBmb3IgRm94Y29ubiBTRFg3Mi4KPj4gQW5kIGFs
+c28sIGFkZCBmaXJlaG9zZSBzdXBwb3J0IHNpbmNlIFNEWDcyLgo+PiAKPj4gU2lnbmVkLW9mZi1i
+eTogU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPgo+PiAtLS0KPj4gIGRyaXZlcnMvYnVz
+L21oaS9ob3N0L3BjaV9nZW5lcmljLmMgfCAzMSArKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysKPj4gIDEgZmlsZSBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspCj4+IAo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyBiL2RyaXZlcnMvYnVzL21oaS9o
+b3N0L3BjaV9nZW5lcmljLmMKPj4gaW5kZXggMDg4NDRlZTc5NjU0Li4wZmQ5NGMxOTNmYzYgMTAw
+NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4gKysrIGIv
+ZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiBAQCAtMzk5LDYgKzM5OSw4IEBA
+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX2NoYW5uZWxfY29uZmlnIG1oaV9mb3hjb25uX3NkeDU1
+X2NoYW5uZWxzW10gPSB7Cj4+ICAJTUhJX0NIQU5ORUxfQ09ORklHX0RMKDEzLCAiTUJJTSIsIDMy
+LCAwKSwKPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfVUwoMzIsICJEVU4iLCAzMiwgMCksCj4+ICAJ
+TUhJX0NIQU5ORUxfQ09ORklHX0RMKDMzLCAiRFVOIiwgMzIsIDApLAo+PiArCU1ISV9DSEFOTkVM
+X0NPTkZJR19VTF9GUCgzNCwgIkZJUkVIT1NFIiwgMzIsIDApLAo+PiArCU1ISV9DSEFOTkVMX0NP
+TkZJR19ETF9GUCgzNSwgIkZJUkVIT1NFIiwgMzIsIDApLAo+Cj5UaGlzIG1lYW5zIFNEWDU1IGlz
+IGFsc28gc3VwcG9ydGluZyBGSVJFSE9TRSBjaGFubmVscywgd2hpY2ggaXMgbm90IHRydWUgSQo+
+YmVsaWV2ZS4KQWN0dWFsbHksIEkganVzdCB2ZXJpZmllZCBpdCB3aXRoIG15IHNkeDU1IGFuZCB0
+aGUgYW5zd2VyIGlzIFllcy4gVGhlc2UgY2hhbm5lbHMKYXJlIGNvbW1vbiBzZXR0aW5ncyBmb3Ig
+UWNvbSBkZXZpY2Ugd2hpY2ggc3VwcG9ydCBQQ0llIG1vZGUuIEJUVywgdGhlCmRlZmF1bHQgc2V0
+dGluZ3Mgb2YgUWNvbSBhbmQgUXVlY3RlbCBzdXBwb3J0IGZpcmVob3NlIGZvciB0aGVpciBzZHg1
+NSBwcm9kdWN0cy4KPgo+PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19IV19VTCgxMDAsICJJUF9IVzBf
+TUJJTSIsIDEyOCwgMiksCj4+ICAJTUhJX0NIQU5ORUxfQ09ORklHX0hXX0RMKDEwMSwgIklQX0hX
+MF9NQklNIiwgMTI4LCAzKSwKPj4gIH07Cj4+IEBAIC00MTksNiArNDIxLDE2IEBAIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgbWhpX2NvbnRyb2xsZXJfY29uZmlnIG1vZGVtX2ZveGNvbm5fc2R4NTVfY29u
+ZmlnID0gewo+PiAgCS5ldmVudF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4+ICB9
+Owo+PiAgCj4+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyBtb2Rl
+bV9mb3hjb25uX3NkeDcyX2NvbmZpZyA9IHsKPj4gKwkubWF4X2NoYW5uZWxzID0gMTI4LAo+PiAr
+CS50aW1lb3V0X21zID0gMjAwMDAsCj4+ICsJLnJlYWR5X3RpbWVvdXRfbXMgPSA1MDAwMCwKPj4g
+KwkubnVtX2NoYW5uZWxzID0gQVJSQVlfU0laRShtaGlfZm94Y29ubl9zZHg1NV9jaGFubmVscyks
+Cj4+ICsJLmNoX2NmZyA9IG1oaV9mb3hjb25uX3NkeDU1X2NoYW5uZWxzLAo+PiArCS5udW1fZXZl
+bnRzID0gQVJSQVlfU0laRShtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMpLAo+PiArCS5ldmVudF9j
+ZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4+ICt9Owo+PiArCj4+ICBzdGF0aWMgY29u
+c3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4MjRfaW5mbyA9IHsKPj4g
+IAkubmFtZSA9ICJmb3hjb25uLXNkeDI0IiwKPj4gIAkuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5f
+c2R4NTVfY29uZmlnLAo+PiBAQCAtNDQ4LDYgKzQ2MCwxNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4NjVfaW5mbyA9IHsKPj4gIAkuc2lkZWJh
+bmRfd2FrZSA9IGZhbHNlLAo+PiAgfTsKPj4gIAo+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlf
+cGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3NkeDcyX2luZm8gPSB7Cj4+ICsJLm5hbWUgPSAiZm94
+Y29ubi1zZHg3MiIsCj4+ICsJLmVkbCA9ICJxY29tL3NkeDcybS94Ymxfc19kZXZwcmdfbnMubWVs
+ZiIsCj4KPldoYXQgaXMgJy5tZWxmJz8gSXMgdGhlIGZpcm13YXJlIGF2YWlsYWJsZSBzb21ld2hl
+cmU/IERpZCB5b3UgcGxhbiB0byB1cHN0cmVhbQo+aXQgdG8gbGludXgtZmlybXdhcmU/Cj4KVGhp
+cyBmaWxlIHNpbWlsYXIgd2l0aCAiZWRsLm1ibiIuIEluIFNEWDcyIHByb2R1Y3QsIHRoZSBkZWZh
+dWx0ICJlZGwiIGZpbGUgbmFtZSBpcwoieGJsX3NfZGV2cHJnX25zLm1lbGYiLiBDdXJyZW50bHkg
+d2UgZG9uJ3QgcGxhbiB0byB1cHN0cmVhbSBpdCB0byBsaW51eC1maXJtd2FyZQpzaW5jZSAyIHJl
+YXNvbnM6IDE6IHdlIHNoYXJlIHRoZSBzYW1lIGZvbGQgbmFtZSBzZHg3Mm0gd2l0aCBxY29tIG9y
+IG90aGVyIHZlbmRvcnMKMjogdGhpcyBmaWxlIG1heSBiZSBjaGFuZ2VkIHNpbmNlIHNkeDcyIHBy
+b2R1Y3Qgc3RpbGwgdW5kZXIgZGV2ZWxvcGluZyBpbiBvdXIgc2lkZS4gd2UKbWF5IGNoYW5nZSB0
+aGUgYmFzZSBsaW5lIGFjY29yZGluZyB0byBRQ09NIHJlbGVhc2UuCj4tIE1hbmkKPgo+LS0gCj7g
+rq7grqPgrr/grrXgrqPgr43grqPgrqngr40g4K6a4K6k4K6+4K6a4K6/4K614K6u4K+NCg==
