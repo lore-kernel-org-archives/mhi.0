@@ -1,121 +1,160 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10C1D48CC6
-	for <mhi@lists.linux.dev>; Wed, 15 May 2024 08:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD21D14AB4;
+	Wed, 15 May 2024 11:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715760113; cv=none; b=eGuoBWXko/3iSm0yBNvBunNSqJqukkqOhnnNsFBo+rFp0jEsn/RLMadX3OSiS562tLoBlBlaLlnZqH9Mv+4E4NEhwn/7B4s2EpJ1WuArsNu8C29V9D1Mx0tLhptw+cPsaYj2lCz0hM7w0vo2y9Qa1q/iEW3x7bh0mvSvDanc0B0=
+	t=1715773623; cv=none; b=K8Pdp2CZX96T1YPQ6jYagE7pv3wcj3IpuH84TpqRKP/D0nPQO/c38QjINI5XUgytxgtRZsxp2Vo/vIzdaIOTsDIuvrQNxDgk6/DWm0yozY011uLxoAvi/vpCyMqHS9OTAn/tU3v/TKp8lL2j3EcyOkedy0e0Rsd/fdX6Lb9+zvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715760113; c=relaxed/simple;
-	bh=hrHHrCthnDkbhxmwWf3PyO/8Em4Rz6s5sS4Z9rFR2OY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=d9qOO3ezniyST/wUozfd6LI9R4jz0YnRztpzb1dgCurkuM+mD4crueP1e+WWWhpJmQfqELhOgKFucAeoqgq9htLgR+FzM77CI48ZAHhb7x2YzTI/t6xaqLhtQIcTNmuJ2l9jmxcu1gRY0zM2UxTjUvkEuc2mY0JjCpSmSYhrHeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=pVlwPtt7 reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1715773623; c=relaxed/simple;
+	bh=t7iFnEs3Iw3S8AKB68ZJKQ1wqgeLYyoGzDhSi6rtUXA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QXlpPL5dn7dZ+mIjV4B/6kMuWEjXwAeX9CqPOYvDHuydx19UX9VTyJiEI4RbbQWcqctvVfU5xSyHx/iwgjFiX+VDb6hXq/xSy1XLHDOz3bz9KK8qknrhPQ+LiB9gcjklEoqA5VcqO2pyYZoKbccaRVJWLM5FxabsFWwk1lCQvFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JE9gX6s7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="pVlwPtt7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=AjGiKpbZdJesgOpOC4FifaNjod7IrpMhlevvNRGAQdU=; b=p
-	VlwPtt7qP7p6pA7YSumPWzW1mn+JSnYMGuczcnnSuitjVjDptSqt3nQFz2gd74Jj
-	VUqr5csYeGYj1iyNEv3SY4PPLs+Vq9fxDsQ6BN99pKEP5H5IF9fNuYVKSVsw+9i7
-	lKaa08DDRxIwOUO0OOtG+siRSb8OZM/CnipG7TwTzY=
-Received: from slark_xiao$163.com ( [223.104.68.205] ) by
- ajax-webmail-wmsvr-40-127 (Coremail) ; Wed, 15 May 2024 16:01:37 +0800
- (CST)
-Date: Wed, 15 May 2024 16:01:37 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
-Cc: loic.poulain@linaro.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, quic_qianyu@quicinc.com
-Subject: Re:Re: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72 related
- support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240515074119.GA2445@thinkpad>
-References: <20240510032657.789629-1-slark_xiao@163.com>
- <20240514143741.GA2306@thinkpad>
- <541de8e4.1600.18f79de44f3.Coremail.slark_xiao@163.com>
- <20240515074119.GA2445@thinkpad>
-X-NTES-SC: AL_Qu2aB/udv0gi4SKYZukfm0kaj+c/WMGzu/8m3oFXO51wjA/p9R8Ab25qLX/Vwd6AAAyRtzG+XDNV0PRYYrFmXaQG/750QsxNFgxocXfmxbLkWA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JE9gX6s7"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44F90fgJ024840;
+	Wed, 15 May 2024 11:46:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=ssm9WErsxqX0TxnKA8/0AGDH9AJ2mm24NKSMxmRx92M=; b=JE
+	9gX6s7m2ik2LmOMt8B1+l75+i24GRsECKoSxqYrTAS8B5LPkGRzPX+HolqoWTvy1
+	4WoklPZfaXo5/m8u9mSBMHHOl+HzSIG7ce12nuheyTN9MFQSXjlStfAmrTiza5BA
+	zVNcxGVaj7z7TrjQCNrWI1X4ObL4eoCPekdJY1gwvKFl8hFA8WhHDu1avxEG9gJV
+	CtFf2xpNMA5mKFX168aSwvAN3B9rHSbZSoYhqsfRlPpjfESL57TDCHS9v3siU05+
+	Z/eBfoNC0KAjAGXlYmElYHygz22NEp+6L06hIUyW+IlOKKsERqfB5jo4liDTQfkO
+	ojl4ICC9SObSctp+x6Bg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y49gdtah2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 May 2024 11:46:48 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44FBklYx028028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 May 2024 11:46:47 GMT
+Received: from [10.253.15.49] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 15 May
+ 2024 04:46:46 -0700
+Message-ID: <38fcae90-f3f9-4b19-8b36-53ab93dc0953@quicinc.com>
+Date: Wed, 15 May 2024 19:46:28 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <5eee5967.7bdf.18f7b4567b7.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3XyXha0Rmr+EvAA--.3133W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJR3fZGVOBNIhwAAEsb
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72 related support
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Slark Xiao
+	<slark_xiao@163.com>
+CC: <loic.poulain@linaro.org>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240510032657.789629-1-slark_xiao@163.com>
+ <20240514143741.GA2306@thinkpad>
+ <541de8e4.1600.18f79de44f3.Coremail.slark_xiao@163.com>
+ <20240515074119.GA2445@thinkpad>
+Content-Language: en-US
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <20240515074119.GA2445@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: TVmkk0hyM7JnVNjh-IkG_A4pAMjOkS-5
+X-Proofpoint-ORIG-GUID: TVmkk0hyM7JnVNjh-IkG_A4pAMjOkS-5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-15_06,2024-05-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 clxscore=1011 priorityscore=1501 phishscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405150081
 
-CkF0IDIwMjQtMDUtMTUgMTU6NDE6MTksICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pdmFu
-bmFuLnNhZGhhc2l2YW1AbGluYXJvLm9yZz4gd3JvdGU6Cj4rIFFpYW5nCj4KPk9uIFdlZCwgTWF5
-IDE1LCAyMDI0IGF0IDA5OjI5OjIwQU0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IEF0IDIw
-MjQtMDUtMTQgMjI6Mzc6NDEsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pdmFubmFuLnNh
-ZGhhc2l2YW1AbGluYXJvLm9yZz4gd3JvdGU6Cj4+ID5PbiBGcmksIE1heSAxMCwgMjAyNCBhdCAx
-MToyNjo1N0FNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+PiA+PiBBbGlnbiB3aXRoIFFjb20g
-U0RYNzIsIGFkZCByZWFkeSB0aW1lb3V0IGl0ZW0gZm9yIEZveGNvbm4gU0RYNzIuCj4+ID4+IEFu
-ZCBhbHNvLCBhZGQgZmlyZWhvc2Ugc3VwcG9ydCBzaW5jZSBTRFg3Mi4KPj4gPj4gCj4+ID4+IFNp
-Z25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4gPj4gLS0tCj4+
-ID4+ICBkcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMzEgKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrCj4+ID4+ICAxIGZpbGUgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygr
-KQo+PiA+PiAKPj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5l
-cmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ID4+IGluZGV4IDA4
-ODQ0ZWU3OTY1NC4uMGZkOTRjMTkzZmM2IDEwMDY0NAo+PiA+PiAtLS0gYS9kcml2ZXJzL2J1cy9t
-aGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ID4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3Bj
-aV9nZW5lcmljLmMKPj4gPj4gQEAgLTM5OSw2ICszOTksOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IG1oaV9jaGFubmVsX2NvbmZpZyBtaGlfZm94Y29ubl9zZHg1NV9jaGFubmVsc1tdID0gewo+PiA+
-PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19ETCgxMywgIk1CSU0iLCAzMiwgMCksCj4+ID4+ICAJTUhJ
-X0NIQU5ORUxfQ09ORklHX1VMKDMyLCAiRFVOIiwgMzIsIDApLAo+PiA+PiAgCU1ISV9DSEFOTkVM
-X0NPTkZJR19ETCgzMywgIkRVTiIsIDMyLCAwKSwKPj4gPj4gKwlNSElfQ0hBTk5FTF9DT05GSUdf
-VUxfRlAoMzQsICJGSVJFSE9TRSIsIDMyLCAwKSwKPj4gPj4gKwlNSElfQ0hBTk5FTF9DT05GSUdf
-RExfRlAoMzUsICJGSVJFSE9TRSIsIDMyLCAwKSwKPj4gPgo+PiA+VGhpcyBtZWFucyBTRFg1NSBp
-cyBhbHNvIHN1cHBvcnRpbmcgRklSRUhPU0UgY2hhbm5lbHMsIHdoaWNoIGlzIG5vdCB0cnVlIEkK
-Pj4gPmJlbGlldmUuCj4+IEFjdHVhbGx5LCBJIGp1c3QgdmVyaWZpZWQgaXQgd2l0aCBteSBzZHg1
-NSBhbmQgdGhlIGFuc3dlciBpcyBZZXMuIFRoZXNlIGNoYW5uZWxzCj4+IGFyZSBjb21tb24gc2V0
-dGluZ3MgZm9yIFFjb20gZGV2aWNlIHdoaWNoIHN1cHBvcnQgUENJZSBtb2RlLiBCVFcsIHRoZQo+
-PiBkZWZhdWx0IHNldHRpbmdzIG9mIFFjb20gYW5kIFF1ZWN0ZWwgc3VwcG9ydCBmaXJlaG9zZSBm
-b3IgdGhlaXIgc2R4NTUgcHJvZHVjdHMuCj4KPlFpYW5nLCBjYW4geW91IHBsZWFzZSBjb25maXJt
-IHRoYXQgU0RYNTUgc3VwcG9ydHMgRklSRUhPU0UgY2hhbm5lbHM/Cj4KPj4gPgo+PiA+PiAgCU1I
-SV9DSEFOTkVMX0NPTkZJR19IV19VTCgxMDAsICJJUF9IVzBfTUJJTSIsIDEyOCwgMiksCj4+ID4+
-ICAJTUhJX0NIQU5ORUxfQ09ORklHX0hXX0RMKDEwMSwgIklQX0hXMF9NQklNIiwgMTI4LCAzKSwK
-Pj4gPj4gIH07Cj4+ID4+IEBAIC00MTksNiArNDIxLDE2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-bWhpX2NvbnRyb2xsZXJfY29uZmlnIG1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnID0gewo+PiA+
-PiAgCS5ldmVudF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4+ID4+ICB9Owo+PiA+
-PiAgCj4+ID4+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyBtb2Rl
-bV9mb3hjb25uX3NkeDcyX2NvbmZpZyA9IHsKPj4gPj4gKwkubWF4X2NoYW5uZWxzID0gMTI4LAo+
-PiA+PiArCS50aW1lb3V0X21zID0gMjAwMDAsCj4+ID4+ICsJLnJlYWR5X3RpbWVvdXRfbXMgPSA1
-MDAwMCwKPj4gPj4gKwkubnVtX2NoYW5uZWxzID0gQVJSQVlfU0laRShtaGlfZm94Y29ubl9zZHg1
-NV9jaGFubmVscyksCj4+ID4+ICsJLmNoX2NmZyA9IG1oaV9mb3hjb25uX3NkeDU1X2NoYW5uZWxz
-LAo+PiA+PiArCS5udW1fZXZlbnRzID0gQVJSQVlfU0laRShtaGlfZm94Y29ubl9zZHg1NV9ldmVu
-dHMpLAo+PiA+PiArCS5ldmVudF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4+ID4+
-ICt9Owo+PiA+PiArCj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
-bWhpX2ZveGNvbm5fc2R4MjRfaW5mbyA9IHsKPj4gPj4gIAkubmFtZSA9ICJmb3hjb25uLXNkeDI0
-IiwKPj4gPj4gIAkuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+PiA+PiBA
-QCAtNDQ4LDYgKzQ2MCwxNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
-bWhpX2ZveGNvbm5fc2R4NjVfaW5mbyA9IHsKPj4gPj4gIAkuc2lkZWJhbmRfd2FrZSA9IGZhbHNl
-LAo+PiA+PiAgfTsKPj4gPj4gIAo+PiA+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rl
-dl9pbmZvIG1oaV9mb3hjb25uX3NkeDcyX2luZm8gPSB7Cj4+ID4+ICsJLm5hbWUgPSAiZm94Y29u
-bi1zZHg3MiIsCj4+ID4+ICsJLmVkbCA9ICJxY29tL3NkeDcybS94Ymxfc19kZXZwcmdfbnMubWVs
-ZiIsCj4+ID4KPj4gPldoYXQgaXMgJy5tZWxmJz8gSXMgdGhlIGZpcm13YXJlIGF2YWlsYWJsZSBz
-b21ld2hlcmU/IERpZCB5b3UgcGxhbiB0byB1cHN0cmVhbQo+PiA+aXQgdG8gbGludXgtZmlybXdh
-cmU/Cj4+ID4KPj4gVGhpcyBmaWxlIHNpbWlsYXIgd2l0aCAiZWRsLm1ibiIuIEluIFNEWDcyIHBy
-b2R1Y3QsIHRoZSBkZWZhdWx0ICJlZGwiIGZpbGUgbmFtZSBpcwo+PiAieGJsX3NfZGV2cHJnX25z
-Lm1lbGYiLiBDdXJyZW50bHkgd2UgZG9uJ3QgcGxhbiB0byB1cHN0cmVhbSBpdCB0byBsaW51eC1m
-aXJtd2FyZQo+PiBzaW5jZSAyIHJlYXNvbnM6IDE6IHdlIHNoYXJlIHRoZSBzYW1lIGZvbGQgbmFt
-ZSBzZHg3Mm0gd2l0aCBxY29tIG9yIG90aGVyIHZlbmRvcnMKPj4gMjogdGhpcyBmaWxlIG1heSBi
-ZSBjaGFuZ2VkIHNpbmNlIHNkeDcyIHByb2R1Y3Qgc3RpbGwgdW5kZXIgZGV2ZWxvcGluZyBpbiBv
-dXIgc2lkZS4gd2UKPj4gbWF5IGNoYW5nZSB0aGUgYmFzZSBsaW5lIGFjY29yZGluZyB0byBRQ09N
-IHJlbGVhc2UuCj4KPlRoZW4gSSB3b3VsZCBhc2sgeW91IHRvIGFkZCBzdXBwb3J0IHdoZW4geW91
-IGhhdmUgYSBzdGFibGUgZmlybXdhcmUuIEkgZG8gbm90Cj53YW50IHRvIGNoYW5nZSB0aGUgZmly
-bXdhcmUgbmFtZSBhZnRlciBzb21lIHRpbWUgYXMgaXQgd2lsbCBjb25mdXNlIHVzZXJzLgo+Cj4t
-IE1hbmkKSWYgYSBzdGFibGUgZmlybXdhcmUgbXVzdCBiZSBwcm92aWRlZCwgSSB0aGluayBJIHNo
-YWxsIGNoYW5nZSB0aGUgZm9sZGVyIG5hbWUgZnJvbSBxY29tIHRvCmZveCwgZG8geW91IGFncmVl
-IHRoaXM/CkJUVywgSSBuZWVkIHRvIGNoZWNrIGlmIGl0IHdvcmtzIGFmdGVyIHVwZGF0aW5nICdl
-ZGwgZncnIGZyb20gIHhibF9zX2RldnByZ19ucy5tZWxmIHRvCmVkbC5tYm4uIAo+Cj4tLSAKPuCu
-ruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40K
+
+On 5/15/2024 3:41 PM, Manivannan Sadhasivam wrote:
+> + Qiang
+>
+> On Wed, May 15, 2024 at 09:29:20AM +0800, Slark Xiao wrote:
+>> At 2024-05-14 22:37:41, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+>>> On Fri, May 10, 2024 at 11:26:57AM +0800, Slark Xiao wrote:
+>>>> Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
+>>>> And also, add firehose support since SDX72.
+>>>>
+>>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+>>>> ---
+>>>>   drivers/bus/mhi/host/pci_generic.c | 31 ++++++++++++++++++++++++++++++
+>>>>   1 file changed, 31 insertions(+)
+>>>>
+>>>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>>>> index 08844ee79654..0fd94c193fc6 100644
+>>>> --- a/drivers/bus/mhi/host/pci_generic.c
+>>>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>>>> @@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+>>>>   	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+>>>>   	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+>>>>   	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+>>>> +	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
+>>>> +	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+>>> This means SDX55 is also supporting FIREHOSE channels, which is not true I
+>>> believe.
+>> Actually, I just verified it with my sdx55 and the answer is Yes. These channels
+>> are common settings for Qcom device which support PCIe mode. BTW, the
+>> default settings of Qcom and Quectel support firehose for their sdx55 products.
+> Qiang, can you please confirm that SDX55 supports FIREHOSE channels?
+Hi Mani
+
+Yes, SDX55 supports FIREHOSE channels.
+
+Thanks,
+Qiang
+>
+>>>>   	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+>>>>   	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+>>>>   };
+>>>> @@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+>>>>   	.event_cfg = mhi_foxconn_sdx55_events,
+>>>>   };
+>>>>   
+>>>> +static const struct mhi_controller_config modem_foxconn_sdx72_config = {
+>>>> +	.max_channels = 128,
+>>>> +	.timeout_ms = 20000,
+>>>> +	.ready_timeout_ms = 50000,
+>>>> +	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
+>>>> +	.ch_cfg = mhi_foxconn_sdx55_channels,
+>>>> +	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
+>>>> +	.event_cfg = mhi_foxconn_sdx55_events,
+>>>> +};
+>>>> +
+>>>>   static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
+>>>>   	.name = "foxconn-sdx24",
+>>>>   	.config = &modem_foxconn_sdx55_config,
+>>>> @@ -448,6 +460,16 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
+>>>>   	.sideband_wake = false,
+>>>>   };
+>>>>   
+>>>> +static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+>>>> +	.name = "foxconn-sdx72",
+>>>> +	.edl = "qcom/sdx72m/xbl_s_devprg_ns.melf",
+>>> What is '.melf'? Is the firmware available somewhere? Did you plan to upstream
+>>> it to linux-firmware?
+>>>
+>> This file similar with "edl.mbn". In SDX72 product, the default "edl" file name is
+>> "xbl_s_devprg_ns.melf". Currently we don't plan to upstream it to linux-firmware
+>> since 2 reasons: 1: we share the same fold name sdx72m with qcom or other vendors
+>> 2: this file may be changed since sdx72 product still under developing in our side. we
+>> may change the base line according to QCOM release.
+> Then I would ask you to add support when you have a stable firmware. I do not
+> want to change the firmware name after some time as it will confuse users.
+>
+> - Mani
+>
