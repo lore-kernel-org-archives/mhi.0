@@ -1,151 +1,136 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E8DE14AB4
-	for <mhi@lists.linux.dev>; Wed, 15 May 2024 12:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD92155A57;
+	Wed, 15 May 2024 21:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715775463; cv=none; b=CtWZZV22M8vdkcwbfjK1LNsLr7hfPv7Bfxq7MI5373XA5aRo8jHm2Yp58hoAtCvTk9Hgfme72wt3PXq2RA6ILMbSiH7mjdhZeLHE1zmd7k1m9PmkHTAkMsW4ej018TYqI4m8vjZrAUqDyQXdEti1CnJPMtYY/j9PF/OVxv0Evic=
+	t=1715807929; cv=none; b=WNk5N8UeVu90ZGOwUDAoXQpL97h6UINlSUr44mS3tlFN6BOUsup7mL+Z7a2Vrkz0li9jATQNdFZESMaa1PzlCZX0t/zUMNwPANmK0l5kS9ppn3aXEu8Dd5JaE7K9a7xKY86c+sZOamk0DnPIKrQ0gRRiFIE+u01taCXzkdhCrNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715775463; c=relaxed/simple;
-	bh=kIrXXfLs1VN1FNZyXDFHR3/pqM8Kq3RYwEEvkVJrfhY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=O/xLHVSjbB+YL9oxZp5uJ6R9dHIhy3r7jN99aGJtER2AngScLzulRfR19xDEdlxqu5eC8pptv82duyjCSabWfmKFBfFSKykPbD1luicckF813oVw61R4HMVJcXaRaFEte7RfJQ4dV7oumuzcoHcuaJHQa7HhSuyizZX2VgapYxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=ar/MmW0n reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1715807929; c=relaxed/simple;
+	bh=GV4ctJ7S6o2h1VMQ6K3QvFDmjV30mayxRlqtKeBqg1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LGyevu7B8TA9LuKM5eFCIB1N1T9gVFROSFnNTUuP7IAJPMl7RJfsy3o6jGOqxm4ZfkksnwqyQaCxupQcPh5XUBLKkzqm8Wa85MBeVFJXuTMk8B5gmXwkUvW46J048nE2xGF7AZnTg0qq9PL1m6chVKhEaHk+3tZrvXpbwbE019A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3dFccox; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="ar/MmW0n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=Qr8y9VujmtGdZGdj9glcB1Bx1KCTeohG0AzG0YCdoXs=; b=a
-	r/MmW0na7cbsW/dx9rAQLNQsX8hJYTezj9SL8aFW7WjsQ3DWfJ30EYCZajRR8Y+C
-	AeHV1opBBkVVRjeHmrOAoD9OvSsmY1Y8P8lxZSMKRsP6gwuJ1GOJw3U1Euzja3ed
-	CX5UztNpMM/0Alnn5zH54CfsGFmzaijoAsOw6wUUtw=
-Received: from slark_xiao$163.com ( [112.97.57.72] ) by
- ajax-webmail-wmsvr-40-109 (Coremail) ; Wed, 15 May 2024 20:17:23 +0800
- (CST)
-Date: Wed, 15 May 2024 20:17:23 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>, 
-	loic.poulain@linaro.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_qianyu@quicinc.com
-Subject: Re:Re: Re: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72 related
- support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240515115239.GD4488@thinkpad>
-References: <20240510032657.789629-1-slark_xiao@163.com>
- <20240514143741.GA2306@thinkpad>
- <541de8e4.1600.18f79de44f3.Coremail.slark_xiao@163.com>
- <20240515074119.GA2445@thinkpad>
- <5eee5967.7bdf.18f7b4567b7.Coremail.slark_xiao@163.com>
- <20240515115239.GD4488@thinkpad>
-X-NTES-SC: AL_Qu2aB/ucukwv5SGabOkfm0kaj+c/WMGzu/8m3oFXO51wjCPp1gwsYEBzNlDQ8uaiChq+kSinfRJQ0uNTeKx7XIgohyisvubGBat/+fNwLde3Zw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3dFccox"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A86C116B1;
+	Wed, 15 May 2024 21:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715807928;
+	bh=GV4ctJ7S6o2h1VMQ6K3QvFDmjV30mayxRlqtKeBqg1o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=P3dFccoxomCIHJqy4XeaDnH+WifIbD1n9DRECJaYOjnB+pHNmRRXshO4DdAU+2FLb
+	 NlhEW6MafzcM0Jbcj+2VwkslZzf09wUlmRFmnFGeMCKCGuQiSiCXRyuvUskvBfYJ4L
+	 9YDfoS7RbZBpcdhYecRCenElUV5ttxPpFcjhji8zret1J/jejjnGAfsCGAzIrywguU
+	 RNfW1bWqB9RHZNuQilAHblPZjMOR8GJcShYynFvRsCD97XsAt6bNHqTsLBltZ8qsUC
+	 nffGptSFneFjepbnxK3AjYyTduFnuCsBgq/8XBr0adLLkcxWlvo9sKO/GwSRTDbP98
+	 2Q6fb1M5tmZeg==
+Date: Wed, 15 May 2024 16:18:46 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Brian Norris <briannorris@chromium.org>, linux-pci@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, stable@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: Re: [PATCH] PCI: rockchip: Use GPIOD_OUT_LOW flag while requesting
+ ep_gpio
+Message-ID: <20240515211846.GA2139223@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <58fb648d.ab03.18f7c2f90bd.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3X0_Tp0RmxF0sAA--.3665W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNRffZGV4HmslfwAFsu
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416-pci-rockchip-perst-fix-v1-1-4800b1d4d954@linaro.org>
 
-CgpBdCAyMDI0LTA1LTE1IDE5OjUyOjM5LCAiTWFuaXZhbm5hbiBTYWRoYXNpdmFtIiA8bWFuaUBr
-ZXJuZWwub3JnPiB3cm90ZToKPk9uIFdlZCwgTWF5IDE1LCAyMDI0IGF0IDA0OjAxOjM3UE0gKzA4
-MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IAo+PiBBdCAyMDI0LTA1LTE1IDE1OjQxOjE5LCAiTWFu
-aXZhbm5hbiBTYWRoYXNpdmFtIiA8bWFuaXZhbm5hbi5zYWRoYXNpdmFtQGxpbmFyby5vcmc+IHdy
-b3RlOgo+PiA+KyBRaWFuZwo+PiA+Cj4+ID5PbiBXZWQsIE1heSAxNSwgMjAyNCBhdCAwOToyOToy
-MEFNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+PiA+PiBBdCAyMDI0LTA1LTE0IDIyOjM3OjQx
-LCAiTWFuaXZhbm5hbiBTYWRoYXNpdmFtIiA8bWFuaXZhbm5hbi5zYWRoYXNpdmFtQGxpbmFyby5v
-cmc+IHdyb3RlOgo+PiA+PiA+T24gRnJpLCBNYXkgMTAsIDIwMjQgYXQgMTE6MjY6NTdBTSArMDgw
-MCwgU2xhcmsgWGlhbyB3cm90ZToKPj4gPj4gPj4gQWxpZ24gd2l0aCBRY29tIFNEWDcyLCBhZGQg
-cmVhZHkgdGltZW91dCBpdGVtIGZvciBGb3hjb25uIFNEWDcyLgo+PiA+PiA+PiBBbmQgYWxzbywg
-YWRkIGZpcmVob3NlIHN1cHBvcnQgc2luY2UgU0RYNzIuCj4+ID4+ID4+IAo+PiA+PiA+PiBTaWdu
-ZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194aWFvQDE2My5jb20+Cj4+ID4+ID4+IC0tLQo+
-PiA+PiA+PiAgZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyB8IDMxICsrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKwo+PiA+PiA+PiAgMSBmaWxlIGNoYW5nZWQsIDMxIGluc2Vy
-dGlvbnMoKykKPj4gPj4gPj4gCj4+ID4+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2J1cy9taGkv
-aG9zdC9wY2lfZ2VuZXJpYy5jIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+
-PiA+PiA+PiBpbmRleCAwODg0NGVlNzk2NTQuLjBmZDk0YzE5M2ZjNiAxMDA2NDQKPj4gPj4gPj4g
-LS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiA+PiA+PiArKysgYi9k
-cml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ID4+ID4+IEBAIC0zOTksNiArMzk5
-LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9jb25maWcgbWhpX2ZveGNvbm5f
-c2R4NTVfY2hhbm5lbHNbXSA9IHsKPj4gPj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfREwoMTMs
-ICJNQklNIiwgMzIsIDApLAo+PiA+PiA+PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19VTCgzMiwgIkRV
-TiIsIDMyLCAwKSwKPj4gPj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfREwoMzMsICJEVU4iLCAz
-MiwgMCksCj4+ID4+ID4+ICsJTUhJX0NIQU5ORUxfQ09ORklHX1VMX0ZQKDM0LCAiRklSRUhPU0Ui
-LCAzMiwgMCksCj4+ID4+ID4+ICsJTUhJX0NIQU5ORUxfQ09ORklHX0RMX0ZQKDM1LCAiRklSRUhP
-U0UiLCAzMiwgMCksCj4+ID4+ID4KPj4gPj4gPlRoaXMgbWVhbnMgU0RYNTUgaXMgYWxzbyBzdXBw
-b3J0aW5nIEZJUkVIT1NFIGNoYW5uZWxzLCB3aGljaCBpcyBub3QgdHJ1ZSBJCj4+ID4+ID5iZWxp
-ZXZlLgo+PiA+PiBBY3R1YWxseSwgSSBqdXN0IHZlcmlmaWVkIGl0IHdpdGggbXkgc2R4NTUgYW5k
-IHRoZSBhbnN3ZXIgaXMgWWVzLiBUaGVzZSBjaGFubmVscwo+PiA+PiBhcmUgY29tbW9uIHNldHRp
-bmdzIGZvciBRY29tIGRldmljZSB3aGljaCBzdXBwb3J0IFBDSWUgbW9kZS4gQlRXLCB0aGUKPj4g
-Pj4gZGVmYXVsdCBzZXR0aW5ncyBvZiBRY29tIGFuZCBRdWVjdGVsIHN1cHBvcnQgZmlyZWhvc2Ug
-Zm9yIHRoZWlyIHNkeDU1IHByb2R1Y3RzLgo+PiA+Cj4+ID5RaWFuZywgY2FuIHlvdSBwbGVhc2Ug
-Y29uZmlybSB0aGF0IFNEWDU1IHN1cHBvcnRzIEZJUkVIT1NFIGNoYW5uZWxzPwo+PiA+Cj4+ID4+
-ID4KPj4gPj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfSFdfVUwoMTAwLCAiSVBfSFcwX01CSU0i
-LCAxMjgsIDIpLAo+PiA+PiA+PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19IV19ETCgxMDEsICJJUF9I
-VzBfTUJJTSIsIDEyOCwgMyksCj4+ID4+ID4+ICB9Owo+PiA+PiA+PiBAQCAtNDE5LDYgKzQyMSwx
-NiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyBtb2RlbV9mb3hj
-b25uX3NkeDU1X2NvbmZpZyA9IHsKPj4gPj4gPj4gIAkuZXZlbnRfY2ZnID0gbWhpX2ZveGNvbm5f
-c2R4NTVfZXZlbnRzLAo+PiA+PiA+PiAgfTsKPj4gPj4gPj4gIAo+PiA+PiA+PiArc3RhdGljIGNv
-bnN0IHN0cnVjdCBtaGlfY29udHJvbGxlcl9jb25maWcgbW9kZW1fZm94Y29ubl9zZHg3Ml9jb25m
-aWcgPSB7Cj4+ID4+ID4+ICsJLm1heF9jaGFubmVscyA9IDEyOCwKPj4gPj4gPj4gKwkudGltZW91
-dF9tcyA9IDIwMDAwLAo+PiA+PiA+PiArCS5yZWFkeV90aW1lb3V0X21zID0gNTAwMDAsCj4+ID4+
-ID4+ICsJLm51bV9jaGFubmVscyA9IEFSUkFZX1NJWkUobWhpX2ZveGNvbm5fc2R4NTVfY2hhbm5l
-bHMpLAo+PiA+PiA+PiArCS5jaF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9jaGFubmVscywKPj4g
-Pj4gPj4gKwkubnVtX2V2ZW50cyA9IEFSUkFZX1NJWkUobWhpX2ZveGNvbm5fc2R4NTVfZXZlbnRz
-KSwKPj4gPj4gPj4gKwkuZXZlbnRfY2ZnID0gbWhpX2ZveGNvbm5fc2R4NTVfZXZlbnRzLAo+PiA+
-PiA+PiArfTsKPj4gPj4gPj4gKwo+PiA+PiA+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNp
-X2Rldl9pbmZvIG1oaV9mb3hjb25uX3NkeDI0X2luZm8gPSB7Cj4+ID4+ID4+ICAJLm5hbWUgPSAi
-Zm94Y29ubi1zZHgyNCIsCj4+ID4+ID4+ICAJLmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1
-X2NvbmZpZywKPj4gPj4gPj4gQEAgLTQ0OCw2ICs0NjAsMTYgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3NkeDY1X2luZm8gPSB7Cj4+ID4+ID4+ICAJ
-LnNpZGViYW5kX3dha2UgPSBmYWxzZSwKPj4gPj4gPj4gIH07Cj4+ID4+ID4+ICAKPj4gPj4gPj4g
-K3N0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9zZHg3Ml9p
-bmZvID0gewo+PiA+PiA+PiArCS5uYW1lID0gImZveGNvbm4tc2R4NzIiLAo+PiA+PiA+PiArCS5l
-ZGwgPSAicWNvbS9zZHg3Mm0veGJsX3NfZGV2cHJnX25zLm1lbGYiLAo+PiA+PiA+Cj4+ID4+ID5X
-aGF0IGlzICcubWVsZic/IElzIHRoZSBmaXJtd2FyZSBhdmFpbGFibGUgc29tZXdoZXJlPyBEaWQg
-eW91IHBsYW4gdG8gdXBzdHJlYW0KPj4gPj4gPml0IHRvIGxpbnV4LWZpcm13YXJlPwo+PiA+PiA+
-Cj4+ID4+IFRoaXMgZmlsZSBzaW1pbGFyIHdpdGggImVkbC5tYm4iLiBJbiBTRFg3MiBwcm9kdWN0
-LCB0aGUgZGVmYXVsdCAiZWRsIiBmaWxlIG5hbWUgaXMKPj4gPj4gInhibF9zX2RldnByZ19ucy5t
-ZWxmIi4gQ3VycmVudGx5IHdlIGRvbid0IHBsYW4gdG8gdXBzdHJlYW0gaXQgdG8gbGludXgtZmly
-bXdhcmUKPj4gPj4gc2luY2UgMiByZWFzb25zOiAxOiB3ZSBzaGFyZSB0aGUgc2FtZSBmb2xkIG5h
-bWUgc2R4NzJtIHdpdGggcWNvbSBvciBvdGhlciB2ZW5kb3JzCj4+ID4+IDI6IHRoaXMgZmlsZSBt
-YXkgYmUgY2hhbmdlZCBzaW5jZSBzZHg3MiBwcm9kdWN0IHN0aWxsIHVuZGVyIGRldmVsb3Bpbmcg
-aW4gb3VyIHNpZGUuIHdlCj4+ID4+IG1heSBjaGFuZ2UgdGhlIGJhc2UgbGluZSBhY2NvcmRpbmcg
-dG8gUUNPTSByZWxlYXNlLgo+PiA+Cj4+ID5UaGVuIEkgd291bGQgYXNrIHlvdSB0byBhZGQgc3Vw
-cG9ydCB3aGVuIHlvdSBoYXZlIGEgc3RhYmxlIGZpcm13YXJlLiBJIGRvIG5vdAo+PiA+d2FudCB0
-byBjaGFuZ2UgdGhlIGZpcm13YXJlIG5hbWUgYWZ0ZXIgc29tZSB0aW1lIGFzIGl0IHdpbGwgY29u
-ZnVzZSB1c2Vycy4KPj4gPgo+PiA+LSBNYW5pCj4+IElmIGEgc3RhYmxlIGZpcm13YXJlIG11c3Qg
-YmUgcHJvdmlkZWQsIEkgdGhpbmsgSSBzaGFsbCBjaGFuZ2UgdGhlIGZvbGRlciBuYW1lIGZyb20g
-cWNvbSB0bwo+PiBmb3gsIGRvIHlvdSBhZ3JlZSB0aGlzPwo+Cj5FdmVuIGluIHRoYXQgY2FzZSwg
-d2hlcmUgY2FuIHRoZSB1c2VyIGZpbmQgdGhlIGZpcm13YXJlPwo+CkkgdGhpbmsgdGhpcyBlZGwg
-ZmlsZSBjb3VsZCBoZWxwIHVzZXIgbGV0IGRldmljZSBlbnRlciBpbnRvIGVkbCBtb2RlKHd3YW4w
-ZmlyZWhvc2UwKS4KRm9yIFBDSUUgZGV2aWNlLCB0aGVyZSBpcyBubyBvcGVuc291cmNlIHRvb2wg
-dG8gc3VwcG9ydCBQQ0lFIGVkbCBkb3dubG9hZC4gSWYgdXNlcgpjb3VsZCBnZXQgdGhlIHRvb2wg
-dG8gZG8gdGhlIGZpcmVob3NlIGRvd25sb2FkLCBJIHRoaW5rIGl0J3Mgbm90IGhhcmQgdG8gZ2V0
-IGNvbXBsZXRlIGZpcm13YXJlCmZyb20gUEMgdmVuZG9yIG9yIHNvbWV3aGVyZSBlbHNlLgo+PiBC
-VFcsIEkgbmVlZCB0byBjaGVjayBpZiBpdCB3b3JrcyBhZnRlciB1cGRhdGluZyAnZWRsIGZ3JyBm
-cm9tICB4Ymxfc19kZXZwcmdfbnMubWVsZiB0bwo+PiBlZGwubWJuLiAKCj4KPk9rYXkuIElNTywg
-d2Ugc2hvdWxkIHVwc3RyZWFtIHRoZSBwcm9kdWN0IHN1cHBvcnQgb25seSBhZnRlciBhIHN0YWJs
-ZSBmaXJtd2FyZQo+cmVsZWFzZSAod2VsbCBzdGFibGUgaW4gdGhlIHNlbnNlIGEgc3RhYmxlIG5h
-bWUgYXQgbGVhc3QpLgo+Cj4tIE1hbmkKVGhlIGNoZWNrIHJlc3VsdCBpcyB3ZSBjYW4gcmVuYW1l
-IGl0IHRvIGFsaWduIHdpdGggcHJldmlvdXMgZm9ybWF0LiBVbnRpbCBub3csIApJIGRpZG4ndCBz
-ZWUgYW55IG1oaSBkZXZpY2UgaGFzIHVwc3RyZWFtIHRoZWlyIGZpcm13YXJlIHRvIC9saWIvZmly
-bXdhcmUvcWNvbSBmb2xkZXIuCklmIGl0J3MgYSBtdXN0LCBJIHRoaW5rIHdlIGNhbiB1cHN0cmVh
-bSB0aGUgZWRsIGZpbGUgbGF0ZXIuICBBbnl3YXksIHdlIGhvcGUgd2UgY2FuCm1lcmdlIHRoaXMg
-c2R4NzIgc3VwcG9ydCBpbnRvIDYuMTAgc2luY2UgY3VzdG9tZXIoRGVsbCkgd291bGQgdXNlIHRo
-aXMga2VybmVsIGZvciBvZmZpY2lhbApyZWxlYXNlLiBCdXQgbm8gd29ycnksIHdlIGNhbiBtYWtl
-IHN1cmUgdGhpcyBmaXJlaG9zZSBkb3dubG9hZCBtZXRob2Qgd29ya3Mgd2VsbCBpbgogb3VyIGxv
-Y2FsIHNpZGUuCkFuZCBhbHNvLCBwbGVhc2UgaGVscCBhIHJldmlldyBhYm91dCBteSBwcmV2aW91
-cyBlbWFpbCBhYm91dCBmaXggc2R4NzIgcGluZyBmYWlsdXJlIGlzc3VlLgpUaGVyZSBpcyBhIGZp
-eCBzb2x1dGlvbiBmcm9tIHVzLiAKClRoYW5rcwoKPgo+LS0gCj7grq7grqPgrr/grrXgrqPgr43g
-rqPgrqngr40g4K6a4K6k4K6+4K6a4K6/4K614K6u4K+NCg==
+On Tue, Apr 16, 2024 at 11:12:35AM +0530, Manivannan Sadhasivam wrote:
+> Rockchip platforms use 'GPIO_ACTIVE_HIGH' flag in the devicetree definition
+> for ep_gpio. This means, whatever the logical value set by the driver for
+> the ep_gpio, physical line will output the same logic level.
+> 
+> For instance,
+> 
+> 	gpiod_set_value_cansleep(rockchip->ep_gpio, 0); --> Level low
+> 	gpiod_set_value_cansleep(rockchip->ep_gpio, 1); --> Level high
+> 
+> But while requesting the ep_gpio, GPIOD_OUT_HIGH flag is currently used.
+> Now, this also causes the physical line to output 'high' creating trouble
+> for endpoint devices during host reboot.
+> 
+> When host reboot happens, the ep_gpio will initially output 'low' due to
+> the GPIO getting reset to its POR value. Then during host controller probe,
+> it will output 'high' due to GPIOD_OUT_HIGH flag. Then during
+> rockchip_pcie_host_init_port(), it will first output 'low' and then 'high'
+> indicating the completion of controller initialization.
+> 
+> On the endpoint side, each output 'low' of ep_gpio is accounted for PERST#
+> assert and 'high' for PERST# deassert. With the above mentioned flow during
+> host reboot, endpoint will witness below state changes for PERST#:
+> 
+> 	(1) PERST# assert - GPIO POR state
+> 	(2) PERST# deassert - GPIOD_OUT_HIGH while requesting GPIO
+> 	(3) PERST# assert - rockchip_pcie_host_init_port()
+> 	(4) PERST# deassert - rockchip_pcie_host_init_port()
+> 
+> Now the time interval between (2) and (3) is very short as both happen
+> during the driver probe(), and this results in a race in the endpoint.
+> Because, before completing the PERST# deassertion in (2), endpoint got
+> another PERST# assert in (3).
+> 
+> A proper way to fix this issue is to change the GPIOD_OUT_HIGH flag in (2)
+> to GPIOD_OUT_LOW. Because the usual convention is to request the GPIO with
+> a state corresponding to its 'initial/default' value and let the driver
+> change the state of the GPIO when required.
+> 
+> As per that, the ep_gpio should be requested with GPIOD_OUT_LOW as it
+> corresponds to the POR value of '0' (PERST# assert in the endpoint). Then
+> the driver can change the state of the ep_gpio later in
+> rockchip_pcie_host_init_port() as per the initialization sequence.
+> 
+> This fixes the firmware crash issue in Qcom based modems connected to
+> Rockpro64 based board.
+> 
+> Cc:  <stable@vger.kernel.org> # 4.9
+> Reported-by: Slark Xiao <slark_xiao@163.com>
+> Closes: https://lore.kernel.org/mhi/20240402045647.GG2933@thinkpad/
+> Fixes: e77f847df54c ("PCI: rockchip: Add Rockchip PCIe controller support")
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+Applied by Krzysztof to pci/controller/rockchip, but his outgoing mail
+queue was broken.  Trying to squeeze it into v6.10.
+
+> ---
+>  drivers/pci/controller/pcie-rockchip.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rockchip.c b/drivers/pci/controller/pcie-rockchip.c
+> index 0ef2e622d36e..c07d7129f1c7 100644
+> --- a/drivers/pci/controller/pcie-rockchip.c
+> +++ b/drivers/pci/controller/pcie-rockchip.c
+> @@ -121,7 +121,7 @@ int rockchip_pcie_parse_dt(struct rockchip_pcie *rockchip)
+>  
+>  	if (rockchip->is_rc) {
+>  		rockchip->ep_gpio = devm_gpiod_get_optional(dev, "ep",
+> -							    GPIOD_OUT_HIGH);
+> +							    GPIOD_OUT_LOW);
+>  		if (IS_ERR(rockchip->ep_gpio))
+>  			return dev_err_probe(dev, PTR_ERR(rockchip->ep_gpio),
+>  					     "failed to get ep GPIO\n");
+> 
+> ---
+> base-commit: 4cece764965020c22cff7665b18a012006359095
+> change-id: 20240416-pci-rockchip-perst-fix-88c922621d9a
+> 
+> Best regards,
+> -- 
+> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
