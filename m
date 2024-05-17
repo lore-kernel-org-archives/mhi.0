@@ -1,40 +1,28 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB25A28DB7
-	for <mhi@lists.linux.dev>; Fri, 17 May 2024 09:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB333A8EF;
+	Fri, 17 May 2024 10:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715939965; cv=none; b=UOsckha66bNInndpF8fPtS1hg6KXE84nrrzTq3u0O4J/rOYGAPOBB3cdNCZtI53WP7CCh+QVeranCMoxvU/WSPI0qMnHqquBGVGTn91Q/8W0cLSsUyYZoc3c6cB13D2YqzZrvwr4LmhrL+xelLhUC7ETC9Nc1UsD+C53uuFAbSc=
+	t=1715942992; cv=none; b=H+2BAKgNxwx307GZolJmKe27PgSUh+SgVZXZW9Yp7Dm+QCjHqwsYH+4+uEVYpEEpdAURKN077vY9pH9d1kjj2AYK81nGhortDtZgLtPP5j91hokkKMn6r85CM6Bev5R8Ln8EwPLikZscVtUm8pz+RhTPNgyMY9BvZH1AmdKOD1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715939965; c=relaxed/simple;
-	bh=dpyBEu8gbIL6XlzIlY5fdmx1tZoQWLnVwLsmf6qiYYA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=QyDWc/TUqzevbhwIQEpejORGf8KZ9aZ1NxBGGEZlRVf60WYZyx5pfAaS60DsUqjkKtEgH1V5OFwKvNmtC8ViqL/BztawIjsfn9imakbqhxY6DuOJps2sfkcDKqkjN+z3vIFjhSCXGr+fiv6dNQuvr0dpjoKtUOIHYfMmlGZma/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=XEfgF2K1 reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="XEfgF2K1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=ObJzj8BTvZk1VZywMcjbfxOqh0LbeEj7um1CBAweiKE=; b=X
-	EfgF2K1i+wcumRLG/5SVNTZqDy74L9xKzKSHuGwnFjptinwutNKg3+qBU4HT1LNF
-	J5H/5ZuwFwKIF3G95qx2TyN8WzkshpdwFgNANndD28h4yUhv/b86Zg80wgdfzTg1
-	o8A8pnM45lOmjnBb8IVhTJIc2qVcIObrm1jWYBsgOw=
-Received: from slark_xiao$163.com ( [223.104.68.4] ) by
- ajax-webmail-wmsvr-40-112 (Coremail) ; Fri, 17 May 2024 17:59:03 +0800
- (CST)
-Date: Fri, 17 May 2024 17:59:03 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
-Cc: "Manivannan Sadhasivam" <mani@kernel.org>, loic.poulain@linaro.org, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	s=arc-20240116; t=1715942992; c=relaxed/simple;
+	bh=jkmAOsbok6iFKZnbW/F64C2dnD3tCsh5hLRpd4Hh5v4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iw69GEPSBDRrEjZ2VKCm9Koiow/WdMl4Ytx9ZLzZPpKp+Fj5ZITGRBHuaoLD1hbw+S5EhdysFA/7mVBtEDkAXak3eRIDtIHBJtgTKXpBBM24VchTY5k0HaIZMahSJZhfj6uyzwSuINuvvntFhWRs5I2CVdyvAWOPsMFAB2N0KdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E0BC2BD10;
+	Fri, 17 May 2024 10:49:50 +0000 (UTC)
+Date: Fri, 17 May 2024 12:49:47 +0200
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, loic.poulain@linaro.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org, quic_qianyu@quicinc.com
-Subject: Re:Re:Re: Re: Re: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72
+Subject: Re: Re:Re: Re: Re: Re: [PATCH] bus: mhi: host: Add Foxconn SDX72
  related support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20b11ca1.101c.18f8418706b.Coremail.slark_xiao@163.com>
+Message-ID: <20240517104947.GA41015@thinkpad>
 References: <20240510032657.789629-1-slark_xiao@163.com>
  <20240514143741.GA2306@thinkpad>
  <541de8e4.1600.18f79de44f3.Coremail.slark_xiao@163.com>
@@ -44,152 +32,174 @@ References: <20240510032657.789629-1-slark_xiao@163.com>
  <58fb648d.ab03.18f7c2f90bd.Coremail.slark_xiao@163.com>
  <20240516142346.GA6922@thinkpad>
  <20b11ca1.101c.18f8418706b.Coremail.slark_xiao@163.com>
-X-NTES-SC: AL_Qu2aB/WYtkEv5SmaYOkfm0kaj+c/WMGzu/8m3oFXO51wjDnpxi0GW1lFJV3v0vmdLgGdgR6RVDNy6tVwb7lGU58kTpKLqvJE8EqFhQWYOh2R3A==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <6f6143b2.9e05.18f85fda5f9.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <6f6143b2.9e05.18f85fda5f9.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3n4FnKkdm3VcDAA--.1856W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNRbgZGV4Hn6kDwAHs2
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6f6143b2.9e05.18f85fda5f9.Coremail.slark_xiao@163.com>
 
-CkF0IDIwMjQtMDUtMTcgMDk6MDk6MDUsICJTbGFyayBYaWFvIiA8c2xhcmtfeGlhb0AxNjMuY29t
-PiB3cm90ZToKPgo+QXQgMjAyNC0wNS0xNiAyMjoyMzo0NiwgIk1hbml2YW5uYW4gU2FkaGFzaXZh
-bSIgPG1hbml2YW5uYW4uc2FkaGFzaXZhbUBsaW5hcm8ub3JnPiB3cm90ZToKPj5PbiBXZWQsIE1h
-eSAxNSwgMjAyNCBhdCAwODoxNzoyM1BNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+Pj4gCj4+
-PiAKPj4+IEF0IDIwMjQtMDUtMTUgMTk6NTI6MzksICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxt
-YW5pQGtlcm5lbC5vcmc+IHdyb3RlOgo+Pj4gPk9uIFdlZCwgTWF5IDE1LCAyMDI0IGF0IDA0OjAx
-OjM3UE0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+PiA+PiAKPj4+ID4+IEF0IDIwMjQtMDUt
-MTUgMTU6NDE6MTksICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pdmFubmFuLnNhZGhhc2l2
-YW1AbGluYXJvLm9yZz4gd3JvdGU6Cj4+PiA+PiA+KyBRaWFuZwo+Pj4gPj4gPgo+Pj4gPj4gPk9u
-IFdlZCwgTWF5IDE1LCAyMDI0IGF0IDA5OjI5OjIwQU0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6
-Cj4+PiA+PiA+PiBBdCAyMDI0LTA1LTE0IDIyOjM3OjQxLCAiTWFuaXZhbm5hbiBTYWRoYXNpdmFt
-IiA8bWFuaXZhbm5hbi5zYWRoYXNpdmFtQGxpbmFyby5vcmc+IHdyb3RlOgo+Pj4gPj4gPj4gPk9u
-IEZyaSwgTWF5IDEwLCAyMDI0IGF0IDExOjI2OjU3QU0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6
-Cj4+PiA+PiA+PiA+PiBBbGlnbiB3aXRoIFFjb20gU0RYNzIsIGFkZCByZWFkeSB0aW1lb3V0IGl0
-ZW0gZm9yIEZveGNvbm4gU0RYNzIuCj4+PiA+PiA+PiA+PiBBbmQgYWxzbywgYWRkIGZpcmVob3Nl
-IHN1cHBvcnQgc2luY2UgU0RYNzIuCj4+PiA+PiA+PiA+PiAKPj4+ID4+ID4+ID4+IFNpZ25lZC1v
-ZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4+ID4+ID4+ID4+IC0tLQo+
-Pj4gPj4gPj4gPj4gIGRyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgfCAzMSArKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysKPj4+ID4+ID4+ID4+ICAxIGZpbGUgY2hhbmdlZCwg
-MzEgaW5zZXJ0aW9ucygrKQo+Pj4gPj4gPj4gPj4gCj4+PiA+PiA+PiA+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0
-L3BjaV9nZW5lcmljLmMKPj4+ID4+ID4+ID4+IGluZGV4IDA4ODQ0ZWU3OTY1NC4uMGZkOTRjMTkz
-ZmM2IDEwMDY0NAo+Pj4gPj4gPj4gPj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dl
-bmVyaWMuYwo+Pj4gPj4gPj4gPj4gKysrIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVy
-aWMuYwo+Pj4gPj4gPj4gPj4gQEAgLTM5OSw2ICszOTksOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IG1oaV9jaGFubmVsX2NvbmZpZyBtaGlfZm94Y29ubl9zZHg1NV9jaGFubmVsc1tdID0gewo+Pj4g
-Pj4gPj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfREwoMTMsICJNQklNIiwgMzIsIDApLAo+Pj4g
-Pj4gPj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfVUwoMzIsICJEVU4iLCAzMiwgMCksCj4+PiA+
-PiA+PiA+PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19ETCgzMywgIkRVTiIsIDMyLCAwKSwKPj4+ID4+
-ID4+ID4+ICsJTUhJX0NIQU5ORUxfQ09ORklHX1VMX0ZQKDM0LCAiRklSRUhPU0UiLCAzMiwgMCks
-Cj4+PiA+PiA+PiA+PiArCU1ISV9DSEFOTkVMX0NPTkZJR19ETF9GUCgzNSwgIkZJUkVIT1NFIiwg
-MzIsIDApLAo+Pj4gPj4gPj4gPgo+Pj4gPj4gPj4gPlRoaXMgbWVhbnMgU0RYNTUgaXMgYWxzbyBz
-dXBwb3J0aW5nIEZJUkVIT1NFIGNoYW5uZWxzLCB3aGljaCBpcyBub3QgdHJ1ZSBJCj4+PiA+PiA+
-PiA+YmVsaWV2ZS4KPj4+ID4+ID4+IEFjdHVhbGx5LCBJIGp1c3QgdmVyaWZpZWQgaXQgd2l0aCBt
-eSBzZHg1NSBhbmQgdGhlIGFuc3dlciBpcyBZZXMuIFRoZXNlIGNoYW5uZWxzCj4+PiA+PiA+PiBh
-cmUgY29tbW9uIHNldHRpbmdzIGZvciBRY29tIGRldmljZSB3aGljaCBzdXBwb3J0IFBDSWUgbW9k
-ZS4gQlRXLCB0aGUKPj4+ID4+ID4+IGRlZmF1bHQgc2V0dGluZ3Mgb2YgUWNvbSBhbmQgUXVlY3Rl
-bCBzdXBwb3J0IGZpcmVob3NlIGZvciB0aGVpciBzZHg1NSBwcm9kdWN0cy4KPj4+ID4+ID4KPj4+
-ID4+ID5RaWFuZywgY2FuIHlvdSBwbGVhc2UgY29uZmlybSB0aGF0IFNEWDU1IHN1cHBvcnRzIEZJ
-UkVIT1NFIGNoYW5uZWxzPwo+Pj4gPj4gPgo+Pj4gPj4gPj4gPgo+Pj4gPj4gPj4gPj4gIAlNSElf
-Q0hBTk5FTF9DT05GSUdfSFdfVUwoMTAwLCAiSVBfSFcwX01CSU0iLCAxMjgsIDIpLAo+Pj4gPj4g
-Pj4gPj4gIAlNSElfQ0hBTk5FTF9DT05GSUdfSFdfREwoMTAxLCAiSVBfSFcwX01CSU0iLCAxMjgs
-IDMpLAo+Pj4gPj4gPj4gPj4gIH07Cj4+PiA+PiA+PiA+PiBAQCAtNDE5LDYgKzQyMSwxNiBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyBtb2RlbV9mb3hjb25uX3Nk
-eDU1X2NvbmZpZyA9IHsKPj4+ID4+ID4+ID4+ICAJLmV2ZW50X2NmZyA9IG1oaV9mb3hjb25uX3Nk
-eDU1X2V2ZW50cywKPj4+ID4+ID4+ID4+ICB9Owo+Pj4gPj4gPj4gPj4gIAo+Pj4gPj4gPj4gPj4g
-K3N0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX2NvbnRyb2xsZXJfY29uZmlnIG1vZGVtX2ZveGNvbm5f
-c2R4NzJfY29uZmlnID0gewo+Pj4gPj4gPj4gPj4gKwkubWF4X2NoYW5uZWxzID0gMTI4LAo+Pj4g
-Pj4gPj4gPj4gKwkudGltZW91dF9tcyA9IDIwMDAwLAo+Pj4gPj4gPj4gPj4gKwkucmVhZHlfdGlt
-ZW91dF9tcyA9IDUwMDAwLAo+Pj4gPj4gPj4gPj4gKwkubnVtX2NoYW5uZWxzID0gQVJSQVlfU0la
-RShtaGlfZm94Y29ubl9zZHg1NV9jaGFubmVscyksCj4+PiA+PiA+PiA+PiArCS5jaF9jZmcgPSBt
-aGlfZm94Y29ubl9zZHg1NV9jaGFubmVscywKPj4+ID4+ID4+ID4+ICsJLm51bV9ldmVudHMgPSBB
-UlJBWV9TSVpFKG1oaV9mb3hjb25uX3NkeDU1X2V2ZW50cyksCj4+PiA+PiA+PiA+PiArCS5ldmVu
-dF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4+PiA+PiA+PiA+PiArfTsKPj4+ID4+
-ID4+ID4+ICsKPj4+ID4+ID4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2lu
-Zm8gbWhpX2ZveGNvbm5fc2R4MjRfaW5mbyA9IHsKPj4+ID4+ID4+ID4+ICAJLm5hbWUgPSAiZm94
-Y29ubi1zZHgyNCIsCj4+PiA+PiA+PiA+PiAgCS5jb25maWcgPSAmbW9kZW1fZm94Y29ubl9zZHg1
-NV9jb25maWcsCj4+PiA+PiA+PiA+PiBAQCAtNDQ4LDYgKzQ2MCwxNiBAQCBzdGF0aWMgY29uc3Qg
-c3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4NjVfaW5mbyA9IHsKPj4+ID4+
-ID4+ID4+ICAJLnNpZGViYW5kX3dha2UgPSBmYWxzZSwKPj4+ID4+ID4+ID4+ICB9Owo+Pj4gPj4g
-Pj4gPj4gIAo+Pj4gPj4gPj4gPj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5m
-byBtaGlfZm94Y29ubl9zZHg3Ml9pbmZvID0gewo+Pj4gPj4gPj4gPj4gKwkubmFtZSA9ICJmb3hj
-b25uLXNkeDcyIiwKPj4+ID4+ID4+ID4+ICsJLmVkbCA9ICJxY29tL3NkeDcybS94Ymxfc19kZXZw
-cmdfbnMubWVsZiIsCj4+PiA+PiA+PiA+Cj4+PiA+PiA+PiA+V2hhdCBpcyAnLm1lbGYnPyBJcyB0
-aGUgZmlybXdhcmUgYXZhaWxhYmxlIHNvbWV3aGVyZT8gRGlkIHlvdSBwbGFuIHRvIHVwc3RyZWFt
-Cj4+PiA+PiA+PiA+aXQgdG8gbGludXgtZmlybXdhcmU/Cj4+PiA+PiA+PiA+Cj4+PiA+PiA+PiBU
-aGlzIGZpbGUgc2ltaWxhciB3aXRoICJlZGwubWJuIi4gSW4gU0RYNzIgcHJvZHVjdCwgdGhlIGRl
-ZmF1bHQgImVkbCIgZmlsZSBuYW1lIGlzCj4+PiA+PiA+PiAieGJsX3NfZGV2cHJnX25zLm1lbGYi
-LiBDdXJyZW50bHkgd2UgZG9uJ3QgcGxhbiB0byB1cHN0cmVhbSBpdCB0byBsaW51eC1maXJtd2Fy
-ZQo+Pj4gPj4gPj4gc2luY2UgMiByZWFzb25zOiAxOiB3ZSBzaGFyZSB0aGUgc2FtZSBmb2xkIG5h
-bWUgc2R4NzJtIHdpdGggcWNvbSBvciBvdGhlciB2ZW5kb3JzCj4+PiA+PiA+PiAyOiB0aGlzIGZp
-bGUgbWF5IGJlIGNoYW5nZWQgc2luY2Ugc2R4NzIgcHJvZHVjdCBzdGlsbCB1bmRlciBkZXZlbG9w
-aW5nIGluIG91ciBzaWRlLiB3ZQo+Pj4gPj4gPj4gbWF5IGNoYW5nZSB0aGUgYmFzZSBsaW5lIGFj
-Y29yZGluZyB0byBRQ09NIHJlbGVhc2UuCj4+PiA+PiA+Cj4+PiA+PiA+VGhlbiBJIHdvdWxkIGFz
-ayB5b3UgdG8gYWRkIHN1cHBvcnQgd2hlbiB5b3UgaGF2ZSBhIHN0YWJsZSBmaXJtd2FyZS4gSSBk
-byBub3QKPj4+ID4+ID53YW50IHRvIGNoYW5nZSB0aGUgZmlybXdhcmUgbmFtZSBhZnRlciBzb21l
-IHRpbWUgYXMgaXQgd2lsbCBjb25mdXNlIHVzZXJzLgo+Pj4gPj4gPgo+Pj4gPj4gPi0gTWFuaQo+
-Pj4gPj4gSWYgYSBzdGFibGUgZmlybXdhcmUgbXVzdCBiZSBwcm92aWRlZCwgSSB0aGluayBJIHNo
-YWxsIGNoYW5nZSB0aGUgZm9sZGVyIG5hbWUgZnJvbSBxY29tIHRvCj4+PiA+PiBmb3gsIGRvIHlv
-dSBhZ3JlZSB0aGlzPwo+Pj4gPgo+Pj4gPkV2ZW4gaW4gdGhhdCBjYXNlLCB3aGVyZSBjYW4gdGhl
-IHVzZXIgZmluZCB0aGUgZmlybXdhcmU/Cj4+PiA+Cj4+PiBJIHRoaW5rIHRoaXMgZWRsIGZpbGUg
-Y291bGQgaGVscCB1c2VyIGxldCBkZXZpY2UgZW50ZXIgaW50byBlZGwgbW9kZSh3d2FuMGZpcmVo
-b3NlMCkuCj4+PiBGb3IgUENJRSBkZXZpY2UsIHRoZXJlIGlzIG5vIG9wZW5zb3VyY2UgdG9vbCB0
-byBzdXBwb3J0IFBDSUUgZWRsIGRvd25sb2FkLiBJZiB1c2VyCj4+PiBjb3VsZCBnZXQgdGhlIHRv
-b2wgdG8gZG8gdGhlIGZpcmVob3NlIGRvd25sb2FkLCBJIHRoaW5rIGl0J3Mgbm90IGhhcmQgdG8g
-Z2V0IGNvbXBsZXRlIGZpcm13YXJlCj4+PiBmcm9tIFBDIHZlbmRvciBvciBzb21ld2hlcmUgZWxz
-ZS4KPj4KPj5JIHdhcyB0b2xkIHRoYXQgUWNvbSB3aWxsIHVwc3RyZWFtIHRoZSBQQ0kgc3VwcG9y
-dCBmb3IgUURMIGluIHRoZSBjb21pbmcgd2Vla3MuCj4+T25jZSB0aGF0IGhhcHBlbnMgKGV2ZW4g
-aWYgYSBQUiksIEknbGwgc2hhcmUgdGhhdCB3aXRoIHlvdS4gUGxlYXNlIHRlc3QgaXQgYW5kCj4+
-bGV0IG1lIGtub3cgaWYgdGhhdCB3b3JrcyBvciBub3QuCj4+Cj5TdXJlLiBCdXQgSSB0aGluayB0
-aGlzIHNoYWxsIG5vdCB0aGUgYmxvY2sgY2F1c2UgZm9yIG1lcmdpbmcgdGhpcyBwYXRjaCwgcmln
-aHQ/Cj5CZWZvcmUgdGhhdCBQUiwgd2UgaGF2ZSB2ZXJpZmllZCB0aGUgZmlyZWhvc2UgZnVuY3Rp
-b24gaW4gb3VyIGxvY2FsIHdpdGggb3VyCj5maXJlaG9zZSB0b29sIHdoaWNoIGlzIG5vdCBvcGVu
-LiAKPj5BbmQgZm9yIGVudGVyaW5nIEVETCBtb2RlLCB3ZSBoYXZlIHJlY2VudGx5IGFkZGVkIHN1
-cHBvcnQgdG8gdHJpZ2dlciBFREwgbW9kZQo+PmZyb20gaG9zdCBbMV0uIENvdWxkIHlvdSBhbHNv
-IHRlc3QgdGhhdD8gWW91IGp1c3QgbmVlZCB0byBhZGQgYGVkbF90cmlnZ2VyID0KPj50cnVlYCB0
-byB0aGUgYG1oaV9wY2lfZGV2X2luZm9gIHN0cnVjdCBvZiBTRFg3MiBhbmQgdHJpZ2dlciBFREwg
-bW9kZSBmcm9tIGhvc3QKPj5ieToKPj4KPj5lY2hvIDEgPiAvc3lzL2J1cy9taGkvZGV2aWNlcy8u
-Li4vdHJpZ2dlcl9lZGwKPj4KPkRvIHlvdSByZW1lbWJlciB0aGF0IEkgdG9sZCB5b3UgSSB3YW50
-IHRvIG1lcmdlIHN1Y2ggZnVuY3Rpb24gZnJvbSBxdWFsY29tbSBkcml2ZXIKPmluIGxhc3QgeWVh
-cj8gSSBtZXJnZSB0aGUgY29tbWl0IGZyb20gUVVEIGRyaXZlciBpbiBteSBsb2NhbC4gQWN0dWFs
-bHkgaXQncyBzYW1lIGFzIHRoZQo+Y29tbWl0IFsxXSwgaXQncyBjYWxsZWQgImZvcmNlX2VkbCIu
-IEFuZCBzdXJlLCB0aGUgcmVzdWx0IGlzIHllcywgaXQgd29ya3Mgd2VsbC4KPgpMYXRlc3QgdGVz
-dCwgaXQgZG9lc24ndCB3b3JrIGluIExpbnV4IFY2Ljkgc2luY2UgdGhlcmUgaXMgYSBwYXRjaCBt
-aXNzaW5nLiBJbiBteSBsb2NhbCBwcmV2aW91cwp0ZXN0LCB0aGVyZSBpcyBubyBtaGlfY250cmwt
-PmVkbF90cmlnZ2VyIGNvbmRpdGlvbiB0byBzZXQgdXAgZGV2X2F0dHJfdHJpZ2dlcl9lZGwuClNl
-ZW1zIHBhdGNoIFsyXSBpcyBtaXNzZWQuCgpbMl0taHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbWhp
-LzE3MTM5Mjg5MTUtMTgyMjktNC1naXQtc2VuZC1lbWFpbC1xdWljX3FpYW55dUBxdWljaW5jLmNv
-bS8KPj4+ID4+IEJUVywgSSBuZWVkIHRvIGNoZWNrIGlmIGl0IHdvcmtzIGFmdGVyIHVwZGF0aW5n
-ICdlZGwgZncnIGZyb20gIHhibF9zX2RldnByZ19ucy5tZWxmIHRvCj4+PiA+PiBlZGwubWJuLiAK
-Pj4+IAo+Pj4gPgo+Pj4gPk9rYXkuIElNTywgd2Ugc2hvdWxkIHVwc3RyZWFtIHRoZSBwcm9kdWN0
-IHN1cHBvcnQgb25seSBhZnRlciBhIHN0YWJsZSBmaXJtd2FyZQo+Pj4gPnJlbGVhc2UgKHdlbGwg
-c3RhYmxlIGluIHRoZSBzZW5zZSBhIHN0YWJsZSBuYW1lIGF0IGxlYXN0KS4KPj4+ID4KPj4+ID4t
-IE1hbmkKPj4+IFRoZSBjaGVjayByZXN1bHQgaXMgd2UgY2FuIHJlbmFtZSBpdCB0byBhbGlnbiB3
-aXRoIHByZXZpb3VzIGZvcm1hdC4gVW50aWwgbm93LCAKPj4+IEkgZGlkbid0IHNlZSBhbnkgbWhp
-IGRldmljZSBoYXMgdXBzdHJlYW0gdGhlaXIgZmlybXdhcmUgdG8gL2xpYi9maXJtd2FyZS9xY29t
-IGZvbGRlci4KPj4KPj5JdCBpcyBub3QgbWFuZGF0b3J5LCBidXQgaXQgaXMgYSBiZXN0IHByYWN0
-aXNlIHRoYXQgSSByZWNlbnRseSBzdGFydGVkIGFza2luZwo+PmZvci4KPj4KPj4+IElmIGl0J3Mg
-YSBtdXN0LCBJIHRoaW5rIHdlIGNhbiB1cHN0cmVhbSB0aGUgZWRsIGZpbGUgbGF0ZXIuICBBbnl3
-YXksIHdlIGhvcGUgd2UgY2FuCj4+PiBtZXJnZSB0aGlzIHNkeDcyIHN1cHBvcnQgaW50byA2LjEw
-IHNpbmNlIGN1c3RvbWVyKERlbGwpIHdvdWxkIHVzZSB0aGlzIGtlcm5lbCBmb3Igb2ZmaWNpYWwK
-Pj4+IHJlbGVhc2UuIEJ1dCBubyB3b3JyeSwgd2UgY2FuIG1ha2Ugc3VyZSB0aGlzIGZpcmVob3Nl
-IGRvd25sb2FkIG1ldGhvZCB3b3JrcyB3ZWxsIGluCj4+PiAgb3VyIGxvY2FsIHNpZGUuCj4+PiBB
-bmQgYWxzbywgcGxlYXNlIGhlbHAgYSByZXZpZXcgYWJvdXQgbXkgcHJldmlvdXMgZW1haWwgYWJv
-dXQgZml4IHNkeDcyIHBpbmcgZmFpbHVyZSBpc3N1ZS4KPj4+IFRoZXJlIGlzIGEgZml4IHNvbHV0
-aW9uIGZyb20gdXMuIAo+Pj4gCj4+Cj4+UWlhbmcgaXMgd29ya2luZyBvbiB0aGF0Lgo+R29vZCB0
-byBoZWFyIHRoYXQuIEJUVywgbWF5IEkga25vdyB0aGUgZmVhdHVyZSBtZXJnZSB3aW5kb3cgaW4g
-VjYuMTA/IEkgZG9uJ3Qgd29ycnkgYWJvdXQKPm1lcmdlIHdpbmRvdyBvZiB0aGUgbmV0d29yayBm
-aXggY29tbWl0LCBzaW5jZSBpdCdzIGEgZml4IHdpdGggaGlnaGVyIHByaW9yaXR5LiBCdXQgSSB3
-YW50IHRvCj5tZXJnZSB0aGUgYmFzaWMgc3VwcG9ydCBvZiBteSBTRFg3MiBiZWZvcmUgbWVyZ2Ug
-d2luZG93IGNsb3NlLiBUaGlzIGlzIGltcG9ydGFudCBmb3IgdXMuCj4KPlRoYW5rcyEKPj4KPj4t
-IE1hbmkKPj4KPj5bMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbWhpLzE3MTM5Mjg5MTUtMTgy
-MjktMS1naXQtc2VuZC1lbWFpbC1xdWljX3FpYW55dUBxdWljaW5jLmNvbS8KPj4KPj4tLSAKPj7g
-rq7grqPgrr/grrXgrqPgr43grqPgrqngr40g4K6a4K6k4K6+4K6a4K6/4K614K6u4K+NCg==
+On Fri, May 17, 2024 at 05:59:03PM +0800, Slark Xiao wrote:
+> 
+> At 2024-05-17 09:09:05, "Slark Xiao" <slark_xiao@163.com> wrote:
+> >
+> >At 2024-05-16 22:23:46, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >>On Wed, May 15, 2024 at 08:17:23PM +0800, Slark Xiao wrote:
+> >>> 
+> >>> 
+> >>> At 2024-05-15 19:52:39, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
+> >>> >On Wed, May 15, 2024 at 04:01:37PM +0800, Slark Xiao wrote:
+> >>> >> 
+> >>> >> At 2024-05-15 15:41:19, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >>> >> >+ Qiang
+> >>> >> >
+> >>> >> >On Wed, May 15, 2024 at 09:29:20AM +0800, Slark Xiao wrote:
+> >>> >> >> At 2024-05-14 22:37:41, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >>> >> >> >On Fri, May 10, 2024 at 11:26:57AM +0800, Slark Xiao wrote:
+> >>> >> >> >> Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
+> >>> >> >> >> And also, add firehose support since SDX72.
+> >>> >> >> >> 
+> >>> >> >> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >>> >> >> >> ---
+> >>> >> >> >>  drivers/bus/mhi/host/pci_generic.c | 31 ++++++++++++++++++++++++++++++
+> >>> >> >> >>  1 file changed, 31 insertions(+)
+> >>> >> >> >> 
+> >>> >> >> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >>> >> >> >> index 08844ee79654..0fd94c193fc6 100644
+> >>> >> >> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >>> >> >> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >>> >> >> >> @@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+> >>> >> >> >>  	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+> >>> >> >> >>  	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+> >>> >> >> >>  	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+> >>> >> >> >> +	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
+> >>> >> >> >> +	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+> >>> >> >> >
+> >>> >> >> >This means SDX55 is also supporting FIREHOSE channels, which is not true I
+> >>> >> >> >believe.
+> >>> >> >> Actually, I just verified it with my sdx55 and the answer is Yes. These channels
+> >>> >> >> are common settings for Qcom device which support PCIe mode. BTW, the
+> >>> >> >> default settings of Qcom and Quectel support firehose for their sdx55 products.
+> >>> >> >
+> >>> >> >Qiang, can you please confirm that SDX55 supports FIREHOSE channels?
+> >>> >> >
+> >>> >> >> >
+> >>> >> >> >>  	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+> >>> >> >> >>  	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+> >>> >> >> >>  };
+> >>> >> >> >> @@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+> >>> >> >> >>  	.event_cfg = mhi_foxconn_sdx55_events,
+> >>> >> >> >>  };
+> >>> >> >> >>  
+> >>> >> >> >> +static const struct mhi_controller_config modem_foxconn_sdx72_config = {
+> >>> >> >> >> +	.max_channels = 128,
+> >>> >> >> >> +	.timeout_ms = 20000,
+> >>> >> >> >> +	.ready_timeout_ms = 50000,
+> >>> >> >> >> +	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
+> >>> >> >> >> +	.ch_cfg = mhi_foxconn_sdx55_channels,
+> >>> >> >> >> +	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
+> >>> >> >> >> +	.event_cfg = mhi_foxconn_sdx55_events,
+> >>> >> >> >> +};
+> >>> >> >> >> +
+> >>> >> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
+> >>> >> >> >>  	.name = "foxconn-sdx24",
+> >>> >> >> >>  	.config = &modem_foxconn_sdx55_config,
+> >>> >> >> >> @@ -448,6 +460,16 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx65_info = {
+> >>> >> >> >>  	.sideband_wake = false,
+> >>> >> >> >>  };
+> >>> >> >> >>  
+> >>> >> >> >> +static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+> >>> >> >> >> +	.name = "foxconn-sdx72",
+> >>> >> >> >> +	.edl = "qcom/sdx72m/xbl_s_devprg_ns.melf",
+> >>> >> >> >
+> >>> >> >> >What is '.melf'? Is the firmware available somewhere? Did you plan to upstream
+> >>> >> >> >it to linux-firmware?
+> >>> >> >> >
+> >>> >> >> This file similar with "edl.mbn". In SDX72 product, the default "edl" file name is
+> >>> >> >> "xbl_s_devprg_ns.melf". Currently we don't plan to upstream it to linux-firmware
+> >>> >> >> since 2 reasons: 1: we share the same fold name sdx72m with qcom or other vendors
+> >>> >> >> 2: this file may be changed since sdx72 product still under developing in our side. we
+> >>> >> >> may change the base line according to QCOM release.
+> >>> >> >
+> >>> >> >Then I would ask you to add support when you have a stable firmware. I do not
+> >>> >> >want to change the firmware name after some time as it will confuse users.
+> >>> >> >
+> >>> >> >- Mani
+> >>> >> If a stable firmware must be provided, I think I shall change the folder name from qcom to
+> >>> >> fox, do you agree this?
+> >>> >
+> >>> >Even in that case, where can the user find the firmware?
+> >>> >
+> >>> I think this edl file could help user let device enter into edl mode(wwan0firehose0).
+> >>> For PCIE device, there is no opensource tool to support PCIE edl download. If user
+> >>> could get the tool to do the firehose download, I think it's not hard to get complete firmware
+> >>> from PC vendor or somewhere else.
+> >>
+> >>I was told that Qcom will upstream the PCI support for QDL in the coming weeks.
+> >>Once that happens (even if a PR), I'll share that with you. Please test it and
+> >>let me know if that works or not.
+> >>
+> >Sure. But I think this shall not the block cause for merging this patch, right?
+> >Before that PR, we have verified the firehose function in our local with our
+> >firehose tool which is not open. 
+
+Yeah, QDL is not a blocker for this device.
+
+> >>And for entering EDL mode, we have recently added support to trigger EDL mode
+> >>from host [1]. Could you also test that? You just need to add `edl_trigger =
+> >>true` to the `mhi_pci_dev_info` struct of SDX72 and trigger EDL mode from host
+> >>by:
+> >>
+> >>echo 1 > /sys/bus/mhi/devices/.../trigger_edl
+> >>
+> >Do you remember that I told you I want to merge such function from qualcomm driver
+> >in last year? I merge the commit from QUD driver in my local. Actually it's same as the
+> >commit [1], it's called "force_edl". And sure, the result is yes, it works well.
+> >
+> Latest test, it doesn't work in Linux V6.9 since there is a patch missing. In my local previous
+> test, there is no mhi_cntrl->edl_trigger condition to set up dev_attr_trigger_edl.
+> Seems patch [2] is missed.
+> 
+> [2]-https://lore.kernel.org/mhi/1713928915-18229-4-git-send-email-quic_qianyu@quicinc.com/
+
+You need to apply the whole series. But anyway, thanks for testing it out.
+
+> >>> >> BTW, I need to check if it works after updating 'edl fw' from  xbl_s_devprg_ns.melf to
+> >>> >> edl.mbn. 
+> >>> 
+> >>> >
+> >>> >Okay. IMO, we should upstream the product support only after a stable firmware
+> >>> >release (well stable in the sense a stable name at least).
+> >>> >
+> >>> >- Mani
+> >>> The check result is we can rename it to align with previous format. Until now, 
+> >>> I didn't see any mhi device has upstream their firmware to /lib/firmware/qcom folder.
+> >>
+> >>It is not mandatory, but it is a best practise that I recently started asking
+> >>for.
+> >>
+> >>> If it's a must, I think we can upstream the edl file later.  Anyway, we hope we can
+> >>> merge this sdx72 support into 6.10 since customer(Dell) would use this kernel for official
+> >>> release. But no worry, we can make sure this firehose download method works well in
+> >>>  our local side.
+> >>> And also, please help a review about my previous email about fix sdx72 ping failure issue.
+> >>> There is a fix solution from us. 
+> >>> 
+> >>
+> >>Qiang is working on that.
+> >Good to hear that. BTW, may I know the feature merge window in V6.10? I don't worry about
+> >merge window of the network fix commit, since it's a fix with higher priority. But I want to
+> >merge the basic support of my SDX72 before merge window close. This is important for us.
+> >
+
+MHI tree is closed during -rc6, so there is no way this patch can make 6.10.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
