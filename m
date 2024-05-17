@@ -1,116 +1,79 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxb.hotsplots.de (mxb.hotsplots.de [185.46.137.13])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CDD13DB83
-	for <mhi@lists.linux.dev>; Fri, 17 May 2024 17:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938A12208F
+	for <mhi@lists.linux.dev>; Fri, 17 May 2024 21:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.46.137.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715966378; cv=none; b=AD0p8OIviss5aH1CTxYl4nO68pLMXto1NVxCY3CTCn5Kkn6yGjbBKrLsXldPh5tQeUNiydPwrLxIg8/PB0bL/HJ6noOYpjawhUC2D5YbokNA89dFIrsVTPtmBVpiKEF2nyO6v01qoX7bKtizk8/NUkessGgQhsM2/rAFrUaIzo0=
+	t=1715980773; cv=none; b=X9x6HaapueXyGStvdbDcRX54yq5TbReiamWhwe5JNaCyquJ8K63Uy6fi4ePXJjl4++lX1qyLQbvYcwiBQTR67Xj7VFlAWlhs4UB9U7P5SkcfNKTlOwIT1WbaU7tXaHsfs2CXIHFYIrXLF5uun5tjts3IBeAxZRsnBxO4I7zffoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715966378; c=relaxed/simple;
-	bh=ciQHWHWKLiE9ln0ZC3UWfT6EA6AoskxoqHok4ux6Uz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5l2dor66O6CsQI+k/LD2lQ+o0dOA3sk44s5CqpsRt4KyWWDB6uhNs+QxqYMC31S+oKNQQeQJZ5f3wBEE6nLzuEQvoksGaYgx6baFx1MWuZBt5YD85CsqDoNQeixd3Hck82yX7hWM4bkwYc7myurtdwsAEJtTEX+BZ+abUM7sv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-36db3b34a09so4216375ab.3
-        for <mhi@lists.linux.dev>; Fri, 17 May 2024 10:19:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715966376; x=1716571176;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UB6XKV9wUgi+qhn8POruaJiArXAXEVQlYUUEYIplrXg=;
-        b=JMDF3fM9AsHarUBI4A4RkA9XADe8chjYJjmUfel27ngKRLuBLyIxoG28NQXSxbbBWT
-         Swqc070cNkg26HH7ryJQYpyxvic2d4E2Km57VO/hxgSReeMznC6M1nbplL8hom7NO1rh
-         cKC0HaVOadFz8ErrP+s4JptrXszkLepQ8E8vGtlk/aTtoD5hRY0wlJKxAMiTCJCwrhV6
-         KU1uvnUse4rBfgiDmGBBZp0VheSAIYsVCzQ+M/HKQ7yp/9ZuupvWz+OB+VQ97d6x5LWm
-         gt/Cguxv5oD38ADNVN1tvGPcFcnyuXAMQkbgA3Mr8gHHUqNr/OyJhAq75nwiDKUfJQ0K
-         YrsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfIWjbHgyHmnDQbJihWgSsVXUfpffgPOPHWkePxv1d0TTRLVKUHUGskdnz1QpjB44Ot/WsedZLuGOmvab1dYvzSRpC
-X-Gm-Message-State: AOJu0YwvyG5HWW0/f9lm3fPO0WONrlB0ursK95s3T7U3BsREmkXx1y8r
-	VSUTJCjW6kYhzxl4uUj6qfZkHX9NrIJSNJ9KsjkpWmyuKtHR46y9
-X-Google-Smtp-Source: AGHT+IFSBSh/ZT51IHpa0NW5wG46MrevAidSm8SjYN/yFK1UTWIjyOexN1WYN/rUphWHZey1PHbEeQ==
-X-Received: by 2002:a05:6e02:1d1c:b0:36c:4cc4:59db with SMTP id e9e14a558f8ab-36cc1484ed3mr263255705ab.5.1715966375818;
-        Fri, 17 May 2024 10:19:35 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-660447e832dsm1263375a12.28.2024.05.17.10.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 10:19:34 -0700 (PDT)
-Date: Sat, 18 May 2024 02:19:33 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>
-Subject: Re: [PATCH v5 0/5] PCI: dwc: Add support for integrating HDMA with
- DWC EP driver
-Message-ID: <20240517171933.GI1947919@rocinante>
-References: <20240318-dw-hdma-v5-0-f04c5cdde760@linaro.org>
+	s=arc-20240116; t=1715980773; c=relaxed/simple;
+	bh=IaJHkiKhE0+KeAi8FOKZqlaVvig/l5XJxYriTZOm858=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=D8QvTl9IbXh7EGsGur5QYcMtyJfG0CO6FUzUUsBIFFrtP7MrP4MsZ07PUJBmUKIc/J27vvmuLaQgKl/SG7z3mD1CPV6xxvsIOJHcoyoosU+fII/b4BxQYqIiePvhk29nO6/16IYGLlFY4zAD0qMsU21wIfuqTKJFFelsB6zvJZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de; spf=pass smtp.mailfrom=hotsplots.de; arc=none smtp.client-ip=185.46.137.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotsplots.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotsplots.de
+Received: from build2.hotsplots.bln (unknown [217.66.62.140])
+	by mxb.hotsplots.de (Postfix) with ESMTPS id 791128C020E;
+	Fri, 17 May 2024 23:19:22 +0200 (CEST)
+Received: from mf by build2.hotsplots.bln with local (Exim 4.89)
+	(envelope-from <faecknitz@hotsplots.de>)
+	id 1s84z4-0007GJ-Bu; Fri, 17 May 2024 23:19:22 +0200
+From: =?UTF-8?q?Martin=20F=C3=A4cknitz?= <faecknitz@hotsplots.de>
+To: netdev@vger.kernel.org
+Cc: =?UTF-8?q?Martin=20F=C3=A4cknitz?= <faecknitz@hotsplots.de>,
+	mhi@lists.linux.dev
+Subject: [PATCH v2] net: mhi: set skb mac header before entering RX path
+Date: Fri, 17 May 2024 23:19:09 +0200
+Message-Id: <20240517211909.27874-1-faecknitz@hotsplots.de>
+X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318-dw-hdma-v5-0-f04c5cdde760@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: --------------------------------------------------
+X-Rspamd-Server: mxb
+X-Rspamd-Queue-Id: 791128C020E
+Authentication-Results: mxb.hotsplots.de;
+	none
+X-Spamd-Result: default: False [-50.00 / 500.00];
+	 ASN(0.00)[asn:33811, ipnet:217.66.48.0/20, country:DE];
+	 IP_WHITELIST(-50.00)[217.66.62.140]
 
-Hello,
+skb->mac_header must be set before passing the skb to the network stack,
+because skb->mac_len is calculated from skb->mac_header in
+__netif_receive_skb_core.
 
-> This series adds support for integrating HDMA with the DWC EP driver.
-> 
-> Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
-> Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only unroll
-> mapping format and doesn't support auto detecting the read/write channels.
-> 
-> Hence, this series modifies the existing eDMA code to work with HDMA by
-> honoring the platform supplied mapping format and read/write channels
-> count.
-> 
-> The platform drivers making use of HDMA should pass the EDMA_MF_HDMA_NATIVE
-> flag and provide channels count. In this series, HDMA support is added for
-> the Qcom SA8775P SoC and the DMA support in enabled in MHI EPF driver as
-> well.
-> 
-> Testing
-> -------
-> 
-> Tested on Qualcomm SA8775P Ride board.
-> 
-> Dependency
-> ----------
-> 
-> Depends on:
-> https://lore.kernel.org/dmaengine/20240129-b4-feature_hdma_mainline-v7-0-8e8c1acb7a46@bootlin.com/
-> https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
-> 
-> NOTE: I've taken over this series from Mrinmay who posted v1:
-> https://lore.kernel.org/linux-pci/1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com/
+Some network stack components, like xfrm, are using skb->mac_len to
+check for an existing MAC header, which doesn't exist in this case. This
+leads to memory corruption.
 
-Applied to qcom, thank you!
+Fixes: 7ffa7542eca6 ("net: mhi: Remove MBIM protocol")
+Signed-off-by: Martin Fäcknitz <faecknitz@hotsplots.de>
+---
+v2: - add "Fixes" tag
+    - CC maintainers
 
-[01/05] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-        https://git.kernel.org/pci/pci/c/51d8f92534df
-[02/05] PCI: dwc: Skip finding eDMA channels count for HDMA platforms
-        https://git.kernel.org/pci/pci/c/f9eeafd85ef6
-[03/05] PCI: dwc: Pass the eDMA mapping format flag directly from glue drivers
-        https://git.kernel.org/pci/pci/c/6823373030c8
-[04/05] PCI: qcom-ep: Add HDMA support for SA8775P SoC
-        https://git.kernel.org/pci/pci/c/c5a9a5eebb3b
-[05/05] PCI: epf-mhi: Enable HDMA for SA8775P SoC
-        https://git.kernel.org/pci/pci/c/fd745ddc8edc
+ drivers/net/mhi_net.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-	Krzysztof
+diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
+index ae169929a9d8..e432efddcb22 100644
+--- a/drivers/net/mhi_net.c
++++ b/drivers/net/mhi_net.c
+@@ -221,6 +221,8 @@ static void mhi_net_dl_callback(struct mhi_device *mhi_dev,
+ 			break;
+ 		}
+ 
++		skb_reset_mac_header(skb);
++
+ 		u64_stats_update_begin(&mhi_netdev->stats.rx_syncp);
+ 		u64_stats_inc(&mhi_netdev->stats.rx_packets);
+ 		u64_stats_add(&mhi_netdev->stats.rx_bytes, skb->len);
+-- 
+2.11.0
+
