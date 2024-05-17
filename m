@@ -1,120 +1,102 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9C3D0C6
-	for <mhi@lists.linux.dev>; Fri, 17 May 2024 11:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8973437149
+	for <mhi@lists.linux.dev>; Fri, 17 May 2024 15:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715944904; cv=none; b=MCzoGy0zrc9TEW9Z/3k8d2zqL7IV7UZ8Hq8GcLPUoYH4oZxb5EjKPxxR3jRVbR3KLS56hNPvMLk3RlOPmgg5d+FqLrMDJS/QXIIZx5rqJ0bcKv9Pa4eX9uRy6h/VQIFr+TNkuN0reNJpaYLm66f5E9U1WLEN5O4gtkTqZBV+yZY=
+	t=1715958154; cv=none; b=Wh8HUyJlMOqRy2hwIbVmbB7cEnt1wCw5+Bxe00bqtAWNCDSDZnH9PlNNdagVuYOZfHxcznmDf7aNWHfPCnfYnwFRx3gwKsTC1vMHKOZy9ghem/LahKwdAM9wMGcV74MfJMiGFOLOE30HysrCv0fTzvwO2HdMyZUU7ritZsaV710=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715944904; c=relaxed/simple;
-	bh=r9yApgmZbuFByJJ9p+oj7H1B539TR1bZFitaz6+3RGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aQLJAH6HqPrZlZOIJJHurnwTC0ibzrQ1rI2/jVbTr8FYcdAMBxnFNm/JBK/ybEHf89l7Z8NgFn5pwfO6IRUJbm+RwD/ZGMhXElbgvu8tvb9HnkyyafiyYNAHqCl9ilysH3LpPodEwICbHfgp3l/Gms7khZQ4D/kM4tvVaR9sovM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so4882435ad.1
-        for <mhi@lists.linux.dev>; Fri, 17 May 2024 04:21:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715944902; x=1716549702;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jn+RIDUkf3/BZVVCviqN56NNCVH5vL0DPPQQRoSbg3g=;
-        b=plU3RBPq0v4lpFfsZC5U9y5IEzdVBsz1uTEqqRDHPp4+OFIUtEvj6cZI2YLMK+9HG4
-         vJnZrwpmjBJRhFsrLmM5Yny0IYWrYWQMlTwFrwl/28UQtATZkHCocDPptofTtXKkaN72
-         fF2um7FwL7MlYxxSai0czmNNgc1Twmh/Ym40CQ5ugYvBHwld2UYjuQfAiui/fH+gEflm
-         IB9SYUi/9mfPeHawyLyKCSETeesuh6ueRFRp3ba6dB0jBv08XpxL8iC0TPI1xeHg0maE
-         EP+pX3FOJT0FbJwFHHobp+iXj6IzMsyLXu064Rwy5weiINbhe6IS72bZParmjxM9EHIt
-         krxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWjp7dKjhJsOoFg/bZZZJOohVGawK1X+2XHkbuOXa6eBxGs6R9AhzFD+pqxeu1erhlJC1c1XAUZQKCOWsSdomldvH+q
-X-Gm-Message-State: AOJu0YxYeGcS6OXv2ljbq5z6vObPOysmOGZ3QClAKQw+dRRVFBdhWeHM
-	dznqhs8QOxfJkHYdqbeoMGImhUu5fVRx3baPwrSZe8AM0+tOSjIZ
-X-Google-Smtp-Source: AGHT+IFZFxWQm02AYDAYBE9xRx/6Hp6ZxJQsmgya1Nc5RoSrp2j2eI5OpH4MHv2En0GrntatXs4fZQ==
-X-Received: by 2002:a17:902:e5c2:b0:1eb:2fb3:f9fd with SMTP id d9443c01a7336-1ef43c0cecbmr273809195ad.14.1715944902340;
-        Fri, 17 May 2024 04:21:42 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c2568a3sm154618455ad.300.2024.05.17.04.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 04:21:41 -0700 (PDT)
-Date: Fri, 17 May 2024 20:21:39 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Brian Norris <briannorris@chromium.org>, linux-pci@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, stable@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: Re: [PATCH] PCI: rockchip: Use GPIOD_OUT_LOW flag while requesting
- ep_gpio
-Message-ID: <20240517112139.GT202520@rocinante>
-References: <20240416-pci-rockchip-perst-fix-v1-1-4800b1d4d954@linaro.org>
+	s=arc-20240116; t=1715958154; c=relaxed/simple;
+	bh=2SoCEZTpu2MGE0Ovzb8rXfbE40kaQO/vjZa8EdKp4nA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=oW9jgCqvpRLkO7UxjW0BZOs6CpVxtQsaBmq/4Mw7hqOFoyvLBdm6Sw9Gp0HRyxS+c7X5wcVeEx5UBXWaLaa6j++Ik8ninb/erk14KseWxLO0EfP3M7AU6WPmiDnHuYS9YsdAQoGm5zIz/KUiMtklvhdV7NN6z7k4nxo+XEzrM6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=R7uS41M6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="R7uS41M6"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44H9RQih032690;
+	Fri, 17 May 2024 15:02:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=aIK2xCDzpTEBQ2d5jzmmM3Tr+sE3oVZwhmDsF1s4zQg=; b=R7
+	uS41M6NwnKrAkP4z79udx0xEKnKspImREizhXGvECsTuiYkmBXs/itNC6TtEFDYY
+	ma0ft5S6/C9oEe3Bl+WqEy0IG/l2cue7RR6aDrhgFBqFCE4WtXStDrpX6egbAxRJ
+	uEIWJG0/LAs2rmQzx/Dyh1dMrhxkvd1+wTdPuyZfDfwuLpuLNOYtAgZQQOP72CpP
+	asPEwT9Bht+cLM3brVB0Gd4LvUcagm/nP9NuQHUNzuqvNEyFH+6YDWWvZGR3bn7L
+	VUEppLTMPWDMGI1mfmxkgpHt+esLAxC40YzZbX9YH34sgLh6PqPX7okcqlFpd5d8
+	HVEFmYjOI0tvWDMMcsdA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y2125pr3g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2024 15:02:16 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44HF2FQu009367
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2024 15:02:15 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 May
+ 2024 08:02:15 -0700
+Message-ID: <22690e20-7280-0118-ce6a-dc76132ecab3@quicinc.com>
+Date: Fri, 17 May 2024 09:02:14 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240416-pci-rockchip-perst-fix-v1-1-4800b1d4d954@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH net] bus: mhi: host: fix MMIO registers byte order
+Content-Language: en-US
+To: =?UTF-8?Q?Martin_F=c3=a4cknitz?= <faecknitz@hotsplots.de>,
+        <mhi@lists.linux.dev>
+References: <20240513140125.14485-1-faecknitz@hotsplots.de>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240513140125.14485-1-faecknitz@hotsplots.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 8rKVAvTJDZwIyirYEp0fUkrIZ4Vxn4eG
+X-Proofpoint-ORIG-GUID: 8rKVAvTJDZwIyirYEp0fUkrIZ4Vxn4eG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-17_06,2024-05-17_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=944 clxscore=1011 bulkscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405170118
 
-Hello,
+On 5/13/2024 8:01 AM, Martin Fäcknitz wrote:
+> MHI is little endian, but host may big endian.
 
-> Rockchip platforms use 'GPIO_ACTIVE_HIGH' flag in the devicetree definition
-> for ep_gpio. This means, whatever the logical value set by the driver for
-> the ep_gpio, physical line will output the same logic level.
-> 
-> For instance,
-> 
-> 	gpiod_set_value_cansleep(rockchip->ep_gpio, 0); --> Level low
-> 	gpiod_set_value_cansleep(rockchip->ep_gpio, 1); --> Level high
-> 
-> But while requesting the ep_gpio, GPIOD_OUT_HIGH flag is currently used.
-> Now, this also causes the physical line to output 'high' creating trouble
-> for endpoint devices during host reboot.
-> 
-> When host reboot happens, the ep_gpio will initially output 'low' due to
-> the GPIO getting reset to its POR value. Then during host controller probe,
-> it will output 'high' due to GPIOD_OUT_HIGH flag. Then during
-> rockchip_pcie_host_init_port(), it will first output 'low' and then 'high'
-> indicating the completion of controller initialization.
-> 
-> On the endpoint side, each output 'low' of ep_gpio is accounted for PERST#
-> assert and 'high' for PERST# deassert. With the above mentioned flow during
-> host reboot, endpoint will witness below state changes for PERST#:
-> 
-> 	(1) PERST# assert - GPIO POR state
-> 	(2) PERST# deassert - GPIOD_OUT_HIGH while requesting GPIO
-> 	(3) PERST# assert - rockchip_pcie_host_init_port()
-> 	(4) PERST# deassert - rockchip_pcie_host_init_port()
-> 
-> Now the time interval between (2) and (3) is very short as both happen
-> during the driver probe(), and this results in a race in the endpoint.
-> Because, before completing the PERST# deassertion in (2), endpoint got
-> another PERST# assert in (3).
-> 
-> A proper way to fix this issue is to change the GPIOD_OUT_HIGH flag in (2)
-> to GPIOD_OUT_LOW. Because the usual convention is to request the GPIO with
-> a state corresponding to its 'initial/default' value and let the driver
-> change the state of the GPIO when required.
-> 
-> As per that, the ep_gpio should be requested with GPIOD_OUT_LOW as it
-> corresponds to the POR value of '0' (PERST# assert in the endpoint). Then
-> the driver can change the state of the ep_gpio later in
-> rockchip_pcie_host_init_port() as per the initialization sequence.
-> 
-> This fixes the firmware crash issue in Qcom based modems connected to
-> Rockpro64 based board.
+"may be"
 
-Applied to controller/rockchip, thank you!
+Feels like this should have a fixes tag.
 
-[1/1] PCI: rockchip: Use GPIOD_OUT_LOW flag while requesting ep_gpio
-      https://git.kernel.org/pci/pci/c/fa562e9441e3
+> Signed-off-by: Martin Fäcknitz <faecknitz@hotsplots.de>
+> ---
+>   drivers/bus/mhi/host/init.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 173f79918741..b59c276a68d8 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -588,7 +588,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+>   	/* Write to MMIO registers */
+>   	for (i = 0; reg_info[i].offset; i++)
+>   		mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
+> -			      reg_info[i].val);
+> +			      cpu_to_le32(reg_info[i].val));
 
-	Krzysztof
+mhi_write_reg() is used many other places, and a quick look shows they 
+don't have similar conversions. Should they not also be fixed?
