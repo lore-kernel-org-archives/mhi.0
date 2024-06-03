@@ -1,108 +1,154 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B35B674057
-	for <mhi@lists.linux.dev>; Fri, 31 May 2024 07:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.220
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A49136674
+	for <mhi@lists.linux.dev>; Mon,  3 Jun 2024 16:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717141098; cv=none; b=eZZIUnelFN7P/H+p5pRFg0Bi20FT+qtcPZJ2G03ZH/P75TvbOwsNxCeMqS9kcxPhnKkKlynsIMnpsvPQgPCc6aZS4+fY1L1iM/QOgwFwBESbHp9EnVdx1RJooKDZpqRZPV5C+g461tJiu92WJ541344F4+OIBzX4BerRrt81Sg4=
+	t=1717433047; cv=none; b=HDn9biNj8awEhvUv6qRdpf2DP7SEUXeSgaju5mS3o1ZT6RHahptXUsgLDagyTi3dbdjWpG4qLhBlZNtknZxko36UuCD8wnwCQFwu0/U+JWPhXVYRnZsvUkMcEVFMwQpy4ddEEuMXnr5EB5QApnTI2atIlp2c07uDuAK4hPBv/dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717141098; c=relaxed/simple;
-	bh=js5resTiNiwmEEem06d/OuXesOvzyPwOVOw2TBNTQbI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=JmiCPOzW9ynYc/z+tygJV2iK5+YgMTJeIM1kHHuFjfWxGpdRRFJBezPJF8KqHWMSKXtU1UuXigx5N51KJuHrtZQZVMr3kQyGQIBNb4I3obx6p7miw42gD7hciEUMzPoVrUNVZ96E06t573GcC1P4tR+uTsL3qU6OIodlmc6+QNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=BCPckN5Y reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1717433047; c=relaxed/simple;
+	bh=j9efUysIbU+0fDZp59JmxjJMpgDLHkYjIzf8rBgtCHo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A5iE4CR0rlabidOnNFdFqyZ84WMWyNU4i2bQwokCyNeuQ1fqX3ejQ3QK7Ph5Fufs93brU4ni0kWvcKkgdANHXT6HKmL8InOexhY5bUFy81uKPb44QJnGB7sbxJCGMr6huTgqOP/iMN2cPu0G1uEJx1nAACy3jb54PrvasVvYCRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O+RbbcA3; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="BCPckN5Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=0RpQFpiJt8CzmW+XjzYB0uoC6szcClZV35OrD8T37uk=; b=B
-	CPckN5YRlbjf2sLpOtaYcpqabr6qCrqYwbbpbR1hMt+0JKVIVPQ0hWzL8B9aP2DP
-	DOyKx5aH4cfFS7D1o2Jw06BjgoNxuWIHAr4olB8lx9Q3y6E3fc3hYG1xeqR9F4Rr
-	VOnP7oilp9x1pWCz4yiDjEAiJ1AC3Lg+OLrYYFNjfo=
-Received: from slark_xiao$163.com ( [112.97.59.81] ) by
- ajax-webmail-wmsvr-40-117 (Coremail) ; Fri, 31 May 2024 15:37:44 +0800
- (CST)
-Date: Fri, 31 May 2024 15:37:44 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: manivannan.sadhasivam@linaro.org, loic.poulain@linaro.org
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re:[PATCH v2] bus: mhi: host: Add Foxconn SDX72 related support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240520070633.308913-1-slark_xiao@163.com>
-References: <20240520070633.308913-1-slark_xiao@163.com>
-X-NTES-SC: AL_Qu2aBf2fvkgt4iaYZOkfm0kaj+c/WMGzu/8m3oFXO51wjD/pywQrRn54L3f89cW2Ey6orCOsUCBfx8BTf4BKYYY0gpe02UgZEjAjz22mxWjh+A==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O+RbbcA3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1f44b42e9a6so35713395ad.0
+        for <mhi@lists.linux.dev>; Mon, 03 Jun 2024 09:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717433045; x=1718037845; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kQJCX2mLLjVwtGvAcK2JVSlXXTTlVczYVL9TcQ37x9I=;
+        b=O+RbbcA3wlossbQYhPvFeIoQo5ZzBNSJ0YOkSkmcf/9y7MVxAltL7GMFxtppvY4gkG
+         vMpVik+73inctngDseRuEPWiJCxQy+GDkvb/q9Q7J8d1ndjwJ6M4vS0ima9hFpFiHcfp
+         zs9QgQHF1TdGt7jOP978cdkTi5kLS92RzivPNbHOb/vSklgnF313/WECpj+PFAQwMGKf
+         YQkmxoz+YLlXnKZu7fQKwoo3OOVn6gR3pJG2Eat6VxA7Ko4GtrFflP0c1ABLcogOUUeh
+         m9OwPcorxo6LMVRd9BRbCZC0qOxTUO/O5wGWtUKMs7H4kCyAkfvSUhE7mloJpwEqxILk
+         Jg/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717433045; x=1718037845;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kQJCX2mLLjVwtGvAcK2JVSlXXTTlVczYVL9TcQ37x9I=;
+        b=fDQLCKwyf0TnOU6WHLMGv8QmGVFLvWgCAdTZpXIAUIg1OqCO7X8fNA+VN4gpAdXyqM
+         Zgz4KWhGEdGfVr7Yqk9dxRFiYSjBes8rixnw/K5WDYaV5/fAbLzUvaq+x6jZcHkm0vDC
+         IOhT/XvNb0AF4LE8nGxcKR59S9EyCEtB1b6HWYQXboVsd6HJFYazmIZW7DU8gk3/k7CJ
+         TZhupZN9rQcsGdHm0H4ro9ziv1fg5MKyXI1y5V7z3ZvNOP0A5kjcURuuYoA36uNlE5J/
+         3YCXk/P0+2OgglltZTsYp6A1w+gkop8ahiFZINKaogl0QXKFfCemSb8vMBp4OdMt88NX
+         huFQ==
+X-Gm-Message-State: AOJu0YyHysj2K8KNpADotD3Qw4CaGt9Gc4/ONkG9gzqAuWveVzx6LtUK
+	rL7wm6sjs4bMNLCSGyuYXL4lJ1e368eoEwAxu8UHmr+atz4oD1r2zP+dSc2TIC2PkeNy5gbaCDw
+	=
+X-Google-Smtp-Source: AGHT+IGYx+sx85xzgEc86M80PuqE2ZoS4273PGYCLxOQNlGQ9YXpPTVaa2w3bk5t3yHX6kqLl4+hdA==
+X-Received: by 2002:a17:902:e546:b0:1f6:5bba:f134 with SMTP id d9443c01a7336-1f65bbaf520mr68933315ad.46.1717433045079;
+        Mon, 03 Jun 2024 09:44:05 -0700 (PDT)
+Received: from localhost.localdomain ([120.60.128.29])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632401919sm67523825ad.248.2024.06.03.09.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 09:44:04 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: mhi@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] bus: mhi: ep: Do not allocate memory for MHI objects from DMA zone
+Date: Mon,  3 Jun 2024 22:13:54 +0530
+Message-Id: <20240603164354.79035-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <1ecf7fb9.74d7.18fcd954b9e.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3n39IfllmFNUdAA--.22369W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQjvZGV4H26udAAAsA
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 
-SGkgTWFuaSwKRG8geW91IG1pc3MgdGhpcyBjb21taXQ/CkkgZGlkbid0IGdldCBhbnkgcmVzcG9u
-c2UgeWV0LiAKCkF0IDIwMjQtMDUtMjAgMTU6MDY6MzMsICJTbGFyayBYaWFvIiA8c2xhcmtfeGlh
-b0AxNjMuY29tPiB3cm90ZToKPkFsaWduIHdpdGggUWNvbSBTRFg3MiwgYWRkIHJlYWR5IHRpbWVv
-dXQgaXRlbSBmb3IgRm94Y29ubiBTRFg3Mi4KPkFuZCBhbHNvLCBhZGQgZmlyZWhvc2Ugc3VwcG9y
-dCBzaW5jZSBTRFg3Mi4KPgo+U2lnbmVkLW9mZi1ieTogU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0Ax
-NjMuY29tPgo+LS0tCj52MjogKDEpLiBVcGRhdGUgdGhlIGVkbCBmaWxlIHBhdGggYW5kIG5hbWUg
-KDIpLiBTZXQgU0RYNzIgc3VwcG9ydAo+dHJpZ2dlciBlZGwgbW9kZSBieSBkZWZhdWx0Cj4tLS0K
-PiBkcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMzIgKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrCj4gMSBmaWxlIGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKykKPgo+ZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1
-cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj5pbmRleCAwODg0NGVlNzk2NTQuLjBiNDgzYzdjNzZh
-MSAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPisrKyBi
-L2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPkBAIC0zOTksNiArMzk5LDggQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9jb25maWcgbWhpX2ZveGNvbm5fc2R4NTVf
-Y2hhbm5lbHNbXSA9IHsKPiAJTUhJX0NIQU5ORUxfQ09ORklHX0RMKDEzLCAiTUJJTSIsIDMyLCAw
-KSwKPiAJTUhJX0NIQU5ORUxfQ09ORklHX1VMKDMyLCAiRFVOIiwgMzIsIDApLAo+IAlNSElfQ0hB
-Tk5FTF9DT05GSUdfREwoMzMsICJEVU4iLCAzMiwgMCksCj4rCU1ISV9DSEFOTkVMX0NPTkZJR19V
-TF9GUCgzNCwgIkZJUkVIT1NFIiwgMzIsIDApLAo+KwlNSElfQ0hBTk5FTF9DT05GSUdfRExfRlAo
-MzUsICJGSVJFSE9TRSIsIDMyLCAwKSwKPiAJTUhJX0NIQU5ORUxfQ09ORklHX0hXX1VMKDEwMCwg
-IklQX0hXMF9NQklNIiwgMTI4LCAyKSwKPiAJTUhJX0NIQU5ORUxfQ09ORklHX0hXX0RMKDEwMSwg
-IklQX0hXMF9NQklNIiwgMTI4LCAzKSwKPiB9Owo+QEAgLTQxOSw2ICs0MjEsMTYgQEAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBtaGlfY29udHJvbGxlcl9jb25maWcgbW9kZW1fZm94Y29ubl9zZHg1NV9j
-b25maWcgPSB7Cj4gCS5ldmVudF9jZmcgPSBtaGlfZm94Y29ubl9zZHg1NV9ldmVudHMsCj4gfTsK
-PiAKPitzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyBtb2RlbV9mb3hj
-b25uX3NkeDcyX2NvbmZpZyA9IHsKPisJLm1heF9jaGFubmVscyA9IDEyOCwKPisJLnRpbWVvdXRf
-bXMgPSAyMDAwMCwKPisJLnJlYWR5X3RpbWVvdXRfbXMgPSA1MDAwMCwKPisJLm51bV9jaGFubmVs
-cyA9IEFSUkFZX1NJWkUobWhpX2ZveGNvbm5fc2R4NTVfY2hhbm5lbHMpLAo+KwkuY2hfY2ZnID0g
-bWhpX2ZveGNvbm5fc2R4NTVfY2hhbm5lbHMsCj4rCS5udW1fZXZlbnRzID0gQVJSQVlfU0laRSht
-aGlfZm94Y29ubl9zZHg1NV9ldmVudHMpLAo+KwkuZXZlbnRfY2ZnID0gbWhpX2ZveGNvbm5fc2R4
-NTVfZXZlbnRzLAo+K307Cj4rCj4gc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZv
-IG1oaV9mb3hjb25uX3NkeDI0X2luZm8gPSB7Cj4gCS5uYW1lID0gImZveGNvbm4tc2R4MjQiLAo+
-IAkuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+QEAgLTQ0OCw2ICs0NjAs
-MTcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Nk
-eDY1X2luZm8gPSB7Cj4gCS5zaWRlYmFuZF93YWtlID0gZmFsc2UsCj4gfTsKPiAKPitzdGF0aWMg
-Y29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4NzJfaW5mbyA9IHsK
-PisJLm5hbWUgPSAiZm94Y29ubi1zZHg3MiIsCj4rCS5lZGwgPSAiZm94L3NkeDcybS9lZGwubWJu
-IiwKPisJLmVkbF90cmlnZ2VyID0gdHJ1ZSwKPisJLmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3Nk
-eDcyX2NvbmZpZywKPisJLmJhcl9udW0gPSBNSElfUENJX0RFRkFVTFRfQkFSX05VTSwKPisJLmRt
-YV9kYXRhX3dpZHRoID0gMzIsCj4rCS5tcnVfZGVmYXVsdCA9IDMyNzY4LAo+Kwkuc2lkZWJhbmRf
-d2FrZSA9IGZhbHNlLAo+K307Cj4rCj4gc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9j
-b25maWcgbWhpX212M3hfY2hhbm5lbHNbXSA9IHsKPiAJTUhJX0NIQU5ORUxfQ09ORklHX1VMKDAs
-ICJMT09QQkFDSyIsIDY0LCAwKSwKPiAJTUhJX0NIQU5ORUxfQ09ORklHX0RMKDEsICJMT09QQkFD
-SyIsIDY0LCAwKSwKPkBAIC02ODAsNiArNzAzLDE1IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNp
-X2RldmljZV9pZCBtaGlfcGNpX2lkX3RhYmxlW10gPSB7Cj4gCS8qIERXNTkzMmUgKHNkeDYyKSwg
-Tm9uLWVTSU0gKi8KPiAJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMGY5
-KSwKPiAJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3NkeDY1
-X2luZm8gfSwKPisJLyogVDk5VzUxNSAoc2R4NzIpICovCj4rCXsgUENJX0RFVklDRShQQ0lfVkVO
-RE9SX0lEX0ZPWENPTk4sIDB4ZTExOCksCj4rCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25n
-X3QpICZtaGlfZm94Y29ubl9zZHg3Ml9pbmZvIH0sCj4rCS8qIERXNTkzNGUoc2R4NzIpLCBXaXRo
-IGVTSU0gKi8KPisJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTFkKSwK
-PisJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3NkeDcyX2lu
-Zm8gfSwKPisJLyogRFc1OTM0ZShzZHg3MiksIE5vbi1lU0lNICovCj4rCXsgUENJX0RFVklDRShQ
-Q0lfVkVORE9SX0lEX0ZPWENPTk4sIDB4ZTExZSksCj4rCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVs
-X3Vsb25nX3QpICZtaGlfZm94Y29ubl9zZHg3Ml9pbmZvIH0sCj4gCS8qIE1WMzEtVyAoQ2ludGVy
-aW9uKSAqLwo+IAl7IFBDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9USEFMRVMsIDB4MDBiMyksCj4g
-CQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfbXYzMV9pbmZvIH0sCj4tLSAK
-PjIuMjUuMQo=
+MHI endpoint stack accidentally started allocating memory for objects from
+DMA zone since commit 62210a26cd4f ("bus: mhi: ep: Use slab allocator
+where applicable"). But there is no real need to allocate memory from this
+naturally limited DMA zone. This also causes the MHI endpoint stack to run
+out of memory while doing high bandwidth transfers.
+
+So let's switch over to normal memory.
+
+Cc: stable@vger.kernel.org # 6.8
+Fixes: 62210a26cd4f ("bus: mhi: ep: Use slab allocator where applicable")
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/ep/main.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index f8f674adf1d4..4acfac73ca9a 100644
+--- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -90,7 +90,7 @@ static int mhi_ep_send_completion_event(struct mhi_ep_cntrl *mhi_cntrl, struct m
+ 	struct mhi_ring_element *event;
+ 	int ret;
+ 
+-	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL | GFP_DMA);
++	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL);
+ 	if (!event)
+ 		return -ENOMEM;
+ 
+@@ -109,7 +109,7 @@ int mhi_ep_send_state_change_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_stat
+ 	struct mhi_ring_element *event;
+ 	int ret;
+ 
+-	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL | GFP_DMA);
++	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL);
+ 	if (!event)
+ 		return -ENOMEM;
+ 
+@@ -127,7 +127,7 @@ int mhi_ep_send_ee_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_ee_type exec_e
+ 	struct mhi_ring_element *event;
+ 	int ret;
+ 
+-	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL | GFP_DMA);
++	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL);
+ 	if (!event)
+ 		return -ENOMEM;
+ 
+@@ -146,7 +146,7 @@ static int mhi_ep_send_cmd_comp_event(struct mhi_ep_cntrl *mhi_cntrl, enum mhi_e
+ 	struct mhi_ring_element *event;
+ 	int ret;
+ 
+-	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL | GFP_DMA);
++	event = kmem_cache_zalloc(mhi_cntrl->ev_ring_el_cache, GFP_KERNEL);
+ 	if (!event)
+ 		return -ENOMEM;
+ 
+@@ -438,7 +438,7 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
+ 		read_offset = mhi_chan->tre_size - mhi_chan->tre_bytes_left;
+ 		write_offset = len - buf_left;
+ 
+-		buf_addr = kmem_cache_zalloc(mhi_cntrl->tre_buf_cache, GFP_KERNEL | GFP_DMA);
++		buf_addr = kmem_cache_zalloc(mhi_cntrl->tre_buf_cache, GFP_KERNEL);
+ 		if (!buf_addr)
+ 			return -ENOMEM;
+ 
+@@ -1481,14 +1481,14 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+ 
+ 	mhi_cntrl->ev_ring_el_cache = kmem_cache_create("mhi_ep_event_ring_el",
+ 							sizeof(struct mhi_ring_element), 0,
+-							SLAB_CACHE_DMA, NULL);
++							0, NULL);
+ 	if (!mhi_cntrl->ev_ring_el_cache) {
+ 		ret = -ENOMEM;
+ 		goto err_free_cmd;
+ 	}
+ 
+ 	mhi_cntrl->tre_buf_cache = kmem_cache_create("mhi_ep_tre_buf", MHI_EP_DEFAULT_MTU, 0,
+-						      SLAB_CACHE_DMA, NULL);
++						      0, NULL);
+ 	if (!mhi_cntrl->tre_buf_cache) {
+ 		ret = -ENOMEM;
+ 		goto err_destroy_ev_ring_el_cache;
+-- 
+2.25.1
+
