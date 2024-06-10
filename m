@@ -1,130 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F55176AB7;
-	Sat,  8 Jun 2024 06:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C4717C66
+	for <mhi@lists.linux.dev>; Mon, 10 Jun 2024 06:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717828231; cv=none; b=iqbH2LPZnaHl2aIPTiwEqb3efqtBFttkNWEpmcDXCit7RESPgdZxgacw+tAumF+g27bMebkEW2z43AYSQuNIul2THBuPoRL6pEj2YIUDaK6NFMvkw+5eCA7e2f9S3uaCF514c9rWuhTqYn8vEXYNY0NJbsWHz/A9rsTLOTTyaic=
+	t=1718002417; cv=none; b=OjEFWwaYXezrAPHcKs7FnItVH0sxbKye1KgztSEhgp6axbiDM5vr9R1huzNG2jxlBDHKQ6Ozf7fBfdwrt6ms7Q3XedPdPqcUuRYcIoose61SVJwGCL7fLnZ5dPuDEv8cCCoLtn3mG0Wf80FBpGtfwbUKi/9SaCVfFk/FEQLxrtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717828231; c=relaxed/simple;
-	bh=OVVmvhztRK1B65JgvaZedaE3P8Kz8iPkk9tDYvE0ud4=;
+	s=arc-20240116; t=1718002417; c=relaxed/simple;
+	bh=mRZh5+OagwrYksdm05IvR/+1yNl8KYHz8Qj7URz+FVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GszVUwKIyKlKyVG4oIBnrie6Ne595w1mhzLQqqU9XPd1qQ8uOOqRomj7Ve9wiCoEADkP7HTNhnPPc3vRUV1Hh4pWgx2NzvD0LYHC2gjB6awUQUZcsffboeBcznyRm+gxMAo9+gVZGyZLrqBQL5lm4NaA41wAlSwS1oqYawTi5F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMgskEpd; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jtdkOQLJowssxO+wCYqPRwcUd8yd2J9oqbW/aoDmtCdovh5KT+R+wygvZgTHSCI6jVd8s0KySESfJH0FWhplyvtzqCZdgHfqnzR63W2LrLMj4NzTWiX+4TjOG49Yk9Rrq30nOIGEW8SxIqq7TzIMURtFSjYJntJy3WFTFU6uMnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IEHJ/b+Q; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMgskEpd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717828229; x=1749364229;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OVVmvhztRK1B65JgvaZedaE3P8Kz8iPkk9tDYvE0ud4=;
-  b=DMgskEpduvmaBxvzGYvRud09wUlxOmovgRLOHWs+eLoLzsXBk+Pk1jQ2
-   4ME3Yim5ckJ8qCT762qRuChDJWP2vsdfyndIkrFdeatIdwMQm8VFpsVLi
-   chYthtUCopy2wVbkjCeGTfv8JmsJdDKZqc6GGQjWGcO6QOtqMsfon6Keb
-   wsb3z8dwnLQDPh67H9JCHJRw0tFh0HIPGA2OMV5wx8er+RAJSjkO/qEiU
-   L3Vg4foqkDQbn2/47QVkzDCrSvwqRLtbdv3OmLkSVwxupwBdb0zTycg/W
-   HNmUEZLdUKWR/mty0aGezwNvmWuAC7e55Z1ISFOG74Q8mqqeiVDcQlufh
-   A==;
-X-CSE-ConnectionGUID: RA7wGRPbTx6r6luaUGhFbg==
-X-CSE-MsgGUID: K35eFk/oQoiHKrlCwgwfkA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14693633"
-X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="14693633"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 23:30:23 -0700
-X-CSE-ConnectionGUID: zMr/zwMASayxaDCEoS0SSg==
-X-CSE-MsgGUID: bOKnJvd2TR2Kwm6+47teDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
-   d="scan'208";a="38387654"
-Received: from lkp-server01.sh.intel.com (HELO 472b94a103a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jun 2024 23:30:20 -0700
-Received: from kbuild by 472b94a103a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sFpaj-0001As-2X;
-	Sat, 08 Jun 2024 06:30:17 +0000
-Date: Sat, 8 Jun 2024 14:29:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Slark Xiao <slark_xiao@163.com>, manivannan.sadhasivam@linaro.org,
-	loic.poulain@linaro.org, quic_qianyu@quicinc.com
-Cc: oe-kbuild-all@lists.linux.dev, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: Re: [PATCH v1 1/2] bus: mhi: host: Import link_id item
-Message-ID: <202406081406.LxqJw00r-lkp@intel.com>
-References: <20240607100114.452979-1-slark_xiao@163.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IEHJ/b+Q"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2c19bba897bso3234733a91.2
+        for <mhi@lists.linux.dev>; Sun, 09 Jun 2024 23:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718002415; x=1718607215; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q79+Rla3cX6Hmnq2eCF4cwSxfS8g2qeMA5niTT4AJrk=;
+        b=IEHJ/b+QjU//9hJSyO/4pSmC8FPzG12hGhbNR72+jEX51R3zyAdSE+qh1y2zYK9eLI
+         TbKpMMga+rbIY398gj0b7gjOGCiNR5hTYb59aSjh/ugeBTwQPoo6gYlD6QRWaCvJ6DbH
+         utrVLAKc0rHfJpB2nevn3MdwVIkwv8HxXug1GTV/gnOOUvwWU8tKIilu01GuxFoOnVYL
+         FFcbELMIZ1Tzv43HduLo8OpFY1EG1w8ouFIPVMxdLV4jkMWECzEKdx7lupvUxJLy5ccu
+         zPO+o3FalfrZP2JQmtpOJxhf4R1gtAW9KRrT6ZEEzV5nw6dGWY4y5y8S5B9GK6ONf1Nv
+         2iTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718002415; x=1718607215;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q79+Rla3cX6Hmnq2eCF4cwSxfS8g2qeMA5niTT4AJrk=;
+        b=qdKkt0hQ5lahpB8hd/HL74paejefPoDbbRLGulmhr1BtD8+dA/n/yQIvfOHJYMkt43
+         bWt7tjoFBSGoV4KLYWlR7OxPEIAfbTNk9oeWbVEZ/9dnOv4czXi3Q9626l2ImgaUog9I
+         /6YNJftujJ9SWHxgEHV3CTwnpVGHv2OFp5vexOmppxcvN6hBHiZRiYe2K4DYLGzATh2O
+         HUBter3P41+xw+yT9u3xXW3Dly13/v//NPyIcBFfV2l5a27PHrBLL7R1B+T1yCVvuUWx
+         UAm9RmH59tFyOYEJDV80NgNmA2t5oQR6zz50c5mlzFQOXBpS7vWUI144lpXHSha+xEAT
+         npZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWNYcrOJl4saG2MB0yuIVG4K+cXpq7MHRs+ncqO4om5GbdSFqJso3W8Vp5P10qTnxkc8xgXdSIq/TKjeHjM+jZYz97
+X-Gm-Message-State: AOJu0Yxjlzcs4KgH+bHwzPNfuLYIUYJhbmAyEQ0k49qM3AaFl7/qetwe
+	+BmNiChgErX3XaKR2fwaplQ5YGeX1x9AnpFe3rxbSNxnVzJbNZnQ0rALfyIJLg==
+X-Google-Smtp-Source: AGHT+IGiQnfID/w2ovEqOtXmdaUmHolv4W8npj5rXP4hlu3K/zYS4n6pz5nKcO0YwT4Ao+fhHzZlGg==
+X-Received: by 2002:a17:90b:b12:b0:2c2:c3fb:b13c with SMTP id 98e67ed59e1d1-2c2c3fbb277mr5727406a91.44.1718002414578;
+        Sun, 09 Jun 2024 23:53:34 -0700 (PDT)
+Received: from thinkpad ([220.158.156.236])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c3094cfe3dsm1355898a91.15.2024.06.09.23.53.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jun 2024 23:53:34 -0700 (PDT)
+Date: Mon, 10 Jun 2024 12:23:24 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH 0/5] PCI: endpoint: Add EPC 'deinit' event and
+ dw_pcie_ep_linkdown() API
+Message-ID: <20240610065324.GA7660@thinkpad>
+References: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240607100114.452979-1-slark_xiao@163.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
 
-Hi Slark,
+On Thu, Jun 06, 2024 at 12:56:33PM +0530, Manivannan Sadhasivam wrote:
+> Hi,
+> 
+> This series includes patches that were left over from previous series [1] for
+> making the host reboot handling robust in endpoint framework.
+> 
+> When the above mentioned series got merged to pci/endpoint, we got a bug report
+> from LKP bot [2] and due to that the offending patches were dropped.
+> 
+> This series addressed the issue reported by the bot by adding the stub APIs in
+> include/pci/pci-epc.h and also removed the unused dwc wrapper as concluded in
+> [3].
+> 
+> Testing
+> =======
+> 
+> This series is tested on Qcom SM8450 based development board with 2 SM8450 SoCs
+> connected over PCIe.
+> 
+> - Mani
+> 
 
-kernel test robot noticed the following build warnings:
+Applied patch 2/5 to pci/endpoint! Krzysztof, please apply patches 1/5 and 5/5
+to controller/dwc (patches 3/5 and 4/5 are already applied by you).
 
-[auto build test WARNING on mani-mhi/mhi-next]
-[also build test WARNING on linus/master v6.10-rc2 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Mani
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Slark-Xiao/net-wwan-Fix-SDX72-ping-failure-issue/20240607-180828
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-patch link:    https://lore.kernel.org/r/20240607100114.452979-1-slark_xiao%40163.com
-patch subject: [PATCH v1 1/2] bus: mhi: host: Import link_id item
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240608/202406081406.LxqJw00r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240608/202406081406.LxqJw00r-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406081406.LxqJw00r-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/bus/mhi/host/pci_generic.c:57: warning: Function parameter or struct member 'link_default' not described in 'mhi_pci_dev_info'
-
-
-vim +57 drivers/bus/mhi/host/pci_generic.c
-
-48f98496b1de13 drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  32  
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  33  /**
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  34   * struct mhi_pci_dev_info - MHI PCI device specific information
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  35   * @config: MHI controller configuration
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  36   * @name: name of the PCI module
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  37   * @fw: firmware path (if any)
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  38   * @edl: emergency download mode firmware path (if any)
-48f98496b1de13 drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  39   * @edl_trigger: capable of triggering EDL mode in the device (if supported)
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  40   * @bar_num: PCI base address register to use for MHI MMIO register space
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  41   * @dma_data_width: DMA transfer word size (32 or 64 bits)
-5c2c85315948c4 drivers/bus/mhi/pci_generic.c      Richard Laing 2021-07-15  42   * @mru_default: default MRU size for MBIM network packets
-56f6f4c4eb2a71 drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  43   * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
-56f6f4c4eb2a71 drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  44   *		   of inband wake support (such as sdx24)
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  45   */
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  46  struct mhi_pci_dev_info {
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  47  	const struct mhi_controller_config *config;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  48  	const char *name;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  49  	const char *fw;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  50  	const char *edl;
-48f98496b1de13 drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  51  	bool edl_trigger;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  52  	unsigned int bar_num;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  53  	unsigned int dma_data_width;
-5c2c85315948c4 drivers/bus/mhi/pci_generic.c      Richard Laing 2021-07-15  54  	unsigned int mru_default;
-56f6f4c4eb2a71 drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  55  	bool sideband_wake;
-f749b1f6758869 drivers/bus/mhi/host/pci_generic.c Slark Xiao    2024-06-07  56  	unsigned int link_default;
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21 @57  };
-855a70c12021bd drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  58  
+> [1] https://lore.kernel.org/linux-pci/20240430-pci-epf-rework-v4-0-22832d0d456f@linaro.org/
+> [2] https://lore.kernel.org/linux-pci/202405130815.BwBrIepL-lkp@intel.com/
+> [3] https://lore.kernel.org/linux-pci/20240529141614.GA3293@thinkpad/
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+> Manivannan Sadhasivam (5):
+>       PCI: dwc: ep: Remove dw_pcie_ep_init_notify() wrapper
+>       PCI: endpoint: Introduce 'epc_deinit' event and notify the EPF drivers
+>       PCI: dwc: ep: Add a generic dw_pcie_ep_linkdown() API to handle Link Down event
+>       PCI: qcom-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+>       PCI: layerscape-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+> 
+>  drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
+>  drivers/pci/controller/dwc/pci-imx6.c             |   2 +-
+>  drivers/pci/controller/dwc/pci-keystone.c         |   2 +-
+>  drivers/pci/controller/dwc/pci-layerscape-ep.c    |   4 +-
+>  drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
+>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 116 +++++++++++++---------
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |   2 +-
+>  drivers/pci/controller/dwc/pcie-designware.h      |  10 +-
+>  drivers/pci/controller/dwc/pcie-keembay.c         |   2 +-
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c         |   5 +-
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c       |   2 +-
+>  drivers/pci/controller/dwc/pcie-tegra194.c        |   3 +-
+>  drivers/pci/controller/dwc/pcie-uniphier-ep.c     |   2 +-
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c      |  19 ++++
+>  drivers/pci/endpoint/functions/pci-epf-test.c     |  17 +++-
+>  drivers/pci/endpoint/pci-epc-core.c               |  25 +++++
+>  include/linux/pci-epc.h                           |  13 +++
+>  include/linux/pci-epf.h                           |   2 +
+>  18 files changed, 162 insertions(+), 68 deletions(-)
+> ---
+> base-commit: 7d96527bc16e46545739c6fe0ab6e4c915e9910e
+> change-id: 20240606-pci-deinit-2e6cdf1bd69f
+> 
+> Best regards,
+> -- 
+> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
