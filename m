@@ -1,139 +1,116 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAF824B4A
-	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 04:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C125F873
+	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 09:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718166989; cv=none; b=cHodIHDMpEgfNyJhLD1NLlJJiGn5EEYe+f3O2jcJCEMuE5fsgrsakCkRmWlG3CY9GcKM6xk5o3mf2Kqr9zT3iKsiiLO1w+SUcc9OOVuKGlaV7geg9HC4gUkW2Gu3YMAUoWw321mEVzTpdacgxr0PUtrTNTWNCtmRonyRM3fb+vo=
+	t=1718185158; cv=none; b=Ev3VzC/wYmRL2DWivIbvRsZ0mbDw6Abscori0ON0P21uVyj3Wrq7eA25QEUTE9HFrIndCRLlcShsFJV9b2eMfl2eNjl+pAcoS+8+/odSzL6DnwbyCe+RTTG32IJu4mjUvarKvaHQKzMnUBc76jMisUX9NGrFR9C0d/p0tGzA5sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718166989; c=relaxed/simple;
-	bh=EO0aImAqYw7a/OBDl+S8gijoba1Ra+Y0nG8ZUi4cOaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BNpCMXu+lIxfklmQnvXQ8derFWuZpWUVmQeRIqAa09f1C1httJWoL6Hkow/feKYyzopf0WZj+TpWO218NLRJzQDnzB+Iah1oJPzfgucKECjQvZOKQ/oFnQ5b+4t6K3ZzT5zjkpAdAiWUpSoPSHUhNp+NusMoYA1SWtt/FFLSV8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xT9pBdy8; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718185158; c=relaxed/simple;
+	bh=hq17MAkaqI/mS5UaroN1BkaNHRkBEIuYufisq/6rssk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ehOt9hDzUvcOkxUIcWo7LfOn4YXAA8mfS8iG6jPBsseJKwuDpMP/DJZIO7YtDkrId0rS14jF0ZIvmsFL8DgFO7UZd22YWeM00zZt8bIgQiARGehzqowdTmNmvZXpr6Ig3NyuPjxyp1smY6sjhiid/k3jj5b3s1c35UXJU2mQwSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=YkgDkpNg; arc=none smtp.client-ip=45.254.50.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xT9pBdy8"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-254c22faf4cso1299025fac.2
-        for <mhi@lists.linux.dev>; Tue, 11 Jun 2024 21:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718166987; x=1718771787; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vH+4iQ0Kxj/vMdKXd1GL4axukTJSkL87xzz/uOsZjd0=;
-        b=xT9pBdy8OdUohzyxLQWLJPoovawYIAn/IZFjDBPEiD3Yeym6HjamkDgQM4ghnWb7gN
-         eyWkRiA4Sj9iGYuh6IcZe1bpjXVOpc+xesBmjl0WD9EfhWoH7FylKdWldJOyAAdtf1Yd
-         0hOJjqDCJW0/6GryL0YJQYFHg2AY7Ot60qRQiL5YdwInKl5yvP5nWWYtlCaHNm/VJ4uq
-         LWpKBRk4kWzDcpM2Z1ZQ/YPx4UJJsaWNpCtvEclXvkbM7/IP0Wwr5H57KJ54LxV6NGgk
-         npjtU79fPshaIL/rXMzac+gUx86/qk9j3ECozS3KSChvpaoyAWxgR0xleUDTJxhvCQDb
-         1hZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718166987; x=1718771787;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vH+4iQ0Kxj/vMdKXd1GL4axukTJSkL87xzz/uOsZjd0=;
-        b=HenA6tm1wORSva1/yIz3vadZ9JTDTG+dJXmIk9yV55Me39gdKoSYhA+fGE/2FI4c6W
-         IWuBNY9lrgnOHwhG2krSq0kUkplKU3Y7kNe1GxztsQ2pfOGDuQIcjwP0U+kUvTbx3GBi
-         qP0hgfhjrseBHBUVesgKMHdfa8kUYCvNjoGNHMy+M4Lh4AX9f6/NknN39zeHzZO75IdV
-         ddcHgro5NPacf19559TAwPHlmNOnlpMYkTBx75cmEcBy41POWFmrDJ5yz21o1b6zTbHq
-         C20yL9Tu+nXEPvbINaUyAiwRi9MpzQkXp7KqwJd5oDSpJE6vDXL6zPOOiKtInwk/tSXy
-         4ZZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIO9RYTpX5XET4mlvN8pFZQcU7YyRyv/dHyajnXbIlAIt0OrrmtNB3qFzFPZvi1U/oFVJmbhhRR58Q2qf5lPkfQeWe
-X-Gm-Message-State: AOJu0YwSymFFl+Tkqmqbit9BNJmAB6wk0jO2XSe7iJl+39WgWiQeQvd8
-	5mpHQSjezD/0Gi2zrSRs45ytdKtwHtxaD+cojHYaJFfLT3+5gkg+/4JcHIEYXg==
-X-Google-Smtp-Source: AGHT+IF/i1Z4g1iXpug+xajahacKVwnIvfnsiSOznBlRwgjL1WHJ0xairr9brTYDWvv7YNpLZYuzDg==
-X-Received: by 2002:a05:6870:d186:b0:251:46d:d32a with SMTP id 586e51a60fabf-25514b4e021mr927373fac.8.1718166986969;
-        Tue, 11 Jun 2024 21:36:26 -0700 (PDT)
-Received: from thinkpad ([120.60.129.29])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e9a52a3012sm5409033a12.30.2024.06.11.21.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 21:36:26 -0700 (PDT)
-Date: Wed, 12 Jun 2024 10:06:12 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH 2/5] PCI: endpoint: Introduce 'epc_deinit' event and
- notify the EPF drivers
-Message-ID: <20240612043612.GC2645@thinkpad>
-References: <20240606-pci-deinit-v1-2-4395534520dc@linaro.org>
- <20240611220640.GA1001976@bhelgaas>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="YkgDkpNg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=tAb1g
+	4fB79567ItBIyDcRXSQsvQ9HpG5fbNWTaEarMY=; b=YkgDkpNgD+bYwyzX+c46Z
+	bbHYLMbEFwRAvUtfovntc83lNRnRxrL1K8/xJzIWWD26/PMNvt8DMGO21sDD5olI
+	HY6FkO6+4wgZocB81Uhr0NbG/XpJLKRahwoZjfMtuwUVk+KtGSj/qTzoFaurKWBF
+	h8+ldOaGjhebLDIgknMKek=
+Received: from localhost.localdomain (unknown [112.97.57.186])
+	by gzga-smtp-mta-g0-2 (Coremail) with SMTP id _____wDX30WwbGlmH_qlAQ--.27950S2;
+	Wed, 12 Jun 2024 17:38:57 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: manivannan.sadhasivam@linaro.org,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	quic_jhugo@quicinc.com
+Cc: netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
+Date: Wed, 12 Jun 2024 17:38:42 +0800
+Message-Id: <20240612093842.359805-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240611220640.GA1001976@bhelgaas>
+X-CM-TRANSID:_____wDX30WwbGlmH_qlAQ--.27950S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrWfJr1DAr1DAF1kKw13CFg_yoW8tr4kpF
+	sYgrW3Jr4fXrWjyryqk3s7ZF1rWw4DG347KrW7K342ywn8t34qvFWjga4ftF1akrZFkF42
+	yFy5u3y5W3WDXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRuc_3UUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRxT7ZGV4JvHumQAAsx
 
-On Tue, Jun 11, 2024 at 05:06:40PM -0500, Bjorn Helgaas wrote:
-> On Thu, Jun 06, 2024 at 12:56:35PM +0530, Manivannan Sadhasivam wrote:
-> > As like the 'epc_init' event, that is used to signal the EPF drivers about
-> > the EPC initialization, let's introduce 'epc_deinit' event that is used to
-> > signal EPC deinitialization.
-> > 
-> > The EPC deinitialization applies only when any sort of fundamental reset
-> > is supported by the endpoint controller as per the PCIe spec.
-> > 
-> > Reference: PCIe Base spec v5.0, sections 4.2.4.9.1 and 6.6.1.
-> 
-> PCIe r6.0, sec 4.2.5.9.1 and 6.6.1.
-> 
-> (Not 4.2.4.9.1, which no longer exists in r6.x)
-> 
+For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+This would lead to device can't ping outside successfully.
+Also MBIM side would report "bad packet session (112)".
+So we add a default mux_id value for SDX72. And this value
+would be transferred to wwan mbim side.
 
-Ammended the commit in pci/endpoint, thanks!
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ include/linux/mhi.h                | 2 ++
+ 2 files changed, 5 insertions(+)
 
-- Mani
-
-> > Currently, some EPC drivers like pcie-qcom-ep and pcie-tegra194 support
-> > PERST# as the fundamental reset. So the 'deinit' event will be notified to
-> > the EPF drivers when PERST# assert happens in the above mentioned EPC
-> > drivers.
-> > 
-> > The EPF drivers, on receiving the event through the epc_deinit() callback
-> > should reset the EPF state machine and also cleanup any configuration that
-> > got affected by the fundamental reset like BAR, DMA etc...
-> > 
-> > This change also warrants skipping the cleanups in unbind() if already done
-> > in epc_deinit().
-> > 
-> > Reviewed-by: Niklas Cassel <cassel@kernel.org>
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 0b483c7c76a1..9e9adf8320d2 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
+ 	unsigned int dma_data_width;
+ 	unsigned int mru_default;
+ 	bool sideband_wake;
++	unsigned int mux_id;
+ };
+ 
+ #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+@@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+ 	.dma_data_width = 32,
+ 	.mru_default = 32768,
+ 	.sideband_wake = false,
++	.mux_id = 112,
+ };
+ 
+ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+@@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+ 	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+ 	mhi_cntrl->mru = info->mru_default;
++	mhi_cntrl->link_id = info->mux_id;
+ 
+ 	if (info->edl_trigger)
+ 		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index b573f15762f8..499c735fb1a3 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -361,6 +361,7 @@ struct mhi_controller_config {
+  * @wake_set: Device wakeup set flag
+  * @irq_flags: irq flags passed to request_irq (optional)
+  * @mru: the default MRU for the MHI device
++ * @link_id: the default link
+  *
+  * Fields marked as (required) need to be populated by the controller driver
+  * before calling mhi_register_controller(). For the fields marked as (optional)
+@@ -445,6 +446,7 @@ struct mhi_controller {
+ 	bool wake_set;
+ 	unsigned long irq_flags;
+ 	u32 mru;
++	u32 link_id;
+ };
+ 
+ /**
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
