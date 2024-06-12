@@ -1,36 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1061B10A0E;
-	Wed, 12 Jun 2024 04:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2E1134BC
+	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 04:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718166428; cv=none; b=g/VQgSCkXzZoBuDy74WGaDnS58lB5BO5dFnfZd53zCRNwCHN9mYS1TqhCklmb49IPOsM/vR/nLXSmzqPOqlXOT3qnlC0xq3ZbD0mt4zp39U/prhKbJL7v0wCt6yMVu/WEwCLfJ/wa9DxsBb6x+Tj/JLIQGPpoOH8nUZin0i50OM=
+	t=1718166802; cv=none; b=QBOYyAHWMM9PxEWQs4VSJDXc5yUfvEJ1AkfStcEBiylLsOU9e2NqNd9iFSWeq7cRVT//cp2vJd9fuy3RyGZpn1Qy0dPmDu7nFO8959cEZhCpYCIJVRD84b+M9bRPWAUyC4xWUevzJT/VE9WRNPNjWj3CUINteWcVFb4jst82I94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718166428; c=relaxed/simple;
-	bh=MBJunRKKZCYSzLIojD7Nl18fcwI5Ptviv8JR3p0uV4M=;
+	s=arc-20240116; t=1718166802; c=relaxed/simple;
+	bh=oKOMiTUMh2lH/esnQN6AZVJ8ULwr850HU8/bFBOc1G4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/v22icvk1I4brtT37Zc816A0p/tDsfExsImhRHDDhoMxpLic09NN0HzJ93PLwuZGFmrdbHhZ/dGhQkoPH92X3RgIoy/Bh2VtCSvHU0oQTYKsEjaOPZXEB2GCEIHxY6bsxCXsDte7kzJ/9CNp75P8ECpeFQejnYBKP0Os5CUe6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FFAC32786;
-	Wed, 12 Jun 2024 04:27:03 +0000 (UTC)
-Date: Wed, 12 Jun 2024 09:56:55 +0530
-From: "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1ajV1kBKfl6Cudrz6VZSHSH4h62FN0D1Eq0UbdzscIUSkGEW1HlsZCVfU/TC0ZMrWcIiJJx3S9Ggmh1N2fApI4VTx5oJ1IvL2fq/hnWOn9TYWV/gWUJfVfWxI/dhvcL+a8UAy1HHcwUuMyZSgBMvTAEp2XEDZF/chPN5vStwsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fYF7DB25; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fYF7DB25"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f6f1677b26so3989335ad.0
+        for <mhi@lists.linux.dev>; Tue, 11 Jun 2024 21:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718166800; x=1718771600; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lFT573xAr2xtznmal0QSwzPFRJXGMmZiiu4vvGuLRvE=;
+        b=fYF7DB25ouajpb8DPozE0OBjMQgv4e8SpA7VB3zD0SZXA1FSXEbN+lfOh0HLcgxsZP
+         NbrQ3rplS9m5CA7XkHpqfwIFYIqMh/yMnAY8NBUNSTjgN6TtysuqHqPYMw1bSXZA/drW
+         pYrvCpFnYetsxl+gONTrSRqMyST1GLsmej30PGndY8fTQMRpNPQZCh4wYsnOSuUlviNA
+         Elhe2/+mSU+bZHYkdB4DH4hvP17xXN+jddQsZFVmnkQn+t+shz1RV/Uuv3Zu9V8DGce6
+         Hs20lAryuUvo4WC7DwCPeAKn1Dpsop+iwrTVf3PBBCxYC0EOkqaxse8xDv6VtLAuQYK4
+         QEGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718166800; x=1718771600;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lFT573xAr2xtznmal0QSwzPFRJXGMmZiiu4vvGuLRvE=;
+        b=LPI5rf9gUqkiwjT2+M4RuWJ/t3VvruyRMDgyjnJsngHUuZxxrYh7uDFVAgv1MGWkpa
+         10zhe+X2SXRJdUfkt5Ya9TlOaHoVuGqaAfhANAQIauDFRYgCTamQ4rq+/OTwnNfnJRYB
+         AayzZAQF/rL2gce6c3rufBHFucqf8M3HzIIhqoB96H4dV/LlLPpVC4orVUtl76SsINO4
+         1rBIXru399jiCQI7ZptTHmWgBoFGqscqkci64qr3oXx1DcF6XWg+wfrBI9EUof0CXs3+
+         AajHLlMSH2hVGd8V0n/8r7zmqDN9Jtzgp0vPGsa4MTyIyxXb0Ybf8lTbtVtow9kvwoBx
+         33Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZfrahIEhMSZnELPzhjhWcyRwDLKxqqtbKPei5fjgUmd8tCvoHCNMlZK9k4sLoquGpEvMp9GFD90bSoE+9bIREwpHh
+X-Gm-Message-State: AOJu0Yx+6J/6ZGK7wgDWY+qXBzAEC1dMyQq6DjU/2zSHio6v0Uf6Nro4
+	HTORh0hu+BllGLPFMfnK+zCaF2PZ7Ds2jFilfTW+vy6vrSOIe8GDpfaAXiX10A==
+X-Google-Smtp-Source: AGHT+IGjgzQJMzZ2YsUlBKZq5nu9pQSdHRAY35QBtjOBYDL5ZoL+j3Fi8tpi16/g1dFdclnegZjxZQ==
+X-Received: by 2002:a17:902:6f08:b0:1f6:e338:2a6 with SMTP id d9443c01a7336-1f83b19c24bmr9564885ad.23.1718166800089;
+        Tue, 11 Jun 2024 21:33:20 -0700 (PDT)
+Received: from thinkpad ([120.60.129.29])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ee4ad6a5sm76284795ad.151.2024.06.11.21.33.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 21:33:19 -0700 (PDT)
+Date: Wed, 12 Jun 2024 10:03:14 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Slark Xiao <slark_xiao@163.com>
-Cc: Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Loic Poulain <loic.poulain@linaro.org>, quic_jhugo@quicinc.com,
-	Qiang Yu <quic_qianyu@quicinc.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
-Subject: Re: Re: [PATCH v1 2/2] net: wwan: Fix SDX72 ping failure issue
-Message-ID: <20240612042655.GA2645@thinkpad>
-References: <20240607100309.453122-1-slark_xiao@163.com>
- <30d71968-d32d-4121-b221-d95a4cdfedb8@gmail.com>
- <97a4347.18d5.19004f07932.Coremail.slark_xiao@163.com>
- <c292fcdc-4e5b-4e6a-9317-e293e2b6b74e@gmail.com>
- <320ba7ec.38c9.1900a687ddc.Coremail.slark_xiao@163.com>
+Cc: loic.poulain@linaro.org, quic_qianyu@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] bus: mhi: host: Import link_id item
+Message-ID: <20240612043314.GB2645@thinkpad>
+References: <20240607100114.452979-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -40,107 +69,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <320ba7ec.38c9.1900a687ddc.Coremail.slark_xiao@163.com>
+In-Reply-To: <20240607100114.452979-1-slark_xiao@163.com>
 
-On Wed, Jun 12, 2024 at 11:05:38AM +0800, Slark Xiao wrote:
-> 
-> At 2024-06-12 06:46:33, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
-> >On 11.06.2024 04:36, Slark Xiao wrote:
-> >> +More maintainer to this second patch list.
-> >> 
-> >> At 2024-06-08 06:28:48, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
-> >>> Hello Slark,
-> >>>
-> >>> without the first patch it is close to impossible to understand this
-> >>> one. Next time please send such tightly connected patches to both
-> >>> mailing lists.
-> >>>
-> >> Sorry for this mistake since it's my first commit about committing code to 2
-> >> difference area: mhi and mbim. Both the maintainers are difference.
-> >> In case a new version commit would be created, I would like to ask if
-> >> should I add both side maintainers on these 2 patches ?
-> >
-> >No worries. We finally got both sides of the puzzle. BTW, looks like the 
-> >first patch still lacks Linux netdev mailing list in the CC.
-> >
-> >Usually maintainers are responsible for applying patches to their 
-> >dedicated repositories (trees), and then eventually for sending them in 
-> >batch to the main tree. So, if a work consists of two patches, it is 
-> >better to apply them together to one of the trees. Otherwise, it can 
-> >cause a build failure in one tree due to lack of required changes that 
-> >have been applied to other. Sometimes contributors even specify a 
-> >preferred tree in a cover letter. However, it is still up to maintainers 
-> >to make a decision which tree is better when a work changes several 
-> >subsystems.
-> >
-> 
-> Thanks for your detailed explanation. 
-> Since this change was modified mainly on mhi side, I prefer to commit it to
->  mhi side. 
-> @loic @mani, what's your opinion?
+On Fri, Jun 07, 2024 at 06:01:14PM +0800, Slark Xiao wrote:
+> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+> This would lead to device can't ping outside successfully.
+> Also MBIM side would report "bad packet session (112)".
+> So we add a link id default value for SDX72.
 > 
 
-There is a build dependency with the MHI patch. So I'll just take both patches
-through MHI tree once I get an ACK from WWAN maintainers.
+link_id is WWAN specific. But what you are passing is essentially 'mux_id', so
+just use the actual name.
 
-> >>> On 07.06.2024 13:03, Slark Xiao wrote:
-> >>>> For SDX72 MBIM device, it starts data mux id from 112 instead of 0.
-> >>>> This would lead to device can't ping outside successfully.
-> >>>> Also MBIM side would report "bad packet session (112)".
-> >>>> So we add a link id default value for these SDX72 products which
-> >>>> works in MBIM mode.
-> >>>>
-> >>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> >>>
-> >>> Since it a but fix, it needs a 'Fixes:' tag.
-> >>>
-> >> Actually, I thought it's a fix for common SDX72 product. But now I think
-> >> it should be only meet for my SDX72 MBIM product. Previous commit
-> >> has not been applied. So there is no commit id for "Fixes".
-> >> But I think I shall include that patch in V2 version.
-> >> Please ref:
-> >> https://lore.kernel.org/lkml/20240520070633.308913-1-slark_xiao@163.com/
-> >
-> >There are nothing to fix yet. Great. Then you can resend the Foxconn 
-> >SDX72 introduction work as a series that also includes these mux id 
-> >changes. Just rename this specific patch to something less terrifying. 
-> >Mean, remove the "Fix" word from the subject, please.
-> >
-> >Looks like "net: wwan: mhi: make default data link id configurable" 
-> >subject also summarize the reason of the change.
-> >
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 3 +++
+>  include/linux/mhi.h                | 1 +
+>  2 files changed, 4 insertions(+)
 > 
-> Currently I don't know if my previous commit which has been reviewed still
-> be effective. Since this link_id changes only works for MBIM mode of SDX72.
-> If keeps the commit of [1], then I will update this patch with v2 version which just update
-> the subject . If not, then this SDX72 series would have 3 patches: [1] + first patch
-> + second patch[v2](or 2 patches: combine [1] with first patch + second patch[v2]).
-> Please let me know which solution would be better.
-> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 0b483c7c76a1..1f9de2730766 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
+>  	unsigned int dma_data_width;
+>  	unsigned int mru_default;
+>  	bool sideband_wake;
+> +	unsigned int link_default;
+>  };
+>  
+>  #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+> @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+>  	.dma_data_width = 32,
+>  	.mru_default = 32768,
+>  	.sideband_wake = false,
+> +	.link_default = 112,
 
-Just send v2 of both patches. There are some comments in the MHI patch as well.
+Just use 'mux_id' here also.
 
-> Thanks.
-> >>>> ---
-> >>>>    drivers/net/wwan/mhi_wwan_mbim.c | 3 ++-
-> >>>>    1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan_mbim.c
-> >>>> index 3f72ae943b29..4ca5c845394b 100644
-> >>>> --- a/drivers/net/wwan/mhi_wwan_mbim.c
-> >>>> +++ b/drivers/net/wwan/mhi_wwan_mbim.c
-> >>>> @@ -618,7 +618,8 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
-> >>>>    	mbim->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
-> >>>>    
-> >>>>    	/* Register wwan link ops with MHI controller representing WWAN instance */
-> >>>> -	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, 0);
-> >>>> +	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim,
-> >>>> +		mhi_dev->mhi_cntrl->link_id ? mhi_dev->mhi_cntrl->link_id : 0);
-> >>>
-> >>> Is it possible to drop the ternary operator and pass the link_id directly?
-> >>>
+>  };
+>  
+>  static const struct mhi_channel_config mhi_mv3x_channels[] = {
+> @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+>  	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+>  	mhi_cntrl->mru = info->mru_default;
+> +	mhi_cntrl->link_id = info->link_default;
+>  
+>  	if (info->edl_trigger)
+>  		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index b573f15762f8..4da10b99c96e 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -445,6 +445,7 @@ struct mhi_controller {
+>  	bool wake_set;
+>  	unsigned long irq_flags;
+>  	u32 mru;
+> +	u32 link_id;
 
-Yeah, just use link_id directly as it will be 0 by default.
+Add kdoc comment.
 
 - Mani
 
