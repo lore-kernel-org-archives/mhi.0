@@ -1,142 +1,131 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4843017F360
-	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 14:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E66757C8D;
+	Wed, 12 Jun 2024 18:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203921; cv=none; b=KXRphoAcU77pVENXG1PhyRfxqOHsLbqcSlNOjIDH+gSg4FtP/uIb37v22J/J9fnSW3lf6CiHE8hFLlUqcnf4C9ypFcn5c6EIh5mdvxStLyUlGEEc4zpmMN+f5wogxBkttDYT51GVWQXcW6w90zdHuEfdL3PBIUKsaxeXOUpNlDA=
+	t=1718217074; cv=none; b=r2bhK0xl0STKEdLf07GqJJQz04c9SopgDDvwC6wmmSiQ3hS/Rc3PKZX8kVffe/ODnT1LVHNe2hvMn3GnIOXiCv+6RZyc0N5npv4MinK2rx+3kKW8aC3mJbhv5kxvB2CtZVByWQJDmmcFH1pIWNkdGZBHaCGaPOotpomLKfJidS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203921; c=relaxed/simple;
-	bh=AeqMoyy136EGDb0dzZP8XtwJcrC4ZlwbNxyV6GvQdiE=;
+	s=arc-20240116; t=1718217074; c=relaxed/simple;
+	bh=6zChqabg+jrjms+BmIotaOqJm9mHGdH7DbrkmgDnhkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IT+LtJV3vht19hUBSftIUd978t7qTx23U/olLCOVDy4oGKUr2k4+A4V/RzBwOzfkJ24lYwA/G5gGOSTbOk1LLUJeP/aE8UMunCOKwM+IT8JtfgUTX7jRxUpnN54e6veFOTjp5ZH1GVjRmMM5BdrjlwPimRridC+4IC5Ce7fjivo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bgl86Ykc; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=c4Eb6g9WcLLZv0iifQlh9iYb7dUABMVA78am5SRKAh7XDqIXbGOUwuiz/H+jEd++ouXF0HO0S9v4lId+ICvB18kvp9H6yUxNAW8JuqKwWFZ/5jYuMa/3wXsKuFt+O8Zc1htX6mJ0TC/o0x7pEeUy5WqjfvOZYovDbM8VMpJGVLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8ii8SpZ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bgl86Ykc"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7046e87e9afso1983236b3a.0
-        for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 07:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718203918; x=1718808718; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pdm0MxlnE9mvGLW6dM72J7+DWmReIl//Ic2Mk/zy3V0=;
-        b=Bgl86Ykc+cc3ICr6R2YFZ2toP8xnDqYNKY+RTztckMg2cQVXzqWsbO8Z30SxO3Vz4/
-         ipYHAFfXs4PBjCBYgsNQ3T432gXsSwiEPYeYMTPWG+VHqRPjaqEohLttNesApUWqO9+3
-         rr/ki+jX2Bk2RHSawzSUbZMCuGjyr1pR0vsd8t2+c7++ollHUOhQeQ9910hQQOXq6CZQ
-         86i0GoTppWCRBpy2z8GzoO/Ec5Qa/Qsg5O52+SkECzu/926cD5+K5eROoRZtebshA6SL
-         lHn8/mpi2kca28aes5EFF/LqCAT3lv/l7rujwAzhdrk1HjpEdepTamApxaUyDAJgZpjx
-         kkOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718203918; x=1718808718;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pdm0MxlnE9mvGLW6dM72J7+DWmReIl//Ic2Mk/zy3V0=;
-        b=f2yvCAh1Oog6tpS56Fe3xo2Gsga7BV9yQRE+rq1MFRcIot9DXtHzTK/hrlEtzu2c1L
-         Nws80ButgvScN4tidu53JUka8V89f2vBIa7aQy5nIVeAuzNgwzkKoFVmsgxRYOl5KRI0
-         yWTbZlRv5w9iZS1+koBiOFb86WKWWtSFTk3Xvziyi32bSqxHhwEFqb9uXmMid14Yoyg2
-         ImUj2FMkHOm7hvsTAfasUlkNakkO6olmJIsqmcB+PlBV8oUGm4t1O+MpPyinTR6zGfTS
-         reBR5b4KBPCbufgaGqXpqqPOvM+O7KZitb/BioALlagvnxDXOUyD3ba00oPIW2fUhiX1
-         dcjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdn/p0MmwmjdKQMH1bYGdyi8aFD8AqlhEFhEuJVkNhvOjxhilFFgvkkGrsf3QBlJZwHHAbMFTTQZv6Kw6kQDnBZYot
-X-Gm-Message-State: AOJu0YxeMcdIPxELC8hKLc9f0cdo+6dOqvNzokkWpZ4bBhztzY+MZkpI
-	svNXCtP8AXUPE8jqW+jtq3BB2X1bb3mE5LvlhgNxBDndWkd+f5IDNkBf26xDnw==
-X-Google-Smtp-Source: AGHT+IEEszIpfWjt+j2J+ofzaMw29P0ZLiOqhilxxHJLGEkXkLRKQGtaaf54uh3t5ga5appr/f9iEw==
-X-Received: by 2002:a05:6a20:430f:b0:1b7:d050:93e5 with SMTP id adf61e73a8af0-1b8a9b4de5bmr2487914637.15.1718203918415;
-        Wed, 12 Jun 2024 07:51:58 -0700 (PDT)
-Received: from thinkpad ([120.60.129.29])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4a76ab1c8sm1863792a91.52.2024.06.12.07.51.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 07:51:58 -0700 (PDT)
-Date: Wed, 12 Jun 2024 20:21:47 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: Slark Xiao <slark_xiao@163.com>, loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
-	netdev@vger.kernel.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8ii8SpZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718217072; x=1749753072;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6zChqabg+jrjms+BmIotaOqJm9mHGdH7DbrkmgDnhkA=;
+  b=F8ii8SpZ+1CFkNvxHxEpzJ3/ElBnkzdQ75bNnEAqIwDaBA76BX8VZeym
+   ZW3B0PVTW4ia72Mj4WbvsIpgnM9n/SxU1Pm04qIGvVtWYIsr7OSll4QyG
+   c/b5spcc5QKBhxwi1XqWz7OLLyDYVvN/h6UQhR7wnv1p7ekQjmJvZrzQY
+   jZScObl/Yg1dnHvy1o83SdMnNoBtWP1aRcf7wWmfIHKagb/dQ/VG6Cn0D
+   XfbnhiTQ5gvjxX/D1yl1Ol/FNxbi/4FXNTbxaYbnQoxOjSOBPE0n1q5Le
+   jt5wy41VchgzbbbwbbdeMsskpX654VwGj9+1kS5RQzTEwvOwd06utiVpf
+   Q==;
+X-CSE-ConnectionGUID: 6LobXF+TQ4+XIVXmZBXHLA==
+X-CSE-MsgGUID: pL1auVbXR0W0R9Ss+mwv/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14802778"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="14802778"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 11:31:12 -0700
+X-CSE-ConnectionGUID: 3Rbjk7C7QFGkdQjv3VdJmw==
+X-CSE-MsgGUID: w7BvMGymTKGvtmdm7uyvTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="40352179"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Jun 2024 11:31:09 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHSkU-0001os-1R;
+	Wed, 12 Jun 2024 18:31:06 +0000
+Date: Thu, 13 Jun 2024 02:30:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Slark Xiao <slark_xiao@163.com>, manivannan.sadhasivam@linaro.org,
+	loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net, quic_jhugo@quicinc.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Slark Xiao <slark_xiao@163.com>
 Subject: Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
-Message-ID: <20240612145147.GB58302@thinkpad>
+Message-ID: <202406130220.gq15Sjzk-lkp@intel.com>
 References: <20240612093842.359805-1-slark_xiao@163.com>
- <20240612094609.GA58302@thinkpad>
- <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
+In-Reply-To: <20240612093842.359805-1-slark_xiao@163.com>
 
-On Wed, Jun 12, 2024 at 08:19:13AM -0600, Jeffrey Hugo wrote:
-> On 6/12/2024 3:46 AM, Manivannan Sadhasivam wrote:
-> > On Wed, Jun 12, 2024 at 05:38:42PM +0800, Slark Xiao wrote:
-> > 
-> > Subject could be improved:
-> > 
-> > bus: mhi: host: Add configurable mux_id for MBIM mode
-> > 
-> > > For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
-> > > This would lead to device can't ping outside successfully.
-> > > Also MBIM side would report "bad packet session (112)".
-> > > So we add a default mux_id value for SDX72. And this value
-> > > would be transferred to wwan mbim side.
-> > > 
-> > > Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> > > ---
-> > >   drivers/bus/mhi/host/pci_generic.c | 3 +++
-> > >   include/linux/mhi.h                | 2 ++
-> > >   2 files changed, 5 insertions(+)
-> > > 
-> > > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> > > index 0b483c7c76a1..9e9adf8320d2 100644
-> > > --- a/drivers/bus/mhi/host/pci_generic.c
-> > > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > > @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
-> > >   	unsigned int dma_data_width;
-> > >   	unsigned int mru_default;
-> > >   	bool sideband_wake;
-> > > +	unsigned int mux_id;
-> > >   };
-> > >   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
-> > > @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
-> > >   	.dma_data_width = 32,
-> > >   	.mru_default = 32768,
-> > >   	.sideband_wake = false,
-> > > +	.mux_id = 112,
-> > >   };
-> > >   static const struct mhi_channel_config mhi_mv3x_channels[] = {
-> > > @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> > >   	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
-> > >   	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
-> > >   	mhi_cntrl->mru = info->mru_default;
-> > > +	mhi_cntrl->link_id = info->mux_id;
-> > 
-> > Again, 'link_id' is just a WWAN term. Use 'mux_id' here also.
-> 
-> Does this really belong in MHI?  If this was DT, I don't think we would put
-> this value in DT, but rather have the driver (MBIM) detect the device and
-> code in the required value.
-> 
+Hi Slark,
 
-I believe this is a modem value rather than MHI. But I was OK with keeping it in
-MHI driver since we kind of keep modem specific config.
+kernel test robot noticed the following build warnings:
 
-But if WWAN can detect the device and apply the config, I'm all over it.
+[auto build test WARNING on mani-mhi/mhi-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240612]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-- Mani
+url:    https://github.com/intel-lab-lkp/linux/commits/Slark-Xiao/net-wwan-mhi-make-default-data-link-id-configurable/20240612-174242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+patch link:    https://lore.kernel.org/r/20240612093842.359805-1-slark_xiao%40163.com
+patch subject: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240613/202406130220.gq15Sjzk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130220.gq15Sjzk-lkp@intel.com/reproduce)
 
-> Furthermore, if this is included in MHI, it seems to be a property of the
-> channel, and not the controller.
-> 
-> -Jeff
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406130220.gq15Sjzk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/bus/mhi/host/pci_generic.c:57: warning: Function parameter or struct member 'mux_id' not described in 'mhi_pci_dev_info'
+
+
+vim +57 drivers/bus/mhi/host/pci_generic.c
+
+48f98496b1de132f drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  32  
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  33  /**
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  34   * struct mhi_pci_dev_info - MHI PCI device specific information
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  35   * @config: MHI controller configuration
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  36   * @name: name of the PCI module
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  37   * @fw: firmware path (if any)
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  38   * @edl: emergency download mode firmware path (if any)
+48f98496b1de132f drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  39   * @edl_trigger: capable of triggering EDL mode in the device (if supported)
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  40   * @bar_num: PCI base address register to use for MHI MMIO register space
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  41   * @dma_data_width: DMA transfer word size (32 or 64 bits)
+5c2c85315948c42c drivers/bus/mhi/pci_generic.c      Richard Laing 2021-07-15  42   * @mru_default: default MRU size for MBIM network packets
+56f6f4c4eb2a710e drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  43   * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+56f6f4c4eb2a710e drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  44   *		   of inband wake support (such as sdx24)
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  45   */
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  46  struct mhi_pci_dev_info {
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  47  	const struct mhi_controller_config *config;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  48  	const char *name;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  49  	const char *fw;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  50  	const char *edl;
+48f98496b1de132f drivers/bus/mhi/host/pci_generic.c Qiang Yu      2024-04-24  51  	bool edl_trigger;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  52  	unsigned int bar_num;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  53  	unsigned int dma_data_width;
+5c2c85315948c42c drivers/bus/mhi/pci_generic.c      Richard Laing 2021-07-15  54  	unsigned int mru_default;
+56f6f4c4eb2a710e drivers/bus/mhi/pci_generic.c      Bhaumik Bhatt 2021-07-16  55  	bool sideband_wake;
+2b153f167f41516b drivers/bus/mhi/host/pci_generic.c Slark Xiao    2024-06-12  56  	unsigned int mux_id;
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21 @57  };
+855a70c12021bdc5 drivers/bus/mhi/pci_generic.c      Loic Poulain  2020-10-21  58  
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
