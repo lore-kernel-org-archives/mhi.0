@@ -1,137 +1,148 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51930182AF
-	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 03:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1061B10A0E;
+	Wed, 12 Jun 2024 04:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718161577; cv=none; b=D6Yy+YFvelLKG3lSzJDRmUFVO3qJ4u1kn9Kh7yYJLa+crbVFeKSHpCboqceHp0q4cAaUUhhsDJvs6AvWUfu8a5PnHFQIG8pFAy/bgQoRNcWXYsirehTPMidF1po5aAFtytP2O/SaCEIPb3AJSoRxH5x3ZaTWHErepznTWW4JBN0=
+	t=1718166428; cv=none; b=g/VQgSCkXzZoBuDy74WGaDnS58lB5BO5dFnfZd53zCRNwCHN9mYS1TqhCklmb49IPOsM/vR/nLXSmzqPOqlXOT3qnlC0xq3ZbD0mt4zp39U/prhKbJL7v0wCt6yMVu/WEwCLfJ/wa9DxsBb6x+Tj/JLIQGPpoOH8nUZin0i50OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718161577; c=relaxed/simple;
-	bh=+ctwHilzsepjKZ1sUUMB0cpG3p2QV3xK1hOQnQBgAdk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=adjQkOTYcvb371zQlErVxZ6kT+PdgC5g/AzL3YsK8utgq6BuUCwjc3H9lwyqkg07mOwDZW66wnEKDVDhlQWsZWjTnZ3r2Rg07QCU4/LutIukoWMU6LSVKzi59pKlypmrYWGq4+5WFJGBdWFKJupbwDlNQOt1ykfiaRAs/P/stBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=X8poSioc reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="X8poSioc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=jEJJhb2OCVdkrKmlNWZ/Xdy7wOT5PME9awKqsmwRDw4=; b=X
-	8poSiocNMuEp9+oc2c9KB70weJ5FyWmLfXpOqi897OkM3GD6nt5INasD8F+8KzJR
-	1ipxR5Iv1EJSXGNN1vFjRc7zWO6uXwAKnrYGjI1jk768VDuxkNE+qa8C3Ao22Ci3
-	dA/PPDDbfKLWd2tSITox4Hoaat/dVv8EXS8UE99VI0=
-Received: from slark_xiao$163.com ( [112.97.57.186] ) by
- ajax-webmail-wmsvr-40-131 (Coremail) ; Wed, 12 Jun 2024 11:05:38 +0800
- (CST)
-Date: Wed, 12 Jun 2024 11:05:38 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>, 
-	"Manivannan Sadhasivam" <mani@kernel.org>, 
-	"manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>, 
-	"Loic Poulain" <loic.poulain@linaro.org>
-Cc: quic_jhugo@quicinc.com, "Qiang Yu" <quic_qianyu@quicinc.com>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"mhi@lists.linux.dev" <mhi@lists.linux.dev>, 
+	s=arc-20240116; t=1718166428; c=relaxed/simple;
+	bh=MBJunRKKZCYSzLIojD7Nl18fcwI5Ptviv8JR3p0uV4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/v22icvk1I4brtT37Zc816A0p/tDsfExsImhRHDDhoMxpLic09NN0HzJ93PLwuZGFmrdbHhZ/dGhQkoPH92X3RgIoy/Bh2VtCSvHU0oQTYKsEjaOPZXEB2GCEIHxY6bsxCXsDte7kzJ/9CNp75P8ECpeFQejnYBKP0Os5CUe6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FFAC32786;
+	Wed, 12 Jun 2024 04:27:03 +0000 (UTC)
+Date: Wed, 12 Jun 2024 09:56:55 +0530
+From: "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Loic Poulain <loic.poulain@linaro.org>, quic_jhugo@quicinc.com,
+	Qiang Yu <quic_qianyu@quicinc.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
 	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
-Subject: Re:Re: [PATCH v1 2/2] net: wwan: Fix SDX72 ping failure issue
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <c292fcdc-4e5b-4e6a-9317-e293e2b6b74e@gmail.com>
+Subject: Re: Re: [PATCH v1 2/2] net: wwan: Fix SDX72 ping failure issue
+Message-ID: <20240612042655.GA2645@thinkpad>
 References: <20240607100309.453122-1-slark_xiao@163.com>
  <30d71968-d32d-4121-b221-d95a4cdfedb8@gmail.com>
  <97a4347.18d5.19004f07932.Coremail.slark_xiao@163.com>
  <c292fcdc-4e5b-4e6a-9317-e293e2b6b74e@gmail.com>
-X-NTES-SC: AL_Qu2aCv2dvk0o7iWZYekfmk8Sg+84W8K3v/0v1YVQOpF8jA/o9iACQHlnHHDUz/6yNiOQnDyzVhpP0898TKtfWr8Lkx8TjBtiq6VOCoY4ykLH6Q==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+ <320ba7ec.38c9.1900a687ddc.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <320ba7ec.38c9.1900a687ddc.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3v+yCEGlmcS80AA--.351W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRw-6ZGV4Juc3SQAJs9
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <320ba7ec.38c9.1900a687ddc.Coremail.slark_xiao@163.com>
 
-CkF0IDIwMjQtMDYtMTIgMDY6NDY6MzMsICJTZXJnZXkgUnlhemFub3YiIDxyeWF6YW5vdi5zLmFA
-Z21haWwuY29tPiB3cm90ZToKPk9uIDExLjA2LjIwMjQgMDQ6MzYsIFNsYXJrIFhpYW8gd3JvdGU6
-Cj4+ICtNb3JlIG1haW50YWluZXIgdG8gdGhpcyBzZWNvbmQgcGF0Y2ggbGlzdC4KPj4gCj4+IEF0
-IDIwMjQtMDYtMDggMDY6Mjg6NDgsICJTZXJnZXkgUnlhemFub3YiIDxyeWF6YW5vdi5zLmFAZ21h
-aWwuY29tPiB3cm90ZToKPj4+IEhlbGxvIFNsYXJrLAo+Pj4KPj4+IHdpdGhvdXQgdGhlIGZpcnN0
-IHBhdGNoIGl0IGlzIGNsb3NlIHRvIGltcG9zc2libGUgdG8gdW5kZXJzdGFuZCB0aGlzCj4+PiBv
-bmUuIE5leHQgdGltZSBwbGVhc2Ugc2VuZCBzdWNoIHRpZ2h0bHkgY29ubmVjdGVkIHBhdGNoZXMg
-dG8gYm90aAo+Pj4gbWFpbGluZyBsaXN0cy4KPj4+Cj4+IFNvcnJ5IGZvciB0aGlzIG1pc3Rha2Ug
-c2luY2UgaXQncyBteSBmaXJzdCBjb21taXQgYWJvdXQgY29tbWl0dGluZyBjb2RlIHRvIDIKPj4g
-ZGlmZmVyZW5jZSBhcmVhOiBtaGkgYW5kIG1iaW0uIEJvdGggdGhlIG1haW50YWluZXJzIGFyZSBk
-aWZmZXJlbmNlLgo+PiBJbiBjYXNlIGEgbmV3IHZlcnNpb24gY29tbWl0IHdvdWxkIGJlIGNyZWF0
-ZWQsIEkgd291bGQgbGlrZSB0byBhc2sgaWYKPj4gc2hvdWxkIEkgYWRkIGJvdGggc2lkZSBtYWlu
-dGFpbmVycyBvbiB0aGVzZSAyIHBhdGNoZXMgPwo+Cj5ObyB3b3JyaWVzLiBXZSBmaW5hbGx5IGdv
-dCBib3RoIHNpZGVzIG9mIHRoZSBwdXp6bGUuIEJUVywgbG9va3MgbGlrZSB0aGUgCj5maXJzdCBw
-YXRjaCBzdGlsbCBsYWNrcyBMaW51eCBuZXRkZXYgbWFpbGluZyBsaXN0IGluIHRoZSBDQy4KPgo+
-VXN1YWxseSBtYWludGFpbmVycyBhcmUgcmVzcG9uc2libGUgZm9yIGFwcGx5aW5nIHBhdGNoZXMg
-dG8gdGhlaXIgCj5kZWRpY2F0ZWQgcmVwb3NpdG9yaWVzICh0cmVlcyksIGFuZCB0aGVuIGV2ZW50
-dWFsbHkgZm9yIHNlbmRpbmcgdGhlbSBpbiAKPmJhdGNoIHRvIHRoZSBtYWluIHRyZWUuIFNvLCBp
-ZiBhIHdvcmsgY29uc2lzdHMgb2YgdHdvIHBhdGNoZXMsIGl0IGlzIAo+YmV0dGVyIHRvIGFwcGx5
-IHRoZW0gdG9nZXRoZXIgdG8gb25lIG9mIHRoZSB0cmVlcy4gT3RoZXJ3aXNlLCBpdCBjYW4gCj5j
-YXVzZSBhIGJ1aWxkIGZhaWx1cmUgaW4gb25lIHRyZWUgZHVlIHRvIGxhY2sgb2YgcmVxdWlyZWQg
-Y2hhbmdlcyB0aGF0IAo+aGF2ZSBiZWVuIGFwcGxpZWQgdG8gb3RoZXIuIFNvbWV0aW1lcyBjb250
-cmlidXRvcnMgZXZlbiBzcGVjaWZ5IGEgCj5wcmVmZXJyZWQgdHJlZSBpbiBhIGNvdmVyIGxldHRl
-ci4gSG93ZXZlciwgaXQgaXMgc3RpbGwgdXAgdG8gbWFpbnRhaW5lcnMgCj50byBtYWtlIGEgZGVj
-aXNpb24gd2hpY2ggdHJlZSBpcyBiZXR0ZXIgd2hlbiBhIHdvcmsgY2hhbmdlcyBzZXZlcmFsIAo+
-c3Vic3lzdGVtcy4KPgoKVGhhbmtzIGZvciB5b3VyIGRldGFpbGVkIGV4cGxhbmF0aW9uLiAKU2lu
-Y2UgdGhpcyBjaGFuZ2Ugd2FzIG1vZGlmaWVkIG1haW5seSBvbiBtaGkgc2lkZSwgSSBwcmVmZXIg
-dG8gY29tbWl0IGl0IHRvCiBtaGkgc2lkZS4gCkBsb2ljIEBtYW5pLCB3aGF0J3MgeW91ciBvcGlu
-aW9uPwoKPj4+IE9uIDA3LjA2LjIwMjQgMTM6MDMsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+Pj4gRm9y
-IFNEWDcyIE1CSU0gZGV2aWNlLCBpdCBzdGFydHMgZGF0YSBtdXggaWQgZnJvbSAxMTIgaW5zdGVh
-ZCBvZiAwLgo+Pj4+IFRoaXMgd291bGQgbGVhZCB0byBkZXZpY2UgY2FuJ3QgcGluZyBvdXRzaWRl
-IHN1Y2Nlc3NmdWxseS4KPj4+PiBBbHNvIE1CSU0gc2lkZSB3b3VsZCByZXBvcnQgImJhZCBwYWNr
-ZXQgc2Vzc2lvbiAoMTEyKSIuCj4+Pj4gU28gd2UgYWRkIGEgbGluayBpZCBkZWZhdWx0IHZhbHVl
-IGZvciB0aGVzZSBTRFg3MiBwcm9kdWN0cyB3aGljaAo+Pj4+IHdvcmtzIGluIE1CSU0gbW9kZS4K
-Pj4+Pgo+Pj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4K
-Pj4+Cj4+PiBTaW5jZSBpdCBhIGJ1dCBmaXgsIGl0IG5lZWRzIGEgJ0ZpeGVzOicgdGFnLgo+Pj4K
-Pj4gQWN0dWFsbHksIEkgdGhvdWdodCBpdCdzIGEgZml4IGZvciBjb21tb24gU0RYNzIgcHJvZHVj
-dC4gQnV0IG5vdyBJIHRoaW5rCj4+IGl0IHNob3VsZCBiZSBvbmx5IG1lZXQgZm9yIG15IFNEWDcy
-IE1CSU0gcHJvZHVjdC4gUHJldmlvdXMgY29tbWl0Cj4+IGhhcyBub3QgYmVlbiBhcHBsaWVkLiBT
-byB0aGVyZSBpcyBubyBjb21taXQgaWQgZm9yICJGaXhlcyIuCj4+IEJ1dCBJIHRoaW5rIEkgc2hh
-bGwgaW5jbHVkZSB0aGF0IHBhdGNoIGluIFYyIHZlcnNpb24uCj4+IFBsZWFzZSByZWY6Cj4+IGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyNDA1MjAwNzA2MzMuMzA4OTEzLTEtc2xhcmtf
-eGlhb0AxNjMuY29tLwo+Cj5UaGVyZSBhcmUgbm90aGluZyB0byBmaXggeWV0LiBHcmVhdC4gVGhl
-biB5b3UgY2FuIHJlc2VuZCB0aGUgRm94Y29ubiAKPlNEWDcyIGludHJvZHVjdGlvbiB3b3JrIGFz
-IGEgc2VyaWVzIHRoYXQgYWxzbyBpbmNsdWRlcyB0aGVzZSBtdXggaWQgCj5jaGFuZ2VzLiBKdXN0
-IHJlbmFtZSB0aGlzIHNwZWNpZmljIHBhdGNoIHRvIHNvbWV0aGluZyBsZXNzIHRlcnJpZnlpbmcu
-IAo+TWVhbiwgcmVtb3ZlIHRoZSAiRml4IiB3b3JkIGZyb20gdGhlIHN1YmplY3QsIHBsZWFzZS4K
-Pgo+TG9va3MgbGlrZSAibmV0OiB3d2FuOiBtaGk6IG1ha2UgZGVmYXVsdCBkYXRhIGxpbmsgaWQg
-Y29uZmlndXJhYmxlIiAKPnN1YmplY3QgYWxzbyBzdW1tYXJpemUgdGhlIHJlYXNvbiBvZiB0aGUg
-Y2hhbmdlLgo+CgpDdXJyZW50bHkgSSBkb24ndCBrbm93IGlmIG15IHByZXZpb3VzIGNvbW1pdCB3
-aGljaCBoYXMgYmVlbiByZXZpZXdlZCBzdGlsbApiZSBlZmZlY3RpdmUuIFNpbmNlIHRoaXMgbGlu
-a19pZCBjaGFuZ2VzIG9ubHkgd29ya3MgZm9yIE1CSU0gbW9kZSBvZiBTRFg3Mi4KSWYga2VlcHMg
-dGhlIGNvbW1pdCBvZiBbMV0sIHRoZW4gSSB3aWxsIHVwZGF0ZSB0aGlzIHBhdGNoIHdpdGggdjIg
-dmVyc2lvbiB3aGljaCBqdXN0IHVwZGF0ZQp0aGUgc3ViamVjdCAuIElmIG5vdCwgdGhlbiB0aGlz
-IFNEWDcyIHNlcmllcyB3b3VsZCBoYXZlIDMgcGF0Y2hlczogWzFdICsgZmlyc3QgcGF0Y2gKKyBz
-ZWNvbmQgcGF0Y2hbdjJdKG9yIDIgcGF0Y2hlczogY29tYmluZSBbMV0gd2l0aCBmaXJzdCBwYXRj
-aCArIHNlY29uZCBwYXRjaFt2Ml0pLgpQbGVhc2UgbGV0IG1lIGtub3cgd2hpY2ggc29sdXRpb24g
-d291bGQgYmUgYmV0dGVyLgoKVGhhbmtzLgo+Pj4+IC0tLQo+Pj4+ICAgIGRyaXZlcnMvbmV0L3d3
-YW4vbWhpX3d3YW5fbWJpbS5jIHwgMyArKy0KPj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNl
-cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9u
-ZXQvd3dhbi9taGlfd3dhbl9tYmltLmMgYi9kcml2ZXJzL25ldC93d2FuL21oaV93d2FuX21iaW0u
-Ywo+Pj4+IGluZGV4IDNmNzJhZTk0M2IyOS4uNGNhNWM4NDUzOTRiIDEwMDY0NAo+Pj4+IC0tLSBh
-L2RyaXZlcnMvbmV0L3d3YW4vbWhpX3d3YW5fbWJpbS5jCj4+Pj4gKysrIGIvZHJpdmVycy9uZXQv
-d3dhbi9taGlfd3dhbl9tYmltLmMKPj4+PiBAQCAtNjE4LDcgKzYxOCw4IEBAIHN0YXRpYyBpbnQg
-bWhpX21iaW1fcHJvYmUoc3RydWN0IG1oaV9kZXZpY2UgKm1oaV9kZXYsIGNvbnN0IHN0cnVjdCBt
-aGlfZGV2aWNlX2lkCj4+Pj4gICAgCW1iaW0tPnJ4X3F1ZXVlX3N6ID0gbWhpX2dldF9mcmVlX2Rl
-c2NfY291bnQobWhpX2RldiwgRE1BX0ZST01fREVWSUNFKTsKPj4+PiAgICAKPj4+PiAgICAJLyog
-UmVnaXN0ZXIgd3dhbiBsaW5rIG9wcyB3aXRoIE1ISSBjb250cm9sbGVyIHJlcHJlc2VudGluZyBX
-V0FOIGluc3RhbmNlICovCj4+Pj4gLQlyZXR1cm4gd3dhbl9yZWdpc3Rlcl9vcHMoJmNudHJsLT5t
-aGlfZGV2LT5kZXYsICZtaGlfbWJpbV93d2FuX29wcywgbWJpbSwgMCk7Cj4+Pj4gKwlyZXR1cm4g
-d3dhbl9yZWdpc3Rlcl9vcHMoJmNudHJsLT5taGlfZGV2LT5kZXYsICZtaGlfbWJpbV93d2FuX29w
-cywgbWJpbSwKPj4+PiArCQltaGlfZGV2LT5taGlfY250cmwtPmxpbmtfaWQgPyBtaGlfZGV2LT5t
-aGlfY250cmwtPmxpbmtfaWQgOiAwKTsKPj4+Cj4+PiBJcyBpdCBwb3NzaWJsZSB0byBkcm9wIHRo
-ZSB0ZXJuYXJ5IG9wZXJhdG9yIGFuZCBwYXNzIHRoZSBsaW5rX2lkIGRpcmVjdGx5Pwo+Pj4KPj4+
-PiAgICB9Cj4+Pj4gICAgCj4+Pj4gICAgc3RhdGljIHZvaWQgbWhpX21iaW1fcmVtb3ZlKHN0cnVj
-dCBtaGlfZGV2aWNlICptaGlfZGV2KQo+Cj4tLQo+U2VyZ2V5ClsxXSAtIGh0dHBzOi8vbG9yZS5r
-ZXJuZWwub3JnL2xrbWwvMjAyNDA1MjAwNzA2MzMuMzA4OTEzLTEtc2xhcmtfeGlhb0AxNjMuY29t
-Lwo=
+On Wed, Jun 12, 2024 at 11:05:38AM +0800, Slark Xiao wrote:
+> 
+> At 2024-06-12 06:46:33, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
+> >On 11.06.2024 04:36, Slark Xiao wrote:
+> >> +More maintainer to this second patch list.
+> >> 
+> >> At 2024-06-08 06:28:48, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
+> >>> Hello Slark,
+> >>>
+> >>> without the first patch it is close to impossible to understand this
+> >>> one. Next time please send such tightly connected patches to both
+> >>> mailing lists.
+> >>>
+> >> Sorry for this mistake since it's my first commit about committing code to 2
+> >> difference area: mhi and mbim. Both the maintainers are difference.
+> >> In case a new version commit would be created, I would like to ask if
+> >> should I add both side maintainers on these 2 patches ?
+> >
+> >No worries. We finally got both sides of the puzzle. BTW, looks like the 
+> >first patch still lacks Linux netdev mailing list in the CC.
+> >
+> >Usually maintainers are responsible for applying patches to their 
+> >dedicated repositories (trees), and then eventually for sending them in 
+> >batch to the main tree. So, if a work consists of two patches, it is 
+> >better to apply them together to one of the trees. Otherwise, it can 
+> >cause a build failure in one tree due to lack of required changes that 
+> >have been applied to other. Sometimes contributors even specify a 
+> >preferred tree in a cover letter. However, it is still up to maintainers 
+> >to make a decision which tree is better when a work changes several 
+> >subsystems.
+> >
+> 
+> Thanks for your detailed explanation. 
+> Since this change was modified mainly on mhi side, I prefer to commit it to
+>  mhi side. 
+> @loic @mani, what's your opinion?
+> 
+
+There is a build dependency with the MHI patch. So I'll just take both patches
+through MHI tree once I get an ACK from WWAN maintainers.
+
+> >>> On 07.06.2024 13:03, Slark Xiao wrote:
+> >>>> For SDX72 MBIM device, it starts data mux id from 112 instead of 0.
+> >>>> This would lead to device can't ping outside successfully.
+> >>>> Also MBIM side would report "bad packet session (112)".
+> >>>> So we add a link id default value for these SDX72 products which
+> >>>> works in MBIM mode.
+> >>>>
+> >>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >>>
+> >>> Since it a but fix, it needs a 'Fixes:' tag.
+> >>>
+> >> Actually, I thought it's a fix for common SDX72 product. But now I think
+> >> it should be only meet for my SDX72 MBIM product. Previous commit
+> >> has not been applied. So there is no commit id for "Fixes".
+> >> But I think I shall include that patch in V2 version.
+> >> Please ref:
+> >> https://lore.kernel.org/lkml/20240520070633.308913-1-slark_xiao@163.com/
+> >
+> >There are nothing to fix yet. Great. Then you can resend the Foxconn 
+> >SDX72 introduction work as a series that also includes these mux id 
+> >changes. Just rename this specific patch to something less terrifying. 
+> >Mean, remove the "Fix" word from the subject, please.
+> >
+> >Looks like "net: wwan: mhi: make default data link id configurable" 
+> >subject also summarize the reason of the change.
+> >
+> 
+> Currently I don't know if my previous commit which has been reviewed still
+> be effective. Since this link_id changes only works for MBIM mode of SDX72.
+> If keeps the commit of [1], then I will update this patch with v2 version which just update
+> the subject . If not, then this SDX72 series would have 3 patches: [1] + first patch
+> + second patch[v2](or 2 patches: combine [1] with first patch + second patch[v2]).
+> Please let me know which solution would be better.
+> 
+
+Just send v2 of both patches. There are some comments in the MHI patch as well.
+
+> Thanks.
+> >>>> ---
+> >>>>    drivers/net/wwan/mhi_wwan_mbim.c | 3 ++-
+> >>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan_mbim.c
+> >>>> index 3f72ae943b29..4ca5c845394b 100644
+> >>>> --- a/drivers/net/wwan/mhi_wwan_mbim.c
+> >>>> +++ b/drivers/net/wwan/mhi_wwan_mbim.c
+> >>>> @@ -618,7 +618,8 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
+> >>>>    	mbim->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
+> >>>>    
+> >>>>    	/* Register wwan link ops with MHI controller representing WWAN instance */
+> >>>> -	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, 0);
+> >>>> +	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim,
+> >>>> +		mhi_dev->mhi_cntrl->link_id ? mhi_dev->mhi_cntrl->link_id : 0);
+> >>>
+> >>> Is it possible to drop the ternary operator and pass the link_id directly?
+> >>>
+
+Yeah, just use link_id directly as it will be 0 by default.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
