@@ -1,95 +1,138 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02DB3145FE9
-	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 10:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89ED169ACA
+	for <mhi@lists.linux.dev>; Wed, 12 Jun 2024 14:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718187577; cv=none; b=uL3pmEVGspoTMhfrN+T0xeCgqmaM9f5ZwMsf1ue+xsh+MMe7goJJqcpDxBubLJR4LCTvQRnZTW/x6GYqa15kRx8YDK8QBnIZjmJPj9oDkx8q6T/AYfyBcopAV0mU3e9JfmHX3sCNNoYxT7LO6SR41lu1EhhkluJI6SIeBIO5gwE=
+	t=1718201964; cv=none; b=tzPrjv8PqBa3kEeNe9ppAb4HlGhnczZ+JiBk+lQCk7wLulfBPLyQWlzGr5rX4QTikLdJ8xT+SqzHRaQ0H8MUC4AS1btjwJKtYZ+ntCsTpIHUzAbzU7GgdgLDsuS/kVDAcyRDI9evpZmNAwnxtzGddYTyt/b2IWswnhYIv52LjT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718187577; c=relaxed/simple;
-	bh=B0hP15R6Jl3ptMCUkoYa9BaYaQfmxH/f1q1mXMxVXqk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Yz7/XkMQqaMi/T6ye4Msce8TClldHBbXDl2/cImIUJ6aUClm7w5/DTTWsVKqXFlZy/Zz9Eur0KCtYgbYhh66Oy8AzCTxE/qSYWa4Zv22eu70TvVkgcCfwIgFTbpfXShIfnYiYXKj1662auplcti+b44sdcb/Z+NpNQY6EjRfgMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=n5DlUksY reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1718201964; c=relaxed/simple;
+	bh=m/1UUdkM/F8U6/9ty+rzPaHzO2Qrr8eAVhVF50RZiYU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kyNftQuItxLv76srNF+2SLd87wCwJ/X1XeAKps9Zwae8uGjsf/Om0pDHgIBDPmh1WhtXRw/1uvHgCBPY+XuCpMKN7dsEA186pr98uKAfwydO6oiAJiVZKFWfPFSsg/yqv7oa6+SpS/fJ4SbD0tY71NdZq5UzbQcJ9biln75xLtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=arUpZQm8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="n5DlUksY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=duIBgIDUPF5CPcPPjuQN/iPqeJI6MUsldASWGbg0cp4=; b=n
-	5DlUksYNKhpr8NyL0mz6sM1tZyFKH/cN3Fe0qbEBVCH1XpbPI0ovTlfrCy4Zn3e+
-	+da6sHEkODQo0jEBW7TuO3ho83DzYi6wTSnoAlWRu3tvH3+i0lEaYcYC9tlLQXRY
-	mpQJpwp2/5vl4ueu1/vLXbkUNMabIOg4yiaObaNXK4=
-Received: from slark_xiao$163.com ( [112.97.57.186] ) by
- ajax-webmail-wmsvr-40-149 (Coremail) ; Wed, 12 Jun 2024 18:19:07 +0800
- (CST)
-Date: Wed, 12 Jun 2024 18:19:07 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
-Cc: loic.poulain@linaro.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net, 
-	quic_jhugo@quicinc.com, netdev@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240612094609.GA58302@thinkpad>
-References: <20240612093842.359805-1-slark_xiao@163.com>
- <20240612094609.GA58302@thinkpad>
-X-NTES-SC: AL_Qu2aCv2TuE0v4SefYekfmk8Sg+84W8K3v/0v1YVQOpF8jCLr2i0Ae2JeB2vv28GgBweVgAWKSTVB1ORidJJbYbMNPZbOFBNYqIHYzG5FBQsNKg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="arUpZQm8"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CCqoJF018660;
+	Wed, 12 Jun 2024 14:19:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	AOiiCfqxJl3ela2rnUbIDu7M7Owloxg8mRgKwY4S0uQ=; b=arUpZQm84guwoexo
+	NTu8/KVpViP1bOn3Vyk7UNGdIoOTbtC5OKjcayqy5zNOWm19urQmMW/2ZThU4G0y
+	Srafme9lY5ZbxcELo3fGITxGZnAgLuet5NE8sfXdQ7r5idwGjjgrOmxEb8x4RCvS
+	MaMjRo0ItA0cE5Et13X8uGSspd54TwlgcA/U+dvIfEdREpKleoN26iMAPbnup8O/
+	A2+VlTZUwdHcMZPdB03eQMPsXQku499Tcxp5vvu5KY6fYzimix8rZLKGqqieTSUP
+	kFfPUziq5BqELhp8049u+JpbopygwvK8FuwZ5XAvJzWgV4wQ2Rm5LNgqw/Zq+Ad1
+	MT7rzA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yq4s8hc4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 14:19:15 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CEJENw031149
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 14:19:14 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 07:19:14 -0700
+Message-ID: <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
+Date: Wed, 12 Jun 2024 08:19:13 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <62661484.af58.1900bf55c85.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3n90bdmlmW6d9AA--.805W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRxf7ZGV4JvIMKAADsh
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Slark Xiao
+	<slark_xiao@163.com>
+CC: <loic.poulain@linaro.org>, <ryazanov.s.a@gmail.com>,
+        <johannes@sipsolutions.net>, <netdev@vger.kernel.org>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240612093842.359805-1-slark_xiao@163.com>
+ <20240612094609.GA58302@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240612094609.GA58302@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: u8DihMomhUAk3P4xj0tSZnqG-fwtbN7y
+X-Proofpoint-ORIG-GUID: u8DihMomhUAk3P4xj0tSZnqG-fwtbN7y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_08,2024-06-12_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ spamscore=0 mlxscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1011 mlxlogscore=999 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406120102
 
-CkF0IDIwMjQtMDYtMTIgMTc6NDY6MDksICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pdmFu
-bmFuLnNhZGhhc2l2YW1AbGluYXJvLm9yZz4gd3JvdGU6Cj5PbiBXZWQsIEp1biAxMiwgMjAyNCBh
-dCAwNTozODo0MlBNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+Cj5TdWJqZWN0IGNvdWxkIGJl
-IGltcHJvdmVkOgo+Cj5idXM6IG1oaTogaG9zdDogQWRkIGNvbmZpZ3VyYWJsZSBtdXhfaWQgZm9y
-IE1CSU0gbW9kZQo+CgpXb3VsZCBiZSB1cGRhdGVkIGluIHYzIHZlcnNpb24uCgo+PiBGb3IgU0RY
-NzIgTUJJTSBtb2RlLCBpdCBzdGFydHMgZGF0YSBtdXggaWQgZnJvbSAxMTIgaW5zdGVhZCBvZiAw
-Lgo+PiBUaGlzIHdvdWxkIGxlYWQgdG8gZGV2aWNlIGNhbid0IHBpbmcgb3V0c2lkZSBzdWNjZXNz
-ZnVsbHkuCj4+IEFsc28gTUJJTSBzaWRlIHdvdWxkIHJlcG9ydCAiYmFkIHBhY2tldCBzZXNzaW9u
-ICgxMTIpIi4KPj4gU28gd2UgYWRkIGEgZGVmYXVsdCBtdXhfaWQgdmFsdWUgZm9yIFNEWDcyLiBB
-bmQgdGhpcyB2YWx1ZQo+PiB3b3VsZCBiZSB0cmFuc2ZlcnJlZCB0byB3d2FuIG1iaW0gc2lkZS4K
-Pj4gCj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4g
-LS0tCj4+ICBkcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgMyArKysKPj4gIGlu
-Y2x1ZGUvbGludXgvbWhpLmggICAgICAgICAgICAgICAgfCAyICsrCj4+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDUgaW5zZXJ0aW9ucygrKQo+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9o
-b3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+
-IGluZGV4IDBiNDgzYzdjNzZhMS4uOWU5YWRmODMyMGQyIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJz
-L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0
-L3BjaV9nZW5lcmljLmMKPj4gQEAgLTUzLDYgKzUzLDcgQEAgc3RydWN0IG1oaV9wY2lfZGV2X2lu
-Zm8gewo+PiAgCXVuc2lnbmVkIGludCBkbWFfZGF0YV93aWR0aDsKPj4gIAl1bnNpZ25lZCBpbnQg
-bXJ1X2RlZmF1bHQ7Cj4+ICAJYm9vbCBzaWRlYmFuZF93YWtlOwo+PiArCXVuc2lnbmVkIGludCBt
-dXhfaWQ7Cj4+ICB9Owo+PiAgCj4+ICAjZGVmaW5lIE1ISV9DSEFOTkVMX0NPTkZJR19VTChjaF9u
-dW0sIGNoX25hbWUsIGVsX2NvdW50LCBldl9yaW5nKSBcCj4+IEBAIC00NjksNiArNDcwLDcgQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3NkeDcyX2lu
-Zm8gPSB7Cj4+ICAJLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+ICAJLm1ydV9kZWZhdWx0ID0gMzI3
-NjgsCj4+ICAJLnNpZGViYW5kX3dha2UgPSBmYWxzZSwKPj4gKwkubXV4X2lkID0gMTEyLAo+PiAg
-fTsKPj4gIAo+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9jb25maWcgbWhpX212
-M3hfY2hhbm5lbHNbXSA9IHsKPj4gQEAgLTEwMzUsNiArMTAzNyw3IEBAIHN0YXRpYyBpbnQgbWhp
-X3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2Vf
-aWQgKmlkKQo+PiAgCW1oaV9jbnRybC0+cnVudGltZV9nZXQgPSBtaGlfcGNpX3J1bnRpbWVfZ2V0
-Owo+PiAgCW1oaV9jbnRybC0+cnVudGltZV9wdXQgPSBtaGlfcGNpX3J1bnRpbWVfcHV0Owo+PiAg
-CW1oaV9jbnRybC0+bXJ1ID0gaW5mby0+bXJ1X2RlZmF1bHQ7Cj4+ICsJbWhpX2NudHJsLT5saW5r
-X2lkID0gaW5mby0+bXV4X2lkOwo+Cj5BZ2FpbiwgJ2xpbmtfaWQnIGlzIGp1c3QgYSBXV0FOIHRl
-cm0uIFVzZSAnbXV4X2lkJyBoZXJlIGFsc28uCj4KPi0gTWFuaQoKSSBoYXZlIHVwZGF0ZWQgdGhl
-IGl0ZW0gbmFtZSBpbiBtaGkgc2lkZSBidXQga2VwdCBpbiB3d2FuIHNpZGUuIFRoZSB2YWx1ZSAK
-Im1oaV9jbnRybC0+bGlua19pZCIgd291bGQgYmUgY2FsbGVkIGluIGZ1bmN0aW9uIG1oaV9tYmlt
-X3Byb2JlKCkgb2YgCm1oaV93d2FuX21iaW0uYy4gQWNjb3JkaW5nIHRoZSBkZXNjcmlwdGlvbiBv
-ZiBsYXN0IHBhcmFtZXRlciBvZiBmdW5jdGlvbiAKJ3d3YW5fcmVnaXN0ZXJfb3BzKCknIGluIG1o
-aV9tYmltX3Byb2JlKCkgOgoKKiBAZGVmX2xpbmtfaWQ6IGlkIG9mIGRlZmF1bHQgbGluayB0aGF0
-IHdpbGwgYmUgYXV0b21hdGljYWxseSBjcmVhdGVkIGJ5CiogICAgIHRoZSBXV0FOIGNvcmUgZm9y
-IHRoZSBXV0FOIGRldmljZS4KClNvIGFyZSB5b3Ugc3VyZSB3ZSBzaGFsbCB1c2UgbXV4X2lkIGlu
-IHd3YW4gc2lkZT8gUGxlYXNlIGhlbHAgcmVjb25maXJtIGl0LgoKVGhhbmtzIQo+Cj4tLSAKPuCu
-ruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40K
+On 6/12/2024 3:46 AM, Manivannan Sadhasivam wrote:
+> On Wed, Jun 12, 2024 at 05:38:42PM +0800, Slark Xiao wrote:
+> 
+> Subject could be improved:
+> 
+> bus: mhi: host: Add configurable mux_id for MBIM mode
+> 
+>> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+>> This would lead to device can't ping outside successfully.
+>> Also MBIM side would report "bad packet session (112)".
+>> So we add a default mux_id value for SDX72. And this value
+>> would be transferred to wwan mbim side.
+>>
+>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+>> ---
+>>   drivers/bus/mhi/host/pci_generic.c | 3 +++
+>>   include/linux/mhi.h                | 2 ++
+>>   2 files changed, 5 insertions(+)
+>>
+>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>> index 0b483c7c76a1..9e9adf8320d2 100644
+>> --- a/drivers/bus/mhi/host/pci_generic.c
+>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>> @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
+>>   	unsigned int dma_data_width;
+>>   	unsigned int mru_default;
+>>   	bool sideband_wake;
+>> +	unsigned int mux_id;
+>>   };
+>>   
+>>   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+>> @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+>>   	.dma_data_width = 32,
+>>   	.mru_default = 32768,
+>>   	.sideband_wake = false,
+>> +	.mux_id = 112,
+>>   };
+>>   
+>>   static const struct mhi_channel_config mhi_mv3x_channels[] = {
+>> @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>   	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+>>   	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+>>   	mhi_cntrl->mru = info->mru_default;
+>> +	mhi_cntrl->link_id = info->mux_id;
+> 
+> Again, 'link_id' is just a WWAN term. Use 'mux_id' here also.
+
+Does this really belong in MHI?  If this was DT, I don't think we would 
+put this value in DT, but rather have the driver (MBIM) detect the 
+device and code in the required value.
+
+Furthermore, if this is included in MHI, it seems to be a property of 
+the channel, and not the controller.
+
+-Jeff
