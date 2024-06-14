@@ -1,135 +1,168 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634D4192B6E
-	for <mhi@lists.linux.dev>; Fri, 14 Jun 2024 10:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B16719D8B7
+	for <mhi@lists.linux.dev>; Fri, 14 Jun 2024 14:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718360265; cv=none; b=e4LkmoKwC2HVyqv56F2x9lBPhJEGuXs5UlhaQJSn95Jx4dh2erUoEMFq8vYCvUVjwx/+e2u6UQxnuX7xpCx5YD4NQfON45xLTFKT5RJ4glq+VrfAZjCfvBj715QWD2WlZsdWdy8GMANkKcZhSW+PWs8ghw8aunKapYZKiutum6w=
+	t=1718375477; cv=none; b=SY5omiRRnSlRJItaQTLep9q9LRH/dTVUqwtTDizIOy/xFj3ZltU88iPW6kSRBMQ8KMma9njrKBbanVIVsHvsdaLXFt6xQmSLreV9Ox+E4CaULedjBT9zI6NYDbAE05ZSHP89hi3xM0frAaUd7haU8BeK3UmW/zpc5V5T7SsRuwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718360265; c=relaxed/simple;
-	bh=wSEX76SS6fr4CDgB3qB9MkXvsfcJcUf7uUd5yTj+ct4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AN19kP9WjfEEBbZWCDpWlyabYasMm3XgY2bwHZL9RLkRvdEG1uD9/xC5Maze+V7glhRiG9hLRGwsE7rRTh5Qmz/p/9xdm8z6WlZJylVQ0AugmUp0q3EI57nr49IsUcFlPthQhAYAICEIs4mfIzvdRAO2IETbW5cc6s6AlbvRk2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jCO1IsIO; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718375477; c=relaxed/simple;
+	bh=H5Yy/sxdwgIuX8tRfVn5eMnCQ3Elk6flBf23hdxKehg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Oj65n2IlnzjcQhBiw1/N1V1WLFZkp3bGyvB9t4THnr5ZGvJODgNNZiiHF1WaJ4NUuNs4qD+0KYF09z5DTSfIyS51MTqtUCGSn+fCm1nvfCxfGG5uIhw1rFA29vSHUFCKv+8DKiaWi/+vdk9JQvmK8TpEXGQ8ljsypWrQby6mlNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NTj3WqvQ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jCO1IsIO"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5b9a35a0901so707994eaf.0
-        for <mhi@lists.linux.dev>; Fri, 14 Jun 2024 03:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718360263; x=1718965063; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=w/H/2d9XdF3obF+3FNTmlJL8KCsBJeWugy5QKBKiwJA=;
-        b=jCO1IsIONc84M87Y+yL3lYj8n1F4cEHyuCKC1/JywztyoT8EU6XXJJldLw0UnMBabT
-         Ve26qoKRxadZpgMeRBibfUcwMkJIUtVgBhjaA9DErlnssWtRZorwZE16JFaSDmvHxGp3
-         1cDOGEdBJv+hoEdHLtT11JFRDJcgU6+0+EHiFOzySvJjUq8JFYuNti64mB0TA/Jr3HJ4
-         RQXJi58qIOYrF3dO+k//jtxWzZOBZRkY+9MCQVFBfkmfOhVjSQzQOeRAOF7WlQLWjUC/
-         kQ/BnUgkU5FeKbcf+PS3J6D8tM1+9QpPd5hdy3Xl7rqatu/oSsp1lrtofQCCyJSOVlYX
-         kUEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718360263; x=1718965063;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w/H/2d9XdF3obF+3FNTmlJL8KCsBJeWugy5QKBKiwJA=;
-        b=s2oJalJOvLqifh9iZk+95bOiOyC3txC0InNAOOEZOrWblyHkfyAJeC+4sC4y00KaHw
-         qkiGZe85UsA2KA/dWa/2QD2Y5l3zTLLRD6rmJXGW7UEY8pNOj7XezC1hXlBwEhZe47Hi
-         OQiP6YSktvd6Ra1A3r3ic20ruE8SW6z6IfKT2x/geGCAeLaLqN0wjUwQht/mw0y51gd9
-         Ur2N3X2/7eL6+Xs0ArzSTm6LTf+lcBwDTt67V8ZqJbZLyBZobL8L1sskmWXZLtWVJDT2
-         C++0iZ6QpsLATDihSKlHOJjsv1fKO251yNaxcIEHszyvIC+BFg7H3mO+SFDswvWoYcI6
-         +CvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqaEpnEaL0q7xWj08eHCZniRkqCU5ZgdTe6Y/o2oti0ENihr9/PrOsfYDuNTF+zXAnEe9uBnqyTnqDCzCFP/PTwpul
-X-Gm-Message-State: AOJu0Yyf820owHMep7Klo0xNK3w+06+NDvlLaSdDKlAWgaKmkmzC1Jfr
-	RJTdiT/M5q2vLIOamWZG4E914XBbzU8B65KcN2fTEuoZ4FFRLykSHgAT9mm9CvkBYhYZ7d2Fv0+
-	qJ1jhFfUDJ85RADdK3KJqi0Nf/h/T/E8em946rw==
-X-Google-Smtp-Source: AGHT+IGjZ+65LUQrBnv8lhF18GcfEKIQ5gp2Oitdnmye2HNUG8xMl8axcOZl5cgC1rBHopBtEPP+rSZngRbKTncQV48=
-X-Received: by 2002:a05:6820:22a0:b0:5ba:e995:3f00 with SMTP id
- 006d021491bc7-5bdadbb6681mr2135431eaf.1.1718360263117; Fri, 14 Jun 2024
- 03:17:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NTj3WqvQ"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45E9GYAg004651;
+	Fri, 14 Jun 2024 14:31:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PmEScxo8p+jswVM+m3Pf0pxK0QWrkpyXHZXyuUSc9qQ=; b=NTj3WqvQk4Z8c2Mz
+	jQF2KEJtDN1iC9Waft6qYGiKp8KzqMEuOYNohR/AMQJSGko2a9CH1JkTDiEGj54q
+	COzrsJeNdacMyVu0zGBgQtsGkiQ/DwP5YR+C2nhphOCvYgSpwMb2D/x+mvQ7WUob
+	5jpLOe99RLvPSthL8kWa9W2DrugzIG/sVMCq85FQGE4oL6eaQb66+qJzgAKoElj9
+	Zq0kzvSqSarfevgBADU+HnOcN1N2eNW1zn/G9KOZCw0LCVlXjNzoYZTmQ93qwGUn
+	PE7ZjZuxzQtnZyEOzTkTDPreTN6ObL5ctie3d/sGtviyYE7yfzRwmGBZZHYuMZnj
+	Iso03g==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q4j1j7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Jun 2024 14:31:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45EEV5In008383
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Jun 2024 14:31:05 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Jun
+ 2024 07:31:04 -0700
+Message-ID: <c275ee49-ac59-058c-7482-c8a92338e7a2@quicinc.com>
+Date: Fri, 14 Jun 2024 08:31:03 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240612093842.359805-1-slark_xiao@163.com> <20240612094609.GA58302@thinkpad>
- <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com> <20240612145147.GB58302@thinkpad>
-In-Reply-To: <20240612145147.GB58302@thinkpad>
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Fri, 14 Jun 2024 12:17:06 +0200
-Message-ID: <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
 Subject: Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, Slark Xiao <slark_xiao@163.com>, ryazanov.s.a@gmail.com, 
-	johannes@sipsolutions.net, netdev@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+To: Loic Poulain <loic.poulain@linaro.org>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>
+CC: Slark Xiao <slark_xiao@163.com>, <ryazanov.s.a@gmail.com>,
+        <johannes@sipsolutions.net>, <netdev@vger.kernel.org>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20240612093842.359805-1-slark_xiao@163.com>
+ <20240612094609.GA58302@thinkpad>
+ <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
+ <20240612145147.GB58302@thinkpad>
+ <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: OcAp4mqsCNinlbDH_rQGfAU64AzKUZHb
+X-Proofpoint-GUID: OcAp4mqsCNinlbDH_rQGfAU64AzKUZHb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-14_12,2024-06-14_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ mlxlogscore=977 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406140096
 
-On Wed, 12 Jun 2024 at 16:51, Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
->
-> On Wed, Jun 12, 2024 at 08:19:13AM -0600, Jeffrey Hugo wrote:
-> > On 6/12/2024 3:46 AM, Manivannan Sadhasivam wrote:
-> > > On Wed, Jun 12, 2024 at 05:38:42PM +0800, Slark Xiao wrote:
-> > >
-> > > Subject could be improved:
-> > >
-> > > bus: mhi: host: Add configurable mux_id for MBIM mode
-> > >
-> > > > For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
-> > > > This would lead to device can't ping outside successfully.
-> > > > Also MBIM side would report "bad packet session (112)".
-> > > > So we add a default mux_id value for SDX72. And this value
-> > > > would be transferred to wwan mbim side.
-> > > >
-> > > > Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> > > > ---
-> > > >   drivers/bus/mhi/host/pci_generic.c | 3 +++
-> > > >   include/linux/mhi.h                | 2 ++
-> > > >   2 files changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> > > > index 0b483c7c76a1..9e9adf8320d2 100644
-> > > > --- a/drivers/bus/mhi/host/pci_generic.c
-> > > > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > > > @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
-> > > >           unsigned int dma_data_width;
-> > > >           unsigned int mru_default;
-> > > >           bool sideband_wake;
-> > > > + unsigned int mux_id;
-> > > >   };
-> > > >   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
-> > > > @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
-> > > >           .dma_data_width = 32,
-> > > >           .mru_default = 32768,
-> > > >           .sideband_wake = false,
-> > > > + .mux_id = 112,
-> > > >   };
-> > > >   static const struct mhi_channel_config mhi_mv3x_channels[] = {
-> > > > @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> > > >           mhi_cntrl->runtime_get = mhi_pci_runtime_get;
-> > > >           mhi_cntrl->runtime_put = mhi_pci_runtime_put;
-> > > >           mhi_cntrl->mru = info->mru_default;
-> > > > + mhi_cntrl->link_id = info->mux_id;
-> > >
-> > > Again, 'link_id' is just a WWAN term. Use 'mux_id' here also.
-> >
-> > Does this really belong in MHI?  If this was DT, I don't think we would put
-> > this value in DT, but rather have the driver (MBIM) detect the device and
-> > code in the required value.
-> >
->
-> I believe this is a modem value rather than MHI. But I was OK with keeping it in
-> MHI driver since we kind of keep modem specific config.
->
-> But if WWAN can detect the device and apply the config, I'm all over it.
+On 6/14/2024 4:17 AM, Loic Poulain wrote:
+> On Wed, 12 Jun 2024 at 16:51, Manivannan Sadhasivam
+> <manivannan.sadhasivam@linaro.org> wrote:
+>>
+>> On Wed, Jun 12, 2024 at 08:19:13AM -0600, Jeffrey Hugo wrote:
+>>> On 6/12/2024 3:46 AM, Manivannan Sadhasivam wrote:
+>>>> On Wed, Jun 12, 2024 at 05:38:42PM +0800, Slark Xiao wrote:
+>>>>
+>>>> Subject could be improved:
+>>>>
+>>>> bus: mhi: host: Add configurable mux_id for MBIM mode
+>>>>
+>>>>> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+>>>>> This would lead to device can't ping outside successfully.
+>>>>> Also MBIM side would report "bad packet session (112)".
+>>>>> So we add a default mux_id value for SDX72. And this value
+>>>>> would be transferred to wwan mbim side.
+>>>>>
+>>>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+>>>>> ---
+>>>>>    drivers/bus/mhi/host/pci_generic.c | 3 +++
+>>>>>    include/linux/mhi.h                | 2 ++
+>>>>>    2 files changed, 5 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>>>>> index 0b483c7c76a1..9e9adf8320d2 100644
+>>>>> --- a/drivers/bus/mhi/host/pci_generic.c
+>>>>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>>>>> @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
+>>>>>            unsigned int dma_data_width;
+>>>>>            unsigned int mru_default;
+>>>>>            bool sideband_wake;
+>>>>> + unsigned int mux_id;
+>>>>>    };
+>>>>>    #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+>>>>> @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
+>>>>>            .dma_data_width = 32,
+>>>>>            .mru_default = 32768,
+>>>>>            .sideband_wake = false,
+>>>>> + .mux_id = 112,
+>>>>>    };
+>>>>>    static const struct mhi_channel_config mhi_mv3x_channels[] = {
+>>>>> @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>>>>            mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+>>>>>            mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+>>>>>            mhi_cntrl->mru = info->mru_default;
+>>>>> + mhi_cntrl->link_id = info->mux_id;
+>>>>
+>>>> Again, 'link_id' is just a WWAN term. Use 'mux_id' here also.
+>>>
+>>> Does this really belong in MHI?  If this was DT, I don't think we would put
+>>> this value in DT, but rather have the driver (MBIM) detect the device and
+>>> code in the required value.
+>>>
+>>
+>> I believe this is a modem value rather than MHI. But I was OK with keeping it in
+>> MHI driver since we kind of keep modem specific config.
+>>
+>> But if WWAN can detect the device and apply the config, I'm all over it.
+> 
+> That would require at least some information from the MHI bus for the
+> MBIM driver
+> to make a decision, such as a generic device ID, or quirk flags...
 
-That would require at least some information from the MHI bus for the
-MBIM driver
-to make a decision, such as a generic device ID, or quirk flags...
+I don't see why.
 
-Regards,
-Loic
+The "simple" way to do it would be to have the controller define a 
+different channel name, and then have the MBIM driver probe on that. 
+The MBIM driver could attach driver data saying that it needs to have a 
+specific mux_id.
+
+Or, with zero MHI/Controller changes, the MBIM driver could parse the 
+mhi_device struct, get to the struct device, for the underlying device, 
+and extract the PCIe Device ID and match that to a white list of known 
+devices that need this property.
+
+I guess if the controller could attach a private void * to the 
+mhi_device that is opaque to MHI, but allows MBIM to make a decision, 
+that would be ok.  Such a mechanism would be generic, and extensible to 
+other usecases of the same "class".
+
+-Jeff
