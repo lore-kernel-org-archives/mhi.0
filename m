@@ -1,168 +1,110 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B16719D8B7
-	for <mhi@lists.linux.dev>; Fri, 14 Jun 2024 14:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F033207
+	for <mhi@lists.linux.dev>; Fri, 21 Jun 2024 03:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718375477; cv=none; b=SY5omiRRnSlRJItaQTLep9q9LRH/dTVUqwtTDizIOy/xFj3ZltU88iPW6kSRBMQ8KMma9njrKBbanVIVsHvsdaLXFt6xQmSLreV9Ox+E4CaULedjBT9zI6NYDbAE05ZSHP89hi3xM0frAaUd7haU8BeK3UmW/zpc5V5T7SsRuwM=
+	t=1718939461; cv=none; b=NJ/Yp7jYhYCRM45cj82xKqYHJruzCS+qM4vAGlUcaT9uBvTGb3YuxzzXrRJ+BajW9T0BBqA6IV6pYPIh3/fJORrq/BkkgKMCKSmbDV+RNhlOUV7XYTjBPfjM/eux6DLxy7jbq0xdSKHCXR8bPaLTRJSF2WtOJS8cmTHRCna7sYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718375477; c=relaxed/simple;
-	bh=H5Yy/sxdwgIuX8tRfVn5eMnCQ3Elk6flBf23hdxKehg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Oj65n2IlnzjcQhBiw1/N1V1WLFZkp3bGyvB9t4THnr5ZGvJODgNNZiiHF1WaJ4NUuNs4qD+0KYF09z5DTSfIyS51MTqtUCGSn+fCm1nvfCxfGG5uIhw1rFA29vSHUFCKv+8DKiaWi/+vdk9JQvmK8TpEXGQ8ljsypWrQby6mlNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NTj3WqvQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718939461; c=relaxed/simple;
+	bh=vMWTWeQ8yQS1mpLRBhYhJ7DiJfhYh9N2PlX1oHWDMOA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=q3JHKWFqJnMkYorWBdSPzaM3KFRxKTeWdvfu4yh97qOWhaQQyo1LtI+kjFCcnJQ7s2zlvde4S3LcgBKpctliw7UgTm/FnomHRm4nAmmQZjB34vpaIy5D7nWPPdNI5WGC46Ci06riOxomEqY90mXc1vo/658pNGdkvDRGyCNG+mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=nd6HCeTf reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NTj3WqvQ"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45E9GYAg004651;
-	Fri, 14 Jun 2024 14:31:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PmEScxo8p+jswVM+m3Pf0pxK0QWrkpyXHZXyuUSc9qQ=; b=NTj3WqvQk4Z8c2Mz
-	jQF2KEJtDN1iC9Waft6qYGiKp8KzqMEuOYNohR/AMQJSGko2a9CH1JkTDiEGj54q
-	COzrsJeNdacMyVu0zGBgQtsGkiQ/DwP5YR+C2nhphOCvYgSpwMb2D/x+mvQ7WUob
-	5jpLOe99RLvPSthL8kWa9W2DrugzIG/sVMCq85FQGE4oL6eaQb66+qJzgAKoElj9
-	Zq0kzvSqSarfevgBADU+HnOcN1N2eNW1zn/G9KOZCw0LCVlXjNzoYZTmQ93qwGUn
-	PE7ZjZuxzQtnZyEOzTkTDPreTN6ObL5ctie3d/sGtviyYE7yfzRwmGBZZHYuMZnj
-	Iso03g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q4j1j7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 14:31:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45EEV5In008383
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 14:31:05 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Jun
- 2024 07:31:04 -0700
-Message-ID: <c275ee49-ac59-058c-7482-c8a92338e7a2@quicinc.com>
-Date: Fri, 14 Jun 2024 08:31:03 -0600
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="nd6HCeTf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=Fo88QUrNuP7FNnqZTa22w81geRP5wEvUU2/XeQwG2es=; b=n
+	d6HCeTf6QiASWhaY0ImjRdDTGScSDlGz7xhjT/z1nJCz0tEFKHykXb6XArxtTkpz
+	iaWH2gOjWcIY3hr2NQD1HE+aGR+2nxRFZvfrtIRGjAhsK8in8acdx3fTTRwxvOoS
+	1PRDmJ4sOsoM436vXqjS6IRbbE3h0zeX40rSrWZa+k=
+Received: from slark_xiao$163.com ( [223.104.68.12] ) by
+ ajax-webmail-wmsvr-40-116 (Coremail) ; Fri, 21 Jun 2024 11:10:21 +0800
+ (CST)
+Date: Fri, 21 Jun 2024 11:10:21 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>
+Cc: manivannan.sadhasivam@linaro.org, loic.poulain@linaro.org, 
+	johannes@sipsolutions.net, quic_jhugo@quicinc.com, 
+	netdev@vger.kernel.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH v2 2/2] net: wwan: mhi: make default data link id
+ configurable
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <0b24c10f-1c20-4bd1-958b-dbf89cb28792@gmail.com>
+References: <20240612093941.359904-1-slark_xiao@163.com>
+ <0b24c10f-1c20-4bd1-958b-dbf89cb28792@gmail.com>
+X-NTES-SC: AL_Qu2aCvWYtkwp5ymcbekfmk0SheY6UMayv/4v1IZSPZ98jD3p3QcLX3NqG1LaysKhCzCnijG+azJw1u9ZWrBoQqwXkG7PRbh5R2RojK6tJeC24g==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
-Content-Language: en-US
-To: Loic Poulain <loic.poulain@linaro.org>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>
-CC: Slark Xiao <slark_xiao@163.com>, <ryazanov.s.a@gmail.com>,
-        <johannes@sipsolutions.net>, <netdev@vger.kernel.org>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20240612093842.359805-1-slark_xiao@163.com>
- <20240612094609.GA58302@thinkpad>
- <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
- <20240612145147.GB58302@thinkpad>
- <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: OcAp4mqsCNinlbDH_rQGfAU64AzKUZHb
-X-Proofpoint-GUID: OcAp4mqsCNinlbDH_rQGfAU64AzKUZHb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-14_12,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
- bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 phishscore=0
- mlxlogscore=977 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406140096
+Message-ID: <269323e2.35a6.19038c60d00.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3v9Ae73RmTI90AA--.7927W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQoFZGV4IM2ADQACsh
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On 6/14/2024 4:17 AM, Loic Poulain wrote:
-> On Wed, 12 Jun 2024 at 16:51, Manivannan Sadhasivam
-> <manivannan.sadhasivam@linaro.org> wrote:
->>
->> On Wed, Jun 12, 2024 at 08:19:13AM -0600, Jeffrey Hugo wrote:
->>> On 6/12/2024 3:46 AM, Manivannan Sadhasivam wrote:
->>>> On Wed, Jun 12, 2024 at 05:38:42PM +0800, Slark Xiao wrote:
->>>>
->>>> Subject could be improved:
->>>>
->>>> bus: mhi: host: Add configurable mux_id for MBIM mode
->>>>
->>>>> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
->>>>> This would lead to device can't ping outside successfully.
->>>>> Also MBIM side would report "bad packet session (112)".
->>>>> So we add a default mux_id value for SDX72. And this value
->>>>> would be transferred to wwan mbim side.
->>>>>
->>>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
->>>>> ---
->>>>>    drivers/bus/mhi/host/pci_generic.c | 3 +++
->>>>>    include/linux/mhi.h                | 2 ++
->>>>>    2 files changed, 5 insertions(+)
->>>>>
->>>>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
->>>>> index 0b483c7c76a1..9e9adf8320d2 100644
->>>>> --- a/drivers/bus/mhi/host/pci_generic.c
->>>>> +++ b/drivers/bus/mhi/host/pci_generic.c
->>>>> @@ -53,6 +53,7 @@ struct mhi_pci_dev_info {
->>>>>            unsigned int dma_data_width;
->>>>>            unsigned int mru_default;
->>>>>            bool sideband_wake;
->>>>> + unsigned int mux_id;
->>>>>    };
->>>>>    #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
->>>>> @@ -469,6 +470,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx72_info = {
->>>>>            .dma_data_width = 32,
->>>>>            .mru_default = 32768,
->>>>>            .sideband_wake = false,
->>>>> + .mux_id = 112,
->>>>>    };
->>>>>    static const struct mhi_channel_config mhi_mv3x_channels[] = {
->>>>> @@ -1035,6 +1037,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>>>>            mhi_cntrl->runtime_get = mhi_pci_runtime_get;
->>>>>            mhi_cntrl->runtime_put = mhi_pci_runtime_put;
->>>>>            mhi_cntrl->mru = info->mru_default;
->>>>> + mhi_cntrl->link_id = info->mux_id;
->>>>
->>>> Again, 'link_id' is just a WWAN term. Use 'mux_id' here also.
->>>
->>> Does this really belong in MHI?  If this was DT, I don't think we would put
->>> this value in DT, but rather have the driver (MBIM) detect the device and
->>> code in the required value.
->>>
->>
->> I believe this is a modem value rather than MHI. But I was OK with keeping it in
->> MHI driver since we kind of keep modem specific config.
->>
->> But if WWAN can detect the device and apply the config, I'm all over it.
-> 
-> That would require at least some information from the MHI bus for the
-> MBIM driver
-> to make a decision, such as a generic device ID, or quirk flags...
-
-I don't see why.
-
-The "simple" way to do it would be to have the controller define a 
-different channel name, and then have the MBIM driver probe on that. 
-The MBIM driver could attach driver data saying that it needs to have a 
-specific mux_id.
-
-Or, with zero MHI/Controller changes, the MBIM driver could parse the 
-mhi_device struct, get to the struct device, for the underlying device, 
-and extract the PCIe Device ID and match that to a white list of known 
-devices that need this property.
-
-I guess if the controller could attach a private void * to the 
-mhi_device that is opaque to MHI, but allows MBIM to make a decision, 
-that would be ok.  Such a mechanism would be generic, and extensible to 
-other usecases of the same "class".
-
--Jeff
+CgoKCgoKCgoKQXQgMjAyNC0wNi0xMyAwNTo1NDowMywgIlNlcmdleSBSeWF6YW5vdiIgPHJ5YXph
+bm92LnMuYUBnbWFpbC5jb20+IHdyb3RlOgo+SGVsbG8gU2xhcmssIE1hbml2YW5uYW4sCj4KPk9u
+IDEyLjA2LjIwMjQgMTI6MzksIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IEZvciBTRFg3MiBNQklNIGRl
+dmljZSwgaXQgc3RhcnRzIGRhdGEgbXV4IGlkIGZyb20gMTEyIGluc3RlYWQgb2YgMC4KPj4gVGhp
+cyB3b3VsZCBsZWFkIHRvIGRldmljZSBjYW4ndCBwaW5nIG91dHNpZGUgc3VjY2Vzc2Z1bGx5Lgo+
+PiBBbHNvIE1CSU0gc2lkZSB3b3VsZCByZXBvcnQgImJhZCBwYWNrZXQgc2Vzc2lvbiAoMTEyKSIu
+Cj4+IFNvIHdlIGFkZCBhIGxpbmsgaWQgZGVmYXVsdCB2YWx1ZSBmb3IgdGhlc2UgU0RYNzIgcHJv
+ZHVjdHMgd2hpY2gKPj4gd29ya3MgaW4gTUJJTSBtb2RlLgo+Cj5UaGUgcGF0Y2ggaXRzZWxmIGxv
+b2tzIGdvb2QgdG8gbWUgZXhjZXB0IGEgdGlueSBuaXRwaWNrIChzZWUgYmVsb3cpLiAKPk1lYW53
+aGlsZSwgSSBjYW4gbm90IHVuZGVyc3RhbmQgd2hlbiB3ZSBzaG91bGQgbWVyZ2UgaXQuIER1cmlu
+ZyB0aGUgVjEgCj5kaXNjdXNzaW9uLCBJdCB3YXMgbWVudGlvbmVkIHRoYXQgd2UgbmVlZCB0aGlz
+IGNoYW5nZSBzcGVjaWZpY2FsbHkgZm9yIAo+Rm94Y29ubiBTRFg3MiBtb2RlbS4gV2l0aG91dCBh
+bnkgYWN0dWFsIHVzZXJzIHRoZSBjb25maWd1cmFibGUgZGVmYXVsdCAKPmRhdGEgbGluayBpZCBp
+cyBhIGRlYWQgY29kZS4KPgo+QWNjb3JkaW5nIHRvIHRoZSBBUk0gTVNNIHBhdGNod29yayBbMV0s
+IHRoZSBtYWluIEZveGNvbm4gU0RYNzIgCj5pbnRyb2R1Y2luZyBwYXRjaCBpcyAoYSkgbm90IHll
+dCBtZXJnZWQsIChiKSBubyBtb3JlIGFwcGxpY2FibGUuIFNvLCBhcyAKPmZhciBhcyBJIHVuZGVy
+c3RhbmQsIGl0IHNob3VsZCBiZSByZXNlbmQuIEluIHRoaXMgY29udGV4dCwgYSBiZXN0IHdheSB0
+byAKPm1lcmdlIHRoZSBtb2RlbSBzdXBwb3J0IGlzIHRvIHByZXBlbmQgdGhlIG1vZGVtIGludHJv
+ZHVjdGlvbiBwYXRjaCB3aXRoIAo+dGhlc2UgY2hhbmdlcyBmb3JtaW5nIGEgc2VyaWVzOgo+MS8z
+OiBidXM6IG1oaTogaG9zdDogSW1wb3J0IG11eF9pZCBpdGVtCj4yLzM6IG5ldDogd3dhbjogbWhp
+OiBtYWtlIGRlZmF1bHQgZGF0YSBsaW5rIGlkIGNvbmZpZ3VyYWJsZQo+My8zOiBidXM6IG1oaTog
+aG9zdDogQWRkIEZveGNvbm4gU0RYNzIgcmVsYXRlZCBzdXBwb3J0Cj4KPkFuZCBtZXJnZSB0aGUg
+c2VyaWVzIGFzIHdob2xlLCB3aGVuIGV2ZXJ5dGhpbmcgd2lsbCBiZSByZWFkeS4gVGhpcyB3aWxs
+IAo+aGVscCB1cyB0byBhdm9pZCBwYXJ0aWFsbHkgbWVyZ2VkIHdvcmsgYW5kIHdpbGwga2VlcCB0
+aGUgbW9kZW0gc3VwcG9ydCAKPmludHJvZHVjdGlvbiBjbGVhci4KPgoKWWVzLCBjdXJyZW50bHkg
+dGhlc2UgMyBwYXRjaGVzIHdvdWxkIGJlIG1lcmdlZCBieSBNYW5pIGF0IHRoZSBzYW1lIHRpbWUu
+ClNvIEkgdGhpbmsgdGhlcmUgaXMgbm8gYnVpbGQgZmFpbHVyZSByaXNrLgoKPk1hbml2YW5uYW4s
+IGNvdWxkIHlvdSBzaGFyZSB0aGUgbWFpbiBbMV0gRm94Y29ubiBTRFg3MiBpbnRyb2R1Y3Rpb24g
+Cj5wYXRjaCBzdGF0dXMsIGFuZCB5b3VyIHRob3VnaHRzIHJlZ2FyZGluZyB0aGUgbWVyZ2luZyBw
+cm9jZXNzPwoKV2Ugd2VyZSBkaXNjdXNzaW5nIGFub3RoZXIgcGF0Y2ggaW4gbGFzdCB3ZWVrcy4g
+QW5kIHdlIHN0aWxsIGhhdmUgbm90CnJlYWNoZWQgYSBjb25zZW5zdXMuIExldCdzIGZvY3VzIG9u
+IHRoYXQgcGF0Y2ggZmlyc3RseS4KQW5kIE1hbmksIHBsZWFzZSBsZXQgdXMga25vdyBhYm91dCB0
+aGUgbWVyZ2luZyBwcm9jZXNzIHNpbmNlIHRoZSBuZXcKbWVyZ2Ugd2luZG93IGlzIG9wZW4gb3Ig
+d2lsbCBvcGVuIHNvb24/CgpUaGFua3MKPgo+Cj4xLiAKPmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5l
+bC5vcmcvcHJvamVjdC9saW51eC1hcm0tbXNtL3BhdGNoLzIwMjQwNTIwMDcwNjMzLjMwODkxMy0x
+LXNsYXJrX3hpYW9AMTYzLmNvbS8KPgo+PiBTaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFy
+a194aWFvQDE2My5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvbmV0L3d3YW4vbWhpX3d3YW5fbWJp
+bS5jIHwgMyArKy0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvd3dhbi9taGlfd3dhbl9tYmlt
+LmMgYi9kcml2ZXJzL25ldC93d2FuL21oaV93d2FuX21iaW0uYwo+PiBpbmRleCAzZjcyYWU5NDNi
+MjkuLmM3MzFmZTIwODE0ZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9uZXQvd3dhbi9taGlfd3dh
+bl9tYmltLmMKPj4gKysrIGIvZHJpdmVycy9uZXQvd3dhbi9taGlfd3dhbl9tYmltLmMKPj4gQEAg
+LTYxOCw3ICs2MTgsOCBAQCBzdGF0aWMgaW50IG1oaV9tYmltX3Byb2JlKHN0cnVjdCBtaGlfZGV2
+aWNlICptaGlfZGV2LCBjb25zdCBzdHJ1Y3QgbWhpX2RldmljZV9pZAo+PiAgIAltYmltLT5yeF9x
+dWV1ZV9zeiA9IG1oaV9nZXRfZnJlZV9kZXNjX2NvdW50KG1oaV9kZXYsIERNQV9GUk9NX0RFVklD
+RSk7Cj4+ICAgCj4+ICAgCS8qIFJlZ2lzdGVyIHd3YW4gbGluayBvcHMgd2l0aCBNSEkgY29udHJv
+bGxlciByZXByZXNlbnRpbmcgV1dBTiBpbnN0YW5jZSAqLwo+PiAtCXJldHVybiB3d2FuX3JlZ2lz
+dGVyX29wcygmY250cmwtPm1oaV9kZXYtPmRldiwgJm1oaV9tYmltX3d3YW5fb3BzLCBtYmltLCAw
+KTsKPj4gKwlyZXR1cm4gd3dhbl9yZWdpc3Rlcl9vcHMoJmNudHJsLT5taGlfZGV2LT5kZXYsICZt
+aGlfbWJpbV93d2FuX29wcywgbWJpbSwKPj4gKwkJbWhpX2Rldi0+bWhpX2NudHJsLT5saW5rX2lk
+KTsKPgo+SnVzdCBhIG5pdHBpY2suIFRoZSBzZWNvbmQgbGluZSBoYWQgYmV0dGVyIGJlIGFsaWdu
+ZWQgd2l0aCB0aGUgb3BlbmluZyAKPmJyYWNrZXQ6Cj4KPnJldHVybiB3d2FuX3JlZ2lzdGVyX29w
+cygmY250cmwtPi4uLgo+ICAgICAgICAgICAgICAgICAgICAgICAgICBtaGlfZGV2LT4uLi4KPgo+
+PiAgIH0KPj4gICAKPj4gICBzdGF0aWMgdm9pZCBtaGlfbWJpbV9yZW1vdmUoc3RydWN0IG1oaV9k
+ZXZpY2UgKm1oaV9kZXYpCj4KPi0tCj5TZXJnZXkK
