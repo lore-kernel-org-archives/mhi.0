@@ -1,129 +1,101 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BD89197
-	for <mhi@lists.linux.dev>; Fri, 21 Jun 2024 03:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.220
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4188D17C7D3;
+	Fri, 21 Jun 2024 19:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718939850; cv=none; b=O9We26fVRIbfknJIIc/TLR5PpuLGPgwH0Dbn6oZb+9dBCyHd0QKjCZVQUmayyC/3MGZpjfs6c35KS4trcNtzCeIlC+kz9nJImwg6RkOYWWpQ4s3l/5UACISPw3+do1QB2rdpqSrKn0PEckIN5PP+w8k9nEdx0D4sMd4wTZZpbM4=
+	t=1718998668; cv=none; b=cEIFHgkCJSx1zxtIyl2EBQuW8TURBs6/FZ/S0UREeAiYqUHDVnz4JFNHVj5M8DrXcE7lgdDfu5nGOSs0EEx3zItAzKInlGbVDPICgC0encldxF5jt5O/tUG1M5xfww9UsAb5dLuDMcOvtQFubiiLAIrY+BrK2VE7bnUDaOxDv4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718939850; c=relaxed/simple;
-	bh=zLIJ2NUYDCtAiU8SbwxgK3XmrucsiNa/tzwKEMuF0oo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=X3GhqoY11JTigFfyP79EP9235R8r3+4JeSamA8BoVObLKYQ180OYyk+Eipv4l8aHg6vab6ligzWNX5XXG43TmkTo3Lhd4UybHCa4B1RBJxOqFKpbHQX9zp22qeo2UmTpQ3MwkjNfrT1LPzbMmh7pbF8Alh7UpgyP+hR010nbU14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=CUhEEb2D reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="CUhEEb2D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=wr4I4iNRseCiBnqESPfc1AXICjmoXcqm2f1JWm2tHvQ=; b=C
-	UhEEb2DQtJ429uxHuVbHCnihtRRmva4OcgObpg33whxZp+XrRVKhnpqgcyaytslT
-	XANcZ/Ef4jbeVhyeaXD0JJFUiLYVgs9T+2bO6Y0DTZITQBCHXSX+ocq/bYrhEsIk
-	N4VW2YNfHLsBJbwZT2Yj6YE/xs+j/xTuyJgwe2crAE=
-Received: from slark_xiao$163.com ( [223.104.68.12] ) by
- ajax-webmail-wmsvr-40-116 (Coremail) ; Fri, 21 Jun 2024 11:17:16 +0800
- (CST)
-Date: Fri, 21 Jun 2024 11:17:16 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Jeffrey Hugo" <quic_jhugo@quicinc.com>
-Cc: "Loic Poulain" <loic.poulain@linaro.org>, 
-	"Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>, 
-	ryazanov.s.a@gmail.com, johannes@sipsolutions.net, 
-	netdev@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2 1/2] bus: mhi: host: Import mux_id item
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <c275ee49-ac59-058c-7482-c8a92338e7a2@quicinc.com>
-References: <20240612093842.359805-1-slark_xiao@163.com>
- <20240612094609.GA58302@thinkpad>
- <87aecf24-cdbb-70d2-a3d1-8d1cacf18401@quicinc.com>
- <20240612145147.GB58302@thinkpad>
- <CAMZdPi-6GPWkj-wu4_mRucRBWXR03eYXu4vgbjtcns6mr0Yk9A@mail.gmail.com>
- <c275ee49-ac59-058c-7482-c8a92338e7a2@quicinc.com>
-X-NTES-SC: AL_Qu2aCvWYtkAo4CSdYOkfmk0SheY6UMayv/4v1IZSPZ98jD3p3QcLX3NqG1LaysKhCzCnijG+azJw1u9ZWrBoQqwXnIaFbSPXG9inUBy1S+wRxg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	s=arc-20240116; t=1718998668; c=relaxed/simple;
+	bh=Z6XDvtd/xm4xSg8Kzfwtsmbr9qvvXnf1QYMN9sGi2k0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O3I8zIHqOtzkW3Zz1foPfRFHETafmXtVRcRH5thYVtFMqpG/0PA52+74eTQNAju/PrLWqjrml5AzYuFV/6Wp/5baTRnm5pne9zzG3IMIHakZPzWRtZlJwP0Q45bv4lnCSaklThFSyfAzxxxinBU67/ntGZuKP1xOiipJqHTY//I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-37613975e20so8888265ab.2;
+        Fri, 21 Jun 2024 12:37:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718998666; x=1719603466;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sXQhvL9a6CYV2VK3wKh6O5gxH2nHkFbrE11g//vArPo=;
+        b=FdXDibzCFHGi2YMND9aV6Yi/rROsFufxA+l4YEYTQMeDXSIqu1BWnT6fdf8fzOaX1Z
+         pCMAltTxPcrh+9lQnaGoKjyFgHzdEvB6p/54LGT8k2cpgQE1dtLXDzIgtbgVe19B2L5+
+         /H473+DPjvw1VezR6jIKyfB3ObN/zJ/AXhqIBXXPFf8jNuJxR4Nm/DXkSVZDvmpcRw72
+         j3TL+VJig7iLtRKXleMVkmDTVlEY57FemMHSLsH+Hvd667ADfezQv+bojRo9B4sPf81m
+         7UdyxbmB2ZO/sb2UCSFNohT3pFKEDv7s5Dk7BZHY6X00yDEwKAttZceQwwEV8rQLtY7z
+         a4CA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQU67ZCBOOFg+Sw6enLSqjlde+6dVGj6AAwktOM7LaTgpOzf7oTxNlqr9v9+qWNIMiK85yKeOlkkpLQK0OVVSj9uvennpTGHytjaho/FKX4rAeJguYmLdz
+X-Gm-Message-State: AOJu0Yyo2h16kbRLS8W5SZ8XZH7zLBHYTB/XzBLhEvFoOq2e1s3TBwUY
+	6raX/Pyf4jY2u9YgUvoCmbNOGTHN/Afly8pTbu2b0f1pWgX+6P/W
+X-Google-Smtp-Source: AGHT+IGlUL9QwPxUHX7nV3tXeYRMDnq/je2PsJ3NCGAtSFvVXOze8EobQXpZtTE4zHujIy0ctpA41A==
+X-Received: by 2002:a05:6e02:1c85:b0:375:a185:f00f with SMTP id e9e14a558f8ab-3761d709758mr109157335ab.22.1718998666403;
+        Fri, 21 Jun 2024 12:37:46 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716b3ee8c95sm1492640a12.31.2024.06.21.12.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 12:37:45 -0700 (PDT)
+Date: Sat, 22 Jun 2024 04:37:44 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	mhi@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH 0/5] PCI: endpoint: Add EPC 'deinit' event and
+ dw_pcie_ep_linkdown() API
+Message-ID: <20240621193744.GA3008482@rocinante>
+References: <20240606-pci-deinit-v1-0-4395534520dc@linaro.org>
+ <20240610065324.GA7660@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <5055db15.37d8.19038cc602c.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3_yu88HRmswUPAA--.46727W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQoFZGV4IM2ADQAEsn
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240610065324.GA7660@thinkpad>
 
-CkF0IDIwMjQtMDYtMTQgMjI6MzE6MDMsICJKZWZmcmV5IEh1Z28iIDxxdWljX2podWdvQHF1aWNp
-bmMuY29tPiB3cm90ZToKPk9uIDYvMTQvMjAyNCA0OjE3IEFNLCBMb2ljIFBvdWxhaW4gd3JvdGU6
-Cj4+IE9uIFdlZCwgMTIgSnVuIDIwMjQgYXQgMTY6NTEsIE1hbml2YW5uYW4gU2FkaGFzaXZhbQo+
-PiA8bWFuaXZhbm5hbi5zYWRoYXNpdmFtQGxpbmFyby5vcmc+IHdyb3RlOgo+Pj4KPj4+IE9uIFdl
-ZCwgSnVuIDEyLCAyMDI0IGF0IDA4OjE5OjEzQU0gLTA2MDAsIEplZmZyZXkgSHVnbyB3cm90ZToK
-Pj4+PiBPbiA2LzEyLzIwMjQgMzo0NiBBTSwgTWFuaXZhbm5hbiBTYWRoYXNpdmFtIHdyb3RlOgo+
-Pj4+PiBPbiBXZWQsIEp1biAxMiwgMjAyNCBhdCAwNTozODo0MlBNICswODAwLCBTbGFyayBYaWFv
-IHdyb3RlOgo+Pj4+Pgo+Pj4+PiBTdWJqZWN0IGNvdWxkIGJlIGltcHJvdmVkOgo+Pj4+Pgo+Pj4+
-PiBidXM6IG1oaTogaG9zdDogQWRkIGNvbmZpZ3VyYWJsZSBtdXhfaWQgZm9yIE1CSU0gbW9kZQo+
-Pj4+Pgo+Pj4+Pj4gRm9yIFNEWDcyIE1CSU0gbW9kZSwgaXQgc3RhcnRzIGRhdGEgbXV4IGlkIGZy
-b20gMTEyIGluc3RlYWQgb2YgMC4KPj4+Pj4+IFRoaXMgd291bGQgbGVhZCB0byBkZXZpY2UgY2Fu
-J3QgcGluZyBvdXRzaWRlIHN1Y2Nlc3NmdWxseS4KPj4+Pj4+IEFsc28gTUJJTSBzaWRlIHdvdWxk
-IHJlcG9ydCAiYmFkIHBhY2tldCBzZXNzaW9uICgxMTIpIi4KPj4+Pj4+IFNvIHdlIGFkZCBhIGRl
-ZmF1bHQgbXV4X2lkIHZhbHVlIGZvciBTRFg3Mi4gQW5kIHRoaXMgdmFsdWUKPj4+Pj4+IHdvdWxk
-IGJlIHRyYW5zZmVycmVkIHRvIHd3YW4gbWJpbSBzaWRlLgo+Pj4+Pj4KPj4+Pj4+IFNpZ25lZC1v
-ZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4+Pj4+IC0tLQo+Pj4+Pj4g
-ICAgZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyB8IDMgKysrCj4+Pj4+PiAgICBp
-bmNsdWRlL2xpbnV4L21oaS5oICAgICAgICAgICAgICAgIHwgMiArKwo+Pj4+Pj4gICAgMiBmaWxl
-cyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKPj4+Pj4+Cj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3Bj
-aV9nZW5lcmljLmMKPj4+Pj4+IGluZGV4IDBiNDgzYzdjNzZhMS4uOWU5YWRmODMyMGQyIDEwMDY0
-NAo+Pj4+Pj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+Pj4+Pj4g
-KysrIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+Pj4+Pj4gQEAgLTUzLDYg
-KzUzLDcgQEAgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gewo+Pj4+Pj4gICAgICAgICAgICB1bnNp
-Z25lZCBpbnQgZG1hX2RhdGFfd2lkdGg7Cj4+Pj4+PiAgICAgICAgICAgIHVuc2lnbmVkIGludCBt
-cnVfZGVmYXVsdDsKPj4+Pj4+ICAgICAgICAgICAgYm9vbCBzaWRlYmFuZF93YWtlOwo+Pj4+Pj4g
-KyB1bnNpZ25lZCBpbnQgbXV4X2lkOwo+Pj4+Pj4gICAgfTsKPj4+Pj4+ICAgICNkZWZpbmUgTUhJ
-X0NIQU5ORUxfQ09ORklHX1VMKGNoX251bSwgY2hfbmFtZSwgZWxfY291bnQsIGV2X3JpbmcpIFwK
-Pj4+Pj4+IEBAIC00NjksNiArNDcwLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rl
-dl9pbmZvIG1oaV9mb3hjb25uX3NkeDcyX2luZm8gPSB7Cj4+Pj4+PiAgICAgICAgICAgIC5kbWFf
-ZGF0YV93aWR0aCA9IDMyLAo+Pj4+Pj4gICAgICAgICAgICAubXJ1X2RlZmF1bHQgPSAzMjc2OCwK
-Pj4+Pj4+ICAgICAgICAgICAgLnNpZGViYW5kX3dha2UgPSBmYWxzZSwKPj4+Pj4+ICsgLm11eF9p
-ZCA9IDExMiwKPj4+Pj4+ICAgIH07Cj4+Pj4+PiAgICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9j
-aGFubmVsX2NvbmZpZyBtaGlfbXYzeF9jaGFubmVsc1tdID0gewo+Pj4+Pj4gQEAgLTEwMzUsNiAr
-MTAzNyw3IEBAIHN0YXRpYyBpbnQgbWhpX3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwg
-Y29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgKmlkKQo+Pj4+Pj4gICAgICAgICAgICBtaGlfY250
-cmwtPnJ1bnRpbWVfZ2V0ID0gbWhpX3BjaV9ydW50aW1lX2dldDsKPj4+Pj4+ICAgICAgICAgICAg
-bWhpX2NudHJsLT5ydW50aW1lX3B1dCA9IG1oaV9wY2lfcnVudGltZV9wdXQ7Cj4+Pj4+PiAgICAg
-ICAgICAgIG1oaV9jbnRybC0+bXJ1ID0gaW5mby0+bXJ1X2RlZmF1bHQ7Cj4+Pj4+PiArIG1oaV9j
-bnRybC0+bGlua19pZCA9IGluZm8tPm11eF9pZDsKPj4+Pj4KPj4+Pj4gQWdhaW4sICdsaW5rX2lk
-JyBpcyBqdXN0IGEgV1dBTiB0ZXJtLiBVc2UgJ211eF9pZCcgaGVyZSBhbHNvLgo+Pj4+Cj4+Pj4g
-RG9lcyB0aGlzIHJlYWxseSBiZWxvbmcgaW4gTUhJPyAgSWYgdGhpcyB3YXMgRFQsIEkgZG9uJ3Qg
-dGhpbmsgd2Ugd291bGQgcHV0Cj4+Pj4gdGhpcyB2YWx1ZSBpbiBEVCwgYnV0IHJhdGhlciBoYXZl
-IHRoZSBkcml2ZXIgKE1CSU0pIGRldGVjdCB0aGUgZGV2aWNlIGFuZAo+Pj4+IGNvZGUgaW4gdGhl
-IHJlcXVpcmVkIHZhbHVlLgo+Pj4+Cj4+Pgo+Pj4gSSBiZWxpZXZlIHRoaXMgaXMgYSBtb2RlbSB2
-YWx1ZSByYXRoZXIgdGhhbiBNSEkuIEJ1dCBJIHdhcyBPSyB3aXRoIGtlZXBpbmcgaXQgaW4KPj4+
-IE1ISSBkcml2ZXIgc2luY2Ugd2Uga2luZCBvZiBrZWVwIG1vZGVtIHNwZWNpZmljIGNvbmZpZy4K
-Pj4+Cj4+PiBCdXQgaWYgV1dBTiBjYW4gZGV0ZWN0IHRoZSBkZXZpY2UgYW5kIGFwcGx5IHRoZSBj
-b25maWcsIEknbSBhbGwgb3ZlciBpdC4KPj4gCj4+IFRoYXQgd291bGQgcmVxdWlyZSBhdCBsZWFz
-dCBzb21lIGluZm9ybWF0aW9uIGZyb20gdGhlIE1ISSBidXMgZm9yIHRoZQo+PiBNQklNIGRyaXZl
-cgo+PiB0byBtYWtlIGEgZGVjaXNpb24sIHN1Y2ggYXMgYSBnZW5lcmljIGRldmljZSBJRCwgb3Ig
-cXVpcmsgZmxhZ3MuLi4KPgo+SSBkb24ndCBzZWUgd2h5Lgo+Cj5UaGUgInNpbXBsZSIgd2F5IHRv
-IGRvIGl0IHdvdWxkIGJlIHRvIGhhdmUgdGhlIGNvbnRyb2xsZXIgZGVmaW5lIGEgCj5kaWZmZXJl
-bnQgY2hhbm5lbCBuYW1lLCBhbmQgdGhlbiBoYXZlIHRoZSBNQklNIGRyaXZlciBwcm9iZSBvbiB0
-aGF0LiAKPlRoZSBNQklNIGRyaXZlciBjb3VsZCBhdHRhY2ggZHJpdmVyIGRhdGEgc2F5aW5nIHRo
-YXQgaXQgbmVlZHMgdG8gaGF2ZSBhIAo+c3BlY2lmaWMgbXV4X2lkLgo+Cj5Pciwgd2l0aCB6ZXJv
-IE1ISS9Db250cm9sbGVyIGNoYW5nZXMsIHRoZSBNQklNIGRyaXZlciBjb3VsZCBwYXJzZSB0aGUg
-Cj5taGlfZGV2aWNlIHN0cnVjdCwgZ2V0IHRvIHRoZSBzdHJ1Y3QgZGV2aWNlLCBmb3IgdGhlIHVu
-ZGVybHlpbmcgZGV2aWNlLCAKPmFuZCBleHRyYWN0IHRoZSBQQ0llIERldmljZSBJRCBhbmQgbWF0
-Y2ggdGhhdCB0byBhIHdoaXRlIGxpc3Qgb2Yga25vd24gCj5kZXZpY2VzIHRoYXQgbmVlZCB0aGlz
-IHByb3BlcnR5Lgo+Cj5JIGd1ZXNzIGlmIHRoZSBjb250cm9sbGVyIGNvdWxkIGF0dGFjaCBhIHBy
-aXZhdGUgdm9pZCAqIHRvIHRoZSAKPm1oaV9kZXZpY2UgdGhhdCBpcyBvcGFxdWUgdG8gTUhJLCBi
-dXQgYWxsb3dzIE1CSU0gdG8gbWFrZSBhIGRlY2lzaW9uLCAKPnRoYXQgd291bGQgYmUgb2suICBT
-dWNoIGEgbWVjaGFuaXNtIHdvdWxkIGJlIGdlbmVyaWMsIGFuZCBleHRlbnNpYmxlIHRvIAo+b3Ro
-ZXIgdXNlY2FzZXMgb2YgdGhlIHNhbWUgImNsYXNzIi4KPgo+LUplZmYKCkhpIGd1eXMsClRoaXMg
-cGF0Y2ggbWFpbmx5IHJlZmVyIHRvIHRoZSBmZWF0dXJlIG9mIG1ydSBzZXR0aW5nIGJldHdlZW4g
-bWhpIGFuZCB3d2FuIHNpZGUuCldlIHJhbnNmZXIgdGhpcyB2YWx1ZSB0byB3d2FuIHNpZGUgaWYg
-d2UgZGVmaW5lIGl0IGluIG1oaSBzaWRlLCBvdGhlcndpc2UgYSBkZWZhdWx0CnZhbHVlIHdvdWxk
-IGJlIHVzZWQgaW4gd3dhbiBzaWRlLiBXaHkgZG9uJ3Qgd2UganVzdCBhbGlnbiB3aXRoIHRoYXQ/
-CgpUaGFua3MKCg==
+Hello,
+
+> Applied patch 2/5 to pci/endpoint! Krzysztof, please apply patches 1/5 and 5/5
+> to controller/dwc (patches 3/5 and 4/5 are already applied by you).
+
+Applied to controller/dwc, thank you!
+
+[01/02] PCI: dwc: ep: Remove dw_pcie_ep_init_notify() wrapper
+        https://git.kernel.org/pci/pci/c/9eba2f70362f
+
+[02/02] PCI: layerscape-ep: Use the generic dw_pcie_ep_linkdown() API to handle Link Down event
+        https://git.kernel.org/pci/pci/c/14638af66309
+
+	Krzysztof
