@@ -1,97 +1,143 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E3214373A
-	for <mhi@lists.linux.dev>; Fri, 28 Jun 2024 07:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4AE06F2E5
+	for <mhi@lists.linux.dev>; Fri, 28 Jun 2024 08:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719561121; cv=none; b=Bm51/iWy5MNKpvDn7U2p636X75hlPAp0PNdnAnecBn0ijYcyRk/dWPgPy6VnBAzsiPK/alT4iEIgZptLEjfbUgzgzsNNnX986Arc0do9KE5E5mEJQIL1xRh2BewUvE9KTzR3VS4PUTw4W1nBUidYmU1XJj7G9GaN8ZCrikaHV3I=
+	t=1719563412; cv=none; b=O4Nu81Zjsq1QVaochpzlfB3SXy2NCyQLf3zUFq/0H+4SSbVszvYUacFxhp0HgQCX++U7KUvoISjuWuVfetRkyGqvhj0h9JTukkwD/drHN3OQOsmbOn2YrdcFFMlP8Z4D1i0y6UnFCdTcezeQPZ7CwkioyUBc18Borj5s6Wcek1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719561121; c=relaxed/simple;
-	bh=+zNoKDZQ/xkNOYt+gvFW7KoW2kO58MHXV4zEnjjIi4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HNXDlWSkeljfwCZuI1/ABhzDGOn9//BK03SVTUwt8VDJ5vewkpCak98L2uma37aIoei+neCe6BO0A0hIu+bi0K+niy1O4XmlHnm1k2D0h40DNHfaYc391daJXIxBjU7rGuejoLJhmvIpQW2ZtcdA00x5wFwZagrP+yuAJZSfF1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MBAQgq/W; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719563412; c=relaxed/simple;
+	bh=92AGGsrcbotljDKeMUOW1yDTBBo1NNwetVgmd8RhVRo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=emindwIBxHw2Hg2q8vTO+uzMrkJG+dP1NdJW+Dc/veoCbP0hLskBrAMOCs1rFshJ+MpVJVwbp2KrW1uc5QTa8d/HWspXvXEpHGW/8fusD8jn9WkXrwuQnmVpn10Wz6Zexy+Z/KUu210RDhx+LpEYfh4q8y5y4NW5mTZ80quLIn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kz0DJCWM; arc=none smtp.client-ip=45.254.50.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MBAQgq/W"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ec002caeb3so3356751fa.2
-        for <mhi@lists.linux.dev>; Fri, 28 Jun 2024 00:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719561116; x=1720165916; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F0Lhq2VrmyZAPS9Zt2InQGHVgI0lvcCDAnX2v0350pI=;
-        b=MBAQgq/W30OHt/wuOkPHgMAo5iK3Rslh2Vo/SnZ379UxlwgRZfaolbdOqZdy88Qxsq
-         frMtqky8Ndwt1YCnTFA0DD23VP1G/e5CVp0/Aix6kRu1fToSbzxF6OmDPMJYixBfjxfi
-         cHJKvJlrDH0Y/blL1c06SRbSleZgwILjxJFRXNQfvIHWmxHx7qcjk0J7VboDkQWO9BM5
-         fFKeRNR6xENXAodndi/NtXJpHIrmp0K7j62qjFxGuv0Pw2JHwQSDKneHTvPlMAn/dSPN
-         c6fmJFL3GOXnwREM4fIlH+nLaTcXYp5Byig/cq8vYFCNOU/hz76VvNQA+vIGZLDDL/B0
-         tEyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719561116; x=1720165916;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F0Lhq2VrmyZAPS9Zt2InQGHVgI0lvcCDAnX2v0350pI=;
-        b=UsSYFMDXyRqcLLwQy7OrYLCjxdErbIsfTBf/VaRPpRF6jetHyjx9+96iGTO+FaAUB/
-         4JZRFXaPQ8wO9e9j48es8Y0dvMijq0OpZFMs/u7N8t/saTaV8sOlXUA/9yAG9ebhVguu
-         j62J4X1FNudebIihgU8AeJ5+4+5uZiEk8t82vb+hdLOERJzWee2UfMCcK7+8qmnf6zYQ
-         I7xAd+alpXra42YINHmw9yz1GvZ+h7WlmP9BwrcKoxdb91w2cVHW3Fw+62CgxSt4rb8o
-         2v6LXQ+xapA97+8eE20ZIrqWRQE03UWF30PDKoOsiEub6KjohYfvG/AibiERDzsKgXCM
-         gQLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVVCe0PIXpym712FxWDiZTu2FeKAUtxoYx+9jYm4rb4qnbKnriwzXgG92xnno8GHICOFVhYza2T9oekZAVuK2d/u0na
-X-Gm-Message-State: AOJu0YwEI1+JjRdSCuITx/l/DdWMOdp0/MBD9l/0AiVj1GC3AI1muEAz
-	3HBd69r5PQHUo+Y1iL30PJqdinkP4vUd0D+AOfmoDvBilgzP84+mrGotNWmjWbc=
-X-Google-Smtp-Source: AGHT+IH+g2S686TRu2qwo6Fx8tMGYY1LUnHUqaOm29KoLuznrr5f/PC/tBh0PHvmbSQVGbLqGcVTKQ==
-X-Received: by 2002:a05:651c:1988:b0:2ec:637a:c212 with SMTP id 38308e7fff4ca-2ec637ac2b5mr108100831fa.39.1719561116558;
-        Fri, 28 Jun 2024 00:51:56 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ee5160d26dsm2123151fa.25.2024.06.28.00.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 00:51:56 -0700 (PDT)
-Date: Fri, 28 Jun 2024 10:51:54 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: manivannan.sadhasivam@linaro.org, loic.poulain@linaro.org, 
-	ryazanov.s.a@gmail.com, johannes@sipsolutions.net, quic_jhugo@quicinc.com, 
-	netdev@vger.kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] bus: mhi: host: Add Foxconn SDX72 related support
-Message-ID: <2xbnsvtzh23al43njugtqpihocyo5gtyuzu4wbd5gmizhs2utf@d2x2gxust3w5>
-References: <20240628073605.1447218-1-slark_xiao@163.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kz0DJCWM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qOVWR
+	6aXQqry3nItjJ+e8OBR8po78qC5/g5g+JfJjCI=; b=kz0DJCWM+Fi2tK32ADffB
+	U5aU1g6HRZgqc+pZPk2HKk09/yQrgNDQAqJs+5SMHUX48b1ixCrs2IxIN/2TlKNb
+	BLyqTSdIicpoMbkV0yOlL9N9rlJj5w85ak4UKBLCW7KgaHtq5IiVOTDbbbl5IgHS
+	S3siijhF2OrF6q1lmGbNI0=
+Received: from localhost.localdomain (unknown [112.97.61.84])
+	by gzga-smtp-mta-g0-4 (Coremail) with SMTP id _____wD3v7BzdH5mWbI3Aw--.3813S2;
+	Fri, 28 Jun 2024 16:29:40 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: manivannan.sadhasivam@linaro.org,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	quic_jhugo@quicinc.com
+Cc: netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH v3 1/3] bus: mhi: host: Add Foxconn SDX72 related support
+Date: Fri, 28 Jun 2024 16:29:19 +0800
+Message-Id: <20240628082921.1449860-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240628073605.1447218-1-slark_xiao@163.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3v7BzdH5mWbI3Aw--.3813S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxur15Kry7Zw47JF4rKw4UArb_yoW5KrykpF
+	s3Z3yUta1kJFWrKFW8A34DG3Z5GrsxCr93KFnrKw1Igw1Yy3yYqFZ7K342kryYy3sFqryS
+	yF95WFy293ZrJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRuBT5UUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbioxYMZGVOEH3ZdwAAs1
 
-On Fri, Jun 28, 2024 at 03:36:05PM GMT, Slark Xiao wrote:
-> Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
-> And also, add firehose support since SDX72.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> ---
-> v2: (1). Update the edl file path and name (2). Set SDX72 support
-> trigger edl mode by default
-> v3: Divide into 2 parts for Foxconn sdx72 platform
+Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
+And also, add firehose support since SDX72.
 
-Generic comment: please send all the patches using a single
-git-send-email command. This way it will thread them properly, so that
-they form a single patchseries in developers's mail clients. Or you can
-just use 'b4' tool to manage and send the patchset.
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+v2: (1). Update the edl file path and name (2). Set SDX72 support
+trigger edl mode by default
+v3: Divide into 2 parts for Foxconn sdx72 platform
+---
+ drivers/bus/mhi/host/pci_generic.c | 43 ++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 43 ++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 35ae7cd0711f..1fb1c2f2fe12 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+ 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
+@@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+ 	.event_cfg = mhi_foxconn_sdx55_events,
+ };
+ 
++static const struct mhi_controller_config modem_foxconn_sdx72_config = {
++	.max_channels = 128,
++	.timeout_ms = 20000,
++	.ready_timeout_ms = 50000,
++	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
++	.ch_cfg = mhi_foxconn_sdx55_channels,
++	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
++	.event_cfg = mhi_foxconn_sdx55_events,
++};
++
+ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+ 	.name = "foxconn-sdx55",
+ 	.fw = "qcom/sdx55m/sbl1.mbn",
+@@ -488,6 +500,28 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+ 	.sideband_wake = false,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
++	.name = "foxconn-t99w515",
++	.edl = "fox/sdx72m/edl.mbn",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx72_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
++
++static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
++	.name = "foxconn-dw5934e",
++	.edl = "fox/sdx72m/edl.mbn",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx72_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
+@@ -720,6 +754,15 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* DW5932e (sdx62), Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f9),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5932e_info },
++	/* T99W515 (sdx72) */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe118),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w515_info },
++	/* DW5934e(sdx72), With eSIM */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11d),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
++	/* DW5934e(sdx72), Non-eSIM */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
 -- 
-With best wishes
-Dmitry
+2.25.1
+
