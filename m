@@ -1,139 +1,259 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074E71C0059
-	for <mhi@lists.linux.dev>; Fri, 28 Jun 2024 14:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3C14AEE5
+	for <mhi@lists.linux.dev>; Fri, 28 Jun 2024 19:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719585549; cv=none; b=T0ZdXL16eql7yaARuzkeYBQe2zqClOwjo2m7onc3RkGwl79uZIpxgiuSEzZ1g66nZKi8HXCXHNu5smB7uB9MX174oJWlUuPnA/wNG3H6ibTBsVrtyC3T8G9DnkZipzO5gg+P9qkfvCSiGOzSQk0zjVHcuoFuv8eV4BpI8KRNmAI=
+	t=1719602215; cv=none; b=uoKJH+rvvsWnXqWLRbr8Qwoep/qzibILdvN4Vc0FzTnNTjE9SydrbEsw08VbIFDOuelhhWdEdehL1YD43YUS56hJfTh7//6Z/U+1nsFh7QpmvapaRaixsSq5F80UWDFL9+GtCIL8qrwWHyQ/w/oVKD1XwA0wVE1c25JBQ+OUQoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719585549; c=relaxed/simple;
-	bh=fbKwqXlvo36CXSMeJryZJPdETSPPD5sl/c0WBnH8V4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GUb+wbTDL5Bvep/q7KBTPpV8QJwHdZgLS5JErcyWwjjSW4LhAKAqWWw0eKlu1vKRl9sc+AiJ0WBNtTj7ceWliy4ua3x9MMGdZGEzPk00vJt6blB4P/oGC0ekbJN9IyTBYj+3mYJNWy0RcoqQBlxPCmYBQsfPPtSKdhblCTJ1eV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iJ6VPt1t; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1719602215; c=relaxed/simple;
+	bh=HUr9FZDw1hau1h2aYTQWzvq6s5tiWGHQA8US8CdlEFI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VqbH2syg6OYW72Fa7wr18zITN6JdjO2YEY2L2+iE1aT4P1jfx/DUkvZfIFgAdhAbBqY/BNg8MO5+3btWrDY4oX+1tT4FEu6Q0Era2YhM9pJpazYUmlqVZ1MNKyG3Tf0jKSu7qMAx8zAbV7Sw3mHzWn77ybQaB9aOOhE3R0fl/Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wxft/ayO; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iJ6VPt1t"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45S8d61C012603;
-	Fri, 28 Jun 2024 14:38:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vmsoo87nXpQIGp4+dpf035YqcbLL73mjN+51Tgx2Oh0=; b=iJ6VPt1toWRAphns
-	KeLg7V6++K2120XDsnNO3gzxAy2lpfHZOOmTLf0jGdA8aHEgx179wDkIo38uRD6w
-	Ol0Fx/eYsZTNPuWv0T4t1X9BTA5Sdhhelb94INMU2hn31qDiwYVUqml25fPJwneg
-	XpbgDtCfXBCs3v9Ic4jTEGeMZQqkt3PKi4OZbPnnwx7kkkapswtSzUmSm0Xo1vHl
-	UXfW30IO/4sDeQp1lO9/Q9ItwEFtacNykPWFDI59Nc8a2OOJ3pQckfsaqMdZeCtp
-	2/fOcrmT5DYfTbQpEwXOyCHRSO0BORydFz4HeejmgA7d6VT99SSUeBE/gpP5RU/u
-	UbQKMQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 401njr9tke-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Jun 2024 14:38:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45SEcwfI027146
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Jun 2024 14:38:58 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 28 Jun
- 2024 07:38:58 -0700
-Message-ID: <cde35f69-4d6e-d46d-88ca-9c5d6d5e757f@quicinc.com>
-Date: Fri, 28 Jun 2024 08:38:57 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wxft/ayO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719602214; x=1751138214;
+  h=date:from:to:cc:subject:message-id;
+  bh=HUr9FZDw1hau1h2aYTQWzvq6s5tiWGHQA8US8CdlEFI=;
+  b=Wxft/ayOX1cZc4O5DjP6cmC9vqeBCJhnW69HK3/qLKL/J7DguZzrvQNR
+   cOKW2ZzY6ydWWqsWoxu/BzUgdld/z/9B6JlUde3OLIfWQUdJQlXIVaRMF
+   QnedyRPuIR297+1hU9TVROFXjOnaa118d0kfOeQLSH5swyJtbVSmDygcC
+   T5eGuiBOLGaeqQlIZ2DOifH1SjAo4Z3KdYl8qZ7j1WX1emejRaag0Bspk
+   aWk7STScfkQDFNotsOc5vt+jRuca2EGnZGc97Q8GXEMNzRSq1UkeS1HJV
+   TkdvmxinNJ8TlM+hsuvPqzs4fDj5OzGRpDlz1T1+nffXuKJN0Ip41TXG4
+   A==;
+X-CSE-ConnectionGUID: VQmNa1I0QCmAI7/76fRstA==
+X-CSE-MsgGUID: wbnpplC5QQ6LQeHjS6DpHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="28188921"
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="28188921"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 12:16:53 -0700
+X-CSE-ConnectionGUID: VFXzk0aXSdmhOYH2JpOhrA==
+X-CSE-MsgGUID: PxWkynUgSqicA22BIYuLFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="49724789"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 28 Jun 2024 12:16:52 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sNH5V-000HzZ-28;
+	Fri, 28 Jun 2024 19:16:49 +0000
+Date: Sat, 29 Jun 2024 03:16:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS
+ c7d0b2db5bc5e8c0fdc67b3c8f463c3dfec92f77
+Message-ID: <202406290337.Jub4SkKX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3 2/3] bus: mhi: host: Add name for mhi_controller
-Content-Language: en-US
-To: Slark Xiao <slark_xiao@163.com>, <manivannan.sadhasivam@linaro.org>,
-        <loic.poulain@linaro.org>, <ryazanov.s.a@gmail.com>,
-        <johannes@sipsolutions.net>
-CC: <netdev@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240628073626.1447288-1-slark_xiao@163.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240628073626.1447288-1-slark_xiao@163.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: jEkA4FUUieoR8WaoPVsF-2cM8dNthUvb
-X-Proofpoint-ORIG-GUID: jEkA4FUUieoR8WaoPVsF-2cM8dNthUvb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-28_10,2024-06-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
- malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- clxscore=1011 phishscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2406280109
 
-On 6/28/2024 1:36 AM, Slark Xiao wrote:
->   For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
->   This would lead to device can't ping outside successfully.
->   Also MBIM side would report "bad packet session (112)".
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: c7d0b2db5bc5e8c0fdc67b3c8f463c3dfec92f77  bus: mhi: ep: Do not allocate memory for MHI objects from DMA zone
 
-Weird indentation
+elapsed time: 12166m
 
->   In oder to fix this issue, we decide to use the modem name
+configs tested: 182
+configs skipped: 5
 
-"order"
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> to do a match in client driver side. Then client driver could
-> set a corresponding mux_id value for this modem product.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> ---
->   drivers/bus/mhi/host/pci_generic.c | 1 +
->   include/linux/mhi.h                | 2 ++
->   2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 1fb1c2f2fe12..14a11880bcea 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -1086,6 +1086,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
->   	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
->   	mhi_cntrl->mru = info->mru_default;
-> +	mhi_cntrl->name = info->name;
->   
->   	if (info->edl_trigger)
->   		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index b573f15762f8..86aa4f52842c 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -361,6 +361,7 @@ struct mhi_controller_config {
->    * @wake_set: Device wakeup set flag
->    * @irq_flags: irq flags passed to request_irq (optional)
->    * @mru: the default MRU for the MHI device
-> + * @name: name of the modem
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240628   gcc-13.2.0
+arc                   randconfig-002-20240628   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                     am200epdkit_defconfig   gcc-13.2.0
+arm                         bcm2835_defconfig   gcc-13.2.0
+arm                     davinci_all_defconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                        multi_v5_defconfig   gcc-13.2.0
+arm                         mv78xx0_defconfig   gcc-13.2.0
+arm                        mvebu_v7_defconfig   gcc-13.2.0
+arm                           omap1_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240628   gcc-13.2.0
+arm                   randconfig-002-20240628   gcc-13.2.0
+arm                   randconfig-003-20240628   gcc-13.2.0
+arm                   randconfig-004-20240628   gcc-13.2.0
+arm                           tegra_defconfig   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                            allyesconfig   clang-19
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240628   gcc-13.2.0
+arm64                 randconfig-002-20240628   gcc-13.2.0
+arm64                 randconfig-003-20240628   gcc-13.2.0
+arm64                 randconfig-004-20240628   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240628   gcc-13.2.0
+csky                  randconfig-002-20240628   gcc-13.2.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240620   gcc-13
+i386         buildonly-randconfig-001-20240628   gcc-10
+i386         buildonly-randconfig-002-20240628   gcc-10
+i386         buildonly-randconfig-003-20240620   gcc-13
+i386         buildonly-randconfig-003-20240628   gcc-10
+i386         buildonly-randconfig-004-20240620   gcc-10
+i386         buildonly-randconfig-004-20240628   gcc-10
+i386         buildonly-randconfig-005-20240620   gcc-13
+i386         buildonly-randconfig-005-20240628   gcc-10
+i386         buildonly-randconfig-006-20240628   gcc-10
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240628   gcc-10
+i386                  randconfig-002-20240628   gcc-10
+i386                  randconfig-003-20240620   gcc-13
+i386                  randconfig-003-20240628   gcc-10
+i386                  randconfig-004-20240620   gcc-10
+i386                  randconfig-004-20240628   gcc-10
+i386                  randconfig-005-20240628   gcc-10
+i386                  randconfig-006-20240620   gcc-10
+i386                  randconfig-006-20240628   gcc-10
+i386                  randconfig-011-20240620   gcc-7
+i386                  randconfig-011-20240628   gcc-10
+i386                  randconfig-012-20240628   gcc-10
+i386                  randconfig-013-20240628   gcc-10
+i386                  randconfig-014-20240620   gcc-7
+i386                  randconfig-014-20240628   gcc-10
+i386                  randconfig-015-20240628   gcc-10
+i386                  randconfig-016-20240628   gcc-10
+loongarch                        allmodconfig   gcc-13.2.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240628   gcc-13.2.0
+loongarch             randconfig-002-20240628   gcc-13.2.0
+m68k                             allmodconfig   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                             allmodconfig   clang-19
+mips                              allnoconfig   gcc-13.2.0
+mips                             allyesconfig   clang-19
+mips                          ath79_defconfig   gcc-13.2.0
+mips                        qi_lb60_defconfig   gcc-13.2.0
+nios2                            allmodconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                            allyesconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240628   gcc-13.2.0
+nios2                 randconfig-002-20240628   gcc-13.2.0
+openrisc                         allmodconfig   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                         allyesconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                           allmodconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                           allyesconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240628   gcc-13.2.0
+parisc                randconfig-002-20240628   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc                          allyesconfig   gcc-13.2.0
+powerpc                    amigaone_defconfig   gcc-13.2.0
+powerpc                    klondike_defconfig   gcc-13.2.0
+powerpc                    mvme5100_defconfig   gcc-13.2.0
+powerpc                      ppc44x_defconfig   gcc-13.2.0
+powerpc               randconfig-001-20240628   gcc-13.2.0
+powerpc               randconfig-002-20240628   gcc-13.2.0
+powerpc               randconfig-003-20240628   gcc-13.2.0
+powerpc64             randconfig-001-20240628   gcc-13.2.0
+powerpc64             randconfig-002-20240628   gcc-13.2.0
+powerpc64             randconfig-003-20240628   gcc-13.2.0
+riscv                            allmodconfig   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                            allyesconfig   gcc-13.2.0
+riscv                               defconfig   gcc-13.2.0
+riscv                 randconfig-001-20240628   gcc-13.2.0
+riscv                 randconfig-002-20240628   gcc-13.2.0
+s390                              allnoconfig   gcc-13.2.0
+s390                                defconfig   gcc-13.2.0
+s390                  randconfig-001-20240628   gcc-13.2.0
+s390                  randconfig-002-20240628   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                          lboxre2_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240628   gcc-13.2.0
+sh                    randconfig-002-20240628   gcc-13.2.0
+sh                          rsk7264_defconfig   gcc-13.2.0
+sh                        sh7785lcr_defconfig   gcc-13.2.0
+sparc                             allnoconfig   gcc-13.2.0
+sparc                            allyesconfig   gcc-13.2.0
+sparc                               defconfig   gcc-13.2.0
+sparc64                          allmodconfig   gcc-13.2.0
+sparc64                          allyesconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240628   gcc-13.2.0
+sparc64               randconfig-002-20240628   gcc-13.2.0
+um                                allnoconfig   gcc-13.2.0
+um                                  defconfig   gcc-13.2.0
+um                             i386_defconfig   gcc-13
+um                             i386_defconfig   gcc-13.2.0
+um                    randconfig-001-20240628   gcc-13.2.0
+um                    randconfig-002-20240628   gcc-13.2.0
+um                           x86_64_defconfig   gcc-13.2.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240628   gcc-13
+x86_64       buildonly-randconfig-002-20240628   gcc-13
+x86_64       buildonly-randconfig-003-20240628   gcc-13
+x86_64       buildonly-randconfig-004-20240628   gcc-13
+x86_64       buildonly-randconfig-005-20240628   gcc-13
+x86_64       buildonly-randconfig-006-20240628   gcc-13
+x86_64                              defconfig   clang-18
+x86_64                                  kexec   clang-18
+x86_64                randconfig-001-20240628   gcc-13
+x86_64                randconfig-002-20240628   gcc-13
+x86_64                randconfig-003-20240628   gcc-13
+x86_64                randconfig-004-20240628   gcc-13
+x86_64                randconfig-005-20240628   gcc-13
+x86_64                randconfig-006-20240628   gcc-13
+x86_64                randconfig-011-20240628   gcc-13
+x86_64                randconfig-012-20240628   gcc-13
+x86_64                randconfig-013-20240628   gcc-13
+x86_64                randconfig-014-20240628   gcc-13
+x86_64                randconfig-015-20240628   gcc-13
+x86_64                randconfig-016-20240628   gcc-13
+x86_64                randconfig-071-20240628   gcc-13
+x86_64                randconfig-072-20240628   gcc-13
+x86_64                randconfig-073-20240628   gcc-13
+x86_64                randconfig-074-20240628   gcc-13
+x86_64                randconfig-075-20240628   gcc-13
+x86_64                randconfig-076-20240628   gcc-13
+x86_64                          rhel-8.3-func   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+x86_64                               rhel-8.3   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                           allyesconfig   gcc-13.2.0
+xtensa                randconfig-001-20240628   gcc-13.2.0
+xtensa                randconfig-002-20240628   gcc-13.2.0
 
-Why restrict this to modems?  There are plenty of other MHI devices
-
->    *
->    * Fields marked as (required) need to be populated by the controller driver
->    * before calling mhi_register_controller(). For the fields marked as (optional)
-> @@ -445,6 +446,7 @@ struct mhi_controller {
->   	bool wake_set;
->   	unsigned long irq_flags;
->   	u32 mru;
-> +	const char *name;
-
-Please run pahole
-
->   };
->   
->   /**
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
