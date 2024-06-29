@@ -1,106 +1,171 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 628B21CFA0
-	for <mhi@lists.linux.dev>; Sat, 29 Jun 2024 08:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C4A482D7
+	for <mhi@lists.linux.dev>; Sat, 29 Jun 2024 12:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719648222; cv=none; b=YxKwoKfnd/hG9FBl6IGLAAZOcRAuEcZH/gXnN+zQ902KV7pYAcYttNwzG7sbeyNb2f9Z9cBvSM6ecPj5cM4DTOymLh7Y7PNJwRRaasnX3NwryfOKK8Jj0U3X3+R+/Fs9G+RGBpY9OgMi5kv3eKgbxjSKdtIUJUW0GLkL6+ZRSEU=
+	t=1719662616; cv=none; b=qpsiftbIgGecPw2Z0sRuQKUnBHH5hR1paGmYd+ovdpsffROql7u8KAcpy70OvpKJQfqIRekRrs7twLg5v5G0pnFimUFMetABpwVZR1KW3x1iWMEjD5di4V/k3bgYfx2/CiMXqbPHeeVJnBb52l96IKn+baDHuy7bBG707k8gI1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719648222; c=relaxed/simple;
-	bh=VOubikG6ZpnVVZCM7MJ8dHjxeyaHenragv3J+gQEHdc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=T08yZVvNsPM+8mmoy30HpdGX33cVlibK11TnMkh2ewwZTEL2Evqp6vTo0yHK8o3GtEvQXcFmMNRSUYpTjzsb87UC+a+XPhFQrhB9PQDaZCRKOFRNv6iqwyyu6cydWqsa+iHLheJYYhjc2LeVgFWJegVcABAkYpxDv6M37PVdNvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=DSb4N0dU reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1719662616; c=relaxed/simple;
+	bh=lArdPUADyKpjxHUN7n/CvkIS4KCsOhDeYHy/KXPHHIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rq2HQP3kuVKzen0ujdzxXrZVMZYM76hUzB4xNMTmVz6MPQ5WRdQub+sVnx4Mk0rhsWpkEyavTlwf5hj8+thcmleZc92V/mJYE1vQGBr/OCnofw3btf0RQt0nCfWPfigBRrOi5U41hMQMfqlD9XdCsQcPmC+yyJ2W3Dpj4vxem/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jcNIKHnL; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="DSb4N0dU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=QfAQv6rdwkp+lvfK9xPCyNRFEgAyBJrfS4SIVVxYfyc=; b=D
-	Sb4N0dUKgHssEp/5svGHDZdJWnqIFs2pjHVwg9ZUJtLykQkYgYv34v2H/rW2aJ+/
-	9UrdhQAyHTM74Mw6LvN42A5sK4qmk2vbezq43aOGEVEUK4/3jCPRD6LUeFGofpwp
-	xUn+a2/iDkDt3pOgj6e2ROM3g46ZnNF8ifuX63HttI=
-Received: from slark_xiao$163.com ( [112.97.61.182] ) by
- ajax-webmail-wmsvr-40-115 (Coremail) ; Sat, 29 Jun 2024 16:03:28 +0800
- (CST)
-Date: Sat, 29 Jun 2024 16:03:28 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Jeffrey Hugo" <quic_jhugo@quicinc.com>
-Cc: manivannan.sadhasivam@linaro.org, loic.poulain@linaro.org, 
-	ryazanov.s.a@gmail.com, johannes@sipsolutions.net, 
-	netdev@vger.kernel.org, mhi@lists.linux.dev, 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jcNIKHnL"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-706b14044cbso1155245b3a.2
+        for <mhi@lists.linux.dev>; Sat, 29 Jun 2024 05:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719662614; x=1720267414; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VPg9SKSgYNPb6kLAYzvHmB3z47IH8SpApe8V8/ZdD0s=;
+        b=jcNIKHnL3Fb0YbT47dDGUfj5143O9oWmGs3UP9WCtu3CUxVMhgP2l6YVjpV+kvUm7o
+         bXf/I6eWAiH1eMvMIKN5ibRc+A5Z9rBuIcndOdm0ax6YMI7iJj0wtp9H74sGdPhDGj0k
+         9XcqTByiHwtrR24kyCcFWOGcHqOyVSYPRRXr41ZmO7YjJCCprEvvIOQ5u/gnAJqYFApO
+         FdTWQXLz8WO2ndmap3D8kaYcB4h4kZxa6h3QTDd2NpiHpyFnBPoucx0w7n5Yn+LRrTmW
+         XIbkhRMQ0vZ2f6FLNewC/KDLYEFV9VnjP1r/sYG2G/bwmyGREHNMGS+EssK8ZvxDR3rd
+         Vw3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719662614; x=1720267414;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VPg9SKSgYNPb6kLAYzvHmB3z47IH8SpApe8V8/ZdD0s=;
+        b=VjnRKm9j9q8c0OMmLTOzXyKY2eiBASMtbYxzogwlLhaHrHGlkmpIeaMUbWk0nA4DF+
+         RoQAtSiD7Ep6sQ++ZaUNFuKPbwAjhl8EfszuspzqrL8Th7pDTfnweqSeUy7u/+667TMG
+         NNz5ip2tuezub+48laRAHkKRKI/Hmmc4FXjaDhrepvoPSRXohtzZXZ8QjDIakykD+kEw
+         QlE+tYWWCkH4fhgc3el7VQQtHCZugYXKwCEBmAJoiLuISYcL2ev6YDiS/zGDvdj8LQVW
+         R41Sm1hU15c1yIyEI5jzjHQ+kb6No4D3iF5Z8d2q/l7xcZnoVVFkZ92SKnzjsPVTxL2W
+         uR8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWsUCjnr6h8n3iWG/zH5LwA2cEu3ZQne2SXQ0JVef61J39zLXCQDCCLXqo7gXSrnGXyQ7Bjm2CG9AZHW6VeSiq3hs9p
+X-Gm-Message-State: AOJu0YyZzOUvC9YgP+rmMNrVLtFfLeOZ3sav+kjj5W8KEG+shAF8foGe
+	rncu6wCj9TaXVNKebL7ZMbG6kQND7/Hq41hK4weiRH1aSV+1BLYjcVe46moGjQ==
+X-Google-Smtp-Source: AGHT+IGrjryHFa529FoSoLFAluhRte5/p9zjbD12bPKViAwhKmDYQNdOp+qokHPowPDgPE5GH+I3sw==
+X-Received: by 2002:a05:6a20:a11f:b0:1be:c35e:d47b with SMTP id adf61e73a8af0-1bef619949emr892312637.34.1719662614188;
+        Sat, 29 Jun 2024 05:03:34 -0700 (PDT)
+Received: from thinkpad ([220.158.156.249])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac1596d55sm30873885ad.277.2024.06.29.05.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Jun 2024 05:03:33 -0700 (PDT)
+Date: Sat, 29 Jun 2024 17:33:09 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
+	netdev@vger.kernel.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v3 2/3] bus: mhi: host: Add name for mhi_controller
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <cde35f69-4d6e-d46d-88ca-9c5d6d5e757f@quicinc.com>
+Subject: Re: Re: [PATCH v3 2/3] bus: mhi: host: Add name for mhi_controller
+Message-ID: <20240629120222.GA4905@thinkpad>
 References: <20240628073626.1447288-1-slark_xiao@163.com>
  <cde35f69-4d6e-d46d-88ca-9c5d6d5e757f@quicinc.com>
-X-NTES-SC: AL_Qu2aC/qft0or7iWeYOkfmk8Sg+84W8K3v/0v1YVQOpF8jDzp4AcPVGFHF0bdysidFwqFmhyTbCJOyu1wb5JYea0BAtDJVsQjLe1KmLXa219Cjw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <298e9aeb.2587.190630546b9.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <298e9aeb.2587.190630546b9.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3P47Qv39mWmsUAA--.8330W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJQIMZGVOB8H34gAEsz
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <298e9aeb.2587.190630546b9.Coremail.slark_xiao@163.com>
 
-CkF0IDIwMjQtMDYtMjggMjI6Mzg6NTcsICJKZWZmcmV5IEh1Z28iIDxxdWljX2podWdvQHF1aWNp
-bmMuY29tPiB3cm90ZToKPk9uIDYvMjgvMjAyNCAxOjM2IEFNLCBTbGFyayBYaWFvIHdyb3RlOgo+
-PiAgIEZvciBTRFg3MiBNQklNIG1vZGUsIGl0IHN0YXJ0cyBkYXRhIG11eCBpZCBmcm9tIDExMiBp
-bnN0ZWFkIG9mIDAuCj4+ICAgVGhpcyB3b3VsZCBsZWFkIHRvIGRldmljZSBjYW4ndCBwaW5nIG91
-dHNpZGUgc3VjY2Vzc2Z1bGx5Lgo+PiAgIEFsc28gTUJJTSBzaWRlIHdvdWxkIHJlcG9ydCAiYmFk
-IHBhY2tldCBzZXNzaW9uICgxMTIpIi4KPgoKPldlaXJkIGluZGVudGF0aW9uCgpNeSBtaXN0YWtl
-LiBXaWxsIGJlIGNvcnJlY3RlZCBpbiBuZXh0LgoKPgo+PiAgIEluIG9kZXIgdG8gZml4IHRoaXMg
-aXNzdWUsIHdlIGRlY2lkZSB0byB1c2UgdGhlIG1vZGVtIG5hbWUKPgo+Im9yZGVyIgo+Cj4+IHRv
-IGRvIGEgbWF0Y2ggaW4gY2xpZW50IGRyaXZlciBzaWRlLiBUaGVuIGNsaWVudCBkcml2ZXIgY291
-bGQKPj4gc2V0IGEgY29ycmVzcG9uZGluZyBtdXhfaWQgdmFsdWUgZm9yIHRoaXMgbW9kZW0gcHJv
-ZHVjdC4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNv
-bT4KPj4gLS0tCj4+ICAgZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyB8IDEgKwo+
-PiAgIGluY2x1ZGUvbGludXgvbWhpLmggICAgICAgICAgICAgICAgfCAyICsrCj4+ICAgMiBmaWxl
-cyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2J1
-cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVy
-aWMuYwo+PiBpbmRleCAxZmIxYzJmMmZlMTIuLjE0YTExODgwYmNlYSAxMDA2NDQKPj4gLS0tIGEv
-ZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiArKysgYi9kcml2ZXJzL2J1cy9t
-aGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+IEBAIC0xMDg2LDYgKzEwODYsNyBAQCBzdGF0aWMgaW50
-IG1oaV9wY2lfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVjdCBwY2lfZGV2
-aWNlX2lkICppZCkKPj4gICAJbWhpX2NudHJsLT5ydW50aW1lX2dldCA9IG1oaV9wY2lfcnVudGlt
-ZV9nZXQ7Cj4+ICAgCW1oaV9jbnRybC0+cnVudGltZV9wdXQgPSBtaGlfcGNpX3J1bnRpbWVfcHV0
-Owo+PiAgIAltaGlfY250cmwtPm1ydSA9IGluZm8tPm1ydV9kZWZhdWx0Owo+PiArCW1oaV9jbnRy
-bC0+bmFtZSA9IGluZm8tPm5hbWU7Cj4+ICAgCj4+ICAgCWlmIChpbmZvLT5lZGxfdHJpZ2dlcikK
-Pj4gICAJCW1oaV9jbnRybC0+ZWRsX3RyaWdnZXIgPSBtaGlfcGNpX2dlbmVyaWNfZWRsX3RyaWdn
-ZXI7Cj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L21oaS5oIGIvaW5jbHVkZS9saW51eC9t
-aGkuaAo+PiBpbmRleCBiNTczZjE1NzYyZjguLjg2YWE0ZjUyODQyYyAxMDA2NDQKPj4gLS0tIGEv
-aW5jbHVkZS9saW51eC9taGkuaAo+PiArKysgYi9pbmNsdWRlL2xpbnV4L21oaS5oCj4+IEBAIC0z
-NjEsNiArMzYxLDcgQEAgc3RydWN0IG1oaV9jb250cm9sbGVyX2NvbmZpZyB7Cj4+ICAgICogQHdh
-a2Vfc2V0OiBEZXZpY2Ugd2FrZXVwIHNldCBmbGFnCj4+ICAgICogQGlycV9mbGFnczogaXJxIGZs
-YWdzIHBhc3NlZCB0byByZXF1ZXN0X2lycSAob3B0aW9uYWwpCj4+ICAgICogQG1ydTogdGhlIGRl
-ZmF1bHQgTVJVIGZvciB0aGUgTUhJIGRldmljZQo+PiArICogQG5hbWU6IG5hbWUgb2YgdGhlIG1v
-ZGVtCj4KCj5XaHkgcmVzdHJpY3QgdGhpcyB0byBtb2RlbXM/ICBUaGVyZSBhcmUgcGxlbnR5IG9m
-IG90aGVyIE1ISSBkZXZpY2VzCgpBY3R1YWxseSBhbGwgTUhJIGRldmljZXMgY291bGQgYmUgY2Fs
-bGVkIG1vZGVtcy4gSSBkb24ndCB0aGluayB0aGlzIGlzCmEgd3JvbmcgbmFtZS4KCj4KPj4gICAg
-Kgo+PiAgICAqIEZpZWxkcyBtYXJrZWQgYXMgKHJlcXVpcmVkKSBuZWVkIHRvIGJlIHBvcHVsYXRl
-ZCBieSB0aGUgY29udHJvbGxlciBkcml2ZXIKPj4gICAgKiBiZWZvcmUgY2FsbGluZyBtaGlfcmVn
-aXN0ZXJfY29udHJvbGxlcigpLiBGb3IgdGhlIGZpZWxkcyBtYXJrZWQgYXMgKG9wdGlvbmFsKQo+
-PiBAQCAtNDQ1LDYgKzQ0Niw3IEBAIHN0cnVjdCBtaGlfY29udHJvbGxlciB7Cj4+ICAgCWJvb2wg
-d2FrZV9zZXQ7Cj4+ICAgCXVuc2lnbmVkIGxvbmcgaXJxX2ZsYWdzOwo+PiAgIAl1MzIgbXJ1Owo+
-PiArCWNvbnN0IGNoYXIgKm5hbWU7Cj4KCj5QbGVhc2UgcnVuIHBhaG9sZQoKRW1tLCBqdXN0IGNo
-ZWNrZWQswqAgdGhlcmUgYXJlIDMgaG9sZXM6CsKgwqDCoCB1MzLCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE0zO8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAvKsKgwqAgMzEywqDCoMKgwqAgNCAqLwrCoMKgIMKgLyogWFhYIDQgYnl0ZXMg
-aG9sZSwgdHJ5IHRvIHBhY2sgKi8KLi4uCsKgwqDCoCBib29swqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgd2FrZV9zZXQ7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IC8qwqDCoCA1MjbCoMKgwqDCoCAxICovCsKgwqAgwqAvKiBYWFggMSBieXRlIGhvbGUsIHRyeSB0
-byBwYWNrICovCi4uLgrCoMKgwqAgdTMywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBtcnU7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKsKg
-wqAgNTM2wqDCoMKgwqAgNCAqLwrCoMKgIMKgLyogWFhYIDQgYnl0ZXMgaG9sZSwgdHJ5IHRvIHBh
-Y2sgKi8KCkkgd2lsbCBwdXQgJ2NvbnN0IGNoYXIgKm5hbWUnIGFib3ZlICd1MzIgbXJ1JyB0byBh
-dm9pZCB0aGUgbGFzdCBob2xlLgpJcyB0aGlzIG9rYXk/Cgo+Cj4+ICAgfTsKPj4gICAKPj4gICAv
-KioK
+On Sat, Jun 29, 2024 at 04:03:28PM +0800, Slark Xiao wrote:
+> 
+> At 2024-06-28 22:38:57, "Jeffrey Hugo" <quic_jhugo@quicinc.com> wrote:
+> >On 6/28/2024 1:36 AM, Slark Xiao wrote:
+> >>   For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+> >>   This would lead to device can't ping outside successfully.
+> >>   Also MBIM side would report "bad packet session (112)".
+> >
+> 
+> >Weird indentation
+> 
+> My mistake. Will be corrected in next.
+> 
+> >
+> >>   In oder to fix this issue, we decide to use the modem name
+> >
+> >"order"
+> >
+> >> to do a match in client driver side. Then client driver could
+> >> set a corresponding mux_id value for this modem product.
+> >> 
+> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >> ---
+> >>   drivers/bus/mhi/host/pci_generic.c | 1 +
+> >>   include/linux/mhi.h                | 2 ++
+> >>   2 files changed, 3 insertions(+)
+> >> 
+> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >> index 1fb1c2f2fe12..14a11880bcea 100644
+> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >> @@ -1086,6 +1086,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >>   	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+> >>   	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+> >>   	mhi_cntrl->mru = info->mru_default;
+> >> +	mhi_cntrl->name = info->name;
+> >>   
+> >>   	if (info->edl_trigger)
+> >>   		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
+> >> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> >> index b573f15762f8..86aa4f52842c 100644
+> >> --- a/include/linux/mhi.h
+> >> +++ b/include/linux/mhi.h
+> >> @@ -361,6 +361,7 @@ struct mhi_controller_config {
+> >>    * @wake_set: Device wakeup set flag
+> >>    * @irq_flags: irq flags passed to request_irq (optional)
+> >>    * @mru: the default MRU for the MHI device
+> >> + * @name: name of the modem
+> >
+> 
+> >Why restrict this to modems?  There are plenty of other MHI devices
+> 
+> Actually all MHI devices could be called modems. I don't think this is
+> a wrong name.
+> 
+
+No, not all MHI controllers are modems. This driver is a generic driver for MHI
+controllers. So use below description:
+
+	'Product or device name of the MHI controller'
+
+> >
+> >>    *
+> >>    * Fields marked as (required) need to be populated by the controller driver
+> >>    * before calling mhi_register_controller(). For the fields marked as (optional)
+> >> @@ -445,6 +446,7 @@ struct mhi_controller {
+> >>   	bool wake_set;
+> >>   	unsigned long irq_flags;
+> >>   	u32 mru;
+> >> +	const char *name;
+> >
+> 
+> >Please run pahole
+> 
+> Emm, just checked,  there are 3 holes:
+>     u32                        M3;                   /*   312     4 */
+>     /* XXX 4 bytes hole, try to pack */
+> ...
+>     bool                       wake_set;             /*   526     1 */
+>     /* XXX 1 byte hole, try to pack */
+> ...
+>     u32                        mru;                  /*   536     4 */
+>     /* XXX 4 bytes hole, try to pack */
+> 
+> I will put 'const char *name' above 'u32 mru' to avoid the last hole.
+> Is this okay?
+> 
+
+Just put it at the top.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
