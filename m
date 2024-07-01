@@ -1,27 +1,28 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F258C8E0
-	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 02:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760392F3B
+	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 02:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719799980; cv=none; b=V6zFOL2OSERC4PKTOfrvvxU7sL//y3tr1M5n5YMAy8UoL6SmaaEiW2S0o+PhT29Z39xG6qX59HWvFUdmusgtywjOJDiGL4KIUeiUt+pw1yZCs8kx4ta6+o7xRf68+EzZf2Bfe8v8FTaBo+o095s/X1FLj0oOF+ka9bqF77EDHms=
+	t=1719799982; cv=none; b=fD8Uf8MMt7vK6lb+7mWWTCxuyvmoAwGtXYDGpNPoDJ7MKjDH0AX5oMgYEM8r+3UqL4yhYYgnxC3UXfrL9frFu2gtH5DD0J7mU2QbFOu/MJtlTC2J1YInw5HlJe/KJXxQg2VRHy3UDp7aqrKIf253GnddbSlf9Dma/T4olSrv2Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719799980; c=relaxed/simple;
-	bh=92AGGsrcbotljDKeMUOW1yDTBBo1NNwetVgmd8RhVRo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NVThW8HpenuhoKfYAO3hwMGuFUNHiimaJJ+XM6Oxyv6+9LZqGdZeVRSqEX8RPFw0Okj1RcobxPv+8hTMB/d1ty7cFhQ8g3jZUPVqmoLkGBgprLW4zEVWDjJqEcfmZMgLsgzl7/4W/Hoiv9IgLksv6wpRKe3qirZFGw9oRl3Y3oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Dv9VK0Kx; arc=none smtp.client-ip=220.197.31.5
+	s=arc-20240116; t=1719799982; c=relaxed/simple;
+	bh=3ASXS1O8xuC6hlbozKD1ZRDRpVxjFWQ09XQ80jRF37I=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=aSNQ6ichO/+sKn2S0fOjROHPIGnFnerP6cBacNL7cOkfAzmuGqujR/arb2vyIEGKlmVCKG3gFV8vy2xHeJg3OHufkHumrURNHT0nDOIgvVgSGow+BjeWu1o/yHtzMSE4/1EGTvSH/o1PPnnwW2dHc7k5Oj8Vg+iEInouyb5EDGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=UQ8NEH8n; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Dv9VK0Kx"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="UQ8NEH8n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qOVWR
-	6aXQqry3nItjJ+e8OBR8po78qC5/g5g+JfJjCI=; b=Dv9VK0KxkmIm3q8vlu8S3
-	FYk+DNS92yV5sq07dLJI6MBIbfOlRVWSa4McQetZLPP/Vb76Fj18whHGrXK1O7/y
-	kZsES1jwlzwt1yjFma73VbhP8H77wgQ7TasybTrZOoSOEa8YMxFg9D6nitdcaOS4
-	u9vN3hfLB4+2w6VXJ/5hts=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/sEzh
+	bCBpFcDyASmFXgsdTKSdpq7AsrYjND+Vb8eo00=; b=UQ8NEH8nEDP8Pl29P4ILg
+	WU/HhmYLUQaTUF1E+hWI/deacnUViI+d1b/vVVZ1WqKQbW9AKYvfS1UFK6Qo3B3D
+	BAJtBUC8tfeTik8EitCuxPAhIRL2uMtc5nH/qSfxrVnOY1JbwzCIHE3hDsz1njRw
+	obtkJTJvnmU6HYLPTlmSio=
 Received: from localhost.localdomain (unknown [223.104.68.114])
-	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3v0uFEIJm1iKSBA--.55558S2;
-	Mon, 01 Jul 2024 10:12:22 +0800 (CST)
+	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3v0uFEIJm1iKSBA--.55558S3;
+	Mon, 01 Jul 2024 10:12:24 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: manivannan.sadhasivam@linaro.org,
 	loic.poulain@linaro.org,
@@ -33,10 +34,12 @@ Cc: netdev@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v4 1/3] bus: mhi: host: Add Foxconn SDX72 related support
-Date: Mon,  1 Jul 2024 10:12:14 +0800
-Message-Id: <20240701021216.17734-1-slark_xiao@163.com>
+Subject: [PATCH v4 2/3] bus: mhi: host: Add name for mhi_controller
+Date: Mon,  1 Jul 2024 10:12:15 +0800
+Message-Id: <20240701021216.17734-2-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240701021216.17734-1-slark_xiao@163.com>
+References: <20240701021216.17734-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -44,100 +47,63 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v0uFEIJm1iKSBA--.55558S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxur15Kry7Zw47JF4rKw4UArb_yoW5KrykpF
-	s3Z3yUta1kJFWrKFW8A34DG3Z5GrsxCr93KFnrKw1Igw1Yy3yYqFZ7K342kryYy3sFqryS
-	yF95WFy293ZrJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRijjhUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwcPZGV4KDQrogAAsj
+X-CM-TRANSID:_____wD3v0uFEIJm1iKSBA--.55558S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrWfJr1DAr1DAF17Jr1DKFg_yoW8ZrW5pa
+	1v9rW3Ar4fKrW5Kr1qk3s7ZF15Xw4DW342kwsrWw15K3sIg34qqFyvgFyrGF9I9rZakF12
+	yF4Fvry8W3WqvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zMVbyUUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwsPZGV4KDQsAAAAsK
 
-Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
-And also, add firehose support since SDX72.
+For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+This would lead to device can't ping outside successfully.
+Also MBIM side would report "bad packet session (112)".In order to
+fix this issue, we decide to use the device name of MHI controller
+to do a match in client driver side. Then client driver could set
+a corresponding mux_id value for this MHI product.
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
-v2: (1). Update the edl file path and name (2). Set SDX72 support
-trigger edl mode by default
-v3: Divide into 2 parts for Foxconn sdx72 platform
+v2: Remove Fix flag
+v3: Use name match solution instead of use mux_id
+v4: Update the description of new member 'name' and move it to
+right position
 ---
- drivers/bus/mhi/host/pci_generic.c | 43 ++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ drivers/bus/mhi/host/pci_generic.c | 1 +
+ include/linux/mhi.h                | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 35ae7cd0711f..1fb1c2f2fe12 100644
+index 1fb1c2f2fe12..14a11880bcea 100644
 --- a/drivers/bus/mhi/host/pci_generic.c
 +++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
- 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
- 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
- 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
- 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
- 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
- };
-@@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
- 	.event_cfg = mhi_foxconn_sdx55_events,
+@@ -1086,6 +1086,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+ 	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+ 	mhi_cntrl->mru = info->mru_default;
++	mhi_cntrl->name = info->name;
+ 
+ 	if (info->edl_trigger)
+ 		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index b573f15762f8..d45058d3dbed 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -289,6 +289,7 @@ struct mhi_controller_config {
  };
  
-+static const struct mhi_controller_config modem_foxconn_sdx72_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 20000,
-+	.ready_timeout_ms = 50000,
-+	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
-+	.ch_cfg = mhi_foxconn_sdx55_channels,
-+	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
-+	.event_cfg = mhi_foxconn_sdx55_events,
-+};
-+
- static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.name = "foxconn-sdx55",
- 	.fw = "qcom/sdx55m/sbl1.mbn",
-@@ -488,6 +500,28 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
-+	.name = "foxconn-t99w515",
-+	.edl = "fox/sdx72m/edl.mbn",
-+	.edl_trigger = true,
-+	.config = &modem_foxconn_sdx72_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
-+static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
-+	.name = "foxconn-dw5934e",
-+	.edl = "fox/sdx72m/edl.mbn",
-+	.edl_trigger = true,
-+	.config = &modem_foxconn_sdx72_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
- static const struct mhi_channel_config mhi_mv3x_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
- 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-@@ -720,6 +754,15 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* DW5932e (sdx62), Non-eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f9),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5932e_info },
-+	/* T99W515 (sdx72) */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe118),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w515_info },
-+	/* DW5934e(sdx72), With eSIM */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11d),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
-+	/* DW5934e(sdx72), Non-eSIM */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+ /**
++ * @name: device name of the MHI controller
+  * struct mhi_controller - Master MHI controller structure
+  * @cntrl_dev: Pointer to the struct device of physical bus acting as the MHI
+  *            controller (required)
+@@ -367,6 +368,7 @@ struct mhi_controller_config {
+  * they can be populated depending on the usecase.
+  */
+ struct mhi_controller {
++	const char *name;
+ 	struct device *cntrl_dev;
+ 	struct mhi_device *mhi_dev;
+ 	struct dentry *debugfs_dentry;
 -- 
 2.25.1
 
