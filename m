@@ -1,111 +1,140 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FB516EBF0
-	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 15:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DC62562E
+	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 16:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719846841; cv=none; b=QdPXzGF654DH51tYWAcjfX4nnUsUoitZl77EMGT+1PPMiEZsrV3MG/UT6eE0WMfsC6aFe9CZVYwx+lrnDHj3mO0Dq/oFOrT6Vljpl3AE4p0VirPQ3eT/yKYqzsNpXDa3oQgtz8pYg1RkMyj/Dh8oOkCMtZgYJ6jP3PFhJLLmaQ0=
+	t=1719850800; cv=none; b=OUIZLi/nqJVs/Y9TVZKaDG0rRcZlOVSvLheN+EvTSaai1bvdR7cMm4kGtEcgqc4U5UMg4X5BcMXk/2b6RG50fDGIPCftzPGVUCoIpUY/wIp+lYR5sF3jYRyw/1hqReH7qNmzATWVmDqsMahaN1CodSHJUnWGmJUHibuWf6tD2TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719846841; c=relaxed/simple;
-	bh=wSN2WRLY+Xe+6qxwQjFfYTqSF5/HFUaEB/53b5MDRnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bHVKwgMm9QaSIzd7ri8ae4ZUk6M+7VheVRZPw6o4/l1AQU5bU7BRSICAtzZUwVwXR+5WATAxGP71YRG02xE9hYQduIkmT8L/dxn0gPbb1o6BQRgsYrqp3MCE9FabPM1GI066YgIQrsL22kLSrPiQVKHfh/o+YiffWhJBdNKlaps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QjaDMQUC; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1719850800; c=relaxed/simple;
+	bh=XH8Osb0c4CXWeNNmUjzFX2RRUGL1tu0cvHhkCktcXCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shAaTUKDBKfzpnfHI4/chjwRN5VyJzQAplcpP+Z7Ioe7wn0RufuKLOaLx1AaGZffmNHojJz5vJd8dJDhbSsHpE4ERzEw/E97auC1skjIuvJvDL+8ZE+12h0lM1CYDcLYgEclD4d/8UtUuEqZpoyh2Z7frDwfJWmodUIDG/Wp4oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RK/OnKgQ; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QjaDMQUC"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 461Avemw008672;
-	Mon, 1 Jul 2024 15:13:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tQ3YvqGNbJPrdYR49pZzdv+y394UYEj6P6+/Ln4atVY=; b=QjaDMQUC0kRX/WDa
-	7W1OztEyTcA2Q3VuzygoYxKF91++DhW0ybWVOkQhr0+4hEQiswNpI5FNh/rBO8EU
-	kQcMFyPTWpZcjibGfJayaQH+s/Zpnpn4QboJ75ZSdYMK64P1qR/Kkm9f1jOK9yXv
-	LiV0Ed5uMJzGIx/KdrtRIm7Lal4NL0b63fvKr9UW730QK/JYOWXBr1Z1sF6A4Jy7
-	UM72T7AEoNo9QpJUHLmG1asTNTC9xWzUmQZ4mAkHbNa9QaGrXZgIx9hYbeC6CObX
-	7U8t9JTAhKFvNsuCIVN9LHHKUc8x6nOx4uS0tsOexYy050XwR5HKYmkFXtlNwMxn
-	6q9GRQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40297rms7v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Jul 2024 15:13:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 461FDqWp028369
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 1 Jul 2024 15:13:52 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 1 Jul 2024
- 08:13:51 -0700
-Message-ID: <36b8cdab-28d5-451f-8ca3-7c9c8b02b5b2@quicinc.com>
-Date: Mon, 1 Jul 2024 09:13:50 -0600
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RK/OnKgQ"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2c7a6da20f2so1768067a91.0
+        for <mhi@lists.linux.dev>; Mon, 01 Jul 2024 09:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719850797; x=1720455597; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=npGZbPFkc3bZWaaUO0pnaqKWSuNckmKN9XglNUgbS7A=;
+        b=RK/OnKgQ04yJI0+AGOmnZ0doCJ64bIoTPc2PPM5NqdXxu6uiV3R7Z4NAI9HNc2GFET
+         3fkwto3ZVZ9d/dbAUAj70dh5Fx3t2HGqxOSkMiJBgrlzWWuWvTNpw4yjO1LCSdi3bdAY
+         4IOpva4vh41t2wYbs3hcYD1GM2U8fsdw0KzwgTt6+Ex4k9bA1C93AaCbUIx4LgcfQiSz
+         7K2z1wxIjlRdFRBZfnWwQFeVNOlKKqvqhLb53aWUYPUNly1CPMLv9Hi2jSjKWpOkZJeJ
+         8IioLmHkoGEZmIYktzdAFHPv530PY/T/CZZxuasn/1zQNsp7EqHe3sEPXlr2GaUxnT9W
+         VWeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719850797; x=1720455597;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=npGZbPFkc3bZWaaUO0pnaqKWSuNckmKN9XglNUgbS7A=;
+        b=ovF/4wj1XlfP3tqfA0xeg6LeNU2VygYF4lgrAILQX6CWp+pZKD55NRbDBTks3ko3UO
+         9kOC7+nNXl93wK9VW2cbmtveuVsPqRTjrIOxBjWPraajs5eyFOtebOFaAIpMtI3QF+gN
+         x1/YhAZiFiAX13AOK0SGpyaSZkJYBIj2AGrWXT96i/Sag12DXzMOa4GeDQZCKn8X5cEO
+         cwHItMPhmITEMnZcb1phjyg1cGNXrIilwM9wscA6G2WOGjudfoD+JtkdlaUd6XULwC89
+         JKKlTD9b8ZebXklkArCu+5B6mczxdCQ75n8jRzbUAj63rMaTFlb7ZHDt3LYday8kEMEu
+         rEVQ==
+X-Gm-Message-State: AOJu0YyGZ0UPnslIYIKphBattnbEGwn85hJLKsDP3BXNzm8ZpvoA67Ww
+	nMZQlkmGQbPDTrLmw6ypeUX6GZqtvbNog7QGvEbVDrvnRDXy5DUaI7IWkkkp2Q==
+X-Google-Smtp-Source: AGHT+IGal1R5vzpDJ7sCzSGyMQEj1ejbiV5YpF8XbjBnrGN69ahWIq2HbSymiIabAN8Zgt3y/qBZgQ==
+X-Received: by 2002:a17:90b:e0f:b0:2c7:c6a1:42d9 with SMTP id 98e67ed59e1d1-2c93d77c8d8mr2945206a91.49.1719850796986;
+        Mon, 01 Jul 2024 09:19:56 -0700 (PDT)
+Received: from thinkpad ([220.158.156.91])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c91ce17a8esm6956074a91.1.2024.07.01.09.19.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 09:19:56 -0700 (PDT)
+Date: Mon, 1 Jul 2024 21:49:51 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Use unique
+ 'mhi_pci_dev_info' for product families
+Message-ID: <20240701161951.GA133366@thinkpad>
+References: <20240626053237.4227-1-manivannan.sadhasivam@linaro.org>
+ <34a76874.acd9.1905479d200.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 2/3] bus: mhi: host: Add name for mhi_controller
-Content-Language: en-US
-To: Slark Xiao <slark_xiao@163.com>, <manivannan.sadhasivam@linaro.org>,
-        <loic.poulain@linaro.org>, <ryazanov.s.a@gmail.com>,
-        <johannes@sipsolutions.net>
-CC: <netdev@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240701021216.17734-1-slark_xiao@163.com>
- <20240701021216.17734-2-slark_xiao@163.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240701021216.17734-2-slark_xiao@163.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: mLF9_7pyKicC1jyI4l_K8XdkmRK64D3p
-X-Proofpoint-GUID: mLF9_7pyKicC1jyI4l_K8XdkmRK64D3p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-01_15,2024-07-01_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=951
- lowpriorityscore=0 clxscore=1015 mlxscore=0 suspectscore=0 spamscore=0
- adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407010117
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34a76874.acd9.1905479d200.Coremail.slark_xiao@163.com>
 
-On 6/30/2024 8:12 PM, Slark Xiao wrote:
-> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
-> This would lead to device can't ping outside successfully.
-> Also MBIM side would report "bad packet session (112)".In order to
-> fix this issue, we decide to use the device name of MHI controller
-> to do a match in client driver side. Then client driver could set
-> a corresponding mux_id value for this MHI product.
+On Wed, Jun 26, 2024 at 08:16:28PM +0800, Slark Xiao wrote:
 > 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> +++ b/include/linux/mhi.h
-> @@ -289,6 +289,7 @@ struct mhi_controller_config {
->   };
->   
->   /**
-> + * @name: device name of the MHI controller
+> At 2024-06-26 13:32:37, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >Currently, a single 'mhi_pci_dev_info' is shared across different product
+> >families. Even though it makes the device functional, it misleads the users
+> >by sharing the common product name.
+> >
+> >For instance, below message will be printed for Foxconn SDX62 modem during
+> >boot:
+> >
+> >"MHI PCI device found: foxconn-sdx65"
+> >
+> >But this is quite misleading to the users since the actual modem plugged in
+> >could be 'T99W373' which is based on SDX62.
+> >
+> >So fix this issue by using a unique 'mhi_pci_dev_info' for product
+> >families. This allows us to specify a unique product name for each product
+> >family. Also, once this name is exposed to client drivers, they may use
+> >this name to identify the modems and use any modem specific configuration.
+> >
+> >Modems of unknown product families are not impacted by this change.
+> >
+> >CC: Slark Xiao <slark_xiao@163.com>
+> >Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> Reviewed-by: Slark Xiao <slark_xiao@163.com>
+> 
+> >---
+> >
+> >Changes in v2:
+> >
+> >* Used 'mhi_foxconn_t99w175_info' for HP variant as well
+> >
+> > drivers/bus/mhi/host/pci_generic.c | 78 ++++++++++++++++++++++--------
+> > 1 file changed, 59 insertions(+), 19 deletions(-)
+> >
+> >diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >index 08844ee79654..35ae7cd0711f 100644
+> >--- a/drivers/bus/mhi/host/pci_generic.c
+> >+++ b/drivers/bus/mhi/host/pci_generic.c
+> >@@ -419,8 +419,10 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+> > 	.event_cfg = mhi_foxconn_sdx55_events,
+> > };
+> > 
+> >-static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
+> >-	.name = "foxconn-sdx24",
+> >+static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+> >+	.name = "foxconn-sdx55",
+> >+	.fw = "qcom/sdx55m/sbl1.mbn",
+> >+	.edl = "qcom/sdx55m/edl.mbn",
+> > 	.config = &modem_foxconn_sdx55_config,
+> > 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> > 	.dma_data_width = 32,
+> >@@ -428,8 +430,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx24_info = {
+> > 	.sideband_wake = false,
+> > };
+> 
+> Seems nobody use this mhi_foxconn_sdx55_info.  Please help remove it.
+> 
 
-This needs to be below the next line
+No, it is used by a Qcom modem.
 
->    * struct mhi_controller - Master MHI controller structure
->    * @cntrl_dev: Pointer to the struct device of physical bus acting as the MHI
->    *            controller (required)
-> @@ -367,6 +368,7 @@ struct mhi_controller_config {
->    * they can be populated depending on the usecase.
->    */
->   struct mhi_controller {
-> +	const char *name;
->   	struct device *cntrl_dev;
->   	struct mhi_device *mhi_dev;
->   	struct dentry *debugfs_dentry;
+- Mani
 
+-- 
+மணிவண்ணன் சதாசிவம்
