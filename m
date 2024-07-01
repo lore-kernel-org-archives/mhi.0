@@ -1,109 +1,111 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760392F3B
-	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 02:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FB516EBF0
+	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 15:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719799982; cv=none; b=fD8Uf8MMt7vK6lb+7mWWTCxuyvmoAwGtXYDGpNPoDJ7MKjDH0AX5oMgYEM8r+3UqL4yhYYgnxC3UXfrL9frFu2gtH5DD0J7mU2QbFOu/MJtlTC2J1YInw5HlJe/KJXxQg2VRHy3UDp7aqrKIf253GnddbSlf9Dma/T4olSrv2Ys=
+	t=1719846841; cv=none; b=QdPXzGF654DH51tYWAcjfX4nnUsUoitZl77EMGT+1PPMiEZsrV3MG/UT6eE0WMfsC6aFe9CZVYwx+lrnDHj3mO0Dq/oFOrT6Vljpl3AE4p0VirPQ3eT/yKYqzsNpXDa3oQgtz8pYg1RkMyj/Dh8oOkCMtZgYJ6jP3PFhJLLmaQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719799982; c=relaxed/simple;
-	bh=3ASXS1O8xuC6hlbozKD1ZRDRpVxjFWQ09XQ80jRF37I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aSNQ6ichO/+sKn2S0fOjROHPIGnFnerP6cBacNL7cOkfAzmuGqujR/arb2vyIEGKlmVCKG3gFV8vy2xHeJg3OHufkHumrURNHT0nDOIgvVgSGow+BjeWu1o/yHtzMSE4/1EGTvSH/o1PPnnwW2dHc7k5Oj8Vg+iEInouyb5EDGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=UQ8NEH8n; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1719846841; c=relaxed/simple;
+	bh=wSN2WRLY+Xe+6qxwQjFfYTqSF5/HFUaEB/53b5MDRnk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bHVKwgMm9QaSIzd7ri8ae4ZUk6M+7VheVRZPw6o4/l1AQU5bU7BRSICAtzZUwVwXR+5WATAxGP71YRG02xE9hYQduIkmT8L/dxn0gPbb1o6BQRgsYrqp3MCE9FabPM1GI066YgIQrsL22kLSrPiQVKHfh/o+YiffWhJBdNKlaps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QjaDMQUC; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="UQ8NEH8n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/sEzh
-	bCBpFcDyASmFXgsdTKSdpq7AsrYjND+Vb8eo00=; b=UQ8NEH8nEDP8Pl29P4ILg
-	WU/HhmYLUQaTUF1E+hWI/deacnUViI+d1b/vVVZ1WqKQbW9AKYvfS1UFK6Qo3B3D
-	BAJtBUC8tfeTik8EitCuxPAhIRL2uMtc5nH/qSfxrVnOY1JbwzCIHE3hDsz1njRw
-	obtkJTJvnmU6HYLPTlmSio=
-Received: from localhost.localdomain (unknown [223.104.68.114])
-	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3v0uFEIJm1iKSBA--.55558S3;
-	Mon, 01 Jul 2024 10:12:24 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: manivannan.sadhasivam@linaro.org,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	quic_jhugo@quicinc.com
-Cc: netdev@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v4 2/3] bus: mhi: host: Add name for mhi_controller
-Date: Mon,  1 Jul 2024 10:12:15 +0800
-Message-Id: <20240701021216.17734-2-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240701021216.17734-1-slark_xiao@163.com>
-References: <20240701021216.17734-1-slark_xiao@163.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QjaDMQUC"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 461Avemw008672;
+	Mon, 1 Jul 2024 15:13:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tQ3YvqGNbJPrdYR49pZzdv+y394UYEj6P6+/Ln4atVY=; b=QjaDMQUC0kRX/WDa
+	7W1OztEyTcA2Q3VuzygoYxKF91++DhW0ybWVOkQhr0+4hEQiswNpI5FNh/rBO8EU
+	kQcMFyPTWpZcjibGfJayaQH+s/Zpnpn4QboJ75ZSdYMK64P1qR/Kkm9f1jOK9yXv
+	LiV0Ed5uMJzGIx/KdrtRIm7Lal4NL0b63fvKr9UW730QK/JYOWXBr1Z1sF6A4Jy7
+	UM72T7AEoNo9QpJUHLmG1asTNTC9xWzUmQZ4mAkHbNa9QaGrXZgIx9hYbeC6CObX
+	7U8t9JTAhKFvNsuCIVN9LHHKUc8x6nOx4uS0tsOexYy050XwR5HKYmkFXtlNwMxn
+	6q9GRQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40297rms7v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 01 Jul 2024 15:13:53 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 461FDqWp028369
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 1 Jul 2024 15:13:52 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 1 Jul 2024
+ 08:13:51 -0700
+Message-ID: <36b8cdab-28d5-451f-8ca3-7c9c8b02b5b2@quicinc.com>
+Date: Mon, 1 Jul 2024 09:13:50 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v0uFEIJm1iKSBA--.55558S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrWfJr1DAr1DAF17Jr1DKFg_yoW8ZrW5pa
-	1v9rW3Ar4fKrW5Kr1qk3s7ZF15Xw4DW342kwsrWw15K3sIg34qqFyvgFyrGF9I9rZakF12
-	yF4Fvry8W3WqvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zMVbyUUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwsPZGV4KDQsAAAAsK
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 2/3] bus: mhi: host: Add name for mhi_controller
+Content-Language: en-US
+To: Slark Xiao <slark_xiao@163.com>, <manivannan.sadhasivam@linaro.org>,
+        <loic.poulain@linaro.org>, <ryazanov.s.a@gmail.com>,
+        <johannes@sipsolutions.net>
+CC: <netdev@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240701021216.17734-1-slark_xiao@163.com>
+ <20240701021216.17734-2-slark_xiao@163.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240701021216.17734-2-slark_xiao@163.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mLF9_7pyKicC1jyI4l_K8XdkmRK64D3p
+X-Proofpoint-GUID: mLF9_7pyKicC1jyI4l_K8XdkmRK64D3p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-01_15,2024-07-01_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=951
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 suspectscore=0 spamscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407010117
 
-For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
-This would lead to device can't ping outside successfully.
-Also MBIM side would report "bad packet session (112)".In order to
-fix this issue, we decide to use the device name of MHI controller
-to do a match in client driver side. Then client driver could set
-a corresponding mux_id value for this MHI product.
+On 6/30/2024 8:12 PM, Slark Xiao wrote:
+> For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
+> This would lead to device can't ping outside successfully.
+> Also MBIM side would report "bad packet session (112)".In order to
+> fix this issue, we decide to use the device name of MHI controller
+> to do a match in client driver side. Then client driver could set
+> a corresponding mux_id value for this MHI product.
+> 
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> +++ b/include/linux/mhi.h
+> @@ -289,6 +289,7 @@ struct mhi_controller_config {
+>   };
+>   
+>   /**
+> + * @name: device name of the MHI controller
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
-v2: Remove Fix flag
-v3: Use name match solution instead of use mux_id
-v4: Update the description of new member 'name' and move it to
-right position
----
- drivers/bus/mhi/host/pci_generic.c | 1 +
- include/linux/mhi.h                | 2 ++
- 2 files changed, 3 insertions(+)
+This needs to be below the next line
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 1fb1c2f2fe12..14a11880bcea 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -1086,6 +1086,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
- 	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
- 	mhi_cntrl->mru = info->mru_default;
-+	mhi_cntrl->name = info->name;
- 
- 	if (info->edl_trigger)
- 		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index b573f15762f8..d45058d3dbed 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -289,6 +289,7 @@ struct mhi_controller_config {
- };
- 
- /**
-+ * @name: device name of the MHI controller
-  * struct mhi_controller - Master MHI controller structure
-  * @cntrl_dev: Pointer to the struct device of physical bus acting as the MHI
-  *            controller (required)
-@@ -367,6 +368,7 @@ struct mhi_controller_config {
-  * they can be populated depending on the usecase.
-  */
- struct mhi_controller {
-+	const char *name;
- 	struct device *cntrl_dev;
- 	struct mhi_device *mhi_dev;
- 	struct dentry *debugfs_dentry;
--- 
-2.25.1
+>    * struct mhi_controller - Master MHI controller structure
+>    * @cntrl_dev: Pointer to the struct device of physical bus acting as the MHI
+>    *            controller (required)
+> @@ -367,6 +368,7 @@ struct mhi_controller_config {
+>    * they can be populated depending on the usecase.
+>    */
+>   struct mhi_controller {
+> +	const char *name;
+>   	struct device *cntrl_dev;
+>   	struct mhi_device *mhi_dev;
+>   	struct dentry *debugfs_dentry;
 
