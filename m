@@ -1,28 +1,27 @@
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60A6AD534
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F258C8E0
 	for <mhi@lists.linux.dev>; Mon,  1 Jul 2024 02:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719799979; cv=none; b=S4zY0j6lp3fkt2NPCTE5bwL+piuKj/F9x0UU0ZrpinD14tAB6Y8pib7E1JnPNECIJd2Ytd7N3CzbFVm7TW7QykRXiHS1ilMlIgvcrO2LiAJTqzQyuYN8tpvoLKsg1GaQ1H20a11gqK4XivXYY6DIvGpmbSUqELdcB/80nOAjIyU=
+	t=1719799980; cv=none; b=V6zFOL2OSERC4PKTOfrvvxU7sL//y3tr1M5n5YMAy8UoL6SmaaEiW2S0o+PhT29Z39xG6qX59HWvFUdmusgtywjOJDiGL4KIUeiUt+pw1yZCs8kx4ta6+o7xRf68+EzZf2Bfe8v8FTaBo+o095s/X1FLj0oOF+ka9bqF77EDHms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719799979; c=relaxed/simple;
-	bh=V02GNauEJ6+FSANwXykZArgTu/EBTd0wTyKo2/sT9wg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qUw6Zi4TMonZ7ZlrJTAheQSG8QBX1ZeJNZ1WatZridlPHahrAXzKACyoVZuhWqiPTW/XvpbR8UYbKeQhTRb2Bn/FsWYlGsUcjN6194bEB13nuvKP1Q2H8kOUpWBYqJOMQCJcwuv1Y6j6tgNrsyIRUUk0DuRxYFG6pVFdJZP2vjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WR4YkUM4; arc=none smtp.client-ip=220.197.31.5
+	s=arc-20240116; t=1719799980; c=relaxed/simple;
+	bh=92AGGsrcbotljDKeMUOW1yDTBBo1NNwetVgmd8RhVRo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NVThW8HpenuhoKfYAO3hwMGuFUNHiimaJJ+XM6Oxyv6+9LZqGdZeVRSqEX8RPFw0Okj1RcobxPv+8hTMB/d1ty7cFhQ8g3jZUPVqmoLkGBgprLW4zEVWDjJqEcfmZMgLsgzl7/4W/Hoiv9IgLksv6wpRKe3qirZFGw9oRl3Y3oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Dv9VK0Kx; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WR4YkUM4"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Dv9VK0Kx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=bIEJK
-	Cnc2r/xvNNJlLvKU399iLjorSiJjIjlxZDacws=; b=WR4YkUM4fPREvCef3jAWW
-	kHqYbcWBV4lxR80YCGWp/ia1pCDHKpOXGw3nlzC8QhN+u62vxKA7VgCoCQt/kxSY
-	gbscZFhjjvtlhjoIC2YuYIBCMU5A6HMt3zbp13X7a6V7VDWX93gBh53h3QfvvtbO
-	sdscLOl3sEOIIvh0ZePAUo=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qOVWR
+	6aXQqry3nItjJ+e8OBR8po78qC5/g5g+JfJjCI=; b=Dv9VK0KxkmIm3q8vlu8S3
+	FYk+DNS92yV5sq07dLJI6MBIbfOlRVWSa4McQetZLPP/Vb76Fj18whHGrXK1O7/y
+	kZsES1jwlzwt1yjFma73VbhP8H77wgQ7TasybTrZOoSOEa8YMxFg9D6nitdcaOS4
+	u9vN3hfLB4+2w6VXJ/5hts=
 Received: from localhost.localdomain (unknown [223.104.68.114])
-	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3v0uFEIJm1iKSBA--.55558S4;
-	Mon, 01 Jul 2024 10:12:27 +0800 (CST)
+	by gzga-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3v0uFEIJm1iKSBA--.55558S2;
+	Mon, 01 Jul 2024 10:12:22 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: manivannan.sadhasivam@linaro.org,
 	loic.poulain@linaro.org,
@@ -34,12 +33,10 @@ Cc: netdev@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v4 3/3] net: wwan: mhi: make default data link id configurable
-Date: Mon,  1 Jul 2024 10:12:16 +0800
-Message-Id: <20240701021216.17734-3-slark_xiao@163.com>
+Subject: [PATCH v4 1/3] bus: mhi: host: Add Foxconn SDX72 related support
+Date: Mon,  1 Jul 2024 10:12:14 +0800
+Message-Id: <20240701021216.17734-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240701021216.17734-1-slark_xiao@163.com>
-References: <20240701021216.17734-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -47,79 +44,100 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v0uFEIJm1iKSBA--.55558S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGrykXF15Gr4DJF4fuF1Utrb_yoW5Gr4Dpa
-	yUKFW3tr48J3y7Wa18Cr4UZa4Y9r4qka4ak342gws8tw1Yyry3XFWxXFyjkryYkFWv9r1q
-	yF18try5GanFkrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_5l1DUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiowcPZGVOEKVIpwABs-
+X-CM-TRANSID:_____wD3v0uFEIJm1iKSBA--.55558S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxur15Kry7Zw47JF4rKw4UArb_yoW5KrykpF
+	s3Z3yUta1kJFWrKFW8A34DG3Z5GrsxCr93KFnrKw1Igw1Yy3yYqFZ7K342kryYy3sFqryS
+	yF95WFy293ZrJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRijjhUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwcPZGV4KDQrogAAsj
 
-For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
-This would lead to device can't ping outside successfully.
-Also MBIM side would report "bad packet session (112)". In order
-to fix this issue, we decide to use the device name of MHI
-controller to do a match in wwan side. Then wwan driver could
-set a corresponding mux_id value according to the MHI product.
+Align with Qcom SDX72, add ready timeout item for Foxconn SDX72.
+And also, add firehose support since SDX72.
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
-v2: Remove Fix flag
-v3: Use name match solution instead of use mux_id
+v2: (1). Update the edl file path and name (2). Set SDX72 support
+trigger edl mode by default
+v3: Divide into 2 parts for Foxconn sdx72 platform
 ---
- drivers/net/wwan/mhi_wwan_mbim.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/bus/mhi/host/pci_generic.c | 43 ++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan_mbim.c
-index 3f72ae943b29..e481ced496d8 100644
---- a/drivers/net/wwan/mhi_wwan_mbim.c
-+++ b/drivers/net/wwan/mhi_wwan_mbim.c
-@@ -42,6 +42,8 @@
- #define MHI_MBIM_LINK_HASH_SIZE 8
- #define LINK_HASH(session) ((session) % MHI_MBIM_LINK_HASH_SIZE)
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 35ae7cd0711f..1fb1c2f2fe12 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -399,6 +399,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+ 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0_MBIM", 128, 2),
+ 	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0_MBIM", 128, 3),
+ };
+@@ -419,6 +421,16 @@ static const struct mhi_controller_config modem_foxconn_sdx55_config = {
+ 	.event_cfg = mhi_foxconn_sdx55_events,
+ };
  
-+#define WDS_BIND_MUX_DATA_PORT_MUX_ID 112
++static const struct mhi_controller_config modem_foxconn_sdx72_config = {
++	.max_channels = 128,
++	.timeout_ms = 20000,
++	.ready_timeout_ms = 50000,
++	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx55_channels),
++	.ch_cfg = mhi_foxconn_sdx55_channels,
++	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
++	.event_cfg = mhi_foxconn_sdx55_events,
++};
 +
- struct mhi_mbim_link {
- 	struct mhi_mbim_context *mbim;
- 	struct net_device *ndev;
-@@ -93,6 +95,15 @@ static struct mhi_mbim_link *mhi_mbim_get_link_rcu(struct mhi_mbim_context *mbim
- 	return NULL;
- }
+ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+ 	.name = "foxconn-sdx55",
+ 	.fw = "qcom/sdx55m/sbl1.mbn",
+@@ -488,6 +500,28 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+ 	.sideband_wake = false,
+ };
  
-+static int mhi_mbim_get_link_mux_id(struct mhi_controller *cntrl)
-+{
-+	if (strcmp(cntrl->name, "foxconn-dw5934e") == 0 ||
-+	    strcmp(cntrl->name, "foxconn-t99w515") == 0)
-+		return WDS_BIND_MUX_DATA_PORT_MUX_ID;
++static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
++	.name = "foxconn-t99w515",
++	.edl = "fox/sdx72m/edl.mbn",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx72_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
 +
-+	return 0;
-+}
++static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
++	.name = "foxconn-dw5934e",
++	.edl = "fox/sdx72m/edl.mbn",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx72_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
 +
- static struct sk_buff *mbim_tx_fixup(struct sk_buff *skb, unsigned int session,
- 				     u16 tx_seq)
- {
-@@ -596,7 +607,7 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
- {
- 	struct mhi_controller *cntrl = mhi_dev->mhi_cntrl;
- 	struct mhi_mbim_context *mbim;
--	int err;
-+	int err, link_id;
- 
- 	mbim = devm_kzalloc(&mhi_dev->dev, sizeof(*mbim), GFP_KERNEL);
- 	if (!mbim)
-@@ -617,8 +628,11 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
- 	/* Number of transfer descriptors determines size of the queue */
- 	mbim->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
- 
-+	/* Get the corresponding mux_id from mhi */
-+	link_id = mhi_mbim_get_link_mux_id(cntrl);
-+
- 	/* Register wwan link ops with MHI controller representing WWAN instance */
--	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, 0);
-+	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, link_id);
- }
- 
- static void mhi_mbim_remove(struct mhi_device *mhi_dev)
+ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
+@@ -720,6 +754,15 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* DW5932e (sdx62), Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe0f9),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5932e_info },
++	/* T99W515 (sdx72) */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe118),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w515_info },
++	/* DW5934e(sdx72), With eSIM */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11d),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
++	/* DW5934e(sdx72), Non-eSIM */
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
 -- 
 2.25.1
 
