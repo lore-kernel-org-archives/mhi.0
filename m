@@ -1,68 +1,69 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F50617A5B0
-	for <mhi@lists.linux.dev>; Wed,  3 Jul 2024 13:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C71180A79
+	for <mhi@lists.linux.dev>; Wed,  3 Jul 2024 13:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720014383; cv=none; b=q8nzQPmu9V/k17jNDIu67Jf8WFUecGQbl95Gbyg9ftKoC5x28mY2MyZe7rqn3jNM9ObgYtaRU5eapcKszDXzT/PlNPvpCBrwVMhEVC7KDPgV3jLILuheKqp1ycjQPvO2z8P91mePh7hZgteOfpo354G/4KhiAbSa3vYd4zpnt6M=
+	t=1720014422; cv=none; b=SG+H8hsPLDpy1DkNJR8yeaWXH14l7RxhrafMuvgmPRMlIRIkvliV1FECAVKvcdZMXvB8OkVar0Q4gJGUNuEX3xpvkF2fJfkuFvhkL2rBa9Mt3uxisyqswiBp2mX9JKIRqyLpX5nEmIo0nIsFfkpXi7chEmh0tuSFbgsLrZdug8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720014383; c=relaxed/simple;
-	bh=/m6A+sXoU4Olg6HTeHCABBg9ut0WZrDY9nPjeBeXu2A=;
+	s=arc-20240116; t=1720014422; c=relaxed/simple;
+	bh=5WVExtaEHDKto3KKgolPo6JtDfTL/rQ7o/bxZ1uFyC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DMzNGD6IBsxvNPsHqQYY/koHqVSI/vOTOjcWE1V0CkFonE9swj0RQTUWX/BKTHM7iEioyJEPPBvbpzWbAU/m4O5oOZLRCi3TtEwnmis9cbPE1gxF2nVbdlesC9AWzSFuSgiVoM7uy9PWip9LOmzedDyQ5nAB/HZ6P5RoaXsBxOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tx4IL56+; arc=none smtp.client-ip=209.85.215.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=BoTUs6WAPwvALRqXaKbLWvoVxozzKK1Usx2CWiYZeBDOJGPBmFtLw3LpDp9H/Ais5o7DuRTxQNYgJ0PDa4ENuSwH4yLG+zdtU/77CexDqPVzM7q8/CBK47DBoKqAdefCYR11qPtV3TLanyEkZbcTYeO6pF3WlDerYVEBYgcMy/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jY/0q3ev; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tx4IL56+"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-75a6c290528so329787a12.1
-        for <mhi@lists.linux.dev>; Wed, 03 Jul 2024 06:46:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jY/0q3ev"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c97aceb6e4so432005a91.2
+        for <mhi@lists.linux.dev>; Wed, 03 Jul 2024 06:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720014381; x=1720619181; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1720014420; x=1720619220; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Bf+gEq9Qv4j2DaejyoY0EnJO0snP/b2OWlh18sSmCtA=;
-        b=tx4IL56+MeyWME+bFT5GrTnpgPJOQGfcc5CmdvLZDlxCOhsd92FZA9zh0CK+p2vY/I
-         D5quSxtQLifdIlqq+/pi1jRdt8E8CW9XzoUk6xJlWcS9O8itXmOivL+iYURr8FwyHZuC
-         V/sWxNof8b9u87ftcOGFuD9QFGBmqRdEQIZtUrnQYU0F+f7l3/cJIHrb04CXYKr1ECzV
-         rye+9Xu+MqFrnRbVGBH5YA5Nuv3Q8Wvds1OF0fZPZu0/VZLhEK/2YFoO7cI5e6xdvm8B
-         ElJjV5yWYi7ayKouBbHTsXTUcj0tw4GfX7nQJLU1c8GM6OZgqht2RHl+Bhr3oN3aXulS
-         QoMg==
+        bh=sw99LfshwrAWELMzadgmDLcrDXjQox7eX5nx5nWqw9o=;
+        b=jY/0q3ev9/E3L2WcOTEyKElZAHcBOUZvAuPYPOWlZHFKLqwga2ybIpGFI7P5dQDgmr
+         xzypnRGSfXvginW3xcbQfs6e7kJK1zuPnb6v+kq1L/MCR1VT5pDND0AAbEWujprRrUD3
+         gY8XVzzf2WluwIQWzUtm/QMsYpW5MNUy8rM5fZI00Mj6ASSTmFw8JCHSarvFhFdpzIXx
+         rIzd62oATpfcV9YaFY6Y9sybpp6MsM/argV51GVccjY67K5k3Nz+BkJrQKynrmzmG3ou
+         jy2gq6CNIQnzHmGd9nVS6sbvWCcfKUv3DNwxo1C+WxrsKI6+TzZz+BC8iqd19fYywVtc
+         y75g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720014381; x=1720619181;
+        d=1e100.net; s=20230601; t=1720014420; x=1720619220;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bf+gEq9Qv4j2DaejyoY0EnJO0snP/b2OWlh18sSmCtA=;
-        b=f9z0LmmftIUGxVuOgJuOAFAP/JtsrypE7rt7n1qN8ihLDyVwpdOGddS14JG6jGSGtF
-         oxZ5hhaJr/6oV11E/f78egRqExs9/Z+6T1GQeARij3aIDjt7mCz0aLElcqssC1XMRX9i
-         G3mZ9mS3Zug8yoJAWgS4NWEVbYyC5abvEt36sWF9tBzzHbjqG/IO8F5klnzxlHp/x7UY
-         mKz0CtJlHJ2vgD90oD7DxJdQ57YWUiNGKA67Zqpw3p5Aq7LhwFcuKctQsUaz6ty19vJ/
-         /SmR9rmP4AgiGH4pC3GPnVeTnicZyTiBkc+AFmfMMrisgo06ghH4mMRvQsAjQ9CYl2g/
-         PsJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsw5UISoOUVvvdj9kwGy1WdWUO3eiMU/Oy8qG072iMU0dH5ZDUNDFbTuWSLszfRScVd+gXVgRnd18St0U48EjYU6xv
-X-Gm-Message-State: AOJu0YxRmouyPd6a1Nn/8HiJlzQBtAxSt0zGgAkst7bnNT8kRRVn5NVh
-	D5gge1Xg+23dqdML4UGW9bgQkL/daKTxOEjXjRFIA5y36bT+GDMbiSERg67gxA==
-X-Google-Smtp-Source: AGHT+IFbgy8xFgSDq57ntgaSsYgc8vIgCPq4hdC8aq3qDRUkMazMF18pniYYlOiILpepBoDGTQuepQ==
-X-Received: by 2002:a05:6a20:3c94:b0:1be:c4b9:c216 with SMTP id adf61e73a8af0-1bef60f3c38mr12064525637.7.1720014381428;
-        Wed, 03 Jul 2024 06:46:21 -0700 (PDT)
+        bh=sw99LfshwrAWELMzadgmDLcrDXjQox7eX5nx5nWqw9o=;
+        b=F8UZSyD5Wp3H1erezdASeMCcUBkKs+5htVhPTE28+x0N5cccXPLtDSIksS2OIaYIg6
+         nIkUD9H1PEDWo4fqCgYQRxMpW+7eBHi6Pe9EXYCfRkJuOfXAsZ5m66Se7WHitkGcXfMt
+         qAAtmdqxUf4WG0aM5/ZE5kGUWvUfWEQmOxJJEFVi5Jhp9LkUCy3/Qir1y8zAQPjnvbIR
+         LWkPlUx9wBS9fvLx2y0oaCee9vPVCkF4MqxCKeEA/Ql5kAEt1ICZQ8FNif13A7KUcUIh
+         V4CmqhwJll4m3H2o+RQtAWtghdVM8KkoW6WjMdJFTWjB/MfQrWMYqBPU4y78GEiEsAfI
+         a5Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4S3IZjcUjqG6HP+lBTH1VoRWVCbXlPW8U7glv5lJBFk7btoenHKJ4c1L4jdwk3p76dFVOYSFBqB4iND3AJsTYe4Er
+X-Gm-Message-State: AOJu0YwruosyVfLEJ1uOCaYcglUkKf68CH+HZS6KKBVnWPFyplrHv92j
+	GJk4BEAqQ+1GpuY6koHC8XAlDavn1e+qbTogd1aMJzVf8nI+Lvtocv6meK/Brw==
+X-Google-Smtp-Source: AGHT+IE4BSW435CJ7S1sExcvff+VTjaUh0Rva08TLajdYQovnLK0ErBFW3QyOK8Bt86yYhlFMSktsA==
+X-Received: by 2002:a17:90b:1294:b0:2c7:c6c4:1693 with SMTP id 98e67ed59e1d1-2c93d71f47emr10181146a91.21.1720014420134;
+        Wed, 03 Jul 2024 06:47:00 -0700 (PDT)
 Received: from thinkpad ([220.158.156.98])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c91d3e7d7bsm10761774a91.47.2024.07.03.06.46.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c91ce43303sm10740716a91.17.2024.07.03.06.46.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 06:46:20 -0700 (PDT)
-Date: Wed, 3 Jul 2024 19:16:16 +0530
+        Wed, 03 Jul 2024 06:46:59 -0700 (PDT)
+Date: Wed, 3 Jul 2024 19:16:55 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: loic.poulain@linaro.org, ryazanov.s.a@gmail.com,
 	johannes@sipsolutions.net, quic_jhugo@quicinc.com,
 	netdev@vger.kernel.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] bus: mhi: host: Add name for mhi_controller
-Message-ID: <20240703134616.GC4342@thinkpad>
+Subject: Re: [PATCH v4 3/3] net: wwan: mhi: make default data link id
+ configurable
+Message-ID: <20240703134655.GD4342@thinkpad>
 References: <20240701021216.17734-1-slark_xiao@163.com>
- <20240701021216.17734-2-slark_xiao@163.com>
+ <20240701021216.17734-3-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -72,65 +73,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240701021216.17734-2-slark_xiao@163.com>
+In-Reply-To: <20240701021216.17734-3-slark_xiao@163.com>
 
-On Mon, Jul 01, 2024 at 10:12:15AM +0800, Slark Xiao wrote:
+On Mon, Jul 01, 2024 at 10:12:16AM +0800, Slark Xiao wrote:
 > For SDX72 MBIM mode, it starts data mux id from 112 instead of 0.
 > This would lead to device can't ping outside successfully.
-> Also MBIM side would report "bad packet session (112)".In order to
-> fix this issue, we decide to use the device name of MHI controller
-> to do a match in client driver side. Then client driver could set
-> a corresponding mux_id value for this MHI product.
+> Also MBIM side would report "bad packet session (112)". In order
+> to fix this issue, we decide to use the device name of MHI
+> controller to do a match in wwan side. Then wwan driver could
+> set a corresponding mux_id value according to the MHI product.
 > 
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-Applied to mhi-next with fixup to commit subject and description and also fixed
-the issue spotted by Jeff!
+Applied to mhi-next with Jakub's ACK!
 
 - Mani
 
 > ---
 > v2: Remove Fix flag
 > v3: Use name match solution instead of use mux_id
-> v4: Update the description of new member 'name' and move it to
-> right position
 > ---
->  drivers/bus/mhi/host/pci_generic.c | 1 +
->  include/linux/mhi.h                | 2 ++
->  2 files changed, 3 insertions(+)
+>  drivers/net/wwan/mhi_wwan_mbim.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 1fb1c2f2fe12..14a11880bcea 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -1086,6 +1086,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
->  	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
->  	mhi_cntrl->mru = info->mru_default;
-> +	mhi_cntrl->name = info->name;
+> diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan_mbim.c
+> index 3f72ae943b29..e481ced496d8 100644
+> --- a/drivers/net/wwan/mhi_wwan_mbim.c
+> +++ b/drivers/net/wwan/mhi_wwan_mbim.c
+> @@ -42,6 +42,8 @@
+>  #define MHI_MBIM_LINK_HASH_SIZE 8
+>  #define LINK_HASH(session) ((session) % MHI_MBIM_LINK_HASH_SIZE)
 >  
->  	if (info->edl_trigger)
->  		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index b573f15762f8..d45058d3dbed 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -289,6 +289,7 @@ struct mhi_controller_config {
->  };
+> +#define WDS_BIND_MUX_DATA_PORT_MUX_ID 112
+> +
+>  struct mhi_mbim_link {
+>  	struct mhi_mbim_context *mbim;
+>  	struct net_device *ndev;
+> @@ -93,6 +95,15 @@ static struct mhi_mbim_link *mhi_mbim_get_link_rcu(struct mhi_mbim_context *mbim
+>  	return NULL;
+>  }
 >  
->  /**
-> + * @name: device name of the MHI controller
->   * struct mhi_controller - Master MHI controller structure
->   * @cntrl_dev: Pointer to the struct device of physical bus acting as the MHI
->   *            controller (required)
-> @@ -367,6 +368,7 @@ struct mhi_controller_config {
->   * they can be populated depending on the usecase.
->   */
->  struct mhi_controller {
-> +	const char *name;
->  	struct device *cntrl_dev;
->  	struct mhi_device *mhi_dev;
->  	struct dentry *debugfs_dentry;
+> +static int mhi_mbim_get_link_mux_id(struct mhi_controller *cntrl)
+> +{
+> +	if (strcmp(cntrl->name, "foxconn-dw5934e") == 0 ||
+> +	    strcmp(cntrl->name, "foxconn-t99w515") == 0)
+> +		return WDS_BIND_MUX_DATA_PORT_MUX_ID;
+> +
+> +	return 0;
+> +}
+> +
+>  static struct sk_buff *mbim_tx_fixup(struct sk_buff *skb, unsigned int session,
+>  				     u16 tx_seq)
+>  {
+> @@ -596,7 +607,7 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
+>  {
+>  	struct mhi_controller *cntrl = mhi_dev->mhi_cntrl;
+>  	struct mhi_mbim_context *mbim;
+> -	int err;
+> +	int err, link_id;
+>  
+>  	mbim = devm_kzalloc(&mhi_dev->dev, sizeof(*mbim), GFP_KERNEL);
+>  	if (!mbim)
+> @@ -617,8 +628,11 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
+>  	/* Number of transfer descriptors determines size of the queue */
+>  	mbim->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
+>  
+> +	/* Get the corresponding mux_id from mhi */
+> +	link_id = mhi_mbim_get_link_mux_id(cntrl);
+> +
+>  	/* Register wwan link ops with MHI controller representing WWAN instance */
+> -	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, 0);
+> +	return wwan_register_ops(&cntrl->mhi_dev->dev, &mhi_mbim_wwan_ops, mbim, link_id);
+>  }
+>  
+>  static void mhi_mbim_remove(struct mhi_device *mhi_dev)
 > -- 
 > 2.25.1
 > 
