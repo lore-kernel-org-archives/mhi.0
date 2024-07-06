@@ -1,264 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8991DFC7
-	for <mhi@lists.linux.dev>; Thu,  4 Jul 2024 14:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF312B67E
+	for <mhi@lists.linux.dev>; Sat,  6 Jul 2024 08:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720104332; cv=none; b=I3v8ysiamLR1CuPkQwBZaSszQvaOkSaiiotYMu1sH2EKb6Rj1JPNX6MHZUNFxJ/TfIH8rLJndSUYbIedpbS36bkaXp1pDeQLzUSOUBwps6BmTISrbTy5KLIkTIoUsC3RuEqCPmlgLPm+qmXvjwkFNpfPdWMCFkiMATsZpofOnVU=
+	t=1720255884; cv=none; b=otnhgEA/WqR1tT4A0PjzKZikgI1WvZ4f6BuHfGA3zohCXGSrKSfiuI8KnG70GMooDPSee7pxaEmNcw1bIPUFbLgRR8sU/MIh9sK3IWUq0UCd2IZfd9WG4b+PlL3T5h3x8fd5Q/5WZ6gZRc4UwUqFwJCrk4NccujYHWDyd8jkETA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720104332; c=relaxed/simple;
-	bh=wkysJqLFBlTvRL5t6vUZyG0TvG9TT9nKFtCjlK0VjAs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rhwJXzRc/F5xlfc7h3X8O/gMQ4RcWsIBjG6ykVIpkh/g4Kzcant/QzN5imD1GgVCyqkDbkI37UP9rXvnOEZd1cOmWl0gXoL/KyfMYqSDcAomtcSOrnU5h9PpTvBBVaipbPu2TnNP94hhs+EAZHqYDjGA7EKbecRzOGZIsuV1cFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RlxSyqHj; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720255884; c=relaxed/simple;
+	bh=nD8wIhpV99v/o/yaBVZkA+OhRX9XKbTQk8wls5O7J3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A7FqZ7RYGzFup9XHphPiMvnnUE8qasFw4Re5E7VM5hGwR29U2DtoIedvs+hU73ywFqEifF54oDRHBT47CVPUjPy7tDTLt1krwEFZyQPEebkX56hOM0P8udFV9gqTw/7gnJf0C+F+7vTxYdfq+jQvcjHchs1qIG4a2Q2IYETf050=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B2HuTWma; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RlxSyqHj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720104331; x=1751640331;
-  h=date:from:to:cc:subject:message-id;
-  bh=wkysJqLFBlTvRL5t6vUZyG0TvG9TT9nKFtCjlK0VjAs=;
-  b=RlxSyqHj82g1WB7lznFefi8roNfaKlCsuSTi5+xe7sUVKQAPmBBMHqD0
-   jGFI6mDSfoivsqXJuJoK1dt9sg2Ar/PYElyZW2/Sq/ulE7mW3Xfu7xSaF
-   c4TclNvaHY9HuV2R4tZou8yiBHKo/dCjcIGxsJrmcVGXR3+WiFrt75u94
-   iwCMbGB705O0hmDr6pqrv/k9RrxcR+TAgLbz1ogTWFzF6IRIq+W5OxpRV
-   kfRApg+nILISuZslAiEIz2nwrQokRwHMGLB4no8BV7SkeLAfSJklAPiVD
-   cHi5v+ieTL9HdsDXtFsGx1aJOyYdhVHSHBZHw8NQoxX+GzNpWEFIWkKd1
-   Q==;
-X-CSE-ConnectionGUID: vGI/olJfR1iTrdNv0LcPoQ==
-X-CSE-MsgGUID: Zb58JGswQ8KzIA3vYORGRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21197445"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="21197445"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 07:45:30 -0700
-X-CSE-ConnectionGUID: YXSxd9P3Tha/JD8PXu3yfg==
-X-CSE-MsgGUID: 55hbC8NJSbKvsI4D8yC7nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="50949317"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Jul 2024 07:45:28 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPNiA-000R5v-1W;
-	Thu, 04 Jul 2024 14:45:26 +0000
-Date: Thu, 04 Jul 2024 22:44:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 65bc58c3dcad0d9bd17762e22603894a2d2880d6
-Message-ID: <202407042251.9KiCM4Kd-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B2HuTWma"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-70b0d0a7a56so1064668b3a.0
+        for <mhi@lists.linux.dev>; Sat, 06 Jul 2024 01:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720255882; x=1720860682; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kvr1Xt3+1htJpKQNeg4Qn5gKCppFGEBYjqSgQqzCPxE=;
+        b=B2HuTWmanMuYBQsXuJBBJwswR0fxi25Josgg6wlgspHtuhbg6xiQPyJolgWmBhG0uT
+         kjmHL12fX74EJFI7SbyU4Fn5EOM5yqg3OWFLWgnhqS8VcuZHBaOlQfctC21C4KAqmykL
+         G/82ZaeqSDPwQ8eFMQFW4xJo+A+N3LPKwA/94BtEtXtXRIb/1UwVZWRvEF8G2Q0bqj3l
+         IiYWDpPzR8vZjzvdI6oZSAd2WJx0wLjwByVTaUpnBFxivwCcWcX5ciIpQa02fTF7tDvI
+         mjwzJoStle5IipCgx5YONUFmN6P+u+CZk7g+lIQaS5U5mF5nrzxFVKhyXzr3ZguLPFQi
+         yD2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720255882; x=1720860682;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kvr1Xt3+1htJpKQNeg4Qn5gKCppFGEBYjqSgQqzCPxE=;
+        b=rrit4RrfTJag/dm97Si1WvJzyWqII/Nbsx1j4bzVER2ZAcxHqdhRPIIgKibyy5VQK0
+         sr4XqO+jWzwRecRnOBf4aJ7KbTgNsund9JNZxPkrvEtRGDmxCComPRJ5M9hBYQJ7zxqf
+         rtakLQ1BBHhWijPxv+uu+yy39tRL7zbvEle/Z+zQ8c2FwAoKxPM8Ma+Zmq8t1tDsISSg
+         U9PiXnh7yxDOQooCPve213gEZWr3sf3bWcYggiUaeOhY+9r7DJb+EaAlLl/tB3f47/Wh
+         HZTSRrt6bOCCfNRS+ytS3lHuHOdZM31RMSuq7SEUAnp2Mlu51jvhi0gEMUti0ACzhEht
+         +J0w==
+X-Gm-Message-State: AOJu0Ywtl6Lh7xm6BFVTi3H5TurKCMHnbDkuKPXesd2yawVTE1NBvJxQ
+	Zpe2TS85aOi6jGFqdNP0MF00EHHkNF7GSkJAndYnX7STxCfbDYbWYcU9qilxTQ==
+X-Google-Smtp-Source: AGHT+IFhZwtScp0M/onD7yeasvT+zwB0nO0kE8wWwQvmHMwxoUCu0unZ+oan7LLGD7aF1aEsm/DBJQ==
+X-Received: by 2002:a05:6a21:6da9:b0:1b8:d79:55f3 with SMTP id adf61e73a8af0-1c0cc8ec43bmr7314658637.54.1720255881978;
+        Sat, 06 Jul 2024 01:51:21 -0700 (PDT)
+Received: from thinkpad ([2409:40f4:301b:2f0f:39:4d50:dece:e7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb261ddf1fsm53455505ad.212.2024.07.06.01.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jul 2024 01:51:21 -0700 (PDT)
+Date: Sat, 6 Jul 2024 14:21:17 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, netdev@vger.kernel.org, slark_xiao@163.com
+Subject: [GIT PULL] MHI changes for v6.11
+Message-ID: <20240706085117.GA3954@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 65bc58c3dcad0d9bd17762e22603894a2d2880d6  net: wwan: mhi: make default data link id configurable
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
 
-elapsed time: 1451m
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
 
-configs tested: 187
-configs skipped: 6
+are available in the Git repository at:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.11
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                            allyesconfig   gcc-13.2.0
-alpha                               defconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                                 defconfig   gcc-13.2.0
-arc                 nsimosci_hs_smp_defconfig   gcc-13.2.0
-arc                   randconfig-001-20240704   gcc-13.2.0
-arc                   randconfig-002-20240704   gcc-13.2.0
-arc                        vdk_hs38_defconfig   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                               allnoconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                                 defconfig   gcc-13.2.0
-arm                         lpc18xx_defconfig   gcc-13.2.0
-arm                         mv78xx0_defconfig   gcc-13.2.0
-arm                             mxs_defconfig   gcc-13.2.0
-arm                         orion5x_defconfig   gcc-13.2.0
-arm                          pxa168_defconfig   gcc-13.2.0
-arm                   randconfig-001-20240704   gcc-13.2.0
-arm                   randconfig-002-20240704   gcc-13.2.0
-arm                   randconfig-003-20240704   gcc-13.2.0
-arm                   randconfig-004-20240704   gcc-13.2.0
-arm                             rpc_defconfig   gcc-13.2.0
-arm64                            allmodconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                               defconfig   gcc-13.2.0
-arm64                 randconfig-001-20240704   gcc-13.2.0
-arm64                 randconfig-002-20240704   gcc-13.2.0
-arm64                 randconfig-003-20240704   gcc-13.2.0
-arm64                 randconfig-004-20240704   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                                defconfig   gcc-13.2.0
-csky                  randconfig-001-20240704   gcc-13.2.0
-csky                  randconfig-002-20240704   gcc-13.2.0
-i386                             allmodconfig   clang-18
-i386                              allnoconfig   clang-18
-i386                             allyesconfig   clang-18
-i386         buildonly-randconfig-001-20240704   clang-18
-i386         buildonly-randconfig-002-20240704   clang-18
-i386         buildonly-randconfig-002-20240704   gcc-13
-i386         buildonly-randconfig-003-20240704   clang-18
-i386         buildonly-randconfig-003-20240704   gcc-13
-i386         buildonly-randconfig-004-20240704   clang-18
-i386         buildonly-randconfig-004-20240704   gcc-12
-i386         buildonly-randconfig-005-20240704   clang-18
-i386         buildonly-randconfig-005-20240704   gcc-12
-i386         buildonly-randconfig-006-20240704   clang-18
-i386         buildonly-randconfig-006-20240704   gcc-12
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240704   clang-18
-i386                  randconfig-002-20240704   clang-18
-i386                  randconfig-002-20240704   gcc-13
-i386                  randconfig-003-20240704   clang-18
-i386                  randconfig-004-20240704   clang-18
-i386                  randconfig-004-20240704   gcc-13
-i386                  randconfig-005-20240704   clang-18
-i386                  randconfig-006-20240704   clang-18
-i386                  randconfig-006-20240704   gcc-12
-i386                  randconfig-011-20240704   clang-18
-i386                  randconfig-011-20240704   gcc-13
-i386                  randconfig-012-20240704   clang-18
-i386                  randconfig-013-20240704   clang-18
-i386                  randconfig-014-20240704   clang-18
-i386                  randconfig-015-20240704   clang-18
-i386                  randconfig-016-20240704   clang-18
-loongarch                        allmodconfig   gcc-13.2.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch                           defconfig   gcc-13.2.0
-loongarch             randconfig-001-20240704   gcc-13.2.0
-loongarch             randconfig-002-20240704   gcc-13.2.0
-m68k                             allmodconfig   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-13.2.0
-m68k                       bvme6000_defconfig   gcc-13.2.0
-m68k                                defconfig   gcc-13.2.0
-m68k                        m5307c3_defconfig   gcc-13.2.0
-microblaze                       allmodconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-13.2.0
-microblaze                          defconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                      bmips_stb_defconfig   gcc-13.2.0
-mips                         db1xxx_defconfig   gcc-13.2.0
-mips                            gpr_defconfig   gcc-13.2.0
-mips                           ip28_defconfig   gcc-13.2.0
-mips                  maltasmvp_eva_defconfig   gcc-13.2.0
-mips                    maltaup_xpa_defconfig   gcc-13.2.0
-nios2                         3c120_defconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                               defconfig   gcc-13.2.0
-nios2                 randconfig-001-20240704   gcc-13.2.0
-nios2                 randconfig-002-20240704   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                         allyesconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-openrisc                       virt_defconfig   gcc-13.2.0
-parisc                           allmodconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                           allyesconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc                randconfig-001-20240704   gcc-13.2.0
-parisc                randconfig-002-20240704   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                          allmodconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                          allyesconfig   gcc-13.2.0
-powerpc                     ksi8560_defconfig   gcc-13.2.0
-powerpc               randconfig-001-20240704   gcc-13.2.0
-powerpc                    sam440ep_defconfig   gcc-13.2.0
-powerpc                     sequoia_defconfig   gcc-13.2.0
-powerpc64             randconfig-001-20240704   gcc-13.2.0
-powerpc64             randconfig-002-20240704   gcc-13.2.0
-powerpc64             randconfig-003-20240704   gcc-13.2.0
-riscv                            allmodconfig   gcc-13.2.0
-riscv                             allnoconfig   gcc-13.2.0
-riscv                            allyesconfig   gcc-13.2.0
-riscv                               defconfig   gcc-13.2.0
-riscv                 randconfig-001-20240704   gcc-13.2.0
-riscv                 randconfig-002-20240704   gcc-13.2.0
-s390                             allmodconfig   clang-19
-s390                              allnoconfig   clang-19
-s390                              allnoconfig   gcc-13.2.0
-s390                             allyesconfig   clang-19
-s390                             allyesconfig   gcc-13.2.0
-s390                                defconfig   gcc-13.2.0
-s390                  randconfig-001-20240704   gcc-13.2.0
-s390                  randconfig-002-20240704   gcc-13.2.0
-sh                               allmodconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                               allyesconfig   gcc-13.2.0
-sh                                  defconfig   gcc-13.2.0
-sh                             espt_defconfig   gcc-13.2.0
-sh                            migor_defconfig   gcc-13.2.0
-sh                    randconfig-001-20240704   gcc-13.2.0
-sh                    randconfig-002-20240704   gcc-13.2.0
-sh                          sdk7786_defconfig   gcc-13.2.0
-sh                           se7619_defconfig   gcc-13.2.0
-sh                           sh2007_defconfig   gcc-13.2.0
-sh                        sh7757lcr_defconfig   gcc-13.2.0
-sparc                            allmodconfig   gcc-13.2.0
-sparc                       sparc64_defconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-13.2.0
-sparc64               randconfig-001-20240704   gcc-13.2.0
-sparc64               randconfig-002-20240704   gcc-13.2.0
-um                               allmodconfig   gcc-13.2.0
-um                                allnoconfig   clang-17
-um                                allnoconfig   gcc-13.2.0
-um                               allyesconfig   gcc-13.2.0
-um                                  defconfig   gcc-13.2.0
-um                             i386_defconfig   gcc-13.2.0
-um                    randconfig-001-20240704   gcc-13.2.0
-um                    randconfig-002-20240704   gcc-13.2.0
-um                           x86_64_defconfig   gcc-13.2.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240704   clang-18
-x86_64       buildonly-randconfig-002-20240704   clang-18
-x86_64       buildonly-randconfig-003-20240704   clang-18
-x86_64       buildonly-randconfig-004-20240704   clang-18
-x86_64       buildonly-randconfig-005-20240704   clang-18
-x86_64       buildonly-randconfig-006-20240704   clang-18
-x86_64                              defconfig   clang-18
-x86_64                randconfig-001-20240704   clang-18
-x86_64                randconfig-002-20240704   clang-18
-x86_64                randconfig-003-20240704   clang-18
-x86_64                randconfig-004-20240704   clang-18
-x86_64                randconfig-005-20240704   clang-18
-x86_64                randconfig-006-20240704   clang-18
-x86_64                randconfig-011-20240704   clang-18
-x86_64                randconfig-012-20240704   clang-18
-x86_64                randconfig-013-20240704   clang-18
-x86_64                randconfig-014-20240704   clang-18
-x86_64                randconfig-015-20240704   clang-18
-x86_64                randconfig-016-20240704   clang-18
-x86_64                randconfig-071-20240704   clang-18
-x86_64                randconfig-072-20240704   clang-18
-x86_64                randconfig-073-20240704   clang-18
-x86_64                randconfig-074-20240704   clang-18
-x86_64                randconfig-075-20240704   clang-18
-x86_64                randconfig-076-20240704   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                  nommu_kc705_defconfig   gcc-13.2.0
-xtensa                randconfig-001-20240704   gcc-13.2.0
-xtensa                randconfig-002-20240704   gcc-13.2.0
+for you to fetch changes up to 65bc58c3dcad0d9bd17762e22603894a2d2880d6:
+
+  net: wwan: mhi: make default data link id configurable (2024-07-03 19:11:01 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Used unique 'mhi_pci_dev_info' struct for product families instead of reusing
+  a shared struct. This allows displaying the actual product name for the MHI
+  devices during driver probe.
+
+- Added support for Foxconn SDX72 based modems, T99W515 and DW5934E.
+
+- Added a 'name' field to 'struct mhi_controller' for allowing the MHI client
+  drivers to uniquely identify each MHI device based on its product/device name.
+  This is useful in applying any device specific quirks in the client drivers.
+
+WWAN MHI Client driver
+======================
+
+- Due to the build dependency with the MHI patch exposing 'name' field to client
+  drivers, the WWAN MHI client driver patch that is making use of the 'name'
+  field to apply custom data mux id for Foxconn modems is also included.
+  Collected Ack from Networking maintainer for this patch.
+
+MHI EP
+======
+
+- Fixed the MHI EP stack to not allocate memory for MHI objects from DMA zone.
+  This was done accidentally while adding the slab cache support and causes the
+  MHI EP stack to run out of memory while doing high bandwidth transfers.
+
+----------------------------------------------------------------
+Manivannan Sadhasivam (2):
+      bus: mhi: ep: Do not allocate memory for MHI objects from DMA zone
+      bus: mhi: host: pci_generic: Use unique 'mhi_pci_dev_info' for product families
+
+Slark Xiao (3):
+      bus: mhi: host: Add support for Foxconn SDX72 modems
+      bus: mhi: host: Allow controller drivers to specify name for the MHI controller
+      net: wwan: mhi: make default data link id configurable
+
+ drivers/bus/mhi/ep/main.c          |  14 +++++++-------
+ drivers/bus/mhi/host/pci_generic.c | 122 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
+ drivers/net/wwan/mhi_wwan_mbim.c   |  18 ++++++++++++++++--
+ include/linux/mhi.h                |   2 ++
+ 4 files changed, 128 insertions(+), 28 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
