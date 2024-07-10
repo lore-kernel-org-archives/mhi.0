@@ -1,137 +1,141 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A694084C
-	for <mhi@lists.linux.dev>; Tue,  9 Jul 2024 01:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E7F1B86ED
+	for <mhi@lists.linux.dev>; Wed, 10 Jul 2024 11:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720490318; cv=none; b=cxhSt0xpXa5bi86HPF7n5WopxT92SYKulst23G8NmjbMxDCbNzeebvlDAoFRjUB8Iem33IR6Gr5atSwh773GNenfhifKqaTDtVQGm2cHfotuve3KY9W/zsUGoBarWuloNQnA+1le+nkzGWXXgM+PNXI9MKO6Sel/lbX8lOhUmxU=
+	t=1720609715; cv=none; b=m6s04gJBps4a/nLUTmfAkB0XzMGJaCZ6kxPIKgWmBHHucw5QPLvfKEBqtvOGRClkJqucsAS69gpsvf8FaTWyk6MyAobDwZI5osT3n0ozk8kKdI9SGnR1z3oRm347sp/QLdp2OUGFG47cr/fWP0iEshsP1TSP/yBX+5FfpcNzZbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720490318; c=relaxed/simple;
-	bh=SbITn/NJ0ImuVnQwIG27scr/uaOrxyWh6qpM8UCbrgo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mE0jLcMiDtRb/XGNRx9WeTctCPQKsPsX7+PogRExL6rdIH9jyu20oyk+DsH3ju+kU4xFNVMD63rnY0xAoK36RD/eajYuTUJRbZZjFS4Eu9sGSQXlxnxkGfFcOakzKoWT3gpEUx3UaA6G1Nu7KDVYzeAP4YNgRwEC5YxZhVdSRYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bw/1shH5; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1720609715; c=relaxed/simple;
+	bh=lnEmNUrZVKMUb3Zni61Oi8AYwUR/5XFHpGCQCXIYX4o=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=FbW+WdDntepaZ5xGrJWdXhVYV9Gb3DKPel+8VT5xpv3sh87Wgqk0avRYXWiEHiEgS/MrO4PTeWoF5fbpsY6llwy+SGzF2XPvoWIQTEQFM2Vvuf9mRujtRKWP8fnnCXqAkBZJZ1wYPAm418ZTUot2YZXpvvVuI2sbqoTeaUgfMeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cok2fXTK; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bw/1shH5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NyHkN
-	eqq5bZSo8OxYkVnYsj99xGwfUPsdu6iemJRJaY=; b=bw/1shH5OUfAeXTxmM7Bh
-	Nrzr/7d103g4b2GZPFCz5KiIC+6ot8GfbuIc5JU9Dz2EWmNwx/l5HJsRTXmI4Z6P
-	0UCGF3qYFhl6T8AhVnADjpAtzKvT4iCOkzG/L/uOBMJcd9P+1Cf2Wgl1QCkPiVIC
-	fbx2+i5jes1EJGLnw8i6w4=
-Received: from localhost.localdomain (unknown [223.104.68.188])
-	by gzga-smtp-mta-g2-2 (Coremail) with SMTP id _____wD3n_k9mYxmjur5Ag--.7452S2;
-	Tue, 09 Jul 2024 09:58:22 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: manivannan.sadhasivam@linaro.org
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: Add firehose support for Foxconn SDX24/SDX55/SDX65
-Date: Tue,  9 Jul 2024 09:58:18 +0800
-Message-Id: <20240709015818.110384-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cok2fXTK"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46A29WU9005080;
+	Wed, 10 Jul 2024 11:08:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=rY7ukcT6x6DTecR1+lqSVc
+	JxN2MKM+D2xH/UXR4S8Bs=; b=Cok2fXTKPYFGaxIPpOJNjtRhZKsj4wAekRb2t6
+	c4ArLVOI3wqz9eY/mt/iuUZQkImYJOlzyeN8K9+P8iVQ8OQox2Af6d6HekAF6FIG
+	CC5RmGxLAYI0jDCLz+stUM/HyRwWkdY8pUsMom28QM4qNml0/TC1bjrHMGwLf6ti
+	fXilw47oLiZlvRvEKPcrCfAytXt2bu/Fmx+sMTBPtp5TwehJQHl+XinKtYUw9Jdp
+	QbYaoVCgA30gColzWWhB702IHajIJicU5VKjvina3dBb91hB0wTp9lGQCgNzzMat
+	q1H7m7sjRuqra98ggFKGz2UkYlYD8vq3mImup9udi7zrHtaw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 408w0rbye2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 11:08:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46AB8ONx004543
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 11:08:24 GMT
+Received: from hu-krichai-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 10 Jul 2024 04:08:19 -0700
+From: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: [PATCH v7 0/4] PCI: endpoint: add D-state change notifier support
+Date: Wed, 10 Jul 2024 16:38:13 +0530
+Message-ID: <20240710-dstate_notifier-v7-0-8d45d87b2b24@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3n_k9mYxmjur5Ag--.7452S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZF4UAr4rKr18Aw18GFWxJFb_yoW5KFWDpF
-	na9r4rJw4ktFWfKrs7Aw1kCwn3Crs09ryxt3ZxG342yr15A3yqqF4DG3W29w45Z3s7Jr1I
-	vF98WFWDC3Z7JF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0picyCdUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwEXZGV4KMAVPgAAsr
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ1rjmYC/x3MQQqAIBBG4avErBNsEISuEhGlvzUbDZUIorsnL
+ b/Few8VZEGhsXso45IiKTbYviN3rHGHEt9MrNloO2jlS10rlpiqBEFW7DgY8GYAT606M4Lc/3G
+ a3/cDNMpxYWEAAAA=
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>
+CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <mhi@lists.linux.dev>, <quic_vbadigan@quicinc.com>,
+        <quic_ramkri@quicinc.com>, <quic_nitegupt@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_parass@quicinc.com>,
+        "Krishna chaitanya
+ chundru" <quic_krichai@quicinc.com>,
+        Manivannan Sadhasivam <mani@kernel.org>
+X-Mailer: b4 0.13-dev-83828
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720609699; l=1933;
+ i=quic_krichai@quicinc.com; s=20230907; h=from:subject:message-id;
+ bh=lnEmNUrZVKMUb3Zni61Oi8AYwUR/5XFHpGCQCXIYX4o=;
+ b=V065DTfjdyMA4QSQ0X0j1l94+d0jzwUjy/7IKIBy29ub3y/bs2bpPfCtzKzpv3awNyFJkbVjA
+ BKDxS+7Np/hCXQQ+FeDB/lSi+sZPnZRahMZLlRIQQBOnm+mOgHFCycC
+X-Developer-Key: i=quic_krichai@quicinc.com; a=ed25519;
+ pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: kdssdNB2yapj9PoiaPUzUaTDDZvVTU6v
+X-Proofpoint-GUID: kdssdNB2yapj9PoiaPUzUaTDDZvVTU6v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-10_06,2024-07-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=837
+ phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407100076
 
-Since we implement the FIREHOSE channel support in foxconn mhi
-channels, that means each product which use this channel config
-would support FIREHOSE. But according to the trigger_edl feature,
-we need to enable it by adding '.edl_trigger = true' in device
-info struct.
-Also, we update all edl image path from 'qcom' to 'fox' in case of
-conflicting with other vendors.
+In this series we added the support to nofity the EPF driver
+whenever there is change in the D-state if the EPF driver
+registered for it.
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
+This series needed by the following series for epf driver to know
+whether link is in D3Cold or D3hot to wake the host because EPF driver
+needs to send PME when the link is D3hot and toggle wake when the link
+is in D3Cold('PCI: EPC: Add support to wake up host from D3 states').
+
+The following link is for older series a newer series will be sent after
+rebasing on this series.
+https://lore.kernel.org/linux-pci/1690952359-8625-4-git-send-email-quic_krichai@quicinc.com/T/
+
+Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 ---
- drivers/bus/mhi/host/pci_generic.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+Changes from v6:
+	- Rebased on linux next.
+	- Link to v6: https://lore.kernel.org/all/20230908-dstate_change-v6-0-b414a6edd765@quicinc.com/T/
+Changes from v5:
+	- Fixed compilation errors & removed checks in the dstate_notify()
+	  function as suggested by bjorn.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 14a11880bcea..440609b81e57 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -433,8 +433,8 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.name = "foxconn-sdx55",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -444,8 +444,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
- 	.name = "foxconn-t99w175",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -455,8 +455,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
- 	.name = "foxconn-dw5930e",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -466,6 +466,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
- 	.name = "foxconn-t99w368",
-+	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -475,6 +477,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
- 	.name = "foxconn-t99w373",
-+	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -484,6 +488,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
- 	.name = "foxconn-t99w510",
-+	.edl = "fox/sdx24m/prog_firehose_sdx24.mbn",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-@@ -493,6 +499,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
- 
- static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
- 	.name = "foxconn-dw5932e",
-+	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-+	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx55_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
+---
+Krishna chaitanya chundru (4):
+      PCI: endpoint: Add D-state change notifier support
+      PCI: qcom-ep: Add support for D-state change notification
+      PCI: qcom-ep: Print D-state name to distinguish D3hot/D3cold
+      PCI: epf-mhi: Add support for handling D-state notify from EPC
+
+ Documentation/PCI/endpoint/pci-endpoint.rst  |  3 +++
+ drivers/pci/controller/dwc/pcie-qcom-ep.c    | 10 ++++++++--
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 11 +++++++++++
+ drivers/pci/endpoint/pci-epc-core.c          | 24 ++++++++++++++++++++++++
+ include/linux/mhi_ep.h                       |  3 +++
+ include/linux/pci-epc.h                      |  2 ++
+ include/linux/pci-epf.h                      |  2 ++
+ 7 files changed, 53 insertions(+), 2 deletions(-)
+---
+base-commit: 82d01fe6ee52086035b201cfa1410a3b04384257
+change-id: 20240710-dstate_notifier-2c2f4e2b4eed
+
+Best regards,
 -- 
-2.25.1
+Krishna chaitanya chundru <quic_krichai@quicinc.com>
 
