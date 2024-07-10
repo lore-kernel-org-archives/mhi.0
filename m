@@ -1,73 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2539189F26;
-	Wed, 10 Jul 2024 12:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB718C161
+	for <mhi@lists.linux.dev>; Wed, 10 Jul 2024 20:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720613878; cv=none; b=p855eqjbPi7e4hB8DHsv0JD8RtDGIXpWnY7uFRaaqxKLmV8xyHk4z3VoYmfgVqDao0llhrwafI1bJwRUziXT5lP0Dl2eltfUcaQVDVnDJwS8+S0VbfoKiZKpoMGl0TdEI5tiNuXJ1nCr0uijqaf7SvkHT0uCvmlHe4AgfVNOT+U=
+	t=1720643352; cv=none; b=eDcdWmzhmKSO7zfWzuMr1kLuYisNQUaHSiP+GwX7Ggz8HKglbXPtaAFee/fkdriJQVDbpMoVup4A4wBn5qoNvP37PGKrhqCUsuVxh/UmPwxRFCxzvf+JTRD2jHExQTTJoXXmqyVwYdGSqDbPKtPLdqWP+goxheyQC8pxO2okny4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720613878; c=relaxed/simple;
-	bh=snlE/mM+mgp/RDcYubsA7024pVIJBBJzpHzKyn0y0M8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=R/4qWFugMJF8mlsGuz8BYIg3f0HxrZg9B6hHZlTuM0xv1B86Tp43ChV3K4gtu8eB9hQom5Bb5gzA5EPFic9pdwYOB+xNLg0/Azbn5th8vMHMkygtlz8rWLjf+eUaIx6KX8kuVbM7ji0o3szCl5T1c2hqiquoEiZcnVya6J/82OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMjej+vm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720643352; c=relaxed/simple;
+	bh=Ab4dyjGo3s7pHsz5/ulNmvnZqavLu3mWbxo6X+2wGGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jp3wB36rsjSWWqs1CNwhVKjVSQkFaLoGKeIW1I+m6Df7hnzmEeYYMYw2ADRfuuY/rO0dXHxLtP4YfwoA26j6U1/a+6HRhra8fzwVAbF8rwnN7UUUf74d7KJ4Q7oMjvSWsynQRrKtXOHD8nmqTJ6HzT1rWPJH8SUFWbaVWvNLCYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QBPG2a2e; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMjej+vm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51B31C32781;
-	Wed, 10 Jul 2024 12:17:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720613877;
-	bh=snlE/mM+mgp/RDcYubsA7024pVIJBBJzpHzKyn0y0M8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=mMjej+vmUpM7I9BH0vnYE0nwzvX79yf3+/SLO4A9eOW+DMVAhO4qakpjctZBYDxZ3
-	 7I0a9zUl1QjowjjIknkhg4/RKOK/yhbyh+TJHNuqFAfUiwi2rzOmnKj/J8Et4ecPqD
-	 XmykTM/DUVocMiuHe+WhTufQMD3AeYUrm0VRGRGeU7c0oA27hfaCQNsOJucUYOh2Tg
-	 u4aVzghOk/V/8zyWLff02qdbye9ud8rgKAN229nK1yXziR56CeUF7gbNuS+Ee1RVqU
-	 5UhNu/ZnSMOfPElWtstqnedmC2EXNmXX7nqSkSqGb0R2UywDHppZVjvowha8X20Mk7
-	 c81h7RrA9aeVQ==
-Date: Wed, 10 Jul 2024 07:17:55 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-	quic_parass@quicinc.com
-Subject: Re: [PATCH v6 1/5] PCI: endpoint: Add wakeup host API to EPC core
-Message-ID: <20240710121755.GA241182@bhelgaas>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QBPG2a2e"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46ACnK06024771;
+	Wed, 10 Jul 2024 20:29:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/C8Dd1IaJCe5rvJYmcGSvfztZGrxmsF+Dg8Fz7OEvrQ=; b=QBPG2a2e+XFF/AC0
+	5e5/TmUUqL5KZ3SgC7/bG6khgNcfPBiy0B9acSAeI2Q2akr5XpSYpR8GpHmJEvIL
+	vS/0/yBfXwFgFXc/aTifUfrB13FvMyTiC3A2969hoJnPDj3nIgjHEKsQphZEv8Na
+	/6rqKfIDdwlvHKOKMrX+5WHd4CFqGL+A/fepTopBQ5H0dgrDwswHPNn0ap4ubdsT
+	U/cZEXpJ9BZUgSacrHYbBXogEZLU88zfuBuu+KKsPkm7z97MioVow8LuSNSWRTt9
+	CTs5jv6NFObacvaZTqkHYv2DQPHzdFs/KWmg/bvqnrT7GExjmml0tUMdsDdNbxAM
+	OjS+bw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 409kdtj818-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 20:29:01 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46AKSxpF023891
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 20:28:59 GMT
+Received: from [10.110.41.85] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
+ 2024 13:28:58 -0700
+Message-ID: <0d659413-1122-402a-bf85-aa9abb720850@quicinc.com>
+Date: Wed, 10 Jul 2024 13:28:58 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240710-wakeup_host-v6-1-ef00f31ea38d@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
+ notification
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+        "Manivannan
+ Sadhasivam" <manivannan.sadhasivam@linaro.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>
+CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <mhi@lists.linux.dev>, <quic_vbadigan@quicinc.com>,
+        <quic_ramkri@quicinc.com>, <quic_nitegupt@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_parass@quicinc.com>,
+        Manivannan Sadhasivam
+	<mani@kernel.org>
+References: <20240710-dstate_notifier-v7-0-8d45d87b2b24@quicinc.com>
+ <20240710-dstate_notifier-v7-2-8d45d87b2b24@quicinc.com>
+Content-Language: en-US
+From: Mayank Rana <quic_mrana@quicinc.com>
+In-Reply-To: <20240710-dstate_notifier-v7-2-8d45d87b2b24@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: bIS7u-y-X3Zr1nM-Owgr6W3JVQHyygWi
+X-Proofpoint-GUID: bIS7u-y-X3Zr1nM-Owgr6W3JVQHyygWi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-10_15,2024-07-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
+ impostorscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407100145
 
-On Wed, Jul 10, 2024 at 04:46:08PM +0530, Krishna chaitanya chundru wrote:
-> Endpoint cannot send any data/MSI when the D-state is in
-> D3cold or D3hot. Endpoint needs to wake up the host to
-> bring the D-state to D0.
+
+
+On 7/10/2024 4:08 AM, Krishna chaitanya chundru wrote:
+> Add support to pass D-state change notification to Endpoint
+> function driver.
+> Read perst value to determine if the link is in D3Cold/D3hot.
 > 
-> Endpoint can toggle wake signal when the D-state is in D3cold and vaux is
-> not supplied or can send inband PME.
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>   drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> To support this add wakeup_host() callback to the EPC core.
+> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> index 236229f66c80..817fad805c51 100644
+> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+>   	struct device *dev = pci->dev;
+>   	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
+>   	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
+> +	pci_power_t state;
+>   	u32 dstate, val;
+>   
+>   	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
+> @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+>   		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
+>   					   DBI_CON_STATUS_POWER_STATE_MASK;
+>   		dev_dbg(dev, "Received D%d state event\n", dstate);
+> -		if (dstate == 3) {
+> +		state = dstate;
+> +		if (dstate == PCI_D3hot) {
+>   			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
+>   			val |= PARF_PM_CTRL_REQ_EXIT_L1;
+>   			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
+Can you please also check that do we really need to bring link back out 
+of L1/L1SS on receiving D3 hot ?
+> +			if (gpiod_get_value(pcie_ep->reset))
+> +				state = PCI_D3cold;
+>   		}
+> +		pci_epc_dstate_notify(pci->ep.epc, state);
+>   	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
+>   		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
+>   		dw_pcie_ep_linkup(&pci->ep);
+> 
 
-Wrap to fill 75 columns consistently.  Also applies to other patches
-in series.  In some cases you may intend separate paragraphs; add
-blank lines between in those cases.
-
-s/D-state is in D3cold/D-state is D3cold/ (a couple times here, also
-applies to other patches and MHI state)
-
-s/vaux/Vaux/ to match spec usage.
+Regards,
+Mayank
