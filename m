@@ -1,49 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052CD450FA;
-	Thu, 11 Jul 2024 17:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9F816EB47;
+	Thu, 11 Jul 2024 18:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720717497; cv=none; b=Z4cw74cet8dMyVNYtrBRiVa9q8KYQ0D0f+lLVTJKuvsb6rRx4j1jevS7LSksrAW1Oy8OuYDFuOUe4fC8IP7x7K3hzHbE4ELpieoBwAjRvvoue5IHZ8FSNkwNrfJSx78V1OEm9OHNMmxj7vmL+84kjvOnzVbY+a9ZW4Gamn4vXYU=
+	t=1720723725; cv=none; b=OegOGU06SvUvw0iIWp2M5WFYKelI35Zezklam36Bmvyt6SWLhOppke6e6U4SAyEslqiM93imGAhTusryKxcxnixwTHavGjdSnqbJcde/ltaOKVBXLfrbiEed8BS8Df7ul6KgtU5rMEGoKcjyu+ZF5uTUr/siFzNCMA8u7qopNCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720717497; c=relaxed/simple;
-	bh=8bA1Af5JkTKsPfzcax7n6cvmceZSVM+9DQAXTzJTRpc=;
+	s=arc-20240116; t=1720723725; c=relaxed/simple;
+	bh=xImh/e9JhSxNtzbEgiJpo+w6gMpGyqEXopSKCcJ76JE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=hVkl1p7txz8RPwZbPiaNiOZ0Yf3uFAKQIGGh3y/lEoKZrL9Qkw2P5X0p66L9zZr+uO4V8pGUIjdUCGxTbzJ0VROoXOxTLhSjjzeWRiKRuiHHtvqo/H9jnDble+acZve3gyaRKMNzVGmEcikkowmR4Pr+A75dkYC55gAL4KaHKFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VweLSb3c; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition:In-Reply-To; b=oSBnDCjDtyEc1giFbc4oNF8ox+s8aLQVF8i9xzmzVibSNrfxGk9TG7Purwyl2f4nvYfBNvl/PI0mEWR4wjQ8Z56ufxW936bOIfQ049/baHOwKWkFNyiSw4QYlsYtMoihRJZTATJiBiZ7fxFXSMWNTaAjiqCYNPn5ie0cSSiwwks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZygdmSj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VweLSb3c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B3EC116B1;
-	Thu, 11 Jul 2024 17:04:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZygdmSj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C3AC116B1;
+	Thu, 11 Jul 2024 18:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720717496;
-	bh=8bA1Af5JkTKsPfzcax7n6cvmceZSVM+9DQAXTzJTRpc=;
+	s=k20201202; t=1720723724;
+	bh=xImh/e9JhSxNtzbEgiJpo+w6gMpGyqEXopSKCcJ76JE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=VweLSb3cn8veFY/O7cKAlfEIwL3f2HLsE7eAtPdboROuKAnEbFm8vDuj3NQQ0noao
-	 dN7r3qfljVRi538GReGxRpj/BZP6uhySPravw3Uif9gWH09HvlUsmyMNqhJWCN2tiY
-	 x0gVO7rJZxk8OL2BbRGPUUPmGfyW/FA4bQ35Lco/dQlFGfQ1t+daYbjcQ0dezjNRcQ
-	 Js4nQR/KKCirmE+Yn0JLq6WCIHpsGVNO4Taf0Lk16eAsHo+vvB9oWCGeMwhv1D6zbn
-	 irDjHcQbE+kCucOfJrocRzdzuxEnojQ+F1ZaM4ay4bcSKmAVQUE04h07Ef6Et2QUwQ
-	 VbuDzDmJbTkxQ==
-Date: Thu, 11 Jul 2024 12:04:54 -0500
+	b=LZygdmSjEBpl4BTzHjE4t6PNNOmKPMRI7FZ/b1BLxrLEXxaj8fb4aIjEFQNjxcYoz
+	 PS6pWF6WsLll9Lm97lHZxJUp5EMg0QhRasnMH++9lIhSWQE9EiYRulC6i3E29wKIJm
+	 EgQ/e6l6JHagNIE9p2YTnS0RKbuxF0+SYDd6fwSoYifX5W4kL91Xywnx3dSdzIBr/2
+	 iYuBu5xUHRJteBQbjTGqISKKM2NpN7GsRB0WzDkoa5ecwVxOIrpxaaLvuz8nK5cImL
+	 K8rELPM3xoktpef/j0j0HJ8Cu7qBURte99paPdTDbtyH1qAe4CDpYNTgJ8WwUF+KxO
+	 0gLOhoseGdpMg==
+Date: Thu, 11 Jul 2024 13:48:42 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
 Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
 	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
 	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-	quic_parass@quicinc.com
-Subject: Re: [PATCH v6 3/5] PCI: qcom-ep: Add wake up host op to
- dw_pcie_ep_ops
-Message-ID: <20240711170454.GA287440@bhelgaas>
+	quic_parass@quicinc.com, Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
+ notification
+Message-ID: <20240711184842.GA285502@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -52,78 +52,82 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710-wakeup_host-v6-3-ef00f31ea38d@quicinc.com>
+In-Reply-To: <a56de2dc-30a0-a292-c03c-16ec5393eea8@quicinc.com>
 
-On Wed, Jul 10, 2024 at 04:46:10PM +0530, Krishna chaitanya chundru wrote:
-> Add wakeup host op to dw_pcie_ep_ops to wake up host.
-> If the wakeup type is PME, then trigger inband PME by writing to the PARF
-> PARF_PM_CTRL register, otherwise toggle #WAKE.
+On Thu, Jul 11, 2024 at 11:57:35AM +0530, Krishna Chaitanya Chundru wrote:
+> On 7/10/2024 5:41 PM, Bjorn Helgaas wrote:
+> > On Wed, Jul 10, 2024 at 04:38:15PM +0530, Krishna chaitanya chundru wrote:
+> > > Add support to pass D-state change notification to Endpoint
+> > > function driver.
+> ...
 
-Wrap into single paragraph or add blank line between.
+> > I don't understand the connection between PERST# state and the device
+> > D state.  D3cold is defined to mean main power is absent.  Is the
+> > endpoint firmware still running when main power is absent?
+>
+> Host as part of its d3cold sequence will assert the perst. so we are
+> reading perst to know the link the state.
 
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> ---
->  drivers/pci/controller/dwc/pcie-qcom-ep.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+I think it's true that when the device is in D3cold, PERST# will be
+asserted (PCIe CEM r5.0, sec 2.2.3, fig 2-6).
+
+But I don't think it's necessarily true that when PERST# is asserted,
+the device is in D3cold.  For example, PCIe Mini CEM r2.1, sec
+3.2.5.3, says "The system may also use PERST# to cause a warm reset of
+the add-in card."  In a warm reset, the component remains powered up,
+i.e., it is not in D3cold (PCIe r6.0, sec 6.6.1).
+
+I would think the endpoint firmware would be able to directly read the
+state of main power or the LTSSM state of the link, without having to
+use PERST# to infer it.
+
+I guess the ultimate point of figuring out D3hot vs D3cold is to
+figure out whether to use PME or WAKE#?  I'm a little bit dubious
+about that being racy, as I mentioned elsewhere.  If there were a way
+to attempt PME and fall back to WAKE# if you can determine that PME
+failed, maybe that would be safer and obviate the need for the D-state
+tracking?
+
+> Qcom devices are drawing power from the PCIe, so even when PCIe is in
+> D3cold endpoint firmware can still run.
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> index 627a33a1c5ca..d17e8542d07a 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> @@ -97,6 +97,7 @@
->  /* PARF_PM_CTRL register fields */
->  #define PARF_PM_CTRL_REQ_EXIT_L1		BIT(1)
->  #define PARF_PM_CTRL_READY_ENTR_L23		BIT(2)
-> +#define PARF_PM_CTRL_XMT_PME			BIT(4)
->  #define PARF_PM_CTRL_REQ_NOT_ENTR_L1		BIT(5)
->  
->  /* PARF_MHI_CLOCK_RESET_CTRL fields */
-> @@ -817,10 +818,34 @@ static void qcom_pcie_ep_init(struct dw_pcie_ep *ep)
->  		dw_pcie_ep_reset_bar(pci, bar);
->  }
->  
-> +static bool qcom_pcie_ep_wakeup_host(struct dw_pcie_ep *ep, u8 func_no, bool send_pme)
-> +{
-> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> +	struct qcom_pcie_ep *pcie_ep = to_pcie_ep(pci);
-> +	struct device *dev = pci->dev;
-> +	u32 val;
-> +
-> +	if (send_pme) {
-> +		dev_dbg(dev, "Waking up the host using PME\n");
-> +		val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
-> +		writel_relaxed(val | PARF_PM_CTRL_XMT_PME, pcie_ep->parf + PARF_PM_CTRL);
-> +		writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
-> +
-> +	} else {
-> +		dev_dbg(dev, "Waking up the host by toggling WAKE#\n");
-> +		gpiod_set_value_cansleep(pcie_ep->wake, 1);
-> +		usleep_range(WAKE_DELAY_US, WAKE_DELAY_US + 500);
-
-PCIe r6.0, sec 5.3.3.2, says
-
-  When WAKE# is used as a wakeup mechanism, once WAKE# has been
-  asserted, the asserting Function must continue to drive the signal
-  low until main power has been restored to the component as indicated
-  by Fundamental Reset going inactive.
-
-That doesn't seem compatible with a simple delay as you have here.
-
-> +		gpiod_set_value_cansleep(pcie_ep->wake, 0);
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static const struct dw_pcie_ep_ops pci_ep_ops = {
->  	.init = qcom_pcie_ep_init,
->  	.raise_irq = qcom_pcie_ep_raise_irq,
->  	.get_features = qcom_pcie_epc_get_features,
-> +	.wakeup_host = qcom_pcie_ep_wakeup_host,
->  };
->  
->  static int qcom_pcie_ep_probe(struct platform_device *pdev)
-> 
-> -- 
-> 2.42.0
-> 
+> - Krishna Chaitanya.
+> > > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> > > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> > > ---
+> > >   drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
+> > >   1 file changed, 7 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > index 236229f66c80..817fad805c51 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+> > >   	struct device *dev = pci->dev;
+> > >   	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
+> > >   	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
+> > > +	pci_power_t state;
+> > >   	u32 dstate, val;
+> > >   	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
+> > > @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+> > >   		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
+> > >   					   DBI_CON_STATUS_POWER_STATE_MASK;
+> > >   		dev_dbg(dev, "Received D%d state event\n", dstate);
+> > > -		if (dstate == 3) {
+> > > +		state = dstate;
+> > > +		if (dstate == PCI_D3hot) {
+> > >   			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
+> > >   			val |= PARF_PM_CTRL_REQ_EXIT_L1;
+> > >   			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
+> > > +
+> > > +			if (gpiod_get_value(pcie_ep->reset))
+> > > +				state = PCI_D3cold;
+> > >   		}
+> > > +		pci_epc_dstate_notify(pci->ep.epc, state);
+> > >   	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
+> > >   		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
+> > >   		dw_pcie_ep_linkup(&pci->ep);
+> > > 
+> > > -- 
+> > > 2.42.0
+> > > 
