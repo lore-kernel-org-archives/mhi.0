@@ -1,164 +1,113 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF2983CD6
-	for <mhi@lists.linux.dev>; Thu, 11 Jul 2024 06:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37622381AD;
+	Thu, 11 Jul 2024 16:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720679283; cv=none; b=HZcGMgpJk54WSK0r66vSjPJBykI/6qQ3A+BUFABAWfRYnS0ObcfAM8OtySnBNK3rmeTQGtPTOsR59RuNpxCLTz3UAbICHaOo8/115sYbUs5cV03xfWofH61XuhibXOfSDGlaC6U96g7l/8rU0HbzC4WfOyMew+REVemeghVZvzo=
+	t=1720716432; cv=none; b=jo3h5pS+SLdj05IQzQ4K2Oj/Hp8q2HncgHkWweENmSDH6zHf+SqTduvgmNPSsdqE7+I7bMRxo79O9Xztoz3sN/7VlvYqP2ttgiGhGYxp5+l7ZgzA0jcDYEcEXPyyO9arudbKS/zV8vFNXWaMjK15pWSIwJcvQXZDXIV1sib/bcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720679283; c=relaxed/simple;
-	bh=2uxmTCZV6wdZ4BdAvADYGh/dTaVrMo39/6i3EygQAOM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=SkrLtt0Y6pI8LGsl8b/JBevjTYxtNXfczuTGW+MsNRdIlhNcRh6d6eLUImReOoyfKR1EXnkDyxvMVmSBBaz2axBpfrlgELqdhjjGQPctNXPdI4XRd8+GuP2f70ybKvp/Y8kz+jcJMtPoMur09UPn1MyVF2+ThJsyETXee0ccx1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dt6ZFSZZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1720716432; c=relaxed/simple;
+	bh=zjKGt7H07M4pHCU9lW4ij/982X9n70FZYJhQRgYo+h0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=CwTA9g2xKZX9hvZmD/x5sFP+CimRiH0ljJXUg52t5raBDW3WYxIAHxVmiMYKj4SJkpP71io/YhjMr88980DZOEhfpUVNsZ8g+I7G3GpQaj9lwkNTN46eoF8yh8cBOjwdjHgrC/Y0F8+5j5Si337emO71ayd07qgSxHIHkEqsR6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDAEbHv5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dt6ZFSZZ"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4mj1P014569;
-	Thu, 11 Jul 2024 06:27:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rBpuZLrNCGsTn/D1eggkjYSZqxJ/1YdlhMGfNazg0sQ=; b=dt6ZFSZZUaT6STyB
-	iO6+vM3PnuEqICxk3rKDRwRjMGhoxLP/V5bL1La6Q7l7ldkBKyzqi28izNb8Ivfx
-	zt/zw1M8WEm5tETsasJ6z4LTn7lPSNPe7s2LlS0pWfFFIFAf1wKNbnwcGv2XvMD+
-	9R1srS1SkbrZKcfB/RVvu89/uzRFoth1khidkr+6fEtDTS6GRjcef7nEL4LLCM95
-	k2tm/jZV2uL1N4V7XJtibPvf3v6HiWiPkcbAaqZkAjkAwTwAdm3jae7fY7Emq3uz
-	UH6ZHVeGZdjkAyQYhx/JPVrNfdQbaIOUOOiTfFf12cB066nB251R6v3eHHcNZ5NX
-	AsXbIw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 409kdtk89k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 06:27:45 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46B6RijT020417
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 06:27:44 GMT
-Received: from [10.216.38.48] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
- 2024 23:27:38 -0700
-Message-ID: <a56de2dc-30a0-a292-c03c-16ec5393eea8@quicinc.com>
-Date: Thu, 11 Jul 2024 11:57:35 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDAEbHv5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83252C4AF07;
+	Thu, 11 Jul 2024 16:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720716431;
+	bh=zjKGt7H07M4pHCU9lW4ij/982X9n70FZYJhQRgYo+h0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=uDAEbHv5tSBif6DWfuyRc6xa2Jjph3rGHMIE7faBVxp3oCT1EN0M8FD/RbJC0uvVm
+	 K/AaQLW6f7vyAJTlPnH6z8TVSz7VymQHE/i1ayxIBMQBli3frcs+zHD1xwj+DT3/gQ
+	 UCdZ0HAcir/EkpkMVQ81V/lblG/5KbfkUjzDwmWu6LsOGonfwiVA8Y+rztE9WtFSWC
+	 XF7d2txz9ewDXWu8nrCcai+VaV3qUgMKxB0nh6IsGTntMH+9PuoZIPbfU27kkAxX++
+	 v4H/5qWR7VnDpgndnOMWO5E5DypfDq4g7h5aQzd0Zg3/4CNZnrDsaGB3AnaPgO5DHh
+	 j0vJ+bTv/Ru5A==
+Date: Thu, 11 Jul 2024 11:47:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_parass@quicinc.com
+Subject: Re: [PATCH v6 5/5] bus: mhi: ep: wake up host if the MHI state is in
+ M3
+Message-ID: <20240711164709.GA286955@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
- notification
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I
-	<kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_parass@quicinc.com>, Manivannan Sadhasivam
-	<mani@kernel.org>
-References: <20240710121118.GA240905@bhelgaas>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20240710121118.GA240905@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: mXHbW_6Y4FDFYiXrAqEIVIrBokao0TBO
-X-Proofpoint-GUID: mXHbW_6Y4FDFYiXrAqEIVIrBokao0TBO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-11_03,2024-07-10_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407110043
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240710-wakeup_host-v6-5-ef00f31ea38d@quicinc.com>
 
+On Wed, Jul 10, 2024 at 04:46:12PM +0530, Krishna chaitanya chundru wrote:
+> If the MHI state is in M3 then most probably the host kept the
+> device in D3 hot or D3 cold, due to that endpoint transactions will not
+> reach the host, endpoint needs to wakes up the host to bring the host
+> to D0 which eventually bring back the MHI state to M0.
 
+s/needs to wakes up/needs to wake up/
 
-On 7/10/2024 5:41 PM, Bjorn Helgaas wrote:
-> On Wed, Jul 10, 2024 at 04:38:15PM +0530, Krishna chaitanya chundru wrote:
->> Add support to pass D-state change notification to Endpoint
->> function driver.
-> 
-> Blank line between paragraphs.
-> 
-Ack.
->> Read perst value to determine if the link is in D3Cold/D3hot.
-> 
-> I assume this reads the state of the PERST# signal driven by the host.
-> Style it to match the spec usage ("PERST#") to make that connection
-> clearer.
-> 
-Ack.
-> D3cold/D3hot is a device state and doesn't apply to a link.  Link
-> states are L0, L1, L2, L3,etc.  Also in cover letter.
-> 
-Ack.
-> I don't understand the connection between PERST# state and the device
-> D state.  D3cold is defined to mean main power is absent.  Is the
-> endpoint firmware still running when main power is absent?
-> 
-Host as part of its d3cold sequence will assert the perst. so we are
-reading perst to know the link the state.
+s/D3 hot/D3hot/
+s/D3 cold/D3cold/
+to match other uses and make grep more effective.
 
-Qcom devices are drawing power from the PCIe, so even when PCIe is in
-D3cold endpoint firmware can still run.
+> while queueing packets if the MHI state is in M3 wakeup host to bring
+> back link to M0.
 
-- Krishna Chaitanya.
->> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
->> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
->> ---
->>   drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
->> index 236229f66c80..817fad805c51 100644
->> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
->> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
->> @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
->>   	struct device *dev = pci->dev;
->>   	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
->>   	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
->> +	pci_power_t state;
->>   	u32 dstate, val;
->>   
->>   	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
->> @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
->>   		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
->>   					   DBI_CON_STATUS_POWER_STATE_MASK;
->>   		dev_dbg(dev, "Received D%d state event\n", dstate);
->> -		if (dstate == 3) {
->> +		state = dstate;
->> +		if (dstate == PCI_D3hot) {
->>   			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
->>   			val |= PARF_PM_CTRL_REQ_EXIT_L1;
->>   			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
->> +
->> +			if (gpiod_get_value(pcie_ep->reset))
->> +				state = PCI_D3cold;
->>   		}
->> +		pci_epc_dstate_notify(pci->ep.epc, state);
->>   	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
->>   		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
->>   		dw_pcie_ep_linkup(&pci->ep);
->>
->> -- 
->> 2.42.0
->>
+s/while/While/
+s/MHI state is in M3/MHI is in M3/ (twice)
+
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>  drivers/bus/mhi/ep/main.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index b3eafcf2a2c5..b8713e5c1e1a 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -25,6 +25,26 @@ static DEFINE_IDA(mhi_ep_cntrl_ida);
+>  static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id);
+>  static int mhi_ep_destroy_device(struct device *dev, void *data);
+>  
+> +static int mhi_ep_wake_host(struct mhi_ep_cntrl *mhi_cntrl)
+> +{
+> +	enum mhi_state state;
+> +	bool mhi_reset;
+> +	u32 count = 0;
+> +
+> +	mhi_cntrl->wakeup_host(mhi_cntrl);
+> +
+> +	/* Wait for Host to set the M0 state */
+> +	while (count++ < M0_WAIT_COUNT) {
+> +		msleep(M0_WAIT_DELAY_MS);
+
+Tangent: the "M0_WAIT_DELAY_MS" name suggests that is the maximum
+delay, but it seems the actual maximum delay is
+M0_WAIT_DELAY_MS * M0_WAIT_COUNT.
+
+Tangent 2: unless there's a reason to be different, it would be nice
+to use the same loop structure as the similar delay in mhi_ep_enable().
+
+> +		mhi_ep_mmio_get_mhi_state(mhi_cntrl, &state, &mhi_reset);
+> +		if (state == MHI_STATE_M0)
+> +			return 0;
+> +	}
+> +
+> +	return -ENODEV;
+> +}
