@@ -1,182 +1,222 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D043C33CD1
-	for <mhi@lists.linux.dev>; Sat, 13 Jul 2024 15:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C988825
+	for <mhi@lists.linux.dev>; Mon, 15 Jul 2024 03:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720883393; cv=none; b=f0Y2FQaf3eXH3WyxX2XW/EnSHCMVJuu7nODULE8BIgydi9pzgGmnNuKL2jJMZ+SFg3Xx9PrgSqY2nJZQnj4q/1TWeS7dmnSCDccftvU7iV6Y9N9ARqvfDyvEqcPP6lSu0EdWbDp9yBreS0tGhrcuUDSVxRSCdbaKT0+JLCCLhoY=
+	t=1721015028; cv=none; b=pO3+Y1fV7hyedqG4W1eIxsexXk/mEpq/NfHwRDN+os4asf97SwD6oi/FQEBNMHseNMFboRlL02vpTZjL4GyO5U7tZdccjyAupU+4XmVh7g/ZSR7rn9m8WObUySPGH+Stvk4wC2UPLHbaCMWNrti/t2Iykob7npx2AQrGbXiHjto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720883393; c=relaxed/simple;
-	bh=qVBV1SGYCV3VpJhga8WAVhCZSl/Hloy7KmZf/y1uAnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jkJWBTIyHIwg+BT19DT883baXnvAJQQQYHqdAj5x3Woc/MGkWqSFaU5aJb6DdX97kVsWsE1KHGj2q8YLcNRmuMuEgtV5b/eGy8mmBE/yuW76YKBV2umYaDZZMHW0EHCo+O0LtRWDqQHlCf7CoA6hNrBOc6guTfTLTgD/l9W1oIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hIumeINz; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1721015028; c=relaxed/simple;
+	bh=bC+8t1AqUA0A2gar078a/UasZ17MDBqb8euJC64JUDw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=f+Ml3FtbKPV5cUAih8Z7cU3Z2nKIekUMZ+gp4IABnJUjA6ys0YS/w+y+Q3FpiqN34aEoABgfCC10QNfwa4DihIXgK1LVm/sAYsCQdAJaSJ6vaoQxe1BbE/4PfgaxSGqxyrU9/GhDMOZ7y8W/06aBBrs3T+p7XCSMN2t8u2ITOQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=IwmfAfAo reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hIumeINz"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52ea2f58448so4059913e87.1
-        for <mhi@lists.linux.dev>; Sat, 13 Jul 2024 08:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720883390; x=1721488190; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DnPbtTAkZ7djqLH8dVYwhAmRisUoaziL3oeQP7ZMuXM=;
-        b=hIumeINzYYqmbhXoa6/rHPVg/Q/EopiMdkbMlELT/grIaoLoqAQdHMfrVm3hxSRUcq
-         iRZTx7KoOPv0xUEJRtoPX6iWHo/Wz62c7bpni95DMyTLi8Ye8jA6Vpif/mNW69rUTIch
-         dHaPto3+CZodx+QAVBW0hQwSrm3JPjOujEiWQLvfK10ziyz6UgwU9QfJOqKXFFCcafJ8
-         v1rBFjh4PyYBVH6qAjwaLjnOZ0s2e+KMGL5CH59sRPiSXwqQE9B9jtigX3i3aked1y72
-         jor1FqV3AFk9inIEZ3sRhjgyQksZADnGtIDZZ3PALm9ns3eNxHGg0ATtPVu/RJA2L4R9
-         cM5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720883390; x=1721488190;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DnPbtTAkZ7djqLH8dVYwhAmRisUoaziL3oeQP7ZMuXM=;
-        b=bL+00F44W/Q3xGWpxRv/ruH0YRs9jKEECmjUuOwu/2XLAl1RfDLePFSj/RlH7TkEeK
-         zhxIwF0bZRfT2RCqz4/0JZyRTzbPDwx4XQBcIWZWKbe6OxsUkU9FlrNJ8nS+C/Stezzd
-         yFBUKE8K3ryOtLy5Z7h+eiFStAI80KwR7dadmy/0lG6KuV1/XK5HY0keawNsEjwnrFSr
-         wbtQ6Bbb4kWEwYXWd6Ut12SR3B/imPj31gEGN43e6n7uqIm8xZW5siGjM5X/NqpimsZ9
-         zIQrp6NdRJGpayW6EuayEq534ZOTMcdMOpnQhmME63eA4XcFagKubgLB/9CB4N5+HdeC
-         g5hA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJEjWP5m6UCfJZ/efKBb8f+QBjEo2l2AzD6v4hKhfIeNn1MCiROVaZ1IMxmM4IP3oEPHoVvae7t//UUoWzNX1LN4Z1
-X-Gm-Message-State: AOJu0YzJbqkMcM0Iz8KSNrQjoXZHrH4geIWEYSSThFl4YNi3kA5SLFa+
-	PLVpglOmfMNyHKD7FXkKltOf/0U+eOWw33c0uOcuZA/AwE3oFuTNv6Cvlre/h6o=
-X-Google-Smtp-Source: AGHT+IG8f/S6xS3NpK6n/5A6ZgtrNG6rhyc83wV5h+9vg7eHn7uf4I18w28czjlqvaEye2vJRAjSNQ==
-X-Received: by 2002:a05:6512:3d02:b0:52e:767a:ada3 with SMTP id 2adb3069b0e04-52eb99cb00dmr10568585e87.47.1720883389805;
-        Sat, 13 Jul 2024 08:09:49 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ed25391d4sm216199e87.274.2024.07.13.08.09.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jul 2024 08:09:49 -0700 (PDT)
-Date: Sat, 13 Jul 2024 18:09:47 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Slark Xiao <slark_xiao@163.com>
-Cc: manivannan.sadhasivam@linaro.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Add firehose support for Foxconn
- SDX24/SDX55/SDX65
-Message-ID: <dduv77mdqe633m7amyljhqas7nomrtjrrimvmyqidymy3qjvfa@biepierrz5p3>
-References: <20240709015818.110384-1-slark_xiao@163.com>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="IwmfAfAo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=Hii4JQkugafzENUjAH93vh5fuP0+Er4U7NSYOJq4zI4=; b=I
+	wmfAfAo6RXpp54HBFCUYRmSb6gWrdYQrCtnkYbIMVXWVviXr1uG0TO+gj1z7C2FQ
+	niZO3l/IL4IVj2dNxchaLb6YmQyd7wdsjZlPwCwYi9Pf8i9lCmzo7hnThMGTvPfu
+	MI7FFYOYEyNj94kYkxojEzSAGMuiSFuwlS6q/3NhXM=
+Received: from slark_xiao$163.com ( [223.104.68.157] ) by
+ ajax-webmail-wmsvr-40-105 (Coremail) ; Mon, 15 Jul 2024 11:43:26 +0800
+ (CST)
+Date: Mon, 15 Jul 2024 11:43:26 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Johannes Fischer" <johannes.fischer@verificationpartners.com>
+Cc: "manivannan.sadhasivam" <manivannan.sadhasivam@linaro.org>, 
+	"Steven Edwards" <steven.edwards@verificationpartners.com>, 
+	mhi <mhi@lists.linux.dev>
+Subject: Re:Re: Linux Kernel 6.6.36 and upstream mhi repo latest: Interface
+ definition of sierra_em919x
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <AS2PR03MB90046596AFF0AF0F78D4C125E5A72@AS2PR03MB9004.eurprd03.prod.outlook.com>
+References: <AS2PR03MB90043BBFBCA2E14D2EB62E84E5A62@AS2PR03MB9004.eurprd03.prod.outlook.com>
+ <20240712161303.GC3571@thinkpad>
+ <716a2414.bcfae.190a7cf2247.Coremail.slark_xiao@163.com>
+ <AS2PR03MB90046596AFF0AF0F78D4C125E5A72@AS2PR03MB9004.eurprd03.prod.outlook.com>
+X-NTES-SC: AL_Qu2ZA/yaukgr4COaZOkfmk8Sg+84W8K3v/0v1YVQOpF8jC/p4C0AU21aI2PW+d2dMgSNtQGOShpH9M59ZKNWY5k3GbBPWFEyGUeBoUQBYi6acQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240709015818.110384-1-slark_xiao@163.com>
+Message-ID: <1ba76a65.4185.190b47cf475.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3f2DempRmropAAA--.2908W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQYbZGV4IlXbrAAIsZ
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Tue, Jul 09, 2024 at 09:58:18AM GMT, Slark Xiao wrote:
-> Since we implement the FIREHOSE channel support in foxconn mhi
-> channels, that means each product which use this channel config
-> would support FIREHOSE. But according to the trigger_edl feature,
-> we need to enable it by adding '.edl_trigger = true' in device
-> info struct.
-> Also, we update all edl image path from 'qcom' to 'fox' in case of
-> conflicting with other vendors.
-
-Separate patches please. Also don't use "we", just an imerative style:
-do this and that.
-
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 14a11880bcea..440609b81e57 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -433,8 +433,8 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
->  	.name = "foxconn-sdx55",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-
-qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn
-
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -444,8 +444,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
->  	.name = "foxconn-t99w175",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-
-Is it the same file as the one mentioned in the previous chunk or is it
-different?
-
-If they are different, then, please,
-
-qcom/sdx55m/foxconn/t99w175/prog_firehose_sdx55.mbn
-
-
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -455,8 +455,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
->  	.name = "foxconn-dw5930e",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -466,6 +466,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
->  	.name = "foxconn-t99w368",
-> +	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -475,6 +477,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
->  	.name = "foxconn-t99w373",
-> +	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -484,6 +488,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
->  	.name = "foxconn-t99w510",
-> +	.edl = "fox/sdx24m/prog_firehose_sdx24.mbn",
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> @@ -493,6 +499,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
->  
->  static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
->  	.name = "foxconn-dw5932e",
-> +	.edl = "fox/sdx65m/prog_firehose_lite.elf",
-> +	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx55_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
-> -- 
-> 2.25.1
-> 
-
--- 
-With best wishes
-Dmitry
+CkF0IDIwMjQtMDctMTMgMTc6NDE6MjcsICJKb2hhbm5lcyBGaXNjaGVyIiA8am9oYW5uZXMuZmlz
+Y2hlckB2ZXJpZmljYXRpb25wYXJ0bmVycy5jb20+IHdyb3RlOgo+SGkgYWxsLAo+QFN0YXJrLAo+
+Zmlyc3QsIEkgYWNjZXB0IHRoYXQgY2hhbmdlcyBtYXkgaGF2ZSBzaWRlIGltcGFjdCBvbiBvdGhl
+ciBtb2RlbXMuCj5QbGVhc2UgaGF2ZSBpbiBtaW5kIHRoYXQgSSBmbGFzaGVkIFNXSVg1NUNfMDMu
+MTQuMTAuMDQgYW5kIHRoZSByZXNwZWN0aXZlIGdlbmVyaWMgbnZ1IGEgZmV3IGRheXMgYWdvLCBz
+byBJIGFzc3VtZSB0byBiZSBxdWl0ZSBjbG9zZSB0byBkZWZhdWx0IGNvbmZpZy4KPgo+VXNpbmcg
+IHRoZSBzaWVycmFfZW05MTl4IGNvbmZpZyB3aXRoIElQIGxpbmtzIGNoYW5nZWQgdG8gTUJJTSBp
+biBrZXJuZWwgSSBjYW4gZXN0YWJsaXNoIGRhdGEgdHJhZmZpYzsgSSBkbyBub3Qgc2VlIGEgY29t
+cG9uZW50IGNvbnZlcnRpbmcgdGhlIE1CSU0gc3RyZWFtIHRvIFJNbmV0IGluIExpbnV4IGtlcm5l
+bCAoPykuIEkgd29uZGVyIHdoZXRoZXIgdGhlcmUgaXMgcG9zaXRpdmUgIGNvbmZpcm1hdGlvbiBh
+Ym91dCBhIEVNOTE5eCB3b3JraW5nIGluIFBDSWUgbW9kZSB3aXRoIHRoZSBjdXJyZW50IGtlcm5l
+bCBjb25maWcsIGluIHdoaWNoIG1vZGU/IChXZSBkaWQgbm90IGhhdmUgdHJvdWJsZSB1c2luZyB0
+aGUgRU05MTl4IGluIFVTQiBtb2RlLikKPgo+QWJvdXQgR1BJTyBoYW5kbGluZywgYXMgc2FpZCB0
+aGVyZSBpcyBub25lIGZvciBmb3IgRnVsbF9DYXJkX1Bvd2VyX29mZiMgKDYsIDEwayBwdWxsLXVw
+IHRvIDNWMykgYW5kIFJFU0VUIyAoNjcsIGp1c3QgYSBDPTEwMG5GIHRvIEdORCkgb24gdGhlIEJQ
+SS1SNC4gCj5XZSAgaGF2ZSBub3QgdmFsaWRhdGVkIHRoZSB0aW1pbmcgaW4gQlBJLVI0IHdpdGgg
+Ni42LjM2IG9yIGN1cnJlbnQga2VybmVsIHZlcnN1cyB0aGUgdGltaW5nIGRpYWdyYW0gYXQgIkFp
+clByaW1lIEVNOTE5WC9FTTc2OTAgUHJvZHVjdCBUZWNobmljYWwgU3BlY2lmaWNhdGlvbiIuIEFz
+IHlvdSBzYWlkIHRoZXJlIG1heSBiZSBhIGNvcm5lciBjYXNlIHRoYXQgd2UgZW5kIHVwIAo+d2l0
+aCB0aGUgRm94Y29ubiBjb25maWcgZHVlIHRvIHRpbWluZyBhdCBCUEktUjQgcG93ZXIgdXAgdGlt
+ZXMuCj4KPkkgZ2V0IGZyb20geW91ciBzdGF0ZW1lbnQsIHRoYXQgdGhlIHZhbGlkIGNvbmZpZyBz
+aG91bGQgYmUgc2llcnJhX2VtOTE5eCwgdGhhbmtzIGZvciB0aGlzIGNsYXJpZmljYXRpb24uCj4K
+ClllYWgsIEkganVzdCBjaGVja2VkIHRoaXMgaXNzdWUgYWdhaW4uIFdlIG1ldCB0aGlzIGlzc3Vl
+IGluIG91ciBBUk0gIHBsYXRmb3JtLgpEZXZpY2UgYm9vdCB1cCBzaGFsbCB0aHJvdWdoIFBCTC0+
+U0JMLT5LZXJuZWwgYm9vdCB1cC4gQW5kIHRoZXJlIGFyZSAyIGRpZmZlcmVudCBQQ0llIHNldHRp
+bmdzIGJldHdlZW4gUEJMIGFuZCBrZXJuZWwgc2lkZS4KV2hlbiBob3N0IG1oaSBkcml2ZXIgcHJv
+YmVkLCB5b3VyIGRldmljZSBtYXkgc3RpbGwgaW4gUEJMICBzdGFnZSBvciBTQkwgc3RhZ2UodGhl
+IFBDSWUgRVAgaW4gZGV2aWNlIHNpZGUgaXMgbm90IHJlYWR5KSwgdGhlbiB5b3Ugd2lsbCBnZXQg
+YSAiZm94Y29ubi1jb25maWciIHNpbmNlIHlvdXIgUEJMIElEIG1hdGNoIHdpdGggdGhhdCBvbmUu
+ClNvbHV0aW9uIHNoYWxsIGhhdmUgdGhlc2U6CjEuIFVwZGF0ZSBmaXJtd2FyZSBzaWRlIHRvIGtl
+ZXAgSUQgc2FtZSBiZXR3ZWVuIFBCTCBhbmQga2VybmVsIGNvbmZpZy4KMi4gUG93ZXJ1cCBkZXZp
+Y2UgZWFybGllci4KMy4gUHJvYmUgTUhJIGRyaXZlciBieSBtYW51YWwgdG8gYXZvaWQgb2YgZGV2
+aWNlIGtlcm5lbCBpcyBub3QgcmVhZHkuCgo+QE1hbmksCj5mb3IgIG15IHVuZGVyc3RhbmRpbmc6
+IEkgd291bGQgYmUgb25seSBhYmxlIHRvIGdldCBhIE1CSU0gdHlwZSBjaGFubmVsIGlmIHRoZSBj
+aGFubmVsIGlzIGNvbmZpZ3VyZWQgZm9yIElQX0hXMF9NQklNLiBJZiBpdCBpcyBjb25maWd1cmVk
+IGZvciBJUF9IVzAgb25seSB0aGFuIGl0IHdvdWxkIGJlIHBsYWluIElQIHRyYWZmaWMgbGlrZSBS
+TW5ldC4gSXMgdGhpcyB1bmRlcnN0YW5kaW5nIGlnaHQ/IC0gVGhhbmtzCj4KPkpvaGFubmVzIEZp
+c2NoZXIKPgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+RnJvbTrC
+oFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPlNlbnQ6wqBGcmlkYXksIDEyIEp1bHkg
+MjAyNCAxODozOAo+VG86wqBtYW5pdmFubmFuLnNhZGhhc2l2YW0gPG1hbml2YW5uYW4uc2FkaGFz
+aXZhbUBsaW5hcm8ub3JnPgo+Q2M6wqBKb2hhbm5lcyBGaXNjaGVyIDxqb2hhbm5lcy5maXNjaGVy
+QHZlcmlmaWNhdGlvbnBhcnRuZXJzLmNvbT47IFN0ZXZlbiBFZHdhcmRzIDxzdGV2ZW4uZWR3YXJk
+c0B2ZXJpZmljYXRpb25wYXJ0bmVycy5jb20+OyBtaGkgPG1oaUBsaXN0cy5saW51eC5kZXY+Cj5T
+dWJqZWN0OsKgUmU6IExpbnV4IEtlcm5lbCA2LjYuMzYgYW5kIHVwc3RyZWFtIG1oaSByZXBvIGxh
+dGVzdDogSW50ZXJmYWNlIGRlZmluaXRpb24gb2Ygc2llcnJhX2VtOTE5eAo+wqAKPkhpIGFsbO+8
+jAo+SSBiZWxpZXZlIHRoaXMgaXNzdWUgY2F1c2VkIGJ5IHNvbWUgaXNzdWUgb24gZGV2aWNlIEFQ
+IHNpZGUgb3IgUElOIHBvd2VyIHNlcXVlbmNlLiBXZSBtZXQgc2ltaWxhciBpc3N1ZSBiZWZvcmUu
+Cj5Zb3Ugd2VyZSB1c2luZyB0aGUgc2V0dGluZ3Mgb2YgZm94Y29ubiBhdCBmaXJzdCBzaW5jZSB0
+aGUgc3ViLXZpZCBtYXRjaCB3aXRoIGZveGNvbm4uIFRoaXMgYWN0dWFsbHkgaXMgbm90IGV4cGVj
+dGVkIHNpbmNlIHRoZXJlwqAgaXMgYSBTaWVycmEgc2V0dGluZ3MgZXhpc3RzIC4KPkFmdGVyIHJl
+bW92ZSBhbmQgcmVhY2FuLCB5b3UgZ2V0IHRoZSBjb3JyZWN0IFBDSWUgSUQgZW51bWFyYXRlLiBU
+aGF0J3Mgd2hhdCBpdCBpcy4gU2llcnJhIGNvbmZpZyB3YXMgYWRkZWQgYmFzZWQgb24gcm1uZXQg
+c29sdXRpb24sIHNvIHlvdXIgcHJldmlvdXMgTUJJTSBzb2x1dGlvbiB3b24ndCB3b3JrIGFueW1v
+cmUuCj5UaGVyZSBpcyBhIGRpZmZlcmVuY2Ugb2YgdGhlIHN1Yi1WSUQvUElEIGJldHdlZW4gdGhl
+IFBCTCBzdGFnZSBhbmQga2VuZWwgdXAgYm9vdCBzdGFnZS4KPlRoaXMgaXNzdWUgbWFpbmx5IGNh
+dXNlZCBieSBhbiBhYm5vcm1hbCBpbml0aWFsIGJvb3QgKG1heSBjb21lIGZyb20gZmlybXdhcmUg
+c2lkZSBvciB0aGUgUENJRSBwb3dlciBzZXF1ZW5jZSwgaW5jbHVkaW5nIGZ1bGwgY2FyZCBwb3dl
+ciBvZmYvUEVSU1QgKS4KPgo+LS0tLSBSZXBsaWVkIE1lc3NhZ2UgLS0tLQo+Cj4rIFNsYXJrIChG
+b3hjb25uIFBvQyksIE1ISSBsaXN0Cj4KPkhpIEpvaGFubmVzLAo+Cj5PbiBGcmksIEp1bCAxMiwg
+MjAyNCBhdCAwMjo1Nzo1N1BNICswMDAwLCBKb2hhbm5lcyBGaXNjaGVyIHdyb3RlOgo+PiBIaSBN
+YW5pLAo+PiBmb3VuZCB5b3UgZm9yIGEgbWFpbnRhaW5lciBmb3IgdGhlIE1ISSBwYWNrYWdlIGF0
+IGtlcm5lbC5vcmcgLgo+Pgo+PiBXZSBhcmUgYnVpbGRpbmcgdXAgYSBCYW5hbmFQaS1SNCDCoG9w
+ZW53cnQgKHNuYXBzaG90KSBib3ggd2hlcmUgd2UgYW50IHRvIGhhdmUgYSBTaWVycmFXaXJlbGVz
+cyBFTTkxOTEgbW9kZW0gaW4gdGhlIE0uMiBzbG90IGJlaW5nIGNvbm5lY3RlZCB2aWEgUENJZS4g
+Rmlyc3QsIHdlIGhhZCBzb21lIHRyb3VibGUgZGV0ZWN0aW5nIHRoZSBTSU0sIHRoYXQgaXMgc29s
+dmVkIGJ5IGlzb2xhdGluZyB0aGUgU0lNX0RFVCBwaW4gb24gdGhlIG1vZHVsZSwgdGhlIEJQSS1S
+NCBoYXMgd3JvbmcgbG9naWMgb24gU0lNIGRldGVjdGlvbiBjb250YWN0IChpbiBvcHBvc2l0ZSB0
+byBzdGF0ZW1lbnQgaW4gc2NoZW1hdGljKS4gVGhlIEVNOTE5MSBydW5zIG9uIGFsbW9zdCBsYXRl
+c3QgZmlybXdhcmUuCj4+IFRoZSBCUEktUjQgaGFzIHRoZSBzcGVjaWFsdHkgdGhhdCBGVUxMX0NB
+UkRfUE9XRVJfT0ZGIyBhbmQgUkVTRVQjIGFyZSBub3QgY29udHJvbGxlZCBieSBHUElPLiBQQ0ll
+IEludGVyZmFjZSBQRVJTVCBpcyBjb250cm9sbGVkIGFzIGV4cGVjdGVkCj4+IEFmdGVyIHNvbHZp
+bmcgdGhpcywgYWRkaW5nIHJpZ2h0IGtlcm5lbCBtb2R1bGVzIGFuZCBwb3dlcmluZyB1cCB0aGUg
+Ym94IHdlIHNhdyBtb2R1bGUgY29taW5nIHVwIGV4cG9zaW5nIGEgInd3YW4wIiBuZXR3b3JrIGlu
+dGVyZmFjZSBhbmQgZGV2aWNlcyBmb3IgQVQsIG1iaW0oY3RybCkgYW5kIHF4ZG0uCj4+IFdlIHdl
+cmUgYWJsZSB0byBzZXQgdXAgdHJhZmZpYyB1c2luZyBtYmltLW5ldHdvcmsgYW5kIG1iaW0tc2V0
+LWlwIHNjcmlwdCwgdmVyeSBtYW51YWwsIG5vIG1vZGVtbWFuYWdlciBvciBzaW1pbGFyLgo+PiBB
+ZnRlciBhIHJlYm9vdCAob3IgYSBwY2kgZGV2aWNlIHJlbW92ZSAvIHBjaSBidXMgcmVzY2FuIGlu
+IHN5c2ZzKSB0aGUgbW9kdWxlcyBzaG93ZWQgdXAgZGlmZmVyZW50bHkuIFdlIGdvdCBhIG5ldHdv
+cmsgaW50ZXJmYWNlIG5hbWVkICJtaGlfaHdpcDAiLCBkZXZpY2VzIHdlcmUgQVQsIG1iaW0oY3Ry
+bCksIHFtaSwgcXhkbS4KPj4gQVQvcXhkbSB3YXMgYWNjZXNzaWJsZSwgdGhlIG1iaW0gYW5kIHFt
+aSBjaGFubmVscyBhcyB3ZWxsLCBob3dldmVyIHdlIHdlcmUgbm90IGFibGUgdG8gc3RhcnQgdHJh
+ZmZpYyBieSBjb25maWd1cmluZyB0aGUgaW50ZXJmYWNlIGFzIGJlZm9yZS4KPj4KPj4gTG9va2lu
+ZyBhdCBkbWVzZyByZXZlYWxlZCB0aGUgbGluZXMgZ2l2ZW4gYmVsb3cuIFRoZSBtb2R1bGUgbG9v
+a3MgdG8gZW51bWVyYXRlIGRpZmZlcmVudGx5LCByZWFzb24gaXMgbm90IGtub3duIHRvIHVzLgo+
+Pgo+PiA8cG93ZXIgb24+Cj4+IHJvb3RAUk9PdGVyOn4jIGRtZXNnIHwgZ3JlcCAiTUhJIFBDSSBk
+ZXZpY2UgZm91bmQiCj4+IFsgwqAgMTIuMDM5MjU5XSBtaGktcGNpLWdlbmVyaWMgMDAwMzowMTow
+MC4wOiBNSEkgUENJIGRldmljZSBmb3VuZDogZm94Y29ubi1zZHg1NQo+PiByb290QFJPT3Rlcjp+
+IyBlY2hvIDEgPiAvc3lzL2J1cy9wY2kvZGV2aWNlcy8wMDAzOjAxOjAwLjAvcmVtb3ZlCj4+IHJv
+b3RAUk9PdGVyOn4jIGVjaG8gMSA+IC9zeXMvYnVzL3BjaS9yZXNjYW4KPj4gcm9vdEBST090ZXI6
+fiMgZG1lc2cgfCBncmVwICJNSEkgUENJIGRldmljZSBmb3VuZCIKPj4gWyDCoCAxMi4wMzkyNTld
+IG1oaS1wY2ktZ2VuZXJpYyAwMDAzOjAxOjAwLjA6IE1ISSBQQ0kgZGV2aWNlIGZvdW5kOiBmb3hj
+b25uLXNkeDU1Cj4+IFsgwqAxNDQuMzE3NjU2XSBtaGktcGNpLWdlbmVyaWMgMDAwMzowMTowMC4w
+OiBNSEkgUENJIGRldmljZSBmb3VuZDogc2llcnJhLWVtOTE5eAo+PiByb290QFJPT3Rlcjp+IyMK
+Pj4KPgo+SSBiZWxpZXZlIHRoZSByZWFzb24gZm9yIDIgZGlmZmVyZW50IGVudW1lcmF0aW9uIGJl
+aGF2aW9yIGlzIGR1ZSB0byB0aGUgZmlybXdhcmUKPm5vdCBkZXRlY3RpbmcgdGhlIHJlYm9vdCBw
+cm9wZXJseS4gU28gaWYgeW91ciBob3N0IFNvQyBpcyBub3QgdG9nZ2xpbmcgdGhlCj5QRVJTVCMg
+YXMgZXhwZWN0ZWQsIHlvdSB3aWxsIGVuZCB1cCBzZWVpbmcgdGhlc2Uga2luZCBvZiBiZWhhdmlv
+cnMuCj4KPkBTbGFyazogQ29ycmVjdCBtZSBpZiBJJ20gd3JvbmcuIEFsc28gcGxlYXNlIHNoYXJl
+IHRoZSByZWJvb3Qgc3RlcHMgZXhwZWN0ZWQgYnkKPnRoZSBmaXJtd2FyZS4KPgo+RHVyaW5nIFBD
+SSByZW1vdmUvcmVzY2FuLCBpZiB0aGUgZHJpdmVyIGlzIHVubG9hZGVkIHRoZW4gd2UganVzdCBw
+b3dlciBkb3duIHRoZQo+TUhJIHN0YWNrLCBidXQgZG9uJ3QgcmVzZXQgdGhlIGRldmljZS4gQW5k
+IHdoZW4gdGhlIGRyaXZlciBpcyBsb2FkZWQgYWdhaW4sIGl0Cj5hZ2FpbiBwb3dlcnMgdXAgdGhl
+IE1ISSBzdGFjay4gQW5kIHRoaXMgbWVhbnMsIG9ubHkgdGhlIE1ISSBzdGF0ZSBtYWNoaW5lIHdp
+bGwKPmJlIHJlc2V0LiBTbyB0aGlzIHNob3VsZCBub3QgY2hhbmdlIHRoZSBmaXJtd2FyZSBmbG93
+LiBCdXQgSSBkb24ndCBleGFjdGx5IGtub3cKPmhvdyB0aGUgZmlybXdhcmUgYmVoYXZlcy4gTWF5
+YmUgdGhlIGZpcm13YXJlIGdldHMgcmVzZXQ/Cj4KPkBTbGFyazogQWdhaW4sIHBsZWFzZSBzaGFy
+ZSB3aGF0IGlzIHRoZSBleHBlY3RlZCBiZWhhdmlvciBvZiB0aGUgZmlybXdhcmUgZHVyaW5nCj5o
+b3N0IGRyaXZlciB1bmxvYWQvcmVsb2FkLgoKSnVzdCBsaWtlIEkgc2FpZCBpbiBhYm92ZSwgZHJp
+dmVyIHVubG9hZC9yZWxvYWQgIHNoYWxsIGRvbid0IGhhdmUgYW55ICBpbXBhY3QuIEZpcm13YXJl
+CnNpZGUgd291bGQgZG8gYSBuZXcgY29ubmVjdGlvbiB3aXRoIFJDICBzaWRlIHdpdGhvdXQgZmly
+bXdhcmUgcmVzZXQuCgo+Cj4+IFdpdGggdGhpcyBpbmZvcm1hdGlvbiBJIHdlbnQgaW50byBwY2kt
+Z2VuZXJpYy5jIGFuZCB0aGlzIHNob3dlZCBmb3IgdGhlIHR3byB0eXBlcyBvZiBkZXZpY2VzCj4+
+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX2NoYW5uZWxfY29uZmlnIG1oaV9mb3hjb25uX3NkeDU1
+X2NoYW5uZWxzW10gPSB7Cj4+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIE1ISV9DSEFOTkVMX0NP
+TkZJR19VTCgwLCAiTE9PUEJBQ0siLCAzMiwgMCksCj4+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IE1ISV9DSEFOTkVMX0NPTkZJR19ETCgxLCAiTE9PUEJBQ0siLCAzMiwgMCksCj4+IMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIE1ISV9DSEFOTkVMX0NPTkZJR19VTCg0LCAiRElBRyIsIDMyLCAxKSwK
+Pj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX0RMKDUsICJESUFH
+IiwgMzIsIDEpLAo+PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBNSElfQ0hBTk5FTF9DT05GSUdf
+VUwoMTIsICJNQklNIiwgMzIsIDApLAo+PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBNSElfQ0hB
+Tk5FTF9DT05GSUdfREwoMTMsICJNQklNIiwgMzIsIDApLAo+PiDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCBNSElfQ0hBTk5FTF9DT05GSUdfVUwoMzIsICJEVU4iLCAzMiwgMCksCj4+IMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIE1ISV9DSEFOTkVMX0NPTkZJR19ETCgzMywgIkRVTiIsIDMyLCAwKSwK
+Pj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX0hXX1VMKDEwMCwg
+IklQX0hXMF9NQklNIiwgMTI4LCAyKSwKPj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NI
+QU5ORUxfQ09ORklHX0hXX0RMKDEwMSwgIklQX0hXMF9NQklNIiwgMTI4LCAzKSwKPj4gfTsKPj4K
+Pj4gQW5kCj4+Cj4+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX2NoYW5uZWxfY29uZmlnIG1oaV9z
+aWVycmFfZW05MTl4X2NoYW5uZWxzW10gPSB7Cj4+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIE1I
+SV9DSEFOTkVMX0NPTkZJR19VTF9TQkwoMiwgIlNBSEFSQSIsIDMyLCAwKSwKPj4gwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX0RMX1NCTCgzLCAiU0FIQVJBIiwgMjU2
+LCAwKSwKPj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX1VMKDQs
+ICJESUFHIiwgMzIsIDApLAo+PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBNSElfQ0hBTk5FTF9D
+T05GSUdfREwoNSwgIkRJQUciLCAzMiwgMCksCj4+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIE1I
+SV9DSEFOTkVMX0NPTkZJR19VTCgxMiwgIk1CSU0iLCAxMjgsIDApLAo+PiDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCBNSElfQ0hBTk5FTF9DT05GSUdfREwoMTMsICJNQklNIiwgMTI4LCAwKSwKPj4g
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX1VMKDE0LCAiUU1JIiwg
+MzIsIDApLAo+PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBNSElfQ0hBTk5FTF9DT05GSUdfREwo
+MTUsICJRTUkiLCAzMiwgMCksCj4+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIE1ISV9DSEFOTkVM
+X0NPTkZJR19VTCgzMiwgIkRVTiIsIDMyLCAwKSwKPj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+TUhJX0NIQU5ORUxfQ09ORklHX0RMKDMzLCAiRFVOIiwgMzIsIDApLAo+PiDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCBNSElfQ0hBTk5FTF9DT05GSUdfSFdfVUwoMTAwLCAiSVBfSFcwIiwgNTEyLCAx
+KSwKPj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgTUhJX0NIQU5ORUxfQ09ORklHX0hXX0RMKDEw
+MSwgIklQX0hXMCIsIDUxMiwgMiksCj4+IH07Cj4+Cj4+IEhlcmUgeW91IGNhbiBzZWUsIHRoYXQg
+dGhlIElQIGNoYW5uZWxzIGFyZSBjb25maWd1cmVkIGRpZmZlcmVudGx5Lgo+Pgo+PiBJIGdhdmUg
+aXQgYSB0cnkgYW5kIGNvbmZpZ3VyZSB0aGUgSVAgY2hhbm5lbHMgZm9yIEVNOTE5eCBmb3IgTUJJ
+TSBhcyB3ZWxsLgo+PiBUaGlzIHNvbHZlZCB0aGUgaXNzdWUsIEVNOTE5MSBlbnVtZXJhdGVzIG5v
+dyBmb3IgInd3YW4wIiBhcyB3ZWxsIGFmdGVyIHJlc3RhcnQgb2YgdGhlIFBDSWUgbGluayBieSBy
+ZXNjYW4gYW5kIHJlYm9vdC4KPj4KPj4gVGggRU05MTkxIGlzIGEgNUdOUiBTdWI2IG1vZHVsZSBh
+bmQgZm9sbG93IHRoZSBRQyBzdHJhdGVneSBvbmx5IHRvIGV4cG9zZSBNQklNIGZvciBJUCBjb25u
+ZWN0aXZpdHksIFJNTkVUIGFuZCBSTkRJUyBhcmUgbm90IHN1cHBvcnRlZCBhcyBwZXIgZG9jdW1l
+bnRhdGlvbi4KPj4KCllvdSBzaGFsbCBjb250YWN0IHdpdGggQFRob21hcyBQZXJyb3QgZm9yIGNv
+bmZpcm1hdGlvbi4gU2llcnJhIGRldmljZSB3YXMgYWRkZWQgYnkgaGltLgoKPj4gTXkgcXVlc3Rp
+b24gaGVyZSB3b3VsZCBiZSB3aHkgdGhpcyBnb3Qgbm90IHJlcG9ydGVkIGJlZm9yZSwgSSBzZWUg
+YSBsb3Qgb2YgYWN0aXZpdGllcyBvbmdvaW5nIGZvciBGb3hjb25uLVNEWDU1IGJ1dCBsb3cgZm9y
+IHRoZSByZXN0YXJ0IGlzc3Vlcy4gSXQgbWF5IGJlIHRoZSB0aGUgbWlzc2luZyBHUElPcyBmb3Ig
+UkVTRVQjL0ZVTExfQ0FSRF9QT1dFUl9PRkYjIGFyZSBzcGVjaWFsIGZvciB0aGUgQlBJLVI0IGJv
+YXJkLiBXZSBzYXcgZm9yIFRlY2hzaGlwIE1DMjAxIHRoYXQgdGhlc2UgY2FuIGJlIGRpcmVjdGVk
+IHRvIEdQSU8gYnkgc2V0dGluZyBhIGp1bXBlci4gTWF5YmUgTGVub3ZvIGxhcHRvcHMgZXRjIGFs
+d2F5cyBpbnZva2UgUkVTRVQjIGlmIHN1Y2ggbW9kdWxlcyBoYXZlIHRvIHJlY292ZXIuCj4+Cj4+
+IEFueXdheSwgSSB0aGluayB3ZSBjYW4gbGl2ZSB3aXRoIHRoZSBjaGFuZ2UsIHByb3Bvc2FsIHdv
+dWxkIGJlIHRvIGFkZCB0aGlzIHRvIHVwc3RyZWFtLiDCoFF1ZXN0aW9uIGlzIHN0aWxsIG9wZW4s
+IHdoeSBpdCBlbnVtZXJhdGVzIGRpZmZlcmVudGx5Lgo+Pgo+Cj5Obywgd2UgY2Fubm90IGNoYW5n
+ZSB0aGUgbW9kZW0gY29uZmlnIGR1ZSBlcnJhbnRpYyBmaXJtd2FyZSBiZWhhdmlvci4gVGhpcyB3
+aWxsCj5hZmZlY3Qgb3RoZXIgbW9kZW1zIGRlcGVuZGluZyBvbiB0aGlzIGNvbmZpZy4KPgo+TGV0
+J3MgaGVhciBmcm9tIFNsYXJrIGZpcnN0Lgo+Cj4tIE1hbmkKPgo+LS0KPuCuruCuo+Cuv+CuteCu
+o+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/grrXgrq7gr40K
