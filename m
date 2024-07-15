@@ -1,214 +1,165 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA26226287
-	for <mhi@lists.linux.dev>; Mon, 15 Jul 2024 06:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95EB01E89C
+	for <mhi@lists.linux.dev>; Mon, 15 Jul 2024 06:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721024232; cv=none; b=ZXOPp+3U8z+H5qvY0HfIZZyD/OH19xwJGNPO/r2RA4cCwDCE4QMcUDizwHeGYeq8KtRkoyd7JEiRto5jBSb9rp2/9xx3Tns15D+hDQPwf4XFAAJyVJAwaR3frGvJLk140bOgortCf8oJ1xy7vK7shtnyVu78feBSGYofhFRi88c=
+	t=1721024838; cv=none; b=KIRvWB+2jlM3C36GHs3vTVATxdcMuFbXVedqgYOuHJcAJqhf4ErKHNAkV6DYJ8GqlAh02bJx19tTg/FYJnoou8ZAzJreqyZ0jrvy7b63Q1+gZORIkE08DMLtr8VYHZ9ZD/THUuJCBRBJu9Sue6jPCXFlLqtcEBXbvUOoxKFNApY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721024232; c=relaxed/simple;
-	bh=OeWl2lZDTcX/Q1v/hR8TKfjOISBqUu6pjpymsVk96g8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YNpl3YGV8BAtuGDrUMife5aP/LlqeLljsnPaf9ogH2zhcrQJtZxGGFlyrbmeeHxZrgXYeX+Hqtj0Y8qMIOuV9S0qrQ9bgMQTcWKZv1780vaPcXVUbz/i4HgmB8dnxtft5xpsmDqCzc1JcNFFex79mfufEvfOwE6voyKJkKJQRG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v0UzQJL7; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1721024838; c=relaxed/simple;
+	bh=BeuAaEaSVeb9PlNw8ynz704stRFEkxUyYz4hhLNG05U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=QAtVJDLMzaLCPlkIvV1qQAbC+KDmoMtVgNGVxCjP1ppQCqt7DBUK/9ef4dliSmmwdgwxziYV2qkmW44NDVBvoJ9H38DBLhQGTM6qUqkrBxhg7hNRevDa6oAD8XnbeEnr9SRFCItWc7mvCCgylWSLW456unNY0PJpQmC76sptqek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=OBAG1fiq reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v0UzQJL7"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-65f852c82fcso13321477b3.1
-        for <mhi@lists.linux.dev>; Sun, 14 Jul 2024 23:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721024229; x=1721629029; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7FUtQN9vDTiJfzF98mzhNDDsAK+z6KOdfiJ7WqBKQ68=;
-        b=v0UzQJL7dCAehpx8HCC047eLrfr6Tv10UNWvguIfraas9OuTb+wR+8GDLzhuqBUjK4
-         p+x+L3sBiivFeqVHoEHbUy4KiH/gvBdp8oAIzbTv/y5N94nShfJ9ET3N80n2kSEGHMLi
-         mVnSSu40XYlwD5AZkc41UagjTurs7LFFqtVQ9vhuRaRxzZ1wlnneDUklDPrLQJh5g/g2
-         PnanhtSWWoAlnogLW1XOgPlhp2vqTej6VLZYTMSBRlR9QM3T9Gpok/bcP1iKLCpWirUH
-         lQEqSGqlqn7mv08RcecWpvJenQNsjcc79dXgQoctfgR9q0d878YrJVu5jMhMxf7ILM7S
-         uUdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721024229; x=1721629029;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7FUtQN9vDTiJfzF98mzhNDDsAK+z6KOdfiJ7WqBKQ68=;
-        b=EEKk0RTEOgrcNgBkz09Dnq5/ADSRofisf+jibTtuzNliPw4YMq2QVPqMj7nYTHLTFX
-         Tg6+269MokMNzy+4xyPuYeThW9jwAks4exIkuHRNEhr0kO1VWqo45IpNPp31hy00JRR8
-         VK6UWnESLp8arpcA4YtxDrw/ax1SNhycmx3jjASICMxsi+StE7fWPoVZqw0gQq+hsRYz
-         ZLR8IENqpBQvhZDXyAQblRCS66sOrvoXM/R1NAkcghKKFVYpbawjzOVxDKrldQuytmZu
-         fqy1HpE7CAuRJxiY/FM6ITf5GJd7yblz8oQpj2eXKMVk/JOXcOyko3yhrXCJmkcIuVt0
-         Hq+g==
-X-Forwarded-Encrypted: i=1; AJvYcCV6Li5rxTg/MaxdA7H14DNFaoVJZ1TGj+XAApsAHv7GpRDHSH4a3rJUs0qneUwg2h2RWimiEYTXVvBp5OL6K2HKigyk
-X-Gm-Message-State: AOJu0YyS6WxfYmlaBPnlvr+s0d34jQz2BSJmtGwO9lN8SUhj+Z/WidA4
-	fyxAH4fsaTvB21CUF8HkkR5JZ8kk9kzatU99pVnvpjxr4pCz97njTZm6fOgJNDbq9omlHCBtoc+
-	ESDAbOTbTCq6Zgf6aL1x2Upm+/vhj/YZjs74dyg==
-X-Google-Smtp-Source: AGHT+IEZ2fRaW1s1xcwj4sECWbiwAvItL2nhiFv/Zq2IkJKf/c1TVSPGYiSNR5FSCCEHISuTNCaYJAorF0BXVc72vOQ=
-X-Received: by 2002:a0d:c686:0:b0:61b:3304:b702 with SMTP id
- 00721157ae682-658ee790e5bmr187202967b3.5.1721024228628; Sun, 14 Jul 2024
- 23:17:08 -0700 (PDT)
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="OBAG1fiq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=2XR3P2gp3NQZurw4DKejKl36I9ExRbltlmJ3oVTzILE=; b=O
+	BAG1fiq2/CVFzXY4C8gpT2sWbvi8njszcZdfyqda7clST6xM72kFMxcnJfFgzbV4
+	E2Q2VFIfzY+KkoU5Jx7Mp7EtpdDEMcZUzmJK/1An7x3iaoC6jIWnt7Iogt8SKjWv
+	gW+X4QQbeQ3Ou9OAv0YrGLTXLyzTDc5QGqdo3D5ww0=
+Received: from slark_xiao$163.com ( [223.104.68.157] ) by
+ ajax-webmail-wmsvr-40-149 (Coremail) ; Mon, 15 Jul 2024 14:27:07 +0800
+ (CST)
+Date: Mon, 15 Jul 2024 14:27:07 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc: manivannan.sadhasivam@linaro.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: [PATCH] bus: mhi: host: Add firehose support for Foxconn
+ SDX24/SDX55/SDX65
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <CAA8EJpoiOLYMhxyJbdrgnMVfVggL9cOWtX8L__YKd=RPQWOcSg@mail.gmail.com>
+References: <20240709015818.110384-1-slark_xiao@163.com>
+ <dduv77mdqe633m7amyljhqas7nomrtjrrimvmyqidymy3qjvfa@biepierrz5p3>
+ <17f0f426.4faf.190b4edaadd.Coremail.slark_xiao@163.com>
+ <CAA8EJpoiOLYMhxyJbdrgnMVfVggL9cOWtX8L__YKd=RPQWOcSg@mail.gmail.com>
+X-NTES-SC: AL_Qu2ZA/yZu0Ap4SORY+kfmk8Sg+84W8K3v/0v1YVQOpF8jCLr2QImXmJeNFbf3s6gBSypgAWKdgpM2ORoVIdhYqENeUuEA4Ozw5AMfRvyum0FmA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240709015818.110384-1-slark_xiao@163.com> <dduv77mdqe633m7amyljhqas7nomrtjrrimvmyqidymy3qjvfa@biepierrz5p3>
- <17f0f426.4faf.190b4edaadd.Coremail.slark_xiao@163.com>
-In-Reply-To: <17f0f426.4faf.190b4edaadd.Coremail.slark_xiao@163.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 15 Jul 2024 09:16:57 +0300
-Message-ID: <CAA8EJpoiOLYMhxyJbdrgnMVfVggL9cOWtX8L__YKd=RPQWOcSg@mail.gmail.com>
-Subject: Re: Re: [PATCH] bus: mhi: host: Add firehose support for Foxconn SDX24/SDX55/SDX65
-To: Slark Xiao <slark_xiao@163.com>
-Cc: manivannan.sadhasivam@linaro.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <7036d57d.5904.190b512d00b.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:_____wD3_+g7wZRm_Qk_AA--.39354W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJQkdZGVOCNdHqgADsP
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Mon, 15 Jul 2024 at 08:46, Slark Xiao <slark_xiao@163.com> wrote:
->
->
-> At 2024-07-13 23:09:47, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> wrote:
-> >On Tue, Jul 09, 2024 at 09:58:18AM GMT, Slark Xiao wrote:
-> >> Since we implement the FIREHOSE channel support in foxconn mhi
-> >> channels, that means each product which use this channel config
-> >> would support FIREHOSE. But according to the trigger_edl feature,
-> >> we need to enable it by adding '.edl_trigger = true' in device
-> >> info struct.
-> >> Also, we update all edl image path from 'qcom' to 'fox' in case of
-> >> conflicting with other vendors.
-> >
-> >Separate patches please. Also don't use "we", just an imerative style:
-> >do this and that.
-> >
->
-> Do you mean use 2 patches (1 for enabling trigger edl and 1 for
-> modifying path)? Though these changes are aimed to make
-> firehose download successfully.
-
-Yes. "Do this. Also do that" is usually a sign that the patch should be split.
-
->
-> >>
-> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> >> ---
-> >>  drivers/bus/mhi/host/pci_generic.c | 20 ++++++++++++++------
-> >>  1 file changed, 14 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> >> index 14a11880bcea..440609b81e57 100644
-> >> --- a/drivers/bus/mhi/host/pci_generic.c
-> >> +++ b/drivers/bus/mhi/host/pci_generic.c
-> >> @@ -433,8 +433,8 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
-> >>      .name = "foxconn-sdx55",
-> >> -    .fw = "qcom/sdx55m/sbl1.mbn",
-> >> -    .edl = "qcom/sdx55m/edl.mbn",
-> >> +    .edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-> >
-> >qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn
->
-> what's your opinion?Mani
->
-> >
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -444,8 +444,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
-> >>      .name = "foxconn-t99w175",
-> >> -    .fw = "qcom/sdx55m/sbl1.mbn",
-> >> -    .edl = "qcom/sdx55m/edl.mbn",
-> >> +    .edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-> >
-> >Is it the same file as the one mentioned in the previous chunk or is it
-> >different?
-> >
->
-> They are same for same chip, though we have some variants.
-
-Please excuse me, I can't fully understand. So are the files the same or not?
-
-There is a simple mental experiment regarding the file names: you
-should be able to have a single host rootfs, which supports working
-with all of your modems at the same time, without modifications.
-So if modem A and modem B might use file foo.bar and the file is the
-same for all SDX55 modems, it's fine to have it in qcom/sdx55m/ or in
-qcom/sdx55m/foxconn. If it is different depending on the end-device,
-it should go to the qcom/sdx55m/foxconn/devname/ .
-
->
-> >If they are different, then, please,
-> >
-> >qcom/sdx55m/foxconn/t99w175/prog_firehose_sdx55.mbn
-> >
-> >
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -455,8 +455,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
-> >>      .name = "foxconn-dw5930e",
-> >> -    .fw = "qcom/sdx55m/sbl1.mbn",
-> >> -    .edl = "qcom/sdx55m/edl.mbn",
-> >> +    .edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -466,6 +466,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
-> >>      .name = "foxconn-t99w368",
-> >> +    .edl = "fox/sdx65m/prog_firehose_lite.elf",
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -475,6 +477,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
-> >>      .name = "foxconn-t99w373",
-> >> +    .edl = "fox/sdx65m/prog_firehose_lite.elf",
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -484,6 +488,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
-> >>      .name = "foxconn-t99w510",
-> >> +    .edl = "fox/sdx24m/prog_firehose_sdx24.mbn",
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> @@ -493,6 +499,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
-> >>
-> >>  static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
-> >>      .name = "foxconn-dw5932e",
-> >> +    .edl = "fox/sdx65m/prog_firehose_lite.elf",
-> >> +    .edl_trigger = true,
-> >>      .config = &modem_foxconn_sdx55_config,
-> >>      .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> >>      .dma_data_width = 32,
-> >> --
-> >> 2.25.1
-> >>
-> >
-> >--
-> >With best wishes
-> >Dmitry
-
-
-
--- 
-With best wishes
-Dmitry
+CkF0IDIwMjQtMDctMTUgMTQ6MTY6NTcsICJEbWl0cnkgQmFyeXNoa292IiA8ZG1pdHJ5LmJhcnlz
+aGtvdkBsaW5hcm8ub3JnPiB3cm90ZToKPk9uIE1vbiwgMTUgSnVsIDIwMjQgYXQgMDg6NDYsIFNs
+YXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4gd3JvdGU6Cj4+Cj4+Cj4+IEF0IDIwMjQtMDct
+MTMgMjM6MDk6NDcsICJEbWl0cnkgQmFyeXNoa292IiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8u
+b3JnPiB3cm90ZToKPj4gPk9uIFR1ZSwgSnVsIDA5LCAyMDI0IGF0IDA5OjU4OjE4QU0gR01ULCBT
+bGFyayBYaWFvIHdyb3RlOgo+PiA+PiBTaW5jZSB3ZSBpbXBsZW1lbnQgdGhlIEZJUkVIT1NFIGNo
+YW5uZWwgc3VwcG9ydCBpbiBmb3hjb25uIG1oaQo+PiA+PiBjaGFubmVscywgdGhhdCBtZWFucyBl
+YWNoIHByb2R1Y3Qgd2hpY2ggdXNlIHRoaXMgY2hhbm5lbCBjb25maWcKPj4gPj4gd291bGQgc3Vw
+cG9ydCBGSVJFSE9TRS4gQnV0IGFjY29yZGluZyB0byB0aGUgdHJpZ2dlcl9lZGwgZmVhdHVyZSwK
+Pj4gPj4gd2UgbmVlZCB0byBlbmFibGUgaXQgYnkgYWRkaW5nICcuZWRsX3RyaWdnZXIgPSB0cnVl
+JyBpbiBkZXZpY2UKPj4gPj4gaW5mbyBzdHJ1Y3QuCj4+ID4+IEFsc28sIHdlIHVwZGF0ZSBhbGwg
+ZWRsIGltYWdlIHBhdGggZnJvbSAncWNvbScgdG8gJ2ZveCcgaW4gY2FzZSBvZgo+PiA+PiBjb25m
+bGljdGluZyB3aXRoIG90aGVyIHZlbmRvcnMuCj4+ID4KPj4gPlNlcGFyYXRlIHBhdGNoZXMgcGxl
+YXNlLiBBbHNvIGRvbid0IHVzZSAid2UiLCBqdXN0IGFuIGltZXJhdGl2ZSBzdHlsZToKPj4gPmRv
+IHRoaXMgYW5kIHRoYXQuCj4+ID4KPj4KPj4gRG8geW91IG1lYW4gdXNlIDIgcGF0Y2hlcyAoMSBm
+b3IgZW5hYmxpbmcgdHJpZ2dlciBlZGwgYW5kIDEgZm9yCj4+IG1vZGlmeWluZyBwYXRoKT8gVGhv
+dWdoIHRoZXNlIGNoYW5nZXMgYXJlIGFpbWVkIHRvIG1ha2UKPj4gZmlyZWhvc2UgZG93bmxvYWQg
+c3VjY2Vzc2Z1bGx5Lgo+Cj5ZZXMuICJEbyB0aGlzLiBBbHNvIGRvIHRoYXQiIGlzIHVzdWFsbHkg
+YSBzaWduIHRoYXQgdGhlIHBhdGNoIHNob3VsZCBiZSBzcGxpdC4KCldpbGwgZG8gYSB1cGRhdGUg
+aW4gbmV4dCB2ZXJzaW9uLgoKPgo+Pgo+PiA+Pgo+PiA+PiBTaWduZWQtb2ZmLWJ5OiBTbGFyayBY
+aWFvIDxzbGFya194aWFvQDE2My5jb20+Cj4+ID4+IC0tLQo+PiA+PiAgZHJpdmVycy9idXMvbWhp
+L2hvc3QvcGNpX2dlbmVyaWMuYyB8IDIwICsrKysrKysrKysrKysrLS0tLS0tCj4+ID4+ICAxIGZp
+bGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPj4gPj4KPj4gPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJz
+L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ID4+IGluZGV4IDE0YTExODgwYmNlYS4uNDQw
+NjA5YjgxZTU3IDEwMDY0NAo+PiA+PiAtLS0gYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2Vu
+ZXJpYy5jCj4+ID4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4g
+Pj4gQEAgLTQzMyw4ICs0MzMsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250cm9sbGVy
+X2NvbmZpZyBtb2RlbV9mb3hjb25uX3NkeDcyX2NvbmZpZyA9IHsKPj4gPj4KPj4gPj4gIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9zZHg1NV9pbmZvID0g
+ewo+PiA+PiAgICAgIC5uYW1lID0gImZveGNvbm4tc2R4NTUiLAo+PiA+PiAtICAgIC5mdyA9ICJx
+Y29tL3NkeDU1bS9zYmwxLm1ibiIsCj4+ID4+IC0gICAgLmVkbCA9ICJxY29tL3NkeDU1bS9lZGwu
+bWJuIiwKPj4gPj4gKyAgICAuZWRsID0gImZveC9zZHg1NW0vcHJvZ19maXJlaG9zZV9zZHg1NS5t
+Ym4iLAo+PiA+Cj4+ID5xY29tL3NkeDU1bS9mb3hjb25uL3Byb2dfZmlyZWhvc2Vfc2R4NTUubWJu
+Cj4+Cj4+IHdoYXQncyB5b3VyIG9waW5pb24/TWFuaQo+Pgo+PiA+Cj4+ID4+ICsgICAgLmVkbF90
+cmlnZ2VyID0gdHJ1ZSwKPj4gPj4gICAgICAuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVf
+Y29uZmlnLAo+PiA+PiAgICAgIC5iYXJfbnVtID0gTUhJX1BDSV9ERUZBVUxUX0JBUl9OVU0sCj4+
+ID4+ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+ID4+IEBAIC00NDQsOCArNDQ0LDggQEAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3NkeDU1X2lu
+Zm8gPSB7Cj4+ID4+Cj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
+bWhpX2ZveGNvbm5fdDk5dzE3NV9pbmZvID0gewo+PiA+PiAgICAgIC5uYW1lID0gImZveGNvbm4t
+dDk5dzE3NSIsCj4+ID4+IC0gICAgLmZ3ID0gInFjb20vc2R4NTVtL3NibDEubWJuIiwKPj4gPj4g
+LSAgICAuZWRsID0gInFjb20vc2R4NTVtL2VkbC5tYm4iLAo+PiA+PiArICAgIC5lZGwgPSAiZm94
+L3NkeDU1bS9wcm9nX2ZpcmVob3NlX3NkeDU1Lm1ibiIsCj4+ID4KPj4gPklzIGl0IHRoZSBzYW1l
+IGZpbGUgYXMgdGhlIG9uZSBtZW50aW9uZWQgaW4gdGhlIHByZXZpb3VzIGNodW5rIG9yIGlzIGl0
+Cj4+ID5kaWZmZXJlbnQ/Cj4+ID4KPj4KPj4gVGhleSBhcmUgc2FtZSBmb3Igc2FtZSBjaGlwLCB0
+aG91Z2ggd2UgaGF2ZSBzb21lIHZhcmlhbnRzLgo+Cj5QbGVhc2UgZXhjdXNlIG1lLCBJIGNhbid0
+IGZ1bGx5IHVuZGVyc3RhbmQuIFNvIGFyZSB0aGUgZmlsZXMgdGhlIHNhbWUgb3Igbm90Pwo+Cj5U
+aGVyZSBpcyBhIHNpbXBsZSBtZW50YWwgZXhwZXJpbWVudCByZWdhcmRpbmcgdGhlIGZpbGUgbmFt
+ZXM6IHlvdQo+c2hvdWxkIGJlIGFibGUgdG8gaGF2ZSBhIHNpbmdsZSBob3N0IHJvb3Rmcywgd2hp
+Y2ggc3VwcG9ydHMgd29ya2luZwo+d2l0aCBhbGwgb2YgeW91ciBtb2RlbXMgYXQgdGhlIHNhbWUg
+dGltZSwgd2l0aG91dCBtb2RpZmljYXRpb25zLgo+U28gaWYgbW9kZW0gQSBhbmQgbW9kZW0gQiBt
+aWdodCB1c2UgZmlsZSBmb28uYmFyIGFuZCB0aGUgZmlsZSBpcyB0aGUKPnNhbWUgZm9yIGFsbCBT
+RFg1NSBtb2RlbXMsIGl0J3MgZmluZSB0byBoYXZlIGl0IGluIHFjb20vc2R4NTVtLyBvciBpbgo+
+cWNvbS9zZHg1NW0vZm94Y29ubi4gSWYgaXQgaXMgZGlmZmVyZW50IGRlcGVuZGluZyBvbiB0aGUg
+ZW5kLWRldmljZSwKPml0IHNob3VsZCBnbyB0byB0aGUgcWNvbS9zZHg1NW0vZm94Y29ubi9kZXZu
+YW1lLyAuCj4KRm9yIGFsbCBGb3hjb25uIGRldmljZXMgZGVzaWduZWQgYmFzZWQgb24gc2FtZSBj
+aGlwLCB0aGV5IGNhbiB1c2Ugc2FtZQplZGwgZmlsZS4gVGhpcyBFREwgZmlsZSBpcyBhIGNvbW1v
+biBpbWFnZSBvZiB3aG9sZSBGSVJFSE9TRSBpbWFnZSBwYWNrYWdlCm9mIGRpZmZlcmVuY2UgdmFy
+aWFudHMuIFRoZSBkaWZmZXJlbmNlIG9mIEZveGNvbm4gU0RYNTUgbW9kZW0gQSBhbmQKRm94Y29u
+biBTRFg1NSBtb2RlbSBCIGlzIEFQUFMgaW1hZ2UgYW5kIE1vZGVtIGltYWdlLiBUaGUgRURMCmlt
+YWdlIGlzIGEgZmlsZSBmb3IgcHV0dGluZyBkZXZpY2UgaW50byBFREwgbW9kZS4KU28gSSBwcmVm
+ZXIgdG8gdXNlICJxY29tL3NkeDU1bS9mb3hjb25uIiBzaW5jZSBGb3hjb25uJ3MgZGV2aWNlIGFy
+ZSAKZGlmZmVyZW50IHdpdGggb3RoZXIgdmVuZG9ycyB3aGljaCBwcm92aWRlIHNkeDU1IGRldmlj
+ZXMgYXMgd2VsbC4KCj4+Cj4+ID5JZiB0aGV5IGFyZSBkaWZmZXJlbnQsIHRoZW4sIHBsZWFzZSwK
+Pj4gPgo+PiA+cWNvbS9zZHg1NW0vZm94Y29ubi90OTl3MTc1L3Byb2dfZmlyZWhvc2Vfc2R4NTUu
+bWJuCj4+ID4KPj4gPgo+PiA+PiArICAgIC5lZGxfdHJpZ2dlciA9IHRydWUsCj4+ID4+ICAgICAg
+LmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZpZywKPj4gPj4gICAgICAuYmFyX251
+bSA9IE1ISV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+PiA+PiAgICAgIC5kbWFfZGF0YV93aWR0aCA9
+IDMyLAo+PiA+PiBAQCAtNDU1LDggKzQ1NSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3Bj
+aV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3MTc1X2luZm8gPSB7Cj4+ID4+Cj4+ID4+ICBzdGF0
+aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fZHc1OTMwZV9pbmZv
+ID0gewo+PiA+PiAgICAgIC5uYW1lID0gImZveGNvbm4tZHc1OTMwZSIsCj4+ID4+IC0gICAgLmZ3
+ID0gInFjb20vc2R4NTVtL3NibDEubWJuIiwKPj4gPj4gLSAgICAuZWRsID0gInFjb20vc2R4NTVt
+L2VkbC5tYm4iLAo+PiA+PiArICAgIC5lZGwgPSAiZm94L3NkeDU1bS9wcm9nX2ZpcmVob3NlX3Nk
+eDU1Lm1ibiIsCj4+ID4+ICsgICAgLmVkbF90cmlnZ2VyID0gdHJ1ZSwKPj4gPj4gICAgICAuY29u
+ZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+PiA+PiAgICAgIC5iYXJfbnVtID0g
+TUhJX1BDSV9ERUZBVUxUX0JBUl9OVU0sCj4+ID4+ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIs
+Cj4+ID4+IEBAIC00NjYsNiArNDY2LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rl
+dl9pbmZvIG1oaV9mb3hjb25uX2R3NTkzMGVfaW5mbyA9IHsKPj4gPj4KPj4gPj4gIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3MzY4X2luZm8gPSB7
+Cj4+ID4+ICAgICAgLm5hbWUgPSAiZm94Y29ubi10OTl3MzY4IiwKPj4gPj4gKyAgICAuZWRsID0g
+ImZveC9zZHg2NW0vcHJvZ19maXJlaG9zZV9saXRlLmVsZiIsCj4+ID4+ICsgICAgLmVkbF90cmln
+Z2VyID0gdHJ1ZSwKPj4gPj4gICAgICAuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29u
+ZmlnLAo+PiA+PiAgICAgIC5iYXJfbnVtID0gTUhJX1BDSV9ERUZBVUxUX0JBUl9OVU0sCj4+ID4+
+ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+ID4+IEBAIC00NzUsNiArNDc3LDggQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Q5OXczNjhfaW5m
+byA9IHsKPj4gPj4KPj4gPj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBt
+aGlfZm94Y29ubl90OTl3MzczX2luZm8gPSB7Cj4+ID4+ICAgICAgLm5hbWUgPSAiZm94Y29ubi10
+OTl3MzczIiwKPj4gPj4gKyAgICAuZWRsID0gImZveC9zZHg2NW0vcHJvZ19maXJlaG9zZV9saXRl
+LmVsZiIsCj4+ID4+ICsgICAgLmVkbF90cmlnZ2VyID0gdHJ1ZSwKPj4gPj4gICAgICAuY29uZmln
+ID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+PiA+PiAgICAgIC5iYXJfbnVtID0gTUhJ
+X1BDSV9ERUZBVUxUX0JBUl9OVU0sCj4+ID4+ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+
+ID4+IEBAIC00ODQsNiArNDg4LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9p
+bmZvIG1oaV9mb3hjb25uX3Q5OXczNzNfaW5mbyA9IHsKPj4gPj4KPj4gPj4gIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3NTEwX2luZm8gPSB7Cj4+
+ID4+ICAgICAgLm5hbWUgPSAiZm94Y29ubi10OTl3NTEwIiwKPj4gPj4gKyAgICAuZWRsID0gImZv
+eC9zZHgyNG0vcHJvZ19maXJlaG9zZV9zZHgyNC5tYm4iLAo+PiA+PiArICAgIC5lZGxfdHJpZ2dl
+ciA9IHRydWUsCj4+ID4+ICAgICAgLmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZp
+ZywKPj4gPj4gICAgICAuYmFyX251bSA9IE1ISV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+PiA+PiAg
+ICAgIC5kbWFfZGF0YV93aWR0aCA9IDMyLAo+PiA+PiBAQCAtNDkzLDYgKzQ5OSw4IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3NTEwX2luZm8g
+PSB7Cj4+ID4+Cj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhp
+X2ZveGNvbm5fZHc1OTMyZV9pbmZvID0gewo+PiA+PiAgICAgIC5uYW1lID0gImZveGNvbm4tZHc1
+OTMyZSIsCj4+ID4+ICsgICAgLmVkbCA9ICJmb3gvc2R4NjVtL3Byb2dfZmlyZWhvc2VfbGl0ZS5l
+bGYiLAo+PiA+PiArICAgIC5lZGxfdHJpZ2dlciA9IHRydWUsCj4+ID4+ICAgICAgLmNvbmZpZyA9
+ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZpZywKPj4gPj4gICAgICAuYmFyX251bSA9IE1ISV9Q
+Q0lfREVGQVVMVF9CQVJfTlVNLAo+PiA+PiAgICAgIC5kbWFfZGF0YV93aWR0aCA9IDMyLAo+PiA+
+PiAtLQo+PiA+PiAyLjI1LjEKPj4gPj4KPj4gPgo+PiA+LS0KPj4gPldpdGggYmVzdCB3aXNoZXMK
+Pj4gPkRtaXRyeQo+Cj4KPgo+LS0gCj5XaXRoIGJlc3Qgd2lzaGVzCj5EbWl0cnkK
