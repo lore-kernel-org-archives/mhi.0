@@ -1,48 +1,48 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEED1B86D0
-	for <mhi@lists.linux.dev>; Thu, 18 Jul 2024 16:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3272143C60
+	for <mhi@lists.linux.dev>; Thu, 18 Jul 2024 16:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721319930; cv=none; b=lnt34gBWL1zp1E6x79OaQO/11x4y9KfBYS4YYCtdhxx0sl2wmZlyRHnPZlLbcWHd2bgMXHFA51bBMD6n73Nm0q0ZWN7hNgwiAmD0Ckxs5k5uKTtljsqmmj8is7ulFSmY/nM2kX7ikzYoVtY51vy+aIi8s8wePdoppPSNfhKdkr4=
+	t=1721319968; cv=none; b=DBoYffdUUqChYoNJg7AacST/MIXj1QbeAKl07d/gAl3a119LlJB0fUYSd/bjMyJIPxwzwDGKgNRxDkrV5gbRBQ0+En5unpje1oTgJeYfp4k1EP4reEqRAnRL8pj3Uoy+eSvMJspatd16EaNUDZFXzzrpjuD9Wr1Bktu2h3xouNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721319930; c=relaxed/simple;
-	bh=c1Qii0YmCU+Ttd7hyMVd2vNI+0a680L4Wc0JIY2rpe8=;
+	s=arc-20240116; t=1721319968; c=relaxed/simple;
+	bh=2QFiFBNZ4cA+KN4siYVfy284PDvQpfvjkaSyhDnITkc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=A/RD8sogmpT2+BAxBc/H4xl7uOTOp2effPgSIP1JOa2L8HGG8a5H2UraJ5O2Zci/84yCbWOJvQWpbzK91pguNW6wNAZZcNf+5+OvtaNVg1Wt2q8HZdzehGRYkmtVsaIkzG/A/OVs8Xks5KokGnE/OAmHVASOqN9lM4zgfooLJq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LWWmfMdR; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=V6hug9wIgPOnYDi6A3rCV5uQjaQuuICgkTVgll6Jxj9H2C48LuNgb5WJfythNVz5JfBYiWmv6cbQ+1xWZKKSllVijA2QdsMXPVrVH8MM54S3mqxQZn32SoQaSqjKnEWXT4SbST2tqBtOfmuw/BTQYx05OUhWoNX0vkrwqvjG8n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Gbhci9qM; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LWWmfMdR"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46IA0QTI001753;
-	Thu, 18 Jul 2024 16:25:27 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gbhci9qM"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46IBfNm3023188;
+	Thu, 18 Jul 2024 16:26:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	v3mLpadcNFZ7FGtFFpm190pHgOWJ0WUTwJXF5ISNi+s=; b=LWWmfMdRovlIvxmp
-	jjhLuchPeZyLUArx2mh+ygJy++69orzdagqPgBrZr8H9SkNUeKUiPJyBKF35AdDH
-	9n8pmeCajjy4l7So/38cBDiVg86976PJBEUg7mHuO2hm28h7LwAf+lDxYiFzZzbr
-	T70MUnh9Wl5+sF086Qm5nO++p0yd/axalEXoojgJiC69g7eFgpjaaFhuD+SuVTQF
-	8VXMtdVXLumrxI1OFnEqX/fwsRJzjjNHN5HFH2seoNw6KuU6NCCwQdD7Eo+N5eaj
-	Zp7l7+hXhgIrbq792sNkTpOdTf7PYAW4VTLWbQFe9kNPN2oQfOM1Le1aO8/c0jZu
-	u2LQOw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40es1wsx6s-1
+	7jJPkZ6EymQWs7ete+kHQVpVZi9/fKT9SommYxUKq0c=; b=Gbhci9qMX3SZxWw7
+	YT86UtfOeFy9CD4ulD3aDYyrRQ0DZ532VpVrGS1iqyjgeyre5oMiCZms05vDiqc3
+	KT7U3YMzjMUypGGZwvVKy0mOYL9YEBfOanDlJ3RhS2MjbJfCuzG7FKwNRFuaQK4T
+	8zuTokzM2so/jBTMDZjUrGcQYYq11ES9HL8CJCxfFUT1hPvm1S4Vas+Z97RQnMk2
+	a02qZypdwzcEoSpOcQZz5ja+3U2xLv3nfl6dmBQaVquFviBEzAdY8ljDTgRNEd4K
+	opat/C1AflL3bfakJ+rik9sU2JNwazkfpG3fuuhkMC8nEsZrkivrmC8HDYOmdcnY
+	e6C47w==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfnp26p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 16:25:27 +0000 (GMT)
+	Thu, 18 Jul 2024 16:26:04 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46IGPQaL026816
+	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46IGQ3I7004454
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 16:25:27 GMT
+	Thu, 18 Jul 2024 16:26:03 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 18 Jul
- 2024 09:25:26 -0700
-Message-ID: <fb793a71-dcdf-521a-a897-d1406e16fbf9@quicinc.com>
-Date: Thu, 18 Jul 2024 10:25:25 -0600
+ 2024 09:26:03 -0700
+Message-ID: <b4d2fea3-673c-3ea0-3401-befcb1c588d1@quicinc.com>
+Date: Thu, 18 Jul 2024 10:25:57 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,7 +51,8 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 4/6] bus: mhi: dump debug registers in critical sections
+Subject: Re: [PATCH 5/6] bus: mhi: check for RDDM cookie set by device to
+ indicate readiness
 Content-Language: en-US
 To: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>,
         <manivannan.sadhasivam@linaro.org>, <mhi@lists.linux.dev>,
@@ -59,38 +60,43 @@ To: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>,
 CC: <quic_srichara@quicinc.com>, <quic_viswanat@quicinc.com>,
         <quic_gokulsri@quiconc.com>
 References: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
- <20240718061344.575653-5-quic_gokulsri@quicinc.com>
+ <20240718061344.575653-6-quic_gokulsri@quicinc.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240718061344.575653-5-quic_gokulsri@quicinc.com>
+In-Reply-To: <20240718061344.575653-6-quic_gokulsri@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: MMylHWtK4zYSRjqCL0xFFD6VKKDn2_dn
-X-Proofpoint-ORIG-GUID: MMylHWtK4zYSRjqCL0xFFD6VKKDn2_dn
+X-Proofpoint-GUID: 4jnT4W40PsBNaC4KlyNWvfYRZtMiLjrf
+X-Proofpoint-ORIG-GUID: 4jnT4W40PsBNaC4KlyNWvfYRZtMiLjrf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-18_11,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=686 spamscore=0
- mlxscore=0 bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407180106
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2407180106
 
 On 7/18/2024 12:13 AM, Gokul Sriram Palanisamy wrote:
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index c0c9bfc28e4a..2f90de8616f3 100644
 > --- a/include/linux/mhi.h
 > +++ b/include/linux/mhi.h
-> @@ -834,4 +834,9 @@ bool mhi_queue_is_full(struct mhi_device *mhi_dev, enum dma_data_direction dir);
+> @@ -839,4 +839,12 @@ int mhi_get_channel_doorbell_offset(struct mhi_controller *mhi_cntrl, u32 *chdb_
+>    * @mhi_cntrl: MHI controller
 >    */
->   int mhi_get_channel_doorbell_offset(struct mhi_controller *mhi_cntrl, u32 *chdb_offset);
->   
+>   void mhi_debug_reg_dump(struct mhi_controller *mhi_cntrl);
+> +
 > +/**
-> + * mhi_debug_reg_dump - dump MHI registers for debug purpose
+> + * mhi_scan_rddm_cookie - Look for supplied cookie value in the BHI debug
+> + * registers set by device to indicate rddm readiness for debugging purposes.
 > + * @mhi_cntrl: MHI controller
+> + * @cookie: cookie/pattern value to match
 > + */
-> +void mhi_debug_reg_dump(struct mhi_controller *mhi_cntrl);
+> +bool mhi_scan_rddm_cookie(struct mhi_controller *mhi_cntrl, u32 cookie);
 >   #endif /* _MHI_H_ */
 
 NACK.  This is not used.
