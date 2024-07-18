@@ -1,53 +1,57 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0940856
-	for <mhi@lists.linux.dev>; Thu, 18 Jul 2024 06:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797A040856
+	for <mhi@lists.linux.dev>; Thu, 18 Jul 2024 06:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721283247; cv=none; b=JrlRNkT7u2ImXMHEP74w1Xx4Kvck2J2gjfWl9PgqPcyNPlYChg4guyPjWnaLQ+D1X0zqJNwWlKOxk/7WBIsImNX9vEmIf8h8ScpnVnDU1YAnfn47xN5T+IX1lskEh8Z4KcxQ7R8UXjLOmfOMuI0oo0q+x3P9o7DVpO3hOFJ/Du4=
+	t=1721283255; cv=none; b=ev1nRDJPletnv+stXZyijA30+e7AS66tYIS94A1q3IPtKTK41XQDYlJ0uk2RXHdPxkWFOAOSl1Q5aWUM/OKe51Y8gwb/IKxTC7DcGV+YXLTcZ2QaFMVPDnTn35ZsM73If9YbCw0aLrFMuRq90tM+siN6o29Z1mVo2e9cS0aIpHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721283247; c=relaxed/simple;
-	bh=Ceyd6pmyDNG9gS9FdaUqyPB1332+25P5MI9MtTRqPfY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wy3mrdS0rq5pdvMM1KOpSVpgPBoItSDU/Y0rJyv9xKdapZ5vMdT29YumM1M/vPK0ohPZXg4vDL5JDQFpOWEqVon4ylyYyVII1bixpQtXaXfYQgKQnd2lcU8p6oKgKT+5klaU35wMNIH4cJ2VjcTO8d5cdNwurF85OLno16naluk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=AQI8odIA; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1721283255; c=relaxed/simple;
+	bh=GQjBeQR+6/l8ckLKvNWlTkR1evWRzDamqRs11p68gpE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UpMVReY6OXMiaAUXPoXO7nTH0PKWBo51R2op2lp5a82FiP5XcC9S/9ZY6cGndRyyguLyczDy8ojn8FdBV8oVp8Ek7uq4VMm9ilnIaS8WNCskMn07xDFkY5BFRR8p8hwfrHTlnBZuggCKsczGndkxOFaTVGe0RGKRiZfsg5+ZOmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HeW4F0e4; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AQI8odIA"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46I2fF1m023029;
-	Thu, 18 Jul 2024 06:14:04 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HeW4F0e4"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46I4qrCn012802;
+	Thu, 18 Jul 2024 06:14:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=8+W7iM7gFUzxf7sZZQBexh
-	+F78DRCQAifhrrnR/WZ+I=; b=AQI8odIAjWyCdvqrsZoAEGdJCxVtiGHjPLgnC7
-	tO0SescRoXK0CEuVIpWM4p86L/kTEvSx4PqHn8RlNjOlCC3qqSD2gn8/KUS/gNXp
-	2uj8VRtmSzP6wQPjay1FHTNLupTt+i/whaLOGBAyEEStzEBHrEoE+d6xBC1bOHuL
-	qb/mQVJ3ZWXDPuD3DEP/qDBqrywWmnxsiXC3K5h9ptBRvLYH+o00r68UUwGTd7Z1
-	SuJvCBhEQefC45NHAB5Ha4k26e+Fguw1qzu4G9q4gs7LLOvrtILIclSI3V74XzDI
-	JeaVUAZjkx9xPhBOeTZbvo0+Q8kkHpUN8fppF7Vi+0QOT9zw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfnmkk7-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/bk13DoOzIDVReoz0co0sQcCeiMezOPdMz66ilPtcWE=; b=HeW4F0e4FvYwUptS
+	Xcy5Qw/yaLX5ezv2HLerLPTT9PY7SxHnLuAeDB29+OzXcC/sJ9WgD4MdqGw5w4pR
+	R7EorcrD9eG8UOwdb7qYF83RE5X9vPcm+04+S/yklCO5MHV98CiHm7gvZm+8rAY5
+	e4n/qS4E32Zv+V2SG1XtDqW4u+oHKeProYa3vJ+Eo8+2UwbFT9N3yZkLsHUASZ33
+	55OJELN5/EAeC/u/cZqpj67LkN7UlZsYRhOoIhoxB8auoYqEuXQqBlrheQNLaQgo
+	npspHi/XWTGO1jDkt8gtGwRTymyv4kihoCKLm/J8FaUDcrmrHr9eVl2Cc+KD31ir
+	UY7SOw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfwcfv0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 06:14:04 +0000 (GMT)
+	Thu, 18 Jul 2024 06:14:11 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46I6E3Vn024470
+	by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46I6EAgE000684
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 06:14:03 GMT
+	Thu, 18 Jul 2024 06:14:10 GMT
 Received: from hu-gokulsri-blr.qualcomm.com (10.80.80.8) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 17 Jul 2024 23:14:00 -0700
+ 15.2.1544.9; Wed, 17 Jul 2024 23:14:08 -0700
 From: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>
 To: <manivannan.sadhasivam@linaro.org>, <mhi@lists.linux.dev>,
         <linux-arm-msm@vger.kernel.org>
 CC: <quic_srichara@quicinc.com>, <quic_viswanat@quicinc.com>,
         <quic_gokulsri@quiconc.com>
-Subject: [PATCH 0/6] add improvements to mhi driver
-Date: Thu, 18 Jul 2024 11:43:38 +0530
-Message-ID: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
+Subject: [PATCH 3/6] bus: mhi: increase RDDM timeout
+Date: Thu, 18 Jul 2024 11:43:41 +0530
+Message-ID: <20240718061344.575653-4-quic_gokulsri@quicinc.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
+References: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -60,54 +64,41 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: L-_ERA9c7CrLXaLhmXilOu7DzaIWsWLS
-X-Proofpoint-ORIG-GUID: L-_ERA9c7CrLXaLhmXilOu7DzaIWsWLS
+X-Proofpoint-GUID: wAcXuOFLExhnAa_GDbsMfQ28Ra_TFwcD
+X-Proofpoint-ORIG-GUID: wAcXuOFLExhnAa_GDbsMfQ28Ra_TFwcD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-18_03,2024-07-17_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 clxscore=1011 spamscore=0 mlxscore=0 phishscore=0
- mlxlogscore=859 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2407180040
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2407180040
 
-The below patches address
-- memory fragmentation issues: when several iterations of mhi controller
-  register/unregister happens. In our case, we have a PCIe WiFi device for
-  which fw is loaded everytime when 'wifi load' happens. For this, we need
-  to allocate 9MiB of coherent memory with 512K segment size. After several
-  iterations, when the memory gets fragmented and 512K segment becomes
-  unavailable causing alloc failure.
-  
-- debug requirements by printing critical mhi debug registers
-- bug fixes to mhi_irq_handler
-- RDDM timeout issue
-- memory carveout for RDDM segments.
+From: Praveenkumar I <quic_ipkumar@quicinc.com>
 
-Gokul Sriram Palanisamy (2):
-  drivers: bus: mhi: Added shared-dma-pool support for mhi_dev
-  bus: mhi: dump debug registers in critical sections
+Host sometimes misses the EE RDDM during kernel panic causing
+RDDM failure. Increase RDDM timeout to overcome this issue.
 
-Karthick Shanmugham (1):
-  bus: mhi: change IRQ_HANDLED to IRQ_NONE in mhi_irq_handler
+Signed-off-by: Praveenkumar I <quic_ipkumar@quicinc.com>
+Signed-off-by: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>
+---
+ drivers/bus/mhi/host/boot.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Praveenkumar I (1):
-  bus: mhi: increase RDDM timeout
-
-Rajkumar Ayyasamy (1):
-  bus: mhi: check for RDDM cookie set by device to indicate readiness
-
-Ram Kumar D (1):
-  bus: mhi: add support to allocate rddm memory during crash time
-
- drivers/bus/mhi/host/boot.c     | 209 ++++++++++++++++++++++++--------
- drivers/bus/mhi/host/init.c     |  70 ++++++++++-
- drivers/bus/mhi/host/internal.h |  37 +++++-
- drivers/bus/mhi/host/main.c     | 115 +++++++++++++++++-
- drivers/bus/mhi/host/pm.c       |   6 +-
- include/linux/mhi.h             |  20 +++
- 6 files changed, 397 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index 1a918e340424..324510d2c7fd 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -77,7 +77,7 @@ static int __mhi_download_rddm_in_panic(struct mhi_controller *mhi_cntrl)
+ 	enum mhi_ee_type ee;
+ 	const u32 delayus = 2000;
+ 	u32 retry = (mhi_cntrl->timeout_ms * 1000) / delayus;
+-	const u32 rddm_timeout_us = 200000;
++	const u32 rddm_timeout_us = 400000;
+ 	int rddm_retry = rddm_timeout_us / delayus;
+ 	void __iomem *base = mhi_cntrl->bhie;
+ 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
 -- 
 2.34.1
 
