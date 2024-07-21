@@ -1,120 +1,101 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9577407A;
-	Thu, 18 Jul 2024 16:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455CF256E
+	for <mhi@lists.linux.dev>; Sun, 21 Jul 2024 08:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721320246; cv=none; b=ac90ah1kuFGs46R4QQfKquQbiuTU8PjGQ3CoWAdZ9IuuGxkrjes/Ns12aL5GpUTLpKO2AC+rebZ0mWvDCJCXPPFrk6K04UeHokYddok5D1z4y/QrMcjBcHgCRYfsmmL1TuejzmZVM2QVoW5eLQ6P4tahyjO637n7Wz23tToavjM=
+	t=1721550784; cv=none; b=WZFg7dqWqGfi2LwWOj7ta8aPWw7DTuG6xaakHh8GDDiBq0uAhUp8a+LGXaTjgJAJIQPBoTbuzuI8d2kR0kBCgpRdrgg1CFt4ZfAUvwA85GYS7ahGBbPn6VaLnrptiHqw45HKLS4OT5m44Mq8gqAa193ed9EZcb57wbKlGt+Ldsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721320246; c=relaxed/simple;
-	bh=Vp8+JszYeMk3yayL2aVp/US3TeXozBLpGN0LNcdDpd4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QxgGgy1/3+9z088/iP3CrbaM2/VCQOtyEFyKIxOdWNWckvGRoBAadS0c2Nf3rHcdPOBcpY7iOHM1nRBnzb5gtQahHuNlEbeMHSo370N/nPVjCQWFcdUuQwVFpat0D2kkLm0VkjuGyPP/YhnWt17k/V3fWzAPkcZFVM63cnkt6I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eYR0SzAr; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1721550784; c=relaxed/simple;
+	bh=9uewXnrXpY7pxuB7aklIpnLB2g6VNVg5/kJU1CLHZOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWU+Pl5Zd47tWRfAuzCyhTufZq+bjwWOWav0fe7U6860kBIKgslXPH2zCR+ZYf0gXWawzVK8JFDEHdvj2smQxsgl0uHtmlGDX3EP47x49mN5jJ+3lQkTqt3H2QDIZirXxHw7BgRFx/EjG8LG0cvGnP0UiA881V4PNIc+LMnBGTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=flRPwznn; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eYR0SzAr"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46IBD0bU023117;
-	Thu, 18 Jul 2024 16:30:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GMBFcktZdmc0z3TopgxuHMV68LS7+LE2IguujeZ60z8=; b=eYR0SzArbkIzf9gz
-	KI1GpCCTUtPT3jZubG/Yk4yQwftTrw3HxjXytCSVguYr90imG5W1sR66DkHxQ8CC
-	SjG3VMi/eL/qQOPlHoRoWrjiOjRrJyFGh0VSp99SYm7NxXR0AwhxIkueooE1g/NE
-	VuG5XzIRB8RMfDecsIaty4a0JpFii+XLm/n6581c471pUovHId1U55srInA+kyeR
-	fOz94mamx+Nk+C5N92lAda159vugz09BYVzPYgUalQFzdKBXYqaScuLSuqFl5QNh
-	m0JTwLjAqAE2QW0cKM0Efo45Bqe/JrmzJRawH2G5HThacLVXdYWFpJb4PjPcyPyX
-	f0trvw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40dwfnp2fv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 16:30:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46IGUgJC005035
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jul 2024 16:30:42 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 18 Jul
- 2024 09:30:41 -0700
-Message-ID: <dfc3bb3c-f26d-6af4-a598-d802348bc95d@quicinc.com>
-Date: Thu, 18 Jul 2024 10:30:40 -0600
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="flRPwznn"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7037c464792so1857572a34.2
+        for <mhi@lists.linux.dev>; Sun, 21 Jul 2024 01:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721550782; x=1722155582; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fM94wxNeJLxXgW83bTJOIrEpy/0FAr9lX8gnpMEd+JE=;
+        b=flRPwznn1YZvazbkt8QYfQik7Ve8BwOcvjJx2KmdU8MQRqIwkf8MSyevby4aXaE4Tm
+         sCkP41q/2kLHpepHd94Jf8/tO05M7WQxohk6qi/apvGM70H8w2T4BzD6vqkVvTtd2D2/
+         sTwqAVz9SBQMOuaxzULJHQzd9FxDVoXWsQz+iIpVm/OUWaGgjYXmH4vxZpRza/9LBT0c
+         aNTV1a/e7sQCiWbwKfxYXkcm3QmHgP4jHRTBhvdA83hsnvqAxrC2PlMHjdV3H+VPElSV
+         odpaUzsgVqVY+TlFENuGzYnbabGICXLharnoyXL+6DzA5MPtCUM60VJodSygY4lFf7fv
+         EMkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721550782; x=1722155582;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fM94wxNeJLxXgW83bTJOIrEpy/0FAr9lX8gnpMEd+JE=;
+        b=D9WIrjeJ/6iffzNH61nVdUoywnrTWFgxkYPFgMEKqiuhvrDij08nLUcuocJk5unmno
+         sTILWu4UqLMW2rHnNkK7Ah9HGH0IiWrywMZoSSMZGGgRTd+Nen3vFFN8zT0hY0pZkVN+
+         TbXpmusn7hTLtLznwi4DR6HQD3C07glJPcisAFYYl0G+YFt3O4X/xKbjanjTtMm80WRG
+         F48IbWFhofUBn2qSQ7heRxQBca7Hm8Vn1hVt4NIUdkqsWP2WYTXmujzLI0e2U/NnirMw
+         QLN6bJhmS3zwDE2OtcABWvG3RtL6gnaM4CdVsoR1hs7yZMTBCDbZCjjadC0deLOLAqO4
+         vC4w==
+X-Forwarded-Encrypted: i=1; AJvYcCW5oYygMX98LsdXEc8FBYSZf9Fx+IHsgWxOBSU4+wyMTrxTsUTpaldzc1ybpBsKaQtiUkOcAXgycXorITiJDtHTyWAw
+X-Gm-Message-State: AOJu0YydUhILrEJZRM3aFf9lmkFTqEF/YGtQUVhDNAA085wYQ7Dofq6C
+	97P0AlzTWmbh4B4BDLu0CLrU+m4PaLTioxXWJh3WZ3vLQq/ZfO4/ZVDi9MX4Lw==
+X-Google-Smtp-Source: AGHT+IFFj8jBe6nRrRBGwoYHi36e2dGWFvjwk/si7X8fIhP7hhB2NcPgVHy9uf9nr79PQPUfZEoItg==
+X-Received: by 2002:a05:6358:10a2:b0:1a5:bbe2:504f with SMTP id e5c5f4694b2df-1acc5c8397dmr475221955d.25.1721550782254;
+        Sun, 21 Jul 2024 01:33:02 -0700 (PDT)
+Received: from thinkpad ([120.56.206.118])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f47c828sm32776495ad.276.2024.07.21.01.33.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jul 2024 01:33:01 -0700 (PDT)
+Date: Sun, 21 Jul 2024 14:02:58 +0530
+From: "manivannan.sadhasivam" <manivannan.sadhasivam@linaro.org>
+To: Johannes Fischer <johannes.fischer@verificationpartners.com>
+Cc: Slark Xiao <slark_xiao@163.com>,
+	Steven Edwards <steven.edwards@verificationpartners.com>,
+	mhi <mhi@lists.linux.dev>
+Subject: Re: Linux Kernel 6.6.36 and upstream mhi repo latest: Interface
+ definition of sierra_em919x
+Message-ID: <20240721083258.GJ1908@thinkpad>
+References: <AS2PR03MB90043BBFBCA2E14D2EB62E84E5A62@AS2PR03MB9004.eurprd03.prod.outlook.com>
+ <20240712161303.GC3571@thinkpad>
+ <716a2414.bcfae.190a7cf2247.Coremail.slark_xiao@163.com>
+ <AS2PR03MB90048FCF02A8050A0375045EE5A72@AS2PR03MB9004.eurprd03.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 0/6] add improvements to mhi driver
-Content-Language: en-US
-To: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>,
-        <manivannan.sadhasivam@linaro.org>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>
-CC: <quic_srichara@quicinc.com>, <quic_viswanat@quicinc.com>
-References: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: tYfoucVpImbAUqXkzGJQBxsCZmDKueVx
-X-Proofpoint-ORIG-GUID: tYfoucVpImbAUqXkzGJQBxsCZmDKueVx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-18_11,2024-07-18_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0 phishscore=0
- mlxlogscore=771 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2407180106
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <AS2PR03MB90048FCF02A8050A0375045EE5A72@AS2PR03MB9004.eurprd03.prod.outlook.com>
 
-On 7/18/2024 12:13 AM, Gokul Sriram Palanisamy wrote:
-> The below patches address
-> - memory fragmentation issues: when several iterations of mhi controller
->    register/unregister happens. In our case, we have a PCIe WiFi device for
->    which fw is loaded everytime when 'wifi load' happens. For this, we need
->    to allocate 9MiB of coherent memory with 512K segment size. After several
->    iterations, when the memory gets fragmented and 512K segment becomes
->    unavailable causing alloc failure.
->    
-> - debug requirements by printing critical mhi debug registers
-> - bug fixes to mhi_irq_handler
-> - RDDM timeout issue
-> - memory carveout for RDDM segments.
+On Sat, Jul 13, 2024 at 09:33:17AM +0000, Johannes Fischer wrote:
+> Hi all,
+> @Stark,
+> first, I accept that changes may have side impact on other modems.
+> Please have in mind that I flashed SWIX55C_03.14.10.04 and the respective generic nvu a few days ago, so I assume to be quite close to default config.
 > 
-> Gokul Sriram Palanisamy (2):
->    drivers: bus: mhi: Added shared-dma-pool support for mhi_dev
->    bus: mhi: dump debug registers in critical sections
+> Using the sierra_em919x config with IP links changed to MBIM in kernel I can establish data traffic; I do not see a component converting the MBIM stream to RMnet in Linux kernel (?). I wonder whether there is positive confirmation about a EM919x working in PCIe mode with the current kernel config, in which mode? (We did not have trouble using the EM919x in USB mode.)
 > 
-> Karthick Shanmugham (1):
->    bus: mhi: change IRQ_HANDLED to IRQ_NONE in mhi_irq_handler
+> About GPIO handling, as said there is none for for Full_Card_Power_off# (6, 10k pull-up to 3V3) and RESET# (67, just a C=100nF to GND) on the BPI-R4.
+> We have not validated the timing in BPI-R4 with 6.6.36 or current kernel versus the timing diagram at "AirPrime EM919X/EM7690 Product Technical Specification". As you said there may be a corner case that we end up with the Foxconn config due to timing at BPI-R4 power up times.
 > 
-> Praveenkumar I (1):
->    bus: mhi: increase RDDM timeout
+> I get from your statement, that the valid config should be sierra_em919x, thanks for this clarification.
 > 
-> Rajkumar Ayyasamy (1):
->    bus: mhi: check for RDDM cookie set by device to indicate readiness
-> 
-> Ram Kumar D (1):
->    bus: mhi: add support to allocate rddm memory during crash time
-> 
->   drivers/bus/mhi/host/boot.c     | 209 ++++++++++++++++++++++++--------
->   drivers/bus/mhi/host/init.c     |  70 ++++++++++-
->   drivers/bus/mhi/host/internal.h |  37 +++++-
->   drivers/bus/mhi/host/main.c     | 115 +++++++++++++++++-
->   drivers/bus/mhi/host/pm.c       |   6 +-
->   include/linux/mhi.h             |  20 +++
->   6 files changed, 397 insertions(+), 60 deletions(-)
+> @Mani,
+> for my understanding: I would be only able to get a MBIM type channel if the channel is configured for IP_HW0_MBIM. If it is configured for IP_HW0 only than it would be plain IP traffic like RMnet. Is this understanding right? - Thanks
 > 
 
-Please post v2 to the internal review list before posting to the public 
-lists.
+Correct.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
