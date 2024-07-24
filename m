@@ -1,173 +1,155 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E04E145B0D
-	for <mhi@lists.linux.dev>; Wed, 24 Jul 2024 11:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FBE157461
+	for <mhi@lists.linux.dev>; Wed, 24 Jul 2024 13:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721819717; cv=none; b=tFNTyp1J0hwUYNhxqs2sXhQSH51Izm9vuPDc4tNSC6HM7jAjP7yTNNvgyPZ4ECCCHgt7FSHi0yKhsRHhozdYDDQ97SOgg1UGjOZocTfB9px11Lqcw1wQ6OLIeBj6PHaJ/AitB5T0T48YPDfcax/0oSptUokT3zDqqlSpegkp8qA=
+	t=1721827737; cv=none; b=WNPNfW4F7D0om2gwEy9qTiTia+1p8qFBwEI5wTUWPfC+7J5pbJ901btW9l7Whe4/D42D64goGqB1+gHxWOw5gMmgNuZuf4f6e7UJY70MnLabMNySj90klZncs3Kk39dqcFtkF16wp2m2dV9eHFsMcM6EnZrcl3pdKY5gVTDzbu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721819717; c=relaxed/simple;
-	bh=CxtqvnXi4mgDBXyR3QLhoYdwmopxGTa6BFZMmosNJJk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=W4OtW61JBqi0uf/vp0hIAjf2MW8mKZzkRhr0O+ciRh/dtcw9dQDX3mfUzqfpR9inbBwpZRiwZuyOyFfNH3/E/nJC4Y59+v7rBHl7uX7OECxehsqu1cbLhSIXyNEjQm/+ojbH9cp0KO5aC+otGdIIN7xmy1N8BBroxmSuw0WYG10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=Qfv0f4oo reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1721827737; c=relaxed/simple;
+	bh=NbryZMNi++9IyWDKCW43oXUTr404zUv0RT78qB3Do6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evrPTHDFIUZ1awuzri+HlyNltn1l8IDbr3ENEqGVadAm7mLyzBNnInmlnomIUZc4kgsqFZ4ZwPjefTB1kQS6lbKpZvdUJtMPp9X3QytHAaRiv3xybim8PRpoObqkIkTxsJd4CRojNMhpHX2VaeKtoM5tRieFp+/GWosXKYQ6KR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lNtrcHF8; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="Qfv0f4oo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=stHl7tfAMtOxEoUKqDnkegannEU8eEy4Y3IO41ZGCPI=; b=Q
-	fv0f4oom358VcKI9gkt91S4tq+4WVJDp5aIVYv1cf6PdgXkdONVRN1opU/aWITx8
-	iyZN+3dNCyFY2P7OWkkifKBeiTgUac52lpQ1AR0TWWWqYWL0QopRLqY0WzQjaExK
-	rPL+UFp59L9V0Z3RWR0WT7chun6QGCP8gPUG+/PAxg=
-Received: from slark_xiao$163.com ( [112.97.50.207] ) by
- ajax-webmail-wmsvr-40-119 (Coremail) ; Wed, 24 Jul 2024 19:14:40 +0800
- (CST)
-Date: Wed, 24 Jul 2024 19:14:40 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc: manivannan.sadhasivam@linaro.org, mhi@lists.linux.dev, 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lNtrcHF8"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70d2d7e692eso2316707b3a.0
+        for <mhi@lists.linux.dev>; Wed, 24 Jul 2024 06:28:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721827734; x=1722432534; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EK7J1tmmD0LeVUI1TCcORLh7QZq/9jUNRzduMUl+rUQ=;
+        b=lNtrcHF85tyNsptNAZBEjhqx3WDdI7aVN7Wlcdr4NiVQ/0zbXdywoGaqrgapmJQrK1
+         Is7V46AiEhaVjKLZEPcX6FqjhaHdQFzxIbMr/WzgU5vZzoiGQmXIU5MMyqxEveaPwRxP
+         ZsAz/h63l9cBhovLUuV+q2aJMSwjia9LEdroW2htUwgT+kXJp9eDK3VL/CE8uN3taNan
+         IDxBCTJR8PHIqIopYDSezkQsdvwBEqRADl2ml1fCwo4yVBZ/iK/1wtWmN9kh6DsKi3A4
+         pSADaZ6FsfDnvaR7qgwPN8OCXMRqJVE0qwz/2o1fM9N+8WCgq2PzrUGo+baA1gLYDUjG
+         UZZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721827734; x=1722432534;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EK7J1tmmD0LeVUI1TCcORLh7QZq/9jUNRzduMUl+rUQ=;
+        b=TglzJF8lVF69ajdJy1scLKfggYmzmjc7ZpeBD8ksq1t/eObVKLXiwOOOch8L2OELjv
+         cIpw4ZKmbRpsBW5IJWSVoaSgcAWxUFdhVLdF7jC2Qs5kheVngy/ITCvbi/Vi/iUXZ0Ls
+         sCrdIOdpJPsqW54HrOwYKCFTTL4L71Ab2npKrMwnXXoer8JPLqy8r62DldzbbWO8EpH3
+         f8g7m2wazFhII4owKhCJqE7bCma27LjxRUNuTuhChR/GrkFdqK9EGZFjWz4BJo6L25c5
+         3yXeKwZIxCsW3baFfwdce5Be/2nZq668CUq/EhhEf++Zwm89oZeo9OdIaDLXZyPwzKCY
+         E+2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWqMyRUiOZul/1BQq+LJr3f/0PRt8T3WunTaHyQrqWj5kG6+9xAT0WOgBy4v1tcq8ppeExlfwFe3FlX11A5gvKNrK/P
+X-Gm-Message-State: AOJu0YxnmIFEZ0Uist4BuRzL1oYE3MOxatSPeb7GexOKNVtmuZbFZN5k
+	BI7CxWjF8pw4SRNuJB24RLBRthp2V21IwwY6wl9hc7LZDi0iyIXvddyouv7cLg==
+X-Google-Smtp-Source: AGHT+IGrrJr+Oo0dBAP1RDU3YHrRkUwB1oBOMPFPB4/1gpiTJwDY4uP4ocgeH+a+h16PfoQZz0jhTQ==
+X-Received: by 2002:a05:6a21:7884:b0:1c4:17e1:14d0 with SMTP id adf61e73a8af0-1c461a04b51mr2600716637.47.1721827734299;
+        Wed, 24 Jul 2024 06:28:54 -0700 (PDT)
+Received: from thinkpad ([103.244.168.26])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70d2628be4fsm5226884b3a.80.2024.07.24.06.28.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 06:28:53 -0700 (PDT)
+Date: Wed, 24 Jul 2024 18:58:50 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re:Re: Re: [PATCH] bus: mhi: host: Add firehose support for
+Subject: Re: Re:Re: Re: [PATCH] bus: mhi: host: Add firehose support for
  Foxconn SDX24/SDX55/SDX65
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <7036d57d.5904.190b512d00b.Coremail.slark_xiao@163.com>
+Message-ID: <20240724132850.GA3349@thinkpad>
 References: <20240709015818.110384-1-slark_xiao@163.com>
  <dduv77mdqe633m7amyljhqas7nomrtjrrimvmyqidymy3qjvfa@biepierrz5p3>
  <17f0f426.4faf.190b4edaadd.Coremail.slark_xiao@163.com>
  <CAA8EJpoiOLYMhxyJbdrgnMVfVggL9cOWtX8L__YKd=RPQWOcSg@mail.gmail.com>
  <7036d57d.5904.190b512d00b.Coremail.slark_xiao@163.com>
-X-NTES-SC: AL_Qu2ZA/Satk4j5iiQZOkfmk8Sg+84W8K3v/0v1YVQOpF8jD7pwzgQQnhFBl7E0N2GMhChqh6RTxVS1vVgUa9iZb0783AmAAfKlgzNEGw5L9L6+A==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+ <7b69f589.982a.190e4735077.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <7b69f589.982a.190e4735077.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3H+gg4qBmm31aAA--.11524W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQAmZGV4IyFQQgABs7
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b69f589.982a.190e4735077.Coremail.slark_xiao@163.com>
 
-CkF0IDIwMjQtMDctMTUgMTQ6Mjc6MDcsICJTbGFyayBYaWFvIiA8c2xhcmtfeGlhb0AxNjMuY29t
-PiB3cm90ZToKPgo+QXQgMjAyNC0wNy0xNSAxNDoxNjo1NywgIkRtaXRyeSBCYXJ5c2hrb3YiIDxk
-bWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+IHdyb3RlOgo+Pk9uIE1vbiwgMTUgSnVsIDIwMjQg
-YXQgMDg6NDYsIFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4gd3JvdGU6Cj4+Pgo+Pj4K
-Pj4+IEF0IDIwMjQtMDctMTMgMjM6MDk6NDcsICJEbWl0cnkgQmFyeXNoa292IiA8ZG1pdHJ5LmJh
-cnlzaGtvdkBsaW5hcm8ub3JnPiB3cm90ZToKPj4+ID5PbiBUdWUsIEp1bCAwOSwgMjAyNCBhdCAw
-OTo1ODoxOEFNIEdNVCwgU2xhcmsgWGlhbyB3cm90ZToKPj4+ID4+IFNpbmNlIHdlIGltcGxlbWVu
-dCB0aGUgRklSRUhPU0UgY2hhbm5lbCBzdXBwb3J0IGluIGZveGNvbm4gbWhpCj4+PiA+PiBjaGFu
-bmVscywgdGhhdCBtZWFucyBlYWNoIHByb2R1Y3Qgd2hpY2ggdXNlIHRoaXMgY2hhbm5lbCBjb25m
-aWcKPj4+ID4+IHdvdWxkIHN1cHBvcnQgRklSRUhPU0UuIEJ1dCBhY2NvcmRpbmcgdG8gdGhlIHRy
-aWdnZXJfZWRsIGZlYXR1cmUsCj4+PiA+PiB3ZSBuZWVkIHRvIGVuYWJsZSBpdCBieSBhZGRpbmcg
-Jy5lZGxfdHJpZ2dlciA9IHRydWUnIGluIGRldmljZQo+Pj4gPj4gaW5mbyBzdHJ1Y3QuCj4+PiA+
-PiBBbHNvLCB3ZSB1cGRhdGUgYWxsIGVkbCBpbWFnZSBwYXRoIGZyb20gJ3Fjb20nIHRvICdmb3gn
-IGluIGNhc2Ugb2YKPj4+ID4+IGNvbmZsaWN0aW5nIHdpdGggb3RoZXIgdmVuZG9ycy4KPj4+ID4K
-Pj4+ID5TZXBhcmF0ZSBwYXRjaGVzIHBsZWFzZS4gQWxzbyBkb24ndCB1c2UgIndlIiwganVzdCBh
-biBpbWVyYXRpdmUgc3R5bGU6Cj4+PiA+ZG8gdGhpcyBhbmQgdGhhdC4KPj4+ID4KPj4+Cj4+PiBE
-byB5b3UgbWVhbiB1c2UgMiBwYXRjaGVzICgxIGZvciBlbmFibGluZyB0cmlnZ2VyIGVkbCBhbmQg
-MSBmb3IKPj4+IG1vZGlmeWluZyBwYXRoKT8gVGhvdWdoIHRoZXNlIGNoYW5nZXMgYXJlIGFpbWVk
-IHRvIG1ha2UKPj4+IGZpcmVob3NlIGRvd25sb2FkIHN1Y2Nlc3NmdWxseS4KPj4KPj5ZZXMuICJE
-byB0aGlzLiBBbHNvIGRvIHRoYXQiIGlzIHVzdWFsbHkgYSBzaWduIHRoYXQgdGhlIHBhdGNoIHNo
-b3VsZCBiZSBzcGxpdC4KPgo+V2lsbCBkbyBhIHVwZGF0ZSBpbiBuZXh0IHZlcnNpb24uCj4KPj4K
-Pj4+Cj4+PiA+Pgo+Pj4gPj4gU2lnbmVkLW9mZi1ieTogU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0Ax
-NjMuY29tPgo+Pj4gPj4gLS0tCj4+PiA+PiAgZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVy
-aWMuYyB8IDIwICsrKysrKysrKysrKysrLS0tLS0tCj4+PiA+PiAgMSBmaWxlIGNoYW5nZWQsIDE0
-IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCj4+PiA+Pgo+Pj4gPj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9z
-dC9wY2lfZ2VuZXJpYy5jCj4+PiA+PiBpbmRleCAxNGExMTg4MGJjZWEuLjQ0MDYwOWI4MWU1NyAx
-MDA2NDQKPj4+ID4+IC0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4+
-ID4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4+ID4+IEBAIC00
-MzMsOCArNDMzLDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY29udHJvbGxlcl9jb25maWcg
-bW9kZW1fZm94Y29ubl9zZHg3Ml9jb25maWcgPSB7Cj4+PiA+Pgo+Pj4gPj4gIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9zZHg1NV9pbmZvID0gewo+Pj4g
-Pj4gICAgICAubmFtZSA9ICJmb3hjb25uLXNkeDU1IiwKPj4+ID4+IC0gICAgLmZ3ID0gInFjb20v
-c2R4NTVtL3NibDEubWJuIiwKPj4+ID4+IC0gICAgLmVkbCA9ICJxY29tL3NkeDU1bS9lZGwubWJu
-IiwKPj4+ID4+ICsgICAgLmVkbCA9ICJmb3gvc2R4NTVtL3Byb2dfZmlyZWhvc2Vfc2R4NTUubWJu
-IiwKPj4+ID4KPj4+ID5xY29tL3NkeDU1bS9mb3hjb25uL3Byb2dfZmlyZWhvc2Vfc2R4NTUubWJu
-Cj4+Pgo+Pj4gd2hhdCdzIHlvdXIgb3Bpbmlvbj9NYW5pCgpUaGlzIGZvcm1hdCBtaXNtYXRjaCB3
-aXRoIEZveGNvbm4gU0RYNzIgZWRsIHBhdGgiZm94L3NkeDcybS9lZGwubWJuIi4KSSB0aGluayB3
-ZSBzaG91bGQgYWxpZ24gd2l0aCB0aGF0IGNoYW5nZXMgd2UganVzdCBjb21taXR0ZWQuCldoYXQn
-cyB5b3VyIG9waW5pb24sIE1hbmk/Cgo+Pj4KPj4+ID4KPj4+ID4+ICsgICAgLmVkbF90cmlnZ2Vy
-ID0gdHJ1ZSwKPj4+ID4+ICAgICAgLmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZp
-ZywKPj4+ID4+ICAgICAgLmJhcl9udW0gPSBNSElfUENJX0RFRkFVTFRfQkFSX05VTSwKPj4+ID4+
-ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+PiA+PiBAQCAtNDQ0LDggKzQ0NCw4IEBAIHN0
-YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9zZHg1NV9pbmZv
-ID0gewo+Pj4gPj4KPj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8g
-bWhpX2ZveGNvbm5fdDk5dzE3NV9pbmZvID0gewo+Pj4gPj4gICAgICAubmFtZSA9ICJmb3hjb25u
-LXQ5OXcxNzUiLAo+Pj4gPj4gLSAgICAuZncgPSAicWNvbS9zZHg1NW0vc2JsMS5tYm4iLAo+Pj4g
-Pj4gLSAgICAuZWRsID0gInFjb20vc2R4NTVtL2VkbC5tYm4iLAo+Pj4gPj4gKyAgICAuZWRsID0g
-ImZveC9zZHg1NW0vcHJvZ19maXJlaG9zZV9zZHg1NS5tYm4iLAo+Pj4gPgo+Pj4gPklzIGl0IHRo
-ZSBzYW1lIGZpbGUgYXMgdGhlIG9uZSBtZW50aW9uZWQgaW4gdGhlIHByZXZpb3VzIGNodW5rIG9y
-IGlzIGl0Cj4+PiA+ZGlmZmVyZW50Pwo+Pj4gPgo+Pj4KPj4+IFRoZXkgYXJlIHNhbWUgZm9yIHNh
-bWUgY2hpcCwgdGhvdWdoIHdlIGhhdmUgc29tZSB2YXJpYW50cy4KPj4KPj5QbGVhc2UgZXhjdXNl
-IG1lLCBJIGNhbid0IGZ1bGx5IHVuZGVyc3RhbmQuIFNvIGFyZSB0aGUgZmlsZXMgdGhlIHNhbWUg
-b3Igbm90Pwo+Pgo+PlRoZXJlIGlzIGEgc2ltcGxlIG1lbnRhbCBleHBlcmltZW50IHJlZ2FyZGlu
-ZyB0aGUgZmlsZSBuYW1lczogeW91Cj4+c2hvdWxkIGJlIGFibGUgdG8gaGF2ZSBhIHNpbmdsZSBo
-b3N0IHJvb3Rmcywgd2hpY2ggc3VwcG9ydHMgd29ya2luZwo+PndpdGggYWxsIG9mIHlvdXIgbW9k
-ZW1zIGF0IHRoZSBzYW1lIHRpbWUsIHdpdGhvdXQgbW9kaWZpY2F0aW9ucy4KPj5TbyBpZiBtb2Rl
-bSBBIGFuZCBtb2RlbSBCIG1pZ2h0IHVzZSBmaWxlIGZvby5iYXIgYW5kIHRoZSBmaWxlIGlzIHRo
-ZQo+PnNhbWUgZm9yIGFsbCBTRFg1NSBtb2RlbXMsIGl0J3MgZmluZSB0byBoYXZlIGl0IGluIHFj
-b20vc2R4NTVtLyBvciBpbgo+PnFjb20vc2R4NTVtL2ZveGNvbm4uIElmIGl0IGlzIGRpZmZlcmVu
-dCBkZXBlbmRpbmcgb24gdGhlIGVuZC1kZXZpY2UsCj4+aXQgc2hvdWxkIGdvIHRvIHRoZSBxY29t
-L3NkeDU1bS9mb3hjb25uL2Rldm5hbWUvIC4KPj4KPkZvciBhbGwgRm94Y29ubiBkZXZpY2VzIGRl
-c2lnbmVkIGJhc2VkIG9uIHNhbWUgY2hpcCwgdGhleSBjYW4gdXNlIHNhbWUKPmVkbCBmaWxlLiBU
-aGlzIEVETCBmaWxlIGlzIGEgY29tbW9uIGltYWdlIG9mIHdob2xlIEZJUkVIT1NFIGltYWdlIHBh
-Y2thZ2UKPm9mIGRpZmZlcmVuY2UgdmFyaWFudHMuIFRoZSBkaWZmZXJlbmNlIG9mIEZveGNvbm4g
-U0RYNTUgbW9kZW0gQSBhbmQKPkZveGNvbm4gU0RYNTUgbW9kZW0gQiBpcyBBUFBTIGltYWdlIGFu
-ZCBNb2RlbSBpbWFnZS4gVGhlIEVETAo+aW1hZ2UgaXMgYSBmaWxlIGZvciBwdXR0aW5nIGRldmlj
-ZSBpbnRvIEVETCBtb2RlLgo+U28gSSBwcmVmZXIgdG8gdXNlICJxY29tL3NkeDU1bS9mb3hjb25u
-IiBzaW5jZSBGb3hjb25uJ3MgZGV2aWNlIGFyZSAKPmRpZmZlcmVudCB3aXRoIG90aGVyIHZlbmRv
-cnMgd2hpY2ggcHJvdmlkZSBzZHg1NSBkZXZpY2VzIGFzIHdlbGwuCj4KPj4+Cj4+PiA+SWYgdGhl
-eSBhcmUgZGlmZmVyZW50LCB0aGVuLCBwbGVhc2UsCj4+PiA+Cj4+PiA+cWNvbS9zZHg1NW0vZm94
-Y29ubi90OTl3MTc1L3Byb2dfZmlyZWhvc2Vfc2R4NTUubWJuCj4+PiA+Cj4+PiA+Cj4+PiA+PiAr
-ICAgIC5lZGxfdHJpZ2dlciA9IHRydWUsCj4+PiA+PiAgICAgIC5jb25maWcgPSAmbW9kZW1fZm94
-Y29ubl9zZHg1NV9jb25maWcsCj4+PiA+PiAgICAgIC5iYXJfbnVtID0gTUhJX1BDSV9ERUZBVUxU
-X0JBUl9OVU0sCj4+PiA+PiAgICAgIC5kbWFfZGF0YV93aWR0aCA9IDMyLAo+Pj4gPj4gQEAgLTQ1
-NSw4ICs0NTUsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2Zv
-eGNvbm5fdDk5dzE3NV9pbmZvID0gewo+Pj4gPj4KPj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0
-IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fZHc1OTMwZV9pbmZvID0gewo+Pj4gPj4gICAg
-ICAubmFtZSA9ICJmb3hjb25uLWR3NTkzMGUiLAo+Pj4gPj4gLSAgICAuZncgPSAicWNvbS9zZHg1
-NW0vc2JsMS5tYm4iLAo+Pj4gPj4gLSAgICAuZWRsID0gInFjb20vc2R4NTVtL2VkbC5tYm4iLAo+
-Pj4gPj4gKyAgICAuZWRsID0gImZveC9zZHg1NW0vcHJvZ19maXJlaG9zZV9zZHg1NS5tYm4iLAo+
-Pj4gPj4gKyAgICAuZWRsX3RyaWdnZXIgPSB0cnVlLAo+Pj4gPj4gICAgICAuY29uZmlnID0gJm1v
-ZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+Pj4gPj4gICAgICAuYmFyX251bSA9IE1ISV9QQ0lf
-REVGQVVMVF9CQVJfTlVNLAo+Pj4gPj4gICAgICAuZG1hX2RhdGFfd2lkdGggPSAzMiwKPj4+ID4+
-IEBAIC00NjYsNiArNDY2LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZv
-IG1oaV9mb3hjb25uX2R3NTkzMGVfaW5mbyA9IHsKPj4+ID4+Cj4+PiA+PiAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Q5OXczNjhfaW5mbyA9IHsKPj4+
-ID4+ICAgICAgLm5hbWUgPSAiZm94Y29ubi10OTl3MzY4IiwKPj4+ID4+ICsgICAgLmVkbCA9ICJm
-b3gvc2R4NjVtL3Byb2dfZmlyZWhvc2VfbGl0ZS5lbGYiLAo+Pj4gPj4gKyAgICAuZWRsX3RyaWdn
-ZXIgPSB0cnVlLAo+Pj4gPj4gICAgICAuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29u
-ZmlnLAo+Pj4gPj4gICAgICAuYmFyX251bSA9IE1ISV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+Pj4g
-Pj4gICAgICAuZG1hX2RhdGFfd2lkdGggPSAzMiwKPj4+ID4+IEBAIC00NzUsNiArNDc3LDggQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Q5OXczNjhf
-aW5mbyA9IHsKPj4+ID4+Cj4+PiA+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9p
-bmZvIG1oaV9mb3hjb25uX3Q5OXczNzNfaW5mbyA9IHsKPj4+ID4+ICAgICAgLm5hbWUgPSAiZm94
-Y29ubi10OTl3MzczIiwKPj4+ID4+ICsgICAgLmVkbCA9ICJmb3gvc2R4NjVtL3Byb2dfZmlyZWhv
-c2VfbGl0ZS5lbGYiLAo+Pj4gPj4gKyAgICAuZWRsX3RyaWdnZXIgPSB0cnVlLAo+Pj4gPj4gICAg
-ICAuY29uZmlnID0gJm1vZGVtX2ZveGNvbm5fc2R4NTVfY29uZmlnLAo+Pj4gPj4gICAgICAuYmFy
-X251bSA9IE1ISV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+Pj4gPj4gICAgICAuZG1hX2RhdGFfd2lk
-dGggPSAzMiwKPj4+ID4+IEBAIC00ODQsNiArNDg4LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBt
-aGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Q5OXczNzNfaW5mbyA9IHsKPj4+ID4+Cj4+PiA+
-PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rldl9pbmZvIG1oaV9mb3hjb25uX3Q5OXc1
-MTBfaW5mbyA9IHsKPj4+ID4+ICAgICAgLm5hbWUgPSAiZm94Y29ubi10OTl3NTEwIiwKPj4+ID4+
-ICsgICAgLmVkbCA9ICJmb3gvc2R4MjRtL3Byb2dfZmlyZWhvc2Vfc2R4MjQubWJuIiwKPj4+ID4+
-ICsgICAgLmVkbF90cmlnZ2VyID0gdHJ1ZSwKPj4+ID4+ICAgICAgLmNvbmZpZyA9ICZtb2RlbV9m
-b3hjb25uX3NkeDU1X2NvbmZpZywKPj4+ID4+ICAgICAgLmJhcl9udW0gPSBNSElfUENJX0RFRkFV
-TFRfQkFSX05VTSwKPj4+ID4+ICAgICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+PiA+PiBAQCAt
-NDkzLDYgKzQ5OSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlf
-Zm94Y29ubl90OTl3NTEwX2luZm8gPSB7Cj4+PiA+Pgo+Pj4gPj4gIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9kdzU5MzJlX2luZm8gPSB7Cj4+PiA+PiAg
-ICAgIC5uYW1lID0gImZveGNvbm4tZHc1OTMyZSIsCj4+PiA+PiArICAgIC5lZGwgPSAiZm94L3Nk
-eDY1bS9wcm9nX2ZpcmVob3NlX2xpdGUuZWxmIiwKPj4+ID4+ICsgICAgLmVkbF90cmlnZ2VyID0g
-dHJ1ZSwKPj4+ID4+ICAgICAgLmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZpZywK
-Pj4+ID4+ICAgICAgLmJhcl9udW0gPSBNSElfUENJX0RFRkFVTFRfQkFSX05VTSwKPj4+ID4+ICAg
-ICAgLmRtYV9kYXRhX3dpZHRoID0gMzIsCj4+PiA+PiAtLQo+Pj4gPj4gMi4yNS4xCj4+PiA+Pgo+
-Pj4gPgo+Pj4gPi0tCj4+PiA+V2l0aCBiZXN0IHdpc2hlcwo+Pj4gPkRtaXRyeQo+Pgo+Pgo+Pgo+
-Pi0tIAo+PldpdGggYmVzdCB3aXNoZXMKPj5EbWl0cnkK
+On Wed, Jul 24, 2024 at 07:14:40PM +0800, Slark Xiao wrote:
+> 
+> At 2024-07-15 14:27:07, "Slark Xiao" <slark_xiao@163.com> wrote:
+> >
+> >At 2024-07-15 14:16:57, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> wrote:
+> >>On Mon, 15 Jul 2024 at 08:46, Slark Xiao <slark_xiao@163.com> wrote:
+> >>>
+> >>>
+> >>> At 2024-07-13 23:09:47, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> wrote:
+> >>> >On Tue, Jul 09, 2024 at 09:58:18AM GMT, Slark Xiao wrote:
+> >>> >> Since we implement the FIREHOSE channel support in foxconn mhi
+> >>> >> channels, that means each product which use this channel config
+> >>> >> would support FIREHOSE. But according to the trigger_edl feature,
+> >>> >> we need to enable it by adding '.edl_trigger = true' in device
+> >>> >> info struct.
+> >>> >> Also, we update all edl image path from 'qcom' to 'fox' in case of
+> >>> >> conflicting with other vendors.
+> >>> >
+> >>> >Separate patches please. Also don't use "we", just an imerative style:
+> >>> >do this and that.
+> >>> >
+> >>>
+> >>> Do you mean use 2 patches (1 for enabling trigger edl and 1 for
+> >>> modifying path)? Though these changes are aimed to make
+> >>> firehose download successfully.
+> >>
+> >>Yes. "Do this. Also do that" is usually a sign that the patch should be split.
+> >
+> >Will do a update in next version.
+> >
+> >>
+> >>>
+> >>> >>
+> >>> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >>> >> ---
+> >>> >>  drivers/bus/mhi/host/pci_generic.c | 20 ++++++++++++++------
+> >>> >>  1 file changed, 14 insertions(+), 6 deletions(-)
+> >>> >>
+> >>> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >>> >> index 14a11880bcea..440609b81e57 100644
+> >>> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >>> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >>> >> @@ -433,8 +433,8 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
+> >>> >>
+> >>> >>  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+> >>> >>      .name = "foxconn-sdx55",
+> >>> >> -    .fw = "qcom/sdx55m/sbl1.mbn",
+> >>> >> -    .edl = "qcom/sdx55m/edl.mbn",
+> >>> >> +    .edl = "fox/sdx55m/prog_firehose_sdx55.mbn",
+> >>> >
+> >>> >qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn
+> >>>
+> >>> what's your opinion?Mani
+> 
+> This format mismatch with Foxconn SDX72 edl path"fox/sdx72m/edl.mbn".
+> I think we should align with that changes we just committed.
+> What's your opinion, Mani?
+> 
+
+This really sneaked through. I shouldn't have allowed this path. We should bite
+the bullet and use a standard path for all modems as Dmitry suggested. So the
+path will become:
+
+"qcom/<chip>/<vendor>/" where chip is 'sdx72m' and vendor is 'foxconn'.
+
+If you need to use product specific firmware, then
+
+"qcom/<chip>/<vendor>/<product>"
+
+Since the firmware itself is not upstreamed to linux-firmware, changing the path
+is not a big deal.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
