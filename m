@@ -1,37 +1,40 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BDC107B3
-	for <mhi@lists.linux.dev>; Thu, 25 Jul 2024 02:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42BD8CA40
+	for <mhi@lists.linux.dev>; Thu, 25 Jul 2024 02:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721874607; cv=none; b=jCs2NPYdysTBjDJF9jta/h4tVYCMTnH26KByYqhQ2KofdNMUZGcTQHUZIaiGYdz5EyerstOu5yUL5LyRUIZoErdGb7ejvwMrwgfNEJjZlYlfJu7lhXOTA8i6ZYFsCBAn3FBdj7Wy2F0BUXdgmAOzT5UqdV3U563uDlMXb/B2ySM=
+	t=1721874612; cv=none; b=Ie8TwZKY29c55dZFT2SwYPIAWc/YZL3t91uz3tf/QJ2yIIE8/ymhBMJZI9ZKUDC+tkL4ZfbncAjpmphcrOJh/qW/hLwAw9DhiwifKlCkyAbqmYqT6XN5JiQjLWvKyA1Gn6YLlgc6+pXepUrZwAuRpvlPJ5HeJWHQDUKFWcDLmPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721874607; c=relaxed/simple;
-	bh=O8i0WABP/D8cbuRHqibvo0rdzlokK3I0Rgkff/3Fuvg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kUx9T/7aqbF8D/lXHh7dndR3GYfSHrhtmzAnBUY11XCdRNoQNnRL9CkZxAoK1d58S3GEFxsIawKQmVkkIExZKXJcyUhhs61hywKsKz/FBgsrhA3A7jM7YB9olgY7MizmZkGiS7ZmrbjCiUVNmUOQUBbcMsYvPsfhPtMH5VETMDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WDo/GexU; arc=none smtp.client-ip=220.197.31.2
+	s=arc-20240116; t=1721874612; c=relaxed/simple;
+	bh=xjdEduBF6+0VtsfyemNHLIEqjJ554ZKbPDNo9CR6xBY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BIbjgdemFSouNpxDTCp3z4IeVV12nnYfKcB1pTpDFd3iO5K+v9KUt6fuZ6gLiAv65ydwroTO0XQ9E1lIWKldzn9VPg/S1B68SWr8xi1lXf/O4BOhwKnDFIQlaoFgrIeST4DntiMXbzhvt5OgV09MNjhf4bzS6rzTa/gbJsDaZnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=NSBXysnc; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WDo/GexU"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="NSBXysnc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=3cnS2
-	zlLOTWI1JLQwADS5Z3r5WjUUDAQ8Ha0lgb8yy0=; b=WDo/GexUD3o/e69sI+eAs
-	+2B/woylbLAa23eX0Pu4Bfh7bHQ/wBRBOrNa5nzsv5Ara//4yEE8kVPN3fBBsJ2z
-	gX/hk6pmOnVaRRgRx3aWK0Hgsd/4hjJWi8pwhrpEbQVidQit8K8YBBB/V+hpduGX
-	ASCPMgNv7fMcqOPNF53MQU=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=bEiXP
+	AwDC5NBiYUV+CrcPwSV4ioMuT57F66rliLnkaA=; b=NSBXysncjeEFMEmlZJy47
+	qSixzPmwaZWjYpGUD4AaDA6FQEAefFnck+v0Z9UcD9i3kx6BhxRxAGCsuKntUbXi
+	lQUkZ2rkb6xfQyvMNkHsKtlvBLN6W0VxtTlD4slmDDNOkGxKibiZz8nX8jcqadsq
+	ZE/j9rB5dQReNUpkdY+VDc=
 Received: from localhost.localdomain (unknown [112.97.48.72])
-	by gzga-smtp-mta-g3-1 (Coremail) with SMTP id _____wD338WiuKFmBdc3Aw--.17134S2;
-	Thu, 25 Jul 2024 10:29:55 +0800 (CST)
+	by gzga-smtp-mta-g3-1 (Coremail) with SMTP id _____wD338WiuKFmBdc3Aw--.17134S3;
+	Thu, 25 Jul 2024 10:29:57 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: manivannan.sadhasivam@linaro.org
 Cc: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v2 1/2] bus: mhi: host: pci_generic: Update the file path for Foxconn SDX55/SDX72
-Date: Thu, 25 Jul 2024 10:29:40 +0800
-Message-Id: <20240725022941.65948-1-slark_xiao@163.com>
+Subject: [PATCH v2 2/2] bus: mhi: host: pci_generic: Enable trigger_edl for Foxconn SDX55/SDX65/SDX24 products
+Date: Thu, 25 Jul 2024 10:29:41 +0800
+Message-Id: <20240725022941.65948-2-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240725022941.65948-1-slark_xiao@163.com>
+References: <20240725022941.65948-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -39,77 +42,85 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD338WiuKFmBdc3Aw--.17134S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr48ZrWUGr1kWw48Jw4ruFg_yoW5Xw1rp3
-	Zavr1UJw4ktrWrKFs7Cw1DCwn3Krs0kry8KasxG342yr15Z3yqqFsrGr12gr1Yvr93Gr1I
-	yF98WFWDCFWDtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi0tCrUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJQUnZGVOCZhPhgAAsQ
+X-CM-TRANSID:_____wD338WiuKFmBdc3Aw--.17134S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxur15Xr4kJw1DXFyrWr1rZwb_yoW5ZF13pF
+	na9r18J3yktFWfKr4kCr1kCwn8Crs8ury8KFnxGw12yr15A3yjqFsrGw129r15Z3s7Jr1I
+	vF98WFZ8GFsrJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR0eHhUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQknZGV4Iy0gjgAAsC
 
-To separate the images of Foxconn from other vendors, adding a
-new foxconn subfolder under qcom/<platform> for edl image path.
-And delete the fw patch since it's useless for Foxconn devices.
+Since generic trigger_edl mechanism has been imported, all
+products support firehose download shall enable 'edl_trigger'.
 
-Fixes: bf30a75e6e00 ("bus: mhi: host: Add support for Foxconn SDX72 modems")
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
-v2: change the folder path architecture
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/bus/mhi/host/pci_generic.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 14a11880bcea..f159a9dd53e7 100644
+index f159a9dd53e7..565b280c539e 100644
 --- a/drivers/bus/mhi/host/pci_generic.c
 +++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -433,8 +433,7 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
- 
+@@ -434,6 +434,7 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
  	.name = "foxconn-sdx55",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+ 	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
++	.edl_trigger = true,
  	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
  	.dma_data_width = 32,
-@@ -444,8 +443,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 
+@@ -444,6 +445,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
  static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
  	.name = "foxconn-t99w175",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+ 	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
++	.edl_trigger = true,
  	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
  	.dma_data_width = 32,
-@@ -455,8 +453,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
- 
+@@ -454,6 +456,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
  static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
  	.name = "foxconn-dw5930e",
--	.fw = "qcom/sdx55m/sbl1.mbn",
--	.edl = "qcom/sdx55m/edl.mbn",
-+	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+ 	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
++	.edl_trigger = true,
  	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
  	.dma_data_width = 32,
-@@ -502,7 +499,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+@@ -463,6 +466,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
  
- static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
- 	.name = "foxconn-t99w515",
--	.edl = "fox/sdx72m/edl.mbn",
-+	.edl = "qcom/sdx72m/foxconn/edl.mbn",
- 	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx72_config,
+ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
+ 	.name = "foxconn-t99w368",
++	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
++	.edl_trigger = true,
+ 	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-@@ -513,7 +510,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
+ 	.dma_data_width = 32,
+@@ -472,6 +477,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
  
- static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
- 	.name = "foxconn-dw5934e",
--	.edl = "fox/sdx72m/edl.mbn",
-+	.edl = "qcom/sdx72m/foxconn/edl.mbn",
- 	.edl_trigger = true,
- 	.config = &modem_foxconn_sdx72_config,
+ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
+ 	.name = "foxconn-t99w373",
++	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
++	.edl_trigger = true,
+ 	.config = &modem_foxconn_sdx55_config,
  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
+@@ -481,6 +488,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
+ 
+ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
+ 	.name = "foxconn-t99w510",
++	.edl = "qcom/sdx24m/foxconn/prog_firehose_sdx24.mbn,
++	.edl_trigger = true,
+ 	.config = &modem_foxconn_sdx55_config,
+ 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
+@@ -490,6 +499,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
+ 
+ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+ 	.name = "foxconn-dw5932e",
++	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
++	.edl_trigger = true,
+ 	.config = &modem_foxconn_sdx55_config,
+ 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
 -- 
 2.25.1
 
