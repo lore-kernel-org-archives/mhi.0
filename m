@@ -1,153 +1,220 @@
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4124B15666D
-	for <mhi@lists.linux.dev>; Fri, 26 Jul 2024 05:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.50.219
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC0C17A5AD
+	for <mhi@lists.linux.dev>; Fri, 26 Jul 2024 11:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721973378; cv=none; b=XQJLwWRqJ3gGvHRCtSQaNjCfqr8ZYWMRXVUdGaRPRfTvfNUNVN4S8joxgfjdWTgX3A2aDN8nta5lNXgaRxRxRBdsxga/73G4ui+57RDFyX57AlikjGaUNkzJQPIACqsPM8wk62vTaqoEeb55EwEp4FxsODrexFlj6pdMJLH/Blg=
+	t=1721995147; cv=none; b=m9uxc3J7FvFUF3H7ahE0ZLZ0X4DTuyftVvGAbuxHvAnrPQeRToF+G65PyUhvmswKCQfrXGUSHtOlsSiNoQjV3yxVGknQx7ehVdxETBuUliuj3B0OYJ6fI0EQfcWGOXrsOqYDnWaNZtCI8onnnpf1tz+j1JOomvXw05mWn7UQXYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721973378; c=relaxed/simple;
-	bh=Yv6YnquaJR+7s5kkMZ1WaQR28i8RML9zoz3vMC2yYiE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=oTb16WfntvVEKi6mrwOk6QLl2CWG4tnrzACupzJO30adRFZRHoX9OtECRX3tiCrMDi/qZywkjPzEOGJF7LAPs5neV5Vpr89NlycK4W78qrct1wY9OeWh594mcBgcHGzTLz5UTvIBTg41WZQ5NRGPJetFQoRsVZZQtYVaGeo/l0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=GFJKXki/ reason="signature verification failed"; arc=none smtp.client-ip=45.254.50.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1721995147; c=relaxed/simple;
+	bh=d9Uvfpm1+olbEQnf22j9NxwOQ6AOvTmVMoe3g2uQjkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvNJ8jf4zaFm8kGoxgc2JYJdlR0qyKFKxu0mXs/KX8g6Exb1SqHwI1X8blecvSu9suTSwmogxjb0WzkbD/yPyLi5z7ha0VXxJzM8DOnwVtTs50L2OcJRZpogdBiVCspibf3NL2SBCcHseUeOxWpmkFLshx767Df528/tMpyzSUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rx5EcYtR; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="GFJKXki/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=AxKXyD8rptQV0LY9/v84VGXH3WprRNEeQMnUtqC2/W0=; b=G
-	FJKXki/wnDXNE9OpF0ZQY+yCHEB/zr5XJ+dDyMh/K7729YsqZmf++qw23nBFayKC
-	Jpo5W3gauHruc5OYcSG4bjMZZhKF4Z/iWxvWX8JfT5SvpTAT0gsluGl6XfGi8usp
-	hlYtffHSK5q62NLVhImSwr1uHdtruYxNu8+BmIJFkw=
-Received: from slark_xiao$163.com ( [112.97.49.20] ) by
- ajax-webmail-wmsvr-40-110 (Coremail) ; Fri, 26 Jul 2024 13:55:40 +0800
- (CST)
-Date: Fri, 26 Jul 2024 13:55:40 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rx5EcYtR"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d333d57cdso713467b3a.3
+        for <mhi@lists.linux.dev>; Fri, 26 Jul 2024 04:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721995145; x=1722599945; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nCqhXkOq08VRhr8kdRSoPvARZCdTjzCOkLN6nvvCPow=;
+        b=Rx5EcYtRyogQTCXuWTzaS8Y0yw8H4ABBsLz+a+n7qpnM2GOImLSedAISx8VGwS4y83
+         tjmYKO6AiL9pkuoFdMMd8uTPbNXTeiMqSZS9H9bQVApZGUd/ZgklCBgKfGRqwzp39yjU
+         bnRnfgXpbjRxLMDEWWGA82p7kcZBbjV0z6onlBtUiMzZcm9cB46OhcDj+8k3MCszLg3g
+         G1OrirkZeFEVQAZcp9EivE1xUJbCOEkf/8ef6KszW10BCIGryTpf9MEbQE++gIqL1nV1
+         cMLkurqJqjulwpx7qSyk7qHbmwAhzLJIoApuSDHqaij5cxEBbf5noX+I/UYcFMj2nuxN
+         7wMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721995145; x=1722599945;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCqhXkOq08VRhr8kdRSoPvARZCdTjzCOkLN6nvvCPow=;
+        b=Y2cS8fjiHzjxBYg7TIi1ZfKw8Db77d5gcNgKrks5tVDyIHDbeLPky8p0+OwVlaKmQ4
+         f1VIR3IBBFi7sE62CgxdcIPzEorNid0LqGPFy33e4dQAsKckapq7e0fq7bR16/DeFG6l
+         0YirFS0mjsEpky1TPsIhcWvdlz2PnCSIaxMJ/b9qoOcXwW+DsMYoZCoJCHyxXu511hQv
+         P8es6UTo4l+5TNMQVFwUwmpfNi2L7S1IeudGWjj43x1Ii5Qp2AKKbgR9zVX4qdYEPyGi
+         LQwQCNRrkbRE5dar5++s1bM4GqhJ8HblzrqEa1oFJmLPYsON2bubOMoM1IrY+v8sGLE0
+         FWrw==
+X-Gm-Message-State: AOJu0YzfIh3fAaB/jHywugytIqTmzjGNnEqa1kICk7HaTOW9AzAaup13
+	9Gj+FTU7n4P0jr3nuE5idch1dRhyqRWNrx/RQY9skCL7wfEYz+LUKoY4d4IMSQ==
+X-Google-Smtp-Source: AGHT+IGV4a+dkH6mJm2DjgT8P9LA6fVlC4dy3yiqcdZY6+sD4wOqGT0QDMtCozMzcmIzowYPndTbAA==
+X-Received: by 2002:a05:6a20:72ac:b0:1c2:8d16:c684 with SMTP id adf61e73a8af0-1c47b18fa49mr5776244637.21.1721995144742;
+        Fri, 26 Jul 2024 04:59:04 -0700 (PDT)
+Received: from thinkpad ([2409:40f4:201d:928a:9e8:14a5:7572:42b6])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f836ace5sm2658394a12.34.2024.07.26.04.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 04:59:04 -0700 (PDT)
+Date: Fri, 26 Jul 2024 17:28:58 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re:Re: Re: [PATCH v2 1/2] bus: mhi: host: pci_generic: Update the
+Subject: Re: Re: Re: [PATCH v2 1/2] bus: mhi: host: pci_generic: Update the
  file path for Foxconn SDX55/SDX72
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <20240726050051.GA2628@thinkpad>
+Message-ID: <20240726115858.GG2628@thinkpad>
 References: <20240725022941.65948-1-slark_xiao@163.com>
  <20240725035954.GA2317@thinkpad>
  <6dd00891.8235.190e91ac139.Coremail.slark_xiao@163.com>
  <20240726050051.GA2628@thinkpad>
-X-NTES-SC: AL_Qu2ZA/WcvEsv5iCRZukfmk8Sg+84W8K3v/0v1YVQOpF8jCfp6yY8d2ZAJnTv2+GDCDCwtRuUdgJo2MNifrdmeo4Bed+C2lL+eOjB5L5uauyX1w==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <5aa442e3.4d45.190ed9bf7c0.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <5aa442e3.4d45.190ed9bf7c0.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:_____wD3v09cOqNmMkw8AA--.60277W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbioxUnZGVOEm2jbwAFso
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5aa442e3.4d45.190ed9bf7c0.Coremail.slark_xiao@163.com>
 
-CkF0IDIwMjQtMDctMjYgMTM6MDA6NTEsICJNYW5pdmFubmFuIFNhZGhhc2l2YW0iIDxtYW5pdmFu
-bmFuLnNhZGhhc2l2YW1AbGluYXJvLm9yZz4gd3JvdGU6Cj5PbiBUaHUsIEp1bCAyNSwgMjAyNCBh
-dCAwNDo1NjowM1BNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+PiAKPj4gQXQgMjAyNC0wNy0y
-NSAxMTo1OTo1NCwgIk1hbml2YW5uYW4gU2FkaGFzaXZhbSIgPG1hbml2YW5uYW4uc2FkaGFzaXZh
-bUBsaW5hcm8ub3JnPiB3cm90ZToKPj4gPk9uIFRodSwgSnVsIDI1LCAyMDI0IGF0IDEwOjI5OjQw
-QU0gKzA4MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+ID4+IFRvIHNlcGFyYXRlIHRoZSBpbWFnZXMg
-b2YgRm94Y29ubiBmcm9tIG90aGVyIHZlbmRvcnMsIGFkZGluZyBhCj4+ID4+IG5ldyBmb3hjb25u
-IHN1YmZvbGRlciB1bmRlciBxY29tLzxwbGF0Zm9ybT4gZm9yIGVkbCBpbWFnZSBwYXRoLgo+PiA+
-PiBBbmQgZGVsZXRlIHRoZSBmdyBwYXRjaCBzaW5jZSBpdCdzIHVzZWxlc3MgZm9yIEZveGNvbm4g
-ZGV2aWNlcy4KPj4gPj4gCj4+ID4+IEZpeGVzOiBiZjMwYTc1ZTZlMDAgKCJidXM6IG1oaTogaG9z
-dDogQWRkIHN1cHBvcnQgZm9yIEZveGNvbm4gU0RYNzIgbW9kZW1zIikKPj4gPj4gU2lnbmVkLW9m
-Zi1ieTogU2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPgo+PiA+PiAtLS0KPj4gPj4gdjI6
-IGNoYW5nZSB0aGUgZm9sZGVyIHBhdGggYXJjaGl0ZWN0dXJlCj4+ID4+IC0tLQo+PiA+PiAgZHJp
-dmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyB8IDEzICsrKysrLS0tLS0tLS0KPj4gPj4g
-IDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4+ID4+IAo+
-PiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyBiL2Ry
-aXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4gPj4gaW5kZXggMTRhMTE4ODBiY2Vh
-Li5mMTU5YTlkZDUzZTcgMTAwNjQ0Cj4+ID4+IC0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3Bj
-aV9nZW5lcmljLmMKPj4gPj4gKysrIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMu
-Ywo+PiA+PiBAQCAtNDMzLDggKzQzMyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX2NvbnRy
-b2xsZXJfY29uZmlnIG1vZGVtX2ZveGNvbm5fc2R4NzJfY29uZmlnID0gewo+PiA+PiAgCj4+ID4+
-ICBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4NTVf
-aW5mbyA9IHsKPj4gPj4gIAkubmFtZSA9ICJmb3hjb25uLXNkeDU1IiwKPj4gPj4gLQkuZncgPSAi
-cWNvbS9zZHg1NW0vc2JsMS5tYm4iLAo+PiA+PiAtCS5lZGwgPSAicWNvbS9zZHg1NW0vZWRsLm1i
-biIsCj4+ID4+ICsJLmVkbCA9ICJxY29tL3NkeDU1bS9mb3hjb25uL3Byb2dfZmlyZWhvc2Vfc2R4
-NTUubWJuIiwKPj4gPgo+PiA+SSB0aGluayB5b3UgbWlzdW5kZXJzdG9vZCB3aGF0IEkgc3VnZ2Vz
-dGVkIGluIGVhcmxpZXIgcmV2aXNpb24uIFlvdSBzaG91bGQgYWRkCj4+ID50aGUgRm94Y29ubiBz
-cGVjaWZpYyBmdyBvbmx5IGlmIGl0IGlzIGRpZmZlcmVudCBmcm9tIHRoZSBxY29tIG9uZS4gSXMg
-aXQgcmVhbGx5Cj4+ID5kaWZmZXJlbnQgZm9yIGFsbCB0aGVzZSBtb2RlbXM/IE90aGVyd2lzZSwg
-d2hhdCBpcyB0aGUgcG9pbnQgb2YgYWRkaW5nIHRoZW0/Cj4+ID4KPj4gPi0gTWFuaQo+PiAKPj4g
-Pgo+PiBIaSBNYW5pLAo+PiBZZXMsIGFsbCBwcm9ncmFtZXIgZmlsZXMgYXJlIGRpZmZlcmVudCB3
-aXRoIGRlZmF1bHQuIFdlIGFkZCBhIHNpZ24gc3RlcCBmb3IgZWFjaCBpbWFnZQo+PiBmaWxlLiBU
-aGF0IG1lYW5zIG90aGVyIHZlbmRvcidzIGVkbCBpbWFnZShpbmNsdWRpbmcgUXVhbGNvbW0pIGNh
-bid0IGJlIGFwcGxpZWQgZm9yCj4+IEZveGNvbm4gZGV2aWNlcy4gCj4+IAo+Cj5Hb3RjaGEuIFBs
-ZWFzZSBpbmNsdWRlIHRoaXMgaW5mbyBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgYXMgcGVvcGxlIG1h
-eSB3b25kZXIgd2hhdAo+dGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB5b3VycyBhbmQgcWNvbS4KCj4K
-SWYgcG9zc2libGUsIHBlbGFzZSBoZWxwIG1lIGFkZCBpdCBpbnRvIG15IGNvbW1pdCBtZXNzYWdl
-LgoKCj5VbnJlbGF0ZWQgcXVlc3Rpb24gdG8gdGhpcyBwYXRjaDogT25jZSB0aGUgRURMIGlzIHBy
-b2dyYW1tZWQsIHdoYXQgYXJlIHRoZQo+aW1hZ2VzIHRoYXQgdGhlIHVzZXIgaGFzIHRvIGZsYXNo
-IHVzaW5nIEZpcmVob3NlIHByb3RvY29sPyBJcyB0aGF0IHRoZSBmdWxsIFNESwo+b3IganVzdCBT
-QkwvQVBQUyBpbWFnZT8KPgoKPklmIHNvLCB3aGF0IGlzIHRoZSBzaXplIG9mIHRoZSBpbWFnZXM/
-CgoKVGhpcyBkZXBlbmRzIG9uIGEgcmF3IGZpbGUsIGxldCdzIHRha2UgU0RYNjUgYXMgYW4gZXhh
-bXBsZS4gVGhlIGZpbGXCoApyYXdwcm9ncmFtX25hbmRfcDRLX2IyNTZLLnhtbCBjb250YWlucyBi
-ZWxvdyBpdGVtczoKLi4uLi4KPGVyYXNlIFBBR0VTX1BFUl9CTE9DSz0iNjQiIFNFQ1RPUl9TSVpF
-X0lOX0JZVEVTPSI0MDk2IiBudW1fcGFydGl0aW9uX3NlY3RvcnM9IjY0MCIgc3RhcnRfc2VjdG9y
-PSIwIi8+Cjxwcm9ncmFtIFBBR0VTX1BFUl9CTE9DSz0iNjQiIFNFQ1RPUl9TSVpFX0lOX0JZVEVT
-PSI0MDk2IiBmaWxlbmFtZT0ieGJsLmVsZi5lbmMiIGxhYmVsPSJzYmwiIGxhc3Rfc2VjdG9yPSI2
-MzkiIG51bV9wYXJ0aXRpb25fc2VjdG9ycz0iNjQwIiBwaHlzaWNhbF9wYXJ0aXRpb25fbnVtYmVy
-PSIwIiBzdGFydF9zZWN0b3I9IjAiLz4KLi4uLi4KPGVyYXNlIFBBR0VTX1BFUl9CTE9DSz0iNjQi
-IFNFQ1RPUl9TSVpFX0lOX0JZVEVTPSI0MDk2IiBudW1fcGFydGl0aW9uX3NlY3RvcnM9IjI3NDU2
-IiBzdGFydF9zZWN0b3I9IjE2NTEyIi8+CsKgIDxwcm9ncmFtIFBBR0VTX1BFUl9CTE9DSz0iNjQi
-IFNFQ1RPUl9TSVpFX0lOX0JZVEVTPSI0MDk2IiBmaWxlbmFtZT0iTk9OLUhMT1MudWJpLmVuYyIg
-bGFiZWw9Im1vZGVtIiBsYXN0X3NlY3Rvcj0iNDM5NjciIG51bV9wYXJ0aXRpb25fc2VjdG9ycz0i
-Mjc0NTYiIHBoeXNpY2FsX3BhcnRpdGlvbl9udW1iZXI9IjAiIHN0YXJ0X3NlY3Rvcj0iMTY1MTIi
-Lz4KLi4uCgoKVGhpcyBmaWxlIGNvbnRhaW5zIDIgcGFydCwgImVyYXNlIiBhbmQgInByb2dyYW0i
-LgplcmFzZSB3aWxsIHRlbGwgdGhlIHRvb2wgdG8gZXJhc2UgdGhlIHBhcnRpdGlvbiBmcm9tIHNl
-Y3RvciB4IHRvIHkuCkFuZCAicHJvZ3JhbSIgd2lsbCB0ZWxsIHRoZSB0b29sIHRvIGZsYXNoIHRo
-ZSBmaWxlIGludG8gdGhhdCBwYXJ0aW9uIHdoaWNoIHN0YXJ0IGZyb20gc2VjdG9yIG0gdG8gbi4K
-CgpTbyB0aGUgbG9naWNhbCBpcywgZnVsbCBTREsgb3IganVzdCBvbmUgb3Igc29tZSBwYXJ0aXRp
-b25zIGFyZSBmbGFzaGVkIGRlcGVuZHMgb24gdGhpcyByYXcgZmlsZS4KTm9ybWFsbHksIGZ1bGwg
-U0RLIGlzIHRoZSBtYWluIHNjZW5hcmlvLiBBbmQgdGhlIHNpemUgaXMgYWJvdXQgMTUwTUIgdG8g
-MjAwTUIuClRoYW5rcy4gCgo+Cj4tIE1hbmkKPgo+PiA+PiAgCS5jb25maWcgPSAmbW9kZW1fZm94
-Y29ubl9zZHg1NV9jb25maWcsCj4+ID4+ICAJLmJhcl9udW0gPSBNSElfUENJX0RFRkFVTFRfQkFS
-X05VTSwKPj4gPj4gIAkuZG1hX2RhdGFfd2lkdGggPSAzMiwKPj4gPj4gQEAgLTQ0NCw4ICs0NDMs
-NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fc2R4
-NTVfaW5mbyA9IHsKPj4gPj4gIAo+PiA+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rl
-dl9pbmZvIG1oaV9mb3hjb25uX3Q5OXcxNzVfaW5mbyA9IHsKPj4gPj4gIAkubmFtZSA9ICJmb3hj
-b25uLXQ5OXcxNzUiLAo+PiA+PiAtCS5mdyA9ICJxY29tL3NkeDU1bS9zYmwxLm1ibiIsCj4+ID4+
-IC0JLmVkbCA9ICJxY29tL3NkeDU1bS9lZGwubWJuIiwKPj4gPj4gKwkuZWRsID0gInFjb20vc2R4
-NTVtL2ZveGNvbm4vcHJvZ19maXJlaG9zZV9zZHg1NS5tYm4iLAo+PiA+PiAgCS5jb25maWcgPSAm
-bW9kZW1fZm94Y29ubl9zZHg1NV9jb25maWcsCj4+ID4+ICAJLmJhcl9udW0gPSBNSElfUENJX0RF
-RkFVTFRfQkFSX05VTSwKPj4gPj4gIAkuZG1hX2RhdGFfd2lkdGggPSAzMiwKPj4gPj4gQEAgLTQ1
-NSw4ICs0NTMsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9wY2lfZGV2X2luZm8gbWhpX2Zv
-eGNvbm5fdDk5dzE3NV9pbmZvID0gewo+PiA+PiAgCj4+ID4+ICBzdGF0aWMgY29uc3Qgc3RydWN0
-IG1oaV9wY2lfZGV2X2luZm8gbWhpX2ZveGNvbm5fZHc1OTMwZV9pbmZvID0gewo+PiA+PiAgCS5u
-YW1lID0gImZveGNvbm4tZHc1OTMwZSIsCj4+ID4+IC0JLmZ3ID0gInFjb20vc2R4NTVtL3NibDEu
-bWJuIiwKPj4gPj4gLQkuZWRsID0gInFjb20vc2R4NTVtL2VkbC5tYm4iLAo+PiA+PiArCS5lZGwg
-PSAicWNvbS9zZHg1NW0vZm94Y29ubi9wcm9nX2ZpcmVob3NlX3NkeDU1Lm1ibiIsCj4+ID4+ICAJ
-LmNvbmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZpZywKPj4gPj4gIAkuYmFyX251bSA9
-IE1ISV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+PiA+PiAgCS5kbWFfZGF0YV93aWR0aCA9IDMyLAo+
-PiA+PiBAQCAtNTAyLDcgKzQ5OSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZf
-aW5mbyBtaGlfZm94Y29ubl9kdzU5MzJlX2luZm8gPSB7Cj4+ID4+ICAKPj4gPj4gIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3NTE1X2luZm8gPSB7
-Cj4+ID4+ICAJLm5hbWUgPSAiZm94Y29ubi10OTl3NTE1IiwKPj4gPj4gLQkuZWRsID0gImZveC9z
-ZHg3Mm0vZWRsLm1ibiIsCj4+ID4+ICsJLmVkbCA9ICJxY29tL3NkeDcybS9mb3hjb25uL2VkbC5t
-Ym4iLAo+PiA+PiAgCS5lZGxfdHJpZ2dlciA9IHRydWUsCj4+ID4+ICAJLmNvbmZpZyA9ICZtb2Rl
-bV9mb3hjb25uX3NkeDcyX2NvbmZpZywKPj4gPj4gIAkuYmFyX251bSA9IE1ISV9QQ0lfREVGQVVM
-VF9CQVJfTlVNLAo+PiA+PiBAQCAtNTEzLDcgKzUxMCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-bWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl90OTl3NTE1X2luZm8gPSB7Cj4+ID4+ICAKPj4g
-Pj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbWhpX3BjaV9kZXZfaW5mbyBtaGlfZm94Y29ubl9kdzU5
-MzRlX2luZm8gPSB7Cj4+ID4+ICAJLm5hbWUgPSAiZm94Y29ubi1kdzU5MzRlIiwKPj4gPj4gLQku
-ZWRsID0gImZveC9zZHg3Mm0vZWRsLm1ibiIsCj4+ID4+ICsJLmVkbCA9ICJxY29tL3NkeDcybS9m
-b3hjb25uL2VkbC5tYm4iLAo+PiA+PiAgCS5lZGxfdHJpZ2dlciA9IHRydWUsCj4+ID4+ICAJLmNv
-bmZpZyA9ICZtb2RlbV9mb3hjb25uX3NkeDcyX2NvbmZpZywKPj4gPj4gIAkuYmFyX251bSA9IE1I
-SV9QQ0lfREVGQVVMVF9CQVJfTlVNLAo+PiA+PiAtLSAKPj4gPj4gMi4yNS4xCj4+ID4+IAo+PiA+
-Cj4+ID4tLSAKPj4gPuCuruCuo+Cuv+CuteCuo+CvjeCuo+CuqeCvjSDgrprgrqTgrr7grprgrr/g
-rrXgrq7gr40KPgo+LS0gCj7grq7grqPgrr/grrXgrqPgr43grqPgrqngr40g4K6a4K6k4K6+4K6a
-4K6/4K614K6u4K+NCg==
+On Fri, Jul 26, 2024 at 01:55:40PM +0800, Slark Xiao wrote:
+> 
+> At 2024-07-26 13:00:51, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >On Thu, Jul 25, 2024 at 04:56:03PM +0800, Slark Xiao wrote:
+> >> 
+> >> At 2024-07-25 11:59:54, "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org> wrote:
+> >> >On Thu, Jul 25, 2024 at 10:29:40AM +0800, Slark Xiao wrote:
+> >> >> To separate the images of Foxconn from other vendors, adding a
+> >> >> new foxconn subfolder under qcom/<platform> for edl image path.
+> >> >> And delete the fw patch since it's useless for Foxconn devices.
+> >> >> 
+> >> >> Fixes: bf30a75e6e00 ("bus: mhi: host: Add support for Foxconn SDX72 modems")
+> >> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >> >> ---
+> >> >> v2: change the folder path architecture
+> >> >> ---
+> >> >>  drivers/bus/mhi/host/pci_generic.c | 13 +++++--------
+> >> >>  1 file changed, 5 insertions(+), 8 deletions(-)
+> >> >> 
+> >> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >> >> index 14a11880bcea..f159a9dd53e7 100644
+> >> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >> >> @@ -433,8 +433,7 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
+> >> >>  
+> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+> >> >>  	.name = "foxconn-sdx55",
+> >> >> -	.fw = "qcom/sdx55m/sbl1.mbn",
+> >> >> -	.edl = "qcom/sdx55m/edl.mbn",
+> >> >> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> >> >
+> >> >I think you misunderstood what I suggested in earlier revision. You should add
+> >> >the Foxconn specific fw only if it is different from the qcom one. Is it really
+> >> >different for all these modems? Otherwise, what is the point of adding them?
+> >> >
+> >> >- Mani
+> >> 
+> >> >
+> >> Hi Mani,
+> >> Yes, all programer files are different with default. We add a sign step for each image
+> >> file. That means other vendor's edl image(including Qualcomm) can't be applied for
+> >> Foxconn devices. 
+> >> 
+> >
+> >Gotcha. Please include this info in the commit message as people may wonder what
+> >the difference between yours and qcom.
+> 
+> >
+> If possible, pelase help me add it into my commit message.
+> 
+
+Ok. I can add this while applying.
+
+> 
+> >Unrelated question to this patch: Once the EDL is programmed, what are the
+> >images that the user has to flash using Firehose protocol? Is that the full SDK
+> >or just SBL/APPS image?
+> >
+> 
+> >If so, what is the size of the images?
+> 
+> 
+> This depends on a raw file, let's take SDX65 as an example. The file 
+> rawprogram_nand_p4K_b256K.xml contains below items:
+> .....
+> <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="640" start_sector="0"/>
+> <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="xbl.elf.enc" label="sbl" last_sector="639" num_partition_sectors="640" physical_partition_number="0" start_sector="0"/>
+> .....
+> <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="27456" start_sector="16512"/>
+>   <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="NON-HLOS.ubi.enc" label="modem" last_sector="43967" num_partition_sectors="27456" physical_partition_number="0" start_sector="16512"/>
+> ...
+> 
+> 
+> This file contains 2 part, "erase" and "program".
+> erase will tell the tool to erase the partition from sector x to y.
+> And "program" will tell the tool to flash the file into that partion which start from sector m to n.
+> 
+> 
+> So the logical is, full SDK or just one or some partitions are flashed depends on this raw file.
+> Normally, full SDK is the main scenario. And the size is about 150MB to 200MB.
+> Thanks. 
+> 
+
+Okay, thanks. I just wanted to understand what images are getting flashed.
+
+- Mani
+
+> >
+> >- Mani
+> >
+> >> >>  	.config = &modem_foxconn_sdx55_config,
+> >> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >> >>  	.dma_data_width = 32,
+> >> >> @@ -444,8 +443,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
+> >> >>  
+> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
+> >> >>  	.name = "foxconn-t99w175",
+> >> >> -	.fw = "qcom/sdx55m/sbl1.mbn",
+> >> >> -	.edl = "qcom/sdx55m/edl.mbn",
+> >> >> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> >> >>  	.config = &modem_foxconn_sdx55_config,
+> >> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >> >>  	.dma_data_width = 32,
+> >> >> @@ -455,8 +453,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
+> >> >>  
+> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
+> >> >>  	.name = "foxconn-dw5930e",
+> >> >> -	.fw = "qcom/sdx55m/sbl1.mbn",
+> >> >> -	.edl = "qcom/sdx55m/edl.mbn",
+> >> >> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> >> >>  	.config = &modem_foxconn_sdx55_config,
+> >> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >> >>  	.dma_data_width = 32,
+> >> >> @@ -502,7 +499,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+> >> >>  
+> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
+> >> >>  	.name = "foxconn-t99w515",
+> >> >> -	.edl = "fox/sdx72m/edl.mbn",
+> >> >> +	.edl = "qcom/sdx72m/foxconn/edl.mbn",
+> >> >>  	.edl_trigger = true,
+> >> >>  	.config = &modem_foxconn_sdx72_config,
+> >> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >> >> @@ -513,7 +510,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
+> >> >>  
+> >> >>  static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
+> >> >>  	.name = "foxconn-dw5934e",
+> >> >> -	.edl = "fox/sdx72m/edl.mbn",
+> >> >> +	.edl = "qcom/sdx72m/foxconn/edl.mbn",
+> >> >>  	.edl_trigger = true,
+> >> >>  	.config = &modem_foxconn_sdx72_config,
+> >> >>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >> >> -- 
+> >> >> 2.25.1
+> >> >> 
+> >> >
+> >> >-- 
+> >> >மணிவண்ணன் சதாசிவம்
+> >
+> >-- 
+> >மணிவண்ணன் சதாசிவம்
+
+-- 
+மணிவண்ணன் சதாசிவம்
