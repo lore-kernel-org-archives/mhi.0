@@ -1,48 +1,48 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B3D1B86C2
-	for <mhi@lists.linux.dev>; Sun, 28 Jul 2024 13:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156BF1B86C2
+	for <mhi@lists.linux.dev>; Sun, 28 Jul 2024 13:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722174069; cv=none; b=pW/u6ioOrpMGziJxQkuvmd1EiR69LFPfQJiQw5eyURSOFmyjK26Bek7EhLH/5Gqt8p564KaA48QW6bKc23XHOkcYbz3R5gYUh0lKmA3v9BLssAY9F02H4ecWYH8D+RHL9G0yuqKoeMABn89KethQGl3Wc0qsBuSs10rZOTr1Rao=
+	t=1722174083; cv=none; b=BK5m1U4OgnR6QhDobtl+t4PDhFpjAP8tLiQ426b/18Th0jg7sgWP35vZGgIOApfZ+6239dkbFnVPgqwXUHI6Xcxirv6Lv9a8W2FCgDdB1Y+3mN9dlR7EN2HT3bwl5+4s15UHHYwdgbqeSv7NIg9kEwjVFjn+3Cg6jK3eXEtMcj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722174069; c=relaxed/simple;
-	bh=J4LjWnWwimI/QNsP3a6ashFHADmIU9OsSn/Qiqg9sFg=;
+	s=arc-20240116; t=1722174083; c=relaxed/simple;
+	bh=vzlRMojFj7Y/3zvU1GbEmldCj7CzFwSvu0Rx/MnuNEw=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=WG5MkSwbAKxFz2TYtVuqViWXlU9RFl6GG2guBW6ta7BUlaxBxATYPZeetIfroLIxDEgqKnIJay7QeTfo5sNnGzkxCOBhTLIFb5zse+QTAA4bOwGTASLVXzjwm0/APw/2CekgFa9tqNYLlzI+SkK/nb1TCpmmVYiXfL2C6YL0hLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FsjW0xvy; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=RX/G2aVuqNZghWsZhi9VvlxXYH9sIB8CseruFqBOg02h0JAZziR2NvH1NiNEe0B6NtohQmqWnxcCDZq1jkNDMaTChHMq82Mxf3Ur9RpXNhqE95L9fDhJFQToOTA4HHSGnOAKnuMYoTDwWnLGOhRVEUelrLV2w2RmyXqbn5ODO+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bc9kTjQS; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FsjW0xvy"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46SDApuu002454;
-	Sun, 28 Jul 2024 13:41:06 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bc9kTjQS"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46SDRhAk017254;
+	Sun, 28 Jul 2024 13:41:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	znW6PwV+C5J35j7vx1akVLZulFkd1vSy7SdpiY4eVYc=; b=FsjW0xvyJknbl4oo
-	7T1XXvvt6fgqrXnw2NmR66qTiWI6ffVtRw8NpYh6zYPwXH8vqCQQwj9dIS3uBBxK
-	QXY62+4qD6HsSxkDMoRepCkN3YfHxeUXGn69vdrGEkVL+Rt0viYtneCo2ADicH4d
-	qOu8TmB8fKg7DLMioEA0/p/Nle713WIQamlpaVAwL2mRkaZUA5gNxiEnyI1rog77
-	hGOmRf+qgvSzDvuYsB4F3AOglIWLIzMVJqD6o4kdQYhq0Y8Uq0FjstV/o8GwOAvu
-	dKvE4+/BGEixegtI52GJVwkQqyhIXlWq3QMe6pkRYzDdmVJetMiA/Cq741L9YC7E
-	JL1e1w==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mt2khuar-1
+	qZWPOlgS1nRzoOgECXGqVS4KzF2wG/TWJiXSs5oSlBA=; b=bc9kTjQSt7Yg74Sr
+	fQikWuVFYRE/3tI7knd5fS1SpBPfwVqTIlfDDynXdOyJn17ICdYh8BYDxj5Zmj5W
+	h5Hfw5yiAxoWqlx8roNMlPqIrMyoHWJ24rPLA3h8Y9vkBXom6IrA52BjMOsa4Eim
+	niuLC0EEiImEk5RAi/DkabyoSsAd8FifEPAlPqMg1aBbwShu9CcSf2AZOS5mXY6m
+	FK4TeGqbyLMn89eP1JXRPFvuuvLzeTpIu9nFdK/DuPFmSDlQuvngZkmokghbgvXV
+	NL29RCHfyoaa4DeOPgM1m36D5po1Ay1ZvGZ0fQKRrLPczWS3FwyplchAknJCkq+h
+	+s2Fzw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mt68httw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 28 Jul 2024 13:41:06 +0000 (GMT)
+	Sun, 28 Jul 2024 13:41:20 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46SDf6Nh021969
+	by NASANPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46SDfJ0M004179
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 28 Jul 2024 13:41:06 GMT
+	Sun, 28 Jul 2024 13:41:19 GMT
 Received: from [10.216.18.81] (10.80.80.8) by nasanex01c.na.qualcomm.com
  (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 28 Jul
- 2024 06:41:03 -0700
-Message-ID: <8b9c7b81-5a4f-4576-9e4e-1bfce6644e59@quicinc.com>
-Date: Sun, 28 Jul 2024 19:11:01 +0530
+ 2024 06:41:16 -0700
+Message-ID: <27989102-49b6-442d-a9f7-f099cd1b4ed8@quicinc.com>
+Date: Sun, 28 Jul 2024 19:11:15 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,142 +51,52 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Gokul Sriram P <quic_gokulsri@quicinc.com>
-Subject: Re: [PATCH 1/6] drivers: bus: mhi: Added shared-dma-pool support for
- mhi_dev
+Subject: Re: [PATCH 3/6] bus: mhi: increase RDDM timeout
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
         <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
 CC: <quic_srichara@quicinc.com>, <quic_viswanat@quicinc.com>,
         <quic_gokulsri@quiconc.com>
 References: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
- <20240718061344.575653-2-quic_gokulsri@quicinc.com>
- <5bf07c79-4dd2-57d8-91f1-4cd4970185d4@quicinc.com>
+ <20240718061344.575653-4-quic_gokulsri@quicinc.com>
+ <ad7c6dae-b682-b01d-3850-40858bed4c2f@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <5bf07c79-4dd2-57d8-91f1-4cd4970185d4@quicinc.com>
+In-Reply-To: <ad7c6dae-b682-b01d-3850-40858bed4c2f@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: TmIV7uGn0E1XvsgZkJTiNLaE_Z8llcSB
-X-Proofpoint-GUID: TmIV7uGn0E1XvsgZkJTiNLaE_Z8llcSB
+X-Proofpoint-ORIG-GUID: JRlWTZyNWtraTr9lx8zzidB0_XjWYTA4
+X-Proofpoint-GUID: JRlWTZyNWtraTr9lx8zzidB0_XjWYTA4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-28_10,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2407110000 definitions=main-2407280100
 
 
-On 7/18/2024 9:47 PM, Jeffrey Hugo wrote:
-> $SUBJECT looks wrong
->
+On 7/18/2024 9:53 PM, Jeffrey Hugo wrote:
 > On 7/18/2024 12:13 AM, Gokul Sriram Palanisamy wrote:
->> When using default memory for coherent memory allocation without
->> reservation, memory gets fragmented after several mhi
->> register/unregister cycles and no coherent reservation was possible.
+>> From: Praveenkumar I <quic_ipkumar@quicinc.com>
 >>
->> Client driver registering MHI shall reserve a dedicated region as
->> shared-dma-pool for mhi to help avoid this situation. On boards
->> which doesn't reserve this memory, it will continue to allocate
->> memory from default memory.
->>
->> DMA pool is reserved for coherent allocations of size SZ_512K
->> (mhi_cntrl->seg_len) to avoid fragmentation and always ensure
->> allocations of SZ_512K succeeds. Allocations of lower order from the
->> reserved memory would lead to fragmentation on multiple alloc/frees.
->> So use dma_alloc_coherent from mhi_cntrl->cntrl_dev for allocations
->> lower than mhi_cntrl->seg_len. If coherent pool is not reserved, all
->> reservations go through mhi_cntrl->cntrl_dev.
->>
->> Co-developed-by: Vignesh Viswanathan <quic_viswanat@quicinc.com>
->> Signed-off-by: Vignesh Viswanathan <quic_viswanat@quicinc.com>
->> Signed-off-by: Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/boot.c     | 19 ++++++------
->>   drivers/bus/mhi/host/init.c     | 51 +++++++++++++++++++++++++++++++++
->>   drivers/bus/mhi/host/internal.h | 26 +++++++++++++++++
->>   include/linux/mhi.h             |  5 ++++
->>   4 files changed, 91 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
->> index dedd29ca8db3..ca842facf820 100644
->> --- a/drivers/bus/mhi/host/boot.c
->> +++ b/drivers/bus/mhi/host/boot.c
->> @@ -303,8 +303,8 @@ void mhi_free_bhie_table(struct mhi_controller 
->> *mhi_cntrl,
->>       struct mhi_buf *mhi_buf = image_info->mhi_buf;
->>         for (i = 0; i < image_info->entries; i++, mhi_buf++)
->> -        dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
->> -                  mhi_buf->buf, mhi_buf->dma_addr);
->> +        mhi_fw_free_coherent(mhi_cntrl, mhi_buf->len,
->> +                     mhi_buf->buf, mhi_buf->dma_addr);
->>         kfree(image_info->mhi_buf);
->>       kfree(image_info);
->> @@ -340,9 +340,9 @@ int mhi_alloc_bhie_table(struct mhi_controller 
->> *mhi_cntrl,
->>               vec_size = sizeof(struct bhi_vec_entry) * i;
->>             mhi_buf->len = vec_size;
->> -        mhi_buf->buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
->> -                          vec_size, &mhi_buf->dma_addr,
->> -                          GFP_KERNEL);
->> +        mhi_buf->buf = mhi_fw_alloc_coherent(mhi_cntrl, vec_size,
->> +                             &mhi_buf->dma_addr,
->> +                             GFP_KERNEL);
->>           if (!mhi_buf->buf)
->>               goto error_alloc_segment;
->>       }
->> @@ -355,8 +355,8 @@ int mhi_alloc_bhie_table(struct mhi_controller 
->> *mhi_cntrl,
->>     error_alloc_segment:
->>       for (--i, --mhi_buf; i >= 0; i--, mhi_buf--)
->> -        dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
->> -                  mhi_buf->buf, mhi_buf->dma_addr);
->> +        mhi_fw_free_coherent(mhi_cntrl, mhi_buf->len,
->> +                     mhi_buf->buf, mhi_buf->dma_addr);
->>     error_alloc_mhi_buf:
->>       kfree(img_info);
->> @@ -452,8 +452,7 @@ void mhi_fw_load_handler(struct mhi_controller 
->> *mhi_cntrl)
->>       fw_sz = firmware->size;
->>     skip_req_fw:
->> -    buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
->> -                 GFP_KERNEL);
->> +    buf = mhi_fw_alloc_coherent(mhi_cntrl, size, &dma_addr, 
->> GFP_KERNEL);
->>       if (!buf) {
->>           release_firmware(firmware);
->>           goto error_fw_load;
->> @@ -462,7 +461,7 @@ void mhi_fw_load_handler(struct mhi_controller 
->> *mhi_cntrl)
->>       /* Download image using BHI */
->>       memcpy(buf, fw_data, size);
->>       ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
->> -    dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
->> +    mhi_fw_free_coherent(mhi_cntrl, size, buf, dma_addr);
->>         /* Error or in EDL mode, we're done */
->>       if (ret) {
->> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->> index ce7d2e62c2f1..c1e1412c43e2 100644
->> --- a/drivers/bus/mhi/host/init.c
->> +++ b/drivers/bus/mhi/host/init.c
->> @@ -8,9 +8,12 @@
->>   #include <linux/debugfs.h>
->>   #include <linux/device.h>
->>   #include <linux/dma-direction.h>
->> +#include <linux/dma-map-ops.h>
->>   #include <linux/dma-mapping.h>
->>   #include <linux/idr.h>
->>   #include <linux/interrupt.h>
->> +#include <linux/of_address.h>
->> +#include <linux/of_reserved_mem.h>
+>> Host sometimes misses the EE RDDM during kernel panic causing
+>> RDDM failure. Increase RDDM timeout to overcome this issue.
 >
-> NACK.  Not all platforms that use MHI have devicetree.
+> If we are in the middle of a Linux kernel panic, the host is going 
+> down, so why do we care about RDDM?
 >
-Got it. Removed this patch. This can be addressed from client driver 
-that need this feature.
+> How did you determine the new value?
+>
+> Really seems like significantly more detail is needed here.
+
+If kernel panic was due to mhi, we need to have the RDDM dump and this 
+is already supported in upstream MHI.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi/host/boot.c?h=v6.10#n163
 
 Regards,
 
