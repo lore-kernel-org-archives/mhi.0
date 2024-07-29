@@ -1,182 +1,108 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABAC146A7A
-	for <mhi@lists.linux.dev>; Mon, 29 Jul 2024 12:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA53823A9
+	for <mhi@lists.linux.dev>; Mon, 29 Jul 2024 14:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722254958; cv=none; b=iECjY/z5F3CYtrdOtwpORzTWqYg5h2aQKSIfhdY2JwCQWHbH1XonQx5vPfmtBjvRJl02CVqEJV6tvuiYm9RF9cHZiL0MA9R97w6d6nmd5CHoQBcpdSPVeF0dtlCZzb7f2uND0YkoIOyEB58/G2cucphRGo0GkK5QKbj5qQCiWGY=
+	t=1722262430; cv=none; b=DKBmv0NY3PiUwv8h4mQ9/2yd0m+VxgTEOuHz/zgXAPhDNCvaiwM16/YgvR47kykTWkph0FqbNJCdoJAZURxA6rRCrLD8/Rc1gZ7SEeJ/JYFbE537XApZ/gZdR4bbkb0YH33/G6ChQoNaEUV9bSDYOmno7eLqblw5mF7xb0ZgFp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722254958; c=relaxed/simple;
-	bh=LoVudDo8zgjRoSSoWDd0Q66VlmVsXWeKDSdQXYU7Ogg=;
+	s=arc-20240116; t=1722262430; c=relaxed/simple;
+	bh=zMmDKCEyHl4S4ued6wYVvi1UyTyHW3qxXJ5rMKTmTmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=m0df74u9UlhKBsKau1iB3KXlBsCzlDkm5eZPlDxDOnQuxdU3oKKhDIyLEWRZEsh0V6VNIXAmsSZF/7BIU+Z4M/DM1eNJPoOKIzXE4X0duJw4uOLKwLNxB/uMdsx7NxqTLE9DsmPELOT9BzB+wwWj1faWyxAalUIFMy0JQFuF1ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LQAOB/ix; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=tzdtfsnOFH5BWLTIr6tLeS5ckJwPO839s/AyigUNoIETwAYkTNuJqiBESm+8OwX18CggAXRAveico+TvnAc7j/FCZm9qFQf2F/g/ln6Hkqvp120+Fiel8jt5BViUldbTE5Uqe6EKdKPyXHe622G7Ea03WDwyGuHIGxvjgTBGS4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZaEmEcJz; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LQAOB/ix"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46TAENev017247;
-	Mon, 29 Jul 2024 12:09:00 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZaEmEcJz"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46TB439T006480;
+	Mon, 29 Jul 2024 14:13:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+LtnkQYKPqwyNkDNQjheET71CL/67jvh+i4upFihUAA=; b=LQAOB/ixPAU9XJMN
-	6YVsjx+lV9Vh8dPv7QPlYaNizUHtae7AZkH+ylpXIOF8mM4bgNKixjBbB4rzUx2a
-	lYBcqLBrxIalc0BGUWNMQ6gKcrLXiB9OQNIMvWA8CWw2s/Hip+YP31DyBfCNj6Si
-	8cCecchz3qYiF3LbizHzUAOx/M+slflNlonSfdkYwP0XDbEHvs9nBJiX8VJ4wWva
-	srYpuxPtA0VJdoNsZJ0amRAW/NNWz/CBicCbBx3HWmCNf7aaByg2O50CpflM5474
-	rWg4ARTgp6QWA8lnBdixGCDalcd1zM/libVfztOQ4l1XIFm83uPZ+rnRaRnXEFgT
-	EjKY8g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mrytv793-1
+	yEMpu9bWob0DdDixU8n8Pg+wsLC+sFlO3nohUKI6D6o=; b=ZaEmEcJzp87pgFt0
+	+EOET1wZnbuLwWZ+mgAYYyXstlmYvqGx8Tm8yKRbC6PqkIfZlK4gfDgNbySj3gZJ
+	VHw/GBwoBDN8hBTIzcHssJ2vKCrJVah06QZiBzLHaQznDYkvVHtOvJ3WwAvR3JfX
+	m9p8J7Sk2cErhFWtZo077BeYkqWNL3BDw3ryQcHkQuuXnF5mJUvxtHp6/R7bA6Xx
+	+V/WijT0uBiB6xGN+ttHsag6sOftB5fBG484I6U/nZTRlCI9bfr2UaUJsrwl7CyF
+	0m58HXk2yoYEieJRYJbXsXqZoU8wZbDtk/7UhB9Qu927AaBBIx4xqcRChR8Qp4ub
+	vp7kkw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40mqurmgms-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Jul 2024 12:09:00 +0000 (GMT)
+	Mon, 29 Jul 2024 14:13:40 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46TC8wes004776
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46TEDdp5030545
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Jul 2024 12:08:58 GMT
-Received: from [10.216.48.244] (10.80.80.8) by nalasex01a.na.qualcomm.com
+	Mon, 29 Jul 2024 14:13:39 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 29 Jul
- 2024 05:08:52 -0700
-Message-ID: <593b2c5e-0add-b6eb-5f2e-bbc832a1b0f2@quicinc.com>
-Date: Mon, 29 Jul 2024 17:38:49 +0530
+ 2024 07:13:38 -0700
+Message-ID: <ca8c093a-15ee-08aa-453f-225ecfb01844@quicinc.com>
+Date: Mon, 29 Jul 2024 08:13:38 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
- notification
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 4/6] bus: mhi: dump debug registers in critical sections
 Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I
-	<kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
-        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
-        <quic_parass@quicinc.com>, Manivannan Sadhasivam
-	<mani@kernel.org>
-References: <20240711184842.GA285502@bhelgaas>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20240711184842.GA285502@bhelgaas>
+To: Gokul Sriram P <quic_gokulsri@quicinc.com>,
+        <manivannan.sadhasivam@linaro.org>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>
+CC: <quic_srichara@quicinc.com>, <quic_viswanat@quicinc.com>,
+        <quic_gokulsri@quiconc.com>
+References: <20240718061344.575653-1-quic_gokulsri@quicinc.com>
+ <20240718061344.575653-5-quic_gokulsri@quicinc.com>
+ <fb793a71-dcdf-521a-a897-d1406e16fbf9@quicinc.com>
+ <b5903003-3b3f-4a00-a01c-916c91caea62@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <b5903003-3b3f-4a00-a01c-916c91caea62@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: BOVJUMJcVrPtEzQ8uQoLJrOhfrjJo6Of
-X-Proofpoint-GUID: BOVJUMJcVrPtEzQ8uQoLJrOhfrjJo6Of
+X-Proofpoint-GUID: orY7dTtVKuEx6pTH5szykJFk0UEGRbYa
+X-Proofpoint-ORIG-GUID: orY7dTtVKuEx6pTH5szykJFk0UEGRbYa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-29_10,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 suspectscore=0 bulkscore=0 adultscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- mlxscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407290081
+ definitions=2024-07-29_12,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=800 spamscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 mlxscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407290095
 
-
-
-On 7/12/2024 12:18 AM, Bjorn Helgaas wrote:
-> On Thu, Jul 11, 2024 at 11:57:35AM +0530, Krishna Chaitanya Chundru wrote:
->> On 7/10/2024 5:41 PM, Bjorn Helgaas wrote:
->>> On Wed, Jul 10, 2024 at 04:38:15PM +0530, Krishna chaitanya chundru wrote:
->>>> Add support to pass D-state change notification to Endpoint
->>>> function driver.
->> ...
+On 7/28/2024 11:47 PM, Gokul Sriram P wrote:
 > 
->>> I don't understand the connection between PERST# state and the device
->>> D state.  D3cold is defined to mean main power is absent.  Is the
->>> endpoint firmware still running when main power is absent?
+> On 7/18/2024 9:55 PM, Jeffrey Hugo wrote:
+>> On 7/18/2024 12:13 AM, Gokul Sriram Palanisamy wrote:
+>>> --- a/include/linux/mhi.h
+>>> +++ b/include/linux/mhi.h
+>>> @@ -834,4 +834,9 @@ bool mhi_queue_is_full(struct mhi_device 
+>>> *mhi_dev, enum dma_data_direction dir);
+>>>    */
+>>>   int mhi_get_channel_doorbell_offset(struct mhi_controller 
+>>> *mhi_cntrl, u32 *chdb_offset);
+>>>   +/**
+>>> + * mhi_debug_reg_dump - dump MHI registers for debug purpose
+>>> + * @mhi_cntrl: MHI controller
+>>> + */
+>>> +void mhi_debug_reg_dump(struct mhi_controller *mhi_cntrl);
+>>>   #endif /* _MHI_H_ */
 >>
->> Host as part of its d3cold sequence will assert the perst. so we are
->> reading perst to know the link the state.
-> 
-> I think it's true that when the device is in D3cold, PERST# will be
-> asserted (PCIe CEM r5.0, sec 2.2.3, fig 2-6).
-> 
-> But I don't think it's necessarily true that when PERST# is asserted,
-> the device is in D3cold.  For example, PCIe Mini CEM r2.1, sec
-> 3.2.5.3, says "The system may also use PERST# to cause a warm reset of
-> the add-in card."  In a warm reset, the component remains powered up,
-> i.e., it is not in D3cold (PCIe r6.0, sec 6.6.1).
-> 
-> I would think the endpoint firmware would be able to directly read the
-> state of main power or the LTSSM state of the link, without having to
-> use PERST# to infer it.
->
-Ack, we will use LTSSM state to know the link state.
+>> NACK.  This is not used.
+> mhi_debug_reg_dump - this is added in 3 places, mhi_fw_load_bhi( ), 
+> mhi_fw_load_bhie( ) and mhi_download_rddm_image( ) to print error codes 
+> on failure scenarios.
 
-> I guess the ultimate point of figuring out D3hot vs D3cold is to
-> figure out whether to use PME or WAKE#?  I'm a little bit dubious
-> about that being racy, as I mentioned elsewhere.  If there were a way
-> to attempt PME and fall back to WAKE# if you can determine that PME
-> failed, maybe that would be safer and obviate the need for the D-state
-> tracking?
-> 
-We don't have a way to know that PME is received by the host.
-
-We can add logic to send pme in d3hot and wait for sometime for the
-state to move to D0. if it doesn't move to D0 for that period, the we
-can check the LTSSM state to see if it in D3cold(L2/L3) then we can use
-WAKE# else return with failure.
-
-- Krishna Chaitanya.
->> Qcom devices are drawing power from the PCIe, so even when PCIe is in
->> D3cold endpoint firmware can still run.
->>
->> - Krishna Chaitanya.
->>>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
->>>> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
->>>> ---
->>>>    drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
->>>>    1 file changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
->>>> index 236229f66c80..817fad805c51 100644
->>>> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
->>>> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
->>>> @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
->>>>    	struct device *dev = pci->dev;
->>>>    	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
->>>>    	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
->>>> +	pci_power_t state;
->>>>    	u32 dstate, val;
->>>>    	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
->>>> @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
->>>>    		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
->>>>    					   DBI_CON_STATUS_POWER_STATE_MASK;
->>>>    		dev_dbg(dev, "Received D%d state event\n", dstate);
->>>> -		if (dstate == 3) {
->>>> +		state = dstate;
->>>> +		if (dstate == PCI_D3hot) {
->>>>    			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
->>>>    			val |= PARF_PM_CTRL_REQ_EXIT_L1;
->>>>    			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
->>>> +
->>>> +			if (gpiod_get_value(pcie_ep->reset))
->>>> +				state = PCI_D3cold;
->>>>    		}
->>>> +		pci_epc_dstate_notify(pci->ep.epc, state);
->>>>    	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
->>>>    		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
->>>>    		dw_pcie_ep_linkup(&pci->ep);
->>>>
->>>> -- 
->>>> 2.42.0
->>>>
+You add this to the MHI API and export it as a symbol.  Nothing outside 
+MHI uses this.
