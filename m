@@ -1,70 +1,68 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B0A43ABD
-	for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 08:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978CF43ABD
+	for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 08:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724659570; cv=none; b=QwDWYXobbRwLGsav5gsJ5ReNBK+smXe3LfW7e2Ick2ZDjNgrjJcshKV2Sa7DLYe7jo5TuaTmvYOt+3w5J76nghF3uYeaU56ppuFSsbp5ZHLPKMc9KCOVlI3D8luKIxupyRyBGOsByeJUBONoMVpWN70/KxX2eJCBZpyO1cJXZj4=
+	t=1724659655; cv=none; b=smnypt779JA/O6j6mX+7i7Bkw3aTTAvLPPeJT5bv+bG5Y3huzru/FvghQe48oe8aCGcVyUoxjqankg2hv4IZauI2xuwuX/Vk3cUt/rluMHCM5gUsITVsWsAX+TegCpOrL+L7XWdMInyDsIrLlT6oVXtak6Nn16FHEkFaZac0/N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724659570; c=relaxed/simple;
-	bh=20T+z1/UbHbTVU1JoaoVQa/Dmn44LgaPG0dQ4LmTMiU=;
+	s=arc-20240116; t=1724659655; c=relaxed/simple;
+	bh=hV7TuaBbJxdh8PMDEbM6FyaOUO1HfxZZRMdSrK8OE5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rUpQesqq5MHx5CbyPnKyOG7CrQ3CIxa6RxmZ3UGfoHxREPfv66m7y8itlrzeIWbXNni1jWdRmkQkAsSSvC+/uKBiHQjDeppaoEFWMzZnOQ5Hx8J6yVNjYTVOMFTWcMiGj9BbK7IWlNdf/W1i3W2yK1Iy3aWIb6qvlIK2KuInBHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XYeJO8YG; arc=none smtp.client-ip=209.85.166.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRg208+J1aUVy7y/swzTU9uTVEZXUnRRu8ep1N2RwhD/4UqM5oPzzNpQFzglZM2joZ1IodoWepEmBbViYhbU5rB07HsiYPY3F49LiCTPi+zKIiZKjv0jOXcBJnice0ERf+xYTx802vVtvL/g+N1fCntxjtn247+4jo4PxWRjivk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Sk6LU4UB; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XYeJO8YG"
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-39d2e4d73bcso16669875ab.1
-        for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 01:06:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Sk6LU4UB"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2d3c05ec278so2846974a91.0
+        for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 01:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724659568; x=1725264368; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724659653; x=1725264453; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=QkvVVX0WwYMRkuJr4fT+lZy5RdN02KU4cSUWfXWqpT4=;
-        b=XYeJO8YGxFdKPcQydxh5HhddLzT4CWJ4DxajN/PyU+1NsX7jey4QzSlvJtYqDCNU6f
-         pnVq28I2dvYItyFeX+zKeenvCaiEfG52Gkv3/z432R64ZNA7WguagrK2WrEVoLGbqJZz
-         JO+zHCmc8BPvHkKQuLziVZvEAIVDyVYcDlLsAntUqZNKXMBwAonAuqBmzBdLE1XosFZN
-         u/GhS6BnpNJAoS/9M5VzNSKQ8trpzx8uKVIzHuUXFDkhdh4NE8mgmMLLGhhFY+uT608X
-         bo5NKn2Ylw9J0OxWurT64XSDDCvMiTmM/GrDHDESoulhLR5t20UtWjgoVcXJXoyxgPEI
-         OG0Q==
+        bh=yvPqTM9lOHuvyIm7/RZh/RxFxg0X7bP4l3quDfoGQkE=;
+        b=Sk6LU4UBjnaGANi8Lxv34zu1EMpeLaSy8jcNgaHGn3p9CujAmu4Kva9VMJGLslz1WJ
+         GmrE8GZDzFju/8ZThNBfmIfktMh3pyBA9jT1fK48jWaIMZF1gLMJ6XGF4ypuqXMKJ23n
+         RYqR0nLeErpplBgHXr84jzF8g1t5K3xsrD0+tn1bitlWu/LY1JglY1/N+tq8sGSFF+3J
+         i/oTbW/OXy+E1Qx7RcR/LGYYKAqb9vfLdhYCjO1TeNQFdDuAzRc0byMNLgYP625fOACA
+         wYGmzx5CPgC4D365wdIBM9jcuJqFyoFcjzRxIRb8cCbyR05TF6ehWlv8o/bIsBldZj23
+         hh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724659568; x=1725264368;
+        d=1e100.net; s=20230601; t=1724659653; x=1725264453;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QkvVVX0WwYMRkuJr4fT+lZy5RdN02KU4cSUWfXWqpT4=;
-        b=cCUKVIAVVIRXngAhcDsrJoFtZRg6sgFujxNyIhJXpSHQig63RGLKy2gEdA170qI/+8
-         yElKUYtDlzbl5GhCF5UwWmeS6z6xcBdiNztkV3RCgyBR025RkHCeko2USfHpDrXw+pZx
-         SmznuHJM5gxSS0Uxy7vyMhegJW29IDqU0QVV4WClvBELMgeghoorftzrXUR5SqtdiLb7
-         A5Q1DQD895M3A1gbAhIqZgtMjktW2axYYU/7sZJ58lWHLg8bSgu7EPn8+vIe+3HqCT0f
-         ZQ1JVddJ+LlkB0hyf/k3IVFmUJAEaJUKk9sDwFOLNfUBKjrH1af7PrYOcTLhnvQZuClT
-         oTPA==
-X-Forwarded-Encrypted: i=1; AJvYcCU95/xb+ygNfYXZrOg0jrbokBUx0Tb6mM0K1rEbPm0YWmA4RlxS/JBvFZApAb2vSaK28xY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9Y/WOWNx58M57sbg42HKLORBeVbJjp/G2MVPgPcnM+lTWd+DO
-	buz0Z5EmWnTDwHMWqWHHfLvDKW0JZY2GhoWPZe8BrSUPwpxYv/Sbd+dQYZooSw==
-X-Google-Smtp-Source: AGHT+IE14MNMnJz/dTmMXrxFZE1GO2GsfhXBXLXTNOED5Orn8DKvtf61Cpi9sYgA4TkhBdRdPZ3h9w==
-X-Received: by 2002:a05:6e02:190c:b0:39b:2669:4e44 with SMTP id e9e14a558f8ab-39e3c985c60mr130046555ab.8.1724659568225;
-        Mon, 26 Aug 2024 01:06:08 -0700 (PDT)
+        bh=yvPqTM9lOHuvyIm7/RZh/RxFxg0X7bP4l3quDfoGQkE=;
+        b=hTd8ULiTk1fIo9Hoo9j289pGvgyvICpSFJfHSP2MFpTROW+x9Yb093nR1OG5gKXTT9
+         MHG8diMcKyQdxANGyq7RNUkzNEr7Y9giZXT3fX6GLKgBVA8XOBv+WDeTK+7yk9ngwqjw
+         ts0O8eKqRkehmHKbZIkzJi9C7Xl+3YZYOb1757NS8PeqT71JJCedIrwAdAGiV/TVZe5n
+         aPpp0cWbcR1aLPk9gi54r0XvqD3NTJg7eml8G33Eptqzzz8/K6n55JwdfAoDHPWMWcml
+         16NqZkFcRO6KTry7I94YD2izdUWlL/cJbtQtVX9IB0kkmiUI2+U5IAxN6KpCPCzEYV7p
+         kdFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrT4pd7etdxuxcwPKVqcPXtgJ3QrJ61ylje1UQNIbk5mCSVyuDRi/yjSBGoqPs3r75u+Q=@lists.linux.dev
+X-Gm-Message-State: AOJu0YywozqyQ/Bsi1cHnfbdJrshkpPbxOzhLt4VrkN3VaB+p965xOqx
+	FNZpRP+tNxPAg+x8ZkqmCQcZAr0vuyQmWvglfL8bmY3YX2ye18wRhP0NPn9wSLKcbJeCUNQUJOc
+	=
+X-Google-Smtp-Source: AGHT+IFX23Te10Zeki5eDRR2JQF2WuxBqrUSKbBm0Dtnccf1x4S1ehHPRhh557+EAHWGUsykWovd3Q==
+X-Received: by 2002:a17:90b:4f83:b0:2c9:80fd:a111 with SMTP id 98e67ed59e1d1-2d646bf2bd3mr8610579a91.18.1724659652847;
+        Mon, 26 Aug 2024 01:07:32 -0700 (PDT)
 Received: from thinkpad ([220.158.156.53])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ac98b32sm7134309a12.2.2024.08.26.01.06.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613b1cc67sm9071887a91.51.2024.08.26.01.07.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 01:06:07 -0700 (PDT)
-Date: Mon, 26 Aug 2024 13:36:03 +0530
-From: "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
-To: Mank Wang <mank.wang@netprisma.us>
-Cc: "duke_xinanwen@163.com" <duke_xinanwen@163.com>,
-	"loic.poulain@linaro.org" <loic.poulain@linaro.org>,
-	"quic_qianyu@quicinc.com" <quic_qianyu@quicinc.com>,
-	"mhi@lists.linux.dev" <mhi@lists.linux.dev>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for Netprisma
- LCUR57 and FCUN69
-Message-ID: <20240826080603.joynf4hqklgt6kph@thinkpad>
-References: <PH7PR22MB30388908C5E6DCE67E98C68681B02@PH7PR22MB3038.namprd22.prod.outlook.com>
+        Mon, 26 Aug 2024 01:07:32 -0700 (PDT)
+Date: Mon, 26 Aug 2024 13:37:28 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Fabio Porcedda <fabio.porcedda@gmail.com>
+Cc: Daniele Palmas <dnlplm@gmail.com>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Fix the name for the Telit
+ FE990A
+Message-ID: <20240826080728.myy5whs5kmghnvvo@thinkpad>
+References: <20240820080439.837666-1-fabio.porcedda@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -74,92 +72,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <PH7PR22MB30388908C5E6DCE67E98C68681B02@PH7PR22MB3038.namprd22.prod.outlook.com>
+In-Reply-To: <20240820080439.837666-1-fabio.porcedda@gmail.com>
 
-On Tue, Jul 30, 2024 at 03:01:05AM +0000, Mank Wang wrote:
-> Add Netprisma LCUR57 and FCUN69 hardware revision:
+On Tue, Aug 20, 2024 at 10:04:39AM +0200, Fabio Porcedda wrote:
+> Add a mhi_pci_dev_info struct specific for the Telit FE990A modem in
+> order to use the correct product name.
 > 
-> LCUR57:
-> 02:00.0 Unassigned class [ff00]: Device 203e:1000
-> 	Subsystem: Device 203e:1000
-> 
-> FCUN69:
-> 02:00.0 Unassigned class [ff00]: Device 203e:1001
-> 	Subsystem: Device 203e:1001
-> 
+> Cc: stable@vger.kernel.org # 6.1+
+> Fixes: 0724869ede9c ("bus: mhi: host: pci_generic: add support for Telit FE990 modem")
+> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
 
-Can you please add a note on how this modem is tested? Like using any modem
-manager commands, how the IP interface is created (IPA or MBIM) etc...
-
-> Signed-off-by: Mank Wang <mank.wang@netprisma.us>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 14a11880bcea..054420ca4c8f 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -26,6 +26,7 @@
->  /* PCI VID definitions */
->  #define PCI_VENDOR_ID_THALES	0x1269
->  #define PCI_VENDOR_ID_QUECTEL	0x1eac
-> +#define PCI_VENDOR_ID_NETPRISMA	0x203e
->  
->  #define MHI_EDL_DB			91
->  #define MHI_EDL_COOKIE			0xEDEDEDED
-> @@ -680,6 +681,28 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
->  	.mru_default = 32768,
->  };
->  
-> +static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
-> +	.name = "netprisma-lcur57",
-> +	.edl = "qcom/prog_firehose_sdx24.mbn",
-> +	/* LCUR57 uses the same controller configuration as quectel_em1xx */
-
-No need of this comment here and below.
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 - Mani
 
-> +	.config = &modem_quectel_em1xx_config,
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 14a11880bcea..fb701c67f763 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -680,6 +680,15 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
+>  	.mru_default = 32768,
+>  };
+>  
+> +static const struct mhi_pci_dev_info mhi_telit_fe990a_info = {
+> +	.name = "telit-fe990a",
+> +	.config = &modem_telit_fn990_config,
 > +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
 > +	.dma_data_width = 32,
+> +	.sideband_wake = false,
 > +	.mru_default = 32768,
-> +	.sideband_wake = true,
-> +};
-> +
-> +static const struct mhi_pci_dev_info mhi_netprisma_fcun69_info = {
-> +	.name = "netprisma-fcun69",
-> +	.edl = "qcom/prog_firehose_sdx6x.elf",
-> +	/* FCUN69 uses the same controller configuration as quectel_em1xx */
-> +	.config = &modem_quectel_em1xx_config,
-> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> +	.dma_data_width = 32,
-> +	.mru_default = 32768,
-> +	.sideband_wake = true,
 > +};
 > +
 >  /* Keep the list sorted based on the PID. New VID should be added as the last entry */
 >  static const struct pci_device_id mhi_pci_id_table[] = {
 >  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
-> @@ -778,6 +801,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* T99W175 (sdx55), HP variant */
->  	{ PCI_DEVICE(0x03f0, 0x0a6c),
->  		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w175_info },
-> +	/* NETPRISMA LCUR57 (SDX24) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_NETPRISMA, 0x1000),
-> +		.driver_data = (kernel_ulong_t) &mhi_netprisma_lcur57_info },
-> +	/* NETPRISMA FCUN69 (SDX6X) */
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_NETPRISMA, 0x1001),
-> +		.driver_data = (kernel_ulong_t) &mhi_netprisma_fcun69_info },
->  	{  }
->  };
->  MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+> @@ -697,9 +706,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  	/* Telit FN990 */
+>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
+>  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+> -	/* Telit FE990 */
+> +	/* Telit FE990A */
+>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2015),
+> -		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+> +		.driver_data = (kernel_ulong_t) &mhi_telit_fe990a_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
+>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
 > -- 
-> 2.34.1
+> 2.46.0
 > 
-
-
 
 -- 
 மணிவண்ணன் சதாசிவம்
