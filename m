@@ -1,68 +1,67 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34D713F01A
-	for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 08:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7B313C9C8
+	for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 08:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724660894; cv=none; b=kWfdCg2TlU9DpOUUPuJjHCtUaptuZfq8PNAliULFkV7GC5yM3IXg6B4u6qbxGArwYgh/3wzRvydz/O5FOXFStkRaZCFVborMjOQ77D1a7wqluTTXWkk8Z8/94y9wROl8H1MA/ztl4gPg59DUOdhtDgAoaZp9z16QYLPHJCrT3jI=
+	t=1724660966; cv=none; b=jJ9G8qHg8SgPZhgDrZ4ameyhy/IWCaNxJeDRnqPlsUyOTHl0zhZoVY7bMzb4aa/onqtdlhx3wOJ2rXRHsvzAcv9nd9wzuI0XHyjZ8Q6XbEFfmCpdbNL0g4BhAxvsneN0UMiLk8Juw21Kd7rHMEC95l+jJivLYzwBFd6MNeuZb9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724660894; c=relaxed/simple;
-	bh=vt7J5fux2isI7FeeCpAPhtTik4aGVuoRkW0tWzHij04=;
+	s=arc-20240116; t=1724660966; c=relaxed/simple;
+	bh=bDIgEfAUyhm/xLM9fRUYtKIzhj29vuxnUt+xTY13rhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iP7C4TQ7zsU78UfOndAJMN2dRG/Vrg/3sP+J+pvGJ3kUmhie6r/+h8sye4MACJwSa17+MBDRldkioIUhH5h4UWNBmhLsQ8rk1xASs6mKcvJ30b1HCn58Chsp2+V9mRdnmUc0qPJx5iYvxJV0aOJ1AcYwO7ht/OiIQIUNPxfbnjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bjk7XjWB; arc=none smtp.client-ip=209.85.214.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=SI6yVmgB9dD/vy32uR6rTkxluA7nO8YtwsUVF2Jmdir+GFNr6FaoYnGY4woXLT8Bwk+XmQFqnYFzwrO0g1BuFyIsUVlGN/i8AwC9ybdE5dfKeUQuM1NcnBLs8DxRYxgbaq4XOyzDdy0Jzjk5M4ncSPT1CLJoBukhtDIfctsO3q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rROdBsm0; arc=none smtp.client-ip=209.85.161.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bjk7XjWB"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-201d5af11a4so34948065ad.3
-        for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 01:28:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rROdBsm0"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5d5f9d68805so2974900eaf.3
+        for <mhi@lists.linux.dev>; Mon, 26 Aug 2024 01:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724660892; x=1725265692; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724660963; x=1725265763; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=gnSngmqp5XPF4Gq535As1t8mXzDMy72BxOhWXC2WS8g=;
-        b=Bjk7XjWB80yiiqzppKcanr4PMS4Kc3q1ziJSQwUlZM+TjkLWevnNXpGkI4EgPoW86k
-         gcLQTlLJZJZVpd0vjgnaxUzUZsN0CxmXLQdLOx8cjnFOtAxIfDuBiEngnl1sBH3vg19G
-         sE3ZN0A+VUxj7q7dqmRKXOuswpL1Gooqd6B5yNJt7F4YddI+8JoALSuLJ/e01BxmFUOF
-         yzXcney3r7PBSTYSNSuQrhpgujnuKaO2Cvr2v4fhMauZoYu1NbD1DV9O27pg+5C3jhNY
-         HKyj1MhaINMrUG7VdRCZG9woQs/SldC67Q3H0cqSqLn2MhzDXlGA7Y2RLyBFqOtvHRjs
-         piIA==
+        bh=FpK+LqnMiQxXocEL/iu9e4s+c/+RcNGhhFEbJWYlCI8=;
+        b=rROdBsm08Gv2i5mDOUAshItdEE96nQSokQm1U9HqYm9zmuu7ItQQQFe6xgb+LRkoBu
+         fhrZ8dhcv0Kyo12kcMUg5xiNcsV37N6No7n6Ew6hB/U1qAi314KzpnXF3AkGQDR8ZTzu
+         lxqbGzEKxBfBYOrTIXJHGmZeGZx5DOb068qf8rYgMuZSXJhO5uCrNXHliph3gMdIpO89
+         uM0OmU4ZXtgO9miVZ6uskcpAap8CneafqzgKPZV0F18oWIBCOqOQpYNzN06E3LMmmJwZ
+         6gebXOuVEcum+1rPWY3ZPvm4qVKo8SyFn0eEaNi4v1kx6RlToM0jLu30kfN67/alrN7c
+         iBbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724660892; x=1725265692;
+        d=1e100.net; s=20230601; t=1724660963; x=1725265763;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnSngmqp5XPF4Gq535As1t8mXzDMy72BxOhWXC2WS8g=;
-        b=qZoB8gF9876AQQ559Q+qo8nyIORuIiQQmCt8WUnjwKVLEwKrNmzIaW6z3trXqlrfsN
-         EGsDwclm4M1pE1qAf4KcEJGPK0KRKpvbFm0sai6kWr5Jtkuag1P8wYvBpsyVtuP1sHym
-         zA+2fmv7VBBesYVduXGZAkFgvjzve1PIUGNWQ99uGI+sYuGM8iWc2041I02WzGdjJtFV
-         K2ASv6WOaBy/ubkQFAyPBEwG0qGAepaZJ7zchSVJqMyOjS5tH3jwEEj4xegmY0nnXFi4
-         s54aL3451gZ1I7USbcfqG86iO0I5X6//zS9NySPFPTkLa4kunTjwUF7zcjfBuyrwGnmZ
-         +1Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCULpmchZZC0GSrMivyUuRyvVf7aCauPtBkjjbdwScitzhJkXf1cpqyrXy3QnSWLEM/hQBw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRJpxzJnOGMdkWmdMUCrDptnUft8vhdE9EurRkFiOjjhMLfYxG
-	oQTzBbTL3BkW7JQUiUqNMrc1jbzWz1vXysBxMKbQLs6qoSsUZVz+I+e473x9VKEdOx25x+87J/4
+        bh=FpK+LqnMiQxXocEL/iu9e4s+c/+RcNGhhFEbJWYlCI8=;
+        b=KWAN/9aLyVNbLsURQ5z7/Jm83bD80zp5fxKpAcabnOhByn7nAYevlo4XcZW3wLPSFz
+         vLSte+1Cf97AFwxTnBpBSK2P3fVvf7sghbxJcun4YMHzbIs60eWKuYuDssgPKbGT/Hgf
+         fDiIe+8Codvr/lXb5ciqZUqkaWHtHYG4Bfxqip3uGmvMvcadHtcHaubbAFNL0j44g+Re
+         QU6LmvCsMu1aqfOaCQM4i2XfRxozOdce3umG1rB+SAsWIIbqdonUGbQRSa9J1LkzsSQo
+         e/hGUaSbddebeGP72AdRV0mQFnW+mzg4r25+BseebHKyPU1l/EodZKPJOPUK9DTLwQDa
+         1zzg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOs+dKxz6NuSy2dVAsqlaH1qtss9nywbPFL7H5EIHZXAvc2QNrWK9D4NspQo9KM1QZOAk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEujeEVyWuPii/+/ycthLmje+nfr7fRO0YbZ0nRDBhlXQAuYlc
+	ZvMpUr7KSTAwJydw/a9MNBjbNHSrlseu/K9vQbLmk0m+dbZgEXFgJHTIx7VsEsaAlyHLZEeNvW8
 	=
-X-Google-Smtp-Source: AGHT+IF4dF7YIx5UOBAuR3Levd85eEDnPi0e521uYSc593XVFS3WuJodpsylh0iqMs4OnqtH2tw+Tg==
-X-Received: by 2002:a17:903:22c7:b0:203:a030:d0a1 with SMTP id d9443c01a7336-203a030df42mr113206305ad.58.1724660891917;
-        Mon, 26 Aug 2024 01:28:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHa05pyR1/biT4DWNfV5Ah2XihLBGIqbFSdAq19mKgtaB+tYgagS2IxBtdEtRGiuKRf7P4I5Q==
+X-Received: by 2002:a05:6820:81f:b0:5dc:9f42:d5ea with SMTP id 006d021491bc7-5dcc6221da7mr11016787eaf.3.1724660963541;
+        Mon, 26 Aug 2024 01:29:23 -0700 (PDT)
 Received: from thinkpad ([220.158.156.53])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038560e53dsm63489725ad.191.2024.08.26.01.28.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9ad7d5ddsm7175457a12.89.2024.08.26.01.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 01:28:11 -0700 (PDT)
-Date: Mon, 26 Aug 2024 13:58:08 +0530
+        Mon, 26 Aug 2024 01:29:23 -0700 (PDT)
+Date: Mon, 26 Aug 2024 13:59:18 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Fabio Porcedda <fabio.porcedda@gmail.com>
-Cc: Daniele Palmas <dnlplm@gmail.com>, mhi@lists.linux.dev,
+To: Kunwu Chan <kunwu.chan@linux.dev>
+Cc: gregkh@linuxfoundation.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Fix the name for the Telit
- FE990A
-Message-ID: <20240826082808.gnsrbjfxvpqqi3fo@thinkpad>
-References: <20240820080439.837666-1-fabio.porcedda@gmail.com>
+	Kunwu Chan <chentao@kylinos.cn>
+Subject: Re: [PATCH] bus: mhi: host: make mhi_bus_type const
+Message-ID: <20240826082918.al7mt3v7rpfgazsv@thinkpad>
+References: <20240823031129.49010-1-kunwu.chan@linux.dev>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -72,58 +71,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240820080439.837666-1-fabio.porcedda@gmail.com>
+In-Reply-To: <20240823031129.49010-1-kunwu.chan@linux.dev>
 
-On Tue, Aug 20, 2024 at 10:04:39AM +0200, Fabio Porcedda wrote:
-> Add a mhi_pci_dev_info struct specific for the Telit FE990A modem in
-> order to use the correct product name.
+On Fri, Aug 23, 2024 at 11:11:28AM +0800, Kunwu Chan wrote:
+> From: Kunwu Chan <chentao@kylinos.cn>
 > 
-> Cc: stable@vger.kernel.org # 6.1+
-> Fixes: 0724869ede9c ("bus: mhi: host: pci_generic: add support for Telit FE990 modem")
-> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
+> Now that the driver core can properly handle constant struct bus_type,
+> move the mhi_bus_type variable to be a constant structure as well,
+> placing it into read-only memory which can not be modified at runtime.
+> 
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 
 Applied to mhi-next!
 
 - Mani
 
 > ---
->  drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+>  drivers/bus/mhi/host/init.c     | 2 +-
+>  drivers/bus/mhi/host/internal.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 14a11880bcea..fb701c67f763 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -680,6 +680,15 @@ static const struct mhi_pci_dev_info mhi_telit_fn990_info = {
->  	.mru_default = 32768,
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index ce7d2e62c2f1..a9b1f8beee7b 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -1464,7 +1464,7 @@ static int mhi_match(struct device *dev, const struct device_driver *drv)
+>  	return 0;
 >  };
 >  
-> +static const struct mhi_pci_dev_info mhi_telit_fe990a_info = {
-> +	.name = "telit-fe990a",
-> +	.config = &modem_telit_fn990_config,
-> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> +	.dma_data_width = 32,
-> +	.sideband_wake = false,
-> +	.mru_default = 32768,
-> +};
-> +
->  /* Keep the list sorted based on the PID. New VID should be added as the last entry */
->  static const struct pci_device_id mhi_pci_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
-> @@ -697,9 +706,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  	/* Telit FN990 */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
-> -	/* Telit FE990 */
-> +	/* Telit FE990A */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2015),
-> -		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
-> +		.driver_data = (kernel_ulong_t) &mhi_telit_fe990a_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
+> -struct bus_type mhi_bus_type = {
+> +const struct bus_type mhi_bus_type = {
+>  	.name = "mhi",
+>  	.dev_name = "mhi",
+>  	.match = mhi_match,
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index aaad40a07f69..d057e877932e 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -9,7 +9,7 @@
+>  
+>  #include "../common.h"
+>  
+> -extern struct bus_type mhi_bus_type;
+> +extern const struct bus_type mhi_bus_type;
+>  
+>  /* Host request register */
+>  #define MHI_SOC_RESET_REQ_OFFSET			0xb0
 > -- 
-> 2.46.0
+> 2.41.0
 > 
 
 -- 
