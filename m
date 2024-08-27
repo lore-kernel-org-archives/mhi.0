@@ -1,58 +1,58 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F451131182
-	for <mhi@lists.linux.dev>; Tue, 27 Aug 2024 08:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AAB1993A3
+	for <mhi@lists.linux.dev>; Tue, 27 Aug 2024 08:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724747439; cv=none; b=p9tv/5beQvcb6Dqawj1zdbYaJWYD94+mlaIQdq2Wgsqhf/B78Aw14aCVFBDxcBTBsbcvEdL9AZq39Jruj4WiKKNzFDHGiPjFQZ9+bWWNgAtyvFu4R/mJBUi9iIZ5Zj+cs16zMXWogVqokEXIMsUBSXqoUJVwHkkHe55TJc18miE=
+	t=1724747585; cv=none; b=QC5yAPY/963GD7aqzpiY6H1YbDBp7Y8dcnNZyuCbbyGmr8Ay1Q6IRFCiIXtrjEPGwLvgNWEhkV6u+ro40vLmMJfs14BIShlcc2XghFNR4o5EZghYclPNvWoUCYt52n6krcIZ7WMSn0N+uE3Mbfb7IZZaKMmEk8/XF7XkQRW4oks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724747439; c=relaxed/simple;
-	bh=cvZH7fUYaeL9wrWckMOUxPYywvVUJJ7wNoFeMasAFh0=;
+	s=arc-20240116; t=1724747585; c=relaxed/simple;
+	bh=M0Q46YRt7b9YHADZL32hHtvvl7AwCNCHYajLxrNxZA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DQTCtqlKT1Cw8npMs/r5ShPxwg6kKk9fu4f3N6Fo8p61gKcSqyFY4eEwC3yEbDYYHDVesAOWXfACEY8+EB7aIZurHIFRkJPmFyhGNe95bVf1zHMYRwo4zdrQbG7PwTBPTDmZ8tWof6LlZflcEC8ohBWlKaC9a6TCPh549kz0G5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vHNgQuMf; arc=none smtp.client-ip=209.85.214.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=FPfWYTpPD8samePi8Qpdu1/lWGtshmGuz/D1955xwg+VZUf4hXnNCijGPXdMBVkM6OEgftjPev7WbABSv2jvXbywUS+mtr4YBg0OvM/X8dCHCOd/v0MIQKdzaO1fb+Y+ET8S4rCckTJ8EFQej61QdAIzmaKNzriV/YXXuNVmkew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a27i4nq5; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vHNgQuMf"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-201fae21398so36110455ad.1
-        for <mhi@lists.linux.dev>; Tue, 27 Aug 2024 01:30:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a27i4nq5"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2021537a8e6so46921675ad.2
+        for <mhi@lists.linux.dev>; Tue, 27 Aug 2024 01:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724747437; x=1725352237; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724747582; x=1725352382; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=4PG1MKybPmHFMME9V8dY/+bhiqIyDMUmzSsge0xRow8=;
-        b=vHNgQuMf8PMeb2Iyo68z6UUBfEPviGrpfeY+hbEmAXkrbdDo1Myncou0wqsGwC4uXX
-         EGg5HpZnyia+i3o8NGVC26HRxmeWSDY74xm44fryihK/i5bvCTVhXSFJeXg9HCTQsAq9
-         PS2leKdPv+0lxEjH4bnHy/5pMrm547f7Pk3nBGTk60Q0Yp+rTc8h0/Mt8gfGIIqKGeHE
-         YypPNfZmDMvfqv/p2Y9IbS1XhTt+ERHp8j5M0FMXn/D73b26wafta/rsBkwNdRcN5AgR
-         bhO7nP6e16TEnajsuU3dmuKbvUXWGvUr0lEu87d0OyrCbYRm//b1q4QzwRNnsir/CQ2V
-         njCQ==
+        bh=zc3JzuFaE5GcnJFm2AtVlHywrBGXAOtwHwNOckOeDnA=;
+        b=a27i4nq56YXJD37sXka3D9n7/Q188EThhgHy1RG4cKpOThLucGrhEEZ+h0pnkdndYh
+         udN4+nWz5wS6Ki9jeqh3ji05qlhl6W21L4DBmxW+mxAVT/SlI9iChL51jna3yTMIIwo5
+         VAN/bh4dL78/cv1Ybr2GRpODioGs/xZkhlRYFONOm44uKYmUFyzTs5hSJ2epZ8khKypV
+         iWH4qpBDdjpeMxuKf0ZId+kk1ZDdvzlKZ2Yl+/dg2u2Brrhi3D0KEv1Qjpd8bFqRpLCf
+         ZyppF9Sd6O8oYDixSj4WRTHsZMbHqvBnt4jFlDhOgS6KC+vRvUAwht76PGDG1F/j2f3a
+         9vyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724747437; x=1725352237;
+        d=1e100.net; s=20230601; t=1724747582; x=1725352382;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4PG1MKybPmHFMME9V8dY/+bhiqIyDMUmzSsge0xRow8=;
-        b=IDqHee5iYrIATuSoAkNis+ybcEzasfVOHWwmEayPa1Pe5HNnbiWoP16FOHj1DPx+QR
-         YJHzPvB6lF36nHzYCv7TXaPGDd2uAdx4QS2eWv7SqL5pJI64aPyl2zU/V4gyYiacS98R
-         TfWhr6k9oktJ2BIkWSmvqZjfiojl0l9MRf9VrBdb7lU3IHEkL47iKDDD26dNuoIcf90Q
-         5vzQmyR0Aqsk580il2QbsvLzg0ihUf2hvWA/J9McZ3It0rziQH64CCUDLMKHpf01daD9
-         cmoAhLgehNsX0G0nRykeEGQyatTkyZQ3RuN6BZTenHsFjfHDRFYo3V7BQk7K4ScblMwu
-         kVRg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrD2RV0/7xte1cRzn2e+XJsu7Lq/o7krBAt/eG6KG77AteinCBDmjGMOaQIk7VlKnk6aM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSFPdR2GbalF1PzHhfQqllRtpMbohUTI+OSqrHP6zb0lGLeA58
-	chOA29HtNN5ajlVhzq8CgjQfm6igLy5jqh4KPVwXuRPe4nPBr1pZyKdanLgvFw==
-X-Google-Smtp-Source: AGHT+IHduWJQyUiCIAY3p1Zf9ALxilUWiklFzc/QeC53bqPhevbARPCSsJCvuo+QiSMorgPzFKWzHg==
-X-Received: by 2002:a17:903:11c3:b0:1fd:67c2:f975 with SMTP id d9443c01a7336-204df46c2bamr23997865ad.29.1724747437246;
-        Tue, 27 Aug 2024 01:30:37 -0700 (PDT)
+        bh=zc3JzuFaE5GcnJFm2AtVlHywrBGXAOtwHwNOckOeDnA=;
+        b=ikuwmgHrLGui6oKnGg591Kx46L1NdjZVCeooWKE3NDkW72dkrNKZ+lmdz4c+HNGZSD
+         M1bJwaI2RLblgA7Gkhg3J/u/rXrLJ160Dar2K1UbhXyTNfX9i1dnbGM9GD/XEc2m0zgb
+         KnCs7jXuMxf4cGUfeeouP5XlBcvCCKLndLDjkfVukBoc0bGcVjFyBWgNhwBqgfrM3MXz
+         26RABPvamRMsTVgQkdcJf6VwxL8tF+08lFnMoc/se4AuB2tT1IXzj377IdtWtvQ50NCB
+         jbGLi5phXJiVvetGeN7FAPoFiKeddnm4bKx+tn87DvXCY1gKeLd+nc9veZXsq0J7WsQW
+         4Cgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXDNqHBDxg5ReDJHILQ+5hW/3kZ3PVT9MJRwbLdY+9Y5fnY9spWzKXOiYSDahWOymcjRs=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywk6oIrgXPsWbYfuKvLqsBTbvHrkeDvTsxUYNmsk4uzmGV/RhNv
+	tk6xmtG4qwaPIcSSqEjPOc9eXoUKLb2wTLO8whQTliV9pWhti4hifele9rIwhQ==
+X-Google-Smtp-Source: AGHT+IEMaGd8avwuLHYUKAq8n6l8KJIiU8JdyzSEAV7GOkwNV6F2xm4E9P821RIz07e0YabwVS5b4Q==
+X-Received: by 2002:a17:902:ced1:b0:202:2c07:f50d with SMTP id d9443c01a7336-2039e4c1f94mr166376385ad.34.1724747582438;
+        Tue, 27 Aug 2024 01:33:02 -0700 (PDT)
 Received: from thinkpad ([117.213.96.164])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855df8d0sm78923245ad.130.2024.08.27.01.30.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038558be10sm78777365ad.118.2024.08.27.01.32.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 01:30:36 -0700 (PDT)
-Date: Tue, 27 Aug 2024 14:00:31 +0530
+        Tue, 27 Aug 2024 01:33:02 -0700 (PDT)
+Date: Tue, 27 Aug 2024 14:02:55 +0530
 From: "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
 To: Mank Wang <mank.wang@netprisma.us>
 Cc: "duke_xinanwen@163.com" <duke_xinanwen@163.com>,
@@ -63,7 +63,7 @@ Cc: "duke_xinanwen@163.com" <duke_xinanwen@163.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH V2] bus: mhi: host: pci_generic: Add support for
  Netprisma LCUR57 and FCUN69
-Message-ID: <20240827083031.pmo4627wizsnp2pf@thinkpad>
+Message-ID: <20240827083255.ob7rusg2qd5alppw@thinkpad>
 References: <PH7PR22MB30386647BE2D813B502226CF81942@PH7PR22MB3038.namprd22.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -98,7 +98,7 @@ On Tue, Aug 27, 2024 at 01:58:33AM +0000, Mank Wang wrote:
 > 
 > Signed-off-by: Mank Wang <mank.wang@netprisma.us>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
