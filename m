@@ -1,65 +1,66 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E881917C8
-	for <mhi@lists.linux.dev>; Fri, 30 Aug 2024 11:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F75618F2D5
+	for <mhi@lists.linux.dev>; Fri, 30 Aug 2024 11:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725018930; cv=none; b=m0MrMTyIQx01D+IxJmDAY6bD3qzqLuH9SduxKetMfJnMU+xqz9dwKqXNHZNc56+cCFJhN2b/P6HzFYgR4JADjdv5MIrCdAQGi5W3cOPhbfEarQ5UlJfNMRCXD6lonyOc/yCdSD8M9gRWz6hDhbibaW9Dkxqqe2/b+NZgUW/KOKM=
+	t=1725018946; cv=none; b=mLeARserTYKjZlL8d+iGoMuG8xt1BEHo1CkxIyrFMklW/JucQws0Jl6xvUe6JAiQr8vlOWl++S+xZ1+tFsiPc0u9GJ+jNW8ksC+l3qA1SWsNGKfoj/6qsZp7g8xI1jTUTnpU9t1mwGJ1dBE993Kff08P11UVy6PYS60yGfRVNWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725018930; c=relaxed/simple;
-	bh=rGJabSH1WjGrwPyUZvO8SIhkBqF284ClrE8qaXkEwU4=;
+	s=arc-20240116; t=1725018946; c=relaxed/simple;
+	bh=uRPx9Gzpb7WsqBteaCH5lSTBTmLKdmt2JEQyfg5CEtU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sg6KgafLAR7ZBcK+eQ149Cb0i880lGGik3csN12WYhzxlyKF6r8lecmPW5GG6wn/sf1tt8t6lGrSSmMQrfar0TBZqL/8qt/x243v3qT03neIxbIWDe4++AuA22tpGkCdGXXvL0OEcz4hhpk5EYcMPMpmN16A84/vBexXMwR2OLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eqIkM0lO; arc=none smtp.client-ip=209.85.161.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=WXDP5wlXbwXBQrHOrbQ/c24vUC2AnQiSEkP2dBXJwYu+/Ga163ubGKzEfmEJpNMRIxURh3/WgJbr6EzL79dBp78k3CB5Ne7iwZLmtbZfey/HNzhCdyTcMUywLF3COW4kLYFaSaxJ1yRtJ32YJ3KOrp0C5VabO1nEq1yDwJKRego=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gkv0ivwR; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eqIkM0lO"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5dfad5a9c21so350988eaf.0
-        for <mhi@lists.linux.dev>; Fri, 30 Aug 2024 04:55:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gkv0ivwR"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-714114be925so1401522b3a.2
+        for <mhi@lists.linux.dev>; Fri, 30 Aug 2024 04:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725018926; x=1725623726; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1725018944; x=1725623744; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2kXXjyoQkOSIGIfDRWOMPNe7ntaakkXVTK3kq6Qxk2A=;
-        b=eqIkM0lOP9Quzq41RHzwkDY9Ch9wU4HeOI7dM4Bclo6IDg3xMoC7UgXwDfzIKiRHFd
-         cCPC3428W9rFv6BQaCQx9cEGSG/b580mm64L8ICjML4mkjTagaaEDOiUjfuzjzitPLyA
-         1SUAc4ZmM4ptCIZFKk7PQ4LKvNa+rRXNERfovI/FlOlE7fdousGOnf3xUXTchGeN75dT
-         FYJ2uBIWirqY/J1A6zT7g9Z12u8dufFVJwU9c7xBnriTER8+npfR7h9z/8ipD8ZfLTS1
-         89VWU7ntnYGEb8FHo7INWHHlE85sC8KJ9RfGIUXDFxXW8kQ/sbIGu7zCWrqme6Xr4wAW
-         6pCA==
+        bh=vj5tQXBLna4Jks1OEg0AoadJI6GOwdLoSVDTmyvlHAc=;
+        b=gkv0ivwRXNtlPi7WlHJ7rvcwW9Kj8nthSrBfzjcJHBPlqFx4NJW4S+Roc6cYEWy1j8
+         r56+IcIs5B96Bj/mJYkZzyH2i/ussmmAeGzGeZohUcPDjWzsSh37Us8HCfGWvDhCP6jQ
+         ZfYLo5IW023Vm9zIn1JX8Eh++SpRWIqNxn4pm/aO5sY1JKTlNkG7Bkj4IIcB94Zocve9
+         sKFlpEfS7IZvE4iSlqMPgGstKtEYR/GEYebp/Fhp/2Cy+X6llOlWrfOr+7B0nFAhu+N2
+         QyMO1x4S0nWwKmLOGpC3fAz9/OuVeY5Lqup5TlGxbcIv3cGEzRQGHcJFySGz0yqU+i30
+         8h0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725018926; x=1725623726;
+        d=1e100.net; s=20230601; t=1725018944; x=1725623744;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2kXXjyoQkOSIGIfDRWOMPNe7ntaakkXVTK3kq6Qxk2A=;
-        b=W4CF80NdUGVXWdyDzAYkMFdL89kiwcp36ndjmMnEZ/Auu4ozICJyXsiIfydGRQ94ds
-         8qC6AzzXGdOIyfYtU48R3eQeJQEEceU6dl8G22xMc5w7CBlcz5+e2BcJXjygK4Z8Jmx+
-         93qxndQMAoc4QEJ6JwVyl2wTrCohGop0sm3SzK6/2wCMpBxUXiXt09A0YIaoFuoPh2je
-         dMwWf4eOa86g8ZfTvhK2D86d/KA+qQQplAsOFbbUy2vnK6lFGVOVpQu81/WyF7DuNpmg
-         T8+Hoj+DKcZAYs3c2xQ/KD4dkQcH04infaUFu4i24T2B1cWuZ5RPkXTLuvX297gQFVsv
-         lO8A==
-X-Gm-Message-State: AOJu0YyoSI4ssKUqYp2g88M0C4UdZxG+3vt24jn3Y+ihRj0iLKfmg9MH
-	KGfASftq1WQBSJwdLuyzKGBz0FrHh4Z2bh99HLJrSnvFbScALpC2EFCWegHPIQ==
-X-Google-Smtp-Source: AGHT+IH/BxJwIxRjq4Ftk2utGPO5gE372yrfaYPPrKkvTKKraSTvq03DzON9Ri0ykoGoYqRcozC2MA==
-X-Received: by 2002:a05:6871:e25d:b0:25e:129c:2223 with SMTP id 586e51a60fabf-277900f62cfmr5786865fac.19.1725018926065;
-        Fri, 30 Aug 2024 04:55:26 -0700 (PDT)
+        bh=vj5tQXBLna4Jks1OEg0AoadJI6GOwdLoSVDTmyvlHAc=;
+        b=nKE5emVFHf/ShTM0Aw9wsVET0Uvev0/fcuxQgaGIpuVGJCtBZj3URF97inRMvZihxN
+         SJeLmpJd86Z9EijQh1ZMZpd6tkVyedmPSTLvDf7PKP5+wGJVMOkiVr5L8GLqV6NncXku
+         vKdSlQc9wMF6kK/S4odM1G8iVeuzFA2vYNlQCsZd8bOBhRaew7hzROkRMUrG6rs8IFo1
+         xrknnmYn5V9Jzuj0+fsyaOpY8d8GPslEvmuTw/7OM14+3zYDbhTf5SoAA3XSedGK7LMX
+         WNoRMD3P69xUuHRuSy1iyHeVqB5JZEecsk0YStrnZ3hef7mUXXBgDJT0f9erljwcPt/S
+         m1Tw==
+X-Gm-Message-State: AOJu0YwKZymVmEDsS58LJ69Qe0rVJroU82QAj2VMSvnLetKmkfFFZiJR
+	vbK/MHwxD6ZCaFTDNUZOyYkOaawGFDc0EfhVD9i7xr4wDAIy7/L2Amb7GZgOHw==
+X-Google-Smtp-Source: AGHT+IGcO33pwmd8RvHVGGRlKReAeYEqRHa/Rp7NaaBDLLXjQPmmU1g/ailYEl5oUc6IJBrtKBeShg==
+X-Received: by 2002:a05:6a00:3e10:b0:70d:22b5:5420 with SMTP id d2e1a72fcca58-715dfb988bamr7197551b3a.15.1725018944332;
+        Fri, 30 Aug 2024 04:55:44 -0700 (PDT)
 Received: from thinkpad ([117.193.213.95])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e5773733sm2584959b3a.217.2024.08.30.04.55.24
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e56d751asm2597787b3a.169.2024.08.30.04.55.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 04:55:25 -0700 (PDT)
-Date: Fri, 30 Aug 2024 17:25:19 +0530
+        Fri, 30 Aug 2024 04:55:43 -0700 (PDT)
+Date: Fri, 30 Aug 2024 17:25:37 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Slark Xiao <slark_xiao@163.com>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] bus: mhi: host: pci_generic: Update the file path
- for Foxconn SDX55/SDX72
-Message-ID: <20240830115519.nun52bselrkc77qy@thinkpad>
+Subject: Re: [PATCH v2 2/2] bus: mhi: host: pci_generic: Enable trigger_edl
+ for Foxconn SDX55/SDX65/SDX24 products
+Message-ID: <20240830115537.mtbkfmocab3h5262@thinkpad>
 References: <20240725022941.65948-1-slark_xiao@163.com>
+ <20240725022941.65948-2-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -69,14 +70,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240725022941.65948-1-slark_xiao@163.com>
+In-Reply-To: <20240725022941.65948-2-slark_xiao@163.com>
 
-On Thu, Jul 25, 2024 at 10:29:40AM +0800, Slark Xiao wrote:
-> To separate the images of Foxconn from other vendors, adding a
-> new foxconn subfolder under qcom/<platform> for edl image path.
-> And delete the fw patch since it's useless for Foxconn devices.
+On Thu, Jul 25, 2024 at 10:29:41AM +0800, Slark Xiao wrote:
+> Since generic trigger_edl mechanism has been imported, all
+> products support firehose download shall enable 'edl_trigger'.
 > 
-> Fixes: bf30a75e6e00 ("bus: mhi: host: Add support for Foxconn SDX72 modems")
 > Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
 Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
@@ -84,63 +83,73 @@ Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 - Mani
 
 > ---
-> v2: change the folder path architecture
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+>  drivers/bus/mhi/host/pci_generic.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
 > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 14a11880bcea..f159a9dd53e7 100644
+> index f159a9dd53e7..565b280c539e 100644
 > --- a/drivers/bus/mhi/host/pci_generic.c
 > +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -433,8 +433,7 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
->  
+> @@ -434,6 +434,7 @@ static const struct mhi_controller_config modem_foxconn_sdx72_config = {
 >  static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
 >  	.name = "foxconn-sdx55",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+>  	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> +	.edl_trigger = true,
 >  	.config = &modem_foxconn_sdx55_config,
 >  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
 >  	.dma_data_width = 32,
-> @@ -444,8 +443,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
->  
+> @@ -444,6 +445,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
 >  static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
 >  	.name = "foxconn-t99w175",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+>  	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> +	.edl_trigger = true,
 >  	.config = &modem_foxconn_sdx55_config,
 >  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
 >  	.dma_data_width = 32,
-> @@ -455,8 +453,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
->  
+> @@ -454,6 +456,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
 >  static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
 >  	.name = "foxconn-dw5930e",
-> -	.fw = "qcom/sdx55m/sbl1.mbn",
-> -	.edl = "qcom/sdx55m/edl.mbn",
-> +	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+>  	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
+> +	.edl_trigger = true,
 >  	.config = &modem_foxconn_sdx55_config,
 >  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
 >  	.dma_data_width = 32,
-> @@ -502,7 +499,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+> @@ -463,6 +466,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_dw5930e_info = {
 >  
->  static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
->  	.name = "foxconn-t99w515",
-> -	.edl = "fox/sdx72m/edl.mbn",
-> +	.edl = "qcom/sdx72m/foxconn/edl.mbn",
->  	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx72_config,
+>  static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
+>  	.name = "foxconn-t99w368",
+> +	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
+> +	.edl_trigger = true,
+>  	.config = &modem_foxconn_sdx55_config,
 >  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> @@ -513,7 +510,7 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w515_info = {
+>  	.dma_data_width = 32,
+> @@ -472,6 +477,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w368_info = {
 >  
->  static const struct mhi_pci_dev_info mhi_foxconn_dw5934e_info = {
->  	.name = "foxconn-dw5934e",
-> -	.edl = "fox/sdx72m/edl.mbn",
-> +	.edl = "qcom/sdx72m/foxconn/edl.mbn",
->  	.edl_trigger = true,
->  	.config = &modem_foxconn_sdx72_config,
+>  static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
+>  	.name = "foxconn-t99w373",
+> +	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
+> +	.edl_trigger = true,
+>  	.config = &modem_foxconn_sdx55_config,
 >  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+> @@ -481,6 +488,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w373_info = {
+>  
+>  static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
+>  	.name = "foxconn-t99w510",
+> +	.edl = "qcom/sdx24m/foxconn/prog_firehose_sdx24.mbn,
+> +	.edl_trigger = true,
+>  	.config = &modem_foxconn_sdx55_config,
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+> @@ -490,6 +499,8 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w510_info = {
+>  
+>  static const struct mhi_pci_dev_info mhi_foxconn_dw5932e_info = {
+>  	.name = "foxconn-dw5932e",
+> +	.edl = "qcom/sdx65m/foxconn/prog_firehose_lite.elf",
+> +	.edl_trigger = true,
+>  	.config = &modem_foxconn_sdx55_config,
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
 > -- 
 > 2.25.1
 > 
