@@ -1,264 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0B017C9E4
-	for <mhi@lists.linux.dev>; Sat, 31 Aug 2024 11:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C4319DF5B
+	for <mhi@lists.linux.dev>; Thu,  5 Sep 2024 14:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725104645; cv=none; b=iMzon9d0Fy3sOsBNO8Erm72xuRb8+6VlGp6TKxK2keSSartVb0vWh//ugW/3qT2fqEDqrswwX+I5wrl3GVVWwl+/d4oJo3u9GRp1NGuJdVD03G6uG4iw0KIj/hHANNkSDoKv2hnRubzGKS20hdM5+m7A000igdpaQWiPbjAHFI4=
+	t=1725545593; cv=none; b=sJNMM7U4DvefHVKvinIQvN1g95iiM/FXsGWzQxYnQYsYHKU+JdInRJRdP2LJwm1c5nrXcBe3nLFUqpyPjS5MsmQzWifHImRRzfnm+qEKMQ5nXJ2MtcF6fc0/8R2oPVVEL1LJugAUEQeNjbcqUTtW52CoU5qeocIiEGbEGgYXohU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725104645; c=relaxed/simple;
-	bh=SMW3plGvCI1iUuDN0AIiANfsOwFa/Ku2+sB/lDwdc6U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=s6VNqrDCZ4r7vL1clFwTY4ZSbeUMbeQ88D9AHDRdN5pY4G8HvGTRJvUkGUG9FyTe8tP9GBFN3v8b8YUYW2Xc9Rtg9kGn6wm80JYnBxeWBJF7zxKc/ISbKRTHUd8YmzEeOFukI4b4mYTI98O7E0k66k0sSL1jqhn1wexKEkcsxgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OffQG3dw; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725545593; c=relaxed/simple;
+	bh=sfezUiVaNw1L9VtKCP6yB5GMjZKur63Zoezg6d1LtMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Oi3CFFed1JZi2eYIY1eqVLMnjd1D5PjSwREhUf4cXhb/qpI0xAxDcsqowIbo0Dc1zzrO+62gqbSNZl7EPw0d4t5COPWLB7Wpdr0Tc998WolxmpoispMIXSnjsjvWgBBIIypo0MP8D95XoZmj4hwcpfD6odj2l8Y6kgdM++EgVRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WOZ4r5aw; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OffQG3dw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725104644; x=1756640644;
-  h=date:from:to:cc:subject:message-id;
-  bh=SMW3plGvCI1iUuDN0AIiANfsOwFa/Ku2+sB/lDwdc6U=;
-  b=OffQG3dwPB2mbHSGvTm0MYLoh8h+KYSnnDhsGYP4flDMoV3QVpsz2Ai5
-   R9qQ3HjhFRk4u0V2BUznar/4z2djzoxhPrCSPDOtjPrzWwBU5z6u2duQ7
-   41tkuuP/rggRQUnmyopljzmqFiTzwU3KpwkKgLYwoMjP+NLzdWDYilaP0
-   5y5mnn6g99wA5Dv1Pm80l4nDnk9KlY9ssId1Isw1Cejkanzqpl1GQA175
-   XlSqgty/AIuKZRbem8DWQAGaInoXqFAqeZOgcUpCf3T/YPFlZMFVitpW/
-   64+4w5NfEoU29KYNJSoOPpIc2ZlzoGG3HsucAb+UIlla9SEB3MPrM7ubJ
-   Q==;
-X-CSE-ConnectionGUID: 1SUj1GeNSyuFQ9MXt6wwJA==
-X-CSE-MsgGUID: uTbuUP4fRxGAjmL5bGXu0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="27617762"
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="27617762"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 04:44:03 -0700
-X-CSE-ConnectionGUID: Tc6paPdxRhGifsDOzQVI9Q==
-X-CSE-MsgGUID: rwDw7H1yReS3cR1nky3qiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="63966560"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2024 04:44:02 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skMWO-0002hS-0L;
-	Sat, 31 Aug 2024 11:44:00 +0000
-Date: Sat, 31 Aug 2024 19:43:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WOZ4r5aw"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20688fbaeafso8780595ad.0
+        for <mhi@lists.linux.dev>; Thu, 05 Sep 2024 07:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725545591; x=1726150391; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rpMIayd5/bB+ULJai4ZKEPetgBwEo5iuwVvI5Okqf9s=;
+        b=WOZ4r5awgiL649XBEZCpkeBVdiNjbrMz7m6tn2tesL+PngpkELFreDLu0e75d8tDT5
+         EtaFfF1cPLZKSuHkbqV5wKatZJjiZvaiOrdiY7NRO2UdIJYeXPLwqR6GB+7n4dHawLu5
+         5g3K8RIJm2ovIyDrbg1pwRzaIbodgQYbeyuOi3zGZY4sFhWuOofCQYfgfFjPIiNQl3Z4
+         rgtS7+5bbMjqVhHefpgNjA4vkKTv/o5HwLQD35kdvXY+Vn3xH/QDIEZF+VmnDmQCyEiy
+         chMKySzOF5u0dcpEr1d1jrfFj+1NPrwHF6MRQ/sKOjL3BN9Q3tmgItA63mvlLiKlGZvx
+         kKUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725545591; x=1726150391;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rpMIayd5/bB+ULJai4ZKEPetgBwEo5iuwVvI5Okqf9s=;
+        b=Y4wk7Bn/7d+5nq3FKG8EGLEUJNTSnOXveFjFfqJ3k93efKUVmLvuauc3m0MOxpqes5
+         7ciOmSYHpPZ/E6k9sNEhP8gRVQcFSMvVYAY4N/iM1QAh41ScGt996bCOFt1PVpVEH1fL
+         2cCBZ0gE49u1yVM9gT6SD5Miko7BQeBK4ElIhDPAMrkxwTkhI11bYVqLJYPy8Gpesvyi
+         qLUdED6TpiEuJU7GZAKqthI4gs0c6jrcdbvIZQMGhJght2pes5OaEphmyWhOBaPfs7h/
+         foIt3AbKt5/G9mBvlZ0c97WLMBlUPtuSEhS34o1fs5ZGZy64vNu3DHdaHCPDGwZKqjC4
+         LpJQ==
+X-Gm-Message-State: AOJu0Yy/u7lWm2Otg7f1BP2xR6UjCgczghngDVL7MpOHy3BboasRYjXS
+	PpEC0zB6ZMIiMIH2aocVvt1oB909/kFCKjcIvUMkj4BgqGQBqo5pNCXk12xYww5Ewbpu38K9nzA
+	=
+X-Google-Smtp-Source: AGHT+IGmIn3XtRjXpZcenxWl9Kv0yT62lhlreBUOO8y1HzDtRGpm6CABPFkGRKpE5J4wsFojDm/Ixg==
+X-Received: by 2002:a17:902:d2d0:b0:205:5544:bad6 with SMTP id d9443c01a7336-20584230d75mr147022485ad.55.1725545590939;
+        Thu, 05 Sep 2024 07:13:10 -0700 (PDT)
+Received: from thinkpad ([120.60.52.248])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-206ae955918sm29332335ad.86.2024.09.05.07.13.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Sep 2024 07:13:10 -0700 (PDT)
+Date: Thu, 5 Sep 2024 19:43:02 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 30a7e9df309ffb0ff895b958cc27867e93bd9ad2
-Message-ID: <202408311903.P4L99TP1-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Subject: [GIT PULL] MHI changes for v6.12
+Message-ID: <20240905141302.c6plpsxn2slkcuc7@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 30a7e9df309ffb0ff895b958cc27867e93bd9ad2  bus: mhi: host: pci_generic: Enable EDL trigger for Foxconn modems
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
 
-elapsed time: 1349m
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
 
-configs tested: 187
-configs skipped: 5
+are available in the Git repository at:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.12
 
-tested configs:
-alpha                             allnoconfig   gcc-14.1.0
-alpha                            allyesconfig   clang-20
-alpha                               defconfig   gcc-14.1.0
-arc                              allmodconfig   clang-20
-arc                               allnoconfig   gcc-14.1.0
-arc                              allyesconfig   clang-20
-arc                                 defconfig   gcc-14.1.0
-arc                        nsimosci_defconfig   clang-20
-arc                   randconfig-001-20240831   gcc-14.1.0
-arc                   randconfig-002-20240831   gcc-14.1.0
-arm                              allmodconfig   clang-20
-arm                               allnoconfig   gcc-14.1.0
-arm                              allyesconfig   clang-20
-arm                                 defconfig   gcc-14.1.0
-arm                          ep93xx_defconfig   clang-20
-arm                          gemini_defconfig   clang-20
-arm                      jornada720_defconfig   clang-20
-arm                         nhk8815_defconfig   clang-20
-arm                   randconfig-001-20240831   gcc-14.1.0
-arm                   randconfig-002-20240831   gcc-14.1.0
-arm                   randconfig-003-20240831   gcc-14.1.0
-arm                   randconfig-004-20240831   gcc-14.1.0
-arm                        realview_defconfig   clang-20
-arm                         vf610m4_defconfig   clang-20
-arm                    vt8500_v6_v7_defconfig   clang-20
-arm64                            allmodconfig   clang-20
-arm64                             allnoconfig   gcc-14.1.0
-arm64                               defconfig   clang-20
-arm64                               defconfig   gcc-14.1.0
-arm64                 randconfig-001-20240831   gcc-14.1.0
-arm64                 randconfig-002-20240831   gcc-14.1.0
-arm64                 randconfig-003-20240831   gcc-14.1.0
-arm64                 randconfig-004-20240831   gcc-14.1.0
-csky                              allnoconfig   gcc-14.1.0
-csky                                defconfig   gcc-14.1.0
-csky                  randconfig-001-20240831   gcc-14.1.0
-csky                  randconfig-002-20240831   gcc-14.1.0
-hexagon                          alldefconfig   clang-20
-hexagon                          allmodconfig   clang-20
-hexagon                           allnoconfig   gcc-14.1.0
-hexagon                          allyesconfig   clang-20
-hexagon                             defconfig   gcc-14.1.0
-hexagon               randconfig-001-20240831   gcc-14.1.0
-hexagon               randconfig-002-20240831   gcc-14.1.0
-i386                             allmodconfig   clang-18
-i386                              allnoconfig   clang-18
-i386                             allyesconfig   clang-18
-i386         buildonly-randconfig-001-20240831   clang-18
-i386         buildonly-randconfig-002-20240831   clang-18
-i386         buildonly-randconfig-003-20240831   clang-18
-i386         buildonly-randconfig-004-20240831   clang-18
-i386         buildonly-randconfig-005-20240831   clang-18
-i386         buildonly-randconfig-006-20240831   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240831   clang-18
-i386                  randconfig-002-20240831   clang-18
-i386                  randconfig-003-20240831   clang-18
-i386                  randconfig-004-20240831   clang-18
-i386                  randconfig-005-20240831   clang-18
-i386                  randconfig-006-20240831   clang-18
-i386                  randconfig-011-20240831   clang-18
-i386                  randconfig-012-20240831   clang-18
-i386                  randconfig-013-20240831   clang-18
-i386                  randconfig-014-20240831   clang-18
-i386                  randconfig-015-20240831   clang-18
-i386                  randconfig-016-20240831   clang-18
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch                           defconfig   gcc-14.1.0
-loongarch             randconfig-001-20240831   gcc-14.1.0
-loongarch             randconfig-002-20240831   gcc-14.1.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                          amiga_defconfig   clang-20
-m68k                                defconfig   gcc-14.1.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-14.1.0
-mips                              allnoconfig   gcc-14.1.0
-mips                            gpr_defconfig   clang-20
-mips                          malta_defconfig   clang-20
-mips                      malta_kvm_defconfig   clang-20
-mips                        omega2p_defconfig   clang-20
-mips                         rt305x_defconfig   clang-20
-nios2                            alldefconfig   clang-20
-nios2                             allnoconfig   gcc-14.1.0
-nios2                               defconfig   gcc-14.1.0
-nios2                 randconfig-001-20240831   gcc-14.1.0
-nios2                 randconfig-002-20240831   gcc-14.1.0
-openrisc                          allnoconfig   clang-20
-openrisc                         allyesconfig   gcc-14.1.0
-openrisc                            defconfig   gcc-12
-openrisc                  or1klitex_defconfig   clang-20
-parisc                           allmodconfig   gcc-14.1.0
-parisc                            allnoconfig   clang-20
-parisc                           allyesconfig   gcc-14.1.0
-parisc                              defconfig   gcc-12
-parisc                generic-64bit_defconfig   clang-20
-parisc                randconfig-001-20240831   gcc-14.1.0
-parisc                randconfig-002-20240831   gcc-14.1.0
-parisc64                            defconfig   gcc-14.1.0
-powerpc                    adder875_defconfig   clang-20
-powerpc                          allmodconfig   gcc-14.1.0
-powerpc                           allnoconfig   clang-20
-powerpc                          allyesconfig   gcc-14.1.0
-powerpc                 canyonlands_defconfig   clang-20
-powerpc                       ebony_defconfig   clang-20
-powerpc                    gamecube_defconfig   clang-20
-powerpc                       maple_defconfig   clang-20
-powerpc                 mpc834x_itx_defconfig   clang-20
-powerpc                    mvme5100_defconfig   clang-20
-powerpc               randconfig-001-20240831   gcc-14.1.0
-powerpc                  storcenter_defconfig   clang-20
-powerpc                     tqm8540_defconfig   clang-20
-powerpc64             randconfig-001-20240831   gcc-14.1.0
-powerpc64             randconfig-002-20240831   gcc-14.1.0
-powerpc64             randconfig-003-20240831   gcc-14.1.0
-riscv                            allmodconfig   gcc-14.1.0
-riscv                             allnoconfig   clang-20
-riscv                            allyesconfig   gcc-14.1.0
-riscv                               defconfig   gcc-12
-riscv                    nommu_k210_defconfig   clang-20
-riscv                 randconfig-001-20240831   gcc-14.1.0
-riscv                 randconfig-002-20240831   gcc-14.1.0
-s390                             allmodconfig   gcc-14.1.0
-s390                              allnoconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-12
-s390                  randconfig-001-20240831   gcc-14.1.0
-s390                  randconfig-002-20240831   gcc-14.1.0
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-12
-sh                    randconfig-001-20240831   gcc-14.1.0
-sh                    randconfig-002-20240831   gcc-14.1.0
-sh                           se7780_defconfig   clang-20
-sh                   secureedge5410_defconfig   clang-20
-sh                        sh7763rdp_defconfig   clang-20
-sh                        sh7785lcr_defconfig   clang-20
-sparc                            allmodconfig   gcc-14.1.0
-sparc64                             defconfig   gcc-12
-sparc64               randconfig-001-20240831   gcc-14.1.0
-sparc64               randconfig-002-20240831   gcc-14.1.0
-um                               allmodconfig   clang-20
-um                                allnoconfig   clang-20
-um                               allyesconfig   clang-20
-um                                  defconfig   gcc-12
-um                             i386_defconfig   gcc-12
-um                    randconfig-001-20240831   gcc-14.1.0
-um                    randconfig-002-20240831   gcc-14.1.0
-um                           x86_64_defconfig   gcc-12
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240831   clang-18
-x86_64       buildonly-randconfig-002-20240831   clang-18
-x86_64       buildonly-randconfig-003-20240831   clang-18
-x86_64       buildonly-randconfig-004-20240831   clang-18
-x86_64       buildonly-randconfig-005-20240831   clang-18
-x86_64       buildonly-randconfig-006-20240831   clang-18
-x86_64                              defconfig   clang-18
-x86_64                                  kexec   gcc-12
-x86_64                randconfig-001-20240831   clang-18
-x86_64                randconfig-002-20240831   clang-18
-x86_64                randconfig-003-20240831   clang-18
-x86_64                randconfig-004-20240831   clang-18
-x86_64                randconfig-005-20240831   clang-18
-x86_64                randconfig-006-20240831   clang-18
-x86_64                randconfig-011-20240831   clang-18
-x86_64                randconfig-012-20240831   clang-18
-x86_64                randconfig-013-20240831   clang-18
-x86_64                randconfig-014-20240831   clang-18
-x86_64                randconfig-015-20240831   clang-18
-x86_64                randconfig-016-20240831   clang-18
-x86_64                randconfig-071-20240831   clang-18
-x86_64                randconfig-072-20240831   clang-18
-x86_64                randconfig-073-20240831   clang-18
-x86_64                randconfig-074-20240831   clang-18
-x86_64                randconfig-075-20240831   clang-18
-x86_64                randconfig-076-20240831   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-x86_64                               rhel-8.3   gcc-12
-xtensa                            allnoconfig   gcc-14.1.0
-xtensa                randconfig-001-20240831   gcc-14.1.0
-xtensa                randconfig-002-20240831   gcc-14.1.0
+for you to fetch changes up to 84a5ae5b23ba6320bbdfeccfe9a3ad31b2cc41d9:
+
+  bus: mhi: host: pci_generic: Enable EDL trigger for Foxconn modems (2024-09-05 19:38:01 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+core
+----
+
+- Used const qualifier for 'mhi_bus_type' to place it onto the read-only memory
+  segment.
+
+pci_generic
+-----------
+
+- Fixed the Telit FE990A modem name as it was advertising the wrong product
+  name, thereby confusing the users.
+
+- Added Netprisma LCUR57 and FCUN69 modems based on Qcom SDX24 and SDX6X SoCs.
+
+- Updated the EDL (Emergency Download) firmware path for the Foxconn modems.
+  The patch that added the modem support mistakenly specified the generic EDL
+  firmware path common for Qcom based modems. But they won't work.
+
+- Enabled the EDL trigger for all Foxconn modems to update the modem firmware.
+
+----------------------------------------------------------------
+Fabio Porcedda (1):
+      bus: mhi: host: pci_generic: Fix the name for the Telit FE990A
+
+Kunwu Chan (1):
+      bus: mhi: host: make mhi_bus_type const
+
+Mank Wang (1):
+      bus: mhi: host: pci_generic: Add support for Netprisma LCUR57 and FCUN69
+
+Slark Xiao (2):
+      bus: mhi: host: pci_generic: Update EDL firmware path for Foxconn modems
+      bus: mhi: host: pci_generic: Enable EDL trigger for Foxconn modems
+
+ drivers/bus/mhi/host/init.c        |  2 +-
+ drivers/bus/mhi/host/internal.h    |  2 +-
+ drivers/bus/mhi/host/pci_generic.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 3 files changed, 56 insertions(+), 12 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
