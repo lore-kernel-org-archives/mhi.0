@@ -1,172 +1,90 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4314619DF53
-	for <mhi@lists.linux.dev>; Tue,  1 Oct 2024 11:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E66F1D014A;
+	Wed,  2 Oct 2024 14:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727782683; cv=none; b=qrWHhjVGDXkmLwPJpV51ltS7UQish5C+g04ix5NYnxFiiDdlM6ioZq+SkE61DCH+lLGrdfc0kghn5tSioQV+ZIQoluEhHbnye3tiIgde+dt1Axg503sh5aRLybrh4k8ba4palOy+/jIA2hNZrx5XSwxqMJM9G5HB1DfreGb8aK0=
+	t=1727878511; cv=none; b=dxYnRD0mjSmylUlQ81r3Zf6x4b1XHPEvq9ziyn+m0GZSw+hZiM5+kpzGxDRxV9SsC0vZB1hL1UeXor7twO/zOeAW5yWxAASHR10LcD+NKjhMmlCgY32WY3EU81dndaz0rT2gOeYnWW4CEsxlm5cqg2gb4lfghnL2Q7glBNvpsks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727782683; c=relaxed/simple;
-	bh=8GGy2t+zDlmFEH1+BK+kXfBif5WBL+v0s/d0M+5d6AA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rzxyg4mgrR+gv0cY7QClgOpPyG0bpWGS+22zG40nt1a0j2ivAibJ2Aq5nnpm7IaPx+/TbJPRZnruuP3Pe5uZdV4ryvjspRwdhw9xwwUA2LMY1ZXOoJdilIwBHXQrSkOmDpMeWBTF/pl8okJzRVyGWVdUoIOBurqgD72EAfF1I2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YoTrGRp1; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1727878511; c=relaxed/simple;
+	bh=Nevs63pSFBHRDMWDk7ZxAgkMqhxf85c7ROZMLhOjDQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JWOjWKj8NXXcehX8kwh+9jFKyAZX3bI2guMa1eN4uC7EUIKJmI/I+dN4CHPWCG/JAg3UL4y7Xef74b4ozX7u9NDPRdN/aQ06eHxDE31a6ARVOgjJD9GMV4kIDVFZK5K/BT3RyWAOclgPC6RBTubXw5iDzqOAlqpm1S64OYb5EB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=F4q7H5ev; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YoTrGRp1"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 491AC8OX001985;
-	Tue, 1 Oct 2024 11:37:50 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="F4q7H5ev"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 491M3N2r017398;
+	Wed, 2 Oct 2024 14:15:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=FCgPRX2Lc/rLHJ6D7iOORv7rJsF1yr5pgyC
-	NDwjUY0I=; b=YoTrGRp1xbB1YyIH4OhWFaSK74Box4yUZMNT/h7PzOlCkUBu5PT
-	Jhn8RKTy4wdNiWMtfWKzq4pH+tBQ0V38BJR63I0POvaeYqXGbfFN0P6ah5KNKeVW
-	8hnjX89oFftYUIqrPQMW5gq0ZCKw9uARyyZo3DkyX5VTxuaZMkNYCMbb25VzHgIk
-	0msjkJlGhu8QFm/qL3kRxROcLcK8hsAVnAbfO+KG7BcaAHHNL0l3cBwHNI15jMmt
-	F8l+i2iLPiLWUp0nSeciESvTS8UgLJs2mn4/mGvnbvqt6td7U0wU6ch2NStBVNx7
-	26EDYujbt0fLQywq1/89/r281MsxsstYErQ==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xte0xseu-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oRat43/tpyMvId/Zkf6GjyjSEsPyfwM0Y8UCza1RHmo=; b=F4q7H5ev/aSiVNyI
+	rNwzWSn/MBj9cITBwp6/ELJ6gnuVqU2PIlcV82xzz6/IErsowTwDiOe6EWim9xS2
+	ekLMZjd7WcogJ4EbIoicbfIDg2bVcd4ibq5XjBk1mtGReIg1lKgz8BuXWAfbM+FB
+	xcG21dnjap3jD6OhgsU0aKXKmHkHtTw46Cgnv/kgRxb1v0Fe9rATweTDNmGURaTF
+	h/Mr971v5UFqsK87I+jqqIKMals4g95eWzhh1DIPu5rVqfUl4wfs8UjaVKw64Q2D
+	yydOxHbMZU0SETiZjv8HQCCMUOmCdF944BB3gUaBubcbuvOhO7QvBqgmupZtoRrx
+	Q+YaIA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xa12ur1p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 11:37:50 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 491BbkNZ002799;
-	Tue, 1 Oct 2024 11:37:46 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 41xavm1wrg-1
+	Wed, 02 Oct 2024 14:15:02 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 492EF08H031492
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 11:37:46 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 491BbjUO002793;
-	Tue, 1 Oct 2024 11:37:45 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com ([10.213.96.82])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 491BbjWV002790
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 11:37:45 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 2370923)
-	id 52A2353F; Tue,  1 Oct 2024 17:07:44 +0530 (+0530)
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
-To: mhi@lists.linux.dev
-Cc: quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
-        quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
-        quic_skananth@quicinc.com, mrana@quicinc.com,
-        Vivek Pernamitta <quic_vpernami@quicinc.com>,
-        Slark Xiao <slark_xiao@163.com>,
-        Fabio Porcedda <fabio.porcedda@gmail.com>,
-        Mank Wang <mank.wang@netprisma.us>,
-        linux-arm-msm@vger.kernel.org (open list:MHI BUS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] bus: mhi: host: pci_generic: Add support for QDU100 device
-Date: Tue,  1 Oct 2024 17:07:35 +0530
-Message-Id: <20241001113738.152467-1-quic_vpernami@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	Wed, 2 Oct 2024 14:15:00 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 2 Oct 2024
+ 07:15:00 -0700
+Message-ID: <0927fae7-3250-f01a-33dd-3b0caccb82c8@quicinc.com>
+Date: Wed, 2 Oct 2024 08:14:59 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v1] bus: mhi: host: Fix typos in the comments
+Content-Language: en-US
+To: Yan Zhen <yanzhen@vivo.com>, <manivannan.sadhasivam@linaro.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <opensource.kernel@vivo.com>
+References: <20240929090334.524543-1-yanzhen@vivo.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20240929090334.524543-1-yanzhen@vivo.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HA-iO2LzxR8uE8Ptc_-sEAJaWS0yY6ad
-X-Proofpoint-GUID: HA-iO2LzxR8uE8Ptc_-sEAJaWS0yY6ad
+X-Proofpoint-ORIG-GUID: laOwJ6lR7yjF3G48Bx8AvTgK9YpRZVUr
+X-Proofpoint-GUID: laOwJ6lR7yjF3G48Bx8AvTgK9YpRZVUr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- suspectscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0 clxscore=1011
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2410010075
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=689
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 malwarescore=0 spamscore=0 clxscore=1011 mlxscore=0
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2410020104
 
-Add MHI controller configuration for QDU100 device.
+On 9/29/2024 3:03 AM, Yan Zhen wrote:
+> Correctly spelled comments make it easier for the reader to understand
+> the code.
+> 
+> Fix typos:
+> 'Normaly' ==> 'Normally',
+> 'gurantee' ==> 'guarantee',
+> 'guranteed' ==> 'guaranteed'.
+> 
+> Signed-off-by: Yan Zhen <yanzhen@vivo.com>
 
-This Qualcomm QDU100 device is inline accelerator card
-which is an extension to QRU100 5G RAN platform.
-which is designed to simplify 5G deployments by offering
-a turnkey solution for ease of deployment with O-RAN
-fronthaul and 5G NR layer 1 High (L1 High) processing,
-and to accelerate operator and infrastructure vendor
-adoption of virtualized RAN platforms.
-
-https://docs.qualcomm.com/bundle/publicresource/87-79371-1_REV_A_Qualcomm_X100_5G_RAN_Accelerator_Card_Product_Brief.pdf
-Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
----
- drivers/bus/mhi/host/pci_generic.c | 49 ++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 9938bb034c1c..1153697fa858 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -245,6 +245,52 @@ struct mhi_pci_dev_info {
- 		.channel = ch_num,		\
- 	}
- 
-+static const struct mhi_channel_config modem_qcom_qdu100_mhi_channels[] = {
-+	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 2),
-+	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 2),
-+	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 128, 1),
-+	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 128, 1),
-+	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 3),
-+	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 3),
-+	MHI_CHANNEL_CONFIG_UL(9, "QDSS", 64, 3),
-+	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 4),
-+	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 4),
-+	MHI_CHANNEL_CONFIG_UL(16, "CSM_CTRL", 32, 4),
-+	MHI_CHANNEL_CONFIG_DL(17, "CSM_CTRL", 32, 4),
-+	MHI_CHANNEL_CONFIG_UL(40, "MHI_PHC", 32, 4),
-+	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
-+	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
-+	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
-+	MHI_CHANNEL_CONFIG_UL(48, "IP_SW1", 256, 6),
-+	MHI_CHANNEL_CONFIG_DL(49, "IP_SW1", 256, 6),
-+	MHI_CHANNEL_CONFIG_UL(50, "IP_SW2", 256, 7),
-+	MHI_CHANNEL_CONFIG_DL(51, "IP_SW2", 256, 7),
-+};
-+
-+static struct mhi_event_config modem_qcom_qdu100_mhi_events[] = {
-+	/* first ring is control+data ring */
-+	MHI_EVENT_CONFIG_CTRL(0, 64),
-+	/* SAHARA dedicated event ring */
-+	MHI_EVENT_CONFIG_SW_DATA(1, 256),
-+	/* Software channels dedicated event ring */
-+	MHI_EVENT_CONFIG_SW_DATA(2, 64),
-+	MHI_EVENT_CONFIG_SW_DATA(3, 256),
-+	MHI_EVENT_CONFIG_SW_DATA(4, 256),
-+	/* Software IP channels dedicated event ring */
-+	MHI_EVENT_CONFIG_SW_DATA(5, 512),
-+	MHI_EVENT_CONFIG_SW_DATA(6, 512),
-+	MHI_EVENT_CONFIG_SW_DATA(7, 512),
-+};
-+
-+static const struct mhi_controller_config modem_qcom_qdu100_mhi_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 120000,
-+	.num_channels = ARRAY_SIZE(modem_qcom_qdu100_mhi_channels),
-+	.ch_cfg = modem_qcom_qdu100_mhi_channels,
-+	.num_events = ARRAY_SIZE(modem_qcom_qdu100_mhi_events),
-+	.event_cfg = modem_qcom_qdu100_mhi_events,
-+};
-+
- static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
- 	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
-@@ -822,6 +868,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* NETPRISMA FCUN69 (SDX6X) */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_NETPRISMA, 0x1001),
- 		.driver_data = (kernel_ulong_t) &mhi_netprisma_fcun69_info },
-+	/* QDU100, x100-DU */
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0601),
-+		.driver_data = (kernel_ulong_t)&modem_qcom_qdu100_mhi_config },
- 	{  }
- };
- MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
--- 
-2.34.1
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
