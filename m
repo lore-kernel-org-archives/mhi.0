@@ -1,65 +1,65 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2526B189B9B
-	for <mhi@lists.linux.dev>; Sun,  6 Oct 2024 18:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A338189B9B
+	for <mhi@lists.linux.dev>; Sun,  6 Oct 2024 18:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728238220; cv=none; b=ZBobQDNAOw/FrfEHNd5YHNNMI+eM2PEbBQMSZ8Yjc/n29NZB3StwibsD7ahiGHKHiZDeJj8hpOUusHSK7+fZOmDUOxl9L4zOv9zGWDEwM7MGliWowM/bbGw+HiyIiHdXylLEDfGET/tOK8EqTK4rpQU+hYF/RDJEfZN2C5r2dFI=
+	t=1728238323; cv=none; b=Cqh/OXpfNNRypfBi5ZwfB3+qanhnT7bG2f/ZVTjg8/BGSin0rCeAq5g7kXaRAOSODU+YxSQCaMbSG3PngWrIVcp+qkR5VQpj+L294Iq3XVIIkzb9l9VOLyEJSwLRGScLLywkC7T3Z0Id40wwWnfQWFaKZRimGRBKB2bwUgxSiZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728238220; c=relaxed/simple;
-	bh=tyvbxifwMWiy/Z8kVkxRv1YDq9D+HXqbj1Klfr5PUKs=;
+	s=arc-20240116; t=1728238323; c=relaxed/simple;
+	bh=3t9+E9CkOzIKHHSuceCwjRc7U0X0Sf01y7bJoxelwWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uVp7eJdpyndATqrFOLICOV1svforTME1k6fxt/YzSIqblzK7iGPKpYr13r74fS2PNQB0aH0Hzk8pS4mVk/VIEhbVxqEytgVEO94SUY67k8v5p7CA3K5IivGjIZNa6ArfhvAJwuPYUEj8Ez/yK9c/l2o7/BleUKVmE6kTFNJ/Krk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K67Qz39A; arc=none smtp.client-ip=209.85.216.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=RVGSt8gTY+h/23NGDaw3hTNANwfg5ZR9GsO3asbnwxyiucG8nIGP487qXJfm8wbZPtmZDAjn/GkuCQhDwbxOcnUAU9ok0xLRaGE1/dI4JaJIuX9ApBDE+pruZBmOkz0eCkozG/vDCPaOt2KDwV0PEd32TdeJppOsx9UX6+pYKS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E94iH0Zg; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K67Qz39A"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e0a5088777so2938247a91.2
-        for <mhi@lists.linux.dev>; Sun, 06 Oct 2024 11:10:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E94iH0Zg"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20b58f2e1f4so24417885ad.2
+        for <mhi@lists.linux.dev>; Sun, 06 Oct 2024 11:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728238218; x=1728843018; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1728238321; x=1728843121; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=alq0/ty9V5DVTsQSf1CXAvLnpMyiTYdYqWaJUsZhyXU=;
-        b=K67Qz39AMGKs4EGV/adWU88iCN4bG7kV8pqRkIeoOfutCSjR1II5IdnN/Z+lI920iJ
-         yBw3LTnt0HBGyDAw9XPflBgndDGNgoRGb6k0H7xbYbUm3TZGeG1kL+GDOFcpsmtofQ/F
-         31zroyQt9v73HUsVSkLWHyH1m66Jt15gimk7hRUO6KZR8KsovuWGAShqrXA0lSuLGsx1
-         ePBQKgRUHHHN9olZk9Vb2V39vWkba+2Ra2IoPBsHRnm5XKK1CFfKrX+8ERheM3wQ/XQP
-         Nj9GNCJDCnL+eYxX64DZ5JUy/ElKIWayDNctKfxNK+UD9rCK/xHKC1gac3BO7pV203wS
-         ZWWA==
+        bh=ifUrSYHSPVHdHJVoduKWjUHX04NMhaW9v3wwctCAnpY=;
+        b=E94iH0ZgpEO9o7DC+WNsam1IwqY8W+NT/+WzTfQ8gnE9wlWuj+N+CAQ69lU8KGUG9X
+         rqC0ld0r2GGFbstGdXgS+aqEGUPDx3WxBWZSbeDgxQs9+RBldjzJ8XasU65tCFTg6pQl
+         XvDiqCBSZT02bfVuRbE36du0nH3fbZM7T3W211GY69EX2WFdWEXy+2nJZ5hNhEFBrWbp
+         VUc2FJhaiNWxhmPQiy1MawH44IhykIEWXnFIj5xr7l/irk+f1DdKyMHfd5y+diJHiXrS
+         AAw1TR5qHdx3Fz7c/ScU4iZrre+1dHZ7ZfGd/MCNkoJKVksj3tbHW3SVoWZirhFgIqi3
+         kJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728238218; x=1728843018;
+        d=1e100.net; s=20230601; t=1728238321; x=1728843121;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=alq0/ty9V5DVTsQSf1CXAvLnpMyiTYdYqWaJUsZhyXU=;
-        b=JOvBlIL3sVA0RZXTzH9pvzsDPEkx9dz/ufKTSxzr5MRw3OqTpSaXyrm8qEj7A+Z94H
-         DwcOeICtdUwKEmvGZt/qm49OikOrYn236ZZLQ8VY7VHUatSoQ661Ywd1uV43Q9H/RYvp
-         lCE50SXkHLyu1bxLw6zcKAYj67RcAFkNqj5MJwvYwG5AWCW50HHEsb28CWPEsAnTHAMl
-         CmGYwYctt29EunGGRzGQb/+GlocL+qbnJHtI5E1cC9Uh2LyKdjzt0qzDxDHQrKlNT/hi
-         8IMcCSpwK3Nos5YiJjKKkkdMSYCZgakKRq/NM7ZDajpKzCllLrXXMo2JEVSK1QykxVWC
-         6BFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyPLVBTNP1N2OhKlGeLPzHGJiTHy1imv+LZoQZnwC3j42StaHGLGpyt3K+6lcWXWbkbfM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK3JPHNi3Ulvswt9LOootwKgL/qSnka2osPFLlaPqPmKspUkaw
-	1214LANfhyJjh63QYlg+ugOVEtakynvES/N2uTxSa0dPC5UcDwbwuEdgDCxCPg==
-X-Google-Smtp-Source: AGHT+IGfiCjzJAhy3bQXncwCGgkKpHGA83Ya5LKYMrS0hnZoyIhokJpWAT35sCLFFIws5D/GysAuJA==
-X-Received: by 2002:a17:90b:118c:b0:2d8:8d34:5b8 with SMTP id 98e67ed59e1d1-2e1e621da2dmr12182260a91.10.1728238218512;
-        Sun, 06 Oct 2024 11:10:18 -0700 (PDT)
+        bh=ifUrSYHSPVHdHJVoduKWjUHX04NMhaW9v3wwctCAnpY=;
+        b=V1Cc56GDZdyRi1LHdGZUVbXt5ddyOppCv7a6ckLg+ecK0e72A/eAsn7fAD4dIQEE9L
+         lsbfGQlgmdM8nEHMB11m3DGRmkT0lrdCP8kFGwjK0ZqDhqz6bJsOURtVrpDsoV5ANSQ6
+         AdRaXMGJLznRmmW1kQ64/yXUU5CAzQII9AJqlXXc7LDTnPvkoZnIOoNBnjX/Bti22kXb
+         mG6V4yZoub2WmsKlusTwbJCcXThoWonjgODzb3/fSuHo3TCQLGh3Mf1kSk3gD8Rg37n2
+         9sjJo0FoDFR9mMHTIC9fYQgL406IIwac+RRVzqgc5JiHRpx+t+v9mIHiyjAe25ggG/fu
+         bI/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWR2S2HV8qDYMKAdUe2HHghJcsW4awjQ+9M702DSCsV/QyAkD+MxumoO8x66gApPZC8L38=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzN1CyLEDu8WO9nU5Pr+04cFelr5uAtQ2J1zKFbLVVyXLZPWg21
+	KVTM0gt52DJFi+4W8xuhdEhmo/KL848vkrYl2KWiUewvfbIPDHiAreMUSLFOCA==
+X-Google-Smtp-Source: AGHT+IGsV/4alrASeuoSgOfzTV6TQhEtk58m258R8GIYcduuYNXsWKmOLFCw4X2JUrLC+VGgGpHEMQ==
+X-Received: by 2002:a17:902:cecb:b0:20b:b0c1:712b with SMTP id d9443c01a7336-20bfe05e682mr132892225ad.15.1728238321593;
+        Sun, 06 Oct 2024 11:12:01 -0700 (PDT)
 Received: from thinkpad ([220.158.156.57])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e86ac41csm5376102a91.55.2024.10.06.11.10.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c139a4b50sm27426525ad.306.2024.10.06.11.11.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 11:10:18 -0700 (PDT)
-Date: Sun, 6 Oct 2024 23:40:13 +0530
+        Sun, 06 Oct 2024 11:12:01 -0700 (PDT)
+Date: Sun, 6 Oct 2024 23:41:58 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Carl Vanderlip <quic_carlv@quicinc.com>
 Cc: kernel test robot <lkp@intel.com>,
 	Jeffrey Hugo <quic_jhugo@quicinc.com>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus/mhi: Switch trace_mhi_gen_tre fields to native endian
-Message-ID: <20241006181013.2hd2b7clb6nmpeb2@thinkpad>
+Message-ID: <20241006181158.s6g6h2lwn6vxgv2o@thinkpad>
 References: <20241004170321.4047492-1-quic_carlv@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -85,7 +85,7 @@ On Fri, Oct 04, 2024 at 10:03:20AM -0700, Carl Vanderlip wrote:
 > Closes: https://lore.kernel.org/oe-kbuild-all/202402071859.8qMhgJEQ-lkp@intel.com/
 > Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
