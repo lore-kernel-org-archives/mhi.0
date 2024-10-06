@@ -1,168 +1,116 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CA01FF7D3;
-	Fri,  4 Oct 2024 18:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AEE189B81
+	for <mhi@lists.linux.dev>; Sun,  6 Oct 2024 18:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066291; cv=none; b=JOb30AG9S4JjNniACtOLaaW50f9uWBwfKPQ0zao+XyjbOW/IMYXB1XTtC9or2s3CriWyr4OIajZI0YPgVTIKSipcq5AcFsJJ3Eaj2jLFm7QKaJXAUfMheW+s4WMZ6WAmqwSOC2W2z5BfJPMBJZR0t7Qi8ki1zIuYLxGFSmwEy3U=
+	t=1728237947; cv=none; b=lgI30CDrz60Mm9mD1WzUw6iSl7k6iB8gg8hSWVdyLdZT4U8ewwkup445BJHg181EFX0eAh0y7XuquOuk221P4lZMriKj93mTn+GOzHJnraGtcz8cMG8EGkFfulGacsTtExkoBfH+jX+z2Tdrwh/f36r2BbY2TRmSQQlp7lmqq6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066291; c=relaxed/simple;
-	bh=/uyLIjKkeW1+k+CLAi17bdjWQPVQkMSjEal7Yxc0ZI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=liogXyppuxajrbcvLU+S8rW6kZx/p/j4iPDRO0GuRaqqzb3qwC+zeGXIMelY/3u8XDrfRgrBh5Fj2o/360OWldRjkUXgqfIO2gGP5PiMZlyX4bWTIGPkOdYqFAfBAg+3aFVaXhta44iClJyYXL9YBjKE+l5Cv89mAoa+10xHL7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PhUUoToC; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1728237947; c=relaxed/simple;
+	bh=CeCY6OlU97fOl5fAIAjg4El2sF2r4zcPwjhHQh45MiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T1PkD9D2jb8eyyLgCy1WgQM643kldAmWjMyYmSsydOPzJe3AGNS0tah7Fjf/TLWU+tzsnnn5UQ6KC3nDlxoFE0ErqdrdRtmr4akf2EdAOaHHFzqTfVG8HHdRtu+s4zDLMcOnfnAJWmE61bRDTy7HN7WqokC3FjRqnVvVNf0fBt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N8FZnqoR; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PhUUoToC"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 494A58xn026296;
-	Fri, 4 Oct 2024 18:24:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TBWex6u4gz8UD4S4kL8WJfJhp2YY6MPdyOuVv5hzhrk=; b=PhUUoToC/O697ZJE
-	f1HI9H75FTni1+GsTvdjq9H1rYkQYHomliM/qCp7ZNYIwmaY2QgsgvOcgrVWKfcG
-	Ldm5k/Do18rxkCakDHDuldg5mq6xSlE+Nsse4bpPGTTgV3Cnbjdg+nfqm9th3uyZ
-	ZpoYmryueAufJDyJc6qBOMnSXdyV2iMaWYV6p8LeXX/VnmBCtLCzyw+xNXB0ZZ0s
-	gbhJjxVAMGtUTeRQx6YAPQpa0llXX6EGKXkAuOB2x54fj91sQTjjQfcZVw66z6BZ
-	L9d96YvfYhimvVwqdWbYSgu9CsC/PmR/zYpUHlR21q0tZIfXSmj8sr89GVeTn4cO
-	dTCBDQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42205jjyt5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 04 Oct 2024 18:24:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 494IOjui001441
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 4 Oct 2024 18:24:45 GMT
-Received: from [10.110.70.43] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 4 Oct 2024
- 11:24:45 -0700
-Message-ID: <17db9ffe-4e30-4776-a1f1-6da81cc0fcc2@quicinc.com>
-Date: Fri, 4 Oct 2024 11:24:44 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N8FZnqoR"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2e0a060f6e8so2657106a91.1
+        for <mhi@lists.linux.dev>; Sun, 06 Oct 2024 11:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728237945; x=1728842745; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+egSknvcric7COXOJEt3WaLe0bXI3f03zAkyGMKR7x8=;
+        b=N8FZnqoRjml9BcWKH4IP0YMvVNMCricC7DI22gTk45SfMuZ8Z+Ibz33tAuDnG1E9Q0
+         9HgZGrfVh2V4hPqVwH/zAYVbScXwwkI+93/T8rfT/uuvLFDzhDgom5EnE9wBkNcMbx5W
+         wet5QFKtODSJ3s3JZUJhPJEvl4Twr1Z+FB5SGaEHkRr1Hw/8g8iV283n8VZFI+4Hy4j6
+         GUCGUmvf/yXojMNCpTj9WPzO5TlE4wk+USDtTk9t87o/50A1ZWWYrWcOHRMk9nAuN7PN
+         L745w/t39V2vCuX7xDPe7Yc9mejs0KeJoEHE+1EM4jXuhGtfV6iQVSbGXJC+l7xQ1i+0
+         FYrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728237945; x=1728842745;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+egSknvcric7COXOJEt3WaLe0bXI3f03zAkyGMKR7x8=;
+        b=QHGVlMtzyzJQHvfi2SepapP6pgdYpdm6HBkZ/9bGwAsEDQ0aSPUnsU94rb9vTTJjF6
+         +lq86uoFt8gVKN8YXvt2NUwM+Ah9OxJSIAr0QliWYmHFL6LJkiipMZpgiHYzsDqJVgED
+         9KVUfLubN7W+NEpuA+EQVvl5+cSwa9W4trubghFVfDJbSVjjd4AfXLXbAfBNXzJbo3Lh
+         QUvdZaVStle34Z7/6xhcYAyy2UWv4PZjAoBke7HwOsWNe4AT5TzLW73jMle5W7Fxz9dZ
+         alpa3bxKtBWD79/iOKCRLNNAAoFnopGV+b2XkK2/6FTqpGiW5Iwd+q0TlXEAPQIIyPDD
+         Lj/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEV5LGEej+cj55iSJnuk0GoLr6rWePomCTor1yD96Jn9id9RgbUIdG1F/YIACXBhPUpIM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVgwM760H8CfKI4vUGI/yxIzGQHeDgpF/4Zx58MbYhJ70xcoZ7
+	CqxcLOMQYhhjTD56niI1h6ncMm/PB26BtbA4FzWFzBPWsi5JH8RqrUpBgPpo1A==
+X-Google-Smtp-Source: AGHT+IFNIq/a9CYHxz6Nm/b1lVN0D3Q3ap4lFm5Vk/bWNcJrztvixtRP8zufCmXOjRckcJJ0KhVydg==
+X-Received: by 2002:a17:90b:4a45:b0:2e0:921a:3383 with SMTP id 98e67ed59e1d1-2e1e620f326mr11675222a91.1.1728237945016;
+        Sun, 06 Oct 2024 11:05:45 -0700 (PDT)
+Received: from thinkpad ([220.158.156.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20b0f7690sm3689924a91.42.2024.10.06.11.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2024 11:05:44 -0700 (PDT)
+Date: Sun, 6 Oct 2024 23:35:38 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+	Kalle Valo <quic_kvalo@quicinc.com>,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Sujeev Dias <sdias@codeaurora.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Siddartha Mohanadoss <smohanad@codeaurora.org>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] bus: mhi: host: free buffer on error in
+ mhi_alloc_bhie_table
+Message-ID: <20241006180538.l6ghaz5vopld5qa5@thinkpad>
+References: <20240207065136.18316-1-pchelkin@ispras.ru>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus/mhi: Switch trace_mhi_gen_tre fields to native endian
-To: Carl Vanderlip <quic_carlv@quicinc.com>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>
-CC: kernel test robot <lkp@intel.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20241004170321.4047492-1-quic_carlv@quicinc.com>
-Content-Language: en-US
-From: Mayank Rana <quic_mrana@quicinc.com>
-In-Reply-To: <20241004170321.4047492-1-quic_carlv@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: th9RbYqWOVEIVoJ_gKtswMOY_tXK0B7g
-X-Proofpoint-ORIG-GUID: th9RbYqWOVEIVoJ_gKtswMOY_tXK0B7g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410040127
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240207065136.18316-1-pchelkin@ispras.ru>
 
-
-
-On 10/4/2024 10:03 AM, Carl Vanderlip wrote:
-> Each of the __field() macros were triggering sparse warnings similar to:
-> trace.h:87:1: sparse: sparse: cast to restricted __le64
-> trace.h:87:1: sparse: sparse: restricted __le64 degrades to integer
-> trace.h:87:1: sparse: sparse: restricted __le64 degrades to integer
+On Wed, Feb 07, 2024 at 09:51:36AM +0300, Fedor Pchelkin wrote:
+> img_info->mhi_buf should be freed on error path in mhi_alloc_bhie_table().
+> This error case is rare but still needs to be fixed.
 > 
-> Change each little endian type to its similarly sized native integer.
-> Convert inputs into native endian.
+> Found by Linux Verification Center (linuxtesting.org).
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202402071859.8qMhgJEQ-lkp@intel.com/
-do you want to add Fixes tag as:
-Fixes: ceeb64f41fe6 ("bus: mhi: host: Add tracing support")
-> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM operations")
+> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
+
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+- Mani
+
 > ---
->   drivers/bus/mhi/host/trace.h | 25 +++++++++++++------------
->   1 file changed, 13 insertions(+), 12 deletions(-)
+>  drivers/bus/mhi/host/boot.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/bus/mhi/host/trace.h b/drivers/bus/mhi/host/trace.h
-> index 95613c8ebe06..3e0c41777429 100644
-> --- a/drivers/bus/mhi/host/trace.h
-> +++ b/drivers/bus/mhi/host/trace.h
-> @@ -9,6 +9,7 @@
->   #if !defined(_TRACE_EVENT_MHI_HOST_H) || defined(TRACE_HEADER_MULTI_READ)
->   #define _TRACE_EVENT_MHI_HOST_H
->   
-> +#include <linux/byteorder/generic.h>
->   #include <linux/tracepoint.h>
->   #include <linux/trace_seq.h>
->   #include "../common.h"
-> @@ -97,18 +98,18 @@ TRACE_EVENT(mhi_gen_tre,
->   		__string(name, mhi_cntrl->mhi_dev->name)
->   		__field(int, ch_num)
->   		__field(void *, wp)
-> -		__field(__le64, tre_ptr)
-> -		__field(__le32, dword0)
-> -		__field(__le32, dword1)
-> +		__field(uint64_t, tre_ptr)
-> +		__field(uint32_t, dword0)
-> +		__field(uint32_t, dword1)
->   	),
->   
->   	TP_fast_assign(
->   		__assign_str(name);
->   		__entry->ch_num = mhi_chan->chan;
->   		__entry->wp = mhi_tre;
-> -		__entry->tre_ptr = mhi_tre->ptr;
-> -		__entry->dword0 = mhi_tre->dword[0];
-> -		__entry->dword1 = mhi_tre->dword[1];
-> +		__entry->tre_ptr = le64_to_cpu(mhi_tre->ptr);
-> +		__entry->dword0 = le32_to_cpu(mhi_tre->dword[0]);
-> +		__entry->dword1 = le32_to_cpu(mhi_tre->dword[1]);
->   	),
->   
->   	TP_printk("%s: Chan: %d TRE: 0x%p TRE buf: 0x%llx DWORD0: 0x%08x DWORD1: 0x%08x\n",
-> @@ -176,19 +177,19 @@ DECLARE_EVENT_CLASS(mhi_process_event_ring,
->   
->   	TP_STRUCT__entry(
->   		__string(name, mhi_cntrl->mhi_dev->name)
-> -		__field(__le32, dword0)
-> -		__field(__le32, dword1)
-> +		__field(uint32_t, dword0)
-> +		__field(uint32_t, dword1)
->   		__field(int, state)
-> -		__field(__le64, ptr)
-> +		__field(uint64_t, ptr)
->   		__field(void *, rp)
->   	),
->   
->   	TP_fast_assign(
->   		__assign_str(name);
->   		__entry->rp = rp;
-> -		__entry->ptr = rp->ptr;
-> -		__entry->dword0 = rp->dword[0];
-> -		__entry->dword1 = rp->dword[1];
-> +		__entry->ptr = le64_to_cpu(rp->ptr);
-> +		__entry->dword0 = le32_to_cpu(rp->dword[0]);
-> +		__entry->dword1 = le32_to_cpu(rp->dword[1]);
->   		__entry->state = MHI_TRE_GET_EV_STATE(rp);
->   	),
->   
-Reviewed-by: Mayank Rana <quic_mrana@quicinc.com>
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index edc0ec5a0933..738dcd11b66f 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -357,6 +357,7 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  	for (--i, --mhi_buf; i >= 0; i--, mhi_buf--)
+>  		dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
+>  				  mhi_buf->buf, mhi_buf->dma_addr);
+> +	kfree(img_info->mhi_buf);
+>  
+>  error_alloc_mhi_buf:
+>  	kfree(img_info);
+> -- 
+> 2.39.2
+> 
 
-Regards,
-Mayank
+-- 
+மணிவண்ணன் சதாசிவம்
