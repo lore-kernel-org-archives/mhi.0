@@ -1,119 +1,101 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7A5189BA9
-	for <mhi@lists.linux.dev>; Sun,  6 Oct 2024 18:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459A116DC3C
+	for <mhi@lists.linux.dev>; Sun,  6 Oct 2024 20:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728238428; cv=none; b=hFYbKh1l2B20n/SD40Wyu8PxVTrSQ8V4rdVXqLx/iYkeJXb3lUHlM3QMkBnuxEPMMe8fVNjf4Jkxh6YVW561ZVx37STFo3fn2cNAY2IAq8VM8a7R5HAeBV/Lr9R04d0oGwNGDQRTrYfoR1dPY3PIQSG0MmgnmIaEFij1+AaZ/Oc=
+	t=1728247238; cv=none; b=EsdSvvePERCTMEN4MDqnK6JUYCqhbWjMtwSGyFxRjwPtiNf8E7/O/Fh3sZwAWZe3ApUChqo15ed7UN2VrYdmvXd1AouVlsivCRbWaU6CvV3J+e3tvrS80mtc8t9LcFWufcsBcryapi+l/FfR6MR/4xZBzCrys2t4zs1wyppdwTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728238428; c=relaxed/simple;
-	bh=Ua9EPz2F0ax/VTNXjs0OZ+SzQLhTYERlSHK26OI8qU4=;
+	s=arc-20240116; t=1728247238; c=relaxed/simple;
+	bh=cxOlSWd/pMPWbXwReS/2MiMfoBkulsEZnMbKBU/u82Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qQJXupDO99KI7tDbgRm1Dp8KXc0d57OoD2T5fqM/uo/pTbME9cx7aHyvbz/j2vbJQTLlQ8YpAcOuQF5oLMbPLpfSSeGfItgJKywIA8M9SO9UPq/eXR5cgVfRD2BMNzhdpmgj9zUqxHrN171UhjkZUsdZmf63Xbr1JvlNAdI0DYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MLhb3zmi; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=civCcwqXNpFUiRwJpsps5Aog/pG6dlPoky90evnVbJ4WM7rnOOxYBkaLwmfzUbB8pfsV8PN1Pqn/60ygGC3RMZmWal1XY1v9i+Et3l/bjOVrTVIqyA0pfiacw7ZrIe8HkuAE5g3LDTzOVobZuPnBQIpURrbSanIfPmqFY0Zs3kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aqSP29T8; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MLhb3zmi"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b0b5cdb57so34683205ad.1
-        for <mhi@lists.linux.dev>; Sun, 06 Oct 2024 11:13:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aqSP29T8"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fabd2c4ac0so39824871fa.1
+        for <mhi@lists.linux.dev>; Sun, 06 Oct 2024 13:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728238426; x=1728843226; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2/0dUjW4cyzgF6yaoe7/JlUubqxNdOah7f3VO0ZqngU=;
-        b=MLhb3zmiBI8xAgW60AFvxDlb8LiBfCxiIIxH38ZiLgx3Dik39c1QvBzL9m0LoAA4pH
-         iJ6j+SXkv9t6/3w8wLgsn2xQoG5HBeY0mXIhNk4YHn4Wx0/JwPR9rQ1Ftzgl+hIhLgGd
-         S9FYRaBsNd/vb7g8J4oKdmZ7Si4FvGVHRBYdGSjzJwyAR9tUCNokoMIlsIxyDynlhoD/
-         PQQ9SmGy84KuUkOUAE2Tcu8PNXe3omBckaBGA131lbliOTjLHxiMMdCsvHljR6SpG2nN
-         giaf0UUJnzLXHJJPJgCN+u02apbTmZovqH0+tYwiWwscLLFAoLmYws3wssW69Ozsd2PK
-         L0og==
+        d=linaro.org; s=google; t=1728247234; x=1728852034; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NCcSKpIJUe3fTkwhqSrgq/Evqsh66fYibnGWceFXfJg=;
+        b=aqSP29T81np0Uqvw6We8kEFf6pbxugcEtUfu08JG014z6gnBHX9J5w3Zz2xbS2bHDg
+         ho7IVg3pKwS1UyxOf/T837KbY1LNJ6Dq5TeiuJDXoVJm4ZDL+rmrjfM4cjlGGsCtpbvr
+         uI4QkXGLxHFm4COtCYWP/IN9qVb69mEiBCgBxXEMMUd0p/iu5vWxJVHd6JFrYQG/2xI0
+         51NpUxiSYB1l6jEptHyEY+6ZH5iWlGaDezxd3qlfp40hHAbNSmgcTrQ6Wq1AkVWnTpwQ
+         StHiQ1X5zyg37278bnodajy3+HePIXhsS/mKnJYHk6zc0VMI5jdwKFHU9Sgv79iSur50
+         lxsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728238426; x=1728843226;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2/0dUjW4cyzgF6yaoe7/JlUubqxNdOah7f3VO0ZqngU=;
-        b=moMOR1NUwRZh/zsRrvVk1kun0BKZpx8WYToT5MnM6+iosdss2br3vru3K/BJq3GDw7
-         sR/ZeT22bp11pY6Z8XvgmCOzisHIDj+9zy+VzNzrxWCSeq27YaegWeQYIghhbjzpahIg
-         T2tqCgl7yz5Ort2Kzw05sKYZOCnZB4d4uf2smkyVhFIKLSEwNwy/aJU6R5cgA7PjYdAE
-         qUxmgj4e7QcbauSTyeSoQD+mBRsZV4J0c+YQvNRAukTEQ7GOB36eLW6hSXwquVuxkT/k
-         QPlWdD4aBqm3ySLYQXl2j5K26yBeIN7Vfojq2YR+AY9jjWKHkte1av+Dm+vAC8Fxnrf8
-         J7ow==
-X-Gm-Message-State: AOJu0Yy3UoFvUzUjeFZkkvTezYO1wO8KGPYLgU/xIzuOENwNOpm7HaGG
-	oPt6G2jx2TfwAGDZl65IpVQh3p+MyOynISHiDQcsPfVt0RzpakfVIIQ7aIgac4v6d16d1M6spys
-	=
-X-Google-Smtp-Source: AGHT+IGR+azJ48oun8zo9Wf54stSUamrDzyOck3wVNecSl83OrIq+R2fL++Y4u9uqPUWdAaT8lZzWQ==
-X-Received: by 2002:a17:90b:4a46:b0:2da:8edf:ddc with SMTP id 98e67ed59e1d1-2e1e5dbc080mr13800947a91.19.1728238426412;
-        Sun, 06 Oct 2024 11:13:46 -0700 (PDT)
-Received: from thinkpad ([220.158.156.57])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20b0fb8c1sm3673804a91.43.2024.10.06.11.13.44
+        d=1e100.net; s=20230601; t=1728247234; x=1728852034;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NCcSKpIJUe3fTkwhqSrgq/Evqsh66fYibnGWceFXfJg=;
+        b=kdkp0kiMQRMPQk97FEfYALi7VcujqFgZh1a4STETnICeA8V5uw4Ojflv1YmgUVoBQl
+         mHhmrwGnRbdB1+7fwpfSW6EkvbUxlz9sbXY+8T+QOzNblOEhS+2JlbZqWp/Orze96VOY
+         I9cj4hpjYwkLLhNNgjZe+uRUSPz9RdYU0vkin4SFyAFr2wsm7bKdsLPMvXOo3jUG7eC3
+         fIt8BWROriYGaEz+T8qUO/3vqhti9+XUIxMlU0+vwHWrp6XBbXa4qhC8L7JIIbG0jH7j
+         ajz932nsT/2+2mZ8NZ6LFTiOIjZO35yH+mVxx2KwfzWZD/J6kSdlDDFmL9/4v0MmzcKn
+         wjTQ==
+X-Gm-Message-State: AOJu0YyFmf4IKRMWszlAwKC6JgXliZi2bIQVges6P0T2AK9/+v62Mt7N
+	HRloZNhcS0f+EGxlINgOXPnb7enW+nCjoMpvlLsXWO+fdqXOAI0Lccl1djz2nS0=
+X-Google-Smtp-Source: AGHT+IG8+kDD0E+S6aGBtT3ny/KHoHxXGLgb2vxwOg52Amd380qwmfcHnszuMs5rLO7D/6TrycwfpQ==
+X-Received: by 2002:a05:6512:6c6:b0:535:6aa9:9855 with SMTP id 2adb3069b0e04-539ab6d9bdfmr4233900e87.0.1728247234296;
+        Sun, 06 Oct 2024 13:40:34 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff23e0bsm621231e87.243.2024.10.06.13.40.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 11:13:45 -0700 (PDT)
-Date: Sun, 6 Oct 2024 23:43:43 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Loic Poulain <loic.poulain@linaro.org>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Use pcim_iomap_region() to
- request and map MHI BAR
-Message-ID: <20241006181343.bng5gkwvmofefomv@thinkpad>
-References: <20241004023351.6946-1-manivannan.sadhasivam@linaro.org>
+        Sun, 06 Oct 2024 13:40:33 -0700 (PDT)
+Date: Sun, 6 Oct 2024 23:40:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Cc: mhi@lists.linux.dev, quic_qianyu@quicinc.com, 
+	manivannan.sadhasivam@linaro.org, quic_vbadigan@quicinc.com, quic_krichai@quicinc.com, 
+	quic_skananth@quicinc.com, mrana@quicinc.com, Slark Xiao <slark_xiao@163.com>, 
+	Fabio Porcedda <fabio.porcedda@gmail.com>, Mank Wang <mank.wang@netprisma.us>, 
+	"open list:MHI BUS" <linux-arm-msm@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add support for QDU100
+ device
+Message-ID: <ya22me5qxy4vhqcfwu6hfctxthog3vpj5dxee45vmdctat7hrv@swoquk2audro>
+References: <20241001113738.152467-1-quic_vpernami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241004023351.6946-1-manivannan.sadhasivam@linaro.org>
+In-Reply-To: <20241001113738.152467-1-quic_vpernami@quicinc.com>
 
-On Fri, Oct 04, 2024 at 08:03:51AM +0530, Manivannan Sadhasivam wrote:
-> Use of both pcim_iomap_regions() and pcim_iomap_table() APIs are
-> deprecated. Hence, switch to pcim_iomap_region() API which handles both the
-> request and map of the MHI BAR region.
+On Tue, Oct 01, 2024 at 05:07:35PM GMT, Vivek Pernamitta wrote:
+> Add MHI controller configuration for QDU100 device.
 > 
-> Cc: Loic Poulain <loic.poulain@linaro.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> This Qualcomm QDU100 device is inline accelerator card
+> which is an extension to QRU100 5G RAN platform.
+> which is designed to simplify 5G deployments by offering
+> a turnkey solution for ease of deployment with O-RAN
+> fronthaul and 5G NR layer 1 High (L1 High) processing,
+> and to accelerate operator and infrastructure vendor
+> adoption of virtualized RAN platforms.
 
-Applied to mhi-next!
+Please replace marketing text with a sensible description.
 
-- Mani
+> 
+> https://docs.qualcomm.com/bundle/publicresource/87-79371-1_REV_A_Qualcomm_X100_5G_RAN_Accelerator_Card_Product_Brief.pdf
 
+There is a tag for this, it's even called 'Link:'
+
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > ---
-> 
-> Compile tested only.
-> 
->  drivers/bus/mhi/host/pci_generic.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 9938bb034c1c..07645ce2119a 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -917,12 +917,12 @@ static int mhi_pci_claim(struct mhi_controller *mhi_cntrl,
->  		return err;
->  	}
->  
-> -	err = pcim_iomap_regions(pdev, 1 << bar_num, pci_name(pdev));
-> -	if (err) {
-> +	mhi_cntrl->regs = pcim_iomap_region(pdev, 1 << bar_num, pci_name(pdev));
-> +	if (IS_ERR(mhi_cntrl->regs)) {
-> +		err = PTR_ERR(mhi_cntrl->regs);
->  		dev_err(&pdev->dev, "failed to map pci region: %d\n", err);
->  		return err;
->  	}
-> -	mhi_cntrl->regs = pcim_iomap_table(pdev)[bar_num];
->  	mhi_cntrl->reg_len = pci_resource_len(pdev, bar_num);
->  
->  	err = dma_set_mask_and_coherent(&pdev->dev, dma_mask);
-> -- 
-> 2.25.1
+>  drivers/bus/mhi/host/pci_generic.c | 49 ++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
 > 
 
 -- 
-மணிவண்ணன் சதாசிவம்
+With best wishes
+Dmitry
