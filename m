@@ -1,182 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8902715A862
-	for <mhi@lists.linux.dev>; Mon,  7 Oct 2024 06:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D1DEEBA
+	for <mhi@lists.linux.dev>; Mon,  7 Oct 2024 08:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728284138; cv=none; b=IKRpYNCiS8/Inp9GxZtgbmvSzymWqiN4+Y7GUFzsXBQ3MxYTBcQMeA1bU5WVJQ87Cd8p6Z1MVbe9amQcSs1l0ITLZGUlj1sl+jXqL9PsRYo6VtbEx0lpVw4+ETDtiYtbdNwoj1TCrXkZH3pqbqPe0+whKNgQTVKHYVVvDkg0YuM=
+	t=1728288961; cv=none; b=qumArYAyDGo3YN9knlcVJBnUufXcP0JseKGAZ2n6wM7iemWklw7VmzhG7QxoXinoQkQ2/2s66VjOdFYjOtsYPqjP5p3/N4KoP4Xg8hzmgRARA/oNdQchv4Xz4oP1M5K+SK6ubXv5m1Ruw5i/8DitVa0q6n6BL14o+y/Z80jhaw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728284138; c=relaxed/simple;
-	bh=oRXHUinoN0Vb9Ek70jBGekazwru16o3uYGFUAZWbNYk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WBImPmjn2cG2+MJLd46STD7aiuDK6cMfj8I5hXqcvxuTXn0HDf3UObhYuKcAXkMbaOnlz7zlA/qnLDy2hlh6harl8n3ZtOzYKHk8YmARlQ1uo3HaOAjb56+VDiaJjXRaCLCqQcE7zi3Uvgf+JguZnRNI714GM5n4Qs0xbrlCrdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nLo1Je5E; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728288961; c=relaxed/simple;
+	bh=tp2Is5gH0vbZp/7LIJTnCVVW2haso6x9+R0tJFjiD3U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AD+h/uelPu4WCKLYZED9Dx/+p8AeD1pGH7M2s9CBcdwiQXXtlGXgTqIoG4erUYBA96/rg1HlIO/6Qno2lJINILTM+Wbw19FV396nwT6sE5n253BnKULv8SS8ESIBjPJO+VRfnrbvgHkArB/4eEncx3LmId5akbjKAqVuOpdZC18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VZkw6f8A; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLo1Je5E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728284136; x=1759820136;
-  h=date:from:to:cc:subject:message-id;
-  bh=oRXHUinoN0Vb9Ek70jBGekazwru16o3uYGFUAZWbNYk=;
-  b=nLo1Je5EOVol+BJgRIKtHrwQyPIYDEOYFHLUEmG9+2FvDed5n78aJ7Rp
-   B994Qk7+DZio4ZwKhPYAV5ul8fIbR5zoV6hrnX5sAi4/sEF/oBONsOp/I
-   WH2lIEvmG2pvsXzNjnZmqmcNXYu4NP7fKlcRLSfUGeyeFmAOLtNoAltXi
-   2oc2JIXqtrkTI3xCNNYvV18LUrlvOcqp6bKVmROdZVvn9yJe94W4097AI
-   qP9zbbz5b6XzEynZkJt0S0bc8ar7x21/unYTCjXfaxgSztXRbA4r4cSF+
-   gEQMke3d0XYvma60l/9jw+R2foJOoW4y6OdC9K5R+l8DfuiWk9HIXjWJt
-   w==;
-X-CSE-ConnectionGUID: xRi/EzuyRYqlH1lJDiBJGA==
-X-CSE-MsgGUID: ATDYF5jRT8eVfq2pm6n1FA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="38549112"
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="38549112"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 23:55:36 -0700
-X-CSE-ConnectionGUID: m0g8Wcy5RJ+1AxBZtBfV8Q==
-X-CSE-MsgGUID: /W9sLi38Qyes/DhSO/N1pQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="112846495"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Oct 2024 23:55:35 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxheV-0004hM-3D;
-	Mon, 07 Oct 2024 06:55:31 +0000
-Date: Mon, 07 Oct 2024 14:54:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 6d61859bbe7682304626e8ad13489b418f2e8175
-Message-ID: <202410071420.hQLubWFL-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VZkw6f8A"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4974TTd7015627;
+	Mon, 7 Oct 2024 08:15:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=/KyyzSmZpyWz3jrw1OiF0jpq4ugaU+HOrSv
+	dlB6v3NE=; b=VZkw6f8AWBhdtJmeZRZnYKTd29wonDYjWna64M8/hY2F/+Smj1r
+	WL/UTcPzSFpRXHUCkedER+LLLVgvcAA69N83QoDErdp0JFMS8/iPYnfQ5EDtNI1B
+	CRMb9EIT5f+5uUKXmyWFrIWDoLFoFukiie9oEW52+Abw26xLK+oFcnCuaI+JpyA5
+	SJKlVYFYjJUf+mlwf+j3UWGfNin1vmaZnXHJmPtMTt0fdz6sKOSDwD1qXmgo5gy/
+	bzu3RHJsLffF5/7k8Ezyvi0HO+Jg7yjaD+djve6m5Rc0Ox0rvKWTqtJQ1BBJ94bU
+	1uRs07SB8xyOwlD1UhfZHWqLRpCLQcBt4iw==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xs73dft-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 08:15:51 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 4978Fmuf002083;
+	Mon, 7 Oct 2024 08:15:48 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 422xhksegy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 08:15:48 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4978FlPV002075;
+	Mon, 7 Oct 2024 08:15:47 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com ([10.213.96.82])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4978Fl7M002074
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 08:15:47 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 2370923)
+	id A98CC577; Mon,  7 Oct 2024 13:45:46 +0530 (+0530)
+From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+To: mhi@lists.linux.dev
+Cc: quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
+        quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
+        quic_skananth@quicinc.com, quic_mrana@quicinc.com,
+        Vivek Pernamitta <quic_vpernami@quicinc.com>,
+        Slark Xiao <slark_xiao@163.com>, Mank Wang <mank.wang@netprisma.us>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>,
+        Fabio Porcedda <fabio.porcedda@gmail.com>,
+        linux-arm-msm@vger.kernel.org (open list:MHI BUS),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Add support for QDU100 device
+Date: Mon,  7 Oct 2024 13:45:41 +0530
+Message-Id: <20241007081543.3475027-1-quic_vpernami@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: RVRvMETXdyNU06U75WusFOs1FDdJsv6O
+X-Proofpoint-GUID: RVRvMETXdyNU06U75WusFOs1FDdJsv6O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=999
+ clxscore=1015 malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410070057
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 6d61859bbe7682304626e8ad13489b418f2e8175  bus: mhi: host: pci_generic: Use pcim_iomap_region() to request and map MHI BAR
+Add MHI controller configuration for QDU100 device.
 
-elapsed time: 755m
+This Qualcomm QDU100 device is inline accelerator card
+which is an extension to QRU100 5G RAN platform.
+which is designed to simplify 5G deployments by offering
+a turnkey solution for ease of deployment with O-RAN
+fronthaul and 5G NR layer 1 High (L1 High) processing,
+and to accelerate operator and infrastructure vendor
+adoption of virtualized RAN platforms.
 
-configs tested: 105
-configs skipped: 2
+Currently IP_SW1/2 channel support is not present in
+mhi_net driver, will be supporting them in future.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+https://docs.qualcomm.com/bundle/publicresource/87-79371-1_REV_A_Qualcomm_X100_5G_RAN_Accelerator_Card_Product_Brief.pdf
+Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
 
-tested configs:
-alpha                             allnoconfig    gcc-14.1.0
-alpha                            allyesconfig    clang-20
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.1.0
-arc                              allyesconfig    clang-20
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.1.0
-arm                              allyesconfig    clang-20
-arm                          ep93xx_defconfig    gcc-14.1.0
-arm                          pxa910_defconfig    gcc-14.1.0
-arm                        realview_defconfig    gcc-14.1.0
-arm                        spear6xx_defconfig    gcc-14.1.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.1.0
-csky                              allnoconfig    gcc-14.1.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.1.0
-hexagon                          allyesconfig    clang-20
-i386                             allmodconfig    clang-18
-i386                              allnoconfig    clang-18
-i386                             allyesconfig    clang-18
-i386        buildonly-randconfig-001-20241007    clang-18
-i386        buildonly-randconfig-002-20241007    clang-18
-i386        buildonly-randconfig-003-20241007    clang-18
-i386        buildonly-randconfig-004-20241007    clang-18
-i386        buildonly-randconfig-005-20241007    clang-18
-i386        buildonly-randconfig-006-20241007    clang-18
-i386                                defconfig    clang-18
-i386                  randconfig-001-20241007    clang-18
-i386                  randconfig-002-20241007    clang-18
-i386                  randconfig-003-20241007    clang-18
-i386                  randconfig-004-20241007    clang-18
-i386                  randconfig-005-20241007    clang-18
-i386                  randconfig-006-20241007    clang-18
-i386                  randconfig-011-20241007    clang-18
-i386                  randconfig-012-20241007    clang-18
-i386                  randconfig-013-20241007    clang-18
-i386                  randconfig-014-20241007    clang-18
-i386                  randconfig-015-20241007    clang-18
-i386                  randconfig-016-20241007    clang-18
-loongarch                        allmodconfig    gcc-14.1.0
-loongarch                         allnoconfig    gcc-14.1.0
-m68k                             allmodconfig    gcc-14.1.0
-m68k                              allnoconfig    gcc-14.1.0
-m68k                             allyesconfig    gcc-14.1.0
-microblaze                       allmodconfig    gcc-14.1.0
-microblaze                        allnoconfig    gcc-14.1.0
-microblaze                       allyesconfig    gcc-14.1.0
-mips                              allnoconfig    gcc-14.1.0
-mips                           gcw0_defconfig    gcc-14.1.0
-mips                     loongson1c_defconfig    gcc-14.1.0
-mips                      loongson3_defconfig    gcc-14.1.0
-nios2                             allnoconfig    gcc-14.1.0
-openrisc                          allnoconfig    clang-20
-openrisc                          allnoconfig    gcc-14.1.0
-openrisc                         allyesconfig    gcc-14.1.0
-openrisc                            defconfig    gcc-12
-parisc                           alldefconfig    gcc-14.1.0
-parisc                           allmodconfig    gcc-14.1.0
-parisc                            allnoconfig    clang-20
-parisc                            allnoconfig    gcc-14.1.0
-parisc                           allyesconfig    gcc-14.1.0
-parisc                              defconfig    gcc-12
-powerpc                          allmodconfig    gcc-14.1.0
-powerpc                           allnoconfig    clang-20
-powerpc                           allnoconfig    gcc-14.1.0
-powerpc                          allyesconfig    gcc-14.1.0
-powerpc                 canyonlands_defconfig    gcc-14.1.0
-powerpc                 mpc832x_rdb_defconfig    gcc-14.1.0
-powerpc                     tqm5200_defconfig    gcc-14.1.0
-riscv                            allmodconfig    gcc-14.1.0
-riscv                             allnoconfig    clang-20
-riscv                             allnoconfig    gcc-14.1.0
-riscv                            allyesconfig    gcc-14.1.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    gcc-14.1.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.1.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.1.0
-sh                                allnoconfig    gcc-14.1.0
-sh                               allyesconfig    gcc-14.1.0
-sh                                  defconfig    gcc-12
-sh                             espt_defconfig    gcc-14.1.0
-sh                           se7724_defconfig    gcc-14.1.0
-sh                              ul2_defconfig    gcc-14.1.0
-sparc                            allmodconfig    gcc-14.1.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-17
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                             i386_defconfig    gcc-14.1.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-18
-x86_64                           allyesconfig    clang-18
-x86_64                              defconfig    clang-18
-x86_64                                  kexec    clang-18
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-x86_64                          rhel-8.3-rust    clang-18
-xtensa                            allnoconfig    gcc-14.1.0
-xtensa                generic_kc705_defconfig    gcc-14.1.0
+---
+changes from V1:
+- Changing naming convention from modem_qcom_qdu100*
+  to mhi_qcom_qdu100*
+- Added more commit test for IP_SW1/2 channels.
+- Fixed and corrected by passing mhi_pci_dev_info struct
+  instead of mhi_controller_config.
+---
+---
+ drivers/bus/mhi/host/pci_generic.c | 60 ++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 9938bb034c1c..b9b7dd8d9411 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -245,6 +245,63 @@ struct mhi_pci_dev_info {
+ 		.channel = ch_num,		\
+ 	}
+ 
++static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
++	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 2),
++	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 2),
++	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 128, 1),
++	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 128, 1),
++	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 3),
++	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 3),
++	MHI_CHANNEL_CONFIG_UL(9, "QDSS", 64, 3),
++	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 4),
++	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 4),
++	MHI_CHANNEL_CONFIG_UL(16, "CSM_CTRL", 32, 4),
++	MHI_CHANNEL_CONFIG_DL(17, "CSM_CTRL", 32, 4),
++	MHI_CHANNEL_CONFIG_UL(40, "MHI_PHC", 32, 4),
++	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
++	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
++	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
++	MHI_CHANNEL_CONFIG_UL(48, "IP_SW1", 256, 6),
++	MHI_CHANNEL_CONFIG_DL(49, "IP_SW1", 256, 6),
++	MHI_CHANNEL_CONFIG_UL(50, "IP_SW2", 256, 7),
++	MHI_CHANNEL_CONFIG_DL(51, "IP_SW2", 256, 7),
++};
++
++static struct mhi_event_config mhi_qcom_qdu100_events[] = {
++	/* first ring is control+data ring */
++	MHI_EVENT_CONFIG_CTRL(0, 64),
++	/* SAHARA dedicated event ring */
++	MHI_EVENT_CONFIG_SW_DATA(1, 256),
++	/* Software channels dedicated event ring */
++	MHI_EVENT_CONFIG_SW_DATA(2, 64),
++	MHI_EVENT_CONFIG_SW_DATA(3, 256),
++	MHI_EVENT_CONFIG_SW_DATA(4, 256),
++	/* Software IP channels dedicated event ring */
++	MHI_EVENT_CONFIG_SW_DATA(5, 512),
++	MHI_EVENT_CONFIG_SW_DATA(6, 512),
++	MHI_EVENT_CONFIG_SW_DATA(7, 512),
++};
++
++static const struct mhi_controller_config mhi_qcom_qdu100_config = {
++	.max_channels = 128,
++	.timeout_ms = 120000,
++	.num_channels = ARRAY_SIZE(mhi_qcom_qdu100_channels),
++	.ch_cfg = mhi_qcom_qdu100_channels,
++	.num_events = ARRAY_SIZE(mhi_qcom_qdu100_events),
++	.event_cfg = mhi_qcom_qdu100_events,
++};
++
++static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
++	.name = "qcom-lassen",
++	.fw = "qcom/lassen/xbl_s.melf",
++	.edl = "qcom/lassen/edl.mbn",
++	.edl_trigger = true,
++	.config = &mhi_qcom_qdu100_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
+ 	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
+@@ -822,6 +879,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* NETPRISMA FCUN69 (SDX6X) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_NETPRISMA, 0x1001),
+ 		.driver_data = (kernel_ulong_t) &mhi_netprisma_fcun69_info },
++	/* QDU100, x100-DU */
++	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0601),
++		.driver_data = (kernel_ulong_t)&mhi_qcom_qdu100_info },
+ 	{  }
+ };
+ MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+-- 
+2.34.1
+
