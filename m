@@ -1,102 +1,93 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEE91420A8;
-	Tue,  5 Nov 2024 12:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14861D9A49;
+	Tue,  5 Nov 2024 13:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730808487; cv=none; b=thfmonRT3/juZffcETjXsOQnKYxaGmRTz1Z4UcwBAbqZROzo7CzfdUHB2vS9Rga6ymMC7tKxlshusnagbFt4eq+iUJCBALX4DduzydEdtnEQNsaFEo/2z55acI/saFtHJxCEk7olgp+xsEfSphE6cTnatA5aUEsmEi6iuGSdn90=
+	t=1730813769; cv=none; b=LzftmKCHMi8rHs2Xo+WVxFxbgH8baWXeIn1Jqjt+i1Ece5kS+MAsTfyBx+bqZ7od/gdvV+yeaR2v27DyDb2bU0fA6EcdkjahZKd6jAt84YZGYhubqSjf/Ps6pTsyEkv0v/dXuI4VLLYsjj5SmXlhhA0gyC7WZMVli3TDeuJ1Rlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730808487; c=relaxed/simple;
-	bh=/kqVLKSAToLpMYlZF7SwfQXhYepUQVt59Dvr/vkRwfg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QJAvNvrI8Jbf6E9WfA1l9cJSlvwRSMOaiki7SEYVAr0B/nobs23FjOwkuhU1QzlkfEkvlDV+i1M4XGPcOMxxAubk+/xugE4mhszPuV9onOPaU6Ayj9cH0jF4kqzmrU+HyPCqQrTqXoZO1e1mfUEUSlKPBqVTmwfKlfxCiofwZfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D7ilBz1H; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1730813769; c=relaxed/simple;
+	bh=YykurtqbGlWC9tC8MPh6nSJFQYNjqf+WGkBn+I5mJYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hs4DthfZVwYNHbDfy++1aOr+Ywg2XKhRfF0Z1bDGfp0NNKe4VG+iTLgJbZz38tbrPUSuab8UmcC+Txvvuj+ZmLXGCcXaGXHKZvq0/AQy6zSScXdx+tEuVAxPCt55Q0x1W4ZsBjkGVxAmOro7lhO75PwRnTdiuowPkAgOoeV4bbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq8RmetU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D7ilBz1H"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A59rhN8015691;
-	Tue, 5 Nov 2024 12:07:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=oz0kIhBlG3QiX4+nJ8CPHc
-	g2oCy+qLzPNL05ndtC0Yk=; b=D7ilBz1Hf/Te+k/4vrK6vi7b1oHbgvz8UwFSoC
-	Fm/33Bl7E5wL8l8cVbMt8b9A8TibTCA3Em9HcFjlYqtHIxKvNL539X3cHDjUyaJB
-	46x6BmQSUjiQKQBuMCEymkjWwp5Hle4kGD64ZU3rMr4rvV/YX59QjvtQE0ppCkBC
-	CxBtIi+kkUHMU+ckTkkJaZzkYNseFylNADRPWzrsYgZt9i9bkfepiTVeRYI1Hg46
-	wDS+RcD+RGib4BRZdkUuym5QQl/mELrBxn7TK9DNvDODAJ7AGzOqM8VjE0TEgVl5
-	hd7gz5mEBKxiL51k2+yp+AL24O//K07XYFMFGL/3PTIaj/9g==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd4yqecx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Nov 2024 12:07:54 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A5C7ruV012660
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Nov 2024 12:07:53 GMT
-Received: from zhonhan-gv.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 5 Nov 2024 04:07:51 -0800
-From: Zhongqiu Han <quic_zhonhan@quicinc.com>
-To: <manivannan.sadhasivam@linaro.org>, <kw@linux.com>, <kishon@kernel.org>,
-        <bhelgaas@google.com>, <lpieralisi@kernel.org>, <dlemoal@kernel.org>
-CC: <quic_zhonhan@quicinc.com>, <mhi@lists.linux.dev>,
-        <linux-arm-msm@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] PCI: epf-mhi: Fix potential NULL dereference in pci_epf_mhi_bind()
-Date: Tue, 5 Nov 2024 20:07:35 +0800
-Message-ID: <20241105120735.1240728-1-quic_zhonhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq8RmetU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3784C4CED0;
+	Tue,  5 Nov 2024 13:36:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730813769;
+	bh=YykurtqbGlWC9tC8MPh6nSJFQYNjqf+WGkBn+I5mJYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Aq8RmetUQet0Oe/6LcyzzN3BxazNTjdvaGJIMl5uqsxjhtrCwkJWYZTjAE/T+UKGB
+	 shHnhJmSM/NnmNs6yAxLy0jTYVPTFwDZcAlWV3nRtWkLIFvbMeVSYGjSwGTeu+UvRn
+	 ZVm9vZhnU9kI4rQsCUlx6qM3XXp7B/K9l68J5vNtuNtaAUH3iR83r1Aykl31wsCRDs
+	 1vVcj9Lf9p2PKAtYcPqo/Y9MVgGINk4czg/X4sNJWosdTq0rAXaGltCvLfaqY0ISwa
+	 ex4AtMNv145cmsfwiMgYmtPJzznN477DWGnW0NKSG72MH5yQfkWFKMYUc3zwkOIKic
+	 GOe1BBLrJ35tg==
+Date: Tue, 5 Nov 2024 14:36:04 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Zhongqiu Han <quic_zhonhan@quicinc.com>
+Cc: manivannan.sadhasivam@linaro.org, kw@linux.com, kishon@kernel.org,
+	bhelgaas@google.com, lpieralisi@kernel.org, dlemoal@kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: epf-mhi: Fix potential NULL dereference in
+ pci_epf_mhi_bind()
+Message-ID: <ZyofRAZoAE5IgCVi@ryzen>
+References: <20241105120735.1240728-1-quic_zhonhan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pbjjv8jdCXNqXKAHFywCM8kyacJ0uTRB
-X-Proofpoint-ORIG-GUID: pbjjv8jdCXNqXKAHFywCM8kyacJ0uTRB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=801
- malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 phishscore=0 clxscore=1011 adultscore=0
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411050093
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105120735.1240728-1-quic_zhonhan@quicinc.com>
 
-If platform_get_resource_byname() fails and returns NULL, dereferencing
-res->start will cause a NULL pointer access. Add a check to prevent it.
+On Tue, Nov 05, 2024 at 08:07:35PM +0800, Zhongqiu Han wrote:
+> If platform_get_resource_byname() fails and returns NULL, dereferencing
+> res->start will cause a NULL pointer access. Add a check to prevent it.
+> 
+> Fixes: 1bf5f25324f7 ("PCI: endpoint: Add PCI Endpoint function driver for MHI bus")
+> Signed-off-by: Zhongqiu Han <quic_zhonhan@quicinc.com>
+> ---
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 7d070b1def11..2712026733ab 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -873,6 +873,11 @@ static int pci_epf_mhi_bind(struct pci_epf *epf)
+>  
+>  	/* Get MMIO base address from Endpoint controller */
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "Failed to get MMIO base address\n");
 
-Fixes: 1bf5f25324f7 ("PCI: endpoint: Add PCI Endpoint function driver for MHI bus")
-Signed-off-by: Zhongqiu Han <quic_zhonhan@quicinc.com>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 5 +++++
- 1 file changed, 5 insertions(+)
+dev_err(&epf->dev, "Failed to get mmio resource\n");
+or
+dev_err(&epf->dev, "Failed to get \"mmio\" resource\n");
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index 7d070b1def11..2712026733ab 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -873,6 +873,11 @@ static int pci_epf_mhi_bind(struct pci_epf *epf)
- 
- 	/* Get MMIO base address from Endpoint controller */
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
-+	if (!res) {
-+		dev_err(&pdev->dev, "Failed to get MMIO base address\n");
-+		return -ENODEV;
-+	}
-+
- 	epf_mhi->mmio_phys = res->start;
- 	epf_mhi->mmio_size = resource_size(res);
- 
--- 
-2.25.1
+Note: &epf->dev instead of &pdev->dev in order to be consistent with other
+EPF ->bind() functions.
 
+With that, feel free to add:
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
+
+
+Kind regards,
+Niklas
+
+> +		return -ENODEV;
+> +	}
+> +
+>  	epf_mhi->mmio_phys = res->start;
+>  	epf_mhi->mmio_size = resource_size(res);
+>  
+> -- 
+> 2.25.1
+> 
