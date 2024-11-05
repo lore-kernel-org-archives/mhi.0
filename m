@@ -1,149 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E08A3987D;
-	Tue,  5 Nov 2024 05:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEE91420A8;
+	Tue,  5 Nov 2024 12:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730783285; cv=none; b=qGDeLWvr0+fMEzOE3MoT0Dfk/Oq5PuAfuqxYK8You6FftIIueC/tXrmkl7LEHE5YY0Z0kumRHSF7Qw1BJVcynna3T/cW/NaT+dIRi7Z7/zb0Kno3lIZOIUQvWZdHkek3qITPpLX5JAa1JCSjnxvbJoSvvUzQfPpySVYujA6XyQc=
+	t=1730808487; cv=none; b=thfmonRT3/juZffcETjXsOQnKYxaGmRTz1Z4UcwBAbqZROzo7CzfdUHB2vS9Rga6ymMC7tKxlshusnagbFt4eq+iUJCBALX4DduzydEdtnEQNsaFEo/2z55acI/saFtHJxCEk7olgp+xsEfSphE6cTnatA5aUEsmEi6iuGSdn90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730783285; c=relaxed/simple;
-	bh=Woa5l/TBzfjnbejfeJNuhIdCkk1UOKkNCSAnyW42mrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M1grtJj0b3kRBueslMfacPkJGTah5y1XaeeiIFqSXQ5vCwu7wM/8dlhEuERtMkf4yz107/zbbkHvYCBA5MeWm6OIpbznlr5Nphx2lbHGvkmUl5Eq11y+OiVyk5yqrPbJXFJE2cPgrtk+a851XG/t/Zu3Fd3/3V4NFA/kC+P3VWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AK6VuxFZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730808487; c=relaxed/simple;
+	bh=/kqVLKSAToLpMYlZF7SwfQXhYepUQVt59Dvr/vkRwfg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QJAvNvrI8Jbf6E9WfA1l9cJSlvwRSMOaiki7SEYVAr0B/nobs23FjOwkuhU1QzlkfEkvlDV+i1M4XGPcOMxxAubk+/xugE4mhszPuV9onOPaU6Ayj9cH0jF4kqzmrU+HyPCqQrTqXoZO1e1mfUEUSlKPBqVTmwfKlfxCiofwZfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D7ilBz1H; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AK6VuxFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14238C4CECF;
-	Tue,  5 Nov 2024 05:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730783285;
-	bh=Woa5l/TBzfjnbejfeJNuhIdCkk1UOKkNCSAnyW42mrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AK6VuxFZ1qdb1ASJhFnrWnZ+gjqjzhn5itjDiDIbY6oA5hQ/MVC4po0h7T9x4iP+d
-	 ZTy31PQzwIe/YAjF9RT1WtQqVMAeK6En6Glkchdb81Q2pbUuJg/JQPr97aGEp218Rd
-	 S1h0+VwuCtaRmMAUzkWkQ0B5XtN6QSU30D9wOE+Mlj14S59wGMPw64CVqiAl07TwQh
-	 FQoCXxXydhukNne/RoKvirXXRse1ke8F4PM9ckEZDPOmVR31KvQ27NSPYDZFjIblNi
-	 /0KQcuc36UIzD9Joar7eKBo5yMAgB0+hohgNAoFwnjzsACSGwdL9QNvYwvnelBb6eE
-	 /Amp0A3yUXSnA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1t8BnO-000000005Bi-3WGR;
-	Tue, 05 Nov 2024 06:08:03 +0100
-Date: Tue, 5 Nov 2024 06:08:02 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Chris Lew <quic_clew@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	Qiang Yu <quic_qianyu@quicinc.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	Konrad Dybcio <konradybcio@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: qrtr/mhi: NULL-deref with in-kernel pd-mapper
-Message-ID: <ZymoMlSCQQScpRIZ@hovoldconsulting.com>
-References: <ZyTtVdkCCES0lkl4@hovoldconsulting.com>
- <da2bc665-5010-4d92-b9ac-7c442859cd10@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D7ilBz1H"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A59rhN8015691;
+	Tue, 5 Nov 2024 12:07:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=oz0kIhBlG3QiX4+nJ8CPHc
+	g2oCy+qLzPNL05ndtC0Yk=; b=D7ilBz1Hf/Te+k/4vrK6vi7b1oHbgvz8UwFSoC
+	Fm/33Bl7E5wL8l8cVbMt8b9A8TibTCA3Em9HcFjlYqtHIxKvNL539X3cHDjUyaJB
+	46x6BmQSUjiQKQBuMCEymkjWwp5Hle4kGD64ZU3rMr4rvV/YX59QjvtQE0ppCkBC
+	CxBtIi+kkUHMU+ckTkkJaZzkYNseFylNADRPWzrsYgZt9i9bkfepiTVeRYI1Hg46
+	wDS+RcD+RGib4BRZdkUuym5QQl/mELrBxn7TK9DNvDODAJ7AGzOqM8VjE0TEgVl5
+	hd7gz5mEBKxiL51k2+yp+AL24O//K07XYFMFGL/3PTIaj/9g==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd4yqecx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Nov 2024 12:07:54 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A5C7ruV012660
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 5 Nov 2024 12:07:53 GMT
+Received: from zhonhan-gv.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 5 Nov 2024 04:07:51 -0800
+From: Zhongqiu Han <quic_zhonhan@quicinc.com>
+To: <manivannan.sadhasivam@linaro.org>, <kw@linux.com>, <kishon@kernel.org>,
+        <bhelgaas@google.com>, <lpieralisi@kernel.org>, <dlemoal@kernel.org>
+CC: <quic_zhonhan@quicinc.com>, <mhi@lists.linux.dev>,
+        <linux-arm-msm@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] PCI: epf-mhi: Fix potential NULL dereference in pci_epf_mhi_bind()
+Date: Tue, 5 Nov 2024 20:07:35 +0800
+Message-ID: <20241105120735.1240728-1-quic_zhonhan@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <da2bc665-5010-4d92-b9ac-7c442859cd10@quicinc.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: pbjjv8jdCXNqXKAHFywCM8kyacJ0uTRB
+X-Proofpoint-ORIG-GUID: pbjjv8jdCXNqXKAHFywCM8kyacJ0uTRB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=801
+ malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 phishscore=0 clxscore=1011 adultscore=0
+ spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411050093
 
-On Mon, Nov 04, 2024 at 04:26:15PM -0800, Chris Lew wrote:
-> On 11/1/2024 8:01 AM, Johan Hovold wrote:
+If platform_get_resource_byname() fails and returns NULL, dereferencing
+res->start will cause a NULL pointer access. Add a check to prevent it.
 
-> > [    8.825593] Unable to handle kernel NULL pointer dereference at virtual
-> > address 0000000000000034
-> > .
+Fixes: 1bf5f25324f7 ("PCI: endpoint: Add PCI Endpoint function driver for MHI bus")
+Signed-off-by: Zhongqiu Han <quic_zhonhan@quicinc.com>
+---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> > [    9.002030] CPU: 10 UID: 0 PID: 11 Comm: kworker/u48:0 Not tainted 6.12.0-rc5 #4
-> > [    9.029550] Hardware name: Qualcomm CRD, BIOS 6.0.231221.BOOT.MXF.2.4-00348.1-HAMOA-1 12/21/2023
-> > [    9.029552] Workqueue: qrtr_ns_handler qrtr_ns_worker [qrtr]
-> > [    9.061350] pstate: a1400005 (NzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-> > [    9.061353] pc : mhi_gen_tre+0x44/0x224 [mhi]
-> > [    9.106931] lr : mhi_gen_tre+0x40/0x224 [mhi]
-> > [    9.106934] sp : ffff8000800fb7d0
-> > [    9.106935] x29: ffff8000800fb7d0 x28: ffff6db7852bd000 x27: ffff800082490188
-> > [    9.120382] dwc3 a000000.usb: Adding to iommu group 5
-> > [    9.133750]
-> > [    9.133752] x26: 0000000000000000 x25: ffff6db783e65080 x24: ffff80008248ff88
-> > [    9.133754] x23: 0000000000000000 x22: ffff80008248ff80 x21: ffff8000800fb890
-> > [    9.133756] x20: 0000000000000000 x19: 0000000000000002 x18: 000000000005cf20
-> > [    9.133758] x17: 0000000000000028 x16: 0000000000000000
-> > [    9.172738]  x15: ffffa5834131fbd0
-> > [    9.172741] x14: ffffa5834137caf0 x13: 000000000000ce30 x12: ffff6db7808bc028
-> > [    9.172743] x11: ffffa58341993000 x10: 0000000000000000 x9 : 00000000cf3f2b90
-> > [    9.172745] x8 : 0000000094e5072b x7 : 00000000000404ce x6 : ffffa5834162cfb0
-> > [    9.172747] x5 : 000000000000008b x4 : ffffa583419cddf0 x3 : 0000000000000007
-> > [    9.172750] x2 : 0000000000000000
-> > [    9.192697]  x1 : 000000000000000a x0 : ffff6db7808bb700
-> > [    9.192700] Call trace:
-> > [    9.192701]  mhi_gen_tre+0x44/0x224 [mhi]
-> > [    9.192704]  mhi_queue+0x74/0x194 [mhi]
-> > [    9.192706]  mhi_queue_skb+0x5c/0x8c [mhi]
-> > [    9.210985]  qcom_mhi_qrtr_send+0x6c/0x160 [qrtr_mhi]
-> > [    9.210989]  qrtr_node_enqueue+0xd0/0x4a0 [qrtr]
-> > [    9.210992]  qrtr_bcast_enqueue+0x78/0xe8 [qrtr]
-> > [    9.225530]  qrtr_sendmsg+0x15c/0x33c [qrtr]
-> > [    9.225532]  sock_sendmsg+0xc0/0xec
-> > [    9.240436]  kernel_sendmsg+0x30/0x40
-> > [    9.240438]  service_announce_new+0xbc/0x1c4 [qrtr]
-> > [    9.240440]  qrtr_ns_worker+0x714/0x794 [qrtr]
-> > [    9.240441]  process_one_work+0x210/0x614
-> > [    9.254527]  worker_thread+0x23c/0x378
-> > [    9.254529]  kthread+0x124/0x128
-> > [    9.254531]  ret_from_fork+0x10/0x20
-> > [    9.254534] Code: aa0003f9 aa1b03e0 94001a4d f9401b14 (3940d280)
-> > [    9.267369] ---[ end trace 0000000000000000 ]---
-> > [    9.267371] Kernel panic - not syncing: Oops: Fatal exception in interrupt
-> 
-> Thanks for reporting this.
-
-Thanks for taking a look, Chris.
-
-> I'm not sure the in-kernel pd-mapper should be affecting this path. I 
-> think this is for WLAN since it is the mhi qrtr and I'm not aware of 
-> WLAN needing to listen to the pd-mapper framework.
-
-This function is called for both the WWAN and WLAN on this machine, and
-it seems like the modem is typically probed first and around the time
-when I saw the NULL-deref.
-
-[    8.802728] mhi-pci-generic 0005:01:00.0: mhi_gen_tre - buf_info = ffff800080d75000, offsetof(buf_info->used) = 0x34
-...
-[    9.980638] ath12k_pci 0004:01:00.0: mhi_gen_tre - buf_info = ffff800081d35000, offsetof(buf_info->used) = 0x34
+diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+index 7d070b1def11..2712026733ab 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
++++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+@@ -873,6 +873,11 @@ static int pci_epf_mhi_bind(struct pci_epf *epf)
  
-> The offset seems to be mapped back to 
-> linux/drivers/bus/mhi/host/main.c:1220, I had some extra debug configs 
-> enabled so not sure the offset is still valid.
-> 
-> 	WARN_ON(buf_info->used);
-> 	buf_info->pre_mapped = info->pre_mapped;
-> 
-> This looks like the null pointer would happen if qrtr tried to send 
-> before mhi_channel_prepare() is called.
+ 	/* Get MMIO base address from Endpoint controller */
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
++	if (!res) {
++		dev_err(&pdev->dev, "Failed to get MMIO base address\n");
++		return -ENODEV;
++	}
++
+ 	epf_mhi->mmio_phys = res->start;
+ 	epf_mhi->mmio_size = resource_size(res);
+ 
+-- 
+2.25.1
 
-I didn't look closely at the code, but I can confirm that the offset of
-buf_info->used is indeed 0x34, which could indicate that it's the
-
-	buf_info = buf_ring->wp;
-
-pointer that was NULL.
-
-> I think we have a patch that might fix this, let me dig it up and send 
-> it out.
-
-Would that patch still help?
-
-	https://lore.kernel.org/lkml/20241104-qrtr_mhi-v1-1-79adf7e3bba5@quicinc.com/
-
-I naively tried adding a sleep after registering the endpoint, but that
-is at least not sufficient to trigger the NULL-deref.
-
-Johan
