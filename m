@@ -1,110 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4902E13A27D;
-	Fri,  8 Nov 2024 10:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A357138DC8
+	for <mhi@lists.linux.dev>; Fri,  8 Nov 2024 12:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731060601; cv=none; b=BhMQa+Xr2P5kPWXLCrUWW01IiXbPMsiePDoRPz2CjIlcnOxom2ZjXyJrJ2lq/ilei4gdPFXx3D+ImwP7/SlmSnrUiOhbgvK9kfnCi08kWfPRZGk3h3flf2etT0fV+njkQgWPX2tK3iM8O92VXo0RFuTlCLzr3Boq2Cm+oXrVDaY=
+	t=1731067382; cv=none; b=DbHq4bgAEy0tN4gR00Z8ZCXnEZgX+5uOFFxVHPiaYh8yLv0WGIgHS3KZ285TJiv94agJkDOLg6/fSK9nkEFvypnosfo6PZ58A3kMg7fZP7Nq0qrdk6qxJSSD8Cxs+Gq0ImO6+ipho331EL8ifgM62TVwh9J4UyS/KCnPsJufXis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731060601; c=relaxed/simple;
-	bh=GcaTVnuhZPHI8Rduj8Qe+ffknyFZam6gp7wslPFdY2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZiK5AFunfMQkrvuE2yJHdr/cTXkQnXHQzPCiI4R5r40Un1GgeIgyczuKRCfHk4wIwguRYB+zTY5CEzsYrH/NuwhetkZKD8K8bjQJ5vY5U1n0pdQzX4NHuV8zlkrK57EBGS2d0fQPGYbmTm7wDMp2VQRvMhc3IaboArI6KiAKIE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEusAy3P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731067382; c=relaxed/simple;
+	bh=cfqzgZe2mrrECgtpPInoahr3Fmn1D6nVAvKqs3Z3phI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Eix6o4VVafG1G8ISaeCP1FH7tlRhIt0ElU7TvNeP9Ecz6Z0dcf4E4lxck+rUS3c+XAKSxWppzdiS+h+QdJVPw/xY4DtqinE+bJO00tgD8bzwDfMqTpSs4HGJcgGU0aMbpUy5kvtfTR/KYgIbloJGK3FTKpTft3GCi2hfu1MuTA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S8sawRLC; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEusAy3P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5132C4CECD;
-	Fri,  8 Nov 2024 10:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731060600;
-	bh=GcaTVnuhZPHI8Rduj8Qe+ffknyFZam6gp7wslPFdY2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IEusAy3PJK3H/26X6rm4R9BqsxpVKaCxmuXEpycNAeCqAS+9ELigYuuAQSwt3ZImt
-	 O6jdqBMbbZIgj/IRuETaARd2OP/bBkgRsswTIJm0GtGyc5TKLvRSHuHJmEM2gNTs3O
-	 RMuzmFRbmoyROUHrYN7PmFbgcKSZVCM4pDoBq7JcqCyPUWUi2qkEzK9YrYHbFmfqyL
-	 yNlOMaSl1se3fpiCtE4x1/ONpNveXcsHwnUfebc6Cb7/qjxOSeHf++PyOfX011C9ZA
-	 d/cnUIv8NmCCPrfuJpYW7aMX9T+N4190GhfKybvq56LDWA9U4zeLAj1e19XMhyEZDH
-	 I1yBKQn5P2DzQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1t9LwI-000000007VS-0qHO;
-	Fri, 08 Nov 2024 11:10:02 +0100
-Date: Fri, 8 Nov 2024 11:10:02 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Chris Lew <quic_clew@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	Qiang Yu <quic_qianyu@quicinc.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	Konrad Dybcio <konradybcio@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: qrtr/mhi: NULL-deref with in-kernel pd-mapper
-Message-ID: <Zy3jeixo2uTooRGo@hovoldconsulting.com>
-References: <ZyTtVdkCCES0lkl4@hovoldconsulting.com>
- <da2bc665-5010-4d92-b9ac-7c442859cd10@quicinc.com>
- <ZymoMlSCQQScpRIZ@hovoldconsulting.com>
- <730a6e17-04f5-41b5-a0d8-7220b8c59b58@quicinc.com>
- <Zyzoh0zv1Z7LDfjW@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S8sawRLC"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9a6b4ca29bso275257266b.3
+        for <mhi@lists.linux.dev>; Fri, 08 Nov 2024 04:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731067379; x=1731672179; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4gHrVo4ZOzheVZVTTfNE0mncBRRWA81aL+FydUpkVXE=;
+        b=S8sawRLCvQkC1MACB1W6FjyHiN+dRaA/NjNSPS7mcVUTIobCVR/W5tHJYoOps3EyGs
+         eyh9R2oVM4QkAbX0bgw+ym82nCVoG6zaC/Z+YiQwAIqgn17BQioZEFNwFshlW+eRne3a
+         SLNSXi5f41MY7HJ5AQLS3JBUWqPh+4T810eHkgeiF3k2j2UE4sC0iYbdGMXYDUcOOE/8
+         rvHg7wPhFkqWTyWxA3K0GKaU3004wxIYpXoyz3L13HYO79I9UEz4uESJRZFs+jZo2ur8
+         AJqR5gsvOBtrAPjvLSa4znSNB25lzXZNeWRDaz5EmyvAGuobhU7p8MQr3Ytqt1QK9+bh
+         4cxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731067379; x=1731672179;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4gHrVo4ZOzheVZVTTfNE0mncBRRWA81aL+FydUpkVXE=;
+        b=sLjeUjgYVL3FebcLdLk4XOx59lO+Y4Xf8LDXPwtXXeAbmvBnvrNmejWY5niKp58qxS
+         VRST4HA0dR5olU40xLgDfDAcEGFB6Qg6deHHk/0d2pwjw9idr4fcn6ekrlUcbvsERvtu
+         O9lqhSww6ADOI+2FEK75rsaOy3zR9Twg3PjG4UjubXLI/XeyGGDSHcbpoUK6E4a18j6l
+         G52lNFwBAbGEc+qBSvTpto2y/CtWCaeuE2HRz+V6/zQoNAj4Zprt0mHrWHEigkGkCDHH
+         6wAeXCWxQXZ1ZFId10YkYB5L23+QVksxaSmWZAmXeJLuk0z6pVf5NwbW4gnKv6y+to3B
+         W7kQ==
+X-Gm-Message-State: AOJu0Yz9/XYGABSc0yjZvfAWlVr8N7pMS0P9Qs+9tzlMLbeAK84P1Ssz
+	JD6S1Q5OjtUvkCGXMGCo/Ussa0agmP6te5Ulw6d1kde0D398od8d18YaVLqkeOegtTb4Ora/jKc
+	=
+X-Google-Smtp-Source: AGHT+IE7zekpgyY/PQI1AIBoKK18WwwmcB3FfqaGSGkOey4LXL4ru3cnbqZqFx47qhihmKnDEGN9mg==
+X-Received: by 2002:a17:907:842:b0:a9a:345a:6873 with SMTP id a640c23a62f3a-a9eeff0dd85mr225046566b.24.1731067378928;
+        Fri, 08 Nov 2024 04:02:58 -0800 (PST)
+Received: from thinkpad ([89.101.134.25])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a18872sm226386166b.11.2024.11.08.04.02.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 04:02:58 -0800 (PST)
+Date: Fri, 8 Nov 2024 12:02:59 +0000
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev
+Subject: [GIT PULL] MHI changes for v6.13
+Message-ID: <20241108120259.q6yyxrx3v63cv6su@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zyzoh0zv1Z7LDfjW@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 07, 2024 at 05:19:19PM +0100, Johan Hovold wrote:
-> On Tue, Nov 05, 2024 at 10:26:40AM -0800, Chris Lew wrote:
-> > On 11/4/2024 9:08 PM, Johan Hovold wrote:
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
-> > > I naively tried adding a sleep after registering the endpoint, but that
-> > > is at least not sufficient to trigger the NULL-deref.
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
 
-> No, neither tqftpserv or diag-router are used here, but after digging
-> through the code it seems my hunch about this being related to the
-> in-kernel pd-mapper was correct.
-> 
-> The qrtr worker, qrtr_ns_worker(), is called when the in-kernel
-> pd-mapper adds the server, and processing the QRTR_TYPE_NEW_SERVER
-> command eventually ends up in mhi_gen_tre() for the modem:
-> 
-> [    9.026694] qcom_pdm_start - adding server
-> [    9.034684] ctrl_cmd_new_server - service = 0x40, instance = 0x101, node_id = 1, port = 0
-> [    9.042155] mhi-pci-generic 0005:01:00.0: mhi_gen_tre - buf_info = ffff800080d4d038, offset_of(buf_info->used) = 34
+are available in the Git repository at:
 
-> And I can indeed imagine that leading to the NULL deref in case the
-> endpoint is registered before being fully set up.
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.13
 
-I've been able to reproduce the issue twice now by instrumenting the
-code to increase the race window. Specifically, I added a sleep in
-mhi_init_chan_ctxt() after allocating the ring buffers but before
-initialising the wp pointers. And when the in-kernel pd-mapper is
-started in that window, we hit the NULL-deref:
+for you to fetch changes up to bd23e836423ea3968d539d4f0d5722a3a824b99e:
 
-        [    8.593582] mhi-pci-generic 0005:01:00.0: mhi_init_chan_ctxt - ring allocated (IPCR:20), buf_ring->base = ffff800080d55000
-        [    8.598902] mhi_net mhi0_IP_SW0: mhi_prepare_channel - channel started (46), dir = 1
-        [    8.612888] mhi_net mhi0_IP_SW0: mhi_prepare_channel - channel started (47), dir = 2
-        [    8.614767] qcom_pdm_start - adding server
-        [    8.615302] ctrl_cmd_new_server - service = 0x40, instance = 0x101, node_id = 1, port = 0
-        [    8.615388] mhi-pci-generic 0005:01:00.0: mhi_gen_tre - buf_info = 0000000000000000 (IPCR:20)
-        [    8.615402] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000034
-        ...
-        [    8.615541] Call trace:
-        [    8.615542]  mhi_gen_tre+0x68/0x248 [mhi]
-        [    8.615544]  mhi_queue+0x74/0x194 [mhi]
-        [    8.615546]  mhi_queue_skb+0x5c/0x8c [mhi]
-        [    8.615549]  qcom_mhi_qrtr_send+0x6c/0x160 [qrtr_mhi]
-        [    8.615551]  qrtr_node_enqueue+0xd0/0x4a0 [qrtr]
-        [    8.615553]  qrtr_bcast_enqueue+0x78/0xe8 [qrtr]
-        [    8.615554]  qrtr_sendmsg+0x15c/0x33c [qrtr]
-        [    8.615555]  sock_sendmsg+0xc0/0xec
-        [    8.615560]  kernel_sendmsg+0x30/0x40
-        [    8.615561]  service_announce_new+0xbc/0x1c4 [qrtr]
-        [    8.615563]  qrtr_ns_worker+0x754/0x7d4 [qrtr]
+  bus: mhi: host: pci_generic: Use pcim_iomap_region() to request and map MHI BAR (2024-11-08 11:52:06 +0000)
 
-Johan
+----------------------------------------------------------------
+MHI Host
+========
+
+- Fixed typo in the comments section
+
+- Fixed the sparse warning in MHI trace by converting the inputs to native
+  endian instead of passing little endian fields.
+
+- Used pcim_iomap_region() API to request and map the MHI BAR. This removes the
+  usage of deprecated pcim_iomap_regions() and pcim_iomap_table() APIs.
+
+----------------------------------------------------------------
+Carl Vanderlip (1):
+      bus: mhi: host: Switch trace_mhi_gen_tre fields to native endian
+
+Manivannan Sadhasivam (1):
+      bus: mhi: host: pci_generic: Use pcim_iomap_region() to request and map MHI BAR
+
+Yan Zhen (1):
+      bus: mhi: host: Fix typos in the comments
+
+ drivers/bus/mhi/host/boot.c        |  4 ++--
+ drivers/bus/mhi/host/internal.h    |  2 +-
+ drivers/bus/mhi/host/pci_generic.c |  6 +++---
+ drivers/bus/mhi/host/trace.h       | 25 +++++++++++++------------
+ 4 files changed, 19 insertions(+), 18 deletions(-)
+-- 
+மணிவண்ணன் சதாசிவம்
