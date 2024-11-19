@@ -1,111 +1,162 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E8B175D5D
-	for <mhi@lists.linux.dev>; Fri, 15 Nov 2024 06:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B36153363
+	for <mhi@lists.linux.dev>; Tue, 19 Nov 2024 10:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731650860; cv=none; b=HZxkKaWweRlj6sug9sFN97R3S1I55NOML9d69mW7uDxUW41nW/fJqguL8534T8iIAbYs16UJa1kSPOGeXe8HI8Ac8lCVqkggVC8374XWw37rVWLjw3hhIjXrHi6gohtyPoL8tVKkZ6cjHrz+Y2kIKYAHVLm4JVnzsdpH1AHcgcA=
+	t=1732013980; cv=none; b=HWXWRb0unwv72tS/mPlxoRH/x2hd8faXtCcyBri5czBR4Q0A4Fb2OHGvStCdYyFD4KxGFUXv9HaFKZUjA60Yiblpxn8hE/b2kS5aPy2Wx16HfiLSFziOKcABtTwtABdp8hipqyaxzASSXi6JQ1yZVtbXo+q69pTiheQpnFMhiT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731650860; c=relaxed/simple;
-	bh=fH3ZtRPVn3Kbkew7RanxmH7dVJaPr442hqNLjoGorZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XVQeFOL7B2Rmunx6UEH3vJj7Rb9iQrkxALIOioqRPEg6/YGGiJq3n1FzBlScK1tXC4UDPoBKwYmYWdDh89S8zjNN+gOe2iOs/6htIHsSJXQt8/POiuIpyTWPV0ijX/J6770ARgmUSyuwuGZKLsoqx8UQJLvZTHgGd/HUX/jNEiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yM287YFn; arc=none smtp.client-ip=209.85.167.173
+	s=arc-20240116; t=1732013980; c=relaxed/simple;
+	bh=DL+LQdB0mYoLi37Kked9Yk7l5yZTgiocRQ2xfcCjEaI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W8RwWCif0NEEfvaA+nCg0X1X2NR4HY65jeqq8DSI72Gq8vfWmNRHuJpSD8jBkwc8hzuffcnpVZHXn20Qd8j+xUKxpyhoajynrzlme9+QgohW5SpTYkpSjHxmHvAGN2DxReGuHw2LE9PcSiAVO823zIiM8IBwtlH2I3m8HHuAUg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MCmgU64q; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yM287YFn"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3e5fcf464ecso821618b6e.0
-        for <mhi@lists.linux.dev>; Thu, 14 Nov 2024 22:07:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MCmgU64q"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2951f3af3ceso1376326fac.1
+        for <mhi@lists.linux.dev>; Tue, 19 Nov 2024 02:59:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731650857; x=1732255657; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=So54qbrgSAVoomcFHWWM9if0MekC+bKwIj6DJ1OKqGk=;
-        b=yM287YFnq6abzmh5vZ6f7khihHHHAwHtwXKfLoih/6ExPGKNUP4UgTDK6Lj9u/2wP3
-         NJhABZ3YjGyGrob/k7ZmNi9ybsCW2E/VINrwwwZa4ELGv2eeD+qEviXEHUJ20qaAjFyi
-         J+G85MCNNop9dFWVlzGD242SrTVybRqTxxAx3YFYU9sdPAkiqmmUe+x48lgAa8TlQPdi
-         c6WFgWbkaSR/2KoYC78FHHgBelm+RtWTlfyLAif0o9C15vcgjz5I8dQKe120EiEkzl47
-         wIa9aOI4K0VyR31SiePZ4+2tXzTizNXiiXfYcaUK8uGjEfds/X74CT81dbCbB/CSjG0a
-         2cvw==
+        d=linaro.org; s=google; t=1732013977; x=1732618777; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DL+LQdB0mYoLi37Kked9Yk7l5yZTgiocRQ2xfcCjEaI=;
+        b=MCmgU64q7VLvQUH01Rrbmkv9NrhPFY3Santd6TGM0GxtNZzzAQP0j31uEDHMkpCoUN
+         Fi9EyRqT4auSnlJfIteON5cX4NnRTWLLsUfJbkCz9cO2Uw981fWDH6xC3mPT2Ut1QX6G
+         aMx3T/TMmQyYpASbFUfHiDLauzzWCYDcSixGe8EQFlnEopyRKH2sMoRK8pnprlGuveSP
+         nR1ZtGfwc8UElDwjUqEJoeb17JU5FRNVukl0DSs6/+tWHh7bNPoSnNJhdqfZ+BkVCQdQ
+         ZYjrptWHfB51VteaUc5sIr9QLsTcza+BRjpVlCgP+5rv592jqp+2hX8yL00+LqEZk6Rp
+         m0Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731650857; x=1732255657;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=So54qbrgSAVoomcFHWWM9if0MekC+bKwIj6DJ1OKqGk=;
-        b=Tvum1ji/WqzqhQrF4Vk5vt7YseV7QzdGNYO8Eh2SAgRsTAufXT48A2C1yjO1+0AnLl
-         iAkrwhZFFSobJhNthLMG8ZodVYEUDzIO6oKN+JPI1M2369sSxcdWF85haGGGUXAldSKU
-         0dHaV3+7QxqQswWb93TEZ1k9ErBYikUgMdWENJoHVBVn9Ibq5VayyD818dXnBDONi3Pk
-         YUKi+/Ms0nIhXK+0Zydf45NM2DVVeH1fmzaGv7PqYdfe6L5VbxD7AyT3mQ7fMw6TzH2Q
-         6A5ZKCQt0rF0QBDgNz3+CUV+W7wqmwog67fkhQgF2S2fJ811TpNxgiF07dMlG+2ahugk
-         6nnQ==
-X-Gm-Message-State: AOJu0YwDgvIVrw90fbdIP0NmSto2hQA8AYlg/HHKx2VfQczHOfNmAX3P
-	LitouIlqaabYL6pO4hVFRDPKe7nE3kcSXkYvm42QzxZvUmAm/HX5kh9NE7rbvg==
-X-Google-Smtp-Source: AGHT+IEY7/bxXGzU/MjOHA4C1CQe4QcOcyhYXEIsUZBCGugTGycfUNtjiaXy8AIwgP846Dmr7DaPkA==
-X-Received: by 2002:a05:6808:1408:b0:3e6:206:e3d9 with SMTP id 5614622812f47-3e7bc86df53mr1794369b6e.40.1731650857276;
-        Thu, 14 Nov 2024 22:07:37 -0800 (PST)
-Received: from thinkpad ([117.193.208.47])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dada4bsm462310a12.56.2024.11.14.22.07.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 22:07:36 -0800 (PST)
-Date: Fri, 15 Nov 2024 11:37:31 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Youssef Samir <quic_yabdulra@quicinc.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: Free mhi_buf vector inside
- mhi_alloc_bhie_table()
-Message-ID: <20241115060731.345c2nx53bpluxjx@thinkpad>
-References: <20241024214715.1208940-1-quic_yabdulra@quicinc.com>
+        d=1e100.net; s=20230601; t=1732013977; x=1732618777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DL+LQdB0mYoLi37Kked9Yk7l5yZTgiocRQ2xfcCjEaI=;
+        b=WVIX3VjOmGkea4zMMKauEj8yCMmNkWx2mI6znDte5lQm5VUWP4OiMsksqYC5rxkVfF
+         HDWTEff5g+LEvkxhqndyJQoCzFIyaZgF2/k2XdcLkEegMsq8J/IhcfCcFP/pXOo4iSV3
+         R0A+5kxFx2dKEWBZZjDih/ng7qstVhTwXhdPcW2mYhF7JWx629lwEu4TqM2INILRWJMq
+         sfFWp8cjKcCsnK7dL/p+pf1QxD1u3FeTYOYmiuynkJFMZ9cQK7aVrWIIWclgJu7w88TD
+         3BbJsXemcmKGApKdyO39mty88tKcx3EfM0DynartdAZmmS5vGt1B4UpAeV+tZrAGX6ZK
+         lkDg==
+X-Gm-Message-State: AOJu0YyeYJ0ZhHY8KIRLf7BAKG0+PMIcY9CL0jCpuDWis0ucKUWwjFu8
+	YKwIuvo1y9qmspUDu7OU5IPq5TFu8UYCU6KNp41qZEl9K0Oa/DrBEFnEk91JXniIdvAeQ/a6yAV
+	qUHX420URoQvS9DU2AWQEr02KN7FQbWMqvQvlQA==
+X-Google-Smtp-Source: AGHT+IHqGWGzMrcETAsKHpEAxk8PgTpW2j6tM01qVCCEmlgAnXjKmQeBZxqIACXfnClcvOsF8ik11FNWuRxIPZ5tE1s=
+X-Received: by 2002:a05:6870:712:b0:296:862b:5a01 with SMTP id
+ 586e51a60fabf-296862b72d3mr5544389fac.26.1732013977687; Tue, 19 Nov 2024
+ 02:59:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241024214715.1208940-1-quic_yabdulra@quicinc.com>
+References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com> <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
+In-Reply-To: <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Tue, 19 Nov 2024 11:59:01 +0100
+Message-ID: <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
+Subject: Re: How to add RTS support for wwan0at0 port
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mhi <mhi@lists.linux.dev>, Qiang Yu <quic_qianyu@quicinc.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Sergey Ryazanov <ryazanov.s.a@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2024 at 11:47:15PM +0200, Youssef Samir wrote:
-> mhi_alloc_bhie_table() starts by allocating a vector of struct mhi_buf
-> then it allocates a DMA buffer for each element. If allocation fails,
-> it will free the allocated DMA buffers, but it neglects freeing the
-> mhi_buf vector.
-> 
-> Avoid memory leaks by freeing the mhi_buf vector on error.
-> 
-> Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM operations")
-> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+Hi
 
-Applied to mhi-next!
++ Sergey,
 
-- Mani
+>> Hi Loic,
+>> I tried to add RTS signal support for our AT port of wwan device.
+>> Now we can know that we are using wwan_port_fops_at_ioctl() for
+>> this configuration.
+>> Actually, there are 2 cmd will be ignored by default: TIOCGRS485
+>> and TIOCSRS485 when you tried to use "minicom -D /dev/wwan0at0".
+>> Then I added it into that switch statement. May I know if the "mdmbits"
+>> corresponding to the defination in termios.h?
 
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index 21bf042db9be..2e9ef55a566a 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -415,6 +415,7 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  	for (--i, --mhi_buf; i >= 0; i--, mhi_buf--)
->  		dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
->  				  mhi_buf->buf, mhi_buf->dma_addr);
-> +	kfree(img_info->mhi_buf);
->  
->  error_alloc_mhi_buf:
->  	kfree(img_info);
-> -- 
-> 2.25.1
-> 
+Yes, so the initial goal was to support 'legacy' terminal emulators,
+adding no-op stubs for usual termios ioctls.
 
--- 
-மணிவண்ணன் சதாசிவம்
+If I understand correctly, you don't only want stubs, but you need
+them to implement flow control on top of MHI? If so, I think you can
+access the port at_data->mbmbits from the mhi_ctrl port driver under
+data->lock. You may also need a way to forward ioctl 'events' to the
+driver... Wondering if this flow control could simply be supported
+generically at wwan-core level?
+
+>>
+>> Below are some test results in wwan_port_fops_at_ioctl():
+>>
+>> //sudo minicom -D /dev/wwan0at0:
+>> [ 1773.390038] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389648
+>> [ 1773.390062] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is 9393644=
+3291456
+>> [ 1773.390069] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389408
+>> [ 1773.390078] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389392
+>> [ 1773.390082] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is 1407260=
+00389344
+>> [ 1773.390087] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389344
+>> [ 1773.390092] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is 1407260=
+00389500
+>> [ 1773.390097] wwan wwan0: ##shawn debug## cmd is 0x5418, arg is 1407260=
+00389500
+>> [ 1773.390101] wwan wwan0: ##shawn debug1## mdmbits is 4
+>> [ 1773.390106] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389408
+>> [ 1773.390112] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389392
+>> [ 1773.390116] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is 1407260=
+00389344
+>> [ 1773.390120] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389344
+>> [ 1773.390126] wwan wwan0: ##shawn debug## cmd is 0x542e, arg is 1407260=
+00389568
+>> [ 1773.390131] wwan wwan0: ##shawn debug## cmd is 0x542f, arg is 1407260=
+00389568
+>> [ 1773.390135] wwan wwan0: ##shawn debug1## mdmbits is 0
+>> [ 1773.390153] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389648
+>> [ 1773.390158] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389632
+>> [ 1773.390163] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is 1407260=
+00389584
+>> [ 1773.390167] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389584
+>> [ 1773.390172] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389648
+>> [ 1773.390177] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389632
+>> [ 1773.390181] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is 1407260=
+00389584
+>> [ 1773.390185] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00389584
+>> [ 1773.390191] wwan wwan0: ##shawn debug## cmd is 0x540b, arg is 2
+>> [ 1773.393848] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is 1407260=
+00390084
+>> [ 1773.393861] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is 1407260=
+00390064
+>>
+>> I checked the old architecture of Qualcomm PCIE driver, and I found that=
+ they support
+>> these signal like RTS,DTR and so on.
+>> Please see: https://git.codelinaro.org/clo/le/platform/mhi-host
+>> file: drivers/net/wwan/mhi_dtr.c
+>>
+>> Thanks
+>>
+>
+>
+> --
+> =E0=AE=AE=E0=AE=A3=E0=AE=BF=E0=AE=B5=E0=AE=A3=E0=AF=8D=E0=AE=A3=E0=AE=A9=
+=E0=AF=8D =E0=AE=9A=E0=AE=A4=E0=AE=BE=E0=AE=9A=E0=AE=BF=E0=AE=B5=E0=AE=AE=
+=E0=AF=8D
