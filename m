@@ -1,157 +1,181 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6023F9C5
-	for <mhi@lists.linux.dev>; Wed, 20 Nov 2024 04:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278581494A9
+	for <mhi@lists.linux.dev>; Wed, 20 Nov 2024 07:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732075224; cv=none; b=FEYmy1KnK83fpyvNybUYrb1I66LnjRD99Pm6VpJ/jCvs0sa2VcYGQXkEPINyYbqcmvROyDGhWgaphJLi08nkQBw19wTbSFvVnbiELdpdkLWYLfroUNZq1uOTWGb5gME+qNiffUGhs83LA5yTZWXltBvOJOaC5vluf8Vw1T02M24=
+	t=1732089002; cv=none; b=JnV0bxfvUgorM/cU/wIwB6MKGfxpF5Jz6A2Zh+pLViR834/YgHgQ+EMC95SybpPVI4IxfsGzsyJcVM457o7AGPmW4jRm74WHzgXzEgs69r3DxE4ZJmnrhIqqQqVkU8UysRN2LmFD0qwSim6mxfP5DXBRI0Yf4QfGXS1FLfy4OYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732075224; c=relaxed/simple;
-	bh=LhqrvM28nYPERZdVsHhndDm9qMRHaTUufEz0MJPGgQ8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=AeNsS7pt3wnd+xa8Bn/mMeh+ya/kwuG/4/3G4kqzaS6D5yvxo+ZVoLhMc94VDHJvyghAwYSautSF1XaU891drUbc8CTmUiAWKfNBU2iBiolwrp7kmXzd5hz8ZNEmHY6XjpN5Jv+9mbR0ga9M2QOO2QfAA5PdPlAc8OzyVhr1Hao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=b3KAI0Ta reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1732089002; c=relaxed/simple;
+	bh=6ADAiBeedYWACTPkLF4ktHSe1A6LE/OALsE7D1jHQRQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=rRnFa68lGAk+h8fUMpIwAH414vw0dlMD3CzeA4eJTLohvpIuSXQknxrnBmwIyDcro5sMVNQkBij/eaNt2cXh6hAW0DNGGvRSk4of/8Ka0dei4g0K/FDpJS0TXs+k0q0rr1neGUjFgVwvUtnrrgkhz/PqWHJ7H8eIrjKftNaGK3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CWb7NE8D; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="b3KAI0Ta"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=+rdQPFF42GeotKrUShc4jlcYv+vKlBqfG7GY+TBbR8o=; b=b
-	3KAI0TavVoVhU9Xn6V5FoFaXHsZQl6vhC8zKCwukfe792ODsbL0urJ87VI1qduzs
-	vSBWqySxEiq+ebmslkIq4fwbQV+awaIvWd121tIybEKz/54hyq/Y6zYeh0CImxR8
-	2wUJL9XZ0pJX7AbO3zH3v2ZDiPzHXlwWREkruPgW4k=
-Received: from slark_xiao$163.com (
- [2408:8459:3210:128f:7d04:7347:9208:5dac] ) by ajax-webmail-wmsvr-40-143
- (Coremail) ; Wed, 20 Nov 2024 11:59:32 +0800 (CST)
-Date: Wed, 20 Nov 2024 11:59:32 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>, 
-	"Qiang Yu" <quic_qianyu@quicinc.com>, 
-	"Loic Poulain" <loic.poulain@linaro.org>
-Cc: mhi <mhi@lists.linux.dev>, 
-	"Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CWb7NE8D"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43155abaf0bso38001275e9.0
+        for <mhi@lists.linux.dev>; Tue, 19 Nov 2024 23:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732088999; x=1732693799; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6ADAiBeedYWACTPkLF4ktHSe1A6LE/OALsE7D1jHQRQ=;
+        b=CWb7NE8DyonwlLhTYOK9Sj2cO8f9eBNrPB1pXmK7eWL0JfqWV0pU9or6RFjgfWJoTf
+         1wybDUdWODrAJS8cJ7vSd2OnR3xAoiTwVhDmCLG88+F1snmA3QPjLpQtpI/fmZMlhDii
+         naBTA/4RwmAu4gNKrnS0pyhWDGFQxcwj+8Ts7l9lIfnZMIcltqS/wi2zDpzjYGPPuEhv
+         oGmEhQsAr4KGoos6KOG7jjkPvV+S2HOclt50jI0Ia5rmr5OGyFg3Lwcis3otRic7oIbr
+         J4UjKWlbxAzMeA4ISmfzZNFfkqDbqrDFw3+ype2tLLwL2yW/bFsOcQVO4Ze1CvwgVkN6
+         PR2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732088999; x=1732693799;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6ADAiBeedYWACTPkLF4ktHSe1A6LE/OALsE7D1jHQRQ=;
+        b=Xs/tRusURlkqQ2tZ/n9q1JHMgFgEgQY4h9+i1elBZ/05nnVJ69yKXerVLjxMG7Hx76
+         eRhE5FyWPGLP3b9hDuVHP4tL1337V0RmdbvchzXcdv7Y7UABxPfqUMmo+nicTe5cCzA9
+         +s7M2WIWhOmbMIVMbIhVQvKsYNTm/lelzDarkgllqPM7yB2ww2M5eaxNUuXBN/Wz91QA
+         fftHSHanvAL9I9umbwUHdtwL1f47pe3HuuvMdmSUT0VA2OumCJogINi5DVs0bWGHgjyW
+         lHCTJqRaaiZizICN2ahbpkC/O+aDdJ6Ospl1qTg4AgC+yTI4FWUh7LFmP+Nd+LIwF+iH
+         uXGw==
+X-Gm-Message-State: AOJu0YzcK/5C4PD5D32DpEj0KyMdR6KQHt+rGLM5jGJRZob9S02fwe9C
+	+anFFcSktKMIYH1ojMo1Iq2rR6HBeK4jjGlUtg+ewgs/vuku3ZQj
+X-Google-Smtp-Source: AGHT+IHUNbdEnSLti9xQtj2itl2r2mUxBG8QH/AJ5zXNm30+7FCgUkIy5JoMHawNY0Pk0UTuQFHprg==
+X-Received: by 2002:a5d:6c6d:0:b0:382:3afd:125d with SMTP id ffacd0b85a97d-38254b0422dmr1108077f8f.34.1732088999058;
+        Tue, 19 Nov 2024 23:49:59 -0800 (PST)
+Received: from [127.0.0.1] (217-175-223-153.dyn-pool.spidernet.net. [217.175.223.153])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38254910e82sm1298974f8f.57.2024.11.19.23.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Nov 2024 23:49:58 -0800 (PST)
+Date: Wed, 20 Nov 2024 09:49:51 +0200
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+To: Slark Xiao <slark_xiao@163.com>, Qiang Yu <quic_qianyu@quicinc.com>,
+ Loic Poulain <loic.poulain@linaro.org>
+CC: mhi <mhi@lists.linux.dev>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Subject: Re:Re: How to add RTS support for wwan0at0 port
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
-References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
- <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
- <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
- <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
-X-NTES-SC: AL_Qu2YAPycukks5CedYukfmkgRh+8+X8u1u/0j245WOZ1wjC/r+C0nZnBMHUvK89COAD6CrheYbwNM4dVhXoxJT4MVwtwS5zRbl0s32hmyXqV1fA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+User-Agent: K-9 Mail for Android
+In-Reply-To: <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
+References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com> <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com> <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com> <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com> <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
+Message-ID: <F987F2EE-E2C2-46D7-BBD5-A7632C4C2CA3@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:jygvCgDX38ekXj1n0GYrAA--.56555W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRwmcZGc9AR-hHQAGsI
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTG9pYywgU2VyZ2V5LAoKUGxlYXNlIHNlZSBteSByZXNwb25zZSBhcyBiZWxvdy4KCgpBdCAy
-MDI0LTExLTIwIDA3OjA2OjExLCAiU2VyZ2V5IFJ5YXphbm92IiA8cnlhemFub3Yucy5hQGdtYWls
-LmNvbT4gd3JvdGU6Cj5IaSBMb2ljLCBTbGFyaywKPgo+bmljZSB0byBzZWUgeW91LCBwbGVhc2Ug
-ZmluZCBhIHNtYWxsIG5vdGUgYmVsb3cuCj4KPk9uIDE5LjExLjIwMjQgMTI6NTksIExvaWMgUG91
-bGFpbiB3cm90ZToKPj4+PiBJIHRyaWVkIHRvIGFkZCBSVFMgc2lnbmFsIHN1cHBvcnQgZm9yIG91
-ciBBVCBwb3J0IG9mIHd3YW4gZGV2aWNlLgo+Pj4+IE5vdyB3ZSBjYW4ga25vdyB0aGF0IHdlIGFy
-ZSB1c2luZyB3d2FuX3BvcnRfZm9wc19hdF9pb2N0bCgpIGZvcgo+Pj4+IHRoaXMgY29uZmlndXJh
-dGlvbi4KPj4+PiBBY3R1YWxseSwgdGhlcmUgYXJlIDIgY21kIHdpbGwgYmUgaWdub3JlZCBieSBk
-ZWZhdWx0OiBUSU9DR1JTNDg1Cj4+Pj4gYW5kIFRJT0NTUlM0ODUgd2hlbiB5b3UgdHJpZWQgdG8g
-dXNlICJtaW5pY29tIC1EIC9kZXYvd3dhbjBhdDAiLgo+Pj4+IFRoZW4gSSBhZGRlZCBpdCBpbnRv
-IHRoYXQgc3dpdGNoIHN0YXRlbWVudC4gTWF5IEkga25vdyBpZiB0aGUgIm1kbWJpdHMiCj4+Pj4g
-Y29ycmVzcG9uZGluZyB0byB0aGUgZGVmaW5hdGlvbiBpbiB0ZXJtaW9zLmg/Cj4+IAo+PiBZZXMs
-IHNvIHRoZSBpbml0aWFsIGdvYWwgd2FzIHRvIHN1cHBvcnQgJ2xlZ2FjeScgdGVybWluYWwgZW11
-bGF0b3JzLAo+PiBhZGRpbmcgbm8tb3Agc3R1YnMgZm9yIHVzdWFsIHRlcm1pb3MgaW9jdGxzLgo+
-Cj5FeGFjdGx5ISBJT0NUTCBzdXBwb3J0IGlzIGp1c3QgYSBzdHViLiBZb3UgY2FuIGZpbmQgYWxs
-IHRoZSBkZXRhaWxzIGluIAo+dGhlIGNvbW1pdCBjMjMwMDM1YzJmMmYgKCJuZXQ6IHd3YW46IGNv
-cmU6IGltcGxlbWVudCB0ZXJtaW5hbCBpb2N0bHMgZm9yIAo+QVQgcG9ydCIpLgo+Cj5SZWdhcmRp
-bmcgdGhlICdtZG1iaXRzJyBmaWVsZCwgaXQgY29udGFpbnMgc28gY2FsbGVkICdtb2RlbSBiaXRz
-Jywgc2VlIAo+dHR5X2lvY3RsKDQpLiBCaXRzIGFyZSBoYW5kbGVkIGJ5IHRoZSBjb3JlIGluIGFu
-IG9wYXF1ZSB3YXkuIENvcmUgc2F2ZXMgCj5iaXRzIGZyb20gYSB1c2VyJ3MgVElPQ01TRVQgY29t
-bWFuZCBhbmQgcmV0dXJucyBiaXRzIGJhY2sgaW4gdGhlIAo+VElPQ01HRVQgcmVxdWVzdC4gQ29w
-eWluZyBpcyBkb25lIHdpdGhvdXQgY2hlY2tpbmcgYW55IG9mIHRoZXNlIGJpdHMsIAo+anVzdCBj
-b3B5IHNpemVvZihpbnQpIGJ5dGVzIHRvL2Zyb20gdXNlcnNwYWNlIGFuZCB0aGF0J3MgaXQuCgpN
-YXkgSSBrbm93IGlmIHRoZXNlIGJpdHMgKGNvcHkgZnJvbSB1c2VyKSBoYXMgYmVlbiBzZW50IHRv
-IGRldmljZSBvdmVyIHRoZSBkcml2ZXI/ClNvIGZhciBpdCBzZWVtcyB0aGF0IHdlIGRpZG4ndCBy
-ZWNlaXZlIHRoZXNlIGJpdHMgaW4gZGV2aWNlIHNpZGUuCgo+Cj4+IElmIEkgdW5kZXJzdGFuZCBj
-b3JyZWN0bHksIHlvdSBkb24ndCBvbmx5IHdhbnQgc3R1YnMsIGJ1dCB5b3UgbmVlZAo+PiB0aGVt
-IHRvIGltcGxlbWVudCBmbG93IGNvbnRyb2wgb24gdG9wIG9mIE1IST8gSWYgc28sIEkgdGhpbmsg
-eW91IGNhbgo+PiBhY2Nlc3MgdGhlIHBvcnQgYXRfZGF0YS0+bWJtYml0cyBmcm9tIHRoZSBtaGlf
-Y3RybCBwb3J0IGRyaXZlciB1bmRlcgo+PiBkYXRhLT5sb2NrLiBZb3UgbWF5IGFsc28gbmVlZCBh
-IHdheSB0byBmb3J3YXJkIGlvY3RsICdldmVudHMnIHRvIHRoZQo+PiBkcml2ZXIuLi4gV29uZGVy
-aW5nIGlmIHRoaXMgZmxvdyBjb250cm9sIGNvdWxkIHNpbXBseSBiZSBzdXBwb3J0ZWQKPj4gZ2Vu
-ZXJpY2FsbHkgYXQgd3dhbi1jb3JlIGxldmVsPwo+Cj5TdWRkZW5seSB0aGUgJ2F0X2RhdGEnIGZp
-ZWxkIGJlbG9uZ3MgdG8gdGhlIHBvcnQgc3RydWN0dXJlIHByaXZhdGUgdG8gCj50aGUgV1dBTiBj
-b3JlLiBBbmQgYSBmbG93IGNvbnRyb2wgaW1wbGVtZW50YXRpb24gY291bGQgYmUgdHJpY2t5LiAK
-PlVsdGltYXRlbHksIGl0J3MgYSBuaWNlIG9wdGlvbiB0byBoYXZlIHRoZSBmbG93IGNvbnRyb2wg
-aW1wbGVtZW50ZWQgaW4gCj50aGUgY29yZS4gRGVwZW5kaW5nIG9uIGEgbnVtYmVyIG9mIHVzZXJz
-Lgo+Clllcywgd2UgbmVlZCB0aGF0IGZsb3cgY29udHJvbCBmb3IgdGhlc2UgInNlcmlhbCIgcG9y
-dC4gQ3VycmVudGx5IHdlIHN0aWxsCmRvbid0IGhhdmUgdGhlIE5NRUEgc3VwcG9ydCBvdmVyIFBD
-SUUoTUhJKS4gRGV2aWNlIEdQUyBkYWVtb24KbmVlZHMgc3VjaCBhIFJUUyBzaWduYWwgZnJvbSBo
-b3N0IHNpZGUgdG8gc3RhcnQgR1BTLgpXaW5kb3dzIHVzZSBHTlNTIGRyaXZlcihub3Qgc2FtZSBh
-cyBMaW51eCBHTlNTKSB0byBzdXBwb3J0IEdQUy4KQnV0IGZvciBNSEkgZGV2aWNlIHRoaXMgZmVh
-dHVyZSBpcyBub25lLCBJIHRoaW5rLgoKPkZvciBhIHNpbmdsZSBkcml2ZXIsIEkgYmVsaWV2ZSwg
-dGhlIG1vc3QgY29udmVuaWVudCBvcHRpb24gaXMgdG8gCj5pbXBsZW1lbnQgZXZlcnl0aGluZyBp
-biB0aGUgZHJpdmVyLiBFLmcuIGludHJvZHVjZSBhbiAnaW9jdGwnIG9wZXJhdGlvbiAKPnRvIHRo
-ZSB3d2FuX3BvcnRfb3BzLiBBbmQsIGlmIGNvcmUgc2VlcyB0aGUgJ2lvY3RsJyBvcGVyYXRpb24g
-Cj5pbXBsZW1lbnRlZCwgdGhlbiBpdCB3aWxsIGZvcndhcmQgYWxsIHRoZSBJT0NUTHMgdG8gdGhl
-IGRyaXZlciBieXBhc3NpbmcgCj5pbnRlcm5hbCBzdHViIGltcGxlbWVudGF0aW9uLgo+Cj5JbiBz
-b21lIG1vbWVudCBpbiB0aGUgZnV0dXJlLCB3ZSBjYW4gaW1wbGVtZW50IGEgZ2VuZXJpYyBmbG93
-IGNvbnRyb2wgaW4gCj50aGUgY29yZS4gSW4gY2FzZSB0aGVyZSBhcmUgd2lsbCBiZSBtb3JlIHRo
-YW4gb25lIGRyaXZlciByZXF1aXJpbmcgaXQuIAo+SXMgaXQgbWFrZSBzZW5zZT8KPgoKRXhhY3Rs
-eSEKCj4+Pj4gQmVsb3cgYXJlIHNvbWUgdGVzdCByZXN1bHRzIGluIHd3YW5fcG9ydF9mb3BzX2F0
-X2lvY3RsKCk6Cj4+Pj4KPj4+PiAvL3N1ZG8gbWluaWNvbSAtRCAvZGV2L3d3YW4wYXQwOgo+Pj4+
-IFsgMTc3My4zOTAwMzhdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDAx
-LCBhcmcgaXMgMTQwNzI2MDAwMzg5NjQ4Cj4+Pj4gWyAxNzczLjM5MDA2Ml0gd3dhbiB3d2FuMDog
-IyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0MTUsIGFyZyBpcyA5MzkzNjQ0MzI5MTQ1Ngo+Pj4+
-IFsgMTc3My4zOTAwNjldIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDAx
-LCBhcmcgaXMgMTQwNzI2MDAwMzg5NDA4Cj4+Pj4gWyAxNzczLjM5MDA3OF0gd3dhbiB3d2FuMDog
-IyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0MDEsIGFyZyBpcyAxNDA3MjYwMDAzODkzOTIKPj4+
-PiBbIDE3NzMuMzkwMDgyXSB3d2FuIHd3YW4wOiAjI3NoYXduIGRlYnVnIyMgY21kIGlzIDB4NTQw
-MiwgYXJnIGlzIDE0MDcyNjAwMDM4OTM0NAo+Pj4+IFsgMTc3My4zOTAwODddIHd3YW4gd3dhbjA6
-ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDAxLCBhcmcgaXMgMTQwNzI2MDAwMzg5MzQ0Cj4+
-Pj4gWyAxNzczLjM5MDA5Ml0gd3dhbiB3d2FuMDogIyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0
-MTUsIGFyZyBpcyAxNDA3MjYwMDAzODk1MDAKPj4+PiBbIDE3NzMuMzkwMDk3XSB3d2FuIHd3YW4w
-OiAjI3NoYXduIGRlYnVnIyMgY21kIGlzIDB4NTQxOCwgYXJnIGlzIDE0MDcyNjAwMDM4OTUwMAo+
-Pj4+IFsgMTc3My4zOTAxMDFdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcxIyMgbWRtYml0cyBp
-cyA0Cj4+Pj4gWyAxNzczLjM5MDEwNl0gd3dhbiB3d2FuMDogIyNzaGF3biBkZWJ1ZyMjIGNtZCBp
-cyAweDU0MDEsIGFyZyBpcyAxNDA3MjYwMDAzODk0MDgKPj4+PiBbIDE3NzMuMzkwMTEyXSB3d2Fu
-IHd3YW4wOiAjI3NoYXduIGRlYnVnIyMgY21kIGlzIDB4NTQwMSwgYXJnIGlzIDE0MDcyNjAwMDM4
-OTM5Mgo+Pj4+IFsgMTc3My4zOTAxMTZdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQg
-aXMgMHg1NDAyLCBhcmcgaXMgMTQwNzI2MDAwMzg5MzQ0Cj4+Pj4gWyAxNzczLjM5MDEyMF0gd3dh
-biB3d2FuMDogIyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0MDEsIGFyZyBpcyAxNDA3MjYwMDAz
-ODkzNDQKPj4+PiBbIDE3NzMuMzkwMTI2XSB3d2FuIHd3YW4wOiAjI3NoYXduIGRlYnVnIyMgY21k
-IGlzIDB4NTQyZSwgYXJnIGlzIDE0MDcyNjAwMDM4OTU2OAo+Pj4+IFsgMTc3My4zOTAxMzFdIHd3
-YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDJmLCBhcmcgaXMgMTQwNzI2MDAw
-Mzg5NTY4Cj4+Pj4gWyAxNzczLjM5MDEzNV0gd3dhbiB3d2FuMDogIyNzaGF3biBkZWJ1ZzEjIyBt
-ZG1iaXRzIGlzIDAKPj4+PiBbIDE3NzMuMzkwMTUzXSB3d2FuIHd3YW4wOiAjI3NoYXduIGRlYnVn
-IyMgY21kIGlzIDB4NTQwMSwgYXJnIGlzIDE0MDcyNjAwMDM4OTY0OAo+Pj4+IFsgMTc3My4zOTAx
-NThdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDAxLCBhcmcgaXMgMTQw
-NzI2MDAwMzg5NjMyCj4+Pj4gWyAxNzczLjM5MDE2M10gd3dhbiB3d2FuMDogIyNzaGF3biBkZWJ1
-ZyMjIGNtZCBpcyAweDU0MDIsIGFyZyBpcyAxNDA3MjYwMDAzODk1ODQKPj4+PiBbIDE3NzMuMzkw
-MTY3XSB3d2FuIHd3YW4wOiAjI3NoYXduIGRlYnVnIyMgY21kIGlzIDB4NTQwMSwgYXJnIGlzIDE0
-MDcyNjAwMDM4OTU4NAo+Pj4+IFsgMTc3My4zOTAxNzJdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVi
-dWcjIyBjbWQgaXMgMHg1NDAxLCBhcmcgaXMgMTQwNzI2MDAwMzg5NjQ4Cj4+Pj4gWyAxNzczLjM5
-MDE3N10gd3dhbiB3d2FuMDogIyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0MDEsIGFyZyBpcyAx
-NDA3MjYwMDAzODk2MzIKPj4+PiBbIDE3NzMuMzkwMTgxXSB3d2FuIHd3YW4wOiAjI3NoYXduIGRl
-YnVnIyMgY21kIGlzIDB4NTQwMiwgYXJnIGlzIDE0MDcyNjAwMDM4OTU4NAo+Pj4+IFsgMTc3My4z
-OTAxODVdIHd3YW4gd3dhbjA6ICMjc2hhd24gZGVidWcjIyBjbWQgaXMgMHg1NDAxLCBhcmcgaXMg
-MTQwNzI2MDAwMzg5NTg0Cj4+Pj4gWyAxNzczLjM5MDE5MV0gd3dhbiB3d2FuMDogIyNzaGF3biBk
-ZWJ1ZyMjIGNtZCBpcyAweDU0MGIsIGFyZyBpcyAyCj4+Pj4gWyAxNzczLjM5Mzg0OF0gd3dhbiB3
-d2FuMDogIyNzaGF3biBkZWJ1ZyMjIGNtZCBpcyAweDU0MTUsIGFyZyBpcyAxNDA3MjYwMDAzOTAw
-ODQKPj4+PiBbIDE3NzMuMzkzODYxXSB3d2FuIHd3YW4wOiAjI3NoYXduIGRlYnVnIyMgY21kIGlz
-IDB4NTQwMSwgYXJnIGlzIDE0MDcyNjAwMDM5MDA2NAo+Pj4+Cj4+Pj4gSSBjaGVja2VkIHRoZSBv
-bGQgYXJjaGl0ZWN0dXJlIG9mIFF1YWxjb21tIFBDSUUgZHJpdmVyLCBhbmQgSSBmb3VuZCB0aGF0
-IHRoZXkgc3VwcG9ydAo+Pj4+IHRoZXNlIHNpZ25hbCBsaWtlIFJUUyxEVFIgYW5kIHNvIG9uLgo+
-Pj4+IFBsZWFzZSBzZWU6IGh0dHBzOi8vZ2l0LmNvZGVsaW5hcm8ub3JnL2Nsby9sZS9wbGF0Zm9y
-bS9taGktaG9zdAo+Pj4+IGZpbGU6IGRyaXZlcnMvbmV0L3d3YW4vbWhpX2R0ci5jCj4KPlNsYXJr
-LCBJIGNhbm5vdCBmaW5kIHRoaXMgZmlsZS4gU2hhbGwgSSBjaGVjayBhIHNwZWNpZmljIGJyYW5j
-aCBvZiB0aGUgCj5yZXBvc2l0b3J5PwoKUGxlYXNlIGNob29zZSB0aGVzZSBsYXRlc3QgdGFncyB3
-aGljaCB1cGRhdGVkIDIgbW9udGhzIGFnby4gTGlrZSAiTEUuTE5YSE9TVFNXMi4wLTMzMzAwLUxO
-WEhPU1RTVy4wIgogCj4tLQo+U2VyZ2V5Cg==
+On November 20, 2024 5:59:32 AM, Slark Xiao <slark_xiao@163=2Ecom> wrote:
+>At 2024-11-20 07:06:11, "Sergey Ryazanov" <ryazanov=2Es=2Ea@gmail=2Ecom> =
+wrote:
+>>On 19=2E11=2E2024 12:59, Loic Poulain wrote:
+>>>>> I tried to add RTS signal support for our AT port of wwan device=2E
+>>>>> Now we can know that we are using wwan_port_fops_at_ioctl() for
+>>>>> this configuration=2E
+>>>>> Actually, there are 2 cmd will be ignored by default: TIOCGRS485
+>>>>> and TIOCSRS485 when you tried to use "minicom -D /dev/wwan0at0"=2E
+>>>>> Then I added it into that switch statement=2E May I know if the "mdm=
+bits"
+>>>>> corresponding to the defination in termios=2Eh?
+>>>=20
+>>> Yes, so the initial goal was to support 'legacy' terminal emulators,
+>>> adding no-op stubs for usual termios ioctls=2E
+>>
+>>Exactly! IOCTL support is just a stub=2E You can find all the details in=
+=20
+>>the commit c230035c2f2f ("net: wwan: core: implement terminal ioctls for=
+=20
+>>AT port")=2E
+>>
+>>Regarding the 'mdmbits' field, it contains so called 'modem bits', see=
+=20
+>>tty_ioctl(4)=2E Bits are handled by the core in an opaque way=2E Core sa=
+ves=20
+>>bits from a user's TIOCMSET command and returns bits back in the=20
+>>TIOCMGET request=2E Copying is done without checking any of these bits,=
+=20
+>>just copy sizeof(int) bytes to/from userspace and that's it=2E
+>
+>May I know if these bits (copy from user) has been sent to device over th=
+e driver?
+>So far it seems that we didn't receive these bits in device side=2E
+
+You are right=2E The modem bits are not sent to the driver=2E If driver ne=
+eds this information the core should be updated this way or another=2E See =
+below=2E
+
+>>> If I understand correctly, you don't only want stubs, but you need
+>>> them to implement flow control on top of MHI? If so, I think you can
+>>> access the port at_data->mbmbits from the mhi_ctrl port driver under
+>>> data->lock=2E You may also need a way to forward ioctl 'events' to the
+>>> driver=2E=2E=2E Wondering if this flow control could simply be support=
+ed
+>>> generically at wwan-core level?
+>>
+>>Suddenly the 'at_data' field belongs to the port structure private to=20
+>>the WWAN core=2E And a flow control implementation could be tricky=2E=20
+>>Ultimately, it's a nice option to have the flow control implemented in=
+=20
+>>the core=2E Depending on a number of users=2E
+>>
+>Yes, we need that flow control for these "serial" port=2E Currently we st=
+ill
+>don't have the NMEA support over PCIE(MHI)=2E Device GPS daemon
+>needs such a RTS signal from host side to start GPS=2E
+
+Thank you for clarifying the use case=2E In this specific case, you don't =
+need all these IOCTL stuff=2E
+
+If the device needs only DTR (device terminal ready) indication then it co=
+uld be done way simple=2E DTR in fact is an indication of the host readines=
+s to receive data=2E The WWAN port ops already has port open and port close=
+ callbacks=2E I believe, the driver can use them to indicate the host readi=
+ness as soon as user opens a GPS (NMEA) port=2E And clear the signal as soo=
+n as user have closed the port=2E
+
+This were good news=2E See below for so so news about GPS ports=2E
+
+>Windows use GNSS driver(not same as Linux GNSS) to support GPS=2E
+>But for MHI device this feature is none, I think=2E
+
+You are right here as well=2E The WWAN subsystem doesn't supports GPS port=
+s exporting=2E There was an attempt to implement it for t7xx chipset, if I =
+remember correctly=2E But the author have not finished it=2E
+
+There two tricky topics=2E First, a GPS port is not an arbitrary serial (c=
+har) device for the kernel=2E In Linux, there is a dedicated subsystem for =
+GPS/EMEA devices and the port should be registered with it=2E
+
+Second, strictly speaking, a GPS port is not a part of WWAN device=2E Yes,=
+ navigation receiver can be implemented as a block of a modem chip=2E On an=
+other hand, GPS port have nothing common with cellular network=2E It doesn'=
+t reveal connection status, and cannot be user to configure the modem=2E
+
+So, the first big question is: should we export GPS port via the WWAN subs=
+ystem or a modem driver should do it by its own?
+
+Loic, do you have any thoughts?
+
+>>For a single driver, I believe, the most convenient option is to=20
+>>implement everything in the driver=2E E=2Eg=2E introduce an 'ioctl' oper=
+ation=20
+>>to the wwan_port_ops=2E And, if core sees the 'ioctl' operation=20
+>>implemented, then it will forward all the IOCTLs to the driver bypassing=
+=20
+>>internal stub implementation=2E
+>>
+>>In some moment in the future, we can implement a generic flow control in=
+=20
+>>the core=2E In case there are will be more than one driver requiring it=
+=2E=20
+>>Is it make sense?
+>>
+>
+>Exactly!
