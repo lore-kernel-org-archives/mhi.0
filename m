@@ -1,93 +1,190 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7933A2CAB
-	for <mhi@lists.linux.dev>; Thu, 28 Nov 2024 03:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DBF1514F8
+	for <mhi@lists.linux.dev>; Fri, 29 Nov 2024 02:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732764925; cv=none; b=aSR7GCprAMWq7gEJ8ON/N1c4U03Gn2yMksb1BE+eBr3zSQV2LgJXIxqJ91oM+6yZyT+cb8DcB2RkYyrPlcpgxqL6QNqHoHfFsAtCneS7eMZsbAM/zaw3+IomzUNf/chd3zoejMIIGpFtIgkHST5VnKZ9Xgg1RShy+FkL5FxTLTA=
+	t=1732848562; cv=none; b=eTCn1JpM3cEyU4P/36Kv+B/s4SJAZi0g4stoocAjvZ9tms8R/paIWN0+6ShS/bD9g+MqEAY+6lG75m8rlqVchwPc7h9fITUHezRcUABdQFFmuaRbgUr1o33brNQYXtLdlIYKYJoHuKutiKJ8nGGCXMYCTwj5eJfRk4iZlGb4gY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732764925; c=relaxed/simple;
-	bh=w9elRYUtctAdmjPbj09png96Qo5wFN4kbt1k7Sm9Fnw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=JijmNtDE6V5pwqMw7MO6SWNW0gn9idXLSvBt04ilYaa5bggEeDtXVp7iyvElcPDJcT3i8W7MIsDXVjFara8ZNYNIm95n4J+vXUAFU4a7bSrkbDBQoLLHZ3dtXY6384lb1BPUKtRiOyc/7l4DtTGihv4xMow96I8demMD9Hq26Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=jk07Waab reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1732848562; c=relaxed/simple;
+	bh=Ti01UuaLu4Fnlpnpq8FacTdW9MBs2OXxTv9+1TxCdOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=W7VUL86S31HF9UMi1W6m1bHI52WfLvNIA/wnRnBymZhMYv01jkvzdtVUntlsbwQ2nvP0K+KM6kxwAACONceQxDgYBBvxk3acApnQ6K0MMg0OC1UPvQyv3ReRlDt+UWefLMUB2cwG9poIifsXgtwmEsmk3hE03+E6B6u5N4ARovA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eLy1oea+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="jk07Waab"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=rWyvgW05lNtBCWHP5N2k8Oakz86ti4uueRcaao7uk1s=; b=j
-	k07Waab9k/+QP3dCny9QeyXAuA3rJAApWkY2RSeRxc7OZhaSWkJcjJG00+tgdYL6
-	U01lj7chFDhuGLTCbC/091KfXiQLfh8VJ/0LdlVjVEqsVNAyUSosqWduuRZSffIT
-	5+KE/Xmql1vUPUpWJCOWYgkI6qenM0Hjg4vYEJnCw0=
-Received: from slark_xiao$163.com ( [2409:895a:3853:ac0e:c761:ecf:59fb:f52]
- ) by ajax-webmail-wmsvr-40-111 (Coremail) ; Thu, 28 Nov 2024 11:19:59 +0800
- (CST)
-Date: Thu, 28 Nov 2024 11:19:59 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>
-Cc: "Loic Poulain" <loic.poulain@linaro.org>, 
-	"Qiang Yu" <quic_qianyu@quicinc.com>, mhi <mhi@lists.linux.dev>, 
-	"Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>
-Subject: Re:Re: How to add RTS support for wwan0at0 port
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <ebd60134-6ba0-453f-bf9a-b215373160c0@gmail.com>
-References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
- <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
- <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
- <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
- <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
- <F987F2EE-E2C2-46D7-BBD5-A7632C4C2CA3@gmail.com>
- <CAMZdPi8oprfHfFuLmNO1NW9ZUNP9nzhoqEaVd-cMGM06jhbxiA@mail.gmail.com>
- <ebd60134-6ba0-453f-bf9a-b215373160c0@gmail.com>
-X-NTES-SC: AL_Qu2YAPudvEEi7yafbOkfmk8Sg+84W8K3v/0v1YVQOpF8jDjpxCAvT0Z6AHbz3PqCOgSsuyGuQiVo7MF9RIN+YYssvOFhBfVn5NP5n3UEIw4Igw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eLy1oea+"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT1CrF3029947;
+	Fri, 29 Nov 2024 02:49:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Nq7kj/Km8LNgI7gN3JcAvSHvu/XZ8fwPaWqrwsrFzlA=; b=eLy1oea++aQ6+yER
+	D5+Z1ChpB6N2mSW+R9+kbJIX0I7U3Q54Ldam59d1EHJ5EG63JMOMXXHmNKIO1oty
+	CO2eKiESTgtDGJ5nIK2w7Ao75TWqsSrTfWWelWm1vS1iuLQO4x3LrNm9W6sNrDf3
+	IAtUos9/tEPWIyygdaSneeNdZyVCQrmWVhUJjZc+anE/9aNs/JYuNeS8AOt/934/
+	9BlX7SM35GyzUiQIDn7YhvC9ieyUprr+9E7N4klzQZCJ7bsq5TG94D3BjDPt4FIb
+	qFeUeJaWdN4f9iGpXNfp7DpURXRDpu+a9RR67uAHtL/qeggMANCntsEybpOk6YB/
+	l3+0SA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4366xy45et-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 02:49:14 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AT2nDwt009015
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 02:49:13 GMT
+Received: from [10.239.29.179] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 28 Nov
+ 2024 18:49:07 -0800
+Message-ID: <b7533f3a-9d4e-4061-b085-3218793f4d6c@quicinc.com>
+Date: Fri, 29 Nov 2024 10:49:04 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <a265655.3b31.19370c85dc3.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:bygvCgDnrzFg4Udnsn0xAA--.32881W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRxClZGdH2oCiWwABsU
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: How to add RTS support for wwan0at0 port
+To: Slark Xiao <slark_xiao@163.com>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Loic Poulain
+	<loic.poulain@linaro.org>, mhi <mhi@lists.linux.dev>,
+        Mayank Rana
+	<quic_mrana@quicinc.com>
+References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
+ <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
+ <d24a7b26-03f6-42be-afcf-7a6897932c18@quicinc.com>
+ <c52eebf.44be.19347bb3a2b.Coremail.slark_xiao@163.com>
+Content-Language: en-US
+From: Qiang Yu <quic_qianyu@quicinc.com>
+In-Reply-To: <c52eebf.44be.19347bb3a2b.Coremail.slark_xiao@163.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FfupK_KM7rt3e8NZH9voyELvfKo1PMoU
+X-Proofpoint-ORIG-GUID: FfupK_KM7rt3e8NZH9voyELvfKo1PMoU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2411290021
 
-CkF0IDIwMjQtMTEtMjIgMDc6MjU6MjUsICJTZXJnZXkgUnlhemFub3YiIDxyeWF6YW5vdi5zLmFA
-Z21haWwuY29tPiB3cm90ZToKPk9uIDIxLjExLjIwMjQgMTE6MDEsIExvaWMgUG91bGFpbiB3cm90
-ZToKPj4gT24gV2VkLCAyMCBOb3YgMjAyNCBhdCAwODo0OSwgU2VyZ2V5IFJ5YXphbm92IDxyeWF6
-YW5vdi5zLmFAZ21haWwuY29tPiB3cm90ZToKPj4gWy4uLl0KPj4gCj4+PiBUaGVyZSB0d28gdHJp
-Y2t5IHRvcGljcy4gRmlyc3QsIGEgR1BTIHBvcnQgaXMgbm90IGFuIGFyYml0cmFyeSBzZXJpYWwg
-KGNoYXIpIGRldmljZSBmb3IgdGhlIGtlcm5lbC4gSW4gTGludXgsIHRoZXJlIGlzIGEgZGVkaWNh
-dGVkIHN1YnN5c3RlbSBmb3IgR1BTL0VNRUEgZGV2aWNlcyBhbmQgdGhlIHBvcnQgc2hvdWxkIGJl
-IHJlZ2lzdGVyZWQgd2l0aCBpdC4KPj4+Cj4+PiBTZWNvbmQsIHN0cmljdGx5IHNwZWFraW5nLCBh
-IEdQUyBwb3J0IGlzIG5vdCBhIHBhcnQgb2YgV1dBTiBkZXZpY2UuIFllcywgbmF2aWdhdGlvbiBy
-ZWNlaXZlciBjYW4gYmUgaW1wbGVtZW50ZWQgYXMgYSBibG9jayBvZiBhIG1vZGVtIGNoaXAuIE9u
-IGFub3RoZXIgaGFuZCwgR1BTIHBvcnQgaGF2ZSBub3RoaW5nIGNvbW1vbiB3aXRoIGNlbGx1bGFy
-IG5ldHdvcmsuIEl0IGRvZXNuJ3QgcmV2ZWFsIGNvbm5lY3Rpb24gc3RhdHVzLCBhbmQgY2Fubm90
-IGJlIHVzZXIgdG8gY29uZmlndXJlIHRoZSBtb2RlbS4KPj4+Cj4+PiBTbywgdGhlIGZpcnN0IGJp
-ZyBxdWVzdGlvbiBpczogc2hvdWxkIHdlIGV4cG9ydCBHUFMgcG9ydCB2aWEgdGhlIFdXQU4gc3Vi
-c3lzdGVtIG9yIGEgbW9kZW0gZHJpdmVyIHNob3VsZCBkbyBpdCBieSBpdHMgb3duPwo+Pj4KPj4+
-IExvaWMsIGRvIHlvdSBoYXZlIGFueSB0aG91Z2h0cz8KPj4gCj4+IE1hbnkgbW9kZW1zIGhhdmUg
-KEFzc2lzdGVkKSBHUFMgY2FwYWJpbGl0aWVzLCBhbmQgdGhlIEdQUyBlbmdpbmUgaXMKPj4gdXN1
-YWxseSBjb250cm9sbGVkIHZpYSB0aGUgTW9kZW0gY29udHJvbCBpbnRlcmZhY2UgKEFULCBtYmlt
-Li4uKS4KPj4gU28gaXQgd291bGQgbWFrZSBzZW5zZSBmb3IgdGhlIEdQUyBpbnRlcmZhY2UgdG8g
-c3RheSB1bmRlciBpdHMgV1dBTgo+PiBwYXJlbnQsIGFuZCB0aGUgaW50ZXJmYWNlIHRvIGJlIGEg
-V1dBTiBpbnRlcm5hbCBwb3J0ICB0eXBlIChOTUVBICkuCj4KPk91Y2guIE1ha2Ugc2Vuc2UuIEkn
-dmUgZm9yZ290IHRoYXQgc29tZSAobW9zdD8pIG1vZGVtcyB1dGlsaXplIGNvbnRyb2wgCj5wb3J0
-IHRvIGFjdGl2YXRlIHRoZSBuYXZpZ2F0aW9uIHJlY2VpdmVyLiBUaGFuayB5b3UgZm9yIHJlbWlu
-ZGluZy4KPgo+VGhlbiwgdGhlIE5NRUEgcG9ydCBzaG91bGQgYmUgZXhwb3J0ZWQgYXMgYSBjaGls
-ZCBvZiBXV0FOIGRldmljZSBmb3Igc3VyZS4KPgo+PiBOb3cuLi4gd2UgY291bGQgZWl0aGVyIGV4
-cG9zZSB0aGUgTk1FQSBwb3J0IHRvIHVzZXIgbGlrZSBvdGhlciBjb250cm9sCj4+IHBvcnRzICh3
-d2FuIGNkZXYgc29sdXRpb24pLCBvciBoYXZlIGEgc2hpbSBsYXllciB0byB0aGUgR05TUwo+PiBz
-dWJzeXN0ZW0uVGhlIGZvcm1lciBzb2x1dGlvbiBpcyBwcm9iYWJseSB0aGUgZWFzaWVzdCwgdGhl
-IGxhdHRlcgo+PiBzb2x1dGlvbiB0aGUgbW9zdCBhcHByb3ByaWF0ZS4KPgo+QWxzbyBtYWtlIHNl
-bnNlLiBQZXJzb25hbGx5LCBJJ20gdm90aW5nIGZvciBleHBvcnRpbmcgdGhyb3VnaCB0aGUgR05T
-UyAKPnN1YnN5c3RlbS4gVGhpcyB3YXkgYSB1c2Vyc3BhY2UgYXBwbGljYXRpb24gd2lsbCBiZSBl
-YXN5IHRvIGZpbmQgdGhlIAo+cmVjZWl2ZXIuCj4KRG8geW91IG1lYW4gdGhlIEdOU1MgZHJpdmVy
-IGluIGRyaXZlci9nbnNzID8KQW5kIHdoYXQncyB0aGUgbmV4dCBwbGFuPyBBbnlib2R5IHdpbGwg
-cmVzcG9uc2libGUgZm9yIHRoaXMgcmVxdWlyZW1lbnQ/CgoK
+
+On 11/20/2024 12:01 PM, Slark Xiao wrote:
+>
+>
+>
+> At 2024-11-19 20:06:08, "Qiang Yu" <quic_qianyu@quicinc.com> wrote:
+> >+ Mayank
+> >
+> >On 11/19/2024 12:21 PM, Manivannan Sadhasivam wrote:
+> >> + MHI list, Qiang
+> >>
+> >> On Tue, 19 Nov 2024 at 09:25, Slark Xiao <slark_xiao@163.com> wrote:
+> >>
+> >>     Hi Loic,
+> >>     I tried to add RTS signal support for our AT port of wwan device.
+> >>     Now we can know that we are using wwan_port_fops_at_ioctl() for
+> >>     this configuration.
+> >>     Actually, there are 2 cmd will be ignored by default: TIOCGRS485
+> >>     and TIOCSRS485 when you tried to use "minicom -D /dev/wwan0at0".
+> >>     Then I added it into that switch statement. May I know if the
+> >>     "mdmbits"
+> >>     corresponding to the defination in termios.h?
+> >>
+> >>     Below are some test results in wwan_port_fops_at_ioctl():
+> >>
+> >>     //sudo minicom -D /dev/wwan0at0:
+> >>     [ 1773.390038] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389648
+> >>     [ 1773.390062] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is
+> >>     93936443291456
+> >>     [ 1773.390069] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389408
+> >>     [ 1773.390078] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389392
+> >>     [ 1773.390082] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is
+> >>     140726000389344
+> >>     [ 1773.390087] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389344
+> >>     [ 1773.390092] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is
+> >>     140726000389500
+> >>     [ 1773.390097] wwan wwan0: ##shawn debug## cmd is 0x5418, arg is
+> >>     140726000389500
+> >>     [ 1773.390101] wwan wwan0: ##shawn debug1## mdmbits is 4
+> >>     [ 1773.390106] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389408
+> >>     [ 1773.390112] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389392
+> >>     [ 1773.390116] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is
+> >>     140726000389344
+> >>     [ 1773.390120] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389344
+> >>     [ 1773.390126] wwan wwan0: ##shawn debug## cmd is 0x542e, arg is
+> >>     140726000389568
+> >>     [ 1773.390131] wwan wwan0: ##shawn debug## cmd is 0x542f, arg is
+> >>     140726000389568
+> >>     [ 1773.390135] wwan wwan0: ##shawn debug1## mdmbits is 0
+> >>     [ 1773.390153] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389648
+> >>     [ 1773.390158] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389632
+> >>     [ 1773.390163] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is
+> >>     140726000389584
+> >>     [ 1773.390167] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389584
+> >>     [ 1773.390172] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389648
+> >>     [ 1773.390177] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389632
+> >>     [ 1773.390181] wwan wwan0: ##shawn debug## cmd is 0x5402, arg is
+> >>     140726000389584
+> >>     [ 1773.390185] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000389584
+> >>     [ 1773.390191] wwan wwan0: ##shawn debug## cmd is 0x540b, arg is 2
+> >>     [ 1773.393848] wwan wwan0: ##shawn debug## cmd is 0x5415, arg is
+> >>     140726000390084
+> >>     [ 1773.393861] wwan wwan0: ##shawn debug## cmd is 0x5401, arg is
+> >>     140726000390064
+> >>
+> >>     I checked the old architecture of Qualcomm PCIE driver, and I
+> >>     found that they support
+> >>     these signal like RTS,DTR and so on.
+> >>     Please see: https://git.codelinaro.org/clo/le/platform/mhi-host
+> >>     file: drivers/net/wwan/mhi_dtr.c
+> >>
+> >>     Thanks
+> >>
+> >To add RTS support, I think IP_CTRL channel and corresponding client
+> >driver(mhi_dtr.c) are required. We also need to change the switch
+> >statement in wwan_port_fops_at_ioctl() to send data over IP_CTRL channel.
+> >
+> Hi Qiang,
+> Is there any plan to commit this? I saw this solution in QC themselves 
+> project.
+Hi Slark,
+
+Sorry for replying late, I discussed with internal team. We have no plans
+to commit it as of now.
+
+Thanks,
+Qiang Yu
+> >Thanks,
+> >Qiang Yu
+> >>
+> >>
+> >>
+> >> -- 
+> >> மணிவண்ணன் சதாசிவம்
