@@ -1,131 +1,131 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236E61FA249
-	for <mhi@lists.linux.dev>; Mon,  2 Dec 2024 09:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 200DB1FCFE7
+	for <mhi@lists.linux.dev>; Mon,  2 Dec 2024 11:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733133119; cv=none; b=sKRVwJiNK9ePTI9eEYWflOSnuSwx5uRjN3SNqOqHBqLUJrzlDlwGc0fLuuS6IG4sl/mBBlbA3yqPb22paYNyo8ObqLxioi9WYndnKmZ27QtveZYdZj7bBnbUp3kWpLqycMRsC0iTxGcFlSAFWMMPmmK/kTZIYfGZdavCJls3X9M=
+	t=1733139073; cv=none; b=YLJztMwrsJ6+raD8sFUbX2bQpl2gmEpB/qk9UsLbtHSLZDWmV7j+Wd6VJIAaLHvGXnBNmBe1XEIs/vg2RRKe/dZNnEGZoN6N1rTjydj7Nlb4UMLdjiW6FAw7vXwzAkoWSH2b94V0gYAU9Y5OTCfljm1NMtSJUKMXg1IpDRqNt9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733133119; c=relaxed/simple;
-	bh=rrHT5ISu4ntl7jHH5qk6ptP2W7I5hEkSFLbxbRC4wt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X+J7qxRKuJl5RUYPjDxuipWKeNSG1TAwVZPv+p4rEgWLlykFH3xaKl2bQHqOT3CQQYX1zuO+egBXJC++rzrutr0lCCLVfZvLoS4Q1vblqG8Ahuee+rt5C0fpU5YwkGIz7GG4GG5fQY6WMqa9DKSBmllSlwzSVE5QM6qPfZTg+dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CCa5qwps; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733139073; c=relaxed/simple;
+	bh=/UiYeQ3VAc/u4hVUfX4fDEDEqztRDhetWvoEVMqhdfY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=biJmofuiCNh3bos7cDcSnPJASmGZ97MpZT5H9b/QP6+dr0vb4LMY2/H911Tti9/v5EFcLtp9HlDb0busolGP2EcqC7+I9vYShBhf0dgt5lP1KIl4bWT6LvmhvDAICIYfvsCa8tsVyhpiboEpPTBmXXki+Qo0fkvxe4OF0realmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=XFmi1ZGW reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CCa5qwps"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7fc41dab8e3so2501894a12.3
-        for <mhi@lists.linux.dev>; Mon, 02 Dec 2024 01:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733133117; x=1733737917; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=us2DAUmz8SSO9Fkdpm3cqKbhkQy4ljHHURt29NsDe3M=;
-        b=CCa5qwpsAbUqk0ZR0NqsHg4GZcyt/vZNYxSTAVspqVDgCA6khMf3PTTBC7H58Cn3U4
-         Ae69diEa+TNlUzzGeaQVQm5AOc6rlELvjUCWbWZuraPtiKstFBv1eXvxqeZgcxeA8wue
-         SiCXokISgm/0E9p3llqHwOE5GrcUpN+CmJJIdUGsLz/22muSKOvzs9hYpwmuXYdZMFnK
-         tMf7CUeYmN5pWWgP/lhaXSGZ0wnX5lTq9kXGVXoxsddVjBT45MBPE3YFsS4BXNZfTKXN
-         YTDg0bbYkiRV0g5DRM9Dgi0ZVyWy4ZtwAXHYPLf1g6QFAjpTdFlKNfSk9Q2gJy2078Gm
-         lZ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733133117; x=1733737917;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=us2DAUmz8SSO9Fkdpm3cqKbhkQy4ljHHURt29NsDe3M=;
-        b=VSHOM9wwXhb4hvTGmcEPlNy2TZ3Z4UpqhTFVbWKMjIQFD1RFwNPQOOoh3SlxL2nsiy
-         KK9V17Sk+xZXDxJQzCWeN8/oRUbDHPChA0fTPABTyg4eoMG4TPL8U0vdXe2swDrDi7dQ
-         ViLCPFlrfpQp1F21RC6mVvR5Yy7d6ofD/YMa6t4cEc7kyUWKOuIjU/UMBRxJzxAetBqF
-         pTiSoV8C7/hxNgjbqRayNTGD+T/C3lumN/q0mzYzx/iGyTiCV6A2tAWa9VUiEmuxFkJJ
-         76JzyEng0JETCWR6gm0lsqjBrSY3t/5BvFj8DsOsnG0+T6Hsx2NSnQ5CdfrSmr46Sgja
-         KAhQ==
-X-Gm-Message-State: AOJu0YxdpET9SRTnTmhUBddX/HZQPepKfX0qUjdZOSJDe4p1FsQ5vpH+
-	aXU1NNVWcC2gjh1+INirVr3LZU8FN+X/82jfb/p7WZwr4Nd4MOQ+qmG6GmOYBg==
-X-Gm-Gg: ASbGncuSAgGPll/+gKerMOEpFbeO5kptyyZeICBNwfY9o7jhxTVY0RYBAJxcgHmJVx9
-	MjaMSs+BFYIgUzlZ6pF1ooeVs6SunCtOjuUU5TpvpyO86HrSjiLM27FC1zMwKOesWO5gBY2JuHl
-	wuA1h4nnqOH98w3EyJxzuz0J+LKM1Cr/F1pgeon6L5Tk/RQ3JMNW8zfzcWlg8kIZLSn+MXGDhJB
-	ytIK8Z2PoI4WyMhOrV9ewcqfUHPKN9rUaS6sVCRlPNg2dInf9qPnCJLv+ipTg==
-X-Google-Smtp-Source: AGHT+IHG5Cu0Pp0i4nhGKaYi5qQQMFoWyzPs6PVgf5vKt8vckryTy7wgHXKr6o20H/OIRqQE8YLxDQ==
-X-Received: by 2002:a05:6a21:2d87:b0:1e0:c954:ea7c with SMTP id adf61e73a8af0-1e0e0b16a5emr32819128637.27.1733133117491;
-        Mon, 02 Dec 2024 01:51:57 -0800 (PST)
-Received: from thinkpad ([120.60.140.110])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72541848259sm8044152b3a.174.2024.12.02.01.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 01:51:57 -0800 (PST)
-Date: Mon, 2 Dec 2024 15:21:52 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Johan Hovold <johan+linaro@kernel.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mayank Rana <quic_mrana@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: fix MHI BAR mapping
-Message-ID: <20241202095152.ghhi2opa6nfhjvbm@thinkpad>
-References: <20241201171120.31616-1-johan+linaro@kernel.org>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="XFmi1ZGW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=LuE89fm4C4A7oYc6xlzEY8cf2zHzCVKFX/oLJ5owTxs=; b=X
+	Fmi1ZGWLW65MTvUSSt5jnnq1qvlIohsLMKAbLsP3++7UeHShJSyYjqDIJpIj4s7m
+	VbFvoLm2/a1+cZaq6+d8xcQztJtTRoyIV4XRRXcUe62HYvN8hLzUNgJxWTpr54gB
+	iXRsn4FQNyNxt6ZFXUdQdJCvgYpWEKpmfunPGZlcmo=
+Received: from slark_xiao$163.com ( [2408:8459:3820:be01:7f4c:73a7:79b:63bf]
+ ) by ajax-webmail-wmsvr-40-101 (Coremail) ; Mon, 2 Dec 2024 19:30:45 +0800
+ (CST)
+Date: Mon, 2 Dec 2024 19:30:45 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>
+Cc: "Loic Poulain" <loic.poulain@linaro.org>, 
+	"Qiang Yu" <quic_qianyu@quicinc.com>, mhi <mhi@lists.linux.dev>, 
+	"Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>, 
+	"Johan Hovold" <johan@kernel.org>
+Subject: Re:Re: How to add RTS support for wwan0at0 port
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <6f75f867-bf1f-41ec-9b5b-e39c26054454@gmail.com>
+References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
+ <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
+ <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
+ <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
+ <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
+ <F987F2EE-E2C2-46D7-BBD5-A7632C4C2CA3@gmail.com>
+ <CAMZdPi8oprfHfFuLmNO1NW9ZUNP9nzhoqEaVd-cMGM06jhbxiA@mail.gmail.com>
+ <ebd60134-6ba0-453f-bf9a-b215373160c0@gmail.com>
+ <a265655.3b31.19370c85dc3.Coremail.slark_xiao@163.com>
+ <6f75f867-bf1f-41ec-9b5b-e39c26054454@gmail.com>
+X-NTES-SC: AL_Qu2YAf2Ytkgv4yCZYekfmksUjus2WMq3vfUv3o9SOJtwjCvp5zgLRXBTOUXZ1vmDESCBnQiHfzhiwN9QfZRFUK4pndsg54GO/D2EjLncHbKg+g==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241201171120.31616-1-johan+linaro@kernel.org>
+Message-ID: <28100f25.b702.19387231a99.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:ZSgvCgD3n19lmk1n+k01AA--.30769W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiNQOpZGdNkeieLwADsa
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Sun, Dec 01, 2024 at 06:11:20PM +0100, Johan Hovold wrote:
-> A recent change converting the MHI pci_generic driver to use
-> pcim_iomap_region() failed to update the BAR parameter which is an index
-> rather than a mask.
-> 
-> This specifically broke the modem on machines like the Lenovo ThinkPad
-> X13s and x1e80100 CRD:
-> 
-> 	mhi-pci-generic 0004:01:00.0: failed to map pci region: -22
-> 	mhi-pci-generic 0004:01:00.0: probe with driver mhi-pci-generic failed with error -22
-> 
-> Fixes: bd23e836423e ("bus: mhi: host: pci_generic: Use pcim_iomap_region() to request and map MHI BAR")
-> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Cc: Mayank Rana <quic_mrana@quicinc.com>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-
-Applied to mhi-fixes!
-
-- Mani
-
-> ---
-> 
-> The offending patch was marked as "Compile tested only", but that just
-> makes you wonder *why* the patch was never tested...
-> 
-> 	https://lore.kernel.org/all/20241004023351.6946-1-manivannan.sadhasivam@linaro.org/
-> 
-> Johan
-> 
-> 
-> #regzbot introduced: bd23e836423e
-> 
-> 
->  drivers/bus/mhi/host/pci_generic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 07645ce2119a..56ba4192c89c 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -917,7 +917,7 @@ static int mhi_pci_claim(struct mhi_controller *mhi_cntrl,
->  		return err;
->  	}
->  
-> -	mhi_cntrl->regs = pcim_iomap_region(pdev, 1 << bar_num, pci_name(pdev));
-> +	mhi_cntrl->regs = pcim_iomap_region(pdev, bar_num, pci_name(pdev));
->  	if (IS_ERR(mhi_cntrl->regs)) {
->  		err = PTR_ERR(mhi_cntrl->regs);
->  		dev_err(&pdev->dev, "failed to map pci region: %d\n", err);
-> -- 
-> 2.45.2
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+CkF0IDIwMjQtMTItMDEgMjA6MDE6MzAsICJTZXJnZXkgUnlhemFub3YiIDxyeWF6YW5vdi5zLmFA
+Z21haWwuY29tPiB3cm90ZToKPitKb2hhbgo+Cj5PbiAyOC4xMS4yMDI0IDA1OjE5LCBTbGFyayBY
+aWFvIHdyb3RlOgo+PiBBdCAyMDI0LTExLTIyIDA3OjI1OjI1LCAiU2VyZ2V5IFJ5YXphbm92IiA8
+cnlhemFub3Yucy5hQGdtYWlsLmNvbT4gd3JvdGU6Cj4+PiBPbiAyMS4xMS4yMDI0IDExOjAxLCBM
+b2ljIFBvdWxhaW4gd3JvdGU6Cj4+Pj4gT24gV2VkLCAyMCBOb3YgMjAyNCBhdCAwODo0OSwgU2Vy
+Z2V5IFJ5YXphbm92IDxyeWF6YW5vdi5zLmFAZ21haWwuY29tPiB3cm90ZToKPj4+PiBbLi4uXQo+
+Pj4+Cj4+Pj4+IFRoZXJlIHR3byB0cmlja3kgdG9waWNzLiBGaXJzdCwgYSBHUFMgcG9ydCBpcyBu
+b3QgYW4gYXJiaXRyYXJ5IHNlcmlhbCAoY2hhcikgZGV2aWNlIGZvciB0aGUga2VybmVsLiBJbiBM
+aW51eCwgdGhlcmUgaXMgYSBkZWRpY2F0ZWQgc3Vic3lzdGVtIGZvciBHUFMvRU1FQSBkZXZpY2Vz
+IGFuZCB0aGUgcG9ydCBzaG91bGQgYmUgcmVnaXN0ZXJlZCB3aXRoIGl0Lgo+Pj4+Pgo+Pj4+PiBT
+ZWNvbmQsIHN0cmljdGx5IHNwZWFraW5nLCBhIEdQUyBwb3J0IGlzIG5vdCBhIHBhcnQgb2YgV1dB
+TiBkZXZpY2UuIFllcywgbmF2aWdhdGlvbiByZWNlaXZlciBjYW4gYmUgaW1wbGVtZW50ZWQgYXMg
+YSBibG9jayBvZiBhIG1vZGVtIGNoaXAuIE9uIGFub3RoZXIgaGFuZCwgR1BTIHBvcnQgaGF2ZSBu
+b3RoaW5nIGNvbW1vbiB3aXRoIGNlbGx1bGFyIG5ldHdvcmsuIEl0IGRvZXNuJ3QgcmV2ZWFsIGNv
+bm5lY3Rpb24gc3RhdHVzLCBhbmQgY2Fubm90IGJlIHVzZXIgdG8gY29uZmlndXJlIHRoZSBtb2Rl
+bS4KPj4+Pj4KPj4+Pj4gU28sIHRoZSBmaXJzdCBiaWcgcXVlc3Rpb24gaXM6IHNob3VsZCB3ZSBl
+eHBvcnQgR1BTIHBvcnQgdmlhIHRoZSBXV0FOIHN1YnN5c3RlbSBvciBhIG1vZGVtIGRyaXZlciBz
+aG91bGQgZG8gaXQgYnkgaXRzIG93bj8KPj4+Pj4KPj4+Pj4gTG9pYywgZG8geW91IGhhdmUgYW55
+IHRob3VnaHRzPwo+Pj4+Cj4+Pj4gTWFueSBtb2RlbXMgaGF2ZSAoQXNzaXN0ZWQpIEdQUyBjYXBh
+YmlsaXRpZXMsIGFuZCB0aGUgR1BTIGVuZ2luZSBpcwo+Pj4+IHVzdWFsbHkgY29udHJvbGxlZCB2
+aWEgdGhlIE1vZGVtIGNvbnRyb2wgaW50ZXJmYWNlIChBVCwgbWJpbS4uLikuCj4+Pj4gU28gaXQg
+d291bGQgbWFrZSBzZW5zZSBmb3IgdGhlIEdQUyBpbnRlcmZhY2UgdG8gc3RheSB1bmRlciBpdHMg
+V1dBTgo+Pj4+IHBhcmVudCwgYW5kIHRoZSBpbnRlcmZhY2UgdG8gYmUgYSBXV0FOIGludGVybmFs
+IHBvcnQgIHR5cGUgKE5NRUEgKS4KPj4+Cj4+PiBPdWNoLiBNYWtlIHNlbnNlLiBJJ3ZlIGZvcmdv
+dCB0aGF0IHNvbWUgKG1vc3Q/KSBtb2RlbXMgdXRpbGl6ZSBjb250cm9sCj4+PiBwb3J0IHRvIGFj
+dGl2YXRlIHRoZSBuYXZpZ2F0aW9uIHJlY2VpdmVyLiBUaGFuayB5b3UgZm9yIHJlbWluZGluZy4K
+Pj4+Cj4+PiBUaGVuLCB0aGUgTk1FQSBwb3J0IHNob3VsZCBiZSBleHBvcnRlZCBhcyBhIGNoaWxk
+IG9mIFdXQU4gZGV2aWNlIGZvciBzdXJlLgo+Pj4KPj4+PiBOb3cuLi4gd2UgY291bGQgZWl0aGVy
+IGV4cG9zZSB0aGUgTk1FQSBwb3J0IHRvIHVzZXIgbGlrZSBvdGhlciBjb250cm9sCj4+Pj4gcG9y
+dHMgKHd3YW4gY2RldiBzb2x1dGlvbiksIG9yIGhhdmUgYSBzaGltIGxheWVyIHRvIHRoZSBHTlNT
+Cj4+Pj4gc3Vic3lzdGVtLlRoZSBmb3JtZXIgc29sdXRpb24gaXMgcHJvYmFibHkgdGhlIGVhc2ll
+c3QsIHRoZSBsYXR0ZXIKPj4+PiBzb2x1dGlvbiB0aGUgbW9zdCBhcHByb3ByaWF0ZS4KPj4+Cj4+
+PiBBbHNvIG1ha2Ugc2Vuc2UuIFBlcnNvbmFsbHksIEknbSB2b3RpbmcgZm9yIGV4cG9ydGluZyB0
+aHJvdWdoIHRoZSBHTlNTCj4+PiBzdWJzeXN0ZW0uIFRoaXMgd2F5IGEgdXNlcnNwYWNlIGFwcGxp
+Y2F0aW9uIHdpbGwgYmUgZWFzeSB0byBmaW5kIHRoZQo+Pj4gcmVjZWl2ZXIuCj4+Pgo+PiBEbyB5
+b3UgbWVhbiB0aGUgR05TUyBkcml2ZXIgaW4gZHJpdmVyL2duc3MgPwo+Cj5Ob3QgZXhhY3RseS4g
+ZHJpdmVycy9nbnNzIGlzIGZvciBwdXJlIEdOU1MgcmVjZWl2ZXJzLiBFeHBvcnRpbmcgdGhyb3Vn
+aCAKPkdOU1Mgc3Vic3lzdGVtIG1lYW5zIHVzaW5nIGduc3NfcmVnaXN0ZXJfZGV2aWNlKCkgdG8g
+bWFrZSB0aGUgcG9ydCAKPmF2YWlsYWJsZSB0byB1c2VyIHNwYWNlLgo+Cj4+IEFuZCB3aGF0J3Mg
+dGhlIG5leHQgcGxhbj8KPgo+SSBjb3VsZCBub3Qgc2F5IHNvbWVib2R5IGhhcyBhIHBsYW4uIEkg
+Y2FuIHByb3Bvc2UgYSBoaWdoIGxldmVsIGRlc2lnbiAKPm9mIGEgZnV0dXJlIGltcGxlbWVudGF0
+aW9uLgo+Cj5CYXNpY2FsbHksIGNvbXBvbmVudHMgc2hvdWxkIGludGVyYWN0IGxpa2UgdGhpczoK
+Pgo+TW9kZW0gUENJZSBkcml2ZXIgPC0+IFdXQU4gY29yZSA8LT4gR05TUyBjb3JlIDwtPiAvZGV2
+L2duc3MwCj4KPldlIG5lZWQgdGhlIEdOU1MgY29yZSB0byBleHBvcnQgdGhlIG1vZGVtIE5NRUEg
+cG9ydCBhcyBpbnN0YW5jZSBvZiAKPidnbnNzJyBjbGFzcy4KPgo+V2UgbmVlZCBXV0FOIGNvcmUg
+YmV0d2VlbiB0aGUgbW9kZW0gZHJpdmVyIGFuZCB0aGUgR1NOTiBjb3JlIGJlY2F1c2Ugd2UgCj5u
+ZWVkIGEgY29tbW9uIHBhcmVudCBmb3IgR05TUyBwb3J0IGFuZCBtb2RlbSBjb250cm9sIHBvcnQg
+KGUuZy4gQVQsIAo+TUJJTSkuIFNpbmNlIHdlIGFyZSBhbHJlYWR5IGV4cG9ydGluZyBjb250cm9s
+IHBvcnRzIHZpYSB0aGUgV1dBTiAKPnN1YnN5c3RlbSwgdGhlIEdOU1MgcG9ydCBzaG91bGQgYWxz
+byBiZSBleHBvcnRlZCB0aHJvdWdoIHRoZSBXV0FOIAo+c3Vic3lzdGVtLiBUbyBrZWVwIGRldmlj
+ZXMgaGllcmFyY2h5IGxpa2UgdGhpczoKPgo+ICAgICAgICAgICAgICAgICAgICAgICAuLS0+IEFU
+IHBvcnQKPlBDSWUgZGV2IC0+IFdXQU4gZGV2IC18Cj4gICAgICAgICAgICAgICAgICAgICAgICct
+LT4gR05TUyBwb3J0Cj4KPkJhY2sgdG8gdGhlIGltcGxlbWVudGF0aW9uLiBQcm9iYWJseSB3ZSBz
+aG91bGQgaW50cm9kdWNlIGEgbmV3IHBvcnQgCj50eXBlLCBlLmcuIFdXQU5fUE9SVF9OTUVBLiBB
+bmQgdGhpcyBwb3J0IHR5cGUgc2hvdWxkIGhhdmUgYSBzcGVjaWFsIAo+aGFuZGxpbmcgaW4gdGhl
+IFdXQU4gY29yZS4KPgpTaW1pbGFyIGxpa2Ugd2hhdCBJIGRpZCBpbiBteSBsb2NhbC4gSSBuYW1l
+ZCBpdCBhcyBXV0FOX1BPUlRfR05TUyBhbmQKcHV0IGl0IGFzIHNhbWUgbGV2ZWwgd2l0aCBBVCBw
+b3J0LgoKPnd3YW5fY3JlYXRlX3BvcnQoKSBmdW5jdGlvbiBzaG91bGQgbm90IGRpcmVjdGx5IGNy
+ZWF0ZSBhIGNoYXIgZGV2aWNlLiAKPkluc3RlYWQsIGl0IHNob3VsZCBjYWxsIGduc3NfYWxsb2Nh
+dGVfZGV2aWNlKCkgYW5kIAo+Z25zc19yZWdpc3Rlcl9kZXZpY2UoKSB0byByZWdpc3RlciB0aGUg
+cG9ydCB3aXRoIEdOU1Mgc3Vic3lzdGVtLgo+CklmIHNvLCB0aGUgZmxvdyBjb250cm9sIGlzIG1h
+aW50YWluZWQgaW4gd3dhbl9jb3JlIG9yIHRoZSBnbnNzIGNvcmU/CiAKPj4gQW55Ym9keSB3aWxs
+IHJlc3BvbnNpYmxlIGZvciB0aGlzIHJlcXVpcmVtZW50Pwo+Cj5DYW4gbm90IGZvbGxvdyB5b3Uu
+IENvdWxkIHlvdSBlbGFib3JhdGUsIHdoYXQgd2FzIHRoaXMgcXVlc3Rpb24gYWJvdXQ/Cj4KSSBt
+ZWFuLCBib3RoIHlvdSBhbmQgTG9pYyBub3RpY2VkIHRoYXQgbW9kZW1zIHN1cHBvcnQgdGhlIEdQ
+UyBmdW5jdGlvbiBidXQKdGhlcmUgaXMgbm8gc3VjaCBzdXBwb3J0IGluIGN1cnJlbnQgV1dBTiBk
+ZXNpZ24uClNvIHdobyB3aWxsIGJlIHRoZSBrZXkgcm9sZSBvZiBkZXNpZ25lciBvZiAgdGhpcyBu
+ZXcgZmVhdHVyZT8gVGhpcyB3b3VsZCBiZQpncmVhdCBoZWxwIGlmIHRoZXJlIGlzIHNvbWVvbmUg
+cHV0dGluZyB0aGlzIGZlYXR1cmUgaW50byBwcmFjdGljZS4KCgo=
