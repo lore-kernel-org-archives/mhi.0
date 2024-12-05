@@ -1,203 +1,106 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B8D1FBEB4
-	for <mhi@lists.linux.dev>; Tue,  3 Dec 2024 18:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0331E18FDAF
+	for <mhi@lists.linux.dev>; Thu,  5 Dec 2024 06:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733250279; cv=none; b=R1fSiPn8DQmeuY7xD04fQuuaZvXoit3vKJhH4rPYRGQ/Vf94UD8l2Vh+30+QZ0kbHVTVjE3b0OMFMpZNLkQGImnBxtrPy47DZ+m+RvwnaDhSnwzjN8QNKoWD1OpcSzkIhtBQjs0k9QU+BVZGMySJ1uhzSWlT/vZDg4Ouu0iwBGI=
+	t=1733381685; cv=none; b=ddQO/8oTcljiR+d+MotcMSjh7uvAnu5PGhW81wyIcwx+biHmobssm+a+ukaK20iMDvtg7+mMGauWnrSG9chQRBhTHlqVFhSE3o2reZebAjeFs/VzP11OghJ8C+glso3r1zPCurRhMg/cdsvAMoaRy8tYiDvPLXxbMhkS3cl1ylM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733250279; c=relaxed/simple;
-	bh=6KKyjBUJeEpO/2uCHd2+/5fTrzpZ12G+vBLshpOzD3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q/nlLZsfNWwYmaJrcztAiAFTtu4hLv7EHRUT1T/QPEkyBqDTYE3MH8m66ZFkQCax7lT2la4FfALUYcKAHMMm7F7H37vu17+yYa25gMQLyFtBS1n/HemY2WKD1O3/mGVB3xLM691SgmXXXsFVOvxggwjrEelLMog+5BZs0UGhfvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FbKR25B8; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733381685; c=relaxed/simple;
+	bh=nCrwlCRlUmSmRryR/1WprnfMf/sEwmbB3xEj670GLZM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Gnmfz8Nont0MMfQ15W4pl7wKQromltII2xDLXar12Tsq7E7OaZnp+s7b7XglAbnfO1h7tImXfivi0SbKxZi4rSX3bZYE7xrmvlrofyhJKwDKepqdNs8vnAKnkcBYjbFViM5kSsadu9gfmzWeaDPJQXAhOkFGftoKVpiZTLbmDIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TOgbeKN9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FbKR25B8"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-434a14d6bf4so53068145e9.1
-        for <mhi@lists.linux.dev>; Tue, 03 Dec 2024 10:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733250276; x=1733855076; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DN2fk1BvE+/GJLKnXCSoE/txSFPnWsA5v/R/Hc+wxJo=;
-        b=FbKR25B8P33LG7cBX+ks2TFADG4xXd0zki1Wo4fJfrjmJqSk3y3avyHDZhwuORj+yt
-         VwR4ubS0wkniCDYhTqU10L/63D9Rxg39I5iaTSXMcqG/WdLAaaXkmwWrLD1JjZgAsmbi
-         g6o9lWIT9dQLTHH5PrEFqdd8YnGAFfmeEZrPPsZz13cCCTgWwnRAQGARw8kKCAlGQ7az
-         l8FmbXFTeiiX2nvu860ieW0gE2NKbwDAEeN3SEM+uCZRcQ0CVI47z3WHq51/1RrCDWiK
-         ZMBjCBh+aGWm05XAX29Sdoxxd5LX6vzzaolFEXhc5bXjeKI2LsC4ujYAvYVtE4A7FHR0
-         LViQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733250276; x=1733855076;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DN2fk1BvE+/GJLKnXCSoE/txSFPnWsA5v/R/Hc+wxJo=;
-        b=wvy/5zltNoBl9NKS7RXDX3NSjgjo1ARm8IKfvuGx0A/xgVNmwr/xopPRXBiDL766iw
-         66NoBuQLAJh0AtOWSK8ts1WcWfUhqu7UqXFUkOwWL9aGYVdYlpdowxnSumUlKd+i8Y9u
-         fS47aXAmQRH3pjSOJd0eSI+YMhlxquyIiSjW1QA4u3lf1C1Tlvo6Y8bOcPbg3nckMpPR
-         4O24Gd4TO1Zi5MFze2XKHHfjT3vc2Fm6jrc2Pu1A5tlO3KglU9wX0mPIgbFlVPf/DrID
-         /nSxzWjJ9nBVb+OGlAAaebgIKy8nknZXRkAdHfh55tOVnJ3R60V/nF0z0ToJOKNM00T5
-         KZMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQRqdVLA45rfXNGQjGGKBdfdPGvnjoNeEN+U8CYoIamUy8/wFl2K68hd5G6q7FUho+V6s=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/TnQrSBqZI9kgsKiwYolYKRg42q4VX4oooinom6sc7JR0aRX4
-	tV5YCqXIkUfVCN9jk27cHJKOiU5kIvELK8omeck8ZFDd2VbzWoTp
-X-Gm-Gg: ASbGnctQu4afeX2ZS2VMf/OCmwJPDCYr39Fz5dQtVEbpevOSFeq8QbBNWElctWebgys
-	lHNWwzaVC7crhkwm3jjO4IbDNIGX7xAhZnrgW/Nsb7NTdYBBr1I/kiihNe+AUe6OczsCT+rgq0L
-	bBSbNQ+qQL11KxYxPRnVcCRJrx3AuZcOn1RWRZPDFCX2uhjblXDzL5CIcIGEU2LSxqD56mUt7k6
-	9JeBcdECfXhfGINIbN2mvvnliWxvgmjqJJh9sDLrsU7jMsARu4=
-X-Google-Smtp-Source: AGHT+IFFBfMSwyCqnfRKsofTgRuRMbks/u8NEa16bGtg1GogZsckHNMzQ2Tbu8pU5uQyNhoXFJ8SHQ==
-X-Received: by 2002:a05:600c:4706:b0:434:a504:7a51 with SMTP id 5b1f17b1804b1-434d0a0343bmr25922905e9.21.1733250275819;
-        Tue, 03 Dec 2024 10:24:35 -0800 (PST)
-Received: from [192.168.0.2] ([69.6.8.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e391656csm10934738f8f.47.2024.12.03.10.24.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Dec 2024 10:24:35 -0800 (PST)
-Message-ID: <41eb290d-4c50-4067-972d-682a028757a8@gmail.com>
-Date: Tue, 3 Dec 2024 20:24:33 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TOgbeKN9"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4N29cl026498;
+	Thu, 5 Dec 2024 06:54:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=N2hHxwoRVaT7PhGq5S08LXhb/7vcgs2aTzV
+	Q0VkESyQ=; b=TOgbeKN9tsaJSZKs1bjzkZK2zsS0I10T7Ey7oaui4VmEMY8sPPa
+	U1nBLJl1Kku1PD7K1t/dSSQ8rRyDy+bQBeG9h2MKTjQ7LOLIilYfWitZis6l2h72
+	oC67Cl+hps4a0EiJAS+aurSUmJZey/2iffM6JuiMTr8b0eFjhWr07+hjLduCkMzc
+	eYWZwZICNGdGC6FPRIddmPsn3Rr50bDw5YUqUGnG2SAREpC1O2cFwRe22ORjbn52
+	m1+8FcJl0ZMKu8wVfO/BYomXgbP1M6By4ITcpjLMGi1UfQg/hTNZcUJOFc8ZER8i
+	PHe/LHCZ4am0wkjOgCDoBAcJAXDd6/F8W0A==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439yr9p30j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 06:54:29 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B56sQdO022751;
+	Thu, 5 Dec 2024 06:54:26 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 437usmedrt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 06:54:26 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4B56sQYj022746;
+	Thu, 5 Dec 2024 06:54:26 GMT
+Received: from hu-devc-hyd-u20-c-new.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.249])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4B56sQJd022745
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 06:54:26 +0000
+Received: by hu-devc-hyd-u20-c-new.qualcomm.com (Postfix, from userid 3891782)
+	id 08FC1213F4; Thu,  5 Dec 2024 12:24:25 +0530 (+0530)
+From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+To: manivannan.sadhasivam@linaro.org
+Cc: quic_shazhuss@quicinc.com, quic_ramkri@quicinc.com,
+        quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
+        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+        Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Slark Xiao <slark_xiao@163.com>,
+        Qiang Yu <quic_qianyu@quicinc.com>, Mank Wang <mank.wang@netprisma.us>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>,
+        Fabio Porcedda <fabio.porcedda@gmail.com>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: [PATCH v1 0/2] pci_generic: Add supoprt for SA8775P target
+Date: Thu,  5 Dec 2024 12:24:18 +0530
+Message-Id: <20241205065422.2515086-1-quic_msarkar@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: How to add RTS support for wwan0at0 port
-To: Slark Xiao <slark_xiao@163.com>
-Cc: Loic Poulain <loic.poulain@linaro.org>, Qiang Yu
- <quic_qianyu@quicinc.com>, mhi <mhi@lists.linux.dev>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Johan Hovold <johan@kernel.org>
-References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
- <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
- <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
- <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
- <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
- <F987F2EE-E2C2-46D7-BBD5-A7632C4C2CA3@gmail.com>
- <CAMZdPi8oprfHfFuLmNO1NW9ZUNP9nzhoqEaVd-cMGM06jhbxiA@mail.gmail.com>
- <ebd60134-6ba0-453f-bf9a-b215373160c0@gmail.com>
- <a265655.3b31.19370c85dc3.Coremail.slark_xiao@163.com>
- <6f75f867-bf1f-41ec-9b5b-e39c26054454@gmail.com>
- <28100f25.b702.19387231a99.Coremail.slark_xiao@163.com>
-Content-Language: en-US
-From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-In-Reply-To: <28100f25.b702.19387231a99.Coremail.slark_xiao@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: pxNehPPz4R8txES-ho1ZbUhV3VY55kPE
+X-Proofpoint-GUID: pxNehPPz4R8txES-ho1ZbUhV3VY55kPE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ clxscore=1011 priorityscore=1501 mlxlogscore=553 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412050051
 
-Hi Slark,
+This patch series add separate MHI host configuration to enable
+only IP_SW channel for SA8775P target.
 
-On 02.12.2024 13:30, Slark Xiao wrote:
-> At 2024-12-01 20:01:30, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
->> +Johan
->>
->> On 28.11.2024 05:19, Slark Xiao wrote:
->>> At 2024-11-22 07:25:25, "Sergey Ryazanov" <ryazanov.s.a@gmail.com> wrote:
->>>> On 21.11.2024 11:01, Loic Poulain wrote:
->>>>> On Wed, 20 Nov 2024 at 08:49, Sergey Ryazanov <ryazanov.s.a@gmail.com> wrote:
->>>>> [...]
->>>>>
->>>>>> There two tricky topics. First, a GPS port is not an arbitrary serial (char) device for the kernel. In Linux, there is a dedicated subsystem for GPS/EMEA devices and the port should be registered with it.
->>>>>>
->>>>>> Second, strictly speaking, a GPS port is not a part of WWAN device. Yes, navigation receiver can be implemented as a block of a modem chip. On another hand, GPS port have nothing common with cellular network. It doesn't reveal connection status, and cannot be user to configure the modem.
->>>>>>
->>>>>> So, the first big question is: should we export GPS port via the WWAN subsystem or a modem driver should do it by its own?
->>>>>>
->>>>>> Loic, do you have any thoughts?
->>>>>
->>>>> Many modems have (Assisted) GPS capabilities, and the GPS engine is
->>>>> usually controlled via the Modem control interface (AT, mbim...).
->>>>> So it would make sense for the GPS interface to stay under its WWAN
->>>>> parent, and the interface to be a WWAN internal port  type (NMEA ).
->>>>
->>>> Ouch. Make sense. I've forgot that some (most?) modems utilize control
->>>> port to activate the navigation receiver. Thank you for reminding.
->>>>
->>>> Then, the NMEA port should be exported as a child of WWAN device for sure.
->>>>
->>>>> Now... we could either expose the NMEA port to user like other control
->>>>> ports (wwan cdev solution), or have a shim layer to the GNSS
->>>>> subsystem.The former solution is probably the easiest, the latter
->>>>> solution the most appropriate.
->>>>
->>>> Also make sense. Personally, I'm voting for exporting through the GNSS
->>>> subsystem. This way a userspace application will be easy to find the
->>>> receiver.
->>>>
->>> Do you mean the GNSS driver in driver/gnss ?
->>
->> Not exactly. drivers/gnss is for pure GNSS receivers. Exporting through
->> GNSS subsystem means using gnss_register_device() to make the port
->> available to user space.
->>
->>> And what's the next plan?
->>
->> I could not say somebody has a plan. I can propose a high level design
->> of a future implementation.
->>
->> Basically, components should interact like this:
->>
->> Modem PCIe driver <-> WWAN core <-> GNSS core <-> /dev/gnss0
->>
->> We need the GNSS core to export the modem NMEA port as instance of
->> 'gnss' class.
->>
->> We need WWAN core between the modem driver and the GSNN core because we
->> need a common parent for GNSS port and modem control port (e.g. AT,
->> MBIM). Since we are already exporting control ports via the WWAN
->> subsystem, the GNSS port should also be exported through the WWAN
->> subsystem. To keep devices hierarchy like this:
->>
->>                        .--> AT port
->> PCIe dev -> WWAN dev -|
->>                        '--> GNSS port
->>
->> Back to the implementation. Probably we should introduce a new port
->> type, e.g. WWAN_PORT_NMEA. And this port type should have a special
->> handling in the WWAN core.
->>
-> Similar like what I did in my local. I named it as WWAN_PORT_GNSS and
-> put it as same level with AT port.
-> 
->> wwan_create_port() function should not directly create a char device.
->> Instead, it should call gnss_allocate_device() and
->> gnss_register_device() to register the port with GNSS subsystem.
->>
-> If so, the flow control is maintained in wwan_core or the gnss core?
+And also update the proper device id for SA8775P endpoint.
 
-Lets specify the problem more precisely, since I'm a bit lost. Do you want:
-a) some uses pace application *really* control the flow?
-b) fool a user space with mock-up IOCTLs, so the user-space application 
-believes that it capable to control the flow?
-c) some "signal" to the driver, so driver can command the modem to 
-activate the GNSS receiver and start producing navigation information?
+Mrinmay Sarkar (2):
+  bus: mhi: host: pci_generic: Add supoprt for SA8775P target
+  PCI: epf-mhi: Update device id for SA8775P
 
->>> Anybody will responsible for this requirement?
->>
->> Can not follow you. Could you elaborate, what was this question about?
->>
-> I mean, both you and Loic noticed that modems support the GPS function but
-> there is no such support in current WWAN design.
+ drivers/bus/mhi/host/pci_generic.c           | 34 ++++++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-mhi.c |  2 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
-Ok. Thank you for the clarification. You are right, there are no 
-GNSS/NMEA port support in the WWAN core now. The reason is simple. There 
-were no "users", so nobody have bothered himself to implement an used API :)
+-- 
+2.25.1
 
-> So who will be the key role of designer of  this new feature? This would be
-> great help if there is someone putting this feature into practice.
-
-I would like to say, feel free to implement the GNSS port support for 
-the WWAN core. Patches are always welcomed!
-
-If you don't feel confident to implement it then give me some time and 
-I'll create some prototype. I believe, it can be done a week or so. It's 
-not a big work, just need to find a time to do it.
-
-Tell me, what the option is more convenient for you and will move into 
-that direction.
-
---
-Sergey
