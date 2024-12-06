@@ -1,116 +1,164 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC8D19E819
-	for <mhi@lists.linux.dev>; Thu,  5 Dec 2024 06:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6FB822315
+	for <mhi@lists.linux.dev>; Fri,  6 Dec 2024 09:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733381689; cv=none; b=YgQZlrRDix8b18e8gyhPSs0dE6I0dHOHDcwgDkLK0E/cTVPWecimbh3NvQVZEfULobx6mV84uPHN+ifh1pz2qqOpdW2Y9E5ZEt4m2bI/x8gmGpVHKMgJn1i9J2vjlCyeYEzUN8z51FUub9YuCVqW/up6XNbBoyHmAYjkef4Opro=
+	t=1733476703; cv=none; b=ZRbplgqmohDDHlyFiSFoC95oOqtz5e1BeJCxM3Nf6b51Z7MGSSveohcuCBKagbo9xvd5rnFdjco5Un8TqYB7ax3D0t5PaENgVVd8uW3SDILsF1+am4Jwo970nc8pQbp9FcSrMRXo3HfHFEaUW9xLDwJPklR/iQCJ2RNL9cGdzvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733381689; c=relaxed/simple;
-	bh=i2aij3jJW4LIokgYlDAv47DGzT5P5Jt+3ipMT0HNPDs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dEo0i3IAzYXwUeWlo46tt4Ft3eb0c8KGOZtyFwMILpZfi53mRKgyiowGag/4dVrijffYhAnMORQGK0KK+SVHkCpPvhbEC+o+nn5hXf4PeU9wWr+xORsYigvjAz1n1dor2QfI4nrG+10BqPXFlhF7MGV13OGKDi4sVd97u5k+97s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jQnTOVvg; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1733476703; c=relaxed/simple;
+	bh=/fUfJJ7EUOuUWoTQznUp782xVM58JVtDriMbsDFVO+w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=FlZ2+E0gKkvHhFyUNwGMen18dO7hScgedwfcgSGnESp5pJ1yVkd4IO2YU17wK3f8K1+U0nRLGEmIQ8W+pUPnDtXZ+D7pGGp4onSuPQ5CEBgjHjNQh3dlF/IksE+GITo2Y3kmWXTTBbnJLDYhHCj91CJvnCmpFodMgZu2QPh+AR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=UxVXlEin reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jQnTOVvg"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4LvSqc031695;
-	Thu, 5 Dec 2024 06:54:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=QmXoyfMWCk5
-	HFoqZjHGTbrs78qRaBC98YJfr7qh0Wcg=; b=jQnTOVvgccHrS96GYkm6yJ0zA5T
-	+vLd0qnBx7eqvPY1MdvzL/mppd0d9gR86oqvdX+1oAvsyTSFk12Il6e3DDhcbuvO
-	cVErRQ37g0zugrySW9LjtstjqtcsZODXU1VL0gJBAs93RgsrhYuXdkus1t6yJAln
-	8A+pkMbPGoradQeV17MNBhT1yIjve16npGAdxwLJzW9RR5UTMMPIv8+EhNUyBwpy
-	eJyyivnMa1AABgQWmIWw/KewelBNqiSd01sC756yRfruKv1G49aaxMEyfZi8GUAP
-	9xs9r9gw+QWRvsTGEbBURaKMWWd2yAviB5god/bk0Weu8TXuaBu5f5g1BcA==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ayem91mf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 06:54:36 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B56sQdP022751;
-	Thu, 5 Dec 2024 06:54:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 437usmedsq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 06:54:33 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4B56sXti023239;
-	Thu, 5 Dec 2024 06:54:33 GMT
-Received: from hu-devc-hyd-u20-c-new.qualcomm.com (hu-msarkar-hyd.qualcomm.com [10.213.111.249])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4B56sWiT023238
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 06:54:33 +0000
-Received: by hu-devc-hyd-u20-c-new.qualcomm.com (Postfix, from userid 3891782)
-	id A727D213F4; Thu,  5 Dec 2024 12:24:31 +0530 (+0530)
-From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-To: manivannan.sadhasivam@linaro.org
-Cc: quic_shazhuss@quicinc.com, quic_ramkri@quicinc.com,
-        quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
-        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
-        Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, Slark Xiao <slark_xiao@163.com>,
-        Qiang Yu <quic_qianyu@quicinc.com>,
-        Fabio Porcedda <fabio.porcedda@gmail.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Mank Wang <mank.wang@netprisma.us>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH v1 2/2] PCI: epf-mhi: Update device id for SA8775P
-Date: Thu,  5 Dec 2024 12:24:20 +0530
-Message-Id: <20241205065422.2515086-3-quic_msarkar@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241205065422.2515086-1-quic_msarkar@quicinc.com>
-References: <20241205065422.2515086-1-quic_msarkar@quicinc.com>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="UxVXlEin"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=CbqHSv7N/nYuxEN0ivW2DyYKbSk9/cCMlOonakc1cTI=; b=U
+	xVXlEinxTVUprwGakM6tg32s0x3LxWkyv88wVouKGghIuaGbjAhCeqwzHEBBCF/u
+	6d1xEhppXrYP+/pFXEw9BbLzibJ6FjH2rmou2lhlbdgYtsh2bREYi5gmQeoSAg3P
+	mZaZq2514DHF0XRuZbzfyilbXBwUnF94TzozqucyCE=
+Received: from slark_xiao$163.com (
+ [2409:895a:3871:b309:d6a1:597f:171e:e3ca] ) by ajax-webmail-wmsvr-40-141
+ (Coremail) ; Fri, 6 Dec 2024 17:17:59 +0800 (CST)
+Date: Fri, 6 Dec 2024 17:17:59 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Sergey Ryazanov" <ryazanov.s.a@gmail.com>
+Cc: "Loic Poulain" <loic.poulain@linaro.org>, 
+	"Qiang Yu" <quic_qianyu@quicinc.com>, mhi <mhi@lists.linux.dev>, 
+	"Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>, 
+	"Johan Hovold" <johan@kernel.org>
+Subject: Re:Re: How to add RTS support for wwan0at0 port
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <41eb290d-4c50-4067-972d-682a028757a8@gmail.com>
+References: <4281e5c1.4487.193428fe8ef.Coremail.slark_xiao@163.com>
+ <CAOZjjh=Vre7Xn9-qjZ38eoAtD5AsiJM7hU+iGFjUqt+ZopTBxA@mail.gmail.com>
+ <CAMZdPi_MF=-AjTaBZ_HxtwpbQK5+WwR9eXsSvnvK_-O30ff+Tw@mail.gmail.com>
+ <8d005972-6a56-42f0-ba9a-444a8df5d925@gmail.com>
+ <1d37efa8.4475.19347b9b39b.Coremail.slark_xiao@163.com>
+ <F987F2EE-E2C2-46D7-BBD5-A7632C4C2CA3@gmail.com>
+ <CAMZdPi8oprfHfFuLmNO1NW9ZUNP9nzhoqEaVd-cMGM06jhbxiA@mail.gmail.com>
+ <ebd60134-6ba0-453f-bf9a-b215373160c0@gmail.com>
+ <a265655.3b31.19370c85dc3.Coremail.slark_xiao@163.com>
+ <6f75f867-bf1f-41ec-9b5b-e39c26054454@gmail.com>
+ <28100f25.b702.19387231a99.Coremail.slark_xiao@163.com>
+ <41eb290d-4c50-4067-972d-682a028757a8@gmail.com>
+X-NTES-SC: AL_Qu2YAficuU4s7ySdYOlS6TFv25V6LrXtxr9fgP4iXN4ety/2+QMybE5MB2T24PAEgQb0j1Cp/QS242X5US24
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 2JfDosy_995zWdBZ8ujgmMrWlWB28KhR
-X-Proofpoint-ORIG-GUID: 2JfDosy_995zWdBZ8ujgmMrWlWB28KhR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412050051
+Message-ID: <660fb193.9d13.1939b42ff27.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:jSgvCgDnr7FIwVJnMmA5AA--.27468W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiMAKtZGdSsvrcdwAFso
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Add change to assign proper device id for SA8775P EP.
-
-Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index 54286a40bdfb..6643a88c7a0c 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -125,7 +125,7 @@ static const struct pci_epf_mhi_ep_info sm8450_info = {
- 
- static struct pci_epf_header sa8775p_header = {
- 	.vendorid = PCI_VENDOR_ID_QCOM,
--	.deviceid = 0x0306,               /* FIXME: Update deviceid for sa8775p EP */
-+	.deviceid = 0x0116,
- 	.baseclass_code = PCI_CLASS_OTHERS,
- 	.interrupt_pin = PCI_INTERRUPT_INTA,
- };
--- 
-2.25.1
-
+QXQgMjAyNC0xMi0wNCAwMjoyNDozMywgIlNlcmdleSBSeWF6YW5vdiIgPHJ5YXphbm92LnMuYUBn
+bWFpbC5jb20+IHdyb3RlOgo+SGkgU2xhcmssCj4KPk9uIDAyLjEyLjIwMjQgMTM6MzAsIFNsYXJr
+IFhpYW8gd3JvdGU6Cj4+IEF0IDIwMjQtMTItMDEgMjA6MDE6MzAsICJTZXJnZXkgUnlhemFub3Yi
+IDxyeWF6YW5vdi5zLmFAZ21haWwuY29tPiB3cm90ZToKPj4+ICtKb2hhbgo+Pj4KPj4+IE9uIDI4
+LjExLjIwMjQgMDU6MTksIFNsYXJrIFhpYW8gd3JvdGU6Cj4+Pj4gQXQgMjAyNC0xMS0yMiAwNzoy
+NToyNSwgIlNlcmdleSBSeWF6YW5vdiIgPHJ5YXphbm92LnMuYUBnbWFpbC5jb20+IHdyb3RlOgo+
+Pj4+PiBPbiAyMS4xMS4yMDI0IDExOjAxLCBMb2ljIFBvdWxhaW4gd3JvdGU6Cj4+Pj4+PiBPbiBX
+ZWQsIDIwIE5vdiAyMDI0IGF0IDA4OjQ5LCBTZXJnZXkgUnlhemFub3YgPHJ5YXphbm92LnMuYUBn
+bWFpbC5jb20+IHdyb3RlOgo+Pj4+Pj4gWy4uLl0KPj4+Pj4+Cj4+Pj4+Pj4gVGhlcmUgdHdvIHRy
+aWNreSB0b3BpY3MuIEZpcnN0LCBhIEdQUyBwb3J0IGlzIG5vdCBhbiBhcmJpdHJhcnkgc2VyaWFs
+IChjaGFyKSBkZXZpY2UgZm9yIHRoZSBrZXJuZWwuIEluIExpbnV4LCB0aGVyZSBpcyBhIGRlZGlj
+YXRlZCBzdWJzeXN0ZW0gZm9yIEdQUy9FTUVBIGRldmljZXMgYW5kIHRoZSBwb3J0IHNob3VsZCBi
+ZSByZWdpc3RlcmVkIHdpdGggaXQuCj4+Pj4+Pj4KPj4+Pj4+PiBTZWNvbmQsIHN0cmljdGx5IHNw
+ZWFraW5nLCBhIEdQUyBwb3J0IGlzIG5vdCBhIHBhcnQgb2YgV1dBTiBkZXZpY2UuIFllcywgbmF2
+aWdhdGlvbiByZWNlaXZlciBjYW4gYmUgaW1wbGVtZW50ZWQgYXMgYSBibG9jayBvZiBhIG1vZGVt
+IGNoaXAuIE9uIGFub3RoZXIgaGFuZCwgR1BTIHBvcnQgaGF2ZSBub3RoaW5nIGNvbW1vbiB3aXRo
+IGNlbGx1bGFyIG5ldHdvcmsuIEl0IGRvZXNuJ3QgcmV2ZWFsIGNvbm5lY3Rpb24gc3RhdHVzLCBh
+bmQgY2Fubm90IGJlIHVzZXIgdG8gY29uZmlndXJlIHRoZSBtb2RlbS4KPj4+Pj4+Pgo+Pj4+Pj4+
+IFNvLCB0aGUgZmlyc3QgYmlnIHF1ZXN0aW9uIGlzOiBzaG91bGQgd2UgZXhwb3J0IEdQUyBwb3J0
+IHZpYSB0aGUgV1dBTiBzdWJzeXN0ZW0gb3IgYSBtb2RlbSBkcml2ZXIgc2hvdWxkIGRvIGl0IGJ5
+IGl0cyBvd24/Cj4+Pj4+Pj4KPj4+Pj4+PiBMb2ljLCBkbyB5b3UgaGF2ZSBhbnkgdGhvdWdodHM/
+Cj4+Pj4+Pgo+Pj4+Pj4gTWFueSBtb2RlbXMgaGF2ZSAoQXNzaXN0ZWQpIEdQUyBjYXBhYmlsaXRp
+ZXMsIGFuZCB0aGUgR1BTIGVuZ2luZSBpcwo+Pj4+Pj4gdXN1YWxseSBjb250cm9sbGVkIHZpYSB0
+aGUgTW9kZW0gY29udHJvbCBpbnRlcmZhY2UgKEFULCBtYmltLi4uKS4KPj4+Pj4+IFNvIGl0IHdv
+dWxkIG1ha2Ugc2Vuc2UgZm9yIHRoZSBHUFMgaW50ZXJmYWNlIHRvIHN0YXkgdW5kZXIgaXRzIFdX
+QU4KPj4+Pj4+IHBhcmVudCwgYW5kIHRoZSBpbnRlcmZhY2UgdG8gYmUgYSBXV0FOIGludGVybmFs
+IHBvcnQgIHR5cGUgKE5NRUEgKS4KPj4+Pj4KPj4+Pj4gT3VjaC4gTWFrZSBzZW5zZS4gSSd2ZSBm
+b3Jnb3QgdGhhdCBzb21lIChtb3N0PykgbW9kZW1zIHV0aWxpemUgY29udHJvbAo+Pj4+PiBwb3J0
+IHRvIGFjdGl2YXRlIHRoZSBuYXZpZ2F0aW9uIHJlY2VpdmVyLiBUaGFuayB5b3UgZm9yIHJlbWlu
+ZGluZy4KPj4+Pj4KPj4+Pj4gVGhlbiwgdGhlIE5NRUEgcG9ydCBzaG91bGQgYmUgZXhwb3J0ZWQg
+YXMgYSBjaGlsZCBvZiBXV0FOIGRldmljZSBmb3Igc3VyZS4KPj4+Pj4KPj4+Pj4+IE5vdy4uLiB3
+ZSBjb3VsZCBlaXRoZXIgZXhwb3NlIHRoZSBOTUVBIHBvcnQgdG8gdXNlciBsaWtlIG90aGVyIGNv
+bnRyb2wKPj4+Pj4+IHBvcnRzICh3d2FuIGNkZXYgc29sdXRpb24pLCBvciBoYXZlIGEgc2hpbSBs
+YXllciB0byB0aGUgR05TUwo+Pj4+Pj4gc3Vic3lzdGVtLlRoZSBmb3JtZXIgc29sdXRpb24gaXMg
+cHJvYmFibHkgdGhlIGVhc2llc3QsIHRoZSBsYXR0ZXIKPj4+Pj4+IHNvbHV0aW9uIHRoZSBtb3N0
+IGFwcHJvcHJpYXRlLgo+Pj4+Pgo+Pj4+PiBBbHNvIG1ha2Ugc2Vuc2UuIFBlcnNvbmFsbHksIEkn
+bSB2b3RpbmcgZm9yIGV4cG9ydGluZyB0aHJvdWdoIHRoZSBHTlNTCj4+Pj4+IHN1YnN5c3RlbS4g
+VGhpcyB3YXkgYSB1c2Vyc3BhY2UgYXBwbGljYXRpb24gd2lsbCBiZSBlYXN5IHRvIGZpbmQgdGhl
+Cj4+Pj4+IHJlY2VpdmVyLgo+Pj4+Pgo+Pj4+IERvIHlvdSBtZWFuIHRoZSBHTlNTIGRyaXZlciBp
+biBkcml2ZXIvZ25zcyA/Cj4+Pgo+Pj4gTm90IGV4YWN0bHkuIGRyaXZlcnMvZ25zcyBpcyBmb3Ig
+cHVyZSBHTlNTIHJlY2VpdmVycy4gRXhwb3J0aW5nIHRocm91Z2gKPj4+IEdOU1Mgc3Vic3lzdGVt
+IG1lYW5zIHVzaW5nIGduc3NfcmVnaXN0ZXJfZGV2aWNlKCkgdG8gbWFrZSB0aGUgcG9ydAo+Pj4g
+YXZhaWxhYmxlIHRvIHVzZXIgc3BhY2UuCj4+Pgo+Pj4+IEFuZCB3aGF0J3MgdGhlIG5leHQgcGxh
+bj8KPj4+Cj4+PiBJIGNvdWxkIG5vdCBzYXkgc29tZWJvZHkgaGFzIGEgcGxhbi4gSSBjYW4gcHJv
+cG9zZSBhIGhpZ2ggbGV2ZWwgZGVzaWduCj4+PiBvZiBhIGZ1dHVyZSBpbXBsZW1lbnRhdGlvbi4K
+Pj4+Cj4+PiBCYXNpY2FsbHksIGNvbXBvbmVudHMgc2hvdWxkIGludGVyYWN0IGxpa2UgdGhpczoK
+Pj4+Cj4+PiBNb2RlbSBQQ0llIGRyaXZlciA8LT4gV1dBTiBjb3JlIDwtPiBHTlNTIGNvcmUgPC0+
+IC9kZXYvZ25zczAKPj4+Cj4+PiBXZSBuZWVkIHRoZSBHTlNTIGNvcmUgdG8gZXhwb3J0IHRoZSBt
+b2RlbSBOTUVBIHBvcnQgYXMgaW5zdGFuY2Ugb2YKPj4+ICdnbnNzJyBjbGFzcy4KPj4+Cj4+PiBX
+ZSBuZWVkIFdXQU4gY29yZSBiZXR3ZWVuIHRoZSBtb2RlbSBkcml2ZXIgYW5kIHRoZSBHU05OIGNv
+cmUgYmVjYXVzZSB3ZQo+Pj4gbmVlZCBhIGNvbW1vbiBwYXJlbnQgZm9yIEdOU1MgcG9ydCBhbmQg
+bW9kZW0gY29udHJvbCBwb3J0IChlLmcuIEFULAo+Pj4gTUJJTSkuIFNpbmNlIHdlIGFyZSBhbHJl
+YWR5IGV4cG9ydGluZyBjb250cm9sIHBvcnRzIHZpYSB0aGUgV1dBTgo+Pj4gc3Vic3lzdGVtLCB0
+aGUgR05TUyBwb3J0IHNob3VsZCBhbHNvIGJlIGV4cG9ydGVkIHRocm91Z2ggdGhlIFdXQU4KPj4+
+IHN1YnN5c3RlbS4gVG8ga2VlcCBkZXZpY2VzIGhpZXJhcmNoeSBsaWtlIHRoaXM6Cj4+Pgo+Pj4g
+ICAgICAgICAgICAgICAgICAgICAgICAuLS0+IEFUIHBvcnQKPj4+IFBDSWUgZGV2IC0+IFdXQU4g
+ZGV2IC18Cj4+PiAgICAgICAgICAgICAgICAgICAgICAgICctLT4gR05TUyBwb3J0Cj4+Pgo+Pj4g
+QmFjayB0byB0aGUgaW1wbGVtZW50YXRpb24uIFByb2JhYmx5IHdlIHNob3VsZCBpbnRyb2R1Y2Ug
+YSBuZXcgcG9ydAo+Pj4gdHlwZSwgZS5nLiBXV0FOX1BPUlRfTk1FQS4gQW5kIHRoaXMgcG9ydCB0
+eXBlIHNob3VsZCBoYXZlIGEgc3BlY2lhbAo+Pj4gaGFuZGxpbmcgaW4gdGhlIFdXQU4gY29yZS4K
+Pj4+Cj4+IFNpbWlsYXIgbGlrZSB3aGF0IEkgZGlkIGluIG15IGxvY2FsLiBJIG5hbWVkIGl0IGFz
+IFdXQU5fUE9SVF9HTlNTIGFuZAo+PiBwdXQgaXQgYXMgc2FtZSBsZXZlbCB3aXRoIEFUIHBvcnQu
+Cj4+IAo+Pj4gd3dhbl9jcmVhdGVfcG9ydCgpIGZ1bmN0aW9uIHNob3VsZCBub3QgZGlyZWN0bHkg
+Y3JlYXRlIGEgY2hhciBkZXZpY2UuCj4+PiBJbnN0ZWFkLCBpdCBzaG91bGQgY2FsbCBnbnNzX2Fs
+bG9jYXRlX2RldmljZSgpIGFuZAo+Pj4gZ25zc19yZWdpc3Rlcl9kZXZpY2UoKSB0byByZWdpc3Rl
+ciB0aGUgcG9ydCB3aXRoIEdOU1Mgc3Vic3lzdGVtLgo+Pj4KPj4gSWYgc28sIHRoZSBmbG93IGNv
+bnRyb2wgaXMgbWFpbnRhaW5lZCBpbiB3d2FuX2NvcmUgb3IgdGhlIGduc3MgY29yZT8KPgo+TGV0
+cyBzcGVjaWZ5IHRoZSBwcm9ibGVtIG1vcmUgcHJlY2lzZWx5LCBzaW5jZSBJJ20gYSBiaXQgbG9z
+dC4gRG8geW91IHdhbnQ6Cj5hKSBzb21lIHVzZXMgcGFjZSBhcHBsaWNhdGlvbiAqcmVhbGx5KiBj
+b250cm9sIHRoZSBmbG93Pwo+YikgZm9vbCBhIHVzZXIgc3BhY2Ugd2l0aCBtb2NrLXVwIElPQ1RM
+cywgc28gdGhlIHVzZXItc3BhY2UgYXBwbGljYXRpb24gCj5iZWxpZXZlcyB0aGF0IGl0IGNhcGFi
+bGUgdG8gY29udHJvbCB0aGUgZmxvdz8KPmMpIHNvbWUgInNpZ25hbCIgdG8gdGhlIGRyaXZlciwg
+c28gZHJpdmVyIGNhbiBjb21tYW5kIHRoZSBtb2RlbSB0byAKPmFjdGl2YXRlIHRoZSBHTlNTIHJl
+Y2VpdmVyIGFuZCBzdGFydCBwcm9kdWNpbmcgbmF2aWdhdGlvbiBpbmZvcm1hdGlvbj8KPgoKQWN0
+dWFsbHkgZm9yIG91ciBtb2RlbXMsIHdlIGp1c3QgbmVlZCBhIFJUUyBzaWduYWwgZnJvbSBkcml2
+ZXIgc2lkZS4gVGhpcwpzaWduYWwgbWF5IGJlIGdlbmVyYXRlZCBieSBkcml2ZXIgb3IgdXNlciBz
+cGFjZS4gSXQncyBiZXR0ZXIgdG8gYWxpZ24gd2l0aCB0aGUKYmVoYXZpb3Igb2Ygc2VyaWFsIGRy
+aXZlciBmb3IgQVQgYW5kIE5NRUEgcG9ydCBvZiBQQ0llIFdXQU4gZGV2aWNlLiBOb3Qgc3VyZQpm
+b3Igb3RoZXIgdmVuZG9yJ3MgcmVxdWlyZW1lbnQuCgo+Pj4+IEFueWJvZHkgd2lsbCByZXNwb25z
+aWJsZSBmb3IgdGhpcyByZXF1aXJlbWVudD8KPj4+Cj4+PiBDYW4gbm90IGZvbGxvdyB5b3UuIENv
+dWxkIHlvdSBlbGFib3JhdGUsIHdoYXQgd2FzIHRoaXMgcXVlc3Rpb24gYWJvdXQ/Cj4+Pgo+PiBJ
+IG1lYW4sIGJvdGggeW91IGFuZCBMb2ljIG5vdGljZWQgdGhhdCBtb2RlbXMgc3VwcG9ydCB0aGUg
+R1BTIGZ1bmN0aW9uIGJ1dAo+PiB0aGVyZSBpcyBubyBzdWNoIHN1cHBvcnQgaW4gY3VycmVudCBX
+V0FOIGRlc2lnbi4KPgo+T2suIFRoYW5rIHlvdSBmb3IgdGhlIGNsYXJpZmljYXRpb24uIFlvdSBh
+cmUgcmlnaHQsIHRoZXJlIGFyZSBubyAKPkdOU1MvTk1FQSBwb3J0IHN1cHBvcnQgaW4gdGhlIFdX
+QU4gY29yZSBub3cuIFRoZSByZWFzb24gaXMgc2ltcGxlLiBUaGVyZSAKPndlcmUgbm8gInVzZXJz
+Iiwgc28gbm9ib2R5IGhhdmUgYm90aGVyZWQgaGltc2VsZiB0byBpbXBsZW1lbnQgYW4gdXNlZCBB
+UEkgOikKPgpIZXJlIHdlIGNvbWV+fgoKPj4gU28gd2hvIHdpbGwgYmUgdGhlIGtleSByb2xlIG9m
+IGRlc2lnbmVyIG9mICB0aGlzIG5ldyBmZWF0dXJlPyBUaGlzIHdvdWxkIGJlCj4+IGdyZWF0IGhl
+bHAgaWYgdGhlcmUgaXMgc29tZW9uZSBwdXR0aW5nIHRoaXMgZmVhdHVyZSBpbnRvIHByYWN0aWNl
+Lgo+Cj5JIHdvdWxkIGxpa2UgdG8gc2F5LCBmZWVsIGZyZWUgdG8gaW1wbGVtZW50IHRoZSBHTlNT
+IHBvcnQgc3VwcG9ydCBmb3IgCj50aGUgV1dBTiBjb3JlLiBQYXRjaGVzIGFyZSBhbHdheXMgd2Vs
+Y29tZWQhCj4KPklmIHlvdSBkb24ndCBmZWVsIGNvbmZpZGVudCB0byBpbXBsZW1lbnQgaXQgdGhl
+biBnaXZlIG1lIHNvbWUgdGltZSBhbmQgCj5JJ2xsIGNyZWF0ZSBzb21lIHByb3RvdHlwZS4gSSBi
+ZWxpZXZlLCBpdCBjYW4gYmUgZG9uZSBhIHdlZWsgb3Igc28uIEl0J3MgCj5ub3QgYSBiaWcgd29y
+aywganVzdCBuZWVkIHRvIGZpbmQgYSB0aW1lIHRvIGRvIGl0Lgo+Cj5UZWxsIG1lLCB3aGF0IHRo
+ZSBvcHRpb24gaXMgbW9yZSBjb252ZW5pZW50IGZvciB5b3UgYW5kIHdpbGwgbW92ZSBpbnRvIAo+
+dGhhdCBkaXJlY3Rpb24uCj4KVGhpcyBtYXkgbmVlZCB5b3VyIGhlbHAgdG8gYWNoaWV2ZSBpdC4g
+WW91IGNhbiBsZXQgbWUgZG8gdGhlIHZlcmlmaWNhdGlvbiB0ZXN0Cm9uY2UgeW91IGhhdmUgdGhl
+IHRlc3QgcGF0Y2guCgpUaGFua3MhCgo=
