@@ -1,68 +1,43 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38821F7092
-	for <mhi@lists.linux.dev>; Mon, 16 Dec 2024 07:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2992A204597;
+	Mon, 16 Dec 2024 13:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734334993; cv=none; b=aW6dmvG7ufYD8NYLnQswkvoBKllcrzbKgHtHT0y6D4o7pc8FNS7IReM6tIlIKjQEss0J3/sF5hJgPxDB6P02I0hJlyt+H+mxOKSsvryTxVMF3kG4bhwtZkHQsoFuIRg2+/R4C3le5YoNvOShv8EKTYGnDf9B4AN++sJ4qGKGBPA=
+	t=1734355208; cv=none; b=I3li5seSkiPhhc5W9CuDmoffbI9fALQ0PZ82uwKIe6DzVZBm0EgQc6iX3SrtMnpH2tNV0JrqgxUdaJhGML+vJDozGtdrPNtuiq4Pv1wQqAC9TIdOwg8RQJsBrrCzLY6hbQFbf2vQ2AQyiTLL5eknfw22O2paobRBhJrk9I/cvyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734334993; c=relaxed/simple;
-	bh=Ye88qFLX5HI4+U38FVJ4i7I+vH/sXr/Yot1iejoMnUE=;
+	s=arc-20240116; t=1734355208; c=relaxed/simple;
+	bh=XWQtd3OIQ1+hddYdelD8wN1PPbNt/mGKC46IATBq2tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pi2E9CKEnUX3A+jLEGxyHbgQBfZ04/FRyg5R6n2DQh18TodpUtyOXF+y+a4LU5qOJ504NsqhRKltq2jr38AJ+WS2P2bbhyOuiNZCIBITmxjoLPMnA9N81LXDk3pF4r/1aZ5jTXOiHloI91NGi8h46Lu0eWMhY3Psp9Bzc0rA9bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nZSnKmj1; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0d+fCuEEfQfBJnI/4pbwKyyCnoau/ABxqNMO17PJwxCnifanTihTROA66p/MtxfZO6D6rwm/NRsr83yOiobVUalLAMHM9u6h8odTer/XSC3CllnY6Opj1DBnedTi/hG/v1EIiM/ysWXEuma7KEOXqCNPtrF54KYsfQ/aSMWcjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s8rucFmE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nZSnKmj1"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-725f3594965so2750449b3a.3
-        for <mhi@lists.linux.dev>; Sun, 15 Dec 2024 23:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734334991; x=1734939791; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/l8fwYsQj+IYORzM/E/MJZXwbCcU+26Kqg52kYzTltU=;
-        b=nZSnKmj1+J1zUviwRLnkq0W+zZAuMqkkShEKMDR0/NXhEwSZ9rlJRIYwnDmK+1HCsJ
-         GlL7JDoR9YHwBZsvOOCWH2U+hnEM2adTBxhDZvEQH7IyCeeUcKC+GlsVsNjKDg3ZO7wA
-         0vk5In+SK+2prZ8GesvI6bAg48hTMtEzDCxnoqGNp58MOGWvFoG4ImmQ0Gv2VF7Me1/Q
-         zy/eSntc/J4DUeeY2kZFzND7fqnGbnRETTFvxNUF9gzmv2opRBIs1o9HXiS+pZBZuTBN
-         nEWk+gSJ0sFPmqVspZvi7qhpOV0vs7gGx9cg/5Egm9pWxtwn/5cwk+gEOPnQEnuaeSLD
-         QWtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734334991; x=1734939791;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/l8fwYsQj+IYORzM/E/MJZXwbCcU+26Kqg52kYzTltU=;
-        b=mOuLfW5DyLFFcTjSZ+OqxmNbHMsNIF1tHq2NL93Zw+2AFrYrphL3QbY0Huv9DzUVAr
-         FJ5/nnGUs75CwwlFKsAf6UaJkuIbfgiA0pfjfgAd71FAYMvw2oiBkTYFl9LHI8aAGiUr
-         yG6RexZBW1QlcKlEh1hx3PfHr+XzK+VdGLEFn2oGlX+5a6ojksKf92Ie4fpmbE3V1vlJ
-         H2pABX10duLmUqE4xqk2qGJTLABRwIV++S6SO9DTcAfpypAS8OKn5gvHBD6W1UbKP4cX
-         iMSClATDK5m9flfp8oRs/Moeh+swRDuVL/F/wF0ariN3fxAiqReXsKdBWyZp3Ho6PlbQ
-         X8mw==
-X-Gm-Message-State: AOJu0YxpF1pMOpsP3KsIzWJJLCwkvinbJECPL7LoGkiXyGCqE/m3AE7j
-	ATor2Q3tRoz8/9jF70dP/d38wEm5zK3oKWShyhSKlx3KSAz1N2S17LVt/tNfUQ==
-X-Gm-Gg: ASbGncujJnZT/tXjHDo/RC/eEJTWCCh8muP43YCmHQmKAAJTtHuAgonAgciT/muoEC3
-	CeDFatlH61hS7nn3/dOIsKZCraBQOR2qYUmxa9PDIUB6dR8TtttUOXds2JLFcATNH8WRzy5W9Wb
-	w48vRfuwIw9TVVHb4zTRxT3xPfMIBWLqvhVmTs4Kf9qUPptrQB1c8eMPb9X6uDKaapT5rBiOH5P
-	E3c/b3Wa+PNCGMZouz5J0oQkIAmakS37G9wxHo45lS+3sAcwUSiRFQm223ZqWXruBE=
-X-Google-Smtp-Source: AGHT+IGQXls+40yPYcJwk8rRuyh/A02EDV16rLP7ttE0d93mVWvw1peCe8rFUJC4XXeXRk3dH1y7ew==
-X-Received: by 2002:a17:90b:3c8a:b0:2ee:dd9b:e3e8 with SMTP id 98e67ed59e1d1-2f28fb50798mr18150305a91.8.1734334991001;
-        Sun, 15 Dec 2024 23:43:11 -0800 (PST)
-Received: from thinkpad ([120.60.56.176])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142f9e505sm7420531a91.36.2024.12.15.23.43.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Dec 2024 23:43:10 -0800 (PST)
-Date: Mon, 16 Dec 2024 13:13:06 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Johan Hovold <johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s8rucFmE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEB17C4CED0;
+	Mon, 16 Dec 2024 13:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734355207;
+	bh=XWQtd3OIQ1+hddYdelD8wN1PPbNt/mGKC46IATBq2tk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s8rucFmEvIC4Pt04PRIjO/8QEGuHQOul3hZE/Ve1OXyMYy3HwBqnvu58Mpt6xz8TF
+	 AzhvaNq97p/oZtzP1x7DN7GHDuz/aXwO2BINNhyY0sSaXDCulGRJdh22TThdmGiRQx
+	 GTMKOCtyuKoOm54fS1D837VbVh9g2AlOqUQo+oPohX7xk5S4I/30CdVUNlxrVJYXmp
+	 lRYlcndUOQaSYJi+RqhtNtxzt8TmMs+1IqNE+OfyNX4zN4aGnX4C5rn9mDyHFXp1qq
+	 8mfL1b+h1ibCAi4eIwxCCt0rgPI3QE3o55s+ToPMCToDgrQCvH9y6u2DeV11HJuh1c
+	 To1Sx90GUdUBQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tNB17-000000001rn-3iUp;
+	Mon, 16 Dec 2024 14:20:09 +0100
+Date: Mon, 16 Dec 2024 14:20:09 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Loic Poulain <loic.poulain@linaro.org>
 Subject: Re: mhi resume failure on reboot with 6.13-rc2
-Message-ID: <20241216074306.zoq7zvkcds72svbh@thinkpad>
+Message-ID: <Z2ApCU3DAxKS7Y9k@hovoldconsulting.com>
 References: <Z1me8iaK7cwgjL92@hovoldconsulting.com>
  <20241211145315.vaf7gbapieywcvau@thinkpad>
  <Z1mp3_ArzL-GLr3D@hovoldconsulting.com>
@@ -73,17 +48,11 @@ List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20241216074021.kwoid2747o7piquv@thinkpad>
 
-Adding Loic, since he authored the pci_generic driver and knows more about
-modems than me.
-
-- Mani
-
-On Mon, Dec 16, 2024 at 01:10:34PM +0530, Manivannan Sadhasivam wrote:
+On Mon, Dec 16, 2024 at 01:10:21PM +0530, Manivannan Sadhasivam wrote:
 > On Wed, Dec 11, 2024 at 04:03:59PM +0100, Johan Hovold wrote:
 > > On Wed, Dec 11, 2024 at 08:23:15PM +0530, Manivannan Sadhasivam wrote:
 > > > On Wed, Dec 11, 2024 at 03:17:22PM +0100, Johan Hovold wrote:
@@ -104,29 +73,7 @@ On Mon, Dec 16, 2024 at 01:10:34PM +0530, Manivannan Sadhasivam wrote:
 > > > >         [  139.027640] mhi mhi0: Wait for device to enter SBL or Mission mode
 > > > > 
 > > > > and then the machine hangs.
-> > > > 
-> > > > Do you know if there are any changes since 6.12 that could cause this?
-> > > 
-> > > Only 3 changes went in for 6.13-rc1 and they shouldn't cause any issues. One
-> > > caused the regression with pcim_iomap_region(), but you submitted a fix for
-> > > that and other two were trivial.
-> > 
-> > Ok, thanks.
-> > 
-> > > From the log, 'mhi mhi0: Resuming from non M3 state (SYS ERROR)' indicates that
-> > > the firmware got crashed while resuming. So maybe you should check with ath12k
-> > > folks.
-> > 
-> > This is the modem so I don't think the ath12k wifi folks are to blame
-> > here.
-> > 
-> 
-> Ah, even after these years I always confuse between WLAN and WWAN :)
-> 
-> > It may be an older, existing issue that started triggering due to
-> > changes in timing or something.
-> >
-> 
+
 > Could be. But the issue seems to be stemming from the modem crash while exiting
 > M3. You can try removing the modem autosuspend by skipping the if condition
 > block:
@@ -136,19 +83,30 @@ On Mon, Dec 16, 2024 at 01:10:34PM +0530, Manivannan Sadhasivam wrote:
 > If you no longer see the crash, then the issue might be with modem not coping
 > up with autosuspend. If you still see the crash, then something else going wrong
 > during reboot/power off.
-> 
+
+I've only hit this issue three times and only since 6.13-rc2. So not
+sure how useful that sort of experiment would be.
+
 > > Is there anything you can do on the mhi side to prevent it from blocking
 > > reboot/power off?
-> > 
 > 
 > It should not block the reboot/power off forever. There is a timeout waiting for
 > SBL/Mission mode and the max time is 24s (depending on the modem). Can you share
 > the modem VID:PID?
-> 
-> - Mani
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
 
--- 
-மணிவண்ணன் சதாசிவம்
+I just hit the issue again and can confirm that it does block
+reboot/shutdown forever (I've been waiting for 20 minutes now).
+
+Judging from a quick look at the code, "Wait for device to enter SBL or
+Mission mode" is printed by mhi_fw_load_handler(), which in turn is only
+called from the mhi_pm_st_worker() state machine.
+
+I can't seem to find anything that makes sure that the next state is
+ever reached, so regardless of the cause of the modem fw crash (if
+that's what it is) the hung reboot appears to be a bug in mhi.
+
+This is with the SDX65 modem in the x1e80100 CRD:
+	
+	17cb:0308
+
+Johan
