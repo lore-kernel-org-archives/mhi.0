@@ -1,50 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2791D5141;
-	Tue, 17 Dec 2024 09:57:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2393D14F9E2;
+	Wed, 18 Dec 2024 08:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734429457; cv=none; b=UQxXaG9RU5dcnIKqzRTkzplaGWIWEQvmRs6R0ovR9hvu55/LWzWaGIKXWpfGMOzhx/aKknqjw189S1wmvCb67JrMJQDTFl9AmhGa4uoY/E8R2RPFIRXcdEQAtGCzDz1SuqDUqiXPafigb3RERwaIQ9SupE5rHqAjS41bPTUIS1U=
+	t=1734511243; cv=none; b=hXUeOyidrwEuox8VWEUYRvSpFttWls4msORYbvusplpnqPSaWVtMylautOpegiOc0WRkSChmpS+z5++iz6eLOm26r58BSE40YDk5SSGyYxcxpPLcxvbDmGnkEMAeGlzDDCSG4qLSmkQnxKD7pSDd8JLecBVBefaYfR5ojyc7UAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734429457; c=relaxed/simple;
-	bh=LDC+ULAnGHRXKXKhVLiwRfLf2A87PEO93BZE4W7WmGA=;
+	s=arc-20240116; t=1734511243; c=relaxed/simple;
+	bh=El/Q2d9tnenegpAEyb5i9kqTbQyLKRRBvG/mOP/vMtQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mwb5v+1neIj1JAxEujTjGcIP8fkiUDNUPJqJWNZIgE9VLEKLQxyYgSZ8cp9VjCDs8LW2LmA2+vtmw7wkfh2R01ZlywvYOBcTv30h1ZJtTp3vAYEk5z+BGoubXUwAAIOLHrOeyM6Djx8Fldm9Y7odekZxkt+SDtOPtyfW6UetXCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYWIq2W4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CP5SrrSG/3SsA2tk3w+VZgfXi0tPI9H/5NsWNso1O62g25HVnzXJtCWFWQ2/unfQ93pASYRcYF1lLjymhwDy1yInFSISleYkiYKeBzKYhN2nOt9D0lLAN1/f+Od+RP/KEmAs67HvCNk/l4HQmOJFgo2tGQ9pPj5tO7M4gR12dak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jbpiSSi/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYWIq2W4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7FDC4CED3;
-	Tue, 17 Dec 2024 09:57:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jbpiSSi/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5581C4CECE;
+	Wed, 18 Dec 2024 08:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734429456;
-	bh=LDC+ULAnGHRXKXKhVLiwRfLf2A87PEO93BZE4W7WmGA=;
+	s=k20201202; t=1734511242;
+	bh=El/Q2d9tnenegpAEyb5i9kqTbQyLKRRBvG/mOP/vMtQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VYWIq2W4Xeo0l+LKDOnVcAyd78Z7qircxd1vPXOXI3uvz/4v00ht7ogLWnFKnUo02
-	 mZHIlwuuU53K2/Q+tbj32Y+3Z/KVohqCMo2tqvi67Isko3aNUKlHt6jkMOjCAPEZcO
-	 zJUiO85FlhArwh72jWjABbM53woTDqC4Vpf3vNP/gq8ygCH4liqFi6OhgVYaB0o+2I
-	 zAlyWQBHa0tACs81Ispdsb5Y15Ei4BTFwRzmn2WNNYHPAGFmz0SaDOTTT8tohpelvW
-	 WXAaOBsX1rmeLGmLPLmiW3N9yBOnf9j54qgUonFDRVGFzGPme2aooBsrzW9YKLJvHE
-	 DVlMBo9PSZ0tQ==
+	b=jbpiSSi/5OPaGcju8GTYOZpp5BjR9zuUIMKwjT3NptOBbc8wF4VzYvP/u3Be2OtV3
+	 njhhaVHDLGKqAvhtxXgyDXm64/ycsBQ30TvtxyIijzgPRh5+C5M2SfsxG7wsUvKvH8
+	 /m6vlXk1cfAlCHU8KAY8GXMgTz4eprlZRcXo8fBHzSkOQThENShe4tEn4B45YRUmRW
+	 wKqZsTxHWTp8Dh8spO7pSnEvVITtKdAnDh1YhEt9n536AlxB19N0zCWSNfP1Irz5fx
+	 jsqtcoAlGmLUavxG8fvJGt+4MmlQF6iuwOG40+Jcdk+mTLkIcK+6EEt9BaJ6wetkod
+	 A6WOT1fE9RcXA==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1tNUKg-000000002F4-46sZ;
-	Tue, 17 Dec 2024 10:57:39 +0100
-Date: Tue, 17 Dec 2024 10:57:38 +0100
+	id 1tNpbp-000000001lo-45eN;
+	Wed, 18 Dec 2024 09:40:46 +0100
+Date: Wed, 18 Dec 2024 09:40:45 +0100
 From: Johan Hovold <johan@kernel.org>
-To: Loic Poulain <loic.poulain@linaro.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Loic Poulain <loic.poulain@linaro.org>
 Subject: Re: mhi resume failure on reboot with 6.13-rc2
-Message-ID: <Z2FLErzdRAI73jm8@hovoldconsulting.com>
+Message-ID: <Z2KKjWY2mPen6GPL@hovoldconsulting.com>
 References: <Z1me8iaK7cwgjL92@hovoldconsulting.com>
  <20241211145315.vaf7gbapieywcvau@thinkpad>
  <Z1mp3_ArzL-GLr3D@hovoldconsulting.com>
  <20241216074021.kwoid2747o7piquv@thinkpad>
  <Z2ApCU3DAxKS7Y9k@hovoldconsulting.com>
  <20241216141303.2zr5klbgua55agkx@thinkpad>
- <CAMZdPi_0oiTFmgkq0hAhamVq-Noqa+jGDLZ_6yVaqHvcO+N=nA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -53,53 +52,79 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZdPi_0oiTFmgkq0hAhamVq-Noqa+jGDLZ_6yVaqHvcO+N=nA@mail.gmail.com>
+In-Reply-To: <20241216141303.2zr5klbgua55agkx@thinkpad>
 
-On Mon, Dec 16, 2024 at 05:25:23PM +0100, Loic Poulain wrote:
-> On Mon, 16 Dec 2024 at 15:13, Manivannan Sadhasivam
-> <manivannan.sadhasivam@linaro.org> wrote:
-> > On Mon, Dec 16, 2024 at 02:20:09PM +0100, Johan Hovold wrote:
-> > > On Mon, Dec 16, 2024 at 01:10:21PM +0530, Manivannan Sadhasivam wrote:
-> > > > On Wed, Dec 11, 2024 at 04:03:59PM +0100, Johan Hovold wrote:
-> > > > > On Wed, Dec 11, 2024 at 08:23:15PM +0530, Manivannan Sadhasivam wrote:
-> > > > > > On Wed, Dec 11, 2024 at 03:17:22PM +0100, Johan Hovold wrote:
-> > > > >
-> > > > > > > I just hit the following modem related error on reboot of the x1e80100
-> > > > > > > CRD for the second time with 6.13-rc2:
-> > > > > > >
-> > > > > > >       [  138.348724] shutdown[1]: Rebooting.
-> > > > > > >         [  138.545683] arm-smmu 3da0000.iommu: disabling translation
-> > > > > > >         [  138.582505] mhi mhi0: Resuming from non M3 state (SYS ERROR)
-> > > > > > >         [  138.588516] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
-> > > > > > >         [  138.595375] mhi-pci-generic 0005:01:00.0: device recovery started
-> > > > > > >         [  138.603841] wwan wwan0: port wwan0qcdm0 disconnected
-> > > > > > >         [  138.609508] wwan wwan0: port wwan0mbim0 disconnected
-> > > > > > >         [  138.615137] wwan wwan0: port wwan0qmi0 disconnected
-> > > > > > >         [  138.702604] mhi mhi0: Requested to power ON
-> > > > > > >         [  139.027494] mhi mhi0: Power on setup success
-> > > > > > >         [  139.027640] mhi mhi0: Wait for device to enter SBL or Mission mode
-> > > > > > >
-> > > > > > > and then the machine hangs.
+On Mon, Dec 16, 2024 at 07:43:03PM +0530, Manivannan Sadhasivam wrote:
+> On Mon, Dec 16, 2024 at 02:20:09PM +0100, Johan Hovold wrote:
+> > On Mon, Dec 16, 2024 at 01:10:21PM +0530, Manivannan Sadhasivam wrote:
+> > > On Wed, Dec 11, 2024 at 04:03:59PM +0100, Johan Hovold wrote:
 
-> > > I've only hit this issue three times and only since 6.13-rc2. So not
-> > > sure how useful that sort of experiment would be.
-
-> > I'm not sure where exactly it got stuck. I've asked Qcom folks to reproduce this
-> > issue. We will investigate and hopefully get back with a fix asap.
-> >
-> > > This is with the SDX65 modem in the x1e80100 CRD:
-> > >
-> > >       17cb:0308
+> > I just hit the issue again and can confirm that it does block
+> > reboot/shutdown forever (I've been waiting for 20 minutes now).
 > 
-> I have another MHI modem model, but will try to reproduce during the
-> week, any idea on the bug rate?
+> Ah, that's bad.
+> 
+> > Judging from a quick look at the code, "Wait for device to enter SBL or
+> > Mission mode" is printed by mhi_fw_load_handler(), which in turn is only
+> > called from the mhi_pm_st_worker() state machine.
+> > 
+> > I can't seem to find anything that makes sure that the next state is
+> > ever reached, so regardless of the cause of the modem fw crash
+> 
+> This code will make sure:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bus/mhi/host/pm.c?h=v6.13-rc1#n1264
+> 
+> But then it doesn't print the error and returns -ETIMEDOUT to the caller after
+> powering down MHI. The caller (mhi_pci_recovery_work), in the case of failure,
+> unprepares MHI and starts function level recovery.
+> 
+> > (if
+> > that's what it is) the hung reboot appears to be a bug in mhi.
 
-I've now hit this four times. And only since rc2. So I guess that's
-something like four times in a hundred reboots or so.
+I've tracked down the hang to a deadlock on the parent device lock.
 
-I added some printks to the pci_generic driver this morning and have
-been running a boot loop for one hundred iterations without hitting the
-issue even once, however. Perhaps the printks alters the timing enough
-to avoid the fw crash or race.
+Driver core takes the parent device lock before calling shutdown(), and
+then mhi_pci_shutdown() waits indefinitely for the recovery thread to
+finish.
+
+But the mhi recovery thread ends up trying to take the same parent
+device lock in pci_reset_function() when recovery fails:
+
+[  339.351915] shutdown[1]: Rebooting.
+[  339.724498] arm-smmu 3da0000.iommu: disabling translation
+[  339.760134] mhi mhi0: Resuming from non M3 state (SYS ERROR)
+[  339.766211] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
+[  339.773158] mhi-pci-generic 0005:01:00.0: device recovery started
+
+The recovery thread is running before shutdown() is called.
+
+[  339.779638] mhi-pci-generic 0005:01:00.0: __mhi_power_down
+[  339.779650] mhi-pci-generic 0005:01:00.0: mhi_pci_shutdown
+[  339.785422] wwan wwan0: port wwan0qcdm0 disconnected
+[  339.791001] mhi-pci-generic 0005:01:00.0: mhi_pci_remove
+[  339.791006] mhi-pci-generic 0005:01:00.0: mhi_pci_remove - cancel work sync
+
+shutdown() waits for the recovery thread to finish
+
+[  339.825892] wwan wwan0: port wwan0mbim0 disconnected
+[  339.831320] wwan wwan0: port wwan0qmi0 disconnected
+[  339.904249] mhi-pci-generic 0005:01:00.0: __mhi_power_down - returns
+[  340.025390] mhi mhi0: Requested to power ON
+[  340.233771] mhi mhi0: Power on setup success
+[  340.233954] mhi mhi0: Wait for device to enter SBL or Mission mode
+[  340.238272] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event timeout_ms = 8000
+[  348.400082] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event returns, ret = -110
+
+The recovery thread fails to power up the device.
+
+[  348.419967] mhi-pci-generic 0005:01:00.0: __mhi_power_down
+[  348.472665] mhi-pci-generic 0005:01:00.0: __mhi_power_down - returns
+[  348.725069] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - returns
+[  348.742644] mhi-pci-generic 0005:01:00.0: mhi_pci_recovery_work - mhi unprepare after power down
+[  348.762737] mhi-pci-generic 0005:01:00.0: mhi_pci_recovery_work - pci reset
+[  348.780904] mhi-pci-generic 0005:01:00.0: pci_reset_function
+
+And tries to reset the device, which triggers the deadlock when
+trying to take the already held parent (bridge) device lock.
 
 Johan
