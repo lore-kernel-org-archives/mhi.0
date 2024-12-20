@@ -1,98 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7C31FC7DB;
-	Thu, 19 Dec 2024 08:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506452210F7;
+	Fri, 20 Dec 2024 17:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734597388; cv=none; b=gvDK+Knri7EXqmEDG2s9tJ4kGVb1Q56lZ7wrskFtb1kxvC4qHLm0lKkdMH5HfGOWL1FQrLtzHOobcO7OWz7IdyuwRCK7K3Uv0MizFYW+F9qTJgtuc3wiJylPreG51EGtstJERrK6achXPLYoM71mpMjiAjo5DlD8sxD48S7kP40=
+	t=1734714924; cv=none; b=JQFm6S3/PTTgD0FRpxBTYsFC+4CwuQt64fO22R61B6tmqjpeNetLM4V4sdkkW9MTYdgUvwZri6ygIte3HAhBm723l/CnVE/0rcj2rw2eQH+Zw5PZ6Prds+rut7a43GIXhFzx0mKuFM1WI9eRMZX095MkSSHg0EwCNFRmkAYeZug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734597388; c=relaxed/simple;
-	bh=It2N0DIRz63mOtpXdqeynDJCYLh50whKrkYv/EBFAOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9g0I9H2CIpExtm8OSEfpm5FxWlzhrf7hEHAwE3J7n8G8n3n7gQMHIxTxvJ2TfQimFB5LpdqewjWqsy9pEp6XLhzyY8ozDDoeruNmcl74JkVwzU3XdygEu3B8Q83oaQlE+JCqcYBPJHpUH38/TcnDxg0cv4O3kZpFsSWkcDpkl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q87MNCIe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734714924; c=relaxed/simple;
+	bh=7fJGIFD1GsTor71LYoIibpGcMiIRkHR0ji1VT0Xfzs8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pFzEo9EVO+y4Pcb2wp2R31Y62ac+g1fsBIH60ychgyZNPjB0oYj0Vg6zG/NeQ/3tB6E4TYe9FZMkxxoPuGf9KxCs7J/F9VjiMHLFYfsHm154t9r+T4dV9f6ddyfDnnLp6zTJj2Zw3s/8fSldRniXNa66Qa1yvELTtaTJYckx+bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TPJ66f/L; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q87MNCIe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D37C4CED0;
-	Thu, 19 Dec 2024 08:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734597388;
-	bh=It2N0DIRz63mOtpXdqeynDJCYLh50whKrkYv/EBFAOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q87MNCIe2ZiqBH07cHiUquSBlg8VEHMuZxsue7JOW+CNHYu839wi4lEOymQnC88Sp
-	 7y70+KGahIMtPJW9nhPiTBYi29aaVSwpAm5FalBTfE7ry/IZviMu9SsRAsgYM24so+
-	 SV2vk5O7LPS9v9yTXRE5Fgx8EVUTHN12OA3xuPrylZqeIqgyayXZIa0OEsUmhS89+E
-	 nbMbYzMEJO7kQn2Cf2gBX4sg5BsaAvWB8a1lvqIo23ncbqSuRG95c/Ew1FimLmBNqD
-	 Ifxn9UCuPbmvJ1ciI9JHlQtA345GECIFwVa/0mnHBVcHt0MkrgFaarZU2g/M9HGyYV
-	 54v4kJYlC/lgQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tOC1I-000000007Bk-3Ohx;
-	Thu, 19 Dec 2024 09:36:32 +0100
-Date: Thu, 19 Dec 2024 09:36:32 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Loic Poulain <loic.poulain@linaro.org>
-Subject: Re: mhi resume failure on reboot with 6.13-rc2
-Message-ID: <Z2PbEPYpqFfrLSJi@hovoldconsulting.com>
-References: <Z2ApCU3DAxKS7Y9k@hovoldconsulting.com>
- <20241216141303.2zr5klbgua55agkx@thinkpad>
- <Z2KKjWY2mPen6GPL@hovoldconsulting.com>
- <20241218113830.efflnkxz7qu24xux@thinkpad>
- <Z2K53-As8w4IH06U@hovoldconsulting.com>
- <20241218123019.py57s4r3takm2fs6@thinkpad>
- <Z2LUNo--8YpLO6kD@hovoldconsulting.com>
- <20241218140910.ysovysnvns26vbmd@thinkpad>
- <Z2LbnoSplfVNmNaa@hovoldconsulting.com>
- <20241218183555.qste4gve7vnvdml2@thinkpad>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TPJ66f/L"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKBufEt021470;
+	Fri, 20 Dec 2024 17:15:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jL8wzg1WIwIc06XhdSbJ86n/ra6NV5dfqg+1tzKaYwc=; b=TPJ66f/LcFTXQO0L
+	be9kt+j80PjKg0LauW+1TIBHn+Y+YUqiGlKyLg/n9y5k0X2gGk8oqlsMV6Ud+5a8
+	WAieeWPq/CldfmP5H49xiU6M+hxY2ACdV/XIGPnj7qIz5XcByziELAHehDhKT6UA
+	8ms/iiD9sgeqQ5ABuRJfrJzkoNAtZxqyZvfOGJs8ihA8yrcnCYeYw2q90uC8Ee01
+	cgvpXNw3CmbQ8gmvfMID6NBN1F8e2B6e2O9yO8d+YEZm9JHoTG4F5YSZy3ID0aBe
+	GIrRbchKX0lmFZfqRXUMggQH01TcYnRV/F2FmzH9f+ZePuRXRbj6FsicA9GAhpam
+	AhufiQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43n85d8uex-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Dec 2024 17:15:14 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BKHFD7r002329
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Dec 2024 17:15:13 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 20 Dec
+ 2024 09:15:12 -0800
+Message-ID: <c24e081b-7e2a-4bb0-9445-458e21e964f3@quicinc.com>
+Date: Fri, 20 Dec 2024 10:15:11 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241218183555.qste4gve7vnvdml2@thinkpad>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 6/7] accel/qaic: Add config structs for supported cards
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, <quic_carlv@quicinc.com>,
+        <manivannan.sadhasivam@linaro.org>, <quic_yabdulra@quicinc.com>,
+        <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>
+CC: <ogabbay@kernel.org>, <jacek.lawrynowicz@linux.intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <mhi@lists.linux.dev>
+References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
+ <20241213213340.2551697-7-quic_jhugo@quicinc.com>
+ <cd442cee-a37d-7d3b-8acf-59a3b5138bf4@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <cd442cee-a37d-7d3b-8acf-59a3b5138bf4@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -44IGdAB1AHWsexn3k_gSIkcTuSGcU6m
+X-Proofpoint-GUID: -44IGdAB1AHWsexn3k_gSIkcTuSGcU6m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ mlxlogscore=892 mlxscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412200138
 
-On Thu, Dec 19, 2024 at 12:05:55AM +0530, Manivannan Sadhasivam wrote:
-> On Wed, Dec 18, 2024 at 03:26:38PM +0100, Johan Hovold wrote:
-> > On Wed, Dec 18, 2024 at 07:39:10PM +0530, Manivannan Sadhasivam wrote:
-> > > On Wed, Dec 18, 2024 at 02:55:02PM +0100, Johan Hovold wrote:
-
-> > > > But that's not going to happen as that reset is what is currently
-> > > > causing the deadlock and which would simply be skipped if you switch to
-> > > > pci_try_reset_function().
-> > > > 
-> > > 
-> > > mhi_pci_runtime_resume() will queue the recovery_work() and return. So I was
-> > > hoping that by the time pci_try_reset_function() is called, the lock would be
-> > > available.
-> > 
-> > We can't rely on luck with timings, and this is the very reason for the
-> > deadlock I'm currently seeing (i.e. the recovery thread is still running
-> > when another thread grabs the lock and waits for the recovery thread to
-> > finish).
-> > 
-> > Perhaps the recovery work should be done synchronously in the resume
-> > handler to avoid such issues.
+On 12/13/2024 5:35 PM, Lizhi Hou wrote:
 > 
-> Synchronously? How can that help when the recovery_work() cannot acquire the
-> lock?
+> On 12/13/24 13:33, Jeffrey Hugo wrote:
+>> -static struct qaic_device *create_qdev(struct pci_dev *pdev, const 
+>> struct pci_device_id *id)
+>> +static struct qaic_device *create_qdev(struct pci_dev *pdev,
+>> +                       const struct qaic_device_config *config)
+>>   {
+>>       struct device *dev = &pdev->dev;
+>>       struct qaic_drm_device *qddev;
+>> @@ -365,12 +391,10 @@ static struct qaic_device *create_qdev(struct 
+>> pci_dev *pdev, const struct pci_de
+>>           return NULL;
+>>       qdev->dev_state = QAIC_OFFLINE;
+>> -    if (id->device == PCI_DEV_AIC080 || id->device == PCI_DEV_AIC100) {
+>> -        qdev->num_dbc = 16;
+>> -        qdev->dbc = devm_kcalloc(dev, qdev->num_dbc, 
+>> sizeof(*qdev->dbc), GFP_KERNEL);
+>> -        if (!qdev->dbc)
+>> -            return NULL;
+>> -    }
+>> +    qdev->num_dbc = 16;
+> 
+> Is it better to put num_dbc in qaic_device_config?
 
-During system suspend, pm core waits for any on-going runtime resume
-operations to complete before taking the device lock and suspending the
-device.
+I think there is no clear "right answer".  All known devices use 16. 
+There may be a future device which has a different value, at which point 
+I think this needs to be in qaic_device_config.  For this patch, I was 
+conservative and only included items in qaic_device_config which do vary 
+between the known devices.
 
-Unfortunately, that's currently not the case during shutdown() where
-those operations are reversed, so that would indeed need to be addressed
-first.
+I'll think in this a bit more.
 
-But what the driver is currently doing looks highly questionable as it
-returns success when it failed to resume the device (after scheduling
-the asynchronous recovery work).
-
-Johan
+> 
+> Thanks,
+> 
+> Lizhi
+> 
