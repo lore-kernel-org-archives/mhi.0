@@ -1,187 +1,176 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2078.outbound.protection.outlook.com [40.107.95.78])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7666545948
-	for <mhi@lists.linux.dev>; Fri, 20 Dec 2024 18:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734718129; cv=fail; b=pH+HCf6EJyMo9JkOBQxUwt3FkhSXBfKiWEvxrOxeva3nTApIF/yiqz55aZEiBTZF/NBbWvdbkbxhg34tVz0tnED867zZkE7/i6WL+2/sbaUdZ9GSqWMNGO/2CZEdzzj4OsrJZBSevqUV/0x4PngrKPRh4QbzTPBwq366tsN5zkM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734718129; c=relaxed/simple;
-	bh=Y1j1LeUyJ7safYnXdJLZrPGUt0uK2n8ddiaO/Ne3LL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Y+MYPNVgz6YQ3r57QNlQ+8xP+7SZcCh87xD1vmbhn44jh1p2mwkNNduWsPze4sNWV5+4YOLdALPEpzQYff6u0tOXzwO5BiwwIL0ntgh5ZXDlHoHOqFmVwECBSFADklIs9XkihL4nCLBo8NZmlWDITKBHCZbOAXEpb8hI+ffP9rA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wvSZ/8gw; arc=fail smtp.client-ip=40.107.95.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5739B3C0B;
+	Sat, 28 Dec 2024 00:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735345210; cv=none; b=FejCzwH3RdeFvKQrglUEEky0L5OWY+OUd5e0z1NWME+3ooLqnLdTBGjomde4D0cqbsXDY0TtXIxyvMHH9qlvdMr1aCvXRGsIa4Y91QZhsifdtDJoMNXxdJzWGsSri4BCbuJowcs3JeGmxPq5szdA6e8hwMBNJp6w7UeGXazO5f8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735345210; c=relaxed/simple;
+	bh=fzl8JZUoeCkO40U7IvbhosdeFL3vTrfTAD4wrTm300U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cfA8wZF38KLf/hvGLVaZIWyjQ2oE01HBgesedbbVBGoNVhiQ+1yswy4F0QHTVR6EURIilSIqHyvUt+pNOka08urdoBSSV2cP9e4d7IOPHYJg+mAqT0VuSIZydWLni1s8SAPd3KBrMJ8QozHM3WYAmuuHsbDImlqSbXoFXLuuePg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixJFcbXa; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wvSZ/8gw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u8doWQP+MzAdTpp70DczvT2Qfg0EitT6aMcZnYsgmS8Zer8StpxZ27TTKNvObgUwt+pN9KEOEKMfzMoNZUHNrbSElto6D11P0eb+c12PxzxAEXvEn7B5YNwE97dPnhs5aM1uJnnZgzemgeUlQ12WuQogqKE+lffpKoJtRSiYpyuS83nj7hDtWhMac/I3nkP+QZQsrCtnbnqr4/V5Wybk2dpj/jCa+zOiUbWpo7+Tb3rkz7I9cR1r951a4Diocn8oT7aHz0DG1WFwe29ITgsjnSXJvn0ffcKGcFMdpGmSpZqLyRPUGpqkZqINIjZ+l50/VLAwYBD92Qd5MePU2fVDHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1fbxS/JUp8RexRkw5nr5R5y9lTopazc/X+vgmXs2bd4=;
- b=Cc20I2Syj1aDJbnBPohdxLADRd8fMvFfV7scR+ejZwg0fMbyPmXXwkfaTtQpYhxz8xkL8GNYMNbWK6AGG7Lv1XjvNY3WXWdtat41efKbmNMtYVw9lZoN/M/o7AL6lFAhezdT8noV+LTa2YhAs0oTDeqZKMuH21iD9/NI3N50ynFs+XPz/0C4meBpJNcG2KOHfNfNAQPGPXgtTCPBGioByCZH5tOV1m+073WUnSOjR5jh3RXnR2bYW+/PGCfaUgjNL0Kbv9dm3F7VRLH+m0tkhrCXj/xINF5yHRFZgI2Vq9uUZmLGmaoz4dScy5lWWZw7CZXMzfcewqDK8vF8bibDww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fbxS/JUp8RexRkw5nr5R5y9lTopazc/X+vgmXs2bd4=;
- b=wvSZ/8gwMkN6qLHrbvyGTCnGfafvC+Doy5tzA6IaY/MgDVSIcJ6nOzfgPC6Md9zlT5bBdvsb6KYchyLWyxskE196yCjNxFJRjw1lQK9vslBvQsIoveFJWEw6Zf01qVpILoF/n+7/0hAuREMp5zPN4LdNlIycnFW8Eg+z0eeFTc4=
-Received: from BYAPR02CA0061.namprd02.prod.outlook.com (2603:10b6:a03:54::38)
- by PH8PR12MB6769.namprd12.prod.outlook.com (2603:10b6:510:1c4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Fri, 20 Dec
- 2024 18:08:44 +0000
-Received: from MWH0EPF000971E8.namprd02.prod.outlook.com
- (2603:10b6:a03:54:cafe::5f) by BYAPR02CA0061.outlook.office365.com
- (2603:10b6:a03:54::38) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.23 via Frontend Transport; Fri,
- 20 Dec 2024 18:08:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- MWH0EPF000971E8.mail.protection.outlook.com (10.167.243.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 18:08:43 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Dec
- 2024 12:08:42 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 20 Dec 2024 12:08:41 -0600
-Message-ID: <d0a2059e-7c81-1eb8-6c59-0f72c0688ef5@amd.com>
-Date: Fri, 20 Dec 2024 10:08:36 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixJFcbXa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735345208; x=1766881208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fzl8JZUoeCkO40U7IvbhosdeFL3vTrfTAD4wrTm300U=;
+  b=ixJFcbXazV7RmoZg92yS7rcK2wvkfn/j6QEcYn5EM/SXEE1E5VSCXXa9
+   U4bT1ZYGMmmryfqvhxNUVDxi1L0zLuFiDlItcjFPwVyMEJeBrVUTGQySv
+   22wIX9DIrIN0f72+o3WtuVydBHJ9/jsT3y+kUzzM4DkQ271LItxxbMQZp
+   Juks3RFyi+0D73z9FpfAIajR7yAmOn8nHCC7q/dYGImFE5CDyrrGDDmSp
+   2QjmC9W2YITO8f64I+W8bnprASpn6oRiqSUFltiYeyxY/BQKj6F95gjXo
+   uS5oQHx8jen1KJ0R2YX/zy3cAFXnUwJ4TwDe+YewlRmNm6uePQbicb3Dj
+   g==;
+X-CSE-ConnectionGUID: NDtu1R8wRZmgTjv/wPjrIQ==
+X-CSE-MsgGUID: xJnH6t1tRKO6dKeCJ9zuUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35898082"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="35898082"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 16:20:07 -0800
+X-CSE-ConnectionGUID: RkT3HwAhRTqPFMVAy7/NjQ==
+X-CSE-MsgGUID: S7KfgVNeQLels56W1NRBUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="100643003"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 27 Dec 2024 16:20:04 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tRKYk-0003ku-1g;
+	Sat, 28 Dec 2024 00:20:02 +0000
+Date: Sat, 28 Dec 2024 08:19:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
+	manivannan.sadhasivam@linaro.org, quic_yabdulra@quicinc.com,
+	quic_mattleun@quicinc.com, quic_thanson@quicinc.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org,
+	lizhi.hou@amd.com, jacek.lawrynowicz@linux.intel.com,
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	mhi@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 7/7] accel/qaic: Add AIC200 support
+Message-ID: <202412280859.rkIldm5t-lkp@intel.com>
+References: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 6/7] accel/qaic: Add config structs for supported cards
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <quic_carlv@quicinc.com>,
-	<manivannan.sadhasivam@linaro.org>, <quic_yabdulra@quicinc.com>,
-	<quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>
-CC: <ogabbay@kernel.org>, <jacek.lawrynowicz@linux.intel.com>,
-	<linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<mhi@lists.linux.dev>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-7-quic_jhugo@quicinc.com>
- <cd442cee-a37d-7d3b-8acf-59a3b5138bf4@amd.com>
- <c24e081b-7e2a-4bb0-9445-458e21e964f3@quicinc.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <c24e081b-7e2a-4bb0-9445-458e21e964f3@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E8:EE_|PH8PR12MB6769:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67545e91-df36-41fc-0230-08dd21215737
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QWp4OW5GNEJ6RWlJeCtpczhuNVNDQTV6VzZ1QVRFYUxaRVlOYUVnaVg1a2Jx?=
- =?utf-8?B?OXZVQ0JYVVRBM1VIM2Jsbm5hMVZ5TmZTeWxpM0dlUll6NTArcWZ5RWEyclhS?=
- =?utf-8?B?K0x3TEFTbEdKRWprUVhVRTdpaDBhK3ZRaXZpREg3VTVBeE5PYU1hK3NXYmlI?=
- =?utf-8?B?NktjazYwVlhWOVNqSXdTcVB1TGF1Zm9iaU9wWXg0Q2VqQVRtNzFRWTQvR1pO?=
- =?utf-8?B?dmtBaXN3SXFQVmdSZHhWbllpZEhJZGs1RVhveTB6ZVFmZmZLQmNmRnJyL3lB?=
- =?utf-8?B?ejJIZVlNZHVuMU1sZjR1Y3doZXNXNE1ZZEVmL2F6TjFGSnhLMnplS0ZmWnNx?=
- =?utf-8?B?WU1FalpLZTIvdk14eEM2QTdoSFBtZW9wYlQramZVK3dlR2pvaVdsS0k2dlhP?=
- =?utf-8?B?SUlYOG5KWDB3WlU1QkQ4K0xuYThvRlM5MjM5UXo3OVFlaTI1ZDBMSG90dHBP?=
- =?utf-8?B?TTR4S1B2TGZnUk1UNGVoRG5nVkMyT0NvMW84WXFKZ0xVNk96YU40bzVFWE5u?=
- =?utf-8?B?aGlPS3RxVE1PQlM1V2JWSEd5VmFreXdqVHhZR2p4dk13MEZsSEdQbnBrSFUv?=
- =?utf-8?B?U1hUYVdFc1dRZjFjK0d5bnNka010YllGUDhBL1ZHTnRHc3MyaGlhOU5PUGVr?=
- =?utf-8?B?VldDKzBHV1IwMEJFclVpVHVlSWdkRllaaVE1WFl5TmlhQ1IwTWtMc0c5aXJU?=
- =?utf-8?B?NUhZY25vV0FFTGFqTnlOQnZGT1JYeThsS1ZQeFpGbks3ajlYckFVK0xWSkFu?=
- =?utf-8?B?K1dwZ0FBZXduc2dmeUdZK3ZObkx6dzBGNllwdVZKRG5PZFhZOUVrRFRhNjFv?=
- =?utf-8?B?QjFXek4wNlJvVkQ4Yndza3hYWWtaUWgwMy9xYWE0NU5ITE90ZGxOUjJnK0g4?=
- =?utf-8?B?K2VRYktqYys4cnFhMXZnVEd4WXVOOEEzQnVwcmo1M0VsL2p6WUxLdlJpeVZu?=
- =?utf-8?B?YTEreDZ4RFhpVG9NTk9pVnVHb1l6SndVbnhGR0RXbGE3R29XSFFCN2RoS0Rh?=
- =?utf-8?B?c2J6bmdiN2ErY3RvNktZOHd4Ry9LWTdhRUtKLytFd1BVRGFwYnVISy96alBs?=
- =?utf-8?B?S0dIaGhoTVp6cFhJano3Q2VKMUViSlRDdTIzSnBFUmVhWXlxY09HZ2wyK0F0?=
- =?utf-8?B?YVIybGxKUEpRWnhZQzMxUVVHeVVRK3UzM3FIb0cvWS9hN0ZHUXU1b0NPWW5G?=
- =?utf-8?B?UTM5YTRITDhyVGxXNFdDbzBrNlE0dVp3UmhoWWE0b2FXdk9uR0laVmNSWSs5?=
- =?utf-8?B?dm1iYmtOd1R2enJPU3FWaER5SHFIM1o1Yk1hMERrQy9RQUErQzJUcE1hWGRX?=
- =?utf-8?B?UjdoQ3ZISU5Lb3RjN0RNWWMxNXY5RTIzYXdqTkFPM2xvRDRBa1hDYU5LZVJU?=
- =?utf-8?B?L0Y3UnlHQXFkZE1QbVBITkN5VjliN3M0ZGJVMkpGK0lDZUd5VEZtaVNrWUFP?=
- =?utf-8?B?Zkx0L21pSmUzTENibExiMDdyOEpiaWVnVHRMOUUvSExkOE1TM1FqMjYrVm9u?=
- =?utf-8?B?M3phNkdWbm1kWjZ3dzVwbmdlU2pwT3ZFSWJQK2JPK25nNENtMHZHS3lhMXFP?=
- =?utf-8?B?T1RZemZ5TzRxWWdFRDJVNUUwWGtyQ01qcW1FWTdLdHF6a3lnSC9UeFAreUp6?=
- =?utf-8?B?RGZyMFdPYWdhWCtjUUVsUUYrVDhtZVdLeG8rSjRZNUpHTnA1QkVQayt6aXVl?=
- =?utf-8?B?L1hoYU5DNWVQblFucTFhTS9tN2NrSk12WSs1MVI4TndLS1JnSmFWa1hUbVIv?=
- =?utf-8?B?c0VLbURNbHgyS1puTEU1RG4zTHJxeVBnVTE5M21meDZ0NTcyYVk0U3BkV29u?=
- =?utf-8?B?ZGNHOUVXSjI0N2VWR2M2NEExYmV6a2tMa1pqZUxORUtRNDFHT013OFR3ZEhv?=
- =?utf-8?B?SzhlU2ltbFRpYWxxVVoraVBhUTIzTDgwbUJPb3RHUXBQQk1DdEZYbDFhcFdi?=
- =?utf-8?B?cTk3Q3ViTFRLbnhkdWQ4a21lK3JuN2ZXdlM2UkRUY0NhcVFmNFVvVUxJbENq?=
- =?utf-8?Q?oSQLFEcCc3Cw2SFsrH6FN1vABC5Q0s=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 18:08:43.5463
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67545e91-df36-41fc-0230-08dd21215737
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000971E8.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6769
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
+
+Hi Jeffrey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13-rc4 next-20241220]
+[cannot apply to mani-mhi/mhi-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/bus-mhi-host-Refactor-BHI-BHIe-based-firmware-loading/20241214-053540
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241213213340.2551697-8-quic_jhugo%40quicinc.com
+patch subject: [PATCH 7/7] accel/qaic: Add AIC200 support
+config: i386-randconfig-007-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280859.rkIldm5t-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/accel/qaic/sahara.c:5:
+   In file included from include/linux/devcoredump.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/accel/qaic/sahara.c:781:24: error: assigning to 'const char **' from 'const char *const[76]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     781 |                 context->image_table = aic200_image_table;
+         |                                      ^ ~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-On 12/20/24 09:15, Jeffrey Hugo wrote:
-> On 12/13/2024 5:35 PM, Lizhi Hou wrote:
->>
->> On 12/13/24 13:33, Jeffrey Hugo wrote:
->>> -static struct qaic_device *create_qdev(struct pci_dev *pdev, const 
->>> struct pci_device_id *id)
->>> +static struct qaic_device *create_qdev(struct pci_dev *pdev,
->>> +                       const struct qaic_device_config *config)
->>>   {
->>>       struct device *dev = &pdev->dev;
->>>       struct qaic_drm_device *qddev;
->>> @@ -365,12 +391,10 @@ static struct qaic_device *create_qdev(struct 
->>> pci_dev *pdev, const struct pci_de
->>>           return NULL;
->>>       qdev->dev_state = QAIC_OFFLINE;
->>> -    if (id->device == PCI_DEV_AIC080 || id->device == 
->>> PCI_DEV_AIC100) {
->>> -        qdev->num_dbc = 16;
->>> -        qdev->dbc = devm_kcalloc(dev, qdev->num_dbc, 
->>> sizeof(*qdev->dbc), GFP_KERNEL);
->>> -        if (!qdev->dbc)
->>> -            return NULL;
->>> -    }
->>> +    qdev->num_dbc = 16;
->>
->> Is it better to put num_dbc in qaic_device_config?
->
-> I think there is no clear "right answer".  All known devices use 16. 
-> There may be a future device which has a different value, at which 
-> point I think this needs to be in qaic_device_config.  For this patch, 
-> I was conservative and only included items in qaic_device_config which 
-> do vary between the known devices.
->
-> I'll think in this a bit more.
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
->
->>
->> Thanks,
->>
->> Lizhi
->>
+vim +781 drivers/accel/qaic/sahara.c
+
+   744	
+   745	static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+   746	{
+   747		struct sahara_context *context;
+   748		int ret;
+   749		int i;
+   750	
+   751		context = devm_kzalloc(&mhi_dev->dev, sizeof(*context), GFP_KERNEL);
+   752		if (!context)
+   753			return -ENOMEM;
+   754	
+   755		context->rx = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
+   756		if (!context->rx)
+   757			return -ENOMEM;
+   758	
+   759		/*
+   760		 * AIC100 defines SAHARA_TRANSFER_MAX_SIZE as the largest value it
+   761		 * will request for READ_DATA. This is larger than
+   762		 * SAHARA_PACKET_MAX_SIZE, and we need 9x SAHARA_PACKET_MAX_SIZE to
+   763		 * cover SAHARA_TRANSFER_MAX_SIZE. When the remote side issues a
+   764		 * READ_DATA, it requires a transfer of the exact size requested. We
+   765		 * can use MHI_CHAIN to link multiple buffers into a single transfer
+   766		 * but the remote side will not consume the buffers until it sees an
+   767		 * EOT, thus we need to allocate enough buffers to put in the tx fifo
+   768		 * to cover an entire READ_DATA request of the max size.
+   769		 */
+   770		for (i = 0; i < SAHARA_NUM_TX_BUF; ++i) {
+   771			context->tx[i] = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
+   772			if (!context->tx[i])
+   773				return -ENOMEM;
+   774		}
+   775	
+   776		context->mhi_dev = mhi_dev;
+   777		INIT_WORK(&context->fw_work, sahara_processing);
+   778		INIT_WORK(&context->dump_work, sahara_dump_processing);
+   779	
+   780		if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
+ > 781			context->image_table = aic200_image_table;
+   782			context->table_size = ARRAY_SIZE(aic200_image_table);
+   783		} else {
+   784			context->image_table = aic100_image_table;
+   785			context->table_size = ARRAY_SIZE(aic100_image_table);
+   786		}
+   787	
+   788		context->active_image_id = SAHARA_IMAGE_ID_NONE;
+   789		dev_set_drvdata(&mhi_dev->dev, context);
+   790	
+   791		ret = mhi_prepare_for_transfer(mhi_dev);
+   792		if (ret)
+   793			return ret;
+   794	
+   795		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, context->rx, SAHARA_PACKET_MAX_SIZE, MHI_EOT);
+   796		if (ret) {
+   797			mhi_unprepare_from_transfer(mhi_dev);
+   798			return ret;
+   799		}
+   800	
+   801		return 0;
+   802	}
+   803	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
