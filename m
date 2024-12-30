@@ -1,176 +1,205 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5739B3C0B;
-	Sat, 28 Dec 2024 00:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C9F1AA1D2
+	for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 14:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735345210; cv=none; b=FejCzwH3RdeFvKQrglUEEky0L5OWY+OUd5e0z1NWME+3ooLqnLdTBGjomde4D0cqbsXDY0TtXIxyvMHH9qlvdMr1aCvXRGsIa4Y91QZhsifdtDJoMNXxdJzWGsSri4BCbuJowcs3JeGmxPq5szdA6e8hwMBNJp6w7UeGXazO5f8=
+	t=1735568210; cv=none; b=gJYQIkmU6gn2hW25r1mebiv1zbJ7551g3r5tO3ldw9wE+pKYc1v8LBOsd5nmYRgM3tT9AW3wDIfmk+fPtavYZTqZ2rGvAkdO09jpm6LgBn0odCwiKIXNYGLCapYWIVDijwYkgtMAp3N4DHWPxWTv+dl9ll28SbJsN6k9NGe8adE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735345210; c=relaxed/simple;
-	bh=fzl8JZUoeCkO40U7IvbhosdeFL3vTrfTAD4wrTm300U=;
+	s=arc-20240116; t=1735568210; c=relaxed/simple;
+	bh=NAWkcRz1xJvoL/sqhfndxD9TxOxRRagPFi1Fdfl4XzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cfA8wZF38KLf/hvGLVaZIWyjQ2oE01HBgesedbbVBGoNVhiQ+1yswy4F0QHTVR6EURIilSIqHyvUt+pNOka08urdoBSSV2cP9e4d7IOPHYJg+mAqT0VuSIZydWLni1s8SAPd3KBrMJ8QozHM3WYAmuuHsbDImlqSbXoFXLuuePg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixJFcbXa; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=keU7C1+Z4q0W1SExx2W8fcJFU2sg5p4SVPIOz/xh/7vzclMQzHYctiKQp7sARWjzCAEnioDA6VpgnYynby+HUQSqaN/GG26oKgcJPnU33B2fbRs8L0FFPpep4nuqNuJ5womh3xOzyVwgR7nDHkT+cJg6XmWwmfjmS2gBmHm+GIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pchaBgvw; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixJFcbXa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735345208; x=1766881208;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fzl8JZUoeCkO40U7IvbhosdeFL3vTrfTAD4wrTm300U=;
-  b=ixJFcbXazV7RmoZg92yS7rcK2wvkfn/j6QEcYn5EM/SXEE1E5VSCXXa9
-   U4bT1ZYGMmmryfqvhxNUVDxi1L0zLuFiDlItcjFPwVyMEJeBrVUTGQySv
-   22wIX9DIrIN0f72+o3WtuVydBHJ9/jsT3y+kUzzM4DkQ271LItxxbMQZp
-   Juks3RFyi+0D73z9FpfAIajR7yAmOn8nHCC7q/dYGImFE5CDyrrGDDmSp
-   2QjmC9W2YITO8f64I+W8bnprASpn6oRiqSUFltiYeyxY/BQKj6F95gjXo
-   uS5oQHx8jen1KJ0R2YX/zy3cAFXnUwJ4TwDe+YewlRmNm6uePQbicb3Dj
-   g==;
-X-CSE-ConnectionGUID: NDtu1R8wRZmgTjv/wPjrIQ==
-X-CSE-MsgGUID: xJnH6t1tRKO6dKeCJ9zuUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35898082"
-X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="35898082"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 16:20:07 -0800
-X-CSE-ConnectionGUID: RkT3HwAhRTqPFMVAy7/NjQ==
-X-CSE-MsgGUID: S7KfgVNeQLels56W1NRBUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="100643003"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Dec 2024 16:20:04 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tRKYk-0003ku-1g;
-	Sat, 28 Dec 2024 00:20:02 +0000
-Date: Sat, 28 Dec 2024 08:19:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
-	manivannan.sadhasivam@linaro.org, quic_yabdulra@quicinc.com,
-	quic_mattleun@quicinc.com, quic_thanson@quicinc.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org,
-	lizhi.hou@amd.com, jacek.lawrynowicz@linux.intel.com,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	mhi@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 7/7] accel/qaic: Add AIC200 support
-Message-ID: <202412280859.rkIldm5t-lkp@intel.com>
-References: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pchaBgvw"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2161eb95317so123973265ad.1
+        for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 06:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735568208; x=1736173008; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hlJ+Uw90GU7HpevHe+ix+w6zDzPdLCzEUyg3wlqdmAs=;
+        b=pchaBgvwv9OXJws/k7+dFSAOX/24lh4bCj70WycFImsz+rwdDLq5rUv/6P0EgMUtl8
+         WkLE4Myu+gkEt1eHyiBRDPg70vITM4kdX4j1a9xIpLI/HOlIm5K6UX9rv3gw3xB6NIAC
+         M38qRJPcogteK6vw4BFcPaMv5EUOqDgN2d8YO5d4D6GYTJhgB1hRRkFiQzZnAiZ7ijXa
+         JATcILblqWn4SaHW5tEPxQcrwq8vyipyIIzEb2By9b1CaNsDD/6jJYTl/TMUWGRguold
+         OyYEFph4vJfjOaC1nEdZjrINynzWc6bsTKXKXeZR09zRvlMYsINXFYVD4SJ6xlFr8m57
+         Fx3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735568208; x=1736173008;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hlJ+Uw90GU7HpevHe+ix+w6zDzPdLCzEUyg3wlqdmAs=;
+        b=GMIUpXSYk+P5wTZYdvxUO7Ija4UQIVj50wOWVjO82A6PYZWqyfY6Od7EPSWl+TodN0
+         pKogggPZoYGtOSGLIb/IfyftE2LBZA7MVXtfpHfrt11eknvm3xYXsdezSdhaLegdlBUA
+         JmAhbr4vKdekkVx/SCRvlDnGAvuyj19WUdarvyxM0fizky8BDgyK6M6qjZe7Bsdx6Rxm
+         aOS1LWJg0LVcKuvqUQJkSuT8UcyRSXM7VqKnizvcPOSM+9NC2gP7it45QcNeldcT6k7s
+         g4cK8cL9Q2Z1jRLXiKvrMD1rFV+XfvWMTdykXLihbGPb1+5wUbDDezZOG0VpeM9gXIri
+         G6AA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxbDHto8cD6SBXvkMEhxDAFYFiKmBNrm5JEKwlpXhEk7gQSZ1gy8JUzI3WV3vl4ivez5s=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYqQTePhSLjnotdTrYV9uxznFCv8gRDWp3G+dlaPgEy65E5HNK
+	yUxEyccMII/FzPqzv34dAfJktpRHkUwyjAuD9RkdXkf5gU9cw4ZAvqNyM8+R6A==
+X-Gm-Gg: ASbGncsCrAQ8YGMMtcJfBfkZvAiIfh36qepCovq7MlYFhNshxyzur93XTp1M2yJWE3v
+	cW2wMszRgW5W4M5HYVyaIileR3FeempkAtld86ufXe5mylv4gHJZvZTXDoICIjyTcT7f68Kv7mv
+	NrmR496MNydNAOM0S5WT40iJVzbRBiwq88WAAbJrW+WNAL+NeSwTEBY6AbIbC1p0Vf3fIcqv5Qb
+	YJ2VSivs8lfcW4xjAf5Sxh5xEEu1/cAlNCjiG3Tt4aua7Dw7opxV7RYbSUL2JM+luiK
+X-Google-Smtp-Source: AGHT+IEH1T6+Xnl4CvOerewnKkb2WUs0M6/CSQfags5VwkKN1m/zh8Wl4svgUoMVEO9UpRjhhi15EA==
+X-Received: by 2002:a17:902:ea08:b0:216:84e9:d334 with SMTP id d9443c01a7336-219e6ebca26mr452680235ad.33.1735568208212;
+        Mon, 30 Dec 2024 06:16:48 -0800 (PST)
+Received: from thinkpad ([120.60.139.149])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0282fsm179322425ad.259.2024.12.30.06.16.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Dec 2024 06:16:47 -0800 (PST)
+Date: Mon, 30 Dec 2024 19:46:43 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Cc: quic_krichai@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] bus: mhi: host: pci_generic: Add support for QDU100
+ device
+Message-ID: <20241230141643.rkbaway3dwlwwbhm@thinkpad>
+References: <20241212-qdu100_us-v5-1-3349fb23512a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241212-qdu100_us-v5-1-3349fb23512a@quicinc.com>
 
-Hi Jeffrey,
+On Thu, Dec 12, 2024 at 05:27:27PM +0530, Vivek Pernamitta wrote:
+> Add MHI controller configuration for QDU100 device.
+> 
+> The Qualcomm X100 5G RAN Accelerator card is designed to enhance Open vRAN
+> servers by offloading CPUs from intensive 5G baseband functions.
+> 
+> Link: https://docs.qualcomm.com/bundle/publicresource/87-79371-1_REV_A_Qualcomm_X100_5G_RAN_Accelerator_Card_Product_Brief.pdf
+> 
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.13-rc4 next-20241220]
-[cannot apply to mani-mhi/mhi-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Mani
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/bus-mhi-host-Refactor-BHI-BHIe-based-firmware-loading/20241214-053540
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241213213340.2551697-8-quic_jhugo%40quicinc.com
-patch subject: [PATCH 7/7] accel/qaic: Add AIC200 support
-config: i386-randconfig-007-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412280859.rkIldm5t-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/accel/qaic/sahara.c:5:
-   In file included from include/linux/devcoredump.h:12:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/accel/qaic/sahara.c:781:24: error: assigning to 'const char **' from 'const char *const[76]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     781 |                 context->image_table = aic200_image_table;
-         |                                      ^ ~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
-
-
-vim +781 drivers/accel/qaic/sahara.c
-
-   744	
-   745	static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
-   746	{
-   747		struct sahara_context *context;
-   748		int ret;
-   749		int i;
-   750	
-   751		context = devm_kzalloc(&mhi_dev->dev, sizeof(*context), GFP_KERNEL);
-   752		if (!context)
-   753			return -ENOMEM;
-   754	
-   755		context->rx = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
-   756		if (!context->rx)
-   757			return -ENOMEM;
-   758	
-   759		/*
-   760		 * AIC100 defines SAHARA_TRANSFER_MAX_SIZE as the largest value it
-   761		 * will request for READ_DATA. This is larger than
-   762		 * SAHARA_PACKET_MAX_SIZE, and we need 9x SAHARA_PACKET_MAX_SIZE to
-   763		 * cover SAHARA_TRANSFER_MAX_SIZE. When the remote side issues a
-   764		 * READ_DATA, it requires a transfer of the exact size requested. We
-   765		 * can use MHI_CHAIN to link multiple buffers into a single transfer
-   766		 * but the remote side will not consume the buffers until it sees an
-   767		 * EOT, thus we need to allocate enough buffers to put in the tx fifo
-   768		 * to cover an entire READ_DATA request of the max size.
-   769		 */
-   770		for (i = 0; i < SAHARA_NUM_TX_BUF; ++i) {
-   771			context->tx[i] = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
-   772			if (!context->tx[i])
-   773				return -ENOMEM;
-   774		}
-   775	
-   776		context->mhi_dev = mhi_dev;
-   777		INIT_WORK(&context->fw_work, sahara_processing);
-   778		INIT_WORK(&context->dump_work, sahara_dump_processing);
-   779	
-   780		if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
- > 781			context->image_table = aic200_image_table;
-   782			context->table_size = ARRAY_SIZE(aic200_image_table);
-   783		} else {
-   784			context->image_table = aic100_image_table;
-   785			context->table_size = ARRAY_SIZE(aic100_image_table);
-   786		}
-   787	
-   788		context->active_image_id = SAHARA_IMAGE_ID_NONE;
-   789		dev_set_drvdata(&mhi_dev->dev, context);
-   790	
-   791		ret = mhi_prepare_for_transfer(mhi_dev);
-   792		if (ret)
-   793			return ret;
-   794	
-   795		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, context->rx, SAHARA_PACKET_MAX_SIZE, MHI_EOT);
-   796		if (ret) {
-   797			mhi_unprepare_from_transfer(mhi_dev);
-   798			return ret;
-   799		}
-   800	
-   801		return 0;
-   802	}
-   803	
+> ---
+> changes from V4:
+> - Updated QDU100 VID as per order in mhi_pci_id_table.
+> - Link to v4: https://lore.kernel.org/r/20241209-qdu100_us-v4-1-f9010b2a09a2@quicinc.com
+> 
+> changes from V3:
+> - Removed IP_SW1 and IP_SW2 support currently, will add once
+>   SW_IP1/2 channels support are added to mhi-net driver.
+> - Removed qdu100 edl images, as EDL images are not needed.
+> - Added space inbetween kernel_ulong_t and mhi_qcom_qdu100_info.
+> - QDU100 XBL FW images were pushed to linux-firmware git repo
+>   https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/qcom/qdu100
+> 
+> changes from V2:
+> - updated commit text.
+> 
+> changes from V1:
+> - Changing naming convention from modem_qcom_qdu100*
+>   to mhi_qcom_qdu100*.
+> - Updated commit text.
+> - Fixed and corrected by passing mhi_pci_dev_info struct
+>   instead of mhi_controller_config.
+> ---
+> 
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 55 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 07645ce2119a71c9277356e962252b840379cd81..aa5118dbe2e5de3f3d13a168ebe2d3d2d5930295 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -245,6 +245,58 @@ struct mhi_pci_dev_info {
+>  		.channel = ch_num,		\
+>  	}
+>  
+> +static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
+> +	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 2),
+> +	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 2),
+> +	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 128, 1),
+> +	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 128, 1),
+> +	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 3),
+> +	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 3),
+> +	MHI_CHANNEL_CONFIG_UL(9, "QDSS", 64, 3),
+> +	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 4),
+> +	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 4),
+> +	MHI_CHANNEL_CONFIG_UL(16, "CSM_CTRL", 32, 4),
+> +	MHI_CHANNEL_CONFIG_DL(17, "CSM_CTRL", 32, 4),
+> +	MHI_CHANNEL_CONFIG_UL(40, "MHI_PHC", 32, 4),
+> +	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
+> +	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
+> +	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
+> +};
+> +
+> +static struct mhi_event_config mhi_qcom_qdu100_events[] = {
+> +	/* first ring is control+data ring */
+> +	MHI_EVENT_CONFIG_CTRL(0, 64),
+> +	/* SAHARA dedicated event ring */
+> +	MHI_EVENT_CONFIG_SW_DATA(1, 256),
+> +	/* Software channels dedicated event ring */
+> +	MHI_EVENT_CONFIG_SW_DATA(2, 64),
+> +	MHI_EVENT_CONFIG_SW_DATA(3, 256),
+> +	MHI_EVENT_CONFIG_SW_DATA(4, 256),
+> +	/* Software IP channels dedicated event ring */
+> +	MHI_EVENT_CONFIG_SW_DATA(5, 512),
+> +	MHI_EVENT_CONFIG_SW_DATA(6, 512),
+> +	MHI_EVENT_CONFIG_SW_DATA(7, 512),
+> +};
+> +
+> +static const struct mhi_controller_config mhi_qcom_qdu100_config = {
+> +	.max_channels = 128,
+> +	.timeout_ms = 120000,
+> +	.num_channels = ARRAY_SIZE(mhi_qcom_qdu100_channels),
+> +	.ch_cfg = mhi_qcom_qdu100_channels,
+> +	.num_events = ARRAY_SIZE(mhi_qcom_qdu100_events),
+> +	.event_cfg = mhi_qcom_qdu100_events,
+> +};
+> +
+> +static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+> +	.name = "qcom-qdu100",
+> +	.fw = "qcom/qdu100/xbl_s.melf",
+> +	.edl_trigger = true,
+> +	.config = &mhi_qcom_qdu100_config,
+> +	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> +	.dma_data_width = 32,
+> +	.sideband_wake = false,
+> +};
+> +
+>  static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+>  	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
+>  	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
+> @@ -742,6 +794,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
+>  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
+> +	/* QDU100, x100-DU */
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0601),
+> +		.driver_data = (kernel_ulong_t) &mhi_qcom_qdu100_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+>  		.driver_data = (kernel_ulong_t) &mhi_quectel_em1xx_info },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1002), /* EM160R-GL (sdx24) */
+> 
+> ---
+> base-commit: 28955f4fa2823e39f1ecfb3a37a364563527afbc
+> change-id: 20241127-qdu100_us-abd7d1613c8b
+> 
+> Best regards,
+> -- 
+> Vivek Pernamitta <quic_vpernami@quicinc.com>
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
