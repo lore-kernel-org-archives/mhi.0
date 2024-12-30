@@ -1,69 +1,70 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C9F1AA1D2
-	for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 14:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A67A2594A6
+	for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 14:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735568210; cv=none; b=gJYQIkmU6gn2hW25r1mebiv1zbJ7551g3r5tO3ldw9wE+pKYc1v8LBOsd5nmYRgM3tT9AW3wDIfmk+fPtavYZTqZ2rGvAkdO09jpm6LgBn0odCwiKIXNYGLCapYWIVDijwYkgtMAp3N4DHWPxWTv+dl9ll28SbJsN6k9NGe8adE=
+	t=1735569004; cv=none; b=PvZ1qzwUOPEl1O1GtARr8ysuENGOut34SjOVwZAf8yhmIsB48e6lA1JXMnxAQI4I1RD57+WpA2PDf6w0KSmmcm3+7+H9lAssrev/dB+s4LUyi1QhYIWnBOUvDfPwddghp2jfSKhmTQkENG8Hu2QhUgTcvakhtFb04KryWYFFHCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735568210; c=relaxed/simple;
-	bh=NAWkcRz1xJvoL/sqhfndxD9TxOxRRagPFi1Fdfl4XzI=;
+	s=arc-20240116; t=1735569004; c=relaxed/simple;
+	bh=UE4fsZvTt7f4VebOeDgB4kVtd71ZQvlTu87U1Wpmvu0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=keU7C1+Z4q0W1SExx2W8fcJFU2sg5p4SVPIOz/xh/7vzclMQzHYctiKQp7sARWjzCAEnioDA6VpgnYynby+HUQSqaN/GG26oKgcJPnU33B2fbRs8L0FFPpep4nuqNuJ5womh3xOzyVwgR7nDHkT+cJg6XmWwmfjmS2gBmHm+GIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pchaBgvw; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUdPEaO+hiVlxWMkrVlgdiMHJ4TwVFV6QPpTcxbLec2HhEYIat0uJH5FrGQBFta4hPVexL7UKksSGAxwtPqZJIDmvVOd/JeOQNs7sbRxmbCwlY/TFaav7XtOW3EqZnDfYfhpid0HSuywU0F6COqP/no0zRRTkBY0Ssf2SIa0NIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eYQBcUf1; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pchaBgvw"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2161eb95317so123973265ad.1
-        for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 06:16:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eYQBcUf1"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2166022c5caso105205425ad.2
+        for <mhi@lists.linux.dev>; Mon, 30 Dec 2024 06:30:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735568208; x=1736173008; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1735569001; x=1736173801; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hlJ+Uw90GU7HpevHe+ix+w6zDzPdLCzEUyg3wlqdmAs=;
-        b=pchaBgvwv9OXJws/k7+dFSAOX/24lh4bCj70WycFImsz+rwdDLq5rUv/6P0EgMUtl8
-         WkLE4Myu+gkEt1eHyiBRDPg70vITM4kdX4j1a9xIpLI/HOlIm5K6UX9rv3gw3xB6NIAC
-         M38qRJPcogteK6vw4BFcPaMv5EUOqDgN2d8YO5d4D6GYTJhgB1hRRkFiQzZnAiZ7ijXa
-         JATcILblqWn4SaHW5tEPxQcrwq8vyipyIIzEb2By9b1CaNsDD/6jJYTl/TMUWGRguold
-         OyYEFph4vJfjOaC1nEdZjrINynzWc6bsTKXKXeZR09zRvlMYsINXFYVD4SJ6xlFr8m57
-         Fx3A==
+        bh=gr+6F4gLA7qh//Q0DfXnG3ESNO2iZGoWvr/m5SsJW18=;
+        b=eYQBcUf1nJc5LPTfQPktO3o6uuQgQoX2pjMWztD20pE+c3XAH6rNSzZ96yJtoeXoxU
+         iKz6/eHU6DTLUXBmEgcSISU9IP/UNc9jPKE4AFVmBOedJ0zg5eTHx3uBA5GSdLsrFoTS
+         gjfjgLz/Ks8qnU9zLNIPv8kU23pI0YRem+JOseTv0MlB6XqBzExa0brwdnDInq+DZgxG
+         rdEnDKZqgSarwTtrLNM0i61RO2ouB//UWpsbnRoaY5sUQczB3kNvyyqMQlFCB3fgJRUx
+         KjnSSDytpJxirsLustFIAfNY9s/PRZMSHOXzL6s6fV8mzhX7xIutgx9Dq3uX5XUDYmMI
+         yzVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735568208; x=1736173008;
+        d=1e100.net; s=20230601; t=1735569001; x=1736173801;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlJ+Uw90GU7HpevHe+ix+w6zDzPdLCzEUyg3wlqdmAs=;
-        b=GMIUpXSYk+P5wTZYdvxUO7Ija4UQIVj50wOWVjO82A6PYZWqyfY6Od7EPSWl+TodN0
-         pKogggPZoYGtOSGLIb/IfyftE2LBZA7MVXtfpHfrt11eknvm3xYXsdezSdhaLegdlBUA
-         JmAhbr4vKdekkVx/SCRvlDnGAvuyj19WUdarvyxM0fizky8BDgyK6M6qjZe7Bsdx6Rxm
-         aOS1LWJg0LVcKuvqUQJkSuT8UcyRSXM7VqKnizvcPOSM+9NC2gP7it45QcNeldcT6k7s
-         g4cK8cL9Q2Z1jRLXiKvrMD1rFV+XfvWMTdykXLihbGPb1+5wUbDDezZOG0VpeM9gXIri
-         G6AA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxbDHto8cD6SBXvkMEhxDAFYFiKmBNrm5JEKwlpXhEk7gQSZ1gy8JUzI3WV3vl4ivez5s=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYqQTePhSLjnotdTrYV9uxznFCv8gRDWp3G+dlaPgEy65E5HNK
-	yUxEyccMII/FzPqzv34dAfJktpRHkUwyjAuD9RkdXkf5gU9cw4ZAvqNyM8+R6A==
-X-Gm-Gg: ASbGncsCrAQ8YGMMtcJfBfkZvAiIfh36qepCovq7MlYFhNshxyzur93XTp1M2yJWE3v
-	cW2wMszRgW5W4M5HYVyaIileR3FeempkAtld86ufXe5mylv4gHJZvZTXDoICIjyTcT7f68Kv7mv
-	NrmR496MNydNAOM0S5WT40iJVzbRBiwq88WAAbJrW+WNAL+NeSwTEBY6AbIbC1p0Vf3fIcqv5Qb
-	YJ2VSivs8lfcW4xjAf5Sxh5xEEu1/cAlNCjiG3Tt4aua7Dw7opxV7RYbSUL2JM+luiK
-X-Google-Smtp-Source: AGHT+IEH1T6+Xnl4CvOerewnKkb2WUs0M6/CSQfags5VwkKN1m/zh8Wl4svgUoMVEO9UpRjhhi15EA==
-X-Received: by 2002:a17:902:ea08:b0:216:84e9:d334 with SMTP id d9443c01a7336-219e6ebca26mr452680235ad.33.1735568208212;
-        Mon, 30 Dec 2024 06:16:48 -0800 (PST)
+        bh=gr+6F4gLA7qh//Q0DfXnG3ESNO2iZGoWvr/m5SsJW18=;
+        b=LMjMYba1FIbhydgUsHDHdbyTVlZqtc/rXUshMeEYzkFtIb22aLqekG4EG6vRPiNYrF
+         +N7H204y5l6PNuy/CZBbjYp/QyYqTvahFW+/XNOtze7whYt2TX1IEU8y0917DEFsVfDN
+         Jc4gRCOM2XykZML18B7mU+CGDOPJcgIZt6P9+tued3LOIBgEOBmXpy8NGxfFIx8wdPZZ
+         kmf+tvMswHquz4uZDGtg27OQMN1h4yZH0YwDZGlf9HZqXt8po2lSoebz7j0f/iuwjfJ2
+         Px4cG4DU7KHsXTW5XPR4i7C4l37j6oUJtdydeitsFqZxRtk46F4kmkCjnoUXmRmEF/ow
+         LjpA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0MKwJ+ks4xciadRM95EYJPDfeRQ2zkOE9djJCXSRxNgVTs0EUWmWDkZV2wlTko9cJMa8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXHo17chaiZAsVKUaNpivpC3Hle4jFXwobwcnl6essNhVNWKp0
+	bPbu+DKuCcnr+a+jsCtdPOSRI7geh+ojTjt6bPpwhYmFYxAj6usaL1f0nxgHS/rkSf0xaVNfaVI
+	=
+X-Gm-Gg: ASbGncs+NT+ZnvFCu1vI1jtBVC+oVpgcwDjVS3oa5EifZK7PyNOk9xixjRLbsSfDqHz
+	5J3hdAGd7/VS6+3WV/o+vHyGwe0gCg0ufVTTizXoE0CzDlPq4c4L7VGr7YBCYPPaPy+y19cpILJ
+	Z0DGsqIbx5p7DsS8ZafYsm79Gp56JcRgn5FAUsMLfk8TjFRP+Sc7poNEcXzEPdQN4hH0v/PfXhF
+	3ymYOtYg/LlWLifdJeWmB2YvvYvdMWB3MxsLj4quuwEN52m5kz0vwMtgmn3+mXFyuMy
+X-Google-Smtp-Source: AGHT+IGsq46BkX7nxKOFydqwfObryV4wmWqUsOnBEniobSQVWJ156otRrt9tvEz2hRpU8CR6ryDubg==
+X-Received: by 2002:a17:902:e5c7:b0:216:393b:23e0 with SMTP id d9443c01a7336-219e6f2e9d4mr517247345ad.36.1735568999325;
+        Mon, 30 Dec 2024 06:29:59 -0800 (PST)
 Received: from thinkpad ([120.60.139.149])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0282fsm179322425ad.259.2024.12.30.06.16.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc97181fsm178470045ad.108.2024.12.30.06.29.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2024 06:16:47 -0800 (PST)
-Date: Mon, 30 Dec 2024 19:46:43 +0530
+        Mon, 30 Dec 2024 06:29:58 -0800 (PST)
+Date: Mon, 30 Dec 2024 19:59:55 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Vivek Pernamitta <quic_vpernami@quicinc.com>
 Cc: quic_krichai@quicinc.com, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5] bus: mhi: host: pci_generic: Add support for QDU100
  device
-Message-ID: <20241230141643.rkbaway3dwlwwbhm@thinkpad>
+Message-ID: <20241230142955.iqiwpyjrrtkijlg6@thinkpad>
 References: <20241212-qdu100_us-v5-1-3349fb23512a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -86,7 +87,7 @@ On Thu, Dec 12, 2024 at 05:27:27PM +0530, Vivek Pernamitta wrote:
 > 
 > Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
