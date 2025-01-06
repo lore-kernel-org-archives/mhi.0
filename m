@@ -1,115 +1,123 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02A641C7F;
-	Mon,  6 Jan 2025 04:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C360135A63
+	for <mhi@lists.linux.dev>; Mon,  6 Jan 2025 14:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736138868; cv=none; b=k6w8b3wpLjlW8pG5axVeCx5DLhGixx+LoI/AMoK883XrQyKWucu3wY3VgYPBWVr5WgtAADjDBIrjRFn7C7Y14VnzEyLHekf3pDYuHosGsLVjCEtiz96ORs7Ujmn+KAJs7Eu8Yr6Anh4gZAUyBpVGxNqnQYUt2LW7MUTnp6r5KDw=
+	t=1736175125; cv=none; b=sANMu2Z6G8oJf+AzLRp5+tojVwRtP5AH1gyEQ2QaHIArmnzq7+//iPkQizR0tRfQHgp2S8RT57L0BrWe06Lli8/4LEwuN+V0m443rYdJkjyp15bR57wd0IDyBRYVUnek5TwHgwPZgvTRL2+JcP1kgQFuXqEwq3aUx5XNT/LyGqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736138868; c=relaxed/simple;
-	bh=soAbPI4lwZpccqDtGxlw28hRRqLxQYHtnSWOX00W9rg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=Lf7DvgE50gjftGUwiXQ8KNs1c93t3OPx2XX/OZeCfG8BHwhAYZxURfW3gY2hrHRCN38XHNOMU5I8ak9NAzCzeet4tS4w6lDfQSieXg4dFmAiGQjSZ9R8gpxvHBevDcSzB2m8BulAyf/K+MFFAQVfPu7HaHZcMyF57rWgVawI8p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aMCRQKg0; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1736175125; c=relaxed/simple;
+	bh=P2Yoy2vCOV6x77FyFR28353Mr6QAvH/ioPjEKxMfKSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i/harjZej7qvyU2jl0gLuU6V8EvDmuFWT7sSDZnDf9BZq6SLwoiJj9gB9wrlLpR3XZWLr4631k3V+MsJfQRm0CgOU+95KJmtwv6iUFeSdFBb0fSRSgINULcrlMQtW0IPrVe1MGM2J+2xYXtDkAGpPgIqPX9Z+hwP0CHw8Dowg68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pd5JHMTB; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aMCRQKg0"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5063XaGK032557;
-	Mon, 6 Jan 2025 04:47:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=/gqpzyT/+Upqt69kg17ewY
-	yWAry0qAEIz+6/VMtmYv4=; b=aMCRQKg0d4q7jF1D4KDJV3UC30KLn4GZ5A00qR
-	pnK1sp0WxWBz50S/YOzd51U0q0Q5RXm6HA3lGRhtlE8wVHf/xi3SnyZQbmiPgi9S
-	Rnq5Z/WoBJjkUBQwtHQ0QvXcjBIELltlNkgE8BGXDFRwWqG6H0279w9PKcoLbMCH
-	PkbAJ3lL4X+T7ubD9rOkyEPq+gQJivq9oSWfbuoqxBD8NKFOcJ0B/HajTSOy7nUB
-	KzGL2AkJ22IUanrVAviU92CNd84+n9MQa5ppxOqQXYrd0b1acuRYcvvOoP75/SsS
-	ZL0ufrg7LlRO1ByMiNVNDnsrb61YODFGPhCYE2dYPnPnYiqw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4407ck846d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 04:47:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5064lcju026186
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 6 Jan 2025 04:47:38 GMT
-Received: from [10.213.96.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 5 Jan 2025
- 20:47:36 -0800
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Date: Mon, 6 Jan 2025 10:17:33 +0530
-Subject: [PATCH] bus: mhi: host: Enable MSIx if the endpoint supports
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pd5JHMTB"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21628b3fe7dso202175835ad.3
+        for <mhi@lists.linux.dev>; Mon, 06 Jan 2025 06:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736175123; x=1736779923; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RPzQv9JmUmJLzMLrGpE7zH6s1/r5xLoODlrZlCZTRjc=;
+        b=Pd5JHMTBjAqGlT8rVChbAVjcBMg8lGPHdfYXIilhxoHoSxUY/EI24pB/FPiN4lIhcW
+         pL6w+MRJoIi09MzOZbtOBbpO4JijWmEjP/K/Ctcs5kKWJ54BIX6ZmJQySYtiAc0TAR62
+         WSLgqWU2pILycL3BIG5/qhzbvBMU49GZMfbbZkSrYniiUyX9xTdGiApO1cSu8qjf3js2
+         XtJe8uZcpddF/sdxdjywfLINFemigUTOwE5iuBtndxhDE7wNjp0yB7/+9iVpMsgwAf1n
+         AHzj0gp3zOhGXWEPmpMcQ8vdkQ1nkhKbW9ohrHCn+7ho0RPX9VaZXgMShCRBCF8C9yMU
+         ZP2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736175123; x=1736779923;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPzQv9JmUmJLzMLrGpE7zH6s1/r5xLoODlrZlCZTRjc=;
+        b=fDFTBWPxwimg9/8oCXJM3uPvnkQxOH2QjAFUEPAsDetZBqixgsqGmKQA5y+Olek0HN
+         VYDQ/wAr4xxQPBzIQJ8VPY2zwRJtgSt69U9Br5jQr5Fj5Vh+9JUHdqj/OOMw/qOajPmz
+         WovI4cKIfi21xpbv27QfsquGg6XgYYI7YaQbQ0Yek1r9NED6Me0n2pL32AjkjL46Ismq
+         fQkFIhidC1UYtqTc9JO1W7yytgoBlNLjpVuZBmV5HdQpSRYLwOtJRucLFz0Kcm/lO98s
+         E8XHSXf0VzBnyn59TC/4TysEJr+kaaRQ1L+m1NTL2VAp1KnL4g/XZSI5jVWe0DFEhyjf
+         QBOA==
+X-Gm-Message-State: AOJu0Yy49HgYgs4h1OEVZr/PGhs+WYQ9AJqYuNeTytEF+75thnLyN3Mz
+	HmEWNJZVz44KupfAELpJMLynFB4qE+Hc6yT+RiT6f6fnTFlRFmM0tIlqnEwPxg==
+X-Gm-Gg: ASbGnctinR8TeCE476ltGXfw+pUDzrVP+HeiibY1mzqGVllpZRqICeCD2tqjH3tldmn
+	78l1KzHtoMH01AaPklr7HKHlaiSCZRGQ2tr3SdjTM8puRyAxyxwN8dvxpBdKHP50q5dt0zD9b8P
+	KPJfeOaMuACZLL2yyEoDqe4lGub0NisWUl4dDUq28bOx82VhqRcR0XIw8DH1eiU+8KtmX0MfQ94
+	1wUHevLJmd+xwfWNE9mDhXLKE4sawuUZESvPrSsRyFaSimF3cgVL76j5Aevp7cNQZ0=
+X-Google-Smtp-Source: AGHT+IE4mpVT+GjLv3+7pfnCFcTYcja+19fvRAPtd/vCZh5myuA6s94pcYZbmYqV21GyNYKnPHbFfQ==
+X-Received: by 2002:a17:902:d510:b0:216:48f4:4f1a with SMTP id d9443c01a7336-219e6e9df37mr718707665ad.16.1736175123345;
+        Mon, 06 Jan 2025 06:52:03 -0800 (PST)
+Received: from thinkpad ([120.60.61.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc96e85csm293333705ad.61.2025.01.06.06.52.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 06:52:02 -0800 (PST)
+Date: Mon, 6 Jan 2025 20:21:59 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: Enable MSIx if the endpoint supports
+Message-ID: <20250106145159.oqseq7ysedmrmyey@thinkpad>
+References: <20250106-msix-v1-1-91d7b7143118@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250106-msix-v1-1-91d7b7143118@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAGRge2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDQwMz3dzizArdRJNkUxMLi9TkxLRUJaDSgqLUtMwKsDHRsbW1ALCUOtR
- WAAAA
-X-Change-ID: 20250106-msix-a4c5488ecafe
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Vivek Pernamitta <quic_vpernami@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736138856; l=1114;
- i=quic_vpernami@quicinc.com; s=20241114; h=from:subject:message-id;
- bh=soAbPI4lwZpccqDtGxlw28hRRqLxQYHtnSWOX00W9rg=;
- b=ReP5n8fYhTrCB1kTmkDrOAzzSy8J7PJNzyW27tvMlnL7CG0OXTF1szqXAPbswnePWr5R8bxy5
- g/HTdN+CZsSBUWDyWhDBIs0lvmFAdwvTKuX543RPgxVSg2on5MrWNxY
-X-Developer-Key: i=quic_vpernami@quicinc.com; a=ed25519;
- pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: amOJUSaVx1X_RXVMkYi3Q-NNI2yfiFBL
-X-Proofpoint-ORIG-GUID: amOJUSaVx1X_RXVMkYi3Q-NNI2yfiFBL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- impostorscore=0 mlxlogscore=917 malwarescore=0 phishscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501060040
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250106-msix-v1-1-91d7b7143118@quicinc.com>
 
-Enable MSIx if the end point supports.
+On Mon, Jan 06, 2025 at 10:17:33AM +0530, Vivek Pernamitta wrote:
+> Enable MSIx if the end point supports.
+> 
 
-Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
----
-Enable MSIx if the endpoint supports.
----
- drivers/bus/mhi/host/pci_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+s/MSIx/MSI-X
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 56ba4192c89c16b4882d2e7c95f0dc689fd1e267..af1380220904a7e6232ff1b374da0a4ea49cb470 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -949,7 +949,7 @@ static int mhi_pci_get_irqs(struct mhi_controller *mhi_cntrl,
- 	 */
- 	mhi_cntrl->nr_irqs = 1 + mhi_cntrl_config->num_events;
- 
--	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSI);
-+	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSIX | PCI_IRQ_MSI);
- 	if (nr_vectors < 0) {
- 		dev_err(&pdev->dev, "Error allocating MSI vectors %d\n",
- 			nr_vectors);
+s/end point/endpoint
 
----
-base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-change-id: 20250106-msix-a4c5488ecafe
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> ---
+> Enable MSIx if the endpoint supports.
 
-Best regards,
+No need of the comment here.
+
+Change LGTM!
+
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 56ba4192c89c16b4882d2e7c95f0dc689fd1e267..af1380220904a7e6232ff1b374da0a4ea49cb470 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -949,7 +949,7 @@ static int mhi_pci_get_irqs(struct mhi_controller *mhi_cntrl,
+>  	 */
+>  	mhi_cntrl->nr_irqs = 1 + mhi_cntrl_config->num_events;
+>  
+> -	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSI);
+> +	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSIX | PCI_IRQ_MSI);
+>  	if (nr_vectors < 0) {
+>  		dev_err(&pdev->dev, "Error allocating MSI vectors %d\n",
+>  			nr_vectors);
+> 
+> ---
+> base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+> change-id: 20250106-msix-a4c5488ecafe
+> 
+> Best regards,
+> -- 
+> Vivek Pernamitta <quic_vpernami@quicinc.com>
+> 
+
 -- 
-Vivek Pernamitta <quic_vpernami@quicinc.com>
-
+மணிவண்ணன் சதாசிவம்
