@@ -1,141 +1,128 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F67A1F8F14
-	for <mhi@lists.linux.dev>; Wed,  8 Jan 2025 12:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EDF1FBEAC;
+	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736340562; cv=none; b=IYiNO8KEWMOKA/Iw4DhnXqzHZYXNp4wDsllaIohmJlX01dUtYSW9enlEF+QkgmbrqulBRJ9f4UCn0RYxt3U4V4LPKGmdrKAR5uRimk/oNyipsnc+f22S1AtAxX+3C5hnV7xP+v3BJLLPaCj51+j7iSbE9JpqYSrgikE2sOVePks=
+	t=1736343572; cv=none; b=aAmNpas4KdOUaH06S50AKo8BKWye4udn2Wn3N/JYwOZBLd8e3hZvO4qxz9iun3WsVpPKut+z0oydWs3Oc+svPEFXodOCLpZvXJzIJblV30CcVYDI4Rzzu8MCwODyTta5AwxUxpkkSfuGeeKco7e4N1s6xXlCJz6g8sdAFReu6rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736340562; c=relaxed/simple;
-	bh=poSpoPWVxMjpM5jM3gPzh6LWSF45p7xg5JasQjs/93c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VqnriZHIr2ExDuigCAFn9pnCdpQroTqvgp6QxAwOOjRlIevcOwQa1nNzHH0C84oyCvQ8JPII1Szt63edhNjSoR4IbyM96kM0erwrI4GxgfLjekTwIlnv4HZmUQkSpMGJsYitiChW3zgs+PT5zoXO6d/IK+muHrPTIUcevjLyT6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nxnw7XSw; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736343572; c=relaxed/simple;
+	bh=yMeuaGYcJ9n3K4FoPrra09BkyrChG+ayAn7ooCQC7BU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tcXsoT6ihftqPY5MQ4BKu9eVQOPwAGoJ58Tpv/+FmrTkB9upvpt/ePCrjAm72Xrh1w3FmzGePmvxxRd1mwDXKNeif0KmaPquaHpOfN85rmpmNhe9xDNVEICrDCYUEnN403KSQ03JlK8rnOPX+1pUDJU/wBIpvR0JoWYhOj6dBx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8nvlyk0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nxnw7XSw"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso1217651a91.1
-        for <mhi@lists.linux.dev>; Wed, 08 Jan 2025 04:49:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736340560; x=1736945360; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6NNrevyaBXsAg2aeCPAAcVTXNgTwcz58dYMHb1uQ+vA=;
-        b=nxnw7XSw4L2yCSn5ScelMIvqh8Elh7Zd+U6I2gpPg4W3tJm9l9T2N1TVlS1gg1eHHx
-         7Feoe5XkmhMkELDo/wK8Hr1PcvDzXXMjjJw6Be9aZ3OwFWWLFhUAw7aLN6pRhpOS/RaF
-         zl3J4TGruy+LszLY8i6aOOqA5Id+sWjnITKkBhMxNLr4KzEe41jOIp9ZMsytamiHLU9O
-         w66Js3RSqsgU4fOJ/uSUDTouh9FaGaqLNNlDpOjiaIdYYpQTFD6aUbKE1o/XLY0ZMWs/
-         jovU4Ra1/gDxkYZE5RLoNNNs5uDqDPydE3BwutZVkYqMGhvYbSf2p91avbAweM+4RiTu
-         IdSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736340560; x=1736945360;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6NNrevyaBXsAg2aeCPAAcVTXNgTwcz58dYMHb1uQ+vA=;
-        b=kxlY9Fyfta1Qy1OuJPfBxvPoR24F64KhHPMCHzDJP7XYwHKjBACihE6NKIlUsoPPzo
-         8XktyFZP0rOu9Q8XR7qKiqODAKRLFmPC33tGshePd/Ef+h7Z0OUQsoGaZcoxO1RWr/5V
-         0wuXb2S8Paw227iR+cdaNsypjTDjZMynSAt/fOn4S15USpOZaFQK78jRrTPQ07WR3wdr
-         5VSKB0P+6gQITALBEdqafMwm6BobmdnwYNDTPLG+1dK0ucLvUMlzmATdXimyFHWgbwJy
-         CaL/rC91R9jve9EOx1/6ocUAw6UxpCjEagSjrVDHUE/pzRvC3ObMCWtJvg9D/8AWvzao
-         KynQ==
-X-Gm-Message-State: AOJu0Yy4YR40KWv6HohVqAQ50xrNxMyUjz7ezdFsiqZNYyFxdc8SO4DS
-	0LdD0HCxya8JjAoMwwenRx+wGvYsUHt81Hlb03sqFyaMUdu9gRxth6AWYFNoyg==
-X-Gm-Gg: ASbGncvD/0AFl1fGHp5CrPmN9GeRmthTc8VnVl0IcxQoQuh9qo26vKnUnaJb0HB70NZ
-	pPDoSs3dPH1c4UcOg4UVlsFayw61QUj3367JLY21GZ5kKUmhuOYRdgoNCUATcqlQTF5Hxj4mZz1
-	B/r5aszkv1+9oItBwO1wHU6e+r77Gv0CXMYzRzuOEHh1ioOha5DHSGwaBXer4DSOxQhZLdDhGic
-	UhDQR95X/fQMbxgq6rXMCwkAY0bgWJqFcojv4piW0NX13ooLftvZVc3igePc8vV8up6
-X-Google-Smtp-Source: AGHT+IFWK/PR3S3nvHRSyBgo3gPIRzY+MUOAKiqkmj3Dqt+w+3OVvcssxaGIgcq2ILGKfpdUQoFVZg==
-X-Received: by 2002:a05:6a00:4296:b0:725:4301:ed5a with SMTP id d2e1a72fcca58-72d2167241bmr4305126b3a.2.1736340559634;
-        Wed, 08 Jan 2025 04:49:19 -0800 (PST)
-Received: from thinkpad ([117.213.97.234])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8309acsm35014695b3a.45.2025.01.08.04.49.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 04:49:19 -0800 (PST)
-Date: Wed, 8 Jan 2025 18:19:13 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Loic Poulain <loic.poulain@linaro.org>
-Subject: Re: mhi resume failure on reboot with 6.13-rc2
-Message-ID: <20250108124913.k2p6h4pja2k5vazf@thinkpad>
-References: <20241216141303.2zr5klbgua55agkx@thinkpad>
- <Z2KKjWY2mPen6GPL@hovoldconsulting.com>
- <20241218113830.efflnkxz7qu24xux@thinkpad>
- <Z2K53-As8w4IH06U@hovoldconsulting.com>
- <20241218123019.py57s4r3takm2fs6@thinkpad>
- <Z2LUNo--8YpLO6kD@hovoldconsulting.com>
- <20241218140910.ysovysnvns26vbmd@thinkpad>
- <Z2LbnoSplfVNmNaa@hovoldconsulting.com>
- <20241218183555.qste4gve7vnvdml2@thinkpad>
- <Z2PbEPYpqFfrLSJi@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8nvlyk0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 957B2C4CEDF;
+	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736343571;
+	bh=yMeuaGYcJ9n3K4FoPrra09BkyrChG+ayAn7ooCQC7BU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=W8nvlyk0dZsfcJMcmNUEOKBMAENQ0jBXfW3U5rFxKEv+/CzY1MHBAlIzEwKoa4E0t
+	 eA/4q8lwi9kwXMVl2+hNfevWtok9Zqlqfabkk/nG0ZGbuvXG0XiazuiVkDhcZvZJ5S
+	 p7kRCAgcQihQJH74X39/Ae5ZRH7ZWvgQTwgHw6208iz0Xc3AOGrQGJcNvqtYe/jLm6
+	 ln+t2HFbGAvYae6VJjvbppQy+i5r2UAui4Cdx6rfXU82Voq8K803KfhhByx3+WHX8O
+	 8wazQpLpQsBGADAA6aexNkkfQY2LikWZouYgbqcHg+CSmct2Q0Ugxr4uEivk2fboEE
+	 D5ig3q5U8+azA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810DEE7719A;
+	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
+Date: Wed, 08 Jan 2025 19:09:27 +0530
+Subject: [PATCH 1/2] bus: mhi: host: pci_generic: Use
+ pci_try_reset_function() to avoid deadlock
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z2PbEPYpqFfrLSJi@hovoldconsulting.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250108-mhi_recovery_fix-v1-1-a0a00a17da46@linaro.org>
+References: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+In-Reply-To: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+To: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>
+Cc: Johan Hovold <johan@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2538;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=Beg2AFqZZL1RvTLG/5NUS0TciFZs05fGK2znhT/Ie3c=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBnfoARZYSvqd01mNXvbQZs16URxmMs7KFVOxBcu
+ k5JZ8d4KkiJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZ36AEQAKCRBVnxHm/pHO
+ 9aL2B/0agETOOAhfKtVOGUJeWXPJTbpwzbpPvVW2MNAxK0FhkcReUe8GZHeT9g3iqAApqy+tMnb
+ RYHf4dadmOJzNAHCTs11bBPBmhULknnnY3l7+kw9x1vTk433ree5DG4HAsbYQPeYGFvc1Iye7rt
+ LR3tdZmhg80LLdNt0lnrXS1HZsm7aLEkdIU0/xlvqDe2qqUhG8m52t6sRVs/1dXnnON7qyhQyrH
+ HPnKk220v7onEXWuxOFhwk7CDzNmbsLTcS0mKNtXi7ZfYfy1mQpOHLr5jxUXES+CJFI3jYqLLx4
+ oF0Uz48INYGVlX4Pg0C5OX/xDMhfH6FT/RbCH6qxdUosr1bP
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@linaro.org/default with auth_id=185
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Reply-To: manivannan.sadhasivam@linaro.org
 
-On Thu, Dec 19, 2024 at 09:36:32AM +0100, Johan Hovold wrote:
-> On Thu, Dec 19, 2024 at 12:05:55AM +0530, Manivannan Sadhasivam wrote:
-> > On Wed, Dec 18, 2024 at 03:26:38PM +0100, Johan Hovold wrote:
-> > > On Wed, Dec 18, 2024 at 07:39:10PM +0530, Manivannan Sadhasivam wrote:
-> > > > On Wed, Dec 18, 2024 at 02:55:02PM +0100, Johan Hovold wrote:
-> 
-> > > > > But that's not going to happen as that reset is what is currently
-> > > > > causing the deadlock and which would simply be skipped if you switch to
-> > > > > pci_try_reset_function().
-> > > > > 
-> > > > 
-> > > > mhi_pci_runtime_resume() will queue the recovery_work() and return. So I was
-> > > > hoping that by the time pci_try_reset_function() is called, the lock would be
-> > > > available.
-> > > 
-> > > We can't rely on luck with timings, and this is the very reason for the
-> > > deadlock I'm currently seeing (i.e. the recovery thread is still running
-> > > when another thread grabs the lock and waits for the recovery thread to
-> > > finish).
-> > > 
-> > > Perhaps the recovery work should be done synchronously in the resume
-> > > handler to avoid such issues.
-> > 
-> > Synchronously? How can that help when the recovery_work() cannot acquire the
-> > lock?
-> 
-> During system suspend, pm core waits for any on-going runtime resume
-> operations to complete before taking the device lock and suspending the
-> device.
-> 
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Right, but mhi_pci_runtime_resume() is also called from mhi_pci_resume(). So we
-cannot safely carry out the recovery_work() synchronously without the
-pci_try_reset_function() change.
+There are multiple places from where the recovery work gets scheduled
+asynchronously. Also, there are multiple places where the caller waits
+synchronously for the recovery to be completed. One such place is during
+the PM shutdown() callback.
 
-> Unfortunately, that's currently not the case during shutdown() where
-> those operations are reversed, so that would indeed need to be addressed
-> first.
-> 
-> But what the driver is currently doing looks highly questionable as it
-> returns success when it failed to resume the device (after scheduling
-> the asynchronous recovery work).
-> 
+If the device is not alive during recovery_work, it will try to reset the
+device using pci_reset_function(). This function internally will take the
+device_lock() first before resetting the device. By this time, if the lock
+has already been acquired, then recovery_work will get stalled while
+waiting for the lock. And if the lock was already acquired by the caller
+which waits for the recovery_work to be completed, it will lead to
+deadlock.
 
-I completely agree and this goes against what PM core expects. IMO we need
-two fixes, one uses pci_try_reset_function() and another recovers the device
-synchronously from mhi_pci_runtime_resume() and passes the return value to PM
-core.
+This is what happened on the X1E80100 CRD device when the device died
+before shutdown() callback. Driver core calls the driver's shutdown()
+callback while holding the device_lock() leading to deadlock.
 
-Will post the patches.
+And this deadlock scenario can occur on other paths as well, like during
+the PM suspend() callback, where the driver core would hold the
+device_lock() before calling driver's suspend() callback. And if the
+recovery_work was already started, it could lead to deadlock. This is also
+observed on the X1E80100 CRD.
 
-- Mani
+So to fix both issues, use pci_try_reset_function() in recovery_work. This
+function first checks for the availability of the device_lock() before
+trying to reset the device. If the lock is available, it will acquire it
+and reset the device. Otherwise, it will return -EAGAIN. If that happens,
+recovery_work will fail with the error message "Recovery failed" as not
+much could be done.
+
+Cc: stable@vger.kernel.org # 5.12
+Reported-by: Johan Hovold <johan@kernel.org>
+Closes: https://lore.kernel.org/mhi/Z1me8iaK7cwgjL92@hovoldconsulting.com
+Fixes: 7389337f0a78 ("mhi: pci_generic: Add suspend/resume/recovery procedure")
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 07645ce2119a..e92df380c785 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -1040,7 +1040,7 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+ err_unprepare:
+ 	mhi_unprepare_after_power_down(mhi_cntrl);
+ err_try_reset:
+-	if (pci_reset_function(pdev))
++	if (pci_try_reset_function(pdev))
+ 		dev_err(&pdev->dev, "Recovery failed\n");
+ }
+ 
 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
+
