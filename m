@@ -1,74 +1,78 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4069419B586
-	for <mhi@lists.linux.dev>; Wed,  8 Jan 2025 05:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F67A1F8F14
+	for <mhi@lists.linux.dev>; Wed,  8 Jan 2025 12:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736314933; cv=none; b=Ipw9Y+lyJPpiCPh7EEco5ZjRnIfsoOVwO9vbJhuYEIvbGc2VAAjVCCGwMyrdOkSACEonAOjm7Vu9Q8J+10aFM7M/CUWCStPggJ8yMXrrlUmwr/lPaJUqMpueP//3WqU2W7r/hqH9YCPusQdsx2tiGsULxN35iUA4gCv4qRmw3ak=
+	t=1736340562; cv=none; b=IYiNO8KEWMOKA/Iw4DhnXqzHZYXNp4wDsllaIohmJlX01dUtYSW9enlEF+QkgmbrqulBRJ9f4UCn0RYxt3U4V4LPKGmdrKAR5uRimk/oNyipsnc+f22S1AtAxX+3C5hnV7xP+v3BJLLPaCj51+j7iSbE9JpqYSrgikE2sOVePks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736314933; c=relaxed/simple;
-	bh=V1/eCskG0EEA3jK4/+w1sWmTTp3nj57YncqG93zlAl4=;
+	s=arc-20240116; t=1736340562; c=relaxed/simple;
+	bh=poSpoPWVxMjpM5jM3gPzh6LWSF45p7xg5JasQjs/93c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFIXDWRR2xoiFgNwCNp77RecfxmzFifhfBUwP1cKPmGS3jGuiGtEFLP7YyDa4II+duuBMIQc/03dBsNnGpIkOdIDoNuDUS+JsvvMzZ7CG4H7esupIY9SsBjdMvj6H2ZoioOFV3xEOB4fbwzabt72v+Ese2KHBMeXqKrJGfOamxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RwjVf7Yg; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=VqnriZHIr2ExDuigCAFn9pnCdpQroTqvgp6QxAwOOjRlIevcOwQa1nNzHH0C84oyCvQ8JPII1Szt63edhNjSoR4IbyM96kM0erwrI4GxgfLjekTwIlnv4HZmUQkSpMGJsYitiChW3zgs+PT5zoXO6d/IK+muHrPTIUcevjLyT6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nxnw7XSw; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RwjVf7Yg"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2163b0c09afso239996145ad.0
-        for <mhi@lists.linux.dev>; Tue, 07 Jan 2025 21:42:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nxnw7XSw"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2f13acbe29bso1217651a91.1
+        for <mhi@lists.linux.dev>; Wed, 08 Jan 2025 04:49:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736314930; x=1736919730; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736340560; x=1736945360; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
-        b=RwjVf7Yg837riwlGREy88uwdxxYyHGMpvWB7r00MNzowPJEk2Kt2qX5z3T8ucoLpmS
-         P6Dk/WfeQUZqcEH7aRcShHbz1ItxHUNEb+UMlB9JOaK5yEQC4UOoQStNqMfR6BHiEsxc
-         U2jw0b8faAtfAoAsyRuzXQDH/eYexLG6BGWIR/Dhmg+Zb6D4s8e+puB5QcAUI8wsGBOH
-         PflLmzvEONufH6ePOE8mvjioklM9ISx0zhQ3usCdOePOX5g43B5ifPt1O2yuENWiKIFu
-         W368Ip8+IYdXtN8A+24jdq0MlvVoRTCxo3SKupifunSqofOk/JQ2e/8UFQ8ifSlsDLWN
-         VgoA==
+        bh=6NNrevyaBXsAg2aeCPAAcVTXNgTwcz58dYMHb1uQ+vA=;
+        b=nxnw7XSw4L2yCSn5ScelMIvqh8Elh7Zd+U6I2gpPg4W3tJm9l9T2N1TVlS1gg1eHHx
+         7Feoe5XkmhMkELDo/wK8Hr1PcvDzXXMjjJw6Be9aZ3OwFWWLFhUAw7aLN6pRhpOS/RaF
+         zl3J4TGruy+LszLY8i6aOOqA5Id+sWjnITKkBhMxNLr4KzEe41jOIp9ZMsytamiHLU9O
+         w66Js3RSqsgU4fOJ/uSUDTouh9FaGaqLNNlDpOjiaIdYYpQTFD6aUbKE1o/XLY0ZMWs/
+         jovU4Ra1/gDxkYZE5RLoNNNs5uDqDPydE3BwutZVkYqMGhvYbSf2p91avbAweM+4RiTu
+         IdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736314930; x=1736919730;
+        d=1e100.net; s=20230601; t=1736340560; x=1736945360;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
-        b=FxTppMwh2Trse/ZIqctZBYtTf3bJbv/llHdCKe/1XGICQ79pEP5alwpx0B6rgB1Doj
-         r0AOsHdJoEYwTyKFpVPJO/0OAMmJ116IoLmWFwkNNteGCkCrKvrRdy6ASv4JCwYkkYXU
-         pRyGpoEbyxX8EyOdPa6oFFMzynvhFsZZDBO/UtDtEHGlSLmvQ4nnlP2WDdALcSlg65h/
-         YNfg4viiShagrq2kNoY/zEunaFmzXo0zzie4CXxU1AHiVNPpTm1HOTarzf7rfTAS/KbP
-         g0nLH3sLQ3mf9qBkRy44320bC5l21je95ar5kTLUZfsiwxwJ7gzn5g7dv1jEPn542XRa
-         cWoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWk98jwQ123BTiXDYLcRMrN5Ksb+GpSIG2mNCvUalfU0TOu468p97wn4Yci/sVgTewyR7E=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvWr3hHqhMCgCkdjxS/RcvxwoL2EcXl36NjHY1MA9ztnGJvuKX
-	Va52M7thP4hnWJy30xqp1bLHrmKnDf9GIYD95G7ZLlfQYgmRkQrGD7yY3MGfmg==
-X-Gm-Gg: ASbGnctSwa+thBCl/sm9/7GLbatkN/jdbef2otmd8vD21dYvobY4hNxFEXYYWmZqvnx
-	0clxDO1NHmSmL1OSQNxj4M/l1dds84qcv2W/cOLweE2J4ATSITq5NhWsTPz3c8ANbGd1jyEq3CC
-	aiutStqg24v+AS5rlL6bfWUncmRvpnEgpqdygPM44oOkB+kn3oBcjW3KRgvAjFes41NSOAHsP+C
-	PUr/QV7VN8CIOMFKZ6RzfJOBgvzHI9Ix2jsWrs8MqJlM2VCspKS6NkmJI04Llsxnj4k
-X-Google-Smtp-Source: AGHT+IHfb7DiJvfS8v29jxsUziZRhFKDaY9dPzRiz3np6wV51MwuSsfBjIEy6SOqBmGKPG5YDPPdEQ==
-X-Received: by 2002:a17:902:d491:b0:215:54a1:8584 with SMTP id d9443c01a7336-21a83f4c070mr21127315ad.17.1736314930490;
-        Tue, 07 Jan 2025 21:42:10 -0800 (PST)
-Received: from thinkpad ([117.213.100.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f4429sm318970325ad.173.2025.01.07.21.42.07
+        bh=6NNrevyaBXsAg2aeCPAAcVTXNgTwcz58dYMHb1uQ+vA=;
+        b=kxlY9Fyfta1Qy1OuJPfBxvPoR24F64KhHPMCHzDJP7XYwHKjBACihE6NKIlUsoPPzo
+         8XktyFZP0rOu9Q8XR7qKiqODAKRLFmPC33tGshePd/Ef+h7Z0OUQsoGaZcoxO1RWr/5V
+         0wuXb2S8Paw227iR+cdaNsypjTDjZMynSAt/fOn4S15USpOZaFQK78jRrTPQ07WR3wdr
+         5VSKB0P+6gQITALBEdqafMwm6BobmdnwYNDTPLG+1dK0ucLvUMlzmATdXimyFHWgbwJy
+         CaL/rC91R9jve9EOx1/6ocUAw6UxpCjEagSjrVDHUE/pzRvC3ObMCWtJvg9D/8AWvzao
+         KynQ==
+X-Gm-Message-State: AOJu0Yy4YR40KWv6HohVqAQ50xrNxMyUjz7ezdFsiqZNYyFxdc8SO4DS
+	0LdD0HCxya8JjAoMwwenRx+wGvYsUHt81Hlb03sqFyaMUdu9gRxth6AWYFNoyg==
+X-Gm-Gg: ASbGncvD/0AFl1fGHp5CrPmN9GeRmthTc8VnVl0IcxQoQuh9qo26vKnUnaJb0HB70NZ
+	pPDoSs3dPH1c4UcOg4UVlsFayw61QUj3367JLY21GZ5kKUmhuOYRdgoNCUATcqlQTF5Hxj4mZz1
+	B/r5aszkv1+9oItBwO1wHU6e+r77Gv0CXMYzRzuOEHh1ioOha5DHSGwaBXer4DSOxQhZLdDhGic
+	UhDQR95X/fQMbxgq6rXMCwkAY0bgWJqFcojv4piW0NX13ooLftvZVc3igePc8vV8up6
+X-Google-Smtp-Source: AGHT+IFWK/PR3S3nvHRSyBgo3gPIRzY+MUOAKiqkmj3Dqt+w+3OVvcssxaGIgcq2ILGKfpdUQoFVZg==
+X-Received: by 2002:a05:6a00:4296:b0:725:4301:ed5a with SMTP id d2e1a72fcca58-72d2167241bmr4305126b3a.2.1736340559634;
+        Wed, 08 Jan 2025 04:49:19 -0800 (PST)
+Received: from thinkpad ([117.213.97.234])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8309acsm35014695b3a.45.2025.01.08.04.49.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 21:42:09 -0800 (PST)
-Date: Wed, 8 Jan 2025 11:12:02 +0530
+        Wed, 08 Jan 2025 04:49:19 -0800 (PST)
+Date: Wed, 8 Jan 2025 18:19:13 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
-	quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
-	ogabbay@kernel.org, lizhi.hou@amd.com,
-	jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-Subject: Re: [PATCH 2/7] bus: mhi: host: Add a policy to enable image
- transfer via BHIe in PBL
-Message-ID: <20250108054202.r4bqxduuhpcvpqm4@thinkpad>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Loic Poulain <loic.poulain@linaro.org>
+Subject: Re: mhi resume failure on reboot with 6.13-rc2
+Message-ID: <20250108124913.k2p6h4pja2k5vazf@thinkpad>
+References: <20241216141303.2zr5klbgua55agkx@thinkpad>
+ <Z2KKjWY2mPen6GPL@hovoldconsulting.com>
+ <20241218113830.efflnkxz7qu24xux@thinkpad>
+ <Z2K53-As8w4IH06U@hovoldconsulting.com>
+ <20241218123019.py57s4r3takm2fs6@thinkpad>
+ <Z2LUNo--8YpLO6kD@hovoldconsulting.com>
+ <20241218140910.ysovysnvns26vbmd@thinkpad>
+ <Z2LbnoSplfVNmNaa@hovoldconsulting.com>
+ <20241218183555.qste4gve7vnvdml2@thinkpad>
+ <Z2PbEPYpqFfrLSJi@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -78,93 +82,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+In-Reply-To: <Z2PbEPYpqFfrLSJi@hovoldconsulting.com>
 
-On Fri, Dec 13, 2024 at 02:33:35PM -0700, Jeffrey Hugo wrote:
-> From: Matthew Leung <quic_mattleun@quicinc.com>
+On Thu, Dec 19, 2024 at 09:36:32AM +0100, Johan Hovold wrote:
+> On Thu, Dec 19, 2024 at 12:05:55AM +0530, Manivannan Sadhasivam wrote:
+> > On Wed, Dec 18, 2024 at 03:26:38PM +0100, Johan Hovold wrote:
+> > > On Wed, Dec 18, 2024 at 07:39:10PM +0530, Manivannan Sadhasivam wrote:
+> > > > On Wed, Dec 18, 2024 at 02:55:02PM +0100, Johan Hovold wrote:
 > 
-> Currently, mhi host only performs firmware transfer via BHI in PBL and
-
-s/mhi/MHI here and below.
-
-> BHIe from SBL. To support BHIe transfer directly from PBL, a policy
-> needs to be added.
+> > > > > But that's not going to happen as that reset is what is currently
+> > > > > causing the deadlock and which would simply be skipped if you switch to
+> > > > > pci_try_reset_function().
+> > > > > 
+> > > > 
+> > > > mhi_pci_runtime_resume() will queue the recovery_work() and return. So I was
+> > > > hoping that by the time pci_try_reset_function() is called, the lock would be
+> > > > available.
+> > > 
+> > > We can't rely on luck with timings, and this is the very reason for the
+> > > deadlock I'm currently seeing (i.e. the recovery thread is still running
+> > > when another thread grabs the lock and waits for the recovery thread to
+> > > finish).
+> > > 
+> > > Perhaps the recovery work should be done synchronously in the resume
+> > > handler to avoid such issues.
+> > 
+> > Synchronously? How can that help when the recovery_work() cannot acquire the
+> > lock?
 > 
-> With this policy, BHIe will be used to transfer firmware in PBL if the
-> mhi controller has bhie regs, sets seg_len, and does not set
-
-s/bhie/BHIe
-
-> fbc_download. The intention is to transfer firmware using BHIe in PBL
-> without further BHIe transfers in SBL.
+> During system suspend, pm core waits for any on-going runtime resume
+> operations to complete before taking the device lock and suspending the
+> device.
 > 
-> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
-> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c     | 80 +++++++++++++++++++++++++++------
->  drivers/bus/mhi/host/init.c     |  2 +-
->  drivers/bus/mhi/host/internal.h |  8 ++++
->  3 files changed, 75 insertions(+), 15 deletions(-)
+
+Right, but mhi_pci_runtime_resume() is also called from mhi_pci_resume(). So we
+cannot safely carry out the recovery_work() synchronously without the
+pci_try_reset_function() change.
+
+> Unfortunately, that's currently not the case during shutdown() where
+> those operations are reversed, so that would indeed need to be addressed
+> first.
 > 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index e3f3c07166ad..c9ecb6427209 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -452,12 +452,62 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
->  	}
->  }
->  
-> +static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *mhi_cntrl)
-> +{
-> +	enum mhi_fw_load_type ret = MHI_FW_LOAD_UNKNOWN;
+> But what the driver is currently doing looks highly questionable as it
+> returns success when it failed to resume the device (after scheduling
+> the asynchronous recovery work).
+> 
 
-You can directly return the enum without a local variable.
+I completely agree and this goes against what PM core expects. IMO we need
+two fixes, one uses pci_try_reset_function() and another recovers the device
+synchronously from mhi_pci_runtime_resume() and passes the return value to PM
+core.
 
-> +
-> +	if (mhi_cntrl->fbc_download) {
-> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
-
-I don't think this condition can fail. If 'mhi_cntrl->bhie' is NULL,
-mhi_prepare_for_power_up() will fail. So I think MHI_FW_LOAD_UNKNOWN is not
-needed.
-
-Also, all the validation should be performed early, not while loading fw.
-
-> +			ret = MHI_FW_LOAD_FBC;
-> +	} else {
-> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
-> +			ret = MHI_FW_LOAD_BHIE;
-> +		else
-> +			ret = MHI_FW_LOAD_BHI;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int mhi_send_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-
-mhi_load_image_bhi?
-
-> +{
-> +	struct image_info *image;
-> +	int ret;
-> +
-> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
-> +
-> +	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
-> +	mhi_free_bhi_buffer(mhi_cntrl, image);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mhi_send_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-
-mhi_load_image_bhie?
+Will post the patches.
 
 - Mani
 
