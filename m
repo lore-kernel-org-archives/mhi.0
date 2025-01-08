@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F4C1FC0FF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FA31FC105;
 	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736343572; cv=none; b=l9EXY+jqd0dfwfyI+WuBCIjhzKlfzVF30AooQY/3XNib9nL6u+Nv1Nxz6OqLnk0xk05zWkt+lw8E4tDpl70qAeQvZHq8guL1I/Mwg8ih61aOFK/hhzLe/ZrmkGYfiCadqCq8cAv8RXHfzao7pqe6UKbvMyZ50OZEthQ+76a38fw=
+	t=1736343572; cv=none; b=ICgB+ElZvXK3EQXfge69zWnig1qfl5VBI8Ba6k05kLcWONzeI8xDkNkZaDbvYVypHrkHGhEXhoBDza+biCV5x352+Uad4pn65nxNbhwl5ESWZdbMTpRwkMc2O+eENiNhLrDRwU4CZbjB+sUHTUyueH6sfDAoS7pa1bImsNESENE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736343572; c=relaxed/simple;
-	bh=4r45CBYevJCU4R4Er9l1ZcNs5c3/H5PCLL4UP6si+F8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LqdxcqOCHgMLWD68Acvlb6cJ6h1PhLjDrS/vCJ0KZNJVstiaTsDMYix4x/r8DejXhfxv81Wbu18uwu5OpJnY8e7uS+xSPhKDG73pgwtZA+gtG5ThjJlou/jvLJKnFW4A4kU0hCcnPLr+7JYDt3d8VoZS4Vq+qNcxUbs6NVpz/a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LV7hB7Uk; arc=none smtp.client-ip=10.30.226.201
+	bh=FouJgExThB5JcMNTBT8U6TM7eQ3QWkBZ7ZTZZXTD0WE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ItZ+QJRBwCFlFqW4S+g2UtZb+OVaZ8y3fsmKH4I9+RKUPqN+0IjUvcZjKaNKpOXc0LhVtVa7LEJalNi2lZ/6SYKrWvMcXHg57oH3bpKkLNkc/bmnpxCAC/83HEm7vzNBo2SgdVLfQsZmSqS6/gE48QXkQxtX0zAS++dpvbxBI3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZVHkHDR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LV7hB7Uk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8092DC4CEDD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZVHkHDR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6E00C4CEE4;
 	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1736343571;
-	bh=4r45CBYevJCU4R4Er9l1ZcNs5c3/H5PCLL4UP6si+F8=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=LV7hB7UkYIm+wgwgDKgPiE+A0k6myqy6oYURTt9EYEghPTcCW+Gl2g+7IRTcFFbbu
-	 x5LncWJX9pwS7QUMWanMIPPo6WomnZcMBZlnFqTXCLbJq7MoXOzixFqIIcgLOjrx0Q
-	 aCs50sFfnrtmYlXuyaEpRY2A0to5wC4o0PnvUKF6sHK/sZfzp8lvsiwdRh8H/qqkch
-	 Zvjlt4JK6XiYc8SBJX8skCaR1UKC4CfM9TMHZwJCsx7WUplY+hYC64ZXp2DQJC3wE0
-	 0RwokyWTK9ps+FS41+A4waQAP585mqUgVUEqrmkDM96PGdqF3zV/zIeArEay2bMOWK
-	 jiQ0nLkdCgImw==
+	bh=FouJgExThB5JcMNTBT8U6TM7eQ3QWkBZ7ZTZZXTD0WE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=DZVHkHDR7I40t4HKWTCzKx9aKOtluLIbngGzW9IdMf6XcZXn5AQjIgmyvaIVdC2In
+	 wv3jWZCVPfssW8cdcFgXbQo8Os8S9cqnZCMPSz3BRMTJ/tx2kXPaM2MfRv/v2DZwY3
+	 lHSF5KXB7EuSfW4pp2lo7RUs/QOVy87iubhX32iALnYfbGgYafddXY8PYkYUpd9JQ5
+	 BtdlofjGbvKpf/qgAPiIN4/spD/D7glDaR0sC38keT9v8eeh/2f6evFO7zUo0skiTj
+	 xxiJX82LRAywCRIqn1deHLUKvikwKvKfEdrw8mMbuApfiP8uPUYfcN6FI4pTAzlfUm
+	 oMIIkWsidxfww==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B2EDE77188;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9208EE7719B;
 	Wed,  8 Jan 2025 13:39:31 +0000 (UTC)
 From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.linaro.org@kernel.org>
-Subject: [PATCH 0/2] bus: mhi: host: pci_generic: Couple of recovery fixes
-Date: Wed, 08 Jan 2025 19:09:26 +0530
-Message-Id: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+Date: Wed, 08 Jan 2025 19:09:28 +0530
+Subject: [PATCH 2/2] bus: mhi: host: pci_generic: Recover the device
+ synchronously from mhi_pci_runtime_resume()
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -40,25 +41,25 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAA6AfmcC/x2MQQqAIBAAvxJ7TtCisr4SEWFr7iGNFaQI/550n
- IGZFyIyYYSpeoExUaTgC6i6AuM2f6CgvTA0sumkklqcjlZGExLys1q6xaZtO6he21EZKNnFWPS
- /nJecP/3Spx5iAAAA
+Message-Id: <20250108-mhi_recovery_fix-v1-2-a0a00a17da46@linaro.org>
+References: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+In-Reply-To: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
 To: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>
 Cc: Johan Hovold <johan@kernel.org>, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, 
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=865;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3728;
  i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=4r45CBYevJCU4R4Er9l1ZcNs5c3/H5PCLL4UP6si+F8=;
- b=owGbwMvMwMUYOl/w2b+J574ynlZLYkivaxCM+1ymbOnoteVZ+B2xnzGu/UEGFasDQh3SJ6Usf
- MTjeTCpk9GYhYGRi0FWTJElfamzVqPH6RtLItSnwwxiZQKZwsDFKQATcS9l/6ctxylhqf7W8uu8
- RDFdWQ6+PNvt1UydlflLNrP8ZDxqqX9kuUFN1XFrndCgrflNBhx/TDaLGnQ1HPvNVv/TJSs8Y7n
- thYMxolZL1LessPhsbWujY69tKnm9ccEuj5pLbctPb1daYrj/9ibB13dlbk0w3iZeX/ZqWsGd6R
- 5Xck0XrFvtUOfNem9SZEwBZ8TGiibHL6eWHPM7eLpLiaNKtPhysols64aG+uqbF43VuN9ZeTpxd
- fXxHpNLMXp2utHrQVUrv2Cx2dYy00Km9qmZaRuUIjnPTvMPmvrvz0btloOHBHYZP5Hz4I3YvNpT
- TUB9pTTjghcvb6bNL1sZmBnhtbh4IYtblcAX6dev+a4BAA==
+ bh=PbUVuYWUfqmustC2WiHHQap1G0eBPYmJC2LfYKutaU8=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBnfoAR34yGYQF9ycq3TNgC1rXfy1K3VN1q2TEbX
+ bZuU9qbRAuJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZ36AEQAKCRBVnxHm/pHO
+ 9dAqB/49P68aL4DjPjADl5s3uTq/Fv4ZvUlOBpNpEAB3hxBsN5sU9I4NLNghM7SWTeWw7zQVb5s
+ iz2A2ROGdhVQZj5E7awq6zDUIR+xMsm4TCet1Z/jsrbs6wcX7GDOFCptJq/wNzJHyEW4EnvuXmt
+ 9SW8Lc9aM+bDif5e3yn5jTal4/Q7tQh7/MjK3mYT1Bif09i9+H9jImoK0n0H6/fyWLvIPfMIpHO
+ kmIf9OXb8+d9R7+q28oDVQxCCFHUBAo/ARtQDN8w1j5eMff9TdpB1fOQ7CvXXj4AwGC7uY528XL
+ V0OtkzTkawrMyxuqfeXM4KTp4fhfhNbKJh53fWyEan0Y1epI
 X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
  fpr=C668AEC3C3188E4C611465E7488550E901166008
 X-Endpoint-Received: by B4 Relay for
@@ -66,28 +67,105 @@ X-Endpoint-Received: by B4 Relay for
 X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Reply-To: manivannan.sadhasivam@linaro.org
 
-Hi,
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-This series fixes a couple of issues reported by Johan in [1]. First one fixes
-a deadlock that happens during shutdown and suspend. Second one fixes the
-driver's PM behavior.
+Currently, in mhi_pci_runtime_resume(), if the resume fails, recovery_work
+is started asynchronously and success is returned. But this doesn't align
+with what PM core expects as documented in
+Documentation/power/runtime_pm.rst:
 
-[1] https://lore.kernel.org/mhi/Z1me8iaK7cwgjL92@hovoldconsulting.com
+"Once the subsystem-level resume callback (or the driver resume callback,
+if invoked directly) has completed successfully, the PM core regards the
+device as fully operational, which means that the device _must_ be able to
+complete I/O operations as needed.  The runtime PM status of the device is
+then 'active'."
 
+So the PM core ends up marking the runtime PM status of the device as
+'active', even though the device is not able to handle the I/O operations.
+This same condition more or less applies to system resume as well.
+
+So to avoid this ambiguity, try to recover the device synchronously from
+mhi_pci_runtime_resume() and return the actual error code in the case of
+recovery failure.
+
+For doing so, move the recovery code to __mhi_pci_recovery_work() helper
+and call that from both mhi_pci_recovery_work() and
+mhi_pci_runtime_resume(). Former still ignores the return value, while the
+latter passes it to PM core.
+
+Cc: stable@vger.kernel.org # 5.13
+Reported-by: Johan Hovold <johan@kernel.org>
+Closes: https://lore.kernel.org/mhi/Z2PbEPYpqFfrLSJi@hovoldconsulting.com
+Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
-Manivannan Sadhasivam (2):
-      bus: mhi: host: pci_generic: Use pci_try_reset_function() to avoid deadlock
-      bus: mhi: host: pci_generic: Recover the device synchronously from mhi_pci_runtime_resume()
-
  drivers/bus/mhi/host/pci_generic.c | 29 +++++++++++++++++------------
  1 file changed, 17 insertions(+), 12 deletions(-)
----
-base-commit: fc033cf25e612e840e545f8d5ad2edd6ba613ed5
-change-id: 20250108-mhi_recovery_fix-a8f37168f91c
 
-Best regards,
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index e92df380c785..f6de407e077e 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -997,10 +997,8 @@ static void mhi_pci_runtime_put(struct mhi_controller *mhi_cntrl)
+ 	pm_runtime_put(mhi_cntrl->cntrl_dev);
+ }
+ 
+-static void mhi_pci_recovery_work(struct work_struct *work)
++static int __mhi_pci_recovery_work(struct mhi_pci_device *mhi_pdev)
+ {
+-	struct mhi_pci_device *mhi_pdev = container_of(work, struct mhi_pci_device,
+-						       recovery_work);
+ 	struct mhi_controller *mhi_cntrl = &mhi_pdev->mhi_cntrl;
+ 	struct pci_dev *pdev = to_pci_dev(mhi_cntrl->cntrl_dev);
+ 	int err;
+@@ -1035,13 +1033,25 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+ 
+ 	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+ 	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+-	return;
++
++	return 0;
+ 
+ err_unprepare:
+ 	mhi_unprepare_after_power_down(mhi_cntrl);
+ err_try_reset:
+-	if (pci_try_reset_function(pdev))
++	err = pci_try_reset_function(pdev);
++	if (err)
+ 		dev_err(&pdev->dev, "Recovery failed\n");
++
++	return err;
++}
++
++static void mhi_pci_recovery_work(struct work_struct *work)
++{
++	struct mhi_pci_device *mhi_pdev = container_of(work, struct mhi_pci_device,
++						       recovery_work);
++
++	__mhi_pci_recovery_work(mhi_pdev);
+ }
+ 
+ static void health_check(struct timer_list *t)
+@@ -1400,15 +1410,10 @@ static int __maybe_unused mhi_pci_runtime_resume(struct device *dev)
+ 	return 0;
+ 
+ err_recovery:
+-	/* Do not fail to not mess up our PCI device state, the device likely
+-	 * lost power (d3cold) and we simply need to reset it from the recovery
+-	 * procedure, trigger the recovery asynchronously to prevent system
+-	 * suspend exit delaying.
+-	 */
+-	queue_work(system_long_wq, &mhi_pdev->recovery_work);
++	err = __mhi_pci_recovery_work(mhi_pdev);
+ 	pm_runtime_mark_last_busy(dev);
+ 
+-	return 0;
++	return err;
+ }
+ 
+ static int  __maybe_unused mhi_pci_suspend(struct device *dev)
+
 -- 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+2.25.1
 
 
