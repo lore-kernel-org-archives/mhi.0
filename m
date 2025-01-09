@@ -1,165 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B1718BC0F
-	for <mhi@lists.linux.dev>; Thu,  9 Jan 2025 18:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C291FF7B9
+	for <mhi@lists.linux.dev>; Thu,  9 Jan 2025 20:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736446856; cv=none; b=GtNCAita1BKkZE3HKkJQZf1MbnRy6sbkM85h7S6HVQdfJrHbYtaHreqW6uESf93k9VSThFsOswJcRb4eJUDeGbTjwvGHOxlxpg7mAdYSQ28cs5YpphysbNcHYm8bihSGeMwvCDTBUzfSWhwViFYfB5hO7iPoMa4cCUsvei90etU=
+	t=1736455896; cv=none; b=l9qCzhY+WRkhdUu/f0GBm6cMVvbDMmvO+ondvt59P/yTvjocQOUT+7Uua8yHwiJuYtLw3BOjuouE2Vtx6O2Tp/S1NEkZyCW7Q4r1zybzUUXxhqYdqnRopmbCF5/Sf6JMkZgMhp/cvJjk7He2Sr0qh6kr/gh9zuDU17YbOwDkdXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736446856; c=relaxed/simple;
-	bh=nwjgnF04XbYJu9hWJBatDKACdMqm+R77yCACQx7QiN4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LWblnd+6RdoumukwWcnmJCiKtfD/HJP177X3XyG6Lc4KSJyVt8/z4Sjs8y4S9jEw7JKnXMgb7UyL8ytMYe1eOoRxJqgtfYUrU4KO6A6B45C3FISZKXYGFhg57HYMZjJH0KtnSiZdcDqapQz3sBYua+jEiLcirwdD4xVW4oa0mCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfXUepTV; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736455896; c=relaxed/simple;
+	bh=/TsRdN+g/t5WPSJQXnaL9WV9wg//3dakf9wDwajrJgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O8CTET9Jm4loR0DCgpgK57cHD9KHEMYdyjzzX03kLOF2dX4Bv1FkY2Kb2A3e1Fmo4ZdfwQsBeydl54N0M9gLSkbQcR1GOmOi/OoJrnp104x3P8YyCSZXaIRhsrVDs/6Wj8nvUDtuxFlrfH8Aqr93AjFTnKERByXMwPTQM1VWGyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zgUq6fPA; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfXUepTV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736446854; x=1767982854;
-  h=date:from:to:cc:subject:message-id;
-  bh=nwjgnF04XbYJu9hWJBatDKACdMqm+R77yCACQx7QiN4=;
-  b=DfXUepTVaYmtcrpDqzWCrtwMfT7KsvPRrximAUlslI3iIGVFU950a4XI
-   cnWR2gsT4sY86NI5eWOonUcJMfgAhJwwgKpzVZ97wt0XbVvSl10Xntg0X
-   fEzd7zLI47Gp1jOnrOx+2q/JAToS3wV+K3OQhqNZ7XapnHAXKkPM2OvMC
-   slrBuLPLMN3uMWrCyBNxIVjs4Aub+0doTd5tS/QlWU/hqdYhaltWkf1fn
-   to7f6c/3xNWKvGQBG/HyTf5eaGVViZSYhcHBpNeFGJ/eJ6H/AkpQPwaS+
-   LCjiUp5lxmkISwPSm0VLBAgcbEJ/fLRLq+d5I2LhToJnnVUE7Zml9IeR1
-   A==;
-X-CSE-ConnectionGUID: N3hzh/ZiRqi+h9r6wMyIRA==
-X-CSE-MsgGUID: /6ClD6KURtivQpOdH6faUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="47302900"
-X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="47302900"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 10:20:54 -0800
-X-CSE-ConnectionGUID: OaMY3RZ9R/mbafWcrlXWdA==
-X-CSE-MsgGUID: VmqT++4RRNiQ4J3LWMFWlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104361204"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Jan 2025 10:20:53 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVx9F-000HzF-2y;
-	Thu, 09 Jan 2025 18:20:49 +0000
-Date: Fri, 10 Jan 2025 02:20:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 29904a40127ca5df120bcbcab444ea725926b075
-Message-ID: <202501100207.vbfMtCEz-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zgUq6fPA"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5f4cc48ab37so446553eaf.1
+        for <mhi@lists.linux.dev>; Thu, 09 Jan 2025 12:51:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736455894; x=1737060694; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mebvm12Efix/HOfbzCEke0YYM9SXOWLxp0bQs2kiNYc=;
+        b=zgUq6fPA/ppCOSlptgfbPmeclTpG4aaLaJeywMQdpaRKEiV8U/EHLMk4L1qVZiKW/q
+         sWLZKNeUxv6v/ymvvImiABFh0cG4pyAYdlfU0Fao1L/fW4qb3AupXq5Hqn+a7Ltng3qa
+         W0Z77+KtXA+Azu5m8nJYewcwOJVI7kvEH++l1iEtDWmmJAVwXqBdFWoru2IeJ5fDIuFL
+         Qkbf4/YZYa8vlrYKiLFLHISwC8wsp1lPylOaRGDT4ioLZ88MTCVxqOMTGQwmy5z1NCQR
+         zu1vcSVelW1L4K7gepST+hNpDAu22ehGu3AJHnAPg9Gwej9FHMz6RT2UBWjZZ317qyaM
+         i0AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736455894; x=1737060694;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mebvm12Efix/HOfbzCEke0YYM9SXOWLxp0bQs2kiNYc=;
+        b=R5eMEkQ1UZsEP1HlTTy3+lS04dSV5AlIKnPR9SjcuxKjQM1opEHwrhVCfRZEU6Rhs3
+         i3knxJ2rHcmsk9wsgL4OpqVpQFyGCAxh6Ua1v+PheRHD89cp0F9sAU4Q2PCJw858WlAY
+         OP51z0f1mR4MeQR96XPLjyeGitICsFNBwJFIojAilZRjCSQcObmlDaCAgj+Nu/0uxyta
+         Wuv0JZyXOqSs1lnO1t6fkbB98kkWKJxVsutd+zzGoP6JgoClQlNer80AAHVHgajShnKQ
+         mNmTT+MMI+GRhZA2wlEdbJbRUKzISWZWp+r2MqMTiYnDX8GJRyiJLymmJSRRV0WeAmdS
+         PLpw==
+X-Gm-Message-State: AOJu0Yw+T/HrJXLlDP3WZKZHDasrUW0/fMkbbBw5Js16AF0nGCOk/fsj
+	02z2X4SZtsHs1TwG7K6+dzb8LIyc1QuoHV4antH/ZpKb2dxJu430E3mrItPW6JCW9CKE4qQUyy3
+	jvsV2HLn2SozD+nSOy8IDYr4ADmO+FtslFSILlA==
+X-Gm-Gg: ASbGncsCgyEwwkHQLcrHzQhXzVWGCalO1nWIc2V5KuURcglkYhVHgDBsIlBKXTSHUPh
+	1gP52CyHwUX4ex7zJptKVkS+/Ed9iSQcCWxcYTw==
+X-Google-Smtp-Source: AGHT+IGw0KIVg/dvzz7d9PF80SBHOTL5uvW2Zpk7HWjQlYX/tsf3aX9InA3qQG3yCXLbshZwbBGvXAfuWrNEWOn1Gs0=
+X-Received: by 2002:a05:6820:1798:b0:5f3:4175:1d7f with SMTP id
+ 006d021491bc7-5f73096717dmr4383494eaf.8.1736455893957; Thu, 09 Jan 2025
+ 12:51:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+ <20250108-mhi_recovery_fix-v1-2-a0a00a17da46@linaro.org> <CAMZdPi9KiLczjETLwJG_9krn_z=Og0uZhYuajPeZYoBHanxMiw@mail.gmail.com>
+ <20250108160211.6dok3zcn2qaoj3lp@thinkpad>
+In-Reply-To: <20250108160211.6dok3zcn2qaoj3lp@thinkpad>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Thu, 9 Jan 2025 21:50:55 +0100
+X-Gm-Features: AbW1kvaYy2ijj3_SpahQvOJx-c_o9llvwrvJ3pguay-O4M-tUnMoDS8jvItsP7k
+Message-ID: <CAMZdPi_OPXGkrT_4iyLF-698TPUgHu=Y5M-wVRq=kx6RWH4bVw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] bus: mhi: host: pci_generic: Recover the device
+ synchronously from mhi_pci_runtime_resume()
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev, Johan Hovold <johan@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 29904a40127ca5df120bcbcab444ea725926b075  bus: mhi: host: pci_generic: Enable MSI-X if the endpoint supports
+On Wed, 8 Jan 2025 at 17:02, Manivannan Sadhasivam
+<manivannan.sadhasivam@linaro.org> wrote:
+>
+> On Wed, Jan 08, 2025 at 04:19:06PM +0100, Loic Poulain wrote:
+> > On Wed, 8 Jan 2025 at 14:39, Manivannan Sadhasivam via B4 Relay
+> > <devnull+manivannan.sadhasivam.linaro.org@kernel.org> wrote:
+> > >
+> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > >
+> > > Currently, in mhi_pci_runtime_resume(), if the resume fails, recovery_work
+> > > is started asynchronously and success is returned. But this doesn't align
+> > > with what PM core expects as documented in
+> > > Documentation/power/runtime_pm.rst:
+> > >
+> > > "Once the subsystem-level resume callback (or the driver resume callback,
+> > > if invoked directly) has completed successfully, the PM core regards the
+> > > device as fully operational, which means that the device _must_ be able to
+> > > complete I/O operations as needed.  The runtime PM status of the device is
+> > > then 'active'."
+> > >
+> > > So the PM core ends up marking the runtime PM status of the device as
+> > > 'active', even though the device is not able to handle the I/O operations.
+> > > This same condition more or less applies to system resume as well.
+> > >
+> > > So to avoid this ambiguity, try to recover the device synchronously from
+> > > mhi_pci_runtime_resume() and return the actual error code in the case of
+> > > recovery failure.
+> > >
+> > > For doing so, move the recovery code to __mhi_pci_recovery_work() helper
+> > > and call that from both mhi_pci_recovery_work() and
+> > > mhi_pci_runtime_resume(). Former still ignores the return value, while the
+> > > latter passes it to PM core.
+> > >
+> > > Cc: stable@vger.kernel.org # 5.13
+> > > Reported-by: Johan Hovold <johan@kernel.org>
+> > > Closes: https://lore.kernel.org/mhi/Z2PbEPYpqFfrLSJi@hovoldconsulting.com
+> > > Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
+> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> >
+> > Note that it will noticeably impact the user experience on system-wide
+> > resume (mhi_pci_resume), because MHI devices usually take a while (a
+> > few seconds) to cold boot and reach a ready state (or time out in the
+> > worst case). So we may have people complaining about delayed resume
+> > regression on their laptop even if they are not using the MHI
+> > device/modem function. Are we ok with that?
+> >
+>
+> Are you saying that the modem will enter D3Cold all the time during system
+> suspend? I think you are referring to x86 host machines here.
 
-elapsed time: 1449m
+It depends on the host and its firmware implementation, but yes I
+observed that x86_64 based laptops are powering off the mPCIe slot
+while suspended.
 
-configs tested: 88
-configs skipped: 1
+> If that is the case, we should not be using mhi_pci_runtime_*() calls in
+> mhi_pci_suspend/resume(). Rather the MHI stack should be powered down during
+> suspend and powered ON during resume.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Yes, but what about the hosts keeping power in suspend state? we can
+not really know that programmatically AFAIK.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                   randconfig-001-20250109    gcc-13.2.0
-arc                   randconfig-002-20250109    gcc-13.2.0
-arm                               allnoconfig    clang-17
-arm                   randconfig-001-20250109    gcc-14.2.0
-arm                   randconfig-002-20250109    clang-17
-arm                   randconfig-003-20250109    clang-20
-arm                   randconfig-004-20250109    gcc-14.2.0
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250109    gcc-14.2.0
-arm64                 randconfig-002-20250109    clang-20
-arm64                 randconfig-003-20250109    gcc-14.2.0
-arm64                 randconfig-004-20250109    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250109    gcc-14.2.0
-csky                  randconfig-002-20250109    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon               randconfig-001-20250109    clang-14
-hexagon               randconfig-002-20250109    clang-20
-i386        buildonly-randconfig-001-20250109    gcc-12
-i386        buildonly-randconfig-002-20250109    gcc-12
-i386        buildonly-randconfig-003-20250109    clang-19
-i386        buildonly-randconfig-004-20250109    clang-19
-i386        buildonly-randconfig-005-20250109    clang-19
-i386        buildonly-randconfig-006-20250109    gcc-12
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250109    gcc-14.2.0
-loongarch             randconfig-002-20250109    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250109    gcc-14.2.0
-nios2                 randconfig-002-20250109    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250109    gcc-14.2.0
-parisc                randconfig-002-20250109    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250109    clang-15
-powerpc               randconfig-002-20250109    gcc-14.2.0
-powerpc               randconfig-003-20250109    gcc-14.2.0
-powerpc64             randconfig-001-20250109    gcc-14.2.0
-powerpc64             randconfig-002-20250109    clang-20
-powerpc64             randconfig-003-20250109    clang-17
-riscv                            allmodconfig    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-20
-riscv                 randconfig-001-20250109    gcc-14.2.0
-riscv                 randconfig-002-20250109    clang-15
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250109    gcc-14.2.0
-s390                  randconfig-002-20250109    clang-16
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250109    gcc-14.2.0
-sh                    randconfig-002-20250109    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250109    gcc-14.2.0
-sparc                 randconfig-002-20250109    gcc-14.2.0
-sparc64               randconfig-001-20250109    gcc-14.2.0
-sparc64               randconfig-002-20250109    gcc-14.2.0
-um                                allnoconfig    clang-18
-um                    randconfig-001-20250109    gcc-12
-um                    randconfig-002-20250109    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64      buildonly-randconfig-001-20250109    clang-19
-x86_64      buildonly-randconfig-002-20250109    gcc-12
-x86_64      buildonly-randconfig-003-20250109    clang-19
-x86_64      buildonly-randconfig-004-20250109    clang-19
-x86_64      buildonly-randconfig-005-20250109    clang-19
-x86_64      buildonly-randconfig-006-20250109    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250109    gcc-14.2.0
-xtensa                randconfig-002-20250109    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Loic
