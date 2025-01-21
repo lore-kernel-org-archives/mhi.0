@@ -1,627 +1,337 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331BC19F487;
-	Fri, 17 Jan 2025 17:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB4A3D68
+	for <mhi@lists.linux.dev>; Tue, 21 Jan 2025 04:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737133823; cv=none; b=UUHGMlyoXEAp2iMeOa9iCM5BZlGyAaMOBFPRG2vmtgIS7sF5pO8/NZT/QQgj3YZB3HczKKevtTvWDFzNF8RHUctPFizEuwYABp0HnA6ZDkx5aeAnOjcNF1QUIJFYacyNZM5ByvTVSzhtuMKioA7QXDWoerKHNKW1XvoVxLovJys=
+	t=1737435142; cv=none; b=PBi8izfSFFX9/7NI9iPeF2TwnJ1kUo9XZXXMVSsxz8kPATQdOxoGPv99Szi6Ix9PpMFKgPGiwcv3TOfpmbCoWYrMIJ+Wk9U5wnuSEiMc0F2sAZcsrzG0Uv4eYMRbSp5M89yXpejgF+SJGCG9Ber7WYtcwPj8mXHfrczN06tFmZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737133823; c=relaxed/simple;
-	bh=3jrL4uBpdIgYIPgWv6R8CXhp5Ro194jo7sETIpIr2sw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OwxU+P3YuxqEAhuj5rEeEd7Z2/zsyI+HZgV9oJuPID+vPwgvvTCpE/EiV+NRI4Sg08bgsPD+ijzHHLsrWJgcJlt//Z7RY9JrOOHERWBcHmU1m4lmeFS18yvyFIlbWqcbue6PYW85Tw2VnV8bfRNAqG8koKLuBJ5ST86288tSiK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aTbjyaf1; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1737435142; c=relaxed/simple;
+	bh=ry0jEP5XbmTbIN3yEdWYp/5XjVkVhLO1m5rN8v7tdZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+hmtWrhI5lt1iqk4p1oPIx2wA5QcLTUB+y5U0BFcHAtFkW7B4yHTW7CMstCEeAQr/fYWPbe2cpNRJEPDNjW/HMFbyv6+uI3gbr4K+sZhma6xmUQWnoRPD1E2vv22zDJTx/ITr5N/2Iwtxr05Xk+h51pVHvYUIxCgI4nTuCz29g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h9uIspwe; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aTbjyaf1"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H9JgBn031270;
-	Fri, 17 Jan 2025 17:10:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ha/YSzYvy6WhwKQXJCDy9OPXnIkfEti3hR9O7wEMde8=; b=aTbjyaf12Efrerx4
-	gmB8li0fiCkp5IsI7tHhIUFmRqhoVlChl/TLvqx+uks31rVqN5fP5w7PrYiTdbuj
-	TyX7tNOPcsFYEvO7S0xye7Uv8WFq69CUwsev+XxNDF043OnOwEL14wloRCXZJwnn
-	Mx/aTgv2td+g+V7l1yIfv421CaDa2GQ24ac6O9fcoSmo7N1GUlzRsZdDp6J0M1yB
-	LZ2xdsjo8K+hEk1v9yRQtYVKFf1MQW69+lrBkXIg9OB/uzCrhaj25jgmaVL2Cy0o
-	JYy3icgeP39IKvegG3meJiMfIjyvYR5vHXW3GrrvGpXAW6jqlKgTxc4jWvW8bZWv
-	ou7fXg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447mfcs6ky-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 17:10:10 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HHAAi2030772
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 17:10:10 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 17 Jan 2025 09:10:09 -0800
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
-        <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
-        <quic_thanson@quicinc.com>
-CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
-        <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>,
-        Jeffrey Hugo
-	<quic_jhugo@quicinc.com>
-Subject: [PATCH v2 7/7] accel/qaic: Add AIC200 support
-Date: Fri, 17 Jan 2025 10:09:43 -0700
-Message-ID: <20250117170943.2643280-8-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h9uIspwe"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef760a1001so8916090a91.0
+        for <mhi@lists.linux.dev>; Mon, 20 Jan 2025 20:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737435139; x=1738039939; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6tyLr89Oro7K4WmxXil5fUnVrn0buPsx3daOJhuEBhU=;
+        b=h9uIspwecZu7iu/Wz61nIawAHKZWlMPVWtHaVIYEUSrqf70ihszfY4nlvong5EyPa/
+         wMQz/D5d1dl933V8ix+lWE3iRxM88SXrugfTB+Yem+QI5SBL97UMPoQpCKBtnh5Cwi8E
+         CzGgxjm34fe6eRD2/BWooGkBXWzNA12DiuCMtx6IutEVaRtVMTRDp9uEE5x7HdtSrHku
+         jUJaw6e1sCYFl64nwnnberj9Emq4JM8QQj3ikI0gY7gNpl7aXlhFjp4For9E0z99cSlV
+         5fMD8PgJb36qjwh2nGcH7//5uai5Vb2amxtF3oaela/72c+y3UlVceNmGsWwo1csUUW9
+         cg6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737435139; x=1738039939;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6tyLr89Oro7K4WmxXil5fUnVrn0buPsx3daOJhuEBhU=;
+        b=VgChAF4uYuzjmX0tnmE4ryC/s1qjfXII6kA82TMJ72Xi3MoDnT1smlksL45gz0YzqF
+         e7NR4spEoJwlhmG1AdykpWHT05tKy9QjvqpUIY6r2BsODIbIrGMQsN46RUgMsX/rnr9O
+         L05t4juQKcTZyxP3l4S0p4JOZHDM5LlG1OahXnJeZGTVhrGa6WFgVbS6tJEOh2meUO+T
+         aNfL1PaVrF7+DlwNfxQ0Fds9FgYFJN8Ifnv4BcKEyDMJn8dE7zjJFAGMo2pTfJR2rWTm
+         /dJbmTxQdtWYa75xw9C+fXuJFwdZxnyY02QGcVFNeDbj4oSeICqF3XpMkY9vtdvNMkd2
+         h+JA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2PejQEkAc/332Gan75cfpjk/hCSK1aBr6WGIzntERqBJsuLm3KZSFU6eZPMInB6/6YYo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLmbWwrJz62cLVy2lmFVi94oRnxbdl5IZYdGFAbKGDIcbFJjdu
+	AOLtXFKODKFNStsylb5Iboe5szmnNi2RgJj7JdSBuhbvnnsJcdM2CQsa4EhzBg==
+X-Gm-Gg: ASbGncteGCwe8wq7FVTgQDWxLk2479g4sIBQDSlvAAnebx9iN0H70mcCHlYDzM/6hjC
+	kBZvoUctTR5u+g1qF1wDxFBTvC1u1FwSKLL7e644Jj0f9wBkeY63WcoexLgcYA6uy6MpeJ7VJCw
+	6FwdfFMRlJynA4dk9sspYrmNjLBWaFJtvWe4uPQcakF6xSasSOKw2T7PvnfdeIp4KrKP0uvI9SM
+	N/DtpE0pxouhaKlfLz4dqX28EjA6NzVxOScFQQpjVV4sMqDn8HJnoPNYHm8p6bUrp6uM22tOF+I
+	A+fMY7k=
+X-Google-Smtp-Source: AGHT+IFSWF/3fxqQyQ4PQAR3oXpx/J8EguJMfXK4TSYqPEZ0xRHtpPEOOVb2sMjou628AnuBYq4BxA==
+X-Received: by 2002:a05:6a00:3c8a:b0:727:3c37:d5fb with SMTP id d2e1a72fcca58-72dafb6fef4mr22643451b3a.16.1737435139390;
+        Mon, 20 Jan 2025 20:52:19 -0800 (PST)
+Received: from thinkpad ([117.213.102.234])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dabacdbd5sm8099841b3a.180.2025.01.20.20.52.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 20:52:18 -0800 (PST)
+Date: Tue, 21 Jan 2025 10:22:12 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
+	quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
+	ogabbay@kernel.org, lizhi.hou@amd.com,
+	jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v2 1/7] bus: mhi: host: Refactor BHI/BHIe based firmware
+ loading
+Message-ID: <20250121045212.jo5fi37n44lqab7u@thinkpad>
 References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+ <20250117170943.2643280-2-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: RjRSvnS7diijCsqiFw6c8XOhUjZQuAXM
-X-Proofpoint-ORIG-GUID: RjRSvnS7diijCsqiFw6c8XOhUjZQuAXM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 mlxscore=0 impostorscore=0
- phishscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501170134
+In-Reply-To: <20250117170943.2643280-2-quic_jhugo@quicinc.com>
 
-Add basic support for the new AIC200 product. The PCIe Device ID is
-0xa110. With this, we can turn on the lights for AIC200 by leveraging
-much of the existing driver.
+On Fri, Jan 17, 2025 at 10:09:37AM -0700, Jeffrey Hugo wrote:
+> From: Matthew Leung <quic_mattleun@quicinc.com>
+> 
+> Refactor the firmware loading code to have distinct helper functions for
+> BHI and BHIe operations. This lays the foundation for separating the
+> firmware loading protocol from the firmware being loaded and the EE it
+> is loaded in.
+> 
+> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
+> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Co-developed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/qaic/mhi_controller.c | 360 ++++++++++++++++++++++++++--
- drivers/accel/qaic/mhi_controller.h |   2 +-
- drivers/accel/qaic/qaic.h           |   1 +
- drivers/accel/qaic/qaic_drv.c       |  11 +-
- drivers/accel/qaic/sahara.c         |  39 ++-
- 5 files changed, 395 insertions(+), 18 deletions(-)
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 8ab82e78dd94..13a14c6c6168 100644
---- a/drivers/accel/qaic/mhi_controller.c
-+++ b/drivers/accel/qaic/mhi_controller.c
-@@ -20,6 +20,11 @@ static unsigned int mhi_timeout_ms = 2000; /* 2 sec default */
- module_param(mhi_timeout_ms, uint, 0600);
- MODULE_PARM_DESC(mhi_timeout_ms, "MHI controller timeout value");
- 
-+static const char *fw_image_paths[FAMILY_MAX] = {
-+	[FAMILY_AIC100] = "qcom/aic100/sbl.bin",
-+	[FAMILY_AIC200] = "qcom/aic200/sbl.bin",
-+};
-+
- static const struct mhi_channel_config aic100_channels[] = {
- 	{
- 		.name = "QAIC_LOOPBACK",
-@@ -439,6 +444,297 @@ static const struct mhi_channel_config aic100_channels[] = {
- 	},
- };
- 
-+static const struct mhi_channel_config aic200_channels[] = {
-+	{
-+		.name = "QAIC_LOOPBACK",
-+		.num = 0,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOOPBACK",
-+		.num = 1,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SAHARA",
-+		.num = 2,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SAHARA",
-+		.num = 3,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SSR",
-+		.num = 6,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SSR",
-+		.num = 7,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_CONTROL",
-+		.num = 10,
-+		.num_elements = 128,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_CONTROL",
-+		.num = 11,
-+		.num_elements = 128,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOGGING",
-+		.num = 12,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOGGING",
-+		.num = 13,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_STATUS",
-+		.num = 14,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_STATUS",
-+		.num = 15,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TELEMETRY",
-+		.num = 16,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TELEMETRY",
-+		.num = 17,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num = 22,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num = 23,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "IPCR",
-+		.num = 24,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "IPCR",
-+		.num = 25,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = true,
-+		.wake_capable = false,
-+	},
-+};
-+
- static struct mhi_event_config aic100_events[] = {
- 	{
- 		.num_elements = 32,
-@@ -454,16 +750,44 @@ static struct mhi_event_config aic100_events[] = {
- 	},
- };
- 
--static struct mhi_controller_config aic100_config = {
--	.max_channels = 128,
--	.timeout_ms = 0, /* controlled by mhi_timeout */
--	.buf_len = 0,
--	.num_channels = ARRAY_SIZE(aic100_channels),
--	.ch_cfg = aic100_channels,
--	.num_events = ARRAY_SIZE(aic100_events),
--	.event_cfg = aic100_events,
--	.use_bounce_buf = false,
--	.m2_no_db = false,
-+static struct mhi_event_config aic200_events[] = {
-+	{
-+		.num_elements = 32,
-+		.irq_moderation_ms = 0,
-+		.irq = 0,
-+		.channel = U32_MAX,
-+		.priority = 1,
-+		.mode = MHI_DB_BRST_DISABLE,
-+		.data_type = MHI_ER_CTRL,
-+		.hardware_event = false,
-+		.client_managed = false,
-+		.offload_channel = false,
-+	},
-+};
-+
-+static struct mhi_controller_config mhi_cntrl_configs[] = {
-+	[FAMILY_AIC100] = {
-+		.max_channels = 128,
-+		.timeout_ms = 0, /* controlled by mhi_timeout */
-+		.buf_len = 0,
-+		.num_channels = ARRAY_SIZE(aic100_channels),
-+		.ch_cfg = aic100_channels,
-+		.num_events = ARRAY_SIZE(aic100_events),
-+		.event_cfg = aic100_events,
-+		.use_bounce_buf = false,
-+		.m2_no_db = false,
-+	},
-+	[FAMILY_AIC200] = {
-+		.max_channels = 128,
-+		.timeout_ms = 0, /* controlled by mhi_timeout */
-+		.buf_len = 0,
-+		.num_channels = ARRAY_SIZE(aic200_channels),
-+		.ch_cfg = aic200_channels,
-+		.num_events = ARRAY_SIZE(aic200_events),
-+		.event_cfg = aic200_events,
-+		.use_bounce_buf = false,
-+		.m2_no_db = false,
-+	},
- };
- 
- static int mhi_read_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr, u32 *out)
-@@ -545,8 +869,9 @@ static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntrl)
- }
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq, bool shared_msi)
-+						    int mhi_irq, bool shared_msi, int family)
- {
-+	struct mhi_controller_config mhi_config = mhi_cntrl_configs[family];
- 	struct mhi_controller *mhi_cntrl;
- 	int ret;
- 
-@@ -581,11 +906,18 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
- 	if (shared_msi) /* MSI shared with data path, no IRQF_NO_SUSPEND */
- 		mhi_cntrl->irq_flags = IRQF_SHARED;
- 
--	mhi_cntrl->fw_image = "qcom/aic100/sbl.bin";
-+	mhi_cntrl->fw_image = fw_image_paths[family];
-+
-+	if (family == FAMILY_AIC200) {
-+		mhi_cntrl->name = "AIC200";
-+		mhi_cntrl->seg_len = SZ_512K;
-+	} else {
-+		mhi_cntrl->name = "AIC100";
-+	}
- 
- 	/* use latest configured timeout */
--	aic100_config.timeout_ms = mhi_timeout_ms;
--	ret = mhi_register_controller(mhi_cntrl, &aic100_config);
-+	mhi_config.timeout_ms = mhi_timeout_ms;
-+	ret = mhi_register_controller(mhi_cntrl, &mhi_config);
- 	if (ret) {
- 		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
- 		return ERR_PTR(ret);
-diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
-index 500e7f4af2af..8939f6ae185e 100644
---- a/drivers/accel/qaic/mhi_controller.h
-+++ b/drivers/accel/qaic/mhi_controller.h
-@@ -8,7 +8,7 @@
- #define MHICONTROLLERQAIC_H_
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq, bool shared_msi);
-+						    int mhi_irq, bool shared_msi, int family);
- void qaic_mhi_free_controller(struct mhi_controller *mhi_cntrl, bool link_up);
- void qaic_mhi_start_reset(struct mhi_controller *mhi_cntrl);
- void qaic_mhi_reset_done(struct mhi_controller *mhi_cntrl);
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index cf97fd9a7e70..0dbb8e32e4b9 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -34,6 +34,7 @@
- 
- enum aic_families {
- 	FAMILY_AIC100,
-+	FAMILY_AIC200,
- 	FAMILY_MAX,
- };
- 
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 4e63e475b389..3b415e2c9431 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -36,6 +36,7 @@ MODULE_IMPORT_NS("DMA_BUF");
- 
- #define PCI_DEVICE_ID_QCOM_AIC080	0xa080
- #define PCI_DEVICE_ID_QCOM_AIC100	0xa100
-+#define PCI_DEVICE_ID_QCOM_AIC200	0xa110
- #define QAIC_NAME			"qaic"
- #define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
- #define CNTL_MAJOR			5
-@@ -66,6 +67,13 @@ static const struct qaic_device_config aic100_config = {
- 	.dbc_bar_idx = 2,
- };
- 
-+static const struct qaic_device_config aic200_config = {
-+	.family = FAMILY_AIC200,
-+	.bar_mask = BIT(0) | BIT(1) | BIT(2) | BIT(4),
-+	.mhi_bar_idx = 1,
-+	.dbc_bar_idx = 2,
-+};
-+
- bool datapath_polling;
- module_param(datapath_polling, bool, 0400);
- MODULE_PARM_DESC(datapath_polling, "Operate the datapath in polling mode");
-@@ -568,7 +576,7 @@ static int qaic_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return ret;
- 
- 	qdev->mhi_cntrl = qaic_mhi_register_controller(pdev, qdev->bar_mhi, mhi_irq,
--						       qdev->single_msi);
-+						       qdev->single_msi, config->family);
- 	if (IS_ERR(qdev->mhi_cntrl)) {
- 		ret = PTR_ERR(qdev->mhi_cntrl);
- 		qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION);
-@@ -637,6 +645,7 @@ static struct mhi_driver qaic_mhi_driver = {
- static const struct pci_device_id qaic_ids[] = {
- 	{ PCI_DEVICE_DATA(QCOM, AIC080, (kernel_ulong_t)&aic080_config), },
- 	{ PCI_DEVICE_DATA(QCOM, AIC100, (kernel_ulong_t)&aic100_config), },
-+	{ PCI_DEVICE_DATA(QCOM, AIC200, (kernel_ulong_t)&aic200_config), },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, qaic_ids);
-diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
-index 09c8b055aa81..3ebcc1f7ff58 100644
---- a/drivers/accel/qaic/sahara.c
-+++ b/drivers/accel/qaic/sahara.c
-@@ -188,6 +188,34 @@ static const char * const aic100_image_table[] = {
- 	[10] = "qcom/aic100/fw10.bin",
- };
- 
-+static const char * const aic200_image_table[] = {
-+	[5]  = "qcom/aic200/uefi.elf",
-+	[12] = "qcom/aic200/aic200-nsp.bin",
-+	[23] = "qcom/aic200/aop.mbn",
-+	[32] = "qcom/aic200/tz.mbn",
-+	[33] = "qcom/aic200/hypvm.mbn",
-+	[39] = "qcom/aic200/aic200_abl.elf",
-+	[40] = "qcom/aic200/apdp.mbn",
-+	[41] = "qcom/aic200/devcfg.mbn",
-+	[42] = "qcom/aic200/sec.elf",
-+	[43] = "qcom/aic200/aic200-hlos.elf",
-+	[49] = "qcom/aic200/shrm.elf",
-+	[50] = "qcom/aic200/cpucp.elf",
-+	[51] = "qcom/aic200/aop_devcfg.mbn",
-+	[57] = "qcom/aic200/cpucp_dtbs.elf",
-+	[62] = "qcom/aic200/uefi_dtbs.elf",
-+	[63] = "qcom/aic200/xbl_ac_config.mbn",
-+	[64] = "qcom/aic200/tz_ac_config.mbn",
-+	[65] = "qcom/aic200/hyp_ac_config.mbn",
-+	[66] = "qcom/aic200/pdp.elf",
-+	[67] = "qcom/aic200/pdp_cdb.elf",
-+	[68] = "qcom/aic200/sdi.mbn",
-+	[69] = "qcom/aic200/dcd.mbn",
-+	[73] = "qcom/aic200/gearvm.mbn",
-+	[74] = "qcom/aic200/sti.bin",
-+	[75] = "qcom/aic200/pvs.bin",
-+};
-+
- static int sahara_find_image(struct sahara_context *context, u32 image_id)
- {
- 	int ret;
-@@ -748,8 +776,15 @@ static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_
- 	context->mhi_dev = mhi_dev;
- 	INIT_WORK(&context->fw_work, sahara_processing);
- 	INIT_WORK(&context->dump_work, sahara_dump_processing);
--	context->image_table = aic100_image_table;
--	context->table_size = ARRAY_SIZE(aic100_image_table);
-+
-+	if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
-+		context->image_table = aic200_image_table;
-+		context->table_size = ARRAY_SIZE(aic200_image_table);
-+	} else {
-+		context->image_table = aic100_image_table;
-+		context->table_size = ARRAY_SIZE(aic100_image_table);
-+	}
-+
- 	context->active_image_id = SAHARA_IMAGE_ID_NONE;
- 	dev_set_drvdata(&mhi_dev->dev, context);
- 
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/boot.c | 144 +++++++++++++++++++++++++-----------
+>  1 file changed, 99 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index e8c92972f9df..9fe13d3f09f0 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -177,6 +177,36 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_download_rddm_image);
+>  
+> +static void mhi_fw_load_error_dump(struct mhi_controller *mhi_cntrl)
+> +{
+> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> +	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+> +	void __iomem *base = mhi_cntrl->bhi;
+> +	int ret, i;
+> +	u32 val;
+> +	struct {
+> +		char *name;
+> +		u32 offset;
+> +	} error_reg[] = {
+> +		{ "ERROR_CODE", BHI_ERRCODE },
+> +		{ "ERROR_DBG1", BHI_ERRDBG1 },
+> +		{ "ERROR_DBG2", BHI_ERRDBG2 },
+> +		{ "ERROR_DBG3", BHI_ERRDBG3 },
+> +		{ NULL },
+> +	};
+> +
+> +	read_lock_bh(pm_lock);
+> +	if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
+> +		for (i = 0; error_reg[i].name; i++) {
+> +			ret = mhi_read_reg(mhi_cntrl, base, error_reg[i].offset, &val);
+> +			if (ret)
+> +				break;
+> +			dev_err(dev, "Reg: %s value: 0x%x\n", error_reg[i].name, val);
+> +		}
+> +	}
+> +	read_unlock_bh(pm_lock);
+> +}
+> +
+>  static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
+>  			    const struct mhi_buf *mhi_buf)
+>  {
+> @@ -226,24 +256,13 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
+>  }
+>  
+>  static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+> -			   dma_addr_t dma_addr,
+> -			   size_t size)
+> +			    const struct mhi_buf *mhi_buf)
+>  {
+> -	u32 tx_status, val, session_id;
+> -	int i, ret;
+> -	void __iomem *base = mhi_cntrl->bhi;
+> -	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> -	struct {
+> -		char *name;
+> -		u32 offset;
+> -	} error_reg[] = {
+> -		{ "ERROR_CODE", BHI_ERRCODE },
+> -		{ "ERROR_DBG1", BHI_ERRDBG1 },
+> -		{ "ERROR_DBG2", BHI_ERRDBG2 },
+> -		{ "ERROR_DBG3", BHI_ERRDBG3 },
+> -		{ NULL },
+> -	};
+> +	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
+> +	void __iomem *base = mhi_cntrl->bhi;
+> +	u32 tx_status, session_id;
+> +	int ret;
+>  
+>  	read_lock_bh(pm_lock);
+>  	if (!MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
+> @@ -255,11 +274,9 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+>  	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
+>  		session_id);
+>  	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
+> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
+> -		      upper_32_bits(dma_addr));
+> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
+> -		      lower_32_bits(dma_addr));
+> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
+> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH, upper_32_bits(mhi_buf->dma_addr));
+> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW, lower_32_bits(mhi_buf->dma_addr));
+> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, mhi_buf->len);
+>  	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
+>  	read_unlock_bh(pm_lock);
+>  
+> @@ -274,18 +291,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+>  
+>  	if (tx_status == BHI_STATUS_ERROR) {
+>  		dev_err(dev, "Image transfer failed\n");
+> -		read_lock_bh(pm_lock);
+> -		if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
+> -			for (i = 0; error_reg[i].name; i++) {
+> -				ret = mhi_read_reg(mhi_cntrl, base,
+> -						   error_reg[i].offset, &val);
+> -				if (ret)
+> -					break;
+> -				dev_err(dev, "Reg: %s value: 0x%x\n",
+> -					error_reg[i].name, val);
+> -			}
+> -		}
+> -		read_unlock_bh(pm_lock);
+> +		mhi_fw_load_error_dump(mhi_cntrl);
+>  		goto invalid_pm_state;
+>  	}
+>  
+> @@ -296,6 +302,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+>  	return -EIO;
+>  }
+>  
+> +static void mhi_free_bhi_buffer(struct mhi_controller *mhi_cntrl,
+> +				struct image_info *image_info)
+> +{
+> +	struct mhi_buf *mhi_buf = image_info->mhi_buf;
+> +
+> +	dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len, mhi_buf->buf, mhi_buf->dma_addr);
+> +	kfree(image_info->mhi_buf);
+> +	kfree(image_info);
+> +}
+> +
+>  void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
+>  			 struct image_info *image_info)
+>  {
+> @@ -310,6 +326,45 @@ void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
+>  	kfree(image_info);
+>  }
+>  
+> +static int mhi_alloc_bhi_buffer(struct mhi_controller *mhi_cntrl,
+> +				struct image_info **image_info,
+> +				size_t alloc_size)
+> +{
+> +	struct image_info *img_info;
+> +	struct mhi_buf *mhi_buf;
+> +
+> +	img_info = kzalloc(sizeof(*img_info), GFP_KERNEL);
+> +	if (!img_info)
+> +		return -ENOMEM;
+> +
+> +	/* Allocate memory for entry */
+> +	img_info->mhi_buf = kzalloc(sizeof(*img_info->mhi_buf), GFP_KERNEL);
+> +	if (!img_info->mhi_buf)
+> +		goto error_alloc_mhi_buf;
+> +
+> +	/* Allocate and populate vector table */
+> +	mhi_buf = img_info->mhi_buf;
+> +
+> +	mhi_buf->len = alloc_size;
+> +	mhi_buf->buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
+> +					  &mhi_buf->dma_addr, GFP_KERNEL);
+> +	if (!mhi_buf->buf)
+> +		goto error_alloc_segment;
+> +
+> +	img_info->bhi_vec = NULL;
+> +	img_info->entries = 1;
+> +	*image_info = img_info;
+> +
+> +	return 0;
+> +
+> +error_alloc_segment:
+> +	kfree(mhi_buf);
+> +error_alloc_mhi_buf:
+> +	kfree(img_info);
+> +
+> +	return -ENOMEM;
+> +}
+> +
+>  int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  			 struct image_info **image_info,
+>  			 size_t alloc_size)
+> @@ -364,9 +419,9 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+>  	return -ENOMEM;
+>  }
+>  
+> -static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
+> -			      const u8 *buf, size_t remainder,
+> -			      struct image_info *img_info)
+> +static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
+> +				   const u8 *buf, size_t remainder,
+> +				   struct image_info *img_info)
+>  {
+>  	size_t to_cpy;
+>  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
+> @@ -390,10 +445,9 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	const struct firmware *firmware = NULL;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>  	enum mhi_pm_state new_state;
+> +	struct image_info *image;
+>  	const char *fw_name;
+>  	const u8 *fw_data;
+> -	void *buf;
+> -	dma_addr_t dma_addr;
+>  	size_t size, fw_sz;
+>  	int ret;
+>  
+> @@ -452,17 +506,17 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_sz = firmware->size;
+>  
+>  skip_req_fw:
+> -	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
+> -				 GFP_KERNEL);
+> -	if (!buf) {
+> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
+> +	if (ret) {
+>  		release_firmware(firmware);
+>  		goto error_fw_load;
+>  	}
+> +	/* Load the firmware into BHI vec table */
+> +	memcpy(image->mhi_buf->buf, fw_data, size);
+>  
+>  	/* Download image using BHI */
+> -	memcpy(buf, fw_data, size);
+> -	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
+> -	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
+> +	ret = mhi_fw_load_bhi(mhi_cntrl, image->mhi_buf);
+> +	mhi_free_bhi_buffer(mhi_cntrl, image);
+>  
+>  	/* Error or in EDL mode, we're done */
+>  	if (ret) {
+> @@ -493,7 +547,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  		}
+>  
+>  		/* Load the firmware into BHIE vec table */
+> -		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+> +		mhi_firmware_copy_bhie(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
+>  	}
+>  
+>  	release_firmware(firmware);
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
