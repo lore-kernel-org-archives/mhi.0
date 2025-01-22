@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B965F38DF9;
-	Wed, 22 Jan 2025 15:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C602153C6;
+	Wed, 22 Jan 2025 17:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737559463; cv=none; b=TkLuhzz3wJCmNzu9HFRz7z4afu9IiLNndmj87j3f40vWxDswTY37bdoBrvn0bJe/UMz8S1HCPSsbj0X8VOJmpWD7B7OC/QlJc+UWl8FEuk2kx1CGypS6pwO5Y+1SNmB8Y5rTYaF4z1nY80IYjFyy5uoqV+UZNh6aFz/OCfn5iR0=
+	t=1737566747; cv=none; b=asrgZ3gz8X8IiyZgz2yX8Hr1VZo4wpJhKYpkoSP652OVlg6fpqg3RrWPe2FEZE2UkcX4GDXPA2VA8JakHOAgZH4bajoEjOllhF9jHe+gHuqEXb3SshwEwsviLY5u3TfNULhRk1dPT7Md/93BSlHyLnjamK1OORnHIHBUh2AYEeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737559463; c=relaxed/simple;
-	bh=Zzl9rUkD1sGH8a0i7b1qKCI2ZTbgUGZSjND7FivX6Lo=;
+	s=arc-20240116; t=1737566747; c=relaxed/simple;
+	bh=LWiOetpLYWj2C9G4oYP4XduNRB4PwJbMWrmJI504OZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QTGldsPqzeFkzuuhoY5q8wg4PD28xdf/1w1rYXU/Wuoi1XQSQSHOm3LwWWhMwJI0fLw4x0QTKqiiWiF0cSKcVNnqmPjGxct30L3PKfmP6P+Ipn7cBOE8z7rNmGy5X48ISyWUTumVjnLwUzbWdZqWqB5sLgjn5yb23xq9wW6kXC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXJK0+lP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUzhlG2ed4Yno5QfRsN1f6Lz0nT8FnRAvqewEQLlTh74cCR4+NaPzOun8DdSs9PqMWgZRsmjb2HbYFHSgVT8p6RaL2O4PaZ23P3c5GFakXoppSzT89K9JQc56Xtp2pHNXW3H7D0odE5Ysa/ZltPfEykNDsNOCCc3reXrev3crlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AECjqbSR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXJK0+lP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23955C4CED2;
-	Wed, 22 Jan 2025 15:24:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AECjqbSR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79A7C4CED2;
+	Wed, 22 Jan 2025 17:25:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737559463;
-	bh=Zzl9rUkD1sGH8a0i7b1qKCI2ZTbgUGZSjND7FivX6Lo=;
+	s=k20201202; t=1737566746;
+	bh=LWiOetpLYWj2C9G4oYP4XduNRB4PwJbMWrmJI504OZc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NXJK0+lPpjNG4+BBiSPyS7MDU5SJOmxg6q8Rdk+QYk5PRuymTU44BSL3M5vpej2Rd
-	 BBIESbFdgDndJuyjcljDjWTYPt5Y5htyoPZEoMeXdvfM9n4dTKCHgdyCUlWfwNMoom
-	 BKOM0du3o+C7dAplVnKMrZlP1HnBITBQ91wnLSkSrX+5E77jzIIwFhK7/0agNF8aQ7
-	 jFUKVWBr47NuJKQmXhH5Y9O+AREwp7Mpq5NzaxNM3PP2uS4zPdBdkyxFYMmD/m7oVm
-	 0826hfJxAeX7TmKLEjulUeoY1CT4C8xZHlUTby75sSKvIs3Y1lVdCvBlJKBZbjAKiu
-	 7lNv9wSuBf6jA==
+	b=AECjqbSRoylzOg99N7HHnH4L7nZlP01GDR5u3/stuxPD5A1z2wgyy25382cMfRkkE
+	 mpeu2n1wpFZfaBylK0B/1voGzdJ5kEJ8n49leN4rxeHXgUJ03E+D9QAxj9iHD2ROEM
+	 lURR02gRvAV5yTMbaSPv81ZuCdKVHyoXymL/QZXKg5qM6/OujiEN0TUwyvV4yUTOew
+	 9gEePS0VY/gFRDIXiZe1cwfyBdTi6NJfP33G+EcsYli1fsZDycDJ5W2XVPLzN73VUo
+	 D6puM5Vc8O0krk4WF6uo9EWgPeiIJ/dDLQhKe63rO/Cf54thkYqTvYNdEEzF4HiKwc
+	 j0GnNAzYxeXmw==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1tacah-000000008Rz-0oyy;
-	Wed, 22 Jan 2025 16:24:27 +0100
-Date: Wed, 22 Jan 2025 16:24:27 +0100
+	id 1taeUB-000000002TY-3MDU;
+	Wed, 22 Jan 2025 18:25:51 +0100
+Date: Wed, 22 Jan 2025 18:25:51 +0100
 From: Johan Hovold <johan@kernel.org>
 To: manivannan.sadhasivam@linaro.org
 Cc: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>,
@@ -38,9 +38,10 @@ Cc: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>,
 	stable@vger.kernel.org
 Subject: Re: [PATCH 2/2] bus: mhi: host: pci_generic: Recover the device
  synchronously from mhi_pci_runtime_resume()
-Message-ID: <Z5ENq9EMPlNvxNOF@hovoldconsulting.com>
+Message-ID: <Z5EqH95TWIGJhPG9@hovoldconsulting.com>
 References: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
  <20250108-mhi_recovery_fix-v1-2-a0a00a17da46@linaro.org>
+ <Z5ENq9EMPlNvxNOF@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -49,66 +50,86 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250108-mhi_recovery_fix-v1-2-a0a00a17da46@linaro.org>
+In-Reply-To: <Z5ENq9EMPlNvxNOF@hovoldconsulting.com>
 
-On Wed, Jan 08, 2025 at 07:09:28PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> 
-> Currently, in mhi_pci_runtime_resume(), if the resume fails, recovery_work
-> is started asynchronously and success is returned. But this doesn't align
-> with what PM core expects as documented in
-> Documentation/power/runtime_pm.rst:
-> 
-> "Once the subsystem-level resume callback (or the driver resume callback,
-> if invoked directly) has completed successfully, the PM core regards the
-> device as fully operational, which means that the device _must_ be able to
-> complete I/O operations as needed.  The runtime PM status of the device is
-> then 'active'."
-> 
-> So the PM core ends up marking the runtime PM status of the device as
-> 'active', even though the device is not able to handle the I/O operations.
-> This same condition more or less applies to system resume as well.
-> 
-> So to avoid this ambiguity, try to recover the device synchronously from
-> mhi_pci_runtime_resume() and return the actual error code in the case of
-> recovery failure.
-> 
-> For doing so, move the recovery code to __mhi_pci_recovery_work() helper
-> and call that from both mhi_pci_recovery_work() and
-> mhi_pci_runtime_resume(). Former still ignores the return value, while the
-> latter passes it to PM core.
-> 
-> Cc: stable@vger.kernel.org # 5.13
-> Reported-by: Johan Hovold <johan@kernel.org>
-> Closes: https://lore.kernel.org/mhi/Z2PbEPYpqFfrLSJi@hovoldconsulting.com
-> Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On Wed, Jan 22, 2025 at 04:24:27PM +0100, Johan Hovold wrote:
+> On Wed, Jan 08, 2025 at 07:09:28PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > 
+> > Currently, in mhi_pci_runtime_resume(), if the resume fails, recovery_work
+> > is started asynchronously and success is returned. But this doesn't align
+> > with what PM core expects as documented in
+> > Documentation/power/runtime_pm.rst:
 
-Reasoning above makes sense, and I do indeed see resume taking five
-seconds longer with this patch as Loic suggested it would.
+> > Cc: stable@vger.kernel.org # 5.13
+> > Reported-by: Johan Hovold <johan@kernel.org>
+> > Closes: https://lore.kernel.org/mhi/Z2PbEPYpqFfrLSJi@hovoldconsulting.com
+> > Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> Reasoning above makes sense, and I do indeed see resume taking five
+> seconds longer with this patch as Loic suggested it would.
 
-Unfortunately, something else is broken as the recovery code now
-deadlocks again when the modem fails to resume (with both patches
-applied):
+I forgot to mention the following warnings that now show up when system
+resume succeeds. Recovery was run also before this patch but the "parent
+mhi0 should not be sleeping" warnings are new:
 
-[  729.833701] PM: suspend entry (deep)
-[  729.841377] Filesystems sync: 0.000 seconds
-[  729.867672] Freezing user space processes
-[  729.869494] Freezing user space processes completed (elapsed 0.001 seconds)
-[  729.869499] OOM killer disabled.
-[  729.869501] Freezing remaining freezable tasks
-[  729.870882] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
-[  730.184254] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_resume
-[  730.190643] mhi mhi0: Resuming from non M3 state (SYS ERROR)
-[  730.196587] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
-[  730.203412] mhi-pci-generic 0005:01:00.0: device recovery started
+[   68.753288] qcom_mhi_qrtr mhi0_IPCR: failed to prepare for autoqueue transfer -22
+[   68.761109] qcom_mhi_qrtr mhi0_IPCR: PM: dpm_run_callback(): qcom_mhi_qrtr_pm_resume_early [qrtr_mhi] returns -22
+[   68.771804] qcom_mhi_qrtr mhi0_IPCR: PM: failed to resume early: error -22
+[   68.795053] mhi-pci-generic 0005:01:00.0: mhi_pci_resume
+[   68.800709] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_resume
+[   68.800794] mhi mhi0: Resuming from non M3 state (RESET)
+[   68.800804] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
+[   68.819517] mhi-pci-generic 0005:01:00.0: device recovery started
+[   68.819532] mhi-pci-generic 0005:01:00.0: __mhi_power_down
+[   68.819543] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm mutex taken
+[   68.819554] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm lock taken
+[   68.820060] wwan wwan0: port wwan0qcdm0 disconnected
+[   68.824839] nvme nvme0: 12/0/0 default/read/poll queues
+[   68.857908] wwan wwan0: port wwan0mbim0 disconnected
+[   68.864012] wwan wwan0: port wwan0qmi0 disconnected
+[   68.943307] mhi-pci-generic 0005:01:00.0: __mhi_power_down - returns
+[   68.956253] mhi mhi0: Requested to power ON
+[   68.960753] mhi mhi0: Power on setup success
+[   68.965262] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event timeout_ms = 8000
+[   73.183086] mhi mhi0: Wait for device to enter SBL or Mission mode
+[   73.653462] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event returns, ret = 0
+[   73.653752] mhi mhi0_DIAG: PM: parent mhi0 should not be sleeping
+[   73.661955] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - returns
+[   73.668461] mhi mhi0_MBIM: PM: parent mhi0 should not be sleeping
+[   73.674950] mhi-pci-generic 0005:01:00.0: Recovery completed
+[   73.681428] mhi mhi0_QMI: PM: parent mhi0 should not be sleeping
+[   74.315919] OOM killer enabled.
+[   74.316475] wwan wwan0: port wwan0qcdm0 attached
+[   74.319206] Restarting tasks ...
+[   74.322825] done.
+[   74.322870] random: crng reseeded on system resumption
+[   74.325956] wwan wwan0: port wwan0mbim0 attached
+[   74.334467] wwan wwan0: port wwan0qmi0 attached
 
-I've reproduced this three times in three different paths (runtime
-resume before suspend; runtime resume during suspend; and during system
-resume).
-
-I didn't try to figure what causes the deadlock this time (and lockdep
-does not trigger), but you should be able to reproduce this by
-instrumenting a resume failure.
+> Unfortunately, something else is broken as the recovery code now
+> deadlocks again when the modem fails to resume (with both patches
+> applied):
+> 
+> [  729.833701] PM: suspend entry (deep)
+> [  729.841377] Filesystems sync: 0.000 seconds
+> [  729.867672] Freezing user space processes
+> [  729.869494] Freezing user space processes completed (elapsed 0.001 seconds)
+> [  729.869499] OOM killer disabled.
+> [  729.869501] Freezing remaining freezable tasks
+> [  729.870882] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> [  730.184254] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_resume
+> [  730.190643] mhi mhi0: Resuming from non M3 state (SYS ERROR)
+> [  730.196587] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
+> [  730.203412] mhi-pci-generic 0005:01:00.0: device recovery started
+> 
+> I've reproduced this three times in three different paths (runtime
+> resume before suspend; runtime resume during suspend; and during system
+> resume).
+> 
+> I didn't try to figure what causes the deadlock this time (and lockdep
+> does not trigger), but you should be able to reproduce this by
+> instrumenting a resume failure.
 
 Johan
