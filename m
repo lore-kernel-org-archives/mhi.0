@@ -1,113 +1,173 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BC81F4E4E;
-	Tue, 21 Jan 2025 17:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EFF214216;
+	Wed, 22 Jan 2025 15:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737480388; cv=none; b=qHgn5vfsB77hzXTyznoeQ6b2UKxr5jr/tbaNsfj/qulJvfZ1zHKuQR3Tuas9njm8Cb7VwC4J6jAsFJXldJwKwwQN9VV+/cM9Q7wXilELIRY4y3L1ji7v9iPM7Udp3/g+K5VabvL8HI9O3EOU5m+7941M10LJ7fp8MeM4rq6qdFI=
+	t=1737558697; cv=none; b=Z8Tdr4wq+wNPA14hSFhOU/4E89P1IjgMO3Kt8aINGXSiTm0U3iZO1b01ovH/x7VCUogHUnZcfTJuRKJs6oo72HdeybXmqI7P0Ixl4PGUlJmm9VNyB3donxlSnHipEwKWBcxPwAYx88sY8/16vEUD98h55RIFCcmfVE0tG3p31Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737480388; c=relaxed/simple;
-	bh=Y4/8zhwmZYp0mDh5f1nS8B9ZXN6qGUvK7RrWNU+bYlY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ItL65upaxjGW3OYBL5CpCg2o/fCMRsHC4n2/b02d2DBdMAv85ey5hBJtS4tJU67UKk5o0Uca4vkXk0H7WKz6qlNTf9rg50vnl7sqyONy9YMfCq7yOAeiQOTPhGONTATUkdma7f+FKyPofVYL9RIfC/EZPOa3ZIemsuRNEDOdj8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bxxK3te7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1737558697; c=relaxed/simple;
+	bh=9vQhFq9g0lb6Y0ZgvUv/HGm4Wh9t8ZPVZzS4OxSVGNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArhSV8rzogMtC5E0sJZNZwzJHr2tSPvPSkwJtIbVOa2oafa59q/dKTOHq9fdiuj5dtn0WCCW5jvXgDftO44/Z+/nNCunUcVlpE6FrYFvegSfbCc+wrJgK2aVfdEvQxUfmdNxIZLU9qr57To60qxDhAhGxC4VnMJNHx2XMwnJE9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CW3oxtr/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bxxK3te7"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LERgCD010199;
-	Tue, 21 Jan 2025 17:26:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NH5vFqueXGx+u5FUmRbpqL7fuKOgWinlCETXY4uHbs8=; b=bxxK3te7Kgw8jGKF
-	c2AOL2pDnl6O5oQA7qgO/DVK/+2JJigcJ9LRzh5/A6TUxnY5v8H6JEwRAj6o3wB3
-	VWBt2eBzJOoLVd4r7PULWQP6+l/+UswtCBTBCjwfZlyzOF/2JTLjcn7FB4QYz9Jk
-	HFytsg7plOhcMEjyScUd5QydOkU614Mv6CNJS7iGPLcVMTiUySTX1AgUX2rdB4Qa
-	Bhaz2CNHAQgVsFu2tflchuAiUmsOxJD6xo+QdSiVkMW7N8vZf/msCSb4r6whIqON
-	aC72t/hza0RIW/VXsUHeX2/TrIkBb4RIuEpu0bX0RjQD57O82IXOGZKu/QEtnjDh
-	aYS+BQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44adc48evm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Jan 2025 17:26:20 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50LHQ5DI028250
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Jan 2025 17:26:05 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 21 Jan
- 2025 09:26:04 -0800
-Message-ID: <516ec099-b382-44d2-dcd3-68f495a09aca@quicinc.com>
-Date: Tue, 21 Jan 2025 10:26:03 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CW3oxtr/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C13C4CED2;
+	Wed, 22 Jan 2025 15:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737558697;
+	bh=9vQhFq9g0lb6Y0ZgvUv/HGm4Wh9t8ZPVZzS4OxSVGNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CW3oxtr/BGzr4Tflp/hVvLJfHDoMXvXWznwY/WOuGOq3pkYL9AWjllGYYqScTUbCl
+	 HpcwMXX9XDNX9uvbmmxuNAWCW5UNRy4Wysc7oUCLYbi7mZbBtVUOuOOpt8vHk7+LAr
+	 jV746vmROMcKU82f7Gp3m4B1ZwPr63Zp129Obosyhn/k0NMHPlCC9HiI9OJ/yRrut0
+	 xbuwni6ybynfxVjmolSK21TQY/+epcPfV7USbiTetKy11sZTmeBYvpX/uXQh8ro11z
+	 0p/jy6n6ygOMoyxx6yMXI1U4fzv8AZxDLzQcojNt9SBA0xiKyYZzgisT6wBkyU4LpY
+	 43y1thbOhEfzQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tacOL-000000008Ft-1Lz4;
+	Wed, 22 Jan 2025 16:11:42 +0100
+Date: Wed, 22 Jan 2025 16:11:41 +0100
+From: Johan Hovold <johan@kernel.org>
+To: manivannan.sadhasivam@linaro.org
+Cc: mhi@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] bus: mhi: host: pci_generic: Use
+ pci_try_reset_function() to avoid deadlock
+Message-ID: <Z5EKrbXMTK9WBsbq@hovoldconsulting.com>
+References: <20250108-mhi_recovery_fix-v1-0-a0a00a17da46@linaro.org>
+ <20250108-mhi_recovery_fix-v1-1-a0a00a17da46@linaro.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 7/7] accel/qaic: Add AIC200 support
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: <quic_carlv@quicinc.com>, <quic_yabdulra@quicinc.com>,
-        <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>,
-        <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
-        <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>
-References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
- <20250117170943.2643280-8-quic_jhugo@quicinc.com>
- <20250121051624.nhest7s6iyh2ll4m@thinkpad>
- <dbf3e688-d7fc-06ab-aee6-3ed1095148c8@quicinc.com>
- <20250121170606.ribist6ayw75bzlv@thinkpad>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20250121170606.ribist6ayw75bzlv@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: s66M2IW14-YkxwG0nHq74yirpDKUfmPE
-X-Proofpoint-ORIG-GUID: s66M2IW14-YkxwG0nHq74yirpDKUfmPE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-21_07,2025-01-21_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 impostorscore=0
- suspectscore=0 adultscore=0 mlxscore=0 phishscore=0 malwarescore=0
- clxscore=1015 mlxlogscore=929 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501210140
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108-mhi_recovery_fix-v1-1-a0a00a17da46@linaro.org>
 
-On 1/21/2025 10:06 AM, Manivannan Sadhasivam wrote:
-> On Tue, Jan 21, 2025 at 08:29:32AM -0700, Jeffrey Hugo wrote:
->> On 1/20/2025 10:16 PM, Manivannan Sadhasivam wrote:
->>> On Fri, Jan 17, 2025 at 10:09:43AM -0700, Jeffrey Hugo wrote:
->>>> Add basic support for the new AIC200 product. The PCIe Device ID is
->>>> 0xa110. With this, we can turn on the lights for AIC200 by leveraging
->>>> much of the existing driver.
->>>>
->>>> Co-developed-by: Youssef Samir <quic_yabdulra@quicinc.com>
->>>> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
->>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->>>
->>> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->>
->> Thanks for the reviews/ack.
->>
->> Do you have thoughts on merging the series? I think I could take everything
->> through drm-misc, you could take everything through the MHI tree, or we
->> could split the series by tree with a phased approach.
->>
+On Wed, Jan 08, 2025 at 07:09:27PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > 
-> You can take the entire series through drm-misc. I don't forsee any core changes
-> to the MHI host stack next cycle, so it should be fine. If something pops up in
-> the middle, we can do an immutable branch.
+> There are multiple places from where the recovery work gets scheduled
+> asynchronously. Also, there are multiple places where the caller waits
+> synchronously for the recovery to be completed. One such place is during
+> the PM shutdown() callback.
+> 
+> If the device is not alive during recovery_work, it will try to reset the
+> device using pci_reset_function(). This function internally will take the
+> device_lock() first before resetting the device. By this time, if the lock
+> has already been acquired, then recovery_work will get stalled while
+> waiting for the lock. And if the lock was already acquired by the caller
+> which waits for the recovery_work to be completed, it will lead to
+> deadlock.
+> 
+> This is what happened on the X1E80100 CRD device when the device died
+> before shutdown() callback. Driver core calls the driver's shutdown()
+> callback while holding the device_lock() leading to deadlock.
+> 
+> And this deadlock scenario can occur on other paths as well, like during
+> the PM suspend() callback, where the driver core would hold the
+> device_lock() before calling driver's suspend() callback. And if the
+> recovery_work was already started, it could lead to deadlock. This is also
+> observed on the X1E80100 CRD.
+> 
+> So to fix both issues, use pci_try_reset_function() in recovery_work. This
+> function first checks for the availability of the device_lock() before
+> trying to reset the device. If the lock is available, it will acquire it
+> and reset the device. Otherwise, it will return -EAGAIN. If that happens,
+> recovery_work will fail with the error message "Recovery failed" as not
+> much could be done.
 
-Will do.  Thanks!
+I can confirm that this patch (alone) fixes the deadlock on shutdown
+and suspend as expected, but it does leave the system state that blocks
+further suspend (this is with patches that tear down the PCI link).
+Looks like the modem is also hosed.
 
--Jeff
+[  267.454616] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_resume
+[  267.461165] mhi mhi0: Resuming from non M3 state (SYS ERROR)
+[  267.467102] mhi-pci-generic 0005:01:00.0: failed to resume device: -22
+[  267.473968] mhi-pci-generic 0005:01:00.0: device recovery started
+[  267.477460] mhi-pci-generic 0005:01:00.0: mhi_pci_suspend
+[  267.480331] mhi-pci-generic 0005:01:00.0: __mhi_power_down
+[  267.485917] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_suspend
+[  267.498339] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm mutex taken
+[  267.505618] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm lock taken
+[  267.513372] wwan wwan0: port wwan0qcdm0 disconnected
+[  267.519556] wwan wwan0: port wwan0mbim0 disconnected
+[  267.525544] wwan wwan0: port wwan0qmi0 disconnected
+[  267.573773] mhi-pci-generic 0005:01:00.0: __mhi_power_down - returns
+[  267.591199] mhi mhi0: Requested to power ON
+[  267.914688] mhi mhi0: Power on setup success
+[  267.914875] mhi mhi0: Wait for device to enter SBL or Mission mode
+[  267.919179] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event timeout_ms = 8000
+[  276.189399] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - wait event returns, ret = -110
+[  276.198240] mhi-pci-generic 0005:01:00.0: __mhi_power_down
+[  276.203990] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm mutex taken
+[  276.211269] mhi-pci-generic 0005:01:00.0: __mhi_power_down - pm lock taken
+[  276.220024] mhi-pci-generic 0005:01:00.0: __mhi_power_down - returns
+[  276.226680] mhi-pci-generic 0005:01:00.0: mhi_sync_power_up - returns
+[  276.233417] mhi-pci-generic 0005:01:00.0: mhi_pci_recovery_work - mhi unprepare after power down
+[  276.242604] mhi-pci-generic 0005:01:00.0: mhi_pci_recovery_work - pci reset
+[  276.249881] mhi-pci-generic 0005:01:00.0: Recovery failed
+[  276.255536] mhi-pci-generic 0005:01:00.0: mhi_pci_recovery_work - returns
+[  276.328878] qcom-pcie 1bf8000.pci: qcom_pcie_suspend_noirq
+[  276.368851] qcom-pcie 1c00000.pci: qcom_pcie_suspend_noirq
+[  276.477900] qcom-pcie 1c00000.pci: Failed to enter L2/L3
+[  276.483535] qcom-pcie 1c00000.pci: PM: dpm_run_callback(): genpd_suspend_noirq returns -110
+[  276.492292] qcom-pcie 1c00000.pci: PM: failed to suspend noirq: error -110
+[  276.500218] qcom-pcie 1bf8000.pci: qcom_pcie_resume_noirq
+[  276.721401] qcom-pcie 1bf8000.pci: PCIe Gen.4 x4 link up
+[  276.730639] PM: noirq suspend of devices failed
+[  276.818943] mhi-pci-generic 0005:01:00.0: mhi_pci_resume
+[  276.824582] mhi-pci-generic 0005:01:00.0: mhi_pci_runtime_resume
+
+Still better than hanging the machine, but perhaps not much point in
+having recovery code that can't recover the device.
+
+We obviously need to track down what is causing the modem to fail to
+resume since 6.13-rc1 too.
+
+> Cc: stable@vger.kernel.org # 5.12
+> Reported-by: Johan Hovold <johan@kernel.org>
+> Closes: https://lore.kernel.org/mhi/Z1me8iaK7cwgjL92@hovoldconsulting.com
+
+Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
+
+And since I've spent way to much time debugging this and provided the
+analysis of the deadlock:
+
+Analyzed-by: Johan Hovold <johan@kernel.org>
+Link: https://lore.kernel.org/mhi/Z2KKjWY2mPen6GPL@hovoldconsulting.com/
+
+> Fixes: 7389337f0a78 ("mhi: pci_generic: Add suspend/resume/recovery procedure")
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 07645ce2119a..e92df380c785 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1040,7 +1040,7 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+>  err_unprepare:
+>  	mhi_unprepare_after_power_down(mhi_cntrl);
+>  err_try_reset:
+> -	if (pci_reset_function(pdev))
+> +	if (pci_try_reset_function(pdev))
+>  		dev_err(&pdev->dev, "Recovery failed\n");
+
+Perhaps you should log the returned error here as a part of this patch
+so we can tell when the recovery code failed due to the device lock
+being held.
+
+>  }
+
+Johan
