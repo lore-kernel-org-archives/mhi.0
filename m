@@ -1,130 +1,202 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DCB1E883E;
-	Fri, 31 Jan 2025 17:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B4F1BC077
+	for <mhi@lists.linux.dev>; Sat,  1 Feb 2025 16:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738343576; cv=none; b=MSZebGednS159izJtTxQvGAVkflFZ4xF/EC076GQAi70jASIwy69BuYoleX9ejJ7wKatMJSBipUhb/4rKCI4q7ql5hDcYU0RcnXBcrUTPf89eJR9T2eUi504d2Nc/l3Fz1Ed35Q+s8MEKEdzhqp+9n/CCcL6NdJMi1Vag9/2YwE=
+	t=1738426048; cv=none; b=oEou1CC3059pqHvXuPPwnRoHyWK0Umwco7l322kyQyH/chFDGrhRv9/gBY2BwxwGXlubzXlEnp3hOoMAFwSIREOKZVTR8ONZIS/EiLxmsbBfrejo0zjZNSMKpn/l7K4t3qCzrn7xyNrcoZhMQHrRSjoSOygYNqtMx22ED52V3P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738343576; c=relaxed/simple;
-	bh=9l7/VyfLwKaVjbVfDHcPJN6zspXBl7TLDVAcybwMI6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GH+moEHxGEDRPTyJ+G7IfFxNPszQ6WMhNEbXm0Xw2c2DoXZ+5EvZfNBV6huK53sMwvnH8s1ZhW1xSjdIOWTkwoUKP/LzIkpK/sH8VnDRn4DVyW6Gx+lYL04CnyfC6Z/M2saYMxND46VrojOK6ZA3pGCmP7NwAVseRwpbsMICUpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jOBW4E26; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1738426048; c=relaxed/simple;
+	bh=g06AyooziM75vKiwG8D4NAwEKMYO1gOo6PVjYKxBdaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ioDqOsu3CxjprzVFGyTJ8uhCPKqlgXkaoppIE/vZZthXQUS0Df1FO7fndsveyv0fSYxKi7qyPrq28eYZm4XjEuT3EqYVhTZEgZyBPFyOSkSbhqYy6Lx/5Avdy1eMk2J8g/4PPvNX1ECauS6boOP/KeXwt92K/hLSI2A6xnk6JYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ENVVreTz; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jOBW4E26"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VGvTs3012737;
-	Fri, 31 Jan 2025 17:12:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xa33Uki9JwMISfJXTyskf/bagu1pRj2S+WNwAyM6Xko=; b=jOBW4E26VYbjCjmj
-	pPZypvt0yvvFM5XzKHE99/dSDc26BET2mBUjeXG3o/tJDBZUW2hvKTtlmUIdojzD
-	CtgMR+rjI6vyuX1EyCZsV+9hweNBYvyLvxY1AZ7VXY/mP2Jq5eAOwonEzzKlIdeE
-	0HwEeoJgjDEN5POosEM971T72jBXIPk6MD8YzWRZtFLfMwR8U6qIDSn3jc5oXWaB
-	f+tAgAJto5a47bzXNcBVc7DCj/+CHrbzvpvk//asvJvCAomDwqjAHYTEvH+ziYTM
-	hHJoRidV40TxtQPPOumP99PyVi0VvxGUopAE0tphBlwAGjMvpwUL1OOqAbDPVCwO
-	FnLhIQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44h2gd81dp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jan 2025 17:12:45 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50VHCibE009199
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jan 2025 17:12:44 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 Jan
- 2025 09:12:43 -0800
-Message-ID: <9fd4a356-6a4f-714e-2b14-dafd20d703ab@quicinc.com>
-Date: Fri, 31 Jan 2025 10:12:42 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ENVVreTz"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2164b1f05caso50378195ad.3
+        for <mhi@lists.linux.dev>; Sat, 01 Feb 2025 08:07:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738426046; x=1739030846; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eZ3t1aj2mFgpfj7pEzNxUv1YuWtm6+xQW/tflVh/XyA=;
+        b=ENVVreTzMJsSJle/N7tXzD6YOh+l9+9Ti7bGY63PYk90NQMDQwrJj1LhfJAqncvRPI
+         5WpHzO404hiLYBe2FkoNxC53whwXgv674gwjclLsRTsKOQEA4DCxydfw/jrT5xKaCT63
+         TP1faCRiyvUzAUJ7n1TKEnrlstiZI71WnH365THlK/8ztkffiqg9dltE9TFYfh95v0xq
+         bjcYKR6rWkgH32wTscYwUJmzgq1DY0PZPXicZs/qpVX/lcWb2KV+tg4pU3OW3SAJmDtD
+         QRUWXHIx0D3GttrKtjYpFEWiJyNNL8/hgJ3p6anENlHuJdeqgc13XRMqZwycC9OGgxmN
+         Yx9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738426046; x=1739030846;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZ3t1aj2mFgpfj7pEzNxUv1YuWtm6+xQW/tflVh/XyA=;
+        b=Je1Lycy2eLNTnWHFanPHAwYEghhf2ScexFvEo46k14Pl2T1dene0z614ITZ9B58SGH
+         VqQ2gtdNVX6JMjsQQZxsYOGyy00d0YTcpH4S0BYjjdnhzMN2Ygh/Y/G5Z+hckoA65L+5
+         lLrtKmIjWFRFY/kx2uHfkon/pUDVklP7ULORkNfVUUjaPpAMHedUFJaxx+PifQbW6omo
+         7jhvFFobJRP4+uFFN908Gy8iNkriVit/Y8zzfbaCLs83RF02LfIOj+8wtJrX1WyNqxI1
+         Z62BEhCkjj8RVbkGIOss8Estni1WC1IM5R+LTRYPntnUDEaJP0eRW+nNqojBDevt24aa
+         P7ZA==
+X-Gm-Message-State: AOJu0Yw7+tHP+OyVYYTZqRbPYwvwNcLXfoDh6YWLNwofyLJPZqc7Gcew
+	M3gCWB8bhLyxpkivZZx+gJRpuw3T5vEdJ6DaKcK/UhqSIkyzEKEXGnH0nFsCoA==
+X-Gm-Gg: ASbGncsCr72jz8O6OG5pB1S8UhBrmXcsD/YOlhR6pulQaxXTY7gsRywZDp3jHxCzFnI
+	93o5pKFdot9rbYRyxhHCPYQCbt7u1VTLUfzt9SwCRyQq8nYnNdE0/mZmmua3AYJv0jWpT/ECxNt
+	mM03LF8lontIKJxaV0/kVY7znssg1gBfP/87j30e18mInVQdclmf9AWxCvelZRpYU4t5ZZk+bsV
+	THYko7SB7OrUd8ZHaMadpoPlIrujk6dm19UQPO6i2Gofg0v4HzAhLibcr/OH+U5w5Ze7u779biL
+	uZWvLl1Q98djIuUPaxhd5jSvrLw=
+X-Google-Smtp-Source: AGHT+IGKVXS8baXhCPTBe6sl/h9UfWPlgRpWJrmewAX1ZXLow3mZ1mzo+rt7H8F7HI7Zdq7gTkCKAg==
+X-Received: by 2002:a05:6a20:72a0:b0:1e5:a0d8:5a33 with SMTP id adf61e73a8af0-1ed7a62498amr27455365637.18.1738426045945;
+        Sat, 01 Feb 2025 08:07:25 -0800 (PST)
+Received: from thinkpad ([120.56.202.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe69cd80esm5193344b3a.121.2025.02.01.08.07.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Feb 2025 08:07:25 -0800 (PST)
+Date: Sat, 1 Feb 2025 21:37:21 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: linux@treblig.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: Remove unused functions
+Message-ID: <20250201160721.bgfyi3cwilvibl74@thinkpad>
+References: <20250127215859.261105-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 0/7] accel/qaic: Initial AIC200 support
-Content-Language: en-US
-To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
-        <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
-        <quic_thanson@quicinc.com>
-CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
-        <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>
-References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: QEKdxOym9gRQgj4N-A2AajIVjFvGOhF4
-X-Proofpoint-GUID: QEKdxOym9gRQgj4N-A2AajIVjFvGOhF4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-31_06,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2501310131
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250127215859.261105-1-linux@treblig.org>
 
-On 1/17/2025 10:09 AM, Jeffrey Hugo wrote:
-> Initial support to the driver to boot up AIC200. AIC200 uses BHIe
-> without BHI, which is something that the MHI bus has not supported until
-> now. While the MHI changes are listed first to facilitate cross-tree
-> merging, they are not needed until the last change in the series.
+On Mon, Jan 27, 2025 at 09:58:59PM +0000, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 > 
-> Also, AIC200 is a different product from AIC100 with MSI-X, different
-> BARs, and different MHI configuration so we finally need some
-> infrastructure in the driver to be able to handle product differences.
-> This is expected to evolve more over time.
-> 
-> v2:
-> -Remove inline on mhi_fw_load_error_dump() and shorten stack variable
-> lines
-> -Simplify kcalloc from mhi_alloc_bhi_buffer()
-> -Inline mhi_firmware_copy_bhi() and drop the function
-> -Fix spelling of MHI/BHIe in commit text of patch 2
-> -Drop MHI_FW_LOAD_UNKNOWN
-> -Simplify mhi_fw_load_type_get()
-> -Rename mhi_send_image_bhi() to mhi_load_image_bhi()
-> -Rename mhi_send_image_bhie() to mhi_load_image_bhie()
-> -Adjust the order of mhi_cntrl init in qaic_mhi_register_controller()
-> 
-> Jeffrey Hugo (2):
->    accel/qaic: Add config structs for supported cards
->    accel/qaic: Add AIC200 support
-> 
-> Matthew Leung (2):
->    bus: mhi: host: Refactor BHI/BHIe based firmware loading
->    bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL
-> 
-> Youssef Samir (3):
->    accel/qaic: Allocate an exact number of MSIs
->    accel/qaic: Add support for MSI-X
->    accel/qaic: Mask out SR-IOV PCI resources
-> 
->   drivers/accel/qaic/mhi_controller.c | 360 ++++++++++++++++++++++++++--
->   drivers/accel/qaic/mhi_controller.h |   2 +-
->   drivers/accel/qaic/qaic.h           |  14 +-
->   drivers/accel/qaic/qaic_drv.c       |  97 +++++---
->   drivers/accel/qaic/qaic_timesync.c  |   2 +-
->   drivers/accel/qaic/sahara.c         |  39 ++-
->   drivers/bus/mhi/host/boot.c         | 203 ++++++++++++----
->   drivers/bus/mhi/host/init.c         |   2 +-
->   drivers/bus/mhi/host/internal.h     |   7 +
->   9 files changed, 620 insertions(+), 106 deletions(-)
 
-Pushed to drm-misc-next
+Subject prefix should be:
 
+'bus: mhi: host:"
+
+> mhi_device_get() and mhi_queue_dma() haven't been used since 2020's
+> commit 189ff97cca53 ("bus: mhi: core: Add support for data transfer")
+> added them.
+> 
+> Remove them.
+> 
+> Note that mhi_queue_dma_sync() is used and has been left.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/main.c | 19 -------------------
+>  drivers/bus/mhi/host/pm.c   | 14 --------------
+>  include/linux/mhi.h         | 18 ------------------
+>  3 files changed, 51 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 4de75674f193..4c91ffd6ed0e 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -1181,25 +1181,6 @@ int mhi_queue_skb(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_queue_skb);
+>  
+> -int mhi_queue_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+> -		  struct mhi_buf *mhi_buf, size_t len, enum mhi_flags mflags)
+> -{
+> -	struct mhi_chan *mhi_chan = (dir == DMA_TO_DEVICE) ? mhi_dev->ul_chan :
+> -							     mhi_dev->dl_chan;
+> -	struct mhi_buf_info buf_info = { };
+> -
+> -	buf_info.p_addr = mhi_buf->dma_addr;
+> -	buf_info.cb_buf = mhi_buf;
+> -	buf_info.pre_mapped = true;
+> -	buf_info.len = len;
+> -
+> -	if (unlikely(mhi_chan->pre_alloc))
+> -		return -EINVAL;
+> -
+> -	return mhi_queue(mhi_dev, &buf_info, dir, mflags);
+> -}
+> -EXPORT_SYMBOL_GPL(mhi_queue_dma);
+> -
+>  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+>  			struct mhi_buf_info *info, enum mhi_flags flags)
+>  {
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 11c0e751f223..2fb27e6f8f88 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -1296,20 +1296,6 @@ int mhi_force_rddm_mode(struct mhi_controller *mhi_cntrl)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_force_rddm_mode);
+>  
+> -void mhi_device_get(struct mhi_device *mhi_dev)
+> -{
+> -	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+> -
+> -	mhi_dev->dev_wake++;
+> -	read_lock_bh(&mhi_cntrl->pm_lock);
+> -	if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
+> -		mhi_trigger_resume(mhi_cntrl);
+> -
+> -	mhi_cntrl->wake_get(mhi_cntrl, true);
+> -	read_unlock_bh(&mhi_cntrl->pm_lock);
+> -}
+> -EXPORT_SYMBOL_GPL(mhi_device_get);
+> -
+>  int mhi_device_get_sync(struct mhi_device *mhi_dev)
+>  {
+>  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index 059dc94d20bb..dd372b0123a6 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -720,12 +720,6 @@ enum mhi_state mhi_get_mhi_state(struct mhi_controller *mhi_cntrl);
+>   */
+>  void mhi_soc_reset(struct mhi_controller *mhi_cntrl);
+>  
+> -/**
+> - * mhi_device_get - Disable device low power mode
+> - * @mhi_dev: Device associated with the channel
+> - */
+> -void mhi_device_get(struct mhi_device *mhi_dev);
+> -
+>  /**
+>   * mhi_device_get_sync - Disable device low power mode. Synchronously
+>   *                       take the controller out of suspended state
+> @@ -776,18 +770,6 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
+>   */
+>  void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev);
+>  
+> -/**
+> - * mhi_queue_dma - Send or receive DMA mapped buffers from client device
+> - *                 over MHI channel
+> - * @mhi_dev: Device associated with the channels
+> - * @dir: DMA direction for the channel
+> - * @mhi_buf: Buffer for holding the DMA mapped data
+> - * @len: Buffer length
+> - * @mflags: MHI transfer flags used for the transfer
+> - */
+> -int mhi_queue_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+> -		  struct mhi_buf *mhi_buf, size_t len, enum mhi_flags mflags);
+> -
+>  /**
+>   * mhi_queue_buf - Send or receive raw buffers from client device over MHI
+>   *                 channel
+> -- 
+> 2.48.1
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
