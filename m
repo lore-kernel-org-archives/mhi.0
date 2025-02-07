@@ -1,42 +1,72 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44961BC9FB;
-	Sat,  1 Feb 2025 17:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42196195985
+	for <mhi@lists.linux.dev>; Fri,  7 Feb 2025 17:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738432100; cv=none; b=gol6bPGOIlbXTGaaMhT2OV2pR/nXwsCn7kROp/NoyinvDScVF9S8PtoG9gV5piiza6y3BEL0aOCJnXMUSCRMKkJYr8jykpEibwA13SKN6iYW5hgjZ7co8F4ldwBHwx2LhAo3V+USqucOYaMuPZoqhqlkstyd6AH7vDL1Fc06ZT8=
+	t=1738950238; cv=none; b=ZBaRBTPlZwbrZ/8wM3bKRpYiVi2mE7cDhLejg9OlLZRHiZAsBOdciAGRioOvsRI3xhwpW4/uzfzAmQf49i7pAxSakG0DsG+anKZEhFw8J7zZLBEHF9KKvC/52ZfvB0rsWv/SiFPwM5JY8W8TsiQK/USyeiEXmRWPWmAaET7ZDTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738432100; c=relaxed/simple;
-	bh=/Aki87UBMnfogFuSIAq4F8RCWeqdXEEThctnE+tHSdo=;
+	s=arc-20240116; t=1738950238; c=relaxed/simple;
+	bh=c9BG+dddiuTYPj3MATPxipFhaT5LiNMb0S58a/cOgpA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3XiOcb3tDXCMsXH0pOLcHn7EZbmfZ3KDja8MoDxqqqc6j4739bN8bQaw3ETNNwa3jZc9wlfIGrmR4igMOGKpHj8JdYSpQjfStNv0oCBVkxpb7QVZnLqyQWjPcfVRr42/KiEO/FREIqG+wDv/hgkcmCq60NanknWcq7cbg6y7/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=lHgJ34Ws; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lbb2zxq8MWtyLv+JUNg/Wvzejpc9CB+ccTuspZ3ejlEq7R9jxEq0OlD1o+0NVnP1aozrsXppmUCTB/qD8xVhWikfjzhjENUrLm4CMs5ToxNAa904uy4CP3Mx0XnHnYED64mHAdrYVh6cpPiadwVn5k3VJExSq7QWwxzPKFHZtzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hrc8UAiI; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="lHgJ34Ws"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=1AaliKzqS6YE6Kv8D/0AWFat4Y9z0mg+EEQEmJJmlTU=; b=lHgJ34Ws1oSfKF6O
-	KM+va9ur8XPtre+IxXaWi9nwyAuzw+fAkAHyE5jP41qpVxnTlOR0h2gYe4P38QOo2RfL36yM4vdSn
-	xuYzFOm8GjxwtuHrw2bPmaj7ZwKdabJED2wOvFfoUoOYC142xFeBE1pRT4k1b/DYFi6YTpublNpUR
-	slY3oxS6akgjeO6iU4kMXJrZkhYvJ9TFLIp77TQFi99j51VdL48/rphDCQr/75McZMOtGAtjDbzcK
-	6B/IOtsVHzf0+XfU6ga0YKL3+mZxYv6K14YPsme9mZoBTn/7fbWsCYTSMzZgK0uM2Axc5S3h3/+XJ
-	8CAxz63qz1ezSJKyYA==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1teHbG-00D4oE-1G;
-	Sat, 01 Feb 2025 17:48:10 +0000
-Date: Sat, 1 Feb 2025 17:48:10 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hrc8UAiI"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21f20666e72so50737885ad.1
+        for <mhi@lists.linux.dev>; Fri, 07 Feb 2025 09:43:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738950236; x=1739555036; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZvlJDdsD4/VUKIsEz1kRWlYd5CsK3CkVo9g/8YQ1yzY=;
+        b=hrc8UAiIr9aLLEoWE3hNmOTQ7clHbK6/te7Sh7CmdrWZeFJB+nGJ08+GvNGpLMuLIv
+         0ZvMFnkq1sJvvaDikf36LM+3UgVaWawbAgPKS8l7iunvOJkN16f267H4TX/4gccEOX+q
+         0fYGuptWyluInOVJjmjCNOxee/mCfbE2ZIEwPSRKRYledrJ5gQwlhmz5lY2Xibh2yjaB
+         pKpBNuwlVJlpanXQTdoCRsD4q4UkWVKUzO9aJMzaOKKXmRpdY9M0zFTxeIfXFN64XWaB
+         l7RKL53LKWfBd6pkRU3eiYqNk2/ghh82IUdFpNS7zQ47IbFoWHTfT9BjFm2FizTf2JIh
+         /CzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738950236; x=1739555036;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvlJDdsD4/VUKIsEz1kRWlYd5CsK3CkVo9g/8YQ1yzY=;
+        b=GvzFPWd9VhZCPb7++nBz4oSShmpvlC+tMS5FaDWLARX9kLRCCcNpYtDUEyvUVpWvCn
+         ji2sKz+tee/Su9cg6BLQTuMi0TUqLdHttHRQ7R5Kgu60Uf5S5Qv98dF8wzU1VK1P3H9c
+         vfmayC6gsN240i58R0YCWuePzapBF9JgWIhKSBfEjpuHEMarBFr4XG2aMOeq4Pwpg7Mo
+         vxrC2n4hMhkXc0et+AskKUmSZ1APJnrMLRhPZiK6YqY2x8b/3cJL+rcca5IswLrfVZWG
+         2V4qpnoT0a7vmLhBnCqR7tpBfvUNijRcET3wq8sQ9waDoW8JaHh76LlA4dD0phsUUwpT
+         1c+g==
+X-Gm-Message-State: AOJu0YzoGyh9C/b0bv/o96Bf23yE7A5ZMVLm8IueHQHq571EmX6+UmOo
+	7MYc+v2ws04SG5TJH24fK3vRDWV6Gz6vnuyLKsOooDYcHRFaAV8XA7GB/HO7XXQwBRjdbzw1trQ
+	=
+X-Gm-Gg: ASbGncsTilaPAYzCOC1nP5ibauVGQ9eDEQW3UhLSgopQ42sm3z50n2uUi+4H0IxkktO
+	5w1aFwncawcXraYaSuZdnFaS001TPtQbdsifl5S+6Btj/1q2ekbLl6tThd8HZubwzW4JO84yRb7
+	96CBstn9FhIRU/ADm85LoGragumZo13tK9onXyMby/FUDCY+ogfPKRFEv0DXElygXG4ZEPuAg+8
+	gwGA2zmqk08LSS1QYcL8NJ5Uu+1SZoy82/HE+n0abeGYfnz573kl0LjOl8n2akzAwS89k3pqQlL
+	GuKZbyJH6QCt+M6NH8lWlDWG8Q==
+X-Google-Smtp-Source: AGHT+IFYaPnu8nAAzI4VlaiplnIV/qm5sPf037YcNY/ispLSCgTlWlOwIEh32JjPqZCnATuTeyyZqg==
+X-Received: by 2002:a17:903:1cd:b0:215:65f3:27f2 with SMTP id d9443c01a7336-21f4e6a5767mr52384765ad.8.1738950236602;
+        Fri, 07 Feb 2025 09:43:56 -0800 (PST)
+Received: from thinkpad ([120.60.76.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368a25casm33325135ad.218.2025.02.07.09.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 09:43:56 -0800 (PST)
+Date: Fri, 7 Feb 2025 23:13:53 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: Remove unused functions
-Message-ID: <Z55eWunU1NRkV2QP@gallifrey>
+Message-ID: <20250207174353.rxsxblcrnkieise3@thinkpad>
 References: <20250127215859.261105-1-linux@treblig.org>
  <20250201160721.bgfyi3cwilvibl74@thinkpad>
+ <Z55eWunU1NRkV2QP@gallifrey>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,147 +76,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250201160721.bgfyi3cwilvibl74@thinkpad>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 17:47:43 up 269 days,  5:01,  1 user,  load average: 0.07, 0.03,
- 0.01
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <Z55eWunU1NRkV2QP@gallifrey>
 
-* Manivannan Sadhasivam (manivannan.sadhasivam@linaro.org) wrote:
-> On Mon, Jan 27, 2025 at 09:58:59PM +0000, linux@treblig.org wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Sat, Feb 01, 2025 at 05:48:10PM +0000, Dr. David Alan Gilbert wrote:
+> * Manivannan Sadhasivam (manivannan.sadhasivam@linaro.org) wrote:
+> > On Mon, Jan 27, 2025 at 09:58:59PM +0000, linux@treblig.org wrote:
+> > > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > > 
 > > 
+> > Subject prefix should be:
+> > 
+> > 'bus: mhi: host:"
 > 
-> Subject prefix should be:
-> 
-> 'bus: mhi: host:"
+> Ah, do you need me to post a v2 for that?
 
-Ah, do you need me to post a v2 for that?
-> 
-> > mhi_device_get() and mhi_queue_dma() haven't been used since 2020's
-> > commit 189ff97cca53 ("bus: mhi: core: Add support for data transfer")
-> > added them.
-> > 
-> > Remove them.
-> > 
-> > Note that mhi_queue_dma_sync() is used and has been left.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> 
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+No need. I will ammend it while applying.
 
-Thanks,
+- Mani
 
-Dave
-
-> - Mani
-> 
-> > ---
-> >  drivers/bus/mhi/host/main.c | 19 -------------------
-> >  drivers/bus/mhi/host/pm.c   | 14 --------------
-> >  include/linux/mhi.h         | 18 ------------------
-> >  3 files changed, 51 deletions(-)
-> > 
-> > diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> > index 4de75674f193..4c91ffd6ed0e 100644
-> > --- a/drivers/bus/mhi/host/main.c
-> > +++ b/drivers/bus/mhi/host/main.c
-> > @@ -1181,25 +1181,6 @@ int mhi_queue_skb(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-> >  }
-> >  EXPORT_SYMBOL_GPL(mhi_queue_skb);
-> >  
-> > -int mhi_queue_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-> > -		  struct mhi_buf *mhi_buf, size_t len, enum mhi_flags mflags)
-> > -{
-> > -	struct mhi_chan *mhi_chan = (dir == DMA_TO_DEVICE) ? mhi_dev->ul_chan :
-> > -							     mhi_dev->dl_chan;
-> > -	struct mhi_buf_info buf_info = { };
-> > -
-> > -	buf_info.p_addr = mhi_buf->dma_addr;
-> > -	buf_info.cb_buf = mhi_buf;
-> > -	buf_info.pre_mapped = true;
-> > -	buf_info.len = len;
-> > -
-> > -	if (unlikely(mhi_chan->pre_alloc))
-> > -		return -EINVAL;
-> > -
-> > -	return mhi_queue(mhi_dev, &buf_info, dir, mflags);
-> > -}
-> > -EXPORT_SYMBOL_GPL(mhi_queue_dma);
-> > -
-> >  int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-> >  			struct mhi_buf_info *info, enum mhi_flags flags)
-> >  {
-> > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> > index 11c0e751f223..2fb27e6f8f88 100644
-> > --- a/drivers/bus/mhi/host/pm.c
-> > +++ b/drivers/bus/mhi/host/pm.c
-> > @@ -1296,20 +1296,6 @@ int mhi_force_rddm_mode(struct mhi_controller *mhi_cntrl)
-> >  }
-> >  EXPORT_SYMBOL_GPL(mhi_force_rddm_mode);
-> >  
-> > -void mhi_device_get(struct mhi_device *mhi_dev)
-> > -{
-> > -	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> > -
-> > -	mhi_dev->dev_wake++;
-> > -	read_lock_bh(&mhi_cntrl->pm_lock);
-> > -	if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
-> > -		mhi_trigger_resume(mhi_cntrl);
-> > -
-> > -	mhi_cntrl->wake_get(mhi_cntrl, true);
-> > -	read_unlock_bh(&mhi_cntrl->pm_lock);
-> > -}
-> > -EXPORT_SYMBOL_GPL(mhi_device_get);
-> > -
-> >  int mhi_device_get_sync(struct mhi_device *mhi_dev)
-> >  {
-> >  	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> > index 059dc94d20bb..dd372b0123a6 100644
-> > --- a/include/linux/mhi.h
-> > +++ b/include/linux/mhi.h
-> > @@ -720,12 +720,6 @@ enum mhi_state mhi_get_mhi_state(struct mhi_controller *mhi_cntrl);
-> >   */
-> >  void mhi_soc_reset(struct mhi_controller *mhi_cntrl);
-> >  
-> > -/**
-> > - * mhi_device_get - Disable device low power mode
-> > - * @mhi_dev: Device associated with the channel
-> > - */
-> > -void mhi_device_get(struct mhi_device *mhi_dev);
-> > -
-> >  /**
-> >   * mhi_device_get_sync - Disable device low power mode. Synchronously
-> >   *                       take the controller out of suspended state
-> > @@ -776,18 +770,6 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
-> >   */
-> >  void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev);
-> >  
-> > -/**
-> > - * mhi_queue_dma - Send or receive DMA mapped buffers from client device
-> > - *                 over MHI channel
-> > - * @mhi_dev: Device associated with the channels
-> > - * @dir: DMA direction for the channel
-> > - * @mhi_buf: Buffer for holding the DMA mapped data
-> > - * @len: Buffer length
-> > - * @mflags: MHI transfer flags used for the transfer
-> > - */
-> > -int mhi_queue_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-> > -		  struct mhi_buf *mhi_buf, size_t len, enum mhi_flags mflags);
-> > -
-> >  /**
-> >   * mhi_queue_buf - Send or receive raw buffers from client device over MHI
-> >   *                 channel
-> > -- 
-> > 2.48.1
-> > 
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+மணிவண்ணன் சதாசிவம்
