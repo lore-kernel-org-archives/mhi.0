@@ -1,297 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C2E241129
-	for <mhi@lists.linux.dev>; Sat,  8 Feb 2025 18:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739038364; cv=none; b=H5HFQA+NT9FMBr85b7lfjpzwfYtQhuNyNFHXcSSpQ58nQXdBQoXHMYIBOKAWXPDo8i7+hg3t/40Wc9uV7LN6B6eOkrrcJ6l304Os7lFZJcdXXVaZZsZkd3co6Ixd29sPbhJ3EANneYEmjT4V4SJkrY0cqMk4H2qRGALXuK5ryg4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739038364; c=relaxed/simple;
-	bh=ImOLKQijyAPTLdPNn6EGROYvrk04sdJYSGra8Cmv0bM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E+CqCxInJCqvqL2g0EN0PKxXZnNQNctFUjFGrjSCbkTq8VNx7kKeaT/M1ypITBQRl6HXUHoq/ZYAzTpUKroioAtXG1HkUK9xpyVVfkW4D6tKC2iNWPeni62hyZD7usXEoyJ2n9IHo0n/qTDbahHLkMVcQX+LwqM5AeuL7MaVekY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/J5+5Uj; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601061E500C
+	for <mhi@lists.linux.dev>; Tue, 11 Feb 2025 08:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739261737; cv=pass; b=E5LnUJzE+YL1tV2JNJytfSbAgjoz5QOxKObNlv8tjQnDnK8w3bEtzHC/voF/Qe7TXt5COy8pCNU6nJLs6RBVxGwAswsRNBRmbtWeP7Jo5SE5Q4FI5amBGriRmg4knuOkDqMM75fmRIoZ1GFeXcGQyhfXdEWI5H83sfZE6CNOKO8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739261737; c=relaxed/simple;
+	bh=ml9HCLFnHj3okZfENU5PWNu76H5yibO9VbLtc/Rw0KE=;
+	h=Message-ID:Date:MIME-Version:Cc:From:Subject:To:Content-Type; b=bHfT0mQB6WWYdBPwa3psBe5LbOnnUeiS9P8EapTsHeTXKpWomTlBjcYetLE9j0sbW2hqnm2C+XmYl3n6oTee/HXCL9kU/vArXo8c/7ZmJBCOztWIBiQEGGipC4+VTIZ6h1fxOrJcIQ/mOrDBc0UjT3vZtPA4vWL02M2W9dcualk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=Usama.Anjum@collabora.com header.b=HvnVlaZa; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/J5+5Uj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739038362; x=1770574362;
-  h=date:from:to:cc:subject:message-id;
-  bh=ImOLKQijyAPTLdPNn6EGROYvrk04sdJYSGra8Cmv0bM=;
-  b=I/J5+5UjqQD7Rw9HfeuZ694QpE7T+VbTGWupsS9GVo66l1cmShz23tvs
-   GJgFtiSI50st926iGYLPxPDjJmsqdC5t3oDWlu7BXOROO0zkRzDz8YhQj
-   QyOJ4NG5jXr1BDDsiE7uJNh3XyvfeKYB5YetSClFA1974ZgEo0OBQwjz6
-   VAaxwsffzVgoaHVuG+C+F+uwz0OARoeMukg4sEdSeSzAZ2okc1apk0RHZ
-   0HQJODrEY/zUuN/evFqurSoPRhrFyHl6cM5LJ94CciPzKDueNUw3t9vkj
-   P27rTBPc4mFxWFLPDAvEKPeCdKS2VPCLB8nVmhNqMUlkADNNAxNdKvpyR
-   Q==;
-X-CSE-ConnectionGUID: sqc4Y1IvSBu3K2bLSATAeA==
-X-CSE-MsgGUID: f0xfg5gYShGiK+Rfiz5C4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43585509"
-X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="43585509"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 10:12:40 -0800
-X-CSE-ConnectionGUID: ogy1wasYRz22z/oc1dTt7g==
-X-CSE-MsgGUID: sMu66G+yTE+MqhJQ0iYxSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="112438622"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Feb 2025 10:12:39 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tgpJk-0010TT-2N;
-	Sat, 08 Feb 2025 18:12:36 +0000
-Date: Sun, 09 Feb 2025 02:11:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- c8006fbd0f4fd15fa990786ff9a097b45eef616c
-Message-ID: <202502090245.4sj1kKhR-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=Usama.Anjum@collabora.com header.b="HvnVlaZa"
+ARC-Seal: i=1; a=rsa-sha256; t=1739261723; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UGPx6GsCZ4qC2x55GioKK9jhZ4XcOAQhBYpk1HPuJcKFfIoQ+CusgVxAZc/n4Ajcr03BfWVFPIBpyEx5OhBzPZbyMsMab/FyMbonI4E/ZiYYnrglITikLTy4/fraTretrYrFQedBKJzJe7LralxjDapL4HPU9mEjor8bb5hOxhE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1739261723; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Jm2+B3dC9Go2CBCBCYErvWv91+CAUXIZB+j0be0w8Fc=; 
+	b=GHJIVZsZ7anm0JxHe69Z9GlJJBFfIpDJd24M3kZWYYjdowqg9UMcWn03BqYHtHTFMPHlhZo8XiMOt7S47cRcO0TO68yL9DObmLBhm1pZsb1/Pf0DKSkTPVqQNPWYIU2VxD3Pe7TefJd5DCryl+l1PL4sH3SE7PG1sGcVyikoJeI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=Usama.Anjum@collabora.com;
+	dmarc=pass header.from=<Usama.Anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739261723;
+	s=zohomail; d=collabora.com; i=Usama.Anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Cc:Cc:From:From:Subject:Subject:To:To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Jm2+B3dC9Go2CBCBCYErvWv91+CAUXIZB+j0be0w8Fc=;
+	b=HvnVlaZaABEpZRMUDfS656mZSHd3yqfW/qACeoH9MdwFui+vy9u3FasRnBzOqame
+	JE1eP+c1fEdG7RFH3o4ztcm5UpTN9QT2adnfp+SRmGMC8qmyxwwol+/5+PBgzCw89Bb
+	lr6rmaS/v+7lAcb2wBG19dn54pNQeGXwa6a+zvFg=
+Received: by mx.zohomail.com with SMTPS id 1739261719547543.4080545437324;
+	Tue, 11 Feb 2025 00:15:19 -0800 (PST)
+Message-ID: <59c036b6-a3d6-403b-8bb0-566a17f72abc@collabora.com>
+Date: Tue, 11 Feb 2025 13:15:55 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: Usama.Anjum@collabora.com, linux-arm-msm@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+ kernel@collabora.com
+Content-Language: en-US
+From: Muhammad Usama Anjum <Usama.Anjum@collabora.com>
+Subject: [BUG REPORT] MHI's resume from hibernate is broken
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johan Hovold <johan@kernel.org>, Loic Poulain <loic.poulain@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: c8006fbd0f4fd15fa990786ff9a097b45eef616c  bus: mhi: host: Remove unused functions
+Hi,
 
-elapsed time: 1444m
+I've been digging in the MHI code to find the reason behind broken
+resume from hibernation for MHI. The same resume function is used
+for both resume from suspend and resume from hibernation. The resume
+from suspend works fine because at resume time the state of MHI is 
+MHI_STATE_M3. On the other hand, the state is MHI_STATE_RESET when
+we resume from hibernation.
 
-configs tested: 220
-configs skipped: 5
+It seems resume from MHI_STATE_RESET state isn't correctly supported.
+The channel state is MHI_CH_STATE_ENABLED at this point. We get error
+while switching channel state from MHI_CH_STATE_ENABLE to
+MHI_CH_STATE_RUNNING. Hence, channel state change fails and later mhi
+resume fails as well. 
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I've put some debug prints to understand the issue. These may be
+helpful:
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-21
-alpha                            allyesconfig    gcc-14.2.0
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    clang-18
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-18
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-14.2.0
-arc                   randconfig-001-20250208    gcc-13.2.0
-arc                   randconfig-001-20250209    gcc-13.2.0
-arc                   randconfig-002-20250208    gcc-13.2.0
-arc                   randconfig-002-20250209    gcc-13.2.0
-arm                              allmodconfig    clang-18
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-18
-arm                              allyesconfig    gcc-14.2.0
-arm                         axm55xx_defconfig    clang-21
-arm                                 defconfig    gcc-14.2.0
-arm                   randconfig-001-20250208    gcc-13.2.0
-arm                   randconfig-001-20250208    gcc-14.2.0
-arm                   randconfig-001-20250209    gcc-13.2.0
-arm                   randconfig-002-20250208    clang-17
-arm                   randconfig-002-20250208    gcc-13.2.0
-arm                   randconfig-002-20250209    gcc-13.2.0
-arm                   randconfig-003-20250208    clang-21
-arm                   randconfig-003-20250208    gcc-13.2.0
-arm                   randconfig-003-20250209    gcc-13.2.0
-arm                   randconfig-004-20250208    gcc-13.2.0
-arm                   randconfig-004-20250208    gcc-14.2.0
-arm                   randconfig-004-20250209    gcc-13.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                               defconfig    gcc-14.2.0
-arm64                 randconfig-001-20250208    clang-21
-arm64                 randconfig-001-20250208    gcc-13.2.0
-arm64                 randconfig-001-20250209    gcc-13.2.0
-arm64                 randconfig-002-20250208    clang-21
-arm64                 randconfig-002-20250208    gcc-13.2.0
-arm64                 randconfig-002-20250209    gcc-13.2.0
-arm64                 randconfig-003-20250208    clang-21
-arm64                 randconfig-003-20250208    gcc-13.2.0
-arm64                 randconfig-003-20250209    gcc-13.2.0
-arm64                 randconfig-004-20250208    clang-15
-arm64                 randconfig-004-20250208    gcc-13.2.0
-arm64                 randconfig-004-20250209    gcc-13.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                                defconfig    gcc-14.2.0
-csky                  randconfig-001-20250208    gcc-14.2.0
-csky                  randconfig-002-20250208    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-18
-hexagon                          allyesconfig    clang-21
-hexagon                             defconfig    gcc-14.2.0
-hexagon               randconfig-001-20250208    clang-21
-hexagon               randconfig-001-20250208    gcc-14.2.0
-hexagon               randconfig-002-20250208    clang-21
-hexagon               randconfig-002-20250208    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-19
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-19
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250208    gcc-11
-i386        buildonly-randconfig-002-20250208    clang-19
-i386        buildonly-randconfig-002-20250208    gcc-11
-i386        buildonly-randconfig-003-20250208    gcc-11
-i386        buildonly-randconfig-003-20250208    gcc-12
-i386        buildonly-randconfig-004-20250208    clang-19
-i386        buildonly-randconfig-004-20250208    gcc-11
-i386        buildonly-randconfig-005-20250208    clang-19
-i386        buildonly-randconfig-005-20250208    gcc-11
-i386        buildonly-randconfig-006-20250208    gcc-11
-i386        buildonly-randconfig-006-20250208    gcc-12
-i386                                defconfig    clang-19
-i386                  randconfig-001-20250208    clang-19
-i386                  randconfig-002-20250208    clang-19
-i386                  randconfig-003-20250208    clang-19
-i386                  randconfig-004-20250208    clang-19
-i386                  randconfig-005-20250208    clang-19
-i386                  randconfig-006-20250208    clang-19
-i386                  randconfig-007-20250208    clang-19
-i386                  randconfig-011-20250208    gcc-12
-i386                  randconfig-012-20250208    gcc-12
-i386                  randconfig-013-20250208    gcc-12
-i386                  randconfig-014-20250208    gcc-12
-i386                  randconfig-015-20250208    gcc-12
-i386                  randconfig-016-20250208    gcc-12
-i386                  randconfig-017-20250208    gcc-12
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                           defconfig    gcc-14.2.0
-loongarch             randconfig-001-20250208    gcc-14.2.0
-loongarch             randconfig-002-20250208    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                                defconfig    gcc-14.2.0
-m68k                            q40_defconfig    clang-21
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-microblaze                          defconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                        bcm47xx_defconfig    gcc-14.2.0
-mips                      maltaaprp_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250208    gcc-14.2.0
-nios2                 randconfig-002-20250208    gcc-14.2.0
-openrisc                          allnoconfig    clang-21
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-21
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc                randconfig-001-20250208    gcc-14.2.0
-parisc                randconfig-002-20250208    gcc-14.2.0
-parisc64                            defconfig    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-21
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                  iss476-smp_defconfig    clang-21
-powerpc                   lite5200b_defconfig    gcc-14.2.0
-powerpc                   motionpro_defconfig    gcc-14.2.0
-powerpc                     mpc83xx_defconfig    gcc-14.2.0
-powerpc                  mpc866_ads_defconfig    clang-21
-powerpc               randconfig-001-20250208    clang-19
-powerpc               randconfig-001-20250208    gcc-14.2.0
-powerpc               randconfig-002-20250208    clang-17
-powerpc               randconfig-002-20250208    gcc-14.2.0
-powerpc               randconfig-003-20250208    gcc-14.2.0
-powerpc                     tqm5200_defconfig    clang-21
-powerpc                     tqm8540_defconfig    gcc-14.2.0
-powerpc                      tqm8xx_defconfig    clang-21
-powerpc64             randconfig-001-20250208    clang-21
-powerpc64             randconfig-001-20250208    gcc-14.2.0
-powerpc64             randconfig-002-20250208    gcc-14.2.0
-powerpc64             randconfig-003-20250208    clang-21
-powerpc64             randconfig-003-20250208    gcc-14.2.0
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-21
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250208    gcc-14.2.0
-riscv                 randconfig-002-20250208    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250208    gcc-14.2.0
-s390                  randconfig-002-20250208    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20250208    gcc-14.2.0
-sh                    randconfig-002-20250208    gcc-14.2.0
-sh                           se7343_defconfig    gcc-14.2.0
-sh                          urquell_defconfig    clang-21
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250208    gcc-14.2.0
-sparc                 randconfig-002-20250208    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250208    gcc-14.2.0
-sparc64               randconfig-002-20250208    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                                allnoconfig    clang-21
-um                               allyesconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250208    gcc-14.2.0
-um                    randconfig-002-20250208    gcc-14.2.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250208    clang-19
-x86_64      buildonly-randconfig-002-20250208    clang-19
-x86_64      buildonly-randconfig-002-20250208    gcc-12
-x86_64      buildonly-randconfig-003-20250208    clang-19
-x86_64      buildonly-randconfig-003-20250208    gcc-12
-x86_64      buildonly-randconfig-004-20250208    clang-19
-x86_64      buildonly-randconfig-005-20250208    clang-19
-x86_64      buildonly-randconfig-006-20250208    clang-19
-x86_64      buildonly-randconfig-006-20250208    gcc-12
-x86_64                              defconfig    clang-19
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-19
-x86_64                randconfig-001-20250208    clang-19
-x86_64                randconfig-002-20250208    clang-19
-x86_64                randconfig-003-20250208    clang-19
-x86_64                randconfig-004-20250208    clang-19
-x86_64                randconfig-005-20250208    clang-19
-x86_64                randconfig-006-20250208    clang-19
-x86_64                randconfig-007-20250208    clang-19
-x86_64                randconfig-008-20250208    clang-19
-x86_64                randconfig-071-20250208    gcc-12
-x86_64                randconfig-072-20250208    gcc-12
-x86_64                randconfig-073-20250208    gcc-12
-x86_64                randconfig-074-20250208    gcc-12
-x86_64                randconfig-075-20250208    gcc-12
-x86_64                randconfig-076-20250208    gcc-12
-x86_64                randconfig-077-20250208    gcc-12
-x86_64                randconfig-078-20250208    gcc-12
-x86_64                               rhel-9.4    clang-19
-x86_64                           rhel-9.4-bpf    clang-19
-x86_64                         rhel-9.4-kunit    clang-19
-x86_64                           rhel-9.4-ltp    clang-19
-x86_64                          rhel-9.4-rust    clang-19
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                  audio_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20250208    gcc-14.2.0
-xtensa                randconfig-002-20250208    gcc-14.2.0
+[  669.032683] mhi_update_channel_state: switch to MHI_CH_STATE_TYPE_START[2] channel state not possible cuzof channel current state[1]. mhi state: [0] Return -EINVAL
+[  669.032685] mhi_prepare_channel: mhi_update_channel_state to MHI_CH_STATE_TYPE_START[2] returned -22
+[  669.032693] qcom_mhi_qrtr mhi0_IPCR: failed to prepare for autoqueue transfer -22
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This same error has been reported on some fix patches [1] [2]. Are there
+any patches which I should test? 
+
+Is officially hibernation use case supported at all?
+
+In my view, this path may not have gotten tested and can be fixed easily
+as we need to perform, more or less the same steps which were performed
+at init time. But I've not found much documentation around MHI protocol
+and its state machine, how is mhi state related to mhi channels support.
+
+PS: Just some information, my device has QCNFA765 endpoint and ath11k_pci
+is being used. It doesn't seem like the problem is in the driver. The
+problem is on the host side which isn't able to communicate correctly with
+the endpoint. The resume from hibernation would be broken on all wifi
+chips using mhi.
+
+[1] https://lore.kernel.org/all/Z5EKrbXMTK9WBsbq@hovoldconsulting.com 
+[2] https://lore.kernel.org/all/Z5ENq9EMPlNvxNOF@hovoldconsulting.com 
+-- 
+BR,
+Muhammad Usama Anjum
+
