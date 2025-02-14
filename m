@@ -1,125 +1,104 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D195026868F
-	for <mhi@lists.linux.dev>; Fri, 14 Feb 2025 17:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C389B264A80;
+	Fri, 14 Feb 2025 17:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739554464; cv=none; b=BxNhx3mI78l8N/jGsYhKArAIh5OrKHDKBdtjJREFy2PrTjsyItT2uYmWtGTDGaDO8gLyjTSCuZGxtuO4Wz/PIw1fn61brwf4Wa5gC/z3kyDD55eT4epT07abGpypM/L1QS/OFD26cyO9gF+v874JIkdwBcUDjRAzqzjKYnQzOl8=
+	t=1739554913; cv=none; b=kjbKJ6+YDX8ju6VgrujzxLLXZuJKpLsGwf8WmDLDv7WxqmL+AtJBKtcriM2d0gYGl0/MMwuQxUOu4TXCYub2sKOB8frj6ryke9jV4t36MexsgfZZY0PfFmpkAW3ENCscRfPwsD0Mgg2gfmH6VkxzbUYjlv0UO9HE7YXSbkGRWvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739554464; c=relaxed/simple;
-	bh=wyews8vfBUi0DfJTYdfIO2a1ZXwvPbE/cYzjPRjQrj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MwxGPb/FzXA0hBb/UsTMfQXYTEkShlim7DM8I7jOxxIH6pU6P8G28KQv71M6Ovhd8YPT0o6nImjT9mVDjPCYMCiJsQO7dOT7wc2netb/dsYLiEmeuVqRGFpKKUqmWzvsMs3e5lqXnKvx2a/JT/Dd7yvIvegmtNtJlhfOYM9pwqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I3U09Npw; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739554913; c=relaxed/simple;
+	bh=PyCF8acZykkGWijBMum6n4OttI25s1n/XS/r9fl0np0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=BW5X3kW5sQjsbW96T3WD/ZRyIxzua6wcF8TNUSZW7SAolB+qTdJBrCyt/aQ269OcREBD9T33urp87/TElP9h0Tz/0ZHrbJagGMsJ1L5HzYJvQP1JdRg2pp/dhTRFRfYZZ8MnMNrrK1ZlK/TURxGVJ6p7bdYkhcIZgTTAhxGtLw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Pv+deL1i; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I3U09Npw"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f2339dcfdso36749625ad.1
-        for <mhi@lists.linux.dev>; Fri, 14 Feb 2025 09:34:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739554462; x=1740159262; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GSFBEwov7SYxp73AsWF2Q+VXEt3MRx5pEFKdxej0uOE=;
-        b=I3U09NpwP6k4NzHDCceP86PaXN/ttRG36gi5ZCewEEfAIg3kkJzV7Y0xDqZ6OoAYXf
-         nPSYIGyhik8I1uN5HR0jfApSWysEErERo73p07MWXCKgCjU9vdVWiNSjX5aPC0AwnR0q
-         TNkRq5LmbaKn0DMhqsYfN9Um6UA0WDJtGpABvddeKKwBh75aXpYczw/rDO3GyPnhHDVU
-         3w7fLrsbRzDt5ljJ1m2hnXZCisn/tlrd1L8DBXwUYjyThbMkbUPWKDp9saqcASlzwHQu
-         YZaGcns1+j7fp26rZ5RiFKY2t2ynDoUgjODmfDIMc6yJoaLOFxXvsXgZS7QOouNcOYs2
-         6ZaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739554462; x=1740159262;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GSFBEwov7SYxp73AsWF2Q+VXEt3MRx5pEFKdxej0uOE=;
-        b=Fth1EyOS8EcN9ONCKHPt0JIgKm+hFlvg32ncw+lcw0XHYb8ExeeIpywmpLHhTxbsWT
-         ny65MC8udAPi3pQqR/8/cvS921nhiRkYW4YfzwGjPr3JfCL5E9rwwJ2kc+Xf2CIaUQaG
-         YG7uawb08rADCyqryybskaUdvzLs4OUhFxsscLS2Q/ML1KdXg/RPIPybjFF9CaA3BM9J
-         cgJB6IzNblE+4RQALsX3e5WtShPVUlOEQs5LrDwah1pgrPIXoNghA0kWVutpyk+dlRML
-         sn8wOHsFb7+feXMODV3tEOgvQbmqgGW1PhCNfRPMRrhLooceE79y8/WsDSGLQIBSWnpB
-         n6Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRrtRq53Y46RVEfxfZ0wxstW624oclG1Kfg5jl2AUV/Bc4Xv3AwBZtSVpQK2XwZcrZrlA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywe52UaH8GexpaxT1da1PYmzDorhR2pZMNF9J+4FmqTj/nus7hz
-	YMegrkun2neKDS0tkzzC8DhVqgqTfl57hAzAj33VnXdswTZHESZJrVKC95lWQA==
-X-Gm-Gg: ASbGncupA+RRzzevweth89YkbZp4GmZgdkUZMxvS+ZFe5dXAGjjvspDs4UHOzOnc+2M
-	yV5htyn17H/mEUsSaHwpq2Ojw8pNkGWc9vTyRXd1udpEqn9qVOJm0O2BGx4UQaQRS074NL6W0o+
-	87rPrVKS7vN8EYa4G+LGa6cozeZN3nLNLODYk14fHGCgdNy8MTJ03sPR7oQUFUuycA0WBGuDRqA
-	48y/f/ScPIYFW+w4XJ0UOxvQ4mBW8XWC8uKNBzqWzR+3OZAWtDW98gHRnzSOX6KquYFBNdFLoH7
-	ONzPVIRq32ahb/M62plRP+MBuR4=
-X-Google-Smtp-Source: AGHT+IFFgRVHE1TWwpWWAfTH1Nd1d99UjW4+AL/w3P3sw93jVzRmaegWBJLBzf4sbPwtEerPHqeTSw==
-X-Received: by 2002:a17:903:27c7:b0:220:fbde:5d70 with SMTP id d9443c01a7336-220fbde5df6mr18990985ad.21.1739554461992;
-        Fri, 14 Feb 2025 09:34:21 -0800 (PST)
-Received: from thinkpad ([120.60.134.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-221040434d9sm193265ad.196.2025.02.14.09.34.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 09:34:21 -0800 (PST)
-Date: Fri, 14 Feb 2025 23:04:16 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
-	quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
-	dan.carpenter@linaro.org, ogabbay@kernel.org, lizhi.hou@amd.com,
-	jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] bus: mhi: host: Avoid possible uninitialized fw_load_type
-Message-ID: <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
-References: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Pv+deL1i"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E9JNUP032747;
+	Fri, 14 Feb 2025 17:41:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	hZSLNz22LKvLiQ/OADVV5inCh0xMUwKjcIOfDJ08xJE=; b=Pv+deL1iwy3DDyD+
+	mBTx2edjVYd3sYK/5qlqYAugqt/xCbq+0iwxmwLrHPBLfsrOadlsmyJDEto0l/pV
+	Ncy4l4gG2QqVMJ9qof+NvSEJHNuppRV1waMf1cGwkrTsYhOFpx3pYKvVmbaegorr
+	/K5V1yMGzQk1wtrsH2hvqqwu7uGLTKRyBjj5H/xsBOJwS86DavVKs3RQPdtnFI+V
+	odReU7ERqrl0xoHjv4wuJmsYYETjBQ2+EOa8ic4xqPVRMI+nXBBaWy+eg4LvjdIC
+	Kj9bLl9HOQ6YClQWDXGnFuuX5Cvb7qjjW0CfxrX/ZNPPBILXI/MoljXJE858T+tW
+	3tHbEw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44seq049wv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Feb 2025 17:41:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51EHfgdJ024816
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Feb 2025 17:41:42 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
+ 2025 09:41:41 -0800
+Message-ID: <c45d8a41-72a9-3685-384b-bd8c2c2766f7@quicinc.com>
+Date: Fri, 14 Feb 2025 10:41:41 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] bus: mhi: host: Avoid possible uninitialized fw_load_type
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: <quic_carlv@quicinc.com>, <quic_yabdulra@quicinc.com>,
+        <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>,
+        <dan.carpenter@linaro.org>, <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
+        <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
+        <mhi@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+References: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
+ <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: FA-E0WTdUlx1y-qstC6TxP-VMKNHdPVx
+X-Proofpoint-ORIG-GUID: FA-E0WTdUlx1y-qstC6TxP-VMKNHdPVx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-14_07,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502140122
 
-On Fri, Feb 14, 2025 at 09:21:09AM -0700, Jeffrey Hugo wrote:
-> If mhi_fw_load_handler() bails out early because the EE is not capable
-> of loading firmware, we may reference fw_load_type in cleanup which is
-> uninitialized at this point. The cleanup code checks fw_load_type as a
-> proxy for knowing if fbc_image was allocated and needs to be freed, but
-> we can directly test for that. This avoids the possible uninitialized
-> access and appears to be clearer code.
+On 2/14/2025 10:34 AM, Manivannan Sadhasivam wrote:
+> On Fri, Feb 14, 2025 at 09:21:09AM -0700, Jeffrey Hugo wrote:
+>> If mhi_fw_load_handler() bails out early because the EE is not capable
+>> of loading firmware, we may reference fw_load_type in cleanup which is
+>> uninitialized at this point. The cleanup code checks fw_load_type as a
+>> proxy for knowing if fbc_image was allocated and needs to be freed, but
+>> we can directly test for that. This avoids the possible uninitialized
+>> access and appears to be clearer code.
+>>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Closes: https://lore.kernel.org/all/e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain/
+>> Fixes: f88f1d0998ea ("bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL")
 > 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain/
-> Fixes: f88f1d0998ea ("bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL")
+> The best thing would be to squash this fix into the offending commit as the
+> fixes tag would become meaningless once merged upstream.
 
-The best thing would be to squash this fix into the offending commit as the
-fixes tag would become meaningless once merged upstream.
+I see your point, however the offending commit is already part of a pull 
+request. I think we've missed the window for squashing.
 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Thank you for the very quick review.
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-
-- Mani
-
-> ---
->  drivers/bus/mhi/host/boot.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index c8e48f621a8c..efa3b6dddf4d 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -608,7 +608,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	return;
->  
->  error_ready_state:
-> -	if (fw_load_type == MHI_FW_LOAD_FBC) {
-> +	if (mhi_cntrl->fbc_image) {
->  		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
->  		mhi_cntrl->fbc_image = NULL;
->  	}
-> -- 
-> 2.34.1
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+-Jeff
