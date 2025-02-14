@@ -1,241 +1,125 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4F2753FD;
-	Fri, 14 Feb 2025 16:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D195026868F
+	for <mhi@lists.linux.dev>; Fri, 14 Feb 2025 17:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739550186; cv=none; b=AvZ3fENM9kNQuUX+h4w6pDHs3tbdxMoETWp35iegQ+bDHAgMR6v6Hl5dmD8bMLzvUzk1UQM3L6FB6Nhll+jTWLhGjlNWSrjg/QsKXarEE1eWZTSIdck+7kRrWk8aBAvlUczB0+O9L2hD4rcp9vxdtIBn5fHyNSI8EYdraMAJ0RA=
+	t=1739554464; cv=none; b=BxNhx3mI78l8N/jGsYhKArAIh5OrKHDKBdtjJREFy2PrTjsyItT2uYmWtGTDGaDO8gLyjTSCuZGxtuO4Wz/PIw1fn61brwf4Wa5gC/z3kyDD55eT4epT07abGpypM/L1QS/OFD26cyO9gF+v874JIkdwBcUDjRAzqzjKYnQzOl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739550186; c=relaxed/simple;
-	bh=YncaHrreIkQNL5ZfDYqGAT3nT32xPMMZx1Gg0Yy0sgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gfQ6E6h0MwNPlLRpSi/aHBiopzxcei/eb3PAYAXO+u7CfjjpbskHixA+HgExf/YeB4U4xdK2bs9eBfmGgRuMfqBlXMeGvhJ+OfPykXQ1mIw3/tiM6MPygDNyzFzJQLu2ap7FezyjzLPoyUNQ9Y64T39+YAyrnfIhlAKLvU0X3wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jUkQXO2i; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1739554464; c=relaxed/simple;
+	bh=wyews8vfBUi0DfJTYdfIO2a1ZXwvPbE/cYzjPRjQrj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MwxGPb/FzXA0hBb/UsTMfQXYTEkShlim7DM8I7jOxxIH6pU6P8G28KQv71M6Ovhd8YPT0o6nImjT9mVDjPCYMCiJsQO7dOT7wc2netb/dsYLiEmeuVqRGFpKKUqmWzvsMs3e5lqXnKvx2a/JT/Dd7yvIvegmtNtJlhfOYM9pwqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I3U09Npw; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jUkQXO2i"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E9JNNb032747;
-	Fri, 14 Feb 2025 16:23:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	9Y1JutvbctGcBNKK/CKo1aMWn2/iRrZKHeTlnLO05GY=; b=jUkQXO2iKbuvKOfT
-	J8WSseVjq/rIGblEi4xohQLh1qaF1lWVncN3bF4Rnc5lNZ485I2AU+sXhOBiZHKo
-	5tVZOpeQmipWOSRQdmLMIAlKj/EO2raH9ePQF58gt3UffpvdOoVp9AB4obLaZQ/T
-	OZh5ekPHCNiXAqKiNO495/WZ/2aa9jMa98suZxxsX9P4bC/WpkUlKNy+HMWvQHol
-	U5+rjPwdWIUQHpmnMitFZXobG4cZbz5PbQlez34BZ2rFes0mOeDCc7ydLRq5wX6U
-	/Qasyhl33wdM9T1WWrWqSZOyoqA705SHBGcwlBFo20LxzxgZ6Lc9gHvHLx7Yjmxb
-	ufw5Ow==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44seq043x5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 16:23:02 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51EGN1UY000343
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 16:23:02 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Feb
- 2025 08:23:01 -0800
-Message-ID: <6d0d1eb4-4f83-1f10-a7cb-123692b86fc6@quicinc.com>
-Date: Fri, 14 Feb 2025 09:23:00 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I3U09Npw"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f2339dcfdso36749625ad.1
+        for <mhi@lists.linux.dev>; Fri, 14 Feb 2025 09:34:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739554462; x=1740159262; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GSFBEwov7SYxp73AsWF2Q+VXEt3MRx5pEFKdxej0uOE=;
+        b=I3U09NpwP6k4NzHDCceP86PaXN/ttRG36gi5ZCewEEfAIg3kkJzV7Y0xDqZ6OoAYXf
+         nPSYIGyhik8I1uN5HR0jfApSWysEErERo73p07MWXCKgCjU9vdVWiNSjX5aPC0AwnR0q
+         TNkRq5LmbaKn0DMhqsYfN9Um6UA0WDJtGpABvddeKKwBh75aXpYczw/rDO3GyPnhHDVU
+         3w7fLrsbRzDt5ljJ1m2hnXZCisn/tlrd1L8DBXwUYjyThbMkbUPWKDp9saqcASlzwHQu
+         YZaGcns1+j7fp26rZ5RiFKY2t2ynDoUgjODmfDIMc6yJoaLOFxXvsXgZS7QOouNcOYs2
+         6ZaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739554462; x=1740159262;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GSFBEwov7SYxp73AsWF2Q+VXEt3MRx5pEFKdxej0uOE=;
+        b=Fth1EyOS8EcN9ONCKHPt0JIgKm+hFlvg32ncw+lcw0XHYb8ExeeIpywmpLHhTxbsWT
+         ny65MC8udAPi3pQqR/8/cvS921nhiRkYW4YfzwGjPr3JfCL5E9rwwJ2kc+Xf2CIaUQaG
+         YG7uawb08rADCyqryybskaUdvzLs4OUhFxsscLS2Q/ML1KdXg/RPIPybjFF9CaA3BM9J
+         cgJB6IzNblE+4RQALsX3e5WtShPVUlOEQs5LrDwah1pgrPIXoNghA0kWVutpyk+dlRML
+         sn8wOHsFb7+feXMODV3tEOgvQbmqgGW1PhCNfRPMRrhLooceE79y8/WsDSGLQIBSWnpB
+         n6Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRrtRq53Y46RVEfxfZ0wxstW624oclG1Kfg5jl2AUV/Bc4Xv3AwBZtSVpQK2XwZcrZrlA=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywe52UaH8GexpaxT1da1PYmzDorhR2pZMNF9J+4FmqTj/nus7hz
+	YMegrkun2neKDS0tkzzC8DhVqgqTfl57hAzAj33VnXdswTZHESZJrVKC95lWQA==
+X-Gm-Gg: ASbGncupA+RRzzevweth89YkbZp4GmZgdkUZMxvS+ZFe5dXAGjjvspDs4UHOzOnc+2M
+	yV5htyn17H/mEUsSaHwpq2Ojw8pNkGWc9vTyRXd1udpEqn9qVOJm0O2BGx4UQaQRS074NL6W0o+
+	87rPrVKS7vN8EYa4G+LGa6cozeZN3nLNLODYk14fHGCgdNy8MTJ03sPR7oQUFUuycA0WBGuDRqA
+	48y/f/ScPIYFW+w4XJ0UOxvQ4mBW8XWC8uKNBzqWzR+3OZAWtDW98gHRnzSOX6KquYFBNdFLoH7
+	ONzPVIRq32ahb/M62plRP+MBuR4=
+X-Google-Smtp-Source: AGHT+IFFgRVHE1TWwpWWAfTH1Nd1d99UjW4+AL/w3P3sw93jVzRmaegWBJLBzf4sbPwtEerPHqeTSw==
+X-Received: by 2002:a17:903:27c7:b0:220:fbde:5d70 with SMTP id d9443c01a7336-220fbde5df6mr18990985ad.21.1739554461992;
+        Fri, 14 Feb 2025 09:34:21 -0800 (PST)
+Received: from thinkpad ([120.60.134.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-221040434d9sm193265ad.196.2025.02.14.09.34.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 09:34:21 -0800 (PST)
+Date: Fri, 14 Feb 2025 23:04:16 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
+	quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
+	dan.carpenter@linaro.org, ogabbay@kernel.org, lizhi.hou@amd.com,
+	jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] bus: mhi: host: Avoid possible uninitialized fw_load_type
+Message-ID: <20250214173416.b6y7o6tqsnkuzkbh@thinkpad>
+References: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [bug report] bus: mhi: host: Add a policy to enable image
- transfer via BHIe in PBL
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-        Matthew Leung
-	<quic_mattleun@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
-References: <e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4lcL3QpgIjnDtfi2xNuZ4KPWdPmsjgrX
-X-Proofpoint-ORIG-GUID: 4lcL3QpgIjnDtfi2xNuZ4KPWdPmsjgrX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-14_07,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- mlxscore=0 malwarescore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502140116
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250214162109.3555300-1-quic_jhugo@quicinc.com>
 
-On 2/12/2025 5:37 AM, Dan Carpenter wrote:
-> Hello Matthew Leung,
+On Fri, Feb 14, 2025 at 09:21:09AM -0700, Jeffrey Hugo wrote:
+> If mhi_fw_load_handler() bails out early because the EE is not capable
+> of loading firmware, we may reference fw_load_type in cleanup which is
+> uninitialized at this point. The cleanup code checks fw_load_type as a
+> proxy for knowing if fbc_image was allocated and needs to be freed, but
+> we can directly test for that. This avoids the possible uninitialized
+> access and appears to be clearer code.
 > 
-> Commit f88f1d0998ea ("bus: mhi: host: Add a policy to enable image
-> transfer via BHIe in PBL") from Jan 17, 2025 (linux-next), leads to
-> the following Smatch static checker warning:
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/e3148ac4-7bb8-422d-ae0f-18a8eb15e269@stanley.mountain/
+> Fixes: f88f1d0998ea ("bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL")
+
+The best thing would be to squash this fix into the offending commit as the
+fixes tag would become meaningless once merged upstream.
+
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+- Mani
+
+> ---
+>  drivers/bus/mhi/host/boot.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 	drivers/bus/mhi/host/boot.c:611 mhi_fw_load_handler()
-> 	error: uninitialized symbol 'fw_load_type'.
-> 
-> drivers/bus/mhi/host/boot.c
->      491 void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->      492 {
->      493         const struct firmware *firmware = NULL;
->      494         struct device *dev = &mhi_cntrl->mhi_dev->dev;
->      495         enum mhi_fw_load_type fw_load_type;
->      496         enum mhi_pm_state new_state;
->      497         const char *fw_name;
->      498         const u8 *fw_data;
->      499         size_t size, fw_sz;
->      500         int ret;
->      501
->      502         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->      503                 dev_err(dev, "Device MHI is not in valid state\n");
->      504                 return;
->      505         }
->      506
->      507         /* save hardware info from BHI */
->      508         ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->bhi, BHI_SERIALNU,
->      509                            &mhi_cntrl->serial_number);
->      510         if (ret)
->      511                 dev_err(dev, "Could not capture serial number via BHI\n");
->      512
->      513         /* wait for ready on pass through or any other execution environment */
->      514         if (!MHI_FW_LOAD_CAPABLE(mhi_cntrl->ee))
->      515                 goto fw_load_ready_state;
-> 
-> Assume we hit this goto.
-> 
->      516
->      517         fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
->      518                 mhi_cntrl->edl_image : mhi_cntrl->fw_image;
->      519
->      520         /* check if the driver has already provided the firmware data */
->      521         if (!fw_name && mhi_cntrl->fbc_download &&
->      522             mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
->      523                 if (!mhi_cntrl->sbl_size) {
->      524                         dev_err(dev, "fw_data provided but no sbl_size\n");
->      525                         goto error_fw_load;
->      526                 }
->      527
->      528                 size = mhi_cntrl->sbl_size;
->      529                 fw_data = mhi_cntrl->fw_data;
->      530                 fw_sz = mhi_cntrl->fw_sz;
->      531                 goto skip_req_fw;
->      532         }
->      533
->      534         if (!fw_name || (mhi_cntrl->fbc_download && (!mhi_cntrl->sbl_size ||
->      535                                                      !mhi_cntrl->seg_len))) {
->      536                 dev_err(dev,
->      537                         "No firmware image defined or !sbl_size || !seg_len\n");
->      538                 goto error_fw_load;
->      539         }
->      540
->      541         ret = request_firmware(&firmware, fw_name, dev);
->      542         if (ret) {
->      543                 dev_err(dev, "Error loading firmware: %d\n", ret);
->      544                 goto error_fw_load;
->      545         }
->      546
->      547         size = (mhi_cntrl->fbc_download) ? mhi_cntrl->sbl_size : firmware->size;
->      548
->      549         /* SBL size provided is maximum size, not necessarily the image size */
->      550         if (size > firmware->size)
->      551                 size = firmware->size;
->      552
->      553         fw_data = firmware->data;
->      554         fw_sz = firmware->size;
->      555
->      556 skip_req_fw:
->      557         fw_load_type = mhi_fw_load_type_get(mhi_cntrl);
->      558         if (fw_load_type == MHI_FW_LOAD_BHIE)
->      559                 ret = mhi_load_image_bhie(mhi_cntrl, fw_data, size);
->      560         else
->      561                 ret = mhi_load_image_bhi(mhi_cntrl, fw_data, size);
->      562
->      563         /* Error or in EDL mode, we're done */
->      564         if (ret) {
->      565                 dev_err(dev, "MHI did not load image over BHI%s, ret: %d\n",
->      566                         fw_load_type == MHI_FW_LOAD_BHIE ? "e" : "",
->      567                         ret);
->      568                 release_firmware(firmware);
->      569                 goto error_fw_load;
->      570         }
->      571
->      572         /* Wait for ready since EDL image was loaded */
->      573         if (fw_name && fw_name == mhi_cntrl->edl_image) {
->      574                 release_firmware(firmware);
->      575                 goto fw_load_ready_state;
->      576         }
->      577
->      578         write_lock_irq(&mhi_cntrl->pm_lock);
->      579         mhi_cntrl->dev_state = MHI_STATE_RESET;
->      580         write_unlock_irq(&mhi_cntrl->pm_lock);
->      581
->      582         /*
->      583          * If we're doing fbc, populate vector tables while
->      584          * device transitioning into MHI READY state
->      585          */
->      586         if (fw_load_type == MHI_FW_LOAD_FBC) {
->      587                 ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
->      588                 if (ret) {
->      589                         release_firmware(firmware);
->      590                         goto error_fw_load;
->      591                 }
->      592
->      593                 /* Load the firmware into BHIE vec table */
->      594                 mhi_firmware_copy_bhie(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
->      595         }
->      596
->      597         release_firmware(firmware);
->      598
->      599 fw_load_ready_state:
->      600         /* Transitioning into MHI RESET->READY state */
->      601         ret = mhi_ready_state_transition(mhi_cntrl);
->      602         if (ret) {
->      603                 dev_err(dev, "MHI did not enter READY state\n");
->      604                 goto error_ready_state;
-> 
-> And then this goto as well.
-> 
->      605         }
->      606
->      607         dev_info(dev, "Wait for device to enter SBL or Mission mode\n");
->      608         return;
->      609
->      610 error_ready_state:
-> --> 611         if (fw_load_type == MHI_FW_LOAD_FBC) {
->                      ^^^^^^^^^^^^
-> Uninitialized.
-> 
->      612                 mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
->      613                 mhi_cntrl->fbc_image = NULL;
->      614         }
->      615
->      616 error_fw_load:
->      617         write_lock_irq(&mhi_cntrl->pm_lock);
->      618         new_state = mhi_tryset_pm_state(mhi_cntrl, MHI_PM_FW_DL_ERR);
->      619         write_unlock_irq(&mhi_cntrl->pm_lock);
->      620         if (new_state == MHI_PM_FW_DL_ERR)
->      621                 wake_up_all(&mhi_cntrl->state_event);
->      622 }
-> 
-> regards,
-> dan carpenter
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index c8e48f621a8c..efa3b6dddf4d 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -608,7 +608,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	return;
+>  
+>  error_ready_state:
+> -	if (fw_load_type == MHI_FW_LOAD_FBC) {
+> +	if (mhi_cntrl->fbc_image) {
+>  		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+>  		mhi_cntrl->fbc_image = NULL;
+>  	}
+> -- 
+> 2.34.1
 > 
 
-Thank you for the excellent bug report. I have posted a possible fix at 
-https://lore.kernel.org/all/20250214162109.3555300-1-quic_jhugo@quicinc.com/
-
--Jeff
+-- 
+மணிவண்ணன் சதாசிவம்
