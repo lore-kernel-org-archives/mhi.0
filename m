@@ -1,83 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3819B214A6A;
-	Wed, 19 Feb 2025 18:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E769F18C322
+	for <mhi@lists.linux.dev>; Thu, 20 Feb 2025 06:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739989670; cv=none; b=qODU49u3dl2S/iYUztOhb8evHcRnd5ROsi70okXmMGi1qdJR/DyW8EDbulvD+gCx9UlW/TfTAl2nuJcomtr+Y+yyH28n3B8Y24070eUEdmqsbm+ZCyCoYtN1tTFCEtrt9aZvjNEeHFjCE99g8jyRsHh2MW2T6X9BLbdq1hk5TkY=
+	t=1740033240; cv=none; b=g2+zUG6Jyr+RtiPb91ko/Gi1LGW4QcizvD71Vhun6ioH+741SeBQCIypZNVlzHZoM0Ncfktyzpvhqam3Cw4shPVLhCKETTmixV6GW22KG6aaW50PQFFf1CtGBJx1TJ0wUV6luGaleMOQXkUNVIDM9ya1ogpaPy5k4LuFxCHaIPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739989670; c=relaxed/simple;
-	bh=UIoAHLKhxXMvwRVPNUAgVWM1OzHt8bv2gL9HuSb4s8g=;
+	s=arc-20240116; t=1740033240; c=relaxed/simple;
+	bh=2RzI6izlfqQMP3gdaoJN2/Q6jCBmNkqownJjl4xzehE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=eLgMYV9q68jDu0wQlycp0pc/Y8CgwltTQBGk+plKUTBrE60SMpu3QxXclh0vgmX1Kafk2Y3cZnR1PRqqAcBHDVg8GvdMFc28Dc1WrUe+X6H5b6U8sEBM26wY50jWAmat4yl1GrsI8HmRuRYFVQZc4OvkUsrGAUF+ckzLldMRt8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oM/7VpTz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=CUksjzw+nw4AzwiZ1Qrr/96BeGh3tZcUxRNWfib/gsv8hmRIaUKk1JDcltJTkbRxrij/Kvoru49q9MkPYmmMdkBoCa51SV/lCOfsaQwdhAeRwMENSMReAmQ+m63tpaEUrwIYME8WCh4niDNM7LOnpwhs2MmzBWbHeJKcXBYOEYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fCB4uX+8; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oM/7VpTz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B6FC4CED1;
-	Wed, 19 Feb 2025 18:27:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739989670;
-	bh=UIoAHLKhxXMvwRVPNUAgVWM1OzHt8bv2gL9HuSb4s8g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=oM/7VpTzi/qHrQlMXfwp1C2byH05D8tZNakXeSfti2tjiRVCusvRpVWuFJUofaKjZ
-	 n2MkVMuuW4wNzNLERxr0VDX6bPR6a91Lo8/ONo9SmrsqvFChLUO1MTM4VwTLopoYB3
-	 23XJT+Dnbarq/Ci0AYvXIPn2vNFu/a9FdcLD/KdzwdcAeeCyylSLoMe5mRLVctMfO1
-	 QCcvib6Am/JwMH7sZvNuQHgfNTSfJmwSwGUsHD2UUvPIQEhRIVT0s11Iy4/93TksRK
-	 2XMkZ3frjmXUteUMicgESwd8+nYmUp9e7fd7V6lZL8Ex/9otJIxLJ0DBtoVa5wtW/o
-	 fIVXvX6Pk78jA==
-Date: Wed, 19 Feb 2025 12:27:46 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, quic_jjohnson@quicinc.com,
-	quic_pyarlaga@quicinc.com, quic_vbadigan@quicinc.com,
-	quic_vpernami@quicinc.com, quic_mrana@quicinc.com
-Subject: Re: [PATCH 4/8] PCI: dwc: qcom: Update ICC & OPP votes based upon
- the requested speed
-Message-ID: <20250219182746.GA226108@bhelgaas>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fCB4uX+8"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220c8cf98bbso11310515ad.1
+        for <mhi@lists.linux.dev>; Wed, 19 Feb 2025 22:33:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740033238; x=1740638038; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qNehbcZpYD1N0pX7n7bYAyNxWVHzPcusSjDYzYUv7jg=;
+        b=fCB4uX+8EMxgl4qkoStHZXMtuzewVMKLbybk3FAHZnheqcZ7gsJcgxrmKCgVQ5tiEW
+         UXi60JzGRfpfzviv9dNStkL1qAk5t0psL2ubyyi0dTunbmgkICrFg+5q3TYRwSYuli05
+         cEA11AXHMzIOtNIaaoD+oF5A4hpV75OO0K/z7AJyTlD6GQ1+sYzqO6jtpmbZEhs93gO1
+         TyCz4j12jR1bQcfk4Qh9KKWhcMmLHvgLB0fS9I0gJHS0tX0ft3AVKFnXsxKjpcLFjqx2
+         T96C9BLNpXLmot+YBCDjV3VXCEc1HwOuRdEN286zDvfs2BuozHP74GcY1te1OIP98qIW
+         NyEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740033238; x=1740638038;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qNehbcZpYD1N0pX7n7bYAyNxWVHzPcusSjDYzYUv7jg=;
+        b=EiAdJmjzhw/ESpql5f3SRMEb+O1RansX2/vc1VgLRAstyz7zKJvInWbh4dqZk30H1N
+         gZcbxdY2guW+qTKfmeFeGOyvtWPBlfwRsonhgiqmscjbDenCp0M7ucT3z6Pz842If1eW
+         22NjBAUa3SCk2H7twcm1BspPiO/0KGpGVhP4FtpXQEpO2TC3c2naWrNzTG9fuBp/k9rI
+         ujcQKQuBychSInkj+lwBjGyXfuxg9xEsm+AO7y7WaOLIKnywlrYO8TQV14cHEWHve89o
+         Iki/JZxVuOCS2v/FgilLvkLI3kuyi7E/uSTmIWlI3jSKujHbYzM10PuQMF/00Bvjix6K
+         PUOg==
+X-Gm-Message-State: AOJu0Yy6U7gzhykolafndHN6o74e5hwxhBNvvBhsDLEIBejt3yzVcplG
+	6V/tXuBgQCMK3icztE+oBXw2sp/1rRXCl6WfuTRlXRWOFnwwYwaYiqa3d3fFrw==
+X-Gm-Gg: ASbGncsnz9dzdT6D9O3VnmrF8yAcaTldITm+WwqdNZ+2XXkpLNz/io3Bgy0pT/QJ1k9
+	iU77yj2I50J29hq5MvUODAwFh9SXWdy74XvV1kepDL+X44x0y0joIPnWL6MRS+EVYs2vi1++1Gs
+	O/HzDh+dtrhOg0FzSJyPXkA/LF+/FL1fG4JUaqVZ+FtYS7mpgxjLITe4N05D++yu8z2h0StENAr
+	XHCtZS2BaU4uo0StqLRE8PFymgNsIh19H4yGtlz5K2H4T5U3h0VXwD3gG+YmwJAfPBBHuviZd0g
+	R9uSd2+F9uys2TkH6hDlLVZ+UQ==
+X-Google-Smtp-Source: AGHT+IEoc/umKC5Mqdc07cO6cgTiw3rjBOJZW5/0seQJbsm2336ZZcguQ394zEsMLb23aImWufHiJg==
+X-Received: by 2002:a17:903:1d0:b0:215:6816:6345 with SMTP id d9443c01a7336-2211c5501dbmr275584605ad.16.1740033237658;
+        Wed, 19 Feb 2025 22:33:57 -0800 (PST)
+Received: from thinkpad ([120.60.70.244])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-add286bc8e8sm9630401a12.39.2025.02.19.22.33.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 22:33:57 -0800 (PST)
+Date: Thu, 20 Feb 2025 12:03:54 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev, Johan Hovold <johan+linaro@kernel.org>
+Subject: [GIT PULL] MHI fix for v6.14
+Message-ID: <20250220063354.4vbhdnvhfl7c56ck@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f0e5efb7-8ea0-a064-21e4-6d7596b1a9ae@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 19, 2025 at 11:28:47PM +0530, Krishna Chaitanya Chundru wrote:
-> On 2/19/2025 3:37 AM, Bjorn Helgaas wrote:
-> > On Mon, Feb 17, 2025 at 12:04:11PM +0530, Krishna Chaitanya Chundru wrote:
-> > > QCOM PCIe controllers needs to disable ASPM before initiating link
-> > > re-train. So as part of pre_bw_scale() disable ASPM and as part of
-> > > post_scale_bus_bw() enable ASPM back.
-> > 
-> > s/needs/need/
-> > 
-> > Why does Qcom need to disable ASPM?  Is there a PCIe spec restriction
-> > about this that should be applied to all PCIe host bridges?  Or is
-> > this a Qcom defect?
-> > 
-> It is QCOM controller issue, PCIe spec doesn't mention to disable ASPM.
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
 
-OK.  I'm a little concerned that disabling/enabling
-PCIE_LINK_STATE_ALL might clobber preferences set by drivers of
-downstream devices, but I guess ...
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
 
-Maybe we could add a comment in the code about this being done to work
-around some Qcom issue so that browsers of
-pci_enable_link_state_locked() don't get the idea that this needs to
-be done generically.
+are available in the Git repository at:
 
-Bjorn
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-fixes-for-v6.14
+
+for you to fetch changes up to a321d163de3d8aa38a6449ab2becf4b1581aed96:
+
+  bus: mhi: host: pci_generic: Use pci_try_reset_function() to avoid deadlock (2025-02-19 19:50:23 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Use pci_try_reset_function() to reset the MHI function during recovery process
+  to avoid the deadlock reported on the X1E80100 CRD device. The deadlock can
+  happen if the caller has already acquired the 'device_lock()' while calling
+  the recovery function. So using pci_try_reset_function() avoids the deadlock
+  by returning -EAGAIN if the lock was already acquired.
+
+----------------------------------------------------------------
+Manivannan Sadhasivam (1):
+      bus: mhi: host: pci_generic: Use pci_try_reset_function() to avoid deadlock
+
+ drivers/bus/mhi/host/pci_generic.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+மணிவண்ணன் சதாசிவம்
