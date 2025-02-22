@@ -1,84 +1,83 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5A2063FF
-	for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 16:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1032C13BAF1
+	for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 17:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740242677; cv=none; b=E2rHQ0dlVTvZfkhlbkh576E3ge4Z96sdCrQDu6nXPX6Mm8JQHJnizI5Hwf09ahw/dvUnN4n5HXFERMvf6ga9SIs0wfNL83fzjPkYd6wNiKNAt9O8YNHO3AJfEw35pzrETNAC1rB0XoE0NGe9ac39Nvwite6PPurZyWaKmuIrcJs=
+	t=1740243792; cv=none; b=n8Embs+PhwK9PHTrzxCz3A8KBwB+ORDjdQYGvA0VcqTNrj+MlTVctBLrZfjcFGZnDDM7JeqoJS2LRzfiDQAaeIF0RVIjzlAzRUVuh+mtRFvVy4LEBTxfRXhZ3wQfOvwkc3cJVQ0Zs13bosmHi74TCm3YoQVIMaRoEXutFywG6VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740242677; c=relaxed/simple;
-	bh=L8IhYJZqTL+VAFgPJyw5O+dgm0yXbcW4d8tIgufYAhE=;
+	s=arc-20240116; t=1740243792; c=relaxed/simple;
+	bh=FUJp/WAnAiLgR9eo+hD/VF28hg6dM78u44VF9c0HmJ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lCutJnM2W35cMEItjyzOmfyAI2gU3ldKSwOEvxMa/RruBYkVJWeHm7ITJhy8vH/Prf2FkXONIwlYbDf4sxczShRdiif+iQRoNmDyxNyPtcKVfBXauRAyky+PDj/6JEJJSTfFckwHsRNuGzuc1oIv/MdLLXF5BITzmPgTi/QafMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OALcWRM1; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=kHK0MHD/KLDPkAocJZuqjytWSOgBXg91Y6AMQN+3rWR16pSI7wIkVn9WwJP0or/DUjYkqYjGlKkQpOpyn1A4uzcRfN41cSm/TaVKyBYBtjS8/WZIdaNJTO6zxuxz0ZgXsadFSN0wCu9AGJt5bHHs9XiN/Wqktrsza1lEBrELjzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hmojh1Yn; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OALcWRM1"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-221057b6ac4so59028495ad.2
-        for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 08:44:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hmojh1Yn"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220ca204d04so48184895ad.0
+        for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 09:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740242673; x=1740847473; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1740243790; x=1740848590; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9f7uZjtHK+lQIbRAC4oC1UZT/44Vy8koxrXiqt6OwY8=;
-        b=OALcWRM11B5QsPd5l14LrnnxnHjS6VgYieZjdZ3QlDt3KKbUWMtE5PtkPpuQA0+7v+
-         PoZFdJqQZvxZsq+68JPDvA1Cp2WtDg1pA+HW/6/Xc++1AdqpEDipvEgstXLqlJnsQeId
-         oFgvOyqyOyDSNi+8zo8QnZu855Brr2nV6AZUlU5MkBYp6JetNqHMlBflCNJ/R7Nu7J9q
-         hgiqQVo7WRuSNNNWMbrIqV2IAqiPpZGP0f7QH7xdLkjL9fUWM60nIfmjqK7KkkBElnOr
-         IkXh4HQAFZYSDHC7BjM6V4vgH/GcoobKfK/p3XkDeR/U06uTMkZQ2A2NgG06YzLhRU2c
-         95RQ==
+        bh=F8/d8NAnbtUAywCEyPXFM332P09aVBVi8dqiBukY1kc=;
+        b=Hmojh1Ynsn6rWaYYUdwUxCdkOkwa1HnyF8bXvV5WjsVxQnW3nGlSxvc0DADEORvCnk
+         w2MrUYL6DWFxkv+hF5kFVeWfz2xPUZRGuQkLBhg7IktWQ90dOHChgLftJUszIgeNyw/r
+         OS/RtSarECX6CLGvmkPAJFmV28PBHiNRvKY1hQU1TZY/i6y9dcPFWgJJ7GW4utgW/wiQ
+         /KFuLEem7lBlHTfLXjuWFsTwkMb78+DBH8lThJkhJ3cGB7KcgVES6Jl4F2P3ueBBL4zO
+         a+4FtCy1ZH3r2+CGPstM6r465U+lgjhGoUblsHDWOD1H0a0ffspIixQFEDa+7T/ibUw5
+         +p7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740242673; x=1740847473;
+        d=1e100.net; s=20230601; t=1740243790; x=1740848590;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9f7uZjtHK+lQIbRAC4oC1UZT/44Vy8koxrXiqt6OwY8=;
-        b=lckaWTJsKMXGmg4++u7Umvd2XJ5nOMHerZfFhe1jxJs/MK/KwmnuQtT7JScylvTCCF
-         z0xF7HfM1BkfBOC5UPSu/nynJFjQciowAEE4EqutvFXr801zUEWaiqXwjIKIGhP4dcDg
-         FYptHxgWtHE3onOTYTJbFJ9CDyGXNmmf+HKfA6RGhHVWhGZlwWwpJ2uVQsFoef5dQt0h
-         A+V69DY23ITYRTcVVu2GYdRQsJpQQRWUqhOmqd24ignodxx3Y9ZK1pTb/Fsfe/F8bh9I
-         fbtCnM16Ff+aTD9iqlsFGPQ/MArAeviryFN4Ik1N0YKHzHOv8VJ41NSecUZBZ8qpwAQz
-         E1yw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuyA4qKKYKsty2GDe9nKGEU6tobfQQkYSLqesEWePPwhROFVk9JNzFSg9VYmMXo+ZHnbM=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/F23JEvN2ZHPljbwZ0HaEK3PeITEvPoY0DWhklKnWZCQ1+Qmx
-	Vl+jr2prLBJNfUx40C+G6PZUWdUxJorkh6o9wJ5OYETdXih1ibsVK22Ryj15pQ==
-X-Gm-Gg: ASbGnctkw6lxy2OtQWRjJF/jegUu7oxUtRB8nTYFLS2h1iJYGkp2qmHJ3MZ91z1NTzl
-	AJAUqbwl57SJYa4XtAM+L9ZIPzC3lkxprdShf7KycD9YeBJnpPnajIk9Ef8xFKjsPmV+DVAUNdp
-	FL1zuzZg6z4MMKPngYGmTogdm0RKlcYQZW+4pMR5qYyDCgTaKRf0YJY6zp+WzjqmT5o5qCVVm+n
-	niVCvj7Ic+Y/+wS3MNswYMEoNm/R+iwoTksVSQowfxYeuXG3WSmdgqm3khw1x0WsujzwYlIubXA
-	yKm1q8xyg7/jziISpyvVsm8HCpfsZ6I4WQMPJQ==
-X-Google-Smtp-Source: AGHT+IGZNd7JbH7rVNtNivVdsM8aE1a1IdZv+AIk3ODGAEKzzGY0D6UbBx86tKJ6P8fBBfE/PVEofw==
-X-Received: by 2002:a17:903:2f8f:b0:220:d7f9:9ea8 with SMTP id d9443c01a7336-221a10ee47amr93976375ad.26.1740242673342;
-        Sat, 22 Feb 2025 08:44:33 -0800 (PST)
+        bh=F8/d8NAnbtUAywCEyPXFM332P09aVBVi8dqiBukY1kc=;
+        b=ce99/LrO/lg4t/otSAFyQ4W7k8ouecciuiq5rX6ygIBJh//WocPScBwvlrCouC8Fde
+         YfdRm6y7ug9LZxYFaxslhpZ0t/yIG2uHyaaKYn/nDG2TSjTmt3G9jappAKBHDpEE7JOE
+         s8dlTHivgwHQ4JECLIR242kLEfl6J9YOxpMW3c96RNV84kbn2aE7/tMfSqJVAXo9ikuX
+         gIs1WVaTgTYxRqKoWAfjqsamLANPNLBbzr+OEw0kXojRlTqOhsH/s/OaYLeoZ/DyRFZk
+         uuwxn98f6tbeSD7nsSXC+8MOKim4dhAyVdKeOT9Zwivm3fawkAgfRZ01VEyNHcfM5JlI
+         W5dA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtoWHjiVAkUyJNmz9HpTivllIDXXsx3zMymSL0BMAVRHdv5zs5DDXCtSeL/IgLMlhAqxU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQEHJvs12wC7Y5UiRyZ4aHBwR2elTIywKXWTcLCHh1Iw0b/pQf
+	RS0fQLLDDt5ESJCG2+2KINKuyfUNUh55r8mwZLFGUoAvO2JhZ44E2GWaH5mu7d2NHSA/CWFpjCE
+	=
+X-Gm-Gg: ASbGncv/afBj1QpMDe50dBa9450SkCgXncb6LBVMGSEpEpaYYT7a/vZ4dEpDqG9uD0I
+	8a644WrxkIqM3HDqb6kSGxhcWSCF/PWoRfsV9JiAbSokR2N/IvM2OktrySA9R70vN9HPSV977kH
+	rA94FmtU1Iy+ggI4H4Ir1DoJVUD/B/o/dgPwQDrq9guMM3hgJ4vf7qmqIwSbDDKU4sJ8xKaJlYO
+	cu2NE6AYljiKGoN7irjUcPRvV+Hs1mGwQ9Mrgnlu+qWSmpx5OJLofXMVrN9wGPdOBgEzbAI4Tny
+	i6rLC0DhHg6VYGFT9jAyqRIRd69C6iDQIEAWmA==
+X-Google-Smtp-Source: AGHT+IH/uHf1ov30Slxv4c/9kj5MHdTkDqkZgdS5Yptqo8wLkHd6UMxT1CC8C6DAZx5yQsrqPu5wrw==
+X-Received: by 2002:a17:903:3a8d:b0:221:7e04:d791 with SMTP id d9443c01a7336-2219ff65654mr122353055ad.31.1740243790339;
+        Sat, 22 Feb 2025 09:03:10 -0800 (PST)
 Received: from thinkpad ([120.60.135.149])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d537c921sm153046605ad.104.2025.02.22.08.44.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d62dsm151809115ad.149.2025.02.22.09.03.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 08:44:32 -0800 (PST)
-Date: Sat, 22 Feb 2025 22:14:26 +0530
+        Sat, 22 Feb 2025 09:03:09 -0800 (PST)
+Date: Sat, 22 Feb 2025 22:33:01 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	quic_shazhuss@quicinc.com, quic_ramkri@quicinc.com,
+To: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+Cc: quic_shazhuss@quicinc.com, quic_ramkri@quicinc.com,
 	quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
 	quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Slark Xiao <slark_xiao@163.com>, Qiang Yu <quic_qianyu@quicinc.com>,
 	Mank Wang <mank.wang@netprisma.us>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Fabio Porcedda <fabio.porcedda@gmail.com>, mhi@lists.linux.dev,
+	Fabio Porcedda <fabio.porcedda@gmail.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] pci_generic: Add supoprt for SA8775P target
-Message-ID: <20250222164426.5esw7aygsz6eouvz@thinkpad>
-References: <20250221060522.GB1376787@rocinante>
- <20250221215445.GA363532@bhelgaas>
- <20250222075347.GC1158377@rocinante>
+Subject: Re: [PATCH v1 1/2] bus: mhi: host: pci_generic: Add supoprt for
+ SA8775P target
+Message-ID: <20250222170301.eflilypd4uaqbtrq@thinkpad>
+References: <20241205065422.2515086-1-quic_msarkar@quicinc.com>
+ <20241205065422.2515086-2-quic_msarkar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -88,47 +87,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250222075347.GC1158377@rocinante>
+In-Reply-To: <20241205065422.2515086-2-quic_msarkar@quicinc.com>
 
-On Sat, Feb 22, 2025 at 04:53:47PM +0900, Krzysztof Wilczyński wrote:
-> Hello,
+On Thu, Dec 05, 2024 at 12:24:19PM +0530, Mrinmay Sarkar wrote:
+> Add generic info for SA8775P target. SA8775P supports IP_SW
+> usecase only. Hence use separate configuration to enable IP_SW
+> channel.
 > 
-> > > > This patch series add separate MHI host configuration to enable
-> > > > only IP_SW channel for SA8775P target.
-> > > > 
-> > > > And also update the proper device id for SA8775P endpoint.
-> > > 
-> > > Applied to epf-mhi, thank you!
-> > 
-> > I see "[2/2] PCI: epf-mhi: Update device id for SA8775P" on
-> > pci/epf-mhi, but I don't see patch [1/2].  Where did that go?
-> > They seem related, so I would think we'd want to merge them together.
-> 
-> I asked Mani whether he would prefer for me to take the entire series via
-> the PCI tree, but he said that the first patch should go via the MHI tree.
-> 
-> So, I assume Mani will take it, then.  Mani, thoughts?
-> 
+> Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 
-Yeah. Patch 1/2 should go via MHI tree as it is purely an MHI controller patch
-(a.k.a host side patch). Whereas patch 2/2 is an endpoint side patch.
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-> > Also, in [2/2], I guess the .deviceid change is known not to break
-> > anything that's already in the field?
-> 
-> Mrinmay, are you expecting any issues with this change?
-> 
-> Per the c670e29f5bfe ("PCI: epf-mhi: Add support for SA8775P SoC"):
-> 
->   Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
->   SA8775P is currently reusing the PID 0x0306 (the default one hardcoded
->   in the config space header) as the unique PID is not yet allocated.
-> 
-> I think, we should be fine.  But would be best to confirm that.
-> 
+One comment below. But I'll fix it up while applying.
 
-SA8775P with upstream endpoint is not used by anyone outside Qcom till now. So
-changing the PID is safe.
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 34 ++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 56ba4192c89c..b62a05e854e9 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -245,6 +245,19 @@ struct mhi_pci_dev_info {
+>  		.channel = ch_num,		\
+>  	}
+>  
+> +static const struct mhi_channel_config modem_qcom_v2_mhi_channels[] = {
+
+I wouldn't call sa8775p as 'modem'.
 
 - Mani
 
