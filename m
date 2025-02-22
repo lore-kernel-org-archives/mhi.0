@@ -1,56 +1,70 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9B146434
-	for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 07:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5A2063FF
+	for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 16:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740210832; cv=none; b=Og0DHz+4khIynnpcAF9zULro9WYjFGE7ctfu6OErS5gPm34+8XBbi04helMX+esmfC7tfm9TKsmT9e6npKf9wpHuG4BI2AKSeemJZhMhApFwwZ3GT2IHgx5IgkXImVXK6wCwHYF8b8Vi5VcrcJcnr7B/68pKZUrGphiROmTXEc8=
+	t=1740242677; cv=none; b=E2rHQ0dlVTvZfkhlbkh576E3ge4Z96sdCrQDu6nXPX6Mm8JQHJnizI5Hwf09ahw/dvUnN4n5HXFERMvf6ga9SIs0wfNL83fzjPkYd6wNiKNAt9O8YNHO3AJfEw35pzrETNAC1rB0XoE0NGe9ac39Nvwite6PPurZyWaKmuIrcJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740210832; c=relaxed/simple;
-	bh=3PI9LZ/oRJ5/z4xPX/rDQSoMv39x7OHyntDEUSyHW6U=;
+	s=arc-20240116; t=1740242677; c=relaxed/simple;
+	bh=L8IhYJZqTL+VAFgPJyw5O+dgm0yXbcW4d8tIgufYAhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ma2cR/iOOchlDrzR49HKuT69mdIaqkHk72RAk/y3asuFS/dSsxQlSgATwfFl66FJy3koQvUB8dWv+xJdS4aC0nV6RByDNzZTFcHYuFM91Eqh2bAp+6uBJZJKyZ4EDg69RDB6DQcTinhbAzTwgZLCxvI3Kqqt17mm4BSrFmXH0ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2f83a8afcbbso5048653a91.1
-        for <mhi@lists.linux.dev>; Fri, 21 Feb 2025 23:53:50 -0800 (PST)
+	 Content-Type:Content-Disposition:In-Reply-To; b=lCutJnM2W35cMEItjyzOmfyAI2gU3ldKSwOEvxMa/RruBYkVJWeHm7ITJhy8vH/Prf2FkXONIwlYbDf4sxczShRdiif+iQRoNmDyxNyPtcKVfBXauRAyky+PDj/6JEJJSTfFckwHsRNuGzuc1oIv/MdLLXF5BITzmPgTi/QafMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OALcWRM1; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OALcWRM1"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-221057b6ac4so59028495ad.2
+        for <mhi@lists.linux.dev>; Sat, 22 Feb 2025 08:44:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740242673; x=1740847473; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9f7uZjtHK+lQIbRAC4oC1UZT/44Vy8koxrXiqt6OwY8=;
+        b=OALcWRM11B5QsPd5l14LrnnxnHjS6VgYieZjdZ3QlDt3KKbUWMtE5PtkPpuQA0+7v+
+         PoZFdJqQZvxZsq+68JPDvA1Cp2WtDg1pA+HW/6/Xc++1AdqpEDipvEgstXLqlJnsQeId
+         oFgvOyqyOyDSNi+8zo8QnZu855Brr2nV6AZUlU5MkBYp6JetNqHMlBflCNJ/R7Nu7J9q
+         hgiqQVo7WRuSNNNWMbrIqV2IAqiPpZGP0f7QH7xdLkjL9fUWM60nIfmjqK7KkkBElnOr
+         IkXh4HQAFZYSDHC7BjM6V4vgH/GcoobKfK/p3XkDeR/U06uTMkZQ2A2NgG06YzLhRU2c
+         95RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740210830; x=1740815630;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XgOwBKeJIC++w2hXb/vSOONHow+D0phrb0BF5CSn77Q=;
-        b=HYSFvBJUX1cEeVmBrfFWQxFXBYpr0ysDHfWsi0cXMfGb7rXH2uJnH2RB+d6UT4ljC4
-         uST9SFpPZSVY4AKgenv4HmbPfxR7PoWc2sZzV5nsQvqjVXz2uE7koxKfJB8CwI/3mp6I
-         iuAuzSEshiPRRXGxTZeJpkNr9eUUmX+XRupMjnTWzQj1Ms3fzxlgPAKyoRuO/pSsLzxE
-         MqSsnXi0jUwZziBotj4Zx1hPlYA/mRaPeglX+bIJznRwWkkTSMVgxT+5+qGC5CejtUJx
-         MqkDAqRcL+MYc52n+OLsNLpeeb+NaVq4tlGNpfbB87uAxDBIR7T/KYf9os2NgjOQgKgU
-         pc8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWPsFp+rj8PDwC5Mfve1U70Cf40FbGu+aChoVgN0auTH8c1eiFVi42Gn+oldVwT4du3f/k=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxh9uJsaSVW9Aq+iPeytsGosAYIrIrfuljKZwg+XJWBRrf/JPs3
-	HcSIIQ7WUxYapVJ55FoiSe/Vqr4A+PbMewldegKeNoBe24Pmcvf+
-X-Gm-Gg: ASbGncsBl+2dsEObKRjXKCNxwPkTrabioPYp+CnBKZce/ckWBA6WlRrGQKoAsCVN/YI
-	I9DYCHO10VMefNG/ubjfumGT5NpewVLkXsnUj6HqHqpJPR0u5gN2pzxxUMf4HS4/2+1TyFN1GsC
-	aXXeTd6eeH9hlVNQoJQXCKE2gNAe2ecsxiRZG3/ojauQavjj1DrJm+sD4xlVIk+zczPIJGvo1ku
-	hXWt0UeznA1+FAQXdrPMWJYUbFXkqmSG0Kt9Ig305wZqV6zl/FUuDf/MtdZPDyt8s+/+xAPYJyn
-	4DK1rcwLyJVmRY3QW//lAeBN6QyrwmSRTfhJbJ3BoRIBjCur+GyozPgUfX+h
-X-Google-Smtp-Source: AGHT+IGBa2sUv3RRiY4KoSYaepkpXMCwBkVIcmu8mOMY6NF2khmYEc5MAiG7hTleu61bz7O7mg4ASQ==
-X-Received: by 2002:a17:90b:3dc3:b0:2fa:1d9f:c80 with SMTP id 98e67ed59e1d1-2fcccc92715mr17441423a91.17.1740210829827;
-        Fri, 21 Feb 2025 23:53:49 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d55b6ab7sm147107975ad.132.2025.02.21.23.53.48
+        d=1e100.net; s=20230601; t=1740242673; x=1740847473;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9f7uZjtHK+lQIbRAC4oC1UZT/44Vy8koxrXiqt6OwY8=;
+        b=lckaWTJsKMXGmg4++u7Umvd2XJ5nOMHerZfFhe1jxJs/MK/KwmnuQtT7JScylvTCCF
+         z0xF7HfM1BkfBOC5UPSu/nynJFjQciowAEE4EqutvFXr801zUEWaiqXwjIKIGhP4dcDg
+         FYptHxgWtHE3onOTYTJbFJ9CDyGXNmmf+HKfA6RGhHVWhGZlwWwpJ2uVQsFoef5dQt0h
+         A+V69DY23ITYRTcVVu2GYdRQsJpQQRWUqhOmqd24ignodxx3Y9ZK1pTb/Fsfe/F8bh9I
+         fbtCnM16Ff+aTD9iqlsFGPQ/MArAeviryFN4Ik1N0YKHzHOv8VJ41NSecUZBZ8qpwAQz
+         E1yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuyA4qKKYKsty2GDe9nKGEU6tobfQQkYSLqesEWePPwhROFVk9JNzFSg9VYmMXo+ZHnbM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/F23JEvN2ZHPljbwZ0HaEK3PeITEvPoY0DWhklKnWZCQ1+Qmx
+	Vl+jr2prLBJNfUx40C+G6PZUWdUxJorkh6o9wJ5OYETdXih1ibsVK22Ryj15pQ==
+X-Gm-Gg: ASbGnctkw6lxy2OtQWRjJF/jegUu7oxUtRB8nTYFLS2h1iJYGkp2qmHJ3MZ91z1NTzl
+	AJAUqbwl57SJYa4XtAM+L9ZIPzC3lkxprdShf7KycD9YeBJnpPnajIk9Ef8xFKjsPmV+DVAUNdp
+	FL1zuzZg6z4MMKPngYGmTogdm0RKlcYQZW+4pMR5qYyDCgTaKRf0YJY6zp+WzjqmT5o5qCVVm+n
+	niVCvj7Ic+Y/+wS3MNswYMEoNm/R+iwoTksVSQowfxYeuXG3WSmdgqm3khw1x0WsujzwYlIubXA
+	yKm1q8xyg7/jziISpyvVsm8HCpfsZ6I4WQMPJQ==
+X-Google-Smtp-Source: AGHT+IGZNd7JbH7rVNtNivVdsM8aE1a1IdZv+AIk3ODGAEKzzGY0D6UbBx86tKJ6P8fBBfE/PVEofw==
+X-Received: by 2002:a17:903:2f8f:b0:220:d7f9:9ea8 with SMTP id d9443c01a7336-221a10ee47amr93976375ad.26.1740242673342;
+        Sat, 22 Feb 2025 08:44:33 -0800 (PST)
+Received: from thinkpad ([120.60.135.149])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d537c921sm153046605ad.104.2025.02.22.08.44.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 23:53:49 -0800 (PST)
-Date: Sat, 22 Feb 2025 16:53:47 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	manivannan.sadhasivam@linaro.org, quic_shazhuss@quicinc.com,
-	quic_ramkri@quicinc.com, quic_nayiluri@quicinc.com,
-	quic_krichai@quicinc.com, quic_vbadigan@quicinc.com,
-	quic_nitegupt@quicinc.com,
+        Sat, 22 Feb 2025 08:44:32 -0800 (PST)
+Date: Sat, 22 Feb 2025 22:14:26 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	quic_shazhuss@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nayiluri@quicinc.com, quic_krichai@quicinc.com,
+	quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Slark Xiao <slark_xiao@163.com>, Qiang Yu <quic_qianyu@quicinc.com>,
@@ -61,48 +75,62 @@ Cc: Mrinmay Sarkar <quic_msarkar@quicinc.com>,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org
 Subject: Re: [PATCH v1 0/2] pci_generic: Add supoprt for SA8775P target
-Message-ID: <20250222075347.GC1158377@rocinante>
+Message-ID: <20250222164426.5esw7aygsz6eouvz@thinkpad>
 References: <20250221060522.GB1376787@rocinante>
  <20250221215445.GA363532@bhelgaas>
+ <20250222075347.GC1158377@rocinante>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250221215445.GA363532@bhelgaas>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250222075347.GC1158377@rocinante>
 
-Hello,
-
-> > > This patch series add separate MHI host configuration to enable
-> > > only IP_SW channel for SA8775P target.
-> > > 
-> > > And also update the proper device id for SA8775P endpoint.
-> > 
-> > Applied to epf-mhi, thank you!
+On Sat, Feb 22, 2025 at 04:53:47PM +0900, Krzysztof Wilczyński wrote:
+> Hello,
 > 
-> I see "[2/2] PCI: epf-mhi: Update device id for SA8775P" on
-> pci/epf-mhi, but I don't see patch [1/2].  Where did that go?
-> They seem related, so I would think we'd want to merge them together.
+> > > > This patch series add separate MHI host configuration to enable
+> > > > only IP_SW channel for SA8775P target.
+> > > > 
+> > > > And also update the proper device id for SA8775P endpoint.
+> > > 
+> > > Applied to epf-mhi, thank you!
+> > 
+> > I see "[2/2] PCI: epf-mhi: Update device id for SA8775P" on
+> > pci/epf-mhi, but I don't see patch [1/2].  Where did that go?
+> > They seem related, so I would think we'd want to merge them together.
+> 
+> I asked Mani whether he would prefer for me to take the entire series via
+> the PCI tree, but he said that the first patch should go via the MHI tree.
+> 
+> So, I assume Mani will take it, then.  Mani, thoughts?
+> 
 
-I asked Mani whether he would prefer for me to take the entire series via
-the PCI tree, but he said that the first patch should go via the MHI tree.
+Yeah. Patch 1/2 should go via MHI tree as it is purely an MHI controller patch
+(a.k.a host side patch). Whereas patch 2/2 is an endpoint side patch.
 
-So, I assume Mani will take it, then.  Mani, thoughts?
+> > Also, in [2/2], I guess the .deviceid change is known not to break
+> > anything that's already in the field?
+> 
+> Mrinmay, are you expecting any issues with this change?
+> 
+> Per the c670e29f5bfe ("PCI: epf-mhi: Add support for SA8775P SoC"):
+> 
+>   Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
+>   SA8775P is currently reusing the PID 0x0306 (the default one hardcoded
+>   in the config space header) as the unique PID is not yet allocated.
+> 
+> I think, we should be fine.  But would be best to confirm that.
+> 
 
-> Also, in [2/2], I guess the .deviceid change is known not to break
-> anything that's already in the field?
+SA8775P with upstream endpoint is not used by anyone outside Qcom till now. So
+changing the PID is safe.
 
-Mrinmay, are you expecting any issues with this change?
+- Mani
 
-Per the c670e29f5bfe ("PCI: epf-mhi: Add support for SA8775P SoC"):
-
-  Add support for Qualcomm Snapdragon SA8775P SoC to the EPF driver.
-  SA8775P is currently reusing the PID 0x0306 (the default one hardcoded
-  in the config space header) as the unique PID is not yet allocated.
-
-I think, we should be fine.  But would be best to confirm that.
-
-	Krzysztof
+-- 
+மணிவண்ணன் சதாசிவம்
