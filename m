@@ -1,173 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE45158868;
-	Thu, 13 Mar 2025 17:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BF71F30C3
+	for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 23:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741886910; cv=none; b=b0NpawxaFzeeIa/f4Bq11NEGTP5lB04LmPS8hwV7yz8g0qBi9tC0moc/p5Kxdnhk8Cq1vVsrB7cJM3aFDCGiuHb8llGK7rv51+4vr/BGALQPOtFPVBBjz9ad3pKPEa9ED4jm6C05ts3ZNokQP5VzJQ4/kUK7JR0hDoMFx1hcTog=
+	t=1741909730; cv=none; b=Sfz8x6ITAP7e3AGew9Bp/Yhbfx9VXqpDgEvlMVhoya2yOLkqPM0ou5/VWHUSONJvheWya3ijcmVqO21xzlcrpbDE51dWTSBhnMZxsd0SFF9gMhOVNX6XfZlRlVoin+a1mdq6EsZCh8pIenxXBk4ys7BImQzrel3ZR87xOkEr27k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741886910; c=relaxed/simple;
-	bh=ysZJy/pStSvMTNKpMrLF6jzCLOYDpj1uIdVrASzzEoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=f3d7SyDKBtFlqB6a+fvCPFbMtkxPxbZhlBIoroAxyAhToYf4/FMIaoijH90AMVSvW+oWtIJIa3u0ezu1oqStTNARE3Zvznsfc190v3/4oryb4dq6+K2P62adLsxiQfX6aUBS3jLdxeINub1KgUYEZXGE9Rnn0ldBrKgALsaRMVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQ2DxQ6s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741909730; c=relaxed/simple;
+	bh=0lu8oU1tyqYj57FgsKOmobIAzRwBp7FW+RRAsiYBpss=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tCEy9dFjAHEHYJ5enXbVQIu70qeBO856ZJMm/Gh7cPSgp1dZn/gg8kmCKWadi6qZkPUj3/LqJ4spUQpS54ZRiCggKqa5qEANIERiJcAxz9k00yzzk8OZ6VdVJxhs4SXqKRf5s3u5ltFMJz83bnOc2OIrtg3Pne24oZ0rOHljClw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dwGqZGNB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQ2DxQ6s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20167C4CEDD;
-	Thu, 13 Mar 2025 17:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741886910;
-	bh=ysZJy/pStSvMTNKpMrLF6jzCLOYDpj1uIdVrASzzEoY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=dQ2DxQ6sIpOoITZl4zyHIxnBnbZyOGDZNCdr6pjx83cxo7HKyABB0MY5WSzJPQMiy
-	 3ol/5oSMjL14PA0/ckuboggAjr77NDLlyW/cF4PCSVOSERWtWivHsQYmquJI5Reogs
-	 HM7bSJ5Xii3T05scdfAqplAxvpe8MfMcdZoOUm1paIPCyvWEzJO3msis1SJCp4K1cu
-	 ccxcBkbSQ0hqb0svtmMvC8pQ8gomopQTsJ6IY3MkcJ50NnDR9gbOoogZ29hSAaGpyo
-	 C7Z1Z+K13kh2VAUFqfC76Fp9gcjIaawMMPBmhHRhM7iyhlimU3im7nE91MoZikvLpk
-	 ZsUdRxHkoL0iA==
-Date: Thu, 13 Mar 2025 12:28:28 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com,
-	quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
-	quic_mrana@quicinc.com,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	Miaoqing Pan <quic_miaoqing@quicinc.com>
-Subject: Re: [PATCH v2 10/10] wifi: ath11k: add support for MHI bandwidth
- scaling
-Message-ID: <20250313172828.GA740705@bhelgaas>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dwGqZGNB"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52DCUCeE008673
+	for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 23:48:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Zkd/Jggqn86Uyh/5JzZQRlmlyi5xVymwBZ1NTqzN0CE=; b=dwGqZGNB2o/W1vhD
+	lMvadEKnxYanIo9kqSUDcDRjzYmf0TZceWIIFAN5IMf9GLnu0vKfBl3PmMir/KAk
+	WlP/r2ERc2k4tD8cZEiRtt8U6GhiW/3HsZAfKDfDxREL6QCLQJZumrxiCZoUrobj
+	pPSJMo/CUvLm3P7FqRGHPp/lUzAaaD0iIqgbxHEUd4/4JGcTN2GOIwGJM+Pw/Y24
+	/IjsOyMx6/5dwvtNvPO93+76BHj4j8w1KpQldr2S6nNQXj5cvMNNm1fjqL3bhgOJ
+	7VUI9ZyZbtkc0yR2cfQX6LW2QF7I3TlWpXNfCgJDt7E7kXr0g2A23DXmkNyrdAsY
+	oWs4Hg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45bpg8b6uj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 23:48:48 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-223477ba158so41892155ad.0
+        for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 16:48:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741909727; x=1742514527;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zkd/Jggqn86Uyh/5JzZQRlmlyi5xVymwBZ1NTqzN0CE=;
+        b=erNi2urYdrlLGAxVAa3UVicexrBdWzVSKOap9lv80RUo+OIVrGsaJMiM7Jgo/Ynm77
+         ICLOIRZzXmxm1Oo809sZFl8I3OkkWn5kz5nJ0gl0XQGDcQK26QJLD9n+ftd5iEDcEQlD
+         A57jB33xvhH2Ql1Um2lGMmz/1x3CF+l/HoaH/pWFg0FEISsVhAdzUiLR0RRnKP0jDBTQ
+         rS3gDtAhpV7Jr4Mqgud1peqmOSfyb1+Alo9ritF3WYhiWcSA00dz78sfHGkvpujK/NR4
+         9BGpMvRbbtSgPUelPQmnqmCqIfIdz0NUhxvbaCmMGUR4VtwfP2VKa3TdJkiWodEHIGP7
+         zSwg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/dhwTo9F7y6TpPzRKpD682ySqrcm4HwCK48jkgW3OT5mAVlQ4wgegKcDgNuqI0pDKfLU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpNefnoFh3Xz7hjTihEd5EQr9+cJ0CcnbHZ5PnalXPUbjGe83W
+	SEAVvg2MjWTPoQvRwZx/78/QcM/v9Rpx7hD+fqr9DeynH8/AqCF/m/C0LxFVLEdZI+DSuNAMDop
+	nvzcZbhWXYBBLufcCFtTNoh7Jn8K0VZPBrRcdx1Ai92Lu654U09KCQWroFYk=
+X-Gm-Gg: ASbGnct+J1d9vlszLvhJyVPBz0PVRpE8YU5t7ywMRk0YuGGUasWu3nQDSrVlEPU3bSS
+	/frb24Z7ghGOampfbxeNiR/6PviZ4munRTbzO4RN0FzdYjB19k2PKHWiZdufSN2n8A0Lctil6dB
+	1/ptNdNYAjEPv65eCcyp0H6CLZkK2XrDT6GKgxosKhd6CdCvrg6ZEjBwvOPEfTMyQXEuUdHsUCi
+	TJsCXRnjKK82m/YV9Ev4MX6DVgqCnADePG5uref45hC3I3iceIxyX2QHQi5sNSspQGWP1PrB6KA
+	3cfVwyyVl265PgnQWDnwCVuSZlcRwP+f7xNlMl3O9OIEJxWs657ACnutb6vlpAFVpvWfbwNQtE6
+	NyKsyA8qp
+X-Received: by 2002:a17:902:ecc5:b0:223:f7ec:f834 with SMTP id d9443c01a7336-225e0a840camr4625995ad.31.1741909727063;
+        Thu, 13 Mar 2025 16:48:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHcphUQ8UCrGDx8Md02DmjuseFiFZVhQ2qPU88RhdsaxrxfnuW+c53+Y3w5UiXV4O9t74jPcQ==
+X-Received: by 2002:a17:902:ecc5:b0:223:f7ec:f834 with SMTP id d9443c01a7336-225e0a840camr4625785ad.31.1741909726725;
+        Thu, 13 Mar 2025 16:48:46 -0700 (PDT)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68887fcsm19356845ad.39.2025.03.13.16.48.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Mar 2025 16:48:46 -0700 (PDT)
+Message-ID: <2654f986-eb8b-430d-b962-8e77d9e11826@oss.qualcomm.com>
+Date: Thu, 13 Mar 2025 16:48:44 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313-mhi_bw_up-v2-10-869ca32170bf@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/10] PCI: Add function to convert lnkctl2speed to
+ pci_bus_speed
+To: Bjorn Helgaas <helgaas@kernel.org>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
+        ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com,
+        quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
+        quic_mrana@quicinc.com
+References: <20250313171637.GA739165@bhelgaas>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250313171637.GA739165@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=PtWTbxM3 c=1 sm=1 tr=0 ts=67d36ee0 cx=c_pps a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=e70TP3dOR9hTogukJ0528Q==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=wUlHnouiQKlN4MMnk_oA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: 7UlurQeUx2AbbSLYX1Mvs85ipdfr9fPY
+X-Proofpoint-ORIG-GUID: 7UlurQeUx2AbbSLYX1Mvs85ipdfr9fPY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_10,2025-03-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=822 impostorscore=0 spamscore=0
+ adultscore=0 phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503130181
 
-On Thu, Mar 13, 2025 at 05:10:17PM +0530, Krishna Chaitanya Chundru wrote:
-> From: Miaoqing Pan <quic_miaoqing@quicinc.com>
+On 3/13/2025 10:16 AM, Bjorn Helgaas wrote:
+> On Thu, Mar 13, 2025 at 05:10:16PM +0530, Krishna Chaitanya Chundru wrote:
+>> + * @speed: LNKCAP2 SLS value
+>> + *
+>> + * Returns pci_bus_speed
 > 
-> Add support for MHI bandwidth scaling, which will reduce power consumption
-> if WLAN operates with lower bandwidth. This feature is only enabled for
-> QCA6390.
-
-What is the event that initiates bandwidth scaling or reduces power
-consumption?  Is there any kind of user interface like a sysfs knob
-an administrator can use?
-
-Does this happen based on ath11k usage?  Battery or thermal status?  
-
-I guess reducing power consumption or reducing heat is probably the
-driving factor since we would always use max performance if power and
-heat were not issues?
-
-Some hints here would be useful.
-
-> Tested-on: WCN6855 hw2.1 PCI WLAN.HSP.1.1-04546-QCAHSPSWPL_V1_V2_SILICONZ_IOE-1
-> Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
-> ---
->  drivers/net/wireless/ath/ath11k/mhi.c | 41 +++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
+> Not sure how strict kernel-doc is about this, but I've been told
+> it wants "Return:" with a colon here:
 > 
-> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
-> index 6e45f464a429..74769c0993ae 100644
-> --- a/drivers/net/wireless/ath/ath11k/mhi.c
-> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
-> @@ -20,6 +20,7 @@
->  #define MHI_TIMEOUT_DEFAULT_MS	20000
->  #define RDDM_DUMP_SIZE	0x420000
->  #define MHI_CB_INVALID	0xff
-> +#define MHI_BW_SCALE_CHAN_DB 126
->  
->  static const struct mhi_channel_config ath11k_mhi_channels_qca6390[] = {
->  	{
-> @@ -73,6 +74,17 @@ static struct mhi_event_config ath11k_mhi_events_qca6390[] = {
->  		.client_managed = false,
->  		.offload_channel = false,
->  	},
-> +	{
-> +		.num_elements = 8,
-> +		.irq_moderation_ms = 0,
-> +		.irq = 1,
-> +		.mode = MHI_DB_BRST_DISABLE,
-> +		.data_type = MHI_ER_BW_SCALE,
-> +		.priority = 2,
-> +		.hardware_event = false,
-> +		.client_managed = false,
-> +		.offload_channel = false,
-> +	},
->  };
->  
->  static const struct mhi_controller_config ath11k_mhi_config_qca6390 = {
-> @@ -313,6 +325,33 @@ static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
->  	writel(val, addr);
->  }
->  
-> +static int ath11k_mhi_op_get_misc_doorbell(struct mhi_controller *mhi_cntrl,
-> +					   enum mhi_er_data_type type)
-> +{
-> +	if (type == MHI_ER_BW_SCALE)
-> +		return MHI_BW_SCALE_CHAN_DB;
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int ath11k_mhi_op_bw_scale(struct mhi_controller *mhi_cntrl,
-> +				  struct mhi_link_info *link_info)
-> +{
-> +	enum pci_bus_speed speed = pci_lnkctl2_bus_speed(link_info->target_link_speed);
-> +	struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
-> +	struct pci_dev *pci_dev = to_pci_dev(ab->dev);
-> +	struct pci_dev *pdev;
-> +
-> +	if (!pci_dev)
-> +		return -EINVAL;
-> +
-> +	pdev = pci_upstream_bridge(pci_dev);
-> +	if (!pdev)
-> +		return -ENODEV;
-> +
-> +	return pcie_set_target_speed(pdev, speed, true);
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/doc-guide/kernel-doc.rst?id=v6.13#n142
 
-Seems kind of unfortunate that:
+Yes, patchwork is flagging kernel-doc issues in this series.
+However, there are numerous pre-existing kdoc issues in the MHI and PCI files
+being modified in this series. Just look at the patches with errors being
+flagged in patchwork (including build errors with 06/10):
 
-  1) The endpoint driver needs to be involved here, even though it
-  does nothing that is endpoint-specific, and
+https://patchwork.kernel.org/project/linux-wireless/list/?series=943497
 
-  2) The endpoint driver twiddles something in *another* device (the
-  upstream bridge).  There's a potential locking issue here and
-  potential conflict with any other devices that may be below that
-  bridge.
-
-> +}
-> +
->  static int ath11k_mhi_read_addr_from_dt(struct mhi_controller *mhi_ctrl)
->  {
->  	struct device_node *np;
-> @@ -389,6 +428,8 @@ int ath11k_mhi_register(struct ath11k_pci *ab_pci)
->  	mhi_ctrl->status_cb = ath11k_mhi_op_status_cb;
->  	mhi_ctrl->read_reg = ath11k_mhi_op_read_reg;
->  	mhi_ctrl->write_reg = ath11k_mhi_op_write_reg;
-> +	mhi_ctrl->bw_scale = ath11k_mhi_op_bw_scale;
-> +	mhi_ctrl->get_misc_doorbell = ath11k_mhi_op_get_misc_doorbell;
->  
->  	switch (ab->hw_rev) {
->  	case ATH11K_HW_QCN9074_HW10:
-> 
-> -- 
-> 2.34.1
-> 
