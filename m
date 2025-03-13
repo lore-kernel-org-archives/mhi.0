@@ -1,48 +1,48 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D91A14900B;
-	Thu, 13 Mar 2025 04:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D082C1F8BC0;
+	Thu, 13 Mar 2025 04:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741840582; cv=none; b=eYYaS+ne9fUf0u/67uOcXt1yUhPU+174zoqSHNX/sg+U1NXirNdqg1zcXEEUV0ycTIgeXjMhZklomYC3c+saGydohSsx3FEVQPEdw5+f/rcz4zrV7HRzt54hK0vzqpzQ8dRq8ztKigNMlxr+lDJ3meaMN4Y+etHdEbQwzbpF3aQ=
+	t=1741841667; cv=none; b=rifNXMUKFARu2d4T4piXhVndqNbzu32vMz3lfH4zA2cAbRIowzfc33aDDJSh+bZ2NU/0EIeOFMiDNWaj6p3udLg/46FoKvMSW31X+/5giABcwLDqEnn2zJ4GfdjU1EOx5rLUMx9OZ8pH+aCVcCvtaTHp6kmMzYmGDPtcJXA2IjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741840582; c=relaxed/simple;
-	bh=xet0V+r+Aj8VTDEbeTR7zsWCTB5Lz8SoX9EX3nWHHD4=;
+	s=arc-20240116; t=1741841667; c=relaxed/simple;
+	bh=haMOG8SvsZFNLA9JjwTaop5b3QV/j0eeMGJwQnR/Nr4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=L0l4o7PX9IE4j6HK8KCyu1nhG9gGksncS/yMxLFaQpAcwA3qsUfTkJfRp+cGZXPPtZcAlQNG0cYs0NXCQRQ6ckNQGDIh8lnEA8A4Y7Uw05eL1AkiwNMKw6F4o+cMsvIe27SPIk9loQ063FDUUg+yz3U7WGFyE0DjcH4oQ4hi534=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cxED1E9L; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=LT0yflhsoLiyAGCCQYqz6h5pG9yyEbAcmutfX2vEc5aHIDz+UNgRATQxkvuzVhZjomoDtTb/k3qnsEZhnv2k/Hwe0Vrh60fViutUDzn8JjDPPxrHPyxIrqVlUXfWrHXDUsPzXC9wKmWwPxv/IY2Lhx5/A4lFDHyEwWZMtuTP7Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=T5YUWVmz; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cxED1E9L"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="T5YUWVmz"
 Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52CEUg66020990;
-	Thu, 13 Mar 2025 04:36:19 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52CKGZqI027310;
+	Thu, 13 Mar 2025 04:54:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UvjqVgNUm0jKQX7GdfDaAQbIn4ughtKb9Am3wpaodiE=; b=cxED1E9L9VGWO1Ih
-	U49+ufXbbTWC6Lp0MBJ1tC+4nDLECM8GKQEnfeOSyfYnfouliqmDYnZRfwPwNzak
-	g4Ler1J/Kfddd/8bxJtK4MTYyrtjGJyuxZGdrc8M+CFyOASUHtDWJMFTb1zDO7Pi
-	EE+jXYstYLjeqqnARwuK8xzi7oxvZP/+8rflGkbZiUbgeKxbhh2e8r4jmQlaHBmL
-	3Ke+M6OLK2osenjTdt1cSBxUsWHnF2GSXoWwMDVmASx516i/wM+HqIzcB7n+qiEc
-	3rVhZymSqrHqaIED6YRanatADtur2gzgSUKMOTLSKGpik6SbevQqHm9qUGWtYuBO
-	uSxkxw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2pvh3j-1
+	d+omwS4zOD3krlxWZ9VZc8lxuNjvgcYyMFteMfUbmwg=; b=T5YUWVmzkDd6ZSQt
+	XuTBwdyC2WD/YrTLTTKeWjVfHJ3gtNT1fc5dVvuKC9zCXS2iHrQukuxldCkjPsR0
+	GS5R46W4v3r/O/VQDVQ7Lps/PHBy7YOyMSmtFGzwFoCg/32dWLfpx+9X9eYtE07D
+	KqrjoRrwtFBI6KS5iUsfmwjKoqhzhFDC+XDIVnxV/1D8/AlDlsizzTVA/QEh82s5
+	uVsMdTrCeDtPWB8Thn8WISeNZb6SB8E3vUQCiXX0oamXtQRzXGLkhMeUgJnygS//
+	aAhDu6surNZg3E1zrIhuQGXK6rZ95kkY4UZOdgjtCZEPIuA8eilStBaOVh2KrVCN
+	8wRxOw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2pvjc3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Mar 2025 04:36:18 +0000 (GMT)
+	Thu, 13 Mar 2025 04:54:24 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52D4aIdc000437
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52D4sNc9008969
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Mar 2025 04:36:18 GMT
+	Thu, 13 Mar 2025 04:54:23 GMT
 Received: from [10.216.49.184] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Mar
- 2025 21:36:15 -0700
-Message-ID: <ba009fc7-851e-86bf-28ca-008ad258f54d@quicinc.com>
-Date: Thu, 13 Mar 2025 10:06:12 +0530
+ 2025 21:54:20 -0700
+Message-ID: <6a6d8710-304a-d3b4-3721-cfda420019a3@quicinc.com>
+Date: Thu, 13 Mar 2025 10:24:17 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,104 +51,127 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH] bus: mhi: host: Fix race between unprepare and queue_buf
+Subject: Re: [PATCH] bus: mhi: host: Address conflict between power_up and
+ syserr
+Content-Language: en-US
 To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, <quic_carlv@quicinc.com>,
         <quic_thanson@quicinc.com>, <manivannan.sadhasivam@linaro.org>
 CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
         Jeffrey Hugo
 	<quic_jhugo@quicinc.com>
-References: <20250306172913.856982-1-jeff.hugo@oss.qualcomm.com>
-Content-Language: en-US
+References: <20250306173226.857335-1-jeff.hugo@oss.qualcomm.com>
 From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20250306172913.856982-1-jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250306173226.857335-1-jeff.hugo@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=P506hjAu c=1 sm=1 tr=0 ts=67d260c2 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=LbIimEMjv8I_AjFlMG8A:9
+X-Authority-Analysis: v=2.4 cv=P506hjAu c=1 sm=1 tr=0 ts=67d26500 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=8m1hBGtWhn_4BuljV5MA:9
  a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 15kOL97W57mau4SHzTKEvXQYb7UcQJ0N
-X-Proofpoint-ORIG-GUID: 15kOL97W57mau4SHzTKEvXQYb7UcQJ0N
+X-Proofpoint-GUID: 4xnvpsKBzDPQn7ztB15j76H7lamVbZDi
+X-Proofpoint-ORIG-GUID: 4xnvpsKBzDPQn7ztB15j76H7lamVbZDi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-13_02,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
  mlxscore=0 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=924 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
  adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
  adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503130033
+ definitions=main-2503130036
 
 
 
-On 3/6/2025 10:59 PM, Jeff Hugo wrote:
+On 3/6/2025 11:02 PM, Jeff Hugo wrote:
 > From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > 
-> A client driver may use mhi_unprepare_from_transfer() to quiesce
-> incoming data during the client driver's tear down. The client driver
-> might also be processing data at the same time, resulting in a call to
-> mhi_queue_buf() which will invoke mhi_gen_tre(). If mhi_gen_tre() runs
-> after mhi_unprepare_from_transfer() has torn down the channel, a panic
-> will occur due to an invalid dereference leading to a page fault.
+> mhi_async_power_up() enables IRQs, at which point we can receive a syserr
+> notification from the device.  The syserr notification queues a work item
+> that cannot execute until the pm_mutex is released.
 > 
-> This occurs because mhi_gen_tre() does not verify the channel state
-> after locking it. Fix this by having mhi_gen_tre() confirm the channel
-> state is valid, or return error to avoid accessing deinitialized data.
+> If we receive a syserr notification at the right time during
+> mhi_async_power_up(), we will fail to initialize the device.
 > 
-> Fixes: b89b6a863dd5 ("bus: mhi: host: Add spinlock to protect WP access when queueing TREs")
+> The syserr work item will be pending.  If mhi_async_power_up() detects the
+> syserr, it will handle it.  If the device is in PBL, then the PBL state
+> transition event will be queued, resulting in a work item after the
+> pending syserr work item.  Once mhi_async_power_up() releases the pm_mutex
+> the syserr work item can run.  It will blindly attempt to reset the MHI
+> state machine, which is the recovery action for syserr.  PBL/SBL are not
+> interrupt driven and will ignore the MHI Reset unless syserr is actively
+> advertised.  This will cause the syserr work item to timeout waiting for
+> Reset to be cleared, and will leave the host state in syserr processing.
+> The PBL transition work item will then run, and immediately fail because
+> syserr processing is not a valid state for PBL transition.
+> 
+> This leaves the device uninitialized.
+> 
+> This issue has a fairly unique signature in the kernel log:
+> 
+> [  909.803598] mhi mhi3: Requested to power ON
+> [  909.803775] Qualcomm Cloud AI 100 0000:36:00.0: Fatal error received from device.  Attempting to recover
+> [  909.803945] mhi mhi3: Power on setup success
+> [  911.808444] mhi mhi3: Device failed to exit MHI Reset state
+> [  911.808448] mhi mhi3: Device MHI is not in valid state
+> 
+> We cannot remove the syserr handling from mhi_async_power_up() because the
+> device may be in the syserr state, but we missed the notification as the
+> irq was fired before irqs were enabled.  We also can't queue the syserr
+> work item from mhi_async_power_up() if syserr is detected because that may
+> result in a duplicate work item, and cause the same issue since the
+> duplicate item will blindly issue MHI Reset even if syserr is no longer
+> active.
+> 
+> Instead, add a check in the syserr work item to make sure that the device
+> is in the syserr state if the device is in the PBL or SBL EEs.
+> 
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 > ---
->   drivers/bus/mhi/host/main.c | 16 ++++++++++------
->   1 file changed, 10 insertions(+), 6 deletions(-)
+>   drivers/bus/mhi/host/pm.c | 18 +++++++++++++++++-
+>   1 file changed, 17 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 4de75674f193..aa8a0ef697c7 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -1207,11 +1207,16 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->   	struct mhi_ring_element *mhi_tre;
->   	struct mhi_buf_info *buf_info;
->   	int eot, eob, chain, bei;
-> -	int ret;
-> +	int ret = 0;
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 11c0e751f223..3dff0f932726 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -602,6 +602,7 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+>   	struct mhi_cmd *mhi_cmd;
+>   	struct mhi_event_ctxt *er_ctxt;
+>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> +	bool reset_device = false;
+>   	int ret, i;
 >   
->   	/* Protect accesses for reading and incrementing WP */
->   	write_lock_bh(&mhi_chan->lock);
+>   	dev_dbg(dev, "Transitioning from PM state: %s to: %s\n",
+> @@ -630,8 +631,23 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+>   	/* Wake up threads waiting for state transition */
+>   	wake_up_all(&mhi_cntrl->state_event);
 >   
-> +	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED) {
-> +		ret = -ENODEV;
-> +		goto out;
+> -	/* Trigger MHI RESET so that the device will not access host memory */
+> +	/*
+> +	 * Trigger MHI RESET so that the device will not access host memory.
+> +	 * If the device is in PBL or SBL, it will only respond to RESET if
+> +	 * the device is in SYSERR state.  SYSERR might already be cleared
+> +	 * at this point.
+> +	 */
+>   	if (MHI_REG_ACCESS_VALID(prev_state)) {
+> +		enum mhi_state cur_statemachine_state = mhi_get_mhi_state(mhi_cntrl);
+> +		enum mhi_ee_type cur_ee = mhi_get_exec_env(mhi_cntrl);
+> +
+> +		if (cur_statemachine_state == MHI_STATE_SYS_ERR)
+> +			reset_device = true;
+> +		else if (cur_ee != MHI_EE_PBL && cur_ee != MHI_EE_SBL)
+why do we need this check? Above check will be applicable when EE is in
+MHI_EE_AMSS also. we can reset mhi only when current state is in SYS_ERR
+irrespective of the current ee.
+
+- Krishna Chaitanya.
+> +			reset_device = true;
 > +	}
 > +
->   	buf_ring = &mhi_chan->buf_ring;
->   	tre_ring = &mhi_chan->tre_ring;
+> +	if (reset_device) {
+>   		u32 in_reset = -1;
+>   		unsigned long timeout = msecs_to_jiffies(mhi_cntrl->timeout_ms);
 >   
-> @@ -1229,10 +1234,8 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->   
->   	if (!info->pre_mapped) {
->   		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
-> -		if (ret) {
-> -			write_unlock_bh(&mhi_chan->lock);
-> -			return ret;
-> -		}
-> +		if (ret)
-> +			goto out;
->   	}
->   
->   	eob = !!(flags & MHI_EOB);
-> @@ -1250,9 +1253,10 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->   	mhi_add_ring_element(mhi_cntrl, tre_ring);
->   	mhi_add_ring_element(mhi_cntrl, buf_ring);
->   
-> +out:
->   	write_unlock_bh(&mhi_chan->lock);
->   
-> -	return 0;
-> +	return ret;
->   }
->   
->   int mhi_queue_buf(struct mhi_device *mhi_dev, enum dma_data_direction dir,
