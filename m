@@ -1,54 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2DD18A6DE
-	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 07:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEC578F2E
+	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741938653; cv=none; b=cnZ+w3GEJFYGieuap5yBhVR8Ji+ZELM1TLGSxPbleOqfq5k2w1HHCXuenWMpDHUwzRinzDTs9Rcx7YPYm7GyTcLprOI6pCtkUWIFM4Bw4GL9h3I/whp73K699UccB5GkLE34/Ea7jLVqxhGKQEv6xe4/69crnE2/VrmBmlJFzYc=
+	t=1741973175; cv=none; b=h+z8KfyOWoe2EPmeJdi1Qav08eOEOGlv6I4a/gLC0rDsF6414PwLYbY3T4uKgE6eh7iSjsTVY+4ewVQ8OppQsVJ/Dpy2Dz3Mbra/2iS42KGccYk2S8QM+OM7epkoJae2v7FU5oqZD8D+V0FUsiu72kLJpo/dXhgrILqC3tj/cT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741938653; c=relaxed/simple;
-	bh=01rQFzdF3fUR49AcL9+qtr4Uo3WL76JMqjXzuxE4Lag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/ifFQip7Ti1rEUUkDCcg1CPa0UGlyTM/I2RTvQwlYDP5puAhe2LLTemvnJi4uhBjJ6xqA+14dibg89rmnOHkoaXSPjDED/soJm1zVCfjBE2eMq2LvmyfLNYoIcD8DTYioSmt0CCck6yuOAfLwKW6gbgn0zLqwwGT3wm/+1yAaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bHAOkEJv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741973175; c=relaxed/simple;
+	bh=+okW4+RAgFVmyFVr/MxQPEoMQlyAaRDfGnf32s2CINc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XaHxv8ZzuSr/zvLgUldVy9Dlp5zlo4JvmjNk1NgHlSbG3c67mFy9hXefcXcc8EhoUorBpVLzKc7e/7tFrVf2HKMaVf2mbb/mRc3AShRFcGHuTBfBz64/WKQ9p5fqzrIOZ2B6fGIltsvGObrZv44PAdpejf28YzwakSeOlXIqWZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=otAqmW8F; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bHAOkEJv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0493AC4CEE3;
-	Fri, 14 Mar 2025 07:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1741938652;
-	bh=01rQFzdF3fUR49AcL9+qtr4Uo3WL76JMqjXzuxE4Lag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bHAOkEJvUe8eXVSYNLSVpa9l+wLhsM45oLZI4Xin4s1aVo/vzO9DY+GIqfLOBnIlK
-	 UBy8nPSoiLlmbM8ZiiSwT23GRL2hX/N5K4+a26RFORxAvCosLEOv5Qp+XyhtEHrWaz
-	 OV2NkTnAEIgHBrMaMaV1xtx2LdyhbTjHDbbjxkGk=
-Date: Fri, 14 Mar 2025 08:44:49 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: Re: [GIT PULL] MHI changes for v6.15
-Message-ID: <2025031439-stash-tinkling-28f6@gregkh>
-References: <20250314060146.vlfazasu2vicyep4@thinkpad>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="otAqmW8F"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52E9DBhK022701
+	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:26:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	x5DBgBJ4SmhP5QCOBqNFl6JYfXejQxJnNsneIADsXsQ=; b=otAqmW8F3qsafeng
+	Gwm54SMAETBHWbySUXvuvJ0lMhkgLVNmBborZhXmO258yFb/gin3B4eEd/pzddHn
+	MohzmK/U/OycH+vCCmpYQUU8NBIsWwtkGy06xWafXCDM+PTYRDx/LoCTHJIB0dwY
+	0I1c3nSA7uP5847trFR7u76Tg8AHFqircGggnx5uoJpTG42FSIZOYC7olDq9EWLg
+	6PFwu5H1tUdRNjPf0gmdb6C+K7KmDnznOPCS+akOJlv4diW+mF9P2SZxXnyyrFoE
+	rfMYUvVbjjkn8YN6ZW0SyaimOhFgLMgvE3AuZGcSn9aG2BImP2ZBFP7UmS3Bhpn7
+	WUYhZw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45chmqs91c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:26:12 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-225ab228a37so32939915ad.2
+        for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 10:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741973172; x=1742577972;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x5DBgBJ4SmhP5QCOBqNFl6JYfXejQxJnNsneIADsXsQ=;
+        b=xHqJZQYbE5AW/tRG0Ej+0XIoORSSgvkZTZsrbygH8PaWLaC5ROsWgy7u3B4d/51GZP
+         EuegE9BBwH6ZywrOSyPz/q6eA8HSWojyb7bzijvfrZqpAh7sh6TVKRSv3n+LBI1EJBVQ
+         5LIf91lKiaGjoXKlYL3+WQe7OyXnQuzTWI9p2Dwvm3mL4GS8FJ/VJPvnEomOtXb0l0sP
+         D7uC3H3vTBhAgS4NBCQswK8Ok336DjxFq+3hvNlS1HxZsyplJDjJzcSchT9wZuWRuxFH
+         O8aUqggKQUZnOeGTA9mci1Y3oCw6KX7ZcNowd2y5GcxeCAy+yc0SRmKPUc/FX9/wYx+n
+         KFow==
+X-Gm-Message-State: AOJu0YyE3hvnJlWV1HRkrEMc/TG6YfDI49soBiSDclTnZIuB3CYqhwV0
+	nTDqRqCCd9v90DeoQ9F2+ZCY14KtfWqQEaSu9SexliKrNyRBZO8di+PYgvDbppBEe5iom+mqP+K
+	i52sW9frKuX9ESUPUjbtQ9peGIufQoMWsVZpW+AuB71PpPo0xagY=
+X-Gm-Gg: ASbGncsPTPm4J1Zr/FE/gVp/DvC+1ntckh1EBoPhu2RFYm7wv8M13XgfH8YBPHZRZ8n
+	yJibwmGsIlWqHrzQKAZsuNLzDMCnQ1UZ9Tz49L8QYiHVYGh94xU2wCDQCB4RD80x8mDKjumBz4K
+	nQAn6UsGLjB8W1EQNXT19U6dZc1qFmg9Sp8auQWa0ZpqtQQKin2EuVhMeHjlKX+lgKYXEI+U+XX
+	rpPbIg7/2Cztavu7Ha2bwdJY+zpj/Vqxg+sBGyDg3KwISTt+yE3NaTWr5zegMkw7o6oO9U0R29K
+	wHcpuQs4Pbumci9RUGCGZ2SSMQ1pho8o3z9eAUUKAlu8PcrxgFxzV+i76znuLZ4G9Q==
+X-Received: by 2002:a05:6a20:9c92:b0:1f3:418c:6281 with SMTP id adf61e73a8af0-1f5c1126c3bmr5066487637.4.1741973171916;
+        Fri, 14 Mar 2025 10:26:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGwAEmdbr/Vq7w+JI3H6BGHP4+f0TgBKDxJRc2Y0SP12oc1dN7y4NXGuP+XMF6fJyiEQ47HNw==
+X-Received: by 2002:a05:6a20:9c92:b0:1f3:418c:6281 with SMTP id adf61e73a8af0-1f5c1126c3bmr5066461637.4.1741973171551;
+        Fri, 14 Mar 2025 10:26:11 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711529368sm3126031b3a.8.2025.03.14.10.26.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Mar 2025 10:26:11 -0700 (PDT)
+Message-ID: <6c7189ca-172a-4621-8405-3def0ea24612@oss.qualcomm.com>
+Date: Fri, 14 Mar 2025 11:26:09 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314060146.vlfazasu2vicyep4@thinkpad>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: host: Address conflict between power_up and
+ syserr
+To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>,
+        quic_carlv@quicinc.com, quic_thanson@quicinc.com,
+        manivannan.sadhasivam@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>
+References: <20250306173226.857335-1-jeff.hugo@oss.qualcomm.com>
+ <6a6d8710-304a-d3b4-3721-cfda420019a3@quicinc.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <6a6d8710-304a-d3b4-3721-cfda420019a3@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: wc1xU4yNGEJWWSWAp4TayRup-7qyQQ7C
+X-Proofpoint-GUID: wc1xU4yNGEJWWSWAp4TayRup-7qyQQ7C
+X-Authority-Analysis: v=2.4 cv=d9P1yQjE c=1 sm=1 tr=0 ts=67d466b4 cx=c_pps a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=5qkPrhqw8Nobq0Q6xU4A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_06,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503140136
 
-On Fri, Mar 14, 2025 at 11:31:46AM +0530, Manivannan Sadhasivam wrote:
-> The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
+On 3/12/2025 10:54 PM, Krishna Chaitanya Chundru wrote:
 > 
->   Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
 > 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.15
+> On 3/6/2025 11:02 PM, Jeff Hugo wrote:
+>> From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>>
+>> mhi_async_power_up() enables IRQs, at which point we can receive a syserr
+>> notification from the device.  The syserr notification queues a work item
+>> that cannot execute until the pm_mutex is released.
+>>
+>> If we receive a syserr notification at the right time during
+>> mhi_async_power_up(), we will fail to initialize the device.
+>>
+>> The syserr work item will be pending.  If mhi_async_power_up() detects 
+>> the
+>> syserr, it will handle it.  If the device is in PBL, then the PBL state
+>> transition event will be queued, resulting in a work item after the
+>> pending syserr work item.  Once mhi_async_power_up() releases the 
+>> pm_mutex
+>> the syserr work item can run.  It will blindly attempt to reset the MHI
+>> state machine, which is the recovery action for syserr.  PBL/SBL are not
+>> interrupt driven and will ignore the MHI Reset unless syserr is actively
+>> advertised.  This will cause the syserr work item to timeout waiting for
+>> Reset to be cleared, and will leave the host state in syserr processing.
+>> The PBL transition work item will then run, and immediately fail because
+>> syserr processing is not a valid state for PBL transition.
+>>
+>> This leaves the device uninitialized.
+>>
+>> This issue has a fairly unique signature in the kernel log:
+>>
+>> [  909.803598] mhi mhi3: Requested to power ON
+>> [  909.803775] Qualcomm Cloud AI 100 0000:36:00.0: Fatal error 
+>> received from device.  Attempting to recover
+>> [  909.803945] mhi mhi3: Power on setup success
+>> [  911.808444] mhi mhi3: Device failed to exit MHI Reset state
+>> [  911.808448] mhi mhi3: Device MHI is not in valid state
+>>
+>> We cannot remove the syserr handling from mhi_async_power_up() because 
+>> the
+>> device may be in the syserr state, but we missed the notification as the
+>> irq was fired before irqs were enabled.  We also can't queue the syserr
+>> work item from mhi_async_power_up() if syserr is detected because that 
+>> may
+>> result in a duplicate work item, and cause the same issue since the
+>> duplicate item will blindly issue MHI Reset even if syserr is no longer
+>> active.
+>>
+>> Instead, add a check in the syserr work item to make sure that the device
+>> is in the syserr state if the device is in the PBL or SBL EEs.
+>>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>> ---
+>>   drivers/bus/mhi/host/pm.c | 18 +++++++++++++++++-
+>>   1 file changed, 17 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>> index 11c0e751f223..3dff0f932726 100644
+>> --- a/drivers/bus/mhi/host/pm.c
+>> +++ b/drivers/bus/mhi/host/pm.c
+>> @@ -602,6 +602,7 @@ static void mhi_pm_sys_error_transition(struct 
+>> mhi_controller *mhi_cntrl)
+>>       struct mhi_cmd *mhi_cmd;
+>>       struct mhi_event_ctxt *er_ctxt;
+>>       struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>> +    bool reset_device = false;
+>>       int ret, i;
+>>       dev_dbg(dev, "Transitioning from PM state: %s to: %s\n",
+>> @@ -630,8 +631,23 @@ static void mhi_pm_sys_error_transition(struct 
+>> mhi_controller *mhi_cntrl)
+>>       /* Wake up threads waiting for state transition */
+>>       wake_up_all(&mhi_cntrl->state_event);
+>> -    /* Trigger MHI RESET so that the device will not access host 
+>> memory */
+>> +    /*
+>> +     * Trigger MHI RESET so that the device will not access host memory.
+>> +     * If the device is in PBL or SBL, it will only respond to RESET if
+>> +     * the device is in SYSERR state.  SYSERR might already be cleared
+>> +     * at this point.
+>> +     */
+>>       if (MHI_REG_ACCESS_VALID(prev_state)) {
+>> +        enum mhi_state cur_statemachine_state = 
+>> mhi_get_mhi_state(mhi_cntrl);
+>> +        enum mhi_ee_type cur_ee = mhi_get_exec_env(mhi_cntrl);
+>> +
+>> +        if (cur_statemachine_state == MHI_STATE_SYS_ERR)
+>> +            reset_device = true;
+>> +        else if (cur_ee != MHI_EE_PBL && cur_ee != MHI_EE_SBL)
+> why do we need this check? Above check will be applicable when EE is in
+> MHI_EE_AMSS also. we can reset mhi only when current state is in SYS_ERR
+> irrespective of the current ee.
 
-Pulled and pushed out, thanks.
+No, it is valid for the host can reset MHI at any time - not just in 
+response to syserr.  Figure 3-1 (the state machine diagram) says that 
+the RESET state can be entered from any other state when Host sets the 
+RESET bit.
 
-greg k-h
+AMSS EE is not really affected here.  If AMSS sets syserr, or we are 
+here because the host needs to do a reset, then we will issue RESET=1 
+which is fine. (if syserr set or EE is not PBL/SBL)
+
+However, as the comment states, PBL and SBL won't respond to RESET=1 
+unless they are expecting it.  This will cause issues as Host will issue 
+RESET, expect PBL/SBL to clear it, but they won't, and Host will stall 
+thinking PBL/SBL are malfunctioning.  This is a side effect of using 
+syserr to signal a device fatal error when PBL doesn't otherwise 
+actually support MHI, and the Host offloading the syserr processing.
+
+-Jeff
