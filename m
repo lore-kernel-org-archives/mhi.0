@@ -1,71 +1,67 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B59A1E86E
-	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 05:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0185113633F
+	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 06:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741931278; cv=none; b=or1Hh5Ty6FbQjgTXtCfiSNlbXLMQbjcaN1vWPf13Edw6sRVtiIPi+lfdAkw5wKu8fR7YGeEJB4YbYQBZKaKYSo+R0/jnJ8mWoiz7PsqV0n8UiaSI47TSdbncF1JwWqCErnLPivxK9FmyUUttzMKj32jnejgHZSm2YDQMQfrpATo=
+	t=1741932112; cv=none; b=udyltlDNghQY12YmZ3CxDt953hdrbDWt1RgvvoodlenSBrNGk0/cfBzCo3k/2k/lknPijJLinAHd5ZFkX8JIDZokTTRkhUp4yUa5ph+rrQWIKUI/8L1jPNiBmEmajVuxqP9xwEn1r1zR5OjyZGaG3liojtGMfqfLYoVhVdGE1Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741931278; c=relaxed/simple;
-	bh=u8lYD5H9d5isZnVAaM3Qu3eN2TFbwn4AGXdXIiugNhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o07YZeT6T5IRh/NaweISD8f/B/HxnUnJRZHLYRkeXVjxoz8uBf9wSK1eHeY9rjW2UvC8tSau5L8rf1Y7dPuwNP57oJPWR2WpmCjBaKk1B0M83x2NDzOdXxYWRUGtTsicDen9I6Oj48vqSCq+hVB/KuIf+ILqU2pyUWZtDq/UG0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LMsIjCca; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1741932112; c=relaxed/simple;
+	bh=wBbSvk6JwjVRwkfmCj9IYLki5kjJYbaP7Yuo9G55ZO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AFNAqdkgUHG+q4G/+ruK+1EvjqARVWtkLngwvAzywA/lfQgkUEECprRBxheH5sSr/U90xUkd9IsD/0vXkoRA1YNXfsLP7Ppopu+qC1FZTMVQAq12WP8TifLazhru71CjB+w3tRr+V74m/Zznyx7I0fpGS15ytqrLxbedhGX6ez8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X8dgVlvM; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LMsIjCca"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-225a28a511eso31712665ad.1
-        for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 22:47:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X8dgVlvM"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22349bb8605so38574265ad.0
+        for <mhi@lists.linux.dev>; Thu, 13 Mar 2025 23:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741931276; x=1742536076; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+KKkjYdOavJCVAUTBcZd3373rylcFMljAJYfk7ew03Y=;
-        b=LMsIjCcaLwviibDFx9XFM72a9xrks8XtzsOWXBnMNlPt8e11juQEGXkiIEi16YyMfA
-         PIFgYwgMgbZO9v9UYwuvLYJUYQua5ub41OdHNnbmUZPGa+HMuI32Ij+v8ybS28Mghi6T
-         NY9ncM8FOSNPyOQAP5+RT0lUe/yEDpbBmfU+JvwoD4VMI62KuyB6DQ/j7FrIfX9bmcKN
-         +P0q4a63i4Vv0TE+8vwcRMAiD4MrV+4m1SBmto/4PTjnO71gz6Lx6vOESOpNIlMmf8gX
-         QdRfrEoY9A05ySnNDOqnBghb8ywJafA928qXsbn+rdopsi8igC6ad7VKjJIJYJQLAOsj
-         P76w==
+        d=linaro.org; s=google; t=1741932110; x=1742536910; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nBkRi9jDyLGmlz+EiIMIC8monmVkVzFhWi0sF+I2zTE=;
+        b=X8dgVlvMYYRku0KQ+HntMheB7LDHffBL3Q3YKsWzNPY6oEXzgK0hz42ZcCE5WScMpg
+         ZMpiq1a2lftVX1nJl4/Jw0O2BrzjzPQ377zZ9Vxsezto8aulht8yTLnU0SSmOkc+fvM7
+         AOogr64GohVREOHUBXw7ulxHPeedLQmDexbmO/PPTjC+AaQLhuGvr0zkd2t8rTRtWf7J
+         ORomtx0O9qsM2z+73WP/gIog4LlXaJYPe+PLFq/dzvPHXp65sFHSVyrTQ9kGPjHBT163
+         ikvfG9l7a6RmgLme+MLMhm/PtR/cst9OWCl9jRB06lwKhF9Lf8KvsprcSDzS3vDH09jv
+         2ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741931276; x=1742536076;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+KKkjYdOavJCVAUTBcZd3373rylcFMljAJYfk7ew03Y=;
-        b=NIh3qs356UfP4FGu9IdQqSBfpBN2OCTBamtj8CY6iaCvXQae0uyEYQyR/d/J1Sm7tT
-         rtPiQsLSu6KjN0mJuZ9INwLlF834knvPWbJkrDNFAWWcKEa4tlayEL63aWY7ajArto31
-         hZjDVdrnaTDIkSnXnhLImq9ZY85Fj17wYSLVVIIBtIn2QaYWanWfpISaXnUri+UxaPDJ
-         yIEeeqU6o9YRtI9iUPeCQP/wEN8fwa143n6FGPcq0E5/ftB5eH6ZmmQo1vc8r/64+2de
-         2eXG7DM7vmsbmtpweFLs6XVhik3ayaxzOkb6lup3TyU0ibJC2qqmImF7f+aa1KXGQxru
-         dl6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXoRGOFaZ2ZbotRu7uV3ejvoBLh+O3I2iXifo3agCFgdHUf7mdqdgrrW9bXWSrK91P7q5Q=@lists.linux.dev
-X-Gm-Message-State: AOJu0YygzQ7nI+Ho5zsncixCN0RU6/TasC3cK77Q9XMzmJMq1c4mQ+ch
-	pWydOpSD5vVNxlA8h+KsOFjGYkurjrZBMimnR9o8TVvP5AkQkd8hWEspmEjzEA==
-X-Gm-Gg: ASbGncul2kULOACo36rLfnv/uJ+hG42m5JV+XtazldaeC/n327aXCV0D5/0+AlI8JvA
-	vQKc2SYKqi3j4H7G0zBeT1W6U+8WvsM8hF7a6YV1qHDG+lf84ZndVE6EQdGdlA7zxinyYdFQUJ8
-	Qy3LqXNcqDBg1pYdeTsSnwlWwIDliAORiyQIuvR4+galAH/Xd41POuT27QSWmUNLzAWOITbw/L9
-	lbJqE1S+Obb3I58aYu0GfEGp4N49iDqTDDuddxkGkacyE+5+A73XpHkosHIvkUCVLVpiYvtVmoI
-	pqgDA8L1ycB2bIcNh8W3W08Rexi2xxs8QwF5OvN6+2xqSm4Uy+7Ii77+
-X-Google-Smtp-Source: AGHT+IECCfLOu1My34R7fTuExIaDoalHOxnqqRfKPP6N6jUSZ/988WfVgHpEOHN0Und+te0PXpgdLQ==
-X-Received: by 2002:a17:902:da90:b0:21f:2ded:76ea with SMTP id d9443c01a7336-225e0afa014mr15076495ad.36.1741931276314;
-        Thu, 13 Mar 2025 22:47:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741932110; x=1742536910;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nBkRi9jDyLGmlz+EiIMIC8monmVkVzFhWi0sF+I2zTE=;
+        b=OJsBQxNS1pT7zZhi43GQ00AHSDwdufIQTdfMfflXb0TxJVb0Y++JOEppY7yE7PM+DH
+         y/URt4JbRlpAZgM0zJuyi52qjWWWrKjakSB5W2yo5NzXMDuroyKQwjdnqt3+ZOlxrrDu
+         0vZ2gv5nSEHYL6gDpcobqa4/xQsap4NDFF3GbfrafiZiEP9dXdigxyO25g6iLvbBoRsJ
+         nia4Qv2MXaXhpl89dKEN8oPiKtCr8MQE8ePdJm/Ir2v/R2SQE7SKx2ToFpLpjF0e8Q95
+         K41PQvbHEP7pNoQV/0xTCFNOt2qgTNek1KLEdKasEP/wTiuIrVId4zeXTBThCMMAdAu7
+         7Khw==
+X-Gm-Message-State: AOJu0Yxj9ilFv7CDHo/8k5KEzJ/K5H/QkDqf9Wmj6Pzqup9lEaCCGVoa
+	eQkMFiaWVrpTKhnM2aeBTnItkyu47UfPOcKXcQJqwX6VDgRI1CEblG2z3p6v+w==
+X-Gm-Gg: ASbGncsDZM7D15GS0eWci1k2iVJt/qwSHhuVS9t2vZQXL7o/wkOBVYiAI0vvNwJkkhK
+	wGqtRqFZo9iuPLZp3oje2m7ip13s6y1dFRNxAsfYMsL9+mgezWAtGZXqJuDpflCRqGZors5lIQh
+	YbU5Dl5/ON5JKyXtPNfRgyhw4V5/W0LnOWDf4g8SBB/9gdOHsqn8qadPs2AoPcW2VPkZ0wbbi0j
+	3zPdYu64oF28iVkSR4OccihsOQt3qGgO4gtK50/dQepBJdsTqXUgwox+1gjsl7bzvkmUva5te9f
+	D330VY6np1ZrM+5u4j17YBSWYBdAwOxJVy59ewObWGxnqTb37ejdFt3H
+X-Google-Smtp-Source: AGHT+IELQUwNCvBS//D70lwXwRqdL1uE9O3jnTUjQadfvLxNZggdIbnNcXDMabOz1LdZMHkeWUr5Pw==
+X-Received: by 2002:a05:6a20:2588:b0:1f5:93b1:6a56 with SMTP id adf61e73a8af0-1f5c12c749bmr2005493637.33.1741932110121;
+        Thu, 13 Mar 2025 23:01:50 -0700 (PDT)
 Received: from thinkpad ([120.56.195.144])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a448fsm22801795ad.72.2025.03.13.22.47.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711695a2esm2390434b3a.144.2025.03.13.23.01.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 22:47:55 -0700 (PDT)
-Date: Fri, 14 Mar 2025 11:17:51 +0530
+        Thu, 13 Mar 2025 23:01:49 -0700 (PDT)
+Date: Fri, 14 Mar 2025 11:31:46 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: Fix race between unprepare and queue_buf
-Message-ID: <20250314054751.mgooeiput4yhsfm5@thinkpad>
-References: <20250306172913.856982-1-jeff.hugo@oss.qualcomm.com>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev
+Subject: [GIT PULL] MHI changes for v6.15
+Message-ID: <20250314060146.vlfazasu2vicyep4@thinkpad>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -75,84 +71,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250306172913.856982-1-jeff.hugo@oss.qualcomm.com>
 
-On Thu, Mar 06, 2025 at 10:29:13AM -0700, Jeff Hugo wrote:
-> From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> 
-> A client driver may use mhi_unprepare_from_transfer() to quiesce
-> incoming data during the client driver's tear down. The client driver
-> might also be processing data at the same time, resulting in a call to
-> mhi_queue_buf() which will invoke mhi_gen_tre(). If mhi_gen_tre() runs
-> after mhi_unprepare_from_transfer() has torn down the channel, a panic
-> will occur due to an invalid dereference leading to a page fault.
-> 
-> This occurs because mhi_gen_tre() does not verify the channel state
-> after locking it. Fix this by having mhi_gen_tre() confirm the channel
-> state is valid, or return error to avoid accessing deinitialized data.
-> 
-> Fixes: b89b6a863dd5 ("bus: mhi: host: Add spinlock to protect WP access when queueing TREs")
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
 
-Applied to mhi-next!
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
 
-- Mani
+are available in the Git repository at:
 
-> ---
->  drivers/bus/mhi/host/main.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 4de75674f193..aa8a0ef697c7 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -1207,11 +1207,16 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->  	struct mhi_ring_element *mhi_tre;
->  	struct mhi_buf_info *buf_info;
->  	int eot, eob, chain, bei;
-> -	int ret;
-> +	int ret = 0;
->  
->  	/* Protect accesses for reading and incrementing WP */
->  	write_lock_bh(&mhi_chan->lock);
->  
-> +	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED) {
-> +		ret = -ENODEV;
-> +		goto out;
-> +	}
-> +
->  	buf_ring = &mhi_chan->buf_ring;
->  	tre_ring = &mhi_chan->tre_ring;
->  
-> @@ -1229,10 +1234,8 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->  
->  	if (!info->pre_mapped) {
->  		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
-> -		if (ret) {
-> -			write_unlock_bh(&mhi_chan->lock);
-> -			return ret;
-> -		}
-> +		if (ret)
-> +			goto out;
->  	}
->  
->  	eob = !!(flags & MHI_EOB);
-> @@ -1250,9 +1253,10 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
->  	mhi_add_ring_element(mhi_cntrl, tre_ring);
->  	mhi_add_ring_element(mhi_cntrl, buf_ring);
->  
-> +out:
->  	write_unlock_bh(&mhi_chan->lock);
->  
-> -	return 0;
-> +	return ret;
->  }
->  
->  int mhi_queue_buf(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-> -- 
-> 2.34.1
-> 
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.15
 
+for you to fetch changes up to 0686a818d77a431fc3ba2fab4b46bbb04e8c9380:
+
+  bus: mhi: host: Fix race between unprepare and queue_buf (2025-03-14 11:27:15 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Remove unused mhi_device_get() and mhi_queue_dma() APIs.
+
+- Add support for SA8775p MHI endpoint device with IP_SW0 channel.
+
+- Fix the race between mhi_unprepare_from_transfer() and mhi_queue_buf().
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      bus: mhi: host: Remove unused functions
+
+Jeffrey Hugo (1):
+      bus: mhi: host: Fix race between unprepare and queue_buf
+
+Mrinmay Sarkar (1):
+      bus: mhi: host: pci_generic: Add support for SA8775P endpoint
+
+ drivers/bus/mhi/host/main.c        | 35 ++++++++++-------------------------
+ drivers/bus/mhi/host/pci_generic.c | 34 ++++++++++++++++++++++++++++++++++
+ drivers/bus/mhi/host/pm.c          | 14 --------------
+ include/linux/mhi.h                | 18 ------------------
+ 4 files changed, 44 insertions(+), 57 deletions(-)
 -- 
 மணிவண்ணன் சதாசிவம்
