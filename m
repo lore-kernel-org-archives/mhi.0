@@ -1,212 +1,201 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F731A83F2
-	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4ADF13B58A
+	for <mhi@lists.linux.dev>; Sat, 15 Mar 2025 06:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741974470; cv=none; b=NjWImgShbZ3w4DYyaNcuZkML1/SDghm433V/0svYGWe3ZS38Mxdt48QLo7S7apeVDvEWHUJcMZcjwRY3D3PpuACbOgVdwnKnfgo3VeEjrE/hNl9pSlhMPcTyfMhOn67dMeS5Ac7PL3RypbuZZaxicqLyPJu5lE4C5QdgOaL3TdM=
+	t=1742020883; cv=none; b=cPIejDNZG/qJuEY9r4bXXuKPSm1n/eftu97jxb1RosZaZDPYcFelqpd6taPJBoYJK8KluUGWoL3e8VUhFTzcrF/il46TsI0I+QfuFoIZXtgJkXB1G6cZxVEsARoFslP8ayc4m+cko/Qg0W+YX1JY47Q4KwjTOjABcGSJbfdkRg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741974470; c=relaxed/simple;
-	bh=Cz9IqdGJSsbrOHinN46PD3f22s2tvWPRm3X5ynX46w4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KliSrNsWuCa8Yh5jlYVplvEKC7PiiZAxt6APk1UEKfCnvZzWNbnKVrTmGlHkd5fAm8/Kqe+6mSbYffXYoNrk+t8wvhK6+f+olMTF7Epv7wfeav24VSJ+Y1poVtpan67M5QRVndG4DPKLIYNEd+INR7XB8b6DiloUvkko6iUrR1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I+HRScj9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1742020883; c=relaxed/simple;
+	bh=WARSi4W4BwFul+GPmkRVeogfq5DBeXn3OENkf4Oc0Hk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EWtPwwPh9MPdGnpQRrHeOENBbWKtqTfalBP50W6nhoKIbC9K949a1W/n3XQ2Mr002ytrKfXCpITMXe6SHWsihZymVNLpuLyFceYd7uuazkHqKjI2QRp6SwVacIu+L5KPEwwRAUyC9I25ahJy1Z5eB+0O9i1mF+xwW9oXrGikP+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a68NC+nb; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I+HRScj9"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52E85DHB022314
-	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:47:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3trivdQ7o12LbJ9lcuWkhugVFBzjQg8EKH9E1tSPZdY=; b=I+HRScj9f9SX6ztR
-	7/XS2c7uUnOIihLAdLDNe+uAdbKJSy4UgkoVW4wUhPt2fDFleY8mgMagU53X16Dq
-	psyxLauyt/84+yQcyfXZxgpXoUmFJ/vw+h198HVmDyVRswCRRiR7gG1kynU3c3Pi
-	lf/RNjVvOC1co+iWqeWD+amkS8zQS7Z2fO5QupKGGRSZrWevgT2dIPw3JBTJMhAD
-	3Rb2GhDa76e3Z1OdBeSE2S+o1qgL9ekx6BbQqNYsEsaIR6ZexoqB6QSKO5nZIfHo
-	qr1gWxaloQYC2tiSxU8Fw5K9kbq3ZMvNS8lsm/kZZRFN3A8cyIqI41CV3OtPov8O
-	OR5PRw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45bu07n19f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 17:47:47 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-225ab4b8fe9so35423005ad.0
-        for <mhi@lists.linux.dev>; Fri, 14 Mar 2025 10:47:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741974466; x=1742579266;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3trivdQ7o12LbJ9lcuWkhugVFBzjQg8EKH9E1tSPZdY=;
-        b=irYiyDsqorxJgBhjVUHLjzZ7UyoQgeraPNeNOpVLJmd5NWJB03MrAGTxcJOhgObAgI
-         yycZCfXrkeH15+tlGr2JLv5Il3/tAv70sOTecCA5/PyAHwzSrCJ4TLjkNJZ/mHqnWIzb
-         K4ZAu/8nw3PSGMMkY88ausOisxvM/cTdxghGK9Fd9oZz3JGsFbqeDD+ceWERqkbbN8yY
-         spPj4Fz9XmpEVUGTwcgmn0I41G/j5zFVRnS+/hS6LTvRZ1u+Z7IeCuAh2xVBGxF8GaqF
-         UjvuTR/AxeLZaBNJ6vkH6SCSK4uECNWW8L9AZX/v2qUfs+DsKjblFu30UhCYd8CuqGTa
-         iTBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk154V1DZA+exVo/+czu1BvyDfhzJEZoLB0z1LamVfkQ++oVAZABOoJr5E7qGs3w62t30=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxffXYjvtYnQ0mFECr1b0QJpTXvdPK7Nt73RATOelKFpy+xCJsd
-	73J8M85OxZ7UPPis5ocj5T6NPFHW/UM7b6Q44hMHiwI7tJAfCfPMZYFF/k1ZzgWTZkUoO5sQq6s
-	Dy8DaBXyTi2H5/G1txgYQD1fvajtRYP5pDhL2tPzUpTNZilXhGek=
-X-Gm-Gg: ASbGncved0f7YGGresf3x5yiXQz+oaWr1mpuvpB6npYAU07SJipXnhGU2NHoKBY4T6G
-	ZEZaWDGcnvoLmvJ+Q4/AEN1QiRvm8MuOwRzmQzkazLEZMfK8QeC9lp9RqRNrIz1/4SYFEe+dIxZ
-	l6D44IogFwPY67z+fVNTKKGw1Esywf/d4cAHEjDR0HRP8WTh7IyIM9O3+TaPIEl2AzzTs0d3oPP
-	YZjWgQB2VIZ7HfhExkU4OThLaCmuYNmRV9rF7ZlhFXKMpqnJFwcEvuhLf+hLjLId5GQ8kreX9t5
-	olM0pKT1fk82iVuzsAUPlX0eTPhmu+5tJTXgn+NzLOvfY7lYOA703bgV2DEcdIVf4Q==
-X-Received: by 2002:a17:902:e74e:b0:220:ea90:191e with SMTP id d9443c01a7336-225e0a240c7mr48640765ad.4.1741974465995;
-        Fri, 14 Mar 2025 10:47:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGYv8YTdV6WeQaKhcu70Frbma2RwhA504uIwvPTShg3Mb7poSz3L627bW8Os3/DugUp+Zh6Sw==
-X-Received: by 2002:a17:902:e74e:b0:220:ea90:191e with SMTP id d9443c01a7336-225e0a240c7mr48640515ad.4.1741974465560;
-        Fri, 14 Mar 2025 10:47:45 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d69sm31177545ad.158.2025.03.14.10.47.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 10:47:45 -0700 (PDT)
-Message-ID: <6df3f39d-d736-4142-8123-b9afbe8a9848@oss.qualcomm.com>
-Date: Fri, 14 Mar 2025 11:47:43 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a68NC+nb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742020881; x=1773556881;
+  h=date:from:to:cc:subject:message-id;
+  bh=WARSi4W4BwFul+GPmkRVeogfq5DBeXn3OENkf4Oc0Hk=;
+  b=a68NC+nbxCRInTQHDDODgMsO5UXjRJt99Pq0QHtez23GyBTYh92oOY5b
+   24931cwgOM1701WDg9YRu+3PN2sNgA9F8pTPvq+vUO7lRS6UJNZGaUEXp
+   OAXl6ZBtk2UH1Cu05QzbpleCC0QRVrQZ8swdDuqORpjyvw87dm9d46dM2
+   BNnF/GX5jwLl5K4TVdmtrsliqZXG+0p0krM0omo40o/N00SDd/jugiIOe
+   SuVlps6bB1JpmPmBKtcKyNE1XvtU3tXDw+/uPfK2hBKrBvgWCVsdpBZyK
+   nu8EJLY8DA+cQkZC5l5tYgbuB5upKX4SgFUsQ9FcmBnP293hA/5p+oguR
+   Q==;
+X-CSE-ConnectionGUID: l3gqcVnER3icZ5hDrjG1Bg==
+X-CSE-MsgGUID: O8XY1yOuRau/LTbgwD63OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="45943172"
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="45943172"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 23:41:20 -0700
+X-CSE-ConnectionGUID: Hjypsl7rRWCc8JkCwswd2Q==
+X-CSE-MsgGUID: K6cApK4gRqesP4gcKW7qOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="152421664"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2025 23:41:19 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ttLCv-000B7G-06;
+	Sat, 15 Mar 2025 06:41:17 +0000
+Date: Sat, 15 Mar 2025 14:40:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS
+ 0686a818d77a431fc3ba2fab4b46bbb04e8c9380
+Message-ID: <202503151451.NVAxy8Bf-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus: mhi: host: Address conflict between power_up and
- syserr
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
-References: <20250306173226.857335-1-jeff.hugo@oss.qualcomm.com>
- <20250314054651.iu6t3q3o5za2zrjs@thinkpad>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250314054651.iu6t3q3o5za2zrjs@thinkpad>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 9Fbpf5pfB5TU0U9062PfBRrvy1E7oAyJ
-X-Authority-Analysis: v=2.4 cv=V+F90fni c=1 sm=1 tr=0 ts=67d46bc3 cx=c_pps a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=Md2aUQyrscPzz-KMR_gA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 9Fbpf5pfB5TU0U9062PfBRrvy1E7oAyJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-14_07,2025-03-14_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0 mlxscore=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503140139
 
-On 3/13/2025 11:46 PM, Manivannan Sadhasivam wrote:
-> On Thu, Mar 06, 2025 at 10:32:26AM -0700, Jeff Hugo wrote:
->> From: Jeffrey Hugo <quic_jhugo@quicinc.com>
->>
->> mhi_async_power_up() enables IRQs, at which point we can receive a syserr
->> notification from the device.  The syserr notification queues a work item
->> that cannot execute until the pm_mutex is released.
->>
->> If we receive a syserr notification at the right time during
->> mhi_async_power_up(), we will fail to initialize the device.
->>
->> The syserr work item will be pending.  If mhi_async_power_up() detects the
->> syserr, it will handle it.  If the device is in PBL, then the PBL state
->> transition event will be queued, resulting in a work item after the
->> pending syserr work item.  Once mhi_async_power_up() releases the pm_mutex
->> the syserr work item can run.  It will blindly attempt to reset the MHI
->> state machine, which is the recovery action for syserr.  PBL/SBL are not
->> interrupt driven and will ignore the MHI Reset unless syserr is actively
->> advertised.  This will cause the syserr work item to timeout waiting for
->> Reset to be cleared, and will leave the host state in syserr processing.
->> The PBL transition work item will then run, and immediately fail because
->> syserr processing is not a valid state for PBL transition.
->>
->> This leaves the device uninitialized.
->>
->> This issue has a fairly unique signature in the kernel log:
->>
->> [  909.803598] mhi mhi3: Requested to power ON
->> [  909.803775] Qualcomm Cloud AI 100 0000:36:00.0: Fatal error received from device.  Attempting to recover
->> [  909.803945] mhi mhi3: Power on setup success
->> [  911.808444] mhi mhi3: Device failed to exit MHI Reset state
->> [  911.808448] mhi mhi3: Device MHI is not in valid state
->>
->> We cannot remove the syserr handling from mhi_async_power_up() because the
->> device may be in the syserr state, but we missed the notification as the
->> irq was fired before irqs were enabled.  We also can't queue the syserr
->> work item from mhi_async_power_up() if syserr is detected because that may
->> result in a duplicate work item, and cause the same issue since the
->> duplicate item will blindly issue MHI Reset even if syserr is no longer
->> active.
->>
->> Instead, add a check in the syserr work item to make sure that the device
->> is in the syserr state if the device is in the PBL or SBL EEs.
->>
-> 
-> Don't we need a Fixes tag?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: 0686a818d77a431fc3ba2fab4b46bbb04e8c9380  bus: mhi: host: Fix race between unprepare and queue_buf
 
-I don't recall seeing documentation saying that Fixes tags are 
-mandatory.  Yes, I agree, they are helpful and should exist.
+elapsed time: 1450m
 
-I am finding it difficult to point to a single commit that I can say 
-introduced this issue. I believe we started seeing it with "bus: mhi: 
-host: Add MHI_PM_SYS_ERR_FAIL state", but I don't think that commit 
-actually introduced this issue. It seems like a coincidence that the 
-issue was first observed with that commit.  I suspect that this issue 
-has been a problem since the introduction of MHI, but I am not confident 
-since the relevant code paths have radically changed since then.
+configs tested: 124
+configs skipped: 2
 
-Given I don't feel confident in identifying a commit, I felt it was 
-perhaps better to not list one at all.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Do you have any suggestions?
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                                 defconfig    gcc-13.2.0
+arc                   randconfig-001-20250314    gcc-13.2.0
+arc                   randconfig-002-20250314    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                           h3600_defconfig    gcc-14.2.0
+arm                            hisi_defconfig    gcc-14.2.0
+arm                         lpc32xx_defconfig    clang-21
+arm                   randconfig-001-20250314    clang-21
+arm                   randconfig-002-20250314    gcc-14.2.0
+arm                   randconfig-003-20250314    gcc-14.2.0
+arm                   randconfig-004-20250314    gcc-14.2.0
+arm                        vexpress_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250314    gcc-14.2.0
+arm64                 randconfig-002-20250314    clang-21
+arm64                 randconfig-003-20250314    clang-15
+arm64                 randconfig-004-20250314    clang-21
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250314    gcc-14.2.0
+csky                  randconfig-002-20250314    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250314    clang-21
+hexagon               randconfig-002-20250314    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250314    clang-19
+i386        buildonly-randconfig-002-20250314    clang-19
+i386        buildonly-randconfig-003-20250314    gcc-12
+i386        buildonly-randconfig-004-20250314    gcc-12
+i386        buildonly-randconfig-005-20250314    gcc-12
+i386        buildonly-randconfig-006-20250314    gcc-12
+i386                                defconfig    clang-19
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250314    gcc-14.2.0
+loongarch             randconfig-002-20250314    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                          multi_defconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                        qi_lb60_defconfig    clang-18
+mips                        vocore2_defconfig    clang-15
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250314    gcc-14.2.0
+nios2                 randconfig-002-20250314    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250314    gcc-14.2.0
+parisc                randconfig-002-20250314    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                       eiger_defconfig    clang-17
+powerpc                    mvme5100_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250314    clang-21
+powerpc               randconfig-002-20250314    gcc-14.2.0
+powerpc               randconfig-003-20250314    gcc-14.2.0
+powerpc64             randconfig-001-20250314    gcc-14.2.0
+powerpc64             randconfig-002-20250314    clang-17
+powerpc64             randconfig-003-20250314    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250314    clang-19
+riscv                 randconfig-002-20250314    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250314    gcc-14.2.0
+s390                  randconfig-002-20250314    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20250314    gcc-14.2.0
+sh                    randconfig-002-20250314    gcc-14.2.0
+sh                           se7619_defconfig    gcc-14.2.0
+sh                   secureedge5410_defconfig    gcc-14.2.0
+sh                        sh7763rdp_defconfig    gcc-14.2.0
+sh                   sh7770_generic_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250314    gcc-14.2.0
+sparc                 randconfig-002-20250314    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250314    gcc-14.2.0
+sparc64               randconfig-002-20250314    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                    randconfig-001-20250314    gcc-12
+um                    randconfig-002-20250314    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250314    clang-19
+x86_64      buildonly-randconfig-002-20250314    clang-19
+x86_64      buildonly-randconfig-003-20250314    gcc-12
+x86_64      buildonly-randconfig-004-20250314    clang-19
+x86_64      buildonly-randconfig-005-20250314    gcc-12
+x86_64      buildonly-randconfig-006-20250314    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                           alldefconfig    gcc-14.2.0
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                  nommu_kc705_defconfig    gcc-14.2.0
+xtensa                randconfig-001-20250314    gcc-14.2.0
+xtensa                randconfig-002-20250314    gcc-14.2.0
+xtensa                         virt_defconfig    gcc-14.2.0
 
-> 
->> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
->> ---
->>   drivers/bus/mhi/host/pm.c | 18 +++++++++++++++++-
->>   1 file changed, 17 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->> index 11c0e751f223..3dff0f932726 100644
->> --- a/drivers/bus/mhi/host/pm.c
->> +++ b/drivers/bus/mhi/host/pm.c
->> @@ -602,6 +602,7 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
->>   	struct mhi_cmd *mhi_cmd;
->>   	struct mhi_event_ctxt *er_ctxt;
->>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->> +	bool reset_device = false;
->>   	int ret, i;
->>   
->>   	dev_dbg(dev, "Transitioning from PM state: %s to: %s\n",
->> @@ -630,8 +631,23 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
->>   	/* Wake up threads waiting for state transition */
->>   	wake_up_all(&mhi_cntrl->state_event);
->>   
->> -	/* Trigger MHI RESET so that the device will not access host memory */
->> +	/*
->> +	 * Trigger MHI RESET so that the device will not access host memory.
-> 
-> Move this comment before 'if (reset_device)'.
-
-I'll move it, but seems a bit weird to have the explanation for the 
-logic of the conditionals (particularly the ones added by this patch) 
-after them in the code.
-
->> +	 * If the device is in PBL or SBL, it will only respond to RESET if
->> +	 * the device is in SYSERR state.  SYSERR might already be cleared
->> +	 * at this point.
->> +	 */
->>   	if (MHI_REG_ACCESS_VALID(prev_state)) {
->> +		enum mhi_state cur_statemachine_state = mhi_get_mhi_state(mhi_cntrl);
-> 
-> s/cur_statemachine_state/cur_state
-
-We already have a cur_state in the function, that is generally used for 
-Host state and here we are reading the Device state. I felt that 
-avoiding mixing the meanings was perhaps in the interest of the reader, 
-but reusing cur_state appears possible.
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
