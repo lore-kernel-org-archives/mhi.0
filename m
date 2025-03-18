@@ -1,201 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4ADF13B58A
-	for <mhi@lists.linux.dev>; Sat, 15 Mar 2025 06:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8681A3178
+	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742020883; cv=none; b=cPIejDNZG/qJuEY9r4bXXuKPSm1n/eftu97jxb1RosZaZDPYcFelqpd6taPJBoYJK8KluUGWoL3e8VUhFTzcrF/il46TsI0I+QfuFoIZXtgJkXB1G6cZxVEsARoFslP8ayc4m+cko/Qg0W+YX1JY47Q4KwjTOjABcGSJbfdkRg4=
+	t=1742275417; cv=none; b=LWixBM/8xn12yU0IYzuu7BalUVBHHHDgCDLr25Wyk9UlEd3Ia5yR5RCXx3J1YrkMrJi5hbEnbg5H/oPLfLs7TgUyW+3RiDv7+e8zn/1k2i2tqn/ChQFreh8YA7aQwWKNq7gJtcp3pdEL2JcwcUGBLC6OONl5UStpF4mKGavnumY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742020883; c=relaxed/simple;
-	bh=WARSi4W4BwFul+GPmkRVeogfq5DBeXn3OENkf4Oc0Hk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EWtPwwPh9MPdGnpQRrHeOENBbWKtqTfalBP50W6nhoKIbC9K949a1W/n3XQ2Mr002ytrKfXCpITMXe6SHWsihZymVNLpuLyFceYd7uuazkHqKjI2QRp6SwVacIu+L5KPEwwRAUyC9I25ahJy1Z5eB+0O9i1mF+xwW9oXrGikP+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a68NC+nb; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742275417; c=relaxed/simple;
+	bh=fS8f1uf7BKU/HUlUWVNLVuoNMefbids35kp6IPXf0ig=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PNBRTKh7xiczHIjWoMHAgs8JP+YNfISfYRvawddCTQz0vXnUOTqIzfXfXbb65b09uebuUyNp0RPga1UgVEKPjl3mYMKZjotMv4NB7r+zBoCswexRkYrWHPmvQ6Hg+5kHexJYkpmenKee9UxbBK3hJK7/mooXrjFA7LrEAG0I0+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GKorFj3l; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a68NC+nb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742020881; x=1773556881;
-  h=date:from:to:cc:subject:message-id;
-  bh=WARSi4W4BwFul+GPmkRVeogfq5DBeXn3OENkf4Oc0Hk=;
-  b=a68NC+nbxCRInTQHDDODgMsO5UXjRJt99Pq0QHtez23GyBTYh92oOY5b
-   24931cwgOM1701WDg9YRu+3PN2sNgA9F8pTPvq+vUO7lRS6UJNZGaUEXp
-   OAXl6ZBtk2UH1Cu05QzbpleCC0QRVrQZ8swdDuqORpjyvw87dm9d46dM2
-   BNnF/GX5jwLl5K4TVdmtrsliqZXG+0p0krM0omo40o/N00SDd/jugiIOe
-   SuVlps6bB1JpmPmBKtcKyNE1XvtU3tXDw+/uPfK2hBKrBvgWCVsdpBZyK
-   nu8EJLY8DA+cQkZC5l5tYgbuB5upKX4SgFUsQ9FcmBnP293hA/5p+oguR
-   Q==;
-X-CSE-ConnectionGUID: l3gqcVnER3icZ5hDrjG1Bg==
-X-CSE-MsgGUID: O8XY1yOuRau/LTbgwD63OQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="45943172"
-X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="45943172"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 23:41:20 -0700
-X-CSE-ConnectionGUID: Hjypsl7rRWCc8JkCwswd2Q==
-X-CSE-MsgGUID: K6cApK4gRqesP4gcKW7qOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="152421664"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2025 23:41:19 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ttLCv-000B7G-06;
-	Sat, 15 Mar 2025 06:41:17 +0000
-Date: Sat, 15 Mar 2025 14:40:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 0686a818d77a431fc3ba2fab4b46bbb04e8c9380
-Message-ID: <202503151451.NVAxy8Bf-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GKorFj3l"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I19iAB010322
+	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2Pl3Kah0DsqoBQNkGt5y+JtyywDOv40qZgjfSIjoPws=; b=GKorFj3lPIqc4vbt
+	oJB1nnqmwVIcNFlatNgjSGd/BWPwTLSPsPewYwS7CGsgL21yPdSmqcm5Sw28FrMJ
+	6rPV6PjlRDJcsaCq8cxh+zG3zXfZKef52p8JQhJsLCFU2lHyVrZPPKyKvXHYeizl
+	mmzsPgrDcgcMEO8b0fzGg8oALvSsNttuSK9IuJ5sDwMNzwtQs5QfXfmMAuhQuarz
+	+E/bmSkUre5nfB0B+yzkC8+OG5Qj6tpMTKqiNI7fW0jSGqXAUd3evOTtJu+dWanC
+	TuW64AK1EVcj2BzU0FTJqCmoBOHmBXmtTRWsfOaYxxr2vxZpOrUJbd7zjVqAje+7
+	kZ6Biw==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exx30he1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:33 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-225505d1ca5so85490675ad.2
+        for <mhi@lists.linux.dev>; Mon, 17 Mar 2025 22:23:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742275413; x=1742880213;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Pl3Kah0DsqoBQNkGt5y+JtyywDOv40qZgjfSIjoPws=;
+        b=Jemxrw4qdNeSfe/qp334O67JDE6dkr2VAPJ87LrqEgCcEONYdr41gUafqnYjfcY8qg
+         kt8/GRYVatq/hXpcjZouKigbRlg61JhW+/ikTZxJwcB+1XI5GuaR8YJFx0UciEv9994X
+         UzHiSc9zpWj6tLKI+zs12XIkNtXaMlTkpbRltfOIMbMUH4+2QnO7C2WDB2m1/+98IqJJ
+         q7JL9lB2xoYEnfoKGNSitL6OJEi9X4Azfxz3JR2JHXt8pASbPa8OPW71PsPSyFLejqwB
+         xxSionjKtt19bzwRibnVo5jip/Hyvp0HuwY52NbOZexkPn7GFAbXr0lyaBqkzifX7Amu
+         NxJw==
+X-Forwarded-Encrypted: i=1; AJvYcCXE9ZQLpUh4wgINxOTmVaQI6Hktn7+IRpBKGagzRcg25mnH3lkvhXTkd5JukCeu2VBIfr4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbHFZV9bJYD82i4ce+oj+XbSRn85t9E4raZUorQSMX0sWd88BM
+	43xhnuIXOLB6wy4cOKDNwTpuJeUEOXkV9/yCNUafDVXwpuWCJj8hZt+CXKzoSq8Z91eMgB10e7/
+	9kF208h53HsbNJ8XjspfbW8CdL6xvtIvSHhOKBXydsBsDG2MwqJE=
+X-Gm-Gg: ASbGnctePW7DBAPFVeKYeGsQGk6JqOj71VXFmOvGNUVW4rOm6UO7wkmcNTKXdUvyD1n
+	vDh4uojw105g8Kqcv0boAa48HL/gFaCRDQtMi8r+p5sRNB/es4xJ6OeApcz5GRPmPS+b5qarDRm
+	+M6362al0Y3M6JAFaZabO+Myl9XLrdY8IbKhxqD8sVCaftceqzHNtbBRU+PP5PkvoIpuLuMpgZy
+	kd/DauiyV0Qr1KCuKdwSZoAhUKKL2es9K24p6kVJ8T5K/+dvIIFpX6+yR2qvtwME0FsZkHGEIp7
+	KJ0+Nnso3apJaaXNlLrpL9wbHSWch+8D0n5Y9q3DjjhW3g==
+X-Received: by 2002:a17:902:d50e:b0:223:2630:6b82 with SMTP id d9443c01a7336-225e0a36298mr195662975ad.10.1742275413003;
+        Mon, 17 Mar 2025 22:23:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBRYCNl/XCdXfHrA8o7EzcA4Q4teMrA8bJQWpzYSr7LqJZwMY0PAPuiPLPIeZMcDFz1f6ICw==
+X-Received: by 2002:a17:902:d50e:b0:223:2630:6b82 with SMTP id d9443c01a7336-225e0a36298mr195662565ad.10.1742275412575;
+        Mon, 17 Mar 2025 22:23:32 -0700 (PDT)
+Received: from [10.92.192.202] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a6e2dsm85348125ad.58.2025.03.17.22.23.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 22:23:32 -0700 (PDT)
+Message-ID: <ab9a0399-95e6-09a1-0eed-84cc73efcf51@oss.qualcomm.com>
+Date: Tue, 18 Mar 2025 10:53:24 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 10/10] wifi: ath11k: add support for MHI bandwidth
+ scaling
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
+        ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com,
+        quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
+        quic_mrana@quicinc.com, Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+        Miaoqing Pan <quic_miaoqing@quicinc.com>
+References: <20250313172828.GA740705@bhelgaas>
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <20250313172828.GA740705@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=b+uy4sGx c=1 sm=1 tr=0 ts=67d90356 cx=c_pps a=JL+w9abYAAE89/QcEU+0QA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=CBOw_B3jzJvQ_MzsqMMA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: _m6ycf4m_Zr40hv8IudGOwEqPlbl7MQt
+X-Proofpoint-GUID: _m6ycf4m_Zr40hv8IudGOwEqPlbl7MQt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-18_02,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ bulkscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503180037
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 0686a818d77a431fc3ba2fab4b46bbb04e8c9380  bus: mhi: host: Fix race between unprepare and queue_buf
 
-elapsed time: 1450m
 
-configs tested: 124
-configs skipped: 2
+On 3/13/2025 10:58 PM, Bjorn Helgaas wrote:
+> On Thu, Mar 13, 2025 at 05:10:17PM +0530, Krishna Chaitanya Chundru wrote:
+>> From: Miaoqing Pan <quic_miaoqing@quicinc.com>
+>>
+>> Add support for MHI bandwidth scaling, which will reduce power consumption
+>> if WLAN operates with lower bandwidth. This feature is only enabled for
+>> QCA6390.
+> 
+> What is the event that initiates bandwidth scaling or reduces power
+> consumption?  Is there any kind of user interface like a sysfs knob
+> an administrator can use?
+> 
+it is initiated by the endpoint firmware based upon the bandwidth
+requirements, if there is high bandwidth data endpoint requests for
+higher data rates or if there is less bandwidth they request for lower
+data rates to reduce power. Endpoint initiates this through MHI
+protocol.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+We will update the commit with this information.
+> Does this happen based on ath11k usage?  Battery or thermal status?
+> 
+> I guess reducing power consumption or reducing heat is probably the
+> driving factor since we would always use max performance if power and
+> heat were not issues?
+> 
+> Some hints here would be useful.
+> 
+>> Tested-on: WCN6855 hw2.1 PCI WLAN.HSP.1.1-04546-QCAHSPSWPL_V1_V2_SILICONZ_IOE-1
+>> Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
+>> ---
+>>   drivers/net/wireless/ath/ath11k/mhi.c | 41 +++++++++++++++++++++++++++++++++++
+>>   1 file changed, 41 insertions(+)
+>>
+>> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+>> index 6e45f464a429..74769c0993ae 100644
+>> --- a/drivers/net/wireless/ath/ath11k/mhi.c
+>> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
+>> @@ -20,6 +20,7 @@
+>>   #define MHI_TIMEOUT_DEFAULT_MS	20000
+>>   #define RDDM_DUMP_SIZE	0x420000
+>>   #define MHI_CB_INVALID	0xff
+>> +#define MHI_BW_SCALE_CHAN_DB 126
+>>   
+>>   static const struct mhi_channel_config ath11k_mhi_channels_qca6390[] = {
+>>   	{
+>> @@ -73,6 +74,17 @@ static struct mhi_event_config ath11k_mhi_events_qca6390[] = {
+>>   		.client_managed = false,
+>>   		.offload_channel = false,
+>>   	},
+>> +	{
+>> +		.num_elements = 8,
+>> +		.irq_moderation_ms = 0,
+>> +		.irq = 1,
+>> +		.mode = MHI_DB_BRST_DISABLE,
+>> +		.data_type = MHI_ER_BW_SCALE,
+>> +		.priority = 2,
+>> +		.hardware_event = false,
+>> +		.client_managed = false,
+>> +		.offload_channel = false,
+>> +	},
+>>   };
+>>   
+>>   static const struct mhi_controller_config ath11k_mhi_config_qca6390 = {
+>> @@ -313,6 +325,33 @@ static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
+>>   	writel(val, addr);
+>>   }
+>>   
+>> +static int ath11k_mhi_op_get_misc_doorbell(struct mhi_controller *mhi_cntrl,
+>> +					   enum mhi_er_data_type type)
+>> +{
+>> +	if (type == MHI_ER_BW_SCALE)
+>> +		return MHI_BW_SCALE_CHAN_DB;
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +static int ath11k_mhi_op_bw_scale(struct mhi_controller *mhi_cntrl,
+>> +				  struct mhi_link_info *link_info)
+>> +{
+>> +	enum pci_bus_speed speed = pci_lnkctl2_bus_speed(link_info->target_link_speed);
+>> +	struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
+>> +	struct pci_dev *pci_dev = to_pci_dev(ab->dev);
+>> +	struct pci_dev *pdev;
+>> +
+>> +	if (!pci_dev)
+>> +		return -EINVAL;
+>> +
+>> +	pdev = pci_upstream_bridge(pci_dev);
+>> +	if (!pdev)
+>> +		return -ENODEV;
+>> +
+>> +	return pcie_set_target_speed(pdev, speed, true);
+> 
+> Seems kind of unfortunate that:
+> 
+>    1) The endpoint driver needs to be involved here, even though it
+>    does nothing that is endpoint-specific, and
+> 
+As mentioned above the trigger to switch data rates is from the firmware
+running in the endpoint. so we need to do from endpoint driver only.
+>    2) The endpoint driver twiddles something in *another* device (the
+>    upstream bridge).  There's a potential locking issue here and
+>    potential conflict with any other devices that may be below that
+>    bridge.
+>
+pcie_set_target_speed API is already having locks to protect/synchronize
+various endpoint requests.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-13.2.0
-arc                   randconfig-001-20250314    gcc-13.2.0
-arc                   randconfig-002-20250314    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                           h3600_defconfig    gcc-14.2.0
-arm                            hisi_defconfig    gcc-14.2.0
-arm                         lpc32xx_defconfig    clang-21
-arm                   randconfig-001-20250314    clang-21
-arm                   randconfig-002-20250314    gcc-14.2.0
-arm                   randconfig-003-20250314    gcc-14.2.0
-arm                   randconfig-004-20250314    gcc-14.2.0
-arm                        vexpress_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250314    gcc-14.2.0
-arm64                 randconfig-002-20250314    clang-21
-arm64                 randconfig-003-20250314    clang-15
-arm64                 randconfig-004-20250314    clang-21
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250314    gcc-14.2.0
-csky                  randconfig-002-20250314    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250314    clang-21
-hexagon               randconfig-002-20250314    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250314    clang-19
-i386        buildonly-randconfig-002-20250314    clang-19
-i386        buildonly-randconfig-003-20250314    gcc-12
-i386        buildonly-randconfig-004-20250314    gcc-12
-i386        buildonly-randconfig-005-20250314    gcc-12
-i386        buildonly-randconfig-006-20250314    gcc-12
-i386                                defconfig    clang-19
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250314    gcc-14.2.0
-loongarch             randconfig-002-20250314    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                          multi_defconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                        qi_lb60_defconfig    clang-18
-mips                        vocore2_defconfig    clang-15
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250314    gcc-14.2.0
-nios2                 randconfig-002-20250314    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-14.2.0
-parisc                randconfig-001-20250314    gcc-14.2.0
-parisc                randconfig-002-20250314    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                       eiger_defconfig    clang-17
-powerpc                    mvme5100_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250314    clang-21
-powerpc               randconfig-002-20250314    gcc-14.2.0
-powerpc               randconfig-003-20250314    gcc-14.2.0
-powerpc64             randconfig-001-20250314    gcc-14.2.0
-powerpc64             randconfig-002-20250314    clang-17
-powerpc64             randconfig-003-20250314    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                               defconfig    clang-19
-riscv                 randconfig-001-20250314    clang-19
-riscv                 randconfig-002-20250314    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-15
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250314    gcc-14.2.0
-s390                  randconfig-002-20250314    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-14.2.0
-sh                    randconfig-001-20250314    gcc-14.2.0
-sh                    randconfig-002-20250314    gcc-14.2.0
-sh                           se7619_defconfig    gcc-14.2.0
-sh                   secureedge5410_defconfig    gcc-14.2.0
-sh                        sh7763rdp_defconfig    gcc-14.2.0
-sh                   sh7770_generic_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250314    gcc-14.2.0
-sparc                 randconfig-002-20250314    gcc-14.2.0
-sparc64                             defconfig    gcc-14.2.0
-sparc64               randconfig-001-20250314    gcc-14.2.0
-sparc64               randconfig-002-20250314    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                    randconfig-001-20250314    gcc-12
-um                    randconfig-002-20250314    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250314    clang-19
-x86_64      buildonly-randconfig-002-20250314    clang-19
-x86_64      buildonly-randconfig-003-20250314    gcc-12
-x86_64      buildonly-randconfig-004-20250314    clang-19
-x86_64      buildonly-randconfig-005-20250314    gcc-12
-x86_64      buildonly-randconfig-006-20250314    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                           alldefconfig    gcc-14.2.0
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                  nommu_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20250314    gcc-14.2.0
-xtensa                randconfig-002-20250314    gcc-14.2.0
-xtensa                         virt_defconfig    gcc-14.2.0
+- Krishna Chaitanya.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> +}
+>> +
+>>   static int ath11k_mhi_read_addr_from_dt(struct mhi_controller *mhi_ctrl)
+>>   {
+>>   	struct device_node *np;
+>> @@ -389,6 +428,8 @@ int ath11k_mhi_register(struct ath11k_pci *ab_pci)
+>>   	mhi_ctrl->status_cb = ath11k_mhi_op_status_cb;
+>>   	mhi_ctrl->read_reg = ath11k_mhi_op_read_reg;
+>>   	mhi_ctrl->write_reg = ath11k_mhi_op_write_reg;
+>> +	mhi_ctrl->bw_scale = ath11k_mhi_op_bw_scale;
+>> +	mhi_ctrl->get_misc_doorbell = ath11k_mhi_op_get_misc_doorbell;
+>>   
+>>   	switch (ab->hw_rev) {
+>>   	case ATH11K_HW_QCN9074_HW10:
+>>
+>> -- 
+>> 2.34.1
+>>
