@@ -1,245 +1,209 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8681A3178
-	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6304C207DE6
+	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 10:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742275417; cv=none; b=LWixBM/8xn12yU0IYzuu7BalUVBHHHDgCDLr25Wyk9UlEd3Ia5yR5RCXx3J1YrkMrJi5hbEnbg5H/oPLfLs7TgUyW+3RiDv7+e8zn/1k2i2tqn/ChQFreh8YA7aQwWKNq7gJtcp3pdEL2JcwcUGBLC6OONl5UStpF4mKGavnumY=
+	t=1742294260; cv=none; b=fV+gpIPTB2fTXHLKIL1019Sgr1pZct/MITM7HsJ9OfcOQq6rXUo9I5kibuji5/SC0xRiyeDzL4erC5/htP09CuFdnlrTcC2AV+Yt03bxZRigfE439s6MbR8tf+QMaqMBeHXr42tmRBbTWK51F7tYBg8+58jYAMPazSb53/80vgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742275417; c=relaxed/simple;
-	bh=fS8f1uf7BKU/HUlUWVNLVuoNMefbids35kp6IPXf0ig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PNBRTKh7xiczHIjWoMHAgs8JP+YNfISfYRvawddCTQz0vXnUOTqIzfXfXbb65b09uebuUyNp0RPga1UgVEKPjl3mYMKZjotMv4NB7r+zBoCswexRkYrWHPmvQ6Hg+5kHexJYkpmenKee9UxbBK3hJK7/mooXrjFA7LrEAG0I0+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GKorFj3l; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1742294260; c=relaxed/simple;
+	bh=OIwqaSUyDLr1pGjfoJLDWzA4eujmiLowScIT7EzB5CY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CjHbKNcDiyGx+TGMdvUFuhoWKzQG5xDi2fOc/rTc+sP+jZPsex8bG5eGH5LFnwhgOapIiDGj02+6O0YCoIGDXR5T+/IDoSIOKWXFMPvzvrz5sjQKM6A4WQKhSylZJpt633jn36PPiJj8ytjp5Qk8Wm6yoM6rz/lamCq1RmC58P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K3J4IVRk; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GKorFj3l"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I19iAB010322
-	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2Pl3Kah0DsqoBQNkGt5y+JtyywDOv40qZgjfSIjoPws=; b=GKorFj3lPIqc4vbt
-	oJB1nnqmwVIcNFlatNgjSGd/BWPwTLSPsPewYwS7CGsgL21yPdSmqcm5Sw28FrMJ
-	6rPV6PjlRDJcsaCq8cxh+zG3zXfZKef52p8JQhJsLCFU2lHyVrZPPKyKvXHYeizl
-	mmzsPgrDcgcMEO8b0fzGg8oALvSsNttuSK9IuJ5sDwMNzwtQs5QfXfmMAuhQuarz
-	+E/bmSkUre5nfB0B+yzkC8+OG5Qj6tpMTKqiNI7fW0jSGqXAUd3evOTtJu+dWanC
-	TuW64AK1EVcj2BzU0FTJqCmoBOHmBXmtTRWsfOaYxxr2vxZpOrUJbd7zjVqAje+7
-	kZ6Biw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exx30he1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 05:23:33 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-225505d1ca5so85490675ad.2
-        for <mhi@lists.linux.dev>; Mon, 17 Mar 2025 22:23:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K3J4IVRk"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22349bb8605so116051545ad.0
+        for <mhi@lists.linux.dev>; Tue, 18 Mar 2025 03:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742294257; x=1742899057; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QfGzvG173s2JG+1ZE7f0d1grE/Sw6nJFtm4+MKiVNSo=;
+        b=K3J4IVRkLrU65N4xT19dIIda4twiQC6MMaqvxbuc8XMi3/G6hFWdxmjzenH8Wb84m/
+         +sv2HUA8YPHlASshKLvpDC/UZoa1ZN68wcx2rg4o6on+/A6kPy0P7WMregpq0ehpWmbO
+         yW5xpJxBSqLnVMUuCo6kOyodPetGksaJcodvxaik9GrnfYIPJWN3mND038065n1xqnUZ
+         HFktuLFH/rUieQymx0p4MuCg7GpDkSilb/FDPWykLng9y8qYsZJ4fMwkm2Qesfbbcd8E
+         RRUAp1UBQp9wn4KZRPx1FgsgYC8K46oTXMolLISVZEap/bC0Wc+fOjQZNPbTB4WGiIjt
+         TKEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742275413; x=1742880213;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1742294257; x=1742899057;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Pl3Kah0DsqoBQNkGt5y+JtyywDOv40qZgjfSIjoPws=;
-        b=Jemxrw4qdNeSfe/qp334O67JDE6dkr2VAPJ87LrqEgCcEONYdr41gUafqnYjfcY8qg
-         kt8/GRYVatq/hXpcjZouKigbRlg61JhW+/ikTZxJwcB+1XI5GuaR8YJFx0UciEv9994X
-         UzHiSc9zpWj6tLKI+zs12XIkNtXaMlTkpbRltfOIMbMUH4+2QnO7C2WDB2m1/+98IqJJ
-         q7JL9lB2xoYEnfoKGNSitL6OJEi9X4Azfxz3JR2JHXt8pASbPa8OPW71PsPSyFLejqwB
-         xxSionjKtt19bzwRibnVo5jip/Hyvp0HuwY52NbOZexkPn7GFAbXr0lyaBqkzifX7Amu
-         NxJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXE9ZQLpUh4wgINxOTmVaQI6Hktn7+IRpBKGagzRcg25mnH3lkvhXTkd5JukCeu2VBIfr4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbHFZV9bJYD82i4ce+oj+XbSRn85t9E4raZUorQSMX0sWd88BM
-	43xhnuIXOLB6wy4cOKDNwTpuJeUEOXkV9/yCNUafDVXwpuWCJj8hZt+CXKzoSq8Z91eMgB10e7/
-	9kF208h53HsbNJ8XjspfbW8CdL6xvtIvSHhOKBXydsBsDG2MwqJE=
-X-Gm-Gg: ASbGnctePW7DBAPFVeKYeGsQGk6JqOj71VXFmOvGNUVW4rOm6UO7wkmcNTKXdUvyD1n
-	vDh4uojw105g8Kqcv0boAa48HL/gFaCRDQtMi8r+p5sRNB/es4xJ6OeApcz5GRPmPS+b5qarDRm
-	+M6362al0Y3M6JAFaZabO+Myl9XLrdY8IbKhxqD8sVCaftceqzHNtbBRU+PP5PkvoIpuLuMpgZy
-	kd/DauiyV0Qr1KCuKdwSZoAhUKKL2es9K24p6kVJ8T5K/+dvIIFpX6+yR2qvtwME0FsZkHGEIp7
-	KJ0+Nnso3apJaaXNlLrpL9wbHSWch+8D0n5Y9q3DjjhW3g==
-X-Received: by 2002:a17:902:d50e:b0:223:2630:6b82 with SMTP id d9443c01a7336-225e0a36298mr195662975ad.10.1742275413003;
-        Mon, 17 Mar 2025 22:23:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBRYCNl/XCdXfHrA8o7EzcA4Q4teMrA8bJQWpzYSr7LqJZwMY0PAPuiPLPIeZMcDFz1f6ICw==
-X-Received: by 2002:a17:902:d50e:b0:223:2630:6b82 with SMTP id d9443c01a7336-225e0a36298mr195662565ad.10.1742275412575;
-        Mon, 17 Mar 2025 22:23:32 -0700 (PDT)
-Received: from [10.92.192.202] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a6e2dsm85348125ad.58.2025.03.17.22.23.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 22:23:32 -0700 (PDT)
-Message-ID: <ab9a0399-95e6-09a1-0eed-84cc73efcf51@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 10:53:24 +0530
+        bh=QfGzvG173s2JG+1ZE7f0d1grE/Sw6nJFtm4+MKiVNSo=;
+        b=BEykZ6RRofZ6TQ9sX0vaGG1hFNxnMLmfkr9H5AdBmKome5HgVYqgA0/eZtaIhpZl6O
+         WFkRYAVxy90LStMwhGKshLjXYmu6XdM0XFEYu8kReKlZmYihlCGfxjcl7CbW9KMoggY0
+         bCixBt+Tyqna+d+Bx4shYz72SG9nmeuYm7ljO+POdLKRrxTGj3XzMknc+Tr6P+YHB74n
+         +gKj29GLKM7XJlmkl+q6dtm4jPBpF+5ibCvyOOV9x4qQNoiouQ5/dlVCid6sBlS+lifn
+         9w+r2LrfEWjppYbF3Wr7Unj0bxs7MIc0eZMxaSyK5TY8T1qdWmM+7Smy3ZKi1AOQxgMv
+         HrfA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/7l5XQVh32SvDXjWYvaZ0cnqKqXFo6MtG4rSOgRxiSt3ybluX92cWJKlQO6Q2jfNGuqk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSP2Q7r/ICrFXQs15u2Aavqanc+0ogxSW2JrsuoKQHzEtMQL2x
+	H6dnYWpAYSYHb/fILqH/a97ZxW6vdpfItGMz3uAwRD3etEOAft7ZCeGRSTgsPw==
+X-Gm-Gg: ASbGncu80Runer7SGCWbqAqV/SUxuYY0lzOrLreQTqFoy6S7PaudF6yV2KWQwe+spEn
+	qgE3A9TK5LruLxHOa4BMQYH87wKS4cIP0D2Q2l1Yf/XU5gCgZV6tUFWaZng5RIXwQ6nuTSLmmtq
+	fyqqM0sSNMx+oWe9YbQqtrqhFasc9YKae6G6CPOswhTP0e3U/Izul3kuL30KnwM3tZL64AF2rJu
+	H/LvmJgHhf+NeqWw7a4OcUNzerj1Tk/Jc17/u2v9iDcdCCJCFM9oRQI2M2GYvX6Xw71YjPIh/I9
+	s6VBqCjO5tqk2iPT6VX2Q0EgMak5N1pSR+TzEsq8k71Bdx6ME8jwBw47
+X-Google-Smtp-Source: AGHT+IHgOk9NfxTZL90KwqvSB+P0zUVkeYvXxUz9lNWO2UX0U80pQQ0rDKVAKDBxDkeAH+rn35QsTA==
+X-Received: by 2002:a17:902:e745:b0:224:160d:3f5b with SMTP id d9443c01a7336-225e0b2a55dmr200860825ad.49.1742294257634;
+        Tue, 18 Mar 2025 03:37:37 -0700 (PDT)
+Received: from thinkpad ([120.56.195.170])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a7f87sm91406475ad.81.2025.03.18.03.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 03:37:37 -0700 (PDT)
+Date: Tue, 18 Mar 2025 16:07:28 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH] bus: mhi: host: Address conflict between power_up and
+ syserr
+Message-ID: <20250318103728.enrcf6mwuxznhgbq@thinkpad>
+References: <20250306173226.857335-1-jeff.hugo@oss.qualcomm.com>
+ <20250314054651.iu6t3q3o5za2zrjs@thinkpad>
+ <6df3f39d-d736-4142-8123-b9afbe8a9848@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 10/10] wifi: ath11k: add support for MHI bandwidth
- scaling
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
-        ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com,
-        quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
-        quic_mrana@quicinc.com, Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-        Miaoqing Pan <quic_miaoqing@quicinc.com>
-References: <20250313172828.GA740705@bhelgaas>
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <20250313172828.GA740705@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=b+uy4sGx c=1 sm=1 tr=0 ts=67d90356 cx=c_pps a=JL+w9abYAAE89/QcEU+0QA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=CBOw_B3jzJvQ_MzsqMMA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: _m6ycf4m_Zr40hv8IudGOwEqPlbl7MQt
-X-Proofpoint-GUID: _m6ycf4m_Zr40hv8IudGOwEqPlbl7MQt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-18_02,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
- bulkscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503180037
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6df3f39d-d736-4142-8123-b9afbe8a9848@oss.qualcomm.com>
 
+On Fri, Mar 14, 2025 at 11:47:43AM -0600, Jeff Hugo wrote:
+> On 3/13/2025 11:46 PM, Manivannan Sadhasivam wrote:
+> > On Thu, Mar 06, 2025 at 10:32:26AM -0700, Jeff Hugo wrote:
+> > > From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> > > 
+> > > mhi_async_power_up() enables IRQs, at which point we can receive a syserr
+> > > notification from the device.  The syserr notification queues a work item
+> > > that cannot execute until the pm_mutex is released.
+> > > 
+> > > If we receive a syserr notification at the right time during
+> > > mhi_async_power_up(), we will fail to initialize the device.
+> > > 
+> > > The syserr work item will be pending.  If mhi_async_power_up() detects the
+> > > syserr, it will handle it.  If the device is in PBL, then the PBL state
+> > > transition event will be queued, resulting in a work item after the
+> > > pending syserr work item.  Once mhi_async_power_up() releases the pm_mutex
+> > > the syserr work item can run.  It will blindly attempt to reset the MHI
+> > > state machine, which is the recovery action for syserr.  PBL/SBL are not
+> > > interrupt driven and will ignore the MHI Reset unless syserr is actively
+> > > advertised.  This will cause the syserr work item to timeout waiting for
+> > > Reset to be cleared, and will leave the host state in syserr processing.
+> > > The PBL transition work item will then run, and immediately fail because
+> > > syserr processing is not a valid state for PBL transition.
+> > > 
+> > > This leaves the device uninitialized.
+> > > 
+> > > This issue has a fairly unique signature in the kernel log:
+> > > 
+> > > [  909.803598] mhi mhi3: Requested to power ON
+> > > [  909.803775] Qualcomm Cloud AI 100 0000:36:00.0: Fatal error received from device.  Attempting to recover
+> > > [  909.803945] mhi mhi3: Power on setup success
+> > > [  911.808444] mhi mhi3: Device failed to exit MHI Reset state
+> > > [  911.808448] mhi mhi3: Device MHI is not in valid state
+> > > 
+> > > We cannot remove the syserr handling from mhi_async_power_up() because the
+> > > device may be in the syserr state, but we missed the notification as the
+> > > irq was fired before irqs were enabled.  We also can't queue the syserr
+> > > work item from mhi_async_power_up() if syserr is detected because that may
+> > > result in a duplicate work item, and cause the same issue since the
+> > > duplicate item will blindly issue MHI Reset even if syserr is no longer
+> > > active.
+> > > 
+> > > Instead, add a check in the syserr work item to make sure that the device
+> > > is in the syserr state if the device is in the PBL or SBL EEs.
+> > > 
+> > 
+> > Don't we need a Fixes tag?
+> 
+> I don't recall seeing documentation saying that Fixes tags are mandatory.
 
+It is the standard practice to add the Fixes tag if the bug was introduced by a
+specific commit. But...
 
-On 3/13/2025 10:58 PM, Bjorn Helgaas wrote:
-> On Thu, Mar 13, 2025 at 05:10:17PM +0530, Krishna Chaitanya Chundru wrote:
->> From: Miaoqing Pan <quic_miaoqing@quicinc.com>
->>
->> Add support for MHI bandwidth scaling, which will reduce power consumption
->> if WLAN operates with lower bandwidth. This feature is only enabled for
->> QCA6390.
+> Yes, I agree, they are helpful and should exist.
 > 
-> What is the event that initiates bandwidth scaling or reduces power
-> consumption?  Is there any kind of user interface like a sysfs knob
-> an administrator can use?
+> I am finding it difficult to point to a single commit that I can say
+> introduced this issue. I believe we started seeing it with "bus: mhi: host:
+> Add MHI_PM_SYS_ERR_FAIL state", but I don't think that commit actually
+> introduced this issue. It seems like a coincidence that the issue was first
+> observed with that commit.  I suspect that this issue has been a problem
+> since the introduction of MHI, but I am not confident since the relevant
+> code paths have radically changed since then.
 > 
-it is initiated by the endpoint firmware based upon the bandwidth
-requirements, if there is high bandwidth data endpoint requests for
-higher data rates or if there is less bandwidth they request for lower
-data rates to reduce power. Endpoint initiates this through MHI
-protocol.
+> Given I don't feel confident in identifying a commit, I felt it was perhaps
+> better to not list one at all.
+> 
+> Do you have any suggestions?
+> 
 
-We will update the commit with this information.
-> Does this happen based on ath11k usage?  Battery or thermal status?
-> 
-> I guess reducing power consumption or reducing heat is probably the
-> driving factor since we would always use max performance if power and
-> heat were not issues?
-> 
-> Some hints here would be useful.
-> 
->> Tested-on: WCN6855 hw2.1 PCI WLAN.HSP.1.1-04546-QCAHSPSWPL_V1_V2_SILICONZ_IOE-1
->> Signed-off-by: Miaoqing Pan <quic_miaoqing@quicinc.com>
->> ---
->>   drivers/net/wireless/ath/ath11k/mhi.c | 41 +++++++++++++++++++++++++++++++++++
->>   1 file changed, 41 insertions(+)
->>
->> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
->> index 6e45f464a429..74769c0993ae 100644
->> --- a/drivers/net/wireless/ath/ath11k/mhi.c
->> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
->> @@ -20,6 +20,7 @@
->>   #define MHI_TIMEOUT_DEFAULT_MS	20000
->>   #define RDDM_DUMP_SIZE	0x420000
->>   #define MHI_CB_INVALID	0xff
->> +#define MHI_BW_SCALE_CHAN_DB 126
->>   
->>   static const struct mhi_channel_config ath11k_mhi_channels_qca6390[] = {
->>   	{
->> @@ -73,6 +74,17 @@ static struct mhi_event_config ath11k_mhi_events_qca6390[] = {
->>   		.client_managed = false,
->>   		.offload_channel = false,
->>   	},
->> +	{
->> +		.num_elements = 8,
->> +		.irq_moderation_ms = 0,
->> +		.irq = 1,
->> +		.mode = MHI_DB_BRST_DISABLE,
->> +		.data_type = MHI_ER_BW_SCALE,
->> +		.priority = 2,
->> +		.hardware_event = false,
->> +		.client_managed = false,
->> +		.offload_channel = false,
->> +	},
->>   };
->>   
->>   static const struct mhi_controller_config ath11k_mhi_config_qca6390 = {
->> @@ -313,6 +325,33 @@ static void ath11k_mhi_op_write_reg(struct mhi_controller *mhi_cntrl,
->>   	writel(val, addr);
->>   }
->>   
->> +static int ath11k_mhi_op_get_misc_doorbell(struct mhi_controller *mhi_cntrl,
->> +					   enum mhi_er_data_type type)
->> +{
->> +	if (type == MHI_ER_BW_SCALE)
->> +		return MHI_BW_SCALE_CHAN_DB;
->> +
->> +	return -EINVAL;
->> +}
->> +
->> +static int ath11k_mhi_op_bw_scale(struct mhi_controller *mhi_cntrl,
->> +				  struct mhi_link_info *link_info)
->> +{
->> +	enum pci_bus_speed speed = pci_lnkctl2_bus_speed(link_info->target_link_speed);
->> +	struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
->> +	struct pci_dev *pci_dev = to_pci_dev(ab->dev);
->> +	struct pci_dev *pdev;
->> +
->> +	if (!pci_dev)
->> +		return -EINVAL;
->> +
->> +	pdev = pci_upstream_bridge(pci_dev);
->> +	if (!pdev)
->> +		return -ENODEV;
->> +
->> +	return pcie_set_target_speed(pdev, speed, true);
-> 
-> Seems kind of unfortunate that:
-> 
->    1) The endpoint driver needs to be involved here, even though it
->    does nothing that is endpoint-specific, and
-> 
-As mentioned above the trigger to switch data rates is from the firmware
-running in the endpoint. so we need to do from endpoint driver only.
->    2) The endpoint driver twiddles something in *another* device (the
->    upstream bridge).  There's a potential locking issue here and
->    potential conflict with any other devices that may be below that
->    bridge.
->
-pcie_set_target_speed API is already having locks to protect/synchronize
-various endpoint requests.
+Fine with me. In that case, it would have been helpful if mentioned in the
+changelog area.
 
-- Krishna Chaitanya.
+> > 
+> > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> > > Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> > > ---
+> > >   drivers/bus/mhi/host/pm.c | 18 +++++++++++++++++-
+> > >   1 file changed, 17 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> > > index 11c0e751f223..3dff0f932726 100644
+> > > --- a/drivers/bus/mhi/host/pm.c
+> > > +++ b/drivers/bus/mhi/host/pm.c
+> > > @@ -602,6 +602,7 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+> > >   	struct mhi_cmd *mhi_cmd;
+> > >   	struct mhi_event_ctxt *er_ctxt;
+> > >   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> > > +	bool reset_device = false;
+> > >   	int ret, i;
+> > >   	dev_dbg(dev, "Transitioning from PM state: %s to: %s\n",
+> > > @@ -630,8 +631,23 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+> > >   	/* Wake up threads waiting for state transition */
+> > >   	wake_up_all(&mhi_cntrl->state_event);
+> > > -	/* Trigger MHI RESET so that the device will not access host memory */
+> > > +	/*
+> > > +	 * Trigger MHI RESET so that the device will not access host memory.
+> > 
+> > Move this comment before 'if (reset_device)'.
+> 
+> I'll move it, but seems a bit weird to have the explanation for the logic of
+> the conditionals (particularly the ones added by this patch) after them in
+> the code.
+> 
 
->> +}
->> +
->>   static int ath11k_mhi_read_addr_from_dt(struct mhi_controller *mhi_ctrl)
->>   {
->>   	struct device_node *np;
->> @@ -389,6 +428,8 @@ int ath11k_mhi_register(struct ath11k_pci *ab_pci)
->>   	mhi_ctrl->status_cb = ath11k_mhi_op_status_cb;
->>   	mhi_ctrl->read_reg = ath11k_mhi_op_read_reg;
->>   	mhi_ctrl->write_reg = ath11k_mhi_op_write_reg;
->> +	mhi_ctrl->bw_scale = ath11k_mhi_op_bw_scale;
->> +	mhi_ctrl->get_misc_doorbell = ath11k_mhi_op_get_misc_doorbell;
->>   
->>   	switch (ab->hw_rev) {
->>   	case ATH11K_HW_QCN9074_HW10:
->>
->> -- 
->> 2.34.1
->>
+I thought that the comment is better placed where we really reset the device.
+
+> > > +	 * If the device is in PBL or SBL, it will only respond to RESET if
+> > > +	 * the device is in SYSERR state.  SYSERR might already be cleared
+> > > +	 * at this point.
+> > > +	 */
+> > >   	if (MHI_REG_ACCESS_VALID(prev_state)) {
+> > > +		enum mhi_state cur_statemachine_state = mhi_get_mhi_state(mhi_cntrl);
+> > 
+> > s/cur_statemachine_state/cur_state
+> 
+> We already have a cur_state in the function, that is generally used for Host
+> state and here we are reading the Device state. I felt that avoiding mixing
+> the meanings was perhaps in the interest of the reader, but reusing
+> cur_state appears possible.
+> 
+
+It should be fine IMO.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
