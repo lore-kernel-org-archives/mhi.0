@@ -1,70 +1,70 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D3F25FA12
-	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 07:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBD02620EE
+	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 07:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744095783; cv=none; b=SwIHv271+gKOWM84LLVZoTdi46ol+GgdoBQ1nnYXrjFSPGXy0sI/9CGDOqzakUoPugYDL9jzgB97wWDoQ/nQ36OHgfOqKb9pkPfDbT30b7giD91UCM/votkUonNcc3kfqzk1lUKkPXZDxrp7uTNwF+rAYYklRDf6FNWawEU09vM=
+	t=1744096697; cv=none; b=W7THWXPqcBmrC8zDhBPwByS7b/9N96D1xNhI2e+a91c0879H32d0OsWBKqrH58oDzP19VICXSXZwDsD9wktVm1T2FTEyKJkyhBVteFisJS90HZFP6wlfpw2y5lzVdXNii+MNnl1CLgE1wNr1y36+ZWHNf0FKg6RvwFiHInuSW9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744095783; c=relaxed/simple;
-	bh=GvadZfMXMpsJnMBm6ZbGyy8iFPHgJ5t996/Hht726+s=;
+	s=arc-20240116; t=1744096697; c=relaxed/simple;
+	bh=BRJa+qv6MRYdc/kS58SsyBfswQe50NMwglmxCspaMpg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tSKiE/0DDHYIIlKY+dHM1gC2bi6ljsjhOMg0ixOkV7YbNUmHFrQy7bSrAr3plY1E8O6zhB2N0LKPl+5d7ePabjYBrFgzwNuSfuOHUrcH8LO27SBxKqQdzPaCpf3hz2lEHAo7BrRX5NNm0e59UiLuev5bhvihUfOlZVIOdCgyEO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fzn82d2a; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=nhk4jlM0paTbE3L5fYQh1l++lQm9kyPgeXrDAbSTYZ9oovB/JHNfGFj5iFwlYyHvRoYdpSamz/Yl2i1m2iN/UMBl06Y/HlmgCA11Kv4s6BP1L8CUZomGPFUPPZdv2KAinoA+bZvXYo6cFISqL6QP3JA2VsW0N9vwIzYJ93Fthb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bw8RnDxX; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fzn82d2a"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-73712952e1cso4631939b3a.1
-        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 00:03:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bw8RnDxX"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-736b0c68092so4170909b3a.0
+        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 00:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744095780; x=1744700580; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744096694; x=1744701494; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=U7loFTiO6E+EyqiwigrWat5HcbdO0GHdIhW3O4BohHk=;
-        b=Fzn82d2a2W83Lq8+IFd3TRPuDgkeZGpaL6K0kN+4fngx+JttY9S/uKkoqgzKMClmaE
-         Z2Hzmc4oYt9eT0XDg2qk5F9TCVg72nFrbtr4EI7IShcdX2vEDqkcTOolB8AQMVHrV3kL
-         1LdV0xWbhJVMa5Z+yh9V5kf4o0Wdkg7UPeYrBZp993W9oOaM6mpolc6ZigCWr4ZV1sjM
-         Fi+uJjPByNySz7WLblZrQRcW7LPSBpqc/4FN5D/1QP5Pac2uR/ryDc1wpX04FBWtq+gm
-         NohnUhA0fOlq1P4WiI0PTgutvfC850JOjhtcevkUYQoY99dDEzAQRYH5nFLnHH88/lia
-         +C4A==
+        bh=cfzRgbvpB9GZBRrqmfD2qZDc6BUDtcQ9WjX5oJwQHrM=;
+        b=bw8RnDxXKkd/7wuoe8BMBvQPL53iJya0TLsluFG1U/qqVFetVtj0SKtfbCuPxvOGTi
+         NHmslMlcAjQf2av7rkJ6U8WzW/U1qPd80pmD2VBQjIaowKfxPfkBHQ4LdiKAGg7WEisL
+         Y8L0pMlc9EPJkc9KqrGrTrZ/jqKKXhKfV1gSO4BUZAYlkoheP5RHnigvWtQCXRFq4Sjj
+         hJaPm5vi5ROwMKfJVmtK7H7VWKFX7bUEIFnB7Hfqsy9x9DjDpwIrD1fshOh2ccmod6Hc
+         UBNCc4duY0yE3E1ca14cDrXvBzH1AK/4GgmoO8zyigsYI8VlB80V4xBtqgsY6rrvYmn8
+         uuDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744095780; x=1744700580;
+        d=1e100.net; s=20230601; t=1744096694; x=1744701494;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U7loFTiO6E+EyqiwigrWat5HcbdO0GHdIhW3O4BohHk=;
-        b=RBGjtx2tVYzYuUblMwGY+F0nBAJrYAei6LWVahb5Kea3AIRZrL43Mc6AvRMG8SRNDC
-         LuDYsICjlhQvfxNfUpt3ddrpKXxm5McibE0BdOV68Qh91M63EOqFeA3e9YN9FKs1j4vI
-         rGjpidgn7cBtA3kOKENfPuAwIp/czScpOfBN2vssONzJmvp+Oq3Q1y6AtFTUy0D3pw96
-         BcOXQTtrf7rtYetwFaNiH92+AELgtUZIbrlmKaWyCoMRotixwwwmHOd+Jt16kT6Vhaqb
-         3+/C+2uhxlHbE0+nIIXKwaSyMFsI4waolEAh5yu8vP+XAmqPlf5gLcVCWEtSg1IirSCR
-         XR1A==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Iq4JykpLosFg1U/awCIwnYHYfQUVZkJTJV4ncvoJEIRRfEnrziAVEnMhhLrMIn7t908=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLSTDtB4sLgFVjXUtcH6Y+X/JTe6VCfZUviYOX+mtJlmD9dK/J
-	rLeJp95rAdtb2sxYJpBZnsKUSPhqcOn4VI5B06H4tjZ4BI5UIeqczhimm5aY4g==
-X-Gm-Gg: ASbGncv/+0YDNjNj2SRV4PBWN5i6nevgjpkU5P0xk3zp90zhqwqyDVjph3Awyw/q/1F
-	6cnHcHbY9L5bLJqtUHFSG5lTRP/sudpwqdzL58EeY6GdIDehScgkeKCKLjeWej9Q/5t8yaIngxF
-	ky9Xa1HZPTDAumbne2E4y6FQgFXSL18t7qR/DPFN9rPGLsWsQwb1HbCwIpLbu9juU7v1xkc56GS
-	AyfJxbgJ7mYI7M+s7FyLphwvz5GJJ1RRJW74dF1qzlOF+oQ7C4eXL5283A6qrNrYtRpSYrfuBqQ
-	SOzn0J01+0yXWAhLntHsIl/nnHe8jl+axRKVD1fibngCF7TQSECk85Ht
-X-Google-Smtp-Source: AGHT+IEeAQClEkhjfgQVtiJavpu0HRxfn9e91mnCoOu0Ml5tesLz/WVCrHI6MywYI5eXpL14taEBYA==
-X-Received: by 2002:a05:6a21:9013:b0:1f5:6c94:2ccb with SMTP id adf61e73a8af0-20104601d33mr24057798637.22.1744095779699;
-        Tue, 08 Apr 2025 00:02:59 -0700 (PDT)
+        bh=cfzRgbvpB9GZBRrqmfD2qZDc6BUDtcQ9WjX5oJwQHrM=;
+        b=Fsbu/GurCIOz+we26rzdQtxYV6TxmgpgeEtn5PSy1UWyblOr6YH0Y1gWPeIRgJfBdd
+         sdberi3azkoxvE/mjymNwipPqpQdYJy02AYfYRP+6upSUESuL1F2lo3ResjZYJrj4Z54
+         /kL5b6RuPp2qEKP3XMlsw/IEFtfHQXK8SXI39r8sosmD/I1bBnbWXiKmsoB3EoCFjqmg
+         QHfEYF/E4MILRTUfbEdXZXk40WyPZXvLHsY8uDh3Mll2ApxBUvjxllnAuI9Y/RpvZ6wo
+         U+8nayomLXVdm7GwGWmmGPXh5FK+Xrrg0yQvysFvMOrgLNmmPbs0HYtEr0Cr84/716P5
+         Ikog==
+X-Forwarded-Encrypted: i=1; AJvYcCXfoMcq5XW8NutiUQJAJ61yDd0tEzjrXeUomvIjBVO4RglWC44ZgzB1WQnlORIGUs7AHwQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiIVuGbig+uLD+ErmCfWq91+5esxB9Ia++xxibXNQv3H/KCb59
+	h1eCeAqjl8b3wV/I9GWb8TF7i8gwKp7RXYRDbbPf+Mfz5MTS5/pA4V+mh1DnVA==
+X-Gm-Gg: ASbGncuPMBHeSzPUBJiOH7CdbbjrjRSVkDFPpBdJeobw50c/qmj6J64hXedl0kVgS7s
+	pYjltyW+mvqQVI4D07/0j0MzwhK4DxjDk2IVhubX/su7N1phemUtAtgvjgHdBzk0zWRmX6bf0g+
+	/vDaBcle9Udnl6KbnRFZMoOXA1M8cqTz2+DI1LJ0ixPHMRuDPFHzOdBKtAynYjQ7vXKFZqx9vXi
+	HxsvPjCTwqFk35k8r90TDSXnceRSaLOGH61LxFJU1AIdgBoUIrgVfwup3KuyfyMWNJPxBDiSPcZ
+	Z5CoS76HRkqVRACPMV+J2XzLwcptxOdxY3ZtUF1IEjMxB2Xae1DgyqQS
+X-Google-Smtp-Source: AGHT+IFGoqetvCOCUNUSwniybITU1y3S0+JlCGI2IOkKE3aV2mWcNI4g9sqOAljCKTYVHnDHO4m9vA==
+X-Received: by 2002:a05:6a20:430a:b0:1ee:e2ac:5159 with SMTP id adf61e73a8af0-20104627e6fmr24466342637.19.1744096694397;
+        Tue, 08 Apr 2025 00:18:14 -0700 (PDT)
 Received: from thinkpad ([120.60.134.231])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9ea09c8sm10032926b3a.101.2025.04.08.00.02.57
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc34eefesm8366604a12.36.2025.04.08.00.18.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 00:02:59 -0700 (PDT)
-Date: Tue, 8 Apr 2025 12:32:56 +0530
+        Tue, 08 Apr 2025 00:18:13 -0700 (PDT)
+Date: Tue, 8 Apr 2025 12:48:09 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev, 
 	linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>
 Subject: Re: [PATCH v3] bus: mhi: host: Address conflict between power_up and
  syserr
-Message-ID: <wki7wqwrnccdnkcor2yk47ju72q6vxhlsy63oiutfeztv6zwxl@rpr3sgrkkg4c>
+Message-ID: <hqy6ykaqg7swaqxiu7hrtwb5calmni4zmdtnd5nlmt2xxuhpsn@3e3t7z6qzmbh>
 References: <20250328163526.3365497-1-jeff.hugo@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -131,7 +131,7 @@ On Fri, Mar 28, 2025 at 10:35:26AM -0600, Jeff Hugo wrote:
 > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-next!
 
 - Mani
 
