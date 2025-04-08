@@ -1,130 +1,196 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0031F582C
-	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 14:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADE015F330
+	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 14:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744123960; cv=none; b=D3L9aA5ooXXKJC3ksCADlKociaiPDt8o116h/eShCrV/nFZi1vOAgIX/EXoLaXdl+fLMlM3aKDr9uwfwkThe7yNo4lR3MwgdzAGJrkwiSHzGlxkscm1u3Cldq8TmtkOgnOipi2wSXPbZhe1M2XR3z2joT86IL5kKckryWD54dSM=
+	t=1744124209; cv=none; b=GFnedbEvdIL/WAhHkOXyxPtsufeI8w2jK5VfBNMUYzizHwr1CUFZ7+dWjw9Wmn0Mmo2qIPKBaTr/cBXOQHExGok20HeMA11CxKIXtxiTTZ3ljE8V5js18Kxu8JQIgNrvRoLgNRP0PRb4qoBr+u9MKF1c2SU6/PrxdaKg8+7C4DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744123960; c=relaxed/simple;
-	bh=QYspwtBhVsFSgwIRvDlo0+t6maQ17Xcqzma1ZXsCdVE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tX0SYWbCe8jNoE+85JXS1qpb66lkgV/qXWfOozQVaRa5Q512uC51txOyp3fQXOL0alOYEQFtiN+mnwOvRQ7JoZVfNGGzre6QQgcilfel9u064HnnT2ctC/sLNCUTcsEADO+UQEg8Z3z7X8SkwuZdUFj6zS96aEZWhDMYMfJE2Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unrealasia.net; spf=pass smtp.mailfrom=unrealasia.net; dkim=pass (2048-bit key) header.d=unrealasia-net.20230601.gappssmtp.com header.i=@unrealasia-net.20230601.gappssmtp.com header.b=pP/sP2Uq; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unrealasia.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unrealasia.net
+	s=arc-20240116; t=1744124209; c=relaxed/simple;
+	bh=8KR39FZSTUXoLdQpSJJx1Rg5AaamtIERM+a8BOs1a9Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dN7eL0JD5cAp6cqHET8LhN/kb18Tln8Dcins8KGf5opWF8sWbewEzm8qKTLmvUIEqJl97Hec/hAiUQjjxDYvOUEteqhrIQ+Ogzxmf9howmgzpNTkx6gdUEMvETBCDUNUJOphEq6UCJid5dfoTH2UYOFNdkxxjtamEc/O3fvRST0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HexKUwP3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=unrealasia-net.20230601.gappssmtp.com header.i=@unrealasia-net.20230601.gappssmtp.com header.b="pP/sP2Uq"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54acc0cd458so6879956e87.0
-        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 07:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=unrealasia-net.20230601.gappssmtp.com; s=20230601; t=1744123957; x=1744728757; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MovUcynSAJffR7RJo4naoiiZN0xmuejMREjzSeCfcHU=;
-        b=pP/sP2UqAa/di7ehQaQnJ4k0aBZJ80DA0s+LN/lXeBcmCyZFZtJbVEWu75goJIHFXg
-         6uVi5fl1evyIg54B7LRzsJNyEP7dGzkfFwLgiLY6aogjIVUJwFDyFQgq9bwBZ1AWopp/
-         vJOhwEouwLNlro6KnxoTVRjSFVP7cNTBHsXj+xH8VXCoHbbmBDd+8UqLU3r5RYZjfliR
-         nhcHhcqAlyPPWKw4v5OLsZyOcYEdMgH4c1n34EzqIe/dYDjr59l1Ce5+AnarkRAirz2D
-         1DS94nxTbtT3pRmJRbuL3OL7nCFfHCcjERNVIpaBuZEpeAPpgtP0Q+GYPlE8oBM32U8B
-         G/Dw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HexKUwP3"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538Bblcb011426
+	for <mhi@lists.linux.dev>; Tue, 8 Apr 2025 14:56:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OnLhGRbnotHUC+BJAk6Gvios3/jKclEvVKBs/uKOxuo=; b=HexKUwP3wCqx+4yt
+	ZkDJQZl33qdAl2J5O5rC6NsDXEVa4yPM8ZApaBW9NYrBtLYJAmSvE7aNjC0mrtlg
+	r42wcW+4I81lSMLL4r7OgbH6ZakYVexCETZ4mueazovOoJyFeOGXG1HUdmkMi9xA
+	YeFa2yI1wuWN++1Zn29ym+Hrn0ToMXvQOocI1HOHRwBkPdkI8WSKQK3QQqQ5937o
+	3MHrpjNW3pd/2yf2h2uwQjBEZ2y0DY3l+a3Tet6TKA+4xJ9lh/RTAAOge8/SHDin
+	Aw1j1EP1HlXn/e+EPWNS6talF40LrCsRh86pOJOewa7w4wemyzCLlAu0HTMpdvIA
+	2//N2Q==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twftg1mm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 14:56:47 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-af9b25da540so3695780a12.2
+        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 07:56:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744123957; x=1744728757;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MovUcynSAJffR7RJo4naoiiZN0xmuejMREjzSeCfcHU=;
-        b=W70sRuA2Zs699i3fmw4BXMmwZrBIBU5CA8vBrK1uOLNTF7I+64ymPaUJngYItEEcJC
-         zt2K5TTCUK+nFmkIERi3XrNLo5oFi+WpwXwYT+jubg/IKK7VnD60eIB5fNbEHUJ8vZq+
-         MnstyxoU4PZpW/XrPI8V1ZSCHVp6Rogz6ikuqN7Set0zYjWY7vNSKXOvtzFdFD3RXarJ
-         Uk7XFRFuqfBnTRdwRztjY2RNQnmZ+CL5vY7P+bqYpE+aYJHir69ZmCihgrsOA9AQNeCv
-         v6F1/0PgGCI5TVhIM1wr3uEqNa0D61HKnoNPcE9/4f1sQcAGJm0Yd2xYtNXqLMwikKx/
-         QJXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjD9CNimzefGL+uQwXKX4u0CeYe36L7erjWBPAPGbWJ86y1DhWfXl2TpGXTxjOw1yPQZY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi15wulhusXpHS4rtaYCdlJLs1wrQ7aGoBgICJ88FBGx4yq6d0
-	V6YX4/5LgsMDTc1yAK+NpIrbGC/NacEXxeTByD1r782N0plEvXkk/FZJytWZKi8XwnMiM9ON5RV
-	NC7qAfGXqNokP57enCWxDA4mQYM+KA3aCe/BMu3TA1KX3DYM7
-X-Gm-Gg: ASbGnctTWZxNJmOHASlH3XkPQ9KLaGOOsXYrwX0h5wY9wjJhBu1VCEiWr84bu3FCmxm
-	l/NaHa9Deysd09iUL+UvNG3I/T+s4L0A06Tl/NFFRf0Rb48/jk6n3Yd2OCHhR9wUo69LapQciNH
-	fIUZXXoS7NOj6su4VznIbLOCa5r/bLjXS52BtFEtMRD6T+QANL23RpOHH9flg=
-X-Google-Smtp-Source: AGHT+IFzWK434nhtb4w+8XqXvvTVLz7cQ33CfkusPzfC4ffnVIgn0gGz66HquvJCMDt0tb15sjoUDK45j0gNOhYrFlo=
-X-Received: by 2002:a05:6402:26d4:b0:5f0:7290:394b with SMTP id
- 4fb4d7f45d1cf-5f0db889fb1mr12787948a12.27.1744123515199; Tue, 08 Apr 2025
- 07:45:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744124206; x=1744729006;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OnLhGRbnotHUC+BJAk6Gvios3/jKclEvVKBs/uKOxuo=;
+        b=H1770MIHChW9sc0TAxEEk+zMIy1i567fQPMn0KprcE9amy+kssmX6YGQM1RHXURHR7
+         pNiprqK8o0eQQpg2vO75E8Dqe8kBKNmIirqlrQEqoU+Vq/v4V7VR45ngY6s49DOSTGsz
+         r9cArcgPAiuda7/KJJn/MSkTjruebp5hVbtgc554dI8xYrnOQwgNW31a+Peh0WgyxowN
+         LzKKiHSIzmVurm4R9aCeQ6b8TtFISxF3u6JKIzgEcw5xGa3FmuHhfHzT6UFkuCBqW0lX
+         MUr6SIoxBk9qrmp8nmnaSZz4mL4pXXHCaDIpxeexNT9FpYFqZQ7iyyKnfIlSEdFF8QLm
+         rrag==
+X-Forwarded-Encrypted: i=1; AJvYcCVSsvQUraKh5H/TOLTaaCODGNIjy+ObPH8rp58T9VxRL48W7SPanFsXwgmso3zt79GyG0w=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0gvv+VfBu6SkYDJTDWxp5MaaLn53BqVmcN50tif3OgNJRAMJk
+	vO0p7PuTh5HubhZ2af6VfOolJ2nakLzI08nNc1TzcllmI9bNKtvpthNzup/H5tOBwEq77REkCBo
+	JlszK54oPQpOPuuMs62FNKxDEQytrqdacPRVKYKr0UJy8dbCUTZA=
+X-Gm-Gg: ASbGncu3DUYxid1107di6YOFRQlhB5RrblSCSZ25OCusLeRmiANi7w+SLpZMVVYfICr
+	bWLbOyF02qS6D6lFaldWwt0d947DvAMEhwVYZkBd2enSqFYGfqldmCNSLmvEgMOgfrNJRRQe4LD
+	iCFWLK9bReTl659GD7Mt0zkAqbHdjOc1KuXCFq43MFZhcpjvGSxqHW5tWnd6I24st2JCfz7EnxV
+	lOLnaqR9b2bwclVZDEaF+Vo4yiwzH8Q35GXsXnEpwmTj2ulKbO9gog7wPMYU75AK+KQspVmYA+l
+	vOr2X6sSvHaKYv1N4Ij+QTFlc7Z2dvB/JbNWqCg7OlpaTGEhrMKv0X4NIg3bpB0zBg==
+X-Received: by 2002:a05:6a21:118a:b0:1f5:93b1:6a56 with SMTP id adf61e73a8af0-20104736aa3mr22802003637.33.1744124206322;
+        Tue, 08 Apr 2025 07:56:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZbrtBGbreOoRxCYCm3eRyTvBvIuVSmC/EM3vW1ZUoT19SPFn7c1fZ057K1+nQeDdYRsw2xQ==
+X-Received: by 2002:a05:6a21:118a:b0:1f5:93b1:6a56 with SMTP id adf61e73a8af0-20104736aa3mr22801970637.33.1744124205926;
+        Tue, 08 Apr 2025 07:56:45 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc41aba7sm9229213a12.71.2025.04.08.07.56.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 07:56:45 -0700 (PDT)
+Message-ID: <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
+Date: Tue, 8 Apr 2025 08:56:43 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2703842b.58be.195fa426e5e.Coremail.slark_xiao@163.com>
- <DBU4US.LSH9IZJH4Q933@unrealasia.net> <W6W4US.MQDIW3EU4I8R2@unrealasia.net>
- <f0798724-d5dd-498b-89be-7d7521ac4930@gmail.com> <CACNYkD6skGNsR-AH=6TWeXLqXeyCut=HGJeWUadw198Ha3to1g@mail.gmail.com>
- <CAFEp6-2_+25Z+2nPOQtOzJPgfJM8DAs2h_e6HTQ4fAVLt0+bwQ@mail.gmail.com> <BB06D58C-E27D-42FA-8043-AE767E9B5E91@gmail.com>
-In-Reply-To: <BB06D58C-E27D-42FA-8043-AE767E9B5E91@gmail.com>
-From: Muhammad Nuzaihan <zaihan@unrealasia.net>
-Date: Tue, 8 Apr 2025 22:45:03 +0800
-X-Gm-Features: ATxdqUEXOuMMmnIAa6YJ-BdW2lii4EbPgcz6D2oVlm5dOhxW2qYubUdeN-IGJGI
-Message-ID: <CACNYkD7FNx6KR_aKA9S10=bXx4-Xj9WLnGVGDWTgNERerCc6uw@mail.gmail.com>
-Subject: Re: GNSS support for Qualcomm PCIe modem device
-To: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, Slark Xiao <slark_xiao@163.com>, 
-	Loic Poulain <loic.poulain@linaro.org>, manivannan.sadhasivam@linaro.org, 
-	netdev@vger.kernel.org, Qiang Yu <quic_qianyu@quicinc.com>, johan@kernel.org, 
-	mhi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org,
+        Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
+ <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=B5+50PtM c=1 sm=1 tr=0 ts=67f5392f cx=c_pps a=rz3CxIlbcmazkYymdCej/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=EqrZPqEe0gY6MFZa27UA:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: VKg-aKY3-Qq0fqzohbOlLxNnmtuf_8H1
+X-Proofpoint-ORIG-GUID: VKg-aKY3-Qq0fqzohbOlLxNnmtuf_8H1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-08_06,2025-04-08_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504080105
 
-Hi Loic, Sergey,
+On 4/8/2025 1:01 AM, Manivannan Sadhasivam wrote:
+> On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>
+>> MHI control configurations such as channel context, event context, command
+>> context and rings, are currently allocated individually. During MHI
+>> initialization MHI bus driver needs to configure the address space in
+>> which this control configuration resides. Since different component of the
+>> config is being allocated separately, only logical solution is to give the
+>> entire RAM address space, as they could be anywhere.
+>>
+> 
+> This is fine...
 
-Thank you Sergey for your time for the prototype.
+We tripped over this when experimenting with an automotive market 
+product. The FW for that product had a rather strict interpretation of 
+the spec, which we confirmed with the spec owner.
 
-Looking forward for the code (and coding help if necessary) and help
-to test it on my machine.
+In the specific FW implementation, the device maps the entire MHI space 
+of shared structures in a single ATU entry. The device cannot map an 
+entire 64-bit address space, and it expects all of the shared structures 
+in a single compact range.
 
-Zaihan
+This applies to the control structures, not the data buffers per the 
+device implementation.
 
-On Tue, Apr 8, 2025 at 6:27=E2=80=AFPM Sergey Ryazanov <ryazanov.s.a@gmail.=
-com> wrote:
->
-> On April 8, 2025 12:13:17 PM GMT+03:00, Loic Poulain <loic.poulain@oss.qu=
-alcomm.com> wrote:
-> >Hi Zhaihan, Sergey.
-> >
-> >On Fri, Apr 4, 2025 at 7:42=E2=80=AFAM Muhammad Nuzaihan <zaihan@unreala=
-sia.net> wrote:
-> >>
-> >> Hi Sergey, Slark,
-> >>
-> >> Using wwan subsystem and it works without issues, maybe i might miss
-> >> something, perhaps the flow control but i never have any problems even
-> >> without flow control.
-> >>
-> >> I am using gpsd + cgps and xgps with a small modification to Linux
-> >> kernel's wwan subsystem in the kernel to get NMEA data.
-> >>
-> >> I had posted the patch previously and i can post the patch again if yo=
-u like.
-> >>
-> >> Attached in this email is the screenshot of cgps + gpsd.
-> >>
-> >> Maybe it should be in GPS subsystem but it's working for me even using
-> >> wwan subsystem for months now.
-> >
-> >Yes, I would strongly recommend doing the extra step of making it
-> >registered to the GNSS subsystem so that device is exposed with the
-> >correct class.
-> >From WWAN driver perspective, it will not change anything, as we could
-> >have the WWAN framework handling this properly (bridging to gnss
-> >intead of exposing the port as wwan character device).
-> >Sergey, is it your plan?
->
-> Yep. I made the prototype exactly in this way. So a modem driver should n=
-ot care about the port type. Just call WWAN core and it will do the job for=
- the driver.
->
-> The prototype is done. Needs some polishing, proper description, and prob=
-ably, today night I'm going to publish  the RFC.
-> Hi Loic,
+This restriction seems backed by the spec.  I can't find a reason why 
+the device is invalid, if limited.  I don't think this should break 
+anything, but more on that below.
+
+> 
+>> As per MHI specification the MHI control configuration address space should
+>> not be more them 4GB.
+>>
+> 
+> Where exactly this limitation is specified in the spec? The spec supports full
+> 64 bit address space for the MHI control/data structures. But due to the device
+> DMA limitations, MHI controller drivers often use 32 bit address space. But
+> that's not a spec limitation.
+
+Its not the clearest thing, sadly.
+
+Document 80-NF223-11 Rev AB "MHI spec v1.2" Section 6.2 "MHI Registers" 
+table 6-19 (page 106) -
+
+Describing MHICTRLLIMIT: "The most significant 32 bits of MHICTRLBASE 
+and MHICTRLLIMIT registers must be equal."
+
+This means we have a 4GB range (32-bit) to play with in a 64-bit address 
+space.  If the upper 32-bits of the 64-bit address for both the base and 
+the limit must be the same, then the range of addresses from the base to 
+the limit can only vary the lower 32-bits.
+
+Invalid:
+BASE: 0x0
+LIMIT: 0xffffffff_ffffffff
+
+Valid:
+BASE: 0x0f_00000000
+LIMIT: 0x0f_ffffffff
+
+>> Since the current implementation is in violation of MHI specification.
+
+For example mhi_init_dev_ctxt()
+
+We allocate the chan_ctxt with dma_alloc_coherent() as an individual 
+allocation.  In the case of AIC100, the device can access the full 
+64-bit address space, but the DMA engine is limited to a 32-bit transfer 
+size.  The chan_ctxt probably won't be larger than 4GB, so the size is 
+rather irrelevant.  Can be allocated anywhere.  Lets say that it gets 
+put in the lower 32-bit address space - 0x0_XXXXXXXX
+
+Then a little bit later we allocate er_ctxt with a different 
+dma_alloc_coherent() instance.  Being a unique allocation, it is not 
+tied to the chan_ctxt and can exist anywhere.  Lets assume that it gets 
+put somewhere in the non-lower 32-bits - 0x1000_XXXXXXXX
+
+Now we have a problem because we cannot describe a single range covering 
+both of these allocations via MHICTRLBASE/MHICTRLLIMIT where the upper 
+32-bits of both registers is the same.
+
+>> Allocate a single giant DMA buffer for MHI control configurations and
+>> limit the configuration address space to that buffer.
+>>
+> 
+> I don't think this could work for all devices. For instance, some ath11k devices
+> use a fixed reserved region in host address space for MHICTRL/BASE.
+
+Why would we be unable to allocate all of the control structures in a 
+single allocation out of that reserved region?  Is it larger than 4GB in 
+size?
+
+-Jeff
+
