@@ -1,131 +1,122 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA895846C
-	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 09:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A98A3C0C
+	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 10:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744103612; cv=none; b=gjL7T3oopbB26zZMJxOpLIgGOq3DCPB2H9sFwjhUvn3bOnr7Vt/wvgpnHD+gGimk11fwQf0paZRD/AxyQHUjtTva3Kdh9irlYwJVrpqUfE/RuWZcjnEFMhzhRV+yZGpvlffY6Bss1La4El0pvN9iXv71aI5xbDK8/nCfJ0phMn4=
+	t=1744108068; cv=none; b=Silz4y0b9BNC5xQV0AfLtnlwS3jSSXex/gOL3SJB/KtlTXufxxZkT7nLNmMxhf+HJE99nOXnSOF52pEaccrQe9TRJPnUu+bun5wqk9/FRdTz6fJPHUk9JwmK/7iAJSnghnrkW8RP7uydaoaDHKsplkuhs4ksNt9qTVRCoBdKsmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744103612; c=relaxed/simple;
-	bh=tCGz5KQVipv/8FujA7ugn+DYGSAc3ViSjrcCSunJYhw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IAzfl/H8ekZGQQhXQpCGT+fE2TtTbmFB1o7Q/10gNtfGZGVSbgNQORyoOtiBg2B9cmJnhwvh4cibkrADqGcGN7rrhzrMqywE7hnsS1Q+ivHirWPx5Z3ZA7KoTENQ9bNbNCX+vrOxVqrh3M6XY504H7rkPidPWBgIM2g5v8scDqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LvANpkQW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1744108068; c=relaxed/simple;
+	bh=55pQGynFM4wtuXYkI645m3WSHyqcML9JlbuwZDktbQo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=NwYozSE2XbCabFz1FnbJ89IWsdW9xiaaMmP6NXEgG6qGPEnc6LgzdX5hk5zC3+9OWGUHJnehvY3J/2yeStpl2nZtdiwp5EjUO+Hv/IKdbpt5zVX1i0B5JBkF16Elrh4nqqCizzM2DToVnIlmYsWwzgg+1Bv1O/JvwUa2So//T1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e2YsHPBA; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LvANpkQW"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5382GMIB029499
-	for <mhi@lists.linux.dev>; Tue, 8 Apr 2025 09:13:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tCGz5KQVipv/8FujA7ugn+DYGSAc3ViSjrcCSunJYhw=; b=LvANpkQWiWyboFs3
-	P0399o1daRV7I8qGzUPKO4cxiygWiSHDu4rDg/LaV5CU7DyxnPu6qouHIJRvjzzD
-	bthKccv1p6RVPlYmD17I6vZ0/3memlN7GURggtSrV+ND88FNky5a+QLIvwaTHtPu
-	gZrH2BgJFu/q+KewaQBAjdSvZCLsyTNPw/Reumr59b8rk8Jp7H5dL93bDY0q7YjD
-	pn9h4cEAdNFTBfzz48oLbukdF/1T3p3fQi9QZKEwkCnzoVpvN1hDWy+DzIRVXkOB
-	UJBFZ/nGAiLrLQ5jKlYlHK/wda3rmrEYT6ua48eth5C7Cnf24E8djKLQhwHZggKW
-	8kBj8Q==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcrf6we-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 09:13:29 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6e905e89798so72817106d6.3
-        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 02:13:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e2YsHPBA"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e614da8615so5014808a12.1
+        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 03:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744108065; x=1744712865; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jGiyWeDa8kC0ZVxGs+nfc1I9cal+4HHVVTISi0JKBxI=;
+        b=e2YsHPBA3q2TrCFSngMwasY55UngUYZ0au4J5sqBN1GA8OE9qi2BKAuyWrWz/9efpf
+         y6q6LYRGRmKYw7/ZiOtjLY2ivA8dYePiOoxT5peRrvOiJXyuyKxQuGIyJpbAXFoFkcBa
+         3nxtqMLnJHJ7UJaUakZPbOIEtJr2Mo8Yh/sdfR88QW1EWKyA73Wv0ayzOx/ylCMdG3mG
+         UKP9D1XyU5xBks3dXvwg52D0AL04ZfmZTIhWULD6190wdzviJq4OfQfVE4peIQusV5KT
+         BKtWzBfXEhdM8HH96p60y9eCijGyrl4Yudz+GEi5Or/gfp83Z4EJzIUsFM1YVa17DosG
+         xGOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744103608; x=1744708408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tCGz5KQVipv/8FujA7ugn+DYGSAc3ViSjrcCSunJYhw=;
-        b=LTlC0V6u+xiKhioKoFNHYNLYUh5/ARZouuX85oWeInA2ERCxAeEEPskzvK0rJn9f10
-         MsmYnX5oYhklMVxLfNzT8s0SZPcjdNdNG5caiBQ/j1DBc/VXikT7XOfBdpRgxeRrGKSg
-         M72+bc5fj+zhNyvCIPUpWmxJoSS9qppySxVjYV+DedNhsXSaonNdSiJ49udW2t8pzh2E
-         jk1Ce+8Ov8nhGa7KIXc1FzhsFUNtST2CjLQUSA9iSLEV2DJk9YvQpN5pukJc4YVErwO6
-         t+CJXgYZO/qAnBQYAl2z4AESMw73a40c6RrUzGaqe/uZGOheAJxI3g31ywUARxlHXelW
-         dxvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaPuU7ED5E2gUrv7xMtzumEcREFvq4inmn4T6l83Te6md3CxcKhMxXiCEJJ4wX5VWgUKU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwB9zw766Fk7Zhoc8GmTpCCfudtSVXrzuq6tBCI3YO9VWvy5UwC
-	UNoZcXpMHf97E8RGKVyzBjhi3PDeU2Cdo4mVc/vIuUrVNVRrx/XiH2N4GhmMi+HBqJWLZu6X4ln
-	lxJbYa3l1l0r76Axhi6JzSrHkUbNm28FjS8ShSrqlai9kbpAeoEdOimg6FoeLGLRi3XZ0uDiEDx
-	AsJ/Cm0Ad1uHOTQ/s2CWmtv+6GNw==
-X-Gm-Gg: ASbGncvFc1jWngDrk8cevDj7pIn/n3zbUvGCdf3WGeczcpd54JeKwR7qqT3GrP782Yl
-	rjQS5GjAPChCnm9Xs67SuICgryNLmVTity/htQpziP6ELps7on+Oj7Y9yN21EPXZzF9GzucLeyg
-	==
-X-Received: by 2002:ad4:5dc8:0:b0:6e8:f166:b19e with SMTP id 6a1803df08f44-6f0b7467892mr134571146d6.17.1744103608674;
-        Tue, 08 Apr 2025 02:13:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHSkFpxkTp6UKXrMGOqDzSHCRI8idixQPMSOhESHrDY4X3H1hJ24b//y74f+Ln4swPrkCsOsZCgPU8gFqAASvE=
-X-Received: by 2002:ad4:5dc8:0:b0:6e8:f166:b19e with SMTP id
- 6a1803df08f44-6f0b7467892mr134570936d6.17.1744103608381; Tue, 08 Apr 2025
- 02:13:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744108065; x=1744712865;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jGiyWeDa8kC0ZVxGs+nfc1I9cal+4HHVVTISi0JKBxI=;
+        b=LCHFB9SjKHruCUt9JTjBSZ9tsMHYh+1zGpoE9SuCSJbF9wIgJPa5PXFME7KzqAAEZo
+         LJF2PeyAfmjwecu+gUq761w5IB5OgELIqGyg1mYDRfSnZeIbA0NtTZBZXfIVW8QbtSYv
+         hYFnOdm0YmvNrHxd9kngpPqgnxYfrE4Rh2Cep8DDUIYwx+bKhrI+eKckCa7yM7AzFLnY
+         8SSR/K8Qv47mkctfPhxdWRGBzCLK4BYf3HbolkZ50D7bWy8Me0sebuq1s0rMOJuxgDzy
+         prXl7xgj+yWE8oB+MqzoOUsbnBf3YFthcWleMzzOkfpKRFzRYra4WgQuNpaC5DGRSrBj
+         w6Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtaPGwA3bxv8OwzuC9o7njnaEJ59iAnW3hJ42l0SQb88Qmc7lR+PWNxsjaP2vN1KwX1D8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnnclE1VwN2OsIR7bXXhH6VKVtWrFdoo8x0ejKc9pYQrOo8OeL
+	NWkEl7Kdfq+X8d2X9IhbMMNHheRJhMzTr+dnX9vDhqz0RmW6mk+G
+X-Gm-Gg: ASbGncv0WToNepHEWImpuMMvCe+SoONzlByaXA37cerbJmmb0lv6OeaiZjekGWoca/Y
+	YDOUhBOEA0SSQ+gtNUazvy1H3UFq60WmoAuSrtv33QSh56KxuG+WKOf0vsgfRF8oo2EGcrNc4Ds
+	wQGA1h7kn/YanaLvnhC7ErmZHFzYChCdahiOLJemwFJGwqiobK0QjXwzewSsiLZ3IEPNDxVw8xF
+	X+iNs9Y/Y43hFhkZ5UCQ5bSp+YoXdCe7GqM/rXN14O3EbVYAd5UPbJ/za2jNjHtkWpxCyknZXn4
+	xHDEoFZYViDXqT1x2T9jrAA9BpnDX1gzsTFN07e9uFsf/NRXTGmGZbt1Tgak3hlZe4SkAo5vF6c
+	FQrsQO54squJFAjU=
+X-Google-Smtp-Source: AGHT+IFNQPp+qYWbfZqtkO0DEQ4a/+aygcjR+F/2tuyTVx3+WT3NZI9Vjq8T/3P5ANkJJknNFqN8tQ==
+X-Received: by 2002:a05:6402:3483:b0:5e0:8a34:3b5c with SMTP id 4fb4d7f45d1cf-5f1dc4abc3cmr2630481a12.0.1744108065220;
+        Tue, 08 Apr 2025 03:27:45 -0700 (PDT)
+Received: from [127.0.0.1] (217-175-223-214.dyn-pool.spidernet.net. [217.175.223.214])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f0880a476bsm8016752a12.72.2025.04.08.03.27.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 03:27:44 -0700 (PDT)
+Date: Tue, 08 Apr 2025 13:26:38 +0300
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Muhammad Nuzaihan <zaihan@unrealasia.net>
+CC: Slark Xiao <slark_xiao@163.com>, Loic Poulain <loic.poulain@linaro.org>,
+ manivannan.sadhasivam@linaro.org, netdev@vger.kernel.org,
+ Qiang Yu <quic_qianyu@quicinc.com>, johan@kernel.org, mhi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: GNSS support for Qualcomm PCIe modem device
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAFEp6-2_+25Z+2nPOQtOzJPgfJM8DAs2h_e6HTQ4fAVLt0+bwQ@mail.gmail.com>
+References: <2703842b.58be.195fa426e5e.Coremail.slark_xiao@163.com> <DBU4US.LSH9IZJH4Q933@unrealasia.net> <W6W4US.MQDIW3EU4I8R2@unrealasia.net> <f0798724-d5dd-498b-89be-7d7521ac4930@gmail.com> <CACNYkD6skGNsR-AH=6TWeXLqXeyCut=HGJeWUadw198Ha3to1g@mail.gmail.com> <CAFEp6-2_+25Z+2nPOQtOzJPgfJM8DAs2h_e6HTQ4fAVLt0+bwQ@mail.gmail.com>
+Message-ID: <BB06D58C-E27D-42FA-8043-AE767E9B5E91@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2703842b.58be.195fa426e5e.Coremail.slark_xiao@163.com>
- <DBU4US.LSH9IZJH4Q933@unrealasia.net> <W6W4US.MQDIW3EU4I8R2@unrealasia.net>
- <f0798724-d5dd-498b-89be-7d7521ac4930@gmail.com> <CACNYkD6skGNsR-AH=6TWeXLqXeyCut=HGJeWUadw198Ha3to1g@mail.gmail.com>
-In-Reply-To: <CACNYkD6skGNsR-AH=6TWeXLqXeyCut=HGJeWUadw198Ha3to1g@mail.gmail.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Tue, 8 Apr 2025 11:13:17 +0200
-X-Gm-Features: ATxdqUEoBkExVAitZg50FMHZyf2yBpbrCvO1TJcyi1Ltlp1T8oTppXOz-QXED6g
-Message-ID: <CAFEp6-2_+25Z+2nPOQtOzJPgfJM8DAs2h_e6HTQ4fAVLt0+bwQ@mail.gmail.com>
-Subject: Re: GNSS support for Qualcomm PCIe modem device
-To: Muhammad Nuzaihan <zaihan@unrealasia.net>
-Cc: Sergey Ryazanov <ryazanov.s.a@gmail.com>, Slark Xiao <slark_xiao@163.com>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        manivannan.sadhasivam@linaro.org, netdev@vger.kernel.org,
-        Qiang Yu <quic_qianyu@quicinc.com>, johan@kernel.org,
-        mhi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: E6YrimuAosgt6p4dZZQMZCP0b8A421xl
-X-Authority-Analysis: v=2.4 cv=QuVe3Uyd c=1 sm=1 tr=0 ts=67f4e8b9 cx=c_pps a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=mThdVl9iAAAA:8 a=9d_Yctv7ZfaLz5H8tHgA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=GbkGdI2Iuv6_No-W-q0B:22
-X-Proofpoint-GUID: E6YrimuAosgt6p4dZZQMZCP0b8A421xl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_03,2025-04-07_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- spamscore=0 malwarescore=0 mlxlogscore=830 bulkscore=0 priorityscore=1501
- clxscore=1011 phishscore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080065
 
-Hi Zhaihan, Sergey.
+On April 8, 2025 12:13:17 PM GMT+03:00, Loic Poulain <loic=2Epoulain@oss=2E=
+qualcomm=2Ecom> wrote:
+>Hi Zhaihan, Sergey=2E
+>
+>On Fri, Apr 4, 2025 at 7:42=E2=80=AFAM Muhammad Nuzaihan <zaihan@unrealas=
+ia=2Enet> wrote:
+>>
+>> Hi Sergey, Slark,
+>>
+>> Using wwan subsystem and it works without issues, maybe i might miss
+>> something, perhaps the flow control but i never have any problems even
+>> without flow control=2E
+>>
+>> I am using gpsd + cgps and xgps with a small modification to Linux
+>> kernel's wwan subsystem in the kernel to get NMEA data=2E
+>>
+>> I had posted the patch previously and i can post the patch again if you=
+ like=2E
+>>
+>> Attached in this email is the screenshot of cgps + gpsd=2E
+>>
+>> Maybe it should be in GPS subsystem but it's working for me even using
+>> wwan subsystem for months now=2E
+>
+>Yes, I would strongly recommend doing the extra step of making it
+>registered to the GNSS subsystem so that device is exposed with the
+>correct class=2E
+>From WWAN driver perspective, it will not change anything, as we could
+>have the WWAN framework handling this properly (bridging to gnss
+>intead of exposing the port as wwan character device)=2E
+>Sergey, is it your plan?
 
-On Fri, Apr 4, 2025 at 7:42=E2=80=AFAM Muhammad Nuzaihan <zaihan@unrealasia=
-.net> wrote:
->
-> Hi Sergey, Slark,
->
-> Using wwan subsystem and it works without issues, maybe i might miss
-> something, perhaps the flow control but i never have any problems even
-> without flow control.
->
-> I am using gpsd + cgps and xgps with a small modification to Linux
-> kernel's wwan subsystem in the kernel to get NMEA data.
->
-> I had posted the patch previously and i can post the patch again if you l=
-ike.
->
-> Attached in this email is the screenshot of cgps + gpsd.
->
-> Maybe it should be in GPS subsystem but it's working for me even using
-> wwan subsystem for months now.
+Yep=2E I made the prototype exactly in this way=2E So a modem driver shoul=
+d not care about the port type=2E Just call WWAN core and it will do the jo=
+b for the driver=2E
 
-Yes, I would strongly recommend doing the extra step of making it
-registered to the GNSS subsystem so that device is exposed with the
-correct class.
-From WWAN driver perspective, it will not change anything, as we could
-have the WWAN framework handling this properly (bridging to gnss
-intead of exposing the port as wwan character device).
-Sergey, is it your plan?
-
-Regards,
-Loic
+The prototype is done=2E Needs some polishing, proper description, and pro=
+bably, today night I'm going to publish  the RFC=2E
+Hi Loic,
