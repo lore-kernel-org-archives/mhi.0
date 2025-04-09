@@ -1,179 +1,196 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467EB25B66A
-	for <mhi@lists.linux.dev>; Wed,  9 Apr 2025 08:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744187110; cv=pass; b=sw8xwsC/nIci0pLpT/NWgwRKhm7T5LjkCm2IDDdpsjOtnN64HQM5MjOXZM6E/UbJjW8M41+Tf7zKXD7v8LMnx6P2swdPMS4CG+C4E/awN4Zj/TpbaEsYTbhOFvy1uSIIl0+zMfPinJA7fFIF6PQ/l0L1gE16Lesnpx0lxGmsivw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744187110; c=relaxed/simple;
-	bh=8UrwX46Ocp72It3PbNl4PTRyMJT3wPsUyp2d1M9RVS0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YTCWnRIpXmjRbHDtcZa+gNA9Eus+8HWipTp12BhJYovva0zXR4a1JswynzW+4xxJQ3p+r+fOTQcCRo3VMjMJ2CAZf1mKAh9Wyeh4f3MOOw1QsctWRFl8cliw/97EoQbYtWO18jgUucw3oB7K4jowAbZNlHB33j5w62XNQihvKSM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=E4jU7UFR; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F1725C71A
+	for <mhi@lists.linux.dev>; Wed,  9 Apr 2025 08:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744188562; cv=none; b=HKozHiR9NKqDkxfkYNPcRD6jT36/rHBAVzEPegXfR9nQst7uRm2G215ujg/VyWS54bKr6Gzb5W7OmkdgAzBPdNnQHqJ5ragOOvbWgvIzT+078pXaumvMDDbst1DlRMCG0iJsSeQOXwXhDzSxSp/InL3ObegqnwKBZ8YS1va1rGc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744188562; c=relaxed/simple;
+	bh=d3OYq6qJd+zKU06Orezq8QiYQHw8G9V6tLoBcIc1ySc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=o+91y9sojyz/0ZdEXjhxF1BhGwa8ejBPzf5v8DOAnICCZHHWT8T8mjPOr/DQcPHtYVXxt4+So2BEo4r8iT8wqIXRYjqeEML6t5n17cQSdS2r2ClKUXGYYA2wmgpLXlmmFL1twd5JW3rwV2vsVJxpaa5WxJjxcChpsn6DYLipmMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9vRD9Ba; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="E4jU7UFR"
-ARC-Seal: i=1; a=rsa-sha256; t=1744187098; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=K9Rhiiiok+mdXUDDaYtCQGfL4Gt76o5nYAaNDvpFIeQKWkRB1Fc6SuKndIvy8kwEbQucS0juA8z94/lmNCPAbyi0FMxK4ky8uUgrl9P2b4z2dvaZ9MnzDXbXHV0VzNz6/g1fqROa7fTiqFYq7Udl4FswT7LnOSaZ0u188EUrIRw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744187098; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=gj2kV+wt8S2Y4pLqmUJgQHSVfSyy5Lw/0M6Y/S4SF4M=; 
-	b=GJG0to3QksSyoJl9jhVeqRwdjXijjkeQwdVVlIxJVzblKiwyOuX4ByiPbBomrWb0s6WFQH/XocFpuoOgaVuzPnHpcbKB0DhNwLQfzYvpTArV1456jGfs/TtcPUAK8V7LjjleE7eTzyJmkBfSguvQIVk391SI4AHve+X9Ez803EY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744187098;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=gj2kV+wt8S2Y4pLqmUJgQHSVfSyy5Lw/0M6Y/S4SF4M=;
-	b=E4jU7UFRQ9WEzXcpcUqYGtM7aPqeGhjrUQH4Q9nNoZHc+OxFsZ6c7cFfk7NRHFIc
-	Zg1sm7Ynd46TonP+e/QTfTeAKGvPfozCJctZCz+uWeuHbt9cvARICRu+uD3884rg6WT
-	9g9V7AEz145ivmE892XYrVHpqg5Fi5EFXqVCBb1E=
-Received: by mx.zohomail.com with SMTPS id 1744187097015753.044433887251;
-	Wed, 9 Apr 2025 01:24:57 -0700 (PDT)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Youssef Samir <quic_yabdulra@quicinc.com>,
-	Matthew Leung <quic_mattleun@quicinc.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Yan Zhen <yanzhen@vivo.com>,
-	Qiang Yu <quic_qianyu@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kunwu Chan <chentao@kylinos.cn>
-Cc: Carl Vanderlip <quic_carlv@quicinc.com>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] bus: mhi: host: don't free bhie tables during power off
-Date: Wed,  9 Apr 2025 13:24:26 +0500
-Message-ID: <20250409082444.582295-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9vRD9Ba"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744188560; x=1775724560;
+  h=date:from:to:cc:subject:message-id;
+  bh=d3OYq6qJd+zKU06Orezq8QiYQHw8G9V6tLoBcIc1ySc=;
+  b=S9vRD9BatI30xmtNOatspNAbZQwuewazueQo5wKv3jhAilzB9VRo4wPZ
+   tSz/lCs0dfzjgHMXxmWJSNlF7j8ISQXzB8f1Boh9qJg1ItgY4ch5D3Yor
+   tbkVFbwzugxqj0nDzSIFalz2yOY3mydW1/YCHUgSU/9sQeIE0KwDR9XZ8
+   u2KBQmQJ0/mplhBzuuSnSIdkp99WWpTe+ExI+1hc88Fv5bT1LV8cVDhzv
+   PnzOtedVAaia8r9PAz/Kf8Pn2tV6cIIMLdF1sLDI+O5QOE/MaHVKqktNe
+   KraJbYtfytFld14TGC8WDktjteUYRN/6NeDwWkgCnOq0LYcu12Wy1rZ8Z
+   w==;
+X-CSE-ConnectionGUID: IAYURezvRVaswrscX5rSNg==
+X-CSE-MsgGUID: ee4EYVH4QFWoUVLtBKt51Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45367692"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="45367692"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 01:49:20 -0700
+X-CSE-ConnectionGUID: pD/uzA0oSxa5+UyI+duMDQ==
+X-CSE-MsgGUID: UHxNBv2FRLWlYEAl/syCxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="128436744"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 09 Apr 2025 01:49:19 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u2R7U-0008b1-2U;
+	Wed, 09 Apr 2025 08:49:16 +0000
+Date: Wed, 09 Apr 2025 16:49:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS
+ b60a0538cd7f84b6c42c7bb43afef8b105931f82
+Message-ID: <202504091655.6WUAoZyo-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Fix dma_direct_alloc() failure at resume time during bhie_table
-allocation. There is a crash report where at resume time, the memory
-from the dma doesn't get allocated and MHI fails to re-initialize.
-There may be fragmentation of some kind which fails the allocation
-call.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: b60a0538cd7f84b6c42c7bb43afef8b105931f82  bus: mhi: host: Address conflict between power_up and syserr
 
-To fix it, don't free the memory at power down. Use the same allocated
-memory again and again after every resume/hibernation. This patch has
-been tested with resume and hibernation both.
+elapsed time: 1498m
 
-Here are the crash logs:
+configs tested: 119
+configs skipped: 6
 
-[ 3029.338587] mhi mhi0: Requested to power ON
-[ 3029.338621] mhi mhi0: Power on setup success
-[ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
-[ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
-[ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
-[ 3029.668694] Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
-[ 3029.668717] Call Trace:
-[ 3029.668722]  <TASK>
-[ 3029.668728]  dump_stack_lvl+0x4e/0x70
-[ 3029.668738]  warn_alloc+0x164/0x190
-[ 3029.668747]  ? srso_return_thunk+0x5/0x5f
-[ 3029.668754]  ? __alloc_pages_direct_compact+0xaf/0x360
-[ 3029.668761]  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
-[ 3029.668774]  __alloc_pages_noprof+0x321/0x350
-[ 3029.668782]  __dma_direct_alloc_pages.isra.0+0x14a/0x290
-[ 3029.668790]  dma_direct_alloc+0x70/0x270
-[ 3029.668796]  mhi_alloc_bhie_table+0xe8/0x190 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-[ 3029.668814]  mhi_fw_load_handler+0x1bc/0x310 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-[ 3029.668830]  mhi_pm_st_worker+0x5c8/0xaa0 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-[ 3029.668844]  ? srso_return_thunk+0x5/0x5f
-[ 3029.668853]  process_one_work+0x17e/0x330
-[ 3029.668861]  worker_thread+0x2ce/0x3f0
-[ 3029.668868]  ? __pfx_worker_thread+0x10/0x10
-[ 3029.668873]  kthread+0xd2/0x100
-[ 3029.668879]  ? __pfx_kthread+0x10/0x10
-[ 3029.668885]  ret_from_fork+0x34/0x50
-[ 3029.668892]  ? __pfx_kthread+0x10/0x10
-[ 3029.668898]  ret_from_fork_asm+0x1a/0x30
-[ 3029.668910]  </TASK>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Tested-on: QCNFA765 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
- drivers/bus/mhi/host/boot.c | 11 +++++++----
- drivers/bus/mhi/host/init.c | 15 +++------------
- 2 files changed, 10 insertions(+), 16 deletions(-)
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                          axs101_defconfig    gcc-14.2.0
+arc                          axs103_defconfig    gcc-14.2.0
+arc                   randconfig-001-20250408    gcc-14.2.0
+arc                   randconfig-002-20250408    gcc-14.2.0
+arc                    vdk_hs38_smp_defconfig    gcc-14.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                            mps2_defconfig    clang-21
+arm                             pxa_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250408    clang-21
+arm                   randconfig-002-20250408    gcc-10.5.0
+arm                   randconfig-003-20250408    clang-17
+arm                   randconfig-004-20250408    gcc-6.5.0
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250408    clang-21
+arm64                 randconfig-002-20250408    gcc-9.5.0
+arm64                 randconfig-003-20250408    gcc-9.5.0
+arm64                 randconfig-004-20250408    clang-20
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250408    gcc-14.2.0
+csky                  randconfig-002-20250408    gcc-9.3.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250408    clang-21
+hexagon               randconfig-002-20250408    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250408    clang-20
+i386        buildonly-randconfig-002-20250408    clang-20
+i386        buildonly-randconfig-003-20250408    gcc-12
+i386        buildonly-randconfig-004-20250408    gcc-12
+i386        buildonly-randconfig-005-20250408    gcc-12
+i386        buildonly-randconfig-006-20250408    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250408    gcc-14.2.0
+loongarch             randconfig-002-20250408    gcc-13.3.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       alldefconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250408    gcc-13.3.0
+nios2                 randconfig-002-20250408    gcc-7.5.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250408    gcc-6.5.0
+parisc                randconfig-002-20250408    gcc-8.5.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                      ppc64e_defconfig    gcc-14.2.0
+powerpc                     rainier_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250408    gcc-5.5.0
+powerpc               randconfig-002-20250408    gcc-9.3.0
+powerpc               randconfig-003-20250408    gcc-5.5.0
+powerpc64                        alldefconfig    clang-21
+powerpc64             randconfig-001-20250408    clang-21
+powerpc64             randconfig-002-20250408    gcc-5.5.0
+powerpc64             randconfig-003-20250408    gcc-7.5.0
+riscv                             allnoconfig    gcc-14.2.0
+riscv                               defconfig    clang-21
+riscv                 randconfig-001-20250408    gcc-9.3.0
+riscv                 randconfig-002-20250408    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250408    gcc-8.5.0
+s390                  randconfig-002-20250408    clang-15
+s390                       zfcpdump_defconfig    clang-15
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                        dreamcast_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250408    gcc-13.3.0
+sh                    randconfig-002-20250408    gcc-13.3.0
+sh                          rsk7269_defconfig    gcc-14.2.0
+sh                           se7750_defconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250408    gcc-10.3.0
+sparc                 randconfig-002-20250408    gcc-6.5.0
+sparc                       sparc32_defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250408    gcc-6.5.0
+sparc64               randconfig-002-20250408    gcc-14.2.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250408    clang-21
+um                    randconfig-002-20250408    gcc-12
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250408    clang-20
+x86_64      buildonly-randconfig-002-20250408    clang-20
+x86_64      buildonly-randconfig-003-20250408    clang-20
+x86_64      buildonly-randconfig-004-20250408    gcc-12
+x86_64      buildonly-randconfig-005-20250408    clang-20
+x86_64      buildonly-randconfig-006-20250408    clang-20
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250408    gcc-6.5.0
+xtensa                randconfig-002-20250408    gcc-6.5.0
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index efa3b6dddf4d2..8b3d2b9d239c3 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -323,6 +323,7 @@ void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
- 				  mhi_buf->buf, mhi_buf->dma_addr);
- 
- 	kfree(image_info->mhi_buf);
-+	image_info->mhi_buf = NULL;
- 	kfree(image_info);
- }
- 
-@@ -584,10 +585,12 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
- 	 * device transitioning into MHI READY state
- 	 */
- 	if (fw_load_type == MHI_FW_LOAD_FBC) {
--		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
--		if (ret) {
--			release_firmware(firmware);
--			goto error_fw_load;
-+		if (!mhi_cntrl->fbc_image) {
-+			ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
-+			if (ret) {
-+				release_firmware(firmware);
-+				goto error_fw_load;
-+			}
- 		}
- 
- 		/* Load the firmware into BHIE vec table */
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 13e7a55f54ff4..3c20e4541357e 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -1173,8 +1173,9 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
- 		/*
- 		 * Allocate RDDM table for debugging purpose if specified
- 		 */
--		mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
--				     mhi_cntrl->rddm_size);
-+		if (!mhi_cntrl->rddm_image)
-+			mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
-+					     mhi_cntrl->rddm_size);
- 		if (mhi_cntrl->rddm_image) {
- 			ret = mhi_rddm_prepare(mhi_cntrl,
- 					       mhi_cntrl->rddm_image);
-@@ -1202,16 +1203,6 @@ EXPORT_SYMBOL_GPL(mhi_prepare_for_power_up);
- 
- void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
- {
--	if (mhi_cntrl->fbc_image) {
--		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
--		mhi_cntrl->fbc_image = NULL;
--	}
--
--	if (mhi_cntrl->rddm_image) {
--		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->rddm_image);
--		mhi_cntrl->rddm_image = NULL;
--	}
--
- 	mhi_cntrl->bhi = NULL;
- 	mhi_cntrl->bhie = NULL;
- 
--- 
-2.43.0
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
