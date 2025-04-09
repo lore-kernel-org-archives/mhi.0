@@ -1,196 +1,179 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADE015F330
-	for <mhi@lists.linux.dev>; Tue,  8 Apr 2025 14:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744124209; cv=none; b=GFnedbEvdIL/WAhHkOXyxPtsufeI8w2jK5VfBNMUYzizHwr1CUFZ7+dWjw9Wmn0Mmo2qIPKBaTr/cBXOQHExGok20HeMA11CxKIXtxiTTZ3ljE8V5js18Kxu8JQIgNrvRoLgNRP0PRb4qoBr+u9MKF1c2SU6/PrxdaKg8+7C4DY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744124209; c=relaxed/simple;
-	bh=8KR39FZSTUXoLdQpSJJx1Rg5AaamtIERM+a8BOs1a9Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dN7eL0JD5cAp6cqHET8LhN/kb18Tln8Dcins8KGf5opWF8sWbewEzm8qKTLmvUIEqJl97Hec/hAiUQjjxDYvOUEteqhrIQ+Ogzxmf9howmgzpNTkx6gdUEMvETBCDUNUJOphEq6UCJid5dfoTH2UYOFNdkxxjtamEc/O3fvRST0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HexKUwP3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467EB25B66A
+	for <mhi@lists.linux.dev>; Wed,  9 Apr 2025 08:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744187110; cv=pass; b=sw8xwsC/nIci0pLpT/NWgwRKhm7T5LjkCm2IDDdpsjOtnN64HQM5MjOXZM6E/UbJjW8M41+Tf7zKXD7v8LMnx6P2swdPMS4CG+C4E/awN4Zj/TpbaEsYTbhOFvy1uSIIl0+zMfPinJA7fFIF6PQ/l0L1gE16Lesnpx0lxGmsivw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744187110; c=relaxed/simple;
+	bh=8UrwX46Ocp72It3PbNl4PTRyMJT3wPsUyp2d1M9RVS0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YTCWnRIpXmjRbHDtcZa+gNA9Eus+8HWipTp12BhJYovva0zXR4a1JswynzW+4xxJQ3p+r+fOTQcCRo3VMjMJ2CAZf1mKAh9Wyeh4f3MOOw1QsctWRFl8cliw/97EoQbYtWO18jgUucw3oB7K4jowAbZNlHB33j5w62XNQihvKSM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=E4jU7UFR; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HexKUwP3"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538Bblcb011426
-	for <mhi@lists.linux.dev>; Tue, 8 Apr 2025 14:56:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OnLhGRbnotHUC+BJAk6Gvios3/jKclEvVKBs/uKOxuo=; b=HexKUwP3wCqx+4yt
-	ZkDJQZl33qdAl2J5O5rC6NsDXEVa4yPM8ZApaBW9NYrBtLYJAmSvE7aNjC0mrtlg
-	r42wcW+4I81lSMLL4r7OgbH6ZakYVexCETZ4mueazovOoJyFeOGXG1HUdmkMi9xA
-	YeFa2yI1wuWN++1Zn29ym+Hrn0ToMXvQOocI1HOHRwBkPdkI8WSKQK3QQqQ5937o
-	3MHrpjNW3pd/2yf2h2uwQjBEZ2y0DY3l+a3Tet6TKA+4xJ9lh/RTAAOge8/SHDin
-	Aw1j1EP1HlXn/e+EPWNS6talF40LrCsRh86pOJOewa7w4wemyzCLlAu0HTMpdvIA
-	2//N2Q==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twftg1mm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 14:56:47 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-af9b25da540so3695780a12.2
-        for <mhi@lists.linux.dev>; Tue, 08 Apr 2025 07:56:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744124206; x=1744729006;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OnLhGRbnotHUC+BJAk6Gvios3/jKclEvVKBs/uKOxuo=;
-        b=H1770MIHChW9sc0TAxEEk+zMIy1i567fQPMn0KprcE9amy+kssmX6YGQM1RHXURHR7
-         pNiprqK8o0eQQpg2vO75E8Dqe8kBKNmIirqlrQEqoU+Vq/v4V7VR45ngY6s49DOSTGsz
-         r9cArcgPAiuda7/KJJn/MSkTjruebp5hVbtgc554dI8xYrnOQwgNW31a+Peh0WgyxowN
-         LzKKiHSIzmVurm4R9aCeQ6b8TtFISxF3u6JKIzgEcw5xGa3FmuHhfHzT6UFkuCBqW0lX
-         MUr6SIoxBk9qrmp8nmnaSZz4mL4pXXHCaDIpxeexNT9FpYFqZQ7iyyKnfIlSEdFF8QLm
-         rrag==
-X-Forwarded-Encrypted: i=1; AJvYcCVSsvQUraKh5H/TOLTaaCODGNIjy+ObPH8rp58T9VxRL48W7SPanFsXwgmso3zt79GyG0w=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0gvv+VfBu6SkYDJTDWxp5MaaLn53BqVmcN50tif3OgNJRAMJk
-	vO0p7PuTh5HubhZ2af6VfOolJ2nakLzI08nNc1TzcllmI9bNKtvpthNzup/H5tOBwEq77REkCBo
-	JlszK54oPQpOPuuMs62FNKxDEQytrqdacPRVKYKr0UJy8dbCUTZA=
-X-Gm-Gg: ASbGncu3DUYxid1107di6YOFRQlhB5RrblSCSZ25OCusLeRmiANi7w+SLpZMVVYfICr
-	bWLbOyF02qS6D6lFaldWwt0d947DvAMEhwVYZkBd2enSqFYGfqldmCNSLmvEgMOgfrNJRRQe4LD
-	iCFWLK9bReTl659GD7Mt0zkAqbHdjOc1KuXCFq43MFZhcpjvGSxqHW5tWnd6I24st2JCfz7EnxV
-	lOLnaqR9b2bwclVZDEaF+Vo4yiwzH8Q35GXsXnEpwmTj2ulKbO9gog7wPMYU75AK+KQspVmYA+l
-	vOr2X6sSvHaKYv1N4Ij+QTFlc7Z2dvB/JbNWqCg7OlpaTGEhrMKv0X4NIg3bpB0zBg==
-X-Received: by 2002:a05:6a21:118a:b0:1f5:93b1:6a56 with SMTP id adf61e73a8af0-20104736aa3mr22802003637.33.1744124206322;
-        Tue, 08 Apr 2025 07:56:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZbrtBGbreOoRxCYCm3eRyTvBvIuVSmC/EM3vW1ZUoT19SPFn7c1fZ057K1+nQeDdYRsw2xQ==
-X-Received: by 2002:a05:6a21:118a:b0:1f5:93b1:6a56 with SMTP id adf61e73a8af0-20104736aa3mr22801970637.33.1744124205926;
-        Tue, 08 Apr 2025 07:56:45 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc41aba7sm9229213a12.71.2025.04.08.07.56.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 07:56:45 -0700 (PDT)
-Message-ID: <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
-Date: Tue, 8 Apr 2025 08:56:43 -0600
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="E4jU7UFR"
+ARC-Seal: i=1; a=rsa-sha256; t=1744187098; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=K9Rhiiiok+mdXUDDaYtCQGfL4Gt76o5nYAaNDvpFIeQKWkRB1Fc6SuKndIvy8kwEbQucS0juA8z94/lmNCPAbyi0FMxK4ky8uUgrl9P2b4z2dvaZ9MnzDXbXHV0VzNz6/g1fqROa7fTiqFYq7Udl4FswT7LnOSaZ0u188EUrIRw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744187098; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=gj2kV+wt8S2Y4pLqmUJgQHSVfSyy5Lw/0M6Y/S4SF4M=; 
+	b=GJG0to3QksSyoJl9jhVeqRwdjXijjkeQwdVVlIxJVzblKiwyOuX4ByiPbBomrWb0s6WFQH/XocFpuoOgaVuzPnHpcbKB0DhNwLQfzYvpTArV1456jGfs/TtcPUAK8V7LjjleE7eTzyJmkBfSguvQIVk391SI4AHve+X9Ez803EY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744187098;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=gj2kV+wt8S2Y4pLqmUJgQHSVfSyy5Lw/0M6Y/S4SF4M=;
+	b=E4jU7UFRQ9WEzXcpcUqYGtM7aPqeGhjrUQH4Q9nNoZHc+OxFsZ6c7cFfk7NRHFIc
+	Zg1sm7Ynd46TonP+e/QTfTeAKGvPfozCJctZCz+uWeuHbt9cvARICRu+uD3884rg6WT
+	9g9V7AEz145ivmE892XYrVHpqg5Fi5EFXqVCBb1E=
+Received: by mx.zohomail.com with SMTPS id 1744187097015753.044433887251;
+	Wed, 9 Apr 2025 01:24:57 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Yan Zhen <yanzhen@vivo.com>,
+	Qiang Yu <quic_qianyu@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kunwu Chan <chentao@kylinos.cn>
+Cc: Carl Vanderlip <quic_carlv@quicinc.com>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] bus: mhi: host: don't free bhie tables during power off
+Date: Wed,  9 Apr 2025 13:24:26 +0500
+Message-ID: <20250409082444.582295-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org,
-        Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
- <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=B5+50PtM c=1 sm=1 tr=0 ts=67f5392f cx=c_pps a=rz3CxIlbcmazkYymdCej/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=EqrZPqEe0gY6MFZa27UA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: VKg-aKY3-Qq0fqzohbOlLxNnmtuf_8H1
-X-Proofpoint-ORIG-GUID: VKg-aKY3-Qq0fqzohbOlLxNnmtuf_8H1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_06,2025-04-08_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 lowpriorityscore=0
- mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080105
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 4/8/2025 1:01 AM, Manivannan Sadhasivam wrote:
-> On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
->> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->>
->> MHI control configurations such as channel context, event context, command
->> context and rings, are currently allocated individually. During MHI
->> initialization MHI bus driver needs to configure the address space in
->> which this control configuration resides. Since different component of the
->> config is being allocated separately, only logical solution is to give the
->> entire RAM address space, as they could be anywhere.
->>
-> 
-> This is fine...
+Fix dma_direct_alloc() failure at resume time during bhie_table
+allocation. There is a crash report where at resume time, the memory
+from the dma doesn't get allocated and MHI fails to re-initialize.
+There may be fragmentation of some kind which fails the allocation
+call.
 
-We tripped over this when experimenting with an automotive market 
-product. The FW for that product had a rather strict interpretation of 
-the spec, which we confirmed with the spec owner.
+To fix it, don't free the memory at power down. Use the same allocated
+memory again and again after every resume/hibernation. This patch has
+been tested with resume and hibernation both.
 
-In the specific FW implementation, the device maps the entire MHI space 
-of shared structures in a single ATU entry. The device cannot map an 
-entire 64-bit address space, and it expects all of the shared structures 
-in a single compact range.
+Here are the crash logs:
 
-This applies to the control structures, not the data buffers per the 
-device implementation.
+[ 3029.338587] mhi mhi0: Requested to power ON
+[ 3029.338621] mhi mhi0: Power on setup success
+[ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+[ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
+[ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+[ 3029.668694] Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+[ 3029.668717] Call Trace:
+[ 3029.668722]  <TASK>
+[ 3029.668728]  dump_stack_lvl+0x4e/0x70
+[ 3029.668738]  warn_alloc+0x164/0x190
+[ 3029.668747]  ? srso_return_thunk+0x5/0x5f
+[ 3029.668754]  ? __alloc_pages_direct_compact+0xaf/0x360
+[ 3029.668761]  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+[ 3029.668774]  __alloc_pages_noprof+0x321/0x350
+[ 3029.668782]  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+[ 3029.668790]  dma_direct_alloc+0x70/0x270
+[ 3029.668796]  mhi_alloc_bhie_table+0xe8/0x190 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668814]  mhi_fw_load_handler+0x1bc/0x310 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668830]  mhi_pm_st_worker+0x5c8/0xaa0 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668844]  ? srso_return_thunk+0x5/0x5f
+[ 3029.668853]  process_one_work+0x17e/0x330
+[ 3029.668861]  worker_thread+0x2ce/0x3f0
+[ 3029.668868]  ? __pfx_worker_thread+0x10/0x10
+[ 3029.668873]  kthread+0xd2/0x100
+[ 3029.668879]  ? __pfx_kthread+0x10/0x10
+[ 3029.668885]  ret_from_fork+0x34/0x50
+[ 3029.668892]  ? __pfx_kthread+0x10/0x10
+[ 3029.668898]  ret_from_fork_asm+0x1a/0x30
+[ 3029.668910]  </TASK>
 
-This restriction seems backed by the spec.  I can't find a reason why 
-the device is invalid, if limited.  I don't think this should break 
-anything, but more on that below.
+Tested-on: QCNFA765 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+ drivers/bus/mhi/host/boot.c | 11 +++++++----
+ drivers/bus/mhi/host/init.c | 15 +++------------
+ 2 files changed, 10 insertions(+), 16 deletions(-)
 
-> 
->> As per MHI specification the MHI control configuration address space should
->> not be more them 4GB.
->>
-> 
-> Where exactly this limitation is specified in the spec? The spec supports full
-> 64 bit address space for the MHI control/data structures. But due to the device
-> DMA limitations, MHI controller drivers often use 32 bit address space. But
-> that's not a spec limitation.
-
-Its not the clearest thing, sadly.
-
-Document 80-NF223-11 Rev AB "MHI spec v1.2" Section 6.2 "MHI Registers" 
-table 6-19 (page 106) -
-
-Describing MHICTRLLIMIT: "The most significant 32 bits of MHICTRLBASE 
-and MHICTRLLIMIT registers must be equal."
-
-This means we have a 4GB range (32-bit) to play with in a 64-bit address 
-space.  If the upper 32-bits of the 64-bit address for both the base and 
-the limit must be the same, then the range of addresses from the base to 
-the limit can only vary the lower 32-bits.
-
-Invalid:
-BASE: 0x0
-LIMIT: 0xffffffff_ffffffff
-
-Valid:
-BASE: 0x0f_00000000
-LIMIT: 0x0f_ffffffff
-
->> Since the current implementation is in violation of MHI specification.
-
-For example mhi_init_dev_ctxt()
-
-We allocate the chan_ctxt with dma_alloc_coherent() as an individual 
-allocation.  In the case of AIC100, the device can access the full 
-64-bit address space, but the DMA engine is limited to a 32-bit transfer 
-size.  The chan_ctxt probably won't be larger than 4GB, so the size is 
-rather irrelevant.  Can be allocated anywhere.  Lets say that it gets 
-put in the lower 32-bit address space - 0x0_XXXXXXXX
-
-Then a little bit later we allocate er_ctxt with a different 
-dma_alloc_coherent() instance.  Being a unique allocation, it is not 
-tied to the chan_ctxt and can exist anywhere.  Lets assume that it gets 
-put somewhere in the non-lower 32-bits - 0x1000_XXXXXXXX
-
-Now we have a problem because we cannot describe a single range covering 
-both of these allocations via MHICTRLBASE/MHICTRLLIMIT where the upper 
-32-bits of both registers is the same.
-
->> Allocate a single giant DMA buffer for MHI control configurations and
->> limit the configuration address space to that buffer.
->>
-> 
-> I don't think this could work for all devices. For instance, some ath11k devices
-> use a fixed reserved region in host address space for MHICTRL/BASE.
-
-Why would we be unable to allocate all of the control structures in a 
-single allocation out of that reserved region?  Is it larger than 4GB in 
-size?
-
--Jeff
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index efa3b6dddf4d2..8b3d2b9d239c3 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -323,6 +323,7 @@ void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
+ 				  mhi_buf->buf, mhi_buf->dma_addr);
+ 
+ 	kfree(image_info->mhi_buf);
++	image_info->mhi_buf = NULL;
+ 	kfree(image_info);
+ }
+ 
+@@ -584,10 +585,12 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	 * device transitioning into MHI READY state
+ 	 */
+ 	if (fw_load_type == MHI_FW_LOAD_FBC) {
+-		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+-		if (ret) {
+-			release_firmware(firmware);
+-			goto error_fw_load;
++		if (!mhi_cntrl->fbc_image) {
++			ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
++			if (ret) {
++				release_firmware(firmware);
++				goto error_fw_load;
++			}
+ 		}
+ 
+ 		/* Load the firmware into BHIE vec table */
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 13e7a55f54ff4..3c20e4541357e 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -1173,8 +1173,9 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+ 		/*
+ 		 * Allocate RDDM table for debugging purpose if specified
+ 		 */
+-		mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
+-				     mhi_cntrl->rddm_size);
++		if (!mhi_cntrl->rddm_image)
++			mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
++					     mhi_cntrl->rddm_size);
+ 		if (mhi_cntrl->rddm_image) {
+ 			ret = mhi_rddm_prepare(mhi_cntrl,
+ 					       mhi_cntrl->rddm_image);
+@@ -1202,16 +1203,6 @@ EXPORT_SYMBOL_GPL(mhi_prepare_for_power_up);
+ 
+ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+ {
+-	if (mhi_cntrl->fbc_image) {
+-		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+-		mhi_cntrl->fbc_image = NULL;
+-	}
+-
+-	if (mhi_cntrl->rddm_image) {
+-		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->rddm_image);
+-		mhi_cntrl->rddm_image = NULL;
+-	}
+-
+ 	mhi_cntrl->bhi = NULL;
+ 	mhi_cntrl->bhie = NULL;
+ 
+-- 
+2.43.0
 
