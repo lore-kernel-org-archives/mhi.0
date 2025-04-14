@@ -1,148 +1,169 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DB22628C;
-	Mon, 14 Apr 2025 07:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA00E23D2A9
+	for <mhi@lists.linux.dev>; Mon, 14 Apr 2025 14:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744616882; cv=none; b=G9oQfsUrw/VJ6C/t/mN8mvAvEMHdHcRlhZbUaxXFXDMaIs0yXctuR1XILyCXhqB5s6UaSrDGivVk+zIpy15piMfU86yJF74Ixxd8hwhRa1H/K2DrtLLZoTHh6NVF3jxPLV5CCe2GiS/2rvEoFIql2hBZQ3IxfYMdmhE7lZJ9Eec=
+	t=1744640101; cv=none; b=Vcf6bgt1ULXhJ/95jaYoQ3+7QVCz2Mucp+FQ1werADllTSDEaSDwj6S4JT3nlr9BHwD0ftJ+fy41kaYCRJX+O73VkYUo35ogXOUyG9DAEsVK8JhQEGxodBwIJfM+IvlFJY3xOjESr+SXNwULvNzIlYHiL1vbwDXnD3kiRIO5WUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744616882; c=relaxed/simple;
-	bh=63bZC/UOojIFZL/ZiazbPdnBHrTeP2s5s7dmTygc9nU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=Cl2tv9NLAAFzXMUaVs91oBLFvTsTKjlL5jq+sYT/R0UgFEs8RRkAZ9+dTtsA6tH/aNBh5WMlGpZU8d1hyRZFDdkDLJaJe/HpfY3QnIn5FGPHFGGxwgdRMGuGe4EwmvzgM54/cYA4R/GswHQmKB2DJ2wrSad4BqTMbriLLmpvfgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UItp4RW0; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1744640101; c=relaxed/simple;
+	bh=ByeCTNaZr4Ph/HGr+OwVdxCPEuDR7nboM0glWluYFW0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NX0EttTp/sGaeqtu3Kf7iy6ohaPBKbaOeJuNfUplj1GuIlYXlFapoI5wGjOjxO/THxrpFRKugBrtxAEQX5awWD4tQmNxFWoXMEZoST3jtlhDSI7WMJyY9Yxayi8ePSIMy3CHEh3930ZD9QfitRnouquoOZfm/Js1dw3r8Z6yhdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hHPr0i7o; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UItp4RW0"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53E0BAXk025634;
-	Mon, 14 Apr 2025 07:47:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=eOODX3xwOi3xIRHGHvUmcR
-	nRv7LJ5oFhJxA/OvjoVMY=; b=UItp4RW0Rc3ZhTDk+6elPVfxGXSGIdKDUlO7+y
-	D5QZTfF3h1iVUP5dBqp1XJwXt1GU5rhLQEbgqn4rwQpstQMvrirKcBkKEHbyVPFs
-	/VrGWW1GtSbI1gtOBy+pu1b11U1c2l56ZcfxUbLZAvpKxt9Aymnh024jzuXH7z1B
-	0w9aitGCyehzlKaiZc9ORw4MpJyaw4PgZir/TxPt577XPAIUXxiHvOJWGRUVhIdA
-	Gt7HpSkYgyVg5jiTxDmv5lxfmOjELpk8NK5TMHP+UGRWwbBi9ziSImqbUOii8yxl
-	9hjamFQhi28Z3x8bsw9Av9gG8yFroRpLEBsHdWSNgd/r0dvA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yfs13s3r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Apr 2025 07:47:58 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53E7lvYv032372
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Apr 2025 07:47:57 GMT
-Received: from [10.213.96.82] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Apr
- 2025 00:47:55 -0700
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Date: Mon, 14 Apr 2025 13:17:44 +0530
-Subject: [PATCH] bus: mhi: host: pci: Disable runtime PM for QDU100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hHPr0i7o"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53E99vEg015797
+	for <mhi@lists.linux.dev>; Mon, 14 Apr 2025 14:14:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wxG3IdlEU0/EeaB+zxx6yERTFdkVhtJDwmR5p/NkIrU=; b=hHPr0i7osx8vFaom
+	VYV+Mtndw1qOIbkeg8tmmJa2RB+jki0pRpOT1cTI7EI+aQ5yw/S9bjphuAvvPMC/
+	8+B+8lw9zUWhTzEG0d3w2XWn6YBuSMgN1ryUc5xM6T3/MGLLWA8rW4Hq0VbErtDP
+	d/53phYC2zoWTDWhSHFj/VDYdb4cyIF2Y3FP9gdinwl5uWQTtvotm56cE8vf+p0e
+	fiRsTp2egrw6cWVMeFRnfyE7xhahZscAj5mwHL8I1Zil46Lpe6WxC7wvRY/dox7j
+	qE2VlXfWy9oHphiKtL2syJgo55z2RpfpKomtdH5AqpLNy29LQzfpzjHRWnhbbk+7
+	Q3qABw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6ct1h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 14 Apr 2025 14:14:58 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2254e500a73so32430095ad.0
+        for <mhi@lists.linux.dev>; Mon, 14 Apr 2025 07:14:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744640098; x=1745244898;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wxG3IdlEU0/EeaB+zxx6yERTFdkVhtJDwmR5p/NkIrU=;
+        b=gdB6APWbi2yxsTQQXeLhNxJt/S+CtRP4bPFJgm28GlHsflN5hOwzZGb1Spww+qG91n
+         qUhHAyqibQhxQe5UF0XR7gfHMLGxwFUZcR4i9fS5yQgnedz3fe+nmrU5nC37YZJpc8jn
+         z4UJF49lCpqfbtaH5hh9C+razeP0LGjasJosOJ36QP03CD3vU2OknvLUg7WeezfOuvVl
+         etYbRbLoiGs5nwF3M4c41M1mqGeTOcrpRKB5b+NPLJYyi9dU9Yepl21yvdaOT7NOC7Mr
+         ROM6PdcD3bwyXaiKXnREte3/WTplX8ZEX2baDoLRVG56oSvTRVCvVcmNY38Huu0WF/nX
+         a7LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXmJP5TuwgZsGwogc950HXQmVi57QaBnj56/tD7B57bZJjPs22xvdxRPE0yPorncJBtmk8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzP2io4tNPhG4sBpEw4lxY/u4mOCCwen3+LSupYa/6VwKcm8N0o
+	4ra+euVQAB6Zku46fG0QNtTXDpEb2/tjn1bp7+IDF/Wo4eNZdRoJXSZhrIZO0CYPZmq5WDogN3j
+	HzRANOtofydqfk6E9ze4u72CxgtTaZ3PgB/J3NHqd7dePX+pbhAI=
+X-Gm-Gg: ASbGnctd15Q2x/v1crd2iacOg2kuZWTW0idLzVUmUqZBtDMGvvnwuTEh9tfLGPEEk2H
+	eVxKbEE4e3JdaYFYn3l4cPWFEhYAYMQBXRy4fu3YXJCEAgYLXngiycIJ9/QCnjK4k6ArcXTn6/S
+	Y6So9eDQR13FFfo99C5g/UK/DkjRXXaMhpZMVsQ+edY1bKOMRlX+SUoCJHviup4/Gb/RP+PDwhk
+	H6IxLYMXlRe1LYll6uMQ3/pGbkSINT3e/HzxyI7cOD8TSX+b2shPJYLlRR4wXR6ZhMdlivIWDrB
+	T6MbP2ZRHRfBDnj+Kv1py1inEPB+PDicYNN3d3Xt3DVr3ao9ZndQl/hgg+bFCQ==
+X-Received: by 2002:a17:903:1b03:b0:223:501c:7576 with SMTP id d9443c01a7336-22bea4aac90mr209768745ad.12.1744640097854;
+        Mon, 14 Apr 2025 07:14:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUc9+/UIqegjATJ9UbGeCCAJ0DtjU4YNhpXakGi/P6OIAyr24MclI3pdwUoau+1IS1bxBK3g==
+X-Received: by 2002:a17:903:1b03:b0:223:501c:7576 with SMTP id d9443c01a7336-22bea4aac90mr209767795ad.12.1744640097219;
+        Mon, 14 Apr 2025 07:14:57 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cb681asm99532345ad.204.2025.04.14.07.14.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Apr 2025 07:14:56 -0700 (PDT)
+Message-ID: <ad5e99e8-3ff1-4727-aed6-528ac747f409@oss.qualcomm.com>
+Date: Mon, 14 Apr 2025 08:14:54 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] bus: mhi: host: don't free bhie tables during
+ suspend/hibernation
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Krishna Chaitanya Chundru <quic_krichai@quicinc.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jeff Johnson
+ <jjohnson@kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
+        Youssef Samir <quic_yabdulra@quicinc.com>,
+        Qiang Yu <quic_qianyu@quicinc.com>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kunwu Chan <chentao@kylinos.cn>
+Cc: kernel@collabora.com, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        ath11k@lists.infradead.org
+References: <20250410145704.207969-1-usama.anjum@collabora.com>
+ <ba09ae0c-fe8d-8f4e-a1b8-9c7e5913c84e@quicinc.com>
+ <fc9ca0da-9f6a-42b5-aa79-abcd43c97043@collabora.com>
+ <e0159cb8-fe21-7f71-1ebe-744ed26bd698@quicinc.com>
+ <85580a01-289a-461b-b0f1-38fa1b96717c@collabora.com>
+ <1c0b2217-49d9-360c-ed60-db517eaf2ccc@quicinc.com>
+ <7d6b074c-8499-4984-b235-d1285b006ab3@collabora.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <7d6b074c-8499-4984-b235-d1285b006ab3@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAJ+9/GcC/y3MwQqEIBRG4VeJu07I0s28SoRY968uTBYaEkTvP
- jK0/M7i3JQQBYk+1U0RWZLsoUDXFU2rDwuUcDG1TWsbo43KjOwCrlO9SbtjcyzJj18o27GF9hM
- bCyqPI2KW6//vh+f5AbvFBCRvAAAA
-X-Change-ID: 20250414-vdev_next-20250411_pm_disable-53d5e1acd45e
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Vivek Pernamitta <quic_vpernami@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744616875; l=2311;
- i=quic_vpernami@quicinc.com; s=20241114; h=from:subject:message-id;
- bh=63bZC/UOojIFZL/ZiazbPdnBHrTeP2s5s7dmTygc9nU=;
- b=zdvcOQUrgOOW/4hGO4RfjUqn/okbJhDE3vcaVnDBd2pLDCSTJqYE3oYw24ziIJNcBd91H7lPI
- JIYRZ4B14N2CEHWViK1wfbLY3tZGyo4wnoSbpFKb6o8GzlX+t7gX6rT
-X-Developer-Key: i=quic_vpernami@quicinc.com; a=ed25519;
- pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=P9I6hjAu c=1 sm=1 tr=0 ts=67fcbdae cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=NdffcxjtmGlxNBlw-1IA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 1ac5Q5QsXfNrinJqYzHl_kOV8xXnajE-
-X-Proofpoint-ORIG-GUID: 1ac5Q5QsXfNrinJqYzHl_kOV8xXnajE-
+X-Proofpoint-ORIG-GUID: R950ErQti1WKC5PbssEUNLTfJMbkPQCU
+X-Proofpoint-GUID: R950ErQti1WKC5PbssEUNLTfJMbkPQCU
+X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=67fd1862 cx=c_pps a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=e8kDqSdrP573SdWI4XoA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-14_01,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1011 bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0
- mlxscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- mlxlogscore=944 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504140055
+ definitions=2025-04-14_04,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504140103
 
-The QDU100 device does not support the MHI M3 state, necessitating the
-disabling of runtime PM for this device. Since the PCIe core framework
-enables runtime PM by default for all clients, it is essential to disable
-runtime PM if the device does not support Low Power Mode (LPM).
+On 4/14/2025 1:32 AM, Muhammad Usama Anjum wrote:
+> On 4/12/25 6:22 AM, Krishna Chaitanya Chundru wrote:
+>>
+>> On 4/12/2025 12:02 AM, Muhammad Usama Anjum wrote:
+>>> On 4/11/25 1:39 PM, Krishna Chaitanya Chundru wrote:
+>>>>
+>>>>
+>>>> On 4/11/2025 12:32 PM, Muhammad Usama Anjum wrote:
+>>>>> On 4/11/25 8:37 AM, Krishna Chaitanya Chundru wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 4/10/2025 8:26 PM, Muhammad Usama Anjum wrote:
+>>>>>>> Fix dma_direct_alloc() failure at resume time during bhie_table
+>>>>>>> allocation. There is a crash report where at resume time, the memory
+>>>>>>> from the dma doesn't get allocated and MHI fails to re-initialize.
+>>>>>>> There may be fragmentation of some kind which fails the allocation
+>>>>>>> call.
+>>>>>>>
+>>>>>>> To fix it, don't free the memory at power down during suspend /
+>>>>>>> hibernation. Instead, use the same allocated memory again after every
+>>>>>>> resume / hibernation. This patch has been tested with resume and
+>>>>>>> hibernation both.
+>>>>>>>
+>>>>>>> The rddm is of constant size for a given hardware. While the
+>>>>>>> fbc_image
+>>>>>>> size depends on the firmware. If the firmware changes, we'll free and
+>>>>>> If firmware image will change between suspend and resume ?
+>>>>> Yes, correct.
+>>>>>
+>>>> why the firmware image size will change between suspend & resume?
+>>>> who will update the firmware image after bootup?
+>>>> It is not expected behaviour.
+>>> I was trying to research if the firmware can change or not. I've not
+>>> found any documentation on it.
+>>>
+>>> If the firmare is updated in filesystem before suspend/hibernate, would
+>>> the new firwmare be loaded the next time kernel resumes as the older
+>>> firmware is no where to be found?
+>>>
+>>> What do you think about this?
+>>>
+>> I don't think firmware can be updated before suspend/hibernate. I don't
+>> see any reason why it can be updated. If you think it can be updated
+>> please quote relevant doc.
+> I've not found any documentation on it. Let's wait for others to review
+> and it it cannot be updated, I'll remove this part.
+> 
 
-Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
----
- drivers/bus/mhi/host/pci_generic.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Wouldn't this be trivial to test?  Boot the device, go modify the 
+firmware on the filesystem, then go through a suspend cycle.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 03aa887952098661a488650053a357f883d1559b..a011fd2d48c57cf9d1aec74040153267a206d797 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -43,6 +43,7 @@
-  * @mru_default: default MRU size for MBIM network packets
-  * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
-  *		   of inband wake support (such as sdx24)
-+ * @pm_disable: disables runtime PM (optional)
-  */
- struct mhi_pci_dev_info {
- 	const struct mhi_controller_config *config;
-@@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
- 	unsigned int dma_data_width;
- 	unsigned int mru_default;
- 	bool sideband_wake;
-+	bool pm_disable;
- };
- 
- #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
-@@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
- 	.sideband_wake = false,
-+	.pm_disable = true,
- };
- 
- static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
-@@ -1270,6 +1273,13 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	/* start health check */
- 	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
- 
-+	/* Disable Runtime PM if device doesn't support MHI M3 state */
-+	if (info->pm_disable) {
-+		pm_runtime_disable(&pdev->dev);
-+		pm_runtime_set_suspended(&pdev->dev);
-+		return 0;
-+	}
-+
- 	/* Only allow runtime-suspend if PME capable (for wakeup) */
- 	if (pci_pme_capable(pdev, PCI_D3hot)) {
- 		pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
-
----
-base-commit: 01c6df60d5d4ae00cd5c1648818744838bba7763
-change-id: 20250414-vdev_next-20250411_pm_disable-53d5e1acd45e
-
-Best regards,
--- 
-Vivek Pernamitta <quic_vpernami@quicinc.com>
-
+-Jeff
