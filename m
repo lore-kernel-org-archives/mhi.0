@@ -1,63 +1,63 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D6F10F2
-	for <mhi@lists.linux.dev>; Tue, 15 Apr 2025 07:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E86B274FC7
+	for <mhi@lists.linux.dev>; Tue, 15 Apr 2025 07:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744701872; cv=none; b=G35y/+NcK8JP4wcCfm79a/fJNP94uIBjA/6CZbrG0xYPoFf00ugshiip2bOjkB/bf7DSQC8glHCa36EVsB+gA0oXBICN9VrR9wCaG5SIQHgnU7gmKq8lq6ScpYI0bG1YW+/bQRtcx3xa7gi2W+LPPl/LoRXRNRRAj7AlAhjt0Yc=
+	t=1744702010; cv=none; b=kmk/mac9NOIHEV4nS+X1JFs+Pld5XwzOx5uGxdXMVV/sMUyBRzDIzTbzJUxCpPTBSORP1pMXfE1bEs8UmNVadoEJcvbIZI9whxVhshY9+T3Z2NiJ9DveMGB21NljsJ9tbqGWrAIOHCvlDVfaZSGh0AHKInToIcaydPqtx2KfefE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744701872; c=relaxed/simple;
-	bh=au6q9Tu2dUAZ4s8DofqOWQ5I3CRvyrypPI+uPHden64=;
+	s=arc-20240116; t=1744702010; c=relaxed/simple;
+	bh=ndmBc8dT+YUFbZUh8JSUskzkgEjtafSmthf85hpWieE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScIFdB6H7iN1s8tg4qiyen9uUM6ziuBPUBPmcsw7BkfcYMXAXDVvMXma71lE31jvQD6u+VPWmMS3qfULHkl6Fol9Zelx3/j/c5J1eQYpPyNIa+rbhP3bi0Cbq9HDWnuFJ2iDVxNQn0TA9w+/B+aO4H8BkA+WLSF55W+WCpQmoVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WuuJHTYe; arc=none smtp.client-ip=209.85.214.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyW+MBd4zBFuo4myPbveiX+Pb1n2K2LXHZuAFG0D4PVINdi3DDzDI1MX8iNvDIuezVTWAm0BSfBUqRFA8abTxtN89kK+nAXGAIrd2YrOLDG/cKqFOcSYqo05XyOY7gf7IvzTd0+Ps5PPpllD1aL+VUkWLApy+JTn/AeGraAygyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZAJQA7yU; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WuuJHTYe"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2295d78b433so54071985ad.2
-        for <mhi@lists.linux.dev>; Tue, 15 Apr 2025 00:24:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZAJQA7yU"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2279915e06eso55144925ad.1
+        for <mhi@lists.linux.dev>; Tue, 15 Apr 2025 00:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744701871; x=1745306671; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744702008; x=1745306808; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=qu8kD86AXuKJZy4HIshJdpK/xBfLXn4kgIsnyKTrc7I=;
-        b=WuuJHTYet5deYxkAW7xxgB3/1VZ/zvoRWYCUmyQFZKfFoqEHrc76F8zELUErmiZ5IN
-         tplXBE3AOWONrV3YNf0PBuMbxQIEpVH3Gnj6W+Kc3l7jgLbjVvCnmvMNOHdjSrQcB4lv
-         NGYxuOjBC8vTUV/8l6KJ58DuDR5peDnHCvJ+w8sX3MEabEq5BW3SB/RgjxT1yeYtWOLu
-         IA+AKDUuNw/b3Ie+Nn6eRmHaobRGVEhLPin6DhEVPVxZWPxH7KJlIr3phrY9CkRXGzDv
-         D7e0QPED2zg8H1aAHGi6193P7jazrqwT1gzBGt10Lx/kB7V/CRaf/1Xf2sLJk1nyU4s4
-         7r5A==
+        bh=fCJNaeHH0qeNbjhZ4y2YJBf4Ih9X6gqwUBqd6D7xbtk=;
+        b=ZAJQA7yUNLMjFqr/f16fTRzmPrP60eDkPq1d9SCresLCdGjKusMqRWwfNvnCqKxjV9
+         qMRsOtN2sJl7cZBqudcsz1o0Zn75ykjAqtsKJXf3FeiAtQAwKcXzC0j1mq2ljq4suaHW
+         aDAws5JRbpzd5oLwJhOfhdqHe+C7iqjmKPiUB6k7BuKBPh2UnWLFH+3v7iDwixqpb84K
+         YQNpPXyaLPlm6Xq+MhnX5C6oQoZWzjYkMV8GJwyE4PBOeZqGmzxN/obElQ5mpNNPoZt/
+         CPGgCCjS9GufdIVN0iLREoeEYW3J0wo15FIs17CRJZZW3+oSA3cWr3hUnTPYJW1V+Bsd
+         o7jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744701871; x=1745306671;
+        d=1e100.net; s=20230601; t=1744702008; x=1745306808;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qu8kD86AXuKJZy4HIshJdpK/xBfLXn4kgIsnyKTrc7I=;
-        b=LTNEyCsJqULrJCrcdTC4iZ0syODags3cB/dwxJgvV/gohOy48UoIq/Zx3ffGNqF3LD
-         qHrObmJ+hGW2mE9JHtM1X92Sa6z7k45ho6w9cweuMjIBDvUJ9MB0Oym2HULoxPFfhvMu
-         h/fBRH//UPNpJ3Kwv+7eobT7l5Vj6ygT7vKz/bb1GV5jRs5vp326vhJ8evgK9F6PGJDk
-         //BY9O7iki3yKBGr7DeXgA5qlJeRvCvHL+Z3hvPIUsQL3P9OwAqsph98tgO1+EmLOMkU
-         v1eLS0ttvHX/9+oHzV9TLuCIlMr+XLJVIYJhpfQOugd+DJN0w0PtF4p30uX3tTWDsOmN
-         FTew==
-X-Forwarded-Encrypted: i=1; AJvYcCX7//4r+KpWBGYsPECowe+m4GkXvi3SKLOfqsIhovZIZnl0hOejGG2E7Eo4CNOEc1YSNec=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwinOalk0pR221136A2RPuyHM/jLeOyLWRu9wYqdLSTJe4ZceGh
-	sHHZGcDupi33wk2NLhjkJIUvrYtLAi7z9Ee1dHWDTR6T9WVKDNraVN9Lq+qQDA==
-X-Gm-Gg: ASbGncuJU0cCg7JviL5ZHO98aD7dEENE6c28PYt4ChJALzR7OnsJhkl8RaCTUbkNGSq
-	/hgi9GdLyK/C06yoB6hSesqNr1zYjYI408OLIY7M3rUZJlG6BhodcCpkzkrw9LEcxmgIKsy5DW7
-	styND8gqRNGnH9teIGTSFz+jwYwRIYTiZA5u/a2IV9ivmmZImxlDts3mDJZ1Ov00aX2zDGrAMRr
-	EqgtfG/lhPwIB+pXTw7BfTD3MIhrUIXGa+BZQhfbIHbZtrdTxzuz1T7uzXJ3EqPaUFSPx9IhLib
-	59gqVkaUhG8eahrzqsAYoWf3nvVDIXJ/BFE0t6DQqtq237UxfQ==
-X-Google-Smtp-Source: AGHT+IGdiWkQMkaHTsiVcI4z3x+X4VzKPfKH5y/vEQa4WjmVHEMVpLvUUGLit5iWi2cXVeIM/nOIpA==
-X-Received: by 2002:a17:903:41c2:b0:224:3db:a296 with SMTP id d9443c01a7336-22bea49e9e4mr204502495ad.2.1744701870704;
-        Tue, 15 Apr 2025 00:24:30 -0700 (PDT)
+        bh=fCJNaeHH0qeNbjhZ4y2YJBf4Ih9X6gqwUBqd6D7xbtk=;
+        b=rMS4Qhky/qWlbVDw07kynFfvCmcRj4FJ5QBvOomLf5xrsFdPQ5rnRa6kEyesKXU+mC
+         +LxK9tnDpiSMDF5w82X8aaxq8jaB4/76pCdb4YKrjunlrPN2+GeASKS2aOWQz/gpYseh
+         vOZF1f/nRO77lxIyZ3FS1KQo8KeyO2JulFY6Oel7w7D2kbCSD3LLPEquMmkCMkmrgVaP
+         8flnOnr3o7cQQtpJZ+GDG/aJKcLkgKas+xSf15q1ssNImBnuTda7XkwZKBF0yjMC6IXZ
+         IYQOO52UGdh/UYTD2+o1SSje0B6ulee9Uo1Htew5UM+Z+3JTAL2Vi4r7hSi2szAXD/ql
+         O8sA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXLnT2DYK/aOBankzRTwRfRl48gdvVwHGHQzx4+IAcare3icM6L4jltw7LFKum9pPzdrk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQlFdfgX1MaDlG6PEzSFQH/vxGnAhIS8fArnVGEDkKl59ASWNb
+	5Ic09rVydKOG49RZ4xniJ8pKJI+Dx+p4YwE8sA677nbgnFnGT2hwc3xkpW82eA==
+X-Gm-Gg: ASbGnctPW99b0OTPns69O1dQRQkga3w7Fj4oBaWFfwmYeeWrB/g3Ztd/rjGNKfaKsPW
+	wR8WNkV0csLqpDHBhOG6rMSKsy60vXhV2HixzNJSVDkrDfMgcVWye8zSxpjCwIbSBv/EA0z3+Kj
+	jE2JF6cwnVdOSQaBMD4B0gIrfEb4SnQOdaAbHf1HKFAwSiZLjZK1ecs71Rd6Qz+aBkrMjl9I+S4
+	IQEQRB49zGtfKkKpzPd+jZDxVAB3YI3p6LmH5N2x9iV8zI7RF3q6SvhDQsbRkgY76sFREvy1XaV
+	Oe/nVkAxUsLSJTlM4cHlKpyWu5KLxpFz6PTsXJIg3DezL0r0Kg==
+X-Google-Smtp-Source: AGHT+IHguLmuMIGRBsFlyspehfjQDN2w8AskD61wkAT+OvpAWkCdIa3KMt+LNv9RjQaYs4JZBwB+yQ==
+X-Received: by 2002:a17:903:904:b0:227:ac2a:1dcf with SMTP id d9443c01a7336-22bea4bd870mr208246955ad.23.1744702007792;
+        Tue, 15 Apr 2025 00:26:47 -0700 (PDT)
 Received: from thinkpad ([120.60.71.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c993a7sm110714665ad.146.2025.04.15.00.24.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c93aa3sm110866935ad.149.2025.04.15.00.26.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 00:24:30 -0700 (PDT)
-Date: Tue, 15 Apr 2025 12:54:24 +0530
+        Tue, 15 Apr 2025 00:26:47 -0700 (PDT)
+Date: Tue, 15 Apr 2025 12:56:41 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Sumit Kumar <quic_sumk@quicinc.com>
 Cc: Alex Elder <elder@kernel.org>, 
@@ -67,7 +67,7 @@ Cc: Alex Elder <elder@kernel.org>,
 	Youssef Samir <quic_yabdulra@quicinc.com>
 Subject: Re: [PATCH] bus: mhi: ep: Update read pointer only after buffer is
  written
-Message-ID: <74azjehrnf57ruhrkcqonuakm2iro5ehdvtudolcbrlrcjfvj4@ylqmug3wqdhs>
+Message-ID: <gq4s5je4grjjqwhrmrqrurglm4kctnsslwr4kllxdyphy4re4d@kzacgpg7k3xj>
 References: <20250409-rp_fix-v1-1-8cf1fa22ed28@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -90,19 +90,13 @@ On Wed, Apr 09, 2025 at 04:17:43PM +0530, Sumit Kumar wrote:
 > Invoke the buffer write before updating rd_offset to ensure the element
 > is fully written before signaling its availability.
 > 
-
-Hmm. I was under assumption that the host wouldn't access the rd_offset before
-raising the interrupt.
-
-But anyway, the fix looks legitimate irrespective of that.
-
 > Fixes: bbdcba57a1a2 ("bus: mhi: ep: Add support for ring management")
 > cc: stable@vger.kernel.org
 > Co-developed-by: Youssef Samir <quic_yabdulra@quicinc.com>
 > Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
 > Signed-off-by: Sumit Kumar <quic_sumk@quicinc.com>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Applied to mhi-fixes!
 
 - Mani
 
