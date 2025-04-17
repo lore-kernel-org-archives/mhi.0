@@ -1,190 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A7D22FF2D
-	for <mhi@lists.linux.dev>; Wed, 16 Apr 2025 08:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04E01F0E5C
+	for <mhi@lists.linux.dev>; Thu, 17 Apr 2025 06:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744792755; cv=none; b=OqtCpCFMt8WOufIgX51rtz3IS0ua8jKpU12PLd1PsjbSm7heZBSQvOBK/7vGDjhPlxd/oNI2kYFv9Tx6ZvaC3OxU9JBwne2veS9+dWDOhGY0wrPYKok4NLpMK2ywULi9gWG/Z3NPLGkM3G9bY6FriyPXUNkYtOfW35IFl7QaAV4=
+	t=1744870065; cv=none; b=mtYaCzNAVibjOA6Hk7UJCF74LopSf3XuiiaO58BO9pjkZqzOE2yWhzXka1Xu5LAuDQdKbLKSCPyv8bBiisSJPvhrXl2+Urg6t/MVA/Gc4GvXfzysXYh8v0eUnvLj65mYjinW4GWd0M+a4Y1fxIkDpM67QpMoIjhBPCeqP9/OkjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744792755; c=relaxed/simple;
-	bh=VZXfWnNt7bEU3f8Mf/zMlIxotHSDK4pn97e0Su4QUUc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KZmN6eAiL6WrRsMn9WEd2NR6RrrUFbnTvkA3UWIwF146UOCfBhVDm1mLPkrdFp7VYDnR3Emph/3AdwFgP/U/UQHjzLDDOT1dN51oWFMlDnLm0b/kP5DE49sFdifNyxpUdfcIrHZOiR4hXK8/lDnMaETcGPBy3XXlOfjDvAPOGf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d52EDixE; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744870065; c=relaxed/simple;
+	bh=SJ5pp2PEFU9Mosrf8HZCUtQXVnazURuiUC73cKCZalg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OB9xLh8XVoME29354bgpSf++2mzQ4cUjTzk4sp+VkPk40uCLP3ci4UtqKlBocl11YLZymOEIjVK3wATX+QfMaGOGZS9YOkIjLxi3jLLWH1EiH70Bl/qCTrUGsIpUNEVsmhp2tjZa35Z1vnYSKytmAmHL5sLvEJEbkux/zdiWJP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cmDYl8eF; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d52EDixE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744792754; x=1776328754;
-  h=date:from:to:cc:subject:message-id;
-  bh=VZXfWnNt7bEU3f8Mf/zMlIxotHSDK4pn97e0Su4QUUc=;
-  b=d52EDixEAcAygGkLIf69vZM+RYurrye5/KFFFsZeo6ETIKCPJVuil3RV
-   7tyE9SuAOShbPgleV8oXdK6bCHYNBfbTtjPKXCh9HLkg2Dr6OqOiwTwac
-   EEvM57qsHcIn0jw2+czNKtfY/A6vnvP8DQVOjEBhcBYPl0i29xqO0B+Sf
-   sKsH6IObGOFLsb32fhqHGBBedzy5VgOdXGaxBPPoPcQbpD/8kqyHessga
-   ivyATor81qX4dJzSBIdqYjcwtDbMrYEy1R3Ur+keotNBmJ+DWbGWoadp6
-   wIwdVo+el2GbICbR67uyfLmQOp+D5jfQIRupyDA7TZEc9RonTluXk8fla
-   A==;
-X-CSE-ConnectionGUID: GotPFLABQleho/1OVsrj7A==
-X-CSE-MsgGUID: 7dSzRnEgQ8mCJSQ9ZpC4Mw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="50128504"
-X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
-   d="scan'208";a="50128504"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 01:39:14 -0700
-X-CSE-ConnectionGUID: vgwZ/GZuSKmOhEWlbV163Q==
-X-CSE-MsgGUID: RpYBCyPSSHuyE5BsnBv00w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
-   d="scan'208";a="135231032"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Apr 2025 01:39:12 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u4yIY-000JM8-0U;
-	Wed, 16 Apr 2025 08:39:10 +0000
-Date: Wed, 16 Apr 2025 16:38:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-fixes] BUILD SUCCESS
- 9fff23899ca43cf07af0b59a8096368013b4946a
-Message-ID: <202504161644.XyEHvfyy-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cmDYl8eF"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7370a2d1981so277060b3a.2
+        for <mhi@lists.linux.dev>; Wed, 16 Apr 2025 23:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744870063; x=1745474863; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Pd6OOWCuIIKAwnNGxCiRtg0jiUDcshaa45Tlc/bukVw=;
+        b=cmDYl8eFgKVO7XilrxuFzQtuJEKjDlwhNrga0Aawp6OtoclzvQ3Ew49G0lmcljNFAQ
+         TLmFqwI6oVlzrwf4KckhBlkWenXdHpN3oWyOGL2xk1y72xKcunmUnBWZt1sjdGvWulKx
+         CleVhhZuWAykqTbBJuzhl+UcSKwlMBG3EhE1N9Pr9D7w6XlsyLJyjnFwwIvJInxc5wac
+         yWyMgdKGYBWIfc3asV4hHaPCzWhX+e65Dq9q1OdaNHkntf9MMyObyenel5kbJOyj0pr9
+         aihySnRWxjf1kBKwdHS2DfsAwxrV+I+d1q8HUL8RAH8f0MkIxit3E8W6WZK4DxMkovl+
+         nYhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744870063; x=1745474863;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pd6OOWCuIIKAwnNGxCiRtg0jiUDcshaa45Tlc/bukVw=;
+        b=bZoYP8bsAAx3Nu6ccNjlAIirIxuEM2v2nAU7p8hrzKno3GYzuq6jT58uq2hGiZTjFq
+         o8xDPhBPKecme56HeSPQ90KVEKcd+zRi7AGds7+T2Z6ekHkxJGxkoeq5Edn7oUVUI5mV
+         yh4Hb7vIASMbCiE70xFbF8LHzRi+zwEEknAR/wRa7tO5k18P2vZp+lXOzueceP+n+8DY
+         wAhNlPX3dRRqwyXozwyAfTvmzduR8Wz8cRqXcP3CeHtqq2kdO1BYFPx6YXzIkMma7fCX
+         +TCHgwkLJuqGFY24obnfPqxURbA2UE2TxfXXwyXW5GrUMO9j/OixEJKZbfPf8A13rxTC
+         nIGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUiPg6Kd4aYUmMVPlKYYlHk36w+lbfkca5a/8wEGwoLykUdDgVPj+3AMmpvEMU5u3A1Sd8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhVoQW/wjFZ7xySvZn91aJ7da8QHCZtocXlZStUclSK13mat6F
+	DJkYZ3OSEzK+JGA7gX5pyy0kM9t65WiJTYolu2XgonibI5EY6Qd4p4eauSND5A==
+X-Gm-Gg: ASbGnctUr8jIQiLEHAPr1wb0SYWbsERZ8zRk7V3+Z0eNsmnLEFPMy1bzr1dtYQQ2jx4
+	JuKYaOE5rB3yqzqYmk3yP5nB4SkyOyJaxkRk08pagV2XeZp0gxGmGUpeWZpeht341kb7wXXcJBS
+	CThZyU+trgphNjh7wETk9ypgbEC7XtD3oaXVkZa1NM3AOTEBN4CXgFYAu63do+1Xjo8FaOKJJsv
+	F4aMYimhzP0i9o71jWpfh/FP+eV0fJUw46vF3FIbh7mbJ9WM7MS3/2qTwa7RJMRQJB/Y7K2wv3d
+	pvd7hdRPbTYH6nlQ6dTmraKldtFZKPeYX7/RuoGlemBiegqK
+X-Google-Smtp-Source: AGHT+IEGKe8IgUll51m3XVZ/pKTgzfl3xR85lF+5Mw9zim0JsXl11h/TRDH0YYgMcdLUzmlGXqar4A==
+X-Received: by 2002:a05:6a00:240c:b0:736:5725:59b4 with SMTP id d2e1a72fcca58-73c266b5fcfmr7618028b3a.3.1744870062780;
+        Wed, 16 Apr 2025 23:07:42 -0700 (PDT)
+Received: from thinkpad ([120.60.54.0])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd23351fbsm11902923b3a.171.2025.04.16.23.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 23:07:42 -0700 (PDT)
+Date: Thu, 17 Apr 2025 11:37:38 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>
+Cc: Vivek Pernamitta <quic_vpernami@quicinc.com>, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: pci: Disable runtime PM for QDU100
+Message-ID: <o7rv3xgg3btaoqjlzfenbfkrp3fuw54cx6zqojclcfslfg3ha4@c3sqaqqdjdjv>
+References: <20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com>
+ <ec99379e-fd54-42b0-a383-8ed212072396@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ec99379e-fd54-42b0-a383-8ed212072396@quicinc.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-fixes
-branch HEAD: 9fff23899ca43cf07af0b59a8096368013b4946a  bus: mhi: ep: Update read pointer only after buffer is written
+On Thu, Apr 17, 2025 at 10:00:38AM +0530, Veerabhadrarao Badiganti wrote:
+> 
+> On 4/14/2025 1:17 PM, Vivek Pernamitta wrote:
+> > The QDU100 device does not support the MHI M3 state, necessitating the
+> > disabling of runtime PM for this device. Since the PCIe core framework
+> > enables runtime PM by default for all clients, it is essential to disable
+> > runtime PM if the device does not support Low Power Mode (LPM).
+> > 
+> > Signed-off-by: Vivek Pernamitta<quic_vpernami@quicinc.com>
+> > ---
+> >   drivers/bus/mhi/host/pci_generic.c | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> > index 03aa887952098661a488650053a357f883d1559b..a011fd2d48c57cf9d1aec74040153267a206d797 100644
+> > --- a/drivers/bus/mhi/host/pci_generic.c
+> > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > @@ -43,6 +43,7 @@
+> >    * @mru_default: default MRU size for MBIM network packets
+> >    * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+> >    *		   of inband wake support (such as sdx24)
+> > + * @pm_disable: disables runtime PM (optional)
+> >    */
+> >   struct mhi_pci_dev_info {
+> >   	const struct mhi_controller_config *config;
+> > @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
+> >   	unsigned int dma_data_width;
+> >   	unsigned int mru_default;
+> >   	bool sideband_wake;
+> > +	bool pm_disable;
+> >   };
+> >   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+> > @@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+> >   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+> >   	.dma_data_width = 32,
+> >   	.sideband_wake = false,
+> > +	.pm_disable = true,
+> 
+> |no_m3|orno_|m3_support|would be more suitable than|pm_disable|
 
-elapsed time: 1451m
+Yes!
 
-configs tested: 113
-configs skipped: 4
+But does the device not supporting M3 only or D3Hot also? If the former, then we
+should prevent MHI host to enter/exit M3 state in mhi_pm_suspend/ mhi_pm_resume.
+There is an incentive in allowing D3Hot if the device supports it.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Also, is there a way we could probe M3 support in the device so that we can
+check it during runtime?
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                   randconfig-001-20250415    gcc-14.2.0
-arc                   randconfig-002-20250415    gcc-14.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                      footbridge_defconfig    clang-17
-arm                   randconfig-001-20250415    clang-21
-arm                   randconfig-002-20250415    clang-21
-arm                   randconfig-003-20250415    gcc-10.5.0
-arm                   randconfig-004-20250415    gcc-6.5.0
-arm                        spear3xx_defconfig    clang-17
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250415    clang-16
-arm64                 randconfig-002-20250415    gcc-7.5.0
-arm64                 randconfig-003-20250415    gcc-9.5.0
-arm64                 randconfig-004-20250415    gcc-9.5.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250415    gcc-13.3.0
-csky                  randconfig-002-20250415    gcc-14.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250415    clang-20
-hexagon               randconfig-002-20250415    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250415    clang-20
-i386        buildonly-randconfig-002-20250415    clang-20
-i386        buildonly-randconfig-003-20250415    clang-20
-i386        buildonly-randconfig-004-20250415    clang-20
-i386        buildonly-randconfig-005-20250415    gcc-12
-i386        buildonly-randconfig-006-20250415    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250415    gcc-14.2.0
-loongarch             randconfig-002-20250415    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250415    gcc-13.3.0
-nios2                 randconfig-002-20250415    gcc-7.5.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250415    gcc-12.4.0
-parisc                randconfig-002-20250415    gcc-10.5.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
-powerpc                     mpc512x_defconfig    clang-21
-powerpc                      ppc64e_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250415    gcc-5.5.0
-powerpc               randconfig-002-20250415    clang-17
-powerpc               randconfig-003-20250415    gcc-7.5.0
-powerpc                        warp_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250415    gcc-7.5.0
-powerpc64             randconfig-002-20250415    clang-17
-powerpc64             randconfig-003-20250415    gcc-10.5.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20250415    gcc-14.2.0
-riscv                 randconfig-002-20250415    gcc-9.3.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250415    clang-21
-s390                  randconfig-002-20250415    gcc-7.5.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250415    gcc-11.5.0
-sh                    randconfig-002-20250415    gcc-9.3.0
-sh                           se7206_defconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250415    gcc-6.5.0
-sparc                 randconfig-002-20250415    gcc-12.4.0
-sparc64               randconfig-001-20250415    gcc-14.2.0
-sparc64               randconfig-002-20250415    gcc-12.4.0
-um                               alldefconfig    clang-21
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250415    clang-21
-um                    randconfig-002-20250415    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250415    clang-20
-x86_64      buildonly-randconfig-002-20250415    gcc-11
-x86_64      buildonly-randconfig-003-20250415    gcc-12
-x86_64      buildonly-randconfig-004-20250415    clang-20
-x86_64      buildonly-randconfig-005-20250415    clang-20
-x86_64      buildonly-randconfig-006-20250415    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250415    gcc-6.5.0
-xtensa                randconfig-002-20250415    gcc-10.5.0
+- Mani
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+மணிவண்ணன் சதாசிவம்
