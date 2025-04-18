@@ -1,161 +1,149 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7641C683
-	for <mhi@lists.linux.dev>; Fri, 18 Apr 2025 12:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E55D2033A;
+	Fri, 18 Apr 2025 13:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744980352; cv=none; b=Q0R6TIp4KbCX9NkYrrd6xfPq0vg7OGg+0QZHH3xaL1Z8niTses42uu/UxQ0VG00w/DqFdrNIhsByZp4rT5Ch3LwRIJV2vCpXjyDxX7d3LuEl71gDVIUqyKjr1Y6wfEVb3XKgMI1iJHTRu72gPdB3c7ROUoFgBLRBCoCuIaPJJ0s=
+	t=1744981269; cv=none; b=f5doQqJneYUXKQjsRy5xFLJF+KrvHp5bTk3ty+VVsmPv8XqqAuXR9D8cGQleV3OfrT2Bv22j2X3R7SH4kR2lBT8XihtZG4m3tmf6xkjQsK+l5dIXhPmPy1ZEWGB1n0TRHwMGxXyW4EwTJXxGin6lqY5bdI+kO8SDf1bLXGl1HOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744980352; c=relaxed/simple;
-	bh=eJmcdcasqheQsUfjBkiQdMc04fHQ0iTzJ96GM9qZpd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qsi/Win3iBtxYtNm/Gh84l1hTaw2HM5BChp2gcYuQOe6EPas2LEKL6JoTA7LZy4W/BhGHXxjoRaAKb9eqN1TKS71cwtnd0jkHG7NT1nF7we4yLxfDHgIu7dX+D3EYhQ2U8K3dm5ijTSZfm/YN+TncZDKMNMhF2rtQzhs2F0lWWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ajmDYji5; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744981269; c=relaxed/simple;
+	bh=/uYZre4qkYKSHJohff8hCdwS8VH/8ltf2MbR4J+1pzA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=aQBqJE7t6rI9HxlL0CwrAQBKhzmLE9A4vHMX8fcz5iOzBJTU8E/ykewzMH99rUgicp+BgeT3q4oH2IsvjPWtW4PIS0Nbi84FgKmKaq3tX12ZuGFakzu9iCghfOYYibxClxF5NzT3yeD7fLPTHoSZbDyMn1qSWb25JZt345VueuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FlW3vF+n; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ajmDYji5"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224100e9a5cso21966135ad.2
-        for <mhi@lists.linux.dev>; Fri, 18 Apr 2025 05:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744980350; x=1745585150; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MY1YeGNd6w1Dnai1dYNXkVTuw65HW6WJZU6tne3NRRk=;
-        b=ajmDYji5LMrUFUb/bNLC2Np6icCT+OK2/16LTXNwz/vs626LMQYvXZort1ceBE89kx
-         kT6W5FBoNP+80oa2fzLc0GXTiUbhtIDSyg7VpmchhP4/MyozRaGlbGSN0FRCdLbj7XCc
-         NQyCEU7spFdRM2NhTR7Qi5TyAqqw8pDhc5ZOeiwhsoiIVCmPuHoIC8OC/N8pNtIHWJhS
-         Yh/GVdpsMF29hfLoEsqAYv3C9pSAhSQ3MQ9pXvd8N8cmYZ13Oq+2fsPtLULSh48j9mvn
-         pWtHqZPIsqw09bJ33YnluQs26YAIl31Iu0jnP2vwSyg/0exh9Ct5OmP1FiuxYMNtIcrq
-         45Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744980350; x=1745585150;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MY1YeGNd6w1Dnai1dYNXkVTuw65HW6WJZU6tne3NRRk=;
-        b=RgKbz86NRPV6sTcwcAhPf3klHNgKzLGhL1SzjEiUHEBQgs+KioTPiddLLOYPDfrwuK
-         5dbr01RSvFgYg6/rc0V2SCH7CUS5ZeFrL8UOwy4YQjyu/QOGh4LI9+KYSLDfLWSGB3ji
-         iFRP+QVOoxk9VhvI6n7b8PWq81DPj6s2qxt2DESirnWiulJAlhNpTLBPyY0GSI2bYxf+
-         wEFShZg+uvvjfF4nmDcNeCOVPQZU0kyYMP7Ry193NvZUB1R29I36bRw0O0gr9hXRn6gJ
-         2tWy4eLX3wPqy6RJ6cvVZePyburTs5N5hn3BulXTaQpzVXeWlnygpSUD7ZQEws/XZTNf
-         KWXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwJp/9YCdGrDl+Oh7ZTg4lciEpw3Uky0B2XR5ZR2M2TFecvQXS0IOkNnJRQ7PkW8XUXKo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxENNUdSERSP8OrHbQHbNYUhLGQ1GkwcjQpRZApdIVbNT1SH/8a
-	Spq80Od4nFvpR5OWQXm2W6odPtDxYnjB9TnqGANWaew0XQAiOCKtRxyHsGxTig==
-X-Gm-Gg: ASbGncvaHpMsNAWkSTt/G4XshpkQw112rVmFolmWa5tGsmxWm6aLF3pqQyejgqfxhvr
-	KwhuboTyBj35LLyYMOjxINZQghGBMpNUbZd/1GNk7q5E+pZXVdkBU7/z5mhF8yt0f1bE+O9HiST
-	z88YMEpuOr2v30pU72sC/JIdo3/agD7908HAiuBPbg0c8EcLbxA8h/jv/9KquUqRNf2fWTmIj/V
-	VEH4/r3ZXizyRCfelqby11izPfyhi9IO0PuLyT9OSIHTf4CYu1x1fTvWNUvOH0fkCyIdQD5FnWb
-	NTMK23lTQBe12gqRJr0JVK9X0LqSxjtvP+OCTn6KqQDq0fvdyqHdnDvXddb0iv6X
-X-Google-Smtp-Source: AGHT+IHeaaTGjZPgOQ9SxEkyin52xIGApRW/zhdV9OBxFloBKDs8lYnW8IxD27iYpLOVTohhHonpig==
-X-Received: by 2002:a17:902:d506:b0:220:d439:2485 with SMTP id d9443c01a7336-22c535acc7amr38422685ad.29.1744980349832;
-        Fri, 18 Apr 2025 05:45:49 -0700 (PDT)
-Received: from thinkpad ([220.158.156.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50ed1301sm15807295ad.184.2025.04.18.05.45.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 05:45:49 -0700 (PDT)
-Date: Fri, 18 Apr 2025 18:15:45 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Vivek Pernamitta <quic_vpernami@quicinc.com>
-Cc: Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: pci: Disable runtime PM for QDU100
-Message-ID: <tbktzaxkgsc6d4ma4o6vkkcpnqiwghxkvwryrm36znepgqjotl@5n3di2ew3s6f>
-References: <20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com>
- <ec99379e-fd54-42b0-a383-8ed212072396@quicinc.com>
- <o7rv3xgg3btaoqjlzfenbfkrp3fuw54cx6zqojclcfslfg3ha4@c3sqaqqdjdjv>
- <c8699f79-54cc-4adb-8047-b37a69e69d96@quicinc.com>
- <qrb4ozkj3zxfpo733mf6xf35tetfyekytkty6sq7civhycbahm@c6s3wfvmdycs>
- <2ab9a8f9-b051-4213-a9df-4b2c2fa8c6be@quicinc.com>
- <09ec85db-cc02-4b35-9939-aea3426d0e0b@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FlW3vF+n"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I2Zodo031946;
+	Fri, 18 Apr 2025 13:01:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vcBxXtm1f8aYCr+6mVmNc/jU0+alZPZyythaiyCMuEQ=; b=FlW3vF+n3TDsMq32
+	uxI9L/IaV0iGJ/7raV2m+Lo75zipTwht/mjzUvtz9umAov/LY6ijlW5vpM0lq1eN
+	jA0RJjR51F2Vm6RYNDjLJveMal9lP8ZDZ4BlYRKyaT2ZrooR6amQStqwO4f+LMMs
+	TosEFOSFkz9c3dv3eYlVcws1VeGJXg9p5Onv2JcCjd5k8DwdkXBm5cYNEo6fqcv9
+	/I2sWLcDXB1lY+gc1vY5GZkjbRiVuDwb+bFL63OG4xG+DlJyVuNfUH8aYdWF4qWY
+	J0WJWRKi68/0pXcFbLbiqgwQQqU4N8uExb7usjJS/8gtDk26P99LTvOsUCC/c5KZ
+	808zzQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yg8wt0vj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Apr 2025 13:01:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53ID147Y012637
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Apr 2025 13:01:04 GMT
+Received: from [10.216.59.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 18 Apr
+ 2025 06:01:01 -0700
+Message-ID: <d567e604-bd24-e6bd-92c8-932e0f18dc1f@quicinc.com>
+Date: Fri, 18 Apr 2025 18:30:58 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <09ec85db-cc02-4b35-9939-aea3426d0e0b@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2] bus: mhi: host: pci: Disable runtime PM for QDU100
+Content-Language: en-US
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250418-vdev_next-20250411_pm_disable-v2-1-27dd8d433f3b@quicinc.com>
+From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20250418-vdev_next-20250411_pm_disable-v2-1-27dd8d433f3b@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=E9TNpbdl c=1 sm=1 tr=0 ts=68024d11 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=quWB0j8F2bd0t1ZcvaEA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: wHFfYsoc-oY6WRnXjcneXIDUmu12JJvE
+X-Proofpoint-GUID: wHFfYsoc-oY6WRnXjcneXIDUmu12JJvE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-18_04,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504180096
 
-On Fri, Apr 18, 2025 at 03:40:48PM +0530, Vivek Pernamitta wrote:
+
+
+On 4/18/2025 5:20 PM, Vivek Pernamitta wrote:
+> The QDU100 device does not support the MHI M3 state, necessitating the
+> disabling of runtime PM for this device. It is essential to disable
+> runtime PM if the device does not support Low Power Mode (LPM).
 > 
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Updated device from getting runtime suspended by avoid skipping autosuspend.
+> - Updated commit message.
+> - Link to v1: https://lore.kernel.org/r/20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com
+> ---
+>   drivers/bus/mhi/host/pci_generic.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> On 4/18/2025 3:04 PM, Vivek Pernamitta wrote:
-> > 
-> > 
-> > On 4/18/2025 2:06 PM, Manivannan Sadhasivam wrote:
-> > > On Fri, Apr 18, 2025 at 11:55:24AM +0530, Vivek Pernamitta wrote:
-> > > > 
-> > > > 
-> > > > On 4/17/2025 11:37 AM, Manivannan Sadhasivam wrote:
-> > > > > On Thu, Apr 17, 2025 at 10:00:38AM +0530, Veerabhadrarao
-> > > > > Badiganti wrote:
-> > > > > > 
-> > > > > > On 4/14/2025 1:17 PM, Vivek Pernamitta wrote:
-> > > > > > > The QDU100 device does not support the MHI M3 state,
-> > > > > > > necessitating the
-> > > > > > > disabling of runtime PM for this device. Since the
-> > > > > > > PCIe core framework
-> > > > > > > enables runtime PM by default for all clients, it is
-> > > > > > > essential to disable
-> > > > > > > runtime PM if the device does not support Low Power Mode (LPM).
-> > > > > > > 
-> > > 
-> > > Not true... See below.
-> > > 
-> > > > > > > Signed-off-by: Vivek Pernamitta<quic_vpernami@quicinc.com>
-> > > > > > > ---
-> > > > > > >     drivers/bus/mhi/host/pci_generic.c | 10 ++++++++++
-> > > > > > >     1 file changed, 10 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/bus/mhi/host/pci_generic.c
-> > > > > > > b/drivers/bus/mhi/ host/pci_generic.c
-> > > > > > > index 03aa887952098661a488650053a357f883d1559b..a011fd2d48c57cf9d1aec74040153267a206d797
-> > > > > > > 100644
-> > > > > > > --- a/drivers/bus/mhi/host/pci_generic.c
-> > > > > > > +++ b/drivers/bus/mhi/host/pci_generic.c
-> > > > > > > @@ -43,6 +43,7 @@
-> > > > > > >      * @mru_default: default MRU size for MBIM network packets
-> > > > > > >      * @sideband_wake: Devices using dedicated
-> > > > > > > sideband GPIO for wakeup instead
-> > > > > > >      *           of inband wake support (such as sdx24)
-> > > > > > > + * @pm_disable: disables runtime PM (optional)
-> > > > > > >      */
-> > > > > > >     struct mhi_pci_dev_info {
-> > > > > > >         const struct mhi_controller_config *config;
-> > > > > > > @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
-> > > > > > >         unsigned int dma_data_width;
-> > > > > > >         unsigned int mru_default;
-> > > > > > >         bool sideband_wake;
-> > > > > > > +    bool pm_disable;
-> > > > > > >     };
-> > > > > > >     #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name,
-> > > > > > > el_count, ev_ring) \
-> > > > > > > @@ -295,6 +297,7 @@ static const struct
-> > > > > > > mhi_pci_dev_info mhi_qcom_qdu100_info = {
-> > > > > > >         .bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-> > > > > > >         .dma_data_width = 32,
-> > > > > > >         .sideband_wake = false,
-> > > > > > > +    .pm_disable = true,
-> > > > > > 
-> > > > > > |no_m3|orno_|m3_support|would be more suitable than|pm_disable|
-> > > > > 
-> > > > > Yes!
-> > > > > 
-> We named variable pm_disable because the M3 state is implicitly set during
-> runtime PM suspend. Both are not needed and not fully supported for the
-> QDU100 accelerator card, so we want to disable runtime suspend for it.
-
-You are mixing terms here. Only M3 is not supported by the device. The fact that
-you do not want to enable runtime PM for the device to avoid latency is a side
-effect of that. So you need to name the variable as 'no_m3'.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 03aa887952098661a488650053a357f883d1559b..bec1ca17ad69ac89e2ea9142024fef8bded258b6 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -43,6 +43,7 @@
+>    * @mru_default: default MRU size for MBIM network packets
+>    * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+>    *		   of inband wake support (such as sdx24)
+> + * @pm_disable: disables runtime PM (optional)
+>    */
+>   struct mhi_pci_dev_info {
+>   	const struct mhi_controller_config *config;
+> @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
+>   	unsigned int dma_data_width;
+>   	unsigned int mru_default;
+>   	bool sideband_wake;
+> +	bool pm_disable;
+>   };
+>   
+>   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+> @@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>   	.dma_data_width = 32,
+>   	.sideband_wake = false,
+> +	.pm_disable = true,
+>   };
+>   
+>   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+> @@ -1270,8 +1273,11 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	/* start health check */
+>   	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>   
+> -	/* Only allow runtime-suspend if PME capable (for wakeup) */
+> -	if (pci_pme_capable(pdev, PCI_D3hot)) {
+> +	/**
+> +	 * Disable Runtime PM if device doesn't support MHI M3 state
+> +	 * and Allow runtime-suspend if PME capable (for wakeup)
+> +	 */
+> +	if (pci_pme_capable(pdev, PCI_D3hot) && !(info->pm_disable)) {
+>   		pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
+>   		pm_runtime_use_autosuspend(&pdev->dev);
+>   		pm_runtime_mark_last_busy(&pdev->dev);
+> 
+> ---
+> base-commit: 01c6df60d5d4ae00cd5c1648818744838bba7763
+> change-id: 20250414-vdev_next-20250411_pm_disable-53d5e1acd45e
+> 
+> Best regards,
