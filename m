@@ -1,76 +1,69 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E6922CBEE
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 07:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCE252F88
+	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 07:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745564659; cv=none; b=TohELjKKUV9Cg4KMOmgAY5siz6wdRq/9RNze/aH8jmVx3Y5yCosNgNHO2uOgvZd/qcgba0fWFVRkzdpPBTsGCBVZfn/d/ZeBl3dtiL0yLpuH3xEGp7/ecBWCLmI4Ybe3oc1EKT02PblsuQX72+nzYs2mnDB4RCihg/GFLxrO8aU=
+	t=1745564920; cv=none; b=haiiaw2FuPI4bBheHrPnLrSZKdmmne1RhYn/CD288YHTU1SVJKUQ8D64j72ksldbCOsLkwroNFLztynyFKSsxORwGxhFCVUmfPi5VhJN2ToK6q1wWcrtevfhP7daJ4AjylvIME8QB5e3//ATbFdeqT80MM+itDjHZTdZRroFnqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745564659; c=relaxed/simple;
-	bh=kiVsHOtAUvNtO6KMgCqWAVEF+ip5WZJK6X2lYcCFLyg=;
+	s=arc-20240116; t=1745564920; c=relaxed/simple;
+	bh=PYvTg9aZdXtTezen2D7wExhWe3Tt/yAwWVhr+w0wvT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F9Fsk/wVfL9aE405z3nUY0gXIvzfeFZLZ9MYHIPJaTBMWNYe5xKLgnGiBUV6WrZP3D3vES0mZYABAd4Sfbff72nDBtRPqjWHhHgnhnI4Idv8ic2zT3/Av8hZb4MZLxJlIuWKI//sXxXNPcYtrhnSvxxZrJ5Naj4FjuADxTk3JZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=anYWsTCj; arc=none smtp.client-ip=209.85.216.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=RT2JrRWcKvT2I6Vq68FC9xqKNjYk2ohqMKQiPVkfrW8QlIB3bm5GTd9xzLvggC6cwjsXn+pk6AkMtETtbkW3XpGg1niy8U5lniHAdQ3sIXi0n8aH/JtgGEWjRtXB1HgbhDGAk/kO957djK4ik/3/WAvcXHFlqhplYzycL8ZAw94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QE7H1OIr; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="anYWsTCj"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-301cda78d48so2330794a91.0
-        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 00:04:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QE7H1OIr"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-afc857702d1so1718064a12.3
+        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 00:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745564657; x=1746169457; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745564918; x=1746169718; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8Te3ksqRJ+7OlpUSNfGlJHaCjELIs2UO0MQxGmKigXE=;
-        b=anYWsTCj57GPrEv87Fnf6/HGTdKBQe/Zld+UpJu6mVILJkWOB+ZWY734CnBB0nbrSc
-         DpsrszWAg381sO86mH0uTfRjFfm7rnWarFltyi1HJpVqrz62GHDRch9awtFPyd+GUNj5
-         1+xMGsBDPIqL+xKxVcQ1pbPmF1BXPdDXZp3MMNh99Ka+BTLS0Ud9tNZELsSeWqKen0UR
-         L47U/NNDHeZtXnloxRErvjH30G/hU5xFg5zC+3gFsEc4EuJwRK/4yWpymK6qtphjXR6c
-         0Myl1Etz2MBIQd9w9NztDhu8aHWlaM08+XDVFkAxLMxB3fOvKzm3SMq24tDTWCq0VhT9
-         6Nxg==
+        bh=L31hl+vK6k/kd5TD37YLRKUEjEgBTKXW3stAWQwxpz4=;
+        b=QE7H1OIrjPExPl5vO84L8/HTz1pYbMyJd42StkHp8+x/JfsYwxW8MHII89DmDd7XSX
+         +y3ezpnyzlmrh2NnuUfYWrOZaY0BVsFIVADMlmfQTOZE7xD6SX7Nz1tSGMuRGsIfwPrZ
+         qxj44X/U7R6SZa1GsWrZTcVXTfRgBTRzdW8N20QzAR+D+d+ZisivGc73rmGTNkAAxp3O
+         dburI7mVWqtzl55KlsO7/zPcdydtHQVaIl5SzHtetqCD/1dzosYNxvawVAIAU7zF+Kf+
+         5WGtG5bb3DjcyHn/umxRinIt6mJkHVyE2M/lvkfwQPrRjNuENhJD1+fg53L/6JzqPcEa
+         cjug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745564657; x=1746169457;
+        d=1e100.net; s=20230601; t=1745564918; x=1746169718;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Te3ksqRJ+7OlpUSNfGlJHaCjELIs2UO0MQxGmKigXE=;
-        b=uqlYi4gLvHQgnurtzmpi25YMAZGARlEI8X2VxWzkv2+2o01iBIw4S1SS9kA4FsVlyL
-         DsXAPMbCYVr/nzgOFHgQyvmwlLVAXq7v7I1GqJwotqbQCSfurK+8pm1MMAr0J61iffpw
-         9Eiu9cseRn6LEJYIY+mkVf/feSduPY7XVvIEJ2iK3akX86vYBT9SajIhUxhydw6BdIQx
-         pwy8wKf09Oy2qEVhcJpc7R6N0z2+GWRFSmvs6mzDFG24fOzRGDRwuXit1uwVpfMGvvuu
-         IV8WRhuit2s8iBnpzr/9a0fNzW2FybhThwj5FnMCg6xDh+zCT96KGgnwK54FbXHLD41m
-         +8tw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnbv3sgKgly55jPxClyinwXKkz978yDZqlz2w28Hiiz9ref6fstxuwD21vKGPlSdw8URU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwEuHeSnde5G8j5DFTKcSHMJvk1m0I/lhjiY3rzlJl6sYNXBk+
-	7JbeSmUoap/giALjrYDG7k1HqT8lHUPZ+C0Wg/uRsjtKb9wZXtP9TAmHtLevwg==
-X-Gm-Gg: ASbGncsgxOVDT/UOH3yrXVNc+IJSam4YkHLMpA7jQbrSIoQtvLlClqMyP0RwLU1RSSy
-	RmDou9YxzuSLyd9w6Gm7ACtXLM5xtl9macc7OhrkFORlWaKY4FhHfG2pph6dgl0LPy1Wg3TKtfI
-	sI1sWAVkI6+kcRyxv1gmsSAKrsif317wToTN0iBsPc1IkMPRIgx8ifj/WFpDobOkqlWFINTSxgX
-	07fbUs2nhELYB+LYcrb1deky9CjPJY5hS2PDYxqVk0wYK1r6CH1AnidQiya88fa5IfN1onP0EXV
-	N9lNiQmrIEGzZa0xhcblVszGq4hYvY03GuIL3f0+UAncV9q+gHQ=
-X-Google-Smtp-Source: AGHT+IFprbi4xKoK9kQYGafLrF0iV6P6sf27aP6lhIQIfke7L6VaLDQhys8cFeKJ/FRwTwPktrq5xA==
-X-Received: by 2002:a17:90b:2f4c:b0:2ee:53b3:3f1c with SMTP id 98e67ed59e1d1-309f7d99200mr2192871a91.5.1745564656964;
-        Fri, 25 Apr 2025 00:04:16 -0700 (PDT)
+        bh=L31hl+vK6k/kd5TD37YLRKUEjEgBTKXW3stAWQwxpz4=;
+        b=nGOHLvTte9ipnCcyu8Cu4+re9izV/57m0fzrmyTS/HbmHjVqDW3DBd8WnNlNAM8VsQ
+         EpKMssG6OvZ6i75N8XMd+P9oA9N6c04/rCF1redv9biWWlVRFe3M34Q6rTkct4WK5Mmb
+         zZcMk3k++IM9Pds/LA72sLTkp3e5f5dgzJ9NGH16PagBkUDNoUXsxSnDdaMXTMpNox6V
+         xNxomfTANvdrv6qDzkqEdIwji5MTahZ34BR2icARBYHbJWT12B/SZw9qwYgROugIOPhQ
+         tXdtf/gBiirEhN0gy3XrfS3+fxH1DKwnhgp/pZsPaUmFti16Icr2yveBOjHTTebZXBeF
+         yCAQ==
+X-Gm-Message-State: AOJu0Yz13umaBYOmgQ8ikicLeQiSMso5A9oPJK8CzJUabgh0xqLmxY5O
+	E6URKSpsBI9J3ojYmZig3d8AFAs/NqwULPRp20QNvEbn98G1U5uOVACe8sPSmw==
+X-Gm-Gg: ASbGncvftMjrEQNuIVnGH0FSZcOL4mepqR0uI4sMGBH4XMt6kjM131Dc4j62RXcb5RH
+	cd8CTi1OoYYnmhU/mAAxmF3x2tzniIwWnhSnMVUlMbryr9H2j+yS6ltfiIXBSq+PYfhAv7G1QuZ
+	tQ1o/1G3+zWI3f5itE3eJC7rzE0Ti/RkikUuZMWBIVe2+eJl9EM2qRi+E/ylaSiFop0bLrmBqGV
+	Ru29ulqHqyjwJ9djnsLBbgMccu9pXycezt2LWKwN6Ewl9bBheIJsFtwWUs1fIHGoO/6wFQtbjCq
+	knLxkYqVkYsudpyZcgPL6Z6yblEqAmhe5mK+dLzSSAQtTgezR9M=
+X-Google-Smtp-Source: AGHT+IFGW/FspbdQs6JeqyJL6is9dbZJH4PkDgO5s3NqtvjGFtvY8vCaQhjN346NJ+12RZnjfEeUjw==
+X-Received: by 2002:a05:6a20:cf8f:b0:1f5:889c:3cbd with SMTP id adf61e73a8af0-2045b9f19d3mr1936987637.35.1745564918031;
+        Fri, 25 Apr 2025 00:08:38 -0700 (PDT)
 Received: from thinkpad ([120.60.77.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5102ddcsm25163355ad.190.2025.04.25.00.04.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25aa16cbsm2493468b3a.155.2025.04.25.00.08.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 00:04:16 -0700 (PDT)
-Date: Fri, 25 Apr 2025 12:34:10 +0530
+        Fri, 25 Apr 2025 00:08:37 -0700 (PDT)
+Date: Fri, 25 Apr 2025 12:38:34 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>, 
-	Jeff Johnson <jjohnson@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>, 
-	Yan Zhen <yanzhen@vivo.com>, Youssef Samir <quic_yabdulra@quicinc.com>, 
-	Qiang Yu <quic_qianyu@quicinc.com>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kunwu Chan <chentao@kylinos.cn>, kernel@collabora.com, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
-Subject: Re: [PATCH v2] bus: mhi: host: don't free bhie tables during
- suspend/hibernation
-Message-ID: <h2wv7drxntokziiwbzjw5xjzbctbomp6cfcba7ppfbih6o7so7@p6dazv32xfx4>
-References: <20250410145704.207969-1-usama.anjum@collabora.com>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH v3] bus: mhi: host: pci: Disable runtime PM for QDU100
+Message-ID: <ciwwfmadzgpzaie5isrmpzd7s373bgyk27hh5fjaqy6blqa4qo@ar7cdrv3uuxy>
+References: <20250418-vdev_next-20250411_pm_disable-v3-1-0175b691de61@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -80,43 +73,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250410145704.207969-1-usama.anjum@collabora.com>
+In-Reply-To: <20250418-vdev_next-20250411_pm_disable-v3-1-0175b691de61@quicinc.com>
 
-On Thu, Apr 10, 2025 at 07:56:54PM +0500, Muhammad Usama Anjum wrote:
-> Fix dma_direct_alloc() failure at resume time during bhie_table
-> allocation. There is a crash report where at resume time, the memory
-> from the dma doesn't get allocated and MHI fails to re-initialize.
-> There may be fragmentation of some kind which fails the allocation
-> call.
+On Fri, Apr 18, 2025 at 07:18:18PM +0530, Vivek Pernamitta wrote:
+> The QDU100 device does not support the MHI M3 state, necessitating the
+> disabling of runtime PM for this device. It is essential to disable
+> runtime PM if the device does not support Low Power Mode (LPM).
+
+LPM is not very clear here. Please just use M3.
+
 > 
-
-If dma_direct_alloc() fails, then it is a platform limitation/issue. We cannot
-workaround that in the device drivers. What is the guarantee that other drivers
-will also continue to work? Will you go ahead and patch all of them which
-release memory during suspend?
-
-Please investigate why the allocation fails. Even this is not a device issue, so
-we cannot add quirks :/
-
-> To fix it, don't free the memory at power down during suspend /
-> hibernation. Instead, use the same allocated memory again after every
-> resume / hibernation. This patch has been tested with resume and
-> hibernation both.
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+> Changes in v3:
+> - updated variable to no_m3 from pm_disable 
+> - Link to v2: https://lore.kernel.org/r/20250418-vdev_next-20250411_pm_disable-v2-1-27dd8d433f3b@quicinc.com
 > 
-> The rddm is of constant size for a given hardware. While the fbc_image
-> size depends on the firmware. If the firmware changes, we'll free and
-> allocate new memory for it.
+> Changes in v2:
+> - Updated device from getting runtime suspended by avoid skipping autosuspend.
+> - Updated commit message.
+> - Link to v1: https://lore.kernel.org/r/20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> Here are the crash logs:
-> 
-> [ 3029.338587] mhi mhi0: Requested to power ON
-> [ 3029.338621] mhi mhi0: Power on setup success
-> [ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
-> [ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
-> [ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 03aa887952098661a488650053a357f883d1559b..df80f3f62278d2cf96066c04926ce1ce58700d1b 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -43,6 +43,7 @@
+>   * @mru_default: default MRU size for MBIM network packets
+>   * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+>   *		   of inband wake support (such as sdx24)
+> + * @no_m3: M3 is disabled (optional)
 
-Did you intend to leak this information? If not, please remove it from
-stacktrace.
+Remove 'optional'. It is an opt-in value.
+
+>   */
+>  struct mhi_pci_dev_info {
+>  	const struct mhi_controller_config *config;
+> @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
+>  	unsigned int dma_data_width;
+>  	unsigned int mru_default;
+>  	bool sideband_wake;
+> +	bool no_m3;
+>  };
+>  
+>  #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+> @@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+>  	.sideband_wake = false,
+> +	.no_m3 = true,
+>  };
+>  
+>  static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+> @@ -1270,8 +1273,11 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	/* start health check */
+>  	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>  
+> -	/* Only allow runtime-suspend if PME capable (for wakeup) */
+> -	if (pci_pme_capable(pdev, PCI_D3hot)) {
+> +	/**
+> +	 * Disable Runtime PM if device doesn't support MHI M3 state
+> +	 * and Allow runtime-suspend if PME capable (for wakeup)
+
+"Only allow runtime suspend if both PME from D3Hot and M3 are supported"
 
 - Mani
 
