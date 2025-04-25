@@ -1,71 +1,70 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983F11AB6D4
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 05:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AB31A29A
+	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 06:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745559635; cv=none; b=aG69Voi4OLJTl+y2CcqdFFUku14T8EqDt4e5IG2D4hOgSqLHyGdfIeMzT+386UMcoTFMpWtFxhaimJFS7+TJsCELcBh1pxFWGGuuDxMAMnKEzLfmniao4aGgv0oGeBkrdkVf0d6VuoFyhnPDkrSIZfhyu/QXxjet8cW+U/NSFjk=
+	t=1745561361; cv=none; b=JHvnMtE4iXXudf4uwnD2Abv0Yvu9iPzRoqdIr75Di8XZinPNSYLm5Wlpy326gpLtATpzDmK1aE38HBvOhU4GbqfNsq/9fV1tY0siV71uZuo32sg0Vx9chXKHDKghggg/UFm9DpWF1+s7xMLSZlh99zU3IlDnEEu1ptTgRi2OeFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745559635; c=relaxed/simple;
-	bh=HO8HJw1IetjCPzDN/WvudCkLHwaDG9k6bkQYKPYtV3A=;
+	s=arc-20240116; t=1745561361; c=relaxed/simple;
+	bh=OijAOo9Q5CJsBUJ8l9gzK744snPLgwe98agm+GWJyO4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avofs0ZQsqxNTss1ayidNNl9LMkVTqrGQcWs2jS6vV3X3TeAKNQun2NTvbWCo3kbM9AlE5/sVWvTgnk+DgyLHhyb2dK007SM0d8jlgXj7Q4U5uNtEInVJB61g8Vj7NZOrVK3Ur1ih4baCehw85Bay6jyFduXm91GRI/IqeXPlaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yu5Vzarf; arc=none smtp.client-ip=209.85.215.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=pv1eJiIyJXzesQf1GMMHXFMlIgWJ7GXi4eC3f0InL9MBCqQZaGiyNTr+EfyMBvQIlhIvBK6K2ZgVxrCZneF9uwoMN1FP4wgeksYlwf0DmwEYHyo4hFrLiILxgh9mfRk4/vCxAPE007wwsoVO1MCcUFg7gvY+5BGu17xVJDUkXs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRBMwqF1; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yu5Vzarf"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-af589091049so1308301a12.1
-        for <mhi@lists.linux.dev>; Thu, 24 Apr 2025 22:40:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRBMwqF1"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2254e0b4b79so28995875ad.2
+        for <mhi@lists.linux.dev>; Thu, 24 Apr 2025 23:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745559633; x=1746164433; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745561359; x=1746166159; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CrB711eZ0ZIEq72Y3qHkV5DYvjiZiIEUOroq3oq1+v8=;
-        b=yu5VzarfbC+eGaQRO25YloSxPYgN6r87a1YwPKtjjP0VXrSloJZl7HXgb9O7uJuEMO
-         onIooLmOFyab3vk0rPp+JjxW0vT07DThS9G2gu07zOYEg5gwrkJo2/m3J0C08lIa8939
-         psIxgUn3i9QRTJDWI2e8lUaJFVHR99foKCngnTSIh+3YwPWfBCeqSFFFDR1a72aJE7AZ
-         943XjM1NIaOl+xRygnQQTZUth98Wt62g4/JyvHjKSrEnDtWdynS1qFxNmxhMmt1sJ5/J
-         J5pdI2NWQmJt8uecKBMaciUsZTlA7rEZPzTJqMwrv1rHaF6ueq9qjUOR3bwelXqkXAVC
-         HAXQ==
+        bh=CTBxtNYwG4FufIxSDN1ja9ubj625jFlLyTaq+7EIDtE=;
+        b=jRBMwqF1Vkgr1viVchskEbyCYR9DTEyhY2Hv1/fEYDZ0WRSVR51i0/2hY32fz8tB8L
+         SpPq9Fk7r8wGrRlfVTKv6wbBhM8jS0H4u50yvJ6mUFvgeH0yojjraFODo4gIix7L3i99
+         gYuAdNnQuPk+KQoUEAxavOvfDPK3D5HwsjpWk9O3k9mzKaKxccEfBLkQZ6Z4Hjr/GAIP
+         11B9PqYlIR6NK7LNsmkrHx4aNaFMDoR420ERbN/lyeVyRuKDKVvfVAM77k8oO74BRQWU
+         Z69UsQHQROd1qn2iIO7GLavrQhipVRrFY8v5Wfobpb6z9pcU3UVQOmV6DSx/2mqSpsUt
+         Jkow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745559633; x=1746164433;
+        d=1e100.net; s=20230601; t=1745561359; x=1746166159;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CrB711eZ0ZIEq72Y3qHkV5DYvjiZiIEUOroq3oq1+v8=;
-        b=G564zVT2dCJsY9u8xGIxeBnyiIW/2r6FthAJM3lHTgpCS0NAw8TdsNjghcHwDX9iKn
-         pz6RruePade70I26r63+rfx3fmRQlm6EwZ98WsxZrx6Jb7dgkL1T4uw5a0I6lxpPfRq4
-         4euRyJ5pc6rw98MnjtoeGepZqDv5PKiLdFzYKKgI5c2NAGrXwEMovRO1zEYOWnk27u+3
-         iZfCYYBkQ+E4lCcPgej8cj+ibpqmxu3zrNPHNDgCePnsQhgmNMvB9fBhU9E2LY6JrRKV
-         YLl7LnSEwtryjtSWozHdz571D9BvjtoMmtZUj9s9iwg2CBIQaDayh6hz8Bm435JA6+5h
-         uaFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvBo/5lXjFJorMVoNgR38mUPrfxwnJeLrTA9oAs1BY4qIJhpRcG3BR4QNzgvJTYalho5w=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0vi0nir0Eb6aYR1zmHAGETJ+oO2wF+23c63iqFNJtMECWvoUU
-	jMWgN8NZw42f/keI9+jKOe3jKtOgUXkfoZuHH/gu375CtvRh3nu7DPqSFbyjj36eHCPxUuMwsjo
-	=
-X-Gm-Gg: ASbGncs8PWSYvThx4cjJdFJnLXu4DnihCT4yCnpGDmu9yudgw1tfi25nWblBpTvtcwV
-	RwmPx0SPYTn496+N3cT6Eyhi06eJ0uJkujtEtPh1N0NX5nozkG+TbnqKJqsXBNbw+npBG2DENp1
-	ewH/gRFwBLdNchy6JwZ7MMttHF7TBeaRYWt2czNWmsyM8VrQGNumFey/CPJLFmbF6ueKFlX5H53
-	bw/CqCwX206KehzUR9yBylrUCUhSd/dKxNoRyozhK7JKk0rBit29oBABlUtN/2D7U0chtR507w9
-	72/FEngczrGo9oyhwM7nrBpFsPYDYXMPZut6qeRaRDYt38Rw9Ug=
-X-Google-Smtp-Source: AGHT+IGOuiaUIOPghZa+Vx84GDx8VBr5BQ6KitGS6V3OicgZ+Up7OCkxsjNwKaQFaSGyVm53FlNRSA==
-X-Received: by 2002:a17:90a:bb8f:b0:305:5f32:d9f0 with SMTP id 98e67ed59e1d1-309f8db391amr1003820a91.19.1745559632688;
-        Thu, 24 Apr 2025 22:40:32 -0700 (PDT)
+        bh=CTBxtNYwG4FufIxSDN1ja9ubj625jFlLyTaq+7EIDtE=;
+        b=ZUyks7zX7pyKMte5uCCgcBiESnmZmo+esww7SW9O9kTM5BsZz0x2BZj2pdmkN6htf0
+         9mNqLKriYAROt6axaSRAMBcVqUtm2EF93eJPSLfgroUdim2CFEYvc654FV4G8a77dhhz
+         CX/OFrCgOPhPy/g6Vq1LUxjfLwgAeNJXqSWiw+oTfmFSH4gQ+VRSHRrvORAVVZ3FpUmc
+         XcP55QI92MCLpwxan6pIpNcOwBGLw3FXHKsR3+DdBWDYWtYHsx7cL6HQYGXMelp44lKZ
+         93zoej+1UayruK19jZ6sNqLg5lrUsY7/jBRSofTuReEL8G0uMqF9FK+IZKTRf2C5bivz
+         a9rQ==
+X-Gm-Message-State: AOJu0Yzub2Soz/E+Ce9f/p6+nD1HTA+juvKN4DFDO/43h+TXTmMyHQ8j
+	lMoSEL/rzNVzBoQaJku8xDXLspUmCTT0POz8oYOtYdLper9pPvGEglVRupLsOQ==
+X-Gm-Gg: ASbGnctVXslKhDrCs0PbC1lnhPnDQtk0yeNUmMRzG8VrTaPel6sfUQVLZFTys/6YAwR
+	TPzyCLK6EVmjOxlkQKmmnrnBuSipgVL/JgdsDUj84ag7e9GHm/3lN2SOnjwFmw4J367/W8I08gH
+	P9EBucvJ29shgB1EG49IZ6DIMMFesxCvb+ut7+JrgikMl3VeAB6I91IA7mKZeAyn7lCK+seUik2
+	khyGiuXIYGivslAcHvbRXUQSCWuPWOF2ZNzay/d6SHEA4NFBnTKGOKVTPuxlN2rbxfvV8DAEC0O
+	HagX4OYgtgCp2mchMIN0j/+hCp8p/2aBIXB7ZB1CdvupSNClVlc=
+X-Google-Smtp-Source: AGHT+IHffJRpHrzYw6qTUhDsUvj23Dzj/PW817a/XxkH9ftqO0o9GllGUMK+/8NzRcptopS8Jpx3YQ==
+X-Received: by 2002:a17:902:f745:b0:223:536d:f67b with SMTP id d9443c01a7336-22dbf63a0dbmr22078275ad.38.1745561359213;
+        Thu, 24 Apr 2025 23:09:19 -0700 (PDT)
 Received: from thinkpad ([120.60.77.160])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef124675sm2766383a91.30.2025.04.24.22.40.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7543sm24228545ad.133.2025.04.24.23.09.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 22:40:32 -0700 (PDT)
-Date: Fri, 25 Apr 2025 11:10:27 +0530
+        Thu, 24 Apr 2025 23:09:18 -0700 (PDT)
+Date: Fri, 25 Apr 2025 11:39:14 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
-Message-ID: <qjgzfuzb57etwsblgsdnek6pmw4c5ickt2yaiprqzskhjwr2zb@vwstguwle4m4>
-References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: mhi@lists.linux.dev, lenb@kernel.org, quic_qianyu@quicinc.com
+Subject: Re: [bugzilla-daemon@kernel.org: [Bug 220020] mhi kills hibernate:
+ Lenovo ThinkPad T16 Gen 3]
+Message-ID: <qgdnpqgbwdtdtehyf6m5is7z7g77ci2cvhb5kier7fetn46cce@ts5ogq2gy4ep>
+References: <7y4zwx6cuco5mwkx6zqaz5cox5ken2xjhcxmv4zcftkjcekwak@qijscxptonne>
+ <96c98cb6-b9df-9b44-3151-98ef4ea7134f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -75,481 +74,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <96c98cb6-b9df-9b44-3151-98ef4ea7134f@oss.qualcomm.com>
 
-On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+On Thu, Apr 24, 2025 at 09:11:55AM +0530, Krishna Chaitanya Chundru wrote:
 > 
-> MHI control configurations such as channel context, event context, command
-> context and rings, are currently allocated individually. During MHI
-> initialization MHI bus driver needs to configure the address space in
-> which this control configuration resides. Since different component of the
-> config is being allocated separately, only logical solution is to give the
-> entire RAM address space, as they could be anywhere.
 > 
-> As per MHI specification the MHI control configuration address space should
-> not be more them 4GB.
-
-Could you please add the spec limitation here as you described in your reply?
-
+> On 4/23/2025 6:50 PM, Manivannan Sadhasivam wrote:
+> > Hi,
+> > 
+> > Forwarding the report to MHI list and Qcom folks for visibility.
+> > 
+> > dmesg log reveals that the WWAN PCIe power is toggled during the 'freeze'
+> > process even before mhi_pci_freeze():
+> > 
+> > [   57.550960] ACPI Debug:  "WWAN _PS3"
+> > [   57.551273] ACPI Debug:  "_DSW PCIe"
+> > [   57.551413] ACPI Debug:  0x0000000000000007
+> > [   57.551559] ACPI Debug:  "PCIE Sx DisWak"
+> > [   57.563142] ACPI Debug:  "_PS3 PCIe RP0x7"
+> > [   57.563398] ACPI Debug:  "WWAN _OFF WWMT Mutex:Acquired Try Done"
+> > [   57.563553] ACPI Debug:  "WWAN _OFF WWMT Mutex:Acquired Done"
+> > [   57.563699] ACPI Debug:  "PCIe RP LTSSM at DL23 Start -0x66"
+> > [   57.580049] ACPI Debug:  "POF RP 0x7"
+> > [   57.580237] ACPI Debug:  "PCIe RP LTSSM at DL23 End -0x48"
+> > [   57.580391] ACPI Debug:  "POFF RP 0x7"
+> > [   57.580551] ACPI Debug:  "PINH GPIO=0x14040B"
+> > [   57.581314] ACPI Debug:  "Calling SPCO method to configure PCIe ClkReq Override"
+> > [   57.618093] ACPI Debug:  "PINH GPIO=0x140096"
+> > [   57.629350] ACPI Debug:  "TB2F 10"
+> > [   57.629515] ACPI Debug:  "WWAN PWR OFF"
+> > 
+> > <...>
+> > 
+> > [   57.894452] mhi-pci-generic 0000:08:00.0: PM: calling pci_pm_freeze @ 4473, parent: 0000:00:1c.6
+> > 
+> > <...>
+> > 
+> > [   57.894526] ACPI Debug:  "WWAN _ON WWMT Mutex:Acquired Try Done"
+> > [   57.894618] ACPI Debug:  "WWAN _ON WWMT Mutex:Acquired Done"
+> > 
+> > <...>
+> > 
+> > [   58.000702] ACPI Debug:  "Calling SPCO method to configure PCIe ClkReq Override"
+> > [   58.001323] ACPI Debug:  "PINL GPIO=0x141082"
+> > [   58.002417] ACPI Debug:  "PCIe RP LTSSM at L23D Start  -0x1"
+> > [   58.130941] ACPI Debug:  "WWAN PWR ON"
+> > 
+> > <...>
+> > 
+> > [   58.286837] ACPI Debug:  "PINL GPIO=0x14040B"
+> > [   58.288245] ACPI Debug:  "PCIe RP LTSSM at L23D Start  -0x48"
+> > [   58.338206] ACPI Debug:  "PCIe RP LTSSM at L23D End -0x33"
+> > [   58.440299] ACPI Debug:  "SLP TR2P 100"
+> > [   58.440784] ACPI Debug:  "WWAN _ON WWMT Mutex:Release Done"
+> > [   58.441222] ACPI Debug:  "_PS0 PCIe RP0x7"
+> > [   58.454172] ACPI Debug:  "_DSW PCIe"
+> > [   58.454463] ACPI Debug:  0x0000000000000007
+> > [   58.454737] ACPI Debug:  "PCIE D0 DisWak"
+> > [   58.579404] ACPI Debug:  "WWAN _PS0"
+> > [   58.579725] ACPI Debug:  "_PS0 LASX Delay Time 0"
+> > [   58.580222] mhi mhi0: Resuming from non M3 state (RESET)
+> > [   58.580228] mhi-pci-generic 0000:08:00.0: failed to resume device: -22
+> > [   58.580262] mhi-pci-generic 0000:08:00.0: device recovery started
+> > [   58.580519] wwan wwan0: port wwan0qcdm0 disconnected
+> > [   58.581008] wwan wwan0: port wwan0mbim0 disconnected
+> > [   58.581356] wwan wwan0: port wwan0at0 disconnected
+> > 
+> > <...>
+> > 
+> > [   87.123353] mhi mhi0: Device failed to clear MHI Reset
+> > [   87.123753] mhi-pci-generic 0000:08:00.0: PM: pci_pm_freeze returned 0 after 29229292 usecs
+> > 
+> > And with 'test_resume' I don't see the power getting toggled. There were only
+> > 'WWAN _ON' logs. So this might be why 'test_resume' worked.
+> > 
+> > @Qiang/Krishna: Have you guys seen this issue on any ACPI platform?
+> > 
+> > - Mani
+> > 
+> Hi Mani,
 > 
-> Since the current implementation is in violation of MHI specification.
-
-Here too.
-
-> Allocate a single giant DMA buffer for MHI control configurations and
-> limit the configuration address space to that buffer.
+> we haven't worked on ACPI platform yet, but as you mentioned
+> toggling the wwan power before pci_pm_freeze is causing the
+> issue here. As part of pci_pm_freeze the device will be
+> runtime resumed and mhi failing in the runtime resume.
 > 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-Other than that, patch looks good to me.
+It doesn't look like a runtime resume failure to me as there are no logs from
+mhi_pm_runtime_resume(). I'm puzzled by the power on logs though:
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+[   58.595551] mhi mhi0: Requested to power ON
+[   58.595564] mhi mhi0: Power on setup success
+[   61.443230] mhi mhi0: Wait for device to enter SBL or Mission mode
+[   61.523465] mhi mhi0_NMEA: PM: parent mhi0 should not be sleeping --> this is
+also a red flag
+
+pci_generic driver tries to power on the device only during probe(), recovery
+and reset_done. But there are no evidences of them happening before the power on
+logs. Maybe the hibernation is carried out soon after the pci_generic started to
+probe()?
+
+@Len: Could you please share the full dmesg log of the failure case? Not just
+starting from hibernation. Also can you confirm that you performed hibernation
+after the modem comes up?
 
 - Mani
-
-> ---
->  drivers/bus/mhi/host/init.c     | 259 +++++++++++++++++---------------
->  drivers/bus/mhi/host/internal.h |   1 -
->  include/linux/mhi.h             |   7 +
->  3 files changed, 143 insertions(+), 124 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index 13e7a55f54ff..03afbfb8a96f 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -159,21 +159,21 @@ static struct attribute *mhi_dev_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(mhi_dev);
->  
-> -/* MHI protocol requires the transfer ring to be aligned with ring length */
-> -static int mhi_alloc_aligned_ring(struct mhi_controller *mhi_cntrl,
-> -				  struct mhi_ring *ring,
-> -				  u64 len)
-> +static void mhi_init_ring_base(struct mhi_ring *ring)
->  {
-> -	ring->alloc_size = len + (len - 1);
-> -	ring->pre_aligned = dma_alloc_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
-> -					       &ring->dma_handle, GFP_KERNEL);
-> -	if (!ring->pre_aligned)
-> -		return -ENOMEM;
-> -
-> -	ring->iommu_base = (ring->dma_handle + (len - 1)) & ~(len - 1);
-> +	ring->iommu_base = (ring->dma_handle + (ring->len - 1)) & ~(ring->len - 1);
->  	ring->base = ring->pre_aligned + (ring->iommu_base - ring->dma_handle);
-> +}
->  
-> -	return 0;
-> +/* MHI protocol requires the transfer ring to be aligned with ring length */
-> +static void mhi_init_ring(struct mhi_controller *mhi_cntrl, struct mhi_ring *ring,
-> +			  size_t el_size, size_t offset)
-> +{
-> +	ring->el_size = el_size;
-> +	ring->len = ring->el_size * ring->elements;
-> +	ring->pre_aligned = mhi_cntrl->ctrl_config_base + offset;
-> +	ring->dma_handle = mhi_cntrl->ctrl_config_dma + offset;
-> +	mhi_init_ring_base(ring);
->  }
->  
->  void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl)
-> @@ -265,40 +265,134 @@ void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  	mhi_cmd = mhi_cntrl->mhi_cmd;
->  	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
->  		ring = &mhi_cmd->ring;
-> -		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
-> -				  ring->pre_aligned, ring->dma_handle);
->  		ring->base = NULL;
->  		ring->iommu_base = 0;
->  	}
->  
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev,
-> -			  sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS,
-> -			  mhi_ctxt->cmd_ctxt, mhi_ctxt->cmd_ctxt_addr);
-> -
->  	mhi_event = mhi_cntrl->mhi_event;
->  	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
->  		if (mhi_event->offload_ev)
->  			continue;
->  
->  		ring = &mhi_event->ring;
-> -		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
-> -				  ring->pre_aligned, ring->dma_handle);
->  		ring->base = NULL;
->  		ring->iommu_base = 0;
->  	}
->  
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->er_ctxt) *
-> -			  mhi_cntrl->total_ev_rings, mhi_ctxt->er_ctxt,
-> -			  mhi_ctxt->er_ctxt_addr);
-> -
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->chan_ctxt) *
-> -			  mhi_cntrl->max_chan, mhi_ctxt->chan_ctxt,
-> -			  mhi_ctxt->chan_ctxt_addr);
-> -
-> +	dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_cntrl->ctrl_config_size,
-> +			  mhi_cntrl->ctrl_config_base, mhi_cntrl->ctrl_config_dma);
->  	kfree(mhi_ctxt);
->  	mhi_cntrl->mhi_ctxt = NULL;
->  }
->  
-> +/*
-> + * Control Configuration Address Space Layout
-> + *              +------------------------------------------+
-> + *              |              Channel Context             |
-> + *              +------------------------------------------+
-> + *              |           Array of Channel Rings         |
-> + *              +------------------------------------------+
-> + *              |              Event Context               |
-> + *              +------------------------------------------+
-> + *              |           Array of Event Rings           |
-> + *              +------------------------------------------+
-> + *              |              Command Context             |
-> + *              +------------------------------------------+
-> + *              |           Array of Command Rings         |
-> + *              +------------------------------------------+
-> + */
-> +static int mhi_alloc_control_space(struct mhi_controller *mhi_cntrl, struct mhi_ctxt *mhi_ctxt)
-> +{
-> +	size_t chan_ctxt_offset, cmd_ctxt_offset, er_ctxt_offset;
-> +	size_t chan_ctxt_size, cmd_ctxt_size, er_ctxt_size;
-> +	size_t el_size = sizeof(struct mhi_ring_element);
-> +	u32 ev_rings = mhi_cntrl->total_ev_rings;
-> +	struct mhi_event *mhi_event;
-> +	size_t alloc_size, offset = 0;
-> +	struct mhi_chan *mhi_chan;
-> +	struct mhi_cmd *mhi_cmd;
-> +	struct mhi_ring *ring;
-> +	int i;
-> +
-> +	chan_ctxt_offset = offset;
-> +	chan_ctxt_size = sizeof(*mhi_ctxt->chan_ctxt) * mhi_cntrl->max_chan;
-> +	chan_ctxt_size = PAGE_ALIGN(chan_ctxt_size);
-> +	offset += chan_ctxt_size;
-> +	for (i = 0, mhi_chan = mhi_cntrl->mhi_chan; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-> +		ring = &mhi_chan->tre_ring;
-> +		if (!ring->elements)
-> +			continue;
-> +		alloc_size = ring->elements * el_size;
-> +		alloc_size = PAGE_ALIGN(alloc_size << 1);
-> +		/* Temporarily save offset here */
-> +		ring->pre_aligned = (void *)offset;
-> +		offset += alloc_size;
-> +	}
-> +
-> +	er_ctxt_offset = offset;
-> +	er_ctxt_size = sizeof(*mhi_ctxt->er_ctxt) * ev_rings;
-> +	er_ctxt_size = PAGE_ALIGN(er_ctxt_size);
-> +	offset += er_ctxt_size;
-> +	for (i = 0, mhi_event = mhi_cntrl->mhi_event; i < ev_rings; i++, mhi_event++) {
-> +		ring = &mhi_event->ring;
-> +		alloc_size = ring->elements * el_size;
-> +		alloc_size = PAGE_ALIGN(alloc_size << 1);
-> +		/* Temporarily save offset here */
-> +		ring->pre_aligned = (void *)offset;
-> +		offset += alloc_size;
-> +	}
-> +
-> +	cmd_ctxt_offset = offset;
-> +	cmd_ctxt_size = sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS;
-> +	cmd_ctxt_size = PAGE_ALIGN(cmd_ctxt_size);
-> +	offset += cmd_ctxt_size;
-> +	for (i = 0, mhi_cmd = mhi_cntrl->mhi_cmd; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
-> +		ring = &mhi_cmd->ring;
-> +		alloc_size = CMD_EL_PER_RING * el_size;
-> +		alloc_size = PAGE_ALIGN(alloc_size << 1);
-> +		/* Temporarily save offset here */
-> +		ring->pre_aligned = (void *)offset;
-> +		offset += alloc_size;
-> +	}
-> +
-> +	mhi_cntrl->ctrl_config_size = offset;
-> +	mhi_cntrl->ctrl_config_base = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
-> +							 mhi_cntrl->ctrl_config_size,
-> +							 &mhi_cntrl->ctrl_config_dma,
-> +							 GFP_KERNEL);
-> +	if (!mhi_cntrl->ctrl_config_base)
-> +		return -ENOMEM;
-> +
-> +	/* Setup channel ctxt */
-> +	mhi_ctxt->chan_ctxt = mhi_cntrl->ctrl_config_base + chan_ctxt_offset;
-> +	mhi_ctxt->chan_ctxt_addr = mhi_cntrl->ctrl_config_dma + chan_ctxt_offset;
-> +	for (i = 0, mhi_chan = mhi_cntrl->mhi_chan; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-> +		ring = &mhi_chan->tre_ring;
-> +		if (!ring->elements)
-> +			continue;
-> +		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-> +	}
-> +
-> +	/* Setup event context */
-> +	mhi_ctxt->er_ctxt = mhi_cntrl->ctrl_config_base + er_ctxt_offset;
-> +	mhi_ctxt->er_ctxt_addr = mhi_cntrl->ctrl_config_dma + er_ctxt_offset;
-> +	for (i = 0, mhi_event = mhi_cntrl->mhi_event; i < ev_rings; i++, mhi_event++) {
-> +		ring = &mhi_event->ring;
-> +		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-> +	}
-> +
-> +	/* Setup cmd context */
-> +	mhi_ctxt->cmd_ctxt = mhi_cntrl->ctrl_config_base + cmd_ctxt_offset;
-> +	mhi_ctxt->cmd_ctxt_addr = mhi_cntrl->ctrl_config_dma + cmd_ctxt_offset;
-> +	for (i = 0, mhi_cmd = mhi_cntrl->mhi_cmd; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
-> +		ring = &mhi_cmd->ring;
-> +		ring->elements = CMD_EL_PER_RING;
-> +		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  {
->  	struct mhi_ctxt *mhi_ctxt;
-> @@ -309,7 +403,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  	struct mhi_event *mhi_event;
->  	struct mhi_cmd *mhi_cmd;
->  	u32 tmp;
-> -	int ret = -ENOMEM, i;
-> +	int ret, i;
->  
->  	atomic_set(&mhi_cntrl->dev_wake, 0);
->  	atomic_set(&mhi_cntrl->pending_pkts, 0);
-> @@ -318,14 +412,12 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  	if (!mhi_ctxt)
->  		return -ENOMEM;
->  
-> -	/* Setup channel ctxt */
-> -	mhi_ctxt->chan_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
-> -						 sizeof(*mhi_ctxt->chan_ctxt) *
-> -						 mhi_cntrl->max_chan,
-> -						 &mhi_ctxt->chan_ctxt_addr,
-> -						 GFP_KERNEL);
-> -	if (!mhi_ctxt->chan_ctxt)
-> -		goto error_alloc_chan_ctxt;
-> +	/* Allocate control configuration */
-> +	ret = mhi_alloc_control_space(mhi_cntrl, mhi_ctxt);
-> +	if (ret) {
-> +		kfree(mhi_ctxt);
-> +		return ret;
-> +	}
->  
->  	mhi_chan = mhi_cntrl->mhi_chan;
->  	chan_ctxt = mhi_ctxt->chan_ctxt;
-> @@ -350,15 +442,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  		mhi_chan->tre_ring.db_addr = (void __iomem *)&chan_ctxt->wp;
->  	}
->  
-> -	/* Setup event context */
-> -	mhi_ctxt->er_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
-> -					       sizeof(*mhi_ctxt->er_ctxt) *
-> -					       mhi_cntrl->total_ev_rings,
-> -					       &mhi_ctxt->er_ctxt_addr,
-> -					       GFP_KERNEL);
-> -	if (!mhi_ctxt->er_ctxt)
-> -		goto error_alloc_er_ctxt;
-> -
->  	er_ctxt = mhi_ctxt->er_ctxt;
->  	mhi_event = mhi_cntrl->mhi_event;
->  	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, er_ctxt++,
-> @@ -379,12 +462,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  		er_ctxt->msivec = cpu_to_le32(mhi_event->irq);
->  		mhi_event->db_cfg.db_mode = true;
->  
-> -		ring->el_size = sizeof(struct mhi_ring_element);
-> -		ring->len = ring->el_size * ring->elements;
-> -		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
-> -		if (ret)
-> -			goto error_alloc_er;
-> -
->  		/*
->  		 * If the read pointer equals to the write pointer, then the
->  		 * ring is empty
-> @@ -396,28 +473,10 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  		ring->ctxt_wp = &er_ctxt->wp;
->  	}
->  
-> -	/* Setup cmd context */
-> -	ret = -ENOMEM;
-> -	mhi_ctxt->cmd_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
-> -						sizeof(*mhi_ctxt->cmd_ctxt) *
-> -						NR_OF_CMD_RINGS,
-> -						&mhi_ctxt->cmd_ctxt_addr,
-> -						GFP_KERNEL);
-> -	if (!mhi_ctxt->cmd_ctxt)
-> -		goto error_alloc_er;
-> -
->  	mhi_cmd = mhi_cntrl->mhi_cmd;
->  	cmd_ctxt = mhi_ctxt->cmd_ctxt;
->  	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++, cmd_ctxt++) {
->  		struct mhi_ring *ring = &mhi_cmd->ring;
-> -
-> -		ring->el_size = sizeof(struct mhi_ring_element);
-> -		ring->elements = CMD_EL_PER_RING;
-> -		ring->len = ring->el_size * ring->elements;
-> -		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
-> -		if (ret)
-> -			goto error_alloc_cmd;
-> -
->  		ring->rp = ring->wp = ring->base;
->  		cmd_ctxt->rbase = cpu_to_le64(ring->iommu_base);
->  		cmd_ctxt->rp = cmd_ctxt->wp = cmd_ctxt->rbase;
-> @@ -428,43 +487,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
->  	mhi_cntrl->mhi_ctxt = mhi_ctxt;
->  
->  	return 0;
-> -
-> -error_alloc_cmd:
-> -	for (--i, --mhi_cmd; i >= 0; i--, mhi_cmd--) {
-> -		struct mhi_ring *ring = &mhi_cmd->ring;
-> -
-> -		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
-> -				  ring->pre_aligned, ring->dma_handle);
-> -	}
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev,
-> -			  sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS,
-> -			  mhi_ctxt->cmd_ctxt, mhi_ctxt->cmd_ctxt_addr);
-> -	i = mhi_cntrl->total_ev_rings;
-> -	mhi_event = mhi_cntrl->mhi_event + i;
-> -
-> -error_alloc_er:
-> -	for (--i, --mhi_event; i >= 0; i--, mhi_event--) {
-> -		struct mhi_ring *ring = &mhi_event->ring;
-> -
-> -		if (mhi_event->offload_ev)
-> -			continue;
-> -
-> -		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
-> -				  ring->pre_aligned, ring->dma_handle);
-> -	}
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->er_ctxt) *
-> -			  mhi_cntrl->total_ev_rings, mhi_ctxt->er_ctxt,
-> -			  mhi_ctxt->er_ctxt_addr);
-> -
-> -error_alloc_er_ctxt:
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->chan_ctxt) *
-> -			  mhi_cntrl->max_chan, mhi_ctxt->chan_ctxt,
-> -			  mhi_ctxt->chan_ctxt_addr);
-> -
-> -error_alloc_chan_ctxt:
-> -	kfree(mhi_ctxt);
-> -
-> -	return ret;
->  }
->  
->  int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
-> @@ -475,6 +497,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  	struct mhi_event *mhi_event;
->  	void __iomem *base = mhi_cntrl->regs;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> +	dma_addr_t mhi_ctrl_limit = mhi_cntrl->ctrl_config_dma + mhi_cntrl->ctrl_config_size - 1;
->  	struct {
->  		u32 offset;
->  		u32 val;
-> @@ -505,11 +528,11 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  		},
->  		{
->  			MHICTRLBASE_HIGHER,
-> -			upper_32_bits(mhi_cntrl->iova_start),
-> +			upper_32_bits(mhi_cntrl->ctrl_config_dma),
->  		},
->  		{
->  			MHICTRLBASE_LOWER,
-> -			lower_32_bits(mhi_cntrl->iova_start),
-> +			lower_32_bits(mhi_cntrl->ctrl_config_dma),
->  		},
->  		{
->  			MHIDATABASE_HIGHER,
-> @@ -521,11 +544,11 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  		},
->  		{
->  			MHICTRLLIMIT_HIGHER,
-> -			upper_32_bits(mhi_cntrl->iova_stop),
-> +			upper_32_bits(mhi_ctrl_limit),
->  		},
->  		{
->  			MHICTRLLIMIT_LOWER,
-> -			lower_32_bits(mhi_cntrl->iova_stop),
-> +			lower_32_bits(mhi_ctrl_limit),
->  		},
->  		{
->  			MHIDATALIMIT_HIGHER,
-> @@ -622,8 +645,6 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
->  	if (!chan_ctxt->rbase) /* Already uninitialized */
->  		return;
->  
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, tre_ring->alloc_size,
-> -			  tre_ring->pre_aligned, tre_ring->dma_handle);
->  	vfree(buf_ring->base);
->  
->  	buf_ring->base = tre_ring->base = NULL;
-> @@ -649,26 +670,18 @@ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
->  	struct mhi_ring *tre_ring;
->  	struct mhi_chan_ctxt *chan_ctxt;
->  	u32 tmp;
-> -	int ret;
->  
->  	buf_ring = &mhi_chan->buf_ring;
->  	tre_ring = &mhi_chan->tre_ring;
-> -	tre_ring->el_size = sizeof(struct mhi_ring_element);
-> -	tre_ring->len = tre_ring->el_size * tre_ring->elements;
->  	chan_ctxt = &mhi_cntrl->mhi_ctxt->chan_ctxt[mhi_chan->chan];
-> -	ret = mhi_alloc_aligned_ring(mhi_cntrl, tre_ring, tre_ring->len);
-> -	if (ret)
-> -		return -ENOMEM;
-> +	mhi_init_ring_base(tre_ring);
->  
->  	buf_ring->el_size = sizeof(struct mhi_buf_info);
->  	buf_ring->len = buf_ring->el_size * buf_ring->elements;
->  	buf_ring->base = vzalloc(buf_ring->len);
->  
-> -	if (!buf_ring->base) {
-> -		dma_free_coherent(mhi_cntrl->cntrl_dev, tre_ring->alloc_size,
-> -				  tre_ring->pre_aligned, tre_ring->dma_handle);
-> +	if (!buf_ring->base)
->  		return -ENOMEM;
-> -	}
->  
->  	tmp = le32_to_cpu(chan_ctxt->chcfg);
->  	tmp &= ~CHAN_CTX_CHSTATE_MASK;
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index ce566f7d2e92..bedaf248c49a 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -215,7 +215,6 @@ struct mhi_ring {
->  	size_t el_size;
->  	size_t len;
->  	size_t elements;
-> -	size_t alloc_size;
->  	void __iomem *db_addr;
->  };
->  
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index 059dc94d20bb..eb5e0181bea7 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -325,6 +325,9 @@ struct mhi_controller_config {
->   * @mhi_event: MHI event ring configurations table
->   * @mhi_cmd: MHI command ring configurations table
->   * @mhi_ctxt: MHI device context, shared memory between host and device
-> + * @ctrl_config_size: Total allocated size of control configuration buffer
-> + * @ctrl_config_dma: Base bus address of control configuration buffer
-> + * @ctrl_config_base: Base CPU address of control configuration buffer
->   * @pm_mutex: Mutex for suspend/resume operation
->   * @pm_lock: Lock for protecting MHI power management state
->   * @timeout_ms: Timeout in ms for state transitions
-> @@ -403,6 +406,10 @@ struct mhi_controller {
->  	struct mhi_cmd *mhi_cmd;
->  	struct mhi_ctxt *mhi_ctxt;
->  
-> +	size_t ctrl_config_size;
-> +	dma_addr_t ctrl_config_dma;
-> +	void *ctrl_config_base;
-> +
->  	struct mutex pm_mutex;
->  	rwlock_t pm_lock;
->  	u32 timeout_ms;
-> -- 
-> 2.34.1
-> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
