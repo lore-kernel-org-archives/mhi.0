@@ -1,79 +1,79 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21415170A11
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 15:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360E728BA85
+	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 15:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745595979; cv=none; b=pnYkJxGPKLE7OCU8/R3Md7J8LQe58NhhBiEusGhoUwWqodesQJkqY86xNeozpz+AN1aUnmCBPoIYFTAq982XFPIhPuj+FjmBGBoSI1HDE3zwGDHs2fvoKa62KZFI6m14WasOrGWWH+bFCR11utUBTL4vtY4vNqbNTgWlQijDBAA=
+	t=1745596662; cv=none; b=du0NFpepyJVYxofumJyur05SB6YX1NqE/wmvoph+68zdmw4yoflCYUQyX38rqP1ETF1rmF3wCNe8h3OsWAXE1J++kZxuSYrnbmLbIcd6XJMzH85VQQa7fXyzqm3tCWYNkG8M5hG62RehCEjMZN/RSNe3QnK+rfrFRNbw3E0y4T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745595979; c=relaxed/simple;
-	bh=OEN/M7xAkfDtjvNwKlr/jucG4cQOWcjtHRGd69J9SGI=;
+	s=arc-20240116; t=1745596662; c=relaxed/simple;
+	bh=GrbOWzhD8A9EcQ9/oMNEwl0tUg9WzmBru/yKPO/Wkt4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDi7KLQMjP1P63JMbU+UaqFskm1b1lIuEkkkiAyJOdbD+ZnL24tW6kofYkZeHI59GSSlgagdpAS2u0GGYQQ45q6SShNEOHFBgvvQfDfIb1tGfwfxq3PbDn1Mi2klDI+Dse+1Gu5ANW5EVcP/ZYaFnOgDhoVhOnXOE8ckvdX9peQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AGoPTd70; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=GlpDYcG7biIAqqx4fJjL17W84h1aql3dw0+LzBDZrQHvyER4TGLaujOASMWKGveXX8kq/L7w0jxi0U+Ry0AyUCtYtDcTbTSdwUVmSfbFnVY+p0ttt5m4QFdL9JtHybOgUKE4j2kBXGmLfeXNkkS5s3WrFZT8qyYS40/QCWl8qr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iDzmufj9; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AGoPTd70"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736c277331eso3494140b3a.1
-        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 08:46:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iDzmufj9"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-739be717eddso1954535b3a.2
+        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 08:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745595976; x=1746200776; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745596659; x=1746201459; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=b0yjiKObWEJiwO02DaOrPmXbmFq+eaftYKKT34xnJk0=;
-        b=AGoPTd70ngaGxupEI9UbL+FnsdGgYb5jiizIhrLFOD5/x/+nriIKKMBppwiE0Jr3UQ
-         L0hpkxLPF0XaLPZa6qB3SVaS8Z2B8th/RLZKxqlrAvY4TG0l4UTrGZiQd/FB5uw6w9HY
-         RBVKyNArbmbptngRkQynGtJofeIlOs3WVEMdK72EZ1qQHGdMVMJYQT8JC9Uxoqft9Deb
-         2Ly6prfkFp5AzvigKH0mdh6rQIRpCRpe5mc35sDB9G2Xu8DHnPWKxX96b/SIyF7+RMWk
-         0lbUnZYjtFRcm7Q5Bb06lism1EsDEOb1Xk8ryeguPZ9ol9vdErQJgF9Z2LI/wIfamdyr
-         V5EQ==
+        bh=utSRlvWwaJPUba2da6V5YeBrAL7QiUQpMkQtkrVxrps=;
+        b=iDzmufj9sIQ2i4+WaKH/7Tm5h0AwrRJvUGR8Uys29S8XHTVv2Ld2irNmQVq0TChwAB
+         tBIeGmhajlpQYHSjhBnc3aH39D9C17PXoAkvgLoY8qsHqHLqPK4uhs0o63zZvxdZMoLR
+         nfdmg6Hn4pOnH4OKK+2PFgqD9ZJ9078ThO7d2Varw5IunosEl0zaXmG7X1G9GIW6gjlH
+         Gl8nAN2B48Nb0Ekw67bl5+q5rIXTc7moDFtOxKzaqPkDVaXRBtDgTPcLmNcIRjVjeTVd
+         kypGn+I0LLmEGbflQCjil6ubawNqBzZV1dybciHKvfA69ZS/t6iTUkexQcjvdtZfRrld
+         l6xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745595976; x=1746200776;
+        d=1e100.net; s=20230601; t=1745596659; x=1746201459;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0yjiKObWEJiwO02DaOrPmXbmFq+eaftYKKT34xnJk0=;
-        b=jAuZVFknh6E6//AYlsf4o0k0NmHrIoCSXmIKmPj69fT0X+on2AsSDqwtA8OhFAwJaJ
-         qcpuJ0szKmt19VI8l4hU5s2NuyCF77mkS2PfK5ncwesJUnfi45oFE8C1qBbh5GLkf1Iz
-         K/vkNI3dnG3mc/1bdA26SCUhcqB2xFx9r6EkV/XXWmFQ8s8TCaZueZhjphBzcjUWZtym
-         mFARj166xzTR/tslkn9Lg6NKUZKithIVQebcQz6/QmO1J7anhIo2tfkXpWQ71sWXyZ2o
-         1Kzltior2ZqGtiXuLxGQU2KY6xMb2IRjiZ5YYFP9Pk6ECkky9TZdkOpQFvKOQOIf6EMh
-         6tRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVh301gl0bf/tUTIruNfqbTxLYk8M94agOp4p6zGFQnlqfxOqtQSH4NcCyCHOYTzIdm61I=@lists.linux.dev
-X-Gm-Message-State: AOJu0YylY4gKr50B3ErMuXASOarVMza7igWYztNkI+zKcGKjnvPTCdE9
-	9k5AOMHfPE3TWThAlUnEeesBRlfMJQSNm68r9dM7LnkNJPbs4LKoGmZIvJ+1ZA==
-X-Gm-Gg: ASbGncvTdXtwrCZLjIUEt/8DyykcWBa7c9mJ52FlT02x5lWS3EAgiAj6DwW8u/xB+Ny
-	vBlgJeigzG40RGtLEgLXp+U1H+20907UV9ps7JOuZY5Z7ZG/bOPbJCPMtFcBW817II0MdPQn+S+
-	3/Uwyzu1uhdCL2VvIFB05cplqKdxGOxx6NELHJz23W9q6UJjTYSt9N2RiN4rgaTe+MatRSXvfpR
-	hdoDV6Wpgo8HgQiIl4/p8d3/XxvxpFwI0oJCGRrPhPWx+1bKx5KlZHgzMzZhDuQDJavV2l5Vasi
-	teBp81013wP6QDB2hid9XLHm55AJXXOrlShEVvUvUDPmSTDnVbji
-X-Google-Smtp-Source: AGHT+IGs6qXZbOiWmzBGdrbn2GeizUSvYWBYF7LQu+E/gHowSvXPMU/F/cIhQAuYikQ05w1s5IHkLg==
-X-Received: by 2002:a05:6a00:e1b:b0:736:b3cb:5db with SMTP id d2e1a72fcca58-73e268ee7b6mr11186888b3a.11.1745595976351;
-        Fri, 25 Apr 2025 08:46:16 -0700 (PDT)
+        bh=utSRlvWwaJPUba2da6V5YeBrAL7QiUQpMkQtkrVxrps=;
+        b=LkIDGHzD5842MFBPsUl1zkBBeB7N72DWUSEJouTv7TboQpFydUYs+9UR/XGyEe9qps
+         Z7/K0opdylCILt6FbxLmTbDMu36lTEdUr8aryRb4Afb590IE/rhw2bW2l6o1ZRqDZlz6
+         WseZqZHdY6Kum2+hpcfcIV4zzWokZb/XDEiiTaX21H4nnpcWJIeyJmhnWGJPBNt7AsDg
+         /7do81H9ZM53LNspufmT9WjxpL/ysJUzpNft6mGwZ2ULSMh3JIjSN0dn/tu2jqxb/1mP
+         JMzCYlEzvhUOPL8xjoYrWfyjSH5ZH5aHHeZX50L+xSFIXejFXXv48tcdv2Xih/IowkQH
+         +D5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWPupk3yhSdPaH6oREKRQcwICXWTjK0UVkQWzXaw/jDg3p9LcD0rCh+bvlp4N/xxmOmm6c=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAx1ytMbKiOz/7ra6nwS1hVdQUsHWEDaywptTi3EDeMRMBsQck
+	dZEm/z1K2ZVmkKI6I/CtEx/vkjodAHiLSwYIyVLum6nFp8JC8oZhfuXBnnsQjA==
+X-Gm-Gg: ASbGncvNNPd7fNG8LXh/55IG0zMv54qDxAON+oKNL1g0m6E32W1GUZmzFbfDduL4RJK
+	CitimLJf1BpIAAa0UfGX9sHLV/sGgApQPTl7DMw8ANaRWYcqHZAzGXH7jRjKH1gzBIc2G5Ihz1r
+	RG6qLxeU1UYdYTD9vMpsd+6aT4NMflCdqTCMVNqIjGrOoACjqHfL2Ip/INlWcOGNI2ysjg3N0Vc
+	QSh3Cp2HjMQQ5iJF61FtrqBXEqJJ720Klu5d5LJNebKs9Jyeuu1MelEW6tADI+ieb945FwrtF/8
+	2FvbLGp7617ijbNXPfiHNUPfd+cahRblm0xurXK/mLMXPSk7Ld+4
+X-Google-Smtp-Source: AGHT+IEv9WTyD1hNXstYJB7wgOh80HyepKndFk0b9Nsc+PbCz+wAO+jxkDebi/3q0xjNfV/24gj4Tg==
+X-Received: by 2002:a05:6a00:b93:b0:736:3be3:3d77 with SMTP id d2e1a72fcca58-73fd8b6be23mr3721308b3a.16.1745596659476;
+        Fri, 25 Apr 2025 08:57:39 -0700 (PDT)
 Received: from thinkpad ([120.56.201.179])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25967608sm3316408b3a.81.2025.04.25.08.46.10
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25912c94sm3344436b3a.3.2025.04.25.08.57.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 08:46:15 -0700 (PDT)
-Date: Fri, 25 Apr 2025 21:16:09 +0530
+        Fri, 25 Apr 2025 08:57:39 -0700 (PDT)
+Date: Fri, 25 Apr 2025 21:27:32 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com, 
-	quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v2 01/10] PCI: update current bus speed as part of
- pci_bus_add_devices()
-Message-ID: <azxdhgvf6vo6eilmdmxa2ryir33h5uqwuru2a7jrgjuunyncrb@q3fdjhcaskjm>
-References: <20250313-mhi_bw_up-v2-1-869ca32170bf@oss.qualcomm.com>
- <20250313170001.GA738398@bhelgaas>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Jingoo Han <jingoohan1@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com, quic_vbadigan@quicinc.com, 
+	quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Subject: Re: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth
+ before & after link re-training
+Message-ID: <7njsbucxngxc2eninh57oexywiqsyysrbesyige5zwr4pmxf7t@rw6657lheg4j>
+References: <20250313-mhi_bw_up-v2-0-869ca32170bf@oss.qualcomm.com>
+ <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -83,53 +83,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250313170001.GA738398@bhelgaas>
+In-Reply-To: <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
 
-On Thu, Mar 13, 2025 at 12:00:01PM -0500, Bjorn Helgaas wrote:
-> [+cc Bartosz since this is related to pwrctrl]
+On Thu, Mar 13, 2025 at 05:10:09PM +0530, Krishna Chaitanya Chundru wrote:
+> If the driver wants to move to higher data rate/speed than the current data
+> rate then the controller driver may need to change certain votes so that
+> link may come up at requested data rate/speed like QCOM PCIe controllers
+> need to change their RPMh (Resource Power Manager-hardened) state. Once
+> link retraining is done controller drivers needs to adjust their votes
+> based on the final data rate.
 > 
-> On Thu, Mar 13, 2025 at 05:10:08PM +0530, Krishna Chaitanya Chundru wrote:
-> > If the link is not up till the pwrctl drivers enable power to endpoints
-> > then cur_bus_speed will not be updated with correct speed.
-> > 
-> > As part of rescan, pci_bus_add_devices() will be called and as part of
-> > it update the link bus speed.
-> > 
-> > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-> > ---
-> >  drivers/pci/bus.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
-> > index 98910bc0fcc4..994879071d4c 100644
-> > --- a/drivers/pci/bus.c
-> > +++ b/drivers/pci/bus.c
-> > @@ -432,6 +432,9 @@ void pci_bus_add_devices(const struct pci_bus *bus)
-> >  	struct pci_dev *dev;
-> >  	struct pci_bus *child;
-> >  
-> > +	if (bus->self)
-> > +		pcie_update_link_speed((struct pci_bus *)bus);
+> Some controllers also may need to update their bandwidth voting like
+> ICC bw votings etc.
 > 
-> Why the cast?  I guess to discard "const"?  I would prefer to avoid
-> that if we can.
+> So, add pre_scale_bus_bw() & post_scale_bus_bw() op to call before & after
+> the link re-train. There is no explicit locking mechanisms as these are
+> called by a single client endpoint driver.
 > 
-> The only existing callers of pcie_update_link_speed() are from bwctrl,
-> where it obviously makes sense because bwctrl manages link speed, and
-> from pci_set_bus_speed() in the pci_alloc_child_bus() path.
+> In case of PCIe switch, if there is a request to change target speed for a
+> downstream port then no need to call these function ops as these are
+> outside the scope of the controller drivers.
 > 
-> If we call pcie_update_link_speed() here, do we still need the
-> pci_set_bus_speed() in pci_alloc_child_bus()?
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/pci/pcie/bwctrl.c | 15 +++++++++++++++
+>  include/linux/pci.h       | 13 +++++++++++++
+>  2 files changed, 28 insertions(+)
 > 
-> Bartosz, so you have any suggestions?  Is there a point in pwrctrl
-> where it would make sense to do this, similar to what bwctrl does?
-> 
+> diff --git a/drivers/pci/pcie/bwctrl.c b/drivers/pci/pcie/bwctrl.c
+> index 0a5e7efbce2c..b1d660359553 100644
+> --- a/drivers/pci/pcie/bwctrl.c
+> +++ b/drivers/pci/pcie/bwctrl.c
+> @@ -161,6 +161,8 @@ static int pcie_bwctrl_change_speed(struct pci_dev *port, u16 target_speed, bool
+>  int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
+>  			  bool use_lt)
+>  {
+> +	struct pci_host_bridge *host = pci_find_host_bridge(port->bus);
+> +	bool is_rootport = pci_is_root_bus(port->bus);
 
-I'm not Bartosz, but I could speak for pwrctrl.
+s/rootport/rootbus
 
-This should really be part of pci_pwrctrl_notify() in pwrctrl driver. Pwrctrl
-driver is already getting notified with device additions and removals. So the
-update can be performed once the device addition happens.
+>  	struct pci_bus *bus = port->subordinate;
+>  	u16 target_speed;
+>  	int ret;
+> @@ -173,6 +175,16 @@ int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
+>  
+>  	target_speed = pcie_bwctrl_select_speed(port, speed_req);
+>  
+> +	/*
+> +	 * The controller driver may need to be scaled for targeted speed
+
+s/controller/host bridge
+
+> +	 * otherwise link might not come up at requested speed.
+> +	 */
+> +	if (is_rootport && host->ops->pre_scale_bus_bw) {
+> +		ret = host->ops->pre_scale_bus_bw(host->bus, target_speed);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	scoped_guard(rwsem_read, &pcie_bwctrl_setspeed_rwsem) {
+>  		struct pcie_bwctrl_data *data = port->link_bwctrl;
+>  
+> @@ -197,6 +209,9 @@ int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
+>  	    !list_empty(&bus->devices))
+>  		ret = -EAGAIN;
+>  
+> +	if (is_rootport && host->ops->post_scale_bus_bw)
+> +		host->ops->post_scale_bus_bw(host->bus, pci_bus_speed2lnkctl2(bus->cur_bus_speed));
+> +
+>  	return ret;
+>  }
+>  
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 47b31ad724fa..9ae199c1e698 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -804,6 +804,19 @@ struct pci_ops {
+>  	void __iomem *(*map_bus)(struct pci_bus *bus, unsigned int devfn, int where);
+>  	int (*read)(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *val);
+>  	int (*write)(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val);
+> +	/*
+> +	 * Callback to the drivers to update ICC bw votes, clock frequencies etc for
+
+s/drivers/host bridge drivers/
+
+> +	 * the link re-train to come up in targeted speed. These are called by a single
+> +	 * client endpoint driver, so there is no need for explicit locking mechanisms.
+
+You need to mention that these ops are meant to be called by devices attached
+to the root port.
 
 - Mani
 
