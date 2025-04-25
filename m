@@ -1,184 +1,188 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AB31A29A
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 06:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76824129A78
+	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 06:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745561361; cv=none; b=JHvnMtE4iXXudf4uwnD2Abv0Yvu9iPzRoqdIr75Di8XZinPNSYLm5Wlpy326gpLtATpzDmK1aE38HBvOhU4GbqfNsq/9fV1tY0siV71uZuo32sg0Vx9chXKHDKghggg/UFm9DpWF1+s7xMLSZlh99zU3IlDnEEu1ptTgRi2OeFc=
+	t=1745562165; cv=none; b=mOecx7bWzpfqxeHmw/mLWtF4iuYXKjq63diB/Fgr3RZL3uLhggVRComcsqnIucTJobDG5PwI6ufIFKpKDN9+uRQdE1plA7fqDxhq4UOhIfs3/zUIusZTx8GvA7ZbdlBMCDLg9Nrwe9yIoFtwk4GNgLaPM+WqwrBMF9o7o3ZVBr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745561361; c=relaxed/simple;
-	bh=OijAOo9Q5CJsBUJ8l9gzK744snPLgwe98agm+GWJyO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pv1eJiIyJXzesQf1GMMHXFMlIgWJ7GXi4eC3f0InL9MBCqQZaGiyNTr+EfyMBvQIlhIvBK6K2ZgVxrCZneF9uwoMN1FP4wgeksYlwf0DmwEYHyo4hFrLiILxgh9mfRk4/vCxAPE007wwsoVO1MCcUFg7gvY+5BGu17xVJDUkXs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRBMwqF1; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1745562165; c=relaxed/simple;
+	bh=nxkZTFGsXPcZwwCDlT4nQd1Ags0pv9e3vgb9OVAchsA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=parsJneueX4Z1OUbM/f7wbBmIoj9IYZGtLpdXNdY1gEz9l4T0vzTUgTwDDeSZST/5T4iDBXFEjJXQ3ipj996mROfofX2Q7PeY32gqGe6O1E9La/che3hAjpbLr6Tm5nXEtdrWFQ4Er8RAwnTm0KnNoWplG5A9thaiajlhaC7Xng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJQx4PJL; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRBMwqF1"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2254e0b4b79so28995875ad.2
-        for <mhi@lists.linux.dev>; Thu, 24 Apr 2025 23:09:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745561359; x=1746166159; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CTBxtNYwG4FufIxSDN1ja9ubj625jFlLyTaq+7EIDtE=;
-        b=jRBMwqF1Vkgr1viVchskEbyCYR9DTEyhY2Hv1/fEYDZ0WRSVR51i0/2hY32fz8tB8L
-         SpPq9Fk7r8wGrRlfVTKv6wbBhM8jS0H4u50yvJ6mUFvgeH0yojjraFODo4gIix7L3i99
-         gYuAdNnQuPk+KQoUEAxavOvfDPK3D5HwsjpWk9O3k9mzKaKxccEfBLkQZ6Z4Hjr/GAIP
-         11B9PqYlIR6NK7LNsmkrHx4aNaFMDoR420ERbN/lyeVyRuKDKVvfVAM77k8oO74BRQWU
-         Z69UsQHQROd1qn2iIO7GLavrQhipVRrFY8v5Wfobpb6z9pcU3UVQOmV6DSx/2mqSpsUt
-         Jkow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745561359; x=1746166159;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CTBxtNYwG4FufIxSDN1ja9ubj625jFlLyTaq+7EIDtE=;
-        b=ZUyks7zX7pyKMte5uCCgcBiESnmZmo+esww7SW9O9kTM5BsZz0x2BZj2pdmkN6htf0
-         9mNqLKriYAROt6axaSRAMBcVqUtm2EF93eJPSLfgroUdim2CFEYvc654FV4G8a77dhhz
-         CX/OFrCgOPhPy/g6Vq1LUxjfLwgAeNJXqSWiw+oTfmFSH4gQ+VRSHRrvORAVVZ3FpUmc
-         XcP55QI92MCLpwxan6pIpNcOwBGLw3FXHKsR3+DdBWDYWtYHsx7cL6HQYGXMelp44lKZ
-         93zoej+1UayruK19jZ6sNqLg5lrUsY7/jBRSofTuReEL8G0uMqF9FK+IZKTRf2C5bivz
-         a9rQ==
-X-Gm-Message-State: AOJu0Yzub2Soz/E+Ce9f/p6+nD1HTA+juvKN4DFDO/43h+TXTmMyHQ8j
-	lMoSEL/rzNVzBoQaJku8xDXLspUmCTT0POz8oYOtYdLper9pPvGEglVRupLsOQ==
-X-Gm-Gg: ASbGnctVXslKhDrCs0PbC1lnhPnDQtk0yeNUmMRzG8VrTaPel6sfUQVLZFTys/6YAwR
-	TPzyCLK6EVmjOxlkQKmmnrnBuSipgVL/JgdsDUj84ag7e9GHm/3lN2SOnjwFmw4J367/W8I08gH
-	P9EBucvJ29shgB1EG49IZ6DIMMFesxCvb+ut7+JrgikMl3VeAB6I91IA7mKZeAyn7lCK+seUik2
-	khyGiuXIYGivslAcHvbRXUQSCWuPWOF2ZNzay/d6SHEA4NFBnTKGOKVTPuxlN2rbxfvV8DAEC0O
-	HagX4OYgtgCp2mchMIN0j/+hCp8p/2aBIXB7ZB1CdvupSNClVlc=
-X-Google-Smtp-Source: AGHT+IHffJRpHrzYw6qTUhDsUvj23Dzj/PW817a/XxkH9ftqO0o9GllGUMK+/8NzRcptopS8Jpx3YQ==
-X-Received: by 2002:a17:902:f745:b0:223:536d:f67b with SMTP id d9443c01a7336-22dbf63a0dbmr22078275ad.38.1745561359213;
-        Thu, 24 Apr 2025 23:09:19 -0700 (PDT)
-Received: from thinkpad ([120.60.77.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7543sm24228545ad.133.2025.04.24.23.09.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 23:09:18 -0700 (PDT)
-Date: Fri, 25 Apr 2025 11:39:14 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: mhi@lists.linux.dev, lenb@kernel.org, quic_qianyu@quicinc.com
-Subject: Re: [bugzilla-daemon@kernel.org: [Bug 220020] mhi kills hibernate:
- Lenovo ThinkPad T16 Gen 3]
-Message-ID: <qgdnpqgbwdtdtehyf6m5is7z7g77ci2cvhb5kier7fetn46cce@ts5ogq2gy4ep>
-References: <7y4zwx6cuco5mwkx6zqaz5cox5ken2xjhcxmv4zcftkjcekwak@qijscxptonne>
- <96c98cb6-b9df-9b44-3151-98ef4ea7134f@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJQx4PJL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745562163; x=1777098163;
+  h=date:from:to:cc:subject:message-id;
+  bh=nxkZTFGsXPcZwwCDlT4nQd1Ags0pv9e3vgb9OVAchsA=;
+  b=eJQx4PJLt2luYTAxuvfF9b1JxeZa8f9+ByaBwnTF3StUJ0ZXmW6yPxRK
+   8bOSF7yIswa/fdQ9Of2OdqDqlQ9DC1vks+5p7vE1gbgvVdLW/AOueLckN
+   Yx0opToXp92s53I/U8lmY6KDFjeM6H7eEMU89uYJF2uog9NMb7tSxrADW
+   Ll60RfOVphXSinARVJyWgrNjK0gWjmElm+ndMf0WevvNchPVdyGT1j+Tw
+   6Hn5VHfLJfjeLWkdCbpEJEXcxoQpQM/peEg9NviP2HVGeI38qY09gdRqI
+   jxverPF1kIJYRMRS3wq8K4E/V12JErngY/VSUchXLnEHuicKGojJe47mG
+   Q==;
+X-CSE-ConnectionGUID: bZ5zme3pQ8O3sf6Ceu88AA==
+X-CSE-MsgGUID: taBEvjYgTAK8FVwX7FMEaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57416491"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="57416491"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 23:22:41 -0700
+X-CSE-ConnectionGUID: nSS4TXWnQkaMC2aS6J6uZQ==
+X-CSE-MsgGUID: 8hiO5a6kTG6ZgZIoDp0G4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="132709942"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 24 Apr 2025 23:22:39 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8CSL-0004sC-2C;
+	Fri, 25 Apr 2025 06:22:37 +0000
+Date: Fri, 25 Apr 2025 14:22:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-fixes] BUILD SUCCESS
+ 6f18d174b73d0ceeaa341f46c0986436b3aefc9a
+Message-ID: <202504251421.yvvJozMc-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <96c98cb6-b9df-9b44-3151-98ef4ea7134f@oss.qualcomm.com>
 
-On Thu, Apr 24, 2025 at 09:11:55AM +0530, Krishna Chaitanya Chundru wrote:
-> 
-> 
-> On 4/23/2025 6:50 PM, Manivannan Sadhasivam wrote:
-> > Hi,
-> > 
-> > Forwarding the report to MHI list and Qcom folks for visibility.
-> > 
-> > dmesg log reveals that the WWAN PCIe power is toggled during the 'freeze'
-> > process even before mhi_pci_freeze():
-> > 
-> > [   57.550960] ACPI Debug:  "WWAN _PS3"
-> > [   57.551273] ACPI Debug:  "_DSW PCIe"
-> > [   57.551413] ACPI Debug:  0x0000000000000007
-> > [   57.551559] ACPI Debug:  "PCIE Sx DisWak"
-> > [   57.563142] ACPI Debug:  "_PS3 PCIe RP0x7"
-> > [   57.563398] ACPI Debug:  "WWAN _OFF WWMT Mutex:Acquired Try Done"
-> > [   57.563553] ACPI Debug:  "WWAN _OFF WWMT Mutex:Acquired Done"
-> > [   57.563699] ACPI Debug:  "PCIe RP LTSSM at DL23 Start -0x66"
-> > [   57.580049] ACPI Debug:  "POF RP 0x7"
-> > [   57.580237] ACPI Debug:  "PCIe RP LTSSM at DL23 End -0x48"
-> > [   57.580391] ACPI Debug:  "POFF RP 0x7"
-> > [   57.580551] ACPI Debug:  "PINH GPIO=0x14040B"
-> > [   57.581314] ACPI Debug:  "Calling SPCO method to configure PCIe ClkReq Override"
-> > [   57.618093] ACPI Debug:  "PINH GPIO=0x140096"
-> > [   57.629350] ACPI Debug:  "TB2F 10"
-> > [   57.629515] ACPI Debug:  "WWAN PWR OFF"
-> > 
-> > <...>
-> > 
-> > [   57.894452] mhi-pci-generic 0000:08:00.0: PM: calling pci_pm_freeze @ 4473, parent: 0000:00:1c.6
-> > 
-> > <...>
-> > 
-> > [   57.894526] ACPI Debug:  "WWAN _ON WWMT Mutex:Acquired Try Done"
-> > [   57.894618] ACPI Debug:  "WWAN _ON WWMT Mutex:Acquired Done"
-> > 
-> > <...>
-> > 
-> > [   58.000702] ACPI Debug:  "Calling SPCO method to configure PCIe ClkReq Override"
-> > [   58.001323] ACPI Debug:  "PINL GPIO=0x141082"
-> > [   58.002417] ACPI Debug:  "PCIe RP LTSSM at L23D Start  -0x1"
-> > [   58.130941] ACPI Debug:  "WWAN PWR ON"
-> > 
-> > <...>
-> > 
-> > [   58.286837] ACPI Debug:  "PINL GPIO=0x14040B"
-> > [   58.288245] ACPI Debug:  "PCIe RP LTSSM at L23D Start  -0x48"
-> > [   58.338206] ACPI Debug:  "PCIe RP LTSSM at L23D End -0x33"
-> > [   58.440299] ACPI Debug:  "SLP TR2P 100"
-> > [   58.440784] ACPI Debug:  "WWAN _ON WWMT Mutex:Release Done"
-> > [   58.441222] ACPI Debug:  "_PS0 PCIe RP0x7"
-> > [   58.454172] ACPI Debug:  "_DSW PCIe"
-> > [   58.454463] ACPI Debug:  0x0000000000000007
-> > [   58.454737] ACPI Debug:  "PCIE D0 DisWak"
-> > [   58.579404] ACPI Debug:  "WWAN _PS0"
-> > [   58.579725] ACPI Debug:  "_PS0 LASX Delay Time 0"
-> > [   58.580222] mhi mhi0: Resuming from non M3 state (RESET)
-> > [   58.580228] mhi-pci-generic 0000:08:00.0: failed to resume device: -22
-> > [   58.580262] mhi-pci-generic 0000:08:00.0: device recovery started
-> > [   58.580519] wwan wwan0: port wwan0qcdm0 disconnected
-> > [   58.581008] wwan wwan0: port wwan0mbim0 disconnected
-> > [   58.581356] wwan wwan0: port wwan0at0 disconnected
-> > 
-> > <...>
-> > 
-> > [   87.123353] mhi mhi0: Device failed to clear MHI Reset
-> > [   87.123753] mhi-pci-generic 0000:08:00.0: PM: pci_pm_freeze returned 0 after 29229292 usecs
-> > 
-> > And with 'test_resume' I don't see the power getting toggled. There were only
-> > 'WWAN _ON' logs. So this might be why 'test_resume' worked.
-> > 
-> > @Qiang/Krishna: Have you guys seen this issue on any ACPI platform?
-> > 
-> > - Mani
-> > 
-> Hi Mani,
-> 
-> we haven't worked on ACPI platform yet, but as you mentioned
-> toggling the wwan power before pci_pm_freeze is causing the
-> issue here. As part of pci_pm_freeze the device will be
-> runtime resumed and mhi failing in the runtime resume.
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-fixes
+branch HEAD: 6f18d174b73d0ceeaa341f46c0986436b3aefc9a  bus: mhi: ep: Update read pointer only after buffer is written
 
-It doesn't look like a runtime resume failure to me as there are no logs from
-mhi_pm_runtime_resume(). I'm puzzled by the power on logs though:
+elapsed time: 1451m
 
-[   58.595551] mhi mhi0: Requested to power ON
-[   58.595564] mhi mhi0: Power on setup success
-[   61.443230] mhi mhi0: Wait for device to enter SBL or Mission mode
-[   61.523465] mhi mhi0_NMEA: PM: parent mhi0 should not be sleeping --> this is
-also a red flag
+configs tested: 111
+configs skipped: 8
 
-pci_generic driver tries to power on the device only during probe(), recovery
-and reset_done. But there are no evidences of them happening before the power on
-logs. Maybe the hibernation is carried out soon after the pci_generic started to
-probe()?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-@Len: Could you please share the full dmesg log of the failure case? Not just
-starting from hibernation. Also can you confirm that you performed hibernation
-after the modem comes up?
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                   randconfig-001-20250424    gcc-8.5.0
+arc                   randconfig-002-20250424    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                         bcm2835_defconfig    clang-21
+arm                      jornada720_defconfig    clang-21
+arm                          moxart_defconfig    gcc-14.2.0
+arm                          pxa168_defconfig    clang-19
+arm                   randconfig-001-20250424    gcc-7.5.0
+arm                   randconfig-002-20250424    gcc-7.5.0
+arm                   randconfig-003-20250424    clang-21
+arm                   randconfig-004-20250424    clang-21
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250424    clang-21
+arm64                 randconfig-002-20250424    gcc-8.5.0
+arm64                 randconfig-003-20250424    clang-21
+arm64                 randconfig-004-20250424    gcc-8.5.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250424    gcc-12.4.0
+csky                  randconfig-002-20250424    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250424    clang-21
+hexagon               randconfig-002-20250424    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250424    gcc-12
+i386        buildonly-randconfig-002-20250424    clang-20
+i386        buildonly-randconfig-003-20250424    clang-20
+i386        buildonly-randconfig-004-20250424    clang-20
+i386        buildonly-randconfig-005-20250424    gcc-12
+i386        buildonly-randconfig-006-20250424    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250424    gcc-14.2.0
+loongarch             randconfig-002-20250424    gcc-12.4.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250424    gcc-10.5.0
+nios2                 randconfig-002-20250424    gcc-10.5.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+openrisc                  or1klitex_defconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                generic-32bit_defconfig    gcc-14.2.0
+parisc                randconfig-001-20250424    gcc-9.3.0
+parisc                randconfig-002-20250424    gcc-7.5.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                 canyonlands_defconfig    clang-21
+powerpc                      cm5200_defconfig    clang-21
+powerpc                   currituck_defconfig    clang-21
+powerpc                      pasemi_defconfig    clang-21
+powerpc               randconfig-001-20250424    clang-21
+powerpc               randconfig-002-20250424    clang-17
+powerpc               randconfig-003-20250424    clang-21
+powerpc64             randconfig-001-20250424    clang-21
+powerpc64             randconfig-002-20250424    clang-21
+powerpc64             randconfig-003-20250424    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20250424    clang-21
+riscv                 randconfig-002-20250424    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250424    gcc-9.3.0
+s390                  randconfig-002-20250424    gcc-9.3.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250424    gcc-12.4.0
+sh                    randconfig-002-20250424    gcc-6.5.0
+sh                           se7721_defconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250424    gcc-10.3.0
+sparc                 randconfig-002-20250424    gcc-11.5.0
+sparc64               randconfig-001-20250424    gcc-9.3.0
+sparc64               randconfig-002-20250424    gcc-7.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250424    clang-21
+um                    randconfig-002-20250424    clang-21
+um                           x86_64_defconfig    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250424    gcc-12
+x86_64      buildonly-randconfig-002-20250424    clang-20
+x86_64      buildonly-randconfig-003-20250424    gcc-12
+x86_64      buildonly-randconfig-004-20250424    clang-20
+x86_64      buildonly-randconfig-005-20250424    clang-20
+x86_64      buildonly-randconfig-006-20250424    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250424    gcc-14.2.0
+xtensa                randconfig-002-20250424    gcc-14.2.0
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
