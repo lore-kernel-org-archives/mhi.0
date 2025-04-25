@@ -1,82 +1,79 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818A01607AC
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 14:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21415170A11
+	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 15:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745592444; cv=none; b=Q0AUlsXplXY2B6Ccjlpa1VUPw/5ypy5cturPM6cE2kJLDUVpg0AwKYwoYPuNMsDtqurFxbv15FN/0QhDiPkKtT3g1YMxM9Kitb7A/9Yk3ojSM9s/xrKq8jlN/4o7gZ8cN5unpd8fjeGJFRBm+V5kSCBSRE3OYqdXBszbJ/vdAA8=
+	t=1745595979; cv=none; b=pnYkJxGPKLE7OCU8/R3Md7J8LQe58NhhBiEusGhoUwWqodesQJkqY86xNeozpz+AN1aUnmCBPoIYFTAq982XFPIhPuj+FjmBGBoSI1HDE3zwGDHs2fvoKa62KZFI6m14WasOrGWWH+bFCR11utUBTL4vtY4vNqbNTgWlQijDBAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745592444; c=relaxed/simple;
-	bh=fPAudd0pNdvSq70SAtg2Ygg2O9zP1xgrVtnfFsN3fh0=;
+	s=arc-20240116; t=1745595979; c=relaxed/simple;
+	bh=OEN/M7xAkfDtjvNwKlr/jucG4cQOWcjtHRGd69J9SGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oBRCZ0mvRa1k1ytjBVldijKeSczp+PZRN7Hf4sIr2FEvhjrimYaoZeDVVbg9A5Ibhh0YtXoVdl1GVjCCqRpxN0GkepggDkRWi1tUN5qTyU53Apj2KMuuY9HFcovJExgT1dV4nWVABPd+mPKOrNktrArIMbJxIQBDR6nP+vnuSjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WQMMUQ0S; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=cDi7KLQMjP1P63JMbU+UaqFskm1b1lIuEkkkiAyJOdbD+ZnL24tW6kofYkZeHI59GSSlgagdpAS2u0GGYQQ45q6SShNEOHFBgvvQfDfIb1tGfwfxq3PbDn1Mi2klDI+Dse+1Gu5ANW5EVcP/ZYaFnOgDhoVhOnXOE8ckvdX9peQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AGoPTd70; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WQMMUQ0S"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-223fd89d036so30555925ad.1
-        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 07:47:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AGoPTd70"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736c277331eso3494140b3a.1
+        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 08:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745592442; x=1746197242; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745595976; x=1746200776; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=tMds6CmcdH779xJQucw6BprWPQmeQRUV0l1L2HM0TV4=;
-        b=WQMMUQ0Sc8pfcUAwKjKX2FWB2/cgSOqZwu3gskO66iQRRhHpaAAgDO/LMxJ696kchy
-         kZH7zIJ1udOM+GMuK+GXXAzL3O6xavwY+wbfyNBG/oFGNvGAHokyevBdpt/kioX/XHLJ
-         yAY0KMYKkXrYhbVbmIktIKEypUv2hCEV/tJRNTygg9pjkYgS0JUvpdn+Y1R99WXBWV5x
-         eKmYch6LLM/XszH9E81yNkOKuX9CmowcjZc8H80TYvcgfMzDGJwJ6mDEAamAuz9HwqbC
-         4aXSbkuFeX52ZRkBIXJC7YZ3QpNc20eEkX9zZ8R9L3hvs0d0Omi3U9jpVIbwHh399jD/
-         VoaA==
+        bh=b0yjiKObWEJiwO02DaOrPmXbmFq+eaftYKKT34xnJk0=;
+        b=AGoPTd70ngaGxupEI9UbL+FnsdGgYb5jiizIhrLFOD5/x/+nriIKKMBppwiE0Jr3UQ
+         L0hpkxLPF0XaLPZa6qB3SVaS8Z2B8th/RLZKxqlrAvY4TG0l4UTrGZiQd/FB5uw6w9HY
+         RBVKyNArbmbptngRkQynGtJofeIlOs3WVEMdK72EZ1qQHGdMVMJYQT8JC9Uxoqft9Deb
+         2Ly6prfkFp5AzvigKH0mdh6rQIRpCRpe5mc35sDB9G2Xu8DHnPWKxX96b/SIyF7+RMWk
+         0lbUnZYjtFRcm7Q5Bb06lism1EsDEOb1Xk8ryeguPZ9ol9vdErQJgF9Z2LI/wIfamdyr
+         V5EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745592442; x=1746197242;
+        d=1e100.net; s=20230601; t=1745595976; x=1746200776;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tMds6CmcdH779xJQucw6BprWPQmeQRUV0l1L2HM0TV4=;
-        b=MD/5ZOnX+R/Klq5S5+qN4rwgkQ1oQok4fj8lVgwZdjqN8ecc2f5l49YgyYqhl2kTmw
-         HnnTRAyDeoh7nquO26ARVidd/Ef5sFvpC1JSeEs6iH4l03ZFKjiHOpHLlKLD0u0Cj0om
-         3Q8sXML6B4PYqGuhADNBgRDcjJdjt38fLOBoXz3EHJxgax3w9wTUrnNNTJjG+FHxfedn
-         dg8t2zXav1rzYvNuh71wh/UgB48BIHDAgUVNuZaEcQplb0m688HSrREvqeF8xgQToY50
-         SokW7OAjRPalB9uJLYa7CaWmf8ai/opcWtqyj/A4af6JOK/tPC07WcBvBot7WSma9Uud
-         hm2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUjuIykfWKFwriYeMvkTKbufJrtbVUCG+824drswTsVukhR8GnaJrjbbZrcKHLhjgBzJqk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeNf686+2T2ltsMrGnuNd+h8/5qILD+nrXzuvI4GrxGdEL6Cue
-	0U1zl7fpSlZ9d8Tp6gyjgv94bBLxbmdhoDKt3qHwZdOZ79ZOP+7YHVtzqNG9jQ==
-X-Gm-Gg: ASbGncsCMJi4M56yTVdVP4cQ3xO8dqoaSiffDXggLj0VuQ//6EBXaiMKMGY09AsJGCa
-	lq+qI6nzAkC/g1JZqjl7TTmMDss3o8xyq0NxiHpH9N/Yr2JzGFZUsaWGpRgR+KAsiUi3YCjv4/F
-	r2lSB7XpSWyfB2yJCd5sZK8zMhAqfnFHmlubumoKAmVQSRUSgVlEZtXlkkUl23noGePltaboJ2t
-	NDjv5CZFenRbsoWSp/AElIBUjQ+t7J54lXgc9VNyczq9R9REmK4rbdrkBdbryy5dnLiou1tp7IR
-	e+SJtCz/RWa49Fmu56AdOYCW27PWq0aY7wMXKxu+5F0TjA2oWZ+L
-X-Google-Smtp-Source: AGHT+IGlccZ19AfD3jdnufZp8LMe8Yz57J7vptNmjyBiI0lLh+m+16U65auA9epwL1IrRm+aNvHWgg==
-X-Received: by 2002:a17:902:e805:b0:223:5de7:6c81 with SMTP id d9443c01a7336-22dbf5f34f9mr38226475ad.27.1745592441695;
-        Fri, 25 Apr 2025 07:47:21 -0700 (PDT)
+        bh=b0yjiKObWEJiwO02DaOrPmXbmFq+eaftYKKT34xnJk0=;
+        b=jAuZVFknh6E6//AYlsf4o0k0NmHrIoCSXmIKmPj69fT0X+on2AsSDqwtA8OhFAwJaJ
+         qcpuJ0szKmt19VI8l4hU5s2NuyCF77mkS2PfK5ncwesJUnfi45oFE8C1qBbh5GLkf1Iz
+         K/vkNI3dnG3mc/1bdA26SCUhcqB2xFx9r6EkV/XXWmFQ8s8TCaZueZhjphBzcjUWZtym
+         mFARj166xzTR/tslkn9Lg6NKUZKithIVQebcQz6/QmO1J7anhIo2tfkXpWQ71sWXyZ2o
+         1Kzltior2ZqGtiXuLxGQU2KY6xMb2IRjiZ5YYFP9Pk6ECkky9TZdkOpQFvKOQOIf6EMh
+         6tRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh301gl0bf/tUTIruNfqbTxLYk8M94agOp4p6zGFQnlqfxOqtQSH4NcCyCHOYTzIdm61I=@lists.linux.dev
+X-Gm-Message-State: AOJu0YylY4gKr50B3ErMuXASOarVMza7igWYztNkI+zKcGKjnvPTCdE9
+	9k5AOMHfPE3TWThAlUnEeesBRlfMJQSNm68r9dM7LnkNJPbs4LKoGmZIvJ+1ZA==
+X-Gm-Gg: ASbGncvTdXtwrCZLjIUEt/8DyykcWBa7c9mJ52FlT02x5lWS3EAgiAj6DwW8u/xB+Ny
+	vBlgJeigzG40RGtLEgLXp+U1H+20907UV9ps7JOuZY5Z7ZG/bOPbJCPMtFcBW817II0MdPQn+S+
+	3/Uwyzu1uhdCL2VvIFB05cplqKdxGOxx6NELHJz23W9q6UJjTYSt9N2RiN4rgaTe+MatRSXvfpR
+	hdoDV6Wpgo8HgQiIl4/p8d3/XxvxpFwI0oJCGRrPhPWx+1bKx5KlZHgzMzZhDuQDJavV2l5Vasi
+	teBp81013wP6QDB2hid9XLHm55AJXXOrlShEVvUvUDPmSTDnVbji
+X-Google-Smtp-Source: AGHT+IGs6qXZbOiWmzBGdrbn2GeizUSvYWBYF7LQu+E/gHowSvXPMU/F/cIhQAuYikQ05w1s5IHkLg==
+X-Received: by 2002:a05:6a00:e1b:b0:736:b3cb:5db with SMTP id d2e1a72fcca58-73e268ee7b6mr11186888b3a.11.1745595976351;
+        Fri, 25 Apr 2025 08:46:16 -0700 (PDT)
 Received: from thinkpad ([120.56.201.179])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db521614dsm32962505ad.215.2025.04.25.07.47.16
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25967608sm3316408b3a.81.2025.04.25.08.46.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 07:47:21 -0700 (PDT)
-Date: Fri, 25 Apr 2025 20:17:14 +0530
+        Fri, 25 Apr 2025 08:46:15 -0700 (PDT)
+Date: Fri, 25 Apr 2025 21:16:09 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>, 
-	Jeff Johnson <jjohnson@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>, 
-	Yan Zhen <yanzhen@vivo.com>, Youssef Samir <quic_yabdulra@quicinc.com>, 
-	Qiang Yu <quic_qianyu@quicinc.com>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kunwu Chan <chentao@kylinos.cn>, kernel@collabora.com, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
-Subject: Re: [PATCH v2] bus: mhi: host: don't free bhie tables during
- suspend/hibernation
-Message-ID: <eypd4xigl3yydfj47usazm7ca3kplz5w7bkk7qf6piks4vtaa4@rmecjnlfix66>
-References: <20250410145704.207969-1-usama.anjum@collabora.com>
- <h2wv7drxntokziiwbzjw5xjzbctbomp6cfcba7ppfbih6o7so7@p6dazv32xfx4>
- <1136c7cb-1c7b-410b-93d2-c74aec939196@collabora.com>
- <cfb3sntvqhupyhm2m5tevpsl77r6mzl2aqzr3wtxvr22bezmp3@qjh7ftr2kdjy>
- <4d87ef88-3533-4255-adc6-6c268818fe25@collabora.com>
- <y5odcxzms6mwpz5bdxhbjxo7p6whsdgwm772usmmzqobhf6nam@p4ul7vn7d3an>
- <a403eb91-c90d-444c-b508-c428a8ef1447@collabora.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jeff Johnson <jjohnson@kernel.org>, linux-pci@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com, 
+	quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v2 01/10] PCI: update current bus speed as part of
+ pci_bus_add_devices()
+Message-ID: <azxdhgvf6vo6eilmdmxa2ryir33h5uqwuru2a7jrgjuunyncrb@q3fdjhcaskjm>
+References: <20250313-mhi_bw_up-v2-1-869ca32170bf@oss.qualcomm.com>
+ <20250313170001.GA738398@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -86,80 +83,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a403eb91-c90d-444c-b508-c428a8ef1447@collabora.com>
+In-Reply-To: <20250313170001.GA738398@bhelgaas>
 
-On Fri, Apr 25, 2025 at 04:41:43PM +0500, Muhammad Usama Anjum wrote:
-> On 4/25/25 1:59 PM, Manivannan Sadhasivam wrote:
-> > On Fri, Apr 25, 2025 at 12:42:38PM +0500, Muhammad Usama Anjum wrote:
-> >> On 4/25/25 12:32 PM, Manivannan Sadhasivam wrote:
-> >>> On Fri, Apr 25, 2025 at 12:14:39PM +0500, Muhammad Usama Anjum wrote:
-> >>>> On 4/25/25 12:04 PM, Manivannan Sadhasivam wrote:
-> >>>>> On Thu, Apr 10, 2025 at 07:56:54PM +0500, Muhammad Usama Anjum wrote:
-> >>>>>> Fix dma_direct_alloc() failure at resume time during bhie_table
-> >>>>>> allocation. There is a crash report where at resume time, the memory
-> >>>>>> from the dma doesn't get allocated and MHI fails to re-initialize.
-> >>>>>> There may be fragmentation of some kind which fails the allocation
-> >>>>>> call.
-> >>>>>>
-> >>>>>
-> >>>>> If dma_direct_alloc() fails, then it is a platform limitation/issue. We cannot
-> >>>>> workaround that in the device drivers. What is the guarantee that other drivers
-> >>>>> will also continue to work? Will you go ahead and patch all of them which
-> >>>>> release memory during suspend?
-> >>>>>
-> >>>>> Please investigate why the allocation fails. Even this is not a device issue, so
-> >>>>> we cannot add quirks :/
-> >>>> This isn't a platform specific quirk. We are only hitting it because
-> >>>> there is high memory pressure during suspend/resume. This dma allocation
-> >>>> failure can happen with memory pressure on any device.
-> >>>>
-> >>>
-> >>> Yes.
-> >> Thanks for understanding.
-> >>
-> >>>
-> >>>> The purpose of this patch is just to make driver more robust to memory
-> >>>> pressure during resume.
-> >>>>
-> >>>> I'm not sure about MHI. But other drivers already have such patches as
-> >>>> dma_direct_alloc() is susceptible to failures when memory pressure is
-> >>>> high. This patch was motivated from ath12k [1] and ath11k [2].
-> >>>>
-> >>>
-> >>> Even if we patch the MHI driver, the issue is going to trip some other driver.
-> >>> How does the DMA memory goes low during resume? So some other driver is
-> >>> consuming more than it did during probe()?
-> >> Think it like this. The first probe happens just after boot. Most of the
-> >> RAM was empty. Then let's say user launches applications which not only
-> >> consume entire RAM but also the Swap. The DMA memory area is the first
-> >> ~4GB on x86_64 (if I'm not mistaken). Now at resume time when we want to
-> >> allocate memory from dma, it may not be available entirely or because of
-> >> fragmentation we cannot allocate that much contiguous memory.
-> >>
+On Thu, Mar 13, 2025 at 12:00:01PM -0500, Bjorn Helgaas wrote:
+> [+cc Bartosz since this is related to pwrctrl]
+> 
+> On Thu, Mar 13, 2025 at 05:10:08PM +0530, Krishna Chaitanya Chundru wrote:
+> > If the link is not up till the pwrctl drivers enable power to endpoints
+> > then cur_bus_speed will not be updated with correct speed.
 > > 
-> > Looks like you have a workload that consumes the limited DMA coherent memory.
-> > Most likely the GPU applications I think.
+> > As part of rescan, pci_bus_add_devices() will be called and as part of
+> > it update the link bus speed.
 > > 
-> >> In our testing and real world cases, right now only wifi driver is
-> >> misbehaving. Wifi is also very important. So we are hoping to make wifi
-> >> driver robust.
-> >>
+> > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> > ---
+> >  drivers/pci/bus.c | 3 +++
+> >  1 file changed, 3 insertions(+)
 > > 
-> > Sounds fair. If you want to move forward, please modify the exisiting
-> > mhi_power_down_keep_dev() to include this partial unprepare as well:
-> > 
-> > mhi_power_down_unprepare_keep_dev()
-> > 
-> > Since both APIs are anyway going to be used together, I don't see a need to
-> > introduce yet another API.
-> I've looked at usages of mhi_power_down_keep_dev(). Its getting used by
-> ath12k and ath11k both. We would have to look at ath12k as well before
-> we can change mhi_power_down_keep_dev(). Unfortunately, I don't have
-> device using ath12k at hand.
+> > diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
+> > index 98910bc0fcc4..994879071d4c 100644
+> > --- a/drivers/pci/bus.c
+> > +++ b/drivers/pci/bus.c
+> > @@ -432,6 +432,9 @@ void pci_bus_add_devices(const struct pci_bus *bus)
+> >  	struct pci_dev *dev;
+> >  	struct pci_bus *child;
+> >  
+> > +	if (bus->self)
+> > +		pcie_update_link_speed((struct pci_bus *)bus);
+> 
+> Why the cast?  I guess to discard "const"?  I would prefer to avoid
+> that if we can.
+> 
+> The only existing callers of pcie_update_link_speed() are from bwctrl,
+> where it obviously makes sense because bwctrl manages link speed, and
+> from pci_set_bus_speed() in the pci_alloc_child_bus() path.
+> 
+> If we call pcie_update_link_speed() here, do we still need the
+> pci_set_bus_speed() in pci_alloc_child_bus()?
+> 
+> Bartosz, so you have any suggestions?  Is there a point in pwrctrl
+> where it would make sense to do this, similar to what bwctrl does?
 > 
 
-ath12k conversion looks trivial. So please go ahead with this new API conversion
-for that driver as well.
+I'm not Bartosz, but I could speak for pwrctrl.
+
+This should really be part of pci_pwrctrl_notify() in pwrctrl driver. Pwrctrl
+driver is already getting notified with device additions and removals. So the
+update can be performed once the device addition happens.
 
 - Mani
 
