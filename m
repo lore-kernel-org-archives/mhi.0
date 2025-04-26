@@ -1,600 +1,158 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2972F1DE3C3
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 17:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722578F6F;
+	Sat, 26 Apr 2025 04:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745600684; cv=none; b=MyJbYVnPfqs7JpqhqCkFtpm+jNQIBu6JcrUmf/1/AGFQlYLapwQ8KnAEO9l76jM3UQwYuxpG4scSEOpjKnGZ9poH3KhLFBgUXv3VBT3SjME+KAMnJgBSvDVrfhFb7Td3KDVyjrLJw3QZtc6Dg0nw0B9dTa+VtXc4XLJF969KFGs=
+	t=1745642261; cv=none; b=YwwFoxXULLjVHOaGiH+6ifQf1rLyMhagYg72q7usLUpGYOoiVifodI6nFhqXZmA5PLvbBO3CwetkFUSWfW7KwCZjgZBJ6Y2akeOBrM7LWNBfgEX/KnmUnsO6M7lhhwOQkvtN/LEp9qp37aU433PJ80kMprUPqJtG4Oyuz7wK79U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745600684; c=relaxed/simple;
-	bh=fff+xnuFWko4Cc0eba7qYf6zMZvMKuK81LSGzPyVRM0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CR8uX4Pau24MLF+W7ZnH/pJjBRgV/i/eTgm6khT0y1CIlJ3hrIJJZyeZTzZVvseisKIlFuldEwh0p5TW17FE1oDw3e+RXmWiGp2JOcvSqsXt0RGpkhAUhnkDCcIB6ed/GqUhuov8QBbTq67x1RfIOYuZMDGr+6xJTigZliyEhoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cp3Xbqxh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1745642261; c=relaxed/simple;
+	bh=zs7wWTJif4p/e2eqW7enn6LDMeROYRRUL/6ppwjbB2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hdVqYxPjyPNV56kO6Aes684a+M4aSQBTWSUWpYBknKYFgIz2FOwHwwY2GFxiwoDO+royh2VB67gWgZhCPexWs9NFK4ITfW01GncIEHbV8STI9Kt1x2DgF9aiGKMlnriYaLaLe1ZhrXSgjuZnWr1YGn05qIEgkrcSiYOx8Uzi/SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KfaNFtZm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cp3Xbqxh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGJrhC004655
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 17:04:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=zkksbIcwAlS/wyPyOtIhFc1qvrFJaGvBZVz
-	cZ5T4ovA=; b=cp3Xbqxh3BYnEZTPiRTLeXYLS3ZgY1yLPISQBmjOlgx94Ci/GJK
-	x2GDe+pqPLkwqA5a02Bg52SCxz24Rt7AaY/rw/mYmWdGTNvKRkOh81mCUh8Gu/Fm
-	YwZYBIxYCgCSrfUlrqgVliTVLa8XO+QmSr31FtirVmv9T+zTeMzyLUPGwgwZ11ul
-	uXzUK30aavhFHZ3/wNpcJnnrEteHwFuy1blv2W2BqxH8zALnlmW7LqzGVJeDOVm/
-	hQpeu605lo0GJr/RUiiY3qQ0k7PEzsyLFbenjHRF11xWX+KYgO6gQlfdAE6k1BeN
-	3NefkX3UOEiWLn15kCaGBeWBvvEpOP0LRXg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh09t2t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 17:04:40 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-225ab228a37so20453655ad.2
-        for <mhi@lists.linux.dev>; Fri, 25 Apr 2025 10:04:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745600679; x=1746205479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zkksbIcwAlS/wyPyOtIhFc1qvrFJaGvBZVzcZ5T4ovA=;
-        b=C8nu4wTBsA7POsz2W279XKul9VjDFBmhf81uicLnmlCO/oPsYRLzboOoqzmRiCLiqJ
-         Y9/I1GQ02Lgk6UQmT/a1qurYWryY3ZDIWIlLE6gXRZAbQm9HlRtC/jwchq4ave/5unEm
-         CNfYS/bX/jwSoLnq0fRF3mb7Li5+jcM4rrak+OgQrkBCZV32UhYfyRJbmx731CfB4RNm
-         9Q/mbaEQFKZ0TTlU+TtN/5GlCBXKQFmW2ioNwC//1J7veQFqK8/Rcvz24PYxs4X0fOA5
-         8aIdHSZeHpTvuFszU5ymtsMmJJvqxL+kFVMHvQdiDz5nYZ6p6HjdJbIhxXN0oNUZbMl9
-         4TBQ==
-X-Gm-Message-State: AOJu0Yx2HOIiUhGBn4JiUM9lax5w7H9GI/VxnNP+KIEb9M90zpLFgRcA
-	eDph+cLitn16no9ew9pwTWLuSfCKvs05V5JVYOzMn8S4r4XTzbAuyiyzQ1t02zFNbv3IOxf7ncj
-	eCjAjBG7XscqyhBjkOh7BuGvGt/uuerzZg6O2U7auuD3mNmRCdkg=
-X-Gm-Gg: ASbGncvCK7J3WC73qCBF7PXKjsT73ecUZzKTXBb4Lf+bnugwGmAcjAOWRCfwNp6Jwmm
-	/H2Lj8/cRHXGQdw3ugaWjbO/ucgTsPy1dAImhcY6hiCRAL7cWdHRLzDpHBwLpPbI4G+d2wr2+vF
-	57oZsEnv/Q36ru3AFMj3ZWt7hH/GbVnHczxcTep3V6We1oPvNmcQf4s1icDyzXMSl2Hu/NpKkOh
-	cZpX8MyTpyAFVIaov9Mg0PYPcFhHxqDBZZ4imnrSPbg15MU1LMZrMO00i0P4Z7SG0SBa462DmBA
-	NheH46YnayFw/aw4lVPg4XdlsXSD6Q+F9SqCwoDRI1e+ypTyCqhYjukHQ2CY
-X-Received: by 2002:a17:903:1b04:b0:224:1943:c65 with SMTP id d9443c01a7336-22dbf5ea798mr48470065ad.14.1745600678888;
-        Fri, 25 Apr 2025 10:04:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFa0jThi6LbNPHRcZvzy+M/EACoGXrF/pl9Vf8pDiLg/aU7dqmdcxLE1P99fDxa8mNrGSUxw==
-X-Received: by 2002:a17:903:1b04:b0:224:1943:c65 with SMTP id d9443c01a7336-22dbf5ea798mr48469645ad.14.1745600678402;
-        Fri, 25 Apr 2025 10:04:38 -0700 (PDT)
-Received: from jhugo-lnx.qualcomm.com (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5216b7csm34787575ad.232.2025.04.25.10.04.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 10:04:37 -0700 (PDT)
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-To: quic_carlv@quicinc.com, quic_thanson@quicinc.com,
-        manivannan.sadhasivam@linaro.org
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        ath11k@lists.infradead.org, jjohnson@kernel.org,
-        quic_bqiang@quicinc.com,
-        Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Subject: [PATCH v2] bus: mhi: host: Allocate entire MHI control config once
-Date: Fri, 25 Apr 2025 11:04:31 -0600
-Message-Id: <20250425170431.921656-1-jeff.hugo@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KfaNFtZm"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53Q3YsRR002328;
+	Sat, 26 Apr 2025 04:37:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2cvUlok7lJsAFdKwnEsjA4J40q+ZVvqtNhZJbWaGRN0=; b=KfaNFtZmGhsICSkC
+	ZzupcjXE2b2dJC/83Hfrrs9b/xdgIQcaTl1B/ulOkTgI3euwrM65qWGGl8/r7Exy
+	ndUPKUNnM6VAz8r86LCOVnWb0yUpWcm4mn+7eTzlbUpnP+gOhmxyvLQU6Ps7iARp
+	395FKniJdi27Y3lR8Hwdw/J/ZrD2mNZj2c3LnO+bY8UTBhgzxWtSJrLQ6fgBNnk8
+	r2cjqS/sxRoPL4BM9Bd1h1g4d6KnRtvLg/l79nXpyj9HYvRON+Ompd1zYGqNncci
+	13Q5M1Jy1kx6qeVq/xiU1NtH5VdnuvwpJM+FhPHgGc543cSlMrVsxH8HJ01TKSq7
+	OmndmQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qq583mp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 26 Apr 2025 04:37:37 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53Q4bacK018036
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 26 Apr 2025 04:37:36 GMT
+Received: from [10.218.37.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Apr
+ 2025 21:37:34 -0700
+Message-ID: <24f29ea7-8859-4dbb-93e7-5424071b6b26@quicinc.com>
+Date: Sat, 26 Apr 2025 10:07:31 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDEyMSBTYWx0ZWRfX5qOYnOGUgp+8 056j6kL3Y2wm7KHvP98iM2sCDaw9j+plK3/VRJ6fXkBdN4iY8bbpLXSaLNBsrbR6nN+Td2HeRyy fRMEFwZQUb9y1LnBBNfjpHDxZQVqhCSn56LnTJHIIRQbzeuo3bcdMk/h73Lt+lXVJDyvSrOqZkK
- 1X99DD7ziCpK6qyvuC2dvCF83vC83eFEx9aWa1EnoCmfR8Ew2Ul0HHHwdJlYn4WjYbY1ZrpmpVW EaGn68znolWc2Wxb29jOhe0DqLZaXu08dFM6IKUSAdqTuIkx2/e10DXQgW4J6HmpXL+HUZNOjdM jiIn2xrUgLXZ0LRNMcvww1VzIV10mLjJOFZVKs5eNrZz9YeuzceV06ahj6NGXLvrNH7P91hh7r1
- diL8/0H4dOfyDa27Rh4LOKaPMY7xjBSsVNlraT9V09aWTNVJJyLjJfpPT5xLTmZGoJjCTqKb
-X-Proofpoint-GUID: HPcwGQ9bR5cfc1HyuQOaRl9btbtAepIm
-X-Authority-Analysis: v=2.4 cv=ZuTtK87G c=1 sm=1 tr=0 ts=680bc0a8 cx=c_pps a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=L1SiRjdkoy2qpHNo_gMA:9 a=2xCbdNrgO4zEkwPZ:21
- a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: HPcwGQ9bR5cfc1HyuQOaRl9btbtAepIm
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] bus: mhi: host: pci: Disable runtime PM for QDU100
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Krishna Chaitanya Chundru
+	<krishna.chundru@oss.qualcomm.com>
+References: <20250418-vdev_next-20250411_pm_disable-v3-1-0175b691de61@quicinc.com>
+ <ciwwfmadzgpzaie5isrmpzd7s373bgyk27hh5fjaqy6blqa4qo@ar7cdrv3uuxy>
+Content-Language: en-US
+From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+In-Reply-To: <ciwwfmadzgpzaie5isrmpzd7s373bgyk27hh5fjaqy6blqa4qo@ar7cdrv3uuxy>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fWz81QGiMUBbr3KvPFU6aCFG4rYHObKL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAzMCBTYWx0ZWRfX7sG2yssV2vWi neWUoH1Ln1/FgXgaVs4EjZ/JGD0wW90jqVSWyeo7dsRUzxCZIXu8qHqZC82qg8IfTMnf7RVeiwB YoWpiYliOGUA9gwZXbA94ynbIb8n7EF0qOikYqOIIftuAu5JGGTTi1XUUPiPcXfm22LJFa/2xEW
+ wyuXCsYUGFtlhjIdp1V+VbrsJYN4wKroNtRGguJqHSJhDGsubslhsKFRxM0XOq85OsH9usLKsfc uEfTeoRh66fYP9la5SZmWYu6rpS4eOTCalKc5wHF+6pDcmazpUx3GE8xEQIVb4aJDl0OQlKEt5+ pMlJCoAZRKi1rKnpu48Aq8Atjovqmu9yyDn32sfeyTqJjDILD7Jzs+9UWVE+b+HysebfeLN8jBL
+ dkJu/g1/Kcn8L0hImSHG+BnHliHKPg4WauS5LFH9OFE7sYy9fcPGsGaUbHCaYyxw2ghu53v3
+X-Authority-Analysis: v=2.4 cv=QP1oRhLL c=1 sm=1 tr=0 ts=680c6311 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=OTJ4AGgxtXp4wH7adj0A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: fWz81QGiMUBbr3KvPFU6aCFG4rYHObKL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-25_05,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 suspectscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504250121
+ definitions=2025-04-26_01,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504260030
 
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-MHI control configurations such as channel context, event context, command
-context and rings, are currently allocated individually. During MHI
-initialization MHI bus driver needs to configure the address space in
-which this control configuration resides. Since different component of the
-config is being allocated separately, only logical solution is to give the
-entire RAM address space, as they could be anywhere.
 
-According to the MHI specification v1.2 rev AB the MHI control
-configuration address space should not be more them 4GB. This comes from
-the description of MHICTRLLIMIT in section 6.2 which states: "The most
-significant 32 bits of MHICTRLBASE and MHICTRLLIMIT registers must be
-equal".
-
-This means we have a 4GB range (32-bit) to play with in a 64-bit address
-space.  If the upper 32-bits of the 64-bit address for both the base and
-the limit must be the same, then the range of addresses from the base to
-the limit can only vary the lower 32-bits.
-
-Invalid:
-BASE: 0x0
-LIMIT: 0xffffffff_ffffffff
-
-Valid:
-BASE: 0x0f_00000000
-LIMIT: 0x0f_ffffffff
-
-The current implementation is in violation of MHI specification.
-
-For example mhi_init_dev_ctxt() -
-
-We allocate the chan_ctxt with dma_alloc_coherent() as an individual
-allocation.  In the case of AIC100, the device can access the full
-64-bit address space, but the DMA engine is limited to a 32-bit transfer
-size.  The chan_ctxt probably won't be larger than 4GB, so the size is
-rather irrelevant.  Can be allocated anywhere.  Lets say that it gets
-put in the lower 32-bit address space - 0x0_XXXXXXXX
-
-Then a little bit later we allocate er_ctxt with a different
-dma_alloc_coherent() instance.  Being a unique allocation, it is not
-tied to the chan_ctxt and can exist anywhere.  Lets assume that it gets
-put somewhere in the non-lower 32-bits - 0x1000_XXXXXXXX
-
-Now we have a problem because we cannot describe a single range covering
-both of these allocations via MHICTRLBASE/MHICTRLLIMIT where the upper
-32-bits of both registers is the same.
-
-Change the implementation to comply with the MHI spec by allocating a
-single giant DMA buffer for MHI control configurations and limit the
-configuration address space to that buffer.
-
-Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Signed-off-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
-
-v2:
--Amend the commit text to cite the spec limitation, and explain it
-
- drivers/bus/mhi/host/init.c     | 259 +++++++++++++++++---------------
- drivers/bus/mhi/host/internal.h |   1 -
- include/linux/mhi.h             |   7 +
- 3 files changed, 143 insertions(+), 124 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 13e7a55f54ff..03afbfb8a96f 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -159,21 +159,21 @@ static struct attribute *mhi_dev_attrs[] = {
- };
- ATTRIBUTE_GROUPS(mhi_dev);
- 
--/* MHI protocol requires the transfer ring to be aligned with ring length */
--static int mhi_alloc_aligned_ring(struct mhi_controller *mhi_cntrl,
--				  struct mhi_ring *ring,
--				  u64 len)
-+static void mhi_init_ring_base(struct mhi_ring *ring)
- {
--	ring->alloc_size = len + (len - 1);
--	ring->pre_aligned = dma_alloc_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
--					       &ring->dma_handle, GFP_KERNEL);
--	if (!ring->pre_aligned)
--		return -ENOMEM;
--
--	ring->iommu_base = (ring->dma_handle + (len - 1)) & ~(len - 1);
-+	ring->iommu_base = (ring->dma_handle + (ring->len - 1)) & ~(ring->len - 1);
- 	ring->base = ring->pre_aligned + (ring->iommu_base - ring->dma_handle);
-+}
- 
--	return 0;
-+/* MHI protocol requires the transfer ring to be aligned with ring length */
-+static void mhi_init_ring(struct mhi_controller *mhi_cntrl, struct mhi_ring *ring,
-+			  size_t el_size, size_t offset)
-+{
-+	ring->el_size = el_size;
-+	ring->len = ring->el_size * ring->elements;
-+	ring->pre_aligned = mhi_cntrl->ctrl_config_base + offset;
-+	ring->dma_handle = mhi_cntrl->ctrl_config_dma + offset;
-+	mhi_init_ring_base(ring);
- }
- 
- void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl)
-@@ -265,40 +265,134 @@ void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	mhi_cmd = mhi_cntrl->mhi_cmd;
- 	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
- 		ring = &mhi_cmd->ring;
--		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
--				  ring->pre_aligned, ring->dma_handle);
- 		ring->base = NULL;
- 		ring->iommu_base = 0;
- 	}
- 
--	dma_free_coherent(mhi_cntrl->cntrl_dev,
--			  sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS,
--			  mhi_ctxt->cmd_ctxt, mhi_ctxt->cmd_ctxt_addr);
--
- 	mhi_event = mhi_cntrl->mhi_event;
- 	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
- 		if (mhi_event->offload_ev)
- 			continue;
- 
- 		ring = &mhi_event->ring;
--		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
--				  ring->pre_aligned, ring->dma_handle);
- 		ring->base = NULL;
- 		ring->iommu_base = 0;
- 	}
- 
--	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->er_ctxt) *
--			  mhi_cntrl->total_ev_rings, mhi_ctxt->er_ctxt,
--			  mhi_ctxt->er_ctxt_addr);
--
--	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->chan_ctxt) *
--			  mhi_cntrl->max_chan, mhi_ctxt->chan_ctxt,
--			  mhi_ctxt->chan_ctxt_addr);
--
-+	dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_cntrl->ctrl_config_size,
-+			  mhi_cntrl->ctrl_config_base, mhi_cntrl->ctrl_config_dma);
- 	kfree(mhi_ctxt);
- 	mhi_cntrl->mhi_ctxt = NULL;
- }
- 
-+/*
-+ * Control Configuration Address Space Layout
-+ *              +------------------------------------------+
-+ *              |              Channel Context             |
-+ *              +------------------------------------------+
-+ *              |           Array of Channel Rings         |
-+ *              +------------------------------------------+
-+ *              |              Event Context               |
-+ *              +------------------------------------------+
-+ *              |           Array of Event Rings           |
-+ *              +------------------------------------------+
-+ *              |              Command Context             |
-+ *              +------------------------------------------+
-+ *              |           Array of Command Rings         |
-+ *              +------------------------------------------+
-+ */
-+static int mhi_alloc_control_space(struct mhi_controller *mhi_cntrl, struct mhi_ctxt *mhi_ctxt)
-+{
-+	size_t chan_ctxt_offset, cmd_ctxt_offset, er_ctxt_offset;
-+	size_t chan_ctxt_size, cmd_ctxt_size, er_ctxt_size;
-+	size_t el_size = sizeof(struct mhi_ring_element);
-+	u32 ev_rings = mhi_cntrl->total_ev_rings;
-+	struct mhi_event *mhi_event;
-+	size_t alloc_size, offset = 0;
-+	struct mhi_chan *mhi_chan;
-+	struct mhi_cmd *mhi_cmd;
-+	struct mhi_ring *ring;
-+	int i;
-+
-+	chan_ctxt_offset = offset;
-+	chan_ctxt_size = sizeof(*mhi_ctxt->chan_ctxt) * mhi_cntrl->max_chan;
-+	chan_ctxt_size = PAGE_ALIGN(chan_ctxt_size);
-+	offset += chan_ctxt_size;
-+	for (i = 0, mhi_chan = mhi_cntrl->mhi_chan; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-+		ring = &mhi_chan->tre_ring;
-+		if (!ring->elements)
-+			continue;
-+		alloc_size = ring->elements * el_size;
-+		alloc_size = PAGE_ALIGN(alloc_size << 1);
-+		/* Temporarily save offset here */
-+		ring->pre_aligned = (void *)offset;
-+		offset += alloc_size;
-+	}
-+
-+	er_ctxt_offset = offset;
-+	er_ctxt_size = sizeof(*mhi_ctxt->er_ctxt) * ev_rings;
-+	er_ctxt_size = PAGE_ALIGN(er_ctxt_size);
-+	offset += er_ctxt_size;
-+	for (i = 0, mhi_event = mhi_cntrl->mhi_event; i < ev_rings; i++, mhi_event++) {
-+		ring = &mhi_event->ring;
-+		alloc_size = ring->elements * el_size;
-+		alloc_size = PAGE_ALIGN(alloc_size << 1);
-+		/* Temporarily save offset here */
-+		ring->pre_aligned = (void *)offset;
-+		offset += alloc_size;
-+	}
-+
-+	cmd_ctxt_offset = offset;
-+	cmd_ctxt_size = sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS;
-+	cmd_ctxt_size = PAGE_ALIGN(cmd_ctxt_size);
-+	offset += cmd_ctxt_size;
-+	for (i = 0, mhi_cmd = mhi_cntrl->mhi_cmd; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
-+		ring = &mhi_cmd->ring;
-+		alloc_size = CMD_EL_PER_RING * el_size;
-+		alloc_size = PAGE_ALIGN(alloc_size << 1);
-+		/* Temporarily save offset here */
-+		ring->pre_aligned = (void *)offset;
-+		offset += alloc_size;
-+	}
-+
-+	mhi_cntrl->ctrl_config_size = offset;
-+	mhi_cntrl->ctrl_config_base = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
-+							 mhi_cntrl->ctrl_config_size,
-+							 &mhi_cntrl->ctrl_config_dma,
-+							 GFP_KERNEL);
-+	if (!mhi_cntrl->ctrl_config_base)
-+		return -ENOMEM;
-+
-+	/* Setup channel ctxt */
-+	mhi_ctxt->chan_ctxt = mhi_cntrl->ctrl_config_base + chan_ctxt_offset;
-+	mhi_ctxt->chan_ctxt_addr = mhi_cntrl->ctrl_config_dma + chan_ctxt_offset;
-+	for (i = 0, mhi_chan = mhi_cntrl->mhi_chan; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
-+		ring = &mhi_chan->tre_ring;
-+		if (!ring->elements)
-+			continue;
-+		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-+	}
-+
-+	/* Setup event context */
-+	mhi_ctxt->er_ctxt = mhi_cntrl->ctrl_config_base + er_ctxt_offset;
-+	mhi_ctxt->er_ctxt_addr = mhi_cntrl->ctrl_config_dma + er_ctxt_offset;
-+	for (i = 0, mhi_event = mhi_cntrl->mhi_event; i < ev_rings; i++, mhi_event++) {
-+		ring = &mhi_event->ring;
-+		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-+	}
-+
-+	/* Setup cmd context */
-+	mhi_ctxt->cmd_ctxt = mhi_cntrl->ctrl_config_base + cmd_ctxt_offset;
-+	mhi_ctxt->cmd_ctxt_addr = mhi_cntrl->ctrl_config_dma + cmd_ctxt_offset;
-+	for (i = 0, mhi_cmd = mhi_cntrl->mhi_cmd; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
-+		ring = &mhi_cmd->ring;
-+		ring->elements = CMD_EL_PER_RING;
-+		mhi_init_ring(mhi_cntrl, ring, el_size, (size_t)ring->pre_aligned);
-+	}
-+
-+	return 0;
-+}
-+
- int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- {
- 	struct mhi_ctxt *mhi_ctxt;
-@@ -309,7 +403,7 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	struct mhi_event *mhi_event;
- 	struct mhi_cmd *mhi_cmd;
- 	u32 tmp;
--	int ret = -ENOMEM, i;
-+	int ret, i;
- 
- 	atomic_set(&mhi_cntrl->dev_wake, 0);
- 	atomic_set(&mhi_cntrl->pending_pkts, 0);
-@@ -318,14 +412,12 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	if (!mhi_ctxt)
- 		return -ENOMEM;
- 
--	/* Setup channel ctxt */
--	mhi_ctxt->chan_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
--						 sizeof(*mhi_ctxt->chan_ctxt) *
--						 mhi_cntrl->max_chan,
--						 &mhi_ctxt->chan_ctxt_addr,
--						 GFP_KERNEL);
--	if (!mhi_ctxt->chan_ctxt)
--		goto error_alloc_chan_ctxt;
-+	/* Allocate control configuration */
-+	ret = mhi_alloc_control_space(mhi_cntrl, mhi_ctxt);
-+	if (ret) {
-+		kfree(mhi_ctxt);
-+		return ret;
-+	}
- 
- 	mhi_chan = mhi_cntrl->mhi_chan;
- 	chan_ctxt = mhi_ctxt->chan_ctxt;
-@@ -350,15 +442,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 		mhi_chan->tre_ring.db_addr = (void __iomem *)&chan_ctxt->wp;
- 	}
- 
--	/* Setup event context */
--	mhi_ctxt->er_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
--					       sizeof(*mhi_ctxt->er_ctxt) *
--					       mhi_cntrl->total_ev_rings,
--					       &mhi_ctxt->er_ctxt_addr,
--					       GFP_KERNEL);
--	if (!mhi_ctxt->er_ctxt)
--		goto error_alloc_er_ctxt;
--
- 	er_ctxt = mhi_ctxt->er_ctxt;
- 	mhi_event = mhi_cntrl->mhi_event;
- 	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, er_ctxt++,
-@@ -379,12 +462,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 		er_ctxt->msivec = cpu_to_le32(mhi_event->irq);
- 		mhi_event->db_cfg.db_mode = true;
- 
--		ring->el_size = sizeof(struct mhi_ring_element);
--		ring->len = ring->el_size * ring->elements;
--		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
--		if (ret)
--			goto error_alloc_er;
--
- 		/*
- 		 * If the read pointer equals to the write pointer, then the
- 		 * ring is empty
-@@ -396,28 +473,10 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 		ring->ctxt_wp = &er_ctxt->wp;
- 	}
- 
--	/* Setup cmd context */
--	ret = -ENOMEM;
--	mhi_ctxt->cmd_ctxt = dma_alloc_coherent(mhi_cntrl->cntrl_dev,
--						sizeof(*mhi_ctxt->cmd_ctxt) *
--						NR_OF_CMD_RINGS,
--						&mhi_ctxt->cmd_ctxt_addr,
--						GFP_KERNEL);
--	if (!mhi_ctxt->cmd_ctxt)
--		goto error_alloc_er;
--
- 	mhi_cmd = mhi_cntrl->mhi_cmd;
- 	cmd_ctxt = mhi_ctxt->cmd_ctxt;
- 	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++, cmd_ctxt++) {
- 		struct mhi_ring *ring = &mhi_cmd->ring;
--
--		ring->el_size = sizeof(struct mhi_ring_element);
--		ring->elements = CMD_EL_PER_RING;
--		ring->len = ring->el_size * ring->elements;
--		ret = mhi_alloc_aligned_ring(mhi_cntrl, ring, ring->len);
--		if (ret)
--			goto error_alloc_cmd;
--
- 		ring->rp = ring->wp = ring->base;
- 		cmd_ctxt->rbase = cpu_to_le64(ring->iommu_base);
- 		cmd_ctxt->rp = cmd_ctxt->wp = cmd_ctxt->rbase;
-@@ -428,43 +487,6 @@ int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	mhi_cntrl->mhi_ctxt = mhi_ctxt;
- 
- 	return 0;
--
--error_alloc_cmd:
--	for (--i, --mhi_cmd; i >= 0; i--, mhi_cmd--) {
--		struct mhi_ring *ring = &mhi_cmd->ring;
--
--		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
--				  ring->pre_aligned, ring->dma_handle);
--	}
--	dma_free_coherent(mhi_cntrl->cntrl_dev,
--			  sizeof(*mhi_ctxt->cmd_ctxt) * NR_OF_CMD_RINGS,
--			  mhi_ctxt->cmd_ctxt, mhi_ctxt->cmd_ctxt_addr);
--	i = mhi_cntrl->total_ev_rings;
--	mhi_event = mhi_cntrl->mhi_event + i;
--
--error_alloc_er:
--	for (--i, --mhi_event; i >= 0; i--, mhi_event--) {
--		struct mhi_ring *ring = &mhi_event->ring;
--
--		if (mhi_event->offload_ev)
--			continue;
--
--		dma_free_coherent(mhi_cntrl->cntrl_dev, ring->alloc_size,
--				  ring->pre_aligned, ring->dma_handle);
--	}
--	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->er_ctxt) *
--			  mhi_cntrl->total_ev_rings, mhi_ctxt->er_ctxt,
--			  mhi_ctxt->er_ctxt_addr);
--
--error_alloc_er_ctxt:
--	dma_free_coherent(mhi_cntrl->cntrl_dev, sizeof(*mhi_ctxt->chan_ctxt) *
--			  mhi_cntrl->max_chan, mhi_ctxt->chan_ctxt,
--			  mhi_ctxt->chan_ctxt_addr);
--
--error_alloc_chan_ctxt:
--	kfree(mhi_ctxt);
--
--	return ret;
- }
- 
- int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
-@@ -475,6 +497,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 	struct mhi_event *mhi_event;
- 	void __iomem *base = mhi_cntrl->regs;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-+	dma_addr_t mhi_ctrl_limit = mhi_cntrl->ctrl_config_dma + mhi_cntrl->ctrl_config_size - 1;
- 	struct {
- 		u32 offset;
- 		u32 val;
-@@ -505,11 +528,11 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 		},
- 		{
- 			MHICTRLBASE_HIGHER,
--			upper_32_bits(mhi_cntrl->iova_start),
-+			upper_32_bits(mhi_cntrl->ctrl_config_dma),
- 		},
- 		{
- 			MHICTRLBASE_LOWER,
--			lower_32_bits(mhi_cntrl->iova_start),
-+			lower_32_bits(mhi_cntrl->ctrl_config_dma),
- 		},
- 		{
- 			MHIDATABASE_HIGHER,
-@@ -521,11 +544,11 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- 		},
- 		{
- 			MHICTRLLIMIT_HIGHER,
--			upper_32_bits(mhi_cntrl->iova_stop),
-+			upper_32_bits(mhi_ctrl_limit),
- 		},
- 		{
- 			MHICTRLLIMIT_LOWER,
--			lower_32_bits(mhi_cntrl->iova_stop),
-+			lower_32_bits(mhi_ctrl_limit),
- 		},
- 		{
- 			MHIDATALIMIT_HIGHER,
-@@ -622,8 +645,6 @@ void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
- 	if (!chan_ctxt->rbase) /* Already uninitialized */
- 		return;
- 
--	dma_free_coherent(mhi_cntrl->cntrl_dev, tre_ring->alloc_size,
--			  tre_ring->pre_aligned, tre_ring->dma_handle);
- 	vfree(buf_ring->base);
- 
- 	buf_ring->base = tre_ring->base = NULL;
-@@ -649,26 +670,18 @@ int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
- 	struct mhi_ring *tre_ring;
- 	struct mhi_chan_ctxt *chan_ctxt;
- 	u32 tmp;
--	int ret;
- 
- 	buf_ring = &mhi_chan->buf_ring;
- 	tre_ring = &mhi_chan->tre_ring;
--	tre_ring->el_size = sizeof(struct mhi_ring_element);
--	tre_ring->len = tre_ring->el_size * tre_ring->elements;
- 	chan_ctxt = &mhi_cntrl->mhi_ctxt->chan_ctxt[mhi_chan->chan];
--	ret = mhi_alloc_aligned_ring(mhi_cntrl, tre_ring, tre_ring->len);
--	if (ret)
--		return -ENOMEM;
-+	mhi_init_ring_base(tre_ring);
- 
- 	buf_ring->el_size = sizeof(struct mhi_buf_info);
- 	buf_ring->len = buf_ring->el_size * buf_ring->elements;
- 	buf_ring->base = vzalloc(buf_ring->len);
- 
--	if (!buf_ring->base) {
--		dma_free_coherent(mhi_cntrl->cntrl_dev, tre_ring->alloc_size,
--				  tre_ring->pre_aligned, tre_ring->dma_handle);
-+	if (!buf_ring->base)
- 		return -ENOMEM;
--	}
- 
- 	tmp = le32_to_cpu(chan_ctxt->chcfg);
- 	tmp &= ~CHAN_CTX_CHSTATE_MASK;
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index ce566f7d2e92..bedaf248c49a 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -215,7 +215,6 @@ struct mhi_ring {
- 	size_t el_size;
- 	size_t len;
- 	size_t elements;
--	size_t alloc_size;
- 	void __iomem *db_addr;
- };
- 
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index dd372b0123a6..79224d07f3f7 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -325,6 +325,9 @@ struct mhi_controller_config {
-  * @mhi_event: MHI event ring configurations table
-  * @mhi_cmd: MHI command ring configurations table
-  * @mhi_ctxt: MHI device context, shared memory between host and device
-+ * @ctrl_config_size: Total allocated size of control configuration buffer
-+ * @ctrl_config_dma: Base bus address of control configuration buffer
-+ * @ctrl_config_base: Base CPU address of control configuration buffer
-  * @pm_mutex: Mutex for suspend/resume operation
-  * @pm_lock: Lock for protecting MHI power management state
-  * @timeout_ms: Timeout in ms for state transitions
-@@ -403,6 +406,10 @@ struct mhi_controller {
- 	struct mhi_cmd *mhi_cmd;
- 	struct mhi_ctxt *mhi_ctxt;
- 
-+	size_t ctrl_config_size;
-+	dma_addr_t ctrl_config_dma;
-+	void *ctrl_config_base;
-+
- 	struct mutex pm_mutex;
- 	rwlock_t pm_lock;
- 	u32 timeout_ms;
--- 
-2.34.1
-
+On 4/25/2025 12:38 PM, Manivannan Sadhasivam wrote:
+> On Fri, Apr 18, 2025 at 07:18:18PM +0530, Vivek Pernamitta wrote:
+>> The QDU100 device does not support the MHI M3 state, necessitating the
+>> disabling of runtime PM for this device. It is essential to disable
+>> runtime PM if the device does not support Low Power Mode (LPM).
+> 
+> LPM is not very clear here. Please just use M3.
+> 
+>>
+>> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+>> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+>> ---
+>> Changes in v3:
+>> - updated variable to no_m3 from pm_disable
+>> - Link to v2: https://lore.kernel.org/r/20250418-vdev_next-20250411_pm_disable-v2-1-27dd8d433f3b@quicinc.com
+>>
+>> Changes in v2:
+>> - Updated device from getting runtime suspended by avoid skipping autosuspend.
+>> - Updated commit message.
+>> - Link to v1: https://lore.kernel.org/r/20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com
+>> ---
+>>   drivers/bus/mhi/host/pci_generic.c | 10 ++++++++--
+>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>> index 03aa887952098661a488650053a357f883d1559b..df80f3f62278d2cf96066c04926ce1ce58700d1b 100644
+>> --- a/drivers/bus/mhi/host/pci_generic.c
+>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>> @@ -43,6 +43,7 @@
+>>    * @mru_default: default MRU size for MBIM network packets
+>>    * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+>>    *		   of inband wake support (such as sdx24)
+>> + * @no_m3: M3 is disabled (optional)
+> 
+> Remove 'optional'. It is an opt-in value.
+> 
+>>    */
+>>   struct mhi_pci_dev_info {
+>>   	const struct mhi_controller_config *config;
+>> @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
+>>   	unsigned int dma_data_width;
+>>   	unsigned int mru_default;
+>>   	bool sideband_wake;
+>> +	bool no_m3;
+>>   };
+>>   
+>>   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+>> @@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>>   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>>   	.dma_data_width = 32,
+>>   	.sideband_wake = false,
+>> +	.no_m3 = true,
+>>   };
+>>   
+>>   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+>> @@ -1270,8 +1273,11 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>   	/* start health check */
+>>   	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>>   
+>> -	/* Only allow runtime-suspend if PME capable (for wakeup) */
+>> -	if (pci_pme_capable(pdev, PCI_D3hot)) {
+>> +	/**
+>> +	 * Disable Runtime PM if device doesn't support MHI M3 state
+>> +	 * and Allow runtime-suspend if PME capable (for wakeup)
+> 
+> "Only allow runtime suspend if both PME from D3Hot and M3 are supported"
+> 
+> - Mani
+> 
+Sure, updated accordingly in V4.
