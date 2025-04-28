@@ -1,48 +1,48 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722578F6F;
-	Sat, 26 Apr 2025 04:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B028BF8;
+	Mon, 28 Apr 2025 01:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745642261; cv=none; b=YwwFoxXULLjVHOaGiH+6ifQf1rLyMhagYg72q7usLUpGYOoiVifodI6nFhqXZmA5PLvbBO3CwetkFUSWfW7KwCZjgZBJ6Y2akeOBrM7LWNBfgEX/KnmUnsO6M7lhhwOQkvtN/LEp9qp37aU433PJ80kMprUPqJtG4Oyuz7wK79U=
+	t=1745804261; cv=none; b=A/O3jtn6QE84A355/q4Z2mJYMHv16zN8BYYIqcOpiNZVGQhFB5GgygHKAIsgTlRoKL1UhULKZunJblkk/e+r3q+WmfXyHr45oJqimhIaQISGVwJPJbnpzHy7Uvm6cqDrNrGfB6vvVQAhjgloA1FyB7WKW/16qprNTnc13tG1j80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745642261; c=relaxed/simple;
-	bh=zs7wWTJif4p/e2eqW7enn6LDMeROYRRUL/6ppwjbB2s=;
+	s=arc-20240116; t=1745804261; c=relaxed/simple;
+	bh=avBvMnvDyZ3uriiPvQYLBVnwT4Ez2HaMIV2JJmJDuDI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hdVqYxPjyPNV56kO6Aes684a+M4aSQBTWSUWpYBknKYFgIz2FOwHwwY2GFxiwoDO+royh2VB67gWgZhCPexWs9NFK4ITfW01GncIEHbV8STI9Kt1x2DgF9aiGKMlnriYaLaLe1ZhrXSgjuZnWr1YGn05qIEgkrcSiYOx8Uzi/SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KfaNFtZm; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=ucu1PWsYy3xQUW2ZHRRFe5QBX4viuh44csRt1bRvKeDmrXLESLx/Y98BJEPAFgC07xkiAd8+ugE4W55mgh+/To2VIAaBHupNzWpOE269HCCi6rxJ72ZGVe5AVfuETuGegFRyt2qV+78AQdDSbMYiG/wySxHSgIewsUCPZqVat14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BwhaYSeQ; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KfaNFtZm"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53Q3YsRR002328;
-	Sat, 26 Apr 2025 04:37:37 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BwhaYSeQ"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53RBNPkP012247;
+	Mon, 28 Apr 2025 01:37:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2cvUlok7lJsAFdKwnEsjA4J40q+ZVvqtNhZJbWaGRN0=; b=KfaNFtZmGhsICSkC
-	ZzupcjXE2b2dJC/83Hfrrs9b/xdgIQcaTl1B/ulOkTgI3euwrM65qWGGl8/r7Exy
-	ndUPKUNnM6VAz8r86LCOVnWb0yUpWcm4mn+7eTzlbUpnP+gOhmxyvLQU6Ps7iARp
-	395FKniJdi27Y3lR8Hwdw/J/ZrD2mNZj2c3LnO+bY8UTBhgzxWtSJrLQ6fgBNnk8
-	r2cjqS/sxRoPL4BM9Bd1h1g4d6KnRtvLg/l79nXpyj9HYvRON+Ompd1zYGqNncci
-	13Q5M1Jy1kx6qeVq/xiU1NtH5VdnuvwpJM+FhPHgGc543cSlMrVsxH8HJ01TKSq7
-	OmndmQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qq583mp-1
+	HpIlMV2NZd0L0ibMOZPde5o3ecyelVHg/C1IW6CF5wA=; b=BwhaYSeQlpReF3eL
+	RQvLs9JdAFBWu3eQhnDN1zgCre8wgKDs/S0HH2NDXdv6TNw2NrovD//iOO4xtI23
+	FD0Hyc32V92GyqnubwNPBz2/GCkwm/SwZmPW8y69uW+8RZaZWPx8H5yvKqgWLesq
+	qyhiwXY8H0gpucQ73T9tlJpNRXy4kVoU6K+jTWSNOs9ckVGBmLA0BBjyRids55A5
+	zEiZ1o7MqcidDJca6GhBySfgkTnHZ1/QIWsfUN+B2KjxAQ1hM/KnFouETZlfsOui
+	WEIL9012p8BeAvLPBNESk+fIm9jUKtwH7Oqu2LLeA+qvUlyiVuNIvWK7bwCJyJJw
+	w/YJug==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468r8hn63c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 26 Apr 2025 04:37:37 +0000 (GMT)
+	Mon, 28 Apr 2025 01:37:37 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53Q4bacK018036
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53S1bavm013543
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 26 Apr 2025 04:37:36 GMT
-Received: from [10.218.37.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
+	Mon, 28 Apr 2025 01:37:36 GMT
+Received: from [10.231.195.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Apr
- 2025 21:37:34 -0700
-Message-ID: <24f29ea7-8859-4dbb-93e7-5424071b6b26@quicinc.com>
-Date: Sat, 26 Apr 2025 10:07:31 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 27 Apr
+ 2025 18:37:34 -0700
+Message-ID: <3d162e4f-a15f-4943-8639-ac8c47a77b93@quicinc.com>
+Date: Mon, 28 Apr 2025 09:37:31 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,109 +50,148 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] bus: mhi: host: pci: Disable runtime PM for QDU100
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Krishna Chaitanya Chundru
-	<krishna.chundru@oss.qualcomm.com>
-References: <20250418-vdev_next-20250411_pm_disable-v3-1-0175b691de61@quicinc.com>
- <ciwwfmadzgpzaie5isrmpzd7s373bgyk27hh5fjaqy6blqa4qo@ar7cdrv3uuxy>
+Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>
+CC: <quic_carlv@quicinc.com>, <quic_thanson@quicinc.com>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        "Pranjal Ramajor Asha
+ Kanojiya" <quic_pkanojiy@quicinc.com>
+References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
+ <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
+ <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
 Content-Language: en-US
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
-In-Reply-To: <ciwwfmadzgpzaie5isrmpzd7s373bgyk27hh5fjaqy6blqa4qo@ar7cdrv3uuxy>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: fWz81QGiMUBbr3KvPFU6aCFG4rYHObKL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI2MDAzMCBTYWx0ZWRfX7sG2yssV2vWi neWUoH1Ln1/FgXgaVs4EjZ/JGD0wW90jqVSWyeo7dsRUzxCZIXu8qHqZC82qg8IfTMnf7RVeiwB YoWpiYliOGUA9gwZXbA94ynbIb8n7EF0qOikYqOIIftuAu5JGGTTi1XUUPiPcXfm22LJFa/2xEW
- wyuXCsYUGFtlhjIdp1V+VbrsJYN4wKroNtRGguJqHSJhDGsubslhsKFRxM0XOq85OsH9usLKsfc uEfTeoRh66fYP9la5SZmWYu6rpS4eOTCalKc5wHF+6pDcmazpUx3GE8xEQIVb4aJDl0OQlKEt5+ pMlJCoAZRKi1rKnpu48Aq8Atjovqmu9yyDn32sfeyTqJjDILD7Jzs+9UWVE+b+HysebfeLN8jBL
- dkJu/g1/Kcn8L0hImSHG+BnHliHKPg4WauS5LFH9OFE7sYy9fcPGsGaUbHCaYyxw2ghu53v3
-X-Authority-Analysis: v=2.4 cv=QP1oRhLL c=1 sm=1 tr=0 ts=680c6311 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=OTJ4AGgxtXp4wH7adj0A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: fWz81QGiMUBbr3KvPFU6aCFG4rYHObKL
+X-Proofpoint-ORIG-GUID: gJ4jyK5Wx8LB_U4d2D0VPGyjGAeDT6WB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDAxMiBTYWx0ZWRfX6AUb0n0ExHBb wa5kYoaMNOOsgSrrTYj6uhLVUUCp7fUqhp1wAn/2fIDiIRHY0CrLzmXCn3dvKYw0yNf/b4n16a6 7CEECxKi1Yyk2fXhG+8doRYfGyVtOERhwaN7UVKc08kZ850I1YD6QMQ2VoPoEnEtpctHW5smLrd
+ bo2AUkqsIr5ZpvBESjyTjXQffQ7su0Y713qItcfYLwVtLUalNYSE2HBitbe+MknQRPxab3ixMEZ XlIpXZzMSDsuy+Pn+lKX0ZQUGjic5srmT8hLYETvW6btNi5PHvCpOoTfz43mkFgcjXsq9C9THbd qDkPQMJsdBnGiQE8dwudcjRNkKvUodQdeEuz+jz+Q6XFK9XDKjIbAxdjIEl+VeTScHVpbIhhEpv
+ A/Sq5kc0gAyaEPieXBgwV2xquUNy0Z4wov1Re7GtvILBM48wCEGN9ZIB8NTi/xYh20aWiCu4
+X-Authority-Analysis: v=2.4 cv=cfzSrmDM c=1 sm=1 tr=0 ts=680edbe1 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=L4R8Of4Wrm5XspGrm_IA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: gJ4jyK5Wx8LB_U4d2D0VPGyjGAeDT6WB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-26_01,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0 mlxscore=0
- bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504260030
+ definitions=2025-04-28_01,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504280012
 
 
 
-On 4/25/2025 12:38 PM, Manivannan Sadhasivam wrote:
-> On Fri, Apr 18, 2025 at 07:18:18PM +0530, Vivek Pernamitta wrote:
->> The QDU100 device does not support the MHI M3 state, necessitating the
->> disabling of runtime PM for this device. It is essential to disable
->> runtime PM if the device does not support Low Power Mode (LPM).
+On 4/8/2025 10:56 PM, Jeff Hugo wrote:
+> On 4/8/2025 1:01 AM, Manivannan Sadhasivam wrote:
+>> On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
+>>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>>
+>>> MHI control configurations such as channel context, event context, command
+>>> context and rings, are currently allocated individually. During MHI
+>>> initialization MHI bus driver needs to configure the address space in
+>>> which this control configuration resides. Since different component of the
+>>> config is being allocated separately, only logical solution is to give the
+>>> entire RAM address space, as they could be anywhere.
+>>>
+>>
+>> This is fine...
 > 
-> LPM is not very clear here. Please just use M3.
+> We tripped over this when experimenting with an automotive market product. The FW for that
+> product had a rather strict interpretation of the spec, which we confirmed with the spec
+> owner.
+> 
+> In the specific FW implementation, the device maps the entire MHI space of shared
+> structures in a single ATU entry. The device cannot map an entire 64-bit address space,
+> and it expects all of the shared structures in a single compact range.
+> 
+> This applies to the control structures, not the data buffers per the device implementation.
+> 
+> This restriction seems backed by the spec.  I can't find a reason why the device is
+> invalid, if limited.  I don't think this should break anything, but more on that below.
 > 
 >>
->> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
->> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
->> ---
->> Changes in v3:
->> - updated variable to no_m3 from pm_disable
->> - Link to v2: https://lore.kernel.org/r/20250418-vdev_next-20250411_pm_disable-v2-1-27dd8d433f3b@quicinc.com
+>>> As per MHI specification the MHI control configuration address space should
+>>> not be more them 4GB.
+>>>
 >>
->> Changes in v2:
->> - Updated device from getting runtime suspended by avoid skipping autosuspend.
->> - Updated commit message.
->> - Link to v1: https://lore.kernel.org/r/20250414-vdev_next-20250411_pm_disable-v1-1-e963677636ca@quicinc.com
->> ---
->>   drivers/bus/mhi/host/pci_generic.c | 10 ++++++++--
->>   1 file changed, 8 insertions(+), 2 deletions(-)
+>> Where exactly this limitation is specified in the spec? The spec supports full
+>> 64 bit address space for the MHI control/data structures. But due to the device
+>> DMA limitations, MHI controller drivers often use 32 bit address space. But
+>> that's not a spec limitation.
+> 
+> Its not the clearest thing, sadly.
+> 
+> Document 80-NF223-11 Rev AB "MHI spec v1.2" Section 6.2 "MHI Registers" table 6-19 (page
+> 106) -
+> 
+> Describing MHICTRLLIMIT: "The most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT
+> registers must be equal."
+> 
+> This means we have a 4GB range (32-bit) to play with in a 64-bit address space.  If the
+> upper 32-bits of the 64-bit address for both the base and the limit must be the same, then
+> the range of addresses from the base to the limit can only vary the lower 32-bits.
+> 
+> Invalid:
+> BASE: 0x0
+> LIMIT: 0xffffffff_ffffffff
+> 
+> Valid:
+> BASE: 0x0f_00000000
+> LIMIT: 0x0f_ffffffff
+
+as an MHI controller driver, ath11k is doing
+
+		mhi_ctrl->iova_start = 0;
+		mhi_ctrl->iova_stop = ab_pci->dma_mask;
+
+where ab_pci->dma_mask is defined as
+
+		ab_pci->dma_mask = DMA_BIT_MASK(36)
+
+clearly this does not align with the 32bit requirement above, however there is no issue hit.
+
+What happens if the most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT is not equal?
+SYS_ERR or RDDM?
+
+
+> 
+>>> Since the current implementation is in violation of MHI specification.
+> 
+> For example mhi_init_dev_ctxt()
+> 
+> We allocate the chan_ctxt with dma_alloc_coherent() as an individual allocation.  In the
+> case of AIC100, the device can access the full 64-bit address space, but the DMA engine is
+> limited to a 32-bit transfer size.  The chan_ctxt probably won't be larger than 4GB, so
+> the size is rather irrelevant.  Can be allocated anywhere.  Lets say that it gets put in
+> the lower 32-bit address space - 0x0_XXXXXXXX
+> 
+> Then a little bit later we allocate er_ctxt with a different dma_alloc_coherent()
+> instance.  Being a unique allocation, it is not tied to the chan_ctxt and can exist
+> anywhere.  Lets assume that it gets put somewhere in the non-lower 32-bits - 0x1000_XXXXXXXX
+> 
+> Now we have a problem because we cannot describe a single range covering both of these
+> allocations via MHICTRLBASE/MHICTRLLIMIT where the upper 32-bits of both registers is the
+> same.
+> 
+>>> Allocate a single giant DMA buffer for MHI control configurations and
+>>> limit the configuration address space to that buffer.
+>>>
 >>
->> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
->> index 03aa887952098661a488650053a357f883d1559b..df80f3f62278d2cf96066c04926ce1ce58700d1b 100644
->> --- a/drivers/bus/mhi/host/pci_generic.c
->> +++ b/drivers/bus/mhi/host/pci_generic.c
->> @@ -43,6 +43,7 @@
->>    * @mru_default: default MRU size for MBIM network packets
->>    * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
->>    *		   of inband wake support (such as sdx24)
->> + * @no_m3: M3 is disabled (optional)
+>> I don't think this could work for all devices. For instance, some ath11k devices
+>> use a fixed reserved region in host address space for MHICTRL/BASE.
 > 
-> Remove 'optional'. It is an opt-in value.
+> Why would we be unable to allocate all of the control structures in a single allocation
+> out of that reserved region?  Is it larger than 4GB in size?
 > 
->>    */
->>   struct mhi_pci_dev_info {
->>   	const struct mhi_controller_config *config;
->> @@ -54,6 +55,7 @@ struct mhi_pci_dev_info {
->>   	unsigned int dma_data_width;
->>   	unsigned int mru_default;
->>   	bool sideband_wake;
->> +	bool no_m3;
->>   };
->>   
->>   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
->> @@ -295,6 +297,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
->>   	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->>   	.dma_data_width = 32,
->>   	.sideband_wake = false,
->> +	.no_m3 = true,
->>   };
->>   
->>   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
->> @@ -1270,8 +1273,11 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>   	/* start health check */
->>   	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
->>   
->> -	/* Only allow runtime-suspend if PME capable (for wakeup) */
->> -	if (pci_pme_capable(pdev, PCI_D3hot)) {
->> +	/**
->> +	 * Disable Runtime PM if device doesn't support MHI M3 state
->> +	 * and Allow runtime-suspend if PME capable (for wakeup)
+> -Jeff
 > 
-> "Only allow runtime suspend if both PME from D3Hot and M3 are supported"
 > 
-> - Mani
-> 
-Sure, updated accordingly in V4.
+
