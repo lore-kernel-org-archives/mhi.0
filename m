@@ -1,180 +1,276 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A70B1C8609;
-	Tue, 29 Apr 2025 01:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745891082; cv=none; b=OFV+hcjBs1ZDwFzRtzjdtBTir8wTz8vPWphLxx20FdaKdKFKAHhxAhUDWNK/gbNE8krVYAuGJ42uXnOIZyY8h2KqD7gpYCKH0rw+OPIRRXfdpB51rZO4OHIA1jeLJQrilUWIHysWuqWzJxO7SoNVLyRsL5/zUB+PIb3B17zsS0M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745891082; c=relaxed/simple;
-	bh=2KTLyiGPraWl74WfRrfDxm3Q0gBo/Qo4Pb7v7eN7tBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=CXuZB4DdXRn28mxDrHC3xbYFo0iLJUxbN8rsxSUmoXipvVJc171HqB51hl1XdrkZMS940zWjuJBEsMrT++PzHrRRxHGvSdnXCOidRptljGgCvugZpWHNO9RQwV/VxhZ1Atmi/tMSX1DXdgyf7StQHPNuUg6z7y8vkH9Gvfm7P7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bXY1jRfM; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D59F2C3757
+	for <mhi@lists.linux.dev>; Tue, 29 Apr 2025 12:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745929343; cv=pass; b=QLqShCB4pr3aM9IVOKGZ3AiEdAmef28XSNRLIY9AWF60MNuFffGk1UR2TMnNy4Kh+YGuos8UBcdT052PXBVSkzTFvVEv67wxfeunSWwUdnPeerot2M7gHodbUF8y9GCjejiIwwU7EA6toqNMCs1c+u6RZgs5cClIPlVt0YNppHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745929343; c=relaxed/simple;
+	bh=Pl/8ZRqKjTYpfRjmRIC8F9O1eyoMR8WT/0aot7GmIc4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CnfJ0BVlD8Vt1j3Er/6dqli4pu41a00w/nBPINnX00b4BQv2ypqf1t3OuQnzoxORzxSvTpAeRpGkHEpFKlwA4uXXPdrdrzasskKXaV/3cVU1237GfY4LXd9FfNm18YMOapH1A6CjNIjCQJBlWwYta5s7mhpqbHIMR04xBq3HnYo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=LnLAgr+Q; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bXY1jRfM"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SNskuN020034;
-	Tue, 29 Apr 2025 01:44:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qIQHcz/xmdQrAG36O8DMww65SQ/CR2DBF6nqU64W0js=; b=bXY1jRfMsB2HiN8y
-	d8t5gUiJeGP5kzmm7Fe7XPsZP/C2sxr10W2vpetJ4XZrm0iaHx7v7mA80MgDySIZ
-	j1W9+NKXs3sLO0WTNL/ZHvOTgwsK2sWcE5rfwxqn5na3XJT02RVtfbX/KkGhTlCX
-	zYQh20dXn/rGCy5keUyzpJqjrjmD7A46rOuRVzoinpW7bxGucd+3wkhH5vqKLvOX
-	ijbEiqwx3zvbZcgkLGMoHBXZ/OglW4MEvh0wH+ETFIkgbcAgwWuQKQnJjhM9/7Mg
-	2ctT59RnNhPW9Oq0QbYJ62oqcn4Qkpqv6MJry8CcvG6RllkL823fBuN/aBa2CDGW
-	rPSKNg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468r8hstpa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 01:44:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53T1icOV014870
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 01:44:38 GMT
-Received: from [10.231.195.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Apr
- 2025 18:44:35 -0700
-Message-ID: <9ac836c0-2c41-4656-b922-5dc20aecf53f@quicinc.com>
-Date: Tue, 29 Apr 2025 09:44:32 +0800
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="LnLAgr+Q"
+ARC-Seal: i=1; a=rsa-sha256; t=1745929328; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Fac9jr2q+2FFJjwbysdw4ZN5Ctn7rfRpfIx+1lcAnA/nAwvP5nMuS/RO/OYB9QBONGUpSFuRiXN00tpzQkJw6znj2RtH1Sre5JU2DgSBGHtOGwFfG7cKGdG9Hb8s5fA8e/rQ8OgOkco0/YFkdEFX3COBh4+gWTWMUUsTiTj56Dg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1745929328; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=sKJ1pTVCX4dEVX1vrqZiREtxmyVR9vDTmkBb2JrH30s=; 
+	b=Vzj1rAukVMGMgQhFaGv8ckhYTMk4642OMD55TcoAymjsOlmRmJyXa2GpAbtqshGVqK+2NCeSpVqTMb7SySG+7HLa8VUFVrwV2XZEumqgghkkMevhu2TPvWLKsoawDOtyE1OgZM3nES+tIYjfLT9bsPsGU7hcJab8oBD6F/HuSZI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745929327;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=sKJ1pTVCX4dEVX1vrqZiREtxmyVR9vDTmkBb2JrH30s=;
+	b=LnLAgr+QE8jLvEyADCjhfPHj9SCXQgULDYrsuSGMracCavNIFuNBpDPBgzgM0Bqf
+	8Yb/7XjOHjfoJwkQPsnHeM/hCKt4vH8Va5cfL5OVHN+4EV5tA0u0Q/7uKPVHOYpfHaG
+	WQCftFf8+zqk7CsSYrt2HbFKdT5oLowhz7EJ+SQ0=
+Received: by mx.zohomail.com with SMTPS id 1745929325816339.67490448540536;
+	Tue, 29 Apr 2025 05:22:05 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Yan Zhen <yanzhen@vivo.com>,
+	Alex Elder <elder@kernel.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Troy Hanson <quic_thanson@quicinc.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: kernel@collabora.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org
+Subject: [PATCH v3] bus: mhi: host: don't free bhie tables during suspend/hibernation
+Date: Tue, 29 Apr 2025 17:20:56 +0500
+Message-ID: <20250429122112.104472-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>
-CC: <quic_carlv@quicinc.com>, <quic_thanson@quicinc.com>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        "Pranjal Ramajor Asha
- Kanojiya" <quic_pkanojiy@quicinc.com>
-References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
- <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
- <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
- <3d162e4f-a15f-4943-8639-ac8c47a77b93@quicinc.com>
- <723cb707-2bc2-481c-ab6a-1146c9677821@oss.qualcomm.com>
-Content-Language: en-US
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <723cb707-2bc2-481c-ab6a-1146c9677821@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: czoXgwOpw-7NQZ4E0FyLQ8KEG7AeYNQw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDAxMSBTYWx0ZWRfX6AZyjYfAN6qG UoxZYRk8j3VgWWkfa7Xk8GqOBuFChAKs+XB8V4SM1j3NyZv95bpwo/aqftIftr/Uq3BvgSe8ZWO m6b957w6AWHvm+NSVSaxxPBf31To6tUaUyhEjSDlQ4nwzCeH74zxB82PVJ3/T9Uari1AHsnXaHJ
- O/Rw7UQ6Jfxig6ltx/Wg1D/4DeBsbrU8RjjfUiZge493ykr9zFS3unnfMe4RX9VSTZ0ledQGqIX 3RZ28to7B2MN51QVsLn34vCz7q/kQwWNlZNRu2TUmx82nN6u0BNlRbB1k7bjo1IN4SsBIq4jGr5 mTakTjMAIW0rhDoC1dwXbXB42KO5Fpe3g3TsrQ1/uCwYIgXIUVcVgfoYCkRiAeoG6mi77WnBPuf
- MFjNm9U7mrsZTubRqG+n/0j8Hx4dy5zAlK6ipuQLX/HSZqOwn/O7MyqTdrHAd2XdOHBkH7w/
-X-Authority-Analysis: v=2.4 cv=cfzSrmDM c=1 sm=1 tr=0 ts=68102f06 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=3gfjcLGQ7P4yGRib1jcA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: czoXgwOpw-7NQZ4E0FyLQ8KEG7AeYNQw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-29_01,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504290011
+X-ZohoMailClient: External
 
+Fix dma_direct_alloc() failure at resume time during bhie_table
+allocation. There is a crash report where at resume time, the memory
+from the dma doesn't get allocated and MHI fails to re-initialize.
+There is fragmentation/memory pressure.
 
+To fix it, don't free the memory at power down during suspend /
+hibernation. Instead, use the same allocated memory again after every
+resume / hibernation. This patch has been tested with resume and
+hibernation both.
 
-On 4/28/2025 11:09 PM, Jeff Hugo wrote:
-> On 4/27/2025 7:37 PM, Baochen Qiang wrote:
->>
->>
->> On 4/8/2025 10:56 PM, Jeff Hugo wrote:
->>> On 4/8/2025 1:01 AM, Manivannan Sadhasivam wrote:
->>>> On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
->>>>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->>>>>
->>>>> MHI control configurations such as channel context, event context, command
->>>>> context and rings, are currently allocated individually. During MHI
->>>>> initialization MHI bus driver needs to configure the address space in
->>>>> which this control configuration resides. Since different component of the
->>>>> config is being allocated separately, only logical solution is to give the
->>>>> entire RAM address space, as they could be anywhere.
->>>>>
->>>>
->>>> This is fine...
->>>
->>> We tripped over this when experimenting with an automotive market product. The FW for that
->>> product had a rather strict interpretation of the spec, which we confirmed with the spec
->>> owner.
->>>
->>> In the specific FW implementation, the device maps the entire MHI space of shared
->>> structures in a single ATU entry. The device cannot map an entire 64-bit address space,
->>> and it expects all of the shared structures in a single compact range.
->>>
->>> This applies to the control structures, not the data buffers per the device
->>> implementation.
->>>
->>> This restriction seems backed by the spec.  I can't find a reason why the device is
->>> invalid, if limited.  I don't think this should break anything, but more on that below.
->>>
->>>>
->>>>> As per MHI specification the MHI control configuration address space should
->>>>> not be more them 4GB.
->>>>>
->>>>
->>>> Where exactly this limitation is specified in the spec? The spec supports full
->>>> 64 bit address space for the MHI control/data structures. But due to the device
->>>> DMA limitations, MHI controller drivers often use 32 bit address space. But
->>>> that's not a spec limitation.
->>>
->>> Its not the clearest thing, sadly.
->>>
->>> Document 80-NF223-11 Rev AB "MHI spec v1.2" Section 6.2 "MHI Registers" table 6-19 (page
->>> 106) -
->>>
->>> Describing MHICTRLLIMIT: "The most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT
->>> registers must be equal."
->>>
->>> This means we have a 4GB range (32-bit) to play with in a 64-bit address space.  If the
->>> upper 32-bits of the 64-bit address for both the base and the limit must be the same, then
->>> the range of addresses from the base to the limit can only vary the lower 32-bits.
->>>
->>> Invalid:
->>> BASE: 0x0
->>> LIMIT: 0xffffffff_ffffffff
->>>
->>> Valid:
->>> BASE: 0x0f_00000000
->>> LIMIT: 0x0f_ffffffff
->>
->> as an MHI controller driver, ath11k is doing
->>
->>         mhi_ctrl->iova_start = 0;
->>         mhi_ctrl->iova_stop = ab_pci->dma_mask;
->>
->> where ab_pci->dma_mask is defined as
->>
->>         ab_pci->dma_mask = DMA_BIT_MASK(36)
->>
->> clearly this does not align with the 32bit requirement above, however there is no issue
->> hit.
->>
->> What happens if the most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT is not equal?
->> SYS_ERR or RDDM?
-> 
-> On the device we experienced this with, we would be able to transition to M0, but the
-> later the device would have an internal fault and crash.
+The rddm is of constant size for a given hardware. While the fbc_image
+size depends on the firmware. If the firmware changes, we'll free and
+allocate new memory for it.
 
-so with this patch, MHICTRLBASE/MHICTRLLIMIT are untied from iova_start/iova_stop, meaning
-current ath11k settings does not break the requirement, hence no ath11k change needed, right?
+Here are the crash logs:
 
-> 
-> -Jeff
+[ 3029.338587] mhi mhi0: Requested to power ON
+[ 3029.338621] mhi mhi0: Power on setup success
+[ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+[ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
+[ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+[ 3029.668694] Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+[ 3029.668717] Call Trace:
+[ 3029.668722]  <TASK>
+[ 3029.668728]  dump_stack_lvl+0x4e/0x70
+[ 3029.668738]  warn_alloc+0x164/0x190
+[ 3029.668747]  ? srso_return_thunk+0x5/0x5f
+[ 3029.668754]  ? __alloc_pages_direct_compact+0xaf/0x360
+[ 3029.668761]  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+[ 3029.668774]  __alloc_pages_noprof+0x321/0x350
+[ 3029.668782]  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+[ 3029.668790]  dma_direct_alloc+0x70/0x270
+[ 3029.668796]  mhi_alloc_bhie_table+0xe8/0x190 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668814]  mhi_fw_load_handler+0x1bc/0x310 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668830]  mhi_pm_st_worker+0x5c8/0xaa0 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+[ 3029.668844]  ? srso_return_thunk+0x5/0x5f
+[ 3029.668853]  process_one_work+0x17e/0x330
+[ 3029.668861]  worker_thread+0x2ce/0x3f0
+[ 3029.668868]  ? __pfx_worker_thread+0x10/0x10
+[ 3029.668873]  kthread+0xd2/0x100
+[ 3029.668879]  ? __pfx_kthread+0x10/0x10
+[ 3029.668885]  ret_from_fork+0x34/0x50
+[ 3029.668892]  ? __pfx_kthread+0x10/0x10
+[ 3029.668898]  ret_from_fork_asm+0x1a/0x30
+[ 3029.668910]  </TASK>
+
+Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Changes since v1:
+- Don't free bhie tables during suspend/hibernation only
+- Handle fbc_image changed size correctly
+- Remove fbc_image getting set to NULL in *free_bhie_table()
+
+Changes since v2:
+- Remove the new mhi_partial_unprepare_after_power_down() and instead
+  update mhi_power_down_keep_dev() to use
+  mhi_power_down_unprepare_keep_dev() as suggested by Mani
+- Update all users of this API such as ath12k (previously only ath11k
+  was updated)
+- Define prev_fw_sz in docs
+- Do better alignment of comments
+
+Tested on ath11k.
+---
+ drivers/bus/mhi/host/boot.c           | 15 +++++++++++----
+ drivers/bus/mhi/host/init.c           |  5 +++--
+ drivers/bus/mhi/host/pm.c             |  9 +++++++++
+ drivers/net/wireless/ath/ath11k/mhi.c |  8 ++++----
+ drivers/net/wireless/ath/ath12k/mhi.c |  8 ++++----
+ include/linux/mhi.h                   |  2 ++
+ 6 files changed, 33 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index efa3b6dddf4d2..bc8459798bbee 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -584,10 +584,17 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	 * device transitioning into MHI READY state
+ 	 */
+ 	if (fw_load_type == MHI_FW_LOAD_FBC) {
+-		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+-		if (ret) {
+-			release_firmware(firmware);
+-			goto error_fw_load;
++		if (mhi_cntrl->fbc_image && fw_sz != mhi_cntrl->prev_fw_sz) {
++			mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
++			mhi_cntrl->fbc_image = NULL;
++		}
++		if (!mhi_cntrl->fbc_image) {
++			ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
++			if (ret) {
++				release_firmware(firmware);
++				goto error_fw_load;
++			}
++			mhi_cntrl->prev_fw_sz = fw_sz;
+ 		}
+ 
+ 		/* Load the firmware into BHIE vec table */
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 13e7a55f54ff4..a7663ad16bfc6 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -1173,8 +1173,9 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+ 		/*
+ 		 * Allocate RDDM table for debugging purpose if specified
+ 		 */
+-		mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
+-				     mhi_cntrl->rddm_size);
++		if (!mhi_cntrl->rddm_image)
++			mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
++					     mhi_cntrl->rddm_size);
+ 		if (mhi_cntrl->rddm_image) {
+ 			ret = mhi_rddm_prepare(mhi_cntrl,
+ 					       mhi_cntrl->rddm_image);
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index e6c3ff62bab1d..b726b000d8a5d 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -1259,10 +1259,19 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+ }
+ EXPORT_SYMBOL_GPL(mhi_power_down);
+ 
++void mhi_power_down_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
++{
++	mhi_cntrl->bhi = NULL;
++	mhi_cntrl->bhie = NULL;
++
++	mhi_deinit_dev_ctxt(mhi_cntrl);
++}
++
+ void mhi_power_down_keep_dev(struct mhi_controller *mhi_cntrl,
+ 			       bool graceful)
+ {
+ 	__mhi_power_down(mhi_cntrl, graceful, false);
++	mhi_power_down_unprepare_keep_dev(mhi_cntrl);
+ }
+ EXPORT_SYMBOL_GPL(mhi_power_down_keep_dev);
+ 
+diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+index acd76e9392d31..c5dc776b23643 100644
+--- a/drivers/net/wireless/ath/ath11k/mhi.c
++++ b/drivers/net/wireless/ath/ath11k/mhi.c
+@@ -460,12 +460,12 @@ void ath11k_mhi_stop(struct ath11k_pci *ab_pci, bool is_suspend)
+ 	 * workaround, otherwise ath11k_core_resume() will timeout
+ 	 * during resume.
+ 	 */
+-	if (is_suspend)
++	if (is_suspend) {
+ 		mhi_power_down_keep_dev(ab_pci->mhi_ctrl, true);
+-	else
++	} else {
+ 		mhi_power_down(ab_pci->mhi_ctrl, true);
+-
+-	mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
++		mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
++	}
+ }
+ 
+ int ath11k_mhi_suspend(struct ath11k_pci *ab_pci)
+diff --git a/drivers/net/wireless/ath/ath12k/mhi.c b/drivers/net/wireless/ath/ath12k/mhi.c
+index 08f44baf182a5..cb7f789d873f2 100644
+--- a/drivers/net/wireless/ath/ath12k/mhi.c
++++ b/drivers/net/wireless/ath/ath12k/mhi.c
+@@ -635,12 +635,12 @@ void ath12k_mhi_stop(struct ath12k_pci *ab_pci, bool is_suspend)
+ 	 * workaround, otherwise ath12k_core_resume() will timeout
+ 	 * during resume.
+ 	 */
+-	if (is_suspend)
++	if (is_suspend) {
+ 		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF_KEEP_DEV);
+-	else
++	} else {
+ 		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF);
+-
+-	ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
++		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
++	}
+ }
+ 
+ void ath12k_mhi_suspend(struct ath12k_pci *ab_pci)
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index dd372b0123a6d..6fd218a877855 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -306,6 +306,7 @@ struct mhi_controller_config {
+  *           if fw_image is NULL and fbc_download is true (optional)
+  * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+  *         is NULL and fbc_download is true (optional)
++ * @prev_fw_sz: Previous firmware image data size, when fbc_download is true
+  * @edl_image: Firmware image name for emergency download mode (optional)
+  * @rddm_size: RAM dump size that host should allocate for debugging purpose
+  * @sbl_size: SBL image size downloaded through BHIe (optional)
+@@ -382,6 +383,7 @@ struct mhi_controller {
+ 	const char *fw_image;
+ 	const u8 *fw_data;
+ 	size_t fw_sz;
++	size_t prev_fw_sz;
+ 	const char *edl_image;
+ 	size_t rddm_size;
+ 	size_t sbl_size;
+-- 
+2.43.0
 
