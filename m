@@ -1,40 +1,40 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D59F2C3757
-	for <mhi@lists.linux.dev>; Tue, 29 Apr 2025 12:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7132C2ABC
+	for <mhi@lists.linux.dev>; Tue, 29 Apr 2025 12:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745929343; cv=pass; b=QLqShCB4pr3aM9IVOKGZ3AiEdAmef28XSNRLIY9AWF60MNuFffGk1UR2TMnNy4Kh+YGuos8UBcdT052PXBVSkzTFvVEv67wxfeunSWwUdnPeerot2M7gHodbUF8y9GCjejiIwwU7EA6toqNMCs1c+u6RZgs5cClIPlVt0YNppHI=
+	t=1745929468; cv=pass; b=Us8yYqPjCci/10CNKLSbgtLD9aIEL0t/IbgGECZXQtCUTIkpI3XI67jm4rS7q8qd+3Ej9e6vZpQZFM0DHHRw7B6RfbfE7r+pBIO87nwmTBaoHmkPfaAdxuE9zGGcttSfa5MNIoqgZbF4U/XhS5qxsbH660KKnU2th30xSQJ/ZlE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745929343; c=relaxed/simple;
+	s=arc-20240116; t=1745929468; c=relaxed/simple;
 	bh=Pl/8ZRqKjTYpfRjmRIC8F9O1eyoMR8WT/0aot7GmIc4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CnfJ0BVlD8Vt1j3Er/6dqli4pu41a00w/nBPINnX00b4BQv2ypqf1t3OuQnzoxORzxSvTpAeRpGkHEpFKlwA4uXXPdrdrzasskKXaV/3cVU1237GfY4LXd9FfNm18YMOapH1A6CjNIjCQJBlWwYta5s7mhpqbHIMR04xBq3HnYo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=LnLAgr+Q; arc=pass smtp.client-ip=136.143.188.112
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D+IxwS8hE4HpY3fzolKLZ/ebQy6MjEHguD5Ma1/Jl23Q29GkwwySDrdjswlOL7xTZMSSDHUY4x4jYC4qGcYmzAsqPvyNBHUhZDQ4BsrCA32m7vF1AKwF0Vqr9EfUZflAaWVuNoizUSx5eJVvXIS98Rk0MYxoODo3heF59/qtr4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=Al6aHHX6; arc=pass smtp.client-ip=136.143.184.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="LnLAgr+Q"
-ARC-Seal: i=1; a=rsa-sha256; t=1745929328; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="Al6aHHX6"
+ARC-Seal: i=1; a=rsa-sha256; t=1745929453; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Fac9jr2q+2FFJjwbysdw4ZN5Ctn7rfRpfIx+1lcAnA/nAwvP5nMuS/RO/OYB9QBONGUpSFuRiXN00tpzQkJw6znj2RtH1Sre5JU2DgSBGHtOGwFfG7cKGdG9Hb8s5fA8e/rQ8OgOkco0/YFkdEFX3COBh4+gWTWMUUsTiTj56Dg=
+	b=PYuHLCecog1qRMXuLCs6DMzTZriApuZa1/0MTnGhCpDeMvznSpJBFYBGBiVsP7yixP2Gcd/sOrRLY2rpCokAEGTSqsZ9ZxNLNgAACnhn6epLv5lfPsCmqU7uTlsUup5F68pMlGFQ2nzvLehVlzNEG9L+zxDyNuapGihTmsaMXzw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1745929328; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	t=1745929453; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
 	bh=sKJ1pTVCX4dEVX1vrqZiREtxmyVR9vDTmkBb2JrH30s=; 
-	b=Vzj1rAukVMGMgQhFaGv8ckhYTMk4642OMD55TcoAymjsOlmRmJyXa2GpAbtqshGVqK+2NCeSpVqTMb7SySG+7HLa8VUFVrwV2XZEumqgghkkMevhu2TPvWLKsoawDOtyE1OgZM3nES+tIYjfLT9bsPsGU7hcJab8oBD6F/HuSZI=
+	b=mfMvA+8gSWP9YYwpptSa0BV+2kbL1f2ioRjnoCssYJ/DavYT5M+X0CmscN2MedYM2diER8RDICVnNPrGPESflQIbZiDhyvdR0RsZbLinmtFo+MVkBJ3BeQrmmYtep+eH6fdZP+vkfZh1cdp8dZB/MuTkC1Uj+xwgJbUZg2H61iQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
 	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745929327;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745929453;
 	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
 	bh=sKJ1pTVCX4dEVX1vrqZiREtxmyVR9vDTmkBb2JrH30s=;
-	b=LnLAgr+QE8jLvEyADCjhfPHj9SCXQgULDYrsuSGMracCavNIFuNBpDPBgzgM0Bqf
-	8Yb/7XjOHjfoJwkQPsnHeM/hCKt4vH8Va5cfL5OVHN+4EV5tA0u0Q/7uKPVHOYpfHaG
-	WQCftFf8+zqk7CsSYrt2HbFKdT5oLowhz7EJ+SQ0=
-Received: by mx.zohomail.com with SMTPS id 1745929325816339.67490448540536;
-	Tue, 29 Apr 2025 05:22:05 -0700 (PDT)
+	b=Al6aHHX6V7efoRHenD0J77Vq9s4COpOYOZueLi9j+wA1LPQOTl8/W0Iy28h2lIwD
+	REH3shWKufnTwU2NgYOctT53XyfqoQHQpGHx0xAPucFSgil9a2Q8yCmRPTAfxGvGGkT
+	d2FvDkXpyCuFec4dZKwIPK1SUKexzul+QFhhYNv4=
+Received: by mx.zohomail.com with SMTPS id 1745929450569239.30908580364132;
+	Tue, 29 Apr 2025 05:24:10 -0700 (PDT)
 From: Muhammad Usama Anjum <usama.anjum@collabora.com>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Jeff Johnson <jjohnson@kernel.org>,
@@ -43,13 +43,13 @@ To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Matthew Leung <quic_mattleun@quicinc.com>,
 	Muhammad Usama Anjum <usama.anjum@collabora.com>,
 	Yan Zhen <yanzhen@vivo.com>,
-	Alex Elder <elder@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
 	Kunwu Chan <chentao@kylinos.cn>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Troy Hanson <quic_thanson@quicinc.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Troy Hanson <quic_thanson@quicinc.com>
 Cc: kernel@collabora.com,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Sumit Garg <sumit.garg@kernel.org>,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -57,8 +57,8 @@ Cc: kernel@collabora.com,
 	ath11k@lists.infradead.org,
 	ath12k@lists.infradead.org
 Subject: [PATCH v3] bus: mhi: host: don't free bhie tables during suspend/hibernation
-Date: Tue, 29 Apr 2025 17:20:56 +0500
-Message-ID: <20250429122112.104472-1-usama.anjum@collabora.com>
+Date: Tue, 29 Apr 2025 17:23:35 +0500
+Message-ID: <20250429122351.108684-1-usama.anjum@collabora.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
