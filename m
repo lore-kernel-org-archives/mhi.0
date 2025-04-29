@@ -1,115 +1,180 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452AB1FECCD
-	for <mhi@lists.linux.dev>; Mon, 28 Apr 2025 16:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A70B1C8609;
+	Tue, 29 Apr 2025 01:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745856284; cv=none; b=MUmYgbNcczMa+Mz78mc3nA1evP7dJDxNrRLanOjYH3anOz91wWU6mysJlH95DBLco4Kd01E1t0xKVyvSng0EfiPEAhVDlzG4RBq9o7CkyJ+Gzpkkri59Qw1VVa7yLahJmG0z/f1IOZHUBdqnsalmQiwr5Kxx6hr0RLNneofgqCU=
+	t=1745891082; cv=none; b=OFV+hcjBs1ZDwFzRtzjdtBTir8wTz8vPWphLxx20FdaKdKFKAHhxAhUDWNK/gbNE8krVYAuGJ42uXnOIZyY8h2KqD7gpYCKH0rw+OPIRRXfdpB51rZO4OHIA1jeLJQrilUWIHysWuqWzJxO7SoNVLyRsL5/zUB+PIb3B17zsS0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745856284; c=relaxed/simple;
-	bh=FrNZmLg/x/OPcRg9cTyCP5WYONcAgeedx2GB1nezExY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3HjIGMcXYG5vPV9hzsQI7M8CvF/hG8KUAJrMCGNLz2y89MHBuEYAbyfDGujGxzmm/onIBbaWjHcB1co2ZOkEYqru14KBwpyAPBgExhDCYShFioJwfyAvytsU94zhoWY3UNSGFrxmdL1c8U5ABw1o8397k9YufDXn4t7ou6KnEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=thlMDbsO; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1745891082; c=relaxed/simple;
+	bh=2KTLyiGPraWl74WfRrfDxm3Q0gBo/Qo4Pb7v7eN7tBw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=CXuZB4DdXRn28mxDrHC3xbYFo0iLJUxbN8rsxSUmoXipvVJc171HqB51hl1XdrkZMS940zWjuJBEsMrT++PzHrRRxHGvSdnXCOidRptljGgCvugZpWHNO9RQwV/VxhZ1Atmi/tMSX1DXdgyf7StQHPNuUg6z7y8vkH9Gvfm7P7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bXY1jRfM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="thlMDbsO"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-73bb647eb23so4158707b3a.0
-        for <mhi@lists.linux.dev>; Mon, 28 Apr 2025 09:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745856282; x=1746461082; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/X7DF9Ew1Agm7nnrSqqFaK71CHWZV0baQc/jIlR9xZ4=;
-        b=thlMDbsOiEzitavxZn4IuRXBH4enF0CoPEFZQU33rUIPUIbNXL9Ze/niXLNvmYnoSR
-         mBup5DMNr2xKUlxXX+dyUk8qP5JsW4aZ3Rbw8oC1SabKgssfN398DkndLnfwiBYJtL5V
-         ExVH9dbG39/EvA/LVoKzlspmCbBFmmq/Uzg5B9jPi8sdaoCZ/XZxHm504lnTDOf2InDg
-         Vyk5Vzk/kH4xCMY1cfvYSIS9ElodPMEpw9hngnH9LJdjTeG29cMPzZhs1tagtYAU45ag
-         fZ+szJ3kZ0BZtYKA7LLsZvPehDO3B8q4I8r4Ep6Pv/idiFhlxZJoSEbuxcigLWmRvbLV
-         oGNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745856282; x=1746461082;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/X7DF9Ew1Agm7nnrSqqFaK71CHWZV0baQc/jIlR9xZ4=;
-        b=NZ6GyjH9qcteRaL5FDfwrwLZVo68aajQqlvoVcanusstOWrCEgESwK9Fvwqu55/cg7
-         dcCJaCvZJCJA9F5rJEcNFcrP9s++laQYwU/iZp8mfJ1etZXKyoMkQ/aPCDno6Ud9yI9C
-         kMda2nCwfIVWoA4FNSIIxD0pTNPlHp4mpHPv3SSs3tKH7WxXGgzphz1dPdleNs8kd3Sj
-         Y3gvzsmgahC2GmocVnF0EHBgvWDZ5GFWdBjacnfgPV+a1h1+h9+L01oha1O1jgWW2B2E
-         v6fOn/xFixcF8vF5FGiK+oWnb9M1bLAbfsZ14Zg5w8RGuutQbw/qCK74cNG1SL6+QgTP
-         8sfA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+AQvsvoLdlid+otJNjV5HLvWtHeK4WVQFYkDLkT6EIOFEOdcOMtU75SwKvl8a7+NI1uY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyqn4yYrbjTjD43PDr76t/vWu11dETEG7RCcTcujM8Wqu41z8g4
-	v/cr2dTJJyN8aMTEGTZAOh0P8T34Wtduhy9RFuMAvwaQHAIYNyQ6gYS9A6U8TA==
-X-Gm-Gg: ASbGncv3McXCPm9dem7zNOX9GiYXjHeQvG8jt2gZe40pu+RDTbTeLg6gqqaE2w3b+hs
-	xyzRmJ0pgWdai1MEByxGUUp3eNBvTOLAQAk56a3TKevr+sQQtpW2eS2PpL8c1BcVLvDvArKwrff
-	VDT6NhpBkrCFyyKbD2LwpmIdNNnP7NEVPs1cfvG9Ba6VJogePabiPzAImq09rCIVQEdBe/RdJZe
-	nYjFoXsNWVO01SsBEK/lVBzeeaWTzMhgkSgugRLPDgUc5TPgZl+1zKgfcS4ccxbp6d7+HyZ1uyV
-	/dmaGLjolJrda/PnHLl/FwgPTcQGLAPY5pjldUhTQSk3ECrWoA==
-X-Google-Smtp-Source: AGHT+IGKCxoXxJthszuaQ0YIvxIpdqYl5iZVD54zK+MbWjkRhDGpgNCqL+JAneA3KnXAx0zTvsqeuQ==
-X-Received: by 2002:a05:6a21:9984:b0:1f5:8d3b:e272 with SMTP id adf61e73a8af0-2046a404462mr11666596637.1.1745856282535;
-        Mon, 28 Apr 2025 09:04:42 -0700 (PDT)
-Received: from thinkpad ([120.60.72.74])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74002791fb3sm3928077b3a.70.2025.04.28.09.04.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 09:04:42 -0700 (PDT)
-Date: Mon, 28 Apr 2025 21:34:37 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, quic_carlv@quicinc.com, 
-	quic_thanson@quicinc.com, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>, ath11k@lists.infradead.org, jjohnson@kernel.org, 
-	quic_bqiang@quicinc.com
-Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
-Message-ID: <szphluirfkwx2na7o5y4wax6icezxv5scnwofma7la7v4kz2kg@bgplpwnsabkt>
-References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
- <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
- <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
- <qhoirbfx5p23542hhi3kk7ftwtptsnoxgtewddbh322d74rgb2@xbupxi3ix7sx>
- <ea4d081c-185b-4715-9b64-da1347dab28b@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bXY1jRfM"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SNskuN020034;
+	Tue, 29 Apr 2025 01:44:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qIQHcz/xmdQrAG36O8DMww65SQ/CR2DBF6nqU64W0js=; b=bXY1jRfMsB2HiN8y
+	d8t5gUiJeGP5kzmm7Fe7XPsZP/C2sxr10W2vpetJ4XZrm0iaHx7v7mA80MgDySIZ
+	j1W9+NKXs3sLO0WTNL/ZHvOTgwsK2sWcE5rfwxqn5na3XJT02RVtfbX/KkGhTlCX
+	zYQh20dXn/rGCy5keUyzpJqjrjmD7A46rOuRVzoinpW7bxGucd+3wkhH5vqKLvOX
+	ijbEiqwx3zvbZcgkLGMoHBXZ/OglW4MEvh0wH+ETFIkgbcAgwWuQKQnJjhM9/7Mg
+	2ctT59RnNhPW9Oq0QbYJ62oqcn4Qkpqv6MJry8CcvG6RllkL823fBuN/aBa2CDGW
+	rPSKNg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468r8hstpa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Apr 2025 01:44:38 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53T1icOV014870
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Apr 2025 01:44:38 GMT
+Received: from [10.231.195.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Apr
+ 2025 18:44:35 -0700
+Message-ID: <9ac836c0-2c41-4656-b922-5dc20aecf53f@quicinc.com>
+Date: Tue, 29 Apr 2025 09:44:32 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: host: Allocate entire MHI control config once
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>
+CC: <quic_carlv@quicinc.com>, <quic_thanson@quicinc.com>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        "Pranjal Ramajor Asha
+ Kanojiya" <quic_pkanojiy@quicinc.com>
+References: <20250328165913.3380933-1-jeff.hugo@oss.qualcomm.com>
+ <pgr6u3onrlf4mvldqn7cxlqkh3krduv542jqgjcy5c535ys6hm@dujbvax4b56s>
+ <07cc4ee2-4a13-495c-bc4d-8837d6b54414@oss.qualcomm.com>
+ <3d162e4f-a15f-4943-8639-ac8c47a77b93@quicinc.com>
+ <723cb707-2bc2-481c-ab6a-1146c9677821@oss.qualcomm.com>
+Content-Language: en-US
+From: Baochen Qiang <quic_bqiang@quicinc.com>
+In-Reply-To: <723cb707-2bc2-481c-ab6a-1146c9677821@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ea4d081c-185b-4715-9b64-da1347dab28b@oss.qualcomm.com>
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: czoXgwOpw-7NQZ4E0FyLQ8KEG7AeYNQw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDAxMSBTYWx0ZWRfX6AZyjYfAN6qG UoxZYRk8j3VgWWkfa7Xk8GqOBuFChAKs+XB8V4SM1j3NyZv95bpwo/aqftIftr/Uq3BvgSe8ZWO m6b957w6AWHvm+NSVSaxxPBf31To6tUaUyhEjSDlQ4nwzCeH74zxB82PVJ3/T9Uari1AHsnXaHJ
+ O/Rw7UQ6Jfxig6ltx/Wg1D/4DeBsbrU8RjjfUiZge493ykr9zFS3unnfMe4RX9VSTZ0ledQGqIX 3RZ28to7B2MN51QVsLn34vCz7q/kQwWNlZNRu2TUmx82nN6u0BNlRbB1k7bjo1IN4SsBIq4jGr5 mTakTjMAIW0rhDoC1dwXbXB42KO5Fpe3g3TsrQ1/uCwYIgXIUVcVgfoYCkRiAeoG6mi77WnBPuf
+ MFjNm9U7mrsZTubRqG+n/0j8Hx4dy5zAlK6ipuQLX/HSZqOwn/O7MyqTdrHAd2XdOHBkH7w/
+X-Authority-Analysis: v=2.4 cv=cfzSrmDM c=1 sm=1 tr=0 ts=68102f06 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=3gfjcLGQ7P4yGRib1jcA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: czoXgwOpw-7NQZ4E0FyLQ8KEG7AeYNQw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-29_01,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504290011
 
-On Fri, Apr 25, 2025 at 09:56:05AM -0700, Jeff Johnson wrote:
-> On 4/24/2025 10:37 PM, Manivannan Sadhasivam wrote:
-> > I was confused by the fact that ath11k driver adds an offset of 0x1000000 to the
-> > reserved region for the iova_start:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/ath/ath11k/mhi.c?h=v6.15-rc3#n331
-> 
-> This predates my role as maintainer.
-> I was an internal reviewer, but in internal review (as well as the public v1)
-> the code was using dedicated 'qcom' DT entries and did not have an offset.
-> 
-> So I looked at the entire patch history:
-> https://lore.kernel.org/linux-wireless/?q=s%3A%22ath11k%3A+Use+reserved+host+DDR+addresses+from+DT+for+PCI+devices%22
-> 
-> The offset was added in v2.
-> 
-> There is nothing that describes why the offset was added, and nobody
-> questioned it.
-> 
 
-Hmm. I'm not sure how this works in the firmware. If firmware uses iova_start as
-the start address for the ATU mapping of the MHI data structures, then it won't
-be able to access the structures allocated prior to this offset (which would be
-very likely).
 
-So the fact that the firmware still works with this offset means it doesn't use
-iova at all. But it would be good to remove this offset from the code anyway.
+On 4/28/2025 11:09 PM, Jeff Hugo wrote:
+> On 4/27/2025 7:37 PM, Baochen Qiang wrote:
+>>
+>>
+>> On 4/8/2025 10:56 PM, Jeff Hugo wrote:
+>>> On 4/8/2025 1:01 AM, Manivannan Sadhasivam wrote:
+>>>> On Fri, Mar 28, 2025 at 10:59:13AM -0600, Jeff Hugo wrote:
+>>>>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>>>>
+>>>>> MHI control configurations such as channel context, event context, command
+>>>>> context and rings, are currently allocated individually. During MHI
+>>>>> initialization MHI bus driver needs to configure the address space in
+>>>>> which this control configuration resides. Since different component of the
+>>>>> config is being allocated separately, only logical solution is to give the
+>>>>> entire RAM address space, as they could be anywhere.
+>>>>>
+>>>>
+>>>> This is fine...
+>>>
+>>> We tripped over this when experimenting with an automotive market product. The FW for that
+>>> product had a rather strict interpretation of the spec, which we confirmed with the spec
+>>> owner.
+>>>
+>>> In the specific FW implementation, the device maps the entire MHI space of shared
+>>> structures in a single ATU entry. The device cannot map an entire 64-bit address space,
+>>> and it expects all of the shared structures in a single compact range.
+>>>
+>>> This applies to the control structures, not the data buffers per the device
+>>> implementation.
+>>>
+>>> This restriction seems backed by the spec.  I can't find a reason why the device is
+>>> invalid, if limited.  I don't think this should break anything, but more on that below.
+>>>
+>>>>
+>>>>> As per MHI specification the MHI control configuration address space should
+>>>>> not be more them 4GB.
+>>>>>
+>>>>
+>>>> Where exactly this limitation is specified in the spec? The spec supports full
+>>>> 64 bit address space for the MHI control/data structures. But due to the device
+>>>> DMA limitations, MHI controller drivers often use 32 bit address space. But
+>>>> that's not a spec limitation.
+>>>
+>>> Its not the clearest thing, sadly.
+>>>
+>>> Document 80-NF223-11 Rev AB "MHI spec v1.2" Section 6.2 "MHI Registers" table 6-19 (page
+>>> 106) -
+>>>
+>>> Describing MHICTRLLIMIT: "The most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT
+>>> registers must be equal."
+>>>
+>>> This means we have a 4GB range (32-bit) to play with in a 64-bit address space.  If the
+>>> upper 32-bits of the 64-bit address for both the base and the limit must be the same, then
+>>> the range of addresses from the base to the limit can only vary the lower 32-bits.
+>>>
+>>> Invalid:
+>>> BASE: 0x0
+>>> LIMIT: 0xffffffff_ffffffff
+>>>
+>>> Valid:
+>>> BASE: 0x0f_00000000
+>>> LIMIT: 0x0f_ffffffff
+>>
+>> as an MHI controller driver, ath11k is doing
+>>
+>>         mhi_ctrl->iova_start = 0;
+>>         mhi_ctrl->iova_stop = ab_pci->dma_mask;
+>>
+>> where ab_pci->dma_mask is defined as
+>>
+>>         ab_pci->dma_mask = DMA_BIT_MASK(36)
+>>
+>> clearly this does not align with the 32bit requirement above, however there is no issue
+>> hit.
+>>
+>> What happens if the most significant 32 bits of MHICTRLBASE and MHICTRLLIMIT is not equal?
+>> SYS_ERR or RDDM?
+> 
+> On the device we experienced this with, we would be able to transition to M0, but the
+> later the device would have an internal fault and crash.
 
-- Mani
+so with this patch, MHICTRLBASE/MHICTRLLIMIT are untied from iova_start/iova_stop, meaning
+current ath11k settings does not break the requirement, hence no ath11k change needed, right?
 
--- 
-மணிவண்ணன் சதாசிவம்
+> 
+> -Jeff
+
