@@ -1,74 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72401262D00;
-	Wed, 30 Apr 2025 16:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1687618DB22;
+	Thu,  1 May 2025 16:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746031542; cv=none; b=hCo+rNCqWDNUjSe4E5Qtuw4r8sR3VpMAcmlr/RFVZdB2weD4FIv7fEdXEiZFONRzhjm8tOVr6eqrrySziirNulZ1cv0kdLXezSlc6PrItCIiZHAKN5LkE7aDQofZbqlsx3+cABi6ZeXnDmA/m11x1/i7apggkASOO0xRK4IpZlg=
+	t=1746115231; cv=none; b=iWGcoiyTBeNAwG/+/ZQd0akglTCBsuuHFL0bWAg6UcBdE9BnOE0Gy/wAJS/y/cDrW8aRzNcacPXC7tSV4pbkMip/LsZGXs2WWSMP+JoO9Wa04I9DXm0fD5U2OdZ5G2ZqcqgpayiXv0b1e2utxdl+ybzAeNjEjwXwGRmAhRGelBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746031542; c=relaxed/simple;
-	bh=YRFeOE2SvEpVpyHUyxI/7ubZqIxqK3KMU4XzCZOjQhw=;
+	s=arc-20240116; t=1746115231; c=relaxed/simple;
+	bh=QdLG6Mxfeg9stM1JIO8NgkMtgfF8uSG0xcaTqwxc4jA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HpYLYI9QDFH2w/RT8tPe4enqpoexIDV62+b6jY5Mp/jmCxYN11lS8cdIF3VZyXvMnuRncQyqZ+cwSSu+c07rdXRc1rLsiLfLR6063uQ6yXA/6IBkGNPlMFSHVaGSkLD4SX+QnEOwkiXMCgkJ9yOoUyuv0Cjrhpq6DCrSWzGn0lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6TgGSw5; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WaO/MebSr4JJan4GnFUVIuMQqUsIclLbymwC/Ke6VrlSj3c+Sik2FQcyv6oyIHdnorleqF+OVCX1HMJR1uyWRtWLRWmzd6T4dGVe5nRHlGB2l9MY8focd06j/17enC1F63TSL8ENothNe8LI2RL/2qNSNzmbflHzdFwpBQMmtDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Yw7F+88U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6TgGSw5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746031540; x=1777567540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YRFeOE2SvEpVpyHUyxI/7ubZqIxqK3KMU4XzCZOjQhw=;
-  b=X6TgGSw5IvMRySNfuMp06XkqZJsHa2y8K1xExAN5pDeHcsTjNIa+1Q3f
-   f+CQRsOE+5DLvwbqHuTUiemWPgO1lbjy3a9LRuuOGJqWUiEHy/cCcCIKq
-   YhiltBkp2i3mzr3pm/TPgE29TIFXIdNQpFbUoF2VJIs67PZgmKh2CYv9a
-   4vwK/8F2EMQGMis4q/4q1eo+RxdwMJliqcgqDJsfym7Nom/0ci+xXvmV8
-   jKZ5h3kjewgehEL04Q9V655SbckMjIvMPrZYzqy69gg0p07pgDyRHRQir
-   pXKqaWKB+FmDxsc6Ya65JWXMIGG5u2kAGpil9ipkqh3Dw0vEip4emYDwO
-   Q==;
-X-CSE-ConnectionGUID: A9pwEGzES8mRKSyzxSagrA==
-X-CSE-MsgGUID: 1djZSq2CTiOW1+n7F2ZNrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="57900352"
-X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
-   d="scan'208";a="57900352"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 09:45:39 -0700
-X-CSE-ConnectionGUID: FRYk2KNrTwGYffzVPt4jkA==
-X-CSE-MsgGUID: dXoFU1mgRlq9kWHXKov/dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,252,1739865600"; 
-   d="scan'208";a="134108205"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Apr 2025 09:45:35 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uAAYu-0003cH-2Q;
-	Wed, 30 Apr 2025 16:45:32 +0000
-Date: Thu, 1 May 2025 00:45:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yw7F+88U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6A7C4CEE3;
+	Thu,  1 May 2025 16:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1746115230;
+	bh=QdLG6Mxfeg9stM1JIO8NgkMtgfF8uSG0xcaTqwxc4jA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yw7F+88U1p7hXmr+E/yol8oSlQWOTDSnm9TzXi8h1FFbqpY2uy2uAFQ3QubihEcrF
+	 7uUDL3iQpzSMHZS6K9b5d1ec8UNQyIrfp7fUFGX3YbiFRBsdgFnrmDGt9eRlM3tqhC
+	 7uaeqvAHolASbfZ/lUhfjL5Bsx7SoY2vmpYP28KI=
+Date: Thu, 1 May 2025 18:00:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Jeff Johnson <jjohnson@kernel.org>,
 	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
 	Youssef Samir <quic_yabdulra@quicinc.com>,
 	Matthew Leung <quic_mattleun@quicinc.com>,
-	Yan Zhen <yanzhen@vivo.com>, Kunwu Chan <chentao@kylinos.cn>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Troy Hanson <quic_thanson@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com, Carl Vanderlip <quic_carlv@quicinc.com>,
-	Sumit Garg <sumit.garg@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org
+	Yan Zhen <yanzhen@vivo.com>, Alex Elder <elder@kernel.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	Troy Hanson <quic_thanson@quicinc.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>, kernel@collabora.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org
 Subject: Re: [PATCH v3] bus: mhi: host: don't free bhie tables during
  suspend/hibernation
-Message-ID: <202505010037.1PMLamw8-lkp@intel.com>
-References: <20250429122351.108684-1-usama.anjum@collabora.com>
+Message-ID: <2025050110-unpeeled-spur-e4af@gregkh>
+References: <20250429122112.104472-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -77,56 +51,62 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250429122351.108684-1-usama.anjum@collabora.com>
+In-Reply-To: <20250429122112.104472-1-usama.anjum@collabora.com>
 
-Hi Muhammad,
+On Tue, Apr 29, 2025 at 05:20:56PM +0500, Muhammad Usama Anjum wrote:
+> Fix dma_direct_alloc() failure at resume time during bhie_table
+> allocation. There is a crash report where at resume time, the memory
+> from the dma doesn't get allocated and MHI fails to re-initialize.
+> There is fragmentation/memory pressure.
+> 
+> To fix it, don't free the memory at power down during suspend /
+> hibernation. Instead, use the same allocated memory again after every
+> resume / hibernation. This patch has been tested with resume and
+> hibernation both.
+> 
+> The rddm is of constant size for a given hardware. While the fbc_image
+> size depends on the firmware. If the firmware changes, we'll free and
+> allocate new memory for it.
+> 
+> Here are the crash logs:
+> 
+> [ 3029.338587] mhi mhi0: Requested to power ON
+> [ 3029.338621] mhi mhi0: Power on setup success
+> [ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+> [ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
+> [ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> [ 3029.668694] Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+> [ 3029.668717] Call Trace:
+> [ 3029.668722]  <TASK>
+> [ 3029.668728]  dump_stack_lvl+0x4e/0x70
+> [ 3029.668738]  warn_alloc+0x164/0x190
+> [ 3029.668747]  ? srso_return_thunk+0x5/0x5f
+> [ 3029.668754]  ? __alloc_pages_direct_compact+0xaf/0x360
+> [ 3029.668761]  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+> [ 3029.668774]  __alloc_pages_noprof+0x321/0x350
+> [ 3029.668782]  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+> [ 3029.668790]  dma_direct_alloc+0x70/0x270
+> [ 3029.668796]  mhi_alloc_bhie_table+0xe8/0x190 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+> [ 3029.668814]  mhi_fw_load_handler+0x1bc/0x310 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+> [ 3029.668830]  mhi_pm_st_worker+0x5c8/0xaa0 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
+> [ 3029.668844]  ? srso_return_thunk+0x5/0x5f
+> [ 3029.668853]  process_one_work+0x17e/0x330
+> [ 3029.668861]  worker_thread+0x2ce/0x3f0
+> [ 3029.668868]  ? __pfx_worker_thread+0x10/0x10
+> [ 3029.668873]  kthread+0xd2/0x100
+> [ 3029.668879]  ? __pfx_kthread+0x10/0x10
+> [ 3029.668885]  ret_from_fork+0x34/0x50
+> [ 3029.668892]  ? __pfx_kthread+0x10/0x10
+> [ 3029.668898]  ret_from_fork_asm+0x1a/0x30
+> [ 3029.668910]  </TASK>
+> 
+> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+> 
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 
-kernel test robot noticed the following build warnings:
+What commit id does this fix?  Should it go to stable kernel(s)?  If so,
+how far back?
 
-[auto build test WARNING on ath/ath-next]
-[also build test WARNING on next-20250430]
-[cannot apply to mani-mhi/mhi-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus staging/staging-testing staging/staging-next staging/staging-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.15-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/bus-mhi-host-don-t-free-bhie-tables-during-suspend-hibernation/20250429-202649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
-patch link:    https://lore.kernel.org/r/20250429122351.108684-1-usama.anjum%40collabora.com
-patch subject: [PATCH v3] bus: mhi: host: don't free bhie tables during suspend/hibernation
-config: arm64-randconfig-002-20250430 (https://download.01.org/0day-ci/archive/20250501/202505010037.1PMLamw8-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505010037.1PMLamw8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505010037.1PMLamw8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/bus/mhi/host/pm.c:1246:6: warning: no previous prototype for function 'mhi_power_down_unprepare_keep_dev' [-Wmissing-prototypes]
-    1246 | void mhi_power_down_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
-         |      ^
-   drivers/bus/mhi/host/pm.c:1246:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1246 | void mhi_power_down_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/mhi_power_down_unprepare_keep_dev +1246 drivers/bus/mhi/host/pm.c
-
-  1245	
-> 1246	void mhi_power_down_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
-  1247	{
-  1248		mhi_cntrl->bhi = NULL;
-  1249		mhi_cntrl->bhie = NULL;
-  1250	
-  1251		mhi_deinit_dev_ctxt(mhi_cntrl);
-  1252	}
-  1253	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
