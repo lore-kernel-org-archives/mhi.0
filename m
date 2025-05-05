@@ -1,126 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A014C8E;
-	Fri,  2 May 2025 05:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9196228B509;
+	Mon,  5 May 2025 22:28:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746162396; cv=none; b=IhorzqUB8o8E4bUubBO9kv5zvrYmICa9qasyAPSnV7zIZ7cKJaaM41QeqWbbOEFY7WMGuGXVwnqmSgYzG++zA+VMhuGuiMaA4ww2dqaVJw8V33LtV0kd57adSVWBNUhBl/oxHw5IX+acCj5es3MY0+g3Vt0UB/tMYAiW+PhhbBE=
+	t=1746484131; cv=none; b=Zvz09Jbx8bSnQ0TQxGzsATjcjJPFDUg7WwUewCfZQULYSt5ocoUCuLdGdIX2zSES0gh88qimol233bHjLQu5ZgJsixgw67rTcNyEhBToA3QrU1Ns5vM/8vIXNiVf1ndcR9TCtiO7eOpLrZDdSRy1E1i97OGkVSOTWLBVmniaj3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746162396; c=relaxed/simple;
-	bh=9JE4pYtNWB/SHJMFnYwXCS9E2BpkOQ7Sf7/0bWmnk0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1CRun7ueuX7XPr8TNGXGxYS5aoW+WFHHzP5HCBSKzBb1LFGWquu3w0w5dDUL7nj347fPvE5bYomr+aHtHrc4JvRkj7Sgbp3jywoHZNiYhF89WyQbH5iQP9ojZY/TqRRuLtyjn3iinYlanPnHVmj6rwfQ4wDoZIXaf/qG6r0blo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fh9i/ey0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746484131; c=relaxed/simple;
+	bh=LJNC1WGx3PsFqhoiIj4US5ok4Nl0wwbQHNr9rljz7+s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JuASbLsCl4UUp0bqhnSYKzrsAJXX/aKh+ns0z2nOs5suA7lKEXqvxX8G4iu0HAY+T6bfB8zZ/8HI37rad+jeahqmj0AyU3Iwz98kNeEY2RRi9kgsMq8krIX7NTMycpA3NLRMqt7HZhkBFkHPZTX0OASw9gM2znwm39U4qbG8AuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tlk7+164; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fh9i/ey0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A66DC4CEE4;
-	Fri,  2 May 2025 05:06:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1746162393;
-	bh=9JE4pYtNWB/SHJMFnYwXCS9E2BpkOQ7Sf7/0bWmnk0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fh9i/ey0MG5Weu9XsA3P2apGoeurMNEyuRXvRw4bhLKJ9XQxC1k4KD7swj2C8saoM
-	 Yan7v+d3C+4wiN7A/9DqilGy28/yB/+Md9s3tSsXBOwdlo80r8EfyabcboJIKbnhVh
-	 K0hL1IafBJKqjRnBoE/RRG+onqDVn5tqWc0C31VE=
-Date: Fri, 2 May 2025 07:06:30 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Youssef Samir <quic_yabdulra@quicinc.com>,
-	Matthew Leung <quic_mattleun@quicinc.com>,
-	Yan Zhen <yanzhen@vivo.com>, Alex Elder <elder@kernel.org>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Kunwu Chan <chentao@kylinos.cn>,
-	Troy Hanson <quic_thanson@quicinc.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>, kernel@collabora.com,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org
-Subject: Re: [PATCH v3] bus: mhi: host: don't free bhie tables during
- suspend/hibernation
-Message-ID: <2025050254-astride-grapple-797e@gregkh>
-References: <20250429122112.104472-1-usama.anjum@collabora.com>
- <2025050110-unpeeled-spur-e4af@gregkh>
- <bdc89d09-ce50-43a4-9043-3ca6a9245eb4@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tlk7+164"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C488C4CEF1;
+	Mon,  5 May 2025 22:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746484131;
+	bh=LJNC1WGx3PsFqhoiIj4US5ok4Nl0wwbQHNr9rljz7+s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Tlk7+164B+Yw1Z73cCRcLh/0pOsw77KrY2Hxsa2eEcYUhCO2PkJQqwoa4g3axqVil
+	 Tdp3/7ewu+afcEL2HPzxS0FD1/fArWwRyXWgK0JlMhzlCXkT/X0k0ZD1gvWcc1Sptd
+	 PwA/UYToA906C5/LxaRnU76LismbsjXNqZ+etZ3RL2g/KWDX7r5WEsMlkeCRFC2m3m
+	 YiQPYA8iLGT7pjUPo13H6hEjxwmGrprfSbc2rCYgzAC0j0msIAyOb6epSTpzA04wjH
+	 oyb/zJabCNVh70D+3qVuLf/u2xim1JUUGEXH2UtYQ3zX3YAr4xucxgFot/plspbFjc
+	 mZWRRT1F8885w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	manivannan.sadhasivam@linaro.org,
+	kw@linux.com,
+	bhelgaas@google.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 362/642] PCI: epf-mhi: Update device ID for SA8775P
+Date: Mon,  5 May 2025 18:09:38 -0400
+Message-Id: <20250505221419.2672473-362-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
+References: <20250505221419.2672473-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bdc89d09-ce50-43a4-9043-3ca6a9245eb4@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.5
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 02, 2025 at 09:15:10AM +0500, Muhammad Usama Anjum wrote:
-> Hi Greg,
-> 
-> On 5/1/25 9:00 PM, Greg Kroah-Hartman wrote:
-> > On Tue, Apr 29, 2025 at 05:20:56PM +0500, Muhammad Usama Anjum wrote:
-> >> Fix dma_direct_alloc() failure at resume time during bhie_table
-> >> allocation. There is a crash report where at resume time, the memory
-> >> from the dma doesn't get allocated and MHI fails to re-initialize.
-> >> There is fragmentation/memory pressure.
-> >>
-> >> To fix it, don't free the memory at power down during suspend /
-> >> hibernation. Instead, use the same allocated memory again after every
-> >> resume / hibernation. This patch has been tested with resume and
-> >> hibernation both.
-> >>
-> >> The rddm is of constant size for a given hardware. While the fbc_image
-> >> size depends on the firmware. If the firmware changes, we'll free and
-> >> allocate new memory for it.
-> >>
-> >> Here are the crash logs:
-> >>
-> >> [ 3029.338587] mhi mhi0: Requested to power ON
-> >> [ 3029.338621] mhi mhi0: Power on setup success
-> >> [ 3029.668654] kworker/u33:8: page allocation failure: order:7, mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
-> >> [ 3029.668682] CPU: 4 UID: 0 PID: 2744 Comm: kworker/u33:8 Not tainted 6.11.11-valve10-1-neptune-611-gb69e902b4338 #1ed779c892334112fb968aaa3facf9686b5ff0bd7
-> >> [ 3029.668690] Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
-> >> [ 3029.668694] Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
-> >> [ 3029.668717] Call Trace:
-> >> [ 3029.668722]  <TASK>
-> >> [ 3029.668728]  dump_stack_lvl+0x4e/0x70
-> >> [ 3029.668738]  warn_alloc+0x164/0x190
-> >> [ 3029.668747]  ? srso_return_thunk+0x5/0x5f
-> >> [ 3029.668754]  ? __alloc_pages_direct_compact+0xaf/0x360
-> >> [ 3029.668761]  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
-> >> [ 3029.668774]  __alloc_pages_noprof+0x321/0x350
-> >> [ 3029.668782]  __dma_direct_alloc_pages.isra.0+0x14a/0x290
-> >> [ 3029.668790]  dma_direct_alloc+0x70/0x270
-> >> [ 3029.668796]  mhi_alloc_bhie_table+0xe8/0x190 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-> >> [ 3029.668814]  mhi_fw_load_handler+0x1bc/0x310 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-> >> [ 3029.668830]  mhi_pm_st_worker+0x5c8/0xaa0 [mhi faa917c5aa23a5f5b12d6a2c597067e16d2fedc0]
-> >> [ 3029.668844]  ? srso_return_thunk+0x5/0x5f
-> >> [ 3029.668853]  process_one_work+0x17e/0x330
-> >> [ 3029.668861]  worker_thread+0x2ce/0x3f0
-> >> [ 3029.668868]  ? __pfx_worker_thread+0x10/0x10
-> >> [ 3029.668873]  kthread+0xd2/0x100
-> >> [ 3029.668879]  ? __pfx_kthread+0x10/0x10
-> >> [ 3029.668885]  ret_from_fork+0x34/0x50
-> >> [ 3029.668892]  ? __pfx_kthread+0x10/0x10
-> >> [ 3029.668898]  ret_from_fork_asm+0x1a/0x30
-> >> [ 3029.668910]  </TASK>
-> >>
-> >> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
-> >>
-> >> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> > 
-> > What commit id does this fix?  Should it go to stable kernel(s)?  If so,
-> > how far back?
-> This patch is fixing the dma_coherent_alloc() failure when there is
-> memory pressure and its unable to allocate memory. Its not a bug in
-> allocation API or the driver. I think it should be considered an
-> improvement instead of the fix. Please correct me if I'm wrong.
+From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
 
-You show a kernel crash in the changelog, that's a major issue (i.e.
-will get assigned a CVE), so you need to show what commit id it fixes
-for people to know how far back to take the fix to.
+[ Upstream commit 4f13dd9e2b1d2b317bb36704f8a7bd1d3017f7a2 ]
 
-thanks,
+Update device ID for the Qcom SA8775P SoC.
 
-greg k-h
+Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+Link: https://lore.kernel.org/r/20241205065422.2515086-3-quic_msarkar@quicinc.com
+[kwilczynski: commit log]
+Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+index 54286a40bdfbf..6643a88c7a0ce 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
++++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+@@ -125,7 +125,7 @@ static const struct pci_epf_mhi_ep_info sm8450_info = {
+ 
+ static struct pci_epf_header sa8775p_header = {
+ 	.vendorid = PCI_VENDOR_ID_QCOM,
+-	.deviceid = 0x0306,               /* FIXME: Update deviceid for sa8775p EP */
++	.deviceid = 0x0116,
+ 	.baseclass_code = PCI_CLASS_OTHERS,
+ 	.interrupt_pin = PCI_INTERRUPT_INTA,
+ };
+-- 
+2.39.5
+
