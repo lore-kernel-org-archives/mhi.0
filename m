@@ -1,493 +1,269 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9613429C32E
-	for <mhi@lists.linux.dev>; Tue,  6 May 2025 04:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746505840; cv=none; b=u00qGBxY+kNcDLWGm2va4TN63DlxjiToC4j4gWqvzEJp/pqyyQePowFs279acxZ63hhz5Bi5S12QuPlse3QwCAhSlknrADDrUDsbpvqihthyFpjM6yOfi5H6tbzR7Efddl8QiWRifIJOamUqm6x8R3lMKhds5G8BwT8trLXMakQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746505840; c=relaxed/simple;
-	bh=H9w02tP4kTahxn299bsbU88ICz8T5t0p6lKQgX+2uwQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lqbuDPov1Kt9+uxmIRTmmpoXVx9WQE1RMCYHwsHo62T1oKznVlc8699saYTnaMEHAgIxzFfnaq4rsJnU2DxQF2odAegQwSzKZ3Z5kJqfeIDNA98d5cfVYduRt+CG7hm+4Q2lb4eJxtj95Y6xbqemTxqIwpniCUW3C70KBAuVgOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eUV0zf+d; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50ED255E37
+	for <mhi@lists.linux.dev>; Tue,  6 May 2025 14:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746543074; cv=pass; b=FclxuHUfYYdKII3IXRaT+DehYe4+4ixU5EPzBF60XloTggHH7DBMkOrvlf4eNMpm+0zepX4Ha3mwTLd/E6RyPoiycyecTFfTAxrPsNanwG+3qCBsuxMEZFEIMZ+s6BnrdN+hoGUKLvl1Xpctw4EvKIp0+e04x109TKKo3pU/pQc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746543074; c=relaxed/simple;
+	bh=UYP07GBClAMU0pKc9jto39bAfvQmXjsbcF+MgijDaPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D8NZKRfBrXMT35/NsrKiTjS0QPZdVdmZskPwRbwROmZ99LQoQdvlQLnDs+sTx7/UIvUuW2PgHX9uMcWlcPKDj7f3UBCoph2llZRbkYJ5hUhnVbByOqCTf4O9bPUI7NnIRTPKz3HuUZI5eSFlTxp5LY0vfhKV9Q1fhgMUAZMOE/M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=MY3xtd23; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eUV0zf+d"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545M6C9A013235;
-	Tue, 6 May 2025 04:30:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iWQ4nF/xEliB+etY7TkbxF3L7ncofLpYh45LamAVez4=; b=eUV0zf+dV13t4EoN
-	rplvCfHhJkRX5dvYCiSqxtOZIvRpvfLENXPk5GeoziGOeFB+tugWrPad4Bq/fegS
-	lcmVdg3jCNSrpN7ocmph1e7XQLzA5hgc6XmZmUACQg/5PyVSEGjZ64ZL3uybvZ6c
-	sG2S7KxW4qVuMvlFsTpdAkQ9Q3SXuGXAkgyVTEV74lpKcaBTCTecEUyC0T5Rr/Al
-	n0UnuqYrBpyK5u/iqXG7X4j55TODmGWCf9atCw0q4Yl7fUmxZzDj7EHVWdmocYQe
-	sGUlNgUr/RKzR9a01gMKCbbsDel8Zb6vaAKDzDcRKHiZeedaEOkkJObjuQ6YYOda
-	tmCgcA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46f5u40vgy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 May 2025 04:30:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5464UN3U011675
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 6 May 2025 04:30:23 GMT
-Received: from [10.218.37.122] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 5 May 2025
- 21:30:16 -0700
-Message-ID: <45deb1b9-748f-2342-1cf7-16b54ef6b95b@quicinc.com>
-Date: Tue, 6 May 2025 09:59:53 +0530
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="MY3xtd23"
+ARC-Seal: i=1; a=rsa-sha256; t=1746543056; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JlENvj1DtQ6vDPp1Tt5aSSXxs0r3fAzGHGo3h86pbX9rB1/W8lP24PEkqATdqQMNDBv0koWbBKsvQSeu9+OToP2qHihgUi+IjtqXNlpOJyG6/aq7wxceEnVPw1iG1oaIVgqiBxv4h+2AVisNANp9cMy5e27w6P48AunfIUmaDr4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1746543056; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hzNcysWgeznsB2udfNycSzXTF9lLlaxaY04PxZPeNe8=; 
+	b=ILYVQRkwLMcQj7Xb4ASNjQ0z7k8kzkTogY8qspSFLcidbgQe56l1f6FmfTB3X9q/aVdgaBwSRHQ2L0n91i7GY4aH6PsAWXVd/qJCLZnf4Y/FrHH+GjX4FM4xUZtcbHc7Zix/bgzT+igFq2xYleCrIrQnkMbDWbcLcYHlMkBgaM8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746543056;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=hzNcysWgeznsB2udfNycSzXTF9lLlaxaY04PxZPeNe8=;
+	b=MY3xtd23dXiQ8NsA89LyI/Gj2f6XOeOfOs6DvB2ilriH/COuyXYtOqlWCXPZEIHo
+	BGjnHs4LMZBa+E5I3LUkLZQFddY67opZaRH0HSs7DOhcszH1s1nytY4qSzuP/Jpj0HT
+	ngWvmDbdGrqAzhppfWB3x78kSd+z73ltlGDH9JC0=
+Received: by mx.zohomail.com with SMTPS id 1746543054682438.2320888768767;
+	Tue, 6 May 2025 07:50:54 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Yan Zhen <yanzhen@vivo.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	Troy Hanson <quic_thanson@quicinc.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: kernel@collabora.com,
+	sebastian.reichel@collabora.com,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Alex Elder <elder@kernel.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org
+Subject: [PATCH v4] bus: mhi: host: don't free bhie tables during suspend/hibernation
+Date: Tue,  6 May 2025 19:49:23 +0500
+Message-ID: <20250506144941.2715345-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 07/10] bus: mhi: host: Add support for Bandwidth scale
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        "Krishna
- Chaitanya Chundru" <krishna.chundru@oss.qualcomm.com>
-CC: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?=
-	<ilpo.jarvinen@linux.intel.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        "Lorenzo
- Pieralisi" <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
-	<kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Johannes Berg
-	<johannes@sipsolutions.net>,
-        Jeff Johnson <jjohnson@kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <mhi@lists.linux.dev>, <linux-wireless@vger.kernel.org>,
-        <ath11k@lists.infradead.org>, <quic_pyarlaga@quicinc.com>,
-        <quic_vbadigan@quicinc.com>, <quic_vpernami@quicinc.com>,
-        <quic_mrana@quicinc.com>,
-        Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>
-References: <20250313-mhi_bw_up-v2-0-869ca32170bf@oss.qualcomm.com>
- <20250313-mhi_bw_up-v2-7-869ca32170bf@oss.qualcomm.com>
- <fzin4uttqtf33moiew6bazgxea7w72at5quumjg646s43wnq2g@3eupbyomplgw>
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <fzin4uttqtf33moiew6bazgxea7w72at5quumjg646s43wnq2g@3eupbyomplgw>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=KcfSsRYD c=1 sm=1 tr=0 ts=68199060 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8
- a=n_1mmymH6l7bHqmgIawA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: N1CJ9emTCHl_cKVi1A8ds-4Zvp8ZbOdX
-X-Proofpoint-ORIG-GUID: N1CJ9emTCHl_cKVi1A8ds-4Zvp8ZbOdX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDA0MCBTYWx0ZWRfX2YZ3yvN6PB3d
- 1MCevqc7sD5s0hK9MEjzAE458suP+nnR7bTwTpt5WWhruCeHLjr9CkRlbBa+jjb7M3DbkXsHYoA
- WhwGjGg2TU4dPT1I6oJu9gYdutFd4ldO6Rriz1TjM5xemcynowhXa3bqphI/2jFayGTHEAlMfGx
- op/JgOMa6JkYTDUy75Nzt67HDVVHXP18YoHfrfFWiTNb16AakM4mkAzWJEVJtJStyfOhSZnL08U
- YV/Tsd7PuU2Xncjf+vi+YSG4xh78uhty0K8JgwA2BvwjGDwyOjA480PhOxcaqQDBrkoef4BwGUA
- otdBKmnTu3jGrM1ktaFYg9O4LDeQiI5XZURs2Tv2V1I/jy24Z+lygCea5EUhsNSg8O9Aleohe7L
- wSwIOqauk01sL0NrFAY4k/jDUNaZuLcQUHq33gbkz6YcEzcD0fG6HaQvsoHOumJnfGTPkK6n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-06_02,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0
- clxscore=1015 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505060040
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Fix dma_direct_alloc() failure at resume time during bhie_table
+allocation because of memory pressure. There is a report where at
+resume time, the memory from the dma doesn't get allocated and MHI
+fails to re-initialize.
 
+To fix it, don't free the memory at power down during suspend /
+hibernation. Instead, use the same allocated memory again after every
+resume / hibernation. This patch has been tested with resume and
+hibernation both.
 
-On 4/25/2025 10:13 PM, Manivannan Sadhasivam wrote:
-> On Thu, Mar 13, 2025 at 05:10:14PM +0530, Krishna Chaitanya Chundru wrote:
->> As per MHI spec sec 14, MHI supports bandwidth scaling to reduce power
-> 
-> Same here, add spec version.
-> 
->> consumption. MHI bandwidth scaling is advertised in devices that contain
-> 
-> 'advertised in devices or by devices'? Difference is subtle, but it changes the
-> context.
-> 
-its by device, I will correct it next patch.
->> the bandwidth scaling capability registers. If enabled, the device
->> aggregates bandwidth requirements and sends them to the host in the form
->> of an event. After the host performs the bandwidth switch, it sends an
->> acknowledgment by ringing a doorbell.
->>
->> if the host supports bandwidth scaling events, then it must set
-> 
-> So this means both host and device has to support bandwidth scaling events? What
-Yes both host and device has to support this.
-> does 'events' mean here?
-Device sends bw scale info through dedicated MHI event ring events.
-> 
->> BW_CFG.ENABLED bit, set BW_CFG.DB_CHAN_ID to the channel ID to the
->> doorbell that will be used by the host to communicate the bandwidth
->> scaling status and BW_CFG.ER_INDEX to the index for the event ring
->> to which the device should send bandwidth scaling request in the
->> bandwidth scaling capability register.
->>
->> As part of mmio init check if the bw scale capability is present or not,
->> if present advertise host supports bw scale by setting all the required
->> fields.
->>
-> 
-> Sounds like the host is depending on the device for bandwidth scaling.
-> 
-yes
->> MHI layer will only forward the bw scaling request to the controller
->> driver, it is responsibility of the controller driver to do actual bw
->> scaling and then pass status to the MHI. MHI will response back to the
->> device based up on the status of the bw scale received.
->>
-> 
-> Why the controller driver needs to be involved for a spec defined feature?
-> This is not answered here.
-> 
-The controller driver here is mhi controller driver, the MHI layer
-doesn't have any info about PCI related stuff, only controller driver
-knows about it. I will update the commit text accordingly.
->> Add a new get_misc_doorbell() to get doorbell for misc capabilities to
->> use the doorbell with mhi events like MHI BW scale etc.
->>
-> 
-> So this is a spare doorbell? Why can't you call it as 'get_bw_scaling_db()'?
-> 
-Similar to MHI BW scale there are some other features which depends on
-getting spare doorbell like posted time synchronization MHI V1.2, 5.1.2
-To scale for future features I added like this.
->> Use workqueue & mutex for the bw scale events as the pci_set_target_speed()
->> which will called by the mhi controller driver can sleep.
->>
->> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
->> ---
->>   drivers/bus/mhi/common.h        |  16 +++++++
->>   drivers/bus/mhi/host/init.c     |  64 ++++++++++++++++++++++++-
->>   drivers/bus/mhi/host/internal.h |   7 ++-
->>   drivers/bus/mhi/host/main.c     | 101 +++++++++++++++++++++++++++++++++++++++-
->>   drivers/bus/mhi/host/pm.c       |  10 +++-
->>   include/linux/mhi.h             |  13 ++++++
->>   6 files changed, 205 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
->> index eedac801b800..0a02acee709a 100644
->> --- a/drivers/bus/mhi/common.h
->> +++ b/drivers/bus/mhi/common.h
->> @@ -208,6 +208,22 @@
->>   #define MHI_RSCTRE_DATA_DWORD1		cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
->>   							       MHI_PKT_TYPE_COALESCING))
->>   
->> +/* MHI Bandwidth scaling offsets */
->> +#define MHI_BW_SCALE_CFG_OFFSET		0x4
->> +#define MHI_BW_SCALE_CAP_ID		(3)
->> +
->> +#define MHI_BW_SCALE_ENABLE(bw_scale_db, er_index)	cpu_to_le32(FIELD_PREP(GENMASK(31, 25), \
->> +							bw_scale_db) |				\
->> +							FIELD_PREP(GENMASK(23, 19), er_index) |	\
->> +							BIT(24))
->> +
->> +#define MHI_TRE_GET_EV_BW_REQ_SEQ(tre)	FIELD_GET(GENMASK(15, 8), (MHI_TRE_GET_DWORD(tre, 0)))
->> +#define MHI_BW_SCALE_DB_ID(er_index)	FIELD_PREP(GENMASK(31, 25), er_index)
->> +
->> +#define MHI_BW_SCALE_RESULT(status, seq)	cpu_to_le32(FIELD_PREP(GENMASK(11, 8), status) | \
->> +						FIELD_PREP(GENMASK(7, 0), seq))
->> +#define MHI_BW_SCALE_NACK			0xF
->> +
->>   enum mhi_pkt_type {
->>   	MHI_PKT_TYPE_INVALID = 0x0,
->>   	MHI_PKT_TYPE_NOOP_CMD = 0x1,
->> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->> index 0b14b665ed15..71abe02f5726 100644
->> --- a/drivers/bus/mhi/host/init.c
->> +++ b/drivers/bus/mhi/host/init.c
->> @@ -496,10 +496,56 @@ static int mhi_get_capability_offset(struct mhi_controller *mhi_cntrl, u32 capab
->>   	return -ENXIO;
->>   }
->>   
->> +/* to be used only if a single event ring with the type is present */
-> 
-> Then open code in the caller itself. I see no benefit in adding it as a separate
-> function.
-> 
-This added as seperate function for upcoming features which uses
-same logic.
->> +static int mhi_get_er_index(struct mhi_controller *mhi_cntrl,
->> +			    enum mhi_er_data_type type)
->> +{
->> +	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
->> +	int i;
->> +
->> +	/* find event ring for requested type */
->> +	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
->> +		if (mhi_event->data_type == type)
->> +			return mhi_event->er_index;
->> +	}
->> +
->> +	return -ENOENT;
->> +}
->> +
->> +static int mhi_init_bw_scale(struct mhi_controller *mhi_cntrl,
->> +			     int bw_scale_db)
->> +{
->> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->> +	u32 bw_cfg_offset, val = 0;
->> +	int ret, er_index;
->> +
->> +	ret = mhi_get_capability_offset(mhi_cntrl, MHI_BW_SCALE_CAP_ID,
->> +					&bw_cfg_offset);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* No ER configured to support BW scale */
-> 
-> What does it mean?
-> 
-I will remove the comment this is not making any sense.
->> +	er_index = mhi_get_er_index(mhi_cntrl, MHI_ER_BW_SCALE);
->> +	if (er_index < 0)
->> +		return er_index;
->> +
->> +	bw_cfg_offset += MHI_BW_SCALE_CFG_OFFSET;
->> +
->> +	/* advertise host support */
->> +	val = MHI_BW_SCALE_ENABLE(bw_scale_db, er_index);
->> +
->> +	mhi_write_reg(mhi_cntrl, mhi_cntrl->regs, bw_cfg_offset, val);
->> +
->> +	dev_dbg(dev, "Bandwidth scaling setup complete. Event ring:%d\n",
->> +		er_index);
->> +
-> 
-> "Bandwidth scaling setup complete with event ring: %d\n"
-> 
-ack
->> +	return 0;
->> +}
->> +
->>   int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>   {
->>   	u32 val;
->> -	int i, ret;
->> +	int i, ret, doorbell = 0;
->>   	struct mhi_chan *mhi_chan;
->>   	struct mhi_event *mhi_event;
->>   	void __iomem *base = mhi_cntrl->regs;
->> @@ -633,6 +679,16 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>   		return ret;
->>   	}
->>   
->> +	if (mhi_cntrl->get_misc_doorbell)
->> +		doorbell = mhi_cntrl->get_misc_doorbell(mhi_cntrl, MHI_ER_BW_SCALE);
->> +
->> +	if (doorbell > 0) {
->> +		ret = mhi_init_bw_scale(mhi_cntrl, doorbell);
->> +		if (!ret)
->> +			mhi_cntrl->bw_scale_db = base + val + (8 * doorbell);
->> +		else
->> +			dev_warn(dev, "BW scale setup failure\n");
-> 
-> "Failed to setup bandwidth scaling: %d"
-> 
->> +	}
->>   	return 0;
->>   }
->>   
->> @@ -778,6 +834,9 @@ static int parse_ev_cfg(struct mhi_controller *mhi_cntrl,
->>   		case MHI_ER_CTRL:
->>   			mhi_event->process_event = mhi_process_ctrl_ev_ring;
->>   			break;
->> +		case MHI_ER_BW_SCALE:
->> +			mhi_event->process_event = mhi_process_bw_scale_ev_ring;
->> +			break;
->>   		default:
->>   			dev_err(dev, "Event Ring type not supported\n");
->>   			goto error_ev_cfg;
->> @@ -1012,9 +1071,12 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
->>   
->>   		mhi_event->mhi_cntrl = mhi_cntrl;
->>   		spin_lock_init(&mhi_event->lock);
->> +		mutex_init(&mhi_event->mutex);
->>   		if (mhi_event->data_type == MHI_ER_CTRL)
->>   			tasklet_init(&mhi_event->task, mhi_ctrl_ev_task,
->>   				     (ulong)mhi_event);
->> +		else if (mhi_event->data_type == MHI_ER_BW_SCALE)
->> +			INIT_WORK(&mhi_event->work, mhi_process_ev_work);
->>   		else
->>   			tasklet_init(&mhi_event->task, mhi_ev_task,
->>   				     (ulong)mhi_event);
->> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
->> index 3134f111be35..bf7c6a7c9383 100644
->> --- a/drivers/bus/mhi/host/internal.h
->> +++ b/drivers/bus/mhi/host/internal.h
->> @@ -241,6 +241,8 @@ struct mhi_event {
->>   	struct mhi_ring ring;
->>   	struct db_cfg db_cfg;
->>   	struct tasklet_struct task;
->> +	struct work_struct work;
-> 
-> bw_scaling_work or bw_scale_work?
-> 
-ack
->> +	struct mutex mutex;
-> 
-> Add a comment on the purpose of the mutex.
-> 
->>   	spinlock_t lock;
->>   	int (*process_event)(struct mhi_controller *mhi_cntrl,
->>   			     struct mhi_event *mhi_event,
->> @@ -403,7 +405,8 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->>   				struct mhi_event *mhi_event, u32 event_quota);
->>   int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->>   			     struct mhi_event *mhi_event, u32 event_quota);
->> -
->> +int mhi_process_bw_scale_ev_ring(struct mhi_controller *mhi_cntrl,
->> +				 struct mhi_event *mhi_event, u32 event_quota);
->>   /* ISR handlers */
->>   irqreturn_t mhi_irq_handler(int irq_number, void *dev);
->>   irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *dev);
->> @@ -419,5 +422,5 @@ void mhi_unmap_single_no_bb(struct mhi_controller *mhi_cntrl,
->>   			    struct mhi_buf_info *buf_info);
->>   void mhi_unmap_single_use_bb(struct mhi_controller *mhi_cntrl,
->>   			     struct mhi_buf_info *buf_info);
->> -
->> +void mhi_process_ev_work(struct work_struct *work);
->>   #endif /* _MHI_INT_H */
->> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->> index 4de75674f193..967563d86aec 100644
->> --- a/drivers/bus/mhi/host/main.c
->> +++ b/drivers/bus/mhi/host/main.c
->> @@ -472,7 +472,10 @@ irqreturn_t mhi_irq_handler(int irq_number, void *dev)
->>   		if (mhi_dev)
->>   			mhi_notify(mhi_dev, MHI_CB_PENDING_DATA);
->>   	} else {
->> -		tasklet_schedule(&mhi_event->task);
->> +		if (mhi_event->data_type == MHI_ER_BW_SCALE)
->> +			queue_work(mhi_cntrl->hiprio_wq, &mhi_event->work);
-> 
-> To avoid the hassle, I think it is worth changing the mutex in bwctrl to
-> spinlock. I don't think there would be issues in spinning inside
-> pcie_set_target_speed().
-> 
-I am not sure if it is good to change it to mutex or not in
-pcie_set_target_speed() because it is being called from
-pcie_failed_link_retrain() and this is being called when new pci
-device is added and many other places.
->> +		else
->> +			tasklet_schedule(&mhi_event->task);
->>   	}
->>   
->>   	return IRQ_HANDLED;
->> @@ -1049,6 +1052,102 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
->>   	return count;
->>   }
->>   
->> +/* dedicated bw scale event ring processing */
->> +int mhi_process_bw_scale_ev_ring(struct mhi_controller *mhi_cntrl,
->> +				 struct mhi_event *mhi_event, u32 event_quota)
->> +{
->> +	struct mhi_event_ctxt *er_ctxt = &mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
->> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->> +	struct mhi_ring *ev_ring = &mhi_event->ring;
->> +	dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
->> +	u32 response = MHI_BW_SCALE_NACK;
->> +	struct mhi_ring_element *dev_rp;
->> +	struct mhi_link_info link_info;
->> +	int ret = -EINVAL;
->> +
->> +	if (unlikely(MHI_EVENT_ACCESS_INVALID(mhi_cntrl->pm_state))) {
->> +		ret =  -EIO;
->> +		goto exit_bw_scale_process;
-> 
-> exit_bw_scale?
-> 
-ack
->> +	}
->> +
->> +	if (!MHI_IN_MISSION_MODE(mhi_cntrl->ee))
->> +		goto exit_bw_scale_process;
->> +
->> +	if (!is_valid_ring_ptr(ev_ring, ptr)) {
->> +		dev_err(dev,
->> +			"Event ring rp points outside of the event ring\n");
->> +		ret =  -EIO;
->> +		goto exit_bw_scale_process;
->> +	}
->> +
->> +	dev_rp = mhi_to_virtual(ev_ring, ptr);
->> +
->> +	/* if rp points to base, we need to wrap it around */
-> 
-> Nit: Use caps for starting letter and also for acronyms.
-> 
->> +	if (dev_rp == ev_ring->base)
->> +		dev_rp = ev_ring->base + ev_ring->len;
->> +	dev_rp--;
->> +
->> +	/* fast forward to currently processed element and recycle er */
->> +	ev_ring->rp = dev_rp;
->> +	ev_ring->wp = dev_rp - 1;
->> +	if (ev_ring->wp < ev_ring->base)
->> +		ev_ring->wp = ev_ring->base + ev_ring->len - ev_ring->el_size;
->> +	mhi_recycle_ev_ring_element(mhi_cntrl, ev_ring);
->> +
->> +	if (WARN_ON(MHI_TRE_GET_EV_TYPE(dev_rp) != MHI_PKT_TYPE_BW_REQ_EVENT)) {
->> +		dev_err(dev, "!BW SCALE REQ event\n");
->> +		goto exit_bw_scale_process;
->> +	}
->> +
->> +	link_info.target_link_speed = MHI_TRE_GET_EV_LINKSPEED(dev_rp);
->> +	link_info.target_link_width = MHI_TRE_GET_EV_LINKWIDTH(dev_rp);
->> +	link_info.sequence_num = MHI_TRE_GET_EV_BW_REQ_SEQ(dev_rp);
->> +
->> +	dev_info(dev, "Received BW_REQ with seq:%d link speed:0x%x width:0x%x\n",
->> +		 link_info.sequence_num,
->> +		 link_info.target_link_speed,
->> +		 link_info.target_link_width);
-> 
-> dev_dbg()
-> 
->> +
->> +	/* bring host and device out of suspended states */
->> +	ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->> +	if (ret)
->> +		goto exit_bw_scale_process;
->> +
->> +	mhi_cntrl->runtime_get(mhi_cntrl);
->> +
->> +	ret = mhi_cntrl->bw_scale(mhi_cntrl, &link_info);
->> +	if (!ret)
->> +		response = 0;
->> +
->> +	response = MHI_BW_SCALE_RESULT(response, link_info.sequence_num);
->> +
->> +	write_lock_bh(&mhi_cntrl->pm_lock);
->> +	mhi_write_reg(mhi_cntrl, mhi_cntrl->bw_scale_db, 0, response);
->> +	write_unlock_bh(&mhi_cntrl->pm_lock);
->> +
->> +	mhi_cntrl->runtime_put(mhi_cntrl);
->> +	mhi_device_put(mhi_cntrl->mhi_dev);
->> +
->> +exit_bw_scale_process:
->> +	dev_dbg(dev, "exit er_index:%u ret:%d\n", mhi_event->er_index, ret);
-> 
-> Can these entry exit debug sequences be avoided?
->
-ack.
-- Krishna Chaitanya.
+The rddm is of constant size for a given hardware. While the fbc_image
+size depends on the firmware. If the firmware changes, we'll free and
+allocate new memory for it.
 
-> - Mani
-> 
+Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Changes since v1:
+- Don't free bhie tables during suspend/hibernation only
+- Handle fbc_image changed size correctly
+- Remove fbc_image getting set to NULL in *free_bhie_table()
+
+Changes since v2:
+- Remove the new mhi_partial_unprepare_after_power_down() and instead
+  update mhi_power_down_keep_dev() to use
+  mhi_power_down_unprepare_keep_dev() as suggested by Mani
+- Update all users of this API such as ath12k (previously only ath11k
+  was updated)
+- Define prev_fw_sz in docs
+- Do better alignment of comments
+
+Changes since v3:
+- Fix state machine of ath12k by setting ATH12K_MHI_DEINIT with
+  ATH12K_MHI_POWER_OFF_KEEP_DEV state (Thanks Sebastian for testing and
+  finding the problem)
+- Use static with mhi_power_down_unprepare_keep_dev()
+- Remove crash log as it was showing that kworker wasn't able to
+  allocate memory.
+
+This patch doesn't have fixes tag as we are avoiding error in case of
+memory pressure. We are just making this driver more robust by not
+freeing the memory and using the same after resuming.
+---
+ drivers/bus/mhi/host/boot.c           | 15 +++++++++++----
+ drivers/bus/mhi/host/init.c           |  5 +++--
+ drivers/bus/mhi/host/pm.c             |  9 +++++++++
+ drivers/net/wireless/ath/ath11k/mhi.c |  8 ++++----
+ drivers/net/wireless/ath/ath12k/mhi.c | 14 ++++++++++----
+ include/linux/mhi.h                   |  2 ++
+ 6 files changed, 39 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index efa3b6dddf4d2..bc8459798bbee 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -584,10 +584,17 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	 * device transitioning into MHI READY state
+ 	 */
+ 	if (fw_load_type == MHI_FW_LOAD_FBC) {
+-		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+-		if (ret) {
+-			release_firmware(firmware);
+-			goto error_fw_load;
++		if (mhi_cntrl->fbc_image && fw_sz != mhi_cntrl->prev_fw_sz) {
++			mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
++			mhi_cntrl->fbc_image = NULL;
++		}
++		if (!mhi_cntrl->fbc_image) {
++			ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
++			if (ret) {
++				release_firmware(firmware);
++				goto error_fw_load;
++			}
++			mhi_cntrl->prev_fw_sz = fw_sz;
+ 		}
+ 
+ 		/* Load the firmware into BHIE vec table */
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 13e7a55f54ff4..a7663ad16bfc6 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -1173,8 +1173,9 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+ 		/*
+ 		 * Allocate RDDM table for debugging purpose if specified
+ 		 */
+-		mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
+-				     mhi_cntrl->rddm_size);
++		if (!mhi_cntrl->rddm_image)
++			mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
++					     mhi_cntrl->rddm_size);
+ 		if (mhi_cntrl->rddm_image) {
+ 			ret = mhi_rddm_prepare(mhi_cntrl,
+ 					       mhi_cntrl->rddm_image);
+diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+index e6c3ff62bab1d..107d71b4cc51a 100644
+--- a/drivers/bus/mhi/host/pm.c
++++ b/drivers/bus/mhi/host/pm.c
+@@ -1259,10 +1259,19 @@ void mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful)
+ }
+ EXPORT_SYMBOL_GPL(mhi_power_down);
+ 
++static void __mhi_power_down_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
++{
++	mhi_cntrl->bhi = NULL;
++	mhi_cntrl->bhie = NULL;
++
++	mhi_deinit_dev_ctxt(mhi_cntrl);
++}
++
+ void mhi_power_down_keep_dev(struct mhi_controller *mhi_cntrl,
+ 			       bool graceful)
+ {
+ 	__mhi_power_down(mhi_cntrl, graceful, false);
++	__mhi_power_down_unprepare_keep_dev(mhi_cntrl);
+ }
+ EXPORT_SYMBOL_GPL(mhi_power_down_keep_dev);
+ 
+diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+index acd76e9392d31..c5dc776b23643 100644
+--- a/drivers/net/wireless/ath/ath11k/mhi.c
++++ b/drivers/net/wireless/ath/ath11k/mhi.c
+@@ -460,12 +460,12 @@ void ath11k_mhi_stop(struct ath11k_pci *ab_pci, bool is_suspend)
+ 	 * workaround, otherwise ath11k_core_resume() will timeout
+ 	 * during resume.
+ 	 */
+-	if (is_suspend)
++	if (is_suspend) {
+ 		mhi_power_down_keep_dev(ab_pci->mhi_ctrl, true);
+-	else
++	} else {
+ 		mhi_power_down(ab_pci->mhi_ctrl, true);
+-
+-	mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
++		mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
++	}
+ }
+ 
+ int ath11k_mhi_suspend(struct ath11k_pci *ab_pci)
+diff --git a/drivers/net/wireless/ath/ath12k/mhi.c b/drivers/net/wireless/ath/ath12k/mhi.c
+index 08f44baf182a5..3af524ccf4a5a 100644
+--- a/drivers/net/wireless/ath/ath12k/mhi.c
++++ b/drivers/net/wireless/ath/ath12k/mhi.c
+@@ -601,6 +601,12 @@ static int ath12k_mhi_set_state(struct ath12k_pci *ab_pci,
+ 
+ 	ath12k_mhi_set_state_bit(ab_pci, mhi_state);
+ 
++	/* mhi_power_down_keep_dev() has been updated to DEINIT without
++	 * freeing bhie tables
++	 */
++	if (mhi_state == ATH12K_MHI_POWER_OFF_KEEP_DEV)
++		ath12k_mhi_set_state_bit(ab_pci, ATH12K_MHI_DEINIT);
++
+ 	return 0;
+ 
+ out:
+@@ -635,12 +641,12 @@ void ath12k_mhi_stop(struct ath12k_pci *ab_pci, bool is_suspend)
+ 	 * workaround, otherwise ath12k_core_resume() will timeout
+ 	 * during resume.
+ 	 */
+-	if (is_suspend)
++	if (is_suspend) {
+ 		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF_KEEP_DEV);
+-	else
++	} else {
+ 		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF);
+-
+-	ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
++		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
++	}
+ }
+ 
+ void ath12k_mhi_suspend(struct ath12k_pci *ab_pci)
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index dd372b0123a6d..6fd218a877855 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -306,6 +306,7 @@ struct mhi_controller_config {
+  *           if fw_image is NULL and fbc_download is true (optional)
+  * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+  *         is NULL and fbc_download is true (optional)
++ * @prev_fw_sz: Previous firmware image data size, when fbc_download is true
+  * @edl_image: Firmware image name for emergency download mode (optional)
+  * @rddm_size: RAM dump size that host should allocate for debugging purpose
+  * @sbl_size: SBL image size downloaded through BHIe (optional)
+@@ -382,6 +383,7 @@ struct mhi_controller {
+ 	const char *fw_image;
+ 	const u8 *fw_data;
+ 	size_t fw_sz;
++	size_t prev_fw_sz;
+ 	const char *edl_image;
+ 	size_t rddm_size;
+ 	size_t sbl_size;
+-- 
+2.43.0
+
