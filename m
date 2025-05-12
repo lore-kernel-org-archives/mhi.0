@@ -1,88 +1,129 @@
-Received: from smtp-out.xnet.cz (smtp-out.xnet.cz [178.217.244.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E575B2673A8
-	for <mhi@lists.linux.dev>; Mon, 12 May 2025 11:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.217.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BE81DE3D6
+	for <mhi@lists.linux.dev>; Mon, 12 May 2025 18:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747049767; cv=none; b=X2ax9IX9+5fqITY4tkA+W2gl0Zqo8ZTFL+dfeXIRCGQTQV/Pu3lAhb0Kxw8qTn2gXq88Dd9efLxw0++wJO4U+TgXby7xjwD9hoJTwjJOkRNDkb06qV1VgZGcgxxO36B+eXKtdZaRaRWAOttBTowLMKjyl74DGwWKOirWyy34uLw=
+	t=1747074708; cv=none; b=Cx6U7rdOCwVEASDPD6L73bXsnkFZaH0CRAR1u7h7g4rcB3RSjxfM9X3AZPWoD2VRsVU92fIUaHv5+FFfCvSg0UBuLI06kcQY3hRtr1vfFYuY/bJiNgjGKNWHz2gmwxDvysFjZMuh58RYMqJiYMbQLOwKuCVte5c16DV5c/c9eJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747049767; c=relaxed/simple;
-	bh=iVTBOXxvgPgujQbdQwE1Bnn2aTxP3mvQKNzNPYroeg4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NY5ZT7cirr5HCDoSqSO62cA4CBb9xNG2uaa8avsOrF5UM1tx8Ouof/5cuk3WwZP7BoyhVV3R6F0KIDjfguInXrdhTNODG/I/tqzImPQxZI4o1Tu55TQXip0X0VJ1UGRHy/aPvJE+aLHFvF76y75SmipTQCh4vXbw8RI0Sk3pSaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=true.cz; spf=pass smtp.mailfrom=true.cz; dkim=fail (0-bit key) header.d=true.cz header.i=@true.cz header.b=m/gUtI0C reason="key not found in DNS"; arc=none smtp.client-ip=178.217.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=true.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=true.cz
+	s=arc-20240116; t=1747074708; c=relaxed/simple;
+	bh=L8EFsb5oCcGrowlc2Ah+qGEpR7G1fas3/A2sAWITnyI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AJH00umHKXKGJdeHiv6c0LgepfiMKPw0XDWoapgMtExqig3nTFc/nb+t8qu7UqQ3MSBMVTIk33VXjT9VGFGwOpGbxZzDldlPSdmJkrgGNlWVMVLALLxI588AvC30gOfiO4jyAX4DAz+a8zei4gD6CGDak7tzxPpGBO6RrSmKYeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a7HEJnUj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=true.cz header.i=@true.cz header.b="m/gUtI0C"
-Received: from meh.true.cz (meh.true.cz [108.61.167.218])
-	(Authenticated sender: petr@true.cz)
-	by smtp-out.xnet.cz (Postfix) with ESMTPSA id 98E2A3FF3;
-	Mon, 12 May 2025 13:26:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=true.cz; s=xnet;
-	t=1747049211; bh=iVTBOXxvgPgujQbdQwE1Bnn2aTxP3mvQKNzNPYroeg4=;
-	h=From:To:Cc:Subject:Date;
-	b=m/gUtI0CdznrNvA2LalrQ2QyCgUc9uaVayWO0GeSDFcv3RM/QVGYYuuyx8v+piEB/
-	 Icu3DhzFp6WbsAg6gC3VbciTKQuW3HKSSCqj5iEnG8CVLWpSAnK2W7W3p+NGtpjAqD
-	 j4csMVuxhix2d16Uiqzbow42olmpff7ZhZhVy7RU=
-Received: 
-	by meh.true.cz (OpenSMTPD) with ESMTP id bce9b1a0;
-	Mon, 12 May 2025 13:26:41 +0200 (CEST)
-From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	=?UTF-8?q?Duke=20Xin=20=28=E8=BE=9B=E5=AE=89=E6=96=87=29?= <duke_xinanwen@163.com>
-Cc: Chris Webb <chris@arachsys.com>,
-	=?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] bus: mhi: host: pci_generic: add support for Quectel RM520N-GL 0x5201 variant
-Date: Mon, 12 May 2025 11:26:31 +0000
-Message-Id: <20250512112631.2477075-1-ynezz@true.cz>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a7HEJnUj"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CFX9VN023403
+	for <mhi@lists.linux.dev>; Mon, 12 May 2025 18:31:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mRuMbOu7z2/40CcYNv5ov6Lwj3aKCA6IW48Ap+X8VIk=; b=a7HEJnUjIcbIFQET
+	juz7tJUh3/WhNf1fPEcyJFPjjgZmiqUA3CH3y3mTIL2uK/OwSwVEo+HJN4iCpxZH
+	ngS/y54Dbgt78GebGwripBWnF6LrLtK//JggUFaEnHy4kK7tg5SwXx6J6BSxcp31
+	PvkX7PCETCc0LaBFYZX1lOYlh+k9P+w99tY4GcEKxBp4f874QBS0U19/Dv1wzd89
+	BI586r99xSsNLwkhB2NSxUghfqkY9GGmEcAzNEcBL3u+ga/Eq70EyGPYmcfMfMIG
+	bvY6WvF/ZOHHpO8yNDw6V788xB8EHVuug54ynv5LpCCd1N0DSvxAj4x0ctmkGncO
+	KF54zg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46kcfehsg5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 12 May 2025 18:31:45 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-736fff82264so3842311b3a.1
+        for <mhi@lists.linux.dev>; Mon, 12 May 2025 11:31:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747074704; x=1747679504;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mRuMbOu7z2/40CcYNv5ov6Lwj3aKCA6IW48Ap+X8VIk=;
+        b=Dx0I0Eh9EETdoROAe67vxz8KQr6HjNfKEphiaL9pvRb6YcdOJpq5kaG4h4qfEqU8Gk
+         NrJ3FWG06wkuukoc7ogPq+eS+ClFcq8mA7SY2/J20w+w1EAZQQRjC9xR0D5nx3l4ByGs
+         HIgDq+MfCGTSHq/gD3TzZxCMHwVM+3yd69RjxvzqxVQlH0cHPuv1eRu1yifq3MhoGQ0w
+         qDd3Ned9Z8bn0h1AMVy5paTlWggxWgxTpE4mcNrVrj+6S05SN1VG/OvdxbNYBGzD5il5
+         8qOYo8Cb8b78alFnZLL3S1vIL1sSERCxcT6PvT5gPoPfzw5IKpVe8ZtR0QzyirdYXzIu
+         kX2g==
+X-Gm-Message-State: AOJu0Yyp0SqMXyT2gIRn07cWOWXm0aCyTNHjdZbZn2rc1ZKP46FCBaHB
+	upcjNx/DcXFKAhOUBRYZFRwXMT72OC/5L/Kag+AJepuorrAgIlDQ05V/KY4RmIZ8/XRqpNGIMyS
+	Lpy4Hwhi5JG+1/StzCCRE0cwGu1cRG32nR03u6zWS8ndAWPyNmGDPWtPlhmA=
+X-Gm-Gg: ASbGncvINFu/9t64G/Z1Zzt9Bkz86E/U7gZt1GOzKMaXneHSXjwOxOH1A7AKFUH42LB
+	nzKeyQvJyz/5ULAG48ZX18oe3F0EvarDuuqRizihYDEG2YNhlSmZIi0gyPZhrbdheX5NK4d/cQA
+	bpHiAq5777HI0T84Rb6e+oQJWGD9cGQ7q0EEozZJQ+kjioiMjprrwpjDpjMQn3Kv0sUrhHo5v0y
+	21WwB2zeCbMaQX40duxaH6pUq93jsNBX4Syh6IibjY3ikKJv27fwIYaW/zg/Ag+SVJOj7Ng3iiQ
+	ELkExcxwfvSh06eFx4rn44rTvKllunwUmlMdLM+ZE0PwnfysyD68lsm+wWnNWA==
+X-Received: by 2002:aa7:8810:0:b0:732:5875:eb95 with SMTP id d2e1a72fcca58-74278fc0601mr661858b3a.4.1747074704421;
+        Mon, 12 May 2025 11:31:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEOwALx8DJD5hEqL5IewreE7joV43KAgJapB12TnNBFDt3caeElexu9Ss50kxC3I4FWD2MAWw==
+X-Received: by 2002:aa7:8810:0:b0:732:5875:eb95 with SMTP id d2e1a72fcca58-74278fc0601mr661818b3a.4.1747074703928;
+        Mon, 12 May 2025 11:31:43 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a3d0fesm6443104b3a.130.2025.05.12.11.31.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 May 2025 11:31:43 -0700 (PDT)
+Message-ID: <d97c900d-c899-4f2c-821b-53991ecfd86e@oss.qualcomm.com>
+Date: Mon, 12 May 2025 12:31:41 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] bus: mhi: host: Allocate entire MHI control config
+ once
+To: Baochen Qiang <quic_bqiang@quicinc.com>, quic_carlv@quicinc.com,
+        quic_thanson@quicinc.com, manivannan.sadhasivam@linaro.org
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        ath11k@lists.infradead.org, jjohnson@kernel.org,
+        Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+References: <20250425170431.921656-1-jeff.hugo@oss.qualcomm.com>
+ <1f2a8c11-214b-43c6-8b3a-9e44094f949a@quicinc.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <1f2a8c11-214b-43c6-8b3a-9e44094f949a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEyMDE5MSBTYWx0ZWRfXz8BG4mmjamF0
+ Eo1ftX4o96ZC55EM++zsmTm+URSr9TGHcyFEdUDwfGkzQJZHpQIyBqQ4TzL73wmvoHGdq+K+I25
+ 3qhNfmYBv03mChm5U2HIxfkn9y4kVgw4X3UEkCsCxv4uu1g56Dp8+9ZZjx3TPBuQVaVPgA0uNzn
+ UkL9XA0GdqdlewZZ2+b+jmb4bWB6Vx/Ma842WZ/GDUctxfdU/Gx1UAUMkEnc0Bvs8yCKLLPkKOG
+ yC+ggS0grw7plusKT+a1BE/Kk/5iTWqMIdxHSqMMMOATzGl/QFEy4acMM+SDj4pSakOtRfbbdjb
+ 5clalRX0LBVZcvV/wxAtLpCp1gW4/pskVltAK4K8XIWH52el+xjYtY4q3T1TjoCk5LNMa+jG78N
+ D/sjY1iP3KTB2IFiz1A8TL5UjW2Lw/Rgg5e3OwRq8Pl7fqru+9Q0ZTvXjVP5/rmL7MunVMnI
+X-Proofpoint-ORIG-GUID: _1pnaoqYP16ynL309F0uWQw32Her1Kv4
+X-Authority-Analysis: v=2.4 cv=asuyCTZV c=1 sm=1 tr=0 ts=68223e91 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=wuHSmCbw7zfmQf2vPMgA:9
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: _1pnaoqYP16ynL309F0uWQw32Her1Kv4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-12_06,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505120191
 
-From: Chris Webb <chris@arachsys.com>
+On 4/27/2025 7:57 PM, Baochen Qiang wrote:
+> 
+> 
+> On 4/26/2025 1:04 AM, Jeff Hugo wrote:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>   int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+>> @@ -475,6 +497,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+>>   	struct mhi_event *mhi_event;
+>>   	void __iomem *base = mhi_cntrl->regs;
+>>   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>> +	dma_addr_t mhi_ctrl_limit = mhi_cntrl->ctrl_config_dma + mhi_cntrl->ctrl_config_size - 1;
+> 
+> but the range [ctrl_config_dma, mhi_ctrl_limit] could still be possbile to cross the 4GB
+> boundary, no?
 
-I have a router board with a Quectel RM520N-GL 5G module that speaks
-either USB or PCIe. When switched to PCIe mode, the modem present itself
-on PCI bus with following IDs:
-
-  0003:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device [17cb:0308]
-    Subsystem: Qualcomm Technologies, Inc Device [17cb:5201]
-
-and is currently being wrongly detected by the kernel as:
-
-  mhi-pci-generic 0000:01:00.0: MHI PCI device found: qcom-sdx65m
-
-which results into wrong modem configuration and thus missing wwanX
-netdev. So lets fix it by adding a new device entry for this 0x5201 variant.
-
-Link: https://lore.kernel.org/mhi/ZqllDCWfiKravZAo@arachsys.com/T/#u
-Fixes: 1cad976a1be9 ("bus: mhi: host: pci_generic: Add support for Quectel RM520N-GL modem")
-Signed-off-by: Chris Webb <chris@arachsys.com>
-Signed-off-by: Petr Štetiar <ynezz@true.cz>
----
- drivers/bus/mhi/host/pci_generic.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 03aa88795209..0db9543a7edc 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -818,6 +818,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
-+	/* RM520N-GL variant with Qualcomm vendor and subvendor ID */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_QCOM, 0x5201),
-+		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
- 	/* Telit FN990 */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+Its possible, yes.  From a practical standpoint, that seems to be 
+unlikely as the control area is not terribly large on supported platforms.
