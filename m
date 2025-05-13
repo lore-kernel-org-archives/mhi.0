@@ -1,48 +1,43 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0DC2914;
-	Tue, 13 May 2025 01:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747100657; cv=none; b=gkx8JXXK19PhHmP3Cp3WGgXBblAYGrEOW0nS3ZIdGq6NTUZ/3T7y1F5wLhDi+Ssc467AzXsnuwn5xj8MMF9RWPPsV6Vt6g2uWZN8SRwC+OMaBbGWIoOBe66llFTavFemVNNYIOdIez5cIof02/s3WfS10eQYkkPaZwyrsdDKm5Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747100657; c=relaxed/simple;
-	bh=9JGhPdUpXl8ADAyMohofxH2KtUhEsDCGN0mxnH3hrPE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=SstRdwX2xfz8cAJO5+VqdjSe0pWPrczGqdrfUpLSLnLrwSFBv8WJ8W+nAImXRkkFW36RMfRor+qKKiKGyxFUzlN1KqY4c8YKs9XCvj4a0TcooHRu+kFh36l2XCHmCJlCEGsx6W4cwlZqJP8TIEgGshR1yjyodLWn/qpopY1Ap0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ff8j3LIJ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68361EB1AA
+	for <mhi@lists.linux.dev>; Tue, 13 May 2025 06:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747118704; cv=pass; b=FIgd57mO5jeVgTYdg+ldUF1dyNrQSKK8ykUI55vSjtXOP1c+ddHmFaqXaOtDlE5+XG+09niiJ3IhJKwKdB9ajUHVRJTszRp1k3EYcGv69Ffo0bLy1eh3WLs6549SegVNZ5fGCH19jf+Dkha1eKWKc7XDWIHNoenff6SKy/trcdc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747118704; c=relaxed/simple;
+	bh=y+L7cdhRBfjhgSwo47lMKyM7oldihg6/nlUiTfTvlrg=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=MDDwMd2QkhCNDbFyXRrrjWZ2DdZbDlaB297NKdVJHIm9iu8YXaxdOiUeH+EL1EIg+GN2ATgXqygMdvgO3BCk8cAIxzNuX89xKJFrItvHepaIP0nwLjV2pHYbdJ0GRE/ShiTREsClAd+Pa4eHCywCdUCzQEJAekGZj+50WDyRfXU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=J9G4mPqR; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ff8j3LIJ"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CIWSut023824;
-	Tue, 13 May 2025 01:44:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7tc48vhKzQImoMCcMcIFiq/P4xq1XXIMH3wo3nqsKb0=; b=ff8j3LIJGufORR0D
-	TntLRo6218NIgkpIlWXiNq3h21Cmg27W2cehkNl7RrPuNdB5fzbwrpY+VGkMI2WC
-	r8O5a22UwFpzb5jyMCXhTdjHCCHwOgHtBP5f31LMVXocViRIdJNfbVnnSJhyJ+VJ
-	iQ7wmsR7uFkkvXwM7XXzTh2cTRsONAnN64RO0Q/65qlE83R3tAl31pSRR+vRhU4Z
-	obi+qDgG3TKEgeb6YL2xwiBUzBI+6/RK1Bs9SsAXztSia4yt0KaJAhwDAvvZvcQh
-	ZMYTEZtuWsJgvP0us5GjLAbP09PqEbCkjqDn4B8ATmR3fHBDuaKSbDkAAw/8JyWA
-	vV31wQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46hx4k63e4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 01:44:02 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54D1i1IO018306
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 01:44:01 GMT
-Received: from [10.231.195.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 12 May
- 2025 18:43:59 -0700
-Message-ID: <5a90a869-8bc6-4fc5-a02a-58579f24dac5@quicinc.com>
-Date: Tue, 13 May 2025 09:43:56 +0800
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="J9G4mPqR"
+ARC-Seal: i=1; a=rsa-sha256; t=1747118686; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=N9e2mauoUIL5tJpbMwyeC7WI9kWkYAzWj8tgMyULpEooybe8OR3n+P21AtLCiagJD2e2cHXIbNsjhIPZ9hyFCdN8Z2gN8UxqRhvazPOssZPXst3ZvMwGNMDkkIrpJColhcle1Rj+wouqrDBCzhAxALKGW00w+x1Kd0Ziat5DmvI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1747118686; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+kxhlRDU0zW0Hh6yejx3JiPQYtX8vLhNb6JgzAtvBpo=; 
+	b=R7aS+3z1/BQG2veWY83SisctQcHE+owrzNLcqlDQTKwdaApKla7QKNTcWr7LFhiMkIiPaC9Pf7S5+PtiTCjY5e14IW5tyg9GWaj9/aP23DTuXgSzcwhYXUK7V4GW+q0BBUuh33IIuf4KvB2e/OsvL++olkjx1sgWRlQjOaPUbIk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747118686;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Cc:Cc:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=+kxhlRDU0zW0Hh6yejx3JiPQYtX8vLhNb6JgzAtvBpo=;
+	b=J9G4mPqRzB+b/wscEypiXBOXYIvxhOqwjRlUrsAHPOG+XjqBSwiiMIMxMP5P3QcC
+	jGGRjs2w1FPAD6ng3vqAPTGJlZjHUhgyfA8n6FbdE4DD4nYPDMYX4wadLVD4BM0hk2T
+	N3qp2JJZbxDJ3jahF14dPXYV0+EI4QzmPIUkTDu0=
+Received: by mx.zohomail.com with SMTPS id 1747118684253297.23905688846673;
+	Mon, 12 May 2025 23:44:44 -0700 (PDT)
+Message-ID: <5521efad-1ca8-41e3-b820-5527d634c539@collabora.com>
+Date: Tue, 13 May 2025 11:44:34 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,74 +45,131 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] bus: mhi: host: Allocate entire MHI control config
- once
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, <quic_carlv@quicinc.com>,
-        <quic_thanson@quicinc.com>, <manivannan.sadhasivam@linaro.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <ath11k@lists.infradead.org>, <jjohnson@kernel.org>,
-        "Pranjal Ramajor Asha
- Kanojiya" <quic_pkanojiy@quicinc.com>
-References: <20250425170431.921656-1-jeff.hugo@oss.qualcomm.com>
- <1f2a8c11-214b-43c6-8b3a-9e44094f949a@quicinc.com>
- <d97c900d-c899-4f2c-821b-53991ecfd86e@oss.qualcomm.com>
+Cc: usama.anjum@collabora.com, kernel@collabora.com,
+ sebastian.reichel@collabora.com, Carl Vanderlip <quic_carlv@quicinc.com>,
+ Alex Elder <elder@kernel.org>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org
+Subject: Re: [PATCH v4] bus: mhi: host: don't free bhie tables during
+ suspend/hibernation
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Jeff Johnson <jjohnson@kernel.org>, Youssef Samir
+ <quic_yabdulra@quicinc.com>, Matthew Leung <quic_mattleun@quicinc.com>,
+ Yan Zhen <yanzhen@vivo.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Kunwu Chan <chentao@kylinos.cn>, Troy Hanson <quic_thanson@quicinc.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+References: <20250506144941.2715345-1-usama.anjum@collabora.com>
+ <4a6b83f4-885a-46e1-ae31-21a4f3959bae@oss.qualcomm.com>
 Content-Language: en-US
-From: Baochen Qiang <quic_bqiang@quicinc.com>
-In-Reply-To: <d97c900d-c899-4f2c-821b-53991ecfd86e@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <4a6b83f4-885a-46e1-ae31-21a4f3959bae@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=ReqQC0tv c=1 sm=1 tr=0 ts=6822a3e2 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=oPY1zYEqk9kjLPOFep0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: MfYiPvMrt1pA17fcZMssjIlEPsYemLt5
-X-Proofpoint-ORIG-GUID: MfYiPvMrt1pA17fcZMssjIlEPsYemLt5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDAxNCBTYWx0ZWRfX6VzH1Qcr4Ju4
- z9bqvHZ+eQN6rvDilkxGGEWxLpNWOXQ0/EQiLyLv1cbTOEVIr2MG+K88Nm3StdOI7yy95PPblMN
- nIByGRKvQRpUFPkGr/9wZhYqylX8cfJMGFYUpmnmAhyfMPzCDvFTeHPGtns6Ibn30tMpcMqYicE
- ifvX2+mgLQBWiXIUpoTPVtqGlCe8RvKyhMDury2Grudmn7nfLNWirDx7C3Se1gMu/kT9gAxARJ9
- fQlTrKGZzQWjTPdbLXqgd4n/YTrzv5g9L/RAo5ck000DEA5svFlU3hb+Z1KcDGEvIpgnrB6yRp+
- YHw82kAC6xvQRAphuGM3rCFme595UvkYg1PJdQcy6NQeMRMHt7YFptXXZij2gQ0aT/YpzTfFP7w
- 2kJOnhjZfBBRkUXbI7fxhm8MueeU+Tmp5Pb9VOQSqOzusosPSjUIEfSV6BdaR0/yUYPYWzDi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_07,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505130014
+X-ZohoMailClient: External
 
-
-
-On 5/13/2025 2:31 AM, Jeff Hugo wrote:
-> On 4/27/2025 7:57 PM, Baochen Qiang wrote:
+On 5/12/25 11:46 PM, Jeff Hugo wrote:
+> On 5/6/2025 8:49 AM, Muhammad Usama Anjum wrote:
+>> Fix dma_direct_alloc() failure at resume time during bhie_table
+>> allocation because of memory pressure. There is a report where at
+>> resume time, the memory from the dma doesn't get allocated and MHI
+>> fails to re-initialize.
 >>
+>> To fix it, don't free the memory at power down during suspend /
+>> hibernation. Instead, use the same allocated memory again after every
+>> resume / hibernation. This patch has been tested with resume and
+>> hibernation both.
 >>
->> On 4/26/2025 1:04 AM, Jeff Hugo wrote:
->>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->>>   int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>> @@ -475,6 +497,7 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>>       struct mhi_event *mhi_event;
->>>       void __iomem *base = mhi_cntrl->regs;
->>>       struct device *dev = &mhi_cntrl->mhi_dev->dev;
->>> +    dma_addr_t mhi_ctrl_limit = mhi_cntrl->ctrl_config_dma + mhi_cntrl-
->>> >ctrl_config_size - 1;
->>
->> but the range [ctrl_config_dma, mhi_ctrl_limit] could still be possbile to cross the 4GB
->> boundary, no?
+>> The rddm is of constant size for a given hardware. While the fbc_image
+>> size depends on the firmware. If the firmware changes, we'll free and
+>> allocate new memory for it.
 > 
-> Its possible, yes.  From a practical standpoint, that seems to be unlikely as the control
-> area is not terribly large on supported platforms.
+> Why is it valid to load new firmware as a result of suspend?  I don't
+> users would expect that.
+I'm not sure its valid or not. Like other users, I also don't expect
+that firmware would get changed. It doesn't seem to be tested and hence
+supported case.
 
-although unlikely, we need to handle it, right?
+But other drivers have code which have implementation like this. I'd
+mentioned previously that this patch was motivated from the ath12k [1]
+and ath11k [2] patches. They don't free the memory and reuse the same
+memory if new size is same.
 
-IMO a possible solution is that you allocate (2 * ctrl_config_size  - 1) bytes and take
-either the former half or the latter half, depending on which one does not cross the boundary.
 
+> 
+>> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+>> index efa3b6dddf4d2..bc8459798bbee 100644
+>> --- a/drivers/bus/mhi/host/boot.c
+>> +++ b/drivers/bus/mhi/host/boot.c
+>> @@ -584,10 +584,17 @@ void mhi_fw_load_handler(struct mhi_controller
+>> *mhi_cntrl)
+>>        * device transitioning into MHI READY state
+>>        */
+>>       if (fw_load_type == MHI_FW_LOAD_FBC) {
+> 
+> Why is this FBC specific?
+It seems we allocate fbc_image only when firmware load type is
+FW_LOAD_FBC. I'm just optimizing the buffer allocation here.
+
+> 
+>> -        ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image,
+>> fw_sz);
+>> -        if (ret) {
+>> -            release_firmware(firmware);
+>> -            goto error_fw_load;
+>> +        if (mhi_cntrl->fbc_image && fw_sz != mhi_cntrl->prev_fw_sz) {
+>> +            mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+>> +            mhi_cntrl->fbc_image = NULL;
+>> +        }
+>> +        if (!mhi_cntrl->fbc_image) {
+>> +            ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl-
+>> >fbc_image, fw_sz);
+>> +            if (ret) {
+>> +                release_firmware(firmware);
+>> +                goto error_fw_load;
+>> +            }
+>> +            mhi_cntrl->prev_fw_sz = fw_sz;
+>>           }
+>>             /* Load the firmware into BHIE vec table */
+>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>> index e6c3ff62bab1d..107d71b4cc51a 100644
+>> --- a/drivers/bus/mhi/host/pm.c
+>> +++ b/drivers/bus/mhi/host/pm.c
+>> @@ -1259,10 +1259,19 @@ void mhi_power_down(struct mhi_controller
+>> *mhi_cntrl, bool graceful)
+>>   }
+>>   EXPORT_SYMBOL_GPL(mhi_power_down);
+>>   +static void __mhi_power_down_unprepare_keep_dev(struct
+>> mhi_controller *mhi_cntrl)
+>> +{
+>> +    mhi_cntrl->bhi = NULL;
+>> +    mhi_cntrl->bhie = NULL;
+> 
+> Why?
+This function is shorter version of mhi_unprepare_after_power_down(). As
+we need different code path in case of suspend/hibernation case, I was
+adding a new API which Mani asked me remove and consolidate into
+mhi_power_down_keep_dev() instead. So this static function has been
+added. [3]
+
+
+
+> 
+>> +
+>> +    mhi_deinit_dev_ctxt(mhi_cntrl);
+>> +}
+
+[1]
+https://lore.kernel.org/all/20240419034034.2842-1-quic_bqiang@quicinc.com/
+[2]
+https://lore.kernel.org/all/20220506141448.10340-1-quic_akolli@quicinc.com/
+[3]
+https://lore.kernel.org/all/y5odcxzms6mwpz5bdxhbjxo7p6whsdgwm772usmmzqobhf6nam@p4ul7vn7d3an
+
+
+-- 
+Regards,
+Usama
