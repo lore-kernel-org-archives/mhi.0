@@ -1,69 +1,68 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DF622577D
-	for <mhi@lists.linux.dev>; Wed, 14 May 2025 09:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00312701B8
+	for <mhi@lists.linux.dev>; Wed, 14 May 2025 10:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747214369; cv=none; b=kw5dJXfE7RDbB6vAz7OFiNElmySwXswdZv+4URK+DDlCSRJLtrmTTOWgByLfSpGg40cvhKq6oLO7GDDAawDa5OAG5KNKrdgTQvJoAYMqvOLp9ieUbB1VDT3/PmxfFb0ZIKx6cBHqu4+jdNduKNQlqFaQpD/uPHY6fPOOSxhddq8=
+	t=1747219052; cv=none; b=RTBGIX+VwZVgA83PWdXkeXIZvsoKYRmJVkrL2esQa8s4L0Bdv8XX4C2TA07sRZyUx0xwtAnj/k8oWDWltPjRECEPHJRae4Pabb4jmq0KqN3AUxkR/qc+/QMV7F1xm20us3KQ5RNTsRdLPIo6GlQDFuepCGHCLXQTjPk/6sCuKUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747214369; c=relaxed/simple;
-	bh=I2WMQW8fFlV/TM2ivarFT2pQdKUDLFyiZpTrJAQrh50=;
+	s=arc-20240116; t=1747219052; c=relaxed/simple;
+	bh=csp1AED5BAbD6J0n2P1IGXAdWPwM+9UE1x0QDZ9Y5fs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n6+oB+/mGJhYJkjuLQHmUozVGq3IklzrFjriv6VpThAJJc2Y0v2sWLFzmyDtjWfpCOSUAIXT7OMfKgHVP/NFEMddw/QEWEyBCFUiqFGhL7QOAMKYfFMp0TByhD8OumyDQ/EBJ0BW4RRhcp9/86QYOYP+BOny1cWyPcRcDdc1Kzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FgNFNcl+; arc=none smtp.client-ip=209.85.221.54
+	 Content-Disposition; b=NmmfuVuqbsxhkPkaFUQ42Wrf0uT1mQC2YbeGYiHHVYUAStf5wqqeVXF5qb+aCF0IQXfTvX9rgebndMpqxSW3iiuOhAXWIZwbV6FFR4rLwbxmJUfDs7azZAdGsovwfgQY5BpFE5OsN3CQFmVLeSrsmztLTJF3Oa8pduoU8+BYbFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GLYERh82; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FgNFNcl+"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a0b7fbdde7so6396301f8f.2
-        for <mhi@lists.linux.dev>; Wed, 14 May 2025 02:19:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GLYERh82"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso66028455e9.2
+        for <mhi@lists.linux.dev>; Wed, 14 May 2025 03:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747214365; x=1747819165; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747219049; x=1747823849; darn=lists.linux.dev;
         h=content-transfer-encoding:content-disposition:mime-version
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PAH7DI1FH78FQkYmM8oXAq6pi15EOIrEUZA08taI638=;
-        b=FgNFNcl+SFDDNHH98zOVq/B4AiOrRYQ7VQ0J95ARoAV1A6ibdLt2YHuKpO0cxr8cUO
-         gqTELutZesjbGhGvMZ1GiIB1WJp3p180OILoSqQewTsc3NQa4arHIvDIVPso3f+Gv4kx
-         e+CM00YniCW+3SGEL76XS1ET4N8P4cHLuWD/XR8GbGCX1FO9hbpM1dcWKMr+7VipNhCA
-         oAl28eKW+btl9H3/bkXyO8776BcOI3I3KIJZqW6oPepStYIbTBYmcdBtsewdVsd4Tyzt
-         105PcCkcQr64f7bbMjA30NODqR/pGwJ1bBaDEdZBb0xT/WS8+tzTzcCPS0c/VCFI9M1m
-         ipYg==
+        bh=rZDvHaFq+MtlvBhT4F0OtESreirR59ocfKA2Kdwe+P8=;
+        b=GLYERh824bjJwhaeHELLtFA28eE1rVTECnBQQdYBAz3eBva9zsIDAKXL7fnAiTUmF3
+         aT7vDK/jzmO1zvEk45U90IH81ci/m5tGyC1uX/o/ttt6+kSH7C9njpkSTeYN5unwC3Z9
+         qi+5UbtNuSmtXT5/m16JFWVz3A9gn8t6Fi/KZohWrFjcbQdjvGfxclMb+pcHzfgSmuqU
+         ReRIkZyVCa8KRoSvwgyZaimF+dNJ9QciZmQXe5pzb8lFV8x/EQHu2/mF6XmLvopRvcx2
+         6nG2hUWX8nQw5Lv8qo7wRnCEMEht9DorA/RDhjouIMG+Dtyu6geiAVF8TQh4hVTSpfVQ
+         TIsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747214365; x=1747819165;
+        d=1e100.net; s=20230601; t=1747219049; x=1747823849;
         h=content-transfer-encoding:content-disposition:mime-version
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PAH7DI1FH78FQkYmM8oXAq6pi15EOIrEUZA08taI638=;
-        b=U5sA3Uqnw8gYPHW+lVBRYAH1jeCv9MqGkPBK6e0CmedhZ/FlWrrzAeNiasHqo4sz1N
-         qWZflFEeBd806KJB1oSFNoCRAg1yKmXEVtQkOvnSphD1vp6S9/HzkqUUYkxWeja3USfm
-         rdgSoDqQI7H014qtfv7sU2rdDzyWNSCrLTBR47/sSzViHrL3sPZjV02vNePGQD+iX/UG
-         hHdjeQDr5Dho124dGTGP05FkVdr18VqoCh16GsloFFk2SD5aPkpodDAt6evu1LhHJ6m+
-         ASOEhjp2dfcWIPQT+7JLpqQMyy27lBPB/BeOmwlJRzBIIZyrJf6e2o7WNJLTx3H2LGMR
-         vugw==
-X-Gm-Message-State: AOJu0Yx0s5PjwuhYFTjjC7tblSib25K0us3ypczQhS2BGN64xrZ2yjaC
-	84P0c+kMBVcL/iQJfZ8FyN/ASzT/WVK9mj2qz8MAkABmiXfeQzLRWnlEdn2MPckOZNReuo1fu+/
-	7sg==
-X-Gm-Gg: ASbGnct589ExyxtSPQgwj+Pyvvy5kd6mj4Po/htcELRCxwfa35supb29pFJKWFJ5aE1
-	5BYbubSLRUGP7ZHDp8y1r1f99XO1UROmAvQ46/Jr0BpPbEMnga1IdJeJbkViDR3h1FucP9c82Hm
-	EClMO9xbIiEud9nY4BPYcuvBMi8ou4M22aBrnvF8H5bjR5yGLA0TD4FdR5o0v335dw+STuEk9Br
-	cdoNkyf7s3ZgmdABhfZtPPl5pSRKyR03JFbvGmBlIULd/HinybWnicpv8rGTn3dBt8jHMr/dhxA
-	rLtNkhsTcL6jSzlkFYUnotE7cFyG/dzsOMBYZP6xChMDipyN98htoiELF1HeHlC23VIL5P/tM9y
-	ojDNzrYjBHSG9ww==
-X-Google-Smtp-Source: AGHT+IFrtyNujRI6JwotYctFIojAdt5HQt+nFp9PrGmEAAADeLtWYk+7S5q/Y4jwgHcQWrs0reSrpw==
-X-Received: by 2002:a05:6000:4382:b0:39e:f9e8:d07d with SMTP id ffacd0b85a97d-3a3496a497emr2139912f8f.20.1747214365532;
-        Wed, 14 May 2025 02:19:25 -0700 (PDT)
+        bh=rZDvHaFq+MtlvBhT4F0OtESreirR59ocfKA2Kdwe+P8=;
+        b=EA7Q7plcN4pNABnQ7z2WYqw+5l+0/ygqqkhT3duQNpoAdLqZPfaP5CWK1t48Imgr06
+         GbmgTCzHA7pZcF4JMLnk90AeptGfVDP57d4asVmKZBly23WWfbl66jRXbjePilFMu5UI
+         pmxppKFUtiOJZSCdhPRAJ9ligH3c1/e/YObcAuOYSXmpQVyRgH3RntdI+ECQlJp+uHYH
+         quzq8EgOcRnqHmRAuPBxsJZaEJcuP9Db6sohWVeYhl3B6fsLjnqq1/KjYOwJkZI+BBTa
+         /uMQvtZ/h8+KQF8CjzE0tBItTFbjNAkDCSd5FdWJ1lal23vtI244ZFyTd+fICR6HcQaU
+         mryQ==
+X-Gm-Message-State: AOJu0YwLpK2cWjBn6VgOOfQHZQVQ/EiL+3DCkirRtFVnUQT80jHcCZz6
+	pu3I5u8vKatDyCjr5bjpQWDlHBZNSvcXKclhX+9oYDXJkEpgEMOp8gGlR6nLZg==
+X-Gm-Gg: ASbGncvipeWmMbS54e8ReoknywNh68qFELetGZPMd0UN9+oVWHRxenxVYynEkqxoy6D
+	J+Qrg8LCdig39Cc3BfKT00iF6/fkO+dvL2g0VIEVQUbD4BS3vd+3hNocr4fhrFozZLuDXEz7s7A
+	lD1E+brvCjMr+PEP9szW0ELGc9rfjmr2E7Kpc+9/kKEAVu6TOVuy3Bhhlr4QmLnu4ERF5gh2WWg
+	8L9UyQps/KJAQ673coA6Lkch7qrG85gfM/aGlPKCX2wHyuXZ5aVNQOeQys1bbhotpGUKoFTCQjl
+	N79f64YwwxmAsmuvWE8EnHdwuUY3K+2t7Vchk7S6NFIiPnK3KmxFMHdlhPV+eq2vhQSGVM5us9y
+	/38XdWQGORAzNsA==
+X-Google-Smtp-Source: AGHT+IE1CpY565+fwHiCmCh7sUp6vBsnbi9sJkrgwLstKbQtFtC7DvysFFTGY8m7sNrUxcVWiPEmaA==
+X-Received: by 2002:a05:600c:1c93:b0:43d:b85:1831 with SMTP id 5b1f17b1804b1-442f1dd30d8mr24579675e9.0.1747219049148;
+        Wed, 14 May 2025 03:37:29 -0700 (PDT)
 Received: from thinkpad (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f32b447csm22713355e9.0.2025.05.14.02.19.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f396c3f5sm23847545e9.32.2025.05.14.03.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 02:19:24 -0700 (PDT)
-Date: Wed, 14 May 2025 10:19:23 +0100
+        Wed, 14 May 2025 03:37:28 -0700 (PDT)
+Date: Wed, 14 May 2025 11:37:26 +0100
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: gregkh@linuxfoundation.org
 Cc: mhi@lists.linux.dev
-Subject: [GIT PULL] MHI fix for v6.15
-Message-ID: <w67btqvfqd6eeq3ufcjjqagnnigazqn64mjn5tofcc4onhkc56@6ke4pre2hgpa>
+Subject: [GIT PULL] MHI changes for v6.16
+Message-ID: <bcmjaizharbnql26jevllz4trepcjiurnqidttr565kie22kci@g37cswbge5nl>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -80,25 +79,38 @@ The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-fixes-for-v6.15
+  git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.16
 
-for you to fetch changes up to 6f18d174b73d0ceeaa341f46c0986436b3aefc9a:
+for you to fetch changes up to 6348f62ef7ecc5855b710a7d4ea682425c38bb80:
 
-  bus: mhi: ep: Update read pointer only after buffer is written (2025-04-24 10:34:51 +0530)
-
-----------------------------------------------------------------
-MHI Endpoint
-============
-
-- Increment the rd_offset after writing the buffer to avoid MHI host accessing
-  the incomplete/wrong buffer element.
+  bus: mhi: host: pci_generic: Add Telit FN920C04 modem support (2025-05-14 11:30:59 +0100)
 
 ----------------------------------------------------------------
-Sumit Kumar (1):
-      bus: mhi: ep: Update read pointer only after buffer is written
+MHI Host
+========
 
- drivers/bus/mhi/ep/ring.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+- Fix conflict between MHI power up and SYSERR state transitions by issuing MHI
+  reset only if the device is in SYSERR state while in SBL/PBL EEs. The device
+  won't respond to reset if it is not in SYSERR state in SBL/PBL EEs.
+
+- Remove redundant call to pci_assign_resource() since PCI core calls this API
+  internally.
+
+- Add Telit FN920C04 modem which is based on Qcom SDX35 chipset.
+
+----------------------------------------------------------------
+Daniele Palmas (1):
+      bus: mhi: host: pci_generic: Add Telit FN920C04 modem support
+
+Jeff Hugo (1):
+      bus: mhi: host: Fix conflict between power_up and SYSERR
+
+Subramanian Ananthanarayanan (1):
+      bus: mhi: host: pci_generic: Remove redundant assign resource usage
+
+ drivers/bus/mhi/host/pci_generic.c | 43 +++++++++++++++++++++++++++++++++++++++----
+ drivers/bus/mhi/host/pm.c          | 18 +++++++++++++++++-
+ 2 files changed, 56 insertions(+), 5 deletions(-)
 
 -- 
 மணிவண்ணன் சதாசிவம்
