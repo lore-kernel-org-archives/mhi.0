@@ -1,539 +1,211 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx07-0057a101.pphosted.com (mx07-0057a101.pphosted.com [205.220.184.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B5146D6A
-	for <mhi@lists.linux.dev>; Sat, 17 May 2025 02:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747448455; cv=none; b=PAeYxh5bGpEMLpt5midNaGVRzNVGGJ9HeuC8UkHvQYY0/alYXSJt3GpN7Caags9fCpVKq24cb39zxoZExLGqAo0OV48h45c2BV8rJMG7oGRt5jvQj6izjVFn/tvTDwnkaha6Df6/I2mxeJKeEiFhpa1BcTXznr9yPoY4l5lGVGE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747448455; c=relaxed/simple;
-	bh=IW95dRVDzLxWDiP4V5IJuFJCvFkVuSSiAPkNdJbaBK8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k1D7LBYc0+R/dqFLW323s4RBG/xlLydmlNy8Phf3d+OjVgciJtdQQ36WaquOmq9cPzJZPWiV6dlEldMzhKwbfcSD9H8Y866BAV41WwPBKXU5lufI8tX0iShhvqCoMnKe0KFae7ugAUt+tCgsrRg0wpPFpRmFnJgL9Dkc1uVoB3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WqNjSPGY; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36362253BD
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 06:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.184.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747634984; cv=fail; b=VK2vFaQ8E/hlCjpmuUeEHzRfGVhP1vhrjy+WalnXmIAWgAZCuuu2u3NK6VX7P2Yz4q5qP3quWz06TpyKXbrDvE6tJVsLdX0Z483ZBv6w8jfuxkbpbrzCcLHQq/usf2B8v9ek83C7KYL6XK5VOH1Y2IAOwut42qLgN3KB+skK3xY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747634984; c=relaxed/simple;
+	bh=spcuDV5htW+s94rfHlxolVrmfs/DCEkh2flElior/ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gdZQ7kiAMz8uZ+bX0ZCdqSvgvaIyYI/GOJRDm+ykpQu/01p3krCt2Fu3/CYX0SMGu2rBcfcYa81SgpOJMRnMIexqhZN+dW9jkeQQpMoGPRy+XYkc+7UCPIF/JtxZrRIctA2Y0Z8M+5C4XD5/yPbe3YjLWulCOmNUg/bHXGFE9d0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com; spf=pass smtp.mailfrom=westermo.com; dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b=XENGCy78; dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b=buwtFSSj; arc=fail smtp.client-ip=205.220.184.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=westermo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WqNjSPGY"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54H2J0h0023064
-	for <mhi@lists.linux.dev>; Sat, 17 May 2025 02:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BybEuDZH4NGRzyNjwmGtbUuQ3E9hmqYyOXM4Ex3cnbU=; b=WqNjSPGYKjbHBimW
-	PyXKify/MPZGsDKXi0mcCU5rroX7MjOUNqe+e5+QAVS857mPF71MXYj0bJlt/s/2
-	0lTsGqoMf36G/NHMWRbzT8fHLWoGJNJeJTFlnGcAPx0awQCjzw+f7bHW6E1H90wr
-	gMOWx/SDf1xTgwYIvwq+NYiafzczZ51otCp5R1Y5tle4SJ4W1KXKjvBZElmZOifc
-	fwZRRTi+k8/vrjadlyf/a9Urn7nnKnD7vQnRGUJKu46Y59k7urzagAXAS4SPc4hg
-	HpLmfYSGsHE96hDHiyGqPILjXK9IXfORH1XE5uGjOR37M83XAhj8NmRqZAglSM25
-	26t0ZQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46p997gyej-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Sat, 17 May 2025 02:20:50 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-22e815dd332so42709885ad.3
-        for <mhi@lists.linux.dev>; Fri, 16 May 2025 19:20:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747448450; x=1748053250;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BybEuDZH4NGRzyNjwmGtbUuQ3E9hmqYyOXM4Ex3cnbU=;
-        b=I3pfTLvp5XddJOsXghLnvJh+x7eOizVsVR9vq5DfJNl3sVbiqZ55p1PBLeJoLYWBQF
-         t+VnTwrei/yFU6LndwHVCEm1N/5wMy0WZp6h03giz6nf/6dLWg3delm+5GJlIZ7MmGdJ
-         X7BMmtcH1TNfRHMT4zOfAQynRsqtCP/0o7q8eD6HfyR6r/tsZJLRLlq4oxkVfh943Qc5
-         9r6ratPAeBCm32kIn0MGmKfaiXChsKA0X1JlPLpPQCKyiu2li6PbQ2Wqu3+BFcDEyh6h
-         uvMSzLJu4zlDuxbARutJkoo0/4Cb3obcAw5o9XFPmOxh1ffCfz4+0VzoTBDxOQnxEene
-         zN3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVMjzm9QnWGqGQ1Ms7H0lWq23ZBpyAzEm7SqUEycPLV3sld+xegH0YoXs93EBgm73AoIPY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUeaJJDVwKCErub1vSfKFJx6YvV7wFumXXLS6ocj4c9+oIamFY
-	fDNkBC7ae2Bz04c5a1jla1Nyj1kEKypCaLX+69U9m/mVjvCAaxzCoY6GgOe6u1uG1SlXJBf1aLp
-	RjAEYAMTNhW7zYHk4FNzT3fpigZ+T+eEO3dRT6lx/RBUQUNadLjlOlHw=
-X-Gm-Gg: ASbGncsvJB8tIS57qqklGvl9+BDMprEoHNH+qbmLLu6eGIyzsKA4vi3jcLdhBDXyhe4
-	ZC83WGYmm9F4j/uHfmjlkxNH6clyxUbMDgc7rdpoB+UmLkp6v+/21XZxs5PFQca2rHp7Sv0hXH0
-	8PkV2WAU15NuIHriliKiJPjtQUYekxknsBYGBBJmAaMKVLE+4w0S8gd7UVB7uoQUIeHxPpTH6Fi
-	QO2qMjT2Wny2VK8D9bs7QoJ4oKCF0Kspm8iwSTesnRGDOWay8B6E3ytw09wa4WUMvpg7X7wBMk+
-	g24Qip1rgfSQN/z8WTgz68DzaxdrYk/1l0iNnrok4Qk=
-X-Received: by 2002:a17:903:2284:b0:22e:663f:c4b with SMTP id d9443c01a7336-231de36bb60mr62455205ad.26.1747448449943;
-        Fri, 16 May 2025 19:20:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkbEmesceMI5K5xKUt2aNYagIV4L8LmW/ecFTbpPRKFblTfrRwsWe6NNkQC+kxccVxuM6idA==
-X-Received: by 2002:a17:903:2284:b0:22e:663f:c4b with SMTP id d9443c01a7336-231de36bb60mr62454725ad.26.1747448449331;
-        Fri, 16 May 2025 19:20:49 -0700 (PDT)
-Received: from [192.168.29.92] ([49.43.230.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ed23a8sm21089715ad.220.2025.05.16.19.20.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 May 2025 19:20:48 -0700 (PDT)
-Message-ID: <d5868e98-a037-eb2f-7310-80bfe6ec974e@oss.qualcomm.com>
-Date: Sat, 17 May 2025 07:50:42 +0530
+	dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b="XENGCy78";
+	dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b="buwtFSSj"
+Received: from pps.filterd (m0214197.ppops.net [127.0.0.1])
+	by mx07-0057a101.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J5010O009350;
+	Mon, 19 May 2025 08:09:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=westermo.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=270620241; bh=8X/c9YdsxFlZvTSjDpdYfGr9
+	KGHfMqTMq4chOoJOUbQ=; b=XENGCy784UTAn8PDVO6eR6MTVBnOMR5r1rQ5Ztwq
+	pc5IovoWwP447L3ou/2Z8AYXDWYgTMxenSubtYa7vCkTcTDPksHmbD3+EXygb63A
+	KhSr82CENkbFJYidBX8h1gmvEl6/3PewOL7AYDDr/nqaDAMUPHM2XU6Q7RAiL6so
+	8B4egJ6iuBtlnSXUAwM4exN6xnI9CN0SnbYrXAQqhHfMRow2HZZjfVX3S5J2EHN3
+	Dk2wr8DHEP8ltFA6qRoH4lWvavw+zeDwtGWKJFvnH7TtL0/m0gH0T5wYQYL7rUUP
+	zJJ1Bg+2+T/7xmnfc2qJvqMFmb7jY7xG+Z+29XooxIdwZA==
+Received: from eur03-am7-obe.outbound.protection.outlook.com (mail-am7eur03lp2232.outbound.protection.outlook.com [104.47.51.232])
+	by mx07-0057a101.pphosted.com (PPS) with ESMTPS id 46petdhvqm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 May 2025 08:09:32 +0200 (MEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W79Yh33IFqFaoUJGEsSKbtMRN7b8frSJkK3g/9A94w9nZONoC0lNMunTK1g4vWasBq1fmKn9+Hl68GtOF10kef/8G0bLNjVJ3q23hiITVSnObCdbX1uYVkUj0fbENdqyHvePQXJdoHC99wYRpSecfWWxnTqUdj2dJK/95cj11TgZHOnPhxGpvr+rNIEiR4OCD72BYlDMYYvCQaJCSzsqC3WVX6Vf0w9JuHIGR/wmVmouOrDcJvHva5viKbFqMgMnIDRwUWlbCTk911PSwmfBoAUZLfeRv7EshVRUsy4b5y1Kel6ol21hVd8uT+P04dQ6dmWegk+j+RnvdyHBk68Kcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8X/c9YdsxFlZvTSjDpdYfGr9KGHfMqTMq4chOoJOUbQ=;
+ b=fKu9Sbx21zrtECMdoWPsKtpDNHgOXGDn73LDqGJS+JmEb5TSfM6hf2vo/gQltNrjk4SHYqH8ChgkpjA08UPS3ZaPtbd+b3gl5+5UnKTR82j2mfhinaWkItdS3B3vSJfFnXn5Y9OLq32knoI2QPNPDXTl1zeGlhh0FavdHloLfdWXgR0u9nGaCwBmZ6pkLXPXLVHc0bZP3bdErbmHmw7PN6QzvOQ+RYEDKYqhCT7SGZ+9TgSx3UNa2H6lRoa1oR4DClFR+9F4TJOJox4G2JHgJCyWwcckz38TR7URwgRTcWgBsrRRvhUbp/0i2TJyYUBJQtIK6OiQbapOoPPRBeYH2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=westermo.com; dmarc=pass action=none header.from=westermo.com;
+ dkim=pass header.d=westermo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=beijerelectronicsab.onmicrosoft.com;
+ s=selector1-beijerelectronicsab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8X/c9YdsxFlZvTSjDpdYfGr9KGHfMqTMq4chOoJOUbQ=;
+ b=buwtFSSjPfjHYjk/GGt1tMmjO1ccAIf51Nr6aeFdLDwNZuBAzCSzyVERipxizy6x3odAhowyHdgjxey3siLsDmidJ9HSTOpW2eFQq5IlJ62EoxyUisMS5Q8yxnDY7fzlVCYQUg2vLH/V4MVfoPTuorprV97AbpXwonH9V84sh+s=
+Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:63a::18)
+ by PA2P192MB2372.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:41d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Mon, 19 May
+ 2025 06:09:29 +0000
+Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
+ ([fe80::bee5:29b7:49f2:cf70]) by AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
+ ([fe80::bee5:29b7:49f2:cf70%3]) with mapi id 15.20.8722.027; Mon, 19 May 2025
+ 06:09:29 +0000
+Date: Mon, 19 May 2025 08:09:26 +0200
+From: Alexander Wilhelm <alexander.wilhelm@westermo.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] bus: mhi: host: fix endianness of BHI vector table
+Message-ID: <aCrLFtPJIgh8/zRx@FUE-ALEWI-WINX>
+References: <20250515095517.1867846-1-alexander.wilhelm@westermo.com>
+ <fa6e5f45-a6d9-4f31-ab5a-7c47200a913c@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fa6e5f45-a6d9-4f31-ab5a-7c47200a913c@oss.qualcomm.com>
+User-Agent: Mutt/2.1.4 (2021-12-11)
+X-ClientProxiedBy: GV3PEPF00002BA4.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:144:1:0:6:0:1b) To AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:63a::18)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 07/10] bus: mhi: host: Add support for Bandwidth scale
-Content-Language: en-US
-To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Lorenzo Pieralisi
- <lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?=
- <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jeff Johnson
- <jjohnson@kernel.org>, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
-        ath11k@lists.infradead.org, quic_pyarlaga@quicinc.com,
-        quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
-        quic_mrana@quicinc.com, Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-References: <20250313-mhi_bw_up-v2-0-869ca32170bf@oss.qualcomm.com>
- <20250313-mhi_bw_up-v2-7-869ca32170bf@oss.qualcomm.com>
- <fzin4uttqtf33moiew6bazgxea7w72at5quumjg646s43wnq2g@3eupbyomplgw>
- <45deb1b9-748f-2342-1cf7-16b54ef6b95b@quicinc.com>
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <45deb1b9-748f-2342-1cf7-16b54ef6b95b@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=U7uSDfru c=1 sm=1 tr=0 ts=6827f283 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=m9Fid+qPLYWXQ4ltJ96dlQ==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=y7MCS0CkwjfyNYDPbrEA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE3MDAyMCBTYWx0ZWRfX5B9crCc+IVRt
- LjyIInBdFOPdhquDuxJ8IqMXjS88/SqCHJ9YJrz8YbkVBFKR+a88+EI797ClHY6OPsPf5Bwk0yf
- 2dgAiRPlAx+zyx4VsIGNdhTB3FHT/Bd0bPF4iNw7JxVJOQMoDrMVHvcXmjgUVOIIED+HS1kBSv4
- qq6+QuGcUMIFNQsSLVjP53xQS7Qz3SLMQstq0WzhXVmkqCyxZKIH4VG8Ps2Js63ddzXD16+O5tk
- HBjevSH9n7ojvBYht3rRVwyAggWBVOOFMjKm4Lyhpgf2dImbdokAsJ1rRvSxhYzE4F7JVqSsOFD
- +i6tbd/dgQoIbH0VbS2TNcUwiUzj3vLFt9M3C64A8FhVfw9GHcL2XxItIcU23Oxx4LDYIlwFyuQ
- +wGbEJZXsKrH2P2pyyDUYOC2qx+zjGrhIUmo4NSiPxVeIj4XTd2dIemYvrgZMHLeYYZKCT9X
-X-Proofpoint-GUID: PChaT3s6-ruJvrxJZBLZj3Nct4RCa3rR
-X-Proofpoint-ORIG-GUID: PChaT3s6-ruJvrxJZBLZj3Nct4RCa3rR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-17_01,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999 clxscore=1015
- lowpriorityscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505070000 definitions=main-2505170020
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P192MB2240:EE_|PA2P192MB2372:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd54b6f7-730c-4510-91df-08dd969bb6ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?DOOg2PhIWRt+NEYGbsC49lc4lntmBoDjKbFg2SwseRMlkZA05P9tR4/TMLhX?=
+ =?us-ascii?Q?Msma1DsSBXaNsnMHql6aS53g6S8vhVnHnMcXJ3z0f1/QGaoundTAtmXd4kiB?=
+ =?us-ascii?Q?1ouG6c60zXZlPgu7O7z5H+gt1ZK32MWL2Jvu8t1wNGMRIE+zSe5C6PEEwJyu?=
+ =?us-ascii?Q?/Ct9X35nFxMCOmy79Xhdgj8xhaVR/+vL1FlDgYejvp2cvhjzkBAA/Sg14dv2?=
+ =?us-ascii?Q?G4jKGnyKXFMBa6smNLdSmdRRtGFrkioZfMwHpWFnszHkZb2sLWwMv2n/5kPL?=
+ =?us-ascii?Q?2PQ5v327vMUI6kPC5n6zAFloPrBW7cJxWwC4UevyjQKoVsyaMT1yvQyYX/KR?=
+ =?us-ascii?Q?0nRWzTpPEsY1cFtGk5l9tuUfhenC/hU9KoHVTBuxIiqJC3fNHsB6n+onWhnS?=
+ =?us-ascii?Q?qYxB8Gp900XWgrE/xxieGrM+VzopSTxYFK48m1ckG53I4J2rl1QONkTkkoGY?=
+ =?us-ascii?Q?305IvTK/CRkaDYk9CBr2x4oHzZ40TV8u8hVoMy6VYszF2jyjhz8kHAypEhNh?=
+ =?us-ascii?Q?2Zq3tBoXieP1VRqTwQh1V/AscZSrxBrnNCxUUsNt1lY0bRPHZlZZicNaOnAy?=
+ =?us-ascii?Q?Pw6Xi+/32wknW0PRvCP9h9m/YBUAzIhBz+R1nXBfP0MzapzBvqTcvUhELnYZ?=
+ =?us-ascii?Q?+nEFSGo4iDN1I45ao2D1Vs8QEeEFg+pwJwE0XyG8JYmQvHMZwSdcS7s7x/hm?=
+ =?us-ascii?Q?mJ+OOKPNC+3E484007XPW9b1Xn3r9NcWK03tP0zgXhrcZumYT158vu9jyRJ5?=
+ =?us-ascii?Q?CT5QFLwbCeGVwtHG0LJZuZK8thbjomWlYezIoSSiIt/igS4I398pFBOw1dxT?=
+ =?us-ascii?Q?c96Bi3x+oveHtj65Oqfp3XCtB+jtEYfiCFY842Mzl+DW/4XYqcShyZe9pCZt?=
+ =?us-ascii?Q?zqi5nUYouK33yqNWE0xw+VjrJU9xjWx7ZgpL3ACDxZWNNrvbJcQRVhkx1R5B?=
+ =?us-ascii?Q?IH41yTPId08tzx92J6oXSRoORuNT702bMkpZ5DHwHnKbcGSgY/XJt4pMM5YV?=
+ =?us-ascii?Q?Fv7TH5ILkGB32a1z3ETSPDI7HuOgOLn9ns50t/PDHgVmL3X9XA57deYFZsw2?=
+ =?us-ascii?Q?aaGMaG6MKgvobz/a2w+fTUj41GQkVkcl24CJUK8XFflCHwQzFoWp30txdo3Z?=
+ =?us-ascii?Q?mer6fD1wuW3cSujEPQDWEWfz+vHWDg3+lKs6jaDy23Er8ag98G1XLMeaigtM?=
+ =?us-ascii?Q?FbQZQAEaiANCPyFsCJcqQ6wyf+zTMLvPTLROXS9CWSZE7IPeulCANBSqijD9?=
+ =?us-ascii?Q?33PNXV82pONs2MzXixAVDxb89cwzD15AlFTRSA8s8lXiCkvf3CQXA6Bv1sPb?=
+ =?us-ascii?Q?6yx0ZG+unhRgasSh/lQ4jhoBAuqh9atzyl1Q8FLf/s94eUdCW6+cGW3OQCCV?=
+ =?us-ascii?Q?zQOYv2H5F3xFvCf2nVUjxQutNsfc5YkQwEhzOvCBbA6+qxfuDwFNVVyrL9Np?=
+ =?us-ascii?Q?zH+K7iVe69E=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P192MB2240.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CrxIc2WgLJEX2c06VrtSPGVO+HJDfUxn5pMyO+uRTuZx4UsVyzu8pHKYUgC0?=
+ =?us-ascii?Q?eHsfCPDllnzbhyzl4/3Nejc7/jcs/UL19QH35gpTiS/FF1lUBq9NyIb0FZEM?=
+ =?us-ascii?Q?9PH1mbzK8PTh2/3Rjbl9UZAzf4Sm6A3ezZiU74fXJKKbZMSNgPuBdCSioKYs?=
+ =?us-ascii?Q?n2lLz2T88SMXQY37IqCvho3OqoEPo5lbahpNsET1FVlF2TKkaID7cj2leYKl?=
+ =?us-ascii?Q?ApCL5gTF+1CgcJrVYLgrjOEpf+/7avBdO6nEd4ro77i0lFzlAZ6jKQTSApzD?=
+ =?us-ascii?Q?eNrPd7prf4exMFPbtRgLzvvAtQpOGAoFFit86yU+efAtL+/hk/O91KrOK0m8?=
+ =?us-ascii?Q?3pLP0Xtiq2FzuGMWMIu5/egWeIl8LkAjaF6LMv5hItDLMKZixLDQql+GnAUf?=
+ =?us-ascii?Q?GFRQbJ3Al1j8DwX2oUnMX1KQkQ1Dudi9v0jXlRbGAHrLgWaG78u2bkKXtyY4?=
+ =?us-ascii?Q?xYTzx371VFyAYl/9rE0JZ3gDZXV+TkywKTpBWw81qsJLecRg20JR/ov5k0SP?=
+ =?us-ascii?Q?UtArFRRB61G6Rgpo2sJHy4uZ5cY17JDKZTxkE5pRLT6app/0xtWH6FJO/Xtl?=
+ =?us-ascii?Q?fcapNQ/4U56u84tlk6+YnFjrF3EYRHOo0oTb1HyI0t3u3AtEd0ZAmAH/mXQh?=
+ =?us-ascii?Q?/fHtf7fqJmFdme8bFocg7ldcm3dDnQlQcnEBlvtkJycYy8CWyyKaE1NAPK+I?=
+ =?us-ascii?Q?8M2JC6oWU1cvI2wexHsuRiyoAMtFMAkFLmcVhnS68ePQ+iqbRkCCFS4VtOAq?=
+ =?us-ascii?Q?8jCDUvm/xM1/RUAyCtYT+Oun/Dlh5sw1wg4PqTSuET+NZ9Yt8FdNd95WmmnR?=
+ =?us-ascii?Q?KLz6lG9GygvaLVCBP0cFctdQrFW3+ZvblL20TXZWTw9vuAbb/9NsJvqJJ6+w?=
+ =?us-ascii?Q?gP8OQGG8yEsNySZSKy/kCY/Co8tT0Jzzmy431Wht7T9fowO/TgjkxsTJq3ak?=
+ =?us-ascii?Q?Wjm+7ZBxPNeya5gQEVrzAGDakpZPQ1NOOdaat4oiFfw0xxiyRV0WVwbIn2Gd?=
+ =?us-ascii?Q?heg/snCp5/j1qaMqAqSoJ6o+xHep7I2ejjh6Ip8wQN1gcQrFhzJBWEtpLkfr?=
+ =?us-ascii?Q?ACvoSa7dA4TGrx/6L9c/BmYoexSMpp9rotGMsi7nVE8SnteEubrucQdRSsXJ?=
+ =?us-ascii?Q?9UFYxpXmmyqwuaib44S2UK1rlgfgOyjskOuaYmt9ry+huUHW6MHi7t5Ac9a6?=
+ =?us-ascii?Q?/kCc5MfBuvMgnbgKesAVnO74E66q8UIRF61a+W6/0h0xScyLGFUaoZkE9eSd?=
+ =?us-ascii?Q?83BL9NxWiE9fTCGkGhhIfWtv/dPsRMoonFxQDQlWnoac3L/kMC3A/X92SbY7?=
+ =?us-ascii?Q?SG9oML/G8/w+lu55GdmM8Er9AvMigKxmqHclUwGV/JvcbCegtPrRLrxwxPjB?=
+ =?us-ascii?Q?/nGY+EpZET9w2cEHp396pHcv1mvCIa3OPdXqHxn2mGYGlypZj02BGo0wrMv7?=
+ =?us-ascii?Q?jIw6aqiTJ4R/1cMFgpf8idZ8K+Rge/VWJ+R64UFAYuqqyBOAasR3q8aV9pd7?=
+ =?us-ascii?Q?XBHG/lJooJQ/ya6npD15jL18qe2xzmSgeJPgqMlkS5V41hTOYmE+RqdQJ7dS?=
+ =?us-ascii?Q?IgCC7IpLhVLD4rpezhFUylizPlvpviw9On3Z/wAd?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	RAmqs4IofpB0Kn2evkCOV8d+jdJwaepjP+wh+pspUUV4BhOrT3TFjuQDJXLHWMCyXqkWxWY/2tp2RqXUOLfi7EyfIRERBfSs0RJRegeRGFVT6nTjmkP8f1Q2vr7ZQaCNPQ+T0PrkOdwiJmaofp58OaT6XIr2X2dRhB7O3GWo/AcXr4M/l2EHY0ru3ZHRysbAHvMuydnosaQbAhVR/h8btscH2epNVts7Pb5QmRfQNNG2nuCmj2rT0pQ8oum7qrgHHwFmaSooqgI4oleXKeanZTzDHi21nZb3eKSbU4xqFYtJx5Z6cx8QezRAU2EwNATAMtEzECLy8PKpp5SEnzEDyoE5x3HBBF6AyfzTdwUZBTfGlU/2bf4vCF1wnMYMsSsAXYLcy0nCUNt8KkexauI0Dq79pJNOvgJUGRRGr86V+MPDkfBUMcqVzAY16gtdtGjAcS1ojx4yF43EDicSvradYbQOnLSu1nq76kVhobIpZiP4sDgBrbKoL6HoOdH4kfw+y8yUmIpULBt17jdZCIA0UkJCjojU+6Ssr3Wj40cRmWZyDE11eYrlMCvpcPcqdymVgMVHM4stvubExrmsbJo868LFzVjD2TvGZ28unqxLxMgaAUTzT8eq64TTUT37x5O0
+X-OriginatorOrg: westermo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd54b6f7-730c-4510-91df-08dd969bb6ef
+X-MS-Exchange-CrossTenant-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 06:09:29.0963
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4b2e9b91-de77-4ca7-8130-c80faee67059
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y3K6lMbuN6ffbLYc4/+wO2bmbT7b0btkmcH7k0+noP1U7AWtJ/bN8LVyRrIxOyjkRXNU3rQRmzdVn7z+rCqU8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2P192MB2372
+X-MS-Exchange-CrossPremises-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossPremises-AuthAs: Internal
+X-MS-Exchange-CrossPremises-AuthMechanism: 14
+X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
+X-MS-Exchange-CrossPremises-MessageSource: StoreDriver
+X-MS-Exchange-CrossPremises-BCC:
+X-MS-Exchange-CrossPremises-OriginalClientIPAddress: 104.151.95.196
+X-MS-Exchange-CrossPremises-TransportTrafficType: Email
+X-MS-Exchange-CrossPremises-Antispam-ScanContext:
+	DIR:Originating;SFV:NSPM;SKIP:0;
+X-MS-Exchange-CrossPremises-SCL: 1
+X-MS-Exchange-CrossPremises-Processed-By-Journaling: Journal Agent
+X-OrganizationHeadersPreserved: PA2P192MB2372.EURP192.PROD.OUTLOOK.COM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA1NiBTYWx0ZWRfXwM3YvNmPa9r1 hu5BgPHkQXfINe3TPHCjwQ6XHNYzcNxIjzReIlgPBXGq23T9GYqEZiaDZqtMS4L8sSZdxNzL26H thIr/rc7we/r9QSw+7CTzTF60h2X+/db0VCpXhJShz+EXZs3Dbz81RwrdOAOc2F2UejP5SC/hf1
+ EVZssSurAOsIAS1/y+net0RtjvRg2zBWJp2nW1pbD6aatZn5RSqbZNQ7A92qrVlgQuqxEAjNKpX zaZm2hCMtSXap2mSVUBi4n4KwvhbhKg6xh3BIvjdf0MxmUVq5PzI7juNo2cEc5pX4btfH3Juida /lBY6TWdSewy5JChkSEfbtiNEk8eDDnabNzOB+Uwuq+C0+Ni4/iAjtnKl9NUZQWm1kHmtzsaYwx
+ moUeVoWmJFXSrbZgFaMGOWnc10TDa4iLd7m1R8J4CfxTbB6Y0nm6A0WHYtRmebaGQGZX4wSy
+X-Authority-Analysis: v=2.4 cv=aqqyCTZV c=1 sm=1 tr=0 ts=682acb1c cx=c_pps a=QRoYqyLXmD/jTdENOd4DaA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=8gLI3H-aZtYA:10 a=N9GNhs4bAAAA:8 a=EUspDBNiAAAA:8 a=NzcaUS6rk3g4BAHRJagA:9 a=CjuIK1q_8ugA:10 a=PZhj9NlD-CKO8hVp7yCs:22
+X-Proofpoint-ORIG-GUID: kkol37HLowcpO26pYJfA_2GQU0rjO1Ek
+X-Proofpoint-GUID: kkol37HLowcpO26pYJfA_2GQU0rjO1Ek
 
-
-
-On 5/6/2025 9:59 AM, Krishna Chaitanya Chundru wrote:
+Am Fri, May 16, 2025 at 09:13:46AM -0600 schrieb Jeff Hugo:
+> On 5/15/2025 3:55 AM, Alexander Wilhelm wrote:
+> > On big endian platforms like PowerPC the DMA address and size are required
+> > to be swapped. Otherwise the MHI bus does not start properly. The following
+> > example shows the error messages by using qcn9274 wireless radio module
+> > with ath12k driver:
+> > 
+> >      ath12k_pci 0001:01:00.0: BAR 0: assigned [mem 0xc00000000-0xc001fffff 64bit]
+> >      ath12k_pci 0001:01:00.0: MSI vectors: 1
+> >      ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
+> >      ath12k_pci 0001:01:00.0: failed to set mhi state: POWER_ON(2)
+> >      ath12k_pci 0001:01:00.0: failed to start mhi: -110
+> >      ath12k_pci 0001:01:00.0: failed to power up :-110
+> >      ath12k_pci 0001:01:00.0: failed to create soc core: -110
+> >      ath12k_pci 0001:01:00.0: failed to init core: -110
+> >      ath12k_pci: probe of 0001:01:00.0 failed with error -110
+> > 
 > 
-> 
-> On 4/25/2025 10:13 PM, Manivannan Sadhasivam wrote:
->> On Thu, Mar 13, 2025 at 05:10:14PM +0530, Krishna Chaitanya Chundru 
->> wrote:
->>> As per MHI spec sec 14, MHI supports bandwidth scaling to reduce power
->>
->> Same here, add spec version.
->>
->>> consumption. MHI bandwidth scaling is advertised in devices that contain
->>
->> 'advertised in devices or by devices'? Difference is subtle, but it 
->> changes the
->> context.
->>
-> its by device, I will correct it next patch.
->>> the bandwidth scaling capability registers. If enabled, the device
->>> aggregates bandwidth requirements and sends them to the host in the form
->>> of an event. After the host performs the bandwidth switch, it sends an
->>> acknowledgment by ringing a doorbell.
->>>
->>> if the host supports bandwidth scaling events, then it must set
->>
->> So this means both host and device has to support bandwidth scaling 
->> events? What
-> Yes both host and device has to support this.
->> does 'events' mean here?
-> Device sends bw scale info through dedicated MHI event ring events.
->>
->>> BW_CFG.ENABLED bit, set BW_CFG.DB_CHAN_ID to the channel ID to the
->>> doorbell that will be used by the host to communicate the bandwidth
->>> scaling status and BW_CFG.ER_INDEX to the index for the event ring
->>> to which the device should send bandwidth scaling request in the
->>> bandwidth scaling capability register.
->>>
->>> As part of mmio init check if the bw scale capability is present or not,
->>> if present advertise host supports bw scale by setting all the required
->>> fields.
->>>
->>
->> Sounds like the host is depending on the device for bandwidth scaling.
->>
-> yes
->>> MHI layer will only forward the bw scaling request to the controller
->>> driver, it is responsibility of the controller driver to do actual bw
->>> scaling and then pass status to the MHI. MHI will response back to the
->>> device based up on the status of the bw scale received.
->>>
->>
->> Why the controller driver needs to be involved for a spec defined 
->> feature?
->> This is not answered here.
->>
-> The controller driver here is mhi controller driver, the MHI layer
-> doesn't have any info about PCI related stuff, only controller driver
-> knows about it. I will update the commit text accordingly.
->>> Add a new get_misc_doorbell() to get doorbell for misc capabilities to
->>> use the doorbell with mhi events like MHI BW scale etc.
->>>
->>
->> So this is a spare doorbell? Why can't you call it as 
->> 'get_bw_scaling_db()'?
->>
-> Similar to MHI BW scale there are some other features which depends on
-> getting spare doorbell like posted time synchronization MHI V1.2, 5.1.2
-> To scale for future features I added like this.
->>> Use workqueue & mutex for the bw scale events as the 
->>> pci_set_target_speed()
->>> which will called by the mhi controller driver can sleep.
->>>
->>> Signed-off-by: Krishna Chaitanya Chundru 
->>> <krishna.chundru@oss.qualcomm.com>
->>> ---
->>>   drivers/bus/mhi/common.h        |  16 +++++++
->>>   drivers/bus/mhi/host/init.c     |  64 ++++++++++++++++++++++++-
->>>   drivers/bus/mhi/host/internal.h |   7 ++-
->>>   drivers/bus/mhi/host/main.c     | 101 
->>> +++++++++++++++++++++++++++++++++++++++-
->>>   drivers/bus/mhi/host/pm.c       |  10 +++-
->>>   include/linux/mhi.h             |  13 ++++++
->>>   6 files changed, 205 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
->>> index eedac801b800..0a02acee709a 100644
->>> --- a/drivers/bus/mhi/common.h
->>> +++ b/drivers/bus/mhi/common.h
->>> @@ -208,6 +208,22 @@
->>>   #define MHI_RSCTRE_DATA_DWORD1        
->>> cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
->>>                                      MHI_PKT_TYPE_COALESCING))
->>> +/* MHI Bandwidth scaling offsets */
->>> +#define MHI_BW_SCALE_CFG_OFFSET        0x4
->>> +#define MHI_BW_SCALE_CAP_ID        (3)
->>> +
->>> +#define MHI_BW_SCALE_ENABLE(bw_scale_db, er_index)    
->>> cpu_to_le32(FIELD_PREP(GENMASK(31, 25), \
->>> +                            bw_scale_db) |                \
->>> +                            FIELD_PREP(GENMASK(23, 19), er_index) 
->>> |    \
->>> +                            BIT(24))
->>> +
->>> +#define MHI_TRE_GET_EV_BW_REQ_SEQ(tre)    FIELD_GET(GENMASK(15, 8), 
->>> (MHI_TRE_GET_DWORD(tre, 0)))
->>> +#define MHI_BW_SCALE_DB_ID(er_index)    FIELD_PREP(GENMASK(31, 25), 
->>> er_index)
->>> +
->>> +#define MHI_BW_SCALE_RESULT(status, seq)    
->>> cpu_to_le32(FIELD_PREP(GENMASK(11, 8), status) | \
->>> +                        FIELD_PREP(GENMASK(7, 0), seq))
->>> +#define MHI_BW_SCALE_NACK            0xF
->>> +
->>>   enum mhi_pkt_type {
->>>       MHI_PKT_TYPE_INVALID = 0x0,
->>>       MHI_PKT_TYPE_NOOP_CMD = 0x1,
->>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->>> index 0b14b665ed15..71abe02f5726 100644
->>> --- a/drivers/bus/mhi/host/init.c
->>> +++ b/drivers/bus/mhi/host/init.c
->>> @@ -496,10 +496,56 @@ static int mhi_get_capability_offset(struct 
->>> mhi_controller *mhi_cntrl, u32 capab
->>>       return -ENXIO;
->>>   }
->>> +/* to be used only if a single event ring with the type is present */
->>
->> Then open code in the caller itself. I see no benefit in adding it as 
->> a separate
->> function.
->>
-> This added as seperate function for upcoming features which uses
-> same logic.
->>> +static int mhi_get_er_index(struct mhi_controller *mhi_cntrl,
->>> +                enum mhi_er_data_type type)
->>> +{
->>> +    struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
->>> +    int i;
->>> +
->>> +    /* find event ring for requested type */
->>> +    for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
->>> +        if (mhi_event->data_type == type)
->>> +            return mhi_event->er_index;
->>> +    }
->>> +
->>> +    return -ENOENT;
->>> +}
->>> +
->>> +static int mhi_init_bw_scale(struct mhi_controller *mhi_cntrl,
->>> +                 int bw_scale_db)
->>> +{
->>> +    struct device *dev = &mhi_cntrl->mhi_dev->dev;
->>> +    u32 bw_cfg_offset, val = 0;
->>> +    int ret, er_index;
->>> +
->>> +    ret = mhi_get_capability_offset(mhi_cntrl, MHI_BW_SCALE_CAP_ID,
->>> +                    &bw_cfg_offset);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    /* No ER configured to support BW scale */
->>
->> What does it mean?
->>
-> I will remove the comment this is not making any sense.
->>> +    er_index = mhi_get_er_index(mhi_cntrl, MHI_ER_BW_SCALE);
->>> +    if (er_index < 0)
->>> +        return er_index;
->>> +
->>> +    bw_cfg_offset += MHI_BW_SCALE_CFG_OFFSET;
->>> +
->>> +    /* advertise host support */
->>> +    val = MHI_BW_SCALE_ENABLE(bw_scale_db, er_index);
->>> +
->>> +    mhi_write_reg(mhi_cntrl, mhi_cntrl->regs, bw_cfg_offset, val);
->>> +
->>> +    dev_dbg(dev, "Bandwidth scaling setup complete. Event ring:%d\n",
->>> +        er_index);
->>> +
->>
->> "Bandwidth scaling setup complete with event ring: %d\n"
->>
-> ack
->>> +    return 0;
->>> +}
->>> +
->>>   int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>>   {
->>>       u32 val;
->>> -    int i, ret;
->>> +    int i, ret, doorbell = 0;
->>>       struct mhi_chan *mhi_chan;
->>>       struct mhi_event *mhi_event;
->>>       void __iomem *base = mhi_cntrl->regs;
->>> @@ -633,6 +679,16 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>>           return ret;
->>>       }
->>> +    if (mhi_cntrl->get_misc_doorbell)
->>> +        doorbell = mhi_cntrl->get_misc_doorbell(mhi_cntrl, 
->>> MHI_ER_BW_SCALE);
->>> +
->>> +    if (doorbell > 0) {
->>> +        ret = mhi_init_bw_scale(mhi_cntrl, doorbell);
->>> +        if (!ret)
->>> +            mhi_cntrl->bw_scale_db = base + val + (8 * doorbell);
->>> +        else
->>> +            dev_warn(dev, "BW scale setup failure\n");
->>
->> "Failed to setup bandwidth scaling: %d"
->>
->>> +    }
->>>       return 0;
->>>   }
->>> @@ -778,6 +834,9 @@ static int parse_ev_cfg(struct mhi_controller 
->>> *mhi_cntrl,
->>>           case MHI_ER_CTRL:
->>>               mhi_event->process_event = mhi_process_ctrl_ev_ring;
->>>               break;
->>> +        case MHI_ER_BW_SCALE:
->>> +            mhi_event->process_event = mhi_process_bw_scale_ev_ring;
->>> +            break;
->>>           default:
->>>               dev_err(dev, "Event Ring type not supported\n");
->>>               goto error_ev_cfg;
->>> @@ -1012,9 +1071,12 @@ int mhi_register_controller(struct 
->>> mhi_controller *mhi_cntrl,
->>>           mhi_event->mhi_cntrl = mhi_cntrl;
->>>           spin_lock_init(&mhi_event->lock);
->>> +        mutex_init(&mhi_event->mutex);
->>>           if (mhi_event->data_type == MHI_ER_CTRL)
->>>               tasklet_init(&mhi_event->task, mhi_ctrl_ev_task,
->>>                        (ulong)mhi_event);
->>> +        else if (mhi_event->data_type == MHI_ER_BW_SCALE)
->>> +            INIT_WORK(&mhi_event->work, mhi_process_ev_work);
->>>           else
->>>               tasklet_init(&mhi_event->task, mhi_ev_task,
->>>                        (ulong)mhi_event);
->>> diff --git a/drivers/bus/mhi/host/internal.h 
->>> b/drivers/bus/mhi/host/internal.h
->>> index 3134f111be35..bf7c6a7c9383 100644
->>> --- a/drivers/bus/mhi/host/internal.h
->>> +++ b/drivers/bus/mhi/host/internal.h
->>> @@ -241,6 +241,8 @@ struct mhi_event {
->>>       struct mhi_ring ring;
->>>       struct db_cfg db_cfg;
->>>       struct tasklet_struct task;
->>> +    struct work_struct work;
->>
->> bw_scaling_work or bw_scale_work?
->>
-> ack
-As this is in mhi_event and this work structure
-can be used in future for features like
-TIME sync. So going with same name.
+> Fixes?
 
-- Krishna Chaitanya.
->>> +    struct mutex mutex;
->>
->> Add a comment on the purpose of the mutex.
->>
->>>       spinlock_t lock;
->>>       int (*process_event)(struct mhi_controller *mhi_cntrl,
->>>                    struct mhi_event *mhi_event,
->>> @@ -403,7 +405,8 @@ int mhi_process_data_event_ring(struct 
->>> mhi_controller *mhi_cntrl,
->>>                   struct mhi_event *mhi_event, u32 event_quota);
->>>   int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
->>>                    struct mhi_event *mhi_event, u32 event_quota);
->>> -
->>> +int mhi_process_bw_scale_ev_ring(struct mhi_controller *mhi_cntrl,
->>> +                 struct mhi_event *mhi_event, u32 event_quota);
->>>   /* ISR handlers */
->>>   irqreturn_t mhi_irq_handler(int irq_number, void *dev);
->>>   irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *dev);
->>> @@ -419,5 +422,5 @@ void mhi_unmap_single_no_bb(struct mhi_controller 
->>> *mhi_cntrl,
->>>                   struct mhi_buf_info *buf_info);
->>>   void mhi_unmap_single_use_bb(struct mhi_controller *mhi_cntrl,
->>>                    struct mhi_buf_info *buf_info);
->>> -
->>> +void mhi_process_ev_work(struct work_struct *work);
->>>   #endif /* _MHI_INT_H */
->>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>> index 4de75674f193..967563d86aec 100644
->>> --- a/drivers/bus/mhi/host/main.c
->>> +++ b/drivers/bus/mhi/host/main.c
->>> @@ -472,7 +472,10 @@ irqreturn_t mhi_irq_handler(int irq_number, void 
->>> *dev)
->>>           if (mhi_dev)
->>>               mhi_notify(mhi_dev, MHI_CB_PENDING_DATA);
->>>       } else {
->>> -        tasklet_schedule(&mhi_event->task);
->>> +        if (mhi_event->data_type == MHI_ER_BW_SCALE)
->>> +            queue_work(mhi_cntrl->hiprio_wq, &mhi_event->work);
->>
->> To avoid the hassle, I think it is worth changing the mutex in bwctrl to
->> spinlock. I don't think there would be issues in spinning inside
->> pcie_set_target_speed().
->>
-> I am not sure if it is good to change it to mutex or not in
-> pcie_set_target_speed() because it is being called from
-> pcie_failed_link_retrain() and this is being called when new pci
-> device is added and many other places.
->>> +        else
->>> +            tasklet_schedule(&mhi_event->task);
->>>       }
->>>       return IRQ_HANDLED;
->>> @@ -1049,6 +1052,102 @@ int mhi_process_data_event_ring(struct 
->>> mhi_controller *mhi_cntrl,
->>>       return count;
->>>   }
->>> +/* dedicated bw scale event ring processing */
->>> +int mhi_process_bw_scale_ev_ring(struct mhi_controller *mhi_cntrl,
->>> +                 struct mhi_event *mhi_event, u32 event_quota)
->>> +{
->>> +    struct mhi_event_ctxt *er_ctxt = 
->>> &mhi_cntrl->mhi_ctxt->er_ctxt[mhi_event->er_index];
->>> +    struct device *dev = &mhi_cntrl->mhi_dev->dev;
->>> +    struct mhi_ring *ev_ring = &mhi_event->ring;
->>> +    dma_addr_t ptr = le64_to_cpu(er_ctxt->rp);
->>> +    u32 response = MHI_BW_SCALE_NACK;
->>> +    struct mhi_ring_element *dev_rp;
->>> +    struct mhi_link_info link_info;
->>> +    int ret = -EINVAL;
->>> +
->>> +    if (unlikely(MHI_EVENT_ACCESS_INVALID(mhi_cntrl->pm_state))) {
->>> +        ret =  -EIO;
->>> +        goto exit_bw_scale_process;
->>
->> exit_bw_scale?
->>
-> ack
->>> +    }
->>> +
->>> +    if (!MHI_IN_MISSION_MODE(mhi_cntrl->ee))
->>> +        goto exit_bw_scale_process;
->>> +
->>> +    if (!is_valid_ring_ptr(ev_ring, ptr)) {
->>> +        dev_err(dev,
->>> +            "Event ring rp points outside of the event ring\n");
->>> +        ret =  -EIO;
->>> +        goto exit_bw_scale_process;
->>> +    }
->>> +
->>> +    dev_rp = mhi_to_virtual(ev_ring, ptr);
->>> +
->>> +    /* if rp points to base, we need to wrap it around */
->>
->> Nit: Use caps for starting letter and also for acronyms.
->>
->>> +    if (dev_rp == ev_ring->base)
->>> +        dev_rp = ev_ring->base + ev_ring->len;
->>> +    dev_rp--;
->>> +
->>> +    /* fast forward to currently processed element and recycle er */
->>> +    ev_ring->rp = dev_rp;
->>> +    ev_ring->wp = dev_rp - 1;
->>> +    if (ev_ring->wp < ev_ring->base)
->>> +        ev_ring->wp = ev_ring->base + ev_ring->len - ev_ring->el_size;
->>> +    mhi_recycle_ev_ring_element(mhi_cntrl, ev_ring);
->>> +
->>> +    if (WARN_ON(MHI_TRE_GET_EV_TYPE(dev_rp) != 
->>> MHI_PKT_TYPE_BW_REQ_EVENT)) {
->>> +        dev_err(dev, "!BW SCALE REQ event\n");
->>> +        goto exit_bw_scale_process;
->>> +    }
->>> +
->>> +    link_info.target_link_speed = MHI_TRE_GET_EV_LINKSPEED(dev_rp);
->>> +    link_info.target_link_width = MHI_TRE_GET_EV_LINKWIDTH(dev_rp);
->>> +    link_info.sequence_num = MHI_TRE_GET_EV_BW_REQ_SEQ(dev_rp);
->>> +
->>> +    dev_info(dev, "Received BW_REQ with seq:%d link speed:0x%x 
->>> width:0x%x\n",
->>> +         link_info.sequence_num,
->>> +         link_info.target_link_speed,
->>> +         link_info.target_link_width);
->>
->> dev_dbg()
->>
->>> +
->>> +    /* bring host and device out of suspended states */
->>> +    ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->>> +    if (ret)
->>> +        goto exit_bw_scale_process;
->>> +
->>> +    mhi_cntrl->runtime_get(mhi_cntrl);
->>> +
->>> +    ret = mhi_cntrl->bw_scale(mhi_cntrl, &link_info);
->>> +    if (!ret)
->>> +        response = 0;
->>> +
->>> +    response = MHI_BW_SCALE_RESULT(response, link_info.sequence_num);
->>> +
->>> +    write_lock_bh(&mhi_cntrl->pm_lock);
->>> +    mhi_write_reg(mhi_cntrl, mhi_cntrl->bw_scale_db, 0, response);
->>> +    write_unlock_bh(&mhi_cntrl->pm_lock);
->>> +
->>> +    mhi_cntrl->runtime_put(mhi_cntrl);
->>> +    mhi_device_put(mhi_cntrl->mhi_dev);
->>> +
->>> +exit_bw_scale_process:
->>> +    dev_dbg(dev, "exit er_index:%u ret:%d\n", mhi_event->er_index, 
->>> ret);
->>
->> Can these entry exit debug sequences be avoided?
->>
-> ack.
-> - Krishna Chaitanya.
+Yes, it does. But I see know that the commit message is not clear enough.
+I'll fix that.
+
+Best regards
+Alexander Wilhelm
+
 > 
->> - Mani
->>
+> > Signed-off-by: Alexander Wilhelm <alexander.wilhelm@westermo.com>
+> 
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
