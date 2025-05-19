@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FF627979F
-	for <mhi@lists.linux.dev>; Mon, 19 May 2025 13:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB2E1FF5E3
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 13:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747660183; cv=none; b=n5nJfuwgawmQwByNlO2JY6fVRdOT6e5XktH1btl6eoHSo22o7JJvQJAPsx8mjR/JoFIorgeMOAKXViyHtT6xr2mD+T3TP+afazwylxXGZSFEmhk8egKVxhj1L3bKgTfNGHFykM6b+PzHC5UyO5kUdC3jH6pwZsSqvLBL0E9/4HU=
+	t=1747660903; cv=none; b=c4Z/pMU0vrADRsrH3xtOsqb7fpDMKAnGQ7bsMKZEmDR+OzzgKiuXFjrFKUHNsiw9p+bF6sfqrrPRNXxsf8D8SE6bOyWhjjxzOiS8EbTAkz+iVJZ90TUczkePGGuLahQeiIYyrBvB/xxheCbKxKrSS7FOPtC5fG6EzD8FcXLd+8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747660183; c=relaxed/simple;
-	bh=XkpJ6tPlbFlgCwUloxB4+DSdIpU5E6VB27qBjkhOUZY=;
+	s=arc-20240116; t=1747660903; c=relaxed/simple;
+	bh=69JNpM5fMS+HBTIz2jvNUWelHCPlrISQpoxsagPaMK8=;
 	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CKf7zFuRRmVyS979gq5FNiiyBGrt/JoohaUxCqcCpucHn+aIuAKknE2uppw4kVA0LkCgE50dmXDp0Pv9UoXuGUnDM5YgaiJ3haRjN4nQaMah5b7ufOVgnUUC80MovIH+8/BmIpIxxtGfTiIWRcuJtPYrAQa01jeFCPL/d9qKe4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCId4YK7; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version:Content-Type; b=g8f4eP+2Og05UtRxEK7grOWl6uSpStIV7pSieJN9VZdu8Z0a8SGdKjPYgoMQ3WwvK8fxPaM+Er2cKxr++KMybY8jaYCC8+tmQju/HV9O9poexZR74h41ZpehkgEZJ5eigw8Z++J7/ucaHr+f0XkJdihkc18fCuzxS+dVHqp12fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mp1wwhuc; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCId4YK7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mp1wwhuc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747660181; x=1779196181;
+  t=1747660902; x=1779196902;
   h=from:date:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=XkpJ6tPlbFlgCwUloxB4+DSdIpU5E6VB27qBjkhOUZY=;
-  b=nCId4YK7/MDDVzX7wFmoDPGqTLuSnz9qgVi0hI0CcWZfnxmGQ7EP812M
-   9Y0tDNZw2w+/jXN7PYYy+FPzFd3fgyxUjACax3f7rAmFQAfyDlIbcDBB5
-   vpHIvP/0LqgPxmAPSEt9ZZ4Sku3cvrYN4l24ftBeT1YMEzw22y9PtVNCy
-   kU9jW5+i0qgff0MwR/yQtyfWWV4+1M9m17vClvinZYyhOHedTosVvRGmW
-   S0VWRb0bd2DvQYYdvsffa7xf/ho4khzTaIfdtW6YQhpDyDx9cOC4FZKx6
-   jHMXOgWUJIG15xCm1kxZl5TRgRvvyz26+1tMRl7c/Shybyg56LzoNi037
+  bh=69JNpM5fMS+HBTIz2jvNUWelHCPlrISQpoxsagPaMK8=;
+  b=mp1wwhucw2hWCe2W1qLf2wKTnfDrQRE9kf7N8sp8EHHn1NAuXRZgXcRi
+   i6uwK3FF4/2kyCPWjzErkwihW0Bq0wd/ncajjAWCv/7LeOKYTw/V6+3tL
+   BHeHFsfd4o0IT4ArtfHzevOUl2UMJTg0euweFR0RSEZdmpB9ZqOZwGRAv
+   L4aDzgqDSPcQJzWyfcbyTwLI94w3Ci91J0ZWALcIuJZh+A+4FHzduqkxX
+   8mF/pNf+cQUblXvo3CpenGWZoRWzXrATD/Qw36njOsYvzZvZsjsL9LqRG
+   62zQMKUJAQohwtsDeLBrhHSH3kfbGWjeFtcBZUXDw2ead5qy0AuCaNBtB
    A==;
-X-CSE-ConnectionGUID: 2nW3txL7QfKABpToMkmkyg==
-X-CSE-MsgGUID: 7A5VE42SRveZtbc+FvoqPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49461261"
+X-CSE-ConnectionGUID: C8DEcowgTA+qpSSsVvLZ9A==
+X-CSE-MsgGUID: M6by8ja7SZ6tuRwpuvQCvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="52191979"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="49461261"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:09:40 -0700
-X-CSE-ConnectionGUID: i7eVy+IHQsae7CF1FyJ1Zg==
-X-CSE-MsgGUID: dqBI7AaxQyeWNq1kumUO4w==
+   d="scan'208";a="52191979"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:21:41 -0700
+X-CSE-ConnectionGUID: AV9u1qR6Q8m54A5siYqt8A==
+X-CSE-MsgGUID: UA7qCkRSR6y54OVukpdkBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="170396769"
+   d="scan'208";a="139208350"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:09:33 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:21:35 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 19 May 2025 16:09:30 +0300 (EEST)
+Date: Mon, 19 May 2025 16:21:32 +0300 (EEST)
 To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
@@ -58,11 +58,11 @@ cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
     qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
     quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
     Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v3 01/11] PCI: Update current bus speed as part of
- pci_pwrctrl_notify()
-In-Reply-To: <20250519-mhi_bw_up-v3-1-3acd4a17bbb5@oss.qualcomm.com>
-Message-ID: <10de35f5-bec6-5df3-768d-04f88c4e3d77@linux.intel.com>
-References: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com> <20250519-mhi_bw_up-v3-1-3acd4a17bbb5@oss.qualcomm.com>
+Subject: Re: [PATCH v3 04/11] PCI/ASPM: Clear aspm_disable as part of
+ __pci_enable_link_state()
+In-Reply-To: <20250519-mhi_bw_up-v3-4-3acd4a17bbb5@oss.qualcomm.com>
+Message-ID: <649c2bb2-d9a3-66ce-8bc5-2735195aaa5e@linux.intel.com>
+References: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com> <20250519-mhi_bw_up-v3-4-3acd4a17bbb5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -73,49 +73,44 @@ Content-Type: text/plain; charset=US-ASCII
 
 On Mon, 19 May 2025, Krishna Chaitanya Chundru wrote:
 
-> If the link is not up till the pwrctl drivers enable power to endpoints
-> then cur_bus_speed will not be updated with correct speed.
+> If a driver wants to enable ASPM back after disabling ASPM for some
+> usecase, it is not being enabled properly because of the aspm_disable
+> flag is not getting cleared. This flag is being properly when aspm
+> is controlled by sysfs.
+
+This sentence has broken grammar/is missing something?
+
+aspm -> ASPM
+
 > 
-> As part of rescan, pci_pwrctrl_notify() will be called when new devices
-> are added and as part of it update the link bus speed.
-> 
-> Suggested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 > ---
->  drivers/pci/pwrctrl/core.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/pci/pcie/aspm.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
-> index 9cc7e2b7f2b5608ee67c838b6500b2ae4a07ad52..034f0a5d7868fe956e3fc6a9b7ed485bb69caa04 100644
-> --- a/drivers/pci/pwrctrl/core.c
-> +++ b/drivers/pci/pwrctrl/core.c
-> @@ -10,16 +10,21 @@
->  #include <linux/pci-pwrctrl.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
-> +#include "../pci.h"
+> diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
+> index 94324fc0d3e650cd3ca2c0bb8c1895ca7e647b9d..0f858ef86111b43328bc7db01e6493ce67178458 100644
+> --- a/drivers/pci/pcie/aspm.c
+> +++ b/drivers/pci/pcie/aspm.c
+> @@ -1453,6 +1453,7 @@ static int __pci_enable_link_state(struct pci_dev *pdev, int state, bool locked)
+>  		down_read(&pci_bus_sem);
+>  	mutex_lock(&aspm_lock);
+>  	link->aspm_default = pci_calc_aspm_enable_mask(state);
+> +	link->aspm_disable &= ~state;
+>  	pcie_config_aspm_link(link, policy_to_aspm_state(link));
 >  
->  static int pci_pwrctrl_notify(struct notifier_block *nb, unsigned long action,
->  			      void *data)
->  {
->  	struct pci_pwrctrl *pwrctrl = container_of(nb, struct pci_pwrctrl, nb);
->  	struct device *dev = data;
-> +	struct pci_bus *bus = to_pci_dev(dev)->bus;
->  
->  	if (dev_fwnode(dev) != dev_fwnode(pwrctrl->dev))
->  		return NOTIFY_DONE;
->  
-> +	if (bus->self)
-> +		pcie_update_link_speed((struct pci_bus *)bus);
+>  	link->clkpm_default = (state & PCIE_LINK_STATE_CLKPM) ? 1 : 0;
 
-Why are you casting here?? (Perhaps it's a leftover).
+I disagree with this change.
 
-> +
->  	switch (action) {
->  	case BUS_NOTIFY_ADD_DEVICE:
->  		/*
-> 
-> 
+The problem currently with ASPM driver is that pci_disable_link_state() 
+and pci_enable_link_state() are not symmetric pairs despite their 
+misleading names. pci_enable_link_state() should be renamed to 
+pci_set_default_link_state() and if the symmetric pair is needed for 
+pci_disable_link_state(), it would have to be added separately.
+
+I've some (rotting) patches which try to do that, in case you want to try 
+to solve this inconsistency in the ASPM driver (I can send them to you)?
 
 -- 
  i.
