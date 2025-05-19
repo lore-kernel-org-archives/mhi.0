@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB2E1FF5E3
-	for <mhi@lists.linux.dev>; Mon, 19 May 2025 13:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869425103F
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 13:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747660903; cv=none; b=c4Z/pMU0vrADRsrH3xtOsqb7fpDMKAnGQ7bsMKZEmDR+OzzgKiuXFjrFKUHNsiw9p+bF6sfqrrPRNXxsf8D8SE6bOyWhjjxzOiS8EbTAkz+iVJZ90TUczkePGGuLahQeiIYyrBvB/xxheCbKxKrSS7FOPtC5fG6EzD8FcXLd+8E=
+	t=1747661418; cv=none; b=q8hM5AY8LC/LFBVQ844XOUSxE+L4Jm1S6dkWDIDxb6NGQ/VBNhkGJw9RRleSVjzOdzN7A6yEmEs4fzym0ppI/8vVtdlaWlCv0O351GNMb9LqlaHThYki1Gx4UIXc+GqMlYiIfaX6MkTkJnZnLE7pWVuYYN4dez++UnHUgMO1M/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747660903; c=relaxed/simple;
-	bh=69JNpM5fMS+HBTIz2jvNUWelHCPlrISQpoxsagPaMK8=;
+	s=arc-20240116; t=1747661418; c=relaxed/simple;
+	bh=jn8+LqZ4HK4vBVVQqZdDv+ihoDP6BFDKfhN7yPeNEac=;
 	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=g8f4eP+2Og05UtRxEK7grOWl6uSpStIV7pSieJN9VZdu8Z0a8SGdKjPYgoMQ3WwvK8fxPaM+Er2cKxr++KMybY8jaYCC8+tmQju/HV9O9poexZR74h41ZpehkgEZJ5eigw8Z++J7/ucaHr+f0XkJdihkc18fCuzxS+dVHqp12fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mp1wwhuc; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=Fnx+5VP6WRDUxtm80UP4+c9pXb1iJZIWozHOI+m8pWThdkP8oq8UvKXdsKag0dPepQM99Wto+MdkLmi5A19qqycEzT7wn/wlGe+oRD6zlXVWgyZnV4oEDmc637JCaVnCyYLxsFMhR4w6mYu3yTMRrmAJJPoUZYr33DdqhGTkXsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYdYTA9J; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mp1wwhuc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYdYTA9J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747660902; x=1779196902;
+  t=1747661416; x=1779197416;
   h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=69JNpM5fMS+HBTIz2jvNUWelHCPlrISQpoxsagPaMK8=;
-  b=mp1wwhucw2hWCe2W1qLf2wKTnfDrQRE9kf7N8sp8EHHn1NAuXRZgXcRi
-   i6uwK3FF4/2kyCPWjzErkwihW0Bq0wd/ncajjAWCv/7LeOKYTw/V6+3tL
-   BHeHFsfd4o0IT4ArtfHzevOUl2UMJTg0euweFR0RSEZdmpB9ZqOZwGRAv
-   L4aDzgqDSPcQJzWyfcbyTwLI94w3Ci91J0ZWALcIuJZh+A+4FHzduqkxX
-   8mF/pNf+cQUblXvo3CpenGWZoRWzXrATD/Qw36njOsYvzZvZsjsL9LqRG
-   62zQMKUJAQohwtsDeLBrhHSH3kfbGWjeFtcBZUXDw2ead5qy0AuCaNBtB
-   A==;
-X-CSE-ConnectionGUID: C8DEcowgTA+qpSSsVvLZ9A==
-X-CSE-MsgGUID: M6by8ja7SZ6tuRwpuvQCvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="52191979"
+   references:mime-version:content-id;
+  bh=jn8+LqZ4HK4vBVVQqZdDv+ihoDP6BFDKfhN7yPeNEac=;
+  b=NYdYTA9Jm81lct7mENF5T9XhRGktBa+xCo5ePleWb7pxqPLHzXsH7X6C
+   4A4PaJZe/LKvl7d8gq2mQZiI0k7NEtJv4DS4DUJgM27iXqssJxxq3JdUn
+   59tu3ArE6d799lXylokSTveTMhCQ3ntLX94O1HJc5p5AIZ1WNjLYAtQ4K
+   50LqhXsWy+TEeohcZ/ZgTvjJsw33NIMUHV0ih734bfIIc3JwiT0llt+d5
+   QIs59nuLh8p89udvsgrs21ouIhzjwkAS7o7rbSOk2bkK1zQ9D0OE3Fw9n
+   /ntbpY8oZwZyzFybjq0LhwkJRvyTapEk6vtPYtnvotfbeKgcF3MBMmhE4
+   g==;
+X-CSE-ConnectionGUID: SVg2/E6NSKu5LYGn67SUXQ==
+X-CSE-MsgGUID: mW8DUH/BQruILcRkzOF8lw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49625768"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="52191979"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:21:41 -0700
-X-CSE-ConnectionGUID: AV9u1qR6Q8m54A5siYqt8A==
-X-CSE-MsgGUID: UA7qCkRSR6y54OVukpdkBw==
+   d="scan'208";a="49625768"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:30:16 -0700
+X-CSE-ConnectionGUID: /UHagtsZQ2C0NZ93j31Igw==
+X-CSE-MsgGUID: ZOmbe/ZFRBOhjbuGEFihvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="139208350"
+   d="scan'208";a="162659044"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:21:35 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 06:30:10 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 19 May 2025 16:21:32 +0300 (EEST)
+Date: Mon, 19 May 2025 16:30:06 +0300 (EEST)
 To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
@@ -58,60 +58,53 @@ cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
     qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
     quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
     Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v3 04/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-In-Reply-To: <20250519-mhi_bw_up-v3-4-3acd4a17bbb5@oss.qualcomm.com>
-Message-ID: <649c2bb2-d9a3-66ce-8bc5-2735195aaa5e@linux.intel.com>
-References: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com> <20250519-mhi_bw_up-v3-4-3acd4a17bbb5@oss.qualcomm.com>
+Subject: Re: [PATCH v3 09/11] PCI: Export pci_set_target_speed()
+In-Reply-To: <20250519-mhi_bw_up-v3-9-3acd4a17bbb5@oss.qualcomm.com>
+Message-ID: <bfba6d6a-1880-a824-6418-f0f6ef6ff6f4@linux.intel.com>
+References: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com> <20250519-mhi_bw_up-v3-9-3acd4a17bbb5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/mixed; BOUNDARY="8323328-2092066973-1747661290=:928"
+Content-ID: <ff8a6aeb-140a-fed4-c46c-3edcece60150@linux.intel.com>
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-2092066973-1747661290=:928
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <fef147ed-603d-e261-927f-91ab601d3a5f@linux.intel.com>
 
 On Mon, 19 May 2025, Krishna Chaitanya Chundru wrote:
 
-> If a driver wants to enable ASPM back after disabling ASPM for some
-> usecase, it is not being enabled properly because of the aspm_disable
-> flag is not getting cleared. This flag is being properly when aspm
-> is controlled by sysfs.
-
-This sentence has broken grammar/is missing something?
-
-aspm -> ASPM
-
-> 
-> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Export pci_set_target_speed() so that other kernel drivers can use it
+> to change the PCIe data rate.
+>=20
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.co=
+m>
 > ---
->  drivers/pci/pcie/aspm.c | 1 +
+>  drivers/pci/pcie/bwctrl.c | 1 +
 >  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-> index 94324fc0d3e650cd3ca2c0bb8c1895ca7e647b9d..0f858ef86111b43328bc7db01e6493ce67178458 100644
-> --- a/drivers/pci/pcie/aspm.c
-> +++ b/drivers/pci/pcie/aspm.c
-> @@ -1453,6 +1453,7 @@ static int __pci_enable_link_state(struct pci_dev *pdev, int state, bool locked)
->  		down_read(&pci_bus_sem);
->  	mutex_lock(&aspm_lock);
->  	link->aspm_default = pci_calc_aspm_enable_mask(state);
-> +	link->aspm_disable &= ~state;
->  	pcie_config_aspm_link(link, policy_to_aspm_state(link));
->  
->  	link->clkpm_default = (state & PCIE_LINK_STATE_CLKPM) ? 1 : 0;
+>=20
+> diff --git a/drivers/pci/pcie/bwctrl.c b/drivers/pci/pcie/bwctrl.c
+> index 3525bc0cd10f1dd7794abbe84ccb10e2c53a10af..02c544c6186b8c6b87730d1c9=
+24f07858571d2ae 100644
+> --- a/drivers/pci/pcie/bwctrl.c
+> +++ b/drivers/pci/pcie/bwctrl.c
+> @@ -214,6 +214,7 @@ int pcie_set_target_speed(struct pci_dev *port, enum =
+pci_bus_speed speed_req,
+> =20
+>  =09return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(pcie_set_target_speed);
 
-I disagree with this change.
+Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
 
-The problem currently with ASPM driver is that pci_disable_link_state() 
-and pci_enable_link_state() are not symmetric pairs despite their 
-misleading names. pci_enable_link_state() should be renamed to 
-pci_set_default_link_state() and if the symmetric pair is needed for 
-pci_disable_link_state(), it would have to be added separately.
 
-I've some (rotting) patches which try to do that, in case you want to try 
-to solve this inconsistency in the ASPM driver (I can send them to you)?
-
--- 
+--=20
  i.
-
+--8323328-2092066973-1747661290=:928--
