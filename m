@@ -1,249 +1,241 @@
-Received: from mx07-0057a101.pphosted.com (mx07-0057a101.pphosted.com [205.220.184.10])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F369315E8B
-	for <mhi@lists.linux.dev>; Mon, 19 May 2025 06:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.184.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747635022; cv=fail; b=LVDIll/+jNLSS5kcMeO/+PTTDnNtBp/f5XCbAGeQOSnw4rEDUIkLYyJORxq8bxsy4SbRe6tzpuaiXClKiAUnSwJsx43ywZzANVpMW7QRikIh/HPcCP6v3iI1lb8sWhPCZ2r4jDcTNqr1ubVC9BGWvfekykqYNOtlEai3wpT74YY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747635022; c=relaxed/simple;
-	bh=tGzygW1PlnGALxZUxIXvejVv8fLaw+4Fc/L1fpYZo1w=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=K9ULlbIEZU8GIGyRqvszyWVYUGqdKAp8vEoW1zhT/rnLpE33jlo/VD2Pwk1yxxOQjHBGuHHQI5IVHM+s/1lTroQ2X/Clsvu0VXKC2IBQHIw+RZNIejLGpbscM9HXXfpnQPO/RSswS2XN0LPDvWFx3qajyamYMnFDtNKW3sc/90A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com; spf=pass smtp.mailfrom=westermo.com; dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b=V4ek2Ecf; dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b=InGNVGW7; arc=fail smtp.client-ip=205.220.184.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=westermo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127CB469D
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 09:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747647754; cv=none; b=dW3bukyaC1LO9Ol8Nx0Lis8ubVsMeQCrOBRnvOb5VzOxkv8l/o1DH61keuTefwMPS4JADH8OD+X2tIYihW848OiG8n6kfMgJFgIBHVG3VESbX5jpda9gJUhlCY+Y+VbUZ6TkSeYx+7/KwCRaLsGbIYdtiHUeHCyRfLCs7Lg3FEU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747647754; c=relaxed/simple;
+	bh=E3NkA6uH614ySqMHBo8o678d+83U+3iUYauudgnzNVU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b1jFFv2VlXsYKm3vtBKMJsyHjG2jXzBZLO8TNLv+JmDtdIkvY4HoLUtyxqw0rMzO5VV2Rpoy9SMheF+LOE10L42Gam2Mq8mhbrL8saPPR6WkY+LAyT0zVB3bSVZhiT06Gez6kPZBEbsReZHWaqE0IiK0djnRC56ADOQAr4GPmAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eu9CU4Pb; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b="V4ek2Ecf";
-	dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b="InGNVGW7"
-Received: from pps.filterd (m0214197.ppops.net [127.0.0.1])
-	by mx07-0057a101.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J5BQuV024253;
-	Mon, 19 May 2025 08:10:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=westermo.com; h=
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eu9CU4Pb"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J8mwP8015603
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 09:42:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=270620241; bh=OYWWXHcRVqUoWHMHySIpx0
-	/xincXf0P3axsx61uFpVs=; b=V4ek2EcfXtjgfbx+se3i3z1ozOrSBN3tJZokpk
-	tQlFszCHIbIh3P12iQVpvX4OCjBTLvPGhwm1pmLGc2Z4LXnUkTT1x61mHFV2NHGX
-	m4BWzi4RkUkC8bj9ALh8icxBS/hDozVeOLKm3op/Maslm3I0FzPOd6lwRZbsjHci
-	almatLz9VIOM013DRmYyfQtPkDB+bEt3pxRonq2t0T5GETS/GbAiSTl5p4g1XU8D
-	dM8gmLrU3WbjUZPT7VdGJtJAr1BdrA7htmfJrtX3IjK6KmBx+qW+/RnY+FFlPsvs
-	/s7HMRHurPtR7NlTiticTnmtOBNDM+aC7RhhwdPHOylDsHSg==
-Received: from eur03-am7-obe.outbound.protection.outlook.com (mail-am7eur03lp2241.outbound.protection.outlook.com [104.47.51.241])
-	by mx07-0057a101.pphosted.com (PPS) with ESMTPS id 46petdhvr8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 May 2025 08:10:17 +0200 (MEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PGVOq4wG00cB7H2CfCKj+PeJaYEZdSBx2vrzePv2ucYVQplbTIi/6d3ynMgX8vDJkMiyTTeBfaTfcwK3EO8bmE6gnWE3Evs8LsmUY/32Mk0QpDMgM63K+mS7lB3+CU2KY15es8GBWiVBU8uhdZVAI2kGj8M2dnMslC5U1Pz70k0iMOaigaS/En9Krb+XKQoHthlHs670xh7uL75Vzah/euVvtRwhaWIokbyE8oD5fvTIKQHKtY5yLMY6XVxM2E+Ew2czNSlXrRnGpH5lfb0Z4Nvr6rSNYKcf6bYlySsG9v4yFcEGybYH/oQ+YdRWqNtgv8QDKFIB9G5lolqbGiQbag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OYWWXHcRVqUoWHMHySIpx0/xincXf0P3axsx61uFpVs=;
- b=f5uGR9m806XO0TGmBEMQI+vueIpG5zTTHmDqrcIY919+weWD1YCW+DZtHH4zrJu0fNeuepj7DvtOwZEdOqrDkZt39QhSplhzIS1PcTyEBrp/fgxlGQx0SXWcCKu3nSZ19TCEhaUG9rdAK3XJG7BGhMH487yp/ZorC7K3wOF0OK1olHqbSxFmprkd5gekP2ho6hqrEMlv6EsdXbu0hSO1AXA4pbL1lAgHKtD3nb8HJGPctoy44re5ZCWgz9FCNL3uckV3WqwIw3RHVz+ornPxluzQeCKV92d+aPSQwgAewYznPV0UmPTWOSIPwVfcT1FsCV0g9FAuBG4Ytqp9Zb231w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=westermo.com; dmarc=pass action=none header.from=westermo.com;
- dkim=pass header.d=westermo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=beijerelectronicsab.onmicrosoft.com;
- s=selector1-beijerelectronicsab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYWWXHcRVqUoWHMHySIpx0/xincXf0P3axsx61uFpVs=;
- b=InGNVGW7kE3JD/z1Gp8PtaoIdslspw6UOXlryfW5n0LyE4pRsp7YiU8+CghXu42KdTmQpcj3MIylxlubCCAAdukfOW01OncUo3HKKqCK+LiFDMohV0TahIFOAjNXh7/752A6bJb/yrtQHVykf4/5sfXEwSlqpUE5uWCYSk+yYO4=
-Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:63a::18)
- by PA2P192MB2372.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:41d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Mon, 19 May
- 2025 06:10:15 +0000
-Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- ([fe80::bee5:29b7:49f2:cf70]) by AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- ([fe80::bee5:29b7:49f2:cf70%3]) with mapi id 15.20.8722.027; Mon, 19 May 2025
- 06:10:15 +0000
-From: Alexander Wilhelm <alexander.wilhelm@westermo.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] bus: mhi: host: fix endianness of BHI vector table
-Date: Mon, 19 May 2025 08:10:13 +0200
-Message-Id: <20250519061014.12225-1-alexander.wilhelm@westermo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GVZP280CA0036.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:26f::13) To AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:63a::18)
+	:mime-version:subject:to; s=qcppdkim1; bh=8Xdkk5ppMUCw7u+31/KTTq
+	mStofyaJ7T2kwr9altaWU=; b=eu9CU4PbEUXefPcWbAyWOs01/AyR95FGM1YrA8
+	dGkR4fizbmtGnQUy+L4n4d0UutUDOduIyFxuQMn+xcZX++YeLwYi0zQR35gYFsV5
+	OC8rVKFCiR3D/rkHZ4bvWySE6R5RxhYa04+fmtbBAbexyNoMzImcLMwIvCOyz1zB
+	wwq1vlES5R7eTveMADNzEMJvS+2LaHg0C3QmY9CaMW4y7+WIcv7V9TLSwrH5fHZD
+	DTFEK4a8ABRExlFIInDto75SgZmdLJqnNUOhSK4ADoY3cly4fH7pgqbup9lTEn+s
+	UQxwFYEr1iAIaFZIsTj1HJgeHmbAnniipriynh+xPDM4iOqA==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pjnykw29-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 19 May 2025 09:42:31 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-742b6705a52so3062015b3a.1
+        for <mhi@lists.linux.dev>; Mon, 19 May 2025 02:42:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747647750; x=1748252550;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8Xdkk5ppMUCw7u+31/KTTqmStofyaJ7T2kwr9altaWU=;
+        b=jEkQxHFr1xW/qPq/rQ9zqarCo1JnF797SRlv4Rkz1nVzwCI944OV8D1gb9kTxEgy3p
+         k6NctwXVBpfc5PBVG/xsC88Y9BlClbc5jdxyf0RKH/pbZlVQoZOZ0acrTbDagWZSwK+d
+         oJTgIVtwzjKJR6tYw7SMvJj3eF1X87Jfwe5UINP/Nn8FG1CtSIv2Ha3h7OwTXg5UVbj3
+         ooulvZsBNczdlPDP01RP0ky63IA/xS4GFdq7NnerJIa2VN16+Web6VinjCrGruwuh6Kr
+         aemaSxrKsZBQ1G5vNvV1IbRkHV4ualR2VnocWdfvhMVCkyJbcXGmDqlxlQO8q2XrxnB0
+         23sw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRcTginDGQjWr0Wo/NY6vozTnDppM8ymFSsxmawmb7Y4leTjxQ3dHyzaeM5nX7mGfPRoY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVovSHQ4IXBEzxByK0t6OvSgpGPOOvoClx9mei8Cnx0kYISMwd
+	9Df1uHTWFuKaJG1hlF3wBDj+aFagINl+2XqCjxFtjg1EGMjR3z7tlwfyJZB/2Old+RzVv12BbqF
+	vBCcVB0c+127gEepH2tgwYOSTfLZqlkcwQ1VXfqysUvv1TEcPmaibUm0=
+X-Gm-Gg: ASbGncuz0ixfW0RdcmdYTx5IAQJU4+NRp8THQ6l8JBc6z9n4O+RGCl4t304o7xTjnZG
+	3N+7c2ZbQvlrfBwK3yQc98oIg2JpiUOWy2V0WvFXWjQW3mfvjMI8ctGxB8vYTj1iaxXKrz4hUdz
+	zS7ibJjRfm4uiB13kNBnwRBaIjSmzWMg9rx1MwMDWmxJLbgnelIHFWZaSRA+UQmULNwJ0BX/5ef
+	aXqP6QPPNmA0lrNRfZdlgMzgVhK6EFcVHEQUaGaOq69tSxZZmP2wIhnv4kAFF69kJe4Z2YwUZJT
+	MoNshdeZKlhWsrBeNR4P8qNkYLgjGFPQwf8ovuXzYSezpyg=
+X-Received: by 2002:a05:6a00:a06:b0:736:5c8e:baaa with SMTP id d2e1a72fcca58-742acc8e94cmr16949374b3a.2.1747647750230;
+        Mon, 19 May 2025 02:42:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFoCNHIy8vm7UNK06bHoqEfkocfr01VDi6iYCVtGhO8fkUV8H34cgcNYNSP8u4+8ZFmO53vpQ==
+X-Received: by 2002:a05:6a00:a06:b0:736:5c8e:baaa with SMTP id d2e1a72fcca58-742acc8e94cmr16949320b3a.2.1747647749707;
+        Mon, 19 May 2025 02:42:29 -0700 (PDT)
+Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a97398f8sm5809092b3a.78.2025.05.19.02.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 May 2025 02:42:29 -0700 (PDT)
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: [PATCH v3 00/11] bus: mhi: host: Add support for mhi bus bw
+Date: Mon, 19 May 2025 15:12:13 +0530
+Message-Id: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P192MB2240:EE_|PA2P192MB2372:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05a6d2e1-66c6-46db-b076-08dd969bd2c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?HjAFcWiHzT0oRpaVaQbbK5s8YtlhDEFgtRDHi/RvLgoMtxh7RcxgKFdREz1t?=
- =?us-ascii?Q?PdEmPeh3c1EesKcqHzOe6smOqvQah3dBg2hsdjW8BwWweiPApHWM9fpJ/AiA?=
- =?us-ascii?Q?CROhjcPzplRvvygccTRsJN2PMYEnUcURc6b7AKK5lLjGPEYVLANVz3HlwV11?=
- =?us-ascii?Q?ZKiq2chvRZau5QL1+tPWSUxBIdV/bmUHWCIfGtWrf/c/ZGhA+EFkhJzgJRLb?=
- =?us-ascii?Q?TvXPRKqTWQ/WMIf35NS/8SJLR56ojrY4OEShQ7WomALW2rVCL4MBXE9EByL1?=
- =?us-ascii?Q?HUL63Qf74WVPi6s+S7+5Fpw6RIDtdlkeYdRWODj+6dcz1o7+VL07oPAQPqnO?=
- =?us-ascii?Q?LzNDq13nMsqVFTjJqOkLAohh6nbYUUvMjEsItGS9GJd2bRYlm0yZQkH2SpHc?=
- =?us-ascii?Q?U2J7tYCm+wJG4emCfMRg3vrGRmCPpVxmuM4R/KnTJ9a/CgyrYB2bMUsAgNT+?=
- =?us-ascii?Q?gAb0JxWR4oCUMkjRcRrZW2J+Rf8z+H57jso+RbIdRfJi4XQhJ4Z+ePkpBPV4?=
- =?us-ascii?Q?zwkA8O/A+I0s8vNOPRN6kjCvhHGKiT3UZydxkJNckqHIglgdMi7c8o5Xgsgi?=
- =?us-ascii?Q?DBx0xOm6SxSxoMmhsJZ2tynju54YbFbX26qz/GUG1nSx9rQWIRNjzee8g3MV?=
- =?us-ascii?Q?NsiEnC5ZISCBzyr7wPOMLjd5YaOT6O+HMIWNRSSvOWCofsgov4VdpcMyw4mj?=
- =?us-ascii?Q?iXwQrUV6bZwCtyOi8wRgrMFdwWUznWShOB8mrr8YjHnwUomDe20Pr3pH+o/S?=
- =?us-ascii?Q?llRQX/lNzbZfejjmeRp/X0RqfNKT8Ew/Zw9ptdqDx5n9XvTqOaZpTd8ewfNW?=
- =?us-ascii?Q?UTh8JrzPLMY9aThzQj0/kTv/V8LLgU2bKnFE//w/FmndCg+bsseK1Zy3oNZT?=
- =?us-ascii?Q?lacEhQXAZsPsEyn9g1MYDjcSbP+97xoH3S8PW6J3ZH/N6pIlTc+rOrPh82Vz?=
- =?us-ascii?Q?++HWTrbDOwR3nkjrQfufWxSUkLSS3b/hciXniNg0U+p5EjCuZ5LYAqMjyOdl?=
- =?us-ascii?Q?3G69OB6GWP74Ajc8LigP4SVWku+koe7XWeyiXzf6qzYh3fOFv2VUr1c3PcKR?=
- =?us-ascii?Q?93lxOkrOaJr3ThXagld3XE/0atD2TJBmTCSaW2YaVC+2v4MPeQoYTticuO1J?=
- =?us-ascii?Q?/qFkqGw23PShqMvrOwXlhi2Bg8TBMfJthA5GyZvt6cp9MBPqI4Le/7WZmvfd?=
- =?us-ascii?Q?A2j/XHtz1eGIuSSygkC6nFlGmqCbbqaCuCMh8e3tRc6fxTDyArTDyfDYpUM0?=
- =?us-ascii?Q?VSoTnh6gt69UtJamu9jvzEuZPSSrMZIxLYEm+81uGGcal37DfQv9/Bq6IANJ?=
- =?us-ascii?Q?z+5kPPSoZSPWe3Jt3wlrivCbomgQFNH0EymlpxQxxIXkoQ/NwsvyO97t54rM?=
- =?us-ascii?Q?j+AqeAAxJ0eYf6wsrs8ARxDD8zq6i/CgEzaIPtxWVcivA6vzxApEqyP9lOlf?=
- =?us-ascii?Q?TxqFFwwe/Lk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P192MB2240.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?C1Z5UMvOi2pW3Xv0s2GbRsgfbdcEP74NXXi41YsQX/YAr3uyHgPlmf+xEuYM?=
- =?us-ascii?Q?mh7NOvrUzIDqcNd/jozt7V8aIurbS9LK5P5H9aS78U8I/8Xp2mpxf+SLboY4?=
- =?us-ascii?Q?xuIb3bXFBSkF72pLY9hxriO8jNC1e0wrrZolnJxh2TidoOJCboz7ZfjKI64x?=
- =?us-ascii?Q?r8A8vYB/ICAWc0Y9AILwFq2Az/2lawzrctzSx90UgQOrWuOuAHP77JJw7wDr?=
- =?us-ascii?Q?R72KxMhrP2a75acmMbOGXnY7rY8bm9TBLfyVDzYDC9tKgAZe2ojtXurxVb/2?=
- =?us-ascii?Q?A68QElt4pNMjAGv2LRh2SadpTBQu4+mpowhbe6KWe2wXK8RRSSCVFiJ4Iwxt?=
- =?us-ascii?Q?ILLzEL6PJx03jtjCGrMBRrbiSIl4gSmzz60eSMTpQoXtUH+Dvq134Vgbnl/d?=
- =?us-ascii?Q?XOm14oSn430XK12DnDldJ7G8B7u9UjcrvibvoIHmyvXyReBzC4qHxsFHyl/x?=
- =?us-ascii?Q?yOM0wvrESTDXyafxocrXxWxcBacELosvjcxQC5o2jp168yI0m8Xiqb2pNH0A?=
- =?us-ascii?Q?rfM4xaxLF9VxRflu6hPwdxbZFbbjPdWmhnKJg+dIdHRJAVpz8hGfwA+GBW2c?=
- =?us-ascii?Q?Tuu915job3ZhRbpBqqjohGrLG51KXPzr6Vgh3r7lP4R49ewwV+Yix6uYf5eq?=
- =?us-ascii?Q?YaE35CA7Dwu/P5Hg7ELkmDX0MTENv0ytTfoOwkDqlpLCtVDKwodzwZTQd5n9?=
- =?us-ascii?Q?Yy/Rs5/Ik7FSQXZO1k2IuV14Nivn6OOFX7LQJt3TAP17YxT5jRREatPA4WXm?=
- =?us-ascii?Q?L4uLzU3CXkzc9VIouvYaKU7apEPw8/OIQXGOHuHMjkYJ8FOCQbXZwUbsTsni?=
- =?us-ascii?Q?fxa2SK+9lADG9yBqzVjZjgN9DxMvuQ6B5RcREuTv9ke1TIRTtXHkpfNAL9vr?=
- =?us-ascii?Q?k66kIxFuTrdhBotvol/zNcQR9MnmGOTJE2ALO+zaSIeALtm4oLheSRwGECK4?=
- =?us-ascii?Q?2fl3aTltSRJrwUDLnwzXjcWxSpfElpsBYJLq+pWKB7TtphvT+NiNWAU0slNm?=
- =?us-ascii?Q?033sJlJ1XPsKVmZJqUdsUb2W6Vtynui6XydMuZtfZl8JPXDgFyxKK70B2+sD?=
- =?us-ascii?Q?a1XhcY4RlQ2VAewPptjbvh609OhndYVr7nIDTY6M9emDGhAha8ZDdnVH0Ss2?=
- =?us-ascii?Q?vuNdpETl8Qt6y8OOwjcsBgnIzyarhuKbVb8Qs2twI4sgNl/7Laa/wJ/D0Ika?=
- =?us-ascii?Q?s1skJqtOYLN+3YCQ8UKySWoKjf5Ry/BZT1fjlJCy52XG5XyUdkx4brBCag/i?=
- =?us-ascii?Q?Pqq1uL2LAJamCvlfEYhoVbzCm8KMRAFVrK9hPSJApZ4aJrQ4wpZLVT61mcgh?=
- =?us-ascii?Q?KNVG+Wx+73UKPjffxTovcC+Iz4po60+xyo6qA1fgzS2njJunEuBZrMdqw24X?=
- =?us-ascii?Q?F2MFcY26j0LzQ/733wA0tZpoEgVfVWqiZKwE7BaxwrUceEvTUqEnL0UgKEDB?=
- =?us-ascii?Q?JOPF3UYTrBOaqQhiUdr22XhWSatIlA1vLgHibgpu5EVfXoYexOovZFbhJ4VR?=
- =?us-ascii?Q?Mtvfa/lBFaoCM5AO7ePncs/eJZprst22CjPC+cMnnaB3SecleezUPug7PLII?=
- =?us-ascii?Q?BIeK7IDvEvE4/8c8VNddKLOIieelk4VRGYZgIJHR?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	/EONvzWNAK2Rb4wvLNfouqhQbQXQWTJ5NbCu7J4OVcmLVAlEi+E7u/duh58M/faa13PhbWeeDsmtSF+yDvHYW+fAXRaM0xv1Y8dau7nN1rV96OJ1jVyXCz5cu1+LhpQ63STj2eK2dWX1TnQFhEiPPWF7131Pri33sfSB/n5W3rqT9ZeI+sttDv6QCdYWCoFlVtaEs3HRx1Wq5N+Bp9ug4KCgieeKqzRZQDKsjpgclCTN+cUzbKviLjOCVI8POfp+rQ44V/pyKVCGjaZP0P7UkJEa8nq4hC9AUdqsEU3cJdRydvOol7NYDHW9iOU/i6qVOM6pyYu5gGXLSOskAMlQuZhq7PTfpidhQCHJ9lbX/m3MARnZTz1ddBwXQ79J4QASwUU/6SEQ9/bbyKimSwlTYlDfRMuQ1U+EsFNOzEoJakp09lEtV5hqCaILopzc+ByOC+b0HE5wJosKmKeqlBU4HOgOXWET9l/1sDY2xZmVvRFgYIB2trRNcUKAd+Empfzbi32p1fOy00d5BMGcFGwWBqd/4NcqvjK22TIUf4kpSJZQTwgfl171BGubxsYMCI8q2Qc3RY/Hhi+YQ7fAutsXx0SfUkRYhAZF1vfKIb3HNum13oPyp4H8J/HXq2K+u8l/
-X-OriginatorOrg: westermo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05a6d2e1-66c6-46db-b076-08dd969bd2c5
-X-MS-Exchange-CrossTenant-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 06:10:15.8221
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4b2e9b91-de77-4ca7-8130-c80faee67059
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pMkqk93qHJLFuxqTcY+Fw6HpSjBQuaZCWY2q1qIwhrkH6xnUdgcG+dpaQ7diIkvFGtjbcJdL/UMX1eDASakoSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2P192MB2372
-X-MS-Exchange-CrossPremises-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossPremises-AuthAs: Internal
-X-MS-Exchange-CrossPremises-AuthMechanism: 14
-X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
-X-MS-Exchange-CrossPremises-MessageSource: StoreDriver
-X-MS-Exchange-CrossPremises-BCC:
-X-MS-Exchange-CrossPremises-OriginalClientIPAddress: 104.151.95.196
-X-MS-Exchange-CrossPremises-TransportTrafficType: Email
-X-MS-Exchange-CrossPremises-Antispam-ScanContext:
-	DIR:Originating;SFV:NSPM;SKIP:0;
-X-MS-Exchange-CrossPremises-SCL: 1
-X-MS-Exchange-CrossPremises-Processed-By-Journaling: Journal Agent
-X-OrganizationHeadersPreserved: PA2P192MB2372.EURP192.PROD.OUTLOOK.COM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA1NiBTYWx0ZWRfXwgFRF42VOzni SulGPi/oVh2qoObcBim4bYl+T3Xi93E4yqJ6hLSLtm0vZhFvl9YNdT8ObdRplngVR/ee7bWG+sk 1WmGXbtbx6S6pktm272kab250+4ZaC8y5VGPrJ0RitXT1NDtRrw2p0KCQ2x7RCeaxVmGtYkS4Of
- nze80+ehRjgLS/63rXTd1Uun7DUlCNVkppi3oGOId1fYMX/rhNeaRyoXP2yGSZ79A6nlcZzkwka 4XkHBMxOOLnyhmii2l0lA4tyQdM2H9lBxD5ztcJ1X2mb1DA7Zqs0t/8km5MK/Zdbs9a0E3tvRD5 XEdGrcATEzSwNoP0SM+K8xg/ju/uve+o+omX4IWufhUzvWiUDkxXx93rcouJFUmhpjh6KDrA+Go
- aKaiIgNtuLbERyjom8CeCLMyWF1fgrW5mTnXzXiHn6qpKoWELTRU4IOCm9s1pNmMWeLrQyB5
-X-Authority-Analysis: v=2.4 cv=aqqyCTZV c=1 sm=1 tr=0 ts=682acb49 cx=c_pps a=wOx2noN6cQSiNhTpOOYBYQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
- a=8gLI3H-aZtYA:10 a=N9GNhs4bAAAA:8 a=EUspDBNiAAAA:8 a=O4OWJBwTOLmvuvOJhrEA:9 a=PZhj9NlD-CKO8hVp7yCs:22
-X-Proofpoint-ORIG-GUID: J6CITAwD8XiAF1IXGKwREFCXZmrn_3qc
-X-Proofpoint-GUID: J6CITAwD8XiAF1IXGKwREFCXZmrn_3qc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPX8KmgC/23NzQ6CMAzA8VchPTuyD0Hx5HsYQzYY0kQYbjI1h
+ He3cNEDlyb/pvl1gmA92gCnZAJvIwZ0PYXaJVC1ur9ZhjU1SC4zLsWBdS2W5lWOA2uUUDzXWa6
+ EAbofvG3wvVqXK3WL4en8Z6WjWLZbShSMs8LoWti9NLURZxdC+hj1vXJdl9KABYvyB9Dff0ASc
+ MyLSiuSuWk2gHmev5ZAhGnqAAAA
+X-Change-ID: 20250217-mhi_bw_up-f31306a5631b
+To: Bjorn Helgaas <bhelgaas@google.com>,
+        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+        Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+        Miaoqing Pan <quic_miaoqing@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747647743; l=5246;
+ i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
+ bh=E3NkA6uH614ySqMHBo8o678d+83U+3iUYauudgnzNVU=;
+ b=/lyU+5ydxEoQf3CrCMazF+8+/lgCqzeWYYIHuE+LMKA5vLfcz15M/CGdyq92AMFU1qdQu3173
+ U7ZTed1Gw0lCrGIIKbJ6/caEFmvdkEmopnoewqoF5QA5DmGGkEhNYDX
+X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
+ pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA5MSBTYWx0ZWRfX8j3ChkMQxUdP
+ j1mshRLBmD/ZwMwyPJKOQ3TiBsWF+4NmXYkZEzI4lnHuQfp+2Zd4vMe2E3YMAOZO43KUHwGb3/u
+ OE028OfetbEeIbX9fuAHY7RbjK+OV3hteE0FTSwNRIY64RfbEj4JbzEALH+bzyChT3HvJD8eUgj
+ 38xpwDcLpiowEpY3o0V6LZSgT6Qq2rZziVGkH2eFDYTiTGik6OSoqZLMrC9Geb2JXk3PwKCV7xZ
+ ddXKqcq6iKTy9wRvd1c2Tgnl1WK7eOty2GtV6Z8T4NvxZ+/ZUBgJMiut5HGUT0EJ7cSUuGP6Sk+
+ vwQROcFfLVZk+lA2KVKPvXg8BwMxO9RtWBuw9qOPhvxjo7reLjrBWnkPDqQrJP/IcG0BsonHYG9
+ yDgrSLS/EaxxLA2tUSKFmHgSdvEdvgWbmy3K04aJ06Wj0sXe08CePr3Q/jvI9jxDmt590a/t
+X-Authority-Analysis: v=2.4 cv=Z9XsHGRA c=1 sm=1 tr=0 ts=682afd07 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=a1UGM4vktcZ-V-6vu5QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-GUID: XVO79d3tng-YTuF5sUBW__rQ_7VoatIT
+X-Proofpoint-ORIG-GUID: XVO79d3tng-YTuF5sUBW__rQ_7VoatIT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-19_04,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505190091
 
-On big endian platform like PowerPC the MHI bus does not start properly. The
-following example shows the error messages by using qcn9274 wireless radio
-module with ath12k driver:
+As per MHI spec sec 14, MHI supports bandwidth scaling to reduce power
+consumption. MHI bandwidth scaling is advertised in devices that contain
+the bandwidth scaling capability registers. If enabled, the device
+aggregates bandwidth requirements and sends them to the host in the form
+of an event. After the host performs the bandwidth switch, it sends an
+acknowledgment by ringing a doorbell.
 
-    ath12k_pci 0001:01:00.0: BAR 0: assigned [mem 0xc00000000-0xc001fffff 64bit]
-    ath12k_pci 0001:01:00.0: MSI vectors: 1
-    ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
-    ath12k_pci 0001:01:00.0: failed to set mhi state: POWER_ON(2)
-    ath12k_pci 0001:01:00.0: failed to start mhi: -110
-    ath12k_pci 0001:01:00.0: failed to power up :-110
-    ath12k_pci 0001:01:00.0: failed to create soc core: -110
-    ath12k_pci 0001:01:00.0: failed to init core: -110
-    ath12k_pci: probe of 0001:01:00.0 failed with error -110
+if the host supports bandwidth scaling events, then it must set
+BW_CFG.ENABLED bit, set BW_CFG.DB_CHAN_ID to the channel ID to the
+doorbell that will be used by the host to communicate the bandwidth
+scaling status and BW_CFG.ER_INDEX to the index for the event ring
+to which the device should send bandwidth scaling request in the
+bandwidth scaling capability register.
 
-Fix it by swapping DMA address and size of the BHI vector table.
+As part of mmio init check if the bw scale capability is present or not,
+if present advertise host supports bw scale by setting all the required
+fields.
 
-Signed-off-by: Alexander Wilhelm <alexander.wilhelm@westermo.com>
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+MHI layer will only forward the bw scaling request to the controller
+driver, it is responsibility of the controller driver to do actual bw
+scaling and then pass status to the MHI. MHI will response back to the
+device based up on the status of the bw scale received.
+
+Add a new get_misc_doorbell() to get doorbell for misc capabilities to
+use the doorbell with mhi events like MHI BW scale etc.
+
+Use workqueue & mutex for the bw scale events as the pci_set_target_speed()
+which will called by the mhi controller driver can sleep.
+
+If the driver want to move higher data rate/speed then the current data
+rate/speed then the controller driver may need to change certain votes
+so that link may come up in requested data rate/speed like QCOM PCIe
+controllers need to change their RPMh (Resource Power Manager-hardened)
+state. And also once link retraining is done controller drivers needs
+to adjust their votes based on the final data rate/speed.
+
+Some controllers also may need to update their bandwidth voting like
+ICC bw votings etc.
+
+So, add pre_scale_bus_bw() & post_scale_bus_bw() op to call before & after
+the link re-train. There is no explicit locking mechanisms as these are
+called by a single client endpoint driver
+
+In case of PCIe switch, if there is a request to change target speed for a
+downstream port then no need to call these function ops as these are
+outside the scope of the controller drivers.
+
+Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 ---
-Changes in v2:
-  - Set __le64 type for dma_addr and size.
-
 Changes in v3:
-  - Improve the clarity of the commit message.
+- Move update speed logic to pwrctrl driver (Mani)
+- Move pre_bus_bw & post_bus_bw to bridge as these are bridge driver specific ops,
+it feels to me we need to add these in the host bridge driver similar to recently
+added one reset_slot.
+- Remove dwc level wrapper (Mani)
+- Enable ASPM only if they are enabled already (Mani)
+- Change the name of mhi_get_capability_offset to mhi_find_capability() (Bjorn)
+- Fix comments in the code, subjects etc (Mani & Bjorn)
+- Link to v2: https://lore.kernel.org/r/20250313-mhi_bw_up-v2-0-869ca32170bf@oss.qualcomm.com
 
- drivers/bus/mhi/host/boot.c     | 8 ++++----
- drivers/bus/mhi/host/internal.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+Changes in v2:
+- Update the comments.
+- Split the icc bw patch as sepertate one (Bjorn)
+- update the aspm disablement comment (Bjorn)
+- Use FIELD_GET & FIELD_PREP instead of hard macros and couple of nits
+  suggested by (Ilpo Järvinen)
+- Create a new function to change lnkcntrl2speed to enum pci_bus_speed (Jeff)
+- Link to v1: https://lore.kernel.org/r/20250217-mhi_bw_up-v1-0-9bad1e42bdb1@oss.qualcomm.com
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index efa3b6dddf4d..205d83ac069f 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -31,8 +31,8 @@ int mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
- 	int ret;
- 
- 	for (i = 0; i < img_info->entries - 1; i++, mhi_buf++, bhi_vec++) {
--		bhi_vec->dma_addr = mhi_buf->dma_addr;
--		bhi_vec->size = mhi_buf->len;
-+		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
-+		bhi_vec->size = cpu_to_le64(mhi_buf->len);
- 	}
- 
- 	dev_dbg(dev, "BHIe programming for RDDM\n");
-@@ -431,8 +431,8 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
- 	while (remainder) {
- 		to_cpy = min(remainder, mhi_buf->len);
- 		memcpy(mhi_buf->buf, buf, to_cpy);
--		bhi_vec->dma_addr = mhi_buf->dma_addr;
--		bhi_vec->size = to_cpy;
-+		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
-+		bhi_vec->size = cpu_to_le64(to_cpy);
- 
- 		buf += to_cpy;
- 		remainder -= to_cpy;
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index ce566f7d2e92..1dbc3f736161 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -25,8 +25,8 @@ struct mhi_ctxt {
- };
- 
- struct bhi_vec_entry {
--	u64 dma_addr;
--	u64 size;
-+	__le64 dma_addr;
-+	__le64 size;
- };
- 
- enum mhi_fw_load_type {
+---
+Krishna Chaitanya Chundru (9):
+      PCI: Update current bus speed as part of pci_pwrctrl_notify()
+      PCI/bwctrl: Add support to scale bandwidth before & after link re-training
+      PCI/ASPM: Return enabled ASPM states as part of pcie_aspm_enabled()
+      PCI/ASPM: Clear aspm_disable as part of __pci_enable_link_state()
+      PCI: qcom: Extract core logic from qcom_pcie_icc_opp_update()
+      PCI: qcom: Add support for PCIe bus bw scaling
+      bus: mhi: host: Add support for Bandwidth scale
+      PCI: Export pci_set_target_speed()
+      PCI: Add function to convert lnkctl2speed to pci_bus_speed
+
+Miaoqing Pan (1):
+      wifi: ath11k: Add support for MHI bandwidth scaling
+
+Vivek Pernamitta (1):
+      bus: mhi: host: Add support to read MHI capabilities
+
+ drivers/bus/mhi/common.h               |  20 ++++++
+ drivers/bus/mhi/host/init.c            |  90 +++++++++++++++++++++++-
+ drivers/bus/mhi/host/internal.h        |   7 +-
+ drivers/bus/mhi/host/main.c            |  98 +++++++++++++++++++++++++-
+ drivers/bus/mhi/host/pm.c              |  10 ++-
+ drivers/net/wireless/ath/ath11k/mhi.c  |  41 +++++++++++
+ drivers/pci/controller/dwc/pcie-qcom.c | 124 ++++++++++++++++++++++++++-------
+ drivers/pci/pci.c                      |  12 ++++
+ drivers/pci/pcie/aspm.c                |   5 +-
+ drivers/pci/pcie/bwctrl.c              |  16 +++++
+ drivers/pci/pwrctrl/core.c             |   5 ++
+ include/linux/mhi.h                    |  13 ++++
+ include/linux/pci.h                    |  19 ++++-
+ 13 files changed, 425 insertions(+), 35 deletions(-)
+---
+base-commit: fee3e843b309444f48157e2188efa6818bae85cf
+change-id: 20250217-mhi_bw_up-f31306a5631b
+
+Best regards,
 -- 
-2.34.1
+Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
