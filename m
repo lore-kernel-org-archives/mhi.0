@@ -1,254 +1,191 @@
-Received: from mx08-0057a101.pphosted.com (mx08-0057a101.pphosted.com [185.183.31.45])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4CF3F9D2
-	for <mhi@lists.linux.dev>; Mon, 19 May 2025 14:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.31.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747666728; cv=fail; b=Ez0NVKYCay2re//Ir+M2iBsmYuOd6KHWjsziTJJxMNcW9SnWeqUeunQFe6UhrsgiBObOT6GrNKe7Q2xDrNhAQYEtsSpTJ9oxWJQ/Y8wAmiqo2yoKWGCgGVh1UGUaTvS2vJArMC7JY2dj1gjHz55kG7RAxcD0EyW+Q9MSpclaxN8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747666728; c=relaxed/simple;
-	bh=A3+PsPPbfidczE08FdhAbNaIRQV+cCfdt+Z+Ogw9JL4=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=bHed/q6rGEdoY02SxSY+G9cpQ4veu/Xdwy7AfqyRkmU4babvxlsbMyloIbpzaIMnY+04tRNS7zuihrmk1h48zVkS1z3cWj3aco+G9ulHC1qrzAsBaomwQ80DPtljx1hPv81JC1rqbTxVslwrtwO0wSRzwNQ9ZwfMh2sDdrHubWE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com; spf=pass smtp.mailfrom=westermo.com; dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b=iqEE1pOu; dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b=dTOafm/i; arc=fail smtp.client-ip=185.183.31.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=westermo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=westermo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF9A1E51FE
+	for <mhi@lists.linux.dev>; Tue, 20 May 2025 04:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747713847; cv=none; b=EIhcXYsubqpPmR5EPbMMMf+WYaD26t24HPEg09A7WfnAXR3+dUruS1OrBFPtI+Mb6vU+sqWnfFu9qVHbQXOjglIMZGQUQGTC+URwkFzr1U5j6P1OBF0CeDzYxAME/nwa3oHmRJrm3o29vt6vBMh1KgR6bYYVytR+VqmAlHSFNDk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747713847; c=relaxed/simple;
+	bh=KMb6HEc989YS4nvOynxObwK2sZg5PsL820yo8xKWB0Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oftYivEsECT6rXNw0+mZ1rStppRnF/04ufa30pHwX/XHZbrVB0a4sj3ror0/Gp4grAiJ5ruakbl6A+qm+ZO7pSAkR4F5jiv20xy4YW+m0nmGPE2G2OfCM7MCok3ydkiJAGEzdsmdHfnFeOQj/gxdkYxq/H0IFv1cm0DYVziGhMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MzNNnOPG; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=westermo.com header.i=@westermo.com header.b="iqEE1pOu";
-	dkim=pass (1024-bit key) header.d=beijerelectronicsab.onmicrosoft.com header.i=@beijerelectronicsab.onmicrosoft.com header.b="dTOafm/i"
-Received: from pps.filterd (m0214196.ppops.net [127.0.0.1])
-	by mx07-0057a101.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J8E8aY020868;
-	Mon, 19 May 2025 16:58:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=westermo.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=270620241; bh=qrPFIonAR6yCCujF705PTY
-	ao3X/UImDeIesNjeuLEU8=; b=iqEE1pOusqS37cxHjk+vrYPBQuBuFR6HVLRscc
-	pYKHFJ7OXU3kMYLtlRX3oqz+gnwFRcO/d/CK/xSjQJePZUjpULZSsvB03iga14Da
-	EIycvQUtsfiAy9HI4Fe50RTs4/mmgyAHFaZtbDFRffdFWvxBhYIQRzadS9BYbYDe
-	ROGoeR3mzQ3jIeZkHuUuTDEzJghPwQ+QtXKLp6PJ3P08PuHCzVt8YV9LUltoGSvb
-	A2Hx6yzcBuWrFzoruAUvzBPQwBE2g0osTRFXtwGB+kDqcM0cE4/GgQaY1LsPNQ+x
-	rptRYal/9WDQJTGLVVkmHV7j8wwYEB3Xx6o5kBY1HpuInvJA==
-Received: from eur02-vi1-obe.outbound.protection.outlook.com (mail-vi1eur02lp2042.outbound.protection.outlook.com [104.47.11.42])
-	by mx07-0057a101.pphosted.com (PPS) with ESMTPS id 46pef4t309-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 May 2025 16:58:42 +0200 (MEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZBMWYpN3RZVMgeV/piBIjzQVFB2JURpZESkVGhClv9eHv3d8LB3uppEORaCeve9uoGz39NrWd2AS0aXon8kGiNh5kSFlhDqiZiNvlaTeuxNQN6nAiff12U2jCw2727ZTGSDklbRqDiUFbhGDK/PM1Vkc2VtmygDZxnO5nwy8bwTiaRPGSy8nJ99frmu3oiN5ULVhmOX8GiZQ80rcigJAQh/u0bcUCBB/aRhfCJNrDAzHySuvROjhlqT0x9fRcRRrVWbfDDWKmo9FwzbWYP8bItjAM7uAE+2EldoBIkCM6ArhYi9Ctne/LebS0kc9tv5A1KHmdTVaTbKSiwMoyMiIyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qrPFIonAR6yCCujF705PTYao3X/UImDeIesNjeuLEU8=;
- b=S9KbONZ7KZG6rlcnpR55o5g0+VgQ8NQ3jjHYYA4fTS2I+VIh3WStv4TQJNUqhoA+sFF1E4AsCNN1kFIj28GrV3l7+imH9F9QM9vCgo3UWaJgh096yTUMp3jugZ5WRRhLakPeMEl2opvVhjHTVvnNbpTE6kLY4Tlxj4Ja/9Ir1BmSwkOd4cJ7nqNmTLfXZeDRTLHkKLOFcQ5R6tpVEqFrNv9Ovm10TDagEnIEMIPZ6qvtMoAqVutG1WtcyTgXFNIV9dYhBiHmOHrj3jWWK2C74YrM9VqyoTOwEtJ3FtfqeOy3dq/UY7p7rUsEjOsaJK3pviAaOWfUhCJOYIN626Wp1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=westermo.com; dmarc=pass action=none header.from=westermo.com;
- dkim=pass header.d=westermo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=beijerelectronicsab.onmicrosoft.com;
- s=selector1-beijerelectronicsab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qrPFIonAR6yCCujF705PTYao3X/UImDeIesNjeuLEU8=;
- b=dTOafm/iaavLP/xMdZRjLHIgwSYswHKRzmPqvmH4GCA7J6vrqb8I9V/I9MkdqxFdhht/e8/O8jMnvV9fHIl+LuPKPqpUfqknK6Ev2Wzk7XLjqdRFynYrAtKpcPVQJQk0ISSl/9/7iHLDWpG8utR73irefi99LQTzFmvEMRzftd8=
-Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:63a::18)
- by PR3P192MB0826.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:49::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Mon, 19 May
- 2025 14:58:38 +0000
-Received: from AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- ([fe80::bee5:29b7:49f2:cf70]) by AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- ([fe80::bee5:29b7:49f2:cf70%3]) with mapi id 15.20.8722.027; Mon, 19 May 2025
- 14:58:38 +0000
-From: Alexander Wilhelm <alexander.wilhelm@westermo.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] bus: mhi: host: fix endianness of BHI vector table
-Date: Mon, 19 May 2025 16:58:37 +0200
-Message-Id: <20250519145837.958153-1-alexander.wilhelm@westermo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GVZP280CA0046.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:273::17) To AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:63a::18)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MzNNnOPG"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54JNdSOi030732
+	for <mhi@lists.linux.dev>; Tue, 20 May 2025 04:04:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	o+n9bkF0VD0V2oJ0zneDmypvwTmyRBfAOtjQDo3asjA=; b=MzNNnOPGPyV/g4gL
+	Io3VpNxBw/F+jVACkQGvFl0/BXrvWr+zDY5nVInGTf8gLF6kI9JmgqpNIhvKW385
+	/4dk0rIZDiP/AkSaJI/8ctqm/DlEUJ/u34ymu+XQVht8xG3xP/CVMbfJ97/sV2ty
+	XtDRWnQQW1g0+2xV1/ZDKu8e5VfkbhqBMRLqQ/hKaOyP3IrDlszg/7/nopdJabSJ
+	F/j0KWltPyd7FzKWqH7HicCnyYpNHTkWj/w697dOgfd20RcP4u/kqWoqc2EQTMQl
+	4zq/i6ns5gO4SdSZMDxj/hYPx6IQ7VTz3SgH40qTZ/2bFLMH621ogpmrmaKabgO0
+	cu+VIw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46pkr9xe3b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 20 May 2025 04:04:04 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-73dcce02a5cso3286534b3a.0
+        for <mhi@lists.linux.dev>; Mon, 19 May 2025 21:04:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747713844; x=1748318644;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+n9bkF0VD0V2oJ0zneDmypvwTmyRBfAOtjQDo3asjA=;
+        b=CX2bliWPjWGoGuLO/jCMX3rJpSHbiKGNNUxqY9srr6mudzILKjm9/4rRR+vZEYc1BG
+         pTk3JrJGEgMUZIkJiTvEgEUEAgRjuR2vh/diw9E2zLO0M41Jcuel1fL4vMJUK2ETeChV
+         yqFMDzSb8IJqt3RMFwnP9bRRfheVCBVmOHqljsY6bsVpjqB9aaPUDMNpxVVkomZDzr8K
+         sC3A7ANHYadq2QsiiPmQFFEwrvOjJB6xe6cDwR24zKdJEThN5f4ZtIOEnZQrCudXHSw9
+         6Yu9+zyQwO+lW77PaxLOn37rtnJ2/8Uc9GW6sa+JrlW1g7XursTUbo7bTGYi+ymb8At7
+         uDFA==
+X-Forwarded-Encrypted: i=1; AJvYcCWeaYTTinUOfTQU6Q6vlrMDR8QiLlHghmvBOBxKfjLkAr7SgEyP4p37N/RndOyIdL8lNnQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGdRfnfdXn4J4xd54KLYI0mNRIl6Y+mGH+SqszJJo9dM3v71P2
+	EJ8LyjGqRycUNeq/S62LWHWb5GCbAJ4Y97A9JJ1x9d6rhAX/FD2W5FsUZr/EWUIpbcrnunOXiMU
+	yfiLBPIafTmpR27Ki41xYMc0fRc/Rw0az4KRtlP7CUvwAIptbq6SrV8Y=
+X-Gm-Gg: ASbGnctzfpv+eL+tu1OgLQefqFEkD+mG0YWf7fuudACKcW8g3GLk3fDyt2dtQi37z1K
+	428zraW4nCrB92p1Zhgad7K/wOH6Ilga/07Z+eOVRxpTLl3fgzGQJIVbYPW4GAW6RbNphpqXyAh
+	aPWZGPD1RZ7tc6fBEncIANOWrYkZqP7JPHBwLkUGoTy86dgLOlyqpFAXzE0kFqpBZnKP3AcyTpp
+	g7/N2mLRacWVbDgzWCzUmCSHSDwVJC3gXzL1pzCZHufvMrjXK93Cf8smDHWK2fCmjdyTiKaL2xO
+	0QDnmzL9ZTukvC3LS5FEYbgaeMw+H6X1pKyMFa6zDg==
+X-Received: by 2002:a05:6a00:23c8:b0:73c:b86:b47f with SMTP id d2e1a72fcca58-742acc8da94mr19341310b3a.4.1747713844019;
+        Mon, 19 May 2025 21:04:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtuj7Wq5AEHuJuYXpcnavQTfMcYG2SpoMb7J/CFpeG/fY8muA2u1bn6wkzdg+/GXDT/INQfA==
+X-Received: by 2002:a05:6a00:23c8:b0:73c:b86:b47f with SMTP id d2e1a72fcca58-742acc8da94mr19341277b3a.4.1747713843631;
+        Mon, 19 May 2025 21:04:03 -0700 (PDT)
+Received: from [10.92.214.105] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970d777sm7243378b3a.68.2025.05.19.21.04.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 May 2025 21:04:03 -0700 (PDT)
+Message-ID: <48a98603-d2b0-c279-6b04-0c89baf32d05@oss.qualcomm.com>
+Date: Tue, 20 May 2025 09:34:00 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P192MB2240:EE_|PR3P192MB0826:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2446e1b-9baf-4111-386a-08dd96e5a33f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?lNoX/dJl1zsmwEPGOvv0/6MyJ8CiRlqd/fk9a/jK9N0KIsUX3Pq9opN2bcgT?=
- =?us-ascii?Q?hL73F2UUgBTGVfqRYHY7kmgU7gXyldqNMVOFrBeu2Vu0HL0UbohKLH+ZGSD2?=
- =?us-ascii?Q?KzvTt0UduztXwgu2W8sdrgZZ66UR5Dc3m6MU9jKfh0wtUO6BZM30A3U7izWq?=
- =?us-ascii?Q?Zx0KuD9pCMwJ7bKl4TevkqB7ztgKwIT7bGZObia6XG5/Ll3O50z8s51tNyg1?=
- =?us-ascii?Q?wYPneialzs6Oe5DOfqNg6GZgonTW33HnNBATlOEmp57jzifA4XHNctI/hb+k?=
- =?us-ascii?Q?Wasrrwmbvs/Wtft095iRgA1Xj94dS6iYmsQ7DlXocI/vJlGLpKaBVmassSpe?=
- =?us-ascii?Q?HGQx0yq6CymNQwgz8khGP2p3uQDqqVBLMfscryzqkuw7pkvkTbqkkGRR5GGJ?=
- =?us-ascii?Q?M0r+7R/CzQwisxf+5gJ/TFKiawQNS+zYIeshqI8SOMPAV9j587OpEPVdY9qQ?=
- =?us-ascii?Q?6F6f/vdfnWuZ2bura0zSLkVUM+/RCC/fX4Npks87RDB9aYrlcIfNVKR8mRVf?=
- =?us-ascii?Q?NF6ASLIWhhgV7SkjtA43QAnRH+NR5MInFMHbiEJjlgkTaA8PkAZWPOSr5Sbk?=
- =?us-ascii?Q?7323CSBMbh/axw8PB8dP3XUUeYhDmFPiolW6gC/TtvvDtVRegMVhMfKvuNtx?=
- =?us-ascii?Q?ygLrMm60y8STvEJvxQ0Dgy9HDw6F9bYdwLGtjtLdaX8w+j5Mh5VGRMLkzetd?=
- =?us-ascii?Q?t78atyC1sQtBjjDpaG9k+fNibZrkq24Ys1xJU67aNQ4Dtii8FNCmzgcALEkV?=
- =?us-ascii?Q?HhHLJztuNLbRIFGCTD+5SXhzos/+djv9SIuaU5QFkeNW3LBvjln6iZUxBiV3?=
- =?us-ascii?Q?Yf6JVzIkHRnXlEvmI4a6PomMfY49RO1EVWbmTOKHe565KtyRhXhyraPRCrQU?=
- =?us-ascii?Q?0ClTwDPXLTRHPvKcKecywG3cWdPtbB+epkldE3krJKVYFIlPAWK5Ad5uHsbH?=
- =?us-ascii?Q?pr8JX12117Gnb4zzZeNsidhRNn+xKg41rIbc/oPxw1+Iw4pA7MzC2SIKTbZf?=
- =?us-ascii?Q?w80nxASdRC2biboZ22tVcLPqTYS5GJ1M4Grx4suU1z/on/G5pGbwZwWivnVO?=
- =?us-ascii?Q?MyuJO2cg9ZWZrPjMwTz0CmxOtykoj0qWJKidm1pfxW5IWPeyFUp40XKGh4yy?=
- =?us-ascii?Q?6BPqJcvUn9cgT+wJicLQrYBYSUSc8TbXlhCEJ+uL00fLP9gUQn4wryQ7Kb5j?=
- =?us-ascii?Q?IcM9rGqGM+MHksGzUW91jNFcPkNZD0ZdyL09gl9UC0snpYUC7GHdTZdVGHci?=
- =?us-ascii?Q?rArVNUlKZiIXMjjIHAQiX1sivJkiV0cuPgun6HnnyBxrVzgS3W4ib40moDU9?=
- =?us-ascii?Q?1FG3W7gk8rIKwnIEcd1GNzfSJAVCFkBGaWMrv/lKe4DJlJRPt2pDvTtVqXbC?=
- =?us-ascii?Q?XFIXuFpIKv0XkfAqCtJ3p6Uo03dIQ6YAwb5uWNUujG1o/u0cp/UtMcoBOApW?=
- =?us-ascii?Q?CGLXptv9Zzo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P192MB2240.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aOV/wJHE2OwGikdLCReaj8MDXsOrFBtvJDVYfdy9rbc7bSFCTTkhT83NaVKP?=
- =?us-ascii?Q?IASe9OTubqygj0hdrKQ6gyP1CUhJhXZQMAeWkVpr+f5HFEIYe9iH1B9g1USv?=
- =?us-ascii?Q?+KQpVQoG6KVYN5UkCy6SUUcHQINmlWTaeNaVFYdK6TXzCdKLdy6VTZoOAAL+?=
- =?us-ascii?Q?rk0/2hHgWwSiVmk3URCa+ERqVDEHQMG9hMmr8/m0mbS/eDn5QLZxlfZ8JP93?=
- =?us-ascii?Q?ErTcIMqrqZMXazjlEtq8ArI+qNxL2t4wBbgyAXoep5YxbhBZeZQDWPjAaAeQ?=
- =?us-ascii?Q?6jU0BQIAKAyJVBGPhV1P5ojYo9Ki2ovt44GsUhU8Ll6Uh8cvUbsvrdZtiMPs?=
- =?us-ascii?Q?34dAG3V0M/kFrlbL5BkUdWMep7+Se7hrXUr2PKVGGMpgmLUft/B+GzUUgZS2?=
- =?us-ascii?Q?+w8DIzF38M8oit7/Ny1AqcFPDZOISqglvlDmXKEgZcpGR86fBiYe4CWPfuF/?=
- =?us-ascii?Q?dP77wcbnXbzjQS6SO5YaQ+hQgE8d7gKo1l6feCfZVAfk2R5kmcln8NyS6uUD?=
- =?us-ascii?Q?tyfJGEAGzJMKkyMlqcdvXPsPegbWDR7bP2jFeJUq15NaqeD8+4OHy7MnaWFn?=
- =?us-ascii?Q?PdkY8lfkc+N+cvslDT5Es22QLD+LXTJ7xucTq2271q8ZKYl39ExLVtBV07qp?=
- =?us-ascii?Q?neIDjwT6FtNpUmK/siRtvLDnrA4cLWz/ls30hWstzuDccZj7HmTZST3eDoom?=
- =?us-ascii?Q?YnbrUy1FlSrA5Nn82H2TFNQCmfRk1fy66d0oj85qyDMI+DHEDPMKSuK99rxs?=
- =?us-ascii?Q?xQeb464NHt/ePwzDMkSyKEb2/bdOVOpunXHOAkj+tZF54PtwKb9fDweCmyKb?=
- =?us-ascii?Q?919PUQ+PQPqFxv+z9DwGUK1VZBtoKesLZ+SLLImx2P18YYVn69wWV0vZ5PFz?=
- =?us-ascii?Q?F93eTioh3QwDv3VpDWm8En1rKRmUaDM/S4Za7A1DEFjyd4HGUkVlcVdkUvL5?=
- =?us-ascii?Q?iRFcbZ1aH4aXrbU4I8TczNUgQmGIE9MuhxdL3abIfj+TOWPNU7iedoAttJEp?=
- =?us-ascii?Q?UpkVyDYMAOLGuxHdxToJiIALqcuiECJ0x6vQ6pL4gQlO+iKh4HwFTF0cNO+g?=
- =?us-ascii?Q?UyDulyU61w5DP6kE6lBng1e09y7M1F7Ktki3Pk3/AiRGYaeRkug1rUAk4gsw?=
- =?us-ascii?Q?1sTl7CGdDW9lbqUTOpFx3OY9pvRXjZEeOvGWgUkEoM7jFDKLcZEZSTG6H7Tf?=
- =?us-ascii?Q?eSOm8Q7kQxc69hxmTZty7Q93hI+ycILPYahnnJCe/ySt7JEKMWWCDcm+tdTs?=
- =?us-ascii?Q?iRBiweea1COfVx/2SyklfEE/2mn+FR2kmcbnsoqkBtSBYcR6gfiwjhuw2jdR?=
- =?us-ascii?Q?0J8wNLsfjQ9oa+K2p9LxHb66oHDNBxnGrdlRg/H6JT8eyh9aQ5JojEtG4ryJ?=
- =?us-ascii?Q?R+3OK3xduuTfrKmGCP82ZravUfBhIYtZNtddnTV9b8WN86YdJkGcxfhJNC2r?=
- =?us-ascii?Q?zB26CmgzvXXH4paLKGvW2f7v7jf8ubk7fmUKWNxeDGnnd+yVG6X9HkMgGxEq?=
- =?us-ascii?Q?ePmk0E7lpSNx/IM6b04lYVfRrHDNIxYp9gDqloycQAuRXZHK/PyeKKyOqVEv?=
- =?us-ascii?Q?TfxN72C9BQoAh6acHH6co0DnVv/VfITq4bzX9mFh?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	ctX6J/xHTRBc0Qs70hn46EZ6fUWNA9FvE9XkbTM1JxMLEpNZ9y9RBiqUa5inafiCFQZlonEZbTpGtIMJvIyi0ZwAZWTRad+EgmA1yeb8J584K6Q20iQYSVeBuKp1ckgpFqYEM7O2kiv9Fp1UBLQgIOQFGvnRA5LeeW1XDYkRFUEFkAgzuLOBXOMH32VKhL7k6cVR6+pLxYsEUTlx7vldpBQQpY7OU/JIugP9qNjQzsQxqfza6VN7Hge2IhgKszSX8PpwJVIaH+1SokFJVeMSbVTlt8twaN6B+9KTYN/QkY90FZ66/u0V5J2Rt5cNx4mTxqhjUyoA8Nb3aqgyRdyvrdxxbxL9FmBuf3hEvtv7BXhzBy++TdftUlagl/w8PXml04Dlza/hWk/mlwVTAjVdovmBBkkTbUC7ZMy/AShpq5Lhrz/k5eCTiKLziJoTutq4ixixYFySA/J3anBD68K8ncoIUjLfQGDX8/ZsDkRg3A2nvORCZ4FIhLITQcQia5zCBhI7hcuDiY3/1niDAsFG3Ew3u7NQHMIZHMjAUU8q4m2xy8tch9R7YhsJgTmOoLVLZnr2U0uynNwXlSwpuL+G+1ZKSxNhso1KNy90QNZygjSb7r1x1dAIZO2EJ03q2alP
-X-OriginatorOrg: westermo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2446e1b-9baf-4111-386a-08dd96e5a33f
-X-MS-Exchange-CrossTenant-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 14:58:38.8012
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4b2e9b91-de77-4ca7-8130-c80faee67059
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bqUo0wkVU7QEpCClkeN1vEr9kgyaKSmlnbB5zlLspQZCD/omzMW72g6C3maTkV4l50DYMhzFVQ30n3EzZomYxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P192MB0826
-X-MS-Exchange-CrossPremises-AuthSource: AS8P192MB2240.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossPremises-AuthAs: Internal
-X-MS-Exchange-CrossPremises-AuthMechanism: 14
-X-MS-Exchange-CrossPremises-Mapi-Admin-Submission:
-X-MS-Exchange-CrossPremises-MessageSource: StoreDriver
-X-MS-Exchange-CrossPremises-BCC:
-X-MS-Exchange-CrossPremises-OriginalClientIPAddress: 104.151.95.196
-X-MS-Exchange-CrossPremises-TransportTrafficType: Email
-X-MS-Exchange-CrossPremises-Antispam-ScanContext:
-	DIR:Originating;SFV:NSPM;SKIP:0;
-X-MS-Exchange-CrossPremises-SCL: 1
-X-MS-Exchange-CrossPremises-Processed-By-Journaling: Journal Agent
-X-OrganizationHeadersPreserved: PR3P192MB0826.EURP192.PROD.OUTLOOK.COM
-X-Authority-Analysis: v=2.4 cv=N+0pF39B c=1 sm=1 tr=0 ts=682b4722 cx=c_pps a=W0/Oa3bQ7VHfjgdxQxJ5Sw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
- a=8gLI3H-aZtYA:10 a=N9GNhs4bAAAA:8 a=EUspDBNiAAAA:8 a=O4OWJBwTOLmvuvOJhrEA:9 a=PZhj9NlD-CKO8hVp7yCs:22
-X-Proofpoint-ORIG-GUID: juGlC09Yhp_1iTr7y_471GK46Sbhls93
-X-Proofpoint-GUID: juGlC09Yhp_1iTr7y_471GK46Sbhls93
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDEzOSBTYWx0ZWRfX37Ot2mN+33v6 31dwAajBUIQsiKaEXKqnJotBpae4cojhl1jClo8KiP5ufdcu9CMIK4KkoX7/nrHjGmtTy7z2Rp/ SzVmKKHRu6F9jFaVldTxlCvb4GYkrg8SVKMGPWxmP1AWJPHIZtyEvsj2mUlvd2DzwE/7kgnYpD5
- p9gCrkN4N1SCGQBh6xGv9tAXWyG/+5/n6BCe7nzdoLRlGi1Y8//+LwAym6rvHmuvAuOJqG1XydC Wx0tbQkIHD43QC9BuR5GCmfVnEeEuxoytCHCc8tR+QQ5+8P+jjkJm62G1A4aZRk/aTtFrQB+75p IBodlH4JTF0Tak5t/EwZPV7/Uu9xSDzYVzTrFQKU5ow7umkhp6Bd63NbE8voakvNXcMdrPTWBMz
- DiFEJdY3MicvTIiPdLTHdtk+yqg/m4FsS4RJJzh8PfJdHtto13l7jtk9Xha5J2tHx1SqfyEm
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4] bus: mhi: host: fix endianness of BHI vector table
+Content-Language: en-US
+To: Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250519145837.958153-1-alexander.wilhelm@westermo.com>
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <20250519145837.958153-1-alexander.wilhelm@westermo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: iXZj229Sh_BfTXUTJoyN-8kPbamFU4yw
+X-Proofpoint-ORIG-GUID: iXZj229Sh_BfTXUTJoyN-8kPbamFU4yw
+X-Authority-Analysis: v=2.4 cv=DdAXqutW c=1 sm=1 tr=0 ts=682bff34 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=N9GNhs4bAAAA:8 a=EUspDBNiAAAA:8
+ a=QTSRpw9t3mQaVZ-RB_kA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+ a=PZhj9NlD-CKO8hVp7yCs:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDAzMSBTYWx0ZWRfX1+gsCrE2n7mA
+ aB7S/ylp+Q13/X4lxRzTAyzl7Hgyy0D5aKHbUxoMho46ZMMhnSHgyI5MIOxEtMZfZ8aPsSxznv4
+ fLzVNeD7hcOPX42czISGyRfmHxQIRWsXVt914r3A9dHlEnjdq817jAfkncbO09sZhosCSnyI5Po
+ 1oOJE8VNHkntTj9T3iideQk0UMcD2A/8xdcDuztQe5AMysJxdUCR7C4UbIntv9HD+njZjFAr3fV
+ 2InQ6nIWQKcEOlroBAj5a9go49tPcCfwUL+5JfOgVh1BkU5Xg7vrQPhVWaCN+NXs1TYzotjgsGR
+ U85pZX2NPKPoXhzhcllu6DNFWVv0dHNpjYKuvxSVGFuGvRNs+y2WZ5lR72bjOn88Kq7B31osjsQ
+ Ar0rRYhf3uIBg/q1HSueGw6d6pVQSomR2oyKd1SSfc73qe5oc/H60q82NQ9GxXjT2my2LGrt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_02,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 adultscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505070000 definitions=main-2505200031
 
-On big endian platform like PowerPC the MHI bus does not start properly.
-The following example shows the error messages by using qcn9274 wireless
-radio module with ath12k driver:
 
-    ath12k_pci 0001:01:00.0: BAR 0: assigned [mem 0xc00000000-0xc001fffff 64bit]
-    ath12k_pci 0001:01:00.0: MSI vectors: 1
-    ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
-    ath12k_pci 0001:01:00.0: failed to set mhi state: POWER_ON(2)
-    ath12k_pci 0001:01:00.0: failed to start mhi: -110
-    ath12k_pci 0001:01:00.0: failed to power up :-110
-    ath12k_pci 0001:01:00.0: failed to create soc core: -110
-    ath12k_pci 0001:01:00.0: failed to init core: -110
-    ath12k_pci: probe of 0001:01:00.0 failed with error -110
 
-Fix it by swapping DMA address and size of the BHI vector table.
-
-Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
-Signed-off-by: Alexander Wilhelm <alexander.wilhelm@westermo.com>
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
----
-Changes in v2:
-  - Set __le64 type for dma_addr and size.
-
-Changes in v3:
-  - Improve the clarity of the commit message.
-
-Changes in v4:
-  - Add missing fixes tag.
-  - Fix commit message character width.
-
- drivers/bus/mhi/host/boot.c     | 8 ++++----
- drivers/bus/mhi/host/internal.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index efa3b6dddf4d..205d83ac069f 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -31,8 +31,8 @@ int mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
- 	int ret;
- 
- 	for (i = 0; i < img_info->entries - 1; i++, mhi_buf++, bhi_vec++) {
--		bhi_vec->dma_addr = mhi_buf->dma_addr;
--		bhi_vec->size = mhi_buf->len;
-+		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
-+		bhi_vec->size = cpu_to_le64(mhi_buf->len);
- 	}
- 
- 	dev_dbg(dev, "BHIe programming for RDDM\n");
-@@ -431,8 +431,8 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
- 	while (remainder) {
- 		to_cpy = min(remainder, mhi_buf->len);
- 		memcpy(mhi_buf->buf, buf, to_cpy);
--		bhi_vec->dma_addr = mhi_buf->dma_addr;
--		bhi_vec->size = to_cpy;
-+		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
-+		bhi_vec->size = cpu_to_le64(to_cpy);
- 
- 		buf += to_cpy;
- 		remainder -= to_cpy;
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index ce566f7d2e92..1dbc3f736161 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -25,8 +25,8 @@ struct mhi_ctxt {
- };
- 
- struct bhi_vec_entry {
--	u64 dma_addr;
--	u64 size;
-+	__le64 dma_addr;
-+	__le64 size;
- };
- 
- enum mhi_fw_load_type {
--- 
-2.34.1
-
+On 5/19/2025 8:28 PM, Alexander Wilhelm wrote:
+> On big endian platform like PowerPC the MHI bus does not start properly.
+> The following example shows the error messages by using qcn9274 wireless
+> radio module with ath12k driver:
+> 
+>      ath12k_pci 0001:01:00.0: BAR 0: assigned [mem 0xc00000000-0xc001fffff 64bit]
+>      ath12k_pci 0001:01:00.0: MSI vectors: 1
+>      ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
+>      ath12k_pci 0001:01:00.0: failed to set mhi state: POWER_ON(2)
+>      ath12k_pci 0001:01:00.0: failed to start mhi: -110
+>      ath12k_pci 0001:01:00.0: failed to power up :-110
+>      ath12k_pci 0001:01:00.0: failed to create soc core: -110
+>      ath12k_pci 0001:01:00.0: failed to init core: -110
+>      ath12k_pci: probe of 0001:01:00.0 failed with error -110
+> 
+> Fix it by swapping DMA address and size of the BHI vector table.
+> 
+> Fixes: 6cd330ae76ff ("bus: mhi: core: Add support for ringing channel/event ring doorbells")
+> Signed-off-by: Alexander Wilhelm <alexander.wilhelm@westermo.com>
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+> Changes in v2:
+>    - Set __le64 type for dma_addr and size.
+> 
+> Changes in v3:
+>    - Improve the clarity of the commit message.
+> 
+> Changes in v4:
+>    - Add missing fixes tag.
+>    - Fix commit message character width.
+> 
+>   drivers/bus/mhi/host/boot.c     | 8 ++++----
+>   drivers/bus/mhi/host/internal.h | 4 ++--
+>   2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index efa3b6dddf4d..205d83ac069f 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -31,8 +31,8 @@ int mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
+>   	int ret;
+>   
+>   	for (i = 0; i < img_info->entries - 1; i++, mhi_buf++, bhi_vec++) {
+> -		bhi_vec->dma_addr = mhi_buf->dma_addr;
+> -		bhi_vec->size = mhi_buf->len;
+> +		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
+> +		bhi_vec->size = cpu_to_le64(mhi_buf->len);
+>   	}
+>   
+>   	dev_dbg(dev, "BHIe programming for RDDM\n");
+> @@ -431,8 +431,8 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
+>   	while (remainder) {
+>   		to_cpy = min(remainder, mhi_buf->len);
+>   		memcpy(mhi_buf->buf, buf, to_cpy);
+> -		bhi_vec->dma_addr = mhi_buf->dma_addr;
+> -		bhi_vec->size = to_cpy;
+> +		bhi_vec->dma_addr = cpu_to_le64(mhi_buf->dma_addr);
+> +		bhi_vec->size = cpu_to_le64(to_cpy);
+>   
+>   		buf += to_cpy;
+>   		remainder -= to_cpy;
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index ce566f7d2e92..1dbc3f736161 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -25,8 +25,8 @@ struct mhi_ctxt {
+>   };
+>   
+>   struct bhi_vec_entry {
+> -	u64 dma_addr;
+> -	u64 size;
+> +	__le64 dma_addr;
+> +	__le64 size;
+>   };
+>   
+>   enum mhi_fw_load_type {
