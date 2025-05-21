@@ -1,245 +1,139 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB59461
-	for <mhi@lists.linux.dev>; Wed, 21 May 2025 15:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D93D16DC28;
+	Wed, 21 May 2025 16:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747841542; cv=none; b=FhQHJXBQ/ipoyt64TDTRuoIcM9tj0ZbISPG75GZtpWUMZf+PA50jtp/B1Zq0nE1BBmD2ExBaI3VqwLzYzK9Y8suC/qOl0X0qjlfjxnhYvwPs3OCiB8jE75FQqZv/J0f/O/YInvHOE31Zj33XU9MpJeyVMz17PhMbgDAMWl688Nw=
+	t=1747845149; cv=none; b=DBrSNu1j+CrWYfo82SRnbreVZyZlxLx5chNakVA5L9dtWuNurRPXwhW0J0QarHIsOCz9p1ZkRxfaiOTAJ7gzSZ3gPDIa18CZn9IakVRLU06gOodUmOKSqZNrSyKaTFVZ1/bNGOoCukkLZIJ3j2XzxHtiAl7KFOmedMC/ramer1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747841542; c=relaxed/simple;
-	bh=g2alB9EP+7/n8yI8/NZcOxnPHOBIM0vK+TbEcQARBt0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WSO9+TI2hQW3Oi8JwAwp+Gjltamz7iNXeRmByRuc7fyz0HqdVgpbKRtFbqkBTvfujYKPNZxapqBwRARWZJumI4wR8P/2NfIOcergHz7aO1eUHWut8lTDGOGL9g/6cnk1RVcgoSWdfhuieZ4lUqvdWqhpZp/MoqY+160VQOXGHwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BPj1a56S; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1747845149; c=relaxed/simple;
+	bh=cf1lBPR/+sEaoaDMivYSgjSCVGSU8Koitx5HilmzPoU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kFrh3hJqYTIxELC9rr44RXnEJ8zQUAIJz2xbyVWY+VFCj6TlmRDc5bO74BYZWd1H5pQCBR10rx3Zq+dQdWZvqHWKhz5Z+d3nAG57AsWsJbHw/+KSboVo7zIgpUognK9YBuOtnYN5W7v4rVaKSwi+4bY/L63USE9gJHpZsmRSPCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UF885eCS; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BPj1a56S"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L9XJY0013424;
-	Wed, 21 May 2025 15:32:08 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UF885eCS"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L9XNj7029159;
+	Wed, 21 May 2025 16:32:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qzqnhQBFsflY3nmZG8TNLCp1PRo7RCDvGRrlihPo6kA=; b=BPj1a56Se3UzYLRx
-	pQgo8D5VG/GtvrdgT08YXfknx06/+rH8Aj6xzkHaJbfbs2N+BLjXtmJ1uHMfGp+w
-	XMSBr5e4bKmW+UFQFwv1Urpv1lmcqGTBnOcV1vzrPTAidIPlkuGWJcBsZt7NAvKM
-	6Nw4mzmJmNvFXear0tpnHhW29T7rLEqrj+fddXj9MvvC4hNcsAFcgM1gd1zBxhHU
-	XI+SkUg9xvDGmrC55vZJuIcUnxQEabStEl+QuUS1TWB92BXvtre7zQGQQOf31pTG
-	4hIesmO3FlPAUeflfbqr+I+YmcmRm/YLsY7WLnYXBJG1YwH5TWCFitsLtl4p8soy
-	JhUfPg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwh5bfsp-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=KGwc1ql+1jS9ZRvnpK1IPg
+	yP+fU4+jeRI9PbhjIUHPs=; b=UF885eCSTaisK1dKErrhDAGyT1tG68WPSRq6FS
+	GvNLiOdCNMe0tXWWj0aIXQ9GwNP9YPi0p6PkViPBra4uWCdREcu6+sRzdb8AOMXx
+	o4ZZKUJIsFRA5hGTtMyLT59IslQbFL8Z5ut+IuD1luBI2sQQYIQjnPOti3GbCWE3
+	xyO3+GZHAqPvgVJ55AYnNdKYZt6evof3imBu2ItFU8puZxwkDn3j0TR1Y3CQNGVh
+	y/notXTrbhiQ6d3AHozxSu6ofCFS98BqIg0JILQcyOX4FFMbEloHALR5lKsYqhNi
+	3vVDi1zpJT2xMQYugGq+LBmR5ePKV22it7UHHo4oD4gMcrPA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf43n47-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 May 2025 15:32:07 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54LFW6r7026909
+	Wed, 21 May 2025 16:32:25 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54LGWODC020169
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 May 2025 15:32:06 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 21 May
- 2025 08:32:05 -0700
-Message-ID: <2c0b4220-d92c-4dba-9364-33d713f26dbe@quicinc.com>
-Date: Wed, 21 May 2025 09:32:04 -0600
+	Wed, 21 May 2025 16:32:24 GMT
+Received: from hu-yabdulra-ams.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 21 May 2025 09:32:23 -0700
+From: Youssef Samir <quic_yabdulra@quicinc.com>
+To: <manivannan.sadhasivam@linaro.org>, <jeff.hugo@oss.qualcomm.com>,
+        <quic_carlv@quicinc.com>, <quic_thanson@quicinc.com>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH] bus: mhi: host: Detect events pointing to unexpected TREs
+Date: Wed, 21 May 2025 18:31:10 +0200
+Message-ID: <20250521163110.571893-1-quic_yabdulra@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/11] bus: mhi: host: Add support to read MHI
- capabilities
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-        "Bjorn
- Helgaas" <bhelgaas@google.com>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
-	<ilpo.jarvinen@linux.intel.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Lorenzo Pieralisi
-	<lpieralisi@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
-	<kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Johannes Berg
-	<johannes@sipsolutions.net>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        "Bartosz
- Golaszewski" <brgl@bgdev.pl>
-CC: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
-        <linux-wireless@vger.kernel.org>, <ath11k@lists.infradead.org>,
-        <qiang.yu@oss.qualcomm.com>, <quic_vbadigan@quicinc.com>,
-        <quic_vpernami@quicinc.com>, <quic_mrana@quicinc.com>,
-        Jeff Johnson
-	<jeff.johnson@oss.qualcomm.com>
-References: <20250519-mhi_bw_up-v3-0-3acd4a17bbb5@oss.qualcomm.com>
- <20250519-mhi_bw_up-v3-7-3acd4a17bbb5@oss.qualcomm.com>
- <aa45ff83-bc8f-4cef-a82c-9a868396d19d@quicinc.com>
- <8bb9acff-b2cf-edb0-bd55-251cf4a93f5b@oss.qualcomm.com>
-Content-Language: en-US
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <8bb9acff-b2cf-edb0-bd55-251cf4a93f5b@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDE1MSBTYWx0ZWRfXxnaJb7V1VaIh
- DEkdqiEY9/kGm2Eg4dD3TRPistrrO10PK8DA+eodCpj/WUuQoqzge0Pw6DNzvBiYjzmoPBJ4itd
- yuWpfmX6RjRobZiUqJvMdnJMqGrCp/Y8kknzMAZ+3ykw+5Fp/1AY3cudPYH+B0Cowf80dSgGrqq
- 8eYoYKs9ov7H/tf+pDLxOHxEnTDssU8Jm0Iu5e2Rtb+7n/LoVsIEJ6qIhiwDeZrqHpQY9iyc/Yv
- I/GXfGepp5u1Eicz11jhO3Y2QeAKB7moc3+PVJl6OyPyhbZh2f2d6dTMCkcrx+Ohk4z6a/+qOHH
- 6da4AHdjO99ei2hYMVunmYpbtDpPUqHLDQ2XELVZPiLRd+eDWGKVA122MakxwLgFy/X1wMiNTTg
- 5oA6ZCcSET2EwRjCVyQsPwOJ71zg98jO0O0PLZDmqmtK443G2Ay7pMMnMOxdgq4luM6S3dYJ
-X-Authority-Analysis: v=2.4 cv=XeWJzJ55 c=1 sm=1 tr=0 ts=682df1f7 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDE2MiBTYWx0ZWRfX/kAtc0Ew7T3p
+ K4b7M0MlWD8v2z38LSZ7lpbwCtqgBwTqvvs/P7u/QNlvE2aZ2YCJkM6FoWQHUOJNf3XValZBplA
+ voHUYfEegf3Zb2zCd5cqvmxMfweczuLfE0XFPPHKBywA0u4p631zbfRY3D99o/CIPQi3eBUmUSy
+ F2EBOZW6g64X/jw/XDThdB4s6dxLv6bIwh9EoSu3QlU+MraIlqfcpVY41jYKL0ETpry828drYks
+ 5eVB3tRYSci/u5A0EWfoXW4virS5JMSMpvtldaCSuOj8Qb1jfQIW/a9upuX93PizAPjNhcAxE9k
+ yV9aC9cTxo4fcskvdlIYZT+iFf0a8dD4HU+sy4mq/DIO8gYz0ZGnH357e8qkwS4vm4A+FBEkffN
+ gcBwumzFytlCIDSDfkuYwdBdLnnQrCbliE2rWDlYvnTnSNPfvuK5Sv8VpdAFBfaZsUeILvrz
+X-Proofpoint-GUID: 75yyjb2B4tKcPnEa6lF3ZS6uzOofFvnj
+X-Authority-Analysis: v=2.4 cv=Ws8rMcfv c=1 sm=1 tr=0 ts=682e0019 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=Af02sFNo4fdZPFbs5mEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=GEpy-HfZoHoA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=w97xFAd__o3z-cDrnlAA:9
  a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: qqsNyME4ffCDkvLPzdtCBRAJtOscHoSf
-X-Proofpoint-ORIG-GUID: qqsNyME4ffCDkvLPzdtCBRAJtOscHoSf
+X-Proofpoint-ORIG-GUID: 75yyjb2B4tKcPnEa6lF3ZS6uzOofFvnj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
+ definitions=2025-05-21_05,2025-05-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0
- suspectscore=0 impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505210151
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505210162
 
-On 5/21/2025 9:06 AM, Krishna Chaitanya Chundru wrote:
-> 
-> 
-> On 5/21/2025 8:22 PM, Jeffrey Hugo wrote:
->> On 5/19/2025 3:42 AM, Krishna Chaitanya Chundru wrote:
->>> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
->>>
->>> As per MHI spec v1.2,sec 6.6, MHI has capability registers which are
->>> located after the ERDB array. The location of this group of registers is
->>> indicated by the MISCOFF register. Each capability has a capability 
->>> ID to
->>> determine which functionality is supported and each capability will 
->>> point
->>> to the next capability supported.
->>>
->>> Add a basic function to read those capabilities offsets.
->>>
->>> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
->>> Signed-off-by: Krishna Chaitanya Chundru 
->>> <krishna.chundru@oss.qualcomm.com>
->>> ---
->>>   drivers/bus/mhi/common.h    |  4 ++++
->>>   drivers/bus/mhi/host/init.c | 29 +++++++++++++++++++++++++++++
->>>   2 files changed, 33 insertions(+)
->>>
->>> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
->>> index 
->>> dda340aaed95a5573a2ec776ca712e11a1ed0b52..eedac801b80021e44f7c65d33cd50760e06c02f2 100644
->>> --- a/drivers/bus/mhi/common.h
->>> +++ b/drivers/bus/mhi/common.h
->>> @@ -16,6 +16,7 @@
->>>   #define MHICFG                0x10
->>>   #define CHDBOFF                0x18
->>>   #define ERDBOFF                0x20
->>> +#define MISCOFF                0x24
->>>   #define BHIOFF                0x28
->>>   #define BHIEOFF                0x2c
->>>   #define DEBUGOFF            0x30
->>> @@ -113,6 +114,9 @@
->>>   #define MHISTATUS_MHISTATE_MASK        GENMASK(15, 8)
->>>   #define MHISTATUS_SYSERR_MASK        BIT(2)
->>>   #define MHISTATUS_READY_MASK        BIT(0)
->>> +#define MISC_CAP_MASK            GENMASK(31, 0)
->>> +#define CAP_CAPID_MASK            GENMASK(31, 24)
->>> +#define CAP_NEXT_CAP_MASK        GENMASK(23, 12)
->>>   /* Command Ring Element macros */
->>>   /* No operation command */
->>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
->>> index 
->>> 13e7a55f54ff45b83b3f18b97e2cdd83d4836fe3..a7137a040bdce1c58c98fe9c2340aae4cc4387d1 100644
->>> --- a/drivers/bus/mhi/host/init.c
->>> +++ b/drivers/bus/mhi/host/init.c
->>> @@ -467,6 +467,35 @@ int mhi_init_dev_ctxt(struct mhi_controller 
->>> *mhi_cntrl)
->>>       return ret;
->>>   }
->>> +static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 
->>> capability, u32 *offset)
->>> +{
->>> +    u32 val, cur_cap, next_offset;
->>> +    int ret;
->>> +
->>> +    /* Get the 1st supported capability offset */
->>
->> "first"?  Does not seem like you are short on space here.
->>
-> Misc register will have the offest of the 1st capability register
-> from there capabilities will have linked list format.
+When a remote device sends a completion event to the host, it contains a
+pointer to the consumed TRE. The host uses this pointer to process all of
+the TREs between it and the host's local copy of the ring's read pointer.
+This works when processing completion for chained transactions, but can
+lead to nasty results if the device sends an event for a single-element
+transaction with a read pointer that is multiple elements ahead of the
+host's read pointer.
 
-No, I'm saying don't have "1st" in the comment, but have "first" 
-instead. I think that will read better.
+For instance, if the host accesses an event ring while the device is
+updating it, the pointer inside of the event might still point to an old
+TRE. If the host uses the channel's xfer_cb() to directly free the buffer
+pointed to by the TRE, the buffer will be double-freed.
 
-"Get the first supported capability offset"
+Validate the pointer inside an event before processing it.
 
->>> +    ret = mhi_read_reg_field(mhi_cntrl, mhi_cntrl->regs, MISCOFF,
->>> +                 MISC_CAP_MASK, offset);
->>
->> This fits on one line.
->>
->>> +    if (ret)
->>> +        return ret;
->>
->> Blank line here would be nice.
->>
->>> +    do {
->>> +        if (*offset >= mhi_cntrl->reg_len)
->>> +            return -ENXIO;
->>> +
->>> +        ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, *offset, &val);
->>> +        if (ret)
->>> +            return ret;
->>
->>
->> There is no sanity checking we can do on val?  We've had plenty of 
->> issues blindly trusting the device.  I would like to avoid having more.
->>
-> we can check if val is not all F's as sanity other than that we can't
-> check any other things as we don't know if the value is valid or not.
-> Let me know if you have any taught on this.
+Fixes: 1d3173a3bae7 ("bus: mhi: core: Add support for processing events from client device")
+Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
 
-mhi_read_reg() should handle the PCIe link error case. You can check to 
-see that the value is within the MHI space before using it.
+---
+ drivers/bus/mhi/host/main.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Also, shouldn't the value be transformed from le32 to cpu and back?
-
->> Also looks like if we find the capability we are looking for, we 
->> return the offset without validating it.
->>
-> For offset I can have a check to make sure the offset is not crossing
-> mhi reg len like above.
-> 
-> - Krishna Chaitanya.
->>> +
->>> +        cur_cap = FIELD_GET(CAP_CAPID_MASK, val);
->>> +        next_offset = FIELD_GET(CAP_NEXT_CAP_MASK, val);
->>> +        if (cur_cap == capability)
->>> +            return 0;
->>> +
->>> +        *offset = next_offset;
->>> +    } while (next_offset);
->>> +
->>> +    return -ENXIO;
->>> +}
->>> +
->>>   int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->>>   {
->>>       u32 val;
->>>
->>
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index aa8a0ef697c7..57dc9c5c0d84 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -602,7 +602,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+ 	{
+ 		dma_addr_t ptr = MHI_TRE_GET_EV_PTR(event);
+ 		struct mhi_ring_element *local_rp, *ev_tre;
+-		void *dev_rp;
++		void *dev_rp, *next_rp;
+ 		struct mhi_buf_info *buf_info;
+ 		u16 xfer_len;
+ 
+@@ -621,6 +621,16 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+ 		result.dir = mhi_chan->dir;
+ 
+ 		local_rp = tre_ring->rp;
++
++		next_rp = local_rp + 1;
++		if (next_rp >= tre_ring->base + tre_ring->len)
++			next_rp = tre_ring->base;
++		if (dev_rp != next_rp && !MHI_TRE_DATA_GET_CHAIN(local_rp)) {
++			dev_err(&mhi_cntrl->mhi_dev->dev,
++				"Event element points to an unexpected tre\n");
++			break;
++		}
++
+ 		while (local_rp != dev_rp) {
+ 			buf_info = buf_ring->rp;
+ 			/* If it's the last TRE, get length from the event */
+-- 
+2.25.1
 
