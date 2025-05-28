@@ -1,27 +1,27 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFF91DF26E
-	for <mhi@lists.linux.dev>; Wed, 28 May 2025 09:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2DE027603D
+	for <mhi@lists.linux.dev>; Wed, 28 May 2025 09:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748423423; cv=none; b=gmA8beitKX8td55nNX/vWaEySDCOBSBtp9WvvYHKUNxfk515HxxG5Ar7+PuPvuqWXqT7qcRT1vATXWorNTQE2Hqj07V7gMruOH8e5VMs9l95t49y3MA1VqjALzrmkbRF26MkY0mXcf05lpzlmAgijvquWZHGbx9Kvhgo2cwReUQ=
+	t=1748424178; cv=none; b=nZwEgcPbB/04Na4fUiUBVf+ElbRBUfC+aaLLzHy1srlfbrcBF96NvTVjYJX4xZkD3RA0nzxcqH8d/NrDgvDa3fMLHbEfCRHGwa7Yk4yFLqOMKedvSMhXiAqPavG8V1fi0uNAKU9JeI82aAC9gpPbIIcy+2DCYzj+NZ062K2YYWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748423423; c=relaxed/simple;
-	bh=xnBGQ1NYx0IsAE60uuB1ItLCFPl3GMZu0ylD6d1tDG8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iQWrAO6fz+ZqcayGO0QtMF2sJ9Nfl71t0C5iOb1GMIkLNsbLWjzhm2CcTMIu4xmbHB1MQcSOXPR3RZJARbZ5EvZXEEGXdiMjFzFO/QARw5/fwe4WhfyA8q/SBrIDpwzXY5QyIFii1npqumF2FlsEC+EBdfICchPdTGDd2l5b3D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=en0U7mBt; arc=none smtp.client-ip=220.197.31.5
+	s=arc-20240116; t=1748424178; c=relaxed/simple;
+	bh=xkNiKYgODlSY9yyRlPkx7iULzopxvQVIpmtbhyv/rTA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RlLb+hePuzGL8vKkTqDoAr3HqZabJWlJ8Gw3XOno9DQ4REN22pM6Lm2DxxIgur3XfEDwxxjOQRVkL8ePfMSeY+i2WsKCluAHgJEhCSE8XOzctyZhDidu5iX4s9UYdmKhUd2b3PzmLmoPv4EXLmtn48RxeYpz38xgbiGtq0lDqTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Stkx4be7; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="en0U7mBt"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Stkx4be7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=ni
-	kVQyuarkXhnQNNlek1hxJpso9eYFJCBOWiuY4s74k=; b=en0U7mBtvi3u1awudd
-	GC9FwvK6uwPFwoRpXIWnz0v2rVCTOovIN3Ec7Jk8JiVF0y0vAMYNq7oW2elboBYS
-	+n66m1RTGwBdxPzacmSGdxbb8Z5iM/cbvCoasLZQiPfGfA0AAwB/IUYIZ4kVus3J
-	cDeO+2aK4f/bCkmhZXpupPVcI=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=3j
+	2smcIYQQg9AX7JiG4sdGXoPpomEDE53IFAHBoEZdQ=; b=Stkx4be72PteeZ5DEC
+	pUc8I/3Ny1Yl2Ef5+6aAVkKppN+yqCG5TG6caQ2p7uA/oUqzqjwmuMS7DFVxwglL
+	rmo9+rpG4dx5KbEvBF0DmIUmbcNGSO9fE5bg+M2Nwmwu1eqnpJ6vyTL44TV3MRWp
+	g7zTe2TeU2Fs6Z8Ouf/lTCsqw=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgBHSJDj0jZoWsqECA--.56162S2;
-	Wed, 28 May 2025 17:09:57 +0800 (CST)
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wCnjVLa1TZoOyU7Eg--.4046S2;
+	Wed, 28 May 2025 17:22:35 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: manivannan.sadhasivam@linaro.org,
 	johan+linaro@kernel.org,
@@ -29,9 +29,9 @@ To: manivannan.sadhasivam@linaro.org,
 Cc: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add Foxconn T99W696
-Date: Wed, 28 May 2025 17:09:50 +0800
-Message-Id: <20250528090950.14868-1-slark_xiao@163.com>
+Subject: [PATCH v2] bus: mhi: host: pci_generic: Add Foxconn T99W696
+Date: Wed, 28 May 2025 17:22:32 +0800
+Message-Id: <20250528092232.16111-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -40,12 +40,12 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgBHSJDj0jZoWsqECA--.56162S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWF13Cw15KF1UCr1rGr17Jrb_yoWrur15pF
-	WIv3y5trWkJw4Fg3y0y34kKas5Zan3Xr93Krnrtw10g3WYk3y5XrWkt342qFWYv34qqrWI
-	yFykWFy7uanrJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRhNVhUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBDQpbZGg20dYi6gAAsp
+X-CM-TRANSID:_____wCnjVLa1TZoOyU7Eg--.4046S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWF13Cw15Kr4kZw4kWF43GFg_yoWrurWkpF
+	WIv3y5KrWkJa1Fg3y0y34kKas5Zan3Xr93Krnrtw10g3WYk3y5XrWkt342qFWYv34qqrWI
+	vFykuFy7uanrJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRqsUtUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1S2mRxpbZGg2zteGcAABsS
 
 T99W696 is designed based on Qualcomm SDX61 chip which is a cost
 down chip refer to previous SDX62/SDX65. Though we have a support
@@ -56,11 +56,13 @@ subPID only.
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
+v2: Correct the ch_cfg as sdx61 channels
+---
  drivers/bus/mhi/host/pci_generic.c | 52 ++++++++++++++++++++++++++++++
  1 file changed, 52 insertions(+)
 
 diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index a4a62429c784..76a927ef4e00 100644
+index a4a62429c784..a90ab31c46a9 100644
 --- a/drivers/bus/mhi/host/pci_generic.c
 +++ b/drivers/bus/mhi/host/pci_generic.c
 @@ -490,6 +490,23 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
@@ -95,7 +97,7 @@ index a4a62429c784..76a927ef4e00 100644
 +	.max_channels = 128,
 +	.timeout_ms = 20000,
 +	.num_channels = ARRAY_SIZE(mhi_foxconn_sdx61_channels),
-+	.ch_cfg = mhi_foxconn_sdx55_channels,
++	.ch_cfg = mhi_foxconn_sdx61_channels,
 +	.num_events = ARRAY_SIZE(mhi_foxconn_sdx55_events),
 +	.event_cfg = mhi_foxconn_sdx55_events,
 +};
