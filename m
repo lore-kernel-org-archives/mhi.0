@@ -1,207 +1,324 @@
-Received: from mail1.bemta40.messagelabs.com (mail1.bemta40.messagelabs.com [67.219.247.3])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A793223DEB6
-	for <mhi@lists.linux.dev>; Wed, 21 May 2025 23:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.219.247.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513A31F7586
+	for <mhi@lists.linux.dev>; Wed, 28 May 2025 05:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747871222; cv=fail; b=fufgEI5j2fDDAE4nmIB7jk1GiBdLlJe6mQbFe6cA3QknZZCGgqylPb852BwCDcsyo468It7sVJhUJAHwNCGuovQ/o4w3ZB9SeUdWmj5mbAPPpxfyVEbZGp1E2wdV8xSZL2dP0ZAIM7xn0BsMPoN3jRwc3ocQj4SkGl3c76C+SYY=
+	t=1748409992; cv=pass; b=owQtCCqiplsaGp48VY2y74VlMWRVGg+Ymc5KzAhutBQYCaURT/v2wiVqI0YNxjpyOqw7Bm+7R4KRFuPMeejnZErCL2i6OIv7E8Z2M5XRgy8jQ24hZtjKqNvU0xwspe2ohN7XMgVgLhAWgiP3X426h3aqClnvizZjC5ok3Sq94OM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747871222; c=relaxed/simple;
-	bh=cdfwOby0l3/9746vq3GHpu0O+eJeMlwBMYIPSd5sspw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X10veYFjI1ar1gRmsZ72MaWBiZLvNz+CMg4XSoy9EmKvZmxm3sxkKIvIrkjnQ7+hw1BrxezxsGZ+zxB8HN8myj9t2EPPPDtNGqPvgcuO1qAUlCy+lDfM4pEW4Wdr1o7aOfMDMY8WwCn7eg5OAX7Xb8PopOymDnvMnbhwqMvSp60=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=semtech.com; spf=pass smtp.mailfrom=semtech.com; dkim=pass (2048-bit key) header.d=semtech.com header.i=@semtech.com header.b=g+cmq/tS; dkim=fail (1024-bit key) header.d=SemtechCorp.onmicrosoft.com header.i=@SemtechCorp.onmicrosoft.com header.b=EM7x2RkT reason="signature verification failed"; arc=fail smtp.client-ip=67.219.247.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=semtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=semtech.com
+	s=arc-20240116; t=1748409992; c=relaxed/simple;
+	bh=BNNA0KlFqvK9JBZs3xUD+sBgeZhwZnPFvPtQtjsYQyk=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=aQyGDNtqKYXqRuUB31DKP/FiaY2OcbHU0Zl9k9Nh7dodMIfwFw/r9uSM626om9JqCl9Z0zuFwJf8CgpDOzFn9MUhXUTIRIGajss1L1j8yXwNky+8c18U1pE7Yrg8R6+VAY1+Km8Qknd0fAesCOCqEcp1QVoubH78jfs7/nFbkho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=Oedzqhe1; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=semtech.com header.i=@semtech.com header.b="g+cmq/tS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=SemtechCorp.onmicrosoft.com header.i=@SemtechCorp.onmicrosoft.com header.b="EM7x2RkT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=semtech.com; s=k1;
-	t=1747871219; i=@semtech.com;
-	bh=NiWm2qQOyJMNR7Xp+qeVrOO8SyuhU/0vuFW4UpU6r2Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=g+cmq/tSGeRE1ubMY4fmp4hxvgqT1kJFSwui7wIW+UV5FX1yqPT1vnZHNQIEHyqnO
-	 SsW2n3PhR5cWCzHpxClW9U/nGstwOMQKlPyBv+OscuJ2t8R5tWCcZfI8KYnsvoD68Z
-	 aIbCM5QCGe8COKPYDAnjegNa22h8Q3G0BpF5vIghdsgae7nn/bTzGWQtFigZRxRhnh
-	 ocFQui1+4QXUhHfGUf9IeboncsXDJ/7DeRJ3H01opIloO3rOP1aZuhOPXeomlHb896
-	 FJ+vBLA1jmJLVGNbRrId9xg+Xca9QH8t1cbPpLISVU49F+ugJ3WEU+uKR+We5W98TD
-	 Q1qr4AYcgy73w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjk+JIrShJLcpLzFFi42LJ0DfX0v2Uqpd
-  h8G+unkXvx5VsDoweLzbPZAxgjGLNzEvKr0hgzXhxYDJLwSruilN/lrM0MD7n7GLk5GAUWMYs
-  cWZZWBcjF5C9mFXizv0prBDONCaJk4c6mUEcFoHtzBLHvlxiA3GEBOYySfy7eo4RpF9IYAWTx
-  PUvJiAJCYGjjBKXPk9kgag6yyhxq/k/O4Rzm1Fi+5dfjBDOZEaJT5+vs4H0swkoSrR+Oc0Ekh
-  ABmXV+znEWkASzgJbEz8c3wZYIC5RIbN29G8xmEVCV6NjwlQnE5hUwl/jx7yyYLSEgL7F4x3J
-  miLigxMmZT6DmyEs0b53NDHGsrMSKCb1sEPXBEsd/bGaGsCUlrt28wA5hy0ocPTuHBcJ2lLhw
-  r4MNYo6ExMEXL6DqfSWe9e9jhLDlJE71noO7YefG21C90RI3FrxhhwRMp4DE6emfGCGcd4wSU
-  64fhrpCRqL98gLWCYwas5AcPgvJ4bOQLF/AyLyK0bQ4tagstUjX0FgvqSgzPaMkNzEzRy+xSj
-  dJr7RYNzWxuMRQLz25QC+1uFivuDI3OSdFLy+1ZBMjMJlwfYg4vYPx6oRm/UOMkhxMSqK8kxL
-  0MoT4kvJTKjMSizPii0pzUosPMcpwcChJ8DolAeUEi1LTUyvSMnOAiQ0mLcHBoyTCy2QNlOYt
-  LkjMLc5Mh0idYlSUEufdCNInAJLIKM2Da4Ml00uMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVh
-  HnXpABN4cnMK4Gb/gpoMRPQ4u48XZDFJYkIKakGpkUTOb/6Xbt68wxfl8vh9ad36B07lclyW8
-  1a81xv36/MtMjEn6rW4Td9jfRMHogus3yUuFjo2qbgJ/rbKqcY/F68oe/O/TDLXIEX/SWn8h2
-  41rRN3vUo2X2d8Od1/P8PqUaJO6Ue/6zzf3no80PvPmyd+bX1wx/70xfcPiS6Ss0/vNP0SI/v
-  qhdyF+XalH/5vRGL4vv1yzrsLfv7N0L1M5bHTre5kd/hZHUqeUr84Re7NDWeVb/XTbqwP7Ow+
-  UnJhcvT7k+f+ftemnWHe6Wk7Kp3MWuPrFw+u9/0SXC6pLPHAsaTe/Z5ynppeTKubPQPanrHWB
-  iiLHf3t7pF6/6NNcX7rjUVKn8+uOH3wp0nyvWUWIozEg21mIuKEwGy+PGhIQQAAA==
-X-Env-Sender: zxue@semtech.com
-X-Msg-Ref: server-9.tower-929.messagelabs.com!1747871217!2492261!1
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received:
-X-StarScan-Version: 9.117.2; banners=semtech.com,-,-
-X-VirusChecked: Checked
-Received: (qmail 1137 invoked from network); 21 May 2025 23:46:58 -0000
-Received: from mail-mw2nam10lp2042.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) (104.47.55.42)
-  by server-9.tower-929.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 May 2025 23:46:58 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DVQinGn5nAgr0hfW3/d3T+jpJkXGBFIrQjnBnT2rFNcMtzq34nMWDQw79tFkpHM/h3jVs8mCZRDymTtFG+nQORyNYdWCIOMsRSM99x4jC6x8Dlf/9AkJq4wRKxSF6O9RgG4kGXLMwUL2KhpNr2U+4qNqSUovnLNfkxp7+jRKo1izHKXYAvn3VBJpNaGQsbUfUPWaK9QKiySb1eeqIcTA4Tt9djqIzIOsI8d5bJoWAzbYAOuMdJPWbTdktPfeP72VwZ5Oq01QPwLgcTSb8BxYPAepIECd0pq+1nbGiZzLEavxPg7W37laAxzBABl18UQV4qko/a038PLrjwZDZzNC7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tgfXmplSujZqKAN+4qyFq4IDDhrFttOHqvoQ4is65oI=;
- b=bUUgEYMs8swWsOC9FXDmxP1f4AQxYJikv6EIAoWR/v5AM/EX5SVOeT2atxfaz9xpqQZ9jUasPBLV2tUwWPQliNxrdaltXQg27OHYwvLz8G0pmARo9AR/j5D9byL+uNHusofhjg2FtOIKdkFjo9shAlgTbBPiUflOmsg3hRzQQdM+sN/mcvyoP54H20Y/oZ5OZZiEdjhUjol3le8xa/DWNg5ryUrjWHgFuPBQ2czCgcclae1MOXl3Gmb7/gNPiAkRT8Y4vy7dNIjjzE2WibPgHo9lhrIy/+2ttDQc/yJrN0QqNmynnYGB2M7cbTcQkf4Sdllo7UIFDMos2xGonRu4Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 38.104.251.66) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=semtech.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none
- header.from=semtech.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=SemtechCorp.onmicrosoft.com; s=selector1-SemtechCorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tgfXmplSujZqKAN+4qyFq4IDDhrFttOHqvoQ4is65oI=;
- b=EM7x2RkTAFdNOCziebkanGYiukbCKjxXp0J9ijwFwEtqih+uP86g+UIv7HsxAYuFJGgYjOwIWgz2aQCREMXj3mT+zJ/W7zd6B037hhs9BAZjSjqmrEJHXKh/DJ4Q1SPtz8oa5CghRYiMIbScsifOdCOhdPri+k4dax1KLZpHB6w=
-Received: from DM6PR07CA0080.namprd07.prod.outlook.com (2603:10b6:5:337::13)
- by DS0PR20MB5785.namprd20.prod.outlook.com (2603:10b6:8:142::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Wed, 21 May
- 2025 23:46:52 +0000
-Received: from DS3PEPF000099DE.namprd04.prod.outlook.com
- (2603:10b6:5:337:cafe::56) by DM6PR07CA0080.outlook.office365.com
- (2603:10b6:5:337::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Wed,
- 21 May 2025 23:46:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 38.104.251.66)
- smtp.mailfrom=semtech.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=semtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of semtech.com designates
- 38.104.251.66 as permitted sender) receiver=protection.outlook.com;
- client-ip=38.104.251.66; helo=CA07RELAY1.semtech.com; pr=C
-Received: from CA07RELAY1.semtech.com (38.104.251.66) by
- DS3PEPF000099DE.mail.protection.outlook.com (10.167.17.200) with Microsoft
- SMTP Server id 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025
- 23:46:52 +0000
-Received: from ca08gitmail.local ([10.23.50.249]) by CA07RELAY1.semtech.com with Microsoft SMTPSVC(10.0.20348.1);
-	 Wed, 21 May 2025 19:46:51 -0400
-From: Adam Xue <zxue@semtech.com>
-To: manivannan.sadhasivam@linaro.org,
-	slark_xiao@163.com,
-	johan+linaro@kernel.org,
-	quic_vpernami@quicinc.com,
-	tglx@linutronix.de,
-	fabio.porcedda@gmail.com,
-	quic_msarkar@quicinc.com,
-	mank.wang@netprisma.us,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: zxue@semtech.com,
-	imocanu@semtech.com
-Subject: [PATCH v1] bus: mhi: host: pci_generic: Add support for EM929x and set MRU to 32768 for better performance.
-Date: Wed, 21 May 2025 16:46:40 -0700
-Message-ID: <20250521234640.3056893-1-zxue@semtech.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="Oedzqhe1"
+ARC-Seal: i=1; a=rsa-sha256; t=1748409973; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=kISV225uerBQYDxJGvC2gFdYWteZbXRg2Jih6RVyio+dCh4o3wZDBBI1eZVzXlMXE9xFgVXuXHPMBMVGYrXLePZzzCq3NZp3s590sT1SuOnCqk/SYj8gZWc7TPOBT56BxsZzDLT9jkX8/MU6vnZhYA4loAZ4k/31O4dBMGZUvjg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1748409973; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nXpnKLzemS+hWAH6rg60RoGOFsXGoeHL9S1e6MhsnzM=; 
+	b=XoWIK8QiF+HJJj5WdU+wKEPofQgxp1WkYgZj+LZr24A5c9g7QAZK7m7PrdpImgTUCAgXT9qkYnEYk4veH3Dph1Q1m9sbNbhVRHFlCTD6+u+ZRb2ctx4cWK2LFu1Wp6ZtlQVF+a+brVMS18aLxaFGuXz3/bHz0W+wAdGDt7w48Es=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1748409973;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Cc:Cc:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=nXpnKLzemS+hWAH6rg60RoGOFsXGoeHL9S1e6MhsnzM=;
+	b=Oedzqhe1ruZM/1R1BmC264P0HchB2wBTwN3tN4kWAQAfntpTwKkz+A7lShNYCqvF
+	yi/egGpqak6zM5Lv8UdASGH9Q7x3Q3u9k/jHHo0WFk9voWOVsCenKn0RCYAkCaBNght
+	80vsuyuQLgfZQeqyIe9kCbT0cj7NOywBfA8Tw3Z0=
+Received: by mx.zohomail.com with SMTPS id 1748409971508258.3869752597926;
+	Tue, 27 May 2025 22:26:11 -0700 (PDT)
+Message-ID: <819f15f9-1b16-4b96-8273-3f95c1e071bb@collabora.com>
+Date: Wed, 28 May 2025 10:25:59 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 May 2025 23:46:51.0619 (UTC) FILETIME=[A00F9B30:01DBCAAA]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DE:EE_|DS0PR20MB5785:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 8ccb1f37-3637-486f-3d55-08dd98c1c2dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dMR6E4fxQ4fhZvuCLKtEwTL4XY3yf5kzyKeYZVNlVG3xW8FPEwEqFvVfIr/b?=
- =?us-ascii?Q?RVOHTM/XrC7GXmNQnI+oVCBHWrOoIPEsVH2tv95HQwCxQp9GLCES2BUYGmV9?=
- =?us-ascii?Q?GWTQNFd/wZ9gB65+iNNey3RBoyDLZjrAEN4FNjw1ZnuOUz9/9kdf8C5O/bQU?=
- =?us-ascii?Q?jom40JBsUYxGMvH6S9DE+cDvw0mH89DKiUh3RdB8fLa9x8B41I4+3cpH8Nwo?=
- =?us-ascii?Q?E3U4Ls05TW3HMn2cHims4lgLn4bf+bdAycYjE9Jv84tt9oZZUBntlkO2oM/S?=
- =?us-ascii?Q?2ARVQ2SgbYJ4EwbiI1wm8CQfSryDEj6JcoZLz0DlskkRxTb2BeIJ5Ybzp3/R?=
- =?us-ascii?Q?0+VBylw77nYc+zDKZDMFGI9pJ+cZcN1H/gA+UKAzSnG7JlYzqRoMvHviih2+?=
- =?us-ascii?Q?5ObgHSy68ii+r1Y9ZgkUmWkbTb3YXi7KX/JlbR8XnB5oTRilGca3fWjSrFYX?=
- =?us-ascii?Q?dnOwe7aBI7+zQSSpvf3n20sHO9+JW4wK27B6DwjCcvV4CZ7IHrD1Ry7PwdGC?=
- =?us-ascii?Q?2qBlKivkfavYrPtfSqGSilA6seqdLv4nQF+u3YpGGj13qH34kOJDr5V/8oTn?=
- =?us-ascii?Q?LVM3sWPAE1FFN7wczsJk1DjZGokA6snfLp6RPNKTvVYXwY7SjBCj2SQRZYeJ?=
- =?us-ascii?Q?m3eej0e9dZbUBZnjKT7V5jlb7NaUI5S8K+mJphIlnNRPhKGuMkvOsEJN+xsv?=
- =?us-ascii?Q?ZEyK7eXp/BaEnl2q9kWE6WHSI1P6FryBWroZADG9N/ebUazlo9bNfajItFBF?=
- =?us-ascii?Q?fWUrn7LZfvUWdYWBCmXYc3M46GKLtrR7Koc8Ro3QrxUoAK+Vp8I4eF+14Ynq?=
- =?us-ascii?Q?zUZkztjFz17534klh3fDXsUYmObSEC6JrnY/jh1RSQXFdAINiiJOWN8h6qq+?=
- =?us-ascii?Q?mQh5nMzHvcEsG01ojSb39T9I4oqGs9SllYxW5TUNAHTdNDI2cZTRKZudnpxo?=
- =?us-ascii?Q?fgjJjc9/G2v8PmxAvAXAWjPROjcOVxp+8wC7HvMJenMBAJADOl1Tz1VF9uNT?=
- =?us-ascii?Q?Wnfy6o5pKERIQm0nQ9q0g3i7viXZRQvAhE6iAWGXBTx2dC2gf6vfuyZFmP7X?=
- =?us-ascii?Q?dVOE1JLgbOpHHfFmQLglU4gg8BRXumfsdjBzYVrGNZdoNSDUTLfBs/79qPKd?=
- =?us-ascii?Q?PHycHcMkOHLzcxhrWklDf6mXtRfwoMbkhlyxKio2jRRrRYW97TEbqJY9Z9hC?=
- =?us-ascii?Q?Stlt3wBPeDr+bSWrAQ9OKXq66SYtco4reP8tELhtimv7LlCNAgR27vOwpDca?=
- =?us-ascii?Q?syl/V7RpBWxe6km/gEToJh7Yy3uZougi1n7wOgGgkrZEooAUhlLYQDMPAPQF?=
- =?us-ascii?Q?lKuoue+f/fsY6HeZC3zkW5MUGzWT2dab0qVmBOgMVSU8MBHdkFKYbZZt8hK5?=
- =?us-ascii?Q?aL15NlQtwyhuwDbN6Oc/fVe+O6qyMpIp4yiltiMX1EW7nsZfINnjtcEEIsr5?=
- =?us-ascii?Q?Kw41dWbwCE5cBXzFADEHm/aISHx2RJqT0EILT5h8X4AXkpvbbyHUjpCxuQ2P?=
- =?us-ascii?Q?I1aUX7rNaOk9l7LYpJsGnlwZcL7pghTCXsC5Aoy0jnYrrQqaWp8Zx4YbIQ?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:38.104.251.66;CTRY:CA;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CA07RELAY1.semtech.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1102;
-X-OriginatorOrg: semtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 23:46:52.0640
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ccb1f37-3637-486f-3d55-08dd98c1c2dc
-X-MS-Exchange-CrossTenant-Id: b105310d-dc1a-4d6e-bf0d-b11c10c47b0f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=b105310d-dc1a-4d6e-bf0d-b11c10c47b0f;Ip=[38.104.251.66];Helo=[CA07RELAY1.semtech.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF000099DE.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR20MB5785
+User-Agent: Mozilla Thunderbird
+Cc: usama.anjum@collabora.com, kernel@collabora.com,
+ sebastian.reichel@collabora.com, Jeff Johnson
+ <jeff.johnson@oss.qualcomm.com>, Baochen Qiang <quic_bqiang@quicinc.com>,
+ Sumit Garg <sumit.garg@kernel.org>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Jeff Johnson <jjohnson@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Youssef Samir <quic_yabdulra@quicinc.com>,
+ Matthew Leung <quic_mattleun@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Troy Hanson <quic_thanson@quicinc.com>, Alex Elder <elder@kernel.org>,
+ Yan Zhen <yanzhen@vivo.com>, Kunwu Chan <chentao@kylinos.cn>
+Subject: Re: [PATCH v6] bus: mhi: host: don't free bhie tables during
+ suspend/hibernation
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+References: <20250516184952.878726-1-usama.anjum@collabora.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20250516184952.878726-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Add MHI controller config for EM929x. It uses the same configuration
-as EM919x. Also set the MRU to 32768 to improve downlink throughput.
+Soft reminder
 
-02:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
-	Subsystem: Device 18d7:0301
+On 5/16/25 11:49 PM, Muhammad Usama Anjum wrote:
+> Fix dma_direct_alloc() failure at resume time during bhie_table
+> allocation because of memory pressure. There is a report where at
+> resume time, the memory from the dma doesn't get allocated and MHI
+> fails to re-initialize.
+> 
+> To fix it, don't free the memory at power down during suspend /
+> hibernation. Instead, use the same allocated memory again after every
+> resume / hibernation. This patch has been tested with resume and
+> hibernation both.
+> 
+> Optimize the rddm and fbc bhie allocations. The rddm is of constant
+> size for a given hardware. While the fbc_image size depends on the
+> firmware. If the firmware changes, we'll free and allocate new memory
+> for it. This patch is motivated from the ath12k [1] and ath11k [2]
+> patches. They don't free the memory and reuse the same memory if new
+> size is same. The firmware caching hasn't been implemented for the
+> drivers other than in the nouveau. (The changing of firmware isn't
+> tested/supported for wireless drivers. But let's follow the example
+> patches here.)
+> 
+> [1] https://lore.kernel.org/all/20240419034034.2842-1-quic_bqiang@quicinc.com/
+> [2] https://lore.kernel.org/all/20220506141448.10340-1-quic_akolli@quicinc.com/
+> 
+> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+> Tested-on: WCN7850 hw2.0 WLAN.HMT.1.1.c5-00284-QCAHMTSWPL_V1.0_V2.0_SILICONZ-3
+> 
+> Acked-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+> Tested-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> Changes since v1:
+> - Don't free bhie tables during suspend/hibernation only
+> - Handle fbc_image changed size correctly
+> - Remove fbc_image getting set to NULL in *free_bhie_table()
+> 
+> Changes since v2:
+> - Remove the new mhi_partial_unprepare_after_power_down() and instead
+>   update mhi_power_down_keep_dev() to use
+>   mhi_power_down_unprepare_keep_dev() as suggested by Mani
+> - Update all users of this API such as ath12k (previously only ath11k
+>   was updated)
+> - Define prev_fw_sz in docs
+> - Do better alignment of comments
+> 
+> Changes since v3:
+> - Fix state machine of ath12k by setting ATH12K_MHI_DEINIT with
+>   ATH12K_MHI_POWER_OFF_KEEP_DEV state (Thanks Sebastian for testing and
+>   finding the problem)
+> - Use static with mhi_power_down_unprepare_keep_dev()
+> - Remove crash log as it was showing that kworker wasn't able to
+>   allocate memory.
+> 
+> Changes since v4:
+> - Update description
+> - Use __mhi_power_down_unprepare_keep_dev() in
+>   mhi_unprepare_after_power_down()
+> 
+> Changes since v5:
+> - Update description to don't give an impression that all bhie
+>   allocations are being fixed. mhi_load_image_bhie() doesn't require
+>   this optimization.
+> 
+> This patch doesn't have fixes tag as we are avoiding error in case of
+> memory pressure. We are just making this driver more robust by not
+> freeing the memory and using the same after resuming.
+> ---
+>  drivers/bus/mhi/host/boot.c           | 15 +++++++++++----
+>  drivers/bus/mhi/host/init.c           | 18 ++++++++++++------
+>  drivers/bus/mhi/host/internal.h       |  2 ++
+>  drivers/bus/mhi/host/pm.c             |  1 +
+>  drivers/net/wireless/ath/ath11k/mhi.c |  8 ++++----
+>  drivers/net/wireless/ath/ath12k/mhi.c | 14 ++++++++++----
+>  include/linux/mhi.h                   |  2 ++
+>  7 files changed, 42 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index efa3b6dddf4d2..bc8459798bbee 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -584,10 +584,17 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (fw_load_type == MHI_FW_LOAD_FBC) {
+> -		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+> -		if (ret) {
+> -			release_firmware(firmware);
+> -			goto error_fw_load;
+> +		if (mhi_cntrl->fbc_image && fw_sz != mhi_cntrl->prev_fw_sz) {
+> +			mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+> +			mhi_cntrl->fbc_image = NULL;
+> +		}
+> +		if (!mhi_cntrl->fbc_image) {
+> +			ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+> +			if (ret) {
+> +				release_firmware(firmware);
+> +				goto error_fw_load;
+> +			}
+> +			mhi_cntrl->prev_fw_sz = fw_sz;
+>  		}
+>  
+>  		/* Load the firmware into BHIE vec table */
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 13e7a55f54ff4..8419ea8a5419b 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -1173,8 +1173,9 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>  		/*
+>  		 * Allocate RDDM table for debugging purpose if specified
+>  		 */
+> -		mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
+> -				     mhi_cntrl->rddm_size);
+> +		if (!mhi_cntrl->rddm_image)
+> +			mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->rddm_image,
+> +					     mhi_cntrl->rddm_size);
+>  		if (mhi_cntrl->rddm_image) {
+>  			ret = mhi_rddm_prepare(mhi_cntrl,
+>  					       mhi_cntrl->rddm_image);
+> @@ -1200,6 +1201,14 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_prepare_for_power_up);
+>  
+> +void __mhi_unprepare_keep_dev(struct mhi_controller *mhi_cntrl)
+> +{
+> +	mhi_cntrl->bhi = NULL;
+> +	mhi_cntrl->bhie = NULL;
+> +
+> +	mhi_deinit_dev_ctxt(mhi_cntrl);
+> +}
+> +
+>  void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+>  {
+>  	if (mhi_cntrl->fbc_image) {
+> @@ -1212,10 +1221,7 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+>  		mhi_cntrl->rddm_image = NULL;
+>  	}
+>  
+> -	mhi_cntrl->bhi = NULL;
+> -	mhi_cntrl->bhie = NULL;
+> -
+> -	mhi_deinit_dev_ctxt(mhi_cntrl);
+> +	__mhi_unprepare_keep_dev(mhi_cntrl);
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_unprepare_after_power_down);
+>  
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index ce566f7d2e924..41b3fb835880b 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -427,4 +427,6 @@ void mhi_unmap_single_no_bb(struct mhi_controller *mhi_cntrl,
+>  void mhi_unmap_single_use_bb(struct mhi_controller *mhi_cntrl,
+>  			     struct mhi_buf_info *buf_info);
+>  
+> +void __mhi_unprepare_keep_dev(struct mhi_controller *mhi_cntrl);
+> +
+>  #endif /* _MHI_INT_H */
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index e6c3ff62bab1d..c2c09c308b9b7 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -1263,6 +1263,7 @@ void mhi_power_down_keep_dev(struct mhi_controller *mhi_cntrl,
+>  			       bool graceful)
+>  {
+>  	__mhi_power_down(mhi_cntrl, graceful, false);
+> +	__mhi_unprepare_keep_dev(mhi_cntrl);
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_power_down_keep_dev);
+>  
+> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+> index acd76e9392d31..c5dc776b23643 100644
+> --- a/drivers/net/wireless/ath/ath11k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
+> @@ -460,12 +460,12 @@ void ath11k_mhi_stop(struct ath11k_pci *ab_pci, bool is_suspend)
+>  	 * workaround, otherwise ath11k_core_resume() will timeout
+>  	 * during resume.
+>  	 */
+> -	if (is_suspend)
+> +	if (is_suspend) {
+>  		mhi_power_down_keep_dev(ab_pci->mhi_ctrl, true);
+> -	else
+> +	} else {
+>  		mhi_power_down(ab_pci->mhi_ctrl, true);
+> -
+> -	mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
+> +		mhi_unprepare_after_power_down(ab_pci->mhi_ctrl);
+> +	}
+>  }
+>  
+>  int ath11k_mhi_suspend(struct ath11k_pci *ab_pci)
+> diff --git a/drivers/net/wireless/ath/ath12k/mhi.c b/drivers/net/wireless/ath/ath12k/mhi.c
+> index 08f44baf182a5..3af524ccf4a5a 100644
+> --- a/drivers/net/wireless/ath/ath12k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath12k/mhi.c
+> @@ -601,6 +601,12 @@ static int ath12k_mhi_set_state(struct ath12k_pci *ab_pci,
+>  
+>  	ath12k_mhi_set_state_bit(ab_pci, mhi_state);
+>  
+> +	/* mhi_power_down_keep_dev() has been updated to DEINIT without
+> +	 * freeing bhie tables
+> +	 */
+> +	if (mhi_state == ATH12K_MHI_POWER_OFF_KEEP_DEV)
+> +		ath12k_mhi_set_state_bit(ab_pci, ATH12K_MHI_DEINIT);
+> +
+>  	return 0;
+>  
+>  out:
+> @@ -635,12 +641,12 @@ void ath12k_mhi_stop(struct ath12k_pci *ab_pci, bool is_suspend)
+>  	 * workaround, otherwise ath12k_core_resume() will timeout
+>  	 * during resume.
+>  	 */
+> -	if (is_suspend)
+> +	if (is_suspend) {
+>  		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF_KEEP_DEV);
+> -	else
+> +	} else {
+>  		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_POWER_OFF);
+> -
+> -	ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
+> +		ath12k_mhi_set_state(ab_pci, ATH12K_MHI_DEINIT);
+> +	}
+>  }
+>  
+>  void ath12k_mhi_suspend(struct ath12k_pci *ab_pci)
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index dd372b0123a6d..6fd218a877855 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -306,6 +306,7 @@ struct mhi_controller_config {
+>   *           if fw_image is NULL and fbc_download is true (optional)
+>   * @fw_sz: Firmware image data size for normal booting, used only if fw_image
+>   *         is NULL and fbc_download is true (optional)
+> + * @prev_fw_sz: Previous firmware image data size, when fbc_download is true
+>   * @edl_image: Firmware image name for emergency download mode (optional)
+>   * @rddm_size: RAM dump size that host should allocate for debugging purpose
+>   * @sbl_size: SBL image size downloaded through BHIe (optional)
+> @@ -382,6 +383,7 @@ struct mhi_controller {
+>  	const char *fw_image;
+>  	const u8 *fw_data;
+>  	size_t fw_sz;
+> +	size_t prev_fw_sz;
+>  	const char *edl_image;
+>  	size_t rddm_size;
+>  	size_t sbl_size;
 
-Signed-off-by: Adam Xue <zxue@semtech.com>
----
- drivers/bus/mhi/host/pci_generic.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 03aa88795209..9bf8e7991745 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -695,6 +695,7 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
- 	.config = &modem_sierra_em919x_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-+	.mru_default = 32768,
- 	.sideband_wake = false,
- };
- 
-@@ -813,6 +814,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
- 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
-+	/* EM929x (sdx65), use the same configuration as EM919x */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x18d7, 0x0301),
-+		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
- 	/* Telit FN980 hardware revision v1 */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
 -- 
-2.45.2
-
-
-To view our privacy policy, including the types of personal information we collect, process and share, and the rights and options you have in this respect, see www.semtech.com/legal.
+Regards,
+Usama
