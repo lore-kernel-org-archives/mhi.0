@@ -1,207 +1,198 @@
-Received: from mail1.bemta44.messagelabs.com (mail1.bemta44.messagelabs.com [67.219.246.112])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A188B17B50A
-	for <mhi@lists.linux.dev>; Wed, 28 May 2025 17:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.219.246.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748455197; cv=fail; b=aN7E5gIYoDi5Pvw+J/+Y1YMM+uCBsY6L6OPOxgPCy45sBtKPGfdtmQeYJvFEVaRjsFdjsQ+VjlMDaKFzJOCBscM3qlOnHp8B4pDo6pI50v7KG3VBs+0cFvp+zAjCjfinjl9IztSxDMImbEbkvHmT+tFDuAjJLN7LGBOlw62RXcc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748455197; c=relaxed/simple;
-	bh=cdfwOby0l3/9746vq3GHpu0O+eJeMlwBMYIPSd5sspw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ftgdz1+AhKf/yylR3/Gs90fX+G8vWJrMovX76mFFNWvdlDGosp8oH9dxF3v6xWp9kyhRHS3DkTj6lrFH3KVGGVs2GjbNaEnH01ZV0fdeb9EaHAhfTT2UuecNc02diVbPqAqSmL+Bf00hyxHcXx9Ci2WGH8tbPS2lnY/cEKePmhg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=semtech.com; spf=pass smtp.mailfrom=semtech.com; dkim=pass (2048-bit key) header.d=semtech.com header.i=@semtech.com header.b=lRDXEpp7; dkim=fail (1024-bit key) header.d=SemtechCorp.onmicrosoft.com header.i=@SemtechCorp.onmicrosoft.com header.b=BdopeI+h reason="signature verification failed"; arc=fail smtp.client-ip=67.219.246.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=semtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=semtech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACED28134A
+	for <mhi@lists.linux.dev>; Tue,  3 Jun 2025 09:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748941566; cv=none; b=E+XvIc8zqdAcg2dm941hr4U1y+lfeWx3Cd3718tXGhQbIH77IoAS5b/KGr9k39+z2DCXshkkJ7W1m4CCXwwBMRTyF/zz66lZdliPooRdC2e+C7tZHwY8ArqGoviibdJD6OACQ6X1KMV8f0Ea83o4Hy+zcSjEBmZZllvxe1dNLyo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748941566; c=relaxed/simple;
+	bh=sRP0LmdX2jCQmP9M0y80Vq5CWeHDEBh8oibADEXpCms=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=h7SEnTV7ptaVj0cCEy34C11NO1BOrUIfSqNJaRzeK+rUrkNUI6T5ms9GAtbpMQuRC7LCPf+ceBYu2QZDro25rAzSQeee+hQ4UWCuGEDMRChKqgMdWIj6UqRE0AuNeTycyeAF9hQ5SQB3U2aajGGkNYIadtHjqplZj7Kh7k7Cg1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mIY945E/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=semtech.com header.i=@semtech.com header.b="lRDXEpp7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=SemtechCorp.onmicrosoft.com header.i=@SemtechCorp.onmicrosoft.com header.b="BdopeI+h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=semtech.com; s=k1;
-	t=1748455194; i=@semtech.com;
-	bh=NiWm2qQOyJMNR7Xp+qeVrOO8SyuhU/0vuFW4UpU6r2Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=lRDXEpp7RsSH4gko+A3ZRK0I3O8ldMc0/UKvdcPU3q8bp8+c8BBWds0nUJA06Baz3
-	 OMZN1ounPvtbRWIWahST+LNjBy6jHSjR86EJXG3/rMKG4Y7ecol/XUqLmYiddq1DiL
-	 fOfr6mIC9q3ZFQfjYA4H4IwV6FlX5dcRhr8R/JoexddoObuE5TBL3R1daR8WZQb/7N
-	 oHv7ZgIR9QLCV1ZaJ0CENyuDVzSxbcf0MjU5WxNR5vDsLKXp8Ca5oETS8/ufSYEHVf
-	 hEXUR3C1qMhsJ+EzbFDsnCATxkFxv6WZWybov6VojWwSMduGiSmtVYy9xg8USld2gv
-	 2zeopIA2VikYw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLJsWRWlGSWpSXmKPExsWikR1XrSvlb55
-  h8H2loEXvx5VsDoweLzbPZAxgjGLNzEvKr0hgzXhxYDJLwSruilN/lrM0MD7n7GLk4mAUWMYs
-  8WrCBzYIZzGrxOfFX5ggnGlMEicPdTKDOCwC25klpnffYAdxhASWMkmsfHqIGcJZwySx8203m
-  CMhcJRR4tLniSwQmbOMErea/0P13GaUuP7/EmMXIyeQM5lR4ujhShCbTUBRovXLabCVIgL9TB
-  KdE6eCFTELaEn8fHwTzBYWKJHYuns3mM0ioCrxqPsA0FQODl4BU4lDq5xAwhIC8hKLdyxnBrF
-  5BQQlTs58wgIxRl6ieetsZoi9shIrJvSyQdQHS8w5/QPKlpS4dvMCO4QtK3H07BwWCNtZ4tzR
-  XUwQcyQkDr54wQwR95VYu/MRVI2cxKnec0wwN+zceBsqHi3xcuJCFkiwdApIPOg4xAThvGOUW
-  DHvIdQkGYn2ywtYJzBqzEJy+Cwkh89CsnwBI/MqRovi1KKy1CJdI0u9pKLM9IyS3MTMHL3EKt
-  1EvdJi3eTUvJKixBxDvfTkAr3U4mK94src5JwUvbzUkk2MwJTC9aEiYwfj3inN+ocYJTmYlER
-  5Wf+aZQjxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4K31Mc8QEixKTU+tSMvMAaY3mLQEB4+SCK+O
-  EFCat7ggMbc4Mx0idYpRl+P7wZN7mYVY8vLzUqXEec/6AhUJgBRllObBjYCl2kuMslLCvIwMD
-  AxCPAWpRbmZJajyrxjFORiVhHk1/ICm8GTmlcBtegV0BBPQEeIRpiBHlCQipKQamOyrmze+37
-  eazUAkxqji1YXGSJMvRarRVzQkNN7Eei0VPr3DYQp7Y/+tonqhY75THTRntE3ear1j/uQsdud
-  Du/hrmQLl5sY3zAxdffzNrWn+cbsnXpn/Pu1j0kzxutfC5X+l2vd99j1Tbs+3QOzK8z71K/un
-  W6+NVDpyVLh/wnJrzrwbpRuO+Qu5bNG4LvX6npSO83OBKvk75avtbsQ6m3rMmXi8SLuS0/xlx
-  74vgT0Hdy1Wm/j//JVMnXcSGVNneF2cfnT3bDW/7+8Skr7sXRCf0rUuWeVyzqWfM13mezy8Er
-  IxcmvLbbEzVY2bXeXO7ri3NM+KVSui9OKD62ar3x5lvDRHwiHuxOLUdrO9YZOUWIozEg21mIu
-  KEwFUgi2/MAQAAA==
-X-Env-Sender: zxue@semtech.com
-X-Msg-Ref: server-18.tower-904.messagelabs.com!1748455193!182508!1
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received:
-X-StarScan-Version: 9.117.2; banners=semtech.com,-,-
-X-VirusChecked: Checked
-Received: (qmail 9985 invoked from network); 28 May 2025 17:59:54 -0000
-Received: from mail-mw2nam10on2123.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) (40.107.94.123)
-  by server-18.tower-904.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 28 May 2025 17:59:54 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tbOo2fdSWqT3I53b7S7IUHj/equDUsnzxvs9aegxmz2rZgodTjQZfx6eJSEJhLyCZJOT3uvxWHO9tzi46lPYhREqtnTSSXZb53haMefKLcZzBICN7EQGcg9jY1hGOnJVFwRjEYYeVwB1a+hTn5lKDvbIH05M1fjVcSVVhKg1YC9UUJEDNIWkpQOh15r7k0dXgXGa8Ofj2oJiy8QWuVnae4IOpgRXJdlsLcMOUmR5xodmc62h4nzLe+WLHAAgw0HdOZ4K3I8Ry/CAuf2uw5DQBRicCH/PEKMMANY3nzvn8fl5aR5SE7Z780DHL82LgYwlPqcEThTQKo2MElkr9yEY6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tgfXmplSujZqKAN+4qyFq4IDDhrFttOHqvoQ4is65oI=;
- b=OXYStTveWMMFLlE7QmrklzEW4lHUJS0LgiRU3zC0JmAHCM1aoV4LfvmJn0aPBXTaUyG9kUG1QaRXBdDQN8citOsLwcT9/iPs/TLWGskF55es5BM3zmpf5yupCE9F9fp/xS+RM+AM9qqRRQmeIYYvuN7r6NZeQ9Uc4DzTYcTKSteuePhTZBRjk9+qsxrkRb115eZt/gdoB9HTs7sCy20Up+Oe+UEXqU0SmI9VJ7qBpmKFullrATIdU3YRNMMSf1ctBICZluZIL2Nr+ADczlfU6qJbatDqEw5VxS/8W6EsZxnrd9jvGEeuUL8urOLhp+737Q2a/tVcUwl96/OCdKaXrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 38.104.251.66) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=semtech.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none
- header.from=semtech.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=SemtechCorp.onmicrosoft.com; s=selector1-SemtechCorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tgfXmplSujZqKAN+4qyFq4IDDhrFttOHqvoQ4is65oI=;
- b=BdopeI+h6XH858UP4vaSGwPEPvElxif8BOpDM1IcczVFYMCGYK6djTzRsfKRnjvolNbFFP/7g8o8KzGXiwsX36p+TfMFaIGlNPH+5sI9nNyjIa7R0r7GbR7VAaWynOXdhWkZdBipP3wLu+/Jdw83SBhJ7NSV/d8H/RpWntyeEtw=
-Received: from SN7PR04CA0073.namprd04.prod.outlook.com (2603:10b6:806:121::18)
- by SA5PPF14728E2CA.namprd20.prod.outlook.com (2603:10b6:80f:fc04::988) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Wed, 28 May
- 2025 17:59:51 +0000
-Received: from SA2PEPF00001508.namprd04.prod.outlook.com
- (2603:10b6:806:121:cafe::f2) by SN7PR04CA0073.outlook.office365.com
- (2603:10b6:806:121::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.30 via Frontend Transport; Wed,
- 28 May 2025 17:59:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 38.104.251.66)
- smtp.mailfrom=semtech.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=semtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of semtech.com designates
- 38.104.251.66 as permitted sender) receiver=protection.outlook.com;
- client-ip=38.104.251.66; helo=CA07RELAY1.semtech.com; pr=C
-Received: from CA07RELAY1.semtech.com (38.104.251.66) by
- SA2PEPF00001508.mail.protection.outlook.com (10.167.242.40) with Microsoft
- SMTP Server id 15.20.8769.18 via Frontend Transport; Wed, 28 May 2025
- 17:59:50 +0000
-Received: from ca08gitmail.local ([10.23.50.249]) by CA07RELAY1.semtech.com with Microsoft SMTPSVC(10.0.20348.1);
-	 Wed, 28 May 2025 13:59:50 -0400
-From: Adam Xue <zxue@semtech.com>
-To: manivannan.sadhasivam@linaro.org,
-	slark_xiao@163.com,
-	johan+linaro@kernel.org,
-	quic_vpernami@quicinc.com,
-	tglx@linutronix.de,
-	fabio.porcedda@gmail.com,
-	quic_msarkar@quicinc.com,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: zxue@semtech.com,
-	imocanu@semtech.com
-Subject: [PATCH v1] bus: mhi: host: pci_generic: Add support for EM929x and set MRU to 32768 for better performance.
-Date: Wed, 28 May 2025 10:59:43 -0700
-Message-ID: <20250528175943.12739-1-zxue@semtech.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mIY945E/"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5536vmFF026921
+	for <mhi@lists.linux.dev>; Tue, 3 Jun 2025 09:06:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=7sA02YbbHjaA+JbHO5CG9q
+	0PR/A+phKOqR9jUxXEpgk=; b=mIY945E/Nixe3WOBhlIRDU5i5UpgwuRVaoCB2l
+	MX+qsL5CLzFZ3SgzU4H5+0bYLiob8X1rZmRM3V+SEtx+FWSbKyAB+fIXdS9Z3zou
+	rONaZgWRhLShdJLuZ6oUn+ccmJaY2HXxwjHBceDWQvRf7rKXkQgvGenxZ56rtwWt
+	FpqsZu7JN6s4NTBo+NCj/qWryN2yTm/87N+hM7tU7HP8YOUg4aGuxQdXGX+Mwk7D
+	0lLLIm+zGW9IT4Ic/CPz+f7qqLmkAp7GCtRGUGqDkeqNiCn6QCwkyDx2eplzyu3T
+	S+j5L1RxUwbp0RZM6NCQFxedp1qp8AvYsl5WtYXDkWMj3nsA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8rsyqt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 03 Jun 2025 09:06:00 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2355651d204so28269745ad.2
+        for <mhi@lists.linux.dev>; Tue, 03 Jun 2025 02:06:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748941560; x=1749546360;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7sA02YbbHjaA+JbHO5CG9q0PR/A+phKOqR9jUxXEpgk=;
+        b=UyHuopGDKCDUQ0TOTeGnonV0LQQ46ioBYZeRZ/Bt2rZj3DNBpYbciv8suOFam/Ss7f
+         VpEm0QRpTiBWn3yQMpaudvUZRruKC2X4xEn2QMsoAaQ1dbjLLrczmIOA9NFaB1i30+zp
+         JvmzvKQDoBHW8uSidqPOZS1BgDfaKeQeau0mfJIO2P0VG75DsyYzsE86aj1qwvZaCFON
+         A/Z32vUN+cP/Ms8GLb9V5SQ/nG1MvS4igJmJf0qfw8AO6XWPMM6igSUI1ePkFzZBxVHZ
+         o9vdYsssUweaIYtROl/9s3uSvApHtz4/Len+C07m30sxg+kxmiKmU1UYbIRGC3HjG00p
+         iTAg==
+X-Gm-Message-State: AOJu0YxsjQi+BpERMpYqNAtsP9RjqDhuCGr501KFuCCVIHN9Lu6noRXJ
+	PWOMlsOke2YmaFMqbG0XjhJgRgMrswket4WUzcVjoCl4HWa8GDQoKNpxvSrfLxejjX8lQFVbdve
+	0CfF/h+dZuZqsMU9cgiOgc9OXWkLaHiHwTreLECVwpCTDzvJoRVE4xw3HAHgLmIAwlA==
+X-Gm-Gg: ASbGnctKoZasu8TRrxUcRgcN8qeYLEcESsUwUHh8rTwMFOy5KEe84zE/ORCPbVAkCR4
+	/0ecXWJNRqe3bnu/3n9TCjgJj2NfUeGRCrKTm/HAkccUlDGygHtjlFrramTZBEQkWne4j3Qrte0
+	EDOOrjX0m/8ZjlF+hVzkaiTMH6ROexB+Kr3/X+rtnFIw2lsBOt7iMLuHZ1tO3l7gUFthuDhXImF
+	4aMwYUTL8ytyS/hgkksP0/kVvoHAMkxSxMZX/Ejvsv8l1Ti+FpP5hXmSoG7wuGeE7HMG9aNXVBb
+	I8yd7DW4oR6s4VxYeSrQo1H6RgidIS1s4yMzUVHTnigcfPDOJ6IOLYytbsW8Qc0oLdQVtw==
+X-Received: by 2002:a17:903:1787:b0:234:9374:cfae with SMTP id d9443c01a7336-23528ef5e4amr263371315ad.19.1748941559872;
+        Tue, 03 Jun 2025 02:05:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH43qHpeF9M3nXB838OHaxee4EJLTnaL3rTc6DrjrHyUUCJy0UJLGrjFgiWIWbpdhKwpiwebA==
+X-Received: by 2002:a17:903:1787:b0:234:9374:cfae with SMTP id d9443c01a7336-23528ef5e4amr263371025ad.19.1748941559493;
+        Tue, 03 Jun 2025 02:05:59 -0700 (PDT)
+Received: from hu-qianyu-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd92f8sm83215375ad.88.2025.06.03.02.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 02:05:59 -0700 (PDT)
+From: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Date: Tue, 03 Jun 2025 02:05:44 -0700
+Subject: [PATCH v2] mhi: host: Add standard elf image download
+ functionality
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 28 May 2025 17:59:50.0142 (UTC) FILETIME=[4E6299E0:01DBCFFA]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001508:EE_|SA5PPF14728E2CA:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f9250af0-b40d-4da7-1fae-08dd9e117125
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?VaTEmLvfMdnrhA92RG0t//FpIfsMHtsDBZ1mU3fHe6+Gv1UCjlgoMr3XQ3Zp?=
- =?us-ascii?Q?u2xVRjBN4L65RawRalRrsGDtCtVBu6NrzLwHVn/SBBRpTtdUsVtBlLpguViU?=
- =?us-ascii?Q?kiCtetQcR4k+6zN8FRibUrTS15KN7xMqrn9BTXufaZfSqcTvL6a4f5E7Anhm?=
- =?us-ascii?Q?Bu5rYBHxCDoVlkI0rwpKI55WtkKPQ5nVA/OPNtU10uqmU5k4EW+a5QcjZDrI?=
- =?us-ascii?Q?bUycu/o1NQgxSHcXA9XYVjVeqQYerNuH1lRDchtNAPPUhFHajCP8Yokuh3Dq?=
- =?us-ascii?Q?kIP9vmOe+gg447d6tsfxDEHkChitkz9UiSyoRGCQbhCx5cBX9kir3iF9sANJ?=
- =?us-ascii?Q?Vjtq738SZOvIHjP1cU+an8+yHwleGBDGrAJjmN01ZfI0j6xPp835Uo51ujS+?=
- =?us-ascii?Q?FQJPIpz+kdE2u/N9WXLPU2/FR8JlB0RF+QAFQNSwv7JQVVeSAIuD77hpI4Zx?=
- =?us-ascii?Q?GqPI2bf5MaANxUD/SO7J6g8KGWIL6bPO3+Hxyr7Bpb7xLYOaFHDWGFMYF8Sd?=
- =?us-ascii?Q?iu5xFAEzO2vsBa8yHEjJDp4p3jjc+hai6+S8wYEzecAPSCRpWfZ/7sAF8euO?=
- =?us-ascii?Q?x9z/TitPfKZwks0jERQu3T8ONdHOkN18zZ3iZv4WL4nIPLkcNzUkcaPNy7zr?=
- =?us-ascii?Q?o9NC3RueXj24x7lw0akfC2KW5viFPLvKSogGcyH0bSdXngsZBncm7qGTbAiM?=
- =?us-ascii?Q?TECBQ3FW2TpsDKabcRdfOob3lLDjONSG+/U6bYgJGhyQCYMbWR4SpAQwoZr8?=
- =?us-ascii?Q?9Trb7U+Y49NXlqKa/Ds9hOedLXV6YB0MtF8D970tHwiUOdSlDfX7hOEz4bzD?=
- =?us-ascii?Q?VsiMRKKVwDgzSVf1392v/7hqfDzt/1kYC4RQvzs14anIpFElo0HNdxxY2YF5?=
- =?us-ascii?Q?VEP6iqFTuDrAefXTPsMEX5iL7DzIqJJ7hYXTXykXG1mvw6389eupiMqm7eIi?=
- =?us-ascii?Q?DlMYpHJVCIKNPcThCYZPc5jwxPdc9X1i5R0yg7Lr3cEHseS5FmvKfn0H6AmN?=
- =?us-ascii?Q?MtNMVdjLJ7nYmuoL2yXPa6iBsigppRSBZBJc8C0AFHm6Ka86syEgrc+maJdi?=
- =?us-ascii?Q?TXfH8pQnT5IW99cx9okLa/LKaqsCZ6w90N4WdtFPRIdqhudbJK9ilccuSSrU?=
- =?us-ascii?Q?nhaSi5xa4P2yLsy409pb8pg694zMgYTA7KZzhCLKpoNJLybfe5mWYgBmszyI?=
- =?us-ascii?Q?hah0AXDWh1LBXZG4ePMe9+LX7MxXSqDgM/1KdP9dNq3rSI+9KbQJB8zlxabc?=
- =?us-ascii?Q?peuxCCb9P8NehlwAt99mqI6nbf7cla3pWyZC3ZfD+1Mc+hlkbCWFZ6YS3uez?=
- =?us-ascii?Q?8hIMNdjuWL77iKw0E5z+bTPBShcr1qag3iP0ceV0R4l3lfEIV0X9hxs/dmxl?=
- =?us-ascii?Q?eL5STT1wfco953TRdz0JtYAovfmMEZoLWh1uz4OzCsELI60bARgw+XutuUdm?=
- =?us-ascii?Q?W2JFpqtfaeZHjMyFhgMBC0GJhJBKIho8pQNyRm4F0c3q1tQlWsd7e++HW7Kg?=
- =?us-ascii?Q?5uz2ei3E6iO4qvymGs4wLau3YKeBblUtWXd/XAp+vYSIPZd903rySgkp5Q?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:38.104.251.66;CTRY:CA;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CA07RELAY1.semtech.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(921020);DIR:OUT;SFP:1102;
-X-OriginatorOrg: semtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 17:59:50.5453
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9250af0-b40d-4da7-1fae-08dd9e117125
-X-MS-Exchange-CrossTenant-Id: b105310d-dc1a-4d6e-bf0d-b11c10c47b0f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=b105310d-dc1a-4d6e-bf0d-b11c10c47b0f;Ip=[38.104.251.66];Helo=[CA07RELAY1.semtech.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00001508.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF14728E2CA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAOe6PmgC/x3NQQ6CMBCF4auQrh1DKyJ15T2MaSbtAJNACy0YD
+ eHuVnbv2/xvE4kiUxL3YhOR3pw4+Ax1KoTt0XcE7LKFKtW1rMsLpAW9w+gMDa3hETsyQ0Bn0jp
+ NIS7gUKOydaUrKUWuTJFa/hwPz1d2G8MISx8Jj66sG63Lm2w0KNlUFUjoeIFE3gGNyAPMK1szM
+ /rv+vhv9vZswyj2/QeKeMgVvQAAAA==
+X-Change-ID: 20250603-standard_elf_image_load_support-da9a2c649411
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        jeff.hugo@oss.qualcomm.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_bqiang@quicinc.com,
+        can.guo@oss.qualcomm.com, Mayank Rana <mayank.rana@oss.qualcomm.com>,
+        Qiang Yu <qiang.yu@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748941558; l=3167;
+ i=qiang.yu@oss.qualcomm.com; s=20250513; h=from:subject:message-id;
+ bh=z/rZNOS6LYQellsLP6isZYxfUEFgjKzlMB6X/v9Z/Ck=;
+ b=imRxSsFqBjNS1t0JMKVAOiQENHjRfq7lUvuCtX4/D8wlTYXORDjeJd/xZ7uUwofbyfFHV2VAk
+ DuS6GJwvt0qBbEWvygUxhu1hFletJu8L212DP1DfmjdYFpVe7xplTW+
+X-Developer-Key: i=qiang.yu@oss.qualcomm.com; a=ed25519;
+ pk=Rr94t+fykoieF1ngg/bXxEfr5KoQxeXPtYxM8fBQTAI=
+X-Proofpoint-ORIG-GUID: qNvOg9NKr_z76QU4ELfhiokErvSYLcW-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDA3OSBTYWx0ZWRfXz3chkeOUIWn8
+ emlQIFHqJuDiKtz4MNE7+oJ7QJeaywL5u9yYDy9Va4NzlPjDRcFsxDuXyGNCLiD5bM9KrujEFNu
+ LMOWDAJQ30NnV18DHxirdmO8Qai+8HrCu7OoTgSZ/We5TjZeRFjJyjO9ECzew5fBxiA29TKtNvo
+ nau+LCC8XOoFtS2QijPV8kQJTbx5jWZO/YpSQDj3ftG9yLhkYpUSCp0IHS30kl88HZC+7od2UmZ
+ 1RdkKaziHBBh3CpZj3RqqzUW+N/P2A+SOejBxdNv0WuL74DhBX4G6mEY2i+1LKQwTU76ycnO0JH
+ Wk6Kz85hsdgY2c2Fd4EgZhYYeDzBRhU17OTV9ewLLnkW3sMDpTEucmMyZDrwO503tNlVuqvgkL/
+ KnzVQHFqnRb+714yD36t1drEXs4c8itFdD6VxiKW9UYAaGRMAzaeWS6IY8MOXjt5hKeKh5hc
+X-Authority-Analysis: v=2.4 cv=RdWQC0tv c=1 sm=1 tr=0 ts=683ebaf8 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=o8HkkU2S3lM798f_WwQA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: qNvOg9NKr_z76QU4ELfhiokErvSYLcW-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506030079
 
-Add MHI controller config for EM929x. It uses the same configuration
-as EM919x. Also set the MRU to 32768 to improve downlink throughput.
+From: Mayank Rana <mayank.rana@oss.qualcomm.com>
 
-02:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
-	Subsystem: Device 18d7:0301
+Currently, the FBC image is a non-standard ELF file that contains a single
+ELF header, followed by segments for SBL, RDDM, and AMSS. Some devices are
+unable to process this non-standard ELF format and therefore require
+special handling during image loading.
 
-Signed-off-by: Adam Xue <zxue@semtech.com>
+Add standard_elf_image flag to determine whether the device can process
+the non-standard ELF format. If this flag is set, a standard ELF image
+must be loaded, meaning the first 512 KB of the FBC image should be
+skipped when loading the AMSS image over the BHIe interface. Note that
+this flag does not affect the SBL image download process.
+
+Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
+Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
 ---
- drivers/bus/mhi/host/pci_generic.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes in v2:
+- V1 patch is paused because of no user. WLAN team plan to add support for
+  new WLAN chip that requires this patch, so send v2.
+- Change author and SOB with new mail address.
+- Reword commit message.
+- Place standard_elf_image flag after wake_set in struct mhi_controller
+- Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
+---
+ drivers/bus/mhi/host/boot.c | 7 +++++++
+ include/linux/mhi.h         | 4 ++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 03aa88795209..9bf8e7991745 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -695,6 +695,7 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
- 	.config = &modem_sierra_em919x_config,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
-+	.mru_default = 32768,
- 	.sideband_wake = false,
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index efa3b6dddf4d2f937535243bd8e8ed32109150a4..f1686a8e0681d49f778838820b44f4c845ddbd1f 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+ 	 * device transitioning into MHI READY state
+ 	 */
+ 	if (fw_load_type == MHI_FW_LOAD_FBC) {
++		dev_dbg(dev, "standard_elf_image:%s\n",
++			(mhi_cntrl->standard_elf_image ? "True" : "False"));
++		if (mhi_cntrl->standard_elf_image) {
++			fw_data += mhi_cntrl->sbl_size;
++			fw_sz -= mhi_cntrl->sbl_size;
++		}
++
+ 		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+ 		if (ret) {
+ 			release_firmware(firmware);
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index dd372b0123a6da5107b807ff8fe940c567eb2030..48f2b50038519111aed2075f01d0704adfc8989e 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -360,6 +360,9 @@ struct mhi_controller_config {
+  * @bounce_buf: Use of bounce buffer
+  * @fbc_download: MHI host needs to do complete image transfer (optional)
+  * @wake_set: Device wakeup set flag
++ * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
++ *                      image need to be skipped when loading AMSS image over
++ *                      BHIe interface (optional)
+  * @irq_flags: irq flags passed to request_irq (optional)
+  * @mru: the default MRU for the MHI device
+  *
+@@ -445,6 +448,7 @@ struct mhi_controller {
+ 	bool bounce_buf;
+ 	bool fbc_download;
+ 	bool wake_set;
++	bool standard_elf_image;
+ 	unsigned long irq_flags;
+ 	u32 mru;
  };
- 
-@@ -813,6 +814,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
- 		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
-+	/* EM929x (sdx65), use the same configuration as EM919x */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x18d7, 0x0301),
-+		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
- 	/* Telit FN980 hardware revision v1 */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
+
+---
+base-commit: 6348f62ef7ecc5855b710a7d4ea682425c38bb80
+change-id: 20250603-standard_elf_image_load_support-da9a2c649411
+
+Best regards,
 -- 
-2.45.2
+Qiang Yu <qiang.yu@oss.qualcomm.com>
 
-
-To view our privacy policy, including the types of personal information we collect, process and share, and the rights and options you have in this respect, see www.semtech.com/legal.
