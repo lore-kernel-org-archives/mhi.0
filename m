@@ -1,102 +1,84 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53B52AEF1;
-	Tue,  3 Jun 2025 09:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA7827703A
+	for <mhi@lists.linux.dev>; Thu,  5 Jun 2025 17:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748941869; cv=none; b=WYrBLREC2/S93u1lbHmqaqJ7ltUTjYiAtN6N7rgCPE9uZ7LWNfvv5h9/a8+SHLYyZ6VrqoiaDTaBfS2TFpHZ9Bq7ZdtrgIQj8hX3FZbMqP9BC7mIuQYCghhLMOr2okD3/jZX+uXgIcIRdXUXy/0Fj2MG27wdXrgOHptbjPUZihw=
+	t=1749143100; cv=none; b=FjT/uY9BMgex8BbagDFRLTdas3/7Q82hqMbAGEJBzWGFeTt95wfjmMa1+XRMcTD1/BG0BJdM5VqPggyPwJjYiy2JDXZcWgcyPQuecDv/VUTb0OJv0brMSoyigs7EOW7zeSXOB+OWq5ypbWpXqwIG3pzjF8jjvp0DNmTrJAdMTjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748941869; c=relaxed/simple;
-	bh=lANQleI3CvFAr2RrMeWzgj4sCI5X1EqHzIOz8o9N9OA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bP3K8Et82jhbFbaO7jF1LvOHI3fCIDVm5dY2nJt/EWnXRcmi0xk8i1ZJPAWr3Kwt7e1WtWv1AnTGjP7j4tV3qzxQgVAOI0D+Z/ClkTFx8iIgdMiV3WLCcPEqetMC6hkXJgOwHSlSqmaxDSAz9fNdPpBaKzOTgRdPP7dTQ7qI630=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=M9SHQhPC; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1749143100; c=relaxed/simple;
+	bh=+ztx+saxdpo8WjLXWjfvlFkWk9/y7B6T3vhKNHZol2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SswNaKtoe2TiaUacFiBIDpZYUvYrBmS/kRWRCv6Dzly7nG+IzY0ZcMpaxQRg1bNxKkvDOBRns5iaYZ8STpvzpG24vLH3Zg4yp1d0pu7ygm+DxmUHWN6z7eD0TnbThe/s3H/+Eg8kHBlmkZnEtNW+ZaqqtFHbzTdfwv/MtknsZXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PE1/VfjF; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="M9SHQhPC"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5533oLBx014438;
-	Tue, 3 Jun 2025 09:11:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7kZcndFGS+FvzQjwbPfh1+P14C7tF3TOnMwKKytysyE=; b=M9SHQhPCTVukfCtN
-	xTBYWoyXRu5pW/mQMdhmfa6IFQGWQyArrIQi69WTJSiDseezZBeTPvgV2hNJ1Gh0
-	JhEtNHzaqWJzKzZvdXXGQ0Mm8RwentTMFFmxGq6+yDNezAcQ0c1fRRYpgnmATY67
-	vlRceDGB0dn28/F1ki3BafscoY2i/38JKTAg4CWm/TDWsF6ykHh5Hl1d/G7F/L6v
-	c0big2gzkJPBiA863zTldgwBZNp5dVhAUvX/53XquGrYdexOjP5xmfPwdGYAkT9q
-	7cTjjKKM0gQdDhKFGc2xXqb8K11D6CALO++tXUXi+BorMrgmgeY2IcHbXxl3QFJB
-	ISNntQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471sfurtdp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Jun 2025 09:11:05 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5539B4Pp015492
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 3 Jun 2025 09:11:04 GMT
-Received: from [10.231.195.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Jun 2025
- 02:11:02 -0700
-Message-ID: <92d88f2e-00be-43be-ab97-5868eb778932@quicinc.com>
-Date: Tue, 3 Jun 2025 17:10:59 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PE1/VfjF"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-74264d1832eso1530576b3a.0
+        for <mhi@lists.linux.dev>; Thu, 05 Jun 2025 10:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749143098; x=1749747898; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SbbUkUUtWYP7VuElEDtlyDh5ofC9gH6hUBqQUj6UZLM=;
+        b=PE1/VfjFOvGUgbaEx6CtM0Mxgbrf9NYJ1svsATQHjjMepHd3h74fexyzigdYUKt2oJ
+         tnOwqupfuTWa5U05AN0+LIZy8nNWLzVf1vON/ExlMhv4TxRlM76ra1Tdu6VGkF5zbZhW
+         IVOJgDVLr5OD66hrRAnJW1WH5FJQV9iTu1LdlcARjAo3vG88hRpMRz4QQLJQvWvcpIUX
+         5af6ZM6HsCxHx6LzPDEpheSNvkIaz3IQHKEJOSDivsQreBqUP2rJbpYKg8h1NwDg7rFX
+         3U8hxAA3R0U2SRzoMKDJNZqqh2cfUbtWwxDtAaDWUOjb2DXoiaDS8XQ8irQf+MV06Wiz
+         kWNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749143098; x=1749747898;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SbbUkUUtWYP7VuElEDtlyDh5ofC9gH6hUBqQUj6UZLM=;
+        b=m7VKksGh1r4KpkQWgkNeFO+e0PLwzDqeGuCq7RcqhcKZ9+Xw5xDwQK+sp71soTBm/p
+         u4CJuGVqk4dXEn1fcliRHtRlUaDO9BegUsKWvV8a+csoTCETd0s0GSTTl/7dB9/8TNG0
+         HKKMRRu7poDTM3pvZRyCBMvxOs+tuEH1Edh2FP2gl0PlIzJ/cuMWoYRtAe1elbDnvn7/
+         NNWuGaWSA3ITby6uJedFef6emgrWGQctrX1PEds4PEAOlAchywC87G7gUpUa8tqJdyAa
+         AA/RwoODqwCuoV4Q5QbX4Fko4gqoZlnHz72Jnp+ZInwnB/0QMsS9e6uHEpwXLjkAa5kg
+         SdVw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4AoYVcXxmdrciI3pQD6Yi1/BwdeSm8+OaILBh08G8adnKQcuUj43HRoI49MTk5LcvvzY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8qOgxg19o/LxmUh9W+KaqxJPGyp8A28/Wrra5Ts+29zVBMgta
+	YmLc5rYqjE9M/Rrr7QU1SDi771imVPf4vfLDB1hYQcy5znbeev8t4eWORLX/efKb/Q==
+X-Gm-Gg: ASbGncv0hqCix/cbj5znhe/RAxbSu65wj5riwQkiOEw42ALz7dW69S07gIx8MYTW6W5
+	GkekyR8KbJlmmEK4OuHZzAdpywRnpUBYAMF+l9ERbj9NOMExSEO0p70+JkEfhSeKP/vHjKQNz4Y
+	4Ig/TGTNDqAVyHX6j+QxpCvuBuQfkF14NrEd+77jl0Tsf2jTbFlpHwfhgSwBguZBNpwKsuzhMip
+	2GUd4F8LELQgTrTY9Mepb2boViCBHyZa+cSrZsLPZMtQSHB9lkYYTY+OG+uaQFqkc+xcJQQBZGb
+	3xgZFCd5FFKuBi6qfgKfX5121g3laEagDhyHM832bYGZtITHfXZeqrckOXiF
+X-Google-Smtp-Source: AGHT+IGUk6E7tZs4jvxQ/2qMmPkdZRrWLxZE7gyBNwvHo8bKeonXU/fKOmrVEc9T6w5FAgWfrpOsnw==
+X-Received: by 2002:a05:6a00:2e24:b0:740:aa33:c6f8 with SMTP id d2e1a72fcca58-74827e73bb6mr648718b3a.7.1749143097742;
+        Thu, 05 Jun 2025 10:04:57 -0700 (PDT)
+Received: from thinkpad ([120.60.50.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afed4bafsm13054775b3a.79.2025.06.05.10.04.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 10:04:57 -0700 (PDT)
+Date: Thu, 5 Jun 2025 22:34:50 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Cc: jeff.hugo@oss.qualcomm.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, quic_bqiang@quicinc.com, 
+	can.guo@oss.qualcomm.com, Mayank Rana <mayank.rana@oss.qualcomm.com>
+Subject: Re: [PATCH v2] mhi: host: Add standard elf image download
+ functionality
+Message-ID: <sdhop6vyvt4y63tbbtorqfd5xa4ckbiwxdad5g6zzwlljqvd6q@eoaqmairdeey>
+References: <20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mhi: host: Add standard elf image download
- functionality
-To: Qiang Yu <qiang.yu@oss.qualcomm.com>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>,
-        <jeff.hugo@oss.qualcomm.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <can.guo@oss.qualcomm.com>,
-        Mayank Rana
-	<mayank.rana@oss.qualcomm.com>
-References: <20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com>
-Content-Language: en-US
-From: Baochen Qiang <quic_bqiang@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=CY8I5Krl c=1 sm=1 tr=0 ts=683ebc2a cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=yUlHghQYX284gOlzSqIA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: SpDUR-NDEUzw4fK3sqXomy396aeexNEV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDA3OSBTYWx0ZWRfX0QuCufzdCyVm
- iUIZLDC6SWHKd6Mu4s+KZbcxe/xIVXs/NMisHNngm5LIHRdDPFi/RXgNte+t1h+qHgja36zQOLw
- /iDxXeEouwpd6F5ODY69eDAOLeGOsR338DxOohrjm0K8c+LJiMZ8uV5IuqBM2eYnA4SvL/5BtrR
- fPQ+rIgVHgdVCMUC4PAiw6RWr6qZpsQVgAXEifb+bWoj7N04xcWqM3WnxuvAD/H3WSi1VWxKsZu
- bfs0Aja3rvvFoPEjn2CrtLX3slqHb0N2PnPI9E43IwVsuGjWzZFqXXVKvAebkbx1SohlgCPediQ
- hwT9G7tuva41vXR/oBuxpFgDtZl2iFzYwyUXEaX5X2r8rvlVLD6Our2v10z0UDUvBCxVvDBb8cb
- FVUkdGUgVZ/bqP4mLmR+VBGlLV/yUtP+iW8Y/U+M6/pfwPYKJ3j0F2+07nA4PP8Y2ZkvJOtI
-X-Proofpoint-GUID: SpDUR-NDEUzw4fK3sqXomy396aeexNEV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0
- phishscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506030079
 
-
-
-On 6/3/2025 5:05 PM, Qiang Yu wrote:
+On Tue, Jun 03, 2025 at 02:05:44AM -0700, Qiang Yu wrote:
 > From: Mayank Rana <mayank.rana@oss.qualcomm.com>
 > 
 > Currently, the FBC image is a non-standard ELF file that contains a single
@@ -104,10 +86,19 @@ On 6/3/2025 5:05 PM, Qiang Yu wrote:
 > unable to process this non-standard ELF format and therefore require
 > special handling during image loading.
 > 
+
+What are those "some devices"? Why are they not able to process this format
+which is used across the rest of the Qcom devices?
+
 > Add standard_elf_image flag to determine whether the device can process
 > the non-standard ELF format. If this flag is set, a standard ELF image
 > must be loaded, meaning the first 512 KB of the FBC image should be
-> skipped when loading the AMSS image over the BHIe interface. Note that
+> skipped when loading the AMSS image over the BHIe interface.
+
+Please explain what is present in the first 512KiB and why skipping that is
+required.
+
+> Note that
 > this flag does not affect the SBL image download process.
 > 
 > Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
@@ -136,42 +127,17 @@ On 6/3/2025 5:05 PM, Qiang Yu wrote:
 >  	if (fw_load_type == MHI_FW_LOAD_FBC) {
 > +		dev_dbg(dev, "standard_elf_image:%s\n",
 > +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
+
+This print is just a noise even for debug.
+
 > +		if (mhi_cntrl->standard_elf_image) {
 > +			fw_data += mhi_cntrl->sbl_size;
 > +			fw_sz -= mhi_cntrl->sbl_size;
-> +		}
-> +
->  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
->  		if (ret) {
->  			release_firmware(firmware);
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index dd372b0123a6da5107b807ff8fe940c567eb2030..48f2b50038519111aed2075f01d0704adfc8989e 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -360,6 +360,9 @@ struct mhi_controller_config {
->   * @bounce_buf: Use of bounce buffer
->   * @fbc_download: MHI host needs to do complete image transfer (optional)
->   * @wake_set: Device wakeup set flag
-> + * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
-> + *                      image need to be skipped when loading AMSS image over
-> + *                      BHIe interface (optional)
->   * @irq_flags: irq flags passed to request_irq (optional)
->   * @mru: the default MRU for the MHI device
->   *
-> @@ -445,6 +448,7 @@ struct mhi_controller {
->  	bool bounce_buf;
->  	bool fbc_download;
->  	bool wake_set;
-> +	bool standard_elf_image;
->  	unsigned long irq_flags;
->  	u32 mru;
->  };
-> 
-> ---
-> base-commit: 6348f62ef7ecc5855b710a7d4ea682425c38bb80
-> change-id: 20250603-standard_elf_image_load_support-da9a2c649411
-> 
-> Best regards,
 
-Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
+Is it possible to detect the image type during runtime instead of using a flag?
+Also, the flag is currently unused. So it should come along an user.
 
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
