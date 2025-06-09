@@ -1,74 +1,73 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA2325B692
-	for <mhi@lists.linux.dev>; Mon,  9 Jun 2025 10:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7203925C701
+	for <mhi@lists.linux.dev>; Mon,  9 Jun 2025 10:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749466349; cv=none; b=EgW8ImKd0nMR/bcWb6Vq1WwAQcL0XD0EaGhJY5wZihV3/qivIeDyDjNmCONbUSrY9dKDoOh5q+bSk4dLJWKEm7qe6D+Lbm5NfzPBeL+ufcjtbjKT1Pe0C75vhqSNaig432L/2YxEKNduRMFNPjrnXUE7wb94qzBBsT4n8BtjT8U=
+	t=1749466354; cv=none; b=la7zALGH1qus31TZF0QW8MoDHLbpHnEk/Htp+ckQD1DvBLp50BnDjRQ4gU6/sE6D+ar699HZVy9j+zgDHCJfhvHwGpAJeygTcxO4agybxQOIa9N6vpWQKUZVTdEo7qdiNnOWFfxcmw0xd3Vb0Y4V70UX3wTyNjfBDP886i3xa0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749466349; c=relaxed/simple;
-	bh=mQP/2kjW43Zd9RccVZlz6IzdDvgPGrMPigpQllInEwU=;
+	s=arc-20240116; t=1749466354; c=relaxed/simple;
+	bh=3MJFNTnmCvNNxzu47ggz59THY99XF+Lv2H8IXU9t+XE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mwe/V1Hlmp/9P4DLFN3Nho72yc4HI3ppCZT8l9X++TphNWPC2BAJ9da2bCaFsAkrZylPKN8a2n9FkWRWZ0CDJOqolsMN2yv6/EH4Krn6L91rBZ9pBPuXkeGtIR0rykQOFgg862qp+Hnrm1Zlehsa0UkGwcCJZ/rK9FMS/EahET0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=G+hFA0Ck; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=VZ5cpA28nrKhbHVZetbq9wDRA4pyE6+69Gezj5FTRDZ+RHegkpPIsexDfuhrcJTrK75M0SqeiE3YwMKtAAhI9f5FZkhB9NHZ2W8YLx3zJysxvbkOdojHZDYY5e1DhGoTRFaVuH8PuBbHTDQIZAVEd7m4qlAOrb74wfUdIuxDSzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kQMf5LCt; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="G+hFA0Ck"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5599Li72019082
-	for <mhi@lists.linux.dev>; Mon, 9 Jun 2025 10:52:25 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kQMf5LCt"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5599VVtL015275
+	for <mhi@lists.linux.dev>; Mon, 9 Jun 2025 10:52:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	o92yNqD2Tgr7h+9utlt9yCYodwnleBQ6N8D29Rin1hw=; b=G+hFA0CkvxUJr/zi
-	wSnDhjrRSzOgEA3bsEZp+cI8PQ7UAGoyyTmMjoFSarFBvdoHrr52XFEtW4j5szvz
-	lIB8e2g58yJhls5rgb2DBkx5TP16rqjHSJGV8P4mXMi+W0VM409Y3o6lqoMT94Au
-	Qa424WPhuK0+xC1a7GFrvVD+uxbDKEte+e+XOr5BexHbCRMXoeiHGZA9vDbosdJE
-	GhfMLAW18ZMkj65OnldQXYBoun4jsrck+jZ6yDcS0/dPSChwXgZGK6jzwzPJAglb
-	ajAk8mHfDDzNGpQqP2k0rmqrSlitkXpdhateK/4t5J3/FbfH6g/LDszHPpovFJg0
-	CT/XYA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ekpnfw6-1
+	pUF8yzByRJf1RQQuiOGLMtV8Nk65na+X12bzWOfrOVE=; b=kQMf5LCtCgY4wnD1
+	QxDHGnv2KsCBR2Ov2/TV3t1GnebESF9jap9tux3aahchAUgyKtR4fGVlOPPLF8iW
+	8DNchwlqVyXuiJ/1HjQkGm15Al1Upuw51nF3c4RNivHiYOcx5YOhTEi5ELjj6ioc
+	US7vAFeUaA5ccDjGdtQdjHxpPZeFZWx8jcLzktqKVF5/69jP61olPPfSNTkSQfZB
+	BroEWChvtE+e1cUIz4cARTSogfkioGkXnRNjiD9qobioOkZWs1pTAKu8lJEm6B39
+	g6xVGRbtMEZFIXsON69f2XPVTrfARbnDy7s02wma26pnDDkmp3eMkCfwWqOBO/+T
+	evR8JA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474d11wxqt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Mon, 09 Jun 2025 10:52:25 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b2c00e965d0so2478587a12.2
-        for <mhi@lists.linux.dev>; Mon, 09 Jun 2025 03:52:25 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Mon, 09 Jun 2025 10:52:31 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-23228c09e14so63005025ad.1
+        for <mhi@lists.linux.dev>; Mon, 09 Jun 2025 03:52:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749466344; x=1750071144;
+        d=1e100.net; s=20230601; t=1749466350; x=1750071150;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o92yNqD2Tgr7h+9utlt9yCYodwnleBQ6N8D29Rin1hw=;
-        b=QyaSTMJ1F5YRWYx6T2K8uwbZkLr0bOcMlo3JlfXqpYi02Vm+UatTHuZF5el1wa6oxD
-         TQ16x2nDlL9gTZWBK9oEVXTUcjc5PMIcaS3fzbQ0zLAIy3+OWmHRJ1R27PsjjnnkqSlL
-         rBGI8Uvkd1lOfoPsyqYPPuhHWXUNPTMhWOTGZp1giQpOOprWbb4/e16Yv+iK+81yhxgK
-         BWJkvL2fytIzkusXErQcPh/gUsc5yQfFGOgVy11eHu6kF4QMIFYB+Xr1ZEBg7Pac+KKN
-         D5yh4JC5UnTh03M9zRtpwsvl0+eJ8GzMWfL8YuNLP/dYA2vYik3PbDYVI7cqHOMRm8wq
-         gEGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPvd6ii6yp33yLaSfTby0BiCH8N4sEQsFA4nSdQxzxynp74HTG0rOhDrgZ1qutPwBqSAs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiKLM8Op1mfyRz7nSKKfBSWOXwrVaqm2IcG/4MsAFymYkslGG2
-	Xmi+q7v+ZblXcMQGyw527NTfzK2PrRgmrxjAa/5PskaF1QoMc0iXNR4tLz5HXVubj8+MtxT9qcw
-	ld7s1DgK/06LMkAj67IjKsnT3avgqb/OR1/iGlxZVl6FWDPC3jgGfTdc=
-X-Gm-Gg: ASbGncsgKyrIfbSL3rNeKdRezw0ae2s38sUxnKw1rFWhIGBAmy2n2G2NRI2wyZejpDk
-	B+ldXTYVFrno7iffuY0cPBjvvX6whh3ijwZntcz5SvHgl/xyuH00vjUC4svUqsQjEeNLRw3wpFT
-	V0g1632opPK58jBSqbfW35bN+03c014xd2XQsGN7GBm4iQAw33sBc8B2uAD2l/kYb9K445hpD3D
-	Licnj/Nz5Ur39bfRqLAmXrtqym49S9oyJKfWD3WpoUcxf4/A0LkSq7irP/dBX58aMQOPr876pBw
-	2yZOd4Wka69khg+j9HQSzJbX+pnF3LMJqyPxPV3Ne1D7xHQ=
-X-Received: by 2002:a17:902:f54c:b0:234:9066:c857 with SMTP id d9443c01a7336-23601e50d77mr159860255ad.21.1749466344246;
-        Mon, 09 Jun 2025 03:52:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFqOZ0LBqhpHW4dTHxE+6rU0ZPQzQW2xA5UNp/TIVNcBbhnWqqq67ylrTPdwc7ULZzKPDUew==
-X-Received: by 2002:a17:902:f54c:b0:234:9066:c857 with SMTP id d9443c01a7336-23601e50d77mr159860025ad.21.1749466343879;
-        Mon, 09 Jun 2025 03:52:23 -0700 (PDT)
+        bh=pUF8yzByRJf1RQQuiOGLMtV8Nk65na+X12bzWOfrOVE=;
+        b=TmA1ny7gsEJHswfv5uQIKfjbWvhKN++JaUjBZfWA3301ohObxe/aaE3oa3dPMG8zf9
+         eY68RMv1jl5yAStSut3l5OHbNeBq0XpWf8oCfO2+yfn6+ByrcOEDfaJoYpOktIP3cnvR
+         2r1r2mh7r1HouuFH1epDBiCR48VBTgjZENOqYQofTHPq17Te05idAiLat/q4VaBxc+ZZ
+         lubr8zR9GQBELtsDgCKxkmxyjQP40cC5rHF4obeC8WTg6p79xqCgXzlivfa55L0rtNXZ
+         waG5hdbh5KfgYek9pfQdYhYAaiP9eQO3DQmYsBTgOkx4uznqPJtTAqhl26zb7Y284syM
+         UZFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzI3SXdO1NK0+CLghUtmqWhq9kcfS8JPq77hme4t1vRFcX8awlO7opoVEmvUtSQyIDx0A=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyToCTHDDm9wLe3W4pA7eu4WAMEIr5Zf3M6s1ZbcQ8tbnttUnOL
+	xpTTXDKdJ4a5N2H9Y7WVWIhmwy8DmtBhMFiYUKRcMZzbFNdr6xvdFTg9iSV+12w2UetF4l+NzNO
+	d6FqdUVt30GJwWbLIhfO4XkVWIQRnzVj5iI9HLnDNEFv/VMxZCFuxKEI=
+X-Gm-Gg: ASbGnctvwFQ/STkYv4/KBbpzxWJ5pE47SiC/EkOirihveV1eokXweiCo97/1qJo5iYq
+	+lElZqu2VufgzRS+Q6mOkeVgxJFCYmLjw2zuTwMWp+SiHFjclEM7XgEVeSrepSOqcRasfd2Ndqp
+	X0rEFi/Ckl7sgF+klaU/3Na9QjdWMP/cj+ksXGTSrpaS8AR6yflhD4EXm7ROL29J5imA7N/jiIx
+	L9D86bS6lmD2chuHMr4diGzpC13ZXDiof997c2l5wJspRwn+stfmkAOxnGE5QMcrkvLNX9Lup5j
+	WJmRJ73AmHgGRt6IUi4CvjEH1ZvUxwq+neEAxjAgukCE8qc=
+X-Received: by 2002:a17:902:d4cb:b0:231:c792:205 with SMTP id d9443c01a7336-23601cef4c6mr188219115ad.4.1749466350031;
+        Mon, 09 Jun 2025 03:52:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEbCDUCeQUKgzoGTBiAoX5HLibQ9U2gBaucDdLb/rI9EiBZTximeF45g4cVpAaAruBmWLb8Fg==
+X-Received: by 2002:a17:902:d4cb:b0:231:c792:205 with SMTP id d9443c01a7336-23601cef4c6mr188218635ad.4.1749466349659;
+        Mon, 09 Jun 2025 03:52:29 -0700 (PDT)
 Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603092f44sm51836465ad.63.2025.06.09.03.52.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603092f44sm51836465ad.63.2025.06.09.03.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 03:52:23 -0700 (PDT)
+        Mon, 09 Jun 2025 03:52:29 -0700 (PDT)
 From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Date: Mon, 09 Jun 2025 16:21:29 +0530
-Subject: [PATCH v4 08/11] PCI: qcom: Add support for PCIe
- pre/post_link_speed_change()
+Date: Mon, 09 Jun 2025 16:21:30 +0530
+Subject: [PATCH v4 09/11] PCI: Export pci_set_target_speed()
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -76,8 +75,8 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250609-mhi_bw_up-v4-8-3faa8fe92b05@qti.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250609-mhi_bw_up-v4-9-3faa8fe92b05@qti.qualcomm.com>
 References: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com>
 In-Reply-To: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com>
 To: Bjorn Helgaas <bhelgaas@google.com>,
@@ -98,145 +97,58 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
         Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
         Jeff Johnson <jeff.johnson@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749466291; l=4037;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749466291; l=790;
  i=krichai@qti.qualcomm.com; s=20230907; h=from:subject:message-id;
- bh=mQP/2kjW43Zd9RccVZlz6IzdDvgPGrMPigpQllInEwU=;
- b=NU7mc78Y5DDzuXdX5+Bk8k6qlUSb4HRMRU9Cz98SQ5kXfngX5ckDgsx9jlTQpzKPe1SyhbpP1
- 1B/b+g8nppgATx055WOYhDiMM9kQWBER9f7ygNyW0F/wiOdkazNdjrH
+ bh=3MJFNTnmCvNNxzu47ggz59THY99XF+Lv2H8IXU9t+XE=;
+ b=/R2j/FvpgVZbKkZ9tHBBRAwTesasN8RhM+TPye32z0glIhUL4IAq4QqKy/A+LYtuKn0+9WKlU
+ lekp4bMiZL0AmW9qZ4+HATjTgAYe2/X/37ni6hGW33aJa4Z1+D8rYN3
 X-Developer-Key: i=krichai@qti.qualcomm.com; a=ed25519;
  pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Authority-Analysis: v=2.4 cv=JcO8rVKV c=1 sm=1 tr=0 ts=6846bce9 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=h4B-02p0z56_JbXvspoA:9
- a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDA4MiBTYWx0ZWRfXw9IIWFuBY835
- R0Kr7ukq7wX0UmB3lXH9Ho0UxLYkJNYhq/ZlTGTOe4SsSlSQTyeV0keT98ZhsuhkAhqG8e27gUj
- vSUgQ8h3Sg1jaG6OkYoYQGORmPpGUWERVpwlR5kW1XT1BK8XDacdnI2nsp5QVn8CsimpvywqnO2
- I/2SnJtbtKPY64qaNKQ0Cu/JO59kLICgpaS33xs9cj/aJTCsWmXRAzO8Ch7TH/CuBNnGJHOw/Fi
- GOcPP3iPP+5ExdIK+jgQjtYnVceN0QxhbHir4k8ON3sFATRZasQc24E7mz9VIgTDzEAXZ5asIvt
- xctwYnWsPTFG3OkSkxrGeW1uoaRUjoczpByi7Lj2bKb1+UiEPg+gPi1zqQr2kgZAFX+6jS1UwrB
- +GtiIkb8CEU4vK3Pno9m9cLuThDx4/O3GEM8kt2Ol5rSvtW6IWXxyxrLQdJSC/AojsLRtTM4
-X-Proofpoint-GUID: 9DscvRnDbu0QnS830Je_BL24ZInxtsMK
-X-Proofpoint-ORIG-GUID: 9DscvRnDbu0QnS830Je_BL24ZInxtsMK
+X-Proofpoint-GUID: -BPy4D1mxKf2E0VKNvtaVAhANfuJjkOO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDA4MiBTYWx0ZWRfX+TDaA0rajfRV
+ QpjXcscv8yfzcyn6u6iFHEXc6NDPGP0RSmMJc9On65zxttwzNC63eKdfGfRctqs3H7Wx7zeMD2o
+ LB8M+8kbZooTkHMps+l7fUN6aNCY1AzAQmEtqDgLkp3ODWtn3/cHdP6cxIvU1N5xb7aNw4fs10m
+ fTQRvs1fpE07B64vV6SH2CU+v1HtJAsfrWhQhLTfYPyA5tlbAJSTX5e2lBlYEUarbAq9US2bb+5
+ q/voTLTylmA7w7WJTFGtrP707WeSIPr5PlCtmayP7Uky0t0QkfNeKH9XKCjkAoB1ShpB/1+1W4Q
+ +gmdOU9w+Wv1HRb2QZ2ptZVKUnUORX+7vzjJTKHQhRJXg1O/9Qy4GoqubdoCq97GXmivmPw84PY
+ jKgEKuib4ORc77kyDPvMiB35axPPoAqMYNdBU2++kM0vAybko9sTE8sqLSlvkLDtY5cf0pLm
+X-Authority-Analysis: v=2.4 cv=GYkXnRXL c=1 sm=1 tr=0 ts=6846bcef cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8
+ a=5E3R6_0bZ0f_H1kkCjQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: -BPy4D1mxKf2E0VKNvtaVAhANfuJjkOO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-09_04,2025-06-05_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2505280000 definitions=main-2506090082
 
-QCOM PCIe controllers need to disable ASPM before initiating link
-re-train. So as part of pre_link_speed_change() disable ASPM and as
-part of post_link_speed_change() enable ASPM back.
-
-As the driver needs to enable the ASPM states that are enabled
-by the system, save PCI ASPM states before disabling them and
-in post_link_speed_change() use the saved ASPM states to enable
-back the ASPM.
-
-Update ICC & OPP votes based on the requested speed so that RPMh votes
-get updated based on the speed.
+Export pci_set_target_speed() so that other kernel drivers can use it
+to change the PCIe data rate.
 
 Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Acked-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/pci/controller/dwc/pcie-qcom.c | 63 ++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ drivers/pci/pcie/bwctrl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index 02643579707f45fc7279023feb7dbc903e69822d..c4aa193bbdcc928603ae50e8d7029b152d62f977 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -276,10 +276,16 @@ struct qcom_pcie {
- 	struct dentry *debugfs;
- 	bool suspended;
- 	bool use_pm_opp;
-+	int aspm_state; /* Store ASPM state used in pre & post link speed change */
- };
+diff --git a/drivers/pci/pcie/bwctrl.c b/drivers/pci/pcie/bwctrl.c
+index dafb8d4f1cfba987e1ff08edfc7caba527f0c76b..b388e02c37ab2815b562108b24b9e98811053d62 100644
+--- a/drivers/pci/pcie/bwctrl.c
++++ b/drivers/pci/pcie/bwctrl.c
+@@ -193,6 +193,7 @@ int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
  
- #define to_qcom_pcie(x)		dev_get_drvdata((x)->dev)
- 
-+static void qcom_pcie_post_link_speed_change(struct pci_host_bridge *bridge,
-+					     struct pci_dev *pdev, int current_speed);
-+static int qcom_pcie_pre_link_speed_change(struct pci_host_bridge *bridge,
-+					   struct pci_dev *pdev, int current_speed);
-+
- static void qcom_ep_reset_assert(struct qcom_pcie *pcie)
- {
- 	gpiod_set_value_cansleep(pcie->reset, 1);
-@@ -1263,6 +1269,8 @@ static int qcom_pcie_host_init(struct dw_pcie_rp *pp)
- 			goto err_assert_reset;
- 	}
- 
-+	pp->bridge->pre_link_speed_change = qcom_pcie_pre_link_speed_change;
-+	pp->bridge->post_link_speed_change = qcom_pcie_post_link_speed_change;
- 	return 0;
- 
- err_assert_reset:
-@@ -1328,6 +1336,61 @@ static int qcom_pcie_set_icc_opp(struct qcom_pcie *pcie, int speed, int width)
  	return ret;
  }
++EXPORT_SYMBOL_GPL(pcie_set_target_speed);
  
-+static int qcom_pcie_scale_bw(struct dw_pcie_rp *pp, int speed)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct qcom_pcie *pcie = to_qcom_pcie(pci);
-+	u32 offset, status, width;
-+
-+	offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-+	status = readw(pci->dbi_base + offset + PCI_EXP_LNKSTA);
-+
-+	width = FIELD_GET(PCI_EXP_LNKSTA_NLW, status);
-+
-+	return qcom_pcie_set_icc_opp(pcie, speed, width);
-+}
-+
-+static void qcom_pcie_post_link_speed_change(struct pci_host_bridge *bridge,
-+					     struct pci_dev *pdev, int current_speed)
-+{
-+	struct dw_pcie_rp *pp = bridge->bus->sysdata;
-+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct qcom_pcie *pcie = to_qcom_pcie(pci);
-+	struct pci_dev *child;
-+
-+	/* Get function 0 of downstream device */
-+	list_for_each_entry(child, &pdev->subordinate->devices, bus_list)
-+		if (PCI_FUNC(child->devfn) == 0)
-+			break;
-+
-+	pci_enable_link_state_locked(child, pcie->aspm_state);
-+
-+	qcom_pcie_scale_bw(pp, current_speed);
-+}
-+
-+static int qcom_pcie_pre_link_speed_change(struct pci_host_bridge *bridge,
-+					   struct pci_dev *pdev, int target_speed)
-+{
-+	struct dw_pcie_rp *pp = bridge->bus->sysdata;
-+	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-+	struct qcom_pcie *pcie = to_qcom_pcie(pci);
-+	struct pci_dev *child;
-+
-+	/* Get function 0 of downstream device */
-+	list_for_each_entry(child, &pdev->subordinate->devices, bus_list)
-+		if (PCI_FUNC(child->devfn) == 0)
-+			break;
-+	/*
-+	 * QCOM controllers doesn't support link re-train with ASPM enabled.
-+	 * Disable ASPM as part of pre_link_speed_change() and enable them
-+	 * back as part of post_link_speed_change().
-+	 */
-+	pcie->aspm_state = pcie_aspm_enabled(child);
-+	pci_disable_link_state_locked(child, PCIE_LINK_STATE_ALL);
-+
-+	return qcom_pcie_scale_bw(pp, target_speed);
-+}
-+
- static const struct dw_pcie_host_ops qcom_pcie_dw_ops = {
- 	.init		= qcom_pcie_host_init,
- 	.deinit		= qcom_pcie_host_deinit,
+ static void pcie_bwnotif_enable(struct pcie_device *srv)
+ {
 
 -- 
 2.34.1
