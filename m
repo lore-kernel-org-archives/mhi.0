@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E811628BAAD;
-	Tue, 17 Jun 2025 09:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D717293C68;
+	Tue, 17 Jun 2025 09:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750152191; cv=none; b=mq9CGM7pSkoiBVYJl76kwTU7aZUsuTxrhlAmrDjKRcMdU+2ivvOTHG99uAx6CdX6et3NxkfpDyVEY1UQeqh30whCG/50YFKn6rgHkpSE9pRgYSnf6xXVdp+3OlkhvJg/PexSzaRPLXM/4sV5AXHsWSLQwDxQMT+b/gotYlEuJWU=
+	t=1750152440; cv=none; b=D/uRH0mtKionms8SBYt6EsnJS4ZjPvamVTpV5oiW/eZ0qu0SOu/c3Xwo1u1yi/Z1JnkiEMD2uv1RuJKPzthkSRRGbX143Umk/1B9I/cUhqm48zV3VW23ijRt8LQzmSgY2LBIvtT1MXQEGByueQzQXVx7pQDgp5E8N++GfvdWUWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750152191; c=relaxed/simple;
-	bh=iwobDMTP14MT073l3r6w7NaFeAJNSNdSdh8lG+b6y/A=;
+	s=arc-20240116; t=1750152440; c=relaxed/simple;
+	bh=/j9qw9CPeikjZGsZN2keC06a14oGdbXh/cFa9quarCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jm3b/4V5J3MopGMPUVVaiLAa1MlIt2I6IT1Td1uOMtwyn9KXVYhpCK2rklR0rK6SbQNIxKiAjQ3q7jFKLeqTVIsTAF0Hfzk9k8t/rQ8dAmuaB+DJVwV5PJPe22nUWk5YjXmnwnDcniXP6lIBrHXTFbuWIk9NjfGvwzuwSu1ZZw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgIkpeNn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HM9T5pPU17Tne/oeIIoK2mVuj0FJfLcyZu9bgBnbcH07qECDIqGyPKewueGN6yLvwUu24Wp0jYgpYb8xGufg/lya+v0C2TZAdznFESUnIr3dwXcmv9dTEJaYuekmDOKFvBgrMYx5+Qqext3qrDteS7Gv8ZqF7nZpvgVbaQZdN6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME6cL/4G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgIkpeNn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F11C4CEE3;
-	Tue, 17 Jun 2025 09:23:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME6cL/4G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81322C4CEED;
+	Tue, 17 Jun 2025 09:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750152190;
-	bh=iwobDMTP14MT073l3r6w7NaFeAJNSNdSdh8lG+b6y/A=;
+	s=k20201202; t=1750152440;
+	bh=/j9qw9CPeikjZGsZN2keC06a14oGdbXh/cFa9quarCc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZgIkpeNnH6xif35u9hjFGmrKr/R6QiO7gCZyEi5o+T21JgzCvV6OD5yklhI/xVQmj
-	 OW9JVwJLKlnCylolzqkxN+bWpNhoih0rElvqdm9vGjMIRzOlbskF6Ux1FnYC17gKy4
-	 lRzURBmcj21abZR7RIaaNpLEJ5uguFupgume38DoyZwmTwhmgKaVG41jAvTt3jryEv
-	 PL8eddYgBDnozEUoNdSBhAG44EeCxC+eR8h4kh6U8NpcUorZJDwcIu16FZpZQBhssK
-	 nrQgOyX7dcrdO+1gu1OysPNCD/cquwIjPcy49QGKhGgnV/VY9TbFwR2yCHXOYts4Fj
-	 U+uYY9e7XLwTg==
-Date: Tue, 17 Jun 2025 14:53:02 +0530
+	b=ME6cL/4GMsQtRnijbudm4iGh8KzyGl0NTc/VXArUH+mvjy1T33nog+OwCG93otWrk
+	 DYBqmNHjytCJwzC1Xulz/YxqBh3EEFJzrvjJK3x/yE8eW1EPJ950sePx54GQ2mSIAV
+	 2QHhLS4V/c03f1RRao2qOVdiYcN9bd5x9s8zwqEvHwNBgN5TCSnIJu92m5kaCpb9pa
+	 EbquN/L70dtcGp22NxwgtLWVHcAMDBWiCr5ZYbp7apLQPT6Jt1VGgSfD8WSqbf/uTZ
+	 VTLmdopIHDu0ib2z/YRTyxBRqvQIJhmVLvA9KLh3ZCv5j6kVsw/KaT2+r1GDl4Men8
+	 988a/p9L4qQ3g==
+Date: Tue, 17 Jun 2025 14:57:11 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Baochen Qiang <quic_bqiang@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Qiang Yu <qiang.yu@oss.qualcomm.com>, jeff.hugo@oss.qualcomm.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, can.guo@oss.qualcomm.com, 
-	Mayank Rana <mayank.rana@oss.qualcomm.com>
-Subject: Re: [PATCH v2] mhi: host: Add standard elf image download
- functionality
-Message-ID: <q3uxu5cki7c3nkv65kozibiz7ofjcm3clelog3oaqcya32kph4@ntvsqbshmeuw>
-References: <20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com>
- <sdhop6vyvt4y63tbbtorqfd5xa4ckbiwxdad5g6zzwlljqvd6q@eoaqmairdeey>
- <9ab8e8f8-e176-44ab-b8e5-0c27e5eff30b@quicinc.com>
+To: Adam Xue <zxue@semtech.com>, Thomas Perrot <thomas.perrot@bootlin.com>, 
+	Aleksander Morgado <aleksander@aleksander.es>
+Cc: manivannan.sadhasivam@linaro.org, slark_xiao@163.com, 
+	johan+linaro@kernel.org, quic_vpernami@quicinc.com, tglx@linutronix.de, 
+	fabio.porcedda@gmail.com, quic_msarkar@quicinc.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, imocanu@semtech.com
+Subject: Re: [PATCH v1] bus: mhi: host: pci_generic: Add support for EM929x
+ and set MRU to 32768 for better performance.
+Message-ID: <gt6uyoohzyjlqsbb4wro7vjsyhgwpvca46ixmivo6ybvmejsc3@nc3syx4lk4t3>
+References: <20250528175943.12739-1-zxue@semtech.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -48,81 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ab8e8f8-e176-44ab-b8e5-0c27e5eff30b@quicinc.com>
+In-Reply-To: <20250528175943.12739-1-zxue@semtech.com>
 
-On Fri, Jun 06, 2025 at 09:58:06AM +0800, Baochen Qiang wrote:
-> 
-> 
-> On 6/6/2025 1:04 AM, Manivannan Sadhasivam wrote:
-> > On Tue, Jun 03, 2025 at 02:05:44AM -0700, Qiang Yu wrote:
-> >> From: Mayank Rana <mayank.rana@oss.qualcomm.com>
-> >>
-> >> Currently, the FBC image is a non-standard ELF file that contains a single
-> >> ELF header, followed by segments for SBL, RDDM, and AMSS. Some devices are
-> >> unable to process this non-standard ELF format and therefore require
-> >> special handling during image loading.
-> >>
-> > 
-> > What are those "some devices"? Why are they not able to process this format
-> > which is used across the rest of the Qcom devices?
-> > 
-> >> Add standard_elf_image flag to determine whether the device can process
-> >> the non-standard ELF format. If this flag is set, a standard ELF image
-> >> must be loaded, meaning the first 512 KB of the FBC image should be
-> >> skipped when loading the AMSS image over the BHIe interface.
-> > 
-> > Please explain what is present in the first 512KiB and why skipping that is
-> > required.
-> > 
-> >> Note that
-> >> this flag does not affect the SBL image download process.
-> >>
-> >> Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
-> >> Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
-> >> Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
-> >> ---
-> >> Changes in v2:
-> >> - V1 patch is paused because of no user. WLAN team plan to add support for
-> >>   new WLAN chip that requires this patch, so send v2.
-> >> - Change author and SOB with new mail address.
-> >> - Reword commit message.
-> >> - Place standard_elf_image flag after wake_set in struct mhi_controller
-> >> - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
-> >> ---
-> >>  drivers/bus/mhi/host/boot.c | 7 +++++++
-> >>  include/linux/mhi.h         | 4 ++++
-> >>  2 files changed, 11 insertions(+)
-> >>
-> >> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> >> index efa3b6dddf4d2f937535243bd8e8ed32109150a4..f1686a8e0681d49f778838820b44f4c845ddbd1f 100644
-> >> --- a/drivers/bus/mhi/host/boot.c
-> >> +++ b/drivers/bus/mhi/host/boot.c
-> >> @@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
-> >>  	 * device transitioning into MHI READY state
-> >>  	 */
-> >>  	if (fw_load_type == MHI_FW_LOAD_FBC) {
-> >> +		dev_dbg(dev, "standard_elf_image:%s\n",
-> >> +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
-> > 
-> > This print is just a noise even for debug.
-> > 
-> >> +		if (mhi_cntrl->standard_elf_image) {
-> >> +			fw_data += mhi_cntrl->sbl_size;
-> >> +			fw_sz -= mhi_cntrl->sbl_size;
-> > 
-> > Is it possible to detect the image type during runtime instead of using a flag?
-> > Also, the flag is currently unused. So it should come along an user.
-> 
-> The flag would be used when a new WLAN device getting upstream. So either we merge this
-> patch alone, or we get it grouped within the WLAN patches. Kindly share your thoughts?
+On Wed, May 28, 2025 at 10:59:43AM -0700, Adam Xue wrote:
+
++ Thomas and Aleksander (for EM919X related question)
+
+> Add MHI controller config for EM929x. It uses the same configuration
+> as EM919x. Also set the MRU to 32768 to improve downlink throughput.
 > 
 
-For the reason I mentioned in my previous reply, I don't think we should rely on
-the flag unless the WLAN device is shipped with *only* the new FW. If that is
-the case, then please send this patch when the ath driver support shows up. I
-do not want to merge a patch with an unused interface.
+This also affects the EM919X modem. So I want either Thomas or Aleksander to
+confirm that it doesn't cause any regression.
+
+Rest looks good to me.
 
 - Mani
+
+> 02:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device 0308
+> 	Subsystem: Device 18d7:0301
+> 
+> Signed-off-by: Adam Xue <zxue@semtech.com>
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 03aa88795209..9bf8e7991745 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -695,6 +695,7 @@ static const struct mhi_pci_dev_info mhi_sierra_em919x_info = {
+>  	.config = &modem_sierra_em919x_config,
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+> +	.mru_default = 32768,
+>  	.sideband_wake = false,
+>  };
+>  
+> @@ -813,6 +814,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+>  	/* EM919x (sdx55), use the same vid:pid as qcom-sdx55m */
+>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x18d7, 0x0200),
+>  		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+> +	/* EM929x (sdx65), use the same configuration as EM919x */
+> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x18d7, 0x0301),
+> +		.driver_data = (kernel_ulong_t) &mhi_sierra_em919x_info },
+>  	/* Telit FN980 hardware revision v1 */
+>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, 0x1C5D, 0x2000),
+>  		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
+> -- 
+> 2.45.2
+> 
+> 
+> To view our privacy policy, including the types of personal information we collect, process and share, and the rights and options you have in this respect, see www.semtech.com/legal.
 
 -- 
 மணிவண்ணன் சதாசிவம்
