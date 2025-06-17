@@ -1,121 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E152900B2;
-	Tue, 17 Jun 2025 10:24:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B21A2D9EFD;
+	Tue, 17 Jun 2025 10:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750155883; cv=none; b=igqlkLAdCLy181Ott/ft0+YV0efWZk+CNyR+/990lTlCPRHMMB4fffXGKxH1AaHwIn4yjGpSgKrYG7r9qXN2x7HsmPGODf6S3L3Duz5CHnHZkL7Oo19SB/brRX5xhw2D+8ydugabtkIPDqYTbN0Ty24mPBLh+lHmfkR/g1o/R90=
+	t=1750156754; cv=none; b=Bm/iYZJ2KB6TKtUpX6OF9fU7u2N54hzgFTKJBaPiqRL32k8WTenOKSDJtQ/5r5GjhalLeYX84fu87CIijQpcTdeUK/Dm+5/XRuBoV3QtBYXPPFn+8rpxmbeuSQ9pk1BUAfQ10JAyWN5V3QCp0h5uF98vIDLNrm4hgMFWrJESusc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750155883; c=relaxed/simple;
-	bh=7K33YhqlWQQm5yeTAGGAZaigxVHd0764FA4N6zCBFKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eY045haDjBdqIEzowx8m5YXyPkZkhQx5/jtU8EIU9trpaN4kseDJSvXroGN4NVso1aRSxr1SdUrlV2EsqCXoA/BJHBGPZg27Ss7+DywVzclHgFoVy545M5CunfWxJMQAhFJR4eCeYR/Ug4WzavElr81hoqiF4yLJNB6Lq/jwt9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKO38lZb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750156754; c=relaxed/simple;
+	bh=zfe8QtqZfAkq5Z9cBvdQsM5VqULg0+gYDZijw/m4oLs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mEsyg88iEIGKjF6XkBdAPqAV2dp6yNIr1SAYclV11yP9rtImVZXzw/7iFckWU9Y6F/tbE2xG2UNYLwsMtfgKKTzXdkZXGlJr0JHxmP3+rXMwq6+7VSMnxqfzox5j9IYv867PFJr9ffMFzb1cOlPSPYfidWbUkz7Aly0mRyyoZoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnMpDcRX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKO38lZb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476D8C4CEEE;
-	Tue, 17 Jun 2025 10:24:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnMpDcRX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F95C4CEED;
+	Tue, 17 Jun 2025 10:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750155882;
-	bh=7K33YhqlWQQm5yeTAGGAZaigxVHd0764FA4N6zCBFKk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TKO38lZbWfAVHFy8iWShlEAxBckrthInVy7csh7kOyniIMXkK3vE5zdt94Xx5RyA5
-	 BRqJHGU0PHCfJ8yhua9GBMIMMRJiWiimXY5CJP8JZ/3CsoHwjAqNxB0zipOPukBzT8
-	 VmkoFdHvjFQAHtQyh+WINeRy8MpTokHK0Ec+5HPG+l05EnFMEaTizyHE0NtpbPFgHj
-	 bsczATs8JrekVp+vJ73ZPdgxmNknRdq0ffY0wPzJyEJoQkUc7GCdCsJKNjVQ6xUE5g
-	 K0yHwnEJT7SbC09QWzXoszy+pUOUCEHsXvsPMCbLpuKiRhedkuMFMmJsvHAsCq79gq
-	 p83xGs9yPyJ6g==
-Date: Tue, 17 Jun 2025 15:54:35 +0530
+	s=k20201202; t=1750156754;
+	bh=zfe8QtqZfAkq5Z9cBvdQsM5VqULg0+gYDZijw/m4oLs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cnMpDcRX8fQkNX8Ae/Dejx4iFzjO5yabVZDZyVsI8OdUsG8niRSJOLo+Ny65JF9pe
+	 MmiXko8VmpRk84v6hQAo0FBIbYyBrakv5LveH9UsqYSO+KwbcgzZX1aDDcT03J0uVd
+	 xZMXQaEY+AImtJATZ1Sy3Mei0lEYUxFgInXaJx8/qal47m3ErbUdsRvCY5DNShrQ3q
+	 3wlXYdjDHyRpRDn2qKMYjxw5RaNwglPtFFbErHpx/bVxJfhJqu8lk90nmv1/w5KRum
+	 Db5FTu+Rdsi4tDB5EmbRMlFAiMvebJ+khc5A+fAH/G/oSV/DWWvorR48I0gEGOmr0+
+	 s8/dGV2lAbW2g==
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Youssef Samir <quic_yabdulra@quicinc.com>
-Cc: manivannan.sadhasivam@linaro.org, jeff.hugo@oss.qualcomm.com, 
-	quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: Detect events pointing to unexpected TREs
-Message-ID: <vpgqiiszye6azpn5muq64bxqg63cvizxpzj5cmspjynflzm3oe@2i55blw73j5x>
-References: <20250521163110.571893-1-quic_yabdulra@quicinc.com>
+To: Manivannan Sadhasivam <mani@kernel.org>, 
+ Alexander Wilhelm <alexander.wilhelm@westermo.com>
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, mhi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250519145837.958153-1-alexander.wilhelm@westermo.com>
+References: <20250519145837.958153-1-alexander.wilhelm@westermo.com>
+Subject: Re: [PATCH v4] bus: mhi: host: fix endianness of BHI vector table
+Message-Id: <175015675154.27093.16774093277776625388.b4-ty@kernel.org>
+Date: Tue, 17 Jun 2025 16:09:11 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250521163110.571893-1-quic_yabdulra@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Wed, May 21, 2025 at 06:31:10PM +0200, Youssef Samir wrote:
-> When a remote device sends a completion event to the host, it contains a
-> pointer to the consumed TRE. The host uses this pointer to process all of
-> the TREs between it and the host's local copy of the ring's read pointer.
-> This works when processing completion for chained transactions, but can
-> lead to nasty results if the device sends an event for a single-element
-> transaction with a read pointer that is multiple elements ahead of the
-> host's read pointer.
+
+On Mon, 19 May 2025 16:58:37 +0200, Alexander Wilhelm wrote:
+> On big endian platform like PowerPC the MHI bus does not start properly.
+> The following example shows the error messages by using qcn9274 wireless
+> radio module with ath12k driver:
 > 
-
-How can this happen? I cannot relate this with the scenario mentioned below.
-
-> For instance, if the host accesses an event ring while the device is
-> updating it, the pointer inside of the event might still point to an old
-> TRE.
-
-I cannot interpret this, sorry. The host is supposed to access the ring elements
-till the RP. Even if the device updates the RP while host is processing the TREs,
-it should not cause any issues for the host which only sees the used ring
-elements.
-
-Maybe I'm missing something?
-
-- Mani
-
-> If the host uses the channel's xfer_cb() to directly free the buffer
-> pointed to by the TRE, the buffer will be double-freed.
+>     ath12k_pci 0001:01:00.0: BAR 0: assigned [mem 0xc00000000-0xc001fffff 64bit]
+>     ath12k_pci 0001:01:00.0: MSI vectors: 1
+>     ath12k_pci 0001:01:00.0: Hardware name: qcn9274 hw2.0
+>     ath12k_pci 0001:01:00.0: failed to set mhi state: POWER_ON(2)
+>     ath12k_pci 0001:01:00.0: failed to start mhi: -110
+>     ath12k_pci 0001:01:00.0: failed to power up :-110
+>     ath12k_pci 0001:01:00.0: failed to create soc core: -110
+>     ath12k_pci 0001:01:00.0: failed to init core: -110
+>     ath12k_pci: probe of 0001:01:00.0 failed with error -110
 > 
-> Validate the pointer inside an event before processing it.
-> 
-> Fixes: 1d3173a3bae7 ("bus: mhi: core: Add support for processing events from client device")
-> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> 
-> ---
->  drivers/bus/mhi/host/main.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index aa8a0ef697c7..57dc9c5c0d84 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -602,7 +602,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
->  	{
->  		dma_addr_t ptr = MHI_TRE_GET_EV_PTR(event);
->  		struct mhi_ring_element *local_rp, *ev_tre;
-> -		void *dev_rp;
-> +		void *dev_rp, *next_rp;
->  		struct mhi_buf_info *buf_info;
->  		u16 xfer_len;
->  
-> @@ -621,6 +621,16 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
->  		result.dir = mhi_chan->dir;
->  
->  		local_rp = tre_ring->rp;
-> +
-> +		next_rp = local_rp + 1;
-> +		if (next_rp >= tre_ring->base + tre_ring->len)
-> +			next_rp = tre_ring->base;
-> +		if (dev_rp != next_rp && !MHI_TRE_DATA_GET_CHAIN(local_rp)) {
-> +			dev_err(&mhi_cntrl->mhi_dev->dev,
-> +				"Event element points to an unexpected tre\n");
-> +			break;
-> +		}
-> +
->  		while (local_rp != dev_rp) {
->  			buf_info = buf_ring->rp;
->  			/* If it's the last TRE, get length from the event */
-> -- 
-> 2.25.1
-> 
+> [...]
 
+Applied, thanks!
+
+[1/1] bus: mhi: host: fix endianness of BHI vector table
+      commit: 3010503f3e064d6145095cc6612456e4950ae618
+
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Manivannan Sadhasivam <mani@kernel.org>
+
