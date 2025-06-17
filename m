@@ -1,137 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AD02BEFF3;
-	Tue, 17 Jun 2025 06:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0071DE3DB;
+	Tue, 17 Jun 2025 07:29:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750142957; cv=none; b=cZL095vbHVgTVN2wxvcfliPR/ttOeUsRr3V3eD5HKpEWBdBEYQ0bCNX7+hdOsga2pJqjRrH+RVSvnnJ5w0tujGvxEskcYDWevxJG6cJwtm8vnfKFDytEpqFPIWAKpHoFGkRrHdHBKJgF2USpHXntzN06ZbQCipmG18cVBN40HCI=
+	t=1750145350; cv=none; b=CZ95gseNAxDQzESafVGEi3jyIdcluOESsJPx6GFDtG9Fid7HrzaURvjoOJ9+aj/A9lHZ+4K3EiRUeQQqY1dmYEXPz0RaI8Cof9u+CH1Nz9JQ+Qt5Q4/Ur++uOAsp5d/RfXEeaYLdzIa6dSsTj9dSGVlGv2ZNXwrRq2BPFulkIpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750142957; c=relaxed/simple;
-	bh=afbruXRiRAdGzO24ALgtU6hQMdXGytgUclxJMzccXAM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DJwgiVRyNZ/eey80MkbL6F47U+gnhd61oVGvNZc5mKVVt/AkwVU3fj1fRnz2Hkk2G9CU1z1WWBmuTLLpy6/7ms5cWoONBwWv/2f2yqGWPIcqQvlWVwmydFPemBQmSC9KP/rNLX6GwfpmtmbtCor4dwzr4JfvkERVT9qHOfT74fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUNFA54N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750145350; c=relaxed/simple;
+	bh=AuWkEGwym3nXMHNk44MsuVeLpiI/Wz8yHeXqHBrVbJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gR4YR2vlcgjxD75gkUytyaRrQz5vHXcnc6NDAvkYNLVEKiizKRUsSIJs/e17HyQxMUtlsxy18MuNrnDngREOqwC6VpLHS5NR5g5F+82zMPrTEnwj6k0kv094PTeiaIAuK14Qd5e9+aM6ELTu11YyBGYocuTWyVFGKCHXvKTpp64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R187Zh0J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUNFA54N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A14C4CEE3;
-	Tue, 17 Jun 2025 06:49:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R187Zh0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F31C4CEE3;
+	Tue, 17 Jun 2025 07:29:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750142956;
-	bh=afbruXRiRAdGzO24ALgtU6hQMdXGytgUclxJMzccXAM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tUNFA54No695GK6zOlxAjnrXVs7/njUKdBQZI/imt8Qtw79UUJ4hvFaApke72cfsX
-	 9Ut8WDQNhzAX48ZM0yrcNMSReE0cIsixd6UErVRGxFqIn/r/x3PRc5BzMEtH9hLvcK
-	 E1vlSrYsuPlRxtJWKTEeho7+Ck/Za/idK5WloZQKPZ0lp8jgkoyq6qVA0sO5xnSS5t
-	 TAofOx1aQqhgdTzf6/bdLzAwvQr3dhNSgvhQCapXftabLOctbFWKPrFHT0hnFFka3+
-	 ooh6ABJzRdbohuDiQckKiabylHVhs3RNQTN9ANQ7o/UaVEOpnzof1SkvMZhG3cqlRr
-	 5/guSvjKC83ww==
+	s=k20201202; t=1750145350;
+	bh=AuWkEGwym3nXMHNk44MsuVeLpiI/Wz8yHeXqHBrVbJ8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R187Zh0JcPnBZlACGJx9Xo7x7tsUxSKgap3xEnydh4J9ymsL/26rE49zbMEjqjjKn
+	 +wJ9ts73AQl5pqagF58b2HkySoF2IFCwmhihqdpXFWvT22ItD7AW+mL64l5y7oVlo6
+	 yLckux5yU9bubF36m4L8k4uZaCeKAHt1po7znKJO9b8xd4v1ERB34+g7B0Ma/WHjJq
+	 CH1vfHjv6iLOSy2LPmXIL9HM6JTbau712oriVZlEDLflYJRp7dHfD6Egvnfi5cWFyD
+	 uTDxUirb0nvDiTYE569P7a2v/0C9MtWbFq1gAOUl8WTQuqGKgSM7toUienTCuewnOp
+	 KQ4AasbvxUp9Q==
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org,
+To: Jeff Johnson <jjohnson@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Carl Vanderlip <quic_carlv@quicinc.com>,
+	Yan Zhen <yanzhen@vivo.com>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Troy Hanson <quic_thanson@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: kernel@collabora.com,
+	sebastian.reichel@collabora.com,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Baochen Qiang <quic_bqiang@quicinc.com>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH] bus: mhi: host: Make local functions static
-Date: Tue, 17 Jun 2025 12:19:06 +0530
-Message-ID: <20250617064906.14079-1-mani@kernel.org>
+	linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org
+Subject: Re: [PATCH v6] bus: mhi: host: don't free bhie tables during suspend/hibernation
+Date: Tue, 17 Jun 2025 12:58:51 +0530
+Message-ID: <175014516328.16478.17449149106590025798.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250516184952.878726-1-usama.anjum@collabora.com>
+References: <20250516184952.878726-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-These functions were not used outside of the file defining them. So make
-them static as they should be.
+On Fri, 16 May 2025 23:49:31 +0500, Muhammad Usama Anjum wrote:
+> Fix dma_direct_alloc() failure at resume time during bhie_table
+> allocation because of memory pressure. There is a report where at
+> resume time, the memory from the dma doesn't get allocated and MHI
+> fails to re-initialize.
+> 
+> To fix it, don't free the memory at power down during suspend /
+> hibernation. Instead, use the same allocated memory again after every
+> resume / hibernation. This patch has been tested with resume and
+> hibernation both.
+> 
+> [...]
 
-Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/bus/mhi/host/init.c     | 8 ++++----
- drivers/bus/mhi/host/internal.h | 7 -------
- drivers/bus/mhi/host/main.c     | 2 +-
- 3 files changed, 5 insertions(+), 12 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 13e7a55f54ff..7f72aab38ce9 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -176,7 +176,7 @@ static int mhi_alloc_aligned_ring(struct mhi_controller *mhi_cntrl,
- 	return 0;
- }
- 
--void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl)
-+static void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl)
- {
- 	int i;
- 	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
-@@ -191,7 +191,7 @@ void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl)
- 	free_irq(mhi_cntrl->irq[0], mhi_cntrl);
- }
- 
--int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
-+static int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
- {
- 	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-@@ -254,7 +254,7 @@ int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl)
- 	return ret;
- }
- 
--void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
-+static void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
- {
- 	int i;
- 	struct mhi_ctxt *mhi_ctxt = mhi_cntrl->mhi_ctxt;
-@@ -299,7 +299,7 @@ void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	mhi_cntrl->mhi_ctxt = NULL;
- }
- 
--int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
-+static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- {
- 	struct mhi_ctxt *mhi_ctxt;
- 	struct mhi_chan_ctxt *chan_ctxt;
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index ce566f7d2e92..9336fb775226 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -383,19 +383,12 @@ void mhi_ring_chan_db(struct mhi_controller *mhi_cntrl,
- 
- /* Initialization methods */
- int mhi_init_mmio(struct mhi_controller *mhi_cntrl);
--int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl);
--void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl);
--int mhi_init_irq_setup(struct mhi_controller *mhi_cntrl);
--void mhi_deinit_free_irq(struct mhi_controller *mhi_cntrl);
- int mhi_rddm_prepare(struct mhi_controller *mhi_cntrl,
- 		      struct image_info *img_info);
- void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl);
- 
- /* Automatically allocate and queue inbound buffers */
- #define MHI_CH_INBOUND_ALLOC_BUFS BIT(0)
--int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
--			struct mhi_chan *mhi_chan, unsigned int flags);
--
- int mhi_init_chan_ctxt(struct mhi_controller *mhi_cntrl,
- 		       struct mhi_chan *mhi_chan);
- void mhi_deinit_chan_ctxt(struct mhi_controller *mhi_cntrl,
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 9bb0df43ceef..3041ee6747e3 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -1435,7 +1435,7 @@ static void mhi_unprepare_channel(struct mhi_controller *mhi_cntrl,
- 	mutex_unlock(&mhi_chan->mutex);
- }
- 
--int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
-+static int mhi_prepare_channel(struct mhi_controller *mhi_cntrl,
- 			struct mhi_chan *mhi_chan, unsigned int flags)
- {
- 	int ret = 0;
+[1/1] bus: mhi: host: don't free bhie tables during suspend/hibernation
+      commit: df75d6d7ce922645e674f5d591c7333f11027cdc
+
+Note: I've modified the patch little bit to rename __mhi_unprepare_keep_dev to
+mhi_deinit_dev_ctxt() and also reworded the description.
+
+Best regards,
 -- 
-2.43.0
-
+Manivannan Sadhasivam <mani@kernel.org>
