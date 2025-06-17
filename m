@@ -1,63 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0071DE3DB;
-	Tue, 17 Jun 2025 07:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A221156CA;
+	Tue, 17 Jun 2025 09:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750145350; cv=none; b=CZ95gseNAxDQzESafVGEi3jyIdcluOESsJPx6GFDtG9Fid7HrzaURvjoOJ9+aj/A9lHZ+4K3EiRUeQQqY1dmYEXPz0RaI8Cof9u+CH1Nz9JQ+Qt5Q4/Ur++uOAsp5d/RfXEeaYLdzIa6dSsTj9dSGVlGv2ZNXwrRq2BPFulkIpg=
+	t=1750151224; cv=none; b=eDFEyp+8VxKJtLWIXZsl2qyvd4B0ePzam/6nTodDof9B0ZYtflVublQSkQyv65RAN/boGSz+tpf3EENotPH9wkX+hMzqQxaNLlL0siZcXQrjzsR70Izxkswx2R/Dxumrm8knaR0aN2hMbCm8kGKiU5x/4lqCqOEEP5ilN4kcQXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750145350; c=relaxed/simple;
-	bh=AuWkEGwym3nXMHNk44MsuVeLpiI/Wz8yHeXqHBrVbJ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gR4YR2vlcgjxD75gkUytyaRrQz5vHXcnc6NDAvkYNLVEKiizKRUsSIJs/e17HyQxMUtlsxy18MuNrnDngREOqwC6VpLHS5NR5g5F+82zMPrTEnwj6k0kv094PTeiaIAuK14Qd5e9+aM6ELTu11YyBGYocuTWyVFGKCHXvKTpp64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R187Zh0J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750151224; c=relaxed/simple;
+	bh=QJLiXROGIvQwuM4ojw3rsLJXVIV36PkVK5wy0ON0z40=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oXhppdjrslJcsp8694GVbj3QWMgUMMurmrmNDmeNfRQHGjp15yZJWVuINiJcgkt4HsFnKOjliXZCjlIoDwwSJeFNALWvB74ZpjCSz9z7uG4kynYP/earv88lkH9ltjQciLldYhVuXr07HehAC88D1GPVcI4PiPBTFBEyzZ7+Ck0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frG4H7uC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R187Zh0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F31C4CEE3;
-	Tue, 17 Jun 2025 07:29:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frG4H7uC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB005C4CEE3;
+	Tue, 17 Jun 2025 09:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750145350;
-	bh=AuWkEGwym3nXMHNk44MsuVeLpiI/Wz8yHeXqHBrVbJ8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R187Zh0JcPnBZlACGJx9Xo7x7tsUxSKgap3xEnydh4J9ymsL/26rE49zbMEjqjjKn
-	 +wJ9ts73AQl5pqagF58b2HkySoF2IFCwmhihqdpXFWvT22ItD7AW+mL64l5y7oVlo6
-	 yLckux5yU9bubF36m4L8k4uZaCeKAHt1po7znKJO9b8xd4v1ERB34+g7B0Ma/WHjJq
-	 CH1vfHjv6iLOSy2LPmXIL9HM6JTbau712oriVZlEDLflYJRp7dHfD6Egvnfi5cWFyD
-	 uTDxUirb0nvDiTYE569P7a2v/0C9MtWbFq1gAOUl8WTQuqGKgSM7toUienTCuewnOp
-	 KQ4AasbvxUp9Q==
+	s=k20201202; t=1750151224;
+	bh=QJLiXROGIvQwuM4ojw3rsLJXVIV36PkVK5wy0ON0z40=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=frG4H7uCSOwmWaJmnoJUuQZkYR/x255EI54nMTZFtt2N+HyqznM/+vjPVWzEQtAVn
+	 VIoUqJNR3BggMiiG/ERdKhKyJt6Kd+qBUNVmdrBXjy0TjozaS9xVXykrQGUQhjA8O2
+	 L9p1y5JOkbDX/DH9mXIg906V1q3Ry/9FhhNMXan6xKQG8ZgnjnOW2SpRKrMKg0QVZm
+	 vEqIZFOLYAQFx9JeZUeGJbICSsqejW3kMwn+sQ5J6YuaHbFPHheR9GUdTqxD1Jp83C
+	 qi4DwdB/Cb9OxtaQ9xnoD7zRSpYNiXQmp+I5Wl3U42IZidlRF5FtKjKryU3WwJ5Yiq
+	 uYb23jP2LH0OQ==
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeff Johnson <jjohnson@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Youssef Samir <quic_yabdulra@quicinc.com>,
-	Matthew Leung <quic_mattleun@quicinc.com>,
-	Carl Vanderlip <quic_carlv@quicinc.com>,
-	Yan Zhen <yanzhen@vivo.com>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kunwu Chan <chentao@kylinos.cn>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Troy Hanson <quic_thanson@quicinc.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com,
-	sebastian.reichel@collabora.com,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	Baochen Qiang <quic_bqiang@quicinc.com>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org
-Subject: Re: [PATCH v6] bus: mhi: host: don't free bhie tables during suspend/hibernation
-Date: Tue, 17 Jun 2025 12:58:51 +0530
-Message-ID: <175014516328.16478.17449149106590025798.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250516184952.878726-1-usama.anjum@collabora.com>
-References: <20250516184952.878726-1-usama.anjum@collabora.com>
+To: johan+linaro@kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <mani@kernel.org>, Slark Xiao <slark_xiao@163.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250606095019.383992-1-slark_xiao@163.com>
+References: <20250606095019.383992-1-slark_xiao@163.com>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Change T99W515 to T99W640
+Message-Id: <175015122147.21818.13498820747290372997.b4-ty@kernel.org>
+Date: Tue, 17 Jun 2025 14:37:01 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -65,30 +42,22 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
-On Fri, 16 May 2025 23:49:31 +0500, Muhammad Usama Anjum wrote:
-> Fix dma_direct_alloc() failure at resume time during bhie_table
-> allocation because of memory pressure. There is a report where at
-> resume time, the memory from the dma doesn't get allocated and MHI
-> fails to re-initialize.
+On Fri, 06 Jun 2025 17:50:19 +0800, Slark Xiao wrote:
+> T99W515 is a LGA device but not a M.2 modem device.
+> So correct this name in case a name mismatch issue.
 > 
-> To fix it, don't free the memory at power down during suspend /
-> hibernation. Instead, use the same allocated memory again after every
-> resume / hibernation. This patch has been tested with resume and
-> hibernation both.
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] bus: mhi: host: don't free bhie tables during suspend/hibernation
-      commit: df75d6d7ce922645e674f5d591c7333f11027cdc
-
-Note: I've modified the patch little bit to rename __mhi_unprepare_keep_dev to
-mhi_deinit_dev_ctxt() and also reworded the description.
+[1/1] bus: mhi: host: pci_generic: Change T99W515 to T99W640
+      commit: 105e6a6810bf1399a5f4eebec18bdf429648b733
 
 Best regards,
 -- 
 Manivannan Sadhasivam <mani@kernel.org>
+
