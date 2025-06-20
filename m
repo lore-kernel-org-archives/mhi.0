@@ -1,150 +1,168 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A721EB18E
-	for <mhi@lists.linux.dev>; Fri, 20 Jun 2025 07:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0F330E85C
+	for <mhi@lists.linux.dev>; Fri, 20 Jun 2025 07:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402919; cv=none; b=D7GtMZ5vShDfng0c0+aCYj8EpGGCKz5kTlHVAv3KzhiXojSdqUsksgM+IiVA6DemgmG7qt75VFSMXt20juxljqlT9DkUerKT4zEDaSRCfAeb9wORpUqsksZPSuCtaEXxsaTe2yV+0Jon5yBQqNINWdz+UEkUeSqDe0yR/AYsg3U=
+	t=1750404030; cv=none; b=XoqLzokXK6eV/for7OTTgKaymCkWrfzeWoCsZAPqDHkeOhmHMitoEJKNdPCRdbxNLlDIR8EfuuKSWYSaRpVD/G6BaxzLJg1wtbJ3rv60GB95vGvsEQ2hXUuLIiK1gZ+Cr4BiYgTdzRy3uKsDho3dxfMaz5oZeT9HMB5iOryQ9eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402919; c=relaxed/simple;
-	bh=PPGIeVhRL2lTJDHqNuXa88LI8/7e7OhApOd+69gueiw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=pH7LAmOPGyYB0yrsS9ETRZoLJoO2Cisgw3GNr0a9K6JXzSTfDCSH8evo1ECBV0oafS5c7STPlUOvHbGIsrR+IbgQWmBrcLom8A5sp3sCIx3emwTspa7nQrchvG4FO9++A1FDM/kI/1jr+vgFQwi1tnXW5aTeSDLgoDjL5qvCf64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=l02k53+9 reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1750404030; c=relaxed/simple;
+	bh=gqjlaZJ+q89fC79xcakYesG1QlqkNn2XS7HbrMbpcjk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jUMw6XUsdpb/U2ojiw6q8XmJSEzsyTNmJn4zD0n5ST3jfWiDikSphOUWw51nDzoBH8d/VEa634ex69241KvkRNmumqq5bPVifJuzGf2hY2pp/ioJyIwNGfGFdOufWoKkwBYt0M1pZNOh57bHJSuwTBu3uX/So0zhawEBw+9dt48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XWZwS7wx; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="l02k53+9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=5jU6bv8xXmRLsTj5uh1t8r9LWPcLjVEkYquNpqGe6Oo=; b=l
-	02k53+9rAu7tgnppr2kOTKzYz4LcDHXpbJCKvAcIh0iu0kYSdEt4ywzAWanN3JL8
-	WvrhRhuCTSCc4+c3dtzuXL6dZRzeaCexuSxF2/jN4y/6iLwRGKOYyb57nutGpsqP
-	SXc/DH6kOWK2uYK4HLa03CebN+rScrEvt3zBCjP4pI=
-Received: from slark_xiao$163.com ( [2408:8459:3c50:e0b:fe63:4f5:6342:5dbf]
- ) by ajax-webmail-wmsvr-40-141 (Coremail) ; Fri, 20 Jun 2025 15:01:25 +0800
- (CST)
-Date: Fri, 20 Jun 2025 15:01:25 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: manivannan.sadhasivam@linaro.org, johan+linaro@kernel.org,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XWZwS7wx"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E83D24435F;
+	Fri, 20 Jun 2025 07:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750404019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gqjlaZJ+q89fC79xcakYesG1QlqkNn2XS7HbrMbpcjk=;
+	b=XWZwS7wxCfITzL6ctTmVJLoU51sWuqsriK7h3kkLrhn1MdW31Iapjz3r3DfZrYmDfaPnuz
+	77//beURjdLB0DHilkkzjYITcS6Jb0jdHYWx53oztXJpjPRcHwsVyxakC7O64LcSSQv08U
+	wkYZFDw72XhjuJIUeWuObMkt4yVH6/zd2Z0+kj8u/OizuYdFPa2payz1AvY8h34XYgijX4
+	/ueUpRK4MbyOipFdhPHnlqLdXX0x5wUjoiplOGDClT2r7k4SMLn/9GEDfTH8HDz0nDzQQN
+	McT/bRStixeljeTLTW3hi+BmZNmZrUJN/0ThDcOErwWAJ5tMZ1rdt/iMULZpJQ==
+Message-ID: <3e97885af5323dec728f40dc0176f7f82cdabf14.camel@bootlin.com>
+Subject: Re: [PATCH v1] bus: mhi: host: pci_generic: Add support for EM929x
+ and set MRU to 32768 for better performance.
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Aleksander Morgado <aleksander.morgado@gmail.com>, Manivannan Sadhasivam
+	 <mani@kernel.org>
+Cc: thomas.perrot@bootlin.com, Adam Xue <zxue@semtech.com>, Aleksander
+ Morgado	 <aleksander@aleksander.es>, manivannan.sadhasivam@linaro.org, 
+	slark_xiao@163.com, johan+linaro@kernel.org, quic_vpernami@quicinc.com, 
+	tglx@linutronix.de, fabio.porcedda@gmail.com, quic_msarkar@quicinc.com, 
 	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH v2] bus: mhi: host: pci_generic: Add Foxconn T99W696
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <4k7426oxhrnfoshkcqwwilq5lqldjovvtrwfownllwxwgudwjo@a3i47vma4lhr>
-References: <20250528092232.16111-1-slark_xiao@163.com>
- <4k7426oxhrnfoshkcqwwilq5lqldjovvtrwfownllwxwgudwjo@a3i47vma4lhr>
-X-NTES-SC: AL_Qu2eAvibvUAj4yOaYekfmUoQhek9W8qwvPsu1YFfOZlwjCrr1xgqRntMJGPT6vOOBj2FkReYcAVo2N95fLRaUKsZZGjZndk2xjgTxJQf+GiCCQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ linux-kernel@vger.kernel.org, 	imocanu@semtech.com
+Date: Fri, 20 Jun 2025 09:20:16 +0200
+In-Reply-To: <CAA3JqEfpuwn5OL6SasVGRU82+2+D5nNXk-WALzcnWnuz9384kQ@mail.gmail.com>
+References: <20250528175943.12739-1-zxue@semtech.com>
+	 <gt6uyoohzyjlqsbb4wro7vjsyhgwpvca46ixmivo6ybvmejsc3@nc3syx4lk4t3>
+	 <CAA3JqEfpuwn5OL6SasVGRU82+2+D5nNXk-WALzcnWnuz9384kQ@mail.gmail.com>
+Autocrypt: addr=thomas.perrot@bootlin.com; prefer-encrypt=mutual;
+ keydata=mQGNBF+/ZOUBDAC2DghCjZvmgYcve02OG7dGZ7Iy58uEwne3LB7w7nRwdAxKw7ZaiVqwY
+ O+yNGVi+GVx7oA6Wn4pv46z+QDRLQiq6OseuXhkSGCg7U/yBCUq12B/GRGO1Qt2Qi1mJJT1s+1qZ5
+ Gxv6Nypz9qKVn94GM2bR1hXBga0t87vBpebThOHmX5d/0dqIcVxRCM7onNb0dDyRoVgLS5rBhQzrL
+ CMrJaCy39xZUy0J1SOlH4Mgk6EhJIPYY4wlzikGX6urg+Tc9EjGd78ry0e0p5U5qgjFR5QGJDy1Gn
+ U3CfwbT9sowdCASDbQDUoltlv2iWJCLa0xl97KVchCa0pr7HKbFA3J5SLKqFYUBCkFL+5WudYlz2n
+ XxiUgyviMQxyK+ij66kEi6/2zFDAecd43pHV7790ptqZBC3Jc67Emj7Vo3ShX6RXPPxxbeCTOF2uk
+ I45aJ9XcVFH/MFE96NjXj8uahnIsiTPyuCUoJu8tj7TSQyue874qJqVQvqlFyt2aZYJZ8ruq8AEQE
+ AAbQpVGhvbWFzIFBlcnJvdCA8dGhvbWFzLnBlcnJvdEBib290bGluLmNvbT6JAc4EEwEIADgCGwMF
+ CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSHQHfGpqMKIwOoEiGfwAsFcf4K7QUCX79mdwAKCRCfw
+ AsFcf4K7fhbC/wP0kSl6id2E/K3+UdXk6CLMVRbCFLCREzQs5WFpQ6l/I0WGOamhrOgegdszheiVF
+ orlUP8d37XSpFAqydhKGaN78V5Dps0Wmwm4lIlS4MtQXJtSLUHXDJLIZLW0pw8tiPLKsd1o/yDkXE
+ dnpsjJTRG6SdDSHnyOB2/gh4p+yTaLytFdARk/r4/P26+L+FiH0fFl+RnBt19LPklfKgeDc7GwIif
+ ja+nIWpp3W23DAUuI6xduEut25Q89yu7Ci8CliLfAiLy9bIGjBQWU2Y+1/j/7KuPj6VbBsZWLTZY0
+ hUmpJSTnWAqc9SMsNxo7NSQuddgviz5e2tqucaRqxP02FGzNa8U4NAKdWaXrlHG5Dglj9XH0DK+SH
+ +c96qqFewYD8VPQ6XAGxQcXbrtJmiMor1R2DfziispLRvJcfYs8xqabbCtoS3ouXB9XRi8hn7A2kh
+ ME1ryS+Oh63JshXHnw6bmjCpVd/p+fGLIGU6A47pJOpviKR4jEO84pl2ejtDZ3Tc=
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-qLElnF2v/FGCh2j2pzne"
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <cb7bd34.6056.1978c2466d2.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:jSgvCgD3n2lFB1VoyAohAA--.64024W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRxVyZGhU+HIFAAACs1
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdejjeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfevffgjfhgtfgggsehgtderredtreejnecuhfhrohhmpefvhhhomhgrshcurfgvrhhrohhtuceothhhohhmrghsrdhpvghrrhhothessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudetieefiedvveehgfetueevteduleffffeuleduleeftdffffekveduvedufeffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvdegtdgnpdhmrghilhhfrhhomhepthhhohhmrghsrdhpvghrrhhothessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtoheprghlvghkshgrnhguvghrrdhmohhrghgrughosehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrnhhisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvrhhrohhtsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepiiiguhgvsehsvghmthgvtghhrdgtohhmpdhrtghpthhtoheprghlv
+ ghkshgrnhguvghrsegrlhgvkhhsrghnuggvrhdrvghspdhrtghpthhtohepmhgrnhhivhgrnhhnrghnrdhsrgguhhgrshhivhgrmheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhlrghrkhgpgihirghoseduieefrdgtohhmpdhrtghpthhtohepjhhohhgrnhdolhhinhgrrhhosehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: thomas.perrot@bootlin.com
 
-CgpBdCAyMDI1LTA2LTE3IDE3OjM5OjExLCAiTWFuaXZhbm5hbiBTYWRoYXNpdmFtIiA8bWFuaUBr
-ZXJuZWwub3JnPiB3cm90ZToKPk9uIFdlZCwgTWF5IDI4LCAyMDI1IGF0IDA1OjIyOjMyUE0gKzA4
-MDAsIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IFQ5OVc2OTYgaXMgZGVzaWduZWQgYmFzZWQgb24gUXVh
-bGNvbW0gU0RYNjEgY2hpcCB3aGljaCBpcyBhIGNvc3QKPj4gZG93biBjaGlwIHJlZmVyIHRvIHBy
-ZXZpb3VzIFNEWDYyL1NEWDY1LiBUaG91Z2ggd2UgaGF2ZSBhIHN1cHBvcnQKPj4gb24gU0RYNjIv
-U0RYNjUsIHdlIGNyZWF0ZSBhIG5ldyBjaGFubmVsIGNvbmZpZyBmb3IgU0RYNjEgc2luY2UKPj4g
-d2UgYWRkIGEgTk1FQSBjaGFubmVsIHN1cHBvcnQgZnJvbSB0aGlzIHByb2R1Y3QuCj4+IEZvciBu
-ZXcgcHJvZHVjdHMgd2UgYXJlIGFsbG93ZWQgdG8gY3VzdG9taXplIHRoZSBzdWJWSUQgYW5kCj4+
-IHN1YlBJRCBvbmx5Lgo+PiAKPgo+Q291bGQgeW91IHBsZWFzZSBwdXNoIHRoZSBmaXJtd2FyZSB0
-byBsaW51eC1maXJtd2FyZT8gSSBkb24ndCBleHBlY3QgdGhlIHVzZXJzCj5vZiB0aGUgcHJvZHVj
-dHMgdG8gdXBzdHJlYW0gdGhlIGZpcm13YXJlLCBidXQgSSBkbyBleHBlY3QgdGhlIHZlbmRvcnMg
-dG8gZG8gc28uCj4KPkZZSTogUWNvbSB3YXMgYWJsZSB0byB1cHN0cmVhbSB0aGUgZmlybXdhcmUg
-Zm9yIG9uZSBvZiB0aGVpciBtb2RlbXM6Cj5odHRwczovL3dlYi5naXQua2VybmVsLm9yZy9wdWIv
-c2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXdhcmUvbGludXgtZmlybXdhcmUuZ2l0L2NvbW1pdC9x
-Y29tL3FkdTEwMC94Ymxfcy5tZWxmP2lkPTAxODQyZGE0NWRmMGE5Zjg2MjA5OGQxNTk3ZjZhZTU3
-NzRiM2U0OGEKPgo+U28gdGhlcmUgc2hvdWxkIGJlIG5vIGxpY2Vuc2luZyBpc3N1ZXMuIEdvaW5n
-IGZvcndhcmQsIEkgd2FudCBib3RoIFFjb20gYW5kCj52ZW5kb3JzIHRvIHVwc3RyZWFtIHRoZSBm
-aXJtd2FyZSBiZWZvcmUgdGhlIG1vZGVtIHN1cHBvcnQgZ2V0cyBpbi4KPgo+LSBNYW5pCj4KSXQg
-c2hvdWxkIGJlIG9rYXkuIEJ1dCB3ZSBhcmUgZmFjaW5nIHRoYXQgd2UgY2FuJ3QgY29tbWl0IGZp
-bGVzIHRvIGxpbnV4LWZpcm13YXJlCnNpbmNlIENoaW5hIHdhcyBiYW5uZWQgZnJvbSB0aGF0IGNv
-bW11bml0eS4KSSB3aWxsIHNoYXJlIHRoZSBlZGwgZmlsZSB0byB5b3UgaW4gYW5vdGhlciBtYWls
-LgoKVGhhbmtzCj4+IFNpZ25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNv
-bT4KPj4gLS0tCj4+IHYyOiBDb3JyZWN0IHRoZSBjaF9jZmcgYXMgc2R4NjEgY2hhbm5lbHMKPj4g
-LS0tCj4+ICBkcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jIHwgNTIgKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCj4+ICAxIGZpbGUgY2hhbmdlZCwgNTIgaW5zZXJ0aW9ucygr
-KQo+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMg
-Yi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+IGluZGV4IGE0YTYyNDI5Yzc4
-NC4uYTkwYWIzMWM0NmE5IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lf
-Z2VuZXJpYy5jCj4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPj4g
-QEAgLTQ5MCw2ICs0OTAsMjMgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9jb25m
-aWcgbWhpX2ZveGNvbm5fc2R4NTVfY2hhbm5lbHNbXSA9IHsKPj4gIAlNSElfQ0hBTk5FTF9DT05G
-SUdfSFdfREwoMTAxLCAiSVBfSFcwX01CSU0iLCAxMjgsIDMpLAo+PiAgfTsKPj4gIAo+PiArc3Rh
-dGljIGNvbnN0IHN0cnVjdCBtaGlfY2hhbm5lbF9jb25maWcgbWhpX2ZveGNvbm5fc2R4NjFfY2hh
-bm5lbHNbXSA9IHsKPj4gKwlNSElfQ0hBTk5FTF9DT05GSUdfVUwoMCwgIkxPT1BCQUNLIiwgMzIs
-IDApLAo+PiArCU1ISV9DSEFOTkVMX0NPTkZJR19ETCgxLCAiTE9PUEJBQ0siLCAzMiwgMCksCj4+
-ICsJTUhJX0NIQU5ORUxfQ09ORklHX1VMKDQsICJESUFHIiwgMzIsIDEpLAo+PiArCU1ISV9DSEFO
-TkVMX0NPTkZJR19ETCg1LCAiRElBRyIsIDMyLCAxKSwKPj4gKwlNSElfQ0hBTk5FTF9DT05GSUdf
-VUwoMTIsICJNQklNIiwgMzIsIDApLAo+PiArCU1ISV9DSEFOTkVMX0NPTkZJR19ETCgxMywgIk1C
-SU0iLCAzMiwgMCksCj4+ICsJTUhJX0NIQU5ORUxfQ09ORklHX1VMKDMyLCAiRFVOIiwgMzIsIDAp
-LAo+PiArCU1ISV9DSEFOTkVMX0NPTkZJR19ETCgzMywgIkRVTiIsIDMyLCAwKSwKPj4gKwlNSElf
-Q0hBTk5FTF9DT05GSUdfVUxfRlAoMzQsICJGSVJFSE9TRSIsIDMyLCAwKSwKPj4gKwlNSElfQ0hB
-Tk5FTF9DT05GSUdfRExfRlAoMzUsICJGSVJFSE9TRSIsIDMyLCAwKSwKPj4gKwlNSElfQ0hBTk5F
-TF9DT05GSUdfVUwoNTAsICJOTUVBIiwgMzIsIDApLAo+PiArCU1ISV9DSEFOTkVMX0NPTkZJR19E
-TCg1MSwgIk5NRUEiLCAzMiwgMCksCj4+ICsJTUhJX0NIQU5ORUxfQ09ORklHX0hXX1VMKDEwMCwg
-IklQX0hXMF9NQklNIiwgMTI4LCAyKSwKPj4gKwlNSElfQ0hBTk5FTF9DT05GSUdfSFdfREwoMTAx
-LCAiSVBfSFcwX01CSU0iLCAxMjgsIDMpLAo+PiArfTsKPj4gKwo+PiAgc3RhdGljIHN0cnVjdCBt
-aGlfZXZlbnRfY29uZmlnIG1oaV9mb3hjb25uX3NkeDU1X2V2ZW50c1tdID0gewo+PiAgCU1ISV9F
-VkVOVF9DT05GSUdfQ1RSTCgwLCAxMjgpLAo+PiAgCU1ISV9FVkVOVF9DT05GSUdfREFUQSgxLCAx
-MjgpLAo+PiBAQCAtNTA2LDYgKzUyMywxNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG1oaV9jb250
-cm9sbGVyX2NvbmZpZyBtb2RlbV9mb3hjb25uX3NkeDU1X2NvbmZpZyA9IHsKPj4gIAkuZXZlbnRf
-Y2ZnID0gbWhpX2ZveGNvbm5fc2R4NTVfZXZlbnRzLAo+PiAgfTsKPj4gIAo+PiArc3RhdGljIGNv
-bnN0IHN0cnVjdCBtaGlfY29udHJvbGxlcl9jb25maWcgbW9kZW1fZm94Y29ubl9zZHg2MV9jb25m
-aWcgPSB7Cj4+ICsJLm1heF9jaGFubmVscyA9IDEyOCwKPj4gKwkudGltZW91dF9tcyA9IDIwMDAw
-LAo+PiArCS5udW1fY2hhbm5lbHMgPSBBUlJBWV9TSVpFKG1oaV9mb3hjb25uX3NkeDYxX2NoYW5u
-ZWxzKSwKPj4gKwkuY2hfY2ZnID0gbWhpX2ZveGNvbm5fc2R4NjFfY2hhbm5lbHMsCj4+ICsJLm51
-bV9ldmVudHMgPSBBUlJBWV9TSVpFKG1oaV9mb3hjb25uX3NkeDU1X2V2ZW50cyksCj4+ICsJLmV2
-ZW50X2NmZyA9IG1oaV9mb3hjb25uX3NkeDU1X2V2ZW50cywKPj4gK307Cj4+ICsKPj4gIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgbWhpX2NvbnRyb2xsZXJfY29uZmlnIG1vZGVtX2ZveGNvbm5fc2R4NzJf
-Y29uZmlnID0gewo+PiAgCS5tYXhfY2hhbm5lbHMgPSAxMjgsCj4+ICAJLnRpbWVvdXRfbXMgPSAy
-MDAwMCwKPj4gQEAgLTYxNSw2ICs2NDEsMTcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNp
-X2Rldl9pbmZvIG1oaV9mb3hjb25uX2R3NTkzNGVfaW5mbyA9IHsKPj4gIAkuc2lkZWJhbmRfd2Fr
-ZSA9IGZhbHNlLAo+PiAgfTsKPj4gIAo+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBtaGlfcGNpX2Rl
-dl9pbmZvIG1oaV9mb3hjb25uX3Q5OXc2OTZfaW5mbyA9IHsKPj4gKwkubmFtZSA9ICJmb3hjb25u
-LXQ5OXc2OTYiLAo+PiArCS5lZGwgPSAicWNvbS9zZHg2MS9mb3hjb25uL3Byb2dfZmlyZWhvc2Vf
-bGl0ZS5lbGYiLAo+PiArCS5lZGxfdHJpZ2dlciA9IHRydWUsCj4+ICsJLmNvbmZpZyA9ICZtb2Rl
-bV9mb3hjb25uX3NkeDYxX2NvbmZpZywKPj4gKwkuYmFyX251bSA9IE1ISV9QQ0lfREVGQVVMVF9C
-QVJfTlVNLAo+PiArCS5kbWFfZGF0YV93aWR0aCA9IDMyLAo+PiArCS5tcnVfZGVmYXVsdCA9IDMy
-NzY4LAo+PiArCS5zaWRlYmFuZF93YWtlID0gZmFsc2UsCj4+ICt9Owo+PiArCj4+ICBzdGF0aWMg
-Y29uc3Qgc3RydWN0IG1oaV9jaGFubmVsX2NvbmZpZyBtaGlfbXYzeF9jaGFubmVsc1tdID0gewo+
-PiAgCU1ISV9DSEFOTkVMX0NPTkZJR19VTCgwLCAiTE9PUEJBQ0siLCA2NCwgMCksCj4+ICAJTUhJ
-X0NIQU5ORUxfQ09ORklHX0RMKDEsICJMT09QQkFDSyIsIDY0LCAwKSwKPj4gQEAgLTg2Myw2ICs5
-MDAsMjEgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkIG1oaV9wY2lfaWRfdGFi
-bGVbXSA9IHsKPj4gIAkvKiBUZWxpdCBGRTk5MEEgKi8KPj4gIAl7IFBDSV9ERVZJQ0VfU1VCKFBD
-SV9WRU5ET1JfSURfUUNPTSwgMHgwMzA4LCAweDFjNWQsIDB4MjAxNSksCj4+ICAJCS5kcml2ZXJf
-ZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV90ZWxpdF9mZTk5MGFfaW5mbyB9LAo+PiArCS8q
-IEZveGNvbm4gVDk5VzY5Ni4wMSwgTGVub3ZvIEdlbmVyaWMgU0tVICovCj4+ICsJeyBQQ0lfREVW
-SUNFX1NVQihQQ0lfVkVORE9SX0lEX1FDT00sIDB4MDMwOCwgUENJX1ZFTkRPUl9JRF9GT1hDT05O
-LCAweGUxNDIpLAo+PiArCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfZm94
-Y29ubl90OTl3Njk2X2luZm8gfSwKPj4gKwkvKiBGb3hjb25uIFQ5OVc2OTYuMDIsIExlbm92byBY
-MSBDYXJib24gU0tVICovCj4+ICsJeyBQQ0lfREVWSUNFX1NVQihQQ0lfVkVORE9SX0lEX1FDT00s
-IDB4MDMwOCwgUENJX1ZFTkRPUl9JRF9GT1hDT05OLCAweGUxNDMpLAo+PiArCQkuZHJpdmVyX2Rh
-dGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfZm94Y29ubl90OTl3Njk2X2luZm8gfSwKPj4gKwkv
-KiBGb3hjb25uIFQ5OVc2OTYuMDMsIExlbm92byBYMSAyaW4xIFNLVSAqLwo+PiArCXsgUENJX0RF
-VklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgsIFBDSV9WRU5ET1JfSURfRk9YQ09O
-TiwgMHhlMTQ0KSwKPj4gKwkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2Zv
-eGNvbm5fdDk5dzY5Nl9pbmZvIH0sCj4+ICsJLyogRm94Y29ubiBUOTlXNjk2LjA0LCBMZW5vdm8g
-UFJDIFNLVSAqLwo+PiArCXsgUENJX0RFVklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAz
-MDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTQ1KSwKPj4gKwkJLmRyaXZlcl9kYXRhID0g
-KGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5fdDk5dzY5Nl9pbmZvIH0sCj4+ICsJLyogRm94
-Y29ubiBUOTlXNjk2LjAwLCBGb3hjb25uIFNLVSAqLwo+PiArCXsgUENJX0RFVklDRV9TVUIoUENJ
-X1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTQ2KSwK
-Pj4gKwkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5fdDk5dzY5
-Nl9pbmZvIH0sCj4+ICAJeyBQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfUUNPTSwgMHgwMzA4KSwK
-Pj4gIAkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX3Fjb21fc2R4NjVfaW5m
-byB9LAo+PiAgCXsgUENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1FDT00sIDB4MDMwOSksCj4+IC0t
-IAo+PiAyLjI1LjEKPj4gCj4KPi0tIAo+4K6u4K6j4K6/4K614K6j4K+N4K6j4K6p4K+NIOCumuCu
-pOCuvuCumuCuv+CuteCuruCvjQo=
+
+--=-qLElnF2v/FGCh2j2pzne
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Tue, 2025-06-17 at 16:58 +0200, Aleksander Morgado wrote:
+> On Tue, Jun 17, 2025 at 11:27=E2=80=AFAM Manivannan Sadhasivam
+> <mani@kernel.org> wrote:
+> >=20
+> > On Wed, May 28, 2025 at 10:59:43AM -0700, Adam Xue wrote:
+> >=20
+> > + Thomas and Aleksander (for EM919X related question)
+> >=20
+> > > Add MHI controller config for EM929x. It uses the same
+> > > configuration
+> > > as EM919x. Also set the MRU to 32768 to improve downlink
+> > > throughput.
+> > >=20
+> >=20
+> > This also affects the EM919X modem. So I want either Thomas or
+> > Aleksander to
+> > confirm that it doesn't cause any regression.
+
+Sorry, I no longer have the modem to test.
+
+Kind regards,
+Thomas Perrot
+
+> >=20
+> > Rest looks good to me.
+> >=20
+> > - Mani
+> >=20
+> > > 02:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc
+> > > Device 0308
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Subsystem: Device 18d7:0301
+> > >=20
+> > > Signed-off-by: Adam Xue <zxue@semtech.com>
+> > > ---
+> > > =C2=A0drivers/bus/mhi/host/pci_generic.c | 4 ++++
+> > > =C2=A01 file changed, 4 insertions(+)
+> > >=20
+> > > diff --git a/drivers/bus/mhi/host/pci_generic.c
+> > > b/drivers/bus/mhi/host/pci_generic.c
+> > > index 03aa88795209..9bf8e7991745 100644
+> > > --- a/drivers/bus/mhi/host/pci_generic.c
+> > > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > > @@ -695,6 +695,7 @@ static const struct mhi_pci_dev_info
+> > > mhi_sierra_em919x_info =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .config =3D &modem_sierra_em919x_confi=
+g,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .bar_num =3D MHI_PCI_DEFAULT_BAR_NUM,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .dma_data_width =3D 32,
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0 .mru_default =3D 32768,
+>=20
+> I cannot test this now, I need to look for the EM9191 that I know I
+> have somewhere, but this default MRU update feels right. Hopefully
+> Thomas can verify.
+>=20
+
+--=20
+Thomas Perrot, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+
+--=-qLElnF2v/FGCh2j2pzne
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmhVC7AACgkQn8ALBXH+
+Cu0yUQv/XPmHO4NAvMPDo/MK58xTroprptIJ6ErWiRESwYazftvufSjs2m9tfWE2
+IFkAwq2XRTyBZ62FqxunPUWdDT4warAyblM9/WuIXG3MJAyvyyEGYjbws7Yto4ku
+7MOpsHomNe99lJPA9G+6LMwpTQO8oGJ5qCIBI8eKtiZF4+Q6JcF8oVru9tPqjedQ
+1TiWT/XKXdF0Y6gZtX1F9IGhK+vJQdk3tcPflNTcdbkl6+g8aCuKZMvovHnEuP8G
+J51E/issVj66sK/HlLzggEEcovBf0uO/kPSbMrUxtcUOPnQI/E2wJUdCQZ2QGeLg
+Qr0aFwUox+07k7pZ7M9cdwnHCoCjVLKwM/ACh2NNvBhMjRZag5NpLbKMv4psWVFu
+JLorw1j8BMIjVUOCJnSoi4RYmq6nWXYmzIahN6hf7Dcy2esm2dvv9lvycLbGnLnW
+Colin0TCGyPVe7XP+xw4erugMAYBx9zTbnds3hz/obeO91U5Z9z7uN1/Jl+dAsGX
+/pGSVTDZ
+=2Jx7
+-----END PGP SIGNATURE-----
+
+--=-qLElnF2v/FGCh2j2pzne--
