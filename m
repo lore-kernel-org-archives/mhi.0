@@ -1,48 +1,43 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92DA30E854;
-	Wed,  2 Jul 2025 15:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751468846; cv=none; b=B+iOMrrdXQbHU+wFsTZ4/5E/wAY8hUq/1rwKDZ05zfNOyx37PS8hjvmokaK4AqdBz7Pdcp1oW0rX6M8KyQffZika9ic+TyFJtTjaoKTXih3aHZTvcVH0soXautwcz+PjTYNz5Pdz4ccZOgX69ghGJfABvTrFiUSgk8n4xBbjA/4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751468846; c=relaxed/simple;
-	bh=O3E9T0uQpIC5T5vhtzuhqv77hqZKnlLyN1ssBednfSI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=o79i2/TEQH8MjPf+O4P3xubHzlI3TBRCcSUARLKHRtNOO+DlHs8MvW3RGVOf1rv9wa4XoOfoaMbE+WuU1cCLZr+f48vjhLnKXstwHsFUZ5A6pL/7QWFlOquJH5rMifM+bvHmTixEtf3Zi1T4yvumP2m6rwIbSCjfziaQ0QPsIjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VqnWTv+b; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81B02853EB
+	for <mhi@lists.linux.dev>; Wed,  2 Jul 2025 15:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751469945; cv=pass; b=nKwpEGPwAw1LkTiqczkOVTQvZASI/6P70jfz56KnfaKIKa/aviQRnIoJTViVV8qYxw0ZqfF0HlyibzQObabce1NWUNFxEdtKpA9Vakw+RQC/dEFjVLjApYUj5zMs0ZEp3FiK7EhukimiaEXWFEdgnf3UIZnaMe3OqZM4T9iK1jo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751469945; c=relaxed/simple;
+	bh=YI5xJQzkom4sdxkvBnrOayW443RFDT8jwoEmyUtPD7w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rRkXa+dWfH/YdWsDlMAQvHBrlVCgS+/IfiXAow7uR4H+i3mZ2DuEWgURf1sR6DgnZ9MuudnkEIzsbAngIlYo3jN59c2TFbZAY3pveF9EuZDw/y2SX50/gLJEjfXQGa0m/RVM2HmPULOx7CefGcYENifHYXvPx2HP9ryNugqi+bg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=DeNXlsfH; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VqnWTv+b"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562EvuiN032762;
-	Wed, 2 Jul 2025 15:07:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jtyspUw8a4/yRrH4ykcrFo3fVrKo/gutBGuVYi4R9+k=; b=VqnWTv+buRaoUINB
-	GPKfANRaUgrog5JqVfoXkx8E50Di6j0ACjFap49uQ+DBtSo2K+eXQezezYP0WMxe
-	I3bvW+cVKYUb8sHtnFTESo2EFlOqOABCZaM8d9F9TG+McrHCdYHfTcrRaMvw2uUN
-	cCOE3N+X7p98odVYmk5VWrFxkS8L+xbA9yKfowD5TD4lZIJhX6PZiomZdjcqSmSC
-	Rhyn7UD5h2sdO9owvw4LhJt8mRwSbBhuIr+vfOhwePeJ7MLgFOMAsmD5kpGrLplk
-	6l6XAb2xm/aU/uY6ur0/j7gFi3UI4xcCAp1+wJvTvYgQqdbggn9s06nNoGwBBPbW
-	L+tC4g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j7qmcyx7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Jul 2025 15:07:19 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 562F7Iur032753
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 2 Jul 2025 15:07:18 GMT
-Received: from [10.232.155.112] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 2 Jul
- 2025 08:07:16 -0700
-Message-ID: <209dec58-c86c-494d-a6e9-fb0ab33b03c2@quicinc.com>
-Date: Wed, 2 Jul 2025 16:06:55 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="DeNXlsfH"
+ARC-Seal: i=1; a=rsa-sha256; t=1751469910; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Wh4ld+IjPq9rN2v5JrrVbNCJ9Tenxzp/ewU5rqFiunyck4YH3W/tqzh9RZebHG9/ZumIQDhyv5HaQIhnaxA7xPvOmM8lQRQnR189PqUybYczVNFT4AIlTrrAP9D74+vqrH5LwOnwJNo4cPSXgixvX36ChYUJwsrd3oC1lLPCPZg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751469910; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mSSYZlzjDorHVrW9kO4wmXJF7vcClWLjaQL8PerBKvE=; 
+	b=dhdQKgAwyG58FQVyICKT4UXpZblCNhIUSpwm3Xg+BFbPESCNAEFUUOcwJGqofWtMAlsyEPky41WQsUzaTyJ0yp4dJdZgTKWKOkVwNVITcLkDVg4C2z/rpf8G7pVD1n5ZpM0kxwOwZFBDOypzGPWuZO4mdOFyVf5WBCWEYDU81uI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751469910;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=mSSYZlzjDorHVrW9kO4wmXJF7vcClWLjaQL8PerBKvE=;
+	b=DeNXlsfHaMk2Kd1KbaP+z5CgMeLB/0Y79MStxyfuES5HDSFJK/8eDKuQ6yEEGcl8
+	z/QOHyIUBVrJunQiap/b+INWBeqtAytqUaKAnv60qL1mZGjRYpXmjO3Dgla5mOfL/GB
+	SVkbt+cCJd9w+pA5ueE3JjlaEEEN3y/GCx97BCgo=
+Received: by mx.zohomail.com with SMTPS id 1751469909243485.9751973058537;
+	Wed, 2 Jul 2025 08:25:09 -0700 (PDT)
+Message-ID: <ed010318-8a10-4a8c-b8d4-721bdf631c2b@collabora.com>
+Date: Wed, 2 Jul 2025 20:25:03 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,94 +45,41 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Youssef Samir <quic_yabdulra@quicinc.com>
-Subject: Re: [PATCH] bus: mhi: host: Detect events pointing to unexpected TREs
-To: Manivannan Sadhasivam <mani@kernel.org>
-CC: <manivannan.sadhasivam@linaro.org>, <jeff.hugo@oss.qualcomm.com>,
-        <quic_carlv@quicinc.com>, <quic_thanson@quicinc.com>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>
-References: <20250521163110.571893-1-quic_yabdulra@quicinc.com>
- <vpgqiiszye6azpn5muq64bxqg63cvizxpzj5cmspjynflzm3oe@2i55blw73j5x>
+Subject: Re: [PATCH 2/3] bus: mhi: don't deinitialize and re-initialize again
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Youssef Samir <quic_yabdulra@quicinc.com>,
+ Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
+ Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+ Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
+ Siddartha Mohanadoss <smohanad@codeaurora.org>,
+ Sujeev Dias <sdias@codeaurora.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ John Crispin <john@phrozen.org>, Muna Sinada <quic_msinada@quicinc.com>,
+ Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
+ Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ kernel@collabora.com
+References: <20250630074330.253867-1-usama.anjum@collabora.com>
+ <20250630074330.253867-3-usama.anjum@collabora.com>
+ <2025070128-chihuahua-slimness-da88@gregkh>
 Content-Language: en-US
-In-Reply-To: <vpgqiiszye6azpn5muq64bxqg63cvizxpzj5cmspjynflzm3oe@2i55blw73j5x>
-Content-Type: text/plain; charset="UTF-8"
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <2025070128-chihuahua-slimness-da88@gregkh>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=C4TpyRP+ c=1 sm=1 tr=0 ts=68654b27 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=OptpXa49IPl6w_Hr0P8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: xRzBhJRY90T1JCLd7pLpTFfPaGWdPdyZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDEyNCBTYWx0ZWRfXyc55dslpDuzv
- 0BACcclWDhMT6zYtpD/oOXeW4OP96m12exRHj0zyMotMXkyK3ic4yzbbiPEKpRjwXRmmzeBKW0T
- 8CpH5+6lyg75UapfErnmTu+x+eWAnHaSlQ4NGzZxBRlbshubOa0zW8f4C9K+MUjnwIhzpVRt/fd
- fkDwnEdklD8Lohhd4asAokaDwVuWLfEQTR0LSrwhKa28p5yjSTx+ePXX7cFnJTsd/bSwSWRhBCC
- o/OHO3WjPkQzl0pLhBs80BljE4oaayqmLipcT7Z2xX+JOesJZSLMB88LHykBc7ijnQumxu84Ggr
- mcakvHSHPAOCXCc4cnQIiB+MZVGwe5Mpu5MIV6gL1/j7hX+WNAI2vYd8cMQxm4Ii2fjkqvojjnI
- KcXsaL/GfeYyND1gZw+kgQFUmVC7Zy5jIrniLePrR4+GT9mWA7/LXWuZpEpRMnZhD+OiJ7ZQ
-X-Proofpoint-GUID: xRzBhJRY90T1JCLd7pLpTFfPaGWdPdyZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-02_02,2025-07-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1011 priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507020124
+X-ZohoMailClient: External
 
-
-
-On 6/17/2025 11:24 AM, Manivannan Sadhasivam wrote:
-> On Wed, May 21, 2025 at 06:31:10PM +0200, Youssef Samir wrote:
->> When a remote device sends a completion event to the host, it contains a
->> pointer to the consumed TRE. The host uses this pointer to process all of
->> the TREs between it and the host's local copy of the ring's read pointer.
->> This works when processing completion for chained transactions, but can
->> lead to nasty results if the device sends an event for a single-element
->> transaction with a read pointer that is multiple elements ahead of the
->> host's read pointer.
+On 7/1/25 3:25 PM, Greg Kroah-Hartman wrote:
+> On Mon, Jun 30, 2025 at 12:43:29PM +0500, Muhammad Usama Anjum wrote:
+>> Don't deinitialize and reinitialize the HAL helpers. The dma memory is
+>> deallocated and there is high possibility that we'll not be able to get
+>> the same memory allocated from dma when there is high memory pressure.
 >>
+>> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+>>
+>> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
 > 
-> How can this happen? I cannot relate this with the scenario mentioned below.
-> 
->> For instance, if the host accesses an event ring while the device is
->> updating it, the pointer inside of the event might still point to an old
->> TRE.
-> 
-> I cannot interpret this, sorry. The host is supposed to access the ring elements
-> till the RP. Even if the device updates the RP while host is processing the TREs,
-> it should not cause any issues for the host which only sees the used ring
-> elements.
-> 
-> Maybe I'm missing something?
-
-Hi Mani,
-
-This is related to the behavior that 'commit 6f18d174b73d ("bus: mhi: ep: Update read pointer only after buffer is written")'
-aimed to fix from the endpoint. The scenario I observed with a device using drivers/bus/mhi/ep/
-involved the device sending an MSI to host for an event that hasn't had its data
-completely updated. the event could be pointing to a TRE that is not local_rp + 1.
-As you mentioned, the host will process all the TREs until the event's rp,
-which allows it to access data that were freed or hasn't been written to yet.
-
-An example of this is qrtr_mhi, where qcom_mhi_qrtr_ul_callback() gets
-called to consume skbs that were already freed, which led to refcount
-and null pointer dereference issues that caused the host to crash.
-
-This happened because the MSI would reach the host and get processed
-before the device was done updating the event ring element. Even though
-the aforementioned behavior should not occur with 6f18d174b73d, this patch
-aims to harden the host implementation by assuming that the host will not
-receive an event with an rp that is n elements ahead of its local rp, unless
-it is a chained transaction, otherwise, it is treated as an error.
-
-Thanks,
-Youssef
-
-> 
-> - Mani
-> 
+> No cc: stable?
+I'll add it to entire series.
