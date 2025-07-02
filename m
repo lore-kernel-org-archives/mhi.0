@@ -1,43 +1,73 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9EF2EE27C
-	for <mhi@lists.linux.dev>; Wed,  2 Jul 2025 16:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472763; cv=pass; b=BTL2Uus9Y6HD7HvEJsjoOemwQ3AAhT207DoptoAjCTs5MQz32OYJsIHcxzPiIBjHHyyqtsbUVBdivygFTsEctCP/wETr9oklrnV6CoqCLT/26Se2DiEhTzNxH9KR+nr2Bid2f3sjWxlQJk2UAaaDksa4Pq+5KW6XulG6MMvx/5M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472763; c=relaxed/simple;
-	bh=SWr5egc/kBqD2BH1a3muMW35PJI1BXm67zznQoh15y0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356A7253351
+	for <mhi@lists.linux.dev>; Wed,  2 Jul 2025 17:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751477125; cv=none; b=DaEhW0G8DDxEK04qiF6NCFit0DUDoM1W0JiL1FKJrf4NvWw97ivBSjCYaqp6Z7JkoRxaEaANe7OfKSAoXTm5HZhgTfTN9XxXtanJKlZ2FyghBYTPC7S3nvOHV0hXY3yjZbEYFfkik/7AcmQGiOUZUHiY2yWGoFl0tRK6q4AJ9QQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751477125; c=relaxed/simple;
+	bh=WZyYTlWdSGjfbQpzDv1VK2XsfyDqeUoKt+82ACxQjtA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eSipsNHijKR+RBsFHptouGu0TWRShi6eMqrn01/0qN5dvdC4RIB1VljiWA8pbRDocnmRdVy0aMo6Ao2K5JkF3qOZfEMxWOIpy5Z03hbIumO3bNVc/XgxrxKbMXYD5QiFyGJ5rff+0hLNKwXpaj/6hXdwVlCpBhRyF4wSrJ7OYAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=UUJLIsIK; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=iDhrUvOZOv8AkNQcWt1DBaXhsrZIUZ7Zu5Oyv9WZCqLVQvlbGc2a+0gDsyMie7prqhqSWNA+MYXITGpqdtd7/dpkwjCU+gPAC0H4R8XWlisq5zgup764ECqmuY1HA9DqZoW7BQNHOM8pTSApmE+/yUVz5iuJ6DeE7U9jLe0Mp8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QI7URzgI; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="UUJLIsIK"
-ARC-Seal: i=1; a=rsa-sha256; t=1751472731; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NZzFzK31qLQT6oSbwobh15Vji65dWAbwwFEkkMNl8TcJmLylR4y0jFb9m3r9DB9kfdcDwjt4smQPkKVF4Zv1rQ1QnAmuo/NqTNRbMwwYpSp3p0vrBoAbI64Zl2AvR/bGm0R6iyZ4D2cHoDvn0B0Uv6WLTCC64wmhHHZoVGq9tKM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751472731; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=kHonnTMMDQvh5LezYlicL8UTSbmvRPcd3Q0viWMvaiw=; 
-	b=H1wfFrn1OzG3+Woz0eV9r80LdVzL43Q6AeyvONmLFitLxeHh7CELPvQ+kefMppQ+HJEq+Dss5FJWkibjiO8n7YFneZYr2Z/yLuRsto0vtdFRvYzy2VKxnxC9yBXeXO1P/Eds9mGlqP0v1QivK5vagLoejHQmKx7xRl3RTyTHdDY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751472731;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=kHonnTMMDQvh5LezYlicL8UTSbmvRPcd3Q0viWMvaiw=;
-	b=UUJLIsIKL6CdgL+PpjU27TlDEtHpS4PgP0a44fvCO0O8SG+1WXv+HsXtdlfoy65p
-	NiRGQ4QQtwAzHywtvNoD6Xar+G5wTAJO5XgRU43vkNvqN4P1hABmGY3/22iMVafyIf9
-	Fwe2NnKacPYKkonXzw5SH0EIdGlYvdWyhFNmDdaY=
-Received: by mx.zohomail.com with SMTPS id 1751472728803823.4525464952651;
-	Wed, 2 Jul 2025 09:12:08 -0700 (PDT)
-Message-ID: <29ba0afa-9a1b-40f9-a174-d03902ea5d3f@collabora.com>
-Date: Wed, 2 Jul 2025 21:12:00 +0500
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QI7URzgI"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562EDkHn025373
+	for <mhi@lists.linux.dev>; Wed, 2 Jul 2025 17:25:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WZyYTlWdSGjfbQpzDv1VK2XsfyDqeUoKt+82ACxQjtA=; b=QI7URzgIoK97WDeU
+	W7XfEdAkMALd2S9JLF7oFTq42JWw60Uf4B7wVXDym1R04OBPUAMbW69dS+/XPfFW
+	ymM0Pe6IVAethNd43a2dPwLwJEAQIY0MRZyvMgfhwLnAKRsn7OaJcq+VI9fKWGgX
+	6zANcbxt51nX1fS32u1P0Ej3xEXbVn1rJbKtEYtCTu3/HvsKjXJF8T8TZrYUehUa
+	jaJ0w6/QcNm1fAe9gGJjnL1MLFehJlGVbzBtLd5/V1eIEnsoaL7l3cAVvT/U+T+b
+	05e6ySKYb4RO1/vHqevrVNWv6rrbeqemzKR6ZVlflSFhrNcL/5Ck4bQpBGL1KxTv
+	o+cwug==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kd64tmpr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 02 Jul 2025 17:25:22 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-748e4637739so46750b3a.1
+        for <mhi@lists.linux.dev>; Wed, 02 Jul 2025 10:25:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751477110; x=1752081910;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WZyYTlWdSGjfbQpzDv1VK2XsfyDqeUoKt+82ACxQjtA=;
+        b=iz/2s77YTYt669qyvwZTh51q0s/ar5DlKY08i+6mq7Mpt6adbwPCfQ9Egc5cJ8dv5j
+         n4Fi+hsg7YtPgE1MKZinA5ATNaR6l61wDCBQUpKWBd+lNfyuG8cFfo5MUWl8Ru3reTWQ
+         Q6P/WvIr0cTdmP06gWgsz091yJDdGq57BXViPtZdeDd3KLDZxOd8CQ/yxjZMinCfmbAE
+         EBk2XS5uQMm1xo2whzfTRn9nif+x+DBWYpSSGJM8wQR2Td6DyGHIriGYySMHZXBF4wXL
+         08d1m/tGe5yTHm+8pXsW/bYu2szH3Da3z43yVwReOdwK14ewtcudMuR3FPIbg5eytkbk
+         Hxbw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/zCiG68gUfz/nBIN/2Ddm3WniaSOW1e45DkzW7Ws18ObkCf1YUkH1QStkfXac7+ipUVI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YygDPAfcfyMqeJHB7j7Ut5elXcRUfeS/W+u5RUz+vV2U/2Aimqj
+	JujG9wkpRkgqI3mPhNM45CWWuxT5Rb1xAF9eK7OoXLBph1j7ORFSc86eEQ2zK5vysaTS/GvA+Jf
+	4Zdlko+Dy0ucoGZehVtNijfHuCLhZ9kBFv1AN03FHoHqvsqyhcj/RjnI=
+X-Gm-Gg: ASbGnculhkA8aptqesO7hPXL1d3QXgV/EiH0N2fkmniLJS+0RAZS8yXHu+LVt9x5P3J
+	LPvzBV1JgFxvgkcZS7JtBnIGY1R+avXyRXW0SvVKnlhDRiSiyz5wZN/psmtlGPLU1uFa44+bZXv
+	AVejgUeA5rjNIwicXbKBp1hxlMRYpXEaYj4hFn1DzukzLd/bRb6W392pyirKcG9rW5NqkGwNzf0
+	zM0bWSXDZen6pj3cBrUonzr5F0xLVrFLb/pwwgqCQ6LCpgJhmHHSqdU2QD3X3+6U1LgYABd96J/
+	1DEKTlUcDTZ76lMUv9yOxDb+BeraSc3vuo/R0OSjgHX9vKdVVcmOxr0XhJIkQ5k6o7tWbbEsMNU
+	Vsx+nGrtxybO5esI=
+X-Received: by 2002:a05:6a00:1488:b0:736:4e14:8ec5 with SMTP id d2e1a72fcca58-74c998b115bmr395797b3a.11.1751477110468;
+        Wed, 02 Jul 2025 10:25:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNL+mjpubj8oTFu+kPvG+vg07PpxKV0Dl1sFm81HYHH53fukGuY5jdbk7k4o7/GpFwTLHvZg==
+X-Received: by 2002:a05:6a00:1488:b0:736:4e14:8ec5 with SMTP id d2e1a72fcca58-74c998b115bmr395756b3a.11.1751477109849;
+        Wed, 02 Jul 2025 10:25:09 -0700 (PDT)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74b548a1fbbsm2105715b3a.81.2025.07.02.10.25.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jul 2025 10:25:09 -0700 (PDT)
+Message-ID: <e38dc5db-7c7b-413d-9ef8-8dfae7feeb2e@oss.qualcomm.com>
+Date: Wed, 2 Jul 2025 10:25:07 -0700
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,96 +76,66 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] bus: mhi: don't deinitialize and re-initialize again
-To: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Youssef Samir <quic_yabdulra@quicinc.com>,
- Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
- Alexander Wilhelm <alexander.wilhelm@westermo.com>,
- Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Siddartha Mohanadoss <smohanad@codeaurora.org>,
- Sujeev Dias <sdias@codeaurora.org>, Julia Lawall <julia.lawall@lip6.fr>,
- John Crispin <john@phrozen.org>, Muna Sinada <quic_msinada@quicinc.com>,
- Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
- Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Youssef Samir <quic_yabdulra@quicinc.com>,
+        Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
+        Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+        Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Siddartha Mohanadoss <smohanad@codeaurora.org>,
+        Sujeev Dias <sdias@codeaurora.org>,
+        Julia Lawall <julia.lawall@lip6.fr>, John Crispin <john@phrozen.org>,
+        Muna Sinada <quic_msinada@quicinc.com>,
+        Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
+        Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
 Cc: kernel@collabora.com
 References: <20250630074330.253867-1-usama.anjum@collabora.com>
  <20250630074330.253867-3-usama.anjum@collabora.com>
- <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
+ <855ae20a-3675-4cce-b87d-6f25fb69e0a8@oss.qualcomm.com>
+ <defad9df-e248-48d2-a3b6-3f057c6f0b76@collabora.com>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
 Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
+In-Reply-To: <defad9df-e248-48d2-a3b6-3f057c6f0b76@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-Authority-Analysis: v=2.4 cv=Z+PsHGRA c=1 sm=1 tr=0 ts=68656b82 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=e70TP3dOR9hTogukJ0528Q==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=7FD9jUKyMsHjXuVnl2EA:9
+ a=QEXdDO2ut3YA:10 a=Sn0URPYyO7IA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDE0MyBTYWx0ZWRfX7O1QhC3oR47e
+ D3meU0Ebyq6KBwaKwjd2gW8H7TlDBVuXehnUVTe/pYkpZqjHsKoWYYZAgiH9kMhG5QGv/lhVJ22
+ VPrPfe57zDX2NPJVmN7FQvT6UItocQmNuKtxQuoFxZZF3WiyepJJtPIUN39ZVGG6jGbtPYAMaSn
+ Ex1naWVGu8tgct9sarlHQZ4s0sKtHDFFIIetk+BkeAqRXZf2MZCdNAfduP3asWyhMrcjUaF3wts
+ kBfdVoUbymi1C+oqa/m8Gnrct1IpzmkYUyiNcvPw6+Jnrbo/e1MUvHyXD2U56lMmIKKiZExW5xh
+ BTeQ2/eGmsca7FFV8w74cWxIbr2nESVwXJxTsAsiF8/ljsCGVbpIYwxBrUVfSg0tsOvxXX+qwkh
+ 05Ckq1W4r+92EL6C5IJAqeDAnKvM+KHiPBXOPzWdTnyWVfvsPdaYLu+2z9DaPIUPp6o8Wjz4
+X-Proofpoint-GUID: 2qIE4DligADUzkr7fXflgff_24z8BgZc
+X-Proofpoint-ORIG-GUID: 2qIE4DligADUzkr7fXflgff_24z8BgZc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-02_02,2025-07-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=818
+ spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507020143
 
-Thank you for reviewing.
-
-On 7/2/25 8:50 AM, Baochen Qiang wrote:
-> 
-> 
-> On 6/30/2025 3:43 PM, Muhammad Usama Anjum wrote:
->> Don't deinitialize and reinitialize the HAL helpers. The dma memory is
->> deallocated and there is high possibility that we'll not be able to get
->> the same memory allocated from dma when there is high memory pressure.
+On 7/2/2025 8:28 AM, Muhammad Usama Anjum wrote:
+> On 7/1/25 7:49 PM, Jeff Johnson wrote:
+>> On 6/30/2025 12:43 AM, Muhammad Usama Anjum wrote:
+>>> the same memory allocated from dma when there is high memory pressure.
+>>>
+>>> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
 >>
->> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
->>
->> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->> ---
->>  drivers/net/wireless/ath/ath11k/core.c | 5 -----
->>  1 file changed, 5 deletions(-)
->>
->> diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
->> index 4488e4cdc5e9e..bc4930fe6a367 100644
->> --- a/drivers/net/wireless/ath/ath11k/core.c
->> +++ b/drivers/net/wireless/ath/ath11k/core.c
->> @@ -2213,14 +2213,9 @@ static int ath11k_core_reconfigure_on_crash(struct ath11k_base *ab)
->>  	mutex_unlock(&ab->core_lock);
->>  
->>  	ath11k_dp_free(ab);
->> -	ath11k_hal_srng_deinit(ab);
->>  
->>  	ab->free_vdev_map = (1LL << (ab->num_radios * TARGET_NUM_VDEVS(ab))) - 1;
->>  
->> -	ret = ath11k_hal_srng_init(ab);
->> -	if (ret)
->> -		return ret;
->> -
-> 
-> while I agree there is no need of a dealloc/realloc, we can not simply remove calling the
-> _deinit()/_init() pair. At least the memset() cleanup to hal parameters (e.g.
-Why do is it being done in the resume handler? Shouldn't those parameters be cleaned up
-in resume handler? So when device wakes up, its state is already correct.
+>> not quite the right format since it is missing hw version and bus
+> I've been using the same tag from last accepted patches. How to construct the
+> correct patch?
 
-I'm not sure why it worked every time when I tested it on my device.
-
-> avail_blk_resource, current_blk_index and num_shadow_reg_configured etc.) inside the
-> _init() needs to be kept as the later operation needs a clean state of them.
-So should we just memset these 3?
-
-
-> 
->>  	clear_bit(ATH11K_FLAG_CRASH_FLUSH, &ab->dev_flags);
->>  
->>  	ret = ath11k_core_qmi_firmware_ready(ab);
-> 
-> the _deinit() is still getting called in case ath11k_core_qmi_firmware_ready() fails,
-> making it a little odd since there is no _init() anymore with this change, though this is
-> the way of current logic (I mean the hal is currently deinit in the error path).
-> 
-> Thinking it more, if we hit the error path, seems the only way is to remove ath11k module.
-> In that case the _deinit() would be called again in ath11k_pci_remove(), leading to issues
-> (at least I see a double free of hal->srng_config). But this is another topic which can be
-> fixed in a separate patch.
-
-I don't think this is the problem as HAL is already initialized when before the system has
-suspended. So by removing deinit() and init() pairs, the HAL still remains initialized. Or
-maybe I've missed something?
-
- 
+https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath12k/submittingpatches.html#tested-on-tag
 
