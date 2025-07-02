@@ -1,43 +1,43 @@
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7863196D5
-	for <mhi@lists.linux.dev>; Wed,  2 Jul 2025 15:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9EF2EE27C
+	for <mhi@lists.linux.dev>; Wed,  2 Jul 2025 16:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751470138; cv=pass; b=tdQWDId9J+NeiQqJuXc2A+8J+qh8GZnWYSF3ACSx2jh4xxEIRJOuHxc4iMkLTeNE9OqA84Nwn2pCwh3343zt08ecDCj25Z+opd/aBzSdCcvybTo9cgDuWIE8dizNv5fM5mDQijfW8PtM43ugiGmwSegbHlmArmx+SqcL750aG7Y=
+	t=1751472763; cv=pass; b=BTL2Uus9Y6HD7HvEJsjoOemwQ3AAhT207DoptoAjCTs5MQz32OYJsIHcxzPiIBjHHyyqtsbUVBdivygFTsEctCP/wETr9oklrnV6CoqCLT/26Se2DiEhTzNxH9KR+nr2Bid2f3sjWxlQJk2UAaaDksa4Pq+5KW6XulG6MMvx/5M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751470138; c=relaxed/simple;
-	bh=4XEKQT76LvS3Y6e6rmkm0GkWsEW6Zw0OCCcFcS67QPk=;
+	s=arc-20240116; t=1751472763; c=relaxed/simple;
+	bh=SWr5egc/kBqD2BH1a3muMW35PJI1BXm67zznQoh15y0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GKs2ctZTY7qbfiZnm9wu+0SkSNxZRtfAtGeGNRysI7r3p1xVEYapG0cDv79pCK5e7DLTcPuiSsDA0uJpVD7gNwyntGFASFoJpXLC8QLldzYc3+5UTZWi+Wokbg//poJxF6aUrOW0LxoZ+jukrN6LJ5+OlDy168q7WWx7uKW/UP8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=CuThlUxt; arc=pass smtp.client-ip=136.143.188.12
+	 In-Reply-To:Content-Type; b=eSipsNHijKR+RBsFHptouGu0TWRShi6eMqrn01/0qN5dvdC4RIB1VljiWA8pbRDocnmRdVy0aMo6Ao2K5JkF3qOZfEMxWOIpy5Z03hbIumO3bNVc/XgxrxKbMXYD5QiFyGJ5rff+0hLNKwXpaj/6hXdwVlCpBhRyF4wSrJ7OYAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=UUJLIsIK; arc=pass smtp.client-ip=136.143.188.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="CuThlUxt"
-ARC-Seal: i=1; a=rsa-sha256; t=1751470104; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="UUJLIsIK"
+ARC-Seal: i=1; a=rsa-sha256; t=1751472731; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=SRAugPz6P+3S6Ww1NMrFW+rBm8a+V/pHxmp0f5e9ImTqsgawHg7mJ3Xv9atJN5EKT1ZGw8mwJRFq1hX7WPxk1CMyR2dPjoyHcLt+xkq8x6mI7GysxsLtbA4Ds0cxxe6uJUN7IYYTTKw4cx3BI+QILpcUI9pyfjn1h07LFLqZsEY=
+	b=NZzFzK31qLQT6oSbwobh15Vji65dWAbwwFEkkMNl8TcJmLylR4y0jFb9m3r9DB9kfdcDwjt4smQPkKVF4Zv1rQ1QnAmuo/NqTNRbMwwYpSp3p0vrBoAbI64Zl2AvR/bGm0R6iyZ4D2cHoDvn0B0Uv6WLTCC64wmhHHZoVGq9tKM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1751470104; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=vToI/q0SLNdevcT5MHyyQG4DzTsgKvzxpzAhoFP37GM=; 
-	b=nT+2wCpivFckHAfh8BQVmjtTtjGhJuqX+kjQ778zgcWJ3Jmqpis2mWAbdbLKFmMss1DyOVPrCQ9qJ18+ftHPw+yzClb5wrtrPRTQwTby6V4zvD7qN9orRHbZAK++NesCIC3GZJxIOQjXXAd5gEKAmT3AKsyunyBVt22WEQi+O3k=
+	t=1751472731; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=kHonnTMMDQvh5LezYlicL8UTSbmvRPcd3Q0viWMvaiw=; 
+	b=H1wfFrn1OzG3+Woz0eV9r80LdVzL43Q6AeyvONmLFitLxeHh7CELPvQ+kefMppQ+HJEq+Dss5FJWkibjiO8n7YFneZYr2Z/yLuRsto0vtdFRvYzy2VKxnxC9yBXeXO1P/Eds9mGlqP0v1QivK5vagLoejHQmKx7xRl3RTyTHdDY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
 	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751470104;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751472731;
 	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
 	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=vToI/q0SLNdevcT5MHyyQG4DzTsgKvzxpzAhoFP37GM=;
-	b=CuThlUxt/Ev8mupL8U0sZk7gy1qW3SfjKatxNKRlQuqNCOSgV3j+CfBgEql6mOSR
-	i6SLjaLJfhb/hEp1z4LZ7ipJk62qa1BFHIH2LjXjOVK7PuNYDJnYP4IeWWmkSAPcewL
-	h1YyybETUyOAT4RKpRGgY+YaSBtbtQZTzLJRUSms=
-Received: by mx.zohomail.com with SMTPS id 1751470102160518.2344574890795;
-	Wed, 2 Jul 2025 08:28:22 -0700 (PDT)
-Message-ID: <defad9df-e248-48d2-a3b6-3f057c6f0b76@collabora.com>
-Date: Wed, 2 Jul 2025 20:28:13 +0500
+	bh=kHonnTMMDQvh5LezYlicL8UTSbmvRPcd3Q0viWMvaiw=;
+	b=UUJLIsIKL6CdgL+PpjU27TlDEtHpS4PgP0a44fvCO0O8SG+1WXv+HsXtdlfoy65p
+	NiRGQ4QQtwAzHywtvNoD6Xar+G5wTAJO5XgRU43vkNvqN4P1hABmGY3/22iMVafyIf9
+	Fwe2NnKacPYKkonXzw5SH0EIdGlYvdWyhFNmDdaY=
+Received: by mx.zohomail.com with SMTPS id 1751472728803823.4525464952651;
+	Wed, 2 Jul 2025 09:12:08 -0700 (PDT)
+Message-ID: <29ba0afa-9a1b-40f9-a174-d03902ea5d3f@collabora.com>
+Date: Wed, 2 Jul 2025 21:12:00 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] bus: mhi: don't deinitialize and re-initialize again
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+To: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
  Manivannan Sadhasivam <mani@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
  Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
  Youssef Samir <quic_yabdulra@quicinc.com>,
@@ -64,36 +64,25 @@ To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
 Cc: kernel@collabora.com
 References: <20250630074330.253867-1-usama.anjum@collabora.com>
  <20250630074330.253867-3-usama.anjum@collabora.com>
- <855ae20a-3675-4cce-b87d-6f25fb69e0a8@oss.qualcomm.com>
+ <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
 Content-Language: en-US
 From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <855ae20a-3675-4cce-b87d-6f25fb69e0a8@oss.qualcomm.com>
+In-Reply-To: <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
 
-Thank you for reviewing!
+Thank you for reviewing.
 
-On 7/1/25 7:49 PM, Jeff Johnson wrote:
-> On 6/30/2025 12:43 AM, Muhammad Usama Anjum wrote:
+On 7/2/25 8:50 AM, Baochen Qiang wrote:
 > 
-> Subject has incorrect prefix, should be "wifi: ath11k: "
 > 
-> And ideally it should mention HAL SRNG since it is specific to that allocation
-I'll fix the subject.
-
-> 
+> On 6/30/2025 3:43 PM, Muhammad Usama Anjum wrote:
 >> Don't deinitialize and reinitialize the HAL helpers. The dma memory is
 >> deallocated and there is high possibility that we'll not be able to get
 >> the same memory allocated from dma when there is high memory pressure.
 >>
 >> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
-> 
-> not quite the right format since it is missing hw version and bus
-I've been using the same tag from last accepted patches. How to construct the
-correct patch?
-
-> 
 >>
 >> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
 >> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
@@ -117,17 +106,36 @@ correct patch?
 >> -	if (ret)
 >> -		return ret;
 >> -
+> 
+> while I agree there is no need of a dealloc/realloc, we can not simply remove calling the
+> _deinit()/_init() pair. At least the memset() cleanup to hal parameters (e.g.
+Why do is it being done in the resume handler? Shouldn't those parameters be cleaned up
+in resume handler? So when device wakes up, its state is already correct.
+
+I'm not sure why it worked every time when I tested it on my device.
+
+> avail_blk_resource, current_blk_index and num_shadow_reg_configured etc.) inside the
+> _init() needs to be kept as the later operation needs a clean state of them.
+So should we just memset these 3?
+
+
+> 
 >>  	clear_bit(ATH11K_FLAG_CRASH_FLUSH, &ab->dev_flags);
 >>  
 >>  	ret = ath11k_core_qmi_firmware_ready(ab);
 > 
-> does this patch have any dependency upon the 1/3 patch?
-No
-
-> if not, then it should be sent separately since it should go through the ath
-> tree instead of through the mhi tree.
-Ohh... I see. I'll send it separately.
-
+> the _deinit() is still getting called in case ath11k_core_qmi_firmware_ready() fails,
+> making it a little odd since there is no _init() anymore with this change, though this is
+> the way of current logic (I mean the hal is currently deinit in the error path).
 > 
-> /jeff
+> Thinking it more, if we hit the error path, seems the only way is to remove ath11k module.
+> In that case the _deinit() would be called again in ath11k_pci_remove(), leading to issues
+> (at least I see a double free of hal->srng_config). But this is another topic which can be
+> fixed in a separate patch.
+
+I don't think this is the problem as HAL is already initialized when before the system has
+suspended. So by removing deinit() and init() pairs, the HAL still remains initialized. Or
+maybe I've missed something?
+
+ 
 
