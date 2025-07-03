@@ -1,211 +1,146 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3169C23774
-	for <mhi@lists.linux.dev>; Thu,  3 Jul 2025 01:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE421E9B3D;
+	Thu,  3 Jul 2025 15:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751507951; cv=none; b=AD4/Kaz5TQ8vjCAMrIcdY1u2qOZPmfdIBOr+bBmZwdmO3IwhhZ8mBDihhXexHZbygmGrxQO/qOjVoVVUCCIWt1Wx3ROKHBa2/DnURy79ghU0KQFQSRySQBZ/LmkK+Rm2fPoeFG5JmIrxv8Mv3KjJ8p/xj+IUhw0WzPXRHM3whKY=
+	t=1751555396; cv=none; b=jg9kRtyvQdhc38mIwxitAwXbJMbzUhYmyS8AejDBVIZEldNuOSxet8d0uoSNFnAVCqSI1f5IreHCmdcK0vVOc2iKfmq36oPzH3lENe+6Ok0m4WejGSUkbdM1Qd3eRxWH0+NdCT8uJKkNeJdml8oxHe+vbArhP796MfFtdUrLsAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751507951; c=relaxed/simple;
-	bh=HWvWupoVOUpxIVdmgPcGZapk7ubPy7BmqzGl82+G7oM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CG1//tLpLP+645H9cGM0FcraY4HiagmNh7cWgKbmnUSQ9vvGuT53qFfygAZvWrpZnch/0hWM/OsziboTV3h11lP+BF+r/fxZh2Xqd25ToQmfnSMuM5W/4jZ3E+EcUoVW9gQCQxaUgYtwv1FFaKZGQ6lgzz6vtOFzky0YaNyOATk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KdFRRABi; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1751555396; c=relaxed/simple;
+	bh=w5RnSFtp0MN5u7g8v7grTd4Pv2Ujqg7NjWQkyG/E58U=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=hboeFoG1weK0XdnXTPyyQwryLlr/jvcfplUHvefLYi8ffSBcAgL5CU4pESFX6NA8GiLno0EgB7OwunJBq4vXtot1UTVAagW2X3CAV3zCcRrmQT2rpGvsPxXTFmw5leCq4ETtFAH40gPBRYgx2mHxyeZJDF98fwGltXaxfgYA5B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dBCiMoyQ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KdFRRABi"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562JBa3C007740
-	for <mhi@lists.linux.dev>; Thu, 3 Jul 2025 01:59:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BLk20dvf/JzTQp3p5RGp6IdlyZiyxeKpevcy7m6Fu5c=; b=KdFRRABiqaelYO9h
-	VB7lhgFrWTYQfNViFRaotOMOHThR4Sh6lZzaXDhIpXzGJSgBlOKkgfJuRvF+RsQ8
-	Fpj7kgEbXjs2B/zrRtgvoEAYYeCW+JxbBRcVKTrSX6722rYERAvQOdWuYVBnL/45
-	2wBqQUaFwwRf8TSZgGDwbfYahF2qutfudGG4tLkUqnzFCYkt5IhdJ+L/S5vxn1up
-	ud9VN9jGVEqnXZvFcbg9RvF6p7QOEUusJA12gICiUZrz+eQHgfXaWk3VfvLhHOI6
-	cERCQV7MADw//NL9OEXJwW+hbNzlBeGwWO6Y1WhjnOnVdh5mOYxsAbbvKW2wm46q
-	J36L/g==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47napw0vwd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 03 Jul 2025 01:59:09 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2349fe994a9so39218595ad.1
-        for <mhi@lists.linux.dev>; Wed, 02 Jul 2025 18:59:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751507948; x=1752112748;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BLk20dvf/JzTQp3p5RGp6IdlyZiyxeKpevcy7m6Fu5c=;
-        b=lMYkl/MghjLgVa7D7TyiyCnwarsmJNHk82VgWE2L3/ACEEJXoBD8/2ojLkBgZqnCa6
-         RpduPqe2vpzdQhQzypFZM5ZpBeLx9rPdiXvQgo4C8JlZVLBLRASFgTrLeDUZ+EaIb9Cf
-         UcV48mODUqj2zap+3+llW9lHZ50kFDzLrGvkFIol/O7d0w1ucG6DF+LlZSwIzqZcaNJQ
-         FA7ctpjFgKlEmDJTGWiUCJ1NTnsDnZS5VPDBmCOJHpHii1k4AdgLToovtyO1LOEqVsDU
-         OxSL/rG4qbiPrKVR5HDLEBCLYzHz68al3x7DN8N6XRu3FOHgBI8TLnO9MhCzPRZ/Qq4Q
-         QONw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5bL9OBBkMaK64B4cfIbI/LCXiVlbOW9DN/wTig9igoG7VoS9DernDA9kxmaNW2x/v+dg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YypW8IN8wcEFwNZB5HaKxj6mKpx2OaPJp09SVRhN+0fG5tlXsDG
-	7tR5Kdtg4uGAGcsqtiyjy0RvRXn/xbzLNZg6CGCqoEg4Mn22y6I+16Rj6XHTNBknO/yC0wRuiHf
-	JPEBzIZALEbz6iA+1/VzkjOI/ZpUDmZQ2F5nImgwRby+8a70wCeR/gbE=
-X-Gm-Gg: ASbGncu7m0+6Bj3atPyN4RioBduWw2WcxaD914JvZ0LxPmQ2EW0A+nTfb/E2YszRgX5
-	ubheoWxumEq5oBSUOQnYyzkfDrhQYijebSPiITU11mHW6+a/0QQ4dks9WuLi6m5Tjy8OcCWdz8Y
-	unZDgDHmAj0O6u3CW4DZwLoXtNaIVAs/B76tJFWg/IrkSMzAw8+HdygQT1Q+kWVz4GWce5/JO9Y
-	7IoTqcNm7+k86uuutrrCnB8IYL1hRssOPfvscfB3nA9sy13gckn7ezKCYx1uXWlDX/K1UAt80q7
-	iuLN1XkxKGdLAujet8708FAprpkXfUhJxhWGe0UxEIPC2WLHOMA0mkvf3+4pPnaIqXrZDXowWaW
-	xj2/0lLF4BvbFkGI=
-X-Received: by 2002:a17:902:e747:b0:236:7165:6ecf with SMTP id d9443c01a7336-23c6e570620mr92655925ad.38.1751507948094;
-        Wed, 02 Jul 2025 18:59:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFjV6F4zIrWa0LJM5H7lesl+BJIP2s5KAmtJeAQvLyKOvf6L5XBeXUE/9AgT3s1eusgbYs4MA==
-X-Received: by 2002:a17:902:e747:b0:236:7165:6ecf with SMTP id d9443c01a7336-23c6e570620mr92655235ad.38.1751507947568;
-        Wed, 02 Jul 2025 18:59:07 -0700 (PDT)
-Received: from [10.133.33.139] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3b7ab2sm138723935ad.177.2025.07.02.18.59.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Jul 2025 18:59:07 -0700 (PDT)
-Message-ID: <8b9eb6f4-6f0c-458d-b1e6-a1893c35b81d@oss.qualcomm.com>
-Date: Thu, 3 Jul 2025 09:59:00 +0800
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dBCiMoyQ"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 563ErnVF018568;
+	Thu, 3 Jul 2025 15:09:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=e1wKDrG+9ZY7B+fLpLH2lU
+	EiCYmLinZ7W5F89oxGRj0=; b=dBCiMoyQFIJG6ZzBmMBNs1WaOhwB9SKUyOyP2n
+	BFImKXBL3P8iwsTz9YJEFmY3XZFW2wODnaDZLQSy2Imx9LGVLVkQWE49/Zd7turv
+	HuNmhpOB1Cuo3AluwpL2cUu+uYrt+nmJTESvXeBfJBSEQLm5dcBZd1vFP5lvjXJQ
+	dhHwbNfXQJ0W03fteNEM0okQ966sQB4VLXutnMybbBnLOnvwAGYrGO7Xm9tyAZUj
+	6G/bT7C7aOogRUdJ3i4twNqu7zn2uVJxiwWC6KBmYsexFEsATkEVUSOWBrR2UYo9
+	IGPxRxBeqKZgR7JVcu3YYF9lA0voEfq2Mze8P/WdOhAQAiZw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8fxs014-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Jul 2025 15:09:49 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 563F9nAq008711
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 3 Jul 2025 15:09:49 GMT
+Received: from hu-vpernami-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 3 Jul 2025 08:09:47 -0700
+From: Vivek.Pernamitta@quicinc.com
+Subject: [PATCH 0/5] bus: mhi: host: Enable SRIOV support in MHI driver
+Date: Thu, 3 Jul 2025 20:39:39 +0530
+Message-ID: <20250703-sriov_vdev_next-20250630-v1-0-87071d1047e3@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] bus: mhi: don't deinitialize and re-initialize again
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Youssef Samir <quic_yabdulra@quicinc.com>,
-        Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
-        Alexander Wilhelm <alexander.wilhelm@westermo.com>,
-        Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Siddartha Mohanadoss <smohanad@codeaurora.org>,
-        Sujeev Dias <sdias@codeaurora.org>,
-        Julia Lawall <julia.lawall@lip6.fr>, John Crispin <john@phrozen.org>,
-        Muna Sinada <quic_msinada@quicinc.com>,
-        Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
-        Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
-Cc: kernel@collabora.com
-References: <20250630074330.253867-1-usama.anjum@collabora.com>
- <20250630074330.253867-3-usama.anjum@collabora.com>
- <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
- <29ba0afa-9a1b-40f9-a174-d03902ea5d3f@collabora.com>
-Content-Language: en-US
-From: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-In-Reply-To: <29ba0afa-9a1b-40f9-a174-d03902ea5d3f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=dIKmmPZb c=1 sm=1 tr=0 ts=6865e3ed cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=QX4gbG5DAAAA:8 a=unw2bX-B-0ReeQHatd8A:9
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDAxNCBTYWx0ZWRfX7jDAvSte2ynh
- bCR163YXSfaRr/uRKx9QoB7ByC35pEOifh3apyC4DMdWWImh04U+4L3L5TpPET1Quqi6IlDZi1c
- PaEtKAENv4yUwphWsJk/+TLhHKFYXwU4x/P0TP+gdZKCVu+mZACeuibkNbb1BPbFb1tXujRgD0k
- p+5XE/FZMkx34VCaNz1O1YxTPjseDJ38rS3kaDJkc0uOSKwod0wHQwSMWx/YSNxdiKi2gCV9Der
- PZ4nRiz+jUmUZXUfZYqh6BgHtMzzIWC+Sw77I6TdgTI1xXulB7AYl8XlnDRyMjPX+nzGYVuOmY+
- ZpmYY+ITqXfFgYcglCkqrTQlzooi8LVjmr1PR2IDnY5BhURsCvGvZWscoYUBW9h6phvqEGKYPr2
- 73cQNsBMj17GdjVQog8Umx+/Tul1978IwjeVnjGCb47CJa82vwUheE+aeGNuTWE4j2PD4aHQ
-X-Proofpoint-GUID: QZ3J-_zEV9cdoWXKifGQnCqxTwo00nGc
-X-Proofpoint-ORIG-GUID: QZ3J-_zEV9cdoWXKifGQnCqxTwo00nGc
+X-B4-Tracking: v=1; b=H4sIADOdZmgC/x2MUQqAIBAFrxL7nbAWJnSViKh81f5YaEgQ3j3pc
+ xhmXooIgkh99VJAkiinL6DritZj9juUuMLUcGPYslYxyJmm5JAmj+dWv+haVgxYs2njuF2o5Ff
+ AJs+/HsacPxE8UzpqAAAA
+X-Change-ID: 20250701-sriov_vdev_next-20250630-0ee75f15d03b
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Vivek Pernamitta <quic_vpernami@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751555387; l=2212;
+ i=<quic_vpernami@quicinc.com>; s=20241114; h=from:subject:message-id;
+ bh=w5RnSFtp0MN5u7g8v7grTd4Pv2Ujqg7NjWQkyG/E58U=;
+ b=cbXtbUes05/PcdMKrMpYfXlW2609qbdatu58Es0hU4/jo6oz383K2A2CyoFb3hGiaqry5oAZ0
+ Aa7mEM41+rLBb70ZDHdj8fX+C29JKldhUGkwge0V2T2WHjrYl3gu0yV
+X-Developer-Key: i=<quic_vpernami@quicinc.com>; a=ed25519;
+ pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDEyNyBTYWx0ZWRfX8110F29U2NZq
+ 1HQyw8TGNwM85MBzdnee8JgpSGo0b5JXkmPkmtSQeCx1KeNL95Pwbdzl6MwwgM/PBu25i7ahWIp
+ 6pgTpOHxGqm1M7oEfcEZubKOkELp1WifSkHDHm4O8BPat5JuxTVKGQIymMGVGQxxC9x6L8sbHk7
+ ADxsil4DWs3Bnc89qm0thgRR2idBiMNr5s7CSIMHL8PjcGODtZlEQmUhpvrtR8RCXCxQd9oqkPl
+ 99jlOSt0xfSILpMNU1SWWfwRGLn/CZYtv8YaWg9fh0UbHyf6XpHwJrufIMirjU1PqHltFTvhypP
+ yQMVSl2DxgGandAEwJ7EoWWy6KFjdy8v4VvBfH6x+8rBzBU17K0KbLHfvXdrp5Vyw8V8Y8lH1E5
+ 3nMK5ZFS+SXGtZ0tlkl5E7oQ10atzxSn4cZ5c/M604M4Sfio81JjRtstB5c6x/K8QmRivTOQ
+X-Proofpoint-GUID: X7kcvPHc_lm0LmZxQvkLFXlQ1FfcIQ-i
+X-Proofpoint-ORIG-GUID: X7kcvPHc_lm0LmZxQvkLFXlQ1FfcIQ-i
+X-Authority-Analysis: v=2.4 cv=TqPmhCXh c=1 sm=1 tr=0 ts=68669d3e cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
+ a=IZ3J-Pvvv7PwYCIF5DoA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-03_01,2025-07-02_04,2025-03-28_01
+ definitions=2025-07-03_04,2025-07-02_04,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 malwarescore=0
- impostorscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 phishscore=0
- suspectscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ priorityscore=1501 bulkscore=0 mlxlogscore=862 suspectscore=0 adultscore=0
+ phishscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507030014
+ definitions=main-2507030127
 
+This patch introduces several enhancements for the SRIOV support in MHI driver
+focusing on enabling SRIOV and improving the MHI driver removal process.
 
+- Add support to enable SRIOV.
 
-On 7/3/2025 12:12 AM, Muhammad Usama Anjum wrote:
-> Thank you for reviewing.
-> 
-> On 7/2/25 8:50 AM, Baochen Qiang wrote:
->>
->>
->> On 6/30/2025 3:43 PM, Muhammad Usama Anjum wrote:
->>> Don't deinitialize and reinitialize the HAL helpers. The dma memory is
->>> deallocated and there is high possibility that we'll not be able to get
->>> the same memory allocated from dma when there is high memory pressure.
->>>
->>> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
->>>
->>> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
->>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->>> ---
->>>  drivers/net/wireless/ath/ath11k/core.c | 5 -----
->>>  1 file changed, 5 deletions(-)
->>>
->>> diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
->>> index 4488e4cdc5e9e..bc4930fe6a367 100644
->>> --- a/drivers/net/wireless/ath/ath11k/core.c
->>> +++ b/drivers/net/wireless/ath/ath11k/core.c
->>> @@ -2213,14 +2213,9 @@ static int ath11k_core_reconfigure_on_crash(struct ath11k_base *ab)
->>>  	mutex_unlock(&ab->core_lock);
->>>  
->>>  	ath11k_dp_free(ab);
->>> -	ath11k_hal_srng_deinit(ab);
->>>  
->>>  	ab->free_vdev_map = (1LL << (ab->num_radios * TARGET_NUM_VDEVS(ab))) - 1;
->>>  
->>> -	ret = ath11k_hal_srng_init(ab);
->>> -	if (ret)
->>> -		return ret;
->>> -
->>
->> while I agree there is no need of a dealloc/realloc, we can not simply remove calling the
->> _deinit()/_init() pair. At least the memset() cleanup to hal parameters (e.g.
-> Why do is it being done in the resume handler? Shouldn't those parameters be cleaned up
-> in resume handler? So when device wakes up, its state is already correct.
-> 
+- Add support to read SUBSYSTEM_VENDOR_ID for VF's to check status.
 
-Hmm... not quite understand your question. Can you elaborate?
+- Implement support for separate controller configurations for both
+  Virtual Functions (VF) and Physical Functions (PF).
+  The PF takes on a supervisory role and will have bootup information
+  such as SAHARA, DIAG, and NDB (for file system sync data, etc.).
+  VFs can handle function-specific data transfers, such as data plane
+  or hardware data.
 
-> I'm not sure why it worked every time when I tested it on my device.
-> 
->> avail_blk_resource, current_blk_index and num_shadow_reg_configured etc.) inside the
->> _init() needs to be kept as the later operation needs a clean state of them.
-> So should we just memset these 3?
+- Perform a graceful removal of the MHI driver. Upon driver removal,
+  the host driver will perform a SOC_RESET on the driver remove callback.
+  This ensures device reset gracefully.
+  
+- honor sys_err at power_up state
+  In mhi_sync_power_up() host waits for device to enter in to mission mode
+  but SYS_ERR is an valid state, If device sends an SYS_ERR host will bail
+  out for wait_event_timeout() as MHI is in error state and calls
+  mhi_power_down which will teardown MHI driver probe.
+  If there is any SYS_ERR, sys_err handler needs to process SYS_ERR state
+  and queues the next state transition for device to bring in to Mission
+  mode, so mhi_sync_power_up() will wait for device to enter in to
+  mission mode.
 
-more than them I think. We need to take care of all entries in hal since current code is
-memset them all.
+Signed-off-by: 
 
-> 
-> 
->>
->>>  	clear_bit(ATH11K_FLAG_CRASH_FLUSH, &ab->dev_flags);
->>>  
->>>  	ret = ath11k_core_qmi_firmware_ready(ab);
->>
->> the _deinit() is still getting called in case ath11k_core_qmi_firmware_ready() fails,
->> making it a little odd since there is no _init() anymore with this change, though this is
->> the way of current logic (I mean the hal is currently deinit in the error path).
->>
->> Thinking it more, if we hit the error path, seems the only way is to remove ath11k module.
->> In that case the _deinit() would be called again in ath11k_pci_remove(), leading to issues
->> (at least I see a double free of hal->srng_config). But this is another topic which can be
->> fixed in a separate patch.
-> 
-> I don't think this is the problem as HAL is already initialized when before the system has
-> suspended. So by removing deinit() and init() pairs, the HAL still remains initialized. Or
-> maybe I've missed something?
+---
+Vivek Pernamitta (5):
+      bus: mhi: host: pci_generic: Add SRIOV support for PCIe device
+      bus: mhi: host: Add support for separate controller configurations for VF and PF
+      bus: mhi: host: pci_generic: Read SUBSYSTEM_VENDOR_ID for VF's to check status
+      bus: mhi: host: pci_generic: Remove MHI driver and ensure graceful device recovery
+      bus: host: mhi: Need to honor sys_err at power_up state
 
-Yeah, it is OK in normal path. However in error path we face issues.
+ drivers/bus/mhi/host/internal.h    |  2 ++
+ drivers/bus/mhi/host/pci_generic.c | 51 +++++++++++++++++++++++++++++++++-----
+ drivers/bus/mhi/host/pm.c          |  2 +-
+ 3 files changed, 48 insertions(+), 7 deletions(-)
+---
+base-commit: 1343433ed38923a21425c602e92120a1f1db5f7a
+change-id: 20250701-sriov_vdev_next-20250630-0ee75f15d03b
 
-> 
->  
-> 
-> 
+Best regards,
+-- 
+Vivek Pernamitta <<quic_vpernami@quicinc.com>>
 
