@@ -1,95 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5CC2F2361;
-	Fri,  4 Jul 2025 09:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751620595; cv=none; b=ijOgkS1CSQJ1/kcLhR78juBCxSvGOXg8LRi3uEJKAXGCuzU+Iq3Gpdbe2mf9i1jTmkdxiuS72KUW1AP+Ckj/BcmrZ0jfrvIdTzKsDEOQh0IWibWALzEC/nLwb/57CN+igQAfq3v5efz81FnUIWGJfxaBW3uHUKGwHqTD16nLa+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751620595; c=relaxed/simple;
-	bh=AkRYvE+iRYD9m1Wwp6Jy8xhOGndE4ScJG+8190VCBdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvTYdiD5Fnrx1ooKPmkygqwb0edOoWI+7hc2dwi1F3wkpfNTmaRl+AwLV2P/hp21zWKjx5EWbWVOW8HMuDh9nTby7m+ce6URb2o9HjRv/OFJrIwRvqDBi17xLD3ge1VseZHNSs/R34ZTEC90GSwgOcr7JGarpWyhQK7fSfuXj1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ydu/QZE0; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A27264FB3
+	for <mhi@lists.linux.dev>; Mon,  7 Jul 2025 08:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751876396; cv=pass; b=TkqaA443x1Y3SCSD0nQgA59kNYx2bvMa/btCNwXDMz5AdxMNcsMjE9Plh9UYVIteJHGiC67oqh8KFcXeXUwV4o0gx3o9tY8Swj5Ren5OvArD41RVw5qUjwN3MbTjScV9CvLp72uWC43r/ov+UJP/dGWGIyretJXJa2Yx02O4jgc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751876396; c=relaxed/simple;
+	bh=3MKAEejzHE0B203hRdT6OBl+UuAzjQBEs0nPFSsun0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uiAtoGrjLPcGhHrxSugvNlxg8YOeUW6y5Ort1z2b5iFyaF9JEOYUINx3o8RtJWtqsW0jJvohQ38wT55i3tLcySCNeloWy3yZBZjqWvuqo8l0JTh4uqF0Mjm43CVxbUGdrAQPa9iaXvLC4EEtOQH0/U9NNV+mrQYyqtJHzL5TYPA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=UFZrBgcS; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ydu/QZE0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751620594; x=1783156594;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AkRYvE+iRYD9m1Wwp6Jy8xhOGndE4ScJG+8190VCBdY=;
-  b=Ydu/QZE0DMqV5aKFHLPElTFOl4GtzfmBZjyxKwyM9w5H5zEa65tYoYyd
-   aytr8k084YXjOIxrGCL12tZA+Jk3UNz+IWk5g4T5uyvxLVe/YxQa3gPVy
-   Y96uZ9uYeDeB2347JMnhCTviOPBq/eOvP8x/fbiVahwg1qrxXgjPJ3nNe
-   rxk9C1+rHB73678OBZ+LGXYqhldbBf5Jq5w69QjzuA7cOr+IZNNUO8VEU
-   kSZue3aOtXNbqixaShVYMe6fmS+jmW5xjuUEBSyPYVKxatlD2WR/8+y8D
-   tTnGIZAilmiRcVx4UnScpIsQavzVbArEsqLC/a4zxWxcRdRX0AoCCyv5F
-   g==;
-X-CSE-ConnectionGUID: jFj4scEDTC6Qoqnvd6ysxw==
-X-CSE-MsgGUID: AKLGGC07TaKpADa2JAkwZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="57763096"
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="57763096"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 02:16:33 -0700
-X-CSE-ConnectionGUID: 7OgdyKb4TLujesp+0RKKLA==
-X-CSE-MsgGUID: YIr1wxvYRqOmp50GpF9Aew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="154011509"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Jul 2025 02:16:31 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uXcWy-0003XX-2I;
-	Fri, 04 Jul 2025 09:16:28 +0000
-Date: Fri, 4 Jul 2025 17:15:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vivek.Pernamitta@quicinc.com, Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Vivek Pernamitta <quic_vpernami@quicinc.com>
-Subject: Re: [PATCH 4/5] bus: mhi: host: pci_generic: Remove MHI driver and
- ensure graceful device recovery
-Message-ID: <202507041755.evB3U2Ju-lkp@intel.com>
-References: <20250703-sriov_vdev_next-20250630-v1-4-87071d1047e3@quicinc.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="UFZrBgcS"
+ARC-Seal: i=1; a=rsa-sha256; t=1751876344; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=igFlfYvEXhlXgoPL6DEL2GitSCJrVYbnRz8GLiJs6cvtEstaulrFDQYdvHBIw6Rep2LlLwO84rm2mHGRQvC6pWsrzGXOXKXgZwHq5np43hP3pkP9NBSm2hZaDkGIPZtLKSz2Pc02rVa0rtT6VKnVrC0cJyzGqTnCR3UairQ7vCo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1751876344; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=jWxn6Oq+GTH3S5wXfP2bgRDrz0TNEQi+/ff2XEBKYDc=; 
+	b=Oa90lN9z3w6aoXKTgqKTEioxV64OAmzoP6yAglSeZfPsOVzsl9aZqatSWm9MI7+TACZBEBKAi/EPLMy51LNjq0dmDdlTMaUmHLQ/PYL1pPuPWvS8mkKaFb7nyXvt/soxa/5OwjBYNhb2M9Pn1KBJ8amPUMLtFjiDFe5gpA3TG9c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751876344;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=jWxn6Oq+GTH3S5wXfP2bgRDrz0TNEQi+/ff2XEBKYDc=;
+	b=UFZrBgcS5IdQVSVhBDth7UHDAhf5y2E12rIcC+TiojqDMH653ZGhlXdq9ErXl56Z
+	JvSZB2XGBLtD9kGoeVvjVMJcf9KwwyVsUksNzLxkuMuPjMsQM7bNSUMumkp51EBgtgP
+	iG45Tsn6MVOdJmDfydCA4u9mTgaP+3JihbMQbbjI=
+Received: by mx.zohomail.com with SMTPS id 1751876341407602.7677931388906;
+	Mon, 7 Jul 2025 01:19:01 -0700 (PDT)
+Message-ID: <a92b3d96-0c19-49c2-ad8b-ad31dec973c3@collabora.com>
+Date: Mon, 7 Jul 2025 13:19:00 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250703-sriov_vdev_next-20250630-v1-4-87071d1047e3@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] bus: mhi: don't deinitialize and re-initialize again
+To: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Youssef Samir <quic_yabdulra@quicinc.com>,
+ Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
+ Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+ Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Siddartha Mohanadoss <smohanad@codeaurora.org>,
+ Sujeev Dias <sdias@codeaurora.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ John Crispin <john@phrozen.org>, Muna Sinada <quic_msinada@quicinc.com>,
+ Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
+ Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
+Cc: kernel@collabora.com
+References: <20250630074330.253867-1-usama.anjum@collabora.com>
+ <20250630074330.253867-3-usama.anjum@collabora.com>
+ <5f2a900a-3c8e-4b16-bd91-500af7d0315e@oss.qualcomm.com>
+ <29ba0afa-9a1b-40f9-a174-d03902ea5d3f@collabora.com>
+ <8b9eb6f4-6f0c-458d-b1e6-a1893c35b81d@oss.qualcomm.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <8b9eb6f4-6f0c-458d-b1e6-a1893c35b81d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Hi,
+On 7/3/25 6:59 AM, Baochen Qiang wrote:
+> 
+> 
+> On 7/3/2025 12:12 AM, Muhammad Usama Anjum wrote:
+>> Thank you for reviewing.
+>>
+>> On 7/2/25 8:50 AM, Baochen Qiang wrote:
+>>>
+>>>
+>>> On 6/30/2025 3:43 PM, Muhammad Usama Anjum wrote:
+>>>> Don't deinitialize and reinitialize the HAL helpers. The dma memory is
+>>>> deallocated and there is high possibility that we'll not be able to get
+>>>> the same memory allocated from dma when there is high memory pressure.
+>>>>
+>>>> Tested-on: WCN6855 WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+>>>>
+>>>> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
+>>>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+>>>> ---
+>>>>  drivers/net/wireless/ath/ath11k/core.c | 5 -----
+>>>>  1 file changed, 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
+>>>> index 4488e4cdc5e9e..bc4930fe6a367 100644
+>>>> --- a/drivers/net/wireless/ath/ath11k/core.c
+>>>> +++ b/drivers/net/wireless/ath/ath11k/core.c
+>>>> @@ -2213,14 +2213,9 @@ static int ath11k_core_reconfigure_on_crash(struct ath11k_base *ab)
+>>>>  	mutex_unlock(&ab->core_lock);
+>>>>  
+>>>>  	ath11k_dp_free(ab);
+>>>> -	ath11k_hal_srng_deinit(ab);
+>>>>  
+>>>>  	ab->free_vdev_map = (1LL << (ab->num_radios * TARGET_NUM_VDEVS(ab))) - 1;
+>>>>  
+>>>> -	ret = ath11k_hal_srng_init(ab);
+>>>> -	if (ret)
+>>>> -		return ret;
+>>>> -
+>>>
+>>> while I agree there is no need of a dealloc/realloc, we can not simply remove calling the
+>>> _deinit()/_init() pair. At least the memset() cleanup to hal parameters (e.g.
+>> Why do is it being done in the resume handler? Shouldn't those parameters be cleaned up
+>> in resume handler? So when device wakes up, its state is already correct.
+>>
+> 
+> Hmm... not quite understand your question. Can you elaborate?
 
-kernel test robot noticed the following build warnings:
+I'm trying to understand the possibility of cleanup of hal in suspend handler. For example:
+* The driver has been loaded and has been working fine.
+* The user called suspend. So all devices would be suspended.
+* In suspend handler of the ath11k, we should do the necessary cleanups of the states
+  like hal.
+* When the device would resume after long time, the hal would have the correct state
+  already. So we'll not need to deinit and init again.
 
-[auto build test WARNING on 1343433ed38923a21425c602e92120a1f1db5f7a]
+> 
+>> I'm not sure why it worked every time when I tested it on my device.
+>>
+>>> avail_blk_resource, current_blk_index and num_shadow_reg_configured etc.) inside the
+>>> _init() needs to be kept as the later operation needs a clean state of them.
+>> So should we just memset these 3?
+> 
+> more than them I think. We need to take care of all entries in hal since current code is
+> memset them all.
+I see. So memset the whole ath11k hal structure other than the config.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Pernamitta-quicinc-com/bus-mhi-host-pci_generic-Add-SRIOV-support-for-PCIe-device/20250703-231724
-base:   1343433ed38923a21425c602e92120a1f1db5f7a
-patch link:    https://lore.kernel.org/r/20250703-sriov_vdev_next-20250630-v1-4-87071d1047e3%40quicinc.com
-patch subject: [PATCH 4/5] bus: mhi: host: pci_generic: Remove MHI driver and ensure graceful device recovery
-config: i386-buildonly-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041755.evB3U2Ju-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041755.evB3U2Ju-lkp@intel.com/reproduce)
+> 
+>>
+>>
+>>>
+>>>>  	clear_bit(ATH11K_FLAG_CRASH_FLUSH, &ab->dev_flags);
+>>>>  
+>>>>  	ret = ath11k_core_qmi_firmware_ready(ab);
+>>>
+>>> the _deinit() is still getting called in case ath11k_core_qmi_firmware_ready() fails,
+>>> making it a little odd since there is no _init() anymore with this change, though this is
+>>> the way of current logic (I mean the hal is currently deinit in the error path).
+>>>
+>>> Thinking it more, if we hit the error path, seems the only way is to remove ath11k module.
+>>> In that case the _deinit() would be called again in ath11k_pci_remove(), leading to issues
+>>> (at least I see a double free of hal->srng_config). But this is another topic which can be
+>>> fixed in a separate patch.
+>>
+>> I don't think this is the problem as HAL is already initialized when before the system has
+>> suspended. So by removing deinit() and init() pairs, the HAL still remains initialized. Or
+>> maybe I've missed something?
+> 
+> Yeah, it is OK in normal path. However in error path we face issues.
+For example:
+* When driver was initialized the first time, the hal was init.
+* Then system was suspended and hal doesn't get deinit.
+* At system resume, the hal is already init. We can memset some status variables. But its
+  initialized already from the first time. (considering this patch that deinit/init have
+  been removed)
+* So at this stage if some error occurs and we can call the deinit in the error paths.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041755.evB3U2Ju-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/bus/mhi/host/pci_generic.c:63 struct member 'reset_on_driver_unbind' not described in 'mhi_pci_dev_info'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
