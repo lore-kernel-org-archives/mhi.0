@@ -1,67 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F026B17A2E0;
-	Tue,  8 Jul 2025 12:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208D02DE6EA;
+	Tue,  8 Jul 2025 13:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751978961; cv=none; b=Trcn5aiepCuScCAbNyFR4xqTf4xyEV8GeMrJATbyGEyJFEBEkvRBG1F8fuCU83ovsH0bv0AKtlLFbFj97ZVKelK0W/fBU17qJULfcNR6MbDDRUQaUC9/9pyhflnQREDnC2ma26/izLwTLocUEF87fxHWl8E5vDlI+uOMtIVxIkw=
+	t=1751981182; cv=none; b=Upcc532mdIldfNkIy6pOR8CZnVc6ztfSu0kXPhDTXWKNbcP0u9qKpIc9ZTvZDydk58Q8vHFvOTcTiNYgEdaWvh6fii/r5x4TdUDTdPDhqt08AZuAQSu+M2Uj+8YKYYCGfXnpmP2sm9GMpi03v7ahKIWHhWBACf+gbaxjgfcJUzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751978961; c=relaxed/simple;
-	bh=1FTq7reRRyN9NdkmjnF7RldFQXRezF9Nfp2asq+A3JU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RFc1Qwm9QDrWKXB4rig862dleiu8YRzaHja1ZotMsdZu+cglfPdZNajZ0nAfyj6M+tArsIybOyWsIKZCsg4buDnUEJZVuLD0nZ8dijVIM/JNkenED4dnSPeGAvX0O+3zsbtGCJpiAEOef83qRf6MypRhi/wTvIuaNsCg1x3iSQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pm/uJkZc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751981182; c=relaxed/simple;
+	bh=YMY6Nzud8gSG0GbUeuhST8FYBSDLtwSbG6Ipq/iKfek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqDF8BCuhQ5lt4K6gFheENjt20Yz9Eobp2Ti+K9fg2vduIdwKjA5Iwgy2U6hdN3dQjwQ8MNp7O1WjHpvqf+4YNFY0Cxf2C3muHmjiEjDg7ldc/rrvM8dZbsPiwj/jOe3LjU8Bjtc6a+ZNIaKFEPaldzUQW0WbgzNmS/zWd6zyvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wi8tIPMp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pm/uJkZc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDBBC4CEED;
-	Tue,  8 Jul 2025 12:49:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wi8tIPMp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F12C4CEF7;
+	Tue,  8 Jul 2025 13:26:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751978960;
-	bh=1FTq7reRRyN9NdkmjnF7RldFQXRezF9Nfp2asq+A3JU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pm/uJkZcZ83W0pt74N10IwKUABPmHqbX+BHQJghwth80YTZ5pNQbLUsCExpj0cGBh
-	 aSctck/cMPBk+5i1JVy5gpxQnSjE9MJnbNpU1JuTaED1T5xrl4nQjIJWWpGbfh7QtM
-	 9UAqpVkjt7yE7AtAiC7/WKifmsLSldm793ohxdf/E4A6zPDaPWGPkZyM3vUPE9kNXs
-	 1hMbh3BDAV2NTgKhnX6b4u7fD1/HalJV82ioiBIO09wJybczPBR6LwIqRbPcDQefKq
-	 8cgaNTKR/h6Q/cmBMJepZOwZl7esoQYhsM10awc1puOslQMoHloLBxsok5cWCPrrQE
-	 3ihrNde+XqH6Q==
+	s=k20201202; t=1751981182;
+	bh=YMY6Nzud8gSG0GbUeuhST8FYBSDLtwSbG6Ipq/iKfek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wi8tIPMprO6vU9o3GzE/HX9J8RpHzCqjh5YN2ym+oE7jOfQVfQgJ0zzS2YGVp2hhO
+	 GdteRykAuKgunI+wj5J35E2NyQ64mXDya+1G2j4Ia5HGf7tyKbApMRUTyWf82TgzQ7
+	 T2RM9l4pEFS7MlJBQSwsdMUM5dCf1XaQZTvB6p+aPVpPcFhgjEl0R2BZ0zPnFBXiGD
+	 QUMaMq4Y74ygoKetWQcgrfMPq94u7chSHfrRZ6cIoszV+tMSYDICBkMzUw9DoxAWxh
+	 LY7eFMsgwBZeXyQUmKDc/awxRCNwMEOjtGgxK3+mMRa6YV7O8k8p+eCdBDh63P0HF6
+	 SbjZX3qUi9QlQ==
+Date: Tue, 8 Jul 2025 18:56:11 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: johan+linaro@kernel.org, mhi@lists.linux.dev, 
- Manivannan Sadhasivam <mani@kernel.org>, Slark Xiao <slark_xiao@163.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250528092232.16111-1-slark_xiao@163.com>
-References: <20250528092232.16111-1-slark_xiao@163.com>
-Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Add Foxconn T99W696
-Message-Id: <175197895780.10109.7892492341064362636.b4-ty@kernel.org>
-Date: Tue, 08 Jul 2025 18:19:17 +0530
+To: Youssef Samir <quic_yabdulra@quicinc.com>
+Cc: manivannan.sadhasivam@linaro.org, jeff.hugo@oss.qualcomm.com, 
+	quic_carlv@quicinc.com, quic_thanson@quicinc.com, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: Detect events pointing to unexpected TREs
+Message-ID: <ggswqscpu54klfvvevvcswvija4m7l667aov4qu65om5i5adhy@nbmg7dxed56g>
+References: <20250521163110.571893-1-quic_yabdulra@quicinc.com>
+ <vpgqiiszye6azpn5muq64bxqg63cvizxpzj5cmspjynflzm3oe@2i55blw73j5x>
+ <209dec58-c86c-494d-a6e9-fb0ab33b03c2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <209dec58-c86c-494d-a6e9-fb0ab33b03c2@quicinc.com>
 
-
-On Wed, 28 May 2025 17:22:32 +0800, Slark Xiao wrote:
-> T99W696 is designed based on Qualcomm SDX61 chip which is a cost
-> down chip refer to previous SDX62/SDX65. Though we have a support
-> on SDX62/SDX65, we create a new channel config for SDX61 since
-> we add a NMEA channel support from this product.
-> For new products we are allowed to customize the subVID and
-> subPID only.
+On Wed, Jul 02, 2025 at 04:06:55PM GMT, Youssef Samir wrote:
 > 
-> [...]
+> 
+> On 6/17/2025 11:24 AM, Manivannan Sadhasivam wrote:
+> > On Wed, May 21, 2025 at 06:31:10PM +0200, Youssef Samir wrote:
+> >> When a remote device sends a completion event to the host, it contains a
+> >> pointer to the consumed TRE. The host uses this pointer to process all of
+> >> the TREs between it and the host's local copy of the ring's read pointer.
+> >> This works when processing completion for chained transactions, but can
+> >> lead to nasty results if the device sends an event for a single-element
+> >> transaction with a read pointer that is multiple elements ahead of the
+> >> host's read pointer.
+> >>
+> > 
+> > How can this happen? I cannot relate this with the scenario mentioned below.
+> > 
+> >> For instance, if the host accesses an event ring while the device is
+> >> updating it, the pointer inside of the event might still point to an old
+> >> TRE.
+> > 
+> > I cannot interpret this, sorry. The host is supposed to access the ring elements
+> > till the RP. Even if the device updates the RP while host is processing the TREs,
+> > it should not cause any issues for the host which only sees the used ring
+> > elements.
+> > 
+> > Maybe I'm missing something?
+> 
+> Hi Mani,
+> 
+> This is related to the behavior that 'commit 6f18d174b73d ("bus: mhi: ep: Update read pointer only after buffer is written")'
+> aimed to fix from the endpoint. The scenario I observed with a device using drivers/bus/mhi/ep/
+> involved the device sending an MSI to host for an event that hasn't had its data
+> completely updated. the event could be pointing to a TRE that is not local_rp + 1.
+> As you mentioned, the host will process all the TREs until the event's rp,
+> which allows it to access data that were freed or hasn't been written to yet.
+> 
 
-Applied, thanks!
+So you are saying that mhi_ep_ring_add_element() didn't update the ring pointer
+before triggering MSI? If that's the case, we should add a barrier to make sure
+that the RP is updated before raising MSI. Though, I thought that the implicit
+barrier offered by the mutex_unlock() would be enough to make sure that the RP
+is updated before triggering MSI.
 
-[1/1] bus: mhi: host: pci_generic: Add Foxconn T99W696
-      commit: 7a793ba2cc4a9ef59ab290d50cd847d314514323
+- Mani
 
-Best regards,
 -- 
-Manivannan Sadhasivam <mani@kernel.org>
-
+மணிவண்ணன் சதாசிவம்
