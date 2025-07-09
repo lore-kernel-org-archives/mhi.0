@@ -1,302 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9335C2AD22
-	for <mhi@lists.linux.dev>; Wed,  9 Jul 2025 06:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F4E283CAA
+	for <mhi@lists.linux.dev>; Wed,  9 Jul 2025 09:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752041271; cv=none; b=r34wIski06qAelmAkvuEkkjYcDQLJNrmGx55RMALfYvqJAjPxgRSF3Ms8xpUXK5EvyuySFctJosB8oCz+gtqCLZm/jRfiV1iZr+5LN1kbpfxI2AjCtv+h9+HdnfzN+wbA3s00VOfUYhCDKAD3OH/Jupx6vSU1wU7U7QZfsTev3s=
+	t=1752052266; cv=none; b=McmROtQv9VghzIgJ3PXIjETJAHsY6a5CR91mCNIcD233b0pQdeFgX8UtWqvw5ad9VqJqCG7A2gmftyyqTVoGioOErrFG2jk1GaUeXK460U5LbqtFLjBiCjFcErgmC3f4EXl20Emq/cubQ2zFXTmMmoeQynziovHIsrzam/5gUpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752041271; c=relaxed/simple;
-	bh=EPRxsOV6xGB4LJtLGcYRq9ai1AjY/G6bYkXuA3L0L34=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mFmxzEUFEjtuCpJTuib1iX2FDIpCjCsr3M/Gx5VjSdc7cb9ONx+L8as6bPXIzrMuMANBnIJ05cVhhro+49nN5af/CduXcucwCwYRvdAW/4HWeC4Y20ahvEFkWpJP/IWq1B6uM9yjwGNhhH4em+kML0VPyhhc8kdkXhQK6x+vvEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7OFGidu; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752052266; c=relaxed/simple;
+	bh=e+AlNfEIWLEOUZb0WGiJuKUfwZfi9mwK1UILrKSjqnk=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=M7zQVWBtw8/slFSnBwYd7Muj0FMgMbGRPQxIzvM43d7QTjx/LO1w28wWGuBHGiFSf0VnVlVrr/zWJ5v83Vam2nzPe4sBzAucpdN8L8ychcERB+247D1mwRMF1nlD9Ie70eUxx5/virE37BaIswzWO2+uG8N+isIpawczLYCOfOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHZzAB8b; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7OFGidu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHZzAB8b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752041269; x=1783577269;
-  h=date:from:to:cc:subject:message-id;
-  bh=EPRxsOV6xGB4LJtLGcYRq9ai1AjY/G6bYkXuA3L0L34=;
-  b=X7OFGidu0Y5e2M/y21IDL6lxhK4L+X3h+INHHaY68EpkXy8JsOhk7fhn
-   Z42VnCb3OVgqQdOKgo7z4RavqMVmOil/LIgbyAaCTPunqnlxV+QqWDume
-   i6JVgLYc4Acw0Z2ZanUxL1pAWjf/ShLB6QVOfFqoFH9uDnFzelyTcxNaw
-   YYE9UoRFqCQARrCitLkLwLXAKjSZR+e1Zk4SJJX3qRGCcWIZVSKT84xJe
-   2r3YKcbNORRoQpd38eTyrgKB1s3ZylrjAgrY3MYeBjgGzrl/zPR/ujkGJ
-   4GtBNI1xy5ttCJAQqvPtfdKxC9ZmooJ9DmzjFfaxlEuCzLlkczu07/zKh
-   Q==;
-X-CSE-ConnectionGUID: 1lnIOf3ZQ3iK5fpulk9r7w==
-X-CSE-MsgGUID: 7TYmwwe2T1GMngUla6eBxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53505321"
+  t=1752052265; x=1783588265;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=e+AlNfEIWLEOUZb0WGiJuKUfwZfi9mwK1UILrKSjqnk=;
+  b=VHZzAB8bXpVPESqBubuBtAnaqdRM2qP+WSjy0zrQQlHsgxceRt6CVRvi
+   casoELT49zdjxg8Lva5eHI0AABJZbHl3/nvXO+Xcfh8O0/QRnd0OrSsVA
+   M57GkwNHl9qqAppk3dyhSl0kf53QJabbZtRqGJh7yUQ19qd0670UjMouy
+   9ZCTNQZLMKPcc8NKDoTHrQ72PfYUwJAoAJ3X8UjPxG5mpd29a9A55GbRu
+   LDHTJqqF0uKZ4yz7zkZdNuzMC4SwZmfnJrxvRMgfWhfLyvKkyR/U2hiSW
+   BqtpjpzwIKHTQdRxa5cMH2p2479jesPxwO7N/VbvfRx97H+pUvMhRi7M5
+   w==;
+X-CSE-ConnectionGUID: HxNTBVKaTDm4X5Ema9Dejw==
+X-CSE-MsgGUID: X9z8JnOQRzaot9W1pEJSmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54163407"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="53505321"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 23:07:49 -0700
-X-CSE-ConnectionGUID: QohIQMVbQYOYF1yoO2aGgQ==
-X-CSE-MsgGUID: 7Bs7hx/ZRO+GH5qDJsftog==
+   d="scan'208";a="54163407"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 02:11:04 -0700
+X-CSE-ConnectionGUID: 2YofaDi1Rfa2S2hif6cl5Q==
+X-CSE-MsgGUID: uvbwgx//RiSED5u6g+R/jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="159719510"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Jul 2025 23:07:48 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uZNy5-0003A3-2u;
-	Wed, 09 Jul 2025 06:07:45 +0000
-Date: Wed, 09 Jul 2025 14:07:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 7a793ba2cc4a9ef59ab290d50cd847d314514323
-Message-ID: <202507091409.eerzXNt2-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="155458540"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.168])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 02:10:56 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 9 Jul 2025 12:10:52 +0300 (EEST)
+To: Manivannan Sadhasivam <mani@kernel.org>
+cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
+    Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
+    Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+    Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, 
+    linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+    linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
+    qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
+    quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
+    Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
+ __pci_enable_link_state()
+In-Reply-To: <qo6mb3qlt3xpuvhepwcv6be4wd53neee2t6buzk4tdiy22xsub@vu7lykp3rnu2>
+Message-ID: <226bab3a-54e5-94ad-9d84-0b82f9dc4e2f@linux.intel.com>
+References: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com> <20250609-mhi_bw_up-v4-6-3faa8fe92b05@qti.qualcomm.com> <qo6mb3qlt3xpuvhepwcv6be4wd53neee2t6buzk4tdiy22xsub@vu7lykp3rnu2>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 7a793ba2cc4a9ef59ab290d50cd847d314514323  bus: mhi: host: pci_generic: Add Foxconn T99W696 modem
+On Tue, 8 Jul 2025, Manivannan Sadhasivam wrote:
 
-elapsed time: 1020m
+> On Mon, Jun 09, 2025 at 04:21:27PM GMT, Krishna Chaitanya Chundru wrote:
+> > ASPM states are not being enabled back with pci_enable_link_state() when
+> > they are disabled by pci_disable_link_state(). This is because of the
+> > aspm_disable flag is not getting cleared in pci_enable_link_state(), this
+> > flag is being properly cleared when ASPM is controlled by sysfs.
+> > 
+> 
+> A comment in pcie_config_aspm_link() says:
+> 
+>  /* Enable only the states that were not explicitly disabled */
+> 
+> But the function is called from both aspm_attr_store_common() and
+> __pci_enable_link_state(). So I don't know if this is behavior is intentional
+> or wrong. 
 
-configs tested: 225
-configs skipped: 4
+Hi,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I think it's intentional. Whether the behavior is useful is another good 
+question but the current behavior aligns with the explanation in the 
+comment.
 
-tested configs:
-alpha                             allnoconfig    clang-21
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    clang-19
-arc                               allnoconfig    clang-21
-arc                              allyesconfig    clang-19
-arc                   randconfig-001-20250708    gcc-13.4.0
-arc                   randconfig-001-20250709    gcc-10.5.0
-arc                   randconfig-002-20250708    gcc-8.5.0
-arc                   randconfig-002-20250709    gcc-10.5.0
-arc                        vdk_hs38_defconfig    gcc-15.1.0
-arm                              allmodconfig    clang-19
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    clang-19
-arm                           imxrt_defconfig    gcc-15.1.0
-arm                          ixp4xx_defconfig    gcc-15.1.0
-arm                   randconfig-001-20250708    clang-21
-arm                   randconfig-001-20250709    gcc-10.5.0
-arm                   randconfig-002-20250708    clang-17
-arm                   randconfig-002-20250709    gcc-10.5.0
-arm                   randconfig-003-20250708    gcc-10.5.0
-arm                   randconfig-003-20250709    gcc-10.5.0
-arm                   randconfig-004-20250708    clang-21
-arm                   randconfig-004-20250709    gcc-10.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-21
-arm64                 randconfig-001-20250708    gcc-9.5.0
-arm64                 randconfig-001-20250709    gcc-10.5.0
-arm64                 randconfig-002-20250708    clang-19
-arm64                 randconfig-002-20250709    gcc-10.5.0
-arm64                 randconfig-003-20250708    clang-21
-arm64                 randconfig-003-20250709    gcc-10.5.0
-arm64                 randconfig-004-20250708    gcc-8.5.0
-arm64                 randconfig-004-20250709    gcc-10.5.0
-csky                              allnoconfig    clang-21
-csky                  randconfig-001-20250708    gcc-13.4.0
-csky                  randconfig-001-20250709    gcc-14.2.0
-csky                  randconfig-002-20250708    gcc-15.1.0
-csky                  randconfig-002-20250709    gcc-14.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250708    clang-21
-hexagon               randconfig-001-20250709    gcc-14.2.0
-hexagon               randconfig-002-20250708    clang-21
-hexagon               randconfig-002-20250709    gcc-14.2.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20250708    clang-20
-i386        buildonly-randconfig-001-20250709    clang-20
-i386        buildonly-randconfig-002-20250708    clang-20
-i386        buildonly-randconfig-002-20250709    clang-20
-i386        buildonly-randconfig-003-20250708    clang-20
-i386        buildonly-randconfig-003-20250709    clang-20
-i386        buildonly-randconfig-004-20250708    gcc-12
-i386        buildonly-randconfig-004-20250709    clang-20
-i386        buildonly-randconfig-005-20250708    clang-20
-i386        buildonly-randconfig-005-20250709    clang-20
-i386        buildonly-randconfig-006-20250708    clang-20
-i386        buildonly-randconfig-006-20250709    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250709    clang-20
-i386                  randconfig-002-20250709    clang-20
-i386                  randconfig-003-20250709    clang-20
-i386                  randconfig-004-20250709    clang-20
-i386                  randconfig-005-20250709    clang-20
-i386                  randconfig-006-20250709    clang-20
-i386                  randconfig-007-20250709    clang-20
-i386                  randconfig-011-20250709    clang-20
-i386                  randconfig-012-20250709    clang-20
-i386                  randconfig-013-20250709    clang-20
-i386                  randconfig-014-20250709    clang-20
-i386                  randconfig-015-20250709    clang-20
-i386                  randconfig-016-20250709    clang-20
-i386                  randconfig-017-20250709    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250708    clang-21
-loongarch             randconfig-001-20250709    gcc-14.2.0
-loongarch             randconfig-002-20250708    clang-21
-loongarch             randconfig-002-20250709    gcc-14.2.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                         10m50_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250708    gcc-8.5.0
-nios2                 randconfig-001-20250709    gcc-14.2.0
-nios2                 randconfig-002-20250708    gcc-8.5.0
-nios2                 randconfig-002-20250709    gcc-14.2.0
-openrisc                          allnoconfig    clang-21
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-21
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250708    gcc-9.3.0
-parisc                randconfig-001-20250709    gcc-14.2.0
-parisc                randconfig-002-20250708    gcc-14.3.0
-parisc                randconfig-002-20250709    gcc-14.2.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc               randconfig-001-20250708    gcc-8.5.0
-powerpc               randconfig-001-20250709    gcc-14.2.0
-powerpc               randconfig-002-20250708    clang-19
-powerpc               randconfig-002-20250709    gcc-14.2.0
-powerpc               randconfig-003-20250708    clang-21
-powerpc               randconfig-003-20250709    gcc-14.2.0
-powerpc64             randconfig-001-20250708    clang-21
-powerpc64             randconfig-001-20250709    gcc-14.2.0
-powerpc64             randconfig-002-20250708    clang-21
-powerpc64             randconfig-002-20250709    gcc-14.2.0
-powerpc64             randconfig-003-20250708    clang-21
-powerpc64             randconfig-003-20250709    gcc-14.2.0
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20250708    clang-16
-riscv                 randconfig-001-20250709    gcc-12
-riscv                 randconfig-002-20250708    gcc-11.5.0
-riscv                 randconfig-002-20250709    gcc-12
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20250708    gcc-14.3.0
-s390                  randconfig-001-20250709    gcc-12
-s390                  randconfig-002-20250708    gcc-9.3.0
-s390                  randconfig-002-20250709    gcc-12
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-12
-sh                         ecovec24_defconfig    gcc-15.1.0
-sh                 kfr2r09-romimage_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250708    gcc-11.5.0
-sh                    randconfig-001-20250709    gcc-12
-sh                    randconfig-002-20250708    gcc-15.1.0
-sh                    randconfig-002-20250709    gcc-12
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250708    gcc-13.4.0
-sparc                 randconfig-001-20250709    gcc-12
-sparc                 randconfig-002-20250708    gcc-13.4.0
-sparc                 randconfig-002-20250709    gcc-12
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20250708    clang-21
-sparc64               randconfig-001-20250709    gcc-12
-sparc64               randconfig-002-20250708    gcc-15.1.0
-sparc64               randconfig-002-20250709    gcc-12
-um                               alldefconfig    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250708    clang-21
-um                    randconfig-001-20250709    gcc-12
-um                    randconfig-002-20250708    clang-17
-um                    randconfig-002-20250709    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250708    gcc-12
-x86_64      buildonly-randconfig-001-20250709    clang-20
-x86_64      buildonly-randconfig-002-20250708    gcc-12
-x86_64      buildonly-randconfig-002-20250709    clang-20
-x86_64      buildonly-randconfig-003-20250708    clang-20
-x86_64      buildonly-randconfig-003-20250709    clang-20
-x86_64      buildonly-randconfig-004-20250708    gcc-12
-x86_64      buildonly-randconfig-004-20250709    clang-20
-x86_64      buildonly-randconfig-005-20250708    clang-20
-x86_64      buildonly-randconfig-005-20250709    clang-20
-x86_64      buildonly-randconfig-006-20250708    clang-20
-x86_64      buildonly-randconfig-006-20250709    clang-20
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250709    clang-20
-x86_64                randconfig-002-20250709    clang-20
-x86_64                randconfig-003-20250709    clang-20
-x86_64                randconfig-004-20250709    clang-20
-x86_64                randconfig-005-20250709    clang-20
-x86_64                randconfig-006-20250709    clang-20
-x86_64                randconfig-007-20250709    clang-20
-x86_64                randconfig-008-20250709    clang-20
-x86_64                randconfig-071-20250709    gcc-12
-x86_64                randconfig-072-20250709    gcc-12
-x86_64                randconfig-073-20250709    gcc-12
-x86_64                randconfig-074-20250709    gcc-12
-x86_64                randconfig-075-20250709    gcc-12
-x86_64                randconfig-076-20250709    gcc-12
-x86_64                randconfig-077-20250709    gcc-12
-x86_64                randconfig-078-20250709    gcc-12
-x86_64                               rhel-9.4    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250708    gcc-8.5.0
-xtensa                randconfig-001-20250709    gcc-12
-xtensa                randconfig-002-20250708    gcc-9.3.0
-xtensa                randconfig-002-20250709    gcc-12
+My understanding of the situation is:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+pci_disable_link_state() and pci_enable_link_state() are not symmetric 
+despite the names, never have been (this is one of those many quirks ASPM 
+driver has which should be eventually cleaned up, IMO).
+
+It might be appropriate to rename pci_enable_link_state() to 
+pci_set_default_link_state() to match the name to its functionality (and 
+the function comment):
+
+ * pci_enable_link_state - Clear and set the default device link state
+
+Note: "the default ... link state".
+
+
+I've already raised this concern earlier! As you see, my comment are 
+not getting addressed. I'd like to see the author does one of these:
+
+1) Renames pci_enable_link_state() to pci_set_default_link_state()
+
+1b) If pci_enable_link_state() is still needed after that, a new function
+is added to symmetrically pair with pci_disable_link_state().
+
+or alternatively,
+
+2) Changelog justifies very clearly why this change is okay with the 
+existing callers. (And obviously the function comment should be altered to 
+match the functionality in that case too).
+
+If approach 2 is chosen, it should be very carefully reviewed when it 
+comes to the callers.
+
+
+> > Clear the aspm_disable flag with the requested ASPM states requested by
+> > pci_enable_link_state().
+> > 
+> > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> 
+> Fixes tag?
+> 
+> - Mani
+> 
+> > ---
+> >  drivers/pci/pcie/aspm.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
+> > index 94324fc0d3e650cd3ca2c0bb8c1895ca7e647b9d..0f858ef86111b43328bc7db01e6493ce67178458 100644
+> > --- a/drivers/pci/pcie/aspm.c
+> > +++ b/drivers/pci/pcie/aspm.c
+> > @@ -1453,6 +1453,7 @@ static int __pci_enable_link_state(struct pci_dev *pdev, int state, bool locked)
+> >  		down_read(&pci_bus_sem);
+> >  	mutex_lock(&aspm_lock);
+> >  	link->aspm_default = pci_calc_aspm_enable_mask(state);
+> > +	link->aspm_disable &= ~state;
+> >  	pcie_config_aspm_link(link, policy_to_aspm_state(link));
+> >  
+> >  	link->clkpm_default = (state & PCIE_LINK_STATE_CLKPM) ? 1 : 0;
+> > 
+> > -- 
+> > 2.34.1
+> > 
+> 
+> 
+
+-- 
+ i.
+
