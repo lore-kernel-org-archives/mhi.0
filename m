@@ -1,72 +1,48 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D97221FF46
-	for <mhi@lists.linux.dev>; Wed,  9 Jul 2025 12:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674DE293C62;
+	Wed,  9 Jul 2025 12:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752064294; cv=none; b=fV41ANmTih6h4vTfjpiAOymrOP/3xVfmw2TQ9ZHOimTAJ1HBJsO4UhUrRZo/lFywQneVyKtCXArKHbtVyKV84G7IVThEB/f2i3WldFxH32s5ZS1OcS/jifI8pzMYp81n02NkUsv4FyvDtByyYWp/vON9TsqAQoTqk1KmaFfwApQ=
+	t=1752064522; cv=none; b=CDHKoL4LUZKYhc24vfUFfTtJxpYNKaa/v5QwPhuJDGxTCLX/ITGKBBOALTQwPHvGnpggOHn22Sr5xyv7iJgL4yW5Ja39DQ/jjoVFU5kwrMKUHW23IIs/5UJzmvdaOqISnb+G7J0WawKYbIN1mlSoUm1dyrAOSphZM1cJ+/+Bf04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752064294; c=relaxed/simple;
-	bh=7yd5xrkWlkddJneP+p37SueXY9r93VYw7uJzxQg3qFw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ONkn1rjtIHisnd6ATADknQuv3tw3XBW+z69wrYiCB8w2IH4noOOJC19HTtokfO5EO+0IZPhc6BOjPmRNuk6NnEa1AmzPE1zIUwefyusRo2RSeg747fb+o+HfKHt68+95P3BWQIXjHdGK2PpCqg16OFheSaKfxO81T5m10XWNw4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Bl45FezI; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1752064522; c=relaxed/simple;
+	bh=u0LMkO09GDLRShACu4EPl0TmGt8DY2l9QcuQHQRYajM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YmMmR51hAqc38W/DwRrXV3cEoExWahaparIHrVTTLRl6xpqLOuiSce8u7yyVz4RZ6KGQ/EGNz25pmYCGZrEmBb5C1FTsKG2s0Kedvy80AheIQ2PiGQ0e476e0wCYRSHZwmjjerziZU2/AOtHLmo3pN9kxqA2+JCKYo9i3ZOll+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=G2dZ9O7b; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bl45FezI"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5699JG4J018872
-	for <mhi@lists.linux.dev>; Wed, 9 Jul 2025 12:31:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G2dZ9O7b"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5697lEUW028820;
+	Wed, 9 Jul 2025 12:35:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iJx6t7w6ssrs3a9tOwEvfHFgR1eHqpcHEVJO/pfvIZY=; b=Bl45FezI+8ohQ6Fs
-	efgc2EZuyghwoIPcmAUNMZ+PWHFI9zV5bjYaxY3C3FfMrmh7bscGdS9dCnksJPMW
-	Tj1NH4oO9KP+N9Ig+rO/QCpnd8y/g4cBHOszdZ1Eb6ybxoFTAuGls5rnOESmNiDb
-	+8/HhVGyWeodCpeQ2PWfXgnI81BYFkw1DVYMYw5nGEyKjSE5VHTUKaX15tZUpgNQ
-	DTtwY9d83yAEtyHbsF/lNRBWcBiXnWiH8P9TzMnJwCPnDDu8/j70ojlLg7ulb4cq
-	3c3BJohQmGRK451I98VQuOpn6OId4aXDm9nab7HgL+US0JqaLIkB9u0zb1kyufCm
-	Q0vytQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pucn4hut-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Wed, 09 Jul 2025 12:31:30 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-237e6963f70so96466625ad.2
-        for <mhi@lists.linux.dev>; Wed, 09 Jul 2025 05:31:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752064290; x=1752669090;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJx6t7w6ssrs3a9tOwEvfHFgR1eHqpcHEVJO/pfvIZY=;
-        b=pHAjtnsRqVEq2WuKWfxphO8NNnxNlkGy1WDmyMeql9vRNO/nCXH7wnQdw9xG/pMDhY
-         PLSuE78bTxySvcfuGpackpO3H5xEHPovcSLjHxtwVrcqO48YJLYKU6CQ8FyafKdrPnvH
-         Uhymnwza3PBEQWfjmYBi8VEVrNFw5tn1SWDlYhpxXcYaYiTYACN6TUR0oZjscOhL+Nee
-         g3R1jq5EQbinqX5yHMu/5kKlmIeZgaTW7Vi8WxHL86GRBNAttJCChuUADpuzLjiDjln9
-         kA9PHVYEHPS+DOXEB7/LvvajeyBKeOnZaTyL4fHL8Vzc9OrVbxDsQpgA1fDPg6zdaNdK
-         zq1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWP5xiaCnLT9pquWT3WV6PPJJHXw6Sx22BwR9LHcDT7Q7LCf8K1R7Cz/IvONRWxQgXYVto=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxs7TYO+UK38kVSgPuCpVZGvku+q4s/htSxqdNOPXUokPii8Yus
-	xMlmAwllismqo2OBd+JZ51y9x+6hVruaTFODS0Zawi++70d5dwFDF9nUwGrmtm8OXB+Km1KWUqe
-	O6iIAdF5hR1/eU1/qvACybrHdnB6Y/0HxLbZW97dkU8Ef5Hteh8BOCyY=
-X-Gm-Gg: ASbGncuFhTiCUFPtZO5P91ewKKayhVpTtCqNb6KuejSUT28akSKZCXruuTQbkatdjoV
-	QX1YRWimkReMmaJSHdX//d9ATa7woXR3Ly3i0OK2JWSD/YVRhr0dKhZiaWwC5gI7Qut1cIFUL5I
-	45sQ0s29g0qO+1ITLxhu1sv3/bShF9+jlzBq2nG3ivGVdItzxl2hj+q3IiF24Lt/iByz6U6nlPK
-	11Lt/a1pgoQ4m6xdL/vzwqRLfpHwlaR0qK5Xwqatzjjx3unyv9TIQgA1pzNdQeda3o2r+HtbrTb
-	dh3jw0P+q1VDBkoJKtc0y4FJvQJ1fZRsEP96gjU2FnX0RGJEx4aK
-X-Received: by 2002:a17:903:3c47:b0:235:5a9:976f with SMTP id d9443c01a7336-23ddb2f2db9mr46315405ad.24.1752064289655;
-        Wed, 09 Jul 2025 05:31:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjreNNXd3+SYHL4S/oHX+L23Vo5LZefCgSCCamZIx++CFBdFw3mmJOU4Ve8ksAGPCCBqWoEg==
-X-Received: by 2002:a17:903:3c47:b0:235:5a9:976f with SMTP id d9443c01a7336-23ddb2f2db9mr46314845ad.24.1752064289178;
-        Wed, 09 Jul 2025 05:31:29 -0700 (PDT)
-Received: from [10.218.37.122] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8431e2c5sm139239055ad.39.2025.07.09.05.31.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jul 2025 05:31:28 -0700 (PDT)
-Message-ID: <2a18cf9e-1dd2-4e09-81f4-eb1d07324c8e@oss.qualcomm.com>
-Date: Wed, 9 Jul 2025 18:01:22 +0530
+	/6J1zpM42GtV/tRsVKzkFRkPmPM8TlVu6S5NAyafniQ=; b=G2dZ9O7bomlphBYf
+	ncveFrW1zOkbz2h2fU63Wfb879ezqVfMAbwzOxGteJGCxxpUW9u8PmtCB/Rweg99
+	xEhXcCOh79W2Wx2/gthS/wTJjNxjIzEGnMOVXQFgmlKj+uEZVOLB8yMSyQVyOJmc
+	HLkSljsrivHXsSJkV/oMx87I+8B+P/2YawCwZ8Esh2CUCy6oYtbslNYX1cdkrQ7u
+	smcFa7uDWVSKVyjLn44LNKNl4cgcl+fLVYnkDHXOxxPdw4iFN38ylP2jSpMWPfEl
+	xMc54jEmG9QvfBxMi7C3/UVJ7YmwLYHnnpqbGp1OifInv7Zval+oYkjkJxlUMDpS
+	bdsECg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47smbegy0h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Jul 2025 12:35:16 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 569CZGW3003208
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 9 Jul 2025 12:35:16 GMT
+Received: from [10.218.37.122] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 9 Jul
+ 2025 05:35:14 -0700
+Message-ID: <11e90987-3e78-4c06-ad76-ad9df80357d7@quicinc.com>
+Date: Wed, 9 Jul 2025 18:05:11 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -74,154 +50,79 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-        linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
-        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
-        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-References: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com>
- <20250609-mhi_bw_up-v4-6-3faa8fe92b05@qti.qualcomm.com>
- <qo6mb3qlt3xpuvhepwcv6be4wd53neee2t6buzk4tdiy22xsub@vu7lykp3rnu2>
- <226bab3a-54e5-94ad-9d84-0b82f9dc4e2f@linux.intel.com>
+Subject: Re: [PATCH 1/5] bus: mhi: host: pci_generic: Add SRIOV support for
+ PCIe device
+To: <Vivek.Pernamitta@quicinc.com>, Manivannan Sadhasivam <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Vivek Pernamitta <quic_vpernami@quicinc.com>
+References: <20250703-sriov_vdev_next-20250630-v1-0-87071d1047e3@quicinc.com>
+ <20250703-sriov_vdev_next-20250630-v1-1-87071d1047e3@quicinc.com>
 Content-Language: en-US
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <226bab3a-54e5-94ad-9d84-0b82f9dc4e2f@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=GdQXnRXL c=1 sm=1 tr=0 ts=686e6123 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=WFThVEArfCvG9L-vA9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-GUID: gRq1KOmyTsKaGOnL9G7jZPq-T2DizrlJ
-X-Proofpoint-ORIG-GUID: gRq1KOmyTsKaGOnL9G7jZPq-T2DizrlJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA5MDExMiBTYWx0ZWRfX4eUEBmYk4SOw
- DodTjolzy4DYHD+17OF6P7xWgLttoH67/twcxn/sNaCIJo6gt4zX6rcy7lFAPkWT5fJ/CDxORKv
- /GKtSmCGQpSv3E2Jz5TSNVN7Zbfx/nJZBKqME9pk8KYd/3zZvvYmA6ZYqC6Mv8qB3vAJRcAPhB5
- zkF+5QcP6MxoyjfqTYVuM/2vcEexte3EfRJ3dUE763TEAvFDIDuZThXk+3fgP2OzM7b923Rop50
- XbvVnjEzUpevX3lJ9OJc3Bc4cHU9sfzUJ8GVnTGRJjOlkjIY6ZRsp2NbdwZ8P7BkLrrYQEwy5ug
- MP5uGJoFDJlFu96IdsYMCr6PQi6VSuDhk6zsrXbJspV5OfEu3goDZHjCr0BY/854RWSIgHV4G71
- GCo6NR1/Opju0I9MwKxaeTbsv5fAM31Jt+84VfjJwBJLwBRQjjeJxAmcRUtJ2YhDsKlhfE5G
+From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20250703-sriov_vdev_next-20250630-v1-1-87071d1047e3@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA5MDExMyBTYWx0ZWRfX2BDy+vd+gSuz
+ ffKJ4K1JBA1k2qLZY/TPwCV2P31PQwhUCIBUqb2iSjlkbYqxOgvlGWFrkMT+hUPpm5sWhzORs1E
+ VIWJ44O6wg1WlLyfsC8YsWKBYqtqP2NUFa+bSyYcd029Tsj2dG7CtxyFodcidUc5Nc73Xl/3vch
+ nUU98/79ZJQTIYFsxt3P2i6xEYmq96x6FOMSIKQDBAAE29ic2MoHJRWxObmMPGJhnBUYXCsG91i
+ g8HuQFqHipp9ZHPOW9fPgvHywu1Vj+f1skQhnGOGXazTD7VyhwldDnIwlnO2ug2/pInZA+mztl1
+ OYuYMY0eEYZ43SJAsit6ILBkhlGzM2UqOZ3T+BI2D4BZE4IRsEwAJCcJMororFA1aZm33VhC6+Z
+ Pxge8pIWj0+sP8sJrx6yiaKSegwAl0iP+pebg1LTBpNGyarmIj6ZkmpMqYrRKEMh8i3UxtpH
+X-Proofpoint-GUID: 3_SinWWuXDE4YEYf4yyBW6Aadu2fwi34
+X-Proofpoint-ORIG-GUID: 3_SinWWuXDE4YEYf4yyBW6Aadu2fwi34
+X-Authority-Analysis: v=2.4 cv=VpQjA/2n c=1 sm=1 tr=0 ts=686e6204 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=zv_5qE797hUBxoToDSIA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-09_02,2025-07-08_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 clxscore=1015
- spamscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
- malwarescore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507090112
+ mlxscore=0 malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507090113
 
 
 
-On 7/9/2025 2:40 PM, Ilpo Järvinen wrote:
-> On Tue, 8 Jul 2025, Manivannan Sadhasivam wrote:
+On 7/3/2025 8:39 PM, Vivek.Pernamitta@quicinc.com wrote:
+> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
->> On Mon, Jun 09, 2025 at 04:21:27PM GMT, Krishna Chaitanya Chundru wrote:
->>> ASPM states are not being enabled back with pci_enable_link_state() when
->>> they are disabled by pci_disable_link_state(). This is because of the
->>> aspm_disable flag is not getting cleared in pci_enable_link_state(), this
->>> flag is being properly cleared when ASPM is controlled by sysfs.
->>>
->>
->> A comment in pcie_config_aspm_link() says:
->>
->>   /* Enable only the states that were not explicitly disabled */
->>
->> But the function is called from both aspm_attr_store_common() and
->> __pci_enable_link_state(). So I don't know if this is behavior is intentional
->> or wrong.
+> Add SRIOV support for PCIe devices.
 > 
-> Hi,
-> 
-> I think it's intentional. Whether the behavior is useful is another good
-> question but the current behavior aligns with the explanation in the
-> comment.
-> 
-> My understanding of the situation is:
-> 
-> pci_disable_link_state() and pci_enable_link_state() are not symmetric
-> despite the names, never have been (this is one of those many quirks ASPM
-> driver has which should be eventually cleaned up, IMO).
-> 
-> It might be appropriate to rename pci_enable_link_state() to
-> pci_set_default_link_state() to match the name to its functionality (and
-> the function comment):
-> 
->   * pci_enable_link_state - Clear and set the default device link state
-> 
-> Note: "the default ... link state".
-> 
-> 
-> I've already raised this concern earlier! As you see, my comment are
-> not getting addressed. I'd like to see the author does one of these:
-> 
-Hi llpo,
+May be better to explain about why adding sriov_configure
+helps to enable SRIOV in the commit text.
 
-I replied to your comment on v3 patch[1], and I feel instead of having
-new function() we can use same API to our purpose.
-> 1) Renames pci_enable_link_state() to pci_set_default_link_state()
-> 
-> 1b) If pci_enable_link_state() is still needed after that, a new function
-> is added to symmetrically pair with pci_disable_link_state().
-> 
-> or alternatively,
-> 
-> 2) Changelog justifies very clearly why this change is okay with the
-> existing callers. (And obviously the function comment should be altered to
-> match the functionality in that case too).
-> 
-> If approach 2 is chosen, it should be very carefully reviewed when it
-> comes to the callers.
->
-I am in favor of approach 2 which you suggested, but lets wait for other
-reviewers feedback on this. Based up on the response i will make
-necessary changes in v5.
+With that fixed,
 
-[1] 
-https://lore.kernel.org/all/b3d818f5-942c-1761-221d-af7d7e8f3624@oss.qualcomm.com/
+Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
 - Krishna Chaitanya.
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> ---
+>   drivers/bus/mhi/host/pci_generic.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->>> Clear the aspm_disable flag with the requested ASPM states requested by
->>> pci_enable_link_state().
->>>
->>> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
->>
->> Fixes tag?
->>
->> - Mani
->>
->>> ---
->>>   drivers/pci/pcie/aspm.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
->>> index 94324fc0d3e650cd3ca2c0bb8c1895ca7e647b9d..0f858ef86111b43328bc7db01e6493ce67178458 100644
->>> --- a/drivers/pci/pcie/aspm.c
->>> +++ b/drivers/pci/pcie/aspm.c
->>> @@ -1453,6 +1453,7 @@ static int __pci_enable_link_state(struct pci_dev *pdev, int state, bool locked)
->>>   		down_read(&pci_bus_sem);
->>>   	mutex_lock(&aspm_lock);
->>>   	link->aspm_default = pci_calc_aspm_enable_mask(state);
->>> +	link->aspm_disable &= ~state;
->>>   	pcie_config_aspm_link(link, policy_to_aspm_state(link));
->>>   
->>>   	link->clkpm_default = (state & PCIE_LINK_STATE_CLKPM) ? 1 : 0;
->>>
->>> -- 
->>> 2.34.1
->>>
->>
->>
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 5c01c23d0bcfedd23f975e99845d5fa88940ccde..3e6e2d38935927cf3352c039266cae7cadb4c118 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1607,7 +1607,8 @@ static struct pci_driver mhi_pci_driver = {
+>   	.remove		= mhi_pci_remove,
+>   	.shutdown	= mhi_pci_shutdown,
+>   	.err_handler	= &mhi_pci_err_handler,
+> -	.driver.pm	= &mhi_pci_pm_ops
+> +	.driver.pm	= &mhi_pci_pm_ops,
+> +	.sriov_configure = pci_sriov_configure_simple
+>   };
+>   module_pci_driver(mhi_pci_driver);
+>   
 > 
