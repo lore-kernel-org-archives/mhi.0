@@ -1,203 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C93E279DBC
-	for <mhi@lists.linux.dev>; Fri, 11 Jul 2025 09:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752225709; cv=none; b=Zy4QhGJvm/aTN6e1cljBv6FThTa/ANPzI/yuVLOrb/OHyilcL0nSJuDbGSxMVWt/TgsWXVNRbNYHNMCgfWbqbZsFc/jK/TxktrwRICT5xJ7eQx/P7YjYZbRP2504DXJmJjzcTq0/s9la1huQi2MkZapKiXbzBJVor4RESOmbnis=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752225709; c=relaxed/simple;
-	bh=ne44bbTYibQEKk06zvdeZXV0JGbJvTKjbOlOl+PFBzk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=GM1IOeJ+6Sc3wAcDdAdrBwfcq7oJyOQ840EnrM988607wzSOD1nehCXMTCxcaMbHeaL3+Q+9T+KEu9X9nfqTVcgIfyEadECdUkUGbFfQ4pNN/NVKT7fr0BCalmMBdW0hCgb4XXRn1iAidcDvIucYHI3SZWXqkGrHsjo3RccpG0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iO6grycd; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE8A279DC3
+	for <mhi@lists.linux.dev>; Fri, 11 Jul 2025 10:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752229412; cv=pass; b=SkJIKu/sd0BGNLEOmpVM7lae67wC90pRmN207K4i88Hgo7asbdG957RrAit12BJyQdy1npMjscaZ+BHLnYT6PQ1a48bjHzVYRjSnDXj8LN5NOxN4HhgZMejL1bly/rdP+y2MiW2W0R1yRUF0MV5h8PpRnrQi9DmfFUQi540H2wU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752229412; c=relaxed/simple;
+	bh=MaEHn4ZS+h4G0j0j/6sd8YL5XQ2qzJu1xIExkKd7hVg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CRsO762w2bhf6QkbSNbCX6wWb4irex0zN8NXxCMbMXwiYElbK5Nifoh5mnZjyiB6F6OOCdM0UgNPjK1UCDaSKZKQrhkD624HFMiCeUXFmTGRuIbw6Gu3TgmThhAk0pLdPf8B1JfrHYnuvWRpKwitYWWQtsUgLgE8rFbCHfSvlQE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=S5otd6wn; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iO6grycd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752225708; x=1783761708;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=ne44bbTYibQEKk06zvdeZXV0JGbJvTKjbOlOl+PFBzk=;
-  b=iO6grycdqryhwsRggVedUdiydwrPdETi3Vqq1DvKc3WIX1nidopgnr1Z
-   uISmpHkdk6J8lxPIVrcLjhV24T+sLYOAOOAgqUOndtxFlgevRu7FkO0zt
-   rxu6Gsgd6ZGeJD6THBT4cmphnZoE7aRIajJVUygEBt4dUl+RCRCQFl/rj
-   vrQ6cl32HmYVQU+RqFmxEeMz/+Fkkq1EjIjVobTvt8llZUDh6ulpm3vFs
-   tgUTiiTRpNkp51y36Ui6I/718YfWPppHQD4Yu5PqJLG5cGqiCWt6NDzgE
-   MdgpSvDQILtfaOOxKJft55aufpTw6XAT2FvVq7REbVsBrzIfj3LZ/xjjh
-   g==;
-X-CSE-ConnectionGUID: vpuphPPAS/utE9E0Wn8pyw==
-X-CSE-MsgGUID: JDTxrttSSSOVTmI8g3dFSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="79956157"
-X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="79956157"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 02:21:46 -0700
-X-CSE-ConnectionGUID: PvcNX0ouT4iYz06C15Oy9w==
-X-CSE-MsgGUID: xk3fq7z+Tg23rwGF7zV5Gg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="160872671"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.249])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 02:21:39 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 11 Jul 2025 12:21:36 +0300 (EEST)
-To: Manivannan Sadhasivam <mani@kernel.org>
-cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
-    Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
-    Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, 
-    linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
-    linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-    qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
-    quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
-    Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-In-Reply-To: <irnkdlrmlozp7joydgnawfuivl2nnuxsb2t4osgxzbtyrfzd3n@7dhzjcd42aiw>
-Message-ID: <c7d4288d-4d0e-a3c2-83d2-c3f1b282d4ac@linux.intel.com>
-References: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com> <20250609-mhi_bw_up-v4-6-3faa8fe92b05@qti.qualcomm.com> <qo6mb3qlt3xpuvhepwcv6be4wd53neee2t6buzk4tdiy22xsub@vu7lykp3rnu2> <226bab3a-54e5-94ad-9d84-0b82f9dc4e2f@linux.intel.com>
- <2a18cf9e-1dd2-4e09-81f4-eb1d07324c8e@oss.qualcomm.com> <irnkdlrmlozp7joydgnawfuivl2nnuxsb2t4osgxzbtyrfzd3n@7dhzjcd42aiw>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="S5otd6wn"
+ARC-Seal: i=1; a=rsa-sha256; t=1752229378; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=M7MELwueo+pDvVX1BjPaUfNriLHYgEQiMPepAnEhGU8lnduTAkfVrh/Vbnyf5xn7jsl2eXVe1PLEXgxiVBVvenWsWlaES+nnPqYctBKn8RKu223PiN24g/eQsZshjelzFHq7irYMupDhnyx4w0Y4j4yA2WiyfQGlUhlasygtQPE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752229378; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=jAKGNXRPSsQBS9PBfAgefKJ5F4HqERQrv2t3b/FvnM0=; 
+	b=fQNgCMpZV+WrLdqSaE+K3Fx5QhaHOwt7S32G83/chYcXjHiiXpziqGIkHMUFn9TCaWRZvN83YFjh/C9L6cmgBACurr3RRfwzShcvlZPqLE3M0mHMyTznrFn3PZuBHkB9Y/JhbkdmaHthZCQBC+CMqMgRT9NN2kqPCo84Mhx1N8I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752229378;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=jAKGNXRPSsQBS9PBfAgefKJ5F4HqERQrv2t3b/FvnM0=;
+	b=S5otd6wn2juCVczBgAExMIDV3wP7LJnDTvGHOKi/8sZ6c/dMTVUmPIMi6eLaFYWM
+	z69UAVQXvtR/C6ZNPlFGlgrm+Bii5fKVtP88blQwfuqb3pm5+QG7pQob2IoQSFODF3+
+	u+6geucgt+ZSB963G/1jMF/1rJ8ue/VedZ/UeNyY=
+Received: by mx.zohomail.com with SMTPS id 1752229375150633.1041346131241;
+	Fri, 11 Jul 2025 03:22:55 -0700 (PDT)
+Message-ID: <378575f3-a0be-44ec-99b0-2579bcc7f644@collabora.com>
+Date: Fri, 11 Jul 2025 15:22:48 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1361302077-1752225289=:933"
-Content-ID: <0e71b6ef-a263-4169-3869-f785789a47fb@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] bus: mhi: keep device context through suspend cycles
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Youssef Samir <quic_yabdulra@quicinc.com>,
+ Matthew Leung <quic_mattleun@quicinc.com>, Yan Zhen <yanzhen@vivo.com>,
+ Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+ Alex Elder <elder@kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Siddartha Mohanadoss <smohanad@codeaurora.org>,
+ Sujeev Dias <sdias@codeaurora.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ John Crispin <john@phrozen.org>, Muna Sinada <quic_msinada@quicinc.com>,
+ Venkateswara Naralasetty <quic_vnaralas@quicinc.com>,
+ Maharaja Kennadyrajan <quic_mkenna@quicinc.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org
+Cc: kernel@collabora.com
+References: <20250630074330.253867-1-usama.anjum@collabora.com>
+ <20250630074330.253867-4-usama.anjum@collabora.com>
+ <b72b3635-1c09-444f-98f5-30fcc219b297@oss.qualcomm.com>
+ <c40f13e8-7420-4046-880d-7c72620fc021@collabora.com>
+ <304d71ca-5773-4fa6-aece-50f92b70c77f@oss.qualcomm.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <304d71ca-5773-4fa6-aece-50f92b70c77f@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+...
+>>>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+>>>> index 2e0f18c939e68..8f56e73fdc42e 100644
+>>>> --- a/drivers/bus/mhi/host/init.c
+>>>> +++ b/drivers/bus/mhi/host/init.c
+>>>> @@ -1133,9 +1133,11 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>>>>          mutex_lock(&mhi_cntrl->pm_mutex);
+>>>>    -    ret = mhi_init_dev_ctxt(mhi_cntrl);
+>>> mhi init dev ctxt also initializes the ring pointers to base value,
+>>> I think we should take care of them also ?
+>> Are you referring to mhi_rings? They are getting initialized inside
+>> mhi_init_dev_ctxt() and de-initialized in __mhi_deinit_dev_ctxt(). That's
+>> why I've not handled them separately.
+>>
+> Maybe I was not clear in my previous comment/not a correct place to do
+> the comment.
+> 
+> My point you are not freeing __mhi_deinit_dev_ctxt as part of suspend,
+> that means we are expecting device will continue to use the rp and wr pointers of ring as the previous i.e before suspend pointers.
+> 
+> What if PCIe keeps link in D3cold as part of system suspend, will the
+> device able to handle the previous rp & wp of ring. I don't think
+> device can handle this.
+I don't have much internals logic of the driver. I've checked on my device and
+the read/write pointers have 2 entries for mhi_event and 1 entry for mhi_cmd. But still
+without resetting these, I've not got any problem. Any idea why?
 
---8323328-1361302077-1752225289=:933
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <6c0bed1f-8dc1-cb12-cf09-a337d07698de@linux.intel.com>
+I'll reset rings' read/write pointers in v2.
 
-On Fri, 11 Jul 2025, Manivannan Sadhasivam wrote:
 
-> On Wed, Jul 09, 2025 at 06:01:22PM GMT, Krishna Chaitanya Chundru wrote:
-> >=20
-> >=20
-> > On 7/9/2025 2:40 PM, Ilpo J=E4rvinen wrote:
-> > > On Tue, 8 Jul 2025, Manivannan Sadhasivam wrote:
-> > >=20
-> > > > On Mon, Jun 09, 2025 at 04:21:27PM GMT, Krishna Chaitanya Chundru w=
-rote:
-> > > > > ASPM states are not being enabled back with pci_enable_link_state=
-() when
-> > > > > they are disabled by pci_disable_link_state(). This is because of=
- the
-> > > > > aspm_disable flag is not getting cleared in pci_enable_link_state=
-(), this
-> > > > > flag is being properly cleared when ASPM is controlled by sysfs.
-> > > > >=20
-> > > >=20
-> > > > A comment in pcie_config_aspm_link() says:
-> > > >=20
-> > > >   /* Enable only the states that were not explicitly disabled */
-> > > >=20
-> > > > But the function is called from both aspm_attr_store_common() and
-> > > > __pci_enable_link_state(). So I don't know if this is behavior is i=
-ntentional
-> > > > or wrong.
-> > >=20
-> > > Hi,
-> > >=20
-> > > I think it's intentional. Whether the behavior is useful is another g=
-ood
-> > > question but the current behavior aligns with the explanation in the
-> > > comment.
-> > >=20
-> > > My understanding of the situation is:
-> > >=20
-> > > pci_disable_link_state() and pci_enable_link_state() are not symmetri=
-c
-> > > despite the names, never have been (this is one of those many quirks =
-ASPM
-> > > driver has which should be eventually cleaned up, IMO).
-> > >=20
-> > > It might be appropriate to rename pci_enable_link_state() to
-> > > pci_set_default_link_state() to match the name to its functionality (=
-and
-> > > the function comment):
-> > >=20
-> > >   * pci_enable_link_state - Clear and set the default device link sta=
-te
-> > >=20
-> > > Note: "the default ... link state".
-> > >=20
-> > >=20
-> > > I've already raised this concern earlier! As you see, my comment are
-> > > not getting addressed. I'd like to see the author does one of these:
-> >
-> > I replied to your comment on v3 patch[1], and I feel instead of having
-> > new function() we can use same API to our purpose.
-
-It's not about what "feels" something. One should clearly write down why
-such conversion is correct/acceptable when it comes to existing callers=20
-if changing an existing API. The note should be such that it remains a=20
-permanent record for future (in the changelog).
-
-I don't have answer to what are the expectations or intent of the existing=
-=20
-callers. Convincing a patch is fine is responsibility of the one who is=20
-submitting the patch, not reviewer's.
-
-Unfortunately, it is usually quite hard to figure out for existing drivers=
-=20
-we're not familiar with. I'm not saying your "feel" is necessarily wrong,=
-=20
-but the existing callers need to be properly investigated if you choose=20
-that path, not just handwaved over. It likely boils down if the=20
-->aspm_default and controlling it are useful features to have in the ASPM=
-=20
-driver as your patch would take away that ability.
-
-> You replied to Ilpo, but never got an agreement. Please try to close the
-> discussions before posting next rev. If reviewers forgot to reply to your=
- query,
-> feel free to ping them in the same thread itself.
->
-> > > 1) Renames pci_enable_link_state() to pci_set_default_link_state()
-> > >=20
-> > > 1b) If pci_enable_link_state() is still needed after that, a new func=
-tion
-> > > is added to symmetrically pair with pci_disable_link_state().
-> > >=20
-> > > or alternatively,
-> > >=20
-> > > 2) Changelog justifies very clearly why this change is okay with the
-> > > existing callers. (And obviously the function comment should be alter=
-ed to
-> > > match the functionality in that case too).
-> > >=20
-> > > If approach 2 is chosen, it should be very carefully reviewed when it
-> > > comes to the callers.
-> > >=20
-> > I am in favor of approach 2 which you suggested, but lets wait for othe=
-r
-> > reviewers feedback on this. Based up on the response i will make
-> > necessary changes in v5.
-> >=20
->=20
-> I would go for (1). It is always going to be a problem to change a legacy=
- API
-> like this. We might end up causing regressions. So it is safe to rename t=
-o
-> reflect the purpose and try to come up with a new API that does what you =
-want.
-> If callers want to migrate to the new API, they can also do it in the fut=
-ure.
-
-That's my recommendation as well.
-
---=20
- i.
---8323328-1361302077-1752225289=:933--
