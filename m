@@ -1,154 +1,79 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309172459D7;
-	Mon, 14 Jul 2025 16:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397452E36F0;
+	Mon, 14 Jul 2025 19:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752510667; cv=none; b=ZUHsN1DGJjqAc08Y1TB8x6i2WTCVfg3SjEuOKuqNhhrnutVLWNC11z44EzkXqE1zlUE44IOp5UqsLwsLypG5tUe4u2hgSkiqYoM/wOhuUJWE0EhqhdhTkYn0mWk7CwG9oTFUA+pUD1xJQaOxGAKARCAErlqh4FZDGPbPH+VhgZ4=
+	t=1752520887; cv=none; b=aABKuVrI/zK5Lcs0Z8xkN8dysOAur1Y2wtuJXVHlFDS4ntgZHlOdxS/mIukk2FiGLWXIz1aV3TG0R3PV31Ko+xkAxHNbp20SqSvdpnbJZuS8WrLacx6JcdfUZVpix2igB32KPVQn45CF7woivabrdmIMOfp20kBrx/jQUyFAYFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752510667; c=relaxed/simple;
-	bh=tFfM0hDJcCZvahEFei2hiOVroZttDJK94ipLxDSFX5k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bU++GnVkKBtm8amB2KzOuP2v1B42MGPHLa8FWricy9+W3iXgVVw5+znpnwZ9Xp0jgyI7cS1/KRmwVXFGbVRz9SYpCmjNkJCCZkKpf8WOx7PvBXfKL6to5B6xvWxW8oVRp7YBZjCsYdUck0o9ihUO4aWO9TVxUlkV9mwYiOxy7WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KquCpFec; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1752520887; c=relaxed/simple;
+	bh=ssDIZ6lVVA4nrtzbmsJMiQpIz0j9r1OlWlOQVhLVCvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=G7vKdbkVEs05fCFfp3qtA8di9nv4i8tSsB/XEpeRvMdj8UgI6ifSDZ2r+gl4ACLDaqozluRCZR9ZZjdIJ1NeidKqwBjzFZdHMdWLRvyztZ0eAGHTaZb255nCLvS8YK1LLwST+jKy0Zt0GUldvQ58T6kJwufrMXSUysIsrsuXi98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfcY4L78; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KquCpFec"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EGROpC022077;
-	Mon, 14 Jul 2025 16:31:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=mxi7SiBD/iDWVc8EiXp2B8
-	FLdd1L3Gj3MaiaDSYI2w4=; b=KquCpFeciof4tZmb80oa60D/Z5X5Wxn0iTF1Zw
-	8Nw7g6CnpH/ly88nlbgJGdn/xKc+Oz2cm3dJDDxnt44h85VAjB0zmrUSWSD+kR22
-	BaPEzzQ9dCxArBP9ZEY/AIvfuotRSkua4pwOopD/1CHrCxCVUHrztj0VOq+YBQIK
-	9fC4Pk3+Wo+pM/Lcf60cZBlm1SOwxMTBomdfqo7nJAQr5MToj2lR+XHKpILrBdbV
-	i957cKOZn3QO53j//bYJIlisPoVbHtFAaIvigvHbp7cmK6vbBINu4XTKxcCtAMq4
-	Tc+PFJTuZWRKHO6mn3ltYJtW1AyhuG+nHtuMqvZf0Fi/B4xQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dp808k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Jul 2025 16:31:01 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56EGV1KD002087
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Jul 2025 16:31:01 GMT
-Received: from hu-yabdulra-ams.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 14 Jul 2025 09:30:59 -0700
-From: Youssef Samir <quic_yabdulra@quicinc.com>
-To: <mani@kernel.org>, <jeff.hugo@oss.qualcomm.com>, <quic_carlv@quicinc.com>,
-        <quic_thanson@quicinc.com>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <youssef.abdulrahman@oss.qualcomm.com>
-Subject: [PATCH v2] bus: mhi: host: Detect events pointing to unexpected TREs
-Date: Mon, 14 Jul 2025 18:30:39 +0200
-Message-ID: <20250714163039.3438985-1-quic_yabdulra@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfcY4L78"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D403C4CEED;
+	Mon, 14 Jul 2025 19:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752520886;
+	bh=ssDIZ6lVVA4nrtzbmsJMiQpIz0j9r1OlWlOQVhLVCvs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=IfcY4L78k/3SXQBULobxN/UA/xkUaUJv8YvUlHtFq8SQMkkvrTOf57L0/xtif0kSb
+	 AARXv/2u9T6tCh5t0Ghqm6rXXPwMEkw0jIBAkQ3on7G3+sn65Tn11RUlZlmeagaLct
+	 7KrF4B+138fcR1lYKla5ELX244Pnt1tU4EmObeUmmOgN6u5o+1yG1Vlo5SwJ6OOi+5
+	 zweksJIKL/m41i3EEmooQWe5YQa45PY1e2CW3Gwq2N51QsKmGXxVkQWrz9FAaOwe2C
+	 u5xJm958+ifYl/pNM/j/Jlzzt+nqfMINOoEjn13jtGRFsIFLYlsOgEkswevC4D9i5W
+	 K63r8BywQb3Iw==
+Date: Mon, 14 Jul 2025 14:21:25 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+	qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+	quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
+ __pci_enable_link_state()
+Message-ID: <20250714192125.GA2414954@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDEwMSBTYWx0ZWRfX6f2w6LLz2Sth
- L/7YRZt3oIidiuK+aIBqUqqlJdsv0NBEXzZgle8UL7Ja3N/PUYt2vcsKkd7n08G8odb6fMpfm54
- trDKYLWlW4LApNLfNrbDTuDqHBd1Vu21xFXxNGBYiOq8nLDY42+GtZAcvkjtpcwqKDsiaXBk/I7
- OwkRMylNqiPMk66w/lmAcDE9mScfJzbYSaiRbZbUzTZclq6TtNHSolChTumc0dxu5JMwf1ydUtk
- 3w8YWn5erA4jU1q5qve87MLhAMFkR4HOuR37cnykbrv9Ht9fhfNNDUo4mB8eKAI6crKicnETBDJ
- b2p6cRcw0umlYroTsUSX+2mhJDaf06TdxbdX5fGNuVJjJUhhHGpYBmro/71gzSAb0Myt/Upc1eh
- x41RmYq1bBV2hZxdsnz5XIn0HbVE6wMkxUQrj49OtDbvdc5WKYIwsQOg3+qEpIEwCss499Pp
-X-Proofpoint-GUID: TLh2fF-fhecPJMxj10FkaN0nWhzkUbXC
-X-Proofpoint-ORIG-GUID: TLh2fF-fhecPJMxj10FkaN0nWhzkUbXC
-X-Authority-Analysis: v=2.4 cv=Y+r4sgeN c=1 sm=1 tr=0 ts=687530c5 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=ztyKLzQp5aFZxASnXIYA:9 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-14_01,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999 phishscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507140101
+In-Reply-To: <qay63njqf7z7mchizt5sm66i67rvxxxicikxmfuvllmmxfy7ek@mulnjvde5q7w>
 
-When a remote device sends a completion event to the host, it contains a
-pointer to the consumed TRE. The host uses this pointer to process all of
-the TREs between it and the host's local copy of the ring's read pointer.
-This works when processing completion for chained transactions, but can
-lead to nasty results if the device sends an event for a single-element
-transaction with a read pointer that is multiple elements ahead of the
-host's read pointer.
+On Sat, Jul 12, 2025 at 03:05:28PM +0530, Manivannan Sadhasivam wrote:
+> On Fri, Jul 11, 2025 at 06:00:13PM GMT, Bjorn Helgaas wrote:
+> > On Fri, Jul 11, 2025 at 04:38:48PM +0300, Ilpo Järvinen wrote:
+> > 
+> > > +++ b/include/linux/pci.h
+> > > @@ -1826,8 +1826,8 @@ static inline int pcie_set_target_speed(struct pci_dev *port,
+> > >  #ifdef CONFIG_PCIEASPM
+> > >  int pci_disable_link_state(struct pci_dev *pdev, int state);
+> > >  int pci_disable_link_state_locked(struct pci_dev *pdev, int state);
+> > > -int pci_enable_link_state(struct pci_dev *pdev, int state);
+> > 
+> > AFAICT there's no caller of this at all.  Why do we keep it?
+> 
+> I'm just working on a series to convert the ath{10/11/12}k drivers to use this
+> API instead of modifying LNKCTL register directly:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/ath/ath12k/pci.c#n961
 
-For instance, if the host accesses an event ring while the device is
-updating it, the pointer inside of the event might still point to an old
-TRE. If the host uses the channel's xfer_cb() to directly free the buffer
-pointed to by the TRE, the buffer will be double-freed.
-
-This behavior was observed on an ep that used drivers/bus/mhi/ep/ without
-'commit 6f18d174b73d ("bus: mhi: ep: Update read pointer only after buffer is written")'.
-Where the device updated the events ring pointer before updating the event
-contents, so it left a window where the host was able to access the stale
-data the event pointed to, before the device had the chance to update them.
-The usual pattern was that the host received an event pointing to a TRE
-that is not immediately after the last processed one, so it got treated as
-if it was a chained transaction, processing all of the TREs in between the
-two read pointers.
-
-This patch aims to harden the host by ensuring transactions where the event
-points to a TRE that isn't local_rp + 1 are chained.
-
-Fixes: 1d3173a3bae7 ("bus: mhi: core: Add support for processing events from client device")
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
----
-Changes in v2:
-- Update the commit message
-- Link to v1: https://lore.kernel.org/mhi/20250521163110.571893-1-quic_yabdulra@quicinc.com/
----
- drivers/bus/mhi/host/main.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index aa8a0ef697c7..57dc9c5c0d84 100644
---- a/drivers/bus/mhi/host/main.c
-+++ b/drivers/bus/mhi/host/main.c
-@@ -602,7 +602,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
- 	{
- 		dma_addr_t ptr = MHI_TRE_GET_EV_PTR(event);
- 		struct mhi_ring_element *local_rp, *ev_tre;
--		void *dev_rp;
-+		void *dev_rp, *next_rp;
- 		struct mhi_buf_info *buf_info;
- 		u16 xfer_len;
- 
-@@ -621,6 +621,16 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
- 		result.dir = mhi_chan->dir;
- 
- 		local_rp = tre_ring->rp;
-+
-+		next_rp = local_rp + 1;
-+		if (next_rp >= tre_ring->base + tre_ring->len)
-+			next_rp = tre_ring->base;
-+		if (dev_rp != next_rp && !MHI_TRE_DATA_GET_CHAIN(local_rp)) {
-+			dev_err(&mhi_cntrl->mhi_dev->dev,
-+				"Event element points to an unexpected tre\n");
-+			break;
-+		}
-+
- 		while (local_rp != dev_rp) {
- 			buf_info = buf_ring->rp;
- 			/* If it's the last TRE, get length from the event */
--- 
-2.25.1
-
+Awesome!  It will be great to get more of the ASPM gunk out of
+drivers.
