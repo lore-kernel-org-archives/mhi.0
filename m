@@ -1,152 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C720246BB9;
-	Mon, 14 Jul 2025 13:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309172459D7;
+	Mon, 14 Jul 2025 16:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752501093; cv=none; b=DiSe/XhnlW0VNRPGMnvAqZAMZKGSXP8zoo/RNWK80Xs+lCxBeZCQGBru01U1alcg8ttWI6fOj+0cHdMkKZVDlCQ135aSiQsCkhbd+Mhzqj0JOEojY6zT8v9FHj5cWwaU9fJz9kOEWh1OJ/v08AVJ34wgeUYjAlVSy19cyeEHNOo=
+	t=1752510667; cv=none; b=ZUHsN1DGJjqAc08Y1TB8x6i2WTCVfg3SjEuOKuqNhhrnutVLWNC11z44EzkXqE1zlUE44IOp5UqsLwsLypG5tUe4u2hgSkiqYoM/wOhuUJWE0EhqhdhTkYn0mWk7CwG9oTFUA+pUD1xJQaOxGAKARCAErlqh4FZDGPbPH+VhgZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752501093; c=relaxed/simple;
-	bh=wEFbqS8TlqYik+f8XbfTNLMdRUhavAYHebu3HmoWO50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlLV4SweN+gGhYGFxHlykPlFNSwYQEDZakr+l/Wnc98kt1qzzyx7++hIDmQtyRo3DKWfMkNYO68cuOpdyjSGlKa4+7Jr/leIU+5z5+cG/zr69T4xCVVvemD57+4s/XwfRmYOL0YrIgnGr8VmpHxGAWG2G3Efz1iDE8hA5wQKOHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3ddQ4qh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752510667; c=relaxed/simple;
+	bh=tFfM0hDJcCZvahEFei2hiOVroZttDJK94ipLxDSFX5k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bU++GnVkKBtm8amB2KzOuP2v1B42MGPHLa8FWricy9+W3iXgVVw5+znpnwZ9Xp0jgyI7cS1/KRmwVXFGbVRz9SYpCmjNkJCCZkKpf8WOx7PvBXfKL6to5B6xvWxW8oVRp7YBZjCsYdUck0o9ihUO4aWO9TVxUlkV9mwYiOxy7WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KquCpFec; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3ddQ4qh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA606C4CEED;
-	Mon, 14 Jul 2025 13:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752501092;
-	bh=wEFbqS8TlqYik+f8XbfTNLMdRUhavAYHebu3HmoWO50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H3ddQ4qhYjcSKCYEWWshXmRIhOzJtNxAdmeOK6CWi+oVNPEN3DO+2jGTH4lAlruIG
-	 8+y9K9w8FTayMurEMmYs+HJMLbwH93DOBGTDYbMkK8hO/UUo2/nSvH7eCjGeeWkOey
-	 mgiu7JMTM4aHNcSd0WPWuZtphZIbRlYB7F0KcK12xap9MT1nZm83j4IF/QAIjxf2s4
-	 YFZmrw00/pkiG7+S+JC4sJiqXvv9pbtl9bkP7nP0K2OBeBAViMpnbmC3blCaJGgZ9Z
-	 LVGKAotp9ugJVjEBFL+kqX1qJxiWcWz+30H/LxzJUGav3P83Twf/E0XDrYGGRg8D3r
-	 TePbTsIYH05gQ==
-Date: Mon, 14 Jul 2025 19:21:21 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, 
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	ath11k@lists.infradead.org, qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
-	quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-Message-ID: <gwpn5no4i2wwwk3qo4tcgp6z6floo6k2ymzfuucg3tbwtmccte@ydsupmrd2nqu>
-References: <604ffae3-1bfc-0922-b001-f3338880eb21@linux.intel.com>
- <20250711230013.GA2309106@bhelgaas>
- <qay63njqf7z7mchizt5sm66i67rvxxxicikxmfuvllmmxfy7ek@mulnjvde5q7w>
- <9543b1eb-5bd2-bea1-742f-60cbc28bb365@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KquCpFec"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EGROpC022077;
+	Mon, 14 Jul 2025 16:31:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=mxi7SiBD/iDWVc8EiXp2B8
+	FLdd1L3Gj3MaiaDSYI2w4=; b=KquCpFeciof4tZmb80oa60D/Z5X5Wxn0iTF1Zw
+	8Nw7g6CnpH/ly88nlbgJGdn/xKc+Oz2cm3dJDDxnt44h85VAjB0zmrUSWSD+kR22
+	BaPEzzQ9dCxArBP9ZEY/AIvfuotRSkua4pwOopD/1CHrCxCVUHrztj0VOq+YBQIK
+	9fC4Pk3+Wo+pM/Lcf60cZBlm1SOwxMTBomdfqo7nJAQr5MToj2lR+XHKpILrBdbV
+	i957cKOZn3QO53j//bYJIlisPoVbHtFAaIvigvHbp7cmK6vbBINu4XTKxcCtAMq4
+	Tc+PFJTuZWRKHO6mn3ltYJtW1AyhuG+nHtuMqvZf0Fi/B4xQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dp808k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Jul 2025 16:31:01 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56EGV1KD002087
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Jul 2025 16:31:01 GMT
+Received: from hu-yabdulra-ams.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 14 Jul 2025 09:30:59 -0700
+From: Youssef Samir <quic_yabdulra@quicinc.com>
+To: <mani@kernel.org>, <jeff.hugo@oss.qualcomm.com>, <quic_carlv@quicinc.com>,
+        <quic_thanson@quicinc.com>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <youssef.abdulrahman@oss.qualcomm.com>
+Subject: [PATCH v2] bus: mhi: host: Detect events pointing to unexpected TREs
+Date: Mon, 14 Jul 2025 18:30:39 +0200
+Message-ID: <20250714163039.3438985-1-quic_yabdulra@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9543b1eb-5bd2-bea1-742f-60cbc28bb365@linux.intel.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDEwMSBTYWx0ZWRfX6f2w6LLz2Sth
+ L/7YRZt3oIidiuK+aIBqUqqlJdsv0NBEXzZgle8UL7Ja3N/PUYt2vcsKkd7n08G8odb6fMpfm54
+ trDKYLWlW4LApNLfNrbDTuDqHBd1Vu21xFXxNGBYiOq8nLDY42+GtZAcvkjtpcwqKDsiaXBk/I7
+ OwkRMylNqiPMk66w/lmAcDE9mScfJzbYSaiRbZbUzTZclq6TtNHSolChTumc0dxu5JMwf1ydUtk
+ 3w8YWn5erA4jU1q5qve87MLhAMFkR4HOuR37cnykbrv9Ht9fhfNNDUo4mB8eKAI6crKicnETBDJ
+ b2p6cRcw0umlYroTsUSX+2mhJDaf06TdxbdX5fGNuVJjJUhhHGpYBmro/71gzSAb0Myt/Upc1eh
+ x41RmYq1bBV2hZxdsnz5XIn0HbVE6wMkxUQrj49OtDbvdc5WKYIwsQOg3+qEpIEwCss499Pp
+X-Proofpoint-GUID: TLh2fF-fhecPJMxj10FkaN0nWhzkUbXC
+X-Proofpoint-ORIG-GUID: TLh2fF-fhecPJMxj10FkaN0nWhzkUbXC
+X-Authority-Analysis: v=2.4 cv=Y+r4sgeN c=1 sm=1 tr=0 ts=687530c5 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=ztyKLzQp5aFZxASnXIYA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999 phishscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507140101
 
-On Sun, Jul 13, 2025 at 07:27:57PM GMT, Ilpo Järvinen wrote:
-> On Sat, 12 Jul 2025, Manivannan Sadhasivam wrote:
-> > On Fri, Jul 11, 2025 at 06:00:13PM GMT, Bjorn Helgaas wrote:
-> > > On Fri, Jul 11, 2025 at 04:38:48PM +0300, Ilpo Järvinen wrote:
-> > > 
-> > > > +++ b/include/linux/pci.h
-> > > > @@ -1826,8 +1826,8 @@ static inline int pcie_set_target_speed(struct pci_dev *port,
-> > > >  #ifdef CONFIG_PCIEASPM
-> > > >  int pci_disable_link_state(struct pci_dev *pdev, int state);
-> > > >  int pci_disable_link_state_locked(struct pci_dev *pdev, int state);
-> > > > -int pci_enable_link_state(struct pci_dev *pdev, int state);
-> > > 
-> > > AFAICT there's no caller of this at all.  Why do we keep it?
-> > > 
-> > 
-> > I'm just working on a series to convert the ath{10/11/12}k drivers to use this
-> > API instead of modifying LNKCTL register directly:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/ath/ath12k/pci.c#n961
-> 
-> Great. I assume but "this API" you meant disable/enable link state that 
-> are real pair unlike the current pci_enable_link_state()?
-> 
+When a remote device sends a completion event to the host, it contains a
+pointer to the consumed TRE. The host uses this pointer to process all of
+the TREs between it and the host's local copy of the ring's read pointer.
+This works when processing completion for chained transactions, but can
+lead to nasty results if the device sends an event for a single-element
+transaction with a read pointer that is multiple elements ahead of the
+host's read pointer.
 
-Yes. I actually based my series on top of this series, but I guess I should just
-merge the API change patch to my series as it is relatively small compared to
-this one (so it will get merged quicker).
+For instance, if the host accesses an event ring while the device is
+updating it, the pointer inside of the event might still point to an old
+TRE. If the host uses the channel's xfer_cb() to directly free the buffer
+pointed to by the TRE, the buffer will be double-freed.
 
-> Did ath1xk need to do some hw specific register updates when changing ASPM 
-> state?
-> 
+This behavior was observed on an ep that used drivers/bus/mhi/ep/ without
+'commit 6f18d174b73d ("bus: mhi: ep: Update read pointer only after buffer is written")'.
+Where the device updated the events ring pointer before updating the event
+contents, so it left a window where the host was able to access the stale
+data the event pointed to, before the device had the chance to update them.
+The usual pattern was that the host received an event pointing to a TRE
+that is not immediately after the last processed one, so it got treated as
+if it was a chained transaction, processing all of the TREs in between the
+two read pointers.
 
-Fortunately, no.
+This patch aims to harden the host by ensuring transactions where the event
+points to a TRE that isn't local_rp + 1 are chained.
 
-> I tried to do similar conversion in r8169 (and actually also ath1xk too) 
-> but it was a while ago already. If I understood the code correctly, r8169 
-> seems to write some HW specific registers when changing ASPM state so I 
-> would have likely need to add some ops for it to play nice with state 
-> changes not originating from the driver itself but from the ASPM driver, 
-> which is where the work then stalled.
-> 
+Fixes: 1d3173a3bae7 ("bus: mhi: core: Add support for processing events from client device")
+Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+---
+Changes in v2:
+- Update the commit message
+- Link to v1: https://lore.kernel.org/mhi/20250521163110.571893-1-quic_yabdulra@quicinc.com/
+---
+ drivers/bus/mhi/host/main.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-ath driver changes are straightforward, but I need to add an inline function to
-convert lnkctl setting to aspm states:
-
-static inline int ath_pci_aspm_state(u16 lnkctl)
-{
-	int state = 0;
-
-	if (lnkctl & PCI_EXP_LNKCTL_ASPM_L0S)
-		state |= PCIE_LINK_STATE_L0S;
-	if (lnkctl & PCI_EXP_LNKCTL_ASPM_L1)
-		state |= PCIE_LINK_STATE_L1;
-
-	return state;
-}
-
-Currently, it is in ath/ath.h, but if you feel that we should move it to
-include/linux/pci.h, let me know!
-
-> > > > -int pci_enable_link_state_locked(struct pci_dev *pdev, int state);
-> > > 
-> > > We only have two callers of this (pcie-qcom.c and vmd.c, both in
-> > > drivers/pci/), so it's not clear to me that it needs to be in
-> > > include/linux/pci.h.
-> > > 
-> > > I'm a little dubious about it in the first place since I don't think
-> > > drivers should be enabling ASPM states on their own, but pcie-qcom.c
-> > > and vmd.c are PCIe controller drivers, not PCI device drivers, so I
-> > > guess we can live with them for now.
-> > > 
-> > > IMO the "someday" goal should be that we get rid of aspm_policy and
-> > > enable all the available power saving states by default.  We have
-> > > sysfs knobs that administrators can use if necessary, and drivers or
-> > > quirks can disable states if they need to work around hardware
-> > > defects.
-> > 
-> > Yeah, I think the default should be powersave and let the users disable it for
-> > performance if they want.
-> 
-> I'm certainly not against improvements in this front, but I think we need 
-> to get rid off custom ASPM disable code from the drivers first.
-> 
-
-It would be difficult IMO as drivers have their own usecases. For instance, the
-ath drivers need to disable ASPM states to avoid issues during firmware
-download. Then they need to enable ASPM back once the firmware is up and
-running.
-
-- Mani
-
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index aa8a0ef697c7..57dc9c5c0d84 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -602,7 +602,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+ 	{
+ 		dma_addr_t ptr = MHI_TRE_GET_EV_PTR(event);
+ 		struct mhi_ring_element *local_rp, *ev_tre;
+-		void *dev_rp;
++		void *dev_rp, *next_rp;
+ 		struct mhi_buf_info *buf_info;
+ 		u16 xfer_len;
+ 
+@@ -621,6 +621,16 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+ 		result.dir = mhi_chan->dir;
+ 
+ 		local_rp = tre_ring->rp;
++
++		next_rp = local_rp + 1;
++		if (next_rp >= tre_ring->base + tre_ring->len)
++			next_rp = tre_ring->base;
++		if (dev_rp != next_rp && !MHI_TRE_DATA_GET_CHAIN(local_rp)) {
++			dev_err(&mhi_cntrl->mhi_dev->dev,
++				"Event element points to an unexpected tre\n");
++			break;
++		}
++
+ 		while (local_rp != dev_rp) {
+ 			buf_info = buf_ring->rp;
+ 			/* If it's the last TRE, get length from the event */
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
