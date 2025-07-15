@@ -1,130 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0451662E7;
-	Mon, 14 Jul 2025 19:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752522132; cv=none; b=h6DOMiJq0Y1Gy+k1q+FE3lah+a6HH93qHpzNxhW89AHzuQDr4Na37Ivsn9dbJpzZ7VvXTAxvnrOH5r35cgmOzePhHYW3xh0P+r0Z3geLzaj1EiNT/JsNpuhUEX5l/yk9M9fEOTcvHtzJO1ig/VEe2o8xNJZTPyn9GAvwlym1XuI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752522132; c=relaxed/simple;
-	bh=ZwfxCQTzGcagrhNN128iX8ZCx0f/OBRMMJHaiqxxpiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=YstFbFbITDcQ59+J2Y9XzrRJAFCHE0x/Bv+BlYHU8EmEDFXNj5xZTUvs0+mh90f7APvlZhgJ6Bl9zadBI6NswIs7EgvaVB1+lOgQZIunqHqk2qHyg8Ljl+EihihBysE6OxffcuKugvaiXzlV+eVaC6JGzUbNy8lwRPyGncEK9sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ecMBadbj; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E752E2EFF
+	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752585962; cv=pass; b=eXWP+V+RF3t+JDijon/zNhQfygI8luP3d2sihym330cKSTme3KJvearUuAKThBaLz5utYtMhyxmLrefpawWj1LxS97hVexCmxJutCo1mQ9jaBqcACbqTWVhQ7hvBKiXobQjY2JD4IziiOh+cFvVEAzPJSjdtIrOFvbgm8u36+94=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752585962; c=relaxed/simple;
+	bh=lNP6j8FAExuphUY2GnzZpWUe4N42y+ooQuD66rTkNp4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=qS+WtFfSvxgyG97JAcdbyvAtyDvcCssXDSZ4p7ktUF+Gyk69slV7ow436GCpmJSfk7wBAGgUUDIvhXIUczKbeCNyovl8wiwiNBGz6FrmTvz77SWPcn5XuRAYlHOSrMMkXuTFFZpwxmk5rnc/xvMvYaj1QbHqL4GPNd7/7Hczz20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=ErFFBia0; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ecMBadbj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7978DC4CEED;
-	Mon, 14 Jul 2025 19:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752522130;
-	bh=ZwfxCQTzGcagrhNN128iX8ZCx0f/OBRMMJHaiqxxpiM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=ecMBadbjd7FZqxSx5x58d/jEVKcEidTJa/y2tEB91mpgRzILb/XNeffNmHfcve2at
-	 Bfu/oNAn0YGbWYgbGvB7St73SXCvXih8WZCa20Sfp4N5Slw/Jz1GVQn7FrHoJDX4w3
-	 DVmrHZso9y/CxNND/f7hplvFfiJbBTVs5nfv3lDnHta/jrKE8ACVOCef4lY1p20DRW
-	 iipvykN6PuX4S3ek4w1Iqk5wvRbAkDexurWSHWFpuyxLw/DgnwyMQ9nRQBpymbNQTL
-	 wp+2fshCBaFY6LY1sI1L8C/yLD1oVWjJ/qHQR//JYsEsQ1Xw5v+NLKUgeDRcoIoAH3
-	 G3ijQrgYbpjzg==
-Date: Mon, 14 Jul 2025 14:42:09 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="ErFFBia0"
+ARC-Seal: i=1; a=rsa-sha256; t=1752585921; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=T8d1pYrJdNmc7qeRah1Vnv7ySI5qe/c18r/1wuGBC3I8CIt06rFAbeIx9xd/lN2w5k52ZSlEGhaPdjbDn5h9q/Im6tlH0IvuCKKQYWo6mOfetduUarlX0ZaEptg2GF8tGayqoVVcRUlRugqnpcY8FMBXNjzHo3duaz/BXQzGTzQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752585921; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=g+nNKePYIp7l9bMZn9BgWi+OVDW4AE/CYs/TEIn87ls=; 
+	b=Qcbb8GQ31Tj3nCZGPdbPYAJ1sACnEmyN5h2Q3PC0a2dYUb0oe2mK1kc88rbg05JeMrqzU1fg5+nQuKroUJ9IS1x0Emw4mS6zmXQeIINwOtDfh/26bbqv5fJjdQHr/vGg0nElHUJ73x43ZtNDE1lywIf4vldo2fj4myYS0ScZffE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585921;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=g+nNKePYIp7l9bMZn9BgWi+OVDW4AE/CYs/TEIn87ls=;
+	b=ErFFBia02nSQ9C2h/hlNUzlPl89J+vXJEUjgW6D/k0Tgq2YDgdWM+WFw1/ouk4f/
+	T+3ZKSdUV/Gv5m4S6+Ozcn9wC7XuBkqm06/WBNCVKgphHFg4f8Wbbc4lBRdiJyU/e1i
+	6f9cuqFqRu6sB72o/0eLKqiJd6nCBAR36cu61h7w=
+Received: by mx.zohomail.com with SMTPS id 1752585918863968.9690914142641;
+	Tue, 15 Jul 2025 06:25:18 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
 	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
-	quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-Message-ID: <20250714194209.GA2415586@bhelgaas>
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Yan Zhen <yanzhen@vivo.com>,
+	Sujeev Dias <sdias@codeaurora.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Siddartha Mohanadoss <smohanad@codeaurora.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: kernel@collabora.com,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/3] bus: mhi: host: keep bhi buffer through suspend cycle
+Date: Tue, 15 Jul 2025 18:25:07 +0500
+Message-Id: <20250715132509.2643305-2-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250715132509.2643305-1-usama.anjum@collabora.com>
+References: <20250715132509.2643305-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <gwpn5no4i2wwwk3qo4tcgp6z6floo6k2ymzfuucg3tbwtmccte@ydsupmrd2nqu>
+X-ZohoMailClient: External
 
-On Mon, Jul 14, 2025 at 07:21:21PM +0530, Manivannan Sadhasivam wrote:
-> On Sun, Jul 13, 2025 at 07:27:57PM GMT, Ilpo Järvinen wrote:
-> > On Sat, 12 Jul 2025, Manivannan Sadhasivam wrote:
-> > > On Fri, Jul 11, 2025 at 06:00:13PM GMT, Bjorn Helgaas wrote:
-> > > > On Fri, Jul 11, 2025 at 04:38:48PM +0300, Ilpo Järvinen wrote:
-> > > > 
-> > > > > +++ b/include/linux/pci.h
-> > > > > @@ -1826,8 +1826,8 @@ static inline int pcie_set_target_speed(struct pci_dev *port,
-> > > > >  #ifdef CONFIG_PCIEASPM
-> > > > >  int pci_disable_link_state(struct pci_dev *pdev, int state);
-> > > > >  int pci_disable_link_state_locked(struct pci_dev *pdev, int state);
-> > > > > -int pci_enable_link_state(struct pci_dev *pdev, int state);
-> > > > 
-> > > > AFAICT there's no caller of this at all.  Why do we keep it?
-> > > 
-> > > I'm just working on a series to convert the ath{10/11/12}k
-> > > drivers to use this API instead of modifying LNKCTL register
-> > > directly:
-> > > 
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/ath/ath12k/pci.c#n961
-> > 
-> > Great. I assume but "this API" you meant disable/enable link state
-> > that are real pair unlike the current pci_enable_link_state()?
-> 
-> Yes. I actually based my series on top of this series, but I guess I
-> should just merge the API change patch to my series as it is
-> relatively small compared to this one (so it will get merged
-> quicker).
-> 
-> > Did ath1xk need to do some hw specific register updates when
-> > changing ASPM state?
-> 
-> Fortunately, no.
-> 
-> > I tried to do similar conversion in r8169 (and actually also
-> > ath1xk too) but it was a while ago already. If I understood the
-> > code correctly, r8169 seems to write some HW specific registers
-> > when changing ASPM state so I would have likely need to add some
-> > ops for it to play nice with state changes not originating from
-> > the driver itself but from the ASPM driver, which is where the
-> > work then stalled.
+When there is memory pressure, at resume time dma_alloc_coherent()
+returns error which in turn fails the loading of firmware and hence
+the driver crashes:
 
-Pffft.  Device-specific configuration when changing ASPM state is a
-device defect in my book.  ASPM is clearly designed to be managed
-outside the driver.  What is the driver supposed to do about this if
-the platform retains control of ASPM?  There's no possibility of a
-driver hook for that.
+kernel: kworker/u33:5: page allocation failure: order:7,
+mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+kernel: CPU: 1 UID: 0 PID: 7693 Comm: kworker/u33:5 Not tainted 6.11.11-valve17-1-neptune-611-g027868a0ac03 #1 3843143b92e9da0fa2d3d5f21f51beaed15c7d59
+kernel: Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+kernel: Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+kernel: Call Trace:
+kernel:  <TASK>
+kernel:  dump_stack_lvl+0x4e/0x70
+kernel:  warn_alloc+0x164/0x190
+kernel:  ? srso_return_thunk+0x5/0x5f
+kernel:  ? __alloc_pages_direct_compact+0xaf/0x360
+kernel:  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+kernel:  __alloc_pages_noprof+0x321/0x350
+kernel:  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+kernel:  dma_direct_alloc+0x70/0x270
+kernel:  mhi_fw_load_handler+0x126/0x340 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+kernel:  mhi_pm_st_worker+0x5e8/0xac0 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+kernel:  ? srso_return_thunk+0x5/0x5f
+kernel:  process_one_work+0x17e/0x330
+kernel:  worker_thread+0x2ce/0x3f0
+kernel:  ? __pfx_worker_thread+0x10/0x10
+kernel:  kthread+0xd2/0x100
+kernel:  ? __pfx_kthread+0x10/0x10
+kernel:  ret_from_fork+0x34/0x50
+kernel:  ? __pfx_kthread+0x10/0x10
+kernel:  ret_from_fork_asm+0x1a/0x30
+kernel:  </TASK>
+kernel: Mem-Info:
+kernel: active_anon:513809 inactive_anon:152 isolated_anon:0
+    active_file:359315 inactive_file:2487001 isolated_file:0
+    unevictable:637 dirty:19 writeback:0
+    slab_reclaimable:160391 slab_unreclaimable:39729
+    mapped:175836 shmem:51039 pagetables:4415
+    sec_pagetables:0 bounce:0
+    kernel_misc_reclaimable:0
+    free:125666 free_pcp:0 free_cma:0
 
-> ath driver changes are straightforward, but I need to add an inline
-> function to convert lnkctl setting to aspm states:
-> 
-> static inline int ath_pci_aspm_state(u16 lnkctl)
-> {
-> 	int state = 0;
-> 
-> 	if (lnkctl & PCI_EXP_LNKCTL_ASPM_L0S)
-> 		state |= PCIE_LINK_STATE_L0S;
-> 	if (lnkctl & PCI_EXP_LNKCTL_ASPM_L1)
-> 		state |= PCIE_LINK_STATE_L1;
-> 
-> 	return state;
-> }
-> 
-> Currently, it is in ath/ath.h, but if you feel that we should move it to
-> include/linux/pci.h, let me know!
+In above example, if we sum all the consumed memory, it comes out
+to be 15.5GB and free memory is ~ 500MB from a total of 16GB RAM.
+Even though memory is present. But all of the dma memory has been
+exhausted or fragmented.
 
-I haven't looked at the implementation here, but I don't think drivers
-should check LNKCTL to decide this.  If the device doesn't work with
-L0s or L1 or whatever, that's what the driver should tell us.
+Fix it by allocating it only once and then reuse the same allocated
+memory. As we'll allocate this memory only once, this memory will stay
+allocated.
 
-Bjorn
+Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
+
+Fixes: cd457afb1667 ("bus: mhi: core: Add support for downloading firmware over BHIe")
+Cc: stable@vger.kernel.org
+Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Reported here:
+https://lore.kernel.org/all/ead32f5b-730a-4b81-b38f-93d822f990c6@collabora.com
+
+Still a lot of more fixes are required. Hence, I'm not adding closes tag.
+Changes since v1:
+- fix mhi_load_image_bhi()
+- Cc stable and fix tested on tag
+---
+ drivers/bus/mhi/host/boot.c     | 25 +++++++++++++++----------
+ drivers/bus/mhi/host/init.c     |  5 +++++
+ drivers/bus/mhi/host/internal.h |  2 ++
+ include/linux/mhi.h             |  1 +
+ 4 files changed, 23 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index b3a85aa3c4768..9fc983bc12d49 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -302,8 +302,8 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
+ 	return -EIO;
+ }
+ 
+-static void mhi_free_bhi_buffer(struct mhi_controller *mhi_cntrl,
+-				struct image_info *image_info)
++void mhi_free_bhi_buffer(struct mhi_controller *mhi_cntrl,
++			 struct image_info *image_info)
+ {
+ 	struct mhi_buf *mhi_buf = image_info->mhi_buf;
+ 
+@@ -455,18 +455,23 @@ static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *m
+ 
+ static int mhi_load_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
+ {
+-	struct image_info *image;
++	struct image_info **image = &mhi_cntrl->bhi_image;
+ 	int ret;
+ 
+-	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
+-	if (ret)
+-		return ret;
++	if (!(*image)) {
++		ret = mhi_alloc_bhi_buffer(mhi_cntrl, image, size);
++		if (ret)
++			return ret;
+ 
+-	/* Load the firmware into BHI vec table */
+-	memcpy(image->mhi_buf->buf, fw_data, size);
++		/* Load the firmware into BHI vec table */
++		memcpy((*image)->mhi_buf->buf, fw_data, size);
++	}
+ 
+-	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
+-	mhi_free_bhi_buffer(mhi_cntrl, image);
++	ret = mhi_fw_load_bhi(mhi_cntrl, &(*image)->mhi_buf[(*image)->entries - 1]);
++	if (ret) {
++		mhi_free_bhi_buffer(mhi_cntrl, *image);
++		*image = NULL;
++	}
+ 
+ 	return ret;
+ }
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 6e06e4efec765..2e0f18c939e68 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -1228,6 +1228,11 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+ 		mhi_cntrl->rddm_image = NULL;
+ 	}
+ 
++	if (mhi_cntrl->bhi_image) {
++		mhi_free_bhi_buffer(mhi_cntrl, mhi_cntrl->bhi_image);
++		mhi_cntrl->bhi_image = NULL;
++	}
++
+ 	mhi_deinit_dev_ctxt(mhi_cntrl);
+ }
+ EXPORT_SYMBOL_GPL(mhi_unprepare_after_power_down);
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 1054e67bb450d..60b0699323375 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -324,6 +324,8 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+ 			 struct image_info **image_info, size_t alloc_size);
+ void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
+ 			 struct image_info *image_info);
++void mhi_free_bhi_buffer(struct mhi_controller *mhi_cntrl,
++			 struct image_info *image_info);
+ 
+ /* Power management APIs */
+ enum mhi_pm_state __must_check mhi_tryset_pm_state(
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 4c567907933a5..593012f779d97 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -391,6 +391,7 @@ struct mhi_controller {
+ 	size_t reg_len;
+ 	struct image_info *fbc_image;
+ 	struct image_info *rddm_image;
++	struct image_info *bhi_image;
+ 	struct mhi_chan *mhi_chan;
+ 	struct list_head lpm_chans;
+ 	int *irq;
+-- 
+2.39.5
+
