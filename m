@@ -1,41 +1,40 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8BE2E2EFF
-	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076532E92CA
+	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:26:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752585964; cv=pass; b=TBzccGKKTkmXk7QUSUmiLqM0EXavZi3VSUG85MejL2It5mW0ygZ0QI35ZPayx79XGQiBtJ+QxucKZFNKNXMK/Hz/R82c38CTgOXgcI7aaLzxtJK7Z1tA7SZ8S/MjkrcXP+mW1Ao2aI7Ke9H0L7L/TZNMZPPhfDxkx+K3RRKG9R0=
+	t=1752585998; cv=pass; b=eSsO8lQGQTTxWor2JR4MqggazF1gDnRhHspU0YpY8t0R4lHIPO9Gi9oMzKyD59j7YdMIIGOD4UQeZCxMpDBs49OKPo2LIplbPuWc22oVxNQUcjahBlLUcCWXNku8dcHiFbzM/tHmZS8ZoZnI8NCepWmQXgmL/P2rfOrDsKLqDdg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752585964; c=relaxed/simple;
-	bh=M8j7JAndjW76gZkMNx9GjJJXm+NYfmI5q0z6lnV/IuI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cxgDwelGKvNF/4PUWkHsKzuD/RI5jF03ata2K2PSjo17ZcmjK40l9rg+edP0TnSF5vPFiZ3Y/626tRnmpuG3KrcRDpbAz67FcgbwUtL7Ik9FqIGwaKMvX3bd1iSwDynhntCZm6QuCsG2Py83Gdh+mpNn8BBUkK94N5URcjlGSjA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=OgQCcXgz; arc=pass smtp.client-ip=136.143.188.112
+	s=arc-20240116; t=1752585998; c=relaxed/simple;
+	bh=3kV3XK4Oj/NFgw926XIllBN71d9KEP+3WCn+SQ5Oa0U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MUevdccbbffnqDFAp0Yu13We/YzfBqaRh25poasuhRlGE8yuff0YB/sJ3uHo6NsjJswLp3A3cdgaHpDNvntB7L+to6eusoq8GhucV9RpeeQLp47CEMuOjN+7U74JC89sLqt+9xlWjon8VdUvklUm9lXBQ6JooORnX6wJ8MbLH+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=CyUPqMmX; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="OgQCcXgz"
-ARC-Seal: i=1; a=rsa-sha256; t=1752585926; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="CyUPqMmX"
+ARC-Seal: i=1; a=rsa-sha256; t=1752585914; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=ZdQxCDeWOHLEFuTlFqIixHgGjtzZ3Z9TLntiH3HWyPuPUbOhtv4uI5u+RDYgCEMMreis9h/DZWtZugtu1P2nhtmSrjbXgZVAaM4GJaWSir32zUpgxKmYrMqh2FClXXaYdm6cHqK92kkc4VojsYLAib6GvzTn/mTyRTYYcx7JeZE=
+	b=As7fPfOdRy6Kcm4Y/vwNxdgIzeHGVQxX8kS4/1ZTQSteNGjDiKGzejCMh8iCzxis3Ud/6RgaTgu8EQ7Oj8c6QSOMByabJH4rpKt+RGAdU/twOdTbdyEUEMRHhKHt2xzxHFDzZYZAd8nKWeKamabZjSJXbPQRzMDopkWMp6/5wLg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1752585926; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=yOrcLOG6tjcTjNDL4YHJ2yUTrv14txmB+F3Ap51joxo=; 
-	b=PCUDKkJMbeHOvJw34GnomgTc4I8mySfgqK1EY6Tgf/ijFgRhapFs92BDJEjz4NEphtHSIcio8vUx0WxUFrzPE0E5Lc4+5JNiRqTtMsG13qElqoHPjPtZblHYOR7nhLD11466cYS+gXHCRJIiYN/FJdgnKOtUihvha315RRvMQvk=
+	t=1752585914; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=P0+2t2yk4whi7yM40d6rNBhp8wlUr7VSL4U50D3zsIo=; 
+	b=WgBMU5fpQCBFiZjTieTIpx1OjPUn0Tqd3T0dvErB0DdKYGMFJvixPVtDsPRNrWXYqMC0JfEcwdpp0JJE/dMVCwZEjOzR/p/F7xSb6S+ppKcbpgN6yjPp9ffKeiIh/iBvbhur85uR5JzjKeikF9i5E3N+SsynamQbP5px3zURhvA=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
 	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585926;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585914;
 	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=yOrcLOG6tjcTjNDL4YHJ2yUTrv14txmB+F3Ap51joxo=;
-	b=OgQCcXgzCF37pcPDWJSJ2V3IqI7BfXU55+a6qazyknVajfRCbWZ+s6zocxnF3o6U
-	8zOwgTVGkGZrEvU+Kvim4P4FEsQoK+JNJ1NnxmvIL/Oey8d2eDqY5tWk9Qp8qrGtAYl
-	Hd/PUDbkG7d6zm5F+BU7c1ZA3HUmHoHQnzhJx8nY=
-Received: by mx.zohomail.com with SMTPS id 1752585925284460.38188208462543;
-	Tue, 15 Jul 2025 06:25:25 -0700 (PDT)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=P0+2t2yk4whi7yM40d6rNBhp8wlUr7VSL4U50D3zsIo=;
+	b=CyUPqMmXADK9mIMg7Ao3abWEy+a+YpBB02dmhd9mFfSjS29TOAevA2UI8Ig6HcEE
+	SBo8ZTvIiCxFVQSiNMu+wVHSTlnF5XmorFAFs+2+SjOGWZG3y7X/AEtvyz+qIcYQN8z
+	k0eTKcCiQOOIwadtydntEvW2DuZI3i2Qb1qzgiZ0=
+Received: by mx.zohomail.com with SMTPS id 175258591140265.3635130996754;
+	Tue, 15 Jul 2025 06:25:11 -0700 (PDT)
 From: Muhammad Usama Anjum <usama.anjum@collabora.com>
 To: Manivannan Sadhasivam <mani@kernel.org>,
 	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
@@ -53,14 +52,11 @@ To: Manivannan Sadhasivam <mani@kernel.org>,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: kernel@collabora.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/3] bus: mhi: host: keep bhie buffer through suspend cycle
-Date: Tue, 15 Jul 2025 18:25:08 +0500
-Message-Id: <20250715132509.2643305-3-usama.anjum@collabora.com>
+Cc: kernel@collabora.com
+Subject: [PATCH v2 0/3] bus: mhi: keep dma buffers through suspend/hibernation cycles
+Date: Tue, 15 Jul 2025 18:25:06 +0500
+Message-Id: <20250715132509.2643305-1-usama.anjum@collabora.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250715132509.2643305-1-usama.anjum@collabora.com>
-References: <20250715132509.2643305-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -70,89 +66,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-When there is memory pressure, at resume time dma_alloc_coherent()
-returns error which in turn fails the loading of the firmware and hence
-the driver crashes.
+When there is memory pressure during resume and no DMA memory is
+available, the ath11k driver fails to resume. The driver currently
+frees its DMA memory during suspend or hibernate, and attempts to
+re-allocate it during resume. However, if the DMA memory has been
+consumed by other software in the meantime, these allocations can
+fail, leading to critical failures in the WiFi driver. It has been
+reported [1].
 
-Fix it by allocating only once and then reuse the same allocated memory.
-As we'll allocate this memory only once, this memory will stays
-allocated.
+Although I have recently fixed several instances [2] [3] to ensure
+DMA memory is not freed once allocated, we continue to receive
+reports of new failures.
 
-Fixes: f88f1d0998ea ("bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL")
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
-Changes since v1:
-- Added in v2
----
- drivers/bus/mhi/host/boot.c | 19 ++++++++++++-------
- drivers/bus/mhi/host/init.c |  5 +++++
- include/linux/mhi.h         |  1 +
- 3 files changed, 18 insertions(+), 7 deletions(-)
+In this series, 3 more such cases are being fixed. There are still
+some cases which I'm trying to fix. They can be discussed separately.
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index 9fc983bc12d49..9f35ce9d670e7 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -478,17 +478,22 @@ static int mhi_load_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_dat
- 
- static int mhi_load_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
- {
--	struct image_info *image;
-+	struct image_info **image = &mhi_cntrl->bhie_image;
- 	int ret;
- 
--	ret = mhi_alloc_bhie_table(mhi_cntrl, &image, size);
--	if (ret)
--		return ret;
-+	if (!(*image)) {
-+		ret = mhi_alloc_bhie_table(mhi_cntrl, image, size);
-+		if (ret)
-+			return ret;
- 
--	mhi_firmware_copy_bhie(mhi_cntrl, fw_data, size, image);
-+		mhi_firmware_copy_bhie(mhi_cntrl, fw_data, size, *image);
-+	}
- 
--	ret = mhi_fw_load_bhie(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
--	mhi_free_bhie_table(mhi_cntrl, image);
-+	ret = mhi_fw_load_bhie(mhi_cntrl, &(*image)->mhi_buf[(*image)->entries - 1]);
-+	if (ret) {
-+		mhi_free_bhie_table(mhi_cntrl, *image);
-+		*image = NULL;
-+	}
- 
- 	return ret;
- }
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 2e0f18c939e68..46ed0ae2ac285 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -1228,6 +1228,11 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
- 		mhi_cntrl->rddm_image = NULL;
- 	}
- 
-+	if (mhi_cntrl->bhie_image) {
-+		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->bhie_image);
-+		mhi_cntrl->bhie_image = NULL;
-+	}
-+
- 	if (mhi_cntrl->bhi_image) {
- 		mhi_free_bhi_buffer(mhi_cntrl, mhi_cntrl->bhi_image);
- 		mhi_cntrl->bhi_image = NULL;
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index 593012f779d97..77986cd66fda3 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -391,6 +391,7 @@ struct mhi_controller {
- 	size_t reg_len;
- 	struct image_info *fbc_image;
- 	struct image_info *rddm_image;
-+	struct image_info *bhie_image;
- 	struct image_info *bhi_image;
- 	struct mhi_chan *mhi_chan;
- 	struct list_head lpm_chans;
+[1] https://lore.kernel.org/all/ead32f5b-730a-4b81-b38f-93d822f990c6@collabora.com
+[2] https://lore.kernel.org/all/20250428080242.466901-1-usama.anjum@collabora.com
+[3] https://lore.kernel.org/all/20250516184952.878726-1-usama.anjum@collabora.com
+
+Muhammad Usama Anjum (3):
+  bus: mhi: host: keep bhi buffer through suspend cycle
+  bus: mhi: host: keep bhie buffer through suspend cycle
+  bus: mhi: keep device context through suspend cycles
+
+ drivers/bus/mhi/host/boot.c     | 44 ++++++++++++++++++++-------------
+ drivers/bus/mhi/host/init.c     | 41 ++++++++++++++++++++++++++----
+ drivers/bus/mhi/host/internal.h |  2 ++
+ include/linux/mhi.h             |  2 ++
+ 4 files changed, 67 insertions(+), 22 deletions(-)
+
 -- 
 2.39.5
 
