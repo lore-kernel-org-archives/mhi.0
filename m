@@ -1,40 +1,41 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076532E92CA
-	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9FA2E62B7
+	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:27:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752585998; cv=pass; b=eSsO8lQGQTTxWor2JR4MqggazF1gDnRhHspU0YpY8t0R4lHIPO9Gi9oMzKyD59j7YdMIIGOD4UQeZCxMpDBs49OKPo2LIplbPuWc22oVxNQUcjahBlLUcCWXNku8dcHiFbzM/tHmZS8ZoZnI8NCepWmQXgmL/P2rfOrDsKLqDdg=
+	t=1752586024; cv=pass; b=RvQXsVHZeD1L3gxhE4ljiivohwz53ge+OtBFK19UG5uyf8Zedf5+OV1u8dNWlAq+sV7FpG0A262kGIiPiu08yjL4YLuSbHncza8urCncRqTa+n6ABlwv+IcFd+CVEwkfpZ3H/sSEpSOZQJk9dKBpqIiSCtCmr9AhngiTeBWtH4o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752585998; c=relaxed/simple;
-	bh=3kV3XK4Oj/NFgw926XIllBN71d9KEP+3WCn+SQ5Oa0U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MUevdccbbffnqDFAp0Yu13We/YzfBqaRh25poasuhRlGE8yuff0YB/sJ3uHo6NsjJswLp3A3cdgaHpDNvntB7L+to6eusoq8GhucV9RpeeQLp47CEMuOjN+7U74JC89sLqt+9xlWjon8VdUvklUm9lXBQ6JooORnX6wJ8MbLH+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=CyUPqMmX; arc=pass smtp.client-ip=136.143.188.112
+	s=arc-20240116; t=1752586024; c=relaxed/simple;
+	bh=nZ8L4CNPFWLdv3DnqHL3TaBlkT7ADo8ZfSs7NvwAMPY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UYk8dK752w6I6i2lalYQNB1v0sSPVsaQdJ0Aa0JEHWNp9KyE0qvoN5Jq4Eo6hDnfcKnF43hE2XrbXJe8PfyXApTdUXx4VneySCjJAUGZCEvT2NRW21IxkWwv/8VUKjAgJHxrUMA9VeA4Vzi5tleaQFYsSVjPnc+gvPZOZe59Nog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=K2BGU8cB; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="CyUPqMmX"
-ARC-Seal: i=1; a=rsa-sha256; t=1752585914; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="K2BGU8cB"
+ARC-Seal: i=1; a=rsa-sha256; t=1752585934; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=As7fPfOdRy6Kcm4Y/vwNxdgIzeHGVQxX8kS4/1ZTQSteNGjDiKGzejCMh8iCzxis3Ud/6RgaTgu8EQ7Oj8c6QSOMByabJH4rpKt+RGAdU/twOdTbdyEUEMRHhKHt2xzxHFDzZYZAd8nKWeKamabZjSJXbPQRzMDopkWMp6/5wLg=
+	b=iS8ydypJ5Ytea+qvuAIEasiV3zxEFaxKCuidthawyGncohprwE+IyNB7RvXvm2+00iqj2xIeQQT/mBiqdbi/UtwNxpNmKUxa/NcWp19/Qj7gM0d9BxTkO7y8NZixVv+Vre8lQ/bTPlF4i3W5wpNdvgLMqzKKELWtVYVnw52rIdw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1752585914; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=P0+2t2yk4whi7yM40d6rNBhp8wlUr7VSL4U50D3zsIo=; 
-	b=WgBMU5fpQCBFiZjTieTIpx1OjPUn0Tqd3T0dvErB0DdKYGMFJvixPVtDsPRNrWXYqMC0JfEcwdpp0JJE/dMVCwZEjOzR/p/F7xSb6S+ppKcbpgN6yjPp9ffKeiIh/iBvbhur85uR5JzjKeikF9i5E3N+SsynamQbP5px3zURhvA=
+	t=1752585934; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=khWqCIhyOZuc5K6Or8KOBVZRXHfT5Uql8gBWeLi0Yps=; 
+	b=j3SrtF1361SUCcdQZ9ZraZxDLOnB2hbduI/8yP+1ryWIIUvUhTvbt6JEHIo4y6HGghGBUlXK4arXBDMR+ZW5n/y6zyDk9xUobsGaOlJ19moCu0CuCA3qfekMqeypx106ksmn/Ru+HR4+45pZYuG0FEtEUSFO3w10OWSX3cVO2KU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
 	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585914;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585934;
 	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=P0+2t2yk4whi7yM40d6rNBhp8wlUr7VSL4U50D3zsIo=;
-	b=CyUPqMmXADK9mIMg7Ao3abWEy+a+YpBB02dmhd9mFfSjS29TOAevA2UI8Ig6HcEE
-	SBo8ZTvIiCxFVQSiNMu+wVHSTlnF5XmorFAFs+2+SjOGWZG3y7X/AEtvyz+qIcYQN8z
-	k0eTKcCiQOOIwadtydntEvW2DuZI3i2Qb1qzgiZ0=
-Received: by mx.zohomail.com with SMTPS id 175258591140265.3635130996754;
-	Tue, 15 Jul 2025 06:25:11 -0700 (PDT)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=khWqCIhyOZuc5K6Or8KOBVZRXHfT5Uql8gBWeLi0Yps=;
+	b=K2BGU8cBPn31wLpVvwj1Z4IFsUiSDA83EWM15n+b1C8kesw+QALaSdmpEDcWOQUU
+	aPuF0fkD4fspDBCB/zXzND588GJsf6hNeLsV0WOIB9LwRa33S+e1jpQo8+pPTGjdKNz
+	/ctWi6ynB9OQGpv9PYTSWDSPRZg+EYTB41F/vdic=
+Received: by mx.zohomail.com with SMTPS id 1752585931663919.1784462606722;
+	Tue, 15 Jul 2025 06:25:31 -0700 (PDT)
 From: Muhammad Usama Anjum <usama.anjum@collabora.com>
 To: Manivannan Sadhasivam <mani@kernel.org>,
 	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
@@ -52,11 +53,14 @@ To: Manivannan Sadhasivam <mani@kernel.org>,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: kernel@collabora.com
-Subject: [PATCH v2 0/3] bus: mhi: keep dma buffers through suspend/hibernation cycles
-Date: Tue, 15 Jul 2025 18:25:06 +0500
-Message-Id: <20250715132509.2643305-1-usama.anjum@collabora.com>
+Cc: kernel@collabora.com,
+	stable@vger.kernel.org
+Subject: [PATCH v2 3/3] bus: mhi: keep device context through suspend cycles
+Date: Tue, 15 Jul 2025 18:25:09 +0500
+Message-Id: <20250715132509.2643305-4-usama.anjum@collabora.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250715132509.2643305-1-usama.anjum@collabora.com>
+References: <20250715132509.2643305-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -66,36 +70,88 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-When there is memory pressure during resume and no DMA memory is
-available, the ath11k driver fails to resume. The driver currently
-frees its DMA memory during suspend or hibernate, and attempts to
-re-allocate it during resume. However, if the DMA memory has been
-consumed by other software in the meantime, these allocations can
-fail, leading to critical failures in the WiFi driver. It has been
-reported [1].
+Don't deinitialize the device context while going into suspend or
+hibernation cycles. Otherwise the resume may fail if at resume time, the
+memory pressure is high and no dma memory is available. At resume, only
+reset the read/write ring pointers as rings may have stale data.
 
-Although I have recently fixed several instances [2] [3] to ensure
-DMA memory is not freed once allocated, we continue to receive
-reports of new failures.
+Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
 
-In this series, 3 more such cases are being fixed. There are still
-some cases which I'm trying to fix. They can be discussed separately.
+Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM operations")
+Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Changes since v1:
+- Cc stable and fix tested on tag
+- Add logic to reset rings at resume
+---
+ drivers/bus/mhi/host/init.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-[1] https://lore.kernel.org/all/ead32f5b-730a-4b81-b38f-93d822f990c6@collabora.com
-[2] https://lore.kernel.org/all/20250428080242.466901-1-usama.anjum@collabora.com
-[3] https://lore.kernel.org/all/20250516184952.878726-1-usama.anjum@collabora.com
-
-Muhammad Usama Anjum (3):
-  bus: mhi: host: keep bhi buffer through suspend cycle
-  bus: mhi: host: keep bhie buffer through suspend cycle
-  bus: mhi: keep device context through suspend cycles
-
- drivers/bus/mhi/host/boot.c     | 44 ++++++++++++++++++++-------------
- drivers/bus/mhi/host/init.c     | 41 ++++++++++++++++++++++++++----
- drivers/bus/mhi/host/internal.h |  2 ++
- include/linux/mhi.h             |  2 ++
- 4 files changed, 67 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 46ed0ae2ac285..6513012311ce3 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -474,6 +474,24 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+ 	return ret;
+ }
+ 
++static void mhi_reset_dev_rings(struct mhi_controller *mhi_cntrl)
++{
++	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
++	struct mhi_cmd *mhi_cmd = mhi_cntrl->mhi_cmd;
++	struct mhi_ring *ring;
++	int i;
++
++	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
++		ring = &mhi_event->ring;
++		ring->rp = ring->wp = ring->base;
++	}
++
++	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
++		ring = &mhi_cmd->ring;
++		ring->rp = ring->wp = ring->base;
++	}
++}
++
+ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ {
+ 	u32 val;
+@@ -1133,9 +1151,13 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+ 
+ 	mutex_lock(&mhi_cntrl->pm_mutex);
+ 
+-	ret = mhi_init_dev_ctxt(mhi_cntrl);
+-	if (ret)
+-		goto error_dev_ctxt;
++	if (!mhi_cntrl->mhi_ctxt) {
++		ret = mhi_init_dev_ctxt(mhi_cntrl);
++		if (ret)
++			goto error_dev_ctxt;
++	} else {
++		mhi_reset_dev_rings(mhi_cntrl);
++	}
+ 
+ 	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, BHIOFF, &bhi_off);
+ 	if (ret) {
+@@ -1212,8 +1234,6 @@ void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
+ {
+ 	mhi_cntrl->bhi = NULL;
+ 	mhi_cntrl->bhie = NULL;
+-
+-	__mhi_deinit_dev_ctxt(mhi_cntrl);
+ }
+ 
+ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+@@ -1239,6 +1259,7 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
+ 	}
+ 
+ 	mhi_deinit_dev_ctxt(mhi_cntrl);
++	__mhi_deinit_dev_ctxt(mhi_cntrl);
+ }
+ EXPORT_SYMBOL_GPL(mhi_unprepare_after_power_down);
+ 
 -- 
 2.39.5
 
