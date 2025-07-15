@@ -1,157 +1,127 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9FA2E62B7
-	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 13:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752586024; cv=pass; b=RvQXsVHZeD1L3gxhE4ljiivohwz53ge+OtBFK19UG5uyf8Zedf5+OV1u8dNWlAq+sV7FpG0A262kGIiPiu08yjL4YLuSbHncza8urCncRqTa+n6ABlwv+IcFd+CVEwkfpZ3H/sSEpSOZQJk9dKBpqIiSCtCmr9AhngiTeBWtH4o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752586024; c=relaxed/simple;
-	bh=nZ8L4CNPFWLdv3DnqHL3TaBlkT7ADo8ZfSs7NvwAMPY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UYk8dK752w6I6i2lalYQNB1v0sSPVsaQdJ0Aa0JEHWNp9KyE0qvoN5Jq4Eo6hDnfcKnF43hE2XrbXJe8PfyXApTdUXx4VneySCjJAUGZCEvT2NRW21IxkWwv/8VUKjAgJHxrUMA9VeA4Vzi5tleaQFYsSVjPnc+gvPZOZe59Nog=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=K2BGU8cB; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62CAC1F416A
+	for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 14:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752590990; cv=none; b=VDw1Oj/QWzmBBfyWWRZPXOXW41wuIPiwSB5QYcnUZYqcubLkUKdK8jmRqZt3BwTYMWrj9g0vl94Zyfr0AVrCOaYdXLd9G5LvWmtfqiVWK3n84+jVUFNSYvTpjBfWfwz4z8xvELkuNOJV3v/UfBzfQ4nOmIiGNu45UTnTo7vqOz0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752590990; c=relaxed/simple;
+	bh=KwW3Ct+eYQAN7duoTjUPdigF52dVr0dEmIwj3cGLFWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f4Zl5NmYAAUdX1KoaiE6SN8O520l5UxL2790UX5U+CHtHokxRWIcCWa5psNlN81uVUrgqIshKRBpZDWV4e7hWgGqin65b95tTxQul7imVSh17YjVRToU9wzvQ1QmYlYrNcW1LeJFozk9JR9DvA5dgotI50RTN1SvYdnieiveT5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DV3FuCcu; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="K2BGU8cB"
-ARC-Seal: i=1; a=rsa-sha256; t=1752585934; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=iS8ydypJ5Ytea+qvuAIEasiV3zxEFaxKCuidthawyGncohprwE+IyNB7RvXvm2+00iqj2xIeQQT/mBiqdbi/UtwNxpNmKUxa/NcWp19/Qj7gM0d9BxTkO7y8NZixVv+Vre8lQ/bTPlF4i3W5wpNdvgLMqzKKELWtVYVnw52rIdw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1752585934; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=khWqCIhyOZuc5K6Or8KOBVZRXHfT5Uql8gBWeLi0Yps=; 
-	b=j3SrtF1361SUCcdQZ9ZraZxDLOnB2hbduI/8yP+1ryWIIUvUhTvbt6JEHIo4y6HGghGBUlXK4arXBDMR+ZW5n/y6zyDk9xUobsGaOlJ19moCu0CuCA3qfekMqeypx106ksmn/Ru+HR4+45pZYuG0FEtEUSFO3w10OWSX3cVO2KU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
-	dmarc=pass header.from=<usama.anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752585934;
-	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=khWqCIhyOZuc5K6Or8KOBVZRXHfT5Uql8gBWeLi0Yps=;
-	b=K2BGU8cBPn31wLpVvwj1Z4IFsUiSDA83EWM15n+b1C8kesw+QALaSdmpEDcWOQUU
-	aPuF0fkD4fspDBCB/zXzND588GJsf6hNeLsV0WOIB9LwRa33S+e1jpQo8+pPTGjdKNz
-	/ctWi6ynB9OQGpv9PYTSWDSPRZg+EYTB41F/vdic=
-Received: by mx.zohomail.com with SMTPS id 1752585931663919.1784462606722;
-	Tue, 15 Jul 2025 06:25:31 -0700 (PDT)
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Youssef Samir <quic_yabdulra@quicinc.com>,
-	Matthew Leung <quic_mattleun@quicinc.com>,
-	Alexander Wilhelm <alexander.wilhelm@westermo.com>,
-	Kunwu Chan <chentao@kylinos.cn>,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Yan Zhen <yanzhen@vivo.com>,
-	Sujeev Dias <sdias@codeaurora.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Siddartha Mohanadoss <smohanad@codeaurora.org>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: kernel@collabora.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2 3/3] bus: mhi: keep device context through suspend cycles
-Date: Tue, 15 Jul 2025 18:25:09 +0500
-Message-Id: <20250715132509.2643305-4-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250715132509.2643305-1-usama.anjum@collabora.com>
-References: <20250715132509.2643305-1-usama.anjum@collabora.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DV3FuCcu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=y8FmBktC9WSRYxvxolkGYL5S4AI0gxd1QPXCyRbb+Bw=;
+	b=DV3FuCcum96CB6OJl3oa/EcvfiVGdVsWmvSySDMjIyTZCnpMC4bboVdDK+mD72
+	GtTSSKWuSnsg+whFjBRn8GL29NJh9i/eTQ4cD8j1VMxO6p5BvyrgKhq8LkBu0ksv
+	MNbGlbHEC2XQO11n4cIfhSj3hQLoS3vZBSMdzm35evdjk=
+Received: from [IPV6:240e:b8f:919b:3100:7981:39b4:a847:709a] (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wAH7fhVanZoxSGjFA--.45568S2;
+	Tue, 15 Jul 2025 22:48:54 +0800 (CST)
+Message-ID: <7da900a6-04cd-41f7-afc8-5570eb7639e1@163.com>
+Date: Tue, 15 Jul 2025 22:48:53 +0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
+ __pci_enable_link_state()
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+ quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+References: <20250714193214.GA2415073@bhelgaas>
+Content-Language: en-US
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <20250714193214.GA2415073@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_____wAH7fhVanZoxSGjFA--.45568S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJFW7tw18Gry7Cr1DXFW5ZFb_yoW5Xr1xpa
+	yrtasIkFZ5Jr97Gw12vw1jqF4SkwnYy345G3s5tryUJw45u39xGr4xtrZY9F93WrWxW3ya
+	vrZ8WwnrZFyq9a7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07URa0QUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/1tbiQwWLo2h2Y3mQSAAAsy
 
-Don't deinitialize the device context while going into suspend or
-hibernation cycles. Otherwise the resume may fail if at resume time, the
-memory pressure is high and no dma memory is available. At resume, only
-reset the read/write ring pointers as rings may have stale data.
 
-Tested-on: WCN6855 hw2.0 PCI WLAN.HSP.1.1-03926.13-QCAHSPSWPL_V2_SILICONZ_CE-2.52297.6
 
-Fixes: 3000f85b8f47 ("bus: mhi: core: Add support for basic PM operations")
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
-Changes since v1:
-- Cc stable and fix tested on tag
-- Add logic to reset rings at resume
----
- drivers/bus/mhi/host/init.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+On 2025/7/15 03:32, Bjorn Helgaas wrote:
+> On Sun, Jul 13, 2025 at 12:05:18AM +0800, Hans Zhang wrote:
+>> On 2025/7/12 17:35, Manivannan Sadhasivam wrote:
+>> ...
+> 
+>>>> IMO the "someday" goal should be that we get rid of aspm_policy
+>>>> and enable all the available power saving states by default.  We
+>>>> have sysfs knobs that administrators can use if necessary, and
+>>>> drivers or quirks can disable states if they need to work around
+>>>> hardware defects.
+>>>
+>>> Yeah, I think the default should be powersave and let the users
+>>> disable it for performance if they want.
+>>
+>> Perhaps I don't think so. At present, our company's testing team has
+>> tested quite a few NVMe SSDS. As far as I can remember, the SSDS
+>> from two companies have encountered problems and will hang directly
+>> when turned on. We have set CONFIG_PCIEASPM_POWERSAVE=y by default.
+>> When encountering SSDS from these two companies, we had to add
+>> "pcie_aspm.policy=default" in the cmdline, and then the boot worked
+>> normally. Currently, we do not have a PCIe protocol analyzer to
+>> analyze such issues. The current approach is to modify the cmdline.
+>> So I can't prove whether it's a problem with the Root Port of our
+>> SOC or the SSD device.
+> 
+> Have you reported these?
 
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 46ed0ae2ac285..6513012311ce3 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -474,6 +474,24 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	return ret;
- }
- 
-+static void mhi_reset_dev_rings(struct mhi_controller *mhi_cntrl)
-+{
-+	struct mhi_event *mhi_event = mhi_cntrl->mhi_event;
-+	struct mhi_cmd *mhi_cmd = mhi_cntrl->mhi_cmd;
-+	struct mhi_ring *ring;
-+	int i;
-+
-+	for (i = 0; i < mhi_cntrl->total_ev_rings; i++, mhi_event++) {
-+		ring = &mhi_event->ring;
-+		ring->rp = ring->wp = ring->base;
-+	}
-+
-+	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++) {
-+		ring = &mhi_cmd->ring;
-+		ring->rp = ring->wp = ring->base;
-+	}
-+}
-+
- int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- {
- 	u32 val;
-@@ -1133,9 +1151,13 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
- 
- 	mutex_lock(&mhi_cntrl->pm_mutex);
- 
--	ret = mhi_init_dev_ctxt(mhi_cntrl);
--	if (ret)
--		goto error_dev_ctxt;
-+	if (!mhi_cntrl->mhi_ctxt) {
-+		ret = mhi_init_dev_ctxt(mhi_cntrl);
-+		if (ret)
-+			goto error_dev_ctxt;
-+	} else {
-+		mhi_reset_dev_rings(mhi_cntrl);
-+	}
- 
- 	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, BHIOFF, &bhi_off);
- 	if (ret) {
-@@ -1212,8 +1234,6 @@ void mhi_deinit_dev_ctxt(struct mhi_controller *mhi_cntrl)
- {
- 	mhi_cntrl->bhi = NULL;
- 	mhi_cntrl->bhie = NULL;
--
--	__mhi_deinit_dev_ctxt(mhi_cntrl);
- }
- 
- void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
-@@ -1239,6 +1259,7 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
- 	}
- 
- 	mhi_deinit_dev_ctxt(mhi_cntrl);
-+	__mhi_deinit_dev_ctxt(mhi_cntrl);
- }
- EXPORT_SYMBOL_GPL(mhi_unprepare_after_power_down);
- 
--- 
-2.39.5
+Dear Bjorn,
+
+I haven't reported it. Because we don't have a PCIe protocol analyzer to 
+analyze this situation, it's not certain whether it's a problem with our 
+SOC Root Port or the NVMe SSD. If I have time later, I will conduct a 
+comparison test on the RK3588.
+
+> 
+>> Here I agree with Bjorn's statement that sometimes the EP is not
+>> necessarily very standard and there are no hardware issues.
+>> Personally, I think the default is default or performance. When
+>> users need to save power, they should then decide whether to
+>> configure it as powersave or powersupersave.  Sometimes, if the EP
+>> device connected by the customer is perfect, they can turn it on to
+>> save power. But if the EP is not perfect, at least they will
+>> immediately know what caused the problem.
+> 
+> We should discover device defects as early as possible so we can add
+> quirks for them.  Defaulting to ASPM being partly disabled means it
+> gets much less testing and users end up passing around "fixes" like
+> booting with "pcie_aspm.policy=default" or similar.  I do not want
+> users to trip over a device that doesn't work and have to look for
+> workarounds on the web.
+> 
+> I also think it's somewhat irresponsible of us to consume more power
+> than necessary.  But as Mani said, this would be a big change and
+> might have to be done with a BIOS date check or something to try to
+> avoid regressions.
+> 
+
+Ok. I understand your purpose now.
+
+Best regards,
+Hans
 
