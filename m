@@ -1,145 +1,130 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A711720C00C;
-	Wed, 16 Jul 2025 05:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246702E7649
+	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 05:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752644249; cv=none; b=WLgfxbPKoJj9CMakgmsyrqm9LJOHWTMQRrIFEPnQUl2KIYMYjcOer9j7ZgKEVb2OuvwNucerHjrcYYI3fqN4SVsm+U/Eg+QXKn/aQSb358ObGhKQV4TjZnfa2Vrjg3sNLOJooj7LV7BfZCn+siuNrxyIL2yG7Zf8sgatlod+LjA=
+	t=1752644548; cv=none; b=bJxsytnaCGEtuLaZRLm0l1vZExVOi+2WCqzOluFLr3pc1I/9G5gOaO8WgVnbIcGCRtH42cQhTd4uG0u3YXy//OQ9uRVoy0GCFE6D6xnFaB60+TGv/5y+ZCs6igSXA7a4QAXXEUlyk6/5C4NtpqK2srMcTXpA2u5xDIE4CjnC6bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752644249; c=relaxed/simple;
-	bh=EBbcboKUANeM3+VhB8+AVSQYjjl9Q2rxibruR9G9DtY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KdlRMQrlO+fJI3fQkrT8oBH8CgF8uac3QgHzdzWlUaDqxZJBNYggho+rwU6g5qmje6wG0wVw5Vd/nCeAM80lU+Y8lGXSb3ysWTRtQbz1QqqY0OCQZZsOR2wP7tYn/ixyuOiPPfoUlV/QI2l8eVbpK1JDyo/jZEciduoOGXzbsmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QNuKN/kl; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1752644548; c=relaxed/simple;
+	bh=9emCwRX9uwuuSwtfrYrmYODy1rDggg7R5huWmDv5WHQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iM5iNLFqXc9BD2M0M2e+flBnebcg/9tRnDw3QvNiBccg7V6KgE7E8aMXwvW3pvCMujh+5t+YhHksDDU++I4JzPA0rJhtlO5h4IQtZztMWivsewOej9MHJfMRGJBx3yUkOjj8OUrAE5tvrhmFa6t8Dfc7sgOfyc2Tci2JyVs/4mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HZLQMUvj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QNuKN/kl"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FGDHrZ031181;
-	Wed, 16 Jul 2025 05:37:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HZLQMUvj"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FGDDhr024479
+	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 05:42:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	C/95ZRIkxvITzEEU2AdWOtsZUy1NgjSXTTdVFZEdbn4=; b=QNuKN/klFQ303H+U
-	49Mc/9JwNatFV6uk4p6INvaAz9RrCVXpmIKTieaoSfWycIxdBBDcmIyQqPU22RbM
-	t0rB+SDJH4mB3WfeAfxxis2gWt6AcLMmfEjoZcPkN2Te7exRw4i5gw0mb0AOVZqW
-	1mycJuYFSb8um5qGF8hZ03qZdW2yqyJweyyTxrs3GX/7c7A3CuLVEsCaIGrUpuVV
-	6L3rXJlJYcI2qhkz9tOhWcR9/vQecKmq7ZM4M2WP+O4kd21a5bTkbeQyPDfmHo51
-	Y1AQWxdVqXcsigxbYwTSYMfVahE3hFjfS1FtRwj7AdSQD1dnlF2XCRoJY77I4WBh
-	g9DR/g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufutahg9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Jul 2025 05:37:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56G5bMin031389
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Jul 2025 05:37:22 GMT
-Received: from [10.218.37.122] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 15 Jul
- 2025 22:37:18 -0700
-Message-ID: <989518a6-5626-4724-a9e9-eadc081f5d67@quicinc.com>
-Date: Wed, 16 Jul 2025 11:07:14 +0530
+	fel58DiU53u62PDWQf0yyjSOhupfseMQSzLMoMrf6Hg=; b=HZLQMUvjxksm0kzF
+	/9+x/GtcLWP6rJBlU4bAR6M+R+byICk6ggwdOa1jiP6LPPCeCYeR4XGnK1TvEGvO
+	8wP6zdABQLvln2xopvdvm8ITEv8hvBlBrDmNJ7PDeBhzzM7dY3sUm9HVuy3Ojub3
+	KlNh2fATU8bUqoSjh/MA6hueKoPJJAZGY6T5KOHBU5XBUXkNVm6FibK8VMZEsSpz
+	Qsrilr+9cU06+r8NOiWyoLrJLpNZs4z+it7sDsNG4/Ijv0okz4Uj0QKhfGLAUgpX
+	arrR2VeQ7GNuGM5DiZSYBX5v0ygXOkZLsTIVUiCCAIK1CqvqNbtnCCc7pHfthCIG
+	pR3uGw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dpdj4p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 05:42:26 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ab758aaaf3so80980241cf.2
+        for <mhi@lists.linux.dev>; Tue, 15 Jul 2025 22:42:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752644545; x=1753249345;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fel58DiU53u62PDWQf0yyjSOhupfseMQSzLMoMrf6Hg=;
+        b=eg/vpF1xqTcSZtW2ucBZabtkg8ZwqObKdwmwofF++QopG8WNfB7gMUMJCz5zpN0Lcb
+         g+0n9fluu+cUZXCfWzJx1bs/uVB+xQi5bGF31gLHOLgZgdSRgZL28mdmtHnhEEO4cQYQ
+         uTmJn93TLBS1aReQ2w8B8K4HLoftcHj9+cP/wq2vfrfmdQrefy0SS+2E03a3BC5B8WsQ
+         2/FRHIb3rDQ4Myq2ux3k1T9EINqRi0BDvmWIr9T/DmokYxjIiwXySUIGAMom+Ve0vA4j
+         MkPv6UiRGgZ42R2eeg/POAos4VG8zljqSCUnGbZSAiB9y97RP4YGzxlgKOymR4zT/L1L
+         QWiw==
+X-Gm-Message-State: AOJu0YxrYrk0sVcsim3Lwvgrr+aXA+mYfOJ9PgUnctrcn0f+xPLxfOA4
+	fRk0F4e4bgtXeiMSV1Otqgj0uqQL5gHqRFSo1NwKVmlB3x9wEZcR2+rv8my2Fr6GVKK8Tex4xqu
+	mUik/EuQ8NjVRQsjJNcwIaYxd90yh7IvdHyFmYom30NYvIqr6UHmYfuw=
+X-Gm-Gg: ASbGnctTZW9clSuUVjVFnARGg4XID/l52/5Rj+yXk/0tyYxJf3Oazd8bPDe2mNEWBbQ
+	F6W0Ct634ebMhinYnlQINnN2deEoCg8hodR5cf1LRvaijKfzQ0vzQ9HDcXejAt6tfAu5rVo2RwL
+	QovJ331je35YEeF8PjsQNDjeV3fDd9M5aLUYZEFSZDe4hCbhsxp6fdSkWGdE/JPbxCMwCUO4wgf
+	3extuSoeuDfWkvJr2F/7lv1cG2gYqATUtEP/IwsvmXssUkVs3DpL+MuUgvfvSOuhFC1CWjumYfi
+	jh25Xc4x5IlYoIcy7aHoBS6KQDu5N+WCbsttvqS0C5kxdlWZu0yEixAzv9Kk8hIcSkK0gw==
+X-Received: by 2002:ac8:5846:0:b0:4ab:62cc:971b with SMTP id d75a77b69052e-4ab909f69a4mr35149451cf.17.1752644544905;
+        Tue, 15 Jul 2025 22:42:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE3JE62vWEy0Kd57nuVo8vs0KR9rFmnxWCde1gqRMMqj/2wfqH1t7yA1ClSaDapY3QHD6Yi7A==
+X-Received: by 2002:ac8:5846:0:b0:4ab:62cc:971b with SMTP id d75a77b69052e-4ab909f69a4mr35149211cf.17.1752644544541;
+        Tue, 15 Jul 2025 22:42:24 -0700 (PDT)
+Received: from [192.168.1.17] ([120.60.140.219])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ab82242a82sm14407081cf.35.2025.07.15.22.42.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 22:42:23 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: mani@kernel.org, jeff.hugo@oss.qualcomm.com, quic_carlv@quicinc.com,
+        quic_thanson@quicinc.com, Youssef Samir <quic_yabdulra@quicinc.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        youssef.abdulrahman@oss.qualcomm.com
+In-Reply-To: <20250714163039.3438985-1-quic_yabdulra@quicinc.com>
+References: <20250714163039.3438985-1-quic_yabdulra@quicinc.com>
+Subject: Re: [PATCH v2] bus: mhi: host: Detect events pointing to
+ unexpected TREs
+Message-Id: <175264454067.7322.11906740521696501275.b4-ty@oss.qualcomm.com>
+Date: Wed, 16 Jul 2025 11:12:20 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus: mhi: ep: Fix chained transfer handling in read path
-To: Sumit Kumar <quic_sumk@quicinc.com>,
-        Manivannan Sadhasivam
-	<mani@kernel.org>,
-        Alex Elder <elder@kernel.org>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_akhvin@quicinc.com>,
-        <quic_skananth@quicinc.com>, <quic_vbadigan@quicinc.com>,
-        Sumit Kumar
-	<sumk@qti.qualcomm.com>, <stable@vger.kernel.org>,
-        Akhil Vinod
-	<akhvin@qti.qualcomm.com>
-References: <20250709-chained_transfer-v1-1-2326a4605c9c@quicinc.com>
-Content-Language: en-US
-From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20250709-chained_transfer-v1-1-2326a4605c9c@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=e7gGSbp/ c=1 sm=1 tr=0 ts=68773a93 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=9xu2jfKr8A-WS2Z9FkgA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: s2S1uq_Yhylj3Yzx1twvWWzTToqG7YAg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDA0OCBTYWx0ZWRfXzU8C3RSF+D4E
- u9KJkeKnZubVjgan0D2lEe0OEoqwotd7nlA0B4jNEphq8LAXJYPb25TN6ZYcLYTVdJ3krtG3zBs
- ELhkKtX98mgzm82KOP6nyWJvFrV1A/MEfbRQVr6ZNkX0ntJmLcyblM9KHxOTdkTHz2tWpALnpfJ
- EfUWBi4JKML+cXMFLMwfM4EH7xvOs7vvHwZXBCWxWZEFFN5QUmYJqCa1vXuomAqYmkuOuJ3ssWV
- JJme6PLZdc6siWTbcHqwjtWKUcbMW2+nCu7V1l0PXMX48YUTJQNW3bWVmzG5ceaHyY1C4H0+LIY
- SA9rOeWZtjIsUQ0pN2vollq5FOvJTCaLINkS0VWBvGs3Io9BgnJNLgBe/eEw7AETrMvJYPTmSne
- DNrDM5PGdB8FRUGy8CZcUG8lqn76kg/6urB3DQW0FmCyU9IhK47ogEBcaM9WF/8AadBYnwSN
-X-Proofpoint-ORIG-GUID: s2S1uq_Yhylj3Yzx1twvWWzTToqG7YAg
+X-Mailer: b4 0.14.2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDA0OSBTYWx0ZWRfXwTvlTqq8L7ew
+ mNCA0oXxXdA66ug0wipURH/SsXUfxNg/lIhDam3+pL6gFFluTEpoXZ6MpQy6076X+4GR56J12e4
+ lG2DvYu85a5YVuMAGsI8YgaSu2G9HUCZDu/+7WB8bsKcuIT1Ih9QHRquKneblTR6im9wl//CBn4
+ 6/ZuT6+BIWMQ+JxjsP+FreHXezbe9+OiOY3HNJRLQDqP6kpRTyZ+Y9YPy9mbsFlMbgjGh4NTyv0
+ MekFGoouCdM7raB5SoabRzqeTkUPWlvD9ZZV0Qk0nU1/I8PjVbfXLlNlqQPD54V36gToS/06TXH
+ ZiWnykyTlyuL9axtCju9YveMwA1JscdjBsMCvV8l/v0WBXwlUBKNr/e9VopHycNouonsGNMZruv
+ qNf+Tv2Z52rfc8zMK3/WKq/4Tdg3SVkf7VPON8fhi8P2d3011ZK0hQqP+hyXmDyLSF2xvLqq
+X-Proofpoint-GUID: rDTWkmgu8uuBwU6r-BDYBed1gnsvLkxD
+X-Proofpoint-ORIG-GUID: rDTWkmgu8uuBwU6r-BDYBed1gnsvLkxD
+X-Authority-Analysis: v=2.4 cv=Y+r4sgeN c=1 sm=1 tr=0 ts=68773bc2 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=HOswsyiB/7FCIMMjk980kA==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=lf61EO2sYuKtChjirwMA:9
+ a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=a_PwQJl-kcHnX1M80qC6:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-16_01,2025-07-15_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=0
- phishscore=0 bulkscore=0 impostorscore=0 clxscore=1011 adultscore=0
- malwarescore=0 mlxlogscore=637 classifier=spam authscore=0 authtc=n/a authcc=
+ clxscore=1011 mlxlogscore=583 phishscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507160048
+ definitions=main-2507160049
 
 
+On Mon, 14 Jul 2025 18:30:39 +0200, Youssef Samir wrote:
+> When a remote device sends a completion event to the host, it contains a
+> pointer to the consumed TRE. The host uses this pointer to process all of
+> the TREs between it and the host's local copy of the ring's read pointer.
+> This works when processing completion for chained transactions, but can
+> lead to nasty results if the device sends an event for a single-element
+> transaction with a read pointer that is multiple elements ahead of the
+> host's read pointer.
+> 
+> [...]
 
-On 7/9/2025 4:03 PM, Sumit Kumar wrote:
-> From: Sumit Kumar <sumk@qti.qualcomm.com>
-> 
-> The current implementation of mhi_ep_read_channel, in case of chained
-> transactions, assumes the End of Transfer(EOT) bit is received with the
-> doorbell. As a result, it may incorrectly advance mhi_chan->rd_offset
-> beyond wr_offset during host-to-device transfers when EOT has not yet
-> arrived. This can lead to access of unmapped host memory, causing
-> IOMMU faults and processing of stale TREs.
-> 
-> This change modifies the loop condition to ensure rd_offset remains behind
-> wr_offset, allowing the function to process only valid TREs up to the
-> current write pointer. This prevents premature reads and ensures safe
-> traversal of chained TREs.
-> 
-> Fixes: 5301258899773 ("bus: mhi: ep: Add support for reading from the host")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Akhil Vinod <akhvin@qti.qualcomm.com>
-> Signed-off-by: Akhil Vinod <akhvin@qti.qualcomm.com>
-> Signed-off-by: Sumit Kumar <sumk@qti.qualcomm.com>
-Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-> ---
->   drivers/bus/mhi/ep/main.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index b3eafcf2a2c50d95e3efd3afb27038ecf55552a5..2e134f44952d1070c62c24aeca9effc7fd325860 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -468,7 +468,7 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
->   
->   			mhi_chan->rd_offset = (mhi_chan->rd_offset + 1) % ring->ring_size;
->   		}
-> -	} while (buf_left && !tr_done);
-> +	} while (buf_left && !tr_done && mhi_chan->rd_offset != ring->wr_offset);
->   
->   	return 0;
->   
-> 
-> ---
-> base-commit: 4c06e63b92038fadb566b652ec3ec04e228931e8
-> change-id: 20250709-chained_transfer-0b95f8afa487
-> 
-> Best regards,
+Applied, thanks!
+
+[1/1] bus: mhi: host: Detect events pointing to unexpected TREs
+      commit: 0bfe192d90fea2c1b523868a9c110d176a2be741
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
