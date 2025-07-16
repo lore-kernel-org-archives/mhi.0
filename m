@@ -1,121 +1,120 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD907157493
-	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 09:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AFC2EAB8D;
+	Wed, 16 Jul 2025 09:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752658286; cv=none; b=d9HEZptLZzXpmcOWMh/zvutSXF6+I8ZtOfIG/qP7qJe8T0CyUplSgvEzhTs7prsN+vBRQHVzxBcQ4+AthVRrwGF1NNbfwqnWipJY8GGMTL8t6x2N67bp2kya20V1ofugudyRvadGRjd1qzaJXASgG0weXdUUSAr4xmDxohhJetY=
+	t=1752658480; cv=none; b=gcb0ZGq7JTlolFJMzbIn3if8FkSNLkWX/PHZ42IwfjyMhjA6ZU110A9Zdg7c/8buNy8fcuN8F2fYZ6gEtyR2g6CqWnObpg0mpu2bllG+q4P9f2B5KvuQhTvgeQBDKl7rqJ7FLoiCgB83wfJ9xCFSlbXYl9wnIvYhbds1oeD1+90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752658286; c=relaxed/simple;
-	bh=ej+5hkCMRkx/GE1qcDYWd0xc2QxcktAYnQnGWSkkqpo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FQvyI83WVdZSVd8EKbTg5KFJMfXDS8xojVzTVQvW8F1zbaUs6JdvKgjwxu4ParKKH5OaOwpcg+D3i6xSPj1vrXE9VscN8O9MP1lLryQOiaNOtbMYcK7h9DNYr5XQQJDHIw0F/ugjbJ6bHLYao3qvt2CbfJzsU7FsHhY2/H/l014=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GecNRxPu; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752658480; c=relaxed/simple;
+	bh=ONBSn5o1H6j3ORHZtSRjG3KCsfOjTLO1GjLY4HdgpRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fdLjqcgpGPFd5HkOp9xjnleRAcXFuMkQLylYN08gZCyFAhiZgzlhyJYYVAH4QEgTN1gHGcSiEtcCBmYeNKzTh8OKN3WhkelChwVrNgz+q19K3bfFJw4QfqVQ9kCbvT1FpA9Cgyegy0uxZQ6enc1EnRJXivnAgZ4TzCHK2J6FzLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LF0sUrre; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GecNRxPu"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4561514c7f0so26532035e9.0
-        for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 02:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752658282; x=1753263082; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eG0tZ6GuO2rfXlaJ2pbUobsFrC3TERYmTm+061kXYtA=;
-        b=GecNRxPuD8PkXcOwsbfKr7OPokPa48tnrR3FycZFYpxZD91brhgeLcuiSSWHhQ5tGY
-         ypT498AsgGw+ljVIwMKkoZq2C+kUoAqqhoaAP3Qpia03weT8X/2LlhEtF7EuUpMF8G0P
-         mpyp6bgb6TMWwkt9EfM4Cb1++JhDzFWdmW+TbDzUI4uT2rSMV65/r91xXtgL8iUuho/z
-         GMzh/OXAzxo8dHZK1ATfYKD8zA7g+L0huYtvshSIvCOeJwts/tx9lOfQMZqx+vKjqZbg
-         Iren44qpWIY9k7QjuUCGg+Ahz0B5R37Bzqf9/yHvYDOwlSly/GxDUuBbKDwnr4YFPoYT
-         hX2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752658282; x=1753263082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eG0tZ6GuO2rfXlaJ2pbUobsFrC3TERYmTm+061kXYtA=;
-        b=sZk2YI0js0Gqa0juivl0qywANC9/FxUmTvzvkoLjbyrsD8STaLShPRkskH117IU1ME
-         4/6VuCFj/FHR8oVp4PSTYJsfIGL8D0Ek4AlO191HJivkuG2YtDhVoOK/AsDzTkpAb3V0
-         uGCjHmDyWpIhfjZLjdFsg6xYy7i7u9P3fv1WNyXPCw+p3deRM+8yUAhJeJeo2FSn3GBA
-         bGnNhCCmCL8hxtH13nInPgw//KYaOh1eEshg4ONADOnFCRAz5qCWThCy/HkcgZ6HxP/6
-         8vVn6xj2gffsig+cCfZ66+cZza+dg9lCYbcTLssLif0CjNTxVGUb5vvcKZIU24DWUFiU
-         BaeA==
-X-Gm-Message-State: AOJu0YzTtP9vPJKJP+7Df8leJkwbJEnjAYdPbgAEjDFjUum4msC2US0c
-	6ILBiuS68qEnhKZXnw0yWJVvk4JqSSQ/gXn75uo2kxSUxt5iyZ1pksg+Z8EqaQ==
-X-Gm-Gg: ASbGncsgmRHMQT992aDfLRtkrENtkyWErrn0ATfcwi9vmWoGBgtaWcK82XRIyDZWWjL
-	fNwil+3K0PhjHj7bkCsWHl5CbG0fw63nVDkD7GvLJhovCI1ERD4VrFbRN/RLXZNCJfN46JIXhUt
-	SQTnmMDzVcaBpd7HErVlePW6nH+gsZ21suwxC9WIPsqWhAAfwQueF2EZtiSl+5GCmUZ4FLdETmT
-	T1+YQtoiadUYamo2EobfrWNKHIQv/Vd8JxTF6cfGez+df5E6oFexgKBCVgxrsM8Gwqq0mnk+Zv/
-	J+4xbRKiS+Nnv0tteTyU4Pq8hHYuinNdI957XOoDhgb1kFA74IRFkoPfoL6HRu9ElMPxcCfmBaZ
-	Xm6ujkyzG5rKurSnPTVxo1gnlvuvTRWeyNj82rJwtZIGSdeTarht0Yyld7NoW71THWvmyumUkXL
-	94gMU+o6Gp
-X-Google-Smtp-Source: AGHT+IGymcNYqKVn9PbuWWgMCBfnL2OyVM+FICG2nm+gz961Q3FNsg5yfkRvxn/+Iahe96pjcUCCcQ==
-X-Received: by 2002:a05:600c:3496:b0:456:1b8b:b8c6 with SMTP id 5b1f17b1804b1-4562edaa066mr16201335e9.14.1752658281904;
-        Wed, 16 Jul 2025 02:31:21 -0700 (PDT)
-Received: from ThinkStation-P340.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e82cf22sm15396205e9.26.2025.07.16.02.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 02:31:21 -0700 (PDT)
-From: Daniele Palmas <dnlplm@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 1/1] bus: mhi: host: pci_generic: Add Telit FN990B40 modem support
-Date: Wed, 16 Jul 2025 11:18:36 +0200
-Message-Id: <20250716091836.999364-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LF0sUrre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F66C4CEF0;
+	Wed, 16 Jul 2025 09:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1752658479;
+	bh=ONBSn5o1H6j3ORHZtSRjG3KCsfOjTLO1GjLY4HdgpRA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LF0sUrrez2n0UX4P7X+6kWbZMKh3ESq/U1Am75RKjxzxra1B5w+qXkZ5js7JfJ+mK
+	 AOBBDMjMp9K59MfH/AFlSFr8wlS98u/e+Cvd0u8JUZX13UcJLp6hS2M98nVEbwsLey
+	 E0oHUDnGMr7R9Xn7nWZvDAdOrUhm+zTlZ9sAmFbk=
+Date: Wed, 16 Jul 2025 11:34:37 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Youssef Samir <quic_yabdulra@quicinc.com>,
+	Matthew Leung <quic_mattleun@quicinc.com>,
+	Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+	Kunwu Chan <chentao@kylinos.cn>,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+	Yan Zhen <yanzhen@vivo.com>, Sujeev Dias <sdias@codeaurora.org>,
+	Siddartha Mohanadoss <smohanad@codeaurora.org>, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] bus: mhi: host: keep bhi buffer through suspend
+ cycle
+Message-ID: <2025071604-scandal-outpost-eb22@gregkh>
+References: <20250715132509.2643305-1-usama.anjum@collabora.com>
+ <20250715132509.2643305-2-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715132509.2643305-2-usama.anjum@collabora.com>
 
-Add SDX72 based modem Telit FN990B40, reusing FN920C04 configuration.
+On Tue, Jul 15, 2025 at 06:25:07PM +0500, Muhammad Usama Anjum wrote:
+> When there is memory pressure, at resume time dma_alloc_coherent()
+> returns error which in turn fails the loading of firmware and hence
+> the driver crashes:
+> 
+> kernel: kworker/u33:5: page allocation failure: order:7,
+> mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+> kernel: CPU: 1 UID: 0 PID: 7693 Comm: kworker/u33:5 Not tainted 6.11.11-valve17-1-neptune-611-g027868a0ac03 #1 3843143b92e9da0fa2d3d5f21f51beaed15c7d59
+> kernel: Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> kernel: Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+> kernel: Call Trace:
+> kernel:  <TASK>
+> kernel:  dump_stack_lvl+0x4e/0x70
+> kernel:  warn_alloc+0x164/0x190
+> kernel:  ? srso_return_thunk+0x5/0x5f
+> kernel:  ? __alloc_pages_direct_compact+0xaf/0x360
+> kernel:  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+> kernel:  __alloc_pages_noprof+0x321/0x350
+> kernel:  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+> kernel:  dma_direct_alloc+0x70/0x270
+> kernel:  mhi_fw_load_handler+0x126/0x340 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+> kernel:  mhi_pm_st_worker+0x5e8/0xac0 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+> kernel:  ? srso_return_thunk+0x5/0x5f
+> kernel:  process_one_work+0x17e/0x330
+> kernel:  worker_thread+0x2ce/0x3f0
+> kernel:  ? __pfx_worker_thread+0x10/0x10
+> kernel:  kthread+0xd2/0x100
+> kernel:  ? __pfx_kthread+0x10/0x10
+> kernel:  ret_from_fork+0x34/0x50
+> kernel:  ? __pfx_kthread+0x10/0x10
+> kernel:  ret_from_fork_asm+0x1a/0x30
+> kernel:  </TASK>
+> kernel: Mem-Info:
+> kernel: active_anon:513809 inactive_anon:152 isolated_anon:0
+>     active_file:359315 inactive_file:2487001 isolated_file:0
+>     unevictable:637 dirty:19 writeback:0
+>     slab_reclaimable:160391 slab_unreclaimable:39729
+>     mapped:175836 shmem:51039 pagetables:4415
+>     sec_pagetables:0 bounce:0
+>     kernel_misc_reclaimable:0
+>     free:125666 free_pcp:0 free_cma:0
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device 0309
-        Subsystem: Device 1c5d:201a
+This is not a "crash", it is a warning that your huge memory allocation
+did not succeed.  Properly handle this issue (and if you know it's going
+to happen, turn the warning off in your allocation), and you should be
+fine.
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+> In above example, if we sum all the consumed memory, it comes out
+> to be 15.5GB and free memory is ~ 500MB from a total of 16GB RAM.
+> Even though memory is present. But all of the dma memory has been
+> exhausted or fragmented.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index ec2c7410ce62..48f061e1eb06 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -859,6 +859,16 @@ static const struct mhi_pci_dev_info mhi_telit_fn920c04_info = {
- 	.edl_trigger = true,
- };
- 
-+static const struct mhi_pci_dev_info mhi_telit_fn990b40_info = {
-+	.name = "telit-fn990b40",
-+	.config = &modem_telit_fn920c04_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.sideband_wake = false,
-+	.mru_default = 32768,
-+	.edl_trigger = true,
-+};
-+
- static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
- 	.name = "netprisma-lcur57",
- 	.edl = "qcom/prog_firehose_sdx24.mbn",
-@@ -924,6 +934,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
-+	/* Telit FN990B40 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x201a),
-+		.driver_data = (kernel_ulong_t) &mhi_telit_fn990b40_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
- 	/* QDU100, x100-DU */
+What caused that to happen?
 
-base-commit: 0bfe192d90fea2c1b523868a9c110d176a2be741
--- 
-2.37.1
+> Fix it by allocating it only once and then reuse the same allocated
+> memory. As we'll allocate this memory only once, this memory will stay
+> allocated.
 
+As others said, no, don't consume memory for no good reason, that just
+means that other devices will fail more frequently.  If all
+devices/drivers did this, you wouldn't have memory to work either.
+
+thanks,
+
+greg k-h
