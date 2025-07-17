@@ -1,173 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A583E2F7D04
-	for <mhi@lists.linux.dev>; Thu, 17 Jul 2025 14:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059C72BCF75;
+	Thu, 17 Jul 2025 16:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752763255; cv=none; b=a17dU1yS3OIagaqvkeLYUV9sWGD+wPLbLCIV6xIKv81ZbGIpvbPtF5s50roxx69uyLNb5ZC11ybC9T5DizIqs0icvAuuI1MZy9ZcCnauYgETCVBCkor4sWz4q+m6/rag7/MQW8hq5e8QXqRfl8pTeeOPXXgEIn3fKWiymnvF0Bs=
+	t=1752770950; cv=none; b=dj4OvNhh4G8I6k2Vv7SlSLFdV+z3DzNhPmZfCRWo0U+kVmExywmhVSuFiVKq6RqlkvL3fMwJJBBmRMcj75EMxCVImL950UhOtAh3soUEW+c5qrCO2I80s1uJ9EErLbXhV4lar1gFf0Y4TQkCW2NCD+G5rgdIhE+KCDmIdbbIaTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752763255; c=relaxed/simple;
-	bh=Nuh4S0CkpXm29fj9uERu6cfZHBK/FOcnJE8gV5HoO9I=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hTwrbqgCUkOK0I6AR+y7iPtLE9ABQFp4WxqaSJqsNSsyWiP+B4v+5pvW+u/FHZzGRXnp/Qa/XTz4cy+R0vItb7nZChT0eAHy7AFG46CQNmn0f5bDJt30epETE2pU8nZNEIX8UiqIJ/rJPwyQxCe8kmCIMgN/ejitDRZIJKAPeUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D9nKjBtb; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752770950; c=relaxed/simple;
+	bh=G+81jnB2n+52pQH8N0arE+zlRSHXLPxg43X+u8Imltc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=P7JVR1wgfdFI/OIitfWTxJD2Lu1PQTPFJ7wTzMUTbn+ubah3I79Vq2FUPnQKoufQjV+aOjgD27x3wpswE8fepMoWy97rom67TuWLbIUmEnEmNOXgk+n9a86hXjhhlZQN/YOG4KlT0iS8qRzx7YyTFC/dq3I0ycFIQJx0Q1XQL2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HESFgrYk; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D9nKjBtb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752763253; x=1784299253;
-  h=date:from:to:cc:subject:message-id;
-  bh=Nuh4S0CkpXm29fj9uERu6cfZHBK/FOcnJE8gV5HoO9I=;
-  b=D9nKjBtbar6jkoTCLR3D0DjrCVhsACJuvewGEY5geOZ096OkUyEApSGH
-   cOjqfEzfla/yR+WKIsmROOJCcIFTuf3Y7lsnAl03SFLLelvqDD5gKkSA3
-   XikIf/yLGLVyrg/psrxLLRLXHHKTYWb+10SXHjvgpkw+MZrZkUBaOTiFJ
-   EV0SQruhHAq702QKEloXVbmEzwH7CKc0gLWZ3DR2bNSuE+0Xa3Ah5ztsS
-   q6QWlcgiRZlJVB+h12llJqf3k6wvUhgBwcUZXbjL5rBypJ951vpzvkmg3
-   sQSc0yFPwCMOUb8lbe9W4aF9pUf+S40arPJBK6Zt7/2TArw3L0q9WLpbr
-   w==;
-X-CSE-ConnectionGUID: 09Wy72q2QDGMrNvr6Z4XrQ==
-X-CSE-MsgGUID: oCuDQI4YSX6U6g4pXAWymg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="65733770"
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="65733770"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 07:40:52 -0700
-X-CSE-ConnectionGUID: Yrm12IFmRR2nUVU12KuBzg==
-X-CSE-MsgGUID: fQoVMuzdR6OA6OdLfoYsrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="163449416"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Jul 2025 07:40:51 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucPmz-000DjI-0V;
-	Thu, 17 Jul 2025 14:40:49 +0000
-Date: Thu, 17 Jul 2025 22:40:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 73d370ed82381428d76d602d74f5806c77d25b09
-Message-ID: <202507172250.vz43meM2-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HESFgrYk"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HC3bXX008498;
+	Thu, 17 Jul 2025 16:49:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5DRlh3V7K77Jb7SrH7bBVIXhRB79rkamE4stYnCWsiU=; b=HESFgrYkTGdVeE5/
+	Sl2RfQ6nzLgJD048f0mKWI0I5R9a9dWD/8lrGE9RiBWGIBRzP2m1k0hR8G2vLCQ/
+	ZYz2roX11PVbxwLEDr+jR6NwhfAz6tPWWoJdPwcZJS+ZNox7Vb97s04ENQ66nhLX
+	Bqu1yvcGP/rrp6ZmCsSjhIA4flAmb/f0xhI9I2rRhKg5kWCm8oRwMqbAY0zkKBFu
+	9h4jL07CmPNRalaN8GuXXvnA0VQ0BJIj3hGiTsa1EV1vwTVwEEC7J7vYNhQhu4ed
+	RXYauH0ZUhb16UyIEo4fr9sEKTd+Bmjm8GF4VNE5THxpiiAMTmpnZYOY0x5Vcbqz
+	gMyndA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufxb8ghk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Jul 2025 16:49:04 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56HGn3Pc012911
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Jul 2025 16:49:03 GMT
+Received: from [10.216.52.220] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 17 Jul
+ 2025 09:48:58 -0700
+Message-ID: <7c833565-0e7b-4004-b691-37bd07ce6abe@quicinc.com>
+Date: Thu, 17 Jul 2025 22:18:54 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] bus: mhi: ep: Fix chained transfer handling in read path
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        Sumit Kumar
+	<quic_sumk@quicinc.com>
+CC: Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_krichai@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_vbadigan@quicinc.com>,
+        Sumit Kumar <sumk@qti.qualcomm.com>, <stable@vger.kernel.org>,
+        Akhil Vinod <akhvin@qti.qualcomm.com>
+References: <20250709-chained_transfer-v1-1-2326a4605c9c@quicinc.com>
+ <5aqtqicbtlkrqbiw2ba7kkgwrmsuqx2kjukh2tavfihm5hq5ry@gdeqegayfh77>
+Content-Language: en-US
+From: Akhil Vinod <quic_akhvin@quicinc.com>
+In-Reply-To: <5aqtqicbtlkrqbiw2ba7kkgwrmsuqx2kjukh2tavfihm5hq5ry@gdeqegayfh77>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: P0JFgXsPYGiT6mtH670UUCDd6tSn2TGf
+X-Proofpoint-ORIG-GUID: P0JFgXsPYGiT6mtH670UUCDd6tSn2TGf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDE0NyBTYWx0ZWRfXwkL/WjtJAAQk
+ C2sKbP0nTFsinfYSm7m6fp0IkeeCxovyqhBbU9MvyN9UwFN4uxaFFDKTtHGf0EesSsed+p175as
+ CaEdgkQ8ycqpNKbR3YVWorL8PJhQ5O1ipVbKLkOuk7huetfUDBGZUnFFOUWRmP2OrdENK0qdEXC
+ dm5t9U16uT18ZRYdNH/ruVr8TWbaaYxnJyxtbLZZFCngTqBj1p8JrwEBBTRbyTr73fs9LVrcvyu
+ wrAi+N7T+rW4i5TU0W4fsX/m6O+Dya7RHi8U6QdNDINaAxjRvOiu6Xcv3knHNtooBiqnfQJvKCg
+ 0gkneBwBNPTSpWg85uylD3UcsChQoyQFXZ2bKB88s9n2daL1XCpaVcDFRiZTjGdkw5SYdq58W/D
+ lTAztHPsmKfO/T3apeljobZLd7ETiXrkTo2U2nJq3Oy9dKq83PnGLg4KphIOIk1yoBBzuGCy
+X-Authority-Analysis: v=2.4 cv=Xc2JzJ55 c=1 sm=1 tr=0 ts=68792980 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=y20B5S6K_hySBQgFZUYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-17_02,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=776
+ phishscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507170147
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 73d370ed82381428d76d602d74f5806c77d25b09  bus: mhi: host: pci_generic: Add Telit FN990B40 modem support
 
-elapsed time: 1448m
+On 7/16/2025 12:10 PM, Manivannan Sadhasivam wrote:
+> On Wed, Jul 09, 2025 at 04:03:17PM GMT, Sumit Kumar wrote:
+>> From: Sumit Kumar <sumk@qti.qualcomm.com>
+>>
+>> The current implementation of mhi_ep_read_channel, in case of chained
+>> transactions, assumes the End of Transfer(EOT) bit is received with the
+>> doorbell. As a result, it may incorrectly advance mhi_chan->rd_offset
+>> beyond wr_offset during host-to-device transfers when EOT has not yet
+>> arrived. This can lead to access of unmapped host memory, causing
+>> IOMMU faults and processing of stale TREs.
+>>
+>> This change modifies the loop condition to ensure rd_offset remains behind
+>> wr_offset, allowing the function to process only valid TREs up to the
+>> current write pointer. This prevents premature reads and ensures safe
+>> traversal of chained TREs.
+>>
+>> Fixes: 5301258899773 ("bus: mhi: ep: Add support for reading from the host")
+>> Cc: stable@vger.kernel.org
+>> Co-developed-by: Akhil Vinod <akhvin@qti.qualcomm.com>
+>> Signed-off-by: Akhil Vinod <akhvin@qti.qualcomm.com>
+>> Signed-off-by: Sumit Kumar <sumk@qti.qualcomm.com>
+>> ---
+>>   drivers/bus/mhi/ep/main.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+>> index b3eafcf2a2c50d95e3efd3afb27038ecf55552a5..2e134f44952d1070c62c24aeca9effc7fd325860 100644
+>> --- a/drivers/bus/mhi/ep/main.c
+>> +++ b/drivers/bus/mhi/ep/main.c
+>> @@ -468,7 +468,7 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
+>>   
+>>   			mhi_chan->rd_offset = (mhi_chan->rd_offset + 1) % ring->ring_size;
+>>   		}
+>> -	} while (buf_left && !tr_done);
+>> +	} while (buf_left && !tr_done && mhi_chan->rd_offset != ring->wr_offset);
+> You should use mhi_ep_queue_is_empty() for checking the available elements to
+> process. And with this check in place, the existing check in
+> mhi_ep_process_ch_ring() becomes redundant.
+>
+> - Mani
 
-configs tested: 96
-configs skipped: 3
+Yes, agreed that the check can be replaced with the mhi_ep_queue_is_empty, but the existing
+check in mhi_ep_process_ch_ring() is still necessary because there can be a case where
+there are multiple chained transactions in the ring.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Example: The ring at the time mhi_ep_read_channel is executing may look like:
+chained | chained |  EOT#1 | chained | chained | EOT#2
+  
+If we remove the check from mhi_ep_process_ch_ring, we bail out of the first transaction itself
+and the remaining packets won't be processed. mhi_ep_read_channel in its current form is designed
+for a single MHI packet only.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250717    gcc-8.5.0
-arc                   randconfig-002-20250717    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                   randconfig-001-20250717    clang-21
-arm                   randconfig-002-20250717    gcc-8.5.0
-arm                   randconfig-003-20250717    gcc-8.5.0
-arm                   randconfig-004-20250717    clang-21
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250717    clang-18
-arm64                 randconfig-002-20250717    clang-18
-arm64                 randconfig-003-20250717    gcc-10.5.0
-arm64                 randconfig-004-20250717    clang-21
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250717    gcc-15.1.0
-csky                  randconfig-002-20250717    gcc-12.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250717    clang-20
-hexagon               randconfig-002-20250717    clang-19
-i386        buildonly-randconfig-001-20250716    gcc-12
-i386        buildonly-randconfig-002-20250716    clang-20
-i386        buildonly-randconfig-003-20250716    gcc-12
-i386        buildonly-randconfig-004-20250716    gcc-11
-i386        buildonly-randconfig-005-20250716    gcc-12
-i386        buildonly-randconfig-006-20250716    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250717    gcc-15.1.0
-loongarch             randconfig-002-20250717    clang-21
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250717    gcc-8.5.0
-nios2                 randconfig-002-20250717    gcc-9.3.0
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250717    gcc-9.3.0
-parisc                randconfig-002-20250717    gcc-9.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc               randconfig-001-20250717    clang-21
-powerpc               randconfig-002-20250717    gcc-13.4.0
-powerpc               randconfig-003-20250717    clang-21
-powerpc64             randconfig-001-20250717    clang-21
-powerpc64             randconfig-002-20250717    clang-18
-powerpc64             randconfig-003-20250717    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20250717    gcc-14.3.0
-riscv                 randconfig-002-20250717    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250717    gcc-8.5.0
-s390                  randconfig-002-20250717    gcc-9.3.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250717    gcc-14.3.0
-sh                    randconfig-002-20250717    gcc-9.3.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250717    gcc-14.3.0
-sparc                 randconfig-002-20250717    gcc-8.5.0
-sparc64               randconfig-001-20250717    gcc-12.4.0
-sparc64               randconfig-002-20250717    clang-21
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250717    gcc-12
-um                    randconfig-002-20250717    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20250716    gcc-12
-x86_64      buildonly-randconfig-002-20250716    clang-20
-x86_64      buildonly-randconfig-003-20250716    clang-20
-x86_64      buildonly-randconfig-004-20250716    clang-20
-x86_64      buildonly-randconfig-005-20250716    clang-20
-x86_64      buildonly-randconfig-006-20250716    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250717    gcc-13.4.0
-xtensa                randconfig-002-20250717    gcc-9.3.0
+- Akhil
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
