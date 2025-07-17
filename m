@@ -1,125 +1,156 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAA617A309
-	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 14:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752675341; cv=none; b=NEKGcb5ad3oJQ4qgX4glMzSL1M26dyJboYj/qcq1SVsFZxjmqqz0AJ9lE54i6LqWQIEd2M/IJpFd+wCnsDIpSUPXPkpIYB1kpOm6E2WwStHVqTILZSBtutvXkmMt5pmUjXvnpTZ/QPvMmWG2q02xCJDzR6i4y9TCaZcWNid7nMw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752675341; c=relaxed/simple;
-	bh=JM80pgGqNSa4r/1vOHTvUpEsPtwkf06lWm1xdCxMrrY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I05v2KNXRBDgvc0wskDImFZ+IZ2Jag946npmKMZMeygLunc5Hb21Sb5HOK7LUKNMe/vRJRIh2V7Lq0Yp/o+AIweyG4kfUsYAYSCIEtYXkg79PcScVOzm8hYR8zIvbJ03ZaIVk75jDvXZz/14LHQmt+5Ft1dn8kCWD9ujP8tuOgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UQisyHV+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C85325A2BF
+	for <mhi@lists.linux.dev>; Thu, 17 Jul 2025 10:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752746462; cv=pass; b=Ol8F8AzI5HrGBsnVgAxIe8D6xhW/awUdeeP+mEDJWADHm02JlpkXFtDm84atnjLvUJxQHueWGRfYmAd2Fn480SX1kS7R2vv6t5AgjSmIV6oQWHBTMNscO/ZhMiTvRG54scuKUfm4c2m/ohoz7wmUi7bWNgIcWwuKHUN4nSxhtHg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752746462; c=relaxed/simple;
+	bh=A4CRDg685F//yYSrUqQqky7GIERfvNnc+RXZM8ub2WM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PIl/z10GpkLzafuCjYbzxqj0pdSKvbb07V+YhFDvSgsCpcE7z0NjSm2yWoF6mBwIKApDP/sbAQ1IETRs2czhu4ycYfIJs5nKcrsWbL5wZkhKt2KdWq9go5RBGwF6zoH/CqkoPh6hROyuk9EMcdnuCUK522MWbpjWVtIjrnZJTu4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=V+SgF9fa; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UQisyHV+"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56GDX6gg025993
-	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 14:15:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	h9zjZD1JwF29X/cyV1Xb+ZjTmA7YHte4xWXBEMM0XvM=; b=UQisyHV+KqmcFjSl
-	rCLcayOJFkx46Drbo9MLTLmh5/9XeUyiYU/SlSOQrIHDSoAXy/H2e6dVGEX5ZCCa
-	FkI7RvNi0cyuc3U3QtFubBUN8gLQ8L/L4QeuGtaqYQqduf1mB9fhyW3kNyhhA8YC
-	xVgaQ07tTDSYuYNQty1ssLfQUpbp1/9o6jOz78kBhDST/jiFyBqzwDblehNwjBfz
-	rfj+oqI6kpjkaQjeiyN7+dzUKFxzfBJh0u0swye7BaZoyVAwhgJaawmXF4aw9/Co
-	o6Vd6TvHX0dYXJp3x2BdmxJC6Y3VsSCMI0i6rEKUkYIkk8FPr03yUdFFMRt/CJ4S
-	n++75Q==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfca5ceh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 14:15:38 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-234f1acc707so53285775ad.3
-        for <mhi@lists.linux.dev>; Wed, 16 Jul 2025 07:15:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752675337; x=1753280137;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h9zjZD1JwF29X/cyV1Xb+ZjTmA7YHte4xWXBEMM0XvM=;
-        b=j0sN3J9Vs+B0Z2A9cI1uYLHcu8NwMD2HrW2vsOBMP10fpgog1tbOVwCnM2SLAXTkKi
-         ibcbQ09Q5U+Wl95A2Xu191QQkEa5V5gSHyjKeSeaahcGMbEVLe1LFaJB0QvXOIeeZZCC
-         pIh00r0s8JX4mrp5BLN+xCrSn6j/NeRgGn3lqiuI4vfcjmNt28rpFw5h2krV1w7NyTMN
-         6Ynx8KYw5nyH4PqvTE1KDu550BcIOf/XUlRmd/KLOpvax7J8O+kwxOt6BzT83X7DmwkT
-         J2d4KAATSR/03ZSEevAzrLsm9Ae1Sxb7BOdWgAWLPWSskNJ0bj99b5AkOSSiM40cFiic
-         wDtg==
-X-Gm-Message-State: AOJu0Yw0e9//J/Ln09xrA54/r2oYaYb+EIEBJvdmF0X2yhWQwCG1O6a1
-	/b/NnR3y/CCBmOyuMQqTPgx+q3whGBtNO70T0kcExUMpOGLdpTmQ63clxZqv2ke9wzZbVfzgphA
-	oHv6gqZsuJNWhcfxyBvyWnNv+QcYCbITLuf2AIAXe5AYkeYUEJj0EKYo=
-X-Gm-Gg: ASbGncsEGsMpwcBMNPvPlRM4n1FhIJrSqlbnfMGyS+ce/TqN8bz8Z531fPwpZ5tvYBi
-	xz7EwrYUPuoTLuMsm0oyTjSzYTTrE4I8FczkUraGdRBHSYAJFPShQj8SD7z/5pVYjRlJsvbQBlk
-	lA6LJhi9zAuK+vNBPikGspZ1dbgemY4W+8cqSe4ZiiwkCkFXDZS4nlxgYBA4ouD17dB4medYdPj
-	hSZM5vq8q44UTSLctvChX5hiUFFvUIPp5peqwsVK9FV9ScmSCcvKfeHr/Bb4kIfIAg7Mbv7mmu1
-	GWTni0TQfvdXRnG6lFDL+UCgthUbI4mB6Tjts5o5y8qeVVBzGcRLbGxIR8gcdFN4aA+h
-X-Received: by 2002:a17:902:c94e:b0:234:ef42:5d65 with SMTP id d9443c01a7336-23e25789acbmr47265575ad.52.1752675335675;
-        Wed, 16 Jul 2025 07:15:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG74Q3jl1MnboneV64yqd1rgw3JWWP2KPimRq5deOkhvtbRiElP1WmxRnvY99cP2KO4ZvLKGQ==
-X-Received: by 2002:a17:902:c94e:b0:234:ef42:5d65 with SMTP id d9443c01a7336-23e25789acbmr47260985ad.52.1752675330552;
-        Wed, 16 Jul 2025 07:15:30 -0700 (PDT)
-Received: from [192.168.1.17] ([117.213.98.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4322dbdsm128971105ad.127.2025.07.16.07.15.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 07:15:28 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-To: Manivannan Sadhasivam <mani@kernel.org>, Daniele Palmas <dnlplm@gmail.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20250716091836.999364-1-dnlplm@gmail.com>
-References: <20250716091836.999364-1-dnlplm@gmail.com>
-Subject: Re: [PATCH 1/1] bus: mhi: host: pci_generic: Add Telit FN990B40
- modem support
-Message-Id: <175267532620.8017.1596070646216091764.b4-ty@oss.qualcomm.com>
-Date: Wed, 16 Jul 2025 19:45:26 +0530
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="V+SgF9fa"
+ARC-Seal: i=1; a=rsa-sha256; t=1752746413; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=gyH7vgth8vulqMfuV5YoGupIPpiiF7jggaEJL9a7pjty+8Kc7L4A4ut4x9GUrVolCWEYuB68SE/QjYnbEoYMT1JVc4/xsM0TJXyQRCDf3UntNiFTm2venzGA/scJEnGqBRXhZiGRziICsXI2C7cijO4iysobc8JxCl5M/zJc1Oo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752746413; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xpwbIUfT7hBxYMkztCja+P7WoxLnSe5t8Pwu1UKpAmI=; 
+	b=SlUPz9aULDX45/5EAU753bUQv861ddfnMirls6u3IaMlAKVJavy8L24l+iWEd2e4ylMKc8vrkbdd5ONws59xIr7/TA6nPXkPuxYho75UfGy1KszrQP3LHQpqlBQRnvYFVPxfebMm06LIPGgnasbfwwl1IatI0KuAfAc/AJJAI3k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752746413;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=xpwbIUfT7hBxYMkztCja+P7WoxLnSe5t8Pwu1UKpAmI=;
+	b=V+SgF9fa1ejoDakrmkZfYz09Ke+r7FB6tQd9qTu3a8etLJJyLl9Yr3JjzsbWacGu
+	UtYAfmcXUaDDZIYMmyjLSyBycFAKlGmX3iYt4wkIxCAARd8m5IuZPiUC0w+T0zwPyIL
+	q2QRs7CpmamJxuNMya/K+/i3ZIUNbcEBxI2cNHHo=
+Received: by mx.zohomail.com with SMTPS id 1752746411436245.64031892164712;
+	Thu, 17 Jul 2025 03:00:11 -0700 (PDT)
+Message-ID: <9c9d0302-bbb8-468f-8be5-5a3e0015528f@collabora.com>
+Date: Thu, 17 Jul 2025 15:00:14 +0500
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDEyOSBTYWx0ZWRfX8IoywVC692jo
- jcTIHY4GjsNggmODn/tK0flHjIrey8G9keADG3L5gBBtJ6UOX2AMavzyfYCFz68+xU42XJZYAIf
- bvs14lbyObd0msy+8A7TOeNjddTfgy0soLrkOA6YzFAInyoa0gNbazOriRVXuM4ufmCleHDOUuE
- /y4vkix0Y8t4WBYKAvvnj5AT5UK/P+JZHwuhsOIXLxKomuMOpVGNsOV6lt2rhJ8BNDk23vZ5K5P
- I4jBl5tESj68z+1JSUCI5HFMKFVpIbZMkeB3HMx0YTpRXQivZDG5d28OssaJPUadZmLg9q4dR8g
- QTnwhqwSn128ctRrh3D5/rCLecEtmtKySuFslt1v2R75MK/kZzsttxCA7n3WJHg+jJaWwB9lBxa
- pObJqqzmCdsCkPxT+6b72pzFPFCPh7yQvxeABh7BZ1ch+32j33nuUPmwL0HehTbtlg1VShTM
-X-Proofpoint-GUID: JGSmxu1JzwgItFbtNwr4ToQE08qdJlKi
-X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=6877b40a cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=qwM7zxNKp6jzn47FiYk7ew==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=J6noarIePAt8HtWXbDwA:9
- a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-ORIG-GUID: JGSmxu1JzwgItFbtNwr4ToQE08qdJlKi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-16_02,2025-07-16_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=958 impostorscore=0 clxscore=1015 adultscore=0
- suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507160129
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] bus: mhi: host: keep bhi buffer through suspend
+ cycle
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Youssef Samir <quic_yabdulra@quicinc.com>,
+ Matthew Leung <quic_mattleun@quicinc.com>,
+ Alexander Wilhelm <alexander.wilhelm@westermo.com>,
+ Kunwu Chan <chentao@kylinos.cn>,
+ Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Yan Zhen <yanzhen@vivo.com>, Sujeev Dias <sdias@codeaurora.org>,
+ Siddartha Mohanadoss <smohanad@codeaurora.org>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, stable@vger.kernel.org
+References: <20250715132509.2643305-1-usama.anjum@collabora.com>
+ <20250715132509.2643305-2-usama.anjum@collabora.com>
+ <2025071604-scandal-outpost-eb22@gregkh>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <2025071604-scandal-outpost-eb22@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Hi Greg,
 
-On Wed, 16 Jul 2025 11:18:36 +0200, Daniele Palmas wrote:
-> Add SDX72 based modem Telit FN990B40, reusing FN920C04 configuration.
+On 7/16/25 2:34 PM, Greg Kroah-Hartman wrote:
+> On Tue, Jul 15, 2025 at 06:25:07PM +0500, Muhammad Usama Anjum wrote:
+>> When there is memory pressure, at resume time dma_alloc_coherent()
+>> returns error which in turn fails the loading of firmware and hence
+>> the driver crashes:
+>>
+>> kernel: kworker/u33:5: page allocation failure: order:7,
+>> mode:0xc04(GFP_NOIO|GFP_DMA32), nodemask=(null),cpuset=/,mems_allowed=0
+>> kernel: CPU: 1 UID: 0 PID: 7693 Comm: kworker/u33:5 Not tainted 6.11.11-valve17-1-neptune-611-g027868a0ac03 #1 3843143b92e9da0fa2d3d5f21f51beaed15c7d59
+>> kernel: Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+>> kernel: Workqueue: mhi_hiprio_wq mhi_pm_st_worker [mhi]
+>> kernel: Call Trace:
+>> kernel:  <TASK>
+>> kernel:  dump_stack_lvl+0x4e/0x70
+>> kernel:  warn_alloc+0x164/0x190
+>> kernel:  ? srso_return_thunk+0x5/0x5f
+>> kernel:  ? __alloc_pages_direct_compact+0xaf/0x360
+>> kernel:  __alloc_pages_slowpath.constprop.0+0xc75/0xd70
+>> kernel:  __alloc_pages_noprof+0x321/0x350
+>> kernel:  __dma_direct_alloc_pages.isra.0+0x14a/0x290
+>> kernel:  dma_direct_alloc+0x70/0x270
+>> kernel:  mhi_fw_load_handler+0x126/0x340 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+>> kernel:  mhi_pm_st_worker+0x5e8/0xac0 [mhi a96cb91daba500cc77f86bad60c1f332dc3babdf]
+>> kernel:  ? srso_return_thunk+0x5/0x5f
+>> kernel:  process_one_work+0x17e/0x330
+>> kernel:  worker_thread+0x2ce/0x3f0
+>> kernel:  ? __pfx_worker_thread+0x10/0x10
+>> kernel:  kthread+0xd2/0x100
+>> kernel:  ? __pfx_kthread+0x10/0x10
+>> kernel:  ret_from_fork+0x34/0x50
+>> kernel:  ? __pfx_kthread+0x10/0x10
+>> kernel:  ret_from_fork_asm+0x1a/0x30
+>> kernel:  </TASK>
+>> kernel: Mem-Info:
+>> kernel: active_anon:513809 inactive_anon:152 isolated_anon:0
+>>     active_file:359315 inactive_file:2487001 isolated_file:0
+>>     unevictable:637 dirty:19 writeback:0
+>>     slab_reclaimable:160391 slab_unreclaimable:39729
+>>     mapped:175836 shmem:51039 pagetables:4415
+>>     sec_pagetables:0 bounce:0
+>>     kernel_misc_reclaimable:0
+>>     free:125666 free_pcp:0 free_cma:0
 > 
-> 01:00.0 Unassigned class [ff00]: Qualcomm Device 0309
->         Subsystem: Device 1c5d:201a
+> This is not a "crash", it is a warning that your huge memory allocation
+> did not succeed.  Properly handle this issue (and if you know it's going
+> to happen, turn the warning off in your allocation), and you should be
+> fine.
+Yes, the system is fine. But wifi/sound drivers fail to reinitialize.
+
 > 
+>> In above example, if we sum all the consumed memory, it comes out
+>> to be 15.5GB and free memory is ~ 500MB from a total of 16GB RAM.
+>> Even though memory is present. But all of the dma memory has been
+>> exhausted or fragmented.
 > 
+> What caused that to happen?
+Excessive use of the page cache occurs when user-space applications open
+and consume large amounts of file system memory, even if those files are
+no longer being actively read. I haven't found any documentation on limiting
+the size of the page cache or preventing it from occupying DMA-capable
+memory—perhaps the MM developers can provide more insight.
 
-Applied, thanks!
+I can reproduce this issue by running stress tests that create and
+sequentially read files. On a system with 16GB of RAM, the page cache can
+easily grow to 10–12GB. Since the kernel manages the page cache, it's unclear
+why it doesn't reclaim inactive cache more aggressively.
 
-[1/1] bus: mhi: host: pci_generic: Add Telit FN990B40 modem support
-      commit: 73d370ed82381428d76d602d74f5806c77d25b09
+> 
+>> Fix it by allocating it only once and then reuse the same allocated
+>> memory. As we'll allocate this memory only once, this memory will stay
+>> allocated.
+> 
+> As others said, no, don't consume memory for no good reason, that just
+> means that other devices will fail more frequently.  If all
+> devices/drivers did this, you wouldn't have memory to work either.
+Makes sense.
 
-Best regards,
--- 
-Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> 
+> thanks,
+> 
+> greg k-h
 
