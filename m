@@ -1,50 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAD2EEA8;
-	Sat, 19 Jul 2025 03:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980D72E36ED
+	for <mhi@lists.linux.dev>; Sat, 19 Jul 2025 03:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752895489; cv=none; b=DLlmqEVGZ6jN0FuO4pL3CGnVwh1pMTuKaKkf7oPd8EddYNt6Q/XAyBVp9ymIahuauQblqZ4RsXOumgZxXZMxee0KQceI3ZDpLEww2qQQXjxucmcU9pmfbcvI1rCI4Lx2KNUgUS6HpfG/c1Q6capIK8Y6IG7S184KDWklNC+qheY=
+	t=1752896466; cv=none; b=s6KWsEv2OGIfIre00lsuvNoH4z/iBaQzOh3hI737g8BjLn1FHGGDBbWiPzjkfEA6TSsZWhcTVgbd8WkQsJhoGxoiaLxlxFUB1E17AeGjOEIXTi1bfIz1HuknUKayOE6Y+zKMthydKSf7KJhX20Rj/lXZ9hsph9rcxiJip6ncyAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752895489; c=relaxed/simple;
-	bh=XEASl2DavDoT9hNzoWLmpWGP6OxRxWr3zHYeH6vOsgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ID0RmFa/tOLXuJPj9xkgZGeyMLR8tV+2F7XPX/gbnb7haed/Z+7RMwePSygfoeguRspwvWldmRuFBaRSpv9TkvehlNjY0QiWLcMNqhium0fxg/tZoA+43Ob86qv8Khql8BqftjgIZ4ZDIzxSnVjEWhjVbbNEmEci2HGfFTZ7ELQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u6ZIsGkr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752896466; c=relaxed/simple;
+	bh=0x3cS2ilpPOxk9ECMvQU9pB8YzwJKN8v04sfV3kPdV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P/RGelLz5gmw25OXMhdNFWOhz5QG0VzcntEgYrpQwQXizzqOuDSE93fUN9qO+P/wdiK2YfXg0YkygyJ76wPYN9kYHPlyFqjknAZKkVy6byzvvDxqKooRNEd+zJvLCRmF+yqeMGfwxNlBng5noznF0lbFxKMyzYoLM9mFjJg/npA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IvSRr8m/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u6ZIsGkr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C80C4CEEB;
-	Sat, 19 Jul 2025 03:24:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IvSRr8m/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89F4C4CEE3;
+	Sat, 19 Jul 2025 03:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752895488;
-	bh=XEASl2DavDoT9hNzoWLmpWGP6OxRxWr3zHYeH6vOsgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u6ZIsGkrXKkcYkOZjst0jboOvYy8GYi1dDxIImUnOqZSAPd3tOKvpKieaGRhjhk1Y
-	 1saGJ/cmKKBPfxeUvMwrKrRCaFvFJcIgg8Mfia6TZpmloYfbez6xQwfdg+dxQAXJs5
-	 WoiOw8cbJUPAL1qbgTucPlp6VWGNetFEQ97ZVHGn7lLWETNkicnr+8+CiltnDq0CeO
-	 /sTRDFmIo1HJOps9HLo83uB+7Z2IRlIAFsXy8pKOqjikoJSqsGHE2opNBuoGHiX8sl
-	 jW+uFsTHNBLNTdKRLTkNVojJdoHTO8Tb2zIPFhAIuOZBTixAfT/D9N6Eq4E9QLQZwO
-	 gNLgeuUNsrM9A==
-Date: Sat, 19 Jul 2025 08:54:35 +0530
+	s=k20201202; t=1752896466;
+	bh=0x3cS2ilpPOxk9ECMvQU9pB8YzwJKN8v04sfV3kPdV0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=IvSRr8m/GtlaNxgM2WAS0/vpWuOHj0u2dkMfZWnizVHLJRwuFcoawTET0BdcqT5Sl
+	 rIuiidZ/DSnSYvb2syuBA7V7yxQeIbIpmeSgiejKgyvjYwpDI1iXwdlMurV8mri01z
+	 EVCnpKci1T0fFR6XZJWQJGH7dimhocKhhuktVbbMijggogtLk5lc2pe37d+ABLhzNj
+	 AIwE858DavjEzc2g3/39FUUDu/OpkOskGVwKRjRpfQVvR2mIrPe6Yp2DTYa1bWR1i3
+	 rBY1JXGaH4VCOrIgMrJr5YOK01mGvGIplLjTIJmyX18yU7zFUESK3zjjaQCW7FR5LI
+	 QiVnTgI7FIW6g==
+Date: Sat, 19 Jul 2025 09:11:00 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeff Johnson <jjohnson@kernel.org>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Youssef Samir <quic_yabdulra@quicinc.com>, 
-	Matthew Leung <quic_mattleun@quicinc.com>, Carl Vanderlip <quic_carlv@quicinc.com>, 
-	Yan Zhen <yanzhen@vivo.com>, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, 
-	Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kunwu Chan <chentao@kylinos.cn>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
-	Troy Hanson <quic_thanson@quicinc.com>, Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com, sebastian.reichel@collabora.com, 
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>, Baochen Qiang <quic_bqiang@quicinc.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org
-Subject: Re: [PATCH v6] bus: mhi: host: don't free bhie tables during
- suspend/hibernation
-Message-ID: <yywgwnk3aky2qqyxnyiisqxdi5a545tijtigm3al3yyzxrjnst@ged5v7i24nsc>
-References: <20250516184952.878726-1-usama.anjum@collabora.com>
- <175014516328.16478.17449149106590025798.b4-ty@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev
+Subject: [GIT PULL] MHI changes for v6.17
+Message-ID: <cwupgp4ao3j6ahhg3xvmok3tez3xvhopqgqkma655ut6hkujdq@3q5xvmrwpist>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -54,37 +41,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <175014516328.16478.17449149106590025798.b4-ty@kernel.org>
 
-On Tue, Jun 17, 2025 at 12:58:51PM GMT, Manivannan Sadhasivam wrote:
-> 
-> On Fri, 16 May 2025 23:49:31 +0500, Muhammad Usama Anjum wrote:
-> > Fix dma_direct_alloc() failure at resume time during bhie_table
-> > allocation because of memory pressure. There is a report where at
-> > resume time, the memory from the dma doesn't get allocated and MHI
-> > fails to re-initialize.
-> > 
-> > To fix it, don't free the memory at power down during suspend /
-> > hibernation. Instead, use the same allocated memory again after every
-> > resume / hibernation. This patch has been tested with resume and
-> > hibernation both.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [1/1] bus: mhi: host: don't free bhie tables during suspend/hibernation
->       commit: df75d6d7ce922645e674f5d591c7333f11027cdc
-> 
+The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
 
-Dropped this patch from mhi-next as Greg is opposed to drivers keeping memory
-during suspend [1].
+  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
 
-Please resubmit once the consensus is reached.
+are available in the Git repository at:
 
-- Mani
+  https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.17
 
-[1] https://lore.kernel.org/mhi/2025071722-panther-legwarmer-d2be@gregkh/
+for you to fetch changes up to 00559ba3ae740e7544b48fb509b2b97f56615892:
 
+  bus: mhi: host: pci_generic: Add Telit FN990B40 modem support (2025-07-19 08:55:02 +0530)
+
+----------------------------------------------------------------
+MHI Host
+========
+
+- Make local functions static (as they should be).
+
+- Fix the modem name for Foxconn T99W640 modem.
+
+- Disable runtime PM for Qcom QDU100 modem as it doesn't support M3 state.
+
+- Fix endianness of BHI vector table to allow MHI to work correctly on big
+  endian platforms like PowerPC.
+
+- Add modem support for Semtech EM929x, Foxconn T99W696 and Telit FN990B40
+  modems.
+
+- Fix the OOB access to Transfer Ring Element (TRE) by hardening the checks in
+  parse_xfer_event().
+
+----------------------------------------------------------------
+Adam Xue (1):
+      bus: mhi: host: pci_generic: Add support for EM929x and set MRU to 32768 for better performance.
+
+Alexander Wilhelm (1):
+      bus: mhi: host: Fix endianness of BHI vector table
+
+Daniele Palmas (1):
+      bus: mhi: host: pci_generic: Add Telit FN990B40 modem support
+
+Manivannan Sadhasivam (1):
+      bus: mhi: host: Make local functions static
+
+Slark Xiao (2):
+      bus: mhi: host: pci_generic: Fix the modem name of Foxconn T99W640
+      bus: mhi: host: pci_generic: Add Foxconn T99W696 modem
+
+Vivek Pernamitta (1):
+      bus: mhi: host: pci_generic: Disable runtime PM for QDU100
+
+Youssef Samir (1):
+      bus: mhi: host: Detect events pointing to unexpected TREs
+
+Yumeng Fang (1):
+      bus: mhi: host: Use str_true_false() helper
+
+ drivers/bus/mhi/host/boot.c        |  8 ++++----
+ drivers/bus/mhi/host/debugfs.c     |  3 ++-
+ drivers/bus/mhi/host/init.c        |  8 ++++----
+ drivers/bus/mhi/host/internal.h    | 11 ++---------
+ drivers/bus/mhi/host/main.c        | 14 ++++++++++++--
+ drivers/bus/mhi/host/pci_generic.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ 6 files changed, 102 insertions(+), 26 deletions(-)
 -- 
 மணிவண்ணன் சதாசிவம்
