@@ -1,202 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5285E555
-	for <mhi@lists.linux.dev>; Mon, 21 Jul 2025 07:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416C02D8766
+	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753083936; cv=none; b=HTUy8BcB71NFlEf38yOokRmt0uxWu9oxTv0KMB4brwi1xNvuqEeYzO4h576a39o7rLi+z0BIaho+xYM/QLT4cbM/yivLXQ9pYZf3e80QdBj4AwSig623EZcJX/6+YAXXx9LhJ9VMir3wxqWG4WknqweCr35102FeMs2I0DvlA0s=
+	t=1753182242; cv=none; b=nbn3eEo/hM6PjKYaOAWcLdzHPkwq/X+RXY+XwaVKTWoNDpZBg+eL2KWTjZJ4/IHiaEKISvZ1AV8svfo9vtIgC/EBo6IQKxEGtb60dCRtjfOFOYznSDw3G5nSxIz5+JciXJSTrCXJ1ZwVlEuPEa6Va7kLTw5lXlw528nn7GQLnb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753083936; c=relaxed/simple;
-	bh=eLZHN5egYUenvNg0cJ5c8JuotvCBO/2MOsRyXczAFeM=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=YM7hudmfQMXhyXLhqaM9BlCFUuBmHUdmp6jf41mFr1sdnWI5UpL2Fv6PYUmizzGzTyXF5rIzkTQQfJ+FAM7glJn/8txIbdA6ryxK1o9nEb66jbQfKkZQdFzzxd5vyzlx7YbMaBQLn5RXXPxus6y/0PDs+nVFjILg3s00lPfL2c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fjycfej7; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1753182242; c=relaxed/simple;
+	bh=kWCUG31bkJ6dZkQu4ecUTQJmDb9akcJNyNVIFUvX4So=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CwSeSp/syAxabQb4fMUj2fXXaVWaft/ZEd9UQKJ6x1wXp1nWaIAchdTveoED7a2U0HPpK+8pNSvGaOlSKsXNRugXGhuaCeVVsPwtYkMyvdjUcNp013Ynw4s28s1AVn4or0cnvVJBYQPzHmq20ltblqraugzKXqWp9+TUA3ith98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gTRM5A+Z; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fjycfej7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753083935; x=1784619935;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=eLZHN5egYUenvNg0cJ5c8JuotvCBO/2MOsRyXczAFeM=;
-  b=Fjycfej7JalCunZViLqMqpxGkIXPcSu87S0YrGmThOoIuzWbZZiW8wCn
-   SAOLi2Sk9o3lsVCfxJFRQnA0vMB2WnliHr1R7fOMO4R3QeT/4HLlwrFCM
-   R7fGawXVJRlCbWm+hJapjlzzQEce/wqBS5lWFbp5adpHHE5d9wxdbpDT+
-   9D/ybKYeKDtxseQzbKmSMUWwgK+W1AisQRFiXXT9FQ19Q3iHAjquYn3OB
-   A2kbLRxhur1gA7T3q7J+6E3/O5QCuqZkNZJg5iQsx7x4eiQRbraL/l2OF
-   /8tqnywLwz5oeS8yCxEMNrY0CpFz+wLwNPY6zCpvqahZkKCRiCSXzcBGe
-   A==;
-X-CSE-ConnectionGUID: EMSfxxnoTqi4S+xOqaniCA==
-X-CSE-MsgGUID: ozUNDuL4QGOpGObePjnCZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="54392860"
-X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
-   d="scan'208";a="54392860"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 00:45:34 -0700
-X-CSE-ConnectionGUID: UziwiWreSA6l/pK30EZxeQ==
-X-CSE-MsgGUID: 5Ocwu8UCTz6aRdvWjYPCmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
-   d="scan'208";a="159107555"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 00:45:25 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 21 Jul 2025 10:45:21 +0300 (EEST)
-To: Manivannan Sadhasivam <mani@kernel.org>
-cc: Bjorn Helgaas <helgaas@kernel.org>, 
-    Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
-    Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>, 
-    Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, 
-    linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
-    linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-    qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, 
-    quic_vpernami@quicinc.com, quic_mrana@quicinc.com, 
-    Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v4 06/11] PCI/ASPM: Clear aspm_disable as part of
- __pci_enable_link_state()
-In-Reply-To: <gwpn5no4i2wwwk3qo4tcgp6z6floo6k2ymzfuucg3tbwtmccte@ydsupmrd2nqu>
-Message-ID: <85c2894c-ca05-6238-aeb6-a1e81897132a@linux.intel.com>
-References: <604ffae3-1bfc-0922-b001-f3338880eb21@linux.intel.com> <20250711230013.GA2309106@bhelgaas> <qay63njqf7z7mchizt5sm66i67rvxxxicikxmfuvllmmxfy7ek@mulnjvde5q7w> <9543b1eb-5bd2-bea1-742f-60cbc28bb365@linux.intel.com>
- <gwpn5no4i2wwwk3qo4tcgp6z6floo6k2ymzfuucg3tbwtmccte@ydsupmrd2nqu>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gTRM5A+Z"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M95VqQ012558
+	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:04:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jCcIy69ciDOUcVdtD2bZCMzRk/SyBUFRLG70HN1E2+Q=; b=gTRM5A+ZXBV1LYZH
+	oVBmEosxHP33U+7/2sCjFSscWe4nGK/f+gXjn5xNeKKUV1yqF6yNb7EFMn0i8LRR
+	16mhIwk9iplEJHanlgtA783cn44423NPSDypNTK0L/GbZUsgmTL96QEYBUm2ko7+
+	CCrwFohoQJjQPt91kyCR0aCn/iyGBgFhB9XNH2kIRlEqGPsCnkJC7LxqSY4jPrOK
+	iKo5zANUOwW6Vw3jcKypisxjmS7VHgiZciDZS5sxKjBkPOG7Frg4d/zFg28Spfp2
+	khieEqYk/0ri3+2XImGWUKMe1zVosO5/wq3L5wzBpx7TPhMmX8RXHM7QrMGYc6kr
+	cbL36g==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6kf99-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:03:59 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-75494e5417bso5051855b3a.0
+        for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 04:03:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753182238; x=1753787038;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCcIy69ciDOUcVdtD2bZCMzRk/SyBUFRLG70HN1E2+Q=;
+        b=U9Vqyy0vLEWZrN+wq36STc17IMaZB+HLgnFA2CmJqw+iy/YBUMqM3Q0wXKk/Z/iWa3
+         dbTelTdaHrIvMIsSjrrhfyk/+QjJiu1iR0Ma4Z6riGpwWZ0Yypp4cC5Rouh/Yf3Y32QY
+         MiE7Ane6XWl2XNqBPScJperBrIMjA+y3Q4AVAztYT3bkfLecYFOvFPD7bO8hl5Jzl1pG
+         eggya32I4h0RyEP67q7Io+TWKxJOnDtZc8EWXCf7st4BiFVe5mU/0Ua2KleEphRU5j18
+         5tGV7c0HImPbtYaqJUTTp493H9BzGldrbD9z4YmgwpOGanODjhzJA1EEbN7qGpQb+/tf
+         MSmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQONvCLNDZ+KDuwOzqLZfaoszoyZuzyOyRL4G4dDlZWQZYfv4Ir6Iu2hYlS7odoehlsLI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8ofrlA5jH92IwCVhDE5aQmE/SpATLAYe6yyIHUBhGVkAfkyMe
+	7GA0LjQ2t85FB1sO7gTEt9B9juxh2GoQPO5JRa+LhtqbMCP8h2esNZUMrvmgRR39GfMBGkeZCF1
+	35OgHIJOwvvSOWPEhEn5ety3PqaILVGaqCCgmJbq05hCoH2fueqBVg10=
+X-Gm-Gg: ASbGncsmMnQzcIuPPGMr2enRBdFX28x1QBuFpKifQ8MEGyQ8aAJ9cqVvNMYwx5FVddp
+	LieCRrXFGYYxBI8YV7uNJDFlHzF+tRYgsSn3WxThPTu7q3pP/lY/P+O4Ez5onEbSQAFWP1xxG5v
+	fQW9GMmbxg9G6yEJ988D5aabODp2r5HqNHbrfXwyT5PP4h+c2dtdEFdOIZ+r/8/pZHge9bMuUHk
+	8HRVc+QDEvUz7TSOeHeQovZW59/L15KjmXMEEZH9VMHxWL1wwBI2Fu7Y54AUMKKF9qKsss06xd4
+	o8rOH32tXpjkgX59Mj1zKV9biwhB0oZmBoiuf/iWmefh5LoA5lrF+QGox5NP0I/70rQOa4iVrg=
+	=
+X-Received: by 2002:a05:6a00:1817:b0:736:5969:2b6f with SMTP id d2e1a72fcca58-75ed156d03bmr3761912b3a.6.1753182238343;
+        Tue, 22 Jul 2025 04:03:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHgZIDkCUV2AXz/9PK4/a4NCij1DJxFB71Da611o7fAf8jI0CKXgwVrcrLnlMSH3ym9h+L+Lw==
+X-Received: by 2002:a05:6a00:1817:b0:736:5969:2b6f with SMTP id d2e1a72fcca58-75ed156d03bmr3761869b3a.6.1753182237848;
+        Tue, 22 Jul 2025 04:03:57 -0700 (PDT)
+Received: from [10.218.37.122] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbd67ed2sm7293938b3a.135.2025.07.22.04.03.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Jul 2025 04:03:57 -0700 (PDT)
+Message-ID: <d4078b6c-1921-4195-9022-755845cdb432@oss.qualcomm.com>
+Date: Tue, 22 Jul 2025 16:33:50 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1487026172-1753083921=:945"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/11] PCI/bwctrl: Add support to scale bandwidth
+ before & after link re-training
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Lorenzo Pieralisi
+ <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+References: <20250711213602.GA2307197@bhelgaas>
+ <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=687f701f cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=UU_a8xXafIRJjp1WqNEA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: 3NG7grcTBQDP_YzxUyaOFVWQPD9YphrY
+X-Proofpoint-GUID: 3NG7grcTBQDP_YzxUyaOFVWQPD9YphrY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA5MCBTYWx0ZWRfX7+TNlr5QVhFI
+ NoLqHIY22xJjeh671O38P06HZTGgxWzAhNBZjd3W1OgXVD1c8/aCHdQp7OK2zjIoFNsPHc3onTR
+ /9foJC4+3dDVmVf/FBedgrwXG+/SQ6Qv8AOjZ6ZcEnSJEDiMeXrwJk56Kt3+i/E6HgxRHdjKJMg
+ DKN+nFs8eDdl+qGi+0da5yN05RMj+Hng8cxfnyLB3MF84JGHx7GnJEsHVx4XkzN48BkK/lJ0W7A
+ bgtc3qFF3nt1pleUWLM5hvjzOx3X7wFlf5kTHEkIZjseASbdh8IwtxcqMgzmsEs7XuaiUYaIkY1
+ 5cDyXfylzN18eECHpfCW0YI7yM8frfAb164avYydVcTRWjM11v71Au2onIJCWL08gG9/0i78LrC
+ vD68V+ttPY+mGeBWguZYMiMsyyOIrgzTCSaS5yTBtpDA15tlcwQCLK82UYZLmvachaCS3+me
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 impostorscore=0
+ clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507220090
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-1487026172-1753083921=:945
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Mon, 14 Jul 2025, Manivannan Sadhasivam wrote:
-> On Sun, Jul 13, 2025 at 07:27:57PM GMT, Ilpo J=C3=A4rvinen wrote:
-> > On Sat, 12 Jul 2025, Manivannan Sadhasivam wrote:
-> > > On Fri, Jul 11, 2025 at 06:00:13PM GMT, Bjorn Helgaas wrote:
-> > > > On Fri, Jul 11, 2025 at 04:38:48PM +0300, Ilpo J=C3=A4rvinen wrote:
-> > > >=20
-> > > > > +++ b/include/linux/pci.h
-> > > > > @@ -1826,8 +1826,8 @@ static inline int pcie_set_target_speed(str=
-uct pci_dev *port,
-> > > > >  #ifdef CONFIG_PCIEASPM
-> > > > >  int pci_disable_link_state(struct pci_dev *pdev, int state);
-> > > > >  int pci_disable_link_state_locked(struct pci_dev *pdev, int stat=
-e);
-> > > > > -int pci_enable_link_state(struct pci_dev *pdev, int state);
-> > > >=20
-> > > > AFAICT there's no caller of this at all.  Why do we keep it?
-> > > >=20
-> > >=20
-> > > I'm just working on a series to convert the ath{10/11/12}k drivers to=
- use this
-> > > API instead of modifying LNKCTL register directly:
-> > >=20
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/net/wireless/ath/ath12k/pci.c#n961
-> >=20
-> > Great. I assume but "this API" you meant disable/enable link state that=
-=20
-> > are real pair unlike the current pci_enable_link_state()?
-> >=20
->=20
-> Yes. I actually based my series on top of this series, but I guess I shou=
-ld just
-> merge the API change patch to my series as it is relatively small compare=
-d to
-> this one (so it will get merged quicker).
->=20
-> > Did ath1xk need to do some hw specific register updates when changing A=
-SPM=20
-> > state?
-> >=20
->=20
-> Fortunately, no.
->=20
-> > I tried to do similar conversion in r8169 (and actually also ath1xk too=
-)=20
-> > but it was a while ago already. If I understood the code correctly, r81=
-69=20
-> > seems to write some HW specific registers when changing ASPM state so I=
-=20
-> > would have likely need to add some ops for it to play nice with state=
-=20
-> > changes not originating from the driver itself but from the ASPM driver=
-,=20
-> > which is where the work then stalled.
-> >=20
->=20
-> ath driver changes are straightforward, but I need to add an inline funct=
-ion to
-> convert lnkctl setting to aspm states:
->=20
-> static inline int ath_pci_aspm_state(u16 lnkctl)
-> {
-> =09int state =3D 0;
->=20
-> =09if (lnkctl & PCI_EXP_LNKCTL_ASPM_L0S)
-> =09=09state |=3D PCIE_LINK_STATE_L0S;
-> =09if (lnkctl & PCI_EXP_LNKCTL_ASPM_L1)
-> =09=09state |=3D PCIE_LINK_STATE_L1;
->=20
-> =09return state;
-> }
->=20
-> Currently, it is in ath/ath.h, but if you feel that we should move it to
-> include/linux/pci.h, let me know!
->=20
-> > > > > -int pci_enable_link_state_locked(struct pci_dev *pdev, int state=
-);
-> > > >=20
-> > > > We only have two callers of this (pcie-qcom.c and vmd.c, both in
-> > > > drivers/pci/), so it's not clear to me that it needs to be in
-> > > > include/linux/pci.h.
-> > > >=20
-> > > > I'm a little dubious about it in the first place since I don't thin=
-k
-> > > > drivers should be enabling ASPM states on their own, but pcie-qcom.=
-c
-> > > > and vmd.c are PCIe controller drivers, not PCI device drivers, so I
-> > > > guess we can live with them for now.
-> > > >=20
-> > > > IMO the "someday" goal should be that we get rid of aspm_policy and
-> > > > enable all the available power saving states by default.  We have
-> > > > sysfs knobs that administrators can use if necessary, and drivers o=
-r
-> > > > quirks can disable states if they need to work around hardware
-> > > > defects.
-> > >=20
-> > > Yeah, I think the default should be powersave and let the users disab=
-le it for
-> > > performance if they want.
-> >=20
-> > I'm certainly not against improvements in this front, but I think we ne=
-ed=20
-> > to get rid off custom ASPM disable code from the drivers first.
-> >=20
->=20
-> It would be difficult IMO as drivers have their own usecases. For instanc=
-e, the
-> ath drivers need to disable ASPM states to avoid issues during firmware
-> download. Then they need to enable ASPM back once the firmware is up and
-> running.
+On 7/12/2025 4:36 AM, Krishna Chaitanya Chundru wrote:
+> 
+> 
+> On 7/12/2025 3:06 AM, Bjorn Helgaas wrote:
+>> On Mon, Jun 09, 2025 at 04:21:23PM +0530, Krishna Chaitanya Chundru 
+>> wrote:
+>>> If the driver wants to move to higher data rate/speed than the 
+>>> current data
+>>> rate then the controller driver may need to change certain votes so that
+>>> link may come up at requested data rate/speed like QCOM PCIe controllers
+>>> need to change their RPMh (Resource Power Manager-hardened) state. Once
+>>> link retraining is done controller drivers needs to adjust their votes
+>>> based on the final data rate.
+>>>
+>>> Some controllers also may need to update their bandwidth voting like
+>>> ICC BW votings etc.
+>>>
+>>> So, add pre_link_speed_change() & post_link_speed_change() op to call
+>>> before & after the link re-train. There is no explicit locking 
+>>> mechanisms
+>>> as these are called by a single client Endpoint driver.
+>>>
+>>> In case of PCIe switch, if there is a request to change target speed 
+>>> for a
+>>> downstream port then no need to call these function ops as these are
+>>> outside the scope of the controller drivers.
+>>
+>>> +++ b/include/linux/pci.h
+>>> @@ -599,6 +599,24 @@ struct pci_host_bridge {
+>>>       void (*release_fn)(struct pci_host_bridge *);
+>>>       int (*enable_device)(struct pci_host_bridge *bridge, struct 
+>>> pci_dev *dev);
+>>>       void (*disable_device)(struct pci_host_bridge *bridge, struct 
+>>> pci_dev *dev);
+>>> +    /*
+>>> +     * Callback to the host bridge drivers to update ICC BW votes, 
+>>> clock
+>>> +     * frequencies etc.. for the link re-train to come up in 
+>>> targeted speed.
+>>> +     * These are intended to be called by devices directly attached 
+>>> to the
+>>> +     * Root Port. These are called by a single client Endpoint 
+>>> driver, so
+>>> +     * there is no need for explicit locking mechanisms.
+>>> +     */
+>>> +    int (*pre_link_speed_change)(struct pci_host_bridge *bridge,
+>>> +                     struct pci_dev *dev, int speed);
+>>> +    /*
+>>> +     * Callback to the host bridge drivers to adjust ICC BW votes, 
+>>> clock
+>>> +     * frequencies etc.. to the updated speed after link re-train. 
+>>> These
+>>> +     * are intended to be called by devices directly attached to the
+>>> +     * Root Port. These are called by a single client Endpoint driver,
+>>> +     * so there is no need for explicit locking mechanisms.
+>>
+>> No need to repeat the entire comment.  s/.././
+>>
+>> These pointers feel awfully specific for being in struct
+>> pci_host_bridge, since we only need them for a questionable QCOM
+>> controller.  I think this needs to be pushed down into qcom somehow as
+>> some kind of quirk.
+>>
+> Currently these are needed by QCOM controllers, but it may also needed
+> by other controllers may also need these for updating ICC votes, any
+> system level votes, clock frequencies etc.
+> QCOM controllers is also doing one extra step in these functions to
+> disable and enable ASPM only as it cannot link speed change support
+> with ASPM enabled.
+> 
+Bjorn, can you check this.
 
-I understand and I didn't meant that we should disallow drivers from=20
-touching ASPM state. I just meant we should convert the drivers to=20
-do such state changes using the ASPM driver (through disable/enable API)=20
-rather than what they currently do with LNKCTL directly behind the ASPM=20
-driver's back.
+For QCOM devices we need to update the RPMh vote i.e a power source
+votes for the link to come up in required speed. and also we need
+to update interconnect votes also. This will be applicable for
+other vendors also.
 
---=20
- i.
-
---8323328-1487026172-1753083921=:945--
+If this is not correct place I can add them in the pci_ops.
+- Krishna Chaitanya.
+> - Krishna Chaitanya.
+>>> +     */
+>>> +    void (*post_link_speed_change)(struct pci_host_bridge *bridge,
+>>> +                       struct pci_dev *dev, int speed);
