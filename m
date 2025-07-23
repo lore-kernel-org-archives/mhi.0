@@ -1,73 +1,48 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416C02D8766
-	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE74B28EA5A;
+	Wed, 23 Jul 2025 12:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753182242; cv=none; b=nbn3eEo/hM6PjKYaOAWcLdzHPkwq/X+RXY+XwaVKTWoNDpZBg+eL2KWTjZJ4/IHiaEKISvZ1AV8svfo9vtIgC/EBo6IQKxEGtb60dCRtjfOFOYznSDw3G5nSxIz5+JciXJSTrCXJ1ZwVlEuPEa6Va7kLTw5lXlw528nn7GQLnb8=
+	t=1753272691; cv=none; b=epMLlbUhonwlmcawagJQXdll5KzTPZe8JDKuJ/RarhHXsf8TYgU0U29KVqr1js4umLIHkxXNb1xg7YjHYghuTa6cQpD/MAn1kGJmPbY2FZee1wsxulOYLAwoBt8unUgb0gWwC5s7AF+YSuZiXYUPGDPvd7wEicylxeP9VzwOuDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753182242; c=relaxed/simple;
-	bh=kWCUG31bkJ6dZkQu4ecUTQJmDb9akcJNyNVIFUvX4So=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=CwSeSp/syAxabQb4fMUj2fXXaVWaft/ZEd9UQKJ6x1wXp1nWaIAchdTveoED7a2U0HPpK+8pNSvGaOlSKsXNRugXGhuaCeVVsPwtYkMyvdjUcNp013Ynw4s28s1AVn4or0cnvVJBYQPzHmq20ltblqraugzKXqWp9+TUA3ith98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gTRM5A+Z; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1753272691; c=relaxed/simple;
+	bh=BVQkkx4ks1jCz7SnnAYL8Ss31m2IY6B7ZDDOVJBjsCA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DC3LHDMjQP4W4NdaVkoFsAmSUhHl9zD3C9P4cmq/bX6GdF1qVWSL6NvOggW/eOfn9ghcVYKYOro44BbWgQGzeONulPOjt/J4dT8TlU/PzF15cIvwvS1XjBovBkNv2wTdunAH8xR4XjX4lB2egOXBd3HgyvWIuATSRH/p95hta2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=d3EGE1qc; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gTRM5A+Z"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M95VqQ012558
-	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:04:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="d3EGE1qc"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56N9F4JA010846;
+	Wed, 23 Jul 2025 12:11:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jCcIy69ciDOUcVdtD2bZCMzRk/SyBUFRLG70HN1E2+Q=; b=gTRM5A+ZXBV1LYZH
-	oVBmEosxHP33U+7/2sCjFSscWe4nGK/f+gXjn5xNeKKUV1yqF6yNb7EFMn0i8LRR
-	16mhIwk9iplEJHanlgtA783cn44423NPSDypNTK0L/GbZUsgmTL96QEYBUm2ko7+
-	CCrwFohoQJjQPt91kyCR0aCn/iyGBgFhB9XNH2kIRlEqGPsCnkJC7LxqSY4jPrOK
-	iKo5zANUOwW6Vw3jcKypisxjmS7VHgiZciDZS5sxKjBkPOG7Frg4d/zFg28Spfp2
-	khieEqYk/0ri3+2XImGWUKMe1zVosO5/wq3L5wzBpx7TPhMmX8RXHM7QrMGYc6kr
-	cbL36g==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6kf99-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 11:03:59 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-75494e5417bso5051855b3a.0
-        for <mhi@lists.linux.dev>; Tue, 22 Jul 2025 04:03:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753182238; x=1753787038;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jCcIy69ciDOUcVdtD2bZCMzRk/SyBUFRLG70HN1E2+Q=;
-        b=U9Vqyy0vLEWZrN+wq36STc17IMaZB+HLgnFA2CmJqw+iy/YBUMqM3Q0wXKk/Z/iWa3
-         dbTelTdaHrIvMIsSjrrhfyk/+QjJiu1iR0Ma4Z6riGpwWZ0Yypp4cC5Rouh/Yf3Y32QY
-         MiE7Ane6XWl2XNqBPScJperBrIMjA+y3Q4AVAztYT3bkfLecYFOvFPD7bO8hl5Jzl1pG
-         eggya32I4h0RyEP67q7Io+TWKxJOnDtZc8EWXCf7st4BiFVe5mU/0Ua2KleEphRU5j18
-         5tGV7c0HImPbtYaqJUTTp493H9BzGldrbD9z4YmgwpOGanODjhzJA1EEbN7qGpQb+/tf
-         MSmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQONvCLNDZ+KDuwOzqLZfaoszoyZuzyOyRL4G4dDlZWQZYfv4Ir6Iu2hYlS7odoehlsLI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8ofrlA5jH92IwCVhDE5aQmE/SpATLAYe6yyIHUBhGVkAfkyMe
-	7GA0LjQ2t85FB1sO7gTEt9B9juxh2GoQPO5JRa+LhtqbMCP8h2esNZUMrvmgRR39GfMBGkeZCF1
-	35OgHIJOwvvSOWPEhEn5ety3PqaILVGaqCCgmJbq05hCoH2fueqBVg10=
-X-Gm-Gg: ASbGncsmMnQzcIuPPGMr2enRBdFX28x1QBuFpKifQ8MEGyQ8aAJ9cqVvNMYwx5FVddp
-	LieCRrXFGYYxBI8YV7uNJDFlHzF+tRYgsSn3WxThPTu7q3pP/lY/P+O4Ez5onEbSQAFWP1xxG5v
-	fQW9GMmbxg9G6yEJ988D5aabODp2r5HqNHbrfXwyT5PP4h+c2dtdEFdOIZ+r/8/pZHge9bMuUHk
-	8HRVc+QDEvUz7TSOeHeQovZW59/L15KjmXMEEZH9VMHxWL1wwBI2Fu7Y54AUMKKF9qKsss06xd4
-	o8rOH32tXpjkgX59Mj1zKV9biwhB0oZmBoiuf/iWmefh5LoA5lrF+QGox5NP0I/70rQOa4iVrg=
-	=
-X-Received: by 2002:a05:6a00:1817:b0:736:5969:2b6f with SMTP id d2e1a72fcca58-75ed156d03bmr3761912b3a.6.1753182238343;
-        Tue, 22 Jul 2025 04:03:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgZIDkCUV2AXz/9PK4/a4NCij1DJxFB71Da611o7fAf8jI0CKXgwVrcrLnlMSH3ym9h+L+Lw==
-X-Received: by 2002:a05:6a00:1817:b0:736:5969:2b6f with SMTP id d2e1a72fcca58-75ed156d03bmr3761869b3a.6.1753182237848;
-        Tue, 22 Jul 2025 04:03:57 -0700 (PDT)
-Received: from [10.218.37.122] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbd67ed2sm7293938b3a.135.2025.07.22.04.03.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 04:03:57 -0700 (PDT)
-Message-ID: <d4078b6c-1921-4195-9022-755845cdb432@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 16:33:50 +0530
+	cqYFYAC+mWsNWpnVtRJZAS2RKfDItLqPBiJ8RjaetMg=; b=d3EGE1qcToRKKSQn
+	UuGHwvmlRkSQR11z5geEYtXN710cY95A3zB4eezwtLCWcaJrQ+UOkpoTIbnRPSIa
+	QCStng8lYZE9IoleHJuTGSn7dKLKi2QuEc7eRTX+WmVMAsV2nINkYSXSPZPWJw14
+	7KhaYiJi3Em4RP8afmdkZAu8Jkxf95MvzJ+58i3PWf5kTAkbBA9pczWmLmtgWnsF
+	uXwKldBBQtJIn3vydXWkKcsxzlCFhvMqZKgzeQGA+YAkDGJfEldRzGQY0+Q/PoEr
+	Mx8iYLCxD3BmYGamiMxr9JJuZmYnVE+skdibCr5i16H1bcOwEwo87MkosQ6T4WQj
+	twEt1w==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4804na3fru-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Jul 2025 12:11:27 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56NCBQXR011268
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Jul 2025 12:11:26 GMT
+Received: from [10.218.37.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 23 Jul
+ 2025 05:11:24 -0700
+Message-ID: <43424518-e73c-4136-bb0c-d4cb30062d7b@quicinc.com>
+Date: Wed, 23 Jul 2025 17:41:00 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -75,136 +50,169 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/11] PCI/bwctrl: Add support to scale bandwidth
- before & after link re-training
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Lorenzo Pieralisi
- <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
-        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
-        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-References: <20250711213602.GA2307197@bhelgaas>
- <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
+Subject: Re: [PATCH v2 3/5] bus: mhi: host: pci_generic: Remove MHI driver and
+ ensure graceful device recovery
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        <Vivek.Pernamitta@quicinc.com>,
+        Manivannan Sadhasivam <mani@kernel.org>
+CC: <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250710-sriov_vdev_next-20250630-v2-0-4bd862b822e8@quicinc.com>
+ <20250710-sriov_vdev_next-20250630-v2-3-4bd862b822e8@quicinc.com>
+ <68f18f09-913d-4ef9-bd13-ad32c1d5f8ca@oss.qualcomm.com>
 Content-Language: en-US
-In-Reply-To: <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=687f701f cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=UU_a8xXafIRJjp1WqNEA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-ORIG-GUID: 3NG7grcTBQDP_YzxUyaOFVWQPD9YphrY
-X-Proofpoint-GUID: 3NG7grcTBQDP_YzxUyaOFVWQPD9YphrY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA5MCBTYWx0ZWRfX7+TNlr5QVhFI
- NoLqHIY22xJjeh671O38P06HZTGgxWzAhNBZjd3W1OgXVD1c8/aCHdQp7OK2zjIoFNsPHc3onTR
- /9foJC4+3dDVmVf/FBedgrwXG+/SQ6Qv8AOjZ6ZcEnSJEDiMeXrwJk56Kt3+i/E6HgxRHdjKJMg
- DKN+nFs8eDdl+qGi+0da5yN05RMj+Hng8cxfnyLB3MF84JGHx7GnJEsHVx4XkzN48BkK/lJ0W7A
- bgtc3qFF3nt1pleUWLM5hvjzOx3X7wFlf5kTHEkIZjseASbdh8IwtxcqMgzmsEs7XuaiUYaIkY1
- 5cDyXfylzN18eECHpfCW0YI7yM8frfAb164avYydVcTRWjM11v71Au2onIJCWL08gG9/0i78LrC
- vD68V+ttPY+mGeBWguZYMiMsyyOIrgzTCSaS5yTBtpDA15tlcwQCLK82UYZLmvachaCS3+me
+From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+In-Reply-To: <68f18f09-913d-4ef9-bd13-ad32c1d5f8ca@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: VoWv5eBGznUOkmRGoidG1-Hd4OtOtALh
+X-Proofpoint-ORIG-GUID: VoWv5eBGznUOkmRGoidG1-Hd4OtOtALh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDEwMiBTYWx0ZWRfXzPgNtTHK3uov
+ yMPHyGS7iy1hofKWNDS9P369n0o3mVo/B3HlDr50B9cw9xgS33o1j20trYeYxfxopzvrqOnQg1X
+ nWaeJUnLoUw94ovATOtKXbPBVrfn7cUHNHlNVy9TQe0KR7Oc8gkYclqotUM8mX211kL4L8tdP3U
+ AM6u+Cm9ZlvQ7vRqsyxUq3iklOcfcYMbLVtRIbftz1Tog7pZrYrA/sUf8uG6lCpkn9ma9Q5mP+H
+ VCKh/FnykhpiErsISZxaty/lEDPnaSeyEoWi8S9iiDeM3/oqq9F6JjPBDOtBOI6Ixht4u2v2Cg7
+ R8NMs6rL5TnQs7Zs0MkOVBP8jDtQW21autjFiOTqExtEEWbQH/whu2/AdbK/Oc3UOAfapd0m9mk
+ 4F1VX32usAsnZnIDI/IvvMlK6gInfdMxylyUMch+fPgFfRwUQ/wfZyV/MCbpRDCY05EMSIzT
+X-Authority-Analysis: v=2.4 cv=DoFW+H/+ c=1 sm=1 tr=0 ts=6880d16f cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
+ a=sMkw372tbV0BwNLCCAcA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
+ definitions=2025-07-23_02,2025-07-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 impostorscore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220090
+ suspectscore=0 phishscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
+ bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507230102
 
 
 
-On 7/12/2025 4:36 AM, Krishna Chaitanya Chundru wrote:
+On 7/10/2025 6:12 PM, Konrad Dybcio wrote:
+> On 7/10/25 10:58 AM, Vivek.Pernamitta@quicinc.com wrote:
+>> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+>>
+>> When the MHI driver is removed from the host side, it is crucial to ensure
+>> graceful recovery of the device. To achieve this, the host driver will
+>> perform the following steps:
+>>
+>> 1. Disable SRIOV for any SRIOV-enabled devices on the Physical Function.
+>> 2. Perform a SOC_RESET on Physical Function (PF).
+>>
+>> Disabling SRIOV ensures that all virtual functions are properly shut down,
+>> preventing any potential issues during the reset process. Performing
+>> SOC_RESET on each physical function guarantees that the device is fully
+>> reset and ready for subsequent operations.
+>>
+>> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+>> ---
+>>   drivers/bus/mhi/host/pci_generic.c | 26 +++++++++++++++++++++++++-
+>>   1 file changed, 25 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+>> index 4bafe93b56c54e2b091786e7fcd68a36c8247b8e..2d1381006293412fbc593316e5c7f0f59ac74da8 100644
+>> --- a/drivers/bus/mhi/host/pci_generic.c
+>> +++ b/drivers/bus/mhi/host/pci_generic.c
+>> @@ -45,6 +45,8 @@
+>>    * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+>>    *		   of inband wake support (such as sdx24)
+>>    * @no_m3: M3 not supported
+>> + * @reset_on_driver_unbind: Set true for devices support SOC reset and
+>> + *				 perform it when unbinding driver
+>>    */
+>>   struct mhi_pci_dev_info {
+>>   	const struct mhi_controller_config *config;
+>> @@ -58,6 +60,7 @@ struct mhi_pci_dev_info {
+>>   	unsigned int mru_default;
+>>   	bool sideband_wake;
+>>   	bool no_m3;
+>> +	bool reset_on_driver_unbind;
+>>   };
+>>   
+>>   #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+>> @@ -300,6 +303,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>>   	.dma_data_width = 32,
+>>   	.sideband_wake = false,
+>>   	.no_m3 = true,
+>> +	.reset_on_driver_unbind = true,
 > 
+> It seems rather unlikely that out off all MHI devices, only QDU100
+> needs this quirk when working under SR-IOV
+The reset_on_driver_unbind flag has been explicitly added for the QDU100
+device. While other devices might enter RAMDUMP mode and wait when a SOC
+reset is issued, the QDU100 device will pass through without entering
+RAMDUMP mode
 > 
-> On 7/12/2025 3:06 AM, Bjorn Helgaas wrote:
->> On Mon, Jun 09, 2025 at 04:21:23PM +0530, Krishna Chaitanya Chundru 
->> wrote:
->>> If the driver wants to move to higher data rate/speed than the 
->>> current data
->>> rate then the controller driver may need to change certain votes so that
->>> link may come up at requested data rate/speed like QCOM PCIe controllers
->>> need to change their RPMh (Resource Power Manager-hardened) state. Once
->>> link retraining is done controller drivers needs to adjust their votes
->>> based on the final data rate.
->>>
->>> Some controllers also may need to update their bandwidth voting like
->>> ICC BW votings etc.
->>>
->>> So, add pre_link_speed_change() & post_link_speed_change() op to call
->>> before & after the link re-train. There is no explicit locking 
->>> mechanisms
->>> as these are called by a single client Endpoint driver.
->>>
->>> In case of PCIe switch, if there is a request to change target speed 
->>> for a
->>> downstream port then no need to call these function ops as these are
->>> outside the scope of the controller drivers.
->>
->>> +++ b/include/linux/pci.h
->>> @@ -599,6 +599,24 @@ struct pci_host_bridge {
->>>       void (*release_fn)(struct pci_host_bridge *);
->>>       int (*enable_device)(struct pci_host_bridge *bridge, struct 
->>> pci_dev *dev);
->>>       void (*disable_device)(struct pci_host_bridge *bridge, struct 
->>> pci_dev *dev);
->>> +    /*
->>> +     * Callback to the host bridge drivers to update ICC BW votes, 
->>> clock
->>> +     * frequencies etc.. for the link re-train to come up in 
->>> targeted speed.
->>> +     * These are intended to be called by devices directly attached 
->>> to the
->>> +     * Root Port. These are called by a single client Endpoint 
->>> driver, so
->>> +     * there is no need for explicit locking mechanisms.
->>> +     */
->>> +    int (*pre_link_speed_change)(struct pci_host_bridge *bridge,
->>> +                     struct pci_dev *dev, int speed);
->>> +    /*
->>> +     * Callback to the host bridge drivers to adjust ICC BW votes, 
->>> clock
->>> +     * frequencies etc.. to the updated speed after link re-train. 
->>> These
->>> +     * are intended to be called by devices directly attached to the
->>> +     * Root Port. These are called by a single client Endpoint driver,
->>> +     * so there is no need for explicit locking mechanisms.
->>
->> No need to repeat the entire comment.  s/.././
->>
->> These pointers feel awfully specific for being in struct
->> pci_host_bridge, since we only need them for a questionable QCOM
->> controller.  I think this needs to be pushed down into qcom somehow as
->> some kind of quirk.
->>
-> Currently these are needed by QCOM controllers, but it may also needed
-> by other controllers may also need these for updating ICC votes, any
-> system level votes, clock frequencies etc.
-> QCOM controllers is also doing one extra step in these functions to
-> disable and enable ASPM only as it cannot link speed change support
-> with ASPM enabled.
+>>   };
+>>   
+>>   static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+>> @@ -970,6 +974,7 @@ struct mhi_pci_device {
+>>   	struct work_struct recovery_work;
+>>   	struct timer_list health_check_timer;
+>>   	unsigned long status;
+>> +	bool reset_on_driver_unbind;
+>>   };
+>>   
+>>   static int mhi_pci_read_reg(struct mhi_controller *mhi_cntrl,
+>> @@ -1270,6 +1275,11 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>   	mhi_cntrl->mru = info->mru_default;
+>>   	mhi_cntrl->name = info->name;
+>>   
+>> +	/* Assign reset functionalities only for PF */
+>> +	if (pdev->is_physfn)
+>> +		mhi_pdev->reset_on_driver_unbind = info->reset_on_driver_unbind;
+>> +
+>> +
 > 
-Bjorn, can you check this.
+> Double \n
+sure will correct in next patchset
+> 
+>>   	if (info->edl_trigger)
+>>   		mhi_cntrl->edl_trigger = mhi_pci_generic_edl_trigger;
+>>   
+>> @@ -1336,7 +1346,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>   	return err;
+>>   }
+>>   
+>> -static void mhi_pci_remove(struct pci_dev *pdev)
+>> +static void mhi_pci_resource_deinit(struct pci_dev *pdev)
+>>   {
+>>   	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
+>>   	struct mhi_controller *mhi_cntrl = &mhi_pdev->mhi_cntrl;
+>> @@ -1352,6 +1362,20 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+>>   	/* balancing probe put_noidle */
+>>   	if (pci_pme_capable(pdev, PCI_D3hot))
+>>   		pm_runtime_get_noresume(&pdev->dev);
+>> +}
+>> +
+>> +static void mhi_pci_remove(struct pci_dev *pdev)
+>> +{
+>> +	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
+>> +	struct mhi_controller *mhi_cntrl = &mhi_pdev->mhi_cntrl;
+>> +
+>> +	/* Disable SRIOV */
+>> +	pci_disable_sriov(pdev);
+>> +	mhi_pci_resource_deinit(pdev);
+>> +	if (mhi_pdev->reset_on_driver_unbind) {
+> 
+> Can we not simply check for pdev->is_physfn?
+The reset_on_driver_unbind flag has been explicitly added for the QDU100 
+device. While other devices might enter RAMDUMP mode and wait when a SOC 
+reset is issued, the QDU100 device will pass through without entering 
+RAMDUMP mode.
+> 
+>> +		dev_info(&pdev->dev, "perform SOC reset\n");
+> 
+> Is the logspam really necessary?
+> 
+>> +		mhi_soc_reset(mhi_cntrl);
+>> +	}
+> 
+> Konrad
 
-For QCOM devices we need to update the RPMh vote i.e a power source
-votes for the link to come up in required speed. and also we need
-to update interconnect votes also. This will be applicable for
-other vendors also.
-
-If this is not correct place I can add them in the pci_ops.
-- Krishna Chaitanya.
-> - Krishna Chaitanya.
->>> +     */
->>> +    void (*post_link_speed_change)(struct pci_host_bridge *bridge,
->>> +                       struct pci_dev *dev, int speed);
