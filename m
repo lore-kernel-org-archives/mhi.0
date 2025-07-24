@@ -1,132 +1,101 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587E22DE6FB
-	for <mhi@lists.linux.dev>; Thu, 24 Jul 2025 13:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D17E1F4CAC;
+	Thu, 24 Jul 2025 16:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365107; cv=none; b=DIBTRqZlhPCo8xBsGpERGQv2PqXjgw5yZqqWt5aXRppyyL9XOUdZ815Sur6tEQ+wzcLrHsyXdQ+phjxdZIp7cKwwOgKPpHbsrLdNhbX4+rUhCfPfQ8mqIZE2VdJb6V+bLxUVgDr/9YWPT1R9ODNzwx6lp5RybjXe7333g4i3iOc=
+	t=1753375197; cv=none; b=cpxcweGRAAQPHEFvimLuLMxyrauVHPEVPaXj/CEgZDvGUBRWTTnLqYhxbxh/8uKyG2yAux4X6j2R/mm6l1aYBJ3sNDKvHpBVrWAu/pm3iP6Khh5jclzCUY7PxNnfTRZELj/l49OZgsrqkUh3zx1inBTRI9is/ILj46WXZrxmmmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365107; c=relaxed/simple;
-	bh=HjtEdTeP222sKTqHHzhX4RHeu73+Y0URyH7279+aahE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=URdLRGp+YDMl72y9el9wb0J6D9AQZwpdr8sZuivEeKg4nmMNBc0hTVWkvI0GioNA4eHNJ8yd8d9Ztou1+Omm7etOpivLpAq2U1WjNM3w+2nZjM6GrUSy8JESj21RX6vzJWsQTAuf96UEyIa0FkoYNHvS9zVj5u0MU3ySDfzfgjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j17GDS0i; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1753375197; c=relaxed/simple;
+	bh=ikXpfz2B4DP7ZP1/9L2ttYBtpxlZEpT7Tcj+EmAhcGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GdRGl+m8mjMvmJyxU2zmeLy72E1j/Zmo8WC7o20X+Vuhce+FeC/N2bThD0wupqQmwwKLC9LmDfeuc2cRAvYvu/cSG7dZIpveVXJIrB1Zon5D25TIgi6ohxy9lGAFxdCjJTL5TJ8PEQqL9RfN3KF77o2iem/Fi0HlV5k8iEgVTy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BaR/nUwc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j17GDS0i"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56O9afHd029601;
-	Thu, 24 Jul 2025 13:51:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wc8Q3cPMdrrVxOkQ2GUpv4sRi2WE5HtMAOTK53i+wRw=; b=j17GDS0i28AYLrxM
-	SBMrajmMUYdmV3FHoHYl5W46uAjChllC+iIGV0fxEwp+b94SxPMtr19L5T3cMF+/
-	s6VxyMp8taQLB1rjetbUh8kf5IR9DJFBP57YgOdTtxSoe4CTZWSrzLEF4GD2SNcq
-	mH94yZlS9fmjl/+qvAwHSN2oanL4ka6PNNoBlS2XTTf5GUmwEJtVUPrLWes2tPD5
-	eUiZRuzjHFNU9rat4PCdg6tENJhKPy4I/ltz4jfM6awAWx+0wwhoJuukx7FQByZB
-	u3LoodrJ79wg/5qpIVTAEuFVtHUfLiTM0KRwKRqQocZFtXHANTa1OajhD5/rbcfC
-	98aALQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4826t1g7vj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 13:51:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56ODpaim009670
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Jul 2025 13:51:36 GMT
-Received: from hu-vpernami-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 24 Jul 2025 06:51:33 -0700
-From: Vivek.Pernamitta@quicinc.com
-Date: Thu, 24 Jul 2025 19:21:19 +0530
-Subject: [PATCH 3/4] net: mhi: Add MHI IP_SW1, ETH0 and ETH1 interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BaR/nUwc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ACAC4CEED;
+	Thu, 24 Jul 2025 16:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753375197;
+	bh=ikXpfz2B4DP7ZP1/9L2ttYBtpxlZEpT7Tcj+EmAhcGE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BaR/nUwcvg97rh4i/Bqn3v2nnsulfLWo9qCHEl4Zo6vZbia5vDUNUrVr3XgUsBt86
+	 UmMfeJFguWjZtbMNMfoEapef4rPzsRmMaZqN8cNnLUe7kpgLkHNy1Qr8pvv2oExJkE
+	 zrBlK8O3O7diKI9Bw1QPbUcOrN/ggVP7ZXeJ0xJAE0catsyHlHKMSr9hSO/3GbB3r/
+	 pQXgBJarqRxIvrIDwoYPE3QRP4NFNTnUuNiYQdIfEe9Fok5kgooCzHDOZ9SNOsl3jj
+	 jFNwfuhb9vnfKBub/BhwUTFgVgdqb0wLPV/sHsZX5vLpdqpY0syPLkl2ApOKJRTrMu
+	 KdOWCMOQG20gA==
+Date: Thu, 24 Jul 2025 22:09:42 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Vivek.Pernamitta@quicinc.com
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	Vivek Pernamitta <quic_vpernami@quicinc.com>
+Subject: Re: [PATCH 0/4] net: mhi : Add support to enable ethernet interface
+Message-ID: <kyecepuwbomqsjhsmrkqdf66pwbdona5neroxjeqrxdcn7i7xa@izjqxntne3iw>
+References: <20250724-b4-eth_us-v1-0-4dff04a9a128@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250724-b4-eth_us-v1-3-4dff04a9a128@quicinc.com>
-References: <20250724-b4-eth_us-v1-0-4dff04a9a128@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250724-b4-eth_us-v1-0-4dff04a9a128@quicinc.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Manivannan Sadhasivam
-	<mani@kernel.org>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-        Vivek Pernamitta
-	<quic_vpernami@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753365082; l=988;
- i=<quic_vpernami@quicinc.com>; s=20241114; h=from:subject:message-id;
- bh=EcqX7pEavyNfJD/cuUms4Jfl+XHPBDi4YM6MNDDCOEE=;
- b=OWQl6QNLUtLp46SMKpQSC+33KzGOhyxx79mlE7Hnuk2SEForxbSo0eZSE5E5iy6BQCpQyhiAi
- phdV18tn5aLDbFiiypqbhQbcABeyucK0ij+cVE09UWB3HK/JI8WcOPg
-X-Developer-Key: i=<quic_vpernami@quicinc.com>; a=ed25519;
- pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: K7x_1p9WC3X2UCnfuD8gF6JlbaTNV5V3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDEwNSBTYWx0ZWRfX/7+YGm73E7BE
- YfGTMPzj6N6XiomLRSswhpHDLvZmhzNP3OPsECXuko9kRqJW0Xxo6Mq9LE1RV3c8fkhtxGoSDVT
- GF3zN+/FsatIWdfKLnDJwwaA81hVwLhLBiW1kmaKDDhFnFlFwoFXbzLeR1me/f6UsdQItl+BWWP
- vPRGuudj4zHN+s7XZu+tza9FYSk2KsUZztWVOnDKBlqlPfrp8HQ/l04CwJyBPIyfTASk+mM0PPK
- UMoQc1F259NytsK51nOEAMx3p4DEmwtSN14D/1c9/256G+1VsPBvh5FfCuo/yImYk7vg6XRl0Ux
- 1KCG1XkplK28ilseSrvBdhA27ql2HV2WkjzP+7HSkjDrPndJNBe4zzCnBnbDW/hzE6bDXM521jt
- VPQEl00CmQB6n5nFZVJlz09dXiKRKjTMpt3yurg2ANij3HbbatkpQmDbbK1X0MY2l9DnVfJh
-X-Authority-Analysis: v=2.4 cv=E8/Npbdl c=1 sm=1 tr=0 ts=68823a69 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
- a=0xxiP8YIG85xZ0q-sMoA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: K7x_1p9WC3X2UCnfuD8gF6JlbaTNV5V3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-24_02,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 phishscore=0
- mlxlogscore=792 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507240105
 
-From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+On Thu, Jul 24, 2025 at 07:21:16PM GMT, Vivek.Pernamitta@quicinc.com wrote:
+> - Add support to enable ethernet network device for MHI NET driver
+>   currenlty we have support only NET driver.
+>   so new client can be configured to be Ethernet type over MHI by
+>   setting "mhi_device_info.ethernet_if = true"
+> 
+> - Change the naming format for MHI network interfaces to improve clarity
+>   when multiple MHI controllers are connected.
+> 
+>   Currently, MHI NET device interfaces are created as mhi_swip<n>/mhi_hwip<n>
+>   for each channel. This makes it difficult to distinguish between channels
+>   when multiple EP/MHI controllers are connected, as we cannot map the
+>   corresponding MHI channel to the respective controller and channel.
+>   To address this, create a new MHI interface name based on the device name and
+>   channel name.
+> 
+> - Add support for new MHI channels for M-plane, NETCONF and S-plane.
+> 
+> Initial post for Ethernet support in MHI driver is posted here
+> https://lore.kernel.org/all/1689762055-12570-1-git-send-email-quic_vpernami@quicinc.com/
+> 
 
-Add IP_SW1, ETH0 and ETH1 network interfaces are required
-for M-plane, Nefconf and S-plane component.
+What has changed since then? This series is supposed to be v4. And you haven't
+resolved the v2 comments itself:
+https://lore.kernel.org/mhi/1689660928-12092-1-git-send-email-quic_vpernami@quicinc.com/
 
-Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
----
- drivers/net/mhi_net.c | 3 +++
- 1 file changed, 3 insertions(+)
+- Mani
 
-diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
-index ba65abcee32a253fc1eb9d75f1693734f4d53ee3..ea3f27cbfafe54ef20f66ec0f046ce979c876217 100644
---- a/drivers/net/mhi_net.c
-+++ b/drivers/net/mhi_net.c
-@@ -458,6 +458,9 @@ static const struct mhi_device_id mhi_net_id_table[] = {
- 	{ .chan = "IP_HW0", .driver_data = (kernel_ulong_t)&mhi_hwip0 },
- 	/* Software data PATH (to modem CPU) */
- 	{ .chan = "IP_SW0", .driver_data = (kernel_ulong_t)&mhi_swip0 },
-+	{ .chan = "IP_SW1", .driver_data = (kernel_ulong_t)&mhi_swip0 },
-+	{ .chan = "IP_ETH0", .driver_data = (kernel_ulong_t)&mhi_eth0 },
-+	{ .chan = "IP_ETH1", .driver_data = (kernel_ulong_t)&mhi_eth0 },
- 	{}
- };
- MODULE_DEVICE_TABLE(mhi, mhi_net_id_table);
+> Signed-off-by: 
+> 
+> ---
+> Vivek Pernamitta (4):
+>       net: mhi: Rename MHI interface to improve clarity
+>       net: mhi : Add support to enable ethernet interface
+>       net: mhi: Add MHI IP_SW1, ETH0 and ETH1 interface
+>       bus: mhi: host: pci: Enable IP_SW1, IP_ETH0 and IP_ETH1 channels for QDU100
+> 
+>  drivers/bus/mhi/host/pci_generic.c |   8 +++
+>  drivers/net/mhi_net.c              | 100 +++++++++++++++++++++++++++++++------
+>  2 files changed, 93 insertions(+), 15 deletions(-)
+> ---
+> base-commit: 9ee814bd78e315e4551223ca7548dd3f6bdcf1ae
+> change-id: 20250724-b4-eth_us-97f0d5ba7f08
+> 
+> Best regards,
+> -- 
+> Vivek Pernamitta <<quic_vpernami@quicinc.com>>
+> 
 
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
