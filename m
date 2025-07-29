@@ -1,89 +1,107 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84B92586E0
-	for <mhi@lists.linux.dev>; Tue, 29 Jul 2025 08:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+Received: from mail.mifritscher.de (mifritscher.de [188.40.170.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0163233721
+	for <mhi@lists.linux.dev>; Tue, 29 Jul 2025 09:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.170.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753779484; cv=none; b=nqQQuzewELfGJ5YEg3T+HvUBOjXB1S1eHwmZH4C6BsupOiKGnzXZzhHlt/QKXPO3dLqtmyH+tNgfUJX4/Ivx6gkod7MjUlZuXwVTFeCbPT0qgNdKGZ6FLEVjxNMXZ1hFCHJwVfNUxkfD5yn+JcbqSoMcOkAiViw25gNZNwp7IOg=
+	t=1753781705; cv=none; b=sLnLDe5crpWRTPR7IJvjtba/rqHH9eb34ZJkKIAiDDubNv/Y1g/j5WIKAHfoQ3TA0LckbABSGuZnSbeqcKtjyoHSpfCmSrFU/pMS8PE3HJc7azOhM3lsmlyJGK+gOXCJjiL929cZARVtHI5/aSsQD5REZwmsolPvFbb7yHU4kdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753779484; c=relaxed/simple;
-	bh=ievyL3g5Q46qxKZLnTmv/cYFeSgsBclXR9pVlWgcUos=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rP5fmhkrEp60UTQF4ZUXyw8ozt6NQAHw4d2gw7M2YO+XiLBLT9YTQYVXGny7N+X3uljLbuvcC4ejT1ddEnLKjT5RRRkc8NIJK5El1zswsWwiQnWwj9NPeg1YtaUTkN5HtTUU/xygdddkdnjPc7ITj3Ik85nRcdf+DSOxcfSZzZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=MqUGmcR4; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="MqUGmcR4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=AY
-	UxPqccz5cc9qwkjV/MuJfbqx0ykQG6VuIw9i/MVRs=; b=MqUGmcR4X+V3QuPOKK
-	/qQRCmn3WuyaoLrtyZSi9GYS6R7ArBXAZR+ICJMVFFPm7cBhHytgqC+3UPwP5AaY
-	hPjEkzSpgEgstvu9ToHy5hL13eAEHKbW37qna7I2MYeRT1+zc96GYlHftnFSsZ+w
-	yAf9oXyC6Z44wg+b4nfji1ihI=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDnr7wCjYho7e6SCQ--.26154S2;
-	Tue, 29 Jul 2025 16:57:39 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add more Foxconn T99W696 modem
-Date: Tue, 29 Jul 2025 16:57:26 +0800
-Message-Id: <20250729085726.106807-1-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1753781705; c=relaxed/simple;
+	bh=PSnoE70CyGtAUQzhhhXcNyb7TD041Ko3FgcnhjnoRBk=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=C3YiEFTRu14JfzXz6JRZNJsH+bH3FMj4JrJrce55Hf6Kp35pUnRoP/eunbL7T6GyG15T9FuCtTdZbxlbxF7NwnRTrPezkvjNH3mWFWM8PzLJFDh9sZar72N1WH0bAuYYkPLWlh6RJDcRvrbCXVDEFek9t1ryhVRrjlwuspx/zQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net; spf=pass smtp.mailfrom=fritscher.net; arc=none smtp.client-ip=188.40.170.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritscher.net
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.mifritscher.de (Postfix) with ESMTP id C88C43B1E47;
+	Tue, 29 Jul 2025 11:27:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavis at mifritscher.vserverkompetenz.de
+Received: from mail.mifritscher.de ([127.0.0.1])
+ by localhost (mail.mifritscher.vserverkompetenz.de [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id ciwsDxHz8izk; Tue, 29 Jul 2025 11:27:58 +0200 (CEST)
+Received: from [192.168.99.192] (unknown [195.52.26.99])
+	by mail.mifritscher.de (Postfix) with ESMTPSA id B980A3B1C86;
+	Tue, 29 Jul 2025 11:27:58 +0200 (CEST)
+Message-ID: <8040b225-5735-4bc5-aed4-f6432bb045ee@fritscher.net>
+Date: Tue, 29 Jul 2025 11:27:58 +0200
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDnr7wCjYho7e6SCQ--.26154S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tw4xurW7ur4xXFyUJF45Awb_yoW8uFWkpF
-	4furWjqrWDJrW8tw4vvr4kZF95ua1fXry7Kr1xtw1FgrnakFy5Xrs7XryUZF13ta98Jr4a
-	vFykuF1UWanFyFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRgdjiUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiMBGZZGiIgnP2lQAAsu
+User-Agent: Mozilla Thunderbird
+To: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Content-Language: de-DE, en-US
+From: Michael Fritscher <michael@fritscher.net>
+Subject: [newbie] [patch?] for mhi to get Quectel RM520N-GLAP (WWAN Modem)
+ running
+Autocrypt: addr=michael@fritscher.net; keydata=
+ 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
+ Mx0vDjwh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There are more platforms need support Foxconn T99W696 modem.
-This requirement comes from Lenovo side since they want 1 platform
-to correspond to 1 modem SKU.
+Good day,
 
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
- drivers/bus/mhi/host/pci_generic.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+my first email here, so a tiny introduction of myself: I'm a computer 
+scientist and work e.g. with OpenWRT and microcontrollers. I know some 
+basic workflows with git as well.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 4edb5bb476ba..1fc43f1b86be 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -932,6 +932,24 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Foxconn T99W696.00, Foxconn SKU */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe146),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.05, Lenovo T14 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe150),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.06, Lenovo T15 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe151),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.07, Lenovo T16 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe152),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.08, Lenovo P14s */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe153),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.09, Lenovo P16s */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe154),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
-+	/* Foxconn T99W696.10, Lenovo P1 */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe155),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
- 	/* Telit FN990B40 (sdx72) */
--- 
-2.25.1
+So, while getting the Quectel RM520N-GLAP (the GLAA is running ootb) I 
+stumbled over problems. Luckily, there exists a tiny patch ( 
+https://forum.gl-inet.com/t/how-to-installing-vanilla-openwrt-on-gl-x3000/45404/15 
+), which only adds a PCI Vendor/Product ID variant for this card to the 
+mhi driver. It applies cleanly against 
+git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git . I've tested 
+it with current OpenWRT and can confirm that it works.
 
+The big question is: How to get this patch into mainline? ;-) Should I 
+simply send it to this list, following 
+https://kernelnewbies.org/FirstKernelPatch ? It is also ok for me if 
+somebody else steps in.
+
+Best regards
+Michael Fritscher
