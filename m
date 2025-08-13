@@ -1,170 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555B4305E08;
-	Tue, 12 Aug 2025 16:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4016D283FF4
+	for <mhi@lists.linux.dev>; Wed, 13 Aug 2025 03:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755017037; cv=none; b=F4VeiSfjskYPSZguINa/I4Qg7ABEZWfds0DWMmunrMM23B34iMeFqo9hAxU98ZeH2W/ijW9n7s8A5qibQXfeUQQjt7h1Sk3qP29aOaGYwbin824M1Ub2nCrzyG2t1yqM1mM3W5hv1YRFXYdtMQ7t6TzcX2Z8oOzhOsgWAdokcH4=
+	t=1755057315; cv=none; b=LbGCKSJtd0xEQzXrHUrGEa/P7j6DPKA54e2T6gk5xvBf+thmdRsLpAwERmR8pFgrnztVI/ysPM6JhWLxTkRP1IE3ZvtzY0XLmALnXcD7aKFIWFZWyedhDCrLZoXAfjgC1PGAzKEh73UpA1RhdR/XF2KjI+miL3ajY/tJ+xoBmNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755017037; c=relaxed/simple;
-	bh=AAG3OKaWicsbt/OyMFmGSnBXL0juwmhtawXjWSgR1/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i5HC4eQfXDWACvGcfCq/q8d8iC0Hiuz/bfBD5x5/qI96iQJm0QHPRSxnIsVQxkv4JHObQrVVXl0Ul/VnXQG8/bJOlxK7Mv7KZcWgbpxlA4Kbor8OL0vdcDGLPdENK0Ms2nVEvngHI0ZpdZz2NjM0Hh8q4vlf1povECHo7SzMy38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bs7GHP/z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755057315; c=relaxed/simple;
+	bh=dnz52Dgxeba8OreSCFoW8AzKahq6NE+sYCZabA34LQo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q4PxUs6AAASqxpPskqHbSo8EgAJy8w5fG3FpEBbbgMhARcAdphthdKuBa2ix9ml2KC55rHwEu8ze9iKhhsr+nQpDhnyWHTk9N2GtPP64OICFu/pnJvtG2kF1UdD/zB/XvgB/Yrsj2GUGNEaTVYMwMJYDdtvSFuI18Layewu7qjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MzoMEIEP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bs7GHP/z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6B1C4CEF1;
-	Tue, 12 Aug 2025 16:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755017037;
-	bh=AAG3OKaWicsbt/OyMFmGSnBXL0juwmhtawXjWSgR1/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bs7GHP/zuzsqtlCcIJpSXRwExwMr58CJ+BMrS0SN2juA30n2B8IU/NRqaOSx/zEiy
-	 2N1nVGTyAmMu9AWE0aE95H/h2irS3N1uLmDWRAH3rEb/flh0lHTC0MEC4GFRZPxz2l
-	 ansDfnZAh/jcIqQFfb/yKJOkOuvzylC0FCVnSRkMI7ZBmqsccbMwSOGG9tfsBJb3vE
-	 rJenh0FjLvkiGm7857w0+yyk+D8OuQRUmCs9jR03c03Vn6uQZkIcO37b0+1/tSiQdi
-	 3gu/EUHclTSMGe97NJTOREJlk9icMeaShCJzRUDGmUKIY4jF844xcufsUKfyQ0zedw
-	 RRvwtlgZXQksA==
-Date: Tue, 12 Aug 2025 22:13:45 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	mhi@lists.linux.dev, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com, 
-	quic_mrana@quicinc.com, Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v4 02/11] PCI/bwctrl: Add support to scale bandwidth
- before & after link re-training
-Message-ID: <ycbh6zfwae3q4s6lfxepmxoq32jaqu5i7csa2ayuqaanwbvzvi@id4prmhl3yvh>
-References: <20250711213602.GA2307197@bhelgaas>
- <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
- <d4078b6c-1921-4195-9022-755845cdb432@oss.qualcomm.com>
- <68a78904-e2c7-4d4d-853d-d9cd6413760e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MzoMEIEP"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D3nVQk005164
+	for <mhi@lists.linux.dev>; Wed, 13 Aug 2025 03:55:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	nL73GNJKLk9gxYhZAyNJw/OghTTtC6l/WSrfhqhdCug=; b=MzoMEIEPMWSVoNUJ
+	3sk0aj2VjkqD3b8AyFo6WpEwt8aIVsj4ufroqT3KgThb9nUcDLnfknXUywqb0bif
+	jmlCYgJduTOO2IfnHo+PtlO9nwL3z8Xylhf2EFCrE9e0+Ik/45GhJihZqtBptd7S
+	LEHKIewo8ZpbSfIiDVo7LcWkaaFump4j4z1DiqqCHuPNexgS0bMwWB8VHS5i9IuH
+	1ltASY2fCZ9XrwK9+PDBJc+gFLL4G6yHyxjSirc5jqwrA9c54IBNnVw+hvf1cluq
+	bNN9c4oLcG3HtzWd2t1y0ArTQG+4b2mHkhFcPTRalnIJK+8SaTDBn8y+E6TtYFVD
+	O+LvzA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48g5hma95d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 13 Aug 2025 03:55:13 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-31f3b65ce07so10934287a91.1
+        for <mhi@lists.linux.dev>; Tue, 12 Aug 2025 20:55:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755057312; x=1755662112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nL73GNJKLk9gxYhZAyNJw/OghTTtC6l/WSrfhqhdCug=;
+        b=m6MB8ftfsEgLuQT+o7J3S+se1Jd7vHcHuhYYkp6ZgTyFm3A0GR3XWXWLXnjNmuwCQw
+         dXdXpZ+oHzt2sbgX0s0OQFKAfmuPpkUjXUQqFjoQ/L013sDnkWcyVfgAeXptzWzWDiua
+         6TQpz/4OjjuapOL2j8Eun5M3dt084tLLIBzr628+g8DURAs6vpSnrf45WNIP9YPxIOQw
+         PSxkknh395sgcejONx7Z+bvaw99sU7QEW4vSpOrqvaNSEjzDWOGvv2/0ZjfIh/0EDqQm
+         wITIBP1Esb0uCizHKWdl4vDMa+8BrCHEjhnqIhCcC7TigfDK5xF896iGL/xLpW5d13FF
+         +Btw==
+X-Forwarded-Encrypted: i=1; AJvYcCXh1Q2FLzfztBQM8KdOFhrwh90LBokEoo4w/O64GfiKg1Fh6NN80Bo3Z3iCMsOV5PP5MS8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4Sz3dwWVXC/cpGRcfK+tQMQuShH8u96I1qlN1gAg3C1fa9r6o
+	Ks0TwHBecmMdGUoF40NxCYxTk0Rn+dy4AsffKAibJldfPv4841FCZPpITnaVmIxE4FioaAH5haP
+	V9ovOf00GbaBE3tj3LB8k2FBRTtGa91AQYXaxXwe7K6NDiKpW5GEtvPE=
+X-Gm-Gg: ASbGnctvMIroFXNJMWTE55aYiTU2VpoVfMauVwtuEaMICzVOpbUWmmh69g789Jm4pEe
+	SPppLP7lSnAdOVAvZ7o/h8Q2uDApczX0p19AtLyZCLRx7OGOStUIshHM++AZBYcQ6wcz42JhL4a
+	yZWRACqSfzltlw9m5+fsG64/yHOJpMLe+cRipzW3EqI7Lr9vahHtVUGnPunddTypU8hC3ddXPhP
+	FXf5qSTGfmX6URdOjM2VtGTPSkNQnqvTgcsUqcoRwv3YFa/S8x3oJEAfB4JdIzT6VNu5oPBHUdw
+	3tbk7JS01gRW39Z45fy2yuGFKRp0MfXYb2Tva/7bkBvN3ny+3zwymDGo2qiZIokAK9oHkZrv6g=
+	=
+X-Received: by 2002:a17:90b:2808:b0:311:a4d6:30f8 with SMTP id 98e67ed59e1d1-321d0da48c2mr1826582a91.13.1755057311374;
+        Tue, 12 Aug 2025 20:55:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6DBH2kfzGflZ64cNW7+2CaKUESotFcZzef6cAyZ1L/M83j5cwOGYdfHt9J3/vXq3xPUnICQ==
+X-Received: by 2002:a17:90b:2808:b0:311:a4d6:30f8 with SMTP id 98e67ed59e1d1-321d0da48c2mr1826528a91.13.1755057310792;
+        Tue, 12 Aug 2025 20:55:10 -0700 (PDT)
+Received: from [10.218.42.132] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321d1db5da0sm668773a91.16.2025.08.12.20.55.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Aug 2025 20:55:10 -0700 (PDT)
+Message-ID: <ec0e3b33-76f4-4ad5-8497-5c8c8b42f67e@oss.qualcomm.com>
+Date: Wed, 13 Aug 2025 09:25:03 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/11] PCI/bwctrl: Add support to scale bandwidth
+ before & after link re-training
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Lorenzo Pieralisi
+ <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+References: <20250711213602.GA2307197@bhelgaas>
+ <55fc3ae6-ba04-4739-9b89-0356c3e0930c@oss.qualcomm.com>
+ <d4078b6c-1921-4195-9022-755845cdb432@oss.qualcomm.com>
+ <68a78904-e2c7-4d4d-853d-d9cd6413760e@oss.qualcomm.com>
+ <ycbh6zfwae3q4s6lfxepmxoq32jaqu5i7csa2ayuqaanwbvzvi@id4prmhl3yvh>
+Content-Language: en-US
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <ycbh6zfwae3q4s6lfxepmxoq32jaqu5i7csa2ayuqaanwbvzvi@id4prmhl3yvh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <68a78904-e2c7-4d4d-853d-d9cd6413760e@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDExOSBTYWx0ZWRfX8H9XzOzlSawm
+ +al/cDf2T7cUXfGkz/EZfbgFrt4hO5fpcuwOuXxpXFMxnyXTC6V0WtBLVQsuttJil6tTsjwgZXB
+ XiO9pWaXUs1MRNXJ6/KKrrMD6dK5jZ0n29twcZXQDpnSNLHQdsAE7h9NKmbwbfRJoY7ovsIHq7m
+ wrLSweRl17yFyqAaaO8o8+c+ozy7StyfGz5+6B/dVTVQXYHUYukDKWlwzby9jvTH18PAus1RcYy
+ 5UpYK6/CLslphIezIb5fOUrJuHfXhV5mNHb5GCNh2+4LvWeMmgM67l4vjnsiDlH1BHnfIB1CVXY
+ cPcJ5kxCWbKf9YVE7IssgFxvVpsC8w8vySroFVX11zX1YSTYUYm1t6I66jB+yKqTLXIdyC301tC
+ IKcSJVZa
+X-Proofpoint-GUID: mOJJCFUhq3epk13Oc_n6QEodTjTa9nx5
+X-Proofpoint-ORIG-GUID: mOJJCFUhq3epk13Oc_n6QEodTjTa9nx5
+X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=689c0ca1 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=Rc7TGh9G46w0mRT8ouYA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 spamscore=0 phishscore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508120119
 
-On Tue, Aug 12, 2025 at 09:35:46AM GMT, Krishna Chaitanya Chundru wrote:
-> 
-> 
-> On 7/22/2025 4:33 PM, Krishna Chaitanya Chundru wrote:
-> > 
-> > 
-> > On 7/12/2025 4:36 AM, Krishna Chaitanya Chundru wrote:
-> > > 
-> > > 
-> > > On 7/12/2025 3:06 AM, Bjorn Helgaas wrote:
-> > > > On Mon, Jun 09, 2025 at 04:21:23PM +0530, Krishna Chaitanya
-> > > > Chundru wrote:
-> > > > > If the driver wants to move to higher data rate/speed than
-> > > > > the current data
-> > > > > rate then the controller driver may need to change certain
-> > > > > votes so that
-> > > > > link may come up at requested data rate/speed like QCOM PCIe
-> > > > > controllers
-> > > > > need to change their RPMh (Resource Power Manager-hardened) state. Once
-> > > > > link retraining is done controller drivers needs to adjust their votes
-> > > > > based on the final data rate.
-> > > > > 
-> > > > > Some controllers also may need to update their bandwidth voting like
-> > > > > ICC BW votings etc.
-> > > > > 
-> > > > > So, add pre_link_speed_change() & post_link_speed_change() op to call
-> > > > > before & after the link re-train. There is no explicit
-> > > > > locking mechanisms
-> > > > > as these are called by a single client Endpoint driver.
-> > > > > 
-> > > > > In case of PCIe switch, if there is a request to change
-> > > > > target speed for a
-> > > > > downstream port then no need to call these function ops as these are
-> > > > > outside the scope of the controller drivers.
-> > > > 
-> > > > > +++ b/include/linux/pci.h
-> > > > > @@ -599,6 +599,24 @@ struct pci_host_bridge {
-> > > > >       void (*release_fn)(struct pci_host_bridge *);
-> > > > >       int (*enable_device)(struct pci_host_bridge *bridge,
-> > > > > struct pci_dev *dev);
-> > > > >       void (*disable_device)(struct pci_host_bridge *bridge,
-> > > > > struct pci_dev *dev);
-> > > > > +    /*
-> > > > > +     * Callback to the host bridge drivers to update ICC BW
-> > > > > votes, clock
-> > > > > +     * frequencies etc.. for the link re-train to come up
-> > > > > in targeted speed.
-> > > > > +     * These are intended to be called by devices directly
-> > > > > attached to the
-> > > > > +     * Root Port. These are called by a single client
-> > > > > Endpoint driver, so
-> > > > > +     * there is no need for explicit locking mechanisms.
-> > > > > +     */
-> > > > > +    int (*pre_link_speed_change)(struct pci_host_bridge *bridge,
-> > > > > +                     struct pci_dev *dev, int speed);
-> > > > > +    /*
-> > > > > +     * Callback to the host bridge drivers to adjust ICC BW
-> > > > > votes, clock
-> > > > > +     * frequencies etc.. to the updated speed after link
-> > > > > re-train. These
-> > > > > +     * are intended to be called by devices directly attached to the
-> > > > > +     * Root Port. These are called by a single client Endpoint driver,
-> > > > > +     * so there is no need for explicit locking mechanisms.
-> > > > 
-> > > > No need to repeat the entire comment.  s/.././
-> > > > 
-> > > > These pointers feel awfully specific for being in struct
-> > > > pci_host_bridge, since we only need them for a questionable QCOM
-> > > > controller.  I think this needs to be pushed down into qcom somehow as
-> > > > some kind of quirk.
-> > > > 
-> > > Currently these are needed by QCOM controllers, but it may also needed
-> > > by other controllers may also need these for updating ICC votes, any
-> > > system level votes, clock frequencies etc.
-> > > QCOM controllers is also doing one extra step in these functions to
-> > > disable and enable ASPM only as it cannot link speed change support
-> > > with ASPM enabled.
-> > > 
-> > Bjorn, can you check this.
-> > 
-> > For QCOM devices we need to update the RPMh vote i.e a power source
-> > votes for the link to come up in required speed. and also we need
-> > to update interconnect votes also. This will be applicable for
-> > other vendors also.
-> > 
-> > If this is not correct place I can add them in the pci_ops.
-> Bjorn,
-> 
-> Can you please comment on this.
-> 
-> Is this fine to move these to the pci_ops of the bridge.
-> Again these are not specific to QCOM, any controller driver which
-> needs to change their clock rates, ICC bw votes etc needs to have
-> these.
-> 
 
-No, moving to 'pci_ops' is terrible than having it in 'pci_host_bridge' IMO. If
-we want to get rid of these ops, we can introduce a quirk flag in
-'pci_host_bridge' and when set, the bwctrl code can disable/enable ASPM
-before/after link retrain. This clearly states that the controller is quirky and
-we need to disable/enable ASPM.
 
-For setting OPP, you can have a separate callback in 'pci_host_bridge' that just
-allows setting OPP *after* retrain, like 'pci_host_bridge:link_change_notify()'.
-I don't think you really need to set OPP before retrain though. As even if you
-do it pre and post link retrain, there is still a small window where the link
-will operate without adequate vote.
+On 8/12/2025 10:13 PM, Manivannan Sadhasivam wrote:
+> On Tue, Aug 12, 2025 at 09:35:46AM GMT, Krishna Chaitanya Chundru wrote:
+>>
+>>
+>> On 7/22/2025 4:33 PM, Krishna Chaitanya Chundru wrote:
+>>>
+>>>
+>>> On 7/12/2025 4:36 AM, Krishna Chaitanya Chundru wrote:
+>>>>
+>>>>
+>>>> On 7/12/2025 3:06 AM, Bjorn Helgaas wrote:
+>>>>> On Mon, Jun 09, 2025 at 04:21:23PM +0530, Krishna Chaitanya
+>>>>> Chundru wrote:
+>>>>>> If the driver wants to move to higher data rate/speed than
+>>>>>> the current data
+>>>>>> rate then the controller driver may need to change certain
+>>>>>> votes so that
+>>>>>> link may come up at requested data rate/speed like QCOM PCIe
+>>>>>> controllers
+>>>>>> need to change their RPMh (Resource Power Manager-hardened) state. Once
+>>>>>> link retraining is done controller drivers needs to adjust their votes
+>>>>>> based on the final data rate.
+>>>>>>
+>>>>>> Some controllers also may need to update their bandwidth voting like
+>>>>>> ICC BW votings etc.
+>>>>>>
+>>>>>> So, add pre_link_speed_change() & post_link_speed_change() op to call
+>>>>>> before & after the link re-train. There is no explicit
+>>>>>> locking mechanisms
+>>>>>> as these are called by a single client Endpoint driver.
+>>>>>>
+>>>>>> In case of PCIe switch, if there is a request to change
+>>>>>> target speed for a
+>>>>>> downstream port then no need to call these function ops as these are
+>>>>>> outside the scope of the controller drivers.
+>>>>>
+>>>>>> +++ b/include/linux/pci.h
+>>>>>> @@ -599,6 +599,24 @@ struct pci_host_bridge {
+>>>>>>        void (*release_fn)(struct pci_host_bridge *);
+>>>>>>        int (*enable_device)(struct pci_host_bridge *bridge,
+>>>>>> struct pci_dev *dev);
+>>>>>>        void (*disable_device)(struct pci_host_bridge *bridge,
+>>>>>> struct pci_dev *dev);
+>>>>>> +    /*
+>>>>>> +     * Callback to the host bridge drivers to update ICC BW
+>>>>>> votes, clock
+>>>>>> +     * frequencies etc.. for the link re-train to come up
+>>>>>> in targeted speed.
+>>>>>> +     * These are intended to be called by devices directly
+>>>>>> attached to the
+>>>>>> +     * Root Port. These are called by a single client
+>>>>>> Endpoint driver, so
+>>>>>> +     * there is no need for explicit locking mechanisms.
+>>>>>> +     */
+>>>>>> +    int (*pre_link_speed_change)(struct pci_host_bridge *bridge,
+>>>>>> +                     struct pci_dev *dev, int speed);
+>>>>>> +    /*
+>>>>>> +     * Callback to the host bridge drivers to adjust ICC BW
+>>>>>> votes, clock
+>>>>>> +     * frequencies etc.. to the updated speed after link
+>>>>>> re-train. These
+>>>>>> +     * are intended to be called by devices directly attached to the
+>>>>>> +     * Root Port. These are called by a single client Endpoint driver,
+>>>>>> +     * so there is no need for explicit locking mechanisms.
+>>>>>
+>>>>> No need to repeat the entire comment.  s/.././
+>>>>>
+>>>>> These pointers feel awfully specific for being in struct
+>>>>> pci_host_bridge, since we only need them for a questionable QCOM
+>>>>> controller.  I think this needs to be pushed down into qcom somehow as
+>>>>> some kind of quirk.
+>>>>>
+>>>> Currently these are needed by QCOM controllers, but it may also needed
+>>>> by other controllers may also need these for updating ICC votes, any
+>>>> system level votes, clock frequencies etc.
+>>>> QCOM controllers is also doing one extra step in these functions to
+>>>> disable and enable ASPM only as it cannot link speed change support
+>>>> with ASPM enabled.
+>>>>
+>>> Bjorn, can you check this.
+>>>
+>>> For QCOM devices we need to update the RPMh vote i.e a power source
+>>> votes for the link to come up in required speed. and also we need
+>>> to update interconnect votes also. This will be applicable for
+>>> other vendors also.
+>>>
+>>> If this is not correct place I can add them in the pci_ops.
+>> Bjorn,
+>>
+>> Can you please comment on this.
+>>
+>> Is this fine to move these to the pci_ops of the bridge.
+>> Again these are not specific to QCOM, any controller driver which
+>> needs to change their clock rates, ICC bw votes etc needs to have
+>> these.
+>>
+> 
+> No, moving to 'pci_ops' is terrible than having it in 'pci_host_bridge' IMO. If
+> we want to get rid of these ops, we can introduce a quirk flag in
+> 'pci_host_bridge' and when set, the bwctrl code can disable/enable ASPM
+> before/after link retrain. This clearly states that the controller is quirky and
+> we need to disable/enable ASPM.
+> 
+> For setting OPP, you can have a separate callback in 'pci_host_bridge' that just
+> allows setting OPP *after* retrain, like 'pci_host_bridge:link_change_notify()'.
+> I don't think you really need to set OPP before retrain though. As even if you
+> do it pre and post link retrain, there is still a small window where the link
+> will operate without adequate vote.
+> 
+Hi Mani,
 
-- Mani
+we need to update the OPP votes before link retrain, for example if
+there is request  to change data rate from 5 GT/s to 8 GT/s on some
+platforms we need to update RPMh votes from low_svs to NOM corner
+without this clocks will not scale for data rates 8 GT/s and link
+retrain will fail. For that reason we are trying to add pre and post
+callbacks.
 
--- 
-மணிவண்ணன் சதாசிவம்
+- Krishna Chaitanya.
+> - Mani
+> 
