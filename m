@@ -1,99 +1,254 @@
-Received: from smtp-out.xnet.cz (smtp-out.xnet.cz [178.217.244.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9CE1548C
-	for <mhi@lists.linux.dev>; Fri, 15 Aug 2025 06:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.217.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C8F26B742
+	for <mhi@lists.linux.dev>; Mon, 18 Aug 2025 05:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755239438; cv=none; b=QT2b7RQisTitqo5SPHJTesyVNzNQoBODEx5pnhIoXxnwtjUvTv1ECHsoP33zeieO1qm1zX0iRIW9gLlRaIqLo0taMLMpfXZ3No2MixORyXPeXqGDIcvATvSp8xG4RjnoIakQuqLSA/q/hXk9EYwaya3aF7FUC6GdsGlxT2771EI=
+	t=1755496081; cv=none; b=Swfw1DQISe0c2LNdVddp2LdpvjWq+s3pKtzCNzUPK+Is94fvGks1CauI+nBFJiPt8v4jhLGtd4094yO+WpMLcd/+0RRJkWoNeQtAAOd6oOuNzIRTtLq0FqQiIcSB5vUd+lpnOi4wkp7hMRrvkXq37wOOxzkWHEIu8QCw1r36n9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755239438; c=relaxed/simple;
-	bh=HN5R66AZfCK7MHGh+aNG1oEqt+2nw0NCyBz9iyCmV6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HpMh2OL35CQPbfPQsHPl0yOu7l/FOqKJ8qoMG1duZ9AMIaZ1HzUpraOfowEx2j2WBszooU+cB6IEFEy6WhiqdDbeSVePHSZe9p+uJoLplnL2RyrXBstH3MDGvvJaUjQEadXSZ5IgFhIk6V4jPS0Zjx0anDdyRWr4luroASKP96g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=true.cz; spf=pass smtp.mailfrom=true.cz; dkim=fail (0-bit key) header.d=true.cz header.i=@true.cz header.b=fskaRwgF reason="key not found in DNS"; arc=none smtp.client-ip=178.217.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=true.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=true.cz
+	s=arc-20240116; t=1755496081; c=relaxed/simple;
+	bh=6RL9+Xn5aegTJY0wjfAGUb6Cr92tP/PpJ2hnpOZOiWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=coAAnSqua3hktuXZB9ClN37LMtUvzameQU/ekCS3Y13+qy5LRh3zpAhxXs05PNnk1hX/gBRjQGdQBL/Q4v+v0lhUdL5aANTg4VTXjx6BWQvgjVgdQ2AIyRqos6dxGXXGarQnEdr9TqgvX9a/h5ocjXorRgpdx3eGyh7FT+MzaHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WpZ5N/9l; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=true.cz header.i=@true.cz header.b="fskaRwgF"
-Received: from meh.true.cz (meh.true.cz [108.61.167.218])
-	(Authenticated sender: petr@true.cz)
-	by smtp-out.xnet.cz (Postfix) with ESMTPSA id 5EE47344B;
-	Fri, 15 Aug 2025 08:22:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=true.cz; s=xnet;
-	t=1755238963; bh=HN5R66AZfCK7MHGh+aNG1oEqt+2nw0NCyBz9iyCmV6k=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=fskaRwgFE61kJ9LSnqVqor9BeOn1MJzgxtsJrhF/BPOhroxq+3+PZYUuywcVjOzCp
-	 hjCjP4FWXIBlzR6ifi/oB+PvipbRVKUm5YB5lKTb93j8oI3y9Q86LTD93AO1fA560q
-	 HuKrZP2NCVOMZqRjyL/3IDU1HFWRtFOiTg0g0AIc=
-Received: 
-	by meh.true.cz (OpenSMTPD) with ESMTP id b76db20f;
-	Fri, 15 Aug 2025 08:22:28 +0200 (CEST)
-Date: Fri, 15 Aug 2025 06:22:41 +0000
-From: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Duke Xin =?utf-8?B?KOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>
-Cc: Chris Webb <chris@arachsys.com>,
-	Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: add support for Quectel
- RM520N-GL 0x5201 variant
-Message-ID: <aJ7SMWSWw5l8rS4I@meh.true.cz>
-Reply-To: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
-References: <20250512112631.2477075-1-ynezz@true.cz>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WpZ5N/9l"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57HLd9D8015337
+	for <mhi@lists.linux.dev>; Mon, 18 Aug 2025 05:47:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UeidIzr/dKJkWw7XetUW6GunyrwIPKaUXOvs0jevNFA=; b=WpZ5N/9lLxtvIiLL
+	tvCtZGO6DxuJNKFjeGBEAEw53dQ6VjgKlknokGx5ZCc71GJ9wmZpYK1RnmMpbP/i
+	EcUpg1j9CxTzngUGbVkEDfQJF9ZTWTbKa9KG5ZWPSk9S0LObhKUnnZj3OCFiI0SP
+	fMwh8HxIDR70+9MuKs6TAdz6ouni790VfwOO5zeVKWSu4EwI21u23JV49aZwgUCZ
+	9a1ZWtIf7oCeO0OCgSwxh4sjaUOs+BMT3fwbQtmZDn1JA47odMnL1yhcMtPZgovo
+	ON7pLqDlAajFnRvPgta8UhmjASThtb5c/rs5YPpaomcdwcM8xxK7NrbGSAOBE5Gm
+	ccyr0w==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jh073f44-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 18 Aug 2025 05:47:58 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2445805d386so39098965ad.1
+        for <mhi@lists.linux.dev>; Sun, 17 Aug 2025 22:47:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755496077; x=1756100877;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UeidIzr/dKJkWw7XetUW6GunyrwIPKaUXOvs0jevNFA=;
+        b=nTnkftgPXF6ydiPja6WEnsWe1HeScsXLBV3bz9djx9FKl0o14fUEh+mmGbOzZKOu6j
+         dqH9gqqaPSqyQaiWfBG87yizQD3g2SmY9SthDFkrFn9H0e/VzOKiYkclnZCgF5cEs6oL
+         pbr2B40NQPbg1yAFDJoi/guCeYQSjyHdLnifuovMUJJ23stzSgfC0GiY+13SJObcFFog
+         59H4Oyw/mZX4HM/Kbj8k8EUywfYU3LIGVgzuXb/xGbmXTZq7v0yrBrsuWYirvZrPCeMk
+         5/bzy+TPho7jkcYuxbz3VW3hRlNHkb4nz5OxtsvWo0WVyfaU/Ae2sYAKoFIKFn2Xta8c
+         UClA==
+X-Forwarded-Encrypted: i=1; AJvYcCWV/L1g/7xIgJo7uT9utNpu6zEotMQ9CLRas3lWZM0lEpW4yn8d5jq7UiBSpFCrPZduDTY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRq2kJ2pSmJIwpuduDpKSC7d6AaHkMLGUk+IKGjmPMeLNJuGsA
+	uWk9GuYubR8r2Gie1bl1gM6UXf+T0wq0zlFSdBLwdZprriqE90Pq6WPnjbGWAoowGuW2Tt3LG4J
+	95ncB0vKlJfJLNqs+VVMFISP+0Oi3wvCyTZZmcw2DfKa2wB9t/Ylcb8A=
+X-Gm-Gg: ASbGncsAaYePNH1VwUEnsHJlr8fL1enIhfKdUfKacG0vN7S1lcg1lEcu8xjhEczICvt
+	3emaJoW/nF5iRBPXsq3M5DPxn4fDXvm60rZjSWSye32xUa3jmmi+CfUEXloga4f/jQSpcpsl1Ks
+	E4uI7CvrUatF//LcSWfnrgo61rWZalQPURBBuYw+RUgflPSld/MOlu2JVK1BUasFX54vGV42JhA
+	d+QB9McnNtkvW2NLMaEaOizOW6WC13gvIwMPClDgxbsy8FTGhQgTHUa3lsqQjCeGuHsxZQkcksD
+	iPYoXrXvKYO6S9LYXtg2chvnTHH1Sc51SkvnwnCRkEPrNprTIpV8Fu3P2QsS/yEP7vnYXo5JBg=
+	=
+X-Received: by 2002:a17:902:ef02:b0:244:6b77:5b10 with SMTP id d9443c01a7336-2446d89d221mr126078935ad.36.1755496077037;
+        Sun, 17 Aug 2025 22:47:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IER4IOalNWar66B22rHJVMIAjJY1v2hPIOrJvCuOPmIDSJbaYtKfcaHS83aej4K/R2Bxeoqgw==
+X-Received: by 2002:a17:902:ef02:b0:244:6b77:5b10 with SMTP id d9443c01a7336-2446d89d221mr126078695ad.36.1755496076565;
+        Sun, 17 Aug 2025 22:47:56 -0700 (PDT)
+Received: from [10.218.42.132] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d5a9b9esm69293305ad.167.2025.08.17.22.47.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Aug 2025 22:47:56 -0700 (PDT)
+Message-ID: <bb1b095f-4198-495d-a82d-1d1d7b7367d1@oss.qualcomm.com>
+Date: Mon, 18 Aug 2025 11:17:49 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/11] bus: mhi: host: Add support to read MHI
+ capabilities
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Jingoo Han <jingoohan1@gmail.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        qiang.yu@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+        quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
+        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+References: <20250609-mhi_bw_up-v4-0-3faa8fe92b05@qti.qualcomm.com>
+ <20250609-mhi_bw_up-v4-3-3faa8fe92b05@qti.qualcomm.com>
+ <ttjbjmixxbzatcfthaucuy3j4hosu4azpizes6ptxjnkzsawa5@5axodfdyjff2>
+ <5625ffa1-f952-4646-a17a-fbbfffcdba2a@oss.qualcomm.com>
+ <4c68074e-5809-bc4c-185a-88ddcb81f31b@linux.intel.com>
+Content-Language: en-US
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <4c68074e-5809-bc4c-185a-88ddcb81f31b@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250512112631.2477075-1-ynezz@true.cz>
+X-Proofpoint-ORIG-GUID: MHpVW5dMM47eRzZgcmsOshWLiJ4tF_Ji
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyMCBTYWx0ZWRfXxydFzsrDSgv/
+ u2SlKmE6EZ+MDVoLiqEQgxx5eg/wIQTc/oMcKUXIh8zz5N7uJcJlNH6YRHfour886E6ZmtVVLe8
+ G6yOY0txmAOr5AI2CP9SjL8KUV7+wjLW9T41uPojmiNElMC4k634iR8z1bxg0PX9wnC1tnQkT/q
+ Zdqb/uTTK1Nm+Q+A1+l7Wbm6Qw8WnRQwu0mBtArayiMp2/XmAsOUTq7CILez8elES7ELwGXRN6Y
+ VBGxB7oRVBYc16JzwFz/aQ8GDfMK285oZ1TUzu+4b3qUj4MsgXbxiDFRFnw0mUOGuHSCyTLqX9u
+ JAHybx8OwzfdtfCv/4x8JPTYyx7l5+zU9nUXPJesSNqLlcbPaiEIWxLbQm0x/F0RmgGkKJbnKGF
+ Ks3XxwdB
+X-Authority-Analysis: v=2.4 cv=a+Mw9VSF c=1 sm=1 tr=0 ts=68a2be8e cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=BTqdaEJVcAPEW8WuxcAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: MHpVW5dMM47eRzZgcmsOshWLiJ4tF_Ji
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_02,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160020
 
-Hi, gentle ping :-) Thanks! Cheers, Petr
 
-Petr Štetiar <ynezz@true.cz> [2025-05-12 11:26:31]:
 
-> From: Chris Webb <chris@arachsys.com>
+On 7/9/2025 5:50 PM, Ilpo Järvinen wrote:
+> On Wed, 9 Jul 2025, Krishna Chaitanya Chundru wrote:
+>> On 7/8/2025 10:06 PM, Manivannan Sadhasivam wrote:
+>>> On Mon, Jun 09, 2025 at 04:21:24PM GMT, Krishna Chaitanya Chundru wrote:
+>>>> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+>>>>
+>>>> As per MHI spec v1.2,sec 6.6, MHI has capability registers which are
+>>>> located after the ERDB array. The location of this group of registers is
+>>>> indicated by the MISCOFF register. Each capability has a capability ID to
+>>>> determine which functionality is supported and each capability will point
+>>>> to the next capability supported.
+>>>>
+>>>> Add a basic function to read those capabilities offsets.
+>>>>
+>>>> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+>>>> Signed-off-by: Krishna Chaitanya Chundru
+>>>> <krishna.chundru@oss.qualcomm.com>
+>>>> ---
+>>>>    drivers/bus/mhi/common.h    | 13 +++++++++++++
+>>>>    drivers/bus/mhi/host/init.c | 34 ++++++++++++++++++++++++++++++++++
+>>>>    2 files changed, 47 insertions(+)
+>>>>
+>>>> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+>>>> index
+>>>> dda340aaed95a5573a2ec776ca712e11a1ed0b52..58f27c6ba63e3e6fa28ca48d6d1065684ed6e1dd
+>>>> 100644
+>>>> --- a/drivers/bus/mhi/common.h
+>>>> +++ b/drivers/bus/mhi/common.h
+>>>> @@ -16,6 +16,7 @@
+>>>>    #define MHICFG				0x10
+>>>>    #define CHDBOFF				0x18
+>>>>    #define ERDBOFF				0x20
+>>>> +#define MISCOFF				0x24
+>>>>    #define BHIOFF				0x28
+>>>>    #define BHIEOFF				0x2c
+>>>>    #define DEBUGOFF			0x30
+>>>> @@ -113,6 +114,9 @@
+>>>>    #define MHISTATUS_MHISTATE_MASK		GENMASK(15, 8)
+>>>>    #define MHISTATUS_SYSERR_MASK		BIT(2)
+>>>>    #define MHISTATUS_READY_MASK		BIT(0)
+>>>> +#define MISC_CAP_MASK			GENMASK(31, 0)
+>>>> +#define CAP_CAPID_MASK			GENMASK(31, 24)
+>>>> +#define CAP_NEXT_CAP_MASK		GENMASK(23, 12)
+>>>>      /* Command Ring Element macros */
+>>>>    /* No operation command */
+>>>> @@ -204,6 +208,15 @@
+>>>>    #define MHI_RSCTRE_DATA_DWORD1
+>>>> cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+>>>>    							       MHI_PKT_TYPE_COALESCING))
+>>>>    +enum mhi_capability_type {
+>>>> +	MHI_CAP_ID_INTX = 0x1,
+>>>> +	MHI_CAP_ID_TIME_SYNC = 0x2,
+>>>> +	MHI_CAP_ID_BW_SCALE = 0x3,
+>>>> +	MHI_CAP_ID_TSC_TIME_SYNC = 0x4,
+>>>> +	MHI_CAP_ID_MAX_TRB_LEN = 0x5,
+>>>> +	MHI_CAP_ID_MAX,
+>>>> +};
+>>>> +
+>>>>    enum mhi_pkt_type {
+>>>>    	MHI_PKT_TYPE_INVALID = 0x0,
+>>>>    	MHI_PKT_TYPE_NOOP_CMD = 0x1,
+>>>> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+>>>> index
+>>>> 13e7a55f54ff45b83b3f18b97e2cdd83d4836fe3..9102ce13a2059f599b46d25ef631f643142642be
+>>>> 100644
+>>>> --- a/drivers/bus/mhi/host/init.c
+>>>> +++ b/drivers/bus/mhi/host/init.c
+>>>> @@ -467,6 +467,40 @@ int mhi_init_dev_ctxt(struct mhi_controller
+>>>> *mhi_cntrl)
+>>>>    	return ret;
+>>>>    }
+>>>>    +static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32
+>>>> capability, u32 *offset)
+>>>> +{
+>>>> +	u32 val, cur_cap, next_offset;
+>>>> +	int ret;
+>>>> +
+>>>> +	/* Get the first supported capability offset */
+>>>> +	ret = mhi_read_reg_field(mhi_cntrl, mhi_cntrl->regs, MISCOFF,
+>>>> MISC_CAP_MASK, offset);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	*offset = (__force u32)le32_to_cpu(*offset);
+>>>
+>>> Why do you need __force attribute? What does it suppress? Is it because the
+>>> pointer is not le32?
+>>>
+>> yes to suppress warnings.
 > 
-> I have a router board with a Quectel RM520N-GL 5G module that speaks
-> either USB or PCIe. When switched to PCIe mode, the modem present itself
-> on PCI bus with following IDs:
+> I'm pretty sure sparce with endianness checking won't be happy with that
+> construct as you pass u32 where le32_to_cpu() expects __le32. Have you
+> checked this with sparse? (It might not check endianness with default args.)
 > 
->   0003:01:00.0 Unassigned class [ff00]: Qualcomm Technologies, Inc Device [17cb:0308]
->     Subsystem: Qualcomm Technologies, Inc Device [17cb:5201]
+>>>> +	do {
+>>>> +		if (*offset >= mhi_cntrl->reg_len)
+>>>> +			return -ENXIO;
+>>>> +
+>>>> +		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, *offset, &val);
+>>>> +		if (ret)
+>>>> +			return ret;
+>>>> +
+>>>> +		val = (__force u32)le32_to_cpu(val);
+>>>> +		cur_cap = FIELD_GET(CAP_CAPID_MASK, val);
+>>>> +		next_offset = FIELD_GET(CAP_NEXT_CAP_MASK, val);
+>>>> +		if (cur_cap >= MHI_CAP_ID_MAX)
+>>>> +			return -ENXIO;
+>>>> +
+>>>> +		if (cur_cap == capability)
+>>>> +			return 0;
+>>>> +
+>>>> +		*offset = next_offset;
+>>>> +	} while (next_offset);
+>>>> +
+>>>> +	return -ENXIO;
+>>>> +}
 > 
-> and is currently being wrongly detected by the kernel as:
-> 
->   mhi-pci-generic 0000:01:00.0: MHI PCI device found: qcom-sdx65m
-> 
-> which results into wrong modem configuration and thus missing wwanX
-> netdev. So lets fix it by adding a new device entry for this 0x5201 variant.
-> 
-> Link: https://lore.kernel.org/mhi/ZqllDCWfiKravZAo@arachsys.com/T/#u
-> Fixes: 1cad976a1be9 ("bus: mhi: host: pci_generic: Add support for Quectel RM520N-GL modem")
-> Signed-off-by: Chris Webb <chris@arachsys.com>
-> Signed-off-by: Petr Štetiar <ynezz@true.cz>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 03aa88795209..0db9543a7edc 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -818,6 +818,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
-> +	/* RM520N-GL variant with Qualcomm vendor and subvendor ID */
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_QCOM, 0x5201),
-> +		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
->  	/* Telit FN990 */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
+> There's a generalization of capability search in Hans Zhang's series,
+> can it be used here too?
+I Checked this option, the mhi capabilities will not fit in to the
+series mentioned for not matching the mask for cap ID, size etc. mhi
+capability are similar to PCI, but they vary between mask of cap ID, 
+size of the space etc. so going with current approach only.
 
--- 
-ynezz
+- Krishna Chaitanya.
+> 
+> 
