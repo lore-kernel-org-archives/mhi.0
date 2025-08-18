@@ -1,99 +1,111 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ACE1258EC6
-	for <mhi@lists.linux.dev>; Mon, 18 Aug 2025 10:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CDC2036FA;
+	Mon, 18 Aug 2025 16:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755513924; cv=none; b=ZEIlEygRXj49HHVpDlaIHxrv5rpPZTNLMZzxdxD4LaxXs7ssl8UYTL7ntPXmycoiUtm7JmgeF0dMPwIOjTxc0tphwkLBFYTVRS7nadrPEY5lnfizOX9rDt7RmEiY8DuVseRd3ugYVvETCm0BoPvbp+1dEm5kE4RVxqV7/dj1ELQ=
+	t=1755534378; cv=none; b=UnMKxsF3aYcXOdDQGNUMnL6fVvPluRWKDRWTNQfRL9i76DF7uNaWF8j2/kStuMMGTtI+I+Iz4lu12N+xkAdQFszKcc2xpzj8aoC5YIHLBbVWlSlFgVF2Wa2qFYw04fOvEdhu5ERbc1fIV+jOU74LoZmfw8S6mWRpTMXc5K9Hd44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755513924; c=relaxed/simple;
-	bh=efdPBkydLmY/ZTpYB/17A2kvC8/rYbvJhIhTjYgpWP0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=AlkiopVKXIZyJwblyjBIXmqcXa7T8+PxSyd3fM1w+nCLs/qkl1NKcohA57auHa8+Ia/Qss5Mhkj+0Q5Z0JKF6gFouz7InmA0rfrLExqi8JhrW19v6DtoX8Vnb/7JbbXFsylEbV1gjG4ZuSSF97zDJlq3pk/1DpYPFfISYXvPx/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=O4KWLn1q reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1755534378; c=relaxed/simple;
+	bh=ZwkwKLm+9X4AKLx18Kn7SY8j79i1RmrxvQJj90SGHG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7yUWHl8nmsIKtVMPyuXYEBmSiILoazOBSGqgVB/yc/KPV0NE3B3K5G0bkuOkusT4MT6kjPgaWx0qcfG6U7O8stBqezFhocJsqNHAntafjwAauygy3CkoHVcGKRLwc93oZR9bQuQVk+vV8Oq7EOmXSiPu2Kv73sH9X1CPch5Znk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoUjYCOK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="O4KWLn1q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=UI+QSrPvaZI5PI+QLMVEJP6Ykyn+CzzfTwDZnBxma4A=; b=O
-	4KWLn1qT0biDwSVdI5UZciBdfxzV7EHQQyzOnkmjvRGd9Cxnk9qshqYOox9WjZul
-	fhP94tRNEuNvby+0pMVJ45PPKG94OMofkNdq/vIsVXVqVtHnLQYilmePhjF7bVYu
-	2V2wOc7grCcIBvOxpDWu8SNhGyi9PVBr59l67hpxw8=
-Received: from slark_xiao$163.com ( [2409:895b:3271:c6a5:2c24:eb9d:11c0:c02]
- ) by ajax-webmail-wmsvr-40-125 (Coremail) ; Mon, 18 Aug 2025 18:45:04 +0800
- (CST)
-Date: Mon, 18 Aug 2025 18:45:04 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <mani@kernel.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoUjYCOK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABEAC4CEEB;
+	Mon, 18 Aug 2025 16:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755534377;
+	bh=ZwkwKLm+9X4AKLx18Kn7SY8j79i1RmrxvQJj90SGHG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eoUjYCOKlvn63f5fLt/oPtGXuXlIB3qI/s1uwCSlxibX/y6DChK9BSYT2KFxHOK7N
+	 JQOAB4wpvBP/cqfQYWaU21NSkbhmZ3ycZki5Tb1XbTQ9HmjmawmOuDNfztGe1oXhM5
+	 oMYRvwG57tl16BcpLJQcmLiZHDEI2JocqPQD7qwss1jWsdLqa0gY5nHLU/xhUggeE9
+	 WuGTnngOEQwYXlr04Z/QHYpd2TLqCfCDHHqWGm5ndGcik0ACZ7FJMzx1W+3lL2gAGJ
+	 lBQUaLiKJZxOdGS/YG5gCmbnCX2ajyk8GkBpyx98eTuZaLtW1sbK7uLMABL9dO+ySC
+	 9wh+aU1KevT5Q==
+Date: Mon, 18 Aug 2025 21:56:11 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] bus: mhi: host: pci_generic: Add more Foxconn
- T99W696 modem
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <ma7am34lifhb3avqyiodtbsfmlmi6s5tsw7kqf2rp2eyiq3uqw@ty57xdfbe5ao>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add more Foxconn T99W696
+ modem
+Message-ID: <2cnllzjs4w4s5hqelhdpyfsnxlnb4amtueyijqndavkypumr5l@46q4k4lut6a2>
 References: <20250729085726.106807-1-slark_xiao@163.com>
  <ma7am34lifhb3avqyiodtbsfmlmi6s5tsw7kqf2rp2eyiq3uqw@ty57xdfbe5ao>
-X-NTES-SC: AL_Qu2eB/mavEEr4iSQYOkfmk8Sg+84W8K3v/0v1YVQOpF8jAzp/REKU3RSOlru2u60KgermgmGUxd/7/VKUI5HWqgQQO6O2ohwTEeaI/b504ZpfA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <7eb35c0c.93ee.198bcc85d6c.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <7eb35c0c.93ee.198bcc85d6c.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:fSgvCgA3vw0xBKNoWlgcAA--.3974W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbibgWtZGii+3DYwQACs4
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7eb35c0c.93ee.198bcc85d6c.Coremail.slark_xiao@163.com>
 
-CgpBdCAyMDI1LTA4LTE4IDE2OjE0OjI4LCAiTWFuaXZhbm5hbiBTYWRoYXNpdmFtIiA8bWFuaUBr
-ZXJuZWwub3JnPiB3cm90ZToKPk9uIFR1ZSwgSnVsIDI5LCAyMDI1IGF0IDA0OjU3OjI2UE0gR01U
-LCBTbGFyayBYaWFvIHdyb3RlOgo+PiBUaGVyZSBhcmUgbW9yZSBwbGF0Zm9ybXMgbmVlZCBzdXBw
-b3J0IEZveGNvbm4gVDk5VzY5NiBtb2RlbS4KPj4gVGhpcyByZXF1aXJlbWVudCBjb21lcyBmcm9t
-IExlbm92byBzaWRlIHNpbmNlIHRoZXkgd2FudCAxIHBsYXRmb3JtCj4+IHRvIGNvcnJlc3BvbmQg
-dG8gMSBtb2RlbSBTS1UuCj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194
-aWFvQDE2My5jb20+Cj4+IC0tLQo+PiAgZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMu
-YyB8IDE4ICsrKysrKysrKysrKysrKysrKwo+PiAgMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlv
-bnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJp
-Yy5jIGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYwo+PiBpbmRleCA0ZWRiNWJi
-NDc2YmEuLjFmYzQzZjFiODZiZSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3Qv
-cGNpX2dlbmVyaWMuYwo+PiArKysgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5j
-Cj4+IEBAIC05MzIsNiArOTMyLDI0IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9p
-ZCBtaGlfcGNpX2lkX3RhYmxlW10gPSB7Cj4+ICAJLyogRm94Y29ubiBUOTlXNjk2LjAwLCBGb3hj
-b25uIFNLVSAqLwo+PiAgCXsgUENJX0RFVklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAz
-MDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTQ2KSwKPj4gIAkJLmRyaXZlcl9kYXRhID0g
-KGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5fdDk5dzY5Nl9pbmZvIH0sCj4+ICsJLyogRm94
-Y29ubiBUOTlXNjk2LjA1LCBMZW5vdm8gVDE0ICovCj4+ICsJeyBQQ0lfREVWSUNFX1NVQihQQ0lf
-VkVORE9SX0lEX1FDT00sIDB4MDMwOCwgUENJX1ZFTkRPUl9JRF9GT1hDT05OLCAweGUxNTApLAo+
-PiArCQkuZHJpdmVyX2RhdGEgPSAoa2VybmVsX3Vsb25nX3QpICZtaGlfZm94Y29ubl90OTl3Njk2
-X2luZm8gfSwKPj4gKwkvKiBGb3hjb25uIFQ5OVc2OTYuMDYsIExlbm92byBUMTUgKi8KPj4gKwl7
-IFBDSV9ERVZJQ0VfU1VCKFBDSV9WRU5ET1JfSURfUUNPTSwgMHgwMzA4LCBQQ0lfVkVORE9SX0lE
-X0ZPWENPTk4sIDB4ZTE1MSksCj4+ICsJCS5kcml2ZXJfZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkg
-Jm1oaV9mb3hjb25uX3Q5OXc2OTZfaW5mbyB9LAo+PiArCS8qIEZveGNvbm4gVDk5VzY5Ni4wNywg
-TGVub3ZvIFQxNiAqLwo+PiArCXsgUENJX0RFVklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09NLCAw
-eDAzMDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTUyKSwKPj4gKwkJLmRyaXZlcl9kYXRh
-ID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5fdDk5dzY5Nl9pbmZvIH0sCj4+ICsJLyog
-Rm94Y29ubiBUOTlXNjk2LjA4LCBMZW5vdm8gUDE0cyAqLwo+PiArCXsgUENJX0RFVklDRV9TVUIo
-UENJX1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgMHhlMTUz
-KSwKPj4gKwkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9uZ190KSAmbWhpX2ZveGNvbm5fdDk5
-dzY5Nl9pbmZvIH0sCj4+ICsJLyogRm94Y29ubiBUOTlXNjk2LjA5LCBMZW5vdm8gUDE2cyAqLwo+
-PiArCXsgUENJX0RFVklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09NLCAweDAzMDgsIFBDSV9WRU5E
-T1JfSURfRk9YQ09OTiwgMHhlMTU0KSwKPj4gKwkJLmRyaXZlcl9kYXRhID0gKGtlcm5lbF91bG9u
-Z190KSAmbWhpX2ZveGNvbm5fdDk5dzY5Nl9pbmZvIH0sCj4+ICsJLyogRm94Y29ubiBUOTlXNjk2
-LjEwLCBMZW5vdm8gUDEgKi8KPj4gKwl7IFBDSV9ERVZJQ0VfU1VCKFBDSV9WRU5ET1JfSURfUUNP
-TSwgMHgwMzA4LCBQQ0lfVkVORE9SX0lEX0ZPWENPTk4sIDB4ZTE1NSksCj4+ICsJCS5kcml2ZXJf
-ZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3Q5OXc2OTZfaW5mbyB9LAo+Cj5T
-aW5jZSBhbGwgVDk5VzY5NiBkZXJpdmF0aXZlcyBhcmUgdXNpbmcgdGhlIHNhbWUgY29uZmlnLCBj
-YW4ndCB5b3UgdXNlIGJlbG93Pwo+Cj4JUENJX0RFVklDRV9TVUIoUENJX1ZFTkRPUl9JRF9RQ09N
-LCAweDAzMDgsIFBDSV9WRU5ET1JfSURfRk9YQ09OTiwgUENJX0FOWV9JRCksCj4JCS5kcml2ZXJf
-ZGF0YSA9IChrZXJuZWxfdWxvbmdfdCkgJm1oaV9mb3hjb25uX3Q5OXc2OTZfaW5mbyB9LAo+Cj5J
-J20gcHJlc3VtZWQgdGhhdCBhbGwgMHgwMzA4IGJhc2VkIG1vZGVtcyBhcmUgVDk5VzY5NiBkZXJp
-dmF0aXZlcy4KPgo+LSBNYW5pCj4KSGkgTWFuaSwKWWVhaCwgdGhpcyBpcyByZWFsbHkgaGVscGZ1
-bC4KU28gc2hhbGwgSSB1cGRhdGUgdGhlIHByZXZpb3VzIFQ5OVc2OTYgSURzIHdpdGggdGhpcyBu
-ZXcgbWF0Y2ggY2FzZT8KClRoYW5rcwo+LS0gCj7grq7grqPgrr/grrXgrqPgr43grqPgrqngr40g
-4K6a4K6k4K6+4K6a4K6/4K614K6u4K+NCg==
+On Mon, Aug 18, 2025 at 06:45:04PM GMT, Slark Xiao wrote:
+> 
+> 
+> At 2025-08-18 16:14:28, "Manivannan Sadhasivam" <mani@kernel.org> wrote:
+> >On Tue, Jul 29, 2025 at 04:57:26PM GMT, Slark Xiao wrote:
+> >> There are more platforms need support Foxconn T99W696 modem.
+> >> This requirement comes from Lenovo side since they want 1 platform
+> >> to correspond to 1 modem SKU.
+> >> 
+> >> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> >> ---
+> >>  drivers/bus/mhi/host/pci_generic.c | 18 ++++++++++++++++++
+> >>  1 file changed, 18 insertions(+)
+> >> 
+> >> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >> index 4edb5bb476ba..1fc43f1b86be 100644
+> >> --- a/drivers/bus/mhi/host/pci_generic.c
+> >> +++ b/drivers/bus/mhi/host/pci_generic.c
+> >> @@ -932,6 +932,24 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+> >>  	/* Foxconn T99W696.00, Foxconn SKU */
+> >>  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe146),
+> >>  		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.05, Lenovo T14 */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe150),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.06, Lenovo T15 */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe151),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.07, Lenovo T16 */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe152),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.08, Lenovo P14s */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe153),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.09, Lenovo P16s */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe154),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >> +	/* Foxconn T99W696.10, Lenovo P1 */
+> >> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, 0xe155),
+> >> +		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >
+> >Since all T99W696 derivatives are using the same config, can't you use below?
+> >
+> >	PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_FOXCONN, PCI_ANY_ID),
+> >		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w696_info },
+> >
+> >I'm presumed that all 0x0308 based modems are T99W696 derivatives.
+> >
+> >- Mani
+> >
+> Hi Mani,
+> Yeah, this is really helpful.
+> So shall I update the previous T99W696 IDs with this new match case?
+> 
+
+Yes please.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
