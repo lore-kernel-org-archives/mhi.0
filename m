@@ -1,105 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65012C17B2;
-	Mon, 18 Aug 2025 08:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from cdw.me.uk (cdw.me.uk [91.203.57.136])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7925830F81E;
+	Mon, 18 Aug 2025 09:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.203.57.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505183; cv=none; b=ib3dv6M41wu2e2mneQqKlbzwQ21Y944I5lCzhs5gh8w9WdeWxrCW5uSPqE6ohqVBoh+zm12pzB3rmlU3ls5bDCFmhO5eRRuRmLFZkTYeGHdj9b+PJo1otkwQcO4/t4NFXjTVumVC23P5TQW+z/wNLHeU3yH/6CTl59qoqnI/z1o=
+	t=1755510883; cv=none; b=bkLEWSsxS+32gv4Z2svTHPm7FIPVPAPsduY2cpUPmAJmhxiI5Co4WMW5IUwIPXBmUmzG5P8wmzOZYCmJ5Idjd6d6yjuCe8OXhznz/+G6f1OGXz8y0ItkjwJVA2ikpJsqeGqM2fC7xhv1si94Rkn/QfXXB2OzRfEQ6E/Q91uHDUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505183; c=relaxed/simple;
-	bh=qs1FyK4l3M8bvkPrN9EVnJA8GJp/pj19Ib9fWjdBj8M=;
+	s=arc-20240116; t=1755510883; c=relaxed/simple;
+	bh=I8lfaokORzYRA+TsnF4mKU3HU5Wu654aIFxE/eI4YNQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B/O3RXnG2VjAbrcxvtrQbu3dWl7B7QlPjoK52JCrU/ZBIAcE+V3eG+g0OUDwqjKKdqD0HrFrmiKZqRx+lGmQ4qLQ1PhwtivhONzxGVkqBBhqHJyxXodwBzrkmsTRLC9N2G5M+9aUTrZtMbczQMaP1Kwi42GnPJ0YtM//zwwzu30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IMNyz7XX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IMNyz7XX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D84C4CEEB;
-	Mon, 18 Aug 2025 08:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755505182;
-	bh=qs1FyK4l3M8bvkPrN9EVnJA8GJp/pj19Ib9fWjdBj8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IMNyz7XXaT1daLXIB1nZiQ96Fc4riXu3aj6QRLeUVh82i6nXiLZoWEHE+Dq+28b0P
-	 VZjIuK0LIOXl5nR3wc0gaWWSVrJyOAw5Odex1qHz9lNk501F2MOusWz/PGYX/if6Oj
-	 Zm+H8f2BnCdFuo1QYiFGAdOmX6moMI4VsUStUh6noWFLyrgMNwxI8NH2sfMY/jM7uj
-	 CuKlaMyWKKEEQEW9YziN1xBg8JmcAfSY0IrwekwS1zjD0L2S6+jOkm82tDxJuPsBao
-	 l1JVnPopp5OGNg/h0z0zhQlG5zFFVm5Qrj+mn3toQtSZNkQ2Dgp71DZ25Y9DqgwtKw
-	 csJQM7IrxGwLw==
-Date: Mon, 18 Aug 2025 13:49:35 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Michael Fritscher <michael@fritscher.net>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, duke_xinanwen@163.com
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add Quectel RM520N-GLAP to
- pci id table
-Message-ID: <7fsulhs6l5j7gg4oy3hww6xpg5rlq7msxfixpa3zbsd4ejmymw@dk67avi3vn6i>
-References: <20250729-add-rm520n-glap-support-v1-1-736ee6bbb385@fritscher.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=TI97ipk5gxfPTIEvWsigFn8AxAwSh4rMuagjKXvV8Ya7mBR/4a0Io/WN2paJq0u9y9qfiQ+O56yXZRkzXUVzjEJi+P+x+B60k4l/1AsSGgaxZO4iemr7VlljhEJ48L7FPwRTIRzvVtShT6KhwtR2BO53lcTjBojmEqvXhxTNDZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arachsys.com; spf=pass smtp.mailfrom=arachsys.com; arc=none smtp.client-ip=91.203.57.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arachsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arachsys.com
+Received: from chris by delta.arachsys.com with local (Exim 4.80)
+	(envelope-from <chris@arachsys.com>)
+	id 1unw8D-0001lh-0x; Mon, 18 Aug 2025 10:26:21 +0100
+Date: Mon, 18 Aug 2025 10:26:21 +0100
+From: Chris Webb <chris@arachsys.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Duke Xin =?utf-8?B?KOi+m+WuieaWhyk=?= <duke_xinanwen@163.com>,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: add support for Quectel
+ RM520N-GL 0x5201 variant
+Message-ID: <aKLxvZDBhoEKujI1@arachsys.com>
+References: <20250512112631.2477075-1-ynezz@true.cz>
+ <aJ7SMWSWw5l8rS4I@meh.true.cz>
+ <ywase3lkm5iimrzyin5grb3hr36zedsvzs3p2z6z2q6532g3cq@25ibqnpmanvo>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250729-add-rm520n-glap-support-v1-1-736ee6bbb385@fritscher.net>
+In-Reply-To: <ywase3lkm5iimrzyin5grb3hr36zedsvzs3p2z6z2q6532g3cq@25ibqnpmanvo>
 
-+ Duke Xin
+Manivannan Sadhasivam <mani@kernel.org> writes:
 
-On Tue, Jul 29, 2025 at 01:37:51PM GMT, Michael Fritscher wrote:
-> Quectel RM520N-GLAP is a variant of Quectel RM520N-GLAA with fused out USB.
-> Add its PCI vendor and product id to the list to use the right dev info.
-> 
-> Signed-off-by: Michael Fritscher <michael@fritscher.net>
-> ---
-> This series add support for the Quectel RM520N-GLAP, which uses a
-> Qualcomm PCI Vendor ID. Origin is linked at the end. After this it is
-> found as
-> 
-> MHI PCI device found: quectel-rm5xx
-> 
-> and works.
-> 
+> @Duke Xin: Could you please let us know why the Quectel modems are using the
+> QCOM Vendor IDs?
 
-This looks similar to another issue that is being discussed here:
-https://lore.kernel.org/mhi/ywase3lkm5iimrzyin5grb3hr36zedsvzs3p2z6z2q6532g3cq@25ibqnpmanvo/
+In particular, I wonder if there's a way to reconfigure the modem to
+permanently set the correct IDs so it doesn't need a patch at all? That
+would be a nicer fix than adding to the giant list of variants.
 
-These Quectel modems are reusing the QCOM Vendor IDs and ends up causing
-trouble. We need to hear from Quectel on why this happens and how they want
-these modems to be supported in mainline.
+PS While the tiny diff here is mine, the commit message isn't, so it
+probably should be attributed as From: Petr rather than From: me. But
+this doesn't matter if my hack is not correct anyway! ;-)
 
-- Mani
+Best wishes,
 
-> Link: https://forum.gl-inet.com/t/how-to-installing-vanilla-openwrt-on-gl-x3000/45404/15
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 589cb6722316..3f3212dda5bb 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -857,6 +857,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn980_hw_v1_info },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0306),
->  		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx55_info },
-> +	/* RM520N-GL variant with Qualcomm vendor and subvendor ID */
-> +	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, PCI_VENDOR_ID_QCOM, 0x5201),
-> +		.driver_data = (kernel_ulong_t) &mhi_quectel_rm5xx_info },
->  	/* Telit FN990 */
->  	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0308, 0x1c5d, 0x2010),
->  		.driver_data = (kernel_ulong_t) &mhi_telit_fn990_info },
-> 
-> ---
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-> change-id: 20250729-add-rm520n-glap-support-8add91648721
-> 
-> Best regards,
-> -- 
-> Michael Fritscher <michael@fritscher.net>
-> 
-
--- 
-மணிவண்ணன் சதாசிவம்
+Chris.
