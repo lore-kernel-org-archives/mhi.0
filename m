@@ -1,46 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0911DDA15;
-	Fri, 22 Aug 2025 10:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ACA1096F;
+	Fri, 22 Aug 2025 17:19:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755859650; cv=none; b=FQVvvDcy783+aZWI1zk9JcxeIC0p+EsDjEh+qsajUJg/FMtheZipokvih6snF8gezQTahQrZ/lHQZvtRzUTa6khXXyjyzik3mnkHhiYyU5fAaDcUrTM6VALrlycKWGWfa1CWSZfJp8MtCoBQ8O8zcLksK7TFVZCYXnRuoS/kYUc=
+	t=1755883192; cv=none; b=W3yYWW7jS3LmtilXZfXvAeWC+DJW9p0/DzILJ8TTBY2iY4C+PB3wURJPmE7UCOvUzk3LGUrUQ/ilfo8d2YeVPIFwu7O+jXa6za46br060XVkdMwe8CazlPjvYW/VPCVX1fVs6Q+dZL/UZpMnRxAxFeIKG/ONkI0bgt1Lc6XUljc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755859650; c=relaxed/simple;
-	bh=x3nEl7YU8fusiqvdgY+Aoo7B+7NoOXGHlz8dlI8JQmE=;
+	s=arc-20240116; t=1755883192; c=relaxed/simple;
+	bh=L7VZUdX3MLspbO+BuCJOeSCnsEFhb0f9Kl8vZtDysSU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ElVYRNPN6j/s+ip+fr6AydNInYhRkmcIypc260hDBIoK7egCPQk43zG9JsrMOmXGlaVIEoP029NAXB1M9665xbuwACp9+pFKVgR2qhAT36l1f5SJLl++zJbVJyHxRY+RhefXze2BVwM7bcZQcs+4b5X3aG3nccxuNS5n6FxE5RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANwI4zu2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=drdztylgrJvpovhdy1ti8lTQO+3XkpXOuEkDVBwOwRglPOl+4bJTxxGm52e4b2b8BTm6jtf/a2PuJorBotYDiOH85M/fVviHS+X9vggU+6c2UL/opi6xDBR0SFzz6u6BHdzItipqMFRxg2Q1wYGWKa7nPEuH2y7jcvbOlj0bXgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZsKQAFhx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANwI4zu2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7542C4CEED;
-	Fri, 22 Aug 2025 10:47:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZsKQAFhx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00BA0C4CEED;
+	Fri, 22 Aug 2025 17:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755859650;
-	bh=x3nEl7YU8fusiqvdgY+Aoo7B+7NoOXGHlz8dlI8JQmE=;
+	s=k20201202; t=1755883192;
+	bh=L7VZUdX3MLspbO+BuCJOeSCnsEFhb0f9Kl8vZtDysSU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ANwI4zu2hfSzlY4+znK2amjpNcl6+wD+hqy6qleIgHzO4UXZGGKM15Ek96raJx4c7
-	 gjAr5tWCw2wMpEIgkVK7lG79IGBSAAAUOi99nm79UKD7LJahQqk8pyzn6GnnpHALy/
-	 3LPZ5p93HYJ2mKVI7cvOosIXevh5fnaTNoJPoqwIVMRER+vMrn1uw2o7lXbZhYUbZE
-	 WjbzXa+MBjo0XbKe3sjCggb6ZfoQTh2SZ7jAyQfa9Sjp7qFos2pCBl0hIdii0hnFo8
-	 X6HNpOAkgrg+3NFHnL1NIPWwnZ5vSU9FmwuMpHipVsKbJKnv1ULDSpITsqSWAjXOG0
-	 39dfevQ02B9WA==
-Date: Fri, 22 Aug 2025 16:17:15 +0530
+	b=ZsKQAFhxdGePNlkVD4aEm20sTIPjMYYfRa6stb19nSTj9HjxHmB9goFCBQ92LmWew
+	 X62qmO8SQICVukO3DyipX380hqA3IHaKf6ZQbymLkikdit4oohE7wNEBatKmhToLqp
+	 sKYWiY4ty2IdRGPQBOx3ISVrCwxBjyr3DQeKcuSWy/FfHOZ/B5gV5mLVzBOrKf0gIT
+	 PuILVn3n7Wr+Z1axv+T3JTzh1qwp3Vd1NRa49yHmB5yrrUNsnVoAbcVIbMA7X1/0+F
+	 3ScSpZjtIo9xgr6SI4kulLAH/F0oCugR0cukDQne76w3rCAFPRrvy9xsNdZL/Dzx6z
+	 MMUwh0vaHlfCg==
+Date: Fri, 22 Aug 2025 22:49:39 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Sumit Kumar <quic_sumk@quicinc.com>
-Cc: Akhil Vinod <quic_akhvin@quicinc.com>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, quic_krichai@quicinc.com, quic_skananth@quicinc.com, 
-	quic_vbadigan@quicinc.com, Sumit Kumar <sumk@qti.qualcomm.com>, stable@vger.kernel.org, 
-	Akhil Vinod <akhvin@qti.qualcomm.com>
-Subject: Re: [PATCH] bus: mhi: ep: Fix chained transfer handling in read path
-Message-ID: <2biqjalas76dxqpho5745tljtxnohgmc2vywd5aavfd4zkqnj3@4eeukkbtxzcj>
-References: <20250709-chained_transfer-v1-1-2326a4605c9c@quicinc.com>
- <5aqtqicbtlkrqbiw2ba7kkgwrmsuqx2kjukh2tavfihm5hq5ry@gdeqegayfh77>
- <7c833565-0e7b-4004-b691-37bd07ce6abe@quicinc.com>
- <5ij32zdni7pei3xfpxsq6fvaghb3pdfs2fznickutqjysip3k4@kldf7h6e3qc4>
- <ffc65cc4-61d1-49d0-a0b9-9e0101fe029c@quicinc.com>
+To: Vivek.Pernamitta@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>
+Subject: Re: [PATCH] bus: mhi: host: Add uevent support in MHI driver
+Message-ID: <6g32g3zqzsdoo3h6d232jbtatp34tm3s5m6huc37h5sfir2bnf@syyou6tqyuxy>
+References: <20250822-uevent_vdev_next-20250821-v1-1-9ed3a8162194@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,83 +43,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ffc65cc4-61d1-49d0-a0b9-9e0101fe029c@quicinc.com>
+In-Reply-To: <20250822-uevent_vdev_next-20250821-v1-1-9ed3a8162194@quicinc.com>
 
-On Fri, Aug 22, 2025 at 02:20:29PM GMT, Sumit Kumar wrote:
+On Fri, Aug 22, 2025 at 10:22:03AM GMT, Vivek.Pernamitta@quicinc.com wrote:
+> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
+> Notify the MHI device's Execution Environment (EE) state via uevent,
+> enabling applications to receive real-time updates and take appropriate
+> actions based on the current state of MHI.
 > 
-> On 7/17/2025 10:44 PM, Manivannan Sadhasivam wrote:
-> > On Thu, Jul 17, 2025 at 10:18:54PM GMT, Akhil Vinod wrote:
-> > > 
-> > > On 7/16/2025 12:10 PM, Manivannan Sadhasivam wrote:
-> > > > On Wed, Jul 09, 2025 at 04:03:17PM GMT, Sumit Kumar wrote:
-> > > > > From: Sumit Kumar <sumk@qti.qualcomm.com>
-> > > > > 
-> > > > > The current implementation of mhi_ep_read_channel, in case of chained
-> > > > > transactions, assumes the End of Transfer(EOT) bit is received with the
-> > > > > doorbell. As a result, it may incorrectly advance mhi_chan->rd_offset
-> > > > > beyond wr_offset during host-to-device transfers when EOT has not yet
-> > > > > arrived. This can lead to access of unmapped host memory, causing
-> > > > > IOMMU faults and processing of stale TREs.
-> > > > > 
-> > > > > This change modifies the loop condition to ensure rd_offset remains behind
-> > > > > wr_offset, allowing the function to process only valid TREs up to the
-> > > > > current write pointer. This prevents premature reads and ensures safe
-> > > > > traversal of chained TREs.
-> > > > > 
-> > > > > Fixes: 5301258899773 ("bus: mhi: ep: Add support for reading from the host")
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Co-developed-by: Akhil Vinod <akhvin@qti.qualcomm.com>
-> > > > > Signed-off-by: Akhil Vinod <akhvin@qti.qualcomm.com>
-> > > > > Signed-off-by: Sumit Kumar <sumk@qti.qualcomm.com>
-> > > > > ---
-> > > > >    drivers/bus/mhi/ep/main.c | 2 +-
-> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> > > > > index b3eafcf2a2c50d95e3efd3afb27038ecf55552a5..2e134f44952d1070c62c24aeca9effc7fd325860 100644
-> > > > > --- a/drivers/bus/mhi/ep/main.c
-> > > > > +++ b/drivers/bus/mhi/ep/main.c
-> > > > > @@ -468,7 +468,7 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
-> > > > >    			mhi_chan->rd_offset = (mhi_chan->rd_offset + 1) % ring->ring_size;
-> > > > >    		}
-> > > > > -	} while (buf_left && !tr_done);
-> > > > > +	} while (buf_left && !tr_done && mhi_chan->rd_offset != ring->wr_offset);
-> > > > You should use mhi_ep_queue_is_empty() for checking the available elements to
-> > > > process. And with this check in place, the existing check in
-> > > > mhi_ep_process_ch_ring() becomes redundant.
-> > > > 
-> > > > - Mani
-> > > 
-> > > Yes, agreed that the check can be replaced with the mhi_ep_queue_is_empty, but the existing
-> > > check in mhi_ep_process_ch_ring() is still necessary because there can be a case where
-> > > there are multiple chained transactions in the ring.
-> > > 
-> > > Example: The ring at the time mhi_ep_read_channel is executing may look like:
-> > > chained | chained |  EOT#1 | chained | chained | EOT#2
-> > > If we remove the check from mhi_ep_process_ch_ring, we bail out of the first transaction itself
-> > > and the remaining packets won't be processed. mhi_ep_read_channel in its current form is designed
-> > > for a single MHI packet only.
-> > > 
-> > 
-> > Then you should ignore the EOT flag by removing '!tr_done' check and just check
-> > for buf_left and mhi_ep_process_ch_ring(). Having the same check in caller and
-> > callee doesn't make sense.
-> > 
-> > - Mani
-> > 
-> Agreed, we can remove the tr_done check from the while loop, then all the
-> elements of the ring will be processed in read_channel.
-> Additionally, the purpose of buf_left is to process a TRE if
-> DEFAULT_MTU_SIZE of endpoint is less than host, but the buf_left will become
-> 0 after processing a part of TRE and will not process the remaining data.
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> ---
+> Notify the MHI device's Execution Environment (EE) state via uevent,
+> enabling applications to receive real-time updates and take appropriate
+> actions based on the current state.
 > 
-> Therefore will remove the buf_left too from read_channel otherwise it will
-> exit the loop after processing one TRE or just a part of it.
+> Signed-off-by:
+> ---
+> Usage:
 > 
+> Enabling 16 virtual fucntions for SRIOV device QDU100 once device reached
+> mission mode from systemd service file
+> 
+> SUBSYSTEM=="mhi", ENV{EXEC_ENV}=="MISSION MODE", SUBSYSTEMS=="pci", ATTRS{device}=="0x0601",ATTR{../sriov_numvfs}="16"
+> ---
+> 
+> ---
+>  drivers/bus/mhi/host/internal.h |  1 +
+>  drivers/bus/mhi/host/main.c     |  1 +
+>  drivers/bus/mhi/host/pm.c       | 22 ++++++++++++++++++++++
+>  3 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 034be33565b78eff9bdefd93faa4f3ce93825bad..d455f0bf00133775fa23882a727782275640e43b 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -403,6 +403,7 @@ int mhi_process_data_event_ring(struct mhi_controller *mhi_cntrl,
+>  				struct mhi_event *mhi_event, u32 event_quota);
+>  int mhi_process_ctrl_ev_ring(struct mhi_controller *mhi_cntrl,
+>  			     struct mhi_event *mhi_event, u32 event_quota);
+> +void mhi_uevent_notify(struct mhi_controller *mhi_cntrl, enum mhi_ee_type ee);
+>  
+>  /* ISR handlers */
+>  irqreturn_t mhi_irq_handler(int irq_number, void *dev);
+> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+> index 52bef663e182de157e50f64c1764a52545c70865..8615512743199a59a58c3756d9cc3407079cee7e 100644
+> --- a/drivers/bus/mhi/host/main.c
+> +++ b/drivers/bus/mhi/host/main.c
+> @@ -512,6 +512,7 @@ irqreturn_t mhi_intvec_threaded_handler(int irq_number, void *priv)
+>  		if (mhi_cntrl->rddm_image && mhi_is_active(mhi_cntrl)) {
+>  			mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_EE_RDDM);
+>  			mhi_cntrl->ee = ee;
+> +			mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+>  			wake_up_all(&mhi_cntrl->state_event);
+>  		}
+>  		break;
+> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> index 33d92bf2fc3ed48db5f7fe80e4f0ef9fe2d2f2ab..1b849f334c49e52636821ed7587865a9254e9118 100644
+> --- a/drivers/bus/mhi/host/pm.c
+> +++ b/drivers/bus/mhi/host/pm.c
+> @@ -418,6 +418,7 @@ static int mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>  	device_for_each_child(&mhi_cntrl->mhi_dev->dev, &current_ee,
+>  			      mhi_destroy_device);
+>  	mhi_cntrl->status_cb(mhi_cntrl, MHI_CB_EE_MISSION_MODE);
+> +	mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+>  
+>  	/* Force MHI to be in M0 state before continuing */
+>  	ret = __mhi_device_get_sync(mhi_cntrl);
+> @@ -631,6 +632,8 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+>  	/* Wake up threads waiting for state transition */
+>  	wake_up_all(&mhi_cntrl->state_event);
+>  
+> +	mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+> +
+>  	if (MHI_REG_ACCESS_VALID(prev_state)) {
+>  		/*
+>  		 * If the device is in PBL or SBL, it will only respond to
+> @@ -829,6 +832,8 @@ void mhi_pm_st_worker(struct work_struct *work)
+>  			mhi_create_devices(mhi_cntrl);
+>  			if (mhi_cntrl->fbc_download)
+>  				mhi_download_amss_image(mhi_cntrl);
+> +
+> +			mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+>  			break;
+>  		case DEV_ST_TRANSITION_MISSION_MODE:
+>  			mhi_pm_mission_mode_transition(mhi_cntrl);
+> @@ -838,6 +843,7 @@ void mhi_pm_st_worker(struct work_struct *work)
+>  			mhi_cntrl->ee = MHI_EE_FP;
+>  			write_unlock_irq(&mhi_cntrl->pm_lock);
+>  			mhi_create_devices(mhi_cntrl);
+> +			mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+>  			break;
+>  		case DEV_ST_TRANSITION_READY:
+>  			mhi_ready_state_transition(mhi_cntrl);
+> @@ -1240,6 +1246,8 @@ static void __mhi_power_down(struct mhi_controller *mhi_cntrl, bool graceful,
+>  	write_unlock_irq(&mhi_cntrl->pm_lock);
+>  	mutex_unlock(&mhi_cntrl->pm_mutex);
+>  
+> +	mhi_uevent_notify(mhi_cntrl, mhi_cntrl->ee);
+> +
+>  	if (destroy_device)
+>  		mhi_queue_state_transition(mhi_cntrl,
+>  					   DEV_ST_TRANSITION_DISABLE_DESTROY_DEVICE);
+> @@ -1338,3 +1346,17 @@ void mhi_device_put(struct mhi_device *mhi_dev)
+>  	read_unlock_bh(&mhi_cntrl->pm_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(mhi_device_put);
+> +
+> +void mhi_uevent_notify(struct mhi_controller *mhi_cntrl, enum mhi_ee_type ee)
+> +{
+> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> +	char *buf[2];
+> +	int ret;
+> +
+> +	buf[0] = kasprintf(GFP_KERNEL, "EXEC_ENV=%s", TO_MHI_EXEC_STR(ee));
+> +	buf[1] = NULL;
+> +
+> +	ret = kobject_uevent_env(&dev->kobj, KOBJ_CHANGE, buf);
+> +	if (ret)
+> +		dev_err(dev, "Failed to send %s uevent\n", TO_MHI_EXEC_STR(ee));
 
-Right. If we are removing the ring empty check from mhi_ep_process_ch_ring(),
-then we do need to remove the buf_left check from mhi_ep_read_channel().
+You are leaking buf[0] here.
 
 - Mani
 
