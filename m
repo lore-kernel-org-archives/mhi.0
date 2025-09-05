@@ -1,53 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7058635AAD0;
-	Fri,  5 Sep 2025 14:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4BA72633;
+	Fri,  5 Sep 2025 14:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757081390; cv=none; b=TtgnwOnoyHBqghD+iKKjaTXgJlVA+t2Bcona3/qXMGh41EUCeZCmTOCd0viT2N8RlgI+hrRxDWGjan/JgX7HeyGABvsn10+RM+BaQoVAUjpYMOEFNWsDrVWsgewekxbPHs0jwBBKa7R4skxoVkrfMCtDzq6a9vV5LOy5NlVq1lk=
+	t=1757083829; cv=none; b=lhda+9dS10tGO/xEnlZxli9kMG5Gt5HvewAq0k17YTCUh0OlzXQs3DWLq4Cwas1hd0W+Ox+H83NecUZHEpwIHk5374Cvn+n+794hSSfBRrRBtLjdVDwQHHO87DynW+n17YS8ucitOKDs4xeUimalzprzE9lmH/WPSC7BLo3reVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757081390; c=relaxed/simple;
-	bh=xu5Nr+8UfCtfhyGlQ0Wh9FKpeEGOR5FlhBEYIQzhn8I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=i7sXs3uGkfsG6bS2TK36X6XCfU6/j47VicUWUmsXZqKw7HWB6m3tER0ZyLVhiLaSwKetMYAVkj7cqH7Yj4Pu9omxbuGM4Vdpu3y114hICEqn5bTVx4jcbBk7+fb5UhVBnswsvlv5N088hm3FQzzpH8Yp13VQwh4WGp03Qar0R2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DA98C4CEF1;
-	Fri,  5 Sep 2025 14:09:48 +0000 (UTC)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-To: mani@kernel.org, Slark Xiao <slark_xiao@163.com>
+	s=arc-20240116; t=1757083829; c=relaxed/simple;
+	bh=kAE7QMSgWPymSsX1fjbsvGtqxOjnWRpw6DKbmB/TdOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/Xr6Iunjtwf0O9iXgaM3htX5eCLtgCaueNK9SSmRUOaY8L6FUjoazw9SQDY55pfJaxinKE/WO7gql9HKTQ8DVVHZuCMT1MaktD7fbbNdM98gmm0tAh0AqTr2qtxT3IVVHG8Om9dqVnGN9AdfhPifqNlb2DxdgDr36d1oiNS1ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gd1A+B3I; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gd1A+B3I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E288EC4CEF1;
+	Fri,  5 Sep 2025 14:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757083829;
+	bh=kAE7QMSgWPymSsX1fjbsvGtqxOjnWRpw6DKbmB/TdOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gd1A+B3II800+S6KrdudhsHu/8nCWr/I9lD40r1/Pv6ebIXtdQJJ48Hznlx3caoPV
+	 L14dPWA0B5edbkwj7TQ94IZhmf7c8SUqRlk3CG4St9FL/SkG/LiUPjv0tNi4rXeWMK
+	 /PsRbgBrySslF7guI39oipty+5zyyqX5hgyvdEXaQhDdCpAlnSuB2BKocmczh2PGoj
+	 KbgEef3Z1Vg2vFQm93fsKsbvZaB7GPNh/ZXdAvXfPurCTvEQP1t+1hRZl8kmGL7az2
+	 POpbglO3f4GMd8dIdC9g58gtL8D5oHvM2q3MH3OhJU42rp3RLEwFVROznHavXJt7zg
+	 7RxOoFmDJ2mtw==
+Date: Fri, 5 Sep 2025 20:20:22 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Vivek.Pernamitta@quicinc.com
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250819020013.122162-1-slark_xiao@163.com>
-References: <20250819020013.122162-1-slark_xiao@163.com>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Use subsystem device ID
- PCI_ANY_ID for Foxconn T99W696 variants
-Message-Id: <175708138791.17481.9536484022718763721.b4-ty@oss.qualcomm.com>
-Date: Fri, 05 Sep 2025 19:39:47 +0530
+	linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>, 
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH v3 2/6] bus: mhi: host: pci_generic: Read
+ SUBSYSTEM_VENDOR_ID for VF's to check status
+Message-ID: <elqkwbuht6jimwdqtc26casnvkpoofrni5jsdg3vy2fjsz7h5f@zcnl42wj3g5q>
+References: <20250821-vdev_next-20250821_sriov-v3-0-e1b017c48d4a@quicinc.com>
+ <20250821-vdev_next-20250821_sriov-v3-2-e1b017c48d4a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250821-vdev_next-20250821_sriov-v3-2-e1b017c48d4a@quicinc.com>
 
-
-On Tue, 19 Aug 2025 10:00:13 +0800, Slark Xiao wrote:
-> Since there are too many variants for Foxconn T99W696 SKU, and
-> they share same settings. So we use PCI_ANY_ID as the subsystem
-> device ID to match each possible settings.
+On Thu, Aug 21, 2025 at 06:25:34PM GMT, Vivek.Pernamitta@quicinc.com wrote:
+> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
+> - In SR-IOV enabled devices, the VF DEVICE/VENDOR ID register returns
+>   FFFFh when read (as per PCIe SR-IOV spec section 3.4.1.1).
+> - To determine device activity, read the PCIe VENDOR_ID of the Physical
+>   Function (PF) instead.
+> - Disabled health check monitoring for Virtual Functions (VFs), as they
+>   are not physical functions and lack direct hardware control.
+> - This avoids unnecessary CPU cycles consumed by VF health checks, which
+>   are unintended and non-functional.
 > 
 
-Applied, thanks!
+Reword the description in imperative mood and try to come up with a paragraph
+with continuity instead of points.
 
-[1/1] bus: mhi: host: pci_generic: Use subsystem device ID PCI_ANY_ID for Foxconn T99W696 variants
-      commit: 376358bb9770e5313d22d8784511497096cdb75f
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/host/pci_generic.c | 35 ++++++++++++++++++++++++-----------
+>  1 file changed, 24 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 2967ed4cec29d1c1eeb581ed44cf9afcea90f533..df18627a9feb4f2d53ba1ca6a4e8087dc23c7873 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1094,8 +1094,7 @@ static bool mhi_pci_is_alive(struct mhi_controller *mhi_cntrl)
+>  	struct pci_dev *pdev = to_pci_dev(mhi_cntrl->cntrl_dev);
+>  	u16 vendor = 0;
+>  
+> -	if (pci_read_config_word(pdev, PCI_VENDOR_ID, &vendor))
+> -		return false;
+> +	pci_read_config_word(pci_physfn(pdev), PCI_VENDOR_ID, &vendor);
 
-Best regards,
+You removed the return value check. Was that intentional?
+
+>  
+>  	if (vendor == (u16) ~0 || vendor == 0)
+>  		return false;
+> @@ -1205,7 +1204,9 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+>  
+>  	dev_warn(&pdev->dev, "device recovery started\n");
+>  
+> -	timer_delete(&mhi_pdev->health_check_timer);
+> +	if (pdev->is_physfn)
+> +		timer_delete(&mhi_pdev->health_check_timer);
+
+I really hate these if () checks everywhere. So I came up with the below macro:
+
+	#define mhi_timer(pdev, timer_func, ...) \
+		do { if (pdev->is_physfn) timer_func(__VA_ARGS__); } while(0)
+
+	mhi_timer(pdev, timer_delete, &mhi_pdev->health_check_timer);
+
+But mhi_timer() provides no information on what the macro is supposed to do and
+I cannot think of a better name.
+
+So maybe we have to live with the if () checks.
+
+- Mani
+
 -- 
-Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-
+மணிவண்ணன் சதாசிவம்
