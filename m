@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A800B30217B;
-	Fri,  5 Sep 2025 15:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F209715D3;
+	Fri,  5 Sep 2025 15:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757084417; cv=none; b=jmPlWOsl7Rlfl6uJ/Bozf3jL9lzFY6JiouHwrUEMUYj4jx6Tt6fhl/gsGcRkWEjFDmy7NEdfQiHzVNx3996iXgh4LpUfl1ZWJz6laU8hmDVPIwrsXPdRwODiY89s310jzTy2E6355A6XZOP7oCYlf5gudyDb0jXXQrcViFlclDI=
+	t=1757084590; cv=none; b=l0EsImoHsg9S+25fXFQFkyDzcVHIbV8eACMVaqH8RqgFk0UnzXOcbWsxY63CCqdn3IVmN8lhsMIsNSpT2NO0SsE2xcSIx9jtsxwWrWEyWtKCM9PVJ0oh1UiQnZhAfrQpQ4iajPN6q9uUCpB9Kn9ZtmIz0hGEW+cOegut6+bMWPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757084417; c=relaxed/simple;
-	bh=ri4clsiuu0TGnICYGMR3lnjIIOKj/dmNCRfheklY2bE=;
+	s=arc-20240116; t=1757084590; c=relaxed/simple;
+	bh=eWcAevp3S4UXAh8xJvmgJDZ8dIZTuYfxGRfOPAGHzjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KY8l37reJmP9lMbQaFG8FjQPFrQgoeyb1Y94UGfgfrpfoPH2xODY1mjowmtox/SyHeBW2Uw5Ccd825taxrkvgrIpKBfZLtJhtR9ErrSpr3HRZVbLZ7EJBnJ8imrqrljPMLwY/bFWv0F0JCNV+BnD3ZSxclzC9Gg+DWQbcQmVQdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8/gzUtv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=by1owLRKA8AWTsfwP4wiLlYEQhuuvoeZldJTy/yWw5C/GcqOVWi5UshlANhKEuG1UxMQWSrPjISlIjB3oWD+wivUbS3enFQu5svIoqR3NwfSrY9BryntMstoucdiNy931kpr0igtwYnlhsYzBY8+5/vsZ2Grt7MCyoeEnVMozco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpscm9D3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8/gzUtv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C32C4CEF4;
-	Fri,  5 Sep 2025 15:00:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpscm9D3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF1ADC4CEF1;
+	Fri,  5 Sep 2025 15:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084417;
-	bh=ri4clsiuu0TGnICYGMR3lnjIIOKj/dmNCRfheklY2bE=;
+	s=k20201202; t=1757084589;
+	bh=eWcAevp3S4UXAh8xJvmgJDZ8dIZTuYfxGRfOPAGHzjg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N8/gzUtvAl7Q91n2WthpKhZE6uvbUNVuXBExoMGA+QJ0JgPaN5VCtQuHi2UFHOl7D
-	 kaTGn9LJ9lzh8D2DI7Scl+/2BSUI+vLCiTiioSPgnzAetP/sp64v94bNaQL9sgSWKd
-	 1BGuRvxrMUwe9l8M4a2z2XuXzlyZuwqjOBA/PwH2Age2UFR36UWNZAGODHj2pZlyBo
-	 crPW9lUrHVUFFqWc88DPym5WR56aEmPXFQuEAYy+ebbqbMYJgUVpIxC6ucuoOmj1yP
-	 EpcW6pp8/S56sSS4FI69mIYU/DujB5JyOcZKQxtRpI68mpU+g+6cTGKgxNp90XJbq8
-	 xlG3woLsHo7rQ==
-Date: Fri, 5 Sep 2025 20:30:11 +0530
+	b=bpscm9D3qzPLLuVZ8PGfSsrsMMeke//1FuhPUCKteBX0Wm5hUiV5gAge8j/Ckra64
+	 aInTQerHYlfhk7oJm/9+Hm3pf/B8H+zHHSc9Zor5bB7VuljHPXzYEkDxGIoI6fCNAl
+	 ttCA+kSGwulJQTfjIFQf9SXeZKCwOg0L+D3aNx82O5AohDy4BBlFdgE03bMUiLvcOc
+	 mMgexzxxEp5P9XMKAcsOTwRYm89/mSESinr00JvsZAbYTLopcwN9Rnm5KuEF8cxVJw
+	 m0Oq0tG7jG53kU1Ao0+RXyHsjrQ5VpZnzM0QuMJ2KcBgequu0mHecqemSbtIT9NpNR
+	 BMKW8ijbNJGjw==
+Date: Fri, 5 Sep 2025 20:33:03 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Vivek.Pernamitta@quicinc.com
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>
-Subject: Re: [PATCH v3 5/6] bus: mhi: core: Improve mhi_sync_power_up
- handling for SYS_ERR state
-Message-ID: <sh3doz6uhkvbp4iy76eyhnh7ycigka3gmrod423rmgarhkhlxj@oet5rikyjhee>
+Subject: Re: [PATCH v3 6/6] bus: mhi: host: pci_generic: Support independent
+ DMA mask for VFs
+Message-ID: <adba44ewxcgndetgggknfgqzr7ndagmj5fk72w3rgnfn4d7xe6@ulkzzei25qed>
 References: <20250821-vdev_next-20250821_sriov-v3-0-e1b017c48d4a@quicinc.com>
- <20250821-vdev_next-20250821_sriov-v3-5-e1b017c48d4a@quicinc.com>
+ <20250821-vdev_next-20250821_sriov-v3-6-e1b017c48d4a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -45,47 +45,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250821-vdev_next-20250821_sriov-v3-5-e1b017c48d4a@quicinc.com>
+In-Reply-To: <20250821-vdev_next-20250821_sriov-v3-6-e1b017c48d4a@quicinc.com>
 
-On Thu, Aug 21, 2025 at 06:25:37PM GMT, Vivek.Pernamitta@quicinc.com wrote:
+On Thu, Aug 21, 2025 at 06:25:38PM GMT, Vivek.Pernamitta@quicinc.com wrote:
 > From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
-> In power-up, reboot, or recovery scenarios, mhi_sync_power_up() is invoked
-> by the controller driver to wait for the device to enter Mission Mode.
+> Certain devices like QDU100 bootloader support only up to a 32-bit DMA
+> address range. However, Virtual Functions (VFs) are enabled only after
+> the device enters Mission Mode and can support higher DMA address ranges
+> (up to 40 bits).
 > 
-> However, in some cases, the device may be in SYS_ERR state due to a
-> previous device reset. SYS_ERR is a valid state, but currently, the host
-> exits at wait_event_timeout() prematurely when MHI_PM_IN_ERROR_STATE is
-> detected, causing mhi_sync_power_up() to fail.
+> A 32-bit DMA mask limits addressable space to 4GiB, which is insufficient
+> for data transfer requirements over VFs on platforms like QDU100. These
+> devices require larger memory regions to be mapped for efficient VF
+> operation.
 > 
-> If MHI is torn down before SYS_ERR is serviced, recovery is not possible.
-> Instead of aborting, the SYS_ERR handler should process the error and queue
-> the next state transition to bring the device into Mission Mode.
+> To address this, configure `dma_mask` independently for Physical Functions
+> (PFs) and Virtual Functions (VFs), allowing VFs to use higher DMA mask
+> values where supported.
 > 
-> This change ensures mhi_sync_power_up() waits for Mission Mode even
-> after SYS_ERR, enabling proper recovery and improving robustness.
+> As per PCIe SR-IOV specification (rev 0.9, Section 1), VFs are capable of
+> handling resources associated with the main data movement of the Function.
 > 
+> This change ensures compatibility with bootloaders that have limited DMA
+> capabilities while enabling full VF functionality once the device reaches
+> Mission Mode.
 
-Reword the description in imperative mood. Also, if this is an independent fix,
-this patch should be moved to the start of the series.
-
-> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-> ---
->  drivers/bus/mhi/host/internal.h | 2 ++
->  drivers/bus/mhi/host/pm.c       | 2 +-
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index 034be33565b78eff9bdefd93faa4f3ce93825bad..9e37e5c9a6c7e07d54300adce51c9db9052e477a 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -170,6 +170,8 @@ enum mhi_pm_state {
->  							MHI_PM_IN_ERROR_STATE(pm_state))
->  #define MHI_PM_IN_SUSPEND_STATE(pm_state)		(pm_state & \
->  							(MHI_PM_M3_ENTER | MHI_PM_M3))
-> +#define MHI_PM_IN_UNRECOVERABLE_ERROR(pm_state)		((pm_state == MHI_PM_FW_DL_ERR) || \
-
-MHI_PM_IN_UNRECOVERABLE_STATE?
+Compatibility is with the existing non-SR-IOV devices, isn't it? How does
+bootloader comes into picture for them?
 
 - Mani
 
