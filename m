@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFB6275106;
-	Fri,  5 Sep 2025 14:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4EB2F7AB0;
+	Fri,  5 Sep 2025 14:56:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757083905; cv=none; b=XtObkKrvvj/HW6iAROcL1Im2DcIkBTurlhCCP+G/FWKhbhBOet79sT361oN3VEaeWU/TrfuuGQFRkzOS/9h4SAUIfXKXm28PTqe+51R85Q4tVOM0sX6azh3E2dMxocCruTcU8TOzdOD4sFHsuYohFy1LxbgZenU/qUZ84OIyvEk=
+	t=1757084191; cv=none; b=N9gNFx0cOAbnlKp+2JJVtYSuGfPlBO6ngpcBW593BGTMesVpHnHzW8QGh9HvnQCovG6d8XXwobNIGr5PLmn0puJ48mMkpL3q+L/ouEJPYNhr9s3Q+EaMd3ZeZkfjBxc5NPCv0+0UNE264XFgkbYNK9weVDdxLFV/1VGz3VeckPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757083905; c=relaxed/simple;
-	bh=OulwDIpATpaTJKhVFbj1IKtDag7TbmPUGG9Y/1g4th4=;
+	s=arc-20240116; t=1757084191; c=relaxed/simple;
+	bh=jmmqgMUirtfYeSXPXqYQ0yzKkKVEp3WxOphifTvxL60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhLlO4yJTAr0EP0GLUOyAn5pgsPywTdpxuf2woh/laZIM9X38/ZXL3EMRh/2vFomexY42MOGuv9xGmtt7DUB7qxnLWZuxv6dPSD6z+AYLrMCujltNnJ9gU6LypGG1Ml681Znnq8p1jW8SQ24HsXhK7K3cLKIsj5VNpjw51ysr58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZqTKqtHJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOLdWi46GDrWNH3u07HpPlucj1ZY0IXfLzvuMKW/nfRnFZBihpe4J8onlsu6vYgEV1rWph63kMvPvr3Bgpvb42CKZCZ3njqOxDNgNdB/59whggy0+hPfWHb4eEtolDmm+CmxsZx9QCdY+EU47phc43US2SrNxdeDJvoSjb+mzmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+Ll0mWo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZqTKqtHJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778F8C4CEF1;
-	Fri,  5 Sep 2025 14:51:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+Ll0mWo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AC0C4CEF1;
+	Fri,  5 Sep 2025 14:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757083904;
-	bh=OulwDIpATpaTJKhVFbj1IKtDag7TbmPUGG9Y/1g4th4=;
+	s=k20201202; t=1757084190;
+	bh=jmmqgMUirtfYeSXPXqYQ0yzKkKVEp3WxOphifTvxL60=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZqTKqtHJ/7IhKd3dkSmI3W9CZyTKo7t3mNerylRaXD+t7fcvUOMJnD0A1da/LQEVI
-	 6TZHb3FMgm8pnhc+XrK/XTQ+GB9Z9DJUAsQNpGIwbtDcvbVqiYPg+uou22+HHNfmm7
-	 AsxEYFfscn19ova7CuY1ElBdmDeGoDJcAmTACdnDX/gl4s64NJRLkdQHlJO5Kjw9Vk
-	 K3jUs/gjrCkFrIBkvf+agSyp+F3/JLN1qcpyyv5cW4mtUcDH8uAvfZs0ex3w+umTJu
-	 nsELlj5nTEXPNovLJxZymo00Gc2IOtVTnvLjZQy5DAYZtmz/ZyjcPMdu8XdLSbabg7
-	 CIAZ9UDbfNY4Q==
-Date: Fri, 5 Sep 2025 20:21:38 +0530
+	b=q+Ll0mWoVCfGIsJnW26P6Xd9tnA5QcSS7qpAw2XV503fsq1NhlE6rYDgRSNlFE0XA
+	 y9Z+l6ZzX5QSbixMaGvsYkvLUL2zSoBA+0/RrY1O0j60pA/BLs8iOxI8WNuz5IHrEQ
+	 97MUu+CT0zt8QZcC+/bSOOkq0NKZKKIbFOFgYvPD2mLi/n7OQF8gwpaR8kc95LgHdR
+	 /phaM2LneM141rLNoBNFbCJPZAPh/pida569RKSDKppGVYsB6tyVVqILZrFNGl/uTv
+	 GyYtIA4dx/qcCwC9X81ggk+C9uVsVJTzU12Gb5cv9XX6qCTUwxYoYdWu/uTC8Onr/u
+	 VnR5toe309Jjw==
+Date: Fri, 5 Sep 2025 20:26:24 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Vivek.Pernamitta@quicinc.com
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>, 
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [PATCH v3 3/6] bus: mhi: host: pci_generic: Add SRIOV support
- for PCIe device
-Message-ID: <bp4vxovymcz44zqdexidroeexzlmsd4tm5ntgtju4ohmw6erhw@lssi565zabps>
+	linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>
+Subject: Re: [PATCH v3 4/6] bus: mhi: host: pci_generic: Remove MHI driver
+ and ensure graceful device recovery
+Message-ID: <e5nhd5hgu7peewiaxn6wdjlopaixntgu7zc6d7twhjgglt46rh@hymyien7z5wy>
 References: <20250821-vdev_next-20250821_sriov-v3-0-e1b017c48d4a@quicinc.com>
- <20250821-vdev_next-20250821_sriov-v3-3-e1b017c48d4a@quicinc.com>
+ <20250821-vdev_next-20250821_sriov-v3-4-e1b017c48d4a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,45 +45,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250821-vdev_next-20250821_sriov-v3-3-e1b017c48d4a@quicinc.com>
+In-Reply-To: <20250821-vdev_next-20250821_sriov-v3-4-e1b017c48d4a@quicinc.com>
 
-On Thu, Aug 21, 2025 at 06:25:35PM GMT, Vivek.Pernamitta@quicinc.com wrote:
+On Thu, Aug 21, 2025 at 06:25:36PM GMT, Vivek.Pernamitta@quicinc.com wrote:
 > From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
-> Add SR-IOV support for PCIe devices.
+> So, When the MHI driver is removed from the host side, it is essential to
+> ensure a clean and stable recovery of the device.
 
-pci_generic file name itself indicates that this is a PCIe device driver. So no
-need to mention 'for PCIe device' in subject and description.
+You need to mention why it is essential. What will happen otherwise.
 
-- Mani
-
-> pci_sriov_configure_simple() will enable or disable SR-IOV for devices
-> that don't require any specific PF setup before enabling SR-IOV.
+> This commit introduces
+> the following steps to achieve that:
 > 
+> 1. Disable SR-IOV for any SR-IOV-enabled devices on the Physical Function.
+> 2. Perform a SOC_RESET on the PF to fully reset the device.
+> 
+> Disabling SR-IOV ensures all Virtual Functions (VFs) are properly shutdown,
+> preventing issues during the reset process. The SOC_RESET guarantees that
+> the PF is restored to a known good state.
+> 
+
+Again, no reasoning was provided why this is necessary.
+
+> Note:
+> - The QDU100 platform supports 1 PF and 16 VFs.
+> - QDU100 does not support Function Level Reset (FLR) due to a hardware
+>   limitation. As a result, SOC_RESET is used to reset the device.
+> - On QDU100, any VF failure can cause the entire endpoint (EP)
+>   to go down, making this recovery mechanism critical.
+> 
+
+This comment about QDU100 doesn't belong to this patch as this patch is not at
+all related to QDU100.
+
 > Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 > ---
->  drivers/bus/mhi/host/pci_generic.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/bus/mhi/host/pci_generic.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index df18627a9feb4f2d53ba1ca6a4e8087dc23c7873..351b177cdf84057fb5a4e2f5b52279d7f1da41c2 100644
+> index 351b177cdf84057fb5a4e2f5b52279d7f1da41c2..f922cca0ab633aeae942587f0c40038342ce9c33 100644
 > --- a/drivers/bus/mhi/host/pci_generic.c
 > +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -1696,7 +1696,8 @@ static struct pci_driver mhi_pci_driver = {
->  	.remove		= mhi_pci_remove,
->  	.shutdown	= mhi_pci_shutdown,
->  	.err_handler	= &mhi_pci_err_handler,
-> -	.driver.pm	= &mhi_pci_pm_ops
-> +	.driver.pm	= &mhi_pci_pm_ops,
-> +	.sriov_configure = pci_sriov_configure_simple,
+> @@ -45,6 +45,8 @@
+>   * @sideband_wake: Devices using dedicated sideband GPIO for wakeup instead
+>   *		   of inband wake support (such as sdx24)
+>   * @no_m3: M3 not supported
+> + * @reset_on_remove: Set true for devices support SOC reset and perform it
+> + *		     while drivee remove
+
+driver
+
+Maybe reword it to:
+
+	'Set true for devices that require SoC during driver removal'
+
+>   */
+>  struct mhi_pci_dev_info {
+>  	const struct mhi_controller_config *config;
+> @@ -58,6 +60,7 @@ struct mhi_pci_dev_info {
+>  	unsigned int mru_default;
+>  	bool sideband_wake;
+>  	bool no_m3;
+> +	bool reset_on_remove;
 >  };
->  module_pci_driver(mhi_pci_driver);
 >  
-> 
-> -- 
-> 2.34.1
-> 
+>  #define MHI_CHANNEL_CONFIG_UL(ch_num, ch_name, el_count, ev_ring) \
+> @@ -300,6 +303,7 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>  	.dma_data_width = 32,
+>  	.sideband_wake = false,
+>  	.no_m3 = true,
+> +	.reset_on_remove = true,
+>  };
+>  
+>  static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+> @@ -1039,6 +1043,7 @@ struct mhi_pci_device {
+>  	struct work_struct recovery_work;
+>  	struct timer_list health_check_timer;
+>  	unsigned long status;
+> +	bool reset_on_remove;
+>  };
+>  
+>  static int mhi_pci_read_reg(struct mhi_controller *mhi_cntrl,
+> @@ -1323,7 +1328,6 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	else
+>  		mhi_cntrl_config = info->config;
+>  
+> -	/* Initialize health check monitor only for Physical functions */
+
+Spurious change?
+
+- Mani
 
 -- 
 மணிவண்ணன் சதாசிவம்
