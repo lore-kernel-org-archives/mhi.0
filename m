@@ -1,318 +1,255 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DF11C3C11
-	for <mhi@lists.linux.dev>; Tue,  9 Sep 2025 08:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D166F31AF14
+	for <mhi@lists.linux.dev>; Wed, 10 Sep 2025 12:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757406816; cv=none; b=K5hbXBxePuuOsvytSalUbYyT2BiPbtHRNhuCLJpTHO5WEUEAvNxeImxKgAESgWtw2lu9YL8rHp0FBHJgK+SsT0HIbhfRQyhvj6/tVLUdJJCI13n1+3zxjKfVHVpTO8ktr8GUTw7Te0UOjXq9ojenC7zKRMt5nqjBTe0BHw7KQEQ=
+	t=1757508081; cv=none; b=X3kIjlk/Hjv/2uA8On3R6DQha5/Adv9TRF/e0piTHAy4DABEcS1QrB5AOLZt7B6ARqXqhkXvxrfswMY4MTelnxddBdilICjP6Fx14LhjxA+XYfa0TF4FNOzRoNahInMQOK+TKtP2+PbMDpLwHBOZBmJrJvkBZPMb2g6/+fc+INA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757406816; c=relaxed/simple;
-	bh=rWRPMoglklPfFFEQCVVYYiiisPtX27JCE9JX6n5kTnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mbfHXQ/DhnBQKtFGIglFHqCHZ8Ljdan5xiKf1q0ba673YZAhI0DcYWqPfETbTTcQpcgbYBgtaGZrYS4pL3KpZVbvj6FJeRS350mZIXad0Ley6cgJApIY9ivk1dBIqHJyOTmWTJVZHm1WAWnrrAiU5qwWYQgN0zczAeTOtEcND0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eElQBWcC; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757508081; c=relaxed/simple;
+	bh=HI+Wo58Xx8twVdr7BQzB/ScbaKtSqasqpDD7ddXTfSk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kZ76fUkemmjRVRJHIakW2JaC+oO0GnfYKQMyv2vfiKOVy3GKpMzyRmHN3c6ZZtU0du2ijYLtf5yi6mb2VXEA3C703JTCxEmfkyKhfxKx0moZrEPrYUMiTtUkplZ7w6JYiQVCCF/FZ+9cV2V8yqfvyYwXVI8URIMn0LoER+XETGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ar4eojs3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eElQBWcC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757406815; x=1788942815;
-  h=date:from:to:cc:subject:message-id;
-  bh=rWRPMoglklPfFFEQCVVYYiiisPtX27JCE9JX6n5kTnQ=;
-  b=eElQBWcCs10RtLTBA5zerJzz6Y8O3DpMSPkLnfFfk5HwleaWrQAatAVr
-   155eiiPBpxElqQHLRNDfftXikudbBpvdwKiDhNDmy48Ylw3R0OQooysWV
-   mX+PIeRk4lCY/JDF2Q+W7P/tWOFST/ydE/BkorAX/Bav1U6GpGH8b2+o2
-   RCjy0n2J+J+daRTU4+M0EO1j/FWvbDJl8bn5XKJoLKxk1sE6uB8/GN5Y/
-   ZgK0ULn2/WYEvggo7gYKzgpH3W+R10IqFgPhIhuaNIB6lI/oyG5cxB0s1
-   1NLPoPPAm77mCSoZHhCP82ozhE3Yj0MKSxn3gYtrHrDqNFZZEhyiSYrJW
-   g==;
-X-CSE-ConnectionGUID: MvbFrRRqSiOfhKxk4x6CIQ==
-X-CSE-MsgGUID: a4QqfsNgTjCi5p5CbaXMeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59828578"
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="59828578"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 01:33:34 -0700
-X-CSE-ConnectionGUID: Gi3XysY/SHevV36jAAZnCA==
-X-CSE-MsgGUID: C9uxeerNSMqApKHlfVczDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="173490365"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Sep 2025 01:33:32 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uvtn8-0004eN-0J;
-	Tue, 09 Sep 2025 08:33:30 +0000
-Date: Tue, 09 Sep 2025 16:32:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- d0856a6dff57f95cc5d2d74e50880f01697d0cc4
-Message-ID: <202509091629.lD0T93zw-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ar4eojs3"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58AAFObj006094
+	for <mhi@lists.linux.dev>; Wed, 10 Sep 2025 12:41:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=lHFZZKfkltFSPCpfngB13G
+	I5dV64wevesNshRHaYxIg=; b=ar4eojs3r8hn/9vGLuWOedDEZ4Qmb9RCI1W7pJ
+	SLMZBB6VbRBiy/a87sS/G8nJJB+WxQsl8SWY6zNU4kEyCdAQAS70V1gD1Ns71r8U
+	sLpjFp24hpvhGQEkBH3Odo+PRzzbuTc9xteQqn9Vo36EYxJ2hyiOTisg9QaozjR/
+	i5ql35Nkuw3udS4xCAKg5LKlG39NeEnaA0c6FyJi4j49mgpi4rNyK9SPvsV62e1U
+	+Rb7fKdXdwefLN/oxB+OGeVoleb9Qqwe3stWNMYLRsYWJzoc2LLtf6FeJo0UnIeT
+	G+ne0G2f1VQ7lb448ZkqbaCkNnGsdj4iVp/m3LVtBTEXNcFQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490c9jbx7e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 10 Sep 2025 12:41:18 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b549a25ade1so191868a12.3
+        for <mhi@lists.linux.dev>; Wed, 10 Sep 2025 05:41:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757508077; x=1758112877;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lHFZZKfkltFSPCpfngB13GI5dV64wevesNshRHaYxIg=;
+        b=wJd0+hUJFZVhpQwplJBQHnpr4D5oeAvk0lWjoMlbC7Pp7/0k+mAXCIy6/xlaz3HAC/
+         u2HZ7wNI13KTu+iTER5BpTDk24naTcO6gcj+oHQmln4f+cwYnL5ULMORziHMgPTe5R0H
+         spfebeG+MikcrX+LByrZ/gk0CyuPxxUVsv2KNJJ2MuypjDfwILNOfOD1I68McSm9oP87
+         fypne2p+LsAOkd0eJk4bV6YQbJjKKWEw7YVe0oc+0MQZOgYHscNz62POFSubWTKF2t6Q
+         y/00o9t+Ikk1x1qBrV1hbRK7Oy/1Cj+lp5hwvkIC2SWtcG9nHhWtlJZoC7fGGW/PXi0l
+         6csw==
+X-Gm-Message-State: AOJu0YzXqqTs4CnAEN++Pno7iWEotoxy3Pw459JRwO4oEbXTH61RLDzm
+	VA0zPIuxTxn/siLpTqegeEl/khOGDtWBPx3yspr8ew1bqkrTmhWINEk13fgmoxdKOgNBGY9sOfH
+	0APfQvh/6N4hoiEOX+ZC+POD2IGuSFLhQECPGTX/lCkwomEAuitM3kac=
+X-Gm-Gg: ASbGncuH7N9T9Evogrv+4/9k5oyHN9EMviUY7spZq2D+yfdZmAfJzlqPMa7QkUZUn+m
+	ufqLU3DCkm6u8tKPv37I8Mi4GYQNC8Gxa6pc4vfKEOecT5EtvRXU7CQFTor/mYjcFT1RHOZxaCj
+	OJQ3ZQENxNMAYuoD3hdjlcSCGLnMxD71uSznwQUwWI9Qbtb1LfuLMtFGhsbKeFNE8ynFdn1Jv23
+	tmVdwBKpGFuRA2cvE1PA1/7mNjXkIJXjD3CugHpfzZHdTylQOFLE6Ei1vJUNWvfElV8gP+kOqEl
+	y3T5TZW+vIgc3dJpUifRnXHdf9XcPdls1aySoi9Q92/VTv1IzsCpIUez9JmGZKUw6w==
+X-Received: by 2002:a05:6a21:6d9c:b0:250:f80d:b32d with SMTP id adf61e73a8af0-25335e6f177mr23586506637.0.1757508076803;
+        Wed, 10 Sep 2025 05:41:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGrftTS+0N2imH3IgPQLdHacgwBKP6X3z3IlpwLVR4e5eP/aF1fk05Jlwi7vkfwOHOoqKQMfA==
+X-Received: by 2002:a05:6a21:6d9c:b0:250:f80d:b32d with SMTP id adf61e73a8af0-25335e6f177mr23586444637.0.1757508076236;
+        Wed, 10 Sep 2025 05:41:16 -0700 (PDT)
+Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b548a6a7fd0sm2537399a12.32.2025.09.10.05.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 05:41:15 -0700 (PDT)
+From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Date: Wed, 10 Sep 2025 18:11:09 +0530
+Subject: [PATCH v3] bus: mhi: ep: Fix chained transfer handling in read
+ path
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250910-final_chained-v3-1-ec77c9d88ace@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAORxwWgC/x2MWwqAIBAAryL7neADkbpKRIiutRAWChGEd2/pc
+ xhmXmhYCRtM4oWKNzU6C4MdBMQ9lA0lJWYwyjg1aiUzlXCs7Khgkt6paLT1xmUN3FwVMz3/b15
+ 6/wCRNsOlXwAAAA==
+X-Change-ID: 20250910-final_chained-750c213725f1
+To: Manivannan Sadhasivam <mani@kernel.org>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_krichai@quicinc.com,
+        quic_akhvin@quicinc.com, quic_skananth@quicinc.com,
+        quic_vbadigan@quicinc.com, stable@vger.kernel.org,
+        Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
+        Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757508072; l=5093;
+ i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
+ bh=HI+Wo58Xx8twVdr7BQzB/ScbaKtSqasqpDD7ddXTfSk=;
+ b=+vySGg6hSDSPdtqaNt11c7f34fgtcTWBAGEE+bsylMRErej8lEL6cMHyAt6isOoUosMNHYeHa
+ OXSaPqv8sO2DUERHBOgJK0YtIqiqUDsdG16/v29BruOHabdV10ImQjF
+X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
+ pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyMiBTYWx0ZWRfXxvUmBKt8yYms
+ PFA+16YIxnYw/jJwaBUB+gCefInsimTPXU8l9mCxWVkOIHmH7RAAtCZrQs/8elrma0y3TDuzmTD
+ 3/o9/GLqTIF0rIXU+aR3VFZkytXNvW8XwHRZ8zJNJ/iEfvPcN/qU6wmSjlNpJ4bmNhzwBmXAXAD
+ a7tHNQNo6NeqyLaXccwuMLQeZZB5pH4Q0+kAyGzKdF6zG1HwGhnAvzAWy6iV+nIj1PU+eRjuHTs
+ bHH8c7fL695VpqlrpxOr1RYiugWbmlGX4nQun71V293oida82LYl0EVb13wABnOF8R7z1Zm6kWD
+ FtyOB5CPesCMGGmzzljDrTRsbQCCcci1LNK+poHuUGFp3yA7XwANRmYLkDBXMQrhWnGcH/4Hl0a
+ IEvXRWQ4
+X-Proofpoint-ORIG-GUID: i0XODonUgQjrZIJqz5Gp11qzPGHlW_YT
+X-Authority-Analysis: v=2.4 cv=PpOTbxM3 c=1 sm=1 tr=0 ts=68c171ee cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=vLTmBYhAW2SDn_YjWJsA:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: i0XODonUgQjrZIJqz5Gp11qzPGHlW_YT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_01,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 bulkscore=0 clxscore=1011
+ malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060022
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: d0856a6dff57f95cc5d2d74e50880f01697d0cc4  bus: mhi: host: Do not use uninitialized 'dev' pointer in mhi_init_irq_setup()
+The mhi_ep_read_channel function incorrectly assumes the End of Transfer
+(EOT) bit is received with the doorbell in chained transactions, causing
+it to advance mhi_chan->rd_offset beyond wr_offset during host-to-device
+transfers when EOT has not yet arrived, leading to access of unmapped host
+memory that causes IOMMU faults and processing of stale TREs.
 
-elapsed time: 1151m
+Modify the loop condition to ensure mhi_queue is not empty, allowing the
+function to process only valid TREs up to the current write pointer to
+prevent premature reads and ensure safe traversal of chained TREs.
+Remove buf_left from the while loop condition to avoid exiting prematurely
+before reading the ring completely, and remove write_offset since it will
+always be zero because the new cache buffer is allocated every time.
 
-configs tested: 241
-configs skipped: 7
+Fixes: 5301258899773 ("bus: mhi: ep: Add support for reading from the host")
+Cc: stable@vger.kernel.org
+Co-developed-by: Akhil Vinod <akhil.vinod@oss.qualcomm.com>
+Signed-off-by: Akhil Vinod <akhil.vinod@oss.qualcomm.com>
+Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+---
+Changes in v3:
+- Update commit message
+- Migrated to new mail
+- Link to v2: https://lore.kernel.org/r/20250822-chained_transfer-v2-1-7aeb5ac215b6@quicinc.com
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes in v2:
+- Use mhi_ep_queue_is_empty in while loop (Mani).
+- Remove do while loop in mhi_ep_process_ch_ring (Mani).
+- Remove buf_left, wr_offset, tr_done.
+- Haven't added Reviewed-by as there is change in logic.
+- Link to v1: https://lore.kernel.org/r/20250709-chained_transfer-v1-1-2326a4605c9c@quicinc.com
+---
+ drivers/bus/mhi/ep/main.c | 37 ++++++++++++-------------------------
+ 1 file changed, 12 insertions(+), 25 deletions(-)
 
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    clang-22
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                   randconfig-001-20250908    gcc-8.5.0
-arc                   randconfig-001-20250909    clang-16
-arc                   randconfig-002-20250908    gcc-13.4.0
-arc                   randconfig-002-20250909    clang-16
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                                 defconfig    clang-19
-arm                        multi_v7_defconfig    clang-22
-arm                             mxs_defconfig    clang-22
-arm                       netwinder_defconfig    clang-22
-arm                   randconfig-001-20250908    clang-22
-arm                   randconfig-001-20250909    clang-16
-arm                   randconfig-002-20250908    clang-22
-arm                   randconfig-002-20250909    clang-16
-arm                   randconfig-003-20250908    gcc-12.5.0
-arm                   randconfig-003-20250909    clang-16
-arm                   randconfig-004-20250908    gcc-14.3.0
-arm                   randconfig-004-20250909    clang-16
-arm                       versatile_defconfig    clang-22
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20250908    clang-20
-arm64                 randconfig-001-20250909    clang-16
-arm64                 randconfig-002-20250908    clang-16
-arm64                 randconfig-002-20250909    clang-16
-arm64                 randconfig-003-20250908    gcc-9.5.0
-arm64                 randconfig-003-20250909    clang-16
-arm64                 randconfig-004-20250908    gcc-8.5.0
-arm64                 randconfig-004-20250909    clang-16
-csky                              allnoconfig    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                  randconfig-001-20250908    gcc-14.3.0
-csky                  randconfig-001-20250909    gcc-8.5.0
-csky                  randconfig-002-20250908    gcc-15.1.0
-csky                  randconfig-002-20250909    gcc-8.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20250908    clang-17
-hexagon               randconfig-001-20250909    gcc-8.5.0
-hexagon               randconfig-002-20250908    clang-20
-hexagon               randconfig-002-20250909    gcc-8.5.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20250908    gcc-14
-i386        buildonly-randconfig-001-20250909    clang-20
-i386        buildonly-randconfig-002-20250908    gcc-14
-i386        buildonly-randconfig-002-20250909    clang-20
-i386        buildonly-randconfig-003-20250908    gcc-12
-i386        buildonly-randconfig-003-20250909    clang-20
-i386        buildonly-randconfig-004-20250908    gcc-14
-i386        buildonly-randconfig-004-20250909    clang-20
-i386        buildonly-randconfig-005-20250908    clang-20
-i386        buildonly-randconfig-005-20250909    clang-20
-i386        buildonly-randconfig-006-20250908    clang-20
-i386        buildonly-randconfig-006-20250909    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20250909    clang-20
-i386                  randconfig-002-20250909    clang-20
-i386                  randconfig-003-20250909    clang-20
-i386                  randconfig-004-20250909    clang-20
-i386                  randconfig-005-20250909    clang-20
-i386                  randconfig-006-20250909    clang-20
-i386                  randconfig-007-20250909    clang-20
-i386                  randconfig-011-20250909    gcc-14
-i386                  randconfig-012-20250909    gcc-14
-i386                  randconfig-013-20250909    gcc-14
-i386                  randconfig-014-20250909    gcc-14
-i386                  randconfig-015-20250909    gcc-14
-i386                  randconfig-016-20250909    gcc-14
-i386                  randconfig-017-20250909    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20250908    gcc-15.1.0
-loongarch             randconfig-001-20250909    gcc-8.5.0
-loongarch             randconfig-002-20250908    clang-18
-loongarch             randconfig-002-20250909    gcc-8.5.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20250908    gcc-8.5.0
-nios2                 randconfig-001-20250909    gcc-8.5.0
-nios2                 randconfig-002-20250908    gcc-11.5.0
-nios2                 randconfig-002-20250909    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-14
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250908    gcc-13.4.0
-parisc                randconfig-001-20250909    gcc-8.5.0
-parisc                randconfig-002-20250908    gcc-8.5.0
-parisc                randconfig-002-20250909    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc                  mpc885_ads_defconfig    clang-22
-powerpc                      pasemi_defconfig    clang-22
-powerpc               randconfig-001-20250908    gcc-15.1.0
-powerpc               randconfig-001-20250909    gcc-8.5.0
-powerpc               randconfig-002-20250908    clang-19
-powerpc               randconfig-002-20250909    gcc-8.5.0
-powerpc               randconfig-003-20250908    gcc-9.5.0
-powerpc               randconfig-003-20250909    gcc-8.5.0
-powerpc64             randconfig-001-20250908    gcc-8.5.0
-powerpc64             randconfig-001-20250909    gcc-8.5.0
-powerpc64             randconfig-002-20250908    gcc-10.5.0
-powerpc64             randconfig-002-20250909    gcc-8.5.0
-powerpc64             randconfig-003-20250908    clang-22
-powerpc64             randconfig-003-20250909    gcc-8.5.0
-riscv                            allmodconfig    clang-22
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-14
-riscv                 randconfig-001-20250908    gcc-11.5.0
-riscv                 randconfig-001-20250909    gcc-15.1.0
-riscv                 randconfig-002-20250908    gcc-13.4.0
-riscv                 randconfig-002-20250909    gcc-15.1.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-14
-s390                  randconfig-001-20250908    clang-22
-s390                  randconfig-001-20250909    gcc-15.1.0
-s390                  randconfig-002-20250908    gcc-12.5.0
-s390                  randconfig-002-20250909    gcc-15.1.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20250908    gcc-14.3.0
-sh                    randconfig-001-20250909    gcc-15.1.0
-sh                    randconfig-002-20250908    gcc-14.3.0
-sh                    randconfig-002-20250909    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250908    gcc-8.5.0
-sparc                 randconfig-001-20250909    gcc-15.1.0
-sparc                 randconfig-002-20250908    gcc-12.5.0
-sparc                 randconfig-002-20250909    gcc-15.1.0
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20250908    gcc-13.4.0
-sparc64               randconfig-001-20250909    gcc-15.1.0
-sparc64               randconfig-002-20250908    gcc-8.5.0
-sparc64               randconfig-002-20250909    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-14
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20250908    gcc-14
-um                    randconfig-001-20250909    gcc-15.1.0
-um                    randconfig-002-20250908    clang-22
-um                    randconfig-002-20250909    gcc-15.1.0
-um                           x86_64_defconfig    gcc-14
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250908    clang-20
-x86_64      buildonly-randconfig-001-20250909    gcc-14
-x86_64      buildonly-randconfig-002-20250908    gcc-14
-x86_64      buildonly-randconfig-002-20250909    gcc-14
-x86_64      buildonly-randconfig-003-20250908    gcc-14
-x86_64      buildonly-randconfig-003-20250909    gcc-14
-x86_64      buildonly-randconfig-004-20250908    gcc-14
-x86_64      buildonly-randconfig-004-20250909    gcc-14
-x86_64      buildonly-randconfig-005-20250908    gcc-14
-x86_64      buildonly-randconfig-005-20250909    gcc-14
-x86_64      buildonly-randconfig-006-20250908    clang-20
-x86_64      buildonly-randconfig-006-20250909    gcc-14
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20250909    gcc-14
-x86_64                randconfig-002-20250909    gcc-14
-x86_64                randconfig-003-20250909    gcc-14
-x86_64                randconfig-004-20250909    gcc-14
-x86_64                randconfig-005-20250909    gcc-14
-x86_64                randconfig-006-20250909    gcc-14
-x86_64                randconfig-007-20250909    gcc-14
-x86_64                randconfig-008-20250909    gcc-14
-x86_64                randconfig-071-20250909    gcc-14
-x86_64                randconfig-072-20250909    gcc-14
-x86_64                randconfig-073-20250909    gcc-14
-x86_64                randconfig-074-20250909    gcc-14
-x86_64                randconfig-075-20250909    gcc-14
-x86_64                randconfig-076-20250909    gcc-14
-x86_64                randconfig-077-20250909    gcc-14
-x86_64                randconfig-078-20250909    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250908    gcc-9.5.0
-xtensa                randconfig-001-20250909    gcc-15.1.0
-xtensa                randconfig-002-20250908    gcc-11.5.0
-xtensa                randconfig-002-20250909    gcc-15.1.0
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index b3eafcf2a2c50d95e3efd3afb27038ecf55552a5..cdea24e9291959ae0a92487c1b9698dc8164d2f1 100644
+--- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -403,17 +403,13 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
+ {
+ 	struct mhi_ep_chan *mhi_chan = &mhi_cntrl->mhi_chan[ring->ch_id];
+ 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+-	size_t tr_len, read_offset, write_offset;
++	size_t tr_len, read_offset;
+ 	struct mhi_ep_buf_info buf_info = {};
+ 	u32 len = MHI_EP_DEFAULT_MTU;
+ 	struct mhi_ring_element *el;
+-	bool tr_done = false;
+ 	void *buf_addr;
+-	u32 buf_left;
+ 	int ret;
+ 
+-	buf_left = len;
+-
+ 	do {
+ 		/* Don't process the transfer ring if the channel is not in RUNNING state */
+ 		if (mhi_chan->state != MHI_CH_STATE_RUNNING) {
+@@ -426,24 +422,23 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
+ 		/* Check if there is data pending to be read from previous read operation */
+ 		if (mhi_chan->tre_bytes_left) {
+ 			dev_dbg(dev, "TRE bytes remaining: %u\n", mhi_chan->tre_bytes_left);
+-			tr_len = min(buf_left, mhi_chan->tre_bytes_left);
++			tr_len = min(len, mhi_chan->tre_bytes_left);
+ 		} else {
+ 			mhi_chan->tre_loc = MHI_TRE_DATA_GET_PTR(el);
+ 			mhi_chan->tre_size = MHI_TRE_DATA_GET_LEN(el);
+ 			mhi_chan->tre_bytes_left = mhi_chan->tre_size;
+ 
+-			tr_len = min(buf_left, mhi_chan->tre_size);
++			tr_len = min(len, mhi_chan->tre_size);
+ 		}
+ 
+ 		read_offset = mhi_chan->tre_size - mhi_chan->tre_bytes_left;
+-		write_offset = len - buf_left;
+ 
+ 		buf_addr = kmem_cache_zalloc(mhi_cntrl->tre_buf_cache, GFP_KERNEL);
+ 		if (!buf_addr)
+ 			return -ENOMEM;
+ 
+ 		buf_info.host_addr = mhi_chan->tre_loc + read_offset;
+-		buf_info.dev_addr = buf_addr + write_offset;
++		buf_info.dev_addr = buf_addr;
+ 		buf_info.size = tr_len;
+ 		buf_info.cb = mhi_ep_read_completion;
+ 		buf_info.cb_buf = buf_addr;
+@@ -459,16 +454,12 @@ static int mhi_ep_read_channel(struct mhi_ep_cntrl *mhi_cntrl,
+ 			goto err_free_buf_addr;
+ 		}
+ 
+-		buf_left -= tr_len;
+ 		mhi_chan->tre_bytes_left -= tr_len;
+ 
+-		if (!mhi_chan->tre_bytes_left) {
+-			if (MHI_TRE_DATA_GET_IEOT(el))
+-				tr_done = true;
+-
++		if (!mhi_chan->tre_bytes_left)
+ 			mhi_chan->rd_offset = (mhi_chan->rd_offset + 1) % ring->ring_size;
+-		}
+-	} while (buf_left && !tr_done);
++	/* Read until the some buffer is left or the ring becomes not empty */
++	} while (!mhi_ep_queue_is_empty(mhi_chan->mhi_dev, DMA_TO_DEVICE));
+ 
+ 	return 0;
+ 
+@@ -502,15 +493,11 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring)
+ 		mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+ 	} else {
+ 		/* UL channel */
+-		do {
+-			ret = mhi_ep_read_channel(mhi_cntrl, ring);
+-			if (ret < 0) {
+-				dev_err(&mhi_chan->mhi_dev->dev, "Failed to read channel\n");
+-				return ret;
+-			}
+-
+-			/* Read until the ring becomes empty */
+-		} while (!mhi_ep_queue_is_empty(mhi_chan->mhi_dev, DMA_TO_DEVICE));
++		ret = mhi_ep_read_channel(mhi_cntrl, ring);
++		if (ret < 0) {
++			dev_err(&mhi_chan->mhi_dev->dev, "Failed to read channel\n");
++			return ret;
++		}
+ 	}
+ 
+ 	return 0;
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+base-commit: 4c06e63b92038fadb566b652ec3ec04e228931e8
+change-id: 20250910-final_chained-750c213725f1
+
+Best regards,
+-- 
+Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+
