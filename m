@@ -1,72 +1,72 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436D02652A4
-	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 07:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129332EFD80
+	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 08:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757921201; cv=none; b=tWk3Cmz5M35dgfJdRiaWtjL3pqv0EhhPDoe+a4F0zk6u3AEPO0u+XAIrxa24qrKDK+s+uCcInSNkVb+MJm52mOC0My3Ff604N/KSb6y3PnayDFJGH8EMgEAwkqYQq8XCII87wySe9yvu24SmcFkqeQclN8ctVaWkG3pE9KgyY0U=
+	t=1757926346; cv=none; b=AfTkxySZMpXVboRU+N/kewIRW+1oVd6bvzqGWLP4QDlV+F6mHI1a/blX6ael3svhDPL1ZHrBIOPPA/n4N0N6nslTD5rbU5TACWjTk2IYUpu7LbYvJKn8ct6qsBCnPVcE6JnB8+0OidXQb0bLbpuQTyJYjISiYnvcm0ucDNrJb6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757921201; c=relaxed/simple;
-	bh=TDAloO3oBVpuTTrl3BA4hwC058PmyPWVEAQeMP+IKXw=;
+	s=arc-20240116; t=1757926346; c=relaxed/simple;
+	bh=JOtrS9+M4CQeumFyospkbCpibbdi2oOVAl3i+k7+ezs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rvgztTWkJcGUvYgJvISG0jQ5OnYeG7D4VUe7ezIlNjjNqrQY5Xy0yx/JvRp1eCfx0RgksQBtY1paaZe9c8nlYCUWocEAtmk4tQzXP3exlDQVMh5dN6LGJ+vssI8Cg9MxdGXCL9WQ4R4FuaD5ipQp+57tWERM3hRkm4v5tZhNV8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=abT6Khm0; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=iN17sBuUanJcmc5lqBWXQBmBnSFeyGGAsGvGga/WG2rQ4ABhh5islHjZ6IaR/M1WqcNFFM0BKSAM0Gj9PYxEuM1bvQXVdpNI5D8fXH7A4KA2Oa1Mp79jVq8ZpV0tMiQJCnGG/tS2+mYqDF9iAKXx+y07tqiDl7hd5BUmpDHzaBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ACmnaZLe; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="abT6Khm0"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F7Hx7h018518
-	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 07:26:39 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ACmnaZLe"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FhT3002351
+	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 08:52:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xpCzPmMYzqhbsZujBIxXKmlSp31STMAr8Naqc5Hd5y4=; b=abT6Khm0hwd/Wsx8
-	iR6BKmsS+bG5ryjH4UcNJ1Mf5mAsfoc0ne8TSQ9VDQADEaPuMFx2yuEtY4eGDKoS
-	6v+ovVOm+mn/aCFfIu7G4PyRquWUHS+RKPaQAtiThOlT7vWxLXc/COXc+rY4eDs5
-	u9JWXG00K/YcshfFFc7bEXQ+YMUGTXCbCJZDSO6TmpwAHwBo2YCEm2j3wtasq7N7
-	ZicPpm28wVpCb+6Uw4AaNW0kj3GPNAzaf21PLR/SXq461nZN4shvOovkZeKcOVOw
-	EAKv4bTCpTvKpbbhk1JLLt/i/bliGiJLR1Kqi57iOiwbEdxPaXijOJv/IWWC7Sob
-	vC7lJQ==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 495eqptpdd-1
+	ZoOP1y6kv2Q1qrI74LMh14wnvJCBrS7R1fHqNXnvWAU=; b=ACmnaZLeO5cK9+7g
+	bp8Dtv7rpwucslWmRvTKrPbKGWlSmK3QzLpjk+tp4pF75cEbSiw+ohESc5C3v5Tw
+	TD8TJXSqyUybIpwjhY27xuLSWClTRUugnVAH1RXxU8fAYUNR+Uzm+Pe12pJ/fogo
+	dz2UOHiyloYr7xKb5Ta171sEmO4/KixhpOaHJDyF8GRQsYxj6JUscIyvd66VU/uu
+	PVu9nChcDkqoSlj2aDO4elbvIX4ZlHh2ZzUu/OrDej1HoX5TFlXKRf82ujp1Q4sg
+	6tjY+FpY5x1d3bGaiCDGyhFjH4U2QWo9LTIWlpXqTveuLeUZS112HfKqOaOfW4MX
+	Xqv3Yw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496da98fxh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 07:26:39 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-7725a76dcb4so2856157b3a.0
-        for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 00:26:39 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 08:52:23 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-329b750757aso3319828a91.1
+        for <mhi@lists.linux.dev>; Mon, 15 Sep 2025 01:52:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757921198; x=1758525998;
+        d=1e100.net; s=20230601; t=1757926342; x=1758531142;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpCzPmMYzqhbsZujBIxXKmlSp31STMAr8Naqc5Hd5y4=;
-        b=NUryimCt6X677dn46QpbyOPwvuEOVylEEf+Ho9iM1J8vtazcvs9nw2uDonCmTczfS+
-         pblQhO+bQ+cVts5wyu5yoqtAfTzxvmZ0sFhBOm11AuIY2+0d1xkt1TU/ixq3GAur/uRq
-         Srfm1FaOBhJl6sAzuwu2brmEOL0XjJwHEK4gT9I/KQ1JQg8s7GHmEJhL923bw9JhS+LI
-         YQbgsDcW5jEMUd4FQsl/O3WUWvVRX3HFVo99aEFppJBljzzGLoaPKQ6y9MwQsclHiXWX
-         O8aBv+eZFhXLyUAmVD+7nuAO8AekvVict1VPHuzHR8yf9K2a2pE2fznEwkr7fKNWFC79
-         Theg==
-X-Gm-Message-State: AOJu0YyavmNp4jAIYBK8zzDSuffRbdOfYgcM6OpaXCTSRGiwN4aNZiql
-	HpiQG8OMItu03CcDTW6rsPTvVZhP4+qLAntx393kPvwOc7SJvCNPSoXqTGsup+KxPLA2lpPuDZh
-	n6g06wiN3sgXKOlWlDx2vXymgz7sLSgN7n2C6MH1kNDyOfPHKFF4ipLg=
-X-Gm-Gg: ASbGncsBdqFMp7HEU/mX0m68H4plTOFDeL65khYK7OTr4qXAHlDzVHJJdaxhyhkx0I8
-	ieEPmIb6jzK59Re+eOLnR1PNNG2Fp+vZkdrha6re5P/cKLdzBsoFmdcC0pnnjweHLF2wRjvYab0
-	I0/ely+fkUIF07neKOre2G8KaMRIU+CZSx1s2yDw9Dxzkm08+ux/Y/x7MGEX+a4oCDi7uSbJ8ca
-	JYQLzrirP95CyKzFlJipuzAeiebUMfmk2cOBTo3+W9EaZzUcC9oWQPyyowC13wFHaBKUNX9L40U
-	OzRJFafTwwMUHSD+TI1d/KBvpabMKFP2/tmmNMC8v5v7pgHmBKNKdoB8xrATSnKysckVfBDLIA=
+        bh=ZoOP1y6kv2Q1qrI74LMh14wnvJCBrS7R1fHqNXnvWAU=;
+        b=aggd50v+y8mbuAlwjHjVt0fYpNFlYni0Ii0iIFICwt6oaSx77jexrjJ+558POw2VGF
+         2zrxYuOve97FwZfntTInJbvIzO6efLdrFoKEk5Ip6gQXHTSGWzXX5NVnLIMCwdbxoyIn
+         tBeu2u4QKfIPnWhpQZmPrNbWc3viYAmip4Llgmsix98WbxHiWzq2lWExocek9rc4pn0R
+         6wSfDmvAEHgHoa0/7fqOPozZuvmh5+Nt7yMZfKXMB/ns24wHmZgrmT7Ovy8VjexjhJNF
+         kI3kIGwfMPcXSAMxY5QT/bq/9SPPCtvjJHPUGVr0yoVuMXgFjckKGRJJFN44O81dvJBB
+         hqpQ==
+X-Gm-Message-State: AOJu0YyX702AXVDuFN3RVNSXRaEGCw+Fl0lsrAK0j735Z0gig69ouqa2
+	BRWWcWh1WJEi2vcV4dn0VowBakc/XgRNz/CfYvJtz/HrrJNxwH6ywziE372m67VbnMMUv6oe9F0
+	K3QRN/qIrZIURnTp2D1tEsA1l5cMkh1AQ4Uu/ugzuDYEjMFALprYeWx4=
+X-Gm-Gg: ASbGncsnzrSoIpTFCacgV24xx2A262DX8ZxUmwXy5gircXNSkvMXYKndGzTfWQ0gHEm
+	6CQrYmiySHenLEOcGXruLPRHogYF9+IwDAWMIJAHiaLAyKT8pDqryn56tO1skiiwjQ0wMioIQa6
+	xSU+naWhPHQr8ugv4cVPqKy6S7RzDl+a47AhOtVhM6Sc13VO5SDvN7GtSN1FopWS9GhGhJ3HAzv
+	1wg30VW0WzbGZ616OqGb8dK0EKHTz0CcCAo/nPKiKiLkmVKy/A+Zcti9ONgN0L34w0qsTvCx5tz
+	DwUllX7LTIpGnzV61ih7iSggwHSmNLda12UPJmEaRQPyyIsVMEvyZXNQmeP+F/iRuKthn7CiRw=
 	=
-X-Received: by 2002:a05:6a21:6d98:b0:246:458:8544 with SMTP id adf61e73a8af0-25cf5d082a1mr21923060637.3.1757921198466;
-        Mon, 15 Sep 2025 00:26:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEewNIc9ydvy5wy5hm5/P36oyXjxjPVG/IVE9AHKYUMCIiJRex0UM13Pf4atLtTuSYn+Tvr8g==
-X-Received: by 2002:a05:6a21:6d98:b0:246:458:8544 with SMTP id adf61e73a8af0-25cf5d082a1mr21922952637.3.1757921197292;
-        Mon, 15 Sep 2025 00:26:37 -0700 (PDT)
+X-Received: by 2002:a17:90b:39c5:b0:32e:6019:5d19 with SMTP id 98e67ed59e1d1-32e60195de3mr3234357a91.34.1757926342430;
+        Mon, 15 Sep 2025 01:52:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHDHxY7PMZiwj9+qa9gWiHA+FHIEA6+jXuVLrMiGIMq3qikMHGq/3peLPb9JO2Yw5ntBoNvQ==
+X-Received: by 2002:a17:90b:39c5:b0:32e:6019:5d19 with SMTP id 98e67ed59e1d1-32e60195de3mr3234341a91.34.1757926341964;
+        Mon, 15 Sep 2025 01:52:21 -0700 (PDT)
 Received: from [10.218.42.132] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54b5568a82sm7028051a12.34.2025.09.15.00.26.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54ac02de2bsm8708849a12.17.2025.09.15.01.52.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Sep 2025 00:26:36 -0700 (PDT)
-Message-ID: <6510264c-d91a-45f3-b484-18d334c515e8@oss.qualcomm.com>
-Date: Mon, 15 Sep 2025 12:56:33 +0530
+        Mon, 15 Sep 2025 01:52:21 -0700 (PDT)
+Message-ID: <65df50b9-0bdf-4a62-ae1f-d0bb550ff406@oss.qualcomm.com>
+Date: Mon, 15 Sep 2025 14:22:17 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -74,101 +74,172 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bus: mhi: host: Update session id for each suspend and
- resume
-To: Slark Xiao <slark_xiao@163.com>, mani@kernel.org
+Subject: Re: [PATCH v4 2/6] bus: mhi: host: pci_generic: Read
+ SUBSYSTEM_VENDOR_ID for VF's to check status
+To: Vivek.Pernamitta@quicinc.com, Manivannan Sadhasivam <mani@kernel.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20250912100827.294443-1-slark_xiao@163.com>
+        linux-kernel@vger.kernel.org,
+        Vivek Pernamitta <quic_vpernami@quicinc.com>
+References: <20250912-uevent_vdev_next-20250911-v4-0-fa2f6ccd301b@quicinc.com>
+ <20250912-uevent_vdev_next-20250911-v4-2-fa2f6ccd301b@quicinc.com>
 Content-Language: en-US
 From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <20250912100827.294443-1-slark_xiao@163.com>
+In-Reply-To: <20250912-uevent_vdev_next-20250911-v4-2-fa2f6ccd301b@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: M8vz3JuHH3sik5YFEC-5HKdyVUheywb4
-X-Proofpoint-ORIG-GUID: M8vz3JuHH3sik5YFEC-5HKdyVUheywb4
-X-Authority-Analysis: v=2.4 cv=XJIwSRhE c=1 sm=1 tr=0 ts=68c7bfaf cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=Byx-y9mGAAAA:8 a=QnQY4Z2GrxFU2i-fODsA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDE4NiBTYWx0ZWRfX4o8axOlV39nG
- 2m8H7IKrEbdD/lYyDR3yFrDAaeMeRJtk+efKiyOrw8Zn2u7cl06xWvEWLpGpLDsLAXFXD9oUW/B
- wxOGilrORuFq6qvsHjKuXoOQhzctvABimRP2kd5KWscQGnOKESlZGRp8ZKvuLqGi0UuJOYAsz4G
- yo2idD/b/FmA++OM4VCOV/+2vrsYE19meg9oqHQmfdebO16pIAuyUvDRRl5D0p/Em5LWMAuEYTF
- slC4nCMKGpL7Ezbio5Z1JyQOY7XCstYlNpQFBs/ySC9jHMzWyLtmirUzdGtN5vTXvmPrX4BQ23l
- sYL7540MyAdIjYSzl6Y7P6fHlRAwSdqhKouZgc//uiqlVQY8f4blrjto0SZ/1xGBT/cCG+j/Ac4
- iPqxt9aL
+X-Authority-Analysis: v=2.4 cv=M+5NKzws c=1 sm=1 tr=0 ts=68c7d3c7 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=HFCjbP5WYD9W18CjRUkA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 9ltKHSYhVflkNelCsN5jyqa1F2sxwsEd
+X-Proofpoint-ORIG-GUID: 9ltKHSYhVflkNelCsN5jyqa1F2sxwsEd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA1NiBTYWx0ZWRfX2n1CDIVWLy1T
+ Jzh1v1d79Qj6+ASAWr96gSP4MguPMPY/QeTdCKMRAlrxpgZ3Fi364DljdnI37gfAuNjENwWEJK9
+ vdUugQwieqFTG9w4LR8yUE+YvK4rsvEaf/pIqtYnEtb4RqcGdc5Rq3oijxaNUXVRHeGFwxfLode
+ wta29KQUXa0pSPEwDhyXOKDXO+JHpX/AbIikwRuubCDKFvHlgNJINnhCBjtptAn4aG8/2LPHbIw
+ FlMUWUAr5LWZDoSR1YnUZIndsm8GN8rfUJyTkVyhYQmvqRnGhhCcmKl3BVv0hkhNKAuESxLIbmL
+ WRftJurD6AUByfiCGPeqW3kiOYTDnayXjCFfyVYkwbKm6cIY1ur7D46mIvhR9QkSqqAFiQbHlQI
+ dA6+q7jy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-15_03,2025-09-12_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0
- malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 classifier=typeunknown
+ malwarescore=0 spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130186
+ engine=8.19.0-2507300000 definitions=main-2509150056
 
 
 
-On 9/12/2025 3:38 PM, Slark Xiao wrote:
-> On Qualcomm module side, there is a UART print as below:
-> session id: 0x355fe689 state:2
-> session id: 0x1f478e42 state:5
-> The session id reads from register BHI_IMGTXDB(0x218), and the
-> state indicates the D3 or D0 state.
+On 9/12/2025 6:18 PM, Vivek.Pernamitta@quicinc.com wrote:
+> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
 > 
-> In Windows side, MHI driver would update this session id for each
-> suspend/resume progress. We benefit from this mechanism since it
-> could help sync each suspend and resume progress between host and
-> device, especially for some suspend issue which needs to take
-> hundreds or thousands cycle. We can easy to figure out which
-> suspend cycle get a problem and what's happened at that time for
-> both host and device because they have same id.
+> In SR-IOV enabled devices, reading the VF DEVICE/VENDOR ID register
+> returns `FFFFh`, as specified in section 3.4.1.1 of the PCIe SR-IOV spec.
+> To accurately determine device activity, read the PCIe VENDOR_ID of
+> the Physical Function (PF) insteadcommit text and subject needs to be modified to reflect new changes
+
+> Health check monitoring for Virtual Functions (VFs) has been disabled,
+> since VFs are not physical functions and lack direct hardware control.
+> This change prevents unnecessary CPU cycles from being consumed by VF
+> health checks, which are both unintended and non-functional.
 > 
-> But in Linux side, this session id value would always be 0x0.
-> So we add it for potential debug usage.
-> 
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
+> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 > ---
->   drivers/bus/mhi/host/pm.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
+>   drivers/bus/mhi/host/pci_generic.c | 34 ++++++++++++++++++++++++----------
+>   1 file changed, 24 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-> index 33d92bf2fc3e..a6573f687363 100644
-> --- a/drivers/bus/mhi/host/pm.c
-> +++ b/drivers/bus/mhi/host/pm.c
-> @@ -864,6 +864,13 @@ int mhi_pm_suspend(struct mhi_controller *mhi_cntrl)
->   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->   	enum mhi_pm_state new_state;
->   	int ret;
-> +	void __iomem *base = mhi_cntrl->bhi;
-> +	u32 session_id;
-> +
-> +	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
-> +	dev_dbg(dev, "Starting enter suspend, session id: 0x%x\n",
-> +		session_id);
-> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
-I agree this will help in debugging, but unless it is documented
-in the MHI spec we can't have this. Since in future if there is
-some other purpose for this register we end up facing issues.
-
-if it already part of spec point it in the commit text.
-
-- Krishna Chaitanya.
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index 8a605cb3b8e1e54ef4e699700f3f2660ad5cb093..6fa16975e320212a50e0b68ddb34db5ce711589c 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1082,7 +1082,7 @@ static bool mhi_pci_is_alive(struct mhi_controller *mhi_cntrl)
+>   	struct pci_dev *pdev = to_pci_dev(mhi_cntrl->cntrl_dev);
+>   	u16 vendor = 0;
 >   
->   	if (mhi_cntrl->pm_state == MHI_PM_DISABLE)
->   		return -EINVAL;
-> @@ -952,6 +959,14 @@ static int __mhi_pm_resume(struct mhi_controller *mhi_cntrl, bool force)
->   	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->   	enum mhi_pm_state cur_state;
->   	int ret;
-> +	void __iomem *base = mhi_cntrl->bhi;
-> +	u32 session_id;
-> +
-> +	session_id = MHI_RANDOM_U32_NONZERO(BHI_TXDB_SEQNUM_BMSK);
-> +	dev_dbg(dev, "Starting enter resume, session id: 0x%x\n",
-> +		session_id);
-> +
-> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
+> -	if (pci_read_config_word(pdev, PCI_VENDOR_ID, &vendor))
+> +	if (pci_read_config_word(pci_physfn(pdev), PCI_VENDOR_ID, &vendor))
+As you are invoking only for physical functions pci_physfn is not needed.
+
+- Krishna Chaitanya
+>   		return false;
 >   
->   	dev_dbg(dev, "Entered with PM state: %s, MHI state: %s\n",
->   		to_mhi_pm_state_str(mhi_cntrl->pm_state),
+>   	if (vendor == (u16) ~0 || vendor == 0)
+> @@ -1193,7 +1193,9 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+>   
+>   	dev_warn(&pdev->dev, "device recovery started\n");
+>   
+> -	timer_delete(&mhi_pdev->health_check_timer);
+> +	if (pdev->is_physfn)
+> +		timer_delete(&mhi_pdev->health_check_timer);
+> +
+>   	pm_runtime_forbid(&pdev->dev);
+>   
+>   	/* Clean up MHI state */
+> @@ -1220,7 +1222,10 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+>   	dev_dbg(&pdev->dev, "Recovery completed\n");
+>   
+>   	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+> -	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> +
+> +	if (pdev->is_physfn)
+> +		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> +
+>   	return;
+>   
+>   err_unprepare:
+> @@ -1307,7 +1312,9 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	else
+>   		mhi_cntrl_config = info->config;
+>   
+> -	timer_setup(&mhi_pdev->health_check_timer, health_check, 0);
+> +	/* Initialize health check monitor only for Physical functions */
+> +	if (pdev->is_physfn)
+> +		timer_setup(&mhi_pdev->health_check_timer, health_check, 0);
+>   
+>   	mhi_cntrl = &mhi_pdev->mhi_cntrl;
+>   
+> @@ -1371,7 +1378,8 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+>   
+>   	/* start health check */
+> -	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> +	if (pdev->is_physfn)
+> +		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>   
+>   	/* Allow runtime suspend only if both PME from D3Hot and M3 are supported */
+>   	if (pci_pme_capable(pdev, PCI_D3hot) && !(info->no_m3)) {
+> @@ -1396,7 +1404,8 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+>   	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
+>   	struct mhi_controller *mhi_cntrl = &mhi_pdev->mhi_cntrl;
+>   
+> -	timer_delete_sync(&mhi_pdev->health_check_timer);
+> +	if (pdev->is_physfn)
+> +		timer_delete_sync(&mhi_pdev->health_check_timer);
+>   	cancel_work_sync(&mhi_pdev->recovery_work);
+>   
+>   	if (test_and_clear_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status)) {
+> @@ -1424,7 +1433,8 @@ static void mhi_pci_reset_prepare(struct pci_dev *pdev)
+>   
+>   	dev_info(&pdev->dev, "reset\n");
+>   
+> -	timer_delete(&mhi_pdev->health_check_timer);
+> +	if (pdev->is_physfn)
+> +		timer_delete(&mhi_pdev->health_check_timer);
+>   
+>   	/* Clean up MHI state */
+>   	if (test_and_clear_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status)) {
+> @@ -1469,7 +1479,8 @@ static void mhi_pci_reset_done(struct pci_dev *pdev)
+>   	}
+>   
+>   	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+> -	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> +	if (pdev->is_physfn)
+> +		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>   }
+>   
+>   static pci_ers_result_t mhi_pci_error_detected(struct pci_dev *pdev,
+> @@ -1534,7 +1545,9 @@ static int  __maybe_unused mhi_pci_runtime_suspend(struct device *dev)
+>   	if (test_and_set_bit(MHI_PCI_DEV_SUSPENDED, &mhi_pdev->status))
+>   		return 0;
+>   
+> -	timer_delete(&mhi_pdev->health_check_timer);
+> +	if (pdev->is_physfn)
+> +		timer_delete(&mhi_pdev->health_check_timer);
+> +
+>   	cancel_work_sync(&mhi_pdev->recovery_work);
+>   
+>   	if (!test_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status) ||
+> @@ -1585,7 +1598,8 @@ static int __maybe_unused mhi_pci_runtime_resume(struct device *dev)
+>   	}
+>   
+>   	/* Resume health check */
+> -	mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> +	if (pdev->is_physfn)
+> +		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+>   
+>   	/* It can be a remote wakeup (no mhi runtime_get), update access time */
+>   	pm_runtime_mark_last_busy(dev);
+> 
