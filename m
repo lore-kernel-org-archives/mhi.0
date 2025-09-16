@@ -1,121 +1,159 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9101023A9B3
-	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 03:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B7B221FBD
+	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757993197; cv=none; b=nukRosEfdryPwGJF1UQ6D412YQ2xAnS0CM0HiWBJs+BLLkO2bzAUXG8SFPLw8lmV9TPV6UDuESgY19fdr//ZXAzqSxAJ64mHOdwvJNMZOp81Nwgrdmp/69EhKX8MRm/74Px5TD+0EVit1g2ABWAyM+V1o5ZaB5s/OG8836t+fvs=
+	t=1758014307; cv=none; b=UFKipV4tlZjncreWVNdrYfXArbFd1tYrbiDgmcoAd06vwr1lIpvIZef9dTZMgm4jSw1VTZ/qYhYcKn6AA5g4jEVTYf86TYn9Y/R9A6VKuIHM+vOGMjxCyXqBNaRIy7xj3N0CYT39NZj51Br17hqz3u5Q9efizIIMgTkvw2jyifo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757993197; c=relaxed/simple;
-	bh=GgE+jPhovRXRztdC78zniHgC5T/Ikz8ZbYXaNTuOHJY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=N92iJMLb9lnByoDLx88B2Dl9bmQK7SWfU0D9hk/iDfmUZgfTvCyVxSX4UiT17GNrJs3q/Ms8jhniUzcU+Ujz9s4AVSOKCx8hvMzZHZRaIu6WiWZQVfztSPRMyVi8RVKs57IdQt4xqJ2W5P3NagInIwS6ritkuVA91A+uOnQ5O3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=F5P2lshM reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1758014307; c=relaxed/simple;
+	bh=zwsqcK1K8I4g/AxL5eYHfhv+amNKbZVGOpz1wTaG/sc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D91ZECq/INM1NIkXsd6M+VFrldQ4W/v5tNBMesT27WxQBTSQB2AtOpr58/JensX8z6GGgAs3R0lwUUkKO3lRvnmywmVF9N6oy8o11Ml2K6s9YBBSt3qGhxC+w7OArbWXjejVrE9Nby1SowW+GFWeiybjlgGExgSZ6DZmWdGEs4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VBF1AMGG; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="F5P2lshM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=P8m8LXz+xjgqpGR7AOllK+m4YYQWWgR0nZcgBF7amAQ=; b=F
-	5P2lshMj7TwTgU0guvH+WDTvFXWO+QVnvLzI2Z2iP0OWqeIzLJ19mayEZqph4nt1
-	OtkWWOsCmUGdnBfikM7Uu/LuKft65tZOwD+GQVd85NbLKAYm6tBFgfTDzkfpfvkx
-	RA6gkCW+dHO9qGJn1As1XENyfcmbJhpKAB0bGYA8k0=
-Received: from slark_xiao$163.com ( [2408:8459:3c60:81a:8817:506b:6403:2a62]
- ) by ajax-webmail-wmsvr-40-110 (Coremail) ; Tue, 16 Sep 2025 11:26:16 +0800
- (CST)
-Date: Tue, 16 Sep 2025 11:26:16 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Krishna Chaitanya Chundru" <krishna.chundru@oss.qualcomm.com>
-Cc: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH] bus: mhi: host: Update session id for each suspend
- and resume
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <6510264c-d91a-45f3-b484-18d334c515e8@oss.qualcomm.com>
-References: <20250912100827.294443-1-slark_xiao@163.com>
- <6510264c-d91a-45f3-b484-18d334c515e8@oss.qualcomm.com>
-X-NTES-SC: AL_Qu2eBfWSvEks4COZZekfmUobhuo3W8u1vvgn1YNfOJl8jCfp5AIPZ3ZKNkPH18OQBBuXoTa2YTJc5sdFYIJ4Q6Ip53i0RwueFEmTt9TtioFg3Q==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VBF1AMGG"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G3plMe014169
+	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5yU38SlnqFnK1dl0OwtvhRawH6vqrbBs2lAUw36iIdE=; b=VBF1AMGG0FRsGwk/
+	pu6T9o3wg+JBFYIYurwRbfBzv0GozQATJqDpJ668K1f/FNRpalYYuuhOooOQi7b5
+	HHVOE+J7z8FxGOT5DHasut3A6hnjMUbe323x8mht4frVnhYATo+lbSKhdBUzye+4
+	rri6KW0Aqb6H8tv/Zwy65NiZomWSwnhTifo84PWC4+wrtnZrm6Pd2fYIEzUAPSk6
+	/bgSa0leLh7qK85S3MvqOo9SfCTa8GPlT0Feuaf/EgoMolrlkKRoDOAehlce0Gp1
+	arP+S1TFvDAOlyKkE/PCxQTnquF9LyYHQPnsTGLFu5WvM50dgMaRk6MaX79SdXex
+	G8PCTg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496x5asdmw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:24 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2445806b18aso51034785ad.1
+        for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 02:18:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758014303; x=1758619103;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5yU38SlnqFnK1dl0OwtvhRawH6vqrbBs2lAUw36iIdE=;
+        b=MUQMJLI8Axt3j7cgx1rUwcUkL8SyDOD+OvNreMadg/6uHWsZWzb+ErEcnH7QX2X8DT
+         esXKqFUtezgsUvihzMFoIjzfT7ofyMUS/wqHGEK+e4F5pT6ecUwKPuWjuttrhbOeu6X2
+         1r027rfr9cpMJqdjAeG4n2/3G4W9O8wHqUPgleM2QsAg0E9LE819cCwYPaTbucVRSIFc
+         vX0S5H9Q5ZGh2yEzphL9MXE6luVvhEsu2gE+mqykUegYV6lLex78Gw3akGTxFz13CBnT
+         cA53mj1+UjVFqPwsm1NFa7OEtYxAiF57Zjh5JBCPUE07/mbPrihEHfrrPqIsOIVjsoFB
+         aLSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVIcPP6QJdoWRDOiozAgVa9pkijkwXAJZTbzqgcDRHCKsY4sflhYRYgxA6MAtBNW/dlwpU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YymFWnLE8QULfNpPoWpp0ElARXnRnM8z1PKg/H+dAbxSpbMK3XY
+	Znk8xbhMEsX/3c5it2tQ2T9F80+0P38S8Uy/uGfV9xPS/UXWPfaaMTo/misKMr7rvhP/3/1Ei7q
+	kkhMi5oz4UgnpSXWk4WDBndTQUVr9JPsxvfZlQRPhd3wiHjlSCNv6lLU=
+X-Gm-Gg: ASbGncv/Q3LckVVZ02bO9V2EprUcejOIOPNAImL+R/o8Lse+vgeHqfohJH4kIvWFyay
+	SYbqz+fPd7AlldrN2PIt1SUpGE81Xh+wAOc8gwC50qmmUH7XEWUdZzxR7FuB3xIl8iNTCzKs1Bd
+	nEXIakRdoMJ+00F9oRDKi0dHaTF6D3uWAvjPkNT/Q9MhS66CUaCd/YM2GpHEWbGpsMdL+78m1Y4
+	aZwLrlQfxWB2JpfPEID0rcRF+7JhbJKCNvIcnLUW+eXroi8wNfPiFte0StGopMfNvQqyLyPd02/
+	p2r83YEqbtFEuTRucNW82MB+4XKUW5YIydwI6hVsGWxpExuWFrCswhO5nMupCN9/SAc=
+X-Received: by 2002:a17:903:166e:b0:265:44ae:d24 with SMTP id d9443c01a7336-26544ae0f0fmr109025275ad.43.1758014302987;
+        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFUTp4KmbKb6w4ICddFjxV1wTcHyF4t8EHj7cMp3vuJ2wqlH26j9yp2DgzTArzCXUUfH1i7TA==
+X-Received: by 2002:a17:903:166e:b0:265:44ae:d24 with SMTP id d9443c01a7336-26544ae0f0fmr109024895ad.43.1758014302506;
+        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
+Received: from [10.218.33.29] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2663f6337b3sm56192015ad.102.2025.09.16.02.18.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
+Message-ID: <0b950a45-21e5-4c8d-bc76-1c801b86e2ef@oss.qualcomm.com>
+Date: Tue, 16 Sep 2025 14:47:53 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <4205cc0b.3a60.199508f0d03.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:bigvCgC37gfY2Mho64sxAA--.2300W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiJQrJZGjId2372AAEsf
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] bus: mhi: host: mhi_phc: Add support for PHC over MHI
+To: Jakub Kicinski <kuba@kernel.org>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+        Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, taniya.das@oss.qualcomm.com,
+        quic_vbadigan@quicinc.com, quic_mrana@quicinc.com
+References: <20250818-tsc_time_sync-v1-0-2747710693ba@oss.qualcomm.com>
+ <20250818-tsc_time_sync-v1-5-2747710693ba@oss.qualcomm.com>
+ <20250821180247.29d0f4b3@kernel.org>
+Content-Language: en-US
+From: Imran Shaik <imran.shaik@oss.qualcomm.com>
+In-Reply-To: <20250821180247.29d0f4b3@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: rUmDbIzPLI7cLA-qvVZQl50KxLmRRiX-
+X-Proofpoint-ORIG-GUID: rUmDbIzPLI7cLA-qvVZQl50KxLmRRiX-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDAxMCBTYWx0ZWRfXx/SW2X6f6WKt
+ mUl9+/wMT2Y+AXECkN9EEo7fhtWqHsXjCuoTQidSUoacgVmL4TDQRJf/onEErzl2p8IUEGksvFh
+ 0G0VqqVpvLC7qxMQ+SefbV1odpMU9JbIYuNPYOAB0QBK6HOZgbwcvaqyktdF0D4uQ4pIs3crGjA
+ XmxMXW54dO7Lz3ItsY4E04lyBGt/r1zoBlgHXQXrqhAa/hOZK4mEay9Aw7jsPAZdvHXHgfjE1vF
+ TTnE8exgcIO/IMGI3vcyOczsmf5Yx4asVVgnGdOkuV7N91Qf/Zs5jnZL9sRqYsL2GcGaryTqTa+
+ dVKLYJn5jwordVlOyiqW0iNctC7aElkMAK9PEF0yJ8ejxdsRb6YzaVUJJeUInRnygsPK3F3CfcY
+ gshz+m4l
+X-Authority-Analysis: v=2.4 cv=WpQrMcfv c=1 sm=1 tr=0 ts=68c92b60 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=xLYDFgVRoUo0Dj3B0GAA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160010
 
-CgpBdCAyMDI1LTA5LTE1IDE1OjI2OjMzLCAiS3Jpc2huYSBDaGFpdGFueWEgQ2h1bmRydSIgPGty
-aXNobmEuY2h1bmRydUBvc3MucXVhbGNvbW0uY29tPiB3cm90ZToKPgo+Cj5PbiA5LzEyLzIwMjUg
-MzozOCBQTSwgU2xhcmsgWGlhbyB3cm90ZToKPj4gT24gUXVhbGNvbW0gbW9kdWxlIHNpZGUsIHRo
-ZXJlIGlzIGEgVUFSVCBwcmludCBhcyBiZWxvdzoKPj4gc2Vzc2lvbiBpZDogMHgzNTVmZTY4OSBz
-dGF0ZToyCj4+IHNlc3Npb24gaWQ6IDB4MWY0NzhlNDIgc3RhdGU6NQo+PiBUaGUgc2Vzc2lvbiBp
-ZCByZWFkcyBmcm9tIHJlZ2lzdGVyIEJISV9JTUdUWERCKDB4MjE4KSwgYW5kIHRoZQo+PiBzdGF0
-ZSBpbmRpY2F0ZXMgdGhlIEQzIG9yIEQwIHN0YXRlLgo+PiAKPj4gSW4gV2luZG93cyBzaWRlLCBN
-SEkgZHJpdmVyIHdvdWxkIHVwZGF0ZSB0aGlzIHNlc3Npb24gaWQgZm9yIGVhY2gKPj4gc3VzcGVu
-ZC9yZXN1bWUgcHJvZ3Jlc3MuIFdlIGJlbmVmaXQgZnJvbSB0aGlzIG1lY2hhbmlzbSBzaW5jZSBp
-dAo+PiBjb3VsZCBoZWxwIHN5bmMgZWFjaCBzdXNwZW5kIGFuZCByZXN1bWUgcHJvZ3Jlc3MgYmV0
-d2VlbiBob3N0IGFuZAo+PiBkZXZpY2UsIGVzcGVjaWFsbHkgZm9yIHNvbWUgc3VzcGVuZCBpc3N1
-ZSB3aGljaCBuZWVkcyB0byB0YWtlCj4+IGh1bmRyZWRzIG9yIHRob3VzYW5kcyBjeWNsZS4gV2Ug
-Y2FuIGVhc3kgdG8gZmlndXJlIG91dCB3aGljaAo+PiBzdXNwZW5kIGN5Y2xlIGdldCBhIHByb2Js
-ZW0gYW5kIHdoYXQncyBoYXBwZW5lZCBhdCB0aGF0IHRpbWUgZm9yCj4+IGJvdGggaG9zdCBhbmQg
-ZGV2aWNlIGJlY2F1c2UgdGhleSBoYXZlIHNhbWUgaWQuCj4+IAo+PiBCdXQgaW4gTGludXggc2lk
-ZSwgdGhpcyBzZXNzaW9uIGlkIHZhbHVlIHdvdWxkIGFsd2F5cyBiZSAweDAuCj4+IFNvIHdlIGFk
-ZCBpdCBmb3IgcG90ZW50aWFsIGRlYnVnIHVzYWdlLgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogU2xh
-cmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2J1cy9taGkv
-aG9zdC9wbS5jIHwgMTUgKysrKysrKysrKysrKysrCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDE1IGlu
-c2VydGlvbnMoKykKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2J1cy9taGkvaG9zdC9wbS5j
-IGIvZHJpdmVycy9idXMvbWhpL2hvc3QvcG0uYwo+PiBpbmRleCAzM2Q5MmJmMmZjM2UuLmE2NTcz
-ZjY4NzM2MyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcG0uYwo+PiArKysg
-Yi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wbS5jCj4+IEBAIC04NjQsNiArODY0LDEzIEBAIGludCBt
-aGlfcG1fc3VzcGVuZChzdHJ1Y3QgbWhpX2NvbnRyb2xsZXIgKm1oaV9jbnRybCkKPj4gICAJc3Ry
-dWN0IGRldmljZSAqZGV2ID0gJm1oaV9jbnRybC0+bWhpX2Rldi0+ZGV2Owo+PiAgIAllbnVtIG1o
-aV9wbV9zdGF0ZSBuZXdfc3RhdGU7Cj4+ICAgCWludCByZXQ7Cj4+ICsJdm9pZCBfX2lvbWVtICpi
-YXNlID0gbWhpX2NudHJsLT5iaGk7Cj4+ICsJdTMyIHNlc3Npb25faWQ7Cj4+ICsKPj4gKwlzZXNz
-aW9uX2lkID0gTUhJX1JBTkRPTV9VMzJfTk9OWkVSTyhCSElfVFhEQl9TRVFOVU1fQk1TSyk7Cj4+
-ICsJZGV2X2RiZyhkZXYsICJTdGFydGluZyBlbnRlciBzdXNwZW5kLCBzZXNzaW9uIGlkOiAweCV4
-XG4iLAo+PiArCQlzZXNzaW5faWQpOwo+PiArCW1oaV93cml0ZV9yZWcobWhpX2NudHJsLCBiYXNl
-LCBCSElfSU1HVFhEQiwgc2Vzc2lvbl9pZCk7Cj5JIGFncmVlIHRoaXMgd2lsbCBoZWxwIGluIGRl
-YnVnZ2luZywgYnV0IHVubGVzcyBpdCBpcyBkb2N1bWVudGVkCj5pbiB0aGUgTUhJIHNwZWMgd2Ug
-Y2FuJ3QgaGF2ZSB0aGlzLiBTaW5jZSBpbiBmdXR1cmUgaWYgdGhlcmUgaXMKPnNvbWUgb3RoZXIg
-cHVycG9zZSBmb3IgdGhpcyByZWdpc3RlciB3ZSBlbmQgdXAgZmFjaW5nIGlzc3Vlcy4KPgo+aWYg
-aXQgYWxyZWFkeSBwYXJ0IG9mIHNwZWMgcG9pbnQgaXQgaW4gdGhlIGNvbW1pdCB0ZXh0Lgo+Cj4t
-IEtyaXNobmEgQ2hhaXRhbnlhLgpIaSBLcmlzaG5hLApJIGFtIG5vdCBhIG1lbWJlciBvZiBRdWFs
-Y29tbSBzbyBJIGRvbid0IGhhdmUgYSBkZXRhaWxlZCBNSEkKc3BlYyB0byBkZXNjcmliZSB0aGlz
-IHJlZ2lzdGVyIHVzYWdlLgpCdXQgSSBnZXQgc29tZSBpbmZvcm1hdGlvbiBmcm9tIHRoZWlyIFdp
-bmRvd3MgTUhJIGRyaXZlcjoKCjEuIFRoZXJlIGlzIHJlbGVhc2Ugbm90ZSB3aGljaCBkZXNjcmli
-ZSBpdDoKVURFL1FNSS93aW4vcWN1ZGUvaW5zdGFsbGVyL1JlYWRNZS50eHQgClVERS9RQ1VERS5T
-dGFuZGFsb25lLlNvdXJjZS4xLjAwLjQ0LldpbmRvd3MtQW55Q1BVX1JlYWRNZV8xLnR4dAouLi4u
-Li4KTUhJIGRyaXZlciAxLjEuMC4yCiAgYi4gQWRkIHdyaXRlIHRvIEJISV9JTUdUWERCIGZvciBk
-ZWJ1ZyBwdXJwb3Nlcy4KLi4uLi4uCgoyLkZyb20gdGhlIGNvZGUgc2lkZSwgIHRoZXJlIGlzIGEg
-c2FtZSBvcGVyYXRpb24gZm9yIE1ISSBkcml2ZXIKZW50ZXIgaW50byBNMDoKSG9zdERyaXZlci93
-aW4vTlRBRC9NaGlIb3N0L01oaS9zcmMvTWhpLmMKLi4uLi4uCnZvaWQgTWhpUmVxdWVzdE0wKFBN
-SElfREVWX0NUWFQgTWhpQ3R4dCkKewouLi4uLgogICAvKiBTZXQgQkhJX0lNR1RYREIgKi8KICAg
-S2VRdWVyeVN5c3RlbVRpbWUoJnJhbmRTZWVkKTsKICAgTWhpQ3R4dC0+U2Vzc2lvbklEID0gUnRs
-UmFuZG9tRXgoJnJhbmRTZWVkLkxvd1BhcnQpOwogICBNaGlUcmFjZShUUkFDRV9MRVZFTF9FUlJP
-UiwgVFJBQ0VfRkxBR19NSElDT05GSUcsICJORVcgU2Vzc2lvbklEOiAweCV4XG4iLCBNaGlDdHh0
-LT5TZXNzaW9uSUQpOwogICBNSElfV1JJVEVfUkVHKGRldmljZUNvbnRleHQtPkJISUNvbnRleHQu
-QmhpQmFzZSwgQkhJX0lNR1RYREIsIE1oaUN0eHQtPlNlc3Npb25JRCk7CgogICBNaGlUcmFjZShU
-UkFDRV9MRVZFTF9FUlJPUiwgVFJBQ0VfRkxBR19NSElDT05GSUcsICJSZXEgLT4gTTBcbiIpOwou
-Li4uLi4KCk5vdCBzdXJlIGlmIGFib3ZlIGluZm9ybWF0aW9uIGlzIGVub3VnaCBmb3IgdGhpcyBj
-b21taXQuCgpUaGFua3MKPj4gICAKPj4gICAJaWYgKG1oaV9jbnRybC0+cG1fc3RhdGUgPT0gTUhJ
-X1BNX0RJU0FCTEUpCj4+ICAgCQlyZXR1cm4gLUVJTlZBTDsKPj4gQEAgLTk1Miw2ICs5NTksMTQg
-QEAgc3RhdGljIGludCBfX21oaV9wbV9yZXN1bWUoc3RydWN0IG1oaV9jb250cm9sbGVyICptaGlf
-Y250cmwsIGJvb2wgZm9yY2UpCj4+ICAgCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZtaGlfY250cmwt
-Pm1oaV9kZXYtPmRldjsKPj4gICAJZW51bSBtaGlfcG1fc3RhdGUgY3VyX3N0YXRlOwo+PiAgIAlp
-bnQgcmV0Owo+PiArCXZvaWQgX19pb21lbSAqYmFzZSA9IG1oaV9jbnRybC0+YmhpOwo+PiArCXUz
-MiBzZXNzaW9uX2lkOwo+PiArCj4+ICsJc2Vzc2lvbl9pZCA9IE1ISV9SQU5ET01fVTMyX05PTlpF
-Uk8oQkhJX1RYREJfU0VRTlVNX0JNU0spOwo+PiArCWRldl9kYmcoZGV2LCAiU3RhcnRpbmcgZW50
-ZXIgcmVzdW1lLCBzZXNzaW9uIGlkOiAweCV4XG4iLAo+PiArCQlzZXNzaW9uX2lkKTsKPj4gKwo+
-PiArCW1oaV93cml0ZV9yZWcobWhpX2NudHJsLCBiYXNlLCBCSElfSU1HVFhEQiwgc2Vzc2lvbl9p
-ZCk7Cj4+ICAgCj4+ICAgCWRldl9kYmcoZGV2LCAiRW50ZXJlZCB3aXRoIFBNIHN0YXRlOiAlcywg
-TUhJIHN0YXRlOiAlc1xuIiwKPj4gICAJCXRvX21oaV9wbV9zdGF0ZV9zdHIobWhpX2NudHJsLT5w
-bV9zdGF0ZSksCg==
+
+
+On 8/22/2025 6:32 AM, Jakub Kicinski wrote:
+> On Mon, 18 Aug 2025 12:25:50 +0530 Krishna Chaitanya Chundru wrote:
+>> This patch introduces the MHI PHC (PTP Hardware Clock) driver, which
+>> registers a PTP (Precision Time Protocol) clock and communicates with
+>> the MHI core to get the device side timestamps. These timestamps are
+>> then exposed to the PTP subsystem, enabling precise time synchronization
+>> between the host and the device.
+> 
+>> +static struct ptp_clock_info qcom_ptp_clock_info = {
+>> +	.owner    = THIS_MODULE,
+>> +	.gettimex64 =  qcom_ptp_gettimex64,
+>> +};
+> 
+> Yet another device to device clock sync driver. Please see the
+> discussion here:
+> https://lore.kernel.org/all/20250815113814.5e135318@kernel.org/
+> I think we have a consensus within the community that we should 
+> stop cramming random clocks into the PTP subsystem.
+> 
+> Exporting read-only clocks from another processor is not what PTP
+> is for.
+
+Hi Jakub,
+ 
+Thank you for the review and for sharing the link to the ongoing discussion.
+
+I understand the concerns about using the PTP subsystem for read-only clocks.
+The idea behind this patch was to use a standard interface for syncing time
+between the host and device, and also to make use of existing tools like
+phc2sys from userspace.
+ 
+I have looked into the on going discussion you pointed, and we’re facing
+a similar challenge. Based on internal discussion with the PCIe team, we’ve
+confirmed that PCIe PTM isn’t applicable for this hardware use case.
+ 
+That said, since it seems the community prefers not to use PTP for such
+requirement, could you please suggest any other way to support this time
+sync requirement that would be acceptable upstream?
+
+Appreciate your guidance!
+ 
+Thanks,
+Imran
