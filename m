@@ -1,159 +1,67 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B7B221FBD
-	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6DA2C029C;
+	Fri, 19 Sep 2025 07:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758014307; cv=none; b=UFKipV4tlZjncreWVNdrYfXArbFd1tYrbiDgmcoAd06vwr1lIpvIZef9dTZMgm4jSw1VTZ/qYhYcKn6AA5g4jEVTYf86TYn9Y/R9A6VKuIHM+vOGMjxCyXqBNaRIy7xj3N0CYT39NZj51Br17hqz3u5Q9efizIIMgTkvw2jyifo=
+	t=1758267854; cv=none; b=Py1SAjYPBLgRx6laXk7a4YUDnhnqOoty61NhGsxZuLyS7Cq6hbQ3Q1XgPTKJJKZQkY9MVxP2QXrydx1oE0vff7KjAI2Zl42HpBP2I6bG1dprd9RycP13IV2S3uYniruGe5Z47rg97gannhwIX2miknXmu8DPv+TXwXFDFJ0HpTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758014307; c=relaxed/simple;
-	bh=zwsqcK1K8I4g/AxL5eYHfhv+amNKbZVGOpz1wTaG/sc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D91ZECq/INM1NIkXsd6M+VFrldQ4W/v5tNBMesT27WxQBTSQB2AtOpr58/JensX8z6GGgAs3R0lwUUkKO3lRvnmywmVF9N6oy8o11Ml2K6s9YBBSt3qGhxC+w7OArbWXjejVrE9Nby1SowW+GFWeiybjlgGExgSZ6DZmWdGEs4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VBF1AMGG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VBF1AMGG"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G3plMe014169
-	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5yU38SlnqFnK1dl0OwtvhRawH6vqrbBs2lAUw36iIdE=; b=VBF1AMGG0FRsGwk/
-	pu6T9o3wg+JBFYIYurwRbfBzv0GozQATJqDpJ668K1f/FNRpalYYuuhOooOQi7b5
-	HHVOE+J7z8FxGOT5DHasut3A6hnjMUbe323x8mht4frVnhYATo+lbSKhdBUzye+4
-	rri6KW0Aqb6H8tv/Zwy65NiZomWSwnhTifo84PWC4+wrtnZrm6Pd2fYIEzUAPSk6
-	/bgSa0leLh7qK85S3MvqOo9SfCTa8GPlT0Feuaf/EgoMolrlkKRoDOAehlce0Gp1
-	arP+S1TFvDAOlyKkE/PCxQTnquF9LyYHQPnsTGLFu5WvM50dgMaRk6MaX79SdXex
-	G8PCTg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496x5asdmw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 09:18:24 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2445806b18aso51034785ad.1
-        for <mhi@lists.linux.dev>; Tue, 16 Sep 2025 02:18:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758014303; x=1758619103;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5yU38SlnqFnK1dl0OwtvhRawH6vqrbBs2lAUw36iIdE=;
-        b=MUQMJLI8Axt3j7cgx1rUwcUkL8SyDOD+OvNreMadg/6uHWsZWzb+ErEcnH7QX2X8DT
-         esXKqFUtezgsUvihzMFoIjzfT7ofyMUS/wqHGEK+e4F5pT6ecUwKPuWjuttrhbOeu6X2
-         1r027rfr9cpMJqdjAeG4n2/3G4W9O8wHqUPgleM2QsAg0E9LE819cCwYPaTbucVRSIFc
-         vX0S5H9Q5ZGh2yEzphL9MXE6luVvhEsu2gE+mqykUegYV6lLex78Gw3akGTxFz13CBnT
-         cA53mj1+UjVFqPwsm1NFa7OEtYxAiF57Zjh5JBCPUE07/mbPrihEHfrrPqIsOIVjsoFB
-         aLSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIcPP6QJdoWRDOiozAgVa9pkijkwXAJZTbzqgcDRHCKsY4sflhYRYgxA6MAtBNW/dlwpU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YymFWnLE8QULfNpPoWpp0ElARXnRnM8z1PKg/H+dAbxSpbMK3XY
-	Znk8xbhMEsX/3c5it2tQ2T9F80+0P38S8Uy/uGfV9xPS/UXWPfaaMTo/misKMr7rvhP/3/1Ei7q
-	kkhMi5oz4UgnpSXWk4WDBndTQUVr9JPsxvfZlQRPhd3wiHjlSCNv6lLU=
-X-Gm-Gg: ASbGncv/Q3LckVVZ02bO9V2EprUcejOIOPNAImL+R/o8Lse+vgeHqfohJH4kIvWFyay
-	SYbqz+fPd7AlldrN2PIt1SUpGE81Xh+wAOc8gwC50qmmUH7XEWUdZzxR7FuB3xIl8iNTCzKs1Bd
-	nEXIakRdoMJ+00F9oRDKi0dHaTF6D3uWAvjPkNT/Q9MhS66CUaCd/YM2GpHEWbGpsMdL+78m1Y4
-	aZwLrlQfxWB2JpfPEID0rcRF+7JhbJKCNvIcnLUW+eXroi8wNfPiFte0StGopMfNvQqyLyPd02/
-	p2r83YEqbtFEuTRucNW82MB+4XKUW5YIydwI6hVsGWxpExuWFrCswhO5nMupCN9/SAc=
-X-Received: by 2002:a17:903:166e:b0:265:44ae:d24 with SMTP id d9443c01a7336-26544ae0f0fmr109025275ad.43.1758014302987;
-        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFUTp4KmbKb6w4ICddFjxV1wTcHyF4t8EHj7cMp3vuJ2wqlH26j9yp2DgzTArzCXUUfH1i7TA==
-X-Received: by 2002:a17:903:166e:b0:265:44ae:d24 with SMTP id d9443c01a7336-26544ae0f0fmr109024895ad.43.1758014302506;
-        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
-Received: from [10.218.33.29] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2663f6337b3sm56192015ad.102.2025.09.16.02.18.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Sep 2025 02:18:22 -0700 (PDT)
-Message-ID: <0b950a45-21e5-4c8d-bc76-1c801b86e2ef@oss.qualcomm.com>
-Date: Tue, 16 Sep 2025 14:47:53 +0530
+	s=arc-20240116; t=1758267854; c=relaxed/simple;
+	bh=r9GxQxXLRb/I6EYwZFXl3JdLsGecv7jRX9Q+Qc6XOyg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=O2c1sD28d0wIUer5afpFo9Mtbtao17Xmva45swviAr3MZd146UsQt0F8qn/glKHLKt8hw8pqxqT+0dVGIbvQ04F/kWzpIDZlMEjGN9I/RYA2D52FoClcFydOvfutczl1m9BrBkwP2fTje/Vi28J/eLhPexiVwG6bA9dIpkyv768=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA3AC4CEF7;
+	Fri, 19 Sep 2025 07:44:10 +0000 (UTC)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: Manivannan Sadhasivam <mani@kernel.org>, Vivek.Pernamitta@quicinc.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>, 
+ Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <20250912-uevent_vdev_next-20250911-v4-0-fa2f6ccd301b@quicinc.com>
+References: <20250912-uevent_vdev_next-20250911-v4-0-fa2f6ccd301b@quicinc.com>
+Subject: Re: [PATCH v4 0/6] bus: mhi: host: Enable SRIOV support in MHI
+ driver
+Message-Id: <175826785090.11800.16930813701456157095.b4-ty@oss.qualcomm.com>
+Date: Fri, 19 Sep 2025 13:14:10 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] bus: mhi: host: mhi_phc: Add support for PHC over MHI
-To: Jakub Kicinski <kuba@kernel.org>,
-        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-        Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, taniya.das@oss.qualcomm.com,
-        quic_vbadigan@quicinc.com, quic_mrana@quicinc.com
-References: <20250818-tsc_time_sync-v1-0-2747710693ba@oss.qualcomm.com>
- <20250818-tsc_time_sync-v1-5-2747710693ba@oss.qualcomm.com>
- <20250821180247.29d0f4b3@kernel.org>
-Content-Language: en-US
-From: Imran Shaik <imran.shaik@oss.qualcomm.com>
-In-Reply-To: <20250821180247.29d0f4b3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: rUmDbIzPLI7cLA-qvVZQl50KxLmRRiX-
-X-Proofpoint-ORIG-GUID: rUmDbIzPLI7cLA-qvVZQl50KxLmRRiX-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDAxMCBTYWx0ZWRfXx/SW2X6f6WKt
- mUl9+/wMT2Y+AXECkN9EEo7fhtWqHsXjCuoTQidSUoacgVmL4TDQRJf/onEErzl2p8IUEGksvFh
- 0G0VqqVpvLC7qxMQ+SefbV1odpMU9JbIYuNPYOAB0QBK6HOZgbwcvaqyktdF0D4uQ4pIs3crGjA
- XmxMXW54dO7Lz3ItsY4E04lyBGt/r1zoBlgHXQXrqhAa/hOZK4mEay9Aw7jsPAZdvHXHgfjE1vF
- TTnE8exgcIO/IMGI3vcyOczsmf5Yx4asVVgnGdOkuV7N91Qf/Zs5jnZL9sRqYsL2GcGaryTqTa+
- dVKLYJn5jwordVlOyiqW0iNctC7aElkMAK9PEF0yJ8ejxdsRb6YzaVUJJeUInRnygsPK3F3CfcY
- gshz+m4l
-X-Authority-Analysis: v=2.4 cv=WpQrMcfv c=1 sm=1 tr=0 ts=68c92b60 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=xLYDFgVRoUo0Dj3B0GAA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0
- priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160010
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
-
-On 8/22/2025 6:32 AM, Jakub Kicinski wrote:
-> On Mon, 18 Aug 2025 12:25:50 +0530 Krishna Chaitanya Chundru wrote:
->> This patch introduces the MHI PHC (PTP Hardware Clock) driver, which
->> registers a PTP (Precision Time Protocol) clock and communicates with
->> the MHI core to get the device side timestamps. These timestamps are
->> then exposed to the PTP subsystem, enabling precise time synchronization
->> between the host and the device.
+On Fri, 12 Sep 2025 18:18:04 +0530, Vivek.Pernamitta@quicinc.com wrote:
+> This patch introduces several enhancements for the SRIOV support in MHI driver
+> focusing on enabling SRIOV and improving the MHI driver removal process.
 > 
->> +static struct ptp_clock_info qcom_ptp_clock_info = {
->> +	.owner    = THIS_MODULE,
->> +	.gettimex64 =  qcom_ptp_gettimex64,
->> +};
+> - Add support to enable SRIOV.
 > 
-> Yet another device to device clock sync driver. Please see the
-> discussion here:
-> https://lore.kernel.org/all/20250815113814.5e135318@kernel.org/
-> I think we have a consensus within the community that we should 
-> stop cramming random clocks into the PTP subsystem.
+> - Remove health check monitor for VF's and read PF's device id for VF.
 > 
-> Exporting read-only clocks from another processor is not what PTP
-> is for.
+> [...]
 
-Hi Jakub,
- 
-Thank you for the review and for sharing the link to the ongoing discussion.
+Applied, thanks!
 
-I understand the concerns about using the PTP subsystem for read-only clocks.
-The idea behind this patch was to use a standard interface for syncing time
-between the host and device, and also to make use of existing tools like
-phc2sys from userspace.
- 
-I have looked into the on going discussion you pointed, and we’re facing
-a similar challenge. Based on internal discussion with the PCIe team, we’ve
-confirmed that PCIe PTM isn’t applicable for this hardware use case.
- 
-That said, since it seems the community prefers not to use PTP for such
-requirement, could you please suggest any other way to support this time
-sync requirement that would be acceptable upstream?
+[1/6] bus: mhi: host: Add support for separate controller configurations for VF and PF
+      commit: a9e3d5a69cf8d1a73733c52f593a3f803f576391
+[2/6] bus: mhi: host: pci_generic: Read SUBSYSTEM_VENDOR_ID for VF's to check status
+      commit: b4d01c5b9a9d2dc39f52be22809e845cc4c46f03
+[3/6] bus: mhi: host: pci_generic: Add SRIOV support
+      commit: fd6e0509d0e86059f9a1c25b0b91ef5d0021701f
+[4/6] bus: mhi: host: pci_generic: Remove MHI driver and ensure graceful device recovery
+      commit: 12543f4405887da9f3e401e708ca0ff796a7b866
+[5/6] bus: mhi: core: Improve mhi_sync_power_up handling for SYS_ERR state
+      commit: aa1a0e93ed21a06acb7ca9d4a4a9fce75ea53d0c
+[6/6] bus: mhi: host: pci_generic: Support independent DMA mask for VFs
+      commit: 54c67740fff7360b6607d02b8499d09b944b3fda
 
-Appreciate your guidance!
- 
-Thanks,
-Imran
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
