@@ -1,301 +1,62 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E3530FF2A
-	for <mhi@lists.linux.dev>; Tue, 23 Sep 2025 06:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007572EE27D
+	for <mhi@lists.linux.dev>; Tue, 23 Sep 2025 12:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758609477; cv=none; b=c1E7oBV9+hWLnGPZ/wgQIPbefTIWlMLt8yOdSbe3eRBbF7pBK7rWGdEghadSftRcn3F/Vn0M8IM7GyKDik41hKvELdGaIKOt6gpIqzRzT8cmK5ahLoLzfGQvZgOprc4kV/Y8ZikHI5LoH1f6RjApxzHarILPvprcR0QacX8H1yQ=
+	t=1758629502; cv=none; b=K17vmCg31YirD7RzIs6il0/dGVxMrVn8Cbfr6YNLpvg0wFGBi6aYxpCl9te50ZkQh4+BzMCjLcL5JRxf2sgFwTuYyhvSQpkQLtXEOMWtH1eu1fPfgNSR38/OxMG3/h0d7sd+aupM0pST3pXsvFMs0tpApTugla1j4jkWC9k7EVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758609477; c=relaxed/simple;
-	bh=/XZjxMDsdlsb2hd1V1q563apP/LGTaw7IP8VKfFQNnM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YEZN53rs4TXUlhe1Tk4NIugut1qk+B7VX61abIYzjgHZ/JxrzU6AbhoojhHWaG6LQXEOW2UtmRKrI1g3UhxuHrvMOzSEFd0c6SbH2rrv9/5JfFiRV0fwRy8pCzifh+GzE0xXsbM6s6w/EuUJwWQCwJ/gVtv6Tjj0mJ9fe9GsBDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b2JwHXt2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1758629502; c=relaxed/simple;
+	bh=w6GR9149rKmb5J6FP/wKsCsPdxmKEz1L3ga4Pv88MN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ubp4mQwqOtUl1jObvmahTW3BLcF0q7xQLtElK1110udkw/E8Kj0tit3BHeDJfBEf+IS24CWkMv4cD2r/uUB0wzaInNKyw3qqzUsv8J9rzWgIplwHjkZkfFNBnXAx1pzu/Dbpiq1Wb+fkRTtmlqDQfTIy+SxH1AP/zRXEOtxoiTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nxgLsQKP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b2JwHXt2"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N6ZvZk025403
-	for <mhi@lists.linux.dev>; Tue, 23 Sep 2025 06:37:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/2i5gCewt8z3E3EoPGc+LEWHh1OOCMfCgomgDxGz2IM=; b=b2JwHXt2hQ1DXyan
-	h1uTZL0FqtBJiQTpA/mZv2s8MtvjISRn3gXI8oeK9shy9r+2yiKiIOY+Z1QKGU5c
-	QdRe+gNUZDJtQTubzho4XUP0ArR0dq12H3xJ6YYuj0KiEB7z/TXTXSpcHUSxrZMC
-	lTWqnrRBouwA8kwzkwoGbnJ1cvlC1CC6SNtZja22IDVs6ivl221IjmUoeandSJmS
-	ByftprOWqB6asnCHkQXdTXSUHsJmviBgQUbwGFcHEaMH+Jy77drSfz0YV4bjhq4M
-	rO3zbK2CnacrnA4g+l9cRg/z8dW1abi+4hz+gB/whYBFmgaXtIaJsWBHvziWcFwV
-	PjFuDA==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499n1ffbk1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 23 Sep 2025 06:37:55 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b552f91033cso4270691a12.1
-        for <mhi@lists.linux.dev>; Mon, 22 Sep 2025 23:37:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758609474; x=1759214274;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/2i5gCewt8z3E3EoPGc+LEWHh1OOCMfCgomgDxGz2IM=;
-        b=XehbRHlFQws/OyootND+fIN2xgSUmltngsvgGb18d6WreM4M0gtSnkQrqPjIASv6XH
-         kSUy1cayuT80FZsSgwyF391VRX1VL7g0ZNFeIzMYsYapmM6LC78FZUBxohMAhOqRJE3L
-         Kq4f8ZJd2YUkAGM7FXSLWT5lR6xBLYK0WURHhdQyAVWvRHFSXCeCKiJkyOS7rsS293SU
-         OlBdrfXqFGFaP7E5QeWV4DTUaZabDmCrdG9mv8nFsN17dhgm37MBy1B6YZ3EEfrtLX5C
-         DauPxIVDmG8ol4L4obLKj7w/XGl4w2YGyeU9ZnUMUA+jmBxU+leTdB6IHTAU07Hbh55C
-         psTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2JyY931inbx9aUpkVgdTFwpo2nyU+xuek7GEfj/sPeayWP7ZdVnIk33hSCtP543nDTlo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy94h7MgiW6mSXz1FAQYFVtzfN5dXJeb111wn32VrgG+z3Hg31q
-	VCCNKczesoIwDmpMg/u8Unl1UQ7/R+gCUvMWWqvgZ0TUCznLccdo/ayQVczQ6sVWY0CmUG8UeDn
-	G6uD6NW3Zxbp7VhRh4CxZT2DaOgi0Yvu8/Vlf19BC5i5POApjQDUg1GQ=
-X-Gm-Gg: ASbGncvNOmrVpBgwMKUOZFakGfrgtblZxLa9ogIvH1nF6r+7TV0hHhSz8oY3J5py71G
-	wcfM/ExqMCoKJ+GBZMqaAIqMybwunRKpvA9tpEzp88dc4TRprchngNi7GQYTpxdIoOYnbcGDDSe
-	GoO44c6qDAghrjprZgLfeIeBVhmQr1Y4Mex2XaYVHYAry5wfOBFXgqJfzn9JHEI4Npk5qmh89q7
-	jg94KMjNUHuwdeLE/uTx4ExqGBzC82Z33MPBURf8DLOMMQ6VJFj7E1CDxQn3kjcqUXERMK6Bs7e
-	LepEZ8o/r4Ou+E0zNw0AzCXQfNaF9onas33G2lVmkWoP6i2Ifwi2QT4A++kn/eLvxg==
-X-Received: by 2002:a05:6a21:6d97:b0:2b5:769f:2542 with SMTP id adf61e73a8af0-2cfe8990c69mr2570927637.36.1758609474179;
-        Mon, 22 Sep 2025 23:37:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEcdgMOz1PL6eB9rEDeqp235HhjD28WXRHTyz1Aw/HjM+cmU/CEZqbyYKplL/kpmh4rWvdwEQ==
-X-Received: by 2002:a05:6a21:6d97:b0:2b5:769f:2542 with SMTP id adf61e73a8af0-2cfe8990c69mr2570886637.36.1758609473642;
-        Mon, 22 Sep 2025 23:37:53 -0700 (PDT)
-Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b551905bb4csm10792840a12.29.2025.09.22.23.37.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 23:37:53 -0700 (PDT)
-From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Date: Tue, 23 Sep 2025 12:07:42 +0530
-Subject: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path
- testing
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nxgLsQKP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C24FC4CEF5;
+	Tue, 23 Sep 2025 12:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1758629501;
+	bh=w6GR9149rKmb5J6FP/wKsCsPdxmKEz1L3ga4Pv88MN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nxgLsQKPl9efN10Y12y+4anYKsmDp2/maLEAN7Bom9y3WTWbyGIrJxC6ALw5JcX6u
+	 mWtov/DaeCeFUGYACZWDKJPbwEPRNQ9sCEuRdIECcNqJscSEYaU6AJCiT2/Xc0s0PB
+	 X5Z2KPfgSuRoen/cng2i0YD/OmdIUvparPAoaO6o=
+Date: Tue, 23 Sep 2025 14:11:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev
+Subject: Re: [GIT PULL] MHI changes for v6.18
+Message-ID: <2025092312-gumming-relapsing-57f7@gregkh>
+References: <bibfbg3463xep4novmwhu3lrazqh3iau4gp2zx73zrnnkvh4ao@73xc46h7u4ro>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
-References: <20250923-loopback_mhi-v1-0-8618f31f44aa@oss.qualcomm.com>
-In-Reply-To: <20250923-loopback_mhi-v1-0-8618f31f44aa@oss.qualcomm.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-        Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
-        Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
-        Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758609464; l=5830;
- i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
- bh=/XZjxMDsdlsb2hd1V1q563apP/LGTaw7IP8VKfFQNnM=;
- b=WD/6L5VbKB2D38KzJB8gQHdyMsWs2SrkdKIoQaD+MAq6ui8rTHJuvnjhuIKISlRT070gQF1N3
- pruOysrtJ/wAkO1k8tjM0ZDaLdRVlVYLCVovKtsMY741Oxd/fHtv4u/
-X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
- pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
-X-Proofpoint-ORIG-GUID: rz_1LNK36FuxFo4Ed8Qzl08MDAVcGL_b
-X-Proofpoint-GUID: rz_1LNK36FuxFo4Ed8Qzl08MDAVcGL_b
-X-Authority-Analysis: v=2.4 cv=No/Rc9dJ c=1 sm=1 tr=0 ts=68d24043 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=RyQsIt2LcgCPV6mEHuQA:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNyBTYWx0ZWRfXwukaJS8qyZDv
- j8solheUoe7AqpLm1rMcrG6wuAhY576ImURiXQJzywEu+up1NGu6che2qTJWixnAZMOBPfmjHcI
- LZxa92U4oSRUFeucumFskZscVcFS+qbCUJ1vyK0PXdYu5TE3eF0BuOegEk1ST8Fpd/TfiZFewGS
- FODksiuOddj339Y9F/Dl4QsUqUndlDf6jOL7csOye+QchLiA4tBFKpRkjo6YMMKpTPHLOT+jzhV
- o6N+rEF7DWtUwOkNv3ZLhphxE5RvmvCLLtDayYSj9Nk9T5A17IVWRGQd5WDQ/w4FzrMzkJB8K4S
- IGD+U5iNjHjYAnGbn+9z+t0yb5MJvGvhU4j2kilL09qnbUX6bRn3AoZsUhuvHr5klBuqP/UPLyF
- 7Pe8oK1n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200037
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bibfbg3463xep4novmwhu3lrazqh3iau4gp2zx73zrnnkvh4ao@73xc46h7u4ro>
 
-Add loopback driver for MHI endpoint devices. The driver receives
-data on the uplink channel and echoes it back on the downlink
-channel using a workqueue for asynchronous processing.
+On Fri, Sep 19, 2025 at 01:28:25PM +0530, Manivannan Sadhasivam wrote:
+> The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+> 
+>   Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+> 
+> for you to fetch changes up to 54c67740fff7360b6607d02b8499d09b944b3fda:
+> 
+>   bus: mhi: host: pci_generic: Set DMA mask for VFs (2025-09-19 13:10:49 +0530)
+> 
 
-The driver is useful for testing MHI endpoint data path functionality
-and debugging communication issues.
+No hint as to what is in here?  You do need to write a pull request
+summary please.
 
-Co-developed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
----
- drivers/bus/mhi/ep/Kconfig           |   8 +++
- drivers/bus/mhi/ep/Makefile          |   1 +
- drivers/bus/mhi/ep/mhi_ep_loopback.c | 132 +++++++++++++++++++++++++++++++++++
- 3 files changed, 141 insertions(+)
+thanks,
 
-diff --git a/drivers/bus/mhi/ep/Kconfig b/drivers/bus/mhi/ep/Kconfig
-index 90ab3b040672e0f04181d4802e3062afcc7cf782..ce7b63c2da82a6ca49528517687f4910552c35bb 100644
---- a/drivers/bus/mhi/ep/Kconfig
-+++ b/drivers/bus/mhi/ep/Kconfig
-@@ -8,3 +8,11 @@ config MHI_BUS_EP
- 
- 	  MHI_BUS_EP implements the MHI protocol for the endpoint devices,
- 	  such as SDX55 modem connected to the host machine over PCIe.
-+
-+config MHI_BUS_EP_LOOPBACK
-+	tristate "MHI Endpoint loopback driver"
-+	depends on MHI_BUS_EP
-+	help
-+	  MHI endpoint loopback driver for data path testing.
-+	  This driver receives data on the uplink channel and echoes
-+	  it back on the downlink channel for testing purposes.
-diff --git a/drivers/bus/mhi/ep/Makefile b/drivers/bus/mhi/ep/Makefile
-index aad85f180b707fb997fcb541837eda9bbbb67437..02e4700e8dc3f860d40290476b0a852286683f8f 100644
---- a/drivers/bus/mhi/ep/Makefile
-+++ b/drivers/bus/mhi/ep/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_MHI_BUS_EP) += mhi_ep.o
- mhi_ep-y := main.o mmio.o ring.o sm.o
-+obj-$(CONFIG_MHI_BUS_EP_LOOPBACK) += mhi_ep_loopback.o
-diff --git a/drivers/bus/mhi/ep/mhi_ep_loopback.c b/drivers/bus/mhi/ep/mhi_ep_loopback.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..89244aca684ffc959a38f8a0c3ad577b2d127c48
---- /dev/null
-+++ b/drivers/bus/mhi/ep/mhi_ep_loopback.c
-@@ -0,0 +1,132 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+#include <linux/mhi_ep.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/skbuff.h>
-+
-+struct mhi_ep_loopback {
-+	struct workqueue_struct *loopback_wq;
-+	struct mhi_ep_device *mdev;
-+};
-+
-+struct mhi_ep_loopback_work {
-+	struct mhi_ep_device *mdev;
-+	struct work_struct work;
-+	struct sk_buff *skb;
-+};
-+
-+static void mhi_ep_loopback_work_handler(struct work_struct *work)
-+{
-+	int ret;
-+	struct mhi_ep_loopback_work *mhi_ep_lb_work = container_of(work,
-+								struct mhi_ep_loopback_work, work);
-+
-+	ret = mhi_ep_queue_skb(mhi_ep_lb_work->mdev, mhi_ep_lb_work->skb);
-+	if (ret) {
-+		dev_err(&mhi_ep_lb_work->mdev->dev, "Failed to send the packet\n");
-+		kfree_skb(mhi_ep_lb_work->skb);
-+	}
-+
-+	kfree(mhi_ep_lb_work);
-+}
-+
-+static void mhi_ep_loopback_ul_callback(struct mhi_ep_device *mhi_dev,
-+					struct mhi_result *mhi_res)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
-+	struct mhi_ep_loopback_work *mhi_ep_lb_work;
-+	struct sk_buff *skb;
-+
-+	if (!(mhi_res->transaction_status)) {
-+		skb = alloc_skb(mhi_res->bytes_xferd, GFP_KERNEL);
-+		if (!skb) {
-+			dev_err(&mhi_dev->dev, "Failed to allocate skb\n");
-+			return;
-+		}
-+
-+		skb_put_data(skb, mhi_res->buf_addr, mhi_res->bytes_xferd);
-+
-+		mhi_ep_lb_work = kmalloc(sizeof(*mhi_ep_lb_work), GFP_KERNEL);
-+		if (!mhi_ep_lb_work) {
-+			dev_err(&mhi_dev->dev, "Unable to allocate the work structure\n");
-+			kfree_skb(skb);
-+			return;
-+		}
-+
-+		INIT_WORK(&mhi_ep_lb_work->work, mhi_ep_loopback_work_handler);
-+		mhi_ep_lb_work->mdev = mhi_dev;
-+		mhi_ep_lb_work->skb = skb;
-+
-+		queue_work(mhi_ep_lb->loopback_wq, &mhi_ep_lb_work->work);
-+	}
-+}
-+
-+static void mhi_ep_loopback_dl_callback(struct mhi_ep_device *mhi_dev,
-+					struct mhi_result *mhi_res)
-+{
-+	struct sk_buff *skb;
-+
-+	if (mhi_res->transaction_status)
-+		return;
-+
-+	skb = mhi_res->buf_addr;
-+	if (skb)
-+		kfree_skb(skb);
-+}
-+
-+static int mhi_ep_loopback_probe(struct mhi_ep_device *mhi_dev, const struct mhi_device_id *id)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb;
-+
-+	mhi_ep_lb = devm_kzalloc(&mhi_dev->dev, sizeof(struct mhi_ep_loopback), GFP_KERNEL);
-+	if (!mhi_ep_lb)
-+		return -ENOMEM;
-+
-+	mhi_ep_lb->loopback_wq = alloc_ordered_workqueue("mhi_loopback", WQ_MEM_RECLAIM);
-+	if (!mhi_ep_lb->loopback_wq) {
-+		dev_err(&mhi_dev->dev, "Failed to create workqueue.\n");
-+		return -ENOMEM;
-+	}
-+
-+	mhi_ep_lb->mdev = mhi_dev;
-+	dev_set_drvdata(&mhi_dev->dev, mhi_ep_lb);
-+
-+	return 0;
-+}
-+
-+static void mhi_ep_loopback_remove(struct mhi_ep_device *mhi_dev)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
-+
-+	destroy_workqueue(mhi_ep_lb->loopback_wq);
-+	dev_set_drvdata(&mhi_dev->dev, NULL);
-+}
-+
-+static const struct mhi_device_id mhi_ep_loopback_id_table[] = {
-+	{ .chan = "LOOPBACK"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(mhi, mhi_ep_loopback_id_table);
-+
-+static struct mhi_ep_driver mhi_ep_loopback_driver = {
-+	.probe = mhi_ep_loopback_probe,
-+	.remove = mhi_ep_loopback_remove,
-+	.dl_xfer_cb = mhi_ep_loopback_dl_callback,
-+	.ul_xfer_cb = mhi_ep_loopback_ul_callback,
-+	.id_table = mhi_ep_loopback_id_table,
-+	.driver = {
-+		.name = "mhi_ep_loopback",
-+		.owner = THIS_MODULE,
-+	},
-+};
-+
-+module_mhi_ep_driver(mhi_ep_loopback_driver);
-+
-+MODULE_AUTHOR("Krishna chaitanya chundru <krishna.chundru@oss.qualcomm.com>");
-+MODULE_AUTHOR("Sumit Kumar <sumit.kumar@oss.qualcomm.com>");
-+MODULE_DESCRIPTION("MHI Endpoint Loopback driver");
-+MODULE_LICENSE("GPL");
-
--- 
-2.34.1
-
+greg k-h
