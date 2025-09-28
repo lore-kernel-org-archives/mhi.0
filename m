@@ -1,72 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D3A2609C5
-	for <mhi@lists.linux.dev>; Tue, 23 Sep 2025 13:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27DE25A2B5;
+	Sun, 28 Sep 2025 19:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758634139; cv=none; b=k5ECccgJuFhgp4nZn47wFpgd36gcI/2PmJuexoNp0gelFH6whyMxcxjVZoXdLzfB+bXInPQFVFckE+4ed30PAEB0aaqaKMX+9wveOD7vbXpCCMScDAiEvAe/OisXDtWjeatKUnjPEoxpTIFloaCvWxA76hYvmqGdvwR3LS9a1jw=
+	t=1759086627; cv=none; b=K/dfd3att1XHwmQhrq90oNpbgDDG9RAPAcri0yIYljOfuy0l2P97ZV9K3feDUiCw1YZa0ozioBXb2+hQwKhgwGCNOjxJUVznxmF+BI/4bJsXYFEfveMoe8kMEQ4V39M4226A3P4iAerEI+zpYnFtaVjzlHeV1nY6zgWzp3jvp+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758634139; c=relaxed/simple;
-	bh=B5qgxglAi1RRZ0zG5DFehvOKHRDswcF2KAnTJwDmVyc=;
+	s=arc-20240116; t=1759086627; c=relaxed/simple;
+	bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J6BG8H4H/MdkGzC40PzO/ZSPTLKGqn34jL4bfiyOVeytd7G/Jw+YuiF5NRn9/DDyhIB3hT/KvrNbktZ+UiipINhyW76HFtW0kQg3UO6IUgXT/qtTrvDg/m7namIKD+LvDS3m6LmXOQ6V+4gAUcSUCNdgiJNnfMVonCHbELtrYg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQEmmNgL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=R5U98QObk/EQVq0uAsOjqxgWPGMciFbArCdkM0AouXq8znt/VLGhjVF78GQLbFXh6jZhGFaAXmGlj4/KPra0aH6hsw/8JkH95fFaPrSPFl8oUSLEq0GBlartMQL0VR6fLaHxNzgUv4HhrFHG++eniKwAK30YPXMre9G4GHIWazk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLjcCQM7; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQEmmNgL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7136BC4CEF5;
-	Tue, 23 Sep 2025 13:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758634138;
-	bh=B5qgxglAi1RRZ0zG5DFehvOKHRDswcF2KAnTJwDmVyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KQEmmNgLhrx3Q/e/gZ6GxQl6nUdTPNO3arHzOc5mnhGryj67RlwyctoSIRCez+Zjb
-	 VJfWVs8dBKEfw/t0BhZH2FIZjx2OPqV47ChjhJEL5j69yllfKSW2CiNZ8niAlcG7X/
-	 eeghZNi7bnwfZF+33Zz8kHt3ZZmJrK1y49IpWTef9TogD0sJBAC1AFl4TzIrYFKRYx
-	 wMOoCjZnaWCL7h8HjGmZGD3Ffe5pd4bI109S0AP/GSAJA3JfWhqi1/j1y8qmRniG9b
-	 YXnWlu+5e0bFNkifRkFXavyeyNlkmFfL7Ip4N56Ku6c6ae1T8z0DgjQIQwOP3Le+Ig
-	 d2FopW/aCAfcw==
-Date: Tue, 23 Sep 2025 18:58:53 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: mhi@lists.linux.dev
-Subject: Re: [GIT PULL] MHI changes for v6.18
-Message-ID: <r2qzm7sslpagykqc2lfc5nj3htsqqy34qn3o77uwufrul3pbxk@am5laoqrbxuh>
-References: <bibfbg3463xep4novmwhu3lrazqh3iau4gp2zx73zrnnkvh4ao@73xc46h7u4ro>
- <2025092312-gumming-relapsing-57f7@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLjcCQM7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759086626; x=1790622626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
+  b=KLjcCQM72/FpskmIHyhDRtcTLwuoGPBJb4BG12p+EWFr85aBiUKGORo1
+   SpH0rMfwvBY7dRN49U64xBhEJ9wqknq8DEJi3dwnzJSwjUz42h13AUyiG
+   0rAcLbUqQxWbjrkbbSqhcSmPXxgWzzykGjj9Im6nrd2n9GrZCIMmq2w++
+   yw9Y9qxBg24evxp23XrfbK7LzD99qGL5TI46n48pb+b7tTQK0lazclkV4
+   OexDZuXZdccowKmFrv5oovFPEunPlHcrIV+e/5rxZQQV1UVs3bcz1uCNQ
+   R1J37uqO1uG6ao1jCm6LsE3HbumH70z++8fNDRWym8wbNr8b3Xp1b9Foa
+   w==;
+X-CSE-ConnectionGUID: QU8vISyIS4q+9fV1Ph7C0Q==
+X-CSE-MsgGUID: HP3WoKrjRqqA3em0mi/bTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="86789066"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="86789066"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 12:10:25 -0700
+X-CSE-ConnectionGUID: 28kYypdTR3+5govQnOWY+w==
+X-CSE-MsgGUID: N8rFLA6UT+2MHMdcmrmaDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="177315325"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2025 12:10:22 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v2wml-0007y3-0R;
+	Sun, 28 Sep 2025 19:10:16 +0000
+Date: Mon, 29 Sep 2025 03:10:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
+	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
+	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Subject: Re: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path
+ testing
+Message-ID: <202509290238.4kkJL0x5-lkp@intel.com>
+References: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2025092312-gumming-relapsing-57f7@gregkh>
+In-Reply-To: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
 
-On Tue, Sep 23, 2025 at 02:11:38PM +0200, Greg KH wrote:
-> On Fri, Sep 19, 2025 at 01:28:25PM +0530, Manivannan Sadhasivam wrote:
-> > The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
-> > 
-> >   Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-> > 
-> > for you to fetch changes up to 54c67740fff7360b6607d02b8499d09b944b3fda:
-> > 
-> >   bus: mhi: host: pci_generic: Set DMA mask for VFs (2025-09-19 13:10:49 +0530)
-> > 
-> 
-> No hint as to what is in here?  You do need to write a pull request
-> summary please.
-> 
+Hi Sumit,
 
-Sorry, I messed up the 'request-pull' command. Sent out v2 pull request.
+kernel test robot noticed the following build errors:
 
-- Mani
+[auto build test ERROR on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20250923-144109
+base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
+patch link:    https://lore.kernel.org/r/20250923-loopback_mhi-v1-2-8618f31f44aa%40oss.qualcomm.com
+patch subject: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path testing
+config: loongarch-randconfig-001-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290238.4kkJL0x5-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_dl_callback':
+>> mhi_ep_loopback.c:(.text+0x20): undefined reference to `sk_skb_reason_drop'
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_work_handler':
+   mhi_ep_loopback.c:(.text+0x74): undefined reference to `sk_skb_reason_drop'
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_ul_callback':
+>> mhi_ep_loopback.c:(.text+0x19c): undefined reference to `__alloc_skb'
+>> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x1e4): undefined reference to `skb_put'
+>> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x2b8): undefined reference to `sk_skb_reason_drop'
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
