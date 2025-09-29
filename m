@@ -1,107 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27DE25A2B5;
-	Sun, 28 Sep 2025 19:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF2D283C87
+	for <mhi@lists.linux.dev>; Mon, 29 Sep 2025 09:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759086627; cv=none; b=K/dfd3att1XHwmQhrq90oNpbgDDG9RAPAcri0yIYljOfuy0l2P97ZV9K3feDUiCw1YZa0ozioBXb2+hQwKhgwGCNOjxJUVznxmF+BI/4bJsXYFEfveMoe8kMEQ4V39M4226A3P4iAerEI+zpYnFtaVjzlHeV1nY6zgWzp3jvp+g=
+	t=1759137290; cv=none; b=C8eaKBmkVh1i1tA4zUhPulwTq6w+IbjQEq5Bsn3Im/VzwO8DD1A4DurSVPR2KagkakM0oTn55dcggZMiIAevRCY+GoHQRnArw4koJitrZmlemirDxLxRm8MToIKRIEiaDE3+c07JkuakQA1GhBnuA3f/QPAt28GSXzQGYnss1gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759086627; c=relaxed/simple;
-	bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5U98QObk/EQVq0uAsOjqxgWPGMciFbArCdkM0AouXq8znt/VLGhjVF78GQLbFXh6jZhGFaAXmGlj4/KPra0aH6hsw/8JkH95fFaPrSPFl8oUSLEq0GBlartMQL0VR6fLaHxNzgUv4HhrFHG++eniKwAK30YPXMre9G4GHIWazk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLjcCQM7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759137290; c=relaxed/simple;
+	bh=Fnk6Ccubd+tiZ1vjJoUqDJVTlu105A6rXCEb5d5pDPE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=ixndQNQ9XxA7+nxwCLDN+xZ/lHOXGLpeSAwbSnOl3rY6ZKINFIgENdfgFjjlF0ei6xeFhKvaVVbP9LKDcTWtl5JvGWMO0Iyk8JtgXTABvVxD8JElCG2lhgEiz8V+0b3CFFAm5dR22pgYaCK0CZT/zomJ/WYWdW3LWPugcDTTAMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=T2sdXsUz; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLjcCQM7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759086626; x=1790622626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
-  b=KLjcCQM72/FpskmIHyhDRtcTLwuoGPBJb4BG12p+EWFr85aBiUKGORo1
-   SpH0rMfwvBY7dRN49U64xBhEJ9wqknq8DEJi3dwnzJSwjUz42h13AUyiG
-   0rAcLbUqQxWbjrkbbSqhcSmPXxgWzzykGjj9Im6nrd2n9GrZCIMmq2w++
-   yw9Y9qxBg24evxp23XrfbK7LzD99qGL5TI46n48pb+b7tTQK0lazclkV4
-   OexDZuXZdccowKmFrv5oovFPEunPlHcrIV+e/5rxZQQV1UVs3bcz1uCNQ
-   R1J37uqO1uG6ao1jCm6LsE3HbumH70z++8fNDRWym8wbNr8b3Xp1b9Foa
-   w==;
-X-CSE-ConnectionGUID: QU8vISyIS4q+9fV1Ph7C0Q==
-X-CSE-MsgGUID: HP3WoKrjRqqA3em0mi/bTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="86789066"
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="86789066"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 12:10:25 -0700
-X-CSE-ConnectionGUID: 28kYypdTR3+5govQnOWY+w==
-X-CSE-MsgGUID: N8rFLA6UT+2MHMdcmrmaDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="177315325"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2025 12:10:22 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v2wml-0007y3-0R;
-	Sun, 28 Sep 2025 19:10:16 +0000
-Date: Mon, 29 Sep 2025 03:10:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
-	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
-	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Subject: Re: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path
- testing
-Message-ID: <202509290238.4kkJL0x5-lkp@intel.com>
-References: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="T2sdXsUz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1759137270; x=1759742070; i=markus.elfring@web.de;
+	bh=W6Qxz43yoW8ZAOOOIXfwMNnKY9amqkgZI/6QKIiOkTE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=T2sdXsUzaaWw6Hbr8z1HRbM+vtUV3l2GtIKJpL8NAXJ9ZuLyIUsC58VOmIq6QOPy
+	 jxWkdEKexLPkq+A2G48ZQrl35U0Q20S5ID1TcEeSJJHY9Ah24tSv8JNt5cQ4ilFvA
+	 4D3Z7mfdkFHPgYnBJpeOR/BpuVdEnFPopFuxBX2FPU/icwsHrPFfKZohHzS1i3pcL
+	 SHFPNe/WyuauGnnY4jTg4Jfya+cDIehVBFXTU6hLh9lm8JsryLDARNqN09mSqXRFs
+	 uwTWOxKbDAug3l9OQpy9DCSOOKrP0A+cYaDUig157YcA0I02fDBoOwVmKXW2v0NV+
+	 tUeGAguwNtbR/U9Lvg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.245]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MOUtm-1ufRsJ3vVG-00MMog; Mon, 29
+ Sep 2025 11:14:29 +0200
+Message-ID: <97a640d0-d80c-4c96-8204-719493d258aa@web.de>
+Date: Mon, 29 Sep 2025 11:14:20 +0200
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+ Sumit Kumar <sumit.kumar@oss.qualcomm.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
+ Subramanian Ananthanarayanan
+ <subramanian.ananthanarayanan@oss.qualcomm.com>,
+ Vivek Pernamitta <quic_vpernami@quicinc.com>
+References: <20250923-loopback_mhi-v1-1-8618f31f44aa@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] bus: mhi: host: Add loopback driver with sysfs
+ interface
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250923-loopback_mhi-v1-1-8618f31f44aa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:K4UCCWKCriTwnAuuANgNpqrqRtxYHCAtuI2jWcCxjcYwkCrAK2v
+ Ws/V3CkC2xrZcKpJ11PCHeNkTH4gJB+Q8adrzI3htoLsMcI2/gjHwhLzVNHJ2zpqo03kel+
+ 0Unr1UUcoHKO1e+xQaL01Bi0GjoGI9fJManCuamQzzvPNAvqIs8jVNbj3CaPH3MlMRb7yoK
+ q2cWJZ5T0ei7oPJVhYLtA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:toF/ISkDl1s=;nnLzqWa/1IhkJcSCW1nM5MTqprS
+ 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
 
-Hi Sumit,
+=E2=80=A6
+> +++ b/drivers/bus/mhi/host/mhi_loopback.c
+> @@ -0,0 +1,348 @@
+=E2=80=A6
+> +static ssize_t start_store(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *mhi_lb =3D dev_get_drvdata(dev);
+> +	void *send_buf, *recv_buf;
+=E2=80=A6
+> +	guard(mutex)(&mhi_lb->lb_mutex);
+=E2=80=A6
+> +free_buf:
+> +	kfree(send_buf);
+> +free_recv_buf:
+> +	kfree(recv_buf);
+> +unlock:
++	mhi_lb->loopback_in_progress =3D false;
+> +	return ret;
+> +}
+=E2=80=A6
 
-kernel test robot noticed the following build errors:
+Under which circumstances would you become interested to apply an attribut=
+e
+like =E2=80=9C__free(kfree)=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.17-rc7/source/include/linux/slab.h#L47=
+6
 
-[auto build test ERROR on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20250923-144109
-base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
-patch link:    https://lore.kernel.org/r/20250923-loopback_mhi-v1-2-8618f31f44aa%40oss.qualcomm.com
-patch subject: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path testing
-config: loongarch-randconfig-001-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509290238.4kkJL0x5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_dl_callback':
->> mhi_ep_loopback.c:(.text+0x20): undefined reference to `sk_skb_reason_drop'
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_work_handler':
-   mhi_ep_loopback.c:(.text+0x74): undefined reference to `sk_skb_reason_drop'
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_ul_callback':
->> mhi_ep_loopback.c:(.text+0x19c): undefined reference to `__alloc_skb'
->> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x1e4): undefined reference to `skb_put'
->> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x2b8): undefined reference to `sk_skb_reason_drop'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Markus
