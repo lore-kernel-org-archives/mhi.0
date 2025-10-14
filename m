@@ -1,125 +1,168 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ABA1E3DED
-	for <mhi@lists.linux.dev>; Tue, 14 Oct 2025 07:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A097E3090FD
+	for <mhi@lists.linux.dev>; Tue, 14 Oct 2025 10:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760428222; cv=none; b=Vwowl1fB9bilUO7Ydke55bSuypLJWfkfIIgirnvjQLTO9jLP+WDx54KukD0EoiTUdRuo59fRMrtY19IBmf95/ddxy2PSqlWOcIKSa3jmGtU51Ne8uJpw+l3q7Hdx5yr5fkSoqXVHmuHYmbvfIP8q+j8IaQBViwDiuIXooqjiR1w=
+	t=1760436191; cv=none; b=RCrz+lKS0uuhcDQU+NlGJTRYqvmzImanInUjWdp0G92Wl1E/gdgl8PuoG9T+flNifFaQm014SwYSgXHJcsut74RRYxxbGiu0FO17uJXAoz8vSz4R7sQITX9H2fwnPRCmx7tl+g+Dxe4KcrDdLX2mUdZ8+43QxeKSt3xfQhdCkP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760428222; c=relaxed/simple;
-	bh=0IQM1RrUw9SRFVJgo6ML1hvd0WX4hboR1AQ2Xzou/Gc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=oI1IFKanLKHsdwtXy0WGCuNosIhxaZmP7VpsQ312FwY+ZkqmCjUa3Fyxlek3lGLX+Bz6dPMiKG5Vff0+e87ZAqS3JXl4aZGzrpyPowPPoo/vXS45kB6HHm3t23n8blV4fa50MIAw6zpjfCD6YOMxMA2y8mDt9XIKvqXwuPOCF1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=oXXstdut reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1760436191; c=relaxed/simple;
+	bh=pN21Y/mlFy4wSxMkjNgxJeTfBPTXMlYf+2hBZ8yW5DE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cGHl+8rqPpyNSS7rmA27HYYVDadLnfr0nvwJY6uM4hyj6cAuREgqCFeGqMpFAUME6/FCG9tplTQFG7p6vnstHaZMq9ZwTxyIDo3iaOu5eVNJ5eujZxYkV1qlugf0CoJcL0xny7kwGorOEjtAM/PnTz1y0oq95dtBkeVITNvX+iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ogaP22rO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="oXXstdut"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=V10i33KAKsIaBT1Gj4pvZVCl6oYsR+Aa3vuGKpnyAOI=; b=o
-	XXstdutscWmC9/ir7HisNq0SnRfOwM7GsmdfLumF/2rA/DwB/FdEnLJFdLklzaOX
-	uCMGVoda+pCEuYXCiMTII8F3V1P3p/1uKJHEAonOSWfrFUKfBMNaw3L3+sEZOon5
-	gY3sxoW00IgaWmnIiONL6SSdDp6KV3ftuVhwwDfaZI=
-Received: from slark_xiao$163.com (
- [2408:8459:3810:3fe3:4774:f539:b70a:47e3] ) by ajax-webmail-wmsvr-40-101
- (Coremail) ; Tue, 14 Oct 2025 15:50:03 +0800 (CST)
-Date: Tue, 14 Oct 2025 15:50:03 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Krishna Chaitanya Chundru" <krishna.chundru@oss.qualcomm.com>
-Cc: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:Re:Re: [PATCH] bus: mhi: host: Update session id for each
- suspend and resume
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <4205cc0b.3a60.199508f0d03.Coremail.slark_xiao@163.com>
-References: <20250912100827.294443-1-slark_xiao@163.com>
- <6510264c-d91a-45f3-b484-18d334c515e8@oss.qualcomm.com>
- <4205cc0b.3a60.199508f0d03.Coremail.slark_xiao@163.com>
-X-NTES-SC: AL_Qu2dAviZt0or5SaaZ+kfmk8Sg+84W8K3v/0v1YVQOpF8jCvpyDwGUXZKMUDmwPO0MQysnR+weRRz6eNCYK5DbZgxLO3I0KR4Xp4BJyYL9+DCBQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ogaP22rO"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87K0Y020052
+	for <mhi@lists.linux.dev>; Tue, 14 Oct 2025 10:03:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YpMjtNS2t8Qsmkv7Ge8cz+FmpPP0fXDLuqM5OfZKDac=; b=ogaP22rO7+NPhQxR
+	TNl7vl3Pj0k9mStaduw0OP7EwFbB99CiJMY5tJHvo9wJn5ick554S/FbItxOVfxn
+	I6vRFSdJXT5BQxOoI+E3dNWYMzk5X9DOPXsVCpUA3A6OMJFJ66REAGG7eTSIRJIy
+	iqEYUBErCClc1I1VvNZ3CoSgRBFjf9wEOMbrnp2DCraUDfcR53paDA7hnG09R9Bz
+	dnf3Ye+hUOy7nvl6IKY8hhMYEw01M3FfDKMJ/t4Mn87a3i+U7gTjtJ7oAv7dibsA
+	tD587XVjtsHELsQm5XxaKXhiOhhhDq1wGn3Z03iif7KJ05RTFOZNSxrSPJXJk97q
+	fkEvtA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0c007f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 14 Oct 2025 10:03:08 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2907948c307so20023365ad.0
+        for <mhi@lists.linux.dev>; Tue, 14 Oct 2025 03:03:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760436188; x=1761040988;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpMjtNS2t8Qsmkv7Ge8cz+FmpPP0fXDLuqM5OfZKDac=;
+        b=Ntn8k1Fxowh7kElhHoo/rVx5BOIvIVfNWzJ5GwITeYjFnGPwBPMOX2Y8uHpTKEQ95h
+         gNVzo6f/86sA4EDg9iyfT/aeu2JLJjAqJOMfuDYHzIg4DKqzCfHgTeNFA/1fAQJ5jb/k
+         CURA2TIiEcZvzJff2lV6qkybfQgDQQxGxTlOjJLyHGNlt3coaq9nLH583qu/KSEvOYub
+         mzHd30W2tw9oOwOrKoDnWd/TKM59iOEhOZ7TdPJpWtYguNsxMVmwpcRYE+AFOrFFI83p
+         kXT8ZvLulZL/JZuII4dBx7639j0ldyXShIX9RilDdBhbuZYGFThIruTcv8HbiDVk4Ett
+         ylPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3pndWKM161VrfkqfXiLfousYgxuOuTAbfks7ZqCNHyerWj+QE3V2xRPfiRGmVreXuV0U=@lists.linux.dev
+X-Gm-Message-State: AOJu0YysgPPORN7G/+jq77HlurQFHcmpj2BdI3j2NHqEk1mcnWT4HfrR
+	sNxd8Q/fhNE41WSUKSYxYYTO/PvsPfQpvDtlQOiX66UK9gd4ySpvvhGQfHlS9pVrBMxrJ80sUlq
+	JB3TCwvNDAaZwkYNGBrRZEt15PVMHhFf24UsaMrIRHKOysz022zqoFE4=
+X-Gm-Gg: ASbGncs9F+koA28fqKEVxQQx5S1dTycPjMBgy1HcY3NVfjdL1enfX3tYJ7Es0aKbxRj
+	0533vY0d8Ir91S0m34FDWlsATKHTTNOMnOnbDvTR8YIuS8U+SYKENRpkBG9EMHxnqumMZlgzSVH
+	UsJ5T0mH6JqeoTvEKFfoP/O6rQihn37++VaOz1jCHa5oO7cAx36cWPfagAxPrvr8eSj19eTQESF
+	tzSUX98L35PcIL4bjnULK5SMRvGo1kN53MX0tMp07NjFQydGRqNWY/SVXd7qUjRKzx41VWi9lFD
+	uEnQbw+zmaGT1uQdtPXlrPLX/Rp6OVeiimeX1jv2WtRx6X5Dg2jZT3dgOY4Nwob/rG8=
+X-Received: by 2002:a17:903:910:b0:258:9d26:1860 with SMTP id d9443c01a7336-290273ffeb7mr333722545ad.40.1760436187352;
+        Tue, 14 Oct 2025 03:03:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFaR4sHqbZzJquEl4UlTgUvAbfqjTkOISLr3MINnz0WCArr+8zC5qPyhZB1fBpUV5mZajByaA==
+X-Received: by 2002:a17:903:910:b0:258:9d26:1860 with SMTP id d9443c01a7336-290273ffeb7mr333722105ad.40.1760436186736;
+        Tue, 14 Oct 2025 03:03:06 -0700 (PDT)
+Received: from [10.218.33.29] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f87b23sm160005665ad.113.2025.10.14.03.03.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Oct 2025 03:03:06 -0700 (PDT)
+Message-ID: <486d9339-c7c0-462a-97e2-92a243bbf200@oss.qualcomm.com>
+Date: Tue, 14 Oct 2025 15:32:42 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <2d5c6560.6e9e.199e1b29e6f.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:ZSgvCgB3gh2rAO5oPLwKAA--.714W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwAsAZGjuAKvLLAAA3l
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] bus: mhi: host: mhi_phc: Add support for PHC over MHI
+From: Imran Shaik <imran.shaik@oss.qualcomm.com>
+To: Jakub Kicinski <kuba@kernel.org>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+        Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, taniya.das@oss.qualcomm.com,
+        quic_vbadigan@quicinc.com, quic_mrana@quicinc.com
+References: <20250818-tsc_time_sync-v1-0-2747710693ba@oss.qualcomm.com>
+ <20250818-tsc_time_sync-v1-5-2747710693ba@oss.qualcomm.com>
+ <20250821180247.29d0f4b3@kernel.org>
+ <0b950a45-21e5-4c8d-bc76-1c801b86e2ef@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <0b950a45-21e5-4c8d-bc76-1c801b86e2ef@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: -g-2YO1blgj2Ls9QfgwZEx9wYuBQvZ8L
+X-Proofpoint-ORIG-GUID: -g-2YO1blgj2Ls9QfgwZEx9wYuBQvZ8L
+X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ee1fdc cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=elLdLcMF98_VclgcXSwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX1vRDI3IkYx4u
+ JIKKzl+p+9vxH7ypzyEA5ITVMIBNCXDmmM94w2YCUKc3TU0fCTCnKduuJnNwU3beqTrXmFnhCPV
+ W1TnZ/d7RomJR5X9vuICQBxCrJthJPzmJk1L8xqQTWM39Dqdpns2z5AGlaS0hiLPZUhZd9VKgyW
+ KNzDtXYFNQDVxvaGXUc9aLDeoX1ara+GhVHED8xXLU/BS9pjvLXnHbE5mQGcqg0ZEnvHUSCFkRp
+ XXNwzStg83Z39gdipE2ipnGstPMPEMz7r6t/ed0CsB6o17GCR3GwzROD5Y1/R/EKBTESY4DsaTB
+ 3h9UtZekIpLNF0pHmj9/dFH14uV+WyMkcDxxSXA8k33DLmbMo9fJcXohamYAZxMlELPCZYfUaaa
+ j9Qo9El8E7bWa0mQZNN2exkaabApXw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110022
 
-QXQgMjAyNS0wOS0xNiAxMToyNjoxNiwgIlNsYXJrIFhpYW8iIDxzbGFya194aWFvQDE2My5jb20+
-IHdyb3RlOgo+Cj4KPkF0IDIwMjUtMDktMTUgMTU6MjY6MzMsICJLcmlzaG5hIENoYWl0YW55YSBD
-aHVuZHJ1IiA8a3Jpc2huYS5jaHVuZHJ1QG9zcy5xdWFsY29tbS5jb20+IHdyb3RlOgo+Pgo+Pgo+
-Pk9uIDkvMTIvMjAyNSAzOjM4IFBNLCBTbGFyayBYaWFvIHdyb3RlOgo+Pj4gT24gUXVhbGNvbW0g
-bW9kdWxlIHNpZGUsIHRoZXJlIGlzIGEgVUFSVCBwcmludCBhcyBiZWxvdzoKPj4+IHNlc3Npb24g
-aWQ6IDB4MzU1ZmU2ODkgc3RhdGU6Mgo+Pj4gc2Vzc2lvbiBpZDogMHgxZjQ3OGU0MiBzdGF0ZTo1
-Cj4+PiBUaGUgc2Vzc2lvbiBpZCByZWFkcyBmcm9tIHJlZ2lzdGVyIEJISV9JTUdUWERCKDB4MjE4
-KSwgYW5kIHRoZQo+Pj4gc3RhdGUgaW5kaWNhdGVzIHRoZSBEMyBvciBEMCBzdGF0ZS4KPj4+IAo+
-Pj4gSW4gV2luZG93cyBzaWRlLCBNSEkgZHJpdmVyIHdvdWxkIHVwZGF0ZSB0aGlzIHNlc3Npb24g
-aWQgZm9yIGVhY2gKPj4+IHN1c3BlbmQvcmVzdW1lIHByb2dyZXNzLiBXZSBiZW5lZml0IGZyb20g
-dGhpcyBtZWNoYW5pc20gc2luY2UgaXQKPj4+IGNvdWxkIGhlbHAgc3luYyBlYWNoIHN1c3BlbmQg
-YW5kIHJlc3VtZSBwcm9ncmVzcyBiZXR3ZWVuIGhvc3QgYW5kCj4+PiBkZXZpY2UsIGVzcGVjaWFs
-bHkgZm9yIHNvbWUgc3VzcGVuZCBpc3N1ZSB3aGljaCBuZWVkcyB0byB0YWtlCj4+PiBodW5kcmVk
-cyBvciB0aG91c2FuZHMgY3ljbGUuIFdlIGNhbiBlYXN5IHRvIGZpZ3VyZSBvdXQgd2hpY2gKPj4+
-IHN1c3BlbmQgY3ljbGUgZ2V0IGEgcHJvYmxlbSBhbmQgd2hhdCdzIGhhcHBlbmVkIGF0IHRoYXQg
-dGltZSBmb3IKPj4+IGJvdGggaG9zdCBhbmQgZGV2aWNlIGJlY2F1c2UgdGhleSBoYXZlIHNhbWUg
-aWQuCj4+PiAKPj4+IEJ1dCBpbiBMaW51eCBzaWRlLCB0aGlzIHNlc3Npb24gaWQgdmFsdWUgd291
-bGQgYWx3YXlzIGJlIDB4MC4KPj4+IFNvIHdlIGFkZCBpdCBmb3IgcG90ZW50aWFsIGRlYnVnIHVz
-YWdlLgo+Pj4gCj4+PiBTaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194aWFvQDE2My5j
-b20+Cj4+PiAtLS0KPj4+ICAgZHJpdmVycy9idXMvbWhpL2hvc3QvcG0uYyB8IDE1ICsrKysrKysr
-KysrKysrKwo+Pj4gICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKQo+Pj4gCj4+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcG0uYyBiL2RyaXZlcnMvYnVzL21oaS9o
-b3N0L3BtLmMKPj4+IGluZGV4IDMzZDkyYmYyZmMzZS4uYTY1NzNmNjg3MzYzIDEwMDY0NAo+Pj4g
-LS0tIGEvZHJpdmVycy9idXMvbWhpL2hvc3QvcG0uYwo+Pj4gKysrIGIvZHJpdmVycy9idXMvbWhp
-L2hvc3QvcG0uYwo+Pj4gQEAgLTg2NCw2ICs4NjQsMTMgQEAgaW50IG1oaV9wbV9zdXNwZW5kKHN0
-cnVjdCBtaGlfY29udHJvbGxlciAqbWhpX2NudHJsKQo+Pj4gICAJc3RydWN0IGRldmljZSAqZGV2
-ID0gJm1oaV9jbnRybC0+bWhpX2Rldi0+ZGV2Owo+Pj4gICAJZW51bSBtaGlfcG1fc3RhdGUgbmV3
-X3N0YXRlOwo+Pj4gICAJaW50IHJldDsKPj4+ICsJdm9pZCBfX2lvbWVtICpiYXNlID0gbWhpX2Nu
-dHJsLT5iaGk7Cj4+PiArCXUzMiBzZXNzaW9uX2lkOwo+Pj4gKwo+Pj4gKwlzZXNzaW9uX2lkID0g
-TUhJX1JBTkRPTV9VMzJfTk9OWkVSTyhCSElfVFhEQl9TRVFOVU1fQk1TSyk7Cj4+PiArCWRldl9k
-YmcoZGV2LCAiU3RhcnRpbmcgZW50ZXIgc3VzcGVuZCwgc2Vzc2lvbiBpZDogMHgleFxuIiwKPj4+
-ICsJCXNlc3Npbl9pZCk7Cj4+PiArCW1oaV93cml0ZV9yZWcobWhpX2NudHJsLCBiYXNlLCBCSElf
-SU1HVFhEQiwgc2Vzc2lvbl9pZCk7Cj4+SSBhZ3JlZSB0aGlzIHdpbGwgaGVscCBpbiBkZWJ1Z2dp
-bmcsIGJ1dCB1bmxlc3MgaXQgaXMgZG9jdW1lbnRlZAo+PmluIHRoZSBNSEkgc3BlYyB3ZSBjYW4n
-dCBoYXZlIHRoaXMuIFNpbmNlIGluIGZ1dHVyZSBpZiB0aGVyZSBpcwo+PnNvbWUgb3RoZXIgcHVy
-cG9zZSBmb3IgdGhpcyByZWdpc3RlciB3ZSBlbmQgdXAgZmFjaW5nIGlzc3Vlcy4KPj4KPj5pZiBp
-dCBhbHJlYWR5IHBhcnQgb2Ygc3BlYyBwb2ludCBpdCBpbiB0aGUgY29tbWl0IHRleHQuCj4+Cj4+
-LSBLcmlzaG5hIENoYWl0YW55YS4KPkhpIEtyaXNobmEsCj5JIGFtIG5vdCBhIG1lbWJlciBvZiBR
-dWFsY29tbSBzbyBJIGRvbid0IGhhdmUgYSBkZXRhaWxlZCBNSEkKPnNwZWMgdG8gZGVzY3JpYmUg
-dGhpcyByZWdpc3RlciB1c2FnZS4KPkJ1dCBJIGdldCBzb21lIGluZm9ybWF0aW9uIGZyb20gdGhl
-aXIgV2luZG93cyBNSEkgZHJpdmVyOgo+Cj4xLiBUaGVyZSBpcyByZWxlYXNlIG5vdGUgd2hpY2gg
-ZGVzY3JpYmUgaXQ6Cj5VREUvUU1JL3dpbi9xY3VkZS9pbnN0YWxsZXIvUmVhZE1lLnR4dCAKPlVE
-RS9RQ1VERS5TdGFuZGFsb25lLlNvdXJjZS4xLjAwLjQ0LldpbmRvd3MtQW55Q1BVX1JlYWRNZV8x
-LnR4dAo+Li4uLi4uCj5NSEkgZHJpdmVyIDEuMS4wLjIKPiAgYi4gQWRkIHdyaXRlIHRvIEJISV9J
-TUdUWERCIGZvciBkZWJ1ZyBwdXJwb3Nlcy4KPi4uLi4uLgo+Cj4yLkZyb20gdGhlIGNvZGUgc2lk
-ZSwgIHRoZXJlIGlzIGEgc2FtZSBvcGVyYXRpb24gZm9yIE1ISSBkcml2ZXIKPmVudGVyIGludG8g
-TTA6Cj5Ib3N0RHJpdmVyL3dpbi9OVEFEL01oaUhvc3QvTWhpL3NyYy9NaGkuYwo+Li4uLi4uCj52
-b2lkIE1oaVJlcXVlc3RNMChQTUhJX0RFVl9DVFhUIE1oaUN0eHQpCj57Cj4uLi4uLgo+ICAgLyog
-U2V0IEJISV9JTUdUWERCICovCj4gICBLZVF1ZXJ5U3lzdGVtVGltZSgmcmFuZFNlZWQpOwo+ICAg
-TWhpQ3R4dC0+U2Vzc2lvbklEID0gUnRsUmFuZG9tRXgoJnJhbmRTZWVkLkxvd1BhcnQpOwo+ICAg
-TWhpVHJhY2UoVFJBQ0VfTEVWRUxfRVJST1IsIFRSQUNFX0ZMQUdfTUhJQ09ORklHLCAiTkVXIFNl
-c3Npb25JRDogMHgleFxuIiwgTWhpQ3R4dC0+U2Vzc2lvbklEKTsKPiAgIE1ISV9XUklURV9SRUco
-ZGV2aWNlQ29udGV4dC0+QkhJQ29udGV4dC5CaGlCYXNlLCBCSElfSU1HVFhEQiwgTWhpQ3R4dC0+
-U2Vzc2lvbklEKTsKPgo+ICAgTWhpVHJhY2UoVFJBQ0VfTEVWRUxfRVJST1IsIFRSQUNFX0ZMQUdf
-TUhJQ09ORklHLCAiUmVxIC0+IE0wXG4iKTsKPi4uLi4uLgo+Cj5Ob3Qgc3VyZSBpZiBhYm92ZSBp
-bmZvcm1hdGlvbiBpcyBlbm91Z2ggZm9yIHRoaXMgY29tbWl0Lgo+Cj5UaGFua3MKCkFueSB1cGRh
-dGVzIGFib3V0IHRoaXMgY29tbWl0PwoKCj4+PiAgIAo+Pj4gICAJaWYgKG1oaV9jbnRybC0+cG1f
-c3RhdGUgPT0gTUhJX1BNX0RJU0FCTEUpCj4+PiAgIAkJcmV0dXJuIC1FSU5WQUw7Cj4+PiBAQCAt
-OTUyLDYgKzk1OSwxNCBAQCBzdGF0aWMgaW50IF9fbWhpX3BtX3Jlc3VtZShzdHJ1Y3QgbWhpX2Nv
-bnRyb2xsZXIgKm1oaV9jbnRybCwgYm9vbCBmb3JjZSkKPj4+ICAgCXN0cnVjdCBkZXZpY2UgKmRl
-diA9ICZtaGlfY250cmwtPm1oaV9kZXYtPmRldjsKPj4+ICAgCWVudW0gbWhpX3BtX3N0YXRlIGN1
-cl9zdGF0ZTsKPj4+ICAgCWludCByZXQ7Cj4+PiArCXZvaWQgX19pb21lbSAqYmFzZSA9IG1oaV9j
-bnRybC0+YmhpOwo+Pj4gKwl1MzIgc2Vzc2lvbl9pZDsKPj4+ICsKPj4+ICsJc2Vzc2lvbl9pZCA9
-IE1ISV9SQU5ET01fVTMyX05PTlpFUk8oQkhJX1RYREJfU0VRTlVNX0JNU0spOwo+Pj4gKwlkZXZf
-ZGJnKGRldiwgIlN0YXJ0aW5nIGVudGVyIHJlc3VtZSwgc2Vzc2lvbiBpZDogMHgleFxuIiwKPj4+
-ICsJCXNlc3Npb25faWQpOwo+Pj4gKwo+Pj4gKwltaGlfd3JpdGVfcmVnKG1oaV9jbnRybCwgYmFz
-ZSwgQkhJX0lNR1RYREIsIHNlc3Npb25faWQpOwo+Pj4gICAKPj4+ICAgCWRldl9kYmcoZGV2LCAi
-RW50ZXJlZCB3aXRoIFBNIHN0YXRlOiAlcywgTUhJIHN0YXRlOiAlc1xuIiwKPj4+ICAgCQl0b19t
-aGlfcG1fc3RhdGVfc3RyKG1oaV9jbnRybC0+cG1fc3RhdGUpLAo=
+
+
+On 9/16/2025 2:47 PM, Imran Shaik wrote:
+> 
+> 
+> On 8/22/2025 6:32 AM, Jakub Kicinski wrote:
+>> On Mon, 18 Aug 2025 12:25:50 +0530 Krishna Chaitanya Chundru wrote:
+>>> This patch introduces the MHI PHC (PTP Hardware Clock) driver, which
+>>> registers a PTP (Precision Time Protocol) clock and communicates with
+>>> the MHI core to get the device side timestamps. These timestamps are
+>>> then exposed to the PTP subsystem, enabling precise time synchronization
+>>> between the host and the device.
+>>
+>>> +static struct ptp_clock_info qcom_ptp_clock_info = {
+>>> +	.owner    = THIS_MODULE,
+>>> +	.gettimex64 =  qcom_ptp_gettimex64,
+>>> +};
+>>
+>> Yet another device to device clock sync driver. Please see the
+>> discussion here:
+>> https://lore.kernel.org/all/20250815113814.5e135318@kernel.org/
+>> I think we have a consensus within the community that we should 
+>> stop cramming random clocks into the PTP subsystem.
+>>
+>> Exporting read-only clocks from another processor is not what PTP
+>> is for.
+> 
+> Hi Jakub,
+>  
+> Thank you for the review and for sharing the link to the ongoing discussion.
+> 
+> I understand the concerns about using the PTP subsystem for read-only clocks.
+> The idea behind this patch was to use a standard interface for syncing time
+> between the host and device, and also to make use of existing tools like
+> phc2sys from userspace.
+>  
+> I have looked into the on going discussion you pointed, and we’re facing
+> a similar challenge. Based on internal discussion with the PCIe team, we’ve
+> confirmed that PCIe PTM isn’t applicable for this hardware use case.
+>  
+> That said, since it seems the community prefers not to use PTP for such
+> requirement, could you please suggest any other way to support this time
+> sync requirement that would be acceptable upstream?
+> 
+> Appreciate your guidance!
+>  
+
+Hi, Could you please share your thoughts on other approaches or directions we could
+take to support the above requirement in a way that’s acceptable upstream?
+
+Thanks,
+Imran
