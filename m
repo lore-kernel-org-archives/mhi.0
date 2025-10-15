@@ -1,121 +1,97 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026822010EE
-	for <mhi@lists.linux.dev>; Wed, 15 Oct 2025 10:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6A5319875;
+	Wed, 15 Oct 2025 11:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760524539; cv=none; b=Zml9ch6Ao6oqd8+OgtgCMTBky2LE+PAwAOJ+IU6kPLCzFUswCUNLfq1uMX+Q3mJHS7gbZIdwhXwe6OOdxWZtbUiLnxQwXOMFUfimEJF5FRq3p+UlcPRZH6R1MCmmM+RlxhqiSLZoukJV/HcD1wt0gDjCJf22lfLXgbEBaYVPxvA=
+	t=1760527479; cv=none; b=ZgFQlDDp3vGYdnV1pamXFA0AosDowFezVTySiCWR+ITvR0pBmMHTW1rh18i9PmTfV0a694STa4h9koqp7QD6Z4VU91OB/npJQ8GAnAW2Wv7jyp3/A8nj0DHpibdkQK3RS6IZlCVdYlsTkrKczvAdbbfwbdPhJr6RAakToi+lPcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760524539; c=relaxed/simple;
-	bh=wrYtQbKMdePmpurgrmRwrJx3mIKCnYPozkCXHxbd1is=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DwXpPUYZCWX6R9vJkOvhnCyhHRYwUZB3+zp+9Nz/AjcS3EJua+bbcXoyiH/g3VuQUmKkCUgBoLnW/kfkOCpMQCb+QXib01XvI8DS7eeVIGvte7ledIYGZc2dSvnTTcRPMLBo5VTFv5py7sq1wrwdtOAN7zvoiFlrPD7glRuiQIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dljIpsSe; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760527479; c=relaxed/simple;
+	bh=HhAMs4NQpq+tdQjGxrti3jqQxp0xeLf1bYQA+I3R1WA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2q36yXpNdg17MHYcacrgLWBRCH5wC+/30X2lpKjk5RfVTs05lI4DEFvg+hSiLOpLmdBeHo1D5zI1cGUxZHWKKiT84ggFla6BK+xIvlKMuuyvdzMAyZVIDXDQek1W41aCu8wV7JcCrpOtitFhsMUxivR//GfeNWO/XvPAWLAeqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTkXRfys; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dljIpsSe"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47103b6058fso3292895e9.1
-        for <mhi@lists.linux.dev>; Wed, 15 Oct 2025 03:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760524536; x=1761129336; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gu1nsBP84jDmwrrdXdGOmf9QTsYF1hFDTo/FbFzpjBE=;
-        b=dljIpsSeV+9sU0ZWffMjiBJjj9d8IFQZl17ax6M3gsInYHDsh+waEghOf5/mh3VFNH
-         z3xjviiwSaMhnVCv7TI8U2OnQ019HVzmd7a/kZ9qgOfCZtFqCK5sJ8pFHPimS8CTF2l3
-         3jLG/WAteb5bxGdKwQMa020IRISWAUIgDiFnP+XA71TXiZifmUHCQElZTyptFIpqFrGw
-         enDXXFCH076++lvbi15lfcGI/iU/12jToU7crRj1NI5ix+KTsjJeVVVLPYq5FZWEQ9sH
-         6/rbTh+0MGqL9zjvRlUP/LR9PNDkIPWjpBMtz+NYKOo6sV7MYMcUJ02GzmkS5roNuSRt
-         8ikQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760524536; x=1761129336;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gu1nsBP84jDmwrrdXdGOmf9QTsYF1hFDTo/FbFzpjBE=;
-        b=wr5nSBe7lXwnIgN06BxeKq/m7a3uh8ZEqmNsc5sXY76dhyHHXDiVh8eSyHBL5mT4EF
-         703MKKNQkrVbWekZJYGwvjg7ZCg0lCeuPx9d16/7+qMJS6xRqkqdJpZOF77y51ebb/W/
-         INv/Lu6NQLHw2GdHI1WqxPe06/vAa1P1c0glVWciWzgKquO4VgTL975AcyLTVjp0+U0X
-         kFYjdEfm1SRuc5dBJIlC8Aegm3uoreoxQHNd127KcEucIdPi3XQRxT1IrLbNvgYymzD1
-         1vnrzGoEqvTd+XvboS7TfmrtaRvM8MeaF7txCO7U6Jq1gSQDHzrNQy0llyLbOhLXxSxE
-         HuCw==
-X-Gm-Message-State: AOJu0Yzr+PyF636P4lDs7HlJUgwBHVj9u+OsmdgdDrnVcye7xGOK4FR0
-	GJb0lYCYojn46HVGoJF2OP78pqBO19BJSnE2fAUbN5SeHApjeh2MWgDm
-X-Gm-Gg: ASbGncsxZYCpu6RJxVhwRlq1YnNPz8kriT7pUS13VMBVJIMfxs0s0EAkMeqkkDI/9Nr
-	Q74s2mWbW+r0lApdqbs0DmiMHgh0RFV/06njQMvhsvWJV6MwNQFQB2i0WO9P12+h/HuTu2YEAZB
-	oJgk3lLNO/UCVfR7l9USO0yRLnPiB8SIVIiGfgJPN7rBJfN/9HhIMxDOgenWMadWtkqT3Z1ehf0
-	8nfbDhu+hiCk6CMsyHONsxWwRaNugh3JP6OSclsB+7Mfh476gDkqv9BR5KOuXfwkMkUgwTDT+08
-	pXrJzoVak0rE7xjZv9CFF9AA8iu1mYNnCOEg5rtijHUTyIscCk1Z0bvoELse15/KYlzSj6Wxy8G
-	TYJAOgx+n0MZaithL2sjk/n4HUxwpXXINBGTUBzH8BJw0sLsEwWtWGheXjaPqb71NfMXfvKwEcO
-	osvBwaMD6sTerAbhL19EFiDdC98T8=
-X-Google-Smtp-Source: AGHT+IGXXSxOEnx0micwjWYM8733husUPk8MH/ndkS4hv+5XE6L0m44UB2hxHV1pzm56wpUwxdpWpA==
-X-Received: by 2002:a05:600c:6215:b0:471:846:80ac with SMTP id 5b1f17b1804b1-47108468140mr698725e9.18.1760524536016;
-        Wed, 15 Oct 2025 03:35:36 -0700 (PDT)
-Received: from ThinkStation-P340.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e13b6sm28580093f8f.44.2025.10.15.03.35.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 03:35:35 -0700 (PDT)
-From: Daniele Palmas <dnlplm@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 1/1] bus: mhi: host: pci_generic: Add Telit FE990B40 modem support
-Date: Wed, 15 Oct 2025 12:20:59 +0200
-Message-Id: <20251015102059.1781001-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTkXRfys"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE95C4CEF8;
+	Wed, 15 Oct 2025 11:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760527479;
+	bh=HhAMs4NQpq+tdQjGxrti3jqQxp0xeLf1bYQA+I3R1WA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kTkXRfysjm/blDQ4VdVw10+TUCLu0LSuTBjDYdO0dX3JoTdl32VQoiLbN7VUlR3t+
+	 1sHK9HOgUMAGm1SU9b2xmZS1zsjNPhswGory8VsbqH2Urh6Warackhhor/UMsz/Gcj
+	 Tm7XG6kLhglUYIlzY6G4DSgNM/XM1Xd0eYhmlUrGQ007hhynUjVy9hPwvLJjUtA9Nn
+	 xXh7SQITWALv+NFSkVnJuertl04Y+MWk9FSebH87DmB4MEC3HBV1H1sSMCMqB2u1Ls
+	 L6SOtx6U8CoEZX/SYao3QTDw1khaLRVapBmbJEYaEGMUKZMcmNikj5ybpW7hz4gDR0
+	 Cofemwo/Tzb5A==
+Date: Wed, 15 Oct 2025 16:54:30 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Akhil Vinod <akhil.vinod@oss.qualcomm.com>, 
+	Sumit Kumar <sumit.kumar@oss.qualcomm.com>, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] drivers: mhi: make mhi_ep_bus_type const
+Message-ID: <zqhspeq37j6j2ss6qreoq4kj23mzo2zd5ttkpykayuvo6jigip@dthsh4ngicqv>
+References: <20250919074408.868220-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250919074408.868220-1-abarnas@google.com>
 
-Add SDX72 based modem Telit FE990B40, reusing FN920C04 configuration.
+On Fri, Sep 19, 2025 at 07:44:08AM +0000, Adrian Barnaś wrote:
+> Because driver core can properly handle constant struct bus_type,
+> move the mhi_ep_bus_type to be a constant structure as well, placing it
+> into read-only memory which can not be modified at runtime.
+> 
+> Signed-off-by: Adrian Barnaś <abarnas@google.com>
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device 0309
-        Subsystem: Device 1c5d:2025
+Applied to mhi-next!
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+- Mani
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index b188bbf7de04..3d8c9729fcfc 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -877,6 +877,16 @@ static const struct mhi_pci_dev_info mhi_telit_fn990b40_info = {
- 	.edl_trigger = true,
- };
- 
-+static const struct mhi_pci_dev_info mhi_telit_fe990b40_info = {
-+	.name = "telit-fe990b40",
-+	.config = &modem_telit_fn920c04_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.sideband_wake = false,
-+	.mru_default = 32768,
-+	.edl_trigger = true,
-+};
-+
- static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
- 	.name = "netprisma-lcur57",
- 	.edl = "qcom/prog_firehose_sdx24.mbn",
-@@ -933,6 +943,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Telit FN990B40 (sdx72) */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x201a),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn990b40_info },
-+	/* Telit FE990B40 (sdx72) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x2025),
-+		.driver_data = (kernel_ulong_t) &mhi_telit_fe990b40_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
- 	/* QDU100, x100-DU */
+> ---
+>  drivers/bus/mhi/ep/internal.h | 2 +-
+>  drivers/bus/mhi/ep/main.c     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/ep/internal.h b/drivers/bus/mhi/ep/internal.h
+> index 577965f95fda..512da7482acc 100644
+> --- a/drivers/bus/mhi/ep/internal.h
+> +++ b/drivers/bus/mhi/ep/internal.h
+> @@ -11,7 +11,7 @@
+>  
+>  #include "../common.h"
+>  
+> -extern struct bus_type mhi_ep_bus_type;
+> +extern const struct bus_type mhi_ep_bus_type;
+>  
+>  #define MHI_REG_OFFSET				0x100
+>  #define BHI_REG_OFFSET				0x200
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index cdea24e92919..86e003bc44e0 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1703,7 +1703,7 @@ static int mhi_ep_match(struct device *dev, const struct device_driver *drv)
+>  	return 0;
+>  };
+>  
+> -struct bus_type mhi_ep_bus_type = {
+> +const struct bus_type mhi_ep_bus_type = {
+>  	.name = "mhi_ep",
+>  	.dev_name = "mhi_ep",
+>  	.match = mhi_ep_match,
+> -- 
+> 2.51.0.534.gc79095c0ca-goog
+> 
 
-base-commit: 54c67740fff7360b6607d02b8499d09b944b3fda
 -- 
-2.37.1
-
+மணிவண்ணன் சதாசிவம்
