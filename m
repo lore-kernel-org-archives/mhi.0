@@ -1,318 +1,507 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4F02DA755
-	for <mhi@lists.linux.dev>; Tue,  4 Nov 2025 05:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3561B287505;
+	Wed,  5 Nov 2025 22:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762234766; cv=none; b=q1M3hQ+0PYtXJGLL/UQXOxZHNHth4A1VFIOIfc91D4wWBZCBwbk0KRyLj4fNCl9FjRHuFfKVlhHpf7JCJo5Ww+jt9Niuj4k056XFn4i0zRnBNO6vLWvtaLog6dIBIeCxv+03lTrfwIPob6btIoenQmRcgphsIjMP6xJBsxgbCr4=
+	t=1762380842; cv=none; b=QkvKDEgISawvnwLMwnD03qv8B9TGSJCu7K3LmRe3S30p/uFk7SkHTpsjzz+I6Radd5GnWKotSebb0p6msJDTgueLbpg4PIsi4eSNmiKNNJev72nzJIUzdulxCsRI608vGUruvo9hh9QkpyBRwlon36B7Q0EZdeuAzsQMPAcGMwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762234766; c=relaxed/simple;
-	bh=55g5w1v7atZqC7FlHEyUgZm2ivpUlSG09PoKfW0YLDs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pLuNAgyIO3vZTkA+RfN8p5sEqITH1JbCe7D9RtaUJTXTjZPCNZ5iNVtRoswopU2xh6EnpSDgULyNUhnzlNei5H+5tMr+S+DUPexEEDJdMANrsiQbyGIq746CfL88Ydt+Frb7mG6NAXRfuxZJRI4KAHDuDpJxicbFziwxXVSpxvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RaLZOUIY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q63I0Ct/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762380842; c=relaxed/simple;
+	bh=cwUjtxQ+WjyslL51wnYe/k/TDHsrlMFfmJyM+afqKdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dGaO2jznBRauw+fpHhV/hWrA2Fgt8SD3A8bBgugFC9nCU1kDe+XamuYRkTeN4GIaJgTmPjzZM9o12b/zUdTPTiRub8Bi52m2biTpayONTG95eCxj/iRgD+NNgCklcgVCOQVHTTiO7kaeEo97F6xGxek5oNQ9hqvbEtyr7+ORc6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRdh415l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RaLZOUIY";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q63I0Ct/"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A439HLG3667945
-	for <mhi@lists.linux.dev>; Tue, 4 Nov 2025 05:39:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HrNsyrAAQeANKLO/A4qgRpf2x7znZFLyg4LxquGbdIQ=; b=RaLZOUIYSddSVbNp
-	4IZjq9WCHxJua71F3TYJnNnOWayOkPZ5p6dG4rTbTUYfRt/nKLHQAEyUeXn9Ov2K
-	QN/wqqDZAef2s7cqtjZSYv/dLNFJiUJSB1tWIMeO8yYOVs/Et89WGMKm4+kdPyzA
-	R5t6/spZpnarsXkGMegfPSSCFJt7KhmgZA45PN4+ES76bJA0J5H2c78D6G8i0Xjj
-	6vCD4VXfMjUGJh5YgT4GIfLp9FcohpDtVe8kUssbFuVMDJJ+yjbKTMDsCYFvfsdr
-	0npAlvUWkAA21drOS84ZQmTvHC4lrCjPXjXX3BOvmiUAEtRoCfJYXinBoGsRSluI
-	fX1zOQ==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a70ffhsmt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 04 Nov 2025 05:39:24 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-77f610f7325so4548197b3a.1
-        for <mhi@lists.linux.dev>; Mon, 03 Nov 2025 21:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762234764; x=1762839564; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HrNsyrAAQeANKLO/A4qgRpf2x7znZFLyg4LxquGbdIQ=;
-        b=Q63I0Ct/F1Abp2K2QoTRNoTO49AcO2xTzutoiUs6i1WkM4/Qt9fcINyaOMx7wwIZ93
-         DPD84haqYTrAVciljyC4k2uEJNPZ4USzo7HO1B7CcoXX54vAAeeNcQhiI6ijEMEHGjp4
-         lPmvcAb5WprWMFus6ThyQaE8u7MVUGTrw0QlBsdSTanr8d0467m6hgXiSmMQ7HAw63uO
-         OVaI/iwGwseVB8AxqJOOVKAco82A0o4+alBZDkIwPCYxVwQnaabumXyT+djMLSl5oKMs
-         wHNLfWM0pTh8wQSlVLqyNZqCtNjMiDp7xuXoXvVXy7IRHSwoPPpI6FxBffKu7es3gJXV
-         lu3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762234764; x=1762839564;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HrNsyrAAQeANKLO/A4qgRpf2x7znZFLyg4LxquGbdIQ=;
-        b=wNaoup9tj+5lwTxfoL66zQVppLDIvNdIvuVZRqsb55JzFdg7m3Pxno5qci3rQQN1gO
-         Gf8DTYWHQUfxHvH78JDikaSpoemYSi/5sOv4kTn62Wcn00iJKfzODHHz3oG00E9a+y0j
-         513AKUCzkf/WZuI/Nwi69edh3SYXY0dfXL5SPDIRTfXiN9ECcpEkM21XF95s1JDrcXCq
-         HahC9QEW7Gyoey5X/HL7qpL+zG/nwCYEmIIYAwRDGUfOp2Zt8W2ZdqF+QJN7XO36vlmy
-         VgZA6hyXC7Gu+utmAQhvFU6dEnOxa7Sg4SJv5ilO3DdmflguEmQSJOoWEExlw2UL6Nx8
-         W9Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/QH+KdnSKcQkdboOVw2JW5Xs+v/5ys8pf4PJnUEgk+qtRcnAkehCT+594HAXCo5ydR1o=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3mdGi1uqUG9XkJ/t8sNd1cYGQtOyB2GfAo7YYkX6BISOe0EvW
-	62mxXoWIfLlXpzM65w9x3nCkq33Na9REEKtvSlPdlscPEdUvxRtfN86GAEYu3TwmGvRry5RU4cU
-	8sju6JaDOO16lxKsO2e396WAVPSIx19rxlUKT0kjsEY/JD6jkGTQCAXY=
-X-Gm-Gg: ASbGncuOzOGixgHyoNuLWpKrwkkJGxBVKmWDPyJucPritcLiO9T/UwQvlBTSs0O2PB+
-	y/GSTig394HeCjdDgj7q/Pj7fFb6cINvdktq1nC7ovVthl2xsNyoDVCW9ouJ2RHTXvU1/rIeb9G
-	Av/yOAh6co56WdGp2ZwGjmOH+r/gN/qGdfer1sSyfxgOfbnfk2CFP/UT+bzrhCAOQtmAAW8DxlD
-	ofxP1ed7Ss9UsnYHpfofw+URiaOwvTYWpLI3ushi6JmSHf5nG7de0QAXDOr4c89Hfu+iHNt9fBf
-	Y6Tvext/372M6qNdfPtViCIoZlti8Jq5001JsvIA7qlyPfOnbn5FrExaRW43/G0SI/0HynFG2ov
-	1CAHGHQSqTx0Q6pfg42e3e2Do
-X-Received: by 2002:a05:6a00:14d0:b0:77f:2dc4:4c16 with SMTP id d2e1a72fcca58-7a7791d1095mr18877077b3a.21.1762234763681;
-        Mon, 03 Nov 2025 21:39:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEijn/jz8S7gAQ+A+SBLqSusKhoWImqfxlcp7ot10qdXI/K3YzGqGQaeNZiSmxENWVhzlFBfg==
-X-Received: by 2002:a05:6a00:14d0:b0:77f:2dc4:4c16 with SMTP id d2e1a72fcca58-7a7791d1095mr18877054b3a.21.1762234763045;
-        Mon, 03 Nov 2025 21:39:23 -0800 (PST)
-Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7acd3150f0asm1462402b3a.2.2025.11.03.21.39.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 21:39:22 -0800 (PST)
-From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Date: Tue, 04 Nov 2025 11:09:07 +0530
-Subject: [PATCH v2 3/3] bus: mhi: ep: Add loopback driver for data path
- testing
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRdh415l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA347C4CEF5;
+	Wed,  5 Nov 2025 22:13:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762380839;
+	bh=cwUjtxQ+WjyslL51wnYe/k/TDHsrlMFfmJyM+afqKdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vRdh415luq+Pye/1mLq92dRsabkTQxrGVYnZ43eKPYntayxPFGiKy03E+oNeCBWd4
+	 b5xZzEAxOdbs3kjA9d2FkKOhmXgsp1ye/Gp9RRh1kYvtBkE+VYhuLuSUARfPAR9fQb
+	 MFhRfL1YUWPEOx/ea95PLaWEwMVzP7WF2W0zuO0iODm5BC49t3gO3BoE272n7+8Cxf
+	 py7FtyryggBffI0Cpj/Mb/M7yDsQI+WGWO+zLztj25ePG9jl5FdpYiob8jYcyS9yrU
+	 ZujnjpyMzh6GkFMd6RWAupzxOYzVzDDW7Sn9/4zhUMnrG6BfmXoTAzpFUQ9EH4XVrn
+	 Qy0P+i6XXdA+Q==
+Date: Wed, 5 Nov 2025 16:17:41 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, Akhil Vinod <akhil.vinod@oss.qualcomm.com>, 
+	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com
+Subject: Re: [PATCH v2 1/3] bus: mhi: host: Add loopback driver with sysfs
+ interface
+Message-ID: <g7yr3psfoyya76wvcgjs24xyyofgkllmdsvworjnfjgc3q3qeq@vjkxyh5oabkd>
+References: <20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com>
+ <20251104-loopback_mhi-v2-1-727a3fd9aa74@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-loopback_mhi-v2-3-727a3fd9aa74@oss.qualcomm.com>
-References: <20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com>
-In-Reply-To: <20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-        Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
-        Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
-        Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762234749; l=5851;
- i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
- bh=55g5w1v7atZqC7FlHEyUgZm2ivpUlSG09PoKfW0YLDs=;
- b=kjeVsgjb69vvWgdU7yVyZm+TBKSCTxucL+1PNaZwhP8PV4sxUhL0IANRu+uLhhqkvUiF0Kow1
- hMFrvzyAYHfDzZ1st8Di7Jb8jSOJ0s+JEQ8YVv8z/4+OQa0QEJcHoAA
-X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
- pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
-X-Authority-Analysis: v=2.4 cv=esbSD4pX c=1 sm=1 tr=0 ts=6909918c cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=RyQsIt2LcgCPV6mEHuQA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: zBSwVpe-63wU729hOhy9jH7eyk3gFtV7
-X-Proofpoint-ORIG-GUID: zBSwVpe-63wU729hOhy9jH7eyk3gFtV7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA0MDA0NCBTYWx0ZWRfX4S1r1gSEBuBr
- 8v21Pp+ZoLKShaEDIVc/dAwWevSsAPOzneFCIT6bwiaO4ejz8DbhXRxze4sFzKyI3ZoDcsCTB1Y
- 0GwFbggQ01BBdSsMsz5/6mevYoHTC5AgaUEKDoaWgG7CMFNTDh1yLPgBQONJtON8uPTWv4C81BD
- wYKE5HoT/fK+9Lzu50lxLNJ6L8vY6V9DBnOKw771g4JqQqRlYIXIezRjSVW18ZJlnk4NcWoG6vo
- u/2QhFhOdg81+UGYZpLjNouSXPY+pUWy8QBj6HwQOwXIxiIeRM86agoHYZXpApOAdajVFOhokls
- bZfw8XyaSKc9GT7bupAzjqV5O6zfladrGGQkRZ8Z5ew9AzKQHatypWSdTB+74MiEmmHUjhQorn0
- P+wXi9K80Adh1QCPAJF3eJkPFGABCQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-03_06,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 adultscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511040044
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104-loopback_mhi-v2-1-727a3fd9aa74@oss.qualcomm.com>
 
-Add loopback driver for MHI endpoint devices. The driver receives
-data on the uplink channel and echoes it back on the downlink
-channel using a workqueue for asynchronous processing.
+On Tue, Nov 04, 2025 at 11:09:05AM +0530, Sumit Kumar wrote:
+> Add loopback driver for MHI host controllers that provides sysfs based
+  ^--- Here would be e good place to explain why we want this driver. Per
+https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+start your commit message with a description of the problem you're
+solving.
 
-The driver is useful for testing MHI endpoint data path functionality
-and debugging communication issues.
+> testing interface for data path validation. The driver supports the
+> "LOOPBACK" channel and offers configurable test parameters.
+> 
+> Sysfs interface provides:
+> - size: Configure TRE size
+> - num_tre: Set number of TREs for chained transfers
+> - start: Initiate loopback test
+> - status: Read test results
 
-Co-developed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
----
- drivers/bus/mhi/ep/Kconfig           |   8 +++
- drivers/bus/mhi/ep/Makefile          |   1 +
- drivers/bus/mhi/ep/mhi_ep_loopback.c | 134 +++++++++++++++++++++++++++++++++++
- 3 files changed, 143 insertions(+)
+The words "loopback" and "testing" gives clear indications that this
+should live in debugfs and not sysfs.
 
-diff --git a/drivers/bus/mhi/ep/Kconfig b/drivers/bus/mhi/ep/Kconfig
-index 90ab3b040672e0f04181d4802e3062afcc7cf782..ce7b63c2da82a6ca49528517687f4910552c35bb 100644
---- a/drivers/bus/mhi/ep/Kconfig
-+++ b/drivers/bus/mhi/ep/Kconfig
-@@ -8,3 +8,11 @@ config MHI_BUS_EP
- 
- 	  MHI_BUS_EP implements the MHI protocol for the endpoint devices,
- 	  such as SDX55 modem connected to the host machine over PCIe.
-+
-+config MHI_BUS_EP_LOOPBACK
-+	tristate "MHI Endpoint loopback driver"
-+	depends on MHI_BUS_EP
-+	help
-+	  MHI endpoint loopback driver for data path testing.
-+	  This driver receives data on the uplink channel and echoes
-+	  it back on the downlink channel for testing purposes.
-diff --git a/drivers/bus/mhi/ep/Makefile b/drivers/bus/mhi/ep/Makefile
-index aad85f180b707fb997fcb541837eda9bbbb67437..02e4700e8dc3f860d40290476b0a852286683f8f 100644
---- a/drivers/bus/mhi/ep/Makefile
-+++ b/drivers/bus/mhi/ep/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_MHI_BUS_EP) += mhi_ep.o
- mhi_ep-y := main.o mmio.o ring.o sm.o
-+obj-$(CONFIG_MHI_BUS_EP_LOOPBACK) += mhi_ep_loopback.o
-diff --git a/drivers/bus/mhi/ep/mhi_ep_loopback.c b/drivers/bus/mhi/ep/mhi_ep_loopback.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..ba6154dd9b785f051043c10a980ab340012ba986
---- /dev/null
-+++ b/drivers/bus/mhi/ep/mhi_ep_loopback.c
-@@ -0,0 +1,134 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+#include <linux/mhi_ep.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+
-+struct mhi_ep_loopback {
-+	struct workqueue_struct *loopback_wq;
-+	struct mhi_ep_device *mdev;
-+};
-+
-+struct mhi_ep_loopback_work {
-+	struct mhi_ep_device *mdev;
-+	struct work_struct work;
-+	void *buf;
-+	size_t len;
-+};
-+
-+static void mhi_ep_loopback_work_handler(struct work_struct *work)
-+{
-+	struct mhi_ep_loopback_work *mhi_ep_lb_work = container_of(work,
-+								struct mhi_ep_loopback_work, work);
-+	int ret;
-+
-+	ret = mhi_ep_queue_buf(mhi_ep_lb_work->mdev, mhi_ep_lb_work->buf,
-+			       mhi_ep_lb_work->len);
-+	if (ret) {
-+		dev_err(&mhi_ep_lb_work->mdev->dev, "Failed to send the packet\n");
-+		kfree(mhi_ep_lb_work->buf);
-+	}
-+
-+	kfree(mhi_ep_lb_work);
-+}
-+
-+static void mhi_ep_loopback_ul_callback(struct mhi_ep_device *mhi_dev,
-+					struct mhi_result *mhi_res)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
-+	struct mhi_ep_loopback_work *mhi_ep_lb_work;
-+	void *buf;
-+
-+	if (!(mhi_res->transaction_status)) {
-+		buf = kmalloc(mhi_res->bytes_xferd, GFP_KERNEL);
-+		if (!buf) {
-+			dev_err(&mhi_dev->dev, "Failed to allocate buffer\n");
-+			return;
-+		}
-+
-+		memcpy(buf, mhi_res->buf_addr, mhi_res->bytes_xferd);
-+
-+		mhi_ep_lb_work = kmalloc(sizeof(*mhi_ep_lb_work), GFP_KERNEL);
-+		if (!mhi_ep_lb_work) {
-+			dev_err(&mhi_dev->dev, "Unable to allocate the work structure\n");
-+			kfree(buf);
-+			return;
-+		}
-+
-+		INIT_WORK(&mhi_ep_lb_work->work, mhi_ep_loopback_work_handler);
-+		mhi_ep_lb_work->mdev = mhi_dev;
-+		mhi_ep_lb_work->buf = buf;
-+		mhi_ep_lb_work->len = mhi_res->bytes_xferd;
-+
-+		queue_work(mhi_ep_lb->loopback_wq, &mhi_ep_lb_work->work);
-+	}
-+}
-+
-+static void mhi_ep_loopback_dl_callback(struct mhi_ep_device *mhi_dev,
-+					struct mhi_result *mhi_res)
-+{
-+	void *buf;
-+
-+	if (mhi_res->transaction_status)
-+		return;
-+
-+	buf = mhi_res->buf_addr;
-+	if (buf)
-+		kfree(buf);
-+}
-+
-+static int mhi_ep_loopback_probe(struct mhi_ep_device *mhi_dev, const struct mhi_device_id *id)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb;
-+
-+	mhi_ep_lb = devm_kzalloc(&mhi_dev->dev, sizeof(struct mhi_ep_loopback), GFP_KERNEL);
-+	if (!mhi_ep_lb)
-+		return -ENOMEM;
-+
-+	mhi_ep_lb->loopback_wq = alloc_ordered_workqueue("mhi_loopback", WQ_MEM_RECLAIM);
-+	if (!mhi_ep_lb->loopback_wq) {
-+		dev_err(&mhi_dev->dev, "Failed to create workqueue.\n");
-+		return -ENOMEM;
-+	}
-+
-+	mhi_ep_lb->mdev = mhi_dev;
-+	dev_set_drvdata(&mhi_dev->dev, mhi_ep_lb);
-+
-+	return 0;
-+}
-+
-+static void mhi_ep_loopback_remove(struct mhi_ep_device *mhi_dev)
-+{
-+	struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
-+
-+	destroy_workqueue(mhi_ep_lb->loopback_wq);
-+	dev_set_drvdata(&mhi_dev->dev, NULL);
-+}
-+
-+static const struct mhi_device_id mhi_ep_loopback_id_table[] = {
-+	{ .chan = "LOOPBACK"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(mhi, mhi_ep_loopback_id_table);
-+
-+static struct mhi_ep_driver mhi_ep_loopback_driver = {
-+	.probe = mhi_ep_loopback_probe,
-+	.remove = mhi_ep_loopback_remove,
-+	.dl_xfer_cb = mhi_ep_loopback_dl_callback,
-+	.ul_xfer_cb = mhi_ep_loopback_ul_callback,
-+	.id_table = mhi_ep_loopback_id_table,
-+	.driver = {
-+		.name = "mhi_ep_loopback",
-+		.owner = THIS_MODULE,
-+	},
-+};
-+
-+module_mhi_ep_driver(mhi_ep_loopback_driver);
-+
-+MODULE_AUTHOR("Krishna chaitanya chundru <krishna.chundru@oss.qualcomm.com>");
-+MODULE_AUTHOR("Sumit Kumar <sumit.kumar@oss.qualcomm.com>");
-+MODULE_DESCRIPTION("MHI Endpoint Loopback driver");
-+MODULE_LICENSE("GPL");
+Also, sysfs attribute should be documented in Documentation/ABI/testing/
 
--- 
-2.34.1
+> 
+> Co-developed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/host/Kconfig        |   7 +
+>  drivers/bus/mhi/host/Makefile       |   1 +
+>  drivers/bus/mhi/host/mhi_loopback.c | 347 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 355 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
+> index da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..08a39ecb47f585bf39721c101ed5e2ff44bdd5f8 100644
+> --- a/drivers/bus/mhi/host/Kconfig
+> +++ b/drivers/bus/mhi/host/Kconfig
+> @@ -29,3 +29,10 @@ config MHI_BUS_PCI_GENERIC
+>  	  This driver provides MHI PCI controller driver for devices such as
+>  	  Qualcomm SDX55 based PCIe modems.
+>  
+> +config MHI_BUS_LOOPBACK
+> +	tristate "MHI loopback driver"
+> +	depends on MHI_BUS
+> +	help
+> +	  MHI loopback driver for data path testing. This driver
+> +	  provides a mechanism to test MHI data transfer functionality
+> +	  by implementing an echo service between host and endpoint.
+> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
+> index 859c2f38451c669b3d3014c374b2b957c99a1cfe..e5d6dccf5a976eaeb827c47924ad0614c9958f8b 100644
+> --- a/drivers/bus/mhi/host/Makefile
+> +++ b/drivers/bus/mhi/host/Makefile
+> @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
+>  
+>  obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
+>  mhi_pci_generic-y += pci_generic.o
+> +obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
+> diff --git a/drivers/bus/mhi/host/mhi_loopback.c b/drivers/bus/mhi/host/mhi_loopback.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..980ace675718a79c97d9b2968ccef04c992a6c20
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/mhi_loopback.c
+> @@ -0,0 +1,347 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#include <linux/mhi.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/completion.h>
+> +#include <linux/string.h>
+> +#include <linux/random.h>
+> +#include <linux/kernel.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/types.h>
+> +#include <linux/errno.h>
+> +#include <linux/mutex.h>
+> +#include <linux/atomic.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/sizes.h>
 
+Keep them sorted, and make sure you need all of them.
+
+> +
+> +#define MHI_LOOPBACK_DEFAULT_TRE_SIZE   32
+> +#define MHI_LOOPBACK_DEFAULT_NUM_TRE    1
+> +#define MHI_LOOPBACK_TIMEOUT_MS         5000
+> +#define MHI_LOOPBACK_MAX_TRE_SIZE       SZ_64K
+> +
+> +struct mhi_loopback {
+> +	struct mhi_device *mdev;
+> +	struct mutex lb_mutex;
+> +	struct completion comp;
+> +	atomic_t num_completions_received;
+> +	char result[32];
+> +	u32 num_tre;
+> +	u32 size;
+> +	bool loopback_in_progress;
+> +};
+> +
+> +static ssize_t size_show(struct device *dev,
+> +			 struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%u\n", mhi_lb->size);
+> +}
+> +
+> +static ssize_t size_store(struct device *dev,
+> +			  struct device_attribute *attr,
+> +			  const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +	u32 val;
+> +
+> +	if (kstrtou32(buf, 0, &val)) {
+> +		dev_err(dev, "Invalid size value\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (val == 0 || val > MHI_LOOPBACK_MAX_TRE_SIZE) {
+> +		dev_err(dev, "Size must be between 1 and %u bytes\n",
+> +			MHI_LOOPBACK_MAX_TRE_SIZE);
+> +		return -EINVAL;
+> +	}
+> +
+> +	guard(mutex)(&mhi_lb->lb_mutex);
+> +	if (mhi_lb->loopback_in_progress)
+
+The only time loopback_in_progress is true is between the beginning and
+end of start_store(), and that entire function is under guard(lb_mutex),
+just as here and in num_tre_store().
+
+So at all times loopback_in_progress is true, any other context will
+block on getting the mutex, and then it will be reset to false before
+the mutex is let go.
+
+In other words, loopback_in_progress is unnecessary.
+
+> +		return -EBUSY;
+> +
+> +	mhi_lb->size = val;
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(size);
+> +
+> +static ssize_t num_tre_show(struct device *dev,
+> +			    struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%u\n", mhi_lb->num_tre);
+> +}
+> +
+> +static ssize_t num_tre_store(struct device *dev,
+> +			     struct device_attribute *attr,
+> +			     const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +	u32 val;
+> +	int el_num;
+> +
+> +	if (kstrtou32(buf, 0, &val)) {
+> +		dev_err(dev, "Invalid num_tre value\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (val == 0) {
+> +		dev_err(dev, "Number of TREs cannot be zero\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	guard(mutex)(&mhi_lb->lb_mutex);
+> +	if (mhi_lb->loopback_in_progress)
+> +		return -EBUSY;
+> +
+> +	el_num = mhi_get_free_desc_count(mhi_lb->mdev, DMA_TO_DEVICE);
+
+Aren't the descs per-channel in MHI? Given that you have a mutex around
+start_store() is this actually a dynamic value?
+
+> +	if (val > el_num) {
+> +		dev_err(dev, "num_tre (%u) exceeds ring capacity (%d)\n", val, el_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	mhi_lb->num_tre = val;
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(num_tre);
+> +
+> +static ssize_t start_store(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +	void *send_buf __free(kfree) = NULL;
+> +	void *recv_buf __free(kfree) = NULL;
+> +	u32 total_size, tre_count, tre_size;
+> +	int ret, i;
+> +
+> +	guard(mutex)(&mhi_lb->lb_mutex);
+> +
+> +	if (mhi_lb->loopback_in_progress)
+> +		return -EBUSY;
+> +
+> +	atomic_set(&mhi_lb->num_completions_received, 0);
+> +	mhi_lb->loopback_in_progress = true;
+> +
+> +	tre_size = mhi_lb->size;
+> +	tre_count = mhi_lb->num_tre;
+> +
+> +	strscpy(mhi_lb->result, "Loopback started", sizeof(mhi_lb->result));
+
+All assignments to result are static const strings being strscpy'ed into
+the buffer, if you made result a const char * instead, you could just
+assign the string.
+
+> +
+> +	total_size = tre_count * tre_size;
+> +
+> +	recv_buf = kzalloc(total_size, GFP_KERNEL);
+> +	if (!recv_buf) {
+> +		strscpy(mhi_lb->result, "Memory allocation failed", sizeof(mhi_lb->result));
+> +		mhi_lb->loopback_in_progress = false;
+> +		return -ENOMEM;
+
+You're setting loopback_in_progress to false and returning in 7
+different places in this function. There seems to be some room for
+improvement here.
+
+That said, as I said above, I don't think your code can ever find
+loopback_in_progress to be true...
+
+> +	}
+> +
+> +	send_buf = kzalloc(total_size, GFP_KERNEL);
+> +	if (!send_buf) {
+> +		strscpy(mhi_lb->result, "Memory allocation failed", sizeof(mhi_lb->result));
+> +		mhi_lb->loopback_in_progress = false;
+> +		return -ENOMEM;
+> +	}
+> +
+> +	for (i = 0; i < tre_count; i++) {
+> +		ret = mhi_queue_buf(mhi_lb->mdev, DMA_FROM_DEVICE, recv_buf + (i * tre_size),
+> +				    tre_size, MHI_EOT);
+> +		if (ret) {
+> +			dev_err(dev, "Unable to queue read TRE %d: %d\n", i, ret);
+> +			strscpy(mhi_lb->result, "Queue tre failed", sizeof(mhi_lb->result));
+> +			mhi_lb->loopback_in_progress = false;
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	get_random_bytes(send_buf, total_size);
+> +
+> +	reinit_completion(&mhi_lb->comp);
+> +
+> +	for (i = 0; i < tre_count - 1; i++) {
+> +		ret = mhi_queue_buf(mhi_lb->mdev, DMA_TO_DEVICE, send_buf + (i * tre_size),
+> +				    tre_size, MHI_CHAIN);
+> +		if (ret) {
+> +			dev_err(dev, "Unable to queue send TRE %d (chained): %d\n", i, ret);
+> +			strscpy(mhi_lb->result, "Queue send failed", sizeof(mhi_lb->result));
+> +			mhi_lb->loopback_in_progress = false;
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret = mhi_queue_buf(mhi_lb->mdev, DMA_TO_DEVICE, send_buf + (i * tre_size),
+> +			    tre_size, MHI_EOT);
+> +	if (ret) {
+> +		dev_err(dev, "Unable to queue final TRE: %d\n", ret);
+> +		strscpy(mhi_lb->result, "Queue final tre failed", sizeof(mhi_lb->result));
+> +		mhi_lb->loopback_in_progress = false;
+> +		return ret;
+> +	}
+> +
+> +	if (!wait_for_completion_timeout(&mhi_lb->comp,
+> +					 msecs_to_jiffies(MHI_LOOPBACK_TIMEOUT_MS))) {
+> +		strscpy(mhi_lb->result, "Loopback timeout", sizeof(mhi_lb->result));
+> +		dev_err(dev, "Loopback test timed out\n");
+> +		mhi_lb->loopback_in_progress = false;
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	ret = memcmp(send_buf, recv_buf, total_size);
+> +	if (!ret) {
+> +		strscpy(mhi_lb->result, "Loopback successful", sizeof(mhi_lb->result));
+> +		dev_info(dev, "Loopback test passed\n");
+
+Why both print the test status and log it to the result? Less is more...
+
+> +	} else {
+> +		strscpy(mhi_lb->result, "Loopback data mismatch", sizeof(mhi_lb->result));
+> +		dev_err(dev, "Loopback test failed\n");
+> +		ret = -EIO;
+> +	}
+> +
+> +	mhi_lb->loopback_in_progress = false;
+> +	return ret;
+> +}
+> +
+> +static DEVICE_ATTR_WO(start);
+> +
+> +static ssize_t status_show(struct device *dev,
+> +			   struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%s\n", mhi_lb->result);
+> +}
+> +static DEVICE_ATTR_RO(status);
+> +
+> +static void mhi_loopback_dl_callback(struct mhi_device *mhi_dev,
+> +				     struct mhi_result *mhi_res)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	if (!mhi_res->transaction_status) {
+> +		if (atomic_inc_return(&mhi_lb->num_completions_received) >= mhi_lb->num_tre) {
+> +			atomic_set(&mhi_lb->num_completions_received, 0);
+> +			complete(&mhi_lb->comp);
+> +		}
+> +	} else {
+> +		dev_err(&mhi_dev->dev, "DL callback error: status %d\n",
+> +			mhi_res->transaction_status);
+> +		atomic_set(&mhi_lb->num_completions_received, 0);
+> +		complete(&mhi_lb->comp);
+> +	}
+> +}
+> +
+> +static void mhi_loopback_ul_callback(struct mhi_device *mhi_dev,
+> +				     struct mhi_result *mhi_res)
+> +{
+> +}
+> +
+> +static int mhi_loopback_probe(struct mhi_device *mhi_dev,
+> +			      const struct mhi_device_id *id)
+> +{
+> +	struct mhi_loopback *mhi_lb;
+> +	int rc;
+> +
+> +	mhi_lb = devm_kzalloc(&mhi_dev->dev, sizeof(*mhi_lb), GFP_KERNEL);
+> +	if (!mhi_lb)
+> +		return -ENOMEM;
+> +
+> +	mhi_lb->mdev = mhi_dev;
+> +
+> +	dev_set_drvdata(&mhi_dev->dev, mhi_lb);
+> +
+> +	mhi_lb->size = MHI_LOOPBACK_DEFAULT_TRE_SIZE;
+> +	mhi_lb->num_tre = MHI_LOOPBACK_DEFAULT_NUM_TRE;
+> +	mhi_lb->loopback_in_progress = false;
+
+kzalloc() already did that for you.
+
+> +
+> +	mutex_init(&mhi_lb->lb_mutex);
+> +	strscpy(mhi_lb->result, "Loopback not started", sizeof(mhi_lb->result));
+> +
+> +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to create size sysfs file\n");
+> +		goto out;
+> +	}
+> +
+> +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to create num_tre sysfs file\n");
+> +		goto del_size_sysfs;
+
+This is ugly, devm_device_add_group() seems more appropriate. Then
+again, I don't think this belongs in sysfs in the first place.
+
+Regards,
+Bjorn
+
+> +	}
+> +
+> +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to create start sysfs file\n");
+> +		goto del_num_tre_sysfs;
+> +	}
+> +
+> +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to create status sysfs file\n");
+> +		goto del_start_sysfs;
+> +	}
+> +
+> +	rc = mhi_prepare_for_transfer(mhi_lb->mdev);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to prepare for transfers\n");
+> +		goto del_status_sysfs;
+> +	}
+> +
+> +	init_completion(&mhi_lb->comp);
+> +
+> +	return 0;
+> +
+> +del_status_sysfs:
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
+> +del_start_sysfs:
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
+> +del_num_tre_sysfs:
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
+> +del_size_sysfs:
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
+> +out:
+> +	return rc;
+> +}
+> +
+> +static void mhi_loopback_remove(struct mhi_device *mhi_dev)
+> +{
+> +	struct mhi_loopback *mhi_lb = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	if (mhi_lb)
+> +		complete(&mhi_lb->comp);
+> +
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
+> +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
+> +	mhi_unprepare_from_transfer(mhi_dev);
+> +	dev_set_drvdata(&mhi_dev->dev, NULL);
+> +}
+> +
+> +static const struct mhi_device_id mhi_loopback_id_table[] = {
+> +	{ .chan = "LOOPBACK"},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(mhi, mhi_loopback_id_table);
+> +
+> +static struct mhi_driver mhi_loopback_driver = {
+> +	.probe = mhi_loopback_probe,
+> +	.remove = mhi_loopback_remove,
+> +	.dl_xfer_cb = mhi_loopback_dl_callback,
+> +	.ul_xfer_cb = mhi_loopback_ul_callback,
+> +	.id_table = mhi_loopback_id_table,
+> +	.driver = {
+> +		.name = "mhi_loopback",
+> +	},
+> +};
+> +
+> +module_mhi_driver(mhi_loopback_driver);
+> +
+> +MODULE_AUTHOR("Krishna chaitanya chundru <krishna.chundru@oss.qualcomm.com>");
+> +MODULE_AUTHOR("Sumit Kumar <sumit.kumar@oss.qualcomm.com>");
+> +MODULE_DESCRIPTION("MHI Host Loopback Driver");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.34.1
+> 
+> 
