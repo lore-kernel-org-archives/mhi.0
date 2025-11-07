@@ -1,537 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED4C299A94;
-	Fri,  7 Nov 2025 12:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F4C329C43
+	for <mhi@lists.linux.dev>; Fri,  7 Nov 2025 14:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762518512; cv=none; b=mBmfll2/ztv1Jz4/YuykeaVfAnNMu3/JdUdgHxsq7SULW4rlnc2qBVakubS1fiCiH6znfNLJZ2oa3G0yZHpd85WkYp1A/cqQ0yyBJNHVxFrTVyavHnvMnQ/PjxAPQK8dD4QUhprP67A4n+l5lT0Gr/1LLx35395rs52NHqmc2RQ=
+	t=1762525733; cv=none; b=W6/GiQ0cMe6iftTC2aCqdBCdua2pKfQ3oeDkW/hrO1JckW2UygPAGqINMZ49YwnRbw9Qk4/uXE7L4eBA/bqjFRheyCiqUzpfQ6vFdiHaNEKM9Ydx6ZJeMS9m7MM13WRk0nhhpdWHYsMiGP5FxieI6RLHmA+vigznTCdKbsCUcQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762518512; c=relaxed/simple;
-	bh=RpU5dOA6lT1fz57rw4/Msbt9hBOChz4+TRQAuIv9XIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LEYShYoN563THD/IyjDSxvHTY9dXxc9up13imG1s39sGq76VmKMS2M0u7d9m0j/gRb7yOFfCThnAePmqZX6hmQo3WAF7c0e4YZbTwWJjw5XlnqLq6MF+fw5yAIRs+D+kOj3Onlz4N/ZUgwGgQf86y5Zjx4N5Fn4EmhNXZbMbKrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aOA2TYxz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762525733; c=relaxed/simple;
+	bh=3BhTKLrt8Wvihg8vp8choQ0z6FtpnObNcCgY0g7rt6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RaMnRtC0lNEyqOPo3on5mLy6Cwh4zbWo5VJovQ20+U1kbDCwAimKY6J1GrRy7Q/iuSaPJteGtiwlqEbFEBsfqtQmM+0omNtislbRpSD13EAvTSJlkxDE8h3BYenNi/Ik5jdmDfmCkmiuVybyOZT5kX/ARTnPmej8EIau32couto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FInEj5zA; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aOA2TYxz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CA2C4CEF5;
-	Fri,  7 Nov 2025 12:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762518511;
-	bh=RpU5dOA6lT1fz57rw4/Msbt9hBOChz4+TRQAuIv9XIE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aOA2TYxzK9VNwP9nI8Qein8VDvPuUbuKUVLGCAGganX3GqQbUEAYDRzZtwcg+V1Ay
-	 aD50Tpg/PlrdpfUGVE7dOF8zSPIq4H0qp4Lpe0uYMsZ0PfMnfrE7didWhpMnvoUEH5
-	 h/1VWFh2ONUv9hGlpZQJorwuAx8p8M4GQOoZaOYVeBLehPcNFlsQ47ngpyJJNABL17
-	 DDW5e/WHf09HvXiJcHDXipH4gZvL/nyGFsIVyQYsMHK4qIy0onBlN4Gcagnz+L5YjL
-	 MK1aQ4yxOLsE2RiLQ2D64E3UyemaoHoV73wHEXADTsk93cCvTT0Ky6mOX9SOgScTX1
-	 7xKbmUZXaihGw==
-Date: Fri, 7 Nov 2025 17:58:18 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
-	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
-	Akhil Vinod <akhil.vinod@oss.qualcomm.com>, 
-	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com
-Subject: Re: [PATCH v2 1/3] bus: mhi: host: Add loopback driver with sysfs
- interface
-Message-ID: <zkhtvquyhgvdqcft6s3jmfjh76hg62mrwn4wj4qqoecrxprq4y@w5zvgp5vbbn2>
-References: <20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com>
- <20251104-loopback_mhi-v2-1-727a3fd9aa74@oss.qualcomm.com>
- <g7yr3psfoyya76wvcgjs24xyyofgkllmdsvworjnfjgc3q3qeq@vjkxyh5oabkd>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FInEj5zA"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4711b95226dso8155625e9.0
+        for <mhi@lists.linux.dev>; Fri, 07 Nov 2025 06:28:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1762525730; x=1763130530; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tcbvvRs2xvl1u3FoZnWA9K4Q8QMEKWU1ON5YmKljc6k=;
+        b=FInEj5zAxLgFg8d/dIR6XKNLKJorSl0QpCB57cw/SwCRoe5Hd9CL3aL33uLjx19F1e
+         e1pN0JegjNjxbIGN2BkoHk4xZS91CXPYW05IlzLVvzTcE01AJcBjXgcQkXDhVwk10dXl
+         KM/5nmyLOLn38Y9e7icea53zvTn6KtkLJZkTTRq+Hpo+xJace1Id5hr5ZXRLV+0QFWJU
+         EmqGXTpEUqdBDgaIiDqIoQpC09krYQtA2wSf4yMFt0W+lGGhH37BNrbMj4bauYQseNuX
+         bnqPZpTmKGiSzRFtbietU8fLRy4gmL94t8urF6VL1XeI4kfzshV7wsJqYcB5yluNjVXL
+         S6AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762525730; x=1763130530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tcbvvRs2xvl1u3FoZnWA9K4Q8QMEKWU1ON5YmKljc6k=;
+        b=pkbiHMDxYSIo6xx4jNeTPVHo60dIhWN2+Wtkx+7iU+LHbio8V4qZFj2nlZHohoD1Iu
+         hs3AYhtJ+uqO1NM96ecJ8/J+oxspa/qiU9YcBNp7zziGyyMLOhag93fpnvQCOGy6YQUQ
+         YSIJmXrqE9YhjbFmjPfxzHsSyitrD77qUvxJSH7D1Xti6E6bltauCiqWesAXHrhiyyfo
+         Ucyx4vfysHg4zoVYy6V2AroE46OmeK3iotoREfjHxmho9jT7dzaoOpZenA8OmMivwMt2
+         szqEWDaGIfMTHYhDNo71LrQeOOsaTWNguNxOS0RFrSdgnvTvIX7jvIjk4dND/1aLbReK
+         EfrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnbxk9la03noq86KUefkFYK0IwFCdWHt5yijWwZmKNPKtC5pexLMC2ihrQ32d5u+6D1E4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDj8/TpiTOLTIk25OqC/qPhFCvV6ftApA+jAeUCK29farAcC6r
+	ZhlIzBlDHVjcVZHZoDRYxyMJMhR3Gq2ZGeNTdi1ib/HFkDAPXWaoJiiLJCxj1kZCh7M=
+X-Gm-Gg: ASbGncueL7Nmlp7zOB+d9ouja2649jPYMParIdtLmJohjxGFoVuQOeEl0okeP9VjX+0
+	ZaIgP6uZaIOlyjPaEWXpLZVAGYBvMQatEF1BCZOoAHGzi/EKYxVcUsIMuZuxLSbWdj5Tfaxk1HN
+	HYSq7dS3yuGdxJNG9h5RtP6toqiB2kFNpeOy+3Oo/m7YXGpPtNYdoegPEERvgGgX8u4E1cTPXWW
+	qiQu7O55aLOKY/LOI5itMHnQjc5kjTZyLGVg+9dGfq4tQYEqBAULqOXFzPhOirztf6iQpxSSCRC
+	ZVjIV79q788Api9pyWg4qkJPuKquMpk7IaXE5Kyk07EB69cQeMNhVRIRBET/O31pUvEdiR6DHCQ
+	/byDHOIiBm9zDZ+VTsJ2jwGBp4Kd8WjFhWO7S3ll/pUH9M1auPdGz1GGb9uk79J6feusWagsvA0
+	MsZnbINbl0t6p+LWBmitjCirqi
+X-Google-Smtp-Source: AGHT+IGSUrN/hCHTEKNrK/nAtni+bSccTeEoJLzD46C+Lw2FCkxvsZIT3Eo/AVNFZdrzTW3STsHRog==
+X-Received: by 2002:a05:600c:4fd0:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-4776bc886femr28359035e9.4.1762525729708;
+        Fri, 07 Nov 2025 06:28:49 -0800 (PST)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775cdcc552sm181970865e9.6.2025.11.07.06.28.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 06:28:49 -0800 (PST)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof Wilczynski <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] PCI: endpoint: epf-mhi: add WQ_PERCPU to alloc_workqueue users
+Date: Fri,  7 Nov 2025 15:28:35 +0100
+Message-ID: <20251107142835.237636-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <g7yr3psfoyya76wvcgjs24xyyofgkllmdsvworjnfjgc3q3qeq@vjkxyh5oabkd>
 
-On Wed, Nov 05, 2025 at 04:17:41PM -0600, Bjorn Andersson wrote:
-> On Tue, Nov 04, 2025 at 11:09:05AM +0530, Sumit Kumar wrote:
-> > Add loopback driver for MHI host controllers that provides sysfs based
->   ^--- Here would be e good place to explain why we want this driver. Per
-> https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
-> start your commit message with a description of the problem you're
-> solving.
-> 
-> > testing interface for data path validation. The driver supports the
-> > "LOOPBACK" channel and offers configurable test parameters.
-> > 
-> > Sysfs interface provides:
-> > - size: Configure TRE size
-> > - num_tre: Set number of TREs for chained transfers
-> > - start: Initiate loopback test
-> > - status: Read test results
-> 
-> The words "loopback" and "testing" gives clear indications that this
-> should live in debugfs and not sysfs.
-> 
+Currently if a user enqueues a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
+This lack of consistency cannot be addressed without refactoring the API.
 
-Though the wording gives an impression like that, this interface is for a MHI
-channel that is defined in the MHI spec, so it is perfectly fine to have it
-exposed as a sysfs interface to the users. This channel is intented to be used
-for MHI protocol testing.
+alloc_workqueue() treats all queues as per-CPU by default, while unbound
+workqueues must opt-in via WQ_UNBOUND.
 
-> Also, sysfs attribute should be documented in Documentation/ABI/testing/
-> 
+This default is suboptimal: most workloads benefit from unbound queues,
+allowing the scheduler to place worker threads where they’re needed and
+reducing noise when CPUs are isolated.
 
-Yes, this is mandatory.
+This continues the effort to refactor workqueue APIs, which began with
+the introduction of new workqueues and a new alloc_workqueue flag in:
 
-> > 
-> > Co-developed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-> > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-> > Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-> > ---
-> >  drivers/bus/mhi/host/Kconfig        |   7 +
-> >  drivers/bus/mhi/host/Makefile       |   1 +
-> >  drivers/bus/mhi/host/mhi_loopback.c | 347 ++++++++++++++++++++++++++++++++++++
+commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-Create a separate sub-directory 'clients' and move this driver there. Also,
-rename it to just 'loopback', but keep the module name as 'mhi_loopback'.
+This change adds a new WQ_PERCPU flag to explicitly request
+alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
 
-> >  3 files changed, 355 insertions(+)
-> > 
-> > diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
-> > index da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..08a39ecb47f585bf39721c101ed5e2ff44bdd5f8 100644
-> > --- a/drivers/bus/mhi/host/Kconfig
-> > +++ b/drivers/bus/mhi/host/Kconfig
-> > @@ -29,3 +29,10 @@ config MHI_BUS_PCI_GENERIC
-> >  	  This driver provides MHI PCI controller driver for devices such as
-> >  	  Qualcomm SDX55 based PCIe modems.
-> >  
-> > +config MHI_BUS_LOOPBACK
-> > +	tristate "MHI loopback driver"
+With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
+any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
+must now use WQ_PERCPU.
 
-'MHI LOOPBACK client driver'
+Once migration is complete, WQ_UNBOUND can be removed and unbound will
+become the implicit default.
 
-Use 'LOOPBACK' everywhere.
+Suggested-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > +	depends on MHI_BUS
-> > +	help
-> > +	  MHI loopback driver for data path testing. This driver
-> > +	  provides a mechanism to test MHI data transfer functionality
-> > +	  by implementing an echo service between host and endpoint.
-
-Again, this just sounds like this driver exposes a random interface for testing.
-You need to properly describe that this driver binds to the MHI LOOPBACK channel
-and offers the testing interface to the users.
-
-> > diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
-> > index 859c2f38451c669b3d3014c374b2b957c99a1cfe..e5d6dccf5a976eaeb827c47924ad0614c9958f8b 100644
-> > --- a/drivers/bus/mhi/host/Makefile
-> > +++ b/drivers/bus/mhi/host/Makefile
-> > @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
-> >  
-> >  obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
-> >  mhi_pci_generic-y += pci_generic.o
-> > +obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
-> > diff --git a/drivers/bus/mhi/host/mhi_loopback.c b/drivers/bus/mhi/host/mhi_loopback.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..980ace675718a79c97d9b2968ccef04c992a6c20
-> > --- /dev/null
-> > +++ b/drivers/bus/mhi/host/mhi_loopback.c
-> > @@ -0,0 +1,347 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> > + */
-> > +
-> > +#include <linux/mhi.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/completion.h>
-> > +#include <linux/string.h>
-> > +#include <linux/random.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/sysfs.h>
-> > +#include <linux/types.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/atomic.h>
-> > +#include <linux/cleanup.h>
-> > +#include <linux/sizes.h>
-> 
-> Keep them sorted, and make sure you need all of them.
-> 
-> > +
-> > +#define MHI_LOOPBACK_DEFAULT_TRE_SIZE   32
-> > +#define MHI_LOOPBACK_DEFAULT_NUM_TRE    1
-> > +#define MHI_LOOPBACK_TIMEOUT_MS         5000
-> > +#define MHI_LOOPBACK_MAX_TRE_SIZE       SZ_64K
-> > +
-> > +struct mhi_loopback {
-> > +	struct mhi_device *mdev;
-> > +	struct mutex lb_mutex;
-> > +	struct completion comp;
-> > +	atomic_t num_completions_received;
-> > +	char result[32];
-> > +	u32 num_tre;
-> > +	u32 size;
-> > +	bool loopback_in_progress;
-> > +};
-> > +
-> > +static ssize_t size_show(struct device *dev,
-> > +			 struct device_attribute *attr, char *buf)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-
-s/mhi_lb/loopback
-
-> > +
-> > +	return sysfs_emit(buf, "%u\n", mhi_lb->size);
-> > +}
-> > +
-> > +static ssize_t size_store(struct device *dev,
-> > +			  struct device_attribute *attr,
-> > +			  const char *buf, size_t count)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-> > +	u32 val;
-> > +
-> > +	if (kstrtou32(buf, 0, &val)) {
-> > +		dev_err(dev, "Invalid size value\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (val == 0 || val > MHI_LOOPBACK_MAX_TRE_SIZE) {
-> > +		dev_err(dev, "Size must be between 1 and %u bytes\n",
-> > +			MHI_LOOPBACK_MAX_TRE_SIZE);
-
-How the user is supposed to know the size limit if it is just hardcoded in the
-driver? You need to expose it as a RO attribute.
-
-Also, 'size' here is the TRE size, not the size of the buffer. So name it as
-such.
-
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	guard(mutex)(&mhi_lb->lb_mutex);
-> > +	if (mhi_lb->loopback_in_progress)
-> 
-> The only time loopback_in_progress is true is between the beginning and
-> end of start_store(), and that entire function is under guard(lb_mutex),
-> just as here and in num_tre_store().
-> 
-> So at all times loopback_in_progress is true, any other context will
-> block on getting the mutex, and then it will be reset to false before
-> the mutex is let go.
-> 
-> In other words, loopback_in_progress is unnecessary.
-> 
-> > +		return -EBUSY;
-> > +
-> > +	mhi_lb->size = val;
-> > +	return count;
-> > +}
-> > +static DEVICE_ATTR_RW(size);
-> > +
-> > +static ssize_t num_tre_show(struct device *dev,
-> > +			    struct device_attribute *attr, char *buf)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-> > +
-> > +	return sysfs_emit(buf, "%u\n", mhi_lb->num_tre);
-> > +}
-> > +
-> > +static ssize_t num_tre_store(struct device *dev,
-> > +			     struct device_attribute *attr,
-> > +			     const char *buf, size_t count)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-> > +	u32 val;
-> > +	int el_num;
-> > +
-> > +	if (kstrtou32(buf, 0, &val)) {
-> > +		dev_err(dev, "Invalid num_tre value\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (val == 0) {
-> > +		dev_err(dev, "Number of TREs cannot be zero\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	guard(mutex)(&mhi_lb->lb_mutex);
-> > +	if (mhi_lb->loopback_in_progress)
-> > +		return -EBUSY;
-> > +
-> > +	el_num = mhi_get_free_desc_count(mhi_lb->mdev, DMA_TO_DEVICE);
-> 
-> Aren't the descs per-channel in MHI? Given that you have a mutex around
-> start_store() is this actually a dynamic value?
-> 
-> > +	if (val > el_num) {
-> > +		dev_err(dev, "num_tre (%u) exceeds ring capacity (%d)\n", val, el_num);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	mhi_lb->num_tre = val;
-> > +	return count;
-> > +}
-> > +static DEVICE_ATTR_RW(num_tre);
-> > +
-> > +static ssize_t start_store(struct device *dev,
-> > +			   struct device_attribute *attr,
-> > +			   const char *buf, size_t count)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-> > +	void *send_buf __free(kfree) = NULL;
-> > +	void *recv_buf __free(kfree) = NULL;
-> > +	u32 total_size, tre_count, tre_size;
-> > +	int ret, i;
-> > +
-> > +	guard(mutex)(&mhi_lb->lb_mutex);
-> > +
-> > +	if (mhi_lb->loopback_in_progress)
-> > +		return -EBUSY;
-> > +
-> > +	atomic_set(&mhi_lb->num_completions_received, 0);
-> > +	mhi_lb->loopback_in_progress = true;
-> > +
-> > +	tre_size = mhi_lb->size;
-> > +	tre_count = mhi_lb->num_tre;
-> > +
-> > +	strscpy(mhi_lb->result, "Loopback started", sizeof(mhi_lb->result));
-> 
-
-Do not print these progress reports in the 'status', just print the end result.
-It can be a blocking read.
-
-> All assignments to result are static const strings being strscpy'ed into
-> the buffer, if you made result a const char * instead, you could just
-> assign the string.
-> 
-> > +
-> > +	total_size = tre_count * tre_size;
-> > +
-> > +	recv_buf = kzalloc(total_size, GFP_KERNEL);
-> > +	if (!recv_buf) {
-> > +		strscpy(mhi_lb->result, "Memory allocation failed", sizeof(mhi_lb->result));
-
-When kzalloc() fails, it will itself print the error log.
-
-> > +		mhi_lb->loopback_in_progress = false;
-> > +		return -ENOMEM;
-> 
-> You're setting loopback_in_progress to false and returning in 7
-> different places in this function. There seems to be some room for
-> improvement here.
-> 
-> That said, as I said above, I don't think your code can ever find
-> loopback_in_progress to be true...
-> 
-> > +	}
-> > +
-> > +	send_buf = kzalloc(total_size, GFP_KERNEL);
-> > +	if (!send_buf) {
-> > +		strscpy(mhi_lb->result, "Memory allocation failed", sizeof(mhi_lb->result));
-> > +		mhi_lb->loopback_in_progress = false;
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	for (i = 0; i < tre_count; i++) {
-> > +		ret = mhi_queue_buf(mhi_lb->mdev, DMA_FROM_DEVICE, recv_buf + (i * tre_size),
-> > +				    tre_size, MHI_EOT);
-> > +		if (ret) {
-> > +			dev_err(dev, "Unable to queue read TRE %d: %d\n", i, ret);
-> > +			strscpy(mhi_lb->result, "Queue tre failed", sizeof(mhi_lb->result));
-> > +			mhi_lb->loopback_in_progress = false;
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> > +	get_random_bytes(send_buf, total_size);
-> > +
-> > +	reinit_completion(&mhi_lb->comp);
-> > +
-> > +	for (i = 0; i < tre_count - 1; i++) {
-> > +		ret = mhi_queue_buf(mhi_lb->mdev, DMA_TO_DEVICE, send_buf + (i * tre_size),
-> > +				    tre_size, MHI_CHAIN);
-> > +		if (ret) {
-> > +			dev_err(dev, "Unable to queue send TRE %d (chained): %d\n", i, ret);
-> > +			strscpy(mhi_lb->result, "Queue send failed", sizeof(mhi_lb->result));
-> > +			mhi_lb->loopback_in_progress = false;
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> > +	ret = mhi_queue_buf(mhi_lb->mdev, DMA_TO_DEVICE, send_buf + (i * tre_size),
-> > +			    tre_size, MHI_EOT);
-> > +	if (ret) {
-> > +		dev_err(dev, "Unable to queue final TRE: %d\n", ret);
-> > +		strscpy(mhi_lb->result, "Queue final tre failed", sizeof(mhi_lb->result));
-> > +		mhi_lb->loopback_in_progress = false;
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (!wait_for_completion_timeout(&mhi_lb->comp,
-> > +					 msecs_to_jiffies(MHI_LOOPBACK_TIMEOUT_MS))) {
-> > +		strscpy(mhi_lb->result, "Loopback timeout", sizeof(mhi_lb->result));
-> > +		dev_err(dev, "Loopback test timed out\n");
-> > +		mhi_lb->loopback_in_progress = false;
-> > +		return -ETIMEDOUT;
-> > +	}
-> > +
-> > +	ret = memcmp(send_buf, recv_buf, total_size);
-> > +	if (!ret) {
-> > +		strscpy(mhi_lb->result, "Loopback successful", sizeof(mhi_lb->result));
-> > +		dev_info(dev, "Loopback test passed\n");
-> 
-> Why both print the test status and log it to the result? Less is more...
-> 
-
-Yes, I do find it quite annoying to see both getting passed on. Use dev_info()
-to print the detailed error logs and just return the 'pass' or 'fail' status to
-the user via the buffer.
-
-> > +	} else {
-> > +		strscpy(mhi_lb->result, "Loopback data mismatch", sizeof(mhi_lb->result));
-> > +		dev_err(dev, "Loopback test failed\n");
-> > +		ret = -EIO;
-> > +	}
-> > +
-> > +	mhi_lb->loopback_in_progress = false;
-> > +	return ret;
-> > +}
-> > +
-> > +static DEVICE_ATTR_WO(start);
-> > +
-> > +static ssize_t status_show(struct device *dev,
-> > +			   struct device_attribute *attr, char *buf)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(dev);
-> > +
-> > +	return sysfs_emit(buf, "%s\n", mhi_lb->result);
-
-Don't you need to have some lock or sync here?
-
-> > +}
-> > +static DEVICE_ATTR_RO(status);
-> > +
-> > +static void mhi_loopback_dl_callback(struct mhi_device *mhi_dev,
-> > +				     struct mhi_result *mhi_res)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(&mhi_dev->dev);
-> > +
-> > +	if (!mhi_res->transaction_status) {
-> > +		if (atomic_inc_return(&mhi_lb->num_completions_received) >= mhi_lb->num_tre) {
-> > +			atomic_set(&mhi_lb->num_completions_received, 0);
-> > +			complete(&mhi_lb->comp);
-> > +		}
-> > +	} else {
-> > +		dev_err(&mhi_dev->dev, "DL callback error: status %d\n",
-> > +			mhi_res->transaction_status);
-> > +		atomic_set(&mhi_lb->num_completions_received, 0);
-> > +		complete(&mhi_lb->comp);
-> > +	}
-> > +}
-> > +
-> > +static void mhi_loopback_ul_callback(struct mhi_device *mhi_dev,
-> > +				     struct mhi_result *mhi_res)
-> > +{
-> > +}
-> > +
-> > +static int mhi_loopback_probe(struct mhi_device *mhi_dev,
-> > +			      const struct mhi_device_id *id)
-> > +{
-> > +	struct mhi_loopback *mhi_lb;
-> > +	int rc;
-> > +
-> > +	mhi_lb = devm_kzalloc(&mhi_dev->dev, sizeof(*mhi_lb), GFP_KERNEL);
-> > +	if (!mhi_lb)
-> > +		return -ENOMEM;
-> > +
-> > +	mhi_lb->mdev = mhi_dev;
-> > +
-> > +	dev_set_drvdata(&mhi_dev->dev, mhi_lb);
-> > +
-> > +	mhi_lb->size = MHI_LOOPBACK_DEFAULT_TRE_SIZE;
-> > +	mhi_lb->num_tre = MHI_LOOPBACK_DEFAULT_NUM_TRE;
-> > +	mhi_lb->loopback_in_progress = false;
-> 
-> kzalloc() already did that for you.
-> 
-> > +
-> > +	mutex_init(&mhi_lb->lb_mutex);
-> > +	strscpy(mhi_lb->result, "Loopback not started", sizeof(mhi_lb->result));
-> > +
-> > +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
-> > +	if (rc) {
-> > +		dev_err(&mhi_dev->dev, "failed to create size sysfs file\n");
-> > +		goto out;
-> > +	}
-> > +
-> > +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
-> > +	if (rc) {
-> > +		dev_err(&mhi_dev->dev, "failed to create num_tre sysfs file\n");
-> > +		goto del_size_sysfs;
-> 
-> This is ugly, devm_device_add_group() seems more appropriate. Then
-> again, I don't think this belongs in sysfs in the first place.
-> 
-> Regards,
-> Bjorn
-> 
-> > +	}
-> > +
-> > +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
-> > +	if (rc) {
-> > +		dev_err(&mhi_dev->dev, "failed to create start sysfs file\n");
-> > +		goto del_num_tre_sysfs;
-> > +	}
-> > +
-> > +	rc = sysfs_create_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
-> > +	if (rc) {
-> > +		dev_err(&mhi_dev->dev, "failed to create status sysfs file\n");
-> > +		goto del_start_sysfs;
-> > +	}
-> > +
-> > +	rc = mhi_prepare_for_transfer(mhi_lb->mdev);
-> > +	if (rc) {
-> > +		dev_err(&mhi_dev->dev, "failed to prepare for transfers\n");
-> > +		goto del_status_sysfs;
-> > +	}
-> > +
-> > +	init_completion(&mhi_lb->comp);
-> > +
-> > +	return 0;
-> > +
-> > +del_status_sysfs:
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
-> > +del_start_sysfs:
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
-> > +del_num_tre_sysfs:
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
-> > +del_size_sysfs:
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
-> > +out:
-> > +	return rc;
-> > +}
-> > +
-> > +static void mhi_loopback_remove(struct mhi_device *mhi_dev)
-> > +{
-> > +	struct mhi_loopback *mhi_lb = dev_get_drvdata(&mhi_dev->dev);
-> > +
-> > +	if (mhi_lb)
-
-Does this check make sense?
-
-> > +		complete(&mhi_lb->comp);
-> > +
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_status.attr);
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_start.attr);
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_num_tre.attr);
-> > +	sysfs_remove_file(&mhi_dev->dev.kobj, &dev_attr_size.attr);
-
-Move to attribute group as Bjorn suggested.
-
-- Mani
-
+diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+index 6643a88c7a0c..27de533f0571 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
++++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+@@ -686,7 +686,7 @@ static int pci_epf_mhi_dma_init(struct pci_epf_mhi *epf_mhi)
+ 		goto err_release_tx;
+ 	}
+ 
+-	epf_mhi->dma_wq = alloc_workqueue("pci_epf_mhi_dma_wq", 0, 0);
++	epf_mhi->dma_wq = alloc_workqueue("pci_epf_mhi_dma_wq", WQ_PERCPU, 0);
+ 	if (!epf_mhi->dma_wq) {
+ 		ret = -ENOMEM;
+ 		goto err_release_rx;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.51.1
+
