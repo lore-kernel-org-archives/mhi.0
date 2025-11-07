@@ -1,135 +1,154 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC73A34F48A
-	for <mhi@lists.linux.dev>; Thu,  6 Nov 2025 16:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BCC310644;
+	Fri,  7 Nov 2025 08:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762446282; cv=none; b=nPmg0kwLoHpZib2ZPbTslY1/ad1Gu4Vo0WTu0vJx7e+sODV678891XZkYi5yk1Q8zXql0ikxLtuAD4CSIiFkp60oBTEqTGM98D53XCOXebvFnoWhyvpLGdVqjjyDXublxCA/YstWe9g9btAfYbsjr9N8xa70veK7CGwQK/hePPo=
+	t=1762504237; cv=none; b=pQlbnu2GnndzAFT1c9W9JjBLB23jyLDzG3q7k7+m/8OyOYHBrvqZzSfQppeT3zMQAolzzwlpPKE+Q0BflGNLKl5iHoCbemV85z4zbDPYa8HVOeLagWm0PBlytYS3O8pdjjzx3C4O0b26LFbhrxXCPlvNxTLNa8qoxwBYZVAm/Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762446282; c=relaxed/simple;
-	bh=xADnaFf2inaVuBhL68l73ZAxXKGsKVM/VjEgoo9Ej7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LZ1VlXJSKGPrgrh4APlocP5bdcX6a6ttUaOt9jFgT6PiINR8MoMIH68E7zZcWGcoPu/L1Ux2yW7ePmIp7fkQx89x9Y7NsOHvUDyZThvzZNUH5LSmDLgRZ7HY1WzOiTeHsYJNTKWm1200F3GBT7E3MADSt+BEzsbWeRyDZbkGGzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Fq5/65zF; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762504237; c=relaxed/simple;
+	bh=tPXVlbPjql/E3f3Mw6y71YqYcOs+k/Mtze3uI5jGOqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KCkerFuFFgE63+7HhA8Md7e8GVkVDk5gFDyY2yoT/hL6Bpf6aqLqdjpGjQvYQ9tdfVgjFdTw8EPbKGocN5lzGwEXFi1cAO85s3A+TDhIhLcaOFAy5iLJYO3rQyRIML9sen3jLqcPXcWMVdmjGJNvnB5dOpFyV6E/oOIhBrgzm0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+MzS06z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Fq5/65zF"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477563bcbbcso5996315e9.0
-        for <mhi@lists.linux.dev>; Thu, 06 Nov 2025 08:24:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762446279; x=1763051079; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v4fzZKX6HwGk5jmCYacn5w6aEzndQSk37nIk3p7Gbek=;
-        b=Fq5/65zFaUIkbvbMTOSJSq9jhTaGqB3Pee/HsAyVRrBzlnQvnDjdvUC9boT5qJKEBO
-         VNnygp6J+RFiFFDuZ5IPEmBG7jZ3rOkjIipAv63wP7DjZkddWxdAFrXYs2Uik1Vv/Xq6
-         wIII3rkNH+lA8S80kgSPycB0kprMzMQYRc7NeMtA7G1zTYrMpVMe7a++beQcxqwYV0xf
-         GjwD5zC8Um322nUBafvEjUuWJNLbxmVkSOsOMoMK+2YSkPHUrqMsVizdh99YCkvaSBp6
-         SUTYwcgxJ5hhQrBgG8xZWFVfSrtdYqd57QHupSuvQRyI1US4t9SsSgyJdA5ZxMRNn6gx
-         aE7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762446279; x=1763051079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v4fzZKX6HwGk5jmCYacn5w6aEzndQSk37nIk3p7Gbek=;
-        b=am+NZwT0LAI0BiiU4gzQbmHfH2NYQKjSf5QfgsSsboxM8ez3OyelhLQ/685i9PEdfN
-         zcQZdP0+gefC5iCYNDkTDpTZ1MdZ2zobjj1nwecTkX9Y8AoVRC1rYbmTykslZEKlhqWM
-         pjDUdMcaCAxslC3+D2g+y8+JUS0q2/qsCstQ/r9Q5UQmJxWd3y8atVEzKAyDF8fsOJmL
-         KvZCOjvwpS0n5UHBPfhhlQL8yGZb1aHWOFIpyfovhdI7OgA+xdwAUkRFi7xcySdzKkPC
-         LxAEOdBabw2qjHIA52PokOeYzy+tAWccp3HJ3YtG8bYyWLa0naJIdggWVkkZsYyRg+b4
-         cG5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXXpLkDlmR9yo5AHMF0uj7Jm9z+lOr6FQ/t+9eWRkxXrThj/nT7c5VR0Ok09ZMYV1hIspo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/mYga1dWmb0Y8vWhlnfQ/s+G1Jycb6+7xq3eRe7WDr8xaqx9u
-	E7ca8qBcguq/MxsMmVj5LFp8EIMcOG322BEi0hgrCm+kvz4UON0x+C67a3va4Aw2m00=
-X-Gm-Gg: ASbGncusKoRsG+v6GmDG2MKzmhtuaOwMbHCkbwMp5zsJlKEC2CGmiUxOWKeHsFEelDj
-	18VJKj94DU/HAZ4MPbDsMpj70bn9KnV48P9WKJRloZetddZiz9ytGjH67/dq3vvnEXOb40D6Vd3
-	X91SYcII/gL5DaBsJyJ1H0hO9DwNYsjvKYBmtQuSZzblTXW9s0BKyLpFnHIBjM1Sft4H+38B9UQ
-	5kNvKKC3P2jUAIjy2oyv6li+73g98VLh36k+2lqhpb2G1S5WTwG63eA+aX+P3phjN89UNOq7wAB
-	D+n+L4tS15qvmEcLXog7boPdGcliq1+x/5UkOF2RLDewuGR7pPuT9QHBbE/j/da7AC+N8DD/6Uz
-	5o9rOj6m3BZmoyRRkrG/k00AcNkLkar6XgEIwbEnh/QKoNlr7jcCPE+SIV/Xyhlzyz1k+B46G1W
-	fkb7WyPgva/Q8ETmMx8Dtt1YY=
-X-Google-Smtp-Source: AGHT+IGtFn/HCR7L59DoJ3wukB4PCiJ3rzUEs+p33H3lMvfaNMCUEYWulil42PY5+vCfIaYpcI6mgQ==
-X-Received: by 2002:a05:600c:1f85:b0:46e:3709:d88a with SMTP id 5b1f17b1804b1-4775ce15bebmr58402885e9.33.1762446279074;
-        Thu, 06 Nov 2025 08:24:39 -0800 (PST)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477640fb723sm19305615e9.10.2025.11.06.08.24.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 08:24:38 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+MzS06z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC3EC4CEF5;
+	Fri,  7 Nov 2025 08:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762504236;
+	bh=tPXVlbPjql/E3f3Mw6y71YqYcOs+k/Mtze3uI5jGOqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S+MzS06zvhof/0yIGQy/HwPmBxNjrRjmC789E6An70+4aE/67MMjCfAVd2Qqqu0Sx
+	 g5SC+dv3UedbRrB+zDKd3Nb8FgZ0tEvGoHBwNIXQ7envKZ/6erlhPY8aMS3MWnG28e
+	 e1PMbRvoB6kZoLf8kDC82sxP8VVGL2faFbmK5Q0/DiszN6/DWbiD4wQeVcgL4roGT2
+	 3A2xUGP9jx9MBZg3N8s17iusVGfMzStMIq1ydfWKx3eB88pWTOROreqebduJX78kAR
+	 BfU3OMCkFDuMVXxstDaEF09P9P0FK+1IyAQRUczULElAgJ0J4BSOdmD2AYpSIC/iET
+	 sOjCN6j16GpGA==
+Date: Fri, 7 Nov 2025 08:30:32 +0000
+From: Simon Horman <horms@kernel.org>
+To: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH] bus: mhi: ep: add WQ_PERCPU to alloc_workqueue users
-Date: Thu,  6 Nov 2025 17:24:30 +0100
-Message-ID: <20251106162430.328701-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.1
+Subject: Re: [PATCH v5 1/3] net: mhi : Add support to enable ethernet
+ interface
+Message-ID: <aQ2uKPThPbTFhwKq@horms.kernel.org>
+References: <20251106-vdev_next-20251106_eth-v5-0-bbc0f7ff3a68@quicinc.com>
+ <20251106-vdev_next-20251106_eth-v5-1-bbc0f7ff3a68@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106-vdev_next-20251106_eth-v5-1-bbc0f7ff3a68@quicinc.com>
 
-Currently if a user enqueue a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
-This lack of consistency cannot be addressed without refactoring the API.
+On Thu, Nov 06, 2025 at 06:58:08PM +0530, Vivek Pernamitta wrote:
+> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+> 
+> Currently, we only have support for the NET driver. This update allows a
+> new client to be configured as an Ethernet type over MHI by setting
+> "mhi_device_info.ethernet_if = true". A new interface for Ethernet will
+> be created with eth%d.
+> 
+> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 
-alloc_workqueue() treats all queues as per-CPU by default, while unbound
-workqueues must opt-in via WQ_UNBOUND.
+...
 
-This default is suboptimal: most workloads benefit from unbound queues,
-allowing the scheduler to place worker threads where they’re needed and
-reducing noise when CPUs are isolated.
+> @@ -119,11 +122,37 @@ static void mhi_ndo_get_stats64(struct net_device *ndev,
+>  	} while (u64_stats_fetch_retry(&mhi_netdev->stats.tx_syncp, start));
+>  }
+>  
+> +static int mhi_mac_address(struct net_device *dev, void *p)
+> +{
+> +	int ret;
+> +
+> +	if (dev->type == ARPHRD_ETHER) {
+> +		ret = eth_mac_addr(dev, p);
+> +	return ret;
 
-This continues the effort to refactor workqueue APIs, which began with
-the introduction of new workqueues and a new alloc_workqueue flag in:
+nit: the indentation for the line above seems incorrect.
 
-commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+> +	}
 
-This change adds a new WQ_PERCPU flag to explicitly request
-alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
+But I wonder if we can simplify this slightly, like this:
 
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU.
+	if (dev->type == ARPHRD_ETHER)
+		return eth_mac_addr(dev, p);
 
-Once migration is complete, WQ_UNBOUND can be removed and unbound will
-become the implicit default.
+Which would allow ret to be entirely removed from this function.
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/bus/mhi/ep/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +	return 0;
+> +}
+> +
+> +static int mhi_validate_address(struct net_device *dev)
+> +{
+> +	int ret;
+> +
+> +	if (dev->type == ARPHRD_ETHER) {
+> +		ret = eth_validate_addr(dev);
+> +		return ret;
+> +	}
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index cdea24e92919..25dc5eec7dc4 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1494,7 +1494,7 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 	INIT_WORK(&mhi_cntrl->cmd_ring_work, mhi_ep_cmd_ring_worker);
- 	INIT_WORK(&mhi_cntrl->ch_ring_work, mhi_ep_ch_ring_worker);
- 
--	mhi_cntrl->wq = alloc_workqueue("mhi_ep_wq", 0, 0);
-+	mhi_cntrl->wq = alloc_workqueue("mhi_ep_wq", WQ_PERCPU, 0);
- 	if (!mhi_cntrl->wq) {
- 		ret = -ENOMEM;
- 		goto err_destroy_ring_item_cache;
+Likewise here.
+
+> +
+> +	return 0;
+> +}
+
+...
+
+> @@ -140,6 +169,14 @@ static void mhi_net_setup(struct net_device *ndev)
+>  	ndev->tx_queue_len = 1000;
+>  }
+>  
+> +static void mhi_ethernet_setup(struct net_device *ndev)
+> +{
+> +	ndev->netdev_ops = &mhi_netdev_ops;
+> +	ether_setup(ndev);
+> +	ndev->min_mtu = ETH_MIN_MTU;
+
+nit: The configuration on the line above is included in ether_setup.
+
+> +	ndev->max_mtu = ETH_MAX_MTU;
+> +}
+> +
+>  static struct sk_buff *mhi_net_skb_agg(struct mhi_net_dev *mhi_netdev,
+>  				       struct sk_buff *skb)
+>  {
+
+...
+
+> @@ -380,10 +431,17 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
+>  
+>  static const struct mhi_device_info mhi_hwip0 = {
+>  	.netname = "mhi_hwip%d",
+> +	.ethernet_if = false,
+>  };
+>  
+>  static const struct mhi_device_info mhi_swip0 = {
+>  	.netname = "mhi_swip%d",
+> +	.ethernet_if = false,
+> +};
+> +
+> +static const struct mhi_device_info mhi_eth0 = {
+> +	.netname = "eth%d",
+> +	.ethernet_if = true,
+>  };
+
+W=1 builds warn that mhi_eth0 is unused.
+I think this can be addressed by squashing patches 1/2 and 2/2.
+
+...
+
 -- 
-2.51.1
-
+pw-bot: changes-requested
