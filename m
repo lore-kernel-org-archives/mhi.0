@@ -1,67 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2686255E43;
-	Sun,  9 Nov 2025 22:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA2D14A4CC;
+	Mon, 10 Nov 2025 03:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762728058; cv=none; b=LQMcSJSx2x7DygDo1hw4z67X5U+qW97IxSE7hGOep/zYr7e2fKPR04R8LL/HTzWNeZDWiq4yw6tsYha1Wvxu6NrxC2+3Geza7qM+reTzrIUGg6g5gn5ZsggIkS3IyPB+YyovWkn+5RPJZHPMySnYjLq3g6tYxttf03qCAF+C1UA=
+	t=1762746983; cv=none; b=XDTkGYLeT7GbTa8Pdpc+dU+3dVc9CcTmd9OrANhC3dWBD8BUGn2aV+f09A/61pSVlz/zZGbGkfnb+bDk187zF8eHdYxQqCslo85cHNc42SaQGx1VkE71VmTmgqwIT/EsSghXC7F+RcYHrDMu/UXIaGvEuCMqbJYFtWCoAFN4Yc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762728058; c=relaxed/simple;
-	bh=cMmPa9Fxj7ZO+ut5H2ulYJ53jkvVxvjyBkouir73++0=;
+	s=arc-20240116; t=1762746983; c=relaxed/simple;
+	bh=Ko6UTuObw8qUA0cDGOYIoZibQbucSDCxolu3fam2u+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YCawxlEKfcDb5tbT7T6E3+ljUYDXnHWr7lTXz5YmPDYh7Rq0EB76G1YX1lESXWpi6tYr10w3jHzCSDsZauDz/aVYYnq0XzJpmfdKoy+XfWXBPVzQLZmuH9jO8QcqDW1zaU/rbFlJAq95S1oiOF186T8AlUZbjvOyPbafjHCowqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmEnJk44; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SnVjOYSuCa60zTfNyrL8s7rPY8mvNH5vf4ojUsbZ/x9g0IuYRJ0ydNslDOyQnXAOdL88IotPLDayyRJ8sfu/If0YYDxMmRj5HlvPGlXyel2fYmJ7uvq5kYvbkcQrjJAgspsq6y2Fdqh4NKv2lWFRT05jfY1mmYpDgKe4ueyNIg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CmlwjeyH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmEnJk44"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762728056; x=1794264056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cMmPa9Fxj7ZO+ut5H2ulYJ53jkvVxvjyBkouir73++0=;
-  b=fmEnJk44m/w7AIt6znVHfq3kAFwBFtHMpmtZHnBqP2nTIJwRYkkDxZij
-   msY+bTgcjCYnolN1R7L5L/EAD+IiDThYyYgHchX93tSw01Ax3wJuAw6fx
-   gKYbqgFLnQmaNVdKlApAiWitrK1IGcNiB0WSL9edDE12jQSflazVjKSFl
-   w4Jo0ymiAufFpK3hzwEBZUP+yFKq8sF35AaiixlWSLUNWDmi73gH1Vl6x
-   HAocBcQh4w497oEoQ4vsbOe+AR92LQEWdwtV9FymAI/VTkWnEQNMqRoDy
-   KdrzaCUVIqvBRbEbGkk5fpyFt9qMdp4GZjtkbvHc0pl0wsyoMGSaH+06H
-   A==;
-X-CSE-ConnectionGUID: jv5LUCHFSQqvWhGdhVbNgA==
-X-CSE-MsgGUID: 2zOuqRyYS26bGsRCDB5ZRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64665588"
-X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="64665588"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 14:40:56 -0800
-X-CSE-ConnectionGUID: xAz8T/LTTc2AJbg4gm+ITg==
-X-CSE-MsgGUID: lWAqsRqVTdurGKj8c/WK7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="193540812"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Nov 2025 14:40:53 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vIE5b-0002Sl-1r;
-	Sun, 09 Nov 2025 22:40:51 +0000
-Date: Mon, 10 Nov 2025 06:40:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
-	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
-	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Subject: Re: [PATCH v2 3/3] bus: mhi: ep: Add loopback driver for data path
- testing
-Message-ID: <202511100649.KfikwcaY-lkp@intel.com>
-References: <20251104-loopback_mhi-v2-3-727a3fd9aa74@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CmlwjeyH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E48C113D0;
+	Mon, 10 Nov 2025 03:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762746982;
+	bh=Ko6UTuObw8qUA0cDGOYIoZibQbucSDCxolu3fam2u+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CmlwjeyHn/Ccc3vEKx9dqE3NRvkrqpyf6RN5WOhVI/tO2wQmiBTQ7+Ny+y/30KlNA
+	 GAJ++XWS/CnyrMFeKINkfHU77/EhTv2stVsNumUZQkuBp+C5OqlLU6CZGD0fNuUwpJ
+	 7IYf96uXKcRiNUVeWInLeiWD6PA8j3JFWrf+hPqcq+ht9Cbw1wDjd0bdY5yNn5T/y/
+	 EH/G/goa1PdbMTdI13/ILx8463cg6beXJ3vkP0YC64vFaQ98Df8+YYWF4drGo4HuY2
+	 uANpXu8FQ8lsbSS33BeXnf4IHNizVi3PID+PEHq5T0/Tb2ABvA/se6/4dOwoLkuVMI
+	 yPzuOqdWr3TsQ==
+Date: Sun, 9 Nov 2025 22:00:26 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Sumit Kumar <sumit.kumar@oss.qualcomm.com>, 
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, Akhil Vinod <akhil.vinod@oss.qualcomm.com>, 
+	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com
+Subject: Re: [PATCH v2 1/3] bus: mhi: host: Add loopback driver with sysfs
+ interface
+Message-ID: <5pfglosaovwja7lgxmjc56jieo6whcugnmvh6krydzfpdynmqe@qfswxlfuvw4n>
+References: <20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com>
+ <20251104-loopback_mhi-v2-1-727a3fd9aa74@oss.qualcomm.com>
+ <g7yr3psfoyya76wvcgjs24xyyofgkllmdsvworjnfjgc3q3qeq@vjkxyh5oabkd>
+ <zkhtvquyhgvdqcft6s3jmfjh76hg62mrwn4wj4qqoecrxprq4y@w5zvgp5vbbn2>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -70,80 +48,59 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-loopback_mhi-v2-3-727a3fd9aa74@oss.qualcomm.com>
+In-Reply-To: <zkhtvquyhgvdqcft6s3jmfjh76hg62mrwn4wj4qqoecrxprq4y@w5zvgp5vbbn2>
 
-Hi Sumit,
+On Fri, Nov 07, 2025 at 05:58:18PM +0530, Manivannan Sadhasivam wrote:
+> On Wed, Nov 05, 2025 at 04:17:41PM -0600, Bjorn Andersson wrote:
+> > On Tue, Nov 04, 2025 at 11:09:05AM +0530, Sumit Kumar wrote:
+> > > Add loopback driver for MHI host controllers that provides sysfs based
+> >   ^--- Here would be e good place to explain why we want this driver. Per
+> > https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+> > start your commit message with a description of the problem you're
+> > solving.
+> > 
+> > > testing interface for data path validation. The driver supports the
+> > > "LOOPBACK" channel and offers configurable test parameters.
+> > > 
+> > > Sysfs interface provides:
+> > > - size: Configure TRE size
+> > > - num_tre: Set number of TREs for chained transfers
+> > > - start: Initiate loopback test
+> > > - status: Read test results
+> > 
+> > The words "loopback" and "testing" gives clear indications that this
+> > should live in debugfs and not sysfs.
+> > 
+> 
+> Though the wording gives an impression like that, this interface is for a MHI
+> channel that is defined in the MHI spec, so it is perfectly fine to have it
+> exposed as a sysfs interface to the users. This channel is intented to be used
+> for MHI protocol testing.
+> 
 
-kernel test robot noticed the following build warnings:
+The fact that the protocol is defined in the specification doesn't imply
+that it's intended to be used by the typical user.
 
-[auto build test WARNING on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
+Also, the specification defines the LOOPBACK channel, it doesn't define
+an interface where the user can request that a certain number of packets
+of random data is sent and if those come back we can learn about that
+from a "results" file. Downstream has a completely different
+implementation of the same specification.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20251104-174320
-base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
-patch link:    https://lore.kernel.org/r/20251104-loopback_mhi-v2-3-727a3fd9aa74%40oss.qualcomm.com
-patch subject: [PATCH v2 3/3] bus: mhi: ep: Add loopback driver for data path testing
-config: csky-randconfig-r061-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100649.KfikwcaY-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
+I could imagine that at some point one would want extend this test
+interface by altering the behavior of the packet generator, inject
+timestamps etc - to measure raw throughput, latency, jitter etc. Good
+reasons for not turning this into an ABI.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511100649.KfikwcaY-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/bus/mhi/ep/mhi_ep_loopback.c:80:2-7: WARNING: NULL check before some freeing functions is not needed.
---
->> drivers/bus/mhi/ep/mhi_ep_loopback.c:46:8-15: WARNING opportunity for kmemdup
+Thinking more about the use case, I also presume most MHI devices has a
+LOOPBACK channel, so every user is going to have this .ko auto-loaded,
+just so that they can poke sysfs to send some random data... So perhaps
+we should omit MODULE_DEVICE_TABLE()?
 
-vim +80 drivers/bus/mhi/ep/mhi_ep_loopback.c
 
-    37	
-    38	static void mhi_ep_loopback_ul_callback(struct mhi_ep_device *mhi_dev,
-    39						struct mhi_result *mhi_res)
-    40	{
-    41		struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
-    42		struct mhi_ep_loopback_work *mhi_ep_lb_work;
-    43		void *buf;
-    44	
-    45		if (!(mhi_res->transaction_status)) {
-  > 46			buf = kmalloc(mhi_res->bytes_xferd, GFP_KERNEL);
-    47			if (!buf) {
-    48				dev_err(&mhi_dev->dev, "Failed to allocate buffer\n");
-    49				return;
-    50			}
-    51	
-    52			memcpy(buf, mhi_res->buf_addr, mhi_res->bytes_xferd);
-    53	
-    54			mhi_ep_lb_work = kmalloc(sizeof(*mhi_ep_lb_work), GFP_KERNEL);
-    55			if (!mhi_ep_lb_work) {
-    56				dev_err(&mhi_dev->dev, "Unable to allocate the work structure\n");
-    57				kfree(buf);
-    58				return;
-    59			}
-    60	
-    61			INIT_WORK(&mhi_ep_lb_work->work, mhi_ep_loopback_work_handler);
-    62			mhi_ep_lb_work->mdev = mhi_dev;
-    63			mhi_ep_lb_work->buf = buf;
-    64			mhi_ep_lb_work->len = mhi_res->bytes_xferd;
-    65	
-    66			queue_work(mhi_ep_lb->loopback_wq, &mhi_ep_lb_work->work);
-    67		}
-    68	}
-    69	
-    70	static void mhi_ep_loopback_dl_callback(struct mhi_ep_device *mhi_dev,
-    71						struct mhi_result *mhi_res)
-    72	{
-    73		void *buf;
-    74	
-    75		if (mhi_res->transaction_status)
-    76			return;
-    77	
-    78		buf = mhi_res->buf_addr;
-    79		if (buf)
-  > 80			kfree(buf);
-    81	}
-    82	
+That said, these are merely my humble opinions. If you think it's
+broadly useful in this form, please proceed.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Bjorn
