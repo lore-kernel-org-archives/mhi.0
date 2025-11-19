@@ -1,135 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D125280CE0
-	for <mhi@lists.linux.dev>; Sat, 15 Nov 2025 09:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936C2247280
+	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 03:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763200248; cv=none; b=BJog1b1DeCNBWxEoVcRdZy3yhUJxgSSfrVYoaxEhtC3UTR4nBRVUsxWRKupXkxJLyx7afhuYG7g1ZWEa1hvniXYWuu+ALKVmSDgPsD+oQZcsO1melHgLERjNYjejeS4S7Z7E8iwMWaZALRujzDQq0yguGg2JwLAUZM+JogvgwX4=
+	t=1763522619; cv=none; b=A+amSmOXJXAWKcJFFTkLhO0K/xO14XwffuvRee7CsWuERjpZVI9TPa5BSlr93RWjDBq0fkK7KXUremjHHFTSssWViTFP/HjTEyE1Wov4z+dcqyqAAjz1Hr3n0VGiV6pVip0++mhBl9JhhDdpLJzRtVM96cST8OOFHb0FALn56LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763200248; c=relaxed/simple;
-	bh=OVQgIr4muZS3gLHHBuR+KeKOVzC+oh+WcnkHRcQVCoY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DUgTeaE88o0V9ENw4Cfp2J4OFjVmpkCQJY8AR1+kIR8suf0x3LkiXgbqWAI4P1XTdfBwgwLzyFeVAJhANINFXeazmbnkzIE6JDsevyC63yIX2LSwLXei+HQMADrOcImWA6d+n+DStCSx7GDxmJpGeJuVi+AdYQI3eRQsuf6rKOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUYTSiz2; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763522619; c=relaxed/simple;
+	bh=ZCpiVAVxhb1YiBPCTVKjzdj9RiGRlirVoDs1YOS/wpY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iYJmnz2R+lBF5LaIf6VIh38Xa7exr50x37KfEEn4SYxjfmv9PX3abZtaSsFYTVO+4sp4YnCmwrstqRRAXn3EasGRs10rVVbImzOoYRwU9TcQKqXO05LijrPOkUjD7cvHMaTc7ZUcdaxEHmqtUjIjFyf1U1k7SgXFWhIZshymbxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oSRnvduV; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUYTSiz2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763200247; x=1794736247;
-  h=date:from:to:cc:subject:message-id;
-  bh=OVQgIr4muZS3gLHHBuR+KeKOVzC+oh+WcnkHRcQVCoY=;
-  b=gUYTSiz2RbsNwOluPQ8dmY+6jL3wm7Spc17aNzzFSNFkyIJYbaUHe0Ca
-   qXtnl+8liq84LefY8nT31NptC0F3AlFVSyNQRZbHWcQRbNJCR+2TPaShh
-   s5JBk7NmY5KIqnxJTpSL5cT8htWsG2txIh8ehIOnfzjucmaGlbzz0zHGB
-   m8s9Agt10/76yi7X7CBp96Yq4yjkcwBWLjEDS6SDST6jEHlAhAAM1I7jQ
-   tHdKgw5zZ6iW9cPWD/w1q9F8zMOj6QsLORABoCuwvfvrEOBwmJjwom8gf
-   fywDZelb3ICTAZeDEpkDXiegMo2Q7vPEwN6wNr/t1pA+8pqDAOar4O7zT
-   A==;
-X-CSE-ConnectionGUID: Cy1/325ARnuBGrEqvcgwFw==
-X-CSE-MsgGUID: urk38nkaQMGnNUFgz3HmsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65313921"
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="65313921"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 01:50:47 -0800
-X-CSE-ConnectionGUID: RFVzyHSxSGiKMXBFpOTAtg==
-X-CSE-MsgGUID: pEwMI2+OQC6V60a+pL+BTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="190782769"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Nov 2025 01:50:46 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vKCvb-0007rT-1F;
-	Sat, 15 Nov 2025 09:50:43 +0000
-Date: Sat, 15 Nov 2025 17:50:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 9e24bdfecdb071a3a42fb74be1ab503c958e2740
-Message-ID: <202511151715.p0oQpJlL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oSRnvduV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=WT
+	32kMdgOLoeNtu5hoZ13GATzOZ7OID01JPDzDmZTZk=; b=oSRnvduVMZw15vEV4N
+	PskiAwFlE6nrTG1nuu3Klms89L1Xwhs8adbSjKQsWziajzOurkvhYMlotetdZlZx
+	VTF0bLjYXON4jaWJ+XkAcbBwc8+UTKnCjElAIgjURTCzDvxw0SWiWOp5qM7dbIAK
+	3+ttvL337KaFwYpip6tB5kxRk=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgAH7AkjOB1pu1UWEg--.29172S2;
+	Wed, 19 Nov 2025 11:23:16 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
+Date: Wed, 19 Nov 2025 11:23:13 +0800
+Message-Id: <20251119032313.6119-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgAH7AkjOB1pu1UWEg--.29172S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFyDXrykZw45ZFW8Kw47twb_yoW8Ww1UpF
+	4F9rWjyF4vqr45tw4vyr9ruF95GwsxC347KFnrGw12gwn0yrZ0qrZ2gw12gF1Yva93XF4S
+	vFyUWF9Fg3WDtr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRhNVhUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwAS4HWkdOCR2XwAA3g
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 9e24bdfecdb071a3a42fb74be1ab503c958e2740  bus: mhi: ep: add WQ_PERCPU to alloc_workqueue users
+T99W760 modem is based on Qualcomm SDX35 chipset.
+It use the same channel settings with Foxconn SDX61.
+edl file has been committed to linux-firmware.
 
-elapsed time: 7291m
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-configs tested: 58
-configs skipped: 6
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 3d8c9729fcfc..e3bc737313a2 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -663,6 +663,17 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w696_info = {
+ 	.sideband_wake = false,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_foxconn_t99w760_info = {
++	.name = "foxconn-t99w760",
++	.edl = "qcom/sdx35/foxconn/xbl_s_devprg_ns.melf",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx61_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
+@@ -1010,6 +1021,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* DW5934e(sdx72), Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe123),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w760_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
+-- 
+2.25.1
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                   allnoconfig    gcc-15.1.0
-alpha                  allyesconfig    gcc-15.1.0
-arc                     allnoconfig    gcc-15.1.0
-arc         randconfig-001-20251111    gcc-11.5.0
-arc         randconfig-002-20251111    gcc-12.5.0
-arm                     allnoconfig    clang-22
-arm         randconfig-001-20251111    clang-22
-arm         randconfig-002-20251111    clang-17
-arm         randconfig-003-20251111    clang-22
-arm         randconfig-004-20251111    gcc-10.5.0
-arm64                   allnoconfig    gcc-15.1.0
-csky                    allnoconfig    gcc-15.1.0
-hexagon                allmodconfig    clang-17
-hexagon                 allnoconfig    clang-22
-hexagon                allyesconfig    clang-22
-i386                    allnoconfig    gcc-14
-loongarch              allmodconfig    clang-19
-loongarch               allnoconfig    clang-22
-m68k                   allmodconfig    gcc-15.1.0
-m68k                    allnoconfig    gcc-15.1.0
-m68k                   allyesconfig    gcc-15.1.0
-microblaze             allmodconfig    gcc-15.1.0
-microblaze              allnoconfig    gcc-15.1.0
-microblaze             allyesconfig    gcc-15.1.0
-mips                    allnoconfig    gcc-15.1.0
-nios2                   allnoconfig    gcc-11.5.0
-nios2       randconfig-001-20251110    gcc-11.5.0
-nios2       randconfig-002-20251110    gcc-10.5.0
-openrisc                allnoconfig    gcc-15.1.0
-parisc                  allnoconfig    gcc-15.1.0
-parisc      randconfig-001-20251111    gcc-9.5.0
-parisc      randconfig-002-20251111    gcc-8.5.0
-powerpc                 allnoconfig    gcc-15.1.0
-powerpc     randconfig-001-20251111    gcc-8.5.0
-powerpc     randconfig-002-20251111    clang-22
-powerpc64   randconfig-002-20251111    gcc-12.5.0
-riscv                   allnoconfig    gcc-15.1.0
-riscv       randconfig-001-20251110    clang-22
-riscv       randconfig-002-20251110    gcc-8.5.0
-s390                    allnoconfig    clang-22
-s390        randconfig-001-20251110    gcc-8.5.0
-s390        randconfig-002-20251110    gcc-8.5.0
-sh                      allnoconfig    gcc-15.1.0
-sh          randconfig-001-20251110    gcc-15.1.0
-sh          randconfig-002-20251110    gcc-15.1.0
-sparc                   allnoconfig    gcc-15.1.0
-um                     allmodconfig    clang-19
-um                      allnoconfig    clang-22
-um                     allyesconfig    gcc-14
-x86_64                  allnoconfig    clang-20
-x86_64                        kexec    clang-20
-x86_64                     rhel-9.4    clang-20
-x86_64                 rhel-9.4-bpf    gcc-14
-x86_64                rhel-9.4-func    clang-20
-x86_64          rhel-9.4-kselftests    clang-20
-x86_64               rhel-9.4-kunit    gcc-14
-x86_64                 rhel-9.4-ltp    gcc-14
-xtensa                  allnoconfig    gcc-15.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
