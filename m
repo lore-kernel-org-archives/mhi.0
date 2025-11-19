@@ -1,38 +1,47 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936C2247280
-	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 03:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3292652A2
+	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 08:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763522619; cv=none; b=A+amSmOXJXAWKcJFFTkLhO0K/xO14XwffuvRee7CsWuERjpZVI9TPa5BSlr93RWjDBq0fkK7KXUremjHHFTSssWViTFP/HjTEyE1Wov4z+dcqyqAAjz1Hr3n0VGiV6pVip0++mhBl9JhhDdpLJzRtVM96cST8OOFHb0FALn56LM=
+	t=1763542048; cv=none; b=U4apjQlSpriwolzsvlCiUAfRgrKeHRiyAI+DsRakS+IbT9dOj/WllNb/QmYrcHiGZJ7JsKMbyd2dKQfRSRH6Pu4EdiR13xW8WKtCxZWY4JhjfVqfzsi+fLJrBuL00R5zRSIiooiGG7yro/556xv/UGUGBDUdgOLuVs32e+MFMIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763522619; c=relaxed/simple;
-	bh=ZCpiVAVxhb1YiBPCTVKjzdj9RiGRlirVoDs1YOS/wpY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iYJmnz2R+lBF5LaIf6VIh38Xa7exr50x37KfEEn4SYxjfmv9PX3abZtaSsFYTVO+4sp4YnCmwrstqRRAXn3EasGRs10rVVbImzOoYRwU9TcQKqXO05LijrPOkUjD7cvHMaTc7ZUcdaxEHmqtUjIjFyf1U1k7SgXFWhIZshymbxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oSRnvduV; arc=none smtp.client-ip=220.197.31.4
+	s=arc-20240116; t=1763542048; c=relaxed/simple;
+	bh=O49iELD3kyWCfrVpGVJs1lLgucO8zwXquiJoldaJSL0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JeLLps61Z6yiN8nqO98NkDEbdkG3IMeE41SEY9LV9PtsoaFi9Z+PZm/L9C8v5lPd2hEJOOBWfdT8DulfMBGEv1zXwYArj+hpzI1gDFGZnC1Mp0smzWAIWDOA407q4oYdpIB0hXeOw3eCJU3XNlA8SjEzXrgx2TiH4ZYLEiFtHuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=SdWaPX4c; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oSRnvduV"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="SdWaPX4c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=WT
-	32kMdgOLoeNtu5hoZ13GATzOZ7OID01JPDzDmZTZk=; b=oSRnvduVMZw15vEV4N
-	PskiAwFlE6nrTG1nuu3Klms89L1Xwhs8adbSjKQsWziajzOurkvhYMlotetdZlZx
-	VTF0bLjYXON4jaWJ+XkAcbBwc8+UTKnCjElAIgjURTCzDvxw0SWiWOp5qM7dbIAK
-	3+ttvL337KaFwYpip6tB5kxRk=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Yk
+	wwP38JHvCo882DSvkKjOiqTTOePIZx3hF9olcucO4=; b=SdWaPX4cYP7XxWw8l3
+	KfkmF/59458iQsIX9p/ktixD2w8XrRv4AxbKPKY2WfuIEYnhIuswTmpsNnbHOiVe
+	8LOdlpe3bVViNf4ZrwueCfBAAhbQp5YWrGcK8jvOdmdY7nvS0R1H/L5VPW3TvEkn
+	XV1UXWLWnT677lmRGnLfC3ajM=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgAH7AkjOB1pu1UWEg--.29172S2;
-	Wed, 19 Nov 2025 11:23:16 +0800 (CST)
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3X0r0gx1pAgHiBA--.132S2;
+	Wed, 19 Nov 2025 16:46:47 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: mani@kernel.org
-Cc: mhi@lists.linux.dev,
+Cc: loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
-Date: Wed, 19 Nov 2025 11:23:13 +0800
-Message-Id: <20251119032313.6119-1-slark_xiao@163.com>
+Subject: [PATCH v2 1/2] bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
+Date: Wed, 19 Nov 2025 16:45:37 +0800
+Message-Id: <20251119084537.34303-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -41,18 +50,20 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgAH7AkjOB1pu1UWEg--.29172S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFyDXrykZw45ZFW8Kw47twb_yoW8Ww1UpF
-	4F9rWjyF4vqr45tw4vyr9ruF95GwsxC347KFnrGw12gwn0yrZ0qrZ2gw12gF1Yva93XF4S
-	vFyUWF9Fg3WDtr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRhNVhUUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwAS4HWkdOCR2XwAA3g
+X-CM-TRANSID:_____wD3X0r0gx1pAgHiBA--.132S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFWxWF1ftr4fAFy8Wr4kZwb_yoW8Ar43pF
+	4F9rWjyF4vqr45ta1vyryDuF95GwsxC347KFnrKw12gw4qyrZ0qrs7Kw12gF1Yva95XF4S
+	vFyUWF9Fg3WDtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRuT5PUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbibgULZGkdgCFb5gAAss
 
 T99W760 modem is based on Qualcomm SDX35 chipset.
 It use the same channel settings with Foxconn SDX61.
 edl file has been committed to linux-firmware.
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+v2: Add net and MHI maintainer together
 ---
  drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
  1 file changed, 13 insertions(+)
