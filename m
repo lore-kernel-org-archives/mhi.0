@@ -1,29 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A2933CE88
-	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 10:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE23093A7
+	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 10:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763549865; cv=none; b=ka4jp/qd1HpW+mturuH/9UcV28UQqj2zHKnDtQsUgSvou1OOmSimdj1VHuGMvjHti6bCZIxN6TkE3VmXuCFuUk46j0EdldFPsdbVSrwbNktZIyWyv2RWhI/dJ8lbZPqW0WF+5s7KqCIVNqMnGFolfx5tUi5idMB5t88ZVf8foOc=
+	t=1763549873; cv=none; b=It/Vqapa06Ad7/FeZW7e9zH9fUbZ/2XMv3ad0OT1zwYXjrrrfYtfsDbuxYaGg5ZwxpFby3j4+iHKKutix3AbVR79ZG7JuxNB6GdovRGQUn665PKQ6nSg8845XhRThMH5ezZ2YScFHuGKpp4U8dncYn4GSmDoITGkMDenSSure8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763549865; c=relaxed/simple;
-	bh=aLW1fNaqRIGekF37yZApHqwtjyCn3DxX8pd2hsHpK5s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FBtZ/LFntkJxMF0KvekRVGifjiPP7Bq6x+yQqdRuCIKCJhI071aMPJ6Y9Nf5ExLQ1snjZDJ+1/0729dMR8TTbgytSiOvTPaVx1+ZcZ5ItPtPnGTCiPHRN4DvEyKntVlL0O2GcqqVJKnX/03Snh4Gr8VXVYFncO7eTowhxgSLqpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=n2I92/gK; arc=none smtp.client-ip=220.197.31.4
+	s=arc-20240116; t=1763549873; c=relaxed/simple;
+	bh=ZCpiVAVxhb1YiBPCTVKjzdj9RiGRlirVoDs1YOS/wpY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YSbtbF+s8gd0noUEGHqJy+nYLluMjyeZwNjfVyWtsJPSr+L6QJRuWPhkTD9Jggy7euWOn+So0UkmvycOctEjQkvKa6yVo8fgxsBCZnbaTUwRIR3auhiJ6pNqTgYrAkwLrmT4dXqG+97Qt6Mao4Nb6h9joKk8jEp/gY2nOzwlGXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GZIbqsdr; arc=none smtp.client-ip=117.135.210.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="n2I92/gK"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GZIbqsdr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Mr
-	wR+Ad5Fj26DL5Ubo709J1vkzhUIdBWLGe+WfKWy30=; b=n2I92/gKjmCYY7CQTr
-	B1+rE5za7uGo7XjQhw/DXJ+itH8+cJ2MjHc66hXtjK3oFJr2fES0DHIj8nIZm4cw
-	y4V+A4TmisLWKSElPA5CUIphdDjyk+P6SKM1b+t/PF4ys75sD3HohJHowWEkmEnm
-	rD9ptJSQLEXnV6yAxt80qdfvY=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=WT
+	32kMdgOLoeNtu5hoZ13GATzOZ7OID01JPDzDmZTZk=; b=GZIbqsdrTFpxqGWmSO
+	vlM9gUnfs9D+FcTlmoDrF07A93KeP5xFaWC+V8nkDbqmZgyOycA69dUuUo7WD2+F
+	sku98eHJd07ha/+oQNf/rLv0I40QGt40gJweRkPILTtPukrbRn88rmuIiYe9bQyj
+	rxgN6ma/e60ea/hnQt6UWQOTA=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgCHOlVooh1pwNIrEg--.51100S2;
-	Wed, 19 Nov 2025 18:56:42 +0800 (CST)
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgCHOlVooh1pwNIrEg--.51100S3;
+	Wed, 19 Nov 2025 18:56:46 +0800 (CST)
 From: Slark Xiao <slark_xiao@163.com>
 To: mani@kernel.org,
 	loic.poulain@oss.qualcomm.com,
@@ -39,10 +40,12 @@ Cc: mhi@lists.linux.dev,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v3 0/2] *** Add support for Foxconn T99W760 ***
-Date: Wed, 19 Nov 2025 18:56:13 +0800
-Message-Id: <20251119105615.48295-1-slark_xiao@163.com>
+Subject: [PATCH v3 1/2] bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
+Date: Wed, 19 Nov 2025 18:56:14 +0800
+Message-Id: <20251119105615.48295-2-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251119105615.48295-1-slark_xiao@163.com>
+References: <20251119105615.48295-1-slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -50,25 +53,53 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgCHOlVooh1pwNIrEg--.51100S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRQdbUUUUUU
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbibhELZGkdoY8SBgAAse
+X-CM-TRANSID:QCgvCgCHOlVooh1pwNIrEg--.51100S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFyDXrykZw45ZFW8Kw47twb_yoW8Ww1UpF
+	4F9rWjyF4vqr45tw4vyr9ruF95GwsxC347KFnrGw12gwn0yrZ0qrZ2gw12gF1Yva93XF4S
+	vFyUWF9Fg3WDtr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pE38n3UUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwA5lyWkdom6HPgAA3j
 
-*** This series add support for Foxconn 5G modem T99W760 ***
+T99W760 modem is based on Qualcomm SDX35 chipset.
+It use the same channel settings with Foxconn SDX61.
+edl file has been committed to linux-firmware.
 
-Updates:
-  v3: Fix the 2 patches not in one thread issue
-  v2: Add net and MHI mantainer together
-
-Slark Xiao (2):
-  bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
-  net: wwan: mhi: Add network support for Foxconn T99W760
-
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
  drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- drivers/net/wwan/mhi_wwan_mbim.c   |  3 ++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ 1 file changed, 13 insertions(+)
 
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 3d8c9729fcfc..e3bc737313a2 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -663,6 +663,17 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w696_info = {
+ 	.sideband_wake = false,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_foxconn_t99w760_info = {
++	.name = "foxconn-t99w760",
++	.edl = "qcom/sdx35/foxconn/xbl_s_devprg_ns.melf",
++	.edl_trigger = true,
++	.config = &modem_foxconn_sdx61_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.mru_default = 32768,
++	.sideband_wake = false,
++};
++
+ static const struct mhi_channel_config mhi_mv3x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
+@@ -1010,6 +1021,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* DW5934e(sdx72), Non-eSIM */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
+ 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
++	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe123),
++		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w760_info },
+ 	/* MV31-W (Cinterion) */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
 -- 
 2.25.1
 
