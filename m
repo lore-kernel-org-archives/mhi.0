@@ -1,105 +1,83 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE23093A7
-	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 10:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B65C350D64
+	for <mhi@lists.linux.dev>; Wed, 19 Nov 2025 11:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763549873; cv=none; b=It/Vqapa06Ad7/FeZW7e9zH9fUbZ/2XMv3ad0OT1zwYXjrrrfYtfsDbuxYaGg5ZwxpFby3j4+iHKKutix3AbVR79ZG7JuxNB6GdovRGQUn665PKQ6nSg8845XhRThMH5ezZ2YScFHuGKpp4U8dncYn4GSmDoITGkMDenSSure8M=
+	t=1763550390; cv=none; b=bqR6BEaPTAJRBKowc0zS5xuetUBa4XJWbewlfEq3hi/IUCpQAc1vtsgtB+nNhVzsH58yVrOhx077BqTAloNe3u67DKo1rqDI9Eebu8xIKSM2fVYmHN5fE2HK0HW9vrR6/UBUJY1mDJVdm7RgQOmzhKvfE//rZpLo1pu4jGzQV18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763549873; c=relaxed/simple;
-	bh=ZCpiVAVxhb1YiBPCTVKjzdj9RiGRlirVoDs1YOS/wpY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YSbtbF+s8gd0noUEGHqJy+nYLluMjyeZwNjfVyWtsJPSr+L6QJRuWPhkTD9Jggy7euWOn+So0UkmvycOctEjQkvKa6yVo8fgxsBCZnbaTUwRIR3auhiJ6pNqTgYrAkwLrmT4dXqG+97Qt6Mao4Nb6h9joKk8jEp/gY2nOzwlGXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GZIbqsdr; arc=none smtp.client-ip=117.135.210.5
+	s=arc-20240116; t=1763550390; c=relaxed/simple;
+	bh=vxeKL9n8sesvnbmXcAPsqsCVyIM733KeN+FhouEaeic=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=kwEGcEP+wd06aC4V044F7N0xK0EgZcbq/lz/IIpguSWEusVkIFMjnHl+8Q9xqpIOpraTVPkp7uRpRePSDdngHdZ28jPmuclGwHNoXA6UOafvPNKEiRkssDWxJlAbvyR5YJTndHl8IT1DsGWjt6U/sZy9vESjCC3A6M8yxetc+CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=Kkh9r5c5 reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GZIbqsdr"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="Kkh9r5c5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=WT
-	32kMdgOLoeNtu5hoZ13GATzOZ7OID01JPDzDmZTZk=; b=GZIbqsdrTFpxqGWmSO
-	vlM9gUnfs9D+FcTlmoDrF07A93KeP5xFaWC+V8nkDbqmZgyOycA69dUuUo7WD2+F
-	sku98eHJd07ha/+oQNf/rLv0I40QGt40gJweRkPILTtPukrbRn88rmuIiYe9bQyj
-	rxgN6ma/e60ea/hnQt6UWQOTA=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgCHOlVooh1pwNIrEg--.51100S3;
-	Wed, 19 Nov 2025 18:56:46 +0800 (CST)
-From: Slark Xiao <slark_xiao@163.com>
-To: mani@kernel.org,
-	loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH v3 1/2] bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
-Date: Wed, 19 Nov 2025 18:56:14 +0800
-Message-Id: <20251119105615.48295-2-slark_xiao@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251119105615.48295-1-slark_xiao@163.com>
-References: <20251119105615.48295-1-slark_xiao@163.com>
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=4LTf8U1ZnZvkLJFXeL+wl/+iB8gycPhi64DhPGHK4dM=; b=K
+	kh9r5c5MpFH741jS/ua0haRopQMcT+zAj/HS/7xlc0yr8H96iV5t+eu7lmRdXt9p
+	NwejTKkDd3BBct7KKphr70Ihp4Mdr9eVobUstjOJ2DwL+AkkjzKxQOmBMa8gj7PR
+	gOiih3OE+5sOGYGFHVIH4/0QngBmYEpdptZGj6p3n0=
+Received: from slark_xiao$163.com ( [2408:8459:3860:2d7a:924e:a1a:3ee9:828d]
+ ) by ajax-webmail-wmsvr-40-132 (Coremail) ; Wed, 19 Nov 2025 19:05:27 +0800
+ (CST)
+Date: Wed, 19 Nov 2025 19:05:27 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>
+Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, mani@kernel.org,
+	loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH v2 1/2] bus: mhi: host: pci_generic: Add Foxconn
+ T99W760 modem
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <8adcb880-a2d3-4987-88c8-c3441963fc53@oss.qualcomm.com>
+References: <20251119084537.34303-1-slark_xiao@163.com>
+ <aqhkk6sbsuvx5yoy564sd53blbb3fqcrlidrg3zuk3gsw64w24@hsxi4nj4t7vy>
+ <7373f6c5.8783.19a9b62ad62.Coremail.slark_xiao@163.com>
+ <8adcb880-a2d3-4987-88c8-c3441963fc53@oss.qualcomm.com>
+X-NTES-SC: AL_Qu2dAfmev0sp4SSZZOkfmk8Sg+84W8K3v/0v1YVQOpF8jAPo8yMnU0Z6BF76zeyeFiCHvwOXfzlsx/10ebdUWrsh9SC3/ElWd/pccoOCxVBObA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgCHOlVooh1pwNIrEg--.51100S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFyDXrykZw45ZFW8Kw47twb_yoW8Ww1UpF
-	4F9rWjyF4vqr45tw4vyr9ruF95GwsxC347KFnrGw12gwn0yrZ0qrZ2gw12gF1Yva93XF4S
-	vFyUWF9Fg3WDtr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pE38n3UUUUU=
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwA5lyWkdom6HPgAA3j
+Message-ID: <4c801771.9d89.19a9bca727f.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:hCgvCgAnXMR3pB1pSdMlAA--.30W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwBfnTGkdpHfDWAAA3A
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-T99W760 modem is based on Qualcomm SDX35 chipset.
-It use the same channel settings with Foxconn SDX61.
-edl file has been committed to linux-firmware.
-
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 3d8c9729fcfc..e3bc737313a2 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -663,6 +663,17 @@ static const struct mhi_pci_dev_info mhi_foxconn_t99w696_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_pci_dev_info mhi_foxconn_t99w760_info = {
-+	.name = "foxconn-t99w760",
-+	.edl = "qcom/sdx35/foxconn/xbl_s_devprg_ns.melf",
-+	.edl_trigger = true,
-+	.config = &modem_foxconn_sdx61_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
- static const struct mhi_channel_config mhi_mv3x_channels[] = {
- 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 64, 0),
- 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 64, 0),
-@@ -1010,6 +1021,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* DW5934e(sdx72), Non-eSIM */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe11e),
- 		.driver_data = (kernel_ulong_t) &mhi_foxconn_dw5934e_info },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_FOXCONN, 0xe123),
-+		.driver_data = (kernel_ulong_t) &mhi_foxconn_t99w760_info },
- 	/* MV31-W (Cinterion) */
- 	{ PCI_DEVICE(PCI_VENDOR_ID_THALES, 0x00b3),
- 		.driver_data = (kernel_ulong_t) &mhi_mv31_info },
--- 
-2.25.1
-
+CkF0IDIwMjUtMTEtMTkgMTc6MjE6MzMsICJLb25yYWQgRHliY2lvIiA8a29ucmFkLmR5YmNpb0Bv
+c3MucXVhbGNvbW0uY29tPiB3cm90ZToKPk9uIDExLzE5LzI1IDEwOjEyIEFNLCBTbGFyayBYaWFv
+IHdyb3RlOgo+PiAKPj4gQXQgMjAyNS0xMS0xOSAxNzowNToxNywgIkRtaXRyeSBCYXJ5c2hrb3Yi
+IDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+IHdyb3RlOgo+Pj4gT24gV2VkLCBO
+b3YgMTksIDIwMjUgYXQgMDQ6NDU6MzdQTSArMDgwMCwgU2xhcmsgWGlhbyB3cm90ZToKPj4+PiBU
+OTlXNzYwIG1vZGVtIGlzIGJhc2VkIG9uIFF1YWxjb21tIFNEWDM1IGNoaXBzZXQuCj4+Pj4gSXQg
+dXNlIHRoZSBzYW1lIGNoYW5uZWwgc2V0dGluZ3Mgd2l0aCBGb3hjb25uIFNEWDYxLgo+Pj4+IGVk
+bCBmaWxlIGhhcyBiZWVuIGNvbW1pdHRlZCB0byBsaW51eC1maXJtd2FyZS4KPj4+Pgo+Pj4+IFNp
+Z25lZC1vZmYtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPj4+PiAtLS0KPj4+
+PiB2MjogQWRkIG5ldCBhbmQgTUhJIG1haW50YWluZXIgdG9nZXRoZXIKPj4+PiAtLS0KPj4+PiAg
+ZHJpdmVycy9idXMvbWhpL2hvc3QvcGNpX2dlbmVyaWMuYyB8IDEzICsrKysrKysrKysrKysKPj4+
+PiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKPj4+Cj4+PiBOb3RlOiBvbmx5IDEv
+MiBtYWRlIGl0IHRvIGxpbnV4LWFybS1tc20uIElzIGl0IGludGVudGlvbmFsIG9yIHdhcyB0aGVy
+ZQo+Pj4gYW55IGtpbmQgb2YgYW4gZXJyb3Igd2hpbGUgc2VuZGluZyB0aGUgcGF0Y2hlcz8KPj4+
+Cj4+PiAtLSAKPj4+IFdpdGggYmVzdCB3aXNoZXMKPj4+IERtaXRyeQo+PiBCb3RoIHBhdGNoZXMg
+aGF2ZSBjYyBsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZy4KPj4gQW5kIG5vdyBJIGNhbiBm
+aW5kIGJvdGggcGF0Y2hlcyBpbjoKPj4gcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51
+eC1hcm0tbXNtL2xpc3QvCj4KPkl0IHNlZW1zIGxpa2UgdGhleSdyZSB0aGVyZSwgYnV0IG5vdCBw
+YXJ0IG9mIHRoZSBzYW1lIHRocmVhZAo+Cj5QbGVhc2UgdHJ5IHVzaW5nIHRoZSBiNCB0b29sOgo+
+Cj5odHRwczovL2I0LmRvY3Mua2VybmVsLm9yZy8KPgo+d2hpY2ggd2lsbCBoZWxwIGF2b2lkIHN1
+Y2ggaXNzdWVzCj4KPktvbnJhZApJIHNlbmQgYSB2ZXJzaW9uIDMgYWdhaW4uIEl0IHNlZW1zIE9L
+IG5vdy4KUGxlYXNlIGhlbHAgdGFrZSBhIGxvb2sgb24gdGhhdC4KClRoYW5rcy4K
