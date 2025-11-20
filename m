@@ -1,55 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370D4212B2F;
-	Thu, 20 Nov 2025 02:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7502284896
+	for <mhi@lists.linux.dev>; Thu, 20 Nov 2025 02:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763604457; cv=none; b=JAHnIcdczIhOoJ3ISMe+PNfqIEwMpzJYi/ialQ5Bhe1lZ3dbaWjh/7n38YiDe3nbukd87Assa59Gfv1FMbI9RFY50pB7ZGQCrUlX9bDPU/CheSC5kSW54WPL7ix0g6V0u2r9ZRD0gQ8pIndCOGsvRJgUnTvzcM/Ct35wBvqYDkQ=
+	t=1763606898; cv=none; b=pFaunCh+WWB21WoM4MB9GXn6wwzjhKL5PlatOtzQS+sPYotNE/hD3uSNViLbkvjipWPY4kPKYk3h+pCCk4Zpkg3MOpmM672EhrdgSCIdchSgO70nDr1qhQ1QPt6l6bMArpLzr89sda63UqxO65aFrtdAOUHGvAxd2yeb4K5+LcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763604457; c=relaxed/simple;
-	bh=r1PhrgCDHhvZWtjmbjWSnMOmdMdeBFzmlrNBwgfowPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iDDsEahm/8AdGyPVIi7kKCk1CbfWA8dtuvUMHAU0hYHDZWajhAtsjrmReSJO8CWKP5yq9GLVw6+fAL0Nx0NazJsIBVZgujht1uyBUXpngsNCNHIlj4otz6DT8sQue23plTERLD2JGXdP/9NBwvFiMZK69yhdO8uMnNi6ztT2x1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzuwnvXn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763606898; c=relaxed/simple;
+	bh=nf9VTDivm/in8YbqaK9ezXTizbY/IXqU2F9LZDFm9CQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=jaj9pdsncWP6m0AOq5DVJvh9N1xf0sgoxvNq6ziW3m19dtQXxQNfPZ2cVmfywFxvDCzNewHYN5J8/lE/PSlkTYjhBW8sv/Y9EKpOiLRaZogs8EqaoboMmT+0GgofXiEmO6u9G5gwcquL8r8f6ABgI2eAXucePLXHpwpt3djZgAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=Qx0VAVFg reason="signature verification failed"; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzuwnvXn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E07AC4CEF5;
-	Thu, 20 Nov 2025 02:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763604456;
-	bh=r1PhrgCDHhvZWtjmbjWSnMOmdMdeBFzmlrNBwgfowPA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XzuwnvXnsARIbB4sDpSWF6a0DFOa+Cfmqh3P1tTgjI0enfeKbwwglltTq7fEKjx8i
-	 SHVuNfCoKPgK8D5bR4P4zbYBDMHT5mNQdQ3icUr6/Ha3BSHmYvglwccI1pUrknZMFx
-	 6m05myUeUPzoQFW5std5B4MNM+mQUhTUayjZbYZU9DBtk6W9BTk4xP1S0AraNV3w7p
-	 RkA0P+JLxVgVT5sbEdHTtETtELQ24CVQkzfE9znC6G3opqztfyqMTv1XYTlEiMK11z
-	 FQ6jJsTA84nwpq0B6Df2k4lfSKnMFycXC2Sas07c4AqRdMoCH6XTQeCodM2cj3dDNH
-	 Az5bP7Vzg9OiQ==
-Date: Wed, 19 Nov 2025 18:07:35 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Slark Xiao <slark_xiao@163.com>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="Qx0VAVFg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=aVhFvntcAiHl1cUfGa7ZdVn7XulScDHz6YAjay861B8=; b=Q
+	x0VAVFgpJHw32eis5hycEVn3qgnMp6fTmfMtxaYImGf2KUEsRsnwioQtH5JT8aqI
+	T4rQ236VA/DkGSfOWDY/jY4u8V6gnzPldPdsAYN/axi6Rfbt6rBiGcdLAnrdVVjY
+	SfbvOpgrMNmsJkuJeCkcUe2Ez5EZEfl/+D35dhOxLw=
+Received: from slark_xiao$163.com ( [2409:895a:3841:c8e7:efe9:818f:26:6687]
+ ) by ajax-webmail-wmsvr-40-121 (Coremail) ; Thu, 20 Nov 2025 10:47:44 +0800
+ (CST)
+Date: Thu, 20 Nov 2025 10:47:44 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Jakub Kicinski" <kuba@kernel.org>
 Cc: mani@kernel.org, loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com,
- johannes@sipsolutions.net, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] *** Add support for Foxconn T99W760 ***
-Message-ID: <20251119180735.1baeaa8b@kernel.org>
-In-Reply-To: <20251119105615.48295-1-slark_xiao@163.com>
+	johannes@sipsolutions.net, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH v3 0/2] *** Add support for Foxconn T99W760 ***
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20251119180735.1baeaa8b@kernel.org>
 References: <20251119105615.48295-1-slark_xiao@163.com>
+ <20251119180735.1baeaa8b@kernel.org>
+X-NTES-SC: AL_Qu2dAfqbuUAt4iSbYukfmk8Sg+84W8K3v/0v1YVQOpF8jArpwSECY0B8BUfdzf6lCgOMiBSzdglMzf5CZrRIeK4rFIuMn+hCzQiN9/GlcT0saA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-ID: <16b8499d.29cd.19a9f29223c.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:eSgvCgC31GpQgR5pym8mAA--.5547W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbibh4MZGkec8WEzgABsS
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Wed, 19 Nov 2025 18:56:13 +0800 Slark Xiao wrote:
-> Subject: [PATCH v3 0/2] *** Add support for Foxconn T99W760 ***
-
-> *** This series add support for Foxconn 5G modem T99W760 ***
-
-Please don't with the ***.
+CgpBdCAyMDI1LTExLTIwIDEwOjA3OjM1LCAiSmFrdWIgS2ljaW5za2kiIDxrdWJhQGtlcm5lbC5v
+cmc+IHdyb3RlOgo+T24gV2VkLCAxOSBOb3YgMjAyNSAxODo1NjoxMyArMDgwMCBTbGFyayBYaWFv
+IHdyb3RlOgo+PiBTdWJqZWN0OiBbUEFUQ0ggdjMgMC8yXSAqKiogQWRkIHN1cHBvcnQgZm9yIEZv
+eGNvbm4gVDk5Vzc2MCAqKioKPgo+PiAqKiogVGhpcyBzZXJpZXMgYWRkIHN1cHBvcnQgZm9yIEZv
+eGNvbm4gNUcgbW9kZW0gVDk5Vzc2MCAqKioKPgo+UGxlYXNlIGRvbid0IHdpdGggdGhlICoqKi4K
+TXkgYmFkLiBJdCdzIG15IGZpcnN0IHRpbWUgdG8gdXNlIHRoZSBjb3ZlciBsZXR0ZXIuCkFuZCBJ
+IHJlcGxhY2UgdGhlIGNvbnRlbnRzIGFuZCBzdWJqZWN0IGFjY29yZGluZyB0byB0aGUgZ3VpZGUg
+YnV0Cm1pc3NpbmcgdGhvc2UgKioqLiBXaWxsIHJlbW92ZSBpdCBpZiBuZXh0IHZlcnNpb24gaXMg
+cmVxdWlyZWQuCgpUaGFua3M=
