@@ -1,204 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4984222597
-	for <mhi@lists.linux.dev>; Fri, 21 Nov 2025 07:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F9226AC3
+	for <mhi@lists.linux.dev>; Fri, 21 Nov 2025 12:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763710468; cv=none; b=mehuBTVy5gyOlw4Rqz2Nbbgv2QTUvnMQQsri/2zoSsCtwL8ik/csXxbssgSNnMzshd7XqJSwu46LjSV0A80V7+V9jdvboG1F8hVvRTf8d7hVHmOOmuex4QIAp0U/9Aj+Nr1IXxfMr+wAHGhGATNyrM9daSFdDfq7AdW5r2yZIXM=
+	t=1763729245; cv=none; b=HEhsFg4Xl4tJpP6UT/lj9rwW2ok0w49+JghzWd5FmacOMyOvWya/ZZNwPxfQZ48rE9qoCERq9kLibiIN+6vnJGqY1vwI0QuN/gRt47gSQ0jBm2GPIcuLh4y4XQDb8LdvWKGWB5PMRhFNQkJA7f760N365Gb17TM/tySq3hDJGSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763710468; c=relaxed/simple;
-	bh=2NyxUsk6rO47iGHRaplF2P1wC+t0YoNkdMt69Lx3YWA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=a1eswOoCfOOoJskLOsFt9PsRZgIjb5bq2Uwl+JfJq0SwhsQZqv+av+IoiSe/4m7GqciVJAkHabI9DZQ1ojoDVy2oJdF2JvNirvLBxxM4cb4AgqHumj4cBB+8pIh0Tl5JPHpLlz4pyja8rDeuL1oLc+kYr8lGYLSHgC3zITEhavs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ce1gvv97; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763729245; c=relaxed/simple;
+	bh=h4WOJ62pfL6IHlZQtCDyGCDMDpVkECvsZ4GVjHlxSY0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HG9wLJYEAq8lIPB1bKC3O1dWS5SUHLYDBPAufnWp0dyivr3gCgtoWEbG3FVG+6j/Wkl03YsqjJIAQV+0eHmbQSDAHBcSLy5Dvp0auaITLLrm30t07tX9ayLAcJc26ak/F+spM4iAF/RfvIu8X5bN0k/eL1ajxK/V89ahfqtZQCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HAXUntXg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WvZpGJTt; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ce1gvv97"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763710467; x=1795246467;
-  h=date:from:to:cc:subject:message-id;
-  bh=2NyxUsk6rO47iGHRaplF2P1wC+t0YoNkdMt69Lx3YWA=;
-  b=ce1gvv976v9t/47DUX1pV1CC3lCQAFM5ccp9wqhvSZGSuUsXkm0WCbF2
-   5Npl/ko+5KdHCJTnNwn9DP2Xfjnf8+bMqiAqklgUWtumk5y/NQRlh8LSv
-   fd4aNgQwE6lehiCVDwTcyviWDx73TvD4Wtzo3iGZi47vcjMT55NzZzxPV
-   up1NxFP3veOdn+xpxTMTugUqMJFGo71QDSVonEB8uu8vibOqC0oWqEDuM
-   Oxupod+dkeEuRZ/1Hm5of9FQrGYJYj7+vAo2J5XWJfbrjRNVoGoP+2FVp
-   Xc/1Ewd5a3wd3OEnOyI2GSo+Yl1fhjaDbXOYivER+2m+BSrD+jH0cTshQ
-   w==;
-X-CSE-ConnectionGUID: OsUqp4ulS3ah/674nXepvw==
-X-CSE-MsgGUID: M9b5P6JKTKaGDQ4ZhtsNAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="77160302"
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="77160302"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 23:34:26 -0800
-X-CSE-ConnectionGUID: X4PwxlEKRvWQbRDTjRRpZw==
-X-CSE-MsgGUID: UD9H02vhTNaFRjihwJVegg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="190909758"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Nov 2025 23:34:25 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vMLew-00054p-1G;
-	Fri, 21 Nov 2025 07:34:22 +0000
-Date: Fri, 21 Nov 2025 15:33:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- ac35e04f8000aaaf98635792464647e7a6f3422e
-Message-ID: <202511211518.370eZJnE-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HAXUntXg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WvZpGJTt"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AL9VvJN3048090
+	for <mhi@lists.linux.dev>; Fri, 21 Nov 2025 12:47:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OvmALCvQ5ptZCSB2+jI5QTgm/ZHNVohRruEciGYDcd4=; b=HAXUntXgZq04+sEg
+	khidx5SQO1ch/IyDR0NYVIwKpj2owzOgB52QIBea3j1J6gTpCKzvPFOyJvL94KAU
+	2wlG2p7d6H0EbmR+5XaGxfMbCOKWakQ8CoHh0PPELgxQoPkSsqskTzkwZAVRmaOM
+	nMBaIDqTpYMU45yZdrBI+j4OPCLqxbatAZUN2CtBYSJ+fJq8ZnhRt+5Wib3QoRl3
+	rPP5Y4JZsxCIY2y8D+gvxy/O5pXS76FDRy7cae+GiuiyF3XG4N1sSZ9HKgSq3UyG
+	pD+pd4kJjDHQf5/iByEZsd7CNDxXXUbb1gxxQh1i6PQlG6zSm7hyDRFlBKSe6cmu
+	hPDODQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajnhjrj67-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Fri, 21 Nov 2025 12:47:07 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b286006ffaso520843885a.2
+        for <mhi@lists.linux.dev>; Fri, 21 Nov 2025 04:47:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1763729226; x=1764334026; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OvmALCvQ5ptZCSB2+jI5QTgm/ZHNVohRruEciGYDcd4=;
+        b=WvZpGJTtTFrONURkiM0KljyL7BPkSObSxXkMP2MvltqkiGaUetJhSlLcS0Z1v7USgq
+         SqzRXH/6BY4mpgyqEGXYXes6aTkzx35+iPI+LoBG3fULATOGjnUFaAMhtvJ56I4mvosk
+         SdyHB6K1PgnzQlIu9jSQ6kR4IFj5oAHJxiaJKUHy9fNY/cqBvxn2cxeLFtofcHkFbuFo
+         X0S/qm8DE2atj8BMnTHgmIsvpNrVbnbm47qeRZGRbkjqOPhoGn0I6upKfsfI5jLxQC4D
+         N+AWmFMYOtB2BHpytH9n/sn0V62xm0AXK88EgnS3M4pFQZtD5V3nSK4U1O2hk7dwaYmO
+         GwwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763729226; x=1764334026;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OvmALCvQ5ptZCSB2+jI5QTgm/ZHNVohRruEciGYDcd4=;
+        b=Df98qZcfz2IxDgG8EbLs2/K4le0Be6Pj9vpwKyBZp2/hOYGfrv2J1T2QIBLsvUUidH
+         PrqAIXdUj2EaXQF4GMZddDBGeryjIavgQJHuNWgxKlkrv5YJRj8DAEO6jk70Go8GXlsz
+         +vwYIPBkH6xcOPc+tl7NN2KjhGSdi8sxjUruldoYkMHptySSZwChfpDbal1FXH+zAf+h
+         CTHtfK3PAqfvOx7k1mJZcLwub+5zI6bHfT3dysrFeU58bgk20ecys4Vz15XyIcVCsf9v
+         PRS374Nq3B5h/+oJ1lpyXrhQkQ8Ss2KiatYT95vdRKQwVUy1IAb5GSW9qt/yBHKWQzmt
+         0cIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXg239Z1MF8TJEz6SsVppuhAZq9VjpTq0jEuV95Kn7GNo1c0h3359bbb/NAX9Y8JWsGBDA=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8dUsj8HSu2c+wPum94e9JMutuuVloqg0kIKMv0rbFOfS9g2Kb
+	/VXf5InuSAg+xpJatGT+GxSkjkTAqu65VLu5VZ1QhTY6OnHQb0uHbsjXTd4EHtFMz9rZ/4jvEcI
+	XEQjGbhCOYyiPMAjQfUisUYtV1i2IeY5y0OIecpZpUvFAd1VzZYFxDOOqoGHUPhGykQLj/OLZZ0
+	EXevNdrI5/JXQOvY5y6bsbeLgaT+/XAw==
+X-Gm-Gg: ASbGncu/b4IKOl8Duqrr8jexrTFG95ZInVR6H4nStQ+LDlEVZlNSximun7XYEzh3Rco
+	oLAHSWoLClLO5242za6GUXjoRJaIpkfsUzkEiBUDQIR6nDuPW6prkwQNxnVP5vyGigixzAQns6w
+	UsAI38bUE7joP+FMslNGzwB55Q1pqnZ6Fwr5K5M400C7O8/yygqFwVqCtW2OSzshrQR3kyCnxgm
+	VfXXWgrV5k0I3Wa8TI3t+RiGM0=
+X-Received: by 2002:a05:620a:4412:b0:8b2:f269:f8a1 with SMTP id af79cd13be357-8b33d468fdcmr219877885a.71.1763729226278;
+        Fri, 21 Nov 2025 04:47:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHWPiCIgHWVQUiYgEZLxcTEc4IYShOjsf4gp1DesTemBJOKI/fXv3roTF9QbBQJ6o5Zq2D4RL0UGbl9ep845Ns=
+X-Received: by 2002:a05:620a:4412:b0:8b2:f269:f8a1 with SMTP id
+ af79cd13be357-8b33d468fdcmr219875085a.71.1763729225849; Fri, 21 Nov 2025
+ 04:47:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20251119105615.48295-1-slark_xiao@163.com> <20251119105615.48295-3-slark_xiao@163.com>
+In-Reply-To: <20251119105615.48295-3-slark_xiao@163.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Fri, 21 Nov 2025 13:46:54 +0100
+X-Gm-Features: AWmQ_bmuI9sNPf86QyN3uWHpPrHgwmugGLDFCp_d8rNLY1v-hjk-kGSjK1o7rSc
+Message-ID: <CAFEp6-23je6WC0ocMP7jXUtPGfeG9_LpY+1N-oLcSTOmqQCL2w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] net: wwan: mhi: Add network support for Foxconn T99W760
+To: Slark Xiao <slark_xiao@163.com>
+Cc: mani@kernel.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
+        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: waSg8u-bkA5M5RKky2wolIudBd8YnMU4
+X-Authority-Analysis: v=2.4 cv=SPlPlevH c=1 sm=1 tr=0 ts=69205f4b cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Byx-y9mGAAAA:8 a=EUspDBNiAAAA:8
+ a=laIMyccDeTmSpVvBuxYA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5NSBTYWx0ZWRfXzhk9GWuMwvDs
+ h/ce/bUuEAswZspV/KQK2GN/zKiHGpejdCxhnGv2ESb7qts12BStLDc/gNpc7ExbWjWM/wiMjmI
+ bGDKULCTbn+V2ZrqlUlehxWZPjbjJsagogGRKkKpAIdU374NMgd4MwacgpHJVh+vzZ700/WfaSP
+ CZZsJJEhyHdd9HhyxwKuUOm0RFA5rQEnfVRPSV8PVu/W6qyuPaMm5njq/qPHWKKKKIskqtigbkc
+ ZarPr2Qj1OVnN7BjGK0K9zJW8e6+DO6VCDtqWSZBx+FKFIBzdVfYhiYO5pmpleg+FpvLfYhbkIg
+ wuIDcsBUkA5UJmIbcxsutCTHczoL7Ov3n/21+KCoIuREeERF5wLm+oUAEqs+yPB1PuZ0iiV0E3V
+ pP2qZGTdTopkpf0YOtrxZyTooXSggQ==
+X-Proofpoint-GUID: waSg8u-bkA5M5RKky2wolIudBd8YnMU4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_03,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511210095
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: ac35e04f8000aaaf98635792464647e7a6f3422e  bus: mhi: host: pci_generic: Add Foxconn T99W760 modem
+On Wed, Nov 19, 2025 at 11:57=E2=80=AFAM Slark Xiao <slark_xiao@163.com> wr=
+ote:
+>
+> T99W760 is designed based on Qualcomm SDX35 chip. It use similar
+> architechture with SDX72/SDX75 chip. So we need to assign initial
+> link id for this device to make sure network available.
+>
+> Signed-off-by: Slark Xiao <slark_xiao@163.com>
 
-elapsed time: 1486m
+Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 
-configs tested: 127
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            alldefconfig    gcc-15.1.0
-alpha                             allnoconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                  randconfig-6001-20251120    gcc-10.5.0
-arc                  randconfig-6002-20251120    gcc-12.5.0
-arm                               allnoconfig    clang-22
-arm                                 defconfig    clang-22
-arm                          moxart_defconfig    gcc-15.1.0
-arm                  randconfig-6001-20251120    gcc-15.1.0
-arm                  randconfig-6002-20251120    clang-22
-arm                  randconfig-6003-20251120    clang-22
-arm                  randconfig-6004-20251120    gcc-10.5.0
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20251121    gcc-8.5.0
-arm64                 randconfig-002-20251121    clang-22
-arm64                 randconfig-003-20251121    gcc-8.5.0
-arm64                 randconfig-004-20251121    gcc-10.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20251121    gcc-14.3.0
-csky                  randconfig-002-20251121    gcc-11.5.0
-hexagon                           allnoconfig    clang-22
-hexagon                             defconfig    clang-22
-hexagon               randconfig-001-20251121    clang-22
-hexagon               randconfig-002-20251121    clang-22
-i386                              allnoconfig    gcc-14
-i386        buildonly-randconfig-001-20251121    gcc-14
-i386        buildonly-randconfig-002-20251121    gcc-14
-i386        buildonly-randconfig-003-20251121    clang-20
-i386        buildonly-randconfig-004-20251121    clang-20
-i386        buildonly-randconfig-005-20251121    clang-20
-i386        buildonly-randconfig-006-20251121    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20251121    gcc-14
-i386                  randconfig-002-20251121    clang-20
-i386                  randconfig-003-20251121    gcc-14
-i386                  randconfig-004-20251121    clang-20
-i386                  randconfig-005-20251121    clang-20
-i386                  randconfig-006-20251121    gcc-14
-i386                  randconfig-007-20251121    gcc-14
-i386                  randconfig-011-20251121    clang-20
-i386                  randconfig-012-20251121    clang-20
-i386                  randconfig-013-20251121    clang-20
-i386                  randconfig-014-20251121    clang-20
-i386                  randconfig-015-20251121    clang-20
-i386                  randconfig-016-20251121    gcc-14
-i386                  randconfig-017-20251121    gcc-14
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251121    gcc-15.1.0
-loongarch             randconfig-002-20251121    clang-22
-m68k                              allnoconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20251121    gcc-11.5.0
-nios2                 randconfig-002-20251121    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20251121    gcc-12.5.0
-parisc                randconfig-002-20251121    gcc-12.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                     kmeter1_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20251121    clang-18
-powerpc               randconfig-002-20251121    gcc-11.5.0
-powerpc64             randconfig-001-20251121    gcc-8.5.0
-powerpc64             randconfig-002-20251121    clang-20
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-22
-riscv                randconfig-6001-20251120    clang-22
-riscv                randconfig-6002-20251120    clang-22
-s390                              allnoconfig    clang-22
-s390                                defconfig    clang-22
-s390                 randconfig-6001-20251120    clang-22
-s390                 randconfig-6002-20251120    clang-17
-sh                                allnoconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                          lboxre2_defconfig    gcc-15.1.0
-sh                   randconfig-6001-20251120    gcc-15.1.0
-sh                   randconfig-6002-20251120    gcc-15.1.0
-sh                            shmin_defconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20251121    gcc-13.4.0
-sparc                 randconfig-002-20251121    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251121    clang-22
-sparc64               randconfig-002-20251121    clang-22
-um                                allnoconfig    clang-22
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251121    clang-22
-um                    randconfig-002-20251121    gcc-14
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20251121    gcc-14
-x86_64      buildonly-randconfig-002-20251121    gcc-14
-x86_64      buildonly-randconfig-003-20251121    gcc-14
-x86_64      buildonly-randconfig-004-20251121    clang-20
-x86_64      buildonly-randconfig-005-20251121    gcc-14
-x86_64      buildonly-randconfig-006-20251121    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-001-20251121    gcc-14
-x86_64                randconfig-002-20251121    clang-20
-x86_64                randconfig-003-20251121    clang-20
-x86_64                randconfig-004-20251121    gcc-14
-x86_64                randconfig-012-20251121    gcc-14
-x86_64                randconfig-013-20251121    gcc-14
-x86_64                randconfig-014-20251121    gcc-14
-x86_64                randconfig-071-20251121    gcc-14
-x86_64                randconfig-072-20251121    gcc-14
-x86_64                randconfig-073-20251121    gcc-12
-x86_64                randconfig-074-20251121    clang-20
-x86_64                randconfig-075-20251121    gcc-14
-x86_64                randconfig-076-20251121    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20251121    gcc-11.5.0
-xtensa                randconfig-002-20251121    gcc-8.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/net/wwan/mhi_wwan_mbim.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan=
+_mbim.c
+> index c814fbd756a1..a142af59a91f 100644
+> --- a/drivers/net/wwan/mhi_wwan_mbim.c
+> +++ b/drivers/net/wwan/mhi_wwan_mbim.c
+> @@ -98,7 +98,8 @@ static struct mhi_mbim_link *mhi_mbim_get_link_rcu(stru=
+ct mhi_mbim_context *mbim
+>  static int mhi_mbim_get_link_mux_id(struct mhi_controller *cntrl)
+>  {
+>         if (strcmp(cntrl->name, "foxconn-dw5934e") =3D=3D 0 ||
+> -           strcmp(cntrl->name, "foxconn-t99w515") =3D=3D 0)
+> +           strcmp(cntrl->name, "foxconn-t99w515") =3D=3D 0 ||
+> +           strcmp(cntrl->name, "foxconn-t99w760") =3D=3D 0)
+>                 return WDS_BIND_MUX_DATA_PORT_MUX_ID;
+>
+>         return 0;
+> --
+> 2.25.1
+>
