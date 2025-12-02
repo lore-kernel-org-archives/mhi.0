@@ -1,372 +1,253 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47FF2D1932
-	for <mhi@lists.linux.dev>; Tue,  2 Dec 2025 18:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41CF2D47E1;
+	Tue,  2 Dec 2025 21:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764701658; cv=none; b=OoSQZySk/0UuJdykVSo+XjFCrYviYRtFoNzGh8uE1W8WPhGyNTuuGRwk+HtvK6K7psci/5FiF+P/1FpgR++Cq8ZidMe6cpoJFaWM+/U7C7G4LjjQDXr8J4WMgSPdLTCoADg8kK5CaTxDQIyC6pbn81SGsTdJcSW8KQcxFblh74I=
+	t=1764710603; cv=none; b=ly0R0LDWZ9rt/hg0nwCdyDH/z/aaYtRrjq0Gdjq88ig/m3bIe/fHNmLXTXUKNGr0aUemHuK4H9SER+r5awmPz8Y1S0Wm/hbO6CVNe+VivGnMwfMXgF+qC+4tEmpLo/KbLZ3dbpoWRUE+2FdcOIx1S1B9t4KaryDxFQfVb60h86E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764701658; c=relaxed/simple;
-	bh=tsZzClfDjPvLEaasmSK5qthuOZLgGRJLMU3NtNPh4cE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BNpEhMAgWVofKKDsQc1W8g5kCfbDNio/3sg4H+ecQa1ZtcsrQZcZ8ertZ4dB/6E6qqNkpOGOzyB79xAM/8JlXtg8oRuJzF/Sjrgf3Df9qR8peobT1W2CUnG/sSOl8g60Apklmbzp0d0MKte6cx/FMUWsm5Fe4SbaWUZGHYGPELI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ALp3ckUU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aIVFeOt1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1764710603; c=relaxed/simple;
+	bh=3H3i5EY0vUpCRBByCy+K0P1cbdkkSno7+PnmdSTaJIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IKj4vRnBG2iJDw0/TDFld0t0oq7ncTi6Y7pPkK/9fP/mglgIrlqgrKsCMLk+/V5SHOtDnkt6+5SA2KGbghAnKb9ZDv9q76CUUElZOabT7/L+AUDYpKO9GgKYqokdo8ck7CtI4tRdp57YVAuEu+QiVFiIce1KxkIzAHtgaouZIfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1ppoxtk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ALp3ckUU";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aIVFeOt1"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B2FqIdv2583906
-	for <mhi@lists.linux.dev>; Tue, 2 Dec 2025 18:54:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=; b=ALp3ckUUHlsHUsdj
-	Rd1Y+DpvI04kJ61unC51UMChiu0za2yA1ERP2mFmpDlUkoUiv5Vkks9h/CAxDv9Z
-	Bb7RoRwwVX+a6QISn3k0Z1JCKio3aOivY+iGtWSAmE08Q3s2ujuWAEHzaP/NQU+2
-	dzv8cX+a3SvOBmV8IGTalQwjsryIcQIDYu9TtvWGjOPikNZFGHlFJge2hfayX6lw
-	hUyvHmcvErgD8FQTJsufNfgdCcpHiT2M9Wn3zNF/Of4N/1XTOhcZ1ARD/mlkD2ca
-	I2NzufK2phGwtwEvWTnN5K5ew29QZwaV79xx/wktR8/AQv1heEN1uoiH7Q3QOY8j
-	ao4/hA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asup3j58t-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 02 Dec 2025 18:54:15 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-297dabf9fd0so75902305ad.0
-        for <mhi@lists.linux.dev>; Tue, 02 Dec 2025 10:54:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764701655; x=1765306455; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
-        b=aIVFeOt1hGz3OqwAiZ8+vVPDS2HxFhaTOWpdv9SyNk2ORbzpsvtZ0QEFwv9dC2J4mY
-         6L1uQIlJSQqq9NXGhdgPnP4k6Ze77VRQAjzdBFlH7BWp5tszSESvZpqvYoVjz4rYteSe
-         tE8PSO45iqmArWKJ1xCyl9E8A9Ox20H2JVOLzGIyys0C2eFogv6SemuLD59YFrBI45Cc
-         ZNOit6kmUBXoUFroTVI7k981JuK1tWQbxrAXN5B2z1figij6ijJmr/pJnjHlU+gstJ5r
-         Xv1tgU6Q97GJqemB+rUIJLhoJi85VY9rMgAoOBS2kRw+LmZT9XNSvyWzUQJrS6PmofkY
-         Ztjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764701655; x=1765306455;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
-        b=m5TTVvRnBcTzAyc/5yy1bevYDp8lG3iH2tlmhDZ7gy6e+wq2uhhu4wulatAVQfe9p0
-         VmtQeL8uSk03XxTc2o0Hd7a29+0Ii9PpQjlPSjTNKavS+qg/IIvOAo92Z671NjuhnUmB
-         ibKjeQBNcWrijWTIKqbGdzbfWY7WHz+tgc1Brkzf77ojr86CBvwZfJ1iNjCpIEGdRiAR
-         vNV2zrObhpBAZoelNKWEH99RZ4jNDYmD807vBv4mz4QFLO+EYT1puk4wLhgfWbYIGPHF
-         8xhZrFsJG1rgRV8ls18cjRLqfRGbcYAj6Hn/nVfQPrl9nQeXIV+rjg77Hnkk86aIYiVP
-         ythw==
-X-Gm-Message-State: AOJu0Yz9EEK6fAnB1/h35Q/c/iRgnPC0a5lS0VuXasClS6vxZwmVS51T
-	tXJuqA3xbUZ4RaRSfv5CZRODDFcIEtqbRQQCM4Dk5XJvl0+A7QbWerN6h6X/lGldK8lrQtx69Bd
-	gKF7J7iAUcZGlyI3YKoAoozkRDjg9i5NsWvrRgrPRb3SiHNzysgfPHqg=
-X-Gm-Gg: ASbGncvuhiuylNmLFwjI36DUlgn0VFOBJv+u2rYFZZqrzYHLQnUILeJioFa4q/V+8ll
-	dniuKs6B/KRQ05EANiSeGyw30oHhgeLdS9wITDG7HrYzCTGKM4SqzqCxfje+UKlb/9l+YD0vV5Y
-	vXJi0EumqRXukcCQMY+IKmcU45zqno3V9D3CQFdksNaFNO5+oxozoBXXF+u/KpnT+ElJcMvOO+V
-	CN/L4zAHdQqDZg/1BmMfbx1a1app9Jo3RrMTSpnGh9Xtn6WDO51T7yYCSkMJG1EpDxBjY5s1eSb
-	6QIyCUaxu5vBtP//Tl/oFCCwdYAtdBFEvef9BH0TB86Pi3qhxioDjvddiQmk1sjqYCkQ0OJd699
-	1MtpiaLMjbCUu9Ehn9mLnPXcakTiA5uHi6fQaK13XWXRey2wispFD8CoY
-X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id d9443c01a7336-29d65dcf153mr3194995ad.31.1764701654703;
-        Tue, 02 Dec 2025 10:54:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJ/RzWsFhuxc2+iwjgFwfUTjpK4qX1voFjw3XyGlKEHTYHR3nxGS9zclRDNjBfyGa0y30Nkg==
-X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id d9443c01a7336-29d65dcf153mr3194655ad.31.1764701654151;
-        Tue, 02 Dec 2025 10:54:14 -0800 (PST)
-Received: from [10.73.112.168] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bd96307ebsm136616815ad.36.2025.12.02.10.54.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Dec 2025 10:54:13 -0800 (PST)
-Message-ID: <cb5cfffe-dbba-4da2-ac1f-de4a9a31f057@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 10:54:12 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1ppoxtk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6513EC113D0;
+	Tue,  2 Dec 2025 21:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764710602;
+	bh=3H3i5EY0vUpCRBByCy+K0P1cbdkkSno7+PnmdSTaJIo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l1ppoxtkItiuZr/6lqw+M7aNm5wTd86jaWhsJDU/SN+RZRyM7MZ8fvibjRhL06u32
+	 qgpFCM2GqrxGy+r9v4veRsSNV1v9mmzyxrLiqNhhyZ98dBst6l7i689AvieEpoPgEd
+	 IF047R0qiecT85HnvDHRPL2T+wYoT7RMzjgpi/3qN4N2lN/HyWdB5syihuifHnUKVe
+	 2jTDuJeVoGsphO2aKKWfQp63CaS/3HWRPnJH6m7hLjgh/FZMmeD5bkWZ912QdQWT57
+	 jMufoUGr5ivuWg2E2THXGXc9BafhL+/WJHTX9kK4gto29jY+S/ivSb65zYTq+3Mv/i
+	 TGfoXYra/q0BQ==
+Date: Tue, 2 Dec 2025 15:29:24 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+	Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org, netdev@vger.kernel.org, 
+	mayank.rana@oss.qualcomm.com, quic_vbadigan@quicinc.com, vivek.pernamitta@oss.qualcomm.com
+Subject: Re: [PATCH 2/4] bus: mhi: Remove runtime PM callback ops from
+ controller interface
+Message-ID: <pqe2gpbjbqgb42ioebrd6spodovi52x4rkbox5ptavrclwjkf4@rvli6wklilrj>
+References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
+ <20251201-mhi_runtimepm-v1-2-fab94399ca75@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] bus: mhi: Fix broken runtime PM design
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
- <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-        ath12k@lists.infradead.org, netdev@vger.kernel.org,
-        quic_vbadigan@quicinc.com, vivek.pernamitta@oss.qualcomm.com
-References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
- <20251201-mhi_runtimepm-v1-4-fab94399ca75@oss.qualcomm.com>
- <2dc234d3-3bb4-4d6e-810a-e7197174769f@oss.qualcomm.com>
- <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
-Content-Language: en-US
-From: Mayank Rana <mayank.rana@oss.qualcomm.com>
-In-Reply-To: <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=MaZhep/f c=1 sm=1 tr=0 ts=692f35d7 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=PkJSjolnkn3GvNMOFesA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDE0OSBTYWx0ZWRfXznlzDkW+w5Lf
- aZNY2r3G6EFSST2bGjeozrxpGa8b7ch/V1gZF/Fo0V/SI5kg6KOjl8h+DqdnEKuN+exaz8SxC3J
- +KZgHTY7WeMfYiI3xgsfGGH2Z53Yh/yvNDVHEcu6ScGgtBJOny6haRGfI07urvaPRGwhqKH6Q6+
- aIQNbsVtf7IBy+ftCSeLMJcwU8ykLNYCywQuoHtHTI5MLYKfmOTfi8pAsqFQ/wfgsjIDC4AnBtn
- 5Y6MbB/YTb7YD4kxWNl1BEI2jfR2lIjqEKb6mD8R+PxW9L3uhrOc4+e1zSvJp3TeazXMX2voAQR
- m5TPrNJmsMu7O4WuOXktsV81nlgBtDexnU0wdMMTxmtC4I4WkxP7nKwI6XC7tJpFXHyT/9susHK
- mWN+ESq7hi8pBt1NC3SHrVTq2uwTUA==
-X-Proofpoint-GUID: oOfevNS2GCwca_2ojLhfbDsDTMHbizqZ
-X-Proofpoint-ORIG-GUID: oOfevNS2GCwca_2ojLhfbDsDTMHbizqZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
- clxscore=1015 lowpriorityscore=0 suspectscore=0 phishscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512020149
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-mhi_runtimepm-v1-2-fab94399ca75@oss.qualcomm.com>
 
-
-
-On 12/1/2025 9:26 PM, Krishna Chaitanya Chundru wrote:
+On Mon, Dec 01, 2025 at 06:13:18PM +0530, Krishna Chaitanya Chundru wrote:
+> Remove the runtime_get and runtime_put function pointers from the
+> struct mhi_controller interface and all associated usage across the
+> MHI host stack. These callbacks were previously required by MHI drivers
+> to abstract runtime PM handling, but are now redundant.
 > 
-> 
-> On 12/2/2025 12:03 AM, Mayank Rana wrote:
->> Hi Krishna
->>
->> On 12/1/2025 4:43 AM, Krishna Chaitanya Chundru wrote:
->>> The current MHI runtime PM design is flawed, as the MHI core attempts to
->>> manage power references internally via mhi_queue() and related paths.
->>> This is problematic because the controller drivers do not have the
->>> knowledge of the client PM status due to the broken PM topology. So when
->>> they runtime suspend the controller, the client drivers could no longer
->>> function.
->>>
->>> To address this, in the new design, the client drivers reports their own
->>> runtime PM status now and the PM framework makes sure that the parent
->>> (controller driver) and other components up in the chain remain active.
->>> This leverages the standard parent-child PM relationship.
->>>
->>> Since MHI creates a mhi_dev device without an associated driver, we
->>> explicitly enable runtime PM on it and mark it with
->>> pm_runtime_no_callbacks() to indicate the PM core that no callbacks
->>> exist for this device. This is only needed for MHI controller, since
->>> the controller driver uses the bus device just like PCI device.
->>>
->>> Also Update the MHI core to explicitly manage runtime PM references in
->>> __mhi_device_get_sync() and mhi_device_put() to ensure the controller
->>> does not enter suspend while a client device is active.
->> Why does this needed here ?
->> Isn't it MHI client driver take care of allowing suspend ?
->> Do you think we should remove mhi_device_get_sync() and 
->> mhi_device_put() API interfaces as well ? And let controller/client 
->> driver takes care of calling get/sync directly ?
-> These API's not only  do runtime_get & put but as also do wake_get & 
-> wake_put which make sure endpoint also doesn't go M1 state.
-ok here we are doing 2 different devices based pm runtime API usage in 
-this core MHI driver.
-1. mhi_cntrl->dev
-2. mhi_cntrl->mhi_dev->dev
+> The MHI core has been updated to directly use standard pm_runtime_*
+> APIs, eliminating the need for driver-specific indirection.
 
-Those are seperate devices, and here we are mixing those usage.
-Is it correct or I am seeing differently ?
+Please write your commit messages according to
+https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+
+Start by establishing the purpose of the patch/the problem you're
+solving. Then once that's clear you can provide details about the
+change.
 
 Regards,
-Mayank
+Bjorn
 
->>
->> How are you handling cases for M0 and M3 suspend ?
->> Do we need to tie runtime usage with M0 (pm_runtime_get) and M3 
->> (pm_runtime_put) ?
-> M3 are controlled by the controller driver, they usually do it as part 
-> of their runtime suspend
-> and M0 as part of runtime resume.
- > once the mhi driver gives pm_runtime_put() then only controller can go
- > keep MHI in M3.
- > So we can't tie MHI states pm_runtime_get/put.
-Ok sounds good.
->>
->> Regards,
->> Mayank
->>
->>> Signed-off-by: Krishna Chaitanya Chundru 
->>> <krishna.chundru@oss.qualcomm.com>
->>> ---
->>>   drivers/bus/mhi/host/internal.h |  6 +++---
->>>   drivers/bus/mhi/host/main.c     | 28 ++++------------------------
->>>   drivers/bus/mhi/host/pm.c       | 18 ++++++++----------
->>>   3 files changed, 15 insertions(+), 37 deletions(-)
->>>
->>> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/ 
->>> internal.h
->>> index 
->>> 61e03298e898e6dd02d2a977cddc4c87b21e3a6c..d6a3168bb3ecc34eab1036c0e74f8d70cf422fed 100644
->>> --- a/drivers/bus/mhi/host/internal.h
->>> +++ b/drivers/bus/mhi/host/internal.h
->>> @@ -355,9 +355,9 @@ static inline bool mhi_is_active(struct 
->>> mhi_controller *mhi_cntrl)
->>>   static inline void mhi_trigger_resume(struct mhi_controller 
->>> *mhi_cntrl)
->>>   {
->>>       pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> +    pm_runtime_get(&mhi_cntrl->mhi_dev->dev);
->>> + pm_runtime_mark_last_busy(&mhi_cntrl->mhi_dev->dev);
->>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>     /* Register access methods */
->>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>> index 
->>> 7ac1162a0a81ae11245a2bbd9bf6fd6c0f86fbc1..85a9a5a62a6d3f92b0e9dc35b13fd867db89dd95 100644
->>> --- a/drivers/bus/mhi/host/main.c
->>> +++ b/drivers/bus/mhi/host/main.c
->>> @@ -427,6 +427,8 @@ void mhi_create_devices(struct mhi_controller 
->>> *mhi_cntrl)
->>>           if (ret)
->>>               put_device(&mhi_dev->dev);
->>>       }
->>> + pm_runtime_no_callbacks(&mhi_cntrl->mhi_dev->dev);
->>> + devm_pm_runtime_set_active_enabled(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>     irqreturn_t mhi_irq_handler(int irq_number, void *dev)
->>> @@ -658,12 +660,8 @@ static int parse_xfer_event(struct 
->>> mhi_controller *mhi_cntrl,
->>>               /* notify client */
->>>               mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
->>>   -            if (mhi_chan->dir == DMA_TO_DEVICE) {
->>> +            if (mhi_chan->dir == DMA_TO_DEVICE)
->>>                   atomic_dec(&mhi_cntrl->pending_pkts);
->>> -                /* Release the reference got from mhi_queue() */
->>> - pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -                pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -            }
->>>                 /*
->>>                * Recycle the buffer if buffer is pre-allocated,
->>> @@ -1152,12 +1150,6 @@ static int mhi_queue(struct mhi_device 
->>> *mhi_dev, struct mhi_buf_info *buf_info,
->>>         read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
->>>   -    /* Packet is queued, take a usage ref to exit M3 if necessary
->>> -     * for host->device buffer, balanced put is done on buffer 
->>> completion
->>> -     * for device->host buffer, balanced put is after ringing the DB
->>> -     */
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>> -
->>>       /* Assert dev_wake (to exit/prevent M1/M2)*/
->>>       mhi_cntrl->wake_toggle(mhi_cntrl);
->>>   @@ -1167,11 +1159,6 @@ static int mhi_queue(struct mhi_device 
->>> *mhi_dev, struct mhi_buf_info *buf_info,
->>>       if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
->>>           mhi_ring_chan_db(mhi_cntrl, mhi_chan);
->>>   -    if (dir == DMA_FROM_DEVICE) {
->>> -        pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -        pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -    }
->>> -
->>>       read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
->>>         return ret;
->>> @@ -1377,7 +1364,6 @@ static int mhi_update_channel_state(struct 
->>> mhi_controller *mhi_cntrl,
->>>       ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->>>       if (ret)
->>>           return ret;
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>>         reinit_completion(&mhi_chan->completion);
->>>       ret = mhi_send_cmd(mhi_cntrl, mhi_chan, cmd);
->>> @@ -1408,8 +1394,6 @@ static int mhi_update_channel_state(struct 
->>> mhi_controller *mhi_cntrl,
->>>         trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, 
->>> TPS("Updated"));
->>>   exit_channel_update:
->>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->>>       mhi_device_put(mhi_cntrl->mhi_dev);
->>>         return ret;
->>> @@ -1592,12 +1576,8 @@ static void mhi_reset_data_chan(struct 
->>> mhi_controller *mhi_cntrl,
->>>       while (tre_ring->rp != tre_ring->wp) {
->>>           struct mhi_buf_info *buf_info = buf_ring->rp;
->>>   -        if (mhi_chan->dir == DMA_TO_DEVICE) {
->>> +        if (mhi_chan->dir == DMA_TO_DEVICE)
->>>               atomic_dec(&mhi_cntrl->pending_pkts);
->>> -            /* Release the reference got from mhi_queue() */
->>> -            pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -            pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -        }
->>>             if (!buf_info->pre_mapped)
->>>               mhi_cntrl->unmap_single(mhi_cntrl, buf_info);
->>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->>> index 
->>> b4ef115189b505c3450ff0949ad2d09f3ed53386..fd690e8af693109ed8c55248db0ea153f9e69423 100644
->>> --- a/drivers/bus/mhi/host/pm.c
->>> +++ b/drivers/bus/mhi/host/pm.c
->>> @@ -429,6 +429,7 @@ static int mhi_pm_mission_mode_transition(struct 
->>> mhi_controller *mhi_cntrl)
->>>         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->>>           ret = -EIO;
->>> +        read_unlock_bh(&mhi_cntrl->pm_lock);
->>>           goto error_mission_mode;
->>>       }
->>>   @@ -459,11 +460,9 @@ static int 
->>> mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
->>>        */
->>>       mhi_create_devices(mhi_cntrl);
->>>   -    read_lock_bh(&mhi_cntrl->pm_lock);
->>>     error_mission_mode:
->>> -    mhi_cntrl->wake_put(mhi_cntrl, false);
->>> -    read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +    mhi_device_put(mhi_cntrl->mhi_dev);
->>>         return ret;
->>>   }
->>> @@ -1038,9 +1037,11 @@ int __mhi_device_get_sync(struct 
->>> mhi_controller *mhi_cntrl)
->>>           read_unlock_bh(&mhi_cntrl->pm_lock);
->>>           return -EIO;
->>>       }
->>> +    read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +
->>> +    pm_runtime_get_sync(&mhi_cntrl->mhi_dev->dev);
->>> +    read_lock_bh(&mhi_cntrl->pm_lock);
->>>       mhi_cntrl->wake_get(mhi_cntrl, true);
->>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->>> -        mhi_trigger_resume(mhi_cntrl);
->>>       read_unlock_bh(&mhi_cntrl->pm_lock);
->>>         ret = wait_event_timeout(mhi_cntrl->state_event,
->>> @@ -1049,9 +1050,7 @@ int __mhi_device_get_sync(struct mhi_controller 
->>> *mhi_cntrl)
->>>                    msecs_to_jiffies(mhi_cntrl->timeout_ms));
->>>         if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->>> -        read_lock_bh(&mhi_cntrl->pm_lock);
->>> -        mhi_cntrl->wake_put(mhi_cntrl, false);
->>> -        read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +        mhi_device_put(mhi_cntrl->mhi_dev);
->>>           return -EIO;
->>>       }
->>>   @@ -1339,11 +1338,10 @@ void mhi_device_put(struct mhi_device 
->>> *mhi_dev)
->>>         mhi_dev->dev_wake--;
->>>       read_lock_bh(&mhi_cntrl->pm_lock);
->>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->>> -        mhi_trigger_resume(mhi_cntrl);
->>>         mhi_cntrl->wake_put(mhi_cntrl, false);
->>>       read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>   EXPORT_SYMBOL_GPL(mhi_device_put);
->>>
->>
 > 
-
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/accel/qaic/mhi_controller.c   | 11 -----------
+>  drivers/bus/mhi/host/pci_generic.c    | 24 +++---------------------
+>  drivers/net/wireless/ath/ath11k/mhi.c | 10 ----------
+>  drivers/net/wireless/ath/ath12k/mhi.c | 11 -----------
+>  include/linux/mhi.h                   |  4 ----
+>  5 files changed, 3 insertions(+), 57 deletions(-)
+> 
+> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+> index 13a14c6c61689fa4af47dade6d62b3cb1a148354..319344be658b38656f6e85e92be4b5473f43c897 100644
+> --- a/drivers/accel/qaic/mhi_controller.c
+> +++ b/drivers/accel/qaic/mhi_controller.c
+> @@ -820,15 +820,6 @@ static void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr,
+>  	writel_relaxed(val, addr);
+>  }
+>  
+> -static int mhi_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void mhi_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+> -
+>  static void mhi_status_cb(struct mhi_controller *mhi_cntrl, enum mhi_callback reason)
+>  {
+>  	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntrl->cntrl_dev));
+> @@ -889,8 +880,6 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
+>  	mhi_cntrl->iova_start = 0;
+>  	mhi_cntrl->iova_stop = PHYS_ADDR_MAX - 1;
+>  	mhi_cntrl->status_cb = mhi_status_cb;
+> -	mhi_cntrl->runtime_get = mhi_runtime_get;
+> -	mhi_cntrl->runtime_put = mhi_runtime_put;
+>  	mhi_cntrl->read_reg = mhi_read_reg;
+>  	mhi_cntrl->write_reg = mhi_write_reg;
+>  	mhi_cntrl->regs = mhi_bar;
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index b188bbf7de042d8b9aa0dde1217d2c86558c3caf..7036b1654c550a79e53fb449b944d67b68aad677 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1173,23 +1173,6 @@ static int mhi_pci_get_irqs(struct mhi_controller *mhi_cntrl,
+>  	return 0;
+>  }
+>  
+> -static int mhi_pci_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	/* The runtime_get() MHI callback means:
+> -	 *    Do whatever is requested to leave M3.
+> -	 */
+> -	return pm_runtime_get(mhi_cntrl->cntrl_dev);
+> -}
+> -
+> -static void mhi_pci_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -	/* The runtime_put() MHI callback means:
+> -	 *    Device can be moved in M3 state.
+> -	 */
+> -	pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+> -	pm_runtime_put(mhi_cntrl->cntrl_dev);
+> -}
+> -
+>  static void mhi_pci_recovery_work(struct work_struct *work)
+>  {
+>  	struct mhi_pci_device *mhi_pdev = container_of(work, struct mhi_pci_device,
+> @@ -1277,7 +1260,7 @@ static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
+> -	mhi_cntrl->runtime_get(mhi_cntrl);
+> +	pm_runtime_get(mhi_cntrl->cntrl_dev);
+>  
+>  	ret = mhi_get_channel_doorbell_offset(mhi_cntrl, &val);
+>  	if (ret)
+> @@ -1291,7 +1274,8 @@ static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
+>  	mhi_soc_reset(mhi_cntrl);
+>  
+>  err_get_chdb:
+> -	mhi_cntrl->runtime_put(mhi_cntrl);
+> +	pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+> +	pm_runtime_put(mhi_cntrl->cntrl_dev);
+>  	mhi_device_put(mhi_cntrl->mhi_dev);
+>  
+>  	return ret;
+> @@ -1338,8 +1322,6 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	mhi_cntrl->read_reg = mhi_pci_read_reg;
+>  	mhi_cntrl->write_reg = mhi_pci_write_reg;
+>  	mhi_cntrl->status_cb = mhi_pci_status_cb;
+> -	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+> -	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+>  	mhi_cntrl->mru = info->mru_default;
+>  	mhi_cntrl->name = info->name;
+>  
+> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+> index acd76e9392d31192aca6776319ef0829a1c69628..18bac9e4bc35bffabef05171b88bd5515e7df925 100644
+> --- a/drivers/net/wireless/ath/ath11k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
+> @@ -230,14 +230,6 @@ static int ath11k_mhi_get_msi(struct ath11k_pci *ab_pci)
+>  	return 0;
+>  }
+>  
+> -static int ath11k_mhi_op_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void ath11k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+>  
+>  static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
+>  {
+> @@ -384,8 +376,6 @@ int ath11k_mhi_register(struct ath11k_pci *ab_pci)
+>  	mhi_ctrl->sbl_size = SZ_512K;
+>  	mhi_ctrl->seg_len = SZ_512K;
+>  	mhi_ctrl->fbc_download = true;
+> -	mhi_ctrl->runtime_get = ath11k_mhi_op_runtime_get;
+> -	mhi_ctrl->runtime_put = ath11k_mhi_op_runtime_put;
+>  	mhi_ctrl->status_cb = ath11k_mhi_op_status_cb;
+>  	mhi_ctrl->read_reg = ath11k_mhi_op_read_reg;
+>  	mhi_ctrl->write_reg = ath11k_mhi_op_write_reg;
+> diff --git a/drivers/net/wireless/ath/ath12k/mhi.c b/drivers/net/wireless/ath/ath12k/mhi.c
+> index 08f44baf182a5e34651e8c117fe279942f8ad8f4..99d8d9a8944cefa2561cd47d83bbeb53ef13044d 100644
+> --- a/drivers/net/wireless/ath/ath12k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath12k/mhi.c
+> @@ -230,15 +230,6 @@ static int ath12k_mhi_get_msi(struct ath12k_pci *ab_pci)
+>  	return 0;
+>  }
+>  
+> -static int ath12k_mhi_op_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void ath12k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+> -
+>  static char *ath12k_mhi_op_callback_to_str(enum mhi_callback reason)
+>  {
+>  	switch (reason) {
+> @@ -386,8 +377,6 @@ int ath12k_mhi_register(struct ath12k_pci *ab_pci)
+>  	mhi_ctrl->sbl_size = SZ_512K;
+>  	mhi_ctrl->seg_len = SZ_512K;
+>  	mhi_ctrl->fbc_download = true;
+> -	mhi_ctrl->runtime_get = ath12k_mhi_op_runtime_get;
+> -	mhi_ctrl->runtime_put = ath12k_mhi_op_runtime_put;
+>  	mhi_ctrl->status_cb = ath12k_mhi_op_status_cb;
+>  	mhi_ctrl->read_reg = ath12k_mhi_op_read_reg;
+>  	mhi_ctrl->write_reg = ath12k_mhi_op_write_reg;
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index dd372b0123a6da5107b807ff8fe940c567eb2030..312e5c4b9cf8a46ffb20e2afc70441a11ecf659c 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -347,8 +347,6 @@ struct mhi_controller_config {
+>   * @wake_get: CB function to assert device wake (optional)
+>   * @wake_put: CB function to de-assert device wake (optional)
+>   * @wake_toggle: CB function to assert and de-assert device wake (optional)
+> - * @runtime_get: CB function to controller runtime resume (required)
+> - * @runtime_put: CB function to decrement pm usage (required)
+>   * @map_single: CB function to create TRE buffer
+>   * @unmap_single: CB function to destroy TRE buffer
+>   * @read_reg: Read a MHI register via the physical link (required)
+> @@ -427,8 +425,6 @@ struct mhi_controller {
+>  	void (*wake_get)(struct mhi_controller *mhi_cntrl, bool override);
+>  	void (*wake_put)(struct mhi_controller *mhi_cntrl, bool override);
+>  	void (*wake_toggle)(struct mhi_controller *mhi_cntrl);
+> -	int (*runtime_get)(struct mhi_controller *mhi_cntrl);
+> -	void (*runtime_put)(struct mhi_controller *mhi_cntrl);
+>  	int (*map_single)(struct mhi_controller *mhi_cntrl,
+>  			  struct mhi_buf_info *buf);
+>  	void (*unmap_single)(struct mhi_controller *mhi_cntrl,
+> 
+> -- 
+> 2.34.1
+> 
+> 
