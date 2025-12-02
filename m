@@ -1,86 +1,86 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1242F60C1
-	for <mhi@lists.linux.dev>; Tue,  2 Dec 2025 05:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47FF2D1932
+	for <mhi@lists.linux.dev>; Tue,  2 Dec 2025 18:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764653203; cv=none; b=jBr33LJ7EH8IIHspub1yIjWkZxmVYC7fY7FlofAQHGqbwe4R9fRw2LxmbvDQ+YzH4pZAHdb3alnBgy8LFl3UaM8mcOVJ+uWLFTyQTGNgVjF+QqoQKXR9eYe3ESsW/raMruojZNlj/YQzFTObk6iW7G29U548IUtcza6FyLaYdeo=
+	t=1764701658; cv=none; b=OoSQZySk/0UuJdykVSo+XjFCrYviYRtFoNzGh8uE1W8WPhGyNTuuGRwk+HtvK6K7psci/5FiF+P/1FpgR++Cq8ZidMe6cpoJFaWM+/U7C7G4LjjQDXr8J4WMgSPdLTCoADg8kK5CaTxDQIyC6pbn81SGsTdJcSW8KQcxFblh74I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764653203; c=relaxed/simple;
-	bh=oTC54xyF8rd1shmBm7FfKdLNddDtIdaHGpRC6RXOj00=;
+	s=arc-20240116; t=1764701658; c=relaxed/simple;
+	bh=tsZzClfDjPvLEaasmSK5qthuOZLgGRJLMU3NtNPh4cE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A+zrRLx6a7FxaV3B9/KdZ0IheVigEXOIIvmqo7xAAiZHpdOvJJvYPZOxXYItMYqz6VTQYdcLa23NqCmjuZhOLpzsEv+RTZu/CZmU5Dknv0eGA6elhbe8xij8v6Sv0TONWJZRzrDjjH7cqxokgOY4oUjR0XKSN0PjSW1/U+Ovm08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T1vmKpx1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kPGLhnL3; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=BNpEhMAgWVofKKDsQc1W8g5kCfbDNio/3sg4H+ecQa1ZtcsrQZcZ8ertZ4dB/6E6qqNkpOGOzyB79xAM/8JlXtg8oRuJzF/Sjrgf3Df9qR8peobT1W2CUnG/sSOl8g60Apklmbzp0d0MKte6cx/FMUWsm5Fe4SbaWUZGHYGPELI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ALp3ckUU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aIVFeOt1; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T1vmKpx1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kPGLhnL3"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B217a5C1358396
-	for <mhi@lists.linux.dev>; Tue, 2 Dec 2025 05:26:39 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ALp3ckUU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aIVFeOt1"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B2FqIdv2583906
+	for <mhi@lists.linux.dev>; Tue, 2 Dec 2025 18:54:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sXH+FolYz1c3U/F3aqD1ELuv0/0CjC4u/zLs1ktTN6g=; b=T1vmKpx1qt28b7mS
-	q1DPM1OTWbvoA0mFF6oGC3Xg/GjbhjTfOhdAOltrK8o2loaxLFhO7ossFlW99Biy
-	CEzLwMz1FQ9dWks4nR2+AXt+81641ANw22RQjpLbXxAsBMuDksvcELOebkDLucis
-	L/NSFgCdVAs5eA3sBTuIV0Uhlm9NdcBfxMt6JU0UPFXf9KUkcOQ4UpjaYB5QkX/V
-	HYcbC5vK0+zunpJXxvJXbwUm1oQHItVDe3ZqVbYEwJRLk+S74E5+drk7m+swgh/J
-	lPo19hwtfME66VHZg1GjtrNFk2564U79IXosavvXGoUW5ukFgjUtOPMafAL+eN2L
-	2ks14w==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asp63gjpd-1
+	hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=; b=ALp3ckUUHlsHUsdj
+	Rd1Y+DpvI04kJ61unC51UMChiu0za2yA1ERP2mFmpDlUkoUiv5Vkks9h/CAxDv9Z
+	Bb7RoRwwVX+a6QISn3k0Z1JCKio3aOivY+iGtWSAmE08Q3s2ujuWAEHzaP/NQU+2
+	dzv8cX+a3SvOBmV8IGTalQwjsryIcQIDYu9TtvWGjOPikNZFGHlFJge2hfayX6lw
+	hUyvHmcvErgD8FQTJsufNfgdCcpHiT2M9Wn3zNF/Of4N/1XTOhcZ1ARD/mlkD2ca
+	I2NzufK2phGwtwEvWTnN5K5ew29QZwaV79xx/wktR8/AQv1heEN1uoiH7Q3QOY8j
+	ao4/hA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asup3j58t-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 02 Dec 2025 05:26:39 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-bddf8a4dd94so3295137a12.1
-        for <mhi@lists.linux.dev>; Mon, 01 Dec 2025 21:26:38 -0800 (PST)
+	for <mhi@lists.linux.dev>; Tue, 02 Dec 2025 18:54:15 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-297dabf9fd0so75902305ad.0
+        for <mhi@lists.linux.dev>; Tue, 02 Dec 2025 10:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764653198; x=1765257998; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1764701655; x=1765306455; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=sXH+FolYz1c3U/F3aqD1ELuv0/0CjC4u/zLs1ktTN6g=;
-        b=kPGLhnL30wdatTuabp4kv9nNU94Bi1JdRJoKenzlxpu2Kft1TZkAPtgIUhSjWVeX4I
-         W6qpeuDdEJtI0ySOdJLJtnBWXQuAz4ZLNaQe6xNEmC+jTsSZairkCFSbg9euJ243AKYV
-         QyafTXhg1CooBX3Opl0fMLXAohzt5IvgZWrj5XoFbby/Na3k0bKOyvLTv6PYLadsQfOD
-         OUb3AcrffUxrvn/OY6GlNZPCQ5N76vzex3yQdoihbYFglwNizds0I+kbXkhOhbGrDYh1
-         9YRiay90FkUVF2yGXLj2hAjbdolkMfCiWP9vweY6+g2L13vTOnIptVGKXw+pot8lEOu7
-         xb8A==
+        bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
+        b=aIVFeOt1hGz3OqwAiZ8+vVPDS2HxFhaTOWpdv9SyNk2ORbzpsvtZ0QEFwv9dC2J4mY
+         6L1uQIlJSQqq9NXGhdgPnP4k6Ze77VRQAjzdBFlH7BWp5tszSESvZpqvYoVjz4rYteSe
+         tE8PSO45iqmArWKJ1xCyl9E8A9Ox20H2JVOLzGIyys0C2eFogv6SemuLD59YFrBI45Cc
+         ZNOit6kmUBXoUFroTVI7k981JuK1tWQbxrAXN5B2z1figij6ijJmr/pJnjHlU+gstJ5r
+         Xv1tgU6Q97GJqemB+rUIJLhoJi85VY9rMgAoOBS2kRw+LmZT9XNSvyWzUQJrS6PmofkY
+         Ztjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764653198; x=1765257998;
+        d=1e100.net; s=20230601; t=1764701655; x=1765306455;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sXH+FolYz1c3U/F3aqD1ELuv0/0CjC4u/zLs1ktTN6g=;
-        b=QuiXKTWC5wYujTa0kUFBmLxiDCSeZn8Y4aLV+uRHF25GO/rs8jB9uuDiDPXjbz0IrN
-         2zp47hHHJbSoGzlT+IpUEGWXHv4huSJlJZxcYdXkIWOFus8U7D4cVSZZ8YR3+odgUOb8
-         nkElLB2njC8MikXjYrLDPCJ5A1nkRDlGa5UY+ZxX5LXYto1MKUK98N2HvAVQ7STqhvpT
-         ttbNL319CMcctubxCvuQnEljUb/q9GMuRAFoU9LI4DNJv6kKz6aLnAJpXgCP4/aoT82T
-         YwwJt43+GE1Q8IMfWf/8imbD16Y/eIfd2FSdHH5kKUvwaArEmr+mIJ5yhrZUsX7and6q
-         Trvw==
-X-Gm-Message-State: AOJu0Yzs4+v0ZX1o4cN090ttO/soSfX9Vr9MdPQwh6FLlgMYpUIfa9Wq
-	7rpmK75AbGGM5fVvshNzgbaRSzNx/ePivb/JTo5PY6NzJ9/YwtL72xwRSrykIEHDWOnhwuIALHA
-	7lcc0SWbMtmwyJhR1mXjE0jx6YUjEzqhIfgbObOfzZaqQrH1MyQH7/4Q=
-X-Gm-Gg: ASbGncsDE9SDzS/oQr14mLCmVeYtHan6Hb+VFmLYIB8W2qj3QJx8wcfMjETxnBedtTg
-	CGqzy/sats1775MrMAEISMPZMGoK06mbUn//QMB2JSwo6S/es62JY4o7amXF0AoQG91OXLfS69u
-	ac7z6lKtiRL0B27dVeORgiSGPmAxKUDbhsuWjTCslgrV/3tn0Rzu2do0vAQ8+HHuVMD4Dv3WHr6
-	N4w0eGl3g0StVpiESKqijDq3ul/0Zl9a6jVlL8IdRzeuuyulJUUJM0XkZJDc6RIWQQUxZUeuI/8
-	0DG7jfExYAm8UiGAQ7iTjNBwIlEJLjavdMHg+wY1EZMBI+/Np1pwVej1pfnDtdryfx1GrbUd+A7
-	IiZRJcePZek9yorD1emi4R2KBEZZKCAu3otssoQK3bQ==
-X-Received: by 2002:a05:6a21:99a2:b0:35d:cc9a:8bc1 with SMTP id adf61e73a8af0-363e8d51e4amr1374008637.27.1764653198318;
-        Mon, 01 Dec 2025 21:26:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEAWZ7n/BoRt2V1SlXWIuloIGJYsPZ36/Zx7AX6eT+utP2djOCYvtjHBuiLBctSYyTFSDkcpQ==
-X-Received: by 2002:a05:6a21:99a2:b0:35d:cc9a:8bc1 with SMTP id adf61e73a8af0-363e8d51e4amr1373981637.27.1764653197778;
-        Mon, 01 Dec 2025 21:26:37 -0800 (PST)
-Received: from [10.218.35.45] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be508a1142esm13403683a12.19.2025.12.01.21.26.32
+        bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
+        b=m5TTVvRnBcTzAyc/5yy1bevYDp8lG3iH2tlmhDZ7gy6e+wq2uhhu4wulatAVQfe9p0
+         VmtQeL8uSk03XxTc2o0Hd7a29+0Ii9PpQjlPSjTNKavS+qg/IIvOAo92Z671NjuhnUmB
+         ibKjeQBNcWrijWTIKqbGdzbfWY7WHz+tgc1Brkzf77ojr86CBvwZfJ1iNjCpIEGdRiAR
+         vNV2zrObhpBAZoelNKWEH99RZ4jNDYmD807vBv4mz4QFLO+EYT1puk4wLhgfWbYIGPHF
+         8xhZrFsJG1rgRV8ls18cjRLqfRGbcYAj6Hn/nVfQPrl9nQeXIV+rjg77Hnkk86aIYiVP
+         ythw==
+X-Gm-Message-State: AOJu0Yz9EEK6fAnB1/h35Q/c/iRgnPC0a5lS0VuXasClS6vxZwmVS51T
+	tXJuqA3xbUZ4RaRSfv5CZRODDFcIEtqbRQQCM4Dk5XJvl0+A7QbWerN6h6X/lGldK8lrQtx69Bd
+	gKF7J7iAUcZGlyI3YKoAoozkRDjg9i5NsWvrRgrPRb3SiHNzysgfPHqg=
+X-Gm-Gg: ASbGncvuhiuylNmLFwjI36DUlgn0VFOBJv+u2rYFZZqrzYHLQnUILeJioFa4q/V+8ll
+	dniuKs6B/KRQ05EANiSeGyw30oHhgeLdS9wITDG7HrYzCTGKM4SqzqCxfje+UKlb/9l+YD0vV5Y
+	vXJi0EumqRXukcCQMY+IKmcU45zqno3V9D3CQFdksNaFNO5+oxozoBXXF+u/KpnT+ElJcMvOO+V
+	CN/L4zAHdQqDZg/1BmMfbx1a1app9Jo3RrMTSpnGh9Xtn6WDO51T7yYCSkMJG1EpDxBjY5s1eSb
+	6QIyCUaxu5vBtP//Tl/oFCCwdYAtdBFEvef9BH0TB86Pi3qhxioDjvddiQmk1sjqYCkQ0OJd699
+	1MtpiaLMjbCUu9Ehn9mLnPXcakTiA5uHi6fQaK13XWXRey2wispFD8CoY
+X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id d9443c01a7336-29d65dcf153mr3194995ad.31.1764701654703;
+        Tue, 02 Dec 2025 10:54:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGJ/RzWsFhuxc2+iwjgFwfUTjpK4qX1voFjw3XyGlKEHTYHR3nxGS9zclRDNjBfyGa0y30Nkg==
+X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id d9443c01a7336-29d65dcf153mr3194655ad.31.1764701654151;
+        Tue, 02 Dec 2025 10:54:14 -0800 (PST)
+Received: from [10.73.112.168] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bd96307ebsm136616815ad.36.2025.12.02.10.54.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Dec 2025 21:26:37 -0800 (PST)
-Message-ID: <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 10:56:30 +0530
+        Tue, 02 Dec 2025 10:54:13 -0800 (PST)
+Message-ID: <cb5cfffe-dbba-4da2-ac1f-de4a9a31f057@oss.qualcomm.com>
+Date: Tue, 2 Dec 2025 10:54:12 -0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 4/4] bus: mhi: Fix broken runtime PM design
-To: Mayank Rana <mayank.rana@oss.qualcomm.com>,
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
         Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
@@ -107,253 +107,266 @@ Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
  <20251201-mhi_runtimepm-v1-4-fab94399ca75@oss.qualcomm.com>
  <2dc234d3-3bb4-4d6e-810a-e7197174769f@oss.qualcomm.com>
+ <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
 Content-Language: en-US
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <2dc234d3-3bb4-4d6e-810a-e7197174769f@oss.qualcomm.com>
+From: Mayank Rana <mayank.rana@oss.qualcomm.com>
+In-Reply-To: <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: NlR5aieqJpnZRCVDv8HZvzWQfmySqgh0
-X-Proofpoint-ORIG-GUID: NlR5aieqJpnZRCVDv8HZvzWQfmySqgh0
-X-Authority-Analysis: v=2.4 cv=XM49iAhE c=1 sm=1 tr=0 ts=692e788f cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Authority-Analysis: v=2.4 cv=MaZhep/f c=1 sm=1 tr=0 ts=692f35d7 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=gkVCCi9o0YoM2wVKOhMA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDA0MSBTYWx0ZWRfX9e5QNfC/CXIg
- 5kJIPppwQj+9UyIVXj92AMQOrA8ZVCF2WpMDmcr4AFtkDPVsbahVINiC8/w6es7ehF9LPFNV2kj
- /RfjM9ysj1KtHnviKG/USie9kIydGbKxuATt3KVLJnzMRDsi2/ipDa7X5Ixpl1mY6wpJ2RlMTXE
- bidQjD7LOWuvc09PIXF83RMa9tdQtvEdC7jSZUMutYBOVQaWSgdWgQQ4w5fPUH80MvbmU285Pta
- p9RP/WB67r0NO2dTD5KrL//tm95bjsbKkm2RcIbhfeeeUEK4nvpN2Tz1H5D3SAgkKfqKE/f549D
- 0PC2YWSHKbx3FdH8DhKErO2yYz931Gc/x+/1eql6+v7ycAJwRqIJ6d+ItZD+G24lgU3ntUp90ol
- ycbJ/6qwLXtVzoBcFOl4h0XgtWS2Dw==
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=PkJSjolnkn3GvNMOFesA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDE0OSBTYWx0ZWRfXznlzDkW+w5Lf
+ aZNY2r3G6EFSST2bGjeozrxpGa8b7ch/V1gZF/Fo0V/SI5kg6KOjl8h+DqdnEKuN+exaz8SxC3J
+ +KZgHTY7WeMfYiI3xgsfGGH2Z53Yh/yvNDVHEcu6ScGgtBJOny6haRGfI07urvaPRGwhqKH6Q6+
+ aIQNbsVtf7IBy+ftCSeLMJcwU8ykLNYCywQuoHtHTI5MLYKfmOTfi8pAsqFQ/wfgsjIDC4AnBtn
+ 5Y6MbB/YTb7YD4kxWNl1BEI2jfR2lIjqEKb6mD8R+PxW9L3uhrOc4+e1zSvJp3TeazXMX2voAQR
+ m5TPrNJmsMu7O4WuOXktsV81nlgBtDexnU0wdMMTxmtC4I4WkxP7nKwI6XC7tJpFXHyT/9susHK
+ mWN+ESq7hi8pBt1NC3SHrVTq2uwTUA==
+X-Proofpoint-GUID: oOfevNS2GCwca_2ojLhfbDsDTMHbizqZ
+X-Proofpoint-ORIG-GUID: oOfevNS2GCwca_2ojLhfbDsDTMHbizqZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
+ definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
- adultscore=0 bulkscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512020041
+ malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512020149
 
 
 
-On 12/2/2025 12:03 AM, Mayank Rana wrote:
-> Hi Krishna
->
-> On 12/1/2025 4:43 AM, Krishna Chaitanya Chundru wrote:
->> The current MHI runtime PM design is flawed, as the MHI core attempts to
->> manage power references internally via mhi_queue() and related paths.
->> This is problematic because the controller drivers do not have the
->> knowledge of the client PM status due to the broken PM topology. So when
->> they runtime suspend the controller, the client drivers could no longer
->> function.
+On 12/1/2025 9:26 PM, Krishna Chaitanya Chundru wrote:
+> 
+> 
+> On 12/2/2025 12:03 AM, Mayank Rana wrote:
+>> Hi Krishna
 >>
->> To address this, in the new design, the client drivers reports their own
->> runtime PM status now and the PM framework makes sure that the parent
->> (controller driver) and other components up in the chain remain active.
->> This leverages the standard parent-child PM relationship.
->>
->> Since MHI creates a mhi_dev device without an associated driver, we
->> explicitly enable runtime PM on it and mark it with
->> pm_runtime_no_callbacks() to indicate the PM core that no callbacks
->> exist for this device. This is only needed for MHI controller, since
->> the controller driver uses the bus device just like PCI device.
->>
->> Also Update the MHI core to explicitly manage runtime PM references in
->> __mhi_device_get_sync() and mhi_device_put() to ensure the controller
->> does not enter suspend while a client device is active.
-> Why does this needed here ?
-> Isn't it MHI client driver take care of allowing suspend ?
-> Do you think we should remove mhi_device_get_sync() and 
-> mhi_device_put() API interfaces as well ? And let controller/client 
-> driver takes care of calling get/sync directly ?
-These API's not only  do runtime_get & put but as also do wake_get & 
-wake_put which make sure endpoint also doesn't go M1 state.
->
-> How are you handling cases for M0 and M3 suspend ?
-> Do we need to tie runtime usage with M0 (pm_runtime_get) and M3 
-> (pm_runtime_put) ?
-M3 are controlled by the controller driver, they usually do it as part 
-of their runtime suspend
-and M0 as part of runtime resume.
-once the mhi driver gives pm_runtime_put() then only controller can go 
-keep MHI in M3.
-So we can't tie MHI states pm_runtime_get/put.
+>> On 12/1/2025 4:43 AM, Krishna Chaitanya Chundru wrote:
+>>> The current MHI runtime PM design is flawed, as the MHI core attempts to
+>>> manage power references internally via mhi_queue() and related paths.
+>>> This is problematic because the controller drivers do not have the
+>>> knowledge of the client PM status due to the broken PM topology. So when
+>>> they runtime suspend the controller, the client drivers could no longer
+>>> function.
+>>>
+>>> To address this, in the new design, the client drivers reports their own
+>>> runtime PM status now and the PM framework makes sure that the parent
+>>> (controller driver) and other components up in the chain remain active.
+>>> This leverages the standard parent-child PM relationship.
+>>>
+>>> Since MHI creates a mhi_dev device without an associated driver, we
+>>> explicitly enable runtime PM on it and mark it with
+>>> pm_runtime_no_callbacks() to indicate the PM core that no callbacks
+>>> exist for this device. This is only needed for MHI controller, since
+>>> the controller driver uses the bus device just like PCI device.
+>>>
+>>> Also Update the MHI core to explicitly manage runtime PM references in
+>>> __mhi_device_get_sync() and mhi_device_put() to ensure the controller
+>>> does not enter suspend while a client device is active.
+>> Why does this needed here ?
+>> Isn't it MHI client driver take care of allowing suspend ?
+>> Do you think we should remove mhi_device_get_sync() and 
+>> mhi_device_put() API interfaces as well ? And let controller/client 
+>> driver takes care of calling get/sync directly ?
+> These API's not only  do runtime_get & put but as also do wake_get & 
+> wake_put which make sure endpoint also doesn't go M1 state.
+ok here we are doing 2 different devices based pm runtime API usage in 
+this core MHI driver.
+1. mhi_cntrl->dev
+2. mhi_cntrl->mhi_dev->dev
 
-- Krishna Chaitanya.
->
-> Regards,
-> Mayank
->
->> Signed-off-by: Krishna Chaitanya Chundru 
->> <krishna.chundru@oss.qualcomm.com>
->> ---
->>   drivers/bus/mhi/host/internal.h |  6 +++---
->>   drivers/bus/mhi/host/main.c     | 28 ++++------------------------
->>   drivers/bus/mhi/host/pm.c       | 18 ++++++++----------
->>   3 files changed, 15 insertions(+), 37 deletions(-)
+Those are seperate devices, and here we are mixing those usage.
+Is it correct or I am seeing differently ?
+
+Regards,
+Mayank
+
 >>
->> diff --git a/drivers/bus/mhi/host/internal.h 
->> b/drivers/bus/mhi/host/internal.h
->> index 
->> 61e03298e898e6dd02d2a977cddc4c87b21e3a6c..d6a3168bb3ecc34eab1036c0e74f8d70cf422fed 
->> 100644
->> --- a/drivers/bus/mhi/host/internal.h
->> +++ b/drivers/bus/mhi/host/internal.h
->> @@ -355,9 +355,9 @@ static inline bool mhi_is_active(struct 
->> mhi_controller *mhi_cntrl)
->>   static inline void mhi_trigger_resume(struct mhi_controller 
->> *mhi_cntrl)
->>   {
->>       pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
->> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->> +    pm_runtime_get(&mhi_cntrl->mhi_dev->dev);
->> + pm_runtime_mark_last_busy(&mhi_cntrl->mhi_dev->dev);
->> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>   }
->>     /* Register access methods */
->> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->> index 
->> 7ac1162a0a81ae11245a2bbd9bf6fd6c0f86fbc1..85a9a5a62a6d3f92b0e9dc35b13fd867db89dd95 
->> 100644
->> --- a/drivers/bus/mhi/host/main.c
->> +++ b/drivers/bus/mhi/host/main.c
->> @@ -427,6 +427,8 @@ void mhi_create_devices(struct mhi_controller 
->> *mhi_cntrl)
->>           if (ret)
->>               put_device(&mhi_dev->dev);
->>       }
->> + pm_runtime_no_callbacks(&mhi_cntrl->mhi_dev->dev);
->> + devm_pm_runtime_set_active_enabled(&mhi_cntrl->mhi_dev->dev);
->>   }
->>     irqreturn_t mhi_irq_handler(int irq_number, void *dev)
->> @@ -658,12 +660,8 @@ static int parse_xfer_event(struct 
->> mhi_controller *mhi_cntrl,
->>               /* notify client */
->>               mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
->>   -            if (mhi_chan->dir == DMA_TO_DEVICE) {
->> +            if (mhi_chan->dir == DMA_TO_DEVICE)
->>                   atomic_dec(&mhi_cntrl->pending_pkts);
->> -                /* Release the reference got from mhi_queue() */
->> - pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->> -                pm_runtime_put(mhi_cntrl->cntrl_dev);
->> -            }
->>                 /*
->>                * Recycle the buffer if buffer is pre-allocated,
->> @@ -1152,12 +1150,6 @@ static int mhi_queue(struct mhi_device 
->> *mhi_dev, struct mhi_buf_info *buf_info,
->>         read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
->>   -    /* Packet is queued, take a usage ref to exit M3 if necessary
->> -     * for host->device buffer, balanced put is done on buffer 
->> completion
->> -     * for device->host buffer, balanced put is after ringing the DB
->> -     */
->> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->> -
->>       /* Assert dev_wake (to exit/prevent M1/M2)*/
->>       mhi_cntrl->wake_toggle(mhi_cntrl);
->>   @@ -1167,11 +1159,6 @@ static int mhi_queue(struct mhi_device 
->> *mhi_dev, struct mhi_buf_info *buf_info,
->>       if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
->>           mhi_ring_chan_db(mhi_cntrl, mhi_chan);
->>   -    if (dir == DMA_FROM_DEVICE) {
->> -        pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->> -        pm_runtime_put(mhi_cntrl->cntrl_dev);
->> -    }
->> -
->>       read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
->>         return ret;
->> @@ -1377,7 +1364,6 @@ static int mhi_update_channel_state(struct 
->> mhi_controller *mhi_cntrl,
->>       ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->>       if (ret)
->>           return ret;
->> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>         reinit_completion(&mhi_chan->completion);
->>       ret = mhi_send_cmd(mhi_cntrl, mhi_chan, cmd);
->> @@ -1408,8 +1394,6 @@ static int mhi_update_channel_state(struct 
->> mhi_controller *mhi_cntrl,
->>         trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, 
->> TPS("Updated"));
->>   exit_channel_update:
->> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->>       mhi_device_put(mhi_cntrl->mhi_dev);
->>         return ret;
->> @@ -1592,12 +1576,8 @@ static void mhi_reset_data_chan(struct 
->> mhi_controller *mhi_cntrl,
->>       while (tre_ring->rp != tre_ring->wp) {
->>           struct mhi_buf_info *buf_info = buf_ring->rp;
->>   -        if (mhi_chan->dir == DMA_TO_DEVICE) {
->> +        if (mhi_chan->dir == DMA_TO_DEVICE)
->>               atomic_dec(&mhi_cntrl->pending_pkts);
->> -            /* Release the reference got from mhi_queue() */
->> -            pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->> -            pm_runtime_put(mhi_cntrl->cntrl_dev);
->> -        }
->>             if (!buf_info->pre_mapped)
->>               mhi_cntrl->unmap_single(mhi_cntrl, buf_info);
->> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->> index 
->> b4ef115189b505c3450ff0949ad2d09f3ed53386..fd690e8af693109ed8c55248db0ea153f9e69423 
->> 100644
->> --- a/drivers/bus/mhi/host/pm.c
->> +++ b/drivers/bus/mhi/host/pm.c
->> @@ -429,6 +429,7 @@ static int mhi_pm_mission_mode_transition(struct 
->> mhi_controller *mhi_cntrl)
->>         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->>           ret = -EIO;
->> +        read_unlock_bh(&mhi_cntrl->pm_lock);
->>           goto error_mission_mode;
->>       }
->>   @@ -459,11 +460,9 @@ static int 
->> mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
->>        */
->>       mhi_create_devices(mhi_cntrl);
->>   -    read_lock_bh(&mhi_cntrl->pm_lock);
->>     error_mission_mode:
->> -    mhi_cntrl->wake_put(mhi_cntrl, false);
->> -    read_unlock_bh(&mhi_cntrl->pm_lock);
->> +    mhi_device_put(mhi_cntrl->mhi_dev);
->>         return ret;
->>   }
->> @@ -1038,9 +1037,11 @@ int __mhi_device_get_sync(struct 
->> mhi_controller *mhi_cntrl)
->>           read_unlock_bh(&mhi_cntrl->pm_lock);
->>           return -EIO;
->>       }
->> +    read_unlock_bh(&mhi_cntrl->pm_lock);
->> +
->> +    pm_runtime_get_sync(&mhi_cntrl->mhi_dev->dev);
->> +    read_lock_bh(&mhi_cntrl->pm_lock);
->>       mhi_cntrl->wake_get(mhi_cntrl, true);
->> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->> -        mhi_trigger_resume(mhi_cntrl);
->>       read_unlock_bh(&mhi_cntrl->pm_lock);
->>         ret = wait_event_timeout(mhi_cntrl->state_event,
->> @@ -1049,9 +1050,7 @@ int __mhi_device_get_sync(struct mhi_controller 
->> *mhi_cntrl)
->>                    msecs_to_jiffies(mhi_cntrl->timeout_ms));
->>         if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->> -        read_lock_bh(&mhi_cntrl->pm_lock);
->> -        mhi_cntrl->wake_put(mhi_cntrl, false);
->> -        read_unlock_bh(&mhi_cntrl->pm_lock);
->> +        mhi_device_put(mhi_cntrl->mhi_dev);
->>           return -EIO;
->>       }
->>   @@ -1339,11 +1338,10 @@ void mhi_device_put(struct mhi_device 
->> *mhi_dev)
->>         mhi_dev->dev_wake--;
->>       read_lock_bh(&mhi_cntrl->pm_lock);
->> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->> -        mhi_trigger_resume(mhi_cntrl);
->>         mhi_cntrl->wake_put(mhi_cntrl, false);
->>       read_unlock_bh(&mhi_cntrl->pm_lock);
->> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>   }
->>   EXPORT_SYMBOL_GPL(mhi_device_put);
+>> How are you handling cases for M0 and M3 suspend ?
+>> Do we need to tie runtime usage with M0 (pm_runtime_get) and M3 
+>> (pm_runtime_put) ?
+> M3 are controlled by the controller driver, they usually do it as part 
+> of their runtime suspend
+> and M0 as part of runtime resume.
+ > once the mhi driver gives pm_runtime_put() then only controller can go
+ > keep MHI in M3.
+ > So we can't tie MHI states pm_runtime_get/put.
+Ok sounds good.
 >>
->
+>> Regards,
+>> Mayank
+>>
+>>> Signed-off-by: Krishna Chaitanya Chundru 
+>>> <krishna.chundru@oss.qualcomm.com>
+>>> ---
+>>>   drivers/bus/mhi/host/internal.h |  6 +++---
+>>>   drivers/bus/mhi/host/main.c     | 28 ++++------------------------
+>>>   drivers/bus/mhi/host/pm.c       | 18 ++++++++----------
+>>>   3 files changed, 15 insertions(+), 37 deletions(-)
+>>>
+>>> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/ 
+>>> internal.h
+>>> index 
+>>> 61e03298e898e6dd02d2a977cddc4c87b21e3a6c..d6a3168bb3ecc34eab1036c0e74f8d70cf422fed 100644
+>>> --- a/drivers/bus/mhi/host/internal.h
+>>> +++ b/drivers/bus/mhi/host/internal.h
+>>> @@ -355,9 +355,9 @@ static inline bool mhi_is_active(struct 
+>>> mhi_controller *mhi_cntrl)
+>>>   static inline void mhi_trigger_resume(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>   {
+>>>       pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
+>>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
+>>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+>>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
+>>> +    pm_runtime_get(&mhi_cntrl->mhi_dev->dev);
+>>> + pm_runtime_mark_last_busy(&mhi_cntrl->mhi_dev->dev);
+>>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
+>>>   }
+>>>     /* Register access methods */
+>>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+>>> index 
+>>> 7ac1162a0a81ae11245a2bbd9bf6fd6c0f86fbc1..85a9a5a62a6d3f92b0e9dc35b13fd867db89dd95 100644
+>>> --- a/drivers/bus/mhi/host/main.c
+>>> +++ b/drivers/bus/mhi/host/main.c
+>>> @@ -427,6 +427,8 @@ void mhi_create_devices(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>           if (ret)
+>>>               put_device(&mhi_dev->dev);
+>>>       }
+>>> + pm_runtime_no_callbacks(&mhi_cntrl->mhi_dev->dev);
+>>> + devm_pm_runtime_set_active_enabled(&mhi_cntrl->mhi_dev->dev);
+>>>   }
+>>>     irqreturn_t mhi_irq_handler(int irq_number, void *dev)
+>>> @@ -658,12 +660,8 @@ static int parse_xfer_event(struct 
+>>> mhi_controller *mhi_cntrl,
+>>>               /* notify client */
+>>>               mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
+>>>   -            if (mhi_chan->dir == DMA_TO_DEVICE) {
+>>> +            if (mhi_chan->dir == DMA_TO_DEVICE)
+>>>                   atomic_dec(&mhi_cntrl->pending_pkts);
+>>> -                /* Release the reference got from mhi_queue() */
+>>> - pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+>>> -                pm_runtime_put(mhi_cntrl->cntrl_dev);
+>>> -            }
+>>>                 /*
+>>>                * Recycle the buffer if buffer is pre-allocated,
+>>> @@ -1152,12 +1150,6 @@ static int mhi_queue(struct mhi_device 
+>>> *mhi_dev, struct mhi_buf_info *buf_info,
+>>>         read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
+>>>   -    /* Packet is queued, take a usage ref to exit M3 if necessary
+>>> -     * for host->device buffer, balanced put is done on buffer 
+>>> completion
+>>> -     * for device->host buffer, balanced put is after ringing the DB
+>>> -     */
+>>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
+>>> -
+>>>       /* Assert dev_wake (to exit/prevent M1/M2)*/
+>>>       mhi_cntrl->wake_toggle(mhi_cntrl);
+>>>   @@ -1167,11 +1159,6 @@ static int mhi_queue(struct mhi_device 
+>>> *mhi_dev, struct mhi_buf_info *buf_info,
+>>>       if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
+>>>           mhi_ring_chan_db(mhi_cntrl, mhi_chan);
+>>>   -    if (dir == DMA_FROM_DEVICE) {
+>>> -        pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+>>> -        pm_runtime_put(mhi_cntrl->cntrl_dev);
+>>> -    }
+>>> -
+>>>       read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
+>>>         return ret;
+>>> @@ -1377,7 +1364,6 @@ static int mhi_update_channel_state(struct 
+>>> mhi_controller *mhi_cntrl,
+>>>       ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
+>>>       if (ret)
+>>>           return ret;
+>>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
+>>>         reinit_completion(&mhi_chan->completion);
+>>>       ret = mhi_send_cmd(mhi_cntrl, mhi_chan, cmd);
+>>> @@ -1408,8 +1394,6 @@ static int mhi_update_channel_state(struct 
+>>> mhi_controller *mhi_cntrl,
+>>>         trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, 
+>>> TPS("Updated"));
+>>>   exit_channel_update:
+>>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+>>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
+>>>       mhi_device_put(mhi_cntrl->mhi_dev);
+>>>         return ret;
+>>> @@ -1592,12 +1576,8 @@ static void mhi_reset_data_chan(struct 
+>>> mhi_controller *mhi_cntrl,
+>>>       while (tre_ring->rp != tre_ring->wp) {
+>>>           struct mhi_buf_info *buf_info = buf_ring->rp;
+>>>   -        if (mhi_chan->dir == DMA_TO_DEVICE) {
+>>> +        if (mhi_chan->dir == DMA_TO_DEVICE)
+>>>               atomic_dec(&mhi_cntrl->pending_pkts);
+>>> -            /* Release the reference got from mhi_queue() */
+>>> -            pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+>>> -            pm_runtime_put(mhi_cntrl->cntrl_dev);
+>>> -        }
+>>>             if (!buf_info->pre_mapped)
+>>>               mhi_cntrl->unmap_single(mhi_cntrl, buf_info);
+>>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+>>> index 
+>>> b4ef115189b505c3450ff0949ad2d09f3ed53386..fd690e8af693109ed8c55248db0ea153f9e69423 100644
+>>> --- a/drivers/bus/mhi/host/pm.c
+>>> +++ b/drivers/bus/mhi/host/pm.c
+>>> @@ -429,6 +429,7 @@ static int mhi_pm_mission_mode_transition(struct 
+>>> mhi_controller *mhi_cntrl)
+>>>         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+>>>           ret = -EIO;
+>>> +        read_unlock_bh(&mhi_cntrl->pm_lock);
+>>>           goto error_mission_mode;
+>>>       }
+>>>   @@ -459,11 +460,9 @@ static int 
+>>> mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
+>>>        */
+>>>       mhi_create_devices(mhi_cntrl);
+>>>   -    read_lock_bh(&mhi_cntrl->pm_lock);
+>>>     error_mission_mode:
+>>> -    mhi_cntrl->wake_put(mhi_cntrl, false);
+>>> -    read_unlock_bh(&mhi_cntrl->pm_lock);
+>>> +    mhi_device_put(mhi_cntrl->mhi_dev);
+>>>         return ret;
+>>>   }
+>>> @@ -1038,9 +1037,11 @@ int __mhi_device_get_sync(struct 
+>>> mhi_controller *mhi_cntrl)
+>>>           read_unlock_bh(&mhi_cntrl->pm_lock);
+>>>           return -EIO;
+>>>       }
+>>> +    read_unlock_bh(&mhi_cntrl->pm_lock);
+>>> +
+>>> +    pm_runtime_get_sync(&mhi_cntrl->mhi_dev->dev);
+>>> +    read_lock_bh(&mhi_cntrl->pm_lock);
+>>>       mhi_cntrl->wake_get(mhi_cntrl, true);
+>>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
+>>> -        mhi_trigger_resume(mhi_cntrl);
+>>>       read_unlock_bh(&mhi_cntrl->pm_lock);
+>>>         ret = wait_event_timeout(mhi_cntrl->state_event,
+>>> @@ -1049,9 +1050,7 @@ int __mhi_device_get_sync(struct mhi_controller 
+>>> *mhi_cntrl)
+>>>                    msecs_to_jiffies(mhi_cntrl->timeout_ms));
+>>>         if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
+>>> -        read_lock_bh(&mhi_cntrl->pm_lock);
+>>> -        mhi_cntrl->wake_put(mhi_cntrl, false);
+>>> -        read_unlock_bh(&mhi_cntrl->pm_lock);
+>>> +        mhi_device_put(mhi_cntrl->mhi_dev);
+>>>           return -EIO;
+>>>       }
+>>>   @@ -1339,11 +1338,10 @@ void mhi_device_put(struct mhi_device 
+>>> *mhi_dev)
+>>>         mhi_dev->dev_wake--;
+>>>       read_lock_bh(&mhi_cntrl->pm_lock);
+>>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
+>>> -        mhi_trigger_resume(mhi_cntrl);
+>>>         mhi_cntrl->wake_put(mhi_cntrl, false);
+>>>       read_unlock_bh(&mhi_cntrl->pm_lock);
+>>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(mhi_device_put);
+>>>
+>>
+> 
 
