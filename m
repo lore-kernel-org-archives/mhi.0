@@ -1,136 +1,238 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7892F8BC5
-	for <mhi@lists.linux.dev>; Wed,  3 Dec 2025 13:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807EE2EA743
+	for <mhi@lists.linux.dev>; Sat,  6 Dec 2025 11:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764770047; cv=none; b=BA9oO20PiA1prXngyuzNK244O7cWiyl3cTksmwRM+Jka/HA7HlfCQPX5eZdxl2WLkT6yBBdsrR8dRat/jTC5tQCMUhW20SJUgw3C6DD3CtRplEo8alzVUp/Ji8HqahztB43iiJkd0uVr7W2l1tULx/xpM4eia6IJmF6ClFnleV0=
+	t=1765020341; cv=none; b=sgBC+3DfZ8NCjSdCmz1gRswxuRHFWt3YCWJwpz75sLog4Gu/Vm4J86gcfkQPfMvU/QMTVPSBtNC5Yl8PkON/8odU7Uh5cqDi+SRwLFOwwJ1kMQ8AOUtZ6TIM0KMr+Wg14ssF5jJhITkc8CJkaQab6WK9g0IhaISYqU40OdbKHZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764770047; c=relaxed/simple;
-	bh=DF6G/XFdIfJQ7qeQs0VYU3rAkTrUx9BZ15KmoHCPoLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZzNMcIa0yxn3G147TXr04vJwl+F1+RKL9/37c6+74UyXhjy6tJHbG7Q1WOSdBt78nI47m2ibWikARXhDgp6KxYBKQepKn0x0RmuRPSN2lLIKhvdO+eFKgR4Lj4ZxwsNENJScb3WDbZGBwPaXLC+qtN8Rr0LcYUpWGOkQ2RaTWR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHGEtiKh; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765020341; c=relaxed/simple;
+	bh=MpzTT94MMxQD65k1QeTEcNTN6kRAMXbGuuqtwqmzas0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdYCljVRs+pLOAAJ5PzWaRQ5NcX5+AYZQ2YynT5ZolQmheajILQzuMpd3OjJlc0Bapn/omwDshUOovHUf/I6OK8vjAMSJyBN440Dh+UjGaMQuJuqLGARbm+zzW4yjELT9xTzi3MBUEfG5jdSfirUNXAAKQ6q9KGTN5E6Av2GpO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TorHihRK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H6ksd5W+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHGEtiKh"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4779a637712so43137525e9.1
-        for <mhi@lists.linux.dev>; Wed, 03 Dec 2025 05:54:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TorHihRK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H6ksd5W+"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B67RrCJ3052168
+	for <mhi@lists.linux.dev>; Sat, 6 Dec 2025 11:25:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ZJAiSLkmpLVQQ/M2BvdZV3rP
+	V0issyyWF6oK3RjccZo=; b=TorHihRKSc2C+INWVm50Z1eA+CQYZp1mM6mSos1G
+	EQNtxlmhmIsjSyt9vaWzW+MG642A9pMPSQMZFFwUmaaud8MUA9gqvhHGy8InxtPR
+	VL2KL7m1lITa4OpoWvBZ7W6xYz5RcBXukv6UWtDLQerdXiCDX6sBdxD+hV6nm8T9
+	s6E+RvuU6BdWshR5k4H3yGXBGgTHzMNvaFSJNF9XjNOqBaNWKwThvGygYzBnSrop
+	P3MMMHCnzLNDGtgGRK0mwbWd8VF62kh/jOiXbpPiKVlvStRCtzX3NUCvc5EDsZQm
+	gkeOl0/ubksTpjGOXkhzMSO1bH6yLZbBIJXmd4E45SFqgw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4av9uprx5t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Sat, 06 Dec 2025 11:25:38 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b53c30bb59so699662985a.1
+        for <mhi@lists.linux.dev>; Sat, 06 Dec 2025 03:25:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764770044; x=1765374844; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kU5E10zMYIkw7ZF/4aNGAYwgRL3UWcgkSyY4TJegpo0=;
-        b=fHGEtiKhsVmvqzA+v+6ZwlYo02h/wUsNheC0CPAI0wSp81cTmbW3UgL8K4eXzMU8ze
-         ivrWSIsqVu+Q2C9+A8du6SC89VW1L/eyO+QNwL1swEDQ9pXXKnpX2lJoJIQZL3hEqZRK
-         T7L/4M4Bg17eWaN1vXBlBLX53pIXf3+XFIkdvpFhCSy9rLDLkmyGoPA0Ss08IekrHCTr
-         yBW2VOtZ3ARI4wUq8U73IWq1hQMTEFziw/yGJ4stRCJN2ORPevOxYcIUSeVh8QU5QMWZ
-         0h7SKxsIB0lomX0Q/fs0+tIsYqXvN7Gbq4fhNnWVWuU7Ig8pvRR33fJ+ydCBV642MIUX
-         fnsw==
+        d=oss.qualcomm.com; s=google; t=1765020337; x=1765625137; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJAiSLkmpLVQQ/M2BvdZV3rPV0issyyWF6oK3RjccZo=;
+        b=H6ksd5W+fJz/vyBmnAsVqVJUJKYA7HaaSuBqAsfWRkr1t9qBe6weumEV4biNWDN8Qa
+         nnJ5P9qWQRzZDzqQPXr/00FCX38PCsgJXIKPBlSgEJDc2S+N1g75iFA29tc2SLQfHxSc
+         A03388l9d97EEVctaiyjGUzuH21WLO4RMmbEf2+w+XgcqLvK5t1uxdkliV5MDxF1Z3Rl
+         Exfg0WiCnvumSmnEMwrBspUAmTtCq/7pRgvZjArGFJDLYFblInagE8XGhfwmxFKJJI3a
+         +G/+DBtCNKJie6t4GKnD67iU7i9tYEZgym4+mQCwBLqlVzsYSly34cqBHa1fkKQ8DExJ
+         TwgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764770044; x=1765374844;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kU5E10zMYIkw7ZF/4aNGAYwgRL3UWcgkSyY4TJegpo0=;
-        b=jkLNiWbYCiwguWIYZLeG7f7fAWo+B/tCnx6aai+KPuA7b3ZMzJw79L83qT8ZwF6NQ1
-         4rEQgatLBol6wn8xuix8FrgRI6RMMTWavBfKi6aF7ar/6DNYYoXxrVIyqRsyUqsOIJxY
-         l6mn7SFlO+wIeKbL5ev+9boPdadalgx59RnCewGNDatF+4BnmP92fgrrCcjICfodMCpR
-         POiUauVqM0anigZ7cLWgg8yy5LBfbnzxaxMLUl411ZQ0zKwHZ6jWCSYOhsxJYrWU8pdr
-         +3+ugl5lc6uxOtcGH8ajmKRN1LbrY/PbnzoY01AHNK/9ES8GOCXTl9z/q0LLmy9YQn2S
-         1LAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaino9BpLrbTDQdlp+WsenJlAxxMLzdm6D38lGbnB3GJ11Q35ReqNECbcxoR6YDIWAkQ0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwizchvpDylC3ErZfug4CjOnPDMWUCwkBiqlKhceLg8/ZyAiMAT
-	RneBez5h7VhYyyG7sbJ+y1QgcdYg0hXtouaIuvQItMblt2o2JbsvxkpR
-X-Gm-Gg: ASbGnctToy0nVFnNtL6VxkMzuwRu6j9+v891hrdKjukSU/rXdxWMOVcdsWo2Qx7He9L
-	VpceIf/D6ciOAjUJeNHYxoJbI+6djMyJnClEKgnYNausL2/4hMbu4I6vyotvoMAWiBbjY2L2dgQ
-	EEdnYVLpvJDiobPXeLn9c2l+eHAHHsf7mkkjEpc/5oN/zd0hPO/j7QUfKvxv04a8EyTCK7KMuNT
-	saszP7r0nEwPR+4ce8cGIaJW//+acH2097PNhKX/bvvQndZJK8biaRXaI4+Io9tp8QzFPzzahyO
-	ncAFR0rEJlIT98Fj3j3GsShgjguXs4GErk/tYsHrQXvljmsH8/7ugn8AgquD8TfLuddBcbmk0+f
-	URwZQV9hVcddGtfG5jvfy8YLc70Ds31QG8CdzJNFsQWHjbPko2aHVrpSmtqsYjDgLx6An/t7hWJ
-	mkCy88AJ8MQX0/sKntpDycopo0RambM9/br2A8x0FVhB4sPz7wldiQHRryCWIx8YToP56tnVNC6
-	ozCxNz3NKD50E2+yl6m2OHrg6Z2+wUN7k4JS1W4dQ==
-X-Google-Smtp-Source: AGHT+IFXgqjYg+s9C0ZBpSRfYz1JGeFjdbj2Fq/FubajeWelCOReDZbc8uwYFRx72hU/FuPHbhayig==
-X-Received: by 2002:a05:600c:524d:b0:477:333a:f71f with SMTP id 5b1f17b1804b1-4792af30ea0mr22550265e9.17.1764770043606;
-        Wed, 03 Dec 2025 05:54:03 -0800 (PST)
-Received: from labdl-itc-sw06.tmt.telital.com ([2a01:7d0:4800:a:8eec:4bff:febd:98b9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca8e00fsm40433575f8f.34.2025.12.03.05.54.00
+        d=1e100.net; s=20230601; t=1765020337; x=1765625137;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZJAiSLkmpLVQQ/M2BvdZV3rPV0issyyWF6oK3RjccZo=;
+        b=E3Ymk9kFcz8x8SavbWuYw12zBr69J90N/W5tW5ZWtKcEsHEzxy5S95IGlqvT1krlUD
+         iRVSev0j8CBU6p9eBBLaGETwKUvLrM7sa6dlB4Z9zF+qMeyRacw52Q2sf6ioJYuCRLzx
+         FidSTYteZmX3Jo+WMVWp7rDen3djXqM/1m7jaDBUzAK57lFZ4rJ+P24SRZHjismoJaQ+
+         0e1qP4uI0Wiy92X/NzMBQjpV3JpQf7bW79IMSpbSi9e3/TfX+B/hKoKUcI34TJijURAd
+         O/utubZlykVq0xPl6P5O7fQgtv1sQa5MeGzHi7UzrfM9RMv+Y45SMSC+cWGTgOh35hoY
+         PdyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWu0g0cpgadsTOAnkWFewSHnsLrsulov2umt5INoynExh5LaW+qBmEty5TrfUz4KEug4Bg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWNq92O+lN1HDNfQScao279UAms9QevuIvQxa0msxu/OsRyFUh
+	uSnA+4EzrI5LOsuE/nzuj+ZBYRFiDvUFECnn3om0GTqiwBd86/ixwGiJAVq7OImsSUQY89ELdkR
+	qceC3VCehIoubOmljNPumlOf9EEN5LmQDzAIgbQaj2egeIqqPLLylUd8=
+X-Gm-Gg: ASbGncvUVWVDEctYX4Kzykm0X1QlnoqIVUOX8A0WyAJTLUMX4uvZmrTKWvViUIscEqK
+	I9IdHxO/QSWeMYz4tuWb0JTa6StOh/L1PZuwyJZFSfgtyP3M8GvGqT9fEA+xQwDJuBoLPZuKrTx
+	yoP85VKPt1e0JNm087d0wn8HiO2Te3xinQyBPK8lgkyTQwg+C+RDZIfTebcK1jx26UpttRxFmQa
+	2p2ddPewEkxjRibomAYdIp/kkeidPTytYfQ7mhMiZX95oLGllrdWENiGz51gkzMm9Bt4hzL0CeJ
+	xjFGCNC20ZHtziqQKGOq2Hga6Oh3KwGJz1dDrNblLtb3LAwyQzp44kj3xr+zuG9FCA5SXcVhWq5
+	PcqBTpryUv4JVU15TXMl5Y9DDHbRy2c3Uvjc/Md5UBb65kr8q1WSkBfpuOGD6W9GWQGOFZEoEbw
+	LfbvHcVHb9zqPlBxXLVmYHekc=
+X-Received: by 2002:a05:620a:4045:b0:85c:bb2:ad8c with SMTP id af79cd13be357-8b6a2581abbmr295846285a.74.1765020337534;
+        Sat, 06 Dec 2025 03:25:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEp4q2zNCY+Q+hU8LpGlOF7IeYTueJ9iFt1j77XRfNLwcyGaHs8TZbT59QFGlsoKU4t/ubTdA==
+X-Received: by 2002:a05:620a:4045:b0:85c:bb2:ad8c with SMTP id af79cd13be357-8b6a2581abbmr295843285a.74.1765020337085;
+        Sat, 06 Dec 2025 03:25:37 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c27f44sm2319747e87.73.2025.12.06.03.25.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 05:54:03 -0800 (PST)
-From: Fabio Porcedda <fabio.porcedda@gmail.com>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev,
-	Daniele Palmas <dnlplm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Fabio Porcedda <fabio.porcedda@gmail.com>
-Subject: [PATCH 6.12 2/2] bus: mhi: host: pci_generic: Add Telit FN990B40 modem support
-Date: Wed,  3 Dec 2025 14:53:53 +0100
-Message-ID: <5091bf715f9ecf449b270af23352be15e4560df7.1764769310.git.fabio.porcedda@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1764769310.git.fabio.porcedda@gmail.com>
-References: <cover.1764769310.git.fabio.porcedda@gmail.com>
+        Sat, 06 Dec 2025 03:25:36 -0800 (PST)
+Date: Sat, 6 Dec 2025 13:25:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mayank Rana <mayank.rana@oss.qualcomm.com>,
+        Baochen Qiang <quic_bqiang@quicinc.com>
+Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
+ functionality
+Message-ID: <ttpn6o2far7xebghblurxvi43aohv74v7jq2vdgc4jhgc7avo2@lgp4y4sytene>
+References: <20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com>
+X-Proofpoint-GUID: eomh1B60_kzJU0C-TGYGziDlEk7ixHDs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDA5MiBTYWx0ZWRfX/J5DO0633reR
+ Zs2h8tHrHTHNxUxYxoAdPZjf+Z/UaFF+e/xMn4gKgrnx270fz0gGtcmZPro7JwKfU9X8JLZILV1
+ oiJ7PmsSbhoxRCtNN5jL4CuDUnDq/RStF/ZWySM50jzemeMkI4axR/Kagpn/3/ngBTgPJnEI0lE
+ /pa2RfMqqrNeurZ+wW+1cKBh8KLeAhOn1fZlVeq4sz4JEPBhKd9jzHnxBPnbMWj8LP2DGd1/4HU
+ K1C6Jz2b++vqSEwbna3DrPDZJdQjf9gReuORUYYL+alsXUQfR3aiiD/+m65FX5s7DTZYGBGK+3o
+ C68iFULywry2U0lhYB7o9Pl9KGP4v9yikbZN28dqy4x2JgyI1p/pCrrC1440sWGAonnqG0AGqAi
+ HL/tDBv3HRfLvCi/OyNXZTUUrhPWGA==
+X-Proofpoint-ORIG-GUID: eomh1B60_kzJU0C-TGYGziDlEk7ixHDs
+X-Authority-Analysis: v=2.4 cv=NsHcssdJ c=1 sm=1 tr=0 ts=693412b2 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=RFctcJmZgZ_UK8lNnkcA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512060092
 
-From: Daniele Palmas <dnlplm@gmail.com>
+On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
+> From: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> 
+> Currently, the FBC image is a non-standard ELF file that contains a single
+> ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
+> (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
+> separate ELF headers for SBL and WLAN FW segments due to TME-L image
+> authentication requirement.
+> 
+> Current image format contains two sections in a single binary:
+> - First 512KB: ELF header + SBL segments
+> - Remaining: WLAN FW segments
+> 
+> The TME-L supported image format contains two sections with two elf
+> headers in a single binary:
+> - First 512KB: First ELF header + SBL segments
+> - Remaining: Second ELF header + WLAN FW segments
+> 
+> Download behavior:
+> - Legacy: 1. First 512KB via BHI (ELF header + SBL)
+>           2. Full image via BHIe
+> 
+> - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
+>          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
+> 
+> Add standard_elf_image flag to mhi_controller_config to indicate TME-L
+> supported image format. When set, MHI skips the first 512KB during WLAN FW
+> download over BHIe as it is loaded in BHI phase.
 
-commit 00559ba3ae740e7544b48fb509b2b97f56615892 upstream.
+What is standard about it?
 
-Add SDX72 based modem Telit FN990B40, reusing FN920C04 configuration.
+> 
+> Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> ---
+> Changes in v3:
+> - Reword commit message.
+> - Reword comments of standard_elf_image flag
+> - Add reviewed-by tag.
+> - Link to v2: https://lore.kernel.org/mhi/20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com/
+> 
+> Changes in v2:
+> - V1 patch is paused because of no user. WLAN team plan to add support for
+>   new WLAN chip that requires this patch, so send v2.
+> - Change author and SOB with new mail address.
+> - Reword commit message.
+> - Place standard_elf_image flag after wake_set in struct mhi_controller
+> - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
+> ---
+>  drivers/bus/mhi/host/boot.c | 7 +++++++
+>  include/linux/mhi.h         | 4 ++++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index 205d83ac069f15a19ab2d66a63692e5d60334d4c..64fb7a257d3529167eddf1153d34cc6b25735809 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (fw_load_type == MHI_FW_LOAD_FBC) {
+> +		dev_dbg(dev, "standard_elf_image:%s\n",
+> +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
+> +		if (mhi_cntrl->standard_elf_image) {
+> +			fw_data += mhi_cntrl->sbl_size;
+> +			fw_sz -= mhi_cntrl->sbl_size;
+> +		}
+> +
+>  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index dd372b0123a6da5107b807ff8fe940c567eb2030..a13106bb234d22e3876dff3c0d46f3dee1d9e05c 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -360,6 +360,9 @@ struct mhi_controller_config {
+>   * @bounce_buf: Use of bounce buffer
+>   * @fbc_download: MHI host needs to do complete image transfer (optional)
+>   * @wake_set: Device wakeup set flag
+> + * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
+> + *                      image need to be skipped when loading WLAN FW over
+> + *                      BHIe interface (optional)
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device 0309
-        Subsystem: Device 1c5d:201a
+How does the description correlate to the name of the flag?
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-[mani: added sdx72 in the comment to identify the chipset]
-Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
-Link: https://patch.msgid.link/20250716091836.999364-1-dnlplm@gmail.com
-Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+>   * @irq_flags: irq flags passed to request_irq (optional)
+>   * @mru: the default MRU for the MHI device
+>   *
+> @@ -445,6 +448,7 @@ struct mhi_controller {
+>  	bool bounce_buf;
+>  	bool fbc_download;
+>  	bool wake_set;
+> +	bool standard_elf_image;
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index b8520ca40e8c..abf070760d68 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -734,6 +734,16 @@ static const struct mhi_pci_dev_info mhi_telit_fn920c04_info = {
- 	.edl_trigger = true,
- };
- 
-+static const struct mhi_pci_dev_info mhi_telit_fn990b40_info = {
-+	.name = "telit-fn990b40",
-+	.config = &modem_telit_fn920c04_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.sideband_wake = false,
-+	.mru_default = 32768,
-+	.edl_trigger = true,
-+};
-+
- static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
- 	.name = "netprisma-lcur57",
- 	.edl = "qcom/prog_firehose_sdx24.mbn",
-@@ -779,6 +789,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fe990a_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0308),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx65_info },
-+	/* Telit FN990B40 (sdx72) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x201a),
-+		.driver_data = (kernel_ulong_t) &mhi_telit_fn990b40_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QUECTEL, 0x1001), /* EM120R-GL (sdx24) */
+This flag is never set, making it a dead API. If there are other patches
+setting up the flag, please include them into them in the same series.
+
+>  	unsigned long irq_flags;
+>  	u32 mru;
+>  };
+> 
+> ---
+> base-commit: ac35e04f8000aaaf98635792464647e7a6f3422e
+> change-id: 20251129-wlan_image_load_skip_512k-ddcfe49db8e3
+> 
+> Best regards,
+> -- 
+> Qiang Yu <qiang.yu@oss.qualcomm.com>
+> 
+
 -- 
-2.52.0
-
+With best wishes
+Dmitry
