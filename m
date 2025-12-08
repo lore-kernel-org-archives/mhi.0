@@ -1,260 +1,236 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013053.outbound.protection.outlook.com [52.101.72.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2301B326946
-	for <mhi@lists.linux.dev>; Mon,  8 Dec 2025 06:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765175736; cv=none; b=rFtvfIyoiWieFWPhtxiuqtr/bJ1brczhA9Gbkk0Z8GU5nH3I+BHvIxC5rDJn8ufuylSgrIlnomafczchboqgYe1BfbAfBGyUilpU5Vn0wMPapFKRg32/lCwRLEknSCxOQrkZbJ/Y6Vf6fXGH2kcYqr5BvEMow5/ebhOo3FGo/q8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765175736; c=relaxed/simple;
-	bh=4aPqhsv8fgZ/nP6SNgBnA8yF1zLWWofBWCz9+Gi96kI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/H15xPRyGRkA9iuREss6xEJZK0OfjAURjZP5Qwhzx6F/QWgYOdEE9hNtgUSINt7JaHwzkhqxklfH+7Y7MPp1U50+HqBm7Q9E1LUhctWuevovEmia8INnGevnK0VfABM96L0ly9sHCpwVmiU0PsR3+z1W+Jrm0QCBb/KLebjzLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T0RuuZZn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aAjTmWbE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAECB28CF50;
+	Mon,  8 Dec 2025 17:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765213809; cv=fail; b=IwOCS0qP+s8mWA+Vm+Sn3XjLo4r/iYpmtsvr6PEuIonMJrNAlOLiCLnH1faEnOgs1bb+76SYNsn7CDh6ZDz0sxDOo1zPTYcoP5PHDU2n+W1XPkzVJmA2l3W0ZQEjOYKkwlRaOgAlex5vWv5q16JVlZMPx0nAa+67y1stxgRs5E0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765213809; c=relaxed/simple;
+	bh=VG3P1dKB4KIzbm6r+udQ7XmrvAhfT05/GgbfoN466II=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=MQ/13QIQhyMx5ND9lCLmK/0cCcKgFmsDETka21zdeSjX4x/baYT4GNbYcYUH7GSWzo14AR5OXPr+KyO1ZhnpnmFjREJhfRJQqq7quO6aXk+YfciyjnA+nzMQBeXw/cF5QoWjtgihor4HcoyLSNHdmIHXeD6E2KB599cpAL/jx3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eTDTwxWa; arc=fail smtp.client-ip=52.101.72.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T0RuuZZn";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aAjTmWbE"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B7Mwl013103839
-	for <mhi@lists.linux.dev>; Mon, 8 Dec 2025 06:35:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=sgY4r96KHSWlXrmYnq4CGYti
-	rmFBKi7k5rnRPBiDo2c=; b=T0RuuZZnBZjAOsW4TsCeiWA4OhZOU9U7HUnxEMWE
-	c1r/pQw9oamC6j0+0PpVdONHIK7r3AhmiQKNpA0bXRNXraEcyq78GFN8M4X+0un9
-	BGEwctJrUulh/isTAHyk7WzDAy6M3EFmzDpgyw0hSk07lJ79NzbPEfoILhPpcbTl
-	Y7mgb2ayfH42CErSApQoKKBjt9jzwwocgs2rKulIDPJLnP/7DiS/B1bgOAq3VeED
-	57IoeoDKVDkuTPWh7VwtF3xVBVgHIMxZW0gtRFNz6W0KkFUkgotToeWQXqmsOFA7
-	11PBDkpF0ppR3cK1doEW+smcOC1LdRX8RYVDMALcUMQaig==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avd8e3ttk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Mon, 08 Dec 2025 06:35:30 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b62da7602a0so4296008a12.2
-        for <mhi@lists.linux.dev>; Sun, 07 Dec 2025 22:35:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765175730; x=1765780530; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sgY4r96KHSWlXrmYnq4CGYtirmFBKi7k5rnRPBiDo2c=;
-        b=aAjTmWbEGiOwmNrnjy6HkDdXwqM+9ZlZpmUS9YulJWSLWqvDSxOOKOuG+nndpp8369
-         pO6m39eDCDEpmxkKobX7fiPOr+25TsqAqT7XMr4FnwrzO51LkwmEfsQAQhfwgJ2b53Ed
-         UfTM8/WglYHo8AHMcbIZlrTE6c/eV7sH26j0Bvl7tFSyBYFZogmudsaqOD/ozI/bxxK3
-         pT23JyS2trB+9m9R2QrIlSnhlJNzHZUesC6ATEGsvuuba2yDDfJTqJoRGJhQCfCL2mka
-         UKhdUQofdKbkSaQKLptQGXWfGGsKa9kFdIgFV42Wtbi4WX8cmr2jxqwmww8AQ60GJ0Gl
-         peiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765175730; x=1765780530;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sgY4r96KHSWlXrmYnq4CGYtirmFBKi7k5rnRPBiDo2c=;
-        b=DBvHDvUv7HMw4gIrwqltYeGUcJM5s7Qia40LxozQ5Y/G5tLxweCpOqUqvshxD27JT6
-         tP/jGf8fFmfXXgvYzX79TvH5hpVXKpMN0BSkDNuzhY5S1KUoWKYSm52CLqaB/65clTJ8
-         9iHq9QZWJstwBsV05pyXtrQUb1uyYV+3tf9HHikV4SbB4kZOwFdhZy9Nabbk1csvPVEH
-         DbI9kW0mmg+6nSN+mdphulC6uO4+r29otH7DGAhZFW2Dk9XJL740w9zjf9WiVy0lR0Rh
-         JlEglApkw97SIb5UNuper7qzITvG259Kd3i05PFnxZ2ejBmxACBtJpzhE62643MFWDPV
-         yy3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUKJcjEnNqeTY+0ujdrgGfO3wyjpSRStBxZ6fi228fMyJHynd+PA1oRcjYiMnV+0RwwHYk=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3mELH8PBHHYLvazaf7+iUaHMocWdbQlxUwGywYXKwbkuKrEUA
-	wPjDUpAdoMMvjztv7gYbsxhPh9sj9MtEmTqeww4il87Q1pO35e9TUE/jSeJhNOe89SqNbLweihP
-	KPtvJFRxuwUnAFsGITSlVHBxecAkmJzldsQW2gFFxWVOCoBO1CtchHAc=
-X-Gm-Gg: ASbGncuKLILGYHNIFzUp/JXwYBYkXbweijDq7JgXo7gQnHfPX3xlNyzoGS1rHAHp5bl
-	khcafCoSmGBecbye7FYJ2RL1yNJPxHuTulifIZv5XXX77gPNcLTWwgDHPetSU4TRxZU90y19ePF
-	UjXRlQwI0wu+u7ec5nSQJdYnUBFu+MLdzC3ulQ8Lxjm4ql5X8RmeLDSmlguzslyghczPEAqgJ2L
-	+P/vfVuVqqGTyPSYs38JWA9SsqAObChBGhveeKLRqd4urMtQxarhBqFiWPAw/J9c+G2Kt4UECqz
-	R15R9t2HzHAokn7UFYi7LG9Apq61BGtISq4lq5u8wVHhLpQU3owFbhOCr5espe0SbT4Izco+jRc
-	REFUI0DnaWxGPyEfpF4C1qBFbQurQXLijagBc/XuUAy8m/TOkFkI4fFT5
-X-Received: by 2002:a05:7301:fd0e:b0:2a7:769:ca03 with SMTP id 5a478bee46e88-2abc721bcafmr2677205eec.37.1765175729978;
-        Sun, 07 Dec 2025 22:35:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFJYV1colEXg1BO2zZejBrgIwZQQ8XKnZJznpGPugorXc4s98m8gCQwDF+wdRZqC53Cyq0hGw==
-X-Received: by 2002:a05:7301:fd0e:b0:2a7:769:ca03 with SMTP id 5a478bee46e88-2abc721bcafmr2677196eec.37.1765175729318;
-        Sun, 07 Dec 2025 22:35:29 -0800 (PST)
-Received: from hu-qianyu-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2aba87aa5fcsm33007217eec.3.2025.12.07.22.35.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Dec 2025 22:35:28 -0800 (PST)
-Date: Sun, 7 Dec 2025 22:35:26 -0800
-From: Qiang Yu <qiang.yu@oss.qualcomm.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mayank Rana <mayank.rana@oss.qualcomm.com>,
-        Baochen Qiang <quic_bqiang@quicinc.com>
-Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
- functionality
-Message-ID: <aTZxrhpYhoOP+VDz@hu-qianyu-lv.qualcomm.com>
-References: <20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com>
- <ttpn6o2far7xebghblurxvi43aohv74v7jq2vdgc4jhgc7avo2@lgp4y4sytene>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eTDTwxWa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Umk2KiQ6XD/2EK/8zE9vQjPcb58cJFNl5FS+zcfsGjgdOSmkkJr6Ncp/NQXmR/RciBfc7nyATozljnTzyqDTVRLNVRTyqFPH9Y7nKiHBbz0oNIg/BNWK21f62bdF3FqAX2NIegiqAF6O7Zk9OVhBfICTgKKD/YY7lsjFTt7dtuQ6O5tWxxc79eq1ddXaWPrUogyI8qQRbS5z8VT2zBvu2unckf8UKsUZOJBW7a80gUf4lgJuOYWKz8jSxkvjA7o/ZqX+o5DXWF+oKW1CJbfaYgVR6/Zq3l/3PuyJMoMfAFyVd71HCZsCMJ3l6tm43M5OlvpGq1ocz3MAVgrEiPF92g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QnsFUgfymOEzZ3bn3buKNg98tQVjC9ofRHGZU+zjYUA=;
+ b=CajyAwnXRcVOBq3bPSleuegJDKjpT/UTaVKJk1bidv6ZlymbrvgXCQ5Zktn3k3RkpnjfgV2Yi8tI8GVK6IaBvTWbVyjGYsDPoBAk1qWzIVcHxBSSsaC7m4bYzHfxsQZcTmZar62OSNzIX6J0Xly0rflhnt/AtzNABPhC4FwjwcoSdfnw1OhuYD7juZzW7tMfGeTkHoU45EiyoEjFKUB8XJuHuWAqqHQc4zHaM/CbIHo4yVARs98VLurKDBX8NAgQIFwLwzdR832RtOd0Ke5j38cmAxQ6FaFqeDkxXfodpcD831j4TS+pnbqL0tH7NK42QtYHB9t4eI/IQCt4U/bAcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QnsFUgfymOEzZ3bn3buKNg98tQVjC9ofRHGZU+zjYUA=;
+ b=eTDTwxWarYUSiBq8ff6UlGLBGVo+otS0SfG2zXBg77yZaexKADccmRERf/Dzr8hAbYHn4hPyuZmwZRxLfBjST6nbYc7qK8cd3hfhyNAD+d9EOYu7d9seW3Sy0sIhqN9Pb1jOk2CtrRmLohATYiari/FZytw7+nfVjKfHpyCUAgSKJFb8agF0hjK/BDfD+fqyPVYHEdYclTXEfATQ5SdEieMR4gy4CYtoTt+bg2i/f2DqEavUxR/8I7gO9Oh+vJVJG81UYKLszaTrNHhs7pQinZPLclThkV3HIfhw8MRAix1m+T3rYsylmCWPnCZZQ2mM7Znisc7/wbycr1+o/64EoQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by VI0PR04MB10318.eurprd04.prod.outlook.com (2603:10a6:800:21c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
+ 2025 17:10:04 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
+ 17:10:04 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
+ descriptor preparation
+Date: Mon, 08 Dec 2025 12:09:39 -0500
+Message-Id: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFMGN2kC/x2MQQqAIBAAvyJ7TtBFC/pKhIhutYcsFCIQ/550H
+ IaZCoUyU4FZVMj0cOErddCDgHD4tJPk2BlQodWojIynd3em24UrbbzL0Ro9qYjGeoRedbfx+x+
+ XtbUPldriQGEAAAA=
+X-Change-ID: 20251204-dma_prep_config-654170d245a2
+To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, 
+ Niklas Cassel <cassel@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765213799; l=2220;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=VG3P1dKB4KIzbm6r+udQ7XmrvAhfT05/GgbfoN466II=;
+ b=yFrzld2B6HUkI8qsO/YCwPuLUH4E2BOWhBViAlFCgUTcis7UJWkjCFOz4Nol3LiOCEAZ4Yjr3
+ 9D4y5w9s8eGAsopfzsmjU0n68GHcyK3WXLhYd7tXCXAJzpNwov+G+4h
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: PH8PR02CA0036.namprd02.prod.outlook.com
+ (2603:10b6:510:2da::28) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ttpn6o2far7xebghblurxvi43aohv74v7jq2vdgc4jhgc7avo2@lgp4y4sytene>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDA1NCBTYWx0ZWRfX5T3N+gB9LsXY
- D74htpLbEGU4lDaO4iSkr3i94fpJEKgwGx1hQqDOu0BmvLr3Dvl2JRgaeAUeB/cJjW/jwrBQTis
- Kczk3DW1ocRx4H0oFyc1oEZXtNLkMYFnJCOib4zBZCjyWd7GnLSE2ZI6tyPV/f6pa9+XqWp9Rw9
- a0yvy1HmRRdPiimiEMZ9wXBFk3Fmk9tkCa4z1YoxuCPv7mSLPEwwabJCVExKnE5qI3UXxhicsg4
- dnyWn3mVQc2ZQuTEOOaUGfbIGeaNFhjNQ2HBc9TZ9hF3dz7xVe+6/rhiSGLXbka0D8oPXF2sz1M
- NkmyqZZ8oKLz83nV7Rt9FHe3k14imW2yrZtcQj9V3IJ/Su/5k/vgDhg2b/4DCXRfvzEQs7YjuCd
- /2tX9NAMlCNnLZgjrvCZMbptO3pRwA==
-X-Authority-Analysis: v=2.4 cv=BqaQAIX5 c=1 sm=1 tr=0 ts=693671b2 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=kj9zAlcOel0A:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=zkLumzht3HFOWJu72j0A:9 a=CjuIK1q_8ugA:10 a=bFCP_H2QrGi7Okbo017w:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Mvqx0kx7NEgoFeL_fHdY5bfTEUZV8KIn
-X-Proofpoint-ORIG-GUID: Mvqx0kx7NEgoFeL_fHdY5bfTEUZV8KIn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 phishscore=0 spamscore=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080054
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|VI0PR04MB10318:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c25d368-3146-4780-e987-08de367ca120
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OGNrc2pIYW5vWkZIVUExV0VoYmZMZ3kwd3BlVldkSDRuMVB0VzNCaVJZVFVj?=
+ =?utf-8?B?MkRrY2dhL1NmR2JTVHJxWTZrZVdYWlYrTm94c2RETkJ5TFd0eTZ5ajA1aDd3?=
+ =?utf-8?B?cERZajdFMmdLalB2UGVRK082bmFOSGJET0ExbmRNTks5TlBEV2JJTlQ1S3g2?=
+ =?utf-8?B?dGU2NVE4ekF0K1NTU3JiZDRhdm9tUWZnQ29HcHByZXV4VjB4dnZ6dy9vV0cv?=
+ =?utf-8?B?THh4cktPWUZUNkFrT2V4SzJVMGlVRFlZOUNtZzhxY3RuVXN1V28ydEVsY3JJ?=
+ =?utf-8?B?bDU4aDdDK0ZwdU9qMmtKTVM4SzNiSFVxWm5NeWJJVFdUMnRoSmRqb2ZQQmZi?=
+ =?utf-8?B?OEw0amVZTWpJZWFmNzVDdHBsR2RYem5vcFhEZlptcFo5TW5XQytEVXRGODNZ?=
+ =?utf-8?B?SlBGTlhLZEJhYy9tc3A2dXZHMDF6RWlXNytXUlIxaTZDR1lCZ0JVWCs0VHBH?=
+ =?utf-8?B?WEtiYndnVzBaVzVBalBHVEVaenlWVDQrQzBlWmNHaTdSa25LalpuMnNYdUdr?=
+ =?utf-8?B?WTllOEpaT0Z0SG10RFhSSVV3YWl6RXpLSUFjZnZOaU5qTCtWRkJYZHFpbGxC?=
+ =?utf-8?B?UGRPR1NPeXk1VS9ZcjZheVdQUFN2TlR4WmxLVjIxRXJnWTFZTXBQZ21xd294?=
+ =?utf-8?B?Z1BhUDg5c0loekMzZmdWczdoRVFsclg0Qmp5RWE0cjREZ2tVYXQyQTFUcEJ6?=
+ =?utf-8?B?MjFMWThiVW1nVWZhZUNtVU9jM0F5dldXeWlTWFptdVVpYjlrSlpJblZFaG8z?=
+ =?utf-8?B?Rkl2V2RFRytvSTBVcC9hR3d4V2lDcVhlOVduTlg1OElsNUVOQ1JSUGwvSHN3?=
+ =?utf-8?B?M2ZaK096cElRZTBhbTR0Zng5blpVWElPY3JiN0NBT0x6cmpNKzgxS1JzNGEy?=
+ =?utf-8?B?Nmt6WUJtamNLNWhBU1BNamE5ZUkvM0s4cUpkazBWMGU1U0pDdHd6QUdJVGl4?=
+ =?utf-8?B?NVlTYzhxaE9CRDkySXR5Z3dweEh6aXZRbkVzN1JvbWFyeFJwNXVQNDRubUE0?=
+ =?utf-8?B?ZVQ2dnpoTmhSZzl6TFM3VUNIc1JJcUNPRkorZjY5OU5aWlJ4NHN5TnNZak4x?=
+ =?utf-8?B?MC9CaHpjTEMwVTJoU1Z6U0VJOE1wQjFUb01tL3QySWNualJJQ2cyMGgwYUsy?=
+ =?utf-8?B?WG8vZFFuM1RQTUtxUG82Y09rTjFjRkl0cVY0VlgrV1pyOXdkYTQ3VlcrQ0F2?=
+ =?utf-8?B?TzBudWduTG9NTHhFWFNybmRqK2Q3QWkzc0JHYU1ZdWpGK0FnQnR4eUdFbStF?=
+ =?utf-8?B?SVBMNWVVRTViV3JORTJOMWZsdGliaiswWnFUOXcyWUxsalNQamRlb2VzcGpt?=
+ =?utf-8?B?Y0dyeUdlMVZKZm10Y1BobE5oMU41ZGZHeFh2djhGNnp1eEVvaXc5RFBaRHUz?=
+ =?utf-8?B?d1ZPdkxRRElVTTU0WjhkdnVVOFcwZGk5OHJyOGladXNBZlYvT2xhZTRPeDB5?=
+ =?utf-8?B?UXdkNk45WEdZeFd3T2hBaWZyeERCd3g5ZmVIVm9SMGluS1NUR0xOcWNIREpW?=
+ =?utf-8?B?QlphamVwYk0zTjdVdXE2M1RHL0RBelY5MHRqeUJxUjU4V3lkQ2g5RzFFOS9V?=
+ =?utf-8?B?cS9pWjBIZ0lBVnRPSjJXNC9jRWlDMWtvZXBUVjVFejFWb0ZBRzRHdzdtNzNN?=
+ =?utf-8?B?MGhIQmVFaEppS2JaYW4yR0ZFQ1g1OW1LN2F2OVBZNFhHYWVEbW5JWHZzSjl1?=
+ =?utf-8?B?NDBzZ2psc2w5clp5K2EwMXVyVW1MUEREQzUxWHNqQ3NCS0Z4S2w3TllnVkhC?=
+ =?utf-8?B?VS9Icm9EMVpybXNzYU9POEZneFI0cFcxU2wvME5pdi9IUFZsZWdVV3phTnd5?=
+ =?utf-8?B?YkswVmIrM2wrUEVTSzhFWGdQTWxYMmJSRVltMWQ3NWlyQmdFRDI1VEFVNEZw?=
+ =?utf-8?B?SXQ1OTFWb0VBR0lmWjJtY282Y2tDOUFFV3dVSmFtV2tOM3JSVFNyYWNoMGdL?=
+ =?utf-8?B?UVMvS3l0ZmxiU3ZkZUdPSHFHNXNvUU16SmFOdzZPeEd5QkFjR1hFMFdDaUZU?=
+ =?utf-8?B?VExCUjd3YW1jWlMrY0Q1M0lobnNUREs2Y3pCN0hNVVNSQUF1ZUlsajIvR0sr?=
+ =?utf-8?B?cU1hZzRDdENYNURGQ0RMZEJVL2l6VzhLSWlGQT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?U3oyWkFqa3loWnNaYW5NMHFTN1JWWHk4Wlh5Q3psMy81blNEK0VqeDNtckU4?=
+ =?utf-8?B?NlMrZStNbXdiSHc1TXJFemxUQzVPN1hLcFNtZyt3VURndFFzTGNSWjM2NktU?=
+ =?utf-8?B?SWtxWHVyam9LQWZJRWtISVBWQVZ5c0Z4Qy90STVsdTd3ampNWUgvSjVrbmdu?=
+ =?utf-8?B?aFVCTi9VUDVScGYzN21LNXZtcktkV25vclBsQVBOMVFVc0dEZUlzVVdPbVdM?=
+ =?utf-8?B?eCtMcXVNT2Rtd0h2M2s4T0lyZ1NwTHdQaFczRU00TWdUMDg1bFNwV0NyR002?=
+ =?utf-8?B?b3pLSVZBdHFtM3dQUk9mSk5ZQkc3L0lLSkNqdnNyQisvclhSeU1MQ1ZobXJR?=
+ =?utf-8?B?bUdObEZxaVgyVWlDemZtL1NoRDM3ckY5Y3JmKzcxUXVhbU1ibmpqK3NWUmFX?=
+ =?utf-8?B?NW5SUlVhdG1qTUZnK1hXRTZESG5udWJvUExKMFdLR2VvNDdCajc5WlZOQU9y?=
+ =?utf-8?B?VTgyemswcEEvdVpwWVM2dXVBeThTSGJpRTNQcUVxMUMxMVNDY3BpanhsTU1t?=
+ =?utf-8?B?bjJIOEdvYU5KbEFscnNOaFJqeW5HTFVtc040QWlLMnN0WHZFbHQ4a3dpRFZv?=
+ =?utf-8?B?SUlZUThKZ2RmMlJpMUhxRzhDMVBMUHhoZFEvSmYxNFBTTjNCekZwSGlwWDJE?=
+ =?utf-8?B?Wm1xKzRRRHh6RFViRWl0bTBrSkpvelNkcjNhL3lmUGNWSWFUOWQ1OXMzbVEr?=
+ =?utf-8?B?TWZOcC91cHliOU5uQVZTbVhENTNxTUkzVDJyUUsxSFNhSUI2Mm9XRE5wd3JE?=
+ =?utf-8?B?cE8zYzlpUURYVDJERm0rd1BTNmRXQjJJY052VlI0bGRQRFNOcXBsaTY1ZGYw?=
+ =?utf-8?B?bzQwbzhrcEt5TFR1RDUvNFVFUHNWUVpSQ21aNXEzSW1FWUpGL1c4Q3JCTzEw?=
+ =?utf-8?B?d1hMaTBlcXJReDJnN1BsVlJoQ0RPVEhZdG1UVklnaGpveE1MdndvQjNGeWpY?=
+ =?utf-8?B?MERQZ1FnSFJyZmJIZzlpbVJnUitEUlZza0t0SkpaNThuREtYNmtWQU5WUWc1?=
+ =?utf-8?B?cTdicWY1MTdaSUNleU5zMEZrZzBsOFpKZDR3a3RuaWc5aEtSbTBCVDlZMSsx?=
+ =?utf-8?B?aFI4dEpIWC8xZU5NWHNYQnpVc0lhZ2JtL1ZlNkFNYXJjWi9FcFpKTVRVdzN3?=
+ =?utf-8?B?RW85c3BDcWxKQzUwdFdacU1CeFp5RjVJei8wemY5RVdmS3VVNEgzNU5aSDRH?=
+ =?utf-8?B?dmQ4b3RUN2FCd2JnQ0o3Ym5zQXB0WFoyZHdkZGxhME55UmNCVXJQZWNKdlVD?=
+ =?utf-8?B?OHZhQVBMZXkzSkZQMzNyems0RVBVaTNFcElPQTBudEovVjlCMGgwdDB0ZGdH?=
+ =?utf-8?B?VENOL1ovNU12S0RPdzBsOThTbnhHSEdmQWcwN1lBVW04aVU0dG5mWDVnbThD?=
+ =?utf-8?B?N3ZoUk11L2J2cThNZkFoaTlGb0FCZjJycmFPK0V3VTNTUjJlOS9qTm4yT0lI?=
+ =?utf-8?B?dVd1YmUzTTEwR3FzbnBsRHhHc2FLU1NuaGE0V1FWMmJTdHBKMkJrdllQRmMy?=
+ =?utf-8?B?THBDTFdSUTJXemM0Wk1sSmN3c3laWno3L1o0czM5aFNwbFpzVU5KbTFWN1dR?=
+ =?utf-8?B?K0lyOHdRdHhVVW5oWVpCcmxONzMrVkpBTzkrbDE5bzg4MXFPMlJ5Ylpndmhi?=
+ =?utf-8?B?N0lRRHFvNG9GUXhtVG1SRTFUKzBYempkRzdvRTYwTGhna05vZXJtekJvd1hY?=
+ =?utf-8?B?NE9YT1o0N1F4cVE4dTNHVzFBWTlkc29CcFRIVmxVSXRacEFHaTAvZm10czhM?=
+ =?utf-8?B?YW5Hb3hBRkFaWEdDZWpnKzVaZjlHRlVRUTFkWElDeE94d1FNdVdCL242Titx?=
+ =?utf-8?B?aXl4cERiZlY4QUxpVHgrTFlVUTh2VzJUNTZMNnV3QWpLdHVYVmN5b2lhL09t?=
+ =?utf-8?B?MndNbGF6UGYzbnowY3A0QytaRkx5SjJDM3lWc0lkTmZnWlBLdEo2RUlsZm5Z?=
+ =?utf-8?B?QnBOVjcyOSs0c21PcHR2K3NSeHJIRURhNzJYNXhRNkVWWU5Qd3NjSHN4bWpy?=
+ =?utf-8?B?WjNxWUh3RC8wQ1FzajE2TTJoZW9WRFlwSnFhNU9MWFRPNGIrSi9zeGZaZ2oz?=
+ =?utf-8?B?bG8xc3dUYTNKNWhmMFZjaWVhYndlemluTEhHdnplNWNpNTk2RFRaUmxqKzNK?=
+ =?utf-8?Q?u0SgVMMxmOj8+SXRhUGvccFvd?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c25d368-3146-4780-e987-08de367ca120
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 17:10:04.1556
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9ZC+Gic6SbUUayDVOM7UMwPg9kKIRxtKs9P337SN0lmO25KSltLwD9KyH2oIgnR1stcM6WwKX5BQzuJfO5rTZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10318
 
-On Sat, Dec 06, 2025 at 01:25:34PM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
-> > From: Mayank Rana <mayank.rana@oss.qualcomm.com>
-> > 
-> > Currently, the FBC image is a non-standard ELF file that contains a single
-> > ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
-> > (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
-> > separate ELF headers for SBL and WLAN FW segments due to TME-L image
-> > authentication requirement.
-> > 
-> > Current image format contains two sections in a single binary:
-> > - First 512KB: ELF header + SBL segments
-> > - Remaining: WLAN FW segments
-> > 
-> > The TME-L supported image format contains two sections with two elf
-> > headers in a single binary:
-> > - First 512KB: First ELF header + SBL segments
-> > - Remaining: Second ELF header + WLAN FW segments
-> > 
-> > Download behavior:
-> > - Legacy: 1. First 512KB via BHI (ELF header + SBL)
-> >           2. Full image via BHIe
-> > 
-> > - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
-> >          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
-> > 
-> > Add standard_elf_image flag to mhi_controller_config to indicate TME-L
-> > supported image format. When set, MHI skips the first 512KB during WLAN FW
-> > download over BHIe as it is loaded in BHI phase.
-> 
-> What is standard about it?
+Previously, configuration and preparation required two separate calls. This
+works well when configuration is done only once during initialization.
 
-The TME-L requires standard elf image format which includes single EFL
-header and WLAN FW segment.
+However, in cases where the burst length or source/destination address must
+be adjusted for each transfer, calling two functions is verbose.
 
-The "standard_elf_image" seems misleading. Since the new image format is
-required for TME-L image authentication, how about using 
-tme_supported_image?
+	if (dmaengine_slave_config(chan, &sconf)) {
+		dev_err(dev, "DMA slave config fail\n");
+		return -EIO;
+	}
 
-> 
-> > 
-> > Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
-> > Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
-> > Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
-> > Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
-> > ---
-> > Changes in v3:
-> > - Reword commit message.
-> > - Reword comments of standard_elf_image flag
-> > - Add reviewed-by tag.
-> > - Link to v2: https://lore.kernel.org/mhi/20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com/
-> > 
-> > Changes in v2:
-> > - V1 patch is paused because of no user. WLAN team plan to add support for
-> >   new WLAN chip that requires this patch, so send v2.
-> > - Change author and SOB with new mail address.
-> > - Reword commit message.
-> > - Place standard_elf_image flag after wake_set in struct mhi_controller
-> > - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
-> > ---
-> >  drivers/bus/mhi/host/boot.c | 7 +++++++
-> >  include/linux/mhi.h         | 4 ++++
-> >  2 files changed, 11 insertions(+)
-> > 
-> > diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> > index 205d83ac069f15a19ab2d66a63692e5d60334d4c..64fb7a257d3529167eddf1153d34cc6b25735809 100644
-> > --- a/drivers/bus/mhi/host/boot.c
-> > +++ b/drivers/bus/mhi/host/boot.c
-> > @@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
-> >  	 * device transitioning into MHI READY state
-> >  	 */
-> >  	if (fw_load_type == MHI_FW_LOAD_FBC) {
-> > +		dev_dbg(dev, "standard_elf_image:%s\n",
-> > +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
-> > +		if (mhi_cntrl->standard_elf_image) {
-> > +			fw_data += mhi_cntrl->sbl_size;
-> > +			fw_sz -= mhi_cntrl->sbl_size;
-> > +		}
-> > +
-> >  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
-> >  		if (ret) {
-> >  			release_firmware(firmware);
-> > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> > index dd372b0123a6da5107b807ff8fe940c567eb2030..a13106bb234d22e3876dff3c0d46f3dee1d9e05c 100644
-> > --- a/include/linux/mhi.h
-> > +++ b/include/linux/mhi.h
-> > @@ -360,6 +360,9 @@ struct mhi_controller_config {
-> >   * @bounce_buf: Use of bounce buffer
-> >   * @fbc_download: MHI host needs to do complete image transfer (optional)
-> >   * @wake_set: Device wakeup set flag
-> > + * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
-> > + *                      image need to be skipped when loading WLAN FW over
-> > + *                      BHIe interface (optional)
-> 
-> How does the description correlate to the name of the flag?
+	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
 
-The description can be updated as:
+After new API added
 
- * @tme_supported_image: Flag indicating FBC image format supports TME-L
- *                      (Trust Management Engine Lite) authentication.
- *                      When set, skip first 512KB when loading WLAN FW
- *                      over BHIe interface (optional)
-> 
-> >   * @irq_flags: irq flags passed to request_irq (optional)
-> >   * @mru: the default MRU for the MHI device
-> >   *
-> > @@ -445,6 +448,7 @@ struct mhi_controller {
-> >  	bool bounce_buf;
-> >  	bool fbc_download;
-> >  	bool wake_set;
-> > +	bool standard_elf_image;
-> 
-> This flag is never set, making it a dead API. If there are other patches
-> setting up the flag, please include them into them in the same series.
+	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags, &sconf);
 
-Let me discuss with Baochen about whether he can include the patch in his
-series that actually sets this flag for QCC2072 device.
+Additional, prevous two calls requires additional locking to ensure both
+steps complete atomically.
 
-- Qiang Yu
-> 
-> >  	unsigned long irq_flags;
-> >  	u32 mru;
-> >  };
-> > 
-> > ---
-> > base-commit: ac35e04f8000aaaf98635792464647e7a6f3422e
-> > change-id: 20251129-wlan_image_load_skip_512k-ddcfe49db8e3
-> > 
-> > Best regards,
-> > -- 
-> > Qiang Yu <qiang.yu@oss.qualcomm.com>
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
+    mutex_lock()
+    dmaengine_slave_config()
+    dmaengine_prep_slave_single()
+    mutex_unlock()
+
+after new API added, mutex lock can be moved. See patch
+     nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Frank Li (8):
+      dmaengine: Add API to combine configuration and preparation (sg and single)
+      PCI: endpoint: pci-epf-test: use new DMA API to simple code
+      dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
+      dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
+      nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
+      nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+      PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
+      crypto: atmel: Use dmaengine_prep_slave_single_config() API
+
+ drivers/crypto/atmel-aes.c                    | 10 ++---
+ drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
+ drivers/nvme/target/pci-epf.c                 | 21 +++------
+ drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
+ drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
+ include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
+ 6 files changed, 111 insertions(+), 82 deletions(-)
+---
+base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
+change-id: 20251204-dma_prep_config-654170d245a2
+
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
+
