@@ -1,152 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25AE19CCF7;
-	Tue,  9 Dec 2025 07:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2663628A701
+	for <mhi@lists.linux.dev>; Tue,  9 Dec 2025 11:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765264809; cv=none; b=lBwFuvzjAXS1wndkqW35ixy7ifzYQiCldK/gXgY1/9QqOvihFOsjf8CdgLitRp+DXA2bk6/xab3bppEpEwo7I9jR+029fC6LjXs1L1F5iTgFGtPtVWPCOMWYjVsJGv4j0EANScjMWQOUbQaS6ANqIBlVtnWqBT8VwqsN13tn5WU=
+	t=1765279548; cv=none; b=FRqoY0M9IkbqvCZZQp2XiAUK+V6+5G2LyOj70C+HlWYY5iz6T+7ZVwPrhsB6ZwmSMIfd5v6DnyiWXyDQdz5nGFvxuStjPO8lLuUI5h8XAt05s1tCLAHEr9zsIahvfcaFFTJpCwTnupH8Zhf87aFVClAMKVVdD57aP7WywKprpSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765264809; c=relaxed/simple;
-	bh=2+RBfirrXuFnkMRxDw7t0EtfDZroa6uDXyUspwpTeIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a96dkxOQClkof4kcvL77GbAJ6Uou34WKxUZm/wGMBX3LcrOfGMJGRYC2MrN5gLLUltAtBktZ7wKQ3tnavb03VIv8MwneZS3b0EBaLRa/++QpivpTpu/uqpwU8jmENsKNC6QrAoUvCRHrUelBA29k9faL/PHvKFXiTLRwAWapM8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/jVDiia; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765279548; c=relaxed/simple;
+	bh=DsiJN+x8Fqjt+HlhEmfCrebctPNMtUSyNZcOLLpnAeg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JWUArb+XQly2OVfT2XJZfOcgkr1Tj1aZXDnOjrUZJ9Bzzevm/ff+pXCuAk/jNilWc2KmoLQi/ZlcG/BpFfwWXASh6PKLAmobGsPfact+yML9QlUqLv4IpkTxI/jD5MKZdpFTZWnk4f3Mp/w3lxuZcD/PlQ5BhvVFAr56oMw/nus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ed3abrwY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=POGHFmwl; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/jVDiia"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137C4C4CEFB;
-	Tue,  9 Dec 2025 07:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765264809;
-	bh=2+RBfirrXuFnkMRxDw7t0EtfDZroa6uDXyUspwpTeIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n/jVDiia6Xt689ozubWpINb6zPps2GAGN4ovKR+yZJbb1pZ3FqoiGlaESeOnFGwnC
-	 oFohj1jB3EQDwexnuAimLRCSTAIkMcqqUUp/Ppk00eblJIMiI/hUSM5ZqNuoxKDqZy
-	 qgunAerivYkbJNWMeG6MbaGPRLrk4rTDm8kPpdrvVO6pUGQ3o1l5c+0pYQxttsTsb0
-	 s+gzBg72oPYzw/GIwTiMssFxRpmpM6CU76gMyTDS9l6ARdgm0Y7ac8cxoaqmsswcKH
-	 AwmLtUYjLUKVPw9RIwCOxo2ni4xc0MAgPG9bSbJcD8Qiv+TID/luQz8wBjVO8pFKff
-	 fxdkxqKFXombQ==
-Date: Tue, 9 Dec 2025 08:20:01 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-nvme@lists.infradead.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
- descriptor preparation
-Message-ID: <aTfNoU6fKBOcjL5j@ryzen>
-References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ed3abrwY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="POGHFmwl"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B99NnQM3260626
+	for <mhi@lists.linux.dev>; Tue, 9 Dec 2025 11:25:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=VsBgdJ+ubxIlMlId0qH8F8
+	slq+A2hSv7BDe8MHbvG64=; b=ed3abrwYdom/+eT1rno8AvMC74c5yHWsG9C/hy
+	ho3/zxuCilqP6vk0IaIj4UhPnEIrbjC/EQ/HTJ+HcQRXnnBk+0533y4WYJRfTWNG
+	LEJ8Pd5Pkjo8yLBT7Gg2y052xsc/ZdEGS1XnxpktY4/vgzGnqdkC/FOVvppg01gb
+	5L4YO4rqqrE2KbmDwR0LCxiwtrt+UMRmCYILJ2kvgqjmLbHHuJZYh326nx3t2eJB
+	UjBGQlKGe1X+l6pVQKs+HaD2QSyUN2X3FULbgFlg2+EEGbahcmQ97GzHRkAQz4tv
+	6m4Yba7fjpPHgERsLoXX6jtntdM5vNB5+rFKjwHU2SqxH9AA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axgqpresm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 09 Dec 2025 11:25:46 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-34385d7c4a7so3558189a91.0
+        for <mhi@lists.linux.dev>; Tue, 09 Dec 2025 03:25:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765279545; x=1765884345; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VsBgdJ+ubxIlMlId0qH8F8slq+A2hSv7BDe8MHbvG64=;
+        b=POGHFmwlepDUUyB6grN3EADT1Z9YcnLqwOHos26dGO0GIxrYI6Hn0FbSqtB+G5EHV4
+         7digzhqMTq3m+BbsDZi+CYb1OqfqP0NXiY3xMTlxoqLWl26c7G8StLYzrPa7RUZXO1Nk
+         RsjonmqMmToJKa/9D9DeXzn44EETP5JZatzA+60HkGokpCZY0gdNP4mS0goj/gpXb0kQ
+         e3ZpD/b8rjijMiA2hrLbPddFL2cfOQSDCfAAFVo5L3tLqX1SXDubmw5sXGCmCOMZXhLM
+         I2qHIzCHJGY16S13zlvdPY4hochA/jKHG1B6PXsD3JuP7tshEQewWimgMIjlh7NWzDcM
+         HjJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765279545; x=1765884345;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VsBgdJ+ubxIlMlId0qH8F8slq+A2hSv7BDe8MHbvG64=;
+        b=JJveyWZQkrXn0lya+868+Tkst0LKIV72OGWJv8BNnYtizo2D/8rOUBRcT+P+GVtli1
+         uP5bJg9Fgsv3l7DKe4qAAsw6mg9gVW3OrnCMcyBFcvKMas7vKj6h+/zohMbqpulcJ+Cx
+         2ni1O7SiDHNMlIhfAKUbnzKzCqqPCvFXQNZn/ka3xMYpXP7CPCQjTF2QzBq+Ptw9UVes
+         /ENS9KECXJCBXWtFHJ6DLD7zWl3S12e83E50fsih/5sJ8fS8XQ5ZNbjarq/PK4oRpg/y
+         VwGFwgzgaUCFU50z99Nri0R+3bxM8033qEomJfYHcvk5y5cZENFnzEHSqbC7vHgLbM70
+         F0qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8bo5FzgjLgNlKUw42WO1ts+LumTXMrHBIDyJKNF/3wrhMgzTKJBrG97lFkx2sCCoL08I=@lists.linux.dev
+X-Gm-Message-State: AOJu0YywXrLI8U3k8ATDLxICavI6Nz3mGqLc9AbPNoXnLB5qHJEVtl7Z
+	1NtZ0zuIFfUreh1SOpxv7g4ovFX26W38EiI9EquPsxQVxlC0tIiCbTf2OD32THmZNq/OtXlQQMv
+	NSRv4AjnBJoJNBrImCvp4NQgHkfH7FpQ57RB7eu2HyfGlrcJiXcYSRLE=
+X-Gm-Gg: AY/fxX71UcqnkHHwfailHuUr/xGNh8vDXNXNoULP6l4EF4qtY6JQgkuoRKpY3221QCX
+	sSz0rNNiiRdbaAYzFL1DBdEKyA+yVX13nmcG2OJg9V3ODR0h0eK0DBAu/iO6pQDwSCCDLDp9ClC
+	Ogy5nEkKhhDP/I7qgQCb1bhfOHte9UcHV7bmf66HNj1RyM81ntZczvvjiZxkvFf4s+T445vGjyj
+	3xxRCoYQEu64O7jqpLDy0vL6MlIKebbhgh+mYH/1ifuGmJ2RLzVhWELmBh0ErozVJmHt1us9US4
+	+9CxUHDrW/nYNm5XHSKkO8zVk+OjKz+OEfnQYUpNQNglprD04D/tf54hpiDRtOn23xAmJO4DXFC
+	9n41HM/at0brZkmjKTSWBx42PoE5t+1YGmnJk
+X-Received: by 2002:a17:90b:1f87:b0:349:7f0a:38e0 with SMTP id 98e67ed59e1d1-34a4f8bc3d6mr942781a91.17.1765279545541;
+        Tue, 09 Dec 2025 03:25:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGczqed4JYXeBh97lxyTB5anIJMDGPxDqMP+bWLrjssFzZu758BmfhApm7fzoyy9+J7HleFog==
+X-Received: by 2002:a17:90b:1f87:b0:349:7f0a:38e0 with SMTP id 98e67ed59e1d1-34a4f8bc3d6mr942765a91.17.1765279545080;
+        Tue, 09 Dec 2025 03:25:45 -0800 (PST)
+Received: from hu-vpernami-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a49b9178csm2135964a91.12.2025.12.09.03.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 03:25:43 -0800 (PST)
+From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+X-Google-Original-From: Vivek Pernamitta
+Subject: [PATCH v6 0/2] net: mhi: Add support to enable ethernet interface
+Date: Tue, 09 Dec 2025 16:55:37 +0530
+Message-Id: <20251209-vdev_next-20251208_eth_v6-v6-0-80898204f5d8@quicinc.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADEHOGkC/y2MQQqAIBQFrxJ/nWCWUV0lQiKf9TcWGhJEd0+i5
+ QzM3BQRGJGG4qaAxJF3n6EtC1q22a8QbDOTkkpXSvYiWSTjcZ3iV53BuZnUiqWReoatagdLuT8
+ CHF/fe5ye5wW+OMAHawAAAA==
+X-Change-ID: 20251209-vdev_next-20251208_eth_v6-c405aed13fed
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org,
+        Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765279540; l=2389;
+ i=<quic_vpernami@quicinc.com>; s=20241114; h=from:subject:message-id;
+ bh=DsiJN+x8Fqjt+HlhEmfCrebctPNMtUSyNZcOLLpnAeg=;
+ b=yCEy1+3+fTCjhl2Y2Mp6zaC9Tm+MeaGfiLGbPV1B2s+Yc6xPUPOrHwQ3WONSqCqgIxIk9Lv5t
+ TKTiGS9px4PC4bCbXD84RTbn8ojO9JSsFabbiY8oCUER/apsllhZMPP
+X-Developer-Key: i=<quic_vpernami@quicinc.com>; a=ed25519;
+ pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
+X-Authority-Analysis: v=2.4 cv=KMhXzVFo c=1 sm=1 tr=0 ts=6938073a cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=QULB0W7ECN1Zqye5N6MA:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: muK9atnr8C5891uIgqMXJj5PNkLBwHvj
+X-Proofpoint-ORIG-GUID: muK9atnr8C5891uIgqMXJj5PNkLBwHvj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDA4MSBTYWx0ZWRfX8FjC2AhQjH1e
+ PyErPGdvnZgqY5g+10HDaKgxvzja2zecerJTFSAY4Mwy5gPmZOJ1Vwtzl7PJGm59HDa0EMKE4bb
+ NnmET1X2kFvJ09Z3gcDP2uRGnaKPOqeV+JfMDns0qO6/NZRWkj9XltxN1aSJfEFZF81XlsRw5xS
+ ZXZ+V5cR+qFD108Bu9lHuQxrIwm/FZ5CsMA5lBJ+Q3bt2TeaN4kbaVwaYNSiiL5SPSc+bs601v3
+ Y7DFDHIu24uukNp9PuQfbUWRd+JkPBv//230aUgkwSCuOK40vi6NuHCmDHq0aMmFjKEkde1N0eR
+ do50hdjF84OM1ONiA9t5cbPyE/oxpqFMfTf//NleQfGCyMOT7dol7rtqOPOK4qeTCXgwXpeHTZl
+ +tWqDlcqx1e9BMojgqC2+DyqrXU4xQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 phishscore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090081
 
-On Mon, Dec 08, 2025 at 12:09:39PM -0500, Frank Li wrote:
-> Frank Li (8):
->       dmaengine: Add API to combine configuration and preparation (sg and single)
->       PCI: endpoint: pci-epf-test: use new DMA API to simple code
->       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
->       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
->       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
->       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
->       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
->       crypto: atmel: Use dmaengine_prep_slave_single_config() API
-> 
->  drivers/crypto/atmel-aes.c                    | 10 ++---
->  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
->  drivers/nvme/target/pci-epf.c                 | 21 +++------
->  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
->  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
->  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
->  6 files changed, 111 insertions(+), 82 deletions(-)
-> ---
-> base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
-> change-id: 20251204-dma_prep_config-654170d245a2
+Add support to configure a new client as Ethernet type over MHI by
+setting "mhi_device_info.ethernet_if = true". Create a new Ethernet
+interface named eth%d. This complements existing NET driver support.
 
-For the series (tested using drivers/nvme/target/pci-epf.c):
-Tested-by: Niklas Cassel <cassel@kernel.org>
+Introduce IP_SW1, ETH0, and ETH1 network interfaces required for
+M-plane, NETCONF, and S-plane components.
 
-Mainline:
-  Rnd read,    4KB,  QD=1, 1 job :  IOPS=5721, BW=22.3MiB/s (23.4MB/s)
-  Rnd read,    4KB, QD=32, 1 job :  IOPS=51.8k, BW=202MiB/s (212MB/s)
-  Rnd read,    4KB, QD=32, 4 jobs:  IOPS=109k, BW=426MiB/s (447MB/s)
-  Rnd read,  128KB,  QD=1, 1 job :  IOPS=2678, BW=335MiB/s (351MB/s)
-  Rnd read,  128KB, QD=32, 1 job :  IOPS=19.1k, BW=2388MiB/s (2504MB/s)
-  Rnd read,  128KB, QD=32, 4 jobs:  IOPS=18.1k, BW=2258MiB/s (2368MB/s)
-  Rnd read,  512KB,  QD=1, 1 job :  IOPS=1388, BW=694MiB/s (728MB/s)
-  Rnd read,  512KB, QD=32, 1 job :  IOPS=4554, BW=2277MiB/s (2388MB/s)
-  Rnd read,  512KB, QD=32, 4 jobs:  IOPS=4516, BW=2258MiB/s (2368MB/s)
-  Rnd write,   4KB,  QD=1, 1 job :  IOPS=4679, BW=18.3MiB/s (19.2MB/s)
-  Rnd write,   4KB, QD=32, 1 job :  IOPS=35.1k, BW=137MiB/s (144MB/s)
-  Rnd write,   4KB, QD=32, 4 jobs:  IOPS=33.7k, BW=132MiB/s (138MB/s)
-  Rnd write, 128KB,  QD=1, 1 job :  IOPS=2490, BW=311MiB/s (326MB/s)
-  Rnd write, 128KB, QD=32, 1 job :  IOPS=4964, BW=621MiB/s (651MB/s)
-  Rnd write, 128KB, QD=32, 4 jobs:  IOPS=4966, BW=621MiB/s (651MB/s)
-  Seq read,  128KB,  QD=1, 1 job :  IOPS=2586, BW=323MiB/s (339MB/s)
-  Seq read,  128KB, QD=32, 1 job :  IOPS=17.5k, BW=2190MiB/s (2296MB/s)
-  Seq read,  512KB,  QD=1, 1 job :  IOPS=1614, BW=807MiB/s (847MB/s)
-  Seq read,  512KB, QD=32, 1 job :  IOPS=4540, BW=2270MiB/s (2381MB/s)
-  Seq read,    1MB, QD=32, 1 job :  IOPS=2283, BW=2284MiB/s (2395MB/s)
-  Seq write, 128KB,  QD=1, 1 job :  IOPS=2313, BW=289MiB/s (303MB/s)
-  Seq write, 128KB, QD=32, 1 job :  IOPS=4948, BW=619MiB/s (649MB/s)
-  Seq write, 512KB,  QD=1, 1 job :  IOPS=901, BW=451MiB/s (473MB/s)
-  Seq write, 512KB, QD=32, 1 job :  IOPS=1289, BW=645MiB/s (676MB/s)
-  Seq write,   1MB, QD=32, 1 job :  IOPS=632, BW=633MiB/s (663MB/s)
-  Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=1756, BW=880MiB/s (923MB/s)
- IOPS=1767, BW=886MiB/s (929MB/s)
+M-plane:
+Implement DU M-Plane software for non-real-time O-RAN management
+between O-DU and O-RU using NETCONF/YANG and O-RAN WG4 M-Plane YANG
+models. Provide capability exchange, configuration management,
+performance monitoring, and fault management per O-RAN.WG4.TS.MP.0-
+R004-v18.00.
 
+Netconf:
+Use NETCONF protocol for configuration operations such as fetching,
+modifying, and deleting network device configurations.
 
-Mainline + this series applied:
-  Rnd read,    4KB,  QD=1, 1 job :  IOPS=3681, BW=14.4MiB/s (15.1MB/s)
-  Rnd read,    4KB, QD=32, 1 job :  IOPS=54.8k, BW=214MiB/s (224MB/s)
-  Rnd read,    4KB, QD=32, 4 jobs:  IOPS=123k, BW=479MiB/s (502MB/s)
-  Rnd read,  128KB,  QD=1, 1 job :  IOPS=2132, BW=267MiB/s (280MB/s)
-  Rnd read,  128KB, QD=32, 1 job :  IOPS=19.0k, BW=2369MiB/s (2485MB/s)
-  Rnd read,  128KB, QD=32, 4 jobs:  IOPS=18.7k, BW=2341MiB/s (2454MB/s)
-  Rnd read,  512KB,  QD=1, 1 job :  IOPS=1135, BW=568MiB/s (595MB/s)
-  Rnd read,  512KB, QD=32, 1 job :  IOPS=4546, BW=2273MiB/s (2384MB/s)
-  Rnd read,  512KB, QD=32, 4 jobs:  IOPS=4708, BW=2354MiB/s (2469MB/s)
-  Rnd write,   4KB,  QD=1, 1 job :  IOPS=3369, BW=13.2MiB/s (13.8MB/s)
-  Rnd write,   4KB, QD=32, 1 job :  IOPS=31.7k, BW=124MiB/s (130MB/s)
-  Rnd write,   4KB, QD=32, 4 jobs:  IOPS=31.1k, BW=122MiB/s (127MB/s)
-  Rnd write, 128KB,  QD=1, 1 job :  IOPS=1820, BW=228MiB/s (239MB/s)
-  Rnd write, 128KB, QD=32, 1 job :  IOPS=5703, BW=713MiB/s (748MB/s)
-  Rnd write, 128KB, QD=32, 4 jobs:  IOPS=5813, BW=727MiB/s (762MB/s)
-  Seq read,  128KB,  QD=1, 1 job :  IOPS=1958, BW=245MiB/s (257MB/s)
-  Seq read,  128KB, QD=32, 1 job :  IOPS=18.8k, BW=2345MiB/s (2459MB/s)
-  Seq read,  512KB,  QD=1, 1 job :  IOPS=1319, BW=660MiB/s (692MB/s)
-  Seq read,  512KB, QD=32, 1 job :  IOPS=4542, BW=2271MiB/s (2382MB/s)
-  Seq read,    1MB, QD=32, 1 job :  IOPS=2325, BW=2325MiB/s (2438MB/s)
-  Seq write, 128KB,  QD=1, 1 job :  IOPS=2174, BW=272MiB/s (285MB/s)
-  Seq write, 128KB, QD=32, 1 job :  IOPS=5697, BW=712MiB/s (747MB/s)
-  Seq write, 512KB,  QD=1, 1 job :  IOPS=1035, BW=518MiB/s (543MB/s)
-  Seq write, 512KB, QD=32, 1 job :  IOPS=1462, BW=731MiB/s (767MB/s)
-  Seq write,   1MB, QD=32, 1 job :  IOPS=720, BW=721MiB/s (756MB/s)
-  Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=2029, BW=1018MiB/s (1067MB/s)
- IOPS=2037, BW=1023MiB/s (1072MB/s)
+S-plane:
+Support frequency and time synchronization between O-DUs and O-RUs
+using Synchronous Ethernet and IEEE 1588. Assume PTP transport over
+L2 Ethernet (ITU-T G.8275.1) for full timing support; allow PTP over
+UDP/IP (ITU-T G.8275.2) with reduced reliability. as per ORAN spec
+O-RAN.WG4.CUS.0-R003-v12.00.
 
+Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+---
+patchset link for V5 : https://lore.kernel.org/all/20251106-vdev_next-20251106_eth-v5-0-bbc0f7ff3a68@quicinc.com/
+patchset link for V1 (first post) : https://lore.kernel.org/all/20250724-b4-eth_us-v1-0-4dff04a9a128@quicinc.com/
 
-Small performance boost, but I think the nicest thing with this series is
-to be able to remove the ugly mutex in pci-epf.c.
+changes to v6:
+- Removed interm variable useage as per comments from Simon and Dmirty.
+- Squashed gerrits 1 and 2 in single gerrit.
+- Added more description for M-plane, Netconf and S-plane.
 
+changes to v5:
+- change in email ID from "quic_vpernami@quicinc.com" to "vivek.pernamitta@oss.qualcomm.com"
+- Renamed to patch v5 as per comments from Manivannan
+- Restored to original name as per comments from Jakub
+- Renamed the ethernet interfce to eth%d as per Jakub
+---
 
-Kind regards,
-Niklas
+---
+Vivek Pernamitta (2):
+      net: mhi: Enable Ethernet interface support
+      bus: mhi: host: pci: Enable IP_SW1, IP_ETH0 and IP_ETH1 channels for QDU100
+
+ drivers/bus/mhi/host/pci_generic.c |  8 ++++
+ drivers/net/mhi_net.c              | 75 +++++++++++++++++++++++++++++++-------
+ 2 files changed, 70 insertions(+), 13 deletions(-)
+---
+base-commit: 82bcd04d124a4d84580ea4a8ba6b120db5f512e7
+change-id: 20251209-vdev_next-20251208_eth_v6-c405aed13fed
+
+Best regards,
+-- 
+Vivek Pernamitta <<quic_vpernami@quicinc.com>>
+
