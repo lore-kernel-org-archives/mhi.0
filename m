@@ -1,178 +1,272 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011020.outbound.protection.outlook.com [52.101.70.20])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2E2DF70F;
-	Tue,  9 Dec 2025 15:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765295268; cv=fail; b=ilYS5Q4upj/8J81Xv+6fxP2gQm4bet+5oltusYWVYkCCD2SEZGvbOx7nG/u3a8a5H73BB1VtDFHNfKUJ7IayueZf2eyIRY7zjk24qYDHX+JLy52W2G3TCTqRvXkCzQK3XL6qnL6SZeWWGbgWIRj06iSPNOI1bKg3XdQfDyjvtI4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765295268; c=relaxed/simple;
-	bh=F+XUqGsHdfBH/n+v8Mc0Zdsn5uvxRVxi3bhBrikX0m0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rPGRHtLi3vu5H/ng4VVe+8y27JhkeF7C9MrnpuNgYYqg7oagEQABgYd/JyJXCIq8V3Js1FlFRi6IwwLLTtVgbVFlSa3nEa+gb/DJKz6Rbm3uHdxqvD/fWFyCkZm6PS8O2CujuFdw+Zsx7KhHKH9pILDWbLFLnG3mJbOvHsghkMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=VlfsMhph; arc=fail smtp.client-ip=52.101.70.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4EF2F12D3
+	for <mhi@lists.linux.dev>; Tue,  9 Dec 2025 22:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765321039; cv=none; b=Oj0N0dxL6XbbQv3hiWdDdH/FQli8blZZiruYvgmmTWKpa7Z0cYyONVEsI/wOgTGWFSY6AeztCMmTv1vtwwth1Cwhg9c98cOJ9wfmCVX9L2VGTja56/J5fhFKw+EJkOzlfhN9FaI+8IAwFwLK7m9FN6tYH0xP+lmpQo4+qD4DVHs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765321039; c=relaxed/simple;
+	bh=tUrAhEfuvOGitKxqW7+VuuLs16VhU2OeQDiwz0C2xWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/S1rKvVjEh4SpvMOQEFiAJAkPZ9khJ2VsOrFA8o4HTaW+kVc9j1iSbcYI5xmDS080iYrvdU5O4WhDBdjwddC8FG/69vFkGQzuhCbpwUUmB/Pw/0YcocLM0Gqexw09aM24mg0X+UZeDCZ40AkHnLHsI6B9JwPE++z/k4GenScw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gTnYlmAH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZsiHCJzv; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="VlfsMhph"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SplcYTGUpGvCbAAtQ8/1lzODb4/glURw0go4hBnzropkxv4XO4FxT5yeJJsSjyyl6uXsd3xFTePsf9GIC9V3jifW53QWbCHB/dQH4RKxLoajimzJcgMH3wn4thKBPMBcmGGxnKP8LoVfx/4KsDHLCyY7q1WugOabGnsumEWkyu1kRCcb+Ic0TjHvw1s46nneAIVQ7ZtNrrmgP6LVPxT0P/eYvtwHivblOCjalIMphkUAvWUkMl96No10BcEDsdEc8e5IliQL8e+LXG6X7+qJWDGpMsl37+ii7gUlHISfoznqbQC+OLGdGxw3RuOkrGfQ1VMzhq+AUgwUdtHfFkWpeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F+XUqGsHdfBH/n+v8Mc0Zdsn5uvxRVxi3bhBrikX0m0=;
- b=RRk1cdwbyE0xWvwzdt1ijlwyuDAAkYuGNA6VNqa/VtyVWjctaWsA0VPQwIFBxfCM+G/WX+3OnTpoQFgi/5KswKzaB7BxtL+NeYonltO7ik/T+0tUAqxeBA6mAa1C2Bjl8CKnmykcUFIIuDUk8OwZ3TNGAWzO0+dynwfRi8jEAD48iI7KcyR5uFwnIcl2SJvnIxVoYpLL1nCEzaXb3IrcCezPg4OohwVGUpLo9OskaE1kRgbAANWI/TlQFBafqwLi4r2/xRZPQelNSOO6Ltv53tqFe2Cv54HZVJ4cHHVl1b0bchRrr4gz6NMYGykTRtO6faylHH9E3GY3V9KTBYAs0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F+XUqGsHdfBH/n+v8Mc0Zdsn5uvxRVxi3bhBrikX0m0=;
- b=VlfsMhphQuy6/29pBUBv3nLeMRbk/VkJSMCs0OPLu4kfEE4QaQRWMILfzligbEy9RCAx/DflM5UkjqtR51bqz2PUCrypwRP8Riu1kfq924CrvQswXu1I0liLt7JWD6TGExXQh9+oljLKjh0EQ5xHtedkblC5GmM1Jz1djVICYNb67bWGzI7cV7LVHEjX8UICn4mZyG7YCctAs+3qNDqEhjj6XoX1O6pOIg2aU6mUjngUm9cpEXtcK1Xx8muq7iZWFJL0P3Q5eQrkX2OgljCoHfyNGKL9E24rr4b/mqtOVq6p7qFybg33yFY7JWoZJSGeqi0MVofZ2KmQ2oM3miYogA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
- by PR3PR04MB7404.eurprd04.prod.outlook.com (2603:10a6:102:8f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Tue, 9 Dec
- 2025 15:47:41 +0000
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9388.013; Tue, 9 Dec 2025
- 15:47:41 +0000
-Date: Tue, 9 Dec 2025 10:47:30 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH 1/8] dmaengine: Add API to combine configuration and
- preparation (sg and single)
-Message-ID: <aThEkqq79WwPvQ27@lizhi-Precision-Tower-5810>
-References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
- <20251208-dma_prep_config-v1-1-53490c5e1e2a@nxp.com>
- <20251209063809.GA27728@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209063809.GA27728@lst.de>
-X-ClientProxiedBy: SJ0PR05CA0201.namprd05.prod.outlook.com
- (2603:10b6:a03:330::26) To DU2PR04MB8951.eurprd04.prod.outlook.com
- (2603:10a6:10:2e2::22)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gTnYlmAH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZsiHCJzv"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B9MluoR1228538
+	for <mhi@lists.linux.dev>; Tue, 9 Dec 2025 22:57:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=gTi/HbaSCDQj+It6YM8JvIu5
+	/JY9GRNhF6nMiaOmeo0=; b=gTnYlmAHtZYxbRci7EUx1kuA9agVZbaTMIQbp9c8
+	cuIv12XfrFG2lL3FkYwFldjyTkHMVKY+mNG+WVXgJ5FCmIImN0gAtmf9kP4UZPfu
+	rA77x+OkWXIX2K123qCMrmIS4kEVsqxQSNmWaIAMm8osUcymBUULFNEK+ty9y6xd
+	PcSYPg2Wai3q4jZr0kUmE7ZwbSWeeVZuAId1dhn6ayM22CG/H8TfyKQ6u0YchM+q
+	jaNdNcvMnCASWgSSIMFvlIPT+8BWFUfat2s55APwxhwRP/C/euHf1R453pyFjD0F
+	IPiwwZX00VU3xK7k14YAtcTIQ/NxyKz90qF1LMiV78GWfw==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axm9c9v5y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 09 Dec 2025 22:57:16 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-559836d04dfso256670e0c.0
+        for <mhi@lists.linux.dev>; Tue, 09 Dec 2025 14:57:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765321035; x=1765925835; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gTi/HbaSCDQj+It6YM8JvIu5/JY9GRNhF6nMiaOmeo0=;
+        b=ZsiHCJzvXywQW4f+Wj7bAlP4YU4acfhBDC8Gf5aNFAiFmK410/9PgmZ4mt28N3Jy44
+         OE3dPOjNFvQIcID/32laEe6XL1/aJ/RuCWjQ3GihamV5xScd9QZ6b3cQNGeW06FXpkGO
+         IHy0DsyuZgExECKlN8ujKqcWjA3W2KkWpsrayAJ/Lyk/CXpA6zQidL+P3xWGI9P6YVXp
+         nAkSIO/eM0hpKXeIWBDGi4EaToc6mBkRaIqpo+aFwWNw60fJ02TLmGDdlG+VTPQbTi+2
+         z02YT5cOVbJn+Hlk9jrRiGlLQhTy6hV9ZSq/+AaCaNzitrJZzT8IcgkwYH7h4rfhlfem
+         eLiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765321035; x=1765925835;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gTi/HbaSCDQj+It6YM8JvIu5/JY9GRNhF6nMiaOmeo0=;
+        b=mx1psdaQ3uDZkmsczxaIpLOnDGamGmMiOV89cgkFvogr98JTy7kIfjCUBBm3K5cqIo
+         IwSbWj5XCTO9cv1tRR2a2xdegfP7fFUPLdFrQymSm5sPiFqXvBNlU1kJzmw68e8+Qcrq
+         qWn3zivda2uGjwPhK6CTrfViMCG+QlgLq2HsMTB8b+qb8fb/3Zl9fM+ixGOJm38nXQmI
+         DaCdgHiBbAH8LcXKXx5b+rv8R9RzoSBT1qbKovaVCFPuYl1Gy61xWjnjCiWT82LJDF/g
+         MZVf1aPNpHlAtPPtmIxCWZG43vA9j2eftH3ztGYvNaVG8AjQDS8nEi/FjV1HIPMZblVp
+         V87w==
+X-Forwarded-Encrypted: i=1; AJvYcCWdM+x9TQCV1FNqeW7EsqdjciNSGBhHK0LqQpwPZri1cShTSdzDckAV9FX6iRcdEPvq41I=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwwKZiJN0QjLVqRVkRTfmBo/66htp5nY1HqQhJhdz02/HNmqj1n
+	G5WsAf6+XMiMtOQkLJgd1gwUvE//0+9zKjTbV+FSEvrO9wwU78MZplxiz+yRUPopdC9CCNMaeBT
+	a/Ku5UnxXAs0PQ0zDH+0jX5WfvZEkYpQL2bqlUhSZvc5aYMo9M8FHeJeqxkxEF4A=
+X-Gm-Gg: ASbGncsKeTgTSapE+CyttNqgWfQVm+LiyBg24ru2YTY0dySoiqK6DcwPvPsoBfQZhr5
+	zgU7mAjEV34Acyhvk+G6tMvUNKojIDYbe5U0ZiDDWnMLW6DtTZdyiKxAHEUrJKjY5q79WBSIONu
+	JP+oVvJtJWHmXzCczt28dl0aXp05jx69sKnVpVqzSCYXG49TidasDV/qr6KDcC1fWNcCBFE2fdT
+	XPqJCZSUAKlUulSaVJL+eoKik9B7wA0R2OuYDSwKvE9VHqDJvv9cv1Tu1DtpmSMd7VKs01wvhfh
+	QFZr6QD2p7PgjgQplvjL0RSLCnqt1cobXPt3BGEWdQ0CR9DL9GWsIssejZGaatCZU1htvlOh+0Z
+	mW4V6dmoQRtVt4iRZrM2a8fSXva7bKsMpYJ3SFczqr195Yuj61RnRQr7m737WELiy6cNo+A3YEy
+	tF69InlPJVoqqDKffcHmtYCOo=
+X-Received: by 2002:a05:6122:3c55:b0:55a:63c3:f7a7 with SMTP id 71dfb90a1353d-55fcfc39eacmr201368e0c.14.1765321035516;
+        Tue, 09 Dec 2025 14:57:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGLTue9KfSafrxEqopdfH8AlXZLzdETcu8UBWka+tZ7aCoHmVYLikkj85I8jL+d9/bZQCLcKw==
+X-Received: by 2002:a05:6122:3c55:b0:55a:63c3:f7a7 with SMTP id 71dfb90a1353d-55fcfc39eacmr201363e0c.14.1765321034952;
+        Tue, 09 Dec 2025 14:57:14 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37e7065591dsm50287651fa.43.2025.12.09.14.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 14:57:13 -0800 (PST)
+Date: Wed, 10 Dec 2025 00:57:11 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mayank Rana <mayank.rana@oss.qualcomm.com>,
+        Baochen Qiang <quic_bqiang@quicinc.com>
+Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
+ functionality
+Message-ID: <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
+References: <20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com>
+ <ttpn6o2far7xebghblurxvi43aohv74v7jq2vdgc4jhgc7avo2@lgp4y4sytene>
+ <aTZxrhpYhoOP+VDz@hu-qianyu-lv.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|PR3PR04MB7404:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc4208ce-a286-4d85-bb74-08de373a4936
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|19092799006|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?K3FmA/Twqt8rt9g3YK6wdB2X/vMr3WlWefjzQB20kIw75VlsHAEDzN2PJOFQ?=
- =?us-ascii?Q?Yc4OA7UrI/8sj0cq16I0Skox6C3YtHzHnP1SeBX9G3bFrnIXWjlwEjOYpp6R?=
- =?us-ascii?Q?027TRrnTgt9HIOwE32KKyK19Wf0917KFqJelXEmUxKPJYkCrNv1VBj1+bFRq?=
- =?us-ascii?Q?8O5q7z74aNVVoO20cscUWVuCJRo3WMcad0gSnd4HxbGCgBG27zVDPJnZc2VA?=
- =?us-ascii?Q?xKwuD4CtLIxkudp5RCuoZa8SLuz81uP4yqVLQ+n1E7kJ7Oi+j3fgos1XmDL1?=
- =?us-ascii?Q?OxqiwH1Ei7kCsuq6BWBXGVURJZSypAaNkvTcnJVHp7Z1HFLEaVjpmZ7qJXOu?=
- =?us-ascii?Q?e9b2u12pjq2hI8qgLAIMBkxqSLRc1ASGSwmgRip/zuZrgRCC8nB1h3t2I6Jr?=
- =?us-ascii?Q?Ubu8m0+DuO9YMLUszN2FEtkVlK7CIOOi2p178g3xpmv7njwNkWDL2JWGR6Jx?=
- =?us-ascii?Q?G5ORPWKbxB+8RcFoO7T+Ruvro2fsnKw72EpbDtrB3H7/Oj3vRCTunwRnEobO?=
- =?us-ascii?Q?7sc5wvIjprr1dxTNSV9czroKhEbUhCMnnz+oEexQx77RGXUktqgsP3UZLfl6?=
- =?us-ascii?Q?jxUZthkpAa16lOA48n3YX/FaLd2Q56OxoAZnPSQSF0c3NNTgtyjjg0DW1HHx?=
- =?us-ascii?Q?XZ0LyRfk5aSHrF3FB5dEwLB7v+TlOJfbIMWacqtJ58aFcDYVhCqwTHSGkY90?=
- =?us-ascii?Q?GJxUXSb6gMr8IvWaUoFNgfD578OKi8PNEroZJ2WyDctNk9XH0npZefXeIx2j?=
- =?us-ascii?Q?d8Nx0U1NtoIXVFxJsbSOqy5O8KQLAbQ0EugMgQS54R+iL9wX+zS9cle4Ozzq?=
- =?us-ascii?Q?Tfw7NmmKRMj4wUg5s1DkZSZ39OlaSalJHcfmGgz4831NhXzM1X5coEtcG9GI?=
- =?us-ascii?Q?WFSYpIiCNuA5d9pmAQ1fR6doZjk+JM4oe6iB4Gt9Dyii3Fqp+dUqXDDG/LuH?=
- =?us-ascii?Q?wjQb62iCnCplVPWitZAiSivh7Frw92ragCAoEQWmYKvbkz6uI3cAnMdfUZC2?=
- =?us-ascii?Q?qSTQSeLxV63sJUDgBsT1lnEXcmz4nGdG5daBxRdyI5BFc6o90Pc9uQ4hze4/?=
- =?us-ascii?Q?Hax3pmKi/EODzsflwNIPzath7+i/J8qGMa/y9g6+830uLVN1On54ulhrGseV?=
- =?us-ascii?Q?2qOV5SKMMYKUBfNp83XGojxkwvbvl/qb7sHisJQzVO+VIRyqfKNxVRsF86J2?=
- =?us-ascii?Q?d2TkGYGWSALoz38HyjYi3OHd51kryiHJ9GS7wtLolArviFJQGT15p6sKYh2S?=
- =?us-ascii?Q?4IZh1Cc6Ymy/6dT77rWE8wKIu3uAQzQ0hVJRGuQBX63aU+frEw0sKuEq9tBr?=
- =?us-ascii?Q?r3rdhR3hQiRnjVYPkl+SV8QdHBhBKfEh0fbqZ0PU8n8fZi70uZGtieZHzydj?=
- =?us-ascii?Q?QbW/zg6z3yaW9tSyJMTf4KYfztKnxYFqwpuwQeaWeAVgedgjWkae2yNrlM2T?=
- =?us-ascii?Q?XdGVPnwxzqtxMx98OIg+fHwwYzodJJYHKcXI1fq1OtrST2vczcNWznyX6bp1?=
- =?us-ascii?Q?cpLJsMSf9N0ZX6yLqPVwc+ItDhaEaqsvzZsw?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(19092799006)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TBvHRa26AHqgoTwZdQ4Lfw9SjP1E2CjGBRGtS/0mXt+s07YypGyVwh5dOleW?=
- =?us-ascii?Q?r/eWAXdQmXYCPLd/fr2UAdIA6tIbMT5AhpSUGUuVR5FLmGTXwq063uiFBaKV?=
- =?us-ascii?Q?0YkFmKGfchujS+io+1wMuHW19v3XDvk0LEIKy4HyVxBb3iAnIxuneqOcAO60?=
- =?us-ascii?Q?FS4j7Ztk5gKncdveiVkrtXhXeIc4s5xjEdqM0yH8qWFk6Qu/LOv7ajDL2wUd?=
- =?us-ascii?Q?9y5Te4cLj1/eqRSJefsiih2hl/PaqetLPeQEzHMMOS6jLSCnygLvVehFyyOR?=
- =?us-ascii?Q?CVm9RUjo4cF/BKX27KG0Qxs2VKz8O7VdCdF65oK++QSqTbjlLhwtOcMfDeuN?=
- =?us-ascii?Q?HVb+xQ7u0UkasKS30qKESArgD+VIvkydVPAYjs/PlmJzubV2KpYeat8Yq7Lz?=
- =?us-ascii?Q?vWFMFP+eKCJ9JK/SCXL+wZZQBiZ1l4n69MSddnCZoOj1uUlIyOaTyYNAzYWk?=
- =?us-ascii?Q?7vb3eu6wmwCfsVPCYIIppdcec1amoK5cjM7D5ismLD0rxf6MNQBDYlVAS1Pz?=
- =?us-ascii?Q?LGJ239Ujp9eEX+6lkYuXjdRQKTphJfOTO1/uKbyn0k2Hq4AmwKheCzWf+IV+?=
- =?us-ascii?Q?trSi5Kk8tcDRnpD5iohSDiTBq8Ld6t3mzppOs9KQ/7ct+xd3uBZBhg8YjXpF?=
- =?us-ascii?Q?fI/6Ox7c95wHB0/Boo7l+F+h7Rzq3pucf/5UGc7biaCWrSk3zvEcHwnfP80f?=
- =?us-ascii?Q?TuX+zqmkVSGoM0CsYvMBj2iL24o2tvgaenZwEMfBFB4ST6rxDdK6WHgzp44C?=
- =?us-ascii?Q?cqJ2k75B5jO/XmkuYeJbLM7s+Io6uwnMPs9+cRMGXAGwloVnIZwYr7tBRljB?=
- =?us-ascii?Q?jRjMoxvdskM1I63eHRB03/33IjcLbaihnpm5O5AywE9YHaxkz917xq1kaTUy?=
- =?us-ascii?Q?Iwzfhm8yHVLuvCQJ7Fflgmd6/PxjZ12DgQh3Bo1R5WOTYlxVt49VKnvW6ddS?=
- =?us-ascii?Q?zDikAu7H2waQmTWw/l6op5rHonjHMBzVionUqJVKohaH3yaSwibjDjecfrEi?=
- =?us-ascii?Q?yQ8bNVuyN7hjqrCtDHDxr9l1L1TaB+HoHkFKdmtf47hfYauzeqDbGlxTfs0T?=
- =?us-ascii?Q?L8kB13Y0JCEB7adnjRMKlv4bey5QHnlMcL0WOnIk2pL73snHeZhf+B1IhylZ?=
- =?us-ascii?Q?rKdn4DUMBxneyIECMsvZ36DuZXKgAcuOFhTOkfCapnlKyR72ZftpxBnmfyN1?=
- =?us-ascii?Q?5g8WDESf/16uEA6wv3/FiBzy/2//2T9vnVreck8O7QJA/xgSLRdoW3VP/hQj?=
- =?us-ascii?Q?Q+7yTTrXjDp0OcVwrNco9HHq9ZYERDtkcpTMe+a2xxgJ1MPo36dy3GAV7ZCO?=
- =?us-ascii?Q?4PasnRb7vuomFMHSjoKNl8q1hZcMjIE4Az1/K5qMgj0crbtHK4p7kzPz5MnI?=
- =?us-ascii?Q?ob847z/nWXHpJ5qQ92YH5te/Ns/2sdbHN/t81OvuLI6bUSxvoVwRMJDtjd1R?=
- =?us-ascii?Q?cB9i82Izg8VEDiM4aadnz4Wgohusta78c9ooj/tETJd1oy30/sjp1cXFN/D7?=
- =?us-ascii?Q?7D+LSSj3dYlz1qyHnAC9lS0tqbofWyzZjQjGfAUuSUcpLL+lUe9LH36qkGC7?=
- =?us-ascii?Q?wTQy1khhSYvLvacvjtKiU0jrkVfY1bUH4fBB9aef?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc4208ce-a286-4d85-bb74-08de373a4936
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 15:47:41.6689
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: igtPwsRjrTvXuW8RmO9YWdsJD6GlN5qpRLcBFst/LW+tPYkxekByt/UgKE2qS2zyc45jnfY+PF9Eay/9X1jwSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7404
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aTZxrhpYhoOP+VDz@hu-qianyu-lv.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDE4MCBTYWx0ZWRfX6SSLUyDCZAql
+ sTZZKfrj4FnNt1I2eR0pH42rmf7LV1UIPJIPhSTNFVSWQIUhIGdIXCQCtaoWf39Hvver99jyonW
+ mv8IIQ7cefTqfzmuFGO2v66n7GoIolvykUO1sDD8MtXsTAR37Tl0H4wDplUE2eQitgwFqBW9RS6
+ vn/ZQyVozjHRx64UKSPY3GD0k9l2PUzsZ9hyuuF58FoTzosSZtmCZecQrgW4UiRNlwgBFEEcAQ8
+ c7nZ70WvqyXPLMkj4XK2OfagNw4g+S21OfFnHE89gPOu8SaEuHusXt+FGWcoeCDclc0QTVScEke
+ YKNGGar5fFpt/IbiLy0Tz41Dq0OLLchMhIOCHjm0i5ehJND2i4tunVKQrEzYQfWIGw4S02J6E9r
+ kTPVjSnOQ9VOZdA29SX9YUobVWWXFA==
+X-Proofpoint-ORIG-GUID: Oupc2UXNb5SZNqsl1UifuNX_Cq0_4vCW
+X-Authority-Analysis: v=2.4 cv=Vcj6/Vp9 c=1 sm=1 tr=0 ts=6938a94c cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=JRxmXwspk78XPmVcSsIA:9
+ a=CjuIK1q_8ugA:10 a=hhpmQAJR8DioWGSBphRh:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: Oupc2UXNb5SZNqsl1UifuNX_Cq0_4vCW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 suspectscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090180
 
-On Tue, Dec 09, 2025 at 07:38:09AM +0100, Christoph Hellwig wrote:
-> On Mon, Dec 08, 2025 at 12:09:40PM -0500, Frank Li wrote:
-> > Previously, configuration and preparation required two separate calls. This
-> > works well when configuration is done only once during initialization.
-> >
-> > However, in cases where the burst length or source/destination address must
-> > be adjusted for each transfer, calling two functions is verbose and
-> > requires additional locking to ensure both steps complete atomically.
-> >
-> > Add a new API and callback device_prep_slave_sg_config that combines
-> > configuration and preparation into a single operation. If the configuration
-> > argument is passed as NULL, fall back to the existing implementation.
->
-> Maybe this would be a good time to start retiring the "slave" naming
-> and come up with shorter names as a win-win situation?
+On Sun, Dec 07, 2025 at 10:35:26PM -0800, Qiang Yu wrote:
+> On Sat, Dec 06, 2025 at 01:25:34PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
+> > > From: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> > > 
+> > > Currently, the FBC image is a non-standard ELF file that contains a single
+> > > ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
+> > > (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
+> > > separate ELF headers for SBL and WLAN FW segments due to TME-L image
+> > > authentication requirement.
+> > > 
+> > > Current image format contains two sections in a single binary:
+> > > - First 512KB: ELF header + SBL segments
+> > > - Remaining: WLAN FW segments
+> > > 
+> > > The TME-L supported image format contains two sections with two elf
+> > > headers in a single binary:
+> > > - First 512KB: First ELF header + SBL segments
+> > > - Remaining: Second ELF header + WLAN FW segments
+> > > 
+> > > Download behavior:
+> > > - Legacy: 1. First 512KB via BHI (ELF header + SBL)
+> > >           2. Full image via BHIe
+> > > 
+> > > - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
+> > >          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
+> > > 
+> > > Add standard_elf_image flag to mhi_controller_config to indicate TME-L
+> > > supported image format. When set, MHI skips the first 512KB during WLAN FW
+> > > download over BHIe as it is loaded in BHI phase.
+> > 
+> > What is standard about it?
+> 
+> The TME-L requires standard elf image format which includes single EFL
+> header and WLAN FW segment.
+> 
+> The "standard_elf_image" seems misleading. Since the new image format is
+> required for TME-L image authentication, how about using 
+> tme_supported_image?
 
-Yes, 'prep_sg_config' or 'prep_sg' should be enough.
+Just elf_image?
 
-Frank
->
+> 
+> > 
+> > > 
+> > > Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> > > Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > ---
+> > > Changes in v3:
+> > > - Reword commit message.
+> > > - Reword comments of standard_elf_image flag
+> > > - Add reviewed-by tag.
+> > > - Link to v2: https://lore.kernel.org/mhi/20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com/
+> > > 
+> > > Changes in v2:
+> > > - V1 patch is paused because of no user. WLAN team plan to add support for
+> > >   new WLAN chip that requires this patch, so send v2.
+> > > - Change author and SOB with new mail address.
+> > > - Reword commit message.
+> > > - Place standard_elf_image flag after wake_set in struct mhi_controller
+> > > - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
+> > > ---
+> > >  drivers/bus/mhi/host/boot.c | 7 +++++++
+> > >  include/linux/mhi.h         | 4 ++++
+> > >  2 files changed, 11 insertions(+)
+> > > 
+> > > diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> > > index 205d83ac069f15a19ab2d66a63692e5d60334d4c..64fb7a257d3529167eddf1153d34cc6b25735809 100644
+> > > --- a/drivers/bus/mhi/host/boot.c
+> > > +++ b/drivers/bus/mhi/host/boot.c
+> > > @@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+> > >  	 * device transitioning into MHI READY state
+> > >  	 */
+> > >  	if (fw_load_type == MHI_FW_LOAD_FBC) {
+> > > +		dev_dbg(dev, "standard_elf_image:%s\n",
+> > > +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
+> > > +		if (mhi_cntrl->standard_elf_image) {
+> > > +			fw_data += mhi_cntrl->sbl_size;
+> > > +			fw_sz -= mhi_cntrl->sbl_size;
+> > > +		}
+> > > +
+> > >  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+> > >  		if (ret) {
+> > >  			release_firmware(firmware);
+> > > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> > > index dd372b0123a6da5107b807ff8fe940c567eb2030..a13106bb234d22e3876dff3c0d46f3dee1d9e05c 100644
+> > > --- a/include/linux/mhi.h
+> > > +++ b/include/linux/mhi.h
+> > > @@ -360,6 +360,9 @@ struct mhi_controller_config {
+> > >   * @bounce_buf: Use of bounce buffer
+> > >   * @fbc_download: MHI host needs to do complete image transfer (optional)
+> > >   * @wake_set: Device wakeup set flag
+> > > + * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
+> > > + *                      image need to be skipped when loading WLAN FW over
+> > > + *                      BHIe interface (optional)
+> > 
+> > How does the description correlate to the name of the flag?
+> 
+> The description can be updated as:
+> 
+>  * @tme_supported_image: Flag indicating FBC image format supports TME-L
+>  *                      (Trust Management Engine Lite) authentication.
+>  *                      When set, skip first 512KB when loading WLAN FW
+>  *                      over BHIe interface (optional)
+> > 
+> > >   * @irq_flags: irq flags passed to request_irq (optional)
+> > >   * @mru: the default MRU for the MHI device
+> > >   *
+> > > @@ -445,6 +448,7 @@ struct mhi_controller {
+> > >  	bool bounce_buf;
+> > >  	bool fbc_download;
+> > >  	bool wake_set;
+> > > +	bool standard_elf_image;
+> > 
+> > This flag is never set, making it a dead API. If there are other patches
+> > setting up the flag, please include them into them in the same series.
+> 
+> Let me discuss with Baochen about whether he can include the patch in his
+> series that actually sets this flag for QCC2072 device.
+
+Otherwise it's a dead API which is generally not allowed.
+
+> 
+> - Qiang Yu
+> > 
+> > >  	unsigned long irq_flags;
+> > >  	u32 mru;
+> > >  };
+> > > 
+> > > ---
+> > > base-commit: ac35e04f8000aaaf98635792464647e7a6f3422e
+> > > change-id: 20251129-wlan_image_load_skip_512k-ddcfe49db8e3
+> > > 
+> > > Best regards,
+> > > -- 
+> > > Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > 
+> > 
+> > -- 
+> > With best wishes
+> > Dmitry
+
+-- 
+With best wishes
+Dmitry
