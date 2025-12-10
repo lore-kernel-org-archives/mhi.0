@@ -1,78 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD1D285418;
-	Wed, 10 Dec 2025 09:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAC06F2F2;
+	Wed, 10 Dec 2025 16:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765359590; cv=none; b=FQIiaOf7w7Kx7IgcF7s4XzsLr+z3IgWTrKiPpEFtlusuaqHj1J4R2k/S79vVJSTpMkO+2stItVXAIARQ+B3uHxKwZZmwUdTBJRhWnfftkgbnmrrBtRcaOx788Fm2orGGY4epe/6G0/PG9dYWekcQgTcUWKmmoBZ//aDUymZA8xs=
+	t=1765385429; cv=none; b=YfbZpFdz7VqHMKCCBgbjPXScZEJaETkRqHCODV2Jm2HrBGssZTw4pmyTnANlxBEy0iCOmRxMVngidoD1oaZ60riKOtar3IYubDd2wQtHyRYqdBrM3StbKin4yuZMSWkPeeiHA9lPfFoomUhHRuDhBVntocWgPMFEcK+tk+uY2Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765359590; c=relaxed/simple;
-	bh=GJ8CPv7S16exQpJpGNdwn6ANx6ifdjDHTlnpwo1Lpu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bWsGC1yjyM3SQG3ZGZFqkIKzvdANETHlj/RBJ11qgNOqeMYI+ijYQQk9hEyViKtKAYLf8l5H29twZ+Jni3oSEif9uxx3fgj9FJ+0vU1Bn+A3HL/KTEXIMsSGANw+fjSCkubyh8f7fipksJuEVP5qLU3ubVbz8G4IcGj/pq1FE8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhZlDmBj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765385429; c=relaxed/simple;
+	bh=GCDzIb3tl5yDTqXZF6pmN2czwQ7pJdaLAGC0yIkQp9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Og46yjZ2Fd8u24V4kbV3cS7VIGgAUO/UodvFN51dLiYh9HQA5TorKiZFnrbu/fCoPlOIhXvnytToxsL5d0g2/o+uySXa97rISFlLQ8/FuyifAHRNBiNWFXkSH5h2wDGuE/IqxYAghJa1ye3A0d/5Z4GB9Mi64/owV3xE1TaB6Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fa2QGHTC; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhZlDmBj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3781C113D0;
-	Wed, 10 Dec 2025 09:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765359590;
-	bh=GJ8CPv7S16exQpJpGNdwn6ANx6ifdjDHTlnpwo1Lpu0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dhZlDmBjYEmKyc7pKokzqUfbT5t5Q8S0Dq+jMcvLlCHDwPp1EmMWCpWFyxkiuPeMu
-	 ZD8OLHsFCfUc5ugiWDbBJOV6nM++6Br1uWOz7eWAKUJZzs/VIBNH9lN7ydxB52YTNi
-	 yQdbrN9LDlc3JEUbFxhM0WD5GKJWJGwO/54jLMMsHF+GWFXjzKTTn134PszAFI4CmS
-	 WiKIe80AzyN52niNVOl9tFTtOmtqMOfCrfHeHAjE+IltsMdIi9L1QoLCzroZBrzXht
-	 WgG79Xl3aTwmXCqK+h+gLwHaD0GUXjW/tT8E7oiEn7e6RvPjUftKB+Uc5dCz2CkQ8C
-	 X+JV3IcSJZC5w==
-Date: Wed, 10 Dec 2025 18:39:46 +0900
-From: Jakub Kicinski <kuba@kernel.org>
-To: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Manivannan Sadhasivam <mani@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] bus: mhi: host: pci: Enable IP_SW1, IP_ETH0 and
- IP_ETH1 channels for QDU100
-Message-ID: <20251210183946.3740a3b3@kernel.org>
-In-Reply-To: <20251209-vdev_next-20251208_eth_v6-v6-2-80898204f5d8@quicinc.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fa2QGHTC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=Vh8A0kHQh/ODbpZL+WlirqsdOP1ybMV2pCD+bS+4Tfk=; b=fa
+	2QGHTC8n9G5Q+aLOuibClNQQ2nvaIZUL4gU+IooCgAIzJcLC34X8GSFgNT7PSAlGv7QRN3zjF81n1
+	QOuJ2Fre4Pxpf80oabffZ7oap5VHBTeKvv+qb5tc4pcauMKskoXw/J7vNmdtZQ9vkrTVaHP5uCUJT
+	iCBSY8wj8pjWd0g=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vTNOI-00GYup-HY; Wed, 10 Dec 2025 17:50:14 +0100
+Date: Wed, 10 Dec 2025 17:50:14 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: vivek pernamitta <vivek.pernamitta@oss.qualcomm.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] net: mhi: Enable Ethernet interface support
+Message-ID: <a8e6a25a-24c6-4739-a9cc-0e0621f093ed@lunn.ch>
 References: <20251209-vdev_next-20251208_eth_v6-v6-0-80898204f5d8@quicinc.com>
-	<20251209-vdev_next-20251208_eth_v6-v6-2-80898204f5d8@quicinc.com>
+ <20251209-vdev_next-20251208_eth_v6-v6-1-80898204f5d8@quicinc.com>
+ <5a137b11-fa08-40b5-b4b4-79d10844a5b7@lunn.ch>
+ <eaf79686-9fcb-4330-8017-83a4e4923985@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eaf79686-9fcb-4330-8017-83a4e4923985@oss.qualcomm.com>
 
-On Tue, 09 Dec 2025 16:55:39 +0530 Vivek Pernamitta wrote:
-> Enable IP_SW1, IP_ETH0 and IP_ETH1 channels for M-plane, NETCONF and
-> S-plane interface for QDU100.
+On Wed, Dec 10, 2025 at 10:46:11AM +0530, vivek pernamitta wrote:
 > 
-> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> On 12/9/2025 7:06 PM, Andrew Lunn wrote:
 > 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index e3bc737313a2f0658bc9b9c4f7d85258aec2474c..b64b155e4bd70326fed0aa86f32d8502da2f49d0 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -269,6 +269,13 @@ static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
->  	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
->  	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
->  	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
-> +	MHI_CHANNEL_CONFIG_UL(48, "IP_SW1", 256, 6),
-> +	MHI_CHANNEL_CONFIG_DL(49, "IP_SW1", 256, 6),
-> +	MHI_CHANNEL_CONFIG_UL(50, "IP_ETH0", 256, 7),
-> +	MHI_CHANNEL_CONFIG_DL(51, "IP_ETH0", 256, 7),
-> +	MHI_CHANNEL_CONFIG_UL(52, "IP_ETH1", 256, 8),
-> +	MHI_CHANNEL_CONFIG_DL(53, "IP_ETH1", 256, 8),
+>                 ndev = alloc_netdev(sizeof(struct mhi_net_dev), info->netname,
+>         -                           NET_NAME_PREDICTABLE, mhi_net_setup);
+>         +                           NET_NAME_PREDICTABLE, info->ethernet_if ?
+>         +                           mhi_ethernet_setup : mhi_net_setup);
+> 
+>     Is the name predictable? I thought "eth%d" was considered
+>     NET_NAME_ENUM?
+> 
+>     https://elixir.bootlin.com/linux/v6.18/source/net/ethernet/eth.c#L382
+> 
+>             Andrew
+> 
+> For Ethernet-type devices, the interface name will follow the standard
+> convention: eth%d,
+> For normal IP interfaces, the interface will be created as mhi_swip%d/
+> mhi_hwip%d.
+> The naming will depend on the details provided through struct mhi_device_info.
 
-What is this CHANNEL_CONFIG thing and why is it part of the bus code
-and not driver code? Having to modify the bus for driver changes
-indicates the abstractions aren't used properly here..
+Take a look again at my question. Why is NET_NAME_PREDICTABLE correct?
+Justify it. Especially given what alloc_etherdev_mqs() does.
+
+	Andrew
