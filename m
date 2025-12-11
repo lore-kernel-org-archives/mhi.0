@@ -1,86 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B93926B08F
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C543E2D130C
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765440498; cv=none; b=em8A5Gs50ZIXtXpwjPSlC2wXbFBzhLJ29LDRw3o9CS/7xvMlabaNfQZh9brT1Y3lkkM0bBafBFRkKl+AYM5iuQAGmPjBmzVS2HaFpZeuBhMgqnKBymBDXN4c9nWCFnKkfF+HBGjpNFaSEf8cucVR20GZrx0M3nIqk/pPAT11T2Q=
+	t=1765440505; cv=none; b=UCjhVLp/3lvboAQpK4OwePO2klu8/gMA4MYuoWGLn2sCwHxAn9epkDnvTYFO73whORFiIbwVxRiHAjWzuu1kBkAxKmDcb4XdQi+liZouCkceBJgtWkR39CT49XWS0rk8kdLKE9aEG4zO4X8SsyYiM3seh0Vg0q9TaI9KbZyqccA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765440498; c=relaxed/simple;
-	bh=hLaP/rRnDWhv9osvquE39GRTiumvprN4V5xd/SF1WuA=;
+	s=arc-20240116; t=1765440505; c=relaxed/simple;
+	bh=NlkYir/8FyFGAiYAdCRjIV0OzLp9wJ6DPVi8SHRJWiM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Tds0eublszUHKnY5Mmg25gLT3IBDzPXyRb7U3tdPXJR/zoHLOrTB6hlyjZnmxUMhulEwjcs8fZRIK2UxiBRPLMOI0Yt7xPagEzgd1RxeKHL0PtVEDrhuyAE19lC5hiCqErw7v2eFTJsiUd4W1TF70VqBXKPMz9Tg7k/OeF/0aqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=olOjqX+r; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=c5Wlq0po; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=HQ5toR2qA/mLk40/1MzQYue2WmyqsQUAdbJcdJ3cUkZ+beJ+2ySFTo+yWcmF+TZh1j+iTQgaIGBi7Tl+5q6VkW4p7GJIRRlKcXu1/FeiHmOlQ7Zxs2vLrGfC+P3HfebK1QI8lSA9VMGUyeDqqYdBoMb1Gt1/CbcBAoEnV/OI7Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RSN0/w5I; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Fl67onuS; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="olOjqX+r";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="c5Wlq0po"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RSN0/w5I";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Fl67onuS"
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BALROMc3701206
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:15 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BALRRIW3701309
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ImStdCUl9v/lFzBzrTEFzPiSnZ8dfVBQSUixUFSZIjM=; b=olOjqX+r6bn4F//n
-	AWfj76fT19jbMwfdq+A4hP8QE/tCRgc93qRwIf/HHgM7/iUdBJH2sH2R/K4pePz7
-	dEVaDzAO7x8AC9hmMA1ezPNxV+yROj+aiohkOYZYNkq+tktLL7fhlr5lHsAtyTrm
-	1hh0leYAmnDdmjjHguA31I+SvWGLRdOwepVjuwZktg1VyUjge7X2u/YyFqAs/oDG
-	8B9rtQ1xPUsJhj3rR0dTfaCUynhBx1e0aWSfFcHYieAiV12MK0tgqhvpIsx6EozX
-	L0DvOVbiGIYJQC65jpKdO7MUJrki7HSFSqkXKfxVTuLF1GZLsf76nVTSwl1tWCTT
-	ikpk5g==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygsx1j41-1
+	sEqAoQ6r2H9xlzz5Ish61QOkHfPRwyn1MiXBkc9CYoY=; b=RSN0/w5IMZsSnDK3
+	nC3IOj6rmC3fbGiwSvYl1mhxz44zknZCBJ6ET/IsMzLGajO3imskqdcFTqSMxcNi
+	EzzQC50Px1r+FhGmb1+YfjBYlceheuH3gIdQdVEW0ICOkALic856lWTIKSsB1dsM
+	e+JR6xI5NdPWaWoKSbe1oyCs7/YU8kJLR1INL9Fl6o0r7eB6ssov1O5Kd57Y7IHk
+	5QdG08moUfCSxfFFqarivtDmnCLiFVsmEbJt+3bR1pnHP3TxGyy+mbgua350QMVw
+	03WUWbiCKWJIwAZD9JRYnvHmrD/PQt7C3aQH+MMY2g8gsz8tRX/c0GezTR7OKZ8a
+	i/nkbw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygsx1j4p-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:15 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-7f046e16d50so1177055b3a.3
-        for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 00:08:15 -0800 (PST)
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:08:23 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7bad1cef9bcso1476626b3a.1
+        for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 00:08:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765440495; x=1766045295; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1765440502; x=1766045302; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ImStdCUl9v/lFzBzrTEFzPiSnZ8dfVBQSUixUFSZIjM=;
-        b=c5Wlq0po8H2ym0HCt3PhXLn02+uJAANJpty7NgglTKOxYNvGl6ph84wgMNGTQFIIXE
-         HCufPJT5sBF87CEAHA1xePgvs5fNQgUpOxu/nR0dAgqWrOAW2kbOQcflA0/ZnE8FL9sv
-         CTjwXSNgptcnzPbq5pW6Fx9XR/Lo7BUa7fiV6Qk6Is/xKJuwhTgZwdc/6PO3ImDyjhSz
-         GNzk+DFBAynS0hLKUgikdsOLF3zwAEL0DMzYC07Sf338bXfDs+c5E1AIoKSDEqnUucmV
-         V45NlFtJ/dF9buYCyInCUuQ3YxvZqxb1FVL1gA0UY4Oz1KIVqp0aHxVv6y+SAWl5h0XI
-         9ELg==
+        bh=sEqAoQ6r2H9xlzz5Ish61QOkHfPRwyn1MiXBkc9CYoY=;
+        b=Fl67onuS1Kioaq63JhqPdY3ahaEMuxt3G4KqfVvTU/zgCrxU1GcL7tyfWszHyYCzlB
+         iGna6Q9cPIqw91yAP7rED8cqOmkVOFmzGDG8q0oVuZhtZYdOiJ0/m9BUXxyAsF8a6OCa
+         8eFsIR1bKjeMUaBcTmGug0jrz6CopxjLIvyFMAinYSm1PjqfUgrzA9alsoMEgbcK6AS/
+         uT5T/40B7wZMTOI+hhCUvyqKxHFP/n/5G9siR852QmNPY39LjsETezmhux0f15VmyjwI
+         z5YIF55VaAR2UQS3+jWb5WJAzZsFqojC6js56jta28JIV+h4SM8JDesWijQZQjRyLzy4
+         96lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765440495; x=1766045295;
+        d=1e100.net; s=20230601; t=1765440502; x=1766045302;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ImStdCUl9v/lFzBzrTEFzPiSnZ8dfVBQSUixUFSZIjM=;
-        b=fBPu1CnoTpbVg6djmphY0endswJuXuXnhQm+2XNqp5Z57OWdCwRaNyB/YwtH4f5T/6
-         03etrsr9dfrxqT8Fe+h+wzJmeD0B1t5l2UjnDq8puOYy5OEVHplS1NdYSUevyIpeW1at
-         cAnyPt31zYd2aDb7dmH54/MJ3d1pjjfO4MbFVzzOnpkUjjzxwTZeTCx7UgnLL/Omd48G
-         sPIDR2jpMRZPxwrAc0s1+xlH1U4UU2fNyU5pHpeGtT7zLt7BiF84S5jHa/9CEMUd6IaM
-         irf/FpB82wl7PMOAFp//MDvWFiI8wrh8bWLYF7VvYAz8NfU/GNo4Sj0CCsIwNYreWdTQ
-         J6sQ==
-X-Gm-Message-State: AOJu0YwpcRD8fkS4eLs0Rs0pbdy5dl81UjuEVDTr2WG7/Th9/vnC6gKt
-	GRuo6yJ0jIDM8o17Ol/S0yse/oXa70fceU3avrDX7hV8VrrSPdGD/TCbwnDtKsx+7WPuKJQDfZE
-	pqhsjD9Qv9gU0dkoaGcHOALiZG0R+9khBvKs+BqQm0JjlVvTwaq5lgyE=
-X-Gm-Gg: AY/fxX7UwtOQ3SpM2aGpjAyYsHvsjDAlsGpGTMgAJQNzAYdt5Vy5oSGGO/g76HYWGS2
-	27VzO+5xHuJhsIk77V+hOzs6Ut61rJReocp74W4/T/1QAQkVaE/VpINy1hBHH8ywrj/r4ECshn0
-	yOgIl7TcGovW3lG4Za7Ptlth/XgtxfXtTgNQQU/ivTV+tblgHiNuGC/HmwUdqLJQOmGFS5ZYPjZ
-	nYpiVr1wpVZZKWVmg/NrsM7jBVn/tBnjd4wH3o+BrOQhndO/WHHcUnczSvK2/0a4v6DjprJX4Q/
-	dPu9inqJe23MS37/7yciVBpKkkttDlUJKEwjeOuGkfAONtFbR5SBQtKMffsrQku4128HZoVLHuG
-	7vYuHJqP85z/ahPjBDG6rEDXOgj4x3F4f+Q==
-X-Received: by 2002:a05:6a00:1a8d:b0:7b8:d607:41a3 with SMTP id d2e1a72fcca58-7f22dac06e5mr5622557b3a.13.1765440494775;
-        Thu, 11 Dec 2025 00:08:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHlrPwfKh3HROdgsMqlLzKbw9DtY9zM+Aqjuc41a9ui3a+yx6HrhJ4ykGZ3B3q0XkDcWNWOvg==
-X-Received: by 2002:a05:6a00:1a8d:b0:7b8:d607:41a3 with SMTP id d2e1a72fcca58-7f22dac06e5mr5622527b3a.13.1765440494258;
-        Thu, 11 Dec 2025 00:08:14 -0800 (PST)
+        bh=sEqAoQ6r2H9xlzz5Ish61QOkHfPRwyn1MiXBkc9CYoY=;
+        b=wV7FFTnAFlRxrawONw4NU3Hwa3TsS5dzzoyOO3Sl8lcumwFwRknNtyfOOoJSseYNrq
+         otLOWL3Fuw1VMSUmuSKBiKDb+7BlCErdkQKr/Zr3b69W54BTGB6PEEX2dhiRXTluosxA
+         Rn+88iU/JEASkKH5yWfj2oNJw14eHcHFhWjos7u4ehwr7HYwB1ZkETQNyPiFmjuOzTdf
+         n/9I6aSiyRn5Ny3rkH8QUj3zZ+pfwk+ZGS6ggSDcThc3s0+R2DrmOBtyah0pZnR55LXg
+         56DiKdGsyLtGSg5Dp7/aopXodxiGNukU48FL8M6wW3iox7V+h4cJ76sLZI/vDPGtmxu/
+         nDSg==
+X-Gm-Message-State: AOJu0YxfHFhMBaCyY4/SCnFxA3z0U03CoErUSKv0EQLt6tNUcaIv8Z4u
+	89UIEPFYOr/GYvnoM7/aPqE/OfezHPYJAV3EIzE8aZKD33AIYb2kv4LnKR+zV6dotSB61Tph8pK
+	+N5hd12ymQGNysRfeiCLH+5RuP8jL77h+IYrMZw+Y8dDfUTfnrAOWYlA=
+X-Gm-Gg: AY/fxX77LoiPnD8/EfYGnC0zTNFn3EOmL6y2C5C9T3aSn7n2KkbaoXCc0lEUVscvf73
+	OSFPA0PYE5aE/FGYpBy/AbzgFAAsbkB0xW1V5kaFuoJAQTjAZuiHtjRP4FlaELOaHOU/xn74MLc
+	qk3kMPzKb2y2+67/I+yUmFkftKM3rZ7gCzoDEfiCGozdatpZ0o7H9A2aOMU2+vX7VuxbGjLltng
+	L4qtR9WENe7V0TMvT7HvXRS/MD64Q+uSm2OVd41kXtgIlV7IIGPCB2QkhZeIj2rbzLO170TVeM8
+	pbnQ/ySutTEDV4M7zvQkuoRCk//Pqk1guxokbvi6wEHZZKbPkMr6vzp1eW9Y+lxGm1+HjHw2nYM
+	xvZ8eLUci9r4zLL0MR2oAdzJYJqbqd9gvMQ==
+X-Received: by 2002:a05:6a00:2e09:b0:7e8:4433:8fa6 with SMTP id d2e1a72fcca58-7f22fce5eeemr4802191b3a.46.1765440502533;
+        Thu, 11 Dec 2025 00:08:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEiruUeUEYn4y7Q6fF47vYHEYI1a037FrAEyvlnbDt6J8GZ6q+JMCJWeh+jPpIaF8t0y7RUvw==
+X-Received: by 2002:a05:6a00:2e09:b0:7e8:4433:8fa6 with SMTP id d2e1a72fcca58-7f22fce5eeemr4802023b3a.46.1765440497814;
+        Thu, 11 Dec 2025 00:08:17 -0800 (PST)
 Received: from [10.213.102.126] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm1706651b3a.3.2025.12.11.00.08.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm1706651b3a.3.2025.12.11.00.08.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 00:08:13 -0800 (PST)
+        Thu, 11 Dec 2025 00:08:17 -0800 (PST)
 From: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
-Date: Thu, 11 Dec 2025 13:37:41 +0530
-Subject: [PATCH 09/11] bus: mhi: host: Get total descriptor count
+Date: Thu, 11 Dec 2025 13:37:42 +0530
+Subject: [PATCH 10/11] drivers: bus: mhi: host: Add support for MHI MAX TRB
+ capability
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-siva_mhi_dp2-v1-9-d2895c4ec73a@oss.qualcomm.com>
+Message-Id: <20251211-siva_mhi_dp2-v1-10-d2895c4ec73a@oss.qualcomm.com>
 References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
 In-Reply-To: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
 To: Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -102,83 +103,179 @@ Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>,
         Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 X-Mailer: b4 0.15-dev-47773
-X-Proofpoint-GUID: QmstW_IV2yRqstzR5d_u9vdf3AA7zfTY
-X-Authority-Analysis: v=2.4 cv=d974CBjE c=1 sm=1 tr=0 ts=693a7bef cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: OS5c9RcTYA9-Y6nySLDwVJuRyn5edpS-
+X-Authority-Analysis: v=2.4 cv=d974CBjE c=1 sm=1 tr=0 ts=693a7bf7 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=kBv2GRQmL64bnbioCYQA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA1OSBTYWx0ZWRfX9aYGbHjpAdhu
- cr5KsKPUFsqSObWKjb6yat2zhg6VqCckJA6MkBipW7Xt0ipPcqYU+pTj904Qfg7NVbuJKM+NLv/
- PwdpZAseadq68yTBRSAOnynKX5rxjltbAbB9JTyYUFLgm+9BzlAcgse+bA0oGzIPOcPkBWCBSb6
- LrIkUNOgGFlkDtrBp8SbqLHJRrzyix94B5n5L5DcBSAmbjHK97WVnIqHSuaejiWxYgEKL6MKHr9
- CvjafGvD6jCj41l531MgeOXjcSrMNfbe+dGk5/22qFyQZBpEUd4s41mrbDPLHe8Iax4WW1AVby2
- ZIs0VPaDMYVznvZ31N2M1xwi2FAA2NC8045pcmOCAFk3ZIJhbhc3Zt6aXcm5uHOCGdrHaYmZpH3
- 1oEBaCzDYtcozDW3frMqOKrvXybdpg==
-X-Proofpoint-ORIG-GUID: QmstW_IV2yRqstzR5d_u9vdf3AA7zfTY
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=553Pgk6suP4-RYi8odAA:9
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA1OSBTYWx0ZWRfXzkHnMuoXS2TK
+ FOO5TaZdd0kqn/OQvLXzOC6q4QFKcAWJaBP40w56msPjWV/Mvi/MqCTsqNA670KKBGByjxdIdi/
+ xxP2EdkDGBA6frORD+yzwSEEbkTpFvXgjyivwildBzHM2Wm+wD7/slH/z4dLaQAAfhVW+Q9n+W8
+ NQH6kUaEQQvHsL7oYmJ5hsnMBcqR+Qey84kIaGH1984aDLxSOaG2V3DwowazTax6v5JLyzWi8Vq
+ 1q3ZdJNYxjPTtuARpqjM0JNL/T/Xvm8UeXikumpzEpbvI3eQcovMHt+vdjS1TB2edpPNasWCSUQ
+ 3j4HqTfaVS0j55JqbnG3KZPxGxwQHuVWdh1w4t4Kjc5/xnxPMtbzCuKEanjKYvn4vCuKyv8Fjo/
+ NktZ/AtzqPzntCN5xD7SeJyux5XJBA==
+X-Proofpoint-ORIG-GUID: OS5c9RcTYA9-Y6nySLDwVJuRyn5edpS-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011 phishscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110059
 
 From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 
-Introduce a new API to retrieve the length of a transfer ring.
-This API allows clients to query the ring length.
+Read the MHI capability for MAX TRB length if device is supporting.
+Use this information to send MHI data with a higher TRB length, as
+supported by the device.
 
 Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
 ---
- drivers/bus/mhi/host/main.c | 11 +++++++++++
- include/linux/mhi.h         |  9 +++++++++
- 2 files changed, 20 insertions(+)
+ drivers/bus/mhi/common.h    |  9 ++++++++-
+ drivers/bus/mhi/host/init.c | 21 +++++++++++++++++++++
+ drivers/bus/mhi/host/main.c | 17 ++++++++++++++---
+ include/linux/mhi.h         |  2 ++
+ 4 files changed, 45 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+index 3b3ecbc6169f..4962035f4693 100644
+--- a/drivers/bus/mhi/common.h
++++ b/drivers/bus/mhi/common.h
+@@ -158,6 +158,8 @@
+ #define MHI_TRE_GET_EV_PTR(tre)		le64_to_cpu((tre)->ptr)
+ #define MHI_TRE_GET_EV_CODE(tre)	FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+ #define MHI_TRE_GET_EV_LEN(tre)		FIELD_GET(GENMASK(15, 0), (MHI_TRE_GET_DWORD(tre, 0)))
++#define MHI_TRE_GET_EV_LEN_MAX_TRB(max_trb, tre)    (GENMASK(__fls(max_trb), 0) & \
++						    (MHI_TRE_GET_DWORD(tre, 0)))
+ #define MHI_TRE_GET_EV_CHID(tre)	FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 1)))
+ #define MHI_TRE_GET_EV_TYPE(tre)	FIELD_GET(GENMASK(23, 16), (MHI_TRE_GET_DWORD(tre, 1)))
+ #define MHI_TRE_GET_EV_STATE(tre)	FIELD_GET(GENMASK(31, 24), (MHI_TRE_GET_DWORD(tre, 0)))
+@@ -188,6 +190,7 @@
+ /* Transfer descriptor macros */
+ #define MHI_TRE_DATA_PTR(ptr)		cpu_to_le64(ptr)
+ #define MHI_TRE_DATA_DWORD0(len)	cpu_to_le32(FIELD_PREP(GENMASK(15, 0), len))
++#define MHI_TRE_DATA_DWORD0_MAX_TREB_CAP(max_len, len)	((GENMASK(__fls(max_len), 0)) & (len))
+ #define MHI_TRE_TYPE_TRANSFER		2
+ #define MHI_TRE_DATA_DWORD1(bei, ieot, ieob, chain) cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+ 								MHI_TRE_TYPE_TRANSFER) |    \
+@@ -206,7 +209,11 @@
+ #define MHI_RSCTRE_DATA_PTR(ptr, len)	cpu_to_le64(FIELD_PREP(GENMASK(64, 48), len) | ptr)
+ #define MHI_RSCTRE_DATA_DWORD0(cookie)	cpu_to_le32(cookie)
+ #define MHI_RSCTRE_DATA_DWORD1		cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+-							       MHI_PKT_TYPE_COALESCING))
++								MHI_PKT_TYPE_COALESCING))
++
++/* MHI Max TRB Length CAP ID */
++#define MAX_TRB_LEN_CAP_ID		0x5
++#define MAX_TRB_LEN_CFG			0x4
+ 
+ enum mhi_capability_type {
+ 	MHI_CAP_ID_INTX = 0x1,
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 50f96f2c823f..b0982cb24fb9 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -500,6 +500,25 @@ static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 capability,
+ 	return -ENXIO;
+ }
+ 
++static int mhi_init_ext_trb_len(struct mhi_controller *mhi_cntrl)
++{
++	struct device *dev = &mhi_cntrl->mhi_dev->dev;
++	u32 trb_offset;
++	int ret;
++
++	ret = mhi_find_capability(mhi_cntrl, MAX_TRB_LEN_CAP_ID, &trb_offset);
++	if (ret)
++		return ret;
++
++	/* Get max TRB length */
++	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs,
++			   trb_offset + MAX_TRB_LEN_CFG, &mhi_cntrl->ext_trb_len);
++
++	dev_dbg(dev, "Max TRB length supported is : 0x%x\n", mhi_cntrl->ext_trb_len);
++
++	return 0;
++}
++
+ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ {
+ 	u32 val;
+@@ -637,6 +656,8 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
+ 		return ret;
+ 	}
+ 
++	ret = mhi_init_ext_trb_len(mhi_cntrl);
++
+ 	return 0;
+ }
+ 
 diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 9772fb13400c..6be15297829d 100644
+index 6be15297829d..a11bddce2182 100644
 --- a/drivers/bus/mhi/host/main.c
 +++ b/drivers/bus/mhi/host/main.c
-@@ -345,6 +345,17 @@ int mhi_get_free_desc_count(struct mhi_device *mhi_dev,
- }
- EXPORT_SYMBOL_GPL(mhi_get_free_desc_count);
+@@ -648,7 +648,12 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
+ 			buf_info = buf_ring->rp;
+ 			/* If it's the last TRE, get length from the event */
+ 			if (local_rp == ev_tre) {
+-				xfer_len = MHI_TRE_GET_EV_LEN(event);
++				if (mhi_cntrl->ext_trb_len)
++					xfer_len = MHI_TRE_GET_EV_LEN_MAX_TRB(
++								mhi_cntrl->ext_trb_len,
++								event);
++				else
++					xfer_len = MHI_TRE_GET_EV_LEN(event);
+ 				send_cb = true;
+ 			} else {
+ 				xfer_len = buf_info->len;
+@@ -664,7 +669,7 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
  
-+int mhi_get_total_descriptors(struct mhi_device *mhi_dev,
-+			      enum dma_data_direction dir)
-+{
-+	struct mhi_chan *mhi_chan = (dir == DMA_TO_DEVICE) ?
-+				    mhi_dev->ul_chan : mhi_dev->dl_chan;
-+	struct mhi_ring *tre_ring = &mhi_chan->tre_ring;
+ 			/* truncate to buf len if xfer_len is larger */
+ 			result.bytes_xferd =
+-				min_t(u16, xfer_len, buf_info->len);
++				min_t(u32, xfer_len, buf_info->len);
+ 			mhi_del_ring_element(mhi_cntrl, buf_ring);
+ 			mhi_del_ring_element(mhi_cntrl, tre_ring);
+ 			local_rp = tre_ring->rp;
+@@ -1288,7 +1293,13 @@ int __mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
+ 
+ 	mhi_tre = tre_ring->wp;
+ 	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
+-	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
 +
-+	return tre_ring->elements;
-+}
-+EXPORT_SYMBOL(mhi_get_total_descriptors);
++	if (mhi_cntrl->ext_trb_len)
++		mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0_MAX_TREB_CAP(mhi_cntrl->ext_trb_len,
++								     info->len);
++	else
++		mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
 +
- void mhi_notify(struct mhi_device *mhi_dev, enum mhi_callback cb_reason)
- {
- 	struct mhi_driver *mhi_drv;
+ 	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
+ 
+ 	if (mhi_chan->dir == DMA_TO_DEVICE)
 diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index 66fd83bed306..013bc2d82196 100644
+index 013bc2d82196..0d78a95c2fa2 100644
 --- a/include/linux/mhi.h
 +++ b/include/linux/mhi.h
-@@ -620,6 +620,15 @@ void mhi_notify(struct mhi_device *mhi_dev, enum mhi_callback cb_reason);
- int mhi_get_free_desc_count(struct mhi_device *mhi_dev,
- 				enum dma_data_direction dir);
+@@ -370,6 +370,7 @@ struct mhi_controller_config {
+  * @wake_set: Device wakeup set flag
+  * @irq_flags: irq flags passed to request_irq (optional)
+  * @mru: the default MRU for the MHI device
++ * @ext_trb_len: Extended TRB length if device supports (optional)
+  *
+  * Fields marked as (required) need to be populated by the controller driver
+  * before calling mhi_register_controller(). For the fields marked as (optional)
+@@ -455,6 +456,7 @@ struct mhi_controller {
+ 	bool wake_set;
+ 	unsigned long irq_flags;
+ 	u32 mru;
++	u32 ext_trb_len;
+ };
  
-+/**
-+ * mhi_get_total_descriptors - Get total transfer ring length
-+ * Get # of TD available to queue buffers
-+ * @mhi_dev: Device associated with the channels
-+ * @dir: Direction of the channel
-+ */
-+int mhi_get_total_descriptors(struct mhi_device *mhi_dev,
-+			      enum dma_data_direction dir);
-+
  /**
-  * mhi_prepare_for_power_up - Do pre-initialization before power up.
-  *                            This is optional, call this before power up if
 
 -- 
 2.34.1
