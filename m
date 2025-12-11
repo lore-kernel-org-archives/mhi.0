@@ -1,231 +1,279 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8576D2571DE
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A48620A5F3
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 09:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765440895; cv=none; b=ZwQcWAyhhPNKD1vrDUr9rAMiIgnDLpuovcTtxuTUa2xfjR5j2c4sfZJGmPoocLCcXKlHBOtSujzaHZAkuYxQ17xeHGaaweGIUcZJRLeCX25C+MFB+uxYwEDAxY3xNrxkyOLdGCPhUiZ1NOBlkQRRSV64SBazCqCCNAvqB3BXS0o=
+	t=1765445839; cv=none; b=pHQyZFNbsgOGonUUID+MZgjRdq+q6ilJl6VrQY3Djg+vVWU/n6YlOINXzdMbCE2lo2qZXVlg/rc5y/uxsQA0GDtYxQgq/4cV9uAL/xFPylaAtDsy9wu8bUpKPXlyJV0rhZaGmRs7N/OAKSrqsROcZECk+4kLumYJMr0afI8mvT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765440895; c=relaxed/simple;
-	bh=GqfZdjbwpNzNGRV3mhFb3wWXJrvsykaJ5+F9liByRQ8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HlolV/Ifiti2/30CG9G0cb+rfeFEyIMde6nw14McMQ1sDkRD8ogkCSMdM7wNsdiMZIdbvDwpxA4ktEkV0db46x5JmQCorKrfOi6PIixLUEKDJCrJL+l4jM2OU2mlvIXhoicjMa22Y9zqkhb2iheech4KvwlGFYtceyBMcavL6gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hQ0Y4RTg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WvKFxYwo; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1765445839; c=relaxed/simple;
+	bh=PHXZRy132+0kdUmgP4WNqlEDkUkkpa+M06sbGqLu7eA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qq0dlqYFCDJ1I5HiyIj7zwoSkq3YfPIX9miKPo6XlSoscd3QhjVspQSPZ54tMK1V/h8ZSLo7n0V4haM0h8NRPZbEYsPUCg/SE7OZ7lA6AMR/bHo5EHOnn++c8c2kY5scFT+rnbyDWzQpoeJrjIBQwKjIju4ppchcTNWzIO5JJAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Xfj+xzEL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ebI7SQc0; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hQ0Y4RTg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WvKFxYwo"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BALPnP53736367
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:14:54 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xfj+xzEL";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ebI7SQc0"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB9ZU5W803415
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 09:37:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hYdwtSJsLajlgT8w9wckrh9edcTWvrsOaCQa9xUTBWY=; b=hQ0Y4RTgNCINKhYb
-	y/koxeQJA8oaeA1cJiBxVu8HmBhHxtt/pzTCpddOCcF2UR4Y0se0ryu9bmdGd/NR
-	N1mrg7BFtyKhmGu3gpDzwRv78jVOqyNkclETu2pk3EgZBLx4Mt6KGabT+eo3GS83
-	FLvEOOy0JFuK5F2jrdVW8Kp/WAonhaLK3I1y4wRSwWST6GvQn+WNdOT0o91KLuo7
-	iBbXaRc6afFYNKgFNjO3A8I2cAwHVvhWFkpmyWvcZt6ftM5mbqJxtRkbd0eD69nT
-	uV+hEvKS7xH8Dy3dGxlQeFI49A8QLt7IU25CfMi+357cdD8EvAPJ9jRgk6mj60WH
-	4YOo4w==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ayg0pspkx-1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=+m5RAWgcbogYlmas1+liRKgy
+	Psin28MMijXTFpb2bns=; b=Xfj+xzELhp0GdU92e8Vvg+Dqug5t0sSZuyzkGQik
+	EBcbODVKSFGCr8CL7YUNmMljRvnLZau2O3jrMfXP+2Jgp08YKG/E+W2/yC00w/mu
+	N2VF7CBQHKe91FzoxJmH5ew9ASK1APmuOmlX0x8CMlupQu62uPlS9AcWf7S20CX5
+	dgQZP8sfkH+fyezCjVwkfxbtqNIlcNCMqjasVEA85RhU1Ek8NO++yRiAxydfsPwq
+	UC66ql0V/VM5H5s148SFkazp6vGrTTrOOqc4XHZ6Mp5tT5s7kmYrTW/1SwvlJAbh
+	at0ddUUaxpd1OOhHEx9eafzE4/GdeowCjDrfnaqvp1Wztg==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aym581bkm-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 08:14:53 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2e9b2608dso144938085a.3
-        for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 00:14:53 -0800 (PST)
+	for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 09:37:16 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-bc0de474d4eso1625078a12.0
+        for <mhi@lists.linux.dev>; Thu, 11 Dec 2025 01:37:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765440893; x=1766045693; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hYdwtSJsLajlgT8w9wckrh9edcTWvrsOaCQa9xUTBWY=;
-        b=WvKFxYwolazkQ95wbQWIJ/Ty3mpx8YRKCuQoWERSNRZp6ci7etXY8aLs74QxOBY7Oa
-         CnaQ8qisxpHtf5nnhNEwl3bFbifxPYNW7n4dwxKUDwkchEW/xRDOZEmd0VMMpP3z3nCK
-         TUUEVrfZ7o3kfJaXEqzWcYx+LWlspOa7lXvQFDC+sDtZPNd0fnu5QTIhPJObHwrg8YZI
-         92zLQQp1kKiJRaX7HjMi9qnSchhPpouS9qt26XXD2nWXSQorOX0PjXiF9mfCYCQwVo1v
-         EmWZRBvU+k4Tj5J/Q4XqnEr1FidVwFJAWwpLUrgeaUPRWSqduKZ3dKIUaFu2kitxDbuj
-         BaLQ==
+        d=oss.qualcomm.com; s=google; t=1765445835; x=1766050635; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+m5RAWgcbogYlmas1+liRKgyPsin28MMijXTFpb2bns=;
+        b=ebI7SQc0+MN2A+eMKdCPWwYV1Qn9NVdHrfSsbBmTeQLQm6yHYwJoAGgeVF+/nenfbw
+         M9gapzC9WStqUS6hg1nr/3b3hbWMF7vRWgfPzEphmLGZXD4fvB+9gMGhanzhfkRxWyxo
+         lsO9UHehaWeT9279mY39NnwdCz81RSl+uy0cWqlxTnaQoWRGRyqVvRQyI/s/kDQ0tudd
+         /eJs6UillHFQiAb3fT+c9CX4MKwipnZ5Ex78fZbfmR6fAMv4/4WWVJzXFr9DSvXUTJyd
+         RF20qbdFMkm3x2waku1/XUt1Lo5XtF3unDrwIKpYLSyDf11TK9RCZbD1Lbt0YmCk3Zxo
+         wq/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765440893; x=1766045693;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hYdwtSJsLajlgT8w9wckrh9edcTWvrsOaCQa9xUTBWY=;
-        b=YmBeAEIGZyIVKFvZErDjZV/ACvagY2xVJjF/+ORmOzGvM88iTwy6LumopGwyGVk+kV
-         3xENfjyVWXdNKNSuyhVsAOb51kbiF9FR8r2eXAHa+DK/XYup2FX3Ic3iw0thaI78dHeW
-         gB+MG08cJsWgL8FLFDlK+pcNf9lzmFsCXAJWQXCzSfAKNjdIh1ctM3UFehggGNjtq3HY
-         D0q87121umo2s+YZuhumH8UxmeXCIP6ecR3gG4rOC7gA1DrpQ7NWfjmbgOnRoHvPFKO2
-         4alGbCw5CJfcr4Vkb46ZPW+lLPGH5Not1oo9r1Up97D8+u0IPpE4fCCIYFGoBOmdxrIG
-         q5Kw==
-X-Gm-Message-State: AOJu0YzKQMbxip3UjG6VTlqVStAakUqgTdpA+Z0W3xeVwZzz5Av4HMSI
-	z8WpPxhfMttjZzkqUCBZK0vIEUAGZ+XNegoTOUuAPh1uVWLHPuBJC8Ylyvcv2I3sdWyH63tWsqh
-	ydUoChdGCqenAphiLrsAvE8YGjU0NSbKx21fIvgmSNa5dGpC2fZMJOSc=
-X-Gm-Gg: AY/fxX6OMiFY57wqoGtWgZwsXu0f9FBnBpnuMAzGodmvT/XrMz8nbY5xNbc/Huhl3AK
-	x8FNJma27ZW185sn0nnLtvxP06Ah9kwb0omtAxXWz2xDSje5UgTPScWEYK0b4yMpp8kVrV7jpkJ
-	WgCbxVi3yNDqG+vnYmztV9QSo3Di4wP4nY2H7E/ZoU4XgErLfmgeE/gyTlBJ5tosJQqXbmKts/L
-	GEvHYOrb60szTg8A/VEiYagIrij7nvC6n2XHWdHNX+S7KBaP4lm4SOs+0LYF31lLd0HXCb7DuRg
-	SZvC3+YGBDAopekVbra5yGNh/f06iCVUlQ+MGCIppIefwmU1yWJq7FRQDQxjV5ahYugdu8M9HZU
-	tRv2+DzQ4v35+xVNlhRzPzuisuwYb6ybC7g==
-X-Received: by 2002:a05:6a00:1391:b0:7e8:43f5:bd39 with SMTP id d2e1a72fcca58-7f22f236e84mr4701381b3a.37.1765440465385;
-        Thu, 11 Dec 2025 00:07:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEiTPe9eNOqsIwtPu44NeulbOOyB5EgtrGuYKIDWhYFxKIFac9QywQXMIgc0bG//C3XgZqGOw==
-X-Received: by 2002:a05:6a00:1391:b0:7e8:43f5:bd39 with SMTP id d2e1a72fcca58-7f22f236e84mr4701353b3a.37.1765440464875;
-        Thu, 11 Dec 2025 00:07:44 -0800 (PST)
-Received: from [10.213.102.126] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm1706651b3a.3.2025.12.11.00.07.41
+        d=1e100.net; s=20230601; t=1765445835; x=1766050635;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+m5RAWgcbogYlmas1+liRKgyPsin28MMijXTFpb2bns=;
+        b=opzswvTlxBipDuMkjrSvD2COIjHH+7uIQyPQ1P383iTtmwFucQAPpVfkiilVNQa3n2
+         k29QmzEoJ76/nLfVwI9drmF4Wby/BAWR4Xe2KQlgmho5f1SAo6lVWfkyS9B1XCfV1XT+
+         aZr/nvvNJRGR9F6iIywwsR090EUcAlTuxVhw8Vs884ChO1TG28BVeIGgY/GbaLnNFbi6
+         lciNvxPIuv3GTScRj0OgorzaTI1EhEThJzot1F+0XD8g2cF+9U8UEkMur4MJNkS30dv2
+         e9u4ghhZixSHM6qe8NRZm9R/YRWzL/ULgHhdQRpdFyHXkFf25IlfFtmKSUNux8CM05pE
+         HbbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaBiJFzvoQfalsxaWTKoi/Uv3SOF6T6kyPQAb5hDPDb8Tc71VId7sRFdH4RgLxWnlE4n4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnDxJLQW0nPsVHChMQj1xPr3KzA8PZGRny7r7L0nOqTe+ROC/X
+	jNRMtllRGB3S9m+jLHTZtG+48s5I0X2iFKJPKeg9fttSmA6MYTwtmH7BBOLDKStacMZ11M4zS9b
+	0F/sWMFiKN63Q1jzYttjM+hXabrMsVrpo6x2YemHw0AFeCxZccXY8tVw=
+X-Gm-Gg: AY/fxX6mHOICESoZSJLufjd1w2rlENZpFanKpuZKue+J1hAVvyeZGa7j5tCJO+Yp7e1
+	ebbkKEuv324R58vqzk9RsAz+qNqWft20k3oywe1+JJ2/LOQjFIP2c2itv1XabkGhxNnvi9Clcrq
+	yLuZJSVjO6xXnWa7ct9UkXLi0not5i8Mi/TpVkkhgOc6Hm22E0xhSmsOhut0OHf3Au1a8s9vpwJ
+	JsrkcvKDhHJA0ItpUzYa5TIvH10gaUliHUQEKz7jBVv0Auyeq3M2XUOW84W5hZpuTRfqh76IYlE
+	Qmlh416QlhEhBWQQctWVFCkkRLBPyD9cZZnhhP+GXGViw+upHvbzlHE184dzNbEKsAJl+i9ahT1
+	eyPbJbBwpdCjMUIt18AHnXj28+G/9k+o1xXXMFo+qNfWp1Dy6GqQSFGQL
+X-Received: by 2002:a05:7300:691b:b0:2a9:573a:4a74 with SMTP id 5a478bee46e88-2ac0540a366mr5017700eec.9.1765445835235;
+        Thu, 11 Dec 2025 01:37:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHDmzknQK46ADGMzLVSbLcpWpdQLCZHlF7yDgfWUZnMsYnsyWkUC6As4lwmUjWcGVVISWoLXA==
+X-Received: by 2002:a05:7300:691b:b0:2a9:573a:4a74 with SMTP id 5a478bee46e88-2ac0540a366mr5017677eec.9.1765445834632;
+        Thu, 11 Dec 2025 01:37:14 -0800 (PST)
+Received: from hu-qianyu-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ac18f5c2dbsm6078083eec.0.2025.12.11.01.37.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 00:07:44 -0800 (PST)
-From: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
-Date: Thu, 11 Dec 2025 13:37:33 +0530
-Subject: [PATCH 01/11] bus: mhi: host: Add support to read MHI capabilities
+        Thu, 11 Dec 2025 01:37:13 -0800 (PST)
+Date: Thu, 11 Dec 2025 01:37:12 -0800
+From: Qiang Yu <qiang.yu@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mayank Rana <mayank.rana@oss.qualcomm.com>,
+        Baochen Qiang <quic_bqiang@quicinc.com>
+Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
+ functionality
+Message-ID: <aTqQyPJaV+KrIMOj@hu-qianyu-lv.qualcomm.com>
+References: <20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com>
+ <ttpn6o2far7xebghblurxvi43aohv74v7jq2vdgc4jhgc7avo2@lgp4y4sytene>
+ <aTZxrhpYhoOP+VDz@hu-qianyu-lv.qualcomm.com>
+ <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-siva_mhi_dp2-v1-1-d2895c4ec73a@oss.qualcomm.com>
-References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
-In-Reply-To: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
-To: Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Upal Kumar Saha <upal.saha@oss.qualcomm.com>,
-        Himanshu Shukla <quic_himashuk@quicinc.com>,
-        Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>,
-        Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>,
-        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-47773
-X-Proofpoint-ORIG-GUID: Rb6KGBoMiNM8s5eQtHNqWaE1DM32STzh
-X-Authority-Analysis: v=2.4 cv=b46/I9Gx c=1 sm=1 tr=0 ts=693a7d7d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=8H38-GfiV2s7wLOohYcA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA2MCBTYWx0ZWRfXxjuxPUiXo8vR
- 6Lk3rP4rf+zXnQSjxF3KmPmf+oBgzYT9sk7XcaukiSHfANwXE8RA5WftNDLmBiAc3+AmseBW7mX
- vGK4gz9eDTbrxRxED1qrx1M/CbH5tnFVWePOoB9v+wUlRocAyR7ju8hGp4O3CXJz2/Qt+96nWrB
- 00xaYQZpZVycxyHQ3FqJ5TtNx0KHTE2Izq+koaJkBZ6OJ0niQjx6i4BydEqHcgSH6myU9WqMi6s
- 8u7t6IILGjEZBPJD6cysYgV9LVd7PsmMuM4a5dkPNQHFAgrRFMCE63zdBfpvcRkaFh0/6ekkCoW
- vhYvS99moMeRsSPXDiHneQtk5K1rjBuW7VBlm6VGa2R/kFEnOEOaj/NFObgv+dtVeLyvb1hKo9N
- OLZOZ4AbSfSM4bD5Yn8/AlW99uqf+Q==
-X-Proofpoint-GUID: Rb6KGBoMiNM8s5eQtHNqWaE1DM32STzh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
+X-Proofpoint-GUID: R1aay3jL8Vt0Io3BMSSIkue6y6IHFp9u
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA3MiBTYWx0ZWRfX7ndfO05OSKkd
+ VlkcDEgHqSnc9hdYG9y53Fc1Oeyy7Mmk0onsGxWtwNnux2Uk+OEGoj7Ab39uAtqvF01a4e7I0Gi
+ qCsghsUIvQ2DdQPqOi/PBx8g0TfBpaAdJYrTn0TE6vu3srRjEtoaRa/0Yd2ZAE7CGN3nYytDb2Y
+ Ug0aCgNYrmEFSPupu0BfkobHwNxCiy1G3/WRJbrNHT4A4k0z/Rq9SFosCYVyeZ3qFNoSbgoZYYK
+ tlIZs0+t8MI9or0eqUKr6CgVphUrv3DZr2NV/V3WA3W8mq29cH5aoxcPivqk4gp5qR7yjYIkG3s
+ qrRgC5AVdIJKF8gC/hb86fBFWUSxY+u8D2JTmRch4Sq6p0S1eoIHSJh1KOb0eQh7rPiPufTRdc9
+ IjHY16GrKYHAHGxr4hy1W1BfiyUYqA==
+X-Authority-Analysis: v=2.4 cv=FYU6BZ+6 c=1 sm=1 tr=0 ts=693a90cc cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=DsdYmJs--EhVD9mPpCUA:9 a=CjuIK1q_8ugA:10 a=bFCP_H2QrGi7Okbo017w:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: R1aay3jL8Vt0Io3BMSSIkue6y6IHFp9u
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 clxscore=1015 adultscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110060
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110072
 
-From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+On Wed, Dec 10, 2025 at 12:57:11AM +0200, Dmitry Baryshkov wrote:
+> On Sun, Dec 07, 2025 at 10:35:26PM -0800, Qiang Yu wrote:
+> > On Sat, Dec 06, 2025 at 01:25:34PM +0200, Dmitry Baryshkov wrote:
+> > > On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
+> > > > From: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> > > > 
+> > > > Currently, the FBC image is a non-standard ELF file that contains a single
+> > > > ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
+> > > > (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
+> > > > separate ELF headers for SBL and WLAN FW segments due to TME-L image
+> > > > authentication requirement.
+> > > > 
+> > > > Current image format contains two sections in a single binary:
+> > > > - First 512KB: ELF header + SBL segments
+> > > > - Remaining: WLAN FW segments
+> > > > 
+> > > > The TME-L supported image format contains two sections with two elf
+> > > > headers in a single binary:
+> > > > - First 512KB: First ELF header + SBL segments
+> > > > - Remaining: Second ELF header + WLAN FW segments
+> > > > 
+> > > > Download behavior:
+> > > > - Legacy: 1. First 512KB via BHI (ELF header + SBL)
+> > > >           2. Full image via BHIe
+> > > > 
+> > > > - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
+> > > >          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
+> > > > 
+> > > > Add standard_elf_image flag to mhi_controller_config to indicate TME-L
+> > > > supported image format. When set, MHI skips the first 512KB during WLAN FW
+> > > > download over BHIe as it is loaded in BHI phase.
+> > > 
+> > > What is standard about it?
+> > 
+> > The TME-L requires standard elf image format which includes single EFL
+> > header and WLAN FW segment.
+> > 
+> > The "standard_elf_image" seems misleading. Since the new image format is
+> > required for TME-L image authentication, how about using 
+> > tme_supported_image?
+> 
+> Just elf_image?
 
-As per MHI spec v1.2,sec 6.6, MHI has capability registers which are
-located after the ERDB array. The location of this group of registers is
-indicated by the MISCOFF register. Each capability has a capability ID to
-determine which functionality is supported and each capability will point
-to the next capability supported.
+Is it too generic for this specific use case. Current image format also
+contains elf header.
 
-Add a basic function to read those capabilities offsets.
-
-Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
----
- drivers/bus/mhi/common.h    | 13 +++++++++++++
- drivers/bus/mhi/host/init.c | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
-
-diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-index dda340aaed95..58f27c6ba63e 100644
---- a/drivers/bus/mhi/common.h
-+++ b/drivers/bus/mhi/common.h
-@@ -16,6 +16,7 @@
- #define MHICFG				0x10
- #define CHDBOFF				0x18
- #define ERDBOFF				0x20
-+#define MISCOFF				0x24
- #define BHIOFF				0x28
- #define BHIEOFF				0x2c
- #define DEBUGOFF			0x30
-@@ -113,6 +114,9 @@
- #define MHISTATUS_MHISTATE_MASK		GENMASK(15, 8)
- #define MHISTATUS_SYSERR_MASK		BIT(2)
- #define MHISTATUS_READY_MASK		BIT(0)
-+#define MISC_CAP_MASK			GENMASK(31, 0)
-+#define CAP_CAPID_MASK			GENMASK(31, 24)
-+#define CAP_NEXT_CAP_MASK		GENMASK(23, 12)
- 
- /* Command Ring Element macros */
- /* No operation command */
-@@ -204,6 +208,15 @@
- #define MHI_RSCTRE_DATA_DWORD1		cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
- 							       MHI_PKT_TYPE_COALESCING))
- 
-+enum mhi_capability_type {
-+	MHI_CAP_ID_INTX = 0x1,
-+	MHI_CAP_ID_TIME_SYNC = 0x2,
-+	MHI_CAP_ID_BW_SCALE = 0x3,
-+	MHI_CAP_ID_TSC_TIME_SYNC = 0x4,
-+	MHI_CAP_ID_MAX_TRB_LEN = 0x5,
-+	MHI_CAP_ID_MAX,
-+};
-+
- enum mhi_pkt_type {
- 	MHI_PKT_TYPE_INVALID = 0x0,
- 	MHI_PKT_TYPE_NOOP_CMD = 0x1,
-diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-index 099be8dd1900..4c092490c9fd 100644
---- a/drivers/bus/mhi/host/init.c
-+++ b/drivers/bus/mhi/host/init.c
-@@ -466,6 +466,38 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
- 	return ret;
- }
- 
-+static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 capability, u32 *offset)
-+{
-+	u32 val, cur_cap, next_offset;
-+	int ret;
-+
-+	/* Get the first supported capability offset */
-+	ret = mhi_read_reg_field(mhi_cntrl, mhi_cntrl->regs, MISCOFF, MISC_CAP_MASK, offset);
-+	if (ret)
-+		return ret;
-+
-+	do {
-+		if (*offset >= mhi_cntrl->reg_len)
-+			return -ENXIO;
-+
-+		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, *offset, &val);
-+		if (ret)
-+			return ret;
-+
-+		cur_cap = FIELD_GET(CAP_CAPID_MASK, val);
-+		next_offset = FIELD_GET(CAP_NEXT_CAP_MASK, val);
-+		if (cur_cap >= MHI_CAP_ID_MAX)
-+			return -ENXIO;
-+
-+		if (cur_cap == capability)
-+			return 0;
-+
-+		*offset = next_offset;
-+	} while (next_offset);
-+
-+	return -ENXIO;
-+}
-+
- int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
- {
- 	u32 val;
-
--- 
-2.34.1
-
+- Qiang Yu
+> 
+> > 
+> > > 
+> > > > 
+> > > > Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> > > > Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> > > > Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > > Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > > ---
+> > > > Changes in v3:
+> > > > - Reword commit message.
+> > > > - Reword comments of standard_elf_image flag
+> > > > - Add reviewed-by tag.
+> > > > - Link to v2: https://lore.kernel.org/mhi/20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com/
+> > > > 
+> > > > Changes in v2:
+> > > > - V1 patch is paused because of no user. WLAN team plan to add support for
+> > > >   new WLAN chip that requires this patch, so send v2.
+> > > > - Change author and SOB with new mail address.
+> > > > - Reword commit message.
+> > > > - Place standard_elf_image flag after wake_set in struct mhi_controller
+> > > > - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
+> > > > ---
+> > > >  drivers/bus/mhi/host/boot.c | 7 +++++++
+> > > >  include/linux/mhi.h         | 4 ++++
+> > > >  2 files changed, 11 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> > > > index 205d83ac069f15a19ab2d66a63692e5d60334d4c..64fb7a257d3529167eddf1153d34cc6b25735809 100644
+> > > > --- a/drivers/bus/mhi/host/boot.c
+> > > > +++ b/drivers/bus/mhi/host/boot.c
+> > > > @@ -584,6 +584,13 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+> > > >  	 * device transitioning into MHI READY state
+> > > >  	 */
+> > > >  	if (fw_load_type == MHI_FW_LOAD_FBC) {
+> > > > +		dev_dbg(dev, "standard_elf_image:%s\n",
+> > > > +			(mhi_cntrl->standard_elf_image ? "True" : "False"));
+> > > > +		if (mhi_cntrl->standard_elf_image) {
+> > > > +			fw_data += mhi_cntrl->sbl_size;
+> > > > +			fw_sz -= mhi_cntrl->sbl_size;
+> > > > +		}
+> > > > +
+> > > >  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+> > > >  		if (ret) {
+> > > >  			release_firmware(firmware);
+> > > > diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> > > > index dd372b0123a6da5107b807ff8fe940c567eb2030..a13106bb234d22e3876dff3c0d46f3dee1d9e05c 100644
+> > > > --- a/include/linux/mhi.h
+> > > > +++ b/include/linux/mhi.h
+> > > > @@ -360,6 +360,9 @@ struct mhi_controller_config {
+> > > >   * @bounce_buf: Use of bounce buffer
+> > > >   * @fbc_download: MHI host needs to do complete image transfer (optional)
+> > > >   * @wake_set: Device wakeup set flag
+> > > > + * @standard_elf_image: Flag to determine whether the first 512 KB of the FBC
+> > > > + *                      image need to be skipped when loading WLAN FW over
+> > > > + *                      BHIe interface (optional)
+> > > 
+> > > How does the description correlate to the name of the flag?
+> > 
+> > The description can be updated as:
+> > 
+> >  * @tme_supported_image: Flag indicating FBC image format supports TME-L
+> >  *                      (Trust Management Engine Lite) authentication.
+> >  *                      When set, skip first 512KB when loading WLAN FW
+> >  *                      over BHIe interface (optional)
+> > > 
+> > > >   * @irq_flags: irq flags passed to request_irq (optional)
+> > > >   * @mru: the default MRU for the MHI device
+> > > >   *
+> > > > @@ -445,6 +448,7 @@ struct mhi_controller {
+> > > >  	bool bounce_buf;
+> > > >  	bool fbc_download;
+> > > >  	bool wake_set;
+> > > > +	bool standard_elf_image;
+> > > 
+> > > This flag is never set, making it a dead API. If there are other patches
+> > > setting up the flag, please include them into them in the same series.
+> > 
+> > Let me discuss with Baochen about whether he can include the patch in his
+> > series that actually sets this flag for QCC2072 device.
+> 
+> Otherwise it's a dead API which is generally not allowed.
+> 
+> > 
+> > - Qiang Yu
+> > > 
+> > > >  	unsigned long irq_flags;
+> > > >  	u32 mru;
+> > > >  };
+> > > > 
+> > > > ---
+> > > > base-commit: ac35e04f8000aaaf98635792464647e7a6f3422e
+> > > > change-id: 20251129-wlan_image_load_skip_512k-ddcfe49db8e3
+> > > > 
+> > > > Best regards,
+> > > > -- 
+> > > > Qiang Yu <qiang.yu@oss.qualcomm.com>
+> > > > 
+> > > 
+> > > -- 
+> > > With best wishes
+> > > Dmitry
+> 
+> -- 
+> With best wishes
+> Dmitry
