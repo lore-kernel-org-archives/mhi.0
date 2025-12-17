@@ -1,90 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D1D1BEF8A;
-	Wed, 17 Dec 2025 05:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20AC32E738;
+	Wed, 17 Dec 2025 17:17:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765948232; cv=none; b=iaKrufj689Jt3FdEUBGs/k0W8c7jPsnF5eVdJ0vgfePm4lZdP4kYopG/TdzD9pc5wDH46Uc8cUruWmprC5/k3a0I1Mlujkkr0HcMzHv6A1X0SRPpJJG663K0pg8KayYBhzf6sAB4hoobG5zthuP5KUCRHx0ZU07jyM7XesGASdw=
+	t=1765991821; cv=none; b=WknkRvP6E14DIw3A23fpUtgxBQuC0icK83SmOilgQTSicrH05rUFjRgcyEWL8x/6lqePMvc/TbyQ2Ar+4hIbdnmNHpJRFHzSqoRRB6cN+u5uk3yHQq1CXyC9Y1Tv660+Ng5UsUPTt9TkdHGFngspt5byBJTgMso64RXay2vlciI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765948232; c=relaxed/simple;
-	bh=bLaK2gFWACWyalrEyaiMmZm2YYU4Bq1urmASnlDm6Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMvYE7ZyFPFtIz+qYF9MKWRqBHxRIhj8qjKrs8kjCdxiiIH7lM865R8op07J1Q/lAFTdd8jIjrJfzkJZJfzPTHogaPY+qpNcp3W0ASKOYQRcChs4tUdf/3MeTAZ9T7xuyaSkcUSXIu4WK3Ntmj1bhSe99MVmY84HiH1c+Ujo/pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcJmWWfK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765991821; c=relaxed/simple;
+	bh=nCNmapLXVkzx5G0AMg0w1rDB82qxLQX+MYjj3DhiKp4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AiZY/ZPf75wMrtdt9O9/JSot46/bBFuvm4qwMh1wywMntlDh9kpUgatBLHaeBu5pbI5VhvCBq8z1B6nSmNyMWBHV1leBt5QWxAAMLphjWaQ0pGJvlkfwbJoJ1QD/rTKkvPEnbYURYqPDQmCJXL9S4G8BZa/kHYyEJ4qmKtrybJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKNWmpy4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcJmWWfK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C1DCC19421;
-	Wed, 17 Dec 2025 05:10:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKNWmpy4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 62943C4CEF5;
+	Wed, 17 Dec 2025 17:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765948231;
-	bh=bLaK2gFWACWyalrEyaiMmZm2YYU4Bq1urmASnlDm6Os=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BcJmWWfK33MwnybWoQwekHilGr5zCy1560YIq82bx13SaA1+NQhhGq6QhzHPOtbEe
-	 g76xucoHWrhcqeg8jb5VE05l6kNRJqy8dzrHM71a0cQhnkMbxx8WNSdtD/xq6p5DJh
-	 bLHZ6CrHbnrrdiA/lniK+9rvYDMqboXAwilsS0aU54t6HtaaMkb9cupJ0QxHomVxV2
-	 yEKUZaMdsykL/s2wdfPiua3AQCBlcTtdYyxETlm+DBvrPfzz8JejKbsd8W5e+SNrmX
-	 GIQpG0as5/ipXXQUCNwIQXZKMAJ3whyWGdWsrBeHqTqlltwGj8NOqaddzfTt/pb5xg
-	 F3WTKkjID57OQ==
-Date: Wed, 17 Dec 2025 10:40:28 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
- descriptor preparation
-Message-ID: <aUI7RJvQUx3m2IRf@vaman>
-References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
- <aUFUX0e_h7RGAecz@vaman>
- <aUF2SX/6bV2lHtF0@lizhi-Precision-Tower-5810>
- <aUF-C8iUCs-dYXGm@vaman>
- <aUGA7tmDYm1MhRXn@lizhi-Precision-Tower-5810>
- <aUGURVuW33WSTuyI@vaman>
- <aUGWtarjFNNy2KyZ@lizhi-Precision-Tower-5810>
+	s=k20201202; t=1765991821;
+	bh=nCNmapLXVkzx5G0AMg0w1rDB82qxLQX+MYjj3DhiKp4=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=XKNWmpy4m79ww++MMmPrggUkdOn2gZ8gefp8Nh5CQsp/ZAqAGzKerSg95thiEkcOP
+	 NuB/EMl77H1Xmqn3WMCIRUZyy3bnCafUs+PG0ZcbmAXJst9RNckeI3KKu/b2lRKno1
+	 OL2+IZ2susK1SiaxP2rHvu8HgDWHsrmdTtFc3A6guRoc3kc+gL3YstQtU4AHQhNQGO
+	 TRYdvCbDVnkOo2JTKcPpPdkdedn6G6RoIdaudox8t0/6bIT5HfmRESsxR9MGZa24ql
+	 g8Ea5iBUWHxuWi6mLRl5T09AvLPHRcHAgpad9DDTy9BaxJoGKDR2mWDsnxxsYtocbm
+	 0KA4S7pZimAaw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B3CD65C53;
+	Wed, 17 Dec 2025 17:17:01 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
+Subject: [PATCH 0/2] net: qrtr: Drop the MHI 'auto_queue' feature
+Date: Wed, 17 Dec 2025 22:46:50 +0530
+Message-Id: <20251217-qrtr-fix-v1-0-f6142a3ec9d8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUGWtarjFNNy2KyZ@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAILlQmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDI0Nz3cKikiLdtMwK3WQDUwugWIpFimGiElB5QVEqUBhsVHRsbS0AovM
+ Jm1oAAAA=
+X-Change-ID: 20251217-qrtr-fix-c058251d8d1a
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ Jeff Johnson <jjohnson@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+ Maxim Kochetkov <fido_max@inbox.ru>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
+ ath12k@lists.infradead.org, netdev@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Chris Lew <quic_clew@quicinc.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1833;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=nCNmapLXVkzx5G0AMg0w1rDB82qxLQX+MYjj3DhiKp4=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBpQuWLGsKVi00BM9j9k2fzmDyfhFZKHkWaVpwxL
+ mEyD11ffiGJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaULliwAKCRBVnxHm/pHO
+ 9dflCACJcSVT7YDyfd1eVp65ty6CysudUmNCdkpwxqBUbCrnGNo3J5HA5Hjn0fxfolTcFBBLQ07
+ NeDnBv7hbBbeyy/YGPc7B2nWrkzT2oE/O6mX1dmUEBSjUBVMBq+M2qerwQHpjy3mT6EmN+lLYuk
+ EoZKz4737MjFD7GJoeu4mMQuQOXQ86hQRcwpELNcqSYNc+8fep+/5IiIPQ2NgkCKu4cKF+CAANE
+ NmFlrFhiohovN3SfcwHdt4M3dZd2Klsd1aCphMoU9i8/gw1xIHR1cGHhWU1Y6+l7SUkLrL6jBh+
+ YTWv2owV7o/wUYhLImCgqMf3xtU5X3/Kt/L/XHl60z1w9ez8
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 
-On 16-12-25, 12:28, Frank Li wrote:
-> On Tue, Dec 16, 2025 at 10:47:57PM +0530, Vinod Koul wrote:
-> > On 16-12-25, 10:55, Frank Li wrote:
-> > > The usual prep_ call have not sconf argument, which need depend on previous
-> > > config.
-> > >
-> > > further, If passdown NULL for config, it means use previuos config.
-> >
-> > I know it is bit longer but somehow I would feel better for the API to
-> > imply config as well please
-> 
-> I can use you suggested dmaengine_prep_config_perip_single().
-> 
-> But how about use dmaengine_prep_config_single(), which little bit shorter
-> and use "config" to imply it is for periperal? (similar to cyclic case?)
+Hi,
 
-Yes that is a good idea. config does imply peripheral cases. Please make
-sure API documentation marks that clearly
+This series intends to fix the race between the MHI stack and the MHI client
+drivers due to the MHI 'auto_queue' feature. As it turns out often, the best
+way to fix an issue in a feature is to drop the feature itself and this series
+does exactly that.
 
-BR
+There is no real benefit in having the 'auto_queue' feature in the MHI stack,
+other than saving a few lines of code in the client drivers. Since the QRTR is
+the only client driver which makes use of this feature, this series reworks the
+QRTR driver to manage the buffer on its own.
+
+Testing
+=======
+
+Tested on Qcom X1E based Lenovo Thinkpad T14s laptop with WLAN device.
+
+Merge Strategy
+==============
+
+Since this series modifies many subsystem drivers, I'd like to get acks from
+relevant subsystem maintainers and take the series through MHI tree.
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+---
+Manivannan Sadhasivam (2):
+      net: qrtr: Drop the MHI auto_queue feature for IPCR DL channels
+      bus: mhi: host: Drop the auto_queue support
+
+ drivers/accel/qaic/mhi_controller.c   | 44 -------------------
+ drivers/bus/mhi/host/init.c           | 10 -----
+ drivers/bus/mhi/host/internal.h       |  3 --
+ drivers/bus/mhi/host/main.c           | 81 +----------------------------------
+ drivers/bus/mhi/host/pci_generic.c    | 20 +--------
+ drivers/net/wireless/ath/ath11k/mhi.c |  4 --
+ drivers/net/wireless/ath/ath12k/mhi.c |  4 --
+ include/linux/mhi.h                   | 14 ------
+ net/qrtr/mhi.c                        | 67 ++++++++++++++++++++++++-----
+ 9 files changed, 60 insertions(+), 187 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251217-qrtr-fix-c058251d8d1a
+
+Best regards,
 -- 
-~Vinod
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
+
