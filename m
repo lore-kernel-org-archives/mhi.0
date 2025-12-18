@@ -1,222 +1,221 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013061.outbound.protection.outlook.com [52.101.72.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF570355805;
-	Thu, 18 Dec 2025 15:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766073440; cv=fail; b=BtqrXNpk8eyQM5ynruAtVNRbOPfNATKcU1zWHr4XfMrcrnNQup3gSFw1t6qDUbEDdM0r8M9JTMHvOshJWDIlNwul/HFc6PFHtFjOoT1Ck8XWrj814LvUodkJNWvdptMyzSBCNelZLVbVF/tDQ5IqnZHqSr8GO7cuvcx7TWl+nJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766073440; c=relaxed/simple;
-	bh=W22vmKstXYkmIGhE5qiPeFJ0wc/jLIRMR6F2v6Pa+AA=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=FO8CB31syapCXmsQxfK+kA0pWRLOyk/Z/SxcZLp+8zgnFSmuj9LDEUx30wtJ8WQivLnJEMtqxYulqTPIxCtNiv0B0hSuHclOaYb8t2M5je7/EfMLVCIZA03cVNTkMxCwk2jDNbXG92TOKmGpdbO5Zj8WUDg/d9CR54BRqXXCj9U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=labW2YVU; arc=fail smtp.client-ip=52.101.72.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CF43451B2;
+	Thu, 18 Dec 2025 16:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766075058; cv=none; b=JTRDtUOZObYUf3CzZVgGjKUDqFnWUzkVrxQA+uShYEzV/T9lxDLilPqPh2cH1UMyVUpTcXfFT/qQzV8vl1zupIAbj4LItY4wLH8GaAhZ7hFxZqjkriVazIu/Je7B7rThbzZFvyDcxAdq2ryx+rjnRBgFTkSqPUl1V6idmoH3KvU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766075058; c=relaxed/simple;
+	bh=X5gSMMJxTpeVSLwt9c3VGpJBP7cA+dKBFUTwA1R/8Mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyjJ0+9OpXbh7IbIbaF0QNgwcjnyWdfsiWsHyXdfsJ22ofp45tVv0FUMZ4d0Q+7IxRomHNhMBgBx9JEd/OsmvSIC1Muj7Ps1TyFlQ9bjGg6HpAcqWTMqhpZ+7Xq5liy01k8paP94YnigN4iBTlDc3ZnLDUeHzkVYTYJAGJF+038=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpB9Qjfx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="labW2YVU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kvIDQzqF8+lpXUGKM6KB725SYAuRYcH2yGFFidoaRcA9rnM91w5fNtSCgdBB6biOORGTMvwmwxnJBj9xDOkO2rWWYRKexEfmTNCe0hmMoekjeZk3Et3A4TChybXlp/ZfLoOzZ4RZDu7Fl2QPK6dQpky390fgboTJ7EIlxP5meN/BIzXKU/lNx3qzPr/7ZoRA/ETqXd10mPFc+0dBID48UtqQb0OxBKQXN4oRqlJOnwyjHAwJInRtrx8cGLA1sz4y461kyuX4EapuORPzXHo9Yb1lskfd57ej0pBbKuYCY7MEtw89Tj8HsfoJXl05GDVokNFF7u9Ab9S2urbvywS5gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XC/ywaSProtu82uFSFteem/sxrv8h4ktguruv15MNyM=;
- b=f1ycH2s7On7JHFUOHgVr2+nDaIyjoerT977G3XvvVLRPcf0x22pWwr8hip+LXOlp7Qtd7Zt3zohmWjldLGqcBMJ1OttsfzZSZ1H9gLL6M65tYpztzjAfSbEpGfdmMWCDh2HCc7skIcGWrjHX7p6Y9GMkGUG+6viaBHjl2i2CjrEgX7P/ckitbZ3by9w2tN9KfOZiunxe9fjbdX6ISzK7eBeEGZqdFLICyxYjd6JouP4JqSysh5Tu0X7NIK7Yxw0RQGSVh1HjZCX2aVy0DNb67xU9r57K4s6E4KWknU1glVAXFGfsqJbBBeJa1VZXsoPF31I9/sBIEFOKuL16UXM3fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XC/ywaSProtu82uFSFteem/sxrv8h4ktguruv15MNyM=;
- b=labW2YVUcHoWZFMchySMe6AetODPxFebNJ8Qpub21crs8bYRpBCIncRTLoG9xQqU1+MMAhqN8LOSP5CKGeg/c2gOKs385RVpl+C7O3y4tqibKkSgV3QBPueDzbp4NX5jvUHT0dpPfhYoL09dCIBVJrbvfEHPtP878T0ZzRSfQo9CPN72g+fCjZM9Wuq3aVqkjlvGquv+1S+T7M16k4Xw0IzBzbYaPrJE/rxLJBP7uZQAly2m6N0rszRw8s1Mb72rVDdJjqifdgotk6PvL0cL6DXEDzWYvbB8iACh37+DW/bwC+uJSVE4OwU3d8cr7mbuNX5tqt7mG8vXWXwcOTYIbw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
- by DU4PR04MB12130.eurprd04.prod.outlook.com (2603:10a6:10:645::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Thu, 18 Dec
- 2025 15:57:15 +0000
-Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
- ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
- 15:57:15 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Thu, 18 Dec 2025 10:56:28 -0500
-Subject: [PATCH v2 8/8] crypto: atmel: Use dmaengine_prep_config_single()
- API
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-dma_prep_config-v2-8-c07079836128@nxp.com>
-References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
-In-Reply-To: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
-To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, 
- Niklas Cassel <cassel@kernel.org>
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766073392; l=1301;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=W22vmKstXYkmIGhE5qiPeFJ0wc/jLIRMR6F2v6Pa+AA=;
- b=Sb6SkBG10+k5aSqUJGbzTric1Cp8+M9fX3NiUR5rfrdTMw/RsUAKbayS7baxKVJrhg69DHZ+y
- AAF5zbz9AIID0XyYjzovqL+e0chQJsS2Xpz43YI4S/IzmXzz7bXogUk
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: PH8PR07CA0047.namprd07.prod.outlook.com
- (2603:10b6:510:2cf::10) To DU2PR04MB8951.eurprd04.prod.outlook.com
- (2603:10a6:10:2e2::22)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpB9Qjfx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742D1C4CEFB;
+	Thu, 18 Dec 2025 16:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766075057;
+	bh=X5gSMMJxTpeVSLwt9c3VGpJBP7cA+dKBFUTwA1R/8Mk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CpB9QjfxUGu7QHeL+Ttl3LbAbI0T6PGcte3cn+vIPi7DalYPSikxLc4VNjs+cpLMU
+	 wAHm/NDnq3/9kUW0LDoX3+13AOelp2GqKXTYjoe50BFg7vDy3SO6luvKjh1dbx8+uX
+	 esRJC+w0UZsPyGsE4IuZLrx1NXnDPaAPK7noFXUR3Sfa757BmSMq29w2iuXqHYK48p
+	 MZaE4rqXx9iMTl7GFQzcqkHRmumgpFlPwZofAGeWpTNAx1AKVTt+Di4Upt2U7lFyTc
+	 1X3wPqiVCqHD+JYpbvtv5JKyX0UGO6Mxcto4/3HoJJkrHjbEJkKYjYI8YoSW//pXSP
+	 XLtDOMNb4Xjqg==
+Date: Thu, 18 Dec 2025 21:54:07 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: manivannan.sadhasivam@oss.qualcomm.com, 
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+	Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Maxim Kochetkov <fido_max@inbox.ru>, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	mhi@lists.linux.dev, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
+	ath12k@lists.infradead.org, netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] net: qrtr: Drop the MHI auto_queue feature for IPCR
+ DL channels
+Message-ID: <pm5amorzm2bvjrvswd4phwiic7wsmitxtzwdvtwqflepxkukjf@esikj32tds7o>
+References: <20251217-qrtr-fix-v1-0-f6142a3ec9d8@oss.qualcomm.com>
+ <20251217-qrtr-fix-v1-1-f6142a3ec9d8@oss.qualcomm.com>
+ <CAFEp6-0iuJNDM9hdU3rWns=Vst6Ev1iyNim1ngRH3Z44CHwTAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|DU4PR04MB12130:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2d15870-caea-43dd-dfa6-08de3e4e1d38
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|7416014|1800799024|19092799006|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OUNmcFZPYUJKN2Y1TjBqWWdKV3J1bHFXRzhCdERaMjF4eVEwajJZK2NIQkhy?=
- =?utf-8?B?bHJPUjBnM3p6NElJT1dvOGxGaVN0dHJLRzc3cXR3TTh1V1FQc1Y5QUVJU2gx?=
- =?utf-8?B?OFpkUFlGSVFhYUtoUzFzSHJpaS83RU5OcVg5OHRFNTV2VTlvb1JRSE82M2xQ?=
- =?utf-8?B?cngzb3pTTFVIVkc3RlhuK283TU9ITjV6VnlCalltai92QlhvN29Zck43RU1o?=
- =?utf-8?B?enpiU3Q3THVxVUI4UGUwNGs5Y0RKZjlPU0J4Z1BQSXUzUFhuUWwxb1BVdnBk?=
- =?utf-8?B?R1Ryc3hnOU9lUUtET0VDVWFWSHVhZ2NHRy9FeXZkZ3B5Q0ZrczZWZXNJanI1?=
- =?utf-8?B?RHNicmFHTXRvK1ErNmNvR3haT0h6bFFhK01UR0JpSk5SRklVN00xK1MxNkdv?=
- =?utf-8?B?NFNrVi8wM3pGSnJtUFZGMEVlZSszZFI3VXB1T3dKaW1MVHdWa2d4REhhUzdG?=
- =?utf-8?B?OWNRWXEwc1ZUT29TdnB4VW5JMWhFaklXU1dWQjRzQlRBWkE3T2xjdElvZlN4?=
- =?utf-8?B?ZjBEWkl3OEMvbWJzNzFqUlZNRDRnL2poMmwyYncrMUVOY1pEbGlMV2Yxa2h6?=
- =?utf-8?B?NWZwNktHMERzbWdNNXZNQmJxUmw1eTlqWnNIdG5lRXhHYTF2NVgyYnF1N2FM?=
- =?utf-8?B?ckxTM1BtbjVramF4aFA4R0VkcDdTamQzaTI4aWhCMTZLTThMZEdBSTFGOFR3?=
- =?utf-8?B?MFA3cTRrNDVJMHBWM0Z2TituQ3liTGZJS0lGaEc4c1RTcG9NdmlJbWZ1UGdk?=
- =?utf-8?B?RzV2VzdJTTdJY3c1SUtsRXdHWWtyc0JzelJqMTVJYksya3BRRUx5MFdDVnhS?=
- =?utf-8?B?Z3RNVW9CZkJQakluWlMyVGNKMi9VaFZsZDk0Y0VRT0lpTnkyaE1LVmxBVW00?=
- =?utf-8?B?NWkwbGlpRTBralhrRXBFNktkZjUrbG4veGx3NXI5RmJaM3pCb1k1amMvNDJx?=
- =?utf-8?B?L1pvRFd1TkRwdVFWckhmaWtCZjQvQ0JUY3lJbjJZNnpJdmI4VktQcWdvQkhB?=
- =?utf-8?B?WE14RktrTFg5TGIrZVJ6QmNxR3pocTJ1ejBMSUJ4ZHp5WXhJK2ZMQ25tMzFD?=
- =?utf-8?B?RGtKdTRXV3R2TW9oaDNrbnVkM011YUFiUXVXZzA3YldYUzVpTVI2Z29pUEJh?=
- =?utf-8?B?aC85amsrUTJuWjBicjZTNXFFQm1ycGJpRlpPODRuY3ljY24vS0UyTzZPZTJ1?=
- =?utf-8?B?clpGVkNLSTMvbkRNNHo3QzcxWVI1Z3QyRWxuS3o4NlhiOVpaWGlxUjczK0Rt?=
- =?utf-8?B?anJaSGJOQWFQR3ZWWEgxa3VEN2NvZkd1Vy9SSTg2RmNka1RNcnpPajZxOXdQ?=
- =?utf-8?B?Z2wzbjRBWjZwR0hyZkFlQTZZa1pmbkk4R2tlaENxQjFXVERpVDVqdDJFUHNp?=
- =?utf-8?B?ZzA3eU0vRlcxd3BHaE9yV3FYb0VCZkZObXlmeEkwNXpMbVRxczJhOHZGNDhi?=
- =?utf-8?B?WHZqTjdsd0NvSU56R2NGbHNPdFgxSGJaWGVRMFlyRVZLaDRYS1ZvZG5ETmhN?=
- =?utf-8?B?VkdBVkdnVVFUbHU5eFQ4MytjNmRjbmxpZ2I0MkVxRllPeTAwc0ZoZFh1VkJG?=
- =?utf-8?B?Tm1RTnc4MEkwTVhyTkZIa2tvWFlKNC81c05QZXRYRlFhc205MnphSm1kVTIr?=
- =?utf-8?B?SEZKTU1wOWRIOTRIcnlsaHRydTdLUVZnNlpONHNVM3R5T3JkbzE4NERIMnE3?=
- =?utf-8?B?NVNkUWs3SWEwMi9iUjRqWDJINktBMklBVmpvK05kMjgwVEtOZmRuVFl4Wm9R?=
- =?utf-8?B?akUzeDJPQzRIQlB0bWlhR05yN1Y0dEc5ajF3cGJQRmVCT1ZjNEJUK05INzBO?=
- =?utf-8?B?aHhjTFdMTlRNbUI4ei9sN3FtK3dKT3lld2Zad2FOTFIrMGNKUS9sTlZLYUFI?=
- =?utf-8?B?eSs5clg5TTRHeHpnaUlJSWFnN2lvR2VnYTN1NWY4d255SFU1dU54Q0tsSWg1?=
- =?utf-8?B?Qk4wUFVYVW1EZGwrU01idTROMkk5TEp6OCs5WTQwY0doUVdvbEZpWnVjdUN1?=
- =?utf-8?B?UVR1SFdRUHdEY2p0aTJBM0VNUGpkZUw2T1cvRTdvcWE5c1NNZDFkcFVtMmRF?=
- =?utf-8?B?RERDRVlMNFpHMlF5M2pFYkllOFJ6dDFmR2pNdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(7416014)(1800799024)(19092799006)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OWJLYlhLZ3JGSUQ5MjJ4RWU3U2dXay8yK0JFQ2U2VnFNa1kxa0pSaW1waGF2?=
- =?utf-8?B?T1YzeWt0dis1N3BhT3BSa1MwOUhaR3JmS0I3RDhHVlpIWXRGcWZTMncrZjc1?=
- =?utf-8?B?Q2RGdnpjY1Znc0ZXbitsd01adUY2VngvVXhNOFc5Q1RGbjIrYm5EN1ZPTmlw?=
- =?utf-8?B?cVYzZ0c2T0FiNmlTNC84YmNmWkMvTTBUQ2doaFROWVdvcnppWTJ0ZFNFbnZ2?=
- =?utf-8?B?RGlxQU01WXlkM2dhdG9Qak9UTndzTkdiQ1V0L1JSbWk2ZmJsYkNCVDFrbk5s?=
- =?utf-8?B?MXkyTk9SU0VKY3FiQUxNZkt5MmlaUXhPSnNxT2cyLyszKzB0M1JadmlIcEdI?=
- =?utf-8?B?MTV4RWh3RG0wZSs4eTJ3cy9GSjlHblAvbitaNWFwYTQ1cHUwRk1UbFRORFFG?=
- =?utf-8?B?QkN6ditaR0dQcTBLMW5RM0lRK2ZMcmlMSFNsbWVPQXZuVE9mNmY2UlU4NFpn?=
- =?utf-8?B?YUE3U3A3Wkt4R1M0dWlnVzZFYk56bCs0eVNLNVYzblBRTTJkNWw3WjJNNlUx?=
- =?utf-8?B?WU5iK1JoM1ZneWU4SkdCZmMvbThEd1lUVVBXOUVvbE5VVGU3VVhPOEhEOEhu?=
- =?utf-8?B?Z1FIcWI1NlJyRHVmRFI1QjhUYURNVGliOWl0ZUVSbjFsbHBTMkRVN2w3NXd4?=
- =?utf-8?B?SnRnQjZ6ZzYrNHNPN0dUYlNzZmNCTEhUK0VBYngxZXl2MmFPMHJHWFNjVEpP?=
- =?utf-8?B?elZ2WTZ5Q2F4T2FybnZJM1BhZHJtV3ljMUpXbmVXWk1ka084emU0dXUrNWJU?=
- =?utf-8?B?dWJJcnJlWjUrRy9FNVdBQTBlVnlWY0xzY1I5YjdWRVNlNWVqSFZhWmRGTm1j?=
- =?utf-8?B?VXF3Z0FxOW1UTDF3Z0hyYmZHQTJqSHkzUWNuZnVqU3dmODNabnVzOUkvbUF0?=
- =?utf-8?B?bFlpSzNqUkwvMmtRaFl1dzBnMnRWRE9lVFUvNVlVeFlIaDdiUVEwWFhBeFBU?=
- =?utf-8?B?Q1RpNDdlSGdVY3VTVk8rRFJBaG9FRCtDMC9Ob0FhNjhZU21ic3JWWVl2UDJk?=
- =?utf-8?B?WXdEenRhK3VPQklSR2M0WU5raVRBNm0zMVU3NDgvRW0ydFE0Y3JCK2l6eEQ1?=
- =?utf-8?B?bzN5NnVyRDZKczc0MEtlOUpxQ28vcnhIT1RHVE5aN2JjbDh1Ni9nKyszcHdR?=
- =?utf-8?B?MzVDNko4MHVNSGlPZU5KVE5STVp0YWZMbG5qWDBFak93M0tIak9KaEFYN0Rh?=
- =?utf-8?B?K2ZBaFFsTk1Ja1M4WmdXWUJ5RlB2YnJhcUllTkg0ZmEwaGp6ZXI0VXhYVVp2?=
- =?utf-8?B?cTEyb2p4blNwWXU1TjBDbDMrb2U5aFBYa0tYY0VsMCszR0dnU2R2N2E4bmZ3?=
- =?utf-8?B?YnZlWDZpdUwvaGc2MnBVTFVnREZkZUc3ay9UaG1vS1p1TEs2L09hQ2VQNzBF?=
- =?utf-8?B?VnorYndOa3I0am5MNlFnOGpidUlWNjFaaFZtU3pjU0Y3bmhxVjhRcXBNZzMw?=
- =?utf-8?B?UmF2STljTVNGamFtWGVMOFdzZGdJRUk1K2tFRjltbVJSbGxYdTY1ZG13TzFI?=
- =?utf-8?B?SXVVZXNJTzRRVzhYMnk4d09ySWdTZFFJODcyczJ2MzZ4NVRNRHJYbDdLNW1t?=
- =?utf-8?B?UTZOOUF2QnZaS3gvM2hRWW1YVERCYTN6WW5RN3dIWDhqYTFLMEF3QUJic0ZP?=
- =?utf-8?B?a0lhazllV05TRkVsRnZHL1N6dlh4b25wRDM1Y3hNTG1SR0xQWUxORjM2cFZz?=
- =?utf-8?B?c0I4UVRXRDcvaGlody9PanpHZ1I2blZxbC9ORU9CSDRIZlAybnArVmxMN3Vj?=
- =?utf-8?B?QkkrWVo3NXJjQXdpYnB6blFMQU9rQjNPb2huZUpEazA5cE52RFV2bTN3TW1a?=
- =?utf-8?B?U2d1NGNLY2lPbFg5bjVFS3VRRU9aeS81SVdVSFJ5eEF1aERBVFYxM3pNRTBK?=
- =?utf-8?B?dlhCY2JoeGRKYjdrQjRTWGVtNTczbVVQRVBHNG96KzI3Y2xNSDc2YVJlSkJx?=
- =?utf-8?B?WHZOVldPZjlXMWlRcE5hdFFDTkxIWEpwWVorVFRFamh5bnBOcW5VZSt2b0tX?=
- =?utf-8?B?M2JvU05WY05uYzhtWS9FOVhaWGRqdmV1NVhjVnZ0cHpmcldQd2x5cFg2UmQ4?=
- =?utf-8?B?R3A2SXpBUjRpVm5wWklCckh1VkVRSmZxdzdnTEw4L2ZFbGdReERFSWdRaldo?=
- =?utf-8?Q?sQRsHChp/udB+OjtXnEgLu7m3?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2d15870-caea-43dd-dfa6-08de3e4e1d38
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 15:57:15.4442
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yreKFOVxsbtD9/EU0TkAJOkvfL57Jq1Ter1Kcs1omXg7IzMwVAXL9eBjzOXrQiCBOHDmdMtBWtAPjXijwxuEig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB12130
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEp6-0iuJNDM9hdU3rWns=Vst6Ev1iyNim1ngRH3Z44CHwTAg@mail.gmail.com>
 
-Using new API dmaengine_prep_config_single() to simple code.
+On Wed, Dec 17, 2025 at 09:55:01PM +0100, Loic Poulain wrote:
+> Hi Mani,
+> 
+> On Wed, Dec 17, 2025 at 6:17 PM Manivannan Sadhasivam via B4 Relay
+> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
+> >
+> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> >
+> > MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
+> > auto queue the buffers for the RX path (DL channel). Though this feature
+> > simplifies the client driver design, it introduces race between the client
+> > drivers and the MHI stack. For instance, with auto_queue, the 'dl_callback'
+> > for the DL channel may get called before the client driver is fully probed.
+> > This means, by the time the dl_callback gets called, the client driver's
+> > structures might not be initialized, leading to NULL ptr dereference.
+> >
+> > Currently, the drivers have to workaround this issue by initializing the
+> > internal structures before calling mhi_prepare_for_transfer_autoqueue().
+> > But even so, there is a chance that the client driver's internal code path
+> > may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() is
+> > called, leading to similar NULL ptr dereference. This issue has been
+> > reported on the Qcom X1E80100 CRD machines affecting boot.
+> >
+> > So to properly fix all these races, drop the MHI 'auto_queue' feature
+> > altogether and let the client driver (QRTR) manage the RX buffers manually.
+> > In the QRTR driver, queue the RX buffers based on the ring length during
+> > probe and recycle the buffers in 'dl_callback' once they are consumed. This
+> > also warrants removing the setting of 'auto_queue' flag from controller
+> > drivers.
+> >
+> > Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
+> > So only the QRTR client driver requires the modification.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffers for DL channel")
+> > Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation")
+> > Reported-by: Johan Hovold <johan@kernel.org>
+> > Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldconsulting.com
+> > Suggested-by: Chris Lew <quic_clew@quicinc.com>
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  drivers/accel/qaic/mhi_controller.c   | 44 -----------------------
+> >  drivers/bus/mhi/host/pci_generic.c    | 20 ++---------
+> >  drivers/net/wireless/ath/ath11k/mhi.c |  4 ---
+> >  drivers/net/wireless/ath/ath12k/mhi.c |  4 ---
+> >  net/qrtr/mhi.c                        | 67 +++++++++++++++++++++++++++++------
+> >  5 files changed, 58 insertions(+), 81 deletions(-)
+> [...]
+> > diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
+> > index 69f53625a049..0b4d181ea747 100644
+> > --- a/net/qrtr/mhi.c
+> > +++ b/net/qrtr/mhi.c
+> > @@ -24,13 +24,25 @@ static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
+> >         struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+> >         int rc;
+> >
+> > -       if (!qdev || mhi_res->transaction_status)
+> > +       if (!qdev || (mhi_res->transaction_status && mhi_res->transaction_status != -ENOTCONN))
+> >                 return;
+> >
+> > +       /* Channel got reset. So just free the buffer */
+> > +       if (mhi_res->transaction_status == -ENOTCONN) {
+> > +               devm_kfree(&mhi_dev->dev, mhi_res->buf_addr);
+> > +               return;
+> > +       }
+> > +
+> >         rc = qrtr_endpoint_post(&qdev->ep, mhi_res->buf_addr,
+> >                                 mhi_res->bytes_xferd);
+> >         if (rc == -EINVAL)
+> >                 dev_err(qdev->dev, "invalid ipcrouter packet\n");
+> > +
+> > +       /* Done with the buffer, now recycle it for future use */
+> > +       rc = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, mhi_res->buf_addr,
+> > +                          mhi_dev->mhi_cntrl->buffer_len, MHI_EOT);
+> > +       if (rc)
+> > +               dev_err(&mhi_dev->dev, "Failed to recycle the buffer: %d\n", rc);
+> >  }
+> >
+> >  /* From QRTR to MHI */
+> > @@ -72,6 +84,27 @@ static int qcom_mhi_qrtr_send(struct qrtr_endpoint *ep, struct sk_buff *skb)
+> >         return rc;
+> >  }
+> >
+> > +static int qcom_mhi_qrtr_queue_dl_buffers(struct mhi_device *mhi_dev)
+> > +{
+> > +       void *buf;
+> > +       int ret;
+> > +
+> > +       while (!mhi_queue_is_full(mhi_dev, DMA_FROM_DEVICE)) {
+> 
+> This approach might be a bit racy, since a buffer could complete
+> before the alloc+queue loop finishes. That could e.g lead to recycle
+> error in a concurrent DL callback.
 
-No functional change.
+I don't think the race is possible as we just queue the buffers during probe and
+resume. But I get your point, using mhi_get_free_desc_count() is more
+straightforward.
 
-Tested-by: Niklas Cassel <cassel@kernel.org>
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- drivers/crypto/atmel-aes.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+- Mani
 
-diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
-index 3a2684208dda9ee45d71b4bc2958be293a4fb6fe..e300672ffd7185b0f5bf356c2376681537047def 100644
---- a/drivers/crypto/atmel-aes.c
-+++ b/drivers/crypto/atmel-aes.c
-@@ -795,7 +795,6 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
- 	struct dma_slave_config config;
- 	dma_async_tx_callback callback;
- 	struct atmel_aes_dma *dma;
--	int err;
- 
- 	memset(&config, 0, sizeof(config));
- 	config.src_addr_width = addr_width;
-@@ -820,12 +819,9 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
- 		return -EINVAL;
- 	}
- 
--	err = dmaengine_slave_config(dma->chan, &config);
--	if (err)
--		return err;
--
--	desc = dmaengine_prep_slave_sg(dma->chan, dma->sg, dma->sg_len, dir,
--				       DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-+	desc = dmaengine_prep_config_sg(dma->chan, dma->sg, dma->sg_len, dir,
-+					DMA_PREP_INTERRUPT | DMA_CTRL_ACK,
-+					&config);
- 	if (!desc)
- 		return -ENOMEM;
- 
+> It might be simpler to just queue
+> the number of descriptors returned by mhi_get_free_desc_count().
+> 
+> > +               buf = devm_kmalloc(&mhi_dev->dev, mhi_dev->mhi_cntrl->buffer_len, GFP_KERNEL);
+> > +               if (!buf)
+> > +                       return -ENOMEM;
+> > +
+> > +               ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, buf, mhi_dev->mhi_cntrl->buffer_len,
+> > +                                   MHI_EOT);
+> > +               if (ret) {
+> > +                       dev_err(&mhi_dev->dev, "Failed to queue buffer: %d\n", ret);
+> > +                       return ret;
+> > +               }
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
+> >                                const struct mhi_device_id *id)
+> >  {
+> > @@ -87,20 +120,30 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
+> >         qdev->ep.xmit = qcom_mhi_qrtr_send;
+> >
+> >         dev_set_drvdata(&mhi_dev->dev, qdev);
+> > -       rc = qrtr_endpoint_register(&qdev->ep, QRTR_EP_NID_AUTO);
+> > -       if (rc)
+> > -               return rc;
+> >
+> >         /* start channels */
+> > -       rc = mhi_prepare_for_transfer_autoqueue(mhi_dev);
+> > -       if (rc) {
+> > -               qrtr_endpoint_unregister(&qdev->ep);
+> > +       rc = mhi_prepare_for_transfer(mhi_dev);
+> > +       if (rc)
+> >                 return rc;
+> > -       }
+> > +
+> > +       rc = qrtr_endpoint_register(&qdev->ep, QRTR_EP_NID_AUTO);
+> > +       if (rc)
+> > +               goto err_unprepare;
+> > +
+> > +       rc = qcom_mhi_qrtr_queue_dl_buffers(mhi_dev);
+> > +       if (rc)
+> > +               goto err_unregister;
+> >
+> >         dev_dbg(qdev->dev, "Qualcomm MHI QRTR driver probed\n");
+> >
+> >         return 0;
+> > +
+> > +err_unregister:
+> > +       qrtr_endpoint_unregister(&qdev->ep);
+> > +err_unprepare:
+> > +       mhi_unprepare_from_transfer(mhi_dev);
+> > +
+> > +       return rc;
+> >  }
+> 
+> Regards,
+> Loic
 
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
