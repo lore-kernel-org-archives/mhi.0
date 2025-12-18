@@ -1,95 +1,40 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B27218A6A8
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 01:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EFB1DDF3;
+	Thu, 18 Dec 2025 04:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766020349; cv=none; b=an/y4P9VbJlkerayrTTw6XM4zZKBZ1bBMtk/v6DLi+qWGgSab9G+bsR0yvBon6KZTbay5slNzP+lkVUEMjRJSvt/UigioihzJI8Umk6e8O4MK7BrfkiGPXv5Cumei2d/xleI1Yr1O7E0xU3rKxL6K++Jc49NxSGl7LAWDyf6aRs=
+	t=1766033721; cv=none; b=gAKfSciBWKQ9KudKxJf8Y3/gONayu9o6cCPA15A4+sVo0Q6coG7VCFTLQFkmWaEXt8abUCnGwEB4ta39ADib4XOwqXd+gRNURvnV65c5hLo4k3hJdg6vtpOwKezC7Ns25AzIXxHdYYK3SSpOnW2beenp8PTq8pU+PLLVQl5vdGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766020349; c=relaxed/simple;
-	bh=Y4TyTIsFo5TNWzPCic1t9bDHpmxhm37tqGiar4U6sp8=;
+	s=arc-20240116; t=1766033721; c=relaxed/simple;
+	bh=UyPTL14U+hw+t/Pe3DGdEDzlW0DaRoR63DXTIGqmkVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AjQmvfZhEWStsYbyvsVFB0tkCtbI56TnON90Pj2jgaRrQ2Me5igGFWK/LH9C3MNYYVeDJH4tyVgXrE0Kb4i/ksEnnNQqVEyJrqv6u/oKykv2Ecl1DQRMIqufz+6ICeFiNnjwHQUj+n71Iw/0JqiHpx62RbYbNYi+YvWosfIQQMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K8nbjL5B; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BpBU+J24; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=l6xC7bamHc6BKUOiLd1ti9/UNGzPyhwd0oTC13KBC6ZExDoGgCs9RArULGKfvdhIJOi5PO/MKIpi8a+FB/7ocZZDiTEMGHknQgg1SkhKuUC0mijYxNlBC/lsH6yuhZYvdiOjwYz+I0GsroRNYBVSHdLHhw1tt7hn2WX5vPEiFnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bT+946dU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K8nbjL5B";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BpBU+J24"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHJAua03353853
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 01:12:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	cQpcDrWvWGuGEEGm5cPAadKFMEAEj3hk/I/dFPvJL+o=; b=K8nbjL5BaLTF6Pvz
-	XwttAHkLtTP9/R6MUyUVRbMUqI9oLJGztQqiXx443lhr7THY1g9pHs5IduJdJeND
-	mCq6WDnj0wRnAQNL8s+1CpTXFC+g0qdlEW5j4jKqbQtrJ5nOnOPLnTcdah/LAqgO
-	OQWPwThyNHkNKkB+uM9mtx5/gU6lH7Y41FTYpW2/pr6Purna6lVKjdfrPEOar8hs
-	u32Qgo2yLwT7MKgSNJqPZn6Hm8/kRHU3NIq8gRgq7efcdWgpbFAJ5ScbD0tfN5po
-	5SfNQiSZ/Gk54wAZSYJjZaCQxuqCQRpbuOiQ61OI0HKI66F+LS4wF9m/TENu/iiZ
-	AsZsgw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b40u795mn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 01:12:27 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4ed6ceab125so2567901cf.1
-        for <mhi@lists.linux.dev>; Wed, 17 Dec 2025 17:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766020346; x=1766625146; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cQpcDrWvWGuGEEGm5cPAadKFMEAEj3hk/I/dFPvJL+o=;
-        b=BpBU+J24VOge4/nyhWwszRQKbZrmOe0SYLyreEtlRrad6Sf35+fcC0FueS+TjWK9IT
-         m7KgcG3KOcT+aZh5CT/9qNaRl4Xc/TKre4yaAbfqplSEvjSk/LFc9pre+NmVdO143568
-         fGdTvRkvOFVzewXNpCHDfceX6oKDLAkg3Ii5nM4u4squQGVZ495BZfjdMN4XhfG7V1u5
-         YCtdvexwpmPKrLS15H2iXNuoWFjqlPsNdBEYKwzBayd7j94wZynZZE1XbhqLoBC+r2Xl
-         KHdKzp1eWoDszsFWWqtvQBWgrbRRqbYXIfSJRmKUKuqrRx0RxFM7ppcrzjU1L8oQI4cj
-         g87w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766020346; x=1766625146;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cQpcDrWvWGuGEEGm5cPAadKFMEAEj3hk/I/dFPvJL+o=;
-        b=I3pxkSUqKarttD5+tEQZbtKguUthQH2w3qZg+gY8Fl3D6xBK4XGf12tzcNmWqyTBmv
-         UPmeLbJ6xQ4lQbqXWmSXs9jXOQFHcNXTy0tDMoHrFlF4HTJ1IvqyZO7HsDVI/AiRe1b6
-         8jfzf9CZdB5T/AvRuAmGT/AvnPFITFvw07bmFaQrkbMVp5P+bKMcMJ4mNQSseXwWjDjD
-         V0X0Kn/e0RR2rrLHbMW/weXfaEnqKh2IYFLQKFUXN2cqvGpJ6IBxQD/5rLdX3/vO8C1g
-         U/ugduXLeRQEKFv3fqQbkCu+im7pEGv71q0WeSPnK2xduaUmHsvnx1MVDIwtG0166Lwd
-         yj9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVU6IKA4i8PyQCGt1uTwyN3cuElP3NwAAExtZ7b/mFReYXK4ufJdLI8eDjegWCXz/Y38LQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxtp+PSaXpsiAaqHcntxf09e9/ShifdwNqYWXvfoXreWQ5YVKTx
-	i+j+ymLfD06Bm/MCcX7K5QfDoix9ZJyppBFT4gyoFf5qMevhieEnVCcssq68aHxaYELFDKmsNkN
-	+SLOkZ8fDi0OdsOskoG5yYVpIuuxtMLV4vQCbMHOtFHygLiXLcbKzICA=
-X-Gm-Gg: AY/fxX7iwPuWqBXCx+MMKtu+Xrc40smYGuaAxdiMZLwyiYEWg1xn2l14sblYEdc2nqe
-	fhquQYyX4sC42hMbY7IGjbdPXycXjwkUAjXU6RDvg9GYL6bZyOVx18pdU1q4oxMKBBDuT7H74oq
-	trnnORRNWUhyWzeWizONZFMFQY9TQJKXfYy6tFBJzN803an0ISD1+U4RVtQghVHn5iBvqUT/AGR
-	h+TpNWET8KVPLksPEOOm5y7RZQM4PzsgbdGmW6cPkXlj2ORbVShSWWvPDWWYwSvun/KxMirHfbg
-	6Q7SVzbdX6abarrYRQrdqwXK1+wE36BXpvEeaiCCcsUlvFQ35527GA8aW4OiDxWLyrfP8BHce0r
-	tX4v87H5fnQ2qW291zVvOci3ZEZLDaPLhh/vv7y1vOsHw/Kx7aGreLtKm+6+AzY5HcuI6l51hzk
-	uXNzXquDVwwubgBk+tlYYnRQs=
-X-Received: by 2002:a05:622a:1b9f:b0:4ee:1f09:4c35 with SMTP id d75a77b69052e-4f1d059d2d6mr275458711cf.52.1766020346352;
-        Wed, 17 Dec 2025 17:12:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHojaV5KkWTCATeCWAuTEmXYbTlomD6gCquL7HOFNZEfq+N9uEgyZmbPbOPEKInOA4ewBCR5A==
-X-Received: by 2002:a05:622a:1b9f:b0:4ee:1f09:4c35 with SMTP id d75a77b69052e-4f1d059d2d6mr275458431cf.52.1766020345909;
-        Wed, 17 Dec 2025 17:12:25 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a13506cdcsm394406e87.92.2025.12.17.17.12.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 17:12:25 -0800 (PST)
-Date: Thu, 18 Dec 2025 03:12:23 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bT+946dU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5D0C4CEFB;
+	Thu, 18 Dec 2025 04:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766033720;
+	bh=UyPTL14U+hw+t/Pe3DGdEDzlW0DaRoR63DXTIGqmkVc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bT+946dUm2+hRPSBtacIk5I3HvcLq4p3CJigezo0XYY5fgplPgjedY8DPSuDaU8ZB
+	 v2Ux4jdC7TPhA92OaMD1LSBF/1a46aFC2nWTzIcfTGQqveppids3lH3AAxDen/HFsc
+	 iGSu/Z5pTgF+zSuiYRwaEXkReTNT8pCWr7mIWLrfnaQugIu/8bK73vHf6WPda3j7Xi
+	 3vpsLHRfR3GDWkuuUTSTaRmJcUrtz8hKHH59c2bAcZp7YsGC1pZkLDViZZS0DKctxE
+	 HK/X5tns+jfO7TNSxup6IY4IlrBxKlZcpTeRgeZ+HY92cl1uNTyESxfNexhNzv3JEh
+	 A6H8nxwvLpFdA==
+Date: Thu, 18 Dec 2025 10:25:08 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
 To: Qiang Yu <qiang.yu@oss.qualcomm.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mayank Rana <mayank.rana@oss.qualcomm.com>,
-        Baochen Qiang <quic_bqiang@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mayank Rana <mayank.rana@oss.qualcomm.com>, Baochen Qiang <quic_bqiang@quicinc.com>
 Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
  functionality
-Message-ID: <6276nut6ro5xh2pt734k4z2z3lpxmkffjjh6wwpvwuy2lldowc@soojtr77xe4z>
+Message-ID: <gpfcofdq3yhudisyhgu5r7rjwc66bxdjvbj7vyyrgby77uxs5u@mfkxgck3ll6y>
 References: <aTZxrhpYhoOP+VDz@hu-qianyu-lv.qualcomm.com>
  <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
  <aTqQyPJaV+KrIMOj@hu-qianyu-lv.qualcomm.com>
@@ -110,28 +55,6 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <aUEXwbuTEvV7Y6I/@hu-qianyu-lv.qualcomm.com>
-X-Proofpoint-GUID: ps_FLG5b2lUwV8JzCL-B0aHDzridKvTr
-X-Authority-Analysis: v=2.4 cv=Z8Th3XRA c=1 sm=1 tr=0 ts=694354fb cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=lSwTuEAEjFTJ6uFEpMwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: ps_FLG5b2lUwV8JzCL-B0aHDzridKvTr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDAwNyBTYWx0ZWRfX9IkTWYFmNEJl
- Tc+L41Q0I8BjnqD8EWLWdkxHZOKDpK36xbRNJXWGWeb9/2TK3k3tDXqFVgjSOBdTyqasM6uwwrl
- m5f7Dx9ZGh9psqsPwZg8NFN/uhNB1ECcAgpPQtsUxA52e05ihSVfgonPN6/qY+YEUldh/iwOj4e
- X5pJftOGoagzcQh1cChqsJ25w38P7ZtbrCma7eXoryj8FjmmD7ZKkt/MNywinRSWri6/a/i/gce
- MBv9EMEhIzQjr5DtXLKowf/z/yWjpL8BF1wWsXhDvCt84S3mZu6PSRp76vrFEPqd4JMSOnOMe3h
- K1LK80Re7uB8ucsUnpoMOk4AX2WKeUhqHvrIyYCBFijVGW2zkLl8zU9dar0LpOXpYB0GaKMdmNT
- VRH3680hHzBL1lyi3B0y8iKdgQMhNQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180007
 
 On Tue, Dec 16, 2025 at 12:26:41AM -0800, Qiang Yu wrote:
 > On Mon, Dec 15, 2025 at 08:41:32PM +0200, Dmitry Baryshkov wrote:
@@ -233,17 +156,6 @@ On Tue, Dec 16, 2025 at 12:26:41AM -0800, Qiang Yu wrote:
 > │  │ WLAN FW Segments            │   │
 > │  └─────────────────────────────┘   │
 > └─────────────────────────────────────┘
-
-okay. This should have been at the beginning of the thread.
-
-So, if I understand correclty, beforehand WLAN was a raw data and now
-it's wrapped in ELF file. If I'm correct, then this might be a
-definitive name - .raw_wlan_data or .elf_wrapped_wlan_data (up to you).
-
-Or is it that previously you were skipping the ELF header and just
-sending the subset of the contents of the included ELF file?
-
-
 > > 
 > > > 
 > > > As per 'TIS and ELF' spec v1.2 Mani mentioned, the previous image format
@@ -277,15 +189,16 @@ sending the subset of the contents of the included ELF file?
 > first 512KB of fbc image) is loaded over BHIe and also authenticated by
 > TME-L.
 > 
-> - Qiang Yu
-> > 
-> > > 
-> > > - Qiang Yu
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
+
+So what makes it different here is that you are now sending the two FWs
+separately as standalone ELF image to the device for authentication by TME-L,
+but those are combined in a single image file in the host. But what makes you to
+combine two images in the first place? Why can't they be separate ELF files?
+
+I think you can avoid the hassle if you could just have separate ELF images for
+SBL and WLAN FW and say that the TME-L just expects individual ELF image.
+
+- Mani
 
 -- 
-With best wishes
-Dmitry
+மணிவண்ணன் சதாசிவம்
