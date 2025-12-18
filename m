@@ -1,69 +1,73 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501FB2DBF76
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 20:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269282E88B6
+	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 20:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766090573; cv=none; b=XAODdMdPnezzZ07c07UtWGI53t7ybTZgX+CM/rmSGGof4gEgQ3vGVu6Wu/0pJp23OnQQGYVO89ARuEU4m5SHP9czq9IubZMYMNPl9k+t0UvUlHqEM/MrgD+CNLZG59gRZlK3HnfHAetnj7TqQ7lbKRxygReDAmYPAE/CH5DlTcI=
+	t=1766090574; cv=none; b=iZkPtjeWUhjYK5sC/E66dsVEiVFLajeQcx6mw/+UiEVemR+DHeo4PF2dZaS91FKYhcyMgmQZPADG7EVIsnKeRuMdmLzTA1D8sbPhmGuJDY8U+jLnXqb8+JCbJ+IuljCkdzulH6z8FVGC+LPZd5BzwZLfIImvCGVrhOd0fWuQohA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766090573; c=relaxed/simple;
-	bh=dNB0PmhwKvuRZNdhHI14coEX6jfr7lJJHEa9kfva6WI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MVfX45b1JIBpDNViLNWW4LC9RfgMYLDE9dPp/bgSaz0amVcN3H+05MsDzY57cHRydUSdPvDcrJtyW++oTD+zur61tcXALqDn0wIwJSvTUCOKzXdua0e+z3qF5kqj8uAlJGrNAs4W2+73GreMc/JkBbdV1b0+iviSZPEZ0nZiZfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZLJhDxv0; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1766090574; c=relaxed/simple;
+	bh=TfNoqkkmLOkqz2jYFrsq7Qx2WYAXW9MRzz4s7xDFcFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tt+eW5fkj9OViXlDHXrOYs3rZ2ytxKVTj67Ax/uBs64/dTeDIlYFqRFfjjRHhzU57cMa3FsOoGOErN9S18XUtb0/A7zbaLP5jvtmWieo+Mk/neIZ/CzCHunAnqc5P9pj7bypzGFgEAhgv6eqKnIwDAXdbZDa9EnwLnaT0pafFUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=hFA+D3cY; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZLJhDxv0"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6492e25cd7eso1623440a12.0
-        for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 12:42:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hFA+D3cY"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64b921d9e67so214721a12.3
+        for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 12:42:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766090569; x=1766695369; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7XAkArI8TaofBn2k+TSYsotM1G/lLreSd7Oyuf53cT4=;
-        b=ZLJhDxv0RHQ1np30VNSCQeW+Xoc2Rq1vesEaYSpEbW4d98QBjcm3dZ6aV3ct5gCdmU
-         CkcQFSUnW8VO/aE++Zjhg01kjtdOzJu3PKzB3HbsIL5FZGQTf6PWLE/Jdhpl1Z+FciCK
-         AK6icnduTugKsIxhtQH7d4xsHDSVoYHifBmat0VQAbmtEiK5tYfG/CeBsI2qu9ISOKQy
-         yfgilpNdaojAo66Wl9vrtQTMEozjvisWMo2AoPdUlufiHwjvYKt9S/rQA+WTEzE5WS5l
-         IN+pvqUI23wMXPeSejcOCYRRHZ054w1YkRkRb47onezN6A5P9KhiwW3wamLSMvXv67hx
-         IESg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766090569; x=1766695369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766090570; x=1766695370; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7XAkArI8TaofBn2k+TSYsotM1G/lLreSd7Oyuf53cT4=;
-        b=WzciSeYw2tkQF2QqS4vVLXBux6Z+8pNeJ59GR+T3fqzQUdozT8aPdSlgCneuYF0iEY
-         pWA6HBDOi851x+4CNCDXxSU+oXI9mL+UHnW13pkibld8T+IjzsNStA5iZ7MvbIJRJWB/
-         nhjBmyXezZ6+AH4TEDfUfZvGO+haszdlbeSBRn78hW3moyPwFMzfk6+LE0t6l/cE96fu
-         ZknFlWshTgxC0PkuR4IflfNEyBe/vhUsf2pfY23/IcRu9EQ3ON8hVQUziINwqJIW2qGy
-         zioCxOPqSai3sFLqRu/zXIDy6D6jolxWk+LyLuLvKIzf6XTxIlguaq6cltB6GQczMZGk
-         5E+w==
-X-Gm-Message-State: AOJu0YzhXUO5KeFqUvj4KU21rRkNO1qShlrfsYH8GnvP4OFN1YlB8quy
-	TFSTS4tXkrUpt46Csepl8/PlLkqgiSGJ7Pxdcpbg5JpD0YeAC7YnlpfNJmdw7A33qP4=
-X-Gm-Gg: AY/fxX7GYwxlOVkuun4X6O2wdWd1JFtj20mSabpwOIGHxkYrdfdEVPqKdyaH7pOguLU
-	nRMjhFgkG6aM9pwFwVPMLFjBLXJC5rZiWzdAaOo6lj4gdVynPj5CFvEoGvADoS8NAdReVgPg1OU
-	HGfo7X++C3Q8RjP1kSuwu7vJvStxh8BXVK4GNClMq5Fmip3A3jh3iPPNrwcNlIHY/lnIslGOtuB
-	q0U9nYIt33OIvCXwG+bP/7WRwP8iiy6408+WJnN4/5r4h2Ssp+ragxzVDpn/RZYD19H8lPWCVCE
-	bj2xy2hI90RL5GJ7osz9CpUg4cdNpps4qM9FbQu7lFHGz6pKEZ/ngelLwqlnQy68vZgMurgNSIe
-	FsKHNxXOEeaCj5z7wqLS0vC4x/KktCmBDvbEaJ3bUaOJFkB0Lsf+jP/iSqi+DPiYLiIe88i7yXd
-	U/ADzVtAibwgZFvXmL
-X-Google-Smtp-Source: AGHT+IEV+YY07VOnpvPuBNpIWqe8uuKBpuHIeLgJMdjAizzdhO4CYKl4vVTvwZlrlL1Cjns9PjC6vA==
-X-Received: by 2002:a05:6402:1bd0:b0:640:92eb:aa24 with SMTP id 4fb4d7f45d1cf-64b584ec823mr3000252a12.15.1766090568601;
-        Thu, 18 Dec 2025 12:42:48 -0800 (PST)
+        bh=AWySTvtz3dhKwkxiZm5piaCDgiFtDwfMFqwVYzPw2jw=;
+        b=hFA+D3cYnoRMpApWPYytImz8H0gloylUCdxjygtlITSzWhGfvMtYNNjNSek/NJhxec
+         1zjqHprSZTJd2KXdHohTLCS+v32gkm1YwtD+yK/MHufS2+8HQcu9qkEMgIVgqEUmEOz/
+         2NzQjBrIQSyJ4HX1XwN7h98gBc5joErFwOLtxbL/ZPirekmGtnkQfxB8Naov2cCSE2V/
+         6Thz3wfgdj0SaoIuy+lsUSCQSXcdyURc2ETges+dGrT7AbetUFnaO854Ozjq4DtZvm3o
+         14TMe7befWdscHk+to95QxNDDyClyUqoujnMt+/i4R9TOlAXEDkppvD7VIkhy3eQbikR
+         5OQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766090570; x=1766695370;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AWySTvtz3dhKwkxiZm5piaCDgiFtDwfMFqwVYzPw2jw=;
+        b=KvksFkLkhTCz1vAfDhUEtoah3rt2U4SbBB1CZJaNYrrggckWgQdI3r3dSuFKblJKAz
+         CJMa8+PKWqP68fdEQxfYO0iUh/y9Yp07Z21BuOBoSN68p4ZX3G8zYKMgY4yBYLxUdesF
+         qIi1DakHvYTK6/VMkID65EqGi+9qbERYxgP4F1hc67bv5clVT6sXH/kzppWfKxnpGrmM
+         LasT49rWwmVfLYTTsFF3zlFAkN0O5YM7QK/fAQSkCRX3RkURIpdb68K/UIaihMhgc7VV
+         fyYMdQQw2WbPgPWmaujrfjA/mfb4oMVoBX36NLV7m5zfZGf0HQpDY8GocNG03rqCgIAW
+         EH/w==
+X-Gm-Message-State: AOJu0YywAaokKF0yqBPABxIAEYOwLIHxhiqOcKLOzTfudO5dOblrhuda
+	y4LnPhcMxh572iLedT5uZbZSroNlvbT9hc2MrMacNhp5l93JJD69jh8xHVivyyib1Yg=
+X-Gm-Gg: AY/fxX7MClBZTSmH2gWtTf1YOdpL70K2SYMU/IL8LPEmpVJLGgIPgwWnpguWjv2IJ4l
+	Z+R45L3e8Ff9Py1ucmC4mDqSKXbUkLRQsuK3stnv13x4sA3Nh9H/3cwIml9VDNKkaSN1ayl+pLm
+	V4bLukfsScB6P1JAUg1XXw58E4tGog9tyv8NT7cNRhYK1y4FYJxs1cliyWsHkDdB3TqqeYMIHjJ
+	RTHOuLe7Mp3AOcBd22MSiR38i/NehQO9RWmK2DEUPa93hcscayf98j3wtFOK4wm2dh9GHDrTguH
+	SXvkO0lNonPbLJCZlpEIKPUrqeSFgXhP6eq9BT7N9rAZbQCYVswDPB6ciePwMbxfDaGciDxJoV1
+	BYyezR2M9AfSWxLxCnABp2EtIChaAXDBTuIxDaX+Hf2EukiLaPWDxkFYszJFmiCEAbydXv7LQMx
+	sTp7wvTwJ9dz/gLhg7
+X-Google-Smtp-Source: AGHT+IHMfiMGCf0YoD8f4MOehHnb4tGUdxYLtrvwwgomiu/kgdhz4PIvouWs6MJ5HiEloPqOCQTXFw==
+X-Received: by 2002:a17:907:c14:b0:b80:1309:aa09 with SMTP id a640c23a62f3a-b803718387cmr65389066b.47.1766090570493;
+        Thu, 18 Dec 2025 12:42:50 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-64b90f53c51sm360066a12.3.2025.12.18.12.42.47
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b8037a604f5sm38457966b.11.2025.12.18.12.42.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 12:42:48 -0800 (PST)
+        Thu, 18 Dec 2025 12:42:50 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Manivannan Sadhasivam <mani@kernel.org>
 Cc: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v1 0/2] bus: mhi: Use bus callbacks for .probe() and .remove()
-Date: Thu, 18 Dec 2025 21:42:14 +0100
-Message-ID: <cover.1766090211.git.ukleinek@kernel.org>
+Subject: [PATCH v1 1/2] bus: mhi: host: Use bus callbacks for .probe() and .remove()
+Date: Thu, 18 Dec 2025 21:42:15 +0100
+Message-ID:  <e8032b3c2a8953a4a2b84dfa79a260c35f1d71b7.1766090211.git.ukleinek@kernel.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1766090211.git.ukleinek@kernel.org>
+References: <cover.1766090211.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -71,34 +75,80 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=761; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=dNB0PmhwKvuRZNdhHI14coEX6jfr7lJJHEa9kfva6WI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpRGcodGuNu6gXw9r5SvXhQunS8yvNv4OlMLejO fdPS/d5Ao6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaURnKAAKCRCPgPtYfRL+ TmvHB/kB0tg29WQDJssCLJqss8qXoPXpfrSe231c+rf0BH5h+Byvh3euS+IpTalGRz5XNwuLQzB uHo0PqxwsWyUs34uS49TCQLFRO2L8DU3GeE0Nk0MAIEOMEy+Hpd2cLwJIbhHWObkGimpUfYqG03 AR18qBiVFYFRH/tw6NmodoqZLhhlcYaXsfzXihuIg9B2CkyBT0mrEhXK6xp08IK0peQXwhKtWwG YD3Rfc8N1gSHZ7S1RUAg1DfFvDuFI7kdAelXTUP0DrvfB23RByqUqyGjRLcp8T79qcEpZloWvY2 5nlYerxCB6foAC/VCeowQ6OLnz4CswmmIzPNaOqw6bNih3+1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2296; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=TfNoqkkmLOkqz2jYFrsq7Qx2WYAXW9MRzz4s7xDFcFk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpRGc1lKdzluQ+MGcjj+bu8gTVnx8irr/WtRqhc aBbAW7AN/yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaURnNQAKCRCPgPtYfRL+ TjiVB/4zh5xiU7gbg5Q1jjcD5KNz0Pvwp6ar/mUOA5vbrO2iu2YFA844yhGAa/TqKrIPFsVZK0m H+FvTnFd5reEyJKlqiuGDHqovd0gwYIB7rhJYtGAmGbhPw0ajU3KyUttABkgfgZIA49CmRXaAD3 p7A7Y3PZl0TUTVOJLA+qFIYe8eY7LDx04iNgGFm4iP8ioBrYM9vAReDb3JBVempe5M79O9+cTLJ CvQEft7MoTNRteXpvhFhUsxqYwZ2IeEggnOzc/XuKqhXkwUvu0bRy+mQ+oqdOYDVvSfTQ2DIYh4 tmeC2GXzKM9oWGxZGZtRl/tLFnPh+aJM5CCcZtDFZQ6DMdcN
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Hello,
+These are nearly identical to the driver callbacks, the only relevant
+difference is that the bus remove method returns void (instead of an int
+where the value is ignored).
 
-this series converts the two busses defined in drivers/bus/mhi to use
-bus methods for .probe() and .remove() instead of the respective
-callbacks of struct device_driver.
+The objective is to get rid of users of struct device_driver callbacks
+.probe(), and .remove() to eventually remove these.
 
-The eventual goal is that these callbacks are removed from struct
-device.
-
-There is no intended functional change, the series is only build tested
-(on ARCH=x86 and ARCH=arm64).
-
-Best regards
-Uwe
-
-Uwe Kleine-König (2):
-  bus: mhi: host: Use bus callbacks for .probe() and .remove()
-  bus: mhi: ep: Use bus callbacks for .probe() and .remove()
-
- drivers/bus/mhi/ep/main.c   | 12 +++++-------
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
  drivers/bus/mhi/host/init.c | 12 +++++-------
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index 099be8dd1900..8a0fe09d974a 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -1265,7 +1265,7 @@ struct mhi_device *mhi_alloc_device(struct mhi_controller *mhi_cntrl)
+ 	return mhi_dev;
+ }
+ 
+-static int mhi_driver_probe(struct device *dev)
++static int mhi_probe(struct device *dev)
+ {
+ 	struct mhi_device *mhi_dev = to_mhi_device(dev);
+ 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
+@@ -1341,7 +1341,7 @@ static int mhi_driver_probe(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int mhi_driver_remove(struct device *dev)
++static void mhi_remove(struct device *dev)
+ {
+ 	struct mhi_device *mhi_dev = to_mhi_device(dev);
+ 	struct mhi_driver *mhi_drv = to_mhi_driver(dev->driver);
+@@ -1355,7 +1355,7 @@ static int mhi_driver_remove(struct device *dev)
+ 
+ 	/* Skip if it is a controller device */
+ 	if (mhi_dev->dev_type == MHI_DEVICE_CONTROLLER)
+-		return 0;
++		return;
+ 
+ 	/* Reset both channels */
+ 	for (dir = 0; dir < 2; dir++) {
+@@ -1407,8 +1407,6 @@ static int mhi_driver_remove(struct device *dev)
+ 
+ 	while (mhi_dev->dev_wake)
+ 		mhi_device_put(mhi_dev);
+-
+-	return 0;
+ }
+ 
+ int __mhi_driver_register(struct mhi_driver *mhi_drv, struct module *owner)
+@@ -1420,8 +1418,6 @@ int __mhi_driver_register(struct mhi_driver *mhi_drv, struct module *owner)
+ 
+ 	driver->bus = &mhi_bus_type;
+ 	driver->owner = owner;
+-	driver->probe = mhi_driver_probe;
+-	driver->remove = mhi_driver_remove;
+ 
+ 	return driver_register(driver);
+ }
+@@ -1468,6 +1464,8 @@ const struct bus_type mhi_bus_type = {
+ 	.dev_name = "mhi",
+ 	.match = mhi_match,
+ 	.uevent = mhi_uevent,
++	.probe = mhi_probe,
++	.remove = mhi_remove,
+ 	.dev_groups = mhi_dev_groups,
+ };
+ 
 -- 
 2.47.3
 
