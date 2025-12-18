@@ -1,185 +1,104 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA99F312825
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 19:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501FB2DBF76
+	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 20:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766085008; cv=none; b=Ntl9DDi2qCbt8Y3bhVYff29Gp95G8tGL1z8y7IHolumJ9PNiMnnP9MNUqPfL0EWkk16EpyVS3sMILhpwt4hibKMiBo+L9vxd0NrvdamnxPkhNZ/PpPXotiQAYPUsdpk8exu7a64OG8M9/MN3Bjm71yVkfO5S7FV0I/RVxsxOh/M=
+	t=1766090573; cv=none; b=XAODdMdPnezzZ07c07UtWGI53t7ybTZgX+CM/rmSGGof4gEgQ3vGVu6Wu/0pJp23OnQQGYVO89ARuEU4m5SHP9czq9IubZMYMNPl9k+t0UvUlHqEM/MrgD+CNLZG59gRZlK3HnfHAetnj7TqQ7lbKRxygReDAmYPAE/CH5DlTcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766085008; c=relaxed/simple;
-	bh=dIw8j365ikKyDlsgwjx4WaIiStWEnX4+clh7heSJnj8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TxGDaHvBBzQZjxLfgnpefj7AdoqmZwPtfsxMxY8+/q+k7gM9NvCiDXCqsfDanNCVGrErE16tKe0SwtMIFWM8QhDSTExHlHK371EmsApryV8KZn8XzYhxfs+L4Vlnp0MMiBkT2kic4UFKNse409YqDelx82yGHT6vu2sIRU7wPCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DIC5h6JW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RAdrkq1+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1766090573; c=relaxed/simple;
+	bh=dNB0PmhwKvuRZNdhHI14coEX6jfr7lJJHEa9kfva6WI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MVfX45b1JIBpDNViLNWW4LC9RfgMYLDE9dPp/bgSaz0amVcN3H+05MsDzY57cHRydUSdPvDcrJtyW++oTD+zur61tcXALqDn0wIwJSvTUCOKzXdua0e+z3qF5kqj8uAlJGrNAs4W2+73GreMc/JkBbdV1b0+iviSZPEZ0nZiZfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZLJhDxv0; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DIC5h6JW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RAdrkq1+"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIGlVGo167740
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 19:10:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dIw8j365ikKyDlsgwjx4WaIiStWEnX4+clh7heSJnj8=; b=DIC5h6JWngJRQiGO
-	4a3tmpai3afMojQofFnHVDy3lNKG6BpZGEUzjmcp/bpe8UaN35zK+SPt5D/GO06E
-	4ABE1JP940T2DYzfqgEtNUcI7hnyXEpArjvRgANwTV489DM4qv7YGPvynME79vj3
-	Cxc/e2h3UtZMqPbr+1sFIU69sYcVBo8zLjhTk2qml3gR4yvc0HIFxWQIbP4B/KOO
-	AShzwNTyQQPr5ZiODW8O72sR913m4eszaGMLaEU6o6sNSEVoc2FA9WphrjVFKDZF
-	aTFjkkVZOicAJHjBiiBeHgIpLFpkY8EjO5SJv9lanMvDo6gV2dLohtyqR+cwNXcr
-	eT4GgA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b45w53gf4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 19:10:05 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8888447ffebso24558916d6.1
-        for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 11:10:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZLJhDxv0"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6492e25cd7eso1623440a12.0
+        for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 12:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766085005; x=1766689805; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dIw8j365ikKyDlsgwjx4WaIiStWEnX4+clh7heSJnj8=;
-        b=RAdrkq1+gqMq2+fi9yCNSKHB7a3iRlfa1D6xvCH8w7OiBMw35gsgEoAAc+mbVxoiOE
-         Lfkb50Tm1MVsoyczvnQxQOMmMe4kHLuJPPkVDmhx9G/ARBgobMKgsxayNz68HLMxUoql
-         sq8Oyuu98Z6nYSyx84m5/ajYKogrkIi5klepGXaGzmynFZQCkI3n3G0S6EdxPJNiAmOX
-         2aQP88OsqklYLW+pYcSwBxeabGNKOxuWTu8ePnVhQ6+A2mMonB2wIbzM1mI5Rkzj8dNR
-         Sz/84qdap2Y0ZYhrxWVSLynp67coJBJQBc+rXGWeOQQNi4342ZLb/CtTBsMObUghXWv2
-         gRSg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766090569; x=1766695369; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7XAkArI8TaofBn2k+TSYsotM1G/lLreSd7Oyuf53cT4=;
+        b=ZLJhDxv0RHQ1np30VNSCQeW+Xoc2Rq1vesEaYSpEbW4d98QBjcm3dZ6aV3ct5gCdmU
+         CkcQFSUnW8VO/aE++Zjhg01kjtdOzJu3PKzB3HbsIL5FZGQTf6PWLE/Jdhpl1Z+FciCK
+         AK6icnduTugKsIxhtQH7d4xsHDSVoYHifBmat0VQAbmtEiK5tYfG/CeBsI2qu9ISOKQy
+         yfgilpNdaojAo66Wl9vrtQTMEozjvisWMo2AoPdUlufiHwjvYKt9S/rQA+WTEzE5WS5l
+         IN+pvqUI23wMXPeSejcOCYRRHZ054w1YkRkRb47onezN6A5P9KhiwW3wamLSMvXv67hx
+         IESg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766085005; x=1766689805;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dIw8j365ikKyDlsgwjx4WaIiStWEnX4+clh7heSJnj8=;
-        b=faYk88K/7DCFnJJUYC4ob4hrCd4MdLXyG4ScZ+Fa6WG+x6aMf//ZwfiPmGtQmDEe98
-         i6yUsXgVcba5GdM8VDjWXeHx9Z8l0lkKyHxe/GnmE+kjINJDcjAnQ2RMmih4Xr0LpC/i
-         GZVS19xWmOdM/zT6bAeJc5AwVoR6xUTjpwfhIVO7HfQEKEc1wzxfZat1TFG3gFOsO4uy
-         ljR4a3EDnAnDXm25Bx6AI3YHzJ6eut0IdFOtSE2ngoWZacVuT+woG7cqk2RxIXUs01Gj
-         jn8pooW3wn0u5bFokCnuIu7FQKkvDTMfdtqk3+38XF6+cUxC0wZtseqBPSzuF8KEXO+R
-         qBCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVE4EUGV4nla9MAI5MeisrST4jmUCl5bv5vf2yNOM/Ng7JqQmip4LBdIqm2gcsJWgTSASo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxRmlcR+90ABt4mViQvNGsmoadXdZ7O07ztbuffWA1CiGIzqSfo
-	Y6UCQ5HwNZgNKw7Q15Ik1BWhDB8J9xwgGrt4AU5s3WHSc0djkgp4f+3B+1+tOFQNALW+L3KuHTR
-	TGVbV7YvBLON+UJIERJxlA2tz1juagy+K59GiMvhw+EF/380IUJnUyzctjJJijxhQDYob/ugGbn
-	N5zZnZcVIq/B/BwwTR5xM2da+1kpUgAQ==
-X-Gm-Gg: AY/fxX6erZaGCT4uu5imEI6mstjIILvS9GcAoaHnL0mEBtRul8S/1dcybjNzgCpGlKv
-	x28h65adU0XpBakSVP//nwKBzN78QcSxEGI5rEyM+Qn/TFGGWhSz/NthzUjCQXtMAOIWVSS13Au
-	4kMAUzHpNBLsW3bPHjPOo6H3DAZUcJj8UBxhWsZJ0HqHQ4g8m43aUK1wMokTcyPW635tAiSTeMj
-	qgOlUDOXeqSd9N+Plt1y+jy4b4=
-X-Received: by 2002:a05:6214:5903:b0:88a:32db:ca2e with SMTP id 6a1803df08f44-88d8859d814mr11385596d6.66.1766085004807;
-        Thu, 18 Dec 2025 11:10:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IElTYAdoPhfH6LxXjgHHJuq9GB+MaXPuKPdY6tm4KOAmStZEaNhs0H2TbaWVu8vQa2PTPIgBrIHJI1918I+nRU=
-X-Received: by 2002:a05:6214:5903:b0:88a:32db:ca2e with SMTP id
- 6a1803df08f44-88d8859d814mr11385106d6.66.1766085004406; Thu, 18 Dec 2025
- 11:10:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1766090569; x=1766695369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7XAkArI8TaofBn2k+TSYsotM1G/lLreSd7Oyuf53cT4=;
+        b=WzciSeYw2tkQF2QqS4vVLXBux6Z+8pNeJ59GR+T3fqzQUdozT8aPdSlgCneuYF0iEY
+         pWA6HBDOi851x+4CNCDXxSU+oXI9mL+UHnW13pkibld8T+IjzsNStA5iZ7MvbIJRJWB/
+         nhjBmyXezZ6+AH4TEDfUfZvGO+haszdlbeSBRn78hW3moyPwFMzfk6+LE0t6l/cE96fu
+         ZknFlWshTgxC0PkuR4IflfNEyBe/vhUsf2pfY23/IcRu9EQ3ON8hVQUziINwqJIW2qGy
+         zioCxOPqSai3sFLqRu/zXIDy6D6jolxWk+LyLuLvKIzf6XTxIlguaq6cltB6GQczMZGk
+         5E+w==
+X-Gm-Message-State: AOJu0YzhXUO5KeFqUvj4KU21rRkNO1qShlrfsYH8GnvP4OFN1YlB8quy
+	TFSTS4tXkrUpt46Csepl8/PlLkqgiSGJ7Pxdcpbg5JpD0YeAC7YnlpfNJmdw7A33qP4=
+X-Gm-Gg: AY/fxX7GYwxlOVkuun4X6O2wdWd1JFtj20mSabpwOIGHxkYrdfdEVPqKdyaH7pOguLU
+	nRMjhFgkG6aM9pwFwVPMLFjBLXJC5rZiWzdAaOo6lj4gdVynPj5CFvEoGvADoS8NAdReVgPg1OU
+	HGfo7X++C3Q8RjP1kSuwu7vJvStxh8BXVK4GNClMq5Fmip3A3jh3iPPNrwcNlIHY/lnIslGOtuB
+	q0U9nYIt33OIvCXwG+bP/7WRwP8iiy6408+WJnN4/5r4h2Ssp+ragxzVDpn/RZYD19H8lPWCVCE
+	bj2xy2hI90RL5GJ7osz9CpUg4cdNpps4qM9FbQu7lFHGz6pKEZ/ngelLwqlnQy68vZgMurgNSIe
+	FsKHNxXOEeaCj5z7wqLS0vC4x/KktCmBDvbEaJ3bUaOJFkB0Lsf+jP/iSqi+DPiYLiIe88i7yXd
+	U/ADzVtAibwgZFvXmL
+X-Google-Smtp-Source: AGHT+IEV+YY07VOnpvPuBNpIWqe8uuKBpuHIeLgJMdjAizzdhO4CYKl4vVTvwZlrlL1Cjns9PjC6vA==
+X-Received: by 2002:a05:6402:1bd0:b0:640:92eb:aa24 with SMTP id 4fb4d7f45d1cf-64b584ec823mr3000252a12.15.1766090568601;
+        Thu, 18 Dec 2025 12:42:48 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-64b90f53c51sm360066a12.3.2025.12.18.12.42.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 12:42:48 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH v1 0/2] bus: mhi: Use bus callbacks for .probe() and .remove()
+Date: Thu, 18 Dec 2025 21:42:14 +0100
+Message-ID: <cover.1766090211.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com> <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
-In-Reply-To: <20251218-qrtr-fix-v2-1-c7499bfcfbe0@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 20:09:53 +0100
-X-Gm-Features: AQt7F2r9lOf3zDCFBlKxs8sdhKMbeErBZkq0-ox7XPW2t1SLGzCNcjhrK8xkLWc
-Message-ID: <CAFEp6-3mHFYFPS=iakDyWUknDH8z4qOaHwFLuP=Qz1PvYSL_XA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] net: qrtr: Drop the MHI auto_queue feature for
- IPCR DL channels
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxim Kochetkov <fido_max@inbox.ru>, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        mhi@lists.linux.dev, linux-wireless@vger.kernel.org,
-        ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-        netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
-        Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>,
-        stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: V4fNaO5jRCYmVLYdOZuaMyxCDbTOr5zs
-X-Authority-Analysis: v=2.4 cv=eKceTXp1 c=1 sm=1 tr=0 ts=6944518d cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=zitRP-D0AAAA:8
- a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=isMaZ9OHK7bkWVW8W2QA:9 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=xwnAI6pc5liRhupp6brZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: V4fNaO5jRCYmVLYdOZuaMyxCDbTOr5zs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE1OCBTYWx0ZWRfX5kH0iRIWyBDH
- RPFJ7cLMOgtcB/okcyhdmIPY1sCMp3Aeq7x0KQv+FVEEAKny1/KqVZWYwWFXDBxtkgjGbgAtTyc
- yq3QAuwHygw6I9FzN1pU1RM5i1vDWPCQ5pKVGBvgqoDOBJY+buaRVNlCr8pbyN4+q11HFlJ/fJv
- 3x14Gbr9hs5f9/GSlUvuqgbPhNEQKi7RIFB27d+ivs+m2lnDM6535IvcFwScWVJJgumf+wEWy9z
- 3MRUYkNgtxShW909o924BL9ExQCXZ+pVGxpPFlI91wHKpKckcNvos8ukf6+k4SVpROn8Axv9qWK
- fiHYLXNFUkGSlQYUD28RG0ZTqhnpWp2X3aqup0orWeaBUMTFFRJRmPnbja0Mt12jwFrkfVNRUZ9
- EnF0oDVfBzlS2X/HZ/B0aDThgDPogA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_02,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180158
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=761; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=dNB0PmhwKvuRZNdhHI14coEX6jfr7lJJHEa9kfva6WI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpRGcodGuNu6gXw9r5SvXhQunS8yvNv4OlMLejO fdPS/d5Ao6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaURnKAAKCRCPgPtYfRL+ TmvHB/kB0tg29WQDJssCLJqss8qXoPXpfrSe231c+rf0BH5h+Byvh3euS+IpTalGRz5XNwuLQzB uHo0PqxwsWyUs34uS49TCQLFRO2L8DU3GeE0Nk0MAIEOMEy+Hpd2cLwJIbhHWObkGimpUfYqG03 AR18qBiVFYFRH/tw6NmodoqZLhhlcYaXsfzXihuIg9B2CkyBT0mrEhXK6xp08IK0peQXwhKtWwG YD3Rfc8N1gSHZ7S1RUAg1DfFvDuFI7kdAelXTUP0DrvfB23RByqUqyGjRLcp8T79qcEpZloWvY2 5nlYerxCB6foAC/VCeowQ6OLnz4CswmmIzPNaOqw6bNih3+1
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 18, 2025 at 5:51=E2=80=AFPM Manivannan Sadhasivam via B4 Relay
-<devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
->
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
->
-> MHI stack offers the 'auto_queue' feature, which allows the MHI stack to
-> auto queue the buffers for the RX path (DL channel). Though this feature
-> simplifies the client driver design, it introduces race between the clien=
-t
-> drivers and the MHI stack. For instance, with auto_queue, the 'dl_callbac=
-k'
-> for the DL channel may get called before the client driver is fully probe=
-d.
-> This means, by the time the dl_callback gets called, the client driver's
-> structures might not be initialized, leading to NULL ptr dereference.
->
-> Currently, the drivers have to workaround this issue by initializing the
-> internal structures before calling mhi_prepare_for_transfer_autoqueue().
-> But even so, there is a chance that the client driver's internal code pat=
-h
-> may call the MHI queue APIs before mhi_prepare_for_transfer_autoqueue() i=
-s
-> called, leading to similar NULL ptr dereference. This issue has been
-> reported on the Qcom X1E80100 CRD machines affecting boot.
->
-> So to properly fix all these races, drop the MHI 'auto_queue' feature
-> altogether and let the client driver (QRTR) manage the RX buffers manuall=
-y.
-> In the QRTR driver, queue the RX buffers based on the ring length during
-> probe and recycle the buffers in 'dl_callback' once they are consumed. Th=
-is
-> also warrants removing the setting of 'auto_queue' flag from controller
-> drivers.
->
-> Currently, this 'auto_queue' feature is only enabled for IPCR DL channel.
-> So only the QRTR client driver requires the modification.
->
-> Fixes: 227fee5fc99e ("bus: mhi: core: Add an API for auto queueing buffer=
-s for DL channel")
-> Fixes: 68a838b84eff ("net: qrtr: start MHI channel after endpoit creation=
-")
-> Reported-by: Johan Hovold <johan@kernel.org>
-> Closes: https://lore.kernel.org/linux-arm-msm/ZyTtVdkCCES0lkl4@hovoldcons=
-ulting.com
-> Suggested-by: Chris Lew <quic_clew@quicinc.com>
-> Acked-by: Jeff Johnson <jjohnson@kernel.org> # drivers/net/wireless/ath/.=
-..
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.=
-com>
+Hello,
 
-Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+this series converts the two busses defined in drivers/bus/mhi to use
+bus methods for .probe() and .remove() instead of the respective
+callbacks of struct device_driver.
+
+The eventual goal is that these callbacks are removed from struct
+device.
+
+There is no intended functional change, the series is only build tested
+(on ARCH=x86 and ARCH=arm64).
+
+Best regards
+Uwe
+
+Uwe Kleine-König (2):
+  bus: mhi: host: Use bus callbacks for .probe() and .remove()
+  bus: mhi: ep: Use bus callbacks for .probe() and .remove()
+
+ drivers/bus/mhi/ep/main.c   | 12 +++++-------
+ drivers/bus/mhi/host/init.c | 12 +++++-------
+ 2 files changed, 10 insertions(+), 14 deletions(-)
+
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+-- 
+2.47.3
+
