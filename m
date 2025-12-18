@@ -1,105 +1,41 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3951E7C18
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 09:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CC51E4AF;
+	Thu, 18 Dec 2025 11:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766049722; cv=none; b=Rl92sHC1JuAVUxaxGoZRFsc9WgaLmygbL/CQ6upVB1rhLIsDW/KhU3yY3nXsLznTXR98i5xQJ7ARBfY+PLUTColfgPWQfvbht0UQfGT8Dcxp5k25EdeX/+qWpd2SNWKE1ODv4Ib7qH9Mg7KOedmUvlmXf2e60IU5V9i+HyvPfKg=
+	t=1766056891; cv=none; b=muEP9H/s76UD1ZRycH6Khq50ug8ywv4bzGh48JZbdZR4VMbdZTzFaSvV8eGfZx/OX3+iOV5HrwHY/zhMuxpxk1jBdH6dbqgsi4gjc8xyZqW3AEz/slqBqBcO/QxrTZ0TX5ED9WY4qaBmo00cp+bPz+HzoaAqDWlazrq1yt2gSwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766049722; c=relaxed/simple;
-	bh=ILkKnSgdx1Vjr/GQRK0eoewm5hFuzy/lM1yy6pf6u+0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fxR+wSzaatXcMUDvVD3C9i2TftLbxrbTzUFycjYOSQoeVD4z6//HcTtDGtnclHowEQ1CZcFyDWcmmraYF4iuWZ1eLyvAswkTywjSkT6JjKZdOI6ggnrXH22TEu/IlEnjK49ctAtqW/yILkSnZkJprimU2Kkb4YoA1zYdbN3icNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jfCdrK5Q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=koVVgl6s; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1766056891; c=relaxed/simple;
+	bh=WSuZiH14Fb7LFDruRIJNxEtdiCIv4NaXGh8dSIxEhLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKclUtJtTfRZIHYFdLtLWMdRl7Ko6qWordx08XJXjcYJK8xDzyVlkErM+pE1kulBBVnIiN6vmlvmiy5fGCgLRbySMDC1F0xakqZdXGNyQq1VDhgOSu8vMNuFX6P+B++Lh7/3f/f4kTemVfWsMGtFNDc3jWAJqXCOgz5kHkfg8WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqgjvUol; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jfCdrK5Q";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="koVVgl6s"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BI92lBx4189407
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 09:22:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zgHX9pYcPQfW6md0ZjUE2FQJois1n68EFQVDIEMBBjg=; b=jfCdrK5Qy9sptl4L
-	eSYM8EMuNaZnUfittbO1PRwkmwAGkEHNtcZz7wLDjeqVTpJj7aeqfhd2XoD/pEf9
-	rhHt1AOYlKHsYeKcBujcqlShpB/02x4zLIJCcWw9t1oNUHNdkvA4ZFLKbQcPPues
-	OB1vX/hiyyT5EoJ3+3mnIX35xYuc/LeHDZAqsvS6yx9Vep7Y4IVRhXAm9yaYddBu
-	JNuP1Q4E0exEAepbvHth8xMgDL8IRHSGhIXo7Dt5M+FTOiBwWfxrSKQxDWdXHBCd
-	b4/4Wu5jGebUSPXQ1ZTcijHGlNfFGcy0Pb6ZymYu6Zv9PG8Z/y/ZM7Q711ukz3cv
-	/66ZOQ==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b47pkha6c-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 09:22:00 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-11bd7a827fdso2410512c88.1
-        for <mhi@lists.linux.dev>; Thu, 18 Dec 2025 01:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766049720; x=1766654520; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zgHX9pYcPQfW6md0ZjUE2FQJois1n68EFQVDIEMBBjg=;
-        b=koVVgl6s/4HApB2RXwdCBhssL5dlcCGQlEQcdEMJZG7gilLLreFs1vddFow3b+xBAZ
-         FNt9GNSRvQCFSDsrdswf7xoK+PngWXyGV5Olxw3EchECLH1ArCYyynocS/0aGRRLYiLw
-         2sD3huELMfdlRcgTC8LJa7UDhf7cj+HGbziGva12wAt1gQcdZ2/L8lIv+BPAZWchspYO
-         nMi0rbFBhS6GM6z1F8m94SQq4eHAklFPJOMyl3pPJq4+lTwsQHwTduGv1d6FlgpWX86P
-         ot1dnHatuS2LsXuyhcbjLRbvNq/MFW73DkIEp8vAaDUE156+O2vC+qoYXYv0xIYd36oX
-         oPzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766049720; x=1766654520;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zgHX9pYcPQfW6md0ZjUE2FQJois1n68EFQVDIEMBBjg=;
-        b=fOPXK97ow23bTzJ8T/xbbbb105XtNotji5K4tHzOapQBk2yKxYa9XEzRFd5AcLyqWE
-         bwmVPHB2eUODbgoKpq+sJ7oRNfLGOBzP+F5dnB0WOvddR+qPVBkqPn+ZWL9ZX5NBqCNq
-         fIPogSTWah3DMuIJkFD8LxK4gS/PG+eRNvn0b6wv9MSu6K1slyZ3wibIl1oh3BQMsRHV
-         pqOFa2Nc362WMbBx34tWoVq30fFCFOOdGY/vHhX+ckxcl2W+f9ABudI0gC1s+Gy98p9H
-         GliIUBHL7Wc5ZT3gm50YMU/P+Sj7dszagGPVTfWcnvUajp1F9ZjCB0ptguVtJUDU6EC0
-         kUOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkzvooR0FDxPpvVUdeQ7qh7yReSYp6aaRidpGCoHsHuNlHVtq4miP8pukkoO3kkbKAmQ0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YybZ0NgRlbvOLDQsvq+mnEp3s8Hip9fePFawsPDp8WkxD6odBUj
-	zxlmbYEw+PD+OLpLaWpeAi0i3Bl4bOGmPwsIihDHfDiguIPJzYBTNw/sEn+OFCJ2xGYBS5eY4yI
-	9sfzhqxJiXDnEx8npXmgMxksBhzkotO6OSZjIw1rtCEn04vNBc9dKpY0=
-X-Gm-Gg: AY/fxX4WZWslCAec48XGw7u9SLZuh6+Ru5BjbU2BNc8vdhWNqS+y1qWDRLps17PdDR8
-	bgjYgkaT01p9XsvMqP6FgVre9txQ1vEAgr/DShEP3pcFXTDBvG5PjHct2NU4KrncimmMFHh4HFd
-	F3DidYs5+cPs02wvEDh1HbNtM2kUPeeNLkI2QTTggjoeJMioVEr6rjplgk/UxN2IvE9QH3O0xeb
-	Xeascu+Oi11G0MgtfliyA3vHcn8jrMSjevyMzuJVNAwUttHZk7aYuhqCr/buO0rPDkSxJK+flta
-	7Wn9sdQkUyWis7SoCNsdvk5Gvf3MkgMJP6CVl4/POm6nFJKtBKKuCE9/gzDBWUxlSjvhdIXGjG0
-	CaFSiJ5bz4OLI//kWu/R7ErjUg7OcQQ6208TJoiL1oiPsrtE9osqiYegBITJatD6hUfya
-X-Received: by 2002:a05:7022:4091:b0:119:e569:f850 with SMTP id a92af1059eb24-12061939389mr1496438c88.7.1766049719426;
-        Thu, 18 Dec 2025 01:21:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHWZwU7+MwWlNRSFY7/Wt7vS7Q5ni8+brmu5szTk2tVEMpkap34gTrYXnw0ZGnEDSVoE64K1Q==
-X-Received: by 2002:a05:7022:4091:b0:119:e569:f850 with SMTP id a92af1059eb24-12061939389mr1496422c88.7.1766049718848;
-        Thu, 18 Dec 2025 01:21:58 -0800 (PST)
-Received: from [10.110.90.237] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061fc5613sm5821179c88.11.2025.12.18.01.21.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Dec 2025 01:21:58 -0800 (PST)
-Message-ID: <3427ac3e-671e-4c5b-99aa-69eb7927df8c@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 17:21:54 +0800
-Precedence: bulk
-X-Mailing-List: mhi@lists.linux.dev
-List-Id: <mhi.lists.linux.dev>
-List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqgjvUol"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BC8C4CEFB;
+	Thu, 18 Dec 2025 11:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766056890;
+	bh=WSuZiH14Fb7LFDruRIJNxEtdiCIv4NaXGh8dSIxEhLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UqgjvUollLJjnXuwHmIkgGwXce8C6IdhZBhWUQkGSpxjVzCLz8H4rbG5iaCs/cfE6
+	 IgvVMD5Y89a4Q9rpGwnPBytrdhYdAum0Qh4dxwD20OFYIxgsNCbQO7eLcphpzDWGku
+	 NLnyeeUbCdfi9WwSeUpoPRdOPWFrrydfynX2cTBO125PB4h9Z7mGVmVxyvdVjXxTN0
+	 xRG1LcLQyraTcVfCEpusg16A4HvzwL9FHuO3z0Z7+SWe7SRYPnl7t2pK/zNK9TgrVk
+	 g4jyrQmbqftgpPU60yB8m4yPGuPvKUM8LNymJu21JsTJReJu1M8Hkubnmd+N4QwT80
+	 yLe9qe0G03juQ==
+Date: Thu, 18 Dec 2025 16:51:18 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
+Cc: Qiang Yu <qiang.yu@oss.qualcomm.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mayank Rana <mayank.rana@oss.qualcomm.com>
 Subject: Re: [PATCH v3] mhi: host: Add standard elf image download
  functionality
-From: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-To: Qiang Yu <qiang.yu@oss.qualcomm.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mayank Rana <mayank.rana@oss.qualcomm.com>
-References: <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
- <aTqQyPJaV+KrIMOj@hu-qianyu-lv.qualcomm.com>
- <ge3qbeyg6oue7jeury33fqkevwvwmm2bucum45w4uyh4ldy6re@pbfshzcpeqep>
- <be72nummuhhqh3oiid7fx2amzaolgdsyfr2q2guzh27kyv5nes@x4a25lsvclio>
+Message-ID: <chdnee7wgjv7mgnikistr5pgee2i3unah2dw2ypbllbfzkqjlr@iizwiggs6ux3>
+References: <be72nummuhhqh3oiid7fx2amzaolgdsyfr2q2guzh27kyv5nes@x4a25lsvclio>
  <gc2phr73ai2or5auu6rju2qbszrulk74rnft52ldmu4b4tot5r@xfoclkhrlfl3>
  <gcyjhnn33xcuiqfmiqt7diijncovp3smcnncyvfsnwo45v5z3m@plbtdjbxksgr>
  <aT+0RqCybM730hPY@hu-qianyu-lv.qualcomm.com>
@@ -108,195 +44,194 @@ References: <z5osod5v6ykmook2cwz76vaww7vnlrh7csx4zebahcaspqr4w5@6an2hopq574o>
  <gpfcofdq3yhudisyhgu5r7rjwc66bxdjvbj7vyyrgby77uxs5u@mfkxgck3ll6y>
  <aUO1k06T3YUGX7kV@hu-qianyu-lv.qualcomm.com>
  <84b14cdf-8549-4a00-8dcc-bb5bd1918cfe@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <84b14cdf-8549-4a00-8dcc-bb5bd1918cfe@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+ <3427ac3e-671e-4c5b-99aa-69eb7927df8c@oss.qualcomm.com>
+Precedence: bulk
+X-Mailing-List: mhi@lists.linux.dev
+List-Id: <mhi.lists.linux.dev>
+List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Rre6rxn9HHE6MAzjOVkh_wmmCB317FiW
-X-Authority-Analysis: v=2.4 cv=Md9hep/f c=1 sm=1 tr=0 ts=6943c7b8 cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=UKmd_gf9YB3IPwsdKd8A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=vr4QvYf-bLy2KjpDp97w:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDA3NiBTYWx0ZWRfX6b5R2lucxZBd
- UwuDXM8Qi7JoAbGSAUiDvf3FfiSYNtTXtayKFCFtuW4BTUUhORqnYnJBTwyHGf51sm99lihLXmj
- NgC82LmsMD8gEHk/TU1u8QAmjVxEYv11WQihyTCQdG93rqoYdnWsj4/XP+reQQgWjP+nfy10PpC
- wGohFsvcRJun6Y9mOtErZM8e69eUwu3MLOJbo9mrpCRyspW2HQXaXtU42qr5kQ2AHrapTNIRjCG
- YxLwlQ4paBFrjSvWZRohjq67/v3YXoCKhsRGcu3SOIj+R+/SK3ZgZAEqOcGq5urU9jnAsovXEjh
- RphuUGmBrcFbsxlIsfKBpmmDoxG5sBUE7nA254DA6EZydjFi+Erx36pKjy4uPx0lXT10sH2TkZi
- 31WHoq+aoxR4M4Pxsrmc9AzmI55HXA==
-X-Proofpoint-GUID: Rre6rxn9HHE6MAzjOVkh_wmmCB317FiW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 adultscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180076
+In-Reply-To: <3427ac3e-671e-4c5b-99aa-69eb7927df8c@oss.qualcomm.com>
 
-
-
-On 12/18/2025 5:13 PM, Baochen Qiang wrote:
+On Thu, Dec 18, 2025 at 05:21:54PM +0800, Baochen Qiang wrote:
 > 
 > 
-> On 12/18/2025 4:04 PM, Qiang Yu wrote:
->> On Thu, Dec 18, 2025 at 10:25:08AM +0530, Manivannan Sadhasivam wrote:
->>> On Tue, Dec 16, 2025 at 12:26:41AM -0800, Qiang Yu wrote:
->>>> On Mon, Dec 15, 2025 at 08:41:32PM +0200, Dmitry Baryshkov wrote:
->>>>> On Sun, Dec 14, 2025 at 11:09:58PM -0800, Qiang Yu wrote:
->>>>>> On Sat, Dec 13, 2025 at 11:21:11AM +0900, Manivannan Sadhasivam wrote:
->>>>>>> On Fri, Dec 12, 2025 at 09:24:06PM +0200, Dmitry Baryshkov wrote:
->>>>>>>> On Fri, Dec 12, 2025 at 10:07:01AM +0900, Manivannan Sadhasivam wrote:
->>>>>>>>> On Thu, Dec 11, 2025 at 03:57:54PM +0200, Dmitry Baryshkov wrote:
->>>>>>>>>> On Thu, Dec 11, 2025 at 01:37:12AM -0800, Qiang Yu wrote:
->>>>>>>>>>> On Wed, Dec 10, 2025 at 12:57:11AM +0200, Dmitry Baryshkov wrote:
->>>>>>>>>>>> On Sun, Dec 07, 2025 at 10:35:26PM -0800, Qiang Yu wrote:
->>>>>>>>>>>>> On Sat, Dec 06, 2025 at 01:25:34PM +0200, Dmitry Baryshkov wrote:
->>>>>>>>>>>>>> On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
->>>>>>>>>>>>>>> From: Mayank Rana <mayank.rana@oss.qualcomm.com>
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Currently, the FBC image is a non-standard ELF file that contains a single
->>>>>>>>>>>>>>> ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
->>>>>>>>>>>>>>> (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
->>>>>>>>>>>>>>> separate ELF headers for SBL and WLAN FW segments due to TME-L image
->>>>>>>>>>>>>>> authentication requirement.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Current image format contains two sections in a single binary:
->>>>>>>>>>>>>>> - First 512KB: ELF header + SBL segments
->>>>>>>>>>>>>>> - Remaining: WLAN FW segments
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> The TME-L supported image format contains two sections with two elf
->>>>>>>>>>>>>>> headers in a single binary:
->>>>>>>>>>>>>>> - First 512KB: First ELF header + SBL segments
->>>>>>>>>>>>>>> - Remaining: Second ELF header + WLAN FW segments
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Download behavior:
->>>>>>>>>>>>>>> - Legacy: 1. First 512KB via BHI (ELF header + SBL)
->>>>>>>>>>>>>>>           2. Full image via BHIe
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
->>>>>>>>>>>>>>>          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Add standard_elf_image flag to mhi_controller_config to indicate TME-L
->>>>>>>>>>>>>>> supported image format. When set, MHI skips the first 512KB during WLAN FW
->>>>>>>>>>>>>>> download over BHIe as it is loaded in BHI phase.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> What is standard about it?
->>>>>>>>>>>>>
->>>>>>>>>>>>> The TME-L requires standard elf image format which includes single EFL
->>>>>>>>>>>>> header and WLAN FW segment.
->>>>>>>>>>>>>
->>>>>>>>>>>>> The "standard_elf_image" seems misleading. Since the new image format is
->>>>>>>>>>>>> required for TME-L image authentication, how about using 
->>>>>>>>>>>>> tme_supported_image?
->>>>>>>>>>>>
->>>>>>>>>>>> Just elf_image?
->>>>>>>>>>>
->>>>>>>>>>> Is it too generic for this specific use case. Current image format also
->>>>>>>>>>> contains elf header.
->>>>>>>>>>
->>>>>>>>>> upload_elf_image?
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Nope. What does 'upload' even mean here? The 'TIS and ELF' spec v1.2 clearly
->>>>>>>>> defines that an ELF executable can have only one ELF header. So I'd prefer
->>>>>>>>> 'standard_elf_image' to differentiate it from the non-spec-conformant ELF image
->>>>>>>>> used previously.
->>>>>>>>
->>>>>>>> What kind of ELF image was used previously? Could you please explain
->>>>>>>> what do 'First ELF header' vs 'Second ELF header' mean here?
->>>>>>>>
->>>>>>>
->>>>>>> I don't have the details of it, but Qiang should be able to explain. But AFAIC,
->>>>>>> that was a non-standard ELF image and the new one is going to be spec
->>>>>>> conformant.
->>>>>>>
->>>>>> Previous image format:
->>>>>> ELF header + SBL segments + WLAN FW segments
->>>>>>
->>>>>> The TME-L supported image format:
->>>>>> First ELF header + SBL segments + Second ELF header + WLAN FW segments
->>>>>
->>>>> What is the Second ELF header in this context? ELF files usually have
->>>>> only one header. Are we repeating the same ELF header or is some kind of
->>>>> an embedded ELF-in-ELF.
->>>>
->>>> The "Second ELF header" refers to a separate, complete ELF file embedded
->>>> within the FBC image, not a duplicate header. The TME-L supported format
->>>> contains:
->>>>
->>>> FBC Image Structure:
->>>> ┌─────────────────────────────────────┐
->>>> │  Complete ELF File #1 (SBL)        │
->>>> │  ┌─────────────────────────────┐   │
->>>> │  │ ELF Header                  │   │ ← First ELF header
->>>> │  │ Program Headers             │   │
->>>> │  │ SBL Segments                │   │
->>>> │  └─────────────────────────────┘   │
->>>> ├─────────────────────────────────────┤
->>>> │  Complete ELF File #2 (WLAN FW)    │
->>>> │  ┌─────────────────────────────┐   │
->>>> │  │ ELF Header                  │   │ ← Second ELF header
->>>> │  │ Program Headers             │   │
->>>> │  │ WLAN FW Segments            │   │
->>>> │  └─────────────────────────────┘   │
->>>> └─────────────────────────────────────┘
->>>>>
->>>>>>
->>>>>> As per 'TIS and ELF' spec v1.2 Mani mentioned, the previous image format
->>>>>
->>>>> pointer?
->>>>
->>>> The entire 'TIS and ELF' spec v1.2 document descibes the structure of the
->>>> ELF excutable file, I can not point out a specfic sentence or phase that
->>>> tell us the previous image format is standard. But at least there is an
->>>> example we can refer to: Figure A-4. Executable File Example. And I can
->>>> also use readelf cmd to parse the image.
->>>>
->>>>>
->>>>>> is also standard elf image. But it doesn't meet the requirement of TME-L
->>>>>> because we need separate elf header for SBL and WL FW for TME-L
->>>>>> authentication.
->>>>>>
->>>>>> So the commit message stating "Currently, the FBC image is a non-standard
->>>>>> ELF file that contains a single ELF header, followed by segments for SBL,
->>>>>> and WLAN FW" is not correct and standard_elf_image is not accurate.
->>>>>>
->>>>>> Can we avoid saying anything about standard in commit message? Flags eg.
->>>>>> separate_elf_header and tme_supported_image are more accurate.
->>>>>
->>>>> Please define, what is the supported image.
->>>>
->>>> The supported image refers to an image format that TME-L can authenticate.
->>>> Both SBL and WLAN FW should be in ELF format. After powering on, SBL (ELF
->>>> format, ELF header + SBL segment, first 512 KB) is loaded over BHI and
->>>> authenticated by TME-L. After entering SBL, WLAN FW (ELF format, skip
->>>> first 512KB of fbc image) is loaded over BHIe and also authenticated by
->>>> TME-L.
->>>>
->>>
->>> So what makes it different here is that you are now sending the two FWs
->>> separately as standalone ELF image to the device for authentication by TME-L,
->>> but those are combined in a single image file in the host. But what makes you to
->>> combine two images in the first place? Why can't they be separate ELF files?
->>>
->>> I think you can avoid the hassle if you could just have separate ELF images for
->>> SBL and WLAN FW and say that the TME-L just expects individual ELF image.
->>>
->> Yes, they are two separate images combined into a single file. I'm not
->> sure of the specific reasons for this design choice, so I can't comment
->> on it. The WLAN team provides a single file for both SBL and WLAN FW, and
->> I don't know whether they're willing to change.
->>
->> Baochen, do you have any comment on this?
+> On 12/18/2025 5:13 PM, Baochen Qiang wrote:
+> > 
+> > 
+> > On 12/18/2025 4:04 PM, Qiang Yu wrote:
+> >> On Thu, Dec 18, 2025 at 10:25:08AM +0530, Manivannan Sadhasivam wrote:
+> >>> On Tue, Dec 16, 2025 at 12:26:41AM -0800, Qiang Yu wrote:
+> >>>> On Mon, Dec 15, 2025 at 08:41:32PM +0200, Dmitry Baryshkov wrote:
+> >>>>> On Sun, Dec 14, 2025 at 11:09:58PM -0800, Qiang Yu wrote:
+> >>>>>> On Sat, Dec 13, 2025 at 11:21:11AM +0900, Manivannan Sadhasivam wrote:
+> >>>>>>> On Fri, Dec 12, 2025 at 09:24:06PM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>> On Fri, Dec 12, 2025 at 10:07:01AM +0900, Manivannan Sadhasivam wrote:
+> >>>>>>>>> On Thu, Dec 11, 2025 at 03:57:54PM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>>>> On Thu, Dec 11, 2025 at 01:37:12AM -0800, Qiang Yu wrote:
+> >>>>>>>>>>> On Wed, Dec 10, 2025 at 12:57:11AM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>>>>>> On Sun, Dec 07, 2025 at 10:35:26PM -0800, Qiang Yu wrote:
+> >>>>>>>>>>>>> On Sat, Dec 06, 2025 at 01:25:34PM +0200, Dmitry Baryshkov wrote:
+> >>>>>>>>>>>>>> On Mon, Dec 01, 2025 at 06:33:15PM -0800, Qiang Yu wrote:
+> >>>>>>>>>>>>>>> From: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> Currently, the FBC image is a non-standard ELF file that contains a single
+> >>>>>>>>>>>>>>> ELF header, followed by segments for SBL, and WLAN FW. However, TME-L
+> >>>>>>>>>>>>>>> (Trust Management Engine Lite) supported devices (eg. QCC2072) requires
+> >>>>>>>>>>>>>>> separate ELF headers for SBL and WLAN FW segments due to TME-L image
+> >>>>>>>>>>>>>>> authentication requirement.
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> Current image format contains two sections in a single binary:
+> >>>>>>>>>>>>>>> - First 512KB: ELF header + SBL segments
+> >>>>>>>>>>>>>>> - Remaining: WLAN FW segments
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> The TME-L supported image format contains two sections with two elf
+> >>>>>>>>>>>>>>> headers in a single binary:
+> >>>>>>>>>>>>>>> - First 512KB: First ELF header + SBL segments
+> >>>>>>>>>>>>>>> - Remaining: Second ELF header + WLAN FW segments
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> Download behavior:
+> >>>>>>>>>>>>>>> - Legacy: 1. First 512KB via BHI (ELF header + SBL)
+> >>>>>>>>>>>>>>>           2. Full image via BHIe
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> - TME-L: 1. First 512KB via BHI (First ELF header + SBL)
+> >>>>>>>>>>>>>>>          2. Remaining via BHIe (Second ELF header + WLAN FW segments)
+> >>>>>>>>>>>>>>>
+> >>>>>>>>>>>>>>> Add standard_elf_image flag to mhi_controller_config to indicate TME-L
+> >>>>>>>>>>>>>>> supported image format. When set, MHI skips the first 512KB during WLAN FW
+> >>>>>>>>>>>>>>> download over BHIe as it is loaded in BHI phase.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> What is standard about it?
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> The TME-L requires standard elf image format which includes single EFL
+> >>>>>>>>>>>>> header and WLAN FW segment.
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> The "standard_elf_image" seems misleading. Since the new image format is
+> >>>>>>>>>>>>> required for TME-L image authentication, how about using 
+> >>>>>>>>>>>>> tme_supported_image?
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> Just elf_image?
+> >>>>>>>>>>>
+> >>>>>>>>>>> Is it too generic for this specific use case. Current image format also
+> >>>>>>>>>>> contains elf header.
+> >>>>>>>>>>
+> >>>>>>>>>> upload_elf_image?
+> >>>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> Nope. What does 'upload' even mean here? The 'TIS and ELF' spec v1.2 clearly
+> >>>>>>>>> defines that an ELF executable can have only one ELF header. So I'd prefer
+> >>>>>>>>> 'standard_elf_image' to differentiate it from the non-spec-conformant ELF image
+> >>>>>>>>> used previously.
+> >>>>>>>>
+> >>>>>>>> What kind of ELF image was used previously? Could you please explain
+> >>>>>>>> what do 'First ELF header' vs 'Second ELF header' mean here?
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> I don't have the details of it, but Qiang should be able to explain. But AFAIC,
+> >>>>>>> that was a non-standard ELF image and the new one is going to be spec
+> >>>>>>> conformant.
+> >>>>>>>
+> >>>>>> Previous image format:
+> >>>>>> ELF header + SBL segments + WLAN FW segments
+> >>>>>>
+> >>>>>> The TME-L supported image format:
+> >>>>>> First ELF header + SBL segments + Second ELF header + WLAN FW segments
+> >>>>>
+> >>>>> What is the Second ELF header in this context? ELF files usually have
+> >>>>> only one header. Are we repeating the same ELF header or is some kind of
+> >>>>> an embedded ELF-in-ELF.
+> >>>>
+> >>>> The "Second ELF header" refers to a separate, complete ELF file embedded
+> >>>> within the FBC image, not a duplicate header. The TME-L supported format
+> >>>> contains:
+> >>>>
+> >>>> FBC Image Structure:
+> >>>> ┌─────────────────────────────────────┐
+> >>>> │  Complete ELF File #1 (SBL)        │
+> >>>> │  ┌─────────────────────────────┐   │
+> >>>> │  │ ELF Header                  │   │ ← First ELF header
+> >>>> │  │ Program Headers             │   │
+> >>>> │  │ SBL Segments                │   │
+> >>>> │  └─────────────────────────────┘   │
+> >>>> ├─────────────────────────────────────┤
+> >>>> │  Complete ELF File #2 (WLAN FW)    │
+> >>>> │  ┌─────────────────────────────┐   │
+> >>>> │  │ ELF Header                  │   │ ← Second ELF header
+> >>>> │  │ Program Headers             │   │
+> >>>> │  │ WLAN FW Segments            │   │
+> >>>> │  └─────────────────────────────┘   │
+> >>>> └─────────────────────────────────────┘
+> >>>>>
+> >>>>>>
+> >>>>>> As per 'TIS and ELF' spec v1.2 Mani mentioned, the previous image format
+> >>>>>
+> >>>>> pointer?
+> >>>>
+> >>>> The entire 'TIS and ELF' spec v1.2 document descibes the structure of the
+> >>>> ELF excutable file, I can not point out a specfic sentence or phase that
+> >>>> tell us the previous image format is standard. But at least there is an
+> >>>> example we can refer to: Figure A-4. Executable File Example. And I can
+> >>>> also use readelf cmd to parse the image.
+> >>>>
+> >>>>>
+> >>>>>> is also standard elf image. But it doesn't meet the requirement of TME-L
+> >>>>>> because we need separate elf header for SBL and WL FW for TME-L
+> >>>>>> authentication.
+> >>>>>>
+> >>>>>> So the commit message stating "Currently, the FBC image is a non-standard
+> >>>>>> ELF file that contains a single ELF header, followed by segments for SBL,
+> >>>>>> and WLAN FW" is not correct and standard_elf_image is not accurate.
+> >>>>>>
+> >>>>>> Can we avoid saying anything about standard in commit message? Flags eg.
+> >>>>>> separate_elf_header and tme_supported_image are more accurate.
+> >>>>>
+> >>>>> Please define, what is the supported image.
+> >>>>
+> >>>> The supported image refers to an image format that TME-L can authenticate.
+> >>>> Both SBL and WLAN FW should be in ELF format. After powering on, SBL (ELF
+> >>>> format, ELF header + SBL segment, first 512 KB) is loaded over BHI and
+> >>>> authenticated by TME-L. After entering SBL, WLAN FW (ELF format, skip
+> >>>> first 512KB of fbc image) is loaded over BHIe and also authenticated by
+> >>>> TME-L.
+> >>>>
+> >>>
+> >>> So what makes it different here is that you are now sending the two FWs
+> >>> separately as standalone ELF image to the device for authentication by TME-L,
+> >>> but those are combined in a single image file in the host. But what makes you to
+> >>> combine two images in the first place? Why can't they be separate ELF files?
+> >>>
+> >>> I think you can avoid the hassle if you could just have separate ELF images for
+> >>> SBL and WLAN FW and say that the TME-L just expects individual ELF image.
+> >>>
+> >> Yes, they are two separate images combined into a single file. I'm not
+> >> sure of the specific reasons for this design choice, so I can't comment
+> >> on it. The WLAN team provides a single file for both SBL and WLAN FW, and
+> >> I don't know whether they're willing to change.
+> >>
+> >> Baochen, do you have any comment on this?
+> > 
+> > Hmm, sorry, no idea :(
 > 
-> Hmm, sorry, no idea :(
-
-I mean I don't know the reason behind the design choice.
-
-> 
->>
->> - Qiang Yu
+> I mean I don't know the reason behind the design choice.
 > 
 
+Ok, then I guess we should try to get rid of the flag and just check for the
+WLAN FW ELF header during runtime:
+
+	/*
+	 * Some FW combine two separate ELF images (SBL + WLAN FW) in a single
+	 * file. Hence, check for the existence of the second ELF header after
+	 * SBL. If present, load the second image separately.
+	 */
+	if (!memcmp(fw_data + mhi_cntrl->sbl_size, ELFMAG, SELFMAG)) {
+		fw_data += mhi_cntrl->sbl_size
+		fw_sz -= mhi_cntrl->sbl_size;
+	}
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
