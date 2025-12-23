@@ -1,189 +1,143 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083661B4F0A;
-	Tue, 23 Dec 2025 10:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA7621CC60;
+	Tue, 23 Dec 2025 11:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766486508; cv=none; b=nOrbRFcAZgu4o4w6CooviXO7yYfBxGjPWg1kRZYK3EN5N+1nCRfX3yA8ZjpWAH7twz7nf65P3wF3clseaXqLQB3MydKENfhDl3SpSp7vBz+yx7SRab1/rMG6uuugoCwjAgFV6EdXQ04qtIgCLDBzKvpKCZbjMhSpEQKRP1Bm91k=
+	t=1766488557; cv=none; b=ULeRpfunvXNxR3Sp99qvP6W4afRHes1LY789PcERjiEalP77wgQTyKAhHKH2p0ulQhfBo1CmZluCBkYnoTtFBa6jqY7CNxnyKfMw7a2SXTpH6AJUFhPImVLcnEQ8vUI1FV5ye8GtJWlhKiDwAuSvesaZ9zD/V8RhKpdluVHDGZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766486508; c=relaxed/simple;
-	bh=dh1LliqkmgcxlRpXE4EKf7TKTcpUvkSiqOpQkRgrNGg=;
+	s=arc-20240116; t=1766488557; c=relaxed/simple;
+	bh=yg2XBuxio3NdjvzsR7xyhB3pXuYvprrc2g9whxOt3lo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EN/IaS8PUSLSnb9ivLwmjy79Q+6BDfftKI9rxvnmGX1vzhGNdDxa0zXxpeDOzYETAB3HYP6QoafKJKdeXQEzqUFu5zjUcIadzILigzT9QNdyOjGWJP5fl9k/av1xNHtiNFzGs//pb7e1AkolbnrZGfGrk1WWLpeTmICfYQQM01Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ehXOHZRH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eljplHDW9cW6JTKdy/tFtr65ZeAN2g3WkzfuOYYdDIzNke30b+sNjn4AinBSfqBqyRe7Iv9fGmJac/ZxgWlnDHU89WYXEvLqZP8qvsVKTbYl+vIhweQ5efFDhc8U7R7dCeRaNAxIrVlbCaZzyALgru5569vMCkalucij12PVkoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQye61fF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ehXOHZRH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EA8C113D0;
-	Tue, 23 Dec 2025 10:41:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQye61fF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EFAEC116C6;
+	Tue, 23 Dec 2025 11:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766486507;
-	bh=dh1LliqkmgcxlRpXE4EKf7TKTcpUvkSiqOpQkRgrNGg=;
+	s=k20201202; t=1766488557;
+	bh=yg2XBuxio3NdjvzsR7xyhB3pXuYvprrc2g9whxOt3lo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ehXOHZRH3fe4YvnWKEw6pTVW2pbWT5bBgiBswCQP+mCqQuswq1dDSeRBBW6rQPwsc
-	 dVR1KzAR1jQesyvFk2/8iKqEUA7IRQyq0Aqaiuv3B8arbU7hB1ECpNxYlOaw2stzMd
-	 5YdxjHkHMOUeEM4UnXoM/CtL49zQg4f0CE9rmQNeeeNs2eh7Y9NiquWHtPs/zHDs/9
-	 DuVhdm3T7PaXeCoFR+P48FnRL2KNsRcoAyGDS2yEiGrkxHtQA+5V0vnDIWFgMjBVfb
-	 dihF+oI+uNHyjra+sM2iijAVYTDaHzpPf8w+oAXzEtzismq6MbeLlFQciymiYGglzd
-	 RH7lvTqmlUMPQ==
-Date: Tue, 23 Dec 2025 16:11:43 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/8] dmaengine: Add API to combine configuration and
- preparation (sg and single)
-Message-ID: <aUpx59CeT4XfL5i1@vaman>
-References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
- <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+	b=kQye61fFgmmofxLd0MnSL8+od9VGZfFqMaT2QD3bMWxcrbF9X4g5QjoKDvaWXrFOz
+	 xo7jHyesX7tDIc7xV3GKzBQlVE5o5ajQmfs+f/roZgQkxvOuuzIhK9iCm0U7afdcve
+	 y6+fe+PEfCBQKQxPWi56x3VzYeH7KKrIDQnDMEh3mtPKRB7Z6XHq0SbfZN8zwPrax2
+	 bSOVblKhrK7NRpXYnx35EES5JrspRxsNoE10sRNYJjkvqBEtJlyYiwfHPzsjKqUw/F
+	 AWj+j1FBVccOfgJFrnZ87BN47MhjFrz7DJy8244w2gVDegbI0yy9cvw2veY3Z1sAz7
+	 IDRotXwNSZ/mQ==
+Date: Tue, 23 Dec 2025 16:45:50 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mayank Rana <mayank.rana@oss.qualcomm.com>, 
+	Baochen Qiang <quic_bqiang@quicinc.com>
+Subject: Re: [PATCH v4] mhi: host: Add support for dual ELF image format
+Message-ID: <a5obqgu6swi7eq2j2n2655twn4aw2muzkrr5txmbg2qdfzs36y@7v6maj5pdw6c>
+References: <20251223-wlan_image_load_skip_512k-v4-1-a00234a6c578@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251223-wlan_image_load_skip_512k-v4-1-a00234a6c578@oss.qualcomm.com>
 
-On 18-12-25, 10:56, Frank Li wrote:
-> Previously, configuration and preparation required two separate calls. This
-> works well when configuration is done only once during initialization.
+On Tue, Dec 23, 2025 at 01:16:46AM -0800, Qiang Yu wrote:
+> From: Mayank Rana <mayank.rana@oss.qualcomm.com>
 > 
-> However, in cases where the burst length or source/destination address must
-> be adjusted for each transfer, calling two functions is verbose and
-> requires additional locking to ensure both steps complete atomically.
+> Currently, the FBC image contains a single ELF header followed by segments
+> for both SBL and WLAN FW. However, TME-L (Trust Management Engine Lite)
+> supported devices (e.g., QCC2072) require separate ELF headers for SBL and
+> WLAN FW segments due to TME-L image authentication requirements.
 > 
-> Add a new API dmaengine_prep_config_single() and dmaengine_prep_config_sg()
-> and callback device_prep_config_sg() that combines configuration and
-> preparation into a single operation. If the configuration argument is
-> passed as NULL, fall back to the existing implementation.
+> Current image format contains two sections in a single binary:
+> - First 512KB: ELF header + SBL segments
+> - Remaining: WLAN FW segments (raw data)
 > 
-> Add a new API dmaengine_prep_config_single_safe() and
-> dmaengine_prep_config_sg_safe() for re-entrancy, which require driver
-> implement callback device_prep_config_sg().
+> The TME-L supported image format contains two complete ELF files in a
+> single binary:
+> - First 512KB: Complete SBL ELF file (ELF header + SBL segments)
+> - Remaining: Complete WLAN FW ELF file (ELF header + WLAN FW segments)
 > 
-> Tested-by: Niklas Cassel <cassel@kernel.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Download behavior:
+> - Legacy: 1. First 512KB via BHI (ELF header + SBL)
+>           2. Full image via BHIe
+> 
+> - TME-L: 1. First 512KB via BHI (SBL ELF file)
+>          2. Remaining via BHIe (WLAN FW ELF file only)
+> 
+> Add runtime detection to automatically identify the image format by
+> checking for the presence of a second ELF header at the 512KB boundary.
+> When detected, MHI skips the first 512KB during WLAN FW download over BHIe
+> as it is loaded in BHI phase.
+> 
+> Reviewed-by: Baochen Qiang <quic_bqiang@quicinc.com>
+> Signed-off-by: Mayank Rana <mayank.rana@oss.qualcomm.com>
+> Co-developed-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+> Signed-off-by: Qiang Yu <qiang.yu@oss.qualcomm.com>
+
+This version is not anyway close to the previous one. So all the tags from
+Mayank and Baochen are irrelevant.
+
+- Mani
+
 > ---
-> change in v2
-> - add () for function
-> - use short name device_prep_sg(), remove "slave" and "config". the 'slave'
-> is reduntant. after remove slave, the function name is difference existed
-> one, so remove _config suffix.
-> ---
->  Documentation/driver-api/dmaengine/client.rst |   9 +++
->  include/linux/dmaengine.h                     | 103 ++++++++++++++++++++++++--
->  2 files changed, 105 insertions(+), 7 deletions(-)
+> Changes in v4:
+> - Detect image format runtime by checking second ELF header instead of using a flag.
+> - Link to v3: https://lore.kernel.org/r/20251201-wlan_image_load_skip_512k-v3-1-bedb5498a58a@oss.qualcomm.com
 > 
-> diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-> index d491e385d61a98b8a804cd823caf254a2dc62cf4..02c45b7d7a779421411eb9c68325cdedafcfe3b1 100644
-> --- a/Documentation/driver-api/dmaengine/client.rst
-> +++ b/Documentation/driver-api/dmaengine/client.rst
-> @@ -80,6 +80,10 @@ The details of these operations are:
->  
->    - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
->  
-> +  - config_sg: Similar with slave_sg, just pass down dma_slave_config
-> +    struct to avoid call dmaengine_slave_config() every time if need
-> +    adjust burst length or FIFO address.
+> Changes in v3:
+> - Reword commit message.
+> - Reword comments of standard_elf_image flag
+> - Add reviewed-by tag.
+> - Link to v2: https://lore.kernel.org/mhi/20250603-standard_elf_image_load_support-v2-1-cce97644e99e@oss.qualcomm.com/
+> 
+> Changes in v2:
+> - V1 patch is paused because of no user. WLAN team plan to add support for
+>   new WLAN chip that requires this patch, so send v2.
+> - Change author and SOB with new mail address.
+> - Reword commit message.
+> - Place standard_elf_image flag after wake_set in struct mhi_controller
+> - Link to v1: https://lore.kernel.org/mhi/1689907189-21844-1-git-send-email-quic_qianyu@quicinc.com/
+> ---
+>  drivers/bus/mhi/host/boot.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index 205d83ac069f15a19ab2d66a63692e5d60334d4c..6ba0f16854d3a839e987f19d782600467b5f9836 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -584,6 +584,17 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * device transitioning into MHI READY state
+>  	 */
+>  	if (fw_load_type == MHI_FW_LOAD_FBC) {
 > +
->    - peripheral_dma_vec: DMA an array of scatter gather buffers from/to a
->      peripheral. Similar to slave_sg, but uses an array of dma_vec
->      structures instead of a scatterlist.
-> @@ -106,6 +110,11 @@ The details of these operations are:
->  		unsigned int sg_len, enum dma_data_direction direction,
->  		unsigned long flags);
->  
-> +     struct dma_async_tx_descriptor *dmaengine_prep_config_sg(
-> +		struct dma_chan *chan, struct scatterlist *sgl,
-> +		unsigned int sg_len, enum dma_transfer_direction dir,
-> +		unsigned long flags, struct dma_slave_config *config);
+> +		/*
+> +		 * Some FW combine two separate ELF images (SBL + WLAN FW) in a single
+> +		 * file. Hence, check for the existence of the second ELF header after
+> +		 * SBL. If present, load the second image separately.
+> +		 */
+> +		if (!memcmp(fw_data + mhi_cntrl->sbl_size, ELFMAG, SELFMAG)) {
+> +			fw_data += mhi_cntrl->sbl_size;
+> +			fw_sz -= mhi_cntrl->sbl_size;
+> +		}
 > +
->       struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
->  		struct dma_chan *chan, const struct dma_vec *vecs,
->  		size_t nents, enum dma_data_direction direction,
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 99efe2b9b4ea9844ca6161208362ef18ef111d96..276dca760f95e1131f5ff5bf69752c4c9cb1bcad 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -835,6 +835,8 @@ struct dma_filter {
->   *	where the address and size of each segment is located in one entry of
->   *	the dma_vec array.
->   * @device_prep_slave_sg: prepares a slave dma operation
-> + *	(Deprecated, use @device_prep_config_sg)
-
-Sorry that is _not_ deprecated, we are adding another way to do this in
-a single shot
-
-> + * @device_prep_config_sg: prepares a slave DMA operation with dma_slave_config
->   * @device_prep_dma_cyclic: prepare a cyclic dma operation suitable for audio.
->   *	The function takes a buffer of size buf_len. The callback function will
->   *	be called after period_len bytes have been transferred.
-> @@ -934,6 +936,11 @@ struct dma_device {
->  		struct dma_chan *chan, struct scatterlist *sgl,
->  		unsigned int sg_len, enum dma_transfer_direction direction,
->  		unsigned long flags, void *context);
-> +	struct dma_async_tx_descriptor *(*device_prep_config_sg)(
-> +		struct dma_chan *chan, struct scatterlist *sgl,
-> +		unsigned int sg_len, enum dma_transfer_direction direction,
-> +		unsigned long flags, struct dma_slave_config *config,
-> +		void *context);
->  	struct dma_async_tx_descriptor *(*device_prep_dma_cyclic)(
->  		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
->  		size_t period_len, enum dma_transfer_direction direction,
-> @@ -974,22 +981,85 @@ static inline bool is_slave_direction(enum dma_transfer_direction direction)
->  	       (direction == DMA_DEV_TO_DEV);
->  }
->  
-> -static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
-> -	struct dma_chan *chan, dma_addr_t buf, size_t len,
-> -	enum dma_transfer_direction dir, unsigned long flags)
-> +/*
-> + * Re-entrancy and locking considerations for callers:
-> + *
-> + * dmaengine_prep_config_single(sg)_safe() is re-entrant and requires the
-> + * DMA engine driver to implement device_prep_config_sg(). It returns NULL
-> + * if device_prep_config_sg() is not implemented.
-> + *
-> + * The unsafe variant (without the _safe suffix) falls back to calling
-> + * dmaengine_slave_config() and dmaengine_prep_slave_sg() separately.
-> + * In this case, additional locking may be required, depending on the
-> + * DMA consumer's usage.
-> + */
-> +static inline struct dma_async_tx_descriptor *
-> +dmaengine_prep_config_sg_safe(struct dma_chan *chan, struct scatterlist *sgl,
-> +	unsigned int sg_len, enum dma_transfer_direction dir,
-> +	unsigned long flags, struct dma_slave_config *config)
-> +{
-> +	if (!chan || !chan->device || !chan->device->device_prep_config_sg)
-> +		return NULL;
-> +
-> +	return chan->device->device_prep_config_sg(chan, sgl, sg_len,
-> +						   dir, flags, config, NULL);
-> +}
-> +
-> +static inline struct dma_async_tx_descriptor *
-> +dmaengine_prep_config_single_safe(struct dma_chan *chan, dma_addr_t buf,
-> +	size_t len, enum dma_transfer_direction dir, unsigned long flags,
-> +	struct dma_slave_config *config)
-
-Agree with Damien, this could look better!
+>  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+> 
+> ---
+> base-commit: ac35e04f8000aaaf98635792464647e7a6f3422e
+> change-id: 20251129-wlan_image_load_skip_512k-ddcfe49db8e3
+> 
+> Best regards,
+> -- 
+> Qiang Yu <qiang.yu@oss.qualcomm.com>
+> 
 
 -- 
-~Vinod
+மணிவண்ணன் சதாசிவம்
