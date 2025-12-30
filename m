@@ -1,89 +1,157 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD3F3A1E8C
-	for <mhi@lists.linux.dev>; Tue, 30 Dec 2025 10:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D83E27A45C
+	for <mhi@lists.linux.dev>; Tue, 30 Dec 2025 11:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767089531; cv=none; b=O+K5CwG2fwd9ylUoF5gxWLudDx8jD8esF6rupmv/33elI3FNdoe8qExxQyer2j99vYyWRn5hOKK3cRzurDClCFOMp068OEMsKGsl43RwPapPfnZ1tzf8njeEKZO0XSYo7WXWmGDqVQIq3UKc8RbnVRcD6DmnQp+9xNkQHl/2SLA=
+	t=1767093561; cv=none; b=kDE05uFZ+L13v2jeYU25UMdicPF97BVCGVJY5xSjsTrUoW3QvLdP1o7+O61gfNqDkRI9V4/QvVDEPt+PRzswET2J0Aj4OiNu4/wLjLbFUWuXa7afaoi13LTDdXB5OCbOIVG1K3P2AOmg0jNGM1Cu1M0upI+Fzfqgri68T+eXWHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767089531; c=relaxed/simple;
-	bh=wTiXDpfU6q9X5QdMk9Tcxn26k+zyE0H7rCZr5xwZ3ks=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=P1yK16Np7vtZL/z7YDLoTmxe6pA3pX4JJ1U8IW5f/I5jkm1/f4ZAuFA5pPNdpdfpfqxXJGscKNGLMcvQQDf5Dgz8HEYva7962h4H8YJ2bnlCJUtOH319vGkuFPV/sZbKFsLxEoRkuTxAvi8E+8iNDjOdgigDYwS1ZYQoF+c6cpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ctehTI5y; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1767093561; c=relaxed/simple;
+	bh=Jvz1P40VPI3GI2IPAvBlpLBMAOhptp9OUvSuPi++EAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Smj4aq3OHYpWq59HdLFIFzu42hw+wxzlh1c/TwkmAVMXMvrkioQ7ZObfHWZqSDceeyhNPn/9clCiPt9K5cf/UFmYYwds2SAdeHQ4zhGiQ+FrTNLqqr60XOHqXb0aO5N3FOUUKnyR1lgrOFuYwKwrvGWUnZl0EPMuirB4niQ0Qdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eJ7ngUhg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ctehTI5y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=wTiXDpfU6q9X5QdMk9Tcxn26k+zyE0H7rCZr5xwZ3ks=; b=c
-	tehTI5yuWGpg8uWZasa2JnFFRnvcbitNFiLLNXjT5x6goUKhCricZHtF8jb5meIz
-	GwGJqQ/rSBCkHH5g8svs6dJtqp9Ihk34EJHS9b5w+aqwfRDRQWkqEmL9vyWJfTY7
-	P3Kx1WTFkw9Md7UqAIx6JwJhcXRVEObJ1gqJQbXCNw=
-Received: from slark_xiao$163.com ( [112.97.82.249] ) by
- ajax-webmail-wmsvr-40-137 (Coremail) ; Tue, 30 Dec 2025 18:08:04 +0800
- (CST)
-Date: Tue, 30 Dec 2025 18:08:04 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Loic Poulain" <loic.poulain@oss.qualcomm.com>
-Cc: mani@kernel.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:Re: Re: [PATCH v3 2/2] net: wwan: mhi: Add network support for
- Foxconn T99W760
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <CAFEp6-2NBa8tgzTH__F4MOg=03-LO7RjhobhaKHmapXXa9Xeyw@mail.gmail.com>
-References: <20251119105615.48295-1-slark_xiao@163.com>
- <20251119105615.48295-3-slark_xiao@163.com>
- <CAFEp6-23je6WC0ocMP7jXUtPGfeG9_LpY+1N-oLcSTOmqQCL2w@mail.gmail.com>
- <4c4751c0.9803.19b3079a159.Coremail.slark_xiao@163.com>
- <CAFEp6-2NBa8tgzTH__F4MOg=03-LO7RjhobhaKHmapXXa9Xeyw@mail.gmail.com>
-X-NTES-SC: AL_Qu2dBfyTtkoj4imZYukfmk8Sg+84W8K3v/0v1YVQOpF8jBLowBkwXUJINHjZyMiRJAKgrRWbTjtF++VreJlyZIwLdz1obbFqRjSDjk80aCdNiw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eJ7ngUhg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767093557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U7hrgwbUeI2Nj9FtXzSGQZOICXYg61l+/KAfCDFoCa4=;
+	b=eJ7ngUhgr/2M1jFbMnM5FW/AsIAvBS0YcJ8ZFYV2Lbkg6vo/HW58ySMxry8SAUq9y3uT4a
+	0VCkx/iGR06r6FfkMc13MaZr9C8oyV9XRya83tkWCNAYvSzv9nVclDYJR3MOgiQdyzI2aF
+	QRtYt+585g+h3pLmduf9hERCflNgzDY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-TNg9r-oKPnW9CLLTPkuNuw-1; Tue, 30 Dec 2025 06:19:15 -0500
+X-MC-Unique: TNg9r-oKPnW9CLLTPkuNuw-1
+X-Mimecast-MFC-AGG-ID: TNg9r-oKPnW9CLLTPkuNuw_1767093554
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43102ac1da8so7117261f8f.2
+        for <mhi@lists.linux.dev>; Tue, 30 Dec 2025 03:19:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767093554; x=1767698354;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U7hrgwbUeI2Nj9FtXzSGQZOICXYg61l+/KAfCDFoCa4=;
+        b=iNpxpORB5rC8eEkhQ2+c++ieizlFNIA+Rk861pAkW6iSb5J5SpcA6UiaFvW+s3L1Po
+         W/lVlSxXeIp/Y8jtQ+8kNO03VcHXCEfI1G9/mC/8vTtHnSZ4J4clSSdjbjUOcjj/kfMB
+         i3OLR1aXlTrKKBdc5xNjSBaMZnxEj1lK0zKnKoUtXaPFvqbKIAs1INYmWdZAACKxKSQJ
+         YKQdn5R/++00MYh8+qmrAWCqMEzF6wO5F5isuOJCWbCxNuE/DMd8s095HpRiDgNrjkDS
+         f4wyoRnWZhdyBT89T3ys2C51b88ZvX7nZSdTkxAbhtIyTEPWYjRv+CWpzBA5ewuieaLZ
+         14Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfZiX2a6fxX1c/ICIuPmRNTkbHnGNA0kQF+IrVRqYKwmSYtGO2lk4wo4yiAKlz/poCm7U=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRZn9pxjGzncNC0QTrYs4BgzrbvjJjTDgqytgMMPPtzz8fVFY3
+	nfWt4fxn/wGkjvmMk48ubn9wbF9Km1uZlbezLtKYmZnyfJ4MAUfJRWmYEZvhQIDYOAAzuXoeHB0
+	1xgZrC5aJ7igcZwn0CWyEZA+JDHRoOH+9WYpH/XJJMRzuB8cdqOv7AA==
+X-Gm-Gg: AY/fxX6EfgKURvGzlJ1RGOncnUR7WiN1dXz60OsCuAID9X5OiZcCT0l02uYdwhA307J
+	axWcoN6xe8tWxCsP2PqJnr9YIJlCfU/VV+F3rm1N27Z8vOWvHyz+Z16WXKn4CZRFvaYx1Kxjayl
+	onIF/pZPDfgUx2iXRt0CS2DPTeWa8s2cJkJSPHuPLQCm30se5u+GVQ9TklIuATDE4WNIfNDm9s7
+	HvGbd1+eNk0HE4v5eLsbGKL8VyKxEm0cQdv1pqmtg3bP8HqOP1/1yHFCtXo0yzZIB8yXzbGjPkG
+	KIqsuyRf7ag06KWRZbBz+EI3IpSr/oGt9AQcTDB/la7lQu6oGJWV6bDurmMxQaPsaeNCj2XzqND
+	cTu9Sk+Wo7pQO
+X-Received: by 2002:a05:6000:2285:b0:430:f5ed:83d3 with SMTP id ffacd0b85a97d-4324e4c70damr45678311f8f.5.1767093554366;
+        Tue, 30 Dec 2025 03:19:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHboRnDVzmL21EwUlm2sk+VKxBUKVEIOYW980hh/unpcMdOb28kmZ5YH4pTgiukG05Lr4ZGvw==
+X-Received: by 2002:a05:6000:2285:b0:430:f5ed:83d3 with SMTP id ffacd0b85a97d-4324e4c70damr45678270f8f.5.1767093553933;
+        Tue, 30 Dec 2025 03:19:13 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.153.12])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1aef7sm67972803f8f.7.2025.12.30.03.19.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Dec 2025 03:19:13 -0800 (PST)
+Message-ID: <d3c7fad0-2c59-46cf-a1df-72f4fbbbe666@redhat.com>
+Date: Tue, 30 Dec 2025 12:19:11 +0100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <703d68c0.93c7.19b6ebaa741.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:iSgvCgD3XwiFpFNpCS1MAA--.4671W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbC5wR53WlTpIQiBgAA35
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] net: wwan: mhi: Add network support for Foxconn
+ T99W760
+To: Slark Xiao <slark_xiao@163.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: mani@kernel.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251119105615.48295-1-slark_xiao@163.com>
+ <20251119105615.48295-3-slark_xiao@163.com>
+ <CAFEp6-23je6WC0ocMP7jXUtPGfeG9_LpY+1N-oLcSTOmqQCL2w@mail.gmail.com>
+ <4c4751c0.9803.19b3079a159.Coremail.slark_xiao@163.com>
+ <CAFEp6-2NBa8tgzTH__F4MOg=03-LO7RjhobhaKHmapXXa9Xeyw@mail.gmail.com>
+ <703d68c0.93c7.19b6ebaa741.Coremail.slark_xiao@163.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <703d68c0.93c7.19b6ebaa741.Coremail.slark_xiao@163.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: o7bsbOHJPrtnVh-4fqweL8PGzvDkbRp8dNEPJLYV2q8_1767093554
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-CgpBdCAyMDI1LTEyLTMwIDE3OjUwOjM5LCAiTG9pYyBQb3VsYWluIiA8bG9pYy5wb3VsYWluQG9z
-cy5xdWFsY29tbS5jb20+IHdyb3RlOgo+SGkgU2xhcmssCj4KPk9uIFRodSwgRGVjIDE4LCAyMDI1
-IGF0IDk6MDHigK9BTSBTbGFyayBYaWFvIDxzbGFya194aWFvQDE2My5jb20+IHdyb3RlOgo+Pgo+
-Pgo+PiBBdCAyMDI1LTExLTIxIDIwOjQ2OjU0LCAiTG9pYyBQb3VsYWluIiA8bG9pYy5wb3VsYWlu
-QG9zcy5xdWFsY29tbS5jb20+IHdyb3RlOgo+PiA+T24gV2VkLCBOb3YgMTksIDIwMjUgYXQgMTE6
-NTfigK9BTSBTbGFyayBYaWFvIDxzbGFya194aWFvQDE2My5jb20+IHdyb3RlOgo+PiA+Pgo+PiA+
-PiBUOTlXNzYwIGlzIGRlc2lnbmVkIGJhc2VkIG9uIFF1YWxjb21tIFNEWDM1IGNoaXAuIEl0IHVz
-ZSBzaW1pbGFyCj4+ID4+IGFyY2hpdGVjaHR1cmUgd2l0aCBTRFg3Mi9TRFg3NSBjaGlwLiBTbyB3
-ZSBuZWVkIHRvIGFzc2lnbiBpbml0aWFsCj4+ID4+IGxpbmsgaWQgZm9yIHRoaXMgZGV2aWNlIHRv
-IG1ha2Ugc3VyZSBuZXR3b3JrIGF2YWlsYWJsZS4KPj4gPj4KPj4gPj4gU2lnbmVkLW9mZi1ieTog
-U2xhcmsgWGlhbyA8c2xhcmtfeGlhb0AxNjMuY29tPgo+PiA+Cj4+ID5SZXZpZXdlZC1ieTogTG9p
-YyBQb3VsYWluIDxsb2ljLnBvdWxhaW5Ab3NzLnF1YWxjb21tLmNvbT4KPj4gPgo+PiBIaSBMb2lj
-LAo+PiBNYXkgSSBrbm93IHdoZW4gdGhpcyBwYXRjaCB3b3VsZCBiZSBhcHBsaWVkIGludG8gbmV0
-IG9yIGxpbnV4LW5leHQ/Cj4+IEkgc2F3IHRoZSBjaGFuZ2VzIGluIE1ISSBzaWRlIGhhcyBiZWVu
-IGFwcGxpZWQuCj4+IFQ5OVc3NjAgZGV2aWNlIHdvdWxkIGhhdmUgYSBuZXR3b3JrIHByb2JsZW0g
-aWYgbWlzc2luZyB0aGlzIGNoYW5nZXMgaW4gd3dhbgo+PiBzaWRlLiBQbGVhc2UgaGVscCBkbyBh
-IGNoZWNraW5nLgo+Cj5Zb3UgY2FuIHNlZSBzdGF0dXMgaGVyZTogaHR0cHM6Ly9wYXRjaHdvcmsu
-a2VybmVsLm9yZy9wcm9qZWN0L25ldGRldmJwZi9saXN0Lwo+Cj5JZiB0aGUgY2hhbmdlcyBoYXZl
-IG5vdCBiZWVuIHBpY2tlZCB0b2dldGhlciwgcGxlYXNlIHJlc2VuZCB0aGlzIG9uZSwKPmluY2x1
-ZGluZyB0YWdzLgo+Cj5SZWdhcmRzLAo+TG9pYwpIaSBMb2ljLApJIGNoZWNrZWQgYWJvdmUgbGlu
-ayBhbmQgZGlkbid0IGZpbmQgbXkgY2hhbmdlcy4KVGhpcyBpcyBzdHJhbmdlIHNpbmNlIHRoZSBj
-aGFuZ2VzIGluIE1ISSBzaWRlIG9mIHRoaXMgc2VyaWFsIGhhcyBiZWVuIGFwcGxpZWQsIGJ1dCB0
-aGlzIApoYXMgYmVlbiBpZ25vcmVkLgpCVFcsIHRoaXMgY2hhbmdlcyBtYXkgbm90IGJlIGFwcGxp
-Y2FibGUgYmVjYXVzZSBhbm90aGVyIGNoYW5nZSAKaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9y
-Zy9wcm9qZWN0L25ldGRldmJwZi9wYXRjaC8yMDI1MTEyMDExNDExNS4zNDQyODQtMS1zbGFya194
-aWFvQDE2My5jb20vCmhhcyBiZWVuIGFwcGxpZWQuIAoKU28gZG8geW91IHdhbnQgbWUgdG8gcmVz
-ZW5kIHRoZSBuZXcgY2hhbmdlcyBiYXNlZCBvbiB0aGUgbGF0ZXN0IG5ldCBiYXNlbGluZSA/CkFu
-eSBzZXJpYWxzIHNoYWxsIGJlIGFzc2lnbmVkPyBWNCBzaGFsbCBiZSB1c2VkPwo=
+On 12/30/25 11:08 AM, Slark Xiao wrote:
+> At 2025-12-30 17:50:39, "Loic Poulain" <loic.poulain@oss.qualcomm.com> wrote:
+>> Hi Slark,
+>>
+>> On Thu, Dec 18, 2025 at 9:01 AM Slark Xiao <slark_xiao@163.com> wrote:
+>>>
+>>>
+>>> At 2025-11-21 20:46:54, "Loic Poulain" <loic.poulain@oss.qualcomm.com> wrote:
+>>>> On Wed, Nov 19, 2025 at 11:57 AM Slark Xiao <slark_xiao@163.com> wrote:
+>>>>>
+>>>>> T99W760 is designed based on Qualcomm SDX35 chip. It use similar
+>>>>> architechture with SDX72/SDX75 chip. So we need to assign initial
+>>>>> link id for this device to make sure network available.
+>>>>>
+>>>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+>>>>
+>>>> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>>>
+>>> Hi Loic,
+>>> May I know when this patch would be applied into net or linux-next?
+>>> I saw the changes in MHI side has been applied.
+>>> T99W760 device would have a network problem if missing this changes in wwan
+>>> side. Please help do a checking.
+>>
+>> You can see status here: https://patchwork.kernel.org/project/netdevbpf/list/
+>>
+>> If the changes have not been picked together, please resend this one,
+>> including tags.
+>>
+>> Regards,
+>> Loic
+> Hi Loic,
+> I checked above link and didn't find my changes.
+> This is strange since the changes in MHI side of this serial has been applied, but this 
+> has been ignored.
+> BTW, this changes may not be applicable because another change 
+> https://patchwork.kernel.org/project/netdevbpf/patch/20251120114115.344284-1-slark_xiao@163.com/
+> has been applied. 
+> 
+> So do you want me to resend the new changes based on the latest net baseline ?
+> Any serials shall be assigned? V4 shall be used?
+
+You must re-submit this patch, targeting the net-next tree (the subj
+prefix must include 'net-next'), but please note:
+
+## Form letter - net-next-closed
+
+The net-next tree is closed for new drivers, features, code refactoring
+and optimizations due to the merge window and the winter break. We are
+currently accepting bug fixes only.
+
+Please repost when net-next reopens after Jan 2nd.
+
+RFC patches sent for review only are obviously welcome at any time.
+
+
+
