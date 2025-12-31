@@ -1,109 +1,93 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0185D30FF03
-	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663DC3101B0
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767178556; cv=none; b=WvhVCAM23SuwDIDS4e55SQOreuZ2umL38AYJatYy7bsoO+nb6KEYiRbfxsmTqMCXKrewgbftJ/MbTtIH//9CJRRWUvB7VTiz5X7FstmoRMz69O0GLc9m+tk8c8Gt1MKMmMaNhgZnriJpihXwTUj1sbdwDcuBOkCgxdG5mxG1Vq8=
+	t=1767178689; cv=none; b=YmWpuLjsS5VdT3/GFNIEua8Odv5CbZNI+mCWnXH65N44LRhpE5VJvuCVANtWcq2oFS+qYM4UdWDGAyo1H4IwR7PjtYn4eP8BiqFXoJ3atA2oenM5lxh0Og86dOCKezFnLz9nn58B99V3c+a5NjiVG9f61kRforMc1aIAtEm4t4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767178556; c=relaxed/simple;
-	bh=HaoGokyMCKS6sYN1xubOMqBe4hgsaEX+B8nRrEYfBZI=;
+	s=arc-20240116; t=1767178689; c=relaxed/simple;
+	bh=B+7AWu+tS9G8ZNuAETesmZnIgnJ5Xd8o9lFd8WLIhdE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VQjbROmnTmpF/CcbD7Bbc4r1pRnxoJjH0lcv8qe/V0nlJxC1O1i97eULEudc0A1caQEEbnAXEh83XKSGwlMUXsbl0cNgr9AbV90lS4ZyFeKgzf3olptW3sPoBLk4ICZqPYm0cBDx9yPNQdFGal0wJAkr3vndGEdK0pgm7yeCnJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l9LalVlH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VG556KYP; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=l2nwKjSC1A3qsmUq47p/p9DWiIspg6AxLjHJ8xrFS7VGaTNIqFPJGlw5P5MHTz6ghOekxKTsRFxM0EYNiVLT5FhnMRYE4Ye5bv25EKEf6Zg3uZHxfnnQLsX5bgV8ytMCyA7aSxnCg5aaPzjHZjal6mbscB8IZ8d0E7+Nhr9xf/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ekCsAV2O; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=daBovp49; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="l9LalVlH";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VG556KYP"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BV3dakL1830540
-	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ekCsAV2O";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="daBovp49"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BV78RXG2733191
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:58:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=; b=l9LalVlHnMCVESuA
-	ktNoLFmYgR+yMVeRPmZ1JFaUS088FgaON98gaUXZiHac/q7y5EeYEAVhiSnb1ZAs
-	bYT+nenGTAW/98+5957nIK3Pr9Yc487SIjLLFsPE3gnkNCbWbIo3ZBBxFrTCoTdK
-	khuLOhMy8IAWzxCWzztVs4hz4Kcl5cvgc8fD+mE0Mfp4uZWixQ1IaVnRZ1KWAq41
-	edQTCHKA1PUAvPJLc6h0JiA83UANl8JKbLs7O3Uf0ZpoojkDqxfTTdBzgaYir3SN
-	77Kp5o6ebyhoMAclhFdxW9LbhvNNHHTcT7l7pkeRIVAhRR6276p8C4+OyjObaxgD
-	SQHIsA==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bcv4agqe5-1
+	7cEHZ+eRInETbu5GOl5SXv/YjMS9QIHUHvjMzHMuIBg=; b=ekCsAV2Oz7+qfTvY
+	Jfdo1h3zKwZ66bobiRxy9g0IQ/45iVNEdTX+8JZ1z4j9Kb/xHdLxsLHaZ6ux7H0y
+	49m5i8vC5GqT18jsoAa/Qk+4FQ1s30VUfCNAHLmbXBjZrSFCfWYPASeZxif7nofH
+	B01wzNVN3iYe0pgsyvLdkiWyEUr5Y062POPB6vUG4mnvLDvmmw+oC0vYePtCxmfA
+	4hC4/KAmaDmBLwjqKAZtWQC0Wkx7fm8Qr4T3Thz88qKlNaXJUOnkvdw2da7NNhpW
+	5EGjGP0f4icjlYk6+a2/FgK0WcbaMurhkifdzshR6iATOcENl5Qk5tKr5TYNlnLX
+	vXkK9Q==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bcy6agcsw-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7f89d880668so15519844b3a.2
-        for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 02:55:54 -0800 (PST)
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:58:07 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-34c704d5d15so20792941a91.1
+        for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 02:58:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767178554; x=1767783354; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1767178686; x=1767783486; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:date:message-id:subject
          :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=;
-        b=VG556KYPa0X7fYjKRCPhHHrH5pflR2rpcpsWK+xjjVeZbH9rkgTw1JB2mGSSqBPjvl
-         q3LuJAah9eLDxXsxhEUqsK8XGGLtTPynoWcYh/XI+BzHcpG6agCXsqoerEx0n+jIyuZu
-         brYZbiwLhL9vKqO++e5DMnpZLr1H1Vx+2Psx/tZbO/sExTjJ7b7A+CN5ISgfaIodQb1p
-         WBtEQxIXBD5lj1STKBIw2KG3j2L9Wjiu2xDiuGys6ePGQQ/VlZjAmSMQNka79YWLQ2Gp
-         N6afx44Ua+q1a6JF8MUWVOzAOzub00nvm2tM6y2GiMZ6UE93QXDasw42a0LsjESW1Rxq
-         jKZw==
+        bh=7cEHZ+eRInETbu5GOl5SXv/YjMS9QIHUHvjMzHMuIBg=;
+        b=daBovp49eBkW8DCdOaw5zqtfq1P4U5Z33Sko7Iyf5fEIaYCWl1oDVi4ZXU6J5nbZo7
+         pINPMc3GKBk+ddNGNhLSs/EHbz2lPM5ttzN1q2dP3sgF1MJkFsZe4YRaIlRCArdFQMhm
+         4vjPHZXcGXH/Qj9zCQ1zB0u/cj4S2CoXm+tWuZGWtT2LGgqo/qKz8fZTafNbtFD1GvXy
+         0oZjX/Z1BMTyYmfPHCuRRniFbJthBDYEkNUR0j88o0318YrNyAaOVyTdmV/JPmy7fAZN
+         f8mz/IYqzl6Oz2MjJ9FWTcRPz+eC1eESPujhMj0ANtIrQLoyb+mpg+56Y9Lif8XGO83u
+         Z/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767178554; x=1767783354;
+        d=1e100.net; s=20230601; t=1767178686; x=1767783486;
         h=content-transfer-encoding:mime-version:date:message-id:subject
          :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=;
-        b=q1QUSzsHTSxCvHQ7Yiw7kXIINE5QwX/7P/MigUiLRfRCN83RqNiSwj/ZkcU48mROGv
-         F+0Ty0+fvaBvnjaEL2G9yOUP6lEQOrQ49NVsPkrjgt1MZxvVVn1+PiPRb31ScdvFeMg3
-         USXUWo/4IYpQXNMvXDXXzMZ4pyTjYnOrGslP5IbP95/vLrfs/oJ4kEoD/18De++ThzH3
-         VM28asPMf9RGCtlVWhUZ+b/uWgQ9wmhWUlX3h7MdUvdKU2fKxc5ZB4os+HPh4GX3kmQ3
-         M2f0fSR1q1o8L3WmkH3GvN/1tKv8cmY0bDZzgfLleYX5RieY+iBhVD44dTsbpsUlKYIQ
-         ZE/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUouDLEeq1AkIWq6BeatG//UBWzCqJBef6TAoVrcjiKhO8xViJV/CLCzCWcppJJL5AwvV4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy37Zy8jAmSanPFALWehewBcYgBhGJiWUp47lewZaCvn0p3LK/Z
-	ygeAYe0nrNbbl0bqp4PgtjZDJNZymlUYZZ74WNJDkBeXi75dKYEyDWpM607XghroU9iQKe9+zCI
-	RedGoYYoemcnNv0kdh062pBFquqP/sKpxTOPPCgtCp6tbiXk+/Y97z/o=
-X-Gm-Gg: AY/fxX6+rfXef1CRwvQdXqOxmPRLns515wbzwbNZVmZ2FpVNnWDPiG6B5XrepAUCgy/
-	SbW6sllnGv3qeN5M8KKXH8I36oU771fKVuZvfh9MYJ5i1Qvsdmp/8xBDICCd5oLyoV9FE6VaX8U
-	9ig7/uEaWsPZY2MNnk7lwA/NUXFpV7BAY9UPgh+98OoxIpq3hyBFffJwNNlUrCq5BFIp59Sc8bl
-	mpKwd8dLl3zM6bzrmVW1hfd8fQxUuIqtk8SyjC/IC+BiODWvH5J0ARIEdZgd/P0FbGAspH/hqJm
-	pwNJJr5wawbdy5egMc1umE6Yg7LNDmiKcIsD6aLXer9NM2l49uS5vMFNZzBldS/6Vb2UWtuti08
-	7rvzPJxCy/FU4WtvUpi5dwNhMiI321qNNGVnMCA==
-X-Received: by 2002:a05:6a00:348a:b0:7e1:730a:613b with SMTP id d2e1a72fcca58-7ff64ec6724mr32190513b3a.31.1767178553536;
-        Wed, 31 Dec 2025 02:55:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGioiLvW2U0joeR5pbtZjSEPSozpQwlq9uIpJCK2UPjGGzU6NNfRTPRLdM9fVlDl9M9HcekTA==
-X-Received: by 2002:a05:6a00:348a:b0:7e1:730a:613b with SMTP id d2e1a72fcca58-7ff64ec6724mr32190489b3a.31.1767178553048;
-        Wed, 31 Dec 2025 02:55:53 -0800 (PST)
+        bh=7cEHZ+eRInETbu5GOl5SXv/YjMS9QIHUHvjMzHMuIBg=;
+        b=MpzOw70RZRs74xEaD8qtaWkYsObrHz9AiSvLK9hghkLliat846FSzgzN1+eajKFlvE
+         jS0CCnamoQ0MkocVFMKAzzEjTA78schFinS3+ITCcMNif1GJjOLd+C+rIHSl7015SQVz
+         VRqNWvyoNd3faWLftwLErxW6+i8KJ38RabVK+uPQeCB9Dt8YtiKr4vQ0rIQpSwACcmgO
+         p7UsoliH6qZ+6pYlNhUbn1okut0qhmITDel/gHiPWDJxM0IiF4NlkWa5DYzxEIeCblD/
+         tQG0/RqQQc5dV2M+fzJ94ggzVyF1FotkknoSvoFZv/Tz0cRhByZXRHDQERZmJxXfbgIK
+         Qocg==
+X-Gm-Message-State: AOJu0YwqQDMybuXi+X+29WFJSLFVjdOVLCW9lSTAxwT3IWhPAlk1Kl8M
+	epGGDDavhig+qf8LQTTrRXyqZ/CxlBcZ95mfNZhFySIiYEeq+pW0TbvbsX8S3fqoIRb5YDuC7i3
+	dYvJri3ta8wErRb8E/S0gkyuF8QZmlV6FAD+7n4ynzBedZ7R8vY0kfew=
+X-Gm-Gg: AY/fxX77wKpiU2mS0otB4qavbjIq6qo1uSBBnhf1rD1ckfpiQwh9LpimwOw14Ddfmo3
+	lMLylN5/e7Ad7RrCI6l6lIgRQCHirauyjnDVELhrdelY9EJmyw7ktqHMpGTeGFgO8fN6neilo4k
+	4y3s0v+naG+A25eehUzb9OZANAKQ4LqYIOnHpPDFiQ6xiUbUHkulMFDijMrc9StkqpkfgpSPhE3
+	fHs/6ESO+E7sfLQbAQtkakqEa/MJxl4CAMirG2R7m5AqbJ5c1sLBhqF2j6NoRAmusJC3CSgzrX/
+	DjxgV8+56JvIfzH6xc0l0hRc9fMyKXGZmb5jsz0JDaq0QRs383O8K6CnGbm/uM/Os+gr6EUJ9QH
+	MUpQ9aZw4NsqviwLvH48KP65IwR8L7SVEeDPZxQ==
+X-Received: by 2002:a17:90b:528c:b0:349:7fc6:18 with SMTP id 98e67ed59e1d1-34e921448bdmr31719500a91.13.1767178686100;
+        Wed, 31 Dec 2025 02:58:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFvu2r4LIN4SA9OiECV0LpeXSeLXxmuBafFiB4kvk/4/LJ6sFGVHknaDsQlVdJNTAsvjEXHww==
+X-Received: by 2002:a17:90b:528c:b0:349:7fc6:18 with SMTP id 98e67ed59e1d1-34e921448bdmr31719479a91.13.1767178685412;
+        Wed, 31 Dec 2025 02:58:05 -0800 (PST)
 Received: from [192.168.1.102] ([120.60.65.32])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48cea1sm35616794b3a.45.2025.12.31.02.55.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e773026c4sm14539203a91.14.2025.12.31.02.58.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 02:55:52 -0800 (PST)
+        Wed, 31 Dec 2025 02:58:05 -0800 (PST)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Maxim Kochetkov <fido_max@inbox.ru>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-        ath12k@lists.infradead.org, netdev@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>,
-        stable@vger.kernel.org
-In-Reply-To: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
-References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/2] net: qrtr: Drop the MHI 'auto_queue' feature
-Message-Id: <176717854647.8976.2100798756796791971.b4-ty@oss.qualcomm.com>
-Date: Wed, 31 Dec 2025 16:25:46 +0530
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+In-Reply-To: <cover.1766090211.git.ukleinek@kernel.org>
+References: <cover.1766090211.git.ukleinek@kernel.org>
+Subject: Re: [PATCH v1 0/2] bus: mhi: Use bus callbacks for .probe() and
+ .remove()
+Message-Id: <176717868367.10577.5328540743065909423.b4-ty@oss.qualcomm.com>
+Date: Wed, 31 Dec 2025 16:28:03 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -111,52 +95,49 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14.3
-X-Proofpoint-ORIG-GUID: nz03opWPB_N_DChxdtK-5WKUg96KDgWC
-X-Authority-Analysis: v=2.4 cv=Ps6ergM3 c=1 sm=1 tr=0 ts=6955013a cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=+SK5D59PVgoENw9OlSzWFQ==:17
+X-Proofpoint-ORIG-GUID: BLKg5siOtMZXJI7Hfs81XrOuhYACOoU3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDA5NiBTYWx0ZWRfXxUBiO+zDz8IK
+ t5oNulrz4zANk0x/Seaxy9PepC7i69DgUNHNb9c9a2OzBVFz3IIlYZZ8UPWGlEeSpczVLo8CJXx
+ Vwf6U2ifikCawzjQhamibWmFeEYed0EPSCuSyJRU31Cm+7arbq/+5GzcNGRqtnqwh0hp0TBWmpR
+ GyEX/j6rWJIJFzM+wq2kUXZwSC3j2wymGlTBW29M2iKmPw+gPOKeLyPPR+cejavr809y3yqQtFR
+ VZSbDOHMWEZqXD53onanUIDHrb6v9fawMjmF6Z+J7MHvrbqx0qZgIPEUcKXw5mOItQ8nt2oJ1Jm
+ DyWJkvR1RBZdp4bPK2Nv+4+AT0pEmmDMAkHt0k6snOY90c6dgcSUoNMyTBJ0ExtmOMf4V0yHv8V
+ k+MF7Q3fL2bn5RAsG7LEkSxDEwdHlTBJ2Uc8jnjN8Q6ah7zb7NtD6bf5Gx7VQAUbdB+TPfU90r0
+ DA7jsJNRd3A8W7f9i4A==
+X-Proofpoint-GUID: BLKg5siOtMZXJI7Hfs81XrOuhYACOoU3
+X-Authority-Analysis: v=2.4 cv=J9GnLQnS c=1 sm=1 tr=0 ts=695501bf cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=+SK5D59PVgoENw9OlSzWFQ==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=d1LwL24QG6zMnwvM45oA:9
- a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDA5NiBTYWx0ZWRfX0Qf96t5bIvGR
- gPCqsndRQrh3ZMrchWyc4eqfTFMsr4YwKoZEcGgtq7LuX9mlWRCu6oo852IKdrQAAgvXBplA1FG
- HS9f03hzrO9XJoCKVEt4HB4X1Y4OxC0FGZCG6AaLFU6RVBvUPFO/Q/e4yutXZzPAiWqHqQKN7ak
- gyrOKJcMmM+jOkX8pVAivPJDdhgHla1miXfHmrnMxfTjy1kZqw6PlN9h9LwbUmbxKO+j4OdZQKh
- h+rgAp7CtjhxEjBlkbTrrJ7eA/iTtrMqmhg3zyyqOxqRcgRRqg1O/S9KLefMBDGfnZqm73OBzX+
- VsvhjV5r4r16od8TNEkmDZQ8eUzMf9FHlYaqBJurHAtZ8t6Mdgb2MvxA7Ye5RsX2ZUVBMyJCHhH
- E2HaryuC2obnFqw+2lyrurlLgCiZASxPJqupo4wvKpwU/zI1G44fZx2Lt/KzguL/vg3PtBX8iSB
- NzuSbN859Bt6snGAjkg==
-X-Proofpoint-GUID: nz03opWPB_N_DChxdtK-5WKUg96KDgWC
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=y5gR4R5bsXQQqZBJ864A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-31_03,2025-12-31_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 spamscore=0 impostorscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512310096
 
 
-On Thu, 18 Dec 2025 22:21:43 +0530, Manivannan Sadhasivam wrote:
-> This series intends to fix the race between the MHI stack and the MHI client
-> drivers due to the MHI 'auto_queue' feature. As it turns out often, the best
-> way to fix an issue in a feature is to drop the feature itself and this series
-> does exactly that.
+On Thu, 18 Dec 2025 21:42:14 +0100, Uwe Kleine-König wrote:
+> this series converts the two busses defined in drivers/bus/mhi to use
+> bus methods for .probe() and .remove() instead of the respective
+> callbacks of struct device_driver.
 > 
-> There is no real benefit in having the 'auto_queue' feature in the MHI stack,
-> other than saving a few lines of code in the client drivers. Since the QRTR is
-> the only client driver which makes use of this feature, this series reworks the
-> QRTR driver to manage the buffer on its own.
+> The eventual goal is that these callbacks are removed from struct
+> device.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] net: qrtr: Drop the MHI auto_queue feature for IPCR DL channels
-      commit: 51731792a25cb312ca94cdccfa139eb46de1b2ef
-[2/2] bus: mhi: host: Drop the auto_queue support
-      commit: 4a9ba211d0264131dcfca0cbc10bff5ff277ff0a
+[1/2] bus: mhi: host: Use bus callbacks for .probe() and .remove()
+      commit: 8535df5dd64ec02d85e65dbcf79a59db9c16d921
+[2/2] bus: mhi: ep: Use bus callbacks for .probe() and .remove()
+      commit: 91a0b0dce350766675961892ba4431363c4e29f7
 
 Best regards,
 -- 
