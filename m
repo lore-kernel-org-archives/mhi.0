@@ -1,157 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D83E27A45C
-	for <mhi@lists.linux.dev>; Tue, 30 Dec 2025 11:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0185D30FF03
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767093561; cv=none; b=kDE05uFZ+L13v2jeYU25UMdicPF97BVCGVJY5xSjsTrUoW3QvLdP1o7+O61gfNqDkRI9V4/QvVDEPt+PRzswET2J0Aj4OiNu4/wLjLbFUWuXa7afaoi13LTDdXB5OCbOIVG1K3P2AOmg0jNGM1Cu1M0upI+Fzfqgri68T+eXWHo=
+	t=1767178556; cv=none; b=WvhVCAM23SuwDIDS4e55SQOreuZ2umL38AYJatYy7bsoO+nb6KEYiRbfxsmTqMCXKrewgbftJ/MbTtIH//9CJRRWUvB7VTiz5X7FstmoRMz69O0GLc9m+tk8c8Gt1MKMmMaNhgZnriJpihXwTUj1sbdwDcuBOkCgxdG5mxG1Vq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767093561; c=relaxed/simple;
-	bh=Jvz1P40VPI3GI2IPAvBlpLBMAOhptp9OUvSuPi++EAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Smj4aq3OHYpWq59HdLFIFzu42hw+wxzlh1c/TwkmAVMXMvrkioQ7ZObfHWZqSDceeyhNPn/9clCiPt9K5cf/UFmYYwds2SAdeHQ4zhGiQ+FrTNLqqr60XOHqXb0aO5N3FOUUKnyR1lgrOFuYwKwrvGWUnZl0EPMuirB4niQ0Qdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eJ7ngUhg; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1767178556; c=relaxed/simple;
+	bh=HaoGokyMCKS6sYN1xubOMqBe4hgsaEX+B8nRrEYfBZI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VQjbROmnTmpF/CcbD7Bbc4r1pRnxoJjH0lcv8qe/V0nlJxC1O1i97eULEudc0A1caQEEbnAXEh83XKSGwlMUXsbl0cNgr9AbV90lS4ZyFeKgzf3olptW3sPoBLk4ICZqPYm0cBDx9yPNQdFGal0wJAkr3vndGEdK0pgm7yeCnJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l9LalVlH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VG556KYP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eJ7ngUhg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767093557;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U7hrgwbUeI2Nj9FtXzSGQZOICXYg61l+/KAfCDFoCa4=;
-	b=eJ7ngUhgr/2M1jFbMnM5FW/AsIAvBS0YcJ8ZFYV2Lbkg6vo/HW58ySMxry8SAUq9y3uT4a
-	0VCkx/iGR06r6FfkMc13MaZr9C8oyV9XRya83tkWCNAYvSzv9nVclDYJR3MOgiQdyzI2aF
-	QRtYt+585g+h3pLmduf9hERCflNgzDY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-413-TNg9r-oKPnW9CLLTPkuNuw-1; Tue, 30 Dec 2025 06:19:15 -0500
-X-MC-Unique: TNg9r-oKPnW9CLLTPkuNuw-1
-X-Mimecast-MFC-AGG-ID: TNg9r-oKPnW9CLLTPkuNuw_1767093554
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43102ac1da8so7117261f8f.2
-        for <mhi@lists.linux.dev>; Tue, 30 Dec 2025 03:19:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="l9LalVlH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VG556KYP"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BV3dakL1830540
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=; b=l9LalVlHnMCVESuA
+	ktNoLFmYgR+yMVeRPmZ1JFaUS088FgaON98gaUXZiHac/q7y5EeYEAVhiSnb1ZAs
+	bYT+nenGTAW/98+5957nIK3Pr9Yc487SIjLLFsPE3gnkNCbWbIo3ZBBxFrTCoTdK
+	khuLOhMy8IAWzxCWzztVs4hz4Kcl5cvgc8fD+mE0Mfp4uZWixQ1IaVnRZ1KWAq41
+	edQTCHKA1PUAvPJLc6h0JiA83UANl8JKbLs7O3Uf0ZpoojkDqxfTTdBzgaYir3SN
+	77Kp5o6ebyhoMAclhFdxW9LbhvNNHHTcT7l7pkeRIVAhRR6276p8C4+OyjObaxgD
+	SQHIsA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bcv4agqe5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 10:55:54 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7f89d880668so15519844b3a.2
+        for <mhi@lists.linux.dev>; Wed, 31 Dec 2025 02:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767178554; x=1767783354; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=;
+        b=VG556KYPa0X7fYjKRCPhHHrH5pflR2rpcpsWK+xjjVeZbH9rkgTw1JB2mGSSqBPjvl
+         q3LuJAah9eLDxXsxhEUqsK8XGGLtTPynoWcYh/XI+BzHcpG6agCXsqoerEx0n+jIyuZu
+         brYZbiwLhL9vKqO++e5DMnpZLr1H1Vx+2Psx/tZbO/sExTjJ7b7A+CN5ISgfaIodQb1p
+         WBtEQxIXBD5lj1STKBIw2KG3j2L9Wjiu2xDiuGys6ePGQQ/VlZjAmSMQNka79YWLQ2Gp
+         N6afx44Ua+q1a6JF8MUWVOzAOzub00nvm2tM6y2GiMZ6UE93QXDasw42a0LsjESW1Rxq
+         jKZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767093554; x=1767698354;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U7hrgwbUeI2Nj9FtXzSGQZOICXYg61l+/KAfCDFoCa4=;
-        b=iNpxpORB5rC8eEkhQ2+c++ieizlFNIA+Rk861pAkW6iSb5J5SpcA6UiaFvW+s3L1Po
-         W/lVlSxXeIp/Y8jtQ+8kNO03VcHXCEfI1G9/mC/8vTtHnSZ4J4clSSdjbjUOcjj/kfMB
-         i3OLR1aXlTrKKBdc5xNjSBaMZnxEj1lK0zKnKoUtXaPFvqbKIAs1INYmWdZAACKxKSQJ
-         YKQdn5R/++00MYh8+qmrAWCqMEzF6wO5F5isuOJCWbCxNuE/DMd8s095HpRiDgNrjkDS
-         f4wyoRnWZhdyBT89T3ys2C51b88ZvX7nZSdTkxAbhtIyTEPWYjRv+CWpzBA5ewuieaLZ
-         14Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfZiX2a6fxX1c/ICIuPmRNTkbHnGNA0kQF+IrVRqYKwmSYtGO2lk4wo4yiAKlz/poCm7U=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRZn9pxjGzncNC0QTrYs4BgzrbvjJjTDgqytgMMPPtzz8fVFY3
-	nfWt4fxn/wGkjvmMk48ubn9wbF9Km1uZlbezLtKYmZnyfJ4MAUfJRWmYEZvhQIDYOAAzuXoeHB0
-	1xgZrC5aJ7igcZwn0CWyEZA+JDHRoOH+9WYpH/XJJMRzuB8cdqOv7AA==
-X-Gm-Gg: AY/fxX6EfgKURvGzlJ1RGOncnUR7WiN1dXz60OsCuAID9X5OiZcCT0l02uYdwhA307J
-	axWcoN6xe8tWxCsP2PqJnr9YIJlCfU/VV+F3rm1N27Z8vOWvHyz+Z16WXKn4CZRFvaYx1Kxjayl
-	onIF/pZPDfgUx2iXRt0CS2DPTeWa8s2cJkJSPHuPLQCm30se5u+GVQ9TklIuATDE4WNIfNDm9s7
-	HvGbd1+eNk0HE4v5eLsbGKL8VyKxEm0cQdv1pqmtg3bP8HqOP1/1yHFCtXo0yzZIB8yXzbGjPkG
-	KIqsuyRf7ag06KWRZbBz+EI3IpSr/oGt9AQcTDB/la7lQu6oGJWV6bDurmMxQaPsaeNCj2XzqND
-	cTu9Sk+Wo7pQO
-X-Received: by 2002:a05:6000:2285:b0:430:f5ed:83d3 with SMTP id ffacd0b85a97d-4324e4c70damr45678311f8f.5.1767093554366;
-        Tue, 30 Dec 2025 03:19:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHboRnDVzmL21EwUlm2sk+VKxBUKVEIOYW980hh/unpcMdOb28kmZ5YH4pTgiukG05Lr4ZGvw==
-X-Received: by 2002:a05:6000:2285:b0:430:f5ed:83d3 with SMTP id ffacd0b85a97d-4324e4c70damr45678270f8f.5.1767093553933;
-        Tue, 30 Dec 2025 03:19:13 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.153.12])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1aef7sm67972803f8f.7.2025.12.30.03.19.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Dec 2025 03:19:13 -0800 (PST)
-Message-ID: <d3c7fad0-2c59-46cf-a1df-72f4fbbbe666@redhat.com>
-Date: Tue, 30 Dec 2025 12:19:11 +0100
+        d=1e100.net; s=20230601; t=1767178554; x=1767783354;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O+f7Mi5vx+QI3KHSGUaTpC6QdSIVzAVg+5x+XC0DFt4=;
+        b=q1QUSzsHTSxCvHQ7Yiw7kXIINE5QwX/7P/MigUiLRfRCN83RqNiSwj/ZkcU48mROGv
+         F+0Ty0+fvaBvnjaEL2G9yOUP6lEQOrQ49NVsPkrjgt1MZxvVVn1+PiPRb31ScdvFeMg3
+         USXUWo/4IYpQXNMvXDXXzMZ4pyTjYnOrGslP5IbP95/vLrfs/oJ4kEoD/18De++ThzH3
+         VM28asPMf9RGCtlVWhUZ+b/uWgQ9wmhWUlX3h7MdUvdKU2fKxc5ZB4os+HPh4GX3kmQ3
+         M2f0fSR1q1o8L3WmkH3GvN/1tKv8cmY0bDZzgfLleYX5RieY+iBhVD44dTsbpsUlKYIQ
+         ZE/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUouDLEeq1AkIWq6BeatG//UBWzCqJBef6TAoVrcjiKhO8xViJV/CLCzCWcppJJL5AwvV4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy37Zy8jAmSanPFALWehewBcYgBhGJiWUp47lewZaCvn0p3LK/Z
+	ygeAYe0nrNbbl0bqp4PgtjZDJNZymlUYZZ74WNJDkBeXi75dKYEyDWpM607XghroU9iQKe9+zCI
+	RedGoYYoemcnNv0kdh062pBFquqP/sKpxTOPPCgtCp6tbiXk+/Y97z/o=
+X-Gm-Gg: AY/fxX6+rfXef1CRwvQdXqOxmPRLns515wbzwbNZVmZ2FpVNnWDPiG6B5XrepAUCgy/
+	SbW6sllnGv3qeN5M8KKXH8I36oU771fKVuZvfh9MYJ5i1Qvsdmp/8xBDICCd5oLyoV9FE6VaX8U
+	9ig7/uEaWsPZY2MNnk7lwA/NUXFpV7BAY9UPgh+98OoxIpq3hyBFffJwNNlUrCq5BFIp59Sc8bl
+	mpKwd8dLl3zM6bzrmVW1hfd8fQxUuIqtk8SyjC/IC+BiODWvH5J0ARIEdZgd/P0FbGAspH/hqJm
+	pwNJJr5wawbdy5egMc1umE6Yg7LNDmiKcIsD6aLXer9NM2l49uS5vMFNZzBldS/6Vb2UWtuti08
+	7rvzPJxCy/FU4WtvUpi5dwNhMiI321qNNGVnMCA==
+X-Received: by 2002:a05:6a00:348a:b0:7e1:730a:613b with SMTP id d2e1a72fcca58-7ff64ec6724mr32190513b3a.31.1767178553536;
+        Wed, 31 Dec 2025 02:55:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGioiLvW2U0joeR5pbtZjSEPSozpQwlq9uIpJCK2UPjGGzU6NNfRTPRLdM9fVlDl9M9HcekTA==
+X-Received: by 2002:a05:6a00:348a:b0:7e1:730a:613b with SMTP id d2e1a72fcca58-7ff64ec6724mr32190489b3a.31.1767178553048;
+        Wed, 31 Dec 2025 02:55:53 -0800 (PST)
+Received: from [192.168.1.102] ([120.60.65.32])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48cea1sm35616794b3a.45.2025.12.31.02.55.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Dec 2025 02:55:52 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Maxim Kochetkov <fido_max@inbox.ru>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+        linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+        ath12k@lists.infradead.org, netdev@vger.kernel.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        Johan Hovold <johan@kernel.org>, Chris Lew <quic_clew@quicinc.com>,
+        stable@vger.kernel.org
+In-Reply-To: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
+References: <20251218-qrtr-fix-v2-0-c7499bfcfbe0@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/2] net: qrtr: Drop the MHI 'auto_queue' feature
+Message-Id: <176717854647.8976.2100798756796791971.b4-ty@oss.qualcomm.com>
+Date: Wed, 31 Dec 2025 16:25:46 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] net: wwan: mhi: Add network support for Foxconn
- T99W760
-To: Slark Xiao <slark_xiao@163.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: mani@kernel.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251119105615.48295-1-slark_xiao@163.com>
- <20251119105615.48295-3-slark_xiao@163.com>
- <CAFEp6-23je6WC0ocMP7jXUtPGfeG9_LpY+1N-oLcSTOmqQCL2w@mail.gmail.com>
- <4c4751c0.9803.19b3079a159.Coremail.slark_xiao@163.com>
- <CAFEp6-2NBa8tgzTH__F4MOg=03-LO7RjhobhaKHmapXXa9Xeyw@mail.gmail.com>
- <703d68c0.93c7.19b6ebaa741.Coremail.slark_xiao@163.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <703d68c0.93c7.19b6ebaa741.Coremail.slark_xiao@163.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: o7bsbOHJPrtnVh-4fqweL8PGzvDkbRp8dNEPJLYV2q8_1767093554
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
+X-Proofpoint-ORIG-GUID: nz03opWPB_N_DChxdtK-5WKUg96KDgWC
+X-Authority-Analysis: v=2.4 cv=Ps6ergM3 c=1 sm=1 tr=0 ts=6955013a cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=+SK5D59PVgoENw9OlSzWFQ==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=d1LwL24QG6zMnwvM45oA:9
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDA5NiBTYWx0ZWRfX0Qf96t5bIvGR
+ gPCqsndRQrh3ZMrchWyc4eqfTFMsr4YwKoZEcGgtq7LuX9mlWRCu6oo852IKdrQAAgvXBplA1FG
+ HS9f03hzrO9XJoCKVEt4HB4X1Y4OxC0FGZCG6AaLFU6RVBvUPFO/Q/e4yutXZzPAiWqHqQKN7ak
+ gyrOKJcMmM+jOkX8pVAivPJDdhgHla1miXfHmrnMxfTjy1kZqw6PlN9h9LwbUmbxKO+j4OdZQKh
+ h+rgAp7CtjhxEjBlkbTrrJ7eA/iTtrMqmhg3zyyqOxqRcgRRqg1O/S9KLefMBDGfnZqm73OBzX+
+ VsvhjV5r4r16od8TNEkmDZQ8eUzMf9FHlYaqBJurHAtZ8t6Mdgb2MvxA7Ye5RsX2ZUVBMyJCHhH
+ E2HaryuC2obnFqw+2lyrurlLgCiZASxPJqupo4wvKpwU/zI1G44fZx2Lt/KzguL/vg3PtBX8iSB
+ NzuSbN859Bt6snGAjkg==
+X-Proofpoint-GUID: nz03opWPB_N_DChxdtK-5WKUg96KDgWC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-31_03,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512310096
 
-On 12/30/25 11:08 AM, Slark Xiao wrote:
-> At 2025-12-30 17:50:39, "Loic Poulain" <loic.poulain@oss.qualcomm.com> wrote:
->> Hi Slark,
->>
->> On Thu, Dec 18, 2025 at 9:01 AM Slark Xiao <slark_xiao@163.com> wrote:
->>>
->>>
->>> At 2025-11-21 20:46:54, "Loic Poulain" <loic.poulain@oss.qualcomm.com> wrote:
->>>> On Wed, Nov 19, 2025 at 11:57 AM Slark Xiao <slark_xiao@163.com> wrote:
->>>>>
->>>>> T99W760 is designed based on Qualcomm SDX35 chip. It use similar
->>>>> architechture with SDX72/SDX75 chip. So we need to assign initial
->>>>> link id for this device to make sure network available.
->>>>>
->>>>> Signed-off-by: Slark Xiao <slark_xiao@163.com>
->>>>
->>>> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
->>>>
->>> Hi Loic,
->>> May I know when this patch would be applied into net or linux-next?
->>> I saw the changes in MHI side has been applied.
->>> T99W760 device would have a network problem if missing this changes in wwan
->>> side. Please help do a checking.
->>
->> You can see status here: https://patchwork.kernel.org/project/netdevbpf/list/
->>
->> If the changes have not been picked together, please resend this one,
->> including tags.
->>
->> Regards,
->> Loic
-> Hi Loic,
-> I checked above link and didn't find my changes.
-> This is strange since the changes in MHI side of this serial has been applied, but this 
-> has been ignored.
-> BTW, this changes may not be applicable because another change 
-> https://patchwork.kernel.org/project/netdevbpf/patch/20251120114115.344284-1-slark_xiao@163.com/
-> has been applied. 
+
+On Thu, 18 Dec 2025 22:21:43 +0530, Manivannan Sadhasivam wrote:
+> This series intends to fix the race between the MHI stack and the MHI client
+> drivers due to the MHI 'auto_queue' feature. As it turns out often, the best
+> way to fix an issue in a feature is to drop the feature itself and this series
+> does exactly that.
 > 
-> So do you want me to resend the new changes based on the latest net baseline ?
-> Any serials shall be assigned? V4 shall be used?
+> There is no real benefit in having the 'auto_queue' feature in the MHI stack,
+> other than saving a few lines of code in the client drivers. Since the QRTR is
+> the only client driver which makes use of this feature, this series reworks the
+> QRTR driver to manage the buffer on its own.
+> 
+> [...]
 
-You must re-submit this patch, targeting the net-next tree (the subj
-prefix must include 'net-next'), but please note:
+Applied, thanks!
 
-## Form letter - net-next-closed
+[1/2] net: qrtr: Drop the MHI auto_queue feature for IPCR DL channels
+      commit: 51731792a25cb312ca94cdccfa139eb46de1b2ef
+[2/2] bus: mhi: host: Drop the auto_queue support
+      commit: 4a9ba211d0264131dcfca0cbc10bff5ff277ff0a
 
-The net-next tree is closed for new drivers, features, code refactoring
-and optimizations due to the merge window and the winter break. We are
-currently accepting bug fixes only.
-
-Please repost when net-next reopens after Jan 2nd.
-
-RFC patches sent for review only are obviously welcome at any time.
-
-
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
