@@ -1,88 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7F435770E;
-	Mon, 12 Jan 2026 13:01:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D9824290D;
+	Tue, 13 Jan 2026 07:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768222899; cv=none; b=XjMf3zzwUAoaEq8JhDDQ0alMmbjxwcyl4LInXYi5/OBScnvGIKx/OIGRMvWn3e4cduHd0jtsljq+TCbW/CQAaIsBEpmfQDBYf8LHuStz2HYb3px49Uwz81E5kDyFN8HRcrKIXKoyv6yWsTSMwE07qTo5ME9VTVe8vuyhrRvLM8A=
+	t=1768288399; cv=none; b=mNTUsze5UAnXpetoGaCQcSMdOexAY2lt6D4um4GYHQLbXVaGf2qXnhl6ni6LvmXnWuertH1HQ2FYdZG/9C76Q+B34szhDgWDTDjrEIH7OzOf+KUcsc/pt85HChciZqP0NPU2UGM/PKu2l2Abk2lCajGoQ/uFnb99/D2ibHcAGOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768222899; c=relaxed/simple;
-	bh=WLtpL3iiLHc+bo5wxz2Ay2u3w3qNsN2rTz0oFg1Enb0=;
+	s=arc-20240116; t=1768288399; c=relaxed/simple;
+	bh=04GpJoYBI3MpHElb+mWeTl5CD/pVXY6JUdtsfLVKI1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UhC1x4UgYV5IkyeuWv4P19mf6jWl5aqr3qfDF9dqqBsmwr6XB/AHth30A4t+Q0i54u6mnbJDuGiPQa4yezjsWT4cODAS+2mRuyL0ObktO75fZZEA4YF97NHuCirMNY4n+5jhSgRN8LD3GI1fEX6zxE8z0Mrc44UIQLA5reAdZ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXpL3ocf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MiSiErhEE3Pa6TOaT3YM0nhM0MLPYap7EBWeT/kdovDQMu38ETEdVoddys+h2kT2RzpEaAigwmkT8lOYDrmiutsny/TVaQpP0LjfRfT38QyexTYxgLlikVDdx+LvsJ1NtJYAdhksHtzNou3ZmpqXPDJEvqg/laRFVrIh13l8FoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtk0GdKo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXpL3ocf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2987C19422;
-	Mon, 12 Jan 2026 13:01:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtk0GdKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3B1C116C6;
+	Tue, 13 Jan 2026 07:13:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768222899;
-	bh=WLtpL3iiLHc+bo5wxz2Ay2u3w3qNsN2rTz0oFg1Enb0=;
+	s=k20201202; t=1768288399;
+	bh=04GpJoYBI3MpHElb+mWeTl5CD/pVXY6JUdtsfLVKI1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rXpL3ocfh373K5bNXWgVfNocnwtPg11QneBpqIT66SgmmZ/6+awvuRRAs6hTWn3Iq
-	 bcl9sVDzTDUlH58n7OTWA7Ow5zH/zTAidmSunr1zSCV7wYLQ6IuEpHb1q50qGePdf/
-	 PAhA4LZm8r4xFIuS2KE+Ngg9rjsPTcO2qGiQXm+GwTe17ykNXaZGF5UZzQJLYgf+xD
-	 BPDMm+HMpYRLY0M9QmCK6sJM+ACJnMQ0KQyXmq2N5t91Gcbl0TWXezGTixppahR1vh
-	 vJ5SiF+P4EuQP4AruPe8Gy2Byg9B6EUPJJ2EtOAoKb4j4WrHjKfzutdV+iRJD1El6U
-	 X3sv697FjFtzg==
-Date: Mon, 12 Jan 2026 14:01:32 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-nvme@lists.infradead.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v3 0/9] dmaengine: Add new API to combine configuration
- and descriptor preparation
-Message-ID: <aWTwrOOXX3AR8Ght@ryzen>
-References: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
+	b=dtk0GdKom5QUN/wnoLeXDwHZZwiTgRKjwuZvejSr66NB0aTdgTIWsOKK08YBzGXCX
+	 xdzJdiYDaheW5+n3x14zUazasQDOODYAWwpdVHkwDMEe9A52l+MUgWyv7Q3k/d4yPu
+	 p1J4FusCKhtbi70uugEsgIBU8Sl5d2+TUToAoJXiftyLV1oeEBByMv+a/HsAhacgvb
+	 tK9rn9drLs6TLE6YSs8/ajZ5QmpprhxbhMHEXoymoajzziSCc3UW6L4zCcQ8In3AiK
+	 0OedB8WGr/VFDQJtO39WNCmiA1JfNUpcA//1xrCAsEOQ/loVUbvq2KqBxlbOAUHR9O
+	 0JeQ9Kt6Nqwsg==
+Date: Tue, 13 Jan 2026 12:43:11 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Upal Kumar Saha <upal.saha@oss.qualcomm.com>, Himanshu Shukla <quic_himashuk@quicinc.com>, 
+	Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH 01/11] bus: mhi: host: Add support to read MHI
+ capabilities
+Message-ID: <u3d62zn56yj6k56t4jwcqylm4rofipp2f42dgpi2kqgumowzu7@m5iqfem5y5up>
+References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
+ <20251211-siva_mhi_dp2-v1-1-d2895c4ec73a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251211-siva_mhi_dp2-v1-1-d2895c4ec73a@oss.qualcomm.com>
 
-Frank,
+On Thu, Dec 11, 2025 at 01:37:33PM +0530, Sivareddy Surasani wrote:
+> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+> 
+> As per MHI spec v1.2,sec 6.6, MHI has capability registers which are
+> located after the ERDB array. The location of this group of registers is
+> indicated by the MISCOFF register. Each capability has a capability ID to
+> determine which functionality is supported and each capability will point
+> to the next capability supported.
+> 
+> Add a basic function to read those capabilities offsets.
+> 
+> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/common.h    | 13 +++++++++++++
+>  drivers/bus/mhi/host/init.c | 32 ++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
+> 
+> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+> index dda340aaed95..58f27c6ba63e 100644
+> --- a/drivers/bus/mhi/common.h
+> +++ b/drivers/bus/mhi/common.h
+> @@ -16,6 +16,7 @@
+>  #define MHICFG				0x10
+>  #define CHDBOFF				0x18
+>  #define ERDBOFF				0x20
+> +#define MISCOFF				0x24
+>  #define BHIOFF				0x28
+>  #define BHIEOFF				0x2c
+>  #define DEBUGOFF			0x30
+> @@ -113,6 +114,9 @@
+>  #define MHISTATUS_MHISTATE_MASK		GENMASK(15, 8)
+>  #define MHISTATUS_SYSERR_MASK		BIT(2)
+>  #define MHISTATUS_READY_MASK		BIT(0)
+> +#define MISC_CAP_MASK			GENMASK(31, 0)
+> +#define CAP_CAPID_MASK			GENMASK(31, 24)
+> +#define CAP_NEXT_CAP_MASK		GENMASK(23, 12)
+>  
+>  /* Command Ring Element macros */
+>  /* No operation command */
+> @@ -204,6 +208,15 @@
+>  #define MHI_RSCTRE_DATA_DWORD1		cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+>  							       MHI_PKT_TYPE_COALESCING))
+>  
+> +enum mhi_capability_type {
+> +	MHI_CAP_ID_INTX = 0x1,
+> +	MHI_CAP_ID_TIME_SYNC = 0x2,
+> +	MHI_CAP_ID_BW_SCALE = 0x3,
+> +	MHI_CAP_ID_TSC_TIME_SYNC = 0x4,
+> +	MHI_CAP_ID_MAX_TRB_LEN = 0x5,
+> +	MHI_CAP_ID_MAX,
+> +};
 
-Thanks a lot for your work on this series!
+If you are not going to define a variable with type 'mhi_capability_type', I'd
+suggest using '#define'.
 
-On Mon, Jan 05, 2026 at 05:46:50PM -0500, Frank Li wrote:
->  Documentation/driver-api/dmaengine/client.rst |   9 ++
->  drivers/crypto/atmel-aes.c                    |  10 +--
->  drivers/dma/dmaengine.c                       |   3 +
->  drivers/dma/dw-edma/dw-edma-core.c            |  41 ++++++---
->  drivers/nvme/target/pci-epf.c                 |  21 ++---
->  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  52 ++++--------
->  drivers/pci/endpoint/functions/pci-epf-test.c |   8 +-
->  include/linux/dmaengine.h                     | 117 ++++++++++++++++++++++++--
->  8 files changed, 177 insertions(+), 84 deletions(-)
+> +
+>  enum mhi_pkt_type {
+>  	MHI_PKT_TYPE_INVALID = 0x0,
+>  	MHI_PKT_TYPE_NOOP_CMD = 0x1,
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 099be8dd1900..4c092490c9fd 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -466,6 +466,38 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+>  	return ret;
+>  }
+>  
+> +static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 capability, u32 *offset)
+> +{
 
-Is the plan to merge this series via the dmaengine tree?
+Why can't you return the cap offset like pci_find_capability()?
 
-If so, we might need an Ack from Mani on the pci-epf-mhi.c and
-pci-epf-test.c patch.
+- Mani
 
-Likewise we might need an Ack from Keith/Christoph on the
-drivers/nvme/target/pci-epf.c patches.
-
-
-Kind regards,
-Niklas
+-- 
+மணிவண்ணன் சதாசிவம்
