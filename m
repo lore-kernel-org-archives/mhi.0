@@ -1,106 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F035C2580E1;
-	Sat, 17 Jan 2026 11:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B413559D9;
+	Mon, 19 Jan 2026 09:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768649651; cv=none; b=rhoMd4EJF+8XNmROxuuw/CR1bwCT0Z/36I323o8KAERg63KzJKTXIJ9fjdYS2hcD/fWmbpxbOzVjUNVzzkeWFWNd4NWBO5f8pHeOGhMi9eW0ZDwl38a/bQl4uDx7YOHzNd7slivVtMzxyAtGK9R6q8pZEsAxBEp4+N3oghWwY+8=
+	t=1768814844; cv=none; b=W0KGtznTlMZoXi5ynPIvad+T8TX1h/0cg8R8rb+eU5TjSMmDaAX7qoWlSMrgaR0jIBDUzB64+rNGua3OnpZa+PMhHmq/ckE6V+enGF179plfzJCfprLrtWLH6TeLk3l8TtGzxf8SlLBvvntOT1v+kHJcD545zF/aH6ksab72Yww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768649651; c=relaxed/simple;
-	bh=fv7CZKE3aaSA68XB9hs5SRb1yJ22PTBB5qdBpAufLtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P3y55zDem3q2/TsdSJF11/TSRbc1LeoWM0p5gCCp/C2z78zZr9jisTPzQgMfCUNh25Rf0R/J0Qd5ZnxkXq/IWB3SkCDdFr61JuFqEwiJc96m4FAhxakKQNXL6avTjvK3Wji6E32hPqDhJ+3bdzmZYqZZUY3z7pDqdFbcrrMLAfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HgL1Brga; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768814844; c=relaxed/simple;
+	bh=FnDqYCqY4eMQu1KfJO2diG09+hGAQVkPBUCJXUeIZ0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=A8pTliKXcsBGELtl96Dp9tYPAWppxTrrkUtzXBtWzJshG6ZdtyukpgRfiRWEYtr/jnwUk1k4lIR7yAq2+lH6Olls78v8mvTN5RYC8yRuatjQSEHb+U00CxtnAzjfhZGp/xXB0AUKzQhmoYlDRx3XpidkrwJDH8A9UthnDLAGwsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=qzI+jUV4; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HgL1Brga"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28765C4CEF7;
-	Sat, 17 Jan 2026 11:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768649650;
-	bh=fv7CZKE3aaSA68XB9hs5SRb1yJ22PTBB5qdBpAufLtE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HgL1BrgaT52iSum4tdHARsgvsLwD7xKFLvJG31MzNCvKC7ueYCW/5nHSK6dJ3u+QQ
-	 o+yw64hK19tYtRwAIbTlrm9pB44tz2S1lCIgzvFb72fQKGydZYBwtggW428jL4u3sn
-	 icci5MmA7ytNwQ6XoNAbfAQ2rSzhy71hQdvHuUk3ZWjJfLEy8DIiEycKWzIIfDBS4S
-	 6UWaHkbDzoBflMWYP35UuBFFvw1tVCYZ1lMYt0O/ZCQGx6qiYOIykInc5Ju3w1o//w
-	 jf9nvSwFKeZOxdZLguezq2PA3bcWlGqKkCe7TpjK+Un+Rk/aHIba+axo+cWkQ+SSEP
-	 qaDQ6vyg69k7g==
-Date: Sat, 17 Jan 2026 12:34:00 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Keith Busch <kbusch@kernel.org>
-Cc: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-nvme@lists.infradead.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	imx@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v3 0/9] dmaengine: Add new API to combine configuration
- and descriptor preparation
-Message-ID: <aWtzqJKsCHPJqDDH@ryzen>
-References: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
- <aWTwrOOXX3AR8Ght@ryzen>
- <6f4elcu5iql65jeqfeqhmllquv253xh4gb37ivef2kyvsj5lps@w35ciehuwxym>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="qzI+jUV4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1768814842; x=1800350842;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=FnDqYCqY4eMQu1KfJO2diG09+hGAQVkPBUCJXUeIZ0A=;
+  b=qzI+jUV4F4r188AbBTHdpLNnjp1d8gSJoR3wif7ABt6XpEmfDpbNSJdP
+   CYUxz4vHcOZpqvThGgUwjtsX1Z0Xp+R2YuM88k+MbX75KhJsrWmQ8fyA7
+   a35ZK54PLMnDt1p4VsC0nwtpiDtbNNuN3H/qDKkDaCb3d8sp4yBjisL/1
+   eCK0hKTrwfstcHptvJGebQpIgTWe2f0fcWOsx96GRGsQW4M5CzrfJfTbz
+   6PlKYgldruDc6rncmL7lw5pX0KJ2Utd6UTeDTpD48f3BL2fWDjiwETQtl
+   ox2Wqw0zwb8CpSkmjZEiObe1Aj6W2OAdKrpDmHlQSUi+YGmKbnKzgvlxJ
+   w==;
+X-CSE-ConnectionGUID: i0zijf1nTfiJcIl2a1rGow==
+X-CSE-MsgGUID: 5Vc33klYRPeu5OUwKZF+zg==
+X-IronPort-AV: E=Sophos;i="6.21,237,1763449200"; 
+   d="scan'208";a="219379894"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Jan 2026 02:27:15 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Mon, 19 Jan 2026 02:26:44 -0700
+Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Mon, 19 Jan 2026 02:26:40 -0700
+Message-ID: <bc019bd8-34d3-420e-8519-09700437fb01@microchip.com>
+Date: Mon, 19 Jan 2026 10:26:39 +0100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f4elcu5iql65jeqfeqhmllquv253xh4gb37ivef2kyvsj5lps@w35ciehuwxym>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 9/9] crypto: atmel: Use dmaengine_prep_config_single()
+ API
+To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>, Manivannan
+ Sadhasivam <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+	<kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+	<claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, Niklas Cassel
+	<cassel@kernel.org>
+CC: <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pci@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+	<mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<imx@lists.linux.dev>
+References: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
+ <20260105-dma_prep_config-v3-9-a8480362fd42@nxp.com>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Content-Language: en-US, fr
+Organization: microchip
+In-Reply-To: <20260105-dma_prep_config-v3-9-a8480362fd42@nxp.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 17, 2026 at 04:35:40PM +0530, Manivannan Sadhasivam wrote:
-> On Mon, Jan 12, 2026 at 02:01:32PM +0100, Niklas Cassel wrote:
-> > Frank,
-> > 
-> > Thanks a lot for your work on this series!
-> > 
-> > On Mon, Jan 05, 2026 at 05:46:50PM -0500, Frank Li wrote:
-> > >  Documentation/driver-api/dmaengine/client.rst |   9 ++
-> > >  drivers/crypto/atmel-aes.c                    |  10 +--
-> > >  drivers/dma/dmaengine.c                       |   3 +
-> > >  drivers/dma/dw-edma/dw-edma-core.c            |  41 ++++++---
-> > >  drivers/nvme/target/pci-epf.c                 |  21 ++---
-> > >  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  52 ++++--------
-> > >  drivers/pci/endpoint/functions/pci-epf-test.c |   8 +-
-> > >  include/linux/dmaengine.h                     | 117 ++++++++++++++++++++++++--
-> > >  8 files changed, 177 insertions(+), 84 deletions(-)
-> > 
-> > Is the plan to merge this series via the dmaengine tree?
-> > 
+On 05/01/2026 at 23:46, Frank Li wrote:
+> Using new API dmaengine_prep_config_single() to simple code.
 > 
-> It makes sense to take it through dmaengine tree given that the changes in PCI
-> and other drivers are straightforward.
+> No functional change.
 > 
-> > If so, we might need an Ack from Mani on the pci-epf-mhi.c and
-> > pci-epf-test.c patch.
-> > 
+> Tested-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+
+Looks good to me:
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+
+Thanks, best regards,
+   Nicolas
+
+> ---
+>   drivers/crypto/atmel-aes.c | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
 > 
-> Just did.
+> diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
+> index 3a2684208dda9ee45d71b4bc2958be293a4fb6fe..e300672ffd7185b0f5bf356c2376681537047def 100644
+> --- a/drivers/crypto/atmel-aes.c
+> +++ b/drivers/crypto/atmel-aes.c
+> @@ -795,7 +795,6 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
+>          struct dma_slave_config config;
+>          dma_async_tx_callback callback;
+>          struct atmel_aes_dma *dma;
+> -       int err;
+> 
+>          memset(&config, 0, sizeof(config));
+>          config.src_addr_width = addr_width;
+> @@ -820,12 +819,9 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
+>                  return -EINVAL;
+>          }
+> 
+> -       err = dmaengine_slave_config(dma->chan, &config);
+> -       if (err)
+> -               return err;
+> -
+> -       desc = dmaengine_prep_slave_sg(dma->chan, dma->sg, dma->sg_len, dir,
+> -                                      DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+> +       desc = dmaengine_prep_config_sg(dma->chan, dma->sg, dma->sg_len, dir,
+> +                                       DMA_PREP_INTERRUPT | DMA_CTRL_ACK,
+> +                                       &config);
+>          if (!desc)
+>                  return -ENOMEM;
+> 
+> 
+> --
+> 2.34.1
+> 
 
-Great!
-
-Keith, Christoph, any chance to get an ack on the NVMe patches?
-
-
-Herbert Xu, David Miller (crypto API maintainers),
-any chance to get an ack on the crypto driver ?
-There does not seem to be an explicit entry in MAINTAINERS for the atmel
-crypto driver, and another atmel crypto driver is marked as orphan.
-
-
-Kind regards,
-Niklas
