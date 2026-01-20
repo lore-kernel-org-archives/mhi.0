@@ -1,130 +1,128 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B413559D9;
-	Mon, 19 Jan 2026 09:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1492F9985
+	for <mhi@lists.linux.dev>; Tue, 20 Jan 2026 09:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768814844; cv=none; b=W0KGtznTlMZoXi5ynPIvad+T8TX1h/0cg8R8rb+eU5TjSMmDaAX7qoWlSMrgaR0jIBDUzB64+rNGua3OnpZa+PMhHmq/ckE6V+enGF179plfzJCfprLrtWLH6TeLk3l8TtGzxf8SlLBvvntOT1v+kHJcD545zF/aH6ksab72Yww=
+	t=1768900722; cv=none; b=HWLRynihtYoFwPRseStZVzYhWtSaabQWlO87m1jvaYjgjfaW/94c93OpEKRql3HOMS6XNmF57kJnb3BD1S0nSR7h7igT8UDzPN7QIQGQ/auE/yYRMbWb+cDQdSNa9hYTNpeafW/jfGiRRQQfCd/k8ncuqGdKjjhPAFu44MB+sG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768814844; c=relaxed/simple;
-	bh=FnDqYCqY4eMQu1KfJO2diG09+hGAQVkPBUCJXUeIZ0A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=A8pTliKXcsBGELtl96Dp9tYPAWppxTrrkUtzXBtWzJshG6ZdtyukpgRfiRWEYtr/jnwUk1k4lIR7yAq2+lH6Olls78v8mvTN5RYC8yRuatjQSEHb+U00CxtnAzjfhZGp/xXB0AUKzQhmoYlDRx3XpidkrwJDH8A9UthnDLAGwsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=qzI+jUV4; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1768900722; c=relaxed/simple;
+	bh=fzXHXDJB4dTrz33rJgw5PGVYmr+nm0IKd2soAyAieMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DUwrn0AaK3uoK+8x39A0w1r0BCaTB29j5NBCAUAlck5xqIHGa/CFNvgy35guC05ANkCh705+BvT8UCT96irWOfnq3bNprKN6rf+q/mONKjOzRzNYQpKHPrKgOI1cfvMSux3/+8eaStAoVim+dRK2JC7s/BwYIFEyAZtev1ocqoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qmfF40bV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="qzI+jUV4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1768814842; x=1800350842;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FnDqYCqY4eMQu1KfJO2diG09+hGAQVkPBUCJXUeIZ0A=;
-  b=qzI+jUV4F4r188AbBTHdpLNnjp1d8gSJoR3wif7ABt6XpEmfDpbNSJdP
-   CYUxz4vHcOZpqvThGgUwjtsX1Z0Xp+R2YuM88k+MbX75KhJsrWmQ8fyA7
-   a35ZK54PLMnDt1p4VsC0nwtpiDtbNNuN3H/qDKkDaCb3d8sp4yBjisL/1
-   eCK0hKTrwfstcHptvJGebQpIgTWe2f0fcWOsx96GRGsQW4M5CzrfJfTbz
-   6PlKYgldruDc6rncmL7lw5pX0KJ2Utd6UTeDTpD48f3BL2fWDjiwETQtl
-   ox2Wqw0zwb8CpSkmjZEiObe1Aj6W2OAdKrpDmHlQSUi+YGmKbnKzgvlxJ
-   w==;
-X-CSE-ConnectionGUID: i0zijf1nTfiJcIl2a1rGow==
-X-CSE-MsgGUID: 5Vc33klYRPeu5OUwKZF+zg==
-X-IronPort-AV: E=Sophos;i="6.21,237,1763449200"; 
-   d="scan'208";a="219379894"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Jan 2026 02:27:15 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Mon, 19 Jan 2026 02:26:44 -0700
-Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Mon, 19 Jan 2026 02:26:40 -0700
-Message-ID: <bc019bd8-34d3-420e-8519-09700437fb01@microchip.com>
-Date: Mon, 19 Jan 2026 10:26:39 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qmfF40bV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2833CC16AAE;
+	Tue, 20 Jan 2026 09:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768900721;
+	bh=fzXHXDJB4dTrz33rJgw5PGVYmr+nm0IKd2soAyAieMM=;
+	h=Date:From:To:Cc:Subject:From;
+	b=qmfF40bV2ZqXpML4ZPPcGIB3iIJExv+6zvn/0DCK5YH5y3rwOdVvCviD5G6aKC0mx
+	 3uqlcWhG/WEEC+1LvXCoaH17HxZ3UlvXzyj3g725pGNMvQiuzf1jGuZozU1S1h0Eor
+	 JvVJf1IB4XIrdDFF69CwAZDUbzkLOsZywDwTRV1OWNybfky9AIOqkkISUhCKU3j9fa
+	 JWStq4lbt4e8wJnuLxEBSvXd2I0+lO6qfLxtrkTz+F3VvYQNMjNYyJfAXAQ376rYkZ
+	 xowzflsilG/g/IcnDZN/uIV7nP/DjAQnoE4nbYm8O/FORSMZDE92blwOVodBsXjvs5
+	 00O33bOHp+8MQ==
+Date: Tue, 20 Jan 2026 14:48:34 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: mhi@lists.linux.dev
+Subject: [GIT PULL] MHI changes for v6.20
+Message-ID: <5u37cbaldizhvdgnjq2opjvvrfkmehuvwh3ktgjqbmymqur6gz@ddnzo2sruqa4>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] crypto: atmel: Use dmaengine_prep_config_single()
- API
-To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
-	<kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
-	<claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, Niklas Cassel
-	<cassel@kernel.org>
-CC: <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-	<mhi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<imx@lists.linux.dev>
-References: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
- <20260105-dma_prep_config-v3-9-a8480362fd42@nxp.com>
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Content-Language: en-US, fr
-Organization: microchip
-In-Reply-To: <20260105-dma_prep_config-v3-9-a8480362fd42@nxp.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 05/01/2026 at 23:46, Frank Li wrote:
-> Using new API dmaengine_prep_config_single() to simple code.
-> 
-> No functional change.
-> 
-> Tested-by: Niklas Cassel <cassel@kernel.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 
-Looks good to me:
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
 
-Thanks, best regards,
-   Nicolas
+are available in the Git repository at:
 
-> ---
->   drivers/crypto/atmel-aes.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
-> index 3a2684208dda9ee45d71b4bc2958be293a4fb6fe..e300672ffd7185b0f5bf356c2376681537047def 100644
-> --- a/drivers/crypto/atmel-aes.c
-> +++ b/drivers/crypto/atmel-aes.c
-> @@ -795,7 +795,6 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
->          struct dma_slave_config config;
->          dma_async_tx_callback callback;
->          struct atmel_aes_dma *dma;
-> -       int err;
-> 
->          memset(&config, 0, sizeof(config));
->          config.src_addr_width = addr_width;
-> @@ -820,12 +819,9 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
->                  return -EINVAL;
->          }
-> 
-> -       err = dmaengine_slave_config(dma->chan, &config);
-> -       if (err)
-> -               return err;
-> -
-> -       desc = dmaengine_prep_slave_sg(dma->chan, dma->sg, dma->sg_len, dir,
-> -                                      DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-> +       desc = dmaengine_prep_config_sg(dma->chan, dma->sg, dma->sg_len, dir,
-> +                                       DMA_PREP_INTERRUPT | DMA_CTRL_ACK,
-> +                                       &config);
->          if (!desc)
->                  return -ENOMEM;
-> 
-> 
-> --
-> 2.34.1
-> 
+  https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git tags/mhi-for-v6.20
 
+for you to fetch changes up to 91a0b0dce350766675961892ba4431363c4e29f7:
+
+  bus: mhi: ep: Use bus callbacks for .probe() and .remove() (2025-12-31 16:27:13 +0530)
+
+There is a minor conflict between mhi and ath trees in
+drivers/net/wireless/ath/ath12k/mhi.c file:
+
+between commits:
+
+  7f54938fc525 ("wifi: ath12k: Move Wi-Fi 7 MHI configuration to dedicated file")
+  a72027045263 ("wifi: ath12k: Modularize driver into common and Wi-Fi 7 specific components")
+  bce3b73d1ca7 ("wifi: ath12k: Rename ath12k_* symbols to ath12k_wifi7_* for clarity")
+
+from the ath tree and commit:
+
+  51731792a25c ("net: qrtr: Drop the MHI auto_queue feature for IPCR DL channels")
+
+from the mhi tree.
+
+I've pushed the resolution here for reference:
+https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git/commit/?h=mhi-ath-resolution&id=a1cf17be3ba3718f1a8c70e614f4c0ee026a90fd
+
+Please let Linus know about this conflict incase the ath tree gets merged first.
+I believe ath maintainer will let the netdev maintainers know about this
+conflict for the case of mhi getting merged first.
+
+NOTE: Commit 51731792a25c has changes across netdev and accel drivers with Acks
+from the respective maintainers.
+
+----------------------------------------------------------------
+MHI Host
+--------
+
+- Add support for loading dual ELF image format firmware to Qcom Trust
+  Management Engine Lit (TME-L) supported devices like QCC2072, which require
+  separate ELF header for SBL and WLAN firmware segments in a single firmware.
+
+- Remove the MHI auto_queue feature support. This feature was added to offload
+  the queuing of buffers from the client drivers to the MHI stack, but it caused
+  a lot of race over the time. So remove this feature from the QRTR client
+  driver and also from the MHI stack/controller drivers.
+
+- Move the .probe() and .remove() callbacks from driver level to bus level.
+
+MHI Endpoint
+------------
+
+- Move the .probe() and .remove() callbacks from driver level to bus level.
+
+----------------------------------------------------------------
+Manivannan Sadhasivam (2):
+      net: qrtr: Drop the MHI auto_queue feature for IPCR DL channels
+      bus: mhi: host: Drop the auto_queue support
+
+Qiang Yu (1):
+      mhi: host: Add support for loading dual ELF image format
+
+Uwe Kleine-König (2):
+      bus: mhi: host: Use bus callbacks for .probe() and .remove()
+      bus: mhi: ep: Use bus callbacks for .probe() and .remove()
+
+ drivers/accel/qaic/mhi_controller.c   | 44 --------------------------------------------
+ drivers/bus/mhi/ep/main.c             | 12 +++++-------
+ drivers/bus/mhi/host/boot.c           | 10 ++++++++++
+ drivers/bus/mhi/host/init.c           | 22 +++++-----------------
+ drivers/bus/mhi/host/internal.h       |  3 ---
+ drivers/bus/mhi/host/main.c           | 81 ++-------------------------------------------------------------------------------
+ drivers/bus/mhi/host/pci_generic.c    | 20 ++------------------
+ drivers/net/wireless/ath/ath11k/mhi.c |  4 ----
+ drivers/net/wireless/ath/ath12k/mhi.c |  4 ----
+ include/linux/mhi.h                   | 14 --------------
+ net/qrtr/mhi.c                        | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ 11 files changed, 82 insertions(+), 201 deletions(-)
+
+-- 
+மணிவண்ணன் சதாசிவம்
