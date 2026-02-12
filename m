@@ -1,220 +1,147 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4544F331234
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E54208D0
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 15:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770894046; cv=none; b=ZU0YcEdt9o4426W01L4iC1BvDKznwnuvkpViwzvdmDHizbl9tKdyItlR0Dj8XdpAHP+mXydtPhcfU8PdpBnD92GCZZHGuyfjiMnDdUok/64ZSnYnZELiXO0wkc7P75jJfek1m4lD73brdZSrcAMyM4TpFoAQSi3r+5tjhBmEg08=
+	t=1770911517; cv=none; b=Y4xWfmRfMwhnFPu352LflUaFrWKtx4Uu7Tyo8GQQQRWvQGTrsZTIbe/PMQyeTduOoAJ9pHbmENTf2QWtr8QZuVYc2FWeG5nguBOZxRg4xc9Tvg/q5zKnro05GMgmRgOsYYx6yG7ONkCbzOt+OW1HRQcueofL7pysXhcZt6sMWQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770894046; c=relaxed/simple;
-	bh=eACwLgZU/45Ro8VV6lj6dgyhmfOfokPMofw8tiCCjfA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DixYOXcEO/tC5Pv9eulW4RplFHJnCCL3SSfMAXNeHc8B2FdrA/qFIqnf4xZ9UzLaoGpUM3ykKkvzQuudkOmpXQiENLmo8QbTgoiOtWuUAGWU7NAfaHjppM1Cj4wblXnZlaHFo2YJIVmJ/98+0dQWgOdhaRZay0O7XDXZPcxiyGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VcqdXQZW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BpkRursn; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1770911517; c=relaxed/simple;
+	bh=I+3HK+rzmSqmU/qhNkj7MN8hSIQ8TsvJfaz6qXkCFKc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EX33oAaE9Wv7RtiSmNSxl2y0lKCCzyh3HkMBGtGqj9N2BONel3YyTDk/DvoCc3rhmFH7D2iYkwUKgYirCY3Fim0h9cQK+XN2pthDlYPbgolmcQbIs7Mja1UvuUDT5MLd9Ibd+NYIlK/BsJy8f4oRPkSPVGVZTcmseV5/KE1ALUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ax5CnJ3p; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X8pTPphD; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VcqdXQZW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BpkRursn"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61CAlrEw272110
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:44 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ax5CnJ3p";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X8pTPphD"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61CDRjvx1339800
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 15:51:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=; b=VcqdXQZWKQVy7i6M
-	XSBeKtHNnhs3SYmnF+IHxURS6TpT5+CLifoUXUDPlEWDs4GwPBCmWtaeYL2kqhxS
-	UH5Tw8gT+Ix65wxAD+OCtsi1hczOOpGf/WE9SoEKunnLO0rWwfkEXEcZech9e5B6
-	z6aRnLUVTOZjAiAqRdW3tOPLNLbbTbZx0mhulLZjD3VUr62EjrEoNPGAiW6chHVI
-	DS8EQeYmI82/8YKhR5Hon5Oo6vadeEiTpqTViEhzaj747m+Os7JWJ5bX+skZLVpC
-	8u5fnIXdZBuZW73AuqNJFyS47F5s5CfZNQw6WZWQh3obIXnJ73aQO6Ui2UEEIhxA
-	JGJcNA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8y9btnre-1
+	jNIQL3IR6L/g6fCcKQxO3ab9CjE6vLb1z+JStGO11LY=; b=Ax5CnJ3pFulxwKBi
+	P97kN3f5mxNlXsKJ1F5IDTyIq1YpcGMlLnTUy8jx9wb43MzG8fBh41ClSg8JYz6l
+	RYm+bp2cMaYvv+6Td1xPc7ZPNMYuQiErJoNeF3J6T6ZhpS19lOWCxHO1/IDFuNKl
+	Psi8Wgfd7+q/IPaNatoFeZN+AwXwExV/Suc/atXFJ4lQoHFi10sGC+/H8eqBmptr
+	1ECfWLpmO+nYG1mPLeOxy1s/Ogqfn4dXxDr/jtU3VIzpb2LGw+JOCIGwpBx9BkOd
+	SG2l10qoXQQPeTYaPTep38g+RO6kEdizZZR1OPhF/AbsRymJLlW/biYSUbXXMlQQ
+	uVvGWQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c90wjb8n8-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:43 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-824aec6772cso1355428b3a.2
-        for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 03:00:43 -0800 (PST)
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 15:51:55 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2ba9a744f7dso2594748eec.0
+        for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 07:51:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770894043; x=1771498843; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=;
-        b=BpkRursn8kow4CnyMEv3Cpfd6uS8pMzJdZBpcB2ei88XvSWn6G1BycLquexeA/WDFn
-         3LeEHDELyjGEiGILlRj7iKAnsZF9d1Jk0ufM/NZcnrBQM90Is2+wd7lE2AH6bzIahTx0
-         gx75Ivb0Hb6g+Bno7Htm5TnHZkBgOlagqhkVQWcHg8F8e1mDHHWnmBTg8kvL7I8rDu+6
-         YC6ctlc/RbaqFnHIlUUCXDZFCBh2LZsBp4a1ipYg+iDNiVtQt5FHlnr5klSHGElKhjZE
-         JRBC1iH48qEfJzmw44nIZNXFiwBYjzvHDKNw8hbrWOmn9EnchLZeAU2OdutzFA7y1c1g
-         sVvg==
+        d=oss.qualcomm.com; s=google; t=1770911515; x=1771516315; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jNIQL3IR6L/g6fCcKQxO3ab9CjE6vLb1z+JStGO11LY=;
+        b=X8pTPphDZKngkkFFxnuK8lW7dK2mqx1p0ZhAKIVqiL/fowJ+nF5J3IOdz6P+P9S1E4
+         xEg1DvfXlW3IyMYVjtbuxbp5WA2UfQ7DrffX/UgkvuQ3mFfUOL9SHpBcPw2KKw7bvTej
+         GODGY1sxsiBvj+j+QrLn2kZANR8S0wOHEsNUVG5T7HoRv2e0h1C1YLF/G8x2IHqOSUMT
+         iRIgyb/nZO+86epOj+uIKse3K06TJtln8EHU/LQR7a1sXVf6NZnZwUWTkDJonMPNlvf3
+         5+IGhWT0vZik+QcNqVVRHtG8MNMPbHQGKj0GznquCKFVr1KW+JByp3A9cVwsviAoRCNc
+         wjoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770894043; x=1771498843;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=;
-        b=fvQ2YVNYTGEzDUTvSKkF1SDdGfhtNNzkrsG+v/Lw8J3wAvMNWGbXd9G+RkYTUXFmkC
-         L56zdtX3oFSmeAr6XKVRFfscvlDNhY9m4s1NUrf5POAZgOXEb8DkDbvSq09601GoRFV9
-         zINAn5eVfUSx1iU/QkPxN2dyXY4SkK3olecpb2ooBaqDfMCnpc2ffskVJmkKcL/S/P2Y
-         zNkTKc67ykxSpmFvbori662r45PWcEUzfNIgSv7xyUaFujza7inPLC9OU5Zm1AJs14vu
-         ByS4wgNPKot807fU1NVN2MqxRH4kAB7i9guMAmOpk/52HJboYg0G0dvkIxYqn0pcnHfb
-         1aIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbAr1VLIdIKt9ch85FdEFv/vT5E8lxK7Uj16cuH/+jGsQ0hbNys0T3LNIa19VaR9MYV2c=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyl7gk8fWlLysxWNibnV8YdMjzxH3YA4qRE5+t+CFApYYdORLbg
-	nZYCz/5M3TXIUweko7Q7i/eJmh0BBx1YgHB3p/fFikHQrTePJOhjkquOL2sS0QoXYmo5cbW6gE+
-	OM3ZvhT5FAIrfWtUZv4qiaPhv5duwyD6bn+seoTRjxACXPWfqNVQ88Kg=
-X-Gm-Gg: AZuq6aKM9ZZwVt45MhWDjzaJC9sBSbPKZk96toYC0EL6ohWF5QDK+SY2pRCIXpNSfLr
-	HCL/jQPYsA5FLMJuLAtOCzqxwbmgjmMP2mjBhjzIzXtArkR8z4X1QJQPGYJsaKDB9nRSKxQ5NYO
-	kYbwGHdOc17lBDHi9U762yu/ErxMqhnkvtc7A0ZjmxDHRwNuCQXB33v19tDWWWOmYT4ltaqByKm
-	+NuVykfqZDFzWTfmmG17zW7rLG18BneNEU6S8d4gHfFRzchriRquzd6Jic94b+SG75Zn8dVTED/
-	ZCPYFtURMI27etTmy4eSi/EncF+tq7EiJoTX8tT6lpmp3fTp1CyhBDIg8ZEIzGVRqXaTa/Z/akR
-	xRAxwAqF/u6QvTqXyWJJ9rYepMh+1P3LKFL0+AHDwBbkSZAL1
-X-Received: by 2002:a05:6a00:1953:b0:7e8:4433:8fb0 with SMTP id d2e1a72fcca58-824b05bac04mr2268965b3a.56.1770894037934;
-        Thu, 12 Feb 2026 03:00:37 -0800 (PST)
-X-Received: by 2002:a05:6a00:1953:b0:7e8:4433:8fb0 with SMTP id d2e1a72fcca58-824b05bac04mr2268913b3a.56.1770894037395;
-        Thu, 12 Feb 2026 03:00:37 -0800 (PST)
-Received: from hu-vpernami-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8249e3bd8e6sm4708348b3a.14.2026.02.12.03.00.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 03:00:36 -0800 (PST)
-From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-X-Google-Original-From: Vivek Pernamitta <vpernami@qti.qualcomm.com>
-Date: Thu, 12 Feb 2026 16:30:23 +0530
-Subject: [PATCH v8 2/2] bus: mhi: host: pci: Enable IP_SW1, IP_ETH0 and
- IP_ETH1 channels for QDU100
+        d=1e100.net; s=20230601; t=1770911515; x=1771516315;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jNIQL3IR6L/g6fCcKQxO3ab9CjE6vLb1z+JStGO11LY=;
+        b=uT/h1PDSb+mkfQXGv2MOUHMig7QaiQlLBWEAEOa4TneJ0HUjcWsF1CfKtAALRDc3mY
+         QVAu0LRztiXjzJdDKoHh+10RuBB7tukAFvZ001Tc0eil0wCJ9IYtQoMvGFnLFnxbwF65
+         Z+14ee/beVbxBoo9Nq4490srKHEpMgF0eJa/ACwtzQ0jStQP3NiWdfqJNKK/hUs8CYpF
+         JN2gnswvsuvRFAp0diBCatk04eSmgq0hlCwpBkTQgQmZKnRT7cbpozUEusAIDIZEdUrC
+         fsBo4dGK6v34ropc72kXx82f0JJBDLTz9/aKMqjRizifN9X3Sfx3isAL4nepyinwoBxZ
+         M3Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvNwck+YPGNN2CfT+xGWXNUtmltmhEAGYLZH8UdNYOSUptRWLlg4t8j5Em4c+H24oaDoM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxL1gyCQojVl5pzcR/TJmHUOLSw2ChYsHpbWLZwqJfLX4oJqRaB
+	Efgd3OazLFdpMFvnRLtkkGnnovaq6++FtrT47J2dH3Bni/5qxrti/1L7EgxXY8jggL7bN7iy6HE
+	9pcZipyHE2pbp9giRAlPCzogCKBM/wMKIkFySO7MrzgLp7L8Sg3+vcTE=
+X-Gm-Gg: AZuq6aIzmQ5fu+s+z8Ptjuil7qqk+Nwvf+cxMxs+aTr2hjh8RszEcrvNidnkcbXUrbi
+	PLPARBMs31xcPTiTjyPZRakVgPkyxZw9snI6+Rc1Qw9HEoyFz3GEZr3sf76xuN+JBOD4YX7sMoL
+	7wmLq+fFkXhuMLh4aTCWpQZzcqY7Peq6O2mzfMG/Jony7Lh2IxY7n5xa/l3oe2DG8CQBbfiKeo6
+	2uy2zsSvbQkZCFIb/6OnTcEa0mZFuuyHvK+bEtCMUbP+68UgaZY0RtAPRJ/5veTFdqFIH2AW3BQ
+	mIevAU/Sry3TU0zUm6e8SLSq21I1TWP92x8+VvV+Sx1y8MHbjXLX9Zn1xZGUY3JZwd9218xEVuN
+	TlVaOJ9sxKTKSa7ClKymW/QCsWmPc9cV/lo7XD5r7H3adhrlarsgL6CyxibGqvyL39sx+u0LOYG
+	a972btQHbEqwgQ2A==
+X-Received: by 2002:a05:7301:678b:b0:2ba:9cfb:2744 with SMTP id 5a478bee46e88-2baa8077336mr1166367eec.30.1770911514522;
+        Thu, 12 Feb 2026 07:51:54 -0800 (PST)
+X-Received: by 2002:a05:7301:678b:b0:2ba:9cfb:2744 with SMTP id 5a478bee46e88-2baa8077336mr1166348eec.30.1770911513619;
+        Thu, 12 Feb 2026 07:51:53 -0800 (PST)
+Received: from [192.168.1.41] (c-24-130-122-79.hsd1.ca.comcast.net. [24.130.122.79])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ba9dba2aadsm3726033eec.1.2026.02.12.07.51.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Feb 2026 07:51:53 -0800 (PST)
+Message-ID: <5afc9deb-e6c8-4224-b96d-5e8a2ebf7de3@oss.qualcomm.com>
+Date: Thu, 12 Feb 2026 07:51:51 -0800
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260212-eth_vdev_next-20260211-v8-2-0974b3a8d61b@qti.qualcomm.com>
-References: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
-In-Reply-To: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org,
-        Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770894024; l=3410;
- i=vpernami@qti.qualcomm.com; s=20241114; h=from:subject:message-id;
- bh=RfZXzbxcqD/G6MBoueTXjrm+odDm6AQXFopMTMpU5do=;
- b=JL96HZf6eAxjtGzP/vcTV6UiUggL3lK3qDD5FRMI2M1KUfSJtyyOxY8xaHT4xPUBvsJYQCd6n
- knbJmNRUuhOAYei7gne8PIvw9Nx4mbbbe037XIHfd16ZXNyTBqjuAWM
-X-Developer-Key: i=vpernami@qti.qualcomm.com; a=ed25519;
- pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
-X-Authority-Analysis: v=2.4 cv=BbPVE7t2 c=1 sm=1 tr=0 ts=698db2db cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] Networking for Linux 7.0
+To: Jakub Kicinski <kuba@kernel.org>, mhi@lists.linux.dev
+Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260211173015.327542-1-pabeni@redhat.com>
+ <76e6b68c-393e-48d4-9ee5-9e8d511ab308@oss.qualcomm.com>
+ <20260211154008.24db40a7@kernel.org>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20260211154008.24db40a7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=DtlbOW/+ c=1 sm=1 tr=0 ts=698df71b cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=Tg7Z00WN3eLgNEO9NLUKUQ==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=EUspDBNiAAAA:8 a=S1B1NPdMiRUp1hSzhhcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-GUID: XA-3TTmDOSkcZJdEZbr0Zh-AnyU0efpK
-X-Proofpoint-ORIG-GUID: XA-3TTmDOSkcZJdEZbr0Zh-AnyU0efpK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDA4MSBTYWx0ZWRfX7d3fzCKStGGA
- W+6uw76PD7DQstSQgdhI7blHG3IY2mZ2AgMHsJqq2FXmPLef0JDT+u6McGTU0YdgPealjg1Tbrb
- s+5ZuF/v0GlfLvmSUOZLwt9J67nxw78jfQwBHfbZ90UJDX1HLnWGnMv4c4vKvUPuYySuLiaJOkt
- c96rIcuIApBNMeYGZz0PirG9zVSW4/li37Bxl63cR2myee3nkbWF6tn1jVa9I9SPzA2lhu9oH15
- U1+MZUG3sriL5+iPyQX5wtGPtHBNebomTBql5YlCnBig9QitBBqb3Ijs7hDqgNamVRILryXdlBg
- HobzEds2FT4k1fO0WqWQJfJ2Hx3cPTvcBDiyqd1B94KK2f9IbjuLicFkEz/8ZZh7Y0JIlRiyhhs
- 3/PK+foxd2JLVkYlmYnezUxuSfwFTXlcnCoz82uAu13qPCq5We8JpQ5UQ8NiFY8o+05Hdxemn6N
- x888VEXsA6356/+DvSg==
+ a=VwQbUJbxAAAA:8 a=qNABUOcEAAAA:8 a=6jdU60nbdyzYgp056TkA:9 a=QEXdDO2ut3YA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=Ytm653ucTKQjCvbzLygB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDEyMSBTYWx0ZWRfX3SqPBYZ3eZuN
+ xap/QnmgeGCN+JxzghpQ336P2W31Me7YqaJDHPw/U4sg49nh0RG4SUaaqcWcH8vgxeto9RuJN2n
+ hmZ3xz5pa8hCtoEj0CyRtnXdMEkQYjR/4fcrqerBzz38runjuCY5YTswhsq9UyrOjPL+7C6EBED
+ pBow5eywUlOa5TAX9b3cF5K8ms1RTmprz0FKaw5hqTMUlVqyrVaycM6FvZIejblTwZHrwUW6oRF
+ ESz25YQN3T3wOp+zs0xqUH2p7WMbCJ75cuZpBOO0u2ctr61rET8of6w0XxwRCT7lvIetqRmJ/o+
+ bYXYU7cmJqp5d/yjwvik5wNm2BGuYMi2EzPJyBfrp9I4rWIzXM7DPaNtEIz2eze41X7b6cVhhtE
+ 6HCJxQpOMKPY4P4WoinwElAFM95JxPNElRspS7nfnlJJnpNYBUgeKWtOVEGmfgbqEcXBAC/UgdA
+ SkBINah4SeS9XjJc9OA==
+X-Proofpoint-ORIG-GUID: 1nC35EH3sMQl0rjNVygBnteh2agzEcrN
+X-Proofpoint-GUID: 1nC35EH3sMQl0rjNVygBnteh2agzEcrN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-12_03,2026-02-11_04,2025-10-01_01
+ definitions=2026-02-12_04,2026-02-12_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0 spamscore=0
- impostorscore=0 malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 malwarescore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602120081
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602120121
 
-From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+On 2/11/2026 3:40 PM, Jakub Kicinski wrote:
+> On Wed, 11 Feb 2026 15:07:18 -0800 Jeff Johnson wrote:
+>> On 2/11/2026 9:30 AM, Paolo Abeni wrote:
+>>> Hi Linus!
+>>>
+>>> I'm not aware of any conflicts with other trees, even if this includes some
+>>> changes to printk for the sake of netconsole.  
+>>
+>> There is one conflict between the refactored ath12k driver and the char-misc
+>> tree. This was correctly addressed in linux-next:
+>> https://lore.kernel.org/linux-next/aXD6X23btw8s-RZP@sirena.org.uk/
+> 
+> Will there be an effort at some point to improve how the MHI "bus"
+> is structured? Maybe this is not a great example but we keep seeing
+> patches that touch a driver + the bus. Clearly indicating IMHO that
+> there's no proper abstraction / separation between the bus and its
+> users..
 
-Enable IP_SW1 (ch:48/49), IP_ETH0 (ch:50,51) and IP_ETH1 (ch:52,
-53) channels over MHI for M-plane, NETCONF and S-plane interface
-for QDU100.
-
-M-plane:
-Implement DU M-Plane software for non-real-time O-RAN
-management between O-DU and O-RU using NETCONF/YANG and
-O-RAN WG4 M-Plane YANG models. Provide capability exchange,
-configuration management, performance monitoring, and fault
-management per O-RAN.WG4.TS.MP.0-R004-v18.00.
-
-YANG model based interface aligned with O-RAN WG4 M-Plane
-specifications over TCP between the OAM application on the
-host and the DU M-Plane software running on the X100 platform.
-
-Netconf:
-Use NETCONF protocol for configuration operations such as
-fetching, modifying, and deleting network device
-configurations.
-
-This interface is used for IETF Netconf communication,
-enabling a Netconf server on the ORU to interact with a
-Netconf client running on the host.
-
-S-plane:
-Support frequency and time synchronization between O-DUs and
-O-RUs using Synchronous Ethernet and IEEE 1588. Assume PTP
-transport over L2 Ethernet (ITU-T G.8275.1) for full timing
-support; allow PTP over UDP/IP (ITU-T G.8275.2) with reduced
-reliability, as per ORAN spec O-RAN.WG4.CUS.0-R003-v12.00.
-
-To support accurate phase and time synchronization between
-the host (L2) and device (L1-High), the system must exchange
-PTP messages as raw Layer-2 Ethernet frames, because the
-ITU-T G.8275.1 profile operates strictly over Ethernet
-multicast and not over IP networks. This means the device’s
-PTP stack can only send and receive PTP Announce, Sync,
-Follow-Up, and Delay messages in native Ethernet format, not
-as IPv4/IPv6 packets. However, the host and device communicate
-only through MHI/PCIe, which provides no native Ethernet
-interface. Therefore, the system must implement a virtual
-Ethernet interface over MHI on both sides. This virtual
-Layer-2 link enables true Ethernet-frame transport, ensuring
-the device’s PTP implementation remains fully compliant with
-the G.8275.1 Ethernet-based timing model.
-
-Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
----
- drivers/bus/mhi/host/pci_generic.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 0884a384b77fc3f56fa62a12351933132ffc9293..6affef34ffc449eb48cd254bf3d8d69a49aeafdb 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -253,6 +253,13 @@ static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
- 	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
- 	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
- 	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
-+	MHI_CHANNEL_CONFIG_UL(48, "IP_SW1", 256, 6),
-+	MHI_CHANNEL_CONFIG_DL(49, "IP_SW1", 256, 6),
-+	MHI_CHANNEL_CONFIG_UL(50, "IP_ETH0", 256, 7),
-+	MHI_CHANNEL_CONFIG_DL(51, "IP_ETH0", 256, 7),
-+	MHI_CHANNEL_CONFIG_UL(52, "IP_ETH1", 256, 8),
-+	MHI_CHANNEL_CONFIG_DL(53, "IP_ETH1", 256, 8),
-+
- };
- 
- static struct mhi_event_config mhi_qcom_qdu100_events[] = {
-@@ -268,6 +275,7 @@ static struct mhi_event_config mhi_qcom_qdu100_events[] = {
- 	MHI_EVENT_CONFIG_SW_DATA(5, 512),
- 	MHI_EVENT_CONFIG_SW_DATA(6, 512),
- 	MHI_EVENT_CONFIG_SW_DATA(7, 512),
-+	MHI_EVENT_CONFIG_SW_DATA(8, 512),
- };
- 
- static const struct mhi_controller_config mhi_qcom_qdu100_config = {
-
--- 
-2.34.1
-
++ MHI list to comment on this
