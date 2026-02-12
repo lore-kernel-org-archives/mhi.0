@@ -1,87 +1,88 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EEB32B99F
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4544F331234
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770894039; cv=none; b=L+/CAwD7qY4EbD0smkDcziKN+SFUsXTfiyR5IRxyOZe7StyzQRcDGpCdS4WYIUl68U0unuihIwFNDTKYoslENvdgX7W7t5b/PLGPstFRhY+RFF8e9ct8LG3GLPq3+qiKc4WTYU05Ta6tO4XWIuzXqjgF7n+wWyRosEhQvXBFtGA=
+	t=1770894046; cv=none; b=ZU0YcEdt9o4426W01L4iC1BvDKznwnuvkpViwzvdmDHizbl9tKdyItlR0Dj8XdpAHP+mXydtPhcfU8PdpBnD92GCZZHGuyfjiMnDdUok/64ZSnYnZELiXO0wkc7P75jJfek1m4lD73brdZSrcAMyM4TpFoAQSi3r+5tjhBmEg08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770894039; c=relaxed/simple;
-	bh=Co1ogNbrXYtnG76P1/DduYW9hZG6P1mt8/oVy79f000=;
+	s=arc-20240116; t=1770894046; c=relaxed/simple;
+	bh=eACwLgZU/45Ro8VV6lj6dgyhmfOfokPMofw8tiCCjfA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R/f4Dz3aqJMZ3BxFY6LQbzys5Qu4RCayjXnHY2qK4eTEsr5nJMqlgXYEdRVlTmdITJpc0e/g3j0HFj0sBWVJjsqWEY3lo/yUw8zZ1Srev35qayUsPm6p5YFGy4pY0djKt7Uh3ipLYmeV9Nqp5+2uVLRYuCAzdkGzKB3gMw6eBoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lWc2UZUS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Tg5F/MFG; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=DixYOXcEO/tC5Pv9eulW4RplFHJnCCL3SSfMAXNeHc8B2FdrA/qFIqnf4xZ9UzLaoGpUM3ykKkvzQuudkOmpXQiENLmo8QbTgoiOtWuUAGWU7NAfaHjppM1Cj4wblXnZlaHFo2YJIVmJ/98+0dQWgOdhaRZay0O7XDXZPcxiyGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VcqdXQZW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BpkRursn; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lWc2UZUS";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Tg5F/MFG"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61CAFkUo008880
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:36 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VcqdXQZW";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BpkRursn"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61CAlrEw272110
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JlHNJePS7I7N8MArpoypC6/sjaeOy7o2sv3hro6NbT4=; b=lWc2UZUSVzPaa4Ph
-	B1WADDVdkEUBz535uuE4H5tLIbS2LC2VKyr5eWE5QiJcsidmYErb/dwExVnPQJ2E
-	+6wJOg0A7aRpk3yGCYG0VwDniqo6EIYARowRaJ/TqpsR3D9Z3cmNas2+ekF+ysLx
-	LTxs8AaVThJXeySoekpL1HW9yEImSVrEg7TLGO6AwCqykh7I3TDvQfgV3iUiIhMV
-	NRgdli1On0FLuZSZ66aDJdMLx8BMy3irJNg9M0876TR+kDUXFuk3vPPORMSCsows
-	xFphGIFH+t+/kx+l4rvBS9PUvi3f2z06s241Sw9FCjIO8i0KrJRSuY9qAQ8RYTDx
-	+OBAgQ==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c9cy4842j-1
+	ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=; b=VcqdXQZWKQVy7i6M
+	XSBeKtHNnhs3SYmnF+IHxURS6TpT5+CLifoUXUDPlEWDs4GwPBCmWtaeYL2kqhxS
+	UH5Tw8gT+Ix65wxAD+OCtsi1hczOOpGf/WE9SoEKunnLO0rWwfkEXEcZech9e5B6
+	z6aRnLUVTOZjAiAqRdW3tOPLNLbbTbZx0mhulLZjD3VUr62EjrEoNPGAiW6chHVI
+	DS8EQeYmI82/8YKhR5Hon5Oo6vadeEiTpqTViEhzaj747m+Os7JWJ5bX+skZLVpC
+	8u5fnIXdZBuZW73AuqNJFyS47F5s5CfZNQw6WZWQh3obIXnJ73aQO6Ui2UEEIhxA
+	JGJcNA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8y9btnre-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:36 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c6e1919fb7bso1019372a12.2
-        for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 03:00:36 -0800 (PST)
+	for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 11:00:43 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-824aec6772cso1355428b3a.2
+        for <mhi@lists.linux.dev>; Thu, 12 Feb 2026 03:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770894035; x=1771498835; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1770894043; x=1771498843; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JlHNJePS7I7N8MArpoypC6/sjaeOy7o2sv3hro6NbT4=;
-        b=Tg5F/MFGv/+6J1ehOZ91c+pZeDiLaS7IBmhfLJwCPvayVCM7JU/wvP+zaWdttAAOSF
-         1XFd0hzrtxp8zNNjizB/EQUBFJBFAEFRejGyL8k5AVKjQxYzZOOKneByK+W2aFNzdu+I
-         fxFLxgdcKTWFID0FjiURguY+FBs8M7AMolLEu2O4EH/hSLRKh0oSFm8QuNv+JnTKXBWG
-         UOdympyJ0p04+jtIKy6//sxnU5YCZ9HVw6ewaEqx+eoXQaLwdC3F66YkjAfGYTAvjtZq
-         16N641B7du+EIdRWAxEpJg3sVlGsE1iov1pO1bMyrj9qZTYAsQY0ZYGvyAvD+Km636Rq
-         ArPQ==
+        bh=ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=;
+        b=BpkRursn8kow4CnyMEv3Cpfd6uS8pMzJdZBpcB2ei88XvSWn6G1BycLquexeA/WDFn
+         3LeEHDELyjGEiGILlRj7iKAnsZF9d1Jk0ufM/NZcnrBQM90Is2+wd7lE2AH6bzIahTx0
+         gx75Ivb0Hb6g+Bno7Htm5TnHZkBgOlagqhkVQWcHg8F8e1mDHHWnmBTg8kvL7I8rDu+6
+         YC6ctlc/RbaqFnHIlUUCXDZFCBh2LZsBp4a1ipYg+iDNiVtQt5FHlnr5klSHGElKhjZE
+         JRBC1iH48qEfJzmw44nIZNXFiwBYjzvHDKNw8hbrWOmn9EnchLZeAU2OdutzFA7y1c1g
+         sVvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770894035; x=1771498835;
+        d=1e100.net; s=20230601; t=1770894043; x=1771498843;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=JlHNJePS7I7N8MArpoypC6/sjaeOy7o2sv3hro6NbT4=;
-        b=UsINypvgda68EIhjskJ4yLd/evGGBQiPMNcaeIdxSpfU5qfSFlL4Je6agLPEGphRVB
-         RWFLtVYd7nO8huPZuZg9IFRl2vQpNNKWLeAXS90/OHMKRNOmgp7Vt6dP0uSvz1N2DhfP
-         xl5+crJJUz8RPcMvsG83OrhfdejB7d/xVm70dI+mNLsMAIZk35gxGM24RR8EyND9LSPK
-         yuhpMjRJoQyHDXar3cZeT8ptralhtxhi/dVuhfEGkxRJqi4ZTTdQTkCVFApqvQSu2j2S
-         QLMOKkDXtBs977sv0Z9RmRib+CXksvmqCQpokXcFjwirm1Uj9s9zvhtnWT+VTNFl1x/T
-         4iRg==
-X-Forwarded-Encrypted: i=1; AJvYcCV96++zRlQ0vuhxQfLP/+qVpISXGJPo6p+PUxZfd1px0WSONaWUn6M6vL8r9CmmDPcREGQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwHZhn7fprYfZdtQAMxD5W3UuhzRVIJ4iQejJSlkkoysuG7HNq
-	r9dYUjNe5rz2t49BIAkMCa4NipSXlNhnrxuxaQ23mkwIUpm0Umddrkv+UllK2RKjKifFd1jjU7H
-	iRGIVMAiY2NA0jOlhAYs3H+BzriEFSBTLCNBWj/377HuWcCTxzPNOF60=
-X-Gm-Gg: AZuq6aJ0xMxbh67zYuMVrqZ9w7Qwn2qtymJ4BOzrrzrq6F0Oi1OyaayKueEjXCx6exq
-	jyoF80klLtbdB0JER5tIpkziCyOQsWzvDmwyQAwI3HDHIrmCN6WN8H1oePVhTu3FHpbPa6vpM05
-	XMUoPdec3mXDh8V77C5YzvMEzFQBa0PNmMsbJR1vlJcZNVb5/1xJPMIBVwrImXK2GvsAI8GTisj
-	N+UWru1r6B9sRKh0e4JJkkbSSLLy6wme7biFsFKIq1RzPnQE8JsW1mztBzO9xeSqzsFPZ/Pb6Rs
-	3rppLVSm9o1W5xB7ccgiUB7RdNMfMsF2QNvW7DDjXK5n0nQKH0Bx5omrdDgDNsg1cZ7iGi/FOAo
-	VUPG2HluhsHG0uOz2AjQx4AgLN5tkCJbT9INb/TafsDu1/2Sq
-X-Received: by 2002:a05:6a00:1da1:b0:81f:3cd5:2072 with SMTP id d2e1a72fcca58-824b03db639mr2377898b3a.3.1770894033655;
-        Thu, 12 Feb 2026 03:00:33 -0800 (PST)
-X-Received: by 2002:a05:6a00:1da1:b0:81f:3cd5:2072 with SMTP id d2e1a72fcca58-824b03db639mr2377852b3a.3.1770894033072;
-        Thu, 12 Feb 2026 03:00:33 -0800 (PST)
+        bh=ro8YjALXjohtXLdnP5ERURaj6OCE7e54yvF9GGG0bLM=;
+        b=fvQ2YVNYTGEzDUTvSKkF1SDdGfhtNNzkrsG+v/Lw8J3wAvMNWGbXd9G+RkYTUXFmkC
+         L56zdtX3oFSmeAr6XKVRFfscvlDNhY9m4s1NUrf5POAZgOXEb8DkDbvSq09601GoRFV9
+         zINAn5eVfUSx1iU/QkPxN2dyXY4SkK3olecpb2ooBaqDfMCnpc2ffskVJmkKcL/S/P2Y
+         zNkTKc67ykxSpmFvbori662r45PWcEUzfNIgSv7xyUaFujza7inPLC9OU5Zm1AJs14vu
+         ByS4wgNPKot807fU1NVN2MqxRH4kAB7i9guMAmOpk/52HJboYg0G0dvkIxYqn0pcnHfb
+         1aIw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbAr1VLIdIKt9ch85FdEFv/vT5E8lxK7Uj16cuH/+jGsQ0hbNys0T3LNIa19VaR9MYV2c=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyl7gk8fWlLysxWNibnV8YdMjzxH3YA4qRE5+t+CFApYYdORLbg
+	nZYCz/5M3TXIUweko7Q7i/eJmh0BBx1YgHB3p/fFikHQrTePJOhjkquOL2sS0QoXYmo5cbW6gE+
+	OM3ZvhT5FAIrfWtUZv4qiaPhv5duwyD6bn+seoTRjxACXPWfqNVQ88Kg=
+X-Gm-Gg: AZuq6aKM9ZZwVt45MhWDjzaJC9sBSbPKZk96toYC0EL6ohWF5QDK+SY2pRCIXpNSfLr
+	HCL/jQPYsA5FLMJuLAtOCzqxwbmgjmMP2mjBhjzIzXtArkR8z4X1QJQPGYJsaKDB9nRSKxQ5NYO
+	kYbwGHdOc17lBDHi9U762yu/ErxMqhnkvtc7A0ZjmxDHRwNuCQXB33v19tDWWWOmYT4ltaqByKm
+	+NuVykfqZDFzWTfmmG17zW7rLG18BneNEU6S8d4gHfFRzchriRquzd6Jic94b+SG75Zn8dVTED/
+	ZCPYFtURMI27etTmy4eSi/EncF+tq7EiJoTX8tT6lpmp3fTp1CyhBDIg8ZEIzGVRqXaTa/Z/akR
+	xRAxwAqF/u6QvTqXyWJJ9rYepMh+1P3LKFL0+AHDwBbkSZAL1
+X-Received: by 2002:a05:6a00:1953:b0:7e8:4433:8fb0 with SMTP id d2e1a72fcca58-824b05bac04mr2268965b3a.56.1770894037934;
+        Thu, 12 Feb 2026 03:00:37 -0800 (PST)
+X-Received: by 2002:a05:6a00:1953:b0:7e8:4433:8fb0 with SMTP id d2e1a72fcca58-824b05bac04mr2268913b3a.56.1770894037395;
+        Thu, 12 Feb 2026 03:00:37 -0800 (PST)
 Received: from hu-vpernami-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8249e3bd8e6sm4708348b3a.14.2026.02.12.03.00.28
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8249e3bd8e6sm4708348b3a.14.2026.02.12.03.00.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 03:00:32 -0800 (PST)
+        Thu, 12 Feb 2026 03:00:36 -0800 (PST)
 From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 X-Google-Original-From: Vivek Pernamitta <vpernami@qti.qualcomm.com>
-Date: Thu, 12 Feb 2026 16:30:22 +0530
-Subject: [PATCH v8 1/2] net: mhi: Enable Ethernet interface support
+Date: Thu, 12 Feb 2026 16:30:23 +0530
+Subject: [PATCH v8 2/2] bus: mhi: host: pci: Enable IP_SW1, IP_ETH0 and
+ IP_ETH1 channels for QDU100
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -89,8 +90,8 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260212-eth_vdev_next-20260211-v8-1-0974b3a8d61b@qti.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260212-eth_vdev_next-20260211-v8-2-0974b3a8d61b@qti.qualcomm.com>
 References: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
 In-Reply-To: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -102,219 +103,117 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
         linux-arm-msm@vger.kernel.org,
         Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770894024; l=5824;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770894024; l=3410;
  i=vpernami@qti.qualcomm.com; s=20241114; h=from:subject:message-id;
- bh=g0aEVCZ9DgMaz/0aNYMB+qQrxwyAxE9jfedkPvow5Sg=;
- b=jBhp71u3BZsYtWvdL+cV0UV1XZXLIKTq0xSE8JGDrhgX5tApfi59D4vUwrzXKKFD0hr+f0r4E
- obIILcFXnL6CjWp0Ewho+LiYIkY11vv8Bq67Mvg0dGssv5+HiQuy6IP
+ bh=RfZXzbxcqD/G6MBoueTXjrm+odDm6AQXFopMTMpU5do=;
+ b=JL96HZf6eAxjtGzP/vcTV6UiUggL3lK3qDD5FRMI2M1KUfSJtyyOxY8xaHT4xPUBvsJYQCd6n
+ knbJmNRUuhOAYei7gne8PIvw9Nx4mbbbe037XIHfd16ZXNyTBqjuAWM
 X-Developer-Key: i=vpernami@qti.qualcomm.com; a=ed25519;
  pk=HDwn8xReb8K52LA6/CJc6S9Zik8gDCZ5LO4Cypff71Y=
-X-Proofpoint-ORIG-GUID: zKiGe-2PuTND2afLWWJBKNneRUYp49kV
-X-Proofpoint-GUID: zKiGe-2PuTND2afLWWJBKNneRUYp49kV
-X-Authority-Analysis: v=2.4 cv=XvX3+FF9 c=1 sm=1 tr=0 ts=698db2d4 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=BbPVE7t2 c=1 sm=1 tr=0 ts=698db2db cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=Jnl0CxCd8TTYemsjstoA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDA4MSBTYWx0ZWRfX41AdvR+Zh99P
- g6BbDF3SJ+c232/pgt9adbpB2ZYRSaRjaawdiMj3mhqG3zEu/hnK2431nf/ccroenKhME+g9G8b
- dC/uUWq/GSJE5SBRKrnusakl7WmPqn1nuSNekTk5XqCg9P9qmz0eJrimxqqKyO+3UEhKGdfFaWn
- TyMX3m/Fpu1L0hh6GYDj2W+XGdVeVq4wBC9ctzbNAq7qijLW5i+0D++JjzUJne3mykTto6k796v
- EyY8l4+jda2V+OCbrLbFfiQIaIqOoevMr4WW2pN2869uyceU+vyb8aHf0Br8p73J0Ehmq9emEEx
- a0RoLvPUIkFyLB8QYUKFwhnvrNEc7yw5j2MAaicezhKT4sLrP2Xs2zfKtO53/CWqQTkCASSqLVv
- 9ZW7FMWb12tIs/ubMCWB0udAa7C9xseE9WgZ/bBisUPNoyRL9aIzRZ3yVoe3InveMtbhYqt2ESa
- j/UE0CJDuLcVLuVwYzw==
+ a=EUspDBNiAAAA:8 a=S1B1NPdMiRUp1hSzhhcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-GUID: XA-3TTmDOSkcZJdEZbr0Zh-AnyU0efpK
+X-Proofpoint-ORIG-GUID: XA-3TTmDOSkcZJdEZbr0Zh-AnyU0efpK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDA4MSBTYWx0ZWRfX7d3fzCKStGGA
+ W+6uw76PD7DQstSQgdhI7blHG3IY2mZ2AgMHsJqq2FXmPLef0JDT+u6McGTU0YdgPealjg1Tbrb
+ s+5ZuF/v0GlfLvmSUOZLwt9J67nxw78jfQwBHfbZ90UJDX1HLnWGnMv4c4vKvUPuYySuLiaJOkt
+ c96rIcuIApBNMeYGZz0PirG9zVSW4/li37Bxl63cR2myee3nkbWF6tn1jVa9I9SPzA2lhu9oH15
+ U1+MZUG3sriL5+iPyQX5wtGPtHBNebomTBql5YlCnBig9QitBBqb3Ijs7hDqgNamVRILryXdlBg
+ HobzEds2FT4k1fO0WqWQJfJ2Hx3cPTvcBDiyqd1B94KK2f9IbjuLicFkEz/8ZZh7Y0JIlRiyhhs
+ 3/PK+foxd2JLVkYlmYnezUxuSfwFTXlcnCoz82uAu13qPCq5We8JpQ5UQ8NiFY8o+05Hdxemn6N
+ x888VEXsA6356/+DvSg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-12_03,2026-02-11_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 spamscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602120081
 
 From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 
-Add support to configure a new client as Ethernet type over MHI by
-setting "mhi_device_info.ethernet_if = true". Create a new Ethernet
-interface named eth%d. This complements existing NET driver support.
-
-Allocate MHI netdevs using NET_NAME_ENUM to reflect kernel-enumerated
-naming. This updates the reported name_assign_type for MHI net
-interfaces created by this driver, aligning naming semantics across
-existing and new devices. No functional or interface naming changes
-are introduced
-
-Introduce IP_SW1, ETH0, and ETH1 network interfaces required for
-M-plane, NETCONF, and S-plane components.
+Enable IP_SW1 (ch:48/49), IP_ETH0 (ch:50,51) and IP_ETH1 (ch:52,
+53) channels over MHI for M-plane, NETCONF and S-plane interface
+for QDU100.
 
 M-plane:
-Implement DU M-Plane software for non-real-time O-RAN management
-between O-DU and O-RU using NETCONF/YANG and O-RAN WG4 M-Plane YANG
-models. Provide capability exchange, configuration management,
-performance monitoring, and fault management per O-RAN.WG4.TS.MP.0-
-R004-v18.00.
+Implement DU M-Plane software for non-real-time O-RAN
+management between O-DU and O-RU using NETCONF/YANG and
+O-RAN WG4 M-Plane YANG models. Provide capability exchange,
+configuration management, performance monitoring, and fault
+management per O-RAN.WG4.TS.MP.0-R004-v18.00.
 
-NETCONF:
-Use NETCONF protocol for configuration operations such as fetching,
-modifying, and deleting network device configurations.
+YANG model based interface aligned with O-RAN WG4 M-Plane
+specifications over TCP between the OAM application on the
+host and the DU M-Plane software running on the X100 platform.
+
+Netconf:
+Use NETCONF protocol for configuration operations such as
+fetching, modifying, and deleting network device
+configurations.
+
+This interface is used for IETF Netconf communication,
+enabling a Netconf server on the ORU to interact with a
+Netconf client running on the host.
 
 S-plane:
-Support frequency and time synchronization between O-DUs and O-RUs
-using Synchronous Ethernet and IEEE 1588. Assume PTP transport over
-L2 Ethernet (ITU-T G.8275.1) for full timing support; allow PTP over
-UDP/IP (ITU-T G.8275.2) with reduced reliability. as per ORAN spec
-O-RAN.WG4.CUS.0-R003-v12.00.
+Support frequency and time synchronization between O-DUs and
+O-RUs using Synchronous Ethernet and IEEE 1588. Assume PTP
+transport over L2 Ethernet (ITU-T G.8275.1) for full timing
+support; allow PTP over UDP/IP (ITU-T G.8275.2) with reduced
+reliability, as per ORAN spec O-RAN.WG4.CUS.0-R003-v12.00.
+
+To support accurate phase and time synchronization between
+the host (L2) and device (L1-High), the system must exchange
+PTP messages as raw Layer-2 Ethernet frames, because the
+ITU-T G.8275.1 profile operates strictly over Ethernet
+multicast and not over IP networks. This means the device’s
+PTP stack can only send and receive PTP Announce, Sync,
+Follow-Up, and Delay messages in native Ethernet format, not
+as IPv4/IPv6 packets. However, the host and device communicate
+only through MHI/PCIe, which provides no native Ethernet
+interface. Therefore, the system must implement a virtual
+Ethernet interface over MHI on both sides. This virtual
+Layer-2 link enables true Ethernet-frame transport, ensuring
+the device’s PTP implementation remains fully compliant with
+the G.8275.1 Ethernet-based timing model.
 
 Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 ---
- drivers/net/mhi_net.c | 67 ++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 56 insertions(+), 11 deletions(-)
+ drivers/bus/mhi/host/pci_generic.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
-index ae169929a9d8e449b5a427993abf68e8d032fae2..aa65b267d5c06c76482eaede097c500edc1cdf7f 100644
---- a/drivers/net/mhi_net.c
-+++ b/drivers/net/mhi_net.c
-@@ -4,6 +4,7 @@
-  * Copyright (C) 2020 Linaro Ltd <loic.poulain@linaro.org>
-  */
- 
-+#include <linux/etherdevice.h>
- #include <linux/if_arp.h>
- #include <linux/mhi.h>
- #include <linux/mod_devicetable.h>
-@@ -42,6 +43,7 @@ struct mhi_net_dev {
- 
- struct mhi_device_info {
- 	const char *netname;
-+	bool ethernet_if;
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 0884a384b77fc3f56fa62a12351933132ffc9293..6affef34ffc449eb48cd254bf3d8d69a49aeafdb 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -253,6 +253,13 @@ static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(41, "MHI_PHC", 32, 4),
+ 	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 256, 5),
+ 	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 256, 5),
++	MHI_CHANNEL_CONFIG_UL(48, "IP_SW1", 256, 6),
++	MHI_CHANNEL_CONFIG_DL(49, "IP_SW1", 256, 6),
++	MHI_CHANNEL_CONFIG_UL(50, "IP_ETH0", 256, 7),
++	MHI_CHANNEL_CONFIG_DL(51, "IP_ETH0", 256, 7),
++	MHI_CHANNEL_CONFIG_UL(52, "IP_ETH1", 256, 8),
++	MHI_CHANNEL_CONFIG_DL(53, "IP_ETH1", 256, 8),
++
  };
  
- static int mhi_ndo_open(struct net_device *ndev)
-@@ -119,11 +121,29 @@ static void mhi_ndo_get_stats64(struct net_device *ndev,
- 	} while (u64_stats_fetch_retry(&mhi_netdev->stats.tx_syncp, start));
- }
- 
-+static int mhi_mac_address(struct net_device *dev, void *p)
-+{
-+	if (dev->type == ARPHRD_ETHER)
-+		return eth_mac_addr(dev, p);
-+
-+	return 0;
-+}
-+
-+static int mhi_validate_address(struct net_device *dev)
-+{
-+	if (dev->type == ARPHRD_ETHER)
-+		return eth_validate_addr(dev);
-+
-+	return 0;
-+}
-+
- static const struct net_device_ops mhi_netdev_ops = {
- 	.ndo_open               = mhi_ndo_open,
- 	.ndo_stop               = mhi_ndo_stop,
- 	.ndo_start_xmit         = mhi_ndo_xmit,
- 	.ndo_get_stats64	= mhi_ndo_get_stats64,
-+	.ndo_set_mac_address    = mhi_mac_address,
-+	.ndo_validate_addr      = mhi_validate_address,
+ static struct mhi_event_config mhi_qcom_qdu100_events[] = {
+@@ -268,6 +275,7 @@ static struct mhi_event_config mhi_qcom_qdu100_events[] = {
+ 	MHI_EVENT_CONFIG_SW_DATA(5, 512),
+ 	MHI_EVENT_CONFIG_SW_DATA(6, 512),
+ 	MHI_EVENT_CONFIG_SW_DATA(7, 512),
++	MHI_EVENT_CONFIG_SW_DATA(8, 512),
  };
  
- static void mhi_net_setup(struct net_device *ndev)
-@@ -140,6 +160,13 @@ static void mhi_net_setup(struct net_device *ndev)
- 	ndev->tx_queue_len = 1000;
- }
- 
-+static void mhi_ethernet_setup(struct net_device *ndev)
-+{
-+	ndev->netdev_ops = &mhi_netdev_ops;
-+	ether_setup(ndev);
-+	ndev->max_mtu = ETH_MAX_MTU;
-+}
-+
- static struct sk_buff *mhi_net_skb_agg(struct mhi_net_dev *mhi_netdev,
- 				       struct sk_buff *skb)
- {
-@@ -209,16 +236,20 @@ static void mhi_net_dl_callback(struct mhi_device *mhi_dev,
- 			mhi_netdev->skbagg_head = NULL;
- 		}
- 
--		switch (skb->data[0] & 0xf0) {
--		case 0x40:
--			skb->protocol = htons(ETH_P_IP);
--			break;
--		case 0x60:
--			skb->protocol = htons(ETH_P_IPV6);
--			break;
--		default:
--			skb->protocol = htons(ETH_P_MAP);
--			break;
-+		if (!!mhi_netdev->ndev->header_ops) {
-+			skb->protocol = eth_type_trans(skb, mhi_netdev->ndev);
-+		} else {
-+			switch (skb->data[0] & 0xf0) {
-+			case 0x40:
-+				skb->protocol = htons(ETH_P_IP);
-+				break;
-+			case 0x60:
-+				skb->protocol = htons(ETH_P_IPV6);
-+				break;
-+			default:
-+				skb->protocol = htons(ETH_P_MAP);
-+				break;
-+			}
- 		}
- 
- 		u64_stats_update_begin(&mhi_netdev->stats.rx_syncp);
-@@ -306,6 +337,9 @@ static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev)
- 	struct mhi_net_dev *mhi_netdev;
- 	int err;
- 
-+	if (!!ndev->header_ops)
-+		eth_hw_addr_random(ndev);
-+
- 	mhi_netdev = netdev_priv(ndev);
- 
- 	dev_set_drvdata(&mhi_dev->dev, mhi_netdev);
-@@ -356,7 +390,8 @@ static int mhi_net_probe(struct mhi_device *mhi_dev,
- 	int err;
- 
- 	ndev = alloc_netdev(sizeof(struct mhi_net_dev), info->netname,
--			    NET_NAME_PREDICTABLE, mhi_net_setup);
-+			    NET_NAME_ENUM, info->ethernet_if ?
-+			    mhi_ethernet_setup : mhi_net_setup);
- 	if (!ndev)
- 		return -ENOMEM;
- 
-@@ -380,10 +415,17 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
- 
- static const struct mhi_device_info mhi_hwip0 = {
- 	.netname = "mhi_hwip%d",
-+	.ethernet_if = false,
- };
- 
- static const struct mhi_device_info mhi_swip0 = {
- 	.netname = "mhi_swip%d",
-+	.ethernet_if = false,
-+};
-+
-+static const struct mhi_device_info mhi_eth0 = {
-+	.netname = "eth%d",
-+	.ethernet_if = true,
- };
- 
- static const struct mhi_device_id mhi_net_id_table[] = {
-@@ -391,6 +433,9 @@ static const struct mhi_device_id mhi_net_id_table[] = {
- 	{ .chan = "IP_HW0", .driver_data = (kernel_ulong_t)&mhi_hwip0 },
- 	/* Software data PATH (to modem CPU) */
- 	{ .chan = "IP_SW0", .driver_data = (kernel_ulong_t)&mhi_swip0 },
-+	{ .chan = "IP_SW1", .driver_data = (kernel_ulong_t)&mhi_swip0 },
-+	{ .chan = "IP_ETH0", .driver_data = (kernel_ulong_t)&mhi_eth0 },
-+	{ .chan = "IP_ETH1", .driver_data = (kernel_ulong_t)&mhi_eth0 },
- 	{}
- };
- MODULE_DEVICE_TABLE(mhi, mhi_net_id_table);
+ static const struct mhi_controller_config mhi_qcom_qdu100_config = {
 
 -- 
 2.34.1
