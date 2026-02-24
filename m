@@ -1,44 +1,44 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D513009E2;
-	Tue, 24 Feb 2026 07:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5047E285068;
+	Tue, 24 Feb 2026 08:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771919278; cv=none; b=i/4pPouWo2soaLs0W/QfuACS9Hupqu4zFOkX3kkP3Tuzubct7tv5LgAq+U4k8T6RToeorjT0kMv4lP/28Rz85DtYEFBUlzugwStsQFRkOWoiSSr4wErgN/Xovn+QKPKHV0rdMhWyqGtjSjeoMPL6BHT88d/XamQAePULZ0jrbUo=
+	t=1771922004; cv=none; b=nbQ2/uCUgp9QZBVSrJptxHleqA8dFTbM7/FYKEvb6PPxZUnN0D1BhwRzOY2U4ZFuQH9T3i0sDDDWPEjXT+IqGBuEeCZ8xrATCcmSLBM79mLOoJ//pyfI8vdfDJr6U0g3XjJSj5sXeOoYyc6oYTA1Qas0nlgz40bj7DfP2pVfdxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771919278; c=relaxed/simple;
-	bh=koOgKiE+v7OPLi9LKEtxHOf7GhOtRTctPuVlHDgVeRI=;
+	s=arc-20240116; t=1771922004; c=relaxed/simple;
+	bh=jbJfsDf/AFVBkWOy7rSA4AaZdHLzv8lJvtIZjuKCFtE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PqmP0Y9dxuV5Lr8RtLlQLvTftOa4Fwx19gfjN2jonzSC50Mf/G9iROw5aoNZZReWFAsrDRm+zvV//cBM1G0NmznJ7YH5//Sgi1x/JNJFZgXY88HIjJW7G6OEH7cv7b5a3tULIyGdqtGuqfx8OAy/gj+DFbvrHY+PU79kDBD9Jow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LlmbFV5R; arc=none smtp.client-ip=80.241.56.152
+	 Content-Type:MIME-Version; b=EVf9aGxuXIcgilZMvncrDKL8sy8rQMUpPk83/EANmYRE+zOBqUqjNk38gUY1tx6dnuiF5c0LRCjZprClLlgD9Wl36Tnhy+ZBQagmEtPjrrYfC2NjaivYsrUhc9FT61FJ1OpQ6eD2Ezl4gWHK3InAKL9ZbHKFdyRfTiYE0KlqhzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ed6RPlZl; arc=none smtp.client-ip=80.241.56.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LlmbFV5R"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ed6RPlZl"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fKqZd0j7Gz9vf0;
-	Tue, 24 Feb 2026 08:47:53 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fKrZw3WpFz9vHN;
+	Tue, 24 Feb 2026 09:33:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1771919273; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	t=1771921992; h=from:from:reply-to:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
 	 content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YiLc2etffytjGPdDT50TNZbMLgAeU88xmrhfRIsoAkA=;
-	b=LlmbFV5RBp7xLppev4EyLfGR9yk3NSgp4k97/ZE38v/+7SN+fag4e2NPTVd6MywwYB3JoR
-	aECvO9Fv8AwXWQahEcQFmBMMy4oTTqbdSF7jsj3F9M1UASa8aCOGylBQ8PbGmnx3sEXV/X
-	xDlA0T3Yg9VbnOrGzG3Cu09qiMv5luZknnr33IhnpKKS7SEYP5J27eOqGJ+BMoxD7b2D7e
-	Wt4vHbFXLlArdA5ZAkztt7B6Zdjf3OctDzSWL+lDFIhoAe+dqsoo1LXHEJMGvF4BGO1wuN
-	FQvXuKvtRw6f680NUsqMBFFFC2kPPw/EMsvBpkdP95ooRBk0Xv0qmfZ7x7GZHA==
-Message-ID: <07fc896007d86b731cbfb3cf6bbdf4e5315d7a77.camel@mailbox.org>
+	bh=BYg4q6UpxC9QuXXiNNDVGkJ25zHrTtqhRQuiGoCwbvc=;
+	b=ed6RPlZlOUibWHwOocSfYTbtNmFVbXwAr31lgxNkh51bR+5xZFRh30ChM/VGa7gukLud7Z
+	gjTbJ0LWe52KAN52GeHh8bJ/s/WoNKVXWlvSRa1yRizbR3EpzoiYW3Wbfme/2w9YFsXFEw
+	1Sfja1+XOBY3ofP3UjIRgt036+qwuwuFFrM+HEUlokbyx8ydCENU7J4uyTEkj1BUrJue4J
+	99L7hKKIyf8MBC9C72PvXh5nuwMG3ygnRsPehMi1rXkCt72nSQ/Sw/iY4BR8htDmahaWW7
+	ev+dgehPQrgSupmjoTGs4VKws0G0Lm/uzKdxtzYsBciIbPjnvhapWs+EIlsL6g==
+Message-ID: <3014988f8a26dbac18a32ec22e0da3f5a383fd97.camel@mailbox.org>
 Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
 From: Philipp Stanner <phasta@mailbox.org>
 Reply-To: phasta@kernel.org
-To: Shawn Lin <shawn.lin@rock-chips.com>, Jakub Kicinski <kuba@kernel.org>
+To: Shawn Lin <shawn.lin@rock-chips.com>, phasta@kernel.org
 Cc: Bjorn Helgaas <bhelgaas@google.com>, "Vaibhaav Ram T . L"
  <vaibhaavram.tl@microchip.com>, Kumaravel Thiagarajan
  <kumaravel.thiagarajan@microchip.com>, Even Xu <even.xu@intel.com>, Xinpeng
@@ -73,26 +73,28 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, "Vaibhaav Ram T . L"
  <bingbu.cao@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann
  <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>,
  linux-input@vger.kernel.org,  linux-i3c@lists.infradead.org,
- dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
- netdev@vger.kernel.org, nic_swsd@realtek.com, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-usb@vger.kernel.org, iommu@lists.linux.dev, 
+ dmaengine@vger.kernel.org, netdev@vger.kernel.org,  nic_swsd@realtek.com,
+ linux-arm-msm@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+ linux-usb@vger.kernel.org,  iommu@lists.linux.dev,
  linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org,
- linux-crypto@vger.kernel.org,  platform-driver-x86@vger.kernel.org,
- linux-serial@vger.kernel.org,  mhi@lists.linux.dev, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>,
+ Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-serial@vger.kernel.org, mhi@lists.linux.dev, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
  linux-i2c@vger.kernel.org, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
  <haojian.zhuang@gmail.com>, linux-spi@vger.kernel.org, Jonathan Derrick
  <jonathan.derrick@linux.dev>, linux-pci@vger.kernel.org, 
  linux-gpio@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Date: Tue, 24 Feb 2026 08:47:28 +0100
-In-Reply-To: <ec226aa1-5cc8-855f-8f90-1d7f89efe766@rock-chips.com>
+ linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, Jakub Kicinski
+ <kuba@kernel.org>
+Date: Tue, 24 Feb 2026 09:32:39 +0100
+In-Reply-To: <d601ec05-ef38-5e8e-c643-c05010717ebe@rock-chips.com>
 References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
 	 <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
 	 <20260223160402.3ad8f079@kernel.org>
 	 <ec226aa1-5cc8-855f-8f90-1d7f89efe766@rock-chips.com>
+	 <07fc896007d86b731cbfb3cf6bbdf4e5315d7a77.camel@mailbox.org>
+	 <d601ec05-ef38-5e8e-c643-c05010717ebe@rock-chips.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -101,42 +103,63 @@ List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MBO-RS-ID: e66ae4685546ea4d94e
-X-MBO-RS-META: 6frywx3ts6ez4nj3bodhgna5o111q4gn
+X-MBO-RS-META: 9xmyhhcgdmozckmn6yfrqrcxte8ryx4p
+X-MBO-RS-ID: 6c93f1b6d9c4844e3a5
 
-On Tue, 2026-02-24 at 10:08 +0800, Shawn Lin wrote:
-> =E5=9C=A8 2026/02/24 =E6=98=9F=E6=9C=9F=E4=BA=8C 8:04, Jakub Kicinski =E5=
-=86=99=E9=81=93:
-> > On Mon, 23 Feb 2026 23:29:40 +0800 Shawn Lin wrote:
-> > > pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are cr=
-eated for
-> > > pci device drivers which rely on the devres machinery to help cleanup=
- the IRQ
-> > > vectors.
+On Tue, 2026-02-24 at 16:21 +0800, Shawn Lin wrote:
+> =E5=9C=A8 2026/02/24 =E6=98=9F=E6=9C=9F=E4=BA=8C 15:47, Philipp Stanner =
+=E5=86=99=E9=81=93:
+> > On Tue, 2026-02-24 at 10:08 +0800, Shawn Lin wrote:
+> > > =E5=9C=A8 2026/02/24 =E6=98=9F=E6=9C=9F=E4=BA=8C 8:04, Jakub Kicinski=
+ =E5=86=99=E9=81=93:
+> > > > On Mon, 23 Feb 2026 23:29:40 +0800 Shawn Lin wrote:
+> > > > > pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() ar=
+e created for
+> > > > > pci device drivers which rely on the devres machinery to help cle=
+anup the IRQ
+> > > > > vectors.
+> > > >=20
+> > > > If you can please add this API with just a few users, and then conv=
+ert
+> > > > remaining users via the subsystem trees in the next cycle.
+> > > > There's no need to risk wasting maintainer time on conflicts with
+> > > > conversions like this.
+> > >=20
+> > > Thanks for the suggestion, Jakub. I have little experience with
+> > > cross-subsystem cleanups like this, so your suggestion is very helpfu=
+l.
 > >=20
-> > If you can please add this API with just a few users, and then convert
-> > remaining users via the subsystem trees in the next cycle.
-> > There's no need to risk wasting maintainer time on conflicts with
-> > conversions like this.
+> >=20
+> > When I removed the hybrid nature of pci_request_region() et al., I
+> > concluded that there were so few users that doing them all in one run
+> > was sufficient.
+> >=20
+> > For larger reworks, like removing pcim_iomap_table(), a slower step-by-
+> > step strategy is necessary for the reasons that Jakub details.
+> >=20
+> > It is then smart to omit an easy to port subsystem / driver for the
+> > ultimate patch series where one then removes the hybrid behavior from
+> > PCI itself, after porting the last driver.
+> >=20
+> > In general,=C2=A0 as Jakub details, those step-by-step cleanups are a b=
+it
+> > safer, since you can proof valid behavior early on and in case of an
+> > explosion they are very easy to revert.
+> >=20
 >=20
-> Thanks for the suggestion, Jakub. I have little experience with=20
-> cross-subsystem cleanups like this, so your suggestion is very helpful.
+> Thank you, Philipp. I wish I had attended your talk at FOSDEM 2025 on
+> removing pcim_iomap_table earlier. This first version was perhaps a bit=
+=20
+> too aggressive.
 
+No worries at all, it's very cool that you pick this work up!
 
-When I removed the hybrid nature of pci_request_region() et al., I
-concluded that there were so few users that doing them all in one run
-was sufficient.
+>  For v2, I think the plan should start with addressing
+> the switchtec and vmd drivers, since both of those, along with the new=
+=20
+> API additions, can be handled entirely within the PCI subsystem scope.
 
-For larger reworks, like removing pcim_iomap_table(), a slower step-by-
-step strategy is necessary for the reasons that Jakub details.
+Sounds reasonable to me.
 
-It is then smart to omit an easy to port subsystem / driver for the
-ultimate patch series where one then removes the hybrid behavior from
-PCI itself, after porting the last driver.
-
-In general,  as Jakub details, those step-by-step cleanups are a bit
-safer, since you can proof valid behavior early on and in case of an
-explosion they are very easy to revert.
-
-
-P.
+Regards
+Philipp
