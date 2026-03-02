@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD0C3376A9;
-	Mon,  2 Mar 2026 09:01:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D1F379EC2;
+	Mon,  2 Mar 2026 09:34:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772442097; cv=none; b=FNPccRUoZdnMMhWP7hEA4jm6jy3IEJWUPS8CEpeH5f9lsWrd3pE1GdNqnR1KG8fCOYlPtChnxanjUXwDLTJAn6Kz5IMeGnDO4qFZ+sy+KiZ6Do2b83SuKnu3+LcTwxIRvYzvpSVFzyn6EWt02ID16i7yXb1gS+AFkefqt7hyWR8=
+	t=1772444052; cv=none; b=WFZON4XodPbxwNe3XdQtaBBZ7LpoSTsYZGQVcbRdrKMla992XZyIBG1R2ly18YKlLdP9tUeXDh8LJT14mCQyq6TJa/ueIYDfnyLhnhtwXCIR7hGP3QzhU+imII9sUiyBiefO4SCEfiPI6QwnsWWIYDk6enji8LndGqamzhrL/PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772442097; c=relaxed/simple;
-	bh=Q5AhbmlTjf+Zxcabh3OWPfjJlGLKMLNIR1YK4h6bMo8=;
+	s=arc-20240116; t=1772444052; c=relaxed/simple;
+	bh=BbQ5c1PtUfUvhyQdeZBjPDWObss0xuvH4G0y+wvUXtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPbbmLheEZ3Fjxp2gGUzZy+xBG9gF+9sShfz6QjP0KspagTGQdJ41th4rx3uKWNKfQPF4RFvuU5IX8PFl0gg/N4XHoAHrBk2uOlv7Ra1U8hYB0M9ZmDB6k79TMonQYbQ3z690xl9zSGxOLxtbCwJlq6LcKwC/PirXUOYxVSYmFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqDn5yZh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=if1Ck5YUl8KU45yVbUAPUO5TMQTn3VoczvmNT74iCucQ7YWmDKfkPDX24wsvd1Y3meRrSSycUYSv04RDuSo4ckGNZpbed/RE4H7pBRi+cCpHra8Jc5EBayH/4Inc5e2vFxgLiTaxP7qR8w1HaBD/y5ZTp+B4NZ24pKEimy109/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gr/a28hT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqDn5yZh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093F7C19423;
-	Mon,  2 Mar 2026 09:01:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gr/a28hT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE8EDC19423;
+	Mon,  2 Mar 2026 09:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772442097;
-	bh=Q5AhbmlTjf+Zxcabh3OWPfjJlGLKMLNIR1YK4h6bMo8=;
+	s=k20201202; t=1772444051;
+	bh=BbQ5c1PtUfUvhyQdeZBjPDWObss0xuvH4G0y+wvUXtI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DqDn5yZhMmJn4pIq6F8yUVqZIZ5y+fOOrPraiNfelD9OLraZ/+Kh865/57aT0UuSz
-	 NzApiq2pbq8LcEWBZtvhkfCLBYDkl1nq+y50htjimssn0VvEqh2A/doxbB6dprwp8h
-	 N1Gtgze/lqfnb9i101y917qVuah3yeJlW0cOwUq5x8NW/phe0JVWmNpZlisi6hihcs
-	 +5Tn9b4hzeAxjtVHDID3dWdg36ooNgOc6znPP4XNDjEMXVeq0J39sBkr2a3vGkHwag
-	 GwgF/Zy1XqaYOTfWc8ceELbvLIYDxM6mbYR+BbqSkIvAHyYIcISfNTJ7tzz0FqhEAg
-	 gfh7NU6YdhoDg==
-Date: Mon, 2 Mar 2026 14:31:24 +0530
+	b=gr/a28hTmMvlf2F5ED+RYL7IpqHR1V/7+g4716t8aKjqitpMJ0OZZY+2zgbhv4yV6
+	 aFPmFgBPlVQgOgG1WA4Y7eVmuFiVdHcbS7fpdPWIHRBAhnVyp22A0nqRYJd+PKp5JP
+	 C5LDdRv/ZDzAHx0o88VTL6ZM8kSOZuCYtsRePAz09RR2wxeUxUUJ8T80wr7bqWV1Rs
+	 iTIp9YEUikWcfDjQjREMh5/WGpX9MuoHzuoM1Llv0bkdIvVPzQktFgV3IKxim5AMnA
+	 iQ3oEuA2tHjHLKamK2syvT9medLZcXm+11dcuHhFt72y1gGI3tlIWAci7m/PCdL53r
+	 vwyLrAlOnWndw==
+Date: Mon, 2 Mar 2026 15:03:59 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 Cc: Alex Elder <elder@kernel.org>, 
@@ -34,11 +34,11 @@ Cc: Alex Elder <elder@kernel.org>,
 	linux-kernel@vger.kernel.org, 
 	Veerabhadrarao Badiganti <veerabhadrarao.badiganti@oss.qualcomm.com>, 
 	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>, Akhil Vinod <akhil.vinod@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] bus: mhi: ep: Fix potential deadlock in
- mhi_ep_reset_worker()
-Message-ID: <ma3chadfmnseacgsjzve3aascg7cpnkdj2kttkkdtrfoxdvllw@vc6qy5nsnufk>
+Subject: Re: [PATCH 2/2] bus: mhi: ep: Add missing state_lock protection for
+ mhi_state accesses
+Message-ID: <ob25vew2cpsmabeehkx4uuyrxxpno52zhjqovkqfduzxuvhzix@vouag4gwiy5m>
 References: <20260203-reset_worker_deadlock-v1-0-7ed889b5bf19@oss.qualcomm.com>
- <20260203-reset_worker_deadlock-v1-1-7ed889b5bf19@oss.qualcomm.com>
+ <20260203-reset_worker_deadlock-v1-2-7ed889b5bf19@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -48,42 +48,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260203-reset_worker_deadlock-v1-1-7ed889b5bf19@oss.qualcomm.com>
+In-Reply-To: <20260203-reset_worker_deadlock-v1-2-7ed889b5bf19@oss.qualcomm.com>
 
-On Tue, Feb 03, 2026 at 12:25:01PM +0530, Sumit Kumar wrote:
-> There is a potential deadlock scenario in mhi_ep_reset_worker() where
-> the state_lock mutex is acquired twice in the same call chain:
+On Tue, Feb 03, 2026 at 12:25:02PM +0530, Sumit Kumar wrote:
+> The mhi_cntrl->mhi_state field should be protected by state_lock to
+> ensure atomic state transitions. However, mhi_ep_handle_syserr() and
+> mhi_ep_power_up() access mhi_state without holding this lock, which can
+> race with concurrent state transitions and lead to state corruption.
 > 
-> mhi_ep_reset_worker()
->   mutex_lock(&mhi_cntrl->state_lock)
->     mhi_ep_power_up()
->       mhi_ep_set_ready_state()
->         mutex_lock(&mhi_cntrl->state_lock)  <- Deadlock
+> Add proper state_lock protection in both functions around their mhi_state
+> accesses.
 > 
-> Fix this by releasing the state_lock before calling mhi_ep_power_up().
-> The lock is only needed to protect current MHI state read operation. The
-> lock can be safely released before proceeding with the power up sequence.
-> 
-
-While inspecting the code, I also found one instance where
-mhi_ep_handle_syserr() was not locked. I've sent a patch to fix it. Please spare
-some time to test it and give a tested-by tag.
-
-> Fixes: 7a97b6b47353 ("bus: mhi: ep: Add support for handling MHI_RESET")
+> Fixes: fb3a26b7e8af ("bus: mhi: ep: Add support for powering up the MHI endpoint stack")
+> Fixes: f7d0806bdb1b3 ("bus: mhi: ep: Add support for handling SYS_ERR condition")
 > Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 > ---
->  drivers/bus/mhi/ep/main.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/bus/mhi/ep/main.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index cdea24e9291959ae0a92487c1b9698dc8164d2f1..73597de373ef7e0c428bcbc126d63a9a97f95144 100644
+> index 73597de373ef7e0c428bcbc126d63a9a97f95144..e9d14006453aa8b8999486a1cef17ca43f4cc4e1 100644
 > --- a/drivers/bus/mhi/ep/main.c
 > +++ b/drivers/bus/mhi/ep/main.c
-> @@ -1093,6 +1093,7 @@ static void mhi_ep_reset_worker(struct work_struct *work)
->  	mhi_ep_mmio_reset(mhi_cntrl);
+> @@ -1113,7 +1113,9 @@ void mhi_ep_handle_syserr(struct mhi_ep_cntrl *mhi_cntrl)
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+>  	int ret;
+>  
+> +	mutex_lock(&mhi_cntrl->state_lock);
+>  	ret = mhi_ep_set_mhi_state(mhi_cntrl, MHI_STATE_SYS_ERR);
+> +	mutex_unlock(&mhi_cntrl->state_lock);
 
-You can also perform locking after mhi_ep_mmio_reset(). There is no need to
-protect mhi_ep_mmio_reset().
+Ah, I sent my patch *before* seeing this one. But still this part is wrong and
+will cause deadlock as callers were already holding 'state_lock'.
+
+So drop this part in favor of:
+https://lore.kernel.org/mhi/20260302085612.18725-1-manivannan.sadhasivam@oss.qualcomm.com
+
+>  	if (ret)
+>  		return;
+>  
+> @@ -1148,7 +1150,9 @@ int mhi_ep_power_up(struct mhi_ep_cntrl *mhi_cntrl)
+>  	for (i = 0; i < mhi_cntrl->event_rings; i++)
+>  		mhi_ep_ring_init(&mhi_cntrl->mhi_event[i].ring, RING_TYPE_ER, i);
+>  
+> +	mutex_lock(&mhi_cntrl->state_lock);
+>  	mhi_cntrl->mhi_state = MHI_STATE_RESET;
+> +	mutex_unlock(&mhi_cntrl->state_lock);
+>  
+
+This looks fine.
 
 - Mani
 
