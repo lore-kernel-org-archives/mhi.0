@@ -1,142 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49113750BD
-	for <mhi@lists.linux.dev>; Tue,  3 Mar 2026 02:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C0D201278;
+	Tue,  3 Mar 2026 05:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772504862; cv=none; b=aDmB1TrBY9wQoGR+LUh+rvud/YZkr6MiSDig6W1W3DjnYNaU+/Yu2Rbe+hT3alYGegDqfmvBXQ13lraWN1xFB7nD3U8PKKhbuqcclYvc118rM6nroeErBeKdlf70Ie83r8y/HNWZo1fksRbNUSAaBlBxX3OngLJsVVAnerIW10U=
+	t=1772514717; cv=none; b=kly1ek9RvsU3TFRwNocto+0B0693UCHCK9ivwLtx6YefyPGBhR0J51QGYweCKrUTFiGS+22c906jRUM97o1a3Bp+QrgPNMK7MQ56Zc4teyRz3XHLwXf9R/lq6APRTgGpnclApZrZ990/JBUi3ThIhjBe6H+We/KUNHiMkoMx/eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772504862; c=relaxed/simple;
-	bh=PmdcofRx3Hb6FrbmtlUBaI2BGZMBwTDb0nji/bspcWs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hKDJEppTzgwKcIYO4p/juJTVb10KrLtZQNZn9kEzye9KVqujdWcMusj2l/cupxEW8m3ZA63xcI6tof6cXdrO3EhEmKuLYi1CAEtawdS+4zqdPGPU8gFFho3KAm2aCXIuAFc0jQUpcv3Lcm8OjGa2dMz5aJstv53HzQ3nh8ftONA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grvn7sv1; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772514717; c=relaxed/simple;
+	bh=SHzF/ni6U6PzN+MiwOiLIjNBAK3a4oNFIWAmVWHXCR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfeA4XPlpz7ClxPKboo6AQCPQn3kx9Ubxexk8+sBgySdu2Tcsux8yXgdarMA7YNQ568xQ/SIhVDbAudnj+hiPLd15+PMSWuu70BYt1Sei8cRLfyT+uooO7W+cugOilsf2drmiLZOWeWvfE5wcaB+16waloMCPtLa+3HDdFUgHSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NSPGYY1S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grvn7sv1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772504860; x=1804040860;
-  h=date:from:to:cc:subject:message-id;
-  bh=PmdcofRx3Hb6FrbmtlUBaI2BGZMBwTDb0nji/bspcWs=;
-  b=grvn7sv1wbN8nbHZnbYEMFhwCAKDNHPou3LzZR9iSW17ro7kP0xah2hN
-   rzGSSvNtp5jaeCYNb8JEwDYXa6f9K7So9pnUcnNZ77RIs+jQd9l/DvNr1
-   INRLlVSkGiPuuRVL/txXlkVEKJlyerldWyBwZ8QSRdIag25LmgwhSnbhm
-   NPH1PEsoxMaS88LOtvxEijGcKP/auIGUn6L5jTj6g/LdC5XfZPpavxTW6
-   tLQaGZbBmsiyH8raVrWxTpVPBG6qJrU7EyDwkExJF32+xO6OwakRwyDU8
-   pRPTYZ2KCNgEVS3FeVDwzMyzN3Yfe5sB9SJFe62RQeYUzwBeUhszbC06e
-   Q==;
-X-CSE-ConnectionGUID: wHgxnMZKTf+cqc2KXFGMLQ==
-X-CSE-MsgGUID: 7V3oLKhfSum/ea7lH+FiOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="72556817"
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="72556817"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 18:27:39 -0800
-X-CSE-ConnectionGUID: S3GHgfCDTjGBEBopZaLWTg==
-X-CSE-MsgGUID: TOz1mC7ARhSHleJr6lu23g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
-   d="scan'208";a="240860060"
-Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Mar 2026 18:27:37 -0800
-Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vxFTx-000000001eP-3Ck9;
-	Tue, 03 Mar 2026 02:27:33 +0000
-Date: Tue, 03 Mar 2026 10:27:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- 6a7084102bb9659f699005c420eb59eade6d3b4f
-Message-ID: <202603031010.CFFNadtb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NSPGYY1S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73969C116C6;
+	Tue,  3 Mar 2026 05:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772514717;
+	bh=SHzF/ni6U6PzN+MiwOiLIjNBAK3a4oNFIWAmVWHXCR8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NSPGYY1SEy5LDHLaTNlzRTk00yyyGEh6MQQC2lfkmMXuR+JPepMg7Krk3Fb2Mb/fJ
+	 3owdXt7soz18ZZFs/CaaS11wUYQr9NZHFmmB3EH/nwfofsVMwBUZcbTtOyhAwdMiFw
+	 y4JzOVCkXpFPm+H3AaCdxd+kj1gcNqq7cX9RS8sSwj7Aky+YfV2p51SyT8T8eUAeWr
+	 enb5d0KkTiEtJyTD2UYTMS8jl3FFbakM6SKkB47eaSCOfFNUdjp89JjjvmNgzniODc
+	 IOhDgOf1/+Og6zmTCDumyBloamwIgvNL7kNfTWmolZqfbia1y8+gAfmj+gq/WIZyjM
+	 ecLZq3vZLJecQ==
+Date: Tue, 3 Mar 2026 10:41:45 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Qiang Yu <qiang.yu@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Resume the device before
+ executing mhi_pci_remove()
+Message-ID: <au4575veiqz2kmgx4jxa5n6k45uhzucjlczodjsbl7efipwee2@n5uqjpdnvt7c>
+References: <20260302134116.18960-1-manivannan.sadhasivam@oss.qualcomm.com>
+ <aaY8xfPF9j83aM5X@hu-qianyu-lv.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aaY8xfPF9j83aM5X@hu-qianyu-lv.qualcomm.com>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: 6a7084102bb9659f699005c420eb59eade6d3b4f  bus: mhi: host: pci_generic: Add Qualcomm SDX35 modem
+On Mon, Mar 02, 2026 at 05:43:33PM -0800, Qiang Yu wrote:
+> On Mon, Mar 02, 2026 at 07:11:16PM +0530, Manivannan Sadhasivam wrote:
+> > mhi_pci_remove() carries out device specific operations that requires the
+> > device to be active. But pm_runtime_get_noresume() called at the end of the
+> > remove() will not guarantee that.
+> > 
+> > So use pm_runtime_get_sync() and call it at the start of remove().
+> > 
+> > Cc: <stable@vger.kernel.org> # 5.13
+> > Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> > Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  drivers/bus/mhi/host/pci_generic.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> > index 425362037830..fe3aefa15966 100644
+> > --- a/drivers/bus/mhi/host/pci_generic.c
+> > +++ b/drivers/bus/mhi/host/pci_generic.c
+> > @@ -1440,6 +1440,10 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+> >  	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
+> >  	struct mhi_controller *mhi_cntrl = &mhi_pdev->mhi_cntrl;
+> >  
+> > +	/* balancing probe put_noidle */
+> > +	if (pci_pme_capable(pdev, PCI_D3hot))
+> > +		pm_runtime_get_sync(&pdev->dev);
+> 
+> Mani, I don't think we need to resume here. See drivers/pci/pci-driver.c.
+> PCI framework has called pm_runtime_get_sync before drv->remove(pci_dev);
+> Is there any other thing I misunderstand?
+> 
 
-elapsed time: 1111m
+Oops... I completely forgot this. Yes, the device gets resumed by the PCI core
+before invoking the remove() callback to ensure that the device stays active.
 
-configs tested: 65
-configs skipped: 0
+Then the driver bumps the reference correctly using pm_runtime_get_noresume() to
+balance pm_runtime_put_noidle() in probe().
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+So yes, your understanding was correct and I overlooked it. Thanks!
 
-tested configs:
-alpha         allnoconfig    gcc-15.2.0
-alpha        allyesconfig    gcc-15.2.0
-arc          allmodconfig    clang-16
-arc          allmodconfig    gcc-15.2.0
-arc           allnoconfig    gcc-15.2.0
-arc          allyesconfig    gcc-15.2.0
-arm           allnoconfig    clang-23
-arm          allyesconfig    clang-16
-arm          allyesconfig    gcc-15.2.0
-arm64        allmodconfig    clang-19
-arm64         allnoconfig    gcc-15.2.0
-csky         allmodconfig    gcc-15.2.0
-csky          allnoconfig    gcc-15.2.0
-hexagon      allmodconfig    clang-17
-hexagon      allmodconfig    gcc-15.2.0
-hexagon       allnoconfig    clang-23
-i386         allmodconfig    clang-20
-i386         allmodconfig    gcc-14
-i386          allnoconfig    gcc-14
-i386         allyesconfig    clang-20
-i386         allyesconfig    gcc-14
-loongarch    allmodconfig    clang-19
-loongarch     allnoconfig    clang-23
-m68k         allmodconfig    gcc-15.2.0
-m68k          allnoconfig    gcc-15.2.0
-m68k         allyesconfig    clang-16
-m68k         allyesconfig    gcc-15.2.0
-microblaze    allnoconfig    gcc-15.2.0
-microblaze   allyesconfig    gcc-15.2.0
-mips         allmodconfig    gcc-15.2.0
-mips          allnoconfig    gcc-15.2.0
-mips         allyesconfig    gcc-15.2.0
-nios2        allmodconfig    gcc-11.5.0
-nios2         allnoconfig    gcc-11.5.0
-openrisc     allmodconfig    gcc-15.2.0
-openrisc      allnoconfig    gcc-15.2.0
-parisc       allmodconfig    gcc-15.2.0
-parisc        allnoconfig    gcc-15.2.0
-parisc       allyesconfig    clang-19
-parisc       allyesconfig    gcc-15.2.0
-powerpc      allmodconfig    gcc-15.2.0
-powerpc       allnoconfig    gcc-15.2.0
-riscv        allmodconfig    clang-23
-riscv         allnoconfig    gcc-15.2.0
-riscv        allyesconfig    clang-16
-s390         allmodconfig    clang-18
-s390         allmodconfig    clang-19
-s390          allnoconfig    clang-23
-s390         allyesconfig    gcc-15.2.0
-sh           allmodconfig    gcc-15.2.0
-sh            allnoconfig    gcc-15.2.0
-sh           allyesconfig    clang-19
-sh           allyesconfig    gcc-15.2.0
-sparc         allnoconfig    gcc-15.2.0
-sparc64      allmodconfig    clang-23
-um           allmodconfig    clang-19
-um            allnoconfig    clang-23
-um           allyesconfig    gcc-14
-um           allyesconfig    gcc-15.2.0
-x86_64       allmodconfig    clang-20
-x86_64        allnoconfig    clang-20
-x86_64       allyesconfig    clang-20
-x86_64      rhel-9.4-rust    clang-20
-xtensa        allnoconfig    gcc-15.2.0
-xtensa       allyesconfig    gcc-15.2.0
+- Mani
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+மணிவண்ணன் சதாசிவம்
