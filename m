@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862D72F8BD3;
-	Sat,  7 Mar 2026 19:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CC63603CE;
+	Sun,  8 Mar 2026 08:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772913077; cv=none; b=GGFqYJXrJL3t5nFU+GEho5YSCBmbapxzWh/7V5WNIuLDMM/NEifP5o+a1wRQ86RnDuXyqr2sZ9S2ZIdjVwPSHJwVz4miTBx2itlD3k/zVLlfNlRzIR1u2c8IpGJiQu9iB26BsF9TLaDi/5/aN+CJG1JtTWRWQHrdUlNRQyz/Hwg=
+	t=1772960225; cv=none; b=kvW0G0DBVOZTcPyTEEAIov0hnyHacjk/JF3EL63+Km/9ZX6ZW9UNLXnx4HECUjppjwhNTI+RysuPbY78L9msIIpqRGmLGC05JFTeDM1s1Fh/vbpbAla3TqzGuHknO2qwv/fjn969JuQgPMvzOclxMKIORpce4xjEWMqs6A2ywb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772913077; c=relaxed/simple;
-	bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
+	s=arc-20240116; t=1772960225; c=relaxed/simple;
+	bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nJMyF5UGkHYvqSa0yGjwSBVfRT6aNs1WsknfTYrv4+79pX65/Am9SjYKdB3p30pfsG6az9xRbfwxRQwuS4oeonniUupNcnMMpq3Ek0YS9VkIzdlh3DIzbreiBwUzG2xOutJT2P6dtg1WZEFcwJ0xZcEc8gmoSAdKjt8YKR28eBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCZkLNKL; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=FljA3yLxJAfulNn4SMpfJozzVWptTXTQKQw6EisY+6YphgoagdqxojIupbCKoiFn+UEdse3DUZa5WgvM2QNCSo5RhAocwr7Qg+IZvqJj+iH4456bBgn19Fyi6MUx2bDaPCFEyme8umFanA8vlUOaQ9VdaprM8CXr0fNH6zy942k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPU/e8Kh; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCZkLNKL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPU/e8Kh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772913076; x=1804449076;
+  t=1772960224; x=1804496224;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
-  b=PCZkLNKLAysrf4Q1ispvwXgClLsX2v77NqJebODW1s++XbQ+cTYRo++m
-   77jlnBHbZgqtDlFOLRMZBdMnZOtEavuUz+wd+3tL1U/QNFi2ieh38Htn0
-   V6/1JXIN3ttBvg16TfBzWCOXD+5MmbcmJydU8I5Xp5y+pcRHFePiOYeny
-   co3T+0HE7rE0FFuXPC3Szqo0ZPEfetFDg+fGn6Inca9fXjW8tgj3UmLxC
-   0wlZ09a39BLq8WGsCjezMwDKhF/v3FUAWhmP5scvts0FCWb1pnf+Q0vq3
-   QPNPs1rlbNgHFONLLqvrEzVhnYiFdJl6m/D7M/JmeTiid5pi9EFIfMwFv
-   Q==;
-X-CSE-ConnectionGUID: 3qdTu1hQQJ2UI2IgnWlTjQ==
-X-CSE-MsgGUID: h7bl7ksRSe+R6tGcoUOwbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74102724"
-X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="74102724"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:51:15 -0800
-X-CSE-ConnectionGUID: k/yn7nIgQKS6O1t/YqCwow==
-X-CSE-MsgGUID: lQMfxZJtS7+XKT/kDIfohA==
+  bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
+  b=dPU/e8Kh57hbt9VxXkO0UP4ucbUkM9Ak+CFsBhjTwmMSK19jN77RVbfh
+   /vrMTmVwKjFz+O6pYW/mmmiUyYyoaHsaovz1NXBU1ljuOhHVAkjTdqycE
+   MWUL8lfeZFWAe5QKs/Ku4tIhIQQ39/TlkQ48zuMaQQ65goVHdkDtwGaGq
+   Q2XjAWQy03pl2SOfQTERYEJETm2RpOeJvFIgJb/7gx17o8vyDaqKkNHLc
+   /mVA1PUHVdSWhPlRINIAI5Z2mhFS9luN38WRncGlrq5CLPdl+pT5MUyIx
+   JVG1c01Aq/GJtecSGQZ2nzvRMji2/XCuPU+U8lfIzH7Mpp86LCqMxSH6F
+   A==;
+X-CSE-ConnectionGUID: yPsWfenZQBaWchGPEtiU6w==
+X-CSE-MsgGUID: cMcm09PfS2iaoIbPmqkErQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74202438"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="74202438"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 00:57:03 -0800
+X-CSE-ConnectionGUID: qaGVg+KyTWmMdGABz88xqw==
+X-CSE-MsgGUID: KiZ3vj7/QA+yk4CkqqYqtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="217477031"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2026 11:51:13 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="223920453"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2026 00:57:00 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vyxg5-000000002XB-3MJ3;
-	Sat, 07 Mar 2026 19:51:09 +0000
-Date: Sat, 7 Mar 2026 20:50:15 +0100
+	id 1vz9wX-00000000305-2YXB;
+	Sun, 08 Mar 2026 08:56:57 +0000
+Date: Sun, 8 Mar 2026 16:56:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -60,9 +60,10 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
 	Kishore Batta <kishore.batta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/9] Add documentation for Sahara protocol.
-Message-ID: <202603072040.pXq0BYgd-lkp@intel.com>
-References: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
+Subject: Re: [PATCH v2 4/9] bus: mhi: Centralize firmware image table
+ selection at probe time
+Message-ID: <202603081641.KSZC3Jla-lkp@intel.com>
+References: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
+In-Reply-To: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
 
 Hi Kishore,
 
@@ -81,26 +82,52 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260307-194417
 base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c%40oss.qualcomm.com
-patch subject: [PATCH v2 1/9] Add documentation for Sahara protocol.
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260307/202603072040.pXq0BYgd-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c%40oss.qualcomm.com
+patch subject: [PATCH v2 4/9] bus: mhi: Centralize firmware image table selection at probe time
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603072040.pXq0BYgd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081641.KSZC3Jla-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   bit to be cleared.  Note that the vmcs02
-   bit is still completely controlled by the
-   host, regardless of the quirk setting.
-   =================================== ============================================ [docutils]
-   Documentation/core-api/percpu-counter-tree.rst: WARNING: document isn't included in any toctree [toc.not_included]
->> Documentation/sahara/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   drivers/bus/mhi/sahara/sahara.c: In function 'sahara_select_variant':
+>> drivers/bus/mhi/sahara/sahara.c:270:32: warning: the comparison will always evaluate as 'true' for the address of 'chan' will never be NULL [-Waddress]
+     270 |                         if (id && id->chan && !strcmp(id->chan, v->match))
+         |                                ^~
+   In file included from drivers/bus/mhi/sahara/sahara.c:12:
+   include/linux/mod_devicetable.h:867:20: note: 'chan' declared here
+     867 |         const char chan[MHI_NAME_SIZE];
+         |                    ^~~~
+
+
+vim +270 drivers/bus/mhi/sahara/sahara.c
+
+   260	
+   261	static const struct sahara_variant *sahara_select_variant(struct mhi_device *mhi_dev,
+   262								  const struct mhi_device_id *id)
+   263	{
+   264		int i;
+   265	
+   266		for (i = 0; i < ARRAY_SIZE(sahara_variants); i++) {
+   267			const struct sahara_variant *v = &sahara_variants[i];
+   268	
+   269			if (v->match_is_chan) {
+ > 270				if (id && id->chan && !strcmp(id->chan, v->match))
+   271					return v;
+   272			} else {
+   273				if (mhi_dev->mhi_cntrl && mhi_dev->mhi_cntrl->name &&
+   274				    !strcmp(mhi_dev->mhi_cntrl->name, v->match))
+   275					return v;
+   276			}
+   277		}
+   278		return NULL;
+   279	}
+   280	
 
 -- 
 0-DAY CI Kernel Test Service
