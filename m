@@ -1,178 +1,223 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691F53E8C44
-	for <mhi@lists.linux.dev>; Tue, 10 Mar 2026 07:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B20F39A81B
+	for <mhi@lists.linux.dev>; Thu, 12 Mar 2026 04:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773127371; cv=none; b=CjtyyaZkIUFIhIsSZBuezRfSG7g+45GUH1h60iell7smwNa3EHVr08KHcRxs+hmwqJsL5Er4HfGPooLNK5BeWTeZGYpRL1PrUFL99C7mF/nh1DLuY+mVTL3a7Y6ge2/V0QRVJXODFHfol9w1jIOVxyRzR7XbVVHGAyVRYdSPv3k=
+	t=1773291581; cv=none; b=C55woCUKUYxJ7OmTLHRXCl34DIdNDcIT6uIuSdqNYB/kuER8rorhnlIDlw1Je1yU+HrDm0sudzlshMd+g7Z+knk6MqAbeD97S+Y4tDRlSUEsQgnyniZR/zvUHtlSooXouSZOy2T6XgnflnSvGFCpo29KYKVWS0coJA4oiyz+6Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773127371; c=relaxed/simple;
-	bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jo8WH8To+1pTei3e6VdoWsP5Cii9eb1gaVUxVW1/Mt4GmjzV10FswbEZ37kDtie0eJY06stxLAlj4CzKQtA/jLFuKIYB5mnBH4kb3eXh4SXQJAnmpScySBKdWV0LZXwU5t9OZi62GliuhSIoyj6f7cXRn7opP7EL0ZU0EoOd+Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OSQUoMBa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J88orb82; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773291581; c=relaxed/simple;
+	bh=70BeD1knxFPBhbOveZaJ78TQk69t5SY8pDh27xzK/l0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O+n7/OEjE+kpiCangLGBDRIdVOaqBqfX0w1x0nsXcewmEcrDnh3sYqj+eMRFUPMJ108Z35kGhhtmrIzxTpzubd7fod6pJL/URKGYre+uWNUbdNiR0SxGKQjGOoLTzqyypPzSXPRCyJmzfqUgQrzrL3U4sTrvb6s+PsBS2iwfn3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUU0EOiE; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OSQUoMBa";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J88orb82"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A6VKLQ2021368
-	for <mhi@lists.linux.dev>; Tue, 10 Mar 2026 07:22:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=; b=OSQUoMBakbHD4hGg
-	hdEEZESxYnrKgEiNiGZF9XYy6J7UY0NiX8arF6UUes3B04tI4z439vt9YTljux8Z
-	uhRy3tfLRjLA0tZOLflDX0Rc20zO8/pYDIqD59X01yk/zY51ov6dATB6WQREYciM
-	WsntOdOthV9ni3EuJyVt4J56Tkn7jUVCnjq32UDMeJXRkvgkopgC/tmJ9IWVG+Wf
-	tJpi5uGyx4GjJgYSMVF8BACx48dl4pqe7ZtCtdcfZltevIiy23eXyS0pNknN7M/M
-	hkxcAWT93Cdo9L7FBQjBZrZRRwnN4Lg4xeLfcK7GmWysLZy21XJo8Y4n+G/pBhM3
-	aa6Shw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cte3w85fa-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Tue, 10 Mar 2026 07:22:49 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2ae4f27033cso92324715ad.3
-        for <mhi@lists.linux.dev>; Tue, 10 Mar 2026 00:22:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUU0EOiE"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c73ba417c6eso217968a12.3
+        for <mhi@lists.linux.dev>; Wed, 11 Mar 2026 21:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773127369; x=1773732169; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=J88orb82heHOhHZyLUHn993DrpQ6zVgK4BhwZLyh289SypHn0km/1ePSZ1ReB5TtqK
-         lLiYZhFOHk1VGeljWEuPZU2u4GrccGM1vnJW9xZu+Yg/kk9bG15iPg2rqsVWgDBpWc40
-         8udtw+qWEG6GvkvStq/x/xw3la0HMNea8p8utDk28m7Y7GM9Djcq5sWPUsFOuDmnxa1k
-         IJpyEZKOq/LhLpsqTe2Ql5eM+OOhSoQMyf9Xi0SH1AITME55nNgBM8UIfUExxE9DE8tP
-         f5y6cOHZprjEWxNfbz7+6WWqFbp0lWZmLiK1ErcCkfyimkRX9HZAtSk+kMc9Qzm4Q1Zb
-         Bb5A==
+        d=gmail.com; s=20230601; t=1773291579; x=1773896379; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JjiMf+HrHgumtDrytCb9PW5t02HTgkYKwwniQ8SZW0c=;
+        b=IUU0EOiE44reM9N33HAc1WkE/fOhwRhYSl4wiV+h7LaU9w03WnYaCAievL0QJxOL2E
+         0TrXGs1Cv5kXw1lAf4Mb01cbz8TjsF3cTL8h0llzwUKLw20fUiuJzegsX8yES0a7A99X
+         l7nup8efZasWyvZlO1xtNpBfErKeas3h6r4BYaLDmPUrCuQ4E80P9uF00MM1EUp5gK8f
+         6M5oTYmsI5J2RESRrEFC+62rTfdBJSamKnxrkkVZGzuOsJlC/TRM3fBhilyuSQdtzQmB
+         1AABET6FdzVofuOoiTqBucB7wbauUK2ey3yc/UKpuDEX+tw3p5GZP0I7WONM01V25WZh
+         YzEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773127369; x=1773732169;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=tDUSrNP9IKPtfrSK2bTXs5aXHGqz8o9Qgtjp0wt2PytWy0iaVhBhSiTd6yyb81w8Ha
-         1lF73UbYJkATLe+uo2gfViXc24hr0MKTAl/tBsaErtYKHCUFPuWNHKi3yMDRCAZQxgrI
-         SHV0GOVibSYc8/FZQQ+XEGKv9L+Jec6WOCQHRfVcEZKN2nYV7TQYe5hjofElq/1j8CjH
-         c2Pk4ZJR7GlWHNiKjAXocV58oezdaO6pFiTP24eVLPMinMrFBal4aW7s6iPxgIFsRs40
-         UE61hiWQ0Xy8e81YDn0yqLO1CccpXwppyKPPewTEVMXasmNfRxfOvgjjidnJk2U8AaEi
-         D9zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULnnvQX3q6EISnKvwkahwyOW4LnO7zWueSEVIsRGU+YgbDY7T5NIL+vRsFAkSnXDU9se8=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1un1Hqbem78dyhkFnqa/9eg8kEcWaujFSQ/OilkggzbAuK3d4
-	f/Iqs31iFhMOXLJTGEek8TJQhB0yUguVN+nwHc5nVeSH/0KDJzbADuphk4KpdtCEgd7gKnSXYrc
-	1VS1dKn77VP8Dqrb5CfCqD4DR2WTnvEeGyfeKoeBav0aeqi1viks0Sbc=
-X-Gm-Gg: ATEYQzzdozKJTMK41a+7YZLPnBFDAeWuAVWeDAd5t+VAThlohZ9SeHOJToWqRZYpFEg
-	pdlkw8gNRMSaQ0yZPiNMK3Af2M23AalZbb3exXpLyU9HP8TbD9WvKJUC2jnZw1a0QFLVdGHcOB7
-	+1CWsWVTWgE35BGcpmteH4Q3n89sAmf8s89gkcKd6w8i2bgCwAfciPv/eI308DDorvvTVUYjets
-	Z/tfMioVAYB+8qBY5Yu7PKVWRthEccKW/5NWGS9lIT/dMbu4H+jDIonDREduAmA3dV53EPFGe6n
-	opHh/KhNtbQ1vZbej8wquwIWEEZerjbcgEcmt8ENBCcMWmkxbQj6ULxncWP5ktDpaAAGsNipXIY
-	ecs3+mcKELlW7lmRiNlnJh8tUNIIl+oljQFctPPTSymU+XTChAUY=
-X-Received: by 2002:a17:902:cf05:b0:2ae:829d:3c33 with SMTP id d9443c01a7336-2ae829d3f2emr149862875ad.8.1773127369011;
-        Tue, 10 Mar 2026 00:22:49 -0700 (PDT)
-X-Received: by 2002:a17:902:cf05:b0:2ae:829d:3c33 with SMTP id d9443c01a7336-2ae829d3f2emr149862565ad.8.1773127368570;
-        Tue, 10 Mar 2026 00:22:48 -0700 (PDT)
-Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae840b2e9dsm185200325ad.85.2026.03.10.00.22.45
+        d=1e100.net; s=20230601; t=1773291579; x=1773896379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JjiMf+HrHgumtDrytCb9PW5t02HTgkYKwwniQ8SZW0c=;
+        b=ZYCVwFqvWqS1b6xP2OdsshT3Wm3VazLrnl/KFta1dNd58w4EQfn4BS5rgzpCoNW0ur
+         dT2+GRaGjdw15Q/TDLPwcx33/gCJo69Gvk9gMA5Q2/nrs1ciSLr6XQc0AE3JBv7rYIB7
+         wTg5h1rpKhexId2h6aFPQ8RPpwJRUSRgb4SJqW8PUsH8cd1q9u25F5tQGCnEMMeO0dW4
+         FD8DW1YwoFBh4bhq2GiAy/kgXRbaSBF29iIl55jN6PWrKbCL41kyq4uwbU3ejln/qEYP
+         IfpQ8p+uOLodbz9Wtpu1vjIn8R0ZP4syZ6Nfg3kJLCCTbUGapway+d2BywwG25Tb4K33
+         LjSg==
+X-Gm-Message-State: AOJu0YzKFVffiPVznZKbamqt6pyLllG/EDkxcWFumx4zCRxqcjwDhx3u
+	3aylJ98BdSDPKAjyXbui5bZhhRXxVoh93DhVvTPLGwkx6CFzcACHAtE2sMcdkIa6
+X-Gm-Gg: ATEYQzyzgy64CZctkw+yR1i2rGrea4Jtfh+aXngH0t7/9ymv85uZS+58n64A8vSNw/w
+	tcWwhbIFcX6FyARx1lJDRCoyTNwhHDYof9WXRUVczVNpX9tqBxy/82n3JzvwTNkoPaQlH0y93Ih
+	iwKsM10objBJewnW/FXkPtcJb1/d3XHCpIh5PLaRWANg8RAFg9QIg8jLyjgJLFJr2REF7ZxDgq5
+	urETimUUqNXJi8oG9nYBCz1Zuk5zf7djkSAiBbetWIFLFbDK1+uCfuWQD/BWoCIiVAZWCYek/q+
+	yLd+NecvOH8FrPNallt4WhwACa2MHRxx7ebPop17rE1DlAjEhslqfOKOK9vSKu7yL3XljP9Mhvx
+	1ECFdxcUn4lYxIL1aKx4tU4DD7Yfb1uw/C/Y3oJWBFSfSEYWVzfmXj43P7YVEJl1OBm59mq32RC
+	jhLRXyakRmAOsm/C+KzKEnEyo/JvMN7AQAJPHCWMkMOF+n5b9OaywNnw==
+X-Received: by 2002:a17:902:ea11:b0:2ae:b991:a46f with SMTP id d9443c01a7336-2aeb991a868mr25734465ad.42.1773291579268;
+        Wed, 11 Mar 2026 21:59:39 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:56f5::8bd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae255a05sm55804755ad.36.2026.03.11.21.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 00:22:48 -0700 (PDT)
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Tue, 10 Mar 2026 12:52:06 +0530
-Subject: [PATCH v3 9/9] Documentation: ABI: Add sysfs ABI documentation for
- DDR training data
+        Wed, 11 Mar 2026 21:59:38 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: mhi@lists.linux.dev
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-arm-msm@vger.kernel.org (open list:MHI BUS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
+Subject: [PATCH] bus: mhi: use kzalloc_flex
+Date: Wed, 11 Mar 2026 21:59:21 -0700
+Message-ID: <20260312045921.7663-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-sahara_protocol_new_v2-v3-9-994ea4b0d5ad@oss.qualcomm.com>
-References: <20260310-sahara_protocol_new_v2-v3-0-994ea4b0d5ad@oss.qualcomm.com>
-In-Reply-To: <20260310-sahara_protocol_new_v2-v3-0-994ea4b0d5ad@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773127328; l=1903;
- i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
- b=A2ngy+Vh6mGbywAacQ1WhpnAXl4OfWSksXvxmtXi88x0yTGDf+9jd2T6SE6lkrsx9nv4dwTSR
- O/grnwx19PsAypGENZxaAsrKGNdaoKkokxmqVFwm6mmcVFtenk5b9bW
-X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
- pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDA2MSBTYWx0ZWRfX1mSS6s/dgsQ0
- yz1JaOemKf9DqmqDEP0mBp6hKLCKkltZYU1JW4sAwQdjJ4eX9vhhTJ+fx9ralXC5H4jLMN6chBT
- HCgokkkkbxyypmGtM4SuMrvgkDVXpUmVzAKrzGXGhGpJjotSsZz3NbJhapnZ587A91Uf5F7h8BW
- jFKQ7rtG/6NkvZKwBxp2CP874AVXU9Nsi5Wz7lPwZigjLKyak/GCPGUWoO2oBV9+17RQkGSn8K2
- JWu79wj2jF0EeTyvrHMAuEDcELj0/MS3aHDTzyZom5hEx1uJ/DMQskvmfCDOhZ0GsSJ96xBdPy4
- y0NdmnRfFDcvXG/hSnGEodtyqOH6OEQ116hG/ZVsOtq7h3d5HE1AaqdjBjarM+fLTg8Tmr/EWjO
- Bb76R5bvl3xo4NblKOCvOHRBV6c4sgEw98thiPCyf3OrlZ+WLwdjl178IVWrk74S7+fA2zKmDIo
- IhwXUvjKMZpeoJZ8mlA==
-X-Authority-Analysis: v=2.4 cv=GtFPO01C c=1 sm=1 tr=0 ts=69afc6c9 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=dkV1H7vRkoxx0F9zaYgA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: auOD1xbieLRh0lqzeKeB5AxAlS2Uz7Yy
-X-Proofpoint-GUID: auOD1xbieLRh0lqzeKeB5AxAlS2Uz7Yy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_01,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100061
+Content-Transfer-Encoding: 8bit
 
-Add ABI documentation for the DDR training data sysfs attribute exposed by
-the sahara MHI driver.
+Change kzalloc + kcalloc to just kzalloc with a flexible array member.
 
-The documented sysfs node provides read-only access to the DDR training
-data captured during sahara command mode and exposed via the MHI
-controller device. This allows userspace to read the training data and
-manage it as needed outside the kernel.
+Add __counted_by for extra runtime analysis when requested.
 
-Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Move counting assignment immediately after allocation as required by
+__counted_by.
+
+Move mhi_buf definition as a complete definition is needed for flex
+arrays. It's not a pointer anymore.
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- .../ABI/testing/sysfs-bus-mhi-ddr_training_data       | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/bus/mhi/host/boot.c | 20 +++-----------------
+ include/linux/mhi.h         | 34 +++++++++++++++++-----------------
+ 2 files changed, 20 insertions(+), 34 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-new file mode 100644
-index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-@@ -0,0 +1,19 @@
-+What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
+diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+index f16a1e67a667..e1d77cecd75e 100644
+--- a/drivers/bus/mhi/host/boot.c
++++ b/drivers/bus/mhi/host/boot.c
+@@ -333,15 +333,10 @@ static int mhi_alloc_bhi_buffer(struct mhi_controller *mhi_cntrl,
+ 	struct image_info *img_info;
+ 	struct mhi_buf *mhi_buf;
+ 
+-	img_info = kzalloc_obj(*img_info);
++	img_info = kzalloc_flex(*img_info, mhi_buf, 1);
+ 	if (!img_info)
+ 		return -ENOMEM;
+ 
+-	/* Allocate memory for entry */
+-	img_info->mhi_buf = kzalloc_obj(*img_info->mhi_buf);
+-	if (!img_info->mhi_buf)
+-		goto error_alloc_mhi_buf;
+-
+ 	/* Allocate and populate vector table */
+ 	mhi_buf = img_info->mhi_buf;
+ 
+@@ -358,8 +353,6 @@ static int mhi_alloc_bhi_buffer(struct mhi_controller *mhi_cntrl,
+ 	return 0;
+ 
+ error_alloc_segment:
+-	kfree(mhi_buf);
+-error_alloc_mhi_buf:
+ 	kfree(img_info);
+ 
+ 	return -ENOMEM;
+@@ -375,14 +368,11 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+ 	struct image_info *img_info;
+ 	struct mhi_buf *mhi_buf;
+ 
+-	img_info = kzalloc_obj(*img_info);
++	img_info = kzalloc_flex(*img_info, mhi_buf, segments);
+ 	if (!img_info)
+ 		return -ENOMEM;
+ 
+-	/* Allocate memory for entries */
+-	img_info->mhi_buf = kzalloc_objs(*img_info->mhi_buf, segments);
+-	if (!img_info->mhi_buf)
+-		goto error_alloc_mhi_buf;
++	img_info->entries = segments;
+ 
+ 	/* Allocate and populate vector table */
+ 	mhi_buf = img_info->mhi_buf;
+@@ -402,7 +392,6 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+ 	}
+ 
+ 	img_info->bhi_vec = img_info->mhi_buf[segments - 1].buf;
+-	img_info->entries = segments;
+ 	*image_info = img_info;
+ 
+ 	return 0;
+@@ -411,9 +400,6 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+ 	for (--i, --mhi_buf; i >= 0; i--, mhi_buf--)
+ 		dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
+ 				  mhi_buf->buf, mhi_buf->dma_addr);
+-	kfree(img_info->mhi_buf);
+-
+-error_alloc_mhi_buf:
+ 	kfree(img_info);
+ 
+ 	return -ENOMEM;
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 88ccb3e14f48..fb3ba639f4f8 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -85,17 +85,33 @@ enum mhi_ch_type {
+ 	MHI_CH_TYPE_INBOUND_COALESCED = 3,
+ };
+ 
++/**
++ * struct mhi_buf - MHI Buffer description
++ * @buf: Virtual address of the buffer
++ * @name: Buffer label. For offload channel, configurations name must be:
++ *        ECA - Event context array data
++ *        CCA - Channel context array data
++ * @dma_addr: IOMMU address of the buffer
++ * @len: # of bytes
++ */
++struct mhi_buf {
++	void *buf;
++	const char *name;
++	dma_addr_t dma_addr;
++	size_t len;
++};
 +
-+Date:                   March 2026
-+
-+Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-+
-+Description:            Contains the DDR training data for the Qualcomm device
-+                        connected. MHI driver populates different controller
-+                        nodes for each device. The DDR training data is exposed
-+                        to userspace to read and save the training data file to
-+                        the filesystem. In the subsequent boot up of the device,
-+                        the training data is restored from host to device
-+                        optimizing the boot up time of the device.
-+
-+Usage:                  Example for reading DDR training data:
-+                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-+
-+Permissions:            The file permissions are set to 0444 allowing read
-+                        access.
-
+ /**
+  * struct image_info - Firmware and RDDM table
+  * @mhi_buf: Buffer for firmware and RDDM table
+  * @entries: # of entries in table
+  */
+ struct image_info {
+-	struct mhi_buf *mhi_buf;
+ 	/* private: from internal.h */
+ 	struct bhi_vec_entry *bhi_vec;
+ 	/* public: */
+ 	u32 entries;
++	struct mhi_buf mhi_buf[] __counted_by(entries);
+ };
+ 
+ /**
+@@ -488,22 +504,6 @@ struct mhi_result {
+ 	int transaction_status;
+ };
+ 
+-/**
+- * struct mhi_buf - MHI Buffer description
+- * @buf: Virtual address of the buffer
+- * @name: Buffer label. For offload channel, configurations name must be:
+- *        ECA - Event context array data
+- *        CCA - Channel context array data
+- * @dma_addr: IOMMU address of the buffer
+- * @len: # of bytes
+- */
+-struct mhi_buf {
+-	void *buf;
+-	const char *name;
+-	dma_addr_t dma_addr;
+-	size_t len;
+-};
+-
+ /**
+  * struct mhi_driver - Structure representing a MHI client driver
+  * @probe: CB function for client driver probe function
 -- 
-2.34.1
+2.53.0
 
