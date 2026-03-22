@@ -1,178 +1,179 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73EA34DCC8
-	for <mhi@lists.linux.dev>; Thu, 19 Mar 2026 06:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383DC35E95F;
+	Sun, 22 Mar 2026 17:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773901949; cv=none; b=Q7vMFjd4VUtoJw4nap3EYrBgtbqlx+MlutBS/W5l+u2u4hh90BkizNCKtF9QUoS690OMrziRwZHotRkgDJ+O5xeiQMcRh4bgGD5NuyM4vPEU6mkEG/BsynmBhu7NPcwtaPPYF2LzzF7fMNv7LmB5aKT2sDCEVqWVJI93lrcLFe0=
+	t=1774201576; cv=none; b=ehYS06PPd1nPADpX0dhmP9EOqesK3gYmAPY8e2vh1rwK1UolHvzLtc92AFdj5UDV/2R5HNF+PpcE0Bzu+Yiat8ea5BzZvkqYkLqTdQNJ8zCx9voDgwebrWS4fZlaCSWg6BZ/AdaZ3IM5cf2n30e2lyz/r+Wbuq5UgD8oWj5/qdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773901949; c=relaxed/simple;
-	bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hI4YSmlOq5iSNRYu0Sw0uTc93e0A3kDBoRETRZYYukeFAlIIGGsZleVfPoX9+Mh8atpgv5/pT4NJXoT9ZkVTw2B+ctIhhay/vB9MHx1SG2f9/d6rCOE2qgU2ybB1mTBWetzUIt3vm3kFQdpsijLl+OMfmrPs5Qz4lvclgYFgAgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XjdYOj6Z; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=krI4vv0b; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1774201576; c=relaxed/simple;
+	bh=0psMeQIAJF2GCZNSxGc5OMzULl9ytU8E7LNJwnaKs3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BS+wF71y3+p7pS+dM05VSilM5VNFuDu2cXNPHU+PclUm+LbzBgB1p9pP27JLvF86LRgJQoNRvs1qOLXI5pXgHltqGRsMh8qc/YMvvf5ldmw+2WJOU+QJdzxos6QpemBIZ9Cn9XLnoDQ5sNU+Y6st5EXROrJpH7Q/3kZFaFdlw/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIYI3nU9; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XjdYOj6Z";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="krI4vv0b"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62J5XaVN1701872
-	for <mhi@lists.linux.dev>; Thu, 19 Mar 2026 06:32:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=; b=XjdYOj6ZySs+ffOQ
-	nIXhwt5OeOeWVukqAGGFaWFnkYi1qnr565OZs+NKGzUFqDEEMmFMAPrgo4nld+DW
-	Ip9FlKU2r1dwY1+JHnFUeDSH1RF9RnqLCKQfLnhYNSfW7F79oYWtJ5S/GvurHkRQ
-	Br9J39bODzuBspngARD1uc53SXDHWMGl7sEGOeX7vRsccZs9uYSQva52f6XysenQ
-	Of6izH1A8FoqhEg1sFg39oPMc9xKwg4JVW6eU5OWbqGpP7AMcMGgculpSra5MXcY
-	3JRWd30EVQF3SI4d/t9bsIwgr830exrO5qD65OmraYUqzUgeO1N1rC8L915SIl4G
-	RwUmsQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cyyhgabmm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 19 Mar 2026 06:32:27 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2b059511554so45936605ad.0
-        for <mhi@lists.linux.dev>; Wed, 18 Mar 2026 23:32:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773901946; x=1774506746; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=krI4vv0bZBYFvpb5mcY450TOyn4pKMd9KHol5ok1MLNNHxAVejQDvtk6Zx95tY+bKH
-         S2iExVEgY/xWWvl06yVAx+5un334RKcIjbzQuxdT/OV6OMmbixtfbYahEtirLzeMGEBZ
-         /YRb1CqyhW+iiQkJwSZhKi/lzdZveTwSsCOaLvok1ZWSsBvQ6+EV62madeMLk+cbnDbn
-         3nmXmdc1bwyIgkBYR87p5r2sHWqSwuzgEIAO7GGRK6GRZ8+fqmf4LIIHzvn0+6rakYCJ
-         5vfki/hp0M/NIbu4xztFlU5wuprxE2PVZZA4bTnoVZxpSg4NrU6ZXmwCtZVF+US566lb
-         2arQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773901946; x=1774506746;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=g4tKv6UBHI7bmJ3RvjtGrFJNyWJ3PxrLIqpvIo5Eek4VHcgrDOrnVaul32nojHn8CQ
-         sxi1PTLb++1k8MlBthMpA4ptTzYi3X2J45mjpA3c2BqevR9a6u92DxqWpEMaT3YWuNoB
-         8p9LySOvbAYEXA/8UdFkj0RI78hm4JeJCj3vPn35JZ3I+UzWNqetg7YhqycbyM/CGQgp
-         98u8z46wWviUQF8Jl9bEpgvWxAKukp6QIn6aMLJeCteb/xPfLhW3YIBenIJPAS/z9KO5
-         c5nt+UNj0nRdd4Wnl4x5xyGkij9JDZf/5w8V3subfSwfXRjUjn1EHfF5x5xBtXIttDQO
-         fOxw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJa3RYm/QKekuUuDNZ2htiaAjmoWoiuOu7YuLt6Qn4dHt0DpmsiTF1iT2XfTcH6/5fS+g=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZc/ee6TLosEwK6BETuAcMAnANAqWYD5Eepm0Y6taPMu5BisIZ
-	H0Z6ab/7WN9d8YJrNoS6cqvuAnEraMKwYf5aN2gZbNX5GmzQBRmIyzXtVMqcrsGP+kemA5t+fw/
-	LMm3C+iS+eHuaVLX/yTVIih3q9YpC/L/9hK7ljXFuAaEYXYtBl7pqCb8=
-X-Gm-Gg: ATEYQzzl7q/V33NW6Ov8jlOOdBG056xuXEyvjE9TL6Ox8qpt6O5TjfNpFYu9g0UALOS
-	7N+xWBxxDwO0NmYq03465reDdXmlF4kG4Rb6YmlY5ugJidKH8FEGaEDUzTI3L4Sq8RRgZbrSPKb
-	dHTBJ1wpzHD47WkBo8P33aDhdDpoOZr+FJ4RgiRTD+wk+1cL0+OxbsQYYkFJb/SBYba9+CpQoKx
-	K1Ki6A54/ikif9S3yQ7BTSbahxk7ZCo1hQSmiApZcajhBbTiI9qi4TmV3j7Pg8nPPjFYxCyZRM6
-	HU/LaFZ6Kx3oE5/7en8kXZlNkwvdYGOtQMNZd77cRfL4iB5V2ogrb+xAvLaJskgfr1Ig1PvA3E7
-	Hmpvowu42C6awZICaVNZvcrsf5ytxsvbbBEM7g1zJujZ98qeA3Uk=
-X-Received: by 2002:a17:903:2a8b:b0:2ae:5776:45f8 with SMTP id d9443c01a7336-2b06e3236d0mr66217335ad.3.1773901946587;
-        Wed, 18 Mar 2026 23:32:26 -0700 (PDT)
-X-Received: by 2002:a17:903:2a8b:b0:2ae:5776:45f8 with SMTP id d9443c01a7336-2b06e3236d0mr66216985ad.3.1773901946126;
-        Wed, 18 Mar 2026 23:32:26 -0700 (PDT)
-Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e603937sm48572485ad.57.2026.03.18.23.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 23:32:25 -0700 (PDT)
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Thu, 19 Mar 2026 12:01:49 +0530
-Subject: [PATCH v4 9/9] Documentation: ABI: Add sysfs ABI documentation for
- DDR training data
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIYI3nU9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774201574; x=1805737574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0psMeQIAJF2GCZNSxGc5OMzULl9ytU8E7LNJwnaKs3c=;
+  b=nIYI3nU9EJj8YRunrY3pGdpcSP3WjBD0u2JSlSdlwYPdWsPqTQ7YIR75
+   9ffM214ulUMy4Tz5sWlIKEcY4VPA53i7MnU8PddwTP0tMml79c/PWlSwo
+   ESv7UAtJqJr9oIE+qJP2tWZJ4JB3Jy+jmkbPN6YOFVNjXat0zwVVPP3p+
+   EiehqyggmIGZTVOYZ5e3+y34BLQ50nc1r7lu41Dry+Jn5ovqjB+Uubx+F
+   wjs1JrKkZ+BDZAIbgDqiHY5HcKW7DRFR05cn/lqxeRvpicqRmyCdxbs+X
+   LvUgGYjtxXsLSJkhpJWe+YtVW4B8UrT5d92AiKRLvJNgSy3ywziIaAuqT
+   A==;
+X-CSE-ConnectionGUID: AkISRQT4R9iD/mKwDQjG7g==
+X-CSE-MsgGUID: VufDjeWxRa24CnkgTCz7Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75242583"
+X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
+   d="scan'208";a="75242583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 10:46:14 -0700
+X-CSE-ConnectionGUID: R464xp4/SeSKVLkTwl5LoA==
+X-CSE-MsgGUID: IdYGn02MTD6Vo73ZXIquNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
+   d="scan'208";a="223019749"
+Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 22 Mar 2026 10:46:10 -0700
+Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4MsJ-000000002TN-2ZPb;
+	Sun, 22 Mar 2026 17:46:07 +0000
+Date: Mon, 23 Mar 2026 01:39:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
+	Kishore Batta <kishore.batta@oss.qualcomm.com>
+Subject: Re: [PATCH v4 7/9] bus: mhi: Capture DDR training data using command
+ mode
+Message-ID: <202603230107.6EzMoVPn-lkp@intel.com>
+References: <20260319-sahara_protocol_new_v2-v4-7-47ad79308762@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260319-sahara_protocol_new_v2-v4-9-47ad79308762@oss.qualcomm.com>
-References: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
-In-Reply-To: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773901902; l=1903;
- i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
- b=oDJdabj+nevZsLKRAXC74rtzAHVO/YwH4bO6LZREstgcBsTlP0qNzP0ID0HAYGXuCGebsRFDN
- Qk9A9oeSuz4B1G+ilAYFW3ypjpCNAaWqO0Yl/9a3wvCY/fV+jBI0yuO
-X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
- pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDA0OSBTYWx0ZWRfX9xIKEE1HMkF6
- FuAjxnOoERTxk9ZuKDWuiqf+aznDPw6GBmb1uOK5KCEMSGzUolodoTFx1krrCJkbxXb91FL70Xz
- ySxeCS5i2/cfAs44OlBKudh+egzL1ShDy+Alm6DxlMCoL3js2287Zfl9rz7gqOfQ32W/HV3YLvH
- pS3/GUo1DRnPI2RHPSF4yZMy+5CLBSW/vx0KFvKGNZUdrbqMahnpDdmLzz7spmVX/HPZhzLY1Cx
- z/ypQe3LUR112JwyNEymCjNF8XiuE54Qi8RFMGyyGo7Tv5S1aLLxRBWrJ7WrkxcNhpjI2ty02c5
- GPyCrVUWu8O8I+AaHLErtuFHIF8CFOUX2Tf85vuBeyqmoNu+DSi+LrxnZKAUo3z2dkEN7zbn3Be
- q6+uzJZSre8n7usHCHOBvTz5OjtaziCX9V3Erl+tYBng+EBG86tbTLQFjtS6uelWaU0B6L5XhCb
- PeEQSjeT4w3AeBqCLHg==
-X-Proofpoint-ORIG-GUID: i9JJsNLsL89mYCVEKfhZRmLVeUX0cxmh
-X-Authority-Analysis: v=2.4 cv=IbSKmGqa c=1 sm=1 tr=0 ts=69bb987b cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=dkV1H7vRkoxx0F9zaYgA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-GUID: i9JJsNLsL89mYCVEKfhZRmLVeUX0cxmh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-19_01,2026-03-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
- clxscore=1015 adultscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603190049
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319-sahara_protocol_new_v2-v4-7-47ad79308762@oss.qualcomm.com>
 
-Add ABI documentation for the DDR training data sysfs attribute exposed by
-the sahara MHI driver.
+Hi Kishore,
 
-The documented sysfs node provides read-only access to the DDR training
-data captured during sahara command mode and exposed via the MHI
-controller device. This allows userspace to read the training data and
-manage it as needed outside the kernel.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
----
- .../ABI/testing/sysfs-bus-mhi-ddr_training_data       | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-new file mode 100644
-index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-@@ -0,0 +1,19 @@
-+What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-+
-+Date:                   March 2026
-+
-+Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-+
-+Description:            Contains the DDR training data for the Qualcomm device
-+                        connected. MHI driver populates different controller
-+                        nodes for each device. The DDR training data is exposed
-+                        to userspace to read and save the training data file to
-+                        the filesystem. In the subsequent boot up of the device,
-+                        the training data is restored from host to device
-+                        optimizing the boot up time of the device.
-+
-+Usage:                  Example for reading DDR training data:
-+                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-+
-+Permissions:            The file permissions are set to 0444 allowing read
-+                        access.
+url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260320-144614
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260319-sahara_protocol_new_v2-v4-7-47ad79308762%40oss.qualcomm.com
+patch subject: [PATCH v4 7/9] bus: mhi: Capture DDR training data using command mode
+config: i386-randconfig-141-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230107.6EzMoVPn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603230107.6EzMoVPn-lkp@intel.com/
+
+New smatch warnings:
+drivers/bus/mhi/sahara/sahara.c:639 sahara_command_execute_resp() warn: unsigned '(context->rx->command_execute_resp.response_length)' is never less than zero.
+
+Old smatch warnings:
+drivers/bus/mhi/sahara/sahara.c:353 sahara_select_variant() warn: this array is probably non-NULL. 'id->chan'
+
+vim +639 drivers/bus/mhi/sahara/sahara.c
+
+   628	
+   629	static void sahara_command_execute_resp(struct sahara_context *context)
+   630	{
+   631		struct device *dev = &context->mhi_dev->mhi_cntrl->mhi_dev->dev;
+   632		struct sahara_ctrl_trng_data *ct;
+   633		u32 client_cmd, resp_len;
+   634		int ret;
+   635		u64 remaining;
+   636		u32 i;
+   637	
+   638		if (le32_to_cpu(context->rx->length) != SAHARA_COMMAND_EXEC_RESP_LENGTH ||
+ > 639		    le32_to_cpu(context->rx->command_execute_resp.response_length) < 0) {
+   640			dev_err(&context->mhi_dev->dev,
+   641				"Malformed command execute resp packet - length %d\n",
+   642				le32_to_cpu(context->rx->length));
+   643			return;
+   644		}
+   645	
+   646		client_cmd = le32_to_cpu(context->rx->command_execute_resp.client_command);
+   647		resp_len = le32_to_cpu(context->rx->command_execute_resp.response_length);
+   648	
+   649		sahara_command_execute_data(context, client_cmd);
+   650	
+   651		if (client_cmd == SAHARA_EXEC_CMD_GET_COMMAND_ID_LIST) {
+   652			sahara_command_execute(context, SAHARA_EXEC_CMD_GET_TRAINING_DATA);
+   653			return;
+   654		}
+   655	
+   656		if (client_cmd != SAHARA_EXEC_CMD_GET_TRAINING_DATA)
+   657			return;
+   658	
+   659		ct = sahara_ctrl_trng_get(dev);
+   660		if (!ct) {
+   661			context->is_cmd_mode = false;
+   662			sahara_switch_mode_to_img_tx(context);
+   663			return;
+   664		}
+   665	
+   666		mutex_lock(&ct->lock);
+   667		kfree(ct->data);
+   668		ct->data = kzalloc(resp_len, GFP_KERNEL);
+   669		ct->size = resp_len;
+   670		ct->copied = 0;
+   671		ct->receiving = true;
+   672		mutex_unlock(&ct->lock);
+   673	
+   674		if (!ct->data) {
+   675			context->is_cmd_mode = false;
+   676			sahara_switch_mode_to_img_tx(context);
+   677			return;
+   678		}
+   679	
+   680		context->trng_size = resp_len;
+   681		context->trng_rcvd = 0;
+   682		context->receiving_trng_data = true;
+   683	
+   684		remaining = resp_len;
+   685		for (i = 0; i < SAHARA_NUM_CMD_BUF && remaining; i++) {
+   686			size_t pkt = min_t(size_t, remaining, SAHARA_PACKET_MAX_SIZE);
+   687	
+   688			ret = mhi_queue_buf(context->mhi_dev, DMA_FROM_DEVICE,
+   689					    context->cmd_buff[i], pkt,
+   690					    (remaining <= pkt) ? MHI_EOT : MHI_CHAIN);
+   691			if (ret)
+   692				break;
+   693	
+   694			remaining -= pkt;
+   695		}
+   696	
+   697		context->trng_nbuf = i;
+   698	}
+   699	
 
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
