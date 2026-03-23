@@ -1,321 +1,119 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE45F2C21D8
-	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535703A9DB2
+	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 12:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774246295; cv=none; b=hcCTmfQDUHxxo+4exRfUSb4ylJGhPR8EDfm6HB2+Mg9RXORnbkJ3GXxJy/2E091sWoaoQITIc+1hxpcoJXclq2sx0jIB6KtqlWe9HkCy8L8/ZJmvO2j1LZEAxWd3D810FEnwkpdByO8o/iKnKSHoBHG/4GNh5cTARLCiFnvhq6w=
+	t=1774270074; cv=none; b=sSyQH5BnRe0UzNX5DeIEilDGu0wRr+i7k4NDs9hCB5yx5VS3YsjnM99XyoiYkycFP0sMT/0kvXQ4wDQuRFGmZb/Jt0QPsya7Uw64aZuWjZKUbM3sQ0QOO2dao/qviPAoxyMMxVpWbJ/KDC+EAKpma+M3FY1zsFnJaUKnV5U+e70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774246295; c=relaxed/simple;
-	bh=pjRgCznVlyp9cNp2lA4Kt/IJyC2fATKMnAaA25YLIpI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VwiQtElMbxjv8VUZ1esUkEGXwdmYmmv+ctc60lD92D1nyyZBxPUOfh5/xl+DEgR30W17sMbAaM/Ow3uf9MVKN8qvy97aU4YaK/upq8T6KUsSi6LR+HU5E2+lWMBbHf3vB14th2zDbvkXIDLM/aI+JCtYrHIg5Qpno662PDM8R0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CFpF05iT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HGscfvQD; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1774270074; c=relaxed/simple;
+	bh=kwPIZbAhSt9tPjm+XLgH9wG/LUFAeuGiPKIiLe/hoiY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bvkIk/4DAkjzNevU1h/IqbVj28aYaXRDRn7g4brnp3Axidr8rzOj4DzhkxSMohrjkd+Y0Avih3/bLAlK58wPkh/t01GdmxpKlucQnidlwRdJuJgmEahM/tuVLwnhBRZO/HwOGCxh37K8N0Ndk9XX9b6zOCSPmK/vtsrQVO20+aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqJcXNd0; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CFpF05iT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HGscfvQD"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62N5Vcfs930002
-	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=; b=CFpF05iTkHQ058Gq
-	9mRDGHG9TCRMw1TkNE43oUFlchTyYiwd8jfUJ7NPURKDwRBmC8+srD367VaaAxe8
-	tLb04+LOU+Tq4s58qq1dRn6aMzQ173ibQAWIMHKkHM/M9hyJhQT0O9sE4g/dzDcw
-	klJJkaRYA4GEYKDiiU6YLXbNtp3YhnCy54T/IK9FNYEUy+g2VKwoq8pIKFQ0u6zB
-	W5JxYNqPJFooIYvJvRXsY6PZDtqF8B9ncxcxqAj2/9ZJuIKPKm/yXFDl25iZuI4q
-	k6aNudMROSNjFn6KiqwTbN09JPRu2As0wA+m4D0s1q8eW4s5RT3AYG6dapDF+tjH
-	FcdJuw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d1kdubxxk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:32 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-358e95e81aeso2633821a91.0
-        for <mhi@lists.linux.dev>; Sun, 22 Mar 2026 23:11:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqJcXNd0"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so29000105e9.3
+        for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 05:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774246292; x=1774851092; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=;
-        b=HGscfvQDe2JVsaRVcpEp2FnxyarHlE/KhBz5FFzEKUd0Gaq0s/rRmV+fYRk3BRPqKe
-         S5H6vONsa0FVGq92mAKdJnEMBbI9O1W8OrTtmk+yqZFqgxWDJm39rjZg1/vzVwy+nN5c
-         TYp65ueqqB1Vi5M7csQFaafHpMjzEAk9KrX3JmA5CbIzvQFbev2ZVUD01YJl0yR8JJ8F
-         XlU5SRmpVYPvznKl3+5/e5NzRFiLgSFHwzVldeLky/WGC4Hvfqw6MouiUYJLAbC3Q1QU
-         0KrGZ8K0CNs3DhekBpBmq83cqa+UbqziakBAWvB4jPze6HOmf3cXu6n+3sQB3SLijBi+
-         V0Pw==
+        d=gmail.com; s=20230601; t=1774270070; x=1774874870; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p7mf4ZvvRjCHnVoYzPX8lyAdXXnyrNgsXi8PVr3ZaFQ=;
+        b=GqJcXNd0M+4XMdABxpQA2NVpGoSS7sUeK7n8IqiFMhpK1Nvik2L88eGW7pTKGsQShL
+         2qIJwobqp8ydpdqg1JhUqN7FziR+LNev/jOj5Bzn7AzoQbIasDUBURk4oz46uBBQItnC
+         7vA6KTaoywCGyicLnUdTaOXKFxi7A6tYBttW30NhzFLn95oiLiXmevqlq99sdFb8CFcx
+         k5kmIbEXxKbIWjV8k7Om6+zInIB22J5di1jeTk2b/GksS2BQnJCwd0sEc14h+rU1wGjm
+         HSwbxs8z7ghFzbxhJgT3zNckYfezSzHcdlhzB9z0a4CyT07fYhQSoeyh2DNxc5JxLOKi
+         Uw0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774246292; x=1774851092;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=;
-        b=ifol9yzoMdjlMX6RNnfnIZRvIZ5wUq8wqGqqD0mw1ez0rEqd5St6/bQtPXyoPibuFF
-         pN9TLz0LcDwICsM6XmDZ6wdQF9aeH/UUQlWtRKf8QJiJJRznwrFpPx+RfC6et7ACp3Zz
-         boAm/k09L2RiN/Mq3kdeDv/gKqC+KpGbNaoGb2L6YGgkfCbQL87t6ecDzGSBDZ+4cfLD
-         ggi67mCOY7hy4ajn2/MyZsZvH28mgadPweG0sVHG85+Ej7P53POeAiMPxbg8Q0d5M4BW
-         D50UDNROViBWn4drSXdysvn55bqY6PiKB08GVUren+0GOjZGUH7JoHstI4jpH3q9iD0q
-         OgKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWXWPPoq6sLUYHKmJW9hZqtuiXBzdR+//CH810qPc1bmy2yFMUKMUbndBSspBV4dqbBqps=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaWnwVlhdxHG16DEs5v4VoEILTVgMGCyzQuR0t2vglcejYnTNg
-	wbLDZzOS6B24+MWPchvoXvGmOcwgegHqhLiwAiXoQOjETtPXUHkd4cCAbOpREFWf8VVH00NKgdN
-	xIQf8D3ZFtEzzHOMhdRXyupjx4LHBhdgpc63NmWccuyQKG8sMIG2tCss=
-X-Gm-Gg: ATEYQzxCqk6J078heZUhkir9DfBqrqsICf32jyamPTJvBFP5EbuFNLpxy0Y8qA2+7pQ
-	5zOdfLW+ZG6IAtZlXA8RKwcue4zez1qKxhaJd5doytTVC77hT2xSFubu2QEWfV1mSX2oXVJC3a6
-	9wuJc3IILiHkJWlq7nlsKofPSxqgVUhvpcKwUXksQFtrnu02XgzmMe0BmJEy4YS4Ez4at14Uoi5
-	mBttPe7FASt2H9n4Xw5AZCd0882lmq2z+xM9l08iXQiOMdeLZHTr0+H18qFLstAtwWF9sweJe1u
-	qxzLSDmCMUqHu7takXCzj+Pvcjo007mRse1P6+dVUat5WjrzTGEVizklEvNM3PKP0h6Vvp+5Jg9
-	97iQ2qcp2W81UDRVs8l7Hq3CinEYLkG8yPpsqWRudeKscwSzA/pKNZLOScQ==
-X-Received: by 2002:a17:90b:5624:b0:35b:a656:a60a with SMTP id 98e67ed59e1d1-35bd2bfdf43mr10025558a91.8.1774246291753;
-        Sun, 22 Mar 2026 23:11:31 -0700 (PDT)
-X-Received: by 2002:a17:90b:5624:b0:35b:a656:a60a with SMTP id 98e67ed59e1d1-35bd2bfdf43mr10025536a91.8.1774246291249;
-        Sun, 22 Mar 2026 23:11:31 -0700 (PDT)
-Received: from [10.217.219.205] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd264bb29sm3922465a91.2.2026.03.22.23.11.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Mar 2026 23:11:30 -0700 (PDT)
-Message-ID: <872d3520-f749-4d4d-a8c3-25dba30e947c@oss.qualcomm.com>
-Date: Mon, 23 Mar 2026 11:41:26 +0530
+        d=1e100.net; s=20251104; t=1774270070; x=1774874870;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p7mf4ZvvRjCHnVoYzPX8lyAdXXnyrNgsXi8PVr3ZaFQ=;
+        b=bABM6R+A+SMH1LyF28+d8A4haXdRNAzx68mDhn1qe56rKYmjg3DZvyfYDeHy74C1vy
+         LIQVPCXR/HXLgXVP7vWrMCzriTqXTKvACIPaZFPcQV4vGnymKDEm7AlpZnQqO2v+ulKF
+         MEEMmRtctAsiEkY0HeVnBj9LkYf8Pww+bb/5IUSbL0JSEfbBF1ZFw3TbFRTrl9oul4QO
+         ZjaSOooUx9RTcAGOW38xnaWD4/bjeSBGzZDnSnUKEpwzbY8cZVrPd38Vhph1VJONtBvn
+         6mPhACt5K0py93+mQXunWe+1+8OLAaQvlCdmcnbbNdfSQb9olZMLvVvlbNiqsknm8Fod
+         54hA==
+X-Gm-Message-State: AOJu0YzVxoAGQEp+7mwwxiNDHrcm9EdxT3+HCQQxtb0/e9lcRtc+tDsM
+	RWlqKaBnv1UYvtpv1T99QHaiD3qbYH0GKyLp5tTibvGqQGKg5yZjWD+a
+X-Gm-Gg: ATEYQzx13wrQhPK92kOV9jXvSjMmuEVh+0CTxje0S84GSDZUt8+tAJkiHGKIE3mfCN6
+	sGxvZcxTvnmsteoqgh9yYl6THSFsyHDACe5aWRqS/aL18sb7jHs6W5kqFnkUIANEONeC4wlGxxj
+	2Y7nDwapKB9Th0NRg/uN5fkSj4klHD+ZqjJJ3oukmyf+5MzqNnugNIAxUt+4RvJ9pZiwqpX5BGJ
+	avepvp1Ab0+L3uyNkhE2LMTeK36xF9RFhCWwSssYs98TS7bbS16JUMmYN4PkqAaqs7BJnkKUviR
+	CcGjYATl8739pq0/iUfntFNxnZQcwVwPRyh0NX0Po7rQa0AuV9c6NGdzRMkFWjOsv/JqBJ+kBul
+	urg4PVLPMCUxSudPbfFCczEVhkH0K2nn5SByfe+u5xRhlkUQSD6+syyNF2h4Ac6FnOmfY7p3OFM
+	9hV/vM3NedwJXtvXnaOocU4D+oi0hxuHSjos5G3nPVpbArRJlsfvehG9ZfjMe3A1seU7vbgZQ87
+	VQAL2vJHYsckop8ljSYabM=
+X-Received: by 2002:a05:600c:8710:b0:485:7f02:afd5 with SMTP id 5b1f17b1804b1-486fee01a9cmr165094995e9.13.1774270070262;
+        Mon, 23 Mar 2026 05:47:50 -0700 (PDT)
+Received: from ThinkStation-P340.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff19d370sm86475785e9.14.2026.03.23.05.47.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 05:47:49 -0700 (PDT)
+From: Daniele Palmas <dnlplm@gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	Daniele Palmas <dnlplm@gmail.com>
+Subject: [PATCH 1/1] bus: mhi: host: pci_generic: Add Telit FE912C04 modem support
+Date: Mon, 23 Mar 2026 13:28:37 +0100
+Message-Id: <20260323122837.3406521-1-dnlplm@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] net: mhi: Enable Ethernet interface support
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
- <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org
-References: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
- <20260212-eth_vdev_next-20260211-v8-1-0974b3a8d61b@qti.qualcomm.com>
- <myiqilk7t6yvqrjx5ew7srbtqh6xbk5jdd5pjqfeanwh3ymbdu@xy6lledx4hha>
-Content-Language: en-US
-From: vivek pernamitta <vivek.pernamitta@oss.qualcomm.com>
-In-Reply-To: <myiqilk7t6yvqrjx5ew7srbtqh6xbk5jdd5pjqfeanwh3ymbdu@xy6lledx4hha>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA0NSBTYWx0ZWRfX3QeyypQgChua
- /8WotprRXtbZ55THfAyncrKNfMNvlPhqyDhuBEHbZwTcUk6B2CYyK3LyPejsdU1a+BY1/as29ee
- H9cY0DN5rb5ZX7zfN/OWh2nE5VRDdhJHChs1P2WuBKmWQ3kjy2Z3OokUV37EnkRx5OwkKXY/y+S
- E5RuHSGO30hzaxG05s8FN/FRzLf4HVVbC+elZQA5ogbrdndFlSYOkclqvtwawlJPjPXTjOUi0Bn
- 6aZSp6DZ/jPgUPGgwCQf9gA+zUxvMx/pj5LW4HJm/c3jhvihE+dzHBwuXuiXbpxVLOa0ZDjLlZ1
- iSxEQW9WWUtQwOPBHAnj6iWFyRFUPYzUwOTC7aQyElWjVXIo3ma3e71JWOsixQn3SpArYujuapm
- YFZhEMb2MZY7OdFeOHxn+fgOehDSdDsW2dfNodfkdW/2kaTaJbg9lEjtxjGJMrcMrexZ5/wH/VK
- Ule24kwcqzZBUioRSQw==
-X-Proofpoint-ORIG-GUID: inK2Z4FxDbdUpKtw71UlnHBz-xImLmf1
-X-Authority-Analysis: v=2.4 cv=Q4DfIo2a c=1 sm=1 tr=0 ts=69c0d994 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=E1vQDyoac-6XQvGmIAwA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: inK2Z4FxDbdUpKtw71UlnHBz-xImLmf1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-23_02,2026-03-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
- spamscore=0 impostorscore=0 malwarescore=0 suspectscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230045
+Content-Transfer-Encoding: 8bit
 
+Add SDX35 based modem Telit FE912C04, reusing FN920C04 configuration.
 
+01:00.0 Unassigned class [ff00]: Qualcomm Device 011a
+        Subsystem: Device 1c5d:2045
 
-On 3/6/2026 11:24 AM, Manivannan Sadhasivam wrote:
-> On Thu, Feb 12, 2026 at 04:30:22PM +0530, Vivek Pernamitta wrote:
->> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
->>
->> Add support to configure a new client as Ethernet type over MHI by
->> setting "mhi_device_info.ethernet_if = true". Create a new Ethernet
->> interface named eth%d. This complements existing NET driver support.
->>
->> Allocate MHI netdevs using NET_NAME_ENUM to reflect kernel-enumerated
->> naming. This updates the reported name_assign_type for MHI net
->> interfaces created by this driver, aligning naming semantics across
->> existing and new devices. No functional or interface naming changes
->> are introduced
->>
->> Introduce IP_SW1, ETH0, and ETH1 network interfaces required for
-> 
-> IP_SW1 is not related to this patch.
-Will create an new patch for IP_SW1 alone in the same series.
-> 
->> M-plane, NETCONF, and S-plane components.
->>
-> 
-> The main thing you want to describe in description is that IP_ETH channels are
-> representing the Ethernet interface of the MHI device for which the driver is
-> also creating the netdev interface so that the host can access the Ethernet
-> interface of the device.
-Will add this information in commit message.
-> 
->> M-plane:
->> Implement DU M-Plane software for non-real-time O-RAN management
->> between O-DU and O-RU using NETCONF/YANG and O-RAN WG4 M-Plane YANG
->> models. Provide capability exchange, configuration management,
->> performance monitoring, and fault management per O-RAN.WG4.TS.MP.0-
->> R004-v18.00.
->>
->> NETCONF:
->> Use NETCONF protocol for configuration operations such as fetching,
->> modifying, and deleting network device configurations.
->>
->> S-plane:
->> Support frequency and time synchronization between O-DUs and O-RUs
->> using Synchronous Ethernet and IEEE 1588. Assume PTP transport over
->> L2 Ethernet (ITU-T G.8275.1) for full timing support; allow PTP over
->> UDP/IP (ITU-T G.8275.2) with reduced reliability. as per ORAN spec
->> O-RAN.WG4.CUS.0-R003-v12.00.
->>
->> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
->> ---
->>   drivers/net/mhi_net.c | 67 ++++++++++++++++++++++++++++++++++++++++++---------
->>   1 file changed, 56 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
->> index ae169929a9d8e449b5a427993abf68e8d032fae2..aa65b267d5c06c76482eaede097c500edc1cdf7f 100644
->> --- a/drivers/net/mhi_net.c
->> +++ b/drivers/net/mhi_net.c
->> @@ -4,6 +4,7 @@
->>    * Copyright (C) 2020 Linaro Ltd <loic.poulain@linaro.org>
->>    */
->>   
->> +#include <linux/etherdevice.h>
->>   #include <linux/if_arp.h>
->>   #include <linux/mhi.h>
->>   #include <linux/mod_devicetable.h>
->> @@ -42,6 +43,7 @@ struct mhi_net_dev {
->>   
->>   struct mhi_device_info {
->>   	const char *netname;
->> +	bool ethernet_if;
->>   };
->>   
->>   static int mhi_ndo_open(struct net_device *ndev)
->> @@ -119,11 +121,29 @@ static void mhi_ndo_get_stats64(struct net_device *ndev,
->>   	} while (u64_stats_fetch_retry(&mhi_netdev->stats.tx_syncp, start));
->>   }
->>   
->> +static int mhi_mac_address(struct net_device *dev, void *p)
->> +{
->> +	if (dev->type == ARPHRD_ETHER)
->> +		return eth_mac_addr(dev, p);
->> +
->> +	return 0;
->> +}
->> +
->> +static int mhi_validate_address(struct net_device *dev)
->> +{
->> +	if (dev->type == ARPHRD_ETHER)
->> +		return eth_validate_addr(dev);
->> +
->> +	return 0;
->> +}
->> +
->>   static const struct net_device_ops mhi_netdev_ops = {
->>   	.ndo_open               = mhi_ndo_open,
->>   	.ndo_stop               = mhi_ndo_stop,
->>   	.ndo_start_xmit         = mhi_ndo_xmit,
->>   	.ndo_get_stats64	= mhi_ndo_get_stats64,
->> +	.ndo_set_mac_address    = mhi_mac_address,
->> +	.ndo_validate_addr      = mhi_validate_address,
->>   };
->>   
->>   static void mhi_net_setup(struct net_device *ndev)
->> @@ -140,6 +160,13 @@ static void mhi_net_setup(struct net_device *ndev)
->>   	ndev->tx_queue_len = 1000;
->>   }
->>   
->> +static void mhi_ethernet_setup(struct net_device *ndev)
->> +{
->> +	ndev->netdev_ops = &mhi_netdev_ops;
->> +	ether_setup(ndev);
->> +	ndev->max_mtu = ETH_MAX_MTU;
->> +}
->> +
->>   static struct sk_buff *mhi_net_skb_agg(struct mhi_net_dev *mhi_netdev,
->>   				       struct sk_buff *skb)
->>   {
->> @@ -209,16 +236,20 @@ static void mhi_net_dl_callback(struct mhi_device *mhi_dev,
->>   			mhi_netdev->skbagg_head = NULL;
->>   		}
->>   
->> -		switch (skb->data[0] & 0xf0) {
->> -		case 0x40:
->> -			skb->protocol = htons(ETH_P_IP);
->> -			break;
->> -		case 0x60:
->> -			skb->protocol = htons(ETH_P_IPV6);
->> -			break;
->> -		default:
->> -			skb->protocol = htons(ETH_P_MAP);
->> -			break;
->> +		if (!!mhi_netdev->ndev->header_ops) {
-> 
-> Why not just if (mhi_netdev->ndev->header_ops)?
-sure , will make changes accordingly.
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> 
-> But you should really check ARPHRD_ETHER type here and below.
-Sure, Will add an check for ARPHRD_ETHER type before assigning protocol.
-
-> 
->> +			skb->protocol = eth_type_trans(skb, mhi_netdev->ndev);
->> +		} else {
->> +			switch (skb->data[0] & 0xf0) {
->> +			case 0x40:
->> +				skb->protocol = htons(ETH_P_IP);
->> +				break;
->> +			case 0x60:
->> +				skb->protocol = htons(ETH_P_IPV6);
->> +				break;
->> +			default:
->> +				skb->protocol = htons(ETH_P_MAP);
->> +				break;
->> +			}
->>   		}
->>   
->>   		u64_stats_update_begin(&mhi_netdev->stats.rx_syncp);
->> @@ -306,6 +337,9 @@ static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev)
->>   	struct mhi_net_dev *mhi_netdev;
->>   	int err;
->>   
->> +	if (!!ndev->header_ops)
->> +		eth_hw_addr_random(ndev);
->> +
->>   	mhi_netdev = netdev_priv(ndev);
->>   
->>   	dev_set_drvdata(&mhi_dev->dev, mhi_netdev);
->> @@ -356,7 +390,8 @@ static int mhi_net_probe(struct mhi_device *mhi_dev,
->>   	int err;
->>   
->>   	ndev = alloc_netdev(sizeof(struct mhi_net_dev), info->netname,
->> -			    NET_NAME_PREDICTABLE, mhi_net_setup);
->> +			    NET_NAME_ENUM, info->ethernet_if ?
->> +			    mhi_ethernet_setup : mhi_net_setup);
->>   	if (!ndev)
->>   		return -ENOMEM;
->>   
->> @@ -380,10 +415,17 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
->>   
->>   static const struct mhi_device_info mhi_hwip0 = {
->>   	.netname = "mhi_hwip%d",
->> +	.ethernet_if = false,
-> 
-> Default state is false isn't it? No need to set it explicitly.\
-> 
-> - Mani
-> 
-ok, will make changes in next patchset.
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 391ab146f501..750da3dbb4c6 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -904,6 +904,16 @@ static const struct mhi_pci_dev_info mhi_telit_fe990b40_info = {
+ 	.edl_trigger = true,
+ };
+ 
++static const struct mhi_pci_dev_info mhi_telit_fe912c04_info = {
++	.name = "telit-fe912c04",
++	.config = &modem_telit_fn920c04_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++	.mru_default = 32768,
++	.edl_trigger = true,
++};
++
+ static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
+ 	.name = "netprisma-lcur57",
+ 	.edl = "qcom/prog_firehose_sdx24.mbn",
+@@ -931,6 +941,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* Telit FN920C04 (sdx35) */
+ 	{PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2020),
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fn920c04_info },
++	/* Telit FE912C04 (sdx35) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2045),
++		.driver_data = (kernel_ulong_t) &mhi_telit_fe912c04_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x011a),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx35_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+-- 
+2.37.1
 
