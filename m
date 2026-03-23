@@ -1,179 +1,321 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383DC35E95F;
-	Sun, 22 Mar 2026 17:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE45F2C21D8
+	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774201576; cv=none; b=ehYS06PPd1nPADpX0dhmP9EOqesK3gYmAPY8e2vh1rwK1UolHvzLtc92AFdj5UDV/2R5HNF+PpcE0Bzu+Yiat8ea5BzZvkqYkLqTdQNJ8zCx9voDgwebrWS4fZlaCSWg6BZ/AdaZ3IM5cf2n30e2lyz/r+Wbuq5UgD8oWj5/qdM=
+	t=1774246295; cv=none; b=hcCTmfQDUHxxo+4exRfUSb4ylJGhPR8EDfm6HB2+Mg9RXORnbkJ3GXxJy/2E091sWoaoQITIc+1hxpcoJXclq2sx0jIB6KtqlWe9HkCy8L8/ZJmvO2j1LZEAxWd3D810FEnwkpdByO8o/iKnKSHoBHG/4GNh5cTARLCiFnvhq6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774201576; c=relaxed/simple;
-	bh=0psMeQIAJF2GCZNSxGc5OMzULl9ytU8E7LNJwnaKs3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BS+wF71y3+p7pS+dM05VSilM5VNFuDu2cXNPHU+PclUm+LbzBgB1p9pP27JLvF86LRgJQoNRvs1qOLXI5pXgHltqGRsMh8qc/YMvvf5ldmw+2WJOU+QJdzxos6QpemBIZ9Cn9XLnoDQ5sNU+Y6st5EXROrJpH7Q/3kZFaFdlw/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIYI3nU9; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774246295; c=relaxed/simple;
+	bh=pjRgCznVlyp9cNp2lA4Kt/IJyC2fATKMnAaA25YLIpI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VwiQtElMbxjv8VUZ1esUkEGXwdmYmmv+ctc60lD92D1nyyZBxPUOfh5/xl+DEgR30W17sMbAaM/Ow3uf9MVKN8qvy97aU4YaK/upq8T6KUsSi6LR+HU5E2+lWMBbHf3vB14th2zDbvkXIDLM/aI+JCtYrHIg5Qpno662PDM8R0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CFpF05iT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HGscfvQD; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIYI3nU9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774201574; x=1805737574;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0psMeQIAJF2GCZNSxGc5OMzULl9ytU8E7LNJwnaKs3c=;
-  b=nIYI3nU9EJj8YRunrY3pGdpcSP3WjBD0u2JSlSdlwYPdWsPqTQ7YIR75
-   9ffM214ulUMy4Tz5sWlIKEcY4VPA53i7MnU8PddwTP0tMml79c/PWlSwo
-   ESv7UAtJqJr9oIE+qJP2tWZJ4JB3Jy+jmkbPN6YOFVNjXat0zwVVPP3p+
-   EiehqyggmIGZTVOYZ5e3+y34BLQ50nc1r7lu41Dry+Jn5ovqjB+Uubx+F
-   wjs1JrKkZ+BDZAIbgDqiHY5HcKW7DRFR05cn/lqxeRvpicqRmyCdxbs+X
-   LvUgGYjtxXsLSJkhpJWe+YtVW4B8UrT5d92AiKRLvJNgSy3ywziIaAuqT
-   A==;
-X-CSE-ConnectionGUID: AkISRQT4R9iD/mKwDQjG7g==
-X-CSE-MsgGUID: VufDjeWxRa24CnkgTCz7Sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75242583"
-X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="75242583"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 10:46:14 -0700
-X-CSE-ConnectionGUID: R464xp4/SeSKVLkTwl5LoA==
-X-CSE-MsgGUID: IdYGn02MTD6Vo73ZXIquNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,135,1770624000"; 
-   d="scan'208";a="223019749"
-Received: from lkp-server02.sh.intel.com (HELO d7fefbca0d04) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Mar 2026 10:46:10 -0700
-Received: from kbuild by d7fefbca0d04 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4MsJ-000000002TN-2ZPb;
-	Sun, 22 Mar 2026 17:46:07 +0000
-Date: Mon, 23 Mar 2026 01:39:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
-	Kishore Batta <kishore.batta@oss.qualcomm.com>
-Subject: Re: [PATCH v4 7/9] bus: mhi: Capture DDR training data using command
- mode
-Message-ID: <202603230107.6EzMoVPn-lkp@intel.com>
-References: <20260319-sahara_protocol_new_v2-v4-7-47ad79308762@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CFpF05iT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HGscfvQD"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62N5Vcfs930002
+	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=; b=CFpF05iTkHQ058Gq
+	9mRDGHG9TCRMw1TkNE43oUFlchTyYiwd8jfUJ7NPURKDwRBmC8+srD367VaaAxe8
+	tLb04+LOU+Tq4s58qq1dRn6aMzQ173ibQAWIMHKkHM/M9hyJhQT0O9sE4g/dzDcw
+	klJJkaRYA4GEYKDiiU6YLXbNtp3YhnCy54T/IK9FNYEUy+g2VKwoq8pIKFQ0u6zB
+	W5JxYNqPJFooIYvJvRXsY6PZDtqF8B9ncxcxqAj2/9ZJuIKPKm/yXFDl25iZuI4q
+	k6aNudMROSNjFn6KiqwTbN09JPRu2As0wA+m4D0s1q8eW4s5RT3AYG6dapDF+tjH
+	FcdJuw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d1kdubxxk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 23 Mar 2026 06:11:32 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-358e95e81aeso2633821a91.0
+        for <mhi@lists.linux.dev>; Sun, 22 Mar 2026 23:11:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774246292; x=1774851092; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=;
+        b=HGscfvQDe2JVsaRVcpEp2FnxyarHlE/KhBz5FFzEKUd0Gaq0s/rRmV+fYRk3BRPqKe
+         S5H6vONsa0FVGq92mAKdJnEMBbI9O1W8OrTtmk+yqZFqgxWDJm39rjZg1/vzVwy+nN5c
+         TYp65ueqqB1Vi5M7csQFaafHpMjzEAk9KrX3JmA5CbIzvQFbev2ZVUD01YJl0yR8JJ8F
+         XlU5SRmpVYPvznKl3+5/e5NzRFiLgSFHwzVldeLky/WGC4Hvfqw6MouiUYJLAbC3Q1QU
+         0KrGZ8K0CNs3DhekBpBmq83cqa+UbqziakBAWvB4jPze6HOmf3cXu6n+3sQB3SLijBi+
+         V0Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774246292; x=1774851092;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AcjdfUkzYoRl0mzb7WG32C/ytt3hRVIB0eCN5m8GzrA=;
+        b=ifol9yzoMdjlMX6RNnfnIZRvIZ5wUq8wqGqqD0mw1ez0rEqd5St6/bQtPXyoPibuFF
+         pN9TLz0LcDwICsM6XmDZ6wdQF9aeH/UUQlWtRKf8QJiJJRznwrFpPx+RfC6et7ACp3Zz
+         boAm/k09L2RiN/Mq3kdeDv/gKqC+KpGbNaoGb2L6YGgkfCbQL87t6ecDzGSBDZ+4cfLD
+         ggi67mCOY7hy4ajn2/MyZsZvH28mgadPweG0sVHG85+Ej7P53POeAiMPxbg8Q0d5M4BW
+         D50UDNROViBWn4drSXdysvn55bqY6PiKB08GVUren+0GOjZGUH7JoHstI4jpH3q9iD0q
+         OgKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXWPPoq6sLUYHKmJW9hZqtuiXBzdR+//CH810qPc1bmy2yFMUKMUbndBSspBV4dqbBqps=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaWnwVlhdxHG16DEs5v4VoEILTVgMGCyzQuR0t2vglcejYnTNg
+	wbLDZzOS6B24+MWPchvoXvGmOcwgegHqhLiwAiXoQOjETtPXUHkd4cCAbOpREFWf8VVH00NKgdN
+	xIQf8D3ZFtEzzHOMhdRXyupjx4LHBhdgpc63NmWccuyQKG8sMIG2tCss=
+X-Gm-Gg: ATEYQzxCqk6J078heZUhkir9DfBqrqsICf32jyamPTJvBFP5EbuFNLpxy0Y8qA2+7pQ
+	5zOdfLW+ZG6IAtZlXA8RKwcue4zez1qKxhaJd5doytTVC77hT2xSFubu2QEWfV1mSX2oXVJC3a6
+	9wuJc3IILiHkJWlq7nlsKofPSxqgVUhvpcKwUXksQFtrnu02XgzmMe0BmJEy4YS4Ez4at14Uoi5
+	mBttPe7FASt2H9n4Xw5AZCd0882lmq2z+xM9l08iXQiOMdeLZHTr0+H18qFLstAtwWF9sweJe1u
+	qxzLSDmCMUqHu7takXCzj+Pvcjo007mRse1P6+dVUat5WjrzTGEVizklEvNM3PKP0h6Vvp+5Jg9
+	97iQ2qcp2W81UDRVs8l7Hq3CinEYLkG8yPpsqWRudeKscwSzA/pKNZLOScQ==
+X-Received: by 2002:a17:90b:5624:b0:35b:a656:a60a with SMTP id 98e67ed59e1d1-35bd2bfdf43mr10025558a91.8.1774246291753;
+        Sun, 22 Mar 2026 23:11:31 -0700 (PDT)
+X-Received: by 2002:a17:90b:5624:b0:35b:a656:a60a with SMTP id 98e67ed59e1d1-35bd2bfdf43mr10025536a91.8.1774246291249;
+        Sun, 22 Mar 2026 23:11:31 -0700 (PDT)
+Received: from [10.217.219.205] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bd264bb29sm3922465a91.2.2026.03.22.23.11.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Mar 2026 23:11:30 -0700 (PDT)
+Message-ID: <872d3520-f749-4d4d-a8c3-25dba30e947c@oss.qualcomm.com>
+Date: Mon, 23 Mar 2026 11:41:26 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319-sahara_protocol_new_v2-v4-7-47ad79308762@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] net: mhi: Enable Ethernet interface support
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org
+References: <20260212-eth_vdev_next-20260211-v8-0-0974b3a8d61b@qti.qualcomm.com>
+ <20260212-eth_vdev_next-20260211-v8-1-0974b3a8d61b@qti.qualcomm.com>
+ <myiqilk7t6yvqrjx5ew7srbtqh6xbk5jdd5pjqfeanwh3ymbdu@xy6lledx4hha>
+Content-Language: en-US
+From: vivek pernamitta <vivek.pernamitta@oss.qualcomm.com>
+In-Reply-To: <myiqilk7t6yvqrjx5ew7srbtqh6xbk5jdd5pjqfeanwh3ymbdu@xy6lledx4hha>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA0NSBTYWx0ZWRfX3QeyypQgChua
+ /8WotprRXtbZ55THfAyncrKNfMNvlPhqyDhuBEHbZwTcUk6B2CYyK3LyPejsdU1a+BY1/as29ee
+ H9cY0DN5rb5ZX7zfN/OWh2nE5VRDdhJHChs1P2WuBKmWQ3kjy2Z3OokUV37EnkRx5OwkKXY/y+S
+ E5RuHSGO30hzaxG05s8FN/FRzLf4HVVbC+elZQA5ogbrdndFlSYOkclqvtwawlJPjPXTjOUi0Bn
+ 6aZSp6DZ/jPgUPGgwCQf9gA+zUxvMx/pj5LW4HJm/c3jhvihE+dzHBwuXuiXbpxVLOa0ZDjLlZ1
+ iSxEQW9WWUtQwOPBHAnj6iWFyRFUPYzUwOTC7aQyElWjVXIo3ma3e71JWOsixQn3SpArYujuapm
+ YFZhEMb2MZY7OdFeOHxn+fgOehDSdDsW2dfNodfkdW/2kaTaJbg9lEjtxjGJMrcMrexZ5/wH/VK
+ Ule24kwcqzZBUioRSQw==
+X-Proofpoint-ORIG-GUID: inK2Z4FxDbdUpKtw71UlnHBz-xImLmf1
+X-Authority-Analysis: v=2.4 cv=Q4DfIo2a c=1 sm=1 tr=0 ts=69c0d994 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=E1vQDyoac-6XQvGmIAwA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: inK2Z4FxDbdUpKtw71UlnHBz-xImLmf1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-23_02,2026-03-20_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ spamscore=0 impostorscore=0 malwarescore=0 suspectscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230045
 
-Hi Kishore,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+On 3/6/2026 11:24 AM, Manivannan Sadhasivam wrote:
+> On Thu, Feb 12, 2026 at 04:30:22PM +0530, Vivek Pernamitta wrote:
+>> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+>>
+>> Add support to configure a new client as Ethernet type over MHI by
+>> setting "mhi_device_info.ethernet_if = true". Create a new Ethernet
+>> interface named eth%d. This complements existing NET driver support.
+>>
+>> Allocate MHI netdevs using NET_NAME_ENUM to reflect kernel-enumerated
+>> naming. This updates the reported name_assign_type for MHI net
+>> interfaces created by this driver, aligning naming semantics across
+>> existing and new devices. No functional or interface naming changes
+>> are introduced
+>>
+>> Introduce IP_SW1, ETH0, and ETH1 network interfaces required for
+> 
+> IP_SW1 is not related to this patch.
+Will create an new patch for IP_SW1 alone in the same series.
+> 
+>> M-plane, NETCONF, and S-plane components.
+>>
+> 
+> The main thing you want to describe in description is that IP_ETH channels are
+> representing the Ethernet interface of the MHI device for which the driver is
+> also creating the netdev interface so that the host can access the Ethernet
+> interface of the device.
+Will add this information in commit message.
+> 
+>> M-plane:
+>> Implement DU M-Plane software for non-real-time O-RAN management
+>> between O-DU and O-RU using NETCONF/YANG and O-RAN WG4 M-Plane YANG
+>> models. Provide capability exchange, configuration management,
+>> performance monitoring, and fault management per O-RAN.WG4.TS.MP.0-
+>> R004-v18.00.
+>>
+>> NETCONF:
+>> Use NETCONF protocol for configuration operations such as fetching,
+>> modifying, and deleting network device configurations.
+>>
+>> S-plane:
+>> Support frequency and time synchronization between O-DUs and O-RUs
+>> using Synchronous Ethernet and IEEE 1588. Assume PTP transport over
+>> L2 Ethernet (ITU-T G.8275.1) for full timing support; allow PTP over
+>> UDP/IP (ITU-T G.8275.2) with reduced reliability. as per ORAN spec
+>> O-RAN.WG4.CUS.0-R003-v12.00.
+>>
+>> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+>> ---
+>>   drivers/net/mhi_net.c | 67 ++++++++++++++++++++++++++++++++++++++++++---------
+>>   1 file changed, 56 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
+>> index ae169929a9d8e449b5a427993abf68e8d032fae2..aa65b267d5c06c76482eaede097c500edc1cdf7f 100644
+>> --- a/drivers/net/mhi_net.c
+>> +++ b/drivers/net/mhi_net.c
+>> @@ -4,6 +4,7 @@
+>>    * Copyright (C) 2020 Linaro Ltd <loic.poulain@linaro.org>
+>>    */
+>>   
+>> +#include <linux/etherdevice.h>
+>>   #include <linux/if_arp.h>
+>>   #include <linux/mhi.h>
+>>   #include <linux/mod_devicetable.h>
+>> @@ -42,6 +43,7 @@ struct mhi_net_dev {
+>>   
+>>   struct mhi_device_info {
+>>   	const char *netname;
+>> +	bool ethernet_if;
+>>   };
+>>   
+>>   static int mhi_ndo_open(struct net_device *ndev)
+>> @@ -119,11 +121,29 @@ static void mhi_ndo_get_stats64(struct net_device *ndev,
+>>   	} while (u64_stats_fetch_retry(&mhi_netdev->stats.tx_syncp, start));
+>>   }
+>>   
+>> +static int mhi_mac_address(struct net_device *dev, void *p)
+>> +{
+>> +	if (dev->type == ARPHRD_ETHER)
+>> +		return eth_mac_addr(dev, p);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int mhi_validate_address(struct net_device *dev)
+>> +{
+>> +	if (dev->type == ARPHRD_ETHER)
+>> +		return eth_validate_addr(dev);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static const struct net_device_ops mhi_netdev_ops = {
+>>   	.ndo_open               = mhi_ndo_open,
+>>   	.ndo_stop               = mhi_ndo_stop,
+>>   	.ndo_start_xmit         = mhi_ndo_xmit,
+>>   	.ndo_get_stats64	= mhi_ndo_get_stats64,
+>> +	.ndo_set_mac_address    = mhi_mac_address,
+>> +	.ndo_validate_addr      = mhi_validate_address,
+>>   };
+>>   
+>>   static void mhi_net_setup(struct net_device *ndev)
+>> @@ -140,6 +160,13 @@ static void mhi_net_setup(struct net_device *ndev)
+>>   	ndev->tx_queue_len = 1000;
+>>   }
+>>   
+>> +static void mhi_ethernet_setup(struct net_device *ndev)
+>> +{
+>> +	ndev->netdev_ops = &mhi_netdev_ops;
+>> +	ether_setup(ndev);
+>> +	ndev->max_mtu = ETH_MAX_MTU;
+>> +}
+>> +
+>>   static struct sk_buff *mhi_net_skb_agg(struct mhi_net_dev *mhi_netdev,
+>>   				       struct sk_buff *skb)
+>>   {
+>> @@ -209,16 +236,20 @@ static void mhi_net_dl_callback(struct mhi_device *mhi_dev,
+>>   			mhi_netdev->skbagg_head = NULL;
+>>   		}
+>>   
+>> -		switch (skb->data[0] & 0xf0) {
+>> -		case 0x40:
+>> -			skb->protocol = htons(ETH_P_IP);
+>> -			break;
+>> -		case 0x60:
+>> -			skb->protocol = htons(ETH_P_IPV6);
+>> -			break;
+>> -		default:
+>> -			skb->protocol = htons(ETH_P_MAP);
+>> -			break;
+>> +		if (!!mhi_netdev->ndev->header_ops) {
+> 
+> Why not just if (mhi_netdev->ndev->header_ops)?
+sure , will make changes accordingly.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260320-144614
-base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260319-sahara_protocol_new_v2-v4-7-47ad79308762%40oss.qualcomm.com
-patch subject: [PATCH v4 7/9] bus: mhi: Capture DDR training data using command mode
-config: i386-randconfig-141-20260322 (https://download.01.org/0day-ci/archive/20260323/202603230107.6EzMoVPn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch: v0.5.0-9004-gb810ac53
+> 
+> But you should really check ARPHRD_ETHER type here and below.
+Sure, Will add an check for ARPHRD_ETHER type before assigning protocol.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603230107.6EzMoVPn-lkp@intel.com/
+> 
+>> +			skb->protocol = eth_type_trans(skb, mhi_netdev->ndev);
+>> +		} else {
+>> +			switch (skb->data[0] & 0xf0) {
+>> +			case 0x40:
+>> +				skb->protocol = htons(ETH_P_IP);
+>> +				break;
+>> +			case 0x60:
+>> +				skb->protocol = htons(ETH_P_IPV6);
+>> +				break;
+>> +			default:
+>> +				skb->protocol = htons(ETH_P_MAP);
+>> +				break;
+>> +			}
+>>   		}
+>>   
+>>   		u64_stats_update_begin(&mhi_netdev->stats.rx_syncp);
+>> @@ -306,6 +337,9 @@ static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev)
+>>   	struct mhi_net_dev *mhi_netdev;
+>>   	int err;
+>>   
+>> +	if (!!ndev->header_ops)
+>> +		eth_hw_addr_random(ndev);
+>> +
+>>   	mhi_netdev = netdev_priv(ndev);
+>>   
+>>   	dev_set_drvdata(&mhi_dev->dev, mhi_netdev);
+>> @@ -356,7 +390,8 @@ static int mhi_net_probe(struct mhi_device *mhi_dev,
+>>   	int err;
+>>   
+>>   	ndev = alloc_netdev(sizeof(struct mhi_net_dev), info->netname,
+>> -			    NET_NAME_PREDICTABLE, mhi_net_setup);
+>> +			    NET_NAME_ENUM, info->ethernet_if ?
+>> +			    mhi_ethernet_setup : mhi_net_setup);
+>>   	if (!ndev)
+>>   		return -ENOMEM;
+>>   
+>> @@ -380,10 +415,17 @@ static void mhi_net_remove(struct mhi_device *mhi_dev)
+>>   
+>>   static const struct mhi_device_info mhi_hwip0 = {
+>>   	.netname = "mhi_hwip%d",
+>> +	.ethernet_if = false,
+> 
+> Default state is false isn't it? No need to set it explicitly.\
+> 
+> - Mani
+> 
+ok, will make changes in next patchset.
 
-New smatch warnings:
-drivers/bus/mhi/sahara/sahara.c:639 sahara_command_execute_resp() warn: unsigned '(context->rx->command_execute_resp.response_length)' is never less than zero.
-
-Old smatch warnings:
-drivers/bus/mhi/sahara/sahara.c:353 sahara_select_variant() warn: this array is probably non-NULL. 'id->chan'
-
-vim +639 drivers/bus/mhi/sahara/sahara.c
-
-   628	
-   629	static void sahara_command_execute_resp(struct sahara_context *context)
-   630	{
-   631		struct device *dev = &context->mhi_dev->mhi_cntrl->mhi_dev->dev;
-   632		struct sahara_ctrl_trng_data *ct;
-   633		u32 client_cmd, resp_len;
-   634		int ret;
-   635		u64 remaining;
-   636		u32 i;
-   637	
-   638		if (le32_to_cpu(context->rx->length) != SAHARA_COMMAND_EXEC_RESP_LENGTH ||
- > 639		    le32_to_cpu(context->rx->command_execute_resp.response_length) < 0) {
-   640			dev_err(&context->mhi_dev->dev,
-   641				"Malformed command execute resp packet - length %d\n",
-   642				le32_to_cpu(context->rx->length));
-   643			return;
-   644		}
-   645	
-   646		client_cmd = le32_to_cpu(context->rx->command_execute_resp.client_command);
-   647		resp_len = le32_to_cpu(context->rx->command_execute_resp.response_length);
-   648	
-   649		sahara_command_execute_data(context, client_cmd);
-   650	
-   651		if (client_cmd == SAHARA_EXEC_CMD_GET_COMMAND_ID_LIST) {
-   652			sahara_command_execute(context, SAHARA_EXEC_CMD_GET_TRAINING_DATA);
-   653			return;
-   654		}
-   655	
-   656		if (client_cmd != SAHARA_EXEC_CMD_GET_TRAINING_DATA)
-   657			return;
-   658	
-   659		ct = sahara_ctrl_trng_get(dev);
-   660		if (!ct) {
-   661			context->is_cmd_mode = false;
-   662			sahara_switch_mode_to_img_tx(context);
-   663			return;
-   664		}
-   665	
-   666		mutex_lock(&ct->lock);
-   667		kfree(ct->data);
-   668		ct->data = kzalloc(resp_len, GFP_KERNEL);
-   669		ct->size = resp_len;
-   670		ct->copied = 0;
-   671		ct->receiving = true;
-   672		mutex_unlock(&ct->lock);
-   673	
-   674		if (!ct->data) {
-   675			context->is_cmd_mode = false;
-   676			sahara_switch_mode_to_img_tx(context);
-   677			return;
-   678		}
-   679	
-   680		context->trng_size = resp_len;
-   681		context->trng_rcvd = 0;
-   682		context->receiving_trng_data = true;
-   683	
-   684		remaining = resp_len;
-   685		for (i = 0; i < SAHARA_NUM_CMD_BUF && remaining; i++) {
-   686			size_t pkt = min_t(size_t, remaining, SAHARA_PACKET_MAX_SIZE);
-   687	
-   688			ret = mhi_queue_buf(context->mhi_dev, DMA_FROM_DEVICE,
-   689					    context->cmd_buff[i], pkt,
-   690					    (remaining <= pkt) ? MHI_EOT : MHI_CHAIN);
-   691			if (ret)
-   692				break;
-   693	
-   694			remaining -= pkt;
-   695		}
-   696	
-   697		context->trng_nbuf = i;
-   698	}
-   699	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
