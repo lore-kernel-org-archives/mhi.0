@@ -1,421 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4702439A06A;
-	Mon, 13 Apr 2026 08:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EE33AB29F
+	for <mhi@lists.linux.dev>; Mon, 13 Apr 2026 09:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776067625; cv=none; b=lufrYJw0zyLg7lvdM/A1pbgw9fCFDQB4In1WN0jaIkQHK1sC1MYsbzDarSymGrUwuBuPFMDGL/2NsS4Q3yzxy7wQPIJ84pEPTE6fz5h62I0P0fj6WXxIitIpoz7W7UxMdj3LaaG45lm59ua/GKrx/sOpc96+AwmHjBRAehKXyWM=
+	t=1776071000; cv=none; b=CU59dWV/1O+yxB4K/rHlLYwcAYbjrRQ8zXfI+fiP+G9D2G6Vmvly2DSIzK71/AmCAeJ1om25a7oAIIhPggZwUSQXMKPyZIh/fm+h+n7XdrpdTa6jythnEYlv0/bXxtpV75JoIe2A7ZaQcNCGvkXV4JZiAkGY0eoDiQ9SBT/IIQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776067625; c=relaxed/simple;
-	bh=zv+tp+wMF5FrcveyN+fqjDGtPExnhSz3lEw/gXQ9aBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NTYPpID62W0dM78TG/A0I0dnDSZrI5qno2+F+DTQtfXeuWvkqPazPkZ6K7gYjYDVPZ3DB4hTtJtfcvzzxKTer5NTc/3+U67Cg2GNNnp2dsDDPqQYRMpo3U12lBHlkYnZhY4k+mlgt+3saz47wF/YdKdah/ubIU0PyQ5mQXGvRYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sm5T3nu0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776071000; c=relaxed/simple;
+	bh=2fhfWqB0s96d9TRTPdduLQ8pllmNmEb/7aVSAY5VdBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H7QKUSnoz5VDfUcXoXGbkZoPLw+CHaflBYFdiKkQsPcNy1ayoaK6RCC+CDHgTARWWvvpqvaKKKtovr7sT2Nm3uTo2KNysB5LOasnUtg0KTsqB2SJwgwUGkwkGXpa7qLWXgQ04cMuSN+IjsEIlF+v6bjwRLu4ekXF/ums2/RontA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ryp78dd9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Owfu+mOl; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sm5T3nu0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB367C2BCB3;
-	Mon, 13 Apr 2026 08:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776067624;
-	bh=zv+tp+wMF5FrcveyN+fqjDGtPExnhSz3lEw/gXQ9aBE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sm5T3nu0p/FZTTjCpW70IwYesneHicMNsIVfbEdgE22IgIp88hvX7qR3SiFX/h/VB
-	 9Di2ZckzTRfqJkCYJ/gbSEPIn6SyitEDVBVsBIU34a4G1AUZOw+gq3a7yhY4dDK5wJ
-	 A7Y6oObz4N6Ya9fZJzLWBnexK1bBrwDOv6BOPWfpukb7OoAaqH4ibazWer8MpPI0CG
-	 5ZUA30nUamRSeAzk3coAMmMClB1FVv/ghfHMCBJNVqjoQCw0y/RrAoEDahiCP88d85
-	 gnnD+PqLHpMxPF56sz8X9Mu1xGZEai65VlfHYCI2kolF1vopbXwkDnE3CoBxA6s46F
-	 byE1s1/hhgs+Q==
-Date: Mon, 13 Apr 2026 13:36:50 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	Imran Shaik <imran.shaik@oss.qualcomm.com>, Taniya Das <taniya.das@oss.qualcomm.com>
-Subject: Re: [PATCH v2 6/6] bus: mhi: host: mhi_phc: Add support for PHC over
- MHI
-Message-ID: <xfjk7dkcgz6qbzzmtelqjxtcus7xtmvnk72bkyqpeb5iie7suu@cqffi4bd27pu>
-References: <20260411-tsc_timesync-v2-0-6f25f72987b3@oss.qualcomm.com>
- <20260411-tsc_timesync-v2-6-6f25f72987b3@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ryp78dd9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Owfu+mOl"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D7XFTo2811968
+	for <mhi@lists.linux.dev>; Mon, 13 Apr 2026 09:03:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oXUF1cdkbsnywS2PX3oceiMZcoIG9dLG2GjPtUBr4wg=; b=Ryp78dd989PduCH/
+	DeBkaW9GFdsXXsDMpl+quFEk31zgyYSo/wNbmmZ4aSdRs69/gkbdN6l6rdsGvCQU
+	OMlx7bfURuKpx2OFgSPa1rpHFIRNtClK9Dnb7UVyDDFXXu2xJCd4/ZtBKVbkJkJs
+	oIaJw3TanayOPIWVFkjENuKNZiutvHAkpPHMbJyABlCeOaRhhV2b15wbr/7mUx78
+	5zDPYIy/mRuPNvDsv4u8vTUjE8E2p8cSkvBOQ9Wf+0/FWZzXa1xQj6P2p0zIeoeS
+	a7/H+NCbCSuPhfImD1OHv5Q8FhGBzGf1QMfvlOP1ShK3klas1LzF1z3RKoRpetNP
+	tNGS2A==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dffk6mjqc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 13 Apr 2026 09:03:18 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b250d3699aso82931925ad.2
+        for <mhi@lists.linux.dev>; Mon, 13 Apr 2026 02:03:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776070998; x=1776675798; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oXUF1cdkbsnywS2PX3oceiMZcoIG9dLG2GjPtUBr4wg=;
+        b=Owfu+mOlYGixlxooP/aQ4h/cE+IKo7UWgiCus/RKGqedX7vJmvl9P/qVpln/b4UBI6
+         0BH6sr8XN1VmsaVXs6e8byshUBlcLPbw6cLqHYzyyB8gsb1MacDsPd+STZD/Jz7uWBiV
+         U2ySJp6h/e1qk1yLL6IIUMzREZxbhAf/mqwHnd+XqBCAGjQBU/V23yyDdVIHcE/3siHq
+         J6J3Z+x+DJmGJIVyOVbu36v5iLLWYRl/sHzM9/PNbIdE9DD6H1RSsTOidr3IoQKUWbu+
+         VDdzaJ0g/TEjB3JwiMxWEK9KgG+ckQcPXU7V5GZWxJWP8M+X+ApZgTlF4uv2wwhyZX6k
+         306w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776070998; x=1776675798;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oXUF1cdkbsnywS2PX3oceiMZcoIG9dLG2GjPtUBr4wg=;
+        b=pFXTdOK+Yc2kKxRyN+y3lPhW7xQGb3+3yTciX4pLvwhI3sg6Zi3BNswBMkKADGerNY
+         INubLZmkP4hRJcViFj3PqWT+GCI27HR0mFbSnYraLYvsiuApVN7OP1w4Ynp7lLOvTF7s
+         zg0X9Q02mNheha2jjOPRU9G0JaK54WBgoDAw8VhdjIhAm9nItx8gyhIZIXSFvFpKw2gO
+         a/lEQQeRPbYqoQSeJPhMfCvuyz/AxFnTu4X13259hqq6uBIHGMB0J0NKtshNdWIFMn2K
+         mpNGWL1XCFglYRHxbwxgo1f3bo8pMC20UcPydD9TWsbcYCEvaog1ov/QJK0t3cW6tvJc
+         dYkw==
+X-Forwarded-Encrypted: i=1; AFNElJ+24OEG+rCHsAtt0Kh+Yof3uz/86/UTzUbgbDo+FdA0ksAHyIryCgpsExOYJp3ljb04gFk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwN4q8Zl4yfevi5jdWgEzjPQxAtJvqWhgoEJeW0KJidcEgalDYY
+	wvCcrc7YR20/1S6tECXNIpK1nmVmibFUl7D8w2IHp3iPDtErM7QYZZNLM23giPoJgQgV9nbQSeC
+	uIDB+FnFXinsWFyUwg/enI4PlUf3qUeUnzWS/35iUYuIh8iTr1ajRkVo=
+X-Gm-Gg: AeBDiesWMD9F82tGI2f3O9hDwRKB2QYWjGMmJikI8vNl2sqpNnh8oUp6Dz0FeboJdDJ
+	ZALBTAUEa7UiTa242VfUObMitb5C1aEKKsz8s7R5rnRNDsgPlYPNvjXDeJl/eBaZ/U/Q9n0EhzX
+	lD47niFpuCJlmtQN6O2nT96ggBNbuPeLN1XeTSKKPPwa/SA0HAh3IcNbNa3zzgnfTopVyRwePkG
+	n9NSnJ9pdE5EXR0CM2rZyjcX+eja+81r5W0VRBLPGsOSh5hIGSTpmyUjgHOQnOzl6JO8RrS9Apr
+	IJCKnbO8hn5OpC7CtRcSz82yEQlNlrGnXz6EuKavSh5Re9hQxIjhSKnvKWUcIQ3RUV219qVSjjD
+	7fYePDybzrB50ht+nB9+13a7ponUK/qE79RpBXlMAqdCX0rSWiR/qstM=
+X-Received: by 2002:a17:903:40ca:b0:2b2:42da:25cd with SMTP id d9443c01a7336-2b2d5a88d7bmr132829135ad.45.1776070997762;
+        Mon, 13 Apr 2026 02:03:17 -0700 (PDT)
+X-Received: by 2002:a17:903:40ca:b0:2b2:42da:25cd with SMTP id d9443c01a7336-2b2d5a88d7bmr132828655ad.45.1776070997059;
+        Mon, 13 Apr 2026 02:03:17 -0700 (PDT)
+Received: from [192.168.0.215] ([49.205.244.213])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b462830bc5sm16069325ad.50.2026.04.13.02.03.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Apr 2026 02:03:16 -0700 (PDT)
+Message-ID: <65e37364-f721-4e86-a105-1058d6267121@oss.qualcomm.com>
+Date: Mon, 13 Apr 2026 14:33:11 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/9] Add documentation for Sahara protocol.
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mhi@lists.linux.dev
+References: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
+ <20260319-sahara_protocol_new_v2-v4-1-47ad79308762@oss.qualcomm.com>
+ <a793d256-f0e6-4a95-943d-e5d85c781428@oss.qualcomm.com>
+Content-Language: en-US
+From: Kishore Batta <kishore.batta@oss.qualcomm.com>
+In-Reply-To: <a793d256-f0e6-4a95-943d-e5d85c781428@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260411-tsc_timesync-v2-6-6f25f72987b3@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA4OCBTYWx0ZWRfXzg1Xl6NISuQk
+ R0Cc35+jKUF99LHn8fZJK9CVQJpD0DQRSqh1+pr0MAL0nF2f23ppiz/drxnfZONOtMScxmiu8AT
+ R5q9ABJrs2fE2mRZV1sOqhtS5wRpjffQO3z3JrU1hMuJ1jH32WQtkm8U7UkdNUpow72mb94FSlc
+ 0N9IyT+yRK7lkjrhjjBYox2O3KaHa2qJP6OXAOHTy8c2nght6sXOAEsaOZhV3NSoNe61+iROKFg
+ NhWCyZeD9lHKJ0yXgjPWlgxaJKxCK2xCxrUiCGjPKcCVfG0z5Sjoi2xVrvFddRkD4g10g68sHgJ
+ KvM0dH2iEiZAOpXUh2RzLrS8CxRVgU77ebtlXrW7Ks8qpxCB1ETG/zDUDoq6UE1Syfk+Xf/fs8J
+ uRJ1NOgZDV184MtTnkpjFsH9XVePd9ZJskeTGmNemEP5X5LkNd3splC7FhvdOBzmtMAWZTC0iem
+ zJAo1fyMODpXBKPv6Vw==
+X-Authority-Analysis: v=2.4 cv=YM2vDxGx c=1 sm=1 tr=0 ts=69dcb156 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=KtsNJ/6bKgz7QsArn2OSsQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=05GiTeiPTPDWsqTu57sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: SRBVMCVNd0Zd0YdJdv6eKFoCZBkgZ-lR
+X-Proofpoint-ORIG-GUID: SRBVMCVNd0Zd0YdJdv6eKFoCZBkgZ-lR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_02,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ bulkscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604130088
 
-On Sat, Apr 11, 2026 at 01:42:06PM +0530, Krishna Chaitanya Chundru wrote:
-> From: Imran Shaik <imran.shaik@oss.qualcomm.com>
-> 
-> This patch introduces the MHI PHC (PTP Hardware Clock) driver, which
-> registers a PTP (Precision Time Protocol) clock and communicates with
-> the MHI core to get the device side timestamps. These timestamps are
-> then exposed to the PTP subsystem, enabling precise time synchronization
-> between the host and the device.
-> 
-> The following diagram illustrates the architecture and data flow:
-> 
->  +-------------+    +--------------------+    +--------------+
->  |Userspace App|<-->|Kernel PTP framework|<-->|MHI PHC Driver|
->  +-------------+    +--------------------+    +--------------+
->                                                      |
->                                                      v
->  +-------------------------------+         +-----------------+
->  | MHI Device (Timestamp source) |<------->| MHI Core Driver |
->  +-------------------------------+         +-----------------+
-> 
-> - User space applications use the standard Linux PTP interface.
-> - The PTP subsystem routes IOCTLs to the MHI PHC driver.
-> - The MHI PHC driver communicates with the MHI core to fetch timestamps.
-> - The MHI core interacts with the device to retrieve accurate time data.
 
-As mentioned in cover letter, this is misleading.
+On 4/10/2026 1:17 AM, Jeff Hugo wrote:
+> $SUBJECT is not a complete sentence.  You should drop the full stop ".".
+Sure. I will drop in the next patch.
+>
+> On 3/19/2026 12:31 AM, Kishore Batta wrote:
+>> Introduce documentation for the Sahara protocol, describing its
+>> operational modes and their respective functions. The image transfer 
+>> mode
+>> enables firmware transfer from host to device. The memory debug mode
+>> allows extraction of device memory contents to host. The command mode
+>> facilitates retrieval of DDR training data from the device and also
+>> to restore the training data back to device in subsequent boot of device
+>> to save boot time.
+>
+> Thank you for the documentation.
+>
+>>
+>> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+>> ---
+>>   Documentation/sahara/index.rst           |   14 +
+>>   Documentation/sahara/sahara_protocol.rst | 1241 
+>> ++++++++++++++++++++++++++++++
+>
+> I see from the cover letter that the sahara implementation is moving 
+> under MHI. I expect to have more about that move later in the series, 
+> but MHI already has a documentation directory. I don't see why Sahara 
+> should be at the top level if it is considered to be coupled to MHI.
+>
+Okay. I have shared comments later in the series. Once its concluded, I 
+will move the documentation to the right directory.
+>>   2 files changed, 1255 insertions(+)
+>>
+>> diff --git a/Documentation/sahara/index.rst 
+>> b/Documentation/sahara/index.rst
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..073002c15a203344524e258b2aa0a6ce839e064b
+>> --- /dev/null
+>> +++ b/Documentation/sahara/index.rst
+>> @@ -0,0 +1,14 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +========================
+>> +Qualcomm Sahara protocol
+>> +========================
+>> +
+>> +The Sahara protocol transfers data to and from memory and describes 
+>> packet
+>> +structures, packet flows, and their usage.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 2
+>> +   :caption: Contents
+>> +
+>> +   sahara_protocol
+>> diff --git a/Documentation/sahara/sahara_protocol.rst 
+>> b/Documentation/sahara/sahara_protocol.rst
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..91204bb7d170be4fc4c85f142b8f0b93d3c421a0
+>> --- /dev/null
+>> +++ b/Documentation/sahara/sahara_protocol.rst
+>> @@ -0,0 +1,1241 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +
+>> +=============================
+>> +Sahara protocol Specification
+>> +=============================
+>> +
+>> +The Qualcomm Sahara protocol driver is primarily designed for 
+>> transferring
+>> +software images from a host device to a target device using a 
+>> simplified data
+>> +transfer mechanism over a link. However, the sahara protocol does 
+>> not support
+>
+> "Sahara" should be capital "S" everywhere in this patch.
 
-> 
-> Co-developed-by: Taniya Das <taniya.das@oss.qualcomm.com>
-> Signed-off-by: Taniya Das <taniya.das@oss.qualcomm.com>
-> Signed-off-by: Imran Shaik <imran.shaik@oss.qualcomm.com>
-> ---
->  drivers/bus/mhi/host/Kconfig       |   8 ++
->  drivers/bus/mhi/host/Makefile      |   1 +
->  drivers/bus/mhi/host/mhi_phc.c     | 150 +++++++++++++++++++++++++++++++++++++
->  drivers/bus/mhi/host/mhi_phc.h     |  28 +++++++
->  drivers/bus/mhi/host/pci_generic.c |  23 ++++++
->  5 files changed, 210 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
-> index da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..b4eabf3e5c56907de93232f02962040e979c3110 100644
-> --- a/drivers/bus/mhi/host/Kconfig
-> +++ b/drivers/bus/mhi/host/Kconfig
-> @@ -29,3 +29,11 @@ config MHI_BUS_PCI_GENERIC
->  	  This driver provides MHI PCI controller driver for devices such as
->  	  Qualcomm SDX55 based PCIe modems.
->  
-> +config MHI_BUS_PHC
-> +	bool "MHI PHC driver"
 
-Why not tristate?
+Sure. I will make changes accordingly.
 
-> +	depends on MHI_BUS_PCI_GENERIC
-
-No, this generic TSC driver cannot depend on a controller driver. It should
-purely act as a library.
-
-> +	help
-> +	  This driver provides Precision Time Protocol (PTP) clock and
-> +	  communicates with MHI PCI driver to get the device side timestamp,
-> +	  which enables precise time synchronization between the host and
-> +	  the device.
-> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
-> index 859c2f38451c669b3d3014c374b2b957c99a1cfe..5ba244fe7d596834ea535797efd3428963ba0ed0 100644
-> --- a/drivers/bus/mhi/host/Makefile
-> +++ b/drivers/bus/mhi/host/Makefile
-> @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
->  
->  obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
->  mhi_pci_generic-y += pci_generic.o
-> +mhi_pci_generic-$(CONFIG_MHI_BUS_PHC) += mhi_phc.o
-> diff --git a/drivers/bus/mhi/host/mhi_phc.c b/drivers/bus/mhi/host/mhi_phc.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..fa04eb7f6025fa281d86c0a45b5f7d3e61f5ce12
-> --- /dev/null
-> +++ b/drivers/bus/mhi/host/mhi_phc.c
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2025, Qualcomm Technologies, Inc. and/or its subsidiaries.
-
-2026
-
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-
-Are these headers really needed?
-
-> +#include <linux/mhi.h>
-> +#include <linux/ptp_clock_kernel.h>
-> +#include "mhi_phc.h"
-> +
-> +#define NSEC 1000000000ULL
-
-Use existing NSEC_PER_SEC
-
-> +
-> +/**
-> + * struct mhi_phc_dev - MHI PHC device
-> + * @ptp_clock: associated PTP clock
-> + * @ptp_clock_info: PTP clock information
-> + * @mhi_dev: associated mhi device object
-> + * @lock: spinlock
-
-What spinlock? and what is it used for?
-
-> + * @enabled: Flag to track the state of the MHI device
-> + */
-> +struct mhi_phc_dev {
-> +	struct ptp_clock *ptp_clock;
-> +	struct ptp_clock_info  ptp_clock_info;
-
-Use single space.
-
-> +	struct mhi_device *mhi_dev;
-> +	spinlock_t lock;
-> +	bool enabled;
-> +};
-> +
-> +static int qcom_ptp_gettimex64(struct ptp_clock_info *ptp, struct timespec64 *ts,
-> +			       struct ptp_system_timestamp *sts)
-> +{
-> +	struct mhi_phc_dev *phc_dev = container_of(ptp, struct mhi_phc_dev, ptp_clock_info);
-> +	struct mhi_timesync_info time;
-> +	ktime_t ktime_cur;
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	spin_lock_irqsave(&phc_dev->lock, flags);
-
-Why spinlock ant not mutex, especially when mhi_get_remote_tsc_time_sync()
-performs MMIO reads 4 times with ASPM enabled?
-
-I also doubt that you really need lock here.
-
-> +	if (!phc_dev->enabled) {
-
-I don't see a a value of this check. If the intention is to prevent PHC from
-being disabled when gettimex64() callback is executing, then kernel POSIX clock
-layer already provides that guarantee for you. You don't need to reinvent the
-wheel again. 
-
-> +		ret = -ENODEV;
-> +		goto err;
-> +	}
-> +
-> +	ret = mhi_get_remote_tsc_time_sync(phc_dev->mhi_dev, &time);
-> +	if (ret)
-> +		goto err;
-> +
-> +	ktime_cur = time.t_dev_hi * NSEC + time.t_dev_lo;
-> +	*ts = ktime_to_timespec64(ktime_cur);
-> +
-> +	dev_dbg(&phc_dev->mhi_dev->dev, "TSC time stamps sec:%u nsec:%u current:%lld\n",
-> +		time.t_dev_hi, time.t_dev_lo, ktime_cur);
-
-Move to tracepoint.
-
-> +
-> +	/* Update pre and post timestamps for PTP_SYS_OFFSET_EXTENDED*/
-> +	if (sts != NULL) {
-
-if (sts)
-
-> +		sts->pre_ts = ktime_to_timespec64(time.t_host_pre);
-> +		sts->post_ts = ktime_to_timespec64(time.t_host_post);
-> +		dev_dbg(&phc_dev->mhi_dev->dev, "pre:%lld post:%lld\n",
-> +			time.t_host_pre, time.t_host_post);
-> +	}
-> +
-> +err:
-> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
-> +
-> +	return ret;
-> +}
-> +
-> +int mhi_phc_start(struct mhi_controller *mhi_cntrl)
-> +{
-> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
-> +	unsigned long flags;
-> +
-> +	if (!phc_dev) {
-> +		dev_err(&mhi_cntrl->mhi_dev->dev, "Driver data is NULL\n");
-
-Can this really happen? Even so, I wouldn't add an error print for this cosmetic
-check.
-
-> +		return -ENODEV;
-> +	}
-> +
-> +	spin_lock_irqsave(&phc_dev->lock, flags);
-> +	phc_dev->enabled = true;
-> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +int mhi_phc_stop(struct mhi_controller *mhi_cntrl)
-> +{
-> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
-> +	unsigned long flags;
-> +
-> +	if (!phc_dev) {
-> +		dev_err(&mhi_cntrl->mhi_dev->dev, "Driver data is NULL\n");
-> +		return -ENODEV;
-> +	}
-
-Same here.
-
-> +
-> +	spin_lock_irqsave(&phc_dev->lock, flags);
-> +	phc_dev->enabled = false;
-> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
-> +
-> +	return 0;
-
-Getting rid of the check and 'phc_dev->enabled' flag means, I see no point in
-mhi_phc_{start/stop}() functions.
-
-> +}
-> +
-> +static struct ptp_clock_info qcom_ptp_clock_info = {
-> +	.owner    = THIS_MODULE,
-> +	.gettimex64 =  qcom_ptp_gettimex64,
-> +};
-> +
-> +int mhi_phc_init(struct mhi_controller *mhi_cntrl)
-> +{
-> +	struct mhi_device *mhi_dev = mhi_cntrl->mhi_dev;
-> +	struct mhi_phc_dev *phc_dev;
-> +	int ret;
-> +
-> +	phc_dev = devm_kzalloc(&mhi_dev->dev, sizeof(*phc_dev), GFP_KERNEL);
-> +	if (!phc_dev)
-> +		return -ENOMEM;
-> +
-> +	phc_dev->mhi_dev = mhi_dev;
-> +
-> +	phc_dev->ptp_clock_info = qcom_ptp_clock_info;
-> +	strscpy(phc_dev->ptp_clock_info.name, mhi_dev->name, PTP_CLOCK_NAME_LEN);
-> +
-> +	spin_lock_init(&phc_dev->lock);
-> +
-> +	phc_dev->ptp_clock = ptp_clock_register(&phc_dev->ptp_clock_info, &mhi_dev->dev);
-> +	if (IS_ERR(phc_dev->ptp_clock)) {
-> +		ret = PTR_ERR(phc_dev->ptp_clock);
-> +		dev_err(&mhi_dev->dev, "Failed to register PTP clock\n");
-> +		phc_dev->ptp_clock = NULL;
-> +		return ret;
-> +	}
-> +
-> +	dev_set_drvdata(&mhi_dev->dev, phc_dev);
-> +
-> +	dev_dbg(&mhi_dev->dev, "probed MHI PHC dev: %s\n", mhi_dev->name);
-
-Drop this spam.
-
-> +	return 0;
-> +};
-> +
-> +void mhi_phc_exit(struct mhi_controller *mhi_cntrl)
-> +{
-> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
-> +
-> +	if (!phc_dev)
-> +		return;
-> +
-> +	/* disable the node */
-
-Remove this comment.
-
-> +	ptp_clock_unregister(phc_dev->ptp_clock);
-> +	phc_dev->enabled = false;
-> +}
-> diff --git a/drivers/bus/mhi/host/mhi_phc.h b/drivers/bus/mhi/host/mhi_phc.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e6b0866bc768ba5a8ac3e4c40a99aa2050db1389
-> --- /dev/null
-> +++ b/drivers/bus/mhi/host/mhi_phc.h
-> @@ -0,0 +1,28 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2025, Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +#ifdef CONFIG_MHI_BUS_PHC
-
-#if IS_ENABLED()
-
-> +int mhi_phc_init(struct mhi_controller *mhi_cntrl);
-> +int mhi_phc_start(struct mhi_controller *mhi_cntrl);
-> +int mhi_phc_stop(struct mhi_controller *mhi_cntrl);
-> +void mhi_phc_exit(struct mhi_controller *mhi_cntrl);
-> +#else
-> +static inline int mhi_phc_init(struct mhi_controller *mhi_cntrl)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline int mhi_phc_start(struct mhi_controller *mhi_cntrl)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline int mhi_phc_stop(struct mhi_controller *mhi_cntrl)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void mhi_phc_exit(struct mhi_controller *mhi_cntrl) {}
-> +#endif
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index b1122c7224bdd469406d96af6d3df342040e1002..6cba5cecd1adb40396bba30c9b2a551898dce871 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -16,6 +16,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/timer.h>
->  #include <linux/workqueue.h>
-> +#include "mhi_phc.h"
->  
->  #define MHI_PCI_DEFAULT_BAR_NUM 0
->  
-> @@ -1044,6 +1045,7 @@ struct mhi_pci_device {
->  	struct timer_list health_check_timer;
->  	unsigned long status;
->  	bool reset_on_remove;
-> +	bool mhi_phc_init_done;
->  };
->  
->  #ifdef readq
-> @@ -1084,6 +1086,7 @@ static void mhi_pci_status_cb(struct mhi_controller *mhi_cntrl,
->  			      enum mhi_callback cb)
->  {
->  	struct pci_dev *pdev = to_pci_dev(mhi_cntrl->cntrl_dev);
-> +	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
->  
->  	/* Nothing to do for now */
->  	switch (cb) {
-> @@ -1091,9 +1094,21 @@ static void mhi_pci_status_cb(struct mhi_controller *mhi_cntrl,
->  	case MHI_CB_SYS_ERROR:
->  		dev_warn(&pdev->dev, "firmware crashed (%u)\n", cb);
->  		pm_runtime_forbid(&pdev->dev);
-> +		/* Stop PHC */
-> +		if (mhi_cntrl->tsc_timesync)
-> +			mhi_phc_stop(mhi_cntrl);
->  		break;
->  	case MHI_CB_EE_MISSION_MODE:
->  		pm_runtime_allow(&pdev->dev);
-> +		/* Start PHC */
-> +		if (mhi_cntrl->tsc_timesync) {
-> +			if (!mhi_pdev->mhi_phc_init_done) {
-> +				mhi_phc_init(mhi_cntrl);
-> +				mhi_pdev->mhi_phc_init_done = true;
-> +			}
-
-This looks weird. Since MISSION_MODE can happen multiple times when the device
-is attached, shouldn't you be doing mhi_phc_init() multiple times with the
-corresponding mhi_phc_exit() during MHI_CB_SYS_ERROR?
-
-Right now, you call mhi_phc_init() during MISSION_MODE and mhi_phc_exit()
-during mhi_pci_remove(). What is the point of keeping /dev/ptpX if the firmware
-is crashed?
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
