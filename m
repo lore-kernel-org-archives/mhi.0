@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A35389111;
-	Mon, 13 Apr 2026 06:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19C63932CA;
+	Mon, 13 Apr 2026 07:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776062543; cv=none; b=M9ADB/gJaGwGACxI7BMTNSNdK5I6h6tsdLqe2kb1i4wBpC1GSHAKSckvRBRW+jbYUtiaPcPP1Fnz3tHcYY4oVzhrLIriPs8TdcFc0RatbgKG3pgnWcO603BYHtNJCEkJR0c6caFgu0PKpaU3iUby3j2vGrstIe9LvMpBtb9Qe6U=
+	t=1776065268; cv=none; b=jPTyBM0U/oEvtSranrYsVSL/zhMY717HiwzJUhUQibZfcJJcMXLvcizWTqn53ajZH1+61uYMvQ88rOhNGlU6zmwxS9S62FiW/1WdG2PUA68+kFZZFnJntBQeXdcs5f3n8gQ+DHzVwzOgEkUI6LvNmLw2gm0JhhHy2TFUK7bxNnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776062543; c=relaxed/simple;
-	bh=0lH0LC1aP3wRhPO0FuTozezUioK4pF5EefTJuQZXdfQ=;
+	s=arc-20240116; t=1776065268; c=relaxed/simple;
+	bh=nM8yPrRTIZhJUc3/xCm7wYcrki24k5XbJw4tYRMV4vI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wqem3731uZ5mjb6xq4upxvfUEyJ6cF9cIqixU7+LAgxXjbHQW+FKbQIyluevGgQcGnYe3C7dKYrvlf7+QrZvwxOiLxdRdLyndBi9Feae/cZbiA4kO41cRCh9EKQZUI3KMCteC8iFqSQAe9pvVg8I49VpoFTIgnHtPwM4TjLUV0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpxULcdE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RPaWoRz/tvEW3A9eYEusOmLHqy/PvOe0fZJbWemxaTmzQ+75zDKmeWcrE7Z5JA7J1KAi0Ch4KN3b2gKibDShZwa0bwbMd9InWy7ruzMqeXVEwTXsZikrL3g3Vwb57yEZtMrD184AbAVAUFXXTjwUmwqpMMjJL2L4ata8rge6vy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pe8NTp07; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpxULcdE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C659C2BCB1;
-	Mon, 13 Apr 2026 06:42:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pe8NTp07"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C99C116C6;
+	Mon, 13 Apr 2026 07:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776062543;
-	bh=0lH0LC1aP3wRhPO0FuTozezUioK4pF5EefTJuQZXdfQ=;
+	s=k20201202; t=1776065268;
+	bh=nM8yPrRTIZhJUc3/xCm7wYcrki24k5XbJw4tYRMV4vI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YpxULcdEiToYfFRqvbT6mNWWGFi0R1omTWyY+y04c4i1F1/RBISmmWQoWHmHQylT7
-	 tTorexOMN0AMoTxm1p5zXi7mysDIVaRDKbvDSpcWk6zWUmgvXcUl2OpAbdY7BD/s+/
-	 bjxELWe5Is3aTj3Ug29Iv8E7K4JS3VnEGRmo8h1JZox+CFuCqlyBKPPTDR9hR1qnsf
-	 7wEK5Sr2R+HPBLWlJQXZyssoeTRknBZigsSQsZxI4JU1jNQpLhLK+FDFBkP0A3YSNT
-	 3b2yZ5aOST+dhnDKWgZRIEXXgUh6VbjCLe3eChGP+XzcPMWAZXUD1c4hrNMBjw0pGt
-	 TouuaQUItgGxA==
-Date: Mon, 13 Apr 2026 12:12:16 +0530
+	b=pe8NTp0756DY9iNYIkd7GNDjkJ91jKngympYhwdSEGA72fMPSlryoydh3JwFLE124
+	 fUfbSs9rxlOFfjz1ghDOz3rPqEOpLsEnQj+BQ+/2DVOn1mqmmjIaL16vabHlKOq8Tk
+	 hYSL2N6wvopQkK5OZEf0Mzog9dPIS2lNW0Pchcjucn+6cQJkSRj/VNwF5DGRXTaoRA
+	 dZFKCDSYXNR4ZlYyIK8LEOFyftuN6l2kh3uujtEF4K6c9+BVyMZJuNMosDuIv1qGhr
+	 kiwS8luREJY75rcrDBJP+ny0b30HWGd64Z5I2eE9XbyBM5+GkOfTCDghJ8MyTVMJ9e
+	 yXJ7iwWzqRHyQ==
+Date: Mon, 13 Apr 2026 12:57:41 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 Cc: Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev, 
@@ -34,7 +34,7 @@ Cc: Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev,
 	Vivek Pernamitta <quic_vpernami@quicinc.com>
 Subject: Re: [PATCH v2 2/6] bus: mhi: host: Add support for non-posted TSC
  timesync feature
-Message-ID: <rwyescvy4m64hffttma2ikpbtukyzm3oqmiapcd5h7i4evygwc@gq72yoedmnxp>
+Message-ID: <n5zb7vdxdpj2dunq7evrrxzbyua3rgitxthgoujqw7vimcvqvo@i33627fle2cq>
 References: <20260411-tsc_timesync-v2-0-6f25f72987b3@oss.qualcomm.com>
  <20260411-tsc_timesync-v2-2-6f25f72987b3@oss.qualcomm.com>
 Precedence: bulk
@@ -120,9 +120,6 @@ On Sat, Apr 11, 2026 at 01:42:02PM +0530, Krishna Chaitanya Chundru wrote:
 > +
 > +	return 0;
 > +}
-
-Move all the function definitions from MHI core code to mhi_phc.c.
-
 > +
 >  int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
 >  {
@@ -134,9 +131,6 @@ Move all the function definitions from MHI core code to mhi_phc.c.
 > +	ret = mhi_init_tsc_timesync(mhi_cntrl);
 > +	if (ret)
 > +		dev_dbg(dev, "TSC Time synchronization init failure\n");
-
-And just keep this call in the MHI core.
-
 > +
 >  	return 0;
 >  }
@@ -179,9 +173,6 @@ And just keep this call in the MHI core.
 > +	if (!mhi_tsync && !mhi_tsync->time_reg) {
 > +		dev_err(dev, "Time sync is not supported\n");
 > +		return -EINVAL;
-
--EOPNOTSUPP
-
 > +	}
 > +
 > +	if (unlikely(MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state))) {
@@ -202,6 +193,13 @@ And just keep this call in the MHI core.
 > +	 * time critical code to fetch device time, delay between these two steps
 > +	 * should be deterministic as possible.
 > +	 */
+
+Thinking more, to be deterministic, ASPM should be disabled at this point. But
+we cannot do that safely now from PCI client drivers until this series gets in:
+https://lore.kernel.org/linux-arm-msm/20250825-ath-aspm-fix-v2-0-61b2f2db7d89@oss.qualcomm.com/
+
+So let's keep it this way for now, but add a FIXME to disable ASPM.
+
 > +	preempt_disable();
 > +	local_irq_disable();
 > +
@@ -213,115 +211,19 @@ And just keep this call in the MHI core.
 > +	 * low-power state (e.g., L1 or L1ss), and need to be forced it to
 > +	 * transition to L0.
 > +	 */
-
-You should be doing these back-to-back reads only if ASPM is enabled. You can
-check that using pcie_aspm_enabled(). Also, see if you can hide this call inside
-pci_generic driver to make mhi_phc truly transport agnostic.
-
 > +	for (i = 0; i < MHI_NUM_BACK_TO_BACK_READS; i++) {
 > +		ret = mhi_read_reg(mhi_cntrl, mhi_tsync->time_reg,
 > +				   TSC_TIMESYNC_TIME_LOW_OFFSET, &time->t_dev_lo);
 > +
 > +		ret = mhi_read_reg(mhi_cntrl, mhi_tsync->time_reg,
 > +				   TSC_TIMESYNC_TIME_HIGH_OFFSET, &time->t_dev_hi);
-> +	}
-> +
-> +	time->t_host_post = ktime_get_real();
-> +
-> +	local_irq_enable();
-> +	preempt_enable();
-> +
-> +	mhi_cntrl->runtime_put(mhi_cntrl);
-> +
-> +	mhi_device_put(mhi_cntrl->mhi_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +int mhi_get_remote_tsc_time_sync(struct mhi_device *mhi_dev, struct mhi_timesync_info *time)
-> +{
-> +	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-> +	struct mhi_timesync *mhi_tsc_tsync = mhi_cntrl->tsc_timesync;
-> +	int ret;
-> +
-> +	ret = mhi_get_remote_time(mhi_cntrl, mhi_tsc_tsync, time);
-> +	if (ret)
-> +		dev_err(&mhi_dev->dev, "Failed to get TSC Time Sync value:%d\n", ret);
 
-What is the difference between 'TSC' and 'Time Sync'?
+And an idiomatic way to read 64bit MMIO value in two 32bit read is:
 
-Nit: Space after 'value:'
-
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(mhi_get_remote_tsc_time_sync);
-> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-> index 88ccb3e14f481d6b85c2a314eb74ba960c2d4c81..f39c8ca7c251954f2d83c1227d206b600b88c75f 100644
-> --- a/include/linux/mhi.h
-> +++ b/include/linux/mhi.h
-> @@ -286,6 +286,30 @@ struct mhi_controller_config {
->  	bool m2_no_db;
->  };
->  
-> +/**
-> + * struct mhi_timesync - MHI time synchronization structure
-> + * @time_reg: Points to address of Timesync register
-> + * @ts_mutex: Mutex for synchronization
-> + */
-> +struct mhi_timesync {
-> +	void __iomem *time_reg;
-> +	struct mutex ts_mutex;
-> +};
-> +
-> +/**
-> + * struct mhi_timesync_info - MHI time sync info structure
-> + * @t_host_pre: Pre host soc time
-> + * @t_host_post: Post host soc time
-
-Get rid of 'soc', it provides no value.
-
-> + * @t_dev_lo: Mhi device time of lower dword
-> + * @t_dev_hi: Mhi device time of higher dword
-
-s/Mhi/MHI
-
-> + */
-> +struct mhi_timesync_info {
-> +	ktime_t t_host_pre;
-> +	ktime_t t_host_post;
-> +	u32 t_dev_lo;
-> +	u32 t_dev_hi;
-> +};
-> +
->  /**
->   * struct mhi_controller - Master MHI controller structure
->   * @name: Device name of the MHI controller
-> @@ -323,6 +347,7 @@ struct mhi_controller_config {
->   * @mhi_event: MHI event ring configurations table
->   * @mhi_cmd: MHI command ring configurations table
->   * @mhi_ctxt: MHI device context, shared memory between host and device
-> + * @tsc_timesync: MHI TSC timesync
->   * @pm_mutex: Mutex for suspend/resume operation
->   * @pm_lock: Lock for protecting MHI power management state
->   * @timeout_ms: Timeout in ms for state transitions
-> @@ -401,6 +426,8 @@ struct mhi_controller {
->  	struct mhi_cmd *mhi_cmd;
->  	struct mhi_ctxt *mhi_ctxt;
->  
-> +	struct mhi_timesync *tsc_timesync;
-> +
->  	struct mutex pm_mutex;
->  	rwlock_t pm_lock;
->  	u32 timeout_ms;
-> @@ -795,4 +822,14 @@ bool mhi_queue_is_full(struct mhi_device *mhi_dev, enum dma_data_direction dir);
->   */
->  int mhi_get_channel_doorbell_offset(struct mhi_controller *mhi_cntrl, u32 *chdb_offset);
->  
-> +/**
-> + * mhi_get_remote_tsc_time_sync - get external soc time relative to local soc
-
-Same comment as above
+	do {
+		high = read_high();
+		low = read_low();
+	} while(high != read_high());
 
 - Mani
 
