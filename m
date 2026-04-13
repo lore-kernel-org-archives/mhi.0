@@ -1,61 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9CB313E24;
-	Sun, 12 Apr 2026 15:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6545D30B533;
+	Mon, 13 Apr 2026 05:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776006593; cv=none; b=th+d1/8J6dQf7QVJ0bd0FT1NV52LBSgyRPiSpd/Ks6ufBbJQMkElU769zxMXkmsbUU3HDIuZCzI29K574iX9O88HEOaGrtAXnf84EuZtINPgtYqcH1wsEHArgP+jGoLS0KuSuzeuwciTsvk2YtPs6FIg6U9lsaT9tqOb3aaV4TE=
+	t=1776059069; cv=none; b=u881qC4bs/5xxol+E5IIlWv6hGKRUiLXCJCbAK867F67wCoMPw86Hb60z1KBewMuJob2xOh0cDq7gX2Pebro/487gPpohnDXojbEKNDRdKl31tchrUsLB6RhA+DxNVLYTUq3cAJi2rU1VDreqLTg6qIJpUvc0J3mhVzczcpAQyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776006593; c=relaxed/simple;
-	bh=6Q9TrAexH6j3xFRDHRXi/lQBR7mf/rF1oo/tXG0V7sU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N6Gs4K3RjZUS5vgtbsYJEPHJqz1D+M6ZdgAN4+sb5ZVyXa7mPOhAwvURba34reDpGjCQpW4I3hPast4Da7QPV/i8Wm1TKSKckNc2BUOXC6G5AlkZKs04cEfs7x2uyGRnzOQ24TpgRo0BQfwfVadWJ5Wo1kzS3l0t4HgI9PADfzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNrEXUME; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776059069; c=relaxed/simple;
+	bh=zlDVuvJqXaiDKgXyxHwnnUhN6t7BWFG/My3/a+C3l7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCBeAM+szDe4j7iAp9MBKBWdgVWKRrxh3BgGQFdaZrR51+BQmEJDr7oQh0nAERAJ3bgWH9DEKymafZf2p0HK978NohjzBMeRuyftEbxF3hnFPReXVnMh4yCYvtJbfV6Vl9CFPGnT8v1JBByqFy5LaHxAmXib8wg4Apnq3ctZX60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7NP7T/V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNrEXUME"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFD4C19424;
-	Sun, 12 Apr 2026 15:09:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7NP7T/V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59351C116C6;
+	Mon, 13 Apr 2026 05:44:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776006593;
-	bh=6Q9TrAexH6j3xFRDHRXi/lQBR7mf/rF1oo/tXG0V7sU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RNrEXUMEwkOz/JD+fxWpOSKO7SKZ4MF2mAAXrBLylXadrhPRJCVMHbT9eDMPS+nRM
-	 xwMS4XzdK4VvCPzcjo98aRfARQi5D7LEtI9m0fdNAQO+F5234Oya2kuQos1DDBXCEn
-	 w34rDtPdnGQrxanRIUiWPSe2pGZfVBQCZ5Z+HOEUSsG1LGshBDaoBpb0vjU92jBIDv
-	 LcDaX2kHLJT9MWtVypoRHTF+gocDKfe5fiQFYR8ZS7SVYoGuLUlEi65elMGi1ijPTZ
-	 fMy2Y4pODvk0GOXlWiTLNND8A1lGczsYS2qakajtgp1eJFY7+BiqAE1eBszUh4SXH0
-	 VHFNVdQ5fnTIA==
-Date: Sun, 12 Apr 2026 08:09:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Richard Cochran
- <richardcochran@gmail.com>, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, Vivek Pernamitta
- <vivek.pernamitta@oss.qualcomm.com>, Sivareddy Surasani
- <sivareddy.surasani@oss.qualcomm.com>, Vivek Pernamitta
- <quic_vpernami@quicinc.com>, Imran Shaik <imran.shaik@oss.qualcomm.com>,
- Taniya Das <taniya.das@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/6] bus: mhi: host: mhi_phc: Add support for PHC
- over MHI
-Message-ID: <20260412080951.723295fa@kernel.org>
-In-Reply-To: <20260411-tsc_timesync-v2-0-6f25f72987b3@oss.qualcomm.com>
+	s=k20201202; t=1776059069;
+	bh=zlDVuvJqXaiDKgXyxHwnnUhN6t7BWFG/My3/a+C3l7o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h7NP7T/VQHmB5D+9AsoIAYuMP+Iau7xJXFfw0xHuYdC/yRKxWCclR6GQlzJ1FU05W
+	 CgaoeuCLmDvM0wcE9Fkr+ZEgMaBT6eF1aP53lQDmma8F3JyZ6XZzxg2iU1BXs2Olau
+	 72hdAnO4O3jPvIlRfS4iraS56tBoidzty9zom1gjazmJl63NXsyLTcMtGO12jsmHzx
+	 2HMP5CwKtZyI6Y0kVULSWKa339UMP/ND269jXHT/S1cOPRcjb2zotSmNykWnLFg0oh
+	 SH62XnJ1XpkOGHMIYEwtu9RPU2Eg+GZUlEDTp04yOJ12dstziuf0k0J3Rsa7XJrCg5
+	 7LCV/rQZwHKQg==
+Date: Mon, 13 Apr 2026 11:14:21 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
+	Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>, Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>, 
+	Vivek Pernamitta <quic_vpernami@quicinc.com>, Imran Shaik <imran.shaik@oss.qualcomm.com>, 
+	Taniya Das <taniya.das@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/6] bus: mhi: host: mhi_phc: Add support for PHC over
+ MHI
+Message-ID: <j5gq447bj2adpa5qcnmd4psxta7zfp4wrdodwwu76olqehk35p@vqsxtut4ipxs>
 References: <20260411-tsc_timesync-v2-0-6f25f72987b3@oss.qualcomm.com>
+ <20260412080951.723295fa@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260412080951.723295fa@kernel.org>
 
-On Sat, 11 Apr 2026 13:42:00 +0530 Krishna Chaitanya Chundru wrote:
-> - User space applications use the standard Linux PTP interface.
-> - The PTP subsystem routes IOCTLs to the MHI PHC driver.
-> - The MHI PHC driver communicates with the MHI core to fetch timestamps.
-> - The MHI core interacts with the device to retrieve accurate time data.
+On Sun, Apr 12, 2026 at 08:09:51AM -0700, Jakub Kicinski wrote:
+> On Sat, 11 Apr 2026 13:42:00 +0530 Krishna Chaitanya Chundru wrote:
+> > - User space applications use the standard Linux PTP interface.
+> > - The PTP subsystem routes IOCTLs to the MHI PHC driver.
+> > - The MHI PHC driver communicates with the MHI core to fetch timestamps.
+> > - The MHI core interacts with the device to retrieve accurate time data.
 
-Nack, stop adding functionality under the mhi "bus".
-Bus is supposed to be an abstraction into which real drivers plug in.
+This is a misleading statement. Only the 'pci_generic' controller driver interacts
+with the device for querying timestamp. MHI bus just acts as a messenger.
+
+> 
+> Nack, stop adding functionality under the mhi "bus".
+> Bus is supposed to be an abstraction into which real drivers plug in.
+
+MHI bus is very similar to the PCI bus. Just like PCI capabilities, MHI also has
+capabilities to discover the supported functionalities including timesync. So
+for making use of the timesync feature, we need to add some hooks into the MHI
+bus layer, but the functionality is added to the separate driver,
+'drivers/bus/mhi/host/mhi_phc*'. This is also quite similar to how PCI(e)
+features like AER, hotplug are structured.
+
+In this series, timesync API definitions are added mistakenly to the core bus
+code, which should be moved to the mhi_phc driver instead.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
