@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19C63932CA;
-	Mon, 13 Apr 2026 07:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4702439A06A;
+	Mon, 13 Apr 2026 08:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776065268; cv=none; b=jPTyBM0U/oEvtSranrYsVSL/zhMY717HiwzJUhUQibZfcJJcMXLvcizWTqn53ajZH1+61uYMvQ88rOhNGlU6zmwxS9S62FiW/1WdG2PUA68+kFZZFnJntBQeXdcs5f3n8gQ+DHzVwzOgEkUI6LvNmLw2gm0JhhHy2TFUK7bxNnA=
+	t=1776067625; cv=none; b=lufrYJw0zyLg7lvdM/A1pbgw9fCFDQB4In1WN0jaIkQHK1sC1MYsbzDarSymGrUwuBuPFMDGL/2NsS4Q3yzxy7wQPIJ84pEPTE6fz5h62I0P0fj6WXxIitIpoz7W7UxMdj3LaaG45lm59ua/GKrx/sOpc96+AwmHjBRAehKXyWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776065268; c=relaxed/simple;
-	bh=nM8yPrRTIZhJUc3/xCm7wYcrki24k5XbJw4tYRMV4vI=;
+	s=arc-20240116; t=1776067625; c=relaxed/simple;
+	bh=zv+tp+wMF5FrcveyN+fqjDGtPExnhSz3lEw/gXQ9aBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPaWoRz/tvEW3A9eYEusOmLHqy/PvOe0fZJbWemxaTmzQ+75zDKmeWcrE7Z5JA7J1KAi0Ch4KN3b2gKibDShZwa0bwbMd9InWy7ruzMqeXVEwTXsZikrL3g3Vwb57yEZtMrD184AbAVAUFXXTjwUmwqpMMjJL2L4ata8rge6vy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pe8NTp07; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NTYPpID62W0dM78TG/A0I0dnDSZrI5qno2+F+DTQtfXeuWvkqPazPkZ6K7gYjYDVPZ3DB4hTtJtfcvzzxKTer5NTc/3+U67Cg2GNNnp2dsDDPqQYRMpo3U12lBHlkYnZhY4k+mlgt+3saz47wF/YdKdah/ubIU0PyQ5mQXGvRYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sm5T3nu0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pe8NTp07"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C99C116C6;
-	Mon, 13 Apr 2026 07:27:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sm5T3nu0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB367C2BCB3;
+	Mon, 13 Apr 2026 08:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776065268;
-	bh=nM8yPrRTIZhJUc3/xCm7wYcrki24k5XbJw4tYRMV4vI=;
+	s=k20201202; t=1776067624;
+	bh=zv+tp+wMF5FrcveyN+fqjDGtPExnhSz3lEw/gXQ9aBE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pe8NTp0756DY9iNYIkd7GNDjkJ91jKngympYhwdSEGA72fMPSlryoydh3JwFLE124
-	 fUfbSs9rxlOFfjz1ghDOz3rPqEOpLsEnQj+BQ+/2DVOn1mqmmjIaL16vabHlKOq8Tk
-	 hYSL2N6wvopQkK5OZEf0Mzog9dPIS2lNW0Pchcjucn+6cQJkSRj/VNwF5DGRXTaoRA
-	 dZFKCDSYXNR4ZlYyIK8LEOFyftuN6l2kh3uujtEF4K6c9+BVyMZJuNMosDuIv1qGhr
-	 kiwS8luREJY75rcrDBJP+ny0b30HWGd64Z5I2eE9XbyBM5+GkOfTCDghJ8MyTVMJ9e
-	 yXJ7iwWzqRHyQ==
-Date: Mon, 13 Apr 2026 12:57:41 +0530
+	b=sm5T3nu0p/FZTTjCpW70IwYesneHicMNsIVfbEdgE22IgIp88hvX7qR3SiFX/h/VB
+	 9Di2ZckzTRfqJkCYJ/gbSEPIn6SyitEDVBVsBIU34a4G1AUZOw+gq3a7yhY4dDK5wJ
+	 A7Y6oObz4N6Ya9fZJzLWBnexK1bBrwDOv6BOPWfpukb7OoAaqH4ibazWer8MpPI0CG
+	 5ZUA30nUamRSeAzk3coAMmMClB1FVv/ghfHMCBJNVqjoQCw0y/RrAoEDahiCP88d85
+	 gnnD+PqLHpMxPF56sz8X9Mu1xGZEai65VlfHYCI2kolF1vopbXwkDnE3CoBxA6s46F
+	 byE1s1/hhgs+Q==
+Date: Mon, 13 Apr 2026 13:36:50 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 Cc: Richard Cochran <richardcochran@gmail.com>, mhi@lists.linux.dev, 
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	Vivek Pernamitta <quic_vpernami@quicinc.com>
-Subject: Re: [PATCH v2 2/6] bus: mhi: host: Add support for non-posted TSC
- timesync feature
-Message-ID: <n5zb7vdxdpj2dunq7evrrxzbyua3rgitxthgoujqw7vimcvqvo@i33627fle2cq>
+	Imran Shaik <imran.shaik@oss.qualcomm.com>, Taniya Das <taniya.das@oss.qualcomm.com>
+Subject: Re: [PATCH v2 6/6] bus: mhi: host: mhi_phc: Add support for PHC over
+ MHI
+Message-ID: <xfjk7dkcgz6qbzzmtelqjxtcus7xtmvnk72bkyqpeb5iie7suu@cqffi4bd27pu>
 References: <20260411-tsc_timesync-v2-0-6f25f72987b3@oss.qualcomm.com>
- <20260411-tsc_timesync-v2-2-6f25f72987b3@oss.qualcomm.com>
+ <20260411-tsc_timesync-v2-6-6f25f72987b3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,184 +46,374 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260411-tsc_timesync-v2-2-6f25f72987b3@oss.qualcomm.com>
+In-Reply-To: <20260411-tsc_timesync-v2-6-6f25f72987b3@oss.qualcomm.com>
 
-On Sat, Apr 11, 2026 at 01:42:02PM +0530, Krishna Chaitanya Chundru wrote:
-> From: Vivek Pernamitta <quic_vpernami@quicinc.com>
+On Sat, Apr 11, 2026 at 01:42:06PM +0530, Krishna Chaitanya Chundru wrote:
+> From: Imran Shaik <imran.shaik@oss.qualcomm.com>
 > 
-> Implement non-posted time synchronization as described in section 5.1.1
-> of the MHI v1.2 specification. The host disables low-power link states
-> to minimize latency, reads the local time, issues a MMIO read to the
-> device's TIME register.
+> This patch introduces the MHI PHC (PTP Hardware Clock) driver, which
+> registers a PTP (Precision Time Protocol) clock and communicates with
+> the MHI core to get the device side timestamps. These timestamps are
+> then exposed to the PTP subsystem, enabling precise time synchronization
+> between the host and the device.
 > 
-> Add support for initializing this feature and export a function to be
-> used by the drivers which does the time synchronization.
+> The following diagram illustrates the architecture and data flow:
 > 
-> MHI reads the device time registers in the MMIO address space pointed to
-> by the capability register after disabling all low power modes and keeping
-> MHI in M0. Before and after MHI reads, the local time is captured
-> and shared for processing.
+>  +-------------+    +--------------------+    +--------------+
+>  |Userspace App|<-->|Kernel PTP framework|<-->|MHI PHC Driver|
+>  +-------------+    +--------------------+    +--------------+
+>                                                      |
+>                                                      v
+>  +-------------------------------+         +-----------------+
+>  | MHI Device (Timestamp source) |<------->| MHI Core Driver |
+>  +-------------------------------+         +-----------------+
 > 
-> Signed-off-by: Vivek Pernamitta <quic_vpernami@quicinc.com>
-> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> - User space applications use the standard Linux PTP interface.
+> - The PTP subsystem routes IOCTLs to the MHI PHC driver.
+> - The MHI PHC driver communicates with the MHI core to fetch timestamps.
+> - The MHI core interacts with the device to retrieve accurate time data.
+
+As mentioned in cover letter, this is misleading.
+
+> 
+> Co-developed-by: Taniya Das <taniya.das@oss.qualcomm.com>
+> Signed-off-by: Taniya Das <taniya.das@oss.qualcomm.com>
+> Signed-off-by: Imran Shaik <imran.shaik@oss.qualcomm.com>
 > ---
->  drivers/bus/mhi/common.h        |  4 +++
->  drivers/bus/mhi/host/init.c     | 28 ++++++++++++++++
->  drivers/bus/mhi/host/internal.h |  9 +++++
->  drivers/bus/mhi/host/main.c     | 74 +++++++++++++++++++++++++++++++++++++++++
->  include/linux/mhi.h             | 37 +++++++++++++++++++++
->  5 files changed, 152 insertions(+)
+>  drivers/bus/mhi/host/Kconfig       |   8 ++
+>  drivers/bus/mhi/host/Makefile      |   1 +
+>  drivers/bus/mhi/host/mhi_phc.c     | 150 +++++++++++++++++++++++++++++++++++++
+>  drivers/bus/mhi/host/mhi_phc.h     |  28 +++++++
+>  drivers/bus/mhi/host/pci_generic.c |  23 ++++++
+>  5 files changed, 210 insertions(+)
 > 
-> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
-> index 4c316f3d5a68beb01f15cf575b03747096fdcf2c..64f9b2b94387a112bb6b5e20c634c3ba8d6bc78e 100644
-> --- a/drivers/bus/mhi/common.h
-> +++ b/drivers/bus/mhi/common.h
-> @@ -118,6 +118,10 @@
->  #define CAP_CAPID_MASK			GENMASK(31, 24)
->  #define CAP_NEXT_CAP_MASK		GENMASK(23, 12)
+> diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
+> index da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..b4eabf3e5c56907de93232f02962040e979c3110 100644
+> --- a/drivers/bus/mhi/host/Kconfig
+> +++ b/drivers/bus/mhi/host/Kconfig
+> @@ -29,3 +29,11 @@ config MHI_BUS_PCI_GENERIC
+>  	  This driver provides MHI PCI controller driver for devices such as
+>  	  Qualcomm SDX55 based PCIe modems.
 >  
-> +/* MHI TSC Timesync */
-> +#define TSC_TIMESYNC_TIME_LOW_OFFSET	(0x8)
-> +#define TSC_TIMESYNC_TIME_HIGH_OFFSET	(0xC)
+> +config MHI_BUS_PHC
+> +	bool "MHI PHC driver"
+
+Why not tristate?
+
+> +	depends on MHI_BUS_PCI_GENERIC
+
+No, this generic TSC driver cannot depend on a controller driver. It should
+purely act as a library.
+
+> +	help
+> +	  This driver provides Precision Time Protocol (PTP) clock and
+> +	  communicates with MHI PCI driver to get the device side timestamp,
+> +	  which enables precise time synchronization between the host and
+> +	  the device.
+> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
+> index 859c2f38451c669b3d3014c374b2b957c99a1cfe..5ba244fe7d596834ea535797efd3428963ba0ed0 100644
+> --- a/drivers/bus/mhi/host/Makefile
+> +++ b/drivers/bus/mhi/host/Makefile
+> @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
+>  
+>  obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
+>  mhi_pci_generic-y += pci_generic.o
+> +mhi_pci_generic-$(CONFIG_MHI_BUS_PHC) += mhi_phc.o
+> diff --git a/drivers/bus/mhi/host/mhi_phc.c b/drivers/bus/mhi/host/mhi_phc.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..fa04eb7f6025fa281d86c0a45b5f7d3e61f5ce12
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/mhi_phc.c
+> @@ -0,0 +1,150 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2025, Qualcomm Technologies, Inc. and/or its subsidiaries.
+
+2026
+
+> + */
 > +
->  /* Command Ring Element macros */
->  /* No operation command */
->  #define MHI_TRE_CMD_NOOP_PTR		0
-> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
-> index c2162aa04e810e45ccfbedd20aaa62f892420d31..eb720f671726d919646cbc450cd54bda655a1060 100644
-> --- a/drivers/bus/mhi/host/init.c
-> +++ b/drivers/bus/mhi/host/init.c
-> @@ -498,6 +498,30 @@ static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 capability)
->  	return 0;
->  }
->  
-> +static int mhi_init_tsc_timesync(struct mhi_controller *mhi_cntrl)
+> +#include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+
+Are these headers really needed?
+
+> +#include <linux/mhi.h>
+> +#include <linux/ptp_clock_kernel.h>
+> +#include "mhi_phc.h"
+> +
+> +#define NSEC 1000000000ULL
+
+Use existing NSEC_PER_SEC
+
+> +
+> +/**
+> + * struct mhi_phc_dev - MHI PHC device
+> + * @ptp_clock: associated PTP clock
+> + * @ptp_clock_info: PTP clock information
+> + * @mhi_dev: associated mhi device object
+> + * @lock: spinlock
+
+What spinlock? and what is it used for?
+
+> + * @enabled: Flag to track the state of the MHI device
+> + */
+> +struct mhi_phc_dev {
+> +	struct ptp_clock *ptp_clock;
+> +	struct ptp_clock_info  ptp_clock_info;
+
+Use single space.
+
+> +	struct mhi_device *mhi_dev;
+> +	spinlock_t lock;
+> +	bool enabled;
+> +};
+> +
+> +static int qcom_ptp_gettimex64(struct ptp_clock_info *ptp, struct timespec64 *ts,
+> +			       struct ptp_system_timestamp *sts)
 > +{
-> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> +	struct mhi_timesync *mhi_tsc_tsync;
-> +	u32 time_offset;
+> +	struct mhi_phc_dev *phc_dev = container_of(ptp, struct mhi_phc_dev, ptp_clock_info);
+> +	struct mhi_timesync_info time;
+> +	ktime_t ktime_cur;
+> +	unsigned long flags;
 > +	int ret;
 > +
-> +	time_offset = mhi_find_capability(mhi_cntrl, MHI_CAP_ID_TSC_TIME_SYNC);
-> +	if (!time_offset)
-> +		return -ENXIO;
+> +	spin_lock_irqsave(&phc_dev->lock, flags);
+
+Why spinlock ant not mutex, especially when mhi_get_remote_tsc_time_sync()
+performs MMIO reads 4 times with ASPM enabled?
+
+I also doubt that you really need lock here.
+
+> +	if (!phc_dev->enabled) {
+
+I don't see a a value of this check. If the intention is to prevent PHC from
+being disabled when gettimex64() callback is executing, then kernel POSIX clock
+layer already provides that guarantee for you. You don't need to reinvent the
+wheel again. 
+
+> +		ret = -ENODEV;
+> +		goto err;
+> +	}
 > +
-> +	mhi_tsc_tsync = devm_kzalloc(dev, sizeof(*mhi_tsc_tsync), GFP_KERNEL);
-> +	if (!mhi_tsc_tsync)
-> +		return -ENOMEM;
+> +	ret = mhi_get_remote_tsc_time_sync(phc_dev->mhi_dev, &time);
+> +	if (ret)
+> +		goto err;
 > +
-> +	mhi_cntrl->tsc_timesync = mhi_tsc_tsync;
-> +	mutex_init(&mhi_tsc_tsync->ts_mutex);
+> +	ktime_cur = time.t_dev_hi * NSEC + time.t_dev_lo;
+> +	*ts = ktime_to_timespec64(ktime_cur);
 > +
-> +	/* save time_offset for obtaining time via MMIO register reads */
-> +	mhi_tsc_tsync->time_reg = mhi_cntrl->regs + time_offset;
+> +	dev_dbg(&phc_dev->mhi_dev->dev, "TSC time stamps sec:%u nsec:%u current:%lld\n",
+> +		time.t_dev_hi, time.t_dev_lo, ktime_cur);
+
+Move to tracepoint.
+
+> +
+> +	/* Update pre and post timestamps for PTP_SYS_OFFSET_EXTENDED*/
+> +	if (sts != NULL) {
+
+if (sts)
+
+> +		sts->pre_ts = ktime_to_timespec64(time.t_host_pre);
+> +		sts->post_ts = ktime_to_timespec64(time.t_host_post);
+> +		dev_dbg(&phc_dev->mhi_dev->dev, "pre:%lld post:%lld\n",
+> +			time.t_host_pre, time.t_host_post);
+> +	}
+> +
+> +err:
+> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
+> +
+> +	return ret;
+> +}
+> +
+> +int mhi_phc_start(struct mhi_controller *mhi_cntrl)
+> +{
+> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
+> +	unsigned long flags;
+> +
+> +	if (!phc_dev) {
+> +		dev_err(&mhi_cntrl->mhi_dev->dev, "Driver data is NULL\n");
+
+Can this really happen? Even so, I wouldn't add an error print for this cosmetic
+check.
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	spin_lock_irqsave(&phc_dev->lock, flags);
+> +	phc_dev->enabled = true;
+> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
 > +
 > +	return 0;
 > +}
 > +
->  int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  {
->  	u32 val;
-> @@ -635,6 +659,10 @@ int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
->  		return ret;
->  	}
->  
-> +	ret = mhi_init_tsc_timesync(mhi_cntrl);
-> +	if (ret)
-> +		dev_dbg(dev, "TSC Time synchronization init failure\n");
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-> index 7b0ee5e3a12dd585064169b7b884750bf4d8c8db..a0e729e7a1198c1b82c70b6bfe3bc2ee24331229 100644
-> --- a/drivers/bus/mhi/host/internal.h
-> +++ b/drivers/bus/mhi/host/internal.h
-> @@ -15,6 +15,15 @@ extern const struct bus_type mhi_bus_type;
->  #define MHI_SOC_RESET_REQ_OFFSET			0xb0
->  #define MHI_SOC_RESET_REQ				BIT(0)
->  
-> +/*
-> + * With ASPM enabled, the link may enter a low power state, requiring
-> + * a wake-up sequence. Use a short burst of back-to-back reads to
-> + * transition the link to the active state. Based on testing,
-> + * 4 iterations are necessary to ensure reliable wake-up without
-> + * excess latency.
-> + */
-> +#define MHI_NUM_BACK_TO_BACK_READS			4
-> +
->  struct mhi_ctxt {
->  	struct mhi_event_ctxt *er_ctxt;
->  	struct mhi_chan_ctxt *chan_ctxt;
-> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-> index 53c0ffe300702bcc3caa8fd9ea8086203c75b186..b7a727b1a5d1f20b570c62707a991ec5b85bfec7 100644
-> --- a/drivers/bus/mhi/host/main.c
-> +++ b/drivers/bus/mhi/host/main.c
-> @@ -1626,3 +1626,77 @@ int mhi_get_channel_doorbell_offset(struct mhi_controller *mhi_cntrl, u32 *chdb_
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(mhi_get_channel_doorbell_offset);
-> +
-> +static int mhi_get_remote_time(struct mhi_controller *mhi_cntrl, struct mhi_timesync *mhi_tsync,
-> +			       struct mhi_timesync_info *time)
+> +int mhi_phc_stop(struct mhi_controller *mhi_cntrl)
 > +{
-> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> +	int ret, i;
+> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
+> +	unsigned long flags;
 > +
-> +	if (!mhi_tsync && !mhi_tsync->time_reg) {
-> +		dev_err(dev, "Time sync is not supported\n");
-> +		return -EINVAL;
+> +	if (!phc_dev) {
+> +		dev_err(&mhi_cntrl->mhi_dev->dev, "Driver data is NULL\n");
+> +		return -ENODEV;
 > +	}
+
+Same here.
+
 > +
-> +	if (unlikely(MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state))) {
-> +		dev_err(dev, "MHI is not in active state, pm_state:%s\n",
-> +			to_mhi_pm_state_str(mhi_cntrl->pm_state));
-> +		return -EIO;
-> +	}
+> +	spin_lock_irqsave(&phc_dev->lock, flags);
+> +	phc_dev->enabled = false;
+> +	spin_unlock_irqrestore(&phc_dev->lock, flags);
 > +
-> +	/* bring to M0 state */
-> +	ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
-> +	if (ret)
+> +	return 0;
+
+Getting rid of the check and 'phc_dev->enabled' flag means, I see no point in
+mhi_phc_{start/stop}() functions.
+
+> +}
+> +
+> +static struct ptp_clock_info qcom_ptp_clock_info = {
+> +	.owner    = THIS_MODULE,
+> +	.gettimex64 =  qcom_ptp_gettimex64,
+> +};
+> +
+> +int mhi_phc_init(struct mhi_controller *mhi_cntrl)
+> +{
+> +	struct mhi_device *mhi_dev = mhi_cntrl->mhi_dev;
+> +	struct mhi_phc_dev *phc_dev;
+> +	int ret;
+> +
+> +	phc_dev = devm_kzalloc(&mhi_dev->dev, sizeof(*phc_dev), GFP_KERNEL);
+> +	if (!phc_dev)
+> +		return -ENOMEM;
+> +
+> +	phc_dev->mhi_dev = mhi_dev;
+> +
+> +	phc_dev->ptp_clock_info = qcom_ptp_clock_info;
+> +	strscpy(phc_dev->ptp_clock_info.name, mhi_dev->name, PTP_CLOCK_NAME_LEN);
+> +
+> +	spin_lock_init(&phc_dev->lock);
+> +
+> +	phc_dev->ptp_clock = ptp_clock_register(&phc_dev->ptp_clock_info, &mhi_dev->dev);
+> +	if (IS_ERR(phc_dev->ptp_clock)) {
+> +		ret = PTR_ERR(phc_dev->ptp_clock);
+> +		dev_err(&mhi_dev->dev, "Failed to register PTP clock\n");
+> +		phc_dev->ptp_clock = NULL;
 > +		return ret;
+> +	}
 > +
-> +	guard(mutex)(&mhi_tsync->ts_mutex);
-> +	mhi_cntrl->runtime_get(mhi_cntrl);
+> +	dev_set_drvdata(&mhi_dev->dev, phc_dev);
 > +
-> +	/*
-> +	 * time critical code to fetch device time, delay between these two steps
-> +	 * should be deterministic as possible.
-> +	 */
+> +	dev_dbg(&mhi_dev->dev, "probed MHI PHC dev: %s\n", mhi_dev->name);
 
-Thinking more, to be deterministic, ASPM should be disabled at this point. But
-we cannot do that safely now from PCI client drivers until this series gets in:
-https://lore.kernel.org/linux-arm-msm/20250825-ath-aspm-fix-v2-0-61b2f2db7d89@oss.qualcomm.com/
+Drop this spam.
 
-So let's keep it this way for now, but add a FIXME to disable ASPM.
-
-> +	preempt_disable();
-> +	local_irq_disable();
+> +	return 0;
+> +};
 > +
-> +	time->t_host_pre = ktime_get_real();
+> +void mhi_phc_exit(struct mhi_controller *mhi_cntrl)
+> +{
+> +	struct mhi_phc_dev *phc_dev = dev_get_drvdata(&mhi_cntrl->mhi_dev->dev);
 > +
-> +	/*
-> +	 * To ensure the PCIe link is in L0 when ASPM is enabled, perform series
-> +	 * of back-to-back reads. This is necessary because the link may be in a
-> +	 * low-power state (e.g., L1 or L1ss), and need to be forced it to
-> +	 * transition to L0.
-> +	 */
-> +	for (i = 0; i < MHI_NUM_BACK_TO_BACK_READS; i++) {
-> +		ret = mhi_read_reg(mhi_cntrl, mhi_tsync->time_reg,
-> +				   TSC_TIMESYNC_TIME_LOW_OFFSET, &time->t_dev_lo);
+> +	if (!phc_dev)
+> +		return;
 > +
-> +		ret = mhi_read_reg(mhi_cntrl, mhi_tsync->time_reg,
-> +				   TSC_TIMESYNC_TIME_HIGH_OFFSET, &time->t_dev_hi);
+> +	/* disable the node */
 
-And an idiomatic way to read 64bit MMIO value in two 32bit read is:
+Remove this comment.
 
-	do {
-		high = read_high();
-		low = read_low();
-	} while(high != read_high());
+> +	ptp_clock_unregister(phc_dev->ptp_clock);
+> +	phc_dev->enabled = false;
+> +}
+> diff --git a/drivers/bus/mhi/host/mhi_phc.h b/drivers/bus/mhi/host/mhi_phc.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e6b0866bc768ba5a8ac3e4c40a99aa2050db1389
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/mhi_phc.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2025, Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifdef CONFIG_MHI_BUS_PHC
+
+#if IS_ENABLED()
+
+> +int mhi_phc_init(struct mhi_controller *mhi_cntrl);
+> +int mhi_phc_start(struct mhi_controller *mhi_cntrl);
+> +int mhi_phc_stop(struct mhi_controller *mhi_cntrl);
+> +void mhi_phc_exit(struct mhi_controller *mhi_cntrl);
+> +#else
+> +static inline int mhi_phc_init(struct mhi_controller *mhi_cntrl)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int mhi_phc_start(struct mhi_controller *mhi_cntrl)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int mhi_phc_stop(struct mhi_controller *mhi_cntrl)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void mhi_phc_exit(struct mhi_controller *mhi_cntrl) {}
+> +#endif
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index b1122c7224bdd469406d96af6d3df342040e1002..6cba5cecd1adb40396bba30c9b2a551898dce871 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/timer.h>
+>  #include <linux/workqueue.h>
+> +#include "mhi_phc.h"
+>  
+>  #define MHI_PCI_DEFAULT_BAR_NUM 0
+>  
+> @@ -1044,6 +1045,7 @@ struct mhi_pci_device {
+>  	struct timer_list health_check_timer;
+>  	unsigned long status;
+>  	bool reset_on_remove;
+> +	bool mhi_phc_init_done;
+>  };
+>  
+>  #ifdef readq
+> @@ -1084,6 +1086,7 @@ static void mhi_pci_status_cb(struct mhi_controller *mhi_cntrl,
+>  			      enum mhi_callback cb)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(mhi_cntrl->cntrl_dev);
+> +	struct mhi_pci_device *mhi_pdev = pci_get_drvdata(pdev);
+>  
+>  	/* Nothing to do for now */
+>  	switch (cb) {
+> @@ -1091,9 +1094,21 @@ static void mhi_pci_status_cb(struct mhi_controller *mhi_cntrl,
+>  	case MHI_CB_SYS_ERROR:
+>  		dev_warn(&pdev->dev, "firmware crashed (%u)\n", cb);
+>  		pm_runtime_forbid(&pdev->dev);
+> +		/* Stop PHC */
+> +		if (mhi_cntrl->tsc_timesync)
+> +			mhi_phc_stop(mhi_cntrl);
+>  		break;
+>  	case MHI_CB_EE_MISSION_MODE:
+>  		pm_runtime_allow(&pdev->dev);
+> +		/* Start PHC */
+> +		if (mhi_cntrl->tsc_timesync) {
+> +			if (!mhi_pdev->mhi_phc_init_done) {
+> +				mhi_phc_init(mhi_cntrl);
+> +				mhi_pdev->mhi_phc_init_done = true;
+> +			}
+
+This looks weird. Since MISSION_MODE can happen multiple times when the device
+is attached, shouldn't you be doing mhi_phc_init() multiple times with the
+corresponding mhi_phc_exit() during MHI_CB_SYS_ERROR?
+
+Right now, you call mhi_phc_init() during MISSION_MODE and mhi_phc_exit()
+during mhi_pci_remove(). What is the point of keeping /dev/ptpX if the firmware
+is crashed?
 
 - Mani
 
