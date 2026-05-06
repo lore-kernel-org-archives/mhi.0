@@ -1,372 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013003.outbound.protection.outlook.com [40.107.162.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0BD42668B;
-	Tue, 28 Apr 2026 10:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372986; cv=none; b=KSaK03MyNi/e5S9meTyHuxOvkGXf2T+5dE0lLWFWSHe+xqglFDloM7Rgi4jFTgkaU3JFfnJ2CrXegzO54evPCXJg9HLwAk2MutOUrQMLQ6VsOCfVDk1eLSOZahi6f/kMjAc48cVtYir1vwb5NtJmf9k8AoU6dr41FoKeQs/v4jc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372986; c=relaxed/simple;
-	bh=7h0htGL/PgzGwtzF3RJ112VpCA39Mricf2ZhIFLCSSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rC6ANQp3npIB0UdN0QhV4Yxzpe0S/99iBArAaaacYnxI65d6nACc463Oxzh8nbL7go5O0RZcy0sxKxzwYPwvzuDfuL+ZZ01fEZ4Owx5ldjRwopZIywe3+i0NzkOn0DDkCz4gDjKanUJ8a86jxQdL0KBirFxl1dupTMLJLtv8mTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SEA7yYMU; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CCB385520;
+	Wed,  6 May 2026 20:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778100276; cv=fail; b=nMwtng7OMB1ke1jyeV3jAsfNkGf/UlkszRHPkN1FWPmdCdLUuBEzNvkaPHRr7+9iUdPwlg3axGYHwGz4HJuqNxlcLetYnuYMBCksgLnpLkAjNIs2zwmvn7oIj25/ar9HDPCG6vN+RYQRqpX70TV6CoYYZgeuysNJElwMzrJuEqM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778100276; c=relaxed/simple;
+	bh=1QDS7yalgH2vXGPIIRGsyPJsCl51h+sJw/j4GkUhGQQ=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=IGlUgoOYlEYhHnOeU0dooL+3TVmaqbgwyDGl1Z4di65rAB0QGf+Cr8IFlLWQy9FRLvxXrVyDR1e/ja4y58z1SxU93LSUrJ5EGFl/pVw1WKbuJ+cCSlDMONnO13r7ioBhNpjVfDWDg8vhFL+ugKwq83pgiISq0h2QM/Xjj+MAbGM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=U3MtKphS; arc=fail smtp.client-ip=40.107.162.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SEA7yYMU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC55C2BCB8;
-	Tue, 28 Apr 2026 10:43:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777372986;
-	bh=7h0htGL/PgzGwtzF3RJ112VpCA39Mricf2ZhIFLCSSQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SEA7yYMUsKkLoALS9J9UsYh0twlfCZ3yfq3Rs0OpSLQVOh3e1VMn4fgc6kKv7KAEC
-	 RlGnocOyWnlilenHlJeGLqtdDKHF1+BiVezGW2PfYFi25JVpb3Xbjuv6m/LESPmRqu
-	 7y51Hs/xIG0/CXcjaDtheFBCmsE8kNqSFDbLTWJOzWlINIpEPY3i6mcFwsETGSqY1r
-	 WjDWH+jFi8U/6VEVfHwFpdLg+a+LaChBAvly5fjIp/SFOlnnFALVYF+Ekrx8uMFykC
-	 27ATi3//A5b0KnkggXvj27iH3xYA/apTo8BM4aornh7LC6fwDrvtXc6QBFi4F2o4pZ
-	 PRt9wV1+QjbUw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Sasha Levin <sashal@kernel.org>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] bus: mhi: host: pci_generic: Add Qualcomm SDX35 modem
-Date: Tue, 28 Apr 2026 06:41:15 -0400
-Message-ID: <20260428104133.2858589-64-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
-References: <20260428104133.2858589-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="U3MtKphS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hTzq1/QHI2hCTHCmUOpAyJbNTj1JgFH5XES7t/AfwQZVijX/3epFPLhsaxLE5wZxp2Sgu1KbqJkkhSt7aMdZxABF24FQCJf/pahxghLW8Sn1YvfyYNkgXaX2qNDrWm8zQlnU9DAMpwZKoKVwTkcw37ZfeG85lFEH+16cM6fVLp0ZqU9rLwH0D2pZE9Tfoy5xn6nsiPB/odLytuV1iUfwhMyxDdjppsKDKNcoI7/WrY16gwVTvcyWmC/X+mwLkORozR40Qdqtbig9qGMRTGY7bi0HjEX1foJHYwTjYomzlh2fV1YZsuMOYnCTpmHhxlgor7FXplfmIOgnYdjfE5JKGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ncu5t36Rod2R6b5mp9ZZJmHAVezXgYV3dEWrg/vr8lw=;
+ b=iOvjYW90Amp+uEZ4dWf+TSCajtE8gEvHzbGsgoBFhyAi37UawnVNSKc3hHcBICyb+sguiHMozRPjiLBMJjrke5on17KUWzlCqJQLajj4JbWN83N8qUoQAtsE1fEhiJfGae4l7rJR9l1S5pPEQhfccpI7kmghx14h2XMQYMmInBRXOxbeAs/fQXO/DTvUUE0SMIVgEucClbz9+RLKranqOimCKFBHl1S6Gsf5aC2+pHAnLRMo5NC/4ngnmNiONwZ0y6oAvxgWjJaVzPjvPgiGjGpkyO2yNypHxxIM25dcg/xzWtYqjhY96Ff+OEOwLQSz/dy7vNgmXCy0hNuDJOFtHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ncu5t36Rod2R6b5mp9ZZJmHAVezXgYV3dEWrg/vr8lw=;
+ b=U3MtKphSTyoE0+dENN24EjTt4sVn8EMkyygYhD/Mxz66Uqf9PDzhdP+BvFHof2nNulQMXYN6jRc596J4f5JVQk2FM0qU5sS9enwsUFCR2dauSNk3Xq5NLx81tmwVTP70mmRrPT+7ogPWpUMjpLsv57gE1DV6K39CjtMF2HCzYZD8MjeJYHqENuG9h/Pel9/iK4+KcddxgMGI1M7DYwz0B/HXm39Nxf3XQgybRCMKV3CkPBKBTWHb5Y5UJ7SLxYMVOV/WaN4hMDI/w+Q3uvjmmKmhLoCW7RSnKVK5xq5sQaLtr/9WL4EsP1HAlkbJEHmpK/yYwz/Xm6uUu8a80qfllg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU0PR04MB9372.eurprd04.prod.outlook.com (2603:10a6:10:35b::7)
+ by GV1PR04MB10479.eurprd04.prod.outlook.com (2603:10a6:150:1cd::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Wed, 6 May
+ 2026 20:44:28 +0000
+Received: from DU0PR04MB9372.eurprd04.prod.outlook.com
+ ([fe80::4f6:1e57:c3b9:62b4]) by DU0PR04MB9372.eurprd04.prod.outlook.com
+ ([fe80::4f6:1e57:c3b9:62b4%4]) with mapi id 15.20.9891.008; Wed, 6 May 2026
+ 20:44:28 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v4 0/9] dmaengine: Add new API to combine configuration and
+ descriptor preparation
+Date: Wed, 06 May 2026 16:44:12 -0400
+Message-Id: <20260506-dma_prep_config-v4-0-85b3d22babff@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAByo+2kC/23NSwqDMBSF4a1Ixk25uXmYdtR9lCIhiZqBD2IRi
+ 7j3RkHaYofnhu/PTAYfgx/INZtJ9GMYQtemIU4ZsbVpK0+DS5sgoGQIgrrGFH30fWG7tgwVVVK
+ wHBwKaZAkld7KMG3F+yPtOgzPLr62D0a2XveWPrRGRoFKLi5gpWceza2d+rPtGrKWRvzS7I/Gp
+ C3kkF80Vwz1r+a7VsBAHjVP2mihgSssncCPXpblDe/0BxsoAQAA
+X-Change-ID: 20251204-dma_prep_config-654170d245a2
+To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, 
+ Niklas Cassel <cassel@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>, 
+ Damien Le Moal <dlemoal@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778100264; l=3149;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=1QDS7yalgH2vXGPIIRGsyPJsCl51h+sJw/j4GkUhGQQ=;
+ b=kAOgIhphFrp720OIy2SnK9em0kuGsw1Hs/tzzu0Sw6s3snRyg/EUwfSeAGtoLokAkpExeXDue
+ zKrWSLFDZ8fBZSnvactMtYp2sZXM8k7DGzRYYmvEHG5VNskZAArEZWx
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SA1P222CA0051.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2d0::24) To DU0PR04MB9372.eurprd04.prod.outlook.com
+ (2603:10a6:10:35b::7)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0.2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR04MB9372:EE_|GV1PR04MB10479:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d3aa655-ba8a-4c4b-ee05-08deabb04450
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|52116014|1800799024|7416014|921020|18002099003|38350700014|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	igPjOrxJLH6r613vpEY1gH26abxQ3DrSOvf76GyWCiG9dCnhi6y8jCshQFPyPuJQ/kGHA3/iSPO85e+U4lUPMXWDegOBYqathh1Yp68C7ZpZoE5LW88So0QyOuruLghMrXs2RsCDosj8F1XskJMKX7wuSiPKTEWFZJ6R/lCdIq1KMiB2MiiZEAEj0lB5KIYKqRcrsKCH7iB0l3hcA+nndI8qYorGGWtwgeCHpiA0FTTdcgR2taejBhTSv36YFDranok2+/cNwK6tqiKmRM7q07caAlPpP15/NJHt8KSCrX0fh8ySsTZpkh16CzRc9Ilz4AzXPWYv6chYXKD/Xc3LUT6CB0deTP2eDeYSqj/pZyo7m7oUO9zRho5hZWk9OVFIC7VchVY23yVfP3+1vxALA+165vVZgIsZsJMD0MRohFGUjqlNYt7JNJgLfBL3i99YCr6vJvug71IU6Jk5c3g9GOAK/LG6RimDkNNeRjxQ9CIWoL+d81PXFrwuOgkVkRDvhzbTTvIoPp+nSUvJvkuapYLDtENTA5heH38xaH0od4P4mgWvqmhtJMvw6BaN3ExJcyEUL+8CCxBpUTMuve1BLPwif7fkittlSaZ+iYlDFUbbUdz9aqxN7Rg4gfhJVCwH3nq/4L2g7+bvbAB85J3CUyTsYrfCCtSJ2UIjvtDDcq9eN0Ombo6qqCKt3QDQmzSoe0GD+D9o4pkthV9VGONEwk79xOeFfNAfrn8M3+rTy5CoYWlrMrjcW3orpQGGI5dU+ZXjJGMaylM/pqeKSRr56A==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9372.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(52116014)(1800799024)(7416014)(921020)(18002099003)(38350700014)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VHk4MU55Q0V0cElOM0JETTk5YnZoM2N0NUZHUW9pQnNsYUJGVEhVYlMreTVK?=
+ =?utf-8?B?QXYwd1lkeHZxSXhTb1UxbFl5QXFzaW9VRCtUb0Uwc3ptU2JzdENGZlkwalJs?=
+ =?utf-8?B?ZW5xMkF1NUx5b2Fhd1FlS0VLSVU4Y0FKRVdmbVdsd3FreWhZK1NOLzd3Nk5U?=
+ =?utf-8?B?c1pUUUlIZnMrR2Y3RlpGTzZkMC9wcmxUZTNVU2E4bnIxWFNtY2NBSy9UQm41?=
+ =?utf-8?B?TEZQVURwc0tPalBWdkVOREVsTlhCeEo0aXpOVXZWTXpQL0FRTFk1UVc0WTBQ?=
+ =?utf-8?B?MVNlczYzVm1sMjBJc2t1bXJ1bXRuTWNGSCs0S3hGbW9GNFBOdU1YajRmVDRp?=
+ =?utf-8?B?VWVtbWUzNE44Y3hYMkFVR1ZlNktmMjVTOU5rdVRTNXp4WlBWYncrSDkxbUV5?=
+ =?utf-8?B?RnduWHZKa1JabUF1dlMwYVNEbEdkeWpkei9oNmtGVktCMGxSS3dmbGJHUDBm?=
+ =?utf-8?B?NmZMQWZHa2ZmUDR1SHNoZVY5bERQRTlOME0xZ0liZDRCdHBndTFQMnpndVB5?=
+ =?utf-8?B?WG8rcGNvNGZWcm40U1BjM2NHMEt3bEVZYVAzdWJ3Nm13U0JtOFJVSzlFVitk?=
+ =?utf-8?B?VXhNQkJvcW56NEY3b2tXb1RQOW9LMTZtSGlGY2J1REhyRE9nN1FiN2djdUt2?=
+ =?utf-8?B?NHpqNk03OFZxYk1kcFo1Y2lBZE9MaExBcFBzWTh4aGowUEpOVENQR2c1c1NB?=
+ =?utf-8?B?dnM3YkdEbTh2Q3plM01VNzRCVDZwYlN4em1tbi90aTJuRnY4WEFzTXVGWHIx?=
+ =?utf-8?B?eHhwNG1kYnJqOEo4L0dyc2hnZmRGdWZuZG8vSUFZQ3VraEtpMkxKN200QmpW?=
+ =?utf-8?B?SkF1WkdXeUFBSU9ZZXJuckR3dmdDd2lJTkJkdEdFODgrdENwYmw5dXpiUUhp?=
+ =?utf-8?B?Y1pHZmZiVmN0SEpseHhKLzJGVk55bkRzZWFyOTJmakhUajV6bWwzeUtJUTVm?=
+ =?utf-8?B?UjZwaEd0dC81OWJwaEd1OHI0dzdQbG1UV2k3ckQ1QzJHVjRMSnIwNEp6Qkpp?=
+ =?utf-8?B?b3NydjFHZVliR2pMOWt5SVFkVmxuNUlTbDFocnRmYW1wNERUSmg3Z1VPdEQy?=
+ =?utf-8?B?ajRnSW1qY0pwTXRWNkNWRWt6V0dMaGMvTmVzZlRaK3ZvYy9jelZPM3FCUEpV?=
+ =?utf-8?B?Y2djdFpTZUszeVBCZFhFZUp4allSSmJjSHdVcmlobkVPclVBWWlyNHY3S2FE?=
+ =?utf-8?B?SnVaRS9RQVIvR05DWDlpYlRna0hFWjdJYS90czNtK3J5cG50UVZGejNoVjJ4?=
+ =?utf-8?B?VjcyaU1WSmg4SGQrYzY5RWR3Rzg3TXZCYWM4K0c0bDBPS2FtQWt5WWg5bDVv?=
+ =?utf-8?B?ZVpaYm5VNS94UWZKY1hOTEhaSmowaFAzcEVMRlpqUHFEazNZSzV2V1hVWW1x?=
+ =?utf-8?B?Qm0zWGM0RERJM3czcG1DRmFUN09pVU11Y0QxRExncm1IdWc1TGtRNzFHWG1Q?=
+ =?utf-8?B?cEd0eDVEZ1IvamFTSFBSd1o3QzlvYkdjTWQ3S2pMcUl0bHoxaVh2NzByVVdy?=
+ =?utf-8?B?Wkw2MWl5dnFMbVhrNW55eWdyRGRyZlVxaUlLMXRLdVExOFYxaUZKbEszQWls?=
+ =?utf-8?B?UE5KN0V0REZVYlNxQWhhbCtReDdvaWlidU93Y3ZXdmV3QStIREUybDFTWHVU?=
+ =?utf-8?B?d2ZJblBsR2NqV2prUXFOekdKbFRac3prRUhoaU5QTUtRL0diRzk0d0FxcjZJ?=
+ =?utf-8?B?QmliUjh1YkljS2VaUnJHSEZSWkJ4dm5xdEZBWGdIUUROMGQvdVNVbWJ3OC94?=
+ =?utf-8?B?dHp2TExaUXlldjBDNWdFT2hhcWxENm9rcjd3dHRmUlYxc0Z4RTc5THVXcXhT?=
+ =?utf-8?B?MERjdUhPd0FBZDRZY0h3ZHNxSDkyZ3hnR0l2eHVoekg2c0FXeEhkaGZlbVZQ?=
+ =?utf-8?B?UWw1eUZTUG83UUREc3JNOEhERkVXR0xSQ1oxZktRV2xFWEVWb2FUZUNpanA5?=
+ =?utf-8?B?QUVKMW1JOHdYam5hTFZtM3ZSZzZkUTZPZmpKMlpuN2duaFZtb002WGV3M2kx?=
+ =?utf-8?B?cmtHVk4yTlZSQTJmdkxBQXpialpWR05JSGZKZnlMSm9ON2FEZlNoZDNkVjZJ?=
+ =?utf-8?B?K1Bwajc1MzIvT05vekhudkFBSXZCNUNocXR0a2d2enlIcjFSZjJrQUR3bDBW?=
+ =?utf-8?B?WWk5a3VqcFRtelVONGpzNlMxVG5UakJITkQ4OStROGYyb3kyVVFBTldYeFhs?=
+ =?utf-8?B?ZjJIRkJlODhobGt3eXA4aU5RbXN2UGtuSVFHaEtmdHBJTythdjYrUVM0OUpw?=
+ =?utf-8?B?R0h5M0x4OTJBMkx4ZURtS2tCUngwcVZSL0ZZcWdBUGhxbEVmSmExbVdrSTJD?=
+ =?utf-8?B?aFpURmFQTmJzazRhNnpQbDJBeG02RG11QlgydFlwbTUzR1RRWDVYdz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d3aa655-ba8a-4c4b-ee05-08deabb04450
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9372.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 20:44:28.6242
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0U8ip3M43oZPyDHbBne3ob64fYcUCG9ESplXlzYabktGegmt/e5hkVrzCumOeMJa432ZKSOXpSF1WRE2iSyTpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10479
 
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Previously, configuration and preparation required two separate calls. This
+works well when configuration is done only once during initialization.
 
-[ Upstream commit 6a7084102bb9659f699005c420eb59eade6d3b4f ]
+However, in cases where the burst length or source/destination address must
+be adjusted for each transfer, calling two functions is verbose.
 
-Add support for sdx35 modem. Similar to SDX75, SDX35 can take longer to
-transition to ready during power up, so use modem_qcom_v2_mhiv_config
-configurations.
+	if (dmaengine_slave_config(chan, &sconf)) {
+		dev_err(dev, "DMA slave config fail\n");
+		return -EIO;
+	}
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device 011a
-            Subsystem: Qualcomm Device 011a
+	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
 
-Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Link: https://patch.msgid.link/20260123-mhi_sdx35-v1-1-79440abf0c92@oss.qualcomm.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+After new API added
+
+	tx = dmaengine_prep_config_single(chan, dma_local, len, dir, flags, &sconf);
+
+Additional, prevous two calls requires additional locking to ensure both
+steps complete atomically.
+
+    mutex_lock()
+    dmaengine_slave_config()
+    dmaengine_prep_slave_single()
+    mutex_unlock()
+
+after new API added, mutex lock can be moved. See patch
+     nvmet: pci-epf: Use dmaengine_prep_config_single_safe() API
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
+Changes in v4:
+- remove void* context in config_prep() callback
+- use spin lock to protect config() and prep().
+- Link to v3: https://lore.kernel.org/r/20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com
 
-LLM Generated explanations, may be completely bogus:
+Changes in v3:
+- collect review tags
+- create safe version in framework
+- Link to v2: https://lore.kernel.org/r/20251218-dma_prep_config-v2-0-c07079836128@nxp.com
 
-I have all the information needed. Let me now write the full analysis.
-
----
-
-## Complete Analysis
-
-### PHASE 1: COMMIT MESSAGE FORENSICS
-
-**Step 1.1: Subject line parsing**
-- Record: subsystem=`bus: mhi: host: pci_generic`, action=`Add`,
-  summary=`Qualcomm SDX35 modem support`
-
-**Step 1.2: Tag parsing**
-- Record: Signed-off-by: Krishna Chaitanya Chundru (author); Signed-off-
-  by: Manivannan Sadhasivam (MHI maintainer, who applied the patch);
-  Link: to patch.msgid.link. No Fixes:, no Cc: stable, no Reported-by:,
-  no syzbot references. Single-version patch (v1), applied directly by
-  the maintainer.
-
-**Step 1.3: Commit body analysis**
-- Record: Body states SDX35 (like SDX75) can take longer to transition
-  to ready during power up, hence using the existing
-  `modem_qcom_v2_mhiv_config` which has `ready_timeout_ms = 50000`.
-  Provides `lspci` output showing the device signature (vendor 0x17cb /
-  PID 0x011a). No stack traces, no bug symptoms — this is hardware
-  enablement, not a bug fix.
-
-**Step 1.4: Hidden bug fix detection**
-- Record: Not a hidden bug fix. Pure hardware enablement — new device
-  support for an existing driver. No "handle", "ensure", "initialize",
-  or "balance" language.
-
-### PHASE 2: DIFF ANALYSIS
-
-**Step 2.1: Inventory**
-- Record: Single file `drivers/bus/mhi/host/pci_generic.c`, +12/-0
-  lines. Adds one static `struct mhi_pci_dev_info mhi_qcom_sdx35_info`
-  (10 lines) and one entry in `mhi_pci_id_table[]` (2 lines). No
-  existing code modified. Single-file, purely additive.
-
-**Step 2.2: Code flow change**
-- Record: Before: PID 0x011a only matched specifically via
-  `PCI_DEVICE_SUB` for Telit FN920C04 (subvendor 0x1c5d, subdevice
-  0x2020); other SDX35 boards did not bind. After: the specific Telit
-  match stays (first in table → takes precedence), and any other
-  0x17cb:0x011a modem binds to a new generic SDX35 config that uses the
-  already-existing `modem_qcom_v2_mhiv_config`.
-
-**Step 2.3: Bug mechanism**
-- Record: Category (h) — hardware workaround / new device ID. No
-  locking, memory, refcount, or error-path changes.
-
-**Step 2.4: Fix quality**
-- Record: Obviously correct — follows the same pattern used for every
-  other MHI modem (SDX55, SDX65, SDX75, SDX72). Match ordering preserves
-  existing FN920C04 binding because `pci_match_id()` returns the first
-  matching entry. Zero risk to existing devices; only affects previously
-  unbound 0x011a hardware. Uses an already-upstream config
-  (`modem_qcom_v2_mhiv_config`, present since commit `5571519009d09` in
-  v6.8).
-
-### PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: git blame**
-- Record: The `modem_qcom_v2_mhiv_config` that this patch consumes was
-  introduced in `5571519009d09` ("bus: mhi: host: pci_generic: Add SDX75
-  based modem support", v6.8). The table and struct patterns being
-  extended are long-standing.
-
-**Step 3.2: Fixes: tag follow-up**
-- Record: N/A — no Fixes: tag. This is hardware enablement, not a bug
-  fix.
-
-**Step 3.3: File history**
-- Record: Recent `pci_generic.c` changes show a steady cadence of device
-  ID additions (Foxconn T99W760 `ac35e04f8000a`, FN990B40
-  `00559ba3ae740`, FE990B40 `6eaee77923ddf`, FN920C04 `6348f62ef7ecc`,
-  T99W696 `0d63055e1406c`, etc.). Each follows the same pattern: new
-  `mhi_pci_dev_info` struct + new PCI ID table entry. Self-contained,
-  standalone — no series.
-
-**Step 3.4: Author history**
-- Record: Krishna Chaitanya Chundru (Qualcomm) is a regular contributor
-  to MHI / Qcom PCIe subsystems. Co-signed and applied by Manivannan
-  Sadhasivam, the MHI maintainer. Authorial credibility is high.
-
-**Step 3.5: Dependencies**
-- Record: Depends only on `modem_qcom_v2_mhiv_config` (present since
-  v6.8). Applies standalone. No series prerequisites.
-
-### PHASE 4: MAILING LIST RESEARCH
-
-**Step 4.1: b4 dig**
-- Record: `b4 dig -c 6a7084102bb96` matched by patch-id and returned `ht
-  tps://lore.kernel.org/all/20260123-mhi_sdx35-v1-1-
-  79440abf0c92@oss.qualcomm.com/`. Single revision (v1). Read the full
-  thread via mbox.
-
-**Step 4.2: Review history**
-- Record: Only one reviewer comment — Konrad Dybcio noted the
-  "Unassigned class" in the lspci output looks like a separate issue;
-  Mani replied that this is a well-known Qcom-modem endpoint class issue
-  and he had posted a separate PCI quirk patch for it. No NAKs, no
-  concerns raised about this patch. No stable-tree nomination by any
-  reviewer. Maintainer applied as-is.
-
-**Step 4.3: Bug reports**
-- Record: N/A — no Reported-by, no bug-report Link.
-
-**Step 4.4: Series**
-- Record: Standalone single patch (v1-1-1).
-
-**Step 4.5: Stable ML**
-- Record: No stable@ list discussion relevant to this patch.
-
-### PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1-5.5:**
-- Record: No functions are modified. The change is data-only (two static
-  structures). `modem_qcom_v2_mhiv_config` is consumed by existing MHI
-  init paths (`mhi_register_controller()` via `mhi_pci_probe()`), which
-  are unchanged. No call-chain impact — the new data only activates the
-  existing, stable driver code paths for a previously-unbound PID.
-
-### PHASE 6: STABLE-TREE CROSS-REFERENCING
-
-**Step 6.1: Does the code exist in stable?**
-- Record: `pci_generic.c` and `modem_qcom_v2_mhiv_config` exist in
-  6.6.y, 6.12.y, 6.16.y, 6.17.y, and 7.0.y. The SDX75 commit that
-  introduced the v2 config entered mainline in v6.8, so trees at or
-  beyond 6.8 can apply this. For trees older than 6.8 (e.g. 6.6.y,
-  6.1.y, 5.15.y), `modem_qcom_v2_mhiv_config` does not exist and this
-  patch does not apply without additional backports.
-
-**Step 6.2: Backport complications**
-- Record: Clean apply expected for 6.12.y, 6.16.y, 6.17.y (the
-  `mhi_qcom_sdx55_info` anchor and the 0x011a table entry context both
-  exist in recent stable trees per `4e3297ec0c469` in 6.12.y which
-  backported the FN920C04 context). For trees before v6.8, would require
-  backporting the v2 config first — not worth it.
-
-**Step 6.3: Related fixes in stable**
-- Record: Similar device-ID additions in this exact file have routinely
-  been picked into stable via AUTOSEL: `4e3297ec0c469` (FN920C04 →
-  6.12.y), `bcaec58996672` (FN990B40 → 6.16.y), `df42e29132596` (T99W696
-  variants → 6.17.y), etc. Consistent precedent.
-
-### PHASE 7: SUBSYSTEM CONTEXT
-
-**Step 7.1: Subsystem / criticality**
-- Record: `drivers/bus/mhi/host/pci_generic.c` — MHI host stack, used by
-  Qualcomm PCIe modems (WWAN). PERIPHERAL in the sense that it affects
-  users of specific hardware, but popular hardware (laptops, routers, 5G
-  WWAN cards).
-
-**Step 7.2: Activity**
-- Record: Actively developed. The file receives multiple device-ID
-  additions per release cycle.
-
-### PHASE 8: IMPACT AND RISK
-
-**Step 8.1: Affected users**
-- Record: Users of SDX35-based modems that are NOT the Telit FN920C04.
-  Examples: Qcom reference designs, SDX35-based 5G/LTE cards from
-  various OEMs. Without this patch, those boards don't bind to the
-  driver at all.
-
-**Step 8.2: Trigger conditions**
-- Record: Device probe on the affected PCI card. Common, normal-path
-  code.
-
-**Step 8.3: Failure mode severity**
-- Record: WITHOUT patch: SDX35 modem does not bind → no WWAN
-  connectivity on affected hardware (functional loss for those users).
-  Not a crash/corruption — severity MEDIUM (feature not working), but it
-  is a real user-visible loss of function. WITH patch: existing devices
-  unaffected (FN920C04 keeps its specific entry first), new hardware
-  starts working.
-
-**Step 8.4: Risk vs benefit**
-- Record: Benefit = hardware enablement for SDX35 modems. Risk =
-  essentially zero: additive-only change, reuses an existing config,
-  match ordering keeps existing Telit FN920C04 behavior, no code paths
-  modified. Classic device-ID-add exception to stable rules.
-
-### PHASE 9: SYNTHESIS
-
-**Step 9.1: Evidence**
-- FOR: Exception category (new device ID to existing driver); tiny
-  additive change (+12 lines); reuses existing upstream infrastructure;
-  applied by the subsystem maintainer; no concerns raised in review;
-  consistent with precedent of similar MHI modem additions being picked
-  into stable (FN920C04, FN990B40, FE990B40, T99W696 variants).
-- AGAINST: No Fixes:/Cc: stable (expected per task instructions —
-  absence is not a negative signal); not a bug fix in the traditional
-  sense; won't apply to trees older than v6.8.
-- Unresolved: None of material weight.
-
-**Step 9.2: Stable-rules checklist**
-1. Obviously correct? YES — trivial additive data.
-2. Fixes a real issue? YES — enables hardware that currently does not
-   work.
-3. Important? MEDIUM — feature enablement (functional, not
-   catastrophic).
-4. Small and contained? YES — 12 lines, one file.
-5. No new features/APIs? YES — no new exported symbols, no new userspace
-   ABI.
-6. Applies to stable? YES for recent trees (v6.8+); NO for older trees.
-
-**Step 9.3: Exception category**
-- Record: DEVICE ID ADDITION to an existing driver — explicit stable-
-  rules exception.
-
-**Step 9.4: Decision**
-- The change meets the device-ID-addition exception. It uses
-  infrastructure already present in 6.8+, is minimal, is applied by the
-  maintainer, has no regression risk, and has strong precedent among
-  sibling MHI modem additions that have routinely been picked up by
-  stable.
+Changes in v2:
+- Use name dmaengine_prep_config_single() and dmaengine_prep_config_sg()
+- Add _safe version to avoid confuse, which needn't additional mutex.
+- Update document/
+- Update commit message. add () for function name. Use upcase for subject.
+- Add more explain for remove lock.
+- Link to v1: https://lore.kernel.org/r/20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com
 
 ---
+Frank Li (9):
+      dmaengine: Add API to combine configuration and preparation (sg and single)
+      dmaengine: Add safe API to combine configuration and preparation
+      PCI: endpoint: pci-epf-test: Use dmaenigne_prep_config_single() to simplify code
+      dmaengine: dw-edma: Use new .device_prep_config_sg() callback
+      dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
+      nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
+      nvmet: pci-epf: Use dmaengine_prep_config_single_safe() API
+      PCI: epf-mhi: Use dmaengine_prep_config_single() to simplify code
+      crypto: atmel: Use dmaengine_prep_config_single() API
 
-### Verification
+ Documentation/driver-api/dmaengine/client.rst |   9 ++
+ drivers/crypto/atmel-aes.c                    |  10 +--
+ drivers/dma/dmaengine.c                       |   2 +
+ drivers/dma/dw-edma/dw-edma-core.c            |  41 ++++++---
+ drivers/nvme/target/pci-epf.c                 |  21 ++---
+ drivers/pci/endpoint/functions/pci-epf-mhi.c  |  52 ++++-------
+ drivers/pci/endpoint/functions/pci-epf-test.c |   8 +-
+ include/linux/dmaengine.h                     | 121 ++++++++++++++++++++++++--
+ 8 files changed, 180 insertions(+), 84 deletions(-)
+---
+base-commit: b9303e6bff706758c167af686b5315ad00233bf8
+change-id: 20251204-dma_prep_config-654170d245a2
 
-- [Phase 1] Parsed tags from commit body: found Signed-off-by author +
-  MHI maintainer, Link: to lore, no Fixes:/Reported-by:/Cc: stable.
-- [Phase 2] Read the diff in the file context at
-  `drivers/bus/mhi/host/pci_generic.c` lines 900–948: confirmed the new
-  `PCI_DEVICE(0x17cb, 0x011a)` entry is placed AFTER the specific
-  `PCI_DEVICE_SUB(..., 0x1c5d, 0x2020)` for FN920C04, preserving
-  existing match.
-- [Phase 3] `git log -S "modem_qcom_v2_mhiv_config"`: confirmed config
-  introduced in `5571519009d09` (SDX75, v6.8).
-- [Phase 3] `git log -- drivers/bus/mhi/host/pci_generic.c`: confirmed
-  steady cadence of similar device-ID additions.
-- [Phase 4] `b4 dig -c 6a7084102bb96`: matched single-revision thread at
-  lore.kernel.org/all/20260123-mhi_sdx35-v1-1-
-  79440abf0c92@oss.qualcomm.com.
-- [Phase 4] Read full mbox thread: one review comment (Konrad re:
-  unrelated class quirk), Mani applied as-is. No NAKs, no stable
-  nomination.
-- [Phase 6] `git log stable/linux-6.12.y --grep=FN920C04`: confirmed
-  `4e3297ec0c469` backport present (precedent).
-- [Phase 6] `git log stable/linux-6.16.y --grep="Add Telit FN990B40"`:
-  confirmed `bcaec58996672` backport present (precedent).
-- [Phase 6] `git log stable/linux-6.17.y --grep="mhi.*pci_generic"`:
-  confirmed `df42e29132596` (T99W696 variants) backport present.
-- [Phase 6] Confirmed file exists in all active stable trees;
-  `modem_qcom_v2_mhiv_config` specifically requires v6.8+.
-- [Phase 7] File path `drivers/bus/mhi/host/pci_generic.c` → MHI host /
-  PCIe modem bus — peripheral hardware driver.
-- UNVERIFIED: Exact match behavior on every stable tree — presumed clean
-  apply for 6.12+ based on file structure; unverified for pre-6.8 trees
-  (but not applicable since v2 config doesn't exist there).
-
-This is a textbook device-ID addition to an existing driver — explicit
-stable-kernel-rules exception, minimal scope, zero regression risk,
-maintainer-applied, with clear precedent for sibling commits being
-backported.
-
-**YES**
-
- drivers/bus/mhi/host/pci_generic.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 0884a384b77fc..425362037830e 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -407,6 +407,16 @@ static const struct mhi_pci_dev_info mhi_qcom_sdx55_info = {
- 	.sideband_wake = false,
- };
- 
-+static const struct mhi_pci_dev_info mhi_qcom_sdx35_info = {
-+	.name = "qcom-sdx35m",
-+	.config = &modem_qcom_v2_mhiv_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+	.edl_trigger = true,
-+};
-+
- static const struct mhi_pci_dev_info mhi_qcom_sdx24_info = {
- 	.name = "qcom-sdx24",
- 	.edl = "qcom/prog_firehose_sdx24.mbn",
-@@ -909,6 +919,8 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Telit FN920C04 (sdx35) */
- 	{PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2020),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn920c04_info },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x011a),
-+		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx35_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
--- 
-2.53.0
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
 
