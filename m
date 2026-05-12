@@ -1,119 +1,248 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FD325B096
-	for <mhi@lists.linux.dev>; Tue, 12 May 2026 11:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3424D39EB74;
+	Tue, 12 May 2026 14:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778586337; cv=none; b=hlWRV9kxiWF8wM/CsQL49XSu36DGVRUbZDTOmJe+ZcSafcPwq4X3TP4ydDcLFOB3SwY9SKUzLL9CJn3KHmpl7uUROj3+Z30+juHmeUO1VNl8p6U9gTG6myypPzKFl9iEUhpRjtJtgX0EPH0sdq9OUHd10vO9XPM3GJqIY5e5TCI=
+	t=1778594461; cv=none; b=TiJyVN0Bp0AdIWVSrnAKcGvL0dn2jZe6DNyVhq00h3eFKXSHIFuiWCWElNRMwna8KL4ajpa/WU0udMXqfFs5Ag5xo0geyYFvZI29pjTZS5hOFB1V0JN8xAzHf+tgvBHgr4mEOUL1Wk60iDhVomrY+w5eG3y8Wbk+6HNU+BXBRvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778586337; c=relaxed/simple;
-	bh=ZrEzIHpJKUH04VIV1aOFXpMO6x5uT0snNxYaIEv5MRc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ii3mPgLfOFndFR75OKiZDb4F78IzhSM1UKN4G107vEjOn7GNmt+Ubq7+GUfmuABkX5YpS5qWp+fmfU5FgFuWsn95zupX++BfcUaCBlg+hZzkNf5uW4H2mEg6gjp6V9+5PLbkjdV7erddQemhR5lZw+m40o1UqzqjSR2WD5UXqXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SitQFmyY; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778594461; c=relaxed/simple;
+	bh=73KY+PJnQz0DVDO55WQRtqfL9KC8eXib5SBHC0nL4q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdkJXMUubQZowBBm/+8VeZwJZxpzDyeTlMw0ZoYP9fzJPZaCVzaMexoPmpBOf/ezjy4X1fvRDkDGJLPI2TCFTNyNfX6fXdyRwmhNB/W+LH34X/Al05Z2qtp4/a4DnB32J/LUCamUCw3OEvYBtofQaxwwa6JdEl38g0e8x/ICFxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZsrKNSBj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SitQFmyY"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48e82c23840so18851365e9.3
-        for <mhi@lists.linux.dev>; Tue, 12 May 2026 04:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778586333; x=1779191133; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tHeRIq3gd81J0mQ1jp9zUiVyyBrvNpsMzoSo1odTZjU=;
-        b=SitQFmyYn/u6IpP9t4+iAk7GyWuo49KUSAUHdz2z1nbVOv+NM9hcJVO+c30yUr29lK
-         iWFJulmudNNe0eSHql59GGeUiy+19VXMC2wgcKLuW+ZtGKd7qbUv/g3/s0PaIww+WOrm
-         ijmebre1yvwpUTv9PFt0bRWsp10OjN4EQfFVxM3652XzEL2+tSjroQDhC2PjoPMjc8ep
-         DFEgE2RZ6SGSaFRJdT21w9q0CufjTaAOamtu6GaT2dnyqHt1pubKYHc99jcyi0A7Y9U5
-         uytQ2mKn0pfreyMhGZ9HiO4w4S+P3h5NyoQ5zVPLWsILNjR5mDMI+tOnO+aFQqcLR1z5
-         K1/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778586333; x=1779191133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tHeRIq3gd81J0mQ1jp9zUiVyyBrvNpsMzoSo1odTZjU=;
-        b=NYbfOZMy2rOvN7hf58gt3ViWXuKa6tqEDgenw2CIZlqcuQrDp/s9buMYK4+pLS1e5H
-         J+5n8SFuEIu7ZsCbTBLfrhQysw7X6+pqOITExaW6klIQ8AaLL3lsih9Jm6ZjR3DRSPin
-         kGhqqLD/tFbAGsbm64+7cgHGQDtbF4s2oG2uExIn3WzKbP84Oc7skvG0UKJP4SPqH0BO
-         I5sTPjV44aqweckTyimhRBepjpINjFWmKKiZ1AjgwJZ2VmLR7m2zpYp2VZRe05npky5R
-         puYNM3oNcBcmBWosbJjevMlfbC1LEbretDtAjY5odbXI1PS0dXQ6jLbDorloV5QY0Ldp
-         PVMg==
-X-Gm-Message-State: AOJu0YzLdtnedf3sKws06rP4EX8V2nSMKtDOaoQjd0krAqfNzhzg4Y2z
-	WfbWRE/EAzsvtQKOCrKQAUVs6IQVbizzA8HjGQEMpMfSdBuULULy9WWj
-X-Gm-Gg: Acq92OEUS7zKFWbVCv501sKCKLZfO6qZlP1xr8Fip/c1nds8DId5+BHIHy10FF7TpiS
-	Cu0zYBZJZuFnj/hr8vxVW8hUTPqrtycdV8jBpOdIm3rI7KGh46OR5YPj9ODQ0TIixdV2FL+MM4w
-	/5fvohA+55TXRi0NW++t9KUViObgy8gUamPpxsV4c5BMgTvR8s5oIRQRXG8I+l/1iRfkAhlSRdh
-	CEvBZJsjVd4Zm/uNCtG7Y/Vj0ZH9iX+5r1wh7Y+IfnJEeRwKoMUuAYFXZ5PskyDPdBqv5M3x2Og
-	hMSZKxVl8kxXRUwatLnnXt7fJFM4NdMUK5+Oex60h/QRdtxPRParK2IlymjErv6XKVChdT+shPu
-	adiQtZVRY9nE+o2JrqXhyuiYIrDWfWTUXm90fOY3Yd4cd+5FARL4F9tcfoMXKJslDbt/OTJCwcN
-	G9JWd3LMZ3jSCm3Gp9fswDOLBQJAfxFntSVZKvkoIzcudTMGDZfkHRHT0AS56+NxAZJwA/u5t+D
-	VYg0XsjmYEQ
-X-Received: by 2002:a05:600c:3510:b0:48a:8b02:ae91 with SMTP id 5b1f17b1804b1-48e8fe50c53mr35510305e9.11.1778586332917;
-        Tue, 12 May 2026 04:45:32 -0700 (PDT)
-Received: from ThinkStation-P340.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f3cf0cdsm28438525e9.2.2026.05.12.04.45.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 04:45:32 -0700 (PDT)
-From: Daniele Palmas <dnlplm@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 1/1] bus: mhi: host: pci_generic: Add Telit FE910C04 modem support
-Date: Tue, 12 May 2026 13:24:58 +0200
-Message-Id: <20260512112458.1048999-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZsrKNSBj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9917AC2BCB0;
+	Tue, 12 May 2026 14:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778594461;
+	bh=73KY+PJnQz0DVDO55WQRtqfL9KC8eXib5SBHC0nL4q0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZsrKNSBjdZ8JvOL/tIch5tetu7d3acvdP5ngcZ/dXyTCzoko34LlvoSPIZ9/qZlTh
+	 egHfZkdRrTx0Uo21xIA5NrREt/v2pxE1tzGFKPJIfrK6gqDKzfGJ3R8bLpd6+VzY4G
+	 gMNIe8FwHDcazuujib9FDMzNaCbiMrLeWcOVu3JN/Iwn4/zsD+wa3OsS8Yus8UGDMM
+	 sSS8ohJOJOuDov8UFLtFUZUhUFBKXasF5J2Omz892ggz40wNHyHEIDI+ZLVcbpmo3L
+	 IZAxFO9v/6onKxqq9P2tadE/BIjvjeMkudjmW/IkUThvGD/EhwRAkXAfDPmPOkfdLY
+	 w5/HoxASJrzgA==
+Date: Tue, 12 May 2026 19:30:37 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
+Subject: Re: [PATCH v4 1/9] dmaengine: Add API to combine configuration and
+ preparation (sg and single)
+Message-ID: <77s7y2zu5y2jtauczrqvdtedrhqsmtcnkic2zgm77xopcyazxm@xubtnmcppcni>
+References: <20260506-dma_prep_config-v4-0-85b3d22babff@nxp.com>
+ <20260506-dma_prep_config-v4-1-85b3d22babff@nxp.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260506-dma_prep_config-v4-1-85b3d22babff@nxp.com>
 
-Add SDX35 based modem Telit FE910C04, reusing FN920C04 configuration.
+On Wed, May 06, 2026 at 04:44:13PM -0400, Frank Li wrote:
+> Previously, configuration and preparation required two separate calls. This
+> works well when configuration is done only once during initialization.
+> 
+> However, in cases where the burst length or source/destination address must
+> be adjusted for each transfer, calling two functions is verbose and
+> requires additional locking to ensure both steps complete atomically.
+> 
+> Add a new API dmaengine_prep_config_single() and dmaengine_prep_config_sg()
+> and callback device_prep_config_sg() that combines configuration and
+> preparation into a single operation. If the configuration argument is
+> passed as NULL, fall back to the existing implementation.
+> 
+> Tested-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-01:00.0 Unassigned class [ff00]: Qualcomm Device 011a
-        Subsystem: Device 1c5d:202a
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
----
- drivers/bus/mhi/host/pci_generic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+My only concern is that since these APIs are defined as 'inline' functions,
+adding more code will end up increasing the kernel Image size.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 750da3dbb4c6..947ab89a09b4 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -914,6 +914,16 @@ static const struct mhi_pci_dev_info mhi_telit_fe912c04_info = {
- 	.edl_trigger = true,
- };
- 
-+static const struct mhi_pci_dev_info mhi_telit_fe910c04_info = {
-+	.name = "telit-fe910c04",
-+	.config = &modem_telit_fn920c04_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.sideband_wake = false,
-+	.mru_default = 32768,
-+	.edl_trigger = true,
-+};
-+
- static const struct mhi_pci_dev_info mhi_netprisma_lcur57_info = {
- 	.name = "netprisma-lcur57",
- 	.edl = "qcom/prog_firehose_sdx24.mbn",
-@@ -941,6 +951,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Telit FN920C04 (sdx35) */
- 	{PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2020),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fn920c04_info },
-+	/* Telit FE910C04 (sdx35) */
-+	{PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x202a),
-+		.driver_data = (kernel_ulong_t) &mhi_telit_fe910c04_info },
- 	/* Telit FE912C04 (sdx35) */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2045),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fe912c04_info },
+- Mani
+
+> ---
+> change in v4
+> - drop context in device_prep_config_sg()
+> 
+> change in v3
+> - remove Deprecated for callback device_prep_slave_sg().
+> - Move condition check before sg init.
+> - split function at return type.
+> - move safe version to next patch
+> 
+> change in v2
+> - add () for function
+> - use short name device_prep_sg(), remove "slave" and "config". the 'slave'
+> is reduntant. after remove slave, the function name is difference existed
+> one, so remove _config suffix.
+> ---
+>  Documentation/driver-api/dmaengine/client.rst |  9 ++++
+>  include/linux/dmaengine.h                     | 63 +++++++++++++++++++++++----
+>  2 files changed, 64 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
+> index d491e385d61a98b8a804cd823caf254a2dc62cf4..5ee5d4a3596dd986b02f1bce3078ca6c4c1fb45a 100644
+> --- a/Documentation/driver-api/dmaengine/client.rst
+> +++ b/Documentation/driver-api/dmaengine/client.rst
+> @@ -80,6 +80,10 @@ The details of these operations are:
+>  
+>    - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
+>  
+> +  - config_sg: Similar with slave_sg, just pass down dma_slave_config
+> +    struct to avoid calling dmaengine_slave_config() every time adjusting the
+> +    burst length or the FIFO address is needed.
+> +
+>    - peripheral_dma_vec: DMA an array of scatter gather buffers from/to a
+>      peripheral. Similar to slave_sg, but uses an array of dma_vec
+>      structures instead of a scatterlist.
+> @@ -106,6 +110,11 @@ The details of these operations are:
+>  		unsigned int sg_len, enum dma_data_direction direction,
+>  		unsigned long flags);
+>  
+> +     struct dma_async_tx_descriptor *dmaengine_prep_config_sg(
+> +		struct dma_chan *chan, struct scatterlist *sgl,
+> +		unsigned int sg_len, enum dma_transfer_direction dir,
+> +		unsigned long flags, struct dma_slave_config *config);
+> +
+>       struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
+>  		struct dma_chan *chan, const struct dma_vec *vecs,
+>  		size_t nents, enum dma_data_direction direction,
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index b3d251c9734e95e1b75cf6763d4d2c3a1c6a9910..defa377d2ef54d94e6337cdfa7826a091295535e 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -835,6 +835,7 @@ struct dma_filter {
+>   *	where the address and size of each segment is located in one entry of
+>   *	the dma_vec array.
+>   * @device_prep_slave_sg: prepares a slave dma operation
+> + * @device_prep_config_sg: prepares a slave DMA operation with dma_slave_config
+>   * @device_prep_dma_cyclic: prepare a cyclic dma operation suitable for audio.
+>   *	The function takes a buffer of size buf_len. The callback function will
+>   *	be called after period_len bytes have been transferred.
+> @@ -934,6 +935,10 @@ struct dma_device {
+>  		struct dma_chan *chan, struct scatterlist *sgl,
+>  		unsigned int sg_len, enum dma_transfer_direction direction,
+>  		unsigned long flags, void *context);
+> +	struct dma_async_tx_descriptor *(*device_prep_config_sg)(
+> +		struct dma_chan *chan, struct scatterlist *sgl,
+> +		unsigned int sg_len, enum dma_transfer_direction direction,
+> +		unsigned long flags, struct dma_slave_config *config);
+>  	struct dma_async_tx_descriptor *(*device_prep_dma_cyclic)(
+>  		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
+>  		size_t period_len, enum dma_transfer_direction direction,
+> @@ -974,22 +979,44 @@ static inline bool is_slave_direction(enum dma_transfer_direction direction)
+>  	       (direction == DMA_DEV_TO_DEV);
+>  }
+>  
+> -static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
+> -	struct dma_chan *chan, dma_addr_t buf, size_t len,
+> -	enum dma_transfer_direction dir, unsigned long flags)
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_config_single(struct dma_chan *chan, dma_addr_t buf, size_t len,
+> +			     enum dma_transfer_direction dir,
+> +			     unsigned long flags,
+> +			     struct dma_slave_config *config)
+>  {
+>  	struct scatterlist sg;
+> +
+> +	if (!chan || !chan->device)
+> +		return NULL;
+> +
+>  	sg_init_table(&sg, 1);
+>  	sg_dma_address(&sg) = buf;
+>  	sg_dma_len(&sg) = len;
+>  
+> -	if (!chan || !chan->device || !chan->device->device_prep_slave_sg)
+> +	if (chan->device->device_prep_config_sg)
+> +		return chan->device->device_prep_config_sg(chan, &sg, 1, dir,
+> +							   flags, config);
+> +
+> +	if (config)
+> +		if (dmaengine_slave_config(chan, config))
+> +			return NULL;
+> +
+> +	if (!chan->device->device_prep_slave_sg)
+>  		return NULL;
+>  
+>  	return chan->device->device_prep_slave_sg(chan, &sg, 1,
+>  						  dir, flags, NULL);
+>  }
+>  
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_slave_single(struct dma_chan *chan, dma_addr_t buf, size_t len,
+> +			    enum dma_transfer_direction dir,
+> +			    unsigned long flags)
+> +{
+> +	return dmaengine_prep_config_single(chan, buf, len, dir, flags, NULL);
+> +}
+> +
+>  /**
+>   * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
+>   * @chan: The channel to be used for this descriptor
+> @@ -1010,17 +1037,37 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
+>  							    dir, flags);
+>  }
+>  
+> -static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+> -	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+> -	enum dma_transfer_direction dir, unsigned long flags)
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_config_sg(struct dma_chan *chan, struct scatterlist *sgl,
+> +			 unsigned int sg_len, enum dma_transfer_direction dir,
+> +			 unsigned long flags, struct dma_slave_config *config)
+>  {
+> -	if (!chan || !chan->device || !chan->device->device_prep_slave_sg)
+> +	if (!chan || !chan->device)
+> +		return NULL;
+> +
+> +	if (chan->device->device_prep_config_sg)
+> +		return chan->device->device_prep_config_sg(chan, sgl, sg_len,
+> +				dir, flags, config);
+> +
+> +	if (config)
+> +		if (dmaengine_slave_config(chan, config))
+> +			return NULL;
+> +
+> +	if (!chan->device->device_prep_slave_sg)
+>  		return NULL;
+>  
+>  	return chan->device->device_prep_slave_sg(chan, sgl, sg_len,
+>  						  dir, flags, NULL);
+>  }
+>  
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
+> +			unsigned int sg_len, enum dma_transfer_direction dir,
+> +			unsigned long flags)
+> +{
+> +	return dmaengine_prep_config_sg(chan, sgl, sg_len, dir, flags, NULL);
+> +}
+> +
+>  #ifdef CONFIG_RAPIDIO_DMA_ENGINE
+>  struct rio_dma_ext;
+>  static inline struct dma_async_tx_descriptor *dmaengine_prep_rio_sg(
+> 
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.37.1
-
+மணிவண்ணன் சதாசிவம்
