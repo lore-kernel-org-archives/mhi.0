@@ -1,180 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD233B1020;
-	Tue, 12 May 2026 14:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9047A39934E
+	for <mhi@lists.linux.dev>; Tue, 12 May 2026 14:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778595569; cv=none; b=Yvg5PqFOrVFFGKmn7w9ttYKqTwS4HOtWEdyozHSX0kCvMwfbxAgpMVgDOIsvOi1pA73iH2+LaW/WW29JRsQdYq3zQDaAKJJiUjlypLYTIbgc1O74VwqDYqqAmwBKJum22uPOtZutDeiUw+YwRgYYdUtds3QeRNnsczAPJ5NT/L8=
+	t=1778596106; cv=none; b=icje8tPrmyZEDu6bWhU38CD3PU1Vq55JDlDCNvo3QfeBiR2pioVrxH06Axd/R68ZRL36JocIHODkVCYxErkvZPACTtSqdwNDzNLIyNkErfxJ/AcMtZlSbkCepAc9lU4Gj/eF+DJqLjKqQWmOCpNoOm4LRrlSBk1teL7TlA3ASHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778595569; c=relaxed/simple;
-	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7ZbNoxE9ufiux7/Qu0DNDT9OnLQxJHAkx+OhY4aeL2Ri2tiZgsqnBmB/Dvm04Fphhjju4FPYVt8bCKTGwUAGgrGIQiA6uQbmkMvhx/i3qFxI6JZ6tLbYYBql+HVmtDu5uBYmMp8eDIosruA2GBzbl7R5F3cxbLjrWVU22SbXGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWQn5fVo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778596106; c=relaxed/simple;
+	bh=uLUHB5KcluqX5M1aWulElpZ4/ot9grCyM6SfFXscUho=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pcIkzbNNelYok8xX2tFhvgSjVKkHPL+hRNzqBTDJQ8IxWP37biKbseaoQHK+G3LR10rqyYojIq3nGgABPC/n/XJ4upI+kaKtmmy4gp8LenwUN2MqqegkcjM/fYVjChGWV58nYKL1/e83MU0iQBiPouZ81qFQWysEVeNTNX/Z9mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LqB9MqyM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WyNR4jbk; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWQn5fVo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A58AC2BCFD;
-	Tue, 12 May 2026 14:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778595569;
-	bh=PNZ/3cndYwK5qYRqVndM22pticPFw2T6YxzS/qmSwlY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWQn5fVoxLB/KAH4EURrhpqBaLzBb5p8rV6dSUVS9VPOwdklqeVM9M7jVOo70vURZ
-	 Gc3iF7tqhIHwZ112zXGqvbhvu2H9TXMCpWcdZG7P/i2icIFaCUyO4xtWpKeFokBoNI
-	 n7OKlJ8EXUC6TZw6mZH7NDeK3vW6FWEvqmRmJTnux7Tux6bKkgwss0u1fyFQZ6Ps9s
-	 5HUity/IMzbvd5Og20saJ5uICn2otZgE4I7BtbWrOm8A2NoJkfr5BiNhv5LgjnrgoR
-	 2VLQtfebQXDldsEorU4QtYQgrDOoBbesmelRs4LLsxoB88f1efPKX3WawZLuRaGlnA
-	 1hEJofu32VB0w==
-Date: Tue, 12 May 2026 19:49:21 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v5 7/7] bus: mhi: Expose DDR training data via controller
- sysfs
-Message-ID: <x732txb6wf2giiv22xw66sqrnkjluaua5kbsmjugv4rbvpjqrw@ro2wbv2olzbd>
-References: <20260416-sahara_protocol_new_v2-v5-0-6aebf005e4ba@oss.qualcomm.com>
- <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LqB9MqyM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WyNR4jbk"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64CCKvdo545069
+	for <mhi@lists.linux.dev>; Tue, 12 May 2026 14:28:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/qEkfNJ1fR5aqnsSsugHtlbRXrkH2B4NHC6uM/3ZtOQ=; b=LqB9MqyMTLiGppAT
+	3ehaDQ5u5tW+G9NiPhz9v2dys8Z1ej4FnSfPGLBNBZzB3gCVoFJiiTby6eByzN8h
+	WLq+1FB2G26LAEDkjjH/ziv89/4TklUTUUDbDQtFArqNyVMJcxP44PQSf48YoJj7
+	mB7J+ZxI0JkemA5qCfWBGElsSw+AOH1WfOXJG8uH+GjgaUCTXsouXzgKgX93l41C
+	eteaMq+MDpz9QvORo5nYhx96bGhfxvr6XtTDs9soHFQYmclNauSvRUS/120WCcjL
+	y969+OSvvOkL7vyhynq25rDSuExU+HxK/kpeAqx2x+2ZNUozbtU+hHmnqjHjaFGR
+	dzuC3Q==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e444srf8v-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 12 May 2026 14:28:24 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c8271fb4407so3400489a12.2
+        for <mhi@lists.linux.dev>; Tue, 12 May 2026 07:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778596104; x=1779200904; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/qEkfNJ1fR5aqnsSsugHtlbRXrkH2B4NHC6uM/3ZtOQ=;
+        b=WyNR4jbkcIhnIuef6/kegmOaPAkXCZq8FZK2PGG7Ezu3YR+2WYxUWboOz894pEF9aF
+         siu9P0DfM+vDWyy/g7lToL568oDrHGDFB4ZuKD2c7GjZU8CMzlDuAOOV9qiDTnuNnEum
+         MbckbHrbeQDVQPs+PN7AfNkUsvyb9FxJEBEsRzwMUEPrJlMKfKFm0mEnZH1+HeQKhbAW
+         YOCGkBHgmOSebbGYHjMpro2whCfnbBWRKioWPPBSOzjx4Xf7eKON8S6TvR4UoYgPL3lf
+         1s6ax0jjiF/R9Dr0PCCyHZB5JbxyaQWLas6ZR9RJicnR+vfnscxkUHLASke1nRse+/n2
+         6Y3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778596104; x=1779200904;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/qEkfNJ1fR5aqnsSsugHtlbRXrkH2B4NHC6uM/3ZtOQ=;
+        b=X4s36awvqbBQZoiTIEiAnv9UlHZrKiXA6LRRM3bS9VusXLNaZnziVNo7mBuD7tEejl
+         pGD4pFS5jROsFYqvVPXXk741FbKIhMvLyai1Q2qFf25/m9He/Uy5Cma3SubseFGwv14I
+         ujG0VkCbVzTOsAr8fnEY/jwDWdZxCtdKTdVSzi/odpRf6wo9Fz3VsoBYvrv2k2xn5BSr
+         N2ONH4upU0ch70xrfNU+sVM81KSU4fiHvUMHEE0X+qV0ffsddxkOEn1lGfEBPJxXORS4
+         Cbe3rV+pjeTag4QQM5+yGjcCec6jU/NasQeEov0CWbckxBPJOlzmjI2GCKxeUhXIpHF/
+         nKng==
+X-Gm-Message-State: AOJu0YwuR9HK6WVKHA57VvhlSwTid0+/cW3wcvzoM6w5d2hDrPgcWs7h
+	CEJqlAomeEhNe+oHrMVSzRdCD3IeHQS36pMNti2OotHjhyvDxuTbnMiSWjwTXxZwZwJ/Iw3N33U
+	EPyQE2ev+wgzSBAlm0LCslEc30WvKg7+tH1ecoNFlEt1SuFvhGO2RHSk=
+X-Gm-Gg: Acq92OH3Mh84KSx6fedrImUEfHPKTAAq5A2peqNVnPpR8SVmc2In0nQ7kuXgtU/EUop
+	qIDTc758Cd5fABHSTqNdt+RHX7aBIQgTpE/EPo3DlANO3NKEZ6iYYTdMk3upgjLtSxWAUy0hD2f
+	htr3B2eaU6hDqEzQLyxD5chLMzyBefMApm1rVTMhunzR2B2uz2EEEdHVtSrhvkneDX55M9lnBw3
+	+NeuzzZyW2q8jfhZQrTtCs0AW4Q5i8fzBnfhxuVxJOhWUpRNa/lSVxj6qH73Cc+/KVRjyujB/DD
+	k1dj9xAJzd8OL7hL8aYk5S8QvXgVl/UlqpgS0+MllDWzvgGNEGyDmtimpqaWxZoDjmUlt/iXkCb
+	/1Ny03Xn6HTY/H/l0LyG2/cGKAhPcoeOly8tYhC0W+FbF8LKqhRE=
+X-Received: by 2002:a05:6a00:2d06:b0:835:388c:9764 with SMTP id d2e1a72fcca58-83e3b7b4579mr14752348b3a.37.1778596104123;
+        Tue, 12 May 2026 07:28:24 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2d06:b0:835:388c:9764 with SMTP id d2e1a72fcca58-83e3b7b4579mr14752314b3a.37.1778596103601;
+        Tue, 12 May 2026 07:28:23 -0700 (PDT)
+Received: from [192.168.1.102] ([120.56.206.29])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbd995sm22203491b3a.43.2026.05.12.07.28.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 07:28:23 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: mhi@lists.linux.dev, Manivannan Sadhasivam <mani@kernel.org>,
+        Javier Achirica <jachirica@gmail.com>
+In-Reply-To: <CACixm21q7b_diEx5COZxVZm9EhZ0hnakM_WBjEWcCsznfWeniw@mail.gmail.com>
+References: <CACixm21q7b_diEx5COZxVZm9EhZ0hnakM_WBjEWcCsznfWeniw@mail.gmail.com>
+Subject: Re: [PATCH v1] bus: mhi: host: pci_generic: round up nr_irqs to a
+ power of two
+Message-Id: <177859610159.30625.14519040364577796205.b4-ty@b4>
+Date: Tue, 12 May 2026 19:58:21 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.0
+X-Proofpoint-GUID: tiYaX3jBvHNbXPrU9-LZsbv7yUeDTEzs
+X-Authority-Analysis: v=2.4 cv=OcKoyBTY c=1 sm=1 tr=0 ts=6a033908 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=QuRtzvr4xB5J0le8HPcEzQ==:17
+ a=GZDNYFZUksWQa33F:21 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=O8H14m0tzZsAWN9Q8MUA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+ a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-ORIG-GUID: tiYaX3jBvHNbXPrU9-LZsbv7yUeDTEzs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDE1MSBTYWx0ZWRfX76Szkh7LqIf0
+ gGHlX2d/uIv9T/x1KqH1OgOfe1FmpBgsSAcZMd6tg35XQ3Y9DaerT87DOz6fh04K63pzKyrtYXo
+ KiKdjNabB/mT/6F8kxUXv2Tijsle0j3BnDaCBi0JZ4cUvm7OdqbozifXB96OdHQI+kluxr+ERsu
+ 139YWDqgjL1P8mnJMxRYUu6jBWNFdcXHYc1dN64ZAahb72qI6LFzm4E0vFGlhKgQmR9OsVmxhDy
+ BrVuPIRTBLyHOr7cZzAcZ7CwBB4pVCxzNN5QP8UTBU6EbJXDlYssuoc9KwlUyKdagNX1pNCzKOV
+ od46Ct29iHHQMa5nlUULtLKOTjPMlWseh+WLIlHSXlDW02VHZqs9IXPdOPaPNLYpGf5u7mOZ4gA
+ fOCOegJpNDFI12WT68FkYwywcRgUFXyEkaVFFmziq9Yxwx/zOr2VhT++X0pbG6p8qUeXZDBmlmU
+ 973yywMQweS7L9ZbRDw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1011 phishscore=0 spamscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605120151
 
-On Thu, Apr 16, 2026 at 07:39:48PM +0530, Kishore Batta wrote:
-> DDR training data captured during Sahara command mode needs to be
-> accessible to userspace so it can be persisted and reused on subsequent
-> boots. Currently, the training data is stored internally in the driver
-> but has no external visibility once the Sahara channel is torn down.
-> 
-> Expose the captured DDR training data via a read-only binary sysfs
-> attribute on the MHI controller device:
-> 
-> /sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
-> 
-> The sysfs read callback serves data directly from controller scoped storage
-> and protects access with the controller training data lock. The attribute
-> lifetime is tied to the controller device via devres, allowing the data to
-> remain readable after Sahara channel teardown and ensuring automatic
-> cleanup when controller device is removed.
-> 
-> Userspace flow:
-> 1. For each controller device, userspace reads the ddr_training_data sysfs
->    attribute.
-> 2. If the read returns non-zero data, userspace persists it using a
->    serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
-> 3. On subsequent boots, the Sahara driver attempts to load this serial
->    specific DDR training image before falling back to the default
->    training image, restoring DDR calibration data and avoiding retraining.
-> 
-> Add ABI documentation for the DDR training data sysfs attribute exposed by
-> Sahara MHI driver.
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
-> ---
->  .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 ++++++
->  drivers/bus/mhi/host/clients/sahara/sahara.c       | 69 ++++++++++++++++++++++
->  2 files changed, 88 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> @@ -0,0 +1,19 @@
-> +What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-> +
-> +Date:                   March 2026
-> +
-> +Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-> +
-> +Description:            Contains the DDR training data for the Qualcomm device
-> +                        connected. MHI driver populates different controller
-> +                        nodes for each device. The DDR training data is exposed
-> +                        to userspace to read and save the training data file to
-> +                        the filesystem. In the subsequent boot up of the device,
-> +                        the training data is restored from host to device
-> +                        optimizing the boot up time of the device.
-> +
-> +Usage:                  Example for reading DDR training data:
-> +                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-> +
-> +Permissions:            The file permissions are set to 0444 allowing read
-> +                        access.
-> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> index 07bc743aa061dd2fa85638067d494562152474e3..fef5dc1d8884133397d204f23361584fd1d9b075 100644
-> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
-> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> @@ -273,6 +273,73 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
->  	return ct;
->  }
->  
-> +static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
-> +				      const struct bin_attribute *attr, char *buf,
-> +				      loff_t offset, size_t count)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct sahara_cntrl_training_data *ct;
-> +	size_t available;
-> +
-> +	ct = sahara_cntrl_training_get(dev);
-> +	if (!ct)
-> +		return -ENODEV;
-> +
-> +	mutex_lock(&ct->lock);
-> +
-> +	/* No data yet or offset past end */
-> +	if (!ct->data || offset >= ct->size) {
-> +		mutex_unlock(&ct->lock);
-> +		return 0;
-> +	}
-> +
-> +	available = ct->size - offset;
-> +	count = min(count, available);
-> +	memcpy(buf, (u8 *)ct->data + offset, count);
-> +
-> +	mutex_unlock(&ct->lock);
-> +
-> +	return count;
-> +}
-> +
-> +static const struct bin_attribute ddr_training_data_attr = {
-> +	.attr = {
-> +		.name = "ddr_training_data",
-> +		.mode = 0444,
-> +	},
-> +	.read = ddr_training_data_read,
-> +};
 
-You can simplify the attribute creation with BIN_ATTR_RO().
+On Fri, 03 Apr 2026 12:30:03 +0200, Javier Achirica wrote:
+> When an MHI device uses standard MSI, the PCI core requires the allocated
+> number of vectors to be a strict power of two but devices will only ask for the
+> irqs they need, so they might not be properly aligned.
+> 
+> Make sure a power-of-2 number of vectors is requested.
+> 
+> 
+> [...]
 
-> +
-> +static void sahara_sysfs_devres_release(struct device *dev, void *res)
-> +{
-> +	device_remove_bin_file(dev, &ddr_training_data_attr);
-> +}
-> +
-> +static void sahara_sysfs_create(struct mhi_device *mhi_dev)
-> +{
-> +	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
-> +	void *cookie;
-> +	int ret;
-> +
-> +	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
-> +		return;
+Applied, thanks!
 
-So you are expecting this helper to be called mutiple times without teardown?
+[1/1] bus: mhi: host: pci_generic: round up nr_irqs to a power of two
+      commit: 86f6dc05ea051fa03ebc03174bc00f734593465d
 
-- Mani
-
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
