@@ -1,85 +1,85 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254563C8194
-	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294763C1F2B
+	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779444091; cv=none; b=az/qLueuBQell3NumrM3e1Ov7dQSICrX4WCMhLaTmjuquxBjLPY7cwrs+k+dFh0orV5N46IJX3k4A6urdfIK1O1j1hEQhcyy4LVeKBUDiG9urC9SnVCKRgPR+njRF3/CF1FDoVDtQvqDcCORDc4EzrKIRRPokkRkmlC1tQ+2NVM=
+	t=1779444095; cv=none; b=CJUdGBjrUcVo6GDSd1yph+JfqpfJTE3OzMA4qyQodWwof/Jx9RUlVLcgm0iQIo3t88DUgmS7N2VjZtYbeJIp5sXaQS5rp4b4S1PdJ/WbDY9sdhrNwaGoRCED400cv4cXyf/nY+oUtLXoTZJN0hTCzXgAHVq2A8ZrMSxADbNeRJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779444091; c=relaxed/simple;
-	bh=BhFCU11Vli0eY4peRB1YT42TDHVLDyHFog9G3pGgq0Q=;
+	s=arc-20240116; t=1779444095; c=relaxed/simple;
+	bh=vGJb93aYUaQ8jo1tSvCSFnkGptC5OIX1Pw2nFhM0VA8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aeHoa+M388euJrqGvKE+4uNc27cjnIN7SCbKM2qCr40HHmwIn/kklsaIXuidGDvXftJXFnAwq3ynpAUqDFc6cCWBmhDTlp4M0i48Ddn50a+FnvMU+i2BefoqgPdoBUGgyR1uYFcwStKSMD2gbU6SHWL57RyGvFTyWTazE8v/DAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RgzlyxGB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gmpItQX5; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=FT451myakhNEYEwUXlJVdIo9mkOBzxbIv313IhSNse4ZRw2wtSpG3ivhyhbrJokkEylm6W50LWvA28czgAXMo8FmpWtRkXnIGw8w5CZWmU0bg4ALsWwD4IvCuZfhfVby8iegluyIRze872iw3sIvRQnuUw+heS1XZFrqzXrz/i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aB4/UNTx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J0QuuPkn; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RgzlyxGB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gmpItQX5"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M9p1qg312901
-	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:29 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aB4/UNTx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J0QuuPkn"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M7eQCO2568729
+	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	P+6QIFUay/hg2xkAFLiW+meafenw/9VGhbxcOU+YUEk=; b=RgzlyxGB94tPSA5n
-	VmceMUIf6T/pLYNQQdcpkxCalmE7Lg26vv2WwJqGcuj4W7nHxcjpcLM1mBh+iXE+
-	72/xMMGiPCSy7eXlSFdyXhFM5lU2AVcEYijhJ3Pvwg8nESKOBXpZmVgkT4GMycdv
-	ic8HSEjmbIz0XqwzDPbrZirpSCFDLRtUNlBVker1EaBUd4nnlU7n8EjkQSNIJLS4
-	8Z+eaVoJpuyr42ZlyZia5YePGd9O5XuqnE9GP7ajY929j37pU30rk4XZMrBPB8KH
-	5TmBdinMtcQfwbL69AJe9yj5FeSUdPjKDOny2ntiBeYmvcT8iiep0pyxYhJKlwvw
-	VQ3lWg==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ea88338um-1
+	4bR4ejhF0h4W2ccu0JEwLdaUkh6Z3ndW9f2Ipfo1SaM=; b=aB4/UNTxbpSN1RC/
+	1dG3EFP85XnO7MT7R2W4Qs0lipz9XHR4AqH5O/T458jYczzhH9G7qHfvZjAgUgBI
+	VvxFvf4a6EKgKH3kzJIOIwANo/pZpIXHy1nU3aLqbcb9+0nQX1kzj/o7raFPvblj
+	gcVKLOBnnpwt9+bz2NHLdKvGDNqK/EecVXNA8U8lNbFf6RF9oWMOsYUEbcHiA49x
+	etdmiOPpYg4zrKLhqZGR/7ff41oKhdoS3aUXrE7zX5xpQD8I+ztT/YobcKmGa8CO
+	PnYbS/AukIu7j4O8tvvolAql4or1OHnTNVsqHw5BpQFqMxuBVzAmhDLM/qfd5hI3
+	Vh2QxQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ea0dkn86f-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:29 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c8510f91ce8so1227559a12.2
-        for <mhi@lists.linux.dev>; Fri, 22 May 2026 03:01:28 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Fri, 22 May 2026 10:01:33 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8353fbc7ad5so3632731b3a.3
+        for <mhi@lists.linux.dev>; Fri, 22 May 2026 03:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779444088; x=1780048888; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1779444092; x=1780048892; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P+6QIFUay/hg2xkAFLiW+meafenw/9VGhbxcOU+YUEk=;
-        b=gmpItQX5QkzLLJwteYdqpWwdxywyzlS8ue+0teL+2DfHBdPk8hz2EWdbINfp+EvVUe
-         HCltJxHD77uLNGb2zC6DGk57/Dhj2xVUUja137ph0ceEgdLFmzXVA0z/HJSk9ZIgTD/k
-         Aq9StyMbx5Zwvj8TXpmt9awLHAYefvlunJq4B0ftULhmUaIieYWdnktiV/2CLqCSsspc
-         OL/OXr4/pIGJzUchrVAXbWNihSoVe8w1eJe/dqdoEjiH82lUSdx0Snc+iM+xHZfYnucX
-         UpjrCHb2Z3iKbsH34Uhz9ur9COKG4Q2B1E/stkQIGJddExa7/X8L76CdN4lf33K/LbVF
-         xTuw==
+        bh=4bR4ejhF0h4W2ccu0JEwLdaUkh6Z3ndW9f2Ipfo1SaM=;
+        b=J0QuuPkn24zakOhgxCtcwkbsXQgxrudxNB5jj+XAJ94QuJJzlqsC/CqQ5dXFbA4zXt
+         GUuPutjRtE+C/tLaAsAxva8HrsRk+Pv+aqr8cvQMs0oOWf8MnIUuhXoL0/H3RZjgLBFJ
+         UaepFIJTWnG0yu24JQmcVqj9DjkOWM5c2LMJju08GYW7CVFtaUj2pDUHCoAuiC3qRyiE
+         8ePR65VsQ5jUFQyBUIJvW6A8OfhPsOGkNnWq0e1g591tysVFeqASRs/XI3wbuFnul3Od
+         jRSPnD1HKqbVMr3WPj+5YTNwCMBuiAhV3xl6LYwPNR2KHT8dLXz57sKKSPK4sLOujVOi
+         deuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779444088; x=1780048888;
+        d=1e100.net; s=20251104; t=1779444092; x=1780048892;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=P+6QIFUay/hg2xkAFLiW+meafenw/9VGhbxcOU+YUEk=;
-        b=s5I6eeqj0FERObBbw9389ev4jpCTeZSqfpxchTP9iKX0bFPSr3VfhkZeGdPOlySXl+
-         c0tyU/mNa7QgwWBeUyH2ojXekt2H4b260APQDtlAOPl0S/HvZDm7DgEBIQThXjI+PNe4
-         eXPjYxMrJSMWOAKtUYch+wHqBw6Zk4l6V4DZ3U63GyKZBUSGC7Dnrmw/SoJd4naIwHPd
-         jt2uDj60SDzvJRCBt0EolJ+yX+EpI289IojwJR73Rbxh1RzZ47jkP91UN0PnSi4TICtq
-         SwqMN7VC0abKHtbv1/ZOqKGzzDDjLQ4uNmDb1ZNTHd+ry7boARYIDv0ky5ke2UnHiF0n
-         ewkw==
-X-Gm-Message-State: AOJu0YyxJjzVRbYe7Tjh94pYed8vfQLk5+X2LQj/gkChraZN3n261dBu
-	0X7TLjbiOmcFuz95SjsjI7qcMG1GYj0g7hOR4nI9Tg1xUwtXTcLYUWJ/qzqsyVYWlOxLPo4sed5
-	FFMVagj2J1YBFRrzEF3Z87LZ5CkHDTjcKG3WIcu+BF6Ruw//+lQxhPXc=
-X-Gm-Gg: Acq92OGDuqRtRFQKA/ap0jKoCqhun2WFmUcixP5LFOPwrSx5/fgL818z2I9tMoItC3p
-	6u6wigreXK9CocFw5K/3Uz7c+DPBzmyir31JZo0pzGayJUQzCDmKN+Ej0yKSgtE72/0r2v0Wosm
-	QI4O6lVyT/YjOAQcEzQY1fEJX7r+hoh/QpT7VzM2jlk/ybdxzuTOv+rDsudLuBJgEH7XpEYINOo
-	/1rto1uAah6FBwj3L/HPH5+ncEAQdFdMORtCY86stc54clW0zKTDzmHxFZTuwpopRVpgVe0gfX3
-	Zvr8vrJRCHjzior38L+l/+10GAa9RJRTic2+uHgiwP7gtpzBuM2UQ9UlK56oQH7d/EZV8ZeNsYX
-	Nd5o7rSVqdMo+TsWyfpqf+zY5yRUXPPe1/3XLk22QPeEIsMK3JCcP4kss
-X-Received: by 2002:a05:6a00:438b:b0:82c:9f7e:518c with SMTP id d2e1a72fcca58-8415f32e17amr3015502b3a.25.1779444087961;
-        Fri, 22 May 2026 03:01:27 -0700 (PDT)
-X-Received: by 2002:a05:6a00:438b:b0:82c:9f7e:518c with SMTP id d2e1a72fcca58-8415f32e17amr3014968b3a.25.1779444082645;
-        Fri, 22 May 2026 03:01:22 -0700 (PDT)
+        bh=4bR4ejhF0h4W2ccu0JEwLdaUkh6Z3ndW9f2Ipfo1SaM=;
+        b=NsXIC1p4cBYaEcsvlutWd9pkkNWF5YEvXJg7XH1qmrE++7S63u27ElXKp4FQit7ziw
+         6SP77AV3EsD8KL5dw5w6LB0XDK2ZSmdDVF79qUXseh5uN7rmPAfxZmZ73xYer5vuQA6i
+         c+QOdFdUR1ezTNBMNNcZWd8LUlgXQCQoFl8V9IlwTMe4Kmx6pTQrZWKdBasL1P0pTQIe
+         0TqNDgpEeLhOggU/940ycfOiIQ12HDGZy8abF5qLwlJMvLItBWF6Dy1wN5OhNp6IqPEA
+         i/ONr2jx3IXrmDGgP5qWddD0ofovZQYK/hhXE9mBighbIJgjYSS0X/kOaWlhm1uwDPbq
+         oZgQ==
+X-Gm-Message-State: AOJu0YxcuDdtSNJ8tFRXTE/wpRHALcvxgoNWSE6fZeJkg517EQj7pH4L
+	Psnh4MJsn9+lopy8Z4+2Q/J8BWwRDjif8Y99X28KQ1Mkn0rNEw6r9uMxJrlR/gzHxpdiXcvP14z
+	/kJtKHQabaAuZMI3l55IVwnmHxjkaXJN2H1Z+PJoQPG0LCr1nSZ8f3vY=
+X-Gm-Gg: Acq92OEJG6shZBDtzzlESOUJ0QgD8PzlRyeMGGS6Pk7Goqbrgz1Z4DYoCKo/YFN+n7c
+	o3f76p5egDBS/LEF6lnXLQ3Q5DPPSo8sBglEPATJ7MEk1TAf+k+y/I5ICuDEsHdc9+tIMEIwFs+
+	orllKBJOVmE3HXUye5DCZIYgQZK8ImdMFfQH8dCnrH0bUkhbhVz5p+rYgujKIQRP5jM+Tt2shWs
+	F59GgoWObvvgVx4IDqCeoracncMYDlq39nThT5Ain7h7VZRieqaKe/HU/Vg2RGcw3f1IE8QXIWo
+	yXnK1ocgryokteB4BMqOphJ2UT3i9bMIFBsWO5GcwDvx9XoLTMSRYPBMOtSo1u/jAnBG+SbgVNK
+	iP9/u3rv6GcgBgbPpSb7Xy4FKxfrzdR7yK92S9y2lU6Zk1Dc2ghTSyx8T
+X-Received: by 2002:a05:6a00:1988:b0:824:3bd9:aac6 with SMTP id d2e1a72fcca58-8415f158d1bmr2990142b3a.16.1779444092302;
+        Fri, 22 May 2026 03:01:32 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1988:b0:824:3bd9:aac6 with SMTP id d2e1a72fcca58-8415f158d1bmr2990025b3a.16.1779444091299;
+        Fri, 22 May 2026 03:01:31 -0700 (PDT)
 Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ac9b74sm1516641b3a.3.2026.05.22.03.01.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ac9b74sm1516641b3a.3.2026.05.22.03.01.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 03:01:22 -0700 (PDT)
+        Fri, 22 May 2026 03:01:30 -0700 (PDT)
 From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Date: Fri, 22 May 2026 15:30:35 +0530
-Subject: [PATCH v2 4/6] net: qrtr: Hold runtime PM during active data path
+Date: Fri, 22 May 2026 15:30:36 +0530
+Subject: [PATCH v2 5/6] net: wwan: Hold runtime PM during active data path
  operations
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260522-mhi_runtimepm-v2-4-fbebf41a82bb@oss.qualcomm.com>
+Message-Id: <20260522-mhi_runtimepm-v2-5-fbebf41a82bb@oss.qualcomm.com>
 References: <20260522-mhi_runtimepm-v2-0-fbebf41a82bb@oss.qualcomm.com>
 In-Reply-To: <20260522-mhi_runtimepm-v2-0-fbebf41a82bb@oss.qualcomm.com>
 To: Manivannan Sadhasivam <mani@kernel.org>,
@@ -111,121 +111,92 @@ Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         vivek.pernamitta@oss.qualcomm.com,
         Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779444039; l=5157;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779444039; l=10149;
  i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
- bh=BhFCU11Vli0eY4peRB1YT42TDHVLDyHFog9G3pGgq0Q=;
- b=UVBS6HbShn+y5fJQr2GY5SAYIopHLLknf3feWh42YxN8Cfo16vZuvf1XVAOydKz7dA3b3K6eD
- /OQhLOIVtQKBDTOurt56nsyDbIEnzo5jjzEyQsOPqQr9m2m8ymwcde3
+ bh=vGJb93aYUaQ8jo1tSvCSFnkGptC5OIX1Pw2nFhM0VA8=;
+ b=5HBYYXQJRnjFECEDyTxAMsVcYHphefIrjpOXjPGckvK/1sqC+W9+kiVtG9bbrgpJFZpJ24t7g
+ QTVXR1LTohwBnb5K2h0l2+2Ptqd/7bRJefIPqDTarqjhDq3aBiTiykq
 X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
  pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDA5OSBTYWx0ZWRfX8/bjZRbXLKQN
- CZKIAJk7U/QPU6N4kL3EmaZQTsSNeuR3fzqfARWDD6lsI8ZNuCZaKWQ/LApr+Z91og1zkixxFLV
- 1q3GZEnUIy5kGPKCMa4PGM21i9z0ro/uJ5e0+5pzJnUls0uxf48ETCjP6pGQa/rpp46PKQkdHjb
- GXMB6D/I7Pl2rPyVxJB2qrmyA/rlISND/Swce5iX8/S0tUt4+lZ6+pzOutemoeSBBc6p+ydP4wW
- NOf5PDbU9MPOyDVhtXRmKC6Ih8BHnco10A+jT0s6gy0PJcyk8r5Ru/J149YobuBtLUuEwPIQ4l1
- qIr997MH75Tb6U90k5EcSYQYHmYXssdrshECmH5jeZbE3MI+j5wIXiMT5TCG6SqA90+BfnKf6Lf
- OKHT7MJt9D75KV4NnJ2Dko5Wxuu1lj/B+NYiq0cxxoeqlXN3ft3ziT/pbTHaGhpNTX9weJepaxr
- 1y07OvXMgJ4IixW7Osw==
-X-Proofpoint-GUID: 68-RpeaIQkhq0hJ6DDQuzG20391fslJ1
-X-Proofpoint-ORIG-GUID: 68-RpeaIQkhq0hJ6DDQuzG20391fslJ1
-X-Authority-Analysis: v=2.4 cv=LsSiDHdc c=1 sm=1 tr=0 ts=6a102979 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDA5OSBTYWx0ZWRfX0oE/PHaDED48
+ NyuK7U4UEfTcx6zQOpDnWCx0e6Xwy0NvoFSZDILR5J1xzD/oYX9OcsR+vKHU9B+yItfYETecjX5
+ yXaJo10BZlX8JOcWlhqj27v4+yd5Io2+sphL/aymjCDT0h1eCIO8XwN0MZ8WIDYar5ZYNbNUxCG
+ NgKXc524lz+f34UvZ6e7IYjRkfj8aA0ao8xksDOd543IWCkTriRHubCGjdpmaV+HjoLdiN/d9Vj
+ Cn0dNUPHRVeuiY4248b2F4suEJwC6n//YKIphtahDbOvbNW8UT++wTnMG8qQKG2DgRJNILcmwDc
+ j2u+qUiFPwMXuZyu4F5p+4GgtpYR7xSej9i7mAQSLY17svPzypGLLhFvJBdB23QCAcQgMqgv55I
+ 4mZQK4aipc+lDNeVeLvymTkFzI8t/4pxmqv9KzIjmzyhTs/g/RKo66Qjrejt46Pacq/BluXFflu
+ x8kKxlcAVetMPy0H8tA==
+X-Authority-Analysis: v=2.4 cv=aueCzyZV c=1 sm=1 tr=0 ts=6a10297d cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=mqvsnErzViNTL7-QoTgA:9 a=QEXdDO2ut3YA:10
- a=x9snwWr2DeNwDh03kgHS:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=2zpQ2AhS3inu96TDYMYA:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-GUID: YlO9MFdTCRc2_1vT19tMaLQU7OcMNOT3
+X-Proofpoint-ORIG-GUID: YlO9MFdTCRc2_1vT19tMaLQU7OcMNOT3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-22_02,2026-05-18_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605220099
+ bulkscore=0 impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605220099
 
-The QRTR MHI transport driver does not coordinate with runtime PM, which
-allows the underlying MHI controller to be runtime-suspended while
-transmit, receive, or RX buffer refill operations are in progress. This can
-lead to stalled transfers or failed buffer queueing once runtime PM is
+The mhi_wwan_ctrl and mhi_wwan_mbim drivers do not coordinate with runtime
+PM, which allows the underlying MHI controller to be runtime suspended
+while transmit, receive, or RX buffer refill operations are in progress.
+This can lead to stalled transfers or failed queueing once runtime PM is
 enabled in the MHI core.
 
-Add runtime PM reference counting around TX, RX, and buffer management
-operations to keep the controller active for the duration of each critical
-section. Enable runtime PM during probe and take explicit references around
-these data path operations.
+Enable runtime PM during probe and take explicit references around TX, RX,
+and buffer management operations so the controller remains active for the
+duration of each critical path.
 
 Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 ---
- net/qrtr/mhi.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 54 insertions(+), 3 deletions(-)
+ drivers/net/wwan/mhi_wwan_ctrl.c | 60 +++++++++++++++++++++++++++++++++++++++-
+ drivers/net/wwan/mhi_wwan_mbim.c | 44 ++++++++++++++++++++++++++++-
+ 2 files changed, 102 insertions(+), 2 deletions(-)
 
-diff --git a/net/qrtr/mhi.c b/net/qrtr/mhi.c
-index 80e341d2f8a4..cba7a5daf7a4 100644
---- a/net/qrtr/mhi.c
-+++ b/net/qrtr/mhi.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
+index fa73861db6ad..0fe0f24c0df4 100644
+--- a/drivers/net/wwan/mhi_wwan_ctrl.c
++++ b/drivers/net/wwan/mhi_wwan_ctrl.c
+@@ -4,6 +4,7 @@
  #include <linux/mhi.h>
  #include <linux/mod_devicetable.h>
  #include <linux/module.h>
 +#include <linux/pm_runtime.h>
- #include <linux/skbuff.h>
- #include <net/sock.h>
+ #include <linux/wwan.h>
  
-@@ -38,11 +39,20 @@ static void qcom_mhi_qrtr_dl_callback(struct mhi_device *mhi_dev,
- 	if (rc == -EINVAL)
- 		dev_err(qdev->dev, "invalid ipcrouter packet\n");
- 
-+	rc = pm_runtime_get(&qdev->mhi_dev->dev);
-+	if (rc < 0 && rc != -EINPROGRESS) {
-+		dev_err(&mhi_dev->dev, "pm_runtime_get failed %d\n", rc);
-+		pm_runtime_put_noidle(&qdev->mhi_dev->dev);
+ /* MHI wwan flags */
+@@ -79,6 +80,13 @@ static void mhi_wwan_ctrl_refill_work(struct work_struct *work)
+ {
+ 	struct mhi_wwan_dev *mhiwwan = container_of(work, struct mhi_wwan_dev, rx_refill);
+ 	struct mhi_device *mhi_dev = mhiwwan->mhi_dev;
++	int err;
++
++	err = pm_runtime_resume_and_get(&mhi_dev->dev);
++	if (err) {
++		dev_err(&mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", err);
 +		return;
 +	}
-+
- 	/* Done with the buffer, now recycle it for future use */
- 	rc = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, mhi_res->buf_addr,
- 			   mhi_dev->mhi_cntrl->buffer_len, MHI_EOT);
- 	if (rc)
- 		dev_err(&mhi_dev->dev, "Failed to recycle the buffer: %d\n", rc);
-+
+ 
+ 	while (mhi_wwan_rx_budget_dec(mhiwwan)) {
+ 		struct sk_buff *skb;
+@@ -102,17 +110,27 @@ static void mhi_wwan_ctrl_refill_work(struct work_struct *work)
+ 			break;
+ 		}
+ 	}
 +	pm_runtime_put(&mhi_dev->dev);
  }
  
- /* From QRTR to MHI */
-@@ -54,6 +64,8 @@ static void qcom_mhi_qrtr_ul_callback(struct mhi_device *mhi_dev,
- 	if (skb->sk)
- 		sock_put(skb->sk);
- 	consume_skb(skb);
-+
-+	pm_runtime_put(&mhi_dev->dev);
- }
- 
- /* Send data over MHI */
-@@ -69,13 +81,21 @@ static int qcom_mhi_qrtr_send(struct qrtr_endpoint *ep, struct sk_buff *skb)
- 	if (rc)
- 		goto free_skb;
- 
-+	rc = pm_runtime_resume_and_get(&qdev->mhi_dev->dev);
-+	if (rc) {
-+		dev_err(&qdev->mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", rc);
-+		goto free_skb;
-+	}
-+
- 	rc = mhi_queue_skb(qdev->mhi_dev, DMA_TO_DEVICE, skb, skb->len,
- 			   MHI_EOT);
- 	if (rc)
--		goto free_skb;
-+		goto runtime_put;
- 
- 	return rc;
- 
-+runtime_put:
-+	pm_runtime_put(&qdev->mhi_dev->dev);
- free_skb:
- 	if (skb->sk)
- 		sock_put(skb->sk);
-@@ -90,20 +110,30 @@ static int qcom_mhi_qrtr_queue_dl_buffers(struct mhi_device *mhi_dev)
- 	void *buf;
+ static int mhi_wwan_ctrl_start(struct wwan_port *port)
+ {
+ 	struct mhi_wwan_dev *mhiwwan = wwan_port_get_drvdata(port);
++	struct mhi_device *mhi_dev = mhiwwan->mhi_dev;
  	int ret;
  
 +	ret = pm_runtime_resume_and_get(&mhi_dev->dev);
@@ -234,87 +205,255 @@ index 80e341d2f8a4..cba7a5daf7a4 100644
 +		return ret;
 +	}
 +
- 	free_desc = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
- 	while (free_desc--) {
- 		buf = devm_kmalloc(&mhi_dev->dev, mhi_dev->mhi_cntrl->buffer_len, GFP_KERNEL);
--		if (!buf)
-+		if (!buf) {
-+			pm_runtime_put(&mhi_dev->dev);
- 			return -ENOMEM;
-+		}
+ 	/* Start mhi device's channel(s) */
+ 	ret = mhi_prepare_for_transfer(mhiwwan->mhi_dev);
+-	if (ret)
++	if (ret) {
++		pm_runtime_put(&mhi_dev->dev);
+ 		return ret;
++	}
  
- 		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, buf, mhi_dev->mhi_cntrl->buffer_len,
- 				    MHI_EOT);
- 		if (ret) {
- 			dev_err(&mhi_dev->dev, "Failed to queue buffer: %d\n", ret);
-+			pm_runtime_put(&mhi_dev->dev);
- 			return ret;
- 		}
+ 	/* Don't allocate more buffers than MHI channel queue size */
+ 	mhiwwan->rx_budget = mhi_get_free_desc_count(mhiwwan->mhi_dev, DMA_FROM_DEVICE);
+@@ -123,12 +141,15 @@ static int mhi_wwan_ctrl_start(struct wwan_port *port)
+ 		mhi_wwan_ctrl_refill_work(&mhiwwan->rx_refill);
  	}
  
 +	pm_runtime_put(&mhi_dev->dev);
  	return 0;
  }
  
-@@ -121,12 +151,22 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
- 	qdev->dev = &mhi_dev->dev;
- 	qdev->ep.xmit = qcom_mhi_qrtr_send;
- 
-+	pm_runtime_no_callbacks(&mhi_dev->dev);
-+	rc = devm_pm_runtime_set_active_enabled(&mhi_dev->dev);
-+	if (rc)
-+		return rc;
-+
-+	rc = pm_runtime_resume_and_get(&mhi_dev->dev);
-+	if (rc) {
-+		dev_err(&mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", rc);
-+		return rc;
-+	}
- 	dev_set_drvdata(&mhi_dev->dev, qdev);
- 
- 	/* start channels */
- 	rc = mhi_prepare_for_transfer(mhi_dev);
- 	if (rc)
--		return rc;
-+		goto runtime_put;
- 
- 	rc = qrtr_endpoint_register(&qdev->ep, QRTR_EP_NID_AUTO);
- 	if (rc)
-@@ -138,12 +178,15 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
- 
- 	dev_dbg(qdev->dev, "Qualcomm MHI QRTR driver probed\n");
- 
-+	pm_runtime_put(&mhi_dev->dev);
- 	return 0;
- 
- err_unregister:
- 	qrtr_endpoint_unregister(&qdev->ep);
- err_unprepare:
- 	mhi_unprepare_from_transfer(mhi_dev);
-+runtime_put:
-+	pm_runtime_put(&mhi_dev->dev);
- 
- 	return rc;
- }
-@@ -151,10 +194,18 @@ static int qcom_mhi_qrtr_probe(struct mhi_device *mhi_dev,
- static void qcom_mhi_qrtr_remove(struct mhi_device *mhi_dev)
+ static void mhi_wwan_ctrl_stop(struct wwan_port *port)
  {
- 	struct qrtr_mhi_dev *qdev = dev_get_drvdata(&mhi_dev->dev);
+ 	struct mhi_wwan_dev *mhiwwan = wwan_port_get_drvdata(port);
++	struct mhi_device *mhi_dev = mhiwwan->mhi_dev;
 +	int err;
-+
+ 
+ 	spin_lock_bh(&mhiwwan->rx_lock);
+ 	clear_bit(MHI_WWAN_RX_REFILL, &mhiwwan->flags);
+@@ -136,12 +157,20 @@ static void mhi_wwan_ctrl_stop(struct wwan_port *port)
+ 
+ 	cancel_work_sync(&mhiwwan->rx_refill);
+ 
 +	err = pm_runtime_resume_and_get(&mhi_dev->dev);
 +	if (err)
 +		dev_err(&mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", err);
- 
- 	qrtr_endpoint_unregister(&qdev->ep);
- 	mhi_unprepare_from_transfer(mhi_dev);
- 	dev_set_drvdata(&mhi_dev->dev, NULL);
++
+ 	mhi_unprepare_from_transfer(mhiwwan->mhi_dev);
 +
 +	if (!err)
 +		pm_runtime_put(&mhi_dev->dev);
  }
  
- static const struct mhi_device_id qcom_mhi_qrtr_id_table[] = {
+ static int mhi_wwan_ctrl_tx(struct wwan_port *port, struct sk_buff *skb)
+ {
+ 	struct mhi_wwan_dev *mhiwwan = wwan_port_get_drvdata(port);
++	struct mhi_device *mhi_dev = mhiwwan->mhi_dev;
+ 	int ret;
+ 
+ 	if (skb->len > mhiwwan->mtu)
+@@ -150,6 +179,12 @@ static int mhi_wwan_ctrl_tx(struct wwan_port *port, struct sk_buff *skb)
+ 	if (!test_bit(MHI_WWAN_UL_CAP, &mhiwwan->flags))
+ 		return -EOPNOTSUPP;
+ 
++	ret = pm_runtime_resume_and_get(&mhi_dev->dev);
++	if (ret) {
++		dev_err(&mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", ret);
++		return ret;
++	}
++
+ 	/* Queue the packet for MHI transfer and check fullness of the queue */
+ 	spin_lock_bh(&mhiwwan->tx_lock);
+ 	ret = mhi_queue_skb(mhiwwan->mhi_dev, DMA_TO_DEVICE, skb, skb->len, MHI_EOT);
+@@ -157,6 +192,9 @@ static int mhi_wwan_ctrl_tx(struct wwan_port *port, struct sk_buff *skb)
+ 		wwan_port_txoff(port);
+ 	spin_unlock_bh(&mhiwwan->tx_lock);
+ 
++	if (ret)
++		pm_runtime_put(&mhi_dev->dev);
++
+ 	return ret;
+ }
+ 
+@@ -179,6 +217,8 @@ static void mhi_ul_xfer_cb(struct mhi_device *mhi_dev,
+ 	/* MHI core has done with the buffer, release it */
+ 	consume_skb(skb);
+ 
++	pm_runtime_put(&mhi_dev->dev);
++
+ 	/* There is likely new slot available in the MHI queue, re-allow TX */
+ 	spin_lock_bh(&mhiwwan->tx_lock);
+ 	if (!mhi_queue_is_full(mhiwwan->mhi_dev, DMA_TO_DEVICE))
+@@ -217,11 +257,26 @@ static int mhi_wwan_ctrl_probe(struct mhi_device *mhi_dev,
+ 	struct mhi_controller *cntrl = mhi_dev->mhi_cntrl;
+ 	struct mhi_wwan_dev *mhiwwan;
+ 	struct wwan_port *port;
++	int err;
+ 
+ 	mhiwwan = kzalloc_obj(*mhiwwan);
+ 	if (!mhiwwan)
+ 		return -ENOMEM;
+ 
++	pm_runtime_no_callbacks(&mhi_dev->dev);
++	err = devm_pm_runtime_set_active_enabled(&mhi_dev->dev);
++	if (err) {
++		kfree(mhiwwan);
++		return err;
++	}
++
++	err = pm_runtime_resume_and_get(&mhi_dev->dev);
++	if (err) {
++		dev_err(&mhi_dev->dev, "pm_runtime_resume_and_get failed %d\n", err);
++		kfree(mhiwwan);
++		return err;
++	}
++
+ 	mhiwwan->mhi_dev = mhi_dev;
+ 	mhiwwan->mtu = MHI_WWAN_MAX_MTU;
+ 	INIT_WORK(&mhiwwan->rx_refill, mhi_wwan_ctrl_refill_work);
+@@ -240,11 +295,14 @@ static int mhi_wwan_ctrl_probe(struct mhi_device *mhi_dev,
+ 				&wwan_pops, NULL, mhiwwan);
+ 	if (IS_ERR(port)) {
+ 		kfree(mhiwwan);
++		pm_runtime_put(&mhi_dev->dev);
+ 		return PTR_ERR(port);
+ 	}
+ 
+ 	mhiwwan->wwan_port = port;
+ 
++	pm_runtime_put(&mhi_dev->dev);
++
+ 	return 0;
+ };
+ 
+diff --git a/drivers/net/wwan/mhi_wwan_mbim.c b/drivers/net/wwan/mhi_wwan_mbim.c
+index 1d7e3ad900c1..56e660ecfcb4 100644
+--- a/drivers/net/wwan/mhi_wwan_mbim.c
++++ b/drivers/net/wwan/mhi_wwan_mbim.c
+@@ -20,6 +20,7 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
++#include <linux/pm_runtime.h>
+ #include <linux/skbuff.h>
+ #include <linux/u64_stats_sync.h>
+ #include <linux/usb.h>
+@@ -153,9 +154,18 @@ static netdev_tx_t mhi_mbim_ndo_xmit(struct sk_buff *skb, struct net_device *nde
+ {
+ 	struct mhi_mbim_link *link = wwan_netdev_drvpriv(ndev);
+ 	struct mhi_mbim_context *mbim = link->mbim;
++	struct mhi_device *mhi_dev = mbim->mdev;
+ 	unsigned long flags;
+ 	int err = -ENOMEM;
+ 
++	err = pm_runtime_get(&mhi_dev->dev);
++	if (err < 0 && err != -EINPROGRESS) {
++		dev_err(&mhi_dev->dev, "pm_runtime_get Failed %d\n", err);
++		pm_runtime_put_noidle(&mhi_dev->dev);
++		dev_kfree_skb_any(skb);
++		return NETDEV_TX_OK;
++	}
++
+ 	/* Serialize MHI channel queuing and MBIM seq */
+ 	spin_lock_irqsave(&mbim->tx_lock, flags);
+ 
+@@ -184,6 +194,7 @@ static netdev_tx_t mhi_mbim_ndo_xmit(struct sk_buff *skb, struct net_device *nde
+ 	return NETDEV_TX_OK;
+ 
+ exit_drop:
++	pm_runtime_put(&mhi_dev->dev);
+ 	u64_stats_update_begin(&link->tx_syncp);
+ 	u64_stats_inc(&link->tx_dropped);
+ 	u64_stats_update_end(&link->tx_syncp);
+@@ -396,6 +407,10 @@ static void mhi_net_rx_refill_work(struct work_struct *work)
+ 	struct mhi_device *mdev = mbim->mdev;
+ 	int err;
+ 
++	err = pm_runtime_get(&mdev->dev);
++	if (err < 0 && err != -EINPROGRESS)
++		dev_err(&mdev->dev, "pm_runtime_get Failed %d\n", err);
++
+ 	while (!mhi_queue_is_full(mdev, DMA_FROM_DEVICE)) {
+ 		struct sk_buff *skb = alloc_skb(mbim->mru, GFP_KERNEL);
+ 
+@@ -415,6 +430,8 @@ static void mhi_net_rx_refill_work(struct work_struct *work)
+ 		cond_resched();
+ 	}
+ 
++	pm_runtime_put(&mdev->dev);
++
+ 	/* If we're still starved of rx buffers, reschedule later */
+ 	if (mhi_get_free_desc_count(mdev, DMA_FROM_DEVICE) == mbim->rx_queue_sz)
+ 		schedule_delayed_work(&mbim->rx_refill, HZ / 2);
+@@ -501,6 +518,7 @@ static void mhi_mbim_ul_callback(struct mhi_device *mhi_dev,
+ 		/* MHI layer stopping/resetting the UL channel */
+ 		if (mhi_res->transaction_status == -ENOTCONN) {
+ 			u64_stats_update_end(&link->tx_syncp);
++			pm_runtime_put(&mhi_dev->dev);
+ 			return;
+ 		}
+ 
+@@ -511,6 +529,8 @@ static void mhi_mbim_ul_callback(struct mhi_device *mhi_dev,
+ 	}
+ 	u64_stats_update_end(&link->tx_syncp);
+ 
++	pm_runtime_put(&mhi_dev->dev);
++
+ 	if (netif_queue_stopped(ndev) && !mhi_queue_is_full(mbim->mdev, DMA_TO_DEVICE))
+ 		netif_wake_queue(ndev);
+ }
+@@ -614,6 +634,17 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
+ 	if (!mbim)
+ 		return -ENOMEM;
+ 
++	pm_runtime_no_callbacks(&mhi_dev->dev);
++	err = devm_pm_runtime_set_active_enabled(&mhi_dev->dev);
++	if (err)
++		return err;
++
++	err = pm_runtime_get(&mhi_dev->dev);
++	if (err < 0 && err != -EINPROGRESS) {
++		dev_err(&mhi_dev->dev, "pm_runtime_get Failed %d\n", err);
++		return err;
++	}
++
+ 	spin_lock_init(&mbim->tx_lock);
+ 	dev_set_drvdata(&mhi_dev->dev, mbim);
+ 	mbim->mdev = mhi_dev;
+@@ -623,8 +654,12 @@ static int mhi_mbim_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
+ 
+ 	/* Start MHI channels */
+ 	err = mhi_prepare_for_transfer(mhi_dev);
+-	if (err)
++	if (err) {
++		pm_runtime_put(&mhi_dev->dev);
+ 		return err;
++	}
++
++	pm_runtime_put(&mhi_dev->dev);
+ 
+ 	/* Number of transfer descriptors determines size of the queue */
+ 	mbim->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
+@@ -637,12 +672,19 @@ static void mhi_mbim_remove(struct mhi_device *mhi_dev)
+ {
+ 	struct mhi_mbim_context *mbim = dev_get_drvdata(&mhi_dev->dev);
+ 	struct mhi_controller *cntrl = mhi_dev->mhi_cntrl;
++	int err;
++
++	err = pm_runtime_get(&mhi_dev->dev);
++	if (err < 0 && err != -EINPROGRESS)
++		dev_err(&mhi_dev->dev, "pm_runtime_get Failed %d\n", err);
+ 
+ 	mhi_unprepare_from_transfer(mhi_dev);
+ 	cancel_delayed_work_sync(&mbim->rx_refill);
+ 	wwan_unregister_ops(&cntrl->mhi_dev->dev);
+ 	kfree_skb(mbim->skbagg_head);
+ 	dev_set_drvdata(&mhi_dev->dev, NULL);
++
++	pm_runtime_put(&mhi_dev->dev);
+ }
+ 
+ static const struct mhi_device_id mhi_mbim_id_table[] = {
 
 -- 
 2.34.1
