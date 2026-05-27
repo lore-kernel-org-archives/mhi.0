@@ -1,133 +1,178 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A773C3BED
-	for <mhi@lists.linux.dev>; Wed, 27 May 2026 10:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C28732BF41;
+	Wed, 27 May 2026 15:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779876526; cv=none; b=g/3dBfSAWneE8Xx2Azra65J+DVKUulQAcAC3+Tt57o6c2hMW4NtKDfBePwKLCBgLL0CeTyp9GUae4XSxA1sKFNS1t4yu2P+j/YoAiglSNS0ctB8N/5ZZziyKGDzjgj1FGxiNZclEUDh611njFH47v71mMS3AT/tQBkQjbovfB8w=
+	t=1779896779; cv=none; b=mVF4nVKlKHCfBAVUsMdNbA3rSYk05SO4JoM+40LrlqUArsnThGnsajnFKa7wzSTsB0m9DJMteeXoCm+YghmgTDalj6x34z7dswk1PT2IGutKmVfp2gBGuarLV7C4kV4PIA0jG16Chei/HlVUEffru5uuzyeVhnYWDvvCcT5Qg4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779876526; c=relaxed/simple;
-	bh=eSQov8m0buTVNACUnG1JtFHVNxi8ivPK0jME9icLeHc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=pwj/9gd291qj5GRPbltC9e5A8/HWux0SIJ/f4uyTGt1voaDvIsxGEA7VLDiteUFKHN9WM/MLK1l45QTwEJiZLIsTDo2L+9k/bp61d8/QRUVX1FdEA+mxu/BibvqebMLGa7XJzzcyXyz46fkXRPGYs2I0TDWQr+3vauupNfEGg6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XOdjqRbG; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779896779; c=relaxed/simple;
+	bh=8nHjRII1bGfS5ZDPkck3KgLk3PLh/gyrZ+YDaGi3tVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1pALM9lb2IXUQzP9gGtfCVCJ+4O5BaO8N/z5utFIKjHAsNbJ5OYnVbc2nOvDSvuxoyD+1oS/7WeGfVLMVrJvrvgRCqAVBdhFMhCpjSwrR9pd5sfohnz5AYGvQyKe0plWw4Y6Bxaob2RdoF58onUa03I8X/4FsxHpQFb1OH03UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G73LhGf/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XOdjqRbG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=eSQov8m0buTVNACUnG1JtFHVNxi8ivPK0jME9icLeHc=; b=X
-	OdjqRbGAtkuBLm6wrRSADucFvkhkjPa8GkK7tdD1WMBv/C88ImptNz687S1SCjif
-	hkMOMnPR4TCQgNHNqeLBUProscjyzB+/tkbHuelcr2I+VSg/hgWshEmOLAsC8UCq
-	otBOUxnYilDI2ZsCwmWMgrsijQfuSeePqbn2w38va4=
-Received: from slark_xiao$163.com (
- [2408:8459:3850:6a97:b654:c004:abab:41da] ) by ajax-webmail-wmsvr-40-145
- (Coremail) ; Wed, 27 May 2026 18:08:23 +0800 (CST)
-Date: Wed, 27 May 2026 18:08:23 +0800 (CST)
-From: "Slark Xiao" <slark_xiao@163.com>
-To: "Manivannan Sadhasivam" <manivannan.sadhasivam@oss.qualcomm.com>
-Cc: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re:[PATCH] bus: mhi: host: pci_generic: Fix the physical function
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G73LhGf/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F571F000E9;
+	Wed, 27 May 2026 15:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779896778;
+	bh=CRFzbY/Pvx9sqS5IFlNYaoDBSo8VEfy1ySxkp44+ezA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G73LhGf/35uAGCZ5j+7bq16+PNIguj2IWp97T/XGT+PwXrr3ssYHNTkZEqMiGyrHC
+	 /5l2Aj783WxXhRM9L7o2oqs0GI02qRffAfnzDIEcM97Q+VcuKCt7ZqqpFklfv9qkcB
+	 vBlxFEzY4qvpo2atqsX+JolVk/EYK061c038SJBY8OkfpKMuP4zCRkYLC1Ccr3RQqZ
+	 rLwzQf7w1PgSTyp5nWV9KKBZR85A4Yy5D4v7N5vWhWcolxo82Aw7AjAlKlV67l9NwT
+	 Ar+dWu1XfUjJFZulgLhlKhfYgg4sPHvGVa522NGumC1I7j7l0zBUJwgmPyRqciwTeh
+	 C+TNcx8wS96XA==
+Date: Wed, 27 May 2026 17:46:12 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Slark Xiao <slark_xiao@163.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Fix the physical function
  check
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260403(27802f6d) Copyright (c) 2002-2026 www.mailtech.cn 163com
-In-Reply-To: <20260527085220.14139-1-manivannan.sadhasivam@oss.qualcomm.com>
+Message-ID: <n7e2ikwbgyuqkftn2z4dkc3eazsal3k247azxgsnnvxxwf6bvo@u3sifco5oazv>
 References: <20260527085220.14139-1-manivannan.sadhasivam@oss.qualcomm.com>
-X-NTES-SC: AL_Qu2cC/ScuU0r5SKbbekcnUsag+42XsC4vPUi1YJec+oGth/v5CIDbVJlPV3Ky8SyCR2HkQSGbRdH6dZlQat6y+3AraSRsFEEGYSqCQ/UkA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+ <12aa604a.8d99.19e68e81ed2.Coremail.slark_xiao@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <12aa604a.8d99.19e68e81ed2.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:kSgvCgDXv46XwhZqDiOtAA--.5965W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCwBf1WmoWwpcQYAAA3h
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <12aa604a.8d99.19e68e81ed2.Coremail.slark_xiao@163.com>
 
-QXQgMjAyNi0wNS0yNyAxNjo1MjoyMCwgIk1hbml2YW5uYW4gU2FkaGFzaXZhbSIgPG1hbml2YW5u
-YW4uc2FkaGFzaXZhbUBvc3MucXVhbGNvbW0uY29tPiB3cm90ZToKPkNvbW1pdCBiNGQwMWM1Yjlh
-OWQgKCJidXM6IG1oaTogaG9zdDogcGNpX2dlbmVyaWM6IFJlYWQgU1VCU1lTVEVNX1ZFTkRPUl9J
-RAo+Zm9yIFZGJ3MgdG8gY2hlY2sgc3RhdHVzIikgYWRkZWQgdGhlIGNoZWNrIGZvciBwaHlzaWNh
-bCBmdW5jdGlvbiBieQo+Y2hlY2tpbmcgZm9yICdwZGV2LT5pc19waHlzZm4uIEJ1dCAncGRldi0+
-aXNfcGh5c2ZuJyBpcyBvbmx5IHNldCBmb3IgdGhlCj5waHlzaWNhbCBmdW5jdGlvbiBvZiBhIFNS
-LUlPViBjYXBhYmxlIGRldmljZS4gQnV0IGZvciB0aGUgbm9uLVNSLUlPViBkZXZpY2UKPnRoaXMg
-dmFyaWFibGUgd2lsbCBiZSAwLiBTbyB0aGlzIGNoZWNrIGVuZGVkIHVwIGJyZWFraW5nIHRoZSBo
-ZWFsdGggY2hlY2sKPmZ1bmN0aW9uYWxpdHkgZm9yIGFsbCBub24tU1ItSU9WIGRldmljZXMuCj4K
-PkZpeCBpdCBieSBjaGVja2luZyBmb3IgJyFwZGV2LT5pc192aXJ0Zm4nIHRvIG1ha2Ugc3VyZSB0
-aGF0IHRoZSBjaGVjayBpcwo+b25seSBza2lwcGVkIGZvciB2aXJ0dWFsIGZ1bmN0aW9ucy4KPgo+
-UmVwb3J0ZWQtYnk6IFNsYXJrIFhpYW8gPHNsYXJrX3hpYW9AMTYzLmNvbT4KPkZpeGVzOiBiNGQw
-MWM1YjlhOWQgKCJidXM6IG1oaTogaG9zdDogcGNpX2dlbmVyaWM6IFJlYWQgU1VCU1lTVEVNX1ZF
-TkRPUl9JRCBmb3IgVkYncyB0byBjaGVjayBzdGF0dXMiKQo+U2lnbmVkLW9mZi1ieTogTWFuaXZh
-bm5hbiBTYWRoYXNpdmFtIDxtYW5pdmFubmFuLnNhZGhhc2l2YW1Ab3NzLnF1YWxjb21tLmNvbT4K
-Pi0tLQo+IGRyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMgfCAyMCArKysrKysrKysr
-LS0tLS0tLS0tLQo+IDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlv
-bnMoLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMg
-Yi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj5pbmRleCA1ODM2ZWNiMGVhMzIu
-LjBkMGQ5YzdmZmE0YiAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5l
-cmljLmMKPisrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0L3BjaV9nZW5lcmljLmMKPkBAIC0xMjYx
-LDcgKzEyNjEsNyBAQCBzdGF0aWMgdm9pZCBtaGlfcGNpX3JlY292ZXJ5X3dvcmsoc3RydWN0IHdv
-cmtfc3RydWN0ICp3b3JrKQo+IAo+IAlkZXZfd2FybigmcGRldi0+ZGV2LCAiZGV2aWNlIHJlY292
-ZXJ5IHN0YXJ0ZWRcbiIpOwo+IAo+LQlpZiAocGRldi0+aXNfcGh5c2ZuKQo+KwlpZiAoIXBkZXYt
-PmlzX3ZpcnRmbikKPiAJCXRpbWVyX2RlbGV0ZSgmbWhpX3BkZXYtPmhlYWx0aF9jaGVja190aW1l
-cik7Cj4gCj4gCXBtX3J1bnRpbWVfZm9yYmlkKCZwZGV2LT5kZXYpOwo+QEAgLTEyOTEsNyArMTI5
-MSw3IEBAIHN0YXRpYyB2b2lkIG1oaV9wY2lfcmVjb3Zlcnlfd29yayhzdHJ1Y3Qgd29ya19zdHJ1
-Y3QgKndvcmspCj4gCj4gCXNldF9iaXQoTUhJX1BDSV9ERVZfU1RBUlRFRCwgJm1oaV9wZGV2LT5z
-dGF0dXMpOwo+IAo+LQlpZiAocGRldi0+aXNfcGh5c2ZuKQo+KwlpZiAoIXBkZXYtPmlzX3ZpcnRm
-bikKPiAJCW1vZF90aW1lcigmbWhpX3BkZXYtPmhlYWx0aF9jaGVja190aW1lciwgamlmZmllcyAr
-IEhFQUxUSF9DSEVDS19QRVJJT0QpOwo+IAo+IAlyZXR1cm47Cj5AQCAtMTM4Miw3ICsxMzgyLDcg
-QEAgc3RhdGljIGludCBtaGlfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBz
-dHJ1Y3QgcGNpX2RldmljZV9pZCAqaWQpCj4gCQltaGlfY250cmxfY29uZmlnID0gaW5mby0+Y29u
-ZmlnOwo+IAo+IAkvKiBJbml0aWFsaXplIGhlYWx0aCBjaGVjayBtb25pdG9yIG9ubHkgZm9yIFBo
-eXNpY2FsIGZ1bmN0aW9ucyAqLwo+LQlpZiAocGRldi0+aXNfcGh5c2ZuKQo+KwlpZiAoIXBkZXYt
-PmlzX3ZpcnRmbikKPiAJCXRpbWVyX3NldHVwKCZtaGlfcGRldi0+aGVhbHRoX2NoZWNrX3RpbWVy
-LCBoZWFsdGhfY2hlY2ssIDApOwo+IAo+IAltaGlfY250cmwgPSAmbWhpX3BkZXYtPm1oaV9jbnRy
-bDsKPkBAIC0xNDA0LDcgKzE0MDQsNyBAQCBzdGF0aWMgaW50IG1oaV9wY2lfcHJvYmUoc3RydWN0
-IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICppZCkKPiAJbWhpX2Nu
-dHJsLT5tcnUgPSBpbmZvLT5tcnVfZGVmYXVsdDsKPiAJbWhpX2NudHJsLT5uYW1lID0gaW5mby0+
-bmFtZTsKPiAKPi0JaWYgKHBkZXYtPmlzX3BoeXNmbikKPisJaWYgKCFwZGV2LT5pc192aXJ0Zm4p
-Cj4gCQltaGlfcGRldi0+cmVzZXRfb25fcmVtb3ZlID0gaW5mby0+cmVzZXRfb25fcmVtb3ZlOwo+
-IAo+IAlpZiAoaW5mby0+ZWRsX3RyaWdnZXIpCj5AQCAtMTQ1Myw3ICsxNDUzLDcgQEAgc3RhdGlj
-IGludCBtaGlfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNp
-X2RldmljZV9pZCAqaWQpCj4gCXNldF9iaXQoTUhJX1BDSV9ERVZfU1RBUlRFRCwgJm1oaV9wZGV2
-LT5zdGF0dXMpOwo+IAo+IAkvKiBzdGFydCBoZWFsdGggY2hlY2sgKi8KPi0JaWYgKHBkZXYtPmlz
-X3BoeXNmbikKPisJaWYgKCFwZGV2LT5pc192aXJ0Zm4pCj4gCQltb2RfdGltZXIoJm1oaV9wZGV2
-LT5oZWFsdGhfY2hlY2tfdGltZXIsIGppZmZpZXMgKyBIRUFMVEhfQ0hFQ0tfUEVSSU9EKTsKPiAK
-PiAJLyogQWxsb3cgcnVudGltZSBzdXNwZW5kIG9ubHkgaWYgYm90aCBQTUUgZnJvbSBEM0hvdCBh
-bmQgTTMgYXJlIHN1cHBvcnRlZCAqLwo+QEAgLTE0ODIsNyArMTQ4Miw3IEBAIHN0YXRpYyB2b2lk
-IG1oaV9wY2lfcmVtb3ZlKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQo+IAlwbV9ydW50aW1lX2ZvcmJp
-ZCgmcGRldi0+ZGV2KTsKPiAJcGNpX2Rpc2FibGVfc3Jpb3YocGRldik7Cj4gCj4tCWlmIChwZGV2
-LT5pc19waHlzZm4pCj4rCWlmICghcGRldi0+aXNfdmlydGZuKQo+IAkJdGltZXJfZGVsZXRlX3N5
-bmMoJm1oaV9wZGV2LT5oZWFsdGhfY2hlY2tfdGltZXIpOwo+IAljYW5jZWxfd29ya19zeW5jKCZt
-aGlfcGRldi0+cmVjb3Zlcnlfd29yayk7Cj4gCj5AQCAtMTUxNCw3ICsxNTE0LDcgQEAgc3RhdGlj
-IHZvaWQgbWhpX3BjaV9yZXNldF9wcmVwYXJlKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQo+IAo+IAlk
-ZXZfaW5mbygmcGRldi0+ZGV2LCAicmVzZXRcbiIpOwo+IAo+LQlpZiAocGRldi0+aXNfcGh5c2Zu
-KQo+KwlpZiAoIXBkZXYtPmlzX3ZpcnRmbikKPiAJCXRpbWVyX2RlbGV0ZSgmbWhpX3BkZXYtPmhl
-YWx0aF9jaGVja190aW1lcik7Cj4gCj4gCS8qIENsZWFuIHVwIE1ISSBzdGF0ZSAqLwo+QEAgLTE1
-NjAsNyArMTU2MCw3IEBAIHN0YXRpYyB2b2lkIG1oaV9wY2lfcmVzZXRfZG9uZShzdHJ1Y3QgcGNp
-X2RldiAqcGRldikKPiAJfQo+IAo+IAlzZXRfYml0KE1ISV9QQ0lfREVWX1NUQVJURUQsICZtaGlf
-cGRldi0+c3RhdHVzKTsKPi0JaWYgKHBkZXYtPmlzX3BoeXNmbikKPisJaWYgKCFwZGV2LT5pc192
-aXJ0Zm4pCj4gCQltb2RfdGltZXIoJm1oaV9wZGV2LT5oZWFsdGhfY2hlY2tfdGltZXIsIGppZmZp
-ZXMgKyBIRUFMVEhfQ0hFQ0tfUEVSSU9EKTsKPiB9Cj4gCj5AQCAtMTYyNiw3ICsxNjI2LDcgQEAg
-c3RhdGljIGludCAgX19tYXliZV91bnVzZWQgbWhpX3BjaV9ydW50aW1lX3N1c3BlbmQoc3RydWN0
-IGRldmljZSAqZGV2KQo+IAlpZiAodGVzdF9hbmRfc2V0X2JpdChNSElfUENJX0RFVl9TVVNQRU5E
-RUQsICZtaGlfcGRldi0+c3RhdHVzKSkKPiAJCXJldHVybiAwOwo+IAo+LQlpZiAocGRldi0+aXNf
-cGh5c2ZuKQo+KwlpZiAoIXBkZXYtPmlzX3ZpcnRmbikKPiAJCXRpbWVyX2RlbGV0ZSgmbWhpX3Bk
-ZXYtPmhlYWx0aF9jaGVja190aW1lcik7Cj4gCj4gCWNhbmNlbF93b3JrX3N5bmMoJm1oaV9wZGV2
-LT5yZWNvdmVyeV93b3JrKTsKPkBAIC0xNjc5LDcgKzE2NzksNyBAQCBzdGF0aWMgaW50IF9fbWF5
-YmVfdW51c2VkIG1oaV9wY2lfcnVudGltZV9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQo+IAl9
-Cj4gCj4gCS8qIFJlc3VtZSBoZWFsdGggY2hlY2sgKi8KPi0JaWYgKHBkZXYtPmlzX3BoeXNmbikK
-PisJaWYgKCFwZGV2LT5pc192aXJ0Zm4pCj4gCQltb2RfdGltZXIoJm1oaV9wZGV2LT5oZWFsdGhf
-Y2hlY2tfdGltZXIsIGppZmZpZXMgKyBIRUFMVEhfQ0hFQ0tfUEVSSU9EKTsKPiAKPiAJLyogSXQg
-Y2FuIGJlIGEgcmVtb3RlIHdha2V1cCAobm8gbWhpIHJ1bnRpbWVfZ2V0KSwgdXBkYXRlIGFjY2Vz
-cyB0aW1lICovCj4tLSAKPjIuNTEuMAoKVGVzdGVkLWJ5OiBTbGFyayBYaWFvIDxzbGFya194aWFv
-QDE2My5jb20+CgpUZXN0IHJlc3VsdCBpcyBleHBlY3RlZCBub3cgd2l0aCB0aGVzZSBjaGFuZ2Vz
-LgpCVFcsIHNoYWxsIHdlIGFkZCB0aGlzIGNoYW5nZXMgaW50byBzdGFibGUgdmVyc2lvbj8gU2lu
-Y2Uga2VybmVsIDYuMTggYW5kIDcuMCAgaGF2ZSBiZWVuIGFmZmVjdGVkLgoKVGhhbmtz
+On Wed, May 27, 2026 at 06:08:23PM +0800, Slark Xiao wrote:
+> At 2026-05-27 16:52:20, "Manivannan Sadhasivam" <manivannan.sadhasivam@oss.qualcomm.com> wrote:
+> >Commit b4d01c5b9a9d ("bus: mhi: host: pci_generic: Read SUBSYSTEM_VENDOR_ID
+> >for VF's to check status") added the check for physical function by
+> >checking for 'pdev->is_physfn. But 'pdev->is_physfn' is only set for the
+> >physical function of a SR-IOV capable device. But for the non-SR-IOV device
+> >this variable will be 0. So this check ended up breaking the health check
+> >functionality for all non-SR-IOV devices.
+> >
+> >Fix it by checking for '!pdev->is_virtfn' to make sure that the check is
+> >only skipped for virtual functions.
+> >
+> >Reported-by: Slark Xiao <slark_xiao@163.com>
+> >Fixes: b4d01c5b9a9d ("bus: mhi: host: pci_generic: Read SUBSYSTEM_VENDOR_ID for VF's to check status")
+> >Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> >---
+> > drivers/bus/mhi/host/pci_generic.c | 20 ++++++++++----------
+> > 1 file changed, 10 insertions(+), 10 deletions(-)
+> >
+> >diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> >index 5836ecb0ea32..0d0d9c7ffa4b 100644
+> >--- a/drivers/bus/mhi/host/pci_generic.c
+> >+++ b/drivers/bus/mhi/host/pci_generic.c
+> >@@ -1261,7 +1261,7 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+> > 
+> > 	dev_warn(&pdev->dev, "device recovery started\n");
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		timer_delete(&mhi_pdev->health_check_timer);
+> > 
+> > 	pm_runtime_forbid(&pdev->dev);
+> >@@ -1291,7 +1291,7 @@ static void mhi_pci_recovery_work(struct work_struct *work)
+> > 
+> > 	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> > 
+> > 	return;
+> >@@ -1382,7 +1382,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> > 		mhi_cntrl_config = info->config;
+> > 
+> > 	/* Initialize health check monitor only for Physical functions */
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		timer_setup(&mhi_pdev->health_check_timer, health_check, 0);
+> > 
+> > 	mhi_cntrl = &mhi_pdev->mhi_cntrl;
+> >@@ -1404,7 +1404,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> > 	mhi_cntrl->mru = info->mru_default;
+> > 	mhi_cntrl->name = info->name;
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		mhi_pdev->reset_on_remove = info->reset_on_remove;
+> > 
+> > 	if (info->edl_trigger)
+> >@@ -1453,7 +1453,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> > 	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+> > 
+> > 	/* start health check */
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> > 
+> > 	/* Allow runtime suspend only if both PME from D3Hot and M3 are supported */
+> >@@ -1482,7 +1482,7 @@ static void mhi_pci_remove(struct pci_dev *pdev)
+> > 	pm_runtime_forbid(&pdev->dev);
+> > 	pci_disable_sriov(pdev);
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		timer_delete_sync(&mhi_pdev->health_check_timer);
+> > 	cancel_work_sync(&mhi_pdev->recovery_work);
+> > 
+> >@@ -1514,7 +1514,7 @@ static void mhi_pci_reset_prepare(struct pci_dev *pdev)
+> > 
+> > 	dev_info(&pdev->dev, "reset\n");
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		timer_delete(&mhi_pdev->health_check_timer);
+> > 
+> > 	/* Clean up MHI state */
+> >@@ -1560,7 +1560,7 @@ static void mhi_pci_reset_done(struct pci_dev *pdev)
+> > 	}
+> > 
+> > 	set_bit(MHI_PCI_DEV_STARTED, &mhi_pdev->status);
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> > }
+> > 
+> >@@ -1626,7 +1626,7 @@ static int  __maybe_unused mhi_pci_runtime_suspend(struct device *dev)
+> > 	if (test_and_set_bit(MHI_PCI_DEV_SUSPENDED, &mhi_pdev->status))
+> > 		return 0;
+> > 
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		timer_delete(&mhi_pdev->health_check_timer);
+> > 
+> > 	cancel_work_sync(&mhi_pdev->recovery_work);
+> >@@ -1679,7 +1679,7 @@ static int __maybe_unused mhi_pci_runtime_resume(struct device *dev)
+> > 	}
+> > 
+> > 	/* Resume health check */
+> >-	if (pdev->is_physfn)
+> >+	if (!pdev->is_virtfn)
+> > 		mod_timer(&mhi_pdev->health_check_timer, jiffies + HEALTH_CHECK_PERIOD);
+> > 
+> > 	/* It can be a remote wakeup (no mhi runtime_get), update access time */
+> >-- 
+> >2.51.0
+> 
+> Tested-by: Slark Xiao <slark_xiao@163.com>
+> 
+> Test result is expected now with these changes.
+> BTW, shall we add this changes into stable version? Since kernel 6.18 and 7.0  have been affected.
+> 
+
+I've CCed stable list while applying. Hopefully, stable team will backport this
+fix once this gets merged upstream.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
