@@ -1,78 +1,44 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72E330C144
-	for <mhi@lists.linux.dev>; Wed,  3 Jun 2026 01:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC1A399CF2
+	for <mhi@lists.linux.dev>; Wed,  3 Jun 2026 07:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780449298; cv=none; b=tK8395QyKDyI00fNLjzadCcjh0VH+wr0wWh2Y8WVzH6vmRgqkZ8pI3MTZXx5vPWzTdWxeXuf0G3URu05mfdRWsTeL9U+zUNBggz4t6UCo5J8WMWzUeB8Vojd+F82deGWqZA2UuD+r7BCHQ8NTOm6gEjMXITjJ65pmew8bNHAjs0=
+	t=1780470404; cv=none; b=luipGktMfnsF8xWajRc4jkCo7JQKcK/j05JykbA461NXA0hdK0XWuAk+F5H8YaylrNuVV2oDroi4mvus+gPUxQ/HJsKbcvjxxO1aQ9/WvSXHCmftrC3XdRey5vBCJzk93sULfcy4ekO8DWwODKZQk0p1LLlSlDezEYT99a/5T+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780449298; c=relaxed/simple;
-	bh=JajzC6TZGTUiuxzIpeyJ0dRVDu5lvb+jhTk+EFO1NlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HLPEVkVaMAP/HBC75uuMhqOU5JQbq9gqpoqegzupw5umfyrjvIkAWrQos2nEISUKjmIqiBglpXcScxbyKKV3+i0expIruEHtyCu4KSpKlgvdXQVNTOZFT8bMK/tLT3s2xaMzuqdioik4d50fow3RecqqIgYF9leHSIEDOn2F3/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOzjweXw; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780470404; c=relaxed/simple;
+	bh=iUt9cva/HldmvJgAfO9LfYPdbw+C7kceZVn8qe7pjXE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GU4eY6Gn+PuES+XX2Fu4kSdrTJZ/e+0AFpCOrReYiZ+uPWAeBB4i1vC+VO7P+LhNY/9EiG1eAHlhev4PiHcFbP7d1yoSXOYwRdRkiEGYhkXQCm/mQeSKaWejcVwRGLSZsPfZFZLzXZEwwYGHujlxkizqJl8VkQ2wZm9T/g5BnUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=dDat0cUL; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOzjweXw"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36bdb11bf8bso2508385a91.0
-        for <mhi@lists.linux.dev>; Tue, 02 Jun 2026 18:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780449297; x=1781054097; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k2BHlDhO4W0HN654OiftpkbBAK4xn2LgOoUicfv6wG0=;
-        b=bOzjweXwavYoW1wKlxeSS8oMoagQaU6WfJbGGGtkJyWTqrERWT/Ux8jB5RLo6H02pV
-         /0+9IhwqrwjYQiP8heJ14Q8slMK31AhgK5gaV7lebqlTbf9vWxqx7aCTpuTjE8dn3Yrt
-         X+wmnXHuOPlAT0ccWO2J2Ugi11mu6/fOjnStoZj6M8WG8Pv3R6yegKrkS4PRjEQnjYn9
-         Qrg2hj2MeqXfTmPpvr1go13vFtpZfdtqE86dMjhpL4fYYHKBYXtg6otD5O5GBmiRaROg
-         /NT/nKWixcxRLNL8Bzx/yKx8FDieGD95V0Gy+vkefNax/afcpM6UOxlHFL6mw7mk0INq
-         I0vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780449297; x=1781054097;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=k2BHlDhO4W0HN654OiftpkbBAK4xn2LgOoUicfv6wG0=;
-        b=qiZddifgJFBlaz8VmHnbS6OeqqBQapRdK7R3KKtXxOAZCFIsEeqfl4ujJObIP22EmS
-         xqycTi7coaukDIwNgDeQlCnDzTxQJtUImCTALuW7P9g42I+ghpL99vH8b7ktaCNjQfyw
-         nFXrEVVkxcEKFRxaRMSwcukQYbOMKui+ePjl/g9FHXLbLhn3yOoF0m2lA5KzogthgmyW
-         uJ1nMR/XdSPMB21lbR1v7PED7vu0bmN5OyeeoJymdNrtaHcvv0MuBX58jtrpIyQG9Jfn
-         QHvgqsCDfasrpDy3JNJySOQQ6vbSQQE+rcY1ewVyxE8KWp2ZCf7VCUfdyV4Ls7A35T7S
-         2hhg==
-X-Forwarded-Encrypted: i=1; AFNElJ+21H+bCJeyXw/pClHkh6pa+0UA5u5iTmBW3ss3d3BhP5XF9vJSirpquXpaR4dj3t3qPq4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQT8W7FUYdPvWm15R0HlI9SIgETkMak3z6KLHvDANXGYmKQHc7
-	547iQ8zvftCgClJHLpAYJ3wptp4JXteKkDeTYvinUiuMP68B99qGNOP1
-X-Gm-Gg: Acq92OGTV+bOfJjMZWcOYdFITaRKo3icHoYNDSxxr2VHXu4m8UPU9RE/rl5+JObRM/R
-	ygpo7+K6HT8U2KkbiWnyvhSzi8Hs231TIRqM+zq11scf+XST/EeApg7YP4fcUtlKKCW3nFrtZ7N
-	XS4OjRaST1wDGqa+vihYU00j6ap1VXOzDUrELJ75RAJvMKG7RnFFShjUjlpNp0a1L0o/6xX56XG
-	a/yV0/Ge/VuK3pagVl3uZcnnI5MFdNnSquhxK5UkEiK+LGXCqUDjeTHWDI/xhHeph0qFdYqSc4t
-	gnreJO5IWXXU/+Y6KJt6SkXmG/BoXOz3R3/UrT7RQVWOmtOQamFZ3Het6qgYT9K9ZoAj8OQFlE2
-	YydmfG/KSbORkLnA+VSJOQ2Gv7oPqOXcRoFLLHYT3isF/sMR+d9ge/qLaOilWSYFGugzgOWTeh6
-	5JJ6Hj+QABGIw39aJush4a7/ttuyNh3q97jRiVbZmB02xYfg8uWGkcNQ==
-X-Received: by 2002:a17:90a:e706:b0:36d:b818:f848 with SMTP id 98e67ed59e1d1-36e2eede3e3mr1315342a91.5.1780449296991;
-        Tue, 02 Jun 2026 18:14:56 -0700 (PDT)
-Received: from BNE-CLN-QCAO.digi.com ([159.196.14.201])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36dd90548dfsm4866590a91.0.2026.06.02.18.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 18:14:56 -0700 (PDT)
-From: Qingtao Cao <qingtao.cao.au@gmail.com>
-To: mani@kernel.org,
-	kees@kernel.org
-Cc: linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Qingtao Cao <qingtao.cao.au@gmail.com>,
-	Vivek Pernamitta <quic_vpernami@quicinc.com>,
-	Qingtao Cao <qcao@digi.com>
-Subject: [v1 PATCH 1/1] bus: mhi: core: fix sys error handling latency
-Date: Wed,  3 Jun 2026 11:06:11 +1000
-Message-ID: <20260603011333.3306102-2-qingtao.cao.au@gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="dDat0cUL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Hb
+	dooL8DwyY6Ng904lfjBSnbeiNymW6BuXU/xHnCYbY=; b=dDat0cULPDHgeT9YfJ
+	f5MrSOoBmxbItFGoAUOPmlQIT5rZ/nkzhjXOHjpnRbKq4bHwAYkdA4wRofsf9x42
+	HcLfI+GSeEOf+XA3XaBbOGqEsJgE4Ct3oScH3YlNr/jNUaFMOQao2mXygDH+xV3V
+	1x4KCwNOMkfDpDpGYfjqihn5Y=
+Received: from GHT-5854251031.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wB3F3Rk0h9qXG1vBA--.18132S2;
+	Wed, 03 Jun 2026 15:06:16 +0800 (CST)
+From: zwq2226404116@163.com
+To: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: mani@kernel.org,
+	loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	Wanquan Zhong <wanquan.zhong@fibocom.com>
+Subject: [PATCH 1/1] bus: mhi: pci_generic: add Rolling Wireless RW135R-GL and RW151 support
+Date: Wed,  3 Jun 2026 15:06:08 +0800
+Message-ID: <20260603070608.309114-1-zwq2226404116@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260603011333.3306102-1-qingtao.cao.au@gmail.com>
-References: <20260603011333.3306102-1-qingtao.cao.au@gmail.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -80,46 +46,174 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wB3F3Rk0h9qXG1vBA--.18132S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GF1xZryfGw4fuw1fZw47Jwb_yoWxuF15pF
+	WfArZ8tr4kJw15Xay8A34kGF9Y9an8G34UKrnrKw1Ig3WFyw48X3y8K347trWYvw1vqr1S
+	gFn0kry7uanrJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Um1v-UUUUU=
+X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0gkxiGof0mnXdQAA3O
 
-Bring forward the idea to fix the power down latency in
-mhi_pm_disable_transition() further to mhi_pm_sys_error_transition()
-so that the transition into system error (triggered by AT!RESET)
-won't have to return only after the timeout of up to 24 seconds
+From: Wanquan Zhong <wanquan.zhong@fibocom.com>
 
-Signed-off-by: Qingtao Cao <qingtao.cao.au@gmail.com>
+bus: mhi: pci_generic: add Rolling Wireless RW135R-GL and RW151 support
+
+Add MHI PCIe device configuration for Rolling Wireless modules:
+
+- RW135R-GL (Qualcomm sdx35): MBIM, DIAG, DUN, NMEA, FIREHOSE, ADB, IP_HW0
+- RW151 (Qualcomm sdx75): same channel layout with adjusted ring sizes
+
+Register PCI_DEVICE_SUB entries for vendor 0x2099, device 0x1300/1301 on
+QCOM 0x011a (sdx35) and 0x0309 (sdx75) respectively.
+
+Enable the ADB MHI channel in mhi_wwan_ctrl so userspace can access the
+WWAN_PORT_ADB port via the wwan subsystem.
+
+Tested-on: Rolling RW135R-GL / RW151 hardware (MHI probe, MBIM, DIAG, ADB)
+
+Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
 ---
- drivers/bus/mhi/host/pm.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/bus/mhi/host/pci_generic.c | 100 +++++++++++++++++++++++++++++
+ drivers/net/wwan/mhi_wwan_ctrl.c   |   1 +
+ 2 files changed, 101 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
-index f799503c8f36..9d29f1591a45 100644
---- a/drivers/bus/mhi/host/pm.c
-+++ b/drivers/bus/mhi/host/pm.c
-@@ -651,21 +651,13 @@ static void mhi_pm_sys_error_transition(struct mhi_controller *mhi_cntrl)
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 0884a384b77f..ad166de2d0f3 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -902,6 +902,94 @@ static const struct mhi_pci_dev_info mhi_netprisma_fcun69_info = {
+ 	.sideband_wake = true,
+ };
  
- 	/* Trigger MHI RESET so that the device will not access host memory */
- 	if (reset_device) {
--		u32 in_reset = -1;
--		unsigned long timeout = msecs_to_jiffies(mhi_cntrl->timeout_ms);
--
- 		dev_dbg(dev, "Triggering MHI Reset in device\n");
- 		mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
- 
- 		/* Wait for the reset bit to be cleared by the device */
--		ret = wait_event_timeout(mhi_cntrl->state_event,
--					 mhi_read_reg_field(mhi_cntrl,
--							    mhi_cntrl->regs,
--							    MHICTRL,
--							    MHICTRL_RESET_MASK,
--							    &in_reset) ||
--					!in_reset, timeout);
--		if (!ret || in_reset) {
-+		ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs, MHICTRL,
-+				 MHICTRL_RESET_MASK, 0, 25000, mhi_cntrl->timeout_ms);
-+		if (ret) {
- 			dev_err(dev, "Device failed to exit MHI Reset state\n");
- 			write_lock_irq(&mhi_cntrl->pm_lock);
- 			cur_state = mhi_tryset_pm_state(mhi_cntrl,
--- 
++static const struct mhi_channel_config mhi_rolling_rw135r_channels[] = {
++	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 1),
++	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 1),
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(36, "ADB", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(37, "ADB", 32, 0),
++	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
++	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
++};
++
++static struct mhi_event_config mhi_rolling_rw135r_events[] = {
++	MHI_EVENT_CONFIG_CTRL(0, 128),
++	MHI_EVENT_CONFIG_DATA(1, 128),
++	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
++	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101),
++};
++
++static const struct mhi_controller_config modem_rolling_rw135r_config = {
++	.max_channels = 128,
++	.timeout_ms = 8000,
++	.num_channels = ARRAY_SIZE(mhi_rolling_rw135r_channels),
++	.ch_cfg = mhi_rolling_rw135r_channels,
++	.num_events = ARRAY_SIZE(mhi_rolling_rw135r_events),
++	.event_cfg = mhi_rolling_rw135r_events,
++};
++
++static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
++	.edl = "qcom/sdx35m/prog_firehose_ddr.elf",
++	.name = "rolling-rw135r",
++	.config = &modem_rolling_rw135r_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++	.mru_default = 32768,
++	.edl_trigger = true,
++};
++
++static const struct mhi_channel_config mhi_rolling_rw151_channels[] = {
++	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
++	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 4, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 4, 0),
++	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(36, "ADB", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(37, "ADB", 32, 0),
++	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
++	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
++};
++
++static struct mhi_event_config mhi_rolling_rw151_events[] = {
++	MHI_EVENT_CONFIG_CTRL(0, 128),
++	MHI_EVENT_CONFIG_DATA(1, 128),
++	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
++	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101),
++};
++
++static const struct mhi_controller_config modem_rolling_rw151_config = {
++	.max_channels = 128,
++	.timeout_ms = 50000,
++	.num_channels = ARRAY_SIZE(mhi_rolling_rw151_channels),
++	.ch_cfg = mhi_rolling_rw151_channels,
++	.num_events = ARRAY_SIZE(mhi_rolling_rw151_events),
++	.event_cfg = mhi_rolling_rw151_events,
++};
++
++static const struct mhi_pci_dev_info mhi_rolling_rw151_info = {
++	.edl = "qcom/sdx75m/prog_firehose_lite.elf",
++	.name = "rolling-rw151",
++	.config = &modem_rolling_rw151_config,
++	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
++	.dma_data_width = 32,
++	.sideband_wake = false,
++	.mru_default = 32768,
++	.edl_trigger = true,
++};
++
+ /* Keep the list sorted based on the PID. New VID should be added as the last entry */
+ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0116),
+@@ -909,6 +997,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* Telit FN920C04 (sdx35) */
+ 	{PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2020),
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fn920c04_info },
++	/* Rolling RW135R-GL (sdx35) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x2099, 0x1300),
++		.driver_data = (kernel_ulong_t) &mhi_rolling_rw135r_info },
++	/* Rolling RW135R-GL (sdx35) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x2099, 0x1301),
++		.driver_data = (kernel_ulong_t) &mhi_rolling_rw135r_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx24_info },
+ 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0306, PCI_VENDOR_ID_QCOM, 0x010c),
+@@ -941,6 +1035,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* Telit FE990B40 (sdx72) */
+ 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x2025),
+ 		.driver_data = (kernel_ulong_t) &mhi_telit_fe990b40_info },
++	/* Rolling RW151 (sdx75) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x2099, 0x1300),
++		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
++	/* Rolling RW151 (sdx75) */
++	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x2099, 0x1301),
++		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
+ 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
+ 	/* QDU100, x100-DU */
+diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
+index fa73861db6ad..c0bba94d5c3f 100644
+--- a/drivers/net/wwan/mhi_wwan_ctrl.c
++++ b/drivers/net/wwan/mhi_wwan_ctrl.c
+@@ -264,6 +264,7 @@ static const struct mhi_device_id mhi_wwan_ctrl_match_table[] = {
+ 	{ .chan = "DIAG", .driver_data = WWAN_PORT_QCDM },
+ 	{ .chan = "FIREHOSE", .driver_data = WWAN_PORT_FIREHOSE },
+ 	{ .chan = "NMEA", .driver_data = WWAN_PORT_NMEA },
++	{ .chan = "ADB", .driver_data = WWAN_PORT_ADB },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(mhi, mhi_wwan_ctrl_match_table);
+
+--
 2.43.0
 
