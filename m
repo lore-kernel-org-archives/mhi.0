@@ -1,157 +1,214 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2270E3126C0
-	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 07:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781508617; cv=none; b=A+pZQpcUBqzyWz9ExbTbTSKAO6x2WWML0GRbW1i7HMbLqa48Ko+Qkw8LNZfC/RGIIiGN8mXtaexAqcVuz6lxDeMGG/grIVz2siIsbZT8ooJVwlllgRLfLaZJQDI6VCC0GQCb3WKaEEqY9Zs/1S3+6NYv73TwTlQmd2EmbkIedKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781508617; c=relaxed/simple;
-	bh=fR0oi9v184iQOyv1BvHhYMt5snuytRuwX2/aefL9mLs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=JnY6/fx9jXPaH1s/GsbSF2LtQloeCfzcjPDMWNTnK/nswcnePRMNQHi7pO4RuKIGe9IpGzqSKvbudUmbARI03dFQ2tWV6AIAHLCSF8MwMkRuCySRKxEflyTg/F0XtG+MAxCxVySLc5VzE7OjtGKfiU5IciTgtuW+kgdy+U7B7M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nt+vCvK4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682E7307AF4
+	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 09:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781516762; cv=pass; b=r+t8G4yA8Vjwf3bHzBdfeNxOyFYB2lle+8zocrrquCd5W3Zj/rl4G/DT8PGXdOBydnldvqoSysZScIkVF2j2yXr3Nbvg418qTf/CDzUgtpdPnLT0fUplt1CgJWAtmjh+GTujKTb7BsK6bIB35zhf+TH8VNfnKTnPQJr8ew9ipSk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781516762; c=relaxed/simple;
+	bh=+0PpjdZOtlZVdHY09clHhkAlxOivu8V467n0BMiBkJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ip00cHRWDEpY0nkvPZaoqbz70TAZHc+HGtCzgDCFr9RRy83GTNYadsG8smT4ZV29JDCvArrJ+0VjNlA4Ywz35fFCJ4//MYpvCjtxQxYlyTdpDLlENWs/lg2RHDf54aG1l8uHeDtEFJoWzrkhbbI1emvwH2jzPyYZTEUM1eHf6KQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6fSUT76; arc=pass smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nt+vCvK4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781508615;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4VlL+ld2zIBTp0Uov30L/svoU5nNy1BEIdafxq1tBX4=;
-	b=Nt+vCvK4ECdQR40IepnaVumtakKSNJ/rD6smPMLD9c23nedXVDh9nYYH75iEZto+keaY4z
-	MmJM9hGo5R4JlQTiRbrF6S5oPdGdbBtogeKYQjUaJ16HkDx3AbgF3yu+xiGPVTxx1avG8o
-	MeoV5bueMoZecF2Y+6OGWEt9W4mJrNE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-433-uW9eYI_rOsCmZdj76mUXtw-1; Mon,
- 15 Jun 2026 03:30:12 -0400
-X-MC-Unique: uW9eYI_rOsCmZdj76mUXtw-1
-X-Mimecast-MFC-AGG-ID: uW9eYI_rOsCmZdj76mUXtw_1781508610
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5529B19560BB;
-	Mon, 15 Jun 2026 07:30:09 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.44.48.61])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CF602180056E;
-	Mon, 15 Jun 2026 07:30:03 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: helgaas@kernel.org,
-	alex@shazbot.org
-Cc: ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	bhelgaas@google.com,
-	jjohnson@kernel.org,
-	jtornosm@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	mani@kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
-Date: Mon, 15 Jun 2026 09:30:01 +0200
-Message-ID: <20260615073001.401330-1-jtornosm@redhat.com>
-In-Reply-To: <20260612151749.GA603817@bhelgaas>
-References: <20260612151749.GA603817@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6fSUT76"
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-59ccf81e6feso1061452e0c.2
+        for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 02:45:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781516758; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dMcFySdXGJcw/94XqM3IPf51L5syRkEbuoy/9yyIOVNfqcI5R4MTWZ4x4EL6U8WhhS
+         uKGEi5ABSIc+AYfc5/0tuTZa2x+X/a4Xr/KbqLa0YTb+P9UUaIs9cRNJiAR97FKIan0y
+         5Ie8VrwrFPr4epBfL8OAyTy7kPKITawbZ2oCodofiz5xEcDicY6eDhzyrKWH+1B2iW+f
+         fbFQEo6EcIllsoFGQk4WjYvyvYmmOpLuZFtwFN9jYncUN9b2ozMsojJLEuWcKc+kyiCx
+         Scydkq9yjlqcn2MTJ+Nm//EEKnDliKG8PAD+cmp2n/tpKijEI4V7OgPQUqx5LVZsfnlA
+         x5cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nYEPbdWhREgm72MPD718fjlljpJlC4uJ1ZbrV25kB0g=;
+        fh=rGFRxypiv6/QAakq0+d8lcM4v2sHiSix+VOCuFDbeCk=;
+        b=M/WtwoND6Bx7ksx306SnCqPdyc5GYMAiElsEL1XyfENmGNdFnuhmEF0QvgDf3AWoVq
+         sAItwWjTPX+6ZLtii6Dkq/D9vYgbLYN8liPDM/OjWGrgdBCtpXRSa1JN0JisDVA2qBvg
+         ev4pear9QLq6Pnxw80vaRnb2DJeG5rQLpO0Iqb6vVLYuUJV/Ch+W73SYAZut4wvTPtFs
+         WmfkPirJ/yBI8DZWX8w3ZmZdlZU73aTL1UZPBG0W7M0Q0o8Pf39Cq1l2Hr5APFZBf0V+
+         FrWXpWtRJpbjaligiNcGL1PaHay5dd/++yqj6vkl9tZ3MY3tRWi2uK3MNrEQiMqMB3l5
+         K4vg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781516758; x=1782121558; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nYEPbdWhREgm72MPD718fjlljpJlC4uJ1ZbrV25kB0g=;
+        b=V6fSUT76QpxcXFryaQXtnT1zTkBAlvKHw6c5vyF1zKXxy6bNMK1ZKiMgAywjamPQUY
+         anpYKul+t6ulHQGBlWCDCTyB91HgedSK/86r3yDlHeQXIKXSMPIZ20gtjmg96Zz37dNE
+         erNHeSyuyMfgWgaAu4MW5R/g5kBpA1NKbdaFvZqIfO2f9YlmJ17avw99F3n8HGSO7gs8
+         zPVWnMO6HSnaexCGPVeR94EDo039J5+d1NmYR2VOdejU9livSOkkbvkqKJKc9XPgfSCE
+         7fxDN1ubZuqx7kkSg+/NTrj5LN4WVVh7resJqIN2jvnE5SSA5GhpTyoyMNjsOC3r7mtq
+         zwYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781516758; x=1782121558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nYEPbdWhREgm72MPD718fjlljpJlC4uJ1ZbrV25kB0g=;
+        b=A9wiBitP7JFgOr6MJS6gFNfYuvfCjGoF0/cM1vQESQn7gDovAnY8DZmCtrLGxQGGXt
+         z4TxeEgPzWnd7NhkNvw9BTopy/GZwSZ77lH8LJaZdsq1rMGexLKepwOg5i+PusHmu/ji
+         VhAgeQV4+l2FYaAXbpy8iPRsRNR1gQb5916pohZIS5DQ7PFW/vtXPUJZLHdWr69DDxp0
+         p0gmbU83Lfmy/Xp1gwosCWt8OCpVPE2iq+7ZZ1U3DE38B6uis6Nr864jBPOVsdR4ULfL
+         m/k1i7oYbR+AFeGYyWWK1iCUDxD2RTS1rKXqsDGjkPd3HpQtIQ48+jSCLJPDTnsonykV
+         95LQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/OVhTatHpFNHzRIpIdEGSSW8x7Wokhecylf9dG5yaJz7RzjdbuApDngVP8S1b26CO1gQQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yznihgs9FKKrKGXOFLkhK3F5MoR8XG1k2aFENHn/MAE4DXTbDqt
+	Y9fd0/6kMamI1LfJBwiTMhsNArvypBZxyw7WwLMUFmOvOd1gYquEExQH++ZhkOrqD/rbohwJ3o1
+	45da3igU9HH/8gWlaJnq2nl70B3BPTgo=
+X-Gm-Gg: Acq92OENC1PBwTFGHzWJpZ47NVUKG4EnXO7Kvqm1njb249dTg7HVPu+8Rx01r8qSJWh
+	LZT8TI22UsDz3V2wsr3OZBy4UY6bqJ/pDtVD2RmA8kbv0DixUWzjXWzjU9tFU8CiLF7BOm7HDpl
+	Hry/elfwOaTgAPn7uPQpR1CNGxZwLEV3Dmwj9IhUo6F3SBP/luYIWa9nYsv8RN2YRxFdU03K50J
+	88AxEo+EU+SdhWtzu6ik8e6rBVo4UOijsKsPjM057LPtRQCMl4ZjXkNhKZSVCIsdvQSEfWKDJjX
+	rM0AYWsa
+X-Received: by 2002:a05:6102:5707:b0:6cf:37fe:2cb with SMTP id
+ ada2fe7eead31-71e88e0816dmr6614649137.27.1781516758273; Mon, 15 Jun 2026
+ 02:45:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: 2JmGmOWuX2fSjfNLhe2lTtdDdJrRXpKihTsUaldAmqQ_1781508610
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <20260603011333.3306102-1-qingtao.cao.au@gmail.com>
+ <20260603011333.3306102-2-qingtao.cao.au@gmail.com> <0d3e4046-42d5-4f91-be85-8681215e84b4@oss.qualcomm.com>
+ <CAPcThSE7wY7Zm=H5npSdCqnEFv0VEMP=3x8UkyJqwfqyEscBsg@mail.gmail.com> <cadb7c5d-d856-4217-9c02-98ba37713897@oss.qualcomm.com>
+In-Reply-To: <cadb7c5d-d856-4217-9c02-98ba37713897@oss.qualcomm.com>
+From: Qingtao Cao <qingtao.cao.au@gmail.com>
+Date: Mon, 15 Jun 2026 19:45:46 +1000
+X-Gm-Features: AVVi8CckJ1lCxpYrUd1VTz8eVNyssy9HrHtsI7IzkAAEjS2Kc7y0CraAYBtWLfI
+Message-ID: <CAPcThSFP6RkBhXt_GVpSbRKzFmb9hzMYPY8R-tjv-iYhZVThnA@mail.gmail.com>
+Subject: Re: [v1 PATCH 1/1] bus: mhi: core: fix sys error handling latency
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: mani@kernel.org, kees@kernel.org, linux-arm-msm@vger.kernel.org, 
+	mhi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Vivek Pernamitta <quic_vpernami@quicinc.com>, Qingtao Cao <qcao@digi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bjorn and Alex,
+Yes indeed, this is exactly what the original commit,
+44b1eba44dc537edf076f131f1eeee7544d0e04f, by Loic Poulain on 2021 Jun
+21 was about:
 
-Bjorn's questions:
+    On graceful power-down/disable transition, when an MHI reset is
+    performed, the MHI device loses its context, including interrupt
+    configuration. However, the current implementation is waiting for
+    event(irq) driven state change to confirm reset has been completed,
+    which never happens, and causes reset timeout, leading to unexpected
+    high latency of the mhi_power_down procedure (up to 45 seconds).
 
-> I guess "bus reset" here refers to Secondary Bus Reset being asserted
-> by the bridge upstream from these devices?  Seems a bit surprising if
-> that doesn't work.  Or is it just that we can't use SBR because there
-> are multiple devices below that bridge?
+    Fix that by moving to the recently introduced poll_reg_field method,
+    waiting for the reset bit to be cleared, in the same way as the
+    power_on procedure.
 
-Yes, SBR. The devices I tested are alone on their bus (single device under
-bridge), so it's a device-specific issue, not a topology problem. The
-quirk_no_bus_reset patch addresses this for v7.2.
+Thanks,
+Qingtao
 
-> I don't know enough about VFIO, but I sort of expected that VFIO would
-> reset devices between reassignment regardless of how a VM terminates.
-> I guess that's not true?
-
-VFIO does attempt reset on every reassignment. Without a working reset method,
-the attempt fails and the device remains in undefined state. With this quirk,
-D3hot successfully resets the device allowing reassignment.
-
-> Since the device claims to preserve internal state across D3hot->D0
-> (and it sounds like at least BARs *are* preserved), is this a
-> potential leak of state between VMs?  To play devil's advocate, how do
-> we convince a customer that none of their data is ever leaked to a
-> subsequent tenant using this device?
-
-This is a valid concern. Testing shows device internals are reset despite
-NoSoftRst+ (command register cleared, requires driver reinitialization),
-though BARs are preserved. Given these devices have no other reset method,
-this provides the only viable mechanism for VFIO reuse. We cannot improve
-beyond what D3hot provides - the quirk works because despite advertising
-NoSoftRst+, D3hot does clear sufficient internal state for clean
-reinitialization.
-
-> If we think this is a viable method, it seems like we should use
-> pci_pm_reset(), which takes care of IOMMU and device readiness issues.
+On Mon, Jun 15, 2026 at 2:07=E2=80=AFPM Krishna Chaitanya Chundru
+<krishna.chundru@oss.qualcomm.com> wrote:
 >
-> We would have to change pci_pm_reset() to deal with the fact that
-> PCI_PM_CTRL_NO_SOFT_RESET seems wrong on these devices.  Maybe we
-> could cache PCI_PM_CTRL_NO_SOFT_RESET in pci_pm_init(), then override
-> it with quirks for these devices?
-
-I explored a similar idea in v2 (PCI_DEV_FLAGS_FORCE_PM_RESET to bypass
-NoSoftRst+):
-https://lore.kernel.org/linux-pci/20260508145153.717641-2-jtornosm@redhat.com/
-(Note: v2 used driver names ath11k/ath12k instead of device-specific names
-WCN6855/WCN7850, which Jeff Johnson later commented on in v7 feedback.)
-
-Alex provided guidance on both approaches and indicated device-specific reset
-seemed more appropriate here:
-
-"Device specific resets are made for this scenario. Look at
-pci_dev_specific_reset() and pci_dev_reset_methods[]. The supporting
-evidence that this performs a worthwhile reset is still a bit weak, but
-heuristically it seems better than nothing, which is what we're left
-with otherwise. Reset via D3hot for a device that does not expose
-NoSoftRst- is not something we should enable or endorse for any common
-use case."
-
-The device-specific approach keeps this quirk isolated to proven device IDs.
-But I can revisit the pm quirk approach if you both prefer it.
-
-Alex's suggestion:
-
-> It would be better to extract the core of pci_pm_reset() to a
-> pci_do_pm_reset() function that's used both here and by the
-> pci_pm_reset() function.
-
-Good point about the code duplication. In v9 I kept it as a self-contained
-quirk to avoid modifying pci_pm_reset() and touching core pci.c code, trying
-to minimize the change footprint. But I agree extracting a helper function
-would be cleaner.
-
-Once we confirm the preferred approach (device-specific vs pm quirk per
-Bjorn's question above), I'll send v10 with the appropriate implementation
-including the helper function if we proceed with the device-specific approach.
-
-Thanks
-
-Best regards
-Jose Ignacio
-
+>
+>
+> On 6/11/2026 4:29 AM, Qingtao Cao wrote:
+> > Hello Krishna,
+> >
+> > Thanks for your reply!
+> >
+> > I am using an old 5.17.0 kernel and Sierra Wireless EM9291, the MHI
+> > pci_generic.c driver was modified a bit to support it,
+> > which is very similar to EM919x and the modem_sierra_em919x_config
+> > descriptor was reused for it (thus the timeout_ms
+> > =3D 24000ms, or 24s applies)
+> >
+> > Without the proposed change, the AT!RESET handling will finish after
+> > timeout in 24 seconds, whereas with the change,
+> > the handling can finish in about 11 seconds
+> >
+> > I was inspired by another earlier commit to fix MHI_STATE_RESET handlin=
+g in
+> > mhi_pm_disable_transition().
+> >
+> > Warm regards,
+> > Qingtao
+>
+> Looks like device is clearing reset state, but we are not getting any msi
+> to trigger mhi state event. As MSI is not expected to send msi from the
+> device after clearing MHI RESET.
+>
+> Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+>
+> - Krishna Chaitanya.
+>
+> > On Wed, Jun 10, 2026 at 10:40=E2=80=AFPM Krishna Chaitanya Chundru <
+> > krishna.chundru@oss.qualcomm.com> wrote:
+> >
+> >>
+> >> On 6/3/2026 6:36 AM, Qingtao Cao wrote:
+> >>> Bring forward the idea to fix the power down latency in
+> >>> mhi_pm_disable_transition() further to mhi_pm_sys_error_transition()
+> >>> so that the transition into system error (triggered by AT!RESET)
+> >>> won't have to return only after the timeout of up to 24 seconds
+> >> Hi,
+> >>
+> >> Generally we should not see this delay, as device is actually clearing
+> >> reset. can you give more details what is the device you are using and
+> >> kernel you
+> >> are using etc.
+> >>
+> >> - Krishna Chaitanya.
+> >>> Signed-off-by: Qingtao Cao <qingtao.cao.au@gmail.com>
+> >>> ---
+> >>>  drivers/bus/mhi/host/pm.c | 14 +++-----------
+> >>>  1 file changed, 3 insertions(+), 11 deletions(-)
+> >>>
+> >>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
+> >>> index f799503c8f36..9d29f1591a45 100644
+> >>> --- a/drivers/bus/mhi/host/pm.c
+> >>> +++ b/drivers/bus/mhi/host/pm.c
+> >>> @@ -651,21 +651,13 @@ static void mhi_pm_sys_error_transition(struct
+> >> mhi_controller *mhi_cntrl)
+> >>>       /* Trigger MHI RESET so that the device will not access host
+> >> memory */
+> >>>       if (reset_device) {
+> >>> -             u32 in_reset =3D -1;
+> >>> -             unsigned long timeout =3D
+> >> msecs_to_jiffies(mhi_cntrl->timeout_ms);
+> >>> -
+> >>>               dev_dbg(dev, "Triggering MHI Reset in device\n");
+> >>>               mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
+> >>>
+> >>>               /* Wait for the reset bit to be cleared by the device *=
+/
+> >>> -             ret =3D wait_event_timeout(mhi_cntrl->state_event,
+> >>> -                                      mhi_read_reg_field(mhi_cntrl,
+> >>> -
+> >>  mhi_cntrl->regs,
+> >>> -                                                         MHICTRL,
+> >>> -
+> >>  MHICTRL_RESET_MASK,
+> >>> -                                                         &in_reset) =
+||
+> >>> -                                     !in_reset, timeout);
+> >>> -             if (!ret || in_reset) {
+> >>> +             ret =3D mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
+> >> MHICTRL,
+> >>> +                              MHICTRL_RESET_MASK, 0, 25000,
+> >> mhi_cntrl->timeout_ms);
+> >>> +             if (ret) {
+> >>>                       dev_err(dev, "Device failed to exit MHI Reset
+> >> state\n");
+> >>>                       write_lock_irq(&mhi_cntrl->pm_lock);
+> >>>                       cur_state =3D mhi_tryset_pm_state(mhi_cntrl,
+> >>
+>
