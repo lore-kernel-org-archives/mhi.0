@@ -1,225 +1,157 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EFD3C06
-	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 04:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2270E3126C0
+	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 07:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781496440; cv=none; b=MualAEiH+xQS0o+7G0WswTgRvTvJDP5MLesiZhjo+orh5mvMdUtitcrZkYTReRGNSPfV5/uj2HiqEb4uqyjDy0/pJ4NrWUcwHjlKDI+Fp4FxE5DhslGOU3WEQCFbGJaMfHLRAhibndbIBOZZJZ39DLduprDNap1+mfYSa9a6OTc=
+	t=1781508617; cv=none; b=A+pZQpcUBqzyWz9ExbTbTSKAO6x2WWML0GRbW1i7HMbLqa48Ko+Qkw8LNZfC/RGIIiGN8mXtaexAqcVuz6lxDeMGG/grIVz2siIsbZT8ooJVwlllgRLfLaZJQDI6VCC0GQCb3WKaEEqY9Zs/1S3+6NYv73TwTlQmd2EmbkIedKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781496440; c=relaxed/simple;
-	bh=uIOnfKo2h7zAEA64UfE4jeAAFtzp7e2deMojPvKaOLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=npowi6eLVYxzdw4AXDYFCsJ1bbJ6U45zktBQFFv/E4gSTmkGSw5rB1BC8WGLX7Y1eYhh20AzSkw3lHxOxLxptD57d4zEacDWFh8ttfzKVRJ0TOUjTiCfB1a17Mg9Y60HxDn7tKRNS/rvzelftPCN4L6P/VeFITwzMekYN8/i2X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MWh7m8mA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H0Ma3Gjm; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1781508617; c=relaxed/simple;
+	bh=fR0oi9v184iQOyv1BvHhYMt5snuytRuwX2/aefL9mLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=JnY6/fx9jXPaH1s/GsbSF2LtQloeCfzcjPDMWNTnK/nswcnePRMNQHi7pO4RuKIGe9IpGzqSKvbudUmbARI03dFQ2tWV6AIAHLCSF8MwMkRuCySRKxEflyTg/F0XtG+MAxCxVySLc5VzE7OjtGKfiU5IciTgtuW+kgdy+U7B7M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nt+vCvK4; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MWh7m8mA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H0Ma3Gjm"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65F1hsda2646490
-	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 04:07:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dzTkqC16zOHCuTnK0OQk33CLzFmITZjYwvMS5SR0uBQ=; b=MWh7m8mA0GbNtmGC
-	5fbPgKSbrMvi7kUDE/U7BbWQh9Ipb0EZxGck48CJ1v/2Hc789Ty0meElxJapV+ux
-	bCFDSVLmkcSI5k87Lw0K849cbZVmjHfXvtNU8x70Y8JTu6Ii1j2WXZDUP/XAlgX2
-	wrPg9Sv1KD+VQKyOJcrb64RkkymAPixrQCrxv9ZIC0oNgl3HpLKjnJgV4CdWhvnw
-	H+fs58aWvmJIPfKviJxiH8Ce4UgLyBI4EGBx4YUwMEuD2r8iW2lOv0ilX7094fe2
-	Np60bWF+IT9bv14prNtiOkC9S/GQvOr2mw+8o/AYm5oiHR2sXaRaQtKanpKxui0F
-	iIcITw==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eryybwb54-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Mon, 15 Jun 2026 04:07:17 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-36d98b54cf2so2167237a91.1
-        for <mhi@lists.linux.dev>; Sun, 14 Jun 2026 21:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781496436; x=1782101236; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dzTkqC16zOHCuTnK0OQk33CLzFmITZjYwvMS5SR0uBQ=;
-        b=H0Ma3GjmfrphLeJnFmi4pkVEdloTAf9DDmkNBpLvnd7WxQJ0zYkY3LrcQcUKK9Vd3R
-         /c9psns3Q97Tx2iTXwLgt6h1yURB21oqVmLFQC0RvoHlxOK/trEUaXCOKj3bEdfcPzH2
-         MxQXtRIjwJ2x4xzAYlk7mRcRhW1vYGxFntpmTiaiea4UHBTrGVp5qGfhTJCEZgfCq4s7
-         xNfdppLImknFGxC2MuUds9bw3bTF7FoBTdnlKdB4pCT8uR/x/ZlGdNkz/CsziDOgUC6e
-         7ZXi0NcveVDkGiY2R9Kf6x6SuNAxaZpaQbNWaGLgGbs32nCHhzppOatLCkaSvlm140lD
-         I0fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781496436; x=1782101236;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dzTkqC16zOHCuTnK0OQk33CLzFmITZjYwvMS5SR0uBQ=;
-        b=UZmBqSk1V+tA2jAQHd6j4g2KNl6b3xVwa5biJgdia3kLBXAQb1AlN0lLFnT7MTGcnq
-         fnG3twhjQrJHVTJ/4zdiD20P6vm3hQOGm6Oovt22KqBKMmlv+XMKRbkOoGwwV7NbN2d3
-         D06ZTYc5NAVlXd5J7l30CzKQgss5LaeDYXVgFoQB7eIEh2NcQFlZ7EmjdS/4mpuR7xxY
-         AoF9SmQEoEpVl6wtUjsGH66O9KbLXUh/dHLZU/2cugwgA26yZi3NMialJow6g7vpmkxY
-         XwX6xVpldYlE9jZW+SyrqyKVLrxX0t3lvzYlNKQhbBxefvNrZwoZTSh7VSGMtyYkrf/F
-         1uow==
-X-Forwarded-Encrypted: i=1; AFNElJ8UPpG2vruFedpxTrheUs7XWL/gerBDqBzzGueGlYVf2333AeTHxlbugu7+zIMIg8ZzpsI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzK7DTqejR5So9U+cV2aisHKQBXpL0eSAbrSPNoSi3ExvyeYixN
-	jKwsWQdcVV33KDRFZcwwdUZt/WmGQGcj6j67pz0ZaAxT22+OUYq2AZESUJZirrR0oj4pXx3yq64
-	HNc0vzstE+7/flHynJkLWo7A+jHTRiLFkmR9+Di1c6+jLV67FtOP9nbM=
-X-Gm-Gg: Acq92OFGrIkdOgojNte+hj3Cuxo6exuMEPiy3YznBPyqlVbwleBnhQUDfIab4RDI5o2
-	W6rzsm0g6XjLxro8/hRsi+E7zosL9wTbNk8B3tPIm6qLIqJGKT1uxBWhJrMTCYZDsMJ16GmPK1h
-	Cp2vH2FJPgbeUk5tam+kXLHSyGsxsAedeCW5MWN6l6HsQPhSGqoAIi1T1+TMe1yWEit9eECFUf1
-	EeD/K/2ShYj3jrr5EqlXknU6p+GHYrIrGIw+dFP4yuiGseVEdAavSUX7Grnvmozl1xdw9Y8ooyP
-	bklHMHxnEM89AwzI70ln2Oj8xq8tiD5oP3ANGEoJ6LgHya9yDDXPPHBRksR1RUFRmfxhjih+n1B
-	QhB1QAeYbK7/2zuAXmV8hkLRt7Jj4Aam4kzGKrNGgD4DN7Yi4jhpL0Q==
-X-Received: by 2002:a17:90b:1cc5:b0:36b:8baa:a683 with SMTP id 98e67ed59e1d1-37c2bd08184mr9382387a91.19.1781496436343;
-        Sun, 14 Jun 2026 21:07:16 -0700 (PDT)
-X-Received: by 2002:a17:90b:1cc5:b0:36b:8baa:a683 with SMTP id 98e67ed59e1d1-37c2bd08184mr9382349a91.19.1781496435840;
-        Sun, 14 Jun 2026 21:07:15 -0700 (PDT)
-Received: from [10.218.35.45] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a1f07d77dsm8730067a91.6.2026.06.14.21.07.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jun 2026 21:07:15 -0700 (PDT)
-Message-ID: <cadb7c5d-d856-4217-9c02-98ba37713897@oss.qualcomm.com>
-Date: Mon, 15 Jun 2026 09:37:11 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nt+vCvK4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781508615;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4VlL+ld2zIBTp0Uov30L/svoU5nNy1BEIdafxq1tBX4=;
+	b=Nt+vCvK4ECdQR40IepnaVumtakKSNJ/rD6smPMLD9c23nedXVDh9nYYH75iEZto+keaY4z
+	MmJM9hGo5R4JlQTiRbrF6S5oPdGdbBtogeKYQjUaJ16HkDx3AbgF3yu+xiGPVTxx1avG8o
+	MeoV5bueMoZecF2Y+6OGWEt9W4mJrNE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-433-uW9eYI_rOsCmZdj76mUXtw-1; Mon,
+ 15 Jun 2026 03:30:12 -0400
+X-MC-Unique: uW9eYI_rOsCmZdj76mUXtw-1
+X-Mimecast-MFC-AGG-ID: uW9eYI_rOsCmZdj76mUXtw_1781508610
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5529B19560BB;
+	Mon, 15 Jun 2026 07:30:09 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.44.48.61])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CF602180056E;
+	Mon, 15 Jun 2026 07:30:03 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: helgaas@kernel.org,
+	alex@shazbot.org
+Cc: ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org,
+	bhelgaas@google.com,
+	jjohnson@kernel.org,
+	jtornosm@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	mani@kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
+Date: Mon, 15 Jun 2026 09:30:01 +0200
+Message-ID: <20260615073001.401330-1-jtornosm@redhat.com>
+In-Reply-To: <20260612151749.GA603817@bhelgaas>
+References: <20260612151749.GA603817@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v1 PATCH 1/1] bus: mhi: core: fix sys error handling latency
-To: Qingtao Cao <qingtao.cao.au@gmail.com>
-Cc: mani@kernel.org, kees@kernel.org, linux-arm-msm@vger.kernel.org,
-        mhi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Vivek Pernamitta <quic_vpernami@quicinc.com>,
-        Qingtao Cao <qcao@digi.com>
-References: <20260603011333.3306102-1-qingtao.cao.au@gmail.com>
- <20260603011333.3306102-2-qingtao.cao.au@gmail.com>
- <0d3e4046-42d5-4f91-be85-8681215e84b4@oss.qualcomm.com>
- <CAPcThSE7wY7Zm=H5npSdCqnEFv0VEMP=3x8UkyJqwfqyEscBsg@mail.gmail.com>
-Content-Language: en-US
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-In-Reply-To: <CAPcThSE7wY7Zm=H5npSdCqnEFv0VEMP=3x8UkyJqwfqyEscBsg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: 2JmGmOWuX2fSjfNLhe2lTtdDdJrRXpKihTsUaldAmqQ_1781508610
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: NswHD_1zrsfZLFBPWFYJquBLGArv6Pc9
-X-Proofpoint-ORIG-GUID: NswHD_1zrsfZLFBPWFYJquBLGArv6Pc9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE1MDAzOSBTYWx0ZWRfX25ecdD8hpjFY
- uuEog30YOoFMtk9A9B4KX08kkPJTzPp8POXYuA+JmfMcj6cFdInwck7VswZS5xA0vteoNPKRbiv
- h0qIVTN3Od+mQIZA6llLywzBLYcajmw=
-X-Authority-Analysis: v=2.4 cv=JLYLdcKb c=1 sm=1 tr=0 ts=6a2f7a75 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=ArX4OyIvYgtutL6DSBwA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE1MDAzOSBTYWx0ZWRfX2t+32cPS6S7e
- B3VNmXg8TkbiPvc36nNJyvUISTJSCw65rOWs+An1rUgX9d21Gg5UhqiJeCPgFGM8JOrwspfk4b7
- sqqgeC/WYCOncyCrkk28JX9A9F1VIFEqJS6AA7jL2KZcv7c6wowy06tzy727OUK9VH42bPx9bCZ
- Eiw4W4rlQA2T+MQDQpuB9crcdklPfmGhSAeC2rrheRySRyVOPSQJkRic8JrIJSS5KCZGzDYY0VH
- JBzJrLdbHqlFODZgDL8PD3e2dJ/HzVJBKF4Vd5+fecPjaPatyILuoW/9gID/gCkUVHYea3WGLMW
- X70z6zApwRNDLnNTdbjQmJJkXxV3fCTZzMv86kmbG8eewjvCDGZ5SUejibpQOnmbGhiDXYo/zk5
- Q8QYUcmWpARSmExS7iHgRzWffAN/ukNUBY6krnzyL8tI4khs4C9kEpjxuXheUL5IswJand59k+u
- WpsrV5RmjnS94iUr1Mg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-15_01,2026-06-12_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 impostorscore=0 bulkscore=0 adultscore=0
- malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
- definitions=main-2606150039
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
+Hi Bjorn and Alex,
 
+Bjorn's questions:
 
-On 6/11/2026 4:29 AM, Qingtao Cao wrote:
-> Hello Krishna,
+> I guess "bus reset" here refers to Secondary Bus Reset being asserted
+> by the bridge upstream from these devices?  Seems a bit surprising if
+> that doesn't work.  Or is it just that we can't use SBR because there
+> are multiple devices below that bridge?
+
+Yes, SBR. The devices I tested are alone on their bus (single device under
+bridge), so it's a device-specific issue, not a topology problem. The
+quirk_no_bus_reset patch addresses this for v7.2.
+
+> I don't know enough about VFIO, but I sort of expected that VFIO would
+> reset devices between reassignment regardless of how a VM terminates.
+> I guess that's not true?
+
+VFIO does attempt reset on every reassignment. Without a working reset method,
+the attempt fails and the device remains in undefined state. With this quirk,
+D3hot successfully resets the device allowing reassignment.
+
+> Since the device claims to preserve internal state across D3hot->D0
+> (and it sounds like at least BARs *are* preserved), is this a
+> potential leak of state between VMs?  To play devil's advocate, how do
+> we convince a customer that none of their data is ever leaked to a
+> subsequent tenant using this device?
+
+This is a valid concern. Testing shows device internals are reset despite
+NoSoftRst+ (command register cleared, requires driver reinitialization),
+though BARs are preserved. Given these devices have no other reset method,
+this provides the only viable mechanism for VFIO reuse. We cannot improve
+beyond what D3hot provides - the quirk works because despite advertising
+NoSoftRst+, D3hot does clear sufficient internal state for clean
+reinitialization.
+
+> If we think this is a viable method, it seems like we should use
+> pci_pm_reset(), which takes care of IOMMU and device readiness issues.
 >
-> Thanks for your reply!
->
-> I am using an old 5.17.0 kernel and Sierra Wireless EM9291, the MHI
-> pci_generic.c driver was modified a bit to support it,
-> which is very similar to EM919x and the modem_sierra_em919x_config
-> descriptor was reused for it (thus the timeout_ms
-> = 24000ms, or 24s applies)
->
-> Without the proposed change, the AT!RESET handling will finish after
-> timeout in 24 seconds, whereas with the change,
-> the handling can finish in about 11 seconds
->
-> I was inspired by another earlier commit to fix MHI_STATE_RESET handling in
-> mhi_pm_disable_transition().
->
-> Warm regards,
-> Qingtao
+> We would have to change pci_pm_reset() to deal with the fact that
+> PCI_PM_CTRL_NO_SOFT_RESET seems wrong on these devices.  Maybe we
+> could cache PCI_PM_CTRL_NO_SOFT_RESET in pci_pm_init(), then override
+> it with quirks for these devices?
 
-Looks like device is clearing reset state, but we are not getting any msi
-to trigger mhi state event. As MSI is not expected to send msi from the
-device after clearing MHI RESET.
+I explored a similar idea in v2 (PCI_DEV_FLAGS_FORCE_PM_RESET to bypass
+NoSoftRst+):
+https://lore.kernel.org/linux-pci/20260508145153.717641-2-jtornosm@redhat.com/
+(Note: v2 used driver names ath11k/ath12k instead of device-specific names
+WCN6855/WCN7850, which Jeff Johnson later commented on in v7 feedback.)
 
-Reviewed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Alex provided guidance on both approaches and indicated device-specific reset
+seemed more appropriate here:
 
-- Krishna Chaitanya.
+"Device specific resets are made for this scenario. Look at
+pci_dev_specific_reset() and pci_dev_reset_methods[]. The supporting
+evidence that this performs a worthwhile reset is still a bit weak, but
+heuristically it seems better than nothing, which is what we're left
+with otherwise. Reset via D3hot for a device that does not expose
+NoSoftRst- is not something we should enable or endorse for any common
+use case."
 
-> On Wed, Jun 10, 2026 at 10:40 PM Krishna Chaitanya Chundru <
-> krishna.chundru@oss.qualcomm.com> wrote:
->
->>
->> On 6/3/2026 6:36 AM, Qingtao Cao wrote:
->>> Bring forward the idea to fix the power down latency in
->>> mhi_pm_disable_transition() further to mhi_pm_sys_error_transition()
->>> so that the transition into system error (triggered by AT!RESET)
->>> won't have to return only after the timeout of up to 24 seconds
->> Hi,
->>
->> Generally we should not see this delay, as device is actually clearing
->> reset. can you give more details what is the device you are using and
->> kernel you
->> are using etc.
->>
->> - Krishna Chaitanya.
->>> Signed-off-by: Qingtao Cao <qingtao.cao.au@gmail.com>
->>> ---
->>>  drivers/bus/mhi/host/pm.c | 14 +++-----------
->>>  1 file changed, 3 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->>> index f799503c8f36..9d29f1591a45 100644
->>> --- a/drivers/bus/mhi/host/pm.c
->>> +++ b/drivers/bus/mhi/host/pm.c
->>> @@ -651,21 +651,13 @@ static void mhi_pm_sys_error_transition(struct
->> mhi_controller *mhi_cntrl)
->>>       /* Trigger MHI RESET so that the device will not access host
->> memory */
->>>       if (reset_device) {
->>> -             u32 in_reset = -1;
->>> -             unsigned long timeout =
->> msecs_to_jiffies(mhi_cntrl->timeout_ms);
->>> -
->>>               dev_dbg(dev, "Triggering MHI Reset in device\n");
->>>               mhi_set_mhi_state(mhi_cntrl, MHI_STATE_RESET);
->>>
->>>               /* Wait for the reset bit to be cleared by the device */
->>> -             ret = wait_event_timeout(mhi_cntrl->state_event,
->>> -                                      mhi_read_reg_field(mhi_cntrl,
->>> -
->>  mhi_cntrl->regs,
->>> -                                                         MHICTRL,
->>> -
->>  MHICTRL_RESET_MASK,
->>> -                                                         &in_reset) ||
->>> -                                     !in_reset, timeout);
->>> -             if (!ret || in_reset) {
->>> +             ret = mhi_poll_reg_field(mhi_cntrl, mhi_cntrl->regs,
->> MHICTRL,
->>> +                              MHICTRL_RESET_MASK, 0, 25000,
->> mhi_cntrl->timeout_ms);
->>> +             if (ret) {
->>>                       dev_err(dev, "Device failed to exit MHI Reset
->> state\n");
->>>                       write_lock_irq(&mhi_cntrl->pm_lock);
->>>                       cur_state = mhi_tryset_pm_state(mhi_cntrl,
->>
+The device-specific approach keeps this quirk isolated to proven device IDs.
+But I can revisit the pm quirk approach if you both prefer it.
+
+Alex's suggestion:
+
+> It would be better to extract the core of pci_pm_reset() to a
+> pci_do_pm_reset() function that's used both here and by the
+> pci_pm_reset() function.
+
+Good point about the code duplication. In v9 I kept it as a self-contained
+quirk to avoid modifying pci_pm_reset() and touching core pci.c code, trying
+to minimize the change footprint. But I agree extracting a helper function
+would be cleaner.
+
+Once we confirm the preferred approach (device-specific vs pm quirk per
+Bjorn's question above), I'll send v10 with the appropriate implementation
+including the helper function if we proceed with the device-specific approach.
+
+Thanks
+
+Best regards
+Jose Ignacio
 
