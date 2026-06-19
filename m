@@ -1,137 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7FC257854
-	for <mhi@lists.linux.dev>; Thu, 18 Jun 2026 06:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781764407; cv=none; b=ESpQIs1WhjAj9XaHtXA2B4zCHXVvQ4dewPQ7niqQ+35zEcMbOn+XVx4qrO3e87TMTZMamoAKoGhteZdXMlwn2dyKsZnSD1R7lx/o8HDe3LySh/KkUwhTeQoybr1EcgQv/zLd4+QqlaEMGPqdQnZ6a+bjXZYE34oD8jEIyNM3sIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781764407; c=relaxed/simple;
-	bh=cl0Kc/B05k+HbszsSbmzQUNh8ZJ5DFzrvMKvTt36hOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ageZ9uVE8NxuaPMF2dtuYmkuOT06WejkzGxEByiwJzD6yu8glTxbxdjPglA017+RBDubYgIUBZe7mfclGlRgiPuknQsZ+c67vYiXTD1+jAFPvQGQifZz/+iwXPBypFeEPOUCIMPL+XaVSl/sDXq+xhJHi0feLqWVy8WFy/CTb0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OPFkZDNu; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF6B3002DF
+	for <mhi@lists.linux.dev>; Fri, 19 Jun 2026 18:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781894388; cv=pass; b=O2HSVqEN1bYyQG7Witk9+h2jOdNvFO2QUxIJs8psF62PJLYaIyh7CDc77EvtPq+wCAtkJD7xnlRgLlq+wJDaYXyxPBGzC/Rn2udeYoIR8StiiwxBuiG49dNpAwOlbJ+UScXCSL4KuZ+i9m+bHhATXSODbSpyT5dfHMo5u6uSfPg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781894388; c=relaxed/simple;
+	bh=7sd/b42PKGYPWc3g69c99WO1tcNR8oQqqaoqVKqNcok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H6mwPpNdMJD0/uyGTt7D382UzRL07Fg9As942d0OyAE0lFM4wc6hYDRGFQ6JqnHN51znpuYRC3d0HqgSa3Kq5iGHt/pCzt4kzVLKoVykUa8PaR1iVeGIV0WZm4vqXU1/9oY/9i1iSCCm8ICH9udZIQ9eLYYIYuVwbdVVhVWPMqA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M71/ZJjI; arc=pass smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OPFkZDNu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781764405;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fxEPUDJEb/E2TNBGBdy1DqfUWhcoKOjLbBcYOBP7BPY=;
-	b=OPFkZDNunr/SnyD5u3QWFs10VAkHlQ1Lb3liWo8mVAErFdvqgxFQXGpEFNsMoSBIpr5O/Z
-	coJR/vOnCVd8TYbwBi3b4tUiziJNWUQHleNywe3kd9LYTjGvO2ojZTf4qhakmSWIW6Bm9s
-	GOOxcTnxnRcK1OF7+fmwZ0dO8wCyr8c=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-sZX7nJgjPVaSpqNJyJkT1w-1; Thu,
- 18 Jun 2026 02:33:20 -0400
-X-MC-Unique: sZX7nJgjPVaSpqNJyJkT1w-1
-X-Mimecast-MFC-AGG-ID: sZX7nJgjPVaSpqNJyJkT1w_1781764399
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 54C011955F0A;
-	Thu, 18 Jun 2026 06:33:18 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.44.32.28])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 589073000238;
-	Thu, 18 Jun 2026 06:33:13 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: mani@kernel.org
-Cc: alex@shazbot.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	bhelgaas@google.com,
-	jjohnson@kernel.org,
-	jtornosm@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
-Date: Thu, 18 Jun 2026 08:33:08 +0200
-Message-ID: <20260618063309.9536-1-jtornosm@redhat.com>
-In-Reply-To: <n3maiuu5cctivlal4fozysz37ir6ecdfws5u2xxw2neclsfdfj@nsvwvlh7b4j5>
-References: <n3maiuu5cctivlal4fozysz37ir6ecdfws5u2xxw2neclsfdfj@nsvwvlh7b4j5>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M71/ZJjI"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ad4c229861so1962278e87.2
+        for <mhi@lists.linux.dev>; Fri, 19 Jun 2026 11:39:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781894385; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SmG5zJImVHS9L4g8qjAi8pk1GiaJ97XVl9lYoolWfFc89Rije3etpFwmkYOEURBgae
+         IE0YNqagMYvdGos6devqyOJAlw+hfAlaVC/CaqikMfT+sLfjzNNMj4rTLYreP9oAD74t
+         /fewNtgimg1ABp8T6UIW73IhlYnm2ri4Am7eH+N+mXXzfkKa/MBgpmZTkhonuVuX2RGy
+         uN+Yn7AYy4zdWGQn3LLf03BQArhegqaQFgV06nJOKx/kWJgvJ3Zm8Hl65Wd8SitP8xCj
+         HN8gcK6u02h9iB2X72Sq4XbrJvzPWoufNOfhfDMyOWamE2mMhCADLt2uAKcZV4nHGncl
+         jbmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7sd/b42PKGYPWc3g69c99WO1tcNR8oQqqaoqVKqNcok=;
+        fh=a0egc+bS+JyCDHqLpMKimWbjJFATJWhBEzsaemwtEoc=;
+        b=GFpAcBpBnMMT3/RB1XcH5g/li8vW2HHqgvAhzVQ8hNG+w6PWoQxCkCa4Q4MYzdCN6h
+         l6LveBi7OUvdKojt+Y2T/UK81hLZlfwnJ7Fz8sgPVhDM5AulQy/ahaLGqH46Uu8FHDBD
+         xz6S7nlOfaj2ezoFREGEW/7iuW1RQ4kP2xqSRNE8tLjm3U3RdXV3pT0hUHR83+2fnGkL
+         1KwYVrLWy6wTkqnuVS1B0oPJblhloOYGgj/gE2TDQYzPD6jAjzFaNLobHK5jPvhYZMMN
+         pMuobx+XJXvRupmS211CUK0ZDHIQfX3/GY1It+ztk44dcIXEQMtugCFLxwN50YVYHIE7
+         Y64Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781894385; x=1782499185; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sd/b42PKGYPWc3g69c99WO1tcNR8oQqqaoqVKqNcok=;
+        b=M71/ZJjIxXSejRIWkonsbJbnDhQH0jeIvajUG+0Jr0fRbf7Yf3DgoLhWZvKwyfp2ew
+         UnMQNd6nCnHA5ftHO8Yt3WQW8a6cYMgHBOqd4ARunQNokjOHrHuIvNRkA2Tjq3269zbt
+         8XSz8p3bxcSuk6G75AkCZVcueykG6hctXnBLhTXni/ffpxLWRkmXuWzMf24uAbPt+qAN
+         JQsIgZmegw2bATNZYhJtNu7L5ONFvZ2aPc7sNEhG87/t+T/7yn/n9M1vO5pPKy69AguR
+         W0kxVNEmficxUPhMJQqd1tjR//Aw2eE+PnJ+1ANLYZCoD0dwA36cEDpDkQOSEhcHBJGD
+         j5nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781894385; x=1782499185;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7sd/b42PKGYPWc3g69c99WO1tcNR8oQqqaoqVKqNcok=;
+        b=HbdW09R7SowkPYeDlsHTrayAxefu2mTyI2Ey6R3f6VTK73/0GbyHvwYFKvkWpA3/XU
+         x4ovZRDndNjUiuteD/ry/7TUP+J34yZNjQJE5xCzLrO/+BOvN0wD84Z6pD+XtyKzTrCk
+         Rw4MYERKICwER5fcuW28FPv/NInO3l3C3Glw2ig3xdAwfyoa/qJV7KYwfLPDcZfouUKh
+         CNm3Iq3VJcbBZThgVvHzcVF1Z7jQPeQdI4RabEXUgRmjszWqUfH0N9xjXCloyiRlffDp
+         HTaTsRdzKgpI8eBM6SOHC0+2vFdg8ifhwJBM1PQT9XeKvyNm2ZOrVl4AF83H1K/Pr8xI
+         f4qQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/brsk0U2Y3aLo3JiS/krXdUHjFqBNkBcs3elErQzmnWcdDyL/JpwF9aZvtyacaGWwpbbQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6hPUWbm+MQxCpZrw+qW2cJ6i7OxCDoZl1jYh0cQl3EIbxG4fc
+	r1Noh75wujlqOLqx9q43DwZ5T5+5/CPUd1mVbXzVyOF90GsvUw5Ni0KXTc/R6M3cHZ8sSeiVMXK
+	tbnVQaqt503jUTBUWbxDC3ZJTHO37itM=
+X-Gm-Gg: AfdE7cm3ndzsz/H9yvl3o45FabZzC+PC29F/UyABPaaLrjrlzWrZaix9BfETrFkj6tZ
+	2ODK8THNw6pJ+qAbOKILvq895Ix8IUmFc6c3t7+sMZPJ8iZmIAOXRI0DlrHyP5Mu6hIQGZs3kn1
+	gxwd3wFxe8yw1yUBQKHG/Gmz67s2xteiP/qTcO/eLEHyH08I2ds07D7E2kcyZkaSjsb1L2Yofd1
+	Ee1Eh6rsz8Bfup2YX6NqXnQ9E++MHd6g7WdAuKjDngyAswjloW/VQQNavssRTGHHGTP6mg9FZfw
+	aiKvWIWY
+X-Received: by 2002:a05:6512:2c04:b0:5aa:7779:803b with SMTP id
+ 2adb3069b0e04-5ad5627b383mr1490706e87.5.1781894384458; Fri, 19 Jun 2026
+ 11:39:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: 0Fr_NgS-Msk9xEA4eZJ2HRtG5goVyHfECt7LxZZmw04_1781764399
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260603195142.2189386-1-dbgh9129@gmail.com>
+In-Reply-To: <20260603195142.2189386-1-dbgh9129@gmail.com>
+From: =?UTF-8?B?7LWc7Jyg7Zi4?= <dbgh9129@gmail.com>
+Date: Fri, 19 Jun 2026 14:39:33 -0400
+X-Gm-Features: AVVi8Cfiwwl8mEN3E3SQ88x5utayZx3_Rw_a-AtNERdcfPbetJlN_gm0OG7DevI
+Message-ID: <CACrCO_U-ZVzMAxekDWaL-8Ps++qBLcFLenPA97eJfZajEyz7xw@mail.gmail.com>
+Subject: Re: [PATCH v1] bus: mhi: ep: Fix device refcount leak on create failure
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Akhil Vinod <akhil.vinod@oss.qualcomm.com>, 
+	Sumit Kumar <sumit.kumar@oss.qualcomm.com>, 
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mani,
+Hi,
 
-Let me clarify the exact scenario and where the reset is necessary:
+Just a gentle ping on this patch.
 
-* For the commented WiFi devices (WCN6855/WCN7850):
-
-Standard VFIO passthrough flow (this works fine):
-  1. Unbind native driver (ath11k/ath12k/MHI)
-  2. Bind vfio-pci driver
-  3. Assign device to VM
-  4. VM boots, loads its own driver → device works perfectly
-  5. VM shuts down cleanly → device can be reassigned → works fine
-
-The problem occurs with unclean VM termination:
-  1. VM crashes or is force-terminated
-  2. VFIO tries to reset the device before reassignment
-  3. Without a working PCI reset method, reset fails
-  4. Device stuck in undefined state → cannot be reassigned to another VM
-  
-     Unbinding the driver again doesn't help because the device hardware
-     itself is in a bad state. From hypervisor:
-     $ lspci -vvv -s 0000:03:00.0
-        03:00.0 Network controller: Qualcomm Technologies, Inc (rev ff) (prog-if ff)
-            !!! Unknown header type 7f
-     And a full host power-cycle is necessary to recover.
-     
-* For the commented modem devices (SDX62/SDX65): 
-
-Even worse because it fails during the first VM boot without proper reset
-capability, standard VFIO passthrough flow:
-  1. Unbind native driver (MHI)
-  2. Bind vfio-pci driver
-  3. Assign device to VM
-  4. VM boots, loads its own driver and crashes:
-     [   24.024165] mhi mhi0: Device failed to enter MHI Ready
-     [   24.024168] mhi mhi0: MHI did not enter READY state
-     
-     Unbind/rebind attempts fail:
-     [  352.643601] mhi mhi0: Requested to power ON
-     [  352.643611] mhi mhi0: Power on setup success
-     [  373.442954] mhi mhi0: Device failed to clear MHI Reset
-     [  373.442970] mhi mhi0: MHI did not enter READY state
-     And requires a full host power cycle to recover,
-     even outside of VFIO scenarios.
-
-* MHI Host driver's remove callback may handle clean software state
-teardown, but it doesn't provide a PCI reset capability that VFIO can
-invoke. VFIO needs a reset method registered in the PCI reset hierarchy
-(device_specific, pm, flr, bus, etc.). VFIO invokes this reset both during
-initial device binding (before the VM starts) and when reassigning the
-device between VMs - without a working reset method, the device cannot
-reach a clean state for initialization.
-
-
-
-I hope this clarifies the scenario better. Please let me know if I can
-provide more information or run any specific tests to help investigate this
-further.
+I would appreciate any feedback when you have a chance to review this.
 
 Thanks
-
-Best regards
-José Ignacio
-
