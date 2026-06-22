@@ -1,86 +1,83 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5BB3559F5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9220D3546EB
 	for <mhi@lists.linux.dev>; Mon, 22 Jun 2026 05:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782104969; cv=none; b=J7FmVVd1KVEis0+4iOSA8q7L7ToBMQiJZJVXe0ubkxrb+jajkGVSy6d7GLGYVgUXzOstX0D09x8SUymhyHWL8xPCDdOU3fxp0+aq84QChsaow71Qu8leY/X7cT8+1DFvgUNyK410cyLdprzT3CCDnoRuABtseiDO4+nGRPektDw=
+	t=1782104970; cv=none; b=kAt3e5djaLpXhzbL/s8iLNSro0ZCIO7C3tHpRpD8wWgKN3nQhm+qSsRlU6T2q1yg+aNM1Wrcr0pWFNTeLnWonBQWWIxldGqw0y8Mi05VXBaHcFO9e+p567LAxbuRekLYXG6SlEQLhr/+uh3wmqgPL63rdF+xPTXbVCttucN1meA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782104969; c=relaxed/simple;
-	bh=gGfaQBQV4ve45W3l4vga1g6v8XiqE+OMpkXU/G8WWwU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VoLQTZtswWFF8JX8g6JNSH9HRLisQmFyH1dw1yzlF9YmEte7myAN0AEljrDT/Q8vJJGAR6mpl67Qjt+itdIP5CaJXLZTtDpO6Ww3zYGrJYO7cnVF2ESsll+rrNEsAerlBHA1lt21O/gr5UhZpLdZG+Q14D5EJiVZdhqOlcRmXqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hvRL0yEL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HXtxk2l6; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1782104970; c=relaxed/simple;
+	bh=/uwt8kgsgK9u5RsDCVx5ENOpZJjs+RoI8FLf2D/hs68=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=E6HKsicMJPqax8VmxbsdJE5dVSFQ070hLCiMg0a7I52VaqQGFjnucwDWXOvUetLsWTBGcpFHQO3rfT3W7cl0v5Rp8HjKhtNuB/2vEQc0r1fk52dHE0RM7mjy/E26ZziiT00HtOR+FVebw9J8buKWZfkEa3f5WQ2gYWy7x6nzUjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NdKXbsq2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AMKGemsf; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hvRL0yEL";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HXtxk2l6"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65M59BNu3786566
-	for <mhi@lists.linux.dev>; Mon, 22 Jun 2026 05:09:27 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NdKXbsq2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AMKGemsf"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65M59SvL3880381
+	for <mhi@lists.linux.dev>; Mon, 22 Jun 2026 05:09:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rFRW4uvz7oIyfQLLlTaUlea6eRZCi9oGvqy2/uhqCNc=; b=hvRL0yELe8o/N2tO
-	J9l/e+TBTR0BSS8yq8+ypjq9FklOyYMpl/yExOtjX4PWLjwDQ/MjtnZQL/N8cQhE
-	oMdl7X+ORpcnCYlkLpz5EYkG8dwCwp4/G/rmYFx6JFpg63f+2tQSu4DNOoxhCZSY
-	vJK/jNa8NDcD8Dk1Ub6eWJsyaa9G+DhWtTb7r+MRZM3p0RDPlkiwjj7JNEjOT4uZ
-	WVjKsyt+nnNOqOeEFljezIJp5Byf+4hnbWoEiIRvEbhFE6vC1UVx7pDi8nTQtWU7
-	9FMGFkNA+XhnW+EN5B8FjFr8JxwRyv9am+kd25X3ws/ri/RQiJjzq3B4VkkRH7A5
-	1cEc+g==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ewkmecpra-1
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=4k26TN/DWSZP8LRKvVcEmT
+	AWTWEuz42kG0MVOuNnrP8=; b=NdKXbsq2BqjJzLnPAMgdGwv5bPEqDN4L2djiUm
+	4uSlWgrw01qycCRavLXqn3HAkXKPvO889nMXPUkcDsBO1LFtUrnbi7SSA0VRrQdm
+	i/lN9M7yUwjKHN9A5Dq0LcJlodCSl2vRJrJmJobJ+dKRy9jchmZaKrmoE4K+1KI/
+	iTVE9En73zLM4vGvQHoFlzKLVjPprOQK5r+KXSa/0Vw4hG5gM4eM6ravv18gsBUO
+	l8voRiqUw1z7y3BcUycCVUpc/lpcI30Ky+ECQWwYysN8zwrItI6DUF7FjbLiOrYo
+	7fZ3VNbsNvK5KH1RowigX88jgT6eI7ifmAlcqrjp8+bgRQlQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ewgjed2gq-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <mhi@lists.linux.dev>; Mon, 22 Jun 2026 05:09:27 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8428384f31fso2803464b3a.3
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c892143db7fso2627803a12.1
         for <mhi@lists.linux.dev>; Sun, 21 Jun 2026 22:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782104967; x=1782709767; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rFRW4uvz7oIyfQLLlTaUlea6eRZCi9oGvqy2/uhqCNc=;
-        b=HXtxk2l67sHU/SbA9WfUi+49BwEA/PdUq/Sp2qcDUs3SsMpOvzeQo76vQMH16eFdC/
-         HYr46qU6cH1l1cmARZrUWvFODXQYGuwpBlqJ5Znd9CZc+M4QjhdTwVxH2Hm61/d1P25J
-         VB7VIexppnQMwLRucy39bdecI+bkU0zbNqV4PfwGgZ2oCP7M806CIXv5zLtZ0vTB5f5b
-         31rx/HKzyM1wyQDv7FPuNcw8bellYWuEAMR9jvuS+zPCpblMdvD99emVBZHmuZjneISS
-         RwR/1/FdreYERPyHT6adWzDBRCXpyTPCb25p7TgGP1JHyqX/PZ5R+xzRnG1C7M7wJHHi
-         pWkw==
+        d=oss.qualcomm.com; s=google; t=1782104961; x=1782709761; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4k26TN/DWSZP8LRKvVcEmTAWTWEuz42kG0MVOuNnrP8=;
+        b=AMKGemsfnnXZ1liiUzSGfM4ONFk3hEa/O3vpXJfn6/h746sj4m33xsXV6XEZLBJT31
+         5zCwLnrjvjSBqjGxqzPfvVdP2HE894ACSwjRDXyAL7G2MQSZoO8rLV7rKwjReEMB6GoI
+         a5H0owsUUazoiVi0r8DF8gfX3cih1+FXqwK/ujjt5ie+FSCEfPn+UR9eJ0JXN9PnENjy
+         rv0oVUNAxZ3vR7XZ9z4HeaoI6+tyf7Tq5CwxsbVf4Nceyf+MN++JclaLDgQaLi/wC08v
+         pyN1hv4TMSVsEe15vp2y0rXsL26fVJahYw0lxH/PhhaFjpz+L994U4mkWoEUnmoqnOcH
+         Y0aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782104967; x=1782709767;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rFRW4uvz7oIyfQLLlTaUlea6eRZCi9oGvqy2/uhqCNc=;
-        b=ckJKl7Nud6/DU5hHWyLHGHabtpgcFM6fCYHaRgS4skJIZ5/7RBaQafLjGGa29UiuR3
-         ZJhvjQ76oo7hZ8IjnBIVsnmTHV2JgSdRa/mxRRYVadJJaYP8sWiT6xWP2ZonQrhKFZb7
-         YHC0ynSJbjH5bFSte0U9k38/edsO81J+AfHskwMADruXWUIwsa2oKiskyujgeJHDzFWR
-         wuqNx1mcw+CSrtfpd+fD7fdHwZn1auRisEWB690zKmrrDhMEEkGcAjrM6VHOqLR5w26z
-         kTlfW7/GVoCz9eyje8HwiYKjnay9WfGWm++25PoEkLVUHAYYjiUl7C+qkIWRBzaEDNZn
-         Lutg==
-X-Gm-Message-State: AOJu0YyNoOVpv3GbILOJjhh1fgaV+UCVRqxTdrzQouvXbt/oW/Fe0h1z
-	cQPRohRij87h00k95uvTEcIOa0/y2r+1UAfnzStTYYzgj1PsUTU4Y8PlRPxYyfTG1zzfAr0n/Eg
-	ygS94lEYF2khqtekNIE6WYnx9r37PxnohXfPYy4AFeCiMct1/B/agukA=
-X-Gm-Gg: AfdE7ckZYDiM7m0mvi21WiB8E0er3B94C9IGOIx7d029/ZzYScUspP/LKDUP+wZvqVp
-	XfPEejTDD4Qq+dFVjOoUqSXdTq9laHjH2MNHG45FltWm8GTnQLvqHgEc7jEf98CPYk/c+8ier1d
-	1v3E1gfGPiV7xJZl8fvrN39IBEzAQA3FYC3JdRpPVuZ8Yd56bgh0k72YbYLksjU6jw7FjAfXPaB
-	u4JrpB3cA/bx4jFz23EKxS5t34W9sfkD5h6O4koYJf3qc8e3eiUYsSox5yv9INfPUSUyKc9gECP
-	tLpL+qBeAsVS1iuMoLAwdmSaKyhC3abyNOlrMN7MHuct0fM3m8QPiSgRKZ0zZsp4fpxLiI+Mgm2
-	byXZ6bjdFL2/6HPPBVOufpiNOfvIi8DxYNN95
-X-Received: by 2002:a05:6a00:1307:b0:842:21f0:5113 with SMTP id d2e1a72fcca58-8455088e136mr13692081b3a.24.1782104966652;
-        Sun, 21 Jun 2026 22:09:26 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1307:b0:842:21f0:5113 with SMTP id d2e1a72fcca58-8455088e136mr13692050b3a.24.1782104965798;
-        Sun, 21 Jun 2026 22:09:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782104961; x=1782709761;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4k26TN/DWSZP8LRKvVcEmTAWTWEuz42kG0MVOuNnrP8=;
+        b=p+oPFbzUeEzuYz4EFTv51+hUERDJNpJ4NrIdR2xRhdDbNJCY6+rHBI4hXg62XVLhEy
+         Zetg4jSFdSekzhvAZfexTQC+uBpoVXPo/uY1uq+X0lLEO7fBTBMx0WPSguMg2fu2I14l
+         tzZ3utlIkBjhyI9/BRB3TNftJSHQz0w9u2EFwHU5EFqmk0oOHYaXYI6brzIRagfy5fib
+         bpBdjIs4YSI+yHlB0QzKvZCf+04OJ9bMNjC8vvZ8/LRGA7vzKH0oee/H3h94KTUE0NEW
+         uFjo2L+5I0bxxpkW1pxUubun+yEgjb0DAJaVYBILB/FQfmZt6Q51VjsdNgvaNd5/IBU2
+         jeNw==
+X-Gm-Message-State: AOJu0Yw9zo16m6qVhGMtfSYnQQyUU9BOlEq/uwT4/25JgcCsZaYCVdeC
+	aPQt5Bh13cv3//SJ51CDO+9wqfwffmkEP+W1gS0VOOC5O7kCwTnyyFg8gJM3TXMeHjcudy0Y+8b
+	WysHXSUKn5Hl85+rsJE4JWE5El9L3uKfOOvWp8NwAKmiYs5sPLS/+eO8=
+X-Gm-Gg: AfdE7ckY+OGtiiuuXxOBF+3HKXGu3t6pMbRYcGX8Abnh9nf23ePMIQzR0ec4gmzmEkJ
+	BT2nsqWWIFdeF7DpwgKVTKFZeBVXmuWX6l2p+rsACOkgmjvAqGnl7ebl98lcuBvVlFXCetz+o77
+	msWi69tFRzC7nvX6xq8N8flZNV/UdYObgUPub8f7WWMJ9ilx5HJfaTNOOOv6bq3hbpAsLgEd7Co
+	t8zzgfHGfBy91RqxIZ5Bc6ewa9jQrG2LVxmz49oBF1KUhiJq+hcSNuQqzsphLzK6zfLf1M9xZQ5
+	NuC6FXwy3JQNOJ4ZPbR4qWM6LJNXYO9o0w3ldzxtHfJ8TWTvUOZyMfeXQDbvKAccsYpvslz47vs
+	XPVdFBCBv8zOdwtCe/x7sguohYHNk5VsJAjay
+X-Received: by 2002:a05:6a00:bb8f:b0:845:3fea:976 with SMTP id d2e1a72fcca58-84550878020mr13574477b3a.29.1782104961235;
+        Sun, 21 Jun 2026 22:09:21 -0700 (PDT)
+X-Received: by 2002:a05:6a00:bb8f:b0:845:3fea:976 with SMTP id d2e1a72fcca58-84550878020mr13574436b3a.29.1782104960565;
+        Sun, 21 Jun 2026 22:09:20 -0700 (PDT)
 Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d6c5dbsm5905996b3a.12.2026.06.21.22.09.23
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d6c5dbsm5905996b3a.12.2026.06.21.22.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 22:09:25 -0700 (PDT)
+        Sun, 21 Jun 2026 22:09:20 -0700 (PDT)
 From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Date: Mon, 22 Jun 2026 10:39:16 +0530
-Subject: [PATCH v4 2/3] bus: mhi: ep: Add mhi_ep_queue_buf() API for raw
- buffer queuing
+Subject: [PATCH v4 0/3] bus: mhi: Add loopback driver
+Date: Mon, 22 Jun 2026 10:39:14 +0530
+Message-Id: <20260622-loopback_mhi-v4-0-782b3a0f2eef@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -89,166 +86,150 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260622-loopback_mhi-v4-2-782b3a0f2eef@oss.qualcomm.com>
-References: <20260622-loopback_mhi-v4-0-782b3a0f2eef@oss.qualcomm.com>
-In-Reply-To: <20260622-loopback_mhi-v4-0-782b3a0f2eef@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAHrDOGoC/32P0U7DMAxFf2XKM5niOE3TPfEfCKGQODRiXUYDF
+ Wjqv+MODQlWeLF0LZ3j65OoNGaqYrc5iZGmXHM5cDA3GxF6f3gimSNnoZVuVKdQ7ks5Pvrw/DD
+ 0WUaipklJRWO1YOQ4UsrvZ93dPec+19cyfpztEyzbi8j8FE0glbQmhuCMS4DNbal1+/Lm96EMw
+ 5bHov9iQa+wwVLnmCTv239YjSuss+ASQjLG+2t2+WPS390BrrprdrS69Zhix+fNHw68OKyyoH4
+ 5kB2+RQwqULKw1mOe50/+yHiarwEAAA==
+X-Change-ID: 20250903-loopback_mhi-dee55ff0d462
 To: Manivannan Sadhasivam <mani@kernel.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+        Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782104957; l=4444;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782104957; l=5359;
  i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
- bh=gGfaQBQV4ve45W3l4vga1g6v8XiqE+OMpkXU/G8WWwU=;
- b=Inx12IRZtn+PGKi5C1sB8q4ewBGMbnrNj8GYASSzmUwR1k7xA3mbnVEG8aUXfV+Xod2ur6uq5
- 01H8HcJBDr8BFAzLvLBvrjsrtJTYRYlP8ncdGf4jBCr4NQ0tn5QOv4s
+ bh=/uwt8kgsgK9u5RsDCVx5ENOpZJjs+RoI8FLf2D/hs68=;
+ b=YxYLzOdhL/dadhFmAEOJNpOEPS2orexyVZIs2OTyZa3CnM3sFf3ORdhbgSANf54GuQhmn+Jh0
+ FWo9MshRpZeAJ10sWzew8iA9eKLi6SKNq7Zcdub/3pLAFgyiRhh5v1H
 X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
  pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDA0NyBTYWx0ZWRfX4I28dHeSTU5h
- d4/zZMFigS4cojkbdLlxm6xMqTtjqI2bPVw/PX2hLADv9YtAAqB3VnuO3GqnBULG8jG5M4ahtPQ
- ifZpGc9UE+FBveJLYk9c3RJIFkx0eFueruU5468soJt4MaKSN05ppJLPqlfNmfYFFVZx8M5q457
- mCu1v6Et0B30OX/EgpvYaHTh/D222kQyASsBfHUVLmjtyABZWphbN97bCkkeq/a/QMTBGNpGAV5
- gTX7BS1XVccYTxAXVCWv5W90Ys6BdDVPkVF+arCQpwsA4BcWiAQZUcUtdkTcw7OP6kF5ZU4ScOE
- tMSNEpAJsuORoes638aco99sm2RXihKHqbD1B8mGhSK/hO6R4qAR23x48giiNADpU1fRyIN+z4n
- D+i65bM4L81Kld/HD57D4EmSxAAwZvdVXVnhiD747pusV307QeIAMpEQwjBRNEsuln5W5HS1sFa
- T1y6jl52WYfLshvzwzA==
-X-Authority-Analysis: v=2.4 cv=MtFiLWae c=1 sm=1 tr=0 ts=6a38c387 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-ORIG-GUID: nq_4VnUe7jFVSu-ZznWmMvSXhPGyuy4q
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDA0NyBTYWx0ZWRfXwzbZUqPIqqR+
+ dC2KFiks/XpiWyKiDiAeUcgx8+MaEZUumZRkITMQ5tjvbAHZhhxXEGifi4DGPWKCm1UlZkyvS36
+ OT5LVtrOH7FAfcGMZCrGMrFPaF4NoK0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDA0NyBTYWx0ZWRfXxySpVssE/pf3
+ MC5uoNUY3GMZHjcRtXWgRKdbAYfqY7Xe/V+uZB89LJLpwRiwEu3iESRwRcjUVcWiA7CQhj4OLAC
+ MfslUVwrqFauPV2catQZ3JWSWHV+1fyGVTXQD1NUBW0ADW+qqaYSu+AkGvK4tb0O2EmYV6Sx9XO
+ eeAUJKzK0FTdg/CIckkJiHTMShmglQV/nBEePZI6VD82l9Bc7rN7/Nng2XTNJPRmECG6roWZe7o
+ rKN/7S0qc7PyhElx2L/4F8zkdbbAnQBena+ywd4EGfFG7HqyVrGwUZ/u7eCi8DRIMIPa0RsELct
+ QbO8oJ3glK7b0nOJ+3r+8Faz/iGwmv2oQSq2608x/HemaU/dpLIkErYxz8h2POnJ/XWgoJyG0QM
+ n/pwNj5qt7JHItXfr4eNxprPYzJXUTeDc23FvHwESxtqU6EkESY15B4YAcYMT1jTiJYyp4McQEt
+ bs0WF+oqjIwjSwsisxg==
+X-Proofpoint-GUID: nq_4VnUe7jFVSu-ZznWmMvSXhPGyuy4q
+X-Authority-Analysis: v=2.4 cv=TO51jVla c=1 sm=1 tr=0 ts=6a38c387 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=27Ti7_ZD70JoqEhemiIA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-GUID: _ImSpiPEJe_bM5dN9VW6lxIZNs7rzcCl
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDA0NyBTYWx0ZWRfXwzUgMqDTIzAB
- lpMQrXmjDvuBrzMScuk/Eb11Dpen3tmeHFDGHUl3TcjPIpZkebeeZBgM5MB4RNor/0foTe9M3lE
- yJRVjRltnoCgK8DzGe2bTQ5RMEBw4I8=
-X-Proofpoint-ORIG-GUID: _ImSpiPEJe_bM5dN9VW6lxIZNs7rzcCl
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=C3iqeZzp22duqOMSZkcA:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-22_01,2026-06-18_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 clxscore=1015 phishscore=0
- adultscore=0 spamscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220047
 
-Some MHI endpoint clients do not use socket buffers and need a way to queue
-raw buffers for DL transfers. Add mhi_ep_queue_buf() to support this use
-case.
+The MHI specification defines a LOOPBACK channel that is already
+implemented by MHI-based devices (modems, WLAN) deployed in the field.
+The endpoint firmware echoes back whatever the host sends on this channel.
+Without a host-side driver, there is no way to exercise this channel to
+validate MHI data path integrity between host and endpoint.
 
-Refactor mhi_ep_queue_skb() to delegate to a new internal mhi_ep_queue()
-helper shared by both APIs, and rename mhi_ep_skb_completion() to
-mhi_ep_buf_completion() to reflect its broader use.
+This series adds drivers to exercise the LOOPBACK channel from both the
+host and endpoint sides. The host driver (patch 1) binds to the LOOPBACK
+channel and provides a sysfs interface for configuring transfer parameters,
+triggering a test, and reading the result. The sysfs interface is stable
+ABI because the wire protocol is fixed by the endpoint firmware already
+deployed in the field and cannot be changed.
+
+The endpoint driver (patch 3) echoes received data back to the host using
+a workqueue for asynchronous processing. Patch 2 introduces the
+mhi_ep_queue_buf() API needed by the endpoint driver for raw buffer
+queuing without an skb dependency.
 
 Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 ---
- drivers/bus/mhi/ep/main.c | 29 ++++++++++++++++++++---------
- include/linux/mhi_ep.h    | 15 +++++++++++++++
- 2 files changed, 35 insertions(+), 9 deletions(-)
+Changes in v4:
+- Fix MHI_LOOPBACK_MAX_TRE_SIZE: change SZ_64K to (SZ_64K - 1) since the TRE
+  length field is 16 bits and cannot encode 65536 (sashiko)
+- Move mhi_prepare_for_transfer() to probe() so ring->el_size is initialized
+  before num_tre_store() calls mhi_get_free_desc_count() (sashiko)
+- Add mhi_unprepare_from_transfer() in mhi_loopback_remove() (sashiko)
+- Add NULL guard in all sysfs show/store callbacks against post-remove drvdata
+  race with devres teardown (sashiko)
+- Add KMALLOC_MAX_SIZE check before kzalloc() to prevent page allocator WARN
+  on large tre_count * tre_size values (sashiko)
+- Fix start_store() to use __free(kfree) locals instead of goto-based cleanup
+  to comply with cleanup.h guard+goto mixing rule (sashiko)
+- Change buf_left and read_offset from u32 to size_t in mhi_ep_queue() to
+  avoid truncation of size_t len parameter (sashiko)
+- Add zero-length guard in mhi_ep_loopback_ul_callback() before kmemdup() to
+  handle 0-byte transfers returning ZERO_SIZE_PTR (sashiko)
+- Add NULL guard in mhi_ep_loopback_ul_callback() against post-remove drvdata
+  race (sashiko)
+- Link to v3: https://lore.kernel.org/r/20260610-loopback_mhi-v3-0-a733c0cef61a@oss.qualcomm.com
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index b3eafcf2a2c50d95e3efd3afb27038ecf55552a5..d44e1e54cfb4404b6589aab372e687db7492d3c3 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -516,7 +516,7 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring)
- 	return 0;
- }
- 
--static void mhi_ep_skb_completion(struct mhi_ep_buf_info *buf_info)
-+static void mhi_ep_buf_completion(struct mhi_ep_buf_info *buf_info)
- {
- 	struct mhi_ep_device *mhi_dev = buf_info->mhi_dev;
- 	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
-@@ -544,22 +544,22 @@ static void mhi_ep_skb_completion(struct mhi_ep_buf_info *buf_info)
- 
- 	mhi_ep_ring_inc_index(ring);
- }
--
- /* TODO: Handle partially formed TDs */
--int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
-+static int mhi_ep_queue(struct mhi_ep_device *mhi_dev, void *buf, size_t len,
-+			void *cb_buf)
- {
- 	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
- 	struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
- 	struct device *dev = &mhi_chan->mhi_dev->dev;
- 	struct mhi_ep_buf_info buf_info = {};
- 	struct mhi_ring_element *el;
--	u32 buf_left, read_offset;
-+	size_t buf_left, read_offset;
- 	struct mhi_ep_ring *ring;
- 	size_t tr_len;
- 	u32 tre_len;
- 	int ret;
- 
--	buf_left = skb->len;
-+	buf_left = len;
- 	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
- 
- 	mutex_lock(&mhi_chan->lock);
-@@ -582,13 +582,13 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
- 		tre_len = MHI_TRE_DATA_GET_LEN(el);
- 
- 		tr_len = min(buf_left, tre_len);
--		read_offset = skb->len - buf_left;
-+		read_offset = len - buf_left;
- 
--		buf_info.dev_addr = skb->data + read_offset;
-+		buf_info.dev_addr = buf + read_offset;
- 		buf_info.host_addr = MHI_TRE_DATA_GET_PTR(el);
- 		buf_info.size = tr_len;
--		buf_info.cb = mhi_ep_skb_completion;
--		buf_info.cb_buf = skb;
-+		buf_info.cb = mhi_ep_buf_completion;
-+		buf_info.cb_buf = cb_buf;
- 		buf_info.mhi_dev = mhi_dev;
- 
- 		/*
-@@ -627,8 +627,19 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
- 
- 	return ret;
- }
-+
-+int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
-+{
-+	return mhi_ep_queue(mhi_dev, skb->data, skb->len, skb);
-+}
- EXPORT_SYMBOL_GPL(mhi_ep_queue_skb);
- 
-+int mhi_ep_queue_buf(struct mhi_ep_device *mhi_dev, void *buf, size_t len)
-+{
-+	return mhi_ep_queue(mhi_dev, buf, len, buf);
-+}
-+EXPORT_SYMBOL_GPL(mhi_ep_queue_buf);
-+
- static int mhi_ep_cache_host_cfg(struct mhi_ep_cntrl *mhi_cntrl)
- {
- 	size_t cmd_ctx_host_size, ch_ctx_host_size, ev_ctx_host_size;
-diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-index 7b40fc8cbe77ab8419d167e89264b69a817b9fb1..59f796e56207aaf8be09edc9ba4d1f59b665581f 100644
---- a/include/linux/mhi_ep.h
-+++ b/include/linux/mhi_ep.h
-@@ -302,4 +302,19 @@ bool mhi_ep_queue_is_empty(struct mhi_ep_device *mhi_dev, enum dma_data_directio
-  */
- int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb);
- 
-+/**
-+ * mhi_ep_queue_buf - Send buffer to host over MHI Endpoint
-+ * @mhi_dev: Device associated with the DL channel
-+ * @buf: Buffer to be queued. On success, ownership passes to the MHI stack;
-+ *       the caller must not free @buf until the DL transfer callback fires
-+ *       with result->buf_addr equal to @buf. On failure, the caller retains
-+ *       ownership and must free @buf.
-+ *       Note: if @len spans multiple host DL TREs, the DL transfer callback
-+ *       fires once per TRE, each time with result->buf_addr equal to @buf.
-+ * @len: Size of the buffer
-+ *
-+ * Return: 0 if the buffer has been sent successfully, a negative error code otherwise.
-+ */
-+int mhi_ep_queue_buf(struct mhi_ep_device *mhi_dev, void *buf, size_t len);
-+
- #endif
+Changes in v3:
+- Move ep driver to drivers/bus/mhi/ep/clients/loopback.c (Mani)
+- Move host driver to drivers/bus/mhi/host/clients/loopback.c; keep
+  module name mhi_loopback (Bjorn, Mani)
+- Add ABI documentation in Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+  (Bjorn, Mani)
+- Rename sysfs attribute 'size' to 'tre_size'; add 'max_tre_size' attribute
+- Update Kconfig title to 'MHI LOOPBACK client driver' and describe that
+  the driver binds to the MHI LOOPBACK channel defined in the MHI spec
+  (Mani).
+- Fix memory leak in ep loopback DL transfer error path.
+- Rename mhi_ep_skb_completion() to mhi_ep_buf_completion().
+- Document buffer ownership semantics in mhi_ep_queue_buf() kernel-doc
+- Fix use-after-free in host loopback
+- Fix completion race: arm completion before queuing recv TREs
+- Fix teardown race: synchronize mhi_loopback_remove() with start_store()
+  via lb_mutex
+- Fix u32 multiplication overflow in total_size: use size_mul()
+- Replace kmalloc+memcpy with kmemdup in ep loopback UL callback
+- Update mhi_ep_queue_buf() kernel-doc: note per-TRE callback behavior
+  when buffer length spans multiple host DL TREs
+- Move mhi_prepare_for_transfer()/mhi_unprepare_from_transfer() into
+  start_store() to avoid holding the channel open when idle
+- Link to v2: https://lore.kernel.org/r/20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com
 
+Changes in v2:
+- Use __free(kfree) macro for buffers
+- Removed NET layer socket buffer dependency, now using buffer and len
+- Created a New Api for queuing buffers for clients which do not use skb
+- Link to v1: https://lore.kernel.org/r/20250923-loopback_mhi-v1-0-8618f31f44aa@oss.qualcomm.com
+
+---
+Sumit Kumar (3):
+      bus: mhi: host: clients: Add loopback driver with sysfs interface
+      bus: mhi: ep: Add mhi_ep_queue_buf() API for raw buffer queuing
+      bus: mhi: ep: clients: Add loopback driver for data path testing
+
+ .../ABI/testing/sysfs-bus-mhi-devices-loopback     |  51 ++++
+ MAINTAINERS                                        |   1 +
+ drivers/bus/mhi/ep/Kconfig                         |   2 +
+ drivers/bus/mhi/ep/Makefile                        |   1 +
+ drivers/bus/mhi/ep/clients/Kconfig                 |  16 +
+ drivers/bus/mhi/ep/clients/Makefile                |   2 +
+ drivers/bus/mhi/ep/clients/loopback.c              | 128 ++++++++
+ drivers/bus/mhi/ep/main.c                          |  29 +-
+ drivers/bus/mhi/host/Kconfig                       |   1 +
+ drivers/bus/mhi/host/Makefile                      |   1 +
+ drivers/bus/mhi/host/clients/Kconfig               |  17 ++
+ drivers/bus/mhi/host/clients/Makefile              |   2 +
+ drivers/bus/mhi/host/clients/loopback.c            | 329 +++++++++++++++++++++
+ include/linux/mhi_ep.h                             |  15 +
+ 14 files changed, 586 insertions(+), 9 deletions(-)
+---
+base-commit: e6b9dce0aeeb91dfc0974ab87f02454e24566182
+change-id: 20250903-loopback_mhi-dee55ff0d462
+
+Best regards,
 -- 
-2.34.1
+Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 
