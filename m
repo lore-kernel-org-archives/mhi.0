@@ -1,120 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB3B238C1A;
-	Mon, 22 Jun 2026 16:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B96E379EC6
+	for <mhi@lists.linux.dev>; Mon, 22 Jun 2026 22:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782145369; cv=none; b=U3MPP0Qha0pQWcW3U9wqzl4lRhOXZX2zVhwYEwZNV8eQWszjIWaiVDTeX+rQFxF7lhlj2Gff2uKkOxbJItHVhNEUNAIaIsNDxDgEJ1GWY7umkxzc4FMcejtT2kqLZW60DzOJ8qKWFAVQ/XpmIeqbMyZGQdrOAme0p4OzxnPpuRQ=
+	t=1782166109; cv=none; b=gOgE/aIjB2LbIZP62kfoe+x/uhgw2DvUP1rpYMUkDf/7qWbOtvo3T6afHl0K0uv6w7TU5o3og9nIUjSO2Eukm2FP2k6mbw7KsAkKsVWMP9NOP2MZv3Tyhn0/LYNb9OKNPImIRpO/vZNVQUv0DL0I4BtrJpVdTlF9nm7F6FC56Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782145369; c=relaxed/simple;
-	bh=ZxB0HLrfwlmT9jfHFx31X73Y0V37Fo02zElWchtig6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P2Kf8bnoilK1imj35aDyxQsOLnclLQEnc7iNeaYixAZpPXD47A8VLn6ezhCEGRRpag/IBDkRFPNX9JlL/JQowvkvbDHsdiwvIpDeo9fyvTLJIYDDAvymX4YZAt/T8qGWiaQp8FkjCgxQKmCLcf1SrMrWkJCqvVUSuzutrydkV+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku1f72fK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782166109; c=relaxed/simple;
+	bh=cAMszgx5Fex6SF1BAzROg2EuI/9SrWSdciR3fR97dv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HgAWoIIViF/+TBGuM1pigkFcHiOzSfyKt/MLVPfvpL9cEBUHgsnrTiYWl+xVTQ15UXuK8XYMGv9KQPU0JQ3ibv2vSpO6GzlroA3wI5Er2+4PzUazb8jC6TtSa5UWUjBSLoz+4WvqLLYjTKgXQfneUUZx+WxM7b5kJJgObjDgyrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=h2wOfdWR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=djVgDwe8; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku1f72fK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B481F000E9;
-	Mon, 22 Jun 2026 16:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782145367;
-	bh=ih+I5LnVu91b8pUW2V5GEe/78uVOQ3kGU5E/0iuy70k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ku1f72fKgdOM39icewQMIy5DxQcwfR3BAg894AtUwaqWJ6n9ma5vCgEAMSvjx8Eh/
-	 rHdHjET/Ccg2I+FAvobyUTONrsxsIBhzVos8fy17w/P4/Su+F42/NH+ypA9WewiUU4
-	 EgRHCS3Zad8Yz3Lwgm1Hx9FHLkEIWdLghmUZQ3QpS/xezkQoSDLclvYSSFnruZfW5Z
-	 dRc3q4FwJ7i19lOXshPoidh6SwArl5dRNTYmGo6HiazmRGGxffnPN3uThvLj0c7c0g
-	 7MBbS0hnVAOlC9sfWdQGVVmuxe6f4Y/bY4cLVYCBnxZ0pwpulEEISm3Vqy8EeBJ9iJ
-	 OUzo0J0fKd9bw==
-Date: Mon, 22 Jun 2026 18:22:39 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: alex@shazbot.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org, bhelgaas@google.com, jjohnson@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	mhi@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="h2wOfdWR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="djVgDwe8"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id BBBA01D000F8;
+	Mon, 22 Jun 2026 18:08:25 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 22 Jun 2026 18:08:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1782166105;
+	 x=1782252505; bh=aePkQjGQu+YPsOWr++gYmU3NbJPlCwiidf9kOEVP8qs=; b=
+	h2wOfdWRXfMtqHdeLxElxXOB6tc5rRB9y5vXbeUpmHWU3XDgJ3uxkT65o0+xCZqx
+	0LIxD8/ligPoxSgFis+Rph38xK5jdEGiUl3NHM0xtic82lU30UdG6ZuWB2IoO/8u
+	9NqURy8KgMedxfObUaNnSn3syk4aW8wkO9YtFN+MS16/UEEBN+d90kQg7fSQh95R
+	90t6fh0zF9gVcAkXw3E9tzZSejVo9icgTHzsejbR4EyZrqsBUr4VIF6ojLsEaNLT
+	Kxn7M5HnOrDJqhE3iAt3JdGgfID07DXFFc40ZSburY/dkepxLM1/aOJSz2bB7Ks8
+	BpQooVSXQw5doXDibpcxdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782166105; x=
+	1782252505; bh=aePkQjGQu+YPsOWr++gYmU3NbJPlCwiidf9kOEVP8qs=; b=d
+	jVgDwe8fhKZx50Si7f5mJLdL0E0rm76bUH/9P2DNeeC4HqW797DHLOSOE776EKeU
+	2pXYxuqSoeO8Te6aoFjnIxEoPamjiT/6sBsRTOYX/6mDVD4MxHlIBynho5VCuWTB
+	+1wckEXDjNXj17SGhAW7d3x2VHH9yqvX4FdvLKue3jaenXFwgwuuM+zZBwEjv+Jc
+	uGczv4Zq5GTYALO3qYwV2yKMWvoGWD1M6rgAershGiBz71PrEbAngULTHB1IZmaj
+	2sXWQ1ft3b+2Rla3fb19bgHfPTov0tfzrL7qgxG2fhvgOMexR9nqMDPTg2qFCa11
+	q2ULwQ5JYDJmpa4JJ7EsQ==
+X-ME-Sender: <xms:WLI5as388WQSxAdWCWpKWmXmTsHrjJBq9BJLEXt9Ih1P4TE3dYaN2w>
+    <xme:WLI5avOiI2ILKScsvd1OJqo4ivO5rdBxwW8y-spr1Q_9nFqAi8U5mLREHSxOIdQ30
+    h5h8y3rlaH1hRsrrYVnYm24UOfrdfYHQKvzO5Avwf8_pGVBdpD8_Q>
+X-ME-Received: <xmr:WLI5akbBL4lLDC5gMOrGgb0tVEroWUcPPB5XMUN3y-LMn9aAxqUFYYf1cr4>
+X-ME-Proxy-Cause: dmFkZTF0ec7bWNTJ4dpCl7l9+0ECFQ3bgfPAi09+/jLI+RM2LOSskW7kp3FOx7LYEF+nWE
+    EuQloCpn3ysspX8LYulsIBXIlZnA26gO957f2eq+Ac0bNVQRC0R1RrxqF2FEvrfnz1MWnH
+    G71l7qvQVXUZxdOiUrnRMPxpagI1YORu7T/bf7QcoFlGm6CkIOi9gKNFyQpr7rLwltIAzu
+    QLBHcz6DSeCYPxfCsptOFWZolwBo9GmEAwRMiM499w64pC5k3ePPyD1/i1brvy63P5PmVw
+    axpA85TA/YVWB4zfcW//ryNKRMCp532KQvvwDh6PyIh6PJDCsE0AUxCp9d2lZkens55Nrf
+    oUGz2R1ETI5E3F4lYLWTwEw77ftcIXvmCV3ZMd8XX2xw79xtJBiuyoUVDpdxa4LR7BRsl2
+    abBaooQFYcRPWaISNvoylZ3ux927qHkTBkjr5yQPBa6ndbjk91mXihjxpiiauwZNgs1PCw
+    3QOVD3BszNyNSSUZHTR0ZpeQLQv/LEx6CQH+J/EvSR1sjMuXB+udl1qX1Zsf7awnc9QFNv
+    /lr9dVTL82O74eomKcf/0bU3iNYKUdPeSWjqbZOTQPutsnaKLrclRrEcVwd79fmiWNtlKq
+    bRcodXrr0XBO6rI6lI9ycqfC6F3a7TMvK6oBk9rshCxy6Ies8xkgUQDu/V4Q
+X-ME-Proxy: <xmx:WLI5alyt7IP6sRAyRpvvUcj9Mc8IJmsAP6AetS94c-obX-2QzHoLKg>
+    <xmx:WLI5arOZRuXLS6JEXPBDI4Sk7XcnHATO2wk5JrIVq4WrY9TpPgnvSw>
+    <xmx:WLI5asfil11ha1DueledzbFmW5Xg2opIWnhezxh6_F-_oFE42x8CgQ>
+    <xmx:WLI5aoRjyImPz_b0H7GMmX2MR8syyYc8mvrYnxFu1yc0TXarC-cR6w>
+    <xmx:WbI5amjt19OXgvB606HT8Rgl-OTy44CL78JWx9jS310UkI7BeVCg41HQ>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Jun 2026 18:08:23 -0400 (EDT)
+Date: Mon, 22 Jun 2026 16:08:22 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+ bhelgaas@google.com, jjohnson@kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+ mhi@lists.linux.dev, alex@shazbot.org
 Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
-Message-ID: <4wmbans3ae5ayxqvs3wwn4hg3r3dcjuugmw2akoihvry35bq6k@k5lm6zjrp44l>
+Message-ID: <20260622160822.09350246@shazbot.org>
+In-Reply-To: <4wmbans3ae5ayxqvs3wwn4hg3r3dcjuugmw2akoihvry35bq6k@k5lm6zjrp44l>
 References: <n3maiuu5cctivlal4fozysz37ir6ecdfws5u2xxw2neclsfdfj@nsvwvlh7b4j5>
- <20260618063309.9536-1-jtornosm@redhat.com>
+	<20260618063309.9536-1-jtornosm@redhat.com>
+	<4wmbans3ae5ayxqvs3wwn4hg3r3dcjuugmw2akoihvry35bq6k@k5lm6zjrp44l>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260618063309.9536-1-jtornosm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 08:33:08AM +0200, Jose Ignacio Tornos Martinez wrote:
-> Hi Mani,
-> 
-> Let me clarify the exact scenario and where the reset is necessary:
-> 
-> * For the commented WiFi devices (WCN6855/WCN7850):
-> 
-> Standard VFIO passthrough flow (this works fine):
->   1. Unbind native driver (ath11k/ath12k/MHI)
->   2. Bind vfio-pci driver
->   3. Assign device to VM
->   4. VM boots, loads its own driver → device works perfectly
->   5. VM shuts down cleanly → device can be reassigned → works fine
-> 
-> The problem occurs with unclean VM termination:
->   1. VM crashes or is force-terminated
->   2. VFIO tries to reset the device before reassignment
->   3. Without a working PCI reset method, reset fails
->   4. Device stuck in undefined state → cannot be reassigned to another VM
->   
->      Unbinding the driver again doesn't help because the device hardware
->      itself is in a bad state. From hypervisor:
->      $ lspci -vvv -s 0000:03:00.0
->         03:00.0 Network controller: Qualcomm Technologies, Inc (rev ff) (prog-if ff)
->             !!! Unknown header type 7f
->      And a full host power-cycle is necessary to recover.
->      
+On Mon, 22 Jun 2026 18:22:39 +0200
+Manivannan Sadhasivam <mani@kernel.org> wrote:
 
-Can you try the global reset available in the WLAN device BAR space?
+> On Thu, Jun 18, 2026 at 08:33:08AM +0200, Jose Ignacio Tornos Martinez wr=
+ote:
+> > Hi Mani,
+> >=20
+> > Let me clarify the exact scenario and where the reset is necessary:
+> >=20
+> > * For the commented WiFi devices (WCN6855/WCN7850):
+> >=20
+> > Standard VFIO passthrough flow (this works fine):
+> >   1. Unbind native driver (ath11k/ath12k/MHI)
+> >   2. Bind vfio-pci driver
+> >   3. Assign device to VM
+> >   4. VM boots, loads its own driver =E2=86=92 device works perfectly
+> >   5. VM shuts down cleanly =E2=86=92 device can be reassigned =E2=86=92=
+ works fine
+> >=20
+> > The problem occurs with unclean VM termination:
+> >   1. VM crashes or is force-terminated
+> >   2. VFIO tries to reset the device before reassignment
+> >   3. Without a working PCI reset method, reset fails
+> >   4. Device stuck in undefined state =E2=86=92 cannot be reassigned to =
+another VM
+> >  =20
+> >      Unbinding the driver again doesn't help because the device hardware
+> >      itself is in a bad state. From hypervisor:
+> >      $ lspci -vvv -s 0000:03:00.0
+> >         03:00.0 Network controller: Qualcomm Technologies, Inc (rev ff)=
+ (prog-if ff)
+> >             !!! Unknown header type 7f
+> >      And a full host power-cycle is necessary to recover.
+> >       =20
+>=20
+> Can you try the global reset available in the WLAN device BAR space?
+>=20
+> WCN6855: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree=
+/drivers/net/wireless/ath/ath11k/pci.c#n193
+> WCN7850: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree=
+/drivers/net/wireless/ath/ath12k/pci.c#n182
+>=20
+> > * For the commented modem devices (SDX62/SDX65):=20
+> >=20
+> > Even worse because it fails during the first VM boot without proper res=
+et
+> > capability, standard VFIO passthrough flow:
+> >   1. Unbind native driver (MHI)
+> >   2. Bind vfio-pci driver
+> >   3. Assign device to VM
+> >   4. VM boots, loads its own driver and crashes:
+> >      [   24.024165] mhi mhi0: Device failed to enter MHI Ready
+> >      [   24.024168] mhi mhi0: MHI did not enter READY state
+> >     =20
+> >      Unbind/rebind attempts fail:
+> >      [  352.643601] mhi mhi0: Requested to power ON
+> >      [  352.643611] mhi mhi0: Power on setup success
+> >      [  373.442954] mhi mhi0: Device failed to clear MHI Reset
+> >      [  373.442970] mhi mhi0: MHI did not enter READY state
+> >      And requires a full host power cycle to recover,
+> >      even outside of VFIO scenarios.
+> >=20
+> > * MHI Host driver's remove callback may handle clean software state
+> > teardown, but it doesn't provide a PCI reset capability that VFIO can
+> > invoke. VFIO needs a reset method registered in the PCI reset hierarchy
+> > (device_specific, pm, flr, bus, etc.). VFIO invokes this reset both dur=
+ing
+> > initial device binding (before the VM starts) and when reassigning the
+> > device between VMs - without a working reset method, the device cannot
+> > reach a clean state for initialization.
+> >  =20
+>=20
+> Likewise, there is a SoC reset available in the modem BAR space. You can =
+try it:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/=
+bus/mhi/host/main.c#n178
+>=20
+> If these works, then you can hook these in the device_specific reset call=
+back.
 
-WCN6855: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/net/wireless/ath/ath11k/pci.c#n193
-WCN7850: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/net/wireless/ath/ath12k/pci.c#n182
 
-> * For the commented modem devices (SDX62/SDX65): 
-> 
-> Even worse because it fails during the first VM boot without proper reset
-> capability, standard VFIO passthrough flow:
->   1. Unbind native driver (MHI)
->   2. Bind vfio-pci driver
->   3. Assign device to VM
->   4. VM boots, loads its own driver and crashes:
->      [   24.024165] mhi mhi0: Device failed to enter MHI Ready
->      [   24.024168] mhi mhi0: MHI did not enter READY state
->      
->      Unbind/rebind attempts fail:
->      [  352.643601] mhi mhi0: Requested to power ON
->      [  352.643611] mhi mhi0: Power on setup success
->      [  373.442954] mhi mhi0: Device failed to clear MHI Reset
->      [  373.442970] mhi mhi0: MHI did not enter READY state
->      And requires a full host power cycle to recover,
->      even outside of VFIO scenarios.
-> 
-> * MHI Host driver's remove callback may handle clean software state
-> teardown, but it doesn't provide a PCI reset capability that VFIO can
-> invoke. VFIO needs a reset method registered in the PCI reset hierarchy
-> (device_specific, pm, flr, bus, etc.). VFIO invokes this reset both during
-> initial device binding (before the VM starts) and when reassigning the
-> device between VMs - without a working reset method, the device cannot
-> reach a clean state for initialization.
-> 
+These look promising as simple flows to implement in a device specific
+reset: save command register, set memory enable, ioremap BAR space,
+match read/write/delay sequences of reset function and caller, iounmap,
+restore command.
 
-Likewise, there is a SoC reset available in the modem BAR space. You can try it:
-https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/bus/mhi/host/main.c#n178
+Note the delay in this latter reset is in the caller.  It's also
+surprising that none of these implement a read to flush the posted
+write that initiates the reset.  I wonder if that contributes to the 2s
+delay in the latter example.
 
-If these works, then you can hook these in the device_specific reset callback.
+Also it appears these reset the internal state, but not the PCI state,
+which is fine for our purposes, and certainly more confidence inspiring
+than the D3hot heuristics.  Thanks,
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Alex
