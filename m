@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD652EA732;
-	Tue, 23 Jun 2026 05:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39B7346FB3;
+	Tue, 23 Jun 2026 08:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782192781; cv=none; b=uWVV5K3XqthTwwWV/HxsJjza2Q/Zrfk9W4cxswj0bXyXpgUZnrncFJvNiUwzdUljUBFmAb0vPd3IHl/JTmsDJtVrw4eS0WqedOfg+Vc8jQsFBSGLxP1O1jfFcxSKIwDBqn7Cfs/fMe68JcV8bK2HPGQu7cOqHN97uaUBGGiJHko=
+	t=1782204350; cv=none; b=UDO++ndW6u07QTnhnYtYri/peHhkHIdO2YI/l3wj5M/zN8q8jstOeGjKc9L7Mi4KOThzHLOG/PEj+BsTLcPkjsszIRxRAGBA7YQqaU5og+TsNTd2c3Pkm7MMJLuhEZDRoCzwM5i6UEspeV5XbW/j5DFHcsrXvWbGoba8awjr1uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782192781; c=relaxed/simple;
-	bh=ZQYFqy0/qZv9LhGvXbnZXFxN26fQvgAs/9zVX5lTC8U=;
+	s=arc-20240116; t=1782204350; c=relaxed/simple;
+	bh=wbCO3F4lPXa97a+vQ5tt+9+kDAxv1tfmb5sgyAK9gjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nxfr713P3jjbYhX5qA8nm609zcGNeJ/6+cnI82yi6dodqiAfTZJJAOz9h9ICD9D4ZNR5tMZ5TAB7XL3HZhnL4muWJUqp616xylNV2Px3RbqUFyW3FhzooN99PNKbGBv8ie+yQDdUpJJOMwNY8Y4vyzP7o7fzjk2wx+4mfvx5z/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnWsGh+L; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QjRaFVKPwRhOLzarMDHQQdIfYq80I0O/W9BRPuzzZ9pd8DKCi/ZUeawnLGIFL6vxq9wKthAWZc0rp2egDpwqZ7YVr2x/NT5ErS5tsMMjhnXIGKLFAeObfWr4Qz5trp2fEni0CkDhb3RFrI2N8QgtzI6hqwi+LhB2BXpMRMuvK9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMU0My+O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnWsGh+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E221F000E9;
-	Tue, 23 Jun 2026 05:32:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMU0My+O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770731F000E9;
+	Tue, 23 Jun 2026 08:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782192780;
-	bh=nRnmTVyRRl3BaJUm5m0mOjDwYXi6X6Hva20TicMSD7g=;
+	s=k20260515; t=1782204348;
+	bh=mxgLUx72szZWAaoTej/cb9fj2rTJeQTSlh5I5LOfJLU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LnWsGh+LQLMkEYbRWqmGgoksSDc9dxW/P0i9OHvZYcqK8YcswGQ9dXWFeiNObRysZ
-	 1qoIaXagDUt5t//btSUei78KbHRdz3iowwGxkcZYEyDnGa/lKvLPi/1unx6aBtH74r
-	 OhWasxJGT52fJve/Pkf7Chz476UeozkCBz+tvx2VQzZGlRkiSke4c3JPScoDmMNtK3
-	 8sC9WvAhKxr990uqmF7sX7MqMs/m1mgAXkXrnFtpbnW/e9a1MnjBTF+R5zdYaugf0A
-	 6Xkr4xlGh7Tr4PQ4W08j61Gew3N7DSCs97eGJt7FFS2WbTjhMBr+eNAQCGG5RE4HFb
-	 ZSLj0WBRZAaug==
-Date: Tue, 23 Jun 2026 07:32:50 +0200
+	b=SMU0My+OIe/n/O8yRG1qoXD1Q/QvSC1JN+5AjgsHiBCr3z0RLOG5Nmx82KYLZpDBM
+	 zErPy5HzbZzfMEYQ4/wDZyWDACGKABdOyviUyiJyEKeDgb2a+KkZYw4n3G4j9eiMWU
+	 KOiBvu37LIX/qOOH2Yw94lrIkSsvR7NrGmYRozPCpyOSL3Q3yDqRjypHolwnHc7Ih/
+	 UDTTL9QfHao+bmwVyZGaILPui8H8Er6OFKbf6qJFoOoyIYM20CSpMuV/d1tus7JOVv
+	 RrPo2U+tCneHsGmT932ATAnnhFsEOu3HRue0OUjgp92MsjvOfUbo1FgLW1nhl55oiD
+	 2oIJIEL2nNA/A==
+Date: Tue, 23 Jun 2026 10:45:41 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>, 
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org, bhelgaas@google.com, 
-	jjohnson@kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, mhi@lists.linux.dev
-Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
-Message-ID: <r4jeqtx247iosfjdps6g4fqwtsdzine5qlgh33sdt4p6ktmaln@o725aolrpj4l>
-References: <n3maiuu5cctivlal4fozysz37ir6ecdfws5u2xxw2neclsfdfj@nsvwvlh7b4j5>
- <20260618063309.9536-1-jtornosm@redhat.com>
- <4wmbans3ae5ayxqvs3wwn4hg3r3dcjuugmw2akoihvry35bq6k@k5lm6zjrp44l>
- <20260622160822.09350246@shazbot.org>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/3] bus: mhi: host: clients: Add loopback driver with
+ sysfs interface
+Message-ID: <gwcckverwvbt7r4puj2iu2b2j36olwwu4ua4x4uthht7bfq6my@yifjh6swxisq>
+References: <20260622-loopback_mhi-v4-0-782b3a0f2eef@oss.qualcomm.com>
+ <20260622-loopback_mhi-v4-1-782b3a0f2eef@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -48,98 +45,503 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260622160822.09350246@shazbot.org>
+In-Reply-To: <20260622-loopback_mhi-v4-1-782b3a0f2eef@oss.qualcomm.com>
 
-On Mon, Jun 22, 2026 at 04:08:22PM -0600, Alex Williamson wrote:
-> On Mon, 22 Jun 2026 18:22:39 +0200
-> Manivannan Sadhasivam <mani@kernel.org> wrote:
+On Mon, Jun 22, 2026 at 10:39:15AM +0530, Sumit Kumar wrote:
+> The MHI specification defines a LOOPBACK channel. The endpoint firmware
+> echoes back whatever the host sends on this channel. Without a host-side
+> driver, there is no way to exercise this channel to validate MHI data path
+> integrity between host and endpoint.
 > 
-> > On Thu, Jun 18, 2026 at 08:33:08AM +0200, Jose Ignacio Tornos Martinez wrote:
-> > > Hi Mani,
-> > > 
-> > > Let me clarify the exact scenario and where the reset is necessary:
-> > > 
-> > > * For the commented WiFi devices (WCN6855/WCN7850):
-> > > 
-> > > Standard VFIO passthrough flow (this works fine):
-> > >   1. Unbind native driver (ath11k/ath12k/MHI)
-> > >   2. Bind vfio-pci driver
-> > >   3. Assign device to VM
-> > >   4. VM boots, loads its own driver → device works perfectly
-> > >   5. VM shuts down cleanly → device can be reassigned → works fine
-> > > 
-> > > The problem occurs with unclean VM termination:
-> > >   1. VM crashes or is force-terminated
-> > >   2. VFIO tries to reset the device before reassignment
-> > >   3. Without a working PCI reset method, reset fails
-> > >   4. Device stuck in undefined state → cannot be reassigned to another VM
-> > >   
-> > >      Unbinding the driver again doesn't help because the device hardware
-> > >      itself is in a bad state. From hypervisor:
-> > >      $ lspci -vvv -s 0000:03:00.0
-> > >         03:00.0 Network controller: Qualcomm Technologies, Inc (rev ff) (prog-if ff)
-> > >             !!! Unknown header type 7f
-> > >      And a full host power-cycle is necessary to recover.
-> > >        
-> > 
-> > Can you try the global reset available in the WLAN device BAR space?
-> > 
-> > WCN6855: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/net/wireless/ath/ath11k/pci.c#n193
-> > WCN7850: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/net/wireless/ath/ath12k/pci.c#n182
-> > 
-> > > * For the commented modem devices (SDX62/SDX65): 
-> > > 
-> > > Even worse because it fails during the first VM boot without proper reset
-> > > capability, standard VFIO passthrough flow:
-> > >   1. Unbind native driver (MHI)
-> > >   2. Bind vfio-pci driver
-> > >   3. Assign device to VM
-> > >   4. VM boots, loads its own driver and crashes:
-> > >      [   24.024165] mhi mhi0: Device failed to enter MHI Ready
-> > >      [   24.024168] mhi mhi0: MHI did not enter READY state
-> > >      
-> > >      Unbind/rebind attempts fail:
-> > >      [  352.643601] mhi mhi0: Requested to power ON
-> > >      [  352.643611] mhi mhi0: Power on setup success
-> > >      [  373.442954] mhi mhi0: Device failed to clear MHI Reset
-> > >      [  373.442970] mhi mhi0: MHI did not enter READY state
-> > >      And requires a full host power cycle to recover,
-> > >      even outside of VFIO scenarios.
-> > > 
-> > > * MHI Host driver's remove callback may handle clean software state
-> > > teardown, but it doesn't provide a PCI reset capability that VFIO can
-> > > invoke. VFIO needs a reset method registered in the PCI reset hierarchy
-> > > (device_specific, pm, flr, bus, etc.). VFIO invokes this reset both during
-> > > initial device binding (before the VM starts) and when reassigning the
-> > > device between VMs - without a working reset method, the device cannot
-> > > reach a clean state for initialization.
-> > >   
-> > 
-> > Likewise, there is a SoC reset available in the modem BAR space. You can try it:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/tree/drivers/bus/mhi/host/main.c#n178
-> > 
-> > If these works, then you can hook these in the device_specific reset callback.
+> Add a host-side loopback driver that binds to the LOOPBACK channel and
+> expose a sysfs interface for data path testing. The sysfs interface allows
+> users to configure TRE buffer size and count, trigger a loopback test, and
+> read the result.
 > 
+> Co-developed-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+> ---
+>  .../ABI/testing/sysfs-bus-mhi-devices-loopback     |  51 ++++
+>  MAINTAINERS                                        |   1 +
+>  drivers/bus/mhi/host/Kconfig                       |   1 +
+>  drivers/bus/mhi/host/Makefile                      |   1 +
+>  drivers/bus/mhi/host/clients/Kconfig               |  17 ++
+>  drivers/bus/mhi/host/clients/Makefile              |   2 +
+>  drivers/bus/mhi/host/clients/loopback.c            | 329 +++++++++++++++++++++
+>  7 files changed, 402 insertions(+)
 > 
-> These look promising as simple flows to implement in a device specific
-> reset: save command register, set memory enable, ioremap BAR space,
-> match read/write/delay sequences of reset function and caller, iounmap,
-> restore command.
-> 
-> Note the delay in this latter reset is in the caller.  It's also
-> surprising that none of these implement a read to flush the posted
-> write that initiates the reset.  I wonder if that contributes to the 2s
-> delay in the latter example.
-> 
-> Also it appears these reset the internal state, but not the PCI state,
-> which is fine for our purposes, and certainly more confidence inspiring
-> than the D3hot heuristics.  Thanks,
-> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3bd770747799a3341a23903cc1a108e650e915b8
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+> @@ -0,0 +1,51 @@
+> +What:		/sys/bus/mhi/devices/mhi<N>_LOOPBACK/tre_size
+> +Date:		April 2026
+> +KernelVersion:	7.1
+> +Contact:	mhi@lists.linux.dev
+> +Description:
+> +		(RW) Size of each Transfer Ring Element (TRE) buffer in bytes
+> +		used for the loopback test. Valid range is 1 to the value
+> +		reported by max_tre_size. Default value is 32 bytes.
+> +
+> +What:		/sys/bus/mhi/devices/mhi<N>_LOOPBACK/max_tre_size
+> +Date:		April 2026
+> +KernelVersion:	7.1
+> +Contact:	mhi@lists.linux.dev
+> +Description:
+> +		(RO) Maximum allowed TRE size in bytes. Reading this file
+> +		returns the upper bound for the tre_size attribute.
+> +
+> +What:		/sys/bus/mhi/devices/mhi<N>_LOOPBACK/num_tre
+> +Date:		April 2026
+> +KernelVersion:	7.1
+> +Contact:	mhi@lists.linux.dev
+> +Description:
+> +		(RW) Number of Transfer Ring Elements (TREs) to use per
+> +		loopback test. Must be greater than zero and must not exceed
+> +		the channel ring capacity. Default value is 1.
+> +
+> +What:		/sys/bus/mhi/devices/mhi<N>_LOOPBACK/start
+> +Date:		April 2026
+> +KernelVersion:	7.1
+> +Contact:	mhi@lists.linux.dev
+> +Description:
+> +		(WO) Write any value to trigger a loopback test. The driver
+> +		sends random data to the endpoint using the configured tre_size
+> +		and num_tre parameters, waits for the endpoint to echo it back,
+> +		and verifies the received data matches what was sent.
+> +
+> +		This is a blocking write that returns when the test completes
+> +		or times out after 5 seconds.
+> +
+> +What:		/sys/bus/mhi/devices/mhi<N>_LOOPBACK/status
+> +Date:		April 2026
+> +KernelVersion:	7.1
+> +Contact:	mhi@lists.linux.dev
+> +Description:
+> +		(RO) Result of the last loopback test. Returns one of:
+> +		  "pass"        - last test completed successfully
+> +		  "fail"        - last test failed
+> +		  "not started" - no test has been run yet
+> +
+> +		Reading this file while a test is in progress will block
+> +		until the test completes.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6dcfbd11efef87927041f5cf58d70633dbb4b18d..ff12a6da48947ac853bc638359a7046fea85fc21 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16441,6 +16441,7 @@ L:	linux-arm-msm@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git
+>  F:	Documentation/ABI/stable/sysfs-bus-mhi
+> +F:	Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>  F:	Documentation/mhi/
+>  F:	drivers/bus/mhi/
+>  F:	drivers/pci/endpoint/functions/pci-epf-mhi.c
+> diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
+> index da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..627c57948235aa52348179ae8b2d0826ebaed01e 100644
+> --- a/drivers/bus/mhi/host/Kconfig
+> +++ b/drivers/bus/mhi/host/Kconfig
+> @@ -29,3 +29,4 @@ config MHI_BUS_PCI_GENERIC
+>  	  This driver provides MHI PCI controller driver for devices such as
+>  	  Qualcomm SDX55 based PCIe modems.
+>  
+> +source "drivers/bus/mhi/host/clients/Kconfig"
+> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
+> index 859c2f38451c669b3d3014c374b2b957c99a1cfe..2a16008aeb38127494782bbff4e1656428d2b776 100644
+> --- a/drivers/bus/mhi/host/Makefile
+> +++ b/drivers/bus/mhi/host/Makefile
+> @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
+>  
+>  obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
+>  mhi_pci_generic-y += pci_generic.o
+> +obj-y += clients/
+> diff --git a/drivers/bus/mhi/host/clients/Kconfig b/drivers/bus/mhi/host/clients/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d1463c3e0df0da461c815afaec623ba349b51dda
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/clients/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +config MHI_BUS_LOOPBACK
+> +	tristate "MHI LOOPBACK client driver"
+> +	depends on MHI_BUS
+> +	help
+> +	  MHI LOOPBACK client driver that binds to the MHI LOOPBACK channel
+> +	  as defined in the MHI specification. The LOOPBACK channel is
+> +	  implemented by MHI-based devices (modems, WLAN) in the field, where
+> +	  the endpoint firmware echoes back whatever the host sends.
+> +
+> +	  This driver exposes a sysfs interface for testing MHI data path
+> +	  integrity between host and endpoint. Users can configure the TRE
+> +	  size and count, trigger a loopback test, and read the result.
+> +
+> +	  To compile this driver as a module, choose M here. The module
+> +	  will be called mhi_loopback.
+> diff --git a/drivers/bus/mhi/host/clients/Makefile b/drivers/bus/mhi/host/clients/Makefile
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3811b6928f42b38f94b1167941cf3b0fe512d32b
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/clients/Makefile
+> @@ -0,0 +1,2 @@
+> +obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
+> +mhi_loopback-y += loopback.o
+> diff --git a/drivers/bus/mhi/host/clients/loopback.c b/drivers/bus/mhi/host/clients/loopback.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..693691fff26dc8fa0d58931b98ce5f287fbd5c3e
+> --- /dev/null
+> +++ b/drivers/bus/mhi/host/clients/loopback.c
+> @@ -0,0 +1,329 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +/*
+> + * The MHI LOOPBACK channel is defined in the MHI specification and is
+> + * implemented by MHI-based devices (modems, WLAN) already deployed in the
+> + * field. The endpoint firmware echoes back whatever the host sends on this
+> + * channel. This driver binds to the LOOPBACK channel and exposes a sysfs
+> + * interface for testing MHI data path integrity between host and endpoint.
+> + * The sysfs interface is stable ABI because the wire protocol is fixed by
+> + * the endpoint firmware and cannot be changed.
+> + */
 
-Yeah. But I think this should be handled inside a dedicated VFIO pci driver.
-Otherwise, if we implement this logic in device_specific reset callback, then
-the callback will get triggered even when the client drivers like ath11k are
-bound to the device and create conflict.
+This comment just duplicates Kconfig help text. So drop it.
+
+> +
+> +#include <linux/atomic.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/completion.h>
+> +#include <linux/errno.h>
+> +#include <linux/mhi.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/random.h>
+> +#include <linux/sizes.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/types.h>
+> +
+> +#define MHI_LOOPBACK_DEFAULT_TRE_SIZE	32
+> +#define MHI_LOOPBACK_DEFAULT_NUM_TRE	1
+> +#define MHI_LOOPBACK_TIMEOUT_MS		5000
+> +#define MHI_LOOPBACK_MAX_TRE_SIZE	(SZ_64K - 1)
+> +
+> +struct mhi_loopback {
+> +	struct mhi_device *mdev;
+> +	struct mutex lb_mutex;
+> +	struct completion comp;
+> +	atomic_t tres_pending;
+
+tre_pending
+
+> +	const char *result;
+> +	u32 num_tre;
+> +	u32 tre_size;
+> +};
+> +
+> +static ssize_t tre_size_show(struct device *dev,
+> +			     struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+
+I think you have this check here to avoid race between sysfs cleanup and driver
+remove due to the use of devm_device_add_group(). But you can drop these by
+switching to non-devm helpers and freeing the sysfs entries directly in
+mhi_loopback_remove().
+
+> +
+> +	return sysfs_emit(buf, "%u\n", loopback->tre_size);
+> +}
+> +
+> +static ssize_t tre_size_store(struct device *dev,
+> +			      struct device_attribute *attr,
+> +			      const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +	u32 val;
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+> +
+> +	if (kstrtou32(buf, 0, &val))
+> +		return -EINVAL;
+> +
+> +	if (val == 0 || val > MHI_LOOPBACK_MAX_TRE_SIZE)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&loopback->lb_mutex);
+> +	loopback->tre_size = val;
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(tre_size);
+> +
+> +static ssize_t max_tre_size_show(struct device *dev,
+> +				 struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%u\n", MHI_LOOPBACK_MAX_TRE_SIZE);
+> +}
+> +static DEVICE_ATTR_RO(max_tre_size);
+> +
+> +static ssize_t num_tre_show(struct device *dev,
+> +			    struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+> +
+> +	return sysfs_emit(buf, "%u\n", loopback->num_tre);
+> +}
+> +
+> +static ssize_t num_tre_store(struct device *dev,
+> +			     struct device_attribute *attr,
+> +			     const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +	u32 val;
+> +	int el_num;
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+> +
+> +	if (kstrtou32(buf, 0, &val))
+> +		return -EINVAL;
+> +
+> +	if (val == 0)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&loopback->lb_mutex);
+> +
+> +	el_num = mhi_get_free_desc_count(loopback->mdev, DMA_TO_DEVICE);
+> +	if (val > el_num) {
+> +		dev_err(dev, "num_tre (%u) exceeds ring capacity (%d)\n", val, el_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	loopback->num_tre = val;
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(num_tre);
+> +
+> +static ssize_t start_store(struct device *dev,
+> +			   struct device_attribute *attr,
+> +			   const char *buf, size_t count)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +	u32 total_size, tre_count, tre_size;
+> +	int i;
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+> +
+> +	guard(mutex)(&loopback->lb_mutex);
+> +
+> +	tre_size = loopback->tre_size;
+> +	tre_count = loopback->num_tre;
+> +	total_size = size_mul(tre_count, tre_size);
+> +
+> +	if (total_size > KMALLOC_MAX_SIZE)
+> +		return -EINVAL;
+> +
+> +	void *recv_buf __free(kfree) = kzalloc(total_size, GFP_KERNEL);
+> +	if (!recv_buf)
+> +		return -ENOMEM;
+> +
+> +	void *send_buf __free(kfree) = kzalloc(total_size, GFP_KERNEL);
+> +	if (!send_buf)
+> +		return -ENOMEM;
+> +
+> +	get_random_bytes(send_buf, total_size);
+> +
+> +	atomic_set(&loopback->tres_pending, tre_count);
+> +	reinit_completion(&loopback->comp);
+> +
+> +	for (i = 0; i < tre_count; i++) {
+> +		int ret = mhi_queue_buf(loopback->mdev, DMA_FROM_DEVICE,
+> +					recv_buf + (i * tre_size), tre_size, MHI_EOT);
+> +		if (ret) {
+> +			dev_err(dev, "Unable to queue read TRE %d: %d\n", i, ret);
+> +			loopback->result = "fail";
+> +			if (atomic_sub_and_test(tre_count - i, &loopback->tres_pending))
+> +				complete(&loopback->comp);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < tre_count - 1; i++) {
+> +		int ret = mhi_queue_buf(loopback->mdev, DMA_TO_DEVICE,
+> +					send_buf + (i * tre_size), tre_size, MHI_CHAIN);
+> +		if (ret) {
+> +			dev_err(dev, "Unable to queue send TRE %d: %d\n", i, ret);
+> +			loopback->result = "fail";
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	int ret = mhi_queue_buf(loopback->mdev, DMA_TO_DEVICE,
+> +				send_buf + (i * tre_size), tre_size, MHI_EOT);
+> +	if (ret) {
+> +		dev_err(dev, "Unable to queue final TRE: %d\n", ret);
+> +		loopback->result = "fail";
+> +		return ret;
+> +	}
+> +
+> +	if (!wait_for_completion_timeout(&loopback->comp,
+> +					 msecs_to_jiffies(MHI_LOOPBACK_TIMEOUT_MS))) {
+> +		dev_err(dev, "Loopback test timed out\n");
+> +		loopback->result = "fail";
+> +		return -ETIMEDOUT;
+
+So once this function exits, both buffers will get freed due to the destructor.
+But the device may still hold the reference to the buffers in TRE and may
+read/write to it later. So you need to make sure that you flush the buffers in
+the error path. But we don't have any explicit APIs to do that, so maybe you can
+call mhi_unprepare_from_transfer() followed by mhi_prepare_for_transfer() in the
+error path?
+
+> +	}
+> +
+> +	if (memcmp(send_buf, recv_buf, total_size)) {
+> +		dev_err(dev, "Loopback data mismatch\n");
+> +		loopback->result = "fail";
+> +		return -EIO;
+> +	}
+> +
+> +	loopback->result = "pass";
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_WO(start);
+> +
+> +static ssize_t status_show(struct device *dev,
+> +			   struct device_attribute *attr, char *buf)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(dev);
+> +
+> +	if (!loopback)
+> +		return -ENODEV;
+> +
+> +	guard(mutex)(&loopback->lb_mutex);
+> +
+> +	return sysfs_emit(buf, "%s\n", loopback->result);
+
+I don't see a need for this separate 'status' attribute. 'start' attribute
+blocks until the write is completed or timesout, prints an error message with
+relevant errno and returns the error code. Though the syscall interface converts
+all error code to (-1), it is sufficient for the userspace to know whether the
+test has passed or not.
+
+> +}
+> +static DEVICE_ATTR_RO(status);
+> +
+> +static void mhi_loopback_dl_callback(struct mhi_device *mhi_dev,
+> +				     struct mhi_result *mhi_res)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	if (!loopback)
+> +		return;
+> +
+> +	if (mhi_res->transaction_status && mhi_res->transaction_status != -ENOTCONN)
+> +		dev_err(&mhi_dev->dev, "DL callback error: status %d\n",
+> +			mhi_res->transaction_status);
+> +
+> +	if (atomic_dec_and_test(&loopback->tres_pending))
+> +		complete(&loopback->comp);
+> +}
+> +
+> +static void mhi_loopback_ul_callback(struct mhi_device *mhi_dev,
+> +				     struct mhi_result *mhi_res)
+> +{
+> +}
+> +
+> +static struct attribute *mhi_loopback_attrs[] = {
+> +	&dev_attr_tre_size.attr,
+> +	&dev_attr_max_tre_size.attr,
+> +	&dev_attr_num_tre.attr,
+> +	&dev_attr_start.attr,
+> +	&dev_attr_status.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group mhi_loopback_group = {
+> +	.attrs = mhi_loopback_attrs,
+> +};
+> +
+> +static int mhi_loopback_probe(struct mhi_device *mhi_dev,
+> +			      const struct mhi_device_id *id)
+> +{
+> +	struct mhi_loopback *loopback;
+> +	int rc;
+
+'int ret'
+
+> +
+> +	loopback = devm_kzalloc(&mhi_dev->dev, sizeof(*loopback), GFP_KERNEL);
+> +	if (!loopback)
+> +		return -ENOMEM;
+> +
+> +	loopback->mdev = mhi_dev;
+> +	loopback->tre_size = MHI_LOOPBACK_DEFAULT_TRE_SIZE;
+> +	loopback->num_tre = MHI_LOOPBACK_DEFAULT_NUM_TRE;
+> +	loopback->result = "not started";
+> +
+> +	mutex_init(&loopback->lb_mutex);
+> +	init_completion(&loopback->comp);
+> +
+> +	dev_set_drvdata(&mhi_dev->dev, loopback);
+> +
+> +	rc = mhi_prepare_for_transfer(mhi_dev);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to prepare for transfers\n");
+
+nit: Capitalize 'Failed' and print the errno. Applies to all error prints.
+
+> +		return rc;
+> +	}
+> +
+> +	rc = devm_device_add_group(&mhi_dev->dev, &mhi_loopback_group);
+> +	if (rc) {
+> +		dev_err(&mhi_dev->dev, "failed to create sysfs attributes\n");
+> +		mhi_unprepare_from_transfer(mhi_dev);
+> +	}
+> +
+> +	return rc;
+
+'return 0'
+
+> +}
+> +
+> +static void mhi_loopback_remove(struct mhi_device *mhi_dev)
+> +{
+> +	struct mhi_loopback *loopback = dev_get_drvdata(&mhi_dev->dev);
+> +
+> +	complete(&loopback->comp);
+> +
+> +	mutex_lock(&loopback->lb_mutex);
+> +	mutex_unlock(&loopback->lb_mutex);
+
+What does this locking protect?
+
+> +
+> +	mhi_unprepare_from_transfer(mhi_dev);
+> +	dev_set_drvdata(&mhi_dev->dev, NULL);
+
+As I mentioned above, once you call sysfs_create_group() in probe() and
+sysfs_remove_group() before mhi_unprepare_from_transfer(), you can drop setting
+drvdata to NULL.
 
 - Mani
 
