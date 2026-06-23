@@ -1,102 +1,168 @@
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F7383C86
-	for <mhi@lists.linux.dev>; Tue, 23 Jun 2026 14:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B363C0635
+	for <mhi@lists.linux.dev>; Tue, 23 Jun 2026 14:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782224132; cv=none; b=fjzNnqTL5zV1RydD4voKlnFS8fNqdfTQ6TSDUGxaX2/mlX2AGoGeGSv7ejKH8Ti08D0T1amzVPRI1xMRk7WDw6Wg9t7hO6wWTbdeyCV9D00pspX/dT4PzWzWQXV2w8yIyGeHpz8Bi3qCv7hdZ8XDmU1Hq2KAhLROfqrNPdr1y+Q=
+	t=1782226321; cv=none; b=TojEOMCPMKd1TVET8dYy1gIs9LTajUrKJOZnR9twCe6j5rpXmbvKtu1PXP/QWdl0f5pc47HSQUj7TCcNbDDhC7XUfPWVFp8ioHkb6nT0CBvzFRDJqAF2NLkkzZAYBNBe5g+wwYyrE7yycuEPjFshrDp9PxX2SOkbyUfjwwmN/Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782224132; c=relaxed/simple;
-	bh=E9QkdfRNiqCNA23VrWWi12cR+wbZEAHm5lOxyji1qm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FpcwlyhLKnB2bqpefcab8Y1tXBoIbxoTQgnvcxi+tWIWjVm73RgkEMKPXOqAVfgctQRt5bW5XteuvpxMDvMyer9pznD5noZGCdP4rJHI6kYXCMxHukIkoHFU17WgZFAoEp4RZgKVYwxQF/bvU1XgKS2JHNtfxw01e1JA9XeNI2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=fWYbk6fk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d5wFqDme; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1782226321; c=relaxed/simple;
+	bh=JEgyj/evZg4/rtg3uPQBQlJTecy8/xf6OfnEyAtAroo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pGHPhiZQ4ASNc6J71bkK9q9sFZ3IYGipRrdsUISz4/WilZ/fNemHJIrSFGSIefUgNoG49GtnhPg3AIB+yzGx/Dscb6/JrPy1SjPJVgDDgpRwFkpBdncvK+2/AYX80IvV+DdBN+EJJgZpGYX9Cydcn4It2QpH69oC7ZcuDwFuFX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FMZ32ZuC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TSuhavO/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="fWYbk6fk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d5wFqDme"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id A1B8F1D0012B;
-	Tue, 23 Jun 2026 10:15:29 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 23 Jun 2026 10:15:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1782224129;
-	 x=1782310529; bh=2/BP8S3K7EAUl7PQnFjVmpuzHDdXnjTm3NfjEHjajEM=; b=
-	fWYbk6fkCNJC0bClPCw0ReBNdY4hN50DXQBD3DzXZQlrOQKgfkztR1qs6Z1B59lM
-	mXq/zyIRZQrmHPdTdXkxYvjCvd20lyfjz2/V29HoOovlhp6A4DOzlzMdyapJtjhu
-	5r1/IDqtzHbH+p/xPReg6U2FyANt6gLsceneZbidHLLxUiKNPks+heZBIsC2ddJx
-	tj9TqzPSKgFxvaTeiO1Z7ZKj6GJcgk/YMtBaOH1GSWdsehZYWR+gxk8d31tcLAB7
-	BwCF1YHE7yibxQGzSU/6HlSkZW5Yy79reIBWOfzzbrlAtJyaUb4sJTNCVIObJE/N
-	e+ONpLAI6slz+TUEjkLKlg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782224129; x=
-	1782310529; bh=2/BP8S3K7EAUl7PQnFjVmpuzHDdXnjTm3NfjEHjajEM=; b=d
-	5wFqDmeEoZULivheN107RbYoHR/AiayXFajvfWcvzOueC9a/OpQjUk33AW2s+wud
-	S68bO7o76KRqu60FLYGAFtdjOekhCIvpbNUQvN9P2kFfK5dDKG+23b47W5uh1dKH
-	NQtrv3gGm4PxEvVz0SKJCN8keHi+WTw60m2vGmCgsd20MXveWNhrP2eG2e0JJpPZ
-	XGVL//Cu9WN6xLVC92JF3fWr5VKpTZvIRAukXIbhptKVayPGbg3JXMEopYBue/nI
-	WM1DYcuU6FyRQ/yXXhEaoFRZfSpdJlp1xqwDKtu5YVEnOpGgJtsMu+R6PD5zHa2M
-	mHTnAHikq1lmBSf7knMrQ==
-X-ME-Sender: <xms:AZU6amHwTQM9Sk9JhzlIL57NdDglaID_OXxTc38efbiZpidyv0EEmQ>
-    <xme:AZU6avdQkVDsxA6PTEivIkdxE6go6uZwehI57pW0EmO0xQPHgnuzLF5JuFpdrzzA5
-    _HzYk5Ez-ESaJyJIB4X93m9w_dCFsRg1t8d1Dt4g1dgWU-8-xGFwg>
-X-ME-Received: <xmr:AZU6avpw6ntrmuenZorUPiJQ5HFCLxO4Tkvhe2qmLGChLDJ4-SslPzrcciM>
-X-ME-Proxy-Cause: dmFkZTEtltNPcCC7LyAuhl+F6mArHQnqSrrLTwwKExrXFThrGIeCpx+D/j+xo8RW9Aeb11
-    IjCJP2gJR3JeMmMcXRHHc6ZvZ6CmsaWiTS/tZu5AS4X6umxRyVu9/omdNSNMa4zgDvnwCW
-    LmHl7a3hynDEBCupmG8oHySMy/FUCpt/Tz2sFcrjvGVk/aUa11z+/lCkvOUcuHixlVVZ8r
-    ZcUMBKg/CR0J6Y4jXqGMml/9io5G/QNccl03ob3/2wk0l+xsige7kSbMveB3jq78qV/YSC
-    lJnh42RgTRJ5DEmJdAK32pyA+wRJ2tisV6YI/QxALvNOt4ynidfjUmsGnjE82cfrTiMFNm
-    QJeWWpu8OaaduqTC9G4JqO+pr+PmThSgZweCJkdbqnABYAEWMbRu2s+UwgrQFNeHMyJ2B9
-    TtA4yF7PCrI2OL1V0CL7ZfbZUXqCjsSZNGLaoymRlLmk7NVo9O1WvtzIq2P/JvK15//DRs
-    W3XROktIIlBGsMFb0efJ/HdTNaO4NwV51gGtv6e0mz1cdFy8X1g7YT3RSR6WcqjMgEC8hQ
-    W7x5QwP9IvMqVwnjnk5g+5R9tzgZO5hnaHgqIeXtPG/3Avjzug8HPYeIQ5BmM7hhjRMH3o
-    tu+rJbr4GLksDf7NFO9DUBa2SyH+iniMKm8SY7vOr8lhc80w/GmFEPPVxlWA
-X-ME-Proxy: <xmx:AZU6agA1NamTjmN3RGC8XCC_HfwZXZ8gcqBeavb-hNqv9gn5uUZvyA>
-    <xmx:AZU6aoeyNTIhZh0SplNYIa4iGoTht0cruMnDxc7-vk10W11yGLgr8A>
-    <xmx:AZU6agvtI6tevKqtZpX3n4nO5Sf6_Ql9XeImd-itP6SErmCHQOJDsw>
-    <xmx:AZU6anjaUc7soy3hM31J9HPENUmjN0SAx6sWHgA8luzAM-jxLmRpPw>
-    <xmx:AZU6ao6ItSUirKMV9MCX9Mu6m87XTdBBQkDexvO6oePbn2MnQCEz73lD>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Jun 2026 10:15:28 -0400 (EDT)
-Date: Tue, 23 Jun 2026 08:15:26 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: mani@kernel.org, ath11k@lists.infradead.org, ath12k@lists.infradead.org,
- bhelgaas@google.com, jjohnson@kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
- mhi@lists.linux.dev, alex@shazbot.org
-Subject: Re: [PATCH v9] PCI: Add device-specific reset for Qualcomm devices
-Message-ID: <20260623081526.1366a16a@shazbot.org>
-In-Reply-To: <20260623125637.1188867-1-jtornosm@redhat.com>
-References: <r4jeqtx247iosfjdps6g4fqwtsdzine5qlgh33sdt4p6ktmaln@o725aolrpj4l>
-	<20260623125637.1188867-1-jtornosm@redhat.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FMZ32ZuC";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TSuhavO/"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBZNfq4017423
+	for <mhi@lists.linux.dev>; Tue, 23 Jun 2026 14:51:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=IW5A2zXwqpu7vvO1GjLX8VdN1ZGOsTO32IE
+	aybTI8YA=; b=FMZ32ZuCd3F80V0tl+rjM2sFqESCIOQ0A5e0zhki8Zhb+xodnAo
+	CECt2HeltlfXnJmBHu+eio8b03k0tQFUp5+/iIEd0tT+bAMeLh5DKN2Aa7y8PZlV
+	avhJQ4CfmnF426wQytKWT52PM5+7Xtg0qCIDhHOrxJUi9ED3qShtS1MaD3E34sTR
+	C2/ebgumq7SdwdRpS9WdJCf7lh8570IsWMf6ynArZQ0Gf/dgmDwQeAwyaOwXfM35
+	uJ9aPRJ/mbLMjx6ec/9MUQEyQMqm/oE8cFYdAOzGYb3Sa58YQ0nAS9uZo4pX2usX
+	zAbyABw67gedBfUpEOL5iIhY/T2s36rzqRA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eygkjjvwf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Tue, 23 Jun 2026 14:51:58 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2c79e5de32cso21731155ad.2
+        for <mhi@lists.linux.dev>; Tue, 23 Jun 2026 07:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782226317; x=1782831117; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IW5A2zXwqpu7vvO1GjLX8VdN1ZGOsTO32IEaybTI8YA=;
+        b=TSuhavO/Sl9ZQGYqsw84qCU1+PR2p+1aq5r2m0uHstLgNlUEX/G8pfBDuO9iiCNtQg
+         9dwM/KSBJTj24qoObvJntpzcqxSOTpRzWLt5CGv7uWxUN2tO1NaEhCtrr6ClgdlvEJwN
+         JW1DVrb/ALl6mXbqW4LIkPP2K1DFjiIH6CF9FGuWfdypjFSfs4k+exFzcYIvGg/Xqy58
+         j5KVOR/qpF+LCbbUMEIDFGfY/dquJaoqizEMsJlg+QwxBpNX+RRMJdYQqElpbfb6U26F
+         QFVMZhpYfrSSODWerq9Inl+vMRwS3MGht8qeREizH85BbxUByFrnrnCN/EmB4SkiGTsu
+         RMMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782226317; x=1782831117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IW5A2zXwqpu7vvO1GjLX8VdN1ZGOsTO32IEaybTI8YA=;
+        b=FugtCiuJiLcA7QuOBuZA77OeQ9xcFUXFJsCzS/ubTQ1PwwSh9iIURSEzCgs1eDmd5H
+         MNOf8hY64Ha4/6Od0ug+CZJ2EkGALO3dTnIf54KUucp2IPPLatfzxmL+m3Hpk96aD6TR
+         lvPMITuJI7hc7ot9FTPFWoHS3VMg/2c14/THAP1Z9jynmAX6sObXfPY53VA1N1qoVPpX
+         2TiZs2DB4hdqnO4RoADww3w6vfn744jBy2/iBt6SJZIyTUPUGTpMt2FwWvEyPUtx6CDw
+         B5RoxNCg6wXZ5v97n8ZqtQQ//vfND2OY3Bmzkk3TDAu1VidncyQ5FeZM8Tu2jrkDnCT0
+         pxkQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpFCsQ+CJzYNxoaNcKF68m/cRGgEoET3JnLv2prmrOrZs2HvixcZHrywL6rcBKOwNdXZzA=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy1eiwAl62T+IrT1HAF1fOhccUCYksBcdy92wcB+VTtLNw7cy3
+	V2UO0XLdqfLdibrVwb/9zOCs9j8Vi5ka2vHkBEuSI3jONAjcc9CnQ1a5w/oc+uLiT8zjDZhy39k
+	YCynmBjk3hpLxn8ns6nenPXwz2b179y+SLURowoZvM0xnj8DZwJJ2Okg=
+X-Gm-Gg: AfdE7cl6+HINL/F+LPzDMS9GUdqYIrE00ACYiX0PrDXGqgOLx8+7Jy1m4N9iuRqtzlh
+	8UfXfHkbE57qiaZvfoVOYOirALH12Dt4idTyFWHIL/KdGmaWRX4qwXvZI3eVxqtkma5fR8RxcVL
+	4fivP7oTYy4p+37iIyv6saXaEz/I3n8aPH2UphkfR1PfOTZL0hEXpDmZPCD/8aSSQdIeW14ZCTn
+	jnSW9z/70/JwINdlHgH2N/p/y2B45zAyQ9IcXr2UVny9w2fwU1q14nvMIABW0JeA5u6wWomVP+F
+	GGlzpuTXkxVeePkiJ58yhhfkUspMHR/xOhbMpAL/ayf1Of5EyB/uFyunB9IHe6WaDf760HKpmd9
+	lMpSa8xL4xx1CKNlTd93ItSBo7MZ9hEi/vFly23Zqtlcd1lYA4aDKOhzneizR
+X-Received: by 2002:a17:902:f552:b0:2bd:606d:b339 with SMTP id d9443c01a7336-2c718f6543amr200107785ad.21.1782226317057;
+        Tue, 23 Jun 2026 07:51:57 -0700 (PDT)
+X-Received: by 2002:a17:902:f552:b0:2bd:606d:b339 with SMTP id d9443c01a7336-2c718f6543amr200107375ad.21.1782226316463;
+        Tue, 23 Jun 2026 07:51:56 -0700 (PDT)
+Received: from QCOM-IvKeorbwK5.na.qualcomm.com ([120.56.199.52])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436f7de7sm105186215ad.32.2026.06.23.07.51.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 07:51:55 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: mani@kernel.org, mhi@lists.linux.dev
+Cc: jeff.hugo@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+        Alex Williamson <alex@shazbot.org>
+Subject: [PATCH] bus: mhi: host: Flush the posted write after writing to MHI_SOC_RESET_REQ_OFFSET
+Date: Tue, 23 Jun 2026 16:51:34 +0200
+Message-ID: <20260623145134.43976-1-manivannan.sadhasivam@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDEyMiBTYWx0ZWRfX6Qjrl4/HlEXH
+ lxVojMGkUzbYixdWxvBG6lEvCcIUYBx72Gk7e7rMPIahVuoz2/fr57ujvvGlsFM8/habuPa1E3b
+ is2+cWuZlf7VRwyseF7jn/sd4wAC9Yse+A+gp1LQvZoXDCzpT9PRex5NfDgu/cOZPIvsWrSb613
+ LBpDzwpEwV6G14L3npg88/tZqlVsWKF8htC+p76NIaFxFq35NDrTaoCbTgMNMt066h5tXDDB0QN
+ 9YCKcG9vuiMS0SsHdtoVbtsZZ6V7cn1R4HrtAjnkgch1kZhWshm2dri0hfxFxEjU1ihuTzS2NLw
+ kQUO40MGdN71Z8g9WvaaiNOiSSwYUAV1Os2UEm6luMHN/XVhjGx9Ys1+ZkuY5O630iiN8GfWkrh
+ iKUYDq99R3HgUBbHfG/4FQdryt5DUX8/L8waq/CIVtHA1NOrydAMQvb73oZBW2knlnT69Zx5I9C
+ XUB5I2AxrYYTm8wPitQ==
+X-Proofpoint-GUID: cBTG4OyEGgkCRZZrjcP-EF-S7zsdqc9r
+X-Authority-Analysis: v=2.4 cv=SoKgLvO0 c=1 sm=1 tr=0 ts=6a3a9d8e cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=Alb0JCXUjTgUeOUvUsHAUA==:17
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
+ a=r1p2_3pzAAAA:8 a=EUspDBNiAAAA:8 a=FCqJEZ2iPJghDfvfNp4A:9
+ a=uG9DUKGECoFWVXl0Dc02:22 a=r_pkcD-q9-ctt7trBg_g:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDEyMiBTYWx0ZWRfX8DUmjbLVXsQT
+ nHscvQCtuDLsn7XHd76nr+QeEwp5KpPOa630lvHbVWHkh3V8rZZfSr2zth4OhW239APBt2VR8eM
+ 7oRAcpmUKHL/L+GL3TZKMFwS4h3EFog=
+X-Proofpoint-ORIG-GUID: cBTG4OyEGgkCRZZrjcP-EF-S7zsdqc9r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606230122
 
-On Tue, 23 Jun 2026 14:56:35 +0200
-Jose Ignacio Tornos Martinez <jtornosm@redhat.com> wrote:
+mhi_soc_reset() tries to reset the device by writing to the
+MHI_SOC_RESET_REQ_OFFSET register. But it doesn't do a read-back to ensure
+that the write gets flushed to the device before returning to the caller.
 
-> Alex, Mani - would you prefer a dedicated VFIO PCI variant driver (similar
-> to mlx5-vfio-pci) to ensure the reset logic only runs in VFIO scenarios, or
-> is the quirks.c approach acceptable? I can implement either approach.
+This may lead to the delay (if implemented) on the caller to be
+insufficient, if the posted write doesn't reach the device before the
+delay.
 
-It should be a device specific reset in quirks.c.  Thanks,
+So add a read-back after writing to the MHI_SOC_RESET_REQ_OFFSET register.
 
-Alex
+Fixes: b5a8d233a588 ("bus: mhi: core: Add device hardware reset support")
+Reported-by: Alex Williamson <alex@shazbot.org>
+Closes: https://lore.kernel.org/linux-pci/20260622160822.09350246@shazbot.org
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+---
+ drivers/bus/mhi/host/main.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index 53c0ffe30070..4d458396233a 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -170,6 +170,9 @@ EXPORT_SYMBOL_GPL(mhi_get_mhi_state);
+ 
+ void mhi_soc_reset(struct mhi_controller *mhi_cntrl)
+ {
++	int __maybe_unused ret;
++	u32 tmp;
++
+ 	if (mhi_cntrl->reset) {
+ 		mhi_cntrl->reset(mhi_cntrl);
+ 		return;
+@@ -178,6 +181,9 @@ void mhi_soc_reset(struct mhi_controller *mhi_cntrl)
+ 	/* Generic MHI SoC reset */
+ 	mhi_write_reg(mhi_cntrl, mhi_cntrl->regs, MHI_SOC_RESET_REQ_OFFSET,
+ 		      MHI_SOC_RESET_REQ);
++	/* Flush the posted write to the device (ignore return value) */
++	ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, MHI_SOC_RESET_REQ_OFFSET,
++			   &tmp);
+ }
+ EXPORT_SYMBOL_GPL(mhi_soc_reset);
+ 
+-- 
+2.43.0
+
