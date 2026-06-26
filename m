@@ -1,246 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BB22192F9;
-	Thu, 25 Jun 2026 13:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EB12C11FA
+	for <mhi@lists.linux.dev>; Fri, 26 Jun 2026 03:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395233; cv=none; b=SI7In7HyGZCTO8706QCqCX4cA30HSWwkclspGVhzF1lmt70gdvj6pBj3CVEzwjqguvpq5tG0Xn2mdmO415evO6PGgILvW+prrmebAFd0AMxuYO3mT/dIDQedjUeWLzQcSFw+OqpaQ+pAv2HBAg+iJXCK40+EZAR+M/ueqX53Xrg=
+	t=1782445618; cv=none; b=Bn2y+/hWnCUZd65L/HeR7e8C6XAbMmrIW1VlzH6c3HSF/jihqqpF492hicCoid4EVrjXdDK1+fE9A22IoEPlSxuqPBqMtp7efxsOyZttAbr6WUrpYsQIWbjZ3yO7WFWXACFRRyv/WyLI1QyNEx7FTcq+LYGNv0LZXfZ0hg5psB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395233; c=relaxed/simple;
-	bh=sUrOudAXU9Br8QRIcbTjpO5nSiOe9O7QbWrp03EBHQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D2nKhp3NhTN3VTHvGKm4o+IgcyR00G5n4pIfijHm2CDWFk7hIWbFupBa1T9ybmQOB99pjhNPmBtB/d8yRuDQq0mIQXIeWWQ+3zLLKZXqGaQF+LBl9qJeCS4QJA/kiExFE75cBpetdMlDPl66Q02b89vlt5ZYq3pzICdXdLsU4dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/H+kk7M; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782445618; c=relaxed/simple;
+	bh=lYBkepImZanyDf9QC4Q9+aF667H5NSCMeYDWP3/hjmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UhMpUOoPuMYgk5Ywmb/h5hKeJOqM0yh62gUaeWIOoIG7CGy0QGgH0Qbwv5HjjGO8vJdnLO1BTKT53zTGm6buIGOumju5G9nqjyh4dqNAzYGJnk4mwp1mwZsIHwXxULv9viA/tqPFlOW6wGq3R+HuzTwnWwwGKB0mTB/3ZkOhl4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=CFnr5QJo; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/H+kk7M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32B801F00A3A;
-	Thu, 25 Jun 2026 13:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782395231;
-	bh=9NPVPzLEscImUoRdY5p2atD0bm47zYNmsCtx2fosl9o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K/H+kk7MthuGsNEfqZX+0NpLwSxSB2ve+MSOzeYm1/fz1UksvGAbxJ83Zjz3ns77X
-	 6HX/4N7e1UuuitUfBmgSFd8xbuJhqew2TzB3EZfWbR0XlKVal/F69vk17OTflQNavQ
-	 RBIz8Q2dlR+5hDkj6Aun86vywlcpbqI4IazraZMHLbrKfhzujWUHBM7V8OGtqF7oHy
-	 nT18jckB2HY6skJLxkkl2o4fAYPjo25oQs0xG5lnK2Gdgl1c8+kuaGF5cvGx2+hRbq
-	 Cm17eH8lDLCzDpJWHzoVJeNWYqdwRLTFn13c3A+F6lQjZwSlyPp2P/9kqYCgK06FFA
-	 1Qjqa+J9IPUXA==
-Date: Thu, 25 Jun 2026 15:46:55 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: bhelgaas@google.com, alex@shazbot.org, jjohnson@kernel.org, 
-	linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org, mhi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10] Add device-specific reset for Qualcomm devices
-Message-ID: <mxarrodtocadpq3yu4nkbs6g7u5tzpk3vg5ot2tmlw442eg2hg@nlcdcinamlah>
-References: <20260623183115.1585273-1-jtornosm@redhat.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="CFnr5QJo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=NW
+	yoXbgygOpcCi/yIHJZ3pHe5OxPIWQu5ala3dipl4U=; b=CFnr5QJoMawYwLeLpf
+	xegXtiDdL8a75Njdn4O+PV2WpHetfJyUcwNCLk1cwtN74AAwqsdwLOmAJqGIExL3
+	jduBbK8MF7YCgDQ6yUgEtTmVEs+Vymy5263bamjzRZx4Oix5X9wDT3qgau/I9xUO
+	3WPA72s9olOXKU4gOC2FIv0E4=
+Received: from jbd-ThinkPad-X1-Carbon-Gen-14 (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDXT0sb9j1qMFkbGA--.63492S2;
+	Fri, 26 Jun 2026 11:46:36 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org
+Cc: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] bus: mhi: pci_generic: Add SAHARA channel support for Foxconn products
+Date: Fri, 26 Jun 2026 11:46:33 +0800
+Message-ID: <20260626034633.23112-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260623183115.1585273-1-jtornosm@redhat.com>
+X-CM-TRANSID:_____wDXT0sb9j1qMFkbGA--.63492S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KF45Gr4rtw48Ar45Cr1xZrb_yoW8AryUpF
+	1xZ3yUtrn2yryrXay0y34DKF98W3Z7Xas7tr1qkw10qasYyws0yrW0934IqFWYv3yvqF4f
+	tFn8JrWfZF1UJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRahFnUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbCvxyuE2o99hxzrAAA38
 
-On Tue, Jun 23, 2026 at 08:31:15PM +0200, Jose Ignacio Tornos Martinez wrote:
-> Some Qualcomm PCIe devices (WCN6855/WCN7850 WiFi cards, SDX62/SDX65 modems)
-> lack working reset methods for VFIO passthrough scenarios. These devices
-> have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-> broken bus reset.
-> 
-> The problem manifests in VFIO passthrough scenarios:
-> 
-> - WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WiFi devices:
->   Normal VM operation works fine, including clean shutdown/reboot.
->   However, when the VM terminates uncleanly (crash, force-off), VFIO
->   attempts to reset the device before it can be assigned to another VM.
->   Without a working reset method, the device remains in an undefined state,
->   preventing reuse.
-> 
-> - SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
->   on first VM assignment without proper reset capability.
-> 
-> Add device-specific reset methods using BAR-space hardware reset registers
-> that exist in these devices:
-> 
-> - WCN6855/WCN7850 WiFi devices use SoC global reset via BAR0 (sequence from
->   ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
->   ath11k_mhi_set_mhictrl_reset()):
->   - Write/clear reset bit at offset 0x3008
->   - Wait for PCIe link recovery (up to 5 seconds)
->   - Clear MHI controller SYSERR status at offset 0x38
-> 
-> - SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
->   driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
->   - Write reset request to offset 0xb0
->   - Wait 2 seconds for reset completion
-> 
-> These are true hardware reset mechanisms (not power management or firmware
-> error recovery), providing proper device reset for VFIO scenarios.
-> 
-> Testing was performed on desktop platforms with M.2 WiFi and modem cards
-> using M.2-to-PCIe adapters, including extensive force-reset cycling to
-> verify stability.
-> 
-> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-> ---
-> v10:
->   - Complete redesign based on maintainer feedback (Manivannan Sadhasivam,
->     Alex Williamson): use actual hardware reset registers from
->     device drivers instead of D3hot power cycling
-> v9: https://lore.kernel.org/all/20260612142638.1243895-1-jtornosm@redhat.com/
-> 
->  drivers/pci/quirks.c | 118 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 118 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 431c021d7414..8ad3f214e520 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -4240,6 +4240,121 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
->  	return 0;
->  }
->  
-> +#define QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET	0x3008
-> +#define QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
-> +#define QUALCOMM_WIFI_MHISTATUS			0x48
+Since we have such a requirement for capturing ram dump for PCIe
+WWAN devices, we shall enable this channel.
+Currently this change shall be applied with QC original uci driver
+which was not upstreamed. And I also found someone try to upstream
+similar SAHRA uci client. Maybe this would be help for us as well.
 
-This macro is unused.
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> +#define QUALCOMM_WIFI_MHICTRL			0x38
-> +#define QUALCOMM_WIFI_MHICTRL_RESET_MASK	0x2
-> +
-> +/*
-> + * Qualcomm WiFi device-specific reset using SoC global reset via BAR0
-> + * registers.
-> + */
-> +static int reset_qualcomm_wifi(struct pci_dev *pdev, bool probe)
-> +{
-> +	bool link_recovered = false;
-> +	unsigned long timeout;
-> +	void __iomem *bar;
-> +	u32 val;
-> +	u16 cmd;
-> +
-> +	if (probe)
-> +		return 0;
-> +
-> +	if (pdev->current_state != PCI_D0)
-> +		return -EINVAL;
-> +
-> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-> +
-> +	bar = pci_iomap(pdev, 0, 0);
-> +	if (!bar) {
-> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +		return -ENODEV;
-> +	}
-> +
-> +	val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +	val |= QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
-> +	iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +	ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +
-> +	msleep(10);
-> +
-> +	val &= ~QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
-> +	iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +	ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +
-> +	msleep(10);
-> +
-> +	timeout = jiffies + msecs_to_jiffies(5000);
-> +	while (time_before(jiffies, timeout)) {
-> +		val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-> +		if (val != 0xffffffff) {
-
-s/0xffffffff/PCI_ERROR_RESPONSE
-
-> +			link_recovered = true;
-> +			break;
-> +		}
-> +		msleep(20);
-> +	}
-> +
-> +	if (!link_recovered) {
-> +		pci_err(pdev, "PCIe link failed to recover after reset\n");
-> +		goto out_restore;
-> +	}
-> +
-> +	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
-> +	 * and thus need to set MHICTRL_RESET to clear SYSERR.
-> +	 */
-> +	iowrite32(QUALCOMM_WIFI_MHICTRL_RESET_MASK, bar + QUALCOMM_WIFI_MHICTRL);
-> +	ioread32(bar + QUALCOMM_WIFI_MHICTRL);
-> +
-> +	msleep(10);
-> +
-> +out_restore:
-> +	pci_iounmap(pdev, bar);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +
-> +	return link_recovered ? 0 : -ETIMEDOUT;
-> +}
-> +
-> +#define MHI_SOC_RESET_REQ_OFFSET		0xb0
-> +#define MHI_SOC_RESET_REQ			BIT(0)
-> +
-> +/*
-> + * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
-> + * register.
-> + */
-> +static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
-> +{
-> +	void __iomem *bar;
-> +	u16 cmd;
-> +
-> +	if (probe)
-> +		return 0;
-> +
-> +	if (pdev->current_state != PCI_D0)
-> +		return -EINVAL;
-> +
-> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-> +
-> +	bar = pci_iomap(pdev, 0, 0);
-> +	if (!bar) {
-> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +		return -ENODEV;
-> +	}
-> +
-> +	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
-> +	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
-> +
-> +	/* Be sure device reset has been executed */
-> +	msleep(2000);
-> +
-> +	pci_iounmap(pdev, bar);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
->  	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
->  		 reset_intel_82599_sfp_virtfn },
-> @@ -4255,6 +4370,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
->  		reset_chelsio_generic_dev },
->  	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
->  		reset_hinic_vf_dev },
-> +	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wifi },  /* WCN6855 WiFi */
-> +	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wifi },  /* WCN7850 WiFi */
-> +	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
-
-Not an issue and the existing entries are not sorted, but can you atleast keep
-these IDs sorted in ascending order?
-
-- Mani
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 750da3dbb4c6..59d4c82bafbb 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -491,6 +491,8 @@ static const struct mhi_pci_dev_info mhi_quectel_rm5xx_info = {
+ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 32, 1),
+ 	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 32, 1),
+ 	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
+@@ -506,6 +508,8 @@ static const struct mhi_channel_config mhi_foxconn_sdx55_channels[] = {
+ static const struct mhi_channel_config mhi_foxconn_sdx61_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 32, 1),
+ 	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 32, 1),
+ 	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
 -- 
-மணிவண்ணன் சதாசிவம்
+2.53.0
+
