@@ -1,257 +1,153 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495EB3CCFD4
-	for <mhi@lists.linux.dev>; Fri, 26 Jun 2026 05:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8463E3F825F;
+	Mon, 29 Jun 2026 08:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782453054; cv=none; b=kev2OxEMZlB6eJ8qFsN63MHZrZYEuFYjpC68DVRCNMex56DII/qyuPrsZV/xB9QLmxj0+ytpTPpAft9s0IK44RK5aUBdQaiPL4gCxwN2XmrXADWLTRA9JBIKYhiezwgNc+skj+1V0+olWOKc2fg0Bg6two371SrG/7BWRyE9lVA=
+	t=1782722723; cv=none; b=amVIFXA+xWEb5rJtctR6BofIF+THZDN1/fCVVtpX4cognlYMKutyHB4Ex99tIZpUD3M8NEJ8SimJQmWwUnF8ncPZ7EeQh1qZehYt5QytLr1LqVQWInsKxwHAOpu605fcXa+agFLh4+REjbp+BS6OKLBClJTIq3d80E+bQyjQdec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782453054; c=relaxed/simple;
-	bh=se1yRc+pzBap9J/Jld6XacHGf24b/DKzSZOJc0cffto=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=vC6JEycOmPwqVawj9+nB9kYs1RV+aSGhiZkm77r0M+tFj9r1B6rz6giaoaelIsPukzILODvEW5M+E3xwXnhGkqHCZgW2SQGSP2NDBOkSRUh21cNeuFreDLDy9RooUpKQpbSkQ3bfkxp5+UgVU3f5x/ianP4XvsAFrybs7MHdNT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NsQm+mP1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782722723; c=relaxed/simple;
+	bh=qj82EtDuBeYVneJ3FxQ5RIXlt/hf3RFw2DTqHgNPMEM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ahIDqWhnZDWkLnQGs2n7fERBnK34tBmqyx+2WvIZSkbV2TDvoC1SC2wNoj18r1wvxFjvwPdfbQ6r3w5HeVIu31oH8077CA/t9MKzWwB5gSQAQzEoI9DsAbSNU9YgPQHwNbNwaAOQV1MvQeyuoYIwrduqWMQ+iwAGNrcUawsaLuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HcZ8Ukvz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NsQm+mP1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782453048;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=llzLv6U3NajHrHb9ipH9po5+lkC7tqbJjW1uUPul6Qc=;
-	b=NsQm+mP1BtP2+RFg30ZZ1lPJ+KW+NAofstFso5DuQhSjZZbrTQ+D0jOQT36UqleTsPyU36
-	o3HxoCwwQESsKQMjc/wmHAH656agcmut5I7e1jL3zv+4EXTpbHuONcussRycm86aElK7vO
-	LHtmYYQlLPu7bT3ZsSxG6aETnyCmXi0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-536-ox-KTFp0NlqmCxplqAfEkw-1; Fri,
- 26 Jun 2026 01:50:42 -0400
-X-MC-Unique: ox-KTFp0NlqmCxplqAfEkw-1
-X-Mimecast-MFC-AGG-ID: ox-KTFp0NlqmCxplqAfEkw_1782453040
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EF6911954202;
-	Fri, 26 Jun 2026 05:50:39 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.44.32.38])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1ACAB1956045;
-	Fri, 26 Jun 2026 05:50:34 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: bhelgaas@google.com,
-	alex@shazbot.org,
-	mani@kernel.org
-Cc: jjohnson@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: [PATCH v11] PCI: Add device-specific reset for Qualcomm devices
-Date: Fri, 26 Jun 2026 07:50:23 +0200
-Message-ID: <20260626055023.197470-1-jtornosm@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HcZ8Ukvz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 306C1C2BCFA;
+	Mon, 29 Jun 2026 08:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1782722723;
+	bh=qj82EtDuBeYVneJ3FxQ5RIXlt/hf3RFw2DTqHgNPMEM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=HcZ8UkvzIcRVJgI8HgwMlvHXElC6GrvXHELyf8dkQBCk6BskGrRZYNpbFnUjcOE+A
+	 cH2g96/ziQdflps5HuDzoB2nZhnooHynzHJiBVoGqw2T5YMyZs+TbLEJ0l/kBJqJGJ
+	 lUGPX/HSLu00k9nYrH6+mIjHiWoxEBLUibHl7y8HvtT14mWKNRMJykoJDkFWt2XkYG
+	 oVRDvV8KSTNq9II94lu3kB4ukxd09tklXSYSYWhSDJPd6RpkEE9HdFH3dvzInWX+sR
+	 0XjCLHSya/mF1VBaacsxg7gifn5xip/lKMUpPXS4Z1cqFr4FwVC21QlbkgZe+jd68Q
+	 skrd8LQA3p0TQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9D2C43638;
+	Mon, 29 Jun 2026 08:45:23 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
+Date: Mon, 29 Jun 2026 10:45:16 +0200
+Subject: [PATCH 2/3] bus: mhi: ep: Add mhi_cntrl->flush_async() callback to
+ flush the async read/write
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: s-pXyiCkUmDuvRYL9VDqSXGe1kcBv5RcLb0SqlJoOE8_1782453040
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260629-mhi-ep-flush-v1-2-714e0d56e87c@oss.qualcomm.com>
+References: <20260629-mhi-ep-flush-v1-0-714e0d56e87c@oss.qualcomm.com>
+In-Reply-To: <20260629-mhi-ep-flush-v1-0-714e0d56e87c@oss.qualcomm.com>
+To: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Frank Li <Frank.Li@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ stable+noautosel@kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3321;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=DoH7hPNg0fHxC+lCNJKTY0zrXTBD6EGE6jTVdxWvpPg=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBqQjCgCNY3QvJvJ3yi452OlMzvaFYQkyelWNvE2
+ wmHLWypum2JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCakIwoAAKCRBVnxHm/pHO
+ 9ZcxB/sEO2M7/DGIBby1khnchghmcOOW+znPZqa3/ba+LaIW//D5fMczex/cU9+nrl1Pk0oOQ4f
+ 2/zx3Hlw/8FUXc/NE/tXEnS0+mdmyxgwo00QwPiB7ZfFoAVSx+e48LVXLTeuG5+6EjaF0zxAUVb
+ urbcc6zLiIBM81spRUYFR/CqYsBxgT1bFhL+IAcIMf4f+RUMjLmUga7059uQsMP1e6hJgshj4ez
+ 4EXsZZ9B1A4W+iHJc9ZZqLsl7AkkKGFZWkLHHgwfcQ8mX0izqLfSMTBj6N7m6wEXPXWriNhkR2l
+ gGNJ+bMxHHy8qWCjOuC7zf0ADAchZ1UyBOsRZNER4RmXIrzf
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 
-Some Qualcomm PCIe devices (WCN6855/WCN7850 WiFi cards, SDX62/SDX65 modems)
-lack working reset methods for VFIO passthrough scenarios. These devices
-have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-broken bus reset.
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-The problem manifests in VFIO passthrough scenarios:
+MHI EP stack makes use of the MHI controller drivers like MHI EPF to do
+read/write to the host memory. And that driver is free to use mechanisms
+like DMA to offload the read/write operations.
 
-- WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WiFi devices:
-  Normal VM operation works fine, including clean shutdown/reboot.
-  However, when the VM terminates uncleanly (crash, force-off), VFIO
-  attempts to reset the device before it can be assigned to another VM.
-  Without a working reset method, the device remains in an undefined state,
-  preventing reuse.
+So if DMA is used for offload, then there is no guarantee that those DMA
+operations would be completed by the time mhi_ep_remove() gets called. This
+can lead to UAF (Use-After-Free) issues as the DMA callback can trigger
+xfer_cb() even after mhi_ep_remove() has returned.
 
-- SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
-  on first VM assignment without proper reset capability.
+So to fix this issue, introduce the mhi_cntrl->flush_async() callback and
+call it in mhi_ep_remove() before setting xfer_cb to NULL.
 
-Add device-specific reset methods using BAR-space hardware reset registers
-that exist in these devices:
+Note that flush_async() blocks until all the in-flight async transfers are
+completed, so calling it with the chan->lock held would needlessly stall
+the transfer paths on that channel for the whole duration of the drain. So
+drop chan->lock around the flush and clear xfer_cb() only afterwards, once
+all the pending completions are drained.
 
-- WCN6855/WCN7850 WiFi devices use SoC global reset via BAR0 (sequence from
-  ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
-  ath11k_mhi_set_mhictrl_reset()):
-  - Write/clear reset bit at offset 0x3008
-  - Wait for PCIe link recovery (up to 5 seconds)
-  - Clear MHI controller SYSERR status at offset 0x38
-
-- SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
-  driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
-  - Write reset request to offset 0xb0
-  - Wait 2 seconds for reset completion
-
-These are true hardware reset mechanisms (not power management or firmware
-error recovery), providing proper device reset for VFIO scenarios.
-
-Testing was performed on desktop platforms with M.2 WiFi and modem cards
-using M.2-to-PCIe adapters, including extensive force-reset cycling to
-verify stability.
-
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: <stable+noautosel@kernel.org> # Needs dmaengine driver fix as well
+Fixes: 2547beb00ddb ("bus: mhi: ep: Add support for async DMA read operation")
+Fixes: ee08acb58fe4 ("bus: mhi: ep: Add support for async DMA write operation")
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 ---
-v11: Address Manivannan Sadhasivam feedback:
-  - Remove unused QUALCOMM_WIFI_MHISTATUS define
-  - Use PCI_ERROR_RESPONSE instead of 0xffffffff
-  - Sort device IDs in ascending order (0x0308, 0x1103, 0x1107)
-v10: https://lore.kernel.org/all/20260623183115.1585273-1-jtornosm@redhat.com/
+ drivers/bus/mhi/ep/main.c | 7 +++++++
+ include/linux/mhi_ep.h    | 2 ++
+ 2 files changed, 9 insertions(+)
 
- drivers/pci/quirks.c | 117 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 117 insertions(+)
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index 0277e1ab1198..329a4855d397 100644
+--- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -1612,6 +1612,7 @@ static void mhi_ep_remove(struct device *dev)
+ {
+ 	struct mhi_ep_device *mhi_dev = to_mhi_ep_device(dev);
+ 	struct mhi_ep_driver *mhi_drv = to_mhi_ep_driver(dev->driver);
++	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
+ 	struct mhi_result result = {};
+ 	struct mhi_ep_chan *mhi_chan;
+ 	int dir;
+@@ -1636,6 +1637,12 @@ static void mhi_ep_remove(struct device *dev)
+ 		}
+ 
+ 		mhi_chan->state = MHI_CH_STATE_DISABLED;
++		mutex_unlock(&mhi_chan->lock);
++
++		if (mhi_cntrl->flush_async)
++			mhi_cntrl->flush_async(mhi_cntrl);
++
++		mutex_lock(&mhi_chan->lock);
+ 		mhi_chan->xfer_cb = NULL;
+ 		mutex_unlock(&mhi_chan->lock);
+ 	}
+diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+index 7b40fc8cbe77..f6383a57a872 100644
+--- a/include/linux/mhi_ep.h
++++ b/include/linux/mhi_ep.h
+@@ -107,6 +107,7 @@ struct mhi_ep_buf_info {
+  * @write_sync: CB function for writing to host memory synchronously
+  * @read_async: CB function for reading from host memory asynchronously
+  * @write_async: CB function for writing to host memory asynchronously
++ * @flush_async: CB function for flushing asynchronous read/writes
+  * @mhi_state: MHI Endpoint state
+  * @max_chan: Maximum channels supported by the endpoint controller
+  * @mru: MRU (Maximum Receive Unit) value of the endpoint controller
+@@ -164,6 +165,7 @@ struct mhi_ep_cntrl {
+ 	int (*write_sync)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
+ 	int (*read_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
+ 	int (*write_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
++	void (*flush_async)(struct mhi_ep_cntrl *mhi_cntrl);
+ 
+ 	enum mhi_state mhi_state;
+ 
 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 431c021d7414..0de606366200 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4240,6 +4240,120 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
- 	return 0;
- }
- 
-+#define QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET	0x3008
-+#define QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
-+#define QUALCOMM_WIFI_MHICTRL			0x38
-+#define QUALCOMM_WIFI_MHICTRL_RESET_MASK	0x2
-+
-+/*
-+ * Qualcomm WiFi device-specific reset using SoC global reset via BAR0
-+ * registers.
-+ */
-+static int reset_qualcomm_wifi(struct pci_dev *pdev, bool probe)
-+{
-+	bool link_recovered = false;
-+	unsigned long timeout;
-+	void __iomem *bar;
-+	u32 val;
-+	u16 cmd;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+	val |= QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	val &= ~QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	timeout = jiffies + msecs_to_jiffies(5000);
-+	while (time_before(jiffies, timeout)) {
-+		val = ioread32(bar + QUALCOMM_WIFI_PCIE_SOC_GLOBAL_RESET);
-+		if (val != PCI_ERROR_RESPONSE) {
-+			link_recovered = true;
-+			break;
-+		}
-+		msleep(20);
-+	}
-+
-+	if (!link_recovered) {
-+		pci_err(pdev, "PCIe link failed to recover after reset\n");
-+		goto out_restore;
-+	}
-+
-+	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
-+	 * and thus need to set MHICTRL_RESET to clear SYSERR.
-+	 */
-+	iowrite32(QUALCOMM_WIFI_MHICTRL_RESET_MASK, bar + QUALCOMM_WIFI_MHICTRL);
-+	ioread32(bar + QUALCOMM_WIFI_MHICTRL);
-+
-+	msleep(10);
-+
-+out_restore:
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return link_recovered ? 0 : -ETIMEDOUT;
-+}
-+
-+#define MHI_SOC_RESET_REQ_OFFSET		0xb0
-+#define MHI_SOC_RESET_REQ			BIT(0)
-+
-+/*
-+ * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
-+ * register.
-+ */
-+static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
-+{
-+	void __iomem *bar;
-+	u16 cmd;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
-+	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
-+
-+	/* Be sure device reset has been executed */
-+	msleep(2000);
-+
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return 0;
-+}
-+
- static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
- 		 reset_intel_82599_sfp_virtfn },
-@@ -4255,6 +4369,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 		reset_chelsio_generic_dev },
- 	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
- 		reset_hinic_vf_dev },
-+	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
-+	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wifi },  /* WCN6855 WiFi */
-+	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wifi },  /* WCN7850 WiFi */
- 	{ 0 }
- };
- 
 -- 
-2.54.0
+2.43.0
+
 
