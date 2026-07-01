@@ -1,258 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE83C381AEC
-	for <mhi@lists.linux.dev>; Tue, 30 Jun 2026 06:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E9B3F0AA8
+	for <mhi@lists.linux.dev>; Wed,  1 Jul 2026 09:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782802714; cv=none; b=GCVqY8SmhI/QIZ5OpLtijXUtZxwKE+3d6qF/OX3hWKw7gVJVaw1oiiogKiup0Yq+NzARzfoXc1c9UDuRl4zBxBhH/z/HNkOZHuV9dKw5iYqnaCsWWuHLvRzM1BolpgwZ5OZcRG//LU/BHsSs5mh8Wxq3Isq9FLOI0/kvShKN+Q4=
+	t=1782899665; cv=none; b=GmUNRIvHLj3C5RZC0VYzig/90fQPakKcLh9IE4QGdtApMhSb+mhfoO9lrgZ7bUmwi5rCpseMQvH8iDhwJiVB0rUJySRSklQnoe95/WgxeCoatzAy7+5Tc8Ro7WbA91XtD/hqJmh2vvDplKO0IrQDX1uYGzFv+065IymUAQisbyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782802714; c=relaxed/simple;
-	bh=O/RmpcJPhoXSXmdQPfuDXbLyqT8UOzjEC89MYWn2aSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=hSo9RFY8Fx7howL02UlpvIi8ccrb8+Ms5NeaQylSnv8tnL/SL0TYfkmZOoSd85aqrmKgZwl0b/1TGR2eZAb0HlVl+cNtgJdCu94IsWawZIg5x8nVDduk0UAV6AIETqEu5DjsQIgVRVnQB6Sm+A6+YYNAiwce1sPi34+jigLxGsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=afZ4loeP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782899665; c=relaxed/simple;
+	bh=78GZqLBubj8E9uX/o9e6hxnuHbGruLQCoTLyXDTACW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=piIumWoK+NRdZV2yN38FzUq+lL62+BotMkLhVhgeDTUDt/eC0GKLjsjm0oYWSunM6CzvCdo9ENixudnlEJuGxgJyj+PrEubt3gXCG4DYe4TllwLy5EEpMDzQPUbCC7Yt8A5+I41SzfiYG8gcaaiePCldsnj6r8Y0kh6q2FhTv+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Oae3uNUB; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="afZ4loeP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782802711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IfvcY9uq6uLwM8t+kLexGrbIDeUDtwGI75Ilk2oh1y4=;
-	b=afZ4loePwV2asxEFGS5pxlIDQEfFDNZ7T4k5rdUjajlb0SyDTIQi5tEbYWCQMxN7dZiExg
-	bgOTucADKinT4AvHasOsiTEGvF292nRPeJvqkJcNcxIzQP5zv0s7KVsDM2CSZuRzJAthMN
-	+VJINDqFA3L2m3Thk231ZpkGkG1LZ8M=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-612--7tlt8gNONKNQD7xg7TLfQ-1; Tue,
- 30 Jun 2026 02:58:27 -0400
-X-MC-Unique: -7tlt8gNONKNQD7xg7TLfQ-1
-X-Mimecast-MFC-AGG-ID: -7tlt8gNONKNQD7xg7TLfQ_1782802705
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 597D41856A55;
-	Tue, 30 Jun 2026 06:58:25 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.44.48.35])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 478CE180059E;
-	Tue, 30 Jun 2026 06:58:21 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: bhelgaas@google.com,
-	alex@shazbot.org,
-	mani@kernel.org
-Cc: jjohnson@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: [PATCH v12] PCI: Add device-specific reset for Qualcomm devices
-Date: Tue, 30 Jun 2026 08:58:15 +0200
-Message-ID: <20260630065815.199693-1-jtornosm@redhat.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Oae3uNUB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=su
+	nDimvKPAGXr1s3eNxIeBtTHJPCyhFgFWGTZXYX4go=; b=Oae3uNUBWnLZyIfBV6
+	XXUfuPtOiKuT/5dHMyrN8XZHbgOyWsIJ1n05S3Fh7kwAQPdm9BFQ0ol/X2S0/cU1
+	psXXdstEvL5HiIGKvJfN/vB2ypvXop1cWML9HfVeTF5Dlu0Z0xtezlDvzG2lPKz9
+	qvsjXQAsEcJ7d6r+6SrcnMgIs=
+Received: from GHT-5854251031.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wAnZKKq40RqU6VxHA--.29763S2;
+	Wed, 01 Jul 2026 17:53:47 +0800 (CST)
+From: zwq2226404116@163.com
+To: mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: mani@kernel.org,
+	loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	Wanquan Zhong <wanquan.zhong@fibocom.com>
+Subject: [PATCH v3 1/1] bus: mhi: pci_generic: fix Rolling Wireless RW135R-GL and RW151 support
+Date: Wed,  1 Jul 2026 17:53:44 +0800
+Message-ID: <20260701095344.309409-1-zwq2226404116@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: x8OwkCNXdT0zgeR5RkHPCD0W3qWawucfsBLBfb06qo0_1782802705
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CM-TRANSID:_____wAnZKKq40RqU6VxHA--.29763S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFWxCF15ZF18Gr18Gw13CFg_yoW5Gr1kpF
+	4SvrWUtr4vvFyF9ay8A3s7GFyrXan8XrZrKF98G34xC34Yy34UtrW0g34agFyYvFZ2qFWY
+	vrsYg3yxZF4UAFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Um1v-UUUUU=
+X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0gvOJmpE46uzyAAA3s
 
-Some Qualcomm PCIe devices (WCN6855/WCN7850 WLAN cards, SDX62/SDX65 modems)
-lack working reset methods for VFIO passthrough scenarios. These devices
-have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-broken bus reset.
+From: Wanquan Zhong <wanquan.zhong@fibocom.com>
 
-The problem manifests in VFIO passthrough scenarios:
+bus: mhi: pci_generic: fix Rolling Wireless RW135R-GL and RW151 support
 
-- WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WLAN devices:
-  Normal VM operation works fine, including clean shutdown/reboot.
-  However, when the VM terminates uncleanly (crash, force-off), VFIO
-  attempts to reset the device before it can be assigned to another VM.
-  Without a working reset method, the device remains in an undefined state,
-  preventing reuse.
+- Increase RW151 MBIM channel ring size from 4 to 32
 
-- SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
-  on first VM assignment without proper reset capability.
+On HP and Lenovo laptop platforms the device probes successfully and
+WWAN ports are created, but pci_generic enables runtime autosuspend
+(PCI D3hot/M3) after a short idle period. Resume from runtime PM leaves
+the modem in MHI SYS ERROR; driver recovery (reset) fails and the device
+becomes inaccessible (PCIe config space reads as 0x7f). The failure is not
+self-recoverable while runtime PM remains enabled; keeping power/control=on
+avoids the issue.
 
-Add device-specific reset methods using BAR-space hardware reset registers
-that exist in these devices:
+Set no_m3 on RW135R-GL and RW151 so probe does not enable runtime M3
+autosuspend for these modules.
 
-- WCN6855/WCN7850 WLAN devices use SoC global reset via BAR0 (sequence from
-  ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
-  ath11k_mhi_set_mhictrl_reset()):
-  - Write/clear reset bit at offset 0x3008
-  - Wait for PCIe link recovery (up to 5 seconds)
-  - Clear MHI controller SYSERR status at offset 0x38
+Power management testing (separate from runtime PM above):
+- Suspend-to-RAM (S3/mem): tested on RW135R-GL and RW151; MHI/MBIM/wwan
+  function after wake.
+- Suspend-to-disk (hibernate): not available on the test platforms
+  (/sys/power/state lacks "disk", ENODEV).
 
-- SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
-  driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
-  - Write reset request to offset 0xb0
-  - Wait 2 seconds for reset completion
+Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
 
-These are true hardware reset mechanisms (not power management or firmware
-error recovery), providing proper device reset for VFIO scenarios.
-
-Testing was performed on desktop platforms with M.2 WLAN and modem cards
-using M.2-to-PCIe adapters, including extensive force-reset cycling to
-verify stability.
-
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 ---
-v12: Address Manivannan Sadhasivam feedback:
-  - Use WLAN instead of WiFi (Qualcomm's preferred terminology)
-  - Fix link recovery check: use !PCI_POSSIBLE_ERROR(val) instead of
-    val != PCI_ERROR_RESPONSE (fixes type promotion bug)
-v11: https://lore.kernel.org/all/20260626055023.197470-1-jtornosm@redhat.com/
+v2 -> v3: RW151 MBIM ring size 32; disable runtime M3 (no_m3)
+ drivers/bus/mhi/host/pci_generic.c | 4 +++-
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
- drivers/pci/quirks.c | 117 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 117 insertions(+)
-
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 431c021d7414..0de606366200 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4240,6 +4240,120 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
- 	return 0;
- }
- 
-+#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET	0x3008
-+#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
-+#define QUALCOMM_WLAN_MHICTRL			0x38
-+#define QUALCOMM_WLAN_MHICTRL_RESET_MASK	0x2
-+
-+/*
-+ * Qualcomm WLAN device-specific reset using SoC global reset via BAR0
-+ * registers.
-+ */
-+static int reset_qualcomm_wlan(struct pci_dev *pdev, bool probe)
-+{
-+	bool link_recovered = false;
-+	unsigned long timeout;
-+	void __iomem *bar;
-+	u32 val;
-+	u16 cmd;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	val = ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	val |= QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	val &= ~QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	timeout = jiffies + msecs_to_jiffies(5000);
-+	while (time_before(jiffies, timeout)) {
-+		val = ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+		if (!PCI_POSSIBLE_ERROR(val)) {
-+			link_recovered = true;
-+			break;
-+		}
-+		msleep(20);
-+	}
-+
-+	if (!link_recovered) {
-+		pci_err(pdev, "PCIe link failed to recover after reset\n");
-+		goto out_restore;
-+	}
-+
-+	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
-+	 * and thus need to set MHICTRL_RESET to clear SYSERR.
-+	 */
-+	iowrite32(QUALCOMM_WLAN_MHICTRL_RESET_MASK, bar + QUALCOMM_WLAN_MHICTRL);
-+	ioread32(bar + QUALCOMM_WLAN_MHICTRL);
-+
-+	msleep(10);
-+
-+out_restore:
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return link_recovered ? 0 : -ETIMEDOUT;
-+}
-+
-+#define MHI_SOC_RESET_REQ_OFFSET		0xb0
-+#define MHI_SOC_RESET_REQ			BIT(0)
-+
-+/*
-+ * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
-+ * register.
-+ */
-+static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
-+{
-+	void __iomem *bar;
-+	u16 cmd;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
-+	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
-+
-+	/* Be sure device reset has been executed */
-+	msleep(2000);
-+
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return 0;
-+}
-+
- static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
- 		 reset_intel_82599_sfp_virtfn },
-@@ -4255,6 +4369,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 		reset_chelsio_generic_dev },
- 	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
- 		reset_hinic_vf_dev },
-+	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
-+	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wlan },  /* WCN6855 WLAN */
-+	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wlan },  /* WCN7850 WLAN */
- 	{ 0 }
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index d598bb3b3981..d0fee7e3ba3a 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -942,6 +942,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
+ 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
+ 	.sideband_wake = false,
++	.no_m3 = true,
+ 	.mru_default = 32768,
+ 	.edl_trigger = true,
  };
- 
--- 
-2.54.0
+@@ -949,8 +950,8 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
+ static const struct mhi_channel_config mhi_rolling_rw151_channels[] = {
+ 	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
+ 	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
+-	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 4, 0),
+-	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 4, 0),
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+@@ -986,6 +987,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw151_info = {
+ 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
+ 	.sideband_wake = false,
++	.no_m3 = true,
+ 	.mru_default = 32768,
+ 	.edl_trigger = true,
+ };
+
+--
+2.50.0
 
