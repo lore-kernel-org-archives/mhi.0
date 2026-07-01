@@ -1,282 +1,225 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AA1428475
-	for <mhi@lists.linux.dev>; Wed,  1 Jul 2026 10:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782902302; cv=none; b=riOMaicgTErymZZgHCVwKIU/JyNKffRh06kT8N0dOdylbFsoo9g1S4pKSH4ECdmgHsiAa4N9V9DUVw/rq6oSUvgKqSJI7HkR5hT5NZ/lXKM3iXWoyiSQPFKQ8dsq6yIeUZDCgJsURTZmql8slJ8UvTdy0AdJO23mUlnpKPvy9Ic=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782902302; c=relaxed/simple;
-	bh=Jan+rO3lHREsYWShXbf2aFwmvonRIbh7Bu+veXE/AIU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=f7RqQXwDse7leDk5zu9pIurs2+LRFsCfaU/NV5Bvu85U9nvWJhalFT6Z5zaLOe2Fi1Ks0nN2Wj+lX6KBJfDZyRzc00rkmRU9mflRiYhD7vSiSHZuOlSGP8uvcBfVCQgWiDAPvk63ccp7O82e3Ph0bczNEre2UmYc2a/cM6959sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aEs6ogGG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Pc6gakw/; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAEF344DBD
+	for <mhi@lists.linux.dev>; Wed,  1 Jul 2026 14:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782916047; cv=pass; b=ZvMMjgoWq9Lq8gNi5gXeOI3YTZ4eqALMd+9eO6n/PLKGwAj081YYCeSQQEUBNKFLtEys+xhH6lCXQs6lMfhl4jIuz9qAACPhsZYwI7p28Sr/GWzJB0sqgTpgmN/VH3AHs55PX5dWBiOUTLuhFPPn65Kbi7/ecRT9GOaWKBoRZQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782916047; c=relaxed/simple;
+	bh=o5hJ4zjdUnOfv1QaEjf+KgFzHDm/5IZUg+OW0f16z/A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QPCayhEmdJBHq9Hm9zn73GF4lLAGXuKTkFZDCH/lJyGKpomM6uvQ+/6UMZZ1EEp0h0v/ENWwZIW4+NxJG+8NA3ZjtJNlXI17XkGyzs5pS+xpztBB/OioEkAVdf6/CjjlZWZcSdjvrP2PSF9NB5dwnPhgqX+h5S8RAYcdDSxW9/o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Te3dOX/o; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Dblm7UYh; arc=pass smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aEs6ogGG";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Pc6gakw/"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661A8ohT762976
-	for <mhi@lists.linux.dev>; Wed, 1 Jul 2026 10:38:20 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Te3dOX/o";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Dblm7UYh"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661A8UqX680776
+	for <mhi@lists.linux.dev>; Wed, 1 Jul 2026 14:27:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ok+6fNf56WQpIHo1nYgzH/b5G92QcDwfXWueRnDPmYA=; b=aEs6ogGGQDI74RO/
-	lRblGrlJ+2OeazJFLlUe+c44as9KDJvck6imiu0lQHDBWfm2IQyJosWij8m2Mizo
-	GE9DvpzYy5FdSuPaYc9UaaV6dh9CWfjTJwRkpz4bVhHIqwTleNU3wSvVzmCVGd8l
-	pupHFbqm3H9fGUE9EzjwK160C0hiRWLiuFzGQQ9Rw6ilImQgPfjY6vAfpzzwyPyA
-	fAD531S9z3di9k3RX+keHKw5am3xfo1kf9MRqfMfDDn7/dOkve1mkA2D8omnuVoS
-	hoxA9OH5EI/hbC4nvfbQJjTTK0cUUujvbG4jfjyZ5veoz7Nb+sza9Va9oFdO6Bt1
-	Dtu9jQ==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f4jktbp88-1
+	slNfsSPq+LKvZAWAAOKAp2yofr1taXH3S3WyXQ27TPE=; b=Te3dOX/oMm1dsiSh
+	NMdFy2Wpu3MOA63ZucRuVwxcW+Nz7k9jDJhweSvRVVAP5QWCY+0AYmgxnV95hlJA
+	W4LoxGz+hblSca0DMxszJKqB5mZ2JkPjhi+Oa3plAjM54WeaNR6Mu0WI9LjQACDc
+	7v7bIWwjNhfTK/7vtsCevwB+TldVs0rK3QjSyzHKuvJ+afwTFlC1uQtqY9R87r14
+	gK2H+Xm+7fa4yJ2XsTVU3yG/WkYwvhKkR5rUch9RgKJYlPZlFeba9JVTPJWl+hDL
+	fu0Px8Qe5RvibYZ7pqCNqi50pTzCeRajeo66W2yVfs5zoLYtN08YGyLKG4JDlGm8
+	sHu3mQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f4k3smn73-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Wed, 01 Jul 2026 10:38:19 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-37fe5d16d15so858591a91.0
-        for <mhi@lists.linux.dev>; Wed, 01 Jul 2026 03:38:19 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Wed, 01 Jul 2026 14:27:25 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-915c364ae3bso86957185a.0
+        for <mhi@lists.linux.dev>; Wed, 01 Jul 2026 07:27:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782916044; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P5GaVNFbTNpsUOqa9YKAd/NNkMYIhVnqbdQbPHxc6HXzU2/da9dXf0FWXe1G7u+nRm
+         wYPwef+jNXww0aW0Y43rfkSliqlpwaLEGBAVr4XcxJQ18r5o1ILTz28ILBNyoJx3ngE5
+         Tx2ZKFuTI0G/NAe5GgjHiiEjWclGc6NqYc/FWGDXKkSRWvEOaM2dgneMxFYxWEgQ7AQ0
+         qLSwiCZT0D1eE3RvJiO6blmXuhYlZw8gbT2GcTrktrARa+zxZQ1gj+ITk2WCc1aS8Jcq
+         nidNj8YP7tSim7kI/coZAant3N+3I6kAkr6SI3E0m53vGKy/enX4hf3/3gY2a8g8t1Sl
+         O7BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=slNfsSPq+LKvZAWAAOKAp2yofr1taXH3S3WyXQ27TPE=;
+        fh=plqKdSx4c/R0EdDxvR0ogbUsXKeXxWHZHqAo7qd0svU=;
+        b=lF0NwmBhv128SXMrvTZ2/ASwvsgIA1hvx4fOu4yJ6l/4w7kizlIW6vafS+N3SsTRpf
+         7KtgKAshsmEQCq2MRxHU1mD0o15t9n3N9nBGzD0YCjXAtull6bOws61tcUycGPMBPboj
+         O18T6/Q+kfmCpIxnqYdrca8xgbepzd+EnqfNSH7EfzdO2p7iNi1OqcvwA2SGwNhs575/
+         S7FTxkEonI+seSDTAtWL+YHdnFpcFNuPnhGCYNAFZW/D6r2+QxfOpOAr9qIk++hB2h1r
+         pcsE7jaDAWyhwQ1sh6fo5eRUqwznaeFSyYN3LVFuGghvJZ9hZ/5573CABye1/QAMfgxZ
+         K+Pw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782902299; x=1783507099; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ok+6fNf56WQpIHo1nYgzH/b5G92QcDwfXWueRnDPmYA=;
-        b=Pc6gakw/BJ3UDp3CGsWzdzrsgMh3sPndK34bbDIZdrsGJpPjjWS3VEAMSTfyHi74n8
-         P5lUqyp91kefk0hwpJbXX6YsNXao6pYcMd1Bq4S9q+9DNgGPT0I0MYFvnUp/gSOp1ssN
-         DRcoOoiUUOhRGvm5O64NL9J2LBg6DpNYV/Tiyw8jNDKPaRkbWfkNP2WQ3drGNvjoEnx9
-         rNPKU1E2VzTGhdgUY5btk9FNlcHOS+W9F0/PdyEzvBQQgDXaA9KcSxoSfgu9d0JsSWzI
-         hJvGoOfiQxg0d/pDoc1RhRsENvjTgh2M7ic+GfkOrOLf787evy0SZwDz5EAOXlQLlDlZ
-         yZKw==
+        d=oss.qualcomm.com; s=google; t=1782916044; x=1783520844; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=slNfsSPq+LKvZAWAAOKAp2yofr1taXH3S3WyXQ27TPE=;
+        b=Dblm7UYh2s3UWLH0lu29JMR+Q3IdiznJY3UAZcTsiRKXnkoBUEom5dEtzdJJb4kZB8
+         gz9pIXkkEeeDHzpjsvnyPA+7VXVGG9sKFRM/Bh349N0lC0anPWwo0K/f/DqzUSoUTnon
+         jlqND353tTUbDtf2xc27zjQNwMxmj0gmTRsfWpxIBChvMC6Y/xvWuA7qY1oUXLJEnnY/
+         GtYERYnPF6IlaSX/VhT4wm3sxhAzZWCIaCyjeIz4jUQX3zvoo4hmvtxDuBms6PfJ6+LA
+         sIwKYS0RTMg0UcIED2Ad8dc0IsmdWvrAbwLpOSknXFq7LXArfRFfFMyem10905MUWfCR
+         fSiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782902299; x=1783507099;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ok+6fNf56WQpIHo1nYgzH/b5G92QcDwfXWueRnDPmYA=;
-        b=U8jxh+y3ko81uzW4a3GgyYFMPqxV0P1Nf7X/t9SS15TIYYj6oP3CVl/ygqeCGZ9ria
-         IXdxXcU9epJ67LIqqSj6SIjNv43G3H5tqWGHwpkBsIYozxfCJ0TY3kjEIvDXIUukcQka
-         QvSiU1HgwW8tIQO87QzDc0EXsaahKwoiueJYez64GLzrbwuBRf4ZUJF1IZwxrxO+mSYC
-         DLo+QDcX1+RaZeUncYNk1blETWfa5oKCF+wDsppQ8XTW4wwoIvtRdURTm0ANxZwHNyZv
-         dJLjOCUWU8rmZuiw6uCCTKYJAby2UDQverBKDzswc/LPugGtHbKHSSV9sl4l7KT4d0Ae
-         Qz5g==
-X-Forwarded-Encrypted: i=1; AHgh+Ro/CpdMlkgxCAyKsSFVptGo++CUCi5nDdvy/vYX9OjIgIcrfG7wLxbPdz2G3ROKk/xXe6g=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMCxVE3LJRH0L/F4Rf4rC8p4WoKrsfpwtzxYWgz88UGUxbzkBM
-	daj+R2Luwu9d2peebAOCcbINpQQ52XrPq3CZEJIWl23Oaf+TEhPD2n+5XtRXZS44I1TsoRkwXNh
-	UtwoASZaMigFw2fNlWUu19McG6Or1cNMaRTLdyMvfhXiiNMiJ7JCjr+Q=
-X-Gm-Gg: AfdE7cnG+qQCmOapXwxY9MoWC8oRem6G9zDQQ5sbFkPdeV9wmKAfBO6dzsa+pbFawQM
-	PCeMY1OHGcjQjEe7BJrHNiaMp2JnClExcBOBhLlZhynHEaRp+k9zBXVtMifi6+/8a+6V5lPk//w
-	iPalCAbQzCKMGd4IOE0IE7K1fxVCazKjX4yLyWwcbDM6m01NZvURGwfgmKDk5Gi34EGApMy9NCf
-	aD51fohf0vNo74l5vZcqTPqDiMaFz8XI58YVvBeQfbtWmjOF/SUyCP1bN4Ri+7cLjjFOiMaN1ul
-	aaXIn/8QwHxYOLH0JgFeOyyN/jPLP+2iMtq4eNDO7LvtYcqwyNa9xtm9XKCLJ0nFgJi4qaHOD9q
-	ADUNHTJsEjyuMGWBvbgkZrT82w1FHqGA/1ToebyZl
-X-Received: by 2002:a17:90b:17cd:b0:36b:9c4a:e05d with SMTP id 98e67ed59e1d1-380ba9455b4mr221612a91.17.1782902298740;
-        Wed, 01 Jul 2026 03:38:18 -0700 (PDT)
-X-Received: by 2002:a17:90b:17cd:b0:36b:9c4a:e05d with SMTP id 98e67ed59e1d1-380ba9455b4mr221594a91.17.1782902298250;
-        Wed, 01 Jul 2026 03:38:18 -0700 (PDT)
-Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38095bc8a2asm765251a91.0.2026.07.01.03.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 03:38:17 -0700 (PDT)
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Wed, 01 Jul 2026 16:07:41 +0530
-Subject: [PATCH v6 7/7] bus: mhi: Expose DDR training data via controller
- sysfs
+        d=1e100.net; s=20251104; t=1782916044; x=1783520844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=slNfsSPq+LKvZAWAAOKAp2yofr1taXH3S3WyXQ27TPE=;
+        b=j4ebzvZOXGNXP0fuB/9YA9M8wLcOjqi6BdIQ4zTnUdluQXALJaBoXIkt6dH13lL6iK
+         voAr96YT0wDfGg8E/6/biz5p9/uDGt/6NguOjHzJi90jQk7sg0w/8ZZTYA29dv4yxpTj
+         vcL1eHH0p+7zLYZobM5xyd0oYgxt6iJY5A/al7NlJyGoYM20Z6+rg+lOiCX5rPgtWL3A
+         NEtpzMcVoBjwpGSnHu0usJ1fSIAHOk/cT4T0RB01+8VO3dh1FpJkWkAFdAgDRKs9OOiQ
+         d19shDBEWXAEhL1wo/ytOZsX3hoxNRZeMvj0KSfQqMj2KfcZDDCJCm/P7PTr/0n1Micd
+         WzEw==
+X-Gm-Message-State: AOJu0YzIJ5C9W6YPu9FrpL8JZXUCT7IaxTbRrH5wYTzEa/greTfVxNI4
+	wBj+pwqjD4axKPJNacrav7TX+FdIRnbAN8iJ8T8JngZ9/zUb6vSUYZqAjvPhgxvueFUFINZgFst
+	TrPbNgqaMh58DzwEVMhuzibo18djIv6n0qICLD8Vad/S/kEJ17Q6ke9AW/GQqtT4hR/xfpAg80g
+	pJfynA7ouUb5iAZJpztmBPObALfa9aTA==
+X-Gm-Gg: AfdE7clG+rhIzP60G749P6rV+Ais0b+siNgAApf90Olz94Fl7vjjnG8rNfa7GmQUDTL
+	FukXEdEdswvUzAs5u2LjBD8AjoS/kjHccwBPtPRiUtvbav+8/TLd6n4zNoCTbVgxBmtAQqgYyTh
+	e7irUqLpj35GnGSR6Nn5LTtZk41jyIE6aTINkRv/dBbSeDvlwa3tW0fPglnHycsQ3ajUDD0i6kN
+	OgdBvou358K6Q3B1aWHx0eGCE1QW3i/Xrk2aolrRzDFEke+eetBAUpsLcjQBXNOjl8W4OmZ1dtd
+	J2QEJZveJQ==
+X-Received: by 2002:a05:620a:4711:b0:92a:dcf5:ba5b with SMTP id af79cd13be357-92e781d35e8mr268234985a.14.1782916044102;
+        Wed, 01 Jul 2026 07:27:24 -0700 (PDT)
+X-Received: by 2002:a05:620a:4711:b0:92a:dcf5:ba5b with SMTP id
+ af79cd13be357-92e781d35e8mr268229085a.14.1782916043639; Wed, 01 Jul 2026
+ 07:27:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-sahara_protocol_new_v2-v6-7-3a78362c4741@oss.qualcomm.com>
-References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
-In-Reply-To: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782902263; l=5210;
- i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=Jan+rO3lHREsYWShXbf2aFwmvonRIbh7Bu+veXE/AIU=;
- b=1aIjX2/TG/4sjfrA0UmBKYhS7juF931y5uK7Gq7FUFa9jfohXouXcnQFh9yaSzTv8NA4fWyk3
- +pWLVc+XgmyD6NA7Aks92EyaC86mt609EWMML0n5d2hWDNfOuI52pJL
-X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
- pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDExMSBTYWx0ZWRfXz+C6KAS9fvto
- sKAd8mSxpcjN7Gk5Q4eg/0NhuQnIIuvI9DCU150/jJ8nHj1HLY4Z9cJuX2fDEvG4VPCBGWgs1nL
- HlXy/naj6QRhUuyb8Wo9jxKpIt7KhcQ=
-X-Proofpoint-GUID: 9j9VTZpZeQ2IhcRJSjiTL7Pxr5gst8DF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDExMSBTYWx0ZWRfXw5c+2xQbyY93
- GNuqKbQkE6LtBLUBBiv3iXetyfa5HAMBV4ES4l0f5LxqWvBpwOPG7oxJL+6oVj6PWgYw/p6z6Ka
- X6ugkNuv/aunnmuQga4Dq+gc2pr6Ee9XWBbitzVPM7q4YCXFWvyVTvYcQb4z7xF5PqZ3bdsHNcO
- nlizZEMMh11nkQyVxp9giPUnD29yOZQXw4mGVuN7jhF3qmGlFQBr2itTqCDeOKerKfeElTjmiPY
- 0BXSihyJxgATRMP1LHQ3rL2yaoJa6jyk+hHp4+u4HBKSxWQ3M82zYIH7LzcW2E+pO7TsbNI0usd
- dRM+kplK53yni4YjT6tdZJgVbCkUXRpe3OnCKPY31Z82BRuxhzNj5Yly7NxxJ0bEF8rAwfMfAv1
- twMbfyCCV6bzrpRyvYys2grS97DohpfX4FCX1GPjJE3jeGfardVbFLes6bO0AotSqsVD4sdzaoi
- vcY1b4k32EcZ2Mwik0Q==
-X-Authority-Analysis: v=2.4 cv=R+wz39RX c=1 sm=1 tr=0 ts=6a44ee1b cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=6t33SRJ6vQwVIDTtI9kA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-ORIG-GUID: 9j9VTZpZeQ2IhcRJSjiTL7Pxr5gst8DF
+References: <20260701095344.309409-1-zwq2226404116@163.com>
+In-Reply-To: <20260701095344.309409-1-zwq2226404116@163.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Wed, 1 Jul 2026 16:27:12 +0200
+X-Gm-Features: AVVi8CefzM1LituZvWyAk0MJEQ4HiP0taqRwbGukgdhVHhBq-uNWIgfCAUrAGm4
+Message-ID: <CAFEp6-2ZPRbakA7wVHnaqMXgPnEL2BQ_gAEQC-2mH_=rOjHY1g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] bus: mhi: pci_generic: fix Rolling Wireless
+ RW135R-GL and RW151 support
+To: zwq2226404116@163.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+        mani@kernel.org, ryazanov.s.a@gmail.com, andrew+netdev@lunn.ch,
+        davem@davemloft.net, kuba@kernel.org,
+        Wanquan Zhong <wanquan.zhong@fibocom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: C5mHHczKcQvGTez_jZislnfRMIoAlNuK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE1MSBTYWx0ZWRfX/xvbcipvgFdy
+ ssRbo7g+Y7S8WOVb/D7wONj4U5kRFhshZZM7rinVsxMyyApjMuawqT8VZ3k3BidSpDcHNW/8F7N
+ ykCHpgkYie9MZR8Yg5b/PhjMxfxW+HEFjLgyig6NU2HvA6dd4BP91koA2jk42CqpN87kNyXBXQn
+ r74vEu+1z8d+nlhjs7ysHw2ylzsStjU7nu4bVCYIHVjlcGez/JT2C3L0pDEO+v4qyUv2C8QYLsY
+ b7rMUt0N9BT6qjX+aAlFYGjcq4sgrSAZMkGQV5zAtD1RkU13fKy1csRWUYv/yySp0JP7cqrdxAS
+ lXCwVGbtSZmHTSzjDFnajvVtxxMOWeSKBETNWHM4krRl3t8zzn6LmyFo3xrahD0dFhxmSPOkNZE
+ TjszqWi4SqBQ/RcufKMo7YQCglg40+tXfzuvj2QHFw7NnmrNrUMq/jxIovHPNzS9dI1thX778cZ
+ 4T50wPFICKVUM3IZs6g==
+X-Proofpoint-ORIG-GUID: C5mHHczKcQvGTez_jZislnfRMIoAlNuK
+X-Authority-Analysis: v=2.4 cv=Ff4HAp+6 c=1 sm=1 tr=0 ts=6a4523cd cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=_K5XuSEh1TEqbUxoQ0s3:22 a=Byx-y9mGAAAA:8 a=6GUwiT5CAAAA:8
+ a=nWUtx5Q0ph_BRYhHASsA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=tp1klI1xYmtLYojU9LVd:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE1MSBTYWx0ZWRfXx+LCXRThzuC/
+ OK0q+nO/okfFPippfeCLipV0ysZ0+4L6Ysou/sDP4xZf7BJSstCvbheg+/UAkJbuA3UV245OXN8
+ Iu6riKtC5NXLrw3co8uzazsMo5ZG+Jg=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1011 malwarescore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010111
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010151
 
-DDR training data captured during Sahara command mode needs to be
-accessible to userspace so it can be persisted and reused on subsequent
-boots. Currently, the training data is stored internally in the driver
-but has no external visibility once the Sahara channel is torn down.
+On Wed, Jul 1, 2026 at 11:54=E2=80=AFAM <zwq2226404116@163.com> wrote:
+>
+> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
+>
+> bus: mhi: pci_generic: fix Rolling Wireless RW135R-GL and RW151 support
+>
+> - Increase RW151 MBIM channel ring size from 4 to 32
 
-Expose the captured DDR training data via a read-only binary sysfs
-attribute on the MHI controller device:
+Why? What is the problem today? If they don=E2=80=99t address the same issu=
+e,
+they should be split into two separate patches.
 
-/sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
-
-The sysfs read callback serves data directly from controller scoped storage
-and protects access with the controller training data lock. The attribute
-lifetime is tied to the controller device via devres, allowing the data to
-remain readable after Sahara channel teardown and ensuring automatic
-cleanup when controller device is removed.
-
-Userspace flow:
-1. For each controller device, userspace reads the ddr_training_data sysfs
-   attribute.
-2. If the read returns non-zero data, userspace persists it using a
-   serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
-3. On subsequent boots, the Sahara driver attempts to load this serial
-   specific DDR training image before falling back to the default
-   training image, restoring DDR calibration data and avoiding retraining.
-
-Add ABI documentation for the DDR training data sysfs attribute exposed by
-Sahara MHI driver.
-
-Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
----
- .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 +++++++
- drivers/bus/mhi/host/clients/sahara/sahara.c       | 62 ++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-new file mode 100644
-index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-@@ -0,0 +1,19 @@
-+What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-+
-+Date:                   March 2026
-+
-+Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-+
-+Description:            Contains the DDR training data for the Qualcomm device
-+                        connected. MHI driver populates different controller
-+                        nodes for each device. The DDR training data is exposed
-+                        to userspace to read and save the training data file to
-+                        the filesystem. In the subsequent boot up of the device,
-+                        the training data is restored from host to device
-+                        optimizing the boot up time of the device.
-+
-+Usage:                  Example for reading DDR training data:
-+                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-+
-+Permissions:            The file permissions are set to 0444 allowing read
-+                        access.
-diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-index 07bc743aa061dd2fa85638067d494562152474e3..72ac751c302a98448b5756c9feb438647bd0ce4b 100644
---- a/drivers/bus/mhi/host/clients/sahara/sahara.c
-+++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-@@ -273,6 +273,66 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
- 	return ct;
- }
- 
-+static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
-+				      const struct bin_attribute *attr, char *buf,
-+				      loff_t offset, size_t count)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct sahara_cntrl_training_data *ct;
-+	size_t available;
-+
-+	ct = sahara_cntrl_training_get(dev);
-+	if (!ct)
-+		return -ENODEV;
-+
-+	mutex_lock(&ct->lock);
-+
-+	/* No data yet or offset past end */
-+	if (!ct->data || offset >= ct->size) {
-+		mutex_unlock(&ct->lock);
-+		return 0;
-+	}
-+
-+	available = ct->size - offset;
-+	count = min(count, available);
-+	memcpy(buf, (u8 *)ct->data + offset, count);
-+
-+	mutex_unlock(&ct->lock);
-+
-+	return count;
-+}
-+static BIN_ATTR_RO(ddr_training_data, 0);
-+
-+static void sahara_sysfs_devres_release(struct device *dev, void *res)
-+{
-+	device_remove_bin_file(dev, &bin_attr_ddr_training_data);
-+}
-+
-+static void sahara_sysfs_create(struct mhi_device *mhi_dev)
-+{
-+	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
-+	void *cookie;
-+	int ret;
-+
-+	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
-+		return;
-+
-+	ret = device_create_bin_file(dev, &bin_attr_ddr_training_data);
-+	if (ret) {
-+		dev_warn(&mhi_dev->dev,
-+			 "Failed to create DDR training sysfs node (%d)\n", ret);
-+		return;
-+	}
-+
-+	cookie = devres_alloc(sahara_sysfs_devres_release, 1, GFP_KERNEL);
-+	if (!cookie) {
-+		device_remove_bin_file(dev, &bin_attr_ddr_training_data);
-+		return;
-+	}
-+
-+	devres_add(dev, cookie);
-+}
-+
- static int sahara_find_image(struct sahara_context *context, u32 image_id)
- {
- 	char *fw_path;
-@@ -1131,6 +1191,8 @@ static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_
- 		return ret;
- 	}
- 
-+	sahara_sysfs_create(mhi_dev);
-+
- 	return 0;
- }
- 
-
--- 
-2.34.1
-
+>
+> On HP and Lenovo laptop platforms the device probes successfully and
+> WWAN ports are created, but pci_generic enables runtime autosuspend
+> (PCI D3hot/M3) after a short idle period. Resume from runtime PM leaves
+> the modem in MHI SYS ERROR; driver recovery (reset) fails and the device
+> becomes inaccessible (PCIe config space reads as 0x7f). The failure is no=
+t
+> self-recoverable while runtime PM remains enabled; keeping power/control=
+=3Don
+> avoids the issue.
+>
+> Set no_m3 on RW135R-GL and RW151 so probe does not enable runtime M3
+> autosuspend for these modules.
+>
+> Power management testing (separate from runtime PM above):
+> - Suspend-to-RAM (S3/mem): tested on RW135R-GL and RW151; MHI/MBIM/wwan
+>   function after wake.
+> - Suspend-to-disk (hibernate): not available on the test platforms
+>   (/sys/power/state lacks "disk", ENODEV).
+>
+> Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
+>
+> ---
+> v2 -> v3: RW151 MBIM ring size 32; disable runtime M3 (no_m3)
+>  drivers/bus/mhi/host/pci_generic.c | 4 +++-
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pc=
+i_generic.c
+> index d598bb3b3981..d0fee7e3ba3a 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -942,6 +942,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw13=
+5r_info =3D {
+>         .bar_num =3D MHI_PCI_DEFAULT_BAR_NUM,
+>         .dma_data_width =3D 32,
+>         .sideband_wake =3D false,
+> +       .no_m3 =3D true,
+>         .mru_default =3D 32768,
+>         .edl_trigger =3D true,
+>  };
+> @@ -949,8 +950,8 @@ static const struct mhi_pci_dev_info mhi_rolling_rw13=
+5r_info =3D {
+>  static const struct mhi_channel_config mhi_rolling_rw151_channels[] =3D =
+{
+>         MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
+>         MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
+> -       MHI_CHANNEL_CONFIG_UL(12, "MBIM", 4, 0),
+> -       MHI_CHANNEL_CONFIG_DL(13, "MBIM", 4, 0),
+> +       MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
+> +       MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+>         MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
+>         MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
+>         MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+> @@ -986,6 +987,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw15=
+1_info =3D {
+>         .bar_num =3D MHI_PCI_DEFAULT_BAR_NUM,
+>         .dma_data_width =3D 32,
+>         .sideband_wake =3D false,
+> +       .no_m3 =3D true,
+>         .mru_default =3D 32768,
+>         .edl_trigger =3D true,
+>  };
+>
+> --
+> 2.50.0
+>
