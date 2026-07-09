@@ -1,65 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24803A4F4B;
-	Thu,  9 Jul 2026 05:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16762D0C7E;
+	Thu,  9 Jul 2026 06:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783576589; cv=none; b=US7E+S0MICnfPjJ8EzfngAVOfJN5SHB2F92vGLqhd8nGat3wRmh2SLjwUKKNzBr/FEktiGqq+7yN/vXdAxUr7NcbWpbboztKGLj6rWiITYpYGQUDaPTito9GTGcGURgzJY4RtUf77vgbc5ocn4T/aPBt2pbodmf4sV4+EkQ0Qhw=
+	t=1783577039; cv=none; b=SxBWtTLb1HXoH79lClo6emN/7q8SSVZGIS8P68027e9tX0wzSb6hfM/KJt/bELeiu1cQ4wC3zuAjnUziyZtxXdHOXBFW5HO7HVp3dTDo6CozLhSqXwClPaOe6bW1cn1B4GO8/HGU8RRXAGggvpFPdxowVBHh4hIGksJfOEzpISg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783576589; c=relaxed/simple;
-	bh=WCWOCcosvf1a3H0MeXBzocDS82Ys6gxGxDYJ8S3McbE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oAA+NO9zu4XvWSBuOg8ne5Swu9HZCOrvspjZLAqGyBgwuu3tQHPWR9sjDKmLpW56jLAjbNb9b3Umn74hX/oWUvFfTxVV5IWiVCGVePX7E0jVb2vBXI3lp6lCTklIdIWg5OcyFXlwnmUV2eZqDFWOuZDQC1J/5CpJQeBuys8LLH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RVW7YGgX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783577039; c=relaxed/simple;
+	bh=yBwghVt1yNXuJBhObJimnOjBdFffvi0j64Q90GWAsqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RHo44sKrGVXU9Sh+MGJ7g5Unbuw4Arm2NV44Rhg2GUUEJ7sXPVVUcq41kv0KLgzjMS2SPSwUfvgjro49zugrvXI2u9oEiYikMq0MSm6P+m7WxneoGkzPjIPCcCo3G2Em3wuDVlVSfc6zcQx28sgD1XWtmS4y4p36VTDUV7VgmYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVfDTVbh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RVW7YGgX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1780F1F000E9;
-	Thu,  9 Jul 2026 05:56:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVfDTVbh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC281F000E9;
+	Thu,  9 Jul 2026 06:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783576588;
-	bh=XbT1KfJ5qWiKVVsJNIrbamwA3zZFgvVNAtExcvXw14g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=RVW7YGgXrF/ggPJfn/KSozQ+F/lbytsaTVX+clbk84IR9Zh3ESwnC5dDpyjuMKxM+
-	 BDM711duEXOBNAH4KRf6CoweP7B0/O8CrbIqG2ziMAL7fkv2cblg1taIITdKCzdJO8
-	 BFRlHBojEX1FlrdN+pM2c94G8dlKWE19FGcHGJYAvkHkWNenJYPnvjH+RRJHhXcMSJ
-	 V1mDmCgMV713KfjQ+oZ4R8rdLeTjTmrMm1nOY9e8CjNzlD6k9SSJZ2f8vMmlKTv8jF
-	 5+SWzop80UApNPzFAZzj6xMbjjF4lAfiRGr44dmHRspl5pPIJwTXL1Mjd74Ox7Mcn2
-	 mGQ5Byv2cYjuQ==
+	s=k20260515; t=1783577037;
+	bh=wRU5zaDrC1juEMW/sUNE1efvtJdHXySbPC6CXC4p05g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LVfDTVbhfalfFS5xJ1E2WTjP4lfNeK4pubNaxrFiDOaP174Oeb4k8mSUEWzxl06v2
+	 jIjz9Vglma1zhMySah9/Uisq7XhNj6qAxX5ycLQ2TJCCbIJCiv/6X85J6EyWD26Hmw
+	 MAtMd4FwnNWifoUobgwb1EMCxGxHw9l2JMBxemR2gySuNkkz0t2+Dr8e2Lh7Yzgk6B
+	 Ki270Wm3zDEgs3ZS0JtQ1oApmGFCOhVBqCXtLq27bK3w9W/p8K0zkhZjXPe5DOEKU5
+	 PQlGJdFvXlvTh1MNzUnWwlms3/3zdQMV6ZGKZ4/MU8QRVbYIGWky86472L7+2p8VMI
+	 y8LrQRVnYzlLw==
+Date: Thu, 9 Jul 2026 08:03:50 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: kees@kernel.org, Qingtao Cao <qingtao.cao.au@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Vivek Pernamitta <quic_vpernami@quicinc.com>, 
- Qingtao Cao <qcao@digi.com>
-In-Reply-To: <20260603011333.3306102-2-qingtao.cao.au@gmail.com>
-References: <20260603011333.3306102-2-qingtao.cao.au@gmail.com>
-Subject: Re: [v1 PATCH 1/1] bus: mhi: core: fix sys error handling latency
-Message-Id: <178357658570.735095.2248320106411171417.b4-ty@b4>
-Date: Thu, 09 Jul 2026 07:56:25 +0200
+To: zwq2226404116@163.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	netdev@vger.kernel.org, loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com, 
+	andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org, 
+	Wanquan Zhong <wanquan.zhong@fibocom.com>
+Subject: Re: [PATCH v3 1/1] bus: mhi: pci_generic: fix Rolling Wireless
+ RW135R-GL and RW151 support
+Message-ID: <5j3wmfvr22upwu7wxraletiic4frdfkpusbko5xbegfgk3xdc7@e7oayedqofnz>
+References: <20260701095344.309409-1-zwq2226404116@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15.2
+In-Reply-To: <20260701095344.309409-1-zwq2226404116@163.com>
 
+On Wed, Jul 01, 2026 at 05:53:44PM +0800, zwq2226404116@163.com wrote:
+> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
+> 
+> bus: mhi: pci_generic: fix Rolling Wireless RW135R-GL and RW151 support
+> 
+> - Increase RW151 MBIM channel ring size from 4 to 32
+> 
+> On HP and Lenovo laptop platforms the device probes successfully and
+> WWAN ports are created, but pci_generic enables runtime autosuspend
+> (PCI D3hot/M3) after a short idle period. Resume from runtime PM leaves
+> the modem in MHI SYS ERROR; driver recovery (reset) fails and the device
+> becomes inaccessible (PCIe config space reads as 0x7f).
 
-On Wed, 03 Jun 2026 11:06:11 +1000, Qingtao Cao wrote:
-> Bring forward the idea to fix the power down latency in
-> mhi_pm_disable_transition() further to mhi_pm_sys_error_transition()
-> so that the transition into system error (triggered by AT!RESET)
-> won't have to return only after the timeout of up to 24 seconds
+Inaccessible means, config space reads should show '0xff' for all registers, not
+'0x7f'.
 
-Applied, thanks!
+> The failure is not
+> self-recoverable while runtime PM remains enabled; keeping power/control=on
+> avoids the issue.
+> 
 
-[1/1] bus: mhi: core: fix sys error handling latency
-      commit: 22568e8f13a42ab69b7d624741768cbf15dded74
+You really need to find out the cause of this issue. 'no_m3' flag indicates that
+M3 state is not supported by the device. Is that really the case here? Or the
+PCIe port or the device itself doesn't support D3Hot properly?
 
-Best regards,
+- Mani
+
+> Set no_m3 on RW135R-GL and RW151 so probe does not enable runtime M3
+> autosuspend for these modules.
+> 
+> Power management testing (separate from runtime PM above):
+> - Suspend-to-RAM (S3/mem): tested on RW135R-GL and RW151; MHI/MBIM/wwan
+>   function after wake.
+> - Suspend-to-disk (hibernate): not available on the test platforms
+>   (/sys/power/state lacks "disk", ENODEV).
+> 
+> Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
+> 
+> ---
+> v2 -> v3: RW151 MBIM ring size 32; disable runtime M3 (no_m3)
+>  drivers/bus/mhi/host/pci_generic.c | 4 +++-
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index d598bb3b3981..d0fee7e3ba3a 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -942,6 +942,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+>  	.sideband_wake = false,
+> +	.no_m3 = true,
+>  	.mru_default = 32768,
+>  	.edl_trigger = true,
+>  };
+> @@ -949,8 +950,8 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
+>  static const struct mhi_channel_config mhi_rolling_rw151_channels[] = {
+>  	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
+>  	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
+> -	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 4, 0),
+> -	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 4, 0),
+> +	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
+> +	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
+>  	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
+>  	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
+>  	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+> @@ -986,6 +987,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw151_info = {
+>  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+>  	.dma_data_width = 32,
+>  	.sideband_wake = false,
+> +	.no_m3 = true,
+>  	.mru_default = 32768,
+>  	.edl_trigger = true,
+>  };
+> 
+> --
+> 2.50.0
+> 
+
 -- 
 மணிவண்ணன் சதாசிவம்
-
-
