@@ -1,202 +1,123 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44C723BD06;
-	Wed,  8 Jul 2026 04:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C533A7858;
+	Thu,  9 Jul 2026 05:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783485975; cv=none; b=gzpoPc4PnAXbj3xmq6zZmmi6Xclh33w9f3uDRvv0E9IkW0s3gYuHVNbnX0EY/T6IELateCKDDyY4XiSchekasVq/UL0strXtDieKfNCnD5/bIChWsHoJblr1xogG0j1Sn2M3xegQImSi3ApjybbWiJc1IUk5Qxspas7yBf5HBNY=
+	t=1783575678; cv=none; b=USzP2bWOrV6Kedt+mLsJj8wG34JRjSjOIgYDANDZTheb5phvB2WaZAouVC5KPfSmejB4HEhx6hl9h414ryXUoK1tQuRR3iRelgxQe8Sv4W7NbhQ3tocqXuW1BWd3WdC8N8WvWbKQHOlAPIz3W5dGtNVwiEqkISKTUegRyC44cWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783485975; c=relaxed/simple;
-	bh=k8eSz3UPeDb1xHXbixSxk5F6fo5hKwN1ozpHmChFMFs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qJAH2yeeISQ+V6bw4jDxSb5oBUhPxR31HCyn5t9KGTUb0MSd6taseY42aaHRlbYVwthHFkfjJvy5BAzIem2mffc49IxLV/LDk2pNVahOXO8ieF4uBdtXcfBhVAUE+Oy0hjdFv6upzuf7imKlD4IVNsLt/30l0KI7qCrVpLsG5OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vKc5Tjb1; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1783575678; c=relaxed/simple;
+	bh=vd/pKHnN9hHEq/PC2ZKa5Ks5FAZG9ipiDZlCtIFKHWA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sz+AMAyFvMaIp2ihH/XHgskQbhUvphToTAOUip8OSlcT4ZwgVSYZ5RLdHGSqaLSFcCyqY7FP5CNKrq2Aj+R26BW153pLHwRNBXYsN+kGhdIV3R2va4LrL5luOzrWzq8KJpv4vo2BDoV3P7SdYpn9LodkJ10feZ+KCBIncmmCP5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMF7MIfe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vKc5Tjb1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=adWoLdqqX8285InOHHUleyt6hKDQ7O9XUGMsAwczw3U=; b=vKc5Tjb1mGE3FAiO6cHvyHHrpL
-	WBg7vEIQL2vHQE6sQ+8FChCGGDNEfyjMTYKy5d5bwMVkoCKc+acGk4iK8N81+5mAjwbcGao2+BVBv
-	NobgshllXiCRdDAzqw4REuhLIyN3oiP05FJeV31zxsHzrLoU+yfWFk5e62srSNfI8ZXbeP3YawqbE
-	JNgANX7zVUAF/Qy871JHpP1zi1qKfigdEtjDXMwaRk6ttYEnGPtu6UkZ9vqBEHuMAbGwnObP2ld9O
-	INgJ/CAQqea6A0ELRrN69tBM/KMud6ZM+XTqD0chBXsXNleQcqo8SdyXPOmZZjMJNWaQGJPozAY5f
-	vyY7n9OQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1whKAl-0000000GKrD-1oZS;
-	Wed, 08 Jul 2026 04:46:12 +0000
-Message-ID: <699644e7-2fc2-41b5-9e02-7f4dbc2aa3a7@infradead.org>
-Date: Tue, 7 Jul 2026 21:46:10 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMF7MIfe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EAE21F000E9;
+	Thu,  9 Jul 2026 05:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783575677;
+	bh=GUR46VabSVZbPyehLw4syLT30MNmMe+mudnTx0VnTpA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=PMF7MIfeOb6sPplAJM3ptwtGVrsjDjcmNM8+KBGIZapvBcxEoEW05Z71w8wT7OiCo
+	 DpyTqd8LBQSOVV2LXf12bv3I6Pc0h9ojZxvVDoieC+rI/KlduqQsbmNYRbApokpMUS
+	 906x2f5dfccmHGNLaQwrgeNkFJeM+vrwSPjhiXoBgGmr7P/GzXUVoT8b+iN+kTpuYZ
+	 3miqhB4alxgUPujwFkL9mVwHxHABNpvGLd+MKygFosR17bCiXd9AFhTno3Tpzpr8G2
+	 W04sec2rt03zdANmLtdpyqOtx7Xh3Wl/PfkGMSLLD5Y/7X7CmPps6HOirGFsnoRUm/
+	 YRXFW3BE6RuOQ==
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>, 
+ "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>, 
+ Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>, 
+ Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Jiri Kosina <jikos@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>, 
+ Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
+ Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>, 
+ Karol Wachowski <karol.wachowski@linux.intel.com>, 
+ Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>, 
+ Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, Will Deacon <will@kernel.org>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Davidlohr Bueso <dave@stgolabs.net>, Srujana Challa <schalla@marvell.com>, 
+ Bharat Bhushan <bbhushan2@marvell.com>, Antoine Tenart <atenart@kernel.org>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, Raag Jadav <raag.jadav@intel.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, Robert Richter <rric@kernel.org>, 
+ Mark Brown <broonie@kernel.org>, 
+ Nirmal Patel <nirmal.patel@linux.intel.com>, 
+ Kurt Schwemmer <kurt.schwemmer@microsemi.com>, 
+ Logan Gunthorpe <logang@deltatee.com>, Linus Walleij <linusw@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, 
+ Tomasz Jeznach <tomasz.jeznach@linux.dev>, 
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
+ Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>, 
+ linux-input@vger.kernel.org, linux-i3c@lists.infradead.org, 
+ dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>, 
+ netdev@vger.kernel.org, nic_swsd@realtek.com, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-riscv@lists.infradead.org, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org, 
+ mhi@lists.linux.dev, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org, 
+ Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ linux-spi@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>, 
+ linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ linux-mmc@vger.kernel.org
+In-Reply-To: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+Subject: Re: (subset) [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector
+ management by removing devres auto-free
+Message-Id: <178357565325.731734.7291964273199898845.b4-ty@b4>
+Date: Thu, 09 Jul 2026 07:40:53 +0200
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/7] Add documentation for Sahara protocol
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- mhi@lists.linux.dev
-References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
- <20260701-sahara_protocol_new_v2-v6-1-3a78362c4741@oss.qualcomm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260701-sahara_protocol_new_v2-v6-1-3a78362c4741@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15.2
 
 
-On 7/1/26 3:37 AM, Kishore Batta wrote:
-> +The packet flow sequence is as follows :
-> +
-> +1. The target sends the hello packet to the host to initiate the protocol
-> +   with the mode set to image transfer pending.
-> +
-> +2. The host sends a hello response packet with a success status and sets the
-> +   mode to image transfer pending after it receives the hello packet and
-> +   validates the protocol version running on the target.
-> +
-> +3. After the target receives the hello response, it initiates the data
-> +   transfer by requesting the size of DDR training/calibration data.
-> +
-> +4. The host sends back the DDR training/calibration data to the target.
-> +
-> +5. The target decodes the training data and does not find valid DDR
-> +   calibration data, target sends END_IMAGE_TX to interrupt the transfer.
-> +
-> +6. The host sends DONE after receives END_IMAGE_TX.
-> +
-> +7. The target sends DONE_RESP with mode = IMAGE_TX_PENDING because it has
-> +   not received all images.
-> +
-> +8. The target executes DDR training process to generate valid DDR calibration
-> +   data and prepares to push back to host.
-> +
-> +9. The target initiates protocol by sending a hello packet with COMMAND_MODE
-> +   to the host.
-> +
-> +10. The host sends a hello response packet with a success status and sets the
-> +    mode to COMMAND_MODE.
-> +
-> +11. The target sends CMD_READY to the host.
-> +
-> +12. The host receives CMD_READY and starts to get command IDs to be executed.
-> +
-> +13. The target sends CMD_ID = 9 to push DDR calibration data to host.
-> +
-> +14. The host executes CMD_ID = 9 to get DDR calibration data from the target.
-> +
-> +15. The target sends RAW_DATA with the payload which contains DDR calibration
-> +    data to host.
-> +
-> +16. The host saves training data in the kernel buffer and exposes to userspace
-> +    via the sysfs entry. The host sends CMD_SWITCH_MODE with the mode set to
-> +    IMAGE_TX_PENDING to continue booting.
-> +
-> +17. After the target receives the CMD_SWITCH_MODE command, it sends HELLO to
-> +    the host with the mode set to IMAGE_TX_PENDING. The target and the host
-> +    repeat the packet flow for image transfer to get all booting-required
-> +    images.
-> +
-> +18. Upon successful transfer of all images, the target sends an END_IMAGE_TX
-> +    packet with a success status to the host.
-> +
-> +19. The host sends DONE after it receives END_IMAGE_TX.
-> +
-> +20. The target sends DONE_RESP with the mode set to IMAGE_TX_COMPLETE because
-> +    it has received all images. The process has been completed after the host
-> +    receives DONE_RESP with the mode set to IMAGE_TX_COMPLETE.
-> +
-> +Subsequent boot scenario with valid DDR calibration data
-> +--------------------------------------------------------
-> +
-> +The below firgure shows the subsequent boot scenario with valid DDR calibration
-> +data process being loaded from host to target.
-> +
-> +.. code-block:: text
-> +
-> +                        Host                       Target
-> +                          |          HELLO            |
-> +                          |   (mode = image transfer) |
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          |         HELLO RESP        |
-> +                          |   (mode = image transfer) |
-> +                          |-------------------------->|
-> +                          |                           |
-> +                          |         READ_DATA         |
-> +                          |   (img ID:34, 0, offset,  |
-> +                          | size of DDR training data)|
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          |         RAW_DATA          |
-> +                          |(size of DDR training data)|
-> +                          |-------------------------->|
-> +                          |                           |
-> +                          |                           |
-> +                          |       END_IMAGE_TX        |
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          |                           |
-> +                          |          DONE             |
-> +                          |-------------------------->|
-> +                          |                           |
-> +                          |                           |
-> +                          |         DONE_RESP         |
-> +                          | (mode = IMAGE_TX_PENDING) |
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          | Subsequent boot scenario  |
-> +                          | (valid calibration data)  |
-> +                          | DDR driver configures DDR |
-> +                          | using valid calibration   |
-> +                          | data                      |
-> +                          |                           |
-> +                          |                           |
-> +                          |          HELLO            |
-> +                          | (mode = IMAGE_TX_PENDING) |
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          |         HELLO RESP        |
-> +                          | (mode = IMAGE_TX_PENDING) |
-> +                          |-------------------------->|
-> +                          |                           |
-> +                          | Boot/Load rest of the     |
-> +                          |    images....             |
-> +                          |                           |
-> +                          |       END_IMAGE_TX        |
-> +                          |<--------------------------|
-> +                          |                           |
-> +                          |                           |
-> +                          |          DONE             |
-> +                          |-------------------------->|
-> +                          |                           |
-> +                          |                           |
-> +                          |         DONE_RESP         |
-> +                          |(mode = IMAGE_TX_COMPLETE) |
-> +                          |<--------------------------|
-> +                          |                           |
-> +
-> +The packet flow is as follows :
-> +
+On Mon, 23 Feb 2026 23:29:39 +0800, Shawn Lin wrote:
+> This patch series addresses a long-standing design issue in the PCI/MSI
+> subsystem where the implicit, automatic management of IRQ vectors by
+> the devres framework conflicts with explicit driver cleanup, creating
+> ambiguity and potential resource management bugs.
+> 
+> ==== The Problem: Implicit vs. Explicit Management ====
+> Historically, `pcim_enable_device()` not only manages standard PCI resources
+> (BARs) via devres but also implicitly triggers automatic IRQ vector management
+> by setting a flag that registers `pcim_msi_release()` as a cleanup action.
+> 
+> [...]
 
-s/as follows :/as follows:/
-in 2 places.
+Applied, thanks!
 
-> +1. The target sends the hello packet to the host to initiate the protocol
-> +   with the mode set to image transfer pending.
+[13/37] bus: mhi: host: Replace pci_alloc_irq_vectors() with pcim_alloc_irq_vectors()
+        commit: 256995e80fcd39cab94eee8135dd90f6da6ac744
 
+Best regards,
 -- 
-~Randy
+மணிவண்ணன் சதாசிவம்
+
 
