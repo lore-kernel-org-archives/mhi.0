@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16762D0C7E;
-	Thu,  9 Jul 2026 06:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969023845A4;
+	Thu,  9 Jul 2026 06:19:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783577039; cv=none; b=SxBWtTLb1HXoH79lClo6emN/7q8SSVZGIS8P68027e9tX0wzSb6hfM/KJt/bELeiu1cQ4wC3zuAjnUziyZtxXdHOXBFW5HO7HVp3dTDo6CozLhSqXwClPaOe6bW1cn1B4GO8/HGU8RRXAGggvpFPdxowVBHh4hIGksJfOEzpISg=
+	t=1783577966; cv=none; b=U8+dVcRTt+AGfeKmIe1bEpd6zvQQrt/PRAIM1d3pwe+FfeMMiMATij2TG+RZna/yB3sGiJ0PcdqxZkJRguAM1NbyAuIDyuMhORlKY67q1cyDDoocGNC7FK7wwluevWVNjW96gRCuJeqTscQUzR977x9Kf6lv8smrv/gD6YwXSPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783577039; c=relaxed/simple;
-	bh=yBwghVt1yNXuJBhObJimnOjBdFffvi0j64Q90GWAsqc=;
+	s=arc-20240116; t=1783577966; c=relaxed/simple;
+	bh=b3vwuROwR75ZNbwPw1lMhYCu/z43/EngiIFlll/Kbuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RHo44sKrGVXU9Sh+MGJ7g5Unbuw4Arm2NV44Rhg2GUUEJ7sXPVVUcq41kv0KLgzjMS2SPSwUfvgjro49zugrvXI2u9oEiYikMq0MSm6P+m7WxneoGkzPjIPCcCo3G2Em3wuDVlVSfc6zcQx28sgD1XWtmS4y4p36VTDUV7VgmYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVfDTVbh; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DlvbWjQ4PBSajEGv7pDftYYbGsoARb9p1HktjK4jgfxXvVuk7GMf8ZcOiq2GPVOgLZ4sH9BfNngdb0+9v2neKVVjjHIHwlVIXJ/KeLosJvPOQJNcC+yeWwcYYUOn+rKU6tlQOiUZuKHbjDNwRjL1pAkpsQXTFFyoQ0IPZiQVL0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xj2nAPqj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVfDTVbh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC281F000E9;
-	Thu,  9 Jul 2026 06:03:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xj2nAPqj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C823F1F000E9;
+	Thu,  9 Jul 2026 06:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783577037;
-	bh=wRU5zaDrC1juEMW/sUNE1efvtJdHXySbPC6CXC4p05g=;
+	s=k20260515; t=1783577965;
+	bh=P55A+JYorEZ78pydXyA8ExRBLDhH3TJQ6tb/oYsGNtg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LVfDTVbhfalfFS5xJ1E2WTjP4lfNeK4pubNaxrFiDOaP174Oeb4k8mSUEWzxl06v2
-	 jIjz9Vglma1zhMySah9/Uisq7XhNj6qAxX5ycLQ2TJCCbIJCiv/6X85J6EyWD26Hmw
-	 MAtMd4FwnNWifoUobgwb1EMCxGxHw9l2JMBxemR2gySuNkkz0t2+Dr8e2Lh7Yzgk6B
-	 Ki270Wm3zDEgs3ZS0JtQ1oApmGFCOhVBqCXtLq27bK3w9W/p8K0zkhZjXPe5DOEKU5
-	 PQlGJdFvXlvTh1MNzUnWwlms3/3zdQMV6ZGKZ4/MU8QRVbYIGWky86472L7+2p8VMI
-	 y8LrQRVnYzlLw==
-Date: Thu, 9 Jul 2026 08:03:50 +0200
+	b=Xj2nAPqjf+pUbZQOtAN+IvYgivepLAvWoa0qOp5yzZ2BOdLrkS8UuIF6FpCsQcBe+
+	 1eC8M6baKLuKkCqZZ2MPvzR3f4QXW/r8Krr/NtxTe4nKXibLvPFpQcDvJxl682TeqR
+	 t6uDDbIqIeAQWFDgaSv97CkmZsBhR0tQ1fMWIafYQgSxr++hJMAbo7je9qcaur9ooF
+	 QXj5EuzsAg9oToGULd0Cpe0CWyIdjp+pRaUv8Te2gvg/d8neANGebNE7FBQO20jULs
+	 V98Jb3xo1VQg01sq/Wx58lXhppSV6UKAgFekmWIDM0lUq3akc32rRjKmxsrzwg/IXd
+	 3Bt+KUwkVqAVQ==
+Date: Thu, 9 Jul 2026 08:19:17 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: zwq2226404116@163.com
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	netdev@vger.kernel.org, loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com, 
-	andrew+netdev@lunn.ch, davem@davemloft.net, kuba@kernel.org, 
-	Wanquan Zhong <wanquan.zhong@fibocom.com>
-Subject: Re: [PATCH v3 1/1] bus: mhi: pci_generic: fix Rolling Wireless
- RW135R-GL and RW151 support
-Message-ID: <5j3wmfvr22upwu7wxraletiic4frdfkpusbko5xbegfgk3xdc7@e7oayedqofnz>
-References: <20260701095344.309409-1-zwq2226404116@163.com>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v6 4/7] bus: mhi: Add QDU100 Sahara variant and firmware
+ fallback
+Message-ID: <n45ii7ekxeefuxw2ydwzsx7lqlfczbgg6obrzmzpytl2fin7j5@vbhmrptcjvcb>
+References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
+ <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,86 +48,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260701095344.309409-1-zwq2226404116@163.com>
+In-Reply-To: <20260701-sahara_protocol_new_v2-v6-4-3a78362c4741@oss.qualcomm.com>
 
-On Wed, Jul 01, 2026 at 05:53:44PM +0800, zwq2226404116@163.com wrote:
-> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
+On Wed, Jul 01, 2026 at 04:07:38PM +0530, Kishore Batta wrote:
+> The Sahara driver currently selects a firmware image table based on the
+> attached device, but it does not recognize QDU100 devices that expose the
+> protocol on the SAHARA MHI channel. As a result, the host cannot associate
+> QDU100 devices with the correct firmware namespace during image transfer.
 > 
-> bus: mhi: pci_generic: fix Rolling Wireless RW135R-GL and RW151 support
+> Extend the probe time variant selection to match the SAHARA MHI channel and
+> associate it with the QDU100 firmware folder. Add a firmware lookup
+> fallback for cases where an image does not have an explicit entry in the
+> device's firmware table. This allows required images to be provisioned by
+> the platform.
 > 
-> - Increase RW151 MBIM channel ring size from 4 to 32
+> This change only affects devices matched on the SAHARA MHI channel and
+> does not change behavior for existing AIC100 and AIC200 devices.
 > 
-> On HP and Lenovo laptop platforms the device probes successfully and
-> WWAN ports are created, but pci_generic enables runtime autosuspend
-> (PCI D3hot/M3) after a short idle period. Resume from runtime PM leaves
-> the modem in MHI SYS ERROR; driver recovery (reset) fails and the device
-> becomes inaccessible (PCIe config space reads as 0x7f).
-
-Inaccessible means, config space reads should show '0xff' for all registers, not
-'0x7f'.
-
-> The failure is not
-> self-recoverable while runtime PM remains enabled; keeping power/control=on
-> avoids the issue.
-> 
-
-You really need to find out the cause of this issue. 'no_m3' flag indicates that
-M3 state is not supported by the device. Is that really the case here? Or the
-PCIe port or the device itself doesn't support D3Hot properly?
-
-- Mani
-
-> Set no_m3 on RW135R-GL and RW151 so probe does not enable runtime M3
-> autosuspend for these modules.
-> 
-> Power management testing (separate from runtime PM above):
-> - Suspend-to-RAM (S3/mem): tested on RW135R-GL and RW151; MHI/MBIM/wwan
->   function after wake.
-> - Suspend-to-disk (hibernate): not available on the test platforms
->   (/sys/power/state lacks "disk", ENODEV).
-> 
-> Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
-> 
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
 > ---
-> v2 -> v3: RW151 MBIM ring size 32; disable runtime M3 (no_m3)
->  drivers/bus/mhi/host/pci_generic.c | 4 +++-
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/bus/mhi/host/clients/sahara/sahara.c | 27 +++++++++++++++--
+>  drivers/bus/mhi/host/pci_generic.c           | 45 ++++++++++++++++++++++++++++
+>  2 files changed, 70 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> index e339c67e236af271645ca81cc517efd9eead87e4..9adbd84859073d8024ba2a5fcfa33897439d6759 100644
+> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
+> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> @@ -189,6 +189,7 @@ static bool is_streaming(struct sahara_context *context)
+>  
+>  static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>  {
+> +	char *fw_path;
+>  	int ret;
+>  
+>  	if (image_id == context->active_image_id)
+> @@ -201,8 +202,28 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>  	}
+>  
+>  	if (image_id >= context->table_size || !context->image_table[image_id]) {
+> -		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
+> -		return -EINVAL;
+> +		if (!context->fw_folder) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"Request for unknown image: %u (no fw folder)\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +
+> +		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/%u",
+> +				    context->fw_folder, image_id);
+> +		if (!fw_path)
+> +			return -ENOMEM;
+> +
+> +		ret = firmware_request_nowarn(&context->firmware,
+> +					      fw_path,
+> +					      &context->mhi_dev->dev);
+> +		kfree(fw_path);
+> +		if (ret) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"request for unknown image: %d\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +		context->active_image_id = image_id;
+> +		return 0;
+>  	}
+>  
+>  	/*
+> @@ -870,8 +891,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
+>  
+>  static const struct mhi_device_id sahara_mhi_match_table[] = {
+>  	{ .chan = "QAIC_SAHARA", },
+> +	{ .chan = "SAHARA"},
+>  	{},
+>  };
+> +MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
+>  
+
+This change should belong to a separate patch.
+
+>  static struct mhi_driver sahara_mhi_driver = {
+>  	.id_table = sahara_mhi_match_table,
 > diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index d598bb3b3981..d0fee7e3ba3a 100644
+> index 391ab146f501c6ce1c81f6138f7c491a49c2f264..82e41632afc555a53dec3d8395558ae039b33bbd 100644
 > --- a/drivers/bus/mhi/host/pci_generic.c
 > +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -942,6 +942,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
->  	.sideband_wake = false,
-> +	.no_m3 = true,
->  	.mru_default = 32768,
->  	.edl_trigger = true,
+> @@ -300,6 +300,43 @@ static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
+>  	.reset_on_remove = true,
 >  };
-> @@ -949,8 +950,8 @@ static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
->  static const struct mhi_channel_config mhi_rolling_rw151_channels[] = {
->  	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 16, 1),
->  	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 16, 1),
-> -	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 4, 0),
-> -	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 4, 0),
-> +	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
-> +	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
->  	MHI_CHANNEL_CONFIG_UL(14, "NMEA", 32, 0),
->  	MHI_CHANNEL_CONFIG_DL(15, "NMEA", 32, 0),
->  	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
-> @@ -986,6 +987,7 @@ static const struct mhi_pci_dev_info mhi_rolling_rw151_info = {
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
->  	.sideband_wake = false,
-> +	.no_m3 = true,
->  	.mru_default = 32768,
->  	.edl_trigger = true,
->  };
-> 
-> --
-> 2.50.0
-> 
+>  
+> +static const char * const qdu100_image_table[] = {
+> +	[5] = "qcom/qdu100/uefi.elf",
+> +	[8] = "qcom/qdu100/qdsp6sw.mbn",
+> +	[16] = "qcom/qdu100/efs1.bin",
+> +	[17] = "qcom/qdu100/efs2.bin",
+> +	[20] = "qcom/qdu100/efs3.bin",
+> +	[23] = "qcom/qdu100/aop.mbn",
+> +	[25] = "qcom/qdu100/tz.mbn",
+> +	[29] = "qcom/qdu100/zeros_1sector.bin",
+> +	[33] = "qcom/qdu100/hypvm.mbn",
+> +	[34] = "qcom/qdu100/mdmddr.mbn",
+> +	[36] = "qcom/qdu100/multi_image_qti.mbn",
+> +	[37] = "qcom/qdu100/multi_image.mbn",
+> +	[38] = "qcom/qdu100/xbl_config.elf",
+> +	[39] = "qcom/qdu100/abl_userdebug.elf",
+> +	[40] = "qcom/qdu100/zeros_1sector.bin",
+> +	[41] = "qcom/qdu100/devcfg.mbn",
+> +	[42] = "qcom/qdu100/zeros_1sector.bin",
+> +	[45] = "qcom/qdu100/tools_l.elf",
+> +	[46] = "qcom/qdu100/Quantum.elf",
+> +	[47] = "qcom/qdu100/quest.elf",
+> +	[48] = "qcom/qdu100/xbl_ramdump.elf",
+> +	[49] = "qcom/qdu100/shrm.elf",
+> +	[50] = "qcom/qdu100/cpucp.elf",
+> +	[51] = "qcom/qdu100/aop_devcfg.mbn",
+> +	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
+> +	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
+> +	[54] = "qcom/qdu100/qupv3fw.elf",
+> +};
+> +
+> +static const struct mhi_sahara_fw_table qdu100_sahara_fw = {
+> +	.image_table = qdu100_image_table,
+> +	.table_size = ARRAY_SIZE(qdu100_image_table),
+> +	.fw_folder = "qdu100",
+> +	.non_streaming = false,
+> +};
+> +
+>  static const struct mhi_channel_config mhi_qcom_sa8775p_channels[] = {
+>  	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 2048, 1),
+>  	MHI_CHANNEL_CONFIG_DL(47, "IP_SW0", 2048, 2),
+> @@ -1399,6 +1436,14 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	pci_set_drvdata(pdev, mhi_pdev);
+>  
+> +	/*
+> +	 * Provide Sahara firmware mapping. Sahara consumes it via
+> +	 * mhi_dev->mhi_cntrl->sahara_fw at probe time.
+> +	 */
+> +	if (info == &mhi_qcom_qdu100_info ||
+> +	    (info->name && !strcmp(info->name, "qcom-qdu100")))
+> +		mhi_cntrl->sahara_fw = &qdu100_sahara_fw;
+> +
+
+Why are you adding QAIC MHI controller config in pci_generic driver? This driver
+only handles Modem devices.
+
+- Mani
 
 -- 
 மணிவண்ணன் சதாசிவம்
