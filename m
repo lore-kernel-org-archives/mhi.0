@@ -1,103 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AD335A3A9;
-	Tue, 14 Jul 2026 07:50:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BE4233927;
+	Tue, 14 Jul 2026 12:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784015424; cv=none; b=B2KhjWkI2RCxubnm8nz/NFpHZjHdh4Olzs6R4ylFCAQKsN4TYWNJxl0CBlPT32jk3e1Q/hp2ZFsk/LKC/hs0Nse+M7/Y9WsHXtGHxF2zxs4fToXydmCFkHIYgGzXbTgAjE205YROq+EqxtQe2Am5zpYYxNnRJlKUQ8KoPlTOtIc=
+	t=1784030933; cv=none; b=Esth0f30Fhms8fdiJr8jJfvs25TQk6P8lUl40YvANT9ULf6V9TAgv3bOUZnYFcn/vZh6qjMLG1wv0j2Ud4AykJk2MC743fBOuaarLiGST9OV9SAkRAfkNDorf74L/xYhsEHK32m3dE16ydUqdy6L4TdA1JEck13ZWbT6wfPZw4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784015424; c=relaxed/simple;
-	bh=B49Ya582Hq/vtQMmZq6fFpUGfafAXLxMSt/DG1ZdF18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p2+jEN4mHIQGkiysjDCqLPNAFpvYbbL1OlldXSJVH7qvGECI5i7Q4U8Q4EMFPlq3VBbjFDaGLxv9eElJ/ToPe7JQvEzr/qIiV8+IG3I1r9f905Ms5Lj2SCOfXgeat8Qcx3kNMEY+0yrLediMXoq5qlZ1UuJ1TbwacWErBvkWsF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw2FV1i0; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw2FV1i0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC49B1F00A3A;
-	Tue, 14 Jul 2026 07:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784015422;
-	bh=Tebc2NeUG7Zb/GUBTx6WOEzhHdP1aFOy2L/umZYWOTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bw2FV1i0pqKFISINqUqMyOwpgK4A+2GckdDnCmm1sILFVEA/UP758T7WU7qPQnV2C
-	 wEkOepAxsD6+XXr4Rzm/X/yQxOv6e01unSyPCHATE3qC1i4Dq+oKnDEogELlTpMMAU
-	 I9C5fw1SA2R6vK/g/U/6lTJQO/vlUG6HEvlN1QrYz/7WHA6oUXSkyvtGdPRmyQysc4
-	 an7EU6DkVwhh1V0gsk4uCxiOJ2glJcHKVK70qMcqUsp/AIbVrvz1k06SEsayqXly+J
-	 dROukbT84ttXPtacE/IMOr5vbYXIke17x/a4wrV+Tzu7ell/U1AuMm+6vk2aN1cK39
-	 weurdYplN3Nvg==
-Date: Tue, 14 Jul 2026 09:50:14 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, Vinod Koul <vkoul@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/3] dmaengine: dw-edma: Implement device_synchronize()
- callback
-Message-ID: <lv4nfvtxjjhn2j6k5zd2zyjidz367low4cvpplrzy3fj3srqsu@vsrgaalsacbo>
-References: <20260629-mhi-ep-flush-v1-0-714e0d56e87c@oss.qualcomm.com>
- <20260629-mhi-ep-flush-v1-1-714e0d56e87c@oss.qualcomm.com>
- <akJ_SH31xqs_AYCQ@SMW015318>
+	s=arc-20240116; t=1784030933; c=relaxed/simple;
+	bh=CAf5d0186GbDQc5vF4vjJfYbcL7CeD4WLO0TdSl/VYg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cwbwu0FlIF+CWfnejgN3KJzZGJBECJlazXKRpx+QQkld2pM0AF+uXescabkdR66n4S819mnM4b938dV6r6W2vxhUKYnhHAMH08fGRprI7dtmiramgVPy9fk9djsfBbmvIvP0sAZl5XVKQdCKodo+nQoiDepZhTRTB0IFsV6ZbRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B86981F000E9;
+	Tue, 14 Jul 2026 12:08:48 +0000 (UTC)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Subject: [PATCH v2 0/3] bus: mhi: ep: Implement flush_async() callback to
+ flush async read/write
+Date: Tue, 14 Jul 2026 14:08:31 +0200
+Message-Id: <20260714-mhi-ep-flush-v2-0-b6a9db011e85@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <akJ_SH31xqs_AYCQ@SMW015318>
+X-B4-Tracking: v=1; b=H4sIAL8mVmoC/1WNQQ6CMBREr0K6tqRthIIr72FYQPnYb4BiPxAN4
+ e62GBduJnnJzJuNEXgEYpdkYx5WJHRjAHVKmLH1eAeObWCmhMpFrjQfLHKYeNcvZHmTiUwoLYu
+ 6bFmYTB46fB26W/VlWpoHmDk6YsMizc6/j79Vxt5PXf6rV8kF1/IMos1yKLS5OqL0udS9ccOQh
+ mDVvu8fDvYXIcEAAAA=
+X-Change-ID: 20260627-mhi-ep-flush-b50502718a9d
+To: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Frank Li <Frank.Li@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+ stable+noautosel@kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1702;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=CAf5d0186GbDQc5vF4vjJfYbcL7CeD4WLO0TdSl/VYg=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBqVibP3E0IwvB7PK0gHFZEL0bVG14mPKVm4SWAJ
+ NFhFQ6OH16JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCalYmzwAKCRBVnxHm/pHO
+ 9YNpB/9qI1DuVmAm37v2h631k9/TzJHusGCT/ETqBJdj9iBhrZliu7IzuvOKIkZle206j7vGQeo
+ qEt+/eJs/pPJgcw0INQQSJ6ZfJvoiIfSfoMXmONUsEZeVVotGzLTsmxbLEGNQ1L3uWIUoa0WAZi
+ XssiAvWxI6Vj2HL+GPOHe5D4HMfrQRhvQcbKRU8fEwqjhBxtSvmVxU98U8QxnnXPNuiFoUsLZN1
+ 7BUxwAm6dGBDEswRVjenIgqlS3TdAxiLj50QWsFJ+6Yaa7Tc5xulsDCmpo4oMWPRLSdbPuVlnB8
+ S6hiqHswIF0lp1TI0y0I9wOABpRTQE6xT3SLNNFdxvGv+4et
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-On Mon, Jun 29, 2026 at 09:20:56AM -0500, Frank Li wrote:
-> On Mon, Jun 29, 2026 at 10:45:15AM +0200, Manivannan Sadhasivam via B4 Relay wrote:
-> >
-> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> >
-> > device_synchronize() callback is required by the client drivers to ensure
-> > all the DMA operations are completed so that they can free the memory
-> > associated with the complete callbacks.
-> >
-> > So implement this callback by first making sure that all the in-flight DMA
-> > operations are completed and then call vchan_synchronize() to drain the
-> > DMA tasklet.
-> >
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > ---
-> >  drivers/dma/dw-edma/dw-edma-core.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> > index c2feb3adc79f..7b12dfe8cfd3 100644
-> > --- a/drivers/dma/dw-edma/dw-edma-core.c
-> > +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> > @@ -331,6 +331,21 @@ static int dw_edma_device_terminate_all(struct dma_chan *dchan)
-> >         return err;
-> >  }
-> >
-> > +static void dw_edma_device_synchronize(struct dma_chan *dchan)
-> > +{
-> > +       struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
-> > +       unsigned long timeout = jiffies + msecs_to_jiffies(5000);
-> > +
-> > +       /*
-> > +        * Make sure all the in-flight DMA operations are completed before
-> > +        * draining the tasklet using vchan_synchronize().
-> > +        */
-> > +       while (chan->status == EDMA_ST_BUSY && time_before(jiffies, timeout))
-> > +               cpu_relax();
-> 
-> read_poll_timeout(...),  Does need READ_ONCE(chan->status)?
-> 
+Hi,
 
-Yeah, makes sense. I'll use:
+This series introduces a new mhi_cntrl->flush_async() callback to flush the
+async read/write operations performed by the MHI controller using offload
+mechanisms such as DMA.
 
-read_poll_timeout(READ_ONCE, chan->status, chan->status != EDMA_ST_BUSY,
-		10, 0, false, chan->status);
+The MHI EPF driver implements this callback by flushing the DMA wq. With this
+series, the MHI EP stack can guarnatee that the channel specific xfer_cb() won't
+be run after calling mhi_ep_remove().
 
-- Mani
+Merge Strategy
+==============
 
--- 
+The dmaengine driver change can go separately as there is no build dependency.
+But both MHI and PCI EP changes should go together. I'm planning to take both
+MHI and PCI EP patches through MHI tree.
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+---
+Changes in v2:
+- Switched to read_poll_timeout() in dw_edma_device_synchronize()
+- Switched to dmaengine_synchronize() in pci_epf_mhi_edma_flush_async()
+- Link to v1: https://patch.msgid.link/20260629-mhi-ep-flush-v1-0-714e0d56e87c@oss.qualcomm.com
+
+---
+Manivannan Sadhasivam (3):
+      dmaengine: dw-edma: Implement device_synchronize() callback
+      bus: mhi: ep: Add mhi_cntrl->flush_async() callback to flush the async read/write
+      PCI: epf-mhi: Implement mhi_cntrl->flush_async() to flush DMA read/write
+
+ drivers/bus/mhi/ep/main.c                    |  7 +++++++
+ drivers/dma/dw-edma/dw-edma-core.c           | 16 ++++++++++++++++
+ drivers/pci/endpoint/functions/pci-epf-mhi.c | 10 ++++++++++
+ include/linux/mhi_ep.h                       |  2 ++
+ 4 files changed, 35 insertions(+)
+---
+base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
+change-id: 20260627-mhi-ep-flush-b50502718a9d
+
+Best regards,
+--  
 மணிவண்ணன் சதாசிவம்
+
