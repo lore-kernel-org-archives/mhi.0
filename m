@@ -1,152 +1,99 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15852B9B7;
-	Sun, 19 Jul 2026 22:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A633B0AC7
+	for <mhi@lists.linux.dev>; Mon, 20 Jul 2026 06:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784500354; cv=none; b=pO0MMirSAj6qb22Av2OC99Ma09o9FO9BaX5psFcnvz8zowHowsEI+FwECRE5BnifBlntoIQEi8X3ESZDOQ//lwZIKo8XXSHjWQoNQwhL3/DE2b1tRhY0hDVAyXZxZeAXDEffw5Jbin9nt75rKV+/Fl+1dpYjmrmnMukuK0S3txo=
+	t=1784528700; cv=none; b=BDhzGWPjR/VyYAC1b9+eM0SdmwopTyQPnViZtCA9fi7MmTvPeMIqJm99uYHygemRN5TjMpZC7p7IxQol9yzXZlGbfHrC8pPUmiNzAVWeVY+Q/XD1Or5fDRqo7GSsWRcoIwkWGfb4jt+roKMDcFeBBz1zvuaHXKrkw8GL8v9Hksc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784500354; c=relaxed/simple;
-	bh=7MJdvuABFDfcLYxJ6m9YURmBG3d7tsfxVUhMsmQY09Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PpRxdhkN8d1zI15pciLyF2zv5W3/W9X4bF/z/A5tos3OBUtElf1PAmoQtw2wRHIB60Y1QgVclNf395ySCNrG3+52aCIq3yVQ8+NJ+7XCBY95zp/RMV6S7XxU7pxuvJ2jDGhgfmTNsmCi9w6AQAnD0KRkIVvHrpZyU92aozOVa10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1WoYh981; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1784528700; c=relaxed/simple;
+	bh=24KfME6YaK0rFqYLax/YOH/Kr2A1S3NsrP5E8iqazls=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=gg0q8VhWWLH61bd/9NWtRki+zE+OK1B7HsCUNVkSAkVxTxniUXSJO+lZ388l/18EZiyP4enFj725YEMOmbtb9g1RfGr6qquwM2aB+XLXd7s7jR5I7FKr/w2v0+iYkHfsMLE3pZagv+2z3wn+AarqGpuLKeoZNaxwFR3JEM4LQf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ToxoFWKd; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1WoYh981"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=OH7T+DxBbfZfJHoq86MrOY8t6oNhr0U3knSYSm9Qhkw=; b=1WoYh981VXl2VbbA8kMkJjrhEZ
-	axEQbwvJOOhFDD1BY+sGB4A8stq0epl1yxS+RnUKmEXUo4ym3EZKT0YVkXrYVptRmXzo5p6Nq4nxP
-	NidN0wTYdXymHXqwqQMYf5+aQhZzDZTxseH5ZtreSXFDB5VDhBgmcH7v8QvaKZkPT/6bJM7pR2e6t
-	pLkAwsV6LC+k6zpZdpVuehaPC8n95X0LhIoiRyKuYsm1LNCQY/4H9HB0ESoUkfeNh/wk0Esqud22b
-	26fT2A0n8kBIcPT9wUcxzkeICSLbCeMHkN8L9ZydrZrnjzj/W2tG905/NjsuMHW/tYeLMMYC/OXUZ
-	f6oOSz5A==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wla3l-00000005RMg-08fM;
-	Sun, 19 Jul 2026 22:32:33 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] bus: mhi: clean up some kernel-doc warnings
-Date: Sun, 19 Jul 2026 15:32:31 -0700
-Message-ID: <20260719223231.2855431-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ToxoFWKd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784528692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=24KfME6YaK0rFqYLax/YOH/Kr2A1S3NsrP5E8iqazls=;
+	b=ToxoFWKdyp4xrbRvVEXwHQ8NmYHl03lMR/Gp9WrSqXgzTK8dHwOsm/e2RTKPRXdnKpxYwm
+	im2Cn3ecAqBMjUK+IAQHnQ010za1RETp6cKkWLw6NO9RPsTC7ndQpsXygolOB5uFf/jrLm
+	C/z22eZ7VwbVrpibdEtkGG7HTgIdxSc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-427-63QoUVMuPE6Au3c6VZwjVQ-1; Mon,
+ 20 Jul 2026 02:24:48 -0400
+X-MC-Unique: 63QoUVMuPE6Au3c6VZwjVQ-1
+X-Mimecast-MFC-AGG-ID: 63QoUVMuPE6Au3c6VZwjVQ_1784528687
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C4D9D180134A;
+	Mon, 20 Jul 2026 06:24:45 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.44.48.69])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B1CB4195422C;
+	Mon, 20 Jul 2026 06:24:40 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: bhelgaas@google.com,
+	alex@shazbot.org,
+	mani@kernel.org
+Cc: jtornosm@redhat.com,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org,
+	jjohnson@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v12] PCI: Add device-specific reset for Qualcomm devices
+Date: Mon, 20 Jul 2026 08:24:39 +0200
+Message-ID: <20260720062439.8993-1-jtornosm@redhat.com>
+In-Reply-To: <20260630065815.199693-1-jtornosm@redhat.com>
+References: <20260630065815.199693-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: SNsPdZgbp_sC6jATTTb3w-CGvNheiwoF9Cr8v2vf_bg_1784528687
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Clean up some kernel-doc comments and warnings:
-- use correct format for struct members
-- add one struct member description
-- add one function parameter description
-- mark one enum as private
-- add a leading '*' on one kernel-doc line
+Hi Bjorn,
 
-Fixes these warnings:
-Warning: include/linux/mhi.h:108 struct member 'target_link_speed' not
- described in 'mhi_link_info'
-Warning: include/linux/mhi.h:108 struct member 'target_link_width' not
- described in 'mhi_link_info'
-Warning: ../include/linux/mhi.h:159 Enum value 'MHI_STATE_MAX' not
- described in enum 'mhi_state'
-Warning: ../include/linux/mhi.h:212 bad line: for UL channels, multiple
- of 8 ring elements for DL channels
-Warning: ../include/linux/mhi.h:236 struct member 'wake_capable' not
- described in 'mhi_channel_config'
-Warning: ../include/linux/mhi.h:449 struct member 'M0' not described
- in 'mhi_controller'
-Warning: ../include/linux/mhi.h:449 struct member 'M2' not described
- in 'mhi_controller'
-Warning: ../include/linux/mhi.h:449 struct member 'M3' not described
- in 'mhi_controller'
-Warning: ../include/linux/mhi.h:528 struct member 'id_table' not described
- in 'mhi_driver'
-Warning: ../include/linux/mhi.h:543 function parameter 'mhi_cntrl' not
- described in 'mhi_free_controller'
+Gentle ping on this patch. It has Mani's Reviewed-by and has
+been tested over 100+ VM reset cycles for both WLAN and modem
+devices.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: mhi@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org
+This patch adds device-specific reset for Qualcomm PCIe devices
+(WCN6855, WCN7850 WLAN and SDX62/SDX65 modems) that lack working
+reset methods for VFIO passthrough. The reset uses BAR-space
+hardware registers, replicating the sequences from ath11k/ath12k
+and MHI drivers. Without this, these devices cannot be reused
+after an unclean VM termination.
 
- include/linux/mhi.h |   15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+The approach follows Alex's guidance through the series:
+device-specific reset via pci_dev_reset_methods[] (suggested
+in v5), and BAR-space hardware reset registers instead of
+D3hot power cycling (refined with Mani from v10 onwards).
 
---- linux-next-20260717.orig/include/linux/mhi.h
-+++ linux-next-20260717/include/linux/mhi.h
-@@ -117,8 +117,8 @@ struct image_info {
- 
- /**
-  * struct mhi_link_info - BW requirement
-- * target_link_speed - Link speed as defined by TLS bits in LinkControl reg
-- * target_link_width - Link width as defined by NLW bits in LinkStatus reg
-+ * @target_link_speed: Link speed as defined by TLS bits in LinkControl reg
-+ * @target_link_width: Link width as defined by NLW bits in LinkStatus reg
-  */
- struct mhi_link_info {
- 	unsigned int target_link_speed;
-@@ -173,6 +173,7 @@ enum mhi_state {
- 	MHI_STATE_M3_FAST = 0x6,
- 	MHI_STATE_BHI = 0x7,
- 	MHI_STATE_SYS_ERR = 0xFF,
-+	/* private: */
- 	MHI_STATE_MAX,
- };
- 
-@@ -227,12 +228,12 @@ enum mhi_db_brst_mode {
-  * @type: Channel type
-  * @ee_mask: Execution Environment mask for this channel
-  * @pollcfg: Polling configuration for burst mode.  0 is default.  milliseconds
--	     for UL channels, multiple of 8 ring elements for DL channels
-+ *	     for UL channels, multiple of 8 ring elements for DL channels
-  * @doorbell: Doorbell mode
-  * @lpm_notify: The channel master requires low power mode notifications
-  * @offload_channel: The client manages the channel completely
-  * @doorbell_mode_switch: Channel switches to doorbell mode on M0 transition
-- * @wake-capable: Channel capable of waking up the system
-+ * @wake_capable: Channel capable of waking up the system
-  */
- struct mhi_channel_config {
- 	char *name;
-@@ -350,7 +351,9 @@ struct mhi_controller_config {
-  * @dev_state: MHI device state
-  * @dev_wake: Device wakeup count
-  * @pending_pkts: Pending packets for the controller
-- * @M0, M2, M3: Counters to track number of device MHI state changes
-+ * @M0: Counter to track number of device MHI state changes
-+ * @M2: Counter to track number of device MHI state changes
-+ * @M3: Counter to track number of device MHI state changes
-  * @transition_list: List of MHI state transitions
-  * @transition_lock: Lock for protecting MHI state transition list
-  * @wlock: Lock for protecting device wakeup
-@@ -507,6 +510,7 @@ struct mhi_result {
- 
- /**
-  * struct mhi_driver - Structure representing a MHI client driver
-+ * @id_table: table of MHI channel names that a driver supports
-  * @probe: CB function for client driver probe function
-  * @remove: CB function for client driver remove function
-  * @ul_xfer_cb: CB function for UL data transfer
-@@ -538,6 +542,7 @@ struct mhi_controller *mhi_alloc_control
- 
- /**
-  * mhi_free_controller - Free the MHI Controller structure
-+ * @mhi_cntrl: MHI controller to free
-  * Free the mhi_controller structure which was previously allocated
-  */
- void mhi_free_controller(struct mhi_controller *mhi_cntrl);
+The quirk_no_bus_reset part was already merged for v7.2, and
+this device-specific reset completes the solution.
+
+Is there anything else needed for this to be considered?
+
+Thanks,
+Jose Ignacio
+
