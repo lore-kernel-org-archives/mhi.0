@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED291E9B37;
-	Wed, 22 Jul 2026 12:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428EB40F74E;
+	Wed, 22 Jul 2026 12:19:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784722635; cv=none; b=D5szYyyCf0jOp8GBW/gqa66HGbez9l3LMBWvpyDmiJePkKWCBUyelGsK7nsWuAXUR2ut/Sthcmx4nyza4eUGKM8TZDBVS7fdh2tw/f7wLo6+SMVjOSCBc98hhuuFowE/jh3KpoU0uusxu9AojXYi2YAcjFM5fIk2tjwMAUiMYRs=
+	t=1784722745; cv=none; b=Zu37FyqKpJBzOGoEkKYy93yjkwo3MEw0MaY4fypYvf/RrlcU/gpfyOGkBGyJDKefSdHt3uF2MxuIlpl6b1dv5y3E+xZHP4smH+3yqZ0ZF4Oho8RLZtMJ9HIuqTx225qs5+xAQroK+YEPjJ8O0kUJQZrO23KLQZibk76v2QBgm6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784722635; c=relaxed/simple;
-	bh=pCML7xd5rfy/phlXgpCrqUwKFRBHYn0XXUULzy5c6ME=;
+	s=arc-20240116; t=1784722745; c=relaxed/simple;
+	bh=dErIGIlmgS9qihi2kpWW7BktPQQwKUV4bDaA5OeyHFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4uEYc1t6rDwn0jX9wnV9WXnUPOf5hgPHAv9efOpxPIaYph9UiJZ8eAiJNsw6C5JX2dKpLtS7IK/LdOxc4y9aZtc7eg5WhbiDEQem1BagqiPGfOXwpTvEJeusKnPbJY4kAEqTRO4Bxm4AKwIVL2G4kZn8pwru/w81GZgn83STsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IcsfQpRJ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kWmD/wioalf/rt9/+eQ9HqW8oXH7SW16I9qWWZz7dBLRx/0jl9vmw/zhPVMl1Pjqphs9RHQn6UMpsOKZeb2ZDPnGLEofTvsz4WMeMDw+Gpi0X/GFAqeGbl/C8n5GtuFsjHIP3ZoaRai2jUpIbfqvlo0UCXMEJr44GL7/k7GJVwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUe4vN+j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IcsfQpRJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA1B1F000E9;
-	Wed, 22 Jul 2026 12:17:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUe4vN+j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E9A1F000E9;
+	Wed, 22 Jul 2026 12:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784722634;
-	bh=T9beRhF2jjJvFTZCtXWpywAw5rE3wHDEFmzE5t7fnUw=;
+	s=k20260515; t=1784722744;
+	bh=YBYxvphVzaO+exxtEUBtrzLqzhIi/n0DZS50ea926Ns=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IcsfQpRJs3YyBJzWUl/mvMT93RQ+AQOaw5S7BCqTxuIzAca8N+vOiQ/LeUOWs0haJ
-	 6KYGyMBWt7MLsUJ9kEvvdXPCsoYFWAH/9YekTepHuPEcfse7rKv0Oe0lmY+NIw6guW
-	 OfkCxTlNFKfuoJsjsQTqD757G6G3wNRD2sXMKaYcNJcZUrMxFYw0VqftePis0GmZDJ
-	 H1su9VHuHVfhyrIVQa4Z3CQtZkfR59j18cbSdVgaKFN3qm1JH3s2zzjiVsUu3YPJKp
-	 RmMgKeb0DB4BCmsP+zGknbmheuwekrcgAWiGP6qfXzexK3CfOc6uoBWy2z9D+9hiTs
-	 8vgfgNkPiaCww==
-Date: Wed, 22 Jul 2026 14:17:06 +0200
+	b=mUe4vN+jxqTkZivcklfZKiZiME9FB6L+MyLH4Z1PwR8dk48o79XFx2/2gF6HRa9l3
+	 KTRYQsRq6XfDyMPM5BeGrILtpyMn+EzCSPuwLFWi3sZyuLM9b6Z3yYCBXb66VEwXBH
+	 l4IOrnIBr34bauT1l4kd2FRUptomIGqeL04q/hkc13gBl3UOscEV1uGs/OXDbGw70M
+	 DH70B1gc/uMdK3tbX+x251k2TdpGWi/MuPC+gi8zKevdCTF1Pu8ZdyZyKY75VAwtrS
+	 sX4IqKhBDA88so1XeCjsl79SVG3HHHvwbFSxc0UStKeeGfmAQwdYKfHW5gGpMqkApo
+	 W7BeydqvMYbnA==
+Date: Wed, 22 Jul 2026 14:18:58 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: bhelgaas@google.com, alex@shazbot.org, sashiko-bot@kernel.org, 
-	sashiko-reviews@lists.linux.dev, jjohnson@kernel.org, linux-pci@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, ath12k@lists.infradead.org, 
-	mhi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
-Message-ID: <d35ftvppjovbyb3va5ok3yy2l5ng2jliqidqa4szp7hrgalrf4@rbhj2ehrff3l>
-References: <20260721082933.7B5A41F000E9@smtp.kernel.org>
- <20260722112813.33153-1-jtornosm@redhat.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] bus: mhi: clean up some kernel-doc warnings
+Message-ID: <zbt7s3siqmtuuiiknbsmdvm7yzy5p2qwwrvezwp4as5c6y4wtj@wfslwqxxg5jr>
+References: <20260719223231.2855431-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -46,42 +43,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260722112813.33153-1-jtornosm@redhat.com>
+In-Reply-To: <20260719223231.2855431-1-rdunlap@infradead.org>
 
-On Wed, Jul 22, 2026 at 01:28:13PM +0200, Jose Ignacio Tornos Martinez wrote:
-> > [Severity: High]
-> > Will this sequence of ioread32 flush reads and
-> > read_poll_timeout trigger Master Aborts on architectures
-> > with strict error handling?
-> >
-> > The SoC global reset explicitly drops the device PCIe link.
-> > Performing ioread32 flush reads immediately after asserting
-> > the reset, and then actively polling the disconnected MMIO
-> > space with read_poll_timeout while the link recovers, can
-> > result in Unsupported Request errors.
-> >
-> > On strict platforms like ARM64 or x86 servers with APEI/GHES
-> > Firmware First error handling, these can escalate to fatal
-> > Uncorrectable Errors and cause a host kernel panic when a
-> > guest VM exits.
-> >
-> > Should this avoid MMIO flush reads during these reset
-> > sequences and instead use fixed delays to safely bridge the
-> > link-down period?
+On Sun, Jul 19, 2026 at 03:32:31PM -0700, Randy Dunlap wrote:
+> Clean up some kernel-doc comments and warnings:
+> - use correct format for struct members
+> - add one struct member description
+> - add one function parameter description
+> - mark one enum as private
+> - add a leading '*' on one kernel-doc line
 > 
-> The SoC global reset at 0x3008 does not immediately drop the
-> PCIe link. The flush reads execute while the device is still
-> responsive - the actual reset takes effect during the
-> subsequent msleep. The ath11k/ath12k drivers perform the same
-> register accesses during this reset sequence, including on
-> ARM64 Qualcomm platforms, without issues.
+> Fixes these warnings:
+> Warning: include/linux/mhi.h:108 struct member 'target_link_speed' not
+>  described in 'mhi_link_info'
+> Warning: include/linux/mhi.h:108 struct member 'target_link_width' not
+>  described in 'mhi_link_info'
+> Warning: ../include/linux/mhi.h:159 Enum value 'MHI_STATE_MAX' not
+>  described in enum 'mhi_state'
+> Warning: ../include/linux/mhi.h:212 bad line: for UL channels, multiple
+>  of 8 ring elements for DL channels
+> Warning: ../include/linux/mhi.h:236 struct member 'wake_capable' not
+>  described in 'mhi_channel_config'
+> Warning: ../include/linux/mhi.h:449 struct member 'M0' not described
+>  in 'mhi_controller'
+> Warning: ../include/linux/mhi.h:449 struct member 'M2' not described
+>  in 'mhi_controller'
+> Warning: ../include/linux/mhi.h:449 struct member 'M3' not described
+>  in 'mhi_controller'
+> Warning: ../include/linux/mhi.h:528 struct member 'id_table' not described
+>  in 'mhi_driver'
+> Warning: ../include/linux/mhi.h:543 function parameter 'mhi_cntrl' not
+>  described in 'mhi_free_controller'
 > 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-Yes, Qcom devices supporting SoC reset have a mechanism to keep the PCIe link
-alive (in L0/L1) when the reset gets triggered in the device. So the register
-access is available throughout the reset cycle.
+Applied to mhi-next!
 
 - Mani
+
+> ---
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> Cc: mhi@lists.linux.dev
+> Cc: linux-arm-msm@vger.kernel.org
+> 
+>  include/linux/mhi.h |   15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> --- linux-next-20260717.orig/include/linux/mhi.h
+> +++ linux-next-20260717/include/linux/mhi.h
+> @@ -117,8 +117,8 @@ struct image_info {
+>  
+>  /**
+>   * struct mhi_link_info - BW requirement
+> - * target_link_speed - Link speed as defined by TLS bits in LinkControl reg
+> - * target_link_width - Link width as defined by NLW bits in LinkStatus reg
+> + * @target_link_speed: Link speed as defined by TLS bits in LinkControl reg
+> + * @target_link_width: Link width as defined by NLW bits in LinkStatus reg
+>   */
+>  struct mhi_link_info {
+>  	unsigned int target_link_speed;
+> @@ -173,6 +173,7 @@ enum mhi_state {
+>  	MHI_STATE_M3_FAST = 0x6,
+>  	MHI_STATE_BHI = 0x7,
+>  	MHI_STATE_SYS_ERR = 0xFF,
+> +	/* private: */
+>  	MHI_STATE_MAX,
+>  };
+>  
+> @@ -227,12 +228,12 @@ enum mhi_db_brst_mode {
+>   * @type: Channel type
+>   * @ee_mask: Execution Environment mask for this channel
+>   * @pollcfg: Polling configuration for burst mode.  0 is default.  milliseconds
+> -	     for UL channels, multiple of 8 ring elements for DL channels
+> + *	     for UL channels, multiple of 8 ring elements for DL channels
+>   * @doorbell: Doorbell mode
+>   * @lpm_notify: The channel master requires low power mode notifications
+>   * @offload_channel: The client manages the channel completely
+>   * @doorbell_mode_switch: Channel switches to doorbell mode on M0 transition
+> - * @wake-capable: Channel capable of waking up the system
+> + * @wake_capable: Channel capable of waking up the system
+>   */
+>  struct mhi_channel_config {
+>  	char *name;
+> @@ -350,7 +351,9 @@ struct mhi_controller_config {
+>   * @dev_state: MHI device state
+>   * @dev_wake: Device wakeup count
+>   * @pending_pkts: Pending packets for the controller
+> - * @M0, M2, M3: Counters to track number of device MHI state changes
+> + * @M0: Counter to track number of device MHI state changes
+> + * @M2: Counter to track number of device MHI state changes
+> + * @M3: Counter to track number of device MHI state changes
+>   * @transition_list: List of MHI state transitions
+>   * @transition_lock: Lock for protecting MHI state transition list
+>   * @wlock: Lock for protecting device wakeup
+> @@ -507,6 +510,7 @@ struct mhi_result {
+>  
+>  /**
+>   * struct mhi_driver - Structure representing a MHI client driver
+> + * @id_table: table of MHI channel names that a driver supports
+>   * @probe: CB function for client driver probe function
+>   * @remove: CB function for client driver remove function
+>   * @ul_xfer_cb: CB function for UL data transfer
+> @@ -538,6 +542,7 @@ struct mhi_controller *mhi_alloc_control
+>  
+>  /**
+>   * mhi_free_controller - Free the MHI Controller structure
+> + * @mhi_cntrl: MHI controller to free
+>   * Free the mhi_controller structure which was previously allocated
+>   */
+>  void mhi_free_controller(struct mhi_controller *mhi_cntrl);
 
 -- 
 மணிவண்ணன் சதாசிவம்
