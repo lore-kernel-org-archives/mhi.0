@@ -1,265 +1,226 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012007.outbound.protection.outlook.com [52.101.66.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CAD442106
-	for <mhi@lists.linux.dev>; Tue, 21 Jul 2026 08:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784621606; cv=none; b=eNhs1QsGVjm97WxQhe5V5twbAfG8JwU5zVOsJIUu8Ic1w8jTpGYUDvGN+tIPVMkJkj0OJwn7B8+adueZN2C6lMKg0dVecSlNnuublgouYuVDnIdeDAMADhHsWQOWH89DOi+zr/BZhHCGNYo6/UuUnL45SZ0fD6qhWZP4kgXAvoQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784621606; c=relaxed/simple;
-	bh=okiV2lgU63vpPMUGj570DhVjS0AbVKX8tHA2pdYZkoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=a05rd7In4KDmOpSwRU2Y39fbsFrdNDOodTMfRTK9lugG7YEkHmXzfG0HKkw02wMpWFeiVk4aGimY9s97MfWknM7sGB8VAdzmdseqmooapau7pHl/+VZC4rmeUlYe3xB0sUSNC1iSlCt3rjRNtgR5awdppEIllzi9nxjPKnuJG/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T5r7Ls2I; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A7835FF6E
+	for <mhi@lists.linux.dev>; Wed, 22 Jul 2026 01:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784682374; cv=fail; b=FNADPvMHal7cg67Rc4R2TTOCiD9Y2UuXJvUZGZHMlGyLP4YzM9FUre4PhfEg5pehrZ9vvNCNAQJV9KoTmpL95Dk2gMUUHjamurxOFzEUZiDAfBPLb2ZhsBBkVIZihYkaYIY/pW2Vft5UdiALbMwnDmohZjwuQELBm6EekADL1pc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784682374; c=relaxed/simple;
+	bh=gDeDLswOLzFdSlreHK+NxbB8bPI96iNN4EbWgYvLKJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=CST7FzDz6oS03YZVXUfcQsIzHFhOLVBfWhIwcDOSwZyF2kbSV8G8/+kCaZvwP3LjUvXUkb8BMUYq6xXHYgAkOA0LM0UX37NGlCBDNgJBb5vy23N/B6hcVhAUmi6eF5VCmVKRDpGmT+//XiDaTK6i+3XulAbkZTRczNDW+gLP9d0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=ucpgRdl+; arc=fail smtp.client-ip=52.101.66.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T5r7Ls2I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784621595;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PK82L8THiWroAM1HPt8oRK7uxjYuYOO7+GgX16DnT3s=;
-	b=T5r7Ls2IRpEJIoHsc4E2V75V8uShAvYssInlzmxFuNNDS9tJMudFT6sCayF9nAfz2hAWGL
-	pwVFG1olS06+gq92bQqcrmAhvF23jQlvcl2ypwmhyCas13IUvHlaCIbqO48tuHvw+2adkw
-	1ygcNTS8HC+ybsRI8VthHQSt8WzD82o=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-202-EPuHpqaqN2-PDPOFbCqpvw-1; Tue,
- 21 Jul 2026 04:13:12 -0400
-X-MC-Unique: EPuHpqaqN2-PDPOFbCqpvw-1
-X-Mimecast-MFC-AGG-ID: EPuHpqaqN2-PDPOFbCqpvw_1784621591
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CD7F7180A9A4;
-	Tue, 21 Jul 2026 08:13:09 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.44.48.59])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5BF4C1954231;
-	Tue, 21 Jul 2026 08:13:04 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: bhelgaas@google.com,
-	alex@shazbot.org,
-	mani@kernel.org
-Cc: jjohnson@kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
-Date: Tue, 21 Jul 2026 10:13:01 +0200
-Message-ID: <20260721081301.205374-1-jtornosm@redhat.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="ucpgRdl+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mpG6RnsTa6/lGT1xm/T4O5Ry6RdMf4qIJ6+ArMhnMcqXKX9ej92GPc7cZRStCzVEsYpvjljswYQax7IC02XiR/kf4Tq8EVoHWvNwhWU//LMPTy9hlVhoEij/ExWLi+K/26JVLI2ur1/j2u3w1YsRgyvQwPVXZ/waypSIoQOl7GO8VxEgSAzVSo+A7dmkRpR5mvrbZnFA3jP3KTogcGj9FjIFB53+dJR+hlgUU/nCDuKyTb3cucLAzJBoG5ZEnnCeXeifgM9gKOCqpy2F5i6XO05F85sjqusoidpECluKA1Q8ilEAaWXakHSqzT3ojjgp0gSRdtGch6FlhbDo5m2Ekg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jORHLbWySc5I7bdtjr63ds5bTw5hmcKGwL+fEi9see0=;
+ b=qBfFZNElxactNdhPn9Isxnt1uTRhwWNExu2HTUu0w1wLPXm0dwUrxBboBey8o9T55FQd+OBgmlvq9yZCQOseDzb6UfnZGDMFl81E9lDDMEwRUEh1qC6NjTTt7X55XPsa+pg8N8/7FOIPougrCzA3bMzPOF3Kp3TsrsMHKCMoBMWDfTrdQGOyYeBIhhqZJQnxmi5GTp0oI/0HIVWbo00QMBD7U8v4eJX7ReYB91byFjiUw7LXT172yMM+uGNU15M3/lZpT+UZ3x8Rycx3CPbVHJmQfcJilvUaUM/CiEfn4zvHwD0MmGY9nAv1rJ7TpXyfgyJpi7wbZZpE70GfZAgo4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jORHLbWySc5I7bdtjr63ds5bTw5hmcKGwL+fEi9see0=;
+ b=ucpgRdl+Y98olcFKYUL/yipKtmItVxXlqc8UUYsRKVfMGNsnuSm1QdOch0Yw0WBy2pNFL1VkPvJWFudFF0r8ZEjD1KzCGqMvhwjm3VhAEUroeb/eukBQJqyleqjKK1OmWFN78PE8ToOQEta1+MjFKXUS9A16vFKlcS0uIwZ3UAgbOcs4RTKnTS/pHkXGOsSh3HVRpROPwboZe71UTYFDZeDFi8CTIP5dFtfAow2mbpRH6tUy9tY3WlIcXWjr/DVf/jrwBsnjwI0LUV7WJkZiBaej8TnZ7ow0F6FnvMFqWIPWDv10w9BObAgRzCaA6iHwCl64rI5eJ7bVuu23So++/g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by AM0PR04MB7075.eurprd04.prod.outlook.com (2603:10a6:208:19e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Wed, 22 Jul
+ 2026 01:06:08 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 01:06:08 +0000
+Date: Tue, 21 Jul 2026 21:05:59 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dmaengine: dw-edma: Implement
+ device_synchronize() callback
+Message-ID: <amAXdwI_pYA4p_0P@lizhi-Precision-Tower-5810>
+References: <20260714-mhi-ep-flush-v2-0-b6a9db011e85@oss.qualcomm.com>
+ <20260714-mhi-ep-flush-v2-1-b6a9db011e85@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714-mhi-ep-flush-v2-1-b6a9db011e85@oss.qualcomm.com>
+X-ClientProxiedBy: PH7P221CA0089.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:328::7) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: w4c-k9KJx7KoaQbihBXCmJoJBzQ1AHdQN3pdkUmIKGQ_1784621591
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AM0PR04MB7075:EE_
+X-MS-Office365-Filtering-Correlation-Id: b90293ec-c621-48d2-b2cc-08dee78d6999
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|1800799024|376014|7416014|23010399003|18002099003|22082099003|4143699003|11063799006|5023799004|56012099006|10067099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	cQ+iouyNXGi41CIqIcH+5JazA7uahtT1qBqZf4+hL/oDIbp8eoBaLnx6zY1iAm7BD9V5vSj4kYwAmbtfCZnLZgibyzI9MOnDpHErXECO//pgCuSx5l5HSY53ku+nGKfURPxiFa6zoekO3VWLPBgZ/JAX9MZMJLaHjBDK8KtMy6cc8giXza/z0Xm1bMT7fpafXTqA0cFkl2hUfvstv4wWE6n59zEeTm3Xz0M0FBXVk27fCTB+golOno6d4UhtH7ryxaMlMa0YYcst/s+JsfxPZ9NXk+xrQXqtQWanJpAoG1Bl5PyZ9+OpTmKlJcoUFYZWziF9g+QfpqUFROOOMcbgoqtGeM62VmhjZ3EUyPY0ljdbuiuvDLt6Ov3DAtxxQoooQlGYSrEcsGTw6TLTdLw+yOXXymSdeFapWrf2L3UVvXwc48OlSIgtocG11A19PKbQhM2Guhbau35dcP3Jm/vLQjZdCeXUULfljNqh0ATOynnpmXr+C94oz8cjZ6RMsh+1WGzPxSBHmflmGOwBbWVqYiCrWB3MZUrDS6Ftk5i333yUD/9qpvYgM+yc8xWMnNN2H2QSPc8Yrrhj9BAihkSbIkW/+qQYSIe/nd+vSxDSPH5L7ldwVthxCt4gYrEsphdg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(376014)(7416014)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(5023799004)(56012099006)(10067099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?15iujArnXSFz5rd136cfha1xsGNcEr6PgUQSzOPCmJspDKo+QjR3PiPSIp+r?=
+ =?us-ascii?Q?+Yxy+kkH0B3j6528tJ3YKWCVnA+ldN2XPVcGAs1zcQy43J0oKgiKDuhR8xC0?=
+ =?us-ascii?Q?f3amXJkazxxMUZW1v729wG3akarxaeKlwzicdaQnU3OFOTAy7UAfoHR/zTbL?=
+ =?us-ascii?Q?Un4I2QWjTFDFvdr8qHTdhf3byzLtgbRcs9MAwe2pHGAdUKMzz8kHXdcCXE/G?=
+ =?us-ascii?Q?yTUzsSumXcvAJZwy/Ri5ZJdjtnEtSE8ULmNB4F+NPTzM0GrLEli9B41vtWa6?=
+ =?us-ascii?Q?dxJAQrqGRZPbapMu5SovFXfHknus2EYXD6vNMGsLGLpP3ZiXwQgzG/G8XoNi?=
+ =?us-ascii?Q?ufZclq7qu2p2eedfQ1noXrr4hfTN9y54xPsGHIxnpbA+ndRhdG8qg62LPYxm?=
+ =?us-ascii?Q?DnsWLJyDNHe4Oi6dvid8vcjGwWVj4lC2hYm5hDR6NaRvHg7tU/cV98SFSPHA?=
+ =?us-ascii?Q?Uefv2YAwMAlIy118Kh6376gDEIOZBs3DtnDZiAHKHSz5crqLgHFjNGfhehlp?=
+ =?us-ascii?Q?VM2k8sxEKX9MDX7eOVIdJ5q2dYE35NqzMskRLOsxujlcK5Phlv60Klpz4seo?=
+ =?us-ascii?Q?rLfcnPp/MzCJ/ndGg0O9styzKezovgKIeq27MvcMzEiuzSLGTk8Es9p5bK5f?=
+ =?us-ascii?Q?2/AZ22tSWo3PIVUBnYNcoFnP0/diiDNESkCGFVuX7HN0WphbUQ7V4udhCncD?=
+ =?us-ascii?Q?TeuzNsLORI4DITqTtIAESvi8zeXrS8zvN+1fr9OGM6V/NJJ4jNz2OlAz8Is5?=
+ =?us-ascii?Q?Z+3WuuvWLCHFSp1qYgEXf4ogNcJWXtzgsL7AjA2GDdJp+C1LToXmEeeVZn6D?=
+ =?us-ascii?Q?7059ah2Dh0A1gOI3T1+lfeGTmxz8ZBTPqCVHICQYD6YOpgpaGHnYTCo82AhA?=
+ =?us-ascii?Q?c57rrbPvW+vSFiJgtlPPXx7oR5g+9II9UiVJY9aSodlezqhVQt6nEfIlJH4q?=
+ =?us-ascii?Q?oayf5u8n8t+CByma5YE17w4guD6i44ASbp7kMphrqjmYNZCbpkG9sNbhuiLE?=
+ =?us-ascii?Q?FwD4YN+uABjjWUQOaeuVoX0zte5Rohujez46hOEa1IHL/YqwD/cJPrENUtL2?=
+ =?us-ascii?Q?7hx3lOxvMVQ0iU0VDi9IjzZM7tFa329qmtLpHCirI3ts/UT88DFZwCsRs3mn?=
+ =?us-ascii?Q?Tw7/sm3UxHfHzbzYGWI4IcpK3YlFVcYe3BgyXG2NKa+PiMfZ2ZHz6AFn27rF?=
+ =?us-ascii?Q?IeYn6Tl3iwDMPMCEpF2Fc9PGdIWcn7cM998OjTJY0yQUhgt9Y8ghdiN+X9Y+?=
+ =?us-ascii?Q?lj+lwIj5kWgJptk9UuaDcP74O8J2UlnFWoUpbRE/z4Hy8QVdGZs/BltdK/Hj?=
+ =?us-ascii?Q?b+lIf3a6BusSjpWesN0+vm7cvPwU0z7aOKUOQlIxAP9EEcStr1D2vGRDH9jj?=
+ =?us-ascii?Q?Y3iHChQZN3mBLt9iejR4j0NlDC7TmRsQAB8WSyTbcokpws2aExZWcS28UvMz?=
+ =?us-ascii?Q?fzTIRo6Vns6Fz5hcXEM3gcTQwxdntO8+8pJSmhY1yThMmMtWTS0Roj1iSWi2?=
+ =?us-ascii?Q?PqXBuNhWsPVCv50eE10Fuv3gQtgEaSssTK0hA8tHRVX0Azll+EtRCC0jNXn5?=
+ =?us-ascii?Q?f6hxaVFaa3lTJSdc0SuEj1assoRMJ3RtyKtnLmvLlKHEeSPcOZHXSCVUANCc?=
+ =?us-ascii?Q?gDauZb8Mx3WhXsuD7OqpVoxSxnrlM60u3OQ1RSpTBeKWxGFti+hDArhCXgI6?=
+ =?us-ascii?Q?hqv0pzqqkW5UlO7PRvLjDwqZZhjA2sgGiv+MZiax25fUV6zOos2+RI5QpRbt?=
+ =?us-ascii?Q?Kny+r6+ZFV5xfFpAbYOVQ/axu0ZWKaBQqmmmjVAoFa92jBGHJCQu?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b90293ec-c621-48d2-b2cc-08dee78d6999
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 01:06:08.4194
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FpcJ94IYDC5I2+fFxg+HIKvjUT8sdDaiixkY4VPaYD+AOEewboq0wOlcm1ZlAtt5plCRHfkoFt7y6IEmWDVrHD//luV26G/W8U9GpyIVJ5gmz65CK1WREEY0NmnZyOc/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB7075
 
-Some Qualcomm PCIe devices (WCN6855/WCN7850 WLAN cards, SDX62/SDX65 modems)
-lack working reset methods for VFIO passthrough scenarios. These devices
-have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-broken bus reset.
+On Tue, Jul 14, 2026 at 02:08:32PM +0200, Manivannan Sadhasivam wrote:
+> device_synchronize() callback is required by the client drivers to ensure
+> all the DMA operations are completed so that they can free the memory
+> associated with the complete callbacks.
+>
+> So implement this callback by first making sure that all the in-flight DMA
+> operations are completed and then call vchan_synchronize() to drain the
+> DMA tasklet.
+>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> ---
 
-The problem manifests in VFIO passthrough scenarios:
+Similar implement already in linux-next, recent many fixes and update about
+dw edma already merged in dma tree.
 
-- WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WLAN devices:
-  Normal VM operation works fine, including clean shutdown/reboot.
-  However, when the VM terminates uncleanly (crash, force-off), VFIO
-  attempts to reset the device before it can be assigned to another VM.
-  Without a working reset method, the device remains in an undefined state,
-  preventing reuse.
+commit 99109a51efd28c9a661fbfb9469b023c517b31d1
+Author: Koichiro Den <den@valinux.co.jp>
+Date:   Sat Jul 18 03:06:32 2026 +0900
 
-- SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
-  on first VM assignment without proper reset capability.
+    dmaengine: dw-edma: Terminate all descriptors without callbacks
 
-Add device-specific reset methods using BAR-space hardware reset registers
-that exist in these devices:
+    The DMA Engine client documentation says in the "Terminate APIs" section
+    of Documentation/driver-api/dmaengine/client.rst:
 
-- WCN6855/WCN7850 WLAN devices use SoC global reset via BAR0 (sequence from
-  ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
-  ath11k_mhi_set_mhictrl_reset()):
-  - Write/clear reset bit at offset 0x3008
-  - Wait for PCIe link recovery (up to 5 seconds)
-  - Clear MHI controller SYSERR status at offset 0x38
+    "No callback functions will be called for any incomplete transfers."
 
-- SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
-  driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
-  - Write reset request to offset 0xb0
-  - Wait 2 seconds for reset completion
+    dw-edma instead calls vchan_cookie_complete() when a deferred STOP reaches
+    the interrupt handler. This schedules a callback for the active descriptor
+    and leaves other issued or submitted descriptors queued. A late callback
+    after dmaengine_terminate_sync() can dereference client state that has
+    already been freed, while leftover descriptors may later restart into
+    reused buffers or leak.
 
-These are true hardware reset mechanisms (not power management or firmware
-error recovery), providing proper device reset for VFIO scenarios.
+    Move all issued and submitted descriptors to the terminated list whenever
+    termination completes. For a pending STOP, do this from both the DONE and
+    ABORT paths. Complete their cookies in order without scheduling callbacks.
 
-Testing was performed on desktop platforms with M.2 WLAN and modem cards
-using M.2-to-PCIe adapters, including extensive force-reset cycling to
-verify stability.
+    A STOP can remain pending until the running transfer raises an
+    interrupt. Make device_synchronize() wait for such a pending STOP to
+    complete before releasing terminated descriptors. Reuse it from
+    free_chan_resources(), then release the remaining virt-dma resources.
+    Sleep instead of busy-polling while waiting, and warn if the existing
+    timeout expires.
 
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
----
-v13: Address Alex Williamson feedback:
-  - Validate initial ioread32() with PCI_POSSIBLE_ERROR() before
-    read-modify-write to avoid writing error response back to device
-    on platforms with APEI/GHES error escalation
-  - Replace time_before()/msleep() polling loop with read_poll_timeout()
-    for robustness against scheduling delays and code simplification
-v12: https://lore.kernel.org/all/20260630065815.199693-1-jtornosm@redhat.com/
+    Fixes: e63d79d1ffcd ("dmaengine: Add Synopsys eDMA IP core driver")
+    Reviewed-by: Frank Li <Frank.Li@nxp.com>
+    Signed-off-by: Koichiro Den <den@valinux.co.jp>
+    Link: https://patch.msgid.link/20260717180639.2643243-3-den@valinux.co.jp
+    Signed-off-by: Vinod Koul <vkoul@kernel.org>
 
- drivers/pci/quirks.c | 116 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 116 insertions(+)
+Frank
 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 431c021d7414..bd1e0742052e 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -22,6 +22,7 @@
- #include <linux/isa-dma.h> /* isa_dma_bridge_buggy */
- #include <linux/init.h>
- #include <linux/iommu.h>
-+#include <linux/iopoll.h>
- #include <linux/delay.h>
- #include <linux/acpi.h>
- #include <linux/dmi.h>
-@@ -4240,6 +4241,118 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
- 	return 0;
- }
- 
-+#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET	0x3008
-+#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
-+#define QUALCOMM_WLAN_MHICTRL			0x38
-+#define QUALCOMM_WLAN_MHICTRL_RESET_MASK	0x2
-+
-+/*
-+ * Qualcomm WLAN device-specific reset using SoC global reset via BAR0
-+ * registers.
-+ */
-+static int reset_qualcomm_wlan(struct pci_dev *pdev, bool probe)
-+{
-+	void __iomem *bar;
-+	u32 val;
-+	u16 cmd;
-+	int ret;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	val = ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	if (PCI_POSSIBLE_ERROR(val)) {
-+		ret = -ENODEV;
-+		goto out_restore;
-+	}
-+	val |= QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	val &= ~QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-+	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+
-+	msleep(10);
-+
-+	ret = read_poll_timeout(ioread32, val,
-+				!PCI_POSSIBLE_ERROR(val),
-+				20 * USEC_PER_MSEC,
-+				5 * USEC_PER_SEC, false,
-+				bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-+	if (ret) {
-+		pci_err(pdev, "PCIe link failed to recover after reset\n");
-+		goto out_restore;
-+	}
-+
-+	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
-+	 * and thus need to set MHICTRL_RESET to clear SYSERR.
-+	 */
-+	iowrite32(QUALCOMM_WLAN_MHICTRL_RESET_MASK, bar + QUALCOMM_WLAN_MHICTRL);
-+	ioread32(bar + QUALCOMM_WLAN_MHICTRL);
-+
-+	msleep(10);
-+
-+out_restore:
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return ret;
-+}
-+
-+#define MHI_SOC_RESET_REQ_OFFSET		0xb0
-+#define MHI_SOC_RESET_REQ			BIT(0)
-+
-+/*
-+ * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
-+ * register.
-+ */
-+static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
-+{
-+	void __iomem *bar;
-+	u16 cmd;
-+
-+	if (probe)
-+		return 0;
-+
-+	if (pdev->current_state != PCI_D0)
-+		return -EINVAL;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-+
-+	bar = pci_iomap(pdev, 0, 0);
-+	if (!bar) {
-+		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+		return -ENODEV;
-+	}
-+
-+	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
-+	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
-+
-+	/* Be sure device reset has been executed */
-+	msleep(2000);
-+
-+	pci_iounmap(pdev, bar);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+
-+	return 0;
-+}
-+
- static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
- 		 reset_intel_82599_sfp_virtfn },
-@@ -4255,6 +4368,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
- 		reset_chelsio_generic_dev },
- 	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
- 		reset_hinic_vf_dev },
-+	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
-+	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wlan },  /* WCN6855 WLAN */
-+	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wlan },  /* WCN7850 WLAN */
- 	{ 0 }
- };
- 
--- 
-2.54.0
-
+>  drivers/dma/dw-edma/dw-edma-core.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+> index c2feb3adc79f..df0d1a946ed0 100644
+> --- a/drivers/dma/dw-edma/dw-edma-core.c
+> +++ b/drivers/dma/dw-edma/dw-edma-core.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/dmaengine.h>
+>  #include <linux/err.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/iopoll.h>
+>  #include <linux/irq.h>
+>  #include <linux/dma/edma.h>
+>  #include <linux/dma-mapping.h>
+> @@ -331,6 +332,20 @@ static int dw_edma_device_terminate_all(struct dma_chan *dchan)
+>  	return err;
+>  }
+>
+> +static void dw_edma_device_synchronize(struct dma_chan *dchan)
+> +{
+> +	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
+> +
+> +	/*
+> +	 * Make sure all the in-flight DMA operations are completed before
+> +	 * draining the tasklet using vchan_synchronize().
+> +	 */
+> +	read_poll_timeout(READ_ONCE, chan->status, chan->status != EDMA_ST_BUSY,
+> +			  10, 0, false, chan->status);
+> +
+> +	vchan_synchronize(&chan->vc);
+> +}
+> +
+>  static void dw_edma_device_issue_pending(struct dma_chan *dchan)
+>  {
+>  	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
+> @@ -968,6 +983,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
+>  	dma->device_pause = dw_edma_device_pause;
+>  	dma->device_resume = dw_edma_device_resume;
+>  	dma->device_terminate_all = dw_edma_device_terminate_all;
+> +	dma->device_synchronize = dw_edma_device_synchronize;
+>  	dma->device_issue_pending = dw_edma_device_issue_pending;
+>  	dma->device_tx_status = dw_edma_device_tx_status;
+>  	dma->device_prep_slave_sg = dw_edma_device_prep_slave_sg;
+>
+> --
+> 2.43.0
+>
