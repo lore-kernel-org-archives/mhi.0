@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428EB40F74E;
-	Wed, 22 Jul 2026 12:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF7262FD0;
+	Wed, 22 Jul 2026 12:21:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784722745; cv=none; b=Zu37FyqKpJBzOGoEkKYy93yjkwo3MEw0MaY4fypYvf/RrlcU/gpfyOGkBGyJDKefSdHt3uF2MxuIlpl6b1dv5y3E+xZHP4smH+3yqZ0ZF4Oho8RLZtMJ9HIuqTx225qs5+xAQroK+YEPjJ8O0kUJQZrO23KLQZibk76v2QBgm6c=
+	t=1784722877; cv=none; b=sCVwg4LfYLRMG+e15T9wZdq3gS3JTqUgKOhPuCgsvoEKPs12mLvGyCwicAa/VC5UaWbDBkHYchn/fk5fsyF9nj3g8g5Y/nIm+X73yMiKQhIwgbMnXKKWpaUDKwn0Bl20BJ69X6IqHt8lBHxmjN61KXw+xr5RYGgF3KQOGGE7FRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784722745; c=relaxed/simple;
-	bh=dErIGIlmgS9qihi2kpWW7BktPQQwKUV4bDaA5OeyHFQ=;
+	s=arc-20240116; t=1784722877; c=relaxed/simple;
+	bh=K/j5ydTSeKMT/t7njTXAzrJBICZvkOWj8PhnVchT0OI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kWmD/wioalf/rt9/+eQ9HqW8oXH7SW16I9qWWZz7dBLRx/0jl9vmw/zhPVMl1Pjqphs9RHQn6UMpsOKZeb2ZDPnGLEofTvsz4WMeMDw+Gpi0X/GFAqeGbl/C8n5GtuFsjHIP3ZoaRai2jUpIbfqvlo0UCXMEJr44GL7/k7GJVwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUe4vN+j; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWBKdbogc7MRunswshAxHBR11mv80KDoTcYAUzuyNaWFz0tnFiNiGATqFCdEK9OTPnISQa1gPN1ElxkJTKM3A04dVtPPWAGLH6UiAk4plwOfNLnodqFcNAvAVKI4mx100u0bB1YhWziniz9SrBxwKKLrPuMOKzwqu+YXCsdnQ4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YetGP3Ue; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUe4vN+j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E9A1F000E9;
-	Wed, 22 Jul 2026 12:19:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YetGP3Ue"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D051F000E9;
+	Wed, 22 Jul 2026 12:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784722744;
-	bh=YBYxvphVzaO+exxtEUBtrzLqzhIi/n0DZS50ea926Ns=;
+	s=k20260515; t=1784722875;
+	bh=tJs2JTw9rUvxIZbrDHaXlnRyxMUoIo0lKD4eEA5grFw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mUe4vN+jxqTkZivcklfZKiZiME9FB6L+MyLH4Z1PwR8dk48o79XFx2/2gF6HRa9l3
-	 KTRYQsRq6XfDyMPM5BeGrILtpyMn+EzCSPuwLFWi3sZyuLM9b6Z3yYCBXb66VEwXBH
-	 l4IOrnIBr34bauT1l4kd2FRUptomIGqeL04q/hkc13gBl3UOscEV1uGs/OXDbGw70M
-	 DH70B1gc/uMdK3tbX+x251k2TdpGWi/MuPC+gi8zKevdCTF1Pu8ZdyZyKY75VAwtrS
-	 sX4IqKhBDA88so1XeCjsl79SVG3HHHvwbFSxc0UStKeeGfmAQwdYKfHW5gGpMqkApo
-	 W7BeydqvMYbnA==
-Date: Wed, 22 Jul 2026 14:18:58 +0200
+	b=YetGP3UeR0vXhEwXMKH1BCi4RL9yV2BUK1hzLjLoGfn4c0uJyWxWZ58mkKCM976gc
+	 g38/WbD1WBFNT6tmFuGNL4fQovhY/q2bH01dFvguf/DuTzkR/gDgX84NLHjlFB1NrM
+	 n0v5oso/JGNtB/HtPdCFI5FHHy7O+o8wSvlHWl3PxSL2MzxO82YTIOcBHjcKDYzv/j
+	 pPhB0LTPwkTYwQyZiaf4PnLR5a3kIPHe9ySBBeY5rpngTw9y8UCM4rxj4eJEPCxCCS
+	 FHkZ57qA9JPg08KcYQgSiDlp1m1gfd08INYGQUv0YCMuBdEMR8JSuz9GWMuQSJVAb+
+	 09aGXNfJDcqxA==
+Date: Wed, 22 Jul 2026 14:21:08 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: clean up some kernel-doc warnings
-Message-ID: <zbt7s3siqmtuuiiknbsmdvm7yzy5p2qwwrvezwp4as5c6y4wtj@wfslwqxxg5jr>
-References: <20260719223231.2855431-1-rdunlap@infradead.org>
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: bhelgaas@google.com, alex@shazbot.org, jjohnson@kernel.org, 
+	linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
+	ath12k@lists.infradead.org, mhi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
+Message-ID: <y5wemns4rjjfhaykkgghuyjiqqygx2is3bcyflrclrirp3lqh6@aiwdkaycpvuv>
+References: <20260721081301.205374-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -43,116 +44,210 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260719223231.2855431-1-rdunlap@infradead.org>
+In-Reply-To: <20260721081301.205374-1-jtornosm@redhat.com>
 
-On Sun, Jul 19, 2026 at 03:32:31PM -0700, Randy Dunlap wrote:
-> Clean up some kernel-doc comments and warnings:
-> - use correct format for struct members
-> - add one struct member description
-> - add one function parameter description
-> - mark one enum as private
-> - add a leading '*' on one kernel-doc line
+On Tue, Jul 21, 2026 at 10:13:01AM +0200, Jose Ignacio Tornos Martinez wrote:
+> Some Qualcomm PCIe devices (WCN6855/WCN7850 WLAN cards, SDX62/SDX65 modems)
+> lack working reset methods for VFIO passthrough scenarios. These devices
+> have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
+> broken bus reset.
 > 
-> Fixes these warnings:
-> Warning: include/linux/mhi.h:108 struct member 'target_link_speed' not
->  described in 'mhi_link_info'
-> Warning: include/linux/mhi.h:108 struct member 'target_link_width' not
->  described in 'mhi_link_info'
-> Warning: ../include/linux/mhi.h:159 Enum value 'MHI_STATE_MAX' not
->  described in enum 'mhi_state'
-> Warning: ../include/linux/mhi.h:212 bad line: for UL channels, multiple
->  of 8 ring elements for DL channels
-> Warning: ../include/linux/mhi.h:236 struct member 'wake_capable' not
->  described in 'mhi_channel_config'
-> Warning: ../include/linux/mhi.h:449 struct member 'M0' not described
->  in 'mhi_controller'
-> Warning: ../include/linux/mhi.h:449 struct member 'M2' not described
->  in 'mhi_controller'
-> Warning: ../include/linux/mhi.h:449 struct member 'M3' not described
->  in 'mhi_controller'
-> Warning: ../include/linux/mhi.h:528 struct member 'id_table' not described
->  in 'mhi_driver'
-> Warning: ../include/linux/mhi.h:543 function parameter 'mhi_cntrl' not
->  described in 'mhi_free_controller'
+> The problem manifests in VFIO passthrough scenarios:
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> - WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WLAN devices:
+>   Normal VM operation works fine, including clean shutdown/reboot.
+>   However, when the VM terminates uncleanly (crash, force-off), VFIO
+>   attempts to reset the device before it can be assigned to another VM.
+>   Without a working reset method, the device remains in an undefined state,
+>   preventing reuse.
+> 
+> - SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
+>   on first VM assignment without proper reset capability.
+> 
+> Add device-specific reset methods using BAR-space hardware reset registers
+> that exist in these devices:
+> 
+> - WCN6855/WCN7850 WLAN devices use SoC global reset via BAR0 (sequence from
+>   ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
+>   ath11k_mhi_set_mhictrl_reset()):
+>   - Write/clear reset bit at offset 0x3008
+>   - Wait for PCIe link recovery (up to 5 seconds)
+>   - Clear MHI controller SYSERR status at offset 0x38
+> 
+> - SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
+>   driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
+>   - Write reset request to offset 0xb0
+>   - Wait 2 seconds for reset completion
+> 
+> These are true hardware reset mechanisms (not power management or firmware
+> error recovery), providing proper device reset for VFIO scenarios.
+> 
+> Testing was performed on desktop platforms with M.2 WLAN and modem cards
+> using M.2-to-PCIe adapters, including extensive force-reset cycling to
+> verify stability.
+> 
+> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
 
-Applied to mhi-next!
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 - Mani
 
 > ---
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-> Cc: mhi@lists.linux.dev
-> Cc: linux-arm-msm@vger.kernel.org
+> v13: Address Alex Williamson feedback:
+>   - Validate initial ioread32() with PCI_POSSIBLE_ERROR() before
+>     read-modify-write to avoid writing error response back to device
+>     on platforms with APEI/GHES error escalation
+>   - Replace time_before()/msleep() polling loop with read_poll_timeout()
+>     for robustness against scheduling delays and code simplification
+> v12: https://lore.kernel.org/all/20260630065815.199693-1-jtornosm@redhat.com/
 > 
->  include/linux/mhi.h |   15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
+>  drivers/pci/quirks.c | 116 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 116 insertions(+)
 > 
-> --- linux-next-20260717.orig/include/linux/mhi.h
-> +++ linux-next-20260717/include/linux/mhi.h
-> @@ -117,8 +117,8 @@ struct image_info {
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index 431c021d7414..bd1e0742052e 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/isa-dma.h> /* isa_dma_bridge_buggy */
+>  #include <linux/init.h>
+>  #include <linux/iommu.h>
+> +#include <linux/iopoll.h>
+>  #include <linux/delay.h>
+>  #include <linux/acpi.h>
+>  #include <linux/dmi.h>
+> @@ -4240,6 +4241,118 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
+>  	return 0;
+>  }
 >  
->  /**
->   * struct mhi_link_info - BW requirement
-> - * target_link_speed - Link speed as defined by TLS bits in LinkControl reg
-> - * target_link_width - Link width as defined by NLW bits in LinkStatus reg
-> + * @target_link_speed: Link speed as defined by TLS bits in LinkControl reg
-> + * @target_link_width: Link width as defined by NLW bits in LinkStatus reg
->   */
->  struct mhi_link_info {
->  	unsigned int target_link_speed;
-> @@ -173,6 +173,7 @@ enum mhi_state {
->  	MHI_STATE_M3_FAST = 0x6,
->  	MHI_STATE_BHI = 0x7,
->  	MHI_STATE_SYS_ERR = 0xFF,
-> +	/* private: */
->  	MHI_STATE_MAX,
+> +#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET	0x3008
+> +#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
+> +#define QUALCOMM_WLAN_MHICTRL			0x38
+> +#define QUALCOMM_WLAN_MHICTRL_RESET_MASK	0x2
+> +
+> +/*
+> + * Qualcomm WLAN device-specific reset using SoC global reset via BAR0
+> + * registers.
+> + */
+> +static int reset_qualcomm_wlan(struct pci_dev *pdev, bool probe)
+> +{
+> +	void __iomem *bar;
+> +	u32 val;
+> +	u16 cmd;
+> +	int ret;
+> +
+> +	if (probe)
+> +		return 0;
+> +
+> +	if (pdev->current_state != PCI_D0)
+> +		return -EINVAL;
+> +
+> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
+> +
+> +	bar = pci_iomap(pdev, 0, 0);
+> +	if (!bar) {
+> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> +		return -ENODEV;
+> +	}
+> +
+> +	val = ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +	if (PCI_POSSIBLE_ERROR(val)) {
+> +		ret = -ENODEV;
+> +		goto out_restore;
+> +	}
+> +	val |= QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
+> +	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +
+> +	msleep(10);
+> +
+> +	val &= ~QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
+> +	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +
+> +	msleep(10);
+> +
+> +	ret = read_poll_timeout(ioread32, val,
+> +				!PCI_POSSIBLE_ERROR(val),
+> +				20 * USEC_PER_MSEC,
+> +				5 * USEC_PER_SEC, false,
+> +				bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
+> +	if (ret) {
+> +		pci_err(pdev, "PCIe link failed to recover after reset\n");
+> +		goto out_restore;
+> +	}
+> +
+> +	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
+> +	 * and thus need to set MHICTRL_RESET to clear SYSERR.
+> +	 */
+> +	iowrite32(QUALCOMM_WLAN_MHICTRL_RESET_MASK, bar + QUALCOMM_WLAN_MHICTRL);
+> +	ioread32(bar + QUALCOMM_WLAN_MHICTRL);
+> +
+> +	msleep(10);
+> +
+> +out_restore:
+> +	pci_iounmap(pdev, bar);
+> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> +
+> +	return ret;
+> +}
+> +
+> +#define MHI_SOC_RESET_REQ_OFFSET		0xb0
+> +#define MHI_SOC_RESET_REQ			BIT(0)
+> +
+> +/*
+> + * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
+> + * register.
+> + */
+> +static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
+> +{
+> +	void __iomem *bar;
+> +	u16 cmd;
+> +
+> +	if (probe)
+> +		return 0;
+> +
+> +	if (pdev->current_state != PCI_D0)
+> +		return -EINVAL;
+> +
+> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
+> +
+> +	bar = pci_iomap(pdev, 0, 0);
+> +	if (!bar) {
+> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> +		return -ENODEV;
+> +	}
+> +
+> +	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
+> +	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
+> +
+> +	/* Be sure device reset has been executed */
+> +	msleep(2000);
+> +
+> +	pci_iounmap(pdev, bar);
+> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+>  	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
+>  		 reset_intel_82599_sfp_virtfn },
+> @@ -4255,6 +4368,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+>  		reset_chelsio_generic_dev },
+>  	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
+>  		reset_hinic_vf_dev },
+> +	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
+> +	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wlan },  /* WCN6855 WLAN */
+> +	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wlan },  /* WCN7850 WLAN */
+>  	{ 0 }
 >  };
 >  
-> @@ -227,12 +228,12 @@ enum mhi_db_brst_mode {
->   * @type: Channel type
->   * @ee_mask: Execution Environment mask for this channel
->   * @pollcfg: Polling configuration for burst mode.  0 is default.  milliseconds
-> -	     for UL channels, multiple of 8 ring elements for DL channels
-> + *	     for UL channels, multiple of 8 ring elements for DL channels
->   * @doorbell: Doorbell mode
->   * @lpm_notify: The channel master requires low power mode notifications
->   * @offload_channel: The client manages the channel completely
->   * @doorbell_mode_switch: Channel switches to doorbell mode on M0 transition
-> - * @wake-capable: Channel capable of waking up the system
-> + * @wake_capable: Channel capable of waking up the system
->   */
->  struct mhi_channel_config {
->  	char *name;
-> @@ -350,7 +351,9 @@ struct mhi_controller_config {
->   * @dev_state: MHI device state
->   * @dev_wake: Device wakeup count
->   * @pending_pkts: Pending packets for the controller
-> - * @M0, M2, M3: Counters to track number of device MHI state changes
-> + * @M0: Counter to track number of device MHI state changes
-> + * @M2: Counter to track number of device MHI state changes
-> + * @M3: Counter to track number of device MHI state changes
->   * @transition_list: List of MHI state transitions
->   * @transition_lock: Lock for protecting MHI state transition list
->   * @wlock: Lock for protecting device wakeup
-> @@ -507,6 +510,7 @@ struct mhi_result {
->  
->  /**
->   * struct mhi_driver - Structure representing a MHI client driver
-> + * @id_table: table of MHI channel names that a driver supports
->   * @probe: CB function for client driver probe function
->   * @remove: CB function for client driver remove function
->   * @ul_xfer_cb: CB function for UL data transfer
-> @@ -538,6 +542,7 @@ struct mhi_controller *mhi_alloc_control
->  
->  /**
->   * mhi_free_controller - Free the MHI Controller structure
-> + * @mhi_cntrl: MHI controller to free
->   * Free the mhi_controller structure which was previously allocated
->   */
->  void mhi_free_controller(struct mhi_controller *mhi_cntrl);
+> -- 
+> 2.54.0
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
