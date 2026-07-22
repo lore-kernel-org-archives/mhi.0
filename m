@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF7262FD0;
-	Wed, 22 Jul 2026 12:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B0333A9FF;
+	Wed, 22 Jul 2026 12:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784722877; cv=none; b=sCVwg4LfYLRMG+e15T9wZdq3gS3JTqUgKOhPuCgsvoEKPs12mLvGyCwicAa/VC5UaWbDBkHYchn/fk5fsyF9nj3g8g5Y/nIm+X73yMiKQhIwgbMnXKKWpaUDKwn0Bl20BJ69X6IqHt8lBHxmjN61KXw+xr5RYGgF3KQOGGE7FRg=
+	t=1784722992; cv=none; b=muHHPE4mcQE/x+3m8mU2ybsC4o6VeMGmOOmUibt1rynN+nh+buz+PfXIffYLx0a4zWrg8sNf8vm4wREEwXqBmOtI9kg6IWX4dzb2d5G9dkCsz4Z3316FVqTQ+fD58ddxycH10P5SCg/BLH8d1sEBsWi/33A6KqjtkeYwmK9FKL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784722877; c=relaxed/simple;
-	bh=K/j5ydTSeKMT/t7njTXAzrJBICZvkOWj8PhnVchT0OI=;
+	s=arc-20240116; t=1784722992; c=relaxed/simple;
+	bh=/isOhpp5WmvCwxYkq1/y1tPUMoJBD2pPItulA2x6lTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hWBKdbogc7MRunswshAxHBR11mv80KDoTcYAUzuyNaWFz0tnFiNiGATqFCdEK9OTPnISQa1gPN1ElxkJTKM3A04dVtPPWAGLH6UiAk4plwOfNLnodqFcNAvAVKI4mx100u0bB1YhWziniz9SrBxwKKLrPuMOKzwqu+YXCsdnQ4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YetGP3Ue; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQit5XbEBDroR8v2zwJDHXG1LifRLzBuIBhupDxFBFnPt211Q70HbZlqkYqYHcbUnDIsFCxKo2lOlpNeslBW5euddMiLVDZ3zsGRc0ZUx512Cq/4076Q9E6XbcVoPBK6o6C3odRuA9Gc7deEMeP60nfU/w6p3sedW5/SS2+H8EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8Y9HrY7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YetGP3Ue"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D051F000E9;
-	Wed, 22 Jul 2026 12:21:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8Y9HrY7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B357B1F000E9;
+	Wed, 22 Jul 2026 12:22:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784722875;
-	bh=tJs2JTw9rUvxIZbrDHaXlnRyxMUoIo0lKD4eEA5grFw=;
+	s=k20260515; t=1784722983;
+	bh=EMbZsERoJKBM6voGPp6fXnvJFBr+APUW50AqH0s+A4k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YetGP3UeR0vXhEwXMKH1BCi4RL9yV2BUK1hzLjLoGfn4c0uJyWxWZ58mkKCM976gc
-	 g38/WbD1WBFNT6tmFuGNL4fQovhY/q2bH01dFvguf/DuTzkR/gDgX84NLHjlFB1NrM
-	 n0v5oso/JGNtB/HtPdCFI5FHHy7O+o8wSvlHWl3PxSL2MzxO82YTIOcBHjcKDYzv/j
-	 pPhB0LTPwkTYwQyZiaf4PnLR5a3kIPHe9ySBBeY5rpngTw9y8UCM4rxj4eJEPCxCCS
-	 FHkZ57qA9JPg08KcYQgSiDlp1m1gfd08INYGQUv0YCMuBdEMR8JSuz9GWMuQSJVAb+
-	 09aGXNfJDcqxA==
-Date: Wed, 22 Jul 2026 14:21:08 +0200
+	b=U8Y9HrY71uz3pEV5Nuq2yk8ortlGJVX0l72Ii0UtB9p7jNTxNFB6/sW4NXNIZe43h
+	 9H+DPi0u4qhgwEL9Dx+B0Av4+tsSvsC7hE5p74o07zC2u32r92SnIRv4BZ86aX0XTG
+	 j6Ib0DqU7asFsSnt5rtfHxCt4T6uAsgcaLLQnTYRkn+ouBy48xcPQgjdzaRGD+4d9c
+	 YgS3WYi/LrzQFmV4XFWqNN1Z2+Hp0ZpAtinEkhr+d95fMqTo0nTY1MohHweqv2ArPn
+	 NsIZGbAmCQhSzp8g+dbsnEWxsFesV3PRn96tagH7X8aj7+MyRWk1pd8tCv17Ycoj39
+	 5KiwnaX8TDlFA==
+Date: Wed, 22 Jul 2026 14:22:53 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: bhelgaas@google.com, alex@shazbot.org, jjohnson@kernel.org, 
-	linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	ath12k@lists.infradead.org, mhi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
-Message-ID: <y5wemns4rjjfhaykkgghuyjiqqygx2is3bcyflrclrirp3lqh6@aiwdkaycpvuv>
-References: <20260721081301.205374-1-jtornosm@redhat.com>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v6 7/7] bus: mhi: Expose DDR training data via controller
+ sysfs
+Message-ID: <rwjiriaurj2ajowddjjerrr5wsu4ios6lpm6adglvlzsrxf4x3@tw2wbobghgca>
+References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
+ <20260701-sahara_protocol_new_v2-v6-7-3a78362c4741@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -44,210 +48,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260721081301.205374-1-jtornosm@redhat.com>
+In-Reply-To: <20260701-sahara_protocol_new_v2-v6-7-3a78362c4741@oss.qualcomm.com>
 
-On Tue, Jul 21, 2026 at 10:13:01AM +0200, Jose Ignacio Tornos Martinez wrote:
-> Some Qualcomm PCIe devices (WCN6855/WCN7850 WLAN cards, SDX62/SDX65 modems)
-> lack working reset methods for VFIO passthrough scenarios. These devices
-> have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-> broken bus reset.
+On Wed, Jul 01, 2026 at 04:07:41PM +0530, Kishore Batta wrote:
+> DDR training data captured during Sahara command mode needs to be
+> accessible to userspace so it can be persisted and reused on subsequent
+> boots. Currently, the training data is stored internally in the driver
+> but has no external visibility once the Sahara channel is torn down.
 > 
-> The problem manifests in VFIO passthrough scenarios:
+> Expose the captured DDR training data via a read-only binary sysfs
+> attribute on the MHI controller device:
 > 
-> - WCN6855 (17cb:1103) and WCN7850 (17cb:1107) WLAN devices:
->   Normal VM operation works fine, including clean shutdown/reboot.
->   However, when the VM terminates uncleanly (crash, force-off), VFIO
->   attempts to reset the device before it can be assigned to another VM.
->   Without a working reset method, the device remains in an undefined state,
->   preventing reuse.
+> /sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
 > 
-> - SDX62/SDX65 (17cb:0308) 5G modems: Never successfully initialize even
->   on first VM assignment without proper reset capability.
+> The sysfs read callback serves data directly from controller scoped storage
+> and protects access with the controller training data lock. The attribute
+> lifetime is tied to the controller device via devres, allowing the data to
+> remain readable after Sahara channel teardown and ensuring automatic
+> cleanup when controller device is removed.
 > 
-> Add device-specific reset methods using BAR-space hardware reset registers
-> that exist in these devices:
+> Userspace flow:
+> 1. For each controller device, userspace reads the ddr_training_data sysfs
+>    attribute.
+> 2. If the read returns non-zero data, userspace persists it using a
+>    serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
+> 3. On subsequent boots, the Sahara driver attempts to load this serial
+>    specific DDR training image before falling back to the default
+>    training image, restoring DDR calibration data and avoiding retraining.
 > 
-> - WCN6855/WCN7850 WLAN devices use SoC global reset via BAR0 (sequence from
->   ath11k/ath12k driver: ath11k_pci_soc_global_reset(), ath11k_pci_sw_reset(),
->   ath11k_mhi_set_mhictrl_reset()):
->   - Write/clear reset bit at offset 0x3008
->   - Wait for PCIe link recovery (up to 5 seconds)
->   - Clear MHI controller SYSERR status at offset 0x38
+> Add ABI documentation for the DDR training data sysfs attribute exposed by
+> Sahara MHI driver.
 > 
-> - SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
->   driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
->   - Write reset request to offset 0xb0
->   - Wait 2 seconds for reset completion
-> 
-> These are true hardware reset mechanisms (not power management or firmware
-> error recovery), providing proper device reset for VFIO scenarios.
-> 
-> Testing was performed on desktop platforms with M.2 WLAN and modem cards
-> using M.2-to-PCIe adapters, including extensive force-reset cycling to
-> verify stability.
-> 
-> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
-- Mani
-
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
 > ---
-> v13: Address Alex Williamson feedback:
->   - Validate initial ioread32() with PCI_POSSIBLE_ERROR() before
->     read-modify-write to avoid writing error response back to device
->     on platforms with APEI/GHES error escalation
->   - Replace time_before()/msleep() polling loop with read_poll_timeout()
->     for robustness against scheduling delays and code simplification
-> v12: https://lore.kernel.org/all/20260630065815.199693-1-jtornosm@redhat.com/
+>  .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 +++++++
+>  drivers/bus/mhi/host/clients/sahara/sahara.c       | 62 ++++++++++++++++++++++
+>  2 files changed, 81 insertions(+)
 > 
->  drivers/pci/quirks.c | 116 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 116 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 431c021d7414..bd1e0742052e 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -22,6 +22,7 @@
->  #include <linux/isa-dma.h> /* isa_dma_bridge_buggy */
->  #include <linux/init.h>
->  #include <linux/iommu.h>
-> +#include <linux/iopoll.h>
->  #include <linux/delay.h>
->  #include <linux/acpi.h>
->  #include <linux/dmi.h>
-> @@ -4240,6 +4241,118 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
->  	return 0;
+> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
+> @@ -0,0 +1,19 @@
+> +What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
+> +
+> +Date:                   March 2026
+> +
+> +Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
+> +
+> +Description:            Contains the DDR training data for the Qualcomm device
+> +                        connected. MHI driver populates different controller
+> +                        nodes for each device. The DDR training data is exposed
+> +                        to userspace to read and save the training data file to
+> +                        the filesystem. In the subsequent boot up of the device,
+> +                        the training data is restored from host to device
+> +                        optimizing the boot up time of the device.
+> +
+> +Usage:                  Example for reading DDR training data:
+> +                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
+> +
+> +Permissions:            The file permissions are set to 0444 allowing read
+> +                        access.
+> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> index 07bc743aa061dd2fa85638067d494562152474e3..72ac751c302a98448b5756c9feb438647bd0ce4b 100644
+> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
+> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> @@ -273,6 +273,66 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
+>  	return ct;
 >  }
 >  
-> +#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET	0x3008
-> +#define QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V	BIT(0)
-> +#define QUALCOMM_WLAN_MHICTRL			0x38
-> +#define QUALCOMM_WLAN_MHICTRL_RESET_MASK	0x2
-> +
-> +/*
-> + * Qualcomm WLAN device-specific reset using SoC global reset via BAR0
-> + * registers.
-> + */
-> +static int reset_qualcomm_wlan(struct pci_dev *pdev, bool probe)
+> +static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
+> +				      const struct bin_attribute *attr, char *buf,
+> +				      loff_t offset, size_t count)
 > +{
-> +	void __iomem *bar;
-> +	u32 val;
-> +	u16 cmd;
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct sahara_cntrl_training_data *ct;
+> +	size_t available;
+> +
+> +	ct = sahara_cntrl_training_get(dev);
+> +	if (!ct)
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&ct->lock);
+> +
+> +	/* No data yet or offset past end */
+> +	if (!ct->data || offset >= ct->size) {
+> +		mutex_unlock(&ct->lock);
+> +		return 0;
+> +	}
+> +
+> +	available = ct->size - offset;
+> +	count = min(count, available);
+> +	memcpy(buf, (u8 *)ct->data + offset, count);
+> +
+> +	mutex_unlock(&ct->lock);
+> +
+> +	return count;
+> +}
+> +static BIN_ATTR_RO(ddr_training_data, 0);
+> +
+> +static void sahara_sysfs_devres_release(struct device *dev, void *res)
+> +{
+> +	device_remove_bin_file(dev, &bin_attr_ddr_training_data);
+> +}
+> +
+> +static void sahara_sysfs_create(struct mhi_device *mhi_dev)
+> +{
+> +	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
+> +	void *cookie;
 > +	int ret;
 > +
-> +	if (probe)
-> +		return 0;
+> +	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
+> +		return;
 > +
-> +	if (pdev->current_state != PCI_D0)
-> +		return -EINVAL;
-> +
-> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-> +
-> +	bar = pci_iomap(pdev, 0, 0);
-> +	if (!bar) {
-> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +		return -ENODEV;
-> +	}
-> +
-> +	val = ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +	if (PCI_POSSIBLE_ERROR(val)) {
-> +		ret = -ENODEV;
-> +		goto out_restore;
-> +	}
-> +	val |= QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-> +	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +
-> +	msleep(10);
-> +
-> +	val &= ~QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET_V;
-> +	iowrite32(val, bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +	ioread32(bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +
-> +	msleep(10);
-> +
-> +	ret = read_poll_timeout(ioread32, val,
-> +				!PCI_POSSIBLE_ERROR(val),
-> +				20 * USEC_PER_MSEC,
-> +				5 * USEC_PER_SEC, false,
-> +				bar + QUALCOMM_WLAN_PCIE_SOC_GLOBAL_RESET);
-> +	if (ret) {
-> +		pci_err(pdev, "PCIe link failed to recover after reset\n");
-> +		goto out_restore;
-> +	}
-> +
-> +	/* After SOC_GLOBAL_RESET, MHISTATUS may still have SYSERR bit set
-> +	 * and thus need to set MHICTRL_RESET to clear SYSERR.
-> +	 */
-> +	iowrite32(QUALCOMM_WLAN_MHICTRL_RESET_MASK, bar + QUALCOMM_WLAN_MHICTRL);
-> +	ioread32(bar + QUALCOMM_WLAN_MHICTRL);
-> +
-> +	msleep(10);
-> +
-> +out_restore:
-> +	pci_iounmap(pdev, bar);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +
-> +	return ret;
-> +}
-> +
-> +#define MHI_SOC_RESET_REQ_OFFSET		0xb0
-> +#define MHI_SOC_RESET_REQ			BIT(0)
-> +
-> +/*
-> + * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
-> + * register.
-> + */
-> +static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
-> +{
-> +	void __iomem *bar;
-> +	u16 cmd;
-> +
-> +	if (probe)
-> +		return 0;
-> +
-> +	if (pdev->current_state != PCI_D0)
-> +		return -EINVAL;
-> +
-> +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
-> +
-> +	bar = pci_iomap(pdev, 0, 0);
-> +	if (!bar) {
-> +		pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +		return -ENODEV;
-> +	}
-> +
-> +	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
-> +	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
-> +
-> +	/* Be sure device reset has been executed */
-> +	msleep(2000);
-> +
-> +	pci_iounmap(pdev, bar);
-> +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
->  	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
->  		 reset_intel_82599_sfp_virtfn },
-> @@ -4255,6 +4368,9 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
->  		reset_chelsio_generic_dev },
->  	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
->  		reset_hinic_vf_dev },
-> +	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
-> +	{ PCI_VENDOR_ID_QCOM, 0x1103, reset_qualcomm_wlan },  /* WCN6855 WLAN */
-> +	{ PCI_VENDOR_ID_QCOM, 0x1107, reset_qualcomm_wlan },  /* WCN7850 WLAN */
->  	{ 0 }
->  };
->  
-> -- 
-> 2.54.0
-> 
+
+I think I asked this question before, but didn't follow up. This attribute
+should be tied to the SAHARA channel, not the controller. There is no reason for
+it to be available when the channel is gone.
+
+- Mani
 
 -- 
 மணிவண்ணன் சதாசிவம்
