@@ -1,94 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782E828541A
-	for <mhi@lists.linux.dev>; Sat, 25 Jul 2026 05:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1A1A9FAF;
+	Wed, 29 Jul 2026 04:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784956651; cv=none; b=EP38UlzhW/zBJZTSQz7jDdHCXb2YdL+gGrRpw/g1CKx+K/TK8wPcSO5vbJ4lkiedyFRGN5kZm/j0Y9EEapVbPmWTfPOP12GluGz+eeVqWzk2Pd1FE00xO1Uny40Kj+OlaUUoyfFGZutxF9qDWonArRAe5JpBm+f1jYsiJwnnonE=
+	t=1785301137; cv=none; b=rcibTFb5H+i+XlWtHhba0SYw4R/tn4EARf8yRswz2QYfkk5Yh4ZKAeYWPQ0T2qThevhN3VJOETTMk2JdjeRFyVS1iDwhvLvcefEi9hr8SKh+glCepRACe8pfROxJUqslYW+tEoNBwcd/gaweraPSZp4wEC7gIHZKVFtOHLXA4v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784956651; c=relaxed/simple;
-	bh=sJRDha2YBRkh8IKWEEF35TIoJpJhe7C3q0nHvVrZGJo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KGzLULLLk57SHAndaQ4lw1bqcLhuZkkQ18zxHSZ7W1FxvxH9jLQ72ZsI6EQ0UtfRlHj3+X4eQlr3oHe68YBmRCC5EaLik8bQ7uDF4XiQNfzWsGUCK29ZN3CKZVVWd4k8Zh2nLtBDZjzORVGIwWCmpL3C24f5s7aTF0mDCwRjTU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7UycnnL; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7UycnnL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784956648; x=1816492648;
-  h=date:from:to:cc:subject:message-id;
-  bh=sJRDha2YBRkh8IKWEEF35TIoJpJhe7C3q0nHvVrZGJo=;
-  b=R7UycnnL8YrsheZRS/Okpt7rcEqea6pOhrNBT02SFqTdJaDVas39qMYN
-   TmznQJUUbtqHOdWieNUA4qLa1XSAINLDPF8MFu90hIaCn1+3J4sC6IGEB
-   Dq5UYJNEwVQ+TT7SXAeDqzizGex+hFUIl1Q60F4epJ1YUw4+VBgq4Ibb9
-   k0t5Is5A8ECaw3KKBTP4p5XsSK6F9dl3b8FAW5fyliQxuc+kDprCCfT8S
-   O8b0t1mKWQnkwshLMLN7Q3SE8gdciWKJu07JliG9t4Lfh+tKAr0V1gPGI
-   03QAYbYvEY45qMRxg+qFm1nNalkBrbByjNyxjy6vpl4LyPIr6oJTMGi4b
-   A==;
-X-CSE-ConnectionGUID: dXg2Mo87RKSk3GvinZ6bDw==
-X-CSE-MsgGUID: En2J77xQQj2C2nNcsqJedA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="108412581"
-X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
-   d="scan'208";a="108412581"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 22:17:28 -0700
-X-CSE-ConnectionGUID: tVnjfCB0SzC1h0QfTHQyeg==
-X-CSE-MsgGUID: cNAsGE2jQh+aYZ+mW+FeZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,184,1779174000"; 
-   d="scan'208";a="257126489"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2026 22:17:27 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wnUlJ-00000000bV0-0RzA;
-	Sat, 25 Jul 2026 05:17:25 +0000
-Date: Sat, 25 Jul 2026 13:17:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: mhi@lists.linux.dev
-Subject: [mani-mhi:mhi-next] BUILD SUCCESS
- a2501fd06150de7183bd5a5033503eba03672d1f
-Message-ID: <202607251336.MACKymdS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1785301137; c=relaxed/simple;
+	bh=wCxfXvhAg7jx8zQQUZYYBwyWW4/VDFGZlGT2WwgPhuY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rD5TrM2ZxcWTJ4p6oxnZGKlvtrfvLJdICgLwkHuOT9EcurIr6EEwGjGUZZ54odILrEnMP6YgrCE0dCrPi4NZdh+/FlX+/ZqTkIZMD58L+iOhPj+8r6/BxuZIgUByvgxgdpRrgQjy5M5QGYrKvJ1T1SNshDFz/MyIMeJ/4xX3ttc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006E71F000E9;
+	Wed, 29 Jul 2026 04:58:52 +0000 (UTC)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+To: Manivannan Sadhasivam <mani@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cc: linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org, 
+ stable+noautosel@kernel.org
+In-Reply-To: <20260722-mhi-ep-flush-v3-0-d855e715264e@oss.qualcomm.com>
+References: <20260722-mhi-ep-flush-v3-0-d855e715264e@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/3] bus: mhi: ep: Implement flush_async() callback
+ to flush async read/write
+Message-Id: <178530113260.852147.5240823277113848996.b4-ty@b4>
+Date: Wed, 29 Jul 2026 06:58:52 +0200
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15.2
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
-branch HEAD: a2501fd06150de7183bd5a5033503eba03672d1f  bus: mhi: Clean up some kernel-doc warnings
 
-elapsed time: 825m
+On Wed, 22 Jul 2026 07:54:43 +0200, Manivannan Sadhasivam wrote:
+> This series introduces a new mhi_cntrl->flush_async() callback to flush the
+> async read/write operations performed by the MHI controller using offload
+> mechanisms such as DMA.
+> 
+> The MHI EPF driver implements this callback by flushing the DMA wq. With this
+> series, the MHI EP stack can guarnatee that the channel specific xfer_cb() won't
+> be run after calling mhi_ep_remove() and mhi_ep_abort_transfer().
+> 
+> [...]
 
-configs tested: 17
-configs skipped: 1
+Applied, thanks!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[1/3] bus: mhi: ep: Add mhi_cntrl->flush_async() callback to flush the async read/write
+      commit: d5a2ccf92c8ab3bcfadbae2f46349bf164c71eba
+[2/3] bus: mhi: ep: Flush async transfers before notifying disconnect in mhi_ep_abort_transfer()
+      commit: 9daf648da0049c99fd4f2dd06b7dc7d4a43c6d8e
+[3/3] PCI: epf-mhi: Implement mhi_cntrl->flush_async() to flush DMA read/write
+      commit: f502c0316c52b1f71fe544f99676805d90c554ba
 
-tested configs:
-alpha                  allnoconfig    gcc-16.1.0
-alpha                 allyesconfig    gcc-16.1.0
-alpha                    defconfig    gcc-16.1.0
-arc                   allmodconfig    gcc-16.1.0
-arc                   allyesconfig    gcc-16.1.0
-csky                  allmodconfig    gcc-16.1.0
-i386                  allmodconfig    gcc-14
-loongarch                defconfig    clang-24
-nios2                 allmodconfig    gcc-11.5.0
-nios2                  allnoconfig    gcc-11.5.0
-parisc                allmodconfig    gcc-16.1.0
-parisc                allyesconfig    gcc-16.1.0
-parisc                   defconfig    gcc-16.1.0
-sh                       defconfig    gcc-16.1.0
-sh              ecovec24_defconfig    gcc-16.1.0
-sparc      randconfig-002-20260725    gcc-8.5.0
-sparc64    randconfig-002-20260725    gcc-10.5.0
+Best regards,
+-- 
+மணிவண்ணன் சதாசிவம்
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
