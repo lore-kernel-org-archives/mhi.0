@@ -1,67 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1A1A9FAF;
-	Wed, 29 Jul 2026 04:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7682E3F23DF
+	for <mhi@lists.linux.dev>; Wed, 29 Jul 2026 20:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785301137; cv=none; b=rcibTFb5H+i+XlWtHhba0SYw4R/tn4EARf8yRswz2QYfkk5Yh4ZKAeYWPQ0T2qThevhN3VJOETTMk2JdjeRFyVS1iDwhvLvcefEi9hr8SKh+glCepRACe8pfROxJUqslYW+tEoNBwcd/gaweraPSZp4wEC7gIHZKVFtOHLXA4v4=
+	t=1785357830; cv=none; b=jKhPVwAN4X/XsKQwWDAzqs09CsF+QgnEUZimCIYWcSzu1yYllibH/S3nKq9/fVZUDiD61qnMemJPW7j6oLWDAeEPnUgb1B8Hv64IzllbWa/sQdT94ZDSGgXPabrHN6vNfXnxUP0OHMDS9XJrhXpY3U/0+lHdr2VfPf76kC88cfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785301137; c=relaxed/simple;
-	bh=wCxfXvhAg7jx8zQQUZYYBwyWW4/VDFGZlGT2WwgPhuY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rD5TrM2ZxcWTJ4p6oxnZGKlvtrfvLJdICgLwkHuOT9EcurIr6EEwGjGUZZ54odILrEnMP6YgrCE0dCrPi4NZdh+/FlX+/ZqTkIZMD58L+iOhPj+8r6/BxuZIgUByvgxgdpRrgQjy5M5QGYrKvJ1T1SNshDFz/MyIMeJ/4xX3ttc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006E71F000E9;
-	Wed, 29 Jul 2026 04:58:52 +0000 (UTC)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-To: Manivannan Sadhasivam <mani@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Cc: linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org, 
- stable+noautosel@kernel.org
-In-Reply-To: <20260722-mhi-ep-flush-v3-0-d855e715264e@oss.qualcomm.com>
-References: <20260722-mhi-ep-flush-v3-0-d855e715264e@oss.qualcomm.com>
-Subject: Re: [PATCH v3 0/3] bus: mhi: ep: Implement flush_async() callback
- to flush async read/write
-Message-Id: <178530113260.852147.5240823277113848996.b4-ty@b4>
-Date: Wed, 29 Jul 2026 06:58:52 +0200
+	s=arc-20240116; t=1785357830; c=relaxed/simple;
+	bh=Bl5GYYtnqR3zHuUX3jzK0ggCcp+h5L8303+5OtW5kHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SFhTeJ2YRuMC07eY22D2+kMz2pjHfOOh2tCbxJGM7dlBeZWK/6441/OOv/xrRJ/5q5AuNkqpR2ciEYTzZiXWcCZeVShkX+EmU6rW5cj9+IcyZiVxbe5BwU01A5J7DuQRzJFITcJIGFva0/RlFmBBipQ9kwjBQPe7M32QtOlv3ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8FZ9Yy5; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8FZ9Yy5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785357828; x=1816893828;
+  h=date:from:to:cc:subject:message-id;
+  bh=Bl5GYYtnqR3zHuUX3jzK0ggCcp+h5L8303+5OtW5kHQ=;
+  b=P8FZ9Yy5RLa2QO1AvdDJOdqUpX2wMWpuKvmp/bC9bMRltCnT61lctb2c
+   8TtithfhBVMRCFI8eGpJd9OlXdZtaAQZPIEb0vHTDxWds2uVAe4rmRgzI
+   LVkl42iLh62+nUrHmMCVukrb3Q3bZHDP4aGZAuGt+SUnuGx2DbygWH5e3
+   x2alxeo9WcYRIxhznLeBmkPF7yW+zcLQUM/IfQwCv8H0hlsENHZ/Mckmw
+   hX3KCilprHjzNSUCtZWYBaQzJsm+yQFJq1ZbQ/m0qhYawLX9NqTPXDpJj
+   2F2mfRA/afZaLJKzbERyoRBrdAjmxE7WUqDOalgupk6tr1HDP+00uAl/M
+   Q==;
+X-CSE-ConnectionGUID: GLugc72GRCCDZh4F1xUaZA==
+X-CSE-MsgGUID: Fl2omW+sRPmNIgGfs3/UtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84952192"
+X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
+   d="scan'208";a="84952192"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 13:43:48 -0700
+X-CSE-ConnectionGUID: q0FGWCjSQ+m+sODY0NgcoQ==
+X-CSE-MsgGUID: Tn5vaQR1RyekWsmLN8H4xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
+   d="scan'208";a="264380902"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 29 Jul 2026 13:43:47 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpB7s-00000000ffs-1xbY;
+	Wed, 29 Jul 2026 20:43:41 +0000
+Date: Thu, 30 Jul 2026 04:36:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: mhi@lists.linux.dev
+Subject: [mani-mhi:mhi-next] BUILD SUCCESS
+ f502c0316c52b1f71fe544f99676805d90c554ba
+Message-ID: <202607300422.ljgFpiD6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15.2
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+branch HEAD: f502c0316c52b1f71fe544f99676805d90c554ba  PCI: epf-mhi: Implement mhi_cntrl->flush_async() to flush DMA read/write
 
-On Wed, 22 Jul 2026 07:54:43 +0200, Manivannan Sadhasivam wrote:
-> This series introduces a new mhi_cntrl->flush_async() callback to flush the
-> async read/write operations performed by the MHI controller using offload
-> mechanisms such as DMA.
-> 
-> The MHI EPF driver implements this callback by flushing the DMA wq. With this
-> series, the MHI EP stack can guarnatee that the channel specific xfer_cb() won't
-> be run after calling mhi_ep_remove() and mhi_ep_abort_transfer().
-> 
-> [...]
+elapsed time: 859m
 
-Applied, thanks!
+configs tested: 185
+configs skipped: 3
 
-[1/3] bus: mhi: ep: Add mhi_cntrl->flush_async() callback to flush the async read/write
-      commit: d5a2ccf92c8ab3bcfadbae2f46349bf164c71eba
-[2/3] bus: mhi: ep: Flush async transfers before notifying disconnect in mhi_ep_abort_transfer()
-      commit: 9daf648da0049c99fd4f2dd06b7dc7d4a43c6d8e
-[3/3] PCI: epf-mhi: Implement mhi_cntrl->flush_async() to flush DMA read/write
-      commit: f502c0316c52b1f71fe544f99676805d90c554ba
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best regards,
--- 
-மணிவண்ணன் சதாசிவம்
+tested configs:
+alpha                            allnoconfig    gcc-16.1.0
+alpha                           allyesconfig    gcc-16.1.0
+alpha                              defconfig    gcc-16.1.0
+arc                             allmodconfig    gcc-16.1.0
+arc                             allyesconfig    gcc-16.1.0
+arc                  randconfig-001-20260729    gcc-8.5.0
+arc                  randconfig-002-20260729    gcc-8.5.0
+arm                  randconfig-001-20260729    gcc-8.5.0
+arm                  randconfig-002-20260729    gcc-8.5.0
+arm                  randconfig-003-20260729    gcc-8.5.0
+arm                  randconfig-004-20260729    gcc-8.5.0
+arm64                         randconfig-001    gcc-14.3.0
+arm64                randconfig-001-20260729    clang-17
+arm64                randconfig-001-20260729    gcc-14.3.0
+arm64                randconfig-001-20260730    gcc-15.2.0
+arm64                randconfig-002-20260729    clang-17
+arm64                randconfig-002-20260729    gcc-14.3.0
+arm64                randconfig-002-20260730    gcc-15.2.0
+arm64                randconfig-003-20260729    clang-17
+arm64                randconfig-003-20260729    gcc-14.3.0
+arm64                randconfig-003-20260730    gcc-15.2.0
+arm64                randconfig-004-20260729    clang-17
+arm64                randconfig-004-20260729    gcc-14.3.0
+arm64                randconfig-004-20260730    gcc-15.2.0
+csky                            allmodconfig    gcc-16.1.0
+csky                 randconfig-001-20260729    clang-17
+csky                 randconfig-001-20260729    gcc-14.3.0
+csky                 randconfig-001-20260730    gcc-15.2.0
+csky                 randconfig-002-20260729    clang-17
+csky                 randconfig-002-20260729    gcc-14.3.0
+csky                 randconfig-002-20260730    gcc-15.2.0
+hexagon                       randconfig-001    gcc-9.5.0
+hexagon              randconfig-001-20260729    gcc-9.5.0
+hexagon              randconfig-001-20260730    clang-24
+hexagon              randconfig-002-20260729    gcc-9.5.0
+hexagon              randconfig-002-20260730    clang-24
+i386                            allmodconfig    gcc-14
+i386                buildonly-randconfig-001    gcc-14
+i386       buildonly-randconfig-001-20260729    gcc-14
+i386       buildonly-randconfig-001-20260730    gcc-14
+i386       buildonly-randconfig-002-20260729    gcc-14
+i386       buildonly-randconfig-002-20260730    gcc-14
+i386       buildonly-randconfig-003-20260729    gcc-14
+i386       buildonly-randconfig-003-20260730    gcc-14
+i386       buildonly-randconfig-004-20260729    gcc-14
+i386       buildonly-randconfig-004-20260730    gcc-14
+i386       buildonly-randconfig-005-20260729    gcc-14
+i386       buildonly-randconfig-005-20260730    gcc-14
+i386       buildonly-randconfig-006-20260729    gcc-14
+i386       buildonly-randconfig-006-20260730    gcc-14
+i386                          randconfig-001    clang-22
+i386                 randconfig-001-20260729    clang-22
+i386                 randconfig-002-20260729    clang-22
+i386                 randconfig-003-20260729    clang-22
+i386                 randconfig-004-20260729    clang-22
+i386                 randconfig-005-20260729    clang-22
+i386                 randconfig-006-20260729    clang-22
+i386                 randconfig-007-20260729    clang-22
+i386                          randconfig-011    gcc-14
+i386                 randconfig-011-20260729    clang-22
+i386                 randconfig-011-20260729    gcc-14
+i386                 randconfig-012-20260729    clang-22
+i386                 randconfig-012-20260729    gcc-14
+i386                 randconfig-013-20260729    clang-22
+i386                 randconfig-013-20260729    gcc-14
+i386                 randconfig-014-20260729    gcc-14
+i386                 randconfig-015-20260729    clang-22
+i386                 randconfig-015-20260729    gcc-14
+i386                 randconfig-016-20260729    gcc-14
+i386                 randconfig-017-20260729    clang-22
+i386                 randconfig-017-20260729    gcc-14
+loongarch                          defconfig    clang-24
+loongarch            randconfig-001-20260729    gcc-9.5.0
+loongarch            randconfig-001-20260730    clang-24
+loongarch            randconfig-002-20260729    gcc-9.5.0
+loongarch            randconfig-002-20260730    clang-24
+mips                       bcm63xx_defconfig    clang-24
+mips                       maltaup_defconfig    clang-17
+nios2                           allmodconfig    gcc-11.5.0
+nios2                            allnoconfig    gcc-11.5.0
+nios2                randconfig-001-20260729    gcc-9.5.0
+nios2                randconfig-001-20260730    clang-24
+nios2                randconfig-002-20260729    gcc-9.5.0
+nios2                randconfig-002-20260730    clang-24
+parisc                          allmodconfig    gcc-16.1.0
+parisc                          allyesconfig    gcc-16.1.0
+parisc                             defconfig    gcc-16.1.0
+parisc               randconfig-001-20260729    clang-24
+parisc               randconfig-001-20260729    gcc-10.5.0
+parisc               randconfig-001-20260730    gcc-14.3.0
+parisc               randconfig-002-20260729    clang-24
+parisc               randconfig-002-20260729    gcc-16.1.0
+parisc               randconfig-002-20260730    gcc-14.3.0
+powerpc                    ksi8560_defconfig    gcc-16.1.0
+powerpc              randconfig-001-20260729    clang-21
+powerpc              randconfig-001-20260729    clang-24
+powerpc              randconfig-001-20260730    gcc-14.3.0
+powerpc              randconfig-002-20260729    clang-24
+powerpc              randconfig-002-20260729    gcc-8.5.0
+powerpc              randconfig-002-20260730    gcc-14.3.0
+powerpc64            randconfig-001-20260729    clang-24
+powerpc64            randconfig-001-20260730    gcc-14.3.0
+powerpc64            randconfig-002-20260729    clang-24
+powerpc64            randconfig-002-20260729    gcc-10.5.0
+powerpc64            randconfig-002-20260730    gcc-14.3.0
+riscv                randconfig-001-20260729    gcc-15.2.0
+riscv                randconfig-001-20260729    gcc-8.5.0
+riscv                randconfig-001-20260730    gcc-15.2.0
+riscv                randconfig-002-20260729    gcc-15.2.0
+riscv                randconfig-002-20260729    gcc-9.5.0
+riscv                randconfig-002-20260730    gcc-15.2.0
+s390                 randconfig-001-20260729    clang-17
+s390                 randconfig-001-20260729    gcc-15.2.0
+s390                 randconfig-001-20260730    gcc-15.2.0
+s390                 randconfig-002-20260729    clang-24
+s390                 randconfig-002-20260729    gcc-15.2.0
+s390                 randconfig-002-20260730    gcc-15.2.0
+sh                                 defconfig    gcc-16.1.0
+sh                   randconfig-001-20260729    gcc-13.4.0
+sh                   randconfig-001-20260729    gcc-15.2.0
+sh                   randconfig-001-20260730    gcc-15.2.0
+sh                   randconfig-002-20260729    gcc-15.2.0
+sh                   randconfig-002-20260730    gcc-15.2.0
+sparc                         randconfig-001    gcc-16.1.0
+sparc                randconfig-001-20260729    gcc-10.5.0
+sparc                randconfig-001-20260729    gcc-8.5.0
+sparc                randconfig-001-20260730    clang-24
+sparc                randconfig-002-20260729    gcc-10.5.0
+sparc                randconfig-002-20260729    gcc-16.1.0
+sparc                randconfig-002-20260730    clang-24
+sparc64              randconfig-001-20260729    gcc-10.5.0
+sparc64              randconfig-001-20260729    gcc-12.5.0
+sparc64              randconfig-001-20260730    clang-24
+sparc64              randconfig-002-20260729    clang-21
+sparc64              randconfig-002-20260729    gcc-10.5.0
+sparc64              randconfig-002-20260730    clang-24
+um                   randconfig-001-20260729    gcc-10.5.0
+um                   randconfig-001-20260729    gcc-14
+um                   randconfig-001-20260730    clang-24
+um                   randconfig-002-20260729    gcc-10.5.0
+um                   randconfig-002-20260729    gcc-14
+um                   randconfig-002-20260730    clang-24
+x86_64              buildonly-randconfig-001    gcc-14
+x86_64     buildonly-randconfig-001-20260729    clang-22
+x86_64     buildonly-randconfig-001-20260729    gcc-14
+x86_64     buildonly-randconfig-002-20260729    clang-22
+x86_64     buildonly-randconfig-002-20260729    gcc-14
+x86_64     buildonly-randconfig-003-20260729    clang-22
+x86_64     buildonly-randconfig-004-20260729    clang-22
+x86_64     buildonly-randconfig-004-20260729    gcc-14
+x86_64     buildonly-randconfig-005-20260729    clang-22
+x86_64     buildonly-randconfig-006-20260729    clang-22
+x86_64     buildonly-randconfig-006-20260729    gcc-12
+x86_64     buildonly-randconfig-006-20260729    gcc-14
+x86_64                                 kexec    clang-22
+x86_64                        randconfig-001    clang-22
+x86_64               randconfig-001-20260729    clang-22
+x86_64               randconfig-002-20260729    clang-22
+x86_64               randconfig-003-20260729    clang-22
+x86_64               randconfig-004-20260729    clang-22
+x86_64               randconfig-005-20260729    clang-22
+x86_64               randconfig-006-20260729    clang-22
+x86_64                        randconfig-011    gcc-14
+x86_64               randconfig-011-20260729    gcc-14
+x86_64               randconfig-012-20260729    gcc-14
+x86_64               randconfig-013-20260729    gcc-14
+x86_64               randconfig-014-20260729    gcc-14
+x86_64               randconfig-015-20260729    gcc-14
+x86_64               randconfig-016-20260729    gcc-14
+x86_64               randconfig-071-20260729    clang-22
+x86_64               randconfig-071-20260729    gcc-12
+x86_64               randconfig-072-20260729    gcc-12
+x86_64               randconfig-073-20260729    gcc-12
+x86_64               randconfig-074-20260729    clang-22
+x86_64               randconfig-074-20260729    gcc-12
+x86_64               randconfig-075-20260729    gcc-12
+x86_64               randconfig-075-20260729    gcc-14
+x86_64               randconfig-076-20260729    gcc-12
+x86_64               randconfig-076-20260729    gcc-14
+x86_64                          rhel-9.4-bpf    gcc-14
+xtensa               randconfig-001-20260729    gcc-10.5.0
+xtensa               randconfig-001-20260729    gcc-12.5.0
+xtensa               randconfig-001-20260730    clang-24
+xtensa               randconfig-002-20260729    gcc-10.5.0
+xtensa               randconfig-002-20260730    clang-24
 
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
