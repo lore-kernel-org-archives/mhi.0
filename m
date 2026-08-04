@@ -1,48 +1,47 @@
-Received: from outbound-ip199a.ess.barracuda.com (outbound-ip199a.ess.barracuda.com [209.222.82.65])
+Received: from outbound-ip173b.ess.barracuda.com (outbound-ip173b.ess.barracuda.com [209.222.82.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2827E2D2483
-	for <mhi@lists.linux.dev>; Wed,  5 Aug 2026 00:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F171D5CFE
+	for <mhi@lists.linux.dev>; Wed,  5 Aug 2026 01:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.107
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785888579; cv=fail; b=jWfCBlg6xClMkSY9Joz2MVt9luqpXX+mJblJL6QiT/qu6Zl3CQ5z7d9eGM4j/HfMFiHg4Ayp5FOoPGARHS8mqwvAKU/NBDe3uMWnL9W872TQetR0yM9WGAof24sTw6sH2ZAVPTcNwIj4cbvKtSAVDZOv+GhnFwP5knDKu9Lk9M0=
+	t=1785892183; cv=fail; b=qCbr4iXYc4Txa8lDk4l+RhdTEOb8SYZvc+r5iDPe4gYfYhwgY0ylxKbN9rsR29TaTFF6cer4ZSNqViIqiJbB2WLhj+KaESJFWakXaCrHEF54SYDTACqsUoHXACNUY2DOSA14Z+9pkFudNfeRxRh2Xe43OOqC36yvLcTqKI8NCJA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785888579; c=relaxed/simple;
-	bh=PE6AmeiBUzAH2LHl2qQxLf6NXPckoPiH5q4tonpz23Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W/dCGoeSJKQQi90xEJrimOWEuvdSiaA0jRE4O7xaJc/0BfeHAhS/hEeBjqfXhNuEo7/ocEzh08ZGLrVd5sUR9lC9jHmmpAuR9Bsh4dAnDyUbB4eMUpCPMOgrgQbYUR6nA2blwXuPc6tuqmyQNtcTFLLWFbUylZiubj5C2MpVsX4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=FD7UgqPa; arc=fail smtp.client-ip=209.222.82.65
+	s=arc-20240116; t=1785892183; c=relaxed/simple;
+	bh=vETO1hIlIKdaV89Jl4rsH95Kc+3d/5Z/z2J5Nz9mPc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=SbiWJnPYDd3jDBqzX9zdspuR1rYobstVsSwcn/0GQP/SU74lA6BcAWlCzp8wNI+f6l87Dl5F5hlS+Vo1dsr6BJTfV267O2lVSbNOlp/mMPUV9DLQDHfy+DE1+xYz9LIjLMpv7vDKJQrzMHY1i0In2uYucFwaDsiqNSQAS4ELiVQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=DbM5THBe; arc=fail smtp.client-ip=209.222.82.107
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="FD7UgqPa"
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11020140.outbound.protection.outlook.com [52.101.193.140]) by mx-outbound-ea9-161.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 05 Aug 2026 00:09:24 +0000
+	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="DbM5THBe"
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11021123.outbound.protection.outlook.com [52.101.52.123]) by mx-outbound-ea22-179.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 05 Aug 2026 01:09:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RACkLzTLMngSmwt2kVbNN9WGw8XwwEKZeBLZHFxOtlVSCa57IuXa8z6/UCOYVWpCxXFE77aZtNyR1qttv7E0XQ8JsChEJ7CCbDx3ACLHXlbsx0YRy+dkFEjAyYJG3ONK7xn1KuEKSXf8i797r8NhUIfjdwnL04AgVC4hb2WH6pQ3VCghirPEYwVuNwS/6aPpXL+61Qo75MkcrGS5N6zXW/+r2YTXFBdxT13Gy4s6J9a6B0DlVVkmynd3kdA0gXYGAlT9k2dBnu477wjGfY95gHib/Jnlcyu4tWoy77FZlD7R5udQvMEUBP6VfVVO5WLaXUdYFomDiHrT1NLOJdYnIQ==
+ b=hxTb1ep6yxtvU+fy4+ykelxBibT8jryNNrioKuSXi2C6aIlk0glLiXbX1vnact9DUdhhXntFWR1x3URxJnz8jvrUWu1GCIu9RdcvDzlXW4jITzsLl7qa2RWZ+jToXEqF+I0/iuJSER613QUTJIWBJczuz3qAyCDCHHUa7Usd89jLe6dkjeFykW8H//buP18plp0NfqNCuN9prGZHSKuFUmFTbDZGpeAxrhPg+zPmPaaD0Z7MMdPD9oH7ijhKcMCeBWZiGZANmHuhMX3l9Q+Xf3pHgfjE94EIALZFsdyv1WPOmnKP1OgpezkP0WPa/+kmOprDdoDSz6TYB/7ODbgnjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0dKv6aT0riFLiKADqh0erEC25rxLC0X5DO7YaGY0gVo=;
- b=aodKeKVBYLGRyyHeSueFdWDjnIVDaRC3l9RS0+tBYYlOAY0sMb+81sZ9RAfVHQV22UCLCi7kiyzsYNJm7l/vZ+QHWghmPthCtBJt49fA5lCP0Lg4IXF9TFu7OfuYmrlBxnhNQshFCbwTUJRkqK+i5cAkG0iX01OS/0M18BYzpX/jpi0dSNDXcidusVkIXf1i8vwF76BXj2TWZ73kEnWrNjCb8P5W+A00c33e/J7DgFGo0e2EuOdxJ8UNI5s8Y4pwmVUu7B/ZUtIHxkepgdBG9SUpL1321YdE6esh6kNCXRDsvMOZEz9c71kdvH9LOahryYeTq9daraILmfi8zKhw5g==
+ bh=7FFglXgHLisGZZdAv3ZZZvsgplU+8CFUkejlyB7pDOU=;
+ b=P5U89C5kl7VTAhdxpo4VCGLjKb6uo/yRXJD/I/x6Ed3r1QlYHSfqmLFnSdkz+ZeewkMslrGAQZLAuwTAZHu9fSsefo/IIj8ws9sceZxMB+7ZCtjsyK9hHKlQKi3WAQjYsWVJyyRDSorSl3ufBl3Vum47gie2/1CpGjnrceToWgEi6jBk+I+347GApU4JtcerDTVEq5D0/hyPeULMBPMMijLuHJ3he9DAm/HWDqTMGJ0zWqghqyEfQgJhMLh19yM2KKOA6tXzdCFFcF0abbgmJ9xiOunjo9cYK5tZXJ5dhshX9p8f6CXr+YIntQvnkTY0Bdzo6zrfSn04R9Mn6h5wUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
  dkim=pass header.d=opengear.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0dKv6aT0riFLiKADqh0erEC25rxLC0X5DO7YaGY0gVo=;
- b=FD7UgqPaL4nIRrK/TeZHmbSTVXJTb6IHMolswvVd/wlVOnuHZJhpBc4paHRhg/6oSgZohykqnEUKo7ndRj+k6UIATGCy5YeQlmAYh0DK3qW/thcxbMiILA3KPPqRKY8bVTmI9F2V5RFfT9bze0D6PUReY2oOvWYHKe36ROkBr5o2a3orH0f5IZ9XepJx3F78/En0QepRiGwwgLBxjHjJpeSgmlcUQPhfMygogR3HkYeMgTcK0+DVRk+B73oDd5SNGRRgEsBvfWvUgVscWh3EQoSLftOHIdlUhxX2k04pfz/V4TUt2+QEBRm5jJl39h8DIDqoPkhg2ftC2iQrnaUTJQ==
+ bh=7FFglXgHLisGZZdAv3ZZZvsgplU+8CFUkejlyB7pDOU=;
+ b=DbM5THBetGs8DKpzeShx1nE1NWMsZ0o2sqjUaKG3ZdFb4V5PoSPTeq6xZA9ElqJpIFj9vWGoylwUbVH+cEqrb0UqaEkCrhVdlv9b8DgOS+wWIOLL6RqrT3FygVk7gHZMX27rlwgO+9BHn5yeJLLiNElIKgEn0XzWFLDatTOHSIUTsDfeiNYKCf52kV0Q0nkkKD0o6p3Dfto9CRBsgsa4o4M48nQtwAcvlXxY/Lry0+hyD6OE1jZhTvL9SsnAAodctr9h51veqEcWoAmEXUGiihDQM+7JaRsJkIEgN3UmMuxku1cwXqLataOFqVcPNe/hMRBQfpTAIMSdtMRIDxKUXg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=opengear.com;
 Received: from DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
  by IA0PR10MB7352.namprd10.prod.outlook.com (2603:10b6:208:40b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
- 2026 23:34:22 +0000
+ 2026 23:34:16 +0000
 Received: from DM6PR10MB4139.namprd10.prod.outlook.com
  ([fe80::19e9:d558:fd6c:8e5a]) by DM6PR10MB4139.namprd10.prod.outlook.com
  ([fe80::19e9:d558:fd6c:8e5a%6]) with mapi id 15.21.0270.016; Tue, 4 Aug 2026
- 23:34:22 +0000
+ 23:34:16 +0000
 From: Peter Hunt <peter.hunt@opengear.com>
 To: mani@kernel.org,
 	loic.poulain@oss.qualcomm.com,
@@ -53,16 +52,14 @@ Cc: johannes@sipsolutions.net,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Peter Hunt <peter.hunt@opengear.com>
-Subject: [PATCH net-next 3/3] net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
-Date: Tue,  4 Aug 2026 17:34:11 -0600
-Message-ID: <20260804233411.1953445-4-peter.hunt@opengear.com>
+Subject: [PATCH net-next 0/3] net: wwan: support DTR/RTS on AT ports via MHI IP_CTRL
+Date: Tue,  4 Aug 2026 17:34:08 -0600
+Message-ID: <20260804233411.1953445-1-peter.hunt@opengear.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260804233411.1953445-1-peter.hunt@opengear.com>
-References: <20260804233411.1953445-1-peter.hunt@opengear.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: DS7PR03CA0030.namprd03.prod.outlook.com
- (2603:10b6:5:3b8::35) To DM6PR10MB4139.namprd10.prod.outlook.com
+X-ClientProxiedBy: DS7PR03CA0073.namprd03.prod.outlook.com
+ (2603:10b6:5:3bb::18) To DM6PR10MB4139.namprd10.prod.outlook.com
  (2603:10b6:5:21d::24)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -72,361 +69,128 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR10MB4139:EE_|IA0PR10MB7352:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f1f6f5e-460c-48dd-be4f-08def280e947
+X-MS-Office365-Filtering-Correlation-Id: ac3c3bb3-1de5-4b7c-cf4e-08def280e5ef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|56012099006|11063799006|10067099003|6133799003|3023799007|22082099003|18002099003;
+ BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|56012099006|11063799006|10067099003|6133799003|3023799007|18002099003;
 X-Microsoft-Antispam-Message-Info:
- rD8XsJhy+bdWBrho53EyFSAX3TzeD47I1TIFM+VC8T++GeQzXmk9Szn8zYqts7mjoJTLtv4UBNAhjlelbtEVOPsSfziChOdU0DBxVydWjyKP/GoAGceZzPwI/CcXrtY6i+oJgH8oXErPxGDSLO7YbsFu5sqZlgBYqYh1Nr+NPBKQCxt8Sknr+IEk1XhIk4BRpBB1PTMuCqnQ5BGh04vhbgclOFc8GBmmEXYGOI/I1oMQUHzYWGJc+hDhNgQXjX3ZC11A55SCe+Aphb0rMqmmi+hLE2Rbj7FXzETfiWkj6bw1pWuWpE72kYup20qYU9mnZIXbGYl/5lWKIHYcIRI+33Qo7SuFSFIR7uNKi7VH5V2TGR5Ppb6zcRSnQeyw9cw7/tvDRiy3qe1iiSYtxIGN08cWvp5y+WECK7eOvADws87HOg6MGgajNOf6VgPCGspxT3yDv/CHbHgtPBMbMcNx4gGfCZcvQuWgNxv1pHPV1pbXRGqm2B9YdMKxR9k7jMVXog5NqOkwwp8HqN94Y3NivAsOrxABjNys9enxKR7L6lmcyRRTp+vgWTbJE40r+LXA8XAMkV3ON0H1saLpslA4ArSqGOQ3mJ37OsvGN/89ouC+6IN1meMTaLE7DmXH2Lr9RRyYMvMsFxxQ0ZHij3j2IUM/xHsbl6bL7LK8rYSvJxA=
+ eUwWCF7VXzXbEaZLKeZB6M8W7IacTJDfCzyy8841kghtp/tUDaB00ea2FjAKRSTaFRfhuQ5xwr75iJFrSaxqUbkwRjy78ezTzBJ7+rKpQRZT4jFNnwrsAVqdytsoS403BNLXgXrAb6YgMBMu5/8V1HF6SvzaEvZCuq9j66xmR3Agu+x/ZiuMJ8WBZjZ06OHEn3dtWcwxmk2/VOnYc0JzODDVHipqsFIaYeVwCPlzSJ5hasyY0CgjAEvdKfTNUYKDWHF62m2HnWT62wmfAhDj0hlV7TmYCN2xgHFsQ9XrDd3orG1wgSjqG+Gl6sCPI0jLhZxy+oGn4y5wwBrDjpJTV1GLj2kFnY+nHi7fRBrcucAz3cS12nvXCi9U27Vwx3/rR07FzDPDhtjlRsvcjtVkK3Aup2kc2yfwhEu3O7p1WVS6YX/0tIHxHwXkB+oQi7aghXXdVzqH75WvqNOp02UHH8vI8rIy5yrHnv2hOnPHkKb4mNlY71KGwhnGRNjuKcdimQiexdnzDU+zoUPkA8Gt304hqnGetyoatvLiNANOe8MpYJZh9yYlNDd4exyABOGpgWG/w0WYcwh8Yp3hOKBBjlQok0Wg1sc5ah9K2sMefv6q0Oy4GXO5E7mSIEAKsTNGRWMPiAdoKQ4jWZ3c8HthzKnlXq2S6s/b35jm0UNk0g4=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(56012099006)(11063799006)(10067099003)(6133799003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(56012099006)(11063799006)(10067099003)(6133799003)(3023799007)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?B4Md/epgFggIdtIRakMIGZs/KanxJatU3O3igRrPY0rZw19PvpvPhg7/QAQR?=
- =?us-ascii?Q?f3GhVOqgBL4ZLBRZ14Gp8ys0hN5fgPglk3VlqZrDfgMadPUKluKJlTgR/9yq?=
- =?us-ascii?Q?isthq1IY2IWbPDx8gubX/WSKb8Sr315+fNGn9To86XGAz7VZ3VrGN1nzCG9W?=
- =?us-ascii?Q?Kr6lebFSWQp6+6/mV+Xq2mreOsqcCtOwj9tZ+DHUQ/ehwCxHIWJ1rFEXet11?=
- =?us-ascii?Q?csdkWfyGspVdLuona7GQDcWb9fpFLBEJxtkUrhXRSN+6LVXal+1gf6qebR61?=
- =?us-ascii?Q?BgTJqMTKp218gUTyX8grwUHwLOj9pzW9VTpBPIoWMtmzDkFUB9Vy4YuV0HoD?=
- =?us-ascii?Q?k6jx5kwyxAoNxZ3faOarlMfYTwAbHgOP8qGQobeK23Kh321y/5rfdRSYsEuq?=
- =?us-ascii?Q?aIh124ADVhs8SkclZtsjmS2daSOtfcZT1Xik3SSOtCgTSnlMGwysBa4M+Kf1?=
- =?us-ascii?Q?62U2V85tBZ5Ot0H4XX1EglPFwgJwy4zIgKliSh9gNYcDgDE9BrN3N/nVpvl1?=
- =?us-ascii?Q?vNceuO/FOM5jYZY9C4z6QJkxQcoQGeGkc2OEi0orKlTxjgsf7rAEH7//+INO?=
- =?us-ascii?Q?VTUdKwVdFqK4lSw+Sr0AFDE6i59GLpUMX0QXk/G9jIjO6ylmKx4wLVTEUx/0?=
- =?us-ascii?Q?vn4DySMeRWbxypxNlYqbqIZoEZ4RASlTtirdBwaFwzCpXne7BGBQzpSSu5Ww?=
- =?us-ascii?Q?r/oieFGVmE3YQoUcXZEoja/rEWQng/DxgCryU2C+vyWzJTxr5KM5BUfS3E+V?=
- =?us-ascii?Q?gI4dHZd5/MNYTrWwfJZkAFLtM+6GrflhiRJzYA/3B5JM37Ij0BO/WvHzD7Zf?=
- =?us-ascii?Q?54fXg7d5zDJ3qPG0dHDRVViM5cK6hVtEXHj7lBPxRJFn4H3x/iyM3VZQwru0?=
- =?us-ascii?Q?/g9/JUmgBopYkg98Izfe5tXLlWjr9Z63ZT2xNL/L3Z9HsFrTmPZZG3Ai05XL?=
- =?us-ascii?Q?5Rs0jbFxcq0W/bzp9YRQsrOTZVMLsHGflHmCcmtnWy7zE5jLgotUWU2g/B3A?=
- =?us-ascii?Q?oGu66ZIV+Z163S+bvZbZe43pcBDFWAgDYsuSOEYpPRxzd4CvkHJ1OQ+TaPo0?=
- =?us-ascii?Q?ApliQIS907thZN54nYwXlZSt/xWLfY7VJ57nWmJhCrzoK4SSwiUhzuZJLl2W?=
- =?us-ascii?Q?a8QdpYODBEfO/+4IRx7HCKLvfCHDJvPZsn8suPpUQDBhtsC7i7TZgLV5c9lv?=
- =?us-ascii?Q?WxNuQqlEjfh/7OiB+eLxAJ6QA6TAAb6ZDumJ0NM5qDBbabx13btxO0wdZCnd?=
- =?us-ascii?Q?Jqx1DoK8tieBt7sk0YR03GKlqrtC0Hbb69KaFnEyRZuy9Uvg9cTh1IFdy/5M?=
- =?us-ascii?Q?gL0AoWsJvScOM7M04n6TJGhX/mCzko55TJWacNRp6oc4XuDKPQzDKKfdWJdq?=
- =?us-ascii?Q?58jhvSf13rV5TUaR2xst9eADQoduYRGPNcCNn8852HXRyMn1d19hbGUoR9Mn?=
- =?us-ascii?Q?IQ7GybtAAt9Shv2DlvUORlrOrvEtexOiWZPuySHg0XJpkd6EpnUDBQeOJ1C+?=
- =?us-ascii?Q?+Lhz15IwufmyeJK57JsPKYXNZgLP8lckXA3SCgoIQZYkW9VEYEjfSKa7e7W3?=
- =?us-ascii?Q?exCtFXMPVVLatlOjCRnW6Rmh/IqdXGJbfFfRsfMaGmLYjx2rZrsO2gkWg4Tt?=
- =?us-ascii?Q?4UM6mPoWXNumq4+3YreCzmU6RTBbF+t6IKa52aYPesAhvnX9CHoMZtCIB1gI?=
- =?us-ascii?Q?RHZvV+DXhoTCcpSyZNS1vT9gkFZxoK2+Ykrd27EhdrEWWUQY?=
+ =?us-ascii?Q?Q4obgYMxad6zGZ5xgXltZWCWqcPSnDjBmIZDZ0OyD83tmEUOg8NGQn1/uZSD?=
+ =?us-ascii?Q?Ztv01SpWkEl0IvHSgTVdzchKRzSkhFrK2qcxJwBLGdX3jk3MWUjLO4e4prhn?=
+ =?us-ascii?Q?45yoqT41xNb+MGemKnY8/riq7rgzFSWxAPow5uHw/g1eYYdETlwHwZ6VCeQg?=
+ =?us-ascii?Q?8a2FCA/YQ6qk5ooEAQElMu27sdemg+s0M0vrnrrC9U6SiarllzhUdVLF1EoN?=
+ =?us-ascii?Q?WCZGU3pG4mBu3MPJt+1MK0qVbaVFLCLFSislhDj++VGbGbF5sKeb+UCNVFrT?=
+ =?us-ascii?Q?UQbG9sOANZ8bnQtENxNaOyrx8xmelVE8omdr0Sc0CVHCfj/PlzVFH8j6BlMC?=
+ =?us-ascii?Q?uMH3ebF9gZQWkoX7e0OhBPUxnDzQ6/76ibAxLR9YLXOOdzXW63airiUeygBO?=
+ =?us-ascii?Q?A4yAJCf8Q25SyivHt6pgK7kWCWnRykdjD1QzC5ua8zOjdUOJw0HCYFGr72JR?=
+ =?us-ascii?Q?1fp+LiaJSHpmuytO/5a2paA4GGKT+N9JrvWCDhPmLbIh5Mulrk6CnOxC1YTy?=
+ =?us-ascii?Q?4We2MDo3opNKQn8LbBOOFTqGlEr89qkSDdVHLC5EUccIY2d7iBGj+uzHgVac?=
+ =?us-ascii?Q?Lo34rNfTDkkS6u8Pv43kzS6Tpo+/JsrFhRBMGeBCHf3kMylBlBADHKSSm//s?=
+ =?us-ascii?Q?6tsIVfWhPvHC/fkGmTe296neBf5qsTrBU/fjKqidpcgCG8AAonoXMqwllVqO?=
+ =?us-ascii?Q?9llR11p1pSFI56phyERfslJ9Xh0VF70bU1hOuKP21pJQYo599B5FsH94MqN1?=
+ =?us-ascii?Q?/nA0UWRr6k+TNbIqubgmGs2jGftmt9WCAXOQ/5Z8d7brllRFe2suh5IGm29R?=
+ =?us-ascii?Q?k9jiwF13hjA1KNej9XQ1AzoZNCRZAq1K5tQY1GmytyrlCRs/GkABhURw0MoC?=
+ =?us-ascii?Q?giFleKh9so9ebWmk9qhtsGcTAR6GF0Z0f/JQqCuAgp61CJU4ZwwOjkvaxQmx?=
+ =?us-ascii?Q?zdD9nLis+bKTds3HE1Zg9pq81Yh7uHx0OpotHBIbzygkaBzMXYpxrhTkJCzG?=
+ =?us-ascii?Q?M2vC1gT5kE5lBbB5PBg5Cd4bqzQ8HoZbNQlXZ9wMiZpvKwYZUYMEMJa26718?=
+ =?us-ascii?Q?3Z/VA2Zv5Bxj3HFZRPy6KLeeEVvLIu2+kAV1ChCq/A2EBZnZAC/Wp5d+HQbE?=
+ =?us-ascii?Q?cyAJzARjGJf6gDFxzIMNcTVUpR8QH33M8nyg7D5caxF3fKGRT3HB/myYLC71?=
+ =?us-ascii?Q?e1Iq0uKtPtnp9zeQyxGmY29OdETmSaPMAjGTNrE+T6YWmE36tvew05jW82HO?=
+ =?us-ascii?Q?LVzUYIiwse0Lsie4BgLjG3KC1NekolHsDAUHXQHjpO0kjFZtutv+wAfW1BRG?=
+ =?us-ascii?Q?VSpGCf995NHLAGQAiB3DSaqLk4id3tcChfN9xseTAVpEiEmiF9CwXoe2h+g9?=
+ =?us-ascii?Q?mUYR1lf1j6UhUnzNJFxtstCFixqrW6R6/iFwscnNgzKJ9FQZL4LtnItrcIZG?=
+ =?us-ascii?Q?DPCHcBJWqrA0QW2KOhOTQjZLB326BrPvlHkaEg4F9l268/cNcvkHsZ+yjzF1?=
+ =?us-ascii?Q?FryIcNyPB1TngB9HO8tKFhtsbSaSLSG8NLHlDFB92/08ISg7yAju7CKB260S?=
+ =?us-ascii?Q?bltH3/vQ3HCYjsqTlqmLl11h3wCB5J7Lk5LmdWXja3JGb4ircWWsq30iyixb?=
+ =?us-ascii?Q?7L9jY9AYkitQq49tjyRY/4i9z5vRzma/keaL/rC9SBUxQUwzo6R6nF0JAZ0A?=
+ =?us-ascii?Q?dffnb7XWF4pZHkYo9gV+IqWSZDLNcHKrqTmw20oygOlH79ZC?=
 X-Exchange-RoutingPolicyChecked:
- q+dYWQJm7If4mWtHNc9vBEoGvOGib9GDO+q6+sBv01gFacm7SKzTnjRr9pcMPA1QvvRxvfS6PhL9Ls8B92U6XPyy+v5lVc2W+Hizqr8yE+Z6VcVC6obPmGatUCVorldbZ/2CpeW79Tv8OCMU/dupBS7vWRN8qPzK8keyG5owD8yMDwDhwPdxddTL+dS1ufJ/TpsYpx/rpXIutexS1UUFcru8wdMtOILjc5dNfv5fcvwjNZTuDDDf18WcOB0/dKwyczOZ8eDCpFP+1TU/Wb7/zJ+ff6J2MDlg+M4rFDK8h39m3pJ0g+0D8HdS4XHS09NJ86NTBmZHDmJpoMXqJC6xOQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f1f6f5e-460c-48dd-be4f-08def280e947
+ Y7QEVmRIyM6axWGCV3cDqqFmF3/PsAzsH6GUYnOF6/iwLnswekBQQKIDO3h6ZUFkuQdgI0STnRAEX5pGRMx0RrM9M8LixiY9+ig8ByAqlORjUsbN7nPY22zac3CAa0C3z3cZbIxEPoy1rsyoCSKXC0JArkO9GyQbYtrJIOIzPEa3bLOyf9SCQk3441FxdaoxXHaty3kstV+VYoTqyRItRNgVOK6QIPZrcU0tdOPkOawEGXWPi5eJOHaw1R96/JWVICj46HOUo+JcbK5Hzf4jBpyRvcpDqZX4bnqF6TBwW1PrsRrWM0hs1FvRG6t54LlMLqGGnsJAdSNAbO1C7oHAuQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac3c3bb3-1de5-4b7c-cf4e-08def280e5ef
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4139.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 23:34:21.9293
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 23:34:16.2624
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tD/eil+4r+EN19+AsVgZ5V0NgMdsUq3TC56UNCeokSBGaKCtFm1PRgWWBHPeM01o
+X-MS-Exchange-CrossTenant-UserPrincipalName: KfJfMMiGAL/3fiu4j2d7hdxOG9BB5aaC1eX5y2+EsQ49GMcnA/XgLHGs1fWSctrX
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7352
 X-OriginatorOrg: opengear.com
-X-BESS-ID: 1785888564-102465-27679-12855-1
+X-BESS-ID: 1785892180-105811-2183-9492-1
 X-BESS-VER: 2019.3_20260804.2013
-X-BESS-Apparent-Source-IP: 52.101.193.140
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVhbGhgZAVgZQMDUxJTHVMtnYyD
-	jZxMDI0MAw2cLAMMkkLS3NIinRLDlFqTYWAPB4dWlBAAAA
+X-BESS-Apparent-Source-IP: 52.101.52.123
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYWFkZAVgZQ0MDA0DTVwNjUwi
+	zJMC01JTHNIiXFKNk4zTjV0tTIONVCqTYWACiwmP5BAAAA
 X-BESS-Outbound-Spam-Score: 0.00
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275152 [from 
-	cloudscan14-195.us-east-2a.ess.aws.cudaops.com]
+	cloudscan17-238.us-east-2b.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
+	0.00 BSF_SC0_MISMATCH_TO    META: Envelope rcpt doesn't match header 
 	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_SC0_MISMATCH_TO, BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
-Qualcomm/Sierra SDX55/SDX65 modems (e.g. Sierra EM9291) withhold
-unsolicited AT result codes (URCs such as +CREG, and the +DMI OMA-DM/LwM2M
-session indications) on an AT port until the host asserts DTR.
-mhi_wwan_ctrl exposed the AT (DUN) ports but had no way to signal DTR, so
-URCs never reached userspace.
+The WWAN character device emulates the TTY modem-control ioctls
+(TIOCMGET/TIOCMSET/...) for AT and QCDM ports, but the result is only
+stored in port->at_data.mdmbits and never reaches the port driver. A
+driver therefore cannot act on the host raising or dropping DTR/RTS.
 
-Carry the host serial-control lines to the modem over the dedicated
-IP_CTRL MHI channel, which this module now also binds. IP_CTRL uses a
-separate mhi_driver with its own callbacks so the AT/QMI/MBIM data path is
-untouched; the control-channel device for each MHI controller is tracked
-in a small registry so an AT port drives the IP_CTRL channel of its own
-modem (multiple modems are supported).
+This matters for Qualcomm/Sierra SDX55/SDX65 MHI modems (e.g. Sierra
+EM9291): they withhold unsolicited AT result codes (URCs such as +CREG,
+and OMA-DM/LwM2M session indications) on an AT port until the host
+asserts DTR, while still answering solicited commands. mhi_wwan_ctrl
+exposes the DUN (AT) ports but had no way to signal DTR, so URCs never
+reached userspace -- unlike the TTY-based USB and legacy PCIe drivers for
+the same hardware, where the TTY layer raises DTR on open.
 
-Mirror TTY semantics: an AT port raises DTR/RTS on open and drops them on
-close, and the new wwan ->tiocmset op lets userspace change them via
-TIOCMSET. This matches the TTY-based USB and legacy PCIe drivers for the
-same modems, where DTR is asserted on open. Received device->host serial
-state is not needed and is ignored; ->tiocmget is left unimplemented so
-the wwan core reports the cached bits.
+Patch 1 adds optional ->tiocmget/->tiocmset ops to wwan_port_ops and
+wires them into the AT/QCDM ioctl path (drivers without them keep today's
+store-only behaviour). Patch 2 enumerates the IP_CTRL channel -- a
+standard Qualcomm MHI control channel, not Sierra-specific -- on the
+Sierra em919x/em929x config, which is the device tested. Patch 3
+implements ->tiocmset in mhi_wwan_ctrl over IP_CTRL, and mirrors TTY
+semantics by raising DTR/RTS on open and dropping on close, so existing
+userspace (ModemManager, terminal tools) behaves as it does with the
+TTY-based stacks.
 
-Signed-off-by: Peter Hunt <peter.hunt@opengear.com>
----
- drivers/net/wwan/mhi_wwan_ctrl.c | 186 ++++++++++++++++++++++++++++++-
- 1 file changed, 185 insertions(+), 1 deletion(-)
+The IP_CTRL channel is bound by a second mhi_driver inside mhi_wwan_ctrl
+with its own callbacks, leaving the AT/QMI/MBIM data path untouched; the
+control device for each MHI controller is tracked per-controller so
+multiple modems are supported. The consumer is device-agnostic (it binds
+purely by channel name), so any Qualcomm modem whose pci_generic config
+enumerates IP_CTRL gets DTR support with no driver change.
 
-diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
-index a31d8540fbb8..00725904333a 100644
---- a/drivers/net/wwan/mhi_wwan_ctrl.c
-+++ b/drivers/net/wwan/mhi_wwan_ctrl.c
-@@ -1,8 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /* Copyright (c) 2021, Linaro Ltd <loic.poulain@linaro.org> */
- #include <linux/kernel.h>
-+#include <linux/list.h>
- #include <linux/mhi.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+#include <linux/termios.h>
- #include <linux/wwan.h>
- 
- /* MHI wwan flags */
-@@ -14,6 +18,30 @@ enum mhi_wwan_flags {
- 
- #define MHI_WWAN_MAX_MTU	0x8000
- 
-+/* IP_CTRL channel message that sets the modem's DTR/RTS control lines */
-+struct mhi_dtr_ctrl_msg {
-+	u32 preamble;
-+	u32 msg_id;
-+	u32 dest_id;
-+	u32 size;
-+	u32 msg;
-+} __packed;
-+
-+#define MHI_DTR_CTRL_MAGIC	0x4C525443	/* 'CTRL' */
-+#define MHI_DTR_MSG_DTR		BIT(0)
-+#define MHI_DTR_MSG_RTS		BIT(1)
-+#define MHI_DTR_HOST_STATE	0x10
-+
-+/* Per-controller IP_CTRL channel, used to signal DTR/RTS to that modem */
-+struct mhi_wwan_dtr {
-+	struct mhi_controller *cntrl;
-+	struct mhi_device *mhi_dev;
-+	struct list_head node;
-+};
-+
-+static LIST_HEAD(mhi_wwan_dtr_list);
-+static DEFINE_MUTEX(mhi_wwan_dtr_lock);
-+
- struct mhi_wwan_dev {
- 	/* Lower level is a mhi dev, upper level is a wwan port */
- 	struct mhi_device *mhi_dev;
-@@ -23,6 +51,9 @@ struct mhi_wwan_dev {
- 	unsigned long flags;
- 	size_t mtu;
- 
-+	/* AT (DUN) ports raise DTR/RTS on open to receive unsolicited output */
-+	bool is_at_port;
-+
- 	/* Protect against concurrent TX and TX-completion (bh) */
- 	spinlock_t tx_lock;
- 
-@@ -103,6 +134,58 @@ static void mhi_wwan_ctrl_refill_work(struct work_struct *work)
- 	}
- }
- 
-+/* Signal the modem's DTR/RTS lines over its own controller's IP_CTRL channel */
-+static int mhi_wwan_ctrl_send_dtr(struct mhi_wwan_dev *mhiwwan, unsigned int mdmbits)
-+{
-+	struct mhi_controller *cntrl = mhiwwan->mhi_dev->mhi_cntrl;
-+	struct mhi_device *ctrl_dev = NULL;
-+	struct mhi_dtr_ctrl_msg *dtr_msg;
-+	struct mhi_wwan_dtr *dtr;
-+	int ret;
-+
-+	mutex_lock(&mhi_wwan_dtr_lock);
-+
-+	list_for_each_entry(dtr, &mhi_wwan_dtr_list, node) {
-+		if (dtr->cntrl == cntrl) {
-+			ctrl_dev = dtr->mhi_dev;
-+			break;
-+		}
-+	}
-+	if (!ctrl_dev) {
-+		mutex_unlock(&mhi_wwan_dtr_lock);
-+		return -EIO;
-+	}
-+
-+	dtr_msg = kzalloc_obj(*dtr_msg);
-+	if (!dtr_msg) {
-+		mutex_unlock(&mhi_wwan_dtr_lock);
-+		return -ENOMEM;
-+	}
-+
-+	dtr_msg->preamble = MHI_DTR_CTRL_MAGIC;
-+	dtr_msg->msg_id = MHI_DTR_HOST_STATE;
-+	dtr_msg->dest_id = mhiwwan->mhi_dev->ul_chan_id;
-+	dtr_msg->size = sizeof(u32);
-+	if (mdmbits & TIOCM_DTR)
-+		dtr_msg->msg |= MHI_DTR_MSG_DTR;
-+	if (mdmbits & TIOCM_RTS)
-+		dtr_msg->msg |= MHI_DTR_MSG_RTS;
-+
-+	ret = mhi_queue_buf(ctrl_dev, DMA_TO_DEVICE, dtr_msg, sizeof(*dtr_msg),
-+			    MHI_EOT);
-+	if (ret)
-+		kfree(dtr_msg);
-+
-+	mutex_unlock(&mhi_wwan_dtr_lock);
-+
-+	return ret;
-+}
-+
-+static int mhi_wwan_ctrl_tiocmset(struct wwan_port *port, unsigned int mdmbits)
-+{
-+	return mhi_wwan_ctrl_send_dtr(wwan_port_get_drvdata(port), mdmbits);
-+}
-+
- static int mhi_wwan_ctrl_start(struct wwan_port *port)
- {
- 	struct mhi_wwan_dev *mhiwwan = wwan_port_get_drvdata(port);
-@@ -122,6 +205,10 @@ static int mhi_wwan_ctrl_start(struct wwan_port *port)
- 		mhi_wwan_ctrl_refill_work(&mhiwwan->rx_refill);
- 	}
- 
-+	/* Raise DTR/RTS on open so the modem forwards unsolicited output */
-+	if (mhiwwan->is_at_port)
-+		mhi_wwan_ctrl_send_dtr(mhiwwan, TIOCM_DTR | TIOCM_RTS);
-+
- 	return 0;
- }
- 
-@@ -135,6 +222,10 @@ static void mhi_wwan_ctrl_stop(struct wwan_port *port)
- 
- 	cancel_work_sync(&mhiwwan->rx_refill);
- 
-+	/* Drop DTR/RTS on close */
-+	if (mhiwwan->is_at_port)
-+		mhi_wwan_ctrl_send_dtr(mhiwwan, 0);
-+
- 	mhi_unprepare_from_transfer(mhiwwan->mhi_dev);
- }
- 
-@@ -163,6 +254,7 @@ static const struct wwan_port_ops wwan_pops = {
- 	.start = mhi_wwan_ctrl_start,
- 	.stop = mhi_wwan_ctrl_stop,
- 	.tx = mhi_wwan_ctrl_tx,
-+	.tiocmset = mhi_wwan_ctrl_tiocmset,
- };
- 
- static void mhi_ul_xfer_cb(struct mhi_device *mhi_dev,
-@@ -223,6 +315,7 @@ static int mhi_wwan_ctrl_probe(struct mhi_device *mhi_dev,
- 
- 	mhiwwan->mhi_dev = mhi_dev;
- 	mhiwwan->mtu = MHI_WWAN_MAX_MTU;
-+	mhiwwan->is_at_port = (id->driver_data == WWAN_PORT_AT);
- 	INIT_WORK(&mhiwwan->rx_refill, mhi_wwan_ctrl_refill_work);
- 	spin_lock_init(&mhiwwan->tx_lock);
- 	spin_lock_init(&mhiwwan->rx_lock);
-@@ -255,6 +348,59 @@ static void mhi_wwan_ctrl_remove(struct mhi_device *mhi_dev)
- 	kfree(mhiwwan);
- }
- 
-+/* IP_CTRL channel driver, bound separately so the data-port path is untouched */
-+static void mhi_wwan_dtr_ul_xfer_cb(struct mhi_device *mhi_dev,
-+				    struct mhi_result *mhi_result)
-+{
-+	/* MHI core has done with the buffer, release it */
-+	kfree(mhi_result->buf_addr);
-+}
-+
-+static void mhi_wwan_dtr_dl_xfer_cb(struct mhi_device *mhi_dev,
-+				    struct mhi_result *mhi_result)
-+{
-+	/* Modem serial state is not needed, drop it */
-+}
-+
-+static int mhi_wwan_dtr_probe(struct mhi_device *mhi_dev,
-+			      const struct mhi_device_id *id)
-+{
-+	struct mhi_wwan_dtr *dtr;
-+	int ret;
-+
-+	dtr = kzalloc_obj(*dtr);
-+	if (!dtr)
-+		return -ENOMEM;
-+
-+	ret = mhi_prepare_for_transfer(mhi_dev);
-+	if (ret) {
-+		kfree(dtr);
-+		return ret;
-+	}
-+
-+	dtr->cntrl = mhi_dev->mhi_cntrl;
-+	dtr->mhi_dev = mhi_dev;
-+	dev_set_drvdata(&mhi_dev->dev, dtr);
-+
-+	mutex_lock(&mhi_wwan_dtr_lock);
-+	list_add(&dtr->node, &mhi_wwan_dtr_list);
-+	mutex_unlock(&mhi_wwan_dtr_lock);
-+
-+	return 0;
-+}
-+
-+static void mhi_wwan_dtr_remove(struct mhi_device *mhi_dev)
-+{
-+	struct mhi_wwan_dtr *dtr = dev_get_drvdata(&mhi_dev->dev);
-+
-+	mutex_lock(&mhi_wwan_dtr_lock);
-+	list_del(&dtr->node);
-+	mutex_unlock(&mhi_wwan_dtr_lock);
-+
-+	mhi_unprepare_from_transfer(mhi_dev);
-+	kfree(dtr);
-+}
-+
- static const struct mhi_device_id mhi_wwan_ctrl_match_table[] = {
- 	{ .chan = "DUN", .driver_data = WWAN_PORT_AT },
- 	{ .chan = "DUN2", .driver_data = WWAN_PORT_AT },
-@@ -278,7 +424,45 @@ static struct mhi_driver mhi_wwan_ctrl_driver = {
- 	},
- };
- 
--module_mhi_driver(mhi_wwan_ctrl_driver);
-+static const struct mhi_device_id mhi_wwan_dtr_match_table[] = {
-+	{ .chan = "IP_CTRL" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(mhi, mhi_wwan_dtr_match_table);
-+
-+static struct mhi_driver mhi_wwan_dtr_driver = {
-+	.id_table = mhi_wwan_dtr_match_table,
-+	.remove = mhi_wwan_dtr_remove,
-+	.probe = mhi_wwan_dtr_probe,
-+	.ul_xfer_cb = mhi_wwan_dtr_ul_xfer_cb,
-+	.dl_xfer_cb = mhi_wwan_dtr_dl_xfer_cb,
-+	.driver = {
-+		.name = "mhi_wwan_dtr",
-+	},
-+};
-+
-+static int __init mhi_wwan_ctrl_init(void)
-+{
-+	int ret;
-+
-+	ret = mhi_driver_register(&mhi_wwan_dtr_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = mhi_driver_register(&mhi_wwan_ctrl_driver);
-+	if (ret)
-+		mhi_driver_unregister(&mhi_wwan_dtr_driver);
-+
-+	return ret;
-+}
-+module_init(mhi_wwan_ctrl_init);
-+
-+static void __exit mhi_wwan_ctrl_exit(void)
-+{
-+	mhi_driver_unregister(&mhi_wwan_ctrl_driver);
-+	mhi_driver_unregister(&mhi_wwan_dtr_driver);
-+}
-+module_exit(mhi_wwan_ctrl_exit);
- 
- MODULE_LICENSE("GPL v2");
- MODULE_DESCRIPTION("MHI WWAN CTRL Driver");
+Note: the series spans two subsystems -- patch 2 touches drivers/bus/mhi
+(MHI BUS), patches 1 and 3 touch drivers/net/wwan and include/linux/wwan.h
+(WWAN / netdev). Patch 3 depends on patch 1 at build time; patch 2 is
+independent (without it, ->tiocmset simply returns -EIO). Suggest taking
+the series through net-next with an Ack from the MHI maintainer on patch 2,
+but happy to split if the maintainers prefer.
+
+Tested on a Sierra EM9291 (SDX65) over PCIe/MHI: with the series, opening
+/dev/wwan0at0 raises DTR and +CREG / +DMI OMA-DM URCs stream, including a
+successful LwM2M server registration; without it, no URCs appear.
+
+Peter Hunt (3):
+  net: wwan: core: propagate modem control signals to port drivers
+  bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra
+    EM919x/EM929x
+  net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
+
+ drivers/bus/mhi/host/pci_generic.c |   2 +
+ drivers/net/wwan/mhi_wwan_ctrl.c   | 186 ++++++++++++++++++++++++++++-
+ drivers/net/wwan/wwan_core.c       |  12 +-
+ include/linux/wwan.h               |   4 +
+ 4 files changed, 202 insertions(+), 2 deletions(-)
+
 -- 
 2.43.0
 
