@@ -1,47 +1,48 @@
-Received: from outbound-ip173b.ess.barracuda.com (outbound-ip173b.ess.barracuda.com [209.222.82.107])
+Received: from outbound-ip199b.ess.barracuda.com (outbound-ip199b.ess.barracuda.com [209.222.82.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F171D5CFE
-	for <mhi@lists.linux.dev>; Wed,  5 Aug 2026 01:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724A1D5CFE
+	for <mhi@lists.linux.dev>; Wed,  5 Aug 2026 01:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.137
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785892183; cv=fail; b=qCbr4iXYc4Txa8lDk4l+RhdTEOb8SYZvc+r5iDPe4gYfYhwgY0ylxKbN9rsR29TaTFF6cer4ZSNqViIqiJbB2WLhj+KaESJFWakXaCrHEF54SYDTACqsUoHXACNUY2DOSA14Z+9pkFudNfeRxRh2Xe43OOqC36yvLcTqKI8NCJA=
+	t=1785892226; cv=fail; b=alUfO/lmBKI91VVRaT7J/6Yc4W19yZefmWxFWw78Z3s+4leNeLof+Gfz86v9yT4q6rDHCBVYNY4SBWpOfPvCCzVAJkDaOSAUxCVqlBD22I7/QBe09QPyMJhKE+gXC6GxbUWHLpSZl6Qhi25TZCREuzD3mZTufI1tnfbWSnCdQ3I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785892183; c=relaxed/simple;
-	bh=vETO1hIlIKdaV89Jl4rsH95Kc+3d/5Z/z2J5Nz9mPc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=SbiWJnPYDd3jDBqzX9zdspuR1rYobstVsSwcn/0GQP/SU74lA6BcAWlCzp8wNI+f6l87Dl5F5hlS+Vo1dsr6BJTfV267O2lVSbNOlp/mMPUV9DLQDHfy+DE1+xYz9LIjLMpv7vDKJQrzMHY1i0In2uYucFwaDsiqNSQAS4ELiVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=DbM5THBe; arc=fail smtp.client-ip=209.222.82.107
+	s=arc-20240116; t=1785892226; c=relaxed/simple;
+	bh=6DwSuEUcc6D/epz9hpgBkmFQifwZfJP7DTbVcYohXH0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lvH3NeMBxQL9ZhJoWyTQewgzftILbjGNLwIxrNfEGAA8iPNHWhVy32ws81d6md0UjwWg3PERA7O8sP1kQHkvBaLCLM1M9SwLngghU0KpbQAtCAxo96PohZh7Is+a56FtlXhgpD0mU3Tphm2cCZAkBIjlIXa8Gazs9y/QvkzOYxg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=lGEakl3a; arc=fail smtp.client-ip=209.222.82.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="DbM5THBe"
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11021123.outbound.protection.outlook.com [52.101.52.123]) by mx-outbound-ea22-179.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 05 Aug 2026 01:09:40 +0000
+	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="lGEakl3a"
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11020081.outbound.protection.outlook.com [52.101.85.81]) by mx-outbound21-6.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 05 Aug 2026 01:10:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hxTb1ep6yxtvU+fy4+ykelxBibT8jryNNrioKuSXi2C6aIlk0glLiXbX1vnact9DUdhhXntFWR1x3URxJnz8jvrUWu1GCIu9RdcvDzlXW4jITzsLl7qa2RWZ+jToXEqF+I0/iuJSER613QUTJIWBJczuz3qAyCDCHHUa7Usd89jLe6dkjeFykW8H//buP18plp0NfqNCuN9prGZHSKuFUmFTbDZGpeAxrhPg+zPmPaaD0Z7MMdPD9oH7ijhKcMCeBWZiGZANmHuhMX3l9Q+Xf3pHgfjE94EIALZFsdyv1WPOmnKP1OgpezkP0WPa/+kmOprDdoDSz6TYB/7ODbgnjQ==
+ b=RU2doyz0RnRf2jOjDwlbqMVdeLT9WI9n+EV+kRrcvF5Xfbhb7am7m07V64BN1vDxbsp/WZjUGwION+/1oBh/8/Diw7qNHvgD8PKIcrDz/7zsatvKgfP86F4Kd7oO3DhF+pKUhEAWwuBUhfgbPvqs/ggxw0GkjqGOTXiRIYhLYp77rYbz+cCL1XGUMGR2TuY3b9PDmQDxX9yKZIYui9ZJtQlqnuye+T63tPwEZqTZvPhH0hy2oWQoB+8SmAdM9AfsTPm3LoYS4E0Hv1XXPi0Df3dAVDmFLyUOz5CtXjiX0zLe6LibKiGmYKQd5XMyGCZaGs+OW04OtW6X+dz+/nMTSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7FFglXgHLisGZZdAv3ZZZvsgplU+8CFUkejlyB7pDOU=;
- b=P5U89C5kl7VTAhdxpo4VCGLjKb6uo/yRXJD/I/x6Ed3r1QlYHSfqmLFnSdkz+ZeewkMslrGAQZLAuwTAZHu9fSsefo/IIj8ws9sceZxMB+7ZCtjsyK9hHKlQKi3WAQjYsWVJyyRDSorSl3ufBl3Vum47gie2/1CpGjnrceToWgEi6jBk+I+347GApU4JtcerDTVEq5D0/hyPeULMBPMMijLuHJ3he9DAm/HWDqTMGJ0zWqghqyEfQgJhMLh19yM2KKOA6tXzdCFFcF0abbgmJ9xiOunjo9cYK5tZXJ5dhshX9p8f6CXr+YIntQvnkTY0Bdzo6zrfSn04R9Mn6h5wUw==
+ bh=KlICyOGc4MInRat4xsn5W3hLBpGkdBnDqhnpxxhRKnY=;
+ b=P+BMO/nWSRe1T9c3H6pEaRtp2EnhPhBXiKapxO15doK/KTG6Vt4z1wpPL7Bw/c7P+y7sTQu/lme6W4PDqGmRzCEp2WQ1ebvfe4QlULHlVopBVoAtCfAmVpDGQqGfVmcjCL7Lo7igZSgphVZfClRR5LhtTPnPteKEjg21YZyOcsNDw8smQeBwF1BghGPxRM0Qpy3f7e80f0wDMm+6ivMtxKjR7Pw+9/59PmNw3pPp4CmdbAq7ue2HstDnW54FcNTBZo16L2JgOUyUfuYn2Nj+HBQ+g9HEnSPAW1wIWLATvgyrNYacYVRmOl1rjGSBmtnsbzvtwinKB1F9zEjj8Av7TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
  dkim=pass header.d=opengear.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7FFglXgHLisGZZdAv3ZZZvsgplU+8CFUkejlyB7pDOU=;
- b=DbM5THBetGs8DKpzeShx1nE1NWMsZ0o2sqjUaKG3ZdFb4V5PoSPTeq6xZA9ElqJpIFj9vWGoylwUbVH+cEqrb0UqaEkCrhVdlv9b8DgOS+wWIOLL6RqrT3FygVk7gHZMX27rlwgO+9BHn5yeJLLiNElIKgEn0XzWFLDatTOHSIUTsDfeiNYKCf52kV0Q0nkkKD0o6p3Dfto9CRBsgsa4o4M48nQtwAcvlXxY/Lry0+hyD6OE1jZhTvL9SsnAAodctr9h51veqEcWoAmEXUGiihDQM+7JaRsJkIEgN3UmMuxku1cwXqLataOFqVcPNe/hMRBQfpTAIMSdtMRIDxKUXg==
+ bh=KlICyOGc4MInRat4xsn5W3hLBpGkdBnDqhnpxxhRKnY=;
+ b=lGEakl3ahEn5AIuv568SByOzi3Y0ZXKo3gY00CpSr+yEZ3UK7E+KAZH4aQm536vzCB52eRAddKzF1tB9WcpApPf9+ck3K/oiy1WBKiow6WpqnUTa6wv+62/4gihiHX0yKrXvVPg30mHHi51Fx4JbDF0Zk0sSd3CtHuHN0rltqA4+h0j+AFmoGwYMq5WVZSahJteEIVOTcrvGmrxcKr09CeCNMig2ZDdq+BX1MKUPXI1vIHhEZO5wFVJt2X2/9d0WY7vtk8c83I38pT2NQzUfBPeMN7gXGbulox3T5VONdT3dsFn1mrpbKp94xCcLlVPqXQLcLyw0Lo82gMDifiSCjQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=opengear.com;
 Received: from DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
  by IA0PR10MB7352.namprd10.prod.outlook.com (2603:10b6:208:40b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
- 2026 23:34:16 +0000
+ 2026 23:34:19 +0000
 Received: from DM6PR10MB4139.namprd10.prod.outlook.com
  ([fe80::19e9:d558:fd6c:8e5a]) by DM6PR10MB4139.namprd10.prod.outlook.com
  ([fe80::19e9:d558:fd6c:8e5a%6]) with mapi id 15.21.0270.016; Tue, 4 Aug 2026
- 23:34:16 +0000
+ 23:34:19 +0000
 From: Peter Hunt <peter.hunt@opengear.com>
 To: mani@kernel.org,
 	loic.poulain@oss.qualcomm.com,
@@ -52,15 +53,16 @@ Cc: johannes@sipsolutions.net,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Peter Hunt <peter.hunt@opengear.com>
-Subject: [PATCH net-next 0/3] net: wwan: support DTR/RTS on AT ports via MHI IP_CTRL
-Date: Tue,  4 Aug 2026 17:34:08 -0600
-Message-ID: <20260804233411.1953445-1-peter.hunt@opengear.com>
+Subject: [PATCH net-next 2/3] bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra EM919x/EM929x
+Date: Tue,  4 Aug 2026 17:34:10 -0600
+Message-ID: <20260804233411.1953445-3-peter.hunt@opengear.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260804233411.1953445-1-peter.hunt@opengear.com>
+References: <20260804233411.1953445-1-peter.hunt@opengear.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: DS7PR03CA0073.namprd03.prod.outlook.com
- (2603:10b6:5:3bb::18) To DM6PR10MB4139.namprd10.prod.outlook.com
- (2603:10b6:5:21d::24)
+X-ClientProxiedBy: DS7P220CA0014.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:223::6)
+ To DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -69,67 +71,67 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR10MB4139:EE_|IA0PR10MB7352:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac3c3bb3-1de5-4b7c-cf4e-08def280e5ef
+X-MS-Office365-Filtering-Correlation-Id: fcd179d8-186c-4507-7dc8-08def280e812
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|56012099006|11063799006|10067099003|6133799003|3023799007|18002099003;
+ BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|56012099006|11063799006|10067099003|6133799003|3023799007|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
- eUwWCF7VXzXbEaZLKeZB6M8W7IacTJDfCzyy8841kghtp/tUDaB00ea2FjAKRSTaFRfhuQ5xwr75iJFrSaxqUbkwRjy78ezTzBJ7+rKpQRZT4jFNnwrsAVqdytsoS403BNLXgXrAb6YgMBMu5/8V1HF6SvzaEvZCuq9j66xmR3Agu+x/ZiuMJ8WBZjZ06OHEn3dtWcwxmk2/VOnYc0JzODDVHipqsFIaYeVwCPlzSJ5hasyY0CgjAEvdKfTNUYKDWHF62m2HnWT62wmfAhDj0hlV7TmYCN2xgHFsQ9XrDd3orG1wgSjqG+Gl6sCPI0jLhZxy+oGn4y5wwBrDjpJTV1GLj2kFnY+nHi7fRBrcucAz3cS12nvXCi9U27Vwx3/rR07FzDPDhtjlRsvcjtVkK3Aup2kc2yfwhEu3O7p1WVS6YX/0tIHxHwXkB+oQi7aghXXdVzqH75WvqNOp02UHH8vI8rIy5yrHnv2hOnPHkKb4mNlY71KGwhnGRNjuKcdimQiexdnzDU+zoUPkA8Gt304hqnGetyoatvLiNANOe8MpYJZh9yYlNDd4exyABOGpgWG/w0WYcwh8Yp3hOKBBjlQok0Wg1sc5ah9K2sMefv6q0Oy4GXO5E7mSIEAKsTNGRWMPiAdoKQ4jWZ3c8HthzKnlXq2S6s/b35jm0UNk0g4=
+ 9OpOPD2IpadSzk2WcckwCc7iwrbf+k27CjJSYunWXfDWWPHfebu7E/dyYrCzt3ZMeSRosfaXxZnN4Wza30Wm0/Q5kgb4hboszXul6NcXxbCmyXQY2xVa29ol812DiAyEE1ENfn1czWlqcF8VNo2GbwDs+EkWQgtHXdxRmYqhehlvYPZI9sekSqxIvAJh87aO3CqJKVm26V1lwhaKff6Jxu6V9o0x48PGom4QWSidGrGMDRKl8jynZ/ql4ffZVrOPFNZixJ/Hxw5uBkmN2oAn3UV7eGaE7kcFZsdNX/fsRqgaEC3dJoKA+9fZlPrfnCFP8zsr+/cdtyqoXeM71yDQZZWBChbLkrtvxk6kULs7T5MVwBLaAfji0jhpxalLG1BQPU0qEInFcgKt4yV61yeWc3WuLL8Gtf2pSWYD9npGGbdGp76/DJr9n/8/XURWN6nRSWYzb5PRhrr3eCQbkz9FrfiDoEpJcV6rBSum90mSZf+07hIo3nHxySNKYryNshhmr9u3OiQcjgGgxsRuBa2cG+Tqa6xd6XK8tB+D0Db6ARoW5qaF0G6D6lt2Rto42TPmmczDRHzBtilAJ4687HPTkfVxLGh0rEkHCLeAfFvgOE7GIK1PGytFUarFv/YO5ljKqAFz2mcK729ItUrs3nun9T3ypuvN6+NcAu3s9SHOufU=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(56012099006)(11063799006)(10067099003)(6133799003)(3023799007)(18002099003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(56012099006)(11063799006)(10067099003)(6133799003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?Q4obgYMxad6zGZ5xgXltZWCWqcPSnDjBmIZDZ0OyD83tmEUOg8NGQn1/uZSD?=
- =?us-ascii?Q?Ztv01SpWkEl0IvHSgTVdzchKRzSkhFrK2qcxJwBLGdX3jk3MWUjLO4e4prhn?=
- =?us-ascii?Q?45yoqT41xNb+MGemKnY8/riq7rgzFSWxAPow5uHw/g1eYYdETlwHwZ6VCeQg?=
- =?us-ascii?Q?8a2FCA/YQ6qk5ooEAQElMu27sdemg+s0M0vrnrrC9U6SiarllzhUdVLF1EoN?=
- =?us-ascii?Q?WCZGU3pG4mBu3MPJt+1MK0qVbaVFLCLFSislhDj++VGbGbF5sKeb+UCNVFrT?=
- =?us-ascii?Q?UQbG9sOANZ8bnQtENxNaOyrx8xmelVE8omdr0Sc0CVHCfj/PlzVFH8j6BlMC?=
- =?us-ascii?Q?uMH3ebF9gZQWkoX7e0OhBPUxnDzQ6/76ibAxLR9YLXOOdzXW63airiUeygBO?=
- =?us-ascii?Q?A4yAJCf8Q25SyivHt6pgK7kWCWnRykdjD1QzC5ua8zOjdUOJw0HCYFGr72JR?=
- =?us-ascii?Q?1fp+LiaJSHpmuytO/5a2paA4GGKT+N9JrvWCDhPmLbIh5Mulrk6CnOxC1YTy?=
- =?us-ascii?Q?4We2MDo3opNKQn8LbBOOFTqGlEr89qkSDdVHLC5EUccIY2d7iBGj+uzHgVac?=
- =?us-ascii?Q?Lo34rNfTDkkS6u8Pv43kzS6Tpo+/JsrFhRBMGeBCHf3kMylBlBADHKSSm//s?=
- =?us-ascii?Q?6tsIVfWhPvHC/fkGmTe296neBf5qsTrBU/fjKqidpcgCG8AAonoXMqwllVqO?=
- =?us-ascii?Q?9llR11p1pSFI56phyERfslJ9Xh0VF70bU1hOuKP21pJQYo599B5FsH94MqN1?=
- =?us-ascii?Q?/nA0UWRr6k+TNbIqubgmGs2jGftmt9WCAXOQ/5Z8d7brllRFe2suh5IGm29R?=
- =?us-ascii?Q?k9jiwF13hjA1KNej9XQ1AzoZNCRZAq1K5tQY1GmytyrlCRs/GkABhURw0MoC?=
- =?us-ascii?Q?giFleKh9so9ebWmk9qhtsGcTAR6GF0Z0f/JQqCuAgp61CJU4ZwwOjkvaxQmx?=
- =?us-ascii?Q?zdD9nLis+bKTds3HE1Zg9pq81Yh7uHx0OpotHBIbzygkaBzMXYpxrhTkJCzG?=
- =?us-ascii?Q?M2vC1gT5kE5lBbB5PBg5Cd4bqzQ8HoZbNQlXZ9wMiZpvKwYZUYMEMJa26718?=
- =?us-ascii?Q?3Z/VA2Zv5Bxj3HFZRPy6KLeeEVvLIu2+kAV1ChCq/A2EBZnZAC/Wp5d+HQbE?=
- =?us-ascii?Q?cyAJzARjGJf6gDFxzIMNcTVUpR8QH33M8nyg7D5caxF3fKGRT3HB/myYLC71?=
- =?us-ascii?Q?e1Iq0uKtPtnp9zeQyxGmY29OdETmSaPMAjGTNrE+T6YWmE36tvew05jW82HO?=
- =?us-ascii?Q?LVzUYIiwse0Lsie4BgLjG3KC1NekolHsDAUHXQHjpO0kjFZtutv+wAfW1BRG?=
- =?us-ascii?Q?VSpGCf995NHLAGQAiB3DSaqLk4id3tcChfN9xseTAVpEiEmiF9CwXoe2h+g9?=
- =?us-ascii?Q?mUYR1lf1j6UhUnzNJFxtstCFixqrW6R6/iFwscnNgzKJ9FQZL4LtnItrcIZG?=
- =?us-ascii?Q?DPCHcBJWqrA0QW2KOhOTQjZLB326BrPvlHkaEg4F9l268/cNcvkHsZ+yjzF1?=
- =?us-ascii?Q?FryIcNyPB1TngB9HO8tKFhtsbSaSLSG8NLHlDFB92/08ISg7yAju7CKB260S?=
- =?us-ascii?Q?bltH3/vQ3HCYjsqTlqmLl11h3wCB5J7Lk5LmdWXja3JGb4ircWWsq30iyixb?=
- =?us-ascii?Q?7L9jY9AYkitQq49tjyRY/4i9z5vRzma/keaL/rC9SBUxQUwzo6R6nF0JAZ0A?=
- =?us-ascii?Q?dffnb7XWF4pZHkYo9gV+IqWSZDLNcHKrqTmw20oygOlH79ZC?=
+ =?us-ascii?Q?ow1xRCLKTXSb6mnXbsPZtOjxCYzV1pKY/ETRNX6dNHIhHh41gpc/Uh38fD/V?=
+ =?us-ascii?Q?UUB8gxScjyFmP5hICxGXBcAsL3r2TE6gB6B7j5HDNBrP5Wex/xtUJe5fW4+5?=
+ =?us-ascii?Q?qI8AiWacro9WuisB7KV0BsY2wOCeg4fGYO+fQuC1vNTcer5YZTCodZ476YvN?=
+ =?us-ascii?Q?12JFzZTeIBv3Wni0W4jcpVjuKZPtyHnVmVWJdMY6lapCnlgrs/rvSldq9BYq?=
+ =?us-ascii?Q?z1FcWh3ZDrY5PvswWl7BjHogkuIFXi1bF7ZGc28w6dRWJlkUNkHODoaOTrFS?=
+ =?us-ascii?Q?Y0Gyc0ul9gXtfQdOyjHkOSUJ6Ip+fLRVgNseedQkFQTWaVIwBOfFO40b8FVP?=
+ =?us-ascii?Q?Ek7f1I5IrKBd9ODVIOqy5JdBSpfSjFvzaoFrWYWRBEAsN0+Vt/wqZqXOZh/z?=
+ =?us-ascii?Q?ZgzroMGzY9J2/MqATWxOFLWmtuoJHF+O4cdZz9WGi5UeRvpgg8q+BLpWzwHi?=
+ =?us-ascii?Q?AyJqb/GjcuyXANZsvUUCKN66IcpKyutDjhUmQL0BhUfUIsg5hBzcJhS6Wrq1?=
+ =?us-ascii?Q?Z0sdFWxBuL7tJb9M0RQfZRi4i6hWAUpKzHE3+Kt8Oi2W9TDiYzVKhBb+Hef8?=
+ =?us-ascii?Q?ucZxImCqBkeCnF5z0gmTk9kkyKYlvwOY+Ms/7vrwRkC3pjuAlgdcg/RZmS/1?=
+ =?us-ascii?Q?vqbfiO7JWL6BxUfvJHvnmq5X4G9eCdVDXmdG9EIE3qEwNTx3EV2BeRn7pdZn?=
+ =?us-ascii?Q?5wgO6j0eTZG0iPmrn8+fOX9zUhMf+G54OuZ0bCpPFvoFgRvsmMLS9gJMXd/4?=
+ =?us-ascii?Q?Tn5g75Z0PQ2a4U/yGa1Idg4iFN3gyzjsJIdOA2QcVMbz3i4PebF0V92CnBI7?=
+ =?us-ascii?Q?UXZsfk62uQSyJujj39GnieASa1fhRkuUc4pld9skKqM6N7mGhKqSkjKqLO3j?=
+ =?us-ascii?Q?pwNty2AzUFXJloHCnQOUBq3P/xoKa/qZPD3Cx9z56ti5P0fZ5H/G32MeiLN3?=
+ =?us-ascii?Q?zaxhHObj1jQ4U8PceSClppmrH0M6DjDrmDn7JNfX+jjUcuJdtg+1MI8/BZFy?=
+ =?us-ascii?Q?48ajVBEJqwrkEnkxb2azZlJJ6kBxnaWFJIcaYikajy/8u+7j1H5QdXDFEWag?=
+ =?us-ascii?Q?RxWuP8u/xIJ+oI3EJGvAv6KIh192y/DqAzBUBYicDr0kBN4yUck4FcGxPVLH?=
+ =?us-ascii?Q?0/qMHnoW1r6ektCzEEwn2TadKkBYwQdZnzhN5nx2m+xR1LmaMgIcSLWSehY3?=
+ =?us-ascii?Q?nDc0QIH84KYaM0ADPIa7vL3CfVGr6rxOoVMyyOhMpcI42V0JXf3YDgEYQwan?=
+ =?us-ascii?Q?TgUA3akcOAnzzng0iQel9DBjd0z9WI+VCIwcd3ePjjj6PzuuvIVsqM0eiOCk?=
+ =?us-ascii?Q?keZlpmI9Pw63MuOx1VQ06qOPth0a8MHjQJAvEBV6CldfBFRhNya/gI3ZhZWB?=
+ =?us-ascii?Q?Vkg3k5BhWRrbd8ahtoPz7FaQ6MB1wwNg2uFegtLWX0jIDMYUFzLZpoYvN3eZ?=
+ =?us-ascii?Q?2RXkmhBVOXRPaC1b/AZOJfoe8hgV83iZicBdJmJgWEQ/hIUZa4PhRJZzXYRN?=
+ =?us-ascii?Q?jGaSC33dh5dFhqKT2FNXRvBYWm/1/OFbW8TnIiR8n1V5qYyFIq9YF3QqfJdm?=
+ =?us-ascii?Q?SVxQe5yiOIXXp+GYL07ZrX6hPxT9oYtXAE6vgGUqI8NVEaSBHo5azJe5d4E4?=
+ =?us-ascii?Q?qZfPtA7iz1QDGRJQ7hbm/9PspAnPJaT+DRSYWxpL3Mf+hNX78RxZm8TNZKM5?=
+ =?us-ascii?Q?dFnXDtKmUf+SrX+nHW4L5wToGuwZu/ffAHpwPJqwGlq+4HGC?=
 X-Exchange-RoutingPolicyChecked:
- Y7QEVmRIyM6axWGCV3cDqqFmF3/PsAzsH6GUYnOF6/iwLnswekBQQKIDO3h6ZUFkuQdgI0STnRAEX5pGRMx0RrM9M8LixiY9+ig8ByAqlORjUsbN7nPY22zac3CAa0C3z3cZbIxEPoy1rsyoCSKXC0JArkO9GyQbYtrJIOIzPEa3bLOyf9SCQk3441FxdaoxXHaty3kstV+VYoTqyRItRNgVOK6QIPZrcU0tdOPkOawEGXWPi5eJOHaw1R96/JWVICj46HOUo+JcbK5Hzf4jBpyRvcpDqZX4bnqF6TBwW1PrsRrWM0hs1FvRG6t54LlMLqGGnsJAdSNAbO1C7oHAuQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac3c3bb3-1de5-4b7c-cf4e-08def280e5ef
+ jE2djvrc9UT7+oNnm3bQMwYG+kyRh2/RpLezWk5dE/psSbGi/jOVRRay+wIfoC4Dyu6MKlBoCCyRg70aacdNd0p4mltwG1NAJ1aP99Z9ldP6fa1dbCX0fD2UZrOqcO3AzUJZUNsU9KJiK7LrCQx3SteH/dWIjuEZI4Nh8d9j1XJ6gJyKkNjY0P5aQAoDLMoOnDiDQl7saM9/ifpa2bUSnpHm71LCXaR21w1wlk5n0AGl1hVkzbZ6T8Q4NS+GEfhLG3nR3SOcCLUzDJStuNeSOVujZCEDvGMeXV35M9Q+e53fyDbxFRiCjeW9SBxrw1Q5x8ByR1vgi8OY7wKFH8LCKQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcd179d8-186c-4507-7dc8-08def280e812
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4139.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 23:34:16.2624
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 23:34:19.8353
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KfJfMMiGAL/3fiu4j2d7hdxOG9BB5aaC1eX5y2+EsQ49GMcnA/XgLHGs1fWSctrX
+X-MS-Exchange-CrossTenant-UserPrincipalName: kKpPWg33p7uMjJZYn49Ws2nrA/DGl6SU8uH/Nh1ra+YZnSuZtRifRDIQXhm2QfCP
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7352
 X-OriginatorOrg: opengear.com
-X-BESS-ID: 1785892180-105811-2183-9492-1
-X-BESS-VER: 2019.3_20260804.2013
-X-BESS-Apparent-Source-IP: 52.101.52.123
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYWFkZAVgZQ0MDA0DTVwNjUwi
-	zJMC01JTHNIiXFKNk4zTjV0tTIONVCqTYWACiwmP5BAAAA
+X-BESS-ID: 1785892223-105382-7717-26951-1
+X-BESS-VER: 2019.1_20260804.2006
+X-BESS-Apparent-Source-IP: 52.101.85.81
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoYmhmZAVgZQ0MTQ3CIpxTTJKD
+	nZyCg1McXI2DIt0cjI1MDM2NAgJdlQqTYWAD8yPqZBAAAA
 X-BESS-Outbound-Spam-Score: 0.00
 X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275152 [from 
-	cloudscan17-238.us-east-2b.ess.aws.cudaops.com]
+	cloudscan20-211.us-east-2b.ess.aws.cudaops.com]
 	Rule breakdown below
 	 pts rule name              description
 	---- ---------------------- --------------------------------
@@ -138,59 +140,35 @@ X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275152 [from
 X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_SC0_MISMATCH_TO, BSF_BESS_OUTBOUND
 X-BESS-BRTS-Status:1
 
-The WWAN character device emulates the TTY modem-control ioctls
-(TIOCMGET/TIOCMSET/...) for AT and QCDM ports, but the result is only
-stored in port->at_data.mdmbits and never reaches the port driver. A
-driver therefore cannot act on the host raising or dropping DTR/RTS.
+IP_CTRL is a standard Qualcomm MHI control channel (channels 18/19) that
+carries the host serial control lines (DTR/RTS) to the modem; it is not
+Sierra-specific. It was not enumerated for any device in pci_generic, so
+the host had no way to drive those signals.
 
-This matters for Qualcomm/Sierra SDX55/SDX65 MHI modems (e.g. Sierra
-EM9291): they withhold unsolicited AT result codes (URCs such as +CREG,
-and OMA-DM/LwM2M session indications) on an AT port until the host
-asserts DTR, while still answering solicited commands. mhi_wwan_ctrl
-exposes the DUN (AT) ports but had no way to signal DTR, so URCs never
-reached userspace -- unlike the TTY-based USB and legacy PCIe drivers for
-the same hardware, where the TTY layer raises DTR on open.
+Enumerate it in the Sierra em919x channel config (shared by the EM919x
+and EM929x) using the control event ring. This is the device the change
+was tested against; other Qualcomm modem configs that expose IP_CTRL can
+enable it the same way, since the mhi_wwan_ctrl DTR support that consumes
+it is device-agnostic and binds purely by channel name.
 
-Patch 1 adds optional ->tiocmget/->tiocmset ops to wwan_port_ops and
-wires them into the AT/QCDM ioctl path (drivers without them keep today's
-store-only behaviour). Patch 2 enumerates the IP_CTRL channel -- a
-standard Qualcomm MHI control channel, not Sierra-specific -- on the
-Sierra em919x/em929x config, which is the device tested. Patch 3
-implements ->tiocmset in mhi_wwan_ctrl over IP_CTRL, and mirrors TTY
-semantics by raising DTR/RTS on open and dropping on close, so existing
-userspace (ModemManager, terminal tools) behaves as it does with the
-TTY-based stacks.
+Signed-off-by: Peter Hunt <peter.hunt@opengear.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The IP_CTRL channel is bound by a second mhi_driver inside mhi_wwan_ctrl
-with its own callbacks, leaving the AT/QMI/MBIM data path untouched; the
-control device for each MHI controller is tracked per-controller so
-multiple modems are supported. The consumer is device-agnostic (it binds
-purely by channel name), so any Qualcomm modem whose pci_generic config
-enumerates IP_CTRL gets DTR support with no driver change.
-
-Note: the series spans two subsystems -- patch 2 touches drivers/bus/mhi
-(MHI BUS), patches 1 and 3 touch drivers/net/wwan and include/linux/wwan.h
-(WWAN / netdev). Patch 3 depends on patch 1 at build time; patch 2 is
-independent (without it, ->tiocmset simply returns -EIO). Suggest taking
-the series through net-next with an Ack from the MHI maintainer on patch 2,
-but happy to split if the maintainers prefer.
-
-Tested on a Sierra EM9291 (SDX65) over PCIe/MHI: with the series, opening
-/dev/wwan0at0 raises DTR and +CREG / +DMI OMA-DM URCs stream, including a
-successful LwM2M server registration; without it, no URCs appear.
-
-Peter Hunt (3):
-  net: wwan: core: propagate modem control signals to port drivers
-  bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra
-    EM919x/EM929x
-  net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
-
- drivers/bus/mhi/host/pci_generic.c |   2 +
- drivers/net/wwan/mhi_wwan_ctrl.c   | 186 ++++++++++++++++++++++++++++-
- drivers/net/wwan/wwan_core.c       |  12 +-
- include/linux/wwan.h               |   4 +
- 4 files changed, 202 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 0d0d9c7ffa4b..ba47dd153837 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -728,6 +728,8 @@ static const struct mhi_channel_config mhi_sierra_em919x_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 128, 0),
+ 	MHI_CHANNEL_CONFIG_UL(14, "QMI", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(15, "QMI", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(18, "IP_CTRL", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(19, "IP_CTRL", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 512, 1),
 -- 
 2.43.0
 
