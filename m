@@ -1,106 +1,230 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011018.outbound.protection.outlook.com [52.101.52.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D1E371D11;
-	Wed,  5 Aug 2026 14:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939445; cv=none; b=DjG1sV81SGC1yyx4gF6SOR1UHdT+Vdm0eUlEXd3FZz1A+iHc9cxW6c8kc1kvTAB4rnWzeKdPL7JAVm7ew27pL/qhtdIlhN2nE8EfxRuQaFdF0JHKtxPEtFoK8oL1RrtmM6HP3GHkoGrzjtDpOwIfcuk+QCgaGrQsi7VMZweeZtk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939445; c=relaxed/simple;
-	bh=EXdyCvGaIqEzH5oeDSrAeE1+Zf1rM4JWhMSqnm2qvF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Niqpkms9iG0ohhS+xPxE3ss9DzrBTgHpr64bVcHFVhxVzjtmvV2/3Aga3PQHnhT1PhMmYAlKRUXjYnef6DCSfMoPovVT6xSAx2Co3X/YUEb2e4nAoezlO8uti06ydeP8W9wkeFqmz1LpjQDhoCrHAe0m4OrB36mfWUHDIakDYJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kq+6pXca; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ABF3749F7
+	for <mhi@lists.linux.dev>; Wed,  5 Aug 2026 14:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785940454; cv=fail; b=mUxE1rhi2PqXQZkXjTP64D/AxtuHod13UR/EuCwRisszAqyRWFh9W8CHrZMtBy6iSO4n7yKLX6y/zu9e/3theE4JlKMugXOpFOyh9G0OR3oi9hC4/cVofJfqFGwZK7G6Tc7TyOFIHD7ZsNp4XsX2kOf+/ttviBFUUlOmIBBT6IQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785940454; c=relaxed/simple;
+	bh=XuXl2P1/UN535nyEsv+B1UYWUJOQKwvAg6lolMUEY/c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jughD9vjZlKAYAheaGoTa+3nHO8BQ0u9Wyod8jhn+I2ZdlSgCyNkrcvvLN7+A3nxMHlRt2iiQuzyV4dHmJ8YNdwzUa/DJwlIa0XmLOJ7+T56vCJ/DYUNkLDEBWIvQfBlMwAsBJDm/dEd1WR3mewz5QK2shnWePqU55RpFhCJ46E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com; spf=fail smtp.mailfrom=nokia.com; dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b=gyoDeDT8; arc=fail smtp.client-ip=52.101.52.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kq+6pXca"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33B41F000E9;
-	Wed,  5 Aug 2026 14:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785939444;
-	bh=Ie2+JKjK5jN8rCNlPmOOTYA98VwSXNO2xvxS/jOwNVs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kq+6pXcaaPrqVLc5soYMW1m65VFTvtvIgGY5SoNUH+Mds7hitLT7s3dh4WeufVUjE
-	 bY9ZmhtQLwBl+a7/ZUzf17fL8KbXTm9gFKV8P8JdovIREqds3+Kbk06n3u5xKRIg40
-	 KlJyJ2rzDrmPHUzVgdMtEZU8FPyVz7OAY5TLXAzhx4iV1WhKfKfQrVyWd96uNcLOTU
-	 gwkT/WScZT0fBb4aqu+tqxg9R57hKiv5DcE5vkO2tlwc6fhfNsldEV0du1UqHgUHdv
-	 vNhmsXubXvRPu2tMAdhczVfRPfe2nhLNxrJMUWNBjrjejZjnlfhSVbhsDZ8HquCOlp
-	 QCpBLMbRJxXYg==
-Date: Wed, 5 Aug 2026 16:17:07 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: "Alexandra Lu (Nokia)" <alexandra.lu@nokia.com>
-Cc: "mhi@lists.linux.dev" <mhi@lists.linux.dev>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Vivek Pernamitta <quic_vpernami@quicinc.com>, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [BUG] bus: mhi: host: pci_generic: runtime PM usage count leaked
+	dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b="gyoDeDT8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T6ZKdPEgQorawAPL2R+pPUXbAd2Dk/H/JKKrhno+jyCev/ff6d8NxkpYfMHfHNE9SJWrgN0gvojlwWHiU333gwENN5L84AOY6j1Mwb55dr0a9YzDAUUuUxUg/k9CNsJfrVR19k+iEqc/rBP71KaI5LbTSNKRN8YZqW8+RsUY1kRRLHVUVzuYERgi9FcKqLEV0f36nHyemOXxQw71Vjh/LxrG3gxK+HjGdfizm+rGFGkzrnJ4r7ILqHXoWR0QKG4JM7F7lqte4aYLDFOJPiavs+D4YxaYmLmqs7Hx2xhWrX+G9aSsoUE7AY5zCQ1wP0udhiM52y4kpzPoI4seMMTDKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XuXl2P1/UN535nyEsv+B1UYWUJOQKwvAg6lolMUEY/c=;
+ b=c0iicxnriY+PoO37tbe7100OQkvc5YokRojIrAqDnToZExHz+fJ6CmkG/UZS/t4u/p90/iFe9d96a7Wn5H02fvoWtBJBVOZhyWBU1NuKbC75mOiiFhRZwMfSF7ZoZ6+iXyuUnoIungBI9t2reqI4esFayeRTFirJEEFEpypX1G4cqdT9HID3BU7wBlaG/db/h/lsMvHJTfu4f7jppP70X0t5k5wwKtJP4N1i8SwXgo4QHO1sDcVm9H78HwB4gjOoaoWE3fDKF8dOovbIAcYmev3Sa0sKRTFOj0cV/8YhvWe0Ser07PFWIzLqnB7j453ptf82k7aSC/jBOjPCbnZ1BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
+ dkim=pass header.d=nokia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XuXl2P1/UN535nyEsv+B1UYWUJOQKwvAg6lolMUEY/c=;
+ b=gyoDeDT81W6jzMacpVNXI2PQHJMssdC5IOl2awjgRPQdQPyvkmYTnSx9u0JY/KtXQEbp3nRY3coUtdihZD5xx/efsTv8jJ55R2TOhLA8nknluQh24LhaA++Cr2E3QXp6DstDmt2Mwa0q3f/XToLYduuTvvaIo3RdR3Cj+whviERLXeFgsfdu+43lT4aHX1tXpgiymTaz8oztBywrLPP/KaVcvyrNl86g6FCh8LI+NsCK1jtRURYIz6ovyuTUFW9exowEwrzmkOCzqz4k4mfi8TtVLp0JOEcLHCcjgKHjEFVQ5GrWinR/H1fIvHLoHwyqW7jmRlfFAdX7aNZGOuVYCw==
+Received: from LV2PR08MB11057.namprd08.prod.outlook.com (2603:10b6:408:351::9)
+ by MW5PR08MB8243.namprd08.prod.outlook.com (2603:10b6:303:1c6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
+ 2026 14:34:01 +0000
+Received: from LV2PR08MB11057.namprd08.prod.outlook.com
+ ([fe80::de3c:c87f:bb39:e706]) by LV2PR08MB11057.namprd08.prod.outlook.com
+ ([fe80::de3c:c87f:bb39:e706%6]) with mapi id 15.21.0292.018; Wed, 5 Aug 2026
+ 14:34:01 +0000
+From: "Alexandra Lu (Nokia)" <alexandra.lu@nokia.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: "mhi@lists.linux.dev" <mhi@lists.linux.dev>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Vivek
+ Pernamitta <quic_vpernami@quicinc.com>, Krishna Chaitanya Chundru
+	<krishna.chundru@oss.qualcomm.com>
+Subject: RE: [BUG] bus: mhi: host: pci_generic: runtime PM usage count leaked
  on
-Message-ID: <mu6miayldnuesdqq2g62cbmvkoljjytuo3uw2vpo5fzwgf4aqw@gjeddbsekhfs>
-References: <DS4PR08MB110616F286C62E19C2C94314188D32@DS4PR08MB11061.namprd08.prod.outlook.com>
+Thread-Topic: [BUG] bus: mhi: host: pci_generic: runtime PM usage count leaked
+ on
+Thread-Index: Ad0k1MjqLuUIyG4HQ+GAvYVcT0CCUQADNlRQAADdmIAAAIqvMA==
+Date: Wed, 5 Aug 2026 14:34:01 +0000
+Message-ID:
+ <LV2PR08MB11057E7C453D1ACCA047E0FB788D32@LV2PR08MB11057.namprd08.prod.outlook.com>
+References:
+ <DS4PR08MB110616F286C62E19C2C94314188D32@DS4PR08MB11061.namprd08.prod.outlook.com>
  <LV2PR08MB11057B554648B1B262EAE4ADE88D32@LV2PR08MB11057.namprd08.prod.outlook.com>
+ <mu6miayldnuesdqq2g62cbmvkoljjytuo3uw2vpo5fzwgf4aqw@gjeddbsekhfs>
+In-Reply-To: <mu6miayldnuesdqq2g62cbmvkoljjytuo3uw2vpo5fzwgf4aqw@gjeddbsekhfs>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR08MB11057:EE_|MW5PR08MB8243:EE_
+x-ms-office365-filtering-correlation-id: 8dcf34e8-cfe4-4e39-53d2-08def2fe97c0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|5023799004|10067099003|11063799006|4143699003|6133799003|9063799003|56012099006|22082099003|18002099003|38070700021;
+x-microsoft-antispam-message-info:
+ YFnh9LT8UtqImk+MCw9eUc3ABqfRAdTla5+4korvK18hRZZSj/z5fObzE37TBce2O/aKBCUin5ys2O9c7Hmdq193PkN2zGwJ99RG32CJ2/kvZSW+BF7owJCIkf8eeUKkPQp7pW/MAgGb2qK7AcFrGJyt39iUqIXkB3bzn+M8JJuaiuk/aoY9yX5IooXqj0kwt2NwJzaonXjIlLtbdK8IqdqVVl9Egn86n/vZSzxPxIgqDn5JP8ihdFxlo6a4FcdYIvfye6P166dWrtWjnGrXvT79yFJYosurrII61iOveS7wm4gQs69LalM2Lrg7+f36QOQkolquwZhKdcH04LG8e30P6UQsX1LobT7+P8n5B+wnLZGVWO9sD9KEdmp7O1V+PQu9rUFgIwubOWtVERCT+SwryXl2qiABtdqUcxSkxru8521jSbTw3CYP+BjaDrlwTRcoV8OvsJ1sdDtfDRAK9VWRp+m8Bnn7KXGbSOWiM1wIMyayVteZVQYrDYesr5Jq0a8NLgjDDBt1PO1oLPURDfeE0NPzx2K4wR/wBXn2wu4aCTw8Ba9r7sLHGHrf8Deb5vqkLmZWQ3j140K/mGYGyWzqV2mSO0SPl8sEy2FqSSK6Zu+SIlS17JyTcQ1jPn1ddFc14z6fzZkSgCdXitwWWiuwWhtj36h+Werm89Y6KEYmKBCuq3ZTK4V6vd2Crx6NRSJ1bWk1R+1mO8TTULjuH+G+eZuQ+iALuXWoS8VcD/s=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR08MB11057.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(5023799004)(10067099003)(11063799006)(4143699003)(6133799003)(9063799003)(56012099006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?UWJQV3NmTklkVmo1ellpTkhhcG5pa01EQTZXdm5ZbzcvVW9ma2VhU0tXeTNm?=
+ =?utf-8?B?aGZwTnJzWjBZRHR0SU9PS3RtbEszcUNzbmVzZWsyK1pRak5YUm1ONlNoaUtt?=
+ =?utf-8?B?M2MyWnlHbEwvRWROSERUNXAzczVWMmZjTVN3ZVYyRzViK3gvRVByVXlGbUh5?=
+ =?utf-8?B?clpNR3ZZNUQ4UzlkQXdoM29KL3prR2tNZ0ltNkZMRzM5MTdXUUFnckMvWVBs?=
+ =?utf-8?B?OVUvZFB4Nlo2Z2k3M1Frc3NtRW1MakxzRGk5enNZZGpxZ0U5Q1htQ2MwdFkz?=
+ =?utf-8?B?Wld5Qy84MzBzM205OFppbFRXTGRVaTVjaTQ2NDh0SFdsRDg1RUI3YkpwSnhO?=
+ =?utf-8?B?VVZxK29ybFhxRnJpS3VxRHhLeWlXSFVmNXA2TUNhQWF3bTJnUHRoTzgweWhN?=
+ =?utf-8?B?cU1ONm9tTkdJc0NZYk1XZFBiUmxCREd2SXpWVE9iNDNzQ3I0TXNseTlFMldv?=
+ =?utf-8?B?a3BvVzJ0STZMRk8vYVNoVUF6Q0Vzc0M1cEhQL2RXY25tYytUOFdmdjRQUzNQ?=
+ =?utf-8?B?YnVtODVTRFE0aUF2Z096VkpUd1VTNG8zUUJhU0dRNmVxWXJ2ajlzdUNqd3Fk?=
+ =?utf-8?B?MUdmNjJ2SHNBN0liMk8vck1NK3lNdG1yOC9mRHFsVlJSRTZLMDlDSnF6WHFz?=
+ =?utf-8?B?S3k1VEllM3BHKzFWMkRHU1piczMyZlRoVC9jcmFodE9tRmI2TzRFbkZUZDlJ?=
+ =?utf-8?B?NVZHTHExUE4yRk8yRlJHN3RVLzhBY0UrcjFoMGFWZ0JPMlQrSENsUDYrY2hP?=
+ =?utf-8?B?UVMyMkFPWUJGQ1NMWmRtZDdYdFc0eDNPT0Zmc3M2VFh0UXRxWGxpYkVraFJV?=
+ =?utf-8?B?MlljS3VuUkZkSmU0RExiK2hQM0VpMFlscEFrdjRxdlAvY2x1Z3M3OFMyQnBC?=
+ =?utf-8?B?a3p4L2FDcWNrbkR2RDAvY1A0a3F1ejJGZkEwZUlXY29mYjh6NElQTUtQd3BK?=
+ =?utf-8?B?ZU85em8zZi9tL2Z6d0tsRWNYSGxVcmk1ZEZUUTN0ZWI3R0IzOG4vU1Q4ZTB2?=
+ =?utf-8?B?ak1iRExUcSsyRnowN203ajNPajF4UWZxeGoyZkRBZTU1OVhLN2JLSnJDTFBS?=
+ =?utf-8?B?dE0wNDJPMDJQcWJPSGsxWUJYRjhFbjU0eWE1YWRqS3FYRThSelpJOGZ0L2Mr?=
+ =?utf-8?B?V3hPY05odFU3dXowMTh1a2JWWjM2WXJpd2JxWHFGaXBrZVJaWFBzeXo2UDQ1?=
+ =?utf-8?B?UVZPZXNqWWYxdU9yWkwxbDZ1dlAycFpyQkhuV3NXbnprUlp1Zks0TTh5NTRT?=
+ =?utf-8?B?SFhVRkhGY0lWWlB0bDB3WThpY2VtL1pJSjZSOWI1eUpkd0UyZ212UklSazVL?=
+ =?utf-8?B?WmlnMFhWUGZ6bWxzSVpJcXBIZmZ0RXQzbDhpYURNMWd6SVJOSUFqNGlUdE5w?=
+ =?utf-8?B?cWtXS0VVRDRpbU9IK2VNblgwTmZqODFJa3NzNUhEWXR5N1RTaENLNFhBR294?=
+ =?utf-8?B?T1BqTm8vc09kTFFWRjF2ZVI4a3FRU09YWit6ZmZENWRhdEJtZmltNlpJS0pn?=
+ =?utf-8?B?THFuKzNvcjRzazduSnA1dWw5UVcxUWhtaE9aV2hld3p2M0VKODhQR2NyRkNk?=
+ =?utf-8?B?QjZMaEsxbGpldzJ6S1M4cVI1SCt1NHFxZjBjbmlYelJVN0M1Z0FxMGo0TDN6?=
+ =?utf-8?B?UUlYUEN2SWovSWNUeE1QQS92eERuc3hEVmhlaGpuZmxVRFhLSGJ1VkVUdlBj?=
+ =?utf-8?B?ZmFTUGdxRHo1NFIwMzZuWk0xTThqeHJyUk9hZUtlZk9LemYwTm92RVMzSTVt?=
+ =?utf-8?B?VEJDOHh0ZmVmOXRzVHROMVAraXI1eGtQcGY4WmpFV24yZ2FEaFZkYjJRc0Rt?=
+ =?utf-8?B?djZZNjRrVXBtNHFhTTdLRFVmeG1uNk1xZG9rc3FiditFL0puRkRIdU9xZkR1?=
+ =?utf-8?B?Y1pTbE9XMnJoNDlpNnNWWTFvVXRBODArbEdoNUgrdFQwRWJNeFRReXFiOEpO?=
+ =?utf-8?B?YVpZL1FPNk5hdHcxVkpZTW81V0YvUkhMR0ZmOWx3QmV6SC8zNlF5dkFkZzRu?=
+ =?utf-8?B?NXBNR213SGlpbWdOemJKbm1VVEJkSU5VSlhmbGtVZFB4aDRwTmxqMzVncEx4?=
+ =?utf-8?B?RmVPMm4waGNmUlNmWXphaCtubzd4ZUo0WG1kSFNTbnFvZXNxR3pVaDJJYnF4?=
+ =?utf-8?B?OVUzL2ZON1JDa3Q3dWxvU3J6OHhSbk14QWR0MEhIWU1zd0lhSFlIVzJRNmxN?=
+ =?utf-8?B?MThXVzJzTFNGaUhKTGVBQ29mbHpWRUdGOElQZGNpajlrckpVZGd2Y09qUmVa?=
+ =?utf-8?B?eW5zYzBWbUNKbHBrQ09KaXBORzZSWEhuakxEMHhYdDhKMGRMdTI4dFd0NHZI?=
+ =?utf-8?B?MXFmWk9OM1lpVW9KNDRteEFIdlpBOUl0SVJxWWtzUG14dEYzU053dz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <LV2PR08MB11057B554648B1B262EAE4ADE88D32@LV2PR08MB11057.namprd08.prod.outlook.com>
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR08MB11057.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8dcf34e8-cfe4-4e39-53d2-08def2fe97c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2026 14:34:01.4684
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0949Vt5smlEdMU7T9UOT7FUXGf4K5RNLNwM//+yZxZrdv3ZehMMoY4tQ20tnqKC4hMq3JLUxaagvRELti0dotA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR08MB8243
 
-On Wed, Aug 05, 2026 at 01:57:15PM +0000, Alexandra Lu (Nokia) wrote:
-> Resend in plain text as previous email in HTML format was rejected by the list servers.
-> 
-> 
-> Hi Mani,
-> 
-> The following was discovered by AI while I was working PCIe device managed by Linux kernel. There appears to be an unbalanced runtime PM reference in pci_generic.c
-> affecting devices that set .no_m3. It checked against v7.1 and it is still present there.
-> 
-> mhi_pci_probe() only releases the reference taken by local_pci_probe() when both PME from D3hot and M3 are supported:
-> 
->                /* Allow runtime suspend only if both PME from D3Hot and M3 are supported */
->                if (pci_pme_capable(pdev, PCI_D3hot) && !(info->no_m3)) {
->                               pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
->                               pm_runtime_use_autosuspend(&pdev->dev);
->                               pm_runtime_mark_last_busy(&pdev->dev);
->                               pm_runtime_put_noidle(&pdev->dev);
->                }
-> 
-> but mhi_pci_remove() re-takes that reference based on PME capability alone:
-> 
->                /* balancing probe put_noidle */
->                if (pci_pme_capable(pdev, PCI_D3hot))
->                               pm_runtime_get_noresume(&pdev->dev);
-> 
-> Commit 0494cf9793b7 ("bus: mhi: host: pci_generic: Disable runtime PM for QDU100") added the !(info->no_m3) term to the probe-side condition but left the removal-side condition unchanged, so the two no longer mirror each other. For a device that is PME capable and sets .no_m3, probe never performs the put that this get is documented to balance, and one usage count is leaked per bind/unbind cycle. Tracing it through, with the baseline of count=1 / runtime_auto=false that pci_pm_init() establishes via pm_runtime_forbid():
-> 
->                                                                            M3 supported               no_m3
->   bind:                 core get_sync                              2                           2
->                      probe put_noidle                       1                           (skipped) 2
->                               mission-mode allow                0 auto=true     1 auto=true
->   unbind:            core get_sync                              1                           2
->                                remove forbid                             2 auto=false   3 auto=false
->                               remove get_noresume             3                          4
->                                core put_noidle                          2                          3
->                               core put_sync                               1                          2
->   final                                                                               1 (baseline)    2 (baseline + 1)
-> 
-> It derived this after f227b246307e ("bus: mhi: host: pci_generic: Add pm_runtime_forbid() in remove callback"), since that commit also touches runtime PM balance in mhi_pci_remove(). It correctly balances the pm_runtime_allow() performed on the Mission Mode transition, but that is a separate pair from the put_noidle/get_noresume pair above, so the leak survives it unchanged. The only in-tree device setting .no_m3 today is qcom-qdu100, so whether this is currently observable in the field depends on that part advertising PME from D3hot. If it does not, the leak is latent rather than active. Either way the two conditions are intended to mirror each other and no longer do, and the practical impact has likely gone unnoticed because the PCI core forces unbound devices to D0 regardless of their runtime PM state. Reproducing on a .no_m3 device is just repeated bind/unbind:
-> 
->   for i in $(seq 5); do
->       echo $BDF > /sys/bus/pci/drivers/mhi-pci-generic/unbind
->       echo $BDF > /sys/bus/pci/drivers/mhi-pci-generic/bind
->   done
-> 
-
-Thanks for the report! This indeed is a legitimate bug that should be fixed.
-Please send the patch as per the Linux Kernel patch submission guidelines [1]
-and I'll be happy to take it.
-
-- Mani
-
-[1] Documentation/process/submitting-patches.rst
-
--- 
-மணிவண்ணன் சதாசிவம்
+SGkgTWFuaSwNCg0KVGhhbmtzIGZvciBjb25maXJtaW5nLiBJJ20gY2xlYXJpbmcgbXkgZW1wbG95
+ZXIncyBpbnRlcm5hbCBvcGVuLXNvdXJjZSBjb250cmlidXRpb24gcHJvY2VzcyBiZWZvcmUgYWRk
+aW5nIG15IFNpZ25lZC1vZmYtYnksIHNvIHRoZXJlIHdpbGwgYmUgYSBzaG9ydCBkZWxheS4gSSds
+bCBzZW5kIHRoZSBwYXRjaCBvbmNlIHRoYXQncyBkb25lLg0KDQpUaGFua3MsDQpBbGV4YW5kcmEN
+Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE1hbml2YW5uYW4gU2FkaGFzaXZh
+bSA8bWFuaUBrZXJuZWwub3JnPiANClNlbnQ6IFdlZG5lc2RheSwgQXVndXN0IDUsIDIwMjYgMTA6
+MTcgQU0NClRvOiBBbGV4YW5kcmEgTHUgKE5va2lhKSA8YWxleGFuZHJhLmx1QG5va2lhLmNvbT4N
+CkNjOiBtaGlAbGlzdHMubGludXguZGV2OyBsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZzsg
+bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgVml2ZWsgUGVybmFtaXR0YSA8cXVpY192cGVy
+bmFtaUBxdWljaW5jLmNvbT47IEtyaXNobmEgQ2hhaXRhbnlhIENodW5kcnUgPGtyaXNobmEuY2h1
+bmRydUBvc3MucXVhbGNvbW0uY29tPg0KU3ViamVjdDogUmU6IFtCVUddIGJ1czogbWhpOiBob3N0
+OiBwY2lfZ2VuZXJpYzogcnVudGltZSBQTSB1c2FnZSBjb3VudCBsZWFrZWQgb24NCg0KDQpDQVVU
+SU9OOiBUaGlzIGlzIGFuIGV4dGVybmFsIGVtYWlsLiBQbGVhc2UgYmUgdmVyeSBjYXJlZnVsIHdo
+ZW4gY2xpY2tpbmcgbGlua3Mgb3Igb3BlbmluZyBhdHRhY2htZW50cy4gU2VlIHRoZSBVUkwgbm9r
+Lml0L2V4dCBmb3IgYWRkaXRpb25hbCBpbmZvcm1hdGlvbi4NCg0KDQoNCk9uIFdlZCwgQXVnIDA1
+LCAyMDI2IGF0IDAxOjU3OjE1UE0gKzAwMDAsIEFsZXhhbmRyYSBMdSAoTm9raWEpIHdyb3RlOg0K
+PiBSZXNlbmQgaW4gcGxhaW4gdGV4dCBhcyBwcmV2aW91cyBlbWFpbCBpbiBIVE1MIGZvcm1hdCB3
+YXMgcmVqZWN0ZWQgYnkgdGhlIGxpc3Qgc2VydmVycy4NCj4NCj4NCj4gSGkgTWFuaSwNCj4NCj4g
+VGhlIGZvbGxvd2luZyB3YXMgZGlzY292ZXJlZCBieSBBSSB3aGlsZSBJIHdhcyB3b3JraW5nIFBD
+SWUgZGV2aWNlIA0KPiBtYW5hZ2VkIGJ5IExpbnV4IGtlcm5lbC4gVGhlcmUgYXBwZWFycyB0byBi
+ZSBhbiB1bmJhbGFuY2VkIHJ1bnRpbWUgUE0gcmVmZXJlbmNlIGluIHBjaV9nZW5lcmljLmMgYWZm
+ZWN0aW5nIGRldmljZXMgdGhhdCBzZXQgLm5vX20zLiBJdCBjaGVja2VkIGFnYWluc3QgdjcuMSBh
+bmQgaXQgaXMgc3RpbGwgcHJlc2VudCB0aGVyZS4NCj4NCj4gbWhpX3BjaV9wcm9iZSgpIG9ubHkg
+cmVsZWFzZXMgdGhlIHJlZmVyZW5jZSB0YWtlbiBieSBsb2NhbF9wY2lfcHJvYmUoKSB3aGVuIGJv
+dGggUE1FIGZyb20gRDNob3QgYW5kIE0zIGFyZSBzdXBwb3J0ZWQ6DQo+DQo+ICAgICAgICAgICAg
+ICAgIC8qIEFsbG93IHJ1bnRpbWUgc3VzcGVuZCBvbmx5IGlmIGJvdGggUE1FIGZyb20gRDNIb3Qg
+YW5kIE0zIGFyZSBzdXBwb3J0ZWQgKi8NCj4gICAgICAgICAgICAgICAgaWYgKHBjaV9wbWVfY2Fw
+YWJsZShwZGV2LCBQQ0lfRDNob3QpICYmICEoaW5mby0+bm9fbTMpKSB7DQo+ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHBtX3J1bnRpbWVfc2V0X2F1dG9zdXNwZW5kX2RlbGF5KCZwZGV2
+LT5kZXYsIDIwMDApOw0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwbV9ydW50aW1l
+X3VzZV9hdXRvc3VzcGVuZCgmcGRldi0+ZGV2KTsNCj4gICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgcG1fcnVudGltZV9tYXJrX2xhc3RfYnVzeSgmcGRldi0+ZGV2KTsNCj4gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgcG1fcnVudGltZV9wdXRfbm9pZGxlKCZwZGV2LT5kZXYpOw0K
+PiAgICAgICAgICAgICAgICB9DQo+DQo+IGJ1dCBtaGlfcGNpX3JlbW92ZSgpIHJlLXRha2VzIHRo
+YXQgcmVmZXJlbmNlIGJhc2VkIG9uIFBNRSBjYXBhYmlsaXR5IGFsb25lOg0KPg0KPiAgICAgICAg
+ICAgICAgICAvKiBiYWxhbmNpbmcgcHJvYmUgcHV0X25vaWRsZSAqLw0KPiAgICAgICAgICAgICAg
+ICBpZiAocGNpX3BtZV9jYXBhYmxlKHBkZXYsIFBDSV9EM2hvdCkpDQo+ICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHBtX3J1bnRpbWVfZ2V0X25vcmVzdW1lKCZwZGV2LT5kZXYpOw0KPg0K
+PiBDb21taXQgMDQ5NGNmOTc5M2I3ICgiYnVzOiBtaGk6IGhvc3Q6IHBjaV9nZW5lcmljOiBEaXNh
+YmxlIHJ1bnRpbWUgUE0gZm9yIFFEVTEwMCIpIGFkZGVkIHRoZSAhKGluZm8tPm5vX20zKSB0ZXJt
+IHRvIHRoZSBwcm9iZS1zaWRlIGNvbmRpdGlvbiBidXQgbGVmdCB0aGUgcmVtb3ZhbC1zaWRlIGNv
+bmRpdGlvbiB1bmNoYW5nZWQsIHNvIHRoZSB0d28gbm8gbG9uZ2VyIG1pcnJvciBlYWNoIG90aGVy
+LiBGb3IgYSBkZXZpY2UgdGhhdCBpcyBQTUUgY2FwYWJsZSBhbmQgc2V0cyAubm9fbTMsIHByb2Jl
+IG5ldmVyIHBlcmZvcm1zIHRoZSBwdXQgdGhhdCB0aGlzIGdldCBpcyBkb2N1bWVudGVkIHRvIGJh
+bGFuY2UsIGFuZCBvbmUgdXNhZ2UgY291bnQgaXMgbGVha2VkIHBlciBiaW5kL3VuYmluZCBjeWNs
+ZS4gVHJhY2luZyBpdCB0aHJvdWdoLCB3aXRoIHRoZSBiYXNlbGluZSBvZiBjb3VudD0xIC8gcnVu
+dGltZV9hdXRvPWZhbHNlIHRoYXQgcGNpX3BtX2luaXQoKSBlc3RhYmxpc2hlcyB2aWEgcG1fcnVu
+dGltZV9mb3JiaWQoKToNCj4NCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTTMgc3VwcG9ydGVkICAgICAg
+ICAgICAgICAgbm9fbTMNCj4gICBiaW5kOiAgICAgICAgICAgICAgICAgY29yZSBnZXRfc3luYyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDIgICAgICAgICAgICAgICAgICAgICAgICAgICAy
+DQo+ICAgICAgICAgICAgICAgICAgICAgIHByb2JlIHB1dF9ub2lkbGUgICAgICAgICAgICAgICAg
+ICAgICAgIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAoc2tpcHBlZCkgMg0KPiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBtaXNzaW9uLW1vZGUgYWxsb3cgICAgICAgICAgICAgICAg
+MCBhdXRvPXRydWUgICAgIDEgYXV0bz10cnVlDQo+ICAgdW5iaW5kOiAgICAgICAgICAgIGNvcmUg
+Z2V0X3N5bmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgMg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3ZlIGZvcmJp
+ZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMiBhdXRvPWZhbHNlICAgMyBhdXRvPWZhbHNl
+DQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlbW92ZSBnZXRfbm9yZXN1bWUgICAg
+ICAgICAgICAgMyAgICAgICAgICAgICAgICAgICAgICAgICAgNA0KPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgY29yZSBwdXRfbm9pZGxlICAgICAgICAgICAgICAgICAgICAgICAgICAy
+ICAgICAgICAgICAgICAgICAgICAgICAgICAzDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGNvcmUgcHV0X3N5bmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgMg0KPiAgIGZpbmFsICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEgKGJh
+c2VsaW5lKSAgICAyIChiYXNlbGluZSArIDEpDQo+DQo+IEl0IGRlcml2ZWQgdGhpcyBhZnRlciBm
+MjI3YjI0NjMwN2UgKCJidXM6IG1oaTogaG9zdDogcGNpX2dlbmVyaWM6IEFkZCBwbV9ydW50aW1l
+X2ZvcmJpZCgpIGluIHJlbW92ZSBjYWxsYmFjayIpLCBzaW5jZSB0aGF0IGNvbW1pdCBhbHNvIHRv
+dWNoZXMgcnVudGltZSBQTSBiYWxhbmNlIGluIG1oaV9wY2lfcmVtb3ZlKCkuIEl0IGNvcnJlY3Rs
+eSBiYWxhbmNlcyB0aGUgcG1fcnVudGltZV9hbGxvdygpIHBlcmZvcm1lZCBvbiB0aGUgTWlzc2lv
+biBNb2RlIHRyYW5zaXRpb24sIGJ1dCB0aGF0IGlzIGEgc2VwYXJhdGUgcGFpciBmcm9tIHRoZSBw
+dXRfbm9pZGxlL2dldF9ub3Jlc3VtZSBwYWlyIGFib3ZlLCBzbyB0aGUgbGVhayBzdXJ2aXZlcyBp
+dCB1bmNoYW5nZWQuIFRoZSBvbmx5IGluLXRyZWUgZGV2aWNlIHNldHRpbmcgLm5vX20zIHRvZGF5
+IGlzIHFjb20tcWR1MTAwLCBzbyB3aGV0aGVyIHRoaXMgaXMgY3VycmVudGx5IG9ic2VydmFibGUg
+aW4gdGhlIGZpZWxkIGRlcGVuZHMgb24gdGhhdCBwYXJ0IGFkdmVydGlzaW5nIFBNRSBmcm9tIEQz
+aG90LiBJZiBpdCBkb2VzIG5vdCwgdGhlIGxlYWsgaXMgbGF0ZW50IHJhdGhlciB0aGFuIGFjdGl2
+ZS4gRWl0aGVyIHdheSB0aGUgdHdvIGNvbmRpdGlvbnMgYXJlIGludGVuZGVkIHRvIG1pcnJvciBl
+YWNoIG90aGVyIGFuZCBubyBsb25nZXIgZG8sIGFuZCB0aGUgcHJhY3RpY2FsIGltcGFjdCBoYXMg
+bGlrZWx5IGdvbmUgdW5ub3RpY2VkIGJlY2F1c2UgdGhlIFBDSSBjb3JlIGZvcmNlcyB1bmJvdW5k
+IGRldmljZXMgdG8gRDAgcmVnYXJkbGVzcyBvZiB0aGVpciBydW50aW1lIFBNIHN0YXRlLiBSZXBy
+b2R1Y2luZyBvbiBhIC5ub19tMyBkZXZpY2UgaXMganVzdCByZXBlYXRlZCBiaW5kL3VuYmluZDoN
+Cj4NCj4gICBmb3IgaSBpbiAkKHNlcSA1KTsgZG8NCj4gICAgICAgZWNobyAkQkRGID4gL3N5cy9i
+dXMvcGNpL2RyaXZlcnMvbWhpLXBjaS1nZW5lcmljL3VuYmluZA0KPiAgICAgICBlY2hvICRCREYg
+PiAvc3lzL2J1cy9wY2kvZHJpdmVycy9taGktcGNpLWdlbmVyaWMvYmluZA0KPiAgIGRvbmUNCj4N
+Cg0KVGhhbmtzIGZvciB0aGUgcmVwb3J0ISBUaGlzIGluZGVlZCBpcyBhIGxlZ2l0aW1hdGUgYnVn
+IHRoYXQgc2hvdWxkIGJlIGZpeGVkLg0KUGxlYXNlIHNlbmQgdGhlIHBhdGNoIGFzIHBlciB0aGUg
+TGludXggS2VybmVsIHBhdGNoIHN1Ym1pc3Npb24gZ3VpZGVsaW5lcyBbMV0gYW5kIEknbGwgYmUg
+aGFwcHkgdG8gdGFrZSBpdC4NCg0KLSBNYW5pDQoNClsxXSBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mv
+c3VibWl0dGluZy1wYXRjaGVzLnJzdA0KDQotLQ0K4K6u4K6j4K6/4K614K6j4K+N4K6j4K6p4K+N
+IOCumuCupOCuvuCumuCuv+CuteCuruCvjQ0K
