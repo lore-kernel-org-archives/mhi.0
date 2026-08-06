@@ -1,69 +1,71 @@
-Received: from outbound-ip173b.ess.barracuda.com (outbound-ip173b.ess.barracuda.com [209.222.82.107])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011013.outbound.protection.outlook.com [52.101.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA9D480345
-	for <mhi@lists.linux.dev>; Thu,  6 Aug 2026 15:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010D2383985
+	for <mhi@lists.linux.dev>; Thu,  6 Aug 2026 17:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786031686; cv=fail; b=MFwkEPVLKS4JS6ERrCskYjgU/mSqYx6V1eyBGB9OYpqM9vd8cmi6e5b4UMMEBr4rkNkVs1ZX0fTd9BBFJCz6FsRPRLoRYA9ZkhtGyiLn1xmCtdUjHgo12Y5f41OojXkPA73E2s5Id3eX8dqaqmP4m5k4IQekZvrkBicN0bM/qIM=
+	t=1786036310; cv=fail; b=VfkKIc9ziqJ0ZJLErzlVNDx/6wbDnjkOEVTIG0fnXxwxRJrbGO9LzHszipNUp2uRQdYyRq57Nn8B9mAA40Fnx4lxn73oe0+O1omkVYIsFFwuyRxxt1aWgRxUSMufT786Wj6ZHXEXlmLWz0zViQAQ2gHY+ycEpUwcS80G2rxYGr4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786031686; c=relaxed/simple;
-	bh=F8WAOASE5pfJgLnJYV/ldxyLldrqscV4+BHzbANXd28=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qgPY7vPF6z5A4QlX5yiKgsoC4PvSMxLG1l6CZh7xaf7RQddjtkSZs9kEuDyy/tiM96gxwAE8F539lXl9tkunKF4D/mJJgbHNWMWa0Y+JXSDar0VBwb7N4vwsgyS0TJyBdbDegUE9LWCko74pc0aVcJPgInE6hv2qSm//7BfyZQA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=HJsK0RVK; arc=fail smtp.client-ip=209.222.82.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
+	s=arc-20240116; t=1786036310; c=relaxed/simple;
+	bh=EGwbxQMixZkzIoo7qr3U7RBHbrClAE02JjKfwuH170Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PML6e7hOnwRxFyHDOLa1OMm6TzqHi8ZqOrV6aQqqnoAGgHGd6siH8aS4+lqu+3bKofAyXbGAMgkgxt5fpREyl0PF4kWF8vdlkP+l/EnBG6NyleUTv9gDa26XWXrSVfX30KK3rlf4CfVeVuwpAXvtWtmLargbrxTEL5238dw0nLQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=s6OnWdEG; arc=fail smtp.client-ip=52.101.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="HJsK0RVK"
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11021115.outbound.protection.outlook.com [40.93.194.115]) by mx-outbound21-228.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 06 Aug 2026 15:54:23 +0000
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="s6OnWdEG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qVKIG258cLZ+7ZwAnIQS36rD+N2DLuKP3Afe9U/XBS83VUMfd0Ncgm64nUBf96XP5uGm1yThmZWg7G2ryAnISfHi/tT6bdE6s/1hQsF2n1/sGqLjmrXeJwhAw6xUpGjLV0i/ZdokumR+6h1GN0K4TcntIyGQkwRqRB62w8QV3Ojh/WUCNcvAPVy8+ofAJ9Pb1ETlQkePnpHEToSOT9ZC09FVrvC0TIMS/nYtryhdte466hDNsrIql1nECY0i9Bofy5Xww+92SJNx1B1ow7aZcQhKxN+e78Vp4OVp8bUrPsOev5qDRceOpMSfUvIna6T9HcffMQJDT0UdGtmPwWs+PQ==
+ b=Fj8z/nhqUNGSENkgAKlHqrVgDRV12fUumzUyJxDVbRugBf51K3UeIYEM9BmxQEi70lhRDBUBlKlXCuq9Qqqj/S6MzwgUxCDN7ypP7SDIgUKkO/AxTJTTvgZAprCNyiI1IvBrCf6/0wXMPZvqOcWGcCd6hw9V6DGxionN9esRYM2wejJas9Ei2QW/rDTvoZDlq0Ht5AxGyhuJp9hVhqlgJSkE8YK6ycYXJL1Z62hO0WCKV5oXEKLAuHa9AntmPLD04axMLBKvwcK7XdL0OHXMBx/De9fiES5Zhm32lA9IpmeIaK8YbzO6pmEmCpasIASKKQMaP6R0QkEjXFsNRNtQ9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZrXf8ytQN9M0y6knN7vGj8cIepeXbdx7GRq+XuirlEc=;
- b=CuGESj4gXwE4QQpnCxHE8DKUs/ltH2gkJxQPiIDBKxHg1srNPzBYF4B3EiKWX8xKCApnwX4fZiL2EXtbLH6MsjaMP5FUtovdnpgzCxy9TWeXayi35o6VyqN/5CJWTLXL0/ZGXU0Gvui2Iiw1ab1mrUCNnyVGW1jNJjKjkj7V1wEY9xH8yqYV8YN+dQhrkmP0F3hGIfiaX/psCuKL5UMGyWOXXuAlmwsDnb/pxgcuTD8XGz6hICzPMOiVS9A/t5Ab3anW9Ev3YL5zbYgP5zsBEmVaxYpvqQTWVqeuaHXLAKIo4Y9jL8q1W/ne6XwDA2UHVtLCJwJHlf9MDj8BlGdX8Q==
+ bh=KP4Cs6fsYCiUkbL7rXnnIQud7NMw/GyLcCnlZ6YtqzM=;
+ b=JDrF4xmtY9b2bPKBT+4YczPFcMef+89pkwVgvu+tdyFFzoqGREyUnsfBDoOPYQkLsfOPvuB+V+z4irE2ZyjIsClzfNYMed1nkWIBB5rxyU8yI1jnS6hBRV7O1ev6OTIAKxGoqVxzTz8XhYRnCAZzUqfKv5B3T7aRwV8x/HD7+kr/Dj8zzek1P3FSX6uwnPYreP9p+zMC9QR7/N2Ir1I3yuzPayNrRgHNL/kQC/E3yy90lm19oXn+uQrEJCoe4GzBW6CM8ceBaZawRXGZnsGAqPraohWhbC6IGkSk+d5pMnnRKVwm8SXYLAUls9ezPY36FIuDgJ+LargJmT5U4617zA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
- dkim=pass header.d=opengear.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
- s=selector1;
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZrXf8ytQN9M0y6knN7vGj8cIepeXbdx7GRq+XuirlEc=;
- b=HJsK0RVK/+18zpHTAvtj4VV+n/Z0RYM8VavvU6PeVRYcYvVdm2PsTQRXWfN3gl0lxIXswbJeJm0uEUXtCpvy1IX9yylBJV3RiuGrk2y89BEXlxys4TQou8uM+8WFdUx/zBga9jI/Q0DNwuZjLSZeQolahL4tI+IoYFNfMyaUBrDsNekWimZmwvo0FhNFwi8qQ1iDF64EKM+rR+WBjZPcYeB17HlcINBXzaorHL9crou9TFy6IpRE0i5QU2J+24brbRlZLsKCpBS3XkQLXivZDyK2JWIhaavftMd81Rm0r3bGgXth2H1JQ8qiBAfuY7wLuf3BEJsdS2zg2qMPnAQm2A==
+ bh=KP4Cs6fsYCiUkbL7rXnnIQud7NMw/GyLcCnlZ6YtqzM=;
+ b=s6OnWdEGLRR1meRG4clEjFkuYECwSVsTu1IIH0UrK6VGcLAwIAQ0uROlD1O0Cpu84CbdDDR6oFzCX+Rvoyd3ckXDUVg312JIQzver4mOkkU8W8kGgp7l+UIHz2ehEzREuJ3qWCqp4kAmV3wqSPytYnIR5Qp5vYbZLUumDsrRVdEDsQVn6CqHwEeSR+R4cYk3P4f0WTmFSynCW+AhK+m+zq+0aGeXjBEO0IAO7GhIkjAbzoe1CPB9gY7w6NONyKBtEweOkdsiJfxAMiJMUyZMl/qTo5Z9GBoi9obrg6h0FMOB8ca7P8q3/Vbagd1dFK5gAX7W8j0bVBNa0razco/psA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=opengear.com;
-Received: from DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
- by IA1PR10MB5900.namprd10.prod.outlook.com (2603:10b6:208:3d4::5) with
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DU2PR04MB8982.eurprd04.prod.outlook.com (2603:10a6:10:2e1::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Thu, 6 Aug
- 2026 15:53:03 +0000
-Received: from DM6PR10MB4139.namprd10.prod.outlook.com
- ([fe80::19e9:d558:fd6c:8e5a]) by DM6PR10MB4139.namprd10.prod.outlook.com
- ([fe80::19e9:d558:fd6c:8e5a%6]) with mapi id 15.21.0292.018; Thu, 6 Aug 2026
- 15:53:00 +0000
-From: Peter Hunt <peter.hunt@opengear.com>
-To: mani@kernel.org,
-	loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com
-Cc: johannes@sipsolutions.net,
-	netdev@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Peter Hunt <peter.hunt@opengear.com>
-Subject: [PATCH net-next v2 1/3] net: wwan: core: propagate modem control signals to port drivers
-Date: Thu,  6 Aug 2026 09:52:51 -0600
-Message-ID: <20260806155253.3378294-2-peter.hunt@opengear.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260806155253.3378294-1-peter.hunt@opengear.com>
-References: <20260806155253.3378294-1-peter.hunt@opengear.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH3P220CA0002.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:610:1e8::13) To DM6PR10MB4139.namprd10.prod.outlook.com
- (2603:10b6:5:21d::24)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.20; Thu, 6 Aug
+ 2026 17:11:45 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0292.018; Thu, 6 Aug 2026
+ 17:11:45 +0000
+Date: Thu, 6 Aug 2026 12:11:34 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] PCI: epf-mhi: Add batched DMA read support
+Message-ID: <anTARsISvCPUA9_v@SMW015318>
+References: <20260803-dma_multi_sg-v2-0-c12bb05e42d6@oss.qualcomm.com>
+ <20260803-dma_multi_sg-v2-4-c12bb05e42d6@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260803-dma_multi_sg-v2-4-c12bb05e42d6@oss.qualcomm.com>
+X-ClientProxiedBy: PH7PR17CA0032.namprd17.prod.outlook.com
+ (2603:10b6:510:323::22) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -71,146 +73,330 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4139:EE_|IA1PR10MB5900:EE_
-X-MS-Office365-Filtering-Correlation-Id: 819c1cb7-5368-416a-912f-08def3d2ca7b
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU2PR04MB8982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 008ac053-a535-43fa-d5cd-08def3ddcaf9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|11063799006|56012099006|10067099003|18002099003|22082099003|3023799007;
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|19092799006|5023799004|11063799006|56012099006|10067099003|6133799003|18002099003|22082099003|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	CzCvueTKjF8r4qEVgZ4cbkzsYVQgiUjy+nf8IsphkmuBev5D5QBKgVvodS0+654/WEmu9+eVW9YURt5nwWGFqZ1p5UkJNBNdfKyuGrV8C1o7Z8EGQ9gETHgRmchMQh64/0iAVbYbhFn0tpYKeDb3hNEatFbLYIgekeQNK2KqmR8sWengg9kuPwRPpmkl/jZ11RnD3rmQQcIdLYdlsuTdOcIy0UeDXzqaWwoNoUOQcnEncCVxHTtnGeyiazQIw/Q9n6vPW2Vb8xO5XgYcHQnDApw/EdzqlOct+5LIVCmgzolxrbIFr0cl0rMXXASt92AN7bNbj+/GEsSVi3LwdDUQWSWJcY4MWrZ+p8oDbbM6QAaYp0+J4UOjDg9zfvfK/wnj1dejMnFH5ouh+GuGuoygQOVGYt3XZKSc8oL5rlrTwVgzkEQdLBfx1Y6lQw2hcIgYuSbmrmliRSWwvLCb6YfK6HNNe0YBR9Uf5Ym952azDWRli7kxtPndDcxNEnHG55z57Akkge8qlpspSqxv6AK7lNaEv7syZp5MaLf5K1M0k55rZ5eInxko9N2heTp2D1mZ4iF3tCcRILfKGL5vFAiitmPP7yrcXvLDOkk+PAxohpITwpMVAd4yM60wywFiOzMAVvmtNnx7HfjJ+K5crC78tLm11mkWnSYvHvROcDmtBGg=
+	M9r4nDst7+lDLT6WyNKqgBbiIu2FwjlQ/9bAhn+EApc800VuHpjj5gPLSLXqVnw7Ud2iJgoAkZdzQI6nDFGUTOJZwmG7gJw3eQ5Th8qAewwlRxdTlqNMVeB+vcJfMNcko+EVW5Zn9/Mi32zPEaaG7G6n/Y+4PxyDRdNT+IbdifZZmXp/TEEfXKGcAD8+6C6wyz1vS4qEKMe1tafMZ6gq/7yZWez81NTSmaZDNuCFJg4+OqsYK34qU5DEqVCDxMmzQBeHT6jxt6GDctwxUQ878t/ILQH7T0uLi9gr31hyh1yyCx1aBeFO3+5xdyP9DjrjrApoTgNxh5U8HdxFtlY7TwIK4vbmfMAyykVcE6jDm78iKiBfaJYTEPQeEUOecL91jBLsed6330kyZCaV2CdcLq0XTvIfidTx6yFahAgQm9PfYKcVZnoUrcescndwy1qzJkiFmYKEOWMy+FoSKbGzdWb36DtYpF1YNggvGFTj2sbEiaDYdWizfK6v+g9Q9OoZopO3Zk7iwzpIkxyR7Wz/txKnbwIhpOdbEXp9p9c9QSceOJDn2Kq5aMu+niTV9Y20YQWjsLFktFDXsKYDSw2Wf+VOuPWvXJ6sZE6/JQy0StVcvj9ChBIXRqfRShYclj5RhdgAiJ0iZz3LsvBOL5sqPJio0B8+uxshmdXBy3yE3PE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(19092799006)(5023799004)(11063799006)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e6RTGyVvKqZ9CpipTsb5FY8cCBCLt3fFKsgyLs9T0WP/+oPgAfgv+2KPXOau?=
- =?us-ascii?Q?MaJjVwnMufZhIL3LF+zW2sGcFYrsdGWyC/jDoodsQXCHcCC8jj6ld+dNSSj3?=
- =?us-ascii?Q?gnInRQZmE9Szsqk738ne5MT1wSXHo3ZmsAZtpE08H6zXzCv/pmQLH/f53wMx?=
- =?us-ascii?Q?tP0hVUDibFZldveC4fFlBSEiLgpxcyvzFXJKqmqWXPrlyuFPUF26/CoGlvPx?=
- =?us-ascii?Q?77V0rM00hX6ecdhx5BFG1+P9lSFa+cKRMaY9/LImFjxbQxdVR0Ln+JHVpAWo?=
- =?us-ascii?Q?yS4Uz3tLxZwJoEu8QhloumvbWFvpXnJfgHDAMcdM+EmYJmGFYiWZYO6HtrTM?=
- =?us-ascii?Q?zx+7qtuLwaLkl3V3itbxJXd+v4tiLBRk7LbD3L/EM2dT1BH6TWJBpxurU2yS?=
- =?us-ascii?Q?YNggKI2USQIuEK9+EDHOg4EtCIBTPhPr6S62bExWWjfugxeCSGAeDIunNMlA?=
- =?us-ascii?Q?8tv5x6oeDz6fikF1lplF/mt0bvhQUR6F1O4fptYboy0ihJZrHHyLnPGke+BY?=
- =?us-ascii?Q?8kv1CJ6OEQFGXSG3btJd0r70k9qWwzAglUM0mTW4JVSLL20sydjXcv2GqJT6?=
- =?us-ascii?Q?PtuDshvY6TRashTXvygV2waUTYXXrMc21ONfZselgod4YD8s0MQ0PSLwDemm?=
- =?us-ascii?Q?Wq5LkEkgDTEr4XQDDr+Wnrl7bAqeRcFUN5G2UPdZPIbq5DIPrUb9NcSBPTCh?=
- =?us-ascii?Q?uwm5RIZmoB5O5K2htiVSw93T3jx85qKxCVr4/FJqiugnRXkh4V5laqu6REV+?=
- =?us-ascii?Q?8b372sfa9qiPTrcZMwtbM3/kauEcLUbkZGacEOhvWlp7QIcl+jL0BtFyW9XH?=
- =?us-ascii?Q?oKzkN5C59X7ScZ47AkX0HOX9OoRh1ueFQdWRSZjkYJiCzaBKKU3Oni4ai3fb?=
- =?us-ascii?Q?VYrLsdgUeL66hJPn/9U9upo9VZd3E+8ZPWvWl9sypbWXRtmH9kxM3/BAdciq?=
- =?us-ascii?Q?eQAxIOOQtjZVd69cPzCrAbOTnfDm88F5pra6dZh4beKCaSllEQeCMNdbbvT6?=
- =?us-ascii?Q?DKVBWHtuRHyB4kGV7Ro1fS2V9IxY+Kd0CqHC4Fq4YX8hHT+gMBslQ5jeaaxe?=
- =?us-ascii?Q?rAG3sMp2sNzq3/HHcpdw1sE9BYzdDanUJ+xvVTuorgbhiGICYhxbhfHTUP6b?=
- =?us-ascii?Q?ocivipxrHOMQLuaq7GWq0+e4FKV3TBKd5bSOsaOh1ykym6kAeZuBvsOgmTNI?=
- =?us-ascii?Q?gjru+8Yr+LRh5hftmQvVlLt9E7nuDQZ8UCMdLsiFknc3V2hO5EEhycVyfXHZ?=
- =?us-ascii?Q?+eqKzzeufIHw3yY3h8qH+iynZhn3pJ/A82nnGPGKK3ANMLVneo6a1/LKShtj?=
- =?us-ascii?Q?rS8co6G6NzkzMiMFndCq7fc9YUXRB6wKUt4XjeH3Ml1cWLZ3Vz5DxOVmzwTZ?=
- =?us-ascii?Q?qBXePSfTlUnyHP5ppEnEnhk431EoCVWZVQJF+gyVuWvzw1zqpyoSjAYRItdm?=
- =?us-ascii?Q?Ep1aYqghK4g8VajUp6klC3vL0ZzpHMrT+QhhZSaAZkCBbJIpUPum4YPMXK7y?=
- =?us-ascii?Q?Ab0M/stj6y28YI/2V17Vr/IQvsbNwXcD1q4nuH37U3pwtLyWHQpMvm7E/MYB?=
- =?us-ascii?Q?m8TMK0NqM42/jXGTt5nBpPaYZ/7He5TCQ8pi3LmnQucP1C2MKRtwKRUvuEEv?=
- =?us-ascii?Q?CEH6UAgrYLA3vLN4FCwVo4MvbVF+mEk0X/YRHYx3hiiPc1YzxkmyFCbPFReI?=
- =?us-ascii?Q?JyUjl4AW85Y3PRnvJlA+QsOibwOKoBVOH7sPQB+/yRX3t05J?=
-X-Exchange-RoutingPolicyChecked:
-	i6ug8cAfPJ8KL8xjI4nrQhGrrF7eFBhI6kfallpq48Ogxzs2Ba//OSfdiZoxHX8jNbRJoELPbKz6/l244JpWQJsOaNzY1RLaoEN5Xk/93nwcMETaGjlS2vlOOB5JCkPsdvZW5OTN0y+Tx0PwCj602S/WwMIgsA/Rso9W2sjTM9qXQyLyT3kVgqAPtEm8TVRpXro7cXGSnAQCX0jCedcqJ++JX5dDM5VuMz9WQmGuU1kPXGOWUSTbfqiksHfw3zs877xac9uptyfSH3yNpBWuUuohBF6IIKmbNoOjNc29I4Gphkyy2bcjSPGf9NsXJvxcXnc3v9u53gYO3y84hEL+Ug==
-X-OriginatorOrg: opengear.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 819c1cb7-5368-416a-912f-08def3d2ca7b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4139.namprd10.prod.outlook.com
+	=?us-ascii?Q?GrlQUCHlRUSILZQEMX40Knm3TsFHFBjfHW7akoIoa8RuLTzdQ0XBq6OAtDy+?=
+ =?us-ascii?Q?Xx886AJxEqGTLQhu8Vn/b309w5A8JWiK1g0TNykZ0ONVtNRmnk9+s1We0bb8?=
+ =?us-ascii?Q?kkL2IWSl7zi1pEoDBUUB8zWzbVDJP85EefF+aqobgE9UKb9TCZPtfnp3w3bq?=
+ =?us-ascii?Q?/XtHRdA36WTvgqbwg2J2uJP+7o+U9M49BIgV+lcJinxbjon5M/fFI7UZJUWQ?=
+ =?us-ascii?Q?GySwdMEkWn3RxrIvdBVfv6TSc3P2FkS7lL9TSK46zBb0Q+lUMqffkVun5ZhS?=
+ =?us-ascii?Q?vngZhKTCHGopThV3nkEUmrFcqkNm8lSo7hob8lB9mCViR/r03Jey5PPCdMPn?=
+ =?us-ascii?Q?az7e8pUoEVyabC/4p9P+BzAY8RJ+D7P17sb+TeOsf6p7FW7VpP8ghIAi7kcU?=
+ =?us-ascii?Q?ErcAG/WytYkxdUnDeMy12FHBPLtffUdOrQ2hAIYupAo4h4UY6s+0G5E2Sark?=
+ =?us-ascii?Q?rVMVt+LGvcR8S+q2po2SXa1y7ymSR3xrYFfjHHEJ4/Jrq+StjVyQvNbV+Tye?=
+ =?us-ascii?Q?k5FIrXWr5QwMe76TAeNufLfXQkjtNim+LEmbCxnYY+b+s2D2ftC0z3KAxMZn?=
+ =?us-ascii?Q?2wiDLeUZk2Q+wN+zOCnT/x9074bw3exXFmfeXd1RlhJhDjbveEgKGkjGCBKY?=
+ =?us-ascii?Q?FKVCYh/CfqtbBS83MRNciqrclDvyVOTjXxzWoAmwhRJ9Dsx62TGzFm2K7SFf?=
+ =?us-ascii?Q?SXsbldQxRxvtA/ZnhFRfDfelDkzHR1ORmQ0vDM8DU6AU+QXWpkaJ4QqIpq0H?=
+ =?us-ascii?Q?5DHmWtEfHWez6ZyXkMqQX+kB/X8bm6CkBWH6Jpl8uxjbij3e+CSUB38AoGsG?=
+ =?us-ascii?Q?AsPZdC/fTICNYjTtnxt0TIxW7K4Uube7A+5/NWNpTJrmWk+eR/ZoJ/C78xS5?=
+ =?us-ascii?Q?GM4E+IMZd9vbTOFGStC2K2D97OXshLRd5o+gp6bqHksEpzuj46h/0s+pc/s/?=
+ =?us-ascii?Q?dZIA3RC67qL7WLF53nz1mzmGwKHfhFDF0/ttmuFyDtFkomnUlO5vqOzbbDDK?=
+ =?us-ascii?Q?VJ7bv60sCa1a3V7/swRHtHH+VRYTkj8xxlJ+wW0RwKrQU9N5PuMIt+7WtpMI?=
+ =?us-ascii?Q?tBG3UJqHScar8O96j4mbyv96kIONsZP8waRbc5sjQv1H7XgpjnGFJzesNrmP?=
+ =?us-ascii?Q?YROChuTpF3LsOojKmgiGyZI0M4YaOex2JjE8uvqS1DKtf4eq3hHQ6UEuBRSx?=
+ =?us-ascii?Q?o5B6rTwKZuShKOE80JKVrgp5B0VT/yADuatxgqv6w7YfMNp110Jsjg3o7oNy?=
+ =?us-ascii?Q?xZz/+B8X9W1axLUsq3Gc3V8Zt501QIzGj2/paQaPw/vTDnpBN/rtWT4RkkzY?=
+ =?us-ascii?Q?72u8of/nU5bokOLq0PH/dhJveAkoNaNkQhMX2o9F9e3seMGNSqmBGIc6NClk?=
+ =?us-ascii?Q?q9edxATwKmVOPMQ9Ce6cnRLzxwiEZXOkcT3OUix4D1dAudG30+KkKhzLwmyt?=
+ =?us-ascii?Q?hbr7loumJvCzPAh7ZePpfuR+I50CogvXcVmKdl7qRtqqBPBbwXchhl8rOlek?=
+ =?us-ascii?Q?pgzZ/3F2Gp8yf2tikwfcPFq7+OSPs5DDmVCOhaH0mlsE6OdGbc4c1k1O4WoJ?=
+ =?us-ascii?Q?3cRObIl7jEGsXhWabFYzkuQQw0qFNEdGDnHJ6CD2xyNRdsLvhoQlxHDnpSac?=
+ =?us-ascii?Q?dFB/8bKOZzOcmGeo33urhax9YUJqj+9BS0vqt3oiNvy3ATPVTwbR8pkUsLhc?=
+ =?us-ascii?Q?A9gbr8cAi+6uJ7hL+zQGMeOy22dV5NqT2/w/McOmXGT854hZUbsI44Q2SSrs?=
+ =?us-ascii?Q?lXTDt908B0tt+sGTxmu+DEuBrmHAWARmPIPjwYLqk8Sku4zmJkgt?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 008ac053-a535-43fa-d5cd-08def3ddcaf9
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 15:53:00.0557
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 17:11:45.5765
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 59jzLCAfiN85AoAWa6ILZwKI/vaW+RriMs71dP5UpCotiuEu+BnCXCIuRWkG/ydU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB5900
-X-BESS-ID: 1786031625-105604-7725-24966-2
-X-BESS-VER: 2019.1_20260804.2006
-X-BESS-Apparent-Source-IP: 40.93.194.115
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYWloZAVgZQ0MTUwtwgzSLFPM
-	UgJc00ycw81SzFxNzI0DTV0MTE2NBSqTYWAO3BwnBBAAAA
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275190 [from 
-	cloudscan9-227.us-east-2a.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
-X-BESS-BRTS-Status:1
+X-MS-Exchange-CrossTenant-UserPrincipalName: njqVKcROD2VjUeJAqyifpQUb47aLwqwfb/WaT8KFEV6q5wpZwDsczBb2M3bNqay5hZ5JECPBipXT1zmE0y6a8/eSh/+WH7OAxbuOSdyBNAtSq1+OlV4eq973O8Soxn7U
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8982
 
-The WWAN character device emulates the TTY modem-control ioctls
-(TIOCMGET/TIOCMSET/TIOCMBIC/TIOCMBIS) for AT and QCDM ports, but the
-result is only stored in port->at_data.mdmbits and never reaches the port
-driver. A driver therefore cannot act on the host raising or dropping
-DTR/RTS, even though some modems depend on it (e.g. they withhold
-unsolicited AT result codes until the host asserts DTR).
+On Mon, Aug 03, 2026 at 04:01:46PM +0530, Sumit Kumar wrote:
+> [You don't often get email from sumit.kumar@oss.qualcomm.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Add support for batched DMA transfers in the PCI EPF MHI driver to
+> improve performance when reading multiple buffers from the host.
+>
+> Implement two variants of the read_batch() callback:
+> pci_epf_mhi_edma_read_batch() is a DMA-optimized implementation that uses
+> dmaengine_prep_dma_sg() to transfer multiple buffers in a single DMA
+> transaction, while pci_epf_mhi_iatu_read_batch() serves as a CPU-copy
+> fallback for platforms without DMA support by sequentially processing each
+> buffer via IATU mapping. Wire up read_batch() to the eDMA variant only
+> when the RX DMA channel advertises the DMA_SG capability, falling back to
+> the IATU variant otherwise.
+>
+> On a successful batch, notify completion for every buffer via its
+> caller-supplied buf_info->cb, mirroring the read_sync/read_async
+> completion semantics so the MHI stack can free each buffer and raise its
+> transfer completion event. Make read_batch() a mandatory callback in
+> mhi_ep_register_controller(), alongside read_sync/write_sync/read_async/
+> write_async.
+>
+> This enables the MHI endpoint stack to cache ring data efficiently,
+> particularly for wraparound scenarios where ring data spans two
+> non-contiguous memory regions.
+>
+> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/ep/main.c                    |   3 +-
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c | 159 +++++++++++++++++++++++++++
+>  include/linux/mhi_ep.h                       |   7 ++
+>  3 files changed, 168 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index 21bc2c50170ff7f0181c0d0d4eefd51db30f34c8..c45240fc481dc3260a61b546c223b6be8e105587 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -1459,7 +1459,8 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
+>                 return -EINVAL;
+>
+>         if (!mhi_cntrl->read_sync || !mhi_cntrl->write_sync ||
+> -           !mhi_cntrl->read_async || !mhi_cntrl->write_async)
+> +           !mhi_cntrl->read_async || !mhi_cntrl->write_async ||
+> +           !mhi_cntrl->read_batch)
+>                 return -EINVAL;
+>
+>         ret = mhi_ep_chan_init(mhi_cntrl, config);
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> index 6bac69fc84b472c5f1abbeede2b441b5db73c784..ad245148de1462cffc950ba9a9e232405514dfb7 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
+> @@ -444,6 +444,162 @@ static int pci_epf_mhi_edma_write(struct mhi_ep_cntrl *mhi_cntrl,
+>         return ret;
+>  }
+>
+> +static int pci_epf_mhi_iatu_read_batch(struct mhi_ep_cntrl *mhi_cntrl,
+> +                                      struct mhi_ep_buf_info *buf_info_array,
+> +                                      u32 num_buffers)
+> +{
+> +       struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
+> +       struct device *dev = &epf_mhi->epf->dev;
+> +       u32 i;
+> +       int ret;
+> +
+> +       if (num_buffers == 0)
+> +               return -EINVAL;
+> +
+> +       for (i = 0; i < num_buffers; i++) {
+> +               ret = pci_epf_mhi_iatu_read(mhi_cntrl, &buf_info_array[i]);
+> +               if (ret < 0) {
+> +                       dev_err(dev, "Failed to read buffer %u of %u in batch: %d\n",
+> +                               i, num_buffers, ret);
+> +                       return ret;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int pci_epf_mhi_edma_read_batch(struct mhi_ep_cntrl *mhi_cntrl,
+> +                                      struct mhi_ep_buf_info *buf_info_array,
+> +                                      u32 num_buffers)
+> +{
+> +       struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
+> +       struct device *dma_dev = epf_mhi->epf->epc->dev.parent;
+> +       struct device *dev = &epf_mhi->epf->dev;
+> +       struct dma_async_tx_descriptor *desc;
+> +       struct dma_slave_config config = {};
+> +       DECLARE_COMPLETION_ONSTACK(complete);
+> +       struct scatterlist *src_sg;
+> +       struct scatterlist *dst_sg;
+> +       unsigned long time_left;
+> +       struct dma_chan *chan;
+> +       dma_cookie_t cookie;
+> +       unsigned int i;
+> +       int mapped;
+> +       void *buf;
+> +       int ret;
+> +
+> +       if (num_buffers == 0)
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * Single allocation carved into two arrays: src_sg[], dst_sg[].
+> +        * Reduces allocator round-trips on the ring-cache hot path. Done
+> +        * before taking the lock so direct reclaim cannot stall other
+> +        * transfers waiting on epf_mhi->lock.
+> +        */
+> +       buf = kcalloc(num_buffers, 2 * sizeof(*src_sg), GFP_KERNEL);
+> +       if (!buf)
+> +               return -ENOMEM;
+> +       src_sg = buf;
+> +       dst_sg = src_sg + num_buffers;
+> +
+> +       mutex_lock(&epf_mhi->lock);
+> +
+> +       chan = epf_mhi->dma_chan_rx;
+> +       if (!chan) {
+> +               ret = -ENODEV;
+> +               goto err_unlock;
+> +       }
+> +
+> +       sg_init_table(src_sg, num_buffers);
+> +       sg_init_table(dst_sg, num_buffers);
+> +
+> +       for (i = 0; i < num_buffers; i++) {
+> +               /*
+> +                * src addresses are PCIe host bus addresses already visible to
+> +                * the eDMA engine; no dma_map_sg() is needed for the source list.
+> +                */
+> +               sg_dma_address(&src_sg[i]) = buf_info_array[i].host_addr;
+> +               sg_dma_len(&src_sg[i]) = buf_info_array[i].size;
+> +
+> +               sg_set_buf(&dst_sg[i], buf_info_array[i].dev_addr, buf_info_array[i].size);
+> +       }
+> +
+> +       mapped = dma_map_sg(dma_dev, dst_sg, num_buffers, DMA_FROM_DEVICE);
+> +       if (!mapped) {
+> +               dev_err(dev, "Failed to map destination buffers for %u-buffer batch read\n",
+> +                       num_buffers);
+> +               ret = -EIO;
+> +               goto err_unlock;
+> +       }
+> +
+> +       config.direction = DMA_DEV_TO_MEM;
+> +       ret = dmaengine_slave_config(chan, &config);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to configure DMA channel for %u-buffer batch read: %d\n",
+> +                       num_buffers, ret);
+> +               goto err_unmap;
+> +       }
+> +
+> +       desc = dmaengine_prep_dma_sg(chan, dst_sg, num_buffers,
+> +                                    src_sg, num_buffers,
+> +                                    DMA_CTRL_ACK | DMA_PREP_INTERRUPT);
 
-Add optional ->tiocmget/->tiocmset operations to struct wwan_port_ops and
-call them from the AT/QCDM ioctl path. ->tiocmset is passed the resolved
-TIOCM_* bitmask after BIC/BIS/SET has been applied; ->tiocmget, when
-provided, refreshes the cached bits from the device. Drivers that do not
-implement them keep the previous store-only behaviour.
+Although both side memory address, but as previous discussion, which is not
+memcpy, still memory to IO space transfer.
 
-Signed-off-by: Peter Hunt <peter.hunt@opengear.com>
----
- drivers/net/wwan/wwan_core.c | 12 +++++++++++-
- include/linux/wwan.h         |  4 ++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+Maybe enhence device_prep_peripheral_dma_vec(). Actually eDMA still split
+it to small trunk and linked together.
 
-diff --git a/drivers/net/wwan/wwan_core.c b/drivers/net/wwan/wwan_core.c
-index ffbcf11e4e68..bf83eb5790fe 100644
---- a/drivers/net/wwan/wwan_core.c
-+++ b/drivers/net/wwan/wwan_core.c
-@@ -1018,7 +1018,15 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
- #endif
- 
- 	case TIOCMGET:
--		ret = put_user(port->at_data.mdmbits, (int __user *)arg);
-+		if (port->ops->tiocmget) {
-+			ret = port->ops->tiocmget(port);
-+			if (ret >= 0) {
-+				port->at_data.mdmbits = ret;
-+				ret = 0;
-+			}
-+		}
-+		if (!ret)
-+			ret = put_user(port->at_data.mdmbits, (int __user *)arg);
- 		break;
- 
- 	case TIOCMSET:
-@@ -1036,6 +1044,8 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
- 			port->at_data.mdmbits |= mdmbits;
- 		else
- 			port->at_data.mdmbits = mdmbits;
-+		if (port->ops->tiocmset)
-+			ret = port->ops->tiocmset(port, port->at_data.mdmbits);
- 		break;
- 	}
- 
-diff --git a/include/linux/wwan.h b/include/linux/wwan.h
-index 1e0e2cb53579..bac02521e274 100644
---- a/include/linux/wwan.h
-+++ b/include/linux/wwan.h
-@@ -57,6 +57,8 @@ struct wwan_port;
-  * @tx_blocking: Optional blocking routine that sends WWAN port protocol data
-  *               to the device.
-  * @tx_poll: Optional routine that sets additional TX poll flags.
-+ * @tiocmget: Optional routine that reads the modem control lines.
-+ * @tiocmset: Optional routine that sets the modem control lines.
-  *
-  * The wwan_port_ops structure contains a list of low-level operations
-  * that control a WWAN port device. All functions are mandatory unless specified.
-@@ -70,6 +72,8 @@ struct wwan_port_ops {
- 	int (*tx_blocking)(struct wwan_port *port, struct sk_buff *skb);
- 	__poll_t (*tx_poll)(struct wwan_port *port, struct file *filp,
- 			    poll_table *wait);
-+	int (*tiocmget)(struct wwan_port *port);
-+	int (*tiocmset)(struct wwan_port *port, unsigned int mdmbits);
- };
- 
- /** struct wwan_port_caps - The WWAN port capbilities
--- 
-2.43.0
+you can submit more than one require before issue_pending().
 
+Koichiro Den is working on dynmatic append request.
+
+https://lore.kernel.org/dmaengine/20260729143036.3087722-1-den@valinux.co.jp/
+
+Frank
+
+> +       if (!desc) {
+> +               dev_err(dev, "Failed to prepare batch DMA\n");
+> +               ret = -EIO;
+> +               goto err_unmap;
+> +       }
+> +
+> +       desc->callback = pci_epf_mhi_dma_callback;
+> +       desc->callback_param = &complete;
+> +
+> +       cookie = dmaengine_submit(desc);
+> +       ret = dma_submit_error(cookie);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to submit DMA\n");
+> +               if (dmaengine_terminate_sync(chan))
+> +                       dev_err(dev, "Failed to terminate DMA channel after submit failure\n");
+> +               goto err_unmap;
+> +       }
+> +
+> +       dma_async_issue_pending(chan);
+> +
+> +       time_left = wait_for_completion_timeout(&complete,
+> +                                               msecs_to_jiffies(PCI_EPF_MHI_DMA_TIMEOUT_MS));
+> +       if (!time_left) {
+> +               dev_err(dev, "DMA transfer timeout\n");
+> +               if (dmaengine_terminate_sync(chan))
+> +                       dev_err(dev, "Failed to terminate DMA channel after timeout\n");
+> +               ret = -ETIMEDOUT;
+> +               goto err_unmap;
+> +       }
+> +
+> +       ret = 0;
+> +
+> +err_unmap:
+> +       /* dma_unmap_sg() must use the nents passed to dma_map_sg(), not its return value */
+> +       dma_unmap_sg(dma_dev, dst_sg, num_buffers, DMA_FROM_DEVICE);
+> +err_unlock:
+> +       mutex_unlock(&epf_mhi->lock);
+> +
+> +       kfree(buf);
+> +
+> +       /*
+> +        * On a successful batch, notify completion for every buffer via its
+> +        * caller-supplied callback so MHI can free the backing buffer and raise
+> +        * the transfer completion event per entry, matching the
+> +        * read_sync/read_async semantics. Done after dropping the lock as a
+> +        * callback may re-enter the driver and epf_mhi->lock is not reentrant.
+> +        */
+> +       if (!ret) {
+> +               for (i = 0; i < num_buffers; i++)
+> +                       if (buf_info_array[i].cb)
+> +                               buf_info_array[i].cb(&buf_info_array[i]);
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+>  static void pci_epf_mhi_dma_worker(struct work_struct *work)
+>  {
+>         struct pci_epf_mhi *epf_mhi = container_of(work, struct pci_epf_mhi, dma_work);
+> @@ -789,11 +945,14 @@ static int pci_epf_mhi_link_up(struct pci_epf *epf)
+>         mhi_cntrl->unmap_free = pci_epf_mhi_unmap_free;
+>         mhi_cntrl->read_sync = mhi_cntrl->read_async = pci_epf_mhi_iatu_read;
+>         mhi_cntrl->write_sync = mhi_cntrl->write_async = pci_epf_mhi_iatu_write;
+> +       mhi_cntrl->read_batch = pci_epf_mhi_iatu_read_batch;
+>         if (info->flags & MHI_EPF_USE_DMA) {
+>                 mhi_cntrl->read_sync = pci_epf_mhi_edma_read;
+>                 mhi_cntrl->write_sync = pci_epf_mhi_edma_write;
+>                 mhi_cntrl->read_async = pci_epf_mhi_edma_read_async;
+>                 mhi_cntrl->write_async = pci_epf_mhi_edma_write_async;
+> +               if (dma_has_cap(DMA_SG, epf_mhi->dma_chan_rx->device->cap_mask))
+> +                       mhi_cntrl->read_batch = pci_epf_mhi_edma_read_batch;
+>         }
+>
+>         /* Register the MHI EP controller */
+> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+> index 7b40fc8cbe77ab8419d167e89264b69a817b9fb1..51f66cae937a53a93e9ae76cdcfaac7b1e08283f 100644
+> --- a/include/linux/mhi_ep.h
+> +++ b/include/linux/mhi_ep.h
+> @@ -107,6 +107,11 @@ struct mhi_ep_buf_info {
+>   * @write_sync: CB function for writing to host memory synchronously
+>   * @read_async: CB function for reading from host memory asynchronously
+>   * @write_async: CB function for writing to host memory asynchronously
+> + * @read_batch: CB function for reading from host memory in batches synchronously.
+> + *              Callers must pass at least one buffer (num_buffers > 0); each
+> + *              buf_info entry must have host_addr, dev_addr and size set.
+> + *              Each buffer's buf_info->cb, if set, is invoked once the batch
+> + *              completes successfully, mirroring read_sync/read_async.
+>   * @mhi_state: MHI Endpoint state
+>   * @max_chan: Maximum channels supported by the endpoint controller
+>   * @mru: MRU (Maximum Receive Unit) value of the endpoint controller
+> @@ -164,6 +169,8 @@ struct mhi_ep_cntrl {
+>         int (*write_sync)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
+>         int (*read_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
+>         int (*write_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
+> +       int (*read_batch)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info_array,
+> +                         u32 num_buffers);
+>
+>         enum mhi_state mhi_state;
+>
+>
+> --
+> 2.34.1
+>
