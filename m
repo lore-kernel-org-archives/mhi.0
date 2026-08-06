@@ -1,48 +1,48 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011013.outbound.protection.outlook.com [52.101.65.13])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013005.outbound.protection.outlook.com [52.101.72.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010D2383985
-	for <mhi@lists.linux.dev>; Thu,  6 Aug 2026 17:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CF44C77D7
+	for <mhi@lists.linux.dev>; Thu,  6 Aug 2026 19:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036310; cv=fail; b=VfkKIc9ziqJ0ZJLErzlVNDx/6wbDnjkOEVTIG0fnXxwxRJrbGO9LzHszipNUp2uRQdYyRq57Nn8B9mAA40Fnx4lxn73oe0+O1omkVYIsFFwuyRxxt1aWgRxUSMufT786Wj6ZHXEXlmLWz0zViQAQ2gHY+ycEpUwcS80G2rxYGr4=
+	t=1786043210; cv=fail; b=KzigfREDU3qxYRzkFAnV7TxKVOqpj/23rrs2CTUc4FNLznmOv17HNL0siAdfCQiiWI4WZYJDO8BlOX9wl3hJfQTPhaAT8YDxPHBHrBvZYQwxsZtRGFK0P3bGiWJfsMkj9Ju7L6IRHXTTQlnkM0tkJXoIskmEgLqPICw2BWFkEiM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786036310; c=relaxed/simple;
-	bh=EGwbxQMixZkzIoo7qr3U7RBHbrClAE02JjKfwuH170Y=;
+	s=arc-20240116; t=1786043210; c=relaxed/simple;
+	bh=402Is7P35Z0nqAvWO2Qmqm2QchONW+t75ulSUKwp9HY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PML6e7hOnwRxFyHDOLa1OMm6TzqHi8ZqOrV6aQqqnoAGgHGd6siH8aS4+lqu+3bKofAyXbGAMgkgxt5fpREyl0PF4kWF8vdlkP+l/EnBG6NyleUTv9gDa26XWXrSVfX30KK3rlf4CfVeVuwpAXvtWtmLargbrxTEL5238dw0nLQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=s6OnWdEG; arc=fail smtp.client-ip=52.101.65.13
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RLgU1Tl0T4hrH4dlyH6xbtHYSVhdy29n4yJRhGbX71sKiX4CtkJcXxADd+XIrq20Yk8Wfv1N+Sfaigvx9m8GM4gmHK1FaXFfBqbGhr9kHY4MfOgLEJAkBb+MzP9dFkwG0k1eT1KJu/TvxLzufC3yY+kl0o4ph5c/cLMX8xrZcFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=GhBxx5Km; arc=fail smtp.client-ip=52.101.72.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="s6OnWdEG"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="GhBxx5Km"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fj8z/nhqUNGSENkgAKlHqrVgDRV12fUumzUyJxDVbRugBf51K3UeIYEM9BmxQEi70lhRDBUBlKlXCuq9Qqqj/S6MzwgUxCDN7ypP7SDIgUKkO/AxTJTTvgZAprCNyiI1IvBrCf6/0wXMPZvqOcWGcCd6hw9V6DGxionN9esRYM2wejJas9Ei2QW/rDTvoZDlq0Ht5AxGyhuJp9hVhqlgJSkE8YK6ycYXJL1Z62hO0WCKV5oXEKLAuHa9AntmPLD04axMLBKvwcK7XdL0OHXMBx/De9fiES5Zhm32lA9IpmeIaK8YbzO6pmEmCpasIASKKQMaP6R0QkEjXFsNRNtQ9A==
+ b=dcjOU5lNJU6Dz41cUqv2+ajNA48i3u23VxdkODnnQRG5Nta7CWfOTh0coSz0GM5XsYuGDOIiwBGPcq4TvnuPxXOCjM29Od+/J9dYqcIwr9e4oZrnf6QQW4f8BXYmRdVw2K1Pjqx467gzy1CpBqGuRSTlmnYJp0NCwcQiRNm9gI6X84FO5AB/y3L6cMl9z6lCkpeAZH0MqklOPKVeH2d8rDVuqVOvjij1+G/2E5iyl3P0hAGY5oJRb3qIkDXoXcey8onI4rkqI60ye5TLPL1S6D/fbIYWKTb9JUrFatdM+Iw5Nsmk10bi6+eFZxFqlUD6osflUR6E4aZlgkwDLdHOSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KP4Cs6fsYCiUkbL7rXnnIQud7NMw/GyLcCnlZ6YtqzM=;
- b=JDrF4xmtY9b2bPKBT+4YczPFcMef+89pkwVgvu+tdyFFzoqGREyUnsfBDoOPYQkLsfOPvuB+V+z4irE2ZyjIsClzfNYMed1nkWIBB5rxyU8yI1jnS6hBRV7O1ev6OTIAKxGoqVxzTz8XhYRnCAZzUqfKv5B3T7aRwV8x/HD7+kr/Dj8zzek1P3FSX6uwnPYreP9p+zMC9QR7/N2Ir1I3yuzPayNrRgHNL/kQC/E3yy90lm19oXn+uQrEJCoe4GzBW6CM8ceBaZawRXGZnsGAqPraohWhbC6IGkSk+d5pMnnRKVwm8SXYLAUls9ezPY36FIuDgJ+LargJmT5U4617zA==
+ bh=PSLG7OD4PRrgAIQlDOBajeta5g6AzcJRWZ72KTSa0Uc=;
+ b=efO5sihZN+B0xKdvnGLapLFfBvV+pjtpIvLta/XivZ10f9kvYy17aII9fToEqSZ8vdJ4qTyN+mkmpgVP+93UwbA8UAdXgdQCPwcOGO5+sr7fsOjh5C0ilDn8TTFNZPZmYKzyyop2CvRu1UDX4KRGn8P4xHtSPjsZI4SE7KupW5Nh/fQlIEZytPvw4JwsJAKfSHFk53cO94B9HcdhNj7ZyRgY0FhIdgVSeGrqpwSAJribyrv7jGAp4xc0xqlskVRYW2695i6EP/pTJv1x9zHK07ds7wx+9MNoK5AtRngba87ATxots5hP380nsFkU/ksinZSZP0BjX0gGYNXSUsi40w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KP4Cs6fsYCiUkbL7rXnnIQud7NMw/GyLcCnlZ6YtqzM=;
- b=s6OnWdEGLRR1meRG4clEjFkuYECwSVsTu1IIH0UrK6VGcLAwIAQ0uROlD1O0Cpu84CbdDDR6oFzCX+Rvoyd3ckXDUVg312JIQzver4mOkkU8W8kGgp7l+UIHz2ehEzREuJ3qWCqp4kAmV3wqSPytYnIR5Qp5vYbZLUumDsrRVdEDsQVn6CqHwEeSR+R4cYk3P4f0WTmFSynCW+AhK+m+zq+0aGeXjBEO0IAO7GhIkjAbzoe1CPB9gY7w6NONyKBtEweOkdsiJfxAMiJMUyZMl/qTo5Z9GBoi9obrg6h0FMOB8ca7P8q3/Vbagd1dFK5gAX7W8j0bVBNa0razco/psA==
+ bh=PSLG7OD4PRrgAIQlDOBajeta5g6AzcJRWZ72KTSa0Uc=;
+ b=GhBxx5Km4ef5lgOKiJh0vadTN+4DPnAcuZQ2Q5+NJIM61m142faFpi3LjxIxLGxlkO8g7qWMkSSLxpmkcaHX8YLz77JQN2vTtz8A3PKe5gclgsz/SRTbLziZlS4kYCwLmI4Hq2v8QIrUwSPskjrkn8pQOZSfWb2JIVBfy7YkEYfcOMK36u4R9L0HSH8QQ3iBQcK41zgh2tExh9HgiwbBYAJqI+KOb6mncoyIvj1XDmIRLCZKXev7YGzVbuoKmRF+2Ys0qEAJLeecDgB8SHJHP8qVn+xIdi78I7lP2WMAuX6lNkm9jtGHfKSL1W+7/FVAW0hFUTLF81dfqUR5ZWes7g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DU2PR04MB8982.eurprd04.prod.outlook.com (2603:10a6:10:2e1::10) with
+ by GVXPR04MB10432.eurprd04.prod.outlook.com (2603:10a6:150:1e0::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.20; Thu, 6 Aug
- 2026 17:11:45 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Thu, 6 Aug
+ 2026 19:06:40 +0000
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0292.018; Thu, 6 Aug 2026
- 17:11:45 +0000
-Date: Thu, 6 Aug 2026 12:11:34 -0500
+ 19:06:39 +0000
+Date: Thu, 6 Aug 2026 14:06:30 -0500
 From: Frank Li <Frank.li@oss.nxp.com>
 To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
@@ -56,15 +56,15 @@ Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] PCI: epf-mhi: Add batched DMA read support
-Message-ID: <anTARsISvCPUA9_v@SMW015318>
+Subject: Re: [PATCH v2 2/5] dmaengine: dw-edma: Add DMA_SG support
+Message-ID: <anTbNsOQ02V6umXf@SMW015318>
 References: <20260803-dma_multi_sg-v2-0-c12bb05e42d6@oss.qualcomm.com>
- <20260803-dma_multi_sg-v2-4-c12bb05e42d6@oss.qualcomm.com>
+ <20260803-dma_multi_sg-v2-2-c12bb05e42d6@oss.qualcomm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803-dma_multi_sg-v2-4-c12bb05e42d6@oss.qualcomm.com>
-X-ClientProxiedBy: PH7PR17CA0032.namprd17.prod.outlook.com
- (2603:10b6:510:323::22) To GV2PR04MB11799.eurprd04.prod.outlook.com
+In-Reply-To: <20260803-dma_multi_sg-v2-2-c12bb05e42d6@oss.qualcomm.com>
+X-ClientProxiedBy: SN7P222CA0026.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::24) To GV2PR04MB11799.eurprd04.prod.outlook.com
  (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
@@ -73,329 +73,333 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU2PR04MB8982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 008ac053-a535-43fa-d5cd-08def3ddcaf9
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GVXPR04MB10432:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b6b48e2-b1f2-49ff-c59c-08def3edd85d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|19092799006|5023799004|11063799006|56012099006|10067099003|6133799003|18002099003|22082099003|4143699003;
+	BCL:0;ARA:13230040|376014|7416014|23010399003|19092799006|366016|1800799024|6133799003|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	M9r4nDst7+lDLT6WyNKqgBbiIu2FwjlQ/9bAhn+EApc800VuHpjj5gPLSLXqVnw7Ud2iJgoAkZdzQI6nDFGUTOJZwmG7gJw3eQ5Th8qAewwlRxdTlqNMVeB+vcJfMNcko+EVW5Zn9/Mi32zPEaaG7G6n/Y+4PxyDRdNT+IbdifZZmXp/TEEfXKGcAD8+6C6wyz1vS4qEKMe1tafMZ6gq/7yZWez81NTSmaZDNuCFJg4+OqsYK34qU5DEqVCDxMmzQBeHT6jxt6GDctwxUQ878t/ILQH7T0uLi9gr31hyh1yyCx1aBeFO3+5xdyP9DjrjrApoTgNxh5U8HdxFtlY7TwIK4vbmfMAyykVcE6jDm78iKiBfaJYTEPQeEUOecL91jBLsed6330kyZCaV2CdcLq0XTvIfidTx6yFahAgQm9PfYKcVZnoUrcescndwy1qzJkiFmYKEOWMy+FoSKbGzdWb36DtYpF1YNggvGFTj2sbEiaDYdWizfK6v+g9Q9OoZopO3Zk7iwzpIkxyR7Wz/txKnbwIhpOdbEXp9p9c9QSceOJDn2Kq5aMu+niTV9Y20YQWjsLFktFDXsKYDSw2Wf+VOuPWvXJ6sZE6/JQy0StVcvj9ChBIXRqfRShYclj5RhdgAiJ0iZz3LsvBOL5sqPJio0B8+uxshmdXBy3yE3PE=
+	3HuFoE0cHHp9oceiKlRZOEi0RzLI6xtpV/+HE2+pv6MYPhtq4ZncrvFriKEBPCPnR7BfN86Np4LcHeXII0zsYssVZQC6Ya7H2G/cR4qP69eeoC7iPlHr3hrKmz50wUWlShMu4sKjCaTmz6f5YtB6FDGkDdbvU7yP2EaFuuj+Ym2zxiBJ6+yzVXmAsTd7nSqZHesE+PW5Np7iNiorSspwONxwINuvIrz88+YAU8q0e1smwl2EpxoFdTBxt63yskh1WuxfpVxiqNp1H/6cmcKb1+f4NY/RyxbqplAJ9EyH8Bgh5WcX/tbSe7TV8/aWxt/KgDXhMfDuGiRv8AVlfo+FpNP52oCcIClbQPnCKBQYlgo5YxkgE+kVMC0pXFJaTrYDI1qKSwKKoHVMmMYRAHTqbRKVqESe7K4zVjpuDPtx8KnRElW5ysVN6tqyAbMdBQl6ibHXK8Rz9QT45LUyvzDGOYjt+hrXXq0S1j1MIsiFRrlihTS/im5oQdkFycZ+DjxEOLMMO7Jb1ueIvqZQA5dwoDFaR6wF36R4Ux+p+bA+wjHnzF5fbz9jzaozZiOwf0IB0U5fnjklcho9hllzgFdW4++N4/QzZ7EtX9r2TkK4HnsdkGhl5af63mlJC45eDdjCwYEh2QIz7sqCvExZ71H2sdf/kkqZUczZWFY9zGsJycE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(19092799006)(5023799004)(11063799006)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(19092799006)(366016)(1800799024)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GrlQUCHlRUSILZQEMX40Knm3TsFHFBjfHW7akoIoa8RuLTzdQ0XBq6OAtDy+?=
- =?us-ascii?Q?Xx886AJxEqGTLQhu8Vn/b309w5A8JWiK1g0TNykZ0ONVtNRmnk9+s1We0bb8?=
- =?us-ascii?Q?kkL2IWSl7zi1pEoDBUUB8zWzbVDJP85EefF+aqobgE9UKb9TCZPtfnp3w3bq?=
- =?us-ascii?Q?/XtHRdA36WTvgqbwg2J2uJP+7o+U9M49BIgV+lcJinxbjon5M/fFI7UZJUWQ?=
- =?us-ascii?Q?GySwdMEkWn3RxrIvdBVfv6TSc3P2FkS7lL9TSK46zBb0Q+lUMqffkVun5ZhS?=
- =?us-ascii?Q?vngZhKTCHGopThV3nkEUmrFcqkNm8lSo7hob8lB9mCViR/r03Jey5PPCdMPn?=
- =?us-ascii?Q?az7e8pUoEVyabC/4p9P+BzAY8RJ+D7P17sb+TeOsf6p7FW7VpP8ghIAi7kcU?=
- =?us-ascii?Q?ErcAG/WytYkxdUnDeMy12FHBPLtffUdOrQ2hAIYupAo4h4UY6s+0G5E2Sark?=
- =?us-ascii?Q?rVMVt+LGvcR8S+q2po2SXa1y7ymSR3xrYFfjHHEJ4/Jrq+StjVyQvNbV+Tye?=
- =?us-ascii?Q?k5FIrXWr5QwMe76TAeNufLfXQkjtNim+LEmbCxnYY+b+s2D2ftC0z3KAxMZn?=
- =?us-ascii?Q?2wiDLeUZk2Q+wN+zOCnT/x9074bw3exXFmfeXd1RlhJhDjbveEgKGkjGCBKY?=
- =?us-ascii?Q?FKVCYh/CfqtbBS83MRNciqrclDvyVOTjXxzWoAmwhRJ9Dsx62TGzFm2K7SFf?=
- =?us-ascii?Q?SXsbldQxRxvtA/ZnhFRfDfelDkzHR1ORmQ0vDM8DU6AU+QXWpkaJ4QqIpq0H?=
- =?us-ascii?Q?5DHmWtEfHWez6ZyXkMqQX+kB/X8bm6CkBWH6Jpl8uxjbij3e+CSUB38AoGsG?=
- =?us-ascii?Q?AsPZdC/fTICNYjTtnxt0TIxW7K4Uube7A+5/NWNpTJrmWk+eR/ZoJ/C78xS5?=
- =?us-ascii?Q?GM4E+IMZd9vbTOFGStC2K2D97OXshLRd5o+gp6bqHksEpzuj46h/0s+pc/s/?=
- =?us-ascii?Q?dZIA3RC67qL7WLF53nz1mzmGwKHfhFDF0/ttmuFyDtFkomnUlO5vqOzbbDDK?=
- =?us-ascii?Q?VJ7bv60sCa1a3V7/swRHtHH+VRYTkj8xxlJ+wW0RwKrQU9N5PuMIt+7WtpMI?=
- =?us-ascii?Q?tBG3UJqHScar8O96j4mbyv96kIONsZP8waRbc5sjQv1H7XgpjnGFJzesNrmP?=
- =?us-ascii?Q?YROChuTpF3LsOojKmgiGyZI0M4YaOex2JjE8uvqS1DKtf4eq3hHQ6UEuBRSx?=
- =?us-ascii?Q?o5B6rTwKZuShKOE80JKVrgp5B0VT/yADuatxgqv6w7YfMNp110Jsjg3o7oNy?=
- =?us-ascii?Q?xZz/+B8X9W1axLUsq3Gc3V8Zt501QIzGj2/paQaPw/vTDnpBN/rtWT4RkkzY?=
- =?us-ascii?Q?72u8of/nU5bokOLq0PH/dhJveAkoNaNkQhMX2o9F9e3seMGNSqmBGIc6NClk?=
- =?us-ascii?Q?q9edxATwKmVOPMQ9Ce6cnRLzxwiEZXOkcT3OUix4D1dAudG30+KkKhzLwmyt?=
- =?us-ascii?Q?hbr7loumJvCzPAh7ZePpfuR+I50CogvXcVmKdl7qRtqqBPBbwXchhl8rOlek?=
- =?us-ascii?Q?pgzZ/3F2Gp8yf2tikwfcPFq7+OSPs5DDmVCOhaH0mlsE6OdGbc4c1k1O4WoJ?=
- =?us-ascii?Q?3cRObIl7jEGsXhWabFYzkuQQw0qFNEdGDnHJ6CD2xyNRdsLvhoQlxHDnpSac?=
- =?us-ascii?Q?dFB/8bKOZzOcmGeo33urhax9YUJqj+9BS0vqt3oiNvy3ATPVTwbR8pkUsLhc?=
- =?us-ascii?Q?A9gbr8cAi+6uJ7hL+zQGMeOy22dV5NqT2/w/McOmXGT854hZUbsI44Q2SSrs?=
- =?us-ascii?Q?lXTDt908B0tt+sGTxmu+DEuBrmHAWARmPIPjwYLqk8Sku4zmJkgt?=
+	=?us-ascii?Q?kdvM8TCPFYc5YTAab6bIwmYKCxnmBqEGxnSFKgWdfuFzQdpouiI9Umayphyv?=
+ =?us-ascii?Q?nSiqMm48iXtxESubme+vCAexpnU3wmD3wXJprw7Eg4tXGh5nmlOzlt6FU7W1?=
+ =?us-ascii?Q?AWa68knnHp9e65O2yVz17KYs9XPMCpQme8quOOb++DTr1lXP5aHkSRz+ht4+?=
+ =?us-ascii?Q?ITXzDb8NQyi0WOZTbJo9Fc6KhgBqXM3OR4mZcXnpkF2ybG/+r1pPoqgyHRrJ?=
+ =?us-ascii?Q?FqnpGrkDtXJJf5KSsxPrZCiKlDxrHtGi1jPlflmLnmfs2CAfJCLklQ/DbsGQ?=
+ =?us-ascii?Q?lqKVjysVEADJygzGKjNJOonsJoodifW/bafos6cTY/7pZB3DWfDDMfGa5me3?=
+ =?us-ascii?Q?4nFgGiauUMoFNBP0HzjGpL7Vu3Ad02OeGw4SKlqKH99yep92YrRTw7RdCAiI?=
+ =?us-ascii?Q?2FAs4p0m9bpUWwTnEWkIrfN4J2sfVJr7yLQs1MQRQK7RElfvUFjfasBm1IRK?=
+ =?us-ascii?Q?BAcgNcPgb2wZouetmnUpP/SJEj8z5j6J0XoHcW+ehwD7CaLEA1SGQ82X47BQ?=
+ =?us-ascii?Q?hwgWsRg4IoCEsf54G81RxOM3PTyQWEsnO5sa/ms/6TnEYFpCZs0kIzK8QhYm?=
+ =?us-ascii?Q?75UCw/Nmi2K2WReSwvTqqjierPq9qRwdkZBUjNkXtXeifAQEwf7oZVBLTLL9?=
+ =?us-ascii?Q?JecP8oHt+F7Du1ETlGvVAnK7AyTEbZu0ZMId0e9Hka7pQCMhS0MB7mfe91/V?=
+ =?us-ascii?Q?azIr8MPAFP9vKdcMIGJkAwP/FVH8iJLNh7uF7jBHqXACb5GV8rlL18q//I84?=
+ =?us-ascii?Q?WraUxCiqTkOl4ZkMEd/DhhKl6XVScP08Zo4A0qcNGzIaH9qSpZwVMCh5CMHS?=
+ =?us-ascii?Q?aFHvYU9pnG5uh93XhL0JOGllo/EASlpA5qBmGuJlv+e8Yb/Moo33ZvLEpOyo?=
+ =?us-ascii?Q?J7weXgBKr4p5LaHVSD9m4EKXpiiOsSbH8OHq7plTEerZ8H6gQ+ns+9TEQoTA?=
+ =?us-ascii?Q?oGYEkV7KKwiFxjkVk30fkpyzwHXoZWF1t7VcuCYGm9M21zpt8e2+LeDa8amy?=
+ =?us-ascii?Q?/AYflIv4KHcv7vRkLNKppSAo1mTpNrc8B2ETPrY7veAqsFNbcDSY8WkUSUNr?=
+ =?us-ascii?Q?gTqUNVyMexLUT0oCgTOj51WsB57MZ1PjusWfcyQcx9yG/xvDSZHugsQm8dLC?=
+ =?us-ascii?Q?WaUN6pbeGoZ3KgQ7d1ARkGMZV1tzi672i9es5jaFAe5mMjpkV+22j+AGcIzK?=
+ =?us-ascii?Q?TwxvtW6C7QomrrSE8zDtBL9PnPQIarAOrmlwH3/bt5dxfnuu8XmAxWpVNULF?=
+ =?us-ascii?Q?TaDM+7Qw/Dz6OS/PpKpXqXlURExtzhg8jx5Kd4FSEgZfgUu5J/FH45/G4zyZ?=
+ =?us-ascii?Q?4vLr+jTbdYxb8DiTz7hHNHZN3Sunrupnnz94tLicljOgNHzvuW+G3YGiL6Oh?=
+ =?us-ascii?Q?z/ZRdy69TLXXh1D1TzjieFjZnm/QkNS8TDiC40r66jv5i6Oa8bNiXyyuHvDQ?=
+ =?us-ascii?Q?/tPmiWsZ1CFM7yaM+h+OLtDsgvSG1Z7oE/dglLSPXFFQ0VnFnbAgpOIf37dP?=
+ =?us-ascii?Q?ipQvt8nbDCWjS80wVZG2ZF7BQispdO/i1YuBoQKgcC7m76Wjt4l28Sb+YvyT?=
+ =?us-ascii?Q?v2J6OZajUEN9pgGVs2fwGYWbwZJ4VUTlDFie60UaSHgH5tfuXvtJHTPjHN05?=
+ =?us-ascii?Q?YvysYj0TX3iL2Vnh0U6P/ItE+rXoMcDC9mKeJOEHE9soFvdoiXyHLDdrplpD?=
+ =?us-ascii?Q?lh/fIGpu53MWgLtEQShMhbFG+pITwQojWcNPjjrh/YFTNa2vo3/0E0DtQzR8?=
+ =?us-ascii?Q?BCKed+KyDbWddTNPVR0vbWhZFhlBlTzEV4m4md+cnmtjgf4UjFBF?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 008ac053-a535-43fa-d5cd-08def3ddcaf9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b6b48e2-b1f2-49ff-c59c-08def3edd85d
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 17:11:45.5765
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 19:06:39.8827
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: njqVKcROD2VjUeJAqyifpQUb47aLwqwfb/WaT8KFEV6q5wpZwDsczBb2M3bNqay5hZ5JECPBipXT1zmE0y6a8/eSh/+WH7OAxbuOSdyBNAtSq1+OlV4eq973O8Soxn7U
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8982
+X-MS-Exchange-CrossTenant-UserPrincipalName: MQbSxJBirmvSA2KN/TJF0/l467e5x21IT0GBEtwwOVy3HSjKdgsEtXeA0SD9exx5cz5juwMT1Cl1lWYfI+MuxggMB7lX9q8MTjAKh8qox+HA7+3VVMkZYdX50hj8qH8y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10432
 
-On Mon, Aug 03, 2026 at 04:01:46PM +0530, Sumit Kumar wrote:
+On Mon, Aug 03, 2026 at 04:01:44PM +0530, Sumit Kumar wrote:
 > [You don't often get email from sumit.kumar@oss.qualcomm.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 >
-> Add support for batched DMA transfers in the PCI EPF MHI driver to
-> improve performance when reading multiple buffers from the host.
+> Synopsys DesignWare eDMA supports a linked-list mode where each list item
+> carries independent source and destination addresses, letting multiple
+> independent memory transfers be described in one linked list and submitted
+> to the hardware as a single DMA transaction. The IP processes list items
+> strictly in order, so paired scatter-gather entries are never reordered.
 >
-> Implement two variants of the read_batch() callback:
-> pci_epf_mhi_edma_read_batch() is a DMA-optimized implementation that uses
-> dmaengine_prep_dma_sg() to transfer multiple buffers in a single DMA
-> transaction, while pci_epf_mhi_iatu_read_batch() serves as a CPU-copy
-> fallback for platforms without DMA support by sequentially processing each
-> buffer via IATU mapping. Wire up read_batch() to the eDMA variant only
-> when the RX DMA channel advertises the DMA_SG capability, falling back to
-> the IATU variant otherwise.
->
-> On a successful batch, notify completion for every buffer via its
-> caller-supplied buf_info->cb, mirroring the read_sync/read_async
-> completion semantics so the MHI stack can free each buffer and raise its
-> transfer completion event. Make read_batch() a mandatory callback in
-> mhi_ep_register_controller(), alongside read_sync/write_sync/read_async/
-> write_async.
->
-> This enables the MHI endpoint stack to cache ring data efficiently,
-> particularly for wraparound scenarios where ring data spans two
-> non-contiguous memory regions.
->
-> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-> ---
->  drivers/bus/mhi/ep/main.c                    |   3 +-
->  drivers/pci/endpoint/functions/pci-epf-mhi.c | 159 +++++++++++++++++++++++++++
->  include/linux/mhi_ep.h                       |   7 ++
->  3 files changed, 168 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-> index 21bc2c50170ff7f0181c0d0d4eefd51db30f34c8..c45240fc481dc3260a61b546c223b6be8e105587 100644
-> --- a/drivers/bus/mhi/ep/main.c
-> +++ b/drivers/bus/mhi/ep/main.c
-> @@ -1459,7 +1459,8 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
->                 return -EINVAL;
->
->         if (!mhi_cntrl->read_sync || !mhi_cntrl->write_sync ||
-> -           !mhi_cntrl->read_async || !mhi_cntrl->write_async)
-> +           !mhi_cntrl->read_async || !mhi_cntrl->write_async ||
-> +           !mhi_cntrl->read_batch)
->                 return -EINVAL;
->
->         ret = mhi_ep_chan_init(mhi_cntrl, config);
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> index 6bac69fc84b472c5f1abbeede2b441b5db73c784..ad245148de1462cffc950ba9a9e232405514dfb7 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-> @@ -444,6 +444,162 @@ static int pci_epf_mhi_edma_write(struct mhi_ep_cntrl *mhi_cntrl,
->         return ret;
->  }
->
-> +static int pci_epf_mhi_iatu_read_batch(struct mhi_ep_cntrl *mhi_cntrl,
-> +                                      struct mhi_ep_buf_info *buf_info_array,
-> +                                      u32 num_buffers)
-> +{
-> +       struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
-> +       struct device *dev = &epf_mhi->epf->dev;
-> +       u32 i;
-> +       int ret;
-> +
-> +       if (num_buffers == 0)
-> +               return -EINVAL;
-> +
-> +       for (i = 0; i < num_buffers; i++) {
-> +               ret = pci_epf_mhi_iatu_read(mhi_cntrl, &buf_info_array[i]);
-> +               if (ret < 0) {
-> +                       dev_err(dev, "Failed to read buffer %u of %u in batch: %d\n",
-> +                               i, num_buffers, ret);
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int pci_epf_mhi_edma_read_batch(struct mhi_ep_cntrl *mhi_cntrl,
-> +                                      struct mhi_ep_buf_info *buf_info_array,
-> +                                      u32 num_buffers)
-> +{
-> +       struct pci_epf_mhi *epf_mhi = to_epf_mhi(mhi_cntrl);
-> +       struct device *dma_dev = epf_mhi->epf->epc->dev.parent;
-> +       struct device *dev = &epf_mhi->epf->dev;
-> +       struct dma_async_tx_descriptor *desc;
-> +       struct dma_slave_config config = {};
-> +       DECLARE_COMPLETION_ONSTACK(complete);
-> +       struct scatterlist *src_sg;
-> +       struct scatterlist *dst_sg;
-> +       unsigned long time_left;
-> +       struct dma_chan *chan;
-> +       dma_cookie_t cookie;
-> +       unsigned int i;
-> +       int mapped;
-> +       void *buf;
-> +       int ret;
-> +
-> +       if (num_buffers == 0)
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * Single allocation carved into two arrays: src_sg[], dst_sg[].
-> +        * Reduces allocator round-trips on the ring-cache hot path. Done
-> +        * before taking the lock so direct reclaim cannot stall other
-> +        * transfers waiting on epf_mhi->lock.
-> +        */
-> +       buf = kcalloc(num_buffers, 2 * sizeof(*src_sg), GFP_KERNEL);
-> +       if (!buf)
-> +               return -ENOMEM;
-> +       src_sg = buf;
-> +       dst_sg = src_sg + num_buffers;
-> +
-> +       mutex_lock(&epf_mhi->lock);
-> +
-> +       chan = epf_mhi->dma_chan_rx;
-> +       if (!chan) {
-> +               ret = -ENODEV;
-> +               goto err_unlock;
-> +       }
-> +
-> +       sg_init_table(src_sg, num_buffers);
-> +       sg_init_table(dst_sg, num_buffers);
-> +
-> +       for (i = 0; i < num_buffers; i++) {
-> +               /*
-> +                * src addresses are PCIe host bus addresses already visible to
-> +                * the eDMA engine; no dma_map_sg() is needed for the source list.
-> +                */
-> +               sg_dma_address(&src_sg[i]) = buf_info_array[i].host_addr;
-> +               sg_dma_len(&src_sg[i]) = buf_info_array[i].size;
-> +
-> +               sg_set_buf(&dst_sg[i], buf_info_array[i].dev_addr, buf_info_array[i].size);
-> +       }
-> +
-> +       mapped = dma_map_sg(dma_dev, dst_sg, num_buffers, DMA_FROM_DEVICE);
-> +       if (!mapped) {
-> +               dev_err(dev, "Failed to map destination buffers for %u-buffer batch read\n",
-> +                       num_buffers);
-> +               ret = -EIO;
-> +               goto err_unlock;
-> +       }
-> +
-> +       config.direction = DMA_DEV_TO_MEM;
-> +       ret = dmaengine_slave_config(chan, &config);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to configure DMA channel for %u-buffer batch read: %d\n",
-> +                       num_buffers, ret);
-> +               goto err_unmap;
-> +       }
-> +
-> +       desc = dmaengine_prep_dma_sg(chan, dst_sg, num_buffers,
-> +                                    src_sg, num_buffers,
-> +                                    DMA_CTRL_ACK | DMA_PREP_INTERRUPT);
+> Implement the DMA_SG capability by adding a new EDMA_XFER_DUAL_SG transfer
+> type and a corresponding struct dw_edma_dual_sg carrying the paired source
+> and destination SG lists. dw_edma_device_transfer() walks both lists in
+> lockstep, building a single hardware linked-list; a per-entry length
+> mismatch or premature list end fails the whole request.
 
-Although both side memory address, but as previous discussion, which is not
-memcpy, still memory to IO space transfer.
+It is not as simple as it.  for example, if you want to transfer 9k data
+from src to dest
 
-Maybe enhence device_prep_peripheral_dma_vec(). Actually eDMA still split
-it to small trunk and linked together.
+src virtual addr 0x1004,        dest 0xA0001008
 
-you can submit more than one require before issue_pending().
+when map_sg, src's sg maybe
 
-Koichiro Den is working on dynmatic append request.
+0x1000  .. 4k   offset 4,
+0x9000  .. 4k   offset 0
+0xA000  .. 4k   offset 0
 
-https://lore.kernel.org/dmaengine/20260729143036.3087722-1-den@valinux.co.jp/
+or
+0x1000 .. 8k  offset 4
+0xA000 .. 4k  offset 0
+
+which totally depend on physical address allocation although most likely
+first case happen
+
+dest sg
+0xA001000 .. 4k offset 8
+0xA008000 .. 4k offset 0
+0xA00E000 .. 4k offset 0
+
+descriptors
+1 	transfer 4k-8
+2       transfer tail 4 byte
+3 	transfer 4k-8
+4       transfer tail 4 byte
+...
+
+the start address of src and dest is highly possible differences. So it
+is very hard to match your requirement, both sg's structure is the same.
 
 Frank
 
-> +       if (!desc) {
-> +               dev_err(dev, "Failed to prepare batch DMA\n");
-> +               ret = -EIO;
-> +               goto err_unmap;
-> +       }
-> +
-> +       desc->callback = pci_epf_mhi_dma_callback;
-> +       desc->callback_param = &complete;
-> +
-> +       cookie = dmaengine_submit(desc);
-> +       ret = dma_submit_error(cookie);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to submit DMA\n");
-> +               if (dmaengine_terminate_sync(chan))
-> +                       dev_err(dev, "Failed to terminate DMA channel after submit failure\n");
-> +               goto err_unmap;
-> +       }
-> +
-> +       dma_async_issue_pending(chan);
-> +
-> +       time_left = wait_for_completion_timeout(&complete,
-> +                                               msecs_to_jiffies(PCI_EPF_MHI_DMA_TIMEOUT_MS));
-> +       if (!time_left) {
-> +               dev_err(dev, "DMA transfer timeout\n");
-> +               if (dmaengine_terminate_sync(chan))
-> +                       dev_err(dev, "Failed to terminate DMA channel after timeout\n");
-> +               ret = -ETIMEDOUT;
-> +               goto err_unmap;
-> +       }
-> +
-> +       ret = 0;
-> +
-> +err_unmap:
-> +       /* dma_unmap_sg() must use the nents passed to dma_map_sg(), not its return value */
-> +       dma_unmap_sg(dma_dev, dst_sg, num_buffers, DMA_FROM_DEVICE);
-> +err_unlock:
-> +       mutex_unlock(&epf_mhi->lock);
-> +
-> +       kfree(buf);
-> +
-> +       /*
-> +        * On a successful batch, notify completion for every buffer via its
-> +        * caller-supplied callback so MHI can free the backing buffer and raise
-> +        * the transfer completion event per entry, matching the
-> +        * read_sync/read_async semantics. Done after dropping the lock as a
-> +        * callback may re-enter the driver and epf_mhi->lock is not reentrant.
-> +        */
-> +       if (!ret) {
-> +               for (i = 0; i < num_buffers; i++)
-> +                       if (buf_info_array[i].cb)
-> +                               buf_info_array[i].cb(&buf_info_array[i]);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
->  static void pci_epf_mhi_dma_worker(struct work_struct *work)
->  {
->         struct pci_epf_mhi *epf_mhi = container_of(work, struct pci_epf_mhi, dma_work);
-> @@ -789,11 +945,14 @@ static int pci_epf_mhi_link_up(struct pci_epf *epf)
->         mhi_cntrl->unmap_free = pci_epf_mhi_unmap_free;
->         mhi_cntrl->read_sync = mhi_cntrl->read_async = pci_epf_mhi_iatu_read;
->         mhi_cntrl->write_sync = mhi_cntrl->write_async = pci_epf_mhi_iatu_write;
-> +       mhi_cntrl->read_batch = pci_epf_mhi_iatu_read_batch;
->         if (info->flags & MHI_EPF_USE_DMA) {
->                 mhi_cntrl->read_sync = pci_epf_mhi_edma_read;
->                 mhi_cntrl->write_sync = pci_epf_mhi_edma_write;
->                 mhi_cntrl->read_async = pci_epf_mhi_edma_read_async;
->                 mhi_cntrl->write_async = pci_epf_mhi_edma_write_async;
-> +               if (dma_has_cap(DMA_SG, epf_mhi->dma_chan_rx->device->cap_mask))
-> +                       mhi_cntrl->read_batch = pci_epf_mhi_edma_read_batch;
+>
+> The transfer direction is inferred from the channel hardware polarity
+> (EDMA_DIR_READ/WRITE), not from dma_slave_config.direction: for local eDMA
+> (DW_EDMA_CHIP_LOCAL) read channels handle DEV_TO_MEM and write channels
+> handle MEM_TO_DEV; for remote eDMA the mapping is inverted. PCIe bus
+> addresses are translated via dw_edma_get_pci_address() for the remote side
+> of each transfer. dmaengine_slave_config() must still be called before
+> dmaengine_prep_dma_sg() because dw_edma_device_transfer() gates transfers
+> on chan->configured, even though the direction field itself is unused by
+> the DMA_SG path.
+>
+> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+> ---
+>  drivers/dma/dw-edma/dw-edma-core.c | 87 +++++++++++++++++++++++++++++++++++---
+>  drivers/dma/dw-edma/dw-edma-core.h | 10 ++++-
+>  2 files changed, 90 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+> index 1f893dc54c7938a9c45bafd975a4f99fdc0acb38..9fbfa5ad65b5421b164d2ab9883233225e0269e4 100644
+> --- a/drivers/dma/dw-edma/dw-edma-core.c
+> +++ b/drivers/dma/dw-edma/dw-edma-core.c
+> @@ -372,6 +372,7 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>         struct dw_edma_chan *chan = dchan2dw_edma_chan(xfer->dchan);
+>         enum dma_transfer_direction dir = xfer->direction;
+>         struct scatterlist *sg = NULL;
+> +       struct scatterlist *dst_sg = NULL;
+>         struct dw_edma_burst *burst;
+>         struct dw_edma_desc *desc;
+>         u64 src_addr, dst_addr;
+> @@ -429,6 +430,9 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>                         return NULL;
+>                 if (!xfer->xfer.il->src_inc || !xfer->xfer.il->dst_inc)
+>                         return NULL;
+> +       } else if (xfer->type == EDMA_XFER_DUAL_SG) {
+> +               if (xfer->xfer.dual_sg.len < 1)
+> +                       return NULL;
+>         } else {
+>                 return NULL;
+>         }
+> @@ -441,16 +445,27 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>                 dst_addr = config->dst_addr;
 >         }
 >
->         /* Register the MHI EP controller */
-> diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
-> index 7b40fc8cbe77ab8419d167e89264b69a817b9fb1..51f66cae937a53a93e9ae76cdcfaac7b1e08283f 100644
-> --- a/include/linux/mhi_ep.h
-> +++ b/include/linux/mhi_ep.h
-> @@ -107,6 +107,11 @@ struct mhi_ep_buf_info {
->   * @write_sync: CB function for writing to host memory synchronously
->   * @read_async: CB function for reading from host memory asynchronously
->   * @write_async: CB function for writing to host memory asynchronously
-> + * @read_batch: CB function for reading from host memory in batches synchronously.
-> + *              Callers must pass at least one buffer (num_buffers > 0); each
-> + *              buf_info entry must have host_addr, dev_addr and size set.
-> + *              Each buffer's buf_info->cb, if set, is invoked once the batch
-> + *              completes successfully, mirroring read_sync/read_async.
->   * @mhi_state: MHI Endpoint state
->   * @max_chan: Maximum channels supported by the endpoint controller
->   * @mru: MRU (Maximum Receive Unit) value of the endpoint controller
-> @@ -164,6 +169,8 @@ struct mhi_ep_cntrl {
->         int (*write_sync)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
->         int (*read_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
->         int (*write_async)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info);
-> +       int (*read_batch)(struct mhi_ep_cntrl *mhi_cntrl, struct mhi_ep_buf_info *buf_info_array,
-> +                         u32 num_buffers);
+> -       if (dir == DMA_DEV_TO_MEM)
+> -               src_addr = dw_edma_get_pci_address(chan, (phys_addr_t)src_addr);
+> -       else
+> -               dst_addr = dw_edma_get_pci_address(chan, (phys_addr_t)dst_addr);
+> +       /*
+> +        * DUAL_SG translates each src/dst sg entry individually below
+> +        * (see the burst->sar/burst->dar assignment), so it is exempt
+> +        * from the single up-front translation used by other types.
+> +        */
+> +       if (xfer->type != EDMA_XFER_DUAL_SG) {
+> +               if (dir == DMA_DEV_TO_MEM)
+> +                       src_addr = dw_edma_get_pci_address(chan, (phys_addr_t)src_addr);
+> +               else
+> +                       dst_addr = dw_edma_get_pci_address(chan, (phys_addr_t)dst_addr);
+> +       }
 >
->         enum mhi_state mhi_state;
+>         if (xfer->type == EDMA_XFER_CYCLIC) {
+>                 cnt = xfer->xfer.cyclic.cnt;
+>         } else if (xfer->type == EDMA_XFER_SCATTER_GATHER) {
+>                 cnt = xfer->xfer.sg.len;
+>                 sg = xfer->xfer.sg.sgl;
+> +       } else if (xfer->type == EDMA_XFER_DUAL_SG) {
+> +               cnt = xfer->xfer.dual_sg.len;
+> +               sg = xfer->xfer.dual_sg.src_sgl;
+> +               dst_sg = xfer->xfer.dual_sg.dst_sgl;
+>         } else if (xfer->type == EDMA_XFER_INTERLEAVED) {
+>                 cnt = xfer->xfer.il->numf * xfer->xfer.il->frame_size;
+>                 fsz = xfer->xfer.il->frame_size;
+> @@ -463,12 +478,23 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>         for (i = 0; i < cnt; i++) {
+>                 if (xfer->type == EDMA_XFER_SCATTER_GATHER && !sg)
+>                         break;
+> +               /*
+> +                * DUAL_SG walks the source and destination lists in lockstep;
+> +                * a premature end or a per-entry length mismatch would leave
+> +                * the descriptor partially built, so fail the whole request.
+> +                */
+> +               if (xfer->type == EDMA_XFER_DUAL_SG &&
+> +                   (!sg || !dst_sg || sg_dma_len(sg) != sg_dma_len(dst_sg))) {
+> +                       kfree(desc);
+> +                       return NULL;
+> +               }
 >
+>                 burst = desc->burst + i;
+>
+>                 if (xfer->type == EDMA_XFER_CYCLIC)
+>                         burst->sz = xfer->xfer.cyclic.len;
+> -               else if (xfer->type == EDMA_XFER_SCATTER_GATHER)
+> +               else if (xfer->type == EDMA_XFER_SCATTER_GATHER ||
+> +                        xfer->type == EDMA_XFER_DUAL_SG)
+>                         burst->sz = sg_dma_len(sg);
+>                 else if (xfer->type == EDMA_XFER_INTERLEAVED)
+>                         burst->sz = xfer->xfer.il->sgl[i % fsz].size;
+> @@ -492,6 +518,9 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>                                  */
+>                         } else if (xfer->type == EDMA_XFER_INTERLEAVED) {
+>                                 burst->dar = dst_addr;
+> +                       } else if (xfer->type == EDMA_XFER_DUAL_SG) {
+> +                               burst->sar = dw_edma_get_pci_address(chan, sg_dma_address(sg));
+> +                               burst->dar = sg_dma_address(dst_sg);
+>                         }
+>                 } else {
+>                         burst->dar = dst_addr;
+> @@ -507,13 +536,19 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer,
+>                                  * and destination addresses are increased
+>                                  * by the same portion (data length)
+>                                  */
+> -                       }  else if (xfer->type == EDMA_XFER_INTERLEAVED) {
+> +                       } else if (xfer->type == EDMA_XFER_INTERLEAVED) {
+>                                 burst->sar = src_addr;
+> +                       } else if (xfer->type == EDMA_XFER_DUAL_SG) {
+> +                               burst->sar = sg_dma_address(sg);
+> +                               burst->dar = dw_edma_get_pci_address(chan, sg_dma_address(dst_sg));
+>                         }
+>                 }
+>
+>                 if (xfer->type == EDMA_XFER_SCATTER_GATHER) {
+>                         sg = sg_next(sg);
+> +               } else if (xfer->type == EDMA_XFER_DUAL_SG) {
+> +                       sg = sg_next(sg);
+> +                       dst_sg = sg_next(dst_sg);
+>                 } else if (xfer->type == EDMA_XFER_INTERLEAVED) {
+>                         struct dma_interleaved_template *il = xfer->xfer.il;
+>                         struct data_chunk *dc = &il->sgl[i % fsz];
+> @@ -613,6 +648,44 @@ static void dw_hdma_set_callback_result(struct virt_dma_desc *vd,
+>         res->residue = residue;
+>  }
+>
+> +static struct dma_async_tx_descriptor *
+> +dw_edma_device_prep_dma_sg(struct dma_chan *dchan,
+> +                          struct scatterlist *dst_sg, unsigned int dst_nents,
+> +                          struct scatterlist *src_sg, unsigned int src_nents,
+> +                          unsigned long flags)
+> +{
+> +       struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
+> +       struct dw_edma_transfer xfer;
+> +       enum dma_transfer_direction dir;
+> +
+> +       if (src_nents != dst_nents || !src_nents)
+> +               return NULL;
+> +
+> +       if (!src_sg || !dst_sg)
+> +               return NULL;
+> +
+> +       /* Determine direction from channel configuration */
+> +       if (chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL)
+> +               dir = (chan->dir == EDMA_DIR_READ) ? DMA_DEV_TO_MEM : DMA_MEM_TO_DEV;
+> +       else
+> +               dir = (chan->dir == EDMA_DIR_WRITE) ? DMA_DEV_TO_MEM : DMA_MEM_TO_DEV;
+> +
+> +       xfer.dchan = dchan;
+> +       xfer.direction = dir;
+> +       xfer.xfer.dual_sg.src_sgl = src_sg;
+> +       xfer.xfer.dual_sg.dst_sgl = dst_sg;
+> +       xfer.xfer.dual_sg.len = src_nents;
+> +       xfer.flags = flags;
+> +       xfer.type = EDMA_XFER_DUAL_SG;
+> +
+> +       /*
+> +        * dw_edma_device_transfer() rejects unconfigured channels, so
+> +        * dmaengine_slave_config() must have been called on this channel
+> +        * beforehand even though the direction field is unused here.
+> +        */
+> +       return dw_edma_device_transfer(&xfer, dw_edma_device_get_config(dchan, NULL));
+> +}
+> +
+>  static void dw_edma_done_interrupt(struct dw_edma_chan *chan)
+>  {
+>         struct dw_edma_desc *desc;
+> @@ -997,6 +1070,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
+>         dma_cap_set(DMA_CYCLIC, dma->cap_mask);
+>         dma_cap_set(DMA_PRIVATE, dma->cap_mask);
+>         dma_cap_set(DMA_INTERLEAVE, dma->cap_mask);
+> +       dma_cap_set(DMA_SG, dma->cap_mask);
+>         dma->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
+>         dma->src_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
+>         dma->dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
+> @@ -1017,6 +1091,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
+>         dma->device_prep_config_sg = dw_edma_device_prep_config_sg;
+>         dma->device_prep_dma_cyclic = dw_edma_device_prep_dma_cyclic;
+>         dma->device_prep_interleaved_dma = dw_edma_device_prep_interleaved_dma;
+> +       dma->device_prep_dma_sg = dw_edma_device_prep_dma_sg;
+>
+>         dma_set_max_seg_size(dma->dev, U32_MAX);
+>
+> diff --git a/drivers/dma/dw-edma/dw-edma-core.h b/drivers/dma/dw-edma/dw-edma-core.h
+> index f6a5ad31756723e6fd72f7d9d903a1204e25c0b0..e3219ae96d84f528fb7d77dbe3a0b3d7c1264f05 100644
+> --- a/drivers/dma/dw-edma/dw-edma-core.h
+> +++ b/drivers/dma/dw-edma/dw-edma-core.h
+> @@ -38,7 +38,8 @@ enum dw_edma_status {
+>  enum dw_edma_xfer_type {
+>         EDMA_XFER_SCATTER_GATHER = 0,
+>         EDMA_XFER_CYCLIC,
+> -       EDMA_XFER_INTERLEAVED
+> +       EDMA_XFER_INTERLEAVED,
+> +       EDMA_XFER_DUAL_SG,
+>  };
+>
+>  struct dw_edma_chan;
+> @@ -151,6 +152,12 @@ struct dw_edma_sg {
+>         unsigned int                    len;
+>  };
+>
+> +struct dw_edma_dual_sg {
+> +       struct scatterlist              *src_sgl;
+> +       struct scatterlist              *dst_sgl;
+> +       unsigned int                    len;
+> +};
+> +
+>  struct dw_edma_cyclic {
+>         dma_addr_t                      paddr;
+>         size_t                          len;
+> @@ -163,6 +170,7 @@ struct dw_edma_transfer {
+>                 struct dw_edma_sg               sg;
+>                 struct dw_edma_cyclic           cyclic;
+>                 struct dma_interleaved_template *il;
+> +               struct dw_edma_dual_sg          dual_sg;
+>         } xfer;
+>         enum dma_transfer_direction     direction;
+>         unsigned long                   flags;
 >
 > --
 > 2.34.1
