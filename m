@@ -1,165 +1,186 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013008.outbound.protection.outlook.com [40.107.159.8])
+Received: from outbound-ip173b.ess.barracuda.com (outbound-ip173b.ess.barracuda.com [209.222.82.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE3A277CAD
-	for <mhi@lists.linux.dev>; Fri,  7 Aug 2026 14:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0954519A5
+	for <mhi@lists.linux.dev>; Fri,  7 Aug 2026 21:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.107
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786113270; cv=fail; b=cVAL7m3mjUDPzFGA7Z6rFSA0RZM59H8VTSkEMxwkuEgdpTrxmmr8yjLZ7eBGxEbiYLe9bzRtJZud4GpmUvTHfqBlOzYCLnzg/p37omjUs2zHcZ1xG2tYbPpi9vPyZnx2loV/0N6bbNNQHM8cXNRSk63uQ7CIlcV8FgBCwEOptWA=
+	t=1786139467; cv=fail; b=pF7j83lRwtfTDnLn9/wwtyK3vu1URQQFq081pVfTwrJvaPx0cRCgEr18y0uzJZ2QEDK9za+1XOk8VzSBstlCERC3Z6usjEqC9aLiOfOYfgW0Gm7yRp6l5KmDzwZQb19oj/ofpNfW7Xtew1ymCNnDAC6r8gCLLcue0780iZL6ESM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786113270; c=relaxed/simple;
-	bh=fjsuz66GDm0vKg2rFYjQfCt/J4ewBZp35uY+Bwa91qU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a7huCm4dMdJ6rnW/HJdohvKvjJLA0culHy1ANUZrtR7pNDEbpTLciK+jPoR2HiSCOUI4DwDJya1gksl+pwzpgNC3lIWuT9LvwyAjWyf1TjrOFGnP7afMvTZ9DpcK8AsmQ9HmN5k2L2TQXdMoy2ko1vctGdDnUb7K5CfS7WQLRtM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com; spf=fail smtp.mailfrom=nokia.com; dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b=s5CRJDTy; arc=fail smtp.client-ip=40.107.159.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia.com
+	s=arc-20240116; t=1786139467; c=relaxed/simple;
+	bh=mEYXzNpPuJj7mUC5mr4+oIMjksBUyRUDxAhQ4ThpWzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=laQKlhTkpHj6OUnGYLPW1UIRoFjP2jEdD9sqs9hQxYnvgjzGvQ1BWI3amtPSO6WuahrUTep9CkV1ynp7jhaCCsXebyuELTrc/TcISIfxKXEu/JHy3p+m8t16vEMzY3zGNBzyFXbIE8H+Kvzui/sMXteDsE5p+N83CjnwKGR+Htg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=S4QW6QiR; arc=fail smtp.client-ip=209.222.82.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia.com header.i=@nokia.com header.b="s5CRJDTy"
+	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="S4QW6QiR"
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11022127.outbound.protection.outlook.com [52.101.48.127]) by mx-outbound19-33.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Fri, 07 Aug 2026 21:50:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VAANkiNIWhKneUHlHi93aFj/j8NmtoqD80pdQDR+490LpJe+PhlACux8YRS65meaD1UAwVvYGX55JhvzRafoCFzG7bR2alWsm+T3o7oKgSa4TsuPjjLFgA1tYxRBvzTjhAqgAxTKUOqjT9h70Yq/3y69WS7/Wgh0s15yHNzirVBItGkMgx9j+9MMMxlXJ55FKQ67jrKlwE+g6MvZtT0c8DWjYkPcTAi99+wErE2LFK2w4zjrt4IAQTlFBUQKGK9wl09JIzWNieMeABMCAy2b3fLsmWMsKb/r69zmzprx9RC0a3Rp+1o4zun5JMnaMAp7ucoiXjk1xPIAPilkSzVugA==
+ b=BnwZM2I+xYE4Z4Wr+M8PkD60rLtROHCfqEXzW4c2Kn4eG3qOAMkAkJDd7FgRSjfwnxayO5hmKu/xZ+NVWqv0Ms8dB5Zr9OX7P7/wBZspltWaZbCTvS+0I0TV5P4lCbPFd+V1OhjjwPFTPDten6dFN6/9KUjel3R6d+vAasK+zBt7W46BlYryV8ufdDTvgSRhUWREo0F+02UAmJKaLwNpoEOJiTxUf6Fx0DrHkPXxKtrCnafx2XoOVCe0OAwmY9QkF9SOY1MNQ/UNqcrQD30v3Svt+rkxpweXb0A4qKa6LhEesX257XH+1G/Hq7FKYQZ9SjUm6C7i1jcCUlG8l5/V6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1NdHWzGdI3CYj/Un5JTePSOYk4RaH4zmfpaOD0ECx7c=;
- b=a8w7tLcf5uuxJy8o+3Hu4ovXZYQ0KNKxnnWEH8fF/REwom0jOZ/1l5PiRDEeI0kA44oLLZ4wo0cXOcijc83tExgVMVKireoWIyhktJnh/FHkAOTMlPnj5ai61JEMOaX+4h3WMHYkwUdWCixslBmcotoers7Iy6XbhlENmHcw19V2Nhrr2LMM/2rd+vPkETCk0IP5lrrZgB5TVuifWbbiC90dziHrachzSMGCy8LUe9WTHY84cg0nu8Z0PGtnb4tKGvcpkHBx39UMzwpHSrhk0dQL6z3QRKAeuK8qkvWYGlAZYGz/yJIseBs9rYilgi3Nw+Ep9ulXM6nkxO9wLxfLDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 131.228.6.100) smtp.rcpttodomain=kernel.org smtp.mailfrom=nokia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nokia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
+ bh=SIxxcUTyJ0sScoCge1L5ZTHRVMsMRzcnottz8JmdM0A=;
+ b=uzczJItagCk90G0qXsB6ACycQvjVdmYJ2HJCb3vG1fj0fXIy8NqFPdUTVTXB8n+ugrFZ9j6wpIrTFOmqDq1Yb9EDdFEx6wMSsUpHX2yW0fvoScS2vek/3w0aXK5w21cCzP7STKZcPkkahR0CavoIT2lmPHs4b90msO8SE77xDWGr96ol7j4cjCGeKism17qlWIY6eeW6oGLBP0UaiB5IvwZEWrQnKgKSkCoNBnJt1MTj9TKgc3pq8zB6E8iQXmki95NrMLudpEqXl88halTE5LsGKG/1ZQzyavCX8Vnd3GLXwG6J1yBDIRDo8kos6UBHz6UNHOavfLqlMrTO9O/57A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
+ dkim=pass header.d=opengear.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1NdHWzGdI3CYj/Un5JTePSOYk4RaH4zmfpaOD0ECx7c=;
- b=s5CRJDTyEKmfrZCvpZO3xFeZp55Eg0oomjsOygyBpQwYumvj7foIJCFWBGcIL7l7g2jAnV498iZfjMTNC1tRkda+w6Zyvm6tSfvlU1VhzBw8JI3+KZzpFAjuHUC3uhkyCafhYJraytmYRw/5JjIdBjzmoefIPDEtMxk1ozKDjlYb+yRfg37xI18KsjXBLgD/YxuA9qTmkfJLyAXPRnW7gL+CQwVk71nyRnYJJZLN1xkurLSCGxv6tlaU7fxoU4M+IriC0g0T/Q3oqqv4VXi+NjhsvkWD98xjw0038mCZAHKe3M9lHVRfD+1YLCjh0sivPii0WDq4JZZfZYKMCk2XQw==
-Received: from DU2PR04CA0257.eurprd04.prod.outlook.com (2603:10a6:10:28e::22)
- by PA4PR07MB9608.eurprd07.prod.outlook.com (2603:10a6:102:271::16) with
+ bh=SIxxcUTyJ0sScoCge1L5ZTHRVMsMRzcnottz8JmdM0A=;
+ b=S4QW6QiRbv8yI9zz8g49/M5jlmQwlXNl9p9fDqm9YpKjtd5/sj7fJ+vSniDdKwCRcsKDNuAML3nWZWaU+2MbtFEHR2EpqaNEK2vawa+RGtYaAEhsNC7VVWnKZt0KriayiVqEKK09GFbQR5+2YG9ZY04cSUqEKfPDJZMAURd+LXHEgWWS5OsfLIwNrinT5CLA/643i9N5/Sck/tploX8mwtGdFglSiCMM/1UEmN9ExgWpGWAA32wCP8smbYgleKX8eqdw5q0GSEm6UHWGE9qktjZKR1znfMMqPYbF0RSIXk8kamjU7AYT84T0Iz0uvbQqZEsOV5ddR5douZqQyiJh+Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opengear.com;
+Received: from DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
+ by BLAPR10MB4899.namprd10.prod.outlook.com (2603:10b6:208:323::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.12; Fri, 7 Aug
- 2026 14:34:21 +0000
-Received: from DB1PEPF000509E2.eurprd03.prod.outlook.com
- (2603:10a6:10:28e:cafe::59) by DU2PR04CA0257.outlook.office365.com
- (2603:10a6:10:28e::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.23 via Frontend Transport; Fri, 7
- Aug 2026 14:34:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.6.100)
- smtp.mailfrom=nokia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nokia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nokia.com designates
- 131.228.6.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=131.228.6.100; helo=fr711usmtp2.zeu.alcatel-lucent.com; pr=C
-Received: from fr711usmtp2.zeu.alcatel-lucent.com (131.228.6.100) by
- DB1PEPF000509E2.mail.protection.outlook.com (10.167.242.52) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Fri, 7 Aug 2026 14:34:21 +0000
-Received: from snnrelay2 (snnrelay2.ion.nokia.net [100.126.60.16])
-	by fr711usmtp2.zeu.alcatel-lucent.com (Postfix) with ESMTPS id 7EDF5680010;
-	Fri,  7 Aug 2026 17:34:20 +0300 (EEST)
-Received: from kanalexanlu.ott.ipn.nokia.net (snnrelay [100.126.60.15])
-	by snnrelay2 (Postfix) with ESMTP id 8700D2A01AF;
-	Fri,  7 Aug 2026 07:34:18 -0700 (PDT)
-From: Alexandra Lu <alexandra.lu@nokia.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Fri, 7 Aug
+ 2026 21:50:45 +0000
+Received: from DM6PR10MB4139.namprd10.prod.outlook.com
+ ([fe80::19e9:d558:fd6c:8e5a]) by DM6PR10MB4139.namprd10.prod.outlook.com
+ ([fe80::19e9:d558:fd6c:8e5a%6]) with mapi id 15.21.0292.022; Fri, 7 Aug 2026
+ 21:50:45 +0000
+From: Peter Hunt <peter.hunt@opengear.com>
+To: loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com,
+	mani@kernel.org
+Cc: johannes@sipsolutions.net,
+	netdev@vger.kernel.org,
 	mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alexandra Lu <alexandra.lu@nokia.com>
-Subject: [PATCH] bus: mhi: host: pci_generic: Fix runtime PM imbalance for no_m3 devices
-Date: Fri,  7 Aug 2026 14:33:53 +0000
-Message-ID: <20260807143353.1932381-1-alexandra.lu@nokia.com>
+	Peter Hunt <peter.hunt@opengear.com>
+Subject: [PATCH net-next v3 0/3] net: wwan: support DTR/RTS on AT ports via MHI IP_CTRL
+Date: Fri,  7 Aug 2026 15:50:38 -0600
+Message-ID: <20260807215042.2714442-1-peter.hunt@opengear.com>
 X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7PR03CA0312.namprd03.prod.outlook.com
+ (2603:10b6:8:2b::21) To DM6PR10MB4139.namprd10.prod.outlook.com
+ (2603:10b6:5:21d::24)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E2:EE_|PA4PR07MB9608:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 9ec2fe7f-81c2-4c2a-d6b3-08def490f861
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4139:EE_|BLAPR10MB4899:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1d5ac2c-fa3e-4b31-8c58-08def4cdef58
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|36860700016|376014|18002099003|11063799006|5023799004|6133799003|10067099003|56012099006;
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|18002099003|10067099003|11063799006|56012099006|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	s01pZnYRJaacHe/HhaYoLMrY4lavEdTBdZi9xqeTAAPl8Q8r3E6EHadi4sVFIzNdzFhw/bpR07tOgnXCsf1qLvzyJnGTWM1jktkHVkokWXx/CUueSO++phPc23jgrR1iRUxFTVwR5IAbe3cLn1FqNYkHFr6QRCTE76JEpkpljlV4NOmPwKYg43N48ygkJEgqiO0yFl31sYNG2AT1t7zGylcHoFfwINEMq9uATVHK0pwn7qpJt/+u6XK52V/yE/2HW/037KFOYEY/7eM7xwY1LHUfENBUh9BbFUIpi8WnLP1hlYJL6RR3JJN9BQuWGmppI0n6WAEBaePNWWYPomstGrzYD2FhP5dmBwBM7wHsBH+ENHrG+79o8LAju1GmGD73jDR9ia1/omJgkHFQDoHZObHiz5qMZthOM5txsa4IiZ8Ws5u+nP8pN0qTRtrJrd+4a5uYqvCYd1RnwKA+UzgeIHfAmwAgTHyotqQZrS/FhnH55RosrvCR3YpQVZOMi788M9hI6UYxH6VzxnWOEJ0CdogLtwrj0FyNyQZwXR6h38Henlmc5q8LtF2NrNO2kVax1AmgZpVP565QuKCqpUCngkNdtR0U1h0QrhvGk4Dt2nmJL95BZEhqOophXEaB8CYtUwrvEO8h9aFB++jOMhlQSJpdWP0GU+/lTxPv2KBC+TKXHWwTJM9dZWGty66d7y4iF1fBjPD25ifs/wQ4VlJ0xA==
+	S2f4aZ8VZY2eZ4QwmVtN7P8tuJtsEQPdIqBDSQ+BvQll5R/+1rhRHQf1E6DhK72shItXfsQCyOB9HIBNQTI/ia9BMRl4l+HLGpcz6c0QVqqDO9k1AeuLkSQNnv0uQDgKJLzpaYEpp1RUttrtdjjaEWgSAWN76YCVql8LsuME9m3l/+1owndql7R/KSlEtrnj1Cv3kKyXmPpK4aQ1oQBn+odVjiE09H+y5wn+oZUh5XEIUhyPWut8Wu0Sq+EaFEerESaBOGTcd4yDqaiXMasD7Kz0rgQ3eGfbc5Mj5TkTob0693JxBgKEPLyouZwt7HaTBz7nMtGfj/ZpbGl7Sze34845rE2M/bQGtO03OVDy/puzV8pcV4m0Cn0Wq7trNbGsf52TFzpFQaewFlpckf1w5Y1B0GAKzKmjo29sOn4LdUYYzeAthLkLqiopUpxeOB6ffuZScPaLXf/vuAOmNef1nmygDRBYTMi7Gj5qwKK1jEW7bw3Lx2YqZJwfBj3nGdwkKvqJHqQ+gAwOuuW33SrbE50QqLnDagvb7BJj7kTLv6aD2hsIRxH/qBbCCLrXxeEzczXO80K5QUXXn92cPUTAkdA4W4weWOf/TL87yz3okGqk/5kJEIrk+1yhifATDkfykz18SL9y9XYk0+21Nh30NbssIb8GI5i8OGK94n0aaik=
 X-Forefront-Antispam-Report:
-	CIP:131.228.6.100;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fr711usmtp2.zeu.alcatel-lucent.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(36860700016)(376014)(18002099003)(11063799006)(5023799004)(6133799003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(18002099003)(10067099003)(11063799006)(56012099006)(6133799003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	GO7EuJhFr2ePnaBDa7jNjs+TUaDqdyadcITdhLnkAKufllpe/eQSkY4IR0ksSQfZGwuR6v+x1/Gp1DARJMQAnTo/modCF6CAEbXFURLY7DFzHgIxf61NF+vc29to9pctlw2rlIt85tBWdjT015TMbauYpmNgt8e3fhxkuZ9/nBonO7r6Eb//hFTbXjIiql/+6vuAVkcnFzZxw3CLGyfgoMjSH3WABv8TZTMEZw5f0f+42Km4Eh+1M0Qp8jcTm33+sJ7QPF0FBjCNwMR331F6FOKe8pJy6NWXbPerOWCI2dyYjBmhasLchLE6Wqs+Ccz1xhzye6hsTbVtnSNr07ZGfA+zODInzHtnlAteHj+16LRGqiTlfrUBjomaahNQy18FmkB5n7eueck3b8hVS1xNfftV45l3xFcqKlPeEI8Wi98/rY7j4HYlI3We0TS0gfYq
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 14:34:21.1757
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec2fe7f-81c2-4c2a-d6b3-08def490f861
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.6.100];Helo=[fr711usmtp2.zeu.alcatel-lucent.com]
+	=?us-ascii?Q?EJnl9YX5qVASzHkMaMQkHh7Y7xLLPcSMt5wZZgXQAOADDpS8ngvRjtSYh6Gv?=
+ =?us-ascii?Q?kFKF1ayB7eVUn43hGuuRBxlhZ5L6+jH/XArv2KYNZDIo6QXTx8jFC7WGtf5e?=
+ =?us-ascii?Q?aLjowRhAbS8QyluOn+IS67m38fHEqXJp7v5d3KnfoPHwEVWYNGObKw9HRyxv?=
+ =?us-ascii?Q?3tfJBtyXDQ3zb8qOlcVMoUH55pUqjROqyZUGaX9p2WRGwSdxnED60K338gJO?=
+ =?us-ascii?Q?t48qoaft/SRbj5i6U4H4x2x9nup+1Pe/nzZFKa6Io/MulVna0AMGcDtFoVce?=
+ =?us-ascii?Q?4aV60w2mTUT5vB5j32gQZXrUEctlMBlTzciA7XWydClKgGflKAgxYOSeIkBh?=
+ =?us-ascii?Q?dXXX4UZSRBAh0I27s/MxWvmFF1lHRN7dfr81Xw7McfT63iQN37YWtm+IPhrf?=
+ =?us-ascii?Q?AYhym4QCg2GrdJJ6KDy4ejsMJjZjVoRv6aqEkAhLM3l1rQ55rispJUhpLcB1?=
+ =?us-ascii?Q?yrMBNanYzk24ktnfePwEJVbmoMWmNPMCO9DyEpAUMC777ED1plZBAZOUry9P?=
+ =?us-ascii?Q?Epabe9nFvAKEpAAZEttZ/6bhmUb+dxKHm3ttQ4zGclM8HxJfEISuFcRB3BWs?=
+ =?us-ascii?Q?mtA5IP3De1Y6f5qpgoijO7VmcoeW0/YFgJHiuNFgN6VxGuNzw+TxvX3DxM6X?=
+ =?us-ascii?Q?vM33OgFHfkF6M5/vqNzN5F0zQC7ENA/GLVVsdcnSeQ3H4Fdr+AC9Ce5Bgfsn?=
+ =?us-ascii?Q?QPXfkjuE7l49pN3+N3Tt7d5/ljzOPUgtsBuPhY7CYCjwm1/laoz2M5F4xlbB?=
+ =?us-ascii?Q?grzdtgzjoCKcLzlSP0r763z6WEN4wkwz4MroRpjrMmeu1Gn6xtXoNAEXFhEZ?=
+ =?us-ascii?Q?A+C+U82yNJg+SHssSV2T9/DK7O0+FnmYzGduB7/fthPGyITkGInPfXQm1TOa?=
+ =?us-ascii?Q?n3KjVditV/fFvaI60E2uVbDzqV6y5RFbQG4JSpSS+ZypjmYDz3ngJsyRzVcn?=
+ =?us-ascii?Q?wCpISWJfSkILDq6kHo8KITzgCHeopQMcZLdx2D8HpEscQweuWQy712TxfMs6?=
+ =?us-ascii?Q?f+xuPnxUeXEaJxl2/kBArEVzKyYTe4jqkjgU2xsr7r0Kr0xT5AkwFnPEalbY?=
+ =?us-ascii?Q?F0dLHejf2I5EymAUyksiV9sRjesjQMuJROigs4qsTq+Y9qcpaDucrvogMcXH?=
+ =?us-ascii?Q?KHXfaBppSSYHKlDhWSKzEmVTyt3mIyPat/6EaWDb1+dSgy30OacNg5JQgHX7?=
+ =?us-ascii?Q?crnvO5Ob9fBA97MdIi/2e7L6DHJ/vWAE+LExT9NjlhGQEAkB5k43JzFdgrao?=
+ =?us-ascii?Q?r8+bd7xs5GpwdiF4tjf30Dti62spZgZx6/Gdr4GS9PyNsZzADATcYX+ujke4?=
+ =?us-ascii?Q?cL0aSMKU2or9GBRCvIbdjCbOCqGvdPvyT/ZH7M5eyb0WobfSYkSeniJ7GuXc?=
+ =?us-ascii?Q?iHPPwg5j2tws+sA+7/IuRQBHTM1cjQW8TS79EHhhZvkeMqqPR3AJxMdlUUtH?=
+ =?us-ascii?Q?oSDiqClnHZd2Gju6JcZ//Dv3IvBnWY/mbxfgb8wyFYpzxcwrN6E2m/JlcQgh?=
+ =?us-ascii?Q?olT/mN5zR46vDBeehZ6RRScwr6aKDJ2uy5wI/EdhExjdwpLJXdoNNaHZZOzr?=
+ =?us-ascii?Q?qNIgyxW9TPo/6qPAimhMT6teMmyI02pbUd5M+P/uclQ+mqBnimy2lv9VXINT?=
+ =?us-ascii?Q?z2d2tiisM2j4IY15PdsPlUeMh4JsTIJlTQ7j6WbQoiEaPtiY4lfio5j0+Ptx?=
+ =?us-ascii?Q?VxdQAxrl/k3xnJ/y4DDq+0ZUjyxNmeLfySyv4/oG7V+FDTlv?=
+X-Exchange-RoutingPolicyChecked:
+	mnuBlni3RICPIfl96j9WhJN9U9Y+e6pDn7umGnisAsRD5mcM6et+yDSY35VM5iaMOEkMvIrL0jNA7R+WR/4t+mRph8eo6P7OmxhM71gZZVdmhloyHCxmbeaxP2olb4H/GRwricYC1Mi2MmrmmGaMEVUZKHjCFuIoTTLdt5O2LnPG01CKwPoCKCd/N1Y9fq+WK/OTGzlsKwK82xvwaohTTu7fjJnAL4piKtIFXbsrL4VqSPzeL3MVMTpitwKu3EzUEcz0X2V3vmt5HLks0fF77bqefanNnPtZlPdjRFJUCkO4b7ZYLHqztyzx/1j4VROyT0d2H+4EuWwg/XpWtENDXQ==
+X-OriginatorOrg: opengear.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1d5ac2c-fa3e-4b31-8c58-08def4cdef58
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4139.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DB1PEPF000509E2.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB9608
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 21:50:45.5726
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zktkrs5ryAJcQoNKfSc8Kqkx2ewKhxG2JTURan02QS6LQ3wS+T1tbl52x9aL0ckc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4899
+X-BESS-ID: 1786139447-104897-7739-10102-1
+X-BESS-VER: 2019.1_20260804.2006
+X-BESS-Apparent-Source-IP: 52.101.48.127
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkYGZmZAVgZQ0Dg10cgg0cDUJM
+	U8xSjNxDw1KdnMwMDCIDEtxTg1NTFNqTYWAJdo9a5BAAAA
+X-BESS-Outbound-Spam-Score: 0.40
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275220 [from 
+	cloudscan12-172.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.40 BSF_SC0_SA085b         META: Custom Rule SA085b 
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.40 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_SC0_SA085b, BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-mhi_pci_probe() drops the runtime PM reference taken by local_pci_probe()
-only when the device supports both PME from D3hot and M3, but
-mhi_pci_remove() re-takes it based on PME capability alone, without
-checking no_m3.
+Qualcomm/Sierra SDX55/SDX65 modems (e.g. EM9291) withhold unsolicited AT
+result codes until the host asserts DTR.  The in-tree mhi_wwan_ctrl driver
+exposed AT ports but never signalled DTR, so URCs never reached userspace.
 
-For a device that is PME capable and has no_m3 set, probe therefore never
-drops the reference while remove takes an extra one, leaving the runtime
-PM usage count one higher after every bind/unbind cycle.  That is benign
-for the device being removed, since the PCI core resumes it to D0 on
-unbind regardless, but the struct device outlives the binding, so the
-count accumulates across repeated cycles and can end up preventing
-runtime suspend altogether.
+Patch 1 extends the wwan core with an optional ->dtr_rts(port, on) port
+op, mirroring tty_port_operations.dtr_rts.  The TIOCM bitmask state is
+tracked entirely in the wwan core; drivers receive only a simple boolean
+assert/de-assert signal.  The core also raises DTR/RTS on first open of
+any AT port whose driver implements ->dtr_rts, and drops them on last
+close, mirroring TTY semantics without requiring each driver to duplicate
+that logic.
 
-Cache no_m3 in the driver's private data, as is already done for
-reset_on_remove, and gate the removal side on it as well.  Unlike
-reset_on_remove it is cached for virtual functions too, because the probe
-side gate tests info->no_m3 for physical and virtual functions alike.
+Patch 2 enables the IP_CTRL MHI channel in the Sierra PCI table so that
+the IP_CTRL driver (patch 3) is actually bound on those controllers.
 
-QDU100 is currently the only device that sets no_m3.
+Patch 3 adds a second mhi_driver that binds the IP_CTRL channel and
+registers a ->dtr_rts op so that the wwan core's open/close DTR raise/drop
+and userspace TIOCMSET calls both reach the modem.  The existing AT/QMI/MBIM
+data path is untouched.
 
-Fixes: 0494cf9793b7 ("bus: mhi: host: pci_generic: Disable runtime PM for QDU100")
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Alexandra Lu <alexandra.lu@nokia.com>
----
- drivers/bus/mhi/host/pci_generic.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+v2: https://lore.kernel.org/netdev/20260806155253.3378294-1-peter.hunt@opengear.com/
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index b636e2c23b4d..eda00a2e242c 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -1097,6 +1097,7 @@ struct mhi_pci_device {
- 	struct work_struct recovery_work;
- 	struct timer_list health_check_timer;
- 	unsigned long status;
-+	bool no_m3;
- 	bool reset_on_remove;
- };
- 
-@@ -1409,6 +1410,8 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	mhi_cntrl->mru = info->mru_default;
- 	mhi_cntrl->name = info->name;
- 
-+	mhi_pdev->no_m3 = info->no_m3;
-+
- 	if (!pdev->is_virtfn)
- 		mhi_pdev->reset_on_remove = info->reset_on_remove;
- 
-@@ -1497,7 +1500,7 @@ static void mhi_pci_remove(struct pci_dev *pdev)
- 	}
- 
- 	/* balancing probe put_noidle */
--	if (pci_pme_capable(pdev, PCI_D3hot))
-+	if (pci_pme_capable(pdev, PCI_D3hot) && !mhi_pdev->no_m3)
- 		pm_runtime_get_noresume(&pdev->dev);
- 
- 	if (mhi_pdev->reset_on_remove)
+v3:
+- Replace ->tiocmget/->tiocmset port ops with a single ->dtr_rts(port, on)
+  callback modelled on tty_port_operations.dtr_rts; TIOCM bitmask state
+  stays in the wwan core (Loic Poulain)
+- Move DTR/RTS raise on AT port open and drop on last close into
+  wwan_port_op_start/wwan_port_op_stop in the wwan core (Loic Poulain)
+- Remove is_at_port from struct mhi_wwan_dev; rely on wwan core instead
+  (Loic Poulain)
+
+Peter Hunt (3):
+  net: wwan: core: propagate modem control signals to port drivers
+  bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra
+    EM919x/EM929x
+  net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
+
+ drivers/bus/mhi/host/pci_generic.c |   2 +
+ drivers/net/wwan/mhi_wwan_ctrl.c   | 172 ++++++++++++++++++++++++++++-
+ drivers/net/wwan/wwan_core.c       |  18 ++-
+ include/linux/wwan.h               |   3 +
+ 4 files changed, 193 insertions(+), 2 deletions(-)
+
 -- 
 2.43.0
 
