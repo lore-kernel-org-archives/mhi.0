@@ -1,221 +1,268 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013062.outbound.protection.outlook.com [40.107.159.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EA8489883
-	for <mhi@lists.linux.dev>; Fri, 14 Aug 2026 16:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786723739; cv=fail; b=AOhNpc4pnI1OiZpy95EYGhjyR1SDyKzflMfVSPlPgWdKPm8RaAA/X+2jEHAJgzkTz/+q07wKBy6GTGsHeaGS0uFzf/LuGlLF1ihEcs/Pl4QZSkFENIBnrQImEhBzwte9y0mjoG3KfrokaLeC3YNSRrrTE0aGHi7ZPB6OLji0x8I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786723739; c=relaxed/simple;
-	bh=n0Av9xC8g2dKe4FC/hnenCGHpGvUMVB5bGRu0mRv1Vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lXu98e4+n16FjO7Q3CDarkjGz4D1OafZi+tQROJDqOcssMmx+iFi9BDh6qgElPc4wWHLh6PGPKdBiY2AcFulKJekWrGPofYN73KQHVi0dDTTTAsfBsxirQBnOcKGNKbyuaHUdNbTxyLGGajq/aaYhlE5Ad7W/bAmI2seOQ/tQpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=YLqDmZ1+; arc=fail smtp.client-ip=40.107.159.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB763C1419;
+	Fri, 14 Aug 2026 19:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786737064; cv=none; b=ZetXq6rToDI0bNac5GWnpDo1GttZXmkuqFiFQsEy5R5yUkPek72OaqUtibW4X4TeugPs8P+3bRQqa+EqyK1f9vrdD+CghDRyzQc+DCmvoEyY3PhzxAshwCkPPyhIadlatT/t7lW08L3ce3dbxGqu17TRB27vL4LEBUM0YoGtR5M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786737064; c=relaxed/simple;
+	bh=Tg0Hi7FwxeAAVjtZKZfrsawG5Y3Zq69hnHKFs7ojjl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=d9cU9Nc2aDZZK7jEJ13pqgEzVnDq1mkfe3TPvYNzF6g7B0FvU3+dznBAH418uhIWiAQQxLm1yQdiI4jWwnRbi2QzqG8OlPfb8OF5G5kRzNUlEPulBzlOto/EN9APc5GZD1LPlkqxV2z5gQmxCA15tehYWQOrMlbiIFlrKw7iPuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5J2/25z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="YLqDmZ1+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pscZSoiKBo8XiCfQ7e5UdAm8W8X7cr41UVwSKp3PENdvMSzjZNDTjdDxLmD+1DHRfwBFzlQmEfZgH8OfEE3tcw7f/V0fftmEVL5ixl75/KPc0oaLxsdteuVJ+I6CBwxaylcelLYFWlxOqxyapudUu9TB3PWcfKJbse6CAFH5lCPu/4IGDpolYXnV5zUROoUrh4N9ZEoAPFXOW5CKDumTmkkiOESmmYO93LITZPgx8+eauxWlJTTbbT/1YZtLakXED5HWSAaTUZIlRLRRhAAJqQEUTWTy0QJD/f2kjQvbOy1h4rI50/e8kTAI1OAl29L0GDjXiQZ+/J26jmu8v6JbnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qIYFTuWcetMkp02/7n8Xksd1zMNgGFujeIaX+zSNr3Q=;
- b=LH8GWOsbAbfzZn4mK9xmgfkhrRkxdsnNGYThMUFu3CLtlgK9AQI0kmuWrx5BQYRjGZOXoRc7Goy0fUsgpefN0lnBkhxUC4dZ0q7g15OxECez+y2xs6gJM7Bi07nzjnFhs0XbR0Eek5uXz4kMO144Uoso6r4MOkL/sU5eoOrvwlF+/+NQlOzQuJ1pSBHpGDMrlfWEPTmffMxcnUHQDsXmBqWkBeN2LM+QqOjTkSQKe4rJbdFI1R+ITITepg4hp4Zk5czmE3kvkhjuCi17nRoNJ4afAPiqnZKIrc/RHmFqYsyhIyIvKDsdGX6xQYbj19SYuxIMyVDMheEymVc4llhcfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qIYFTuWcetMkp02/7n8Xksd1zMNgGFujeIaX+zSNr3Q=;
- b=YLqDmZ1+aatomrSNFL0yQ2BeQqiHZzps9U+6z7hnylO3h/PnnnB1Hb7mWukwkjJ4lgoRvkasBuPB2eMaTvcyQhhNoKSTIdeyd2rboSUYir4PLK6gUhq64WTOi2mko4tjROI9Swns0rkORLmfUwA2Y9Ek6jc8PUiMbuxaCg2+kedkBp4Y+2LjhEKk/OxuUkRRZwpAzwhJfeOUx0nzZ8VYwaAlu51YaXE9UN8dVII0cdxcCFuLfpgztW0Q8+diTsI9vFEQogtL1yiYTM2xaiOAVLcjclzW7691+QoIUtbv0upGZNaNR18YPXZb9yyrWnpEco5ghspeDMb8NPDcRFYiyg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DU4PR04MB11791.eurprd04.prod.outlook.com (2603:10a6:10:623::11)
- by AS8PR04MB8451.eurprd04.prod.outlook.com (2603:10a6:20b:347::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.16; Fri, 14 Aug
- 2026 16:08:48 +0000
-Received: from DU4PR04MB11791.eurprd04.prod.outlook.com
- ([fe80::11ca:6b74:3234:d7de]) by DU4PR04MB11791.eurprd04.prod.outlook.com
- ([fe80::11ca:6b74:3234:d7de%5]) with mapi id 15.21.0315.014; Fri, 14 Aug 2026
- 16:08:47 +0000
-Date: Fri, 14 Aug 2026 11:08:37 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dmaengine: dw-edma: Add DMA_SG support
-Message-ID: <an89hXJm2wY8Owry@SMW015318>
-References: <20260803-dma_multi_sg-v2-0-c12bb05e42d6@oss.qualcomm.com>
- <20260803-dma_multi_sg-v2-2-c12bb05e42d6@oss.qualcomm.com>
- <anTbNsOQ02V6umXf@SMW015318>
- <ye4bue5a2uq65d5befelyhs3cbezpjytbni4mtnge42ijmaqny@3bijtktlvyrj>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ye4bue5a2uq65d5befelyhs3cbezpjytbni4mtnge42ijmaqny@3bijtktlvyrj>
-X-ClientProxiedBy: SA1PR03CA0020.namprd03.prod.outlook.com
- (2603:10b6:806:2d3::17) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5J2/25z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0EF1F000E9;
+	Fri, 14 Aug 2026 19:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786737062;
+	bh=/gmhQQIkmx7gG+7jxdQA4x4beQCkP+wvUQj15igRjCY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=g5J2/25zG+tKycS4zQ9ONaMmUpLsW5YIDTocUWE+iglXHLGQKuVodGT3qiP3jxT4/
+	 E7zns8pelK8x63iajFJd7xvTb39yE3EjV6wQUaHmNXQLDZdwXc3wECfiJMJZlrVKTI
+	 0JY0DDHQQAWvdfrN8TkOUZEtVxOEOMkSD+soZcw3RMTmCve3LdHTpLL3cOTKbKMXkd
+	 1oapKRmdJDW0QGJG+Lcw7wc8cHmyAYN++nxrlgSkKfa+ftgek50iMXI5H8X+7D4fpq
+	 r00043i5qUxl6G4QGIF3Tw5qI8FsAv1HXKpM7j7cu9ENHrUE5bn0ZaggWkRUhDaduq
+	 U32Rim04R1K9g==
+From: Jakub Kicinski <kuba@kernel.org>
+To: peter.hunt@opengear.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com,
+	mani@kernel.org,
+	johannes@sipsolutions.net,
+	netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/3] net: wwan: core: propagate modem control signals to port drivers
+Date: Fri, 14 Aug 2026 12:50:57 -0700
+Message-ID: <20260814195056.3203996-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260807215042.2714442-2-peter.hunt@opengear.com>
+References: <20260807215042.2714442-2-peter.hunt@opengear.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU4PR04MB11791:EE_|AS8PR04MB8451:EE_
-X-MS-Office365-Filtering-Correlation-Id: 386df9ff-af8d-4c02-2899-08defa1e5212
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|19092799006|1800799024|23010399003|18002099003|56012099006|22082099003|10067099003|4143699003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	iZEDBhJ87OMPtnJx635d/91ceYFeMkjF4BEi7ooJSseOn1fx2EwYk8Sr1wYK6B2b87OiR28FqEK0Rfs+QDLnQm2LCkKo3lYM+/qWpBI+sZSTtquatrvCqUHOwMkMn94heHtezxD+17RWtZVP1hsnJ9Pa2TFdFMkDp1DYkCfRasw4EVsiDRvlM2ayNnZUr/hwj2ZT4qbZ080+RwPf94rCXFYFayyz/Rl4EOTu4e47qlgGgTg7SYG1foC5EDw76fcF+1X7DSfxisGap7ZQIKmyqO93/pn1HqWR0zclNRXugqJV9EHzgwdFbH3NvGGjoCByUXNigar/C3PhAQgAJAjOR8oj2RJR/qDTKzuNANyzw63dP9mvGW0h5J8cbaCYuo8Zn7ku+rwQrUe7pTex49HGfuv7zcwssw38sMMS8P9p+5tP35rvjac56ME+eCHct3FTRSBaaEPp8gjaEx4TXUdDLTw9gM3iXbDtYhbTncEMtUTP6XoBUMhSqhSmP1EYWQ/Y6F8kl9as6tUPnuvz2Tw5m8Yln1yDxSU6da8UkUFbl4i4HLQI0V5ALBBXgfhufGBGFzXwBs8bByIeSL3g2Kgm6HzhfHKoa+AUztMXXZs4qNPVaTx0XJ/KnpcOAq9UPM9IdE+RBOub1DrRKYp9W47GeKKjfIGN+I12VaQVhxUHVeE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU4PR04MB11791.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(19092799006)(1800799024)(23010399003)(18002099003)(56012099006)(22082099003)(10067099003)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a3ZNQkVzUTBBVzB3V2R3c0s3Sjc5eU44ZEh6TmEybWtFbDh4UUFEcFo5Vkov?=
- =?utf-8?B?bjVreENxRzBpek1pT05VRkxZckRnMDVFYUl1Yy9ZTE1XbFZrVGo4OSs4eVd4?=
- =?utf-8?B?MjFrY2U3VzR5MVNOY0N0bUh1Z0pxT3ZYREhpUzBhQ1h0ckRaN3hHekZXVksz?=
- =?utf-8?B?Q2p0VFNtK1RQbno3Y04xMHlqbDZubzRxdGRGV09CTDdtOWVNalMxczB3SjJX?=
- =?utf-8?B?bzF4NW5yc3RLU0FRNFp3YVZBUDNuZzdqd1Y2bktBZHNURUM5VWpSbG5rYXJj?=
- =?utf-8?B?UlpaTWEvb1hWUGFMZ2VMMkV4N0twMGJmOXhWWHJKZEZ6MTBlTE10UDY5cFVJ?=
- =?utf-8?B?NkhIcmx5VmQxQTNoNzA3cjRGSHhQdDZoK0pBcmczOHJPejRjT2dmblBRVG8x?=
- =?utf-8?B?REcraUJtbitDeDZVSjRJeXlzTUNHSWhwbXJBVktxMzJZb3g2VFRjL0ZLY2pj?=
- =?utf-8?B?aVlvUlNpN0ZDQ3BpQVJWeTFBTjdYKytIV2hHQlJjMmRZOGNFUzVaT29tcjF1?=
- =?utf-8?B?UHdDTU53eSsyNE55S0pPb1pZaWdvN0xtTU12YVRKSTRmclMxOVBJUnUzTzZD?=
- =?utf-8?B?MFRVL0VYUGozQmU3dmxUcGdmejVXMlVFOVYyVDJHemsrMDQ1aHFQL2dPdkV4?=
- =?utf-8?B?Z1l4NXB3NDJUc2Z5RnZMNnZUTzFJNi9zNVU3TS84RDN1cW9qWktLU1lBdnNl?=
- =?utf-8?B?K1MxdjhYTzV6SWI0Q0hxc1hFSUFBZ0prSHFwaDZwR1Q2eEFBd1diNEQraXhv?=
- =?utf-8?B?Z0EvamM4VnJDOGNXMUhSME1QcUs3RnRQUHA3QVBGdnduYzUwcldrbkllTlVF?=
- =?utf-8?B?QUxFQ1UvTDNhazNsdUp6b3QrOGtKdGNZTDZrb0hOeGN1L2dtYUw5S1M1eGFa?=
- =?utf-8?B?MnJBU2NvaHFaTkhKdEw2VGF6MlZSOHdVbi92M3ZoaXlCMnh5b092V2hMOGJJ?=
- =?utf-8?B?SHpXVld1cmZWbFltRFFJcm5iVVVLaktJK25rT0JIditWdDQ1NndnRFBVUFg1?=
- =?utf-8?B?WWI4a1d1VEtJRGNEdU1YWDRLZkI2dEQ3T1N6MExwZFFRaUF2UHRRSVI4bERI?=
- =?utf-8?B?eE5lRzhCZ0xGS1NrVkNzNUg2U0RBL3Q5UElwSGVBT2xqclFDMjZlb0tCeXd6?=
- =?utf-8?B?Y2JpdmhrQWdUTEgxcVFacklXU0JZQjM0blV1Wnd2UkpyaHFYTmdiUTh5NklW?=
- =?utf-8?B?Um50ZU90NGxzL0FpOEtESEdtY3JSWW1QQnJMQ1B5ZWtyYnZxRm5yNVFlZkdU?=
- =?utf-8?B?OXVpWXR0NlEzMS8yRlhWVTlhV0hidktQdE1lVTBJOTg4QmxvQ0V0aXRPRWdq?=
- =?utf-8?B?SWxNM3VSdnAwV0tFQXNLc1hIZVlYWDA2QU5WUXVXU1hEam5wRS9vRVFSVlNa?=
- =?utf-8?B?Uzk3MXBNTWJrdVZqNFp6eTZCc1NadnJGeFpscTVNZ3VUQkVUNy9oTlJxSE5h?=
- =?utf-8?B?VzJxZUtGV2QvYVltbjZ3akFmektPUlBNNXk4TGxLTzVYeWo4RG5pSWZ3NEhS?=
- =?utf-8?B?VlFsekRSNUZDbXZPZHVnU2FVZTR1cjU0UlVKYnA4elV3TVloay8zMlYrK0xa?=
- =?utf-8?B?S1U4K1VoQkI4RWpWeUdvYnNnY256Ryt3amY2N1pzZHhNUnpPWDhHdlh6TUpy?=
- =?utf-8?B?ODJKbnAyaHhBVmRxQll2SjJNQVFZSVRxMVhLUExJOS9RdTlHQzVwWE5LcE8v?=
- =?utf-8?B?UHhUcVhOcHhNZzB5aGYySE5BUnhMeTJ1UStzWllZSlJXZzFNK2tOUUNGTFpU?=
- =?utf-8?B?cG5YUVJVRDNNTFpJc3NvZW4zMkxnTEhySFFkRUVUcFBmSGx0OU5IaXczZnVU?=
- =?utf-8?B?ckhxTmwvRFRSMjNkTFQzVG1SSmVlQW1qNFRqRUtCc25zZWJFbFk2TWxFcFpD?=
- =?utf-8?B?MTZ2bm9nTUUvak1uK2FrNUptVDdKNGxwK3FKL2Z6L2s4TTVRdUZoTDFvL0wr?=
- =?utf-8?B?Sk05SWhKOEYxK0RJTDhPVzhDZWt4d0wwbm41Y3EwK1p4MTF6T25ySFkxVE1M?=
- =?utf-8?B?WTROSkZuYlVJSnArK3grWGt3eXdSRElRZk5KOXRCUjczKzB4Vmk4eVB0Q2pi?=
- =?utf-8?B?YW1sRThaR29YWFowRHRLZktjbnZ3STczdi92NUliZ3BEandZVW5ERmlzOXZ4?=
- =?utf-8?B?MzdCNFl0SjM2QSt6c1hMWE1HSUsxaXFqcDlFR1lNNzB3czlnNVc0eHM3Ykxu?=
- =?utf-8?B?NWJNU1VIRVFObHBGbjV5cmZGWk1tN1J5dHdtRExOM29ZRitrb01Gb3FHaGQ0?=
- =?utf-8?B?UWVRSHNvanZlZjZYZXg4QW81MnRlQjJtWUx4ZzhPbTM5V2pTQmNsUVl5cjdL?=
- =?utf-8?B?R3NjY3crSU1aUG0ydEhpYnYzZ3JMdUs0R2w0NGNSc0J2ZnQ2aHlrQVdIcit4?=
- =?utf-8?Q?m1I3Aui8f/mPB3xVqPUM7QI5kK85SFXc12wep?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 386df9ff-af8d-4c02-2899-08defa1e5212
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 16:08:47.7040
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lFF9HVENKFjOkAHT6YC0FnEyn3zTMZmTiuSw8U5V1v9cvqHWM1P5iXdNZ160dEA0XIBq95FXwiZxHLABLvh/fkOdZ5sxdlRPhPhg4eF9eq29XIqbb16+a23VSsilS5zV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8451
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 14, 2026 at 03:58:48PM +0200, Manivannan Sadhasivam wrote:
-> On Thu, Aug 06, 2026 at 02:06:30PM -0500, Frank Li wrote:
-> > On Mon, Aug 03, 2026 at 04:01:44PM +0530, Sumit Kumar wrote:
-> > > [You don't often get email from sumit.kumar@oss.qualcomm.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> > >
-> > > Synopsys DesignWare eDMA supports a linked-list mode where each list item
-> > > carries independent source and destination addresses, letting multiple
-> > > independent memory transfers be described in one linked list and submitted
-> > > to the hardware as a single DMA transaction. The IP processes list items
-> > > strictly in order, so paired scatter-gather entries are never reordered.
-> > >
-> > > Implement the DMA_SG capability by adding a new EDMA_XFER_DUAL_SG transfer
-> > > type and a corresponding struct dw_edma_dual_sg carrying the paired source
-> > > and destination SG lists. dw_edma_device_transfer() walks both lists in
-> > > lockstep, building a single hardware linked-list; a per-entry length
-> > > mismatch or premature list end fails the whole request.
-> >
-> > It is not as simple as it.  for example, if you want to transfer 9k data
-> > from src to dest
-> >
-> > src virtual addr 0x1004,        dest 0xA0001008
-> >
-> > when map_sg, src's sg maybe
-> >
-> > 0x1000  .. 4k   offset 4,
-> > 0x9000  .. 4k   offset 0
-> > 0xA000  .. 4k   offset 0
-> >
-> > or
-> > 0x1000 .. 8k  offset 4
-> > 0xA000 .. 4k  offset 0
-> >
-> > which totally depend on physical address allocation although most likely
-> > first case happen
-> >
-> > dest sg
-> > 0xA001000 .. 4k offset 8
-> > 0xA008000 .. 4k offset 0
-> > 0xA00E000 .. 4k offset 0
-> >
-> > descriptors
-> > 1 	transfer 4k-8
-> > 2       transfer tail 4 byte
-> > 3 	transfer 4k-8
-> > 4       transfer tail 4 byte
-> > ...
-> >
-> > the start address of src and dest is highly possible differences. So it
-> > is very hard to match your requirement, both sg's structure is the same.
-> >
->
-> That's the API limitation, isn't it? The callers have to supply the same length
-> src/dst pairs to work with this API. But they don't necessarily need to use
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+net: wwan: core: propagate modem control signals to port drivers
 
-Define API is memcpy, not memory to peripherail Or peripherail to memory
+Adds an optional ->dtr_rts(port, on) callback to struct wwan_port_ops so
+port drivers learn when the host raises or drops DTR/RTS. The wwan core
+calls it from the TIOCMSET/TIOCMBIC/TIOCMBIS emulation and also raises the
+lines on first open and drops them on last close of an AT port.
 
-dmaengine_prep_dma_sg() - Prepare a memory-to-memory scatter-gather DMA descriptor.
+A few questions about the new call sites below.
 
-Most memcpy user need call dma_map_sg() to get sg.  And most likely two
-virutal address offset to page is difference.
+> diff --git a/drivers/net/wwan/wwan_core.c b/drivers/net/wwan/wwan_core.c
+> index ffbcf11e4e68..f8ca9cda3c9a 100644
+> --- a/drivers/net/wwan/wwan_core.c
+> +++ b/drivers/net/wwan/wwan_core.c
+> @@ -759,8 +759,15 @@ static int wwan_port_op_start(struct wwan_port *port)
+>  	if (!port->start_count)
+>  		ret = port->ops->start(port);
+>  
+> -	if (!ret)
+> +	if (!ret) {
+>  		port->start_count++;
+> +		/* Mirror TTY semantics: raise DTR/RTS on first open of an AT port */
+> +		if (port->start_count == 1 && port->type == WWAN_PORT_AT &&
+> +		    port->ops->dtr_rts) {
+> +			port->at_data.mdmbits |= TIOCM_DTR | TIOCM_RTS;
+> +			port->ops->dtr_rts(port, true);
+> +		}
+> +	}
 
-So most likely return failure by this API.
+[Severity: Medium]
+Which lock owns port->at_data.mdmbits now?
 
-What next, if failure,  fallback other DMAengine API or return user?
+wwan_port_op_start() and wwan_port_op_stop() do the read-modify-write while
+holding port->ops_lock only, but wwan_port_fops_at_ioctl() reads and updates
+the same field under port->data_lock:
 
-If fallback to other APIs, code logic become more complex. If return to
-user, user will be strange why failure at some time, but success at
-some time.
+	mutex_lock(&port->data_lock);
+	...
+		if (cmd == TIOCMBIC)
+			port->at_data.mdmbits &= ~mdmbits;
+		else if (cmd == TIOCMBIS)
+			port->at_data.mdmbits |= mdmbits;
 
-Frank
+The struct comment says that field is covered by data_lock:
 
-> dma_map_sg() which can provide fragmented mappings as you described. They can
-> use dma_map_single() or even the bus addresses directly as the MHI client is
-> already doing.
->
-> - Mani
->
-> --
-> மணிவண்ணன் சதாசிவம்
+	struct mutex data_lock;	/* Port specific data access serialization */
+
+Since a wwan port allows multiple concurrent opens (start_count is a
+counter and exclusivity is opt-in via TIOCEXCL), can a close on one fd and
+a TIOCMBIS on another fd run at the same time and lose one of the two
+updates, leaving TIOCMGET reporting a bitmask that does not match what the
+driver was last told?
+
+Along the same lines, can the two paths deliver the assert and de-assert to
+->dtr_rts in an order inverted relative to the order in which mdmbits was
+committed, for example an ioctl-driven dtr_rts(true) landing after the
+last-close dtr_rts(false)/->stop() sequence has already started?
+
+>  
+>  out_unlock:
+>  	mutex_unlock(&port->ops_lock);
+> @@ -773,6 +780,11 @@ static void wwan_port_op_stop(struct wwan_port *port)
+>  	mutex_lock(&port->ops_lock);
+>  	port->start_count--;
+>  	if (!port->start_count) {
+> +		/* Mirror TTY semantics: drop DTR/RTS on last close of an AT port */
+> +		if (port->ops && port->type == WWAN_PORT_AT && port->ops->dtr_rts) {
+> +			port->at_data.mdmbits &= ~(TIOCM_DTR | TIOCM_RTS);
+> +			port->ops->dtr_rts(port, false);
+> +		}
+
+[Severity: Medium]
+Should the WWAN_PORT_AT filter here also apply to the ioctl call site?
+
+wwan_port_fops_ioctl() dispatches into wwan_port_fops_at_ioctl() for both
+port types:
+
+	if (port->type == WWAN_PORT_AT || port->type == WWAN_PORT_QCDM) {
+		/* AT and QCDM port specific IOCTLs */
+		res = wwan_port_fops_at_ioctl(port, cmd, arg);
+
+The new ioctl handling calls ->dtr_rts() with no type gate, while both the
+raise in wwan_port_op_start() and this drop are gated on WWAN_PORT_AT.
+
+For a QCDM port, is this sequence possible?
+
+	open("/dev/wwan0qcdm0")
+	ioctl(TIOCMSET, &(int){TIOCM_DTR | TIOCM_RTS})  ->  dtr_rts(port, true)
+	close(fd)
+	  wwan_port_op_stop()
+	    /* WWAN_PORT_AT test fails, drop is skipped */
+	    port->ops->stop(port);
+
+That leaves the channel torn down with the lines still asserted and no path
+that ever calls ->dtr_rts(port, false). The MHI driver added later in this
+series has such a port:
+
+	{ .chan = "DIAG", .driver_data = WWAN_PORT_QCDM },
+
+Also, since port->at_data.mdmbits lives in the long-lived wwan_port, does a
+re-open of that QCDM port then report a stale TIOCM_DTR|TIOCM_RTS through
+TIOCMGET even though the core never re-drove ->dtr_rts, because the
+open-time raise is AT-only?
+
+>  		if (port->ops)
+>  			port->ops->stop(port);
+>  		skb_queue_purge(&port->rxq);
+> @@ -1036,6 +1048,10 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
+>  			port->at_data.mdmbits |= mdmbits;
+>  		else
+>  			port->at_data.mdmbits = mdmbits;
+> +		if (port->ops->dtr_rts)
+
+[Severity: High]
+Can port->ops be NULL here?
+
+wwan_remove_port() clears it under ops_lock while file descriptors are
+still open:
+
+	mutex_lock(&port->ops_lock);
+	if (port->start_count) {
+		port->ops->stop(port);
+		port->start_count = 0;
+	}
+	port->ops = NULL; /* Prevent any new port operations (e.g. from fops) */
+	mutex_unlock(&port->ops_lock);
+
+The wwan_port itself survives removal because wwan_port_fops_open() ->
+wwan_port_get_by_minor() -> class_find_device() holds a device reference
+that is only dropped in wwan_port_fops_release(). So a process that keeps
+an fd open on an AT or QCDM chardev across a modem unplug or a driver
+unbind, and then issues TIOCMSET/TIOCMBIC/TIOCMBIS, reaches this
+dereference with ops == NULL.
+
+Every other ops access in the file is guarded, including the new hunk in
+wwan_port_op_stop() above:
+
+	wwan_port_op_start():  if (!port->ops) { ret = -ENODEV; ... }
+	wwan_port_fops_poll(): if (port->ops && port->ops->tx_poll)
+	wwan_port_op_stop():   if (port->ops && port->type == WWAN_PORT_AT && ...
+
+Separately, this call site holds only data_lock, not ops_lock, whose comment
+reads:
+
+	struct mutex ops_lock; /* Serialize ops + protect against removal */
+
+Can ->dtr_rts() therefore run concurrently with, or after, ->stop() and
+driver teardown? With the driver added later in this series,
+wwan_port_get_drvdata() returns NULL once wwan_port_unregister_wwan() has
+done dev_set_drvdata(&port->dev, NULL), so mhi_wwan_ctrl_send_dtr() would
+dereference a NULL mhiwwan as well.
+
+> +			port->ops->dtr_rts(port,
+> +					   !!(port->at_data.mdmbits &
+> +					      (TIOCM_DTR | TIOCM_RTS)));
+
+[Severity: Medium]
+Does this reduction lose the independent state of the two lines?
+
+After first open the core sets mdmbits = TIOCM_DTR|TIOCM_RTS. Consider the
+usual software hangup:
+
+	ioctl(TIOCMBIC, &(int){TIOCM_DTR})
+	  port->at_data.mdmbits &= ~TIOCM_DTR;      /* leaves TIOCM_RTS */
+	  !!(mdmbits & (TIOCM_DTR | TIOCM_RTS))     /* still true */
+	  port->ops->dtr_rts(port, true);
+
+DTR stays asserted at the driver while TIOCMGET reports it clear. In the
+other direction, a TIOCMBIS with TIOCM_RTS alone also yields on = true, and
+the consumer added later in this series maps that to both lines:
+
+	mhi_wwan_ctrl_dtr_rts():  on ? TIOCM_DTR | TIOCM_RTS : 0
+
+so DTR gets asserted without userspace asking for it. TTY routes these
+ioctls to tty_operations->tiocmset(tty, set, clear) with separate masks for
+that reason. Would a set/clear mask pair in the op signature be preferable
+here, given that widening it later is an ops-struct change?
+
+Also, ->dtr_rts is invoked on every TIOCM* command even when the resolved
+boolean is unchanged. Is the redundant driver-side signalling intended?
+
+>  		break;
+>  	}
+>  
+> diff --git a/include/linux/wwan.h b/include/linux/wwan.h
+> index 1e0e2cb53579..a7684950d73b 100644
+> --- a/include/linux/wwan.h
+> +++ b/include/linux/wwan.h
+> @@ -57,6 +57,8 @@ struct wwan_port;
+>   * @tx_blocking: Optional blocking routine that sends WWAN port protocol data
+>   *               to the device.
+>   * @tx_poll: Optional routine that sets additional TX poll flags.
+> + * @dtr_rts: Optional routine that asserts (on=true) or de-asserts (on=false)
+> + *           the DTR and RTS modem control lines.
+
+Related to the previous comment: this text describes both lines moving
+together, but the ioctls permit mixed states, and the caller passes true
+whenever either bit is set. Can the header text and the caller's reduction
+both be correct?
+
+>   *
+>   * The wwan_port_ops structure contains a list of low-level operations
+>   * that control a WWAN port device. All functions are mandatory unless specified.
+> @@ -70,6 +72,7 @@ struct wwan_port_ops {
+>  	int (*tx_blocking)(struct wwan_port *port, struct sk_buff *skb);
+>  	__poll_t (*tx_poll)(struct wwan_port *port, struct file *filp,
+>  			    poll_table *wait);
+> +	void (*dtr_rts)(struct wwan_port *port, bool on);
+>  };
+
+[ ... ]
+-- 
+pw-bot: cr
