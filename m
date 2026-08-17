@@ -1,191 +1,261 @@
-Received: from outbound-ip173a.ess.barracuda.com (outbound-ip173a.ess.barracuda.com [209.222.82.41])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626301D9663
-	for <mhi@lists.linux.dev>; Sun, 16 Aug 2026 12:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786884787; cv=fail; b=qnQv3oWAQBtp+5AgpQUxlSzaKAiz4fSSUntsKWLIJtz5Mrn2Gkxff2maBsPAy7+ZaFEF4PwEEF/uu4+yADz+Wz4EZGTs3BmCwHPNTuE3PkjHjl95Ch5JWOBYcqy2tAeX204cpdVWLQtXRXyDoeJnSQflM1UjFLFbc0eZXE3EXl4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786884787; c=relaxed/simple;
-	bh=FsXbVYNX0hKoGTF2R9+AovbJvY9LMNeWCDhPdjTLru8=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=B1Wfun7SbZLb7hrJJ70tmS7hVh3eWTccpmgWeQHDKY2gjKfpngDASjo5SjaWy3igO6BmHnPF2MmYSnnpJXo4WYf54L/6OPb9F0sPEasqURWojCTnjhFolZuXvQTaQ5TENCvVAOxdj09S0mwZt0fjUwHoh8vxXcKdaG5CS+I1pDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=LcfQY8xJ; arc=fail smtp.client-ip=209.222.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93203AAF5B
+	for <mhi@lists.linux.dev>; Mon, 17 Aug 2026 10:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786961683; cv=none; b=Pl1ZwbK4hZtdSa8C4Ea3z6JxrN/agBStkjsD2XCweyIhHnxHjm76T3nasC9oPdShs/iXJZMn2ZqL6Ec0LV5n2Nt0lJq7gmXZZAucmkjTwN8p5g3LOWouSfdMxs3sIIFlEYPpY1LUxKTfg9Cj443tImu3cTw9sXLwWnK9suTtWw4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786961683; c=relaxed/simple;
+	bh=wkO94JmouNLTREkhPPGAEm7GqQY+zVpvGMVJYEGmHqY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Xs8ANJ8B1dw++TKBkCXKZeVSH+EWK9UrX+EXP9aZTu8fzeMopnGpp4I4Lf6fJjx9u9fYloVhqcQVaBZRnXBIKhKSG29E3cVBzk1lBH4qDZQ8KZa2lxI8aSu2ANU2ZKKtb/QZ+53mir9ajxhRPRNJB3OwFk2f5Sy0zAgLqpxJs+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fnOfFObn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NHL+kIS8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="LcfQY8xJ"
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11021137.outbound.protection.outlook.com [52.101.62.137]) by mx-outbound9-143.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Sun, 16 Aug 2026 12:53:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e+LeAvDwfQjgT+EE2v4kEY0vY5hkous8EPod7EHWXBlbs1cTP8+3ITkDwC7+KCdBjm6sJanAWY0r6xwXBItoxzCNqNYizXCHa6AtnBXZOkvJNgTIVBTGSF3tMfUDUs7p37dC9/6rQaE+0yO0eaO1UBdkRrlHQJv1uFND+bPHJjP8QYHyX5/4gAaYlVgDmeFbU5xlB0r5qdg9QDrn5Vt8sndBlLBv+BpkTtukikbTdY3/byJro+GGJOCcglpKSLKsZpVhUD3TrT3W4nDbtowPTKrtWSBmwKqYm9cb3IZYu8nYUbXkHXET5q6fO4rrAtARw2azCBUuzhXX0ubjyI7v1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SOp0Mt0Zmk55cW3XunHwvYTudUFhQsIDIiTkgHVwKdg=;
- b=vTceceEA574DFACpuF29FDPS+hznlxDfmO663hoy5Sg2H2yea4qf7Nf5vPj8OwLOYxXknoU7xXwEAsg/SAxevn0X5uAQgpyGCjBzOyK39jIxHSXOyjcFrIFaHrGppxFJ03vNArhZfSrkJWkI7DbTRKUme7lqpCUh2me6qsBcaT5EqjSf9sPkP8sDNGILBlXwF4270a9QkGx2In/pU700OTngknmDVvcaULL4181OPmAd/tS+WWXYbL63Gzwn4fVaFERBHLt5EivsJFAAySVztb/y8vaXTODEDVC+7s1q48J4EwJUlEXFTv3w7f91Yy8d4U+TSHf6QDw2Ci22Nk93PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
- dkim=pass header.d=opengear.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SOp0Mt0Zmk55cW3XunHwvYTudUFhQsIDIiTkgHVwKdg=;
- b=LcfQY8xJVl4WRlH+KTzOAgib9fEpSdzzQ2LrZuAXkjgW8XsrUxs9SE69ccr9PG2i4vsqySl/mFIMUBG8D7kV1skIn26xMeKEX3m41CmHYNweEFtok/cGgMYrUBmXbxsmDO/Gx88zf/587z+HONz3QsoMA+Vmk9MJiK5nUE1F13uMV2SCLrZsGaA9BkGr6M3dWkSPKC08NsLVv8aK4JkWYA8oxwsRkc1/SHBdiVm2SyH5OxHRpqBWPiF0OzyDstLrUQFjjU76Hvnbc3hGnkKBaWGBnKQVaC28g4l/1C5uLTP4R+FQZsS1BuN5/YdZphTeLabCoJU8MZXVGuQkvmP4Aw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=opengear.com;
-Received: from DM6PR10MB4139.namprd10.prod.outlook.com (2603:10b6:5:21d::24)
- by LV3PR10MB7793.namprd10.prod.outlook.com (2603:10b6:408:1b8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Sun, 16 Aug
- 2026 12:17:13 +0000
-Received: from DM6PR10MB4139.namprd10.prod.outlook.com
- ([fe80::19e9:d558:fd6c:8e5a]) by DM6PR10MB4139.namprd10.prod.outlook.com
- ([fe80::19e9:d558:fd6c:8e5a%6]) with mapi id 15.21.0315.016; Sun, 16 Aug 2026
- 12:17:12 +0000
-From: Peter Hunt <peter.hunt@opengear.com>
-To: loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com,
-	mani@kernel.org
-Cc: johannes@sipsolutions.net,
-	netdev@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Peter Hunt <peter.hunt@opengear.com>
-Subject: [PATCH net-next v4 0/3] net: wwan: support DTR/RTS on AT ports via MHI IP_CTRL
-Date: Sun, 16 Aug 2026 06:17:02 -0600
-Message-ID: <20260816121705.858013-1-peter.hunt@opengear.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SY5PR01CA0001.ausprd01.prod.outlook.com
- (2603:10c6:10:1fa::14) To DM6PR10MB4139.namprd10.prod.outlook.com
- (2603:10b6:5:21d::24)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fnOfFObn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NHL+kIS8"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67H9df4O727855
+	for <mhi@lists.linux.dev>; Mon, 17 Aug 2026 10:14:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=XlPPjj1P5iTfQdJcc9mc2c
+	YpkRVQ1iqS8kqGPOaY+lQ=; b=fnOfFObnSlI6UkDamLngtEKh1Ml6EP2Dqa6KR4
+	eQlK5BgrYrqJiV79+9u+GkwbtuSlhz/5tMoRfZ70G/Lwszf3A454MglJmyFfqUzM
+	DsqvOfPkUpVdRYhBzkIPANfrN8mvwza0Oph4hU3cpNAsVBSr68QrUuaiDzcgKxop
+	yMpwC4yw9UcL7OL56fSfd2gr1RRv6tMajkErZF7BCEgbNCzdvYkk7lWG4PkO7n42
+	MJ2WIGeeOL2WyuYdAVuLbddqvg4Z+I/e1Tpm+Vrkb1u9lXtnkGe8WEW+QTzaGJWf
+	6G4B4LsAevDI8LATmBLGaXbXvEPeQ9JEkqD+f45ALPgcvHuA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g3wke0rhq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Mon, 17 Aug 2026 10:14:40 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38f5ac7416eso3842883a91.3
+        for <mhi@lists.linux.dev>; Mon, 17 Aug 2026 03:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786961679; x=1787566479; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XlPPjj1P5iTfQdJcc9mc2cYpkRVQ1iqS8kqGPOaY+lQ=;
+        b=NHL+kIS8UBUpgugQd8pLwdh7awgCpGM2+shSe7Y0Md96z8LhgLZS5jyNi8U9CDv+DZ
+         3s4ikqbrEpCaj2/Eu9sUpUfPBpW1OsNmcjKE47DOK6jW7G9h5c3sKxyl/MX2q93e9OMs
+         gSWhIfJc8kKNcLNKD93DR4PbfCco5plfuhJ/L4ZNi7dI3+OMBRyvBsKgJ/RhCOeRGdaZ
+         cL4iI6aiZ6nuV5iroaGZFpb+TdZ9EFLEESwKL7rmNOBxY2hEpTiugtSzGW/2u+MiiqyZ
+         nvTzagfE2XPQpST3BQVCjU7wPm9jqPz5+uFzk5nYnC2Mdf5yHZAwX6fsV3NcmKGtAi8k
+         jbBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786961679; x=1787566479;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=XlPPjj1P5iTfQdJcc9mc2cYpkRVQ1iqS8kqGPOaY+lQ=;
+        b=kVHrWMLqn6ApJ5YfrKaUMpYzi8qOVMAGMC9pGkhAbkPnsAPP8VWKVZbyP2QGNAZ7+S
+         38RLQqWv1bZnted/dvhCcjomzenfx+A29Z03ILsmsasntLNj+l0WGKE+SqVSIi97HWK4
+         sC4NQ/j7kA41tOAy394J8VcfClLTXHMLwaRnJoWtDWiJwxqWZf2du/E3sKdoGSbV4uiA
+         KL9tuOE5U/XN8utoYu1KO4XRqAZ266qUfsvNNThkesUSVbJdufuMT+/XeQMo3ifayUFq
+         QvGT6mZSwdlvCNoT2Jrocu02jeBvNOBcFN0cVlyt2VRkanMLu6GLNWs2hLju+4oPtfRg
+         l0bg==
+X-Gm-Message-State: AOJu0YwtOv6Jav8k2itc4Ryhy3RauxqnT9VxChZZtRpXYf1Fxqmtj52l
+	MKRtfmdVTJYblBifOxsV32fix+qgbQGrj50AgYnX/+sy62k5ZgYND0DulYvQry8XY5ZqR2Owt3s
+	HVr6bCOfqsiYVg9aFpNwJXGYN6uJKfAdNUvRJP/lF6gA4GMOWFbq1Fac=
+X-Gm-Gg: AR+sD111Shfvh/QH1OGnarME94FRIxeOtC1Ia8wu5ZECZoIFUa8iOZY17nHymrUz2f+
+	YmeDGOTkCWaF24eEfGlWnyiwqbQ9OvyvXSjuWToPTs/Y+KDJ8JWv57Ki+MX9SVtO4ZBZdBwn2rb
+	eMohd9qx6MAm4kcIWIqatSOXeNrHCq6wthM/zPZYL3QVjfJrdHF9CWCNO+d/wfQ2RO5iX0blYNM
+	bBGVJqb2wLvsz8YkHCY46DT33W+t5VyOmrqsj6Au1vgvZeVKh8xr8PfH6uqWiW+OKs3fD7WGwVr
+	b5xnp/nM2hd2mwYp6RpR8s2/2Nr0X15bmNXVXA3ggBYSVyhR52Docn/NhfRq7lTa5s9w1q+Hwkj
+	eT4KoXZjIZNyrdJgeomojbyiy2A==
+X-Received: by 2002:a17:90b:528a:b0:38e:5ac1:9517 with SMTP id 98e67ed59e1d1-3933b7c3696mr24865431a91.3.1786961679366;
+        Mon, 17 Aug 2026 03:14:39 -0700 (PDT)
+X-Received: by 2002:a17:90b:528a:b0:38e:5ac1:9517 with SMTP id 98e67ed59e1d1-3933b7c3696mr24865382a91.3.1786961678819;
+        Mon, 17 Aug 2026 03:14:38 -0700 (PDT)
+Received: from hu-sumk-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3954d3d2adcsm1744315a91.17.2026.08.17.03.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 03:14:38 -0700 (PDT)
+From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Subject: [PATCH v5 0/3] bus: mhi: Add loopback driver
+Date: Mon, 17 Aug 2026 15:44:33 +0530
+Message-Id: <20260817-loopback_mhi-v5-0-50efc7360b7f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4139:EE_|LV3PR10MB7793:EE_
-X-MS-Office365-Filtering-Correlation-Id: e977ab48-3edc-4d75-1ca2-08defb904d87
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|3023799007|18002099003|11063799006|56012099006|10067099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	HPVGc9EGkQwSwBmkllA12N+kwFuZC6oAJBMNYAV1AnVB4BJXp+vyCH0iZwErxkLJYGTybrPrLiOIB8QUV+xrv/SY0PVcL0nuSRE6QRaKto43TBRjY7XdDmD/92LbPvwpb+SY43z8rjzW26Hjz+8j06zHTUnT2+Y5HzUjOtuDMXzzoPbtn9sQ4ARkbZRjLFBnOkIRz4gTsiIERPoXT5oW4cHODVGEmms4UiKQRCl9Dn24jbdwy1TiLPJ+lOFo/QJyxKVd4Xvpl4oBdS8jUa7nd+SK2SyrjNO7ddBjcZyi2AqSnrUtOtV/fzlcbSFxAIw2Tcn61oYvjOzQFTwdRSrqLfX3lu5cdBgchkLgIwhjUdKBjzPWQL+sNRujccUlOQ4aytLfZuJdx/FAWjrtC8+h1dSjtISo755kcmqIlqbCWkM8jWU1p4KOk67pvtNDTWuLcFuqq2/kxPwoTack2GizGuepavXuJWzY68tR32IAPP43CLWV2g2iz6maBSY0IZoQUAVwQEoLRxezkqUJgutmk6D8vEFYeTlEJEg1AYkYtF6hp2NUCXlWDwnbZYXMq2fHx5Be6/PYZS6Rn18VyoTKAEhU6BqAVpZ8If3S/+NhspgoyV2Bu2tsmvSpt6j5ASp+aZMELAMvCLIwoWhOpwgMyDVmOeeZdfw91VgVQD2qHf8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4139.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(3023799007)(18002099003)(11063799006)(56012099006)(10067099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?tX3EcBQD6SPGxsKP2q+T+TMJJAK8DCKD4wo3zlqEh3BY4xZ3pGh83ZAXiL8P?=
- =?us-ascii?Q?ukiB2ufSiChvsv6kdXIS8ZpuN7gebbHdDb+06cDJHDL5v/veAYTYJ9BY7UP9?=
- =?us-ascii?Q?DHM+2b1v3jYU6q0FeUtWjg0q+wLZfQ39VzWRPzhCuSwBV0inCH3D+IT69+Cl?=
- =?us-ascii?Q?UhMJMuBVrxf2nS+6aIf83gGA8WO7kbIXCrhtMzXD3pGTOMuJeyPh8HapHop2?=
- =?us-ascii?Q?LgNSGZsJHy44ZBZIUgN/xMbKqqwrbwYChcAI38IbmuqBIdUIT4ulIWFUvkmZ?=
- =?us-ascii?Q?HQK10avmMRGs6hsK2YF9x/if/zhXgKsjaUZ9Hvz704zADr1iM7XMlJuVvFYU?=
- =?us-ascii?Q?6io7e3Oi6a2rr+OB0tM4os0eqxK/ygE+N4YnFNQlz9EJNr1bu3/rc4QpTItX?=
- =?us-ascii?Q?bfMQc5LwElR8AzARG/AmPgNxaXsLAqX+Wj0nCimdyEAcTk6t/IzIcNmLBSs2?=
- =?us-ascii?Q?6bW7AXnjd/JIpDyh7T3rQa4X/fwrQBCs4QZj56wevy/ub/RORS8trD1xCe/V?=
- =?us-ascii?Q?G7G8laGmkV3Ls2Y+d3iuI5ZAPqS6Ybj5nMQCxsZpPSKLaQCN/azSjnZQlcxz?=
- =?us-ascii?Q?NgafY0uopMPhGhJocpVlDxIvlwhGERg5hEpzdvS+M7XNNiybpGbFa+qPkz1a?=
- =?us-ascii?Q?u/MpUXqikXEnZe7iI7r4WeoOcIh2RnF+12Ye9yuRzOxUuYZpvsT6PvUVLtVd?=
- =?us-ascii?Q?Lpe7UAmADKEnAywEpGq2XcJVbCVnNj57LJTQZZWgEO4L6L1mt3n7DwbxlbO1?=
- =?us-ascii?Q?khXXKSBHIMu6nJLLrm0kD1AzKgUiglKdQWNR/+E56JsrPdVG3ue6e3JPfR0G?=
- =?us-ascii?Q?w/xn8cJE3VYbiLWc9m2eMnZ10mZOkA5BEUzMQbFlwpKDaQSkHALh84I6j1pz?=
- =?us-ascii?Q?4hdivLKV6i5UO73PkoLyN/hpsVybiV/T9Oz0CZxhFMwBmYu26WpfQFmVpQD0?=
- =?us-ascii?Q?oirJrD7CI5oBIPUohK150I0qlxqxA+tLhNsc5724fR8iRyalTnJW5lFQc1ik?=
- =?us-ascii?Q?MHUo9TsWYocuIxguPAXCWmjjaI2118AFtLQfaZzw30NYGqJdeLgyO0JuWyjF?=
- =?us-ascii?Q?18y+x6aSKNerYe7Q2d1w6l4Icc3SnX4Y9TegHJdS7Xh6qxskp+iqAQsIs404?=
- =?us-ascii?Q?g2Lqn1fIVvvj6dcuO4dJOX4PdCBWIH9s8dC4PRv5lcHP+7ihoJov4QrSjQYg?=
- =?us-ascii?Q?yAe7Gn/MhlW8UWLJShSJI4SH235kEcJQhPkIqMbCMsVSoReFhJsPBDEtt3x4?=
- =?us-ascii?Q?rMy+znBHkZIYWidi99n92C08dqpFP/t9o/IxMlqeQ8xpD3AKPDl3Ez+V5on6?=
- =?us-ascii?Q?nM343dYF4jqji6hWl40mEi2ek5k4+rv3rQ3ycdDprZr4ufiM5CZtYyndUABf?=
- =?us-ascii?Q?zdW/O0naIvaGcmuRll3/BGqMLjvA086wiG8vUOBFoo8+hGyCOnYx82P6teps?=
- =?us-ascii?Q?BjIqxbVlEeXAt7Vj8sHmaF1Lh7iEbsP1bZqv1LPxD3UG8vSqYsrQCAA09VDt?=
- =?us-ascii?Q?qBZytVhRlG6YtM1ze5k9Hwb7YTYp8/Ws6tRjwQxw45+OdOiM7Eunlh0kqgnx?=
- =?us-ascii?Q?rTypaIGJ+epaggYpG5f82PpgfOAO8gy0bWFn0cwIRV8q3L4NpoPJSFPp3z5Q?=
- =?us-ascii?Q?t8ewFGW+fgdK5cC+g+53mKBgTVCUkUODJ4LT0KbSbihKpRxgWLtlV5OXzSfF?=
- =?us-ascii?Q?2vIX4a0MScCgsgLhek/THGuHDyNjTgYZSLfmH+FYayHj/pGa?=
-X-Exchange-RoutingPolicyChecked:
-	fiiAqlaGux04bq449emiP7ZPSt+ugCIxhLKhr8/g3Dvb6jYQ/1LEkdN42e3B8rOT/fD0ryEsnskOYpP1vtaJeRlgmlios2dckZnvDZ2eQ9P4J73fnggsgUNp1nh/TPfcktXZiHQ66FGE8cGew/FUwbzBz3LHndl8wcs57E7HKM7U0ROj9OhNjg06T7sz5E1O5OxIuO6lhE1DBfuHExAqHc0s2UhAJumGubrvGN9ErNgM7N+Y/InlIHDO4+aLreOQiG6sDaT5g+SoDAS7TsPH1+W2/0NqgX/+S40IKyiOYSEsEUm2awYSNFI0/vxD++obHBMO2NJtTjf5DjQkiXc8pQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e977ab48-3edc-4d75-1ca2-08defb904d87
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4139.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 12:17:12.9039
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /4qid6sFYJIVGOqymgnqiGhwHYm62AgQP/DRBSy2km9u0bHQCqOkgwpzlIoZo+IF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB7793
-X-OriginatorOrg: opengear.com
-X-BESS-ID: 1786884784-102447-7706-7662-1
-X-BESS-VER: 2019.1_20260804.2006
-X-BESS-Apparent-Source-IP: 52.101.62.137
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVkbGZsZAVgZQ0Mgs2dg8NTkpxT
-	I5ydzE0twg1TQ11SzRyDDR0DLJ0NJCqTYWALVKrlZBAAAA
-X-BESS-Outbound-Spam-Score: 0.40
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.275424 [from 
-	cloudscan22-37.us-east-2b.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_SC0_MISMATCH_TO    META: Envelope rcpt doesn't match header 
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-	0.40 BSF_SC0_SA085b         META: Custom Rule SA085b 
-X-BESS-Outbound-Spam-Status: SCORE=0.40 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_SC0_MISMATCH_TO, BSF_BESS_OUTBOUND, BSF_SC0_SA085b
-X-BESS-BRTS-Status:1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAnfgmoC/32Qy07DMBBFf6XyGlee8SNOV/wHQsi1x8SiqUsME
+ ajKv+MUFUGbsrF0LZ0zd+bICg2JCtusjmygMZWU9zXouxXznds/E0+hZoYCtWiF5LucD1vnX57
+ 6LvFApHWMIiiDrCKHgWL6OOkeHmvuUnnLw+fJPsL8exapv6IRuOBGBe+tshGkvs+lrF/f3c7nv
+ l/XZ9Z/s4ALrDfU2kqSc80/LMoF1hqwUUJUyrlrdt5jxJ/uAFfdsToabJyMoa3j1Q2HPDuMMCA
+ uHLI6XCOlF56igVs91C8HXt5BzT0sbqUTEYnigmOapi9mjUgq8wEAAA==
+X-Change-ID: 20250903-loopback_mhi-dee55ff0d462
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786961675; l=6724;
+ i=sumit.kumar@oss.qualcomm.com; s=20250409; h=from:subject:message-id;
+ bh=wkO94JmouNLTREkhPPGAEm7GqQY+zVpvGMVJYEGmHqY=;
+ b=uNerDlUabWVHFW//tcW5RH/9GyUT/ZoQyyY6AlXtCZfEvoCyHz5FKQnhPejHfjhcK1kdkJzds
+ 2cHSTPEvWXTBbVyaMoN2n/7VGQjcTL0sh3ElSbKz0A5hUQXqC+LGMJZ
+X-Developer-Key: i=sumit.kumar@oss.qualcomm.com; a=ed25519;
+ pk=3cys6srXqLACgA68n7n7KjDeM9JiMK1w6VxzMxr0dnM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDA3NSBTYWx0ZWRfX1wnRt275e0RY
+ M0RvY/2ZOgWc9uttYNVIYNHGz4ISZ58Q6x4XqdqRiLOEdXom+JwCa5sA109ZimQOk01Q1LDXuoy
+ ZQKUVDwAthdbgRQpeUPTA+NUKbZOTrB1vn6mDxDGGm+uh8JBn1kDpncP9k1dsT4MfqI++3XxiUW
+ mKT2GzYey05ro9JdwxmLon0gEVU532Sf7oW2kRzd3X/Pr5lw830RdcF4gJO17emh5puHGZMepwm
+ 6XQPRdYa1gjfapU6tMxFgr/b8emsJV8IcJFkq95rxMjCrUUFWYyU3qxVrafJErH1VyOU1NEQmDF
+ vntdQhISqakkQEjXdzjBpSsPept1S3gbV2yzNIIpSkct5e1d4gn5hfnKEmOwa2aMlR5P6dJdvBW
+ 5fa7aK/XlBoTdM/UcschwVhkqaORqwOpOfbhDFrafAig3Y5L9DPtC0xVe/RHUwMUWCmArQfGC3j
+ xmRCN0aYbyX8O1Ruvhw==
+X-Authority-Analysis: v=2.4 cv=QetWeMbv c=1 sm=1 tr=0 ts=6a82df10 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3A0WO9QBTenhGBBI9gMA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-ORIG-GUID: ua6aRklTCUxlMuEmKndtZXY9PQy1n27O
+X-Proofpoint-GUID: ua6aRklTCUxlMuEmKndtZXY9PQy1n27O
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDA3NSBTYWx0ZWRfX35DxvKwz3E1I
+ ykiAW52WwR8oSfMC4Yo8aUTsdOgrtEApIK2VT1m2o3cMRHbCBOCkLceJ/vOPQGhWhFnuketJbDJ
+ CsclCvogNWlkuqJmFxuzrL2hYoDXJXs=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-16_06,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608170075
 
-Qualcomm/Sierra SDX55/SDX65 modems (e.g. EM9291) withhold unsolicited AT
-result codes until the host asserts DTR.  The in-tree mhi_wwan_ctrl driver
-exposed AT ports but never signalled DTR, so URCs never reached userspace.
+The MHI specification defines a LOOPBACK channel that is already
+implemented by MHI-based devices (modems, WLAN) deployed in the field.
+The endpoint firmware echoes back whatever the host sends on this channel.
+Without a host-side driver, there is no way to exercise this channel to
+validate MHI data path integrity between host and endpoint.
 
-Patch 1 extends the wwan core with an optional ->dtr_rts(port, on) port
-op, mirroring tty_port_operations.dtr_rts.  The TIOCM bitmask state is
-tracked entirely in the wwan core; drivers receive only a simple boolean
-assert/de-assert signal reflecting the DTR line.  The core raises DTR/RTS
-on first open of any AT port whose driver implements ->dtr_rts and drops
-them on last close, mirroring TTY semantics.  at_data.mdmbits is
-serialised under data_lock; the ->dtr_rts call is made after releasing
-data_lock and re-acquiring ops_lock so that it is serialised against port
-removal.
+This series adds drivers to exercise the LOOPBACK channel from both the
+host and endpoint sides. The host driver (patch 1) binds to the LOOPBACK
+channel and provides a sysfs interface for configuring transfer parameters,
+triggering a test, and reading the result. The sysfs interface is stable
+ABI because the wire protocol is fixed by the endpoint firmware already
+deployed in the field and cannot be changed.
 
-Patch 2 enables the IP_CTRL MHI channel in the Sierra PCI table so that
-the IP_CTRL driver (patch 3) is actually bound on those controllers.
+The endpoint driver (patch 3) echoes received data back to the host using
+a workqueue for asynchronous processing. Patch 2 introduces the
+mhi_ep_queue_buf() API needed by the endpoint driver for raw buffer
+queuing without an skb dependency.
 
-Patch 3 adds a second mhi_driver that binds the IP_CTRL channel and
-registers a ->dtr_rts op so that the wwan core's open/close DTR raise/drop
-and userspace TIOCMSET calls both reach the modem.  The existing AT/QMI/MBIM
-data path is untouched.
+Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+---
+Changes in v5:
+- Rebase onto mhi-next to pick up the EP flush_async() support, which
+  disables the channels and flushes the in-flight transfers before calling
+  the client driver's remove()
+- Drop the file header comment block duplicating the Kconfig help text (Mani)
+- Rename tres_pending to tre_pending (Mani)
+- Replace devm_device_add_group() with sysfs_create_group() and remove it
+  explicitly in remove(); this drops the !loopback guards from all sysfs
+  show/store callbacks (Mani)
+- Reset the channel in the start_store() timeout path so the device releases
+  the queued TREs before the buffers are freed (Mani)
+- Drop the status sysfs attribute; start already blocks and returns the
+  errno (Mani)
+- Capitalize the error strings and print the errno (Mani)
+- Drop the mutex_lock()/mutex_unlock() pair and dev_set_drvdata(NULL) from
+  mhi_loopback_remove() (Mani)
+- Use ret instead of rc and return 0 on the probe() success path (Mani)
+- Validate num_tre against both the UL and DL rings, and check both for free
+  space in start_store() before queuing any TRE
+- Log the transaction status in the host ul_xfer_cb() callback
+- ep: rename loopback_wq to wq, log the kmemdup()/kmalloc() failures, and
+  reword the error strings (Mani)
+- Link to v4: https://lore.kernel.org/r/20260622-loopback_mhi-v4-0-782b3a0f2eef@oss.qualcomm.com
 
-v3: https://lore.kernel.org/netdev/20260807215042.2714442-1-peter.hunt@opengear.com/
+Changes in v4:
+- Fix MHI_LOOPBACK_MAX_TRE_SIZE: change SZ_64K to (SZ_64K - 1) since the TRE
+  length field is 16 bits and cannot encode 65536 (sashiko)
+- Move mhi_prepare_for_transfer() to probe() so ring->el_size is initialized
+  before num_tre_store() calls mhi_get_free_desc_count() (sashiko)
+- Add mhi_unprepare_from_transfer() in mhi_loopback_remove() (sashiko)
+- Add NULL guard in all sysfs show/store callbacks against post-remove drvdata
+  race with devres teardown (sashiko)
+- Add KMALLOC_MAX_SIZE check before kzalloc() to prevent page allocator WARN
+  on large tre_count * tre_size values (sashiko)
+- Fix start_store() to use __free(kfree) locals instead of goto-based cleanup
+  to comply with cleanup.h guard+goto mixing rule (sashiko)
+- Change buf_left and read_offset from u32 to size_t in mhi_ep_queue() to
+  avoid truncation of size_t len parameter (sashiko)
+- Add zero-length guard in mhi_ep_loopback_ul_callback() before kmemdup() to
+  handle 0-byte transfers returning ZERO_SIZE_PTR (sashiko)
+- Add NULL guard in mhi_ep_loopback_ul_callback() against post-remove drvdata
+  race (sashiko)
+- Link to v3: https://lore.kernel.org/r/20260610-loopback_mhi-v3-0-a733c0cef61a@oss.qualcomm.com
 
-v4:
-- Protect at_data.mdmbits in wwan_port_op_start/stop under data_lock
-- Release data_lock and acquire ops_lock with a NULL check before calling
-  ->dtr_rts from the ioctl path, preventing NULL deref and use-after-free
-  on port removal
-- Gate ioctl ->dtr_rts on WWAN_PORT_AT to match open/close behaviour
-- Reduce TIOCM boolean to TIOCM_DTR only (DTR governs URC gating; RTS is
-  tracked in mdmbits but driven together with DTR on open/close)
-- Add dev_dbg when IP_CTRL is not enumerated and when mhi_queue_buf fails
-- Reword forward reference in patch 2 commit message
+Changes in v3:
+- Move ep driver to drivers/bus/mhi/ep/clients/loopback.c (Mani)
+- Move host driver to drivers/bus/mhi/host/clients/loopback.c; keep
+  module name mhi_loopback (Bjorn, Mani)
+- Add ABI documentation in Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+  (Bjorn, Mani)
+- Rename sysfs attribute 'size' to 'tre_size'; add 'max_tre_size' attribute
+- Update Kconfig title to 'MHI LOOPBACK client driver' and describe that
+  the driver binds to the MHI LOOPBACK channel defined in the MHI spec
+  (Mani).
+- Fix memory leak in ep loopback DL transfer error path.
+- Rename mhi_ep_skb_completion() to mhi_ep_buf_completion().
+- Document buffer ownership semantics in mhi_ep_queue_buf() kernel-doc
+- Fix use-after-free in host loopback
+- Fix completion race: arm completion before queuing recv TREs
+- Fix teardown race: synchronize mhi_loopback_remove() with start_store()
+  via lb_mutex
+- Fix u32 multiplication overflow in total_size: use size_mul()
+- Replace kmalloc+memcpy with kmemdup in ep loopback UL callback
+- Update mhi_ep_queue_buf() kernel-doc: note per-TRE callback behavior
+  when buffer length spans multiple host DL TREs
+- Move mhi_prepare_for_transfer()/mhi_unprepare_from_transfer() into
+  start_store() to avoid holding the channel open when idle
+- Link to v2: https://lore.kernel.org/r/20251104-loopback_mhi-v2-0-727a3fd9aa74@oss.qualcomm.com
 
-Peter Hunt (3):
-  net: wwan: core: propagate modem control signals to port drivers
-  bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra
-    EM919x/EM929x
-  net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
+Changes in v2:
+- Use __free(kfree) macro for buffers
+- Removed NET layer socket buffer dependency, now using buffer and len
+- Created a New Api for queuing buffers for clients which do not use skb
+- Link to v1: https://lore.kernel.org/r/20250923-loopback_mhi-v1-0-8618f31f44aa@oss.qualcomm.com
 
- drivers/bus/mhi/host/pci_generic.c |   2 +
- drivers/net/wwan/mhi_wwan_ctrl.c   | 178 ++++++++++++++++++++++++++++-
- drivers/net/wwan/wwan_core.c       |  31 ++++-
- include/linux/wwan.h               |   3 +
- 4 files changed, 212 insertions(+), 2 deletions(-)
+---
+Sumit Kumar (3):
+      bus: mhi: host: clients: Add loopback driver with sysfs interface
+      bus: mhi: ep: Add mhi_ep_queue_buf() API for raw buffer queuing
+      bus: mhi: ep: clients: Add loopback driver for data path testing
 
+ .../ABI/testing/sysfs-bus-mhi-devices-loopback     |  39 +++
+ MAINTAINERS                                        |   1 +
+ drivers/bus/mhi/ep/Kconfig                         |   2 +
+ drivers/bus/mhi/ep/Makefile                        |   1 +
+ drivers/bus/mhi/ep/clients/Kconfig                 |  16 ++
+ drivers/bus/mhi/ep/clients/Makefile                |   2 +
+ drivers/bus/mhi/ep/clients/loopback.c              | 130 +++++++++
+ drivers/bus/mhi/ep/main.c                          |  29 ++-
+ drivers/bus/mhi/host/Kconfig                       |   1 +
+ drivers/bus/mhi/host/Makefile                      |   1 +
+ drivers/bus/mhi/host/clients/Kconfig               |  17 ++
+ drivers/bus/mhi/host/clients/Makefile              |   2 +
+ drivers/bus/mhi/host/clients/loopback.c            | 289 +++++++++++++++++++++
+ include/linux/mhi_ep.h                             |  16 ++
+ 14 files changed, 537 insertions(+), 9 deletions(-)
+---
+base-commit: 9656bcd4c321a799148d00dd830ce7ebf20011da
+change-id: 20250903-loopback_mhi-dee55ff0d462
+
+Best regards,
 -- 
-2.43.0
+Sumit Kumar <sumit.kumar@oss.qualcomm.com>
 
