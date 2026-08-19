@@ -1,257 +1,389 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4D48124E;
-	Tue, 18 Aug 2026 17:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C51445AD5
+	for <mhi@lists.linux.dev>; Wed, 19 Aug 2026 09:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787072971; cv=none; b=GKDReKBuXwIdhN/kXqb/9IbQ4dPmFBNpwid71pl1JFroxJVzTpGcoNKJ8XjJQ8IMRotk47y7ohErhrMwY1SZkVOCaOinIQiF8aMwMYk0gRyKpfoPnqMl74aDly/mfDp1zM8FsDqs7rksPn76zObaCp+JDOghN0MrOHM6GL6m7bA=
+	t=1787132795; cv=none; b=LoKROqgVsxJnUiKPjWvgP0tuhnlshCOMhM/BdSZLHlOllEinPfkKehAnd4cG3LmlbdalhT+co78L49the0CqiiFw2TbjbjJfrnjqWLy17iJamhKOcf3RMIgEwrZQfj53RPuTMrCz8iDd47a1r1csD3iYOfXiSGZOu5tCCQ7KkbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787072971; c=relaxed/simple;
-	bh=guuT85ErYf9UpzLluGIAzNGBLyxCuEg1Z95LSytC99o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IwiYTqsPetJVCSnAiLNPwYMSe15HExBeaGWU50eRqRCT4zOxINUWEtUzGs2WprEnaE8CpZlPIQVexsNpZupqIl00dGT56eEpoabYOqL+0xPd1vvyOZrDvH2hZo7yBdnZBu4ihXd4uQyS+3s/5x+MTcEaljvO6ZlNexTDe+g/RU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BY38lQVg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787132795; c=relaxed/simple;
+	bh=pYjwEVl/tkhukaJEMrlUw8VOwNDE+8uSUJf4huCQzK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lCTJApsE795w2KHCZHJOsrWE0zuK8f128IzbkABOOMZUVNRg0eVJuIOxkHcOtJme3HDS0DwwTudjdpoz83YVkpmwif0T/qdTa66AWHubZs9B+rrvhu8ZeN6E2xiy46NiVnloUcKsfHZJU3oDi6eW7L3tnsa1sN4J970ulyKsKVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Txw+Ppa1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=R9O/nSfH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BY38lQVg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3E01F00A3A;
-	Tue, 18 Aug 2026 17:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787072969;
-	bh=FKXQz9j5Q9PPhTu4Are2ufwUKwVcc4+rdCmtu6MgkhQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BY38lQVgIzkiBaSa7Ki5T1B52VExTWW1Cgk1Y6grXm9i7NRcW0D05aJaZlUvJU2BZ
-	 +mWa+xD2XmbMJYRD4IPAii3hnCrE8btD4T/KJhFa0k2py3ggrPfq8AnanqsVylmWjT
-	 iElkFzNozpqrMROph/7+oQt6DwPqezjOHtqcTYjlK6lvbs9+HtzdEeNZC/bL/sUIpE
-	 4T3+awR8yckvU1rzrBZglhxBWe89ghx6r7B0zGpKhi42duFhxqZ/YxHdcwpYP4bLpf
-	 5zA4WwCn2S9lFw2yU26df63/36OvW73Xr2PJPvXYLFQBaQYv9WXme+XBDzidJrtQv1
-	 PlteOTGUMwJVA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: peter.hunt@opengear.com
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com,
-	mani@kernel.org,
-	johannes@sipsolutions.net,
-	netdev@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 3/3] net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
-Date: Tue, 18 Aug 2026 10:09:28 -0700
-Message-ID: <20260818170928.4019460-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260816121705.858013-4-peter.hunt@opengear.com>
-References: <20260816121705.858013-4-peter.hunt@opengear.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Txw+Ppa1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="R9O/nSfH"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67J6Yu94026361
+	for <mhi@lists.linux.dev>; Wed, 19 Aug 2026 09:46:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	l73nbHT42OxFs92+TFnovfwcUxNgHxMHwTDcJQUBPnk=; b=Txw+Ppa1+8fHZwKo
+	JwW2yEPSVm8e7mYkRKuMEhmL3mIl+uiVKKfzEPDJJhGetd2dF3sO/fnEdCkHWmfY
+	pRoSB4sFiIKOI6Or44RKaNWi53M4zv25hAxv9ZjPQtC0Ba9G57tpSa7/IjwNsbLk
+	dCkv/Ex5DX0h4kflsq6TK4jDLoknP1BS5MpXdZfcOdGKI4EFxKd6pWKS4yi6mblL
+	fCQvq9oerXSjzUL+MdvsC2cPCqooc4eMQcfzDPHlOZ+rrFOMGJiZvFdtg4ZUhlSv
+	Q7itUYFYDGlk2HvDgFcZj6OPGyLiWNkU3DJh+dbrs0E9DhbgMAQHeKQxVMBLrF3I
+	xj/9Rw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4yfpteuj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Wed, 19 Aug 2026 09:46:33 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cfe48ca1efso10989425ad.0
+        for <mhi@lists.linux.dev>; Wed, 19 Aug 2026 02:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787132792; x=1787737592; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l73nbHT42OxFs92+TFnovfwcUxNgHxMHwTDcJQUBPnk=;
+        b=R9O/nSfHdVas0gpwqJJQ+gdll3PJMHeMDAhWEniX3sVxbs/RqDe5xS/0qWIdycU8ir
+         CkUZXXVUsiCOWTh49RH5Shuvk+8NtyGjFJlVPAmeKHWFAcLQr81gXOic8fU6s1azUBNR
+         lPx22lYNfk6++TUMFxe4zAEuqXdKbh+I0Cv1q2XuuOvK8/l4wetHwso+zEGdBFTpcz1r
+         szqDOnJV/d7ZfLJwSE9aNYQFksU4q1DfdVTqpGrrEoB2vh6eUwRyXPfxAtxNXcRl73Sn
+         YAfeBxf+SVVcdMR9mUnyDyu3Ik4HpF+Yl65Jq5OJn6ukQihwHGWYZPwzgJSKiIH2BXNu
+         JcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787132792; x=1787737592;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=l73nbHT42OxFs92+TFnovfwcUxNgHxMHwTDcJQUBPnk=;
+        b=Q5mMJQTUzInXZa+krAToG7//uGG7m+W1oQKFeHF3Z/Tl2KPz6v6UiMa+WpA0n2y9Wq
+         +PeOcUsXaY3Sea55EfdAjjWuUffNlXMX74qUZRz3Bpe4mtVjbQVVE1hlv/D/T5zwZU3H
+         7QhRs05NHyOmPwPzq7GwPJbVWezfnHzgXIKKOY9ld5ozXghfLXnyzsJbyZ6Mu22iYJjl
+         Eih61O5FVlTix+a3qk5rK6rLn3RcPQXO5i5thZNo5m6qgy4mJLETLU4Z4bkRZlwpUzEq
+         BNbY5gQhhVj8sekOujJ/IltcliMasaFwjrSkuCftjKY2oHxRqoSsqGR0tQaW173LDcWS
+         FDYA==
+X-Gm-Message-State: AFuF++kaiG/KmMAhajAHiJ0stdpfrH+ck/oNk5iOU448f6MbtskUQeJH
+	u3gXT9IaR8Ghrdb5LANP8zotaXbrLu6jdmifVLBlVmjuvAdHppoaVIz+i5Vf5hiBZF2xgmJoWC7
+	WYF1P/qbUFw6Ap6g4dNDGwmCOYFhoZB6djR+4GRdpDIiOiqOaGWiiegM=
+X-Gm-Gg: AR+sD11V6IqJGPV9pmkGIcNMoNOr4VvQPNdgfGxLMm1+UQX5mchuDIn6r4N2cb7vjFz
+	u9xqXKwH3bRYHFP1I7GO7mkw0SM53JSCFqBaSBIjUVUuSVUusQTOnaDgXDZE1885eJBe+Se/2x2
+	07EdTa/febDdta1jl6CJAM1h6WZzw8J6b6njxnbUAji/G8yI3vrG1EjIvLB74psM1LXhQhvKHeK
+	uOvsE4fXKzD3OtNPqvvoslKYvLnXagOVeHu8l8zetrim1Xu1v0gzNgasCI3vzprVy+TjXeagbLV
+	+/Ui2qbJogYWDBB03FnBUAttJ93yKopGbA0Y7vuAekD74Frq0p+kpJcKcYJpgM6l33/o461cn5J
+	6gF8EY61R7QKo7sJCudQcD0nWMlgG2Q==
+X-Received: by 2002:a17:902:ef44:b0:2ce:93a3:c16c with SMTP id d9443c01a7336-2d600cc605bmr61764615ad.12.1787132792123;
+        Wed, 19 Aug 2026 02:46:32 -0700 (PDT)
+X-Received: by 2002:a17:902:ef44:b0:2ce:93a3:c16c with SMTP id d9443c01a7336-2d600cc605bmr61763895ad.12.1787132791517;
+        Wed, 19 Aug 2026 02:46:31 -0700 (PDT)
+Received: from [10.217.216.255] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5bb5326f8sm25299165ad.37.2026.08.19.02.46.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2026 02:46:30 -0700 (PDT)
+Message-ID: <416325cf-1e84-4c28-8dbd-cd42e6edfdeb@oss.qualcomm.com>
+Date: Wed, 19 Aug 2026 15:16:27 +0530
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] bus: mhi: host: clients: Add loopback driver with
+ sysfs interface
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+References: <20260817-loopback_mhi-v5-0-50efc7360b7f@oss.qualcomm.com>
+ <20260817-loopback_mhi-v5-1-50efc7360b7f@oss.qualcomm.com>
+ <1b5301df-3d0a-497b-823d-fe43a34a5ee6@oss.qualcomm.com>
+Content-Language: en-US
+From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+In-Reply-To: <1b5301df-3d0a-497b-823d-fe43a34a5ee6@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: _dXZoF5R86zXGZiaHch_OQqIc7T-Wso4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE5MDA3MyBTYWx0ZWRfX9A8BQ261x2XY
+ FaDV3mhgnQ2+8ruOmxvOvGN2J2PAmSr5KmxLTd7gFeujNc6nxGrvLUVVvUKBZa44EARsA+UiYxu
+ rzSAaDFU4iKWOu4xmoySTHAzHJoRC7WA2REGYzaQIi3IquTXWOkv7c6AugRpzX4cCiQ6+h7od0p
+ MOfZ03FkIJ9L5MIK0lk97OTZTUY0QZNkGati21vRoI2iOQglm3cd5IU9HmeLhbG7RSLcxkwyvBt
+ ewxjZAYmGo9b+N6gPI8XCFuGolcCdH0dYGYP2SfYEGngdOAGl+SpTL4w56EyehgQgRj1aVdoHke
+ 5QtbHFhkgStN0/8TakyzRKVaEXCvf7dO83pcpogW/HrDRLsPaooh4yLP4fDstfHvRhZGoZJ+iM6
+ MWFG+/aDvmHkm9bFzxJ2LjMTDsBiEDomsmoWKe3zBp0OBzRftLbeBSb9HWKB/fYL3e10h00RK6t
+ B017c7fEulxguR0fFow==
+X-Authority-Analysis: v=2.4 cv=aMrAb79m c=1 sm=1 tr=0 ts=6a857b79 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=tYF7Tg-db0wKN6MUNa0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-ORIG-GUID: _dXZoF5R86zXGZiaHch_OQqIc7T-Wso4
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE5MDA3MyBTYWx0ZWRfX0ztRT3jsvtRH
+ G+A4SAuiyTnPfoPumiBIBA9diT7lvVuNOPHlIts2/YkJZRy04G5E5J5S0ko0zabzb7rqhvr2Ezf
+ n4f/OMitzEzAw3YbcNQasLvH4L1NYs8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_02,2026-08-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608190073
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
----
-net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
 
-This adds a second mhi_driver in mhi_wwan_ctrl that binds the IP_CTRL
-channel, keeps a per-controller registry of those devices, and implements
-the new wwan_port_ops->dtr_rts callback by queueing a host serial-state
-message on the IP_CTRL channel of the AT port's own controller.
 
-A few questions below about the DTR/RTS state handling.
+On 8/18/2026 1:44 AM, Jeff Hugo wrote:
+> On 8/17/2026 4:14 AM, Sumit Kumar wrote:
+>> The MHI specification defines a LOOPBACK channel. The endpoint firmware
+>> echoes back whatever the host sends on this channel. Without a host-side
+>> driver, there is no way to exercise this channel to validate MHI data 
+>> path
+>> integrity between host and endpoint.
+>>
+>> Add a host-side loopback driver that binds to the LOOPBACK channel and
+>> expose a sysfs interface for data path testing. The sysfs interface 
+>> allows
+>> users to configure TRE buffer size and count, trigger a loopback 
+>> test, and
+>> read the result.
+>>
+>> Co-developed-by: Krishna Chaitanya Chundru 
+>> <krishna.chundru@oss.qualcomm.com>
+>> Signed-off-by: Krishna Chaitanya Chundru 
+>> <krishna.chundru@oss.qualcomm.com>
+>> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+>> ---
+>>   .../ABI/testing/sysfs-bus-mhi-devices-loopback     |  39 +++
+>>   MAINTAINERS                                        |   1 +
+>>   drivers/bus/mhi/host/Kconfig                       |   1 +
+>>   drivers/bus/mhi/host/Makefile                      |   1 +
+>>   drivers/bus/mhi/host/clients/Kconfig               |  17 ++
+>>   drivers/bus/mhi/host/clients/Makefile              |   2 +
+>>   drivers/bus/mhi/host/clients/loopback.c            | 289 
+>> +++++++++++++++++++++
+>>   7 files changed, 350 insertions(+)
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback 
+>> b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..1622a146110c2069c8b51e5bdf665c882b853303
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>> @@ -0,0 +1,39 @@
+>> +What: /sys/bus/mhi/devices/mhi<N>_LOOPBACK/tre_size
+>> +Date:        August 2026
+>> +KernelVersion:    7.2
+>
+> This series missed 7.2, and will miss 7.3 since the merge window is 
+> already open.  Next oppertunity is 7.4.
+Acknowledged, thanks — targeting 7.4 next.
+>
+>> +Contact:    mhi@lists.linux.dev
+>> +Description:
+>> +        (RW) Size of each Transfer Ring Element (TRE) buffer in bytes
+>> +        used for the loopback test. Valid range is 1 to the value
+>> +        reported by max_tre_size. Default value is 32 bytes.
+>> +
+>> +What: /sys/bus/mhi/devices/mhi<N>_LOOPBACK/max_tre_size
+>> +Date:        August 2026
+>> +KernelVersion:    7.2
+>> +Contact:    mhi@lists.linux.dev
+>> +Description:
+>> +        (RO) Maximum allowed TRE size in bytes. Reading this file
+>
+> Entry before this and after this explains the TRE acronym, but this 
+> does not.  It probably should, as someone may jump directly to this 
+> section and not read the entire document start to finish.
+Will update the description.
+>
+>> +        returns the upper bound for the tre_size attribute.
+>> +
+>> +What:        /sys/bus/mhi/devices/mhi<N>_LOOPBACK/num_tre
+>> +Date:        August 2026
+>> +KernelVersion:    7.2
+>> +Contact:    mhi@lists.linux.dev
+>> +Description:
+>> +        (RW) Number of Transfer Ring Elements (TREs) to use per
+>> +        loopback test. Must be greater than zero and must not exceed
+>> +        the channel ring capacity. Default value is 1.
+>
+> How would I know the channel ring capacity?  Should I just try values 
+> until I get an error?
+if you try to write any value bigger than ring capacity the error will 
+report it with the max ring capacity.
+Would you prefer having another read only sysfs to find out the ring 
+capacity ?
+>
+>> +
+>> +What:        /sys/bus/mhi/devices/mhi<N>_LOOPBACK/start
+>> +Date:        August 2026
+>> +KernelVersion:    7.2
+>> +Contact:    mhi@lists.linux.dev
+>> +Description:
+>> +        (WO) Write any value to trigger a loopback test. The driver
+>> +        sends random data to the endpoint using the configured tre_size
+>
+> It feels like these kind of interfaces usually give an option to 
+> specify a byte pattern as well, but I don't see that option here. Is 
+> random data considered to cover all usecases?
+Since currently we are checking the data path, random bytes should 
+suffice for now.
+Happy to add a pattern option later if a concrete use case needs 
+deterministic content, but I'd prefer random as the default.
+>
+>> +        and num_tre parameters, waits for the endpoint to echo it back,
+>> +        and verifies the received data matches what was sent.
+>> +
+>> +        This is a blocking write that returns when the test completes
+>> +        or times out after 5 seconds. The write returns an error code
+>> +        if the test fails or times out.
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 
+>> a4b89bd497ad5051c190025838e0e93d257ed061..098b12692140514da52565a3200801f5e24a43b7 
+>> 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17469,6 +17469,7 @@ L:    linux-arm-msm@vger.kernel.org
+>>   S:    Maintained
+>>   T:    git git://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git
+>>   F:    Documentation/ABI/stable/sysfs-bus-mhi
+>> +F:    Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>
+> Commit text says this ABI is stable.  Seems odd its being added to 
+> testing.
+Commit text needs to be fixed for this, Thanks will update it in the 
+next revision.
+>
+>>   F:    Documentation/mhi/
+>>   F:    drivers/bus/mhi/
+>>   F:    drivers/pci/endpoint/functions/pci-epf-mhi.c
+>> diff --git a/drivers/bus/mhi/host/Kconfig b/drivers/bus/mhi/host/Kconfig
+>> index 
+>> da5cd0c9fc620ab595e742c422f1a22a2a84c7b9..627c57948235aa52348179ae8b2d0826ebaed01e 
+>> 100644
+>> --- a/drivers/bus/mhi/host/Kconfig
+>> +++ b/drivers/bus/mhi/host/Kconfig
+>> @@ -29,3 +29,4 @@ config MHI_BUS_PCI_GENERIC
+>>         This driver provides MHI PCI controller driver for devices 
+>> such as
+>>         Qualcomm SDX55 based PCIe modems.
+>>   +source "drivers/bus/mhi/host/clients/Kconfig"
+>> diff --git a/drivers/bus/mhi/host/Makefile 
+>> b/drivers/bus/mhi/host/Makefile
+>> index 
+>> 859c2f38451c669b3d3014c374b2b957c99a1cfe..2a16008aeb38127494782bbff4e1656428d2b776 
+>> 100644
+>> --- a/drivers/bus/mhi/host/Makefile
+>> +++ b/drivers/bus/mhi/host/Makefile
+>> @@ -4,3 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
+>>     obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
+>>   mhi_pci_generic-y += pci_generic.o
+>> +obj-y += clients/
+>> diff --git a/drivers/bus/mhi/host/clients/Kconfig 
+>> b/drivers/bus/mhi/host/clients/Kconfig
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..312a0b5a8e83b6ad7246453908bd552841a89188
+>> --- /dev/null
+>> +++ b/drivers/bus/mhi/host/clients/Kconfig
+>> @@ -0,0 +1,17 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +
+>> +config MHI_BUS_LOOPBACK
+>> +    tristate "MHI LOOPBACK client driver"
+>> +    depends on MHI_BUS
+>> +    help
+>> +      MHI LOOPBACK client driver that binds to the MHI LOOPBACK channel
+>> +      as defined in the MHI specification. The LOOPBACK channel is
+>> +      implemented by MHI-based devices (modems, WLAN) in the field, 
+>> where
+>
+> Are modems, WLAN the only devices that implement this, or are those 
+> intended to be examples?  Current reads as a limitation.
+those are just examples, will reword it.
+>
+>> +      the endpoint firmware echoes back whatever the host sends.
+>> +
+>> +      This driver exposes a sysfs interface for testing MHI data path
+>> +      integrity between host and endpoint. Users can configure the TRE
+>> +      size and count, and trigger a loopback test.
+>> +
+>> +      To compile this driver as a module, choose M here. The module
+>> +      will be called mhi_loopback.
+>> diff --git a/drivers/bus/mhi/host/clients/Makefile 
+>> b/drivers/bus/mhi/host/clients/Makefile
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..3811b6928f42b38f94b1167941cf3b0fe512d32b
+>> --- /dev/null
+>> +++ b/drivers/bus/mhi/host/clients/Makefile
+>> @@ -0,0 +1,2 @@
+>> +obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
+>> +mhi_loopback-y += loopback.o
+>> diff --git a/drivers/bus/mhi/host/clients/loopback.c 
+>> b/drivers/bus/mhi/host/clients/loopback.c
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..02a952e8e01222cd8cb842c9f9490479df8ea2bd
+>> --- /dev/null
+>> +++ b/drivers/bus/mhi/host/clients/loopback.c
+>> @@ -0,0 +1,289 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
+>> +
+>> +#include <linux/atomic.h>
+>> +#include <linux/cleanup.h>
+>> +#include <linux/completion.h>
+>> +#include <linux/errno.h>
+>> +#include <linux/mhi.h>
+>> +#include <linux/mod_devicetable.h>
+>
+> I'm pretty sure this is now incorrect based on cleanups that just 
+> occured in tree.
+I missed the recent rebase on mhi-next therefore missed these merges. 
+will rebase and fix.
+>
+>> +#include <linux/module.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/random.h>
+>> +#include <linux/sizes.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/string.h>
+>> +#include <linux/sysfs.h>
+>> +#include <linux/types.h>
+>> +
+>> +#define MHI_LOOPBACK_DEFAULT_TRE_SIZE    32
+>> +#define MHI_LOOPBACK_DEFAULT_NUM_TRE    1
+>> +#define MHI_LOOPBACK_TIMEOUT_MS        5000
+>> +#define MHI_LOOPBACK_MAX_TRE_SIZE    (SZ_64K - 1)
+>> +
+>> +struct mhi_loopback {
+>> +    struct mhi_device *mdev;
+>> +    /* Serializes the sysfs attributes against a running test */
+>> +    struct mutex lb_mutex;
+>> +    struct completion comp;
+>> +    atomic_t tre_pending;
+>
+> I'm not really sure I understand what purpose this is serving.
+>
+tre_pending tracks how many of the tre_count queued DL+UL completions
+are still outstanding; comp is signaled once it hits zero, which is what
+start_store() waits on. Will add a comment for it.
+>> +    u32 num_tre;
+>> +    u32 tre_size;
+>
+> I'm pretty sure these are the wrong types since they cross kernel 
+> boundaries.
+>
+num_tre and tre_size are sysfs attribute values parsed with kstrtou32() 
+from a text write,
+they don't cross into any MHI wire-protocol struct or UAPI boundary, and 
+u32 comfortably covers
+the valid range (num_tre is ring-capacity-bounded, tre_size caps at 
+MHI_LOOPBACK_MAX_TRE_SIZE = 64K-1)
+Could you explain a little bit more about the boundary concern.
 
-> diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
-> index a31d8540fbb85..a917df9bb17b8 100644
-> --- a/drivers/net/wwan/mhi_wwan_ctrl.c
-> +++ b/drivers/net/wwan/mhi_wwan_ctrl.c
-
-[ ... ]
-
-> @@ -14,6 +18,30 @@ enum mhi_wwan_flags {
->  
->  #define MHI_WWAN_MAX_MTU	0x8000
->  
-> +/* IP_CTRL channel message that sets the modem's DTR/RTS control lines */
-> +struct mhi_dtr_ctrl_msg {
-> +	__le32 preamble;
-> +	__le32 msg_id;
-> +	__le32 dest_id;
-> +	__le32 size;
-> +	__le32 msg;
-> +} __packed;
-> +
-> +#define MHI_DTR_CTRL_MAGIC	0x4C525443	/* 'CTRL' */
-> +#define MHI_DTR_MSG_DTR		BIT(0)
-> +#define MHI_DTR_MSG_RTS		BIT(1)
-> +#define MHI_DTR_HOST_STATE	0x10
-
-[ ... ]
-
-> @@ -103,6 +131,62 @@ static void mhi_wwan_ctrl_refill_work(struct work_struct *work)
->  	}
->  }
->  
-> +/* Signal the modem's DTR/RTS lines over its own controller's IP_CTRL channel */
-> +static int mhi_wwan_ctrl_send_dtr(struct mhi_wwan_dev *mhiwwan, unsigned int mdmbits)
-> +{
-> +	struct mhi_controller *cntrl = mhiwwan->mhi_dev->mhi_cntrl;
-> +	struct mhi_device *ctrl_dev = NULL;
-> +	struct mhi_dtr_ctrl_msg *dtr_msg;
-> +	struct mhi_wwan_dtr *dtr;
-> +	u32 msg = 0;
-> +	int ret;
-> +
-> +	guard(mutex)(&mhi_wwan_dtr_lock);
-
-[Severity: Medium]
-Can two concurrent modem-control requests reach the modem in the opposite
-order to the recorded mdmbits?
-
-In wwan_port_fops_at_ioctl() the mdmbits update and the dtr_on snapshot
-happen under port->data_lock, but the callback is invoked after that lock
-is dropped, under port->ops_lock:
-
-	mutex_unlock(&port->data_lock);
-
-	if (call_dtr_rts) {
-		mutex_lock(&port->ops_lock);
-		if (port->ops && port->ops->dtr_rts)
-			port->ops->dtr_rts(port, dtr_on);
-		mutex_unlock(&port->ops_lock);
-	}
-
-wwan_port_op_start() does the same split for the first-open path:
-
-		if (port->start_count == 1 && port->type == WWAN_PORT_AT &&
-		    port->ops->dtr_rts) {
-			mutex_lock(&port->data_lock);
-			port->at_data.mdmbits |= TIOCM_DTR | TIOCM_RTS;
-			mutex_unlock(&port->data_lock);
-			port->ops->dtr_rts(port, true);
-		}
-
-So an ioctl thread that clears TIOCM_DTR (dtr_on = false) can block on
-ops_lock while an opener sets mdmbits |= TIOCM_DTR | TIOCM_RTS and signals
-DTR high, then resume and signal DTR low with its stale snapshot.
-
-mhi_wwan_ctrl_send_dtr() queues the IP_CTRL message in the order it takes
-mhi_wwan_dtr_lock, so the modem ends up with DTR de-asserted while TIOCMGET
-reports it asserted, and that sticks until the next transition.
-
-Would committing the mdmbits update and the ->dtr_rts() call inside one
-critical section (for example taking ops_lock around the TIOCM* mdmbits
-update) avoid this?
-
-> +
-> +	list_for_each_entry(dtr, &mhi_wwan_dtr_list, node) {
-> +		if (dtr->cntrl == cntrl) {
-> +			ctrl_dev = dtr->mhi_dev;
-> +			break;
-> +		}
-> +	}
-> +	if (!ctrl_dev) {
-> +		dev_dbg(&mhiwwan->mhi_dev->dev,
-> +			"IP_CTRL not enumerated; DTR/RTS not signalled to modem\n");
-> +		return 0;
-> +	}
-> +
-> +	dtr_msg = kzalloc_obj(*dtr_msg);
-> +	if (!dtr_msg)
-> +		return -ENOMEM;
-> +
-> +	if (mdmbits & TIOCM_DTR)
-> +		msg |= MHI_DTR_MSG_DTR;
-> +	if (mdmbits & TIOCM_RTS)
-> +		msg |= MHI_DTR_MSG_RTS;
-> +
-> +	dtr_msg->preamble = cpu_to_le32(MHI_DTR_CTRL_MAGIC);
-> +	dtr_msg->msg_id = cpu_to_le32(MHI_DTR_HOST_STATE);
-> +	dtr_msg->dest_id = cpu_to_le32(mhiwwan->mhi_dev->ul_chan_id);
-> +	dtr_msg->size = cpu_to_le32(sizeof(__le32));
-> +	dtr_msg->msg = cpu_to_le32(msg);
-> +
-> +	ret = mhi_queue_buf(ctrl_dev, DMA_TO_DEVICE, dtr_msg, sizeof(*dtr_msg),
-> +			    MHI_EOT);
-> +	if (ret) {
-> +		dev_dbg(&mhiwwan->mhi_dev->dev,
-> +			"failed to queue DTR/RTS signal: %d\n", ret);
-> +		kfree(dtr_msg);
-> +	}
-> +
-> +	return ret;
-> +}
-
-[Severity: Medium]
-Is the error code computed here ever acted on?
-
-mhi_wwan_ctrl_send_dtr() can return -ENOMEM from kzalloc_obj(), and
-mhi_queue() can return -EIO when MHI_PM_IN_ERROR_STATE(pm_state) is true,
--EAGAIN when the IP_CTRL uplink ring is full, or -ENODEV when the channel
-is not in MHI_CH_STATE_ENABLED.
-
-The only caller, mhi_wwan_ctrl_dtr_rts(), is void and drops the value, and
-wwan_port_ops->dtr_rts is itself void, so wwan_port_fops_at_ioctl() returns
-its precomputed status:
-
-	if (call_dtr_rts) {
-		mutex_lock(&port->ops_lock);
-		if (port->ops && port->ops->dtr_rts)
-			port->ops->dtr_rts(port, dtr_on);
-		mutex_unlock(&port->ops_lock);
-	}
-
-	return ret;
-
-Nothing re-drives the requested state either: mhi_wwan_dtr_ul_xfer_cb()
-only frees the buffer, and the core calls ->dtr_rts only on first open,
-last close, or an explicit ioctl.
-
-So TIOCMSET/TIOCMBIS/TIOCMBIC report success while no host-state message
-reached the modem, leaving the port in the same "URCs never arrive" state
-this change is meant to fix, with only a dev_dbg to show it. Should
-->dtr_rts return an int so the failure can be propagated, or should the
-desired state be re-queued from the uplink completion callback?
-
-> +
-> +static void mhi_wwan_ctrl_dtr_rts(struct wwan_port *port, bool on)
-> +{
-> +	mhi_wwan_ctrl_send_dtr(wwan_port_get_drvdata(port),
-> +			       on ? TIOCM_DTR | TIOCM_RTS : 0);
-> +}
-
-[Severity: Medium]
-Does driving RTS from the DTR bit invert userspace-requested RTS states?
-
-struct mhi_dtr_ctrl_msg carries MHI_DTR_MSG_DTR and MHI_DTR_MSG_RTS as
-independent bits, but mhi_wwan_ctrl_dtr_rts() fabricates both from the
-single bool, and in wwan_port_fops_at_ioctl() that bool is derived from
-TIOCM_DTR only:
-
-		if (port->type == WWAN_PORT_AT) {
-			dtr_on = !!(port->at_data.mdmbits & TIOCM_DTR);
-			call_dtr_rts = true;
-		}
-
-Two cases that follow from that:
-
-TIOCMSET with only TIOCM_RTS set leaves mdmbits = TIOCM_RTS, computes
-dtr_on = false, and sends msg = 0, so RTS goes low at the modem while
-TIOCMGET reports it set.
-
-TIOCMBIC(TIOCM_RTS) while DTR is set computes dtr_on = true and sends
-MHI_DTR_MSG_DTR | MHI_DTR_MSG_RTS, so RTS is re-asserted on the wire while
-TIOCMGET reports it cleared.
-
-Patch 1 documents the DTR-only boolean for the open/close paths, but the
-ioctl path here appears to make TIOCMGET disagree with what was signalled.
-Would passing the modem-bit mask (or separate dtr/rts arguments) to
-->dtr_rts keep the two lines independent?
-
-[ ... ]
-
-Cross-instance finding from sashiko-gemini (b336eac424601552df7b2a5a6930f6f1777d59223ded79ac6c93f05fff648f90):
-[Severity: High]
-The driver starts the IP_CTRL downlink channel but fails to queue any RX buffers for it, which will stall the modem's MHI transmit path when it attempts to send serial state updates.
