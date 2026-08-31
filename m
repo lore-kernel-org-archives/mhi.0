@@ -1,127 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5623F0A96
-	for <mhi@lists.linux.dev>; Thu, 20 Aug 2026 09:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CAF57F735;
+	Mon, 31 Aug 2026 13:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787217468; cv=none; b=lB3qLO2SrCOOwm9hK6C1HzjjwW0i++WvEGOjJdWoD/c8EiXk2/eaanxdd58Srx9ktCb68R+pqbelQRMY7JuPLwM83b7ruUC3qnC3Qp2czxxPSXHCyXSdBdmIFso3bVa7LtAgtKMKTS4/EFotUo9h1iRZbnuizQXI6N5XldVFd9o=
+	t=1788184189; cv=none; b=Aqj5HvWCBVB1d5X1EF9nEbzRa6ljH1jdaw+YGfGl4SnibFJrNJzs6yEeIpJSUX8cb4fLvKbeFxTSEcn7gvHIFHai+GziND7lkE5MLHkMpKNTe6ruQo+vpo3hWz2cVCNMu9dYirNjgiq0GuUz6e2jfRyScT6HPu7itKAJGePXToQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787217468; c=relaxed/simple;
-	bh=nPkFTOEtgZNq1DnQm57ec1O9IDgRP+zAD+5M9DAnY00=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s/+2HoHmTyuuGbFaQvhWN7/WxkikT2UhwDyDaYUZLmX5TkOYtmLzlgqjzRJV7Ien6ppl9eLS8Gmg/JaYu2yEaBh4u12AKayvrhYYAlgHGxwpMO2txDhSUZZJoSSMyKbSXqscVVYVGbUAyGjgmKdCjeBuFyF+Q5WJwB70bjLtceU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XT4Gua1W; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1788184189; c=relaxed/simple;
+	bh=QyxtNts+UoqhKfu3fXd5olBl1D+PUYnz0yC6Lzh+CyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IZD40AuGqsm8AbfFbLz9xvngahU0/lCd4VyL4rhzV2ffcXHMlnBuw5vld51X+Ig0nVj2BagSWoGvsWdIGe8ubauEhqcVyF9vgKmjE3TePyxq2GuDVs6Vpa7imMEjK7kmx4uIcj+PiGs6Q65EtkyntpVtQpiyu+YLlmv3n31g4l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsGn6ptD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XT4Gua1W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787217464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lDvs4PBwNh/pPGjCjR9S79ZeFLuFiB1QygAoYt1AWc=;
-	b=XT4Gua1W5MfczoWOuC2+MNVWRx6d+1uQc53Mstss/wRpZqHPzwk8LRknK1Kas11K0M6WGi
-	Rl+b6kYIzmqZzXi6rF8tTpFrtNlKSapou9QLEw3GdcPqsWR9q5j8EAt8B/lQjT5CDSCWUC
-	CzbHl6D3QuUoUq2uB5o99gsPJI7U3+4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-xZPjVecWOSehmJMDlHPS4w-1; Thu, 20 Aug 2026 05:17:40 -0400
-X-MC-Unique: xZPjVecWOSehmJMDlHPS4w-1
-X-Mimecast-MFC-AGG-ID: xZPjVecWOSehmJMDlHPS4w_1787217459
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-47f726186c4so1112280f8f.2
-        for <mhi@lists.linux.dev>; Thu, 20 Aug 2026 02:17:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787217458; x=1787822258;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6lDvs4PBwNh/pPGjCjR9S79ZeFLuFiB1QygAoYt1AWc=;
-        b=UoqJppV9a2jolY+apfax3WYZHoXTHRxYl5qj0+j1POlvd7FHe5hJdmIP78AgnOjoP5
-         v3fT36erNbPI3COEUwhukv9AFgN86qHFDWtbDEeB+NHzzMBgHkEH4rrOF68p9R2bti25
-         PQOTO5xEWp7oqyuOaEOj90HnW7DmpA0IMBAvd1WAAVZxzTPgTK5FcbScZcO1HOsIhgyc
-         XwLXmi0FFAz73OpazQuQsYEJwxdrJjYnHXBoD5JlZDNNSJiCiA0DMHBtIlKnqYGzyXXx
-         RCOhWL1LO4nt60Wz8bz5Gu+azKfYa4F35FTVudUMrBrAOzeEKFSgeRbd/0ciYGmMCrpV
-         2euQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpJioFkiskPyER7jEKqloA7LixmYp2Li9n/K7bGI7UKwbPZpkd8fPKa9ra2FdKmh/4pILc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyj0sbesxQZmZ8pmfUm9ElHu09hZh8flnVjTgDsdVsUldJigq/O
-	FediLwNi9XrdXQ0y9UBsWpvL8aPcQ8b03FIcy2ZYEgaQ9WlnW+GYz8md3cr25AwN+92lclLbIxH
-	HvfNh8g8rfiDjZ4/MbfKAh9e+qMeYO8tjqgcNZZ1Xi0AJpIZZ9MdApQ==
-X-Gm-Gg: AR+sD10Uon+iqDHgkMfxYeTTaeNADQ9XPfZHfUACjQXM4PGdxwqxZLiZWP5GH4nqvMZ
-	WylL+Dz8jM5uQNb2iE8nAfdxrrATa63cXrG3uBM7dosZHpMON2zVIZgdJsYLyVkVpIvvbHI/PJE
-	axibJDVD+a0KT9PoHu8uGJJ83zT6iTMwi2yx31YIi6UXUA5BZGtJeHxupPi3eDc2ZEEzq7ZQ34t
-	2bREGolAS5SGd7Z4sMTZf4TgFNBX/WudgYG5MZiSWTquWE3RJppLgzustEWMCzEAzzEQMQ9BGgb
-	CqRkBRkP9SLQYU/N163SZlzsM1BM4fLWfIZIEKmIFCXTERzQe9tE8HksZJg4Jr5SI5BH8AntZj8
-	gm+im4xraH+n8J0jgG7XxPJu/PwEgGxPJcYJP0P2jIH8bIdruFpzTopU59QxIh/946DgsNoZd6w
-	0=
-X-Received: by 2002:a05:600c:354b:b0:499:872b:abd4 with SMTP id 5b1f17b1804b1-499aa1a1f2bmr173636445e9.6.1787217458573;
-        Thu, 20 Aug 2026 02:17:38 -0700 (PDT)
-X-Received: by 2002:a05:600c:354b:b0:499:872b:abd4 with SMTP id 5b1f17b1804b1-499aa1a1f2bmr173635675e9.6.1787217458140;
-        Thu, 20 Aug 2026 02:17:38 -0700 (PDT)
-Received: from [192.168.188.103] (ip239-44-231-195.pool-bba.aruba.it. [195.231.44.239])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b2b35386sm25640585e9.4.2026.08.20.02.17.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2026 02:17:37 -0700 (PDT)
-Message-ID: <3f078f41-b971-424c-9258-b309a7d5d223@redhat.com>
-Date: Thu, 20 Aug 2026 11:17:35 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsGn6ptD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3759F1F00ACA;
+	Mon, 31 Aug 2026 13:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788184188;
+	bh=so+s9aG25OaVfSWLBK6duAK1BVk2DhvJG48V+ALmSkA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=HsGn6ptDEDt9clwZ4TNre1QN7Z4E/nOCpbeRT37AoReaHdkypI6KGbDdAp2HGFwMk
+	 4VKBXNNuLH4n1uiHSMjBpWiCHyOREiElzKlNW2RnNBJfq85AaNDExuTFZTOO6VTdKb
+	 4kiNJnXUhzKoZU4Us77Efi50mmsSh3xPSAU1RZKI2MkEVPWOMsVA4Fny2J9wpV6C88
+	 vTBUZoi2oCGM3gcr1P6KStMDLMnoPdF4B5Ct/YQ2CmsdnKjNof5VFLU4ZX3CZpH0dH
+	 Hn5J8Tn+KP3oHzftCyOGad4S6n6wP36CHc4W9rreIfpgoykW7WZ/6JgaizsSHG3jCb
+	 HwOSvXHHaoUbg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Javier Achirica <jachirica@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+	Sasha Levin <sashal@kernel.org>,
+	mani@kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18] bus: mhi: host: pci_generic: Round up nr_irqs to power of two
+Date: Mon, 31 Aug 2026 09:29:32 -0400
+Message-ID: <20260831133314.4125787-544-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 0/3] net: wwan: support DTR/RTS on AT ports
- via MHI IP_CTRL
-To: Peter Hunt <peter.hunt@opengear.com>, loic.poulain@oss.qualcomm.com,
- mani@kernel.org, ryazanov.s.a@gmail.com
-Cc: johannes@sipsolutions.net, netdev@vger.kernel.org, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260819224927.2274790-1-peter.hunt@opengear.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260819224927.2274790-1-peter.hunt@opengear.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wLfQ-DmzVA0_1emCkBJ8prMt8LvjBbYw5Hw9-bMIPr0_1787217459
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/20/26 12:49 AM, Peter Hunt wrote:
-> Qualcomm/Sierra SDX55/SDX65 modems (e.g. EM9291) withhold unsolicited AT
-> result codes until the host asserts DTR.  The in-tree mhi_wwan_ctrl driver
-> exposed AT ports but never signalled DTR, so URCs never reached userspace.
-> 
-> Patch 1 extends the wwan core with an optional ->dtr_rts(port, mdmbits) port
-> op.  The TIOCM bitmask state is tracked entirely in the wwan core; drivers
-> receive the full bitmask so they can drive DTR and RTS independently.  The
-> core raises DTR/RTS on first open of any AT port whose driver implements
-> ->dtr_rts and drops them on last close, mirroring TTY semantics.  In the
-> ioctl path mdmbits is re-read under data_lock inside ops_lock so the value
-> passed always reflects the committed state and concurrent ioctls are
-> correctly ordered.  wwan_remove_port() also de-asserts on hot-unplug.
-> 
-> Patch 2 enables the IP_CTRL MHI channel in the Sierra PCI table so that
-> the IP_CTRL driver (patch 3) is actually bound on those controllers.
-> 
-> Patch 3 adds a second mhi_driver that binds the IP_CTRL channel and
-> registers a ->dtr_rts op so that the wwan core's open/close DTR raise/drop
-> and userspace TIOCMSET calls both reach the modem.  A single recycled sink
-> buffer keeps the IP_CTRL DL ring live so the modem's transmit path does not
-> stall.  The existing AT/QMI/MBIM data path is untouched.
-## Form letter - net-next-closed
+From: Javier Achirica <jachirica@gmail.com>
 
-We have already submitted our pull request with net-next material for v7.3,
-and therefore net-next is closed for new drivers, features, code refactoring
-and optimizations. We are currently accepting bug fixes only.
+[ Upstream commit 86f6dc05ea051fa03ebc03174bc00f734593465d ]
 
-Please repost when net-next reopens after Aug 31st.
+When an MHI device uses standard MSI, the PCI core requires the allocated
+number of vectors to be a strict power of two. But devices will only ask
+for the irqs they need, so they might not be properly aligned.
 
-RFC patches sent for review only are obviously welcome at any time.
+Make sure a power-of-2 number of vectors is requested.
 
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
+Signed-off-by: Javier Achirica <jachirica@gmail.com>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Link: https://patch.msgid.link/CACixm21q7b_diEx5COZxVZm9EhZ0hnakM_WBjEWcCsznfWeniw@mail.gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+The background history search finished, but it wasn’t useful: it used
+`git log -S "mhi_pci_get_irqs" --all`, which is slow and returned
+unrelated commits (mptcp, SMC, xfs), not the MHI driver introduction.
+
+From the earlier analysis (without `--all`), `git blame` on the IRQ
+allocation lines shows they’ve been in
+`drivers/bus/mhi/host/pci_generic.c` since the `6bda50f4333fa` baseline
+in this 6.18.43 tree — so the bug has been present since that code
+landed here.
+
+**Verdict for 6.18.y: YES** — real SDX55 modem failure on MSI,
+maintainer-approved one-line fix, buggy code confirmed present in this
+tree.
+
+ drivers/bus/mhi/host/pci_generic.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 646f3bcdc636a..a5b47728f9aba 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -1139,7 +1139,8 @@ static int mhi_pci_get_irqs(struct mhi_controller *mhi_cntrl,
+ 	 */
+ 	mhi_cntrl->nr_irqs = 1 + mhi_cntrl_config->num_events;
+ 
+-	nr_vectors = pci_alloc_irq_vectors(pdev, 1, mhi_cntrl->nr_irqs, PCI_IRQ_MSIX | PCI_IRQ_MSI);
++	nr_vectors = pci_alloc_irq_vectors(pdev, 1, roundup_pow_of_two(mhi_cntrl->nr_irqs),
++					   PCI_IRQ_MSIX | PCI_IRQ_MSI);
+ 	if (nr_vectors < 0) {
+ 		dev_err(&pdev->dev, "Error allocating MSI vectors %d\n",
+ 			nr_vectors);
+-- 
+2.53.0
 
