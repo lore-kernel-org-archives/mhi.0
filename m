@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DBD46C859;
-	Tue,  1 Sep 2026 08:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22AB247CC75;
+	Tue,  1 Sep 2026 12:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788250130; cv=none; b=DHpDRpMOGurDYw7FpFBr8V1FmmX66m8HMFAFsxwrw4iZ0JabxnuMF1nLE3Tw7FEj/4N3JAWDWtOw0+JrUZJrhfLKBqpU0dm6O9IsgUWtV9d8ojTyYad1XwEXUuEYqAPCR41V+nAoS3FXNqKeWyrMK3C6ACAZacnsClp2DpzAJ5Y=
+	t=1788265235; cv=none; b=otc9MLVv7Onba48/AHKcQTCbHHeAqnZ6nsCXewGtqm2BnUXbMN3476+QDhffNpQqO+CKnIeWT8LGQ0ikdqiSgoWN235/wij6SCC2/kNcIqDEXF1gf8z4naFA0ZkirVfdoWUnKScnj5dqJeu7+ZrhUC0NPskndoL+4JOcjBw1Ris=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788250130; c=relaxed/simple;
-	bh=xZixmp/hIu40rQ5K9LjhmakmQkvMqsCx6HmvxiWv9zg=;
+	s=arc-20240116; t=1788265235; c=relaxed/simple;
+	bh=Ms5yUYYVIUCMr7+Dx214kheiE7jKpBdWV1rFqMcG+C0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=engrsfCHRkVvDLUDXkfm1WGAroZfyZLfCanv5AV++HRnXEWU1rLXpwyl2NQmhINtqJcu60t4vphnM+ZrheUYcJLUYuzv5yoV2xERcrvWbDeKkwI9D3vl2E6P7EqcPPjget3jRcGfunLVk54/kBcRdXEgKUc9OPn3bScVbVPg9tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWklQy1L; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BB78j5yoe0zeIy8lEXyA3SXddm03SINcKNt7hOqwkpkPHAOc8Ms68jUL476Ur6L5nbE3t+egElockKeak40cg1tEB00WXlSVBCOOEJJdyKkO1+mMUU8X+rAg30c/Mp0dO3SxYM+nvyrJ6v2KRuTRuWudXVlBvrnWKvlpyy/3EEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzVCDtES; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWklQy1L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7583B1F000E9;
-	Tue,  1 Sep 2026 08:08:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzVCDtES"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD52B1F000E9;
+	Tue,  1 Sep 2026 12:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788250129;
-	bh=Ohpib62LZWXUeibRpn+IOxerCltjttaZcpi6tQkXmGA=;
+	s=k20260515; t=1788265234;
+	bh=knqgEaQ3Nt/j1kgI3GiULCfkTBJyPDx6YekcweuXbC0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kWklQy1LpvHETxUBsg/vGzo+L3C+obYX0PKYmcM6G/9yl6jaG5VV+LLJXQtxrfib6
-	 3qo5Eb6fv814iG/12mc3ZXrQGC+L9R87cv04xtLVl0cyW2TEiuZhJy0Q8WaYdx7j1Y
-	 IORN/J7Y4IBQJMXpHQEu7bkB4Zj5U9wQmcaRpObCVf+T3sDJ4XzFPjIEAMf+/VnMAi
-	 g5lVVDxqzbFFrzaj5+no73rD0uuj97wxAWeeCz3HUikiMI1udf9JxTMwmoH6+hBzY5
-	 dE0SttwOhDpDa+U/nhL8KXAs8XsL3ZZbsCXcRdMBgHnPPtjobZYjtaqz06ZU7DJ7Kd
-	 LoCDJjOj7kbSQ==
-Date: Tue, 1 Sep 2026 10:08:30 +0200
+	b=XzVCDtES9FvYRwTEGc9GrdSsXkl6cVu5UXSDTum7lXO3LWqCLtN+EXaqrgdN6hcuP
+	 3OrxkBXK3RjdrJeeLI/0bMQBaJ+ENpefSMLaVjuocWSFwmZ6GMfxx7oDYWyv8N0zBE
+	 G45G+qxb1zudvuGlCeaVk39PiCS9L2W1Wcgfl5qkR8CtuoJXn906kmVLfHXv1XLXyq
+	 tCGGUrHonlTdH81NrBePv0pYG0mZO3XmPN42ul1VU0dzC8Y8ut+6TaO4jfz0wI1G9a
+	 1Hm3Q4YEeZnZ0BA7vHLJ6seqCgz4sMz34z4XDxfvDIEy5PrHcznAPOfFcyS+RhwLuR
+	 8Lmr/WfajOQFw==
+Date: Tue, 1 Sep 2026 14:20:21 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	ath11k@lists.infradead.org, qiang.yu@oss.qualcomm.com, 
-	Krishna Chaitanya Chundru <krishnac@codeaurora.org>
-Subject: Re: [PATCH v5 6/6] PCI: qcom: Enable ASPM disabling during link
- retraining
-Message-ID: <jdch2j3vcjsr2f4u7jhiazuotwqu6pon4xlvhzuhrzpzjhmkkb@7zzy2autzbmo>
-References: <20260819-bwscale-v5-0-6dea79786b37@oss.qualcomm.com>
- <20260819-bwscale-v5-6-6dea79786b37@oss.qualcomm.com>
+To: Peter Hunt <peter.hunt@opengear.com>
+Cc: loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com, 
+	johannes@sipsolutions.net, netdev@vger.kernel.org, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 0/3] net: wwan: support DTR/RTS on AT ports
+ via MHI IP_CTRL
+Message-ID: <zjafvc6ndpkmavogxwmqj5gpefpj4ymefn5obed6cvjot7wnwa@pmrfl5tixa72>
+References: <20260819224927.2274790-1-peter.hunt@opengear.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -51,20 +45,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260819-bwscale-v5-6-6dea79786b37@oss.qualcomm.com>
+In-Reply-To: <20260819224927.2274790-1-peter.hunt@opengear.com>
 
-On Wed, Aug 19, 2026 at 06:55:57PM +0530, Krishna Chaitanya Chundru wrote:
-> Set the disable_aspm_for_retrain flag in qcom_pcie_host_init() to ensure
-> ASPM is disabled during link retraining operations. This prevents potential
-> issues with link state transitions during bandwidth scaling on Qualcomm
-> PCIe controllers.
+On Thu, Aug 20, 2026 at 08:49:24AM +1000, Peter Hunt wrote:
+> Qualcomm/Sierra SDX55/SDX65 modems (e.g. EM9291) withhold unsolicited AT
+> result codes until the host asserts DTR.  The in-tree mhi_wwan_ctrl driver
+> exposed AT ports but never signalled DTR, so URCs never reached userspace.
 > 
+> Patch 1 extends the wwan core with an optional ->dtr_rts(port, mdmbits) port
+> op.  The TIOCM bitmask state is tracked entirely in the wwan core; drivers
+> receive the full bitmask so they can drive DTR and RTS independently.  The
+> core raises DTR/RTS on first open of any AT port whose driver implements
+> ->dtr_rts and drops them on last close, mirroring TTY semantics.  In the
+> ioctl path mdmbits is re-read under data_lock inside ops_lock so the value
+> passed always reflects the committed state and concurrent ioctls are
+> correctly ordered.  wwan_remove_port() also de-asserts on hot-unplug.
+> 
+> Patch 2 enables the IP_CTRL MHI channel in the Sierra PCI table so that
+> the IP_CTRL driver (patch 3) is actually bound on those controllers.
+> 
+> Patch 3 adds a second mhi_driver that binds the IP_CTRL channel and
+> registers a ->dtr_rts op so that the wwan core's open/close DTR raise/drop
+> and userspace TIOCMSET calls both reach the modem.  A single recycled sink
+> buffer keeps the IP_CTRL DL ring live so the modem's transmit path does not
+> stall.  The existing AT/QMI/MBIM data path is untouched.
+> 
+> v4: https://lore.kernel.org/netdev/20260816121705.858013-1-peter.hunt@opengear.com/
+> 
+> v5:
+> - Change ->dtr_rts from bool to unsigned int mdmbits (patch 1 + 3): DTR and
+>   RTS are now driven independently; fixes RTS inversion when TIOCMBIS/BIC
+>   changed RTS with DTR in the opposite state
+> - Re-read mdmbits inside ops_lock in the ioctl path (patch 1): closes a
+>   concurrent-ioctl ordering race where two racing TIOCM ioctls could leave
+>   the modem line state inconsistent with TIOCMGET
+> - Add ->dtr_rts(port, 0) call in wwan_remove_port() (patch 1): ensures
+>   DTR/RTS are de-asserted when a port is removed while an fd is still open
+> - Update kernel-doc to note ->dtr_rts is AT-only and describe mdmbits (patch 1)
+> - Pre-queue RX sink buffer in mhi_wwan_dtr_probe(), requeue in dl_xfer_cb
+>   (patch 3): prevents IP_CTRL DL ring from running empty and stalling the
+>   modem MHI transmit path
+> 
+> Peter Hunt (3):
+>   net: wwan: core: propagate modem control signals to port drivers
+>   bus: mhi: host: pci_generic: enumerate IP_CTRL channel for Sierra
+>     EM919x/EM929x
 
-Is it really a controller requirement or a device quirk?
-
-> Signed-off-by: Krishna Chaitanya Chundru <krishnac@codeaurora.org>
-
-You need to use OSS email.
+FYI, this patch got applied to MHI tree.
 
 - Mani
 
