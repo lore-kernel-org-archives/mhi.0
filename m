@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6663A3B38AA;
-	Wed, 16 Sep 2026 06:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7883BE636;
+	Wed, 16 Sep 2026 07:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789541395; cv=none; b=KEpMiE1IQp27ps5iCl1o1mv/jKuHo+D3izxhFcoNdmvzOjQD5GcqdznO+Q5Q2YJPG2g23N29GRaE6K3Kl16wr0TtPyTwLRPWnnxdlwpNPzBZQR1g8O/sXu5Sh//enrk5mmVKyGcZb8Thgn+5PAkdbAmduYl8zD9CY4PBYgmC/Bg=
+	t=1789542117; cv=none; b=YFizbQGIWhO7NgMlIxLsrgmE90YmXcoBhSf2rWvB31Hbumd/j3oR8s+/mCq5Cav+36wR3JX5vM9j8x1g98j5G7Kbf6Ut6Z+HAwTHgTtWbep4HkGlt2/fRqeL2o02pBzS9wUH1AP0huqI1ddaDvl7uVzveG7Cj7U/yeS2PGNX9n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789541395; c=relaxed/simple;
-	bh=8l11pkf6kLuSYczE/hzPSes/sBFyaqQSnsP20F8Akpc=;
+	s=arc-20240116; t=1789542117; c=relaxed/simple;
+	bh=Kwb8KX87R9r4L4tQow9CcPKZwEpqNnFjy0YoemwMEmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XER5dqvA6x8eCKLBiMge2GoY3CrCMtxi8iqQ7y0iVG4rkINpPEHVOeZb2t9I2ytLuPTHrebrdhWlTO2dfBoVLWfnKErjb1PS1AWeIzxs5RXY8xSGG+imsRyzaCccYWgUE9xDzzsHHpPxizFDYaCtEM5Fyb5Kq2Esef29dmswiTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n8LGoYWN; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Of8Qzrut/tjsW+dLGokMgBUmK9uK18ws24llte07mh7DQlMC13PN1QW79f8+jlR0pLQ2cCTZTme+UK0KLUjmCCOqMbkeebyFyFaPsoQPpK3NHqFti0+ZtuYWITFcsv9hXb9S3DdaYRhcrYkrexvV7HCufI7/XtVUKrA67XdxfgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETpOXFml; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n8LGoYWN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1F31F000FF;
-	Wed, 16 Sep 2026 06:49:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETpOXFml"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A32E71F000FF;
+	Wed, 16 Sep 2026 07:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789541393;
-	bh=IvF/lDWIxjmdBnUQu2pw5iZ8dJc+t4gXd603fw/T2So=;
+	s=k20260515; t=1789542115;
+	bh=AtbMstdSsxsrcHglRSS47mfL0CBM0tMluc7NdE73fNc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n8LGoYWNtpMnTBlGfCbN23m/T84d83Q38jhIFbxr1lPs5b23nLdcNIDWZlcnGYn4R
-	 4rKmj2862NZ6AxDZFJ+elEghp1nUPg61brH6238b/4/CyRxtbD/7TpVrHvtjWevlHv
-	 VvCS4DHnbNntVbtgjeNMEMBXagW7zo2guZcEWpa09TIp85JznGsoz0D6R+ccuxDWa4
-	 OMFzFRr8/Ixyr16SS9C7RGiUuUhmNnXjPDd1KUrfSFvrhyERTTc5zmV1lRRFk4P4pR
-	 BgXgRI0bEA/VJyfQT+GUWgNnoUCoJ6rLxS5net0RDlCfYSis+6vrRi9YaroCtLtK46
-	 eHtIgBSrHsrPw==
-Date: Wed, 16 Sep 2026 08:49:41 +0200
+	b=ETpOXFmlT7btJY32ZMUu7DeLGxPK5xXTD5xrjD1rZVtlKZg3CbM7mmlHSNcnE18Zi
+	 sFBKwBstQiLxCJszrz03+2scS1iQkH9mOaoEI86AqddGQ0T/Ompn2S+aezzWd6rcvi
+	 D16R6u/JeCB+NQBKou/G2qC/0T3zjGD4FY6as8IdXQeHtMazhMKMlkTzl1ifnZc7Ib
+	 j+d+rp99wMYb+Eu0jeQ6PcKgWBLG/4hxnTjpFT2vNWbjOwO2DEaSSHaA43HCfpoYch
+	 xI+ycYCOPz9joePsLbjn4O0FExSlfbxxerRlvTJlw0auZBtYJfWQpRMqWfM1Y8bh3W
+	 a0CwFWYeANchQ==
+Date: Wed, 16 Sep 2026 09:01:44 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Juha-Matti Tilli <juha-matti.tilli@iki.fi>
 Cc: linux-arm-msm@vger.kernel.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
@@ -39,10 +39,11 @@ Cc: linux-arm-msm@vger.kernel.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
 	Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org, mhi@lists.linux.dev, 
 	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, ath12k@lists.infradead.org, 
 	netdev@vger.kernel.org
-Subject: Re: [PATCH v7 02/15] net: qrtr: allocate and track endpoint ids
-Message-ID: <k3wxn3ga5gqj5dlhykgnslxfgj536ecfirfc34cd6tc7nbzgo7@jmz46unm7q6f>
+Subject: Re: [PATCH v7 03/15] net: qrtr: fit node ID + port number
+ combination into unsigned long
+Message-ID: <bjfwy4usrfbrabmcp4xsr65nqwdpuryvmrb6tzp6k2ckmdx27h@kvf7idvsugsm>
 References: <20260915054207.2513877-1-juha-matti.tilli@iki.fi>
- <20260915054207.2513877-3-juha-matti.tilli@iki.fi>
+ <20260915054207.2513877-4-juha-matti.tilli@iki.fi>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -52,37 +53,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260915054207.2513877-3-juha-matti.tilli@iki.fi>
+In-Reply-To: <20260915054207.2513877-4-juha-matti.tilli@iki.fi>
 
-On Tue, Sep 15, 2026 at 08:41:54AM +0300, Juha-Matti Tilli wrote:
-> From: Denis Kenzior <denkenz@gmail.com>
+On Tue, Sep 15, 2026 at 08:41:55AM +0300, Juha-Matti Tilli wrote:
+> From: Mihai Moldovan <ionic@ionic.de>
 > 
-> Currently, QRTR endpoints are tracked solely by their pointer value,
-> which is sufficient as they are not exposed to user space and it is
-> assumed that each endpoint has a unique set of node identifiers
-> associated with it.  However, this assumption does not hold when
-> multiple devices of the same type are connected to the system.  For
-> example, multiple PCIe based 5G modems.  Such a setup results in
-> multiple endpoints with confliciting node identifiers.
+> The flow control implementation uses a radix tree to store node ID and
+> port number combinations and the key length is hardcoded to unsigned
+> long.
 > 
-> To enable support for such scenarios, introduce the ability to track
-> and assign unique identifiers to QRTR endpoints. These identifiers
-> can then be exposed to user space, allowing for userspace clients to
-> identify which endpoint sent a given message, or to direct a message
-> to a specific endpoint.
+> The original implementation shifted the node ID up by 32 bits and added
+> the port number to the lower 32 bits of the unsigned long value to
+> create a key.
 > 
-> A simple allocation strategy is used based on xa_alloc_cyclic.  Remote
-> endpoint ids start at 'qrtr_local_nid' + 1.  Since qrtr_local_nid is
-> currently always set to 1 and never changed, node identifiers start at
-> '1' for the local endpoint and 2..INT_MAX for remote endpoints.
+> Unfortunately, since both node IDs and port numbers are defined as u32,
+> this will overflow on platforms where sizeof(unsigned long) < 8 (which
+> are most 32 bit platforms) and essentially just drop the node ID part.
 > 
-> Signed-off-by: Denis Kenzior <denkenz@gmail.com>
-> Reviewed-by: Marcel Holtmann <marcel@holtmann.org>
-> Reviewed-by: Andy Gross <agross@kernel.org>
-> Signed-off-by: Mihai Moldovan <ionic@ionic.de>
-> Signed-off-by: Juha-Matti Tilli <juha-matti.tilli@iki.fi>
+> To fix this, build the key in a generic way, using half of the unsigned
+> long space for the node ID and the other half for the port number.
+> 
+> This will be transparent to platforms where sizeof(unsigned long) >= 8
+> and fix overflow issues otherwise.
+> 
+> The caveat, of course, is that, for platforms where
+> sizeof(unsigned long) < 8, the supported amount of node IDs and port
+> numbers will be severely limited - to half of sizeof(unsigned long),
+> which typically will be 16 bits. Needless to say, we have to check if
+> both values fit into this limit.
+> 
+> This limitation is probably not going to be an issue in real-world
+> scenarios, but if it turns out to be one after all, we could switch from
+> a radix tree implementation to an XArray implementation.
+> 
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Documentation/core-api/xarray.rst says:
+
+"If your index can be larger than ``ULONG_MAX`` then the XArray is not the data
+type for you."
+
+So the fix is to not make XArray work, but switch over to some other storage
+mechanism instead of XArray, like hashtable.
 
 - Mani
 
