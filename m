@@ -1,63 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444BD37269B;
-	Thu, 17 Sep 2026 14:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25F44FD78F;
+	Thu, 17 Sep 2026 17:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789656498; cv=none; b=RVs0SqM/b/j3yuZYjpFkRLlzJ9ZZuA6+0xATFwK0qZgXM9LIy+QqVyK9GqrrO/UABJk7FjWtKnD5tLv48Zb+iCNON68+arQaE/aVzCk9tK7a8+dm12iuXcqomxpvyIHs45wNfTcJnblPd+qlBxk97uIIjNSpVeXl5P3HLDTkoKs=
+	t=1789664805; cv=none; b=RvM2yKxo7NcHb/A/YRx1M258SNzf+vMpyIHrSK5M0Fj5ijJorUaCZWTBPhw3wzM+/2jCwKUxnQ6iY6sdwwGsQwl9gMchf9jtt2AzEAL85p1qsZ3bshgiZEsbfMR8tyNpsJVDshOSZoWRybZ+vWDh30twFCC6XQF2j3WxyiU1lNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789656498; c=relaxed/simple;
-	bh=/NnbWJAlZgJf+7xfVx/cUz2TPM01/Z1NBNzBZo66h6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nB4Iq/SGkJav/HIBFnct231IyyoTHBwFMKVlQqmjcu8v4wG1qWeu4ta0oh357885p7TBteE7ECy79nBuWpPQdjFK+EbRAgBXPKu6d7GiU2R2DdpkuhokCaEzsbm53p939Jf922vHNiJ1meHLcGVBjrpRGDUTTVJRTDL77NKBb4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYc5167b; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789664805; c=relaxed/simple;
+	bh=uwuIT3omK02sZdec7a0FXVuDK2O3xZEMksDRkfSnzaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=CU0K10WOJwO/19vT6HhrjY2KGjfW28Mjw9NdSPy8FrOQVq9c9Y48rv1ZspyO3EO/m2PyFGBZY018AC2sR2+VB3aao4W9NMrOUCPGU5UeQepxPqHMNEM5+nnmZjOYPFJo1oMGzwgM7MAaRif21IqsbF7iKE5gdxURvtf56QFldZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHGHTvtJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYc5167b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E43A1F00893;
-	Thu, 17 Sep 2026 14:48:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHGHTvtJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E0DF1F00893;
+	Thu, 17 Sep 2026 17:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789656486;
-	bh=/NnbWJAlZgJf+7xfVx/cUz2TPM01/Z1NBNzBZo66h6c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=YYc5167bHak/3fkJzclyzTd6DW7MuObiydW59vgoLoJu/xs/B6w3fdZv1hji9TsOC
-	 DouT2jcQyoRw3fYYjmkRAMR2p0EgujNTOh/W/N+K1zXv77KFU1JNb7KbrsY3yRxVMG
-	 evWXNkUXYv7ek1fmBdDvvLWW+muMCeBTcA0uy+lis5q+k6U4epUpfSWroYRiYcy3TW
-	 6G/xeSKl57RsOXPonqf08EdOLnHMFxN44Z66cf4q5HCfWYGkfu6RuWp9xiXEaxOWQD
-	 feOiEWkuz4CpJfIWYwQr/Fsb4xq9vXtwxGhl19QWanSm8t3rNSQhtQVaCXUJEcoCzC
-	 0Q5VbjG13XcAg==
-Date: Thu, 17 Sep 2026 07:48:04 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Jeff Hugo
- <jeff.hugo@oss.qualcomm.com>, Richard Cochran <richardcochran@gmail.com>,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Vivek Pernamitta
- <vivek.pernamitta@oss.qualcomm.com>, Sivareddy Surasani
- <sivareddy.surasani@oss.qualcomm.com>, Taniya Das
- <taniya.das@oss.qualcomm.com>, Imran Shaik <imran.shaik@oss.qualcomm.com>,
- Vivek Pernamitta <quic_vpernami@quicinc.com>
-Subject: Re: [PATCH v3 0/6] bus: mhi: host: mhi_phc: Add support for PHC
- over MHI
-Message-ID: <20260917074804.08818813@kernel.org>
-In-Reply-To: <20260917-tsc_timesync-v3-0-6826d5d2d527@oss.qualcomm.com>
-References: <20260917-tsc_timesync-v3-0-6826d5d2d527@oss.qualcomm.com>
+	s=k20260515; t=1789664803;
+	bh=thptWvz4OVCspoERVZ766KnGJOYRQWL/l9e0wco26zk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=gHGHTvtJa8ZqJi+mpWrczyhU8V7irl79da3wZEEQ6mBacP/g+M0kfS2fcL7yoNgmW
+	 wNbOs/ErLHpxxyG/ePxupieQ8pcFwj+9LCqG1SSeymQERPmWKLpt6j76+Vb5QeJf27
+	 EHi+hhIFnIHHgxTb0d25dU9hYPQzKhumhLBNtBMH0xxhpX5izYp+6IT/+CB7mLy0KC
+	 z9G1HMag6QDCmRNw6fsMzhju2O/5PR08BA2F9tBmVDWn5TjqITo4/5A204EBIPZ5/n
+	 9UU90blkT6hDsIw34wj5yJ0NPKIIjsjDoYTPyqzxhKmdom91s6/7B7jw48MpPqGeNh
+	 SmQGtSb+a/rDA==
+Date: Thu, 17 Sep 2026 12:06:42 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: alex@shazbot.org, ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org, bhelgaas@google.com,
+	jjohnson@kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+	mani@kernel.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
+Message-ID: <20260917170642.GA1026691@bhelgaas>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917065918.13357-1-jtornosm@redhat.com>
 
-On Thu, 17 Sep 2026 12:38:01 +0530 Krishna Chaitanya Chundru wrote:
-> Subject: [PATCH v3 0/6] bus: mhi: host: mhi_phc: Add support for PHC over MHI
+On Thu, Sep 17, 2026 at 08:59:18AM +0200, Jose Ignacio Tornos Martinez wrote:
+> Hi Bjorn,
+> 
+> Thanks for the review.
+> 
+> > I guess you are saying that some kind of reset *does* work
+> > fine in normal, clean VM termination?  If reset works fine
+> > for normal VM termination but not for VM crash, do we have
+> > any idea why they are different?
+>
+> It depends on the device:
+> 
+> - For the modems (SDX62/SDX65), without a proper reset
+>   capability, these devices never successfully initialize
+>   even on first VM assignment.
+> 
+> - For the WLAN devices (WCN6855/WCN7850), the reset fails
+>   in both cases, but on clean VM shutdown the guest driver's
+>   .shutdown/.remove callbacks properly deinitialize the device
+>   (stop DMA, disable interrupts, etc.), so it ends up in a
+>   known-good state even without a successful reset. On unclean
+>   termination (crash, force-off), the guest driver callbacks
+>   never run, the device stays in an undefined state, and
+>   without a working reset it cannot be reused.
 
-The MHI "bus" is the worst abstraction I've seen. You're turning it
-into "qualcomms corner of the kernel". The PHC drivers belong in
-drivers/ptp/
+Ah, so this depends on the previous VM tenant to clean up after itself
+instead of the host kernel enforcing the isolation?
 
-Carry this until told otherwise:
+That seems important to mention and potentially unacceptable to
+tenants if an issue in the tenant's kernel may cause their data to be
+leaked to the next user of the device.
 
-Nacked-by: Jakub Kicinski <kuba@kernel.org>
+> I will try to clarify this better in the commit messages for v14.
+> 
+> > Since these basically copy code from other drivers, is there
+> > an opportunity to remove it from those drivers and use this
+> > instead?
+>
+> Yes, that could be a follow-up after this lands.
+
+Sounds good.
