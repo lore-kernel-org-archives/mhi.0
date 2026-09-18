@@ -1,97 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8CE489FC9
-	for <mhi@lists.linux.dev>; Fri, 18 Sep 2026 06:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7BB44CF59
+	for <mhi@lists.linux.dev>; Fri, 18 Sep 2026 10:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789712958; cv=none; b=QuUA/o77FbyylNaVed+ArlBNHHXnCNIrqUE49HYbCgzGkO7tLLDUw4QkVSu3ktVcqvwyGdQIChvXVRHm1Usc42KKbm+ybjeid0woyB8LtkgQXeI5G7nORsmIL5XQJ8NH2AKHDNm9Cg5c1DVPyVLpywW7g2dejStydzN9G+qdeKU=
+	t=1789727561; cv=none; b=UkkJkH9SfCw+iu45I7Z6hTRXlmXToU2WuJ/DoQ+1ZogfsOw59KQHyCcgZRDjkeK8aWJITyr3LYsMzPxLx/v1Kfy84wpWCbaUj6M9+xDTYZtxP1Ixm+rJz6DPNHFxJ58yHl6m+Iy5RyxNMYilyI9nm36TegvrQyb02wHKn5teMyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789712958; c=relaxed/simple;
-	bh=4b5bv1z8GDsA/z+8sSO5FQpNdMBCC5lJWTJBBHIy7h0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=SeE9dTos6+3cJZj/4R9At0GnTvlot8OAVkEb3p+gFpXidHGl7GOnb0oLPTAk1w2P74I7IizdxyONmTE1jUkcsYZ3XeQH9QNEYcb7ZTLDoHDH/eJoB65XGG6IIVYnbDA5f7V+FifmkTVnQuyXKeO6/tp9COfwOX1+dpHnDof0W9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E9Jo9YLQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789727561; c=relaxed/simple;
+	bh=IiVks2OR53uR5Tf0kGzqWZv4p6VMq5OYyVw6pvi/a+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k/shtpqLHyNK67yfUCj5CBqGs9nBu5+g+0OwN6f8Ydcusd1NZtGzGBChVKDLbKb4f9pzr7Ji/m9Zb1WtbFTwyxWSa+Xrk4w/h33jwd6KSd+aJkVNFJTEyKGaPr6dGd/B7dOjNcynT99i7jOGPkjaobwhuynGRpbTAWX+Knr6pGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=N3NSNuZq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6LKR1yZq; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E9Jo9YLQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789712956;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N3NSNuZq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6LKR1yZq"
+Date: Fri, 18 Sep 2026 12:32:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789727557;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4b5bv1z8GDsA/z+8sSO5FQpNdMBCC5lJWTJBBHIy7h0=;
-	b=E9Jo9YLQZQeZkLub4VziICKCyVm4SHcp8aDvPVeN5O1+tpA8fle2bxa4O8XeZRPvic6H/9
-	iPiofx9vf7NTFHXxLDSKiustNe0QC18HE8Io/K/EZPgYq0F87mcpNd8c0nAkCiiK+fCMNt
-	4G8DzmsUB+hDgjxrmNOTmLfMMOfjWeY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-cOgYg1zCMzW2m3hJUs0LyQ-1; Fri,
- 18 Sep 2026 02:29:10 -0400
-X-MC-Unique: cOgYg1zCMzW2m3hJUs0LyQ-1
-X-Mimecast-MFC-AGG-ID: cOgYg1zCMzW2m3hJUs0LyQ_1789712948
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4150C1955D76;
-	Fri, 18 Sep 2026 06:29:07 +0000 (UTC)
-Received: from fedora.redhat.corp (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D9A6118004D4;
-	Fri, 18 Sep 2026 06:29:02 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: helgaas@kernel.org
-Cc: alex@shazbot.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	bhelgaas@google.com,
-	jjohnson@kernel.org,
-	jtornosm@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	mani@kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v13] PCI: Add device-specific reset for Qualcomm devices
-Date: Fri, 18 Sep 2026 08:29:01 +0200
-Message-ID: <20260918062901.7578-1-jtornosm@redhat.com>
-In-Reply-To: <20260917170642.GA1026691@bhelgaas>
-References: <20260917170642.GA1026691@bhelgaas>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=oUkDHu8kMJYkhE5GWf8SFxeb2fK9AKqXhep8PTdw2aE=;
+	b=N3NSNuZqMNxLwzOAi2odaicvS9kaT9TBAO5B1rqCPh44MMBHkh9QnbsrlXiJY8dTYNMXYI
+	y5PpfrRQoI73leBCs0kbCoyrBE2wCwmgaaeAtTizAD32XyeYnZutvjW9qoZVw3eWic3knN
+	J+fdEPMsbmUsTtgoP1eKFPv+F6Uy9/M7BBd5GL4gKxJTuzAWyaZ5Rzfa5FojeUpY50XAlL
+	H3rJHSDsWQZfMuAOhkAmW9aNb1iV+9fu14wk5p9W3azlUoD7SHEKVgbWqvuPRU62u2OjGA
+	vDrhfm7i7rU6i96T2tg6oi184+se4dV6wV3JPdHY8TUjpAtX4jSi5iYIlVUj0w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789727557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=oUkDHu8kMJYkhE5GWf8SFxeb2fK9AKqXhep8PTdw2aE=;
+	b=6LKR1yZqorYzXVJHalb3cINrVeOjSvbimbeUxoGYzAL4PmAghkoIRy5nGkxiD6WngGGcKx
+	wK72bOAyL+lDZeAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Subject: [PATCH] bus: mhi: Use %p for pointer formatting
+Message-ID: <20260918103236.LFOXxRKS@linutronix.de>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: 8HazGrNEYp5P73fyKTSZ-WSO-jXG_Y1EdN9GJQlzhZw_1789712948
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi Bjorn,
+Since commit ad67b74d2469d ("printk: hash addresses printed with %p")
+pointers are hashed by default and the behaviour can be controller by
+`hash_pointers' boot argument.
+Removing %pK makes it possible to remove its handling from the library.
+The pointers are still hashed so there is no address leak. The policy on
+%p is to not introduce new ones.
 
-> Ah, so this depends on the previous VM tenant to clean up
-> after itself instead of the host kernel enforcing the
-> isolation?
+Use %p for pointer formatting instead of removing it so it allows
+debugging.
 
-That is actually the current situation without this patch, there is no
-working reset method, and since it depends on the previous status, the
-host cannot enforce isolation at all.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ drivers/bus/mhi/host/debugfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This patch adds a hardware reset that the host uses on every device
-reassignment (device-specific reset is position #1 in the reset hierarchy),
-regardless of how the previous VM terminated. It improves isolation by
-giving the host a real reset mechanism where none exists today.
-
-The clean/unclean distinction was only explaining why things happen to work
-today without a reset in some cases, not a limitation of the proposed reset.
-
-Thanks
-
-Best regards
-Jose Ignacio
+diff --git a/drivers/bus/mhi/host/debugfs.c b/drivers/bus/mhi/host/debugfs.c
+index 39e45748a24c0..93f458a2557dc 100644
+--- a/drivers/bus/mhi/host/debugfs.c
++++ b/drivers/bus/mhi/host/debugfs.c
+@@ -72,7 +72,7 @@ static int mhi_debugfs_events_show(struct seq_file *m, void *d)
+ 		seq_printf(m, " rp: 0x%llx wp: 0x%llx", le64_to_cpu(er_ctxt->rp),
+ 			   le64_to_cpu(er_ctxt->wp));
+ 
+-		seq_printf(m, " local rp: 0x%pK db: 0x%pad\n", ring->rp,
++		seq_printf(m, " local rp: 0x%p db: 0x%pad\n", ring->rp,
+ 			   &mhi_event->db_cfg.db_val);
+ 	}
+ 
+@@ -120,7 +120,7 @@ static int mhi_debugfs_channels_show(struct seq_file *m, void *d)
+ 			   le64_to_cpu(chan_ctxt->rbase), le64_to_cpu(chan_ctxt->rlen),
+ 			   le64_to_cpu(chan_ctxt->rp), le64_to_cpu(chan_ctxt->wp));
+ 
+-		seq_printf(m, " local rp: 0x%pK local wp: 0x%pK db: 0x%pad\n",
++		seq_printf(m, " local rp: 0x%p local wp: 0x%p db: 0x%pad\n",
+ 			   ring->rp, ring->wp,
+ 			   &mhi_chan->db_cfg.db_val);
+ 	}
+-- 
+2.55.0
 
