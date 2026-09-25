@@ -1,114 +1,170 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C208314A98
-	for <mhi@lists.linux.dev>; Wed, 23 Sep 2026 23:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07BA39659A
+	for <mhi@lists.linux.dev>; Fri, 25 Sep 2026 04:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790207677; cv=none; b=rHGJR33c2L8J8XPCNddlJnpPIi2jTaGKS2Z+AI43IKmJ/Vo5Bx4vFIOPbhDdsaSDRrF+uXXfyTYbvMzKSXfaJD3qie28Zshue6Pcf6tfLxSIyiS7O2n6egk1WD99mrq5grt1DsfWJJzNl715ic3WSyB3nf7vB52xHpDs5gPkDJ0=
+	t=1790311085; cv=none; b=PwynPGwgVaGwQ8h4TC8GPwjU9dTnETX2/hsNGBAcdG/gAFRRJFCejbVVyuSyJG4Lu16aI9LvYSW+IJrOqF7VkQv5Xr6wzqgaa6qzPXhRVXS/zQtL3Mbku38u5xLKxoV1crDrFn5I/rhCgzxXbxO+5ZyYQuCLVYI7MDri3wBf1eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790207677; c=relaxed/simple;
-	bh=xSwgtNXTlPhev8I96YN0byX+CJhMkcrtEIVhpD2ZkgA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uc+ciENF/rZqOeZCASqtPTgLF0vH1NRHK3/XG5SrLwnalorKreJkj+XipAjko5LOioglzu3LbMuS7/Z1OmZZyxTpkAetbOM8IEPMO60bTWsw9yIdnYyHn1SkYYMTqICdQvBsp49wwjyS3BowmepdO28qeqzs4yBwnbKidqsqLMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z7Gsdh1d; arc=none smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790311085; c=relaxed/simple;
+	bh=Rm+eFKsHzqQH480oOqSih7J/Ux6X2xfrtti/R3C8/Yw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jTCjc69O9PfgU01BSXy0iSMGbtQZuBb2KsZyJdBXlWINchJEOub6guBm//flLe7nnqjbkPK9NSciLzaJdaadpkGm7wMJerhklSTvozbF5I1jToZ2TPIsIubdHBg582cot/aw1gdjKfY7zVSj6LUReFBCpfdJhkI8IBZABPvLqyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NBinP6cQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YkqDzL0Z; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z7Gsdh1d"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb76c9df1so14559721cf.3
-        for <mhi@lists.linux.dev>; Wed, 23 Sep 2026 16:54:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NBinP6cQ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YkqDzL0Z"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4YRpX3736777
+	for <mhi@lists.linux.dev>; Fri, 25 Sep 2026 04:37:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=L+QdfKIcld+95910MTqUEY
+	7FvSFas88X0wQustiaYac=; b=NBinP6cQWRJOSArbd2wxsXGLdpdu1MnB/mqNIi
+	hlkcf0rb7gX1uqb52IwcL6fUFDTZcGy2QNHCfTnQc2kBp0OD94j1aV1YN9R6o+/C
+	S6gN61wfcSyyHFixE3CbSD47xUnCBThbtNM8LzGH9PVnCPwVLp4Jchv0Cf5JA4rx
+	3gDgyr9Yhuu1ft/QhQR/8ZTrKahj535FQzyFkQQAHLeOjVwTss32wMrO84hmQFOg
+	c9KvjGvtWbJe11eol2hoqIgW1rWcc6cmSHJ6ry7smEjMz/A/kWnrk10OMjfqFfMq
+	pSJlnSyvhLyfnaR/IZMuE+bGATQ4gdVhooPSN7pz/P8DTUmQ==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw68e2p56-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Fri, 25 Sep 2026 04:37:58 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-30bcb065bfdso728100eec.0
+        for <mhi@lists.linux.dev>; Thu, 24 Sep 2026 21:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790207673; x=1790812473; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+YWsyN2G9LWwioqrNVsniXHUK5Ay6GmJ3BIrxT0YNvA=;
-        b=Z7Gsdh1dzyFpsqL8r4etSDn8ZZpHmsVsGtZVtf6XszotewuLOt78yWJAKQQ7dPYCvx
-         cdYVr6E0/XnFYrwCjIT+8jI/kCi+XSGbstAnWdLIcE6heJS+MopIiM5m1RbSo+zVlvi7
-         dAsW30SSL1P9+9XGl1yLH7YZ+JUJP3oCohMSVAVkAcRueS7SdSJzedTeLE/r56/3bCrc
-         VNBGqW5Rpg9FTNFTbtmFv8McnfVCXdsoUQNR64Zj5kgJiaCd5k6ABRWl/mvzGzvInuow
-         bf9eW1fIKqoJiJLRRgEHuNVBm1Av8o436b/7f7DoUDqyYQSQe+cJ/WL+SEivNk6Xu76n
-         t/FQ==
+        d=oss.qualcomm.com; s=google; t=1790311077; x=1790915877; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=L+QdfKIcld+95910MTqUEY7FvSFas88X0wQustiaYac=;
+        b=YkqDzL0ZeVue/GiRr8bcRr1RP1mROlHVj9xWFiebj5JP3faygB/B/fyLxZ/h3cL9BR
+         qmpyVTEGgINyLy6wNhqnsx/6ZZyMvH/rCIWyD0MRhOqN5GSl2miRUz6k9OLetuxEmU8Y
+         9AHzIa/yU9n0BG+wZ7o6Cu6z6oo10QHU+lhaJYSuE107aY1gU59JOjSPGinRx2egDAjX
+         wUb6bL6YhJ6Fh+9sX4XERd6hIHw1gZYMhz4yhYPV4qtpyUj/bF1Jrwemb/SdGyxlOxoE
+         9O2ioBkWoyvEYsFCqvdMuHHan5TjHmI6HH2AIhhQTfLWFJwCPVrSzhd6qBdFfFDeaE5T
+         RohA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790207673; x=1790812473;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+YWsyN2G9LWwioqrNVsniXHUK5Ay6GmJ3BIrxT0YNvA=;
-        b=aUtMR8cNiE/DiN7CeEv8KgU3fU2CKJDALOCG3uU6xXXm0j5FwyJttH12P9YKun7ZXe
-         3NgbOT99IbfjLMUgB3QoZ2dNiv3t17tspZlLJpxJTxmMVRUUJFA41j1QEnFrJE3HjYtU
-         tjEMddKPiwf3o5QpG+e93HYJ5WRhaPNkZ4mIp/0jOGPbhezocTWXjyq6t2fF5lD6bDqN
-         2/Lkj2dHUJcVqFF2hm3DRLed48Bw5hdBP+c9pMBMlQ8GAsDgn0hLYkdM+7x4qtN6LCk0
-         oTUqt/KqNOEVYIFLTmZ3oQgAwAqbjazLcxgRqPrtXajOpLhOh5txvTd3HGj0C8KZHTY3
-         Pjpw==
-X-Forwarded-Encrypted: i=1; AKwUvBwMCiw2zsN2IwUCHYPWmE7eJpfe/5J5hcyFHLM4J9nVgE4dP5Eqb/YcXBmJqqldFgHNf8M=@lists.linux.dev
-X-Gm-Message-State: AFuF++kfr078nPyT4EWSyr1gqz211f0yKATz4Stk/JxCW/pqD16RKVY7
-	Yv9VkreoVxnFueom89JgDc7tyvi1S3ccL7YXqxkJfDHjlLx6Fr/Sgnso
-X-Gm-Gg: AYBFou3BDT2MY3FicEB9btbwu8VmIp5Yd32LADCwankGbz5FaQLSvXcJdPfWHrAa4PO
-	haAAVJNJw8Rrzcjert3WWrPi8IznY5ZadGWTl6/AIlDTdn0RLMooLGvxs/0D/oVrIfljsgNHEhQ
-	ZS/FeYGfv6lCJVqV5ppbDfDrAbS7x3TDXXNNoSWURffS2TUrBred0zdvAXs7jdikNq78Gy7B4hH
-	b5WuSquQ2jFTI0RpAP6N5VgAt+bU/LGz0/kb0wkf9dt7pr4jdVAOmNPNMmeVq0LC24VCjIKq6IR
-	mldTRuch/R7hzSrnc900VYNIfqERWAy1h1MbAYq8eLJ3xDTQ+6OFiOuEwlMjiWDKojOZUDi4LY3
-	F9OhBAaqUgGiBstKr5TSP1jiDf64Mb5skQ/mfQmoMaMc7kW2UmX1nwsDbh5YBPg9fwUTNNCz1GY
-	0ZzfoIzymi5wmuXIjvQdaXOIlgrErRJny8rALx9o/ARvYavr7ZAWQC06v4ZySzhTtecVSkw7hvH
-	ny5JZTVeBnpa9HOd/l/xBc=
-X-Received: by 2002:a05:622a:1b24:b0:532:ca19:afc1 with SMTP id d75a77b69052e-532fb640a29mr12355801cf.29.1790207673650;
-        Wed, 23 Sep 2026 16:54:33 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9142183c40asm281206d6.4.2026.09.23.16.54.33
+        d=1e100.net; s=20260707; t=1790311077; x=1790915877;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=L+QdfKIcld+95910MTqUEY7FvSFas88X0wQustiaYac=;
+        b=QhhD2843d5bd24R0FyxjvyC0E6OwLeUyS/n9oac7IeLUbqGKL+x1pFHJDIFEWBM28f
+         SS4Ca26CQfBZnP7pAbJDa+6fvetipqgTt0gKv9Ef6Om6ajVfHI0L0MOX2HlDA7k7DdlA
+         UWKhX4okntddw2X4pQ8FgIBbGXd0tTIMz7uEary7Jv0P2WmU3zyKMuze36u4LnmyEnA5
+         tOi7Zrjcc/81DDUrN9L12uXk34YtC17ytqswKtYAgyCb9bRCVvkI2H4KBVy6lFcl93tX
+         1c1WlRn8NyZYeEuPrLJfsn526VJmUkgBl3ciK/B7c49+EFRdQMWvSu8EBF5CPMRfLnBs
+         bVFQ==
+X-Gm-Message-State: AFuF++mblHiF3xGSLpuQ6eiqfHiv0wyv3mpCbJ9Vv/JIehaBnLjwNYDH
+	3xWsfUO7dR7bSUwd7ycaIebW1YepiIJmLtCov46IhBRLl5zrGRX11mLqMEO/FFu4mdLGkefkSgj
+	psgHLvx61EMefAREFs/V3DPMAl5RmFsXxV80dr1NZluHYUx+QPa6EGQmxgJWciao=
+X-Gm-Gg: AYBFou0btnRikeWWS1rEcS74ZeNFUkdDfAJgJS9hVGtiLwKbi1J+N6pKhvJFqFdYYQO
+	Q4Ya0lv5MB24wmd8Pst+7d0FWRHrho+kx9tJ+QRiQfIMnWiq5n6j/x07pC7lHv77CczElSG0fLt
+	sBkzcuqPa+80ObDM1PbRem7MVIHGtyV6rT1J0+h3Q4nWWI/aIzwaIm9q3eps5rxBmaIT5Cdd1eE
+	yOmiu2wrvnf7q3+xTsO/R8canmcvZrFknZrTJoEbHj/QIAVy/Zl+cS4ViEAi+WOBGVqUhx9XGnl
+	bksT/JUP5JO6LxzAwrSZaM/d52cA2xvhoXkTQCSm4YvV+/+OOF2TLO+P/3UNiy/fMEXEnjKSEAH
+	XbygOjzw0vNfk9mAi16H0sAdVFZPnPyw8Ug==
+X-Received: by 2002:a05:7300:c01a:20b0:333:f481:2252 with SMTP id 5a478bee46e88-34001221c93mr3927595eec.34.1790311077290;
+        Thu, 24 Sep 2026 21:37:57 -0700 (PDT)
+X-Received: by 2002:a05:7300:c01a:20b0:333:f481:2252 with SMTP id 5a478bee46e88-34001221c93mr3927565eec.34.1790311076453;
+        Thu, 24 Sep 2026 21:37:56 -0700 (PDT)
+Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144172d8asm3053938eec.5.2026.09.24.21.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 16:54:33 -0700 (PDT)
-From: Yuho Choi <oss.patchbox@gmail.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <oss.patchbox@gmail.com>
-Subject: [PATCH v1] bus: mhi: ep: Use IRQF_NO_AUTOEN flag in request_irq()
-Date: Wed, 23 Sep 2026 19:54:21 -0400
-Message-ID: <20260923235430.703236-1-oss.patchbox@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 24 Sep 2026 21:37:55 -0700 (PDT)
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Date: Fri, 25 Sep 2026 10:07:43 +0530
+Subject: [PATCH] bus: mhi: host: pci_generic: Add DUN channel configuration
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260925-mhi_dun-v1-1-65bc07ec8a59@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAJb6tWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDSyNT3dyMzPiU0jzdxKQkUwOTtFRzC9M0JaDqgqLUtMwKsEnRsRB+cWl
+ SVmpyCUi7Um0tAEhoTIdrAAAA
+X-Change-ID: 20260925-mhi_dun-abb504fe785f
+To: Manivannan Sadhasivam <mani@kernel.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790311073; l=1392;
+ i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
+ bh=Rm+eFKsHzqQH480oOqSih7J/Ux6X2xfrtti/R3C8/Yw=;
+ b=w0zN+WLCdr5Qo5GVQBWAjdbhwyHAEYTRamkNoE6C6h3k4nqgDL2xqFtAJNbDRQAJceAeVqk6J
+ i3QPP3hqFc3AxwjUWgLhfQAh2tex0OH8et81LJuOPC+7jHpIdMiOITF
+X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
+ pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAxOCBTYWx0ZWRfX7tOp4rzM2MUy
+ aXQM5aV00xcoLVQp+Oo0wW1bD3IcZXtIGg2LWbaQvf/R/VCHb3BVmPgK2Pe3e8d1F/uMPBppZpO
+ nrPqh2Zl44E6RAwKIp6CzxUlw/sVBcFtv6LwcfdZfbnU9QXpNM3KcqxK+ZWC1v++AmrGsep5qlR
+ j8TLFIP7XTqsHnWxPqVVdaZKBv5nxDiH2mrEe4gogdzPv+Lo/F/9q+Ye4oSEldavi6gGrLWFK0S
+ oPPZdRtW4nA1Mz70IhNhos3AyRpwrNdDxKRAEHCANkaUprQOVbUXBiHqIzZ+V/mDwqLuwbQaPG2
+ 9aoaIkOdDmyYSJomUUKGSSCZ38BROc5M8aFNhP7quw+bQ/6rSopQNgFt//D1t/6yyyYhsLQfaLZ
+ qH1Ocm42tuviQIP6GVLEqQAX6aDlhCpUUFmm3MFtgJuRNvm2uefPYHQoYFelE+sD8kKOP+4PzS2
+ vjia8nRNw5pFJrS4Buw==
+X-Proofpoint-GUID: FRM2bk82tdsLwDuS8V4sPxoOmrxBW0_4
+X-Proofpoint-ORIG-GUID: FRM2bk82tdsLwDuS8V4sPxoOmrxBW0_4
+X-Authority-Analysis: v=2.4 cv=XawcX455 c=1 sm=1 tr=0 ts=6ab5faa6 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=MXGvhfJtNsboA4ndukAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAxOCBTYWx0ZWRfX0zSmI4svMlUl
+ aQtoFor7u9m2NWagEqfWcFQfdGkbW+rD4BXtRvZ1F2AHNXSR4EHhkj3KbqvfiO8KNf3bth89wv7
+ n/JwsRodggwQMs4XbvHJfvw7iB8YotQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609250018
 
-mhi_ep_register_controller() sets IRQ_NOAUTOEN on the doorbell IRQ
-descriptor before request_irq(), and the flag is never cleared on the
-error paths or in mhi_ep_unregister_controller(), so it stays on the
-descriptor after the IRQ is freed.
+Add the DUN uplink (ch32) and downlink (ch33) channel definitions to
+the Qualcomm modem MHI channel configuration table.
+ 
+These channels are used for transporting AT commands over MHI.
+Defining them allows the MHI core to create the corresponding DUN MHI
+devices and enables userspace access to the modem AT interface through
+the associated client driver.
 
-Pass IRQF_NO_AUTOEN to request_irq() instead. It keeps the IRQ disabled
-until mhi_ep_power_up() enables it, without leaving state behind on the
-descriptor.
-
-Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 ---
-Compile-tested only (x86_64 and arm64 defconfig + CONFIG_MHI_BUS_EP=m, W=1).
+ drivers/bus/mhi/host/pci_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/bus/mhi/ep/main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index b636e2c23b4d..cb4e921d9029 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -322,6 +322,8 @@ static const struct mhi_channel_config modem_qcom_v1_mhi_channels[] = {
+ 	MHI_CHANNEL_CONFIG_DL(15, "QMI", 4, 0),
+ 	MHI_CHANNEL_CONFIG_UL(20, "IPCR", 8, 0),
+ 	MHI_CHANNEL_CONFIG_DL(21, "IPCR", 8, 0),
++	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
+ 	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
+ 	MHI_CHANNEL_CONFIG_UL(46, "IP_SW0", 64, 2),
 
-diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
-index db7ee6547eef..da498570113a 100644
---- a/drivers/bus/mhi/ep/main.c
-+++ b/drivers/bus/mhi/ep/main.c
-@@ -1534,8 +1534,8 @@ int mhi_ep_register_controller(struct mhi_ep_cntrl *mhi_cntrl,
- 
- 	mhi_cntrl->index = ret;
- 
--	irq_set_status_flags(mhi_cntrl->irq, IRQ_NOAUTOEN);
--	ret = request_irq(mhi_cntrl->irq, mhi_ep_irq, IRQF_TRIGGER_HIGH,
-+	ret = request_irq(mhi_cntrl->irq, mhi_ep_irq,
-+			  IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN,
- 			  "doorbell_irq", mhi_cntrl);
- 	if (ret) {
- 		dev_err(mhi_cntrl->cntrl_dev, "Failed to request Doorbell IRQ\n");
+---
+base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
+change-id: 20260925-mhi_dun-abb504fe785f
 
-base-commit: f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
--- 
-2.43.0
+Best regards,
+--  
+Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
