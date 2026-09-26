@@ -1,77 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328F63A9619;
-	Sat, 26 Sep 2026 10:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D7A3E40EA;
+	Sat, 26 Sep 2026 10:23:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790417935; cv=none; b=Fi+BEmn/p3WsSkKltVjF81Ep4rHDbiYPVSItwKilO+HAUfb6bVdaoM9fDzpu8EAVu72LPblSP9GMpkfQxpeky26tHloCxr+Zgr6EhHizQqEQ0L0QBGdpA+5RxSDkxNP49arzzHm4HyIv2tFmv3V6KmvMuTS2eZDkgvQcW9O/GnU=
+	t=1790418192; cv=none; b=AUs/CrbwtxU5lXxosMLV4bg/VKMg23L+p7jP/StBT6g0fxSPVN4KKFT27mh6rHZp0bzhA+vLCuF02ARig7obwcYkVgDpKe/nRbDd3qmHhRWKptNsboliGLYhiuIZPos0MXnTzHAh/DO92c/Rm6s3WYWeH42808nGysRVnUd0K9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790417935; c=relaxed/simple;
-	bh=iEk7V1/0WBxsUmi09StiNddndOWxuQdkmi27S9qY7RQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fi5q2yVPJnzNWmWPuYihexiUyuUmxoEWxl8jP2sN24Ny6q6ujZgIicdg/2PuzufehJyIVNTkPtyWOQWHdUoNMp6Ko4kCezJ4MupF0U5ATD5VXoUJcL6W5s27O9m5uN/xzAQpYhFnG2uoKfsBfM7jeoNoRNhz1ljRa1zKMvfR2zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W60/ZOSw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790418192; c=relaxed/simple;
+	bh=EZfAUbqYJ1PM3Z6EN+GlZo+sS1PxkN+Tq7cm8zBSYeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3Nd2UpqqlWA8zSid/VpRvzM4AvQXht3ikI98YH7zHpSfwxlCXFWUq12YXKhhBd/PUhcp1jnzMjBaW6EAwIHx7TESIWkcnQge+NitfV2NjK2xQB3FAzNcMB94u0nHDQA+8raJLCNVW8lSN9uvT1BqMc/wrgBKkSvpB1dnH3ct9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KdzGwDGU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W60/ZOSw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12521F000FF;
-	Sat, 26 Sep 2026 10:18:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KdzGwDGU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164451F000FF;
+	Sat, 26 Sep 2026 10:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790417933;
-	bh=QWK9woV9CptYmbcc53OWuTMscc/CJL5LLAF/moZU1Zc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=W60/ZOSw9Cu1aLUmf/Ch6O5Ovd6odSXqJf5T9i0IylRZ0ENn4V42b6Qf1Ek3z9cc/
-	 pwhUaP5olsdy+cgw6I17OBDz9nGnFa3lFLlyy5OALzsqb28MFmdKKhXVXl6wZx5Zie
-	 5ZqMozYcHALb8DUL3AA6CwVFJNgKTraOPw1SGwMAB6eFq3M2Zq8YAQv8VE1Lt5VXzt
-	 vPTCn+oHUrxZMPOYwjIGYYd4MTf3zWcthxf2jqCVLf8l34EExejotQ3UiUNai+MIDo
-	 p3Rsw6hLrCsiGRU4/HIf1+KUPyNLUcwfv6NLaz99GSV61Z96U/06tXD73nSAoWZdAA
-	 9UbNp9fgm54dw==
+	s=k20260515; t=1790418187;
+	bh=ncaWjkTBpsuz2fmg5NCaoCKERmm+zRTCeF/S7YISaZU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KdzGwDGUQ/CbrtXngjy9wN2DpIyGA7bqJlNjVHqrgj5+sH6omk1FadPXcgDRfdkqx
+	 1/+SAInFGI/4HDg7Y6HqjbbxPYau9WQ5rlXA3NtF0DVhnzNxJRXvji8yHMJlxKuAXH
+	 Ci+62rMKd2FwTERWLgVYf+wiHQPzt7K+0xA5BIoWvjHPG3r7a+dlU5uGI6un/oFX9M
+	 sVWsdHOBDxvcAyHEdG5x00PWOpRG39Nt14TD4gAxlSBUaDbM3KzPlIX03QqHKYTyFc
+	 5httPN3HK6Kap2FXr/aB9q0Hv3nvYdCnN8y+0uelNMUpt6nRJokxUVq+FQvjx4S1e4
+	 E+LuC+ro1JJGQ==
+Date: Sat, 26 Sep 2026 12:22:55 +0200
 From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Alexandra Lu <alexandra.lu@nokia.com>
-Cc: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>, 
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260807143353.1932381-1-alexandra.lu@nokia.com>
-References: <20260807143353.1932381-1-alexandra.lu@nokia.com>
-Subject: Re: [PATCH] bus: mhi: host: pci_generic: Fix runtime PM imbalance
- for no_m3 devices
-Message-Id: <179041793127.232689.3792166271248903025.b4-ty@b4>
-Date: Sat, 26 Sep 2026 12:18:51 +0200
+To: zwq2226404116@163.com
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, quic_vpernami@quicinc.com, krishna.chundru@oss.qualcomm.com, 
+	jeff.hugo@oss.qualcomm.com, Wanquan Zhong <wanquan.zhong@fibocom.com>
+Subject: Re: [PATCH v5 1/1] bus: mhi: pci_generic: add Rolling Wireless RW151
+ 1501/1502 PCI IDs
+Message-ID: <36lpjhgapjitezxr32igozbwcy5vyqzcoqes644p2f5dndsm4y@kqf3f5yue6hs>
+References: <20260702100013.545593-1-zwq2226404116@163.com>
+ <20260904044612.6334-1-zwq2226404116@163.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15.2
+In-Reply-To: <20260904044612.6334-1-zwq2226404116@163.com>
 
-
-On Fri, 07 Aug 2026 14:33:53 +0000, Alexandra Lu wrote:
-> mhi_pci_probe() drops the runtime PM reference taken by local_pci_probe()
-> only when the device supports both PME from D3hot and M3, but
-> mhi_pci_remove() re-takes it based on PME capability alone, without
-> checking no_m3.
+On Fri, Sep 04, 2026 at 12:42:44PM +0800, zwq2226404116@163.com wrote:
+> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
 > 
-> For a device that is PME capable and has no_m3 set, probe therefore never
-> drops the reference while remove takes an extra one, leaving the runtime
-> PM usage count one higher after every bind/unbind cycle.  That is benign
-> for the device being removed, since the PCI core resumes it to D0 on
-> unbind regardless, but the struct device outlives the binding, so the
-> count accumulates across repeated cycles and can end up preventing
-> runtime suspend altogether.
+> Hi,
+> Please find v5 on top of v1/v2/v3/v4. It adds PCI_DEVICE_SUB entries for
+> RW151 sub-vendor 0x2099, sub-device 0x1501 and 0x1502 on QCOM 0x0309,
+> continuing the 1500 series.
+> If you have any comments on v4 and before, I am happy to address
+> them. Please also let me know whether you prefer incremental follow-ups
+> like this or a single squashed series before merge.
+> Thanks,
+> Wanquan Zhong
 > 
-> [...]
 
-Applied, thanks!
+These comments should go below --- after Signed-off-by tag. I've fixed it now
+while applying, but please follow the patch guidelines next time.
 
-[1/1] bus: mhi: host: pci_generic: Fix runtime PM imbalance for no_m3 devices
-      commit: 95601e9948b42f82600ff2d9e0c2f699a067d561
+- Mani
 
-Best regards,
 -- 
 மணிவண்ணன் சதாசிவம்
-
-
