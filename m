@@ -1,315 +1,218 @@
-Received: from outbound-ip173b.ess.barracuda.com (outbound-ip173b.ess.barracuda.com [209.222.82.107])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2A63F075E
-	for <mhi@lists.linux.dev>; Thu,  1 Oct 2026 23:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.107
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790897855; cv=fail; b=onQZNQVdykHFv6nYWfp4keE8fZR8bBrjDMwPnSasiw8VgQV7ePuuuEy23oRqsMc9dzJswvANTNReqDUHyZYYlcvR3XniXd4YEaYobmf2P4o7mrHbMKGQsBrgBSnYtLNeO3dEoTgQ8sVHWOIeoGvTp2+zgT7nFRBjwO0TpO7EPzc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790897855; c=relaxed/simple;
-	bh=PmpNLqE/CIMVAZz2Or7Y5mHMpJoCfKYY/caakvvOMSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=chvwAthUJTJFFLz4SFYjJLA0PTPEEbW/vBV4XGfzWETvrDy87AkRakOWiOE/FSk+E/I4sYT/8t4+5vzX24oaSJZ1BmWlPupk+WTZpQ59XUZ4sJqjbuFoVk3j+XyQH8QQTlHYngIKfDrdFXD2/26ec2u1vbrQNy6ni3OuOMipafE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=n7CWomry; arc=fail smtp.client-ip=209.222.82.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BD14D8D97
+	for <mhi@lists.linux.dev>; Fri,  2 Oct 2026 15:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790956647; cv=none; b=HiDUteOj9d9zNXvy9dDDPSyVflAe4YbbbOlrDtUm6vkEGStuZ/EJZgjgVcLl0B7U2b9Tk7+/tPz9EF/NpiHP0aLAlRcMaKFUbhIWPHC2AsX4J4hVyqkt/V4GDtn4Zf6hsiDIJT6Z/y0wBlAISICm9LOcOS/MYbqiH4N1cWGm/9E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790956647; c=relaxed/simple;
+	bh=pffDxeTqTUR6LQjSZCkYskAt9StsM/o4yFboMujZs9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZoPL00ruVlTeB+tQzAJM1qRa6zM10yhYRVGcjyk4VC3idq1tlgkXm6y24018od6sqxVHMH7N90DZT3gI/vzT4noLoSXUk8pyBa1wb3b/Lb0WADlgSFWVb+ZAoCSgw4cmUU1XmyZM7rHhy+KgYWdtlzK9lHjAj1T+sLJeppvzPMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FtqAUbXX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BNLQ5V9u; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="n7CWomry"
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11023090.outbound.protection.outlook.com [40.93.201.90]) by mx-outbound44-199.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 01 Oct 2026 23:37:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rCvBsxe1JVlQEmao7Ds5Peg9WAeYlzgT2yYKnSvmz7Tlk0oiCVCENSKuTBm3atBCrB9g2x8h+qxeTu/e9MKDhyvYOfOmJagv5mJ4xs8InxF22tIS586JvWisK7yzgmJGpFT2qZ8Two0SWRlLLwWAAzcatxCqbKFjbPOzcGKeOeNwNazeuZwphl4RO/v2dDiTmEJyFEdA6GfzzHTGBLZMnZoiL6yO/7nLEx/JFhC9C+/Wk6uKjrsTf4ECkddfko03g7LRzFle7Hghxym4B/aVOJr8/06pKv9RAhtwOAInzoo8IXON6GQovdCjy2ru7pXn6a2nbAbpOH2X91vvKNayQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G1AgB+1hhB46nWRv6L0bBGQT5jKvd53/V4mCG9M2NcQ=;
- b=PSgYYEkR2zTVkQDoYHtlScF2kDzPhzp4hmyF8bg32ix0uXOGj1O/lpx8PRtn+VXRK1+NgQ7JwbGSD1dCm3f6/vHeOAdZjjZE6S7vt0MKFUU/91wflq6/YOKRl0CfSVGUzTlm8Os2uL3Za9se55orh7Yex0yZqsgtX0BKed75owKvT92GFg8XkeFg9+X7iCzD0ly1jevx/9uZMNyHmVswpb3i8qR0x9E6CqAD2/Am7a+C9wtGUzgpYAFFD3f1TefluxAAi6Vlgg5DkZGXdJ5aQ2nXj0ACOy6Pi29fqBh7pxehk7lKb5pwbjQbP31ZOc1ssRvNgwfy5elMno3UrexubA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
- dkim=pass header.d=opengear.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G1AgB+1hhB46nWRv6L0bBGQT5jKvd53/V4mCG9M2NcQ=;
- b=n7CWomry6uWDtkb16QXLItz0NYhAJO9pqeN2LLzSrP1V4RfnTwI/+UdkDpIKriFsgNi9uGhbeen9FApT5RYz1LhEmbkR4259tturcl+Sr75ov5agkQxu9keXXl+Tr71AafHCPv6zymqEgzE8AKhZrIuWI7SITx7v9nh6DF9y6GMYcbKhVxMpL8hQ2HjmiDnrT9aNFl8yDFeVGaVhDPJyGmmN0/Q+PHI7igkTRRVvwxR6Gq+t7lYGYKkHbHfTn+cA21GzbpfbY2C+Blpcb8oQZ/clND8WpfAlGqsKz+wp39OgxeQ5ptjMr8wrjPxU+wVa3L+J163lmA6ul0KWYBUfVw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=opengear.com;
-Received: from DM5PR1001MB2089.namprd10.prod.outlook.com (2603:10b6:4:33::13)
- by SA1PR10MB6589.namprd10.prod.outlook.com (2603:10b6:806:2bf::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.7; Thu, 1 Oct 2026
- 20:46:20 +0000
-Received: from DM5PR1001MB2089.namprd10.prod.outlook.com
- ([fe80::db19:a822:6d47:cfff]) by DM5PR1001MB2089.namprd10.prod.outlook.com
- ([fe80::db19:a822:6d47:cfff%6]) with mapi id 15.21.0451.014; Thu, 1 Oct 2026
- 20:46:20 +0000
-From: Peter Hunt <peter.hunt@opengear.com>
-To: loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com
-Cc: johannes@sipsolutions.net,
-	mani@kernel.org,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	netdev@vger.kernel.org,
-	mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Peter Hunt <peter.hunt@opengear.com>
-Subject: [PATCH net-next v6 1/2] net: wwan: core: propagate modem control signals to port drivers
-Date: Thu,  1 Oct 2026 14:46:13 -0600
-Message-ID: <20261001204614.3481089-2-peter.hunt@opengear.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261001204614.3481089-1-peter.hunt@opengear.com>
-References: <20261001204614.3481089-1-peter.hunt@opengear.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0239.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::34) To DM5PR1001MB2089.namprd10.prod.outlook.com
- (2603:10b6:4:33::13)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FtqAUbXX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BNLQ5V9u"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 692FGwIQ1246631
+	for <mhi@lists.linux.dev>; Fri, 2 Oct 2026 15:57:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	STbt/EQ5IYGf9hd0cIP+poyGBZ+Wud5KuSCXYG9Stw8=; b=FtqAUbXXrEynI2sH
+	U5Py6Di06ElBCw/2qYdT+TROS5RUYyxFYCDp4gehd/VIJ57MthOzRS8Iqo4wquyN
+	CuaeIVFSfvY3pzslvIvFsUl0rsADCooK/hx2lwUH6elqFyxT7m4lwhDzcfR2YUaK
+	ZP4SIHHqMHTYt5f/CRx4Wy3co0hk9XipUdR2vmoetdQqJrW1pZs1Sk4XNOE7oTpo
+	ytdSQYQUKXZoyPzLgB6iaw4qDWQaeRcInwPlDzOqIzxpMix59sfXTzeeSQnkikIR
+	b+CZTtq833n88kJP+k/j7fhauCPj5hvIpFWGEvacrU7nnO3akIbCnW+rGn7FROd6
+	Yh45sQ==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h2f3d877m-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <mhi@lists.linux.dev>; Fri, 02 Oct 2026 15:57:24 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e8e864ef0so73984a91.0
+        for <mhi@lists.linux.dev>; Fri, 02 Oct 2026 08:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790956644; x=1791561444; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=STbt/EQ5IYGf9hd0cIP+poyGBZ+Wud5KuSCXYG9Stw8=;
+        b=BNLQ5V9uMG6lROjG94XAAiyH1FEEh7t4KyGtGnFkMRgMl1kKI5cMa1IxC2IpIca87a
+         4r0N2oiS2DJpOG2uE54+rxgLtEYWYBdmyv+DvsBttDpjTBfUns7vECYs7nNV9hnoF6Rk
+         McQoCSGoM8Gzc3PD4zINZ1CFZ214lN9UhpcbNuYOMz97XBclbZfEGMTZ+omoLP6Nh/C9
+         LY8tGFs4SW/TQH/nkuGB41dnRpB0NfaeeAXT7HXj6lx9+cs926UfQysovprY2R/Lz7b/
+         bAgCrilNv0LHvoUcI9V1yHP0oz6GjPklNizczIEdRrP/g5XjWZsdzxDEew+VZazv6pJM
+         OfFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790956644; x=1791561444;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=STbt/EQ5IYGf9hd0cIP+poyGBZ+Wud5KuSCXYG9Stw8=;
+        b=ItnenxUOvQiyIDhhLGt2Wlx/02HEFCmURTO1O1xvF36ELwuHAnceZLXw235Y9av/gi
+         3UxVAOzQR6wkZsFCsaCObIcCbokI99u3sR/XswW+w7lb6/gg/CL0YwB6om82Rn4k4HAh
+         0IfgIIL6Cm4loc6Ls0dZq7f4V/VIxmkPTymoWwfNkwnbPzDV8z0rvXEbLkPcGcmcrJ2d
+         jWtN/6AhPwaSfkctrjeI6Omr6HIfqJdNQiF+oHoOdATlXOX6zPQ1q6ALr297GIh8tWIT
+         d4GQE/u7N4nCmzlEjHRnqXX9a/DSOIt9dAFVlHNQnADCN5UQPJvdwELW3qFaAxt/212A
+         naZQ==
+X-Gm-Message-State: AFq9FYIfFJ1rvMwzBP9LZBM0T6sarJj0yK+bp+HhyvBX918mwt7EDyo5
+	kz1oiyrQoWLROOAGlvFz3/qlJbTQKLpNQ7RUUXwUuxN/TQBUUDs7V11mOXrbvBImgZOUBIADSdG
+	typZ5LFzqxEuSqdLbKNGxuna5oM1nDZv9jFScQ3wCBzgPJbfakbRS1Y0=
+X-Gm-Gg: AYBFou0bY4pVNkp3T7UcEPOmJEQrNUZ9M5yu1ybzo7+wwPsagNCs6eJerDA4ubFftt+
+	Lw8gWK189H8N1wRweFsZMsMDTPqFD69DRiG4ob0tSbKukrqVnbg5OgGPMhB3auiAJf1jKmFW0yW
+	gCz+IwRVbJ7FhsDWKAqR3ldVyn1dYg+yVIBCsAtAID0sNUtJzrMFdOloETjJsEwxt82BUgllrLR
+	rSsCTyLzcDsJl1jN3u9kEGokrJ1NoqhFC/bxqbvzSjy0hH3bPQfAmWbSTOEieWhsqLul6HpQodU
+	4KMoH2gsnzckXNegE5Sn/60R/1z1bDNn4byLCiv72w3FqZruwEx9ji7+rzCI3D+fCouGVN9QKMH
+	mRax/rD+fQq5zJRQvsVVQrv9MJVWRV8NOo6qPi3P+ErCtLABIXg==
+X-Received: by 2002:a17:90b:5805:b0:3a2:b04e:8086 with SMTP id 98e67ed59e1d1-3a6ceca1622mr1531887a91.44.1790956643929;
+        Fri, 02 Oct 2026 08:57:23 -0700 (PDT)
+X-Received: by 2002:a17:90b:5805:b0:3a2:b04e:8086 with SMTP id 98e67ed59e1d1-3a6ceca1622mr1531876a91.44.1790956643331;
+        Fri, 02 Oct 2026 08:57:23 -0700 (PDT)
+Received: from [10.226.59.182] (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dd0cd76bsm1943615a91.2.2026.10.02.08.57.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 08:57:22 -0700 (PDT)
+Message-ID: <2cc22f12-25c2-4e01-9375-653b39d8b62d@oss.qualcomm.com>
+Date: Fri, 2 Oct 2026 09:57:21 -0600
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR1001MB2089:EE_|SA1PR10MB6589:EE_
-X-MS-Office365-Filtering-Correlation-Id: 744da8f2-b012-466f-5662-08df1ffd0c47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|10067099003|56012099006|11063799006|18002099003|3023799007|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
- rht+7ZXTGvavGOQ3IKqW7Pt8jQtlRyYFMHB7CLsb0taUW2cC6aIJPWtkWFv9twFSo+Qikk/WmlucgpFaH0JDBI7DP+PWD78VeA5FyOu/0kCyAvx5MDJnPDVUTaZ8pCQIyzM4H7baGKxPeR2+3rrNurTYeCCN+rfC8XEDYvrbe+7XFl+booCXqBecqwYBxBgJuODFrAheVHi2irNq58GroMIN2g6N2JlTnCX6lqAOmhNudXvpfUyXBTwb4vbELwMN+z72sgVEMZFWLjvGO2SHvBCt2srSuq7l7HEchZ2onW06l5bcm7f2Ga6hZgmvx4E7QIQCiaMMVQu6KEsfTvPiHhZK+I1jUbwrXEmznIg2qjoY5wGvxL0qDoE88rHA0BBWztyC9vHGq41qt5BoAdPLccg/Pc099gT1kDcUiiZQRrbfEwgOl3cWOqoRJAAvUZLhivnz9DpsUhu4Jj7uP9ilCWRWGO1hnFmKKDwHnenVNWjW5TcZPfZN8jfVIIcDNK2OxI0UMyvhnhoxvCWYREQX8r7UlWnSysQ4Z1NMdl0Nm6ssF3atEq0wd/W7hp4SjENqRO4KvxkcNfcNRBQhUESMbx+k6t3Q91S6bCjzm6GPzS0Inxy/zbXC9WncuaV6n0yRzGppMrntIPUi3E0qIeV+uZa74gL4AgpNQ+M0E22uYgg=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1001MB2089.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(18002099003)(3023799007)(22082099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?88QUUsvUGb2FGAXzCDCHbmk6Sw4vTHMWrvp4HFWU1OTLjr14EBsRzerk/a01?=
- =?us-ascii?Q?KFPNi6niOplqdD812J/a8dEQaNqwhj8SeJnnYBXBB4BKeT7MpVJxUpNzy2KW?=
- =?us-ascii?Q?iyhYCeoDrZ59OHkuQjhiJgBgvEGU5Sr7gHI5cPfh2z4wyigWtPU32gySsvdK?=
- =?us-ascii?Q?ZcXjCFRe/uh+kYiXed/q3kcyJ+ENuGx7tWWqYNE8CIe8fo/WZo/9dOOsPvYv?=
- =?us-ascii?Q?uoqUKJkOWsIfmwn3Bd0E1d5mN/UiADtSkj+L0b6A3+YqKvwiucSFWgGPLY30?=
- =?us-ascii?Q?VD7U1kEFA9tTeAgHs2byHHHgpIpgI4eYgnQdYN5sDbqmQ/vLD96ApKPcHPOJ?=
- =?us-ascii?Q?4D0wKvOq63j7BXif03ju3Ql9wAO1zW4HuODL6OCXGxabMnYJ7DevXY0nSMAe?=
- =?us-ascii?Q?DWKc+4VL6IvXcW50QWNMfKgtZkqJeslnMTiyEqzvQQhAq0XRxo7l29fVRG7S?=
- =?us-ascii?Q?rnxyQVLDKAkX7qlgZ6fRy68gPjuD2NyqsJ8qdK4utStVf8tFHHoXcdiZKDtl?=
- =?us-ascii?Q?Hi+sgM+qJ3jS7g8ZUll6HgbxajF6TmflKuEjdX/Cr43f5m1y3TVKJ+9sSKWp?=
- =?us-ascii?Q?SR1/Nyew/k1ahKEc+znDM2RafO6IVY79ojM0k3QplkXj6YzbXo1++WXLZ4J+?=
- =?us-ascii?Q?xN/ZuBzu33PPeKmzhpuDHezHaIRUVdGIdwH8We2fAvHv1GYhkeg2pxxhGuii?=
- =?us-ascii?Q?YMWuuhKIoDFAwjXRInSRlhmwc8tWf0eKA0xVIiC3IZ4WQeylotRIDHF5PN4K?=
- =?us-ascii?Q?2O37Ke7wVWax+RLExMOaT/9Wo0vRbv9jtblTQbA8zIeO/wx48JSrx21tTmN+?=
- =?us-ascii?Q?3s205TJzV9TUhQle04ewuda/RPHYYxT2Vh/KRiEj6Uj04GmcUYWmm/6z4Go8?=
- =?us-ascii?Q?qJdPGFynbvT8JYDiCLvM9p6kWz4RsGlgP/lIfOgfmQv281TGbxxS3ePobLeI?=
- =?us-ascii?Q?ecTLcmugrc9w6VQDnGQBndlhd6rTxDO/I+U8pd0Ox2AzTo+Yiech8beol+B6?=
- =?us-ascii?Q?/LJIrIlpr5344cjR7Z3L20m9mAHLLd62rSvsi3sfBIlO7FWoIsHFuJo0aNuv?=
- =?us-ascii?Q?Ed01tgwg3tLjO2o4C/J814xhU/A0cwAbogBdPhY9iXsGb3QPiPcMCMRu8vZa?=
- =?us-ascii?Q?jTanvv7jSgwzKwmYOARSO3rHPGWyJ5NwO7dq94DQAitr/l1iPyRw96R78/Qi?=
- =?us-ascii?Q?9puSKEb+A9GZ0kTiQHHhW1cFHuBVb1eNf8R1Zil9eij2NcGmGBUBCh0rMN+C?=
- =?us-ascii?Q?22XeT5+qru5cMOX48sDp75rhJRHUDMcA58xzDk3ibeT1EGbN6miRgMqBfxoT?=
- =?us-ascii?Q?C1EGSk0wxHNHfsaCufiFnGwf8TlQt5A80o+Cw8Swh+xrvDkIXaL1h3T/dzvI?=
- =?us-ascii?Q?+LePdw8iKd0kwX27Bt2njeSMhbjy1kSh889a8nvebxpQBm0608WF5rJ1XlND?=
- =?us-ascii?Q?+CYIDqkcKUktn0UcqndmwPF5u6WZ0Qf5QfhZrR+ptOVStHmZflbU0S5TfXG6?=
- =?us-ascii?Q?RbLMOxbLSq4Dx0MAnTpsj7BUuybZ0ZEPOIUCzC34PHOQCrrPKv/Iw+IVs+Ka?=
- =?us-ascii?Q?BP4ZygZ2NcgQcNv/DcnhpZ8x1lUIg0hjEjo09/HMN5loagg+22qSYhg1kRY9?=
- =?us-ascii?Q?olCaa7JRBFYscYnK2QO0FuOZOlUcoPn61AzRWiDqRRfzDg0FKLy1284UhYB5?=
- =?us-ascii?Q?7ehNaX+0orkQ3f5HWjz/NfJZzeQRod/FT+E+Z+jn9d95MZ9G?=
-X-Exchange-RoutingPolicyChecked:
- kNgtwCimsQyZkw8x5bYUqAQOb9CPJ05iWkQjkAgkrwX/wliTLuclEm2eiD88UN45Y38ByChJ/KmI7miE2fSaOQfuqKDlTRBh8kzgLGmGI/SmmrD/QangmrWfLSN416ssbzY5DTNLSvzj5dJ89Y9KQev8iWoA+X/jXSUnR8uwT4TYrjTaecIC/tJyPAjMkCfGitp+g0FQhMA1dm/tGvyRvcQBD8/vQniyxC+tcEIeewKOzvhI8E2qxO7+X3V+NjSsxFvJ94ATzFwFiqcgOisZEjEsOUOXjhQPoTNxjRV8tbXFUbQBpWums2pTmr55x4abHpOR3PnbzUuq1f/+YsWhAQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 744da8f2-b012-466f-5662-08df1ffd0c47
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1001MB2089.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 20:46:20.4723
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rhuzEsKLwPpH48vykmom9PtbABVTK1CH92LV7l1MqpAwXuePAq4ygnV1LxCGL9gZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6589
-X-OriginatorOrg: opengear.com
-X-BESS-ID: 1790897850-111463-20686-7526-1
-X-BESS-VER: 2019.1_20260924.1519
-X-BESS-Apparent-Source-IP: 40.93.201.90
-X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVmZmBkZAVgZQ0NQk1TTJKMUkyS
-	gtKcXQLNHQ2DIlySzJ3NQkxSDZxDRFqTYWADtkG2dBAAAA
-X-BESS-Outbound-Spam-Score: 0.00
-X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.276535 [from 
-	cloudscan20-190.us-east-2b.ess.aws.cudaops.com]
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------
-	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
-	0.00 BSF_SC0_MISMATCH_TO    META: Envelope rcpt doesn't match header 
-X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND, BSF_SC0_MISMATCH_TO
-X-BESS-BRTS-Status:1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/3] bus: mhi: host: clients: Add loopback driver with
+ sysfs interface
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+References: <20260908-lb-v6-0-66755ceb16cc@oss.qualcomm.com>
+ <20260908-lb-v6-1-66755ceb16cc@oss.qualcomm.com>
+ <xji3thurj6lnez56opmh5xoxzjiwtlh4o5qd6iqokbqkcb4rxu@mblahsfmtioz>
+ <d05a60d1-3787-4318-b28d-9901d7fd7a00@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <d05a60d1-3787-4318-b28d-9901d7fd7a00@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: fERLIMEZ_hpD8RqLHSTHDVN30etKGLk5
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDA2MyBTYWx0ZWRfXysMoyAUX5wQK
+ P67mDdoGfTsXn4UivJ/h71Tq4wwzPjamNSu1Aop++TIFUEU0eD84/3NTpnnrRIyR1f8bA6nDvPc
+ 3RTwX5t217LvlOOf2jsn/phmhzmyalY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDA2MyBTYWx0ZWRfX2KNGztaDwRzq
+ dInuWWfeLuuCBihUKe0ZlFg37IK6/4D8gKurRQ5NsXEOaKS3M0tQ0nCy/wqcEbWpjq0Ivt48Kza
+ nGWUcCIYQyTPYD459/if9/LTFNqki8okovcxdlsN+l30bdR2gl7MCZis7zdEpreZQA2e/7RJ4qj
+ Mzu9+3AaM5Kz+zyG/3rjX7URJyao37cc4WjbOx/yRtIfJhhM9vdMfwv10HnZvbdDHcWqptReiWs
+ 2Q6z4tDK6ePpA6RjMuQz6pV4c28+KSQlcqG1g7xvN7sj9C41EAxHyiJXf4cLcshkFsjlowuUEUo
+ xn7ygTi0TaQ10UdrkWqxTCmFSnz0Wi+6nOHcqHnw+HcE88g0CfbRMsKwl5p1Ze7qarVURauqANQ
+ SCLxHY9CQs2iKKf5tYNJEB/O7fZtBc2GZ7FrnfxSx1yp7Dc2ga6zfYr4NZQ5wBOL7xSj3hqawiD
+ 9WSuKkm7uAprv5MU8jw==
+X-Authority-Analysis: v=2.4 cv=L9SI0OT8 c=1 sm=1 tr=0 ts=6abfd464 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=5RwuaTuKtwK3GDd0iDsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-ORIG-GUID: fERLIMEZ_hpD8RqLHSTHDVN30etKGLk5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-02_04,2026-10-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1011 phishscore=0 spamscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610020063
 
-The WWAN character device emulates the TTY modem-control ioctls
-(TIOCMGET/TIOCMSET/TIOCMBIC/TIOCMBIS) for AT and QCDM ports, but the
-result is only stored in port->at_data.mdmbits and never reaches the port
-driver. A driver therefore cannot act on the host raising or dropping
-DTR/RTS, even though some modems depend on it (e.g. they withhold
-unsolicited AT result codes until the host asserts DTR).
+On 9/29/2026 11:56 PM, Sumit Kumar wrote:
+> 
+> 
+> On 9/26/2026 4:36 PM, Manivannan Sadhasivam wrote:
+>> On Tue, Sep 08, 2026 at 02:57:22PM +0530, Sumit Kumar wrote:
+>>> The MHI specification defines a LOOPBACK channel. The endpoint firmware
+>>> echoes back whatever the host sends on this channel. Without a host-side
+>>> driver, there is no way to exercise this channel to validate MHI data 
+>>> path
+>>> integrity between host and endpoint.
+>>>
+>>> Add a host-side loopback driver that binds to the LOOPBACK channel and
+>>> expose a sysfs interface for data path testing. The sysfs interface 
+>>> allows
+>>> users to configure TRE buffer size and count, trigger a loopback 
+>>> test, and
+>>> read the result.
+>>>
+>>> The new sysfs ABI is documented under Documentation/ABI/testing/, not
+>>> stable/, since this is a new interface without established API
+>>> guarantees yet. It is unrelated to the existing stable MHI sysfs ABI
+>>> documented in Documentation/ABI/stable/sysfs-bus-mhi, despite both
+>>> being covered by the same MAINTAINERS entry.
+>>>
+>>> Co-developed-by: Krishna Chaitanya Chundru 
+>>> <krishna.chundru@oss.qualcomm.com>
+>>> Signed-off-by: Krishna Chaitanya Chundru 
+>>> <krishna.chundru@oss.qualcomm.com>
+>>> Signed-off-by: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+>>> ---
+>>>   .../ABI/testing/sysfs-bus-mhi-devices-loopback     |  40 +++
+>>>   MAINTAINERS                                        |   1 +
+>>>   drivers/bus/mhi/host/Kconfig                       |   1 +
+>>>   drivers/bus/mhi/host/Makefile                      |   1 +
+>>>   drivers/bus/mhi/host/clients/Kconfig               |  17 ++
+>>>   drivers/bus/mhi/host/clients/Makefile              |   2 +
+>>>   drivers/bus/mhi/host/clients/loopback.c            | 287 ++++++++++ 
+>>> +++++++++++
+>>>   7 files changed, 349 insertions(+)
+>>>
+>>> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback 
+>>> b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>>> new file mode 100644
+>>> index 
+>>> 0000000000000000000000000000000000000000..9e47e8443f309199691a50d70adadf84f3237037
+>>> --- /dev/null
+>>> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-devices-loopback
+>>> @@ -0,0 +1,40 @@
+>>> +What:        /sys/bus/mhi/devices/mhi<N>_LOOPBACK/tre_size
+>>> +Date:        August 2026
+>>> +KernelVersion:    7.4
+>>> +Contact:    mhi@lists.linux.dev
+>>> +Description:
+>>> +        (RW) Size of each Transfer Ring Element (TRE) buffer in bytes
+>>> +        used for the loopback test. Valid range is 1 to the value
+>>> +        reported by max_tre_size. Default value is 32 bytes.
+>>> +
+>>> +What:        /sys/bus/mhi/devices/mhi<N>_LOOPBACK/max_tre_size
+>>> +Date:        August 2026
+>>> +KernelVersion:    7.4
+>>> +Contact:    mhi@lists.linux.dev
+>>> +Description:
+>>> +        (RO) Maximum allowed Transfer Ring Element (TRE) size in bytes.
+>>> +        Reading this file returns the upper bound for the tre_size
+>>> +        attribute.
+>>> +
+>>> +What:        /sys/bus/mhi/devices/mhi<N>_LOOPBACK/num_tre
+>>> +Date:        August 2026
+>>> +KernelVersion:    7.4
+>>> +Contact:    mhi@lists.linux.dev
+>>> +Description:
+>>> +        (RW) Number of Transfer Ring Elements (TREs) to use per
+>>> +        loopback test. Must be greater than zero and must not exceed
+>>> +        the channel ring capacity. Default value is 1.
+>> How does the user know 'channel ring capacity'?
+> If the user enters a number greater than the ring capacity the error 
+> will log the max num_tre value.
+> Would you prefer having a new sysfs entry similar to 'max_tre_size'? 
+> something like 'max_num_tre'.
 
-Add an optional ->dtr_rts(port, mdmbits) operation to struct wwan_port_ops.
-Drivers that implement it receive the full TIOCM bitmask so they can assert
-or de-assert DTR and RTS independently. The wwan core tracks the full TIOCM
-bitmask in port->at_data.mdmbits and calls ->dtr_rts when it changes, gated
-on WWAN_PORT_AT to match the open/close raise/drop behaviour.
-
-Also raise DTR/RTS in wwan_port_op_start on first open of an AT port when
-the driver implements ->dtr_rts, and drop them in wwan_port_op_stop on
-last close. This mirrors TTY semantics (DTR is asserted on open) and means
-individual drivers do not need to implement this themselves.
-
-at_data.mdmbits is protected by data_lock. In the ioctl path the ->dtr_rts
-call is deferred until ops_lock is held, where mdmbits is re-read under
-data_lock, so the value passed to the driver always reflects the committed
-bitmask under ops_lock and is serialised against concurrent ioctls and
-against port removal (which nulls port->ops under ops_lock).
-
-wwan_remove_port() is also updated to call ->dtr_rts(port, 0) before
-->stop() when a port is removed while still open, mirroring the last-close
-de-assert path.
-
-Signed-off-by: Peter Hunt <peter.hunt@opengear.com>
----
-v6: Rebase onto net-next. Snapshot mdmbits under data_lock before calling
-    ->dtr_rts from wwan_port_op_start()/wwan_port_op_stop(), rather than
-    reading it after data_lock has been released
-v5: Change ->dtr_rts signature from bool to unsigned int mdmbits so DTR
-    and RTS can be driven independently; re-read mdmbits inside ops_lock
-    in the ioctl path to close a concurrent-ioctl ordering race; add
-    de-assert call to wwan_remove_port() for the hot-unplug case; update
-    kernel-doc to note the op is AT-only and describe the mdmbits argument
-v4: Protect at_data.mdmbits in wwan_port_op_start/stop under data_lock;
-    release data_lock and acquire ops_lock with a NULL check before calling
-    ->dtr_rts from the ioctl path; gate ioctl ->dtr_rts on WWAN_PORT_AT to
-    match open/close behaviour; reduce boolean to TIOCM_DTR only
-v3: Replace ->tiocmget/->tiocmset with ->dtr_rts(port, bool on) modelled
-    on tty_port_operations.dtr_rts; raise/drop DTR/RTS in
-    wwan_port_op_start/stop rather than in the driver (Loic Poulain)
----
- drivers/net/wwan/wwan_core.c | 46 +++++++++++++++++++++++++++++++++++-
- include/linux/wwan.h         |  3 +++
- 2 files changed, 48 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/wwan/wwan_core.c b/drivers/net/wwan/wwan_core.c
-index ffbcf11e4e68..d201d395a003 100644
---- a/drivers/net/wwan/wwan_core.c
-+++ b/drivers/net/wwan/wwan_core.c
-@@ -685,6 +685,12 @@ void wwan_remove_port(struct wwan_port *port)
- 
- 	mutex_lock(&port->ops_lock);
- 	if (port->start_count) {
-+		if (port->type == WWAN_PORT_AT && port->ops->dtr_rts) {
-+			mutex_lock(&port->data_lock);
-+			port->at_data.mdmbits &= ~(TIOCM_DTR | TIOCM_RTS);
-+			mutex_unlock(&port->data_lock);
-+			port->ops->dtr_rts(port, 0);
-+		}
- 		port->ops->stop(port);
- 		port->start_count = 0;
- 	}
-@@ -759,8 +765,20 @@ static int wwan_port_op_start(struct wwan_port *port)
- 	if (!port->start_count)
- 		ret = port->ops->start(port);
- 
--	if (!ret)
-+	if (!ret) {
- 		port->start_count++;
-+		/* Mirror TTY semantics: raise DTR/RTS on first open of an AT port */
-+		if (port->start_count == 1 && port->type == WWAN_PORT_AT &&
-+		    port->ops->dtr_rts) {
-+			unsigned int bits;
-+
-+			mutex_lock(&port->data_lock);
-+			port->at_data.mdmbits |= TIOCM_DTR | TIOCM_RTS;
-+			bits = port->at_data.mdmbits;
-+			mutex_unlock(&port->data_lock);
-+			port->ops->dtr_rts(port, bits);
-+		}
-+	}
- 
- out_unlock:
- 	mutex_unlock(&port->ops_lock);
-@@ -773,6 +791,16 @@ static void wwan_port_op_stop(struct wwan_port *port)
- 	mutex_lock(&port->ops_lock);
- 	port->start_count--;
- 	if (!port->start_count) {
-+		/* Mirror TTY semantics: drop DTR/RTS on last close of an AT port */
-+		if (port->ops && port->type == WWAN_PORT_AT && port->ops->dtr_rts) {
-+			unsigned int bits;
-+
-+			mutex_lock(&port->data_lock);
-+			port->at_data.mdmbits &= ~(TIOCM_DTR | TIOCM_RTS);
-+			bits = port->at_data.mdmbits;
-+			mutex_unlock(&port->data_lock);
-+			port->ops->dtr_rts(port, bits);
-+		}
- 		if (port->ops)
- 			port->ops->stop(port);
- 		skb_queue_purge(&port->rxq);
-@@ -980,6 +1008,7 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
- 				    unsigned long arg)
- {
- 	int ret = 0;
-+	bool call_dtr_rts = false;
- 
- 	mutex_lock(&port->data_lock);
- 
-@@ -1036,6 +1065,8 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
- 			port->at_data.mdmbits |= mdmbits;
- 		else
- 			port->at_data.mdmbits = mdmbits;
-+		if (port->type == WWAN_PORT_AT)
-+			call_dtr_rts = true;
- 		break;
- 	}
- 
-@@ -1061,6 +1092,19 @@ static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int cmd,
- 
- 	mutex_unlock(&port->data_lock);
- 
-+	if (call_dtr_rts) {
-+		unsigned int bits;
-+
-+		mutex_lock(&port->ops_lock);
-+		if (port->ops && port->ops->dtr_rts) {
-+			mutex_lock(&port->data_lock);
-+			bits = port->at_data.mdmbits;
-+			mutex_unlock(&port->data_lock);
-+			port->ops->dtr_rts(port, bits);
-+		}
-+		mutex_unlock(&port->ops_lock);
-+	}
-+
- 	return ret;
- }
- 
-diff --git a/include/linux/wwan.h b/include/linux/wwan.h
-index 1e0e2cb53579..57406139304e 100644
---- a/include/linux/wwan.h
-+++ b/include/linux/wwan.h
-@@ -57,6 +57,8 @@ struct wwan_port;
-  * @tx_blocking: Optional blocking routine that sends WWAN port protocol data
-  *               to the device.
-  * @tx_poll: Optional routine that sets additional TX poll flags.
-+ * @dtr_rts: Optional routine that updates the modem control lines to match
-+ *           @mdmbits (a TIOCM_* bitmask). Only called for WWAN_PORT_AT ports.
-  *
-  * The wwan_port_ops structure contains a list of low-level operations
-  * that control a WWAN port device. All functions are mandatory unless specified.
-@@ -70,6 +72,7 @@ struct wwan_port_ops {
- 	int (*tx_blocking)(struct wwan_port *port, struct sk_buff *skb);
- 	__poll_t (*tx_poll)(struct wwan_port *port, struct file *filp,
- 			    poll_table *wait);
-+	void (*dtr_rts)(struct wwan_port *port, unsigned int mdmbits);
- };
- 
- /** struct wwan_port_caps - The WWAN port capbilities
--- 
-2.43.0
-
+Yes, a new sysfs entry sounds like a reasonable idea.  Having the user 
+guess, and then try to read an error log which they may or may not have 
+sounds like a way to cause frustration in users, particularly for any 
+kind of scripted use.
