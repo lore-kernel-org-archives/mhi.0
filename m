@@ -1,45 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2BA3F3288
-	for <mhi@lists.linux.dev>; Mon,  5 Oct 2026 10:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE08547A86C
+	for <mhi@lists.linux.dev>; Mon,  5 Oct 2026 10:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791197691; cv=none; b=G0YJbt4PzAIU0mxSQNUxEwcJjC1e9CJFd242hQzegv0XVwaTxprPRPPXhiA0tnw9t0ythsrgz4AoSFkwIQxbz7w+L02grwR7fOk9tbPz9miWW/Ncxxt7ityIO39FWEYg7pqZyD/Z/iNXQv8+gMzb28ndaBZpi5BKjVkTiXa9PI4=
+	t=1791197699; cv=none; b=dsJHyYyW+Bz2G+90GH72dSamCahWRQ2H7xMmB6Pb3ZhKDsQ0aWtSHv/nyqrKbnar/tIwIYMGwoSPYJ7sYkj0qVoRDNlVk7ZrWFXGgkpCmcGVynJJLja4sg1ZKW2/Geo7v1PtxLQ9BXxQ1vmSV6pLuWR/QoUVcAIqJs1aWPzlNXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791197691; c=relaxed/simple;
-	bh=7yv2fDxwDW/izhtv/3qeKMCYEbfudsMQmfoewhpnBrU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=C76NIdgxf9yVppDGQmv865K/DmN3eqNXHzWok88VwOkhRNKwlhD8ThSyOZPHD5R5JmG0OYOiouwbNIBLPj6tVMYPTYyTtH1lWs9EWAkdwI+HNDvIbRcyqpb4idYsW0wYBNCCgY4pzNpFU0mz0FKa4d5uumMvllktU9EZMKjRcOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aKHhD371; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1791197699; c=relaxed/simple;
+	bh=EbKBZD+D7TuOoHbqhGucCdP4PawsV8Bj6zk13c8GiBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=E0iR+Kvw0j7Db+CML7L2WNPbKwNu2v4PJN50fOVqcNuCxIYC1jcT34UkFVu1asZvjUsTBmrQ0Sznz2A/fXeQ1Z+4daODDQIkFVMS2eLHyehQqCnabq/dYi6cIPOIHXct19PZ1Sx/XgURpcH4W9RIMxFYLN2t0h3FKcx0ab7NTn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PDicREEN; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aKHhD371"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PDicREEN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791197689;
+	s=mimecast20190719; t=1791197697;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GQIzOrD80cBVNE5h0CQa8C1wdzcpWOcigbQ+mlRDcY0=;
-	b=aKHhD371T7SZSyZv72jc+beIvl1jVLD2iJ2PgHmcIRV597UHKZEgWsVGvPLVWUIZhrLFAB
-	HSFa/Y2/XAJGkoUpiXdqC+iudi5Y0ceP4EEkqGmo/zFwNE7aGE2WBYw+fnVI6zY/tShOx0
-	Mchsn6RXD5RNQprzvH2T0LcnlH5nwCM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X9ybfkjjQyEBOnKyW7ywsxv+01LedkQkjdz2/XCnQyA=;
+	b=PDicREENdyWElIXtgR+GxrBz8JaT3eQmdZbjoVnP9KxmPh/bSkHvR0DeCw4O/E/IlsOQx6
+	yNkjw6JKGfW+DEeqjbVmxoXzWkFoM4VCuCFd1rr4s0GDqM4LMXO11SmiTokyPoD0rmCMJr
+	9+sXgtc5T+B4HQ91xjicJlqeMRkkkqk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-TFv9j6g5Mwa9XZ7D9O6MFQ-1; Mon,
- 05 Oct 2026 06:54:47 -0400
-X-MC-Unique: TFv9j6g5Mwa9XZ7D9O6MFQ-1
-X-Mimecast-MFC-AGG-ID: TFv9j6g5Mwa9XZ7D9O6MFQ_1791197685
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-594-0fQc6ZMxMuKEoHzXhDfGmw-1; Mon,
+ 05 Oct 2026 06:54:53 -0400
+X-MC-Unique: 0fQc6ZMxMuKEoHzXhDfGmw-1
+X-Mimecast-MFC-AGG-ID: 0fQc6ZMxMuKEoHzXhDfGmw_1791197691
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B373C18007E7;
-	Mon,  5 Oct 2026 10:54:44 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AF876182A128;
+	Mon,  5 Oct 2026 10:54:51 +0000 (UTC)
 Received: from jtornosm-thinkpadp1gen7.rmtes.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4CFD71800446;
-	Mon,  5 Oct 2026 10:54:41 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 549501800446;
+	Mon,  5 Oct 2026 10:54:48 +0000 (UTC)
 From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
 To: bhelgaas@google.com,
 	alex@shazbot.org,
@@ -52,9 +54,11 @@ Cc: jjohnson@kernel.org,
 	mhi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: [PATCH v15 0/2] PCI: Add device-specific reset for Qualcomm devices
-Date: Mon,  5 Oct 2026 12:54:34 +0200
-Message-ID: <20261005105436.83962-1-jtornosm@redhat.com>
+Subject: [PATCH v15 1/2] PCI: Add device-specific reset for Qualcomm SDX62/SDX65 modems
+Date: Mon,  5 Oct 2026 12:54:35 +0200
+Message-ID: <20261005105436.83962-2-jtornosm@redhat.com>
+In-Reply-To: <20261005105436.83962-1-jtornosm@redhat.com>
+References: <20261005105436.83962-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
@@ -62,60 +66,111 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: YXa0IyGiBDCPEF_Q3wuXaEhIZ9CcwuyOo_jwvl7tSuk_1791197685
+X-Mimecast-MFC-PROC-ID: HOlUs3344QiVJQ8BRLC91t9h2itfHObcL41wkBxTDMQ_1791197691
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Some Qualcomm PCIe devices (WCN6855, WCN7850 WLAN; SDX62/SDX65 modems)
-lack working reset methods for VFIO passthrough scenarios. These devices
-have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-broken bus reset.
+Qualcomm SDX62/SDX65 5G modems (17cb:0308) lack working reset methods for
+VFIO passthrough scenarios. These devices have no FLR capability, advertise
+NoSoftRst+ (blocking PM reset), and have broken bus reset.
 
 Standard reset methods were already disabled for these devices by commit
 6a4f64c3a3ad ("PCI: Avoid SBR for Qualcomm WCN6855/WCN7850 WiFi,
 SDX62/SDX65 modems") because they were not working (quirk_no_bus_reset).
 
-VFIO attempts to reset devices on every reassignment:
-- For the listed modems, without a proper reset capability, these devices
-never successfully initialize even on first VM assignment.
-- For the listed WLAN devices, without a working reset method, the attempt
-fails. On clean VM shutdown, the guest driver properly deinitializes the
-device via .shutdown/.remove callbacks, leaving it in a usable state despite
-the failed reset. However, on unclean VM termination (crash, force-off), the
-guest driver callbacks are not triggered, the device remains in an undefined
-state (DMA active, interrupts enabled, etc.), and without a working reset it
-cannot be reused.
+VFIO attempts to reset devices on every reassignment. Without a proper
+reset capability, these devices never successfully initialize even on first
+VM assignment.
 
-Add device-specific reset methods using BAR-space hardware reset registers
-that exist in these devices:
+Add a device-specific reset method using BAR-space hardware reset registers
+that exist in these devices.
 
-  Patch 1: SDX62/SDX65 modem reset via MHI SoC reset
-  Patch 2: WCN6855/WCN7850 WLAN reset via SoC global reset
+SDX62/SDX65 modem devices use MHI SoC reset via BAR0 (sequence from MHI
+driver: mhi_soc_reset(), mhi_pci_reset_prepare()):
+- Write reset request to offset 0xb0
+- Wait 2 seconds for reset completion
 
 These are true hardware reset mechanisms (not power management or firmware
 error recovery), providing proper device reset for VFIO scenarios, allowing
 to enforce isolation between successive passthrough users.
 
-Testing shows stable operation over 100+ VM crash/reset cycles. Device-
-specific reset is position #1 in the reset hierarchy, so these devices
-will use hardware reset as their primary reset method.
+Testing shows stable operation over 109 VM crash/reset cycles. Device-
+specific reset is position #1 in the reset hierarchy, so these Qualcomm
+devices will use hardware reset as their primary reset method.
 
-Jose Ignacio Tornos Martinez (2):
-  PCI: Add device-specific reset for Qualcomm SDX62/SDX65 modems
-  PCI: Add device-specific reset for Qualcomm WCN6855/WCN7850 WLAN
-
- drivers/pci/quirks.c | 116 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 116 insertions(+)
-
+Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+Acked-by: Alex Williamson <alex@shazbot.org>
 ---
 v15: Address Bjorn Helgaas feedback:
-  - Explain the relationship with 6a4f64c3a3ad ("PCI: Avoid SBR for Qualcomm
+    - Explain the relationship with 6a4f64c3a3ad ("PCI: Avoid SBR for Qualcomm
     WCN6855/WCN7850 WiFi, SDX62/SDX65 modems") and previous status.
-  - No code changes from v14, only commit message clarifications (Mani's
+    - No code changes from v14, only commit message clarification (Mani's
     Reviewed-by and Alex's Acked-by retained)
-v14: https://lore.kernel.org/all/20260917071651.14174-1-jtornosm@redhat.com/
+v14: https://lore.kernel.org/all/20260917071651.14174-2-jtornosm@redhat.com/
 
---
+ drivers/pci/quirks.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index de9bbccda21f..e72af7d2c775 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -4230,6 +4230,45 @@ static int reset_hinic_vf_dev(struct pci_dev *pdev, bool probe)
+ 	return 0;
+ }
+ 
++#define MHI_SOC_RESET_REQ_OFFSET		0xb0
++#define MHI_SOC_RESET_REQ			BIT(0)
++
++/*
++ * Qualcomm modem device-specific reset using MHI SoC reset via BAR0
++ * register.
++ */
++static int reset_qualcomm_modem(struct pci_dev *pdev, bool probe)
++{
++	void __iomem *bar;
++	u16 cmd;
++
++	if (probe)
++		return 0;
++
++	if (pdev->current_state != PCI_D0)
++		return -EINVAL;
++
++	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
++	pci_write_config_word(pdev, PCI_COMMAND, cmd | PCI_COMMAND_MEMORY);
++
++	bar = pci_iomap(pdev, 0, 0);
++	if (!bar) {
++		pci_write_config_word(pdev, PCI_COMMAND, cmd);
++		return -ENODEV;
++	}
++
++	iowrite32(MHI_SOC_RESET_REQ, bar + MHI_SOC_RESET_REQ_OFFSET);
++	ioread32(bar + MHI_SOC_RESET_REQ_OFFSET);
++
++	/* Be sure device reset has been executed */
++	msleep(2000);
++
++	pci_iounmap(pdev, bar);
++	pci_write_config_word(pdev, PCI_COMMAND, cmd);
++
++	return 0;
++}
++
+ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+ 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
+ 		 reset_intel_82599_sfp_virtfn },
+@@ -4245,6 +4284,7 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+ 		reset_chelsio_generic_dev },
+ 	{ PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_HINIC_VF,
+ 		reset_hinic_vf_dev },
++	{ PCI_VENDOR_ID_QCOM, 0x0308, reset_qualcomm_modem }, /* SDX62/SDX65 modems */
+ 	{ 0 }
+ };
+ 
+-- 
 2.54.0
 
