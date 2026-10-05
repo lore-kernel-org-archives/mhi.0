@@ -1,104 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87BD313E36;
-	Mon,  5 Oct 2026 16:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C2612C534;
+	Mon,  5 Oct 2026 21:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791218504; cv=none; b=lQelC+a5pOt9Q6hBYUZalkjGNoqU7s6erOLmtblwvSOHEWE0aZgY9HUFmCn0gxOvvYadXT5XwG1VeAC7EQ5i3BfznfQxM5QdaluE/8FHd9sRlc4PP25uRySY7gvbG3ZIIYqFfZ8EJoM+BJIo4C+wklMK0g5W4znjs/SqrLYAzIk=
+	t=1791234200; cv=none; b=VIvBGGblHjERTaVyDfmrcsmn5/7oBDoxCAmfyByLvQAfaksv5wRS3dP7F0wak4C/hN4xhfFnVBxBfzPUOOGi1xUp0N0lNn9O9dOakZlSDWnjvy2LrqkdBSkFw3mWzdERwr1pF8u01I+8ecZfYCSlFwc7gr8mn4IIigSW8dI3z00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791218504; c=relaxed/simple;
-	bh=+X2OntxrMTq2KSrF/FK1TbUaOawdn0FYEbaeGy3cIa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bk/ekS7blznSbsrS59suNtJBpd4B8kuKpDksrDi8BkSViGMmN8xWIAB0w/Sh1QSKv3bCuGa7mPYcm4HI1fYuFD+w2SpkNdVJK8Osah/skvFFRzLAJ2/HKMRhyy2qCapQ58C8UjtJZkyYCQ3wa4oFk+ZTmzOkoyzluuO1YutNy2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hmEars6e; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791234200; c=relaxed/simple;
+	bh=/bCATJHWAqNlcQ/KaREYE1iU9INbtNFH965NeT7G1Ng=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gQP3p5BuCuH1sTddtLueasygWbOvdTo30ES9LYdZLv/4XAWX5u1w4ut0Lt7Atbo/aACqeMQKajlA8qh4rzDHWcaaS41qhRywx0SPXV0sMuC/eGJKFFDOjVY6W6nniVbjW2nWEaYJ0mVkTxb76JhKzQL2pT1PHLU91KPrYUP24VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRQr/Fsb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hmEars6e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E841F000FF;
-	Mon,  5 Oct 2026 16:41:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRQr/Fsb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E98DF1F000FF;
+	Mon,  5 Oct 2026 21:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791218503;
-	bh=ACSssUGKie/5eVZn/j7clwXvC4MTmISK/f7AzHTT/3A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=hmEars6ew5+YbrRD+7XLCHSA9cc1J3iBUUrqtEQ7cEbqkGUIC2ch7qbL8VmiPjUQT
-	 XlduUY3JUBTpbVMnZx+7LLH9rETL1YIlR+PwqK2+x1iNA60y3QJ4+sYhvWVFhBKm0i
-	 MEkiWKRHfQVXfTW82ZNrJ2R3AfKVdKuHLEdmL7FMpxQVwIkoWT8vPUEOnPLnPCHTjw
-	 8Pv+aQmncE1OfyyDaAqYzTbv96s/SCAZh/SviCUvZCmltKHAA0rm0ksnofutqgH2SX
-	 cMokhwVuYDjTOFpUKbQSD8k1vKLUskl58yfzGvTyHX+hRbLxdtTqLglJgZEw8KmJZq
-	 DwXOhjqIy9FZQ==
-Date: Mon, 5 Oct 2026 11:41:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: bhelgaas@google.com, alex@shazbot.org, mani@kernel.org,
-	jjohnson@kernel.org, linux-pci@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org, mhi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v15 0/2] PCI: Add device-specific reset for Qualcomm
- devices
-Message-ID: <20261005164141.GA574887@bhelgaas>
+	s=k20260515; t=1791234198;
+	bh=1tsZKeQEmPb9f2ieMeoLIoZq6tU11UgwZYXpshglJUE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=eRQr/Fsbp78PsFbHKmoRX2ShW1lkv+iFs6F8Q/S1iNITHTmBd2h97kaow5p+mOq8J
+	 cbel4JyhflmowUPihA58PIZnZ3jsr5WkKJSDYYkvCprNmRo5JtjV/wHE/Wc6WFGw7z
+	 sEzwONH+8GMXuun27xvF7bqS+2PDh3Ha8n/xt/i2R6Coyn547vycaNtSBYVwHsDNv3
+	 KcS6AJMQ4D5oztUVGLoVQcFXD1XOqvwOx2e4YVdJFgWD6TmcC/Ba//TaQZynV0qaP6
+	 wd5ENTTGEtPsiglbr2LsJUP+G5SrttpNRNjiHCkzOY3HitevnopD/DC5Atzyjkmqvp
+	 MLGA8BHVsWrNA==
+Subject: Re: [PATCH net-next v6 1/2] net: wwan: core: propagate modem control
+ signals to port drivers
+From: netdev-bot+sashiko@kernel.org
+To: peter.hunt@opengear.com
+Cc: loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com,
+ johannes@sipsolutions.net, mani@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ netdev@vger.kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 05 Oct 2026 21:03:17 +0000
+Message-ID: <179123419746.434549.9037062792939057692@kernel.org>
+In-Reply-To: <20261001204614.3481089-2-peter.hunt@opengear.com>
+References: <20261001204614.3481089-2-peter.hunt@opengear.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261005105436.83962-1-jtornosm@redhat.com>
 
-On Mon, Oct 05, 2026 at 12:54:34PM +0200, Jose Ignacio Tornos Martinez wrote:
-> Some Qualcomm PCIe devices (WCN6855, WCN7850 WLAN; SDX62/SDX65 modems)
-> lack working reset methods for VFIO passthrough scenarios. These devices
-> have no FLR capability, advertise NoSoftRst+ (blocking PM reset), and have
-> broken bus reset.
-> 
-> Standard reset methods were already disabled for these devices by commit
-> 6a4f64c3a3ad ("PCI: Avoid SBR for Qualcomm WCN6855/WCN7850 WiFi,
-> SDX62/SDX65 modems") because they were not working (quirk_no_bus_reset).
-> 
-> VFIO attempts to reset devices on every reassignment:
-> - For the listed modems, without a proper reset capability, these devices
-> never successfully initialize even on first VM assignment.
-> - For the listed WLAN devices, without a working reset method, the attempt
-> fails. On clean VM shutdown, the guest driver properly deinitializes the
-> device via .shutdown/.remove callbacks, leaving it in a usable state despite
-> the failed reset. However, on unclean VM termination (crash, force-off), the
-> guest driver callbacks are not triggered, the device remains in an undefined
-> state (DMA active, interrupts enabled, etc.), and without a working reset it
-> cannot be reused.
-> 
-> Add device-specific reset methods using BAR-space hardware reset registers
-> that exist in these devices:
-> 
->   Patch 1: SDX62/SDX65 modem reset via MHI SoC reset
->   Patch 2: WCN6855/WCN7850 WLAN reset via SoC global reset
-> 
-> These are true hardware reset mechanisms (not power management or firmware
-> error recovery), providing proper device reset for VFIO scenarios, allowing
-> to enforce isolation between successive passthrough users.
-> 
-> Testing shows stable operation over 100+ VM crash/reset cycles. Device-
-> specific reset is position #1 in the reset hierarchy, so these devices
-> will use hardware reset as their primary reset method.
-> 
-> Jose Ignacio Tornos Martinez (2):
->   PCI: Add device-specific reset for Qualcomm SDX62/SDX65 modems
->   PCI: Add device-specific reset for Qualcomm WCN6855/WCN7850 WLAN
-> 
->  drivers/pci/quirks.c | 116 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 116 insertions(+)
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Applied to pci/reset for v7.4, thanks!
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-> ---
-> v15: Address Bjorn Helgaas feedback:
->   - Explain the relationship with 6a4f64c3a3ad ("PCI: Avoid SBR for Qualcomm
->     WCN6855/WCN7850 WiFi, SDX62/SDX65 modems") and previous status.
->   - No code changes from v14, only commit message clarifications (Mani's
->     Reviewed-by and Alex's Acked-by retained)
-> v14: https://lore.kernel.org/all/20260917071651.14174-1-jtornosm@redhat.com/
-> 
-> --
-> 2.54.0
-> 
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] wwan_port_op_stop() always clears TIOCM_DTR|TIOCM_RTS and
+  calls ->dtr_rts() on the last close of an AT port.
+- [Low] wwan: inconsistent dtr_rts() bitmask during wwan_remove_port()
+
+--
+
+net: wwan: core: propagate modem control signals to port drivers
+
+This adds an optional ->dtr_rts() operation to struct wwan_port_ops. The
+wwan core calls it when the TIOCM bits of an AT port change through the
+ioctl path. The core also raises DTR/RTS on first open and drops them on
+last close or port removal, which the commit message describes as
+mirroring TTY semantics.
+
+> diff --git a/drivers/net/wwan/wwan_core.c b/drivers/net/wwan/wwan_core.c
+> index ffbcf11e4e681..d201d395a0031 100644
+> --- a/drivers/net/wwan/wwan_core.c
+> +++ b/drivers/net/wwan/wwan_core.c
+
+[ ... ]
+
+> @@ -773,6 +791,16 @@ static void wwan_port_op_stop(struct wwan_port *port)
+>  	mutex_lock(&port->ops_lock);
+>  	port->start_count--;
+>  	if (!port->start_count) {
+> +		/* Mirror TTY semantics: drop DTR/RTS on last close of an AT port */
+> +		if (port->ops && port->type == WWAN_PORT_AT && port->ops->dtr_rts) {
+> +			unsigned int bits;
+> +
+> +			mutex_lock(&port->data_lock);
+> +			port->at_data.mdmbits &= ~(TIOCM_DTR | TIOCM_RTS);
+> +			bits = port->at_data.mdmbits;
+> +			mutex_unlock(&port->data_lock);
+> +			port->ops->dtr_rts(port, bits);
+> +		}
+
+[Severity: Low]
+In wwan_remove_port(), port->at_data.mdmbits is updated by clearing
+only TIOCM_DTR and TIOCM_RTS. However, ->dtr_rts() is then called with
+a literal 0 rather than the resulting bitmask.
+
+The new kernel-doc says the driver receives @mdmbits as a TIOCM_*
+bitmask that the modem control lines should match.
+wwan_port_op_stop() follows that contract: it snapshots the masked
+value under data_lock and passes it on.
+
+Here the driver is told that every bit is clear. Meanwhile the core's
+copy still carries whatever else userspace set through TIOCMSET or
+TIOCMBIS.
+
+The commit message describes this as mirroring the last-close
+de-assert path, but the two paths now give the driver different
+values for the same event. The practical impact is small, since the
+port is being removed. Still, a driver that derives its state from
+the bitmask, as the kernel-doc invites it to, will see one value on
+hot-unplug and another on close.
+
+Should this pass the masked port->at_data.mdmbits, snapshotted under
+data_lock, as wwan_port_op_stop() does? A small shared helper for the
+drop path might keep the two from drifting apart.
+
+[Severity: Medium]
+The comment and commit message say this mirrors TTY semantics. Does that
+hold for the close path?
+
+In the TTY core, tty_port_shutdown() lowers DTR/RTS only when HUPCL is
+set:
+
+drivers/tty/tty_port.c:tty_port_shutdown() {
+    ...
+	if (tty && C_HUPCL(tty))
+		tty_port_lower_dtr_rts(port);
+    ...
+}
+
+The wwan core already saves termios in port->at_data.termios through
+TCSETS/TCSETS2. However, wwan_port_op_stop() never checks c_cflag for
+HUPCL. As a result, DTR is dropped on every last close of an AT port, and
+userspace cannot prevent this by clearing HUPCL.
+
+Before this series, closing a WWAN AT port never changed the modem's DTR
+state. With the follow-up mhi_wwan_ctrl patch, the drop reaches Qualcomm
+SDX55/SDX65 modems as an IP_CTRL host-state message with DTR=0.
+
+Take a DUN port with a PPP or circuit-switched call up, on a modem
+configured with AT&D1 or AT&D2. Could closing the last fd then put the
+modem into command mode or hang up the call, even after HUPCL was cleared
+with TCSETS?
+
+Should this path check HUPCL in port->at_data.termios.c_cflag before it
+clears TIOCM_DTR and TIOCM_RTS and calls ->dtr_rts()?
+
+>  		if (port->ops)
+>  			port->ops->stop(port);
+>  		skb_queue_purge(&port->rxq);
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261001204614.3481089-1-peter.hunt%40opengear.com
