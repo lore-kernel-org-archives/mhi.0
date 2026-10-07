@@ -1,189 +1,232 @@
-Received: from mta1.migadu.com (out-149.mta1.migadu.com [95.215.58.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound-ip199b.ess.barracuda.com (outbound-ip199b.ess.barracuda.com [209.222.82.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA4E495058
-	for <mhi@lists.linux.dev>; Wed,  7 Oct 2026 09:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.149
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791364357; cv=none; b=iHHvXpS/1chYcOq40XG/OG9w2NEKlfDpQOl/PM6UdVaDL7dwlc3DvScuuixQuWE4ubqR5O+cEUmGNUCXlePElEm3eYrV+Gg8vT3L3RM9DGb+p2Q2YfIdsh4LLoIR84OjSbmwj6CrCOoQRFvnS9oH7m84CJLc5R8EktR0WPDaSf8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791364357; c=relaxed/simple;
-	bh=J/y1H3eemnVhW06Ctyt4QVgncGhn8rhFQ+PbyfP1y1s=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TW28qNsx4lK0aJT2/zDKTnZHIc57k6NSVUa3V0txXXP0OESDGyAs98EkIOYwdeOLAgINce9LIvGIJV9p65A19JCbhEFuLCOG0osF8H2TzsU6b3GW65JEs49v74x2m2LwZmhuL3F9kGmAH9oKDVVBlCDcYx5aOV5ZCrmf9fb4P/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=WSXf2K+i; arc=none smtp.client-ip=95.215.58.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26584DE73C
+	for <mhi@lists.linux.dev>; Wed,  7 Oct 2026 18:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791397395; cv=fail; b=KLRdR78SSVSxBeoOD4lNgkQ05mNkpkIe7UazTGE1pp6Si4jWlLkaulk56XfGiTd89SLJw9UCSkJeD3fQfam8nzvZN4gxzm1hji92v1nFMEKTnZVu0LbMDM57TTbw5LyxDFWphkhtlLzvoKhHdfjVapK5OsMmgRHHbEIS4IzWkEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791397395; c=relaxed/simple;
+	bh=rioOcZZzJ1n37mMt4vTZwu1xUip8xMEfORGQOpeORa0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Q+4NQ3V4GAG7Ysh5AbqAmoqxW0UzNV0XnekwfDgMfkpObbQMUQ1mu4zrfNOAMP4MlLam61w7GGWWnNhbjsT9ZtHZTmfTP1T8g4vm4n5QSbIUdG1UxJx608TP17a7RgTwMByKVtBt1dSvsrHJcPJO1KEtzz46NWEQoZRTvjbwmrg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=ED82x0kR; arc=fail smtp.client-ip=209.222.82.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="WSXf2K+i"
-X-Envelope-To: mhi@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=J/y1H3eemnVhW06Ctyt4QVgncGhn8rhFQ+PbyfP1y1s=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791364317; v=1; x=1791969117;
- b=WSXf2K+iKIh5YaG3PRhpGVMraaQQAIY4ki1QDlOPo8iuLm4vWNWSn85nl83I0ALRnvG3LUSR
- 9mVG5hWRfyuqzhLNj131c7uduqmVcPfnGqU+Jg564y9i5wiwgdhxADIDCPvYwCsGLrggN1hfXZn
- ZuQ1dP5XDqeTJJ6iFVVvKE8tE4Bob6YY0D8vVNMU4MlkTCj6e8RYw+rU3oc91uHvDVaXjz86nfC
- /hXoKEYPPYE41GsmIeDNZPPlU6oMcitde1mMxXQ19etRAPCTp4mxh2LJMLS5bSvc+zYTcT38Z+7
- 1RjopnvZtUzOUe9yaP2Hb6PC+mlmrwSH5enxhaZmQcf7g==
-X-Envelope-To: mhi@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 7d4030431edfb94a;
-	Wed, 07 Oct 2026 09:11:57 +0000
-X-Mizu-Trace-ID: 7d4030431edfb94a
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <f189cfc2-c36a-4bf5-bac7-36ddb15cc7a4@packett.cool>
-Date: Wed, 7 Oct 2026 06:11:46 -0300
+	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="ED82x0kR"
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11023090.outbound.protection.outlook.com [40.93.196.90]) by mx-outbound22-136.us-east-2b.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 07 Oct 2026 18:22:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lto1sYGDONnj1QJ3lwTxgyhBp9FVf2YvCEGO45iOzuXNPG8t+2lohBNNF1yGsyvRw9gUla2iT9AZBRnLR0V4vHFEWiEjP7ihxD1Oa1glr7GomTvOjKc0MQxI2bKDBbNRK/UT5MsgOPBYOWvWZTleimHjiKaHB4b6XlKNPU5VxoW1+djNNGQe3MKJeOuYZJ7rKnQWFJeuX3xNuMjKkNpCptSWAtLhg4m+ju3VIdNxzYVaeCf1gzVKvzcQyxP81+g6hReeYupChfYlsUNNyHzRrpjCQ3POEMBYHR7F5Pgph1oj9xdwphNDCMuwb6k8colU9lnl5H3ydzgmeL9KSFOjnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZC9AAdAy4w/WWDQdUSbHObcQsKLUv64UvKZWctrh7M4=;
+ b=ZzgURo44sBgC7mEMV+WUETvkVox8c2LUWF7rHUESCnerVUdg2dpUPLc/IXl5lr1MHQWvCv0U31V2IONceu8jIe4/ro3nT0LHFv+Vkyg4VyKLjEFAQiwmcRRABjLTIdYStL1ySx7ULFoJCbUmkbQFrmjUX3rIO00IZ2CDJxpgr7gX64sHd+xyYR4OmDgPqJW44ixviffWR1lh6ydBU38MZLDdp/1+QZUM3EmfiEYXXBcj6En6dVJX4NgXsIY16DnNtAa/coPIqFaSxCCmFFxLI8SFPBJdMItrFpYz4+e6rRCvOc68tdeUvn6omwWv+roQIbOZStHDiFnltFtIRP5rtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
+ dkim=pass header.d=opengear.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZC9AAdAy4w/WWDQdUSbHObcQsKLUv64UvKZWctrh7M4=;
+ b=ED82x0kRcLVMtnd2uhDKiraa5KBPRZK87ln6zOeUci+RF56GjmkYijF4AavQf+rzaDNGCHFwhZ7m8AQk6QttvCVAZ6lZqvjjHm1b7GPZDVjfAlQwIWa9dRcoCKL1q8AHDEtY3chfYFi/pn3Odw2cQwxvwhUVJPJtoQkeLs26HCv9fKD/HhSnAEre6wFppWAF2URGe9HtoMwHMUP20ztdCICaj46H13OQhl1n2eco8nkknRIpg6KbrbKj9KL6EBCQFT0vD0XMOGDdZExnwSoet1/3K4bbOhSlpDjIFTECWnpjrMMbiwxX6fz90EI3DVd7H0OZXqm23z2PuW9nDTy/eA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opengear.com;
+Received: from MWHPR1001MB2095.namprd10.prod.outlook.com
+ (2603:10b6:301:32::34) by CY5PR10MB6142.namprd10.prod.outlook.com
+ (2603:10b6:930:36::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.6; Wed, 7 Oct 2026
+ 18:22:41 +0000
+Received: from MWHPR1001MB2095.namprd10.prod.outlook.com
+ ([fe80::3933:62ac:2729:f017]) by MWHPR1001MB2095.namprd10.prod.outlook.com
+ ([fe80::3933:62ac:2729:f017%7]) with mapi id 15.21.0496.010; Wed, 7 Oct 2026
+ 18:22:41 +0000
+From: Peter Hunt <peter.hunt@opengear.com>
+To: loic.poulain@oss.qualcomm.com,
+	ryazanov.s.a@gmail.com
+Cc: johannes@sipsolutions.net,
+	mani@kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Peter Hunt <peter.hunt@opengear.com>
+Subject: [PATCH net-next v8 0/2] net: wwan: support DTR/RTS on AT ports via MHI IP_CTRL
+Date: Wed,  7 Oct 2026 12:22:36 -0600
+Message-ID: <20261007182238.1154851-1-peter.hunt@opengear.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0045.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::20) To MWHPR1001MB2095.namprd10.prod.outlook.com
+ (2603:10b6:301:32::34)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Val Packett <val@packett.cool>
-Subject: Re: [PATCH v5 1/6] PCI/bwctrl: Set host bridge OPP and optionally
- disable ASPM around link retraining
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
- Jeff Johnson <jjohnson@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Manivannan Sadhasivam <mani@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- qiang.yu@oss.qualcomm.com
-References: <20260819-bwscale-v5-0-6dea79786b37@oss.qualcomm.com>
- <20260819-bwscale-v5-1-6dea79786b37@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260819-bwscale-v5-1-6dea79786b37@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2095:EE_|CY5PR10MB6142:EE_
+X-MS-Office365-Filtering-Correlation-Id: e88df0ca-390a-40b4-98e3-08df249ff981
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|7416014|18002099003|11063799006|6133799003|3023799007|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	gkMGMxjmf4klm9tsdyqtasm70ICtoT04yzLVtAjngFjmOMI+dJ5nZ0plyt3Y+NGl1CpS/FnodgZ9EKwzz/mV5jkpmoZ2Xi6BUKi8KAe3HF6rV5YinAC8Plo6RwZvs6Kej1xV/M+sRC9MJ77ei9BXIoOdvbOxU3t0ao7cXVJHAl+NMYq6FD6VWL6dgjmLtqSaSEmI27lCh/zS0aIQReXS7m2gCQV5mtC/DljYcoQ7jl6yZjhNUmdJ7GEs/1X/AcJ/JPq01JoIKOgynY+MZhZpU+md6qwc84UiBvuTaQTjTe/B3yKb0XIBUqL2huLT2gy5/zi386Nn9A4ofpP/0LtjyNo8ElFmNKRAlBXYl+bmFH1WYY7k/+o/oO/XMSOZ+Uu/bVpP+3xViOEld74wML1q87JVainDkrUUt0qeCFkW96z9NSGMMtdXiftLWe7io5kh+sDYWwixfB1rZVdBCmku+u43BchtYWUSGNXzr7HbFBtv+nnLABVrKe7QQWD6n0rwPD/hbDO5mQYdS3lmiiQwt/Oe+CietWvpD23HbptjqoGFKmMcGJi3UK1gKV8Mkr17RmFl2nCf0rRRKAL0T55+cWZKtrCqAxsxuVB1jj8xgi3OUjz7s8/oGjRIQOjoxoQAZM8vDpMLQJyZ+8ECG+5Y9Qt+dZ2BvkOTOpYOTdX0G30=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2095.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(7416014)(18002099003)(11063799006)(6133799003)(3023799007)(10067099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qnaAYrxnG623WsXtCSXtOJ4JPuLzV/O+z/1XcwXtGnoHbLMzdYpYz7rspaon?=
+ =?us-ascii?Q?2YDRSQ1yKjezf++l+OGS21vl+6J4e1PMOVm3ZNKNesu2C2+fBVYARrMlTuTz?=
+ =?us-ascii?Q?DOwZ0EwZtXlzx2+kBDecgTLseg0syS0AdPcJenFKp3cgvZEwhvk7SZuMoVLJ?=
+ =?us-ascii?Q?X9F9FLJ4hPQ1X/Zp4iiMIQz1c5nHaYVHj5Vzu0bih0mGhXPks3LLuQpikK5d?=
+ =?us-ascii?Q?eB8W5DsZvOW1SyBaBWqzndJMNztaA/KVynG4RYzfvPttvKoxoLzu1M7co/0w?=
+ =?us-ascii?Q?32oEe86tm7PP3+3hZUydbP57vrtngm2OrCCIcIGC9LplTVQAHDiNv9baQIud?=
+ =?us-ascii?Q?vqM1QDjWO30WuTkzIek6dYb/m5zZpphzR3K+W0jhTfmID9JI3s+x9Civxk48?=
+ =?us-ascii?Q?LhB4h3E5NRvD+ETAcTggpgvTFFwZOeKwMHa1EWRuXXazq4LlL7CgSagZ94+U?=
+ =?us-ascii?Q?KChVpRFyjM8Cv9gdULcwifC0I7wKGV7Z9egUIBHna0LoS3e70dwkjayck64R?=
+ =?us-ascii?Q?gsX1SWjh9ltA7LYGwcmYUF92IfRqnn/nwHTwJa3e0kj4BMXOGobqhNPAbHQJ?=
+ =?us-ascii?Q?IHPWdmVay4uPX7kkZzeuIlLh96YBXygrfMuK/BZx2inIhh4aPU1RBG/TQ/k0?=
+ =?us-ascii?Q?34T5hRzqgGT428oRbjmt6UV9yS5a603hfFyQj5+qUb8bGOnRP8iJ6OR6oMQa?=
+ =?us-ascii?Q?IPWKBUvowDoEVXKFQHhYr7VEUezrGCaX6ROKRWi8HcplMcOu/hphXdVXmJPY?=
+ =?us-ascii?Q?BmNbFjd+oiH04207k4+BjCNVIRwaM4iRLzxGeouLOunSfaML6X3R9MSNFapB?=
+ =?us-ascii?Q?/cVV64UubXtaCiNzZZ5nAe/LVldGuftji6KMAR2/eUQCfoJoT6/O2YK2ptzJ?=
+ =?us-ascii?Q?8wiF24A5HanZVdl0XTJ+FELL0Y3lipyJRWs8mZAx9mo9Lu0COQWJF+E5KpPE?=
+ =?us-ascii?Q?N7Y12F36MnYDMAuuHDRUKghhUT9+1CrA6Esd5MkULZKZPSx7JBrS0MfO735H?=
+ =?us-ascii?Q?C/rskaaZn/+kteEYlRgd8utma34nHfa7+RDcvondvWpp1ZWnmWsbk88290DZ?=
+ =?us-ascii?Q?Mqc7jiOsXfT03AXnxJb6dmnnCyPG+/EntqHhagt9qSAdESHA+STMrJPSSX14?=
+ =?us-ascii?Q?pq4erkoPp30yz5GK7dz8JKuXpX83AAEziTAWTg4ONVHRWJ4h3pixGf67z1Zv?=
+ =?us-ascii?Q?qGpBtUi99puv3PU+3tBqi+Lpe3/maz/WyeCFNiI3dYrzYQwChzIqjZ46Ud7o?=
+ =?us-ascii?Q?wvH38MOgTdfUVnVUS1qyoJilctT9TgBBeftSE/b9oDCi3ks0kWHFTTovEy1D?=
+ =?us-ascii?Q?OaO30VN/jVrQHuYaQPvQhcqlmquOYDnRvd/2RPn+vhY4wpfS6sae7vKfVYZs?=
+ =?us-ascii?Q?vtr6BRUttsys2eGBFhaJYya6+FDEBqeZUtGQ4pVFF+qzvn3OtTYgpEG2n+Xt?=
+ =?us-ascii?Q?4t2c31vnnTDNrvL4sirCRo7i5rhKtNl86/FZknXPYoYRNoN8RZd17ghGzBzu?=
+ =?us-ascii?Q?Kjt/ozdm4IlvpbTqCm9BA9dBcNGhQ8e6M/q4GxTO+xJwprkgzB0CzzVUDJGG?=
+ =?us-ascii?Q?991Yy/GrIyVsI/I75p8v8LRfQK1kExT94Qc89hkKoktI8xsbAgz4tLVMLmN0?=
+ =?us-ascii?Q?r2G4MYuhLt/fajuJSK0kQnAHGIfaVlRkoUOOIe7wYDQzz5SbrEcFiVqDfqGn?=
+ =?us-ascii?Q?plmSKDW76+2d+NcrwkzuPsgCUKXoDhvkmzZy/23bOe2lDMse?=
+X-Exchange-RoutingPolicyChecked:
+	yQwlsF0vQnZR6grzX24TplBnapSxahlW19T3ZhgqmVXJ9VESGh+1ZTF4H/gBqj189I0x4pZULpZ+tKSJOM/iuuhsM9WrvJ0gbHv5pXBKwy2GcIKn+6FN3QzB4rCNS1T1VS313IGwFxv1kcR0rvmFw3PjTsFRCEHLEGAN9UO7pecrDooT/zEzLB3ZDnPv3ON8aNYWiHzvv/Z7jyrJkqaZ1ajxL45URVxddlx/WEBwrInOj59P6oX58KzkCY8AwP8T2neEicf+S3G33lN+tYxPUc3iZnVWef1YEi7smCdJBCdcAjhSs3bAFnNigxeYIbxgLAqVv37D7K2dpdbxywKvQA==
+X-OriginatorOrg: opengear.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e88df0ca-390a-40b4-98e3-08df249ff981
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2095.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 18:22:41.5535
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RJXkysMe6AZ7eOXu1BVoMEBZCgDbZlqZH2sqUJGx8D87j3XzBQFFEJPfqp70eHuB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6142
+X-BESS-ID: 1791397366-105768-9835-2110-1
+X-BESS-VER: 2019.1_20260924.1519
+X-BESS-Apparent-Source-IP: 40.93.196.90
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKViZmxpZAVgZQ0DIlLTHRKDk1zT
+	QtKTkpxdTI2NIyzcQ4zSIxycjAINFQqTYWAIPrBG1BAAAA
+X-BESS-Outbound-Spam-Score: 0.40
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.276674 [from 
+	cloudscan13-20.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+	0.40 BSF_SC0_SA085b         META: Custom Rule SA085b 
+X-BESS-Outbound-Spam-Status: SCORE=0.40 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND, BSF_SC0_SA085b
+X-BESS-BRTS-Status:1
 
+Qualcomm/Sierra SDX55/SDX65 modems (e.g. EM9291) withhold unsolicited AT
+result codes until the host asserts DTR. The in-tree mhi_wwan_ctrl driver
+exposes AT ports but never signals DTR, so URCs never reach userspace.
 
-On 8/19/26 10:25 AM, Krishna Chaitanya Chundru wrote:
-> PCIe host bridge controllers may need their operating point raised before
-> retraining to a higher link speed so that hardware resources (e.g., RPMh
-> votes on Qualcomm platforms) are available at the requested data rate.
-> After retraining, the operating point must be updated to reflect the
-> actual negotiated speed.
->
-> Add pcie_set_opp() to look up an OPP on the host bridge parent device
-> using a key of (per-lane frequency in kHz, LNKCTL2 Target Link Speed
-> level).  Keying by generation rather than total bandwidth lets OPP tables
-> remain width-independent.
->
-> In pcie_set_target_speed(), call pcie_set_opp() before retraining only
-> when upscaling (speed_req > cur_bus_speed), since only raising the
-> operating point requires pre-staging hardware.  After retraining, call
-> pcie_set_opp() unconditionally with the actual cur_bus_speed to settle
-> the votes.  Both calls are skipped for downstream ports of PCIe switches,
-> as those are outside the host controller's scope.
->
-> Some controllers also require ASPM to be disabled around link retraining.
-> Add a disable_aspm_for_retrain flag to pci_host_bridge; when set,
-> pcie_set_target_speed() saves the child device's ASPM state, disables all
-> ASPM link states before retraining, and restores them afterward.
->
-> Signed-off-by: Krishna Chaitanya Chundru<krishna.chundru@oss.qualcomm.com>
-> ---
-> [..]
-> @@ -176,6 +231,12 @@ int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
->   	    !list_empty(&bus->devices))
->   		ret = -EAGAIN;
->   
-> +	if (bus && is_rootbus && host) {
-> +		if (child && host->disable_aspm_for_retrain)
-> +			pci_enable_link_state_locked(child, aspm_state);
-> +		pcie_set_opp(port, host, bus->cur_bus_speed);
-> +	}
-> +
->   	return ret;
->   }
+Patch 1 extends the wwan core with an optional ->dtr_rts(port, mdmbits)
+port op. The TIOCM bitmask state is tracked in the wwan core, which raises
+DTR/RTS on first open of an AT port whose driver implements ->dtr_rts,
+drops them on last close (if HUPCL is set, which is the default for AT
+ports) and on port removal, and passes the resolved bitmask to the
+driver on TIOCMSET/TIOCMBIC/TIOCMBIS.
 
-ASPM is not actually reenabled here:
+Patch 2 adds a second mhi_driver to mhi_wwan_ctrl that binds the IP_CTRL
+channel and implements ->dtr_rts by sending the host serial state to the
+modem over that channel. The existing AT/QMI/MBIM data path is untouched.
 
-LnkCap: Port #0, Speed 16GT/s, Width x4, ASPM L1, Exit Latency L1 <8us
-         ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp+
-LnkCtl: ASPM Disabled; RCB 128 bytes, LnkDisable- CommClk+
-         ExtSynch+ ClockPM- AutWidDis- BWInt- AutBWInt- FltModeDis-
-LnkSta: Speed 2.5GT/s (downgraded), Width x4
-         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+This is a two-patch series. The pci_generic patch from v5 that
+enumerates the IP_CTRL channel for the Sierra EM919x/EM929x has been
+applied to mhi-next by Mani as commit 83c29a55b89e ("bus: mhi: host:
+pci_generic: Add IP_CTRL channel for Sierra EM919x/EM929x"). There is no
+build dependency between the two, without that commit the IP_CTRL driver
+simply never binds and ->dtr_rts is a no-op.
 
+Note on the ->dtr_rts signature (Loic):
 
-Because as the comment for pci_enable_link_state(_locked) says, "note 
-that this does not enable states disabled by pci_disable_link_state(). 
-Use pci_force_enable_link_state() for that"!
+In v3 I replaced ->tiocmget/->tiocmset with ->dtr_rts(port, bool on)
+modelled on tty_port_operations, and moved the TIOCM handling into the
+wwan core, as you suggested on v2. Review of v3 and v4 then pointed out
+that a single bool cannot represent the two lines independently. With
+TIOCMBIC/TIOCMBIS on one line while the other is in the opposite state,
+the line state sent to the modem no longer matches what TIOCMGET reports
+(e.g. RTS re-asserted after TIOCMBIC(TIOCM_RTS)).
 
-This needs something like:
+Since v5 the op keeps the dtr_rts name and the core still owns all TIOCM
+handling, but it is passed the resolved TIOCM bitmask instead of a bool,
+so the driver can drive DTR and RTS independently. I kept the dtr_rts
+name deliberately, following your v2 preference over ->tiocmset, even
+though the signature now differs from tty_port_operations.dtr_rts. The
+open/close paths still behave as tty_port dtr_rts does. Is this
+acceptable to you, or would you prefer a different shape, for example a
+bool ->dtr_rts for open/close plus a separate op for the ioctl path?
 
+Changes in v8 (Loic Poulain's review of v7, no functional change):
+- Patch 1: add wwan_port_raise_dtr_rts() as the counterpart of
+  wwan_port_drop_dtr_rts() and move the open-path handling into it
+- Patch 1: do the AT port and ->dtr_rts checks inside both helpers
+- Patch 1: use scoped_guard() for data_lock in the helpers
 
-diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 4bad311dc7..c54f2658e0 100644
---- a/drivers/pci/pcie/aspm.c
-+++ b/drivers/pci/pcie/aspm.c
-@@ -1709,6 +1709,12 @@
-  }
-  EXPORT_SYMBOL(pci_force_enable_link_state);
+Changes in v7 (all from the Sashiko review of v6):
+- Patch 1: drop DTR/RTS on last close only if HUPCL is set, as a TTY
+  does, and default HUPCL on for AT ports so close behaviour is
+  unchanged unless userspace clears it with TCSETS
+- Patch 1: wwan_remove_port() passes the masked mdmbits rather than 0,
+  via a helper shared with the close path
+- Patch 2: retry a failed DL sink buffer requeue from a delayed work
+  item on -ENOMEM, and log other failures
+- Patch 2: note in the commit message that the IP_CTRL channel entry
+  for the EM919x/EM929x is 83c29a55b89e in the MHI tree
 
-+int pci_force_enable_link_state_locked(struct pci_dev *pdev, int state)
-+{
-+    return __pci_enable_link_state(pdev, state, true, true);
-+}
-+EXPORT_SYMBOL(pci_force_enable_link_state_locked);
-+
-  void pcie_aspm_remove_cap(struct pci_dev *pdev, u32 lnkcap)
-  {
-      if (lnkcap & PCI_EXP_LNKCAP_ASPM_L0S)
-diff --git a/drivers/pci/pcie/bwctrl.c b/drivers/pci/pcie/bwctrl.c
-index 623731b96c..530b9047a0 100644
---- a/drivers/pci/pcie/bwctrl.c
-+++ b/drivers/pci/pcie/bwctrl.c
-@@ -211,7 +211,7 @@
+Changes in v6:
+- Rebased onto net-next, dropped the pci_generic patch (now in mhi-next)
+- Patch 1: snapshot mdmbits under data_lock before calling ->dtr_rts from
+  the open/close paths
+- Patch 2: allocate the IP_CTRL DL sink buffer separately instead of
+  embedding it in struct mhi_wwan_dtr (DMA safety on non-coherent
+  platforms), and do not requeue it when the DL transfer completes with an
+  error such as -ENOTCONN during channel teardown
 
-      if (bus && is_rootbus && host) {
-          if (child && host->disable_aspm_for_retrain)
--            pci_enable_link_state_locked(child, aspm_state);
-+            pci_force_enable_link_state_locked(child, aspm_state);
-          pcie_set_opp(port, host, bus->cur_bus_speed);
-      }
+v7: https://lore.kernel.org/netdev/20261006040422.3208888-1-peter.hunt@opengear.com/
+v6: https://lore.kernel.org/netdev/20261001204614.3481089-1-peter.hunt@opengear.com/
+v5: https://lore.kernel.org/netdev/20260819224927.2274790-1-peter.hunt@opengear.com/
+v4: https://lore.kernel.org/netdev/20260816121705.858013-1-peter.hunt@opengear.com/
+v3: https://lore.kernel.org/netdev/20260807215042.2714442-1-peter.hunt@opengear.com/
+v2: https://lore.kernel.org/netdev/20260806155253.3378294-1-peter.hunt@opengear.com/
+v1: https://lore.kernel.org/netdev/20260804233411.1953445-1-peter.hunt@opengear.com/
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 9f20bae6d7..59d7b67c9d 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1960,6 +1960,7 @@
-  int pci_enable_link_state(struct pci_dev *pdev, int state);
-  int pci_enable_link_state_locked(struct pci_dev *pdev, int state);
-  int pci_force_enable_link_state(struct pci_dev *pdev, int state);
-+int pci_force_enable_link_state_locked(struct pci_dev *pdev, int state);
-  void pcie_no_aspm(void);
-  bool pcie_aspm_support_enabled(void);
-  u32 pcie_aspm_enabled(struct pci_dev *pdev);
-@@ -1974,6 +1975,8 @@
-  { return 0; }
-  static inline int pci_force_enable_link_state(struct pci_dev *pdev, 
-int state)
-  { return 0; }
-+static inline int pci_force_enable_link_state_locked(struct pci_dev 
-*pdev, int state)
-+{ return 0; }
-  static inline void pcie_no_aspm(void) { }
-  static inline bool pcie_aspm_support_enabled(void) { return false; }
-  static inline u32 pcie_aspm_enabled(struct pci_dev *pdev) { return 0; }
+Peter Hunt (2):
+  net: wwan: core: propagate modem control signals to port drivers
+  net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
 
-(the addition of the new force+locked variant should go as a separate 
-commit, but well)
+ drivers/net/wwan/mhi_wwan_ctrl.c | 239 ++++++++++++++++++++++++++++++-
+ drivers/net/wwan/wwan_core.c     |  69 ++++++++-
+ include/linux/wwan.h             |   3 +
+ 3 files changed, 308 insertions(+), 3 deletions(-)
 
-With that,
-
-Tested-by: Val Packett <val@packett.cool> # x1e80100-dell-latitude-7455
-
-Well, tested without that too, but losing ASPM is not good :)
-
-
-Thanks,
-~val
+-- 
+2.43.0
 
