@@ -1,230 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outbound-ip199a.ess.barracuda.com (outbound-ip199a.ess.barracuda.com [209.222.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC1151DE00;
-	Tue, 13 Oct 2026 17:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791912233; cv=none; b=h4F4t1eQSCg3CqSJkKOQhumpasR6p1NBgCfM0gLQbfWOEe+vgG2JRUKDn4ASsEAEWNuEZp1IMy8G6/srphPgRtKtn6HsLJFqvjrATxL+ObA5m8cGYPoMshpaqPTyenVI9Z1q/1T1UV9qCb7oP7Uq+q6nxN0inoLtsz3Bu/2pjuE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791912233; c=relaxed/simple;
-	bh=tj1iKHUd6B/c5xb9oFoejxiP9MyuK2swCeVtkx9GHME=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZWCbpjQIRX2WoEjSO7Hw3ZOnb5oHA0rmIKvyYWp01aU+4KRUQvJ0gRmZG09YuCBVPChpuZcmoJcTlWiM2b7cwZcUHFmHyt8NGju3Zhu61tOmXkFK2fu9V7v/QVxzq2iON6dMSeet9YkkIvZQZCYITbkwfjt9myAAWOWtweKIO3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frsojOz9; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFE347B405
+	for <mhi@lists.linux.dev>; Tue, 13 Oct 2026 18:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.222.82.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791916117; cv=fail; b=lAg6KxRj4no9hQ54s2vpkI1TqFB/E/4kd3Yi0H+X6dQWDSS32ilwRmnPpcC+XepfFR5CLorJQ0uR+BdKQ6C/KO7QWDu8bRnhKnoneNDxjDhoJAJQk+UXfyXD1H5SHUitv0Ez4uMQ5cVEVt1aibyy4rTcsMz/FPhUp1VkdohXdOk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791916117; c=relaxed/simple;
+	bh=kd3SHG9CaaF0dFE064vGn+yQ9xemAs+Shi0W+Sfd+P0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TGNCPd1iJHirU33p/4B239jxR4Q6jT9u21vG8xWl+ey18tWuZLQkxv2SWhn1ihIM6Vj7A3F0nKTYmRApU/nOPvqYPDWDO3hcBPttGADSJF/cNDgB6z8HY3ayHI+WCPZWSAeZGqsgeFdSzW7l7Y5ZCoJQks2ub8xqKQ0WeO3orjs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com; spf=pass smtp.mailfrom=digi.com; dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b=OK2lBbSW; arc=fail smtp.client-ip=209.222.82.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opengear.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frsojOz9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A49A1F00893;
-	Tue, 13 Oct 2026 17:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791912232;
-	bh=5jBQVVQu87yDTmql24gbGwBkBE1SHG0V0o4YJ33B3sI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=frsojOz9bMWm6YFcOezxubB2GzO2ttPSyaL+nYbX0eUnoSvx/Rf8MSbdZlsd2DELi
-	 SW1rgmiFSzXqDnr0jdrr6kkSV8zZsPpeJWH+Kjr3MdkJ22Ec9xDqx3JNAmAhRFY0v7
-	 Y/g2omSs0jDLbggJVWldx4Ui+zlvnHwSoznpIddsDUoaSPMGliutxBfi+eZQnbj2xg
-	 s8qC0m7P25vd0+A4CkndTte2tuJ+iu/8npKP0K2XamyNoQfxkl6gzKL7orSh2Eqo0r
-	 wh8abIFr0itdbBysm/zK9nU7yD3bM30O0CJ36zU2u88BKSr9AGed7Vxep+3MvZlR+l
-	 BD39OOrHN2v3g==
-Subject: Re: [PATCH net-next v9 2/2] net: wwan: mhi_wwan_ctrl: drive DTR/RTS
- via the IP_CTRL channel
-From: netdev-bot+sashiko@kernel.org
-To: peter.hunt@opengear.com
-Cc: loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com, dnlplm@gmail.com,
- johannes@sipsolutions.net, mani@kernel.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Tue, 13 Oct 2026 17:23:50 +0000
-Message-ID: <179191223098.434549.11899173102479904971@kernel.org>
-In-Reply-To: <20261012172219.3668624-3-peter.hunt@opengear.com>
-References: <20261012172219.3668624-3-peter.hunt@opengear.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=opengear.com header.i=@opengear.com header.b="OK2lBbSW"
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11021099.outbound.protection.outlook.com [52.101.57.99]) by mx-outbound11-242.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Tue, 13 Oct 2026 18:28:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SCUIHzTQK9mh0NWyP1clouOsE8XHP2WJVmhKJ9IEOt1VB2GFf/iu+yEWfDqeBU4VFIkin3NN7QOaeieK16hxZ09d7PZEmHLKXUK6Rf5+pT4P3Yx8jHTjoXgB7egDqoqlXCzBz5LWTS6tZcLh3hU6VVQuvWj9au2vG7tMlBXNZoJNz6VMYsfXcHGHrl13YcnW/zNP6914XAMC/ho9cRTNalzdTRfeIMEKwRqxkNAbLaPKhKsMDu83+Mg8WabISluW8SRzhHpWXtN9lRw+Kf38Ylm2nxV0mVI4es2E+q13JWN3BaabfWlyZNHPDp1lmOxIFu9DplPHC3cCxAoom/f7zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kd3SHG9CaaF0dFE064vGn+yQ9xemAs+Shi0W+Sfd+P0=;
+ b=DpeeIKdL1mkmPnZdRlZzUEft38C4kY1mMEscPYzPPQm/yQk/7GuQepwihVCKcAGl5eMRl2rElD9sbRelBovaMd87aIzXV9AgdkjxKQ24mRvQFDB8PjZfPWRkNXdD6XKlgIyxJ+GypwlK7XtFGdxKFr3wiLt8cSZHzB7dsOQpXNjlZvdVFpAMGP8rMbGc94loZlrS2P32MGrM0xn69qxUKNTifBCpH3e2t+J3MARgqhmCa2y0NVtkitcEePIOkfq6lP+bQgYyzeFWLB+785IEr8ps7LqLFYsnSFKIgM7AFEtNitPd1aGUfi4Jh/qDLIQUu1J9GKBTTQx7QzwIq+VsTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
+ dkim=pass header.d=opengear.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kd3SHG9CaaF0dFE064vGn+yQ9xemAs+Shi0W+Sfd+P0=;
+ b=OK2lBbSWXWRe8vof0FRcjxeUim4GDa6idzdmzDDNt6iy0oMNotm5PShc5t2D/Lo5Krwcm8y+YVi6X/BMlHhfwgdgd71M7wIBF6J4eDkSyZQ6a8SToW7wB/GBneWzBTE27zJBF7IJcONy0nfCbVkkoeKjv4WAAWcQOqachD4YIW1wLfxRQIogzHfxuyobJua8ZPHqNRnH2EpsAPWxi6lgJIVbuHlnGTyP1MbDF12vyYoXsLPLHfburwj9NqHzWMpRjjHajM4hAyREqlUmYqc37SeC0pZMoE0PuSSQNBQNbx4IgxhErU1KFZyl33/Bg9UyDK5wrrf1fNhBrdfyqUAWcA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opengear.com;
+Received: from MWHPR1001MB2095.namprd10.prod.outlook.com
+ (2603:10b6:301:32::34) by DS4PPF0FF25AAD9.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d09) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Tue, 13 Oct
+ 2026 18:28:03 +0000
+Received: from MWHPR1001MB2095.namprd10.prod.outlook.com
+ ([fe80::3933:62ac:2729:f017]) by MWHPR1001MB2095.namprd10.prod.outlook.com
+ ([fe80::3933:62ac:2729:f017%7]) with mapi id 15.21.0522.006; Tue, 13 Oct 2026
+ 18:28:03 +0000
+From: Peter Hunt <peter.hunt@opengear.com>
+To: netdev-bot+sashiko@kernel.org
+Cc: loic.poulain@oss.qualcomm.com,
+	Daniele Palmas <dnlplm@gmail.com>,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	mani@kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v9 1/2] net: wwan: core: propagate modem control signals to port drivers
+Date: Tue, 13 Oct 2026 12:28:01 -0600
+Message-ID: <20261013182801.256067-1-peter.hunt@opengear.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <179191222962.434549.5982381221454218948@kernel.org>
+References: <20261012172219.3668624-2-peter.hunt@opengear.com> <179191222962.434549.5982381221454218948@kernel.org>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7PR06CA0043.namprd06.prod.outlook.com
+ (2603:10b6:8:54::25) To MWHPR1001MB2095.namprd10.prod.outlook.com
+ (2603:10b6:301:32::34)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2095:EE_|DS4PPF0FF25AAD9:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52d23ca9-8054-47dd-3817-08df2957b798
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|23010399003|56012099006|11063799006|4143699003|261009223027099003|10067099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	/qIHcowpMeuKj2Ed5L+SUW5WCMINJLDRpZFSYkJSdctQPeaT8vmE/SmNa3Do6mTpO07C+u3gRRlc4NjwtkkRSwfJsPq717vBDAejrMvdhYKVb4vy36wLZ8npx6sa4HC6d8a7r5JgNw4Ap1QGjFL+0AlEp2l0R/X/1vjvVm8ZtqXPakcE+MaOT2XRFZNK+wkwD+uUHIiZcHIaYlsJtzo/S3YngmcWtc3QcgT4HOmnPQNXBHb3YRpqN1GREDR0re7yRjhpody6+3S0/cB/+05+ugPlZcp5NdG3bq+EXaRRXmNvzyY0nifdxJo8QECVCnIRIz4bAvCpw9blOK2cOi1z+fmOftKw9P40pO69485GM286aEgll1zH1Q3rtYFluBrCbSPE6oyMAD5jnLsJ/YzSFx22KIt6uoMMjmEEdN3v9AiGeZiZmBvavcB9nbxye9Uy1ZPja8lVgrdSi9bJBg5ikKn4I37iDR3EENvnE05rP/Z8DyAYdnkH31QwZ1rYoNhU0hAlPa1ZwKKnxPyVaq6dYZTp0Vhe5hOA3cpJEyx13Sb3t3ZJPV80pFAxF+cBBKqt3B0gc5ZFu2w8ddHwuRBTE4RULaQSw5HuQfFxHQ/MaS5rhDCKQxCTfxc23wDcPjHrr69ByBOgIns8f0BQK8hJLa/AQKC6hYUF6Thi9LN9Wvw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2095.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(23010399003)(56012099006)(11063799006)(4143699003)(261009223027099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3XtMeBEa1folyPNPQC8QQ75STn3yaY5ymoC9OBUf46q7nGdXii01gbYZDQlM?=
+ =?us-ascii?Q?1h63N1wrEh1cwY05sch2pA3RUxIdfDNXT/QHnUBdmUKt4wbyjNxmJhW9gsyK?=
+ =?us-ascii?Q?ZnIn3fqtJ1J8lwgorJd2oUh5cawwilvQLMVDs1U5qMp7XeINMH0B/x0CwdN1?=
+ =?us-ascii?Q?peFt3w5DGdO3ds5gSw9XKMSjHP4AKNGwC0450jsZltZOHK12WeDNaAkbidza?=
+ =?us-ascii?Q?zG3BAXGvur3Bubcw5DxChvX5ubN9Xg+dR55NDjznRhYf5ej/HA1rpLCgbF5t?=
+ =?us-ascii?Q?gxAycrPeu/IKlWgQaKgrFLIVPYhLKJeOdhL+nE4iQZSn9Y+AbzAWwhv2U/bY?=
+ =?us-ascii?Q?Wtuld0QJ5TlA9CTciRrXdHn9elv+z7eaVbZVppDN/Co5kAeISzbgq6kQk3Nq?=
+ =?us-ascii?Q?yonsj8cuCETE+hDhH53kDX5BpODUR41ZkQ34WfMEpAuBOrRI9CzHtUzPL758?=
+ =?us-ascii?Q?ko1w57wgDQXmVUclpPXcWfdzwgQOVDsRhsMC0l2YYlzqZGQHQoU9paQppWQo?=
+ =?us-ascii?Q?OpBID5cq+4uPQ+eWKgLm/EAqL4hlbbg8XIZx6UcMZl38UJlOGehi/dGHgUJV?=
+ =?us-ascii?Q?0pgDP4dZ9QcZJ5okVPIegTCfdC570L+y/fawnqMcQyHnAZ1Mo63FcM86wS5L?=
+ =?us-ascii?Q?95hS7Oi7ENI8mis4RzGmjwYuk1HdlX57ilto6tR7XRKvbr2CrrUhwOhVvQ8B?=
+ =?us-ascii?Q?FBWVulso+AsUnGJxRnvM5UFe2lPb7+BhFQrnz3/9xl5/g39Tuba3G1hFeYyi?=
+ =?us-ascii?Q?BWSZ/khqCgmxJHdwaO6b0M6VKQDzzrDSGbwlIMSLs6ezXCLsqYjuTG4Dbmzt?=
+ =?us-ascii?Q?LKrrBQMbCVtp15uy13zfs39vRUotPTC2eY68N3ZQMqBaOSavBiDrLJwDSVDG?=
+ =?us-ascii?Q?4Xw+02hCnCyolZy0Bfji4BGUu0BfclA7vYgLSdPnAuPj1IVQjzrJ958H0q4C?=
+ =?us-ascii?Q?bKwLEu6Zash5sl6vfnBA6E5bNknyrETZHfFwftCnfC4p8THyIr0WWSFF7/sO?=
+ =?us-ascii?Q?xMbjnTNVr+ax9Oy1JvAqOh1XyL32KaqNOdzxyHLQ5vVfg4D9fjZzM+OLZMoU?=
+ =?us-ascii?Q?4z1a+vl1yyPIPOMGjo2/Vz8t40pxfI4ToNv7cLPQtLuvFI01ntNcyU2Tyj2C?=
+ =?us-ascii?Q?aEDmYi5Hv5bZw7n4Pzl5y1blgfodcjHDkb5FP4MeQrzHZ3T0EsbS39vguzGJ?=
+ =?us-ascii?Q?eIbLdIYIKrjF9/O8mGrOCZjTl55Dc701CH1nCu3LBG84nXvq+2HPylzmMDIo?=
+ =?us-ascii?Q?sPbxE3RhyFCC6KDkJRfUrqM/utHSj5dG1P+lZjLkxo8VQoOrFLJOcCQrBPZ8?=
+ =?us-ascii?Q?2gHpNcsZA//tB2G5BUYvfr4RYYp4OBbgLeeqwPhd1HwFm1gWmkcTlp1fDm5l?=
+ =?us-ascii?Q?JsPhefmh2RvzCdhsG5hUHfX8NdvGO9pn9ReBIcB/BewVImXXJzvxDCq2PQRd?=
+ =?us-ascii?Q?bGu6TzA9V23x4nhCEIH4mf/XAvdocucmWiTsF1qRlq8reFPgE6gL0jULyVsc?=
+ =?us-ascii?Q?TUcfNeKXmmt5QyRibOZ9ePNXXcI/UiSeJX1If8ZgdxdiWpDuWK0bJbW3AEni?=
+ =?us-ascii?Q?ee3oxGQSHb9evtAED7rHv8HXTcAFMCatQuSbL/2uyRUPVqJ9+IIFDtMktNIb?=
+ =?us-ascii?Q?coyyIVvw/PQNDhC3UXcOZTvKyFJA5oaCsKdcSWKdIhC3TVBQ9PqbmQefk2Ik?=
+ =?us-ascii?Q?SAWW088iDbkfHx5M/hcNg8dWUNc2o49DkzSUbHO+6B5z1NlJ?=
+X-Exchange-RoutingPolicyChecked:
+	XxgaN6bHUY4nn86yUhL++CxBH7/gbwxCTg+l8IKxaSFu5Z17QqtNa/IN9TavAD/mHp181RTcHrIpMCMcymTLv80wx7uJNpNOU6M0SC3lF2qVn/F7uZJOIs6Z0SI7P9ivN0Pk9ACnvivtKr1AJJGE/HivMr1jfYEpeqobjcA776c3T8t3+L19kMYpWnXoYvZY+O6dqSbs2iIw0GJypA3/DMM3NCdZn8vaSbbQrOuIpU7T/mJWWPrYiOriCF5oiZD4fe3IUaE04IhBRHBol9+eyrBc2zF1ufSoYM2WJP01uUa9nX0EEv0XcgcfeIg+w3PlH8eM88o06sQU64pLfgUeaw==
+X-OriginatorOrg: opengear.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52d23ca9-8054-47dd-3817-08df2957b798
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2095.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 18:28:03.0295
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1PV5mdG8f+P+QrT6HcB6tN74uB0090OYzF6XzPQZViaIHFfy1jL/ifWClWBhOJbM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF0FF25AAD9
+X-BESS-ID: 1791916087-103058-7755-25314-1
+X-BESS-VER: 2019.1_20260924.1519
+X-BESS-Apparent-Source-IP: 52.101.57.99
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKVoaGRkZAVgZQMC3RMsnQ3CI5Nc
+	0i1TQ10cgkxTjZzCTF1MAw2dDIIjlZqTYWAK6+GIBBAAAA
+X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.276817 [from 
+	cloudscan19-105.us-east-2b.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status:1
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+Thanks for the review, I'll send a v10.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+[Medium] user memory accessed with ops_lock held: agreed. v10 copies
+the argument in before taking ops_lock and copies results out after
+dropping it, as the TTY core does, so ops_lock is never held across a
+user-memory access and a stalled copy can't block port removal.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+[Medium] every AT/QCDM ioctl waits on ops_lock: agreed for the ioctls
+that don't touch the termios/TIOCM state. In v10 TCFLSH,
+TIOCEXCL/TIOCNXCL/TIOCGEXCL and unknown commands, and so the FIONREAD
+fallback, don't take ops_lock at all, and the rest return -ERESTARTSYS
+when interrupted. The termios/TIOCM ioctls still take ops_lock, as
+agreed with Loic for now, so on rpmsg ports they can wait behind a
+blocking write.
 
-- [Medium] When a DTR/RTS message fails to send, nothing retries it, and
-  the wwan core's change-only filter stops userspace from re-sending it.
-- [Low] (Baseline verification: the main trigger is disproven; only a
-  root-only sysfs corner case remains.) The concern says an AT port can…
+[Low] TTY comparisons and the baud rate: v10 words the comments,
+kernel-doc and commit message more precisely and says the baud rate is
+not used. I've kept the existing termios defaults.
 
---
-
-net: wwan: mhi_wwan_ctrl: drive DTR/RTS via the IP_CTRL channel
-
-This patch makes mhi_wwan_ctrl also bind the IP_CTRL MHI channel and uses
-it to send the host DTR/RTS state to the modem, so SDX55/SDX65 modems
-deliver URCs on the AT ports. A per-controller registry maps each AT port
-to the IP_CTRL device of its own modem, and a new ->dtr_rts op sends the
-line state, while a recycled DL sink buffer keeps the IP_CTRL DL ring
-live.
-
-> diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan_ctrl.c
-> index a31d8540fbb85..1cbbfcb3b920a 100644
-> --- a/drivers/net/wwan/mhi_wwan_ctrl.c
-> +++ b/drivers/net/wwan/mhi_wwan_ctrl.c
-
-[ ... ]
-
-> @@ -103,6 +134,61 @@ static void mhi_wwan_ctrl_refill_work(struct work_struct *work)
->  	}
->  }
->  
-> +/* Signal the modem's DTR/RTS lines over its own controller's IP_CTRL channel */
-> +static int mhi_wwan_ctrl_send_dtr(struct mhi_wwan_dev *mhiwwan, unsigned int mdmbits)
-> +{
-
-[ ... ]
-
-> +	if (!ctrl_dev) {
-> +		dev_dbg(&mhiwwan->mhi_dev->dev,
-> +			"IP_CTRL not enumerated; DTR/RTS not signalled to modem\n");
-> +		return 0;
-> +	}
-> +
-> +	dtr_msg = kzalloc_obj(*dtr_msg);
-> +	if (!dtr_msg)
-> +		return -ENOMEM;
-
-[ ... ]
-
-> +	ret = mhi_queue_buf(ctrl_dev, DMA_TO_DEVICE, dtr_msg, sizeof(*dtr_msg),
-> +			    MHI_EOT);
-> +	if (ret) {
-> +		dev_dbg(&mhiwwan->mhi_dev->dev,
-> +			"failed to queue DTR/RTS signal: %d\n", ret);
-> +		kfree(dtr_msg);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static void mhi_wwan_ctrl_dtr_rts(struct wwan_port *port, unsigned int mdmbits)
-> +{
-> +	mhi_wwan_ctrl_send_dtr(wwan_port_get_drvdata(port), mdmbits);
-> +}
-
-[Severity: Medium]
-What happens to the modem's line state when this send fails?
-
-mhi_wwan_ctrl_send_dtr() can fail with -ENOMEM from kzalloc_obj(). It can
-also fail from mhi_queue_buf() with -EAGAIN (UL ring full), -EIO (MHI
-error state), -ENODEV, or a map_single error. In each case the message is
-freed, and mhi_wwan_ctrl_dtr_rts() ignores the return value.
-
-Nothing retries the send. The DL sink path in this same patch does retry
--ENOMEM.
-
-The wwan core has already stored the new value in port->at_data.mdmbits
-before it calls ->dtr_rts:
-
-drivers/net/wwan/wwan_core.c:wwan_port_raise_dtr_rts() {
-    ...
-	port->at_data.mdmbits |= TIOCM_DTR | TIOCM_RTS;
-	port->ops->dtr_rts(port, port->at_data.mdmbits);
-}
-
-The TIOCMSET/TIOCMBIC/TIOCMBIS handler only calls the driver when the
-bits change:
-
-drivers/net/wwan/wwan_core.c:wwan_port_fops_at_ioctl() {
-    ...
-		/* Only signal the driver when DTR or RTS actually changes */
-		if (port->type == WWAN_PORT_AT && port->ops &&
-		    port->ops->dtr_rts &&
-		    (old ^ port->at_data.mdmbits) & (TIOCM_DTR | TIOCM_RTS))
-			port->ops->dtr_rts(port, port->at_data.mdmbits);
-    ...
-}
-
-So after a lost DTR raise, TIOCMGET reports DTR as asserted, but the modem
-still sees it de-asserted and keeps withholding +CREG/+DMI. A repeated
-TIOCMBIS(TIOCM_DTR), or a TIOCMSET with the same bits, never reaches the
-driver.
-
-Only clearing and then setting DTR, or a full last-close/first-open cycle,
-brings the modem back in step. A long-lived opener such as ModemManager
-rarely does either.
-
-This also seems to conflict with the commit message:
-
-    the next ioctl or open/close cycle will resynchronise the modem
-    state.
-
-That only holds for an ioctl that actually changes DTR or RTS. The
-companion wwan core commit also says that the TIOCM state and the line
-state sent to the driver cannot get out of step.
-
-Could a failed send be retried from a work item, as the DL refill is? Or
-could the driver track the last state the modem accepted, so that a later
-ioctl can resend it?
-
-[ ... ]
-
-> +	mutex_lock(&mhi_wwan_dtr_lock);
-> +	list_add(&dtr->node, &mhi_wwan_dtr_list);
-> +	mutex_unlock(&mhi_wwan_dtr_lock);
-> +
-> +	return 0;
-
-[ ... ]
-
-> +static void mhi_wwan_dtr_remove(struct mhi_device *mhi_dev)
-> +{
-> +	struct mhi_wwan_dtr *dtr = dev_get_drvdata(&mhi_dev->dev);
-> +
-> +	mutex_lock(&mhi_wwan_dtr_lock);
-> +	list_del(&dtr->node);
-> +	mutex_unlock(&mhi_wwan_dtr_lock);
-> +
-> +	/* Stop the refill work, and stop a late DL callback re-arming it, before
-> +	 * the channel is torn down so no requeue can race with the teardown
-> +	 */
-> +	disable_delayed_work_sync(&dtr->rx_refill);
-> +	mhi_unprepare_from_transfer(mhi_dev);
-
-[Severity: Low]
-This is a narrow corner case, but can the IP_CTRL device and the open AT
-ports get out of step across a sysfs unbind and rebind of mhi_wwan_dtr?
-
-The normal boot and hot-plug order is fine. mhi_create_devices() probes
-channels synchronously in channel-number order, so IP_CTRL (18/19) binds
-before DUN (32/33). mhi_wwan_ctrl_init() also registers
-mhi_wwan_dtr_driver first.
-
-Suppose root unbinds mhi_wwan_dtr while a DUN port is open. Then
-mhi_wwan_dtr_remove() tears down the channel without first sending DTR/RTS
-low. The drop on last close finds no ctrl_dev in mhi_wwan_ctrl_send_dtr()
-and returns 0 without sending anything.
-
-On a later rebind, mhi_wwan_dtr_probe() adds the registry entry but does
-not replay the stored mdmbits of AT ports that are already open. The core
-filters ioctls that do not change the bits, so TIOCMBIS(TIOCM_DTR) cannot
-recover this either.
-
-The ordering assumption above also does not hold when the async_probe
-module parameter is used.
-
-During mhi_destroy_devices(), IP_CTRL is also removed before DUN, so the
-final drop does nothing. The modem is being reset or powered off at that
-point anyway.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261012172219.3668624-1-peter.hunt%40opengear.com
+[Low] "on port removal": fixed, the comment and kernel-doc now say the
+lines are dropped when a port is removed while still open, and that the
+open-time raise only happens once ->start() has succeeded.
