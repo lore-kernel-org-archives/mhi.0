@@ -1,115 +1,115 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156031F78E6
-	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AE13D6479
+	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792180011; cv=pass; b=VmOoMD6JFdrrcJHKiQdBtDphhhYi2/yidPkTEpsmx8HgKk+rFy0Mo9PcRWxrsQ8CT9ZKeP6IudyDaYO0gCSoPCB8DKArDb4r3D2f/H+IBKjeG5kLQYm79qiF3m1dH/GHjMyYWPZf9O7+0jbs7wjwHPFkf5y8GqYlXtp2QLizLVg=
+	t=1792180073; cv=pass; b=Qvk+cyltTFgivdX9AH4pgCSBbVygBcwO4Vc7VPA9MkbqUn9O5glfB0lfqEBE3UkVp/Zu5TozL3So5pUmzU6g48ySIh+MmNmIo0QzYRcu+QCgVGMtJ73pTBvdnUeu2zhhDs6TQX00okCEARjMlJ0HFhuh0AqcPdO2N1IRi1q9hdo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792180011; c=relaxed/simple;
-	bh=O8cy62w25lVRLQ2+87Qxso1BD9oGuEcVFUfjG4kL72s=;
+	s=arc-20240116; t=1792180073; c=relaxed/simple;
+	bh=OsxrfJdIwI6/les9N6UKoyK/gkJ1cdVxuLttKjePmP4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uHA2AjPwaY+11OcGtQTZwfHk8tbh9FrdJW9R+7ReSjavqc3EnCcnUKwpk6VBNWjGpWs796o4j0C6POVl6gxTy3qGwzNFF2c48ekGVYsH45SaJ+f2E9Qr72Np3iSgNo6anMCNZTM8P+wz1RiwVDCICkrgPJmKnvDgRVMFl3sWG2U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e2zMWSUc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hE1CJUe0; arc=pass smtp.client-ip=205.220.168.131
+	 To:Cc:Content-Type; b=OPaCjL5s+JefEGg3fKRm5cOre2o+R7S3exY7quHsTZ+w9R5uxb38sqKvCpfORc4kvAFMUlj7ryGGP1oC+9oy34vdCF87A5Rurhq2Moe5gRpWSSMG/I2klf3H4snGeP0jbxNe831X0AqV1RxUOQmjb+RcFShYMlu49gl9ejBBLio=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VK5zcsHJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=I8soamB1; arc=pass smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e2zMWSUc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hE1CJUe0"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69GJeAkc3213022
-	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:46:47 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VK5zcsHJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="I8soamB1"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69GJeatr2168826
+	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:47:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	p+VxrDVNdVa6yFhA5w5ziLBUXWol4faVGP6JwE2bNX8=; b=e2zMWSUcOWleOa2n
-	j79pJlkXPs35DClARNUvq+3ZYiCyMLyeX8gS9qSzUSqbg2xHPzthQ581WM+nMAyv
-	3wkTHJUtrzPiIgXv4tZ50WHzIS4K0ebntCICuN4iob0QKtApF1IgW5ET8Gid4zNc
-	0RO4EIEWx0BACvUFaEOSoyX7oK6qCjVhTAUTK4O2PHEVNI/EzdifQ8AxOUPet0j1
-	Ij/Mwj0z/UA5KReFNGQ5FvsaCLy2dF/2wDFVdCAqRAnAvRt6MmpdjbKrYPFhqeHe
-	nP6Y0wt/q6qmsHqK74WIlSFlKZY0JU1lf9lG952eTNB2UACmf0Q1B5s7WQ2y6gQL
-	62sGcg==
+	vLoUVij4D6Xdoj+d66XdloNJ1a24cAv/lHqAd3GbIW4=; b=VK5zcsHJPmHvIibK
+	LFjOfE8gKyh/5KYlEtP9zkL83js+5JTfX0LrTPtTE4z8qcN2skHGbVxbv6fQt6xY
+	YsRfkcnQVdT+bYmQlrdZWwQDJ66ITsPLpq0rHbsYu5f8f5Ya4MNOKn42+0kWiyDY
+	f2KnUYZ5Vy45KRNsnWY00J29PTsXP0MvSm4gkqQVb7cuXgCo75HHroRYJpTpWpZx
+	4ekVt5zZdf7ujocT+hWrF/AudewMGCsnsEw14azhFo2V0jdz6843KszIgOih1iYA
+	pD+UCAeVglmhwbKu0+HCdAQpSz4/lfgAKYCdtQADEeIKPqhYizZn94JdN0JZd9qW
+	sCWoEA==
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hbrwmrap8-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hbhur24cv-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:46:46 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93ecdc701a2so40155685a.3
-        for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 12:46:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792180006; cv=none;
+	for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 19:47:41 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-936aa34873bso59233685a.3
+        for <mhi@lists.linux.dev>; Fri, 16 Oct 2026 12:47:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792180060; cv=none;
         d=google.com; s=arc-20260327;
-        b=jjTCHoiON5d4xdXP3OfkFZSEe+XWbPwRnGxhxMNcLSj/zK0IToJGUmQtTUhq4bF6GM
-         W4dQ/jR5ISMHNsa+8HiYMMECn+IHbpuB8Pq+sr8lS3cVGNJhVWVYDBli1AABXGuKArnW
-         z8ucqZ4wE9L8TkU4Gg5fGyotLfa5kcia94QJ/8bzd8DIMLHPOK68LB9/W3tyl4aplH21
-         i4jno/oT1peJPZGWUB7fXM7/WHj8JQj1HA4O+4otkNgopU6x3xJ4Wv/SOcR+Nsj90Ias
-         0jOv2W0laHLO9i7BKM0CPIkypGhoVi29pyZEHX/HXB3lzAPky6jYlL3k1qoIrcHHvJXy
-         ouYQ==
+        b=atXsSEZaRc4DUaVCb8IbmAiyVWB7FGRcGTN4B7CjB4UC9+4LU+fsOyyve7yEtAPxQa
+         hHwYs5phEwsXwjH5vevvzyFQwiz8eCNjmTp6GUkFoyTtiJs7HiFg6oPcPGTh4lb/eThC
+         UEwWsQERbfCFGuE84KASU1rztSuS1twuSqDL1gfF3tCk8wkq4X+DrtVTxQFvEjDyktV5
+         SKxehesMBS7kOxWXkQUVxWcoknG8DHI//S7DUaZaqEI0Zu7fEVOm6axUOE5JT5CmKRe+
+         SaKWyZv2olZrIC4/xOL7EApHS41VaosXlT3zUtiILIH8MevvcpAZug0BrYGhiy1sNZeE
+         hYwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=p+VxrDVNdVa6yFhA5w5ziLBUXWol4faVGP6JwE2bNX8=;
-        fh=/wZmf/UzyagdUTwXs4xVkzTS1vQ0XcaWKjARKI4bi5o=;
-        b=FuBXox+hpQQKg26OH3UMShk4qKesNMmBpO76KCAEAtXTH7qia/5VexZpk0grOLIgXF
-         t8TGhVpYq9DHw10Tq8T8VIRiXtAIFQTpS1JM4YrU9+UYoKH/bS8MLGktUdO1f9vHxZE2
-         lOXHNsgF4hSTiN3HPA+VeaIXV2z6vdR5VxQBDKKnctZgVAvzm5yhS/yoZzf7WkRJxAx+
-         CSMVKZgoCe+1+11WIIlDBHsgVzKUDysPWgYQl9OaqxjbHm3ygNYd7XU73A1hOxKUtHl/
-         0sVROT934InLt95YAy0CkVZJy2i8vEp4ltw9BoCjqHltvSWkFoZ1K3NPMdJ3dzfKTUB/
-         8jOg==;
+        bh=vLoUVij4D6Xdoj+d66XdloNJ1a24cAv/lHqAd3GbIW4=;
+        fh=WX26DxKWdha+Y6cfuuaid20vLKS81KxlDyhqAgDysmE=;
+        b=BrT1oRc+CfKrnOiZstlXRjVtmmElk2yqlrZjWQMg+TUYewdLJ8bC6Bu1sgZU1qIfpr
+         SYY+FDyptsd/VD5KbaqcSXUM21tcHyAcbOaZN4gDxhnH1KP7K08R183vCrXzeD7b/eDl
+         BeOmr2mh47ZMTJP/lpVd7KYaJxiyKMu01VmTH1u0821SwLhKFmHJJzDxuMPqfedaBovU
+         QKUMI0X120YADk9aO3QDkYNIU5elzxoq6EeUoeB4WfoB+kWPSd9yv1+ne2s40wNanZfM
+         qLRzJbuOoce28r87vXqJhnrPEJmgeM1xOSYwMLcNLGghYc/KVEfS71X5/rmkJytyoIHt
+         YR9Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792180006; x=1792784806; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1792180060; x=1792784860; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=p+VxrDVNdVa6yFhA5w5ziLBUXWol4faVGP6JwE2bNX8=;
-        b=hE1CJUe03nb6Z9Q66CzFLV4TMMXV10z3WGXExZTjk981fCygiGkv07koS2bxHVOZ47
-         A8g8ZcapWjg2uxslloDp6AaWivmxe7ycoNTxbOn0c47OnrW0lLQTqgRKpWhQZcftDUN1
-         ljnJPhTlEs9OYyh6HBQl73jXnMOWnIxfVkVAdiBE23iqLKD0K1pvzAKey3Sk7Ou7uu+u
-         liFln9TozrfTcsfoKrqdg/OFuRPEY4D6XU6Wp0BzUEedE5gTdy79w2qMNENUD4j7lvoq
-         3VIspTbhgGgzV8fqAug6xAYcUTWx125srgWium7n7wGiMpgqOnitdjOgbztJbazw0O41
-         My/A==
+        bh=vLoUVij4D6Xdoj+d66XdloNJ1a24cAv/lHqAd3GbIW4=;
+        b=I8soamB1nd05D4qwRRov5+ak310iqBX3/lCUBCcBOo7BHeWh6ZBBZDokgyDet7wk9S
+         gVYp1Ys1iohc+9+MC0YMV3w49/+EeG6OG3RQrKt9BePWHO0u/LrhhCkyEnOSqgGz/WAZ
+         yTCpOvU7u2IisM/YM2sja5qW3nPLjQ/LzBqOyH9eHS3imzn9fj45IN7gyHBhXSE6o88a
+         jYxSPjhYLcDOcVLSSepXArWkvSWm3vx6lRgAL+9pFc87ZN53hXLfjkLlWTVMTXQmq+l0
+         ne2njnzAnUNrGjvez2ymEF+1AXCl9tt7vKb/TVR3pY5stSSvog3qbaVD104KyUXbLY9k
+         mISg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792180006; x=1792784806;
+        d=1e100.net; s=20260707; t=1792180060; x=1792784860;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=p+VxrDVNdVa6yFhA5w5ziLBUXWol4faVGP6JwE2bNX8=;
-        b=gBmRLp6O5o5q4MG4WVnH3DBSigE/MeY/8sHC6voaa0DDVI5z6/1TsJt9pMrSVsnByd
-         J4SS4NPLX3I3nwOtd6rPbPKKmfrZi68Fd9tVghp93P7dquWHQXpXK5mmryfV2CjXVeVa
-         jF7FNA5W4fAtiqTyZQltR3rNDn7p0iBRSqEaFv2/1KegMMv62RatcBnsp0TECexSnKS1
-         lSEhRXFUPwoJLUWwFV5Tf6byzp5vOW0FAbT3FwVE+nijlBdI/NU3NOy68itPELUhEAZW
-         AHZ8AioW23UoH9ce/neYi6P0GO/pVep+QP58AOsnWh7SjwhLXZ0E/2BHpLvWL99AqyB9
-         bOjg==
-X-Forwarded-Encrypted: i=1; AKwUvBzSEQlIhQw1hP/gSiAMj5d4Tf7MGYHoX6mW7fpZjitS8amKUWRM3Xi3IXpfQigoDWX/+/8=@lists.linux.dev
-X-Gm-Message-State: AFq9FYLvFiv71LOXLVjbwRaKqSaY87O9q3iygGpGHKGPzl5SFrEHCou4
-	BWGBsTxBWhOMvNM4SDxTEhnAc5bMjyTdq6ajVw8BSeCD85HDhzB9/Wdsq6BbZTgNoYCx7Z4rmSn
-	iHxUGSTOmtxneT9bog13ip3EuhMw0NpHSpfOZLVHoVTaQ6HSsaeS9cUx9pZU/x95OJMC2KKa6qF
-	pEFFhKaruvI/4sK4IjxkedyD5y0UQ9zw==
-X-Gm-Gg: AYBFou1ZjGBnyWYx2EWBi/xwWx3REM0rhazCJpt9MeC7/Bmt7QDMYbERGqloWxEDfLu
-	Wzkt9ADznZd7KK79a/SEsMMJyHK00sx6U8lq8WZFUJUiqVdRX6MlGMlQs+RnCm5ml+qKg7mSPoD
-	X0uZuJo5FPgP56BPcnTXvoyN4JRTCmvQgzgdAmIG8hqMQTuf38RBZtD+UKzsjNbWgqIkizLkMK8
-	zqeI11YOL8Zxk0QWEiTt63DlSzQBtLkp1piTZFTz7R/TjmIDlGfa/uDduLppoFYXIvyrKwlZZY=
-X-Received: by 2002:a05:620a:1a28:b0:93f:94b:81ce with SMTP id af79cd13be357-93f29df9e9cmr154460685a.81.1792180005646;
-        Fri, 16 Oct 2026 12:46:45 -0700 (PDT)
-X-Received: by 2002:a05:620a:1a28:b0:93f:94b:81ce with SMTP id
- af79cd13be357-93f29df9e9cmr154454685a.81.1792180004914; Fri, 16 Oct 2026
- 12:46:44 -0700 (PDT)
+        bh=vLoUVij4D6Xdoj+d66XdloNJ1a24cAv/lHqAd3GbIW4=;
+        b=dqU63FF2Pi8bXgR3v7XB0soHv8kam0PZxVnQjGQqAbVLpxeDA2qNeGk/jrCkyU0AJA
+         3Eam5+zb7o0tPKJ35uh8Ejq2DPB5SlM1gRjHfxpmGnqJmdabau9fLpHf15MxhFffdH4B
+         jn9tiDbaPMpwiQUjIerQGbyEpULttPMdUJthsOetJ13su2TgUZxJMBGwFEELSM6miwwq
+         e3GF8Q2OcuFnmwVh7V0rE/xPUQR4PvWD8bQ+EydLxwywfyoN3sN2MC7GyepJwrSpg9yz
+         G+gG967AofWr5UMT8I+Yu+6jzjF3paygBMvSaKJxvAGGws2mHDgDkdY39LhrPeUoc1xT
+         khQw==
+X-Forwarded-Encrypted: i=1; AKwUvByHg7spsVtHxtbHBMb9bnpyq9PLwn9el91w3AFyOMp4wbXwO7ZGU3f5ndUcvP2zzx3EnQ8=@lists.linux.dev
+X-Gm-Message-State: AFq9FYJRdUVSZU8U2SEVnN/3IwP4rb1bZBh3/20v/CkgsuZAeNWqi7pD
+	10Czqqeui/O+Jd7Jc+BSTtGHO5Gt2u94F9WAKRGXWHv1X9yn6v2HUcSE/dG+XuAQT2PrQkwtOWu
+	rl4QwQxIrIGVSUWG9leVKovCIBAbNJD15MaqqLrV7UCm99PeET4fyuHGb7H719+4M+BKwnKOTzT
+	nTE4oboQOPWR7AfBgN5h++mFJma3olFg==
+X-Gm-Gg: AYBFou2UpZ1KDCDrH/9lPVdAvYoy8P4T4D5jIaa4mpDT8iYLaGeGF5ro2jGfSBZfNR/
+	fM+sxjIMZyLpu3+RBo5NbFkeGc8Eb01WxGMptw73XRgoqvRW8xEwcV4EkMC6gaK/Okc+/8viXZ8
+	h8MW3TB2Zhe9TlPzD981Ro+zq9k9RUT5oowZ7Xx5neJAjV0ZzopUzAX/gx6FIK67HapKXQWiw2N
+	fNnKH7tlvLLhIMVk5n9ksvyhOq1heJAcMvcvzuTabkWV43YqRpxv7oflz2dgfCDbetAlM0WRSs=
+X-Received: by 2002:a05:620a:a0d9:10b0:93f:2b23:4824 with SMTP id af79cd13be357-93f2b2369dfmr38755985a.34.1792180060248;
+        Fri, 16 Oct 2026 12:47:40 -0700 (PDT)
+X-Received: by 2002:a05:620a:a0d9:10b0:93f:2b23:4824 with SMTP id
+ af79cd13be357-93f2b2369dfmr38730185a.34.1792180054970; Fri, 16 Oct 2026
+ 12:47:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261013183500.261229-1-peter.hunt@opengear.com> <20261013183500.261229-2-peter.hunt@opengear.com>
-In-Reply-To: <20261013183500.261229-2-peter.hunt@opengear.com>
+References: <20261013183500.261229-1-peter.hunt@opengear.com> <20261013183500.261229-3-peter.hunt@opengear.com>
+In-Reply-To: <20261013183500.261229-3-peter.hunt@opengear.com>
 From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Fri, 16 Oct 2026 21:46:33 +0200
-X-Gm-Features: AclHuK-CR9XEUZOvZ07wl9FWbZnEXYQmRoc2w77oysNymiE6oO9QzUKYzXBBsJY
-Message-ID: <CAFEp6-2jxY3R3FWm9oWJNtJ3zLfRkEDZ3pxb=T8qNnNLorASiQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 1/2] net: wwan: core: propagate modem control
- signals to port drivers
+Date: Fri, 16 Oct 2026 21:47:23 +0200
+X-Gm-Features: AclHuK82BVEMNwOOoX7-QLyz02roVe99c3uFgde7R8Y7ar1YoeqPe54ho6qU6oo
+Message-ID: <CAFEp6-07eXPbC0Q=UuAMqHF4XKbZQ7X9eEDSFuBp+V_UpFZSpQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 2/2] net: wwan: mhi_wwan_ctrl: drive DTR/RTS
+ via the IP_CTRL channel
 To: Peter Hunt <peter.hunt@opengear.com>
 Cc: ryazanov.s.a@gmail.com, Daniele Palmas <dnlplm@gmail.com>,
         johannes@sipsolutions.net, mani@kernel.org, andrew+netdev@lunn.ch,
@@ -118,493 +118,478 @@ Cc: ryazanov.s.a@gmail.com, Daniele Palmas <dnlplm@gmail.com>,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=B4osQ+tM c=1 sm=1 tr=0 ts=6ad27f26 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDA3OCBTYWx0ZWRfX85xHmtsIskf6
+ TEutTEcmovkfewMqHLBKaO3b3fpzeltMI+seFz4q7HHamyjd+/0x2JDXyIvT9yeLesdnNdMxOy+
+ 3OCyEKnBgV6jq+F20hMCAOjTrjOfy5ySBBx0tyT0NUAgrxf4bxAPuB1OU6jFHzbjCt9NB28J/Zx
+ uYgh/4gC2lUN+guXuJskSvQgxTeIc0RKlAnfO7UmzkgOUlUBMAZ9JKoZA2cSR3UYgzo4KOMZtni
+ rYcWPdf2McTxSuHdT9v2qGahhgutsNd4OrT32KtEzKBya1p11zZNPPZ9NUTnEqs9J2AfboNCDqT
+ uEm4Um8Yx/TGaT4+r/m7lZUghVf7shrA8FhNiNpPxflzF2NUxiQfc3vKnWWhBomGZOlyOhwb4c0
+ 3gDXbWxL46lL3jzdqEM93CDTq2gSsS+CSJqZuiyFE6xK22Cd4jdbIZE8sNl2TvDJmq63C8VMWXo
+ ajDl8WfFPM4mA7qOI9Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDA3OCBTYWx0ZWRfXww+qfSj0V6PR
+ PU6QxZwjjpUNGbVd/0uPBalTeDJZPqFj8+8utM7ybIZa1FrtZQPzlfMtvLcJCLZxT+0HR/k3daQ
+ 8i1vORaBVMx+a/i4c7/C6Iwz3sshXEI=
+X-Authority-Analysis: v=2.4 cv=PqsG/AM3 c=1 sm=1 tr=0 ts=6ad27f5d cx=c_pps
  a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yOCtJkima9RkubShWh1s:22 a=t2vznHeBAAAA:8 a=EUspDBNiAAAA:8
- a=qh7v8B4ApeZPtt9jo1oA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=V_BghkRpYkFyHJIZkSH6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDA3OCBTYWx0ZWRfXxh7/hOiNQgKU
- KO1+fkr5EfrfAKsZyPrD1YnBaqC54YEB7wb6bwaSJgUjKJ2lcjvx+u/BYTdA+wT4zQw2TO4yu/K
- pQrlsGmw3+KOGFyX+1kLF8ZkE9oABX4w0w28CKsKCbFd3wfYLCv76EsPQS3No85gLVTEt8M/u4U
- nXLVG5BPOMavPmC922Oeb/8Y3bvpdA3954IXmgBHhPSEsohvenm9pZedwangGqnYpwm7BriXCzc
- WitLiIH+w5XQv/MnnktN+h7pD8p+gw9B/MzYWD5XvJHltWICtzU5b/lv+DnbAq2X0ZyMLbEmw4U
- hI8YOE9HGqB22lpEbbELS78zd1UJvsxBpDS1tYaa0Croa0dR8QdonJaGTpkBIjAi3m7jeUncxhk
- uf5JWc9agouLq/lzAQANefWRgmSXpEUdk94pWUEYyqvfWSau/8mhRZz98dPnSs3PlITCyL81SJg
- q9mybfTqPc+r9TO85uQ==
-X-Proofpoint-ORIG-GUID: vP4e-kcYQc_ifYFhrt4cFGdqCAiLSDTS
-X-Proofpoint-GUID: vP4e-kcYQc_ifYFhrt4cFGdqCAiLSDTS
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDA3OCBTYWx0ZWRfX9Ilt1s/fnWe5
- /tzrekNEGl6f9+jICjKHRzSYrPYCNwTjbR8v3E0J6ZtEBOpriMeSi1tbJXXQZaz14C0ocieg2yE
- Csl93Mha22wY1IHI6fL3dxxcgBg0Tu8=
+ a=yx91gb_oNiZeI1HMLzn7:22 a=t2vznHeBAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=G3Y4Gno3pi7WJKXLtj8A:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+ a=V_BghkRpYkFyHJIZkSH6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Xd4HJZhwCTU0jpz1n_eX4pZoNiMK280e
+X-Proofpoint-GUID: Xd4HJZhwCTU0jpz1n_eX4pZoNiMK280e
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-16_03,2026-10-14_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 suspectscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160078
 
-On Tue, Oct 13, 2026 at 8:37=E2=80=AFPM Peter Hunt <peter.hunt@opengear.com=
+On Tue, Oct 13, 2026 at 8:36=E2=80=AFPM Peter Hunt <peter.hunt@opengear.com=
 > wrote:
 >
-> The WWAN character device emulates the TTY modem-control ioctls
-> (TIOCMGET/TIOCMSET/TIOCMBIC/TIOCMBIS) for AT and QCDM ports, but the
-> result is only stored in port->at_data.mdmbits and never reaches the port
-> driver. A driver therefore cannot act on the host raising or dropping
-> DTR/RTS, even though some modems depend on it (e.g. they withhold
-> unsolicited AT result codes until the host asserts DTR).
+> Qualcomm/Sierra SDX55/SDX65 modems withhold unsolicited AT result codes
+> (URCs such as +CREG, and the +DMI OMA-DM/LwM2M session indications) on
+> an AT port until the host asserts DTR. mhi_wwan_ctrl exposed the AT
+> (DUN) ports but had no way to signal DTR, so URCs never reached
+> userspace.
 >
-> Add an optional ->dtr_rts(port, mdmbits) operation to struct wwan_port_op=
-s.
-> Drivers that implement it receive the TIOCM output bitmask so they can
-> assert or de-assert DTR and RTS independently. As in tty_tiocmset(), the
-> wwan core keeps only the output bits (DTR, RTS, OUT1, OUT2, LOOP) of the
-> TIOCMSET/TIOCMBIS/TIOCMBIC value in port->at_data.mdmbits, and calls
-> ->dtr_rts when DTR or RTS actually changes, gated on WWAN_PORT_AT to matc=
-h
-> the open/close raise/drop behaviour.
+> Carry the host serial-control lines to the modem over the dedicated
+> IP_CTRL MHI channel, which this module now also binds. IP_CTRL uses a
+> separate mhi_driver with its own callbacks so the AT/QMI/MBIM data path
+> is untouched; the control-channel device for each MHI controller is
+> tracked in a small registry so an AT port drives the IP_CTRL channel of
+> its own modem (multiple modems are supported).
 >
-> Also raise DTR/RTS in wwan_port_op_start on first open of an AT port
-> when the driver implements ->dtr_rts, and drop them in wwan_port_op_stop
-> on last close if HUPCL is set in the port's termios. This follows TTY
-> open/close semantics, although the termios baud rate is not used, and
-> means individual drivers do not need to implement this themselves. As on
-> a TTY, HUPCL defaults to on for AT ports, and userspace can clear it
-> with TCSETS to keep DTR asserted across close, for example so that
-> closing the port does not end a call on a modem set to AT&D1/AT&D2.
-> TCSETS and TCSETS2 now only commit the new termios when the copy from
-> userspace succeeds, so a faulting call cannot silently clear HUPCL.
+> The IP_CTRL channel has to be declared in the controller's channel config
+> for this driver to bind. For the Sierra EM919x/EM929x this is done by
+> commit 83c29a55b89e ("bus: mhi: host: pci_generic: Add IP_CTRL channel
+> for Sierra EM919x/EM929x") in the MHI tree. On controllers that do not
+> declare IP_CTRL the driver does not bind and ->dtr_rts is a no-op.
 >
-> ->dtr_rts must be called under ops_lock, which serialises port ops and
-> protects against port removal (removal clears port->ops under it). So
-> that updates to the TIOCM state and the ->dtr_rts calls are serialised
-> together, the termios/TIOCM state now also lives under ops_lock and the
-> separate data_lock is removed. The AT/QCDM ioctl handler only holds
-> ops_lock while it reads or updates that state, never across a
-> user-memory copy, and takes it interruptibly since a driver's blocking
-> write holds it while it waits. Ioctls that do not touch that state, such
-> as TCFLSH, TIOCEXCL and the FIONREAD fallback, do not take it.
+> The wwan core, with "net: wwan: core: propagate modem control signals to
+> port drivers", raises DTR/RTS on first open and drops them on last close
+> (if HUPCL is set) for any AT port whose driver implements ->dtr_rts, so
+> no open/close handling is needed here. The new ->dtr_rts op lets
+> userspace assert or de-assert them via TIOCMSET/TIOCMBIC/TIOCMBIS.
+> Received device->host serial state messages are silently discarded; a
+> single recycled sink buffer keeps the IP_CTRL DL ring live so the
+> modem's transmit path does not stall.
 >
-> wwan_remove_port() also drops DTR/RTS before ->stop() when a port is
-> removed while still open, regardless of HUPCL since the device is going
-> away. The raise and drop paths go through two small helpers, which do
-> the AT port and ->dtr_rts checks and pass the driver the resulting
-> bitmask.
+> ->dtr_rts is void, following the tty_port_operations model it is
+> modelled on. It records the requested state and schedules a per-port
+> work item that sends the latest state to the modem, so a burst of
+> changes is coalesced into one message and cannot fill the IP_CTRL UL
+> ring. If a send fails because the ring is full or memory is short, the
+> work retries shortly with whatever state is latest by then, so the modem
+> ends up with the final state that was requested. The DL sink buffer is
+> requeued from a work item, which retries a transient -ENOMEM so the DL
+> ring does not stay empty, and which remove() disables before tearing
+> down the channel.
 >
 > Signed-off-by: Peter Hunt <peter.hunt@opengear.com>
 
 Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 
 > ---
-> v10: Only hold ops_lock in the AT ioctl handler around the termios/TIOCM
->     state, with user copies done outside it, return -ERESTARTSYS when
->     interrupted, and leave ops_lock alone for ioctls that do not touch
->     that state. Word the TTY comparisons and the ->dtr_rts kernel-doc
->     more precisely (the baud rate is not used, removal only drops the
->     lines while the port is open, open only once ->start() has
->     succeeded). Both from the Sashiko review of v9, still using ops_lock
->     only as agreed with Loic Poulain
-> v9: Raise DTR/RTS inside the existing first-open branch of
->     wwan_port_op_start(), and drop data_lock so the termios/TIOCM state
->     and ->dtr_rts calls are all serialised by ops_lock, taken
->     interruptibly in the ioctl handler (Loic Poulain). Mask
->     TIOCMSET/TIOCMBIS/TIOCMBIC to the output bits and only call
->     ->dtr_rts when DTR or RTS changes, commit TCSETS/TCSETS2 only on a
->     successful copy, and describe the calls in the ->dtr_rts kernel-doc
->     (Sashiko review of v7). Document in the ->dtr_rts kernel-doc why it
->     is AT-only (Loic Poulain, Daniele Palmas)
-> v8: Add wwan_port_raise_dtr_rts() as the counterpart of
->     wwan_port_drop_dtr_rts() and move the open-path handling there, move
->     the AT port and ->dtr_rts checks into both helpers, use
->     scoped_guard() for data_lock (Loic Poulain)
-> v7: Drop DTR/RTS on last close only if HUPCL is set, and default HUPCL on
->     for AT ports. Pass the masked mdmbits rather than 0 from
->     wwan_remove_port(), via a helper shared with the close path. Both
->     from the Sashiko review of v6
-> v6: Rebase onto net-next. Snapshot mdmbits under data_lock before calling
->     ->dtr_rts from wwan_port_op_start()/wwan_port_op_stop(), rather than
->     reading it after data_lock has been released
-> v5: Change ->dtr_rts signature from bool to unsigned int mdmbits so DTR
->     and RTS can be driven independently; re-read mdmbits inside ops_lock
->     in the ioctl path to close a concurrent-ioctl ordering race; add
->     de-assert call to wwan_remove_port() for the hot-unplug case; update
->     kernel-doc to note the op is AT-only and describe the mdmbits argumen=
-t
-> v4: Protect at_data.mdmbits in wwan_port_op_start/stop under data_lock;
->     release data_lock and acquire ops_lock with a NULL check before calli=
-ng
->     ->dtr_rts from the ioctl path; gate ioctl ->dtr_rts on WWAN_PORT_AT t=
-o
->     match open/close behaviour; reduce boolean to TIOCM_DTR only
-> v3: Replace ->tiocmget/->tiocmset with ->dtr_rts(port, bool on) modelled
->     on tty_port_operations.dtr_rts; raise/drop DTR/RTS in
->     wwan_port_op_start/stop rather than in the driver (Loic Poulain)
+> v10: Send DTR/RTS changes from a per-port work item that coalesces
+>     bursts and retries a send that fails with -EAGAIN (UL ring full) or
+>     -ENOMEM, so the modem always ends up with the final state. Testing
+>     v9 showed that rapid toggling could fill the IP_CTRL UL ring and
+>     drop updates (Sashiko review of v9). Loic's Reviewed-by is dropped
+>     as the send path changed
+> v9: Requeue the DL sink buffer only from the refill work and disable it
+>     with disable_delayed_work_sync() before mhi_unprepare_from_transfer()
+>     in remove(), so no requeue can race with channel teardown (Loic
+>     Poulain, Sashiko review of v7). Leave unpreparing to mhi_probe() when
+>     probe fails. Name the wwan core commit instead of "patch 1"
+> v8: No changes
+> v7: Retry a failed DL sink buffer requeue from a delayed work item on
+>     -ENOMEM, and log other failures. Note the dependency on the IP_CTRL
+>     channel entry in pci_generic, now in the MHI tree. Both from the
+>     Sashiko review of v6
+> v6: Rebase onto net-next. Allocate the IP_CTRL DL sink buffer separately
+>     instead of embedding it in struct mhi_wwan_dtr, so DMA cache
+>     maintenance on non-coherent platforms cannot touch neighbouring field=
+s.
+>     Do not requeue the sink buffer from the DL callback when the transfer
+>     completes with an error (e.g. -ENOTCONN during channel teardown)
+> v5: Implement ->dtr_rts(port, mdmbits) and drive DTR and RTS
+>     independently. Pre-queue an RX sink buffer in probe and requeue it in
+>     the DL callback so the IP_CTRL DL ring does not run empty and stall
+>     the modem's transmit path
+> v4: Add dev_dbg when IP_CTRL channel is not enumerated for this controlle=
+r
+>     and when mhi_queue_buf fails, to aid diagnosis of the "URCs missing"
+>     case on controllers that do not declare IP_CTRL
+> v3: Remove is_at_port, implement ->dtr_rts instead of ->tiocmset,
+>     open/close DTR raise/drop handled by wwan core (Loic Poulain)
 > ---
->  drivers/net/wwan/wwan_core.c | 172 +++++++++++++++++++++++------------
->  include/linux/wwan.h         |   9 ++
->  2 files changed, 124 insertions(+), 57 deletions(-)
+>  drivers/net/wwan/mhi_wwan_ctrl.c | 262 ++++++++++++++++++++++++++++++-
+>  1 file changed, 261 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/net/wwan/wwan_core.c b/drivers/net/wwan/wwan_core.c
-> index ffbcf11e4e68..7097b58dafde 100644
-> --- a/drivers/net/wwan/wwan_core.c
-> +++ b/drivers/net/wwan/wwan_core.c
-> @@ -25,6 +25,10 @@
->  #include <net/rtnetlink.h>
->  #include <uapi/linux/wwan.h>
+> diff --git a/drivers/net/wwan/mhi_wwan_ctrl.c b/drivers/net/wwan/mhi_wwan=
+_ctrl.c
+> index a31d8540fbb8..e3c207588956 100644
+> --- a/drivers/net/wwan/mhi_wwan_ctrl.c
+> +++ b/drivers/net/wwan/mhi_wwan_ctrl.c
+> @@ -1,8 +1,13 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /* Copyright (c) 2021, Linaro Ltd <loic.poulain@linaro.org> */
+>  #include <linux/kernel.h>
+> +#include <linux/list.h>
+>  #include <linux/mhi.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/slab.h>
+> +#include <linux/termios.h>
+> +#include <linux/workqueue.h>
+>  #include <linux/wwan.h>
 >
-> +/* Modem control bits userspace may set on an AT port, as for tty_tiocms=
-et() */
-> +#define WWAN_TIOCM_OUTPUTS     (TIOCM_DTR | TIOCM_RTS | TIOCM_OUT1 | \
-> +                                TIOCM_OUT2 | TIOCM_LOOP)
+>  /* MHI wwan flags */
+> @@ -14,6 +19,32 @@ enum mhi_wwan_flags {
+>
+>  #define MHI_WWAN_MAX_MTU       0x8000
+>
+> +/* IP_CTRL channel message that sets the modem's DTR/RTS control lines *=
+/
+> +struct mhi_dtr_ctrl_msg {
+> +       __le32 preamble;
+> +       __le32 msg_id;
+> +       __le32 dest_id;
+> +       __le32 size;
+> +       __le32 msg;
+> +} __packed;
 > +
->  /* Maximum number of minors in use */
->  #define WWAN_MAX_MINORS                (1 << MINORBITS)
->
-> @@ -73,11 +77,10 @@ struct wwan_device {
->   * @start_count: Port start counter
->   * @flags: Store port state and capabilities
->   * @ops: Pointer to WWAN port operations
-> - * @ops_lock: Protect port ops
-> + * @ops_lock: Protect port ops, and the AT/QCDM termios and TIOCM state
->   * @dev: Underlying device
->   * @rxq: Buffer inbound queue
->   * @waitqueue: The waitqueue for port fops (read/write/poll)
-> - * @data_lock: Port specific data access serialization
->   * @headroom_len: SKB reserved headroom size
->   * @frag_len: Length to fragment packet
->   * @at_data: AT port specific data
-> @@ -88,11 +91,10 @@ struct wwan_port {
->         unsigned int start_count;
->         unsigned long flags;
->         const struct wwan_port_ops *ops;
-> -       struct mutex ops_lock; /* Serialize ops + protect against removal=
- */
-> +       struct mutex ops_lock; /* Serialize ops + at_data, protect agains=
-t removal */
->         struct device dev;
->         struct sk_buff_head rxq;
->         wait_queue_head_t waitqueue;
-> -       struct mutex data_lock; /* Port specific data access serializatio=
-n */
->         size_t headroom_len;
->         size_t frag_len;
->         union {
-> @@ -374,7 +376,6 @@ static void wwan_port_destroy(struct device *dev)
->
->         if (dev->class =3D=3D &wwan_class)
->                 ida_free(&minors, MINOR(dev->devt));
-> -       mutex_destroy(&port->data_lock);
->         mutex_destroy(&port->ops_lock);
->         kfree(port);
->  }
-> @@ -653,7 +654,10 @@ struct wwan_port *wwan_create_port(struct device *pa=
-rent,
->         mutex_init(&port->ops_lock);
->         skb_queue_head_init(&port->rxq);
->         init_waitqueue_head(&port->waitqueue);
-> -       mutex_init(&port->data_lock);
+> +#define MHI_DTR_CTRL_MAGIC     0x4C525443      /* 'CTRL' */
+> +#define MHI_DTR_MSG_DTR                BIT(0)
+> +#define MHI_DTR_MSG_RTS                BIT(1)
+> +#define MHI_DTR_HOST_STATE     0x10
 > +
-> +       /* AT ports default to HUPCL, so DTR/RTS are dropped on last clos=
-e */
-> +       if (type =3D=3D WWAN_PORT_AT)
-> +               port->at_data.termios.c_cflag =3D HUPCL;
->
->         port->dev.parent =3D &wwandev->dev;
->         port->dev.type =3D &wwan_port_dev_type;
-> @@ -679,12 +683,44 @@ struct wwan_port *wwan_create_port(struct device *p=
-arent,
->  }
->  EXPORT_SYMBOL_GPL(wwan_create_port);
->
-> +/* Raise DTR/RTS when an AT port is first opened, as a TTY does on open.
-> + * Unlike a TTY the termios baud rate is not used. Called with ops_lock =
-held.
-> + */
-> +static void wwan_port_raise_dtr_rts(struct wwan_port *port)
-> +{
-> +       lockdep_assert_held(&port->ops_lock);
+> +/* Per-controller IP_CTRL channel, used to signal DTR/RTS to that modem =
+*/
+> +struct mhi_wwan_dtr {
+> +       struct mhi_controller *cntrl;
+> +       struct mhi_device *mhi_dev;
+> +       struct list_head node;
+> +       struct mhi_dtr_ctrl_msg *rx_buf; /* DL sink, separate allocation =
+for DMA safety */
+> +       struct delayed_work rx_refill; /* retries a failed sink buffer re=
+queue */
+> +};
 > +
-> +       if (port->type !=3D WWAN_PORT_AT || !port->ops->dtr_rts)
-> +               return;
+> +static LIST_HEAD(mhi_wwan_dtr_list);
+> +static DEFINE_MUTEX(mhi_wwan_dtr_lock);
 > +
-> +       port->at_data.mdmbits |=3D TIOCM_DTR | TIOCM_RTS;
-> +       port->ops->dtr_rts(port, port->at_data.mdmbits);
-> +}
+>  struct mhi_wwan_dev {
+>         /* Lower level is a mhi dev, upper level is a wwan port */
+>         struct mhi_device *mhi_dev;
+> @@ -35,6 +66,12 @@ struct mhi_wwan_dev {
+>          * decremented on data queueing and incremented on data release.
+>          */
+>         unsigned int rx_budget;
 > +
-> +/* Drop DTR/RTS on an AT port. Called with ops_lock held. On last close
-> + * the lines are only dropped if HUPCL is set, as for a TTY. When a port=
- is
-> + * removed while still open they are always dropped.
-> + */
-> +static void wwan_port_drop_dtr_rts(struct wwan_port *port, bool hupcl_on=
-ly)
-> +{
-> +       lockdep_assert_held(&port->ops_lock);
-> +
-> +       if (port->type !=3D WWAN_PORT_AT || !port->ops->dtr_rts)
-> +               return;
-> +       if (hupcl_only && !(port->at_data.termios.c_cflag & HUPCL))
-> +               return;
-> +
-> +       port->at_data.mdmbits &=3D ~(TIOCM_DTR | TIOCM_RTS);
-> +       port->ops->dtr_rts(port, port->at_data.mdmbits);
-> +}
-> +
->  void wwan_remove_port(struct wwan_port *port)
->  {
->         struct wwan_device *wwandev =3D to_wwan_dev(port->dev.parent);
->
->         mutex_lock(&port->ops_lock);
->         if (port->start_count) {
-> +               wwan_port_drop_dtr_rts(port, false);
->                 port->ops->stop(port);
->                 port->start_count =3D 0;
->         }
-> @@ -756,8 +792,11 @@ static int wwan_port_op_start(struct wwan_port *port=
-)
->         }
->
->         /* If port is already started, don't start again */
-> -       if (!port->start_count)
-> +       if (!port->start_count) {
->                 ret =3D port->ops->start(port);
-> +               if (!ret)
-> +                       wwan_port_raise_dtr_rts(port);
-> +       }
->
->         if (!ret)
->                 port->start_count++;
-> @@ -773,8 +812,10 @@ static void wwan_port_op_stop(struct wwan_port *port=
-)
->         mutex_lock(&port->ops_lock);
->         port->start_count--;
->         if (!port->start_count) {
-> -               if (port->ops)
-> +               if (port->ops) {
-> +                       wwan_port_drop_dtr_rts(port, true);
->                         port->ops->stop(port);
-> +               }
->                 skb_queue_purge(&port->rxq);
->                 clear_bit(WWAN_PORT_EXCLUSIVE, &port->flags);
->         }
-> @@ -976,92 +1017,109 @@ static __poll_t wwan_port_fops_poll(struct file *=
-filp, poll_table *wait)
->  }
->
->  /* Implements minimalistic stub terminal IOCTLs support */
-> -static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int=
- cmd,
-> -                                   unsigned long arg)
-> +/* TCGETS/TCSETS and their termios2 variants. @size is the size of the u=
-ser
-> + * structure, a prefix of struct ktermios. As for the TIOCM ioctls, user
-> + * memory is only accessed outside ops_lock.
-> + */
-> +static long wwan_port_termios_ioctl(struct wwan_port *port, bool set,
-> +                                   void __user *uarg, size_t size)
->  {
-> -       int ret =3D 0;
-> +       struct ktermios termios;
->
-> -       mutex_lock(&port->data_lock);
-> +       if (!set) {
-> +               scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &port-=
->ops_lock)
-> +                       termios =3D port->at_data.termios;
-> +               return copy_to_user(uarg, &termios, size) ? -EFAULT : 0;
-> +       }
-> +
-> +       /* Commit only on success, a partial copy must not clear HUPCL */
-> +       if (copy_from_user(&termios, uarg, size))
-> +               return -EFAULT;
-> +       scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &port->ops_loc=
-k)
-> +               memcpy(&port->at_data.termios, &termios, size);
-> +       return 0;
-> +}
->
-> +static long wwan_port_fops_at_ioctl(struct wwan_port *port, unsigned int=
- cmd,
-> +                                   unsigned long arg)
-> +{
-> +       /* ops_lock serialises the termios/TIOCM state with port ops and
-> +        * removal. It is only held while that state is read or updated, =
-never
-> +        * across a user copy, and is taken interruptibly as a blocking w=
-rite
-> +        * holds it too.
+> +       /* Latest DTR/RTS state for the modem, sent from dtr_work so a bu=
+rst of
+> +        * changes is coalesced and only the final state has to get throu=
+gh
 > +        */
->         switch (cmd) {
->         case TCFLSH:
-> -               break;
-> +               return 0;
->
->         case TCGETS:
-> -               if (copy_to_user((void __user *)arg, &port->at_data.termi=
-os,
-> -                                sizeof(struct termios)))
-> -                       ret =3D -EFAULT;
-> -               break;
-> -
->         case TCSETS:
->         case TCSETSW:
->         case TCSETSF:
-> -               if (copy_from_user(&port->at_data.termios, (void __user *=
-)arg,
-> -                                  sizeof(struct termios)))
-> -                       ret =3D -EFAULT;
-> -               break;
-> +               return wwan_port_termios_ioctl(port, cmd !=3D TCGETS,
-> +                                              (void __user *)arg,
-> +                                              sizeof(struct termios));
->
->  #ifdef TCGETS2
->         case TCGETS2:
-> -               if (copy_to_user((void __user *)arg, &port->at_data.termi=
-os,
-> -                                sizeof(struct termios2)))
-> -                       ret =3D -EFAULT;
-> -               break;
-> -
->         case TCSETS2:
->         case TCSETSW2:
->         case TCSETSF2:
-> -               if (copy_from_user(&port->at_data.termios, (void __user *=
-)arg,
-> -                                  sizeof(struct termios2)))
-> -                       ret =3D -EFAULT;
-> -               break;
-> +               return wwan_port_termios_ioctl(port, cmd !=3D TCGETS2,
-> +                                              (void __user *)arg,
-> +                                              sizeof(struct termios2));
->  #endif
->
-> -       case TIOCMGET:
-> -               ret =3D put_user(port->at_data.mdmbits, (int __user *)arg=
-);
-> -               break;
-> +       case TIOCMGET: {
-> +               int mdmbits;
-> +
-> +               scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &port-=
->ops_lock)
-> +                       mdmbits =3D port->at_data.mdmbits;
-> +               return put_user(mdmbits, (int __user *)arg);
-> +       }
->
->         case TIOCMSET:
->         case TIOCMBIC:
->         case TIOCMBIS: {
->                 int mdmbits;
->
-> -               if (copy_from_user(&mdmbits, (int __user *)arg, sizeof(in=
-t))) {
-> -                       ret =3D -EFAULT;
-> -                       break;
-> +               if (get_user(mdmbits, (int __user *)arg))
-> +                       return -EFAULT;
-> +               mdmbits &=3D WWAN_TIOCM_OUTPUTS;
-> +
-> +               scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &port-=
->ops_lock) {
-> +                       int old =3D port->at_data.mdmbits;
-> +
-> +                       if (cmd =3D=3D TIOCMBIC)
-> +                               port->at_data.mdmbits &=3D ~mdmbits;
-> +                       else if (cmd =3D=3D TIOCMBIS)
-> +                               port->at_data.mdmbits |=3D mdmbits;
-> +                       else
-> +                               port->at_data.mdmbits =3D mdmbits;
-> +                       /* Only signal the driver when DTR or RTS actuall=
-y changes */
-> +                       if (port->type =3D=3D WWAN_PORT_AT && port->ops &=
-&
-> +                           port->ops->dtr_rts &&
-> +                           (old ^ port->at_data.mdmbits) & (TIOCM_DTR | =
-TIOCM_RTS))
-> +                               port->ops->dtr_rts(port, port->at_data.md=
-mbits);
->                 }
-> -               if (cmd =3D=3D TIOCMBIC)
-> -                       port->at_data.mdmbits &=3D ~mdmbits;
-> -               else if (cmd =3D=3D TIOCMBIS)
-> -                       port->at_data.mdmbits |=3D mdmbits;
-> -               else
-> -                       port->at_data.mdmbits =3D mdmbits;
-> -               break;
-> +               return 0;
->         }
->
->         case TIOCEXCL:
->                 set_bit(WWAN_PORT_EXCLUSIVE, &port->flags);
-> -               break;
-> +               return 0;
->
->         case TIOCNXCL:
->                 clear_bit(WWAN_PORT_EXCLUSIVE, &port->flags);
-> -               break;
-> +               return 0;
->
->         case TIOCGEXCL:
-> -       {
-> -               int excl =3D test_bit(WWAN_PORT_EXCLUSIVE, &port->flags);
-> -
-> -               ret =3D put_user(excl, (int __user *)arg);
-> -               break;
-> -       }
-> +               return put_user(test_bit(WWAN_PORT_EXCLUSIVE, &port->flag=
-s),
-> +                               (int __user *)arg);
->
->         default:
-> -               ret =3D -ENOIOCTLCMD;
-> +               return -ENOIOCTLCMD;
->         }
-> -
-> -       mutex_unlock(&port->data_lock);
-> -
-> -       return ret;
->  }
->
->  static long wwan_port_fops_ioctl(struct file *filp, unsigned int cmd,
-> diff --git a/include/linux/wwan.h b/include/linux/wwan.h
-> index 1e0e2cb53579..23a8a8ee473d 100644
-> --- a/include/linux/wwan.h
-> +++ b/include/linux/wwan.h
-> @@ -57,6 +57,14 @@ struct wwan_port;
->   * @tx_blocking: Optional blocking routine that sends WWAN port protocol=
- data
->   *               to the device.
->   * @tx_poll: Optional routine that sets additional TX poll flags.
-> + * @dtr_rts: Optional routine that updates the modem control lines to ma=
-tch
-> + *           @mdmbits, the TIOCM_* output bits (DTR, RTS, OUT1, OUT2, LO=
-OP)
-> + *           currently set for the port. Called when the port is first o=
-pened
-> + *           and ->start() has succeeded, on last close if HUPCL is set,=
- when
-> + *           the port is removed while still open, and when TIOCMSET, TI=
-OCMBIS
-> + *           or TIOCMBIC changes DTR or RTS. Only called for WWAN_PORT_A=
-T ports,
-> + *           as only the AT (DUN) port carries the modem's virtual RS-23=
-2
-> + *           control signals.
->   *
->   * The wwan_port_ops structure contains a list of low-level operations
->   * that control a WWAN port device. All functions are mandatory unless s=
-pecified.
-> @@ -70,6 +78,7 @@ struct wwan_port_ops {
->         int (*tx_blocking)(struct wwan_port *port, struct sk_buff *skb);
->         __poll_t (*tx_poll)(struct wwan_port *port, struct file *filp,
->                             poll_table *wait);
-> +       void (*dtr_rts)(struct wwan_port *port, unsigned int mdmbits);
+> +       unsigned int dtr_mdmbits;
+> +       struct delayed_work dtr_work;
 >  };
 >
->  /** struct wwan_port_caps - The WWAN port capbilities
+>  /* Increment RX budget and schedule RX refill if necessary */
+> @@ -103,6 +140,80 @@ static void mhi_wwan_ctrl_refill_work(struct work_st=
+ruct *work)
+>         }
+>  }
+>
+> +/* Signal the modem's DTR/RTS lines over its own controller's IP_CTRL ch=
+annel */
+> +static int mhi_wwan_ctrl_send_dtr(struct mhi_wwan_dev *mhiwwan, unsigned=
+ int mdmbits)
+> +{
+> +       struct mhi_controller *cntrl =3D mhiwwan->mhi_dev->mhi_cntrl;
+> +       struct mhi_device *ctrl_dev =3D NULL;
+> +       struct mhi_dtr_ctrl_msg *dtr_msg;
+> +       struct mhi_wwan_dtr *dtr;
+> +       u32 msg =3D 0;
+> +       int ret;
+> +
+> +       guard(mutex)(&mhi_wwan_dtr_lock);
+> +
+> +       list_for_each_entry(dtr, &mhi_wwan_dtr_list, node) {
+> +               if (dtr->cntrl =3D=3D cntrl) {
+> +                       ctrl_dev =3D dtr->mhi_dev;
+> +                       break;
+> +               }
+> +       }
+> +       if (!ctrl_dev) {
+> +               dev_dbg(&mhiwwan->mhi_dev->dev,
+> +                       "IP_CTRL not enumerated; DTR/RTS not signalled to=
+ modem\n");
+> +               return 0;
+> +       }
+> +
+> +       dtr_msg =3D kzalloc_obj(*dtr_msg);
+> +       if (!dtr_msg)
+> +               return -ENOMEM;
+> +
+> +       if (mdmbits & TIOCM_DTR)
+> +               msg |=3D MHI_DTR_MSG_DTR;
+> +       if (mdmbits & TIOCM_RTS)
+> +               msg |=3D MHI_DTR_MSG_RTS;
+> +
+> +       dtr_msg->preamble =3D cpu_to_le32(MHI_DTR_CTRL_MAGIC);
+> +       dtr_msg->msg_id =3D cpu_to_le32(MHI_DTR_HOST_STATE);
+> +       dtr_msg->dest_id =3D cpu_to_le32(mhiwwan->mhi_dev->ul_chan_id);
+> +       dtr_msg->size =3D cpu_to_le32(sizeof(__le32));
+> +       dtr_msg->msg =3D cpu_to_le32(msg);
+> +
+> +       ret =3D mhi_queue_buf(ctrl_dev, DMA_TO_DEVICE, dtr_msg, sizeof(*d=
+tr_msg),
+> +                           MHI_EOT);
+> +       if (ret)
+> +               kfree(dtr_msg);
+> +
+> +       return ret;
+> +}
+> +
+> +/* Send the latest DTR/RTS state. A full UL ring or a failed allocation =
+is
+> + * retried shortly, with whatever state is latest by then, so the modem =
+ends
+> + * up with the final state. Other errors mean the channel is going away.
+> + */
+> +static void mhi_wwan_ctrl_dtr_work(struct work_struct *work)
+> +{
+> +       struct mhi_wwan_dev *mhiwwan =3D container_of(to_delayed_work(wor=
+k),
+> +                                                   struct mhi_wwan_dev, =
+dtr_work);
+> +       int ret;
+> +
+> +       ret =3D mhi_wwan_ctrl_send_dtr(mhiwwan, READ_ONCE(mhiwwan->dtr_md=
+mbits));
+> +       if (ret =3D=3D -EAGAIN || ret =3D=3D -ENOMEM)
+> +               schedule_delayed_work(&mhiwwan->dtr_work, msecs_to_jiffie=
+s(10));
+> +       else if (ret)
+> +               dev_warn_ratelimited(&mhiwwan->mhi_dev->dev,
+> +                                    "failed to send DTR/RTS state to mod=
+em: %d\n",
+> +                                    ret);
+> +}
+> +
+> +static void mhi_wwan_ctrl_dtr_rts(struct wwan_port *port, unsigned int m=
+dmbits)
+> +{
+> +       struct mhi_wwan_dev *mhiwwan =3D wwan_port_get_drvdata(port);
+> +
+> +       WRITE_ONCE(mhiwwan->dtr_mdmbits, mdmbits);
+> +       schedule_delayed_work(&mhiwwan->dtr_work, 0);
+> +}
+> +
+>  static int mhi_wwan_ctrl_start(struct wwan_port *port)
+>  {
+>         struct mhi_wwan_dev *mhiwwan =3D wwan_port_get_drvdata(port);
+> @@ -163,6 +274,7 @@ static const struct wwan_port_ops wwan_pops =3D {
+>         .start =3D mhi_wwan_ctrl_start,
+>         .stop =3D mhi_wwan_ctrl_stop,
+>         .tx =3D mhi_wwan_ctrl_tx,
+> +       .dtr_rts =3D mhi_wwan_ctrl_dtr_rts,
+>  };
+>
+>  static void mhi_ul_xfer_cb(struct mhi_device *mhi_dev,
+> @@ -224,6 +336,7 @@ static int mhi_wwan_ctrl_probe(struct mhi_device *mhi=
+_dev,
+>         mhiwwan->mhi_dev =3D mhi_dev;
+>         mhiwwan->mtu =3D MHI_WWAN_MAX_MTU;
+>         INIT_WORK(&mhiwwan->rx_refill, mhi_wwan_ctrl_refill_work);
+> +       INIT_DELAYED_WORK(&mhiwwan->dtr_work, mhi_wwan_ctrl_dtr_work);
+>         spin_lock_init(&mhiwwan->tx_lock);
+>         spin_lock_init(&mhiwwan->rx_lock);
+>
+> @@ -252,9 +365,118 @@ static void mhi_wwan_ctrl_remove(struct mhi_device =
+*mhi_dev)
+>         struct mhi_wwan_dev *mhiwwan =3D dev_get_drvdata(&mhi_dev->dev);
+>
+>         wwan_remove_port(mhiwwan->wwan_port);
+> +       /* Give the DTR/RTS drop from removal one attempt, then stop the =
+work */
+> +       flush_delayed_work(&mhiwwan->dtr_work);
+> +       disable_delayed_work_sync(&mhiwwan->dtr_work);
+>         kfree(mhiwwan);
+>  }
+>
+> +/* IP_CTRL channel driver, bound separately so the data-port path is unt=
+ouched */
+> +static void mhi_wwan_dtr_ul_xfer_cb(struct mhi_device *mhi_dev,
+> +                                   struct mhi_result *mhi_result)
+> +{
+> +       /* MHI core has done with the buffer, release it */
+> +       kfree(mhi_result->buf_addr);
+> +}
+> +
+> +/* Requeue the single DL sink buffer so the IP_CTRL DL ring never runs e=
+mpty.
+> + * This only runs from the work item, so remove() can stop it before the
+> + * channel is torn down. A transient mapping failure is retried, other e=
+rrors
+> + * mean the channel is going away and the next probe queues a fresh buff=
+er.
+> + */
+> +static void mhi_wwan_dtr_refill_work(struct work_struct *work)
+> +{
+> +       struct mhi_wwan_dtr *dtr =3D container_of(to_delayed_work(work),
+> +                                               struct mhi_wwan_dtr, rx_r=
+efill);
+> +       int ret;
+> +
+> +       ret =3D mhi_queue_buf(dtr->mhi_dev, DMA_FROM_DEVICE, dtr->rx_buf,
+> +                           sizeof(*dtr->rx_buf), MHI_EOT);
+> +       if (ret =3D=3D -ENOMEM) {
+> +               dev_warn_ratelimited(&dtr->mhi_dev->dev,
+> +                                    "failed to requeue IP_CTRL RX buffer=
+, retrying\n");
+> +               schedule_delayed_work(&dtr->rx_refill, msecs_to_jiffies(1=
+00));
+> +       } else if (ret) {
+> +               dev_dbg(&dtr->mhi_dev->dev,
+> +                       "failed to requeue IP_CTRL RX buffer: %d\n", ret)=
+;
+> +       }
+> +}
+> +
+> +static void mhi_wwan_dtr_dl_xfer_cb(struct mhi_device *mhi_dev,
+> +                                   struct mhi_result *mhi_result)
+> +{
+> +       struct mhi_wwan_dtr *dtr =3D dev_get_drvdata(&mhi_dev->dev);
+> +
+> +       /* Channel is being torn down (e.g. -ENOTCONN), do not requeue */
+> +       if (mhi_result->transaction_status &&
+> +           mhi_result->transaction_status !=3D -EOVERFLOW)
+> +               return;
+> +
+> +       /* Modem serial state not needed, requeue the sink buffer to keep=
+ DL ring live */
+> +       schedule_delayed_work(&dtr->rx_refill, 0);
+> +}
+> +
+> +static int mhi_wwan_dtr_probe(struct mhi_device *mhi_dev,
+> +                             const struct mhi_device_id *id)
+> +{
+> +       struct mhi_wwan_dtr *dtr;
+> +       int ret;
+> +
+> +       dtr =3D kzalloc_obj(*dtr);
+> +       if (!dtr)
+> +               return -ENOMEM;
+> +
+> +       dtr->rx_buf =3D kmalloc_obj(*dtr->rx_buf);
+> +       if (!dtr->rx_buf) {
+> +               ret =3D -ENOMEM;
+> +               goto err_free_dtr;
+> +       }
+> +       INIT_DELAYED_WORK(&dtr->rx_refill, mhi_wwan_dtr_refill_work);
+> +
+> +       ret =3D mhi_prepare_for_transfer(mhi_dev);
+> +       if (ret)
+> +               goto err_free_buf;
+> +
+> +       dtr->cntrl =3D mhi_dev->mhi_cntrl;
+> +       dtr->mhi_dev =3D mhi_dev;
+> +       dev_set_drvdata(&mhi_dev->dev, dtr);
+> +
+> +       /* On failure mhi_probe() unprepares the channels itself */
+> +       ret =3D mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, dtr->rx_buf,
+> +                           sizeof(*dtr->rx_buf), MHI_EOT);
+> +       if (ret)
+> +               goto err_free_buf;
+> +
+> +       mutex_lock(&mhi_wwan_dtr_lock);
+> +       list_add(&dtr->node, &mhi_wwan_dtr_list);
+> +       mutex_unlock(&mhi_wwan_dtr_lock);
+> +
+> +       return 0;
+> +
+> +err_free_buf:
+> +       kfree(dtr->rx_buf);
+> +err_free_dtr:
+> +       kfree(dtr);
+> +       return ret;
+> +}
+> +
+> +static void mhi_wwan_dtr_remove(struct mhi_device *mhi_dev)
+> +{
+> +       struct mhi_wwan_dtr *dtr =3D dev_get_drvdata(&mhi_dev->dev);
+> +
+> +       mutex_lock(&mhi_wwan_dtr_lock);
+> +       list_del(&dtr->node);
+> +       mutex_unlock(&mhi_wwan_dtr_lock);
+> +
+> +       /* Stop the refill work, and stop a late DL callback re-arming it=
+, before
+> +        * the channel is torn down so no requeue can race with the teard=
+own
+> +        */
+> +       disable_delayed_work_sync(&dtr->rx_refill);
+> +       mhi_unprepare_from_transfer(mhi_dev);
+> +       kfree(dtr->rx_buf);
+> +       kfree(dtr);
+> +}
+> +
+>  static const struct mhi_device_id mhi_wwan_ctrl_match_table[] =3D {
+>         { .chan =3D "DUN", .driver_data =3D WWAN_PORT_AT },
+>         { .chan =3D "DUN2", .driver_data =3D WWAN_PORT_AT },
+> @@ -278,7 +500,45 @@ static struct mhi_driver mhi_wwan_ctrl_driver =3D {
+>         },
+>  };
+>
+> -module_mhi_driver(mhi_wwan_ctrl_driver);
+> +static const struct mhi_device_id mhi_wwan_dtr_match_table[] =3D {
+> +       { .chan =3D "IP_CTRL" },
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(mhi, mhi_wwan_dtr_match_table);
+> +
+> +static struct mhi_driver mhi_wwan_dtr_driver =3D {
+> +       .id_table =3D mhi_wwan_dtr_match_table,
+> +       .remove =3D mhi_wwan_dtr_remove,
+> +       .probe =3D mhi_wwan_dtr_probe,
+> +       .ul_xfer_cb =3D mhi_wwan_dtr_ul_xfer_cb,
+> +       .dl_xfer_cb =3D mhi_wwan_dtr_dl_xfer_cb,
+> +       .driver =3D {
+> +               .name =3D "mhi_wwan_dtr",
+> +       },
+> +};
+> +
+> +static int __init mhi_wwan_ctrl_init(void)
+> +{
+> +       int ret;
+> +
+> +       ret =3D mhi_driver_register(&mhi_wwan_dtr_driver);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D mhi_driver_register(&mhi_wwan_ctrl_driver);
+> +       if (ret)
+> +               mhi_driver_unregister(&mhi_wwan_dtr_driver);
+> +
+> +       return ret;
+> +}
+> +module_init(mhi_wwan_ctrl_init);
+> +
+> +static void __exit mhi_wwan_ctrl_exit(void)
+> +{
+> +       mhi_driver_unregister(&mhi_wwan_ctrl_driver);
+> +       mhi_driver_unregister(&mhi_wwan_dtr_driver);
+> +}
+> +module_exit(mhi_wwan_ctrl_exit);
+>
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_DESCRIPTION("MHI WWAN CTRL Driver");
 > --
 > 2.43.0
 >
