@@ -1,67 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DC9331EB2;
-	Sun, 18 Oct 2026 06:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18872392C20
+	for <mhi@lists.linux.dev>; Sun, 18 Oct 2026 11:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792305251; cv=none; b=g/iaio8NFQDSn9jPhJ19sUBoutCX8GqsITTbZ87ojmkS5Atv4QSrti+Dwz+VyvgQywaMKX9A9lFkPHrSdHXqUNhtQ7Pg8IrjSF3YERMM26GbDIrrOrBoEpeLkU8XK5teRhkdYO+puM2I9ZFF89je+GcMt8KDnYPmYPcEE034cBY=
+	t=1792321978; cv=none; b=P9iTQ5XHneGOpSdi3GkWtuiY1E1ltRib0k4/8LgpRXz9ZuihG3lURfQkZVSFPWwdUuE+3gQFVUyuX9bwZ26kZDyCaR2aDpipvnk4nbgcsHnM8+LbaW9uf1tnyuaJKZvCrYJcXPDcYRUMt49GDN+Xojh6JErOuvF9yf/vIfW8k4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792305251; c=relaxed/simple;
-	bh=J3THsVBcYDtGxdrOCLCr/ocGl1+bfE8GIqAe3M9vk2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RaUV4TkzOrxkT84Cw7lLpAfyj9PnH0Guqctikum0aYyLAfWtxUhQpbaPowNOsuFsc+hMqUHJv0PynX7dnpZN0b0RMjoKlc7omS7zFVnfxROs8PKl9Q/eGjsdYhHwQa1iLWvBOmNSKoqodv/R8WrXs8IqpMslu/rqVr+yJJnJlgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uOCT90f+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792321978; c=relaxed/simple;
+	bh=qL2vJezNst1d9AIBguuaHF0y6iGaD5IjydIXXTAj/pw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=SJbGpitAYpzmZOWc3HzbFgKqbY5WI4Xa5ayq9tFg0ZVwoss7fSJNT4JPReFzLkLFwQHnK/+3G3Xy1lchikrMFMplJV7zf3lINW+uoEop3SlxJe4G75iBq14EV3k4QkL7WIoFy9MOKrGD+uovJb9gbj9TgIx8Ucli3KAZegYfVfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=h4nizfKd; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uOCT90f+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6B11F000C4;
-	Sun, 18 Oct 2026 06:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792305250;
-	bh=R6gFqTRl+6YBZZj8m9dwbKAB3m48iprzYGS52joKpe8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=uOCT90f+ppCXkKWUS39ccPEPPi3yQplXgo9SYpyZETw4ye210lvVZhtM7xaVrOGsp
-	 eLsOXnqmxAqp9TyiGEAlyh4ZkbjE/pEDGOM9W01mXZyJ0oP7t4uvI9h0HGb3Hetx3l
-	 RLzlQVSBevrRgMZczKPvK0DOiIN4/b7XjYJilPgM=
-Date: Sun, 18 Oct 2026 08:34:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jiale Yao <yaojiale02@163.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Alex Elder <elder@kernel.org>, mhi@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="h4nizfKd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=qL2vJezNst1d9AIBguuaHF0y6iGaD5IjydIXXTAj/pw=; b=h
+	4nizfKdOaYAfzIZ/UsM2m/u8UbPhTU0MfDEteegYmGTvHXXAuJ1CjNTR5Y6VBH/f
+	fEGX/quorq43GkZxjcoJ8AGmgH385vu7H9+xXkRkRvKMiQqEa+v/r3wZbXe1qOKj
+	CtB5D0GJxDsCSCdVKCKbgsiE3Rrx2AxsbHvbrfDCcw=
+Date: Sun, 18 Oct 2026 19:12:39 +0800 (CST)
+From: "jiale yao" <19888972804@163.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Manivannan Sadhasivam" <mani@kernel.org>,
+	"Jeff Hugo" <jeff.hugo@oss.qualcomm.com>,
+	"Alex Elder" <elder@kernel.org>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bus: mhi: ep: cancel reset work during controller
+Subject: Re:Re: [PATCH] bus: mhi: ep: cancel reset work during controller
  teardown
-Message-ID: <2026101841-unroasted-carbon-e514@gregkh>
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <2026101841-unroasted-carbon-e514@gregkh>
 References: <20261018040614.533366-1-yaojiale02@163.com>
+ <2026101841-unroasted-carbon-e514@gregkh>
+X-NTES-SC: AL_Qu2SAP+ZvkEu7yCQbOkdnEkQgO0/WsS1vfQu2Y5Wc+wGmz/80BwQf1tMBVrcwvyrATGTrTGyeR9D4eBRZrRh77rVKppFCSTQgwERDsYyQg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261018040614.533366-1-yaojiale02@163.com>
+Message-ID: <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:kCgvCgD336inqdRq1FRbAA--.719W
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8AdjnWrUqacuhAAA3T
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Sun, Oct 18, 2026 at 12:06:14PM +0800, Jiale Yao wrote:
-> The doorbell IRQ schedules reset_work on the system workqueue when the
-> host requests an MHI reset. The controller teardown only drains the
-> private MHI workqueue before releasing the controller state, so
-> reset_work can still run after that state has been freed.
-> 
-> Cancel reset_work before destroying the private workqueue and releasing
-> the controller resources. The caller is required to power down the
-> controller first, so the IRQ can no longer queue the work at this point.
-> 
-> Fixes: 7a97b6b47353 ("bus: mhi: ep: Add support for handling MHI_RESET")
-> Signed-off-by: Jiale Yao <yaojiale02@163.com>
-> ---
->  drivers/bus/mhi/ep/main.c | 1 +
->  1 file changed, 1 insertion(+)
-
-How was this found and tested?  What about a cc: stable?
-
-thanks,
-
-greg k-h
+QXQgMjAyNi0xMC0xOCAxNDozNDowNiwgIkdyZWcgS3JvYWgtSGFydG1hbiIgPGdyZWdraEBsaW51
+eGZvdW5kYXRpb24ub3JnPiB3cm90ZToKPk9uIFN1biwgT2N0IDE4LCAyMDI2IGF0IDEyOjA2OjE0
+UE0gKzA4MDAsIEppYWxlIFlhbyB3cm90ZToKPj4gVGhlIGRvb3JiZWxsIElSUSBzY2hlZHVsZXMg
+cmVzZXRfd29yayBvbiB0aGUgc3lzdGVtIHdvcmtxdWV1ZSB3aGVuIHRoZQo+PiBob3N0IHJlcXVl
+c3RzIGFuIE1ISSByZXNldC4gVGhlIGNvbnRyb2xsZXIgdGVhcmRvd24gb25seSBkcmFpbnMgdGhl
+Cj4+IHByaXZhdGUgTUhJIHdvcmtxdWV1ZSBiZWZvcmUgcmVsZWFzaW5nIHRoZSBjb250cm9sbGVy
+IHN0YXRlLCBzbwo+PiByZXNldF93b3JrIGNhbiBzdGlsbCBydW4gYWZ0ZXIgdGhhdCBzdGF0ZSBo
+YXMgYmVlbiBmcmVlZC4KPj4gCj4+IENhbmNlbCByZXNldF93b3JrIGJlZm9yZSBkZXN0cm95aW5n
+IHRoZSBwcml2YXRlIHdvcmtxdWV1ZSBhbmQgcmVsZWFzaW5nCj4+IHRoZSBjb250cm9sbGVyIHJl
+c291cmNlcy4gVGhlIGNhbGxlciBpcyByZXF1aXJlZCB0byBwb3dlciBkb3duIHRoZQo+PiBjb250
+cm9sbGVyIGZpcnN0LCBzbyB0aGUgSVJRIGNhbiBubyBsb25nZXIgcXVldWUgdGhlIHdvcmsgYXQg
+dGhpcyBwb2ludC4KPj4gCj4+IEZpeGVzOiA3YTk3YjZiNDczNTMgKCJidXM6IG1oaTogZXA6IEFk
+ZCBzdXBwb3J0IGZvciBoYW5kbGluZyBNSElfUkVTRVQiKQo+PiBTaWduZWQtb2ZmLWJ5OiBKaWFs
+ZSBZYW8gPHlhb2ppYWxlMDJAMTYzLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL2J1cy9taGkvZXAv
+bWFpbi5jIHwgMSArCj4+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPgo+SG93IHdh
+cyB0aGlzIGZvdW5kIGFuZCB0ZXN0ZWQ/ICBXaGF0IGFib3V0IGEgY2M6IHN0YWJsZT8KCmNjOnN0
+YWJsZSBpcyBuZWNlc3NvcnkuIFRoZSBidWcgd2FzIGZvdW5kIGJ5IG15IHN0YXRpYyBhbmFseXNp
+cyB0b29scy4KClRvIHRlc3QgaXQsIEkgcmVnaXN0ZXJlZCBhIHJlYWwgbWhpX2VwX2NudHJsIGZy
+b20gYSBzbWFsbCBvdXQtb2YtdHJlZSBtb2R1bGUoc29mdHdhcmUgSVJRICsgZmFrZSByZWdpc3Rl
+ciBmaWxlKSwKZHJvdmUgdGhlIHJlYWwgbWhpX2VwX2lycSgpIGFuZCB0aGUgcmVhbCBtaGlfZXBf
+dW5yZWdpc3Rlcl9jb250cm9sbGVyKCksIGFuZCBvcmRlcmVkIHRoZSB3b3JrZXIgdG8gcnVuIGFm
+dGVyCnRoZSBmcmVlcy4gTm8ga2VybmVsIHNvdXJjZSBjaGFuZ2VzLgoKS0FTQU46CgpCVUc6IEtB
+U0FOOiBzbGFiLXVzZS1hZnRlci1mcmVlIGluIG1oaV9lcF9yaW5nX2luaXQrMHgxOTIvMHgyNDAK
+V3JpdGUgb2Ygc2l6ZSA0IGF0IGFkZHIgZmZmZjg4ODEwNDI1NzExOCBieSB0YXNrIGt3b3JrZXIv
+MDoxLzExCgpDUFU6IDAgVUlEOiAwIFBJRDogMTEgQ29tbToga3dvcmtlci8wOjEgVGFpbnRlZDog
+RyAgICAgICAgVyAgTyAgICAgICAgNy4zLjAtcmM0ICMzIFBSRUVNUFQobGF6eSkKVGFpbnRlZDog
+W1ddPVdBUk4sIFtPXT1PT1RfTU9EVUxFCkhhcmR3YXJlIG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMg
+KGk0NDBGWCArIFBJSVgsIDE5OTYpLCBCSU9TIDEuMTUuMC0xIDA0LzAxLzIwMTQKV29ya3F1ZXVl
+OiBldmVudHMgbWhpX2VwX3Jlc2V0X3dvcmtlcgpDYWxsIFRyYWNlOgogPFRBU0s+CiBkdW1wX3N0
+YWNrX2x2bCsweDJkLzB4NzAKIHByaW50X3JlcG9ydCsweDE3NS8weDdkMAogPyBtaGlfZXBfcmlu
+Z19pbml0KzB4MTkyLzB4MjQwCiBrYXNhbl9yZXBvcnQrMHgxMzkvMHgxNzAKID8gbWhpX2VwX3Jp
+bmdfaW5pdCsweDE5Mi8weDI0MAogbWhpX2VwX3JpbmdfaW5pdCsweDE5Mi8weDI0MAogbWhpX2Vw
+X3Bvd2VyX3VwKzB4MTBlLzB4YTcwCiA/IG11dGV4X3VubG9jaysweDZiLzB4YzAKIHByb2Nlc3Nf
+c2NoZWR1bGVkX3dvcmtzKzB4N2MwLzB4ZjEwCiB3b3JrZXJfdGhyZWFkKzB4ODk4LzB4YzUwCiA/
+IF9yYXdfc3Bpbl9sb2NrX2lycXNhdmUrMHg2Zi8weDEzMAoga3RocmVhZCsweDJlOS8weDNjMAog
+PyBfX3BmeF93b3JrZXJfdGhyZWFkKzB4MTAvMHgxMAogPyBfX3BmeF9rdGhyZWFkKzB4MTAvMHgx
+MAogcmV0X2Zyb21fZm9yaysweDE4OC8weDRmMAogPyBfX3BmeF9rdGhyZWFkKzB4MTAvMHgxMAog
+cmV0X2Zyb21fZm9ya19hc20rMHgxYS8weDMwCiA8L1RBU0s+CgpBbGxvY2F0ZWQgYnkgdGFzayA4
+MToKIGthc2FuX3NhdmVfdHJhY2srMHgzZi8weDgwCiBfX2thc2FuX2ttYWxsb2MrMHg3Mi8weDkw
+CiBtaGlfZXBfcmVnaXN0ZXJfY29udHJvbGxlcisweDU5My8weDEwNDAKCkZyZWVkIGJ5IHRhc2sg
+ODI6CiBrYXNhbl9zYXZlX3RyYWNrKzB4M2YvMHg4MAoga2FzYW5fc2F2ZV9mcmVlX2luZm8rMHg0
+MC8weDUwCiBfX2thc2FuX3NsYWJfZnJlZSsweDNhLzB4NjAKIGtmcmVlKzB4MTBkLzB4M2IwCiBt
+aGlfZXBfdW5yZWdpc3Rlcl9jb250cm9sbGVyKzB4MTEyLzB4MWEwCgpUaGUgYnVnZ3kgYWRkcmVz
+cyBiZWxvbmdzIHRvIHRoZSBvYmplY3QgYXQgZmZmZjg4ODEwNDI1NzEwMAogd2hpY2ggYmVsb25n
+cyB0byB0aGUgY2FjaGUga21hbGxvYy0xOTIgb2Ygc2l6ZSAxOTIKVGhlIGJ1Z2d5IGFkZHJlc3Mg
+aXMgbG9jYXRlZCAyNCBieXRlcyBpbnNpZGUgb2YKIGZyZWVkIDE5Mi1ieXRlIHJlZ2lvbiBbZmZm
+Zjg4ODEwNDI1NzEwMCwgZmZmZjg4ODEwNDI1NzFjMCkKCk1lbW9yeSBzdGF0ZSBhcm91bmQgdGhl
+IGJ1Z2d5IGFkZHJlc3M6CiBmZmZmODg4MTA0MjU3MDAwOiBmYSBmYiBmYiBmYiBmYiBmYiBmYiBm
+YiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYgogZmZmZjg4ODEwNDI1NzA4MDogZmIgZmIgZmIgZmIg
+ZmIgZmIgZmIgZmIgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMKPmZmZmY4ODgxMDQyNTcxMDA6IGZh
+IGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBeCiBmZmZmODg4MTA0MjU3MTgwOiBmYiBmYiBmYiBmYiBmYiBmYiBm
+YiBmYiBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYwogZmZmZjg4ODEwNDI1NzIwMDogMDAgMDAgMDAg
+MDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAKPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgpBbGxvY2F0
+aW9uIGluIG1oaV9lcF9yZWdpc3Rlcl9jb250cm9sbGVyKCksIGZyZWUgaW4gbWhpX2VwX3VucmVn
+aXN0ZXJfY29udHJvbGxlcigpLAphY2Nlc3Mgb24gV29ya3F1ZXVlOiBldmVudHMgbWhpX2VwX3Jl
+c2V0X3dvcmtlci4KCj4KPnRoYW5rcywKPgo+Z3JlZyBrLWgK
