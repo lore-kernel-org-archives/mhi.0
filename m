@@ -1,116 +1,71 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7343433BC1
-	for <mhi@lists.linux.dev>; Sun, 18 Oct 2026 11:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488B476059;
+	Sun, 18 Oct 2026 11:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792322100; cv=none; b=qYH0zYEgxLneWt23aUpnobvQXOFxwr3ys6XU90OZJXks1bIkGFsDGr8s3le0rDmYehMy86Vyvodeucd2NbYOt7H9WvIm8QfsvOCs/gDEjClrbj2zlMplq4jiI3cJltI7hgQm9RulgwZwgZgFUzebTqHnBNQUEbs20oQHwSkKJuU=
+	t=1792324400; cv=none; b=J32EC1s/jMHEoRPoKQI1oF0KgPyUuJCK0h1cRahb6Bq3lYk4OgzJ3pDiSOo1VqPZJ3rIt2qU67sxBlLCdNHq7vj3G3FyZC7KjV5eYCRl1juy1Bhxyh6CxDHhZt/N6XyUZzSbPqR0/R8sjhf2UR7R3Y6Aip1DyBpYYOmB/agnNqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792322100; c=relaxed/simple;
-	bh=pBj7c5Io9bQcdgxtpTU0ghGU1f44mfp5Ga3cdwpuynk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=U5l2ndBcSHNYolfpbFOni4tPmin1qMHPZrUkxItWvtP1Y8JgMzixNxRp6FGVJqBq5iZLR6KtRCixEsmKBpzAvU5YplEp/OA+gTsqIbQfg3vYhHBaCZ9NW7KWe1Q6ZoWQpVVecjqEAj5w2xsyrGzTcy6QaNi6Ok7eeS3ZVuBgODs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=CTLZZH8O; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1792324400; c=relaxed/simple;
+	bh=iVRziyNctIbidnQHIi7jBRXSHs4JKhUtNfN7fkFTFdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HP3XocxsdDmk0jFEvdqkv0UlPzpWoxhHiHeoJyCgOprnIMm+fNc2x72Q1v7IJHLby1mqcdVfm979zfVoO7potn6dlaYQyQKHhZlpB9q8FZWHrM52qu5eKWJswQuLoBXvaJDQZ+svZg7BBCU8EzKDg0UvIl0AgLZ5PlxY+Y4aZgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Sow3kols; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="CTLZZH8O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=pBj7c5Io9bQcdgxtpTU0ghGU1f44mfp5Ga3cdwpuynk=; b=C
-	TLZZH8OFDy7cCsdpWdfYY4m6lNW2ZywW9ULoN5R1MMEu0ZjPz0nN8X3iRwztpqAK
-	ENLB0YN8dlXJWuYj9IDOWvSfAYUY+1FCZUMnYY1OEBMKiuaSM58QW5Gp8YBihh5/
-	hxy3v0UKRdAOrwEDHdOlXOkL6/s1jPrdkPK0uxhuRw=
-Date: Sun, 18 Oct 2026 19:14:37 +0800 (CST)
-From: "jiale yao" <19888972804@163.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Manivannan Sadhasivam" <mani@kernel.org>,
-	"Jeff Hugo" <jeff.hugo@oss.qualcomm.com>,
-	"Alex Elder" <elder@kernel.org>, mhi@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Sow3kols"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F6771F000C4;
+	Sun, 18 Oct 2026 11:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792324397;
+	bh=GdObRr/FpNVEeHsNg+G5Yu4pcHmXMnsfqVni+sAxH/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Sow3kolsRZN4ok6ryzv7l0XvlqIbiCTTkdI0kB1N5lc/zM0YJx8RIa3m4s3tjgHVx
+	 D0JiFTFjhUtrs9wYvEk4Ut+X5nohAIYrVqaqiFb/iIhb5Dq6IF2OKMK4yIaxabG1cQ
+	 u11hSnllTStxuZNKZ/4XHycAPnq1etY042wGlrwc=
+Date: Sun, 18 Oct 2026 13:53:12 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: jiale yao <19888972804@163.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Alex Elder <elder@kernel.org>, mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re:Re:Re: [PATCH] bus: mhi: ep: cancel reset work during controller
+Subject: Re: Re: [PATCH] bus: mhi: ep: cancel reset work during controller
  teardown
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-In-Reply-To: <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
+Message-ID: <2026101845-slideshow-entomb-74ad@gregkh>
 References: <20261018040614.533366-1-yaojiale02@163.com>
  <2026101841-unroasted-carbon-e514@gregkh>
  <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
-X-NTES-SC: AL_Qu2SAP+ZvUgs4SibZOkdnEkQgO0/WsS1vfQu2Y5Wc+wGmz/80BwQf1tMBVrcwvyrATGTrTGyeR9D4eBRZrRhBHTw7gbVr/rUA1ClSfRoHg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <12a313f8.184a.1a14eb88490.Coremail.19888972804@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:kCgvCgD3v7odqtRq4lRbAA--.709W
-X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8B2Bu2rUqh02ZAAA3M
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
 
-QXQgMjAyNi0xMC0xOCAxOToxMjozOSwgImppYWxlIHlhbyIgPDE5ODg4OTcyODA0QDE2My5jb20+
-IHdyb3RlOgo+QXQgMjAyNi0xMC0xOCAxNDozNDowNiwgIkdyZWcgS3JvYWgtSGFydG1hbiIgPGdy
-ZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToKPj5PbiBTdW4sIE9jdCAxOCwgMjAyNiBh
-dCAxMjowNjoxNFBNICswODAwLCBKaWFsZSBZYW8gd3JvdGU6Cj4+PiBUaGUgZG9vcmJlbGwgSVJR
-IHNjaGVkdWxlcyByZXNldF93b3JrIG9uIHRoZSBzeXN0ZW0gd29ya3F1ZXVlIHdoZW4gdGhlCj4+
-PiBob3N0IHJlcXVlc3RzIGFuIE1ISSByZXNldC4gVGhlIGNvbnRyb2xsZXIgdGVhcmRvd24gb25s
-eSBkcmFpbnMgdGhlCj4+PiBwcml2YXRlIE1ISSB3b3JrcXVldWUgYmVmb3JlIHJlbGVhc2luZyB0
-aGUgY29udHJvbGxlciBzdGF0ZSwgc28KPj4+IHJlc2V0X3dvcmsgY2FuIHN0aWxsIHJ1biBhZnRl
-ciB0aGF0IHN0YXRlIGhhcyBiZWVuIGZyZWVkLgo+Pj4gCj4+PiBDYW5jZWwgcmVzZXRfd29yayBi
-ZWZvcmUgZGVzdHJveWluZyB0aGUgcHJpdmF0ZSB3b3JrcXVldWUgYW5kIHJlbGVhc2luZwo+Pj4g
-dGhlIGNvbnRyb2xsZXIgcmVzb3VyY2VzLiBUaGUgY2FsbGVyIGlzIHJlcXVpcmVkIHRvIHBvd2Vy
-IGRvd24gdGhlCj4+PiBjb250cm9sbGVyIGZpcnN0LCBzbyB0aGUgSVJRIGNhbiBubyBsb25nZXIg
-cXVldWUgdGhlIHdvcmsgYXQgdGhpcyBwb2ludC4KPj4+IAo+Pj4gRml4ZXM6IDdhOTdiNmI0NzM1
-MyAoImJ1czogbWhpOiBlcDogQWRkIHN1cHBvcnQgZm9yIGhhbmRsaW5nIE1ISV9SRVNFVCIpCj4+
-PiBTaWduZWQtb2ZmLWJ5OiBKaWFsZSBZYW8gPHlhb2ppYWxlMDJAMTYzLmNvbT4KPj4+IC0tLQo+
-Pj4gIGRyaXZlcnMvYnVzL21oaS9lcC9tYWluLmMgfCAxICsKPj4+ICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKPj4KPj5Ib3cgd2FzIHRoaXMgZm91bmQgYW5kIHRlc3RlZD8gIFdoYXQg
-YWJvdXQgYSBjYzogc3RhYmxlPwo+Cj5jYzpzdGFibGUgaXMgbmVjZXNzb3J5LiBUaGUgYnVnIHdh
-cyBmb3VuZCBieSBteSBzdGF0aWMgYW5hbHlzaXMgdG9vbHMuCgpDYzogc3RhYmxlQHZnZXIua2Vy
-bmVsLm9yZwoKPgo+VG8gdGVzdCBpdCwgSSByZWdpc3RlcmVkIGEgcmVhbCBtaGlfZXBfY250cmwg
-ZnJvbSBhIHNtYWxsIG91dC1vZi10cmVlIG1vZHVsZShzb2Z0d2FyZSBJUlEgKyBmYWtlIHJlZ2lz
-dGVyIGZpbGUpLAo+ZHJvdmUgdGhlIHJlYWwgbWhpX2VwX2lycSgpIGFuZCB0aGUgcmVhbCBtaGlf
-ZXBfdW5yZWdpc3Rlcl9jb250cm9sbGVyKCksIGFuZCBvcmRlcmVkIHRoZSB3b3JrZXIgdG8gcnVu
-IGFmdGVyCj50aGUgZnJlZXMuIE5vIGtlcm5lbCBzb3VyY2UgY2hhbmdlcy4KPgo+S0FTQU46Cj4K
-PkJVRzogS0FTQU46IHNsYWItdXNlLWFmdGVyLWZyZWUgaW4gbWhpX2VwX3JpbmdfaW5pdCsweDE5
-Mi8weDI0MAo+V3JpdGUgb2Ygc2l6ZSA0IGF0IGFkZHIgZmZmZjg4ODEwNDI1NzExOCBieSB0YXNr
-IGt3b3JrZXIvMDoxLzExCj4KPkNQVTogMCBVSUQ6IDAgUElEOiAxMSBDb21tOiBrd29ya2VyLzA6
-MSBUYWludGVkOiBHICAgICAgICBXICBPICAgICAgICA3LjMuMC1yYzQgIzMgUFJFRU1QVChsYXp5
-KQo+VGFpbnRlZDogW1ddPVdBUk4sIFtPXT1PT1RfTU9EVUxFCj5IYXJkd2FyZSBuYW1lOiBRRU1V
-IFN0YW5kYXJkIFBDIChpNDQwRlggKyBQSUlYLCAxOTk2KSwgQklPUyAxLjE1LjAtMSAwNC8wMS8y
-MDE0Cj5Xb3JrcXVldWU6IGV2ZW50cyBtaGlfZXBfcmVzZXRfd29ya2VyCj5DYWxsIFRyYWNlOgo+
-IDxUQVNLPgo+IGR1bXBfc3RhY2tfbHZsKzB4MmQvMHg3MAo+IHByaW50X3JlcG9ydCsweDE3NS8w
-eDdkMAo+ID8gbWhpX2VwX3JpbmdfaW5pdCsweDE5Mi8weDI0MAo+IGthc2FuX3JlcG9ydCsweDEz
-OS8weDE3MAo+ID8gbWhpX2VwX3JpbmdfaW5pdCsweDE5Mi8weDI0MAo+IG1oaV9lcF9yaW5nX2lu
-aXQrMHgxOTIvMHgyNDAKPiBtaGlfZXBfcG93ZXJfdXArMHgxMGUvMHhhNzAKPiA/IG11dGV4X3Vu
-bG9jaysweDZiLzB4YzAKPiBwcm9jZXNzX3NjaGVkdWxlZF93b3JrcysweDdjMC8weGYxMAo+IHdv
-cmtlcl90aHJlYWQrMHg4OTgvMHhjNTAKPiA/IF9yYXdfc3Bpbl9sb2NrX2lycXNhdmUrMHg2Zi8w
-eDEzMAo+IGt0aHJlYWQrMHgyZTkvMHgzYzAKPiA/IF9fcGZ4X3dvcmtlcl90aHJlYWQrMHgxMC8w
-eDEwCj4gPyBfX3BmeF9rdGhyZWFkKzB4MTAvMHgxMAo+IHJldF9mcm9tX2ZvcmsrMHgxODgvMHg0
-ZjAKPiA/IF9fcGZ4X2t0aHJlYWQrMHgxMC8weDEwCj4gcmV0X2Zyb21fZm9ya19hc20rMHgxYS8w
-eDMwCj4gPC9UQVNLPgo+Cj5BbGxvY2F0ZWQgYnkgdGFzayA4MToKPiBrYXNhbl9zYXZlX3RyYWNr
-KzB4M2YvMHg4MAo+IF9fa2FzYW5fa21hbGxvYysweDcyLzB4OTAKPiBtaGlfZXBfcmVnaXN0ZXJf
-Y29udHJvbGxlcisweDU5My8weDEwNDAKPgo+RnJlZWQgYnkgdGFzayA4MjoKPiBrYXNhbl9zYXZl
-X3RyYWNrKzB4M2YvMHg4MAo+IGthc2FuX3NhdmVfZnJlZV9pbmZvKzB4NDAvMHg1MAo+IF9fa2Fz
-YW5fc2xhYl9mcmVlKzB4M2EvMHg2MAo+IGtmcmVlKzB4MTBkLzB4M2IwCj4gbWhpX2VwX3VucmVn
-aXN0ZXJfY29udHJvbGxlcisweDExMi8weDFhMAo+Cj5UaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdz
-IHRvIHRoZSBvYmplY3QgYXQgZmZmZjg4ODEwNDI1NzEwMAo+IHdoaWNoIGJlbG9uZ3MgdG8gdGhl
-IGNhY2hlIGttYWxsb2MtMTkyIG9mIHNpemUgMTkyCj5UaGUgYnVnZ3kgYWRkcmVzcyBpcyBsb2Nh
-dGVkIDI0IGJ5dGVzIGluc2lkZSBvZgo+IGZyZWVkIDE5Mi1ieXRlIHJlZ2lvbiBbZmZmZjg4ODEw
-NDI1NzEwMCwgZmZmZjg4ODEwNDI1NzFjMCkKPgo+TWVtb3J5IHN0YXRlIGFyb3VuZCB0aGUgYnVn
-Z3kgYWRkcmVzczoKPiBmZmZmODg4MTA0MjU3MDAwOiBmYSBmYiBmYiBmYiBmYiBmYiBmYiBmYiBm
-YiBmYiBmYiBmYiBmYiBmYiBmYiBmYgo+IGZmZmY4ODgxMDQyNTcwODA6IGZiIGZiIGZiIGZiIGZi
-IGZiIGZiIGZiIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjCj4+ZmZmZjg4ODEwNDI1NzEwMDogZmEg
-ZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIKPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBeCj4gZmZmZjg4ODEwNDI1NzE4MDogZmIgZmIgZmIgZmIgZmIgZmIg
-ZmIgZmIgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMKPiBmZmZmODg4MTA0MjU3MjAwOiAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMAo+PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4KPkFs
-bG9jYXRpb24gaW4gbWhpX2VwX3JlZ2lzdGVyX2NvbnRyb2xsZXIoKSwgZnJlZSBpbiBtaGlfZXBf
-dW5yZWdpc3Rlcl9jb250cm9sbGVyKCksCj5hY2Nlc3Mgb24gV29ya3F1ZXVlOiBldmVudHMgbWhp
-X2VwX3Jlc2V0X3dvcmtlci4KPgo+Pgo+PnRoYW5rcywKPj4KPj5ncmVnIGstaAo=
+On Sun, Oct 18, 2026 at 07:12:39PM +0800, jiale yao wrote:
+> At 2026-10-18 14:34:06, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org> wrote:
+> >On Sun, Oct 18, 2026 at 12:06:14PM +0800, Jiale Yao wrote:
+> >> The doorbell IRQ schedules reset_work on the system workqueue when the
+> >> host requests an MHI reset. The controller teardown only drains the
+> >> private MHI workqueue before releasing the controller state, so
+> >> reset_work can still run after that state has been freed.
+> >> 
+> >> Cancel reset_work before destroying the private workqueue and releasing
+> >> the controller resources. The caller is required to power down the
+> >> controller first, so the IRQ can no longer queue the work at this point.
+> >> 
+> >> Fixes: 7a97b6b47353 ("bus: mhi: ep: Add support for handling MHI_RESET")
+> >> Signed-off-by: Jiale Yao <yaojiale02@163.com>
+> >> ---
+> >>  drivers/bus/mhi/ep/main.c | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >
+> >How was this found and tested?  What about a cc: stable?
+> 
+> cc:stable is necessory. The bug was found by my static analysis tools.
+
+Then as per our documentation you need to state that, right?
