@@ -1,71 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488B476059;
-	Sun, 18 Oct 2026 11:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FD3483BD8
+	for <mhi@lists.linux.dev>; Mon, 19 Oct 2026 05:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792324400; cv=none; b=J32EC1s/jMHEoRPoKQI1oF0KgPyUuJCK0h1cRahb6Bq3lYk4OgzJ3pDiSOo1VqPZJ3rIt2qU67sxBlLCdNHq7vj3G3FyZC7KjV5eYCRl1juy1Bhxyh6CxDHhZt/N6XyUZzSbPqR0/R8sjhf2UR7R3Y6Aip1DyBpYYOmB/agnNqE=
+	t=1792389206; cv=none; b=Kr23zjBsNXIm6KJ8ZoXr1pLGOMYJH89WtJ37qsAEf+BdO4sgAfOf/CZibsKwjJpVS79jrS9HZaaxcaPNhmoFjbfFkMQDVBgeTgFhjaodMR6AEqARxLG2MpRmSBSxSXgEcRdnBhXuS9JLC2/4YSwhjvF8mJzmurFgXqYxJVKwvlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792324400; c=relaxed/simple;
-	bh=iVRziyNctIbidnQHIi7jBRXSHs4JKhUtNfN7fkFTFdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HP3XocxsdDmk0jFEvdqkv0UlPzpWoxhHiHeoJyCgOprnIMm+fNc2x72Q1v7IJHLby1mqcdVfm979zfVoO7potn6dlaYQyQKHhZlpB9q8FZWHrM52qu5eKWJswQuLoBXvaJDQZ+svZg7BBCU8EzKDg0UvIl0AgLZ5PlxY+Y4aZgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Sow3kols; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792389206; c=relaxed/simple;
+	bh=ieraK7cBVZEsMFvVD0EcLiGEZhvYM4rku4qNKyw0Jyk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DkqYhoqhgTXjAc07yNdiXhWQQmWZ/kiAbRG943ZmyRGwooBqd+7HZuXGFhWZ5pu8GWnQkJBpZWHQ35wOVkTRYSQnIz5RLiEXsI4VqmDRGN8I3QlDvgtWGxgOa+GoLmxXMp615yivRk+Yq3W7Iq26ZJTvWfX2nqI+CrUlxMZ4UOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GMOKiqft; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Sow3kols"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F6771F000C4;
-	Sun, 18 Oct 2026 11:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792324397;
-	bh=GdObRr/FpNVEeHsNg+G5Yu4pcHmXMnsfqVni+sAxH/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Sow3kolsRZN4ok6ryzv7l0XvlqIbiCTTkdI0kB1N5lc/zM0YJx8RIa3m4s3tjgHVx
-	 D0JiFTFjhUtrs9wYvEk4Ut+X5nohAIYrVqaqiFb/iIhb5Dq6IF2OKMK4yIaxabG1cQ
-	 u11hSnllTStxuZNKZ/4XHycAPnq1etY042wGlrwc=
-Date: Sun, 18 Oct 2026 13:53:12 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: jiale yao <19888972804@163.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Alex Elder <elder@kernel.org>, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] bus: mhi: ep: cancel reset work during controller
- teardown
-Message-ID: <2026101845-slideshow-entomb-74ad@gregkh>
-References: <20261018040614.533366-1-yaojiale02@163.com>
- <2026101841-unroasted-carbon-e514@gregkh>
- <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GMOKiqft"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=bj
+	C0C9sNmjVdhV/IrzHeBVtTgO0BbAu7HQvpAPfRZB0=; b=GMOKiqftSRSgHEHprg
+	CxAkWAgQa1T8sLq9Ut1q/BxKrsUR0BoGVncEnUKOeolLGnUUZQSXrjnJxRrXUCCM
+	+ub2QZ7Ve+5llkpK6PAIpx6sj17E2+yXuKslmtvwzPDRTdix2oZd87MUsjpbOPKu
+	Ykus0Kb5RiePTHWqRwg2V/NUQ=
+Received: from jbd-ThinkPad-X1-Carbon-Gen-14 (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wD3H8HQr9VqeNjjBA--.48161S2;
+	Mon, 19 Oct 2026 13:51:13 +0800 (CST)
+From: Slark Xiao <slark_xiao@163.com>
+To: mani@kernel.org,
+	jeff.hugo@oss.qualcomm.com,
+	krishna.chundru@oss.qualcomm.com
+Cc: loic.poulain@oss.qualcomm.com,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] bus: mhi: host: pci_generic: Update the default autosuspend_delay_ms as 5000ms
+Date: Mon, 19 Oct 2026 13:51:09 +0800
+Message-ID: <20261019055109.49922-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74679635.183c.1a14eb6b4b9.Coremail.19888972804@163.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3H8HQr9VqeNjjBA--.48161S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr48tF4fXrW7XF1xWFWUtwb_yoW8XryDpa
+	yF9F45tr48Zr1UKa4qyr1qq345W3y3Gry2gryvkw1Y9398tw1DKryqvFy3KF10yrZ5WF43
+	tF4jgrW5ur10ya7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piH7KxUUUUU=
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbC6BEwlGrVr9FMuwAA3r
 
-On Sun, Oct 18, 2026 at 07:12:39PM +0800, jiale yao wrote:
-> At 2026-10-18 14:34:06, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org> wrote:
-> >On Sun, Oct 18, 2026 at 12:06:14PM +0800, Jiale Yao wrote:
-> >> The doorbell IRQ schedules reset_work on the system workqueue when the
-> >> host requests an MHI reset. The controller teardown only drains the
-> >> private MHI workqueue before releasing the controller state, so
-> >> reset_work can still run after that state has been freed.
-> >> 
-> >> Cancel reset_work before destroying the private workqueue and releasing
-> >> the controller resources. The caller is required to power down the
-> >> controller first, so the IRQ can no longer queue the work at this point.
-> >> 
-> >> Fixes: 7a97b6b47353 ("bus: mhi: ep: Add support for handling MHI_RESET")
-> >> Signed-off-by: Jiale Yao <yaojiale02@163.com>
-> >> ---
-> >>  drivers/bus/mhi/ep/main.c | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >
-> >How was this found and tested?  What about a cc: stable?
-> 
-> cc:stable is necessory. The bug was found by my static analysis tools.
+For some MHI devices in some specific scenario, the default value
+of autosuspend_delay_ms may not enough to handle last wake event.
+This may lead to some unexpected problems.
 
-Then as per our documentation you need to state that, right?
+Refer to the Qualcomm's Windows settings and we checked this with
+Quaclomm over case, Qualcomm recommend us to set this as 5000ms.
+Qualcomm also suggests us to update this for all MHI devices.
+Since this setting has affected some existed kernel versions, it's
+better to be applied to stable version.
+
+Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
+Cc: stable@vger.kernel.org
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/bus/mhi/host/pci_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index 7193a384cca4..40735beb46cb 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -1483,7 +1483,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	/* Allow runtime suspend only if both PME from D3Hot and M3 are supported */
+ 	if (pci_pme_capable(pdev, PCI_D3hot) && !(info->no_m3)) {
+-		pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
++		pm_runtime_set_autosuspend_delay(&pdev->dev, 5000);
+ 		pm_runtime_use_autosuspend(&pdev->dev);
+ 		pm_runtime_mark_last_busy(&pdev->dev);
+ 		pm_runtime_put_noidle(&pdev->dev);
+-- 
+2.53.0
+
