@@ -1,56 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792560176;
-	b=5UxIKSMddFwYv/Xu20lJsLwciEWO74r4AWrmxwXTxQ5kiKBCaXX/Wtu28+1WgVCwDM+K
-	 ipEoLw1/MFQgwMb6okO9ieUbOLwJPvPRMReHOADIzUoOgy4xyczEoErnOszDK6fjJ/O0k
-	 mTBXQ8DURNimOdKU3py9Uq3VpMt0di4BTwt3aub/rjUaX50pHvNm16J80lQHUVIlBk6kC
-	 ejQXQOMVd/kDVElHvUefdnC2ufII+fDN17Fp0mOv64HOJftCxJHqubxplTs/ZUWuxcbX5
-	 pwRgFdV88d+ZjycyGBOJkuslfhsaztnE3PvG0ROBjOJEjU0kF2AxwniHMWqTFkuka2Q==
+	t=1792573029;
+	b=PPZjhShgTZ1e2pd57DhQCg8cNkFVU6TE6AHlRklaHmYpjs1QmHt04bSvaj5nra6QF1Wi
+	 IfshOzrArGw1K5kt/UddnmO8Wn3Ki/MH7m/Jk6ka1koaYzb9rOEMttOgXkMtkHK9IPiIu
+	 7AsO7O0e/zMhrj397evWaujAJvt9kMf9eGxKR8giwKrAqqeZYjI7w3yqT4ET+Grn6rcYA
+	 Lm5q81qesUr3C2Tv0g/p1uGM9me95YWS3Qc2pwJZw45/podl53SkwO8YMKBJIDob1dVy4
+	 WxPgqTrlDc0dQR/xH8Bf7yMHOI/6vw+aZiPCjucvQ3uNOudfn0exGFV56cBO+9DDbZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792560176;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Swfs28hXtM8sdZG1SyRpeTzhFRqeD6kprzmA4qDc3ps=;
-	b=sO9Sf3nfNXFzp4ngIfclNqIMN5TeRde6vXQ1HLyjMH3rKmwKoOecdqwiRSHmP1r0j1l8
-	 FBwdIo8X4zuXdcpIJ/Gcw4dS8Pe2mnp05r91veKOMuZeBW3OpLN8fNLHXkcHQtZGhOkz2
-	 PtsjIhBqn0ahnOuYzl4y1xYT88F9pVjKsIyvdqLjtw+S0moGThBkqysyvbSUhDo1T7Osh
-	 1E+pbwXa3X6Vh3//b8DOgU1+8zeEAbMa1EhcCZsxJs4CtrQxZYqUaCJWS3TBjARnSi3hI
-	 sW9FBop1F4LaYGMKDq/TWysTqouTLJm16ROUVy6jiwsielDiLRzbYNQLTPR/b3pBOqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792573029;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=atjevud+3rfwFCpp16fCT+iNVtd9reiwkBSva2haHA8=;
+	b=N9kWmklnOBpQ9Gbas5elac5YFr2x/e12sKMaRGI2eit8W5cXV3FQb29SUYZz2BDF1U2Y
+	 3SWWxA96qouRR5oJ2v43zTgMrPl/E5lZXjSQeWD9+Ctn06kjgvF2OcDMP+fH0So95Wwtn
+	 9DUnta55gmOEscJaoYDX+iP9wm8gFtPD0C0MM5j5wgMh77MfCX/rZlzNkI4/netuVgTFw
+	 z7LYM3dPo8V2D+MXUUqaAQoQ/IpSzT8P1bV3Mk1r+AHgVJN5ZRrCWAQwXPek6iQPTonYU
+	 SECfp/K/szg/CQflNRoV7gfzzcwHk9HZagdUC0Br72LE7e/NDza17IMVqb5047W5w1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=packett.cool;
-	spf=pass smtp.mailfrom=packett.cool;
-	dkim=pass header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=GOQ510nr;
-	arc=none smtp.remote-ip=95.215.58.172
-Received: from mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="Fmny/4hh";
+	arc=none smtp.remote-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3660606A319
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 05:22:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3660606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EA1606A321
+	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 08:57:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15EA1606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=GOQ510nr
-X-Envelope-To: mhi@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=TCPeloyadGAu87uW5ws1DgAebc3Cc2vxp0sBhDg8za0=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792560173; v=1; x=1793164973;
- b=GOQ510nrDxe2qzi1P2l8ZOPPfkMIvq3xBPqGbbdz2uBAvLnXdNO04Xzk/GYvXUUouUwJ/egV
- P1hp2pEEL9V8q3bK5F4TvTswQBrRbr9hCB4sGkbIr0hNMnN+/ITkpM1iIIz4uM5wpbrVLn/FCn+
- LhGeEC+1Zsp6s/xEDd7gU1vptNXJ4kOrJJ28tYs0DlmYpMw36WeYNLSEsFOHXw8BKzIpvc2Z8ET
- iUA+J/uaj/kwxFrqFovs+wBOhZQ7n6h7lGq0xCQcj60NWMlRyFTx4Wu+eVDEvZAFdv4rBF1Cp+2
- CNmPX+LYa9MTa4vL5KKyCphqUR9vi271DDT0/517Yedlw==
-X-Envelope-To: mhi@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id effd227a1c24da30;
-	Wed, 21 Oct 2026 05:22:53 +0000
-X-Mizu-Trace-ID: effd227a1c24da30
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <bfc5414e-5616-4a64-becc-d16c2b01ecf4@packett.cool>
-Date: Wed, 21 Oct 2026 02:22:48 -0300
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Fmny/4hh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=at
+	jevud+3rfwFCpp16fCT+iNVtd9reiwkBSva2haHA8=; b=Fmny/4hhaYeANg1PKW
+	U30reo173QuIJCzO1C+Mtou4oqnyqFICDIvPRAuRHvGcp87nJ5aKGKZGPvScMl88
+	yWLiR9PDwOuWhGYXAngqtbDNnhAW1JejAQj+lPOfzhBMoKixRj4Say6iWI9Blju1
+	5L116LyWFR/Bgs2ntME/IyJ1I=
+Received: from GHT-5854251031.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDnPxJQfthqGZe3Bg--.35164S2;
+	Wed, 21 Oct 2026 16:56:51 +0800 (CST)
+From: Wanquan Zhong <zwq2226404116@163.com>
+To: mani@kernel.org
+Cc: krishna.chundru@oss.qualcomm.com,
+	jeff.hugo@oss.qualcomm.com,
+	loic.poulain@oss.qualcomm.com,
+	linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev,
+	quic_vpernami@quicinc.com
+Subject: Re: [PATCH v5 1/1] bus: mhi: pci_generic: add Rolling Wireless RW151 1501/1502 PCI IDs
+Date: Wed, 21 Oct 2026 16:56:47 +0800
+Message-ID: <20261021085647.27920-1-zwq2226404116@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <dfwdvevwv6vyndv7uy3tsshw6vmpf3gregwxdji2n6uowrtpaw@664c3gau2nrj>
+References: <dfwdvevwv6vyndv7uy3tsshw6vmpf3gregwxdji2n6uowrtpaw@664c3gau2nrj>
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -60,82 +66,33 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] bus: mhi: host: pci_generic: Update the default
- autosuspend_delay_ms as 5000ms
-To: Slark Xiao <slark_xiao@163.com>, mani@kernel.org,
- jeff.hugo@oss.qualcomm.com, krishna.chundru@oss.qualcomm.com
-Cc: loic.poulain@oss.qualcomm.com, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20261021024038.17127-1-slark_xiao@163.com>
-Content-Language: en-US
-From: Val Packett <val@packett.cool>
-In-Reply-To: <20261021024038.17127-1-slark_xiao@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnPxJQfthqGZe3Bg--.35164S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWruw47uF17Cr1kZFWrKw1kGrg_yoW3Awb_Ga
+	yUJa1kGr40yrWxCw18Kr4Fgr9F9a1Fgw15trWvqw1qg340vFWUXw1rJrn0ywn0gr4Fqr98
+	ZryUZw1Ykr12vjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRoUq5UUUUU==
+X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0ROE22rYflONIgAA3t
 
+On Sat, Sep 26, 2026 at 12:26:16PM +0200, Manivannan Sadhasivam wrote:
+> I replied too fast... This patch doesn't even apply on top of mhi-next
+> branch. There is no config for Rolling wireless devices
+> 'mhi_rolling_rw151_info'.
 
-On 10/20/26 11:40 PM, Slark Xiao wrote:
-> For some MHI devices in some specific scenario, the default value
-> of autosuspend_delay_ms may not enough to handle last wake event.
-Missing verb.. may not *be* enough
-> This may lead to some unexpected problems.
-Sounds vague, are there any examples of the problems? A short 
-description of a concrete error message or something would be nice.
-> Refer to the Qualcomm's Windows settings and we checked this with
-> Quaclomm over case, Qualcomm recommend us to set this as 5000ms.
+Sorry for the late reply. I could not receive mailing-list mail for a
+while; the mailbox is working again.
 
-spelliiiiing. Quaclomm? :)
+You are right. v5 was an incremental diff against my local tree, not
+against mhi-next. The RW135R/RW151 config from v2 was never merged, so
+the extra PCI IDs had nothing to attach to.
 
-(also "over case" sounds odd)
+I will send v6 as a standalone series on current mhi-next, with the
+full channel/event config and all PCI IDs in pci_generic.
 
-> Qualcomm also suggests us to update this for all MHI devices.
-> Since this setting has affected some existed kernel versions, it's
-> better to be applied to stable version.
-Please leave the "meta" stuff about where the commit applies outside of 
-the commit message.
-> Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
-> ---
-> v2: define a autosuspend delay timeout and explain the reason
-> ---
->   drivers/bus/mhi/host/pci_generic.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index 7193a384cca4..1f52542794d7 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -21,6 +21,9 @@
->   
->   #define MHI_POST_RESET_DELAY_MS 2000
->   
-> +/* Add define of  initial autosuspend_delay_ms to accommodate a potential 'late wake-event' issue */
+> These comments should go below --- after Signed-off-by tag.
 
-Not a very necessary comment, but if you do add it, please don't write 
-things like "Add define of". This *is* the define, we're looking at it..
-
-Also, it's not "initial" if it's not a tunable or anything, it's just 
-*the* delay value.
-
-> +#define MHI_AUTOSUSPEND_DELAY_MS 5000
-> +
->   #define HEALTH_CHECK_PERIOD (HZ * 2)
->   
->   /* PCI VID definitions */
-> @@ -1483,7 +1486,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   
->   	/* Allow runtime suspend only if both PME from D3Hot and M3 are supported */
->   	if (pci_pme_capable(pdev, PCI_D3hot) && !(info->no_m3)) {
-> -		pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
-> +		pm_runtime_set_autosuspend_delay(&pdev->dev, MHI_AUTOSUSPEND_DELAY_MS);
->   		pm_runtime_use_autosuspend(&pdev->dev);
->   		pm_runtime_mark_last_busy(&pdev->dev);
->   		pm_runtime_put_noidle(&pdev->dev);
-
+Understood. Changelog will stay below --- in v6.
 
 Thanks,
-~val
+Wanquan Zhong
 
