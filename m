@@ -1,68 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792574179;
-	b=TTGgpFgVy9s8IpE5rXrpf2hCiK1gjOJMpRu6zvTaGNYAExglbgJg/N5wqfo9Bu0kye7s
-	 +gh2PGKat6czhVBwVv1b2nrBUPyYTmimaxNk8eVlT4uN1pPyId+86hO9csuyw8VrdFVzS
-	 9zXY23+OLfwWNaB0Kg6mdLWrCfEmBeL7MRj4T2wyrhEqsFSNJDrI5/N6hrrPsGcWpE363
-	 /542IgwAYfBrLxPfCi6ACP0HG6x3D2A+lo9fssosD4UrnU7xEK37gvh5oZ/W1qKp0b44B
-	 /cZpwV2cWhrTVjFIS0Jq8+wOYgkUFtCMxlF0XmQOa6Jfg8AKJ18Csb895rixPL2pEKA==
+	t=1792578365;
+	b=M2OvkpuSjw84I49cKMq23bE/PW4YCovr2nrPX0VZL94rJoKDhZatGD8vx05Do1l+z3Zs
+	 9LmTpuZgyE+LasH4xsAUWu4dOboO+ybE9qPtJNsFQYm55skbH0kMIssYQc5J16n6ujS5J
+	 ofDlUftNWX8vjGLWn8rY8stXamAtR2xU7DlNmEp/2SbxbOQAgdaN0fYpLbh1CBb6QJ47P
+	 +YXxNZwj8J4VzMnMW8T4XHwuDPb6ip6+S/WXzTdN3LdnJyCiWUU6f14GRNrUSS/PGIiIf
+	 wyW5+tgWTIXZF2cLokwHTbO6T2JPIVDmVZ6PXvWl7bvi9TLKC7mXS1sKbw/1hk+wSgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792574179;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:Sender:
-	 X-CM-SenderInfo;
-	bh=RrMjYnMi8ktHxiTV2sSqusS5AhFq1o0nr7mByeFZK6Q=;
-	b=B3fNL1mLuEDbeGN5vOgUB7wY8vsLN8FSmAMTLpvMg6U9mBI5uRAr155TnNmgkJwckq74
-	 JdrtIBZnKpnC6Hvg00pIxRy1GEH6+N/RITngz5KxpYLOsznY6wTuRrC0jgQVzInx5WvhT
-	 x7yu+g6mZqvHtvLMWKpX7cl8uOzx2GkIm0WqENgaVGo0JV+eBB5LXKHZDve0rSS/YvjEs
-	 iN84E8lF0uQvhvEQuaPQj4I4pwFq6wjlsnU9U1Vt9820a+bQNukA/p2du/hJTgU/jqdhr
-	 gcDdBHBC4xb6PEYAfbkBJrMS5cGZIi75GcYVYZBNBOk0TgLWUhs4fYs+ur8C+2z3x5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578365;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Originating-IP:Date:From:To:
+	 Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:X-NTES-SC:
+	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=THn4vf0WmM9gASDJiZm+zWzqXjDDcV8NyV2K//0Z5jk=;
+	b=TX2foB+2313UG+jveuqlfsOvm34UaN0Eqcd3UCiC894YKjJyrgIO3Wn7qpgDVBFLk6zp
+	 yZ9874qFG0Qi6m1Eg/uHc7g6dzJXz9TaB6RS7VvpR4+cJr8/WcPEG8KbX9GaI06qqQR8x
+	 6ct7k50k5U6grPLexRXh2FmsSGWlKVKlz2zah1XxWlZsED691VFyHVLBylmcHfc5lr3Yv
+	 zX/SrO7YVcWbDQq+TzexsRodfVKOiFB+TOwP+ztXwABcyV4H0quOI+llCNPTpTTgQTC66
+	 6DaGMIW6KgTtlaVv65oad7RO1Od7on9gJ/gm4yso3QmiMY+/XSwVb++AddKGE8vD/hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=fibocom.com;
+	dmarc=pass header.from=163.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ZOUVZ7Me;
-	arc=none smtp.remote-ip=117.135.210.4
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TqcMEr6C;
+	arc=none smtp.remote-ip=220.197.31.5
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F13606A321
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 09:16:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19F13606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fibocom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41551606A31F
+	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 10:26:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41551606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ZOUVZ7Me
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TqcMEr6C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Rr
-	MjYnMi8ktHxiTV2sSqusS5AhFq1o0nr7mByeFZK6Q=; b=ZOUVZ7Metyj3KKF7Qj
-	p4zjj7bNpa+z5XXRlAoRZ+BdX0DqpxjyYE3mQhJu18rbz37zLOY4//svu5CEoelf
-	mjAyJzF7yhdYX/jbgG7RwBt8SIX80mhsHv/3LE1k8ZW0/SH9g+HwrDwEh/WJFUa/
-	VsOEuv76ZvqAYr8JA/qJk/Hgw=
-Received: from GHT-5854251031.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDnr9PGgthqi5y2BQ--.62596S3;
-	Wed, 21 Oct 2026 17:15:58 +0800 (CST)
-From: Wanquan Zhong <wanquan.zhong@fibocom.com>
-To: mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Wanquan Zhong <wanquan.zhong@fibocom.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH v6 1/2] bus: mhi: pci_generic: add Rolling Wireless RW135R-GL and RW151 support
-Date: Wed, 21 Oct 2026 17:15:47 +0800
-Message-ID: <7079b32572647d64207ce3f354ce63bbe481071c.1792573876.git.zwq2226404116@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1792573876.git.zwq2226404116@163.com>
-References: <cover.1792573876.git.zwq2226404116@163.com>
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=THn4vf0WmM9gASDJiZm+zWzqXjDDcV8NyV2K//0Z5jk=; b=T
+	qcMEr6CnhNyNlT9zCwdI2AeXGYuy/aLS/Rc2tEDg3XWsXpUOdxqL1Us6tvimP3dz
+	vlh5+1Ne0u3QGsLFyWogxyFvU5WO5Eiet30mKZ+P4kQpQERldUvQS3UvcDsf5rua
+	tFxsC18Atjwyb6MHIQn+NuFJe5Sbs5VJxOtDOLjcoQ=
+Received: from slark_xiao$163.com (
+ [2408:8459:3c60:67ec:11ce:97fc:3b30:e8ab] ) by ajax-webmail-wmsvr-40-131
+ (Coremail) ; Wed, 21 Oct 2026 18:25:51 +0800 (CST)
+Date: Wed, 21 Oct 2026 18:25:51 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Val Packett" <val@packett.cool>
+Cc: mani@kernel.org, jeff.hugo@oss.qualcomm.com,
+	krishna.chundru@oss.qualcomm.com, loic.poulain@oss.qualcomm.com,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re:Re: [PATCH v2] bus: mhi: host: pci_generic: Update the default
+ autosuspend_delay_ms as 5000ms
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <bfc5414e-5616-4a64-becc-d16c2b01ecf4@packett.cool>
+References: <20261021024038.17127-1-slark_xiao@163.com>
+ <bfc5414e-5616-4a64-becc-d16c2b01ecf4@packett.cool>
+X-NTES-SC: AL_Qu2SAPmct0su5yaebekckk4WhuY7WcOyuPkg2YZSc84FvxzN2wMjTVZPMkH1wt6tJh6KlTGsdjF2xuBhfpFXasRVWrbzS1a+UW0sZuwzsg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -72,209 +70,56 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnr9PGgthqi5y2BQ--.62596S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxtr45Cw1Utw1xCF17Xw47Arb_yoW3ZF4fpF
-	WSyrZ5tr4kJw15uFW8Ary8GF9Yvan5GryUKrsrKw1Ig3W0ya10qay8K347trWYvw4vgr1F
-	9Fn8Cr1xuanrJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UiTmDUUUUU=
-Sender: zwq2226404116@163.com
-X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0Q+k+2rYgs8LWQAA3s
+Message-ID: <47bdad69.9245.1a15dfef241.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:gygvCgD3n2kvk9hqZdMmAA--.472W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbC6A-AJWrYky8y2QAA3n
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Add MHI PCIe device configuration for Rolling Wireless modules:
-
-- RW135R-GL (Qualcomm sdx35): SAHARA, DIAG, MBIM, DUN, FIREHOSE, ADB,
-  NMEA and IP_HW0
-- RW151 (Qualcomm sdx75): the same channel layout
-
-Register PCI_DEVICE_SUB entries per chipset:
-
-- RW135R-GL on QCOM 0x011a (sdx35): sub-vendor 0x2099, sub-device
-  0x1300/0x1301
-- RW151 on QCOM 0x0309 (sdx75): sub-vendor 0x2099, sub-device
-  0x1500/0x1501/0x1502; HP OEM sub-vendor 0x103c, sub-device
-  0x8fb8/0x8fb4
-
-Use Rolling-specific EDL firmware paths under qcom/sdx35/rolling/ and
-qcom/sdx75/rolling/.
-
-Tested suspend-to-RAM (mem) on Rolling RW135R-GL and RW151 hardware: MHI
-resumes cleanly and MBIM/wwan function after wake. Hibernate (disk) could
-not be tested on this platform (/sys/power/state lacks "disk", ENODEV).
-
-Tested-on: Rolling RW135R-GL hardware (MHI probe, MBIM, DIAG, ADB,
-suspend-to-RAM)
-Tested-on: Rolling RW151 hardware (MHI probe, MBIM, DIAG, ADB,
-suspend-to-RAM)
-
-Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
----
-Changes in v6:
-- Resend as a standalone series against current mhi-next; v3-v5 were
-  incremental on an unmerged local tree
-- Include full RW135R-GL and RW151 channel/event config (never merged)
-- Add RW151 PCI IDs 2099:1501 and 2099:1502
-- Drop no_m3
-- Set RW151 MBIM ring size to 32 to match firmware
-- Add SAHARA SBL channels for EDL
-- Move NMEA from channels 14/15 to 60/61
-- Align RW151 DIAG ring (64) and timeout (8000 ms) with RW135R-GL
-
-Changes in v5:
-- Add RW151 PCI IDs 2099:1501 and 2099:1502
-
-Changes in v4:
-- Drop no_m3 quirk per review; keep RW151 MBIM ring size fix only
-
-Changes in v3:
-- Increase RW151 MBIM ring size from 4 to 32
-
-Changes in v2:
-- Correct Rolling EDL firmware paths
-- Fix RW151 PCI subsystem IDs
-- Document suspend-to-RAM testing
-
- drivers/bus/mhi/host/pci_generic.c | 113 +++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index b636e2c23b4d..353e3a2c954c 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -948,6 +948,98 @@ static const struct mhi_pci_dev_info mhi_netprisma_fcun69_info = {
- 	.sideband_wake = true,
- };
- 
-+static const struct mhi_channel_config mhi_rolling_rw135r_channels[] = {
-+	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 1),
-+	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 1),
-+	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(36, "ADB", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(37, "ADB", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(60, "NMEA", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(61, "NMEA", 32, 0),
-+	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
-+	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
-+};
-+
-+static struct mhi_event_config mhi_rolling_rw135r_events[] = {
-+	MHI_EVENT_CONFIG_CTRL(0, 128),
-+	MHI_EVENT_CONFIG_DATA(1, 128),
-+	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
-+	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101),
-+};
-+
-+static const struct mhi_controller_config modem_rolling_rw135r_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 8000,
-+	.num_channels = ARRAY_SIZE(mhi_rolling_rw135r_channels),
-+	.ch_cfg = mhi_rolling_rw135r_channels,
-+	.num_events = ARRAY_SIZE(mhi_rolling_rw135r_events),
-+	.event_cfg = mhi_rolling_rw135r_events,
-+};
-+
-+static const struct mhi_pci_dev_info mhi_rolling_rw135r_info = {
-+	.name = "rolling-rw135r",
-+	.edl = "qcom/sdx35/rolling/prog_firehose_ddr.elf",
-+	.config = &modem_rolling_rw135r_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+	.edl_trigger = true,
-+};
-+
-+static const struct mhi_channel_config mhi_rolling_rw151_channels[] = {
-+	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 64, 1),
-+	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 64, 1),
-+	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(36, "ADB", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(37, "ADB", 32, 0),
-+	MHI_CHANNEL_CONFIG_UL(60, "NMEA", 32, 0),
-+	MHI_CHANNEL_CONFIG_DL(61, "NMEA", 32, 0),
-+	MHI_CHANNEL_CONFIG_HW_UL(100, "IP_HW0", 128, 2),
-+	MHI_CHANNEL_CONFIG_HW_DL(101, "IP_HW0", 128, 3),
-+};
-+
-+static struct mhi_event_config mhi_rolling_rw151_events[] = {
-+	MHI_EVENT_CONFIG_CTRL(0, 128),
-+	MHI_EVENT_CONFIG_DATA(1, 128),
-+	MHI_EVENT_CONFIG_HW_DATA(2, 1024, 100),
-+	MHI_EVENT_CONFIG_HW_DATA(3, 2048, 101),
-+};
-+
-+static const struct mhi_controller_config modem_rolling_rw151_config = {
-+	.max_channels = 128,
-+	.timeout_ms = 8000,
-+	.num_channels = ARRAY_SIZE(mhi_rolling_rw151_channels),
-+	.ch_cfg = mhi_rolling_rw151_channels,
-+	.num_events = ARRAY_SIZE(mhi_rolling_rw151_events),
-+	.event_cfg = mhi_rolling_rw151_events,
-+};
-+
-+static const struct mhi_pci_dev_info mhi_rolling_rw151_info = {
-+	.name = "rolling-rw151",
-+	.edl = "qcom/sdx75/rolling/prog_firehose_lite.elf",
-+	.config = &modem_rolling_rw151_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+	.edl_trigger = true,
-+};
-+
- /* Keep the list sorted based on the PID. New VID should be added as the last entry */
- static const struct pci_device_id mhi_pci_id_table[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0116),
-@@ -961,6 +1053,12 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Telit FE912C04 (sdx35) */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x1c5d, 0x2045),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fe912c04_info },
-+	/* Rolling RW135R-GL (sdx35) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x2099, 0x1300),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw135r_info },
-+	/* Rolling RW135R-GL (sdx35) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x011a, 0x2099, 0x1301),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw135r_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x011a),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx35_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0304),
-@@ -995,6 +1093,21 @@ static const struct pci_device_id mhi_pci_id_table[] = {
- 	/* Telit FE990B40 (sdx72) */
- 	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x1c5d, 0x2025),
- 		.driver_data = (kernel_ulong_t) &mhi_telit_fe990b40_info },
-+	/* Rolling RW151 (sdx75) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x2099, 0x1500),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
-+	/* Rolling RW151 (sdx75) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x2099, 0x1501),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
-+	/* Rolling RW151 (sdx75) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x2099, 0x1502),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
-+	/* Rolling RW151 (sdx75) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x103c, 0x8fb8),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
-+	/* Rolling RW151 (sdx75) */
-+	{ PCI_DEVICE_SUB(PCI_VENDOR_ID_QCOM, 0x0309, 0x103c, 0x8fb4),
-+		.driver_data = (kernel_ulong_t) &mhi_rolling_rw151_info },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, 0x0309),
- 		.driver_data = (kernel_ulong_t) &mhi_qcom_sdx75_info },
- 	/* QDU100, x100-DU */
--- 
-2.53.0
-
+CgpBdCAyMDI2LTEwLTIxIDEzOjIyOjQ4LCAiVmFsIFBhY2tldHQiIDx2YWxAcGFja2V0dC5jb29s
+PiB3cm90ZToKPgo+T24gMTAvMjAvMjYgMTE6NDAgUE0sIFNsYXJrIFhpYW8gd3JvdGU6Cj4+IEZv
+ciBzb21lIE1ISSBkZXZpY2VzIGluIHNvbWUgc3BlY2lmaWMgc2NlbmFyaW8sIHRoZSBkZWZhdWx0
+IHZhbHVlCj4+IG9mIGF1dG9zdXNwZW5kX2RlbGF5X21zIG1heSBub3QgZW5vdWdoIHRvIGhhbmRs
+ZSBsYXN0IHdha2UgZXZlbnQuCj5NaXNzaW5nIHZlcmIuLiBtYXkgbm90ICpiZSogZW5vdWdoCj4+
+IFRoaXMgbWF5IGxlYWQgdG8gc29tZSB1bmV4cGVjdGVkIHByb2JsZW1zLgo+U291bmRzIHZhZ3Vl
+LCBhcmUgdGhlcmUgYW55IGV4YW1wbGVzIG9mIHRoZSBwcm9ibGVtcz8gQSBzaG9ydCAKPmRlc2Ny
+aXB0aW9uIG9mIGEgY29uY3JldGUgZXJyb3IgbWVzc2FnZSBvciBzb21ldGhpbmcgd291bGQgYmUg
+bmljZS4KPj4gUmVmZXIgdG8gdGhlIFF1YWxjb21tJ3MgV2luZG93cyBzZXR0aW5ncyBhbmQgd2Ug
+Y2hlY2tlZCB0aGlzIHdpdGgKPj4gUXVhY2xvbW0gb3ZlciBjYXNlLCBRdWFsY29tbSByZWNvbW1l
+bmQgdXMgdG8gc2V0IHRoaXMgYXMgNTAwMG1zLgo+Cj5zcGVsbGlpaWlpbmcuIFF1YWNsb21tPyA6
+KQo+Cj4oYWxzbyAib3ZlciBjYXNlIiBzb3VuZHMgb2RkKQo+Cj4+IFF1YWxjb21tIGFsc28gc3Vn
+Z2VzdHMgdXMgdG8gdXBkYXRlIHRoaXMgZm9yIGFsbCBNSEkgZGV2aWNlcy4KPj4gU2luY2UgdGhp
+cyBzZXR0aW5nIGhhcyBhZmZlY3RlZCBzb21lIGV4aXN0ZWQga2VybmVsIHZlcnNpb25zLCBpdCdz
+Cj4+IGJldHRlciB0byBiZSBhcHBsaWVkIHRvIHN0YWJsZSB2ZXJzaW9uLgo+UGxlYXNlIGxlYXZl
+IHRoZSAibWV0YSIgc3R1ZmYgYWJvdXQgd2hlcmUgdGhlIGNvbW1pdCBhcHBsaWVzIG91dHNpZGUg
+b2YgCj50aGUgY29tbWl0IG1lc3NhZ2UuCj4+IEZpeGVzOiBkMzgwMGMxZGNlMjQgKCJidXM6IG1o
+aTogcGNpX2dlbmVyaWM6IEFkZCBzdXBwb3J0IGZvciBydW50aW1lIFBNIikKPj4gQ2M6IHN0YWJs
+ZUB2Z2VyLmtlcm5lbC5vcmcKPj4gU2lnbmVkLW9mZi1ieTogU2xhcmsgWGlhbyA8c2xhcmtfeGlh
+b0AxNjMuY29tPgo+PiAtLS0KPj4gdjI6IGRlZmluZSBhIGF1dG9zdXNwZW5kIGRlbGF5IHRpbWVv
+dXQgYW5kIGV4cGxhaW4gdGhlIHJlYXNvbgo+PiAtLS0KPj4gICBkcml2ZXJzL2J1cy9taGkvaG9z
+dC9wY2lfZ2VuZXJpYy5jIHwgNSArKysrLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYnVzL21oaS9o
+b3N0L3BjaV9nZW5lcmljLmMgYi9kcml2ZXJzL2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+
+IGluZGV4IDcxOTNhMzg0Y2NhNC4uMWY1MjU0Mjc5NGQ3IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJz
+L2J1cy9taGkvaG9zdC9wY2lfZ2VuZXJpYy5jCj4+ICsrKyBiL2RyaXZlcnMvYnVzL21oaS9ob3N0
+L3BjaV9nZW5lcmljLmMKPj4gQEAgLTIxLDYgKzIxLDkgQEAKPj4gICAKPj4gICAjZGVmaW5lIE1I
+SV9QT1NUX1JFU0VUX0RFTEFZX01TIDIwMDAKPj4gICAKPj4gKy8qIEFkZCBkZWZpbmUgb2YgIGlu
+aXRpYWwgYXV0b3N1c3BlbmRfZGVsYXlfbXMgdG8gYWNjb21tb2RhdGUgYSBwb3RlbnRpYWwgJ2xh
+dGUgd2FrZS1ldmVudCcgaXNzdWUgKi8KPgo+Tm90IGEgdmVyeSBuZWNlc3NhcnkgY29tbWVudCwg
+YnV0IGlmIHlvdSBkbyBhZGQgaXQsIHBsZWFzZSBkb24ndCB3cml0ZSAKPnRoaW5ncyBsaWtlICJB
+ZGQgZGVmaW5lIG9mIi4gVGhpcyAqaXMqIHRoZSBkZWZpbmUsIHdlJ3JlIGxvb2tpbmcgYXQgaXQu
+Lgo+Cj5BbHNvLCBpdCdzIG5vdCAiaW5pdGlhbCIgaWYgaXQncyBub3QgYSB0dW5hYmxlIG9yIGFu
+eXRoaW5nLCBpdCdzIGp1c3QgCj4qdGhlKiBkZWxheSB2YWx1ZS4KPgpUaGFua3MgZm9yIHlvdXIg
+Z29vZCBzdWdnZXN0aW9uLiBXaWxsIGNvbW1pdCBhIFYzIHZlcnNpb24gbGF0ZXIuCgo+PiArI2Rl
+ZmluZSBNSElfQVVUT1NVU1BFTkRfREVMQVlfTVMgNTAwMAo+PiArCj4+ICAgI2RlZmluZSBIRUFM
+VEhfQ0hFQ0tfUEVSSU9EIChIWiAqIDIpCj4+ICAgCj4+ICAgLyogUENJIFZJRCBkZWZpbml0aW9u
+cyAqLwo+PiBAQCAtMTQ4Myw3ICsxNDg2LDcgQEAgc3RhdGljIGludCBtaGlfcGNpX3Byb2JlKHN0
+cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqaWQpCj4+ICAg
+Cj4+ICAgCS8qIEFsbG93IHJ1bnRpbWUgc3VzcGVuZCBvbmx5IGlmIGJvdGggUE1FIGZyb20gRDNI
+b3QgYW5kIE0zIGFyZSBzdXBwb3J0ZWQgKi8KPj4gICAJaWYgKHBjaV9wbWVfY2FwYWJsZShwZGV2
+LCBQQ0lfRDNob3QpICYmICEoaW5mby0+bm9fbTMpKSB7Cj4+IC0JCXBtX3J1bnRpbWVfc2V0X2F1
+dG9zdXNwZW5kX2RlbGF5KCZwZGV2LT5kZXYsIDIwMDApOwo+PiArCQlwbV9ydW50aW1lX3NldF9h
+dXRvc3VzcGVuZF9kZWxheSgmcGRldi0+ZGV2LCBNSElfQVVUT1NVU1BFTkRfREVMQVlfTVMpOwo+
+PiAgIAkJcG1fcnVudGltZV91c2VfYXV0b3N1c3BlbmQoJnBkZXYtPmRldik7Cj4+ICAgCQlwbV9y
+dW50aW1lX21hcmtfbGFzdF9idXN5KCZwZGV2LT5kZXYpOwo+PiAgIAkJcG1fcnVudGltZV9wdXRf
+bm9pZGxlKCZwZGV2LT5kZXYpOwo+Cj4KPlRoYW5rcywKPn52YWwK
