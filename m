@@ -1,66 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792573657;
-	b=z67fxpCoHvHgYw7fvvIWvloG2UK52S+wDj+EKO36niHpl/SUvEou5G3yVyGij/WSw3SC
-	 /WqjbyFzlpjwZ+pcyt/gjt3zLe/8NkCxOO2E51JEYPh1z65YHWtXDtbyQPUpjPVr2QTv1
-	 J61SOfPXswVObb9i/nqFaClwqIrOwRb61TZHYJaxrtvsv8O5Xsb/MzUHeTVRolLSxHmdh
-	 RayLFzFXtAMtJKOhXE2jyWznV4PwoJ8hPF7LtcJDOt6zMwQk6CR4ajY1P+jzdjHiJKet4
-	 dkK4lbWBeEa0x9FVijo2eBXUgvw0puVa62CHqv9jvGpk1frxTQmpdZpZG6HpgWDw6rg==
+	t=1792574176;
+	b=Xhy1oEGRH7VAnMI9BEhX1Qeug3fK1RM/G98vLgva4dZoP+1wQWy/fLNea9YWHgSBcYX0
+	 UDfy+184lFdxVPffZ0rUb43rh78sGPifZmYbOJHnjFjnTfMsJu89dQYRNWO07i46srqw7
+	 BnEZdmpltNVbNnFSUGe31YlGmhD6JXkXl6JlW7qj2oaqW1RYtopj2Bx2xYJRMMEceCqYX
+	 QNVrs/xTYESfOqGp7+xq9SC6DJ/qlptPkFsImlT3DeYPu91smEf1nlwo1VhKrU36R91zI
+	 3z1aojrkXxcv5foCaubrAcLIRJTJ3SCX0/+yyVPvUAXXEtvXPJWTYze6n4cxpDHOLXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792573657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792574176;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=92DTiUUK71Q2LhIuCW5C/IPiDJObqZvJg6w+xoJeZg0=;
-	b=4Atb4NZnVOwGiZStgKXDrxsVHq57PFge9J8vKo9oSrXAVSV8FSJIU6cHkDtS1FsY5nQt
-	 gruIdHE5PsYKQL7SFOhY2fN5xryyBUutwqXhJW+wSjLngVDzK1QZVWPx51CqekqmS1LIa
-	 gbncBDwvXA5ZdVj0u1FaXdT+NNcFvWL76Ea3z1bLmQPk9CZ317Cj6SlP7xAQs6b2u4FiW
-	 kBHQsOBS0CHim0JEXHk59K5SODM1cyC/xBWpyx5UWZKtakruJ6jp4onaq2uytNXqyvc8A
-	 LFcQ0QkU6OBPELv7bWmL2mf+WRpdsTmc1aznxGs0IhjmZFL5+aRrFGFECQfC9vLloTA==
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:Sender:X-CM-SenderInfo;
+	bh=TAyowwRcHh+nrqWpXVvmQRCdLdjZ8giPGwSLjKH4dIM=;
+	b=3DD9cGtGcd8MouD+pr0LNXcQOjug0tgVOn9eZeL5tEnkqv41TYZjPWhMZSq+KhZbEV5E
+	 FYPDLBZ1US5vaj/JHtqZiOYyKROc0Hu2p61JaU+AbngmdsJaXL9Dq2YIoKcQRQ9fFWJlO
+	 W61kXYKM7M3l/zAndIRQHO2B8l+1mTv1HWUZ4IRCRCPwpzex0zzMNzOWUEMPBb1z3/xYv
+	 OUgIV8D+hyymnEf3s29Job0nLTNK8deVsbnUqrgBcu6IFefAvqVgXM1KjLZ5MORZBSGYL
+	 JPI6N70QYNQYQwCqDdU5KpaVzHiXa549CkqC7e0NswPN6eNXYOrDCOSsb2gOfbZbQsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
+	dmarc=fail header.from=fibocom.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Wi7ENg9k;
-	arc=none smtp.remote-ip=220.197.31.5
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eDY9jLFw;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D3606A319
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 09:07:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA4D3606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB68606A320
+	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 09:16:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFB68606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Wi7ENg9k
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eDY9jLFw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=92
-	DTiUUK71Q2LhIuCW5C/IPiDJObqZvJg6w+xoJeZg0=; b=Wi7ENg9k9LJM6XDpUP
-	F17zrGQfPluyE0Ot15pI5BtfMYoFi7JhjoEyoPZMaploq2z5QQIemjygn9RPPyjF
-	NpKIdG+pSB4m+F65hZgLm0G+U4OR8/+BIZ0q+bEKtQuvF/OM0qEGmv7KFjOt/rLl
-	CZNLwBcazQIa2f2L6CbeuCRqk=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=TA
+	yowwRcHh+nrqWpXVvmQRCdLdjZ8giPGwSLjKH4dIM=; b=eDY9jLFw6KnhDGCnl3
+	A0YpeaKiYUGUJLkA8y2YNkI6q3kauobzgtjb2TPae/XQwKKlrKE33lixzVtUa/HF
+	MbgXxDRJrBKqar/ksMZ+rtXpf4jJjD7n6zYxCUHdCmh26obqwn92UQMXicCPe1ES
+	sP+Tp+O9rRM7eWHNIU3zvQ8d4=
 Received: from GHT-5854251031.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDHaYjAgNhq_ue0BA--.13927S2;
-	Wed, 21 Oct 2026 17:07:16 +0800 (CST)
-From: Wanquan Zhong <zwq2226404116@163.com>
-To: krishna.chundru@oss.qualcomm.com
-Cc: mani@kernel.org,
-	loic.poulain@oss.qualcomm.com,
-	ryazanov.s.a@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	wanquan.zhong@fibocom.com,
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDnr9PGgthqi5y2BQ--.62596S2;
+	Wed, 21 Oct 2026 17:15:55 +0800 (CST)
+From: Wanquan Zhong <wanquan.zhong@fibocom.com>
+To: mhi@lists.linux.dev,
 	linux-arm-msm@vger.kernel.org,
-	netdev@vger.kernel.org,
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v4 1/1] bus: mhi: pci_generic: fix Rolling Wireless RW151 MBIM channel ring size
-Date: Wed, 21 Oct 2026 17:07:10 +0800
-Message-ID: <20261021090710.28118-1-zwq2226404116@163.com>
+	netdev@vger.kernel.org
+Cc: Wanquan Zhong <wanquan.zhong@fibocom.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH v6 0/2] add Rolling Wireless RW135R-GL and RW151 MHI support
+Date: Wed, 21 Oct 2026 17:15:46 +0800
+Message-ID: <cover.1792573876.git.zwq2226404116@163.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <c53fe666-7cca-4d25-8ee0-a787e5d1bbce@oss.qualcomm.com>
-References: <c53fe666-7cca-4d25-8ee0-a787e5d1bbce@oss.qualcomm.com>
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -71,25 +70,60 @@ List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgDHaYjAgNhq_ue0BA--.13927S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUjfO7UUUUU
-X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC0QQieWrYgMTXPgAA3R
+X-CM-TRANSID:_____wDnr9PGgthqi5y2BQ--.62596S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF1UCrW7tr4rtryxKFy3Jwb_yoW8Wr1fpF
+	WrKws3GFW09r13CF4fJr4xC34FgFs3GrWjgryak34xWFy5Aa17GrWagry5Kr1qqr4fWrWj
+	kayYqFWDua4UZa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UJPEDUUUUU=
+Sender: zwq2226404116@163.com
+X-CM-SenderInfo: h2ztjjaswuikqrrwqiywtou0bp/xtbC9Auj+mrYgssFtgAA3u
 
-On Fri, Jul 03, 2026 at 10:00:07AM +0530, Krishna Chaitanya Chundru wrote:
-> can you include what is the side affect if we don't have this change,
-> like what is functional issue, low throughput etc.
+This is a standalone series against current mhi-next. v3-v5 were
+incremental diffs on an unmerged local tree, so they did not apply.
 
-Sorry for the late reply.
+Patch 1/2 adds the full RW135R-GL (sdx35) and RW151 (sdx75) channel
+and event config, plus all known PCI subsystem IDs. Patch 2/2 enables
+the ADB WWAN port in mhi_wwan_ctrl; that change is split out as
+requested.
 
-It is a functional mismatch, not a throughput tweak. RW151 firmware
-configures the MBIM channel with 32 ring elements; v1/v2 used 4. The
-device can then post more transfers than the host ring can hold, so
-MBIM control TREs are dropped or never completed.
+Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
 
-v6 will include ring size 32 in the initial RW151 config, matching the
-firmware and RW135R-GL.
+---
+Changes in v6:
+- Resend as a standalone 2-patch series against current mhi-next
+- Include full RW135R-GL/RW151 config (v1/v2 were never merged)
+- Split ADB mhi_wwan_ctrl change into its own patch (Loic)
+- Drop no_m3 (Loic, Krishna, Mani)
+- Set RW151 MBIM ring size to 32 to match firmware (Krishna)
+- Add SAHARA SBL channels for EDL
+- Move NMEA from channels 14/15 to 60/61
+- Align RW151 DIAG ring (64) and timeout (8000 ms) with RW135R-GL
+- Add RW151 PCI IDs 2099:1501 and 2099:1502
+- Put version changelog below --- (Mani)
 
-Thanks,
-Wanquan Zhong
+Changes in v5:
+- Add RW151 PCI IDs 2099:1501 and 2099:1502
+
+Changes in v4:
+- Drop no_m3 quirk per review; keep RW151 MBIM ring size fix only
+
+Changes in v3:
+- Increase RW151 MBIM ring size from 4 to 32
+
+Changes in v2:
+- Correct Rolling EDL firmware paths
+- Fix RW151 PCI subsystem IDs (Lars)
+- Document suspend-to-RAM testing (Loic)
+
+Wanquan Zhong (2):
+  bus: mhi: pci_generic: add Rolling Wireless RW135R-GL and RW151
+    support
+  net: wwan: mhi_wwan_ctrl: add ADB channel support
+
+ drivers/bus/mhi/host/pci_generic.c | 113 +++++++++++++++++++++++++++++
+ drivers/net/wwan/mhi_wwan_ctrl.c   |   1 +
+ 2 files changed, 114 insertions(+)
+
+-- 
+2.53.0
 
