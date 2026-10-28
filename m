@@ -1,124 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792587122;
-	b=XmEBv1zfIJ7ztbskKZ/W0nVbZm1SJPfKTiMuTJqlliVs4GzgPyNkCHyQJitH6R11jG2o
-	 rnkFdv7VcaMOAhUXMAr39szXO7unQXtaFc2fjzqMI18q0Fg43RCxXrpcRpux/sGnDPAEX
-	 6qX1ONqHYR85QNk+xoiqI666gYhwuMc1g+4ch8ua2LSa+5XlhXoxeeZmmub6ZE3YO/+Nv
-	 H7SrUiXpBUCiPTY4/nb9jEgqj1zP/W5ZJvSSCcCFNWjk0Q3r8adhjMDHf5z4LReQ7ARoh
-	 Ps1OrovFfs9gGgLLkD/rWVcz2zv2BujJAYwFt/HLzpzKcURNlqRohstZSFXc0ln+Hxw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792587122;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=tKCN/Ntx/9lDpfB3hIQgsrXXGLrS6SF0i7Fxu+R/PMI=;
-	b=BCxv8hWrktTv/ypN609TW1BDqoEzJSisKfgWbnHVICGFsfDbRltrxByGSHgXnfCLyYMs
-	 w+gqqNsUDEBlOpCMH/nqOg8yZzloYH/NUMnRHd4G4XEWNp7wSMLKlw1k3yYCIIZRT590f
-	 y/8jA6hJPJstdLlrERHShiB8aIgG6tIw026poP2CyHMPv9SEi4QYpNW8+mYtsthRSyHFG
-	 uf8KviC5jVM78m+uHOpD5TY4O+hPU3OiyYaIT3FezqHjS4eLm2CAbJHgdLGFEQeD1U5TS
-	 p9xNNzMJgThfxwhSZcHlxr2L94gsQoqsYNjldN9IPaKo0VyqaRxZPpYSPWzW42qafCA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gketJED3;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=OMJMvDbZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793209874;
+	b=qC4Nv8ZPfvJ0yW72zH1kTiVBh959mbq3KjGSXOgL8MXhnXqcFTiigcQVTGMBNZWf71ih
+	 Km5yxefVtHQPa2qZmOBL5wJx5sESrSVhSxQx/jb3G2RYwNxwE6fApazN0faiTFfcB9gUh
+	 hPhFpkmvIjhDYIu9sip2cGZwxo7/7MpYj6YTIG3fNZuVrFDQDSCueE/4kWuqFZY7lsltg
+	 l8Aerl7AtzCnRijfLREBn58Jx5iuWTo9OW9vUupkauWjymT5V3p28o444ZBcbIqB8Ybns
+	 ALzT7RArWlgV3QVqN42kq5cueabkVb7GOtCpZKUdut9L6EqS8YZMCRMtWHQyqzbp8RA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793209874;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
+	 X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=v43fYjL5X0v05WZ0mlxoCxASofy9eK+d0SvMy+pQcbs=;
+	b=OODIYkFIrkVLP/3tJ0QMtObi1DJBpA0ENPq9wYvy4H8dezpdhze8UQ1k1vkGVJXW7avn
+	 8/OpD5ZwoKE+CQvX5P/QYnOM/x9VhLObTisj4qaTBmvyTCGVY6G7vBjZvBD85O24nxScw
+	 eRexhQJBZ/nKUWQTNzgVUZSLnC+3feZng2XigdFH6KRsxf1tH2QIU/otUBBDMY2EHXSJx
+	 HDu3rXn3pyM60VTEy+MCgL6f6V9I15ApxmcIC2EtwNeVS6cOBYi/dK8gOb3jZDntz99g1
+	 0DDCLg9BuVrYbZqiy7oeB+/+eRRSSp1Mfji7N9OjR4amtVMfMPqKULkY99Er3kdorYw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HgABsIu9;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A5D606A327
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 12:52:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33A5D606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93C4606A31D
+	for <mhi@lists.linux.dev>; Wed, 28 Oct 2026 17:51:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C93C4606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gketJED3;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=OMJMvDbZ
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LBg6Y5977407
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 12:52:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tKCN/Ntx/9lDpfB3hIQgsrXXGLrS6SF0i7Fxu+R/PMI=; b=gketJED3Gng6Tm+J
-	KacvTNyCZfwMvS3Lp28mWyYLX9yosEkoYK3b9HIQfhAJMRNTgT7q9bE+QQQl9nWT
-	NV12o9+UP9p18OSgcaYdd/VC7zrlj5hOsG/rq9rT0lDWPbb8xv4V+/tlNycOa5Z0
-	UXriXCV0p/+MICmDwUES6u+qHrne7Jvx2kKmnHz7SXM+BfPxko1JE3y6Y5U3dJkg
-	4gLNCFrZtcwHJkcaLNRAJP1ei2oXuo4+LjK46kkeRbM/6gVPliQ/McaqutAey1BO
-	Wy0L1UAE5aQjoi7r0lLlA+I09JT7RUxnkQVdqFnptbepx3tXn0tv5v/KeVtr8uXH
-	pumlVw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hegs035tv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 12:52:00 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93c5ab5c136so118858985a.3
-        for <mhi@lists.linux.dev>; Wed, 21 Oct 2026 05:52:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792587120; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EdMY8xm10GJWLQGktC/VtE6mtI3W0Bk8X4YafmzpDa3WlnYtpoiY0xMRnaPO69YvDk
-         sQric2tgRgTnBca4vtoundjnCRv6wUI//cXPCQNFjfbz3MamTlvkUMXupyHKeuunohmE
-         Tjx0xh88mgAKWW/1vptGskgTP6Ak0ILWgzTxIqmoyp1UD47+A64kKR3ij5Nnlt+k79Ad
-         TE2JPtmO1kP/NHHgL3d9TN3ND8klMuoso/407JOe7ajUu3kDwBdia9/Nj97G9Hqmzn3X
-         bvbJDuhmOBt/BKABBnrIZErkM1tzzNkDVjueE82VHjj+3r9YyivICRMJA3Zg6DJiUnMO
-         fuAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tKCN/Ntx/9lDpfB3hIQgsrXXGLrS6SF0i7Fxu+R/PMI=;
-        fh=vJ78N3NSTRidm4p+RbkE0HOcdddWiYtOc2TuhYNNo24=;
-        b=XhUynPcj8jEL/38358gzrVUT7mJGLWK5Cu8n8xLunzI50OpPWRS5vRkJ8Q++me9pUr
-         GxczPF+7PVoL6neEx/rj1ijW5YIKRsVlLZHTWBQ3uuNVF+VPlO2jTsGdDbJsQgBXuUpD
-         MloHo8aHBcdzA/pwFdm1qH+0aXz9RltdHn+6oYz0bdbBVaQsxOqf7UVSiw6wYeK87YaL
-         vog/l1eLR6odKncvct4TzpYsRfvODCP1rp7kP2W2rLILmPLr4KlkjjhIi3IuhrhfIFwv
-         L6ybnDsWzvgOAYz3Zf0JEJQlxU021IqKNIdIOTN/Kkh9hDVNtlYIoXmJrlZZO4XR9OiK
-         Hwlw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HgABsIu9
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c450ab1483cso197032566b.3
+        for <mhi@lists.linux.dev>; Wed, 28 Oct 2026 10:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792587120; x=1793191920; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tKCN/Ntx/9lDpfB3hIQgsrXXGLrS6SF0i7Fxu+R/PMI=;
-        b=OMJMvDbZP5S3lBSUSTMA0VXihc370vymGo5SPjBC8+zJ2CmMuhvrtyg0RVHgjWdorZ
-         zmo0/fbvxoayYti1p66m9XkLdkAlJrwXoUiKVbK14XDrXSoCTNkaKCT+yNLNXgN+5+jA
-         8FA2GdCeOio+aubz2zrBTAjznswDp5Ml8xISNXpY6sPlow0iiFw1TgoYmXpz8+LB+gN/
-         S9Mo1TuFlTZfYqqytRe3OedDr4zy5WmG7JJQsk8ze+MGDwz3DzoaOa0vktTFF3H+/yJP
-         k5+6/3MlzG11PCxoyQtW9tZmciLsTNZzbPCSuGes8vXAGJddFq4G/MvCxHub+CY9Df0J
-         Pt0Q==
+        d=gmail.com; s=20260707; t=1793209872; x=1793814672; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v43fYjL5X0v05WZ0mlxoCxASofy9eK+d0SvMy+pQcbs=;
+        b=HgABsIu96AOPOZVii689NTQhgj+QJ8kWUMYqemf1CWDtStTaLFBre/SlTowmvaqVq9
+         TPBtT3uzZp/kZzeHiBgsIqPm91sHIIC3ANJUkN3NhZ9OUNK2b9yQKuQsXVkQYNaXs4p2
+         yQ7qJwN/W7U3lWBRAeEpxyXOH6XORjuUFZfiIO1306GHsHueOptfF5ri3odPcXGb/WgY
+         n+Zts97BjblMCYSqhZoJzwBPX8wk8ML36NViq1wyoHVqf3opyyIroS1+Y/URUbpblqEo
+         Y4zwf/59/2w3W2+/QKZQgJcoaGTAPhxU9h7n9WhmyOB/ux/a6NAjGsLoO09DIHbYmUZ0
+         eOgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792587120; x=1793191920;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tKCN/Ntx/9lDpfB3hIQgsrXXGLrS6SF0i7Fxu+R/PMI=;
-        b=URlJxlQO1EVDA+4B04am8vPGgmOGI0myb5KFW3p6GPn9przD5SBDwUOHj4/CbKVh4M
-         Lb43XHSkT57loFTUSI5VdDA/59oOKXzFkVNHCTkUGUeKQt/57QfvkOY9cOdieHMW+Jh9
-         p1Vqj9zzEeAHBCGZbVGVgs4Mhr/3LE4RlEQjgBZjRBTJLiDfutLX6/kCh1kcYQPTJBZd
-         uGDGtxiarxW2AoWvC5Yf26jDIVMIvqIDAt+a/fCD1xVrYpncgbgok9zoq7kViHaaICg9
-         wVItKlJp597TlVcewjoDy01yeoZlfIGyuv5AGpAadHupdsDLo77OSmvceYiS3z6yngBo
-         vR3Q==
-X-Forwarded-Encrypted: i=1; AKwUvBykgBfe0iH3irOkb77bWt+67UHeXzbr9AiEuP632I0OXfYr3AXp9TVLsLh5jEqRF4N/Itg=@lists.linux.dev
-X-Gm-Message-State: AFq9FYJlI5buqJXgaEXE4LAIl9H2bHSI9vQ595acZXjgiFrVzmEMycjQ
-	sex/u7lD2IdRZqjodjAzgBqC9kqpbIhSbj48Qrhjb2KVWKEh62DJVeQtYs+dJlCI7Gr6JU7R5QH
-	wAG/iYqTediFwIVFo4b8emCOdg7YphdVcCeH0mJqnHYy4yXl4drn4HKRBc5+nfKl6JyaExxSHIG
-	E7HEo5mZ49jrcZzW3sRFTqMFWvjLiReA==
-X-Gm-Gg: AYBFou0pyYEb015j0Z+exCDsnQxc9CCEJ3P82lstqaftnowltc4mC7n5PQQuEMTPASI
-	+fqWQstL+n8sF05gfct8ELVm/biP6iys6VgW+j/jy1dd8WN3crv79N8ZNjjUzUrf3iDtABV0y1f
-	/lFabLS7cw+L+T0pECO5qzKJkdP8yt5fm1wXKTJRa5a3/KGqgV7uCF/fP4l97kk6jiNVHYQ6Nph
-	bfDiYhommIgOyc1w/1kEvMp2dBxaXv2Z7hqTzqR70v58DEaMIja+4nC6M7uUScrcPCkxFHw2Ew=
-X-Received: by 2002:a05:620a:28c8:b0:93f:2aa8:c550 with SMTP id af79cd13be357-93f57fa151emr385796685a.26.1792587115071;
-        Wed, 21 Oct 2026 05:51:55 -0700 (PDT)
-X-Received: by 2002:a05:620a:28c8:b0:93f:2aa8:c550 with SMTP id
- af79cd13be357-93f57fa151emr385791985a.26.1792587114427; Wed, 21 Oct 2026
- 05:51:54 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793209872; x=1793814672;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v43fYjL5X0v05WZ0mlxoCxASofy9eK+d0SvMy+pQcbs=;
+        b=ds/m+JdZvB+EOtzkraGPfnyhiEikrKQu3iJt+/bmIYYSCxII77nn2nKNOx6K+JVVMb
+         sDnRbPRhWXsnvOj6Y3FUnWNhB51uSa9PpaODxKGgrbhQD/bhW66JaSuDP6FMbOEXl9YD
+         YS9n9dhFceLLqYeKMOgPrSl855T4XhMiRh4mIOq4XuOHeDSYp36RqX7YnPYFAoEY7Iz7
+         C65V4bgeGwB0ZatSssERIawp8wsKhhkwJ3UCw+wbwDxhvUtPXmr/PjWs2cKLNlcNedrm
+         LvabKDX6zsaeWEskxlh0zfHna4Nq9gd9aN8bQa9XNhPeEjeBzpHqC/sssJnOnZrkGMtz
+         JdIA==
+X-Gm-Message-State: AFq9FYL17YwcoJYeaBG11jCzV4HhuMynzFCxlFUdL4Z4vtsqzoTD7yku
+	+rcQlH1k5qtoREUA1LBeRs7csmDEhi+OfdXIjGuMIc4+5LfemoKPDD4nwEAL9RxA
+X-Gm-Gg: AYBFou0MYIxkayqqwv3CpA2ncjsyDE1V+cWJWIP4C8DhITpcHcakbRV4poEng5ZIRRD
+	mzkO/wXVSadyjtrsxGli49xSQUsqbfgMlvo7Vmtq0kZEpAyjUquXHA8d+q3JfGg7sEHp7EnbU5D
+	0cvNl++OArUFQP9BdFtE7lic3gKO+bp228m/8X1PEhjYUb4bJAqjo9QGhqW1AZEkpl6HladuI9a
+	WbHz9HLz6stSiJaBrvG+X537U5Jgc1hyXMdLre+dekZZi9B//4C735Iw8V5D8rVzTO+6T70zp67
+	TUgmmqJhRxOt06hz8OEoudYt2SSi3Nz/aZMFNW/BeSs4bJ5jWoWYnhAxCG1IU+URvEIY2zgSFSq
+	oRMjJgh2ukinUHECvgLhPGTWKlDyAmVuTanV6GOZ/6yORk2dCewVy4G1lvYwCqR2Z/9zfCc9FWj
+	RkeTce7oRqm7h4RZGjWtCl2G76lu7IWDWeQ177JblIVzAAChfFipzkNgyO0DW3aRcGA1nbT/djv
+	1Tc2C+4b5gynv4AGbuWnONHkVxKZX4Ol18yPTPXb5yLoRXrOm74Jbmn3Gprsk13TSVb4eXPY68D
+	wdqtMzPxVa/rvZLh4PbPrKKMLgMENqgICxv+0IKFhJ0PXo1pyOu562kyEhknpWIdYz7nNsgXZ42
+	+XXMdaO6HUSaiYA==
+X-Received: by 2002:a17:907:d516:b0:c25:2688:8212 with SMTP id a640c23a62f3a-c49bd9ce44dmr320000866b.0.1793209871794;
+        Wed, 28 Oct 2026 10:51:11 -0700 (PDT)
+Received: from cachyos-x8664 (2a02-a44f-6bd8-0-365-d763-c748-da6c.fixed6.kpn.net. [2a02:a44f:6bd8:0:365:d763:c748:da6c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4e9995sm629906566b.15.2026.10.28.10.51.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 10:51:11 -0700 (PDT)
+From: Senna <sennas1633@gmail.com>
+X-Google-Original-From: Senna <Sennas1633@gmail.com>
+To: mhi@lists.linux.dev
+Cc: mani@kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Senna <Sennas1633@gmail.com>
+Subject: [PATCH] bus: mhi: ep: aggregate raw buffer completions
+Date: Wed, 28 Oct 2026 18:51:00 +0100
+Message-ID: <20261028175100.83406-1-Sennas1633@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -128,108 +96,288 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261021105434.29897-1-slark_xiao@163.com>
-In-Reply-To: <20261021105434.29897-1-slark_xiao@163.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Wed, 21 Oct 2026 14:51:43 +0200
-X-Gm-Features: AclHuK-yPVVb7PzvbUMTFtaNy5JD5TXtzFZ7YNTeyh98oaWvr44i4RUl_uqSzOU
-Message-ID: <CAFEp6-3F=fZ+kTsyZJTDk1Qfw_kPY-2u0G-PDHs7XyBs8tyOWQ@mail.gmail.com>
-Subject: Re: [PATCH v3] bus: mhi: host: pci_generic: Update the default
- autosuspend_delay_ms as 5000ms
-To: Slark Xiao <slark_xiao@163.com>
-Cc: mani@kernel.org, jeff.hugo@oss.qualcomm.com,
-        krishna.chundru@oss.qualcomm.com, val@packett.cool,
-        mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=S/NMU4sP c=1 sm=1 tr=0 ts=6ad8b570 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_glEPmIy2e8OvE2BGh3C:22 a=Byx-y9mGAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=cfVVBkdRkn7iCyj4mtkA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA1MSBTYWx0ZWRfX9Xw9UVwgBKHR
- HICfeYo6LhSBJh8bX7KAPeMYBNZ/2NizwA83y+XTrjmHupd/A9sGyMR4akZDci1r8u+ap31vtYe
- ++Geuaw0xdcvD9mYzbKsletkljRbHFSViXLK/ykX46ppqEsnoEvSBhhEZ0Szl41Q+VOyoxk9abr
- Ovz4QnuPi4LgsDiUBieyVOoZNJ3wU0bG2t1rlymrG1gSO/VaM+gjaXheHAjPKPAjrKHDOCJQtLn
- t/KMX8ONWeoljjtLWV3YCb+eEjO4bguKwmCF1mULkXB1eXrsUGREdkyVWD6kvcGb6/BniIfYEaj
- EQFJDmZXMcUk9mD3uxqezSfKWMQllKKup4R5oZUVuXX8+g8SoIcRQe+4UpiQZsA8mmes0bzA6Ev
- cKzH8mJnwHny2+SwSDqzTL+rkRB4IFhLdWcM6O4fcnCV6zEUn1k6dNmpQdWjoAeswKu63l315wm
- CCbPb/PINKml+5K5TxQ==
-X-Proofpoint-ORIG-GUID: AAC-DM-fcNZQ4V90pR5I0T3UhkCoglYk
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA1MSBTYWx0ZWRfX4bf5y6jFJrcN
- vYqDm7ZRggfy6L9kna7mhxiHJ5QNB6zTO9dI0+HwuOMx+isv8/c2QHC+qvCsgUJrOf+//7Qe0qU
- jtQv4qtiPoETi9tpESLRu3uMQ9AsYf8=
-X-Proofpoint-GUID: AAC-DM-fcNZQ4V90pR5I0T3UhkCoglYk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-21_03,2026-10-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210051
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 21, 2026 at 12:55=E2=80=AFPM Slark Xiao <slark_xiao@163.com> wr=
-ote:
->
-> For some MHI devices in some specific scenarios, the default value
-> of autosuspend_delay_ms may not be enough to handle the last wake
-> event, potentially leading to device timeout or link drop issues.
-> This can lead to a runtime resume failure and a subsequent system
-> error:
->
->   [ 8749.089545] mhi mhi0: Resuming from non M3 state (SYS ERROR)
->   [ 8749.089573] mhi-pci-generic 0000:73:00.0: failed to resume device: -=
-22
->   [ 8749.090218] mhi-pci-generic 0000:73:00.0: device recovery started
->   ...
->   [ 8752.940324] mhi-pci-generic 0000:73:00.0: reset failed
->
-> Following Qualcomm's recommended settings from Windows and their
-> suggestion during case discussions, update the default autosuspend
-> delay to 5000ms for MHI devices.
->
-> Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Slark Xiao <slark_xiao@163.com>
+Aggregate raw-buffer completions in the endpoint core and invoke the
+client callback once after all accepted TREs complete. This prevents
+the loopback worker from freeing a buffer still referenced by an earlier
+asynchronous submission.
 
-Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Fixes: 0b1883ca75c0 ("bus: mhi: ep: clients: Add loopback driver for data path testing")
+Signed-off-by: Senna <Sennas1633@gmail.com>
+---
+ drivers/bus/mhi/ep/clients/loopback.c |   4 +
+ drivers/bus/mhi/ep/main.c             | 131 ++++++++++++++++++++++----
+ include/linux/mhi_ep.h                |  19 ++--
+ 3 files changed, 130 insertions(+), 24 deletions(-)
 
-> ---
-> v3: update the commit message and the comment of the define
-> v2: define a autosuspend delay timeout and explain the reason
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pc=
-i_generic.c
-> index 7193a384cca4..17d51964b55f 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -21,6 +21,9 @@
->
->  #define MHI_POST_RESET_DELAY_MS 2000
->
-> +/* Timeout to accommodate a potential 'late wake-event' issue */
-> +#define MHI_AUTOSUSPEND_DELAY_MS 5000
-> +
->  #define HEALTH_CHECK_PERIOD (HZ * 2)
->
->  /* PCI VID definitions */
-> @@ -1483,7 +1486,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *id)
->
->         /* Allow runtime suspend only if both PME from D3Hot and M3 are s=
-upported */
->         if (pci_pme_capable(pdev, PCI_D3hot) && !(info->no_m3)) {
-> -               pm_runtime_set_autosuspend_delay(&pdev->dev, 2000);
-> +               pm_runtime_set_autosuspend_delay(&pdev->dev, MHI_AUTOSUSP=
-END_DELAY_MS);
->                 pm_runtime_use_autosuspend(&pdev->dev);
->                 pm_runtime_mark_last_busy(&pdev->dev);
->                 pm_runtime_put_noidle(&pdev->dev);
-> --
-> 2.53.0
->
+diff --git a/drivers/bus/mhi/ep/clients/loopback.c b/drivers/bus/mhi/ep/clients/loopback.c
+index c7452428d0b7..6f6a1b5a51c4 100644
+--- a/drivers/bus/mhi/ep/clients/loopback.c
++++ b/drivers/bus/mhi/ep/clients/loopback.c
+@@ -71,6 +71,10 @@ static void mhi_ep_loopback_ul_callback(struct mhi_ep_device *mhi_dev,
+ static void mhi_ep_loopback_dl_callback(struct mhi_ep_device *mhi_dev,
+ 					struct mhi_result *mhi_res)
+ {
++	if (mhi_res->transaction_status)
++		dev_err(&mhi_dev->dev, "Downlink transfer failed: %d\n",
++			mhi_res->transaction_status);
++
+ 	kfree(mhi_res->buf_addr);
+ }
+ 
+diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+index 4be20c368536..ec3f5cca66e7 100644
+--- a/drivers/bus/mhi/ep/main.c
++++ b/drivers/bus/mhi/ep/main.c
+@@ -14,6 +14,8 @@
+ #include <linux/irq.h>
+ #include <linux/mhi_ep.h>
+ #include <linux/module.h>
++#include <linux/refcount.h>
++#include <linux/spinlock.h>
+ #include "internal.h"
+ 
+ #define M0_WAIT_DELAY_MS	100
+@@ -504,7 +506,17 @@ static int mhi_ep_process_ch_ring(struct mhi_ep_ring *ring)
+ 	return 0;
+ }
+ 
+-static void mhi_ep_buf_completion(struct mhi_ep_buf_info *buf_info)
++struct mhi_ep_buf_tx {
++	struct mhi_ep_device *mhi_dev;
++	void *buf;
++	refcount_t pending;
++	spinlock_t lock;
++	size_t bytes_xferd;
++	int status;
++	bool queued;
++};
++
++static int mhi_ep_send_buf_completion(struct mhi_ep_buf_info *buf_info)
+ {
+ 	struct mhi_ep_device *mhi_dev = buf_info->mhi_dev;
+ 	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
+@@ -512,42 +524,101 @@ static void mhi_ep_buf_completion(struct mhi_ep_buf_info *buf_info)
+ 	struct mhi_ep_ring *ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
+ 	struct mhi_ring_element *el = &ring->ring_cache[ring->rd_offset];
+ 	struct device *dev = &mhi_dev->dev;
+-	struct mhi_result result = {};
+ 	int ret;
+ 
+-	if (mhi_chan->xfer_cb) {
+-		result.buf_addr = buf_info->cb_buf;
+-		result.dir = mhi_chan->dir;
+-		result.bytes_xferd = buf_info->size;
+-
+-		mhi_chan->xfer_cb(mhi_dev, &result);
+-	}
+-
+ 	ret = mhi_ep_send_completion_event(mhi_cntrl, ring, el, buf_info->size,
+ 					   buf_info->code);
+ 	if (ret) {
+ 		dev_err(dev, "Error sending transfer completion event\n");
+-		return;
++		return ret;
+ 	}
+ 
+ 	mhi_ep_ring_inc_index(ring);
++
++	return 0;
++}
++
++static void mhi_ep_buf_tx_put(struct mhi_ep_buf_tx *tx, size_t bytes_xferd,
++			      int status)
++{
++	struct mhi_ep_chan *mhi_chan = tx->mhi_dev->dl_chan;
++	struct mhi_result result = {
++		.buf_addr = tx->buf,
++		.dir = mhi_chan->dir,
++	};
++	unsigned long flags;
++
++	spin_lock_irqsave(&tx->lock, flags);
++	tx->bytes_xferd += bytes_xferd;
++	if (status && !tx->status)
++		tx->status = status;
++	spin_unlock_irqrestore(&tx->lock, flags);
++
++	if (!refcount_dec_and_test(&tx->pending))
++		return;
++
++	if (tx->queued && mhi_chan->xfer_cb) {
++		result.bytes_xferd = tx->bytes_xferd;
++		result.transaction_status = tx->status;
++		mhi_chan->xfer_cb(tx->mhi_dev, &result);
++	}
++
++	kfree(tx);
++}
++
++static void mhi_ep_buf_completion(struct mhi_ep_buf_info *buf_info)
++{
++	struct mhi_ep_buf_tx *tx = buf_info->cb_buf;
++	int ret;
++
++	ret = mhi_ep_send_buf_completion(buf_info);
++	mhi_ep_buf_tx_put(tx, buf_info->size, ret);
++}
++
++static void mhi_ep_skb_completion(struct mhi_ep_buf_info *buf_info)
++{
++	struct mhi_ep_device *mhi_dev = buf_info->mhi_dev;
++	struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
++	struct mhi_result result = {
++		.buf_addr = buf_info->cb_buf,
++		.bytes_xferd = buf_info->size,
++		.dir = mhi_chan->dir,
++	};
++
++	if (mhi_chan->xfer_cb)
++		mhi_chan->xfer_cb(mhi_dev, &result);
++
++	mhi_ep_send_buf_completion(buf_info);
+ }
+ 
+ /* TODO: Handle partially formed TDs */
+ static int mhi_ep_queue(struct mhi_ep_device *mhi_dev, void *buf, size_t len,
+-			void *cb_buf)
++			void *cb_buf, bool aggregate)
+ {
+ 	struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
+ 	struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
+ 	struct device *dev = &mhi_chan->mhi_dev->dev;
+ 	struct mhi_ep_buf_info buf_info = {};
++	struct mhi_ep_buf_tx *tx = NULL;
+ 	struct mhi_ring_element *el;
+ 	size_t buf_left, read_offset;
+ 	struct mhi_ep_ring *ring;
+ 	size_t tr_len;
+ 	u32 tre_len;
++	bool queued = false;
+ 	int ret;
+ 
++	if (aggregate) {
++		tx = kzalloc_obj(*tx, GFP_KERNEL);
++		if (!tx)
++			return -ENOMEM;
++
++		tx->mhi_dev = mhi_dev;
++		tx->buf = cb_buf;
++		refcount_set(&tx->pending, 1);
++		spin_lock_init(&tx->lock);
++	}
++
+ 	buf_left = len;
+ 	ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
+ 
+@@ -576,8 +647,14 @@ static int mhi_ep_queue(struct mhi_ep_device *mhi_dev, void *buf, size_t len,
+ 		buf_info.dev_addr = buf + read_offset;
+ 		buf_info.host_addr = MHI_TRE_DATA_GET_PTR(el);
+ 		buf_info.size = tr_len;
+-		buf_info.cb = mhi_ep_buf_completion;
+-		buf_info.cb_buf = cb_buf;
++		if (tx) {
++			refcount_inc(&tx->pending);
++			buf_info.cb = mhi_ep_buf_completion;
++			buf_info.cb_buf = tx;
++		} else {
++			buf_info.cb = mhi_ep_skb_completion;
++			buf_info.cb_buf = cb_buf;
++		}
+ 		buf_info.mhi_dev = mhi_dev;
+ 
+ 		/*
+@@ -595,9 +672,12 @@ static int mhi_ep_queue(struct mhi_ep_device *mhi_dev, void *buf, size_t len,
+ 		ret = mhi_cntrl->write_async(mhi_cntrl, &buf_info);
+ 		if (ret) {
+ 			dev_err(dev, "Error writing to the channel\n");
++			if (tx)
++				refcount_dec(&tx->pending);
+ 			goto err_exit;
+ 		}
+ 
++		queued = true;
+ 		buf_left -= tr_len;
+ 
+ 		/*
+@@ -609,23 +689,42 @@ static int mhi_ep_queue(struct mhi_ep_device *mhi_dev, void *buf, size_t len,
+ 
+ 	mutex_unlock(&mhi_chan->lock);
+ 
++	if (tx) {
++		tx->queued = true;
++		mhi_ep_buf_tx_put(tx, 0, 0);
++	}
++
+ 	return 0;
+ 
+ err_exit:
+ 	mutex_unlock(&mhi_chan->lock);
+ 
++	if (tx) {
++		if (queued) {
++			unsigned long flags;
++
++			spin_lock_irqsave(&tx->lock, flags);
++			tx->queued = true;
++			tx->status = ret;
++			spin_unlock_irqrestore(&tx->lock, flags);
++			ret = 0;
++		}
++
++		mhi_ep_buf_tx_put(tx, 0, 0);
++	}
++
+ 	return ret;
+ }
+ 
+ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb)
+ {
+-	return mhi_ep_queue(mhi_dev, skb->data, skb->len, skb);
++	return mhi_ep_queue(mhi_dev, skb->data, skb->len, skb, false);
+ }
+ EXPORT_SYMBOL_GPL(mhi_ep_queue_skb);
+ 
+ int mhi_ep_queue_buf(struct mhi_ep_device *mhi_dev, void *buf, size_t len)
+ {
+-	return mhi_ep_queue(mhi_dev, buf, len, buf);
++	return mhi_ep_queue(mhi_dev, buf, len, buf, true);
+ }
+ EXPORT_SYMBOL_GPL(mhi_ep_queue_buf);
+ 
+diff --git a/include/linux/mhi_ep.h b/include/linux/mhi_ep.h
+index 852f331f03fd..ac4f484373ee 100644
+--- a/include/linux/mhi_ep.h
++++ b/include/linux/mhi_ep.h
+@@ -307,16 +307,19 @@ int mhi_ep_queue_skb(struct mhi_ep_device *mhi_dev, struct sk_buff *skb);
+ /**
+  * mhi_ep_queue_buf - Transfer buffer contents to host over MHI Endpoint
+  * @mhi_dev: Device associated with the DL channel
+- * @buf: Buffer to be queued. On success, ownership passes to the MHI stack;
+- *       the caller must not free @buf until the DL transfer callback fires
+- *       with result->buf_addr equal to @buf. On failure, the caller retains
+- *       ownership and must free @buf.
+- *       Note: if @len spans multiple host DL TREs, the DL transfer callback
+- *       fires once per TRE, each time with result->buf_addr equal to @buf.
++ * @buf: Buffer to be queued. If at least one TRE is queued, ownership passes
++ *       to the MHI stack and the DL transfer callback fires once after all
++ *       queued TREs complete, with result->buf_addr equal to @buf and
++ *       result->bytes_xferd equal to the total completed bytes. If queuing
++ *       fails before any TRE is accepted, the caller retains ownership.
++ *       A failure after a TRE has been accepted is reported through
++ *       result->transaction_status in the callback.
+  * @len: Size of the buffer
+  *
+- * Return: 0 if the buffer contents have been transferred successfully, a
+- * negative error code otherwise.
++ * Return: 0 if one or more TREs were accepted, including when a later TRE
++ * submission fails. In that case, the callback reports the error after all
++ * accepted TREs complete. A negative error code is returned if no TRE was
++ * accepted and no callback will be issued.
+  */
+ int mhi_ep_queue_buf(struct mhi_ep_device *mhi_dev, void *buf, size_t len);
+ 
+-- 
+2.56.0
+
