@@ -1,112 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793382449;
-	b=Mrh6PGGXiNNXErPuQJaNpAJlmyoJCCSbl7AMG4MgLieCqMWuJpllZarCZDnk39lzbQ5/
-	 pLjAN0ntL0zJ1lrRwbNGvltwnhBUPpvtnIPsfiQMW+Tr3Z6woyCW/c4l99syc0CDEQEjW
-	 2gGyU+LyhJLVLS090WbixJHcXrTbF2cYb3E3SuzioOsUUKUzoRMROkYZ2hCOsot2c2lZy
-	 VCK9oLaFSWzs5fLhYsJsdqIIIxvYseH6GT8LEo3SzJvbaLNwLYkfI0NVMdSE45pZ2hEAk
-	 tP5r5POAabjCsr/G9phT5/U7qhDbaTdEupnEhfTjICeh0cYac3bkH2LucA9hzkpvI0w==
+	t=1793389431;
+	b=Kh9EmQ21OvwwNX7cyKKPJq4El4b2VJH4cd7MBUSlIhSlg6FjczfLijgS1ZvjtjQZGgQt
+	 SIPid2KhsCWoRl+9lwKIaHTlxGZTqKglNkBmeodcUgYV94kZEGi48nM3BTFCdvV4fIb+f
+	 /ae9aT5csSR8yaRqOdId3aO65xHoLXbsBx6ikzebQ0awedQtlEve41TlbHETZz1bGik/1
+	 51mRZX1uy4/5+j0x/BChU54lZbzwN3Zbz0sGPDz8YtXA5MCCqEgHbf1+wN4OVcRIlsQ18
+	 GbDw+HCaPUbIlpo7HX+sQ2rtNGSnU6Hzh0fyBKBFo3NYIAunjIHwmMKv2vROEazXGng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793382449;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793389431;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-	b=m5fUXEALAUGgZPz/BjTwycb7yktFDz0AWfb4L76MeI3x9DP6rk3mMY1APxORGnrwgyVI
-	 T05lNcljkQW+nR3tqvFD7lBduzKH53egStlkp0cRIfqYJ4gJnqH5X9elzyXPslo58yBQU
-	 gnVJaypnDZ6VbhKV8x7XwCFOO002f6UJP+BDifzhP3hqSfGABXkJMeA1E/53bR/bNCHoZ
-	 ABfYrEp18y6Q+zmWYck3jKIwPHSeW8oGk443ErVtGzxUq2a8hRHfhq3iKiiXABSPX6ath
-	 kRzGZPx6Vct+THeEJhychIas39J60WOAIsdkMrJk2WyDWPSS63fkniEffWSUyqquZzQ==
+	bh=bGx6qJiXLm21UoHQs+MxjhyCVQP4Uyn4ufhGO58Vffk=;
+	b=buBeVO7iAblZEmsM8nPu4cAxM35aQzIStrs9QSZPhlHQbjyEebj4BW+FeUf8Lc+OtZUf
+	 fS6BPIyh7Fb+vJrSM7GSZSrXXtprOqeIjTM4M7SVWh0C6E7vQ0BWNqDMz035sp29UGfuA
+	 v72jhvi1yb3Yqo/0n3Gx8sNCJxdbwUaEaCNTD8KtJhiomALXV5pvDi00D2ox6UqUhY0fk
+	 Cea6Mgw5Wl4X5EIXOXNXRLp6GKJvwrF+vFAJV1thmes39j+A1MItqLlRfB0lTySdaQ/r5
+	 PFwOGTBVn2xR41S1PPfYBFczspbMzw79N4ucSl9EjxW698l0LCgnx7u8AWPyZ5JVJwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Q+uOJQx6;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=c3S8fHhN;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="mg/YKwDX";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=CAOApAjJ;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F86606A31F
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 17:47:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96F86606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456C1606A321
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 19:43:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 456C1606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Q+uOJQx6;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=c3S8fHhN
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UERKxG2968138
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 17:47:28 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=mg/YKwDX;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=CAOApAjJ
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UIi1B63776994
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 19:43:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=; b=Q+uOJQx6MN7bb3Qp
-	RIQYTGJp2FfIusVoQOW4c63d9kjqf9fxZE5a+4AMLZ03E3UWZKhYtxxNDQxmrv4d
-	D7nXu9WxEBKPvZXkAgtmE08o/m638bt1LeKz9gZqzO9Z1F4WrmKB4hhO4d/kw2/Y
-	AByqDlV1dclPMk97s/tXSR8QqMgqvUPrMSzmAy/GlYXH9UH+KBCu8JujNQHC6D9i
-	evxujPQd6NPk0uS5cLyla83tXlWHbJi4/pywcNTdQg7JBet1vESc646SDTrxon0c
-	UGQQYWMKkY8K/GpKNr3A8akHe+CgD7KJtltINTYsYqKDqBvtnA5bqsHO9TjFGM9A
-	3+Zc0w==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6qmasd-1
+	bGx6qJiXLm21UoHQs+MxjhyCVQP4Uyn4ufhGO58Vffk=; b=mg/YKwDXjNT4sPSS
+	zHJ/KjhTajfRCuh8o7XnjdPQKkn8VSnYjnIsnbyIEhg94zmXDIKiOPQJlUhTlE6K
+	2JhR6X/Cbjws4VEztAiUqalx0ofpe/DOi9JcvImPuxNn2IO3nP6Hieu+c+OJGwWp
+	PS7i2yXjr2YyK2VM27vAVwD62WF0pyNU+YfYk5fgyOH6Eke8mCha8F7yF+OHx2TB
+	bDNO4IgKFiJv0cG2kfQES8MJs8kXeOfxaeiDG3qtoZ/U5I8+iB0BAx40hUEl06bt
+	NdF8TYkbdzHL91dV2SH917+kOcWvaie72JboesjUDflH4Kc7SBlu9ozhsfGd+cJT
+	GfmSzg==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn0s9r5vm-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 17:47:27 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso2158866eec.1
-        for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 10:47:27 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 19:43:43 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-193b5eb133eso1217661c88.1
+        for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 12:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793382447; x=1793987247; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1793389422; x=1793994222; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-        b=c3S8fHhNKb8KfsvBfPD4euaWWaxZHKgJOd+4q1DOWN04ooQSySDDz0WjYapYZlUB+9
-         xNv4lXKl73+Fly3whJwGyPaimfEP+RCVyBewjnHD4yQ2B92Q8m/7mvobqm8wH/u254aR
-         cYY0NzdXQR/j3Ut2Eb7ndNtey+dgtXh6NcrkesDQXA9zevdAThlf+WLY3A23wWVy/aAk
-         LGAsvD+Wv9VjGOcaBSNtY7QyiPcECwEH47uophcBeZ+bGn6IPjS6yDExlwg6Pye7zLY3
-         AD7V+04Nmv9WsnCsxEhZo5/7H47llCMdYuBQzZgMigcr6h7akbgKiSbAA4rpPHA4AB50
-         CUTA==
+        bh=bGx6qJiXLm21UoHQs+MxjhyCVQP4Uyn4ufhGO58Vffk=;
+        b=CAOApAjJXd4IM+2Yze9muGfgGk+N6PAcR7HVZsGSq7y8v0dl9s4m6kdBgi8186N4fd
+         JtEphou9glRuD9DFkKGzFRjOTUjEutfH81DthQL1XZ6YP9GWXmcIji/MEck+QvDH5afl
+         6zXpgL5KKs2wpbwxIMu2HY1HSBJD7vKBIEmNCZ1LsNWJSTOFeNw/oLPVwl0pSpwzOQPY
+         gyoEhROh/qe0JgbIVst72X23GhDfjhpuxq5Vy+nQE0mkuN76qyAaQIEkbGsF2ByRousb
+         6UBMIWPwrU7PmHZD6nKZkjLBUxY/4J7sgrLSCoLe6gxLPQ6LNCZrf3f02Sc9xs7QAoj9
+         vHmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793382447; x=1793987247;
+        d=1e100.net; s=20260707; t=1793389422; x=1793994222;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-        b=pKXCMgAdcuXS4+Ea1AnO2SqpM0aHH62KbofuSjIcErg9bv9Iz6VdwhR18xa3noQzJI
-         Jryih01k1VSwv7WwtnHd2Ykgue7uXjtLivPXnlrqcityTCeotQQ9W9fEdL+2xg1OVwuM
-         +XUnKxmd3ZQP5c38gWRlidQ+6SnwZ/u582nCXBOEn1CBIk4Qd+Z783SgoDawB6PKFYfh
-         gdDpFrroKpZNA4qjN7T9vhtqaPTGskIA82CvMBQnUzWJEmr1QOcg2OWthWuSPtnYFZQ6
-         0bA6lePz1fzAWTkXg2VMxCon/vuNt9YINVlPDJKq7vl0ReFlGBuJ9MXBj0VDXrQzvUMj
-         ooCA==
-X-Forwarded-Encrypted: i=1; AKwUvBy3Bc77jX5xthkJNmVI8bK6jD4Hcvs/EfpDWj6c/bInHyIx5gqEZ24NO5yJsnYcAz2tSBQ=@lists.linux.dev
-X-Gm-Message-State: AFq9FYJlRonvRMss2SgDYZTYEps9eSArY2RZIV9XqubkPrxoICixhq/J
-	JyMcH2BTkakP6OJYcXdvyh7YknEsU0BnffPblHSNe+YrcPBZBU1+H10pgQ1mtoP2Zw9GrkLfUJB
-	6MskwSmXf728RUqqjanerKc+Skj8B4sqLoKU/FqoJAI9cphPbiT7JMKA=
-X-Gm-Gg: AYBFou0r5ESnSP4saCjAvEawl8mjcTc39L0ScJEEOaJbH7I7l9vLRI4jL0jtRiGB3Wu
-	uqrj44ev2fLL0M/fGeqKdfbmEJ/us/sZUUKoTVIBLKroez7kA6cIwS/D8e+ISR3Ag99fiqNsg/h
-	DTSQICNKjAt/sW/XrraraSmdF6+bSdBbNcL/S3VgvHbkEjGkLSREXk/IQ+9vAf6J+8Aam7lTzrJ
-	g7F99AL3438XN4R2jcKzo1NjhJl3qmVApUDOEUqOEtpDCWdGz/TIa3N9MVCGQAjmnJf7y+Lrqhl
-	BCRLmqLxjOm9678vE5rYZyu3FD6ngflmTFtuZS5AdZ5AhTGRiWNEny8OdSzpSLTrKxW8nc1xAd1
-	yQ6v7VZeW4VdU4E3CYf5RA0mDRMNMW3c88dohXexiGtP03RfrNLLc18Ij+79M5uDu0iZ7dp0QWU
-	WExMrllDdGdWtN0Q03Tytf0BQ=
-X-Received: by 2002:a05:7300:aca8:b0:35d:28aa:3ae6 with SMTP id 5a478bee46e88-36a4244e81amr5894597eec.32.1793382446838;
-        Fri, 30 Oct 2026 10:47:26 -0700 (PDT)
-X-Received: by 2002:a05:7300:aca8:b0:35d:28aa:3ae6 with SMTP id 5a478bee46e88-36a4244e81amr5894546eec.32.1793382446272;
-        Fri, 30 Oct 2026 10:47:26 -0700 (PDT)
+        bh=bGx6qJiXLm21UoHQs+MxjhyCVQP4Uyn4ufhGO58Vffk=;
+        b=bG/n+afPbk1CxoCqPvF95QsQ/3jP6DqQMXFhD5jlQ7n5FuQ0b6XBW6KpKf+tr3Udd+
+         ZXyyDoyoVqyQPlvtjEBWZeepToaOEJ5UhW/OWGkDB60eum46LYgkrGJVdn8h5sMPCKGB
+         nClDgeQwfYfk3T06+FxlmIWftNp47ESg2cHElqqWuvms6ucPj0L775aBpvImTOSOCNuL
+         cquqb/IkDqxm6ABf4KJ4vahKc4R6KLdoQrvpNd61rCTedGAxy7R6vXaPhgvCSLeMdAZ3
+         G/78hh6PYYgwypNMzf+VaBJA9YCb6nOfzoVHvsb3Nwr2hDD79R+mTYvbW48hZh87jOzM
+         /4mg==
+X-Forwarded-Encrypted: i=1; AKwUvBzX5IGWS5FiuLp/ZYaVfWXkXj277Na6JfTpdkZjkrIGeY5fareG1c/4vExcwgYTqd4ZmJw=@lists.linux.dev
+X-Gm-Message-State: AFq9FYKVQmS+8iaqLizRdNZ9ny1Yitx5+yd+Y4aSWllCv8OPdsZVljip
+	ZynH6zFRx+f6eb3WjngLlQ9BDVNrVH5wCL27y6fwvsuboSB70ZvVt6+d58WaBBveLRpBhl95Dtt
+	ceeqWZpSf3gvL+eqR5HRXhV8sB8dZVdnoJe5L6HSkSLQqikAxoTBfG8Q=
+X-Gm-Gg: AYBFou1FeHpnfxB7WA95siIDqurvNdnFg8+ZgZ8oU9URRGn5kndcG51oQ4Lk4Wq5J6G
+	bjuaPD3l5hocCZXJjDqiBzsutRY7LP6tvLDstrbLPvHYCtZjEn7kdUm+PdTiBPCLIfl2dk9iqEf
+	CsteCYTVUBRpzZUiYcsSbfOcdYheYZ9TiFpAbr/NT4vTKh+oZH0EPI7Ypz1tE9CJXn1kbwZg8vF
+	/jsfncZgBXspr76lE3eQoTh0FTuxfVPFuDBI2O6OWzo5n6XTW501J0N9+jVxjTHosQsBk4Qzhdq
+	4S9Gpqrp2vmn+ygvgYVcXT86rFqeRuA5PeHRoJlty6KRrFfWIPHNoEdEgDAkNpnZn0Wxk8Evn5E
+	WaeVrSTJxQzQDjOiEVJ3NdLRGAeeEqKDdE/kiCTFSfZyBiusjDrJwxUSgj0eslIo69lNG8YYm2S
+	wAqVZWXkH562U0nwC6zgh9Ip4=
+X-Received: by 2002:a05:701b:2052:20b0:18e:5292:2670 with SMTP id a92af1059eb24-1ac5d88cae8mr4358378c88.23.1793389422493;
+        Fri, 30 Oct 2026 12:43:42 -0700 (PDT)
+X-Received: by 2002:a05:701b:2052:20b0:18e:5292:2670 with SMTP id a92af1059eb24-1ac5d88cae8mr4358362c88.23.1793389422005;
+        Fri, 30 Oct 2026 12:43:42 -0700 (PDT)
 Received: from [10.226.59.182] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a429467cdsm8787868eec.19.2026.10.30.10.47.25
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a77c0dsm10965340eec.26.2026.10.30.12.43.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 10:47:25 -0700 (PDT)
-Message-ID: <683ca22c-f0f8-458f-8323-214945ae6d45@oss.qualcomm.com>
-Date: Fri, 30 Oct 2026 11:47:24 -0600
+        Fri, 30 Oct 2026 12:43:41 -0700 (PDT)
+Message-ID: <0f57c001-4c0a-4b35-8864-d83ed51d0abe@oss.qualcomm.com>
+Date: Fri, 30 Oct 2026 13:43:40 -0600
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -117,7 +117,8 @@ List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/7] Add documentation for Sahara protocol
+Subject: Re: [PATCH v9 2/7] bus: mhi: Move Sahara protocol driver under MHI
+ host client drivers
 To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -129,91 +130,71 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
         mhi@lists.linux.dev
 References: <20261013-sahara_protocol_new_v2-v9-0-dc9f24357c4a@oss.qualcomm.com>
- <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+ <20261013-sahara_protocol_new_v2-v9-2-dc9f24357c4a@oss.qualcomm.com>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+In-Reply-To: <20261013-sahara_protocol_new_v2-v9-2-dc9f24357c4a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA3MCBTYWx0ZWRfXyFUlLUWf9SAZ
- IHZ4U8AYnW1OUf4qsFUl021uyJkLO+zYctbYNDk6aBTKVqJCOVEzlHz1y8avTz9yXMWLs9cAyrG
- VyWwtxobPa1AJJyITakE33w5HwoytY+g7PtGkCBUZSEtV46YvdoxMXVWSHsL5+/D88wsb1KI1V6
- SGa6LZpYEGUBRmYdx1OlH0njl+P25w+RDPPx/Lj/MAgqJt8uE+aWJ8T47AqJKfU6MC7IGpd+z4F
- j3w26DUm63YoyKIOUOCnMgk0lsgHlzHdPG7I4lWATLfZKaGfl8w9BY9d40Xq18JbBf2DTBaLPdY
- 1ltNm3ZAC5sGDTkyi3MTlGZNNCjSPM+prT9jPjW7jeZLBP1SBUMaqzptJDDE5HaJNXZrxECEGvX
- EfXQ/C8n/5Mj3gna7NzsR3TU3jxsqBsd071yOnwy7HGKLWviza1g2HmQVokAsR2Us1JQItaub04
- Cj2f3k0ntLIA+f3AUNA==
-X-Proofpoint-GUID: wbfqRCo6LkpZqES8hiLDB7c-JQ_E7d7t
-X-Proofpoint-ORIG-GUID: wbfqRCo6LkpZqES8hiLDB7c-JQ_E7d7t
-X-Authority-Analysis: v=2.4 cv=IumL47/g c=1 sm=1 tr=0 ts=6ae4d82f cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Authority-Analysis: v=2.4 cv=bPyDs/+Z c=1 sm=1 tr=0 ts=6ae4f36f cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=dq9AVsfMO__Ke9BKiAIA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA3MCBTYWx0ZWRfX6pSCRJBrQBoz
- yN19jBtbMZDKY4fnYTkLnFsonLwd7kXT06EQJkLIuyZkIIj90xjUd5bZ+uWfdYZb9nmbIKaxdT8
- YjayYJPjrFnsUCffxz2SNMruYECJ5wc=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=lJNEF0nvcUjEJBKM1O0A:9 a=QEXdDO2ut3YA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-ORIG-GUID: Dr_GpWpK2YXLdELH8ywtSjMIG2__-7Kh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfX2sQZ3Oz5Sxv4
+ EE3CT0G/3ZTRGB/TNzq+Jw65lDnXIfY+17kZt8zEn4q+Xkes8liz5LvU5cPAqfK1/4cq0Qkek2X
+ 64pgVDF7OR7wEdKpeIhnFzv14y/0aSF7KGw4kPflGgeJeayaYO97B4f1AhKoiM16elrFWmczdG1
+ Z1WQJtml3HcJcD1LzsP34nTQPnZw9gZSwknIR/leKI4Bz1ilLQZODmAgvLvwb1jumIjyOnvVW2r
+ p2vlcUkDUHovOqmUkar7ovKM+yTBaVGgfZ2cyKeLHyKula8SP6bjmni70RSuMGt9TKY+6gSkDQ1
+ O/7FyqZmGy5FFv1foEEuGAql76YiyOieB6+ztM77WCCgkPJsS2VcQR4pTAYWzXlGe/21JEludFX
+ TqgqWXzGksc3H/Z4604cUFSkVqfRQxbezV4ButxiCYL+AFc73L9vPiNmscAmokkjIsfdJJdXlZ0
+ eeq6pnNJzTb1dmOoXaA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA3OCBTYWx0ZWRfX3g0zmVrkatWg
+ l/eXV6p6qFfZdKGxFxmEE64jhB0AGk2liTdoygfOWY8UzVOxSXXMNP7pek8bpHrDTHpDv7UqnHo
+ fDb2MzseYTke0xqDN9w5mFSykDSNWNM=
+X-Proofpoint-GUID: Dr_GpWpK2YXLdELH8ywtSjMIG2__-7Kh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
+ definitions=2026-10-30_06,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 clxscore=1015 spamscore=0 bulkscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300070
+ clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610300078
 
 On 10/13/2026 2:45 AM, Kishore Batta wrote:
-> Introduce documentation for the Sahara protocol, describing its
-> operational modes and their respective functions. The image transfer mode
-> enables firmware transfer from host to device. The memory debug mode
-> allows extraction of device memory contents to host. The command mode
-> facilitates retrieval of DDR training data from the device and also
-> to restore the training data back to device in subsequent boot of device
-> to save boot time.
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
-> ---
->   Documentation/mhi/index.rst           |    1 +
->   Documentation/mhi/sahara_protocol.rst | 1241 +++++++++++++++++++++++++++++++++
->   2 files changed, 1242 insertions(+)
-> 
-> diff --git a/Documentation/mhi/index.rst b/Documentation/mhi/index.rst
-> index 0aa00482aa2e2d7ec4941154a8c6947dc0a0ac40..39a38978398b81727514ec95dee4e060a1063b34 100644
-> --- a/Documentation/mhi/index.rst
-> +++ b/Documentation/mhi/index.rst
-> @@ -9,3 +9,4 @@ MHI
->   
->      mhi
->      topology
-> +   sahara_protocol
-> diff --git a/Documentation/mhi/sahara_protocol.rst b/Documentation/mhi/sahara_protocol.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3190e3e5a2820628e89efcf759c9ca634428f8b2
-> --- /dev/null
-> +++ b/Documentation/mhi/sahara_protocol.rst
-> @@ -0,0 +1,1241 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +
-> +=============================
-> +Sahara protocol Specification
+> +mhi_sahara-y := sahara.o
+> diff --git a/drivers/accel/qaic/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> similarity index 99%
+> rename from drivers/accel/qaic/sahara.c
+> rename to drivers/bus/mhi/host/clients/sahara/sahara.c
+> index c7c0b3eb4b65fb7776a6c724cb3105046cf6f7eb..75c0cf6010e1506fe661cfd110112bbb37465880 100644
+> --- a/drivers/accel/qaic/sahara.c
+> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+> @@ -1,6 +1,8 @@
+>   // SPDX-License-Identifier: GPL-2.0-only
+> -
+> -/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+> +/*
+> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + *
+> + */
 
-I think either "Sahara Protocol Specification" or "Sahara protocol 
-specification". Having lowercase protocol sandwiched between uppercase 
-words seems weird.
+You've been told multiple times (on v4 and v8) not to touch copyright, 
+yet here we are on v9 and you continue to do so.
 
+I'm stopping my review here. Between public and private versions this is 
+the 15th version? The 20th? I've looked at the majority of them and I 
+see you continue to make the same basic mistakes over and over. It does 
+not appear to be worth my time to continue to point out the same basic 
+issues version after version, and thus I think I've concluded there is 
+no point in continuing with this series as is.
 
-> +Hello Packet
+For the entire series: Nacked-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 
-Until here, "packet" was lowercase. Please be consistent.
+To proceed, I think someone else needs to take over ownership of this 
+series and address the open comments.
 
-Also, somewhere around the read data packet section, it seems like you 
-stopped capitalizing the packet type as well.
-
-Also, did you run the make doc make target and look over this?  Also 
-around the read data packet section you start using the section 
-delimiter "=" instead of subsection delimiter "-".
-
-The inconsistencies in the formatting of this documentation are probably 
-going to make it very hard to read.
