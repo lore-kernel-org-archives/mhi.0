@@ -1,109 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793356711;
-	b=k2Aox1vYiDNapwElwF4qMrZ5Y5wPWzZnCiOa1SUjIb176vH/PRbUCgYpfOItobt/5eEc
-	 FDvkD5uXKiJSd5HiVp/Pvec5iEmyIxo4QvB7rwMtwdqKfJ9T7K+t0yIvA8DfxOGx/2BHD
-	 KfaBIlWXXfBt841XecZOuKnSuvDWszhjDCYbhr5spy8vrVTWRsdzv/cBZq4k44/+NRKxB
-	 Y3Fxod9cp1qaBRkt1Vs8/HveiQRMEO1swZOasDq5Kwq/Zye8HUfDt4QD+g9naEjcJC3Mb
-	 6UYesQ3wRP78DOnUgCwbnjBKEPrz/WMlDpwSFQVGPxswr86zHtwchWdtJKYpO97LHHg==
+	t=1793377469;
+	b=sr9tH/ti5BxOo8hWSQioPOqnX8uyhssW8pKP9rBBu41IAaRzZ9j2OVuU7rbKYDxWv1Q1
+	 nUlYbHunPAYnR0XZCIRh1IXHqiEPl/zhNeI3bH/btlOaLmyi1+KVkxCpfnq8e6AP93Dxn
+	 9gjKG5j3cDuCQnEhPwEzGsc1lxWjqMmV3A4c9dx4+dLRFTyg4UM4v/1zQS1u5tOI6bFU3
+	 G09hZy6tvwZOBmbc9X1HF/jDWWo/Y0WbII0jVqRogVP3z8MhulmCCDcvvZp7uYqxojpPO
+	 0htu7Jc2odubEU6Qu901tOPFUEEpH7cqtRGPVMyMPVcbX+UgNZ30O0uR3Ifb265suWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793356711;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793377469;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
 	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:From:Subject:To:Cc:References:Content-Language:In-Reply-To:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=8oC/0srx6xqRCbNyy7QQjm0eV4nzgxDwMWPIyqSItWo=;
-	b=nXmUot+26rpp3IFu5vCupIxio3YYZ7vtLEn/qXTcUnTMGu6u89kZbrjfLKFTTm6nfqOA
-	 vte6cyahEfrqkRvxH7tPgRzSJU8bcBog5BK4LU0kgsdgJqBvVSH/sMxixVRvamjYcKlPw
-	 otngFS24Z4BfXGjROzqFHV9aGXI/y7cP7lajHy/8ZfxUUcRwcOaVMm4MHWolg9AX3kM3w
-	 WGU8eKrLGBSQJtBNFRmifTpx0j9Yf+hLUP0DfFvnZzRxEGh/TXdlZ+4lRBCuusyyrrkja
-	 vVPbUC3Ej7nRzYWIHj5lGvEU/K5nw09qprkI/3gcDUGsZLSk4i37eMuSBQwoDijle+Q==
+	bh=3oipfx/6lDsxtTjmVcBVztBT3vIDGaMBFdEc2DAlZLk=;
+	b=jxZfy4zOOEauI8HATjBw4jCQOb5DvK4/EKAY4UE6FpneRtdppK+rOck7rhVYyitwa1Ij
+	 ASjM55KFUStDl+7f+/1G6BNi4pfsNEjPNP3Cf+QRwZuZla0xeMBxShWnGKTXb/SjKUokD
+	 1arDRMM0ykA9xKCn/FLTMEcTZPyX9YoxTK3b/A6nuw+g2gR665Opyj7X5X+3LYqaFH1u9
+	 M6Izj/gpMgftPKGCXElAWpFBLpB7EwPMnUS9a71ZvB2tRu/EseyGdVxnpWju3RDQ4zXxA
+	 dqXvA5Xzwh9Ne/fJrNzX77OD5fjsNH6ZZHAlVMCC8o4wDswjORLqzxJS2RgwOY7EJEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=LPz1AyF9;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UY0Mjzoe;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OggLu0l1;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HhwiKp0r;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65805606A31C
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 10:38:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65805606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73EB606A322
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 16:24:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A73EB606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=LPz1AyF9;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UY0Mjzoe
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8FSCE1663351
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 10:38:30 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OggLu0l1;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HhwiKp0r
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UERKsZ2968129
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 16:24:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8oC/0srx6xqRCbNyy7QQjm0eV4nzgxDwMWPIyqSItWo=; b=LPz1AyF92EEZzndy
-	eFralOfIVN+pSPu/RDtlMNCu/05Sq0/Ym2bIp5BIXbLQ176VGKw9NKdHSpzdn0xm
-	0x3QhdiKp5TWLykLHrwaN2cNaQystY00dmlrnRlv62mam3uR05YA0120v6DaWIOd
-	rD9VCJGCPWmNIrzIzHILYq/JkCW2TcGsk2M8jLSlwhK9aaHU86TKq48VK09RaFz4
-	m3rOZhtC3plxYaoYGuGL3W2olqyricuwyJvtgiE1DsZCde/2Q3kAxxYwcpgxPyNz
-	U3EX3ivxWZY03MKQs3b1freaVQtrWklCBTJOmgbB4w9bHGfMemdNKkrkCqiJwH4S
-	cnesJg==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6p2jph-1
+	3oipfx/6lDsxtTjmVcBVztBT3vIDGaMBFdEc2DAlZLk=; b=OggLu0l19vB35JfI
+	fw1RcPInZWESMKS9U5DKkhLEG8l1LF2tT7oPbrZqjqlxyoiUqe4SkHI4x/X4y+yb
+	qQgvSaro1se3m2HPvBtmrEsPVbw6OOtH86KDauTo0IuaWxdOf246PhdSIBAU+AZE
+	+2QsV2/wjAY/dLX8I3aXfpirf6dCWaLzxELZo3GoQVP8+qYPWaE3azP486Gl6oHg
+	fK+Rbp4349jfPxRGwU4KfTdw55vTMP1YTyu4YG51gMwqQwXQsD2J9X/539n+/IXI
+	6TVvflByLMzCF3rqDgYVinwsjPd4/KuiKC9EEPt25Wm1HfLXLTK0FaR2RFYWA/Pt
+	AyHkEw==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6qm00x-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 10:38:29 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1aa0fb7f157so1022985c88.0
-        for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 03:38:29 -0700 (PDT)
+	for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 16:24:27 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-15a84442a0bso149743c88.0
+        for <mhi@lists.linux.dev>; Fri, 30 Oct 2026 09:24:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793356709; x=1793961509; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8oC/0srx6xqRCbNyy7QQjm0eV4nzgxDwMWPIyqSItWo=;
-        b=UY0MjzoeeX0piuNAFun1ksPn8+fR4I/kHFfXHBsGBGTO5vIiy9rHQXqgksq6BqJFaT
-         L2nAh2vT8D71HZHvfcbBrTYsHbEEkdYaFDvxu51zMS7ubJSn3Ma/8pgzeaJ+pf7idEVh
-         cmNX3flg6NfsQirKXMjonLpakACeENAY8co08HO7KX3mn2z8S88jsxg/yPQ2P+a1sziM
-         2Y3qVM49IxpdlqN0kAcSY5/dCn8yjd4VeNYs6vBGS4JieUwX/2QqfeWQMU8UIgAGzF+T
-         orangNWvFWLxWCGl3412v/yX8eXjAIKTXQnCJV3l3Rad4/v7RmkJ1ZbILckIzYoKm2lO
-         +MAA==
+        d=oss.qualcomm.com; s=google; t=1793377467; x=1793982267; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3oipfx/6lDsxtTjmVcBVztBT3vIDGaMBFdEc2DAlZLk=;
+        b=HhwiKp0rmrYlCdX0JEn+asiDoBcnzHL5bZn7TUFkRoHDvtu9HDroTPEgfqBMP6G1SI
+         A5RFAKlmL05kiYPzmbsVwUEp+dISnyBUK58jMViOwPVzBsea7kC/zG2kQ2mzOobC2hrK
+         cWB5MMu+ulR4lhbRg9AHq4YavRKSPRJTshrLS+sboZ9idH6zGE/rC8Qb1KzTVs/JjNa/
+         Jt29tJ48+674PfySCspS22gosq3ynWY+YSCb4VE4ll9zpRRI5CLbL8PFVoPbXutTzl+a
+         tNvf7265LXkIXxCGf9/2DVwArheWThmZ+B2pMAXYTvM0U2206UgHoHcmCXvZDMHMsaUH
+         YiEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793356709; x=1793961509;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793377467; x=1793982267;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8oC/0srx6xqRCbNyy7QQjm0eV4nzgxDwMWPIyqSItWo=;
-        b=gwiaCLFbPrU7fVO//r6DCTapnTYg5haBaXSGxkx03UU8YJre+hzylXETsR2IHAHMWV
-         /qbrbOPZruth4YlAASeddoF6oyAeGcQivg1EswG1RJhQuY1hunLvacHtwcWzsQmj2+ZZ
-         fUVpUdY/PcjYeJUvFyzdHVIEk3X6ecApad/w3reBh/hsyTpf10GTJiqGMqWt+BlXYowN
-         nhMYNdqm+HS0qGBcR0Rody0/Mbm/pCqQaqL1J191svb/UJd8goPSJ8gGi7lcXCC67v+p
-         rjLyqYbB1IpYl0zSOTIL6m6I7hnpB6AHrtAL7D8CdTRV776hrdpIEyN8cQb+o8yW0mwB
-         gdnQ==
-X-Gm-Message-State: AFq9FYK8xzp8jRKaB8bbAb5+r89OAH4xbZWy5uJo2ohzgPfw9qJ/DNEp
-	pHTYxB/v+pGZSa1IhtoQykxbnWBR/6PZJ4UtNTDW8q6z51AasIETbPSpx3RcxvtpGrVw7XDQsEB
-	Ccty7F+yp24it9JubRcfvFeJgS0Tg9h9RvDnlZgmx4+mFcueAyCrCVb0=
-X-Gm-Gg: AYBFou0F2Si1spW2dRzm6o1ATLHWThHZFKpt/zEjOlHrSuRakJ7r1XcVuVXT0R8ZxHd
-	40RWPwsEpNvTUTleICxQe+YMf4pSB/vkiZPLabMeJZG2veeFTAoC7TclxaYGcVdhq1KGmKD88SX
-	Tqnc9GFJaLwZyRSnBHwxSvzsvnOpHjGB0wr0227ct1fAfe1fbFfXaWZiz8YhQtyVXBXnncSoJlm
-	GstdyyhoOPmJT98Bo+uwIyTz8ee4rPDenO/LgYO2QhND4S28KTHQWPELoPmUXdVxTCaKZZt+IE0
-	9ORXXccbLXjj2grkgFpUYWMidYQkNNTeRkYO6K6qMW+1VyyBtx43vIk7JzgHujQJsbg7Ahc+hq/
-	yBjhUpnQQYo3Bs1r5tLCtCxWTiedcMjhDGCDlX4diQJIpE+muIChsq6DJETOfG2tRvnHS6TOlGb
-	xT
-X-Received: by 2002:a05:7022:2203:b0:18d:c38c:bcc9 with SMTP id a92af1059eb24-1ac56e8a821mr4036469c88.3.1793356708643;
-        Fri, 30 Oct 2026 03:38:28 -0700 (PDT)
-X-Received: by 2002:a05:7022:2203:b0:18d:c38c:bcc9 with SMTP id a92af1059eb24-1ac56e8a821mr4036397c88.3.1793356707829;
-        Fri, 30 Oct 2026 03:38:27 -0700 (PDT)
-Received: from [10.218.46.143] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac192c27cdsm10056223c88.10.2026.10.30.03.38.25
+        bh=3oipfx/6lDsxtTjmVcBVztBT3vIDGaMBFdEc2DAlZLk=;
+        b=H19mXvmaesENteOoVP4wwxdg3YRviXlVAwizu2M0Hs3INqUFB7a1xt5FFhrugtemez
+         yrg/g54AAK5hWjnnGnj8I+a5VKst8mHQDWrn3cEhLGAiYuoKun06ftPpsgfE9mUVKMTU
+         lO6c/4m8LpkK6Rvl7Eldtztu49fL/aBLoYYG+mVYQF9B3a724iw3/sFo0OpleB9H/kyp
+         f4P80j29b3tWatJMmLFXryA/285F9PHYgNwSUe02XtZ9Vrk/YDwrLMS3GMavTioyhKS1
+         rxhZ0yxsOpvK0KX5BhOajrxUaP3rZXBX0kknjfhsltrwgIL8dfUW4YehHkx1EQzCzByJ
+         VauA==
+X-Gm-Message-State: AFq9FYJtPgvqG45WCuMIfqwG5nYyootyRffG4los87G2VPTLUexfSO0Z
+	Uni+ZlgQHCoJkrHYBgRfN3veLVxuWj7M5i3bmHJtoDik+Kq2bRB/Y9HUVbuPdXRwURVHm4daiOP
+	QQMfvQgirvhdvJlPlb8pbs2d8aEY6IqaMoWlTgbz8Yp5s2XQjQQRyXII=
+X-Gm-Gg: AYBFou1K2H3WVJs6Rmovzo7D0pjBDKfbVBcvGrEvA10VPOvLuH430idur2m9FSrJFxV
+	05kZHWJcYCHq+z0ZKva/8pJcVlWqTJwvYSwcGQresWDxcf2KyqIkDuu5bqYVXLRt4K4i325A/6s
+	XD4N8DR6LysNT766XqPAd2z7qZECtB91H/WL7ALknnC9EtupiVJReDxRsFWIIcDL9/Kn9VkrXcv
+	MzX2p3uJgKpfoArx/CweW+2SPkaZVeVkubVwt37T2B4FHCOR0LraohGw1RzSEJNl1giKTsD35dv
+	IGm1s8a5s1dovX3nD0i3fnQn7MsP8O8gVesZQSCZEKV32m0c9y5zCDDIqWBmR446YHRCZBvkCnr
+	IaLzIv9OG+nHjXu2v0gbwF8KZkxKCv5GOa6RiycusavOuFLpkyBNdliX7/9EIh5y5cKV/JZU7HF
+	fBboB6mcnFe61NsithtiwqNm4=
+X-Received: by 2002:a05:7022:ed01:b0:143:808b:b178 with SMTP id a92af1059eb24-1a94b0a801fmr6857198c88.26.1793377466936;
+        Fri, 30 Oct 2026 09:24:26 -0700 (PDT)
+X-Received: by 2002:a05:7022:ed01:b0:143:808b:b178 with SMTP id a92af1059eb24-1a94b0a801fmr6857150c88.26.1793377466102;
+        Fri, 30 Oct 2026 09:24:26 -0700 (PDT)
+Received: from [10.226.59.182] (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42902649sm9468350eec.11.2026.10.30.09.24.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 03:38:27 -0700 (PDT)
-Message-ID: <be593289-7a0f-4b84-82a5-53a5987a38a6@oss.qualcomm.com>
-Date: Fri, 30 Oct 2026 16:08:24 +0530
+        Fri, 30 Oct 2026 09:24:25 -0700 (PDT)
+Message-ID: <1cb4d497-73b7-4148-ae40-259c57bbda4b@oss.qualcomm.com>
+Date: Fri, 30 Oct 2026 10:24:24 -0600
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -114,144 +115,62 @@ List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Subject: Re: [PATCH] bus: mhi: ep: aggregate raw buffer completions
-To: Senna <sennas1633@gmail.com>
-Cc: mhi@lists.linux.dev, mani@kernel.org
-References: <20261028175100.83406-1-Sennas1633@gmail.com>
- <9f723291-ebfb-4bc6-8e4f-c48f33938aa3@oss.qualcomm.com>
- <CAOCq4u-nbp5COcbAJ8S27DsexZzHGNbqqXE8ktmpO_RkJ=NzqQ@mail.gmail.com>
+Subject: Re: [PATCH] bus: mhi: host: Shut down the health check timer on
+ removal
+To: Myeonghun Pak <mhun512@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>
+Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
+References: <20261011185134.1759331-1-mhun512@gmail.com>
 Content-Language: en-US
-In-Reply-To: <CAOCq4u-nbp5COcbAJ8S27DsexZzHGNbqqXE8ktmpO_RkJ=NzqQ@mail.gmail.com>
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20261011185134.1759331-1-mhun512@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfX288L77b2zFZ/
- mLixM0fAfmvKaEwMLUTQwYKpm7iCzH5uaMgNO2/4JnZEQbXY/qlkb1Vw8Wyw6h/s/RfZbIu5CzY
- 7/osWyc7hFSJqqheOI4Q3RrlnhkQLOz6Yqotf6PYnCWNtp+4O6rwhR4pfLcuvbkzjhT4+XdEzPk
- Jch6fbz1Z4k1qMbgVmjEQkBIkdzlBkvLdppIcwgnAoA54LHLM+K8sfAU7OMS5VqnDNymuBq5qLq
- s14Yqe2LoOSGDI7F1qSPC+Yu/K3pyERiLJWlLH6Jyw4BGJtqCpvdaihNNbFm2EYDToKoWl9B0NQ
- GkxuAom79GnPaUlUtYSwLWjpFC5r+BqJ/3AyUziHgLoYCfdJQ0kJiK/RWtQ+AvhYgooQ1yBmrRG
- ZvUsvV0y5ofr7s9hjhmNeeGVIR8/HmUzHJQfWXIaEemcPAgVGmVevm6NiQe001GQ9RwbBqNAnMU
- PUd6/aAugS5N9rN0v+A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfX6Lh4maL8108+
- qcdhg136zRBsxznSRcdqMi+hHaaRpaCccOPZ/3gADksrznGVucGJppUTNMKCTVnWH1RgEGody9n
- weHvr3/Bm8jVVu19+VbkOZ9yXgTYEUI=
-X-Proofpoint-ORIG-GUID: 3pymMAYVDDWzzG6JijENfRJDsRrIsWNX
-X-Proofpoint-GUID: 3pymMAYVDDWzzG6JijENfRJDsRrIsWNX
-X-Authority-Analysis: v=2.4 cv=TL3Q2Fla c=1 sm=1 tr=0 ts=6ae473a5 cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA2NSBTYWx0ZWRfX4CNwxIbuWdB/
+ W8rlI8QMjp/UYxfSTRcVrLadDbHqH2ChwrRoBdpToubx1hWxYQL5aolTeM78S9Q46KMWicpp1R3
+ bZPirIgF5CN1d1he8FnnKWgDt/lvTL8sXWD1LwxojcJictbnNOJb4YOXo9D+dRylW+pUhG0eyhf
+ 6awdIyw5FdPENsSSLWC1QQONTh4ylTft+dmkGMOiCMPt4x15lKDR2Qa5yHuVffGLFyIxTBw8LC6
+ vmcqmzTEBRhxqNSZdTuVRu3BXaOvP4Yv1EOzm1/MhYTkABz3UVWO3v4dedyX+ZxcMt9TD7bHouf
+ ACJNfKhloWvjbbCZCUgtYeIySTJExK+uPfgNxFtfG+ylHYgO9vcR5NQ/u3xV99EDNKrmagrAoQP
+ G9EcMvbOj7VCzxDCEyqfMASJTCGZA4i8fmtvkh3Lfxd/uLkBanFfcdKNQ594c9dtYm8m1hRlkxI
+ AzBLU21Iu+Nlx0olkDA==
+X-Proofpoint-GUID: DJFj6btyrX_2gkUppLxRqqmGriZJXeif
+X-Proofpoint-ORIG-GUID: DJFj6btyrX_2gkUppLxRqqmGriZJXeif
+X-Authority-Analysis: v=2.4 cv=IumL47/g c=1 sm=1 tr=0 ts=6ae4c4bb cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=dsyBXNq_OXqj4fgleygA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=vBUdepa8ALXHeOFLBtFW:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=JxfxcCzmXtKzj0Cw3IEA:9 a=QEXdDO2ut3YA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA2NSBTYWx0ZWRfX0CZYTouJNj3V
+ qggOeeP+vkmJta4nOGWZroye/1P3/YumlrdsMYcqwabriFKvler8cnuHyUhm9q3UMP2eFmmI7Fi
+ 6XcXQJhjUkwIEiZpWtO1PzHqND9CJw4=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
+ definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610300042
+ priorityscore=1501 adultscore=0 clxscore=1015 spamscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300065
 
-
-On 10/29/2026 8:14 PM, Senna wrote:
->
-
-My bad i didn't reply to the list
-
-Adding the last review here
-
-"Could you share how you are hit this? With the current in-tree host 
-driver UL and DL TREs are same size,
-Each echoed buffer fits in one DL TRE, For a multi tre case to hit a 
-different host client would be needed
-which posts smaller DL TREs.
-
-That said, the underlying problem with the mhi_ep_queue (for both buf 
-and skb cases) is genuine,
-
-With the in-tree pcie-epf-mhi, write sync completions are in order 
-(synchronous for iATU, Single TX channel for dma),
-so invoking the xfer_cb only for the final EOT TRE would be enough,
-
-Can check the available TREs before queueing the first one to avoid 
-running into the TREs exhaustion mid-transfer
-something like this should work
-```
-/* Check that the TREs the host has queued can hold @len before queueing 
-any */
-static bool mhi_ep_queue_has_room(struct mhi_ep_ring *ring,
-				  struct mhi_ep_chan *mhi_chan, size_t len)
-{
-	size_t rd = mhi_chan->rd_offset;
-
-	while (len) {
-		struct mhi_ring_element *el;
-		if (rd == ring->wr_offset)
-			return false;
-
-		el = &ring->ring_cache[rd];
-		len -= min_t(size_t, len, MHI_TRE_DATA_GET_LEN(el));
-	rd = (rd + 1) % ring->ring_size;
-	}
-
-	return true;
-}
-```
-and use this function in mhi_ep_queue.
-
-Thanks,
-Sumit"
-> Hi Sumit,
->
-> Thank you for the code review. I found this bug by reading the code, 
-> not on hardware, and I agree that the in-tree host setup will not 
-> trigger it.
->
-> I will rework this for v2 with the lines you suggest: check TRE room 
-> up front with a helper like mhi_ep_queue_has_room(), and invoke 
-> xfer_cb only for the final EOT TRE.
->
-> A question on error handling: even with the pre-check, write_async 
-> could still fail on a later TRE after an earlier one has already been 
-> queued, so that earlier TRE would still be using the buffer after the 
-> caller gets an error. Will v2 need to handle that case, or is it 
-> acceptable to leave it because the write completions are in order with 
-> the in-tree pcie-epf-mhi? I’m thinking of leaving it as-is but I would 
-> like your view.
->
-On the error case: I don't think in-order completion covers it. If 
-write_async fails on a later TRE, the earlier TREs are still in flight, 
-so if we return an error and the caller frees the buffer, those
-transfers can still read freed memory, independent of ordering. The host 
-also sees OVERFLOW events without a closing EOT. With the EOT-only 
-callback the double free goes away, but this window remains.
-
-That said, the remaining failures are local ones (DMA mapping, 
-descriptor prep, allocation), so I'm fine leaving it out of v2 as long 
-as it's documented, e.g. a comment in mhi_ep_queue() and a note in the 
-mhi_ep_queue_buf() kdoc.
-
-The proper fix is to not start any transfer until all TREs for the 
-buffer are ready, and then submit them as one batch. Reordering the loop 
-in mhi_ep_queue() alone isn't enough, since the failures happen
-inside write_async. It needs the controller op to take all the buffers 
-at once, so the EPF can prepare a single batched descriptor: either it 
-fails before anything is started, or the whole buffer is in flight with 
-one completion.
-
-This lines up with a series I have in review that adds batched DMA 
-transfers for MHI EP [1]. Mani's suggestion there is to rework the read 
-callbacks to take multiple buffers and let the EPF decide how to 
-transfer them.
-The dmaengine API shape is still being discussed, but once it settles, 
-doing the same for write_async would close this
-
-[1] 
-https://lore.kernel.org/mhi/20260803-dma_multi_sg-v2-0-c12bb05e42d6@oss.qualcomm.com/
-
-Thanks,
-Sumit> Thanks,
-> Senna
->
+On 10/11/2026 12:51 PM, Myeonghun Pak wrote:
+> The recovery worker rearms health_check_timer after a successful device
+> recovery. Deleting the timer before cancel_work_sync() does not prevent
+> an already running recovery worker from adding it again while removal
+> waits for that worker. The timer can then run after the controller and
+> the managed mhi_pci_device have been released.
+> 
+> Use timer_shutdown_sync() before cancelling recovery_work. This waits for
+> the timer callback and rejects subsequent rearming, including rearming
+> by the worker being cancelled. Keep the reversible timer deletion used
+> by suspend and reset paths.
+> 
+> This issue was found by static analysis.
+> 
+> Fixes: 8562d4fe34a3 ("mhi: pci_generic: Add health-check")
+> Assisted-by: LLM
+> Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
