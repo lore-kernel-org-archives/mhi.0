@@ -1,48 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794455991;
-	b=YK1hHdsRPqTq+0OQXM+ZtEFGIhdU1Gniciag84k8OfAsgvyvUordRtggICYRHyg+r6LZ
-	 U0FmUNoJSPlI+kDCkCsDAZcwEC+pwBE4Vd8WrAGHy9G2GOlU0zj+Do4hD0bKZ9tNwt3Hx
-	 0xjBZPfyIzpww8mgQ9TisLnS2u1uXa1pwG/VLbtZxqCC87SAHtwyaT7xQmL5yl8bycu1c
-	 Ej0um1h/r+IopA21JWBP+rfI0+X8lkaueoCMYwI6e3p2dluEros1iSW5AaKNTVlt6HlfN
-	 sE8W4TRtSfpvufhgH/dHfqGr+NJKMXv/765wLE8JKsu/8MpKzmkMmo3viKGeiI2CItQ==
+	t=1794456093;
+	b=v+J7T0mU3N/yAICT/EbL/JmWopA9hkeQAVm17/c6fXWZ4gq3KhE9YMjOMfx8wQh0NGhn
+	 wqExIDQ2jIbXltK30pO7/nd/WLi/Pf0qX0YuzjoALTEbpuh739MreFuS+vBSYXzpskUzh
+	 vSzs8ZQ9HY1c+1kiPuVnNY3KVqLNDJIwJrZOtaGYgXPE7z2yWhl4Qi7E56mA9A5pn3Wlo
+	 K3VvfKV5jhc92SBxww0xH/eCTGFmwvUkkgxaJhdsuvCijAqBT+zaDF+D0IWsoEGs+aMu4
+	 qw4Tuoh64S6ue4TWzFsT0dYfueeaorBjH1UK4Vgl0eFodCpSyKYhsYN6RjIII3roAGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794455991;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794456093;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
 	 X-CM-SenderInfo;
 	bh=ANLz23Rke/l4eT311lEL+8VsHPwwlR8dTechKyhxJwA=;
-	b=eBJwnAfUf4iZJd20clioBDO/JdBPOJwuiQcYGs4SbWywKGhxYWKCRRqt1iLBB3faJKJz
-	 0W7E1lOVFyhNsS9pKj4+VdoGbePjVx+bpQsYH954/XDy+oXXaqTSqjx9WCM/K02VpiIUU
-	 LU6AogpH3J5jzZmDZ4wBte0IG1DpiDhOQQy9vzPxxQwZMbwR5qVjkrnD1T9tVQpX5wuLN
-	 cOE91lnxUL7aMxkieZ9e/9NprEpvEsapBWGB71PrfAThna/u0TgkXmZZwAMvDiiWBLT+S
-	 jlw+gzg5Sfd5KkxUCKl4ZOHz89J1PWYXwz+Ov6bW7kieSL3IYZVyswHloU6zWfQihHA==
+	b=zTdLicJKgwqeMA7yOMid19J850jSX7ZjYEHo22bNaxHrlb514S/82hQgnAUPuV3OCIQ2
+	 9um4yuqdZDj0Nl6HCjIn1rTzXCh0XanCagp5/KWrgh+zwsNoBGvPTXTAfAF52Tqx+5/F5
+	 ad3k4I3EfkUXl2pGb52Yxe3yhBwBtDzMj0zR4vORmUIaFrhGDThrsuj/jiUx1ZvMXvcUK
+	 AsLkpI6s70ArdWGHDBQ5W/kNb9N0/j4iGj4ViEKJVKuHYZa643T/1nnHpfBPn0Y6izi2Z
+	 3qqvwsgnvmJ8ktGCkI9PN9apamGZZbAPoI/A4SOiHR0iYRQwlCyVL1eeEv210JxBLpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=163.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EX84Tn4e;
-	arc=none smtp.remote-ip=220.197.31.4
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=MOfIkSRb;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A088F606A31C
-	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 03:59:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A088F606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF9606A31C
+	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 04:01:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EEF9606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EX84Tn4e
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=MOfIkSRb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
 	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=AN
-	Lz23Rke/l4eT311lEL+8VsHPwwlR8dTechKyhxJwA=; b=EX84Tn4eosQEz2RdZR
-	cLoRdPgl7QOxJG/7s47/d1mk/5UvXxp1Pu8GLUIkaihD4GSvDFjRaMEtmjRMk2vi
-	rsChY8TskS37JT0BiPXcUZjSwbJQJ8i69PHeC+fVgyx2xLqCajjxmIdO5jB15Iib
-	hdm9u/VWxm3Cgzb/2vl0TJOIo=
+	Lz23Rke/l4eT311lEL+8VsHPwwlR8dTechKyhxJwA=; b=MOfIkSRbAu9v+sKwb7
+	k9BpOeaM6Deq5uRkrb5UD5qwRVuMpL9InnVi5CStr1+TzaEdQo1ialmc9iQg19ZT
+	mdOhfsrenhKOXCjK2roi3vQzvZzMZhRSgI0yKdqw2iZN7j5NyY9sK9cBJpvQgqBw
+	OGBC4ezI0ZswuWeiwU98lbMm0=
 Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnLyOjOfVqoxypHQ--.28331S2;
-	Thu, 12 Nov 2026 11:59:38 +0800 (CST)
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wB3ZzkMOvVqkjBRHA--.54029S2;
+	Thu, 12 Nov 2026 12:01:21 +0800 (CST)
 From: Hongxing Xu <xing1989093@163.com>
 To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 Cc: Manivannan Sadhasivam <mani@kernel.org>,
@@ -51,8 +51,8 @@ Cc: Manivannan Sadhasivam <mani@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add per-device ACPI reset
-Date: Thu, 12 Nov 2026 11:59:14 +0800
-Message-Id: <20261112035914.1949-1-xing1989093@163.com>
+Date: Thu, 12 Nov 2026 12:00:58 +0800
+Message-Id: <20261112040058.1986-1-xing1989093@163.com>
 X-Mailer: git-send-email 2.40.0.windows.1
 In-Reply-To: <c231a7b7-9036-4001-9ed2-e1c049f02dfd@oss.qualcomm.com>
 References: <20261109110352.1621-1-xing1989093@163.com> <c231a7b7-9036-4001-9ed2-e1c049f02dfd@oss.qualcomm.com>
@@ -66,12 +66,12 @@ List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnLyOjOfVqoxypHQ--.28331S2
+X-CM-TRANSID:_____wB3ZzkMOvVqkjBRHA--.54029S2
 X-Coremail-Antispam: 1Uf129KBjvJXoWxJr17Gry8Ar1Dtw1xJryUGFg_yoW8uF1rpF
 	W7tw4DKr4kJrWIyr18Ja18ZFWI9395tF45KF1fJ39rAan8ZrW2yFW5tw1Fva9rCrs3X34Y
 	9FWaqryDuF909rJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UnAw-UUUUU=
-X-CM-SenderInfo: 50lqwiqzyzimqt6rljoofrz/xtbC+wqQTWr1Oaq+cAAA3u
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UsiSJUUUUU=
+X-CM-SenderInfo: 50lqwiqzyzimqt6rljoofrz/xtbC+xGqZ2r1OhHJcwAA3p
 
 Jeff,
 
