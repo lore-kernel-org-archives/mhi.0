@@ -1,55 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794417815;
-	b=qKBAnXyaq2+M9juaI9w3vK2QLILGwOXhELZEg9xw6BRsPKFHqbrPTYDNeeD+pCwepTF+
-	 FQTMPeyISpmWWKvRVJFRuwNLCqt2hA82IP/7EcSQVoLj7IPq984bV0J2BExwLC9nqNhcS
-	 5fj9/iHgMwzeRmseegsGeQ+TMlEmOqtJ059yq4E8W/8j1LjPmTLY+00hKEJp+SH/3ofjQ
-	 G65z+hppJn/RMfSLFIdXbN0JRCniU1UoiJR2BmHlcBplLoC7k/VFzH9IDeEO8jkB/Ju+n
-	 YN9u68TluH2SMdIYrB7+jcLukx8ZmUAC5jqWFrIh3nx4ENeFmqfr43o4vaquCw5dRRA==
+	t=1794455991;
+	b=YK1hHdsRPqTq+0OQXM+ZtEFGIhdU1Gniciag84k8OfAsgvyvUordRtggICYRHyg+r6LZ
+	 U0FmUNoJSPlI+kDCkCsDAZcwEC+pwBE4Vd8WrAGHy9G2GOlU0zj+Do4hD0bKZ9tNwt3Hx
+	 0xjBZPfyIzpww8mgQ9TisLnS2u1uXa1pwG/VLbtZxqCC87SAHtwyaT7xQmL5yl8bycu1c
+	 Ej0um1h/r+IopA21JWBP+rfI0+X8lkaueoCMYwI6e3p2dluEros1iSW5AaKNTVlt6HlfN
+	 sE8W4TRtSfpvufhgH/dHfqGr+NJKMXv/765wLE8JKsu/8MpKzmkMmo3viKGeiI2CItQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794417815;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Reply-To:Organization:Content-Transfer-Encoding;
-	bh=amdozvEXKjSjaaYnV4Mv1pVbh2XMgfKLrjXQ4vsAgUI=;
-	b=f3CKrSO/dAJmTpPPrYcMO6UorXoBsnpo1ha/BM+M0WPg26gJ3v31bGIunkl8Tsq/O0Rr
-	 I16QTL8DskvMMhS/m7gLy2eMp0TF5GVsK1+QfWDAGXYlFzuCRNJh9XP3K3Kj6uo08KeCE
-	 3LyPedD5qS4CG20zYfwJqlcZhzBDM8OK0jcL/QRjXP722TSRPKoQIE/0+J/Bj6HZLWW+S
-	 rrH8UkM9eFdfYceD76KV6tVTZISiP/fo4td28tjTakfpnI6MP2UognLUn5EuNusaNLYm6
-	 CUgHnhdXbQIVlCBDQF5vWeXAtbiHJB43ecROOts8XF5+2GevldpiNFXpRfWrRwFfpsQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794455991;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=ANLz23Rke/l4eT311lEL+8VsHPwwlR8dTechKyhxJwA=;
+	b=eBJwnAfUf4iZJd20clioBDO/JdBPOJwuiQcYGs4SbWywKGhxYWKCRRqt1iLBB3faJKJz
+	 0W7E1lOVFyhNsS9pKj4+VdoGbePjVx+bpQsYH954/XDy+oXXaqTSqjx9WCM/K02VpiIUU
+	 LU6AogpH3J5jzZmDZ4wBte0IG1DpiDhOQQy9vzPxxQwZMbwR5qVjkrnD1T9tVQpX5wuLN
+	 cOE91lnxUL7aMxkieZ9e/9NprEpvEsapBWGB71PrfAThna/u0TgkXmZZwAMvDiiWBLT+S
+	 jlw+gzg5Sfd5KkxUCKl4ZOHz89J1PWYXwz+Ov6bW7kieSL3IYZVyswHloU6zWfQihHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ooY2l0aw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EX84Tn4e;
+	arc=none smtp.remote-ip=220.197.31.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1449606A337;
-	Wed, 11 Nov 2026 17:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A088F606A31C
+	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 03:59:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A088F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ooY2l0aw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72661F00A05;
-	Wed, 11 Nov 2026 17:23:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794417815;
-	bh=amdozvEXKjSjaaYnV4Mv1pVbh2XMgfKLrjXQ4vsAgUI=;
-	h=From:To:Cc:Subject:Date:Reply-To;
-	b=ooY2l0awGQBdAUWEwaogJFVPGkUGlz3YBBCBOt56rW5Y6r4PGf3lNQAKSoTkKXZCh
-	 kMZKQHa74jlSh+lZPzfj9ltJkj0O3igk6fOQVOzj6Tqonu0AQtuFaK/YDAeD1Fttqr
-	 eMzYgQWFQH/v/Lx6ZOrkYpTtxEsDoUAtg9VrlyU/65QuJsfK/JOKceYOJS+caDr4gn
-	 szJAWqVzhh7ZnIwv9MsejDg1mWjk8BaJ55OZ+fa+nbRBphyAUP87F099BGfWUQ2ZS0
-	 cB1cGWtYuIGZJvEtQ1FgCvFXFbFiUMKL2UtTOk7cc8T52Of4EDa7pzOUJP3WwkERd5
-	 N6uDlRsgH4W0g==
-From: Len Brown <lenb@kernel.org>
-To: rafael@kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: linux-pm@vger.kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EX84Tn4e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=AN
+	Lz23Rke/l4eT311lEL+8VsHPwwlR8dTechKyhxJwA=; b=EX84Tn4eosQEz2RdZR
+	cLoRdPgl7QOxJG/7s47/d1mk/5UvXxp1Pu8GLUIkaihD4GSvDFjRaMEtmjRMk2vi
+	rsChY8TskS37JT0BiPXcUZjSwbJQJ8i69PHeC+fVgyx2xLqCajjxmIdO5jB15Iib
+	hdm9u/VWxm3Cgzb/2vl0TJOIo=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnLyOjOfVqoxypHQ--.28331S2;
+	Thu, 12 Nov 2026 11:59:38 +0800 (CST)
+From: Hongxing Xu <xing1989093@163.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
 	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] bus: mhi: pci_generic: Fix erroneous system suspend abort
-Date: Wed, 11 Nov 2026 14:23:26 -0300
-Message-ID: <b47282f1514a9012ac51d0915afb83782c3c0050.1794417398.git.len.brown@intel.com>
-X-Mailer: git-send-email 2.45.2
+Subject: Re: [PATCH] bus: mhi: host: pci_generic: Add per-device ACPI reset
+Date: Thu, 12 Nov 2026 11:59:14 +0800
+Message-Id: <20261112035914.1949-1-xing1989093@163.com>
+X-Mailer: git-send-email 2.40.0.windows.1
+In-Reply-To: <c231a7b7-9036-4001-9ed2-e1c049f02dfd@oss.qualcomm.com>
+References: <20261109110352.1621-1-xing1989093@163.com> <c231a7b7-9036-4001-9ed2-e1c049f02dfd@oss.qualcomm.com>
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -59,48 +65,54 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Reply-To: Len Brown <lenb@kernel.org>
-Organization: Intel Open Source Technology Center
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnLyOjOfVqoxypHQ--.28331S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr17Gry8Ar1Dtw1xJryUGFg_yoW8uF1rpF
+	W7tw4DKr4kJrWIyr18Ja18ZFWI9395tF45KF1fJ39rAan8ZrW2yFW5tw1Fva9rCrs3X34Y
+	9FWaqryDuF909rJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UnAw-UUUUU=
+X-CM-SenderInfo: 50lqwiqzyzimqt6rljoofrz/xtbC+wqQTWr1Oaq+cAAA3u
 
-From: Len Brown <len.brown@intel.com>
+Jeff,
 
-mhi sometimes aborts system suspend on the thinkpad T16 gen3:
+You are right, and my wording was wrong. I will remove the claim from the
+commit message.
 
-mhi-pci-generic 0000:08:00.0: failed to suspend device: -16
-mhi-pci-generic 0000:08:00.0: PM: pci_pm_suspend(): mhi_pci_suspend [mhi_pci_generic] returns -16
-mhi-pci-generic 0000:08:00.0: PM: dpm_run_callback(): pci_pm_suspend returns -16
-mhi-pci-generic 0000:08:00.0: PM: pci_pm_suspend returned -16 after 15145 usecs
-mhi-pci-generic 0000:08:00.0: PM: failed to suspend async: error -16
+Now the background, which I should have led with.
 
-When a driver returns -EBUSY for its runtime suspend method,
-that means "try again later".
+On Windows wwan modules are reset through PLDR. The platform firmware exposes
+an ACPI method that drives the module's power and reset pins (FCPO#, RESET#,
+PERST#) instead of resetting the SoC with the link in place, and the Windows
+driver uses it for that. I am adding the Linux equivalent so that the same
+board can be supported without a vendor driver.
 
-But when a driver returns anything but 0 from its system-suspend
-method, that means "abort system suspend".
+What that path gives us, beyond simply being what the platform provides:
 
-Always return 0 from mhi_pci_suspend().
+  - It does not depend on the endpoint's PCIe function being usable. No MMIO
+    access, no config space access, no link.
+  - The platform owns the pin sequence and the timing, so the host does not
+    have to estimate it with a fixed delay.
+  - The link goes down with the module's power, so the endpoint is
+    re-enumerated and starts from a clean PCIe and MHI state.
 
-Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
-Signed-off-by: Len Brown <len.brown@intel.com>
----
- drivers/bus/mhi/host/pci_generic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Concretely, on two of our modules, RW135R (SDX35) and RW151 (SDX81), writing
+soc_reset from Ubuntu reproduces exactly the situation your commit message
+describes, and it does so every time rather than occasionally. The module does
+come back on the bus, but it comes up reporting a MHI system error:
+pci_generic takes MHI_CB_SYS_ERROR, logs "firmware crashed" and forbids
+runtime PM, and from there nothing gets the MHI state back. The only thing
+that recovers the module is a reboot, which is also the only step in the whole
+flow that actually toggles PERST#. Resetting the same module through the ACPI
+method recovers it every time, because the module is power cycled and the link
+is retrained, instead of staying up across a reset that only targets the SoC.
 
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 7193a384cca4..b036fa6e06c4 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -1727,7 +1727,8 @@ static int __maybe_unused mhi_pci_runtime_resume(struct device *dev)
- static int  __maybe_unused mhi_pci_suspend(struct device *dev)
- {
- 	pm_runtime_disable(dev);
--	return mhi_pci_runtime_suspend(dev);
-+	mhi_pci_runtime_suspend(dev);
-+	return 0;
- }
- 
- static int __maybe_unused mhi_pci_resume(struct device *dev)
--- 
-2.45.2
+So I am not asking for SOC_RESET to change. On these two boards it is not the
+reset that gets the module back, and the platform already provides one that
+does.
+
+The point is narrower: these boards provide the host with a reset path that
+the MHI driver currently has no way to reach, and the MediaTek vendor driver
+already uses it. I only hope that the MHI driver can use this method as well.
+
+Thanks for catching the first paragraph.
 
