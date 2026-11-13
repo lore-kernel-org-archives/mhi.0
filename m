@@ -1,124 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794471796;
-	b=bUkdvSuCgzTdjAS8rTwwO1j2pWR+hZMKKpo7RtKqrOuYo/BI5knaLOmGBEZpeMxzY+j3
-	 YO5oNdzv6gTurkAdm6PHXBPV5PHAis3mfj+fsLrW/DkNKF/sX21iW/f0V2Hn8LIsZAlzH
-	 RArDesKgI6MToL7yKFbN6GjbUHdIHex/t8d3JxvtU/GWTV6Vp/r7rxLfiJ7khtBEPOwRn
-	 wHjmb+Qx90JvBpiCvJWjvpJ5D5+YwT7LvUiuqgXwXjrIdm0MqynyC5JouuFgqBq5fFj/t
-	 PqOC2fQnRQuFusd8ElpAhv8C0B22SxJp0BQZt6qlxkGSrUkgaBqMhf3BXfbGxnpfijA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794471796;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=08cEaQh1yyLsKkm7fAFIcqkmwiaYr3emRrdLH1THyPs=;
-	b=SJJuIRluLExMycmdLfvuLyuM1LfpowRB+wml2j9p4uhNyJ2w2yZdxdv8wd4RXzxTIMEU
-	 AwOrjQS1CwiuOufCxsuoh2b2ztONSavqvYMF2PUgRBLVWcZl7PZUEsppvKcXH/ZFW1AWC
-	 PPDyugfBUmOtVizRxKpe38F6MRJpIG8wx8cg9L3YI5sbfBiv/wniSfsamovPkqIFlDZFZ
-	 rXyKV8OYlOKUBlw67jazJ5Fg+Ps16+TOtXpCllqhJ7gIsRjfINl/KRmcWVSA73+UTHWCW
-	 Nj1EEKFb64yBmqQmL8BnMabMEdIil8TGLjO2u+buwIrf9DmO7YvU65HlAmve/VKRJeQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jHzFKtbM;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=aWUOWJWr;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794572622;
+	b=rFQwmLZzWVGB2u7qXEs6meSxyLBPeP4yb5m1NgrEQDFC/SXCfrHdZrDbhOZ2MRGtrdHx
+	 d+hjMMLYp9nyZ4B+NANhJXv/EdseObrqohWnVANOj+3FrA1RebyGZis7diYjlPuJGp8LF
+	 QCV7ZP+3yaKk2/Ttqri+72t79wyXQ40070IES4bv/nyj9LefS87QgLKRzul3aFNZsTs+O
+	 pkQN0Q3PnybyKJ6L3bOOiUzBOQ/rcSMjvarSg5zR475dPctc9Cr1BypSc4y0P5M4Unkgt
+	 daitUJi0sbt1XwyvaI2QdscLZLShH3tRW6AWE4XYWDhQYMKQ1pvnyWcocdne4tdfXUQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794572622;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=PPw9PWasR2rS5GKMzC2u2cQcum5MxJJjCtnx3izk4c0=;
+	b=Qzv88HfEw7t7Hr8K4uZepaJTYFP3e9NEHbfiP0XpQVOguSbBOa9fADOtJhSPz8YRRDb0
+	 EURSPIsxmHO8gkw9ymoEQ5KDD0/wKZYtrQW1AmU7On1meufh4w2Gk0Htk3UeoHdVl6EP6
+	 wAm9BQtnLu9TXPi3CWYUBvDWsQZ4x5dPWNq4eZzd4bT/FkkN4mwd4Ja6g6G9axmB9f+1g
+	 g6Xhddi06m35tZEaxiuDjA8ht/s4qN5mSXfOjRfsSwqcAiGg+4WUv9eCcSq8ZFenvWBPE
+	 UtFM5otNAbYYAg1NK2jwst2dWRBV+tE4tVuC93YCfXOEUZwzN1x1+9hvSs0UYdYo+lA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=f0YpHSmF;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43749606A88D
-	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 08:23:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43749606A88D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070CA606A327
+	for <mhi@lists.linux.dev>; Fri, 13 Nov 2026 12:23:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 070CA606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jHzFKtbM;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=aWUOWJWr
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2aUVM1475352
-	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 08:23:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	08cEaQh1yyLsKkm7fAFIcqkmwiaYr3emRrdLH1THyPs=; b=jHzFKtbMwpCy1Da7
-	/prLV5AfMnIY39wIw5nH5xtdfd+kAKw5CxvWGVuSrryNdVeLUoC8GBnlG4UT5kXc
-	DQ5KunDrMLJyc2xY06+KjdsKhi89YI4WXkkN4olzW8P2ZJI1/sJhZw6dWL+VPBmE
-	8zS9pcDDzZpy7JMZJLgDJ8IswLGkb1P+VJa2X5TRG4uxSb6s2av0A2R4ypBbmPEi
-	S4l+6nuvYjCOtRfTxWlq1eNK+Sn0tzHBzIZ8bp+qD3KSvF9BuvssEn98BxCGnEiV
-	FzEiuNwWM6UVIA/ay9NDuXZE5Sug2kttrn3e3o89ZVeudFIfPcgkyJkp3sng8ymM
-	S+C/Gg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hvtymueyp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 08:23:14 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93cb93c874bso127407385a.0
-        for <mhi@lists.linux.dev>; Thu, 12 Nov 2026 00:23:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794471793; cv=none;
-        d=google.com; s=arc-20260327;
-        b=G9i55OLfl53qaV8vtMw++ZTWYngvAdNxBweU81wQO9x0Zh+zn525BAhhR8sDyNosDu
-         xjklPqlxUeWhcqgkeNvQBeswwT1rsdDCg5bzHENRdeuiIyLDsSAl2oZPr6ydN159SoPr
-         XtXdHa/e7Mu39iNYFq6MkRjswFSaCp9O2n2NABqnwAhssy9uHtZMUv3w8QSFkZXKalft
-         60VN5RM5xlt2KYDxDZjHSSO8ZmrzKYuqTNeGlxHgaxjEv9zZx3bstYOuE2YKrDShzq1p
-         vVZCB7/C4QrYyrs0QWV4BntHYvVJFfsOJq31qOLF0R2+1jjcc92VgWr2Cq6hJ86pXg9d
-         eRRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=08cEaQh1yyLsKkm7fAFIcqkmwiaYr3emRrdLH1THyPs=;
-        fh=PMBYF9qJ94umrSa5t70gR5VM/rOcicp3RhL0SQuA/ic=;
-        b=RR8PjNhwWWsjlAwHWP+OY4N7oOgyYbQrXc+b7jb21eWiUXBYH1HhQD7DAcsH49jOyq
-         Ny0lM6kIdR0Y4EKlKBPADTWgAXa+Apq5Ut31k4U+o8pAinzqNDOETWHpbxD9xxdN6K45
-         FbWv1B3S99xAiIfVBe7tCTnqzUBESvQ6W7fAfGkQmbCSE1kxyyrntpPypL8K9R1xCz+e
-         yPRT0RXwU/u+1ZU2NuxEmj2Mo8Z28h5UvSMdbltsOJ8xi8dv6lle8sLxyz2RdcaFQLwM
-         az984nmVAvBeAxn9/pFD80j/0C0pt0vF0IC84n4p6CaB3KemdEY9vPe9iITNPphiUPuH
-         5qGA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794471793; x=1795076593; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=08cEaQh1yyLsKkm7fAFIcqkmwiaYr3emRrdLH1THyPs=;
-        b=aWUOWJWrIprVU0D8B5HpeLik6sFOPZuXgphS9Pm0Dge2/yUxovAqaIo2sz/Ihqz7y4
-         /s5fWa35lc1XtIItKv4ayhXEXbBMmAMAcpAZmtqHIvseTYSKe/ZkJ7fJuqFWM3c66Fk9
-         AyiSg64kiEITEpPF8B9RPrC6Wabwu8SDVOVfCN8rfMAW3w+6iXeCuVWsaO4x//ODsJml
-         dJZpGDS9H8HzrgG56mrt5At8n4Mo5PJCIvvaXiJnA8d8hjvsOKZUHjJEpbO2PsxnDTYc
-         IHdU7H2ibE9lj9GHOqTNvhbBp8vBbZzqqGENrBtdvuIte1eCpLK/q9/e7ntQI0OoH4jX
-         Fo/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794471793; x=1795076593;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=08cEaQh1yyLsKkm7fAFIcqkmwiaYr3emRrdLH1THyPs=;
-        b=iX6ztM/kkVx1qWczJyNt3KC9OUsmp2U71hNWri/OVVCqVRGLyjRpYK9//8lgwng65p
-         /FbxvYxFhO4xCGaUET1gGaQx+Xe/MW/EkiMK0WqHLrcK6uLBgW5/QWs6stWFmQzUvPb4
-         L9BRwMZDfz8S2qVPwe8ucE8myMCDahNyIbuUsvgDka0SNG6c7Atdmvozy5FCSpCznLvx
-         uQvSjW7yIQoNPLSqX3ElyY+sUtMNLcx8jHnyuOZQ+UNm+KeYVQOm1o0IbqK/K0K7M0Qi
-         dZHWGNZ5iAG0qLqzdJmg6OncrlpeEumeDGLFoPIFfByfzEIPkzsPGL7VZspNk6tjlqkc
-         kdIw==
-X-Forwarded-Encrypted: i=1; AL+hErG622QEZBA3xTj9hez0hWQdbo8HGFKjzaKDAY6TPN7IR7VVJ4Vvvg1rlHI5CkscEEjdN9M=@lists.linux.dev
-X-Gm-Message-State: APuU4Z8s7Mu7i2d/2cKgYSxWtTifFyUXMN83b/EuQuQ/GRtVKnIKrceP
-	TyNxyVrRtxJ2SymUgm/G2pMF8hcU5IsQABsexlPk+EDmYNA/BV/dDOsLfCdI9vfSAdyKozi+Mru
-	obVi56wQF8pf1jdNW7Wvco6iGUUrRSROEDjYktF6l9L5KSl3JfEwkaDvN7i7qfxS44ruQAmUF6j
-	nu7UKRnx5OQre0Zbx7vs5LUOb3jWdzIQ==
-X-Gm-Gg: AYBFou0IETchmHqqtwEpbPl2WTfJ6klG4ncnSdZGfveFRgEIz/z/J8+oBJuCsBlBY1e
-	0ptDOs2uY60PxqKSXUlfEaPlD4E/U8C5LceZt/ETkvmSM11gk0wd/LVXTDWqHlLmtdAzBnD9D+y
-	b6NsJUC7ZeXGxpjlRzfuBOesYB+l7+ASp0KZfHxvNMo/hSO49YnAEycci+yZ2GaNM8aJQhrPm/j
-	dTIYVIUP7LGz79XBMZl4SmAGLDLY1OfelwQPhfrTyax1jOnaFlOGj1TuVqIAsUoK5xqCgKg/pk=
-X-Received: by 2002:a05:620a:4107:b0:93c:891b:90f1 with SMTP id af79cd13be357-949330d463amr311772685a.26.1794471793470;
-        Thu, 12 Nov 2026 00:23:13 -0800 (PST)
-X-Received: by 2002:a05:620a:4107:b0:93c:891b:90f1 with SMTP id
- af79cd13be357-949330d463amr311770185a.26.1794471792988; Thu, 12 Nov 2026
- 00:23:12 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=f0YpHSmF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PP
+	w9PWasR2rS5GKMzC2u2cQcum5MxJJjCtnx3izk4c0=; b=f0YpHSmFAScYjfCFOy
+	yaTSQiT9KxQOLsHTYHzt4YhnZgbNUSKglXbYeCpbEohx9OCW3q3WwJq7IiVlQhSU
+	MTSB14ZPg8hMvn64kwZYPN3INcrFyROxztwr+hpYGFE57ChDkyRzGhMgkmwyQkp7
+	eLIzVYqvScOpBIyAYD5QOxQEA=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDnr684AfdqBTIvHA--.19870S2;
+	Fri, 13 Nov 2026 20:23:26 +0800 (CST)
+From: Hongxing Xu <xing1989093@163.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] bus: mhi: host: Add debug port personality switching
+Date: Fri, 13 Nov 2026 20:23:01 +0800
+Message-Id: <20261113122302.2174-1-xing1989093@163.com>
+X-Mailer: git-send-email 2.40.0.windows.1
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -128,107 +61,435 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <b47282f1514a9012ac51d0915afb83782c3c0050.1794417398.git.len.brown@intel.com>
-In-Reply-To: <b47282f1514a9012ac51d0915afb83782c3c0050.1794417398.git.len.brown@intel.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Thu, 12 Nov 2026 09:22:59 +0100
-X-Gm-Features: AclHuK9mf73E_udLBsal6MmjRAHMEHwg4PirGobwKujBcW0eeFtgBfzQgE6Dh_U
-Message-ID: <CAFEp6-0yj-+7uYnj5PCvaP39ruQ=xduBbQgJc7MyakuPLJhmvw@mail.gmail.com>
-Subject: Re: [PATCH] bus: mhi: pci_generic: Fix erroneous system suspend abort
-To: Len Brown <lenb@kernel.org>
-Cc: rafael@kernel.org, Manivannan Sadhasivam <mani@kernel.org>,
-        linux-pm@vger.kernel.org, mhi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: Ajsy7SbzFBv5zZZ2Y-vWlUVrFO5Eejr7
-X-Proofpoint-ORIG-GUID: Ajsy7SbzFBv5zZZ2Y-vWlUVrFO5Eejr7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAzMyBTYWx0ZWRfX6/7SyTCjZRcN
- fxmh03l9i2mdLYknqWoqKZDec6MVAFy+yt0Oc2xE/0qoDfH57lD86kIxpaEuvzeJKEYZqqVWP98
- NbPYgh5gMiXbIBh77nGUSYj1YaAKOHRwB4BbSp6TCKLpd+bZmZV4q/gQsJ9Mz52Z8px2V1GUI0f
- JHT0X3s6YXHXGGDys/laJUr3ZXjAnknkHguDezvwsgRH/gMjeqomy8Vspr6INo+yOgqRrMHgbqt
- AOSkVyVnjDUKyrG/ZHKbgUPaf2+oGoj/Vb1kWUQmELzGhymqtonBk4bQT9fbGoESCIk9FR/oEu0
- kRUcNtU7CxwFYQf+RNpaUKrCBc6vPmXFmGud8M6GGp4f/OTBqWT8mQxelm91ZQC8PCxVUdJprGH
- vfPUqY5SEIZ8Tojpbxsj6xmnv7Y+AA2DdmlCSuZ6/cd3EZZOKVzv0p7fahMgGHHs9/INkkfUm3C
- rG5HMs/R98C5Lbj4vGw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAzMyBTYWx0ZWRfX+UxraM6SN2ZA
- JeMFWcM87UUpeNUoklbbAyAP6RsS1Tf1KQ/yOFSgLrQQm1mlQFgXQHzq0YM8txtiZ+QmJbUJv9u
- av7BTO/799YbPHalld0dQkWVq1ueYoE=
-X-Authority-Analysis: v=2.4 cv=Q4BHcI2a c=1 sm=1 tr=0 ts=6af57772 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
- a=RwBrVW2nJu9fPh6-OooA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- adultscore=0 suspectscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611120033
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnr684AfdqBTIvHA--.19870S2
+X-Coremail-Antispam: 1Uf129KBjvAXoW3ury5Gw47urWkur4xtFWDArb_yoW8XryrKo
+	Z3Wrs3Xw15Xrn8XrW7GF4DJ3Z5ZrW8Ka98Xw1rtFsrJa1qva4Yva4Ygwn3X34avF4Ykr47
+	Ja4xWr15ZrsrtF1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUs9a9UUUUU
+X-CM-SenderInfo: 50lqwiqzyzimqt6rljoofrz/xtbC3x7npGr3AT7TyQAA36
 
-Hi Len,
+Modems expose two different sets of MHI channels depending on the product
+configuration they are running. In the commercial personality only the
+channels that carry user traffic are usable, so the host must not create
+WWAN ports for the diagnostic and debugger channels. In the debug
+personality those channels are active as well and userspace needs a
+device node for each of them, e.g. one for the diagnostic interface on
+top of the MBIM and AT ports.
 
-On Wed, Nov 11, 2026 at 6:23=E2=80=AFPM Len Brown <lenb@kernel.org> wrote:
->
-> From: Len Brown <len.brown@intel.com>
->
-> mhi sometimes aborts system suspend on the thinkpad T16 gen3:
->
-> mhi-pci-generic 0000:08:00.0: failed to suspend device: -16
-> mhi-pci-generic 0000:08:00.0: PM: pci_pm_suspend(): mhi_pci_suspend [mhi_=
-pci_generic] returns -16
-> mhi-pci-generic 0000:08:00.0: PM: dpm_run_callback(): pci_pm_suspend retu=
-rns -16
-> mhi-pci-generic 0000:08:00.0: PM: pci_pm_suspend returned -16 after 15145=
- usecs
-> mhi-pci-generic 0000:08:00.0: PM: failed to suspend async: error -16
->
-> When a driver returns -EBUSY for its runtime suspend method,
-> that means "try again later".
->
-> But when a driver returns anything but 0 from its system-suspend
-> method, that means "abort system suspend".
->
-> Always return 0 from mhi_pci_suspend().
+Which channels are usable is a property of the firmware that is running,
+so the host cannot know it at probe time. It has to be told at runtime,
+after the device has booted into mission mode. There was no way to do
+that: mhi_create_devices() unconditionally created a device for every
+configured channel whose EE mask matched, so the debug channels either
+always appeared or never did, depending on whether the controller driver
+declared them.
 
-Two things:
-- I think we should simply use pm_runtime_force_suspend() /
-pm_runtime_force_resume() for the system sleep callbacks instead of
-implementing separate suspend/resume handling.
-- Rather than silently ignoring the error, I think it would be worth
-looking at the mhi_pm_suspend() implementation to understand what can
-be returned here and under which conditions the MHI device fails to
-suspend.
+Add a per-channel debug_only flag and a debug_ports attribute that lets
+userspace switch the personality. Channels carrying the flag are skipped
+by mhi_create_devices() unless the debug personality is active, and are
+created or destroyed when it changes. The flag defaults to false, so
+existing controllers keep behaving exactly as before and the attribute
+describes itself as having no effect on a controller that does not
+declare any debug-only channel.
 
-Regards,
-Loic
+The attribute is part of the bus-wide attribute group, like the
+existing controller attributes. That group is applied to every MHI
+device, including the channel devices created here, so debug_ports_store()
+accepts a write only from the controller device. A write from a channel
+device would otherwise tear down the device that is executing the store.
 
->
-> Fixes: d3800c1dce24 ("bus: mhi: pci_generic: Add support for runtime PM")
-> Signed-off-by: Len Brown <len.brown@intel.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pc=
-i_generic.c
-> index 7193a384cca4..b036fa6e06c4 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -1727,7 +1727,8 @@ static int __maybe_unused mhi_pci_runtime_resume(st=
-ruct device *dev)
->  static int  __maybe_unused mhi_pci_suspend(struct device *dev)
->  {
->         pm_runtime_disable(dev);
-> -       return mhi_pci_runtime_suspend(dev);
-> +       mhi_pci_runtime_suspend(dev);
-> +       return 0;
->  }
->
->  static int __maybe_unused mhi_pci_resume(struct device *dev)
-> --
-> 2.45.2
->
+Device creation and destruction cannot be done from the sysfs store
+directly. The state transitions create and destroy devices on
+hiprio_wq, and pm_mutex does not exclude them: they drop it before
+calling mhi_destroy_device() through device_for_each_child(). The
+request is therefore queued on that same ordered workqueue, which
+serialises it against the transitions. The store flushes the work before
+it returns, so the ports are in place when userspace regains control.
+
+mhi_create_devices() is split so that the bidirectional pairing logic
+has a single instance. mhi_create_device() takes the channel index by
+reference and advances it past a UL/DL pair, which is what lets
+mhi_update_debug_devices() walk the channel array without revisiting the
+second half of a pair.
+
+Signed-off-by: Hongxing Xu <xing1989093@163.com>
+---
+ Documentation/ABI/stable/sysfs-bus-mhi |  14 ++
+ drivers/bus/mhi/host/init.c            |  43 +++++++
+ drivers/bus/mhi/host/internal.h        |   3 +
+ drivers/bus/mhi/host/main.c            | 171 ++++++++++++++++++-------
+ include/linux/mhi.h                    |  16 +++
+ 5 files changed, 198 insertions(+), 49 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
+index 8b9698f..1fe8510 100644
+--- a/Documentation/ABI/stable/sysfs-bus-mhi
++++ b/Documentation/ABI/stable/sysfs-bus-mhi
+@@ -30,6 +30,20 @@ Description:	Initiates a SoC reset on the MHI controller.  A SoC reset is
+                 non-responsive, or as a means of loading new firmware as a
+                 system administration task.
+ 
++What:           /sys/bus/mhi/devices/.../debug_ports
++Date:           November 2026
++KernelVersion:  7.5
++Contact:        mhi@lists.linux.dev
++Description:    Controls which set of ports the MHI controller enumerates.
++                Writing 0 selects the commercial personality, in which the
++                channels that are only useful for debugging are not
++                enumerated. Writing 1 selects the debug personality and
++                additionally enumerates those channels, so that the extra
++                WWAN ports appear, e.g. one for the diagnostic interface.
++                Reading returns the currently active personality.
++                Controllers that do not describe any debug-only channel are
++                unaffected by this attribute.
++
+ What:           /sys/bus/mhi/devices/.../trigger_edl
+ Date:           April 2024
+ KernelVersion:  6.10
+diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+index fd30508..938fc9d 100644
+--- a/drivers/bus/mhi/host/init.c
++++ b/drivers/bus/mhi/host/init.c
+@@ -150,10 +150,50 @@ static ssize_t trigger_edl_store(struct device *dev,
+ }
+ static DEVICE_ATTR_WO(trigger_edl);
+ 
++static ssize_t debug_ports_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct mhi_device *mhi_dev = to_mhi_device(dev);
++	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
++
++	if (!mhi_cntrl)
++		return -ENODEV;
++
++	return sysfs_emit(buf, "%d\n", READ_ONCE(mhi_cntrl->debug_ports));
++}
++
++static ssize_t debug_ports_store(struct device *dev,
++				 struct device_attribute *attr,
++				 const char *buf, size_t count)
++{
++	struct mhi_device *mhi_dev = to_mhi_device(dev);
++	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
++	bool enable;
++	int ret;
++
++	if (mhi_dev->dev_type != MHI_DEVICE_CONTROLLER)
++		return -EOPNOTSUPP;
++
++	if (!mhi_cntrl || !mhi_cntrl->mhi_dev)
++		return -ENODEV;
++
++	ret = kstrtobool(buf, &enable);
++	if (ret)
++		return ret;
++
++	WRITE_ONCE(mhi_cntrl->debug_ports_pending, enable);
++	queue_work(mhi_cntrl->hiprio_wq, &mhi_cntrl->debug_ports_work);
++	flush_work(&mhi_cntrl->debug_ports_work);
++
++	return count;
++}
++static DEVICE_ATTR_RW(debug_ports);
++
+ static struct attribute *mhi_dev_attrs[] = {
+ 	&dev_attr_serial_number.attr,
+ 	&dev_attr_oem_pk_hash.attr,
+ 	&dev_attr_soc_reset.attr,
++	&dev_attr_debug_ports.attr,
+ 	NULL,
+ };
+ ATTRIBUTE_GROUPS(mhi_dev);
+@@ -840,6 +880,7 @@ static int parse_ch_cfg(struct mhi_controller *mhi_cntrl,
+ 		mhi_chan->offload_ch = ch_cfg->offload_channel;
+ 		mhi_chan->db_cfg.reset_req = ch_cfg->doorbell_mode_switch;
+ 		mhi_chan->wake_capable = ch_cfg->wake_capable;
++		mhi_chan->debug_only = ch_cfg->debug_only;
+ 
+ 		/*
+ 		 * Bi-directional and direction less channel must be an
+@@ -957,6 +998,8 @@ int mhi_register_controller(struct mhi_controller *mhi_cntrl,
+ 		goto err_free_cmd;
+ 	}
+ 
++	INIT_WORK(&mhi_cntrl->debug_ports_work, mhi_debug_ports_work);
++
+ 	mhi_cmd = mhi_cntrl->mhi_cmd;
+ 	for (i = 0; i < NR_OF_CMD_RINGS; i++, mhi_cmd++)
+ 		spin_lock_init(&mhi_cmd->lock);
+diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+index 7b0ee5e..abb52d0 100644
+--- a/drivers/bus/mhi/host/internal.h
++++ b/drivers/bus/mhi/host/internal.h
+@@ -287,6 +287,7 @@ struct mhi_chan {
+ 	bool configured;
+ 	bool offload_ch;
+ 	bool wake_capable;
++	bool debug_only;
+ };
+ 
+ /* Default MHI timeout */
+@@ -320,6 +321,8 @@ struct mhi_device *mhi_alloc_device(struct mhi_controller *mhi_cntrl);
+ 
+ int mhi_destroy_device(struct device *dev, void *data);
+ void mhi_create_devices(struct mhi_controller *mhi_cntrl);
++void mhi_update_debug_devices(struct mhi_controller *mhi_cntrl, bool enable);
++void mhi_debug_ports_work(struct work_struct *work);
+ 
+ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
+ 			 struct image_info **image_info, size_t alloc_size);
+diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
+index 4d45839..d9260a9 100644
+--- a/drivers/bus/mhi/host/main.c
++++ b/drivers/bus/mhi/host/main.c
+@@ -366,75 +366,148 @@ void mhi_notify(struct mhi_device *mhi_dev, enum mhi_callback cb_reason)
+ EXPORT_SYMBOL_GPL(mhi_notify);
+ 
+ /* Bind MHI channels to MHI devices */
+-void mhi_create_devices(struct mhi_controller *mhi_cntrl)
++static bool mhi_chan_is_available(struct mhi_controller *mhi_cntrl,
++				  struct mhi_chan *mhi_chan)
+ {
+-	struct mhi_chan *mhi_chan;
++	if (!mhi_chan->configured || mhi_chan->mhi_dev)
++		return false;
++
++	if (!(mhi_chan->ee_mask & BIT(mhi_cntrl->ee)))
++		return false;
++
++	if (mhi_chan->debug_only && !READ_ONCE(mhi_cntrl->debug_ports))
++		return false;
++
++	return true;
++}
++
++static int mhi_create_device(struct mhi_controller *mhi_cntrl, int *index)
++{
++	struct mhi_chan *mhi_chan = &mhi_cntrl->mhi_chan[*index];
+ 	struct mhi_device *mhi_dev;
+ 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+-	int i, ret;
++	int i = *index;
++	int ret;
+ 
+-	mhi_chan = mhi_cntrl->mhi_chan;
+-	for (i = 0; i < mhi_cntrl->max_chan; i++, mhi_chan++) {
+-		if (!mhi_chan->configured || mhi_chan->mhi_dev ||
+-		    !(mhi_chan->ee_mask & BIT(mhi_cntrl->ee)))
+-			continue;
+-		mhi_dev = mhi_alloc_device(mhi_cntrl);
+-		if (IS_ERR(mhi_dev))
+-			return;
++	mhi_dev = mhi_alloc_device(mhi_cntrl);
++	if (IS_ERR(mhi_dev))
++		return PTR_ERR(mhi_dev);
+ 
+-		mhi_dev->dev_type = MHI_DEVICE_XFER;
+-		switch (mhi_chan->dir) {
+-		case DMA_TO_DEVICE:
++	mhi_dev->dev_type = MHI_DEVICE_XFER;
++	switch (mhi_chan->dir) {
++	case DMA_TO_DEVICE:
++		mhi_dev->ul_chan = mhi_chan;
++		mhi_dev->ul_chan_id = mhi_chan->chan;
++		break;
++	case DMA_FROM_DEVICE:
++		/* We use dl_chan as offload channels */
++		mhi_dev->dl_chan = mhi_chan;
++		mhi_dev->dl_chan_id = mhi_chan->chan;
++		break;
++	default:
++		dev_err(dev, "Direction not supported\n");
++		put_device(&mhi_dev->dev);
++		return -EINVAL;
++	}
++
++	get_device(&mhi_dev->dev);
++	mhi_chan->mhi_dev = mhi_dev;
++
++	/* Check next channel if it matches */
++	if ((i + 1) < mhi_cntrl->max_chan && mhi_chan[1].configured &&
++	    mhi_chan[1].debug_only == mhi_chan->debug_only &&
++	    !strcmp(mhi_chan[1].name, mhi_chan->name)) {
++		i++;
++		mhi_chan++;
++		if (mhi_chan->dir == DMA_TO_DEVICE) {
+ 			mhi_dev->ul_chan = mhi_chan;
+ 			mhi_dev->ul_chan_id = mhi_chan->chan;
+-			break;
+-		case DMA_FROM_DEVICE:
+-			/* We use dl_chan as offload channels */
++		} else {
+ 			mhi_dev->dl_chan = mhi_chan;
+ 			mhi_dev->dl_chan_id = mhi_chan->chan;
+-			break;
+-		default:
+-			dev_err(dev, "Direction not supported\n");
+-			put_device(&mhi_dev->dev);
+-			return;
+ 		}
+-
+ 		get_device(&mhi_dev->dev);
+ 		mhi_chan->mhi_dev = mhi_dev;
++	}
+ 
+-		/* Check next channel if it matches */
+-		if ((i + 1) < mhi_cntrl->max_chan && mhi_chan[1].configured) {
+-			if (!strcmp(mhi_chan[1].name, mhi_chan->name)) {
+-				i++;
+-				mhi_chan++;
+-				if (mhi_chan->dir == DMA_TO_DEVICE) {
+-					mhi_dev->ul_chan = mhi_chan;
+-					mhi_dev->ul_chan_id = mhi_chan->chan;
+-				} else {
+-					mhi_dev->dl_chan = mhi_chan;
+-					mhi_dev->dl_chan_id = mhi_chan->chan;
+-				}
+-				get_device(&mhi_dev->dev);
+-				mhi_chan->mhi_dev = mhi_dev;
+-			}
+-		}
++	/* Channel name is same for both UL and DL */
++	mhi_dev->name = mhi_chan->name;
++	dev_set_name(&mhi_dev->dev, "%s_%s",
++		     dev_name(&mhi_cntrl->mhi_dev->dev),
++		     mhi_dev->name);
++
++	/* Init wakeup source if available */
++	if (mhi_dev->dl_chan && mhi_dev->dl_chan->wake_capable)
++		device_init_wakeup(&mhi_dev->dev, true);
++
++	ret = device_add(&mhi_dev->dev);
++	if (ret) {
++		put_device(&mhi_dev->dev);
++		return ret;
++	}
++
++	*index = i;
+ 
+-		/* Channel name is same for both UL and DL */
+-		mhi_dev->name = mhi_chan->name;
+-		dev_set_name(&mhi_dev->dev, "%s_%s",
+-			     dev_name(&mhi_cntrl->mhi_dev->dev),
+-			     mhi_dev->name);
++	return 0;
++}
++
++void mhi_create_devices(struct mhi_controller *mhi_cntrl)
++{
++	int i, ret;
+ 
+-		/* Init wakeup source if available */
+-		if (mhi_dev->dl_chan && mhi_dev->dl_chan->wake_capable)
+-			device_init_wakeup(&mhi_dev->dev, true);
++	for (i = 0; i < mhi_cntrl->max_chan; i++) {
++		if (!mhi_chan_is_available(mhi_cntrl, &mhi_cntrl->mhi_chan[i]))
++			continue;
+ 
+-		ret = device_add(&mhi_dev->dev);
++		ret = mhi_create_device(mhi_cntrl, &i);
+ 		if (ret)
+-			put_device(&mhi_dev->dev);
++			return;
+ 	}
+ }
+ 
++void mhi_update_debug_devices(struct mhi_controller *mhi_cntrl, bool enable)
++{
++	struct mhi_chan *mhi_chan;
++	int i, ret;
++
++	for (i = 0; i < mhi_cntrl->max_chan; i++) {
++		mhi_chan = &mhi_cntrl->mhi_chan[i];
++
++		if (!mhi_chan->debug_only)
++			continue;
++
++		if (enable) {
++			if (!mhi_chan->configured || mhi_chan->mhi_dev ||
++			    !(mhi_chan->ee_mask & BIT(mhi_cntrl->ee)))
++				continue;
++
++			ret = mhi_create_device(mhi_cntrl, &i);
++			if (ret)
++				return;
++		} else if (mhi_chan->mhi_dev) {
++			mhi_destroy_device(&mhi_chan->mhi_dev->dev, NULL);
++		}
++	}
++}
++
++void mhi_debug_ports_work(struct work_struct *work)
++{
++	struct mhi_controller *mhi_cntrl = container_of(work,
++						       struct mhi_controller,
++						       debug_ports_work);
++	bool enable = READ_ONCE(mhi_cntrl->debug_ports_pending);
++
++	if (enable == READ_ONCE(mhi_cntrl->debug_ports))
++		return;
++
++	mhi_update_debug_devices(mhi_cntrl, enable);
++	WRITE_ONCE(mhi_cntrl->debug_ports, enable);
++
++	dev_info(&mhi_cntrl->mhi_dev->dev, "MHI %s ports %s\n",
++		 enable ? "debug" : "commercial",
++		 enable ? "enumerated" : "removed");
++}
++
+ irqreturn_t mhi_irq_handler(int irq_number, void *dev)
+ {
+ 	struct mhi_event *mhi_event = dev;
+diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+index 65e8a39..565297a 100644
+--- a/include/linux/mhi.h
++++ b/include/linux/mhi.h
+@@ -234,6 +234,8 @@ enum mhi_db_brst_mode {
+  * @offload_channel: The client manages the channel completely
+  * @doorbell_mode_switch: Channel switches to doorbell mode on M0 transition
+  * @wake_capable: Channel capable of waking up the system
++ * @debug_only: Channel is only enumerated when the controller is switched
++ *		to the debug port personality (see mhi_controller.debug_ports)
+  */
+ struct mhi_channel_config {
+ 	char *name;
+@@ -250,6 +252,7 @@ struct mhi_channel_config {
+ 	bool offload_channel;
+ 	bool doorbell_mode_switch;
+ 	bool wake_capable;
++	bool debug_only;
+ };
+ 
+ /**
+@@ -381,6 +384,16 @@ struct mhi_controller_config {
+  * @no_m3: Device doesn't support M3 state
+  * @irq_flags: irq flags passed to request_irq (optional)
+  * @mru: the default MRU for the MHI device
++ * @debug_ports: Whether the debug port personality is active, i.e. whether the
++ *		 channels marked with debug_only are enumerated. Controlled
++ *		 from userspace through the debug_ports sysfs attribute and
++ *		 applied by debug_ports_work. Zero-initialised, so a
++ *		 controller starts in the commercial personality.
++ * @debug_ports_pending: Latest personality requested from userspace, applied
++ *		 by debug_ports_work
++ * @debug_ports_work: Applies @debug_ports_pending from the ordered high
++ *		      priority workqueue, so the device creation it performs
++ *		      cannot race with a state transition
+  *
+  * Fields marked as (required) need to be populated by the controller driver
+  * before calling mhi_register_controller(). For the fields marked as (optional)
+@@ -440,6 +453,9 @@ struct mhi_controller {
+ 	struct work_struct st_worker;
+ 	struct workqueue_struct *hiprio_wq;
+ 	wait_queue_head_t state_event;
++	bool debug_ports;
++	bool debug_ports_pending;
++	struct work_struct debug_ports_work;
+ 
+ 	void (*status_cb)(struct mhi_controller *mhi_cntrl,
+ 			  enum mhi_callback cb);
+-- 
+2.40.0.windows.1
+
