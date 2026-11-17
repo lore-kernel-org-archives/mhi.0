@@ -1,110 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794596759;
-	b=Mvv9Tv5mIi0LU8A4cTVKiQw1j2MYjscp2Cbyb8jSIHZa3BcjpC5g+NVyQIHHdXrD+eZ4
-	 3OUrrVu8mLGpE5Dt0olVBHx1guLn3mwI3PX8pqLTdXu9TKSXR/BukYl6TSS4CWvFG/DDV
-	 IdtUmuzipEXnl7Y3+M+Tp1+htHJuxYE0BugFpFYleCa2gHrsvLlr4DkSUV130MSCJUdL0
-	 SpOVfMpS48rzyR77Du3rOY2cdSodUPUAC9+U7g7NbwnHz1cyW78qIdIarqvsG7C0GsyFA
-	 YyGkXjNIOPEOV3FUZ/0a0UjFGAPfVsj5m3GyzkVv3XwD9Ik7wMzKGuN6uN8xy0P5wqw==
+	t=1794884916;
+	b=mqZv2Ue9KkU/cww4/N9ZZaqXELqavX7Sjq4kTMFkfiAmyfLvazcGWb9Dz2Yo8ooxRxzj
+	 aKEiXQai4+bFA1uQjRhsNdGvnXNi3e43823ziblVkTn8t/H0geT+Gcqkcf2BPdudh2Jnp
+	 y0s+Khd2QW5LtsAyJKbpvvTNRAZPCzL46taN7P+38JD0rDLRmxbHguc4jPv7mYMH3Wswg
+	 sAaK/ryGdn+AsjHnoOjN0YH+pDNavn3d31AKLpvN8kBrmOdAfo2asPqZNPoI1oSw59Qhh
+	 vOzQuUqdoJ4JOiSdv4/h7KlERbiJRlJNcP6sO1br/VsQiyQl7XEFlTuNgX9+qRLGsPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794596759;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=IRMABT5sMDAiNtPTGVEgBO064GSIu27fmFheEbmfxO0=;
-	b=ZYPZ2VhkoIO/buKcEZUeR6Dvaxt+Ls4pR2SwelEx7Z1iksWlQeutnlx4iXJIPigtyt9y
-	 mjBIek2NWXsUjxv2l4jme4OTB/JdNyoWAAWYr9TDVrmBifiBONsWy7FTk/mS3gpVYy0SS
-	 NEQT0LmULhTFHXPRs5i5PM7S+ssSzSx0igOUrZy8VwjVd14CG4P5jjY1DG21mS13zO5hN
-	 r1BmdN6zRn1jW05W4pj0J36wBvyNWBirj7wEsZwrbJn1v5pkqXSdCciAd3wc6bQcdQxGw
-	 MpXTTBEGBFuVRkdneciH4b1bSIIAoTbm6e/3eIE6yQdjmIAFddGx7b3/7CgVgoiVMdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794884916;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=w+Y3p4UcYcjN90HcYXfFfPpl0FynM3uDCS4/JoEqrWk=;
+	b=oR3W+7QWiHyBIh+PfwKFwh/C2kcdESE0uYe4UhQHiBjuBe/azQ9rUPZXRGHQMmk8ileb
+	 43H7hLbom93ZnZYrA5VufL+hBvKWZ+/8shGhzBWS33CjPgWYpTSQ3G6c3A7hbKxtxPRMW
+	 2F6aioJ2rX9bGG1iUsmo8tOpkRh2w+K/eAslQ/hrvUstrPzvzlBkQUjS3NqskzTiCXFMC
+	 SC/jKB5dMagLwpe4oF/9bOnc8EjfHfBKNKzh0Xt9qVpfK6D6SKELUdFWsmVoqKpEGgbjg
+	 nynMlYp1jE48gg2+ObV7p1rGYpNFjX5zqU+XaXjDxwF+PejhzLFy0SV7NIA2ul5ylWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=naturzKn;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=eR29Noo9;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Yzgp351Z;
+	arc=none smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CE0606A323
-	for <mhi@lists.linux.dev>; Fri, 13 Nov 2026 19:05:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56CE0606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3D2606A31C
+	for <mhi@lists.linux.dev>; Tue, 17 Nov 2026 03:08:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E3D2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=naturzKn;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=eR29Noo9
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ADJ1LQ22574978
-	for <mhi@lists.linux.dev>; Fri, 13 Nov 2026 19:05:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IRMABT5sMDAiNtPTGVEgBO064GSIu27fmFheEbmfxO0=; b=naturzKns/Ro24Ut
-	42kO1hKMZb39rcdjc/j+jUi5OossdXeht+2JJb9mkcTOmi9HGwyczRA4363X889O
-	LCSCjUOJWqEU3Gie3i8r+lBPGt3oW1xsAo8CXA4Wn3Sq6xzqWWCQ/+tJUHQzX9Tl
-	eoiSoopRd8HdnULH127qu9iWTHq9aINfRw3PiFrmyiscHxbrrr/mXpvdTJTPpRAu
-	MjMIzXrxEehOQI0KBKCEPnWFhEjuvR+yg+9mcXA4o7AsD1YvsrSNcX1ACyzi5M1C
-	U1iqf89Tf9ZMr+zL3DshxqCz096BDZtNrr4KaTAEHp3SJ08ndImHL/JnLJRGq2Y5
-	TNdi2A==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hx0g21x7x-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <mhi@lists.linux.dev>; Fri, 13 Nov 2026 19:05:57 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-37549877380so1646848eec.0
-        for <mhi@lists.linux.dev>; Fri, 13 Nov 2026 11:05:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Yzgp351Z
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-949664ee41cso292226885a.3
+        for <mhi@lists.linux.dev>; Mon, 16 Nov 2026 19:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794596757; x=1795201557; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794884915; x=1795489715; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IRMABT5sMDAiNtPTGVEgBO064GSIu27fmFheEbmfxO0=;
-        b=eR29Noo9GZ8vwBCYzMP1hHFgVXvQgY6/mzEiGvkoLbHu1ZQ8oYJmkgNOuhRAlKa5Qn
-         KOFA8Iysl1gaxbE1mcZK8thVYY7rlXbHReR1yElymUphEtLZPPcVjoozXHCiV0eb1t5r
-         pOJ47Pilvu1Zmi6xU3eE6nbUdjegYqElgh8kSK3/XWjbwLU/+lTbXCGTnuHsI4rvT8tT
-         9BH055jIimar3P4/6bNcS4BQ51egWes0DNT6ie2B8yzX7yZcG+Suk02mCIDvWx3o4HIR
-         OeUoGyKR7cvjWmCOxb3vQR6ULUKcnVkJ5jc4PS+5bEaoVe4mkWR53GMvIR67QX7VS8jQ
-         mCRA==
+        bh=w+Y3p4UcYcjN90HcYXfFfPpl0FynM3uDCS4/JoEqrWk=;
+        b=Yzgp351ZTs9ia0jm7rsSbINPBsUbjZ0tcff17DlmFC6E6pq/GS60gCzwD49Txe1nWk
+         bQfY352Y5THrp/R4sKftPXSYgCOAVCqn69LGP/IcOhHkyE5KmHtvirirgVsuSMSj3itP
+         JfJ+P3HtnqKSd2dmPN/UNnftTTT44CzDbVLp+xbcihxjusLi8RbGTlOlZBwPWJVtVzHo
+         9b2LTd7OPGRhk0PiM1U2G3qoTCRTuLiMLvEzzNYI9PLTrFwfBrQg8gb10NImbiZq7Nk5
+         WZ5Lwbfc1+Ynn4D1al7mnJWOkgk/QHtBNICPQ83L0E6c3vQOrA6gGgE7efK44xT96Zjk
+         gWLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794596757; x=1795201557;
+        d=1e100.net; s=20260707; t=1794884915; x=1795489715;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IRMABT5sMDAiNtPTGVEgBO064GSIu27fmFheEbmfxO0=;
-        b=AEP2O32u39VLkfADsM0thVXFSsWxcsnm3Yf5ahRQpsNFo7oIJECg9/RgBwMAX9Z2RD
-         Flr7hi/QqF/0cLfSWFJr4qEo20haU3ng/B/Hr0ZeFyVPb56KcvQ5othDj4f/blrMt5JK
-         hwlzEueEJO0v9jwoEf8yvxym2cll1VVBNrXOcr416KmmO7oDZlYVuLNbS7AXEw/WbSgy
-         ddw7pVz+H0O9/rmBINLIQGGrEXNe4lMNDjafeQSKr8JDolp+tyAUWOPOIBa4XMuwUSeI
-         giXkNWEL9EwSY9tvJlArjTe/PpTc4O3YQC7YbAifcJUh6k69Xoj0KP5qh06ebaMohvlC
-         iRwQ==
-X-Gm-Message-State: APuU4Z8KFCn0Dw4AQ0YrCTkghb5zL9nZWs0swWUD8Hk0OfTfBwlJ/RUn
-	akrzoZY0B/koF0a7EflH7jEqoOsUqDBhJMkfup0uaqPiVCrUvs9oMvKA6/VXN4wpuSRVvbOava7
-	FEf5JnR8M4bAd7ntbqYMtQyuRz8po28eRD+9U87nQIue0PgXAVPhe+w0=
-X-Gm-Gg: AYBFou3m8qR9KlOFLsXeVvJfKS4VCYrS7hRuszfzoPA10FwKjQyARUzlhYFHrW9hz+k
-	smib+GDLhLfLteG1EJQPV5ZUooptmUOeF0y84OcQWwTfUST/9RDgODS9hn+/S6iatIqyYSVxz/u
-	1bAhKOcaayRr1qN74CbmGU3JrZJcSsIYNY0latZ9D8KVG0+2KaLZGCfTwBCwGFFlkHew59twgTO
-	TiDBSCsMk4+C0ZNr5vydx7fjR3KnO3Ob5EP3MSky4uOdeBkxkSLRQ9k6P4kX/U3878riHpYMwW1
-	q2H5TTStOIN2+EUHbIdV1HGGlqFrgOD+w5/sUaidDHo9bXD9XbqLRbXv8LfAWPmJ410Qy1hapdm
-	wDm4V9BA/5+oG19OZkh5YbbZ3+TzRoqSdW4YWXwqUL7gZ7TxX926wGruNWzteHcXysjcxNeZmG1
-	DjZY/lo+xI9cO3zbFBA30tRuA=
-X-Received: by 2002:a05:693c:26c6:b0:36a:1cbc:1093 with SMTP id 5a478bee46e88-379684b548bmr2697354eec.30.1794596756854;
-        Fri, 13 Nov 2026 11:05:56 -0800 (PST)
-X-Received: by 2002:a05:693c:26c6:b0:36a:1cbc:1093 with SMTP id 5a478bee46e88-379684b548bmr2697326eec.30.1794596756183;
-        Fri, 13 Nov 2026 11:05:56 -0800 (PST)
-Received: from [10.226.59.182] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332a77sm8616314eec.4.2026.11.13.11.05.55
+        bh=w+Y3p4UcYcjN90HcYXfFfPpl0FynM3uDCS4/JoEqrWk=;
+        b=rLeIrK8aKvkuB643GiIYllnzrYlHxWhaCxeNXtLWEoTNa81ClT7gZbwCZ8Hw9HClqO
+         mBxh6fJVolL997utLLqOS2ls7gdJrNJ1lvZj028V0Gduno7YSC61UbHe9ooLD629n771
+         /q6tRGgjUfAGAQJwP2wtVSRE12yXDCzmp/tofZL6wnh/s1A2cuzfx+SAPInbFNfVHc5F
+         RDTDSwfFX58xeD2pxbyu9p5EzTJ7XXzGKd1lKdXD1d4Xe2u5RolrJrgnOeyFcApmq0k7
+         dSgGvRcTceJXNL5MmwdvK7teg5Koei1BKICOIC+OSWnBALW4VLRLZ2z3Jj9WW0+LaprL
+         QXeg==
+X-Gm-Message-State: APuU4Z8pGngMMi+cXEltRIpqXgEQK5ZptyzZkAXU6OobA+L7KqNJ0NM8
+	a9KyZpBZUT7CtcaIRKwwGhF/NAmq8kjmhhmRInsQps8wogEWmUt3y5jR7aWcD24mG08=
+X-Gm-Gg: AYBFou26h3t6jC4h2s7slGbs1KSPl/GeM1FOFOD6AW2QagEm/NQ/K6g3Y5iOy37tl4G
+	CHfI1S3hrUqi9rzJPvJJ8d1Z0S8Gl95GtWrnTu1w7tD1xop/IYYQrLPUBeBrbIQCvBZ7COsnIZM
+	D9ucLH9Z1cfMmDa4TimlKJwKsKjguCqGcGH/yXmgrL6dZcKqaCJW0strkK3J/WjZIzcJTL4r5Ou
+	f8UR+vj1dWg/VM9mS6Uf9QAizKeDkzTVgp3wsP8hh/KSziedV70nYbdxqob1hSZZp76/cEz8aoR
+	x2xZYrkLkKYz1SQE7H6V7qWR1F3szd653O2AGjjo0N8a7Gfce8xnAiExDhkX8skYzdk/oJG/wad
+	jPSskh3UYODImoL28K8MOLX5NK7Y73NSSsWcK+cc37Mx1JiDjfXXKwsQvewegIALeQLs3zxkTZ0
+	T8UEspaKl62OBhHrKtbW/ZCftVzMUjF07Y6M84LYgNbczRfVSVt7Vg9D4pLMcah5Hr1UaX4FweP
+	Md1Gfez45t2lXDuLumisC5ppzfUJmXh07sIdiMa4OZyWYWKDMJdvnUW+EjqW/TtKpm/AX/aqNBg
+	q38/oO+vqngW+12im58+cIaVqlrdjZhvSP+ggho+A91jG+qcKISUQa+9LE5mTsWzar2XOiLB6Se
+	tXcEx8RRG28ycY+/Xky9NNqfYMzbxUDhuGeY+JFG+w9DksB5IGGFX
+X-Received: by 2002:a05:620a:2a10:b0:93f:2eaf:64d6 with SMTP id af79cd13be357-9494bb90266mr2006054585a.48.1794884915318;
+        Mon, 16 Nov 2026 19:08:35 -0800 (PST)
+Received: from ?IPV6:2600:4040:5abf:f200::9dd? ([2600:4040:5abf:f200::9dd])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c803fb4sm981181585a.9.2026.11.16.19.08.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2026 11:05:55 -0800 (PST)
-Message-ID: <6b3fbc60-34ec-4b7e-bbc7-84a0ec5d496e@oss.qualcomm.com>
-Date: Fri, 13 Nov 2026 12:05:55 -0700
+        Mon, 16 Nov 2026 19:08:34 -0800 (PST)
+Message-ID: <93f7aabc-4a92-4d3c-a6af-a84b461c0e0c@gmail.com>
+Date: Mon, 16 Nov 2026 22:08:34 -0500
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -115,86 +92,47 @@ List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] bus: mhi: host: Add debug port personality switching
-To: Hongxing Xu <xing1989093@163.com>, Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH RFC v2] bus: mhi: host: pci_generic: Add MBIM-mode config
+ for generic SDX65
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
 Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261113122302.2174-1-xing1989093@163.com>
+ linux-kernel@vger.kernel.org, daleyo@gmail.com,
+ Johan Hovold <johan@kernel.org>
+References: <20261110-mhi-sdx65-mbim-rfc-v2-1-f1d71a5ac9ab@gmail.com>
+ <84fd339d-c8b2-435d-8e3e-648fb4f889cb@oss.qualcomm.com>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20261113122302.2174-1-xing1989093@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEzMDA3NiBTYWx0ZWRfXwdHaLfQwu3ym
- kmZb3DVeqtLwjHruiDrkxEiPMbq4Zrf2ZquSmvI9ucynXtVldJ/EZx9okIV3fqx+0j5PPqscaDo
- WtdslC+UjUnUCKRXB0v32/wq23y5I2nsSfyhap+t5lNHEfEL/YAIVVCNeuTu1fW0amuygy/3EIx
- YmxaIlfkpxuieRzrn12nE9AEon3CG13DXKId428nR4nJFplK64ZTmLFME0yaPASiyEKLD8FwOA1
- Ed8fCIld096bkq20A5CI4kA+nxRU5hy0cMc0vIh01/3bg7ZVgV8MIsuiF03gNdyQcWEtdDSKDFK
- ieRvFFR6Csul22kA6VfiQthZPAbuJ486bpF0wOfrzhmlFCoU/RdoRhEOW8kifDWq7mOTdZVCR8m
- V5usYY7pz4tXscYWkcYI3tOgiQyZupa2Yutk4bD9M3B359+7gifVS7+WXPJyuixDIjMOMHtfW84
- JUbDlP10o6c4JbWMXBA==
-X-Proofpoint-ORIG-GUID: Hyu7A97TroVrkmFy_0WdxAMB48GQrg4j
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEzMDA3NiBTYWx0ZWRfX8GNHZ8rzy2ac
- tnB3knO+WBH6fOQC5shJu1+WHbio/Q2UuIVGPH26ifZC9h2RiGrJsUTMBuhf9YQq4bTF552xJRQ
- RycmGEBVpLuSd78zRnEN/9KuMgIW0/U=
-X-Proofpoint-GUID: Hyu7A97TroVrkmFy_0WdxAMB48GQrg4j
-X-Authority-Analysis: v=2.4 cv=SpIFe/O0 c=1 sm=1 tr=0 ts=6af75f95 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=gG0Lje7BzgQcJ5p3n2kA:9 a=QEXdDO2ut3YA:10 a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-13_06,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 adultscore=0
- malwarescore=0 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611130076
+From: Haipeng Lin <jimmie.lin@gmail.com>
+In-Reply-To: <84fd339d-c8b2-435d-8e3e-648fb4f889cb@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 11/13/2026 5:23 AM, Hongxing Xu wrote:
-> diff --git a/Documentation/ABI/stable/sysfs-bus-mhi b/Documentation/ABI/stable/sysfs-bus-mhi
-> index 8b9698f..1fe8510 100644
-> --- a/Documentation/ABI/stable/sysfs-bus-mhi
-> +++ b/Documentation/ABI/stable/sysfs-bus-mhi
-> @@ -30,6 +30,20 @@ Description:	Initiates a SoC reset on the MHI controller.  A SoC reset is
->                   non-responsive, or as a means of loading new firmware as a
->                   system administration task.
->   
-> +What:           /sys/bus/mhi/devices/.../debug_ports
-> +Date:           November 2026
-> +KernelVersion:  7.5
-> +Contact:        mhi@lists.linux.dev
-> +Description:    Controls which set of ports the MHI controller enumerates.
-> +                Writing 0 selects the commercial personality, in which the
-> +                channels that are only useful for debugging are not
-> +                enumerated. Writing 1 selects the debug personality and
-> +                additionally enumerates those channels, so that the extra
-> +                WWAN ports appear, e.g. one for the diagnostic interface.
-> +                Reading returns the currently active personality.
-> +                Controllers that do not describe any debug-only channel are
-> +                unaffected by this attribute.
-> +
+On 11/13/26 1:53 PM, Jeff Hugo wrote:
+> On 11/10/2026 6:06 PM, Haipeng Lin via B4 Relay wrote:
+>> From: Haipeng Lin <jimmie.lin@gmail.com>
+[...]>> Boards with a Qualcomm-ID modem in MBIM mode have so far been told
+>> apart by subsystem ID, like the SC8280XP CRD's SDX55 (17cb:010c).
+>> This modem carries the generic subsystem ID, so select an MBIM
+>> configuration by machine compatible instead.
+> I'd like it if we could query the hardware to determine if it is in this mode as maybe one of these systems has a SDX65 dongle attached where this workaround does not apply.  However, I am failing to identify such a mechanism so what you have proposed seem to be the best solution so far.
+> 
+> Unless someone identifies a better idea, this seems reasonable given the situation.
+> 
+> -Jeff
 
-Why sysfs and not debugfs?
+Hi Jeff,
 
->   /**
-> @@ -381,6 +384,16 @@ struct mhi_controller_config {
->    * @no_m3: Device doesn't support M3 state
->    * @irq_flags: irq flags passed to request_irq (optional)
->    * @mru: the default MRU for the MHI device
-> + * @debug_ports: Whether the debug port personality is active, i.e. whether the
-> + *		 channels marked with debug_only are enumerated. Controlled
-> + *		 from userspace through the debug_ports sysfs attribute and
-> + *		 applied by debug_ports_work. Zero-initialised, so a
-> + *		 controller starts in the commercial personality.
-> + * @debug_ports_pending: Latest personality requested from userspace, applied
-> + *		 by debug_ports_work
-> + * @debug_ports_work: Applies @debug_ports_pending from the ordered high
-> + *		      priority workqueue, so the device creation it performs
-> + *		      cannot race with a state transition
+Thank you for your reply. I tried to look for a hardware hint since we
+have to select the channel layout before opening a channel (so that
+can't be the way to select MBIM, I think). The oem_pk_hash on this SP11
+SDX65 is non-zero (12 words) so it could potentially tell this module
+apart from a dongle, but using it would mean reading BHI before the
+controller is registered plus adding a table of hashes in the driver.
 
-Are these optional?
+I can try the hash route if preferred. The machine match is simpler
+although it wouldn't cover the situation e.g., a SDX65 dongle is attach-
+ed via PCIe tunneling/USB4 you mentioned...
 
+Best,
+Haipeng
 
