@@ -1,72 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795107876;
-	b=dwJL3IXeGo1JzUuDpsJNQ39woJlCrHhl/zYwk9IAkCJcU9z0aJstkfcKIVGLXwy0gO0w
-	 PO7MrDu1gUtxlfS3MG7gBv6QGKxoh+DI9rMRii4hEtr8uhUoRkzM2fAJpXPLFdW9jA+UC
-	 UgdDBDKek/65LxhMRCeA+lo76GTBv2Ty/ZvJOmWZleY4U0neFOR9qwQ4VDVFe13xKmW2o
-	 YnxOzOHymhDvjouxqZovfgUskhuRmET0Kz4EZ71XPzJu+1D3BY1M7P0CZUz5LwaODqw0w
-	 Ge7ZNBAbwpdHt1Qcp4Y/JU2C0oqrUPlSo81MuKC/M0vsEK9o0t3AnkMIHCS3LO/2nUg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795107876;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795164496;
+	b=Wy8tzuYQNQnlj8FTaryOz1Mwkk8Ms4U4AtBXP6+J8I9WIkrySYPdyIXIT4u1c6NLH7yV
+	 lqVDRjOL+Wh1cZJSc8Dhs3NyIbeD5JIwk2sToc03SP5yjNKu3kJYMMTLF6FOI1VPmXa2r
+	 0WC+g21ORu5HMAw4SsdaFekk205obVMfqdpndGvZ6QTycbwnlgkpHmcPACsPF4l6vQ7MW
+	 Xl0LDWWq3l5gjVIhomJGmbTnPP7WV0ezD5GZQkdeziZF2JJKOfQrNwX8lcDbTh1hvkfXk
+	 s1vrqyU8F3s5u2130RH+YTD6c/QfliQaFqDCo42zYu4GEvIrHj32tE7FmZqVRpbr7XQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795164496;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=Y4YiOlg9vBcWp7cMSDzH4ZwuhUP6+NbvoiwA8GHj28Y=;
-	b=46nLqho5ODYHheIGT7LLKn5+Q6S4f50TBNtuKD4iHxHoPUpf4PajDtceXC70d/u9lULE
-	 knAqtHrSmgXUg/3kUYIhU6Lz32i4WgDPGYlnuGZ1XPmgH/RBg+BAK7hEJg/VcdtdbtXoY
-	 wdqqB+NoJqQHlYdD/9PjT6tcVcURSfg/wcCsiHuKmGf9OTJnAeDg5XnPKgIoJ7ryYfGX+
-	 Kq3nCgXwAM0eoaLGZkOoKDldpuYkl/81XN8x6HLroF0o5QCZxBxlj9JI98ffmSgsTgUzk
-	 NnDbavQY5LJcKvqzBLvYHrweIgOB+sCsjj9q+eVrw1L1YCiqf1eglkhz2AvPRe+3yNQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="Lbv0sE/1";
-	arc=none smtp.remote-ip=74.125.82.198
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:MIME-Version:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=nzwN7I5atRRGIeyKWGRRj5kf7A+6/JDlOIWENYlt34E=;
+	b=jam0LzsxXp2yIvrHQRvxYhiHNixVOsovv6r1VXTDtdk3JnfWo3ri0pdnm6kX9wf1lfap
+	 a+JHx4uPfH5VT0BrrLqaiJBll5qJ470UbKxHWtcE6GeKjlParnonlyYu4XuHe4wHFz3gQ
+	 eyNls9PadWSi2hlKguIOWu6d2pQa79ZEyekWD0yfOlShCZNNLqgnuY70BxIecxeSZAtiK
+	 f4oU8BwTTcMhUiULzVWZx62CGFgJTgPh0eViPxUQ+2hBHGitFvbeCzbQ7GnAEhg0skEeq
+	 jn0fJsDWVM2xPihTb+SA0irN2eBd8VFKOa7PL8kMFwjENEKj4YR66XbR3grXtCYBQPA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zkcB1jRC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.47
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F162060A262E
-	for <mhi@lists.linux.dev>; Thu, 19 Nov 2026 17:04:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F162060A262E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C479606A32C
+	for <mhi@lists.linux.dev>; Fri, 20 Nov 2026 08:48:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C479606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Lbv0sE/1
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-3821eb27024so3084323eec.1
-        for <mhi@lists.linux.dev>; Thu, 19 Nov 2026 09:04:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zkcB1jRC
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-67be1e468a8so673793d50.0
+        for <mhi@lists.linux.dev>; Fri, 20 Nov 2026 00:48:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795164495; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fgwjuSlx+cfSWmFF99RtqDP0T8Hj4lqbMgnR4kcnYBKoBW2KS9DE443sHDfYaxoVPn
+         dSGrK10aoSE9paUT1d+++a4A8DpJpikoCcp04aw7HODB+CHfhF0kDJrtMPi4jPkV4Xvz
+         BxnTXBIt2V1rYGPpnt1vKPD4iticSuhgI2Pfp138Nm3VbPogknCzEyKv3dzmhDaTttQ6
+         bu7q663hnxTm3kFWj0NogxaWS/O1UwDozijDhDBoUlze6seFX4pMrcUWzC+nlchqC/BT
+         YFFhJKQ5y90Q01VmDPw6fXoihUpKah+egfii/QmlXX7y+1uaqr+bWz6wM3n7KySEnOPS
+         BBnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=nzwN7I5atRRGIeyKWGRRj5kf7A+6/JDlOIWENYlt34E=;
+        fh=1EBjV09iOKIkzsn4DgBYk2zSAXCTeWO6/in8r2fqE4c=;
+        b=fH/jSlmxFtJiFIdXRqodKownotjwYxIKZF53cevz+1w5J5v2ma/+LwmbOe5GyA2UmB
+         kxNCsNnNLLbGfdLdY0+haOl53m2J1Um1sHUtvSKS4QSu8mH0EMckEr5zWdtb7XIa+AbR
+         OgYCSxCGv5jAjSNGZrhq6JyEGsRanF5GcKZ6xBVlFAa2LcP/biF0w+/BKSWSCckY3z+O
+         71WuUkqZ7pvJ4F/ze5pzMGGlohPbSESckeJxhZZC4vUwpHOzRB52bw0LLnxxAN2IhWuC
+         SCOY0DJl8HEYvk0HMfjpsVBAHLquKZpi37ggp9YgyZv1hxmgu/RUPqR0d+5JOX11XNi1
+         ujng==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795107875; x=1795712675; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+        d=gmail.com; s=20260707; t=1795164495; x=1795769295; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y4YiOlg9vBcWp7cMSDzH4ZwuhUP6+NbvoiwA8GHj28Y=;
-        b=Lbv0sE/1fYBw2iUOD5B9gOzwvZ/VES7HXg74bA2ECUcqxUsPiLzpY3gm4mg9fF6sn3
-         O/L9Bo+GVEaz2Lj+4imNo5ylN5qxwoPH1p6PFlvxvNGJL7ZNfmCaRIiaRYrmbuKSVyRa
-         Wn8EAW6ft+jyBQ6Y6FU+O+N+leqRsRthNujd9NHO3/Id12dizJzUdlM025XTBEXCuUfI
-         HtFXXpDgbwzZZ0CUuANpOjjy4y+6pUXOBmbl0vUaYdApSrU9cW7jOna5OtRu7EICOuEG
-         Jk/ohPLUYDe7rH0+duA0B65FsiTww7W2LqF9qODwZ5jwdptAbdpEa0zl7UVmoiADWoIr
-         VOPA==
+        bh=nzwN7I5atRRGIeyKWGRRj5kf7A+6/JDlOIWENYlt34E=;
+        b=zkcB1jRC6noj7xrjZmWpcOc0S3HT1H9LXUvjoJchzOA8NHrCUQ28UaHIBMSuCXICb2
+         0dxHP7VruVYRBrrtA66S8ev53WFlIPnepmM3WtK+8FTfkAgmpKp/UYs573CbzPtodOtR
+         uMJbqTb2TvcMFv2uexI2MybIP48F1LZ+2/1hjkUOX2YHj7pCooRR+M+ePfVsdJ8QkD1m
+         f2T72IZH/w71CS/AcyjdZpoohTOZdKvI4ql4n9JdlDivj+XhRR18IcIcAVhIqXfj0S/8
+         qACCi8RAQDpwiac2zmv6+K8Hp5/2cX6hWXHsjkSipEhsZ/PEcubJi5O3Uzcj99Qy7xFM
+         WESQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795107875; x=1795712675;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y4YiOlg9vBcWp7cMSDzH4ZwuhUP6+NbvoiwA8GHj28Y=;
-        b=mj6n0/PeoikdJZ3WIbeDNch32QM3andQUBdAUDIrPi7FrFyVEQJutwtS+Y2xw3gcOG
-         pJEfMSmBl3oN1DAYv/jbZ0ttTLchEvfV+jx743rVkrflX6BUufugTVtOYVRmRHbc+yRU
-         VkagQocNw1UdpH2Nmd9dlcMhVHVbZUm/b8bISeTaqfo4hCgXmrkAVzIzDzEmObg2+UAL
-         ItDrW3mzlVPgcP2yTPcSYX4RDZF8Kh1hDN7kFPyH51dFyjBucJJauHpBKIIHcBXJpDS/
-         S8Z4V6h2quZN/gip9KWO7zDa9onY24+9i0ylIoc+MD2zLri6C+vIBiabhxazoHKK59JX
-         STtg==
-X-Forwarded-Encrypted: i=1; AL+hErEs/gO2W+gdaXHKMLHSsaXv4bMeZvXrdtmBeHx8GAQfR+F7AY5H5VKx2pUdQKekdkr+WYU=@lists.linux.dev
-X-Gm-Message-State: APuU4Z8LOGBF1ED6CcMnjPLb8RdfbEJAFTBYc3TC26Ed/WWvAPUcP5NE
-	03tnQPLB80XhswivCTzWFXbmBsztLV9eyl4R9boArUsTa3mQaBJe/Lm9oTPtGg+HM+2uFsC1OWq
-	zbxPyrHSEaA==
-X-Received: from dydd12.prod.google.com ([2002:a05:693c:61cc:b0:385:900:c492])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:b594:b0:381:5fe2:8008
- with SMTP id 5a478bee46e88-38281eebbb1mr7411711eec.39.1795107874469; Thu, 19
- Nov 2026 09:04:34 -0800 (PST)
-Date: Thu, 19 Nov 2026 09:04:24 -0800
+        d=1e100.net; s=20260707; t=1795164495; x=1795769295;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nzwN7I5atRRGIeyKWGRRj5kf7A+6/JDlOIWENYlt34E=;
+        b=rdbGyNnc2h+4VICqA9RRnenFuzHAAE67EWx8MNRttsHhDE68ZuL6HI5xFLTVEPeehj
+         dCg8TCEH+Y5mPDpSQDvjFBNUhpyuDUQqahxHRUzwV7ykfdSrXwgGXZrFl2TsouCSDgCr
+         X9VeqEUdeC1b8fLRbJ7HT9P8NIXcoONY0lHqfTqvCtcSJkMC9/xseqxwi5HPT44F4o4V
+         NOGjvRkteNitzPu6zwB150NIjwY/uaaNFZ1IxM9ADzU6OkgqINtfrJq9hITMFrtjnvVi
+         5ayoSWrK/rMYoNatAlPz88AtxGnZ8aJWBW0w/7/NgTPk6dGhPFd++VfosORy6XT3dZi/
+         Ws3A==
+X-Forwarded-Encrypted: i=1; AL+hErGekvv7i8XR6VmadUirIpyMWywJf+NQuPPi8BfN0Wv5d6CUSy8LtV3UnBVH/J1LlW+SN6E=@lists.linux.dev
+X-Gm-Message-State: APuU4Z+meIVImzAdSqT+f/BW+J1CUYD+JgEeK/tqpjk/+wMhIAtv20du
+	v3Yx7FnZ1hZaSXBHgs4cgDTHb4K7iX9e9svFKQGs6gsMeaaRcHqC+k38ZeTqrjVNZvMZz1sQFMG
+	WngsaDC3vZaMJETIrJ+88Lmp8ytigNUw=
+X-Gm-Gg: AZFdTZd344aanzLtFr/rUY/IR2+CydFZsmzUOXykUSIWhv3K+OcGi5gFCm80d5fZfGf
+	JfvYsRciKJUT44PG+XzOjOQbmmy7+VEMN+90tkFayo6qGm9RRWPSXM5TW62W23GiTZVeG2XNOsL
+	joWw+sKcECGb1owHf2mC+swpa444OS2Ez8d818jrM7MN5In7fqkPsFVk8YUjbaqP1IHamMHPfaw
+	ltPH1HIMfWvMTAuwAjf24Grk2iWga+U5Dm2N2B10QvcU927GEmBP8ny+dX+iCaz9YTvecTqhSpO
+	TBXlHiFVNaQxL2JUf9dGcFeS2MtTek/6OBfihMjWhkPYpOHazG1svAJKB4vwHM9Qe17l0hR4fKv
+	lsR+/ETV0fzluwvcDPTRA94YGP4QXUOl5S3i0
+X-Received: by 2002:a05:690e:134a:b0:67d:c588:e563 with SMTP id
+ 956f58d0204a3-67df43ce393mr1241950d50.23.1795164495031; Fri, 20 Nov 2026
+ 00:48:15 -0800 (PST)
+Received: from 16659893159 named unknown by gmailapi.google.com with HTTPREST;
+ Fri, 20 Nov 2026 00:48:14 -0800
+From: Steve Meek <stevemeek82@gmail.com>
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -75,95 +103,129 @@ List-Subscribe: <mailto:mhi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
-Message-ID: <20261119170424.1512172-1-irogers@google.com>
-Subject: [PATCH] bus: mhi: host: Fix uninitialized status handling on BHI/BHIe
- read errors
-From: Ian Rogers <irogers@google.com>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, mhi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>, Ian Rogers <irogers@google.com>
+MIME-Version: 1.0
+Date: Fri, 20 Nov 2026 00:48:14 -0800
+X-Gm-Features: Aa3M54o4Xn00jWrzGntZB2_JEfjGjvq32pmj2DjG_uE_x2Fy5EbZhNSqDP66XzE
+Message-ID: <CAPzME4aUpO4foxtL7PpaHk=7dyz-qo1vxrbw=o=qEENEVj=Zqg@mail.gmail.com>
+Subject: [PATCH RESEND] bus: mhi: host: pci_generic: Disable doorbell burst
+ mode for Quectel RM500Q-AE
+To: Manivannan Sadhasivam <mani@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, mhi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-mhi_download_rddm_image(), mhi_fw_load_bhie(), and mhi_fw_load_bhi()
-poll BHI/BHIe status registers inside wait_event_timeout() using:
+With burst mode enabled on the IP_HW0_MBIM hardware channels, the
+RM500Q-AE downlink stops under sustained multi-stream load. The MHI
+state stays M0 and uplink keeps working, but the downlink event ring
+stops interrupting, and after a while the MBIM control channel times
+out as well. Only a reboot recovers it.
 
-  mhi_read_reg_field(..., &status) || status
+At the stall, the last doorbell the host rang on channel 101 covered a
+single buffer. The host then refilled the ring without ringing again,
+as db_mode had been cleared, and the device never signalled doorbell
+mode again, so it never saw the new buffers. Writing the channel 101
+doorbell by hand with the current ring write pointer restores the
+downlink immediately.
 
-When mhi_read_reg_field() returns a non-zero error code before ever
-writing *out, the short-circuit OR wakes wait_event_timeout() with a
-positive return value while leaving status uninitialized on the stack:
+It is load dependent: it reproduces within a 25 second 16-stream TCP
+download when the wwan0 receive work runs on the same CPU as the
+modem's MSI, and was not seen with that work moved to another CPU.
+PCIe runtime PM is not involved, as it reproduces with PCIe port PM
+disabled.
 
-- In mhi_fw_load_bhi(), only tx_status == BHI_STATUS_ERROR (0x3) is
-  treated as an error after wait_event_timeout(), so any register read
-  error where stack garbage is not 0x3 causes mhi_fw_load_bhi() to
-  return 0 (success) despite failing to read BHI_STATUS.
-- In mhi_download_rddm_image() and mhi_fw_load_bhie(), status is
-  compared against BHIE_*_STATUS_XFER_COMPL (0x2), reading uninitialized
-  stack memory if the first register read fails.
+Give the RM500Q-AE its own channel table with burst mode disabled on
+the two hardware channels, so the host rings the doorbell on every
+transfer. Other modems sharing the em1xx table are left unchanged.
 
-Initialize rx_status and tx_status to their *_RESET (0) constants and
-require tx_status == BHI_STATUS_SUCCESS after a non-timeout wakeup in
-mhi_fw_load_bhi() so register read failures reliably return -EIO while
-genuine timeouts still return -ETIMEDOUT.
+Tested on a Xunison Exigo Hub D50 5G (IPQ5018, RM500Q-AE firmware
+RM500QAEAAR13A03M4G, 6.18 with this driver): with the receive work on
+the modem's CPU at up to 100% load, about 200 seconds of multi-stream
+downloads at up to 135 Mbps, no stall and no MHI errors, where the
+unpatched driver stalled within the first 25 second run.
 
-Found by enabling Clang's -Wconditional-uninitialized on an x86_64
-allyesconfig build, with AI coding assistant help to audit the warning
-and prepare the fix. Build-tested with Clang; not runtime-tested on MHI
-hardware.
-
-Fixes: cd457afb1667 ("bus: mhi: core: Add support for downloading firmware over BHIe")
-Fixes: 6fdfdd27328c ("bus: mhi: core: Add support for downloading RDDM image during panic")
-Signed-off-by: Ian Rogers <irogers@google.com>
+Fixes: f6985f512f82 ("bus: mhi: host: pci_generic: Add Quectel
+RM500Q-AE support")
+Assisted-by: LLM
+Signed-off-by: Steve Meek <stevemeek82@gmail.com>
 ---
- drivers/bus/mhi/host/boot.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Hi Mani,
 
-diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-index 19c84913cfb9..439bc9d0797f 100644
---- a/drivers/bus/mhi/host/boot.c
-+++ b/drivers/bus/mhi/host/boot.c
-@@ -158,7 +158,7 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
- {
- 	void __iomem *base = mhi_cntrl->bhie;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
--	u32 rx_status;
-+	u32 rx_status = BHIE_RXVECSTATUS_STATUS_RESET;
- 
- 	if (in_panic)
- 		return __mhi_download_rddm_in_panic(mhi_cntrl);
-@@ -213,7 +213,7 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
- 	void __iomem *base = mhi_cntrl->bhie;
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
- 	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
--	u32 tx_status, sequence_id;
-+	u32 tx_status = BHIE_TXVECSTATUS_STATUS_RESET, sequence_id;
- 	int ret;
- 
- 	read_lock_bh(pm_lock);
-@@ -261,7 +261,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
- 	struct device *dev = &mhi_cntrl->mhi_dev->dev;
- 	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
- 	void __iomem *base = mhi_cntrl->bhi;
--	u32 tx_status, session_id;
-+	u32 tx_status = BHI_STATUS_RESET, session_id;
- 	int ret;
- 
- 	read_lock_bh(pm_lock);
-@@ -295,7 +295,10 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
- 		goto invalid_pm_state;
- 	}
- 
--	return (!ret) ? -ETIMEDOUT : 0;
-+	if (!ret)
-+		return -ETIMEDOUT;
+Resending as I haven't heard anything since 13 Oct. No changes, and it
+still applies cleanly to mainline.
+
+A follow-up to the RM500Q-AE support you applied on 11 Oct. Under heavy
+multi-stream download the modem's downlink stalls with burst mode on,
+and a manual doorbell write on channel 101 brings it straight back, so
+this turns burst mode off for the RM500Q-AE's two hardware channels
+only.
+
+The stall looks like a lost doorbell-mode handshake rather than
+anything board-specific, so it may affect other modems on the shared
+em1xx table under the same load. I've only got the RM500Q-AE to test
+on, so I've kept the change to that device. If you'd rather it were
+fixed in the core, I'm happy to send the traces from the stall.
+---
+ drivers/bus/mhi/host/pci_generic.c | 49 +++++++++++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 1 deletion(-)
+
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -470,10 +470,57 @@ static const struct mhi_pci_dev_info mhi
+ 	.sideband_wake = true,
+ };
+
++/*
++ * The RM500Q-AE stalls its downlink when the host refills the hardware
++ * channel in burst mode: the last doorbell covers one buffer, the host
++ * then queues the rest without ringing, and the device never signals
++ * doorbell mode again. Ring the doorbell on every transfer instead.
++ */
++#define MHI_CHANNEL_CONFIG_HW_NOBRST(ch_num, ch_name, el_count, ev_ring, d) \
++	{						\
++		.num = ch_num,				\
++		.name = ch_name,			\
++		.num_elements = el_count,		\
++		.event_ring = ev_ring,			\
++		.dir = d,				\
++		.ee_mask = BIT(MHI_EE_AMSS),		\
++		.pollcfg = 0,				\
++		.doorbell = MHI_DB_BRST_DISABLE,	\
++		.lpm_notify = false,			\
++		.offload_channel = false,		\
++		.doorbell_mode_switch = false,		\
++	}
 +
-+	return (tx_status == BHI_STATUS_SUCCESS) ? 0 : -EIO;
- 
- invalid_pm_state:
- 
--- 
-2.56.1.708.g77570a6a1d-goog
-
++static const struct mhi_channel_config mhi_quectel_rm500q_channels[] = {
++	MHI_CHANNEL_CONFIG_UL(0, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(1, "NMEA", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_SBL(2, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_SBL(3, "SAHARA", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(4, "DIAG", 32, 1),
++	MHI_CHANNEL_CONFIG_DL(5, "DIAG", 32, 1),
++	MHI_CHANNEL_CONFIG_UL(12, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(13, "MBIM", 32, 0),
++	MHI_CHANNEL_CONFIG_UL(32, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_DL(33, "DUN", 32, 0),
++	MHI_CHANNEL_CONFIG_UL_FP(34, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_DL_FP(35, "FIREHOSE", 32, 0),
++	MHI_CHANNEL_CONFIG_HW_NOBRST(100, "IP_HW0_MBIM", 128, 2, DMA_TO_DEVICE),
++	MHI_CHANNEL_CONFIG_HW_NOBRST(101, "IP_HW0_MBIM", 128, 3, DMA_FROM_DEVICE),
++};
++
++static const struct mhi_controller_config modem_quectel_rm500q_config = {
++	.max_channels = 128,
++	.timeout_ms = 20000,
++	.num_channels = ARRAY_SIZE(mhi_quectel_rm500q_channels),
++	.ch_cfg = mhi_quectel_rm500q_channels,
++	.num_events = ARRAY_SIZE(mhi_quectel_em1xx_events),
++	.event_cfg = mhi_quectel_em1xx_events,
++};
++
+ static const struct mhi_pci_dev_info mhi_quectel_rm500q_info = {
+ 	.name = "quectel-rm500q",
+ 	.edl = "qcom/sdx55m/edl.mbn",
+-	.config = &modem_quectel_em1xx_config,
++	.config = &modem_quectel_rm500q_config,
+ 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
+ 	.dma_data_width = 32,
+ 	.mru_default = 32768,
