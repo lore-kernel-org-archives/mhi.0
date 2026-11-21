@@ -1,79 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795235490;
-	b=PPepJadQE70MgUQFxXaTawrgEYsO1ytvHJPty5R2wY6tBAZ2/r8hZoPhe4nxLoS6GD4c
-	 HyffOwShMsfq/TWWmPpT4RGKRD8rTH4L/MXvlit9lcfsq6A3xOBsRUuGCKDKWutU1RVvc
-	 zmWW14g7UuLIYtukRL9wvhX/BZtcLRQ+Dm1zT4jmZPuTsrIZrGopx25VEX+3UlxjLmQm1
-	 507ACnbuULQ2ZKV+YpSqGowFJV3nGlll0cuygT4sl5nFDS05u44ZymRW92F01EJ0HZls8
-	 pZX/DMFPA/gCfk0IO58cZXWwr1jj5m4fBDaG10LqTp+Wtqi576j8iPt4C9riiEl2nRg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795235490;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NDGk6ILDCyHDNgYri/1MQaMsRnCxk5+Qhk6z2EMdnrk=;
-	b=HTj584PABnpQ/IyadBjn1gMVz+3LOeyiA36KwmyQbQmvus/6YUlEFmBt/frs53uyrsgI
-	 S/LZLbNnL2zEOdlB9eU2d7IHznqL3pATmyK5ZQFvXhQRw51Va+0YzlmWzJwVJOZV/U6sv
-	 pQ90ep6scZWN2smV8t19+N2cjJknACCWTtJfQOO1o0uqv1Qiv2lFwe5VQCVzkZcyMct/C
-	 267h+P0IiAG9eH5VaEgqWzu+TbS/8tMNRoqog9xgsy6ALA6kpUpnTxEJlKhm9iEZ5x9dc
-	 6BrhccSHX3mY0P9e4Cd77US2Dts7qUlyDad1D0mDLlbAAQBj4jbwh8WtB2Ytmz6Wjrg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iUQRVaUf;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3500C606A6A5;
-	Sat, 21 Nov 2026 04:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iUQRVaUf
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795235489;
-	b=RDAFpeKy9JmLZ6YJf1NrBvgllJ7vq07sCvN1/5U2DuujImY3I7rQI5ml2n9EEbNG8jM/
-	 yroUzV/reoAtRxc4DHV3BLsOKDR0+YQsjsxtXld8ikv6Wa04r2ksztupVUtIMIpujViuT
-	 PbZKZb6+a0d7P6TAqX/xsagYjX2clnJ91OMx9+YKwrjTlPsTKA2SL96EhKuWv+CO/tMRy
-	 bAAEBga7OdUq2d8foGKElijK6lGAFGN7IIpsVemHiXbxLf0t97ezwW0EPNeGbwDVLX3II
-	 rlT03AI9frl62BMR2lhWdFwd2LsHuVQPR1My02tatpKt7H2NZmoGZzI5KUR2CniK4cg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795235489;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NDGk6ILDCyHDNgYri/1MQaMsRnCxk5+Qhk6z2EMdnrk=;
-	b=mQvUqEbAwbXhFctyUuZNHNN5dbcHsYCeDmfeslZhlK8vbMD09SfAsXDzW4xgm7aKagY/
-	 jSbpBmYe63A6avQu/tMu/O2SZiYMg628LoWjAun7U9x8yJPp8e9H9xrRTu+b9skZTC+4U
-	 ZZlJuN/bVZJW1YXijw6gif1uYzS1Sx2SL9KT3NAOvF1aShVCI6LYeWhW+OvMUTx2jFFlx
-	 Qu5zCJn7/D/c2QDD0a8iXbB9ZOIx4RSeaICUcEP6P8jdyJn2laBOIIH2qg5woFFds76yP
-	 af+JYB2H1SxdfHtxdTl+RvB9GcCLHdjFdtNPn4s9pWE1QKrnCWdJsgimwVwc9j8dR/w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795245006;
+	b=BpnRxH1hoqwMFEjDhchaS1iiPij21H+BhERgaELXbDiKgZeg4W4y/51/Zmflu/RQNvLD
+	 kS2EIUzVSseI3yBuCUtiu1GhYDhsqoX7VuBjRbUb0zK2RnZvzP/4+jpUY43PGKir6Omsq
+	 wPPsUp6AyIIxbjB5hYErWvgPP0jtK//3fYLScORzzAZ9vK5Qt4XpnVvT9gaU2HZcx/sN/
+	 aStv9El1gemkwuc9wTtCzosoWSaJ5akXFpgDrNZNi0LjI7UTPS+CfJERcNVUeF/4A71Ys
+	 WI75DIezOi4eojsmGERzlH/16QtHlCNiXgfynjD+cL4lvsVea10Q/h+Ctvjd2iEhVEQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795245006;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Originating-IP:Date:From:To:
+	 Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:X-NTES-SC:
+	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=l9jASBEgotthRLTerUHgx8TWO42Ho+1jhMVptJyT9KQ=;
+	b=Nv87bKEouIHReZDU/glKzk5aTEXEQmJlcM3tkzFTJr5XowfyV6SttP1+BgEe3AJoWQ4P
+	 yPy/s/VoRLGOiYglit7FDf2i386PiD6y5V09B5oPfEkiffJ8vSJffecrCS4EEDZtolbaZ
+	 U7UL20KFDXCDGNYm93BapHT41x5pOqqf5E92OMUWMizrXSnE2/vhTSvuMBjyhCsCIS7uS
+	 35Zz10o9LR10zziPjhzw1o6qsUwTGtofjUtI8E8GfZOBRdx/PTtCRGp9ijw86EHfzoLKt
+	 Y4EiK0P6gyaBZjN8UZK+U7yJPayVUpsGAJCLzANFml79g3yPFbXZ2mj9oEAzS2hVu/w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Zv88Z9lO;
+	arc=none smtp.remote-ip=220.197.31.5
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 372DA1F000C4;
-	Sat, 21 Nov 2026 04:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795235489;
-	bh=NDGk6ILDCyHDNgYri/1MQaMsRnCxk5+Qhk6z2EMdnrk=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=iUQRVaUffpnXfPJfxM7atvKBYCBHwONMSQQp1PGx5oTh8jDsZu1ggzp7YNNgMTySX
-	 /4ABKmDJoRKwoosvIRknfFOJdCdLcJesDJetcNSATG3zSE3VSKTeaUSmemzAlPFyxH
-	 F/WdPuK7MJBauyC+XWWpDTvsfA80rHCWw2rKlflYKzUo5FKh3ytzzij7LvxyW7HAu/
-	 F2Mw8tbPEmum9Mz+IpcWmohYrHUnxDvZbMmgQ+a0N7yWWpOhFVz/uFMdD3zVGpyWnM
-	 HCg5IUD3m1yEt1dgufg7DaMGZE3RFXJvStIbZco0uywr3KFBnZCh2UZIr4tRnd3FS2
-	 35Xpvx+z9E+mA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 826324BAF1;
-	Sat, 21 Nov 2026 04:31:28 +0000 (UTC)
-From: Haipeng Lin via B4 Relay <devnull+jimmie.lin.gmail.com@kernel.org>
-Date: Fri, 20 Nov 2026 23:30:54 -0500
-Subject: [PATCH v3] bus: mhi: host: pci_generic: Add MBIM-mode config for
- generic SDX65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1A3606A320
+	for <mhi@lists.linux.dev>; Sat, 21 Nov 2026 07:10:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A1A3606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Zv88Z9lO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=l9jASBEgotthRLTerUHgx8TWO42Ho+1jhMVptJyT9KQ=; b=Z
+	v88Z9lOHRw2bkzePkFIln61pf4ybYfGHwE+EgQlFGYlZ5J/bYMwb6G0CazaVZgb6
+	hPRNs8GLnEGWJPs2s1vzGXlaanOWYJfuRPrTCg4VapPSVUYPTYBf8rvQ+F7fQYxM
+	Qgz3rfr3eU+bImWp9GyyYjLropg2G1QHrIhsdCYYV0=
+Received: from slark_xiao$163.com (
+ [2408:8459:3c50:9f35:fc69:5c53:4489:28a4] ) by ajax-webmail-wmsvr-40-123
+ (Coremail) ; Sat, 21 Nov 2026 15:09:43 +0800 (CST)
+Date: Sat, 21 Nov 2026 15:09:43 +0800 (CST)
+From: "Slark Xiao" <slark_xiao@163.com>
+To: "Jeff Hugo" <jeff.hugo@oss.qualcomm.com>
+Cc: mani@kernel.org, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re:Re: [PATCH] bus: mhi: host: Only expose controller sysfs
+ attributes on the controller device
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <ca6de262-80e3-4c38-8f3c-122712d3f54d@oss.qualcomm.com>
+References: <20261111115659.11943-1-slark_xiao@163.com>
+ <826c1746-137b-4a5a-968e-8e0449a25e78@oss.qualcomm.com>
+ <3cb75687.54e4.1a1ed794488.Coremail.slark_xiao@163.com>
+ <ca6de262-80e3-4c38-8f3c-122712d3f54d@oss.qualcomm.com>
+X-NTES-SC: AL_Qu2SB/6fu0Ej5SaYZukckk4WhuY7WcOyuPkg2YZSc8gEvirO/xonfGJYDUvy7c+/BQ+RrhuIeRxKzcRzcaZZKDZMTi80Efs7q4f01oQEZg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -83,166 +70,89 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-mhi-sdx65-mbim-rfc-v3-1-20741d24da0c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NTQ6CMBCG4auQrh3TKQLFlfcwLvoHTGLBtKbBE
- O5uYWNMjMv3S+aZhUUXyEV2LhYWXKJI05ijPBTMDGrsHZDNzQQXNXJE8ANBtHNdgdfkIXQGpDJ
- SK26bRiqWDx/BdTTv6PWWe6D4nMJr/5FwW/9yCQFBctnqky1LW+lL7xXdj2bybOOS+BCI/CchM
- tGhbVBVyrTqi1jX9Q0TJKFs9wAAAA==
-X-Change-ID: 20261011-mhi-sdx65-mbim-rfc-8ac8ba0d778a
-To: Manivannan Sadhasivam <mani@kernel.org>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, daleyo@gmail.com, 
- Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org, 
- Haipeng Lin <jimmie.lin@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795235487; l=5133;
- i=jimmie.lin@gmail.com; s=20261011; h=from:subject:message-id;
- bh=6qEhayVyUMduqrYRZdyaVcdgAqFbrpWlcIPHaQarGjA=;
- b=CrJJ5ZywjFK3X/Wtr7iQ3v4P+75Fo2r7ASY4c49UU3U36L88N90G74rOl8KikUc8ZxEmZ7TjL
- acpD9B1hL21CKDtv4MO9XE+StDrk6nBzy23E+xdC4g1w4CEHXJEs/+T
-X-Developer-Key: i=jimmie.lin@gmail.com; a=ed25519;
- pk=3KDRF1RQ/9A7ZUVTdRVEZnVrGltdmq1bRocsOYeXezI=
-X-Endpoint-Received: by B4 Relay for jimmie.lin@gmail.com/20261011 with
- auth_id=1164
-X-Original-From: Haipeng Lin <jimmie.lin@gmail.com>
-Reply-To: jimmie.lin@gmail.com
-Content-Transfer-Encoding: 7bit
+Message-ID: <c12e013.1776.1a1fcf0853d.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:eygvCgD3x263QwFrbpNyAA--.102W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbC6BcZfWsBQ7cKXQAA3S
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-From: Haipeng Lin <jimmie.lin@gmail.com>
-
-The Surface Pro 11 5G carries an SDX65 that enumerates with Qualcomm's
-generic IDs (17cb:0308, subsystem 17cb:0308) but runs the MBIM-mode
-firmware it ships with for Windows.
-
-Control is MBIM only (the QMI channel never answers), and data on
-channels 100/101 is framed as MBIM NTBs: the modem reports a WDA data
-format of raw IP with MBIM aggregation, up to 32 KiB downlink.
-
-The generic qcom-sdx65m entry names channels 100/101 "IP_HW0", which
-binds mhi_net. mhi_net expects raw IP, so no data session can work.
-The MBIM-mode modules in this driver name them "IP_HW0_MBIM" instead
-which binds mhi_wwan_mbim.
-
-Boards with a Qualcomm-ID modem in MBIM mode have so far been told
-apart by subsystem ID, like the SC8280XP CRD's SDX55 (17cb:010c).
-This modem carries the generic subsystem ID, so select an MBIM
-configuration by machine compatible instead.
-
-There is no known way to query the modem for MIBM mode before the
-channels are set up. As a limitation, a separate SDX65 using generic
-IDs on a matching machine (e.g., via USB4 PCIe tunneling) would also
-get the MBIM config.
-
-Like the SC8280XP CRD entry, reuse the Foxconn SDX55 channel config
-which works with this firmware. The MRU is 32 KiB to match the
-modem's downlink aggregation size.
-
-Tested on a Surface Pro 11 5G (Surface_Pro_with_5G_11th_Edition_2077,
-modem firmware 251216-DE-dc49bb9-00197) on a v7.2.11-based kernel:
-ModemManager registers the modem on wwan0mbim0, uses wwan0 for data and
-wwan0at0 for AT commands, and connects over LTE and 5G NR.
-
-Signed-off-by: Haipeng Lin <jimmie.lin@gmail.com>
----
-Hi Mani and Jeff,
-
-Dropping the RFC prefix and resending for your consideration.
-
-A known limitation to this patch as raised by Jeff in RFC v2 was that a
-SDX65 dongle would also match to MBIM-mode by this. A bigger patch
-could be adding a property on the PCIe endpoint's DT node. Please let
-me know if machine-compatible matching is acceptable, happy to try
-other approaches.
-
-LLM was used to draft the MBIM configuration patch and assisted with
-testing on device.
-
-Thanks,
----
-Changes in v3:
-- Drop RFC prefix
-- No code changes
-- Commit message updated to note limitation for SDX65 dongles on
-  matching machines as raised by Jeff Hugo.
-- OEM PK hash method ruled out in discussion: https://lore.kernel.org/all/088d0be9-5d45-4454-b160-efff83e7a647@oss.qualcomm.com
-- Dropped Assisted-by trailer and clarified in cover letter per 7.4 guidance.
-- Link to v2: https://lore.kernel.org/r/20261110-mhi-sdx65-mbim-rfc-v2-1-f1d71a5ac9ab@gmail.com
-
-Changes in v2:
-- Reuse modem_foxconn_sdx55_config instead of adding a channel table.
-  This adds the DUN channel (tested: answers AT commands) and drops
-  IPCR which is unused by the Surface Pro 11.
-- Link to v1: https://lore.kernel.org/r/20261011-mhi-sdx65-mbim-rfc-v1-1-8089b4d33d5b@gmail.com
----
- drivers/bus/mhi/host/pci_generic.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 7193a384cca4..29b275572603 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -12,6 +12,7 @@
- #include <linux/device.h>
- #include <linux/mhi.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/timer.h>
-@@ -582,6 +583,34 @@ static const struct mhi_pci_dev_info mhi_foxconn_sdx55_info = {
- 	.sideband_wake = false,
- };
- 
-+/*
-+ * Some machines have an SDX65 with the generic Qualcomm IDs
-+ * (17cb:0308, subsystem 17cb:0308) running MBIM-mode firmware
-+ * they ship with for Windows.
-+ * The exact channel configuration is not known but the Foxconn SDX55
-+ * configuration works with this firmware.
-+ */
-+static const struct mhi_pci_dev_info mhi_qcom_sdx65_mbim_info = {
-+	.name = "qcom-sdx65m-mbim",
-+	.fw = "qcom/sdx65m/xbl.elf",
-+	.edl = "qcom/sdx65m/edl.mbn",
-+	.edl_trigger = true,
-+	.config = &modem_foxconn_sdx55_config,
-+	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
-+	.dma_data_width = 32,
-+	.mru_default = 32768,
-+	.sideband_wake = false,
-+};
-+
-+/*
-+ * The PCI IDs cannot tell these modems apart from QMI-mode modules,
-+ * so match the machine instead.
-+ */
-+static const char *const mhi_qcom_sdx65_mbim_machines[] = {
-+	"microsoft,denali",
-+	NULL
-+};
-+
- static const struct mhi_pci_dev_info mhi_foxconn_t99w175_info = {
- 	.name = "foxconn-t99w175",
- 	.edl = "qcom/sdx55m/foxconn/prog_firehose_sdx55.mbn",
-@@ -1389,6 +1418,10 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	unsigned int dma_data_width;
- 	int err;
- 
-+	if (info == &mhi_qcom_sdx65_info &&
-+	    of_machine_compatible_match(mhi_qcom_sdx65_mbim_machines))
-+		info = &mhi_qcom_sdx65_mbim_info;
-+
- 	dev_info(&pdev->dev, "MHI PCI device found: %s\n", info->name);
- 
- 	/* mhi_pdev.mhi_cntrl must be zero-initialized */
-
----
-base-commit: 0b1883ca75c0005ab5ca52c7bc1a26329bc39746
-change-id: 20261011-mhi-sdx65-mbim-rfc-8ac8ba0d778a
-
-Best regards,
--- 
-Haipeng Lin <jimmie.lin@gmail.com>
-
-
+CkF0IDIwMjYtMTEtMjEgMDA6NDU6MzAsICJKZWZmIEh1Z28iIDxqZWZmLmh1Z29Ab3NzLnF1YWxj
+b21tLmNvbT4gd3JvdGU6Cj5PbiAxMS8xOC8yMDI2IDEyOjA1IEFNLCBTbGFyayBYaWFvIHdyb3Rl
+Ogo+PiAKPj4gQXQgMjAyNi0xMS0xNCAwMjo0Mjo0NiwgIkplZmYgSHVnbyIgPGplZmYuaHVnb0Bv
+c3MucXVhbGNvbW0uY29tPiB3cm90ZToKPj4+IE9uIDExLzExLzIwMjYgNDo1NiBBTSwgU2xhcmsg
+WGlhbyB3cm90ZToKPj4+PiBUaGUgc2VyaWFsX251bWJlciwgb2VtX3BrX2hhc2ggYW5kIHNvY19y
+ZXNldCBhdHRyaWJ1dGVzIGFyZSByZWdpc3RlcmVkCj4+Pj4gdGhyb3VnaCBtaGlfYnVzX3R5cGUu
+ZGV2X2dyb3Vwcywgc28gdGhlIGRyaXZlciBjb3JlIGNyZWF0ZXMgdGhlbSBmb3IKPj4+PiBldmVy
+eSBkZXZpY2Ugb24gdGhlIE1ISSBidXMuICBNSEkgY2xpZW50IGRldmljZXMgKHRoZSBwZXItY2hh
+bm5lbAo+Pj4+IGRldmljZXMgc3VjaCBhcyBtaGkwX0RVTiBvciBtaGkwX01CSU0pIGFyZSBhbHNv
+IE1ISSBidXMgZGV2aWNlcywgc28KPj4+PiBlYWNoIG9mIHRoZW0gZW5kcyB1cCB3aXRoIGl0cyBv
+d24gY29waWVzIG9mIHRoZXNlIGZpbGVzIGV2ZW4gdGhvdWdoCj4+Pj4gdGhleSBhbGwgb3BlcmF0
+ZSBvbiB0aGUgc2FtZSBtaGlfY29udHJvbGxlcjoKPj4+Pgo+Pj4+ICAgICAkIGxzIC9zeXMvYnVz
+L21oaS9kZXZpY2VzL21oaTBfRFVOLwo+Pj4+ICAgICBkcml2ZXIgIG9lbV9wa19oYXNoICBwb3dl
+ciAgc2VyaWFsX251bWJlciAgc29jX3Jlc2V0ICBzdWJzeXN0ZW0gIHVldmVudAo+Pj4+Cj4+Pj4g
+VGhpcyBpcyB3cm9uZyBmb3Igc2V2ZXJhbCByZWFzb25zOgo+Pj4+Cj4+Pj4gICAgIC0gVGhlIGF0
+dHJpYnV0ZXMgZGVzY3JpYmUgdGhlIGNvbnRyb2xsZXIsIG5vdCB0aGUgY2hhbm5lbC4gIFRoZWly
+Cj4+Pj4gICAgICAgY2FsbGJhY2tzIGFsbCBkZXJlZmVyZW5jZSBtaGlfZGV2LT5taGlfY250cmwg
+YW5kIHJlYWQgQkhJIHJlZ2lzdGVycwo+Pj4+ICAgICAgIG9yIGlzc3VlIGEgY29udHJvbGxlci13
+aWRlIFNvQyByZXNldCwgc28gd3JpdGluZyBzb2NfcmVzZXQgdGhyb3VnaAo+Pj4+ICAgICAgIG1o
+aTBfRFVOIHJlc2V0cyB0aGUgd2hvbGUgZGV2aWNlIHdoaWxlIGxvb2tpbmcgbGlrZSBhIHBlci1j
+aGFubmVsCj4+Pj4gICAgICAgb3BlcmF0aW9uLgo+Pj4+ICAgICAtIG9lbV9wa19oYXNoIHJlcG9y
+dHMgZmFpbHVyZXMgd2l0aCBkZXZfZXJyKGRldiwgLi4uKSwgc28gYSBzaW5nbGUKPj4+PiAgICAg
+ICBmYWlsaW5nIGNvbnRyb2xsZXIgcHJvZHVjZXMgb25lIGxvZyBsaW5lIHBlciByZWdpc3RlcmVk
+IGNoYW5uZWwKPj4+PiAgICAgICBkZXZpY2UgaW5zdGVhZCBvZiBvbmUuCj4+Pj4gICAgIC0gVXNl
+cnNwYWNlIGhhcyBubyB3YXkgdG8gdGVsbCB3aGljaCBjb3B5IGlzIGF1dGhvcml0YXRpdmUuCj4+
+Pj4KPj4+PiBNb3ZlIHRoZSBhdHRyaWJ1dGVzIG9mZiB0aGUgYnVzIGFuZCBhdHRhY2ggdGhlbSB0
+byB0aGUgY29udHJvbGxlcgo+Pj4+IGRldmljZSBvbmx5LiAgbWhpX3JlZ2lzdGVyX2NvbnRyb2xs
+ZXIoKSBub3cgaW5zdGFsbHMgdGhlIGdyb3VwIHZpYQo+Pj4+IG1oaV9kZXYtPmRldi5ncm91cHMg
+YmVmb3JlIGRldmljZV9hZGQoKSwgd2hpbGUgdGhlIGNoYW5uZWwgZGV2aWNlcwo+Pj4+IGNyZWF0
+ZWQgYnkgbWhpX2NyZWF0ZV9kZXZpY2VzKCkgYXJlIGxlZnQgdW50b3VjaGVkLiAgTm8gZnVuY3Rp
+b25hbAo+Pj4+IGNoYW5nZSBmb3IgdGhlIGNvbnRyb2xsZXIgZGV2aWNlOyB0aGUgZmlsZXMgc3Rh
+eSBhdCB0aGUgcGF0aHMgbGlzdGVkCj4+Pj4gaW4gRG9jdW1lbnRhdGlvbi9BQkkvc3RhYmxlL3N5
+c2ZzLWJ1cy1taGkuCj4+Pj4KPj4+PiBOb3RlIHRoYXQgdHJpZ2dlcl9lZGwgd2FzIGFscmVhZHkg
+aGFuZGxlZCB0aGlzIHdheSwgdGhyb3VnaCBhbiBleHBsaWNpdAo+Pj4+IHN5c2ZzX2NyZWF0ZV9m
+aWxlKCkgb24gdGhlIGNvbnRyb2xsZXIga29iamVjdCwgd2hpY2ggaXMgd2h5IGl0IG5ldmVyCj4+
+Pj4gYXBwZWFyZWQgb24gdGhlIGNoYW5uZWwgZGV2aWNlcy4KPj4+IEkgYWdyZWUgd2l0aCB0aGUg
+cmF0aW9uYWxlLCBidXQgdGhpcyBkb2VzIGFwcGVhciB0byBjaGFuZ2UgdUFQSS4gQXJlIHlvdQo+
+Pj4gc3VyZSBubyBvbmUgaXMgdXNpbmcgdGhlc2Ugb24gdGhlIGNoYW5uZWwgZGV2aWNlcz8KPj4+
+Cj4+PiAtSmVmZgo+PiBIaSBKZWZmLAo+PiBGb3Igb2VtX3BrX2hhc2ggYW5kIHNlcmlhbF9udW1i
+ZXIsIGFsbCBpbnRlcmZhY2UgcmV0dXJucyBzYW1lIHZhbHVlLgo+PiBJIHRoaW5rIHRoZXJlIGlz
+IG5vIG5lZWQgdG8ga2VlcCB0aGVzZSBpbnRlcmZhY2VzIHVuZGVyIHRoZSBjaGFubmVsCj4+IGRl
+dmljZXMuCj4+IAo+PiBGb3Igc29jX3Jlc2V0LCBpdCB3cml0ZSB0aGUgcmVnaXN0ZXIgZGlyZWN0
+bHkgYW5kIGl0IHdvcmtzIGZvciB0aGUgZW50aXJlCj4+IGRldmljZSByYXRoZXIgdGhhbiBhIHNp
+bmdsZSBjaGFubmVsLgo+PiAKPj4gU28gSSB0aGluayB0aGVyZSBpcyBubyBwcm9ibGVtIHRvIHJl
+bW92ZSB0aGVtLgo+Cj5UaGVzZSBhcmUgdUFQSS4gVGhlIGdvbGRlbiBydWxlIG9mIHRoZSBrZXJu
+ZWwgaXMgdGhhdCB3ZSBkbyBub3QgYnJlYWsgCj51c2Vyc3BhY2UuIEl0IGRvZXMgbm90IG1hdHRl
+ciB0aGF0IHRoZWlyIGV4aXN0ZW5jZSBpcyBhICJidWciLCBpZiB0aGVyZSAKPmlzIHVzZXJzcGFj
+ZSB1c2luZyB0aGVtLCB0aGVuIHdlIG11c3Qga2VlcCB0aGVtLgo+Cj5JIGNvdWxkIGFncmVlIHdp
+dGggeW91IGFzc2Vzc21lbnQgdGhhdCBoYXZpbmcgdGhlc2UgaXRlbXMgb24gdGhlIGNoYW5uZWwg
+Cj5kZXZpY2UgaXMgYSBtaXN0YWtlIChhbmQgSSBkbyksIGJ1dCB0aGF0IGRvZXMgbm90IGNoYW5n
+ZSB0aGUgcnVsZS4KPgo+U28gZmFyIHlvdSBoYXZlIG5vdCBwcm92aWRlZCBhbnkgZGF0YSB0byBz
+YXkgdGhhdCB1c2Vyc3BhY2UgaXMgaW4gZmFjdCAKPm5vdCB1c2luZyB0aGVzZSwgYW5kIHRoZXJl
+Zm9yZSByZW1vdmluZyB0aGVtIHdvdWxkIGhhdmUgbm8gaW1wYWN0Lgo+Cj5XaXRob3V0IHRoYXQg
+YW5hbHlzaXMsIEkgYW0gc29ycnkgdG8gc2F5IEkgYW0gdW5jb21mb3J0YWJsZSBwcm9jZWVkaW5n
+IAo+d2l0aCB0aGlzIGNoYW5nZS4gIE1hbmkgaXMgZnJlZSB0byBpZ25vcmUgbXkgY29uY2VybnMg
+YW5kIGFwcGx5IHRoaXMgCj5wYXRjaCBhdCBoaXMgb3duIHJpc2suCj4KPi1KZWZmCkhpIEplZmYs
+CkkgdW5kZXJzdGFuZCB5b3VyIGNvbmNlcm5zLiBXZSBtdXN0IGVuc3VyZSB0aGF0IGludHJvZHVj
+aW5nCm1vZGlmaWNhdGlvbnMgZG9lcyBub3QgbGVhZCB0byBhbnkgdW5pbnRlbmRlZCBzaWRlIGVm
+ZmVjdHMuCgpJIGNoZWNrZWQgdGhlIGltcG9ydCBoaXN0b3J5IGFuZCBmb3VuZCB0aGF0IGJvdGgg
+c2VyaWFsX251bWJlcgphbmQgb2VtX3BrX2hhc2ggd2VyZSBhZGRlZCBieSBNciBCSEFVTUlLIEJo
+YXR0IGluIGNvbW1pdAoiMjFjYjliMThlZGVhIGJ1czogbWhpOiBob3N0OiBjb3JlOiBJbnRyb2R1
+Y2Ugc3lzZnNlbnRyaWVzIGZvciBNSEkgIi4KVGhlIGNvbW1lbnQgYXMgYmVsb3c6CiJPRU1zIG5l
+ZWQgdG8gcmVhZCB0aGVzZSBkZXZpY2Utc3BlY2lmaWMgaGFyZHdhcmUgaW5mb3JtYXRpb24gdmFs
+dWVzCnRocm91Z2ggdXNlcnNwYWNlIGZvciBmYWN0b3J5IHRlc3RpbmcgcHVycG9zZXMiCgpBY3R1
+YWxseSBJIGhhdmUgdG8gc2F5IHdlIGRvbid0IGhhdmUgc3VjaCBhIGZhY3RvcnkgcmVxdWlyZW1l
+bnQgZm9yIAp0aGVzZSAyIEFQSXMgZm9yICBhbGwgIEZveGNvbm4gTUhJIGRldmljZXMuIAoKQW5k
+LCB3ZSBjYW4gc2VlIHRoZSAiV2hhdCIgZnJvbSB0aGUgRG9jdW1lbnQvQUJJL3N0YWJsZS9zeXNm
+cy1idXMtbWhpOgovc3lzL2J1cy9taGkvZGV2aWNlcy8uLi4vc2VyaWFsbnVtYmVyCi9zeXMvYnVz
+L21oaS9kZXZpY2VzLy4uLi9vZW1fcGtfaGFzaAovc3lzL2J1cy9taGkvZGV2aWNlcy8uLi4vc29j
+X3Jlc2V0CgpJIGJlbGlldmUgdGhlIGZvcm1hbCBtZWFuaW5nIHJlcHJlc2VudGVkIGJ5IHRoaXMg
+cGF0aCBpcwogL3N5cy9idXMvbWhpL2RldmljZXMvbWhpMC9bVEFSR0VUIFNZU0ZTXSBvciAKL3N5
+cy9idXMvbWhpL2RldmljZXMvbWhpMS9bVEFSR0VUIFNZU0ZTXS4gQnV0IG5vdCAgCi9zeXMvYnVz
+L21oaS9kZXZpY2VzL21oaTAvbWhpMF9EVU4vW1RBUkdFVCBTWVNGU10gb3IKIC9zeXMvYnVzL21o
+aS9kZXZpY2VzL21oaTAvbWhpMF9ESUFHL1tUQVJHRVQgU1lTRlNdLgoKVGhlc2UgNCBBUElzIG9u
+bHkgc29jX3Jlc2V0IGFuZCB0cmlnZ2VyX2VkbCB3b3VsZCBiZSB1c2VkCmluIGRhaWx5IGRldmVs
+b3BtZW50IG9yIHVzYWdlLgoKSW4gb3VyIGxvY2FsLCB0aGUgZnJlcXVlbmN5IHNoYWxsIGJlOgp0
+cmlnZ2VyX2VkbCAobm9ybWFsKSA+IHNvY19yZXNldCggcmFyZSkgPiBzZXJpYWwgbnVtYmVyPW9l
+bV9wa19oYXNoKGFsbW9zdCBuZXZlcikKCkhvcGUgdGhpcyAgZXhwbGFuYXRpb24gaGVscHMgeW91
+IHVuZGVyc3RhbmQgdGhpcyBpc3N1ZSBmcm9tCnRoZSBkZXZlbG9wZXIncyBwZXJzcGVjdGl2ZSBh
+bmQgb3VyIGFjdHVhbCBuZWVkcy4KClRoYW5rcy4gCg==
