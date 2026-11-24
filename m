@@ -1,62 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795521346;
-	b=VB9XzBez+NXkjA22WbMv16AIgrFHwNaLAWqFh2dvAIuQiNVNupeAYfVQLG+UznDI8AtL
-	 RQmBHRUbc/18VzsqV712AZgIaHSj7dMtce2S7lwtj6a3AxdpUBdUVNZrOgap8QYpCozp8
-	 WNfnJwj3ynQXYKX1LesO9cW6Dr0ICdUdUvnpwBgE+lKPPezRkN2VxJtfa5MGA6LW2f+aT
-	 OmK+OcgqD+YpsVaRGr4GLij45Y+xgr7m12UAOV6D9uwc5+A9Ik/5gkU045rzxSxL27aIc
-	 9xOX2zXIZlyEnNDxXqeLkEkNrhRBOlLezzuxbQvyjX3vkShnqewQP/VRhn59lM1nZpg==
+	t=1795524254;
+	b=5QyTK9WS6PK258f41Uct4D6FDs7NX0ikEGeOk8u1RBNCqrBKr8WEqPCfZaYHAlmBt+gZ
+	 PFVtWk/hdHD8NeIxNBvMQCURtujAfNahRbMiQsF7C7crufjIK+YNCx9aJymbXS/7kF4l0
+	 dsyVZw64Op8XVpYRZ2FyiJC9tYJ9Td5dlGmn8q92AMuxPI17Z/u2Ytrgji4ScPAsyOBR1
+	 x1WB+GCFFJr0C9wAenkRnfq3/y+ayU8szJKjKpZqPd5iSUE7OYUy140FV3AiQwIyJITH0
+	 sYPnaejJKyW7UfkEyDdx+9aXN1io5HIYSP9kYU0BQ3u+C2oqpO9CObr2z/Wa7y+1ZJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795521346;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=4HTwRWqbM70XYtMlJYsM6u0BJiYAm/FhoEYk0YtAz+4=;
-	b=KzGqFyKQtSidzL5gPmXHvoyqgLY7hZ5SGfnXq9Y1mJInNwV6a9M2mfpFEr0onC/LG2C7
-	 ygMXHG9PaW6xyVtgDqQ/6vGCkwwXHw7+AepqhOmsQTWfBHMqy7+nF4OpkACnKYL81MbLU
-	 zAoaD5Gu+Gmo2cUl+t0Ieq5G3c2+ZwgfamxoRHHNpVagn3/rklc214RC2rJIKECIA9L9f
-	 SLoFyu4pcL24SSYCJUhpBtP826H1klDSFnOSMeZQ85AkKfZKa5HLVkAOXnmmUo8rWbW9m
-	 I4HJCOXaMDK7evDcqLV59+M4LgdFZE7fCKTq1BrqUe8ElWkotkCAMUTz0WipH0vh+8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795524254;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=N3NTmfX35b2vV6UrMxA0DBPxvecP96wM7O5DoxJIPqY=;
+	b=X73p5O2gn8Fb+Wb3OxmlaQy+pv4Oa/sGLd42tgSrZvj87ICUB9HZNYpLe94WRs9AGgOx
+	 TMDZgjz0sWlkWUpgNuyy4gVrsy+7La6NIgEgk4xkxXtbYgLEtrcEzioMMe6v5O35e9GB0
+	 wJa7HV79Dq8se7wLi9+HVte7SNYn4OKz5qEntHzX2Ux24mnzv2SPU5MlnQVLm9Axe2KLt
+	 2PvgDEcCAI+V3VZJpy5P8Z+dmA+3Bv5zf6TUM9A4uS1olAkymjXI8WiHASADtf5VedMPh
+	 wXb+C4eFUzS2CsV9emiBLiYomSkSH+WvXJ81fRRgID7mo92a2KEOgVWlT5N1GLAighw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMzbSXUe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=l4dtxQ4R;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FE606A31E;
-	Tue, 24 Nov 2026 11:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5D1606A322
+	for <mhi@lists.linux.dev>; Tue, 24 Nov 2026 12:44:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA5D1606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gMzbSXUe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D31C01F000E6;
-	Tue, 24 Nov 2026 11:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795521345;
-	bh=4HTwRWqbM70XYtMlJYsM6u0BJiYAm/FhoEYk0YtAz+4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gMzbSXUeIUourPRc9dz3TnOQRbb3hJm90nKoG3gu0AAKKA5Nx1PHG6Wxzlbdd10ot
-	 TJr5xecfGLlBr38FE8yLz679Zz4wCBBDblz0I41sB10uiSVH3QWPOTghPoV6CWBPYc
-	 oR+EeWTAUHTlZW2J3igUdHJG1sZxEvUNNrzGZ+N/onqUFSugCMp7PuzMtY0RwA4V3b
-	 11su2l7YC8OMRVGG39+tYWues7Rm0u1EyG3jRQZBe74bRxmSFgxgC54e/B71Jy5r6X
-	 ng9q4VtbjbNsGptvkIFmpNLQW+eGoKypkfX4mf1/DCpOYng063xwQYNKbmD1o0Ojnu
-	 gXcDj6DIeI9hA==
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Koichiro Den <den@valinux.co.jp>, 
- Niklas Cassel <cassel@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Christian Bruel <christian.bruel@foss.st.com>, mhi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Frank.Li@oss.nxp.com
-Cc: imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-In-Reply-To: <20261104150202.3224971-1-Frank.Li@oss.nxp.com>
-References: <20261104150202.3224971-1-Frank.Li@oss.nxp.com>
-Subject: Re: [PATCH v2 1/1] PCI: Replace chan->device->dev with
- dmaengine_get_provider_device()
-Message-Id: <179552134048.34743.15590809786331346234.b4-ty@b4>
-Date: Tue, 24 Nov 2026 12:55:40 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=l4dtxQ4R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=N3
+	NTmfX35b2vV6UrMxA0DBPxvecP96wM7O5DoxJIPqY=; b=l4dtxQ4RqQ/yceEb/K
+	yIFCu72UhYrVxChs+mcZUOBVlFkrMejN174rUcGCMo7ToULhdap9F8BqnwlhmmUU
+	KbHIe8nnYA8RfTxV4RnPGFb+XjsBI3RQ8Q1mCsWEZRVe0gNKePSXsxd4qf1q7iM7
+	m92EUFefLeW6uxYikp8THgYyg=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wDXH4WDhgVrkSAEKA--.1379S2;
+	Tue, 24 Nov 2026 20:43:51 +0800 (CST)
+From: Hongxing Xu <xing1989093@163.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	xing1989093@163.com
+Subject: Re: [PATCH 1/2] bus: mhi: host: Add debug port personality switching
+Date: Tue, 24 Nov 2026 20:43:18 +0800
+Message-Id: <20261124124319.2316-1-xing1989093@163.com>
+X-Mailer: git-send-email 2.40.0.windows.1
+In-Reply-To: <6b3fbc60-34ec-4b7e-bbc7-84a0ec5d496e@oss.qualcomm.com>
+References: <6b3fbc60-34ec-4b7e-bbc7-84a0ec5d496e@oss.qualcomm.com>
 X-Mailing-List: mhi@lists.linux.dev
 List-Id: <mhi.lists.linux.dev>
 List-Post: <mailto:mhi@lists.linux.dev>
@@ -66,28 +65,94 @@ List-Unsubscribe: <mailto:mhi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:mhi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16.0
+X-CM-TRANSID:_____wDXH4WDhgVrkSAEKA--.1379S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCF45Ww1rZFyfur1kJryftFb_yoWrXw4Dpa
+	nxGFZrJw4kJF4Skryv9F48GFWS9FZ7GF43GryDC345C398G34Svr1FqayYva47CryIqryj
+	vrZ8JF9xua4DZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRYg4-UUUUU=
+X-CM-SenderInfo: 50lqwiqzyzimqt6rljoofrz/xtbC3wjfnGsFhoipFwAA3K
 
+Two questions, both pointing into this patch, so answering them together.
 
-On Wed, 04 Nov 2026 10:01:59 -0500, Frank.Li@oss.nxp.com wrote:
-> Use the dmaengine_get_provider_device() API instead of directly
-> accessing chan->device->dev to get the DMA provider device.
-> 
-> No functional change. Prepare make to struct dma_device private to the DMA
-> engine.
-> 
-> 
-> [...]
+> > +What:           /sys/bus/mhi/devices/.../debug_ports
+>
+> Why sysfs and not debugfs?
 
-Applied, thanks!
+Because this is not a debugging aid. It is a documented ABI that end
+users and provisioning tools drive on a shipped system, and it has to
+remain available there.
 
-[1/1] PCI: Replace chan->device->dev with dmaengine_get_provider_device()
-      commit: 83a2348570cf050874ff2296ba254dd859a76392
+What userspace gains is the ability to bring up, on demand, a group of
+ports that a given firmware product configuration does not enable by
+default: the diagnostic interface, and the same applies to the ADB and
+AT ports. A single switch that creates or destroys that whole group is
+what is needed; poking channels one at a time is not. That is why it is
+described alongside the other controller attributes in
+Documentation/ABI/stable/sysfs-bus-mhi.
 
-Best regards,
--- 
-மணிவண்ணன் சதாசிவம்
+debugfs cannot serve this, for two concrete reasons.
 
+The first is availability. CONFIG_MHI_BUS_DEBUG is a bool with no
+default, so it is off in the configurations product kernels ship, and
+it is a compile-time switch: with it disabled, debugfs.c is not built
+and the calls in mhi_register_controller() resolve to empty stubs. A
+user who needs these ports would have to rebuild the kernel to get at
+the control, which is not a usable interface.
+
+The second is capability. MHI's debugfs already exposes states, events,
+channels and devices, and all of them are read-only listings. There is
+no debugfs entry in MHI that can create or destroy an MHI device, so
+this is not a choice between two equivalent interfaces.
+
+There is also a security reason to keep these ports off unless they are
+wanted. The diagnostic and ADB ports on a WWAN module are a meaningful
+attack surface, and a module that does not need them should not be
+exposing them. Hiding that decision behind an interface that is absent
+on production kernels would defeat the point.
+
+> > + * @debug_ports: Whether the debug port personality is active, ...
+> > + * @debug_ports_pending: Latest personality requested from userspace,
+> > + *		 applied by debug_ports_work
+> > + * @debug_ports_work: Applies @debug_ports_pending from the ordered
+> > + *		      high priority workqueue, ...
+>
+> Are these optional?
+
+None of the three can be dropped for this feature to work, though none
+of them is populated by a driver either.
+
+debug_ports records the personality that is currently applied. It is
+read by mhi_chan_is_available() on every enumeration, which is what
+keeps a debug-only channel hidden while the commercial personality is
+active, and it backs the sysfs attribute so userspace can read back
+what is in effect. It belongs to the controller because the setting
+covers the controller as a whole.
+
+debug_ports_pending carries the value userspace has just written. The
+create and destroy work cannot run in the store function itself:
+channel devices are created and destroyed by the state transitions on
+the ordered hiprio_wq, and pm_mutex does not exclude those transitions,
+because a transition releases it before calling
+device_for_each_child(). So the work has to be queued on that same
+ordered workqueue, and by the time it runs it needs somewhere to read
+the request from. Keeping it separate from debug_ports also keeps
+"requested" and "applied" distinct while a switch is in flight.
+
+debug_ports_work is that work item. It is initialised in
+mhi_register_controller() next to the other work items, queued on the
+ordered workqueue, and flushed by the store so the write returns only
+once the ports exist.
+
+All three are zero-initialised, so a controller that declares no
+debug-only channel starts in the commercial personality and behaves
+exactly as before. I am happy to say so explicitly in the kernel-doc.
+
+Could I ask what you have in mind here? If the concern is that the docs
+should mark driver-populated fields as optional, these are not
+driver-populated and I can word it that way. If you would rather this
+state lived somewhere other than struct mhi_controller, I would like to
+know your preference before reworking it.
+
+Thanks
 
